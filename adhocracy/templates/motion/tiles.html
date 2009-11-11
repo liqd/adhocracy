@@ -1,0 +1,79 @@
+
+<%def name="row(tile, motion, detail=False)">
+	<div class="tile">
+		<div class="logo">
+			<img src="/img/icons/motion_24.png" />
+		</div>
+		<h3><a class="link" href="/motion/${motion.id}">${motion.label}</a></h3>
+		<div class="text">
+		%if len(tile.tagline):
+			${tile.tagline}
+		%endif
+		</div>
+		<div class="meta">
+			${h.user_link(motion.creator)|n}  
+		
+			&middot; ${_("created %s") % h.relative_time(motion.create_time)}
+			%if tile.result.polling:
+				&middot; ${_("%s votes cast") % len(tile.result.state.tally)}
+				&middot; ${_("+%s%%/-%s%% split") % ("TODO", "TODO")}
+			%endif
+			&middot; ${ungettext("%s comment", "%s comments", (len(motion.comments)-1)) % (len(motion.comments)-1)}
+			
+			%if detail and motion.issue:
+				 &middot; ${_("in")} ${h.delegateable_link(motion.issue)|n}</a>
+			%endif
+		</div>
+	</div>
+</%def>
+
+<%def name="list_item(tile, motion)">
+	<li class="list_tile">
+		<span class="text"><a href="/motion/${motion.id}">${motion.label}</a></span>
+		<span class="meta">  
+			${self.state_flag(tile.result.state)} &middot;
+			%if tile.result.state == c.model.Motion.STATE_DRAFT:
+				${_("created %s") % h.relative_time(motion.create_time)}
+			%else:
+				${_("%s votes cast") % len(tile.poll.decisions)}
+			%endif
+			&middot; ${ungettext("%s comment", "%s comments", len(motion.comments)) % len(motion.comments)}
+		</span>
+	</li>
+</%def>
+
+
+<%def name="relation(rel_type=None, rel_motion=None, options=None, prototype=False)">
+	<tr class="relation ${'prototype' if prototype else ''}">
+		<td>
+			<select name="rel_type">
+				<option value="a" ${"selected='selected'" if rel_type=='a' else ''}>
+					${_("contradicts")}
+				</option>
+				<option value="d" ${"selected='selected'" if rel_type=='d' else ''}>
+					${_("requires")}
+				</option>
+				<option value="n" ${"selected='selected'" if rel_type=='n' else ''}>
+					${_("no relation")}
+				</option>
+			</select>
+		</td>
+		<td>
+			%if options:
+				<select name="rel_motion">
+				%if not rel_motion:
+					<option>${_("(Select a motion)")}</option>
+				%endif
+				%for motion in options:
+					<option value="${motion.id}" ${"selected='selected'" if motion==rel_motion else ''}>
+						${motion.label}
+					</option>
+				%endfor
+				</select>
+			%elif rel_motion:
+				${h.delegateable_link(rel_motion)|n}
+				<input type="hidden" name="rel_motion" value="${rel_motion.id}">
+			%endif
+		</td>
+	</tr>
+</%def>

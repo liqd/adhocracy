@@ -1,0 +1,81 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Welcome")}</%def>
+
+<h1 class="page_title">${_("Welcome to Adhocracy")}</h1>
+
+<div class="sidebar">
+	%if not c.user:
+		<a class="button add" href="/register">${_("sign up")}</a>
+		<h2>${_("Say hi")}</h2>
+		<div class="tile">
+		
+		<%include file="/user/login_form.html"/>
+		
+		<div class="meta">${_("If you're not registered, <a href='/register'>sign up.</a>")|n}</div>
+		</div>
+		<br/>
+	%endif
+	%if c.user:
+		<a class="button edit" href="/adhocracies">${_("more")}</a>
+		<a class="button add" href="/instance/create">${_("new")}</a>
+		<h2>${_("My Adhocracies")}</h2>	
+		%if len(c.user.instances):
+			<ul>
+			%for instance in c.user.instances:
+				${tiles.instance.list_item(instance)}
+			%endfor
+			</ul>	
+		%else:
+			<div class="infobox">
+				${_("Join a few Adhocracies to contribute to their policies.")}
+			</div>
+		%endif
+		
+	%else:
+		<a class="button edit" href="/adhocracies">${_("more")}</a>
+		<a class="button add" href="/instance/create">${_("new")}</a>
+		<h2>${_("Adhocracies")}</h2>
+		<ul>
+		%for instance in c.instances:
+			${tiles.instance.list_item(instance)}
+		%endfor
+		</ul>		
+	%endif
+	<p>
+	
+	<br/>
+	
+</div>
+
+<div class="mainbar welcome">
+	<h3 id="claim">${_("Adhocracy helps <strong>groups</strong> make <strong>decisions</strong>.")|n}</h3>
+
+	<p>
+	${_("Adhocracy is a platform for virtual direct democracies where you can cooperate to create and" + 
+	"select solutions to your organization's challenges.")}
+	</p>
+	<br/>
+	<h3>${_("What groups?")}</h3>
+	<p>
+	<img align="left" src="/img/groups.png" /> 
+	${_("Think NGOs, open projects. Distributed, loosely-knit groups in search of " + 
+	"a common strategy or groups with complex internal policies like Wikipedia.")} 
+	<a href="/page/faq.html#WhatisLiquidDemocracy">${_("Read more...")}</a>
+	</p>
+	<br/>
+	<h3>${_("What decisions?")}</h3>
+	<img align="right" src="/img/icons/vote_64.png" />
+	<p>
+	${_("Anything that discusses a method of solving a problem. This " +
+	"could be laws, strategy decisions or even design patterns.")} 
+	<a href="/page/faq.html#Howdoesvotingwork">${_("Read more...")}</a> 
+	</p>
+	
+	%if c.user and c.user.has_permission("instance-view"):
+		<h2>${_("Activity in my Adhocracies")}</h2>
+		<ul>
+			${c.events_pager.here()}
+		</ul>
+	%endif
+</div>

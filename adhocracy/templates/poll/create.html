@@ -1,0 +1,23 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${c.motion.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.motion)|n} &raquo; ${_("Call a vote")}
+</%def>
+
+<h1 class="page_title">${_("Call a vote on: %s") % c.motion.label}</h1>
+
+<form name="release_motion" class="inplace" method="POST" action="/poll/create/${c.motion.id}">
+	${h.field_token()|n}
+	<div class="sidebar">&nbsp;</div>
+	<div class="mainbar">
+		<div class="warning_box">
+			<p>
+				${_("You are about to release this motion and call for a vote. When you do this, you will lose " + 
+				"the ability to <strong>change the motion's wording</strong> unless you re-draft it.")|n} 
+			</p>
+		</div>
+		<input type="submit" value="${_("Confirm and Proceed")}" />
+	</div>
+</form>

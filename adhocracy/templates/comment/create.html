@@ -1,0 +1,14 @@
+<%inherit file="/template.html" />
+<%namespace name="t" file="/comment/tiles.html"/>
+<%def name="title()">${_("New comment")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.instance.root)|n} &raquo; ${_("New comment")}
+</%def>
+
+<h1>${_("Comment")}</h1>
+
+<div class="sidebar">&nbsp;</div>
+<div class="mainbar">
+	${t.create_form(None, None)}
+</div>

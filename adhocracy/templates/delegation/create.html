@@ -1,0 +1,60 @@
+<%inherit file="/template.html" />
+<%namespace name="catlist" file="/category/tree.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Delegate: %s") % c.scope.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.scope)|n} &raquo; ${_("Delegation")}
+</%def>
+
+
+<h1 class="page_title"><img src="/img/icons/delegate_24.png" class="cd"/> ${_("Delegate: %s") % c.scope.label}</h1>
+
+<form name="create_delegation" class="inplace" method="POST" action="/delegation/create">
+	${h.field_token()|n}
+	<input name="scope" value="${c.scope.id}" type="hidden" />
+	<div class="sidebar">
+		<div class="infobox">
+			${_("This page is obviously a placeholder. Nice, karma-based recs are coming soon.")}
+		</div>
+	</div>
+	<div class="mainbar">
+	${h.field_token()|n}
+	
+	<%
+	scope_agents = c.lib.delegateable_popular_agents(c.scope)
+	%>
+	%if len(scope_agents):
+	<h3>${_("Popular delegates for %s") % c.scope.label}</h3>
+	<ul>
+		%for (user, score) in scope_agents:
+			<li>
+				${h.user_link(user, link="/delegation/create?agent=%s&scope=%s" % (user.user_name, c.scope.id))|n} (${score})
+			</li>
+		%endfor
+	</ul>
+	%endif
+	
+	<%
+	my_agents = c.lib.user_popular_agents(c.user)
+	%>
+	%if len(my_agents):
+	<h3>${_("Your favourite delegates")}</h3>
+	<ul>
+		%for (user, score) in my_agents:
+			<li>
+				${h.user_link(user, link="/delegation/create?agent=%s&scope=%s" % (user.user_name, c.scope.id))|n} (${score})
+			</li>
+		%endfor
+	</ul>
+	%endif
+	</div>
+
+	<br/><br/>
+
+	<label for="agent">${_("Delegate to:")}</label>
+	<input name="agent" class="userCompleted"/>
+	
+	${components.savebox("/d/%s" % c.scope.id)}
+	
+</form>

@@ -1,0 +1,61 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="parts" file="/user/parts.html"/>
+<%def name="title()">${c.page_user.name}</%def>
+
+<%def name="breadcrumbs()">
+	${parts.user_breadcrumbs(c.page_user)}
+</%def>
+
+%if c.tile.can_edit:
+	<a class="button title edit" href="/user/edit/${c.page_user.user_name}">${_("edit")}</a>
+%endif
+
+<h1 class="page_title">
+	<img src="${h.gravatar_url(c.page_user, size=24)|n}" class="cd" alt="">
+	${self.title()}<sup>${c.tile.karma}</sup>
+</h1>
+
+<div class="tile">
+	<div class="text">
+		%if c.tile.bio:
+			${c.tile.bio|n}
+		%else:
+			<span class="hint">${_("%s does not have a bio") % c.page_user.name}</span>
+		%endif
+	</div>
+	<div class="meta">
+		%if c.instance:
+			<img src="/img/arrows/aup_a.png" /> ${c.tile.num_karma_up} &middot;
+			<img src="/img/arrows/adown_a.png" /> ${c.tile.num_karma_down} &middot;
+	    
+	    	<img src="/img/icons/issue_16.png" /> ${ungettext("%s issue", "%s issues", c.tile.num_issues) % c.tile.num_issues} &middot;
+		 	<img src="/img/icons/motion_16.png" /> ${ungettext("%s motion", "%s motions", c.tile.num_motions) % c.tile.num_motions} &middot; 
+			<img src="/img/icons/discuss_16.png" /> ${ungettext("%s comment", "%s comments", c.tile.num_comments) % c.tile.num_comments} &middot; 
+			
+			<a href="/user/${c.page_user.user_name}/delegations"><img src="/img/icons/delegate_16.png" /> ${_("delegations")}</a> &middot;   
+		%endif
+		${_("signed up %s") % h.relative_time(c.page_user.create_time)}
+	</div>
+</div>
+
+<div class="sidebar">
+	<a class="button add" href="/adhocracies">${_("more")}</a>
+	<h2>${_("Adhocracies")}</h2>	
+		<span class="hint">
+			${c.page_user.name} ${_("is a member in the following adhocracies:")}
+		</span>
+		<ul>
+		%for instance in c.page_user.instances:
+			${tiles.instance.list_item(instance)}
+		%endfor
+		</ul>	
+</div>
+
+<div class="mainbar">
+	<h2>${_("Activity")}</h2>
+
+	<ul class="table">
+		${c.events_pager.here()}
+	</ul>
+</div>

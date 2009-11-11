@@ -1,0 +1,297 @@
+<html>
+<head>
+<title>Frequently Asked Questions</title>
+</head>
+<body>
+<h3 id="WhatisAdhocracy">What is Adhocracy?</h3>
+<p>
+	A weird piece of code that does a half-baked version of Liquid Democracy
+</p>
+<h3 id="WhatisLiquidDemocracy">What is Liquid Democracy?</h3>
+<p>
+	A buzzword <a href="http://www.kuro5hin.org/story/2003/7/16/201556/896|">created
+	in 2003</a>. While many use the term Liquid Democracy to describe internet-based
+ 	Delegated Voting (a voting mechanism), Adhocracy goes beyond that. The essence of 
+ 	Liquid Democracy is the <strong>tight coupling of a networked voting system to an open system for 
+ 	the discussion and development of policy alternatives</strong>.
+ </p>
+<p>
+	While traditional online discussion systems are a great way to
+generate new ideas, they frequently fail to <strong>prioritize and filter</strong> them.
+This leads to situations in which the most outrageous and absurd
+proposals receive the most detailed discussion, while more realistic
+options are drowned in the noise. A convenient method to filter such
+proposals is to <strong>allow users to vote</strong> on them. This way, the community can
+learn whether a proposal lacks essential support among its members,
+whether the proposal needs some more work or whether it is generally
+accepted and can become part of the group's policies or even of the
+political agenda of that organization.
+</p>
+<p>
+	Involving many users in an online poll can be hard, since the
+degree to which individual users engage in an online discussion is
+highly varied. Yet any meaningful poll must reflect not only the loud
+and ever-present voices, but also those who cannot and do not want to
+spare as much time on a specific debate as others. Liquid Democracy 
+allows these users to <strong>make a simpler choice</strong> instead: they can name an agent whose position in
+one or many debates they want to support. This agent will be given the
+right to vote on their principal's behalf. Yet this delegation, unlike a
+proper voting proxy, is a soft connection which can be reviewed,
+overridden or entirely cancelled at any moment. In a way, delegated
+voting is <strong>a recommendation mechanism</strong> that works like the song
+recommendations a service like last.fm produces.
+</p>
+<p>
+	In Liquid Democracy, opinions are no longer just a private matter but instead become the
+subject of <strong>a dynamic network based around both topics and opinion
+leaders</strong>. This reflects the structure of a networked public implied in
+tools such as Facebook and Twitter.
+</p>
+<p>
+	An extreme use case of this, of course, would be to do actual
+lawmaking. Adhocracy is not made for this, and personally I don't think
+its a very smart idea. Lawmaking should be based on a fairly
+conservative, safe process. If you want to do it, go ahead but don't
+blame the tool if it fails.
+</p>
+
+<h3 id="Howdoesvotingwork">How does voting work?</h3>
+
+<p>Adhocracy allows users to vote on proposals - so-called motions -
+to determine the degree of support they have within the community. In
+order to bring an idea to be voted upon, the following steps are needed:
+</p>
+<ol>
+	<li>A motion is created <strong>within an appropriate issue</strong>. It will
+	have both a <string>formal and an informal description</string>.</li>
+	<li>The formal descriptions, so-called provisions, are modular.
+	While a motion <strong>needs only a single provision</strong> to be voted upon, it can
+	have an arbitrary number of them.
+	<ul>
+		<li>In order to be considered for a vote, any provision must
+		have been up-voted at least once, and have a positive score. Any
+		provision that was down-voted will be discarded for the length of the
+		poll.</li>
+	</ul>
+	</li>
+	<li>A motion needs to be explicitly <strong>called into the voting state</strong>
+	to allow for ballots to be cast.
+	<ul>
+		<li>The vote can be called by the motion's creator, an
+		administrator or any user who has met the "call for a vote" karma
+		threshold. Future versions of Adhocracy might require multiple users
+		to agree for a vote begin.</li>
+		<li>A vote can be called at any time. There is no pre-defined
+		schedule that mandates voting in specific intervals or at defined
+		dates.</li>
+		<li>Polls can last for any number of days or weeks and need not
+		be stopped at any time. A successful vote (reaching the 'active'
+		state) will last for as long as the motion is in effect. This
+		principle could be called <em>Continuous Legitimization</em>.</li>
+		<li>While voting, the provisions that have been included in the
+		poll cannot be modified. This is required to allow decisions to be
+		made on a fixed proposal.</li>
+		<li>While voting, the motion can adopt various states: it is
+		"voting" when it has not yet reached the required majority;
+		"activating" when it has reached its majority but not yet held it for
+		the required delay or "active" when all conditions are met.</li>
+		<li>While voting, neither a motion nor the issue to which it is
+		associated can be modified. The vote needs to be cancelled first.</li>
+	</ul>
+	</li>
+	<li>A <strong>vote can be cancelled at any time</strong> unless it has acquired the
+	required majority. When that happens, a motion becomes entirely
+	immutable and cannot be modified without first losing its support among
+	the voters.</li>
+</ol>
+
+<h3 id="Whataremotionstates">What are motion states?</h3>
+<p>Motions have a life cycle that leads them from being drafts to
+community-approved documents. Which state a motion is in depends on
+whether it has been released and on the number of votes it has
+for/against it.</p>
+<ul>
+	<li><strong>draft</strong>: A draft motion is not yet finished and can still be
+	edited by any member of the Adhocracy.</li>
+	<li><strong>voting</strong>: After a vote was called, a motion is "voting"; any
+	user can cast a vote on the motion.</li>
+	<li><strong>activating</strong>: After gathering approval by the required majority
+	of the participants (usually two thirds of the voters), a motion is
+	activating and must maintain that majority for a certain delay (usually
+	7 days) in order to become active.</li>
+	<li><strong>active</strong>: The motion is approved by the community and can be
+	seen as part of their established codex.</li>
+	<li><strong>deactivating</strong>: When a motion loses the required majority, it is
+	re-transferred to the voting state. Similar to the activating state
+	this transition is delayed. Deactivating motions are, therefore, still
+	an active part of an accepted consensus.</li>
+</ul>
+<p></p>
+
+<h3 id="Whatisdelegatedvoting">What is delegated voting?</h3>
+<p>Delegation helps voters to make their voice heard in a decision
+even if they cannot or <strong>do not want to explicitly vote</strong> on certain
+proposals. A delegation is an authorization of one user (the principal)
+to allow another user (the agent) to vote on his or her behalf. Each
+delegation is valid within a certain scope, e.g. with regards to a
+political area like climate policy. This means that <strong>the agent can vote
+on the principal's behalf</strong> in all decisions that are marked to be inside
+the given scope. The delegations of a voter can thus be seen as his or
+her personal cabinet. In this cabinet, one agent is responsible for
+making decisions regarding the subject area A, while another agent is
+responsible for making decisions in a second subject area, B.</p>
+<p>The special properties of Adhocracy's delegation system include:
+</p>
+<ul>
+	<li><strong>Unanimity</strong>: When a voter has delegated voting on a certain
+	proposal to two or more agents, his or her vote will only be counted if
+	both agents make the same decision. <strong>If the agents disagree, no vote
+	will be cast</strong> by their principal unless he or she does so manually. This
+	can be used to intentionally limit the power of an agent in a specific
+	domain by requiring a second delegate to concur.</li>
+	<li><strong>Transitivity</strong>: If a delegation is created in which the agent
+	has delegated their voting powers themselves, the principals vote will
+	be available to the agents agent. In other words: If A delegates to B
+	and B delegates to C, then C can vote on A's behalf. This can be used
+	to <strong>quickly reproduce the delegation decisions another voter has made</strong>: A
+	voter can just delegate to the other voter, instead of reproducing all
+	individual delegations.</li>
+</ul>
+
+<h3 id="Whoshouldonedelegatevotingto">Who should one delegate
+voting to?</h3>
+<p>The Adhocracy platform provides a lot of information that can be
+used to make delegation decisions:</p>
+<ul>
+	<li><strong>Voting records</strong> are the most objective source of documented
+	prior behavior and can help to identify a users' positions.</li>
+	<li><strong>Comments</strong> within a discussion can give more specific insight on
+	a user's approach and position regarding a specific topic.</li>
+	<li>Aggregate <strong>Karma scores</strong> with regards to an issue or category
+	can help to identify regular contributors.</li>
+	<li>Off-channel communication, such as <strong>blogs and Twitter</strong> can also
+	be a valuable source for identifying the opinion leaders which most
+	closely represent one's opinions.</li>
+</ul>
+<p>One of the major goals of the next version of Adhocracy will be to introduce more
+intelligent automated comparisons among the users to generate reliable
+recommendations.</p>
+<h3 id="AretheresecretvotesinAdhocracy">Are there secret votes in
+Adhocracy?</h3>
+<p>No. A full <strong>public voting record</strong> is available for all users, at
+any time. There are three reasons to do this:</p>
+<ul>
+	<li>At its core, <strong>Adhocracy is a discussion tool</strong>. Having the
+	participants state their opinions on an issue is a part of this
+	discussion and should thus happen in public.</li>
+	<li>Without voting records, <strong>delegation becomes useless</strong>. If the
+	voting record of delegation agents wasn't published, one would have to
+	trust the agents to honestly identify their intentions regarding each
+	vote. This would create a critical trust limitation against delegation.
+	While one could imagine a system in which only those who wish to
+	receive delegations would publish their voting records, such a system
+	would create unequal conditions for voting between public and private
+	voters, thus violating another important principle of any democratic
+	voting system.</li>
+	<li>Keeping voting records a secret is hard. Trust in the system
+	would be predicated on the assumption that no leaks - including those
+	resulting from indirect attacks - occurred. This assumption is bound to
+	be compromised at some stage, creating a system with dubious security
+	and privacy. Publishing all voting records is thus a step <strong>avoid
+	creating misconceptions</strong> among users regarding privacy. The voters
+	themselves can then decide whether a particular topic is fit for public
+	voting and otherwise go off-channel, using paper ballots.</li>
+</ul>
+
+<h3 id="WhichvotingsystemdoesAdhocracyuse">Which voting system does
+Adhocracy use?</h3>
+<p>Adhocracy currently only supports voting on individual motions,
+not the comparative polling on different alternatives regarding an
+issue. Starting with the next version of Adhocracy, the software will use a fairly complex variant of <strong>approval voting</strong>. In this
+process, users will be able to specify which motions depend upon each
+other and which motions contradict each other. Motions will then become
+active only if they meet all their dependencies and have the highest
+level of approvement among their respective cluster of contradicting
+motions.</p>
+<p>While this process is somewhat complicated internally, the voter
+will only have to make a binary decision on whether he thinks a motion
+is acceptable or not. Tactical voting is not needed in most approval
+voting systems.</p>
+<p>Unlike instant runoff systems, approval voting also doesn't
+require users to priorize their choices, a process that generates more
+information than strictly necessary and that leads to various
+inconsistencies such as Arrow's paradox.</p>
+
+<h3 id="CanAdhocracybeusedtoholdelections">Can Adhocracy be used to
+hold elections?</h3>
+<p>While it is technically possible to elect members of the
+community into an office using Adhocracy, <strong>this is highly discouraged</strong>.
+Arguing for or against the capabilities and personality of a candidate
+is a process that is fundamentally different from arguing a position on
+an issue. A secret vote is, therefore, an essential element of any
+election. Adhocracy cannot offer any degree of secrecy. Additionally,
+the delegation system will produce odd incentives when used in an
+election setting.</p>
+
+<h3 id="IsAdhocracysecure">Is Adhocracy secure?</h3>
+<p>For a long time, smart people have tried to build voting machines
+that no attacker can tamper with. Concepts for this usually integrate
+strong cryptographic mechanisms that allow the voting authority to
+verify the identity of the voter. Unfortunately, most of these proposals
+are extremely complicated and require the user to install special
+software on their PC, follow non-trivial processes and to manage
+cryptographic keys. Yet, even these tools do not guarantee perfect
+security: shit just happens.</p>
+<p>Adhocracy values access and usability over ultimate security.
+Since the goal is to structure a debate and not to command an army, the
+focus, instead, is on creating tools that will make it more obvious when
+shit starts happening. The core principle of this, an idea called Soft Security,
+demands that Adhocracy should <strong>keep you informed</strong> about your past actions
+and the way in which polling results come about.</p>
+
+<h3 id="WhatisKarma">What is Karma?</h3>
+<p>Karma is a way for a community to structure its debates:
+Contributions are rated by their readers. Good contributions score
+higher than boring or redundant ones, and are thus shown above the
+others. <strong>This helps the group to keep focussed</strong>.</p>
+<p>When people aggregate Karma points (i.e. upvotes on their
+contributions), they gain the ability to perform certain tasks that are
+usually restricted. Thus all those actions are potentially available to
+everyone, but <strong>have to be 'earned'</strong> by advancing the debate. These tasks
+include:</p>
+<ul>
+	<li>Scoring on (5 points) and editing (30 points) other people's
+	comments</li>
+	<li>Editing arbitrary motions or issues (200 points each)</li>
+	<li>Beginning and cancelling votes on a proposal. (300 points
+	each)</li>
+	<li>Deleting comments or motions (500 points)</li>
+	<li>Creating and editing categories (600 points)</li>
+	<li>Deleting categories or issues (1000 points)</li>
+	<li>Voting is, of course, excepted from the karma system</li>
+</ul>
+<p>This allows for users who have proven their interest in a rich
+debate to gradually become moderators of that debate. It also keeps
+trolls or extremists from overly influencing the debate.</p>
+
+<h3 id="Whycanotherseditmycomments">Why can others edit my
+comments?</h3>
+<p>To avoid redundancy. In most internet forums, when a good
+argument has been made, there is usually a stream of additions and
+examples provided by other users that end up spamming the thread. Having
+the ability to edit the original argument allows you to decide whether
+to add your extension to the original comment or to create a new one.</p>
+<p>This way, the new comment is no longer a static step of the
+conversation but can become <strong>a living and growing argument</strong> that is
+supported by its own community of editors.</p>
+
+<h3 id="YoustoleideasfromStackOverflowRedditDiggHN">You stole ideas
+from StackOverflow/Reddit/Digg/HN!</h3>
+<p>True. These tools, I think, are the pinnacle of what online
+debate can look like at the moment. StackOverflow,
+unfortunately, is based on the assumption that there is a right answer
+to any question. This, of course, is not true in a political setting. So
+I used some SO ideas (including the graduate membership thing and, I'll
+admit, the layout) and repackaged them.</p>
+</body>
+</html>

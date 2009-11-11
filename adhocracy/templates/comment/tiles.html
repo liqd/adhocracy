@@ -1,0 +1,174 @@
+<%namespace name="components" file="/components.html"/>
+
+
+<%def name="row(tile, comment)">
+	<div class="tile">
+		
+		<div class="logo">
+			<img src="/img/icons/discuss_24.png" />
+		</div>
+		
+		%if len(tile.tagline):
+		<div class="text">
+			<a href="/comment/r/${comment.id}">${_("Comment")}</a>: ${tile.tagline}
+		</div>
+		%endif
+		
+		<div class="meta">
+			${h.user_link(comment.creator)|n}
+			%if len(comment.revisions) == 1:  
+				&middot; ${_("created %s") % h.relative_time(comment.create_time)}
+			%else:
+				&middot; ${_("edited %s") % h.relative_time(comment.latest.create_time)}
+			%endif  
+			
+			
+			&middot; ${_("in")} 
+			%if tile.on_issue:	 
+				<img src="/img/icons/issue_16.png" /> 
+			%elif tile.on_motion:
+				<img src="/img/icons/motion_16.png" />	
+			%endif
+			<a href="/d/${comment.topic.id}">${comment.topic.label}</a>
+		</div>
+	</div>
+</%def>
+
+
+
+
+<%def name="full(tile, comment, recurse=True, collapse=True, link_discussion=False)">
+	<%
+	if not tile.show:
+		return
+	%>
+	<div class="comment" id="c${comment.id}">
+		<div class="tile ${'canonical' if comment.canonical else ''} ${tile.karma_position}" id="tile_c${comment.id}">
+			<div class="logo karma">
+				%if tile.can_give_karma:
+					<a class="up" href="/karma/give?comment=${comment.id}&value=1" onclick="return comment_karma(${comment.id}, 1);">
+						&nbsp;
+					</a>
+					<span class="score">${tile.karma_score}</span>
+					<a class="down" href="/karma/give?comment=${comment.id}&value=-1" onclick="return comment_karma(${comment.id}, -1);">
+						&nbsp;
+					</a>
+				%elif not c.user:
+					<a class="up inactive htwarn" title="${_('Sign in to rate comments')}">&nbsp;</a>
+					<span class="score">${tile.karma_score}</span>
+					<a class="down inactive htwarn" title="${_('Sign in to rate comments')}">&nbsp;</a>
+				%elif tile.is_own:
+					<a class="up inactive htwarn" title="${_('This is your own comment')}">&nbsp;</a>
+					<span class="score">${tile.karma_score}</span>
+					<a class="down inactive htwarn" title="${_('This is your own comment')}">&nbsp;</a>
+				%elif tile.is_immutable:
+					<a class="up inactive htwarn" title="${h.immutable_motion_message()}">&nbsp;</a>
+					<span class="score">${tile.karma_score}</span>
+					<a class="down inactive htwarn" title="${h.immutable_motion_message()}">&nbsp;</a>
+				%elif tile.lack_give_karma_karma:
+					<a class="up inactive htwarn" title="${tile.lack_give_karma_karma}">&nbsp;</a>
+					<span class="score">${tile.karma_score}</span>
+					<a class="down inactive htwarn" title="${tile.lack_give_karma_karma}">&nbsp;</a>
+				%endif
+			</div>
+			
+			<div class="base">
+			<div class="pre">
+				%if link_discussion:
+					%if tile.num_children:
+						<a class="button add reply" onclick="return comment_link_discussion(${comment.id})" href="/comment/${comment.id}">${_("discussion")} (${tile.num_children}) &raquo;</a>
+					%endif
+				%endif
+			
+				%if collapse:
+					<a class="button delete hide" href="javascript:comment_hide(${comment.id})">-</a>
+					<a class="button add show" href="javascript:comment_show(${comment.id})">+</a>
+				%endif
+			
+				%if tile.can_reply and (recurse or link_discussion):
+					<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/create?reply=${comment.id}&topic=${comment.topic.id}">${_("reply")}</a>
+				%elif tile.lack_reply_karma and recurse:
+					<a class="button reply inactive htwarn" title="${tile.lack_reply_karma}">${_("reply")}</a>
+				%endif 
+								
+				%if tile.can_edit:
+					<a class="button edit" onClick="return comment_edit(${comment.id})" href="/comment/edit/${comment.id}">${_("edit")}</a> 
+				%elif tile.is_immutable:
+					<a class="button edit inactive htwarn" title="${h.immutable_motion_message()}">${_("edit")}</a>
+				%elif tile.lack_edit_karma:
+					<a class="button edit inactive htwarn" title="${tile.lack_edit_karma}">${_("edit")}</a>
+				%endif
+				
+				%if tile.can_delete:
+					<a class="button delete" href="/comment/delete/${comment.id}?${h.url_token()}">${_("delete")}</a> 
+				%endif
+				
+				%if tile.is_deleted:
+					${_("deleted %s") % h.relative_time(comment.delete_time)}
+				%else:
+					<b>${h.user_link(comment.creator)|n}</b>
+					%if not tile.is_edited: 
+						&middot; ${_("%s") % h.relative_time(comment.create_time)}
+					%else:
+						&middot;
+						%if comment.latest.user == comment.creator:
+							${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
+						%else:
+						 	${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
+								               			   h.user_link(comment.latest.user))|n}
+						%endif 	
+						(<a href="/comment/${comment.id}/history">${_("history")}</a>)
+					%endif
+				%endif
+				
+				<a name="c${comment.id}">&nbsp;</a>
+			</div>
+			<div class="text hide_edit">
+				%if not tile.is_deleted:
+					${tile.text|n}
+				%else:
+					<p>
+					<span class="hint">${_("This comment has been deleted.")}</span>
+					</p>
+				%endif
+			</div>
+			
+			<div class="edit_form">
+				${self.edit_form(comment)}
+			</div>
+			<div class="reply_form sub ${'base_reply' if reply_here else ''}">
+				${self.create_form(comment, comment.topic)}
+			</div>
+			</div>
+		</div>
+		%if recurse or link_discussion:
+			<div class="sub ${'link_discussion' if link_discussion else ''}">
+				%for reply in tile.replies:
+					${self.full(tile.__class__(reply), reply, collapse=collapse)}
+				%endfor
+			</div>
+		%endif
+	</div>
+</%def>
+
+<%def name="edit_form(comment)">
+	<form name="edit_comment" class="inplace" method="POST" action="/comment/edit/${comment.id}">
+		${h.field_token()|n}
+		<textarea tabindex="2" class="description" name="text">${comment.latest.text}</textarea>
+		${components.formatting()}
+		${components.savebox("/d/%s" % comment.topic.id)}
+	</form>
+</%def>
+
+<%def name="create_form(parent, topic, canonical=0)">
+	<form name="create_comment" class="inplace" method="POST" action="/comment/create">
+		${h.field_token()|n}
+		<input type="hidden" name="topic" value="${topic.id if topic else request.params.get('topic')}" />
+		<input type="hidden" name="reply" value="${parent.id if parent else request.params.get('reply')}" />
+		<input type="hidden" name="canonical" value="${request.params.get('canonical', canonical)}" />
+	
+		<textarea tabindex="2" class="description" name="text"></textarea><br/>
+		${components.formatting()}
+		${components.savebox("/d/%s" % parent.topic.id if parent else request.params.get('topic'))}
+	</form>
+</%def>

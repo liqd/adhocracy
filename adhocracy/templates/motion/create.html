@@ -1,0 +1,98 @@
+<%inherit file="/template.html" />
+<%namespace name="catlist" file="/category/tree.html"/>
+<%namespace name="tiles_html" file="/motion/tiles.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("New motion")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.issue)|n} &raquo; ${_("New motion")}
+</%def>
+
+<form name="create_motion" class="inplace" method="POST" action="/motion/create">
+	${h.field_token()|n}
+	<input name="issue" type="hidden" value="${c.issue.id}"/>
+	<div class="page_title">
+		<label for="label" class="armhint">${_("New motion")}</label>
+		<input tabindex="1" class="title armlabel" name="label" />
+	</div>
+
+	<h3>${_("Informal description")}</h3>
+	<div class="sidebar">
+		<div class="infobox">${_("Give a brief description of <b>what</b> your proposal will do.")|n}</div>
+	</div>
+	<div class="mainbar">
+		<label for="text" class="armhint">The proposal addresses ${c.issue.label} by...</label>
+		<textarea tabindex="2" class="description smallarea armlabel" name="text"></textarea>
+		
+	</div>
+	
+	<h3>${_("Provisions to implement")}</h3>
+	<div class="sidebar">
+		<div class="infobox">${_("Describe <b>how</b> your proposal will achieve the desired effect." +
+			"<br/><br/>" +
+			"Splitting the proposal into several parts will facilitate its discussion." +
+			"<br/><br/>" +
+			"You can also leave this blank if you want to specify provisions later.")|n}</div>
+	</div>
+	<div class="mainbar">	
+		<label for="canonicals" class="armhint">${_("A specific provision that is part of this proposal.")|n}</label>
+		<ul>
+			<li class="canonical prototype">
+				<textarea class="canonicals smallarea" name="canonicals"></textarea>
+			</li>
+			%for p_text in c.canonicals:
+			<li class="canonical">
+				<textarea class="canonicals smallarea armlabel" name="canonicals">${p_text|n}</textarea>
+			</li>
+			%endfor
+		</ul>		
+		<div class="jsadd">
+			<input type="button" value="${_("Add a provision")}" onclick="return appendCanonical();" />
+		</div>
+	</div>
+	
+	<div style="clear:both;"></div>
+	<h3>${_("Relations to other motions")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("Specify which motions <b>contradict</b> or <b>enable</b> this proposal." +
+			"<br/><br/>" +
+			"Contradicting motions cannot be in power at the same time." + 
+			"<br/><br/>" +
+			"Requirements must be satisfied before the motion can activate.")|n}			
+		</div>
+		<br/>
+	</div>
+	<div class="mainbar">
+		<input type="hidden" name="rel_error" />
+		<table width="100%">
+			<tr>
+				<th width="20%">${_("Relation")}</th>
+				<th>${_("Motion")}</th>
+			</tr>
+			<%
+			options = [m for m in c.motions if not m in c.relations.keys()]
+			%>
+			%if len(options):
+				${tiles_html.relation(rel_type='n', options=options, prototype=True)}
+			%endif
+			%for motion, type in c.relations.items():
+				${tiles_html.relation(rel_type=type, rel_motion=motion)}
+			%endfor
+			%if len(options):
+				${tiles_html.relation(rel_type='n', options=options)}
+			%endif
+		</table>
+		%if len(options):
+		<div class="jsadd">
+			<input type="button" value="${_("Add a relation")}" onclick="return appendRelation();" />
+		</div>
+		%endif
+	</div>
+	
+	<div style="clear:both;"></div>
+	<div class="sidebar">&nbsp;</div>
+	<div class="mainbar">
+		${components.savebox("/issue/%s" % str(c.issue.id))}
+	</div>
+</form>	

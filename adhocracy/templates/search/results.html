@@ -1,0 +1,33 @@
+<%inherit file="/template.html" />
+<%def name="title()">${_("Search") if not c.query else "'%s'" % c.query}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.instance.root if c.instance else None)|n} &raquo; ${_("Search")}
+</%def>
+
+<h1 class="page_title">
+	%if len(c.query):
+		${_("Search for '%s'") % c.query}
+	%else:
+		${_("Search")}
+	%endif
+</h1>
+
+<div class="sidebar">
+	&nbsp;
+</div>
+
+<div class="mainbar">
+	%if c.query:
+		%if c.entities:
+		<div class="table">
+			${c.entities_pager.here()|n}
+		</div>
+		%else:
+			<p>
+			${_("No entries could be found that match your criteria. Try a more general search term.")}
+			</p>
+			<br/>
+		%endif
+	%endif
+</div>

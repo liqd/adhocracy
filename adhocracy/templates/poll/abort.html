@@ -1,0 +1,23 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${c.motion.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.motion)|n} &raquo; ${_("End a vote")}
+</%def>
+
+<h1 class="page_title">${_("Cancel vote on: %s") % c.motion.label}</h1>
+
+<form name="release_motion" class="inplace" method="POST" action="/poll/abort/${c.motion.id}">
+	${h.field_token()|n}
+	<div class="sidebar">&nbsp;</div>
+	<div class="mainbar">
+		<div class="warning_box">
+			<p>
+				${_("You are about to re-draft this motion. This means that the motion will become editable again " + 
+				"but that all votes that have been cast at this time <strong>will be invalidated</strong>.")|n}
+			</p>
+		</div>
+		<input type="submit" value="${_("Confirm and Proceed")}" />
+	</div>
+</form>

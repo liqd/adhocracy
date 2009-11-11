@@ -1,0 +1,41 @@
+
+<%def name="list_item(tile, instance)">
+	<li class="list_tile">
+		<span class="text"><a href="${h.instance_url(instance)}">${instance.label}</a></span>
+		<span class="meta">  
+			(${ungettext("%s issue", "%s issues", tile.num_issues) % tile.num_issues})
+			%if tile.can_join:
+				&middot; <a href="/instance/join/${instance.key}?${h.url_token()}">${_("join")}</a>
+			%endif
+			%if tile.can_leave:
+				&middot; <a href="/instance/leave/${instance.key}?${h.url_token()}">${_("leave")}</a>
+			%endif
+			
+		</span>
+	</li>
+</%def>
+
+<%def name="row(tile, instance)">
+	<div class="tile">
+		<div class="logo">
+			<img src="/img/icons/bonsai_24.png" />
+		</div>
+		<h3><a class="link" href="${h.instance_url(instance)}">${instance.label}</a></h3>
+		<div class="text">
+		%if len(tile.tagline):
+			${tile.tagline}
+		%endif
+		</div>
+		<div class="meta">
+			${h.user_link(instance.creator)|n}  
+			&middot; ${_("created %s") % h.relative_time(instance.create_time)}  
+			&middot; ${ungettext("%s issue", "%s issues", tile.num_issues) % tile.num_issues}
+			%if tile.can_join:
+				&middot; <a href="/instance/join/${instance.key}">${_("join")}</a>
+			%endif
+			%if tile.can_leave:
+				&middot; <a href="/instance/leave/${instance.key}">${_("leave")}</a>
+			%endif
+		</div>
+	</div>
+</%def>

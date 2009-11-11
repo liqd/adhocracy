@@ -1,0 +1,64 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Manage: %s") % c.page_instance.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.page_instance.root)|n} &raquo; ${_("Manage")}
+</%def>
+
+<form name="create_instance" class="inplace" method="POST" 
+		enctype="multipart/form-data" action="/instance/edit/${c.page_instance.key}">
+	${h.field_token()|n}
+		
+	<div id="page_title">
+		<label for="label" class="armhint">${_("Adhocracy Name")}</label>
+		<input tabindex="1" class="title armlabel" name="label" />
+	</div>
+
+	<div class="sidebar">
+		<h3>${_("Voting Rules")}</h3>
+		<label for="required_majority">${_("Majority:")}</label>
+		<span class="hint">${_("In order to become active, a motion must reach the given proportion of approval.")}</span>
+		<select name="required_majority">
+			<option value="0.5">${_("A simple majority (&frac12; of vote)")|n}</option>
+			<option value="0.66">${_("A two-thirds majority")}</option>
+			<option value="0.98">${_("In Soviet Russia, motion votes you.")}</option>
+		</select>
+		
+		<label for="activation_delay">${_("Delay:")}</label>
+		<span class="hint">${_("Before activating, the defined majority must be continuously held by the moton for the specified interval.")}</span>
+		<select name="activation_delay">
+			<option value="0">${_("No delay")}</option>
+			<option value="1">${_("1 Day")}</option>
+			<option value="2">${_("2 Days")}</option>
+			<option value="7">${_("One Week")}</option>
+			<option value="14">${_("Two Weeks")}</option>
+			<option value="30">${_("Four Weeks")}</option>
+		</select>
+		
+		<h3>${_("Membership Options")}</h3>
+		<label for="default_group">${_("Default group:")}</label>
+		<span class="hint">${_("When a new member joins, he or she will be a member of this user group.")}</span>
+		<select name="default_group">
+		%for possible_group in c._Group.INSTANCE_GROUPS:
+			<%
+			group = c._Group.by_code(possible_group)
+			%> 
+			<option value="${group.code}">${_(group.group_name)|n}</option>
+		%endfor
+		</select>
+		
+		<h3>${_("Logo")}</h3>
+		<label for="logo">${_("File upload:")}</label>
+		<span class="hint">${_("Select a logo file to appear in the header area of this Adhocracy.")}</span>
+		<input name="logo" type="file" />
+		
+	</div>
+	
+	<div class="mainbar">
+		<h3>${_("Description:")}</h3>
+		<textarea tabindex="2" class="description" name="description">${c.page_instance.description}</textarea>
+		${components.formatting()}
+		${components.savebox("/instance/%s" % c.page_instance.key)}
+	</div>
+</form>	

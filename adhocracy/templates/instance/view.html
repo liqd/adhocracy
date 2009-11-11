@@ -1,0 +1,88 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${c.page_instance.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.page_instance.root)|n} &raquo; ${_("Home")}
+</%def>
+
+%if c.tile.can_admin:
+	<a class="button title admin" href="/admin/members">${_("members")}</a>
+	<a class="button title admin" href="/instance/edit/${c.page_instance.key}">${_("edit")}</a> 
+%endif
+%if c.tile.can_join:
+	<a class="button title add" href="/instance/join/${c.page_instance.key}?${h.url_token()}">${_("join")}</a> 
+%endif
+%if not c.user:
+	<a class="button title add" href="/register">${_("join")}</a> 
+%endif
+%if c.tile.can_leave:
+	<a class="button title delete" href="/instance/leave/${c.page_instance.key}?${h.url_token()}">${_("leave")}</a> 
+%endif
+%if c.tile.can_delegate:
+	<a class="button title add" href="/delegation/create?scope=${c.page_instance.root.id}">${_("delegate")}</a>
+%endif
+
+<h1 class="page_title"><img src="/img/icons/bonsai_24.png" class="cd" /> ${c.page_instance.label}</h1>
+
+${components.tutu()}
+
+<div class="sidebar">
+	<div class="tile">
+		<div class="tile boxed">
+			<div class="inner_boxed">
+				<h4><img src="/img/icons/vote_16.png" class="cd"> ${_("Voting Rules")}</h4>
+				${_("Required Majority:")} <b>${c.tile.required_majority}</b>
+				<span class="hint">${_("To become active, a motion must reach the given proportion of approval.")}</span>
+				
+				${_("Activation Delay:")} <b>${c.tile.activation_delay}</b>
+				<span class="hint">${_("Before becoming active, the majority must be held for the specified interval.")}</span>
+			</div>
+		</div>
+		<br/>
+		${components.delegation_sidebar(c.page_instance.root)}
+		<div class="meta">
+			${_("Subscribe to RSS feed:")}
+			${h.rss_link("/instance/%s.rss" % c.page_instance.key)|n}
+		</div>
+	</div>
+	<br/>
+	%if c.tile.can_create_category:
+		<a class="button add" href="/category/create?cat=${c.page_instance.root.id}">${_("new")}</a>
+	%elif c.tile.lack_create_category_karma:
+		<a class="button inactive htwarn" title="${c.tile.lack_create_category_karma}">${_("new")}</a>
+	%endif	
+	<h2>${_("Categories")} (${c.tile.num_categories})</h2>
+	%if c.tile.num_categories == 0 and c.tile.can_create_category:
+		<span class="hint">
+			${_("Create new categories to further structure the debate.")}
+		</span>
+	%endif
+	<ul>
+		${c.subcats_pager.here()}
+	</ul>
+</div>
+
+<div class="mainbar">
+	<div class="description">
+		${c.tile.description|n}
+	</div>
+	<br />
+	%if c.tile.can_create_issue:
+		<a class="button add" href="/issue/create?cat=${c.page_instance.root.id}">${_("new")}</a>
+	%elif c.tile.lack_create_issue_karma:
+		<a class="button inactive htwarn" title="${c.tile.lack_create_issue_karma}">${_("new")}</a>
+	%endif	
+	<h2>${_("Issues")}  (${c.tile.num_issues})</h2>
+	%if c.tile.num_issues == 0:
+		%if c.tile.can_create_category:
+		<span class="infobox">
+			${_("Create an issue to start debating in this Adhocracy.")}
+		</span>
+		%endif
+	%else:
+		<div class="table">
+			${c.issues_pager.here()}
+		</div>
+	%endif	
+</div>

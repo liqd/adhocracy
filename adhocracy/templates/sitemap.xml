@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+%for d in c.delegateables:
+	<url>
+		<%
+		controller = "d"
+		if c.instance:
+			if type(d) == c.model.Motion:
+				controller = "motion"
+			elif type(d) == c.model.Category:
+				controller = "category"
+			elif type(d) == c.model.Issue:
+				controller = "issue"
+		
+		%>
+		<loc>${h.instance_url(c.instance, path="/%s/%s" % (controller, d.id))}</loc>
+    	<lastmod>${d.access_time.strftime("%Y-%m-%d")}</lastmod>
+    	<changefreq>weekly</changefreq>
+    	<priority>0.8</priority>
+	</url> 
+%endfor
+</urlset>

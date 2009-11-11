@@ -1,0 +1,57 @@
+<%inherit file="/template.html" />
+<%namespace name="parts" file="/user/parts.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Settings: %s") % c.page_user.name}</%def>
+
+<%def name="breadcrumbs()">
+	${parts.user_breadcrumbs(c.page_user)} &raquo; ${_("Edit")}
+</%def>
+
+
+<form name="settings" class="inplace" method="POST" action="/user/edit/${c.page_user.user_name}">
+	${h.field_token()|n}
+	<div class="page_title">
+		<label for="display_name" class="armhint">${c.page_user.name}</label>
+		<input tabindex="1" class="title armlabel" name="display_name"
+	 		value="${c.page_user.display_name}"/>
+	 </div>
+
+	<div class="sidebar">
+		<h3>${_("User Details")}</h3>
+		<p>
+		<label for="email">${_("E-Mail:")}</label>
+		<input name="email" value="${c.page_user.email}"/>
+		<label for="locale">${_("Language:")}</label>
+		<select name="locale">
+			%for locale in c.lib.text.i18n.LOCALES:
+				<option value="${str(locale)}" 
+					%if locale == c.page_user.locale:
+						selected="selected"
+					%endif
+					>${locale.display_name}</option>
+			%endfor
+		</select>
+		</p>
+		<p>			
+		<label for="password">${_("Password:")}</label>
+		<span class="hint">
+		${_("Select a new password or leave the fields blank to keep your old one.")}
+		</span>
+		<input type="password" name="password">
+
+		<label for="password_confirm">${_("Password (confirm):")}</label>
+		<input type="password" name="password_confirm">
+		</p>
+		<img align="left" src="${h.gravatar_url(c.user, size=30)|n}"> 
+		${_("Configure your user icon at <a href='http://www.gravatar.com'>Gravatar</a>")|n} 
+
+	</div>
+	
+	<div class="mainbar">
+		<h3>${_("Short biography")}</h3>
+		<textarea tabindex="2" class="description" name="bio">${c.page_user.bio}</textarea>
+		${components.formatting()}
+		<span class="hint">${_("A bio will allow others to learn about you and perhaps even get you a few delegations.")}</span>
+		${components.savebox("/user/%s" % c.page_user.user_name)}
+	</div>
+</form>

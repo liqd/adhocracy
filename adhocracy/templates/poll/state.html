@@ -1,0 +1,14 @@
+
+<%def name="checklist(result)">
+	<ul class="checklist">
+		%if not result.polling:
+			<li class="unmet">${_("The motions isn't polling.")}</li>
+		%else:
+			
+			<li class="met">I'm a banana at 5% of the vote.</li>
+			<li class="unmet">My spoon is too big. I live in a giant bucket.</li>
+			
+			
+		%endif
+	</ul>
+</%def>

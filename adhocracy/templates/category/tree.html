@@ -1,0 +1,53 @@
+<%def name="catboxen(category, type, sels=[], link=True, root=False)">
+<%
+children = []
+if root:
+	root = c.instance.root
+	children.append((root, 
+		len(root.search_children(recurse=True, cls=c.model.Motion))))
+else:
+	if not category:
+		category = c.instance.root
+	children = category.search_children(cls=c.model.Category)
+	children = [(ch, len(set(ch.search_children(recurse=True, cls=c.model.Motion)))) for ch in children]
+	children = sorted(children, lambda a, b: b[1]-a[1])
+
+selected = [se.id for se in sels]
+selected.append(request.params.get("cat"))
+
+%>
+<ul class="category_tree">
+	%for (child, motions) in children:
+		<li>
+			<input name="categories" value="${child.id}" type="${type}"
+				%if child.id in selected:
+					checked="checked"
+				%endif
+				>
+			%if link:
+				<a href="/category/${child.id}">
+			%endif
+			${child.label}
+			%if link:
+				</a> 
+			%endif
+			%if len(child.search_children(cls=c.model.Category)):
+				${catboxen(child, type, sels=sels, link=link)}
+			%endif
+		</li>
+	%endfor
+</ul>
+</%def>
+
+
+<%def name="contextselect(type, sels=[], help=None, root=False)">
+	<div class="sidebar">
+		<h3>${_("Categorization")}</h3>
+		%if help:
+			<p>
+			${help}
+			</p>
+		%endif
+		${self.catboxen(None, type, sels=sels, link=False, root=root)}
+	</div>
+</%def>

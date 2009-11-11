@@ -1,0 +1,76 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="comment_tiles" file="/comment/tiles.html"/>
+
+<%def name="title()">${c.issue.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.issue)|n}
+</%def>
+
+%if c.tile.can_delete:
+	<a class="button title delete" href="/issue/delete/${c.issue.id}?${h.url_token()}">${_("delete")}</a>
+%elif c.tile.lack_delete_karma:
+	<a class="button title inactive htwarn" title="${c.tile.lack_delete_karma}">${_("delete")}</a>
+%endif
+
+%if c.tile.can_edit:
+	<a class="button title edit" href="/issue/edit/${c.issue.id}">${_("edit")}</a>
+%elif c.tile.lack_edit_karma:
+	<a class="button title inactive htwarn" title="${c.tile.lack_edit_karma}">${_("edit")}</a> 
+%endif
+
+%if c.tile.can_delegate and not c.tile.has_overridden:
+	<a class="button title add" href="/delegation/create?scope=${c.issue.id}">${_("delegate")}</a>
+%endif
+
+<h1 class="page_title"><img src="/img/icons/issue_24.png" class="cd" />${_("Issue: %s") % c.issue.label}</h1>
+
+<div class="sidebar">
+	<div class="tile">
+		<div class="text">
+			<ul>
+			%for category in c.issue.parents:
+				<li>
+					${_("in %s") % h.breadcrumbs(category)|n}
+				</li>
+			%endfor
+			</ul>
+		</div>
+		${components.delegation_sidebar(c.issue)}
+		<div class="meta">
+			${_("created %s") % h.relative_time(c.issue.create_time)}
+			&middot; ${h.rss_link("/issue/%s.rss" % c.issue.id)|n}
+		</div>
+	</div>
+</div>
+<div class="mainbar">
+	%if c.issue.comment:
+		${tiles.comment.full(c.issue.comment, recurse=False, collapse=False)}
+	%endif
+	
+	%if c.tile.can_create_motion:
+		<a class="button add" href="/motion/create?issue=${c.issue.id}">${_("new")}</a>
+	%elif c.tile.lack_create_motion_karma:
+		<a class="button inactive htwarn" title="${c.tile.lack_create_motion_karma}">${_("new")}</a>
+	%endif	
+	<h2>${_("Motions")}<sup><a href="/page/faq.html#Howdoesvotingwork">?</a></sup> (${c.tile.num_motions})</h2>
+	%if not c.tile.num_motions:
+		<span class="infobox">${_("Motions are <b>proposals</b> that solve some or all of the problems described by this issue. A motion can be <b>discussed and voted</b> upon.")|n}</span>
+	%else:
+		<div class="table">
+			${c.motions_pager.here()}
+		</div>
+	%endif
+	
+	<h2><img src="/img/icons/discuss_20.png" class="cd" /> ${_("Discussion")}</h2>
+	%if c.tile.comment_tile.can_reply:
+	<div class="comment">
+		${comment_tiles.create_form(c.issue.comment, c.issue)}
+	</div>
+	%endif
+	%for reply in c.tile.comment_tile.replies:
+		${tiles.comment.full(reply, recurse=True)}
+	%endfor
+</div>
+

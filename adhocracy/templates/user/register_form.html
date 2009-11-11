@@ -1,0 +1,20 @@
+
+
+<form name="create" method="POST" action="/register">
+	${h.field_token()|n}
+	<label for="user_name">${_("User name:")}</label>
+	<span class="hint">${_("Can only contain letters and numbers.")}</span>
+	<input name="user_name" />
+		
+	<label for="email">${_("E-Mail:")}</label>
+	<span class="hint">${_("We don't spam.")}</span>
+	<input name="email" />
+	
+	<label for="password">${_("Password:")}</label>
+	<input type="password" name="password">
+	
+	<label for="password_confirm">${_("Password (confirm):")}</label>
+	<input type="password" name="password_confirm">
+	
+	<input type="submit" value="${_('Register')}"/>
+</form>

@@ -1,0 +1,18 @@
+digraph A {
+	overlap=false; 
+	node [fontsize=10,fontname="/System/Library/Fonts/Helvetica.dfont"];
+	edge [fontsize=7,fontname="/System/Library/Fonts/Helvetica.dfont"];
+	%for user in c.users:
+		${user.user_name} [label="${user.name}"];
+	%endfor 
+	%for delegation in c.delegations:
+		%if not delegation.revoke_time:
+		${delegation.principal.user_name} -> ${delegation.agent.user_name} [label="${delegation.scope.label}"];
+		%endif
+	%endfor
+	%for delegation in c.delegations:
+		%if delegation.revoke_time:
+		${delegation.principal.user_name} -> ${delegation.agent.user_name} [label="${delegation.scope.label}",style="dotted"];
+		%endif
+	%endfor
+}

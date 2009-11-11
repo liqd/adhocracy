@@ -1,0 +1,24 @@
+<%inherit file="/template.html" />
+<%namespace name="catlist" file="/category/tree.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("New category")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.instance.root)|n} &raquo; ${_("New category")}
+</%def>
+
+<form name="create_category" class="inplace" method="POST" action="/category/create">
+	${h.field_token()|n}
+	<div id="page_title">
+		<label for="label" class="armhint">${_("New category")}</label>
+		<input tabindex="1" class="title armlabel" name="label" />
+	</div>
+	
+	${catlist.contextselect(type="radio", root=True)}
+	<div class="mainbar">
+		<h3>${_("Category description:")}</h3>
+		<textarea tabindex="2" class="description" name="description"></textarea>
+		${components.formatting()}
+		${components.savebox("/category/%s" % request.params.get('cat'))}
+	</div>
+</form>

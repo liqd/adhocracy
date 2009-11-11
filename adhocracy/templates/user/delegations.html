@@ -1,0 +1,59 @@
+<%inherit file="/template.html" />
+<%def name="title()">
+	%if c.user == c.page_user:
+		${_("My Delegations")}
+	%else: 
+		${_("Delegations: %s") % c.page_user.name}
+	%endif
+</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.instance.root)|n} &raquo; ${c.page_user.name} &raquo; ${_("Delegations")}
+</%def>
+
+<h1 class="page_title">
+	<img src="/img/icons/delegate_24.png" class="cd"/>
+	%if c.user == c.page_user:
+		${_("My Delegations")}
+	%else: 
+		${_("Delegations: %s") % c.page_user.name}
+	%endif
+</h1>
+
+	<table class="delegations">
+		<tr>
+			<th>${_("Topic")}</th>
+			<th>${_("Given")}</th>
+			<th>${_("Received")}</th>
+		</tr>
+		%for delegateable in [c.category] + c.category.search_children(recurse=True):
+			%if h.contains_delegations(c.page_user, delegateable, recurse=False):
+			<tr>
+				<td>
+					${h.delegateable_link(delegateable)|n}
+					<span class="hint">
+						%if len(delegateable.parents):
+							${h.breadcrumbs(delegateable.parents[0])|n}
+						%endif
+						&nbsp;
+					</span>
+				</td>
+				<td>
+					<ul>
+					%for delegation in filter(lambda d: d.scope == delegateable and not d.revoke_time, c.page_user.delegated):
+						<li class="nobullet">${tiles.delegation.outbound(delegation)}</li>
+					%endfor	
+					</ul>
+				</td>
+				<td>
+					<ul>
+					%for delegation in filter(lambda d: d.scope == delegateable and not d.revoke_time, c.page_user.agencies):
+						<li class="nobullet">${tiles.delegation.inbound(delegation)}</li>
+					%endfor	
+					</ul>
+				</td>
+			</tr>	
+			%endif
+		%endfor
+	</table>
+	<br/><br/>

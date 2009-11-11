@@ -1,0 +1,12 @@
+
+<%def name="list_item(tile, event)">
+	<li class="list_tile event">
+		<span class="meta">  
+			${h.relative_time(event.time)}
+		</span>
+		<span class="text">
+			${h.user_link(event.agent)|n}
+			${event.html()|n}
+		</span>
+	</li>
+</%def>

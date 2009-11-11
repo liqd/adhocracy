@@ -1,0 +1,26 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="parts" file="/user/parts.html"/>
+
+<%def name="title()">${_("Votes: %s") % c.page_user.name}</%def>
+
+<%def name="breadcrumbs()">
+	${parts.user_breadcrumbs(c.page_user)} &raquo; ${_("Votes")}
+</%def>
+
+%if c.user and c.user == c.page_user:
+	<h1 class="page_title">${_("Review your voting track")}</h1>
+%else:
+	<h1 class="page_title">${_("Votes:")}  
+		<a href="/user/${c.page_user.user_name}">${c.page_user.name}</a></h1>
+%endif
+
+<div class="sidebar">
+	&nbsp;
+</div>
+
+<div class="mainbar">
+	<div class="table">
+		${c.decisions_pager.here()}
+	</div>
+</div>

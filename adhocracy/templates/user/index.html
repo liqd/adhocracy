@@ -1,0 +1,20 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Users in %s") % c.instance.label if c.instance else _("Users")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.instance.root if c.instance else None)|n} &raquo; ${_("Users")}
+</%def>
+
+<h1 class="page_title">${_("Users in %s") % c.instance.label if c.instance else _("Users")} (${len(c.users)})</h1>
+
+<div class="sidebar">
+	&nbsp; 
+	<!-- TODO: Filter form. -->
+</div>
+
+<div class="mainbar">
+	<div class="table">
+		${c.users_pager.here()}
+	</div>
+</div>

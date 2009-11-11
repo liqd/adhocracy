@@ -1,0 +1,22 @@
+
+<%def name="row(tile, user)">
+	<div class="tile">
+		<div class="logo">
+			<img src="${h.gravatar_url(user, size=32)}" />
+		</div>
+		<div class="base">
+		<h3><a class="link" href="/user/${user.user_name}">${user.name}</a></h3>
+		%if tile.tagline:
+			<div class="text">
+				${tile.tagline}
+			</div>
+		%endif
+		<div class="meta">
+			%if c.instance:
+				${_("%s karma") % tile.karma} &middot;
+			%endif
+			${_("signed up %s") % h.relative_time(user.create_time)} 
+		</div>
+		</div>
+	</div>
+</%def>

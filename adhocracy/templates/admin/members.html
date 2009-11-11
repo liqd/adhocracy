@@ -1,0 +1,53 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Members: %s") % c.instance.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.instance.root)|n} &raquo; ${_("Members")}
+</%def>
+
+<h1>${_("Members: %s") % c.instance.label}</h1>
+
+<table border="0">
+	<tr>
+	<th></th>
+	</tr>
+	%for membership in c.instance.memberships:
+	<%
+	if membership.expire_time:
+		continue
+	code = membership.group.code
+	%>
+	<tr>
+		<td>${h.user_link(membership.user)|n}<a name="u_${membership.user.user_name}">&nbsp;</a></td>
+		<td>${_("is a %s") % _(membership.group.group_name)} 
+			(<a href="/admin/force_leave?user=${membership.user.user_name}&${h.url_token()}">${_("force to leave")}</a>)
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>
+			${_("move to Group:")}
+			%if code != c.model.Group.CODE_OBSERVER:
+				<a href="/admin/update_membership?user=${membership.user.user_name}&to_group=${c.model.Group.CODE_OBSERVER}&${h.url_token()}">
+					${_("Observer")}
+				</a> &nbsp; 
+			%endif
+			%if not membership.user.has_permission("vote-cast") or code == c.model.Group.CODE_SUPERVISOR:
+				<a href="/admin/update_membership?user=${membership.user.user_name}&to_group=${c.model.Group.CODE_VOTER}&${h.url_token()}">
+					${_("Voter")}
+				</a> &nbsp;
+			%endif
+			%if code != c.model.Group.CODE_SUPERVISOR:
+				<a href="/admin/update_membership?user=${membership.user.user_name}&to_group=${c.model.Group.CODE_SUPERVISOR}&${h.url_token()}">
+					${_("Supervisor")}
+				</a>
+			%endif
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+	</tr>
+	%endfor
+</table>

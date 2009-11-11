@@ -1,0 +1,27 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("New Adhocracy")}</%def>
+
+<%def name="breadcrumbs()">
+	${_("New Adhocracy")}
+</%def>
+
+<form name="create_instance" class="inplace" method="POST" action="/instance/create">
+	${h.field_token()|n}
+	<div id="page_title">
+		<label for="label" class="armhint">${_("New Adhocracy")}</label>
+		<input tabindex="1" class="title armlabel" name="label" />
+	</div>
+	
+	<div class="sidebar">&nbsp;</div>
+	<div class="mainbar">
+		<h3>${_("Adhocracy address:")}</h3>
+		<span class="hint">${_("The address may only contain alpha-numeric characters. Please note that this key cannot be changed after the Adhocracy has been created.")|n}</span>
+		http://<input tabindex="2" class="" style="text-align: right;" name="key" />.${request.environ['adhocracy.active.domain']}
+			
+		<h3>${_("Description:")}</h3>
+		<textarea tabindex="2" class="description" name="description"></textarea>
+		${components.formatting()}
+		${components.savebox("/adhocracies")}
+	</div>
+</form>

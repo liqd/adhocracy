@@ -1,0 +1,12 @@
+<%inherit file="/template.html" />
+<%def name="title()">${_("Comment")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment")}
+</%def>
+
+<h1><img src="/img/icons/discuss_24.png" class="cd" /> ${_("Discussion on %s") % ("<a href='/d/%s'>%s</a>" % (c.comment.topic.id, c.comment.topic.label))|n}</h1>
+
+<div class="mainbar">
+	${tiles.comment.full(c.comment)}
+</div>

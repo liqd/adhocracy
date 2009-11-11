@@ -1,0 +1,71 @@
+
+<%def name="row(tile, decision, focus_motion=False, focus_user=False)">
+	<div class="tile decision">
+		<div class="logo">
+			%if decision.result == 1:
+				<img src="/img/icons/vote_for.png" />
+			%elif decision.result == -1:
+				<img src="/img/icons/vote_against.png" />
+			%else:
+				<img src="/img/icons/vote_abstain.png" />
+			%endif
+		</div>
+		
+		<h3>
+			%if decision.result == 1:
+				<span class="affirm">${_("for")}</span>:
+			%elif decision.result == -1:
+				<span class="dissent">${_("against")}</span>:
+			%elif decision.result == 0:
+				<span class="abstain">${_("abstained")}</span>:
+			%else:
+				<span class="undecided">${_("undecided")}</span>:
+			%endif
+		
+			%if focus_user:
+				<a href="/user/${decision.user.user_name}">${decision.user.name}</a>
+			%endif
+			
+			%if focus_motion:
+				<a href="/motion/${decision.poll.motion.id}">${decision.poll.motion.label}</a>
+			%endif
+		</h3>
+		
+		<div class="text">
+			%if not decision.made():
+				${_("The user's delegates have voted, but no consensus was" + 
+					"reached among them. The decision is deferred.")}
+			%else:
+				%if decision.self_made():
+					${_("The decision was made without delegations.")}
+				%else:
+					${_("The decision was determined as a result of the following delegations:")}
+				%endif
+			%endif
+			%if not decision.self_made():
+				<ul>
+				%for delegation in decision.delegations:
+					<li>
+					${h.user_link(delegation.agent)|n}
+					&middot; ${_("on")} <a href="/d/${delegation.scope.id}">${delegation.scope.label}</a>
+					&middot; <a href="/delegation/${delegation.id}">${_("review")}</a>
+					</li>
+				%endfor
+				</ul>
+			%endif
+		</div>
+		<div class="meta">
+			${h.relative_time(decision.create_time)|n}
+			%if not focus_motion:
+				&middot; <img src="/img/icons/motion_16.png" /> 
+					<a href="/motion/${decision.poll.motion.id}">${decision.poll.motion.label}</a>
+			%endif
+			%if decision.poll:
+				&middot; ${_("in a poll %s") % h.relative_time(decision.poll.begin_time)}
+			%endif
+			%if not focus_user:
+				&middot; ${h.user_link(decision.user)|n}
+			%endif
+		</div>
+	</div>
+</%def>

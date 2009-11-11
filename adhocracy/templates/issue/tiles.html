@@ -1,0 +1,20 @@
+
+<%def name="row(tile, issue)">
+	<div class="tile">
+		<div class="logo">
+			<img src="/img/icons/issue_24.png" />
+		</div>
+		<h3><a class="link" href="/issue/${issue.id}">${issue.label}</a></h3>
+		<div class="text">
+		%if len(tile.tagline):
+			${tile.tagline}
+		%endif
+		</div>
+		<div class="meta">
+			${h.user_link(issue.creator)|n}  
+			&middot; ${_("created %s") % h.relative_time(issue.create_time)}
+			&middot; ${ungettext("%s comment", "%s comments", (len(issue.comments)-1)) % (len(issue.comments)-1)}  
+			&middot; ${ungettext("%s motion", "%s motions", tile.num_motions) % tile.num_motions}
+		</div>
+	</div>
+</%def>

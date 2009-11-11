@@ -1,0 +1,8 @@
+<%inherit file="../template.html" />
+<%def name="title()">${_("Error %s") % c.error_code}</%def>
+
+<h1>${_("Error %s") % c.error_code}</h1>
+
+<p>${c.error_message|n}</p>
+
+<p>${_("If this error continues to occur, please <a href='/page/imprint.html'>notify us</a> with a description of what you were trying to do.")|n}</p>

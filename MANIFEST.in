@@ -1,0 +1,3 @@
+include adhocracy/config/deployment.ini_tmpl
+recursive-include adhocracy/public *
+recursive-include adhocracy/templates *

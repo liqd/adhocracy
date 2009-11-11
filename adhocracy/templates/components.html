@@ -1,0 +1,107 @@
+
+<%def name="formatting()">
+	<div class="formatting">
+		<a target="_new" href="/page/formatting.html">${_("formatting hints")|n}</a>
+	</div>
+</%def>
+
+<%def name="savebox(cancel_url)">
+	<div class="savebox">
+		<button type="submit"><img src="/img/icons/save.png"> 
+			${_("Save")}</button>
+		<span class="cancel">
+			${_("or")} <a href="${cancel_url}">${_("cancel")}</a>
+		</span>
+	</div>
+</%def>
+
+<%def name="login_ctxitem()">
+	%if not c.user:
+	<div class="contextitem">
+		<h3>${_("Say hi")}</h3>
+		<%include file="/account/login_form.html"/>
+		
+		<p>${_("If you're not registered yet, <a href='/register'>sign up here</a>.")}</p>
+	</div>
+	%endif
+</%def>
+
+<%def name="delegation_sidebar(delegateable)">
+	%if c.tile.can_vote:
+	<div class="boxed">
+		<div class="inner_boxed">
+			<h4><img src="/img/icons/delegate_16.png" class="cd" /> ${_("Delegate voting")}</h4>
+			<ul>
+			<li style="list-style-image: url(/img/icons/delegate_to_16.png); padding-left: 5px;">
+				%if not c.tile.has_delegated:
+					%if c.tile.has_overridden:
+						${_("You have voted yourself and not delegated voting.")}
+						<a href="/page/faq.html#Whatisdelegatedvoting">${_("Info...")}</a>
+					%else:
+						${_("You have not delegated voting.")} 
+						<a href="/delegation/create?scope=${delegateable.id}">${_("delegate")}</a> &middot;
+						<a href="/page/faq.html#Whatisdelegatedvoting">${_("info...")}</a>
+					%endif 
+				%else:
+					%if c.tile.has_overridden:
+						${_("By voting yourself, you have overridden:")}
+					%else:
+						${_("You have delegated voting to:")}
+					%endif
+				%endif
+			<ul>
+				%for delegation in c.tile.delegations:
+					<li>
+					${h.user_link(delegation.agent)|n}
+					&middot; ${_("on")} <a href="/d/${delegation.scope.id}">${delegation.scope.label}</a>
+					&middot; <a href="/delegation/${delegation.id}">${_("review")}</a>
+					</li>
+				%endfor
+			</ul>
+			</li>
+			%if c.tile.num_principals:
+			
+			<li style="list-style-image: url(/img/icons/delegated_to_16.png); padding-left: 5px;">
+				%if c.tile.num_principals == 1:
+					${_("You hold an additional vote.")}
+				%else:
+					${_("You hold %s additional votes.") % c.tile.num_principals}
+				%endif
+			</li>
+			%endif
+			</ul>
+		</div> 
+	</div>
+	%endif
+</%def>
+
+<%def name="tutu()">
+	<div class="infobox tutu">
+		<a class="stfu" href="javascript:hide_tutu()">x</a>
+		<h2>${_("What now?")} <span class="tagline">${_("&mdash; using Adhocracy in 3<sup>&frac12;</sup> steps:")|n}</span></h2>
+		 
+		<table>
+			<tr>
+				<td class="num">1.</td>
+				<td width="20%"><img src="/img/icons/issue_32.png" /></td>
+				<td>${_("Create and discuss issues that need solutions.")}</td>
+			</tr>
+			<tr>
+				<td class="num">2.</td>
+				<td><img src="/img/icons/motion_32.png" /></td>
+				<td>${_("Cooperate to develop proposals affecting the issues.")}</td>
+			</tr><tr>
+				<td class="num">3.</td>
+				<td><img src="/img/icons/vote_32.png" /></td>
+				<td>${_("Vote on proposals to collectively make decisions.*")}</td>
+			</tr><tr>
+				<td></td>
+				<td></td>
+				<td class="fn">
+					${_("*Or &mdash; if you like &mdash; delegate voting in some fields to a peer.")|n}
+				<br/><br/>
+				</td>
+			</tr>
+		</table>	
+	</div>
+</%def>

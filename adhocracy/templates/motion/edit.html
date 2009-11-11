@@ -1,0 +1,89 @@
+<%inherit file="/template.html" />
+<%namespace name="catlist" file="/category/tree.html"/>
+<%namespace name="tiles_html" file="/motion/tiles.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Edit %s") % c.motion.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.motion)|n} &raquo; ${_("Edit")}
+</%def>
+
+<form name="edit_motion" class="inplace" method="POST" action="/motion/edit/${c.motion.id}">
+	${h.field_token()|n}
+	<div class="page_title">
+		<label for="label" class="armhint">${_("New Motion")}</label>
+		<input tabindex="1" class="title armlabel" name="label" value="${c.motion.label}"/>
+	</div>
+	
+	<h3>${_("Issue")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("If necessary, move the motion to a different issue to keep things organized.")}
+	 	</div>
+	</div>
+	<div class="mainbar">
+		<table width="100%">
+		<tr>
+			<td width="20%" valign="top">
+				<label for="issue">${_("Issue")}</label>
+			</td>
+			<td  valign="bottom">
+				<select name="issue">
+				%for issue in c.issues:
+					<option value="${issue.id}" ${"selected='selected'" if issue==c.motion.issue else ''}>${issue.label}</option>
+				%endfor
+				</select>
+			</td>
+		</tr>
+		</table>
+	</div>
+	
+	<div style="clear:both;"></div>
+	<h3>${_("Relations to other motions")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("Specify which motions <b>contradict</b> or <b>enable</b> this proposal." +
+			"<br/><br/>" +
+			"Contradicting motions cannot be in power at the same time." + 
+			"<br/><br/>" +
+			"Requirements must be satisfied before the motion can activate.")|n}			
+		</div>
+		<br/>
+	</div>
+	<div class="mainbar">
+		<input type="hidden" name="rel_error" />
+		<table width="100%">
+			<tr>
+				<th width="20%">${_("Relation")}</th>
+				<th>${_("Motion")}</th>
+			</tr>
+			<%
+			options = [m for m in c.motions if not m in c.relations.keys()]
+			if c.motion in options:
+				options.remove(c.motion)
+			%>
+			%if len(options):
+				${tiles_html.relation(rel_type='n', options=options, prototype=True)}
+			%endif
+			%for motion, type in c.relations.items():
+				${tiles_html.relation(rel_type=type, rel_motion=motion)}
+			%endfor
+			%if len(options):
+				${tiles_html.relation(rel_type='n', options=options)}
+			%endif
+		</table>
+		%if len(options):
+		<div class="jsadd">
+			<input type="button" value="${_("Add a relation")}" onclick="return appendRelation();" />
+		</div>
+		%endif
+	</div>
+	
+	<div style="clear:both;"></div>
+	<div class="sidebar">
+		&nbsp;
+	</div>
+	<div class="mainbar">
+		${components.savebox("/motion/%s" % c.motion.id)}
+	</div>
+</form>

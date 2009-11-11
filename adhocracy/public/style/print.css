@@ -1,0 +1,11 @@
+
+.account, #account,
+.sidebar,
+.button, .pager_sorts,
+.menu, #menu {
+	display: none;
+}
+
+.mainbar {
+	width: auto;
+}

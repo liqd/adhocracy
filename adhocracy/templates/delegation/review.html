@@ -1,0 +1,45 @@
+<%inherit file="/template.html" />
+<%def name="title()">${_("Delegation: %s") % c.scope.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.scope)|n} &raquo; ${_("Delegation")}
+</%def>
+
+%if c.user and c.delegation.principal == c.user:
+	<a class="button title delete" href="/delegation/revoke/${c.delegation.id}?${h.url_token()}">${_("revoke")}</a>
+%endif
+<h1 class="page_title"><img src="/img/icons/delegate_24.png" class="cd"/> ${_("Delegation: %s") % c.scope.label}</h1>
+
+<div class="sidebar">
+	<div class="tile">
+		<div class="text">
+			<ul>
+				<li class="nobullet"><img class='user_icon' src="/img/icons/delegate_to_16.png" /> ${_("from %s") % h.user_link(c.delegation.principal)|n}</li>
+				<li class="nobullet"><img class='user_icon' src="/img/icons/delegated_to_16.png" /> ${_("to %s") % h.user_link(c.delegation.agent)|n}</li>
+			</ul>	
+		</div>
+		<div class="meta">
+			${_("established %s") % h.relative_time(c.delegation.create_time)}
+			%if c.delegation.revoke_time:
+				 &middot; ${_("revoked %s") % h.relative_time(c.delegation.revoke_time)}
+			%endif		
+		</div>
+	</div>
+	<br/>
+	<span class="infobox">
+		${_("The delegation can be overridden or revoked at any time.")}
+	</span>
+	<br/>
+</div>
+
+<div class="mainbar">
+	%if c.decisions_pager.items:
+		<div class="table">
+			${c.decisions_pager.here()}
+		</div>
+	%else:
+		<div class="infobox">
+			${_("No decisions have been based on this delegation yet. As soon as this delegation leads to any decisions, they will be listed here.")}
+		</div>
+	%endif
+</div>

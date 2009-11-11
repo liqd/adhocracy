@@ -1,0 +1,17 @@
+<%inherit file="/template.html" />
+<%namespace name="t" file="/comment/tiles.html"/>
+<%def name="title()">${_("Edit comment")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Edit comment")}
+</%def>
+
+<h1>${_("Comment on: %s") % c.comment.topic.label}</h1>
+
+<div class="sidebar">&nbsp;</div>
+<div class="mainbar">
+	${t.edit_form(c.comment)}
+</div>
+
+
+

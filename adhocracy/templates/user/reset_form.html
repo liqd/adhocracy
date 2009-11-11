@@ -1,0 +1,20 @@
+<%inherit file="/template.html" />
+<%def name="title()">${_("Password reset")}</%def>
+
+<h1 class="page_title">${_("Password reset")}</h1>
+
+<form name="settings" class="inplace" method="POST" action="/user/reset">
+	<div class="sidebar">
+		<div class="infobox">${_("You will be sent an activation link that, when opened, will cause Adhocracy to email you a new password.")}</div>
+		<br/><br/>
+	</div>
+	<div class="mainbar">
+		${_("In order to retrieve your login, you will have to enter your email adress.")}
+		<br/><br/>	
+		<label for="email">${_("E-Mail:")}</label>
+		<input name="email" />
+		
+		<br/>
+		<input type="submit" value="${_("Reset")}" />
+	</div>
+</form>

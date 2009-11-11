@@ -1,0 +1,45 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Admin: Group Permissions")}</%def>
+
+<%def name="breadcrumbs()">
+	${_("Admin &raquo; Group Permissions")|n}
+</%def>
+
+<form name="settings" class="inplace" method="POST" action="/admin/permissions">
+	${h.field_token()|n}
+	<h1>${_("Group Permissions")}</h1>
+
+	<strong>
+		${_("WARNING: This allows you to shut yourself out of your adhocracy. Handle with care!")}
+	</strong>
+	<br/><br/>
+		
+	<%
+	groups = c.model.Group.all()
+	%>
+	<table border="0">
+		<tr>
+			<th></th>
+			%for group in groups:
+				<th>${_(group.group_name)}</th>
+			%endfor
+		</tr>
+		%for permission in c.model.Permission.all():
+		<tr>
+			<td>${permission.permission_name}</td>
+			%for group in groups:
+				<td>
+				<input name="${group.code}-${permission.permission_name}"
+					value="True" type="checkbox" style="width: auto"
+					%if permission in group.permissions:
+						checked="checked"
+					%endif
+					/>
+				</td>
+			%endfor	
+			</tr>
+		%endfor
+	</table>
+	${components.savebox("/")}
+</form>

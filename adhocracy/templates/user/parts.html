@@ -1,0 +1,8 @@
+<%def name="user_breadcrumbs(user)">
+	%if c.instance:
+		<a href="/">${c.instance.label}</a>
+	%else:
+		${_("Adhocracy")}
+	%endif
+	&raquo; <a href="/user/${user.user_name}">${user.name}</a>
+</%def>

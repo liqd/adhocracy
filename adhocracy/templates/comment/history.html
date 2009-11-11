@@ -1,0 +1,19 @@
+<%inherit file="/template.html" />
+<%def name="title()">${_("Comment History")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment History")}
+</%def>
+
+<h1><img src="/img/icons/discuss_24.png" class="cd" /> ${_("Comment History")}</h1>
+
+<div class="sidebar">
+	&nbsp;
+</div>
+<div class="mainbar">
+	<div class="table">
+		<div id="tile_c${c.comment.id}">
+			${c.revisions_pager.here()}
+		</div>
+	</div>
+</div>
