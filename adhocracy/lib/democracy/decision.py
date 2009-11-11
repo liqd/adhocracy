@@ -4,6 +4,7 @@ import logging
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 
+from ..cache import memoize
 import adhocracy.model as model
 from adhocracy.model import Motion, Vote, Poll, User
 
@@ -186,7 +187,29 @@ class Decision(object):
         if at_time:
             query = query.filter(Vote.create_time<=at_time)
         return [Decision(u, poll, at_time=at_time) for u in query]
-            
+              
+    @classmethod
+    def average_decisions(cls, instance):
+        """
+        The average number of decisions that a ``Poll`` in the given instance 
+        has. For each motion, this only includes the current poll in order to 
+        not accumulate too much historic data.
+        
+        :param instance: the ``Instance`` for which to calculate the average.   
+        """
+        @memoize('average_decisions', 84600)
+        def avg_decisions(instance):
+            query = model.meta.Session.query(Poll)
+            query = query.join(Motion).filter(Motion.instance_id==instance.id)
+            query = query.filter(Poll.end_time==None)
+            decisions = []
+            for poll in query:
+                if not poll.end_time: 
+                    # only consider current polls to allow for drops 
+                    # in participation
+                    decisions.append(len(Decision.for_poll(poll)))
+            return sum(decisions)/float(max(1,len(decisions)))
+        return avg_decisions(instance)
     
     @classmethod
     def replay_decisions(cls, delegation):

@@ -37,30 +37,7 @@ class Result(object):
     def __repr__(self):
         return "<Result(%s)>" % self.poll
 
-    
-    @classmethod
-    def average_decisions(cls, instance):
-        """
-        The average number of decisions that a ``Poll`` in the given instance 
-        has. For each motion, this only includes the current poll in order to 
-        not accumulate too much historic data.
-        
-        :param instance: the ``Instance`` for which to calculate the average.   
-        """
-        @memoize('average_decisions', 84600)
-        def avg_decisions(instance):
-            query = model.meta.Session.query(Poll)
-            query = query.join(Motion).filter(Motion.instance_id==instance.id)
-            query = query.filter(Poll.end_time==None)
-            decisions = []
-            for poll in query:
-                result = Result(poll.motion, poll=poll)
-                if result.is_polling:
-                    poll_decisions = len(result.decisions)
-                    if decisions:
-                        decisions.append(poll_decisions)
-            return sum(decisions)/float(max(1,len(decisions)))
-        return avg_decisions(instance)
+
 
     @classmethod
     def critical_motions(cls, instance):

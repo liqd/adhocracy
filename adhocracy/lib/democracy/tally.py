@@ -44,7 +44,7 @@ def interval(poll, min_time=None, max_time=None):
             if not tally:
                 tally = at(poll, time)
             tallies.append(tally)
-    return sorted(tallies, key=lambda t: t.at_time)
+    return sorted(tallies, key=lambda t: t.at_time, reverse=True)
 
 
 class Tally(object):

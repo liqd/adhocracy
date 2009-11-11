@@ -57,4 +57,10 @@ def format_timedelta(td):
     
 def relative_time(dt):
     """ A short statement giving the time distance since ``dt``. """
-    return _("%(ts)s ago") % {'ts': format_timedelta(dt - datetime.now())}
+    now = datetime.now()
+    ago = now - dt
+    if ago <= timedelta(days=2): 
+        return _("%(ts)s ago") % {'ts': format_timedelta(dt - datetime.now())}
+    else:
+        return _("%(ts)s") % {'ts': babel.dates.format_date(dt, format='long', locale=c.locale)}
+        
