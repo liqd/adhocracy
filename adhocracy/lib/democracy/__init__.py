@@ -6,24 +6,8 @@ from decision import Decision
 import delegation_node
 from delegation_node import DelegationNode
 
-#import poll
-#from poll import Poll, PollException, NoPollException
-
-import result
-from result import Result
-
-# TODO: Principals length
-
-# TODO: Delegation replay
-
-
-def is_motion_mutable(motion):
-    """
-    Find out whether a motion can be modified in its current polling 
-    state. 
-    """    
-    result = Result(motion)
-    return not result.polling
+import state
+from state import State
 
 def is_comment_mutable(comment):
     """
@@ -33,13 +17,5 @@ def is_comment_mutable(comment):
     if not comment.canonical:
         return True
     if isinstance(comment.topic, model.Motion):
-        return is_motion_mutable(comment.topic)
+        return State(comment.topic).motion_mutable
     return True
-
-def can_motion_cancel(motion):
-    """
-    Find out whether a motion can be modified in its current polling 
-    state. 
-    """
-    result = Result(motion)
-    return result.can_cancel

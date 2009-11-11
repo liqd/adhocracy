@@ -92,12 +92,12 @@ class DelayCriterion(Criterion):
         # has been cached on a higher level.  
         
         earliest = tally.at_time - self.delay
-        
+        tallies = self.get_tallies(start_at=earliest)
         # is this really necessary?
-        before = libtally.at(self.poll, earliest)
+        tallies.append(libtally.at(self.poll, earliest)) 
         
         previous_tally = None
-        for t in self.state.tallies + [before]:
+        for t in tallies:
             # filter by time
             if t.at_time > tally.at_time:
                 continue
@@ -117,7 +117,7 @@ class DelayCriterion(Criterion):
         return False    
         
     
-class StabilityCriterion(Criterion):
+class StabilityCriterion(DelayCriterion):
     
     def _check_criteria(self, tally):
         return self.state.majority(tally) and \
@@ -127,7 +127,7 @@ class StabilityCriterion(Criterion):
         return self._sfx_check_tally(tally)
 
 
-class VolatilityCriterion(Criterion):
+class VolatilityCriterion(DelayCriterion):
     
     def _check_criteria(self, tally):
         return not (self.state.majority(tally) and \
@@ -137,109 +137,106 @@ class VolatilityCriterion(Criterion):
     def check_tally(self, tally):
         return not self._sfx_check_tally(tally)
 
+class ActivityCriterion(Criterion):
+    
+    def check_tally(self, tally):
+        return self.state.stable(tally) or \
+               self.state.volatile(tally)
 
 
 
 class State(object):
     
-    def __init__(self, result, at_time=None):
-        self.result = result
-        self.motion = result.motion
-        self.instance = self.motion.instance 
+    def __init__(self, motion, poll=None, at_time=None):
+        self.motion = motion
+        if not poll and len(self.motion.polls):
+            for p in self.motion.polls:
+                if not p.end_time:
+                    poll = p
+        self.poll = poll
         
         if not at_time:
             at_time = datetime.now()
         self.at_time = at_time
         
-        if self.result.poll:
-            self.tally = tally.at(self.result.poll, at_time)
-
-
-    def _require_tallies(self, min_time, max_time):
-        pass
-
-
-
-
-
-
-
-
-    
-    def _required_majority(self):
-        """ Majority that is required for the ``Poll`` to succeed. """
-        return self.instance.required_majority
-    
-    required_majority = property(_required_majority)
-
-    def check_majority(self, tally):
-        return tally.rel_for > self.required_majority
-    
-    majority = property(lambda self: self.check_majority(self.tally))
-    
-    def _required_participation(self):
-        """ Minimal participation required for a ``Poll`` to succeed. """
-        return max(1, int(self.result.average_decisions(self.motion.instance) \
-                   * self.required_majority))
-    
-    required_participation = property(_required_participation)   
-    
-    def check_participation(self, tally):
-        return len(tally) >= self.required_decisions
-    
-    participation = property(lambda self: self.check_participation(self.tally))
+        self._tallies = []
+        self._tallies_start = at_time
         
-    def _activation_delay(self):
-        return timedelta(days=self.instance.activation_delay)
+        self.majority = MajorityCriterion(self)
+        self.participation = ParticipationCriterion(self)
+        self.stable = StabilityCriterion(self)
+        self.volatile = VolatilityCriterion(self)
+        self.active = ActivityCriterion(self)
     
-    activation_delay = property(_activation_delay)
+    polling = property(lambda self: self.poll != None)
+        
+    def get_tallies(self, start_at=None):
+        if not self.polling:
+            return []
+        if not start_at:
+            start_at = self.at_time - self.stable.delay
+        if self._tallies_start < start_at:
+            max_time = self._tallies_start 
+            self._tallies += tallylib.interval(self.poll, 
+                                               min_time=start_at, 
+                                               max_time=self._tallies_start)
+            self._tallies_start = start_at
+        return self._tallies
     
-    def period_votes(self, at_time):
-        consideration_start =  at_time - self.activation_delay
-        return [v for v in self.result.votes if \
-                v.create_time >= consideration_start and \
-                v.create_time <= at_time]
+    tallies = property(get_tallies)
     
-    def check_activation_step(self, tally):
-        # add alternatives, dependencies here 
-        return self.check_majority(tally) and \
-                self.check_participation(tally)
+    def _get_tally(self):
+        tallies = self.tallies
+        if not len(tallies):
+            return None
+        return tallies[-1]
     
-    def activation_begin_time(self, tally):
-        last_vote = None
-        for vote in reversed(self.period_votes(tally.at_time)):
-            tally = self.result.tally_at(vote.create_time)
-            if not self.check_activation_step(tally):
-                return last_vote.create_time if last_vote else None
-            last_vote = vote
-        return self.consideration_start
+    tally = property(_get_tally)
     
-    def check_activating(self, tally):
-        begin_time = self.activation_begin_time(tally)
-        return begin_time and begin_time != self.consideration_start  
+    def _get_poll_mutable(self):
+        if not self.polling:
+            return False
+        return not self.stable._check_criteria(self.tally)
     
-    activating = property(lambda self: self.check_activating(self.at_time))
-    
-    def deactivation_begin_time(self, tally):
-        for vote in self.period_votes(tally.at_time):
-            tally = self.result.tally_at(vote.create_time)
-            if not (self.check_majority(tally) and \
-                self.check_participation(tally)) or \
-                self.check_activating(tally):
-                return vote.create_time
-        return None
-    
-    def check_deactivating(self, tally):
-        return self.deactivation_begin_time(tally)
-    
-    deactivating = property(lambda self: self.check_deactivating(self.tally))
-    
-    def _is_active(self):
-        if self.majority and self.participation and \
-            True: #not self.activating:
-            return True
-        if False: #self.deactivating:
-            return True
-        return False
-    
-    active = property(_is_active) 
+    poll_mutable = property(_get_poll_mutable)
+    motion_mutable = property(lambda self: not self.polling)
+            
+    @classmethod
+    def critical_motions(cls, instance):
+        """
+        Returns a list of all motions in the given ``Instance``, as a dict key with 
+        a score describing the distance the ``Motion`` has towards making a state 
+        change.
+        
+        :param instance: Instance on which to focus
+        :returns: A ``dict`` of (``Motion``, score)
+        """
+        @memoize('motion-criticalness')
+        def motion_criticalness(motion):
+            state = cls(motion)
+            if not state.polling:
+                return None
+            
+            score = 1
+            
+            # factor 1: missing votes
+            score += 1.0/float(max(1, state.participation.required - len(state.tally)))
+            
+            # factor 2: remaining time, i.e. urgency
+            #t_remain = min(result.activation_delay, datetime.now() - result.state.begin_time)
+            #score -= timedelta2seconds(t_remain)/float(timedelta2seconds(result.activation_delay))
+            
+            # factor 3: distance to acceptance majority
+            maj_dist = abs(state.majroity.required - state.tally.rel_for)
+            score *= 1 - (maj_dist/state.majority.required)
+            
+            return score * -1
+        
+        q = model.meta.Session.query(Motion).filter(Motion.instance==instance)
+        scored = {}
+        for motion in q.all():
+            score = motion_criticalness(motion)
+            if score:
+                scored[motion] = score
+        return scored
+
