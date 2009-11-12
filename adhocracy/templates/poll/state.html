@@ -7,13 +7,13 @@
 			%if state.participation:
 				<li class="met">The required ${state.participation.required} votes have voted.</li>
 			%else:
-				<li class="umet">${state.participation.required} voters are needed.</li>
+				<li class="unmet">${state.participation.required} voters are needed.</li>
 			%endif
 			
 			%if state.majority:
-				<li class="met">${state.majority.required * 100}% approve.</li>
+				<li class="met">${int(state.majority.required * 100)}% approve.</li>
 			%else:
-				<li class="umet">${state.majority.required * 100}% need to approve.</li>
+				<li class="unmet">${int(state.majority.required * 100)}% need to approve.</li>
 			%endif
 			
 			%if state.stable:
@@ -25,6 +25,7 @@
 			%if state.adopted:
 				<li class="met">Adopted.</li>
 			%endif
+			
 		%endif
 	</ul>
 </%def>

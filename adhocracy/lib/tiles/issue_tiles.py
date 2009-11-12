@@ -15,12 +15,7 @@ class IssueTile(DelegateableTile):
         self.issue = issue
         self.__comment_tile = None
         DelegateableTile.__init__(self, issue)
-        
-    def _num_motions(self):
-        return len(self.issue.motions)
-    
-    num_motions = property(_num_motions)
-    
+
     def _tagline(self):       
         if self.issue.comment and self.issue.comment.latest:
             tagline = text.plain(self.issue.comment.latest.text)
@@ -52,7 +47,17 @@ class IssueTile(DelegateableTile):
         return self.__comment_tile
     
     comment_tile = property(_comment_tile)
-        
+    
+    def _motions(self):
+        return [m for m in self.issue.motions if not m.delete_time]
+    
+    motions = property(_motions)
+    
+    def _num_motions(self):
+        return len(self.motions)
+    
+    num_motions = property(_num_motions)
+            
 
 def row(issue):
     return render_tile('/issue/tiles.html', 'row', IssueTile(issue), issue=issue)

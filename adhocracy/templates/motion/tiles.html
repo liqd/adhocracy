@@ -15,13 +15,13 @@
 		
 			&middot; ${_("created %s") % h.relative_time(motion.create_time)}
 			%if tile.state.polling:
-				&middot; ${_("%s votes cast") % len(tile.state.tally)}
-				&middot; ${_("+%s%%/-%s%% split") % ("TODO", "TODO")}
+				&middot; ${_("%s votes,") % len(tile.state.tally)}
+				${_("%s%% approval") % int(tile.state.tally.rel_for * 100)}
 			%endif
-			&middot; ${ungettext("%s comment", "%s comments", (len(motion.comments)-1)) % (len(motion.comments)-1)}
+			&middot; ${ungettext("%s comment", "%s comments", (len(motion.comments)-1)) % (len(motion.comments)-1)}<br />
 			
 			%if detail and motion.issue:
-				 &middot; ${_("in")} ${h.delegateable_link(motion.issue)|n}</a>
+				${_("in")} ${h.delegateable_link(motion.issue)|n}</a>
 			%endif
 		</div>
 	</div>

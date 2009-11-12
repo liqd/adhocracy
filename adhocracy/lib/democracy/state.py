@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import adhocracy.model as model
 from adhocracy.model import Motion
 from ..cache import memoize
+from ..util import timedelta2seconds
 
 import tally as libtally
 from tally import Tally
@@ -130,10 +131,10 @@ class StabilityCriterion(DelayCriterion):
 class VolatilityCriterion(DelayCriterion):
     
     def _check_criteria(self, tally):
-        return not self.state.stable(tally)
+        return self.state.stable(tally)
         
     def check_tally(self, tally):
-        return not self._sfx_check_tally(tally)
+        return self._sfx_check_tally(tally)
 
 class AdoptionCriterion(Criterion):
     
@@ -223,8 +224,9 @@ class State(object):
             score += 1.0/float(max(1, state.participation.required - len(state.tally)))
             
             # factor 2: remaining time, i.e. urgency
-            #t_remain = min(result.activation_delay, datetime.now() - result.state.begin_time)
-            #score -= timedelta2seconds(t_remain)/float(timedelta2seconds(result.activation_delay))
+            t_remain = min(state.stable.delay, datetime.now() - \
+                           state.stable.begin_time if state.stable else timedelta(seconds=0))
+            score -= timedelta2seconds(t_remain)/float(timedelta2seconds(state.stable.delay))
             
             # factor 3: distance to acceptance majority
             maj_dist = abs(state.majority.required - state.tally.rel_for)

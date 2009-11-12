@@ -109,6 +109,10 @@ textarea:hover {
 	border:  1px solid #000;
 }
 
+input[type=file] {
+	border: 0px;
+}
+
 .armed {
 	color: #666;
 }
@@ -634,6 +638,7 @@ h4 img.cd,
 	padding: 0.5em;
 	padding-right: 0em;
 	padding-top: 1em;
+	line-height: 1.4em;
 }
 
 .tile .meta img {
