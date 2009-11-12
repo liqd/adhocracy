@@ -96,7 +96,7 @@ class IssueController(BaseController):
             h.instance_url(c.instance, "/issue/%s.rss" % c.issue.id))
         
         c.tile = tiles.issue.IssueTile(c.issue)
-        c.motions_pager = NamedPager('motions', c.issue.motions, tiles.motion.row, count=4, #list_item,
+        c.motions_pager = NamedPager('motions', c.tile.motions, tiles.motion.row, count=4, #list_item,
                                      sorts={_("oldest"): sorting.entity_oldest,
                                             _("newest"): sorting.entity_newest,
                                             _("activity"): sorting.motion_activity,

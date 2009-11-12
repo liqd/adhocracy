@@ -1,9 +1,7 @@
 import logging
+from base64 import b64encode
 
-from sqlalchemy.schema import MetaData
-from pylons import g, session
-
-import hashlib
+from pylons import g
 
 class NoneResult(object): pass
 
@@ -34,7 +32,8 @@ def make_tag(obj):
     return make_key("__tag_", [obj], {})
 
 def make_key(iden, a, kw=None):
-    return iden + hashlib.sha1(str(map(str, a)) + str(map(str, kw.items()))).hexdigest()
+    strs = map(str, a) + map(str, kw.items())
+    return iden + b64encode(reduce(lambda s, p: s + p, strs, ""))
 
 def clear_tag(tag):
     try:

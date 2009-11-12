@@ -9,6 +9,8 @@
 		%if len(tile.tagline):
 			${tile.tagline}
 		%endif
+		
+		BLA: ${"foo" if tile.state.adopted else "schnasel"}
 		</div>
 		<div class="meta">
 			${h.user_link(motion.creator)|n}  

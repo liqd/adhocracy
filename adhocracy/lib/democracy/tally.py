@@ -32,10 +32,9 @@ def interval(poll, min_time=None, max_time=None):
         query = query.filter(Vote.create_time>=min_time)
     if max_time:
         query = query.filter(Vote.create_time<=max_time)
-    #query = query.order_by(Vote.create_time.desc())
     tallies = []
     if not g.cache:
-        tallies = [at(poll, t) for t in query]
+        tallies = [at(poll, t) for t in times]
     else:
         times = dict([(t[0], _tally_key(poll, t[0])) for t in query])
         cached = g.cache.get_multi(times.values())
