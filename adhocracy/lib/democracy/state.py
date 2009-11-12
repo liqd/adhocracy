@@ -6,23 +6,21 @@ from ..cache import memoize
 from ..util import timedelta2seconds
 
 import tally as libtally
-from tally import Tally
 from criteria import *
 
 class State(object):
     
     def __init__(self, motion, poll=None, at_time=None):
         self.motion = motion
-        if not poll and len(self.motion.polls):
-            for p in self.motion.polls:
-                if not p.end_time:
-                    poll = p
-        self.poll = poll
         
         if not at_time:
             at_time = datetime.now()
         self.at_time = at_time
         
+        if not poll and len(self.motion.polls):
+            poll = motion.poll_at(at_time)
+        self.poll = poll
+                
         self._tallies = []
         self._tallies_start = self.at_time
         
@@ -31,6 +29,7 @@ class State(object):
         self.stable = StabilityCriterion(self)
         self.volatile = VolatilityCriterion(self)
         self.adopted = AdoptionCriterion(self)
+        self.alternatives = AlternativesCriterion(self)
     
     polling = property(lambda self: self.poll != None)
         

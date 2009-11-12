@@ -40,6 +40,16 @@ class Motion(Delegateable):
         return None
     
     poll = property(_get_poll)
+    
+    def poll_at(self, at_time):
+        for poll in self.polls:
+            if poll.begin_time > at_time:
+                continue
+            if (not poll.end_time) or poll.end_time < at_time:
+                continue
+            return poll
+        return None
+                
         
     @classmethod
     def find(cls, id, instance_filter=True):

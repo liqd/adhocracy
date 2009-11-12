@@ -5,21 +5,34 @@
 			<li class="unmet">${_("The motions isn't polling.")}</li>
 		%else:
 			%if state.participation:
-				<li class="met">The required ${state.participation.required} votes have voted.</li>
+				<li class="met">${state.participation.required} votes have been cast.</li>
 			%else:
-				<li class="unmet">${state.participation.required} voters are needed.</li>
+				<li class="unmet">At least ${state.participation.required} votes need to be cast.</li>
 			%endif
 			
 			%if state.majority:
-				<li class="met">${int(state.majority.required * 100)}% approve.</li>
+				<li class="met">${int(state.majority.required * 100)}% of voters approve.</li>
 			%else:
-				<li class="unmet">${int(state.majority.required * 100)}% need to approve.</li>
+				<li class="unmet">${int(state.majority.required * 100)}% of voters must approve.</li>
 			%endif
 			
 			%if state.stable:
 				<li class="met">Majority has been held for ${h.format_timedelta(state.stable.delay)}.</li>
 			%else:
 				<li class="unmet">Majority needs to be held for ${h.format_timedelta(state.stable.delay)}.</li>
+			%endif
+			
+			%if len(state.alternatives.alternatives):
+				<li class="${'met' if state.alternatives else 'unmet'}">
+					No alternatives may be adopted:
+				<ul>
+				%for alternative in state.alternatives.alternatives:
+					<li class="${'met' if not state.alternatives.blocking(alternative) else 'unmet'}">
+						${h.delegateable_link(alternative, icon=False)|n}
+					</li>
+				%endfor
+				</ul>
+				</li>
 			%endif
 			
 			%if state.adopted:

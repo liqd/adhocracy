@@ -43,8 +43,7 @@
 <div class="sidebar">
 
 	<!-- div class="tile" -->
-		<!-- h4>${_("Coming into effect")}</h4 -->
-		${state.checklist(c.tile.state)|n}
+		
 	<!-- /div -->
 	
 	<div class="tile">
@@ -53,6 +52,12 @@
 			<img src="/img/icons/issue_16.png" /> <a href="/issue/${c.motion.issue.id}">${c.motion.issue.label}</a>:
 			${c.issue_tile.tagline}
 			</p>
+		</div>
+		<div class="boxed">
+			<div class="inner_boxed">
+				<h4>${_("Adoption progress")}</h4>
+				${state.checklist(c.tile.state)|n}
+			</div>
 		</div>
 		${components.delegation_sidebar(c.motion)}
 		<div class="meta">

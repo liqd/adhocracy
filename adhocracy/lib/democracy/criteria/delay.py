@@ -71,7 +71,8 @@ class StabilityCriterion(DelayCriterion):
     
     def _check_criteria(self, tally):
         return self.state.majority(tally) and \
-               self.state.participation(tally)
+               self.state.participation(tally) and \
+               self.state.alternatives(tally)
     
     @memoize('stability_criterion')
     def check_tally(self, tally):
