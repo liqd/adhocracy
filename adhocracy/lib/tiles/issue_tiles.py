@@ -34,8 +34,8 @@ class IssueTile(DelegateableTile):
         
     def _can_delete(self):
         for motion in self.issue.motions:
-            if not democracy.is_motion_mutable(motion) and \
-                not democracy.can_motion_cancel(motion):
+            state = democracy.State(motion)
+            if not state.motion_mutable:
                 return False
         return auth.on_delegateable(self.issue, "issue.delete",
                                     allow_creator=False if len(self.issue.motions) else True)

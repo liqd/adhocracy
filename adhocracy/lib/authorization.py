@@ -96,7 +96,7 @@ def require_delegateable_perm(delegateable, permission_name):
 def require_motion_perm(motion, permission_name, enforce_immutability=True):
     """ If permission is not present, show a warning page. """
     require_delegateable_perm(motion, permission_name)
-    if motion and not democracy.is_motion_mutable(motion) and enforce_immutability:
+    if motion and not democracy.State(motion).motion_mutable and enforce_immutability:
         h.flash(h.immutable_motion_message())
         redirect_to('/motion/%s' % str(motion.id))
 

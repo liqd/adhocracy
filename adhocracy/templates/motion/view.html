@@ -44,7 +44,7 @@
 
 	<!-- div class="tile" -->
 		<!-- h4>${_("Coming into effect")}</h4 -->
-		${state.checklist(c.tile.result)|n}
+		${state.checklist(c.tile.state)|n}
 	<!-- /div -->
 	
 	<div class="tile">
@@ -154,7 +154,7 @@
 								%endfor
 							</ul>					
 						</td>
-						<td class="votes"><a href="/motion/${c.motion.id}/votes?result=1">${c.tile.result.tally.num_affirm}</a></td>
+						<td class="votes"><a href="/motion/${c.motion.id}/votes?result=1">${c.tile.state.tally.num_affirm}</a></td>
 						<td valign="top">${c.tile.result_affirm}%</td>
 					</tr>
 					<tr class="dissent ${'decision' if c.user and c.tile.decision.result == -1 else ''}">
@@ -175,7 +175,7 @@
 								%endfor
 							</ul>					
 						</td>
-						<td class="votes"><a href="/motion/${c.motion.id}/votes?result=-1">${c.tile.result.tally.num_dissent}</a></td>
+						<td class="votes"><a href="/motion/${c.motion.id}/votes?result=-1">${c.tile.state.tally.num_dissent}</a></td>
 						<td valign="top">${c.tile.result_dissent}%</td>
 					</tr>
 					<tr class="abstain ${'decision' if c.user and c.tile.decision.result == 0 else ''}">
@@ -196,7 +196,7 @@
 								%endfor
 							</ul>					
 						</td>
-						<td class="votes"><a href="/motion/${c.motion.id}/votes?result=0">${c.tile.result.tally.num_abstain}</a></td>
+						<td class="votes"><a href="/motion/${c.motion.id}/votes?result=0">${c.tile.state.tally.num_abstain}</a></td>
 						<td valign="top">&nbsp;</td>
 					</tr>				
 					<tr class="summary">
@@ -212,7 +212,7 @@
 						</td>
 						<td colspan="2">
 							<a href="/motion/${c.motion.id}/votes">
-								${_("%d votes") % len(c.tile.result.tally)}
+								${_("%d votes") % len(c.tile.state.tally)}
 							</a>
 						</td>
 					</tr>

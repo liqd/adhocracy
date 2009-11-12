@@ -14,8 +14,8 @@
 			${h.user_link(motion.creator)|n}  
 		
 			&middot; ${_("created %s") % h.relative_time(motion.create_time)}
-			%if tile.result.polling:
-				&middot; ${_("%s votes cast") % len(tile.result.state.tally)}
+			%if tile.state.polling:
+				&middot; ${_("%s votes cast") % len(tile.state.tally)}
 				&middot; ${_("+%s%%/-%s%% split") % ("TODO", "TODO")}
 			%endif
 			&middot; ${ungettext("%s comment", "%s comments", (len(motion.comments)-1)) % (len(motion.comments)-1)}
@@ -32,7 +32,7 @@
 		<span class="text"><a href="/motion/${motion.id}">${motion.label}</a></span>
 		<span class="meta">  
 			${self.state_flag(tile.result.state)} &middot;
-			%if tile.result.state == c.model.Motion.STATE_DRAFT:
+			%if not tile.state.polling:
 				${_("created %s") % h.relative_time(motion.create_time)}
 			%else:
 				${_("%s votes cast") % len(tile.poll.decisions)}

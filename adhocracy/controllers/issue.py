@@ -118,14 +118,11 @@ class IssueController(BaseController):
         parent = c.issue.parents[0]
         
         for motion in c.issue.motions:
-            try:
-                result = democracy.Result(motion)
-                if not result.is_motion_mutable:
-                    h.flash(_("The issue %(issue)s cannot be deleted, because the contained " +
-                              "motion %(motion)s is polling.") % {'issue': c.issue.label, 'motion': motion.label})
-                    redirect_to('/issue/%s' % str(c.issue.id))
-            except democracy.NoPollException:
-                pass
+            state = democracy.State(motion)
+            if not state.motion_mutable:
+                h.flash(_("The issue %(issue)s cannot be deleted, because the contained " +
+                          "motion %(motion)s is polling.") % {'issue': c.issue.label, 'motion': motion.label})
+                redirect_to('/issue/%s' % str(c.issue.id))
             motion.delete_time = datetime.now()
             model.meta.Session.add(motion)
         

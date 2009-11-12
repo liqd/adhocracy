@@ -17,7 +17,7 @@ class MotionTile(DelegateableTile):
     def __init__(self, motion):
         self.motion = motion
         self.__poll = None
-        self.__result = None
+        self.__state = None
         self.__decision = None
         self.__num_principals = None
         self.__comment_tile = None
@@ -38,12 +38,12 @@ class MotionTile(DelegateableTile):
     
     poll = property(_poll)
     
-    def _result(self):
-        if not self.__result:
-            self.__result = democracy.Result(self.motion, poll=self.poll)
-        return self.__result
+    def _state(self):
+        if not self.__state:
+            self.__state = democracy.State(self.motion, poll=self.poll)
+        return self.__state
     
-    result = property(_result)
+    state = property(_state)
     
     def _decision(self):
         if not self.__decision and c.user:
@@ -106,13 +106,13 @@ class MotionTile(DelegateableTile):
         if not self.poll:
             return False
         if auth.on_delegateable(self.motion, 'poll.abort'):
-            return self.result.can_cancel
+            return self.state.poll_mutable
 
     can_end_poll = property(_can_end_poll)
     lack_end_poll_karma = property(DelegateableTile.prop_lack_karma('poll.abort'))
     
     def _is_immutable(self):
-        return not democracy.is_motion_mutable(self.motion)
+        return not self.state.motion_mutable
     
     is_immutable = property(_is_immutable)
     
@@ -153,12 +153,12 @@ class MotionTile(DelegateableTile):
     comment_tile = property(_comment_tile)
     
     def _result_affirm(self):
-        return round(self.result.tally.rel_for * 100.0, 1) 
+        return round(self.state.tally.rel_for * 100.0, 1) 
     
     result_affirm = property(_result_affirm)
     
     def _result_dissent(self):
-        return round(self.result.tally.rel_against * 100.0, 1) 
+        return round(self.state.tally.rel_against * 100.0, 1) 
     
     result_dissent = property(_result_dissent)
 

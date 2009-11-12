@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import adhocracy.model as model
 from adhocracy.model import Motion
@@ -92,7 +92,7 @@ class DelayCriterion(Criterion):
         # has been cached on a higher level.  
         
         earliest = tally.at_time - self.delay
-        tallies = self.get_tallies(start_at=earliest)
+        tallies = self.state.get_tallies(start_at=earliest)
         # is this really necessary?
         tallies.append(libtally.at(self.poll, earliest)) 
         
@@ -130,14 +130,12 @@ class StabilityCriterion(DelayCriterion):
 class VolatilityCriterion(DelayCriterion):
     
     def _check_criteria(self, tally):
-        return not (self.state.majority(tally) and \
-               self.state.participation(tally) and \
-               self.state.stability(tally))
+        return not self.state.stable(tally)
         
     def check_tally(self, tally):
         return not self._sfx_check_tally(tally)
 
-class ActivityCriterion(Criterion):
+class AdoptionCriterion(Criterion):
     
     def check_tally(self, tally):
         return self.state.stable(tally) or \
@@ -166,7 +164,7 @@ class State(object):
         self.participation = ParticipationCriterion(self)
         self.stable = StabilityCriterion(self)
         self.volatile = VolatilityCriterion(self)
-        self.active = ActivityCriterion(self)
+        self.adopted = AdoptionCriterion(self)
     
     polling = property(lambda self: self.poll != None)
         
@@ -175,9 +173,9 @@ class State(object):
             return []
         if not start_at:
             start_at = self.at_time - self.stable.delay
-        if self._tallies_start < start_at:
-            max_time = self._tallies_start 
-            self._tallies += tallylib.interval(self.poll, 
+            #print "START AT ", start_at
+        if self._tallies_start > start_at:
+            self._tallies += libtally.interval(self.poll, 
                                                min_time=start_at, 
                                                max_time=self._tallies_start)
             self._tallies_start = start_at
@@ -187,9 +185,11 @@ class State(object):
     
     def _get_tally(self):
         tallies = self.tallies
+        #print "TALLIES ", tallies
         if not len(tallies):
-            return None
-        return tallies[-1]
+            return Tally([], self.at_time)
+        #print "TALLY ", tallies[0]
+        return tallies[0]
     
     tally = property(_get_tally)
     
@@ -227,7 +227,7 @@ class State(object):
             #score -= timedelta2seconds(t_remain)/float(timedelta2seconds(result.activation_delay))
             
             # factor 3: distance to acceptance majority
-            maj_dist = abs(state.majroity.required - state.tally.rel_for)
+            maj_dist = abs(state.majority.required - state.tally.rel_for)
             score *= 1 - (maj_dist/state.majority.required)
             
             return score * -1

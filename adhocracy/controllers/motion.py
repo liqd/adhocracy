@@ -31,7 +31,7 @@ class MotionController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("motion.view"))
     def index(self):
-        scored = democracy.Result.critical_motions(c.instance)
+        scored = democracy.State.critical_motions(c.instance)
         urgency_sort = sorting.dict_value_sorter(scored)
         
         c.motions_pager = NamedPager('motions', scored.keys(), tiles.motion.detail_row, count=4, #list_item,
