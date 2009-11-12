@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 import adhocracy.model as model
-from adhocracy.model import Motion
+from adhocracy.model import Motion, Poll
 from ..cache import memoize
 from ..util import timedelta2seconds
 
@@ -79,8 +79,9 @@ class State(object):
         """
         @memoize('motion-criticalness')
         def motion_criticalness(motion):
-            state = cls(motion)
+            state = State(motion)
             if not state.polling:
+                print "MOTION HAS NO POLL"
                 return None
             
             score = 1
@@ -94,14 +95,18 @@ class State(object):
             score -= timedelta2seconds(t_remain)/float(timedelta2seconds(state.stable.delay))
             
             # factor 3: distance to acceptance majority
-            maj_dist = abs(state.majority.required - state.tally.rel_for)
-            score *= 1 - (maj_dist/state.majority.required)
+            # shitty formula
+            maj_dist = max(0.000001, abs(state.majority.required - state.tally.rel_for))
+            score *= 0.01/maj_dist
             
             return score * -1
         
-        q = model.meta.Session.query(Motion).filter(Motion.instance==instance)
+        q = model.meta.Session.query(Motion)
+        q = q.filter(Motion.instance==instance)
+        q = q.join(Poll)
+        q = q.filter(Poll.end_time==None)
         scored = {}
-        for motion in q.all():
+        for motion in q:
             score = motion_criticalness(motion)
             if score:
                 scored[motion] = score

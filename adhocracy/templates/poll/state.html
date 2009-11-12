@@ -25,13 +25,14 @@
 			%if len(state.alternatives.alternatives):
 				<li class="${'met' if state.alternatives else 'unmet'}">
 					No alternatives may be adopted:
-				<ul>
+				<!--ul -->
 				%for alternative in state.alternatives.alternatives:
-					<li class="${'met' if not state.alternatives.blocking(alternative) else 'unmet'}">
-						${h.delegateable_link(alternative, icon=False)|n}
+					
+					<li style="list-style-image: none; list-style: none;" >
+						${h.delegateable_link(alternative, icon=True)|n} ${'(blocking)' if state.alternatives.blocking(alternative) else ''}
 					</li>
 				%endfor
-				</ul>
+				<!--/ul -->
 				</li>
 			%endif
 			

@@ -45,7 +45,7 @@ class Motion(Delegateable):
         for poll in self.polls:
             if poll.begin_time > at_time:
                 continue
-            if (not poll.end_time) or poll.end_time < at_time:
+            if poll.end_time and poll.end_time < at_time:
                 continue
             return poll
         return None
