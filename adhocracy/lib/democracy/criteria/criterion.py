@@ -1,6 +1,5 @@
 
 
-
 class Criterion(object):
     
     def __init__(self, state):
@@ -32,3 +31,23 @@ class Criterion(object):
     def __str__(self): 
         # relevant for cache keys
         return repr(self)
+
+
+class RelationLoop(Exception): pass
+
+class RelationCriterion(Criterion):
+    
+    def _get_path(self):
+        if not hasattr(self.state, 'relation_path'):
+            return []
+        return self.state.relation_path 
+    
+    def loop_abort(self):
+        if self.motion in self._get_path():
+            raise RelationLoop()
+        
+    def create_state(self, motion, at_time):
+        state = type(self.state)(motion, at_time=at_time)
+        state.relation_path = self._get_path() + [self.motion]
+        return state
+            

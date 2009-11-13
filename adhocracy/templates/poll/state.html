@@ -1,5 +1,8 @@
 
 <%def name="checklist(state)">
+	<%
+	from datetime import datetime
+	%>
 	<ul class="checklist">
 		%if not state.polling:
 			<li class="unmet">${_("The motions isn't polling.")}</li>
@@ -19,7 +22,7 @@
 			%if state.stable:
 				<li class="met">Majority has been held for ${h.format_timedelta(state.stable.delay)}.</li>
 			%else:
-				<li class="unmet">Majority needs to be held for ${h.format_timedelta(state.stable.delay)}.</li>
+				<li class="unmet">Majority needs to be held for ${h.format_timedelta(state.stable.end_time - datetime.now())}.</li>
 			%endif
 			
 			%if len(state.alternatives.alternatives):

@@ -25,7 +25,7 @@ class DelayCriterion(Criterion):
     
     def _get_end_time(self):
         return self.begin_time + self.delay \
-                    if begin_time else None
+                    if self.begin_time else None
     
     end_time = property(_get_end_time)
         
@@ -72,7 +72,8 @@ class StabilityCriterion(DelayCriterion):
     def _check_criteria(self, tally):
         return self.state.majority(tally) and \
                self.state.participation(tally) and \
-               self.state.alternatives(tally)
+               self.state.alternatives(tally) and \
+               self.state.dependencies(tally)
     
     @memoize('stability_criterion')
     def check_tally(self, tally):

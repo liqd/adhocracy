@@ -30,6 +30,7 @@ class State(object):
         self.volatile = VolatilityCriterion(self)
         self.adopted = AdoptionCriterion(self)
         self.alternatives = AlternativesCriterion(self)
+        self.dependencies = DependenciesCriterion(self)
     
     polling = property(lambda self: self.poll != None)
         
@@ -45,7 +46,7 @@ class State(object):
                                                min_time=start_at, 
                                                max_time=self._tallies_start)
             if not len(self._tallies):
-                self._tallies = [libtally.at(self.poll, start.at)]
+                self._tallies = [libtally.at(self.poll, start_at)]
             #print "TALLIES ", self._tallies
             self._tallies_start = start_at
         return self._tallies

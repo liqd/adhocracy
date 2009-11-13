@@ -1,6 +1,6 @@
-from criterion import Criterion
+from criterion import RelationCriterion, RelationLoop
 
-class AlternativesCriterion(Criterion):
+class AlternativesCriterion(RelationCriterion):
     
     def get_alternatives(self, at_time):
         def valid(a):
@@ -12,32 +12,31 @@ class AlternativesCriterion(Criterion):
     
     alternatives = property(lambda self: self.get_alternatives(self.state.at_time))   
     
-    def check_blocking(self, at_time, path):
+    def check_blocking(self, at_time):
         if not (self.state.majority and self.state.participation):
             return False
-        if self.check_blocked(at_time, path=path):
+        if self.check_blocked(at_time):
             return False
         return True      
     
-    def alternative_blocks(self, alternative, at_time, path=[]):
-        alt_state = type(self.state)(alternative) # ugly, better?
-        return alt_state.alternatives.check_blocking(at_time, path=path)
+    def alternative_blocks(self, alternative, at_time):
+        state = self.create_state(alternative, at_time)
+        return state.alternatives.check_blocking(at_time)
     
     blocking = lambda self, alternative: self.alternative_blocks(alternative, 
                                                                  self.state.at_time)
     
-    def check_blocked(self, at_time, path=None):
-        if not path:
-            path = [self]
-        elif self in path:
+    def check_blocked(self, at_time):
+        try:
+            self.loop_abort()
+        except RelationLoop:
             return False
-        else: 
-            path.append(self)
         
         for alternative in self.get_alternatives(at_time):
-            if self.alternative_blocks(alternative, at_time, path=path):
+            if self.alternative_blocks(alternative, at_time):
                 return True
         return False
     
     def check_tally(self, tally):
         return not self.check_blocked(tally.at_time)
+
