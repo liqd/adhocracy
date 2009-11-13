@@ -49,7 +49,7 @@ class MotionController(BaseController):
         motions_val = formencode.ForEach(forms.ValidMotion(if_empty=None, if_invalid=None), 
                                         convert_to_list=True)
         
-        print "REL_MOTIONS", request.params.getall('rel_motion')
+        #print "REL_MOTIONS", request.params.getall('rel_motion')
         
         types = types_val.to_python(request.params.getall('rel_type'))
         motions = motions_val.to_python(request.params.getall('rel_motion'))
@@ -57,7 +57,7 @@ class MotionController(BaseController):
             raise formencode.Invalid("", type, None,
                         error_dict={'rel_error': _("Input error while applying relations.")})
         
-        print "MOTIONS ", motions
+        #print "MOTIONS ", motions
         
         c.relations = dict()
         for type, other in zip(types, motions):
@@ -166,7 +166,7 @@ class MotionController(BaseController):
         c.relations = dict()
         for dependency in c.motion.dependencies:
             if not dependency.delete_time:
-                print "DEP", dependency
+                #print "DEP", dependency
                 c.relations[dependency.requirement] = 'd'
         for ra in c.motion.right_alternatives:
             if not ra.delete_time:

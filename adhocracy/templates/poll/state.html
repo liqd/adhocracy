@@ -8,26 +8,38 @@
 			<li class="unmet">${_("The motions isn't polling.")}</li>
 		%else:
 			%if state.participation:
-				<li class="met">${state.participation.required} votes have been cast.</li>
+				<li class="met">More than <b>${state.participation.required} votes</b> have been cast.</li>
 			%else:
-				<li class="unmet">At least ${state.participation.required} votes need to be cast.</li>
+				<li class="unmet">At least <b>${state.participation.required} votes</b> need to be cast.</li>
 			%endif
 			
 			%if state.majority:
-				<li class="met">${int(state.majority.required * 100)}% of voters approve.</li>
+				<li class="met">More than <b>${int(state.majority.required * 100)}% of voters</b> approve.</li>
 			%else:
-				<li class="unmet">${int(state.majority.required * 100)}% of voters must approve.</li>
+				<li class="unmet"><b>${int(state.majority.required * 100)}% of voters</b> must approve.</li>
 			%endif
 			
 			%if state.stable:
-				<li class="met">Majority has been held for ${h.format_timedelta(state.stable.delay)}.</li>
+				<li class="met">Majority has been held <b>for ${h.format_timedelta(state.stable.delay)}</b>.</li>
 			%else:
-				<li class="unmet">Majority needs to be held for ${h.format_timedelta(state.stable.end_time - datetime.now())}.</li>
+				<li class="unmet">Majority needs to be held <b>for ${h.format_timedelta(state.stable.end_time - datetime.now() if state.stable.end_time else state.stable.delay)}</b>.</li>
+			%endif
+			
+			%if len(state.dependencies.dependencies):
+				<li class="${'met' if state.dependencies else 'unmet'}">
+					All <b>requirements</b> must be adopted:
+				</li>
+				%for dependency in state.dependencies.dependencies:
+					<li style="list-style-image: none; list-style: none;" >
+						${h.delegateable_link(dependency, icon=True)|n} ${'(missing)' if state.dependencies.blocking(dependency) else ''}
+					</li>
+				%endfor
 			%endif
 			
 			%if len(state.alternatives.alternatives):
 				<li class="${'met' if state.alternatives else 'unmet'}">
-					No alternatives may be adopted:
+					No <b>alternatives</b> may be adopted:
+				</li>
 				<!--ul -->
 				%for alternative in state.alternatives.alternatives:
 					
@@ -36,7 +48,7 @@
 					</li>
 				%endfor
 				<!--/ul -->
-				</li>
+				
 			%endif
 			
 			%if state.adopted:

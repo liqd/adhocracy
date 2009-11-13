@@ -2,6 +2,7 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 <%namespace name="state" file="/poll/state.html"/>
+<%namespace name="ptiles" file="/poll/tiles.html"/>
 
 <%def name="title()">${c.motion.label}</%def>
 
@@ -60,175 +61,14 @@
 			&middot; ${h.rss_link("/motion/%s.rss" % c.motion.id)|n}
 		</div>
 	</div>
-	
-	<h3>${_("Alternatives")}</h3>
-	
-	<span class="hint">${_("Alternatives are contradicting motions. Only one of the listed alternatives can be active at any time.")}</span>
-	<ul>
-		%for alternative in c.motion.left_alternatives:
-			%if not alternative.delete_time:
-				<li>${h.delegateable_link(alternative.right)|n}</li>
-			%endif
-		%endfor
-		%for alternative in c.motion.right_alternatives:
-			%if not alternative.delete_time:
-				<li>${h.delegateable_link(alternative.left)|n}</li>
-			%endif
-		%endfor
-	</ul>
-	
-	%if len(c.motion.dependencies) or len(c.motion.dependents):
-	<h3>${_("Dependencies")}</h3>
-	%endif
-	
-	%if len(c.motion.dependencies):
-	<span class="hint">${_("In order for this motion to become active, these required motions will also have to be active.")}</span>
-	<ul>
-		%for dependency in c.motion.dependencies:
-			<li>${h.delegateable_link(dependency.requirement)|n}</li>
-		%endfor
-	</ul>
-	%endif
-	
-	%if len(c.motion.dependents):
-	<span class="hint">${_("The following motions depend on this proposal in order to become active.")}</span>
-	<ul>
-		%for dependency in c.motion.dependents:
-			<li>${h.delegateable_link(dependency.motion)|n}</li>
-		%endfor
-	</ul>
-	%endif
-	
 </div>
 
 <div class="mainbar">
-	
 	%if c.motion.comment:
 		${tiles.comment.full(c.motion.comment, recurse=False, collapse=False)}
 	%endif
 	%if c.tile.poll:
-		%if c.tile.can_end_poll:
-			<a class="button delete" href="/poll/abort/${c.motion.id}">${_("cancel")}</a>
-		%elif c.user and c.tile.is_immutable:
-			<a class="button inactive htwarn" title="${_('This vote has recieved the required majority and cannot be cancelled')}">${_("cancel")}</a>
-		%elif c.user and c.tile.lack_end_poll_karma:
-			<a class="button inactive htwarn" title="${c.tile.lack_end_poll_karma}">${_("cancel")}</a>
-		%endif
-		<h2><img src="/img/icons/vote_24.png" class="cd" /> ${_("Vote")}<sup><a href="/page/faq.html#Howdoesvotingwork">?</a></sup></h2>
-		<div class="tile voting_booth">
-			<!-- div class="text"-->
-			
-				%if c.tile.can_vote:
-					<form action="/vote/cast/${c.motion.id}" method="GET">
-						${h.field_token()|n}
-				%endif	
-				
-				<table border="0" width="100%">
-					<tr>
-						<th></th>
-						<th></th>
-						<th>${_("Option")}</th>
-						<th>
-							%if c.tile.can_vote:
-								${_("Delegate Recommendations")}
-							%endif
-						</th>
-						<th class="votes">${_("Votes")}</th>
-						<th>${_("Percent")}</th>
-					</tr>
-					<tr class="affirm ${'decision' if c.user and c.tile.decision.result == 1 else ''}">
-						<td>
-							%if c.tile.can_vote:
-								<input type="radio" name="orientation" value="1" 
-									${'checked' if c.tile.decision.result == 1 else ''|n} />
-							%endif
-						</td>
-						<td class="iconcol">
-							<span class="icon">&nbsp;</span>
-						</td>
-						<td class="option">${_("Affirm")}</td>
-						<td> 
-							<ul>
-								%for agent in c.tile.delegates_result(1):
-									<li>${h.user_link(agent)|n}</li>
-								%endfor
-							</ul>					
-						</td>
-						<td class="votes"><a href="/motion/${c.motion.id}/votes?result=1">${c.tile.state.tally.num_affirm}</a></td>
-						<td valign="top">${c.tile.result_affirm}%</td>
-					</tr>
-					<tr class="dissent ${'decision' if c.user and c.tile.decision.result == -1 else ''}">
-						<td class="selector">
-							%if c.tile.can_vote:
-								<input type="radio" name="orientation" value="-1" 
-									${'checked' if c.tile.decision.result == -1 else ''|n} />
-							%endif
-						</td>
-						<td class="iconcol">
-							<span class="icon">&nbsp;</span>
-						</td>
-						<td class="option">${_("Dissent")}</td>
-						<td> 
-							<ul>
-								%for agent in c.tile.delegates_result(-1):
-									<li>${h.user_link(agent)|n}</li>
-								%endfor
-							</ul>					
-						</td>
-						<td class="votes"><a href="/motion/${c.motion.id}/votes?result=-1">${c.tile.state.tally.num_dissent}</a></td>
-						<td valign="top">${c.tile.result_dissent}%</td>
-					</tr>
-					<tr class="abstain ${'decision' if c.user and c.tile.decision.result == 0 else ''}">
-						<td class="selector">
-							%if c.tile.can_vote:
-								<input type="radio" name="orientation" value="0" 
-									${'checked' if c.tile.decision.result == 0 else ''|n} />
-							%endif		
-						</td>
-						<td class="iconcol">
-							<span class="icon">&nbsp;</span>
-						</td>
-						<td class="option">${_("Abstain")}</td>  
-						<td> 
-							<ul>
-								%for agent in c.tile.delegates_result(0):
-									<li>${h.user_link(agent)|n}</li>
-								%endfor
-							</ul>					
-						</td>
-						<td class="votes"><a href="/motion/${c.motion.id}/votes?result=0">${c.tile.state.tally.num_abstain}</a></td>
-						<td valign="top">&nbsp;</td>
-					</tr>				
-					<tr class="summary">
-						<td colspan="3" rowspan="2">
-							%if c.tile.can_vote:
-								<input type="submit" value="${_("vote")}" />
-							%endif						
-						</td>
-						<td>
-							<div class="hint" style="padding: 0; text-align: right">
-								${_("Of the required %s votes, the motion has:") % c.tile.state.participation.required}
-							</div>
-						</td>
-						<td colspan="2">
-							<a href="/motion/${c.motion.id}/votes">
-								${_("%d votes") % len(c.tile.state.tally)}
-							</a>
-						</td>
-					</tr>
-					<tr class="summary"><td colspan="2"></td></tr>
-				</table>
-				
-				%if c.tile.can_vote:
-					</form>
-				%endif
-				
-			<!--  /div -->
-			<div class="meta">
-				${_("poll started %s") % h.relative_time(c.tile.poll.begin_time)} 
-				&middot; <a href="/page/faq.html#Howdoesvotingwork">${_("help")}</a>
-			</div>
-		</div>
+		${ptiles.booth(c.motion, c.tile)}
 	%endif 
 	
 	
