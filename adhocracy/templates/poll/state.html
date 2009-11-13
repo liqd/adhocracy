@@ -5,56 +5,51 @@
 	%>
 	<ul class="checklist">
 		%if not state.polling:
-			<li class="unmet">${_("The motions isn't polling.")}</li>
+			<li class="unmet">${_("A vote needs to be called.")}</li>
+		%elif state.adopted:
+			<li class="met">${_("The motion is adopted.")}</li>
 		%else:
 			%if state.participation:
-				<li class="met">More than <b>${state.participation.required} votes</b> have been cast.</li>
+				<li class="met">${_("More than <b>%s votes</b> have been cast.") % state.participation.required|n}</li>
 			%else:
-				<li class="unmet">At least <b>${state.participation.required} votes</b> need to be cast.</li>
+				<li class="unmet">${_("At least <b>%s votes</b> need to be cast.") % state.participation.required|n}</li>
 			%endif
 			
 			%if state.majority:
-				<li class="met">More than <b>${int(state.majority.required * 100)}% of voters</b> approve.</li>
+				<li class="met">${_("More than <b>%s%% of voters</b> approve.") % int(state.majority.required * 100)|n}</li>
 			%else:
-				<li class="unmet"><b>${int(state.majority.required * 100)}% of voters</b> must approve.</li>
+				<li class="unmet">${_("<b>%s%% of voters</b> must approve.") % int(state.majority.required * 100)|n}</li>
 			%endif
 			
 			%if state.stable:
-				<li class="met">Majority has been held <b>for ${h.format_timedelta(state.stable.delay)}</b>.</li>
+				<li class="met">${_("Majority has been held <b>for %s</b>.") % h.format_timedelta(state.stable.delay)|n}</li>
 			%else:
-				<li class="unmet">Majority needs to be held <b>for ${h.format_timedelta(state.stable.end_time - datetime.now() if state.stable.end_time else state.stable.delay)}</b>.</li>
+				<li class="unmet">${_("Majority needs to be held <b>for %s</b>.") % h.format_timedelta(state.stable.end_time - datetime.now() if state.stable.end_time else state.stable.delay)|n}</li>
 			%endif
-			
-			%if len(state.dependencies.dependencies):
-				<li class="${'met' if state.dependencies else 'unmet'}">
-					All <b>requirements</b> must be adopted:
-				</li>
-				%for dependency in state.dependencies.dependencies:
-					<li style="list-style-image: none; list-style: none;" >
-						${h.delegateable_link(dependency, icon=True)|n} ${'(missing)' if state.dependencies.blocking(dependency) else ''}
-					</li>
-				%endfor
-			%endif
-			
-			%if len(state.alternatives.alternatives):
-				<li class="${'met' if state.alternatives else 'unmet'}">
-					No <b>alternatives</b> may be adopted:
-				</li>
-				<!--ul -->
-				%for alternative in state.alternatives.alternatives:
-					
-					<li style="list-style-image: none; list-style: none;" >
-						${h.delegateable_link(alternative, icon=True)|n} ${'(blocking)' if state.alternatives.blocking(alternative) else ''}
-					</li>
-				%endfor
-				<!--/ul -->
-				
-			%endif
-			
-			%if state.adopted:
-				<li class="met">Adopted.</li>
-			%endif
-			
 		%endif
+		
+		%if len(state.dependencies.dependencies):
+			<li class="${'met' if state.dependencies else 'unmet'}">
+				${_("All <b>requirements</b> must be adopted:")|n}
+			</li>
+			%for dependency in state.dependencies.dependencies:
+				<li style="list-style-image: none; list-style: none;" >
+					${h.delegateable_link(dependency, icon=True)|n} ${_('(missing)') if state.dependencies.blocking(dependency) else ''}
+				</li>
+			%endfor
+		%endif
+		
+		%if len(state.alternatives.alternatives):
+			<li class="${'met' if state.alternatives else 'unmet'}">
+				${_("No <b>alternatives</b> may be adopted:")|n}
+			</li>
+			%for alternative in state.alternatives.alternatives:
+				<li style="list-style-image: none; list-style: none;" >
+					${h.delegateable_link(alternative, icon=True)|n} ${_('(blocking)') if state.alternatives.blocking(alternative) else ''}
+				</li>
+			%endfor
+		%endif
+			
+			
 	</ul>
 </%def>

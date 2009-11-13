@@ -115,12 +115,143 @@
 			%if tile.can_vote:
 				</form>
 			%endif
-			
-		<!--  
-		<div class="meta">
-			${_("Poll #%s started %s") % (tile.poll.id, h.relative_time(tile.poll.begin_time))} 
-			&middot; <a href="/page/faq.html#Howdoesvotingwork">${_("help")}</a>
-		</div>
-		-->
 	</div>
+</%def>
+
+
+
+<%def name="sb_booth(motion, tile)">
+	<!-- 
+	 -->
+	<h4><img src="/img/icons/vote_16.png" class="cd" /> ${_("Vote")}<sup><a href="/page/faq.html#Howdoesvotingwork">?</a></sup></h4>
+		
+			%if tile.can_vote:
+				<form action="/vote/cast/${motion.id}" method="GET">
+					${h.field_token()|n}
+			%endif	
+			
+			<table border="0" width="100%">
+				<tr>
+					<th></th><th></th>
+					<th>${_("Option")}</th>
+					<th class="votes">${_("Votes")}</th>
+					<th>${_("Percent")}</th>
+				</tr>
+				<tr class="affirm ${'decision' if c.user and tile.decision.result == 1 else ''}">
+					<td>
+						%if c.tile.can_vote:
+							<input type="radio" name="orientation" value="1" 
+								${'checked' if tile.decision.result == 1 else ''|n} />
+						%endif
+					</td>
+					<td class="iconcol">
+						<span class="icon">&nbsp;</span>
+					</td>
+					<td class="option">${_("Affirm")}</td>
+					<td class="votes"><a href="/motion/${motion.id}/votes?result=1">${tile.state.tally.num_affirm}</a></td>
+					<td valign="top">${tile.result_affirm}%</td>
+				</tr>
+				<%
+				agents = tile.delegates_result(1)
+				%>
+				%if len(agents):
+				<tr>
+					<td colspan="2"></td>
+					<td colspan="3"> 
+						<ul>
+							%for agent in agents:
+								<li>${h.user_link(agent)|n}</li>
+							%endfor
+						</ul>					
+					</td>
+				</tr>
+				%endif
+				<tr class="dissent ${'decision' if c.user and tile.decision.result == -1 else ''}">
+					<td class="selector">
+						%if c.tile.can_vote:
+							<input type="radio" name="orientation" value="-1" 
+								${'checked' if tile.decision.result == -1 else ''|n} />
+						%endif
+					</td>
+					<td class="iconcol">
+						<span class="icon">&nbsp;</span>
+					</td>
+					<td class="option">${_("Dissent")}</td>
+					<td class="votes"><a href="/motion/${motion.id}/votes?result=-1">${tile.state.tally.num_dissent}</a></td>
+					<td valign="top">${tile.result_dissent}%</td>
+				</tr>
+				<%
+				agents = tile.delegates_result(-1)
+				%>
+				%if len(agents):
+				<tr>
+					<td colspan="2"></td>
+					<td colspan="3"> 
+						<ul>
+							%for agent in agents:
+								<li>${h.user_link(agent)|n}</li>
+							%endfor
+						</ul>					
+					</td>
+				</tr>
+				%endif
+				<tr class="abstain ${'decision' if c.user and tile.decision.result == 0 else ''}">
+					<td class="selector">
+						%if c.tile.can_vote:
+							<input type="radio" name="orientation" value="0" 
+								${'checked' if tile.decision.result == 0 else ''|n} />
+						%endif		
+					</td>
+					<td class="iconcol">
+						<span class="icon">&nbsp;</span>
+					</td>
+					<td class="option">${_("Abstain")}</td>
+					<td class="votes"><a href="/motion/${c.motion.id}/votes?result=0">${tile.state.tally.num_abstain}</a></td>
+					<td valign="top">&nbsp;</td>
+				</tr>
+				<%
+				agents = tile.delegates_result(0)
+				%>
+				%if len(agents):
+				<tr>
+					<td colspan="2"></td>
+					<td colspan="3"> 
+						<ul>
+							%for agent in agents:
+								<li>${h.user_link(agent)|n}</li>
+							%endfor
+						</ul>					
+					</td>
+				</tr>
+				%endif				
+				<tr class="summary">
+					<td colspan="3" rowspan="2">
+						%if tile.can_vote:
+							<input type="submit" value="${_("vote")}" />
+						%endif						
+					</td>
+					<td colspan="2">
+						<a href="/motion/${c.motion.id}/votes">
+							${_("%d votes") % len(tile.state.tally)}
+						</a>
+					</td>
+				</tr>
+				<tr class="summary"><td colspan="2"></td></tr>
+			</table>
+			
+			%if tile.can_vote:
+				</form>
+			%endif
+		
+		<div class="meta">	
+			${_("Poll #%s &middot; %s") % (tile.poll.id, h.relative_time(tile.poll.begin_time))|n}
+			&middot; 
+			%if tile.can_end_poll:
+				<a class="delete" href="/poll/abort/${motion.id}">${_("cancel")}</a>
+			%elif c.user and tile.is_immutable:
+				<a class="inactive htwarn" title="${_('This vote has recieved the required majority and cannot be cancelled')}">${_("cancel")}</a>
+			%elif c.user and tile.lack_end_poll_karma:
+				<a class="inactive htwarn" title="${tile.lack_end_poll_karma}">${_("cancel")}</a>
+			%endif
+		</div>
 </%def>

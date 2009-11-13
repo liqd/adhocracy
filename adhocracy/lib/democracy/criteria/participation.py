@@ -11,7 +11,7 @@ class ParticipationCriterion(Criterion):
     """
         
     def _get_required(self):
-        return max(1, int(Decision.average_decisions(self.motion.instance) \
+        return max(2, int(Decision.average_decisions(self.motion.instance) \
                    * self.motion.instance.required_majority))
     
     required = property(_get_required)

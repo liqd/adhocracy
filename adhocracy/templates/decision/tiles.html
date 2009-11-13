@@ -61,7 +61,7 @@
 					<a href="/motion/${decision.poll.motion.id}">${decision.poll.motion.label}</a>
 			%endif
 			%if decision.poll:
-				&middot; ${_("in a poll %s") % h.relative_time(decision.poll.begin_time)}
+				&middot; ${_("poll #%s") % decision.poll.id}
 			%endif
 			%if not focus_user:
 				&middot; ${h.user_link(decision.user)|n}

@@ -129,7 +129,7 @@ class MotionTile(DelegateableTile):
     def delegates_result(self, result):
         agents = []
         for agent in self.delegates:
-            decision = democracy.Decision(agent, self.motion, poll=self.poll)
+            decision = democracy.Decision(agent, self.poll)
             if decision.made() and decision.result == result:
                 agents.append(agent)
         return agents
@@ -138,7 +138,7 @@ class MotionTile(DelegateableTile):
         if self.__num_principals == None:
             principals = set(map(lambda d: d.principal, self.dnode.transitive_inbound()))
             if self.poll:
-                principals = filter(lambda p: not democracy.Decision(c.user, self.motion, poll=self.poll).self_made(),
+                principals = filter(lambda p: not democracy.Decision(c.user, self.poll).self_made(),
                                     principals)
             self.__num_principals = len(principals)
         return self.__num_principals

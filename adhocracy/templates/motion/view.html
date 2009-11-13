@@ -49,12 +49,22 @@
 			${c.issue_tile.tagline}
 			</p>
 		</div>
+		
+		%if c.tile.poll:
+		<div class="boxed">
+			<div class="inner_boxed voting_booth">  
+				${ptiles.sb_booth(c.motion, c.tile)}
+			</div>
+		</div>
+		%endif
+		
 		<div class="boxed">
 			<div class="inner_boxed">
-				<h4>${_("Adoption progress")}</h4>
+				<h4><img src="/img/icons/cancel.png" class="cd"/> ${_("Adoption progress")}</h4>
 				${state.checklist(c.tile.state)|n}
 			</div>
 		</div>
+		
 		${components.delegation_sidebar(c.motion)}
 		<div class="meta">
 			${_("created %s") % h.relative_time(c.motion.create_time)}
@@ -67,11 +77,7 @@
 	%if c.motion.comment:
 		${tiles.comment.full(c.motion.comment, recurse=False, collapse=False)}
 	%endif
-	%if c.tile.poll:
-		${ptiles.booth(c.motion, c.tile)}
-	%endif 
-	
-	
+		
 	%if c.tile.can_create_canonical:
 		<a class="button add" onclick="return add_canonical()" href="/comment/create?topic=${c.motion.id}&canonical=1">${_("new")}</a>
 	%elif c.user and c.tile.is_immutable:

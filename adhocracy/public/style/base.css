@@ -694,24 +694,24 @@ h4 img.cd,
 	color: #ffe700;
 }
 
-.tile.voting_booth {
+.voting_booth {
 	overflow: hidden;
 }
 
-.tile.voting_booth table {
+.voting_booth table {
 	border-collapse: collapse; 
 }
 
 
-.tile.voting_booth th {
+.voting_booth th {
 	font-size: small; 
 	color: #666; 
 	font-variant: small-caps; 
 	text-transform: lowercase;
 }
 
-.tile.voting_booth th, 
-.tile.voting_booth td {
+.voting_booth th, 
+.voting_booth td {
 	vertical-align: top;
 	border-bottom: 1px solid ;
 	padding-top: 0.3em;
@@ -720,12 +720,12 @@ h4 img.cd,
 	border-color: #eaeaea;
 }
 
-.tile.voting_booth .summary td {
+.voting_booth .summary td {
     border-bottom: 0px;
     vertical-align: bottom;
 }
 
-.tile.voting_booth td .icon {
+.voting_booth td .icon {
 	display: block;
 	width: 16px;
 	height: 16px;
@@ -733,50 +733,49 @@ h4 img.cd,
 	background-image: url(/img/icons/vote_icons.png);	
 }
 
-.tile.voting_booth tr.affirm .icon {
+.voting_booth tr.affirm .icon {
 	background-position: 16px 0px;	
 }
 
-.tile.voting_booth tr.dissent .icon {
+.voting_booth tr.dissent .icon {
 	background-position: 16px 32px;	
 }
 
-.tile.voting_booth tr.abstain .icon {
+.voting_booth tr.abstain .icon {
 	background-position: 16px 16px;	
 }
 
-.tile.voting_booth tr.affirm .option {
+.voting_booth tr.affirm .option {
 	font-weight: bold;
 	color: #009800;
 }
 
-.tile.voting_booth tr.dissent .option {
+.voting_booth tr.dissent .option {
 	font-weight: bold;
 	color: #9d0000;
 }
 
-.tile.voting_booth tr.abstain .option {
+.voting_booth tr.abstain .option {
 	font-weight: bold;
 	color: #666;
 }
 
-
-.tile.voting_booth .decision td {
+.voting_booth .decision td {
 	background-color: #fdfbc0;
 	border: 1px solid #fdf59a;
 }
 
-.tile.voting_booth ul, 
-.tile.voting_booth li {
+.voting_booth ul, 
+.voting_booth li {
 	padding: 0 !important;
 	margin: 0 !important;
 }
 
-.tile.voting_booth li {
+.voting_booth li {
 	list-style-type: none !important;
 }
 
-.tile.voting_booth input {
+.voting_booth input {
 	margin-top: 0px;
 }
 
