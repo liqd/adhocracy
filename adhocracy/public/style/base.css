@@ -1009,6 +1009,7 @@ a.button.inactive {
 	text-align: left;
 	color:  #fff;
 	margin-top: 0.5em;
+	text-decoration: none;
 }
 
 .infobox {

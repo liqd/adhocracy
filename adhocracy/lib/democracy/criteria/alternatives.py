@@ -12,16 +12,9 @@ class AlternativesCriterion(RelationCriterion):
     
     alternatives = property(lambda self: self.get_alternatives(self.state.at_time))   
     
-    def check_blocking(self, at_time):
-        if not (self.state.majority and self.state.participation):
-            return False
-        if self.check_blocked(at_time):
-            return False
-        return True      
-    
     def alternative_blocks(self, alternative, at_time):
         state = self.create_state(alternative, at_time)
-        return state.alternatives.check_blocking(at_time)
+        return state.adopted
     
     blocking = lambda self, alternative: self.alternative_blocks(alternative, 
                                                                  self.state.at_time)
@@ -30,7 +23,7 @@ class AlternativesCriterion(RelationCriterion):
         try:
             self.loop_abort()
         except RelationLoop:
-            return False
+            return True
         
         for alternative in self.get_alternatives(at_time):
             if self.alternative_blocks(alternative, at_time):

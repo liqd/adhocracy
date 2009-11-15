@@ -9,16 +9,9 @@ class DependenciesCriterion(RelationCriterion):
     
     dependencies = property(lambda self: self.get_dependencies(self.state.at_time))
     
-    def check_blocking(self, at_time):
-        if not (self.state.majority and self.state.participation):
-            return True
-        if self.check_blocked(at_time):
-            return True
-        return False
-    
     def dependency_blocks(self, dependency, at_time):
         state = self.create_state(dependency, at_time)
-        return state.dependencies.check_blocking(at_time)
+        return not state.adopted
     
     blocking = lambda self, dependency: self.dependency_blocks(dependency,
                                                               self.state.at_time)
@@ -27,7 +20,7 @@ class DependenciesCriterion(RelationCriterion):
         try:
             self.loop_abort()
         except RelationLoop:
-            return False
+            return True
         
         for dependency in self.get_dependencies(at_time):
             if self.dependency_blocks(dependency, at_time):
