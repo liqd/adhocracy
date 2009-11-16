@@ -26,6 +26,10 @@ class UniqueUsername(formencode.FancyValidator):
             raise formencode.Invalid(
                 _('No username is given'),
                 value, state)
+        if len(value) < 3:
+            raise formencode.Invalid(
+                _('Username is too short'),
+                value, state)
         if not VALIDUSER.match(value) or value in FORBIDDEN_NAMES:
             raise formencode.Invalid(
                 _('The username is invalid'),

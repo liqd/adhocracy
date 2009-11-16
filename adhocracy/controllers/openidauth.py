@@ -107,19 +107,12 @@ class OpenidauthController(BaseController):
                 redirect_to("/user/%s/edit" % str(c.user.user_name))
             else:
                 try:
-                    forms.UniqueUsername().to_python(user_name, None)
-                    
-                    #TODO put this in a proper shared function with the UserController 
-                    user = model.User(user_name, email, util.random_token())
-                    grp = model.Group.by_code(model.Group.CODE_DEFAULT)
-                    membership = model.Membership(user, None, grp)
-                    oid = model.OpenID(info.identity_url, user)
-                    model.meta.Session.add(membership)
-                    model.meta.Session.add(user)
-                    model.meta.Session.add(oid)
-                    model.meta.Session.commit()
+                    forms.UniqueUsername().to_python(user_name)
+                    if not user_name:
+                        raise Exception()
+                    user = self._create(user_name, email, info.identity_url)
                     self._login(user)
-                except formencode.Invalid:
+                except Exception:
                     session['openid_req'] = (info.identity_url, user_name, email)
                     session.save()
                     redirect_to('/openid/username')
@@ -133,16 +126,30 @@ class OpenidauthController(BaseController):
         unavailable locally. 
         """
         if 'openid_req' in session:
-            (openid, c.username, emails) = session['openid_req']
+            (openid, c.user_name, email) = session['openid_req']
             if request.method == "POST":
-                validname = self.form_result.get('username')
-                actor = self._create(openid, validname, emails)
-                del session['openid_req']
-                self._loginactor(actor)
+                c.user_name = self.form_result.get('login')
+                c.user_name = forms.UniqueUsername().to_python(c.user_name)
+                if c.user_name:
+                    user = self._create(c.user_name, email, openid)
+                    del session['openid_req']
+                    self._login(user)
             return render('/openid/username.html')
         else:
             redirect_to('/auth/login')
             
+    def _create(self, user_name, email, identity):
+        #TODO put this in a proper shared function with the UserController 
+        user = model.User(user_name, email, util.random_token())
+        grp = model.Group.by_code(model.Group.CODE_DEFAULT)
+        membership = model.Membership(user, None, grp)
+        oid = model.OpenID(identity, user)
+        model.meta.Session.add(membership)
+        model.meta.Session.add(user)
+        model.meta.Session.add(oid)
+        model.meta.Session.commit()
+        return user
+
     def _login(self, user):
         identity = {
             'userdata': '',
