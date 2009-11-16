@@ -1,12 +1,12 @@
 """The application's Globals object"""
-import memcache
-    
 import logging
 
 from pylons import config
 
-from adhocracy import model
+from openid.store.memstore import MemoryStore
+import memcache
 
+from adhocracy import model
 import cache
 import search
 
@@ -33,7 +33,8 @@ class Globals(object):
         else:
             log.warn("Skipped memcache, no results caching will take place.")
             self.cache = None
-
+        
+        self.openid_store = MemoryStore()
         search.setup_search()
                 
         

@@ -6,9 +6,6 @@
 	<span class="hint">${_("If you already have an account, sign in here.")}</span>
 	<%include file="/user/login_form.html"/>
 	<br/>
-	<div class="infobox">
-	${_("If you have an account but you've lost your password, <a href='/user/reset'>click here</a>.")|n}
-	</div>	
 </div>
 
 <div id="registerform">
@@ -16,3 +13,7 @@
 	<span class="hint">${_("Creating an account is easy; all you need is a user name, password and email address.")}</span>
 	<%include file="/user/register_form.html"/>
 </div>
+
+<div class="infobox" style="clear: both; margin-top: 2em;">
+${_("If you have an account but you've lost your password, <a href='/user/reset'>click here</a>.")|n}
+</div>	

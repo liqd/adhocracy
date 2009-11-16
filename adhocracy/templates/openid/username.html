@@ -1,0 +1,28 @@
+<%inherit file="/template.html" />
+<%def name="title()">${_("Select a user name")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.instance.root) if c.instance else _("Adhocracy")|n} &raquo; ${_("User name")}
+</%def>
+
+<h1 class="page_title">
+	<img src="/img/icons/user_24.png" class="cd"/>
+	${_("Select a user name")}
+</h1>
+
+<div class="sidebar">
+	<div class="infobox">
+		${_("Adhocracy requires you to provide a unique user name to " +
+		    "login. The username received from your OpenID provider is " + 
+		    "already taken. Please provide a different, unique user name.")}
+	</div>
+	<br/>
+</div>
+
+<div class="mainbar">
+	<form name="login" method="POST" action="/openid/username">
+		<label for="login">${_('Username:')}</label>
+		<input name="login" type="text" value=""/>
+		<input type="submit" value="${_('Continue')}"/>
+	</form>
+</div>

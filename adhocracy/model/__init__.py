@@ -7,6 +7,9 @@ from adhocracy.model import meta
 from adhocracy.model import user
 from adhocracy.model.user import User
 
+from adhocracy.model import openid
+from adhocracy.model.openid import OpenID
+
 from adhocracy.model import group
 from adhocracy.model.group import Group
 

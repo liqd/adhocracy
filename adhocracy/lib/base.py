@@ -6,7 +6,7 @@ import logging
 
 from pylons import config
 from pylons.controllers import WSGIController
-from pylons import request, response, session, tmpl_context as c
+from pylons import request, response, session, tmpl_context as c, g
 from pylons.controllers.util import abort, redirect_to
 from pylons.decorators import validate
 from pylons.i18n import _, add_fallback, get_lang, set_lang, gettext
@@ -55,19 +55,16 @@ class BaseController(WSGIController):
         libsearch.attach_thread()
         
         environ['HTTP_HOST'] = environ['HTTP_HOST_ORIGINAL']
-        #print routes.url_for(controller="motion", action="view", id="HFDHJ")
-        #print routes.request_config().host
                
         if environ.get('repoze.who.identity'):
             c.user = environ.get('repoze.who.identity').get('user')
             #model.meta.Session.add(c.user)
         else:
             c.user = None
-            
+             
         # have to do this with the user in place
         i18n.handle_request()
-            
-            
+                    
         if c.user:
             h.add_rss(_("My Adhocracies"), h.instance_url(None, '/feed.rss'))
         if c.instance:

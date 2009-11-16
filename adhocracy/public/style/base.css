@@ -113,6 +113,13 @@ input[type=file] {
 	border: 0px;
 }
 
+.openid_url {
+	background-image:url(/img/icons/openid.gif);
+	background-position:2px 3px;
+	background-repeat:no-repeat;
+	padding-left: 19px;
+}
+
 .armed {
 	color: #666;
 }

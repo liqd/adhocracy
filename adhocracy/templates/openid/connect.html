@@ -1,0 +1,24 @@
+<%inherit file="/template.html" />
+<%def name="title()">${_("Add an OpenID")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.instance.root) if c.instance else _("Adhocracy")|n} &raquo; ${_("Add OpenID")}
+</%def>
+
+<h1 class="page_title">
+	<img src="/img/icons/user_24.png" class="cd"/>
+	${_("Add an OpenID")}
+</h1>
+
+<div class="sidebar">
+	<div class="infobox">
+		${_("Enter the URL of your OpenID to connect the ID to your "
+		    + "account. This will allow you to login using this OpenID in the future.")}
+	</div>
+	<br/>
+</div>
+
+<div class="mainbar">
+	<%include file="/openid/form.html"/>
+</div>
+
