@@ -39,7 +39,14 @@
 %endif
 
 
-<h1 class="page_title">${c.motion.label}</h1>
+<h1 class="page_title">
+	%if c.tile.state.adopted:
+		<img src="/img/icons/motion_adopted_24.png" class="cd" />
+	%else:
+		<img src="/img/icons/motion_24.png" class="cd" />
+	%endif
+	${c.motion.label}
+</h1>
 
 <div class="sidebar">
 	<div class="tile">

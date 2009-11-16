@@ -28,15 +28,19 @@
 
 <div class="sidebar">
 	<div class="tile">
-		<div class="text">
-			<ul>
-			%for category in c.issue.parents:
-				<li>
-					${_("in %s") % h.breadcrumbs(category)|n}
-				</li>
-			%endfor
-			</ul>
+		<div class="boxed">
+			<div class="inner_boxed voting_booth">
+				<h4><img src="/img/icons/stack_16.png" class="cd" /> ${_("Categorization")}</h4>  
+				<ol>
+				%for category in c.issue.parents:
+					<li>
+						${h.breadcrumbs(category)|n}
+					</li>
+				%endfor
+				</ol>
+			</div>
 		</div>
+		
 		${components.delegation_sidebar(c.issue)}
 		<div class="meta">
 			${_("created %s") % h.relative_time(c.issue.create_time)}

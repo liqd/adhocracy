@@ -14,6 +14,8 @@ from pylons.i18n import add_fallback, get_lang, set_lang, gettext, _
 
 import authorization 
 import karma 
+import democracy
+import cache
 
 import adhocracy.model as model 
 
@@ -58,12 +60,20 @@ def user_link(user, size=16, link=None):
         gravatar_url(user, size=size),
         cgi.escape(user.name),
         karma.user_score(user))
+    
+@cache.memoize('motion_icon', 3600*2)
+def motion_icon(motion, size=16):
+    state = democracy.State(motion)
+    if state.adopted:
+        return instance_url(None, path='') + "/img/icons/motion_adopted_" + str(size) + ".png"
+    else:
+        return instance_url(None, path='') + "/img/icons/motion_" + str(size) + ".png"
 
 def delegateable_link(delegateable, icon=True, link=True):
     text = ""
     if icon:
         if isinstance(delegateable, model.Motion):
-            text = "<img class='user_icon' src='%s/img/icons/motion_16.png' /> " % instance_url(None, path='')
+            text = "<img class='user_icon' src='%s' /> " % motion_icon(delegateable)
         elif isinstance(delegateable, model.Issue):
             text = "<img class='user_icon' src='%s/img/icons/issue_16.png' /> " % instance_url(None, path='')
         elif isinstance(delegateable, model.Category):
@@ -94,12 +104,12 @@ def contains_delegations(user, delegateable, recurse=True):
         
     
 
-default_gravatar = "http://www.somewhere.com/homsar.jpg"
+#default_gravatar = "http://adhocracy.cc/img/icons/user_%s.png"
 def gravatar_url(user, size=32):
     # construct the url
     gravatar_url = "http://www.gravatar.com/avatar.php?"
     gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(user.email).hexdigest(), 
-        #'default':default_gravatar, 
+        'default':'identicon', 
         'size': str(size)})
     return gravatar_url
     

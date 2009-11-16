@@ -2,7 +2,11 @@
 <%def name="row(tile, motion, detail=False)">
 	<div class="tile">
 		<div class="logo">
-			<img src="/img/icons/motion_24.png" />
+			%if tile.state.adopted:
+				<img src="/img/icons/motion_adopted_24.png" />
+			%else:
+				<img src="/img/icons/motion_24.png" />
+			%endif
 		</div>
 		<h3><a class="link" href="/motion/${motion.id}">${motion.label}</a></h3>
 		<div class="text">
@@ -13,8 +17,10 @@
 		
 			&middot; ${_("created %s") % h.relative_time(motion.create_time)}
 			%if tile.state.polling:
-				&middot; ${_("%s votes,") % len(tile.state.tally)}
-				${_("%s%% approval") % int(tile.state.tally.rel_for * 100)}
+				&middot; 
+				<img class="user_icon" src="/img/icons/vote_16.png">
+				${_("%s votes,") % len(tile.state.tally)}
+				${_("<b>%s%%</b> approval") % int(tile.state.tally.rel_for * 100)|n}
 			%endif
 			&middot; ${ungettext("%s comment", "%s comments", (len(motion.comments)-1)) % (len(motion.comments)-1)}<br />
 			
