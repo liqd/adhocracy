@@ -645,11 +645,11 @@ h4 img.cd,
 	padding: 0.5em;
 	padding-right: 0em;
 	padding-top: 1em;
-	line-height: 1.4em;
+	line-height: 1.5em;
 }
 
 .tile .meta img {
-	margin-bottom: -4px;
+	margin-bottom: -3px;
 }
 
 .tile .meta a {

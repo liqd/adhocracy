@@ -16,9 +16,26 @@
 	 		value="${c.page_user.display_name}"/>
 	 </div>
 
+	<h3>${_("Short biography")}</h3>
 	<div class="sidebar">
-		<h3>${_("User Details")}</h3>
-		<p>
+		<div class="infobox">
+			${_("A bio will allow others to learn about you and perhaps even get you a few delegations.")}
+		</div>
+	</div>
+		
+	<div class="mainbar">
+		<textarea tabindex="2" class="description" name="bio">${c.page_user.bio}</textarea>
+		${components.formatting()}
+	</div>
+	
+	<div style="clear:both;"></div>
+	<h3>${_("User Details")}</h3>
+	<div class="sidebar">
+		<div class="infobox" style="background-image: url(${h.gravatar_url(c.user, size=30)|n});">
+			${_("Configure your user icon at <a href='http://www.gravatar.com'>Gravatar</a>")|n} 
+		</div>
+	</div>
+	<div class="mainbar">
 		<label for="email">${_("E-Mail:")}</label>
 		<input name="email" value="${c.page_user.email}"/>
 		<label for="locale">${_("Language:")}</label>
@@ -31,27 +48,26 @@
 					>${locale.display_name}</option>
 			%endfor
 		</select>
-		</p>
-		<p>			
+	</div>
+	
+	
+	<h3>${_(" ")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("Select a new password or leave the fields blank to keep your old one.")}
+		</div>
+	</div>
+	<div class="mainbar">
+					
 		<label for="password">${_("Password:")}</label>
-		<span class="hint">
-		${_("Select a new password or leave the fields blank to keep your old one.")}
-		</span>
 		<input type="password" name="password">
 
 		<label for="password_confirm">${_("Password (confirm):")}</label>
 		<input type="password" name="password_confirm">
-		</p>
-		<img align="left" src="${h.gravatar_url(c.user, size=30)|n}"> 
-		${_("Configure your user icon at <a href='http://www.gravatar.com'>Gravatar</a>")|n} 
-
 	</div>
 	
-	<div class="mainbar">
-		<h3>${_("Short biography")}</h3>
-		<textarea tabindex="2" class="description" name="bio">${c.page_user.bio}</textarea>
-		${components.formatting()}
-		<span class="hint">${_("A bio will allow others to learn about you and perhaps even get you a few delegations.")}</span>
-		${components.savebox("/user/%s" % c.page_user.user_name)}
-	</div>
+	
+	
+	${components.savebox("/user/%s" % c.page_user.user_name)}
+	
 </form>

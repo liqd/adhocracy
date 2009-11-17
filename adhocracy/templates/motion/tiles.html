@@ -13,20 +13,21 @@
 			${tile.tagline}
 		</div>
 		<div class="meta">
-			${h.user_link(motion.creator)|n}  
-		
-			&middot; ${_("created %s") % h.relative_time(motion.create_time)}
+			${_("created %s by %s") % (h.relative_time(motion.create_time), h.user_link(motion.creator))|n}
+			%if detail and motion.issue:
+				&middot; ${h.delegateable_link(motion.issue)|n}
+			%endif
+			<br />
+			
 			%if tile.state.polling:
-				&middot; 
 				<img class="user_icon" src="/img/icons/vote_16.png">
 				${_("%s votes,") % len(tile.state.tally)}
 				${_("<b>%s%%</b> approval") % int(tile.state.tally.rel_for * 100)|n}
+				&middot; 
 			%endif
-			&middot; ${ungettext("%s comment", "%s comments", (len(motion.comments)-1)) % (len(motion.comments)-1)}<br />
-			
-			%if detail and motion.issue:
-				${_("in")} ${h.delegateable_link(motion.issue)|n}</a>
-			%endif
+			<img src="/img/icons/discuss_16.png" /> 
+			${ungettext("%s comment", "%s comments", (len(motion.comments)-1)) % (len(motion.comments)-1)},
+			${_("latest <b>%s</b>") % h.relative_time(tile.latest_comment)|n}&nbsp;
 		</div>
 	</div>
 </%def>

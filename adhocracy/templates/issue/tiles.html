@@ -11,10 +11,13 @@
 		%endif
 		</div>
 		<div class="meta">
-			${h.user_link(issue.creator)|n}  
-			&middot; ${_("created %s") % h.relative_time(issue.create_time)}
-			&middot; ${ungettext("%s comment", "%s comments", (len(issue.comments)-1)) % (len(issue.comments)-1)}  
-			&middot; ${ungettext("%s motion", "%s motions", tile.num_motions) % tile.num_motions}
+			${_("created %s by %s") % (h.relative_time(issue.create_time), h.user_link(issue.creator))|n}
+			&middot; <img src="/img/icons/motion_16.png" /> ${ungettext("%s motion", "%s motions", tile.num_motions) % tile.num_motions}<br />
+			
+			
+			<img src="/img/icons/discuss_16.png" /> 
+			${ungettext("%s comment", "%s comments", (len(issue.comments))) % (len(issue.comments))},
+			${_("latest <b>%s</b>") % h.relative_time(tile.latest_comment)|n}&nbsp;
 		</div>
 	</div>
 </%def>
