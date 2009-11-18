@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 class CommentCreateForm(formencode.Schema):
     allow_extra_fields = True
     text = validators.String(max=20000, min=4, not_empty=True)
-    canonical = validators.Int(if_empty=0, if_missing=0, not_empty=False)
+    canonical = validators.Bool(if_empty=False, if_missing=False, not_empty=False)
     topic = forms.ValidDelegateable()
     reply = forms.ValidComment(if_empty=None)
     
@@ -50,7 +50,7 @@ class CommentController(BaseController):
         if request.method == "POST":
             topic = self.form_result.get('topic')
             auth.require_delegateable_perm(topic, 'comment.create')
-            canonical = True if self.form_result.get('canonical', 0) == 1 else False
+            canonical = self.form_result.get('canonical', 0)
             if canonical:
                 if not isinstance(topic, model.Motion):
                     canonical = 0
