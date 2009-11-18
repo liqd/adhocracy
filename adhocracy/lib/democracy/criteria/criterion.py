@@ -13,11 +13,14 @@ class Criterion(object):
             if self.state.polling:
                 self._checked = self.check_tally(self.state.tally)
             else:
-                self._checked = False
+                self._checked = self.check_nopoll()
         return self._checked
     
     def check_tally(self, tally):
         raise NotImplemented()
+    
+    def check_nopoll(self):
+        return False
     
     def __nonzero__(self):
         return self.check()

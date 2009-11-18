@@ -20,7 +20,7 @@ class DependenciesCriterion(RelationCriterion):
         try:
             self.loop_abort()
         except RelationLoop:
-            return True
+            return False
         
         for dependency in self.get_dependencies(at_time):
             if self.dependency_blocks(dependency, at_time):
@@ -29,3 +29,6 @@ class DependenciesCriterion(RelationCriterion):
     
     def check_tally(self, tally):
         return not self.check_blocked(tally.at_time)
+    
+    def check_nopoll(self):
+        return not self.check_blocked(self.state.at_time)

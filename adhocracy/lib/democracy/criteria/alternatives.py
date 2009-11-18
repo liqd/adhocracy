@@ -23,7 +23,7 @@ class AlternativesCriterion(RelationCriterion):
         try:
             self.loop_abort()
         except RelationLoop:
-            return True
+            return False
         
         for alternative in self.get_alternatives(at_time):
             if self.alternative_blocks(alternative, at_time):
@@ -33,3 +33,5 @@ class AlternativesCriterion(RelationCriterion):
     def check_tally(self, tally):
         return not self.check_blocked(tally.at_time)
 
+    def check_nopoll(self):
+        return not self.check_blocked(self.state.at_time)
