@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2009-11-19 15:52+0100\n"
+"POT-Creation-Date: 2009-11-19 22:38+0100\n"
 "PO-Revision-Date: 2009-09-15 16:36+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -470,7 +470,7 @@ msgstr ""
 msgid "This motion is currently being voted on and cannot be modified."
 msgstr ""
 
-#: adhocracy/lib/helpers.py:118
+#: adhocracy/lib/helpers.py:123
 msgid "You"
 msgstr ""
 
@@ -1811,9 +1811,7 @@ msgstr ""
 
 #: adhocracy/templates/motion/create.html:71
 #: adhocracy/templates/motion/edit.html:58
-#, fuzzy, python-format
-#| msgid "%s motion"
-#| msgid_plural "%s motions"
+#, fuzzy
 msgid "Motion"
 msgstr ""
 
@@ -1828,9 +1826,7 @@ msgstr ""
 
 #: adhocracy/templates/motion/edit.html:18
 #: adhocracy/templates/motion/edit.html:28
-#, fuzzy, python-format
-#| msgid "%s issue"
-#| msgid_plural "%s issues"
+#, fuzzy
 msgid "Issue"
 msgstr ""
 
@@ -1889,9 +1885,7 @@ msgid "no relation"
 msgstr ""
 
 #: adhocracy/templates/motion/tiles.html:70
-#, fuzzy, python-format
-#| msgid "%s motion"
-#| msgid_plural "%s motions"
+#, fuzzy
 msgid "(Select a motion)"
 msgstr ""
 
@@ -2036,53 +2030,62 @@ msgstr ""
 msgid "A vote needs to be called."
 msgstr ""
 
-#: adhocracy/templates/poll/state.html:18
+#: adhocracy/templates/poll/state.html:19
+msgid "The motion is adopted, <b>but volatile</b>."
+msgstr ""
+
+#: adhocracy/templates/poll/state.html:20
+#, python-format
+msgid "The majority needs to be re-gained <b>within %s</b>."
+msgstr ""
+
+#: adhocracy/templates/poll/state.html:22
 msgid "The motion is adopted."
 msgstr ""
 
-#: adhocracy/templates/poll/state.html:21
+#: adhocracy/templates/poll/state.html:26
 #, python-format
 msgid "More than <b>%s votes</b> have been cast."
 msgstr ""
 
-#: adhocracy/templates/poll/state.html:23
+#: adhocracy/templates/poll/state.html:28
 #, python-format
 msgid "At least <b>%s votes</b> need to be cast."
 msgstr ""
 
-#: adhocracy/templates/poll/state.html:27
+#: adhocracy/templates/poll/state.html:32
 #, python-format
 msgid "More than <b>%s%% of voters</b> approve."
 msgstr ""
 
-#: adhocracy/templates/poll/state.html:29
+#: adhocracy/templates/poll/state.html:34
 #, python-format
 msgid "<b>%s%% of voters</b> must approve."
 msgstr ""
 
-#: adhocracy/templates/poll/state.html:33
+#: adhocracy/templates/poll/state.html:38
 #, python-format
 msgid "Majority has been held <b>for %s</b>."
 msgstr ""
 
-#: adhocracy/templates/poll/state.html:35
+#: adhocracy/templates/poll/state.html:40
 #, python-format
 msgid "Majority needs to be held <b>for %s</b>."
 msgstr ""
 
-#: adhocracy/templates/poll/state.html:41
+#: adhocracy/templates/poll/state.html:46
 msgid "All <b>requirements</b> must be adopted:"
 msgstr ""
 
-#: adhocracy/templates/poll/state.html:45
+#: adhocracy/templates/poll/state.html:50
 msgid "(missing)"
 msgstr ""
 
-#: adhocracy/templates/poll/state.html:52
+#: adhocracy/templates/poll/state.html:57
 msgid "No <b>alternatives</b> may be adopted:"
 msgstr ""
 
-#: adhocracy/templates/poll/state.html:56
+#: adhocracy/templates/poll/state.html:61
 msgid "(blocking)"
 msgstr ""
 
@@ -2351,34 +2354,4 @@ msgstr ""
 #: adhocracy/templates/user/votes.html:12
 msgid "Review your voting track"
 msgstr ""
-
-#~ msgid "in a poll %s"
-#~ msgstr ""
-
-#~ msgid "in %s"
-#~ msgstr ""
-
-#~ msgid "Informal motion description:"
-#~ msgstr ""
-
-#~ msgid "Draft"
-#~ msgstr ""
-
-#~ msgid "Voting"
-#~ msgstr ""
-
-#~ msgid "Activating"
-#~ msgstr ""
-
-#~ msgid "Deactivating"
-#~ msgstr ""
-
-#~ msgid "Active"
-#~ msgstr ""
-
-#~ msgid "poll started %s"
-#~ msgstr ""
-
-#~ msgid "help"
-#~ msgstr ""
 

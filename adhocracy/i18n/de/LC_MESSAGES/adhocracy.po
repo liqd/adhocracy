@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2009-11-19 15:52+0100\n"
-"PO-Revision-Date: 2009-11-19 21:20+0100\n"
+"POT-Creation-Date: 2009-11-19 22:38+0100\n"
+"PO-Revision-Date: 2009-11-19 22:40+0100\n"
 "Last-Translator: Friedrich Lindenberg <friedrich@pudo.org>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -487,7 +487,7 @@ msgstr "Adhocracy"
 msgid "This motion is currently being voted on and cannot be modified."
 msgstr "Über diesen Vorschlag wird gerade abgestimmt, er kann daher nicht verändert werden."
 
-#: adhocracy/lib/helpers.py:118
+#: adhocracy/lib/helpers.py:123
 msgid "You"
 msgstr "Du"
 
@@ -763,7 +763,6 @@ msgstr "vor %(ts)s"
 
 #: adhocracy/lib/text/i18n.py:65
 #, python-format
-#| msgid "%(ts)s ago"
 msgid "%(ts)s"
 msgstr "am %(ts)s"
 
@@ -806,19 +805,16 @@ msgstr "Keine Entität mit der ID %s vorhanden"
 
 #: adhocracy/model/forms.py:82
 #, python-format
-#| msgid "No category with ID '%s' exists."
 msgid "No category with ID '%s' exists"
 msgstr "Keine Kategorie mit der ID '%s' existiert."
 
 #: adhocracy/model/forms.py:91
 #, python-format
-#| msgid "No issue with ID %s exists."
 msgid "No issue with ID '%s' exists"
 msgstr "Ein Thema mit der ID %s existiert nicht"
 
 #: adhocracy/model/forms.py:100
 #, python-format
-#| msgid "No motion with ID %(id)s exists."
 msgid "No motion with ID '%s' exists"
 msgstr "Ein Vorschlag mit der ID %(id)s existiert nicht."
 
@@ -1434,7 +1430,6 @@ msgstr "Diese Entscheidung wurde auf der Basis der folgenden Delegationen getrof
 
 #: adhocracy/templates/decision/tiles.html:64
 #, python-format
-#| msgid "in a poll %s"
 msgid "poll #%s"
 msgstr "Abstimmung #%s"
 
@@ -1710,7 +1705,6 @@ msgstr "Titel des Themas"
 #: adhocracy/templates/issue/tiles.html:14
 #: adhocracy/templates/motion/tiles.html:16
 #, python-format
-#| msgid "edited %s by %s"
 msgid "created %s by %s"
 msgstr "%s von %s angelegt"
 
@@ -1759,7 +1753,6 @@ msgid "New motion"
 msgstr "Neuer Vorschlag"
 
 #: adhocracy/templates/motion/create.html:19
-#| msgid "Informal motion description:"
 msgid "Informal description"
 msgstr "Informelle Beschreibung"
 
@@ -1780,7 +1773,6 @@ msgid "A specific provision that is part of this proposal."
 msgstr "Ein Absatz, der Teil dieses Vorschlags ist."
 
 #: adhocracy/templates/motion/create.html:50
-#| msgid "Provisions"
 msgid "Add a provision"
 msgstr "Absatz hinzufügen"
 
@@ -1796,21 +1788,16 @@ msgstr "Gib an, welche Vorschläge Deinem Vorschlag <b>widersprechen</b> oder <b
 
 #: adhocracy/templates/motion/create.html:70
 #: adhocracy/templates/motion/edit.html:57
-#| msgid "Delegation"
 msgid "Relation"
 msgstr "Beziehung"
 
 #: adhocracy/templates/motion/create.html:71
 #: adhocracy/templates/motion/edit.html:58
-#, python-format
-#| msgid "%s motion"
-#| msgid_plural "%s motions"
 msgid "Motion"
 msgstr "Vorschlag"
 
 #: adhocracy/templates/motion/create.html:88
 #: adhocracy/templates/motion/edit.html:77
-#| msgid "delegations"
 msgid "Add a relation"
 msgstr "Beziehung hinzufügen"
 
@@ -1820,9 +1807,6 @@ msgstr "Neuer Vorschlag"
 
 #: adhocracy/templates/motion/edit.html:18
 #: adhocracy/templates/motion/edit.html:28
-#, python-format
-#| msgid "%s issue"
-#| msgid_plural "%s issues"
 msgid "Issue"
 msgstr "Thema"
 
@@ -1849,7 +1833,6 @@ msgstr "Aktuell laufen keine Abstimmungen. Rufe in einem Vorschlag zur Abstimmun
 
 #: adhocracy/templates/motion/tiles.html:24
 #, python-format
-#| msgid "%d votes"
 msgid "%s votes,"
 msgstr "%d Stimmen,"
 
@@ -1872,12 +1855,10 @@ msgid "requires"
 msgstr "erfordert"
 
 #: adhocracy/templates/motion/tiles.html:62
-#| msgid "Delegation"
 msgid "no relation"
 msgstr "keine Beziehung"
 
 #: adhocracy/templates/motion/tiles.html:70
-#| msgid "delete a motion"
 msgid "(Select a motion)"
 msgstr "(Wähle einen Vorschlag)"
 
@@ -1939,13 +1920,11 @@ msgid "Login with your OpenID to skip registration."
 msgstr "Nutze OpenID um Dich ohne Registrierung anzumelden."
 
 #: adhocracy/templates/openid/form.html:9
-#| msgid "sign in"
 msgid "Sign in"
 msgstr "Anmelden"
 
 #: adhocracy/templates/openid/form.html:11
 #: adhocracy/templates/openid/username.html:26
-#| msgid "Voting Rules"
 msgid "Continue"
 msgstr "Weiter"
 
@@ -1955,7 +1934,6 @@ msgid "Select a user name"
 msgstr "Benutzername auswählen"
 
 #: adhocracy/templates/openid/username.html:5
-#| msgid "User name:"
 msgid "User name"
 msgstr "Benutzername"
 
@@ -1964,7 +1942,6 @@ msgid "Adhocracy requires you to provide a unique user name to login. The userna
 msgstr "Adhocracy braucht einen eindeutigen Benutzernamen. Der Benutzername den Dein OpenID-Provider bereitgestellt hat ist bereits in Gebrauch. Bitte wähle einen anderen, eindeutigen Namen."
 
 #: adhocracy/templates/openid/username.html:24
-#| msgid "User name:"
 msgid "Username:"
 msgstr "Nutzername:"
 
@@ -2000,7 +1977,6 @@ msgid "You are about to release this motion and call for a vote. When you do thi
 msgstr "Du bist im Begriff diesen Vorschlag eine Abstimmung zu unterwerfen. Wenn Du das tust wirst Du die Möglichkeit verlieren, die <b>Formuliertung des Vorschlags zu ändern</b>, es sei denn du brichst Die Abstimmung ab."
 
 #: adhocracy/templates/poll/state.html:5
-#| msgid "Option"
 msgid "Adoption"
 msgstr "Annahme"
 
@@ -2013,53 +1989,64 @@ msgstr "Absätze, die den Vorschlag beschreiben."
 msgid "A vote needs to be called."
 msgstr "Eine Abstimmung muss begonnen werden."
 
-#: adhocracy/templates/poll/state.html:18
+#: adhocracy/templates/poll/state.html:19
+#| msgid "The motion is adopted."
+msgid "The motion is adopted, <b>but volatile</b>."
+msgstr "Der Vorschlag ist angenommen, <b>jedoch instabil</b>."
+
+#: adhocracy/templates/poll/state.html:20
+#, python-format
+#| msgid "Majority needs to be held <b>for %s</b>."
+msgid "The majority needs to be re-gained <b>within %s</b>."
+msgstr "In <b>%s</b> muss die Mehrheit wieder hergestellt sein."
+
+#: adhocracy/templates/poll/state.html:22
 msgid "The motion is adopted."
 msgstr "Der Vorschlag ist angenommen."
 
-#: adhocracy/templates/poll/state.html:21
+#: adhocracy/templates/poll/state.html:26
 #, python-format
 msgid "More than <b>%s votes</b> have been cast."
 msgstr "Mehr als <b>%s Stimmen</b> wurden abgegeben."
 
-#: adhocracy/templates/poll/state.html:23
+#: adhocracy/templates/poll/state.html:28
 #, python-format
 msgid "At least <b>%s votes</b> need to be cast."
 msgstr "Mehr als <b>%s Stimmen</b> müssen abgegeben werden."
 
-#: adhocracy/templates/poll/state.html:27
+#: adhocracy/templates/poll/state.html:32
 #, python-format
 msgid "More than <b>%s%% of voters</b> approve."
 msgstr "Mehr als<b>%s%% der Wähler</b> stimmen zu."
 
-#: adhocracy/templates/poll/state.html:29
+#: adhocracy/templates/poll/state.html:34
 #, python-format
 msgid "<b>%s%% of voters</b> must approve."
 msgstr "<b>%s%% der Wähler</b> müssen zustimmen."
 
-#: adhocracy/templates/poll/state.html:33
+#: adhocracy/templates/poll/state.html:38
 #, python-format
 msgid "Majority has been held <b>for %s</b>."
 msgstr "Mehrheit wurde <b>für %s</b> gehalten."
 
-#: adhocracy/templates/poll/state.html:35
+#: adhocracy/templates/poll/state.html:40
 #, python-format
 msgid "Majority needs to be held <b>for %s</b>."
 msgstr "Mehrheit muss <b>für %s</b> gehalten werden."
 
-#: adhocracy/templates/poll/state.html:41
+#: adhocracy/templates/poll/state.html:46
 msgid "All <b>requirements</b> must be adopted:"
 msgstr "Alle <b>Vorraussetzungen</b> müssen angenommen sein:"
 
-#: adhocracy/templates/poll/state.html:45
+#: adhocracy/templates/poll/state.html:50
 msgid "(missing)"
 msgstr "(fehlt)"
 
-#: adhocracy/templates/poll/state.html:52
+#: adhocracy/templates/poll/state.html:57
 msgid "No <b>alternatives</b> may be adopted:"
 msgstr "Keine <b>Alternativen</b> dürfen angenommen sein:"
 
-#: adhocracy/templates/poll/state.html:56
+#: adhocracy/templates/poll/state.html:61
 msgid "(blocking)"
 msgstr "(blockiert)"
 
@@ -2317,21 +2304,4 @@ msgstr "Ereignisse"
 #: adhocracy/templates/user/votes.html:12
 msgid "Review your voting track"
 msgstr "Dein Abstimmungsverhalten"
-
-#~ msgid "in %s"
-#~ msgstr "in %s"
-#~ msgid "Draft"
-#~ msgstr "Entwurf"
-#~ msgid "Voting"
-#~ msgstr "Abstimmung"
-#~ msgid "Activating"
-#~ msgstr "Einführung"
-#~ msgid "Deactivating"
-#~ msgstr "Läuft aus"
-#~ msgid "Active"
-#~ msgstr "Gültig"
-#~ msgid "poll started %s"
-#~ msgstr "Abstimmung wurde %s gestartet"
-#~ msgid "help"
-#~ msgstr "Hilfe"
 

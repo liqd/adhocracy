@@ -91,11 +91,11 @@ class VolatilityCriterion(DelayCriterion):
     """
         
     def _check_criteria(self, tally):
-        return self.state.stable(tally)
+        return not self.state.stable(tally)
     
     @memoize('volatility_criterion')
     def check_tally(self, tally):
-        return self._sfx_check_tally(tally)
+        return not self._sfx_check_tally(tally)
     
     def __str__(self):
         return "<VolatilityCriterion(%s)>" % self.state.poll.id
