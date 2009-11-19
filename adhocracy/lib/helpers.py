@@ -79,6 +79,11 @@ def delegateable_link(delegateable, icon=True, link=True):
         elif isinstance(delegateable, model.Category):
             text = "<img class='user_icon' src='%s/img/icons/stack_16.png' /> " % instance_url(None, path='')
     text += cgi.escape(delegateable.label)
+    if isinstance(delegateable, model.Motion) and icon:
+        state = democracy.State(delegateable)
+        if state.polling:
+            text += " <img class='user_icon' src='/img/icons/vote_16.png' />"
+    
     if link and not delegateable.delete_time:
         if isinstance(delegateable, model.Motion):
             text = "<a href='%s' class='dgb_link'>%s</a>" % (
