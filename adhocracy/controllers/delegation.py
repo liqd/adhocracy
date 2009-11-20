@@ -4,8 +4,8 @@ from pylons.i18n import _
 import formencode.validators
 
 from adhocracy.lib.base import *
+import adhocracy.model.forms as forms
 from repoze.what.plugins.pylonshq import ActionProtector
-from adhocracy.model.forms import DelegationCreateForm
 
 log = logging.getLogger(__name__)
 
@@ -20,13 +20,15 @@ class DelegationController(BaseController):
         if not c.scope:
             abort(404, _("No motion or category with ID '%(id)s' exists") % {'id':id})
         errors = {}
+        fillins = dict(request.params.items())
         if request.method == "POST":
             try:
-                self.form_result = DelegationCreateForm().to_python(request.params)
-                agent = self.form_result.get("agent")
+                agent = request.params['agent']
+                if agent == 'other':
+                    agent = request.params['agent_other']
+                agent = forms.ExistingUserName().to_python(agent)
                 if agent and agent != c.user:
                     delegation = model.Delegation(c.user, agent, c.scope)
-                    #voting.replay_delegation(delegation)
                     model.meta.Session.add(delegation)
                     model.meta.Session.commit()
                     
@@ -40,8 +42,10 @@ class DelegationController(BaseController):
             except formencode.validators.Invalid, error:
                 errors = error.error_dict
                 #pass
+        else:
+            fillins['agent'] = 'other'
         return htmlfill.render(render("delegation/create.html"),
-                    defaults=request.params, errors=errors)
+                    defaults=fillins, errors=errors)
         
     @RequireInstance
     @RequireInternalRequest()

@@ -241,7 +241,7 @@ body {
 }
 
 .user_icon {
-	margin-bottom: -3px;
+	margin-bottom: -4px;
 }
 
 /* @end */
@@ -566,6 +566,7 @@ p img[align=left] {
 	font-size: 12px;
 	line-height: 14px;
 	overflow: hidden;
+	text-align: left;
 }
 
 .ac_over {
@@ -593,10 +594,14 @@ h4 img.cd,
 
 .tile {
 	background-color: #f3f3f3;
+	background-image: url(/img/tile_bg.png);
+	background-repeat: repeat-x;
 	padding: 0.3em;
 	padding-top: 0.1em;
+	/*
 	border-top: 1px solid #f0f0f0;
 	border-left: 1px solid #f0f0f0;
+	*/
 	border-bottom: 1px solid #ddd;
 	border-right: 1px solid #ddd;
 	margin-bottom: 0.3em;

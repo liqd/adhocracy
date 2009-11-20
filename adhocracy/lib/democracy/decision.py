@@ -146,7 +146,7 @@ class Decision(object):
         return len(relevant) == 1 and relevant[0].delegation == None
         
     def __repr__(self):
-        return "<Decision(%s,%s)>" % (self.user.user_name, self.motion.id)
+        return "<Decision(%s,%s)>" % (self.user.user_name, self.poll.id)
 #    
 #    def without_vote(self, vote):
 #        """
@@ -224,12 +224,10 @@ class Decision(object):
         for decision in cls.for_user(delegation.agent, delegation.scope.instance, 
                                      at_time=delegation.create_time):
             log.debug("RP: Decision %s" % decision)
-            if delegation.is_match(decision.motion):
-                #log.debug("TIME 1: %s" % delegation.create_time)
-                #log.debug("TIME 2: %s" % decision.poll.end_time)
-                if decision.poll.is_running(): #at_time=delegation.create_time):
+            if delegation.is_match(decision.poll.motion):
+                if not decision.poll.end_time: 
                     log.debug("RP: Making %s" % decision)
-                    principal_dec = Decision(delegation.principal, decision.motion)
+                    principal_dec = Decision(delegation.principal, decision.poll)
                     principal_dec.make(decision.result, _edge=delegation)
                 
         

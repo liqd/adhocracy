@@ -172,10 +172,6 @@ class CategoryEditForm(formencode.Schema):
     description = validators.String(max=1000, if_empty=None, not_empty=False)
     categories = ValidCategory(not_emtpy=True)
     
-class DelegationCreateForm(formencode.Schema):
-    allow_extra_fields = True
-    agent = ExistingUserName()
-    
 class AdminUpdateMembershipForm(formencode.Schema):
     allow_extra_fields = True
     user = ExistingUserName()

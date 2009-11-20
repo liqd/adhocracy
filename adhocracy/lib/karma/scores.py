@@ -31,6 +31,22 @@ def user_score(user):
         return max(0, score)
     return _user_score(user, c.instance)
 
+def delegateable_users(delegateable, donor=None):
+    user_scores = {}
+    for comment in delegateable.comments:
+        q = model.meta.Session.query(model.Karma)
+        q = q.filter(model.Karma.comment==comment)
+        if donor:
+            q = q.filter(model.Karma.donor==donor)
+        for k in q:
+            val = user_scores.get(k.recipient, 0)
+            user_scores[k.recipient] = val + k.value
+    for child in delegateable.children: 
+        scores = delegateable_users(child)
+        for u, v in scores.items():
+            val = user_scores.get(u, 0)
+            user_scores[u] = val + v
+    return user_scores
 
 #
 # Unadapted Ruby, either find a python lib with p distribution tables or 

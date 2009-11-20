@@ -13,48 +13,55 @@
 <form name="create_delegation" class="inplace" method="POST" action="/delegation/create">
 	${h.field_token()|n}
 	<input name="scope" value="${c.scope.id}" type="hidden" />
+	
+	<h3>${_("Recommendations")}</h3>
 	<div class="sidebar">
 		<div class="infobox">
-			${_("This page is obviously a placeholder. Nice, karma-based recs are coming soon.")}
+			${_("Adhocracy has tried to guess who would be a good match. Either select " +
+			    "one of the listed delegates, or enter another user name.")}
 		</div>
 	</div>
 	<div class="mainbar">
-	${h.field_token()|n}
-	
-	<%
-	scope_agents = c.lib.delegateable_popular_agents(c.scope)
-	%>
-	%if len(scope_agents):
-	<h3>${_("Popular delegates for %s") % c.scope.label}</h3>
-	<ul>
-		%for (user, score) in scope_agents:
-			<li>
-				${h.user_link(user, link="/delegation/create?agent=%s&scope=%s" % (user.user_name, c.scope.id))|n} (${score})
-			</li>
-		%endfor
-	</ul>
-	%endif
-	
-	<%
-	my_agents = c.lib.user_popular_agents(c.user)
-	%>
-	%if len(my_agents):
-	<h3>${_("Your favourite delegates")}</h3>
-	<ul>
-		%for (user, score) in my_agents:
-			<li>
-				${h.user_link(user, link="/delegation/create?agent=%s&scope=%s" % (user.user_name, c.scope.id))|n} (${score})
-			</li>
-		%endfor
-	</ul>
-	%endif
+			
+		<%
+		scope_agents = c.lib.recommend(c.scope, c.user)
+		%>
+		<table class="table" width="100%">
+		%if len(scope_agents):
+
+			%for user in scope_agents:
+			<tr>
+				<td width="1%">
+					<input type="radio" name="agent" value="${user.user_name}" />	
+				</td>
+				<td>
+					${tiles.user.row(user)}
+				</td>
+			</tr>
+			%endfor
+			
+		%endif
+			<tr>
+				<td width="1%">
+					<input type="radio" name="agent" value="other" checked="checked" />	
+				</td>
+				<td>
+					<div class="tile">
+						<div class="logo">
+							<img src="/img/icons/user_32.png" />
+						</div>
+						<div class="base">
+						<input name="agent_other" class="userCompleted" style="padding: 0.5em; width: 85%;" />
+						<div class="meta">
+							${_("Start typing, you will receive suggestions to find the user.")}
+						</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+		
 	</div>
-
-	<br/><br/>
-
-	<label for="agent">${_("Delegate to:")}</label>
-	<input name="agent" class="userCompleted"/>
-	
 	${components.savebox("/d/%s" % c.scope.id)}
 	
 </form>
