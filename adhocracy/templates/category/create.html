@@ -14,11 +14,30 @@
 		<input tabindex="1" class="title armlabel" name="label" />
 	</div>
 	
-	${catlist.contextselect(type="radio", root=True)}
+	<h3>${_("Description")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("Describe the category's content. Line out what belongs into this " +
+			    "category and what doesn't.")} 
+		</div>
+	</div>
 	<div class="mainbar">
-		<h3>${_("Category description:")}</h3>
 		<textarea tabindex="2" class="description" name="description"></textarea>
 		${components.formatting()}
-		${components.savebox("/category/%s" % request.params.get('cat'))}
 	</div>
+	
+	
+	<h3>${_("Categorization")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("Select another category which is going to be the parent to the new " +
+			    "category.")}
+		</div>
+	</div>
+	<div class="mainbar">
+		${catlist.contextselect(type="radio", root=True)}
+	</div>
+	
+	<div style="clear: both;"></div>
+	${components.savebox("/category/%s" % request.params.get('cat'))}
 </form>

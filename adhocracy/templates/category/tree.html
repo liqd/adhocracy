@@ -41,13 +41,5 @@ selected.append(request.params.get("cat"))
 
 
 <%def name="contextselect(type, sels=[], help=None, root=False)">
-	<div class="sidebar">
-		<h3>${_("Categorization")}</h3>
-		%if help:
-			<p>
-			${help}
-			</p>
-		%endif
-		${self.catboxen(None, type, sels=sels, link=False, root=root)}
-	</div>
+	${self.catboxen(None, type, sels=sels, link=False, root=root)}
 </%def>

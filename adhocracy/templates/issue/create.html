@@ -19,15 +19,29 @@
 		<input tabindex="1" class="title armlabel" name="label" />
 	</div>
 	
+	<h3>${_("Description")}</h3>
 	<div class="sidebar">
+		<div class="infobox">
+			${_("Describe the issue. Try to outline the problem that needs to be " + 
+			    "solved.")} 
+		</div>
+	</div>
+	<div class="mainbar">
+		<textarea tabindex="2" class="description" name="description"></textarea>
+		${components.formatting()}
+	</div>
+	
+	
+	<h3>${_("Categorization")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("Select the categories in which the issue needs to be listed.")}
+		</div>
+	</div>
+	<div class="mainbar">
 		${catlist.contextselect(type="checkbox", root=False)}
 	</div>
 	
-	<div class="mainbar">
-		<h3>${_("Issue description:")}</h3>
-		<textarea tabindex="2" class="description" name="text"></textarea>
-		${components.formatting()}
-		${components.savebox("/category/%s" % request.params.get('cat', c.instance.root.id))}
-	</div>
-	
+	<div style="clear: both;"></div>
+	${components.savebox("/category/%s" % request.params.get('cat', c.instance.root.id))}
 </form>

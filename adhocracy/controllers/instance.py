@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from pylons.controllers.util import etag_cache
 from pylons.i18n import _
 
 from adhocracy.lib.base import *
@@ -144,12 +145,14 @@ class InstanceController(BaseController):
     @ActionProtector(has_permission("instance.index"))
     def header(self, key):
         instance = model.Instance.find(key)
+        etag_cache(instance.id if instance else 0)
         response.content_type = "application/png"
         return logo.load(instance, header=True)
         
     @ActionProtector(has_permission("instance.index"))
     def icon(self, key, x, y):
         instance = model.Instance.find(key)
+        etag_cache(instance.id if instance else 0)
         response.content_type = "application/png"
         try:
             (x, y) = (int(x), int(y))

@@ -13,15 +13,30 @@
 		<input tabindex="1" class="title armlabel" name="label" />
 	</div>
 	
-	<div class="sidebar">&nbsp;</div>
+	
+	<h3>${_("Adhocracy address")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("The address may only contain alpha-numeric characters. Please note " +
+			    "that this key cannot be changed after the Adhocracy has been created.")|n}
+		</div>
+	</div>
 	<div class="mainbar">
-		<h3>${_("Adhocracy address:")}</h3>
-		<span class="hint">${_("The address may only contain alpha-numeric characters. Please note that this key cannot be changed after the Adhocracy has been created.")|n}</span>
 		http://<input tabindex="2" class="" style="text-align: right;" name="key" />.${request.environ['adhocracy.active.domain']}
-			
-		<h3>${_("Description:")}</h3>
+	</div>
+	
+	<div style="clear: both;"></div>	
+	<h3>${_("Description")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("Describe what the goals of this Adhocracy are and who constitutes " +
+			    "its community.")} 
+		</div>
+	</div>
+	<div class="mainbar">
 		<textarea tabindex="2" class="description" name="description"></textarea>
 		${components.formatting()}
-		${components.savebox("/adhocracies")}
 	</div>
+	<div style="clear: both;"></div>
+	${components.savebox("/adhocracies")}
 </form>

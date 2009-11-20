@@ -14,12 +14,17 @@
 		<input tabindex="1" class="title armlabel" name="label" value="${c.issue.label}"/>
 	</div>
 	
+	
+	<h3>${_("Categorization")}</h3>
 	<div class="sidebar">
+		<div class="infobox">
+			${_("Select the categories in which the issue needs to be listed.")}
+		</div>
+	</div>
+	<div class="mainbar">
 		${catlist.contextselect(type="checkbox", sels=c.issue.parents, root=False)}
 	</div>
-
-	<div class="mainbar">
-		
+	
+	<div style="clear: both;"></div>
 	${components.savebox("/issue/%s" % c.issue.id)}
-	</div>
 </form>

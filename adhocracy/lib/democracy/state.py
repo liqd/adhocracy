@@ -41,13 +41,11 @@ class State(object):
             start_at = self.at_time - self.stable.delay
         if self._tallies_start > start_at:
             start_at = max(start_at, self.poll.begin_time)
-            #print "START AT ", start_at
             self._tallies += libtally.interval(self.poll, 
                                                min_time=start_at, 
                                                max_time=self._tallies_start)
             if not len(self._tallies):
                 self._tallies = [libtally.at(self.poll, start_at)]
-            #print "TALLIES ", self._tallies
             self._tallies_start = start_at
         return self._tallies
     
