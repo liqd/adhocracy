@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2009-11-19 22:38+0100\n"
-"PO-Revision-Date: 2009-11-19 22:40+0100\n"
+"POT-Creation-Date: 2009-11-20 10:41+0100\n"
+"PO-Revision-Date: 2009-11-20 10:42+0100\n"
 "Last-Translator: Friedrich Lindenberg <friedrich@pudo.org>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -110,8 +110,8 @@ msgstr "Kategorie: %s"
 #: adhocracy/controllers/instance.py:98
 #: adhocracy/controllers/instance.py:105
 #: adhocracy/controllers/issue.py:100
-#: adhocracy/controllers/motion.py:38
-#: adhocracy/controllers/motion.py:306
+#: adhocracy/controllers/motion.py:292
+#: adhocracy/controllers/poll.py:31
 #: adhocracy/controllers/user.py:51
 #: adhocracy/controllers/user.py:253
 msgid "oldest"
@@ -125,8 +125,8 @@ msgstr "älteste"
 #: adhocracy/controllers/instance.py:99
 #: adhocracy/controllers/instance.py:106
 #: adhocracy/controllers/issue.py:101
-#: adhocracy/controllers/motion.py:39
-#: adhocracy/controllers/motion.py:307
+#: adhocracy/controllers/motion.py:293
+#: adhocracy/controllers/poll.py:32
 #: adhocracy/controllers/user.py:52
 #: adhocracy/controllers/user.py:254
 msgid "newest"
@@ -138,7 +138,7 @@ msgstr "neueste"
 #: adhocracy/controllers/instance.py:100
 #: adhocracy/controllers/instance.py:107
 #: adhocracy/controllers/issue.py:102
-#: adhocracy/controllers/motion.py:40
+#: adhocracy/controllers/poll.py:33
 #: adhocracy/controllers/user.py:54
 msgid "activity"
 msgstr "aktivität"
@@ -149,7 +149,7 @@ msgstr "aktivität"
 #: adhocracy/controllers/instance.py:101
 #: adhocracy/controllers/instance.py:108
 #: adhocracy/controllers/issue.py:103
-#: adhocracy/controllers/motion.py:42
+#: adhocracy/controllers/poll.py:35
 #: adhocracy/controllers/user.py:55
 msgid "name"
 msgstr "name"
@@ -286,42 +286,38 @@ msgstr "Das Thema %(issue)s wurde gelöscht."
 msgid "Invalid karma value. Karma is either positive or negative!"
 msgstr "Ungültiger Karma-Wert. Karma ist entweder negativ oder positiv!"
 
-#: adhocracy/controllers/motion.py:41
-msgid "urgency"
-msgstr "dringlichkeit"
-
-#: adhocracy/controllers/motion.py:58
+#: adhocracy/controllers/motion.py:44
 msgid "Input error while applying relations."
 msgstr "Eingabefehler beim Anwenden der Beziehungen"
 
-#: adhocracy/controllers/motion.py:69
+#: adhocracy/controllers/motion.py:55
 msgid "A motion cannot have a relation with itself."
 msgstr "Ein Vorschlag kann keine Beziehung zu sich selbst haben."
 
-#: adhocracy/controllers/motion.py:73
+#: adhocracy/controllers/motion.py:59
 msgid "A motion can either contradict or require another, not both."
 msgstr "Ein Vorschlag kann einem anderen entweder widersprechen oder ihn benötigen, jedoch nicht beides."
 
-#: adhocracy/controllers/motion.py:86
+#: adhocracy/controllers/motion.py:72
 msgid "Cannot identify the parent issue."
 msgstr "Das Elternthema kann nicht identifiziert werden."
 
-#: adhocracy/controllers/motion.py:255
+#: adhocracy/controllers/motion.py:241
 #, python-format
 msgid "Motion: %s"
 msgstr "Vorschlag: %s"
 
-#: adhocracy/controllers/motion.py:257
+#: adhocracy/controllers/motion.py:243
 #, python-format
 msgid "Activity on the %s motion"
 msgstr "Aktivität beim Vorschlag %s"
 
-#: adhocracy/controllers/motion.py:259
+#: adhocracy/controllers/motion.py:245
 #, python-format
 msgid "Motion: %(motion)s"
 msgstr "Vorschlag: %(motion)s"
 
-#: adhocracy/controllers/motion.py:297
+#: adhocracy/controllers/motion.py:283
 #, python-format
 msgid "%s is not currently in a poll, thus no votes have been counted."
 msgstr "%s steht aktuell nicht zu Abstimmung, es werden daher keine Stimmen gezählt."
@@ -352,11 +348,15 @@ msgstr "Justin Case ist vorbei gekommen."
 msgid "The requested page was not found"
 msgstr "Die angeforderte Seite wurde nicht gefunden"
 
-#: adhocracy/controllers/poll.py:19
+#: adhocracy/controllers/poll.py:34
+msgid "urgency"
+msgstr "dringlichkeit"
+
+#: adhocracy/controllers/poll.py:47
 msgid "The poll cannot be started either because there are no provisions or a poll has already started."
 msgstr "Die Abstimmung kann nicht begonnen werden; entweder weil bereits eine Abstimmung stattfindet oder weil es noch keine Absätze gibt."
 
-#: adhocracy/controllers/poll.py:38
+#: adhocracy/controllers/poll.py:66
 msgid "The motion is not undergoing a poll."
 msgstr "Über diesen Vorschlag wird noch nicht abgestimmt."
 
@@ -1733,7 +1733,7 @@ msgid "latest <b>%s</b>"
 msgstr "neuester <b>%s</b>"
 
 #: adhocracy/templates/issue/view.html:61
-#: adhocracy/templates/motion/index.html:6
+#: adhocracy/templates/poll/index.html:6
 msgid "Motions"
 msgstr "Vorschläge"
 
@@ -1813,23 +1813,6 @@ msgstr "Thema"
 #: adhocracy/templates/motion/edit.html:21
 msgid "If necessary, move the motion to a different issue to keep things organized."
 msgstr "Falls notwendig kannst Du den Vorschlag einem anderen Thema zuordnen."
-
-#: adhocracy/templates/motion/index.html:3
-#, python-format
-msgid "Critical Motions in %s"
-msgstr "Dringende Vorschläge in %s"
-
-#: adhocracy/templates/motion/index.html:9
-msgid "Critical Motions"
-msgstr "Dringende Vorschläge"
-
-#: adhocracy/templates/motion/index.html:14
-msgid "These motions are currently voting and might be nearing a decision. Vote now to make your voice heard."
-msgstr "Diese Vorschläge stehen aktuell zur Abstimmung und könnten bald entschieden werden. Stimme jetzt ab, damit Du gehört wirst."
-
-#: adhocracy/templates/motion/index.html:27
-msgid "There are currently no polls open. Call a motion into voting state to begin a poll."
-msgstr "Aktuell laufen keine Abstimmungen. Rufe in einem Vorschlag zur Abstimmung auf um abstimmen zu können."
 
 #: adhocracy/templates/motion/tiles.html:24
 #, python-format
@@ -1976,6 +1959,48 @@ msgstr "Abstimmung beginnen: %s"
 msgid "You are about to release this motion and call for a vote. When you do this, you will lose the ability to <strong>change the motion's wording</strong> unless you re-draft it."
 msgstr "Du bist im Begriff diesen Vorschlag eine Abstimmung zu unterwerfen. Wenn Du das tust wirst Du die Möglichkeit verlieren, die <b>Formuliertung des Vorschlags zu ändern</b>, es sei denn du brichst Die Abstimmung ab."
 
+#: adhocracy/templates/poll/index.html:3
+#, python-format
+msgid "Critical Motions in %s"
+msgstr "Dringende Vorschläge in %s"
+
+#: adhocracy/templates/poll/index.html:9
+msgid "Critical Motions"
+msgstr "Dringende Vorschläge"
+
+#: adhocracy/templates/poll/index.html:14
+msgid "These motions are currently voting and might be nearing a decision. Vote now to make your voice heard."
+msgstr "Diese Vorschläge stehen aktuell zur Abstimmung und könnten bald entschieden werden. Stimme jetzt ab, damit Du gehört wirst."
+
+#: adhocracy/templates/poll/index.html:21
+msgid "Motion filter criteria"
+msgstr "Filterkriterium für Abstimmungen"
+
+#: adhocracy/templates/poll/index.html:24
+#| msgid "The delegation is now revoked."
+msgid "My delegates and I haven't voted."
+msgstr "Weder meine Delegaten noch ich haben abgestimmt."
+
+#: adhocracy/templates/poll/index.html:26
+msgid "I haven't voted myself."
+msgstr "Ich habe nicht selbst abgestimmt."
+
+#: adhocracy/templates/poll/index.html:28
+msgid "Include all polls."
+msgstr "Alle Abstimmungen."
+
+#: adhocracy/templates/poll/index.html:30
+msgid "Update"
+msgstr "Aktualisieren"
+
+#: adhocracy/templates/poll/index.html:44
+msgid "There are currently no polls in which you haven't voted."
+msgstr "Es gibt momentan keine Abstimmungen an denen Du nicht teilgenommen hast."
+
+#: adhocracy/templates/poll/index.html:46
+msgid "There are currently no polls open. Call a motion into voting state to begin a poll."
+msgstr "Aktuell laufen keine Abstimmungen. Rufe in einem Vorschlag zur Abstimmung auf um abstimmen zu können."
+
 #: adhocracy/templates/poll/state.html:5
 msgid "Adoption"
 msgstr "Annahme"
@@ -1990,15 +2015,14 @@ msgid "A vote needs to be called."
 msgstr "Eine Abstimmung muss begonnen werden."
 
 #: adhocracy/templates/poll/state.html:19
-#| msgid "The motion is adopted."
 msgid "The motion is adopted, <b>but volatile</b>."
 msgstr "Der Vorschlag ist angenommen, <b>jedoch instabil</b>."
 
 #: adhocracy/templates/poll/state.html:20
+#: adhocracy/templates/poll/state.html:40
 #, python-format
-#| msgid "Majority needs to be held <b>for %s</b>."
-msgid "The majority needs to be re-gained <b>within %s</b>."
-msgstr "In <b>%s</b> muss die Mehrheit wieder hergestellt sein."
+msgid "Majority needs to be held <b>for %s</b>."
+msgstr "Mehrheit muss <b>für %s</b> gehalten werden."
 
 #: adhocracy/templates/poll/state.html:22
 msgid "The motion is adopted."
@@ -2028,11 +2052,6 @@ msgstr "<b>%s%% der Wähler</b> müssen zustimmen."
 #, python-format
 msgid "Majority has been held <b>for %s</b>."
 msgstr "Mehrheit wurde <b>für %s</b> gehalten."
-
-#: adhocracy/templates/poll/state.html:40
-#, python-format
-msgid "Majority needs to be held <b>for %s</b>."
-msgstr "Mehrheit muss <b>für %s</b> gehalten werden."
 
 #: adhocracy/templates/poll/state.html:46
 msgid "All <b>requirements</b> must be adopted:"

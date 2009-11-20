@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2009-11-19 22:38+0100\n"
+"POT-Creation-Date: 2009-11-20 10:41+0100\n"
 "PO-Revision-Date: 2009-09-15 16:36+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -104,7 +104,7 @@ msgstr ""
 #: adhocracy/controllers/comment.py:144 adhocracy/controllers/delegation.py:77
 #: adhocracy/controllers/instance.py:52 adhocracy/controllers/instance.py:98
 #: adhocracy/controllers/instance.py:105 adhocracy/controllers/issue.py:100
-#: adhocracy/controllers/motion.py:38 adhocracy/controllers/motion.py:306
+#: adhocracy/controllers/motion.py:292 adhocracy/controllers/poll.py:31
 #: adhocracy/controllers/user.py:51 adhocracy/controllers/user.py:253
 msgid "oldest"
 msgstr ""
@@ -113,7 +113,7 @@ msgstr ""
 #: adhocracy/controllers/comment.py:145 adhocracy/controllers/delegation.py:78
 #: adhocracy/controllers/instance.py:53 adhocracy/controllers/instance.py:99
 #: adhocracy/controllers/instance.py:106 adhocracy/controllers/issue.py:101
-#: adhocracy/controllers/motion.py:39 adhocracy/controllers/motion.py:307
+#: adhocracy/controllers/motion.py:293 adhocracy/controllers/poll.py:32
 #: adhocracy/controllers/user.py:52 adhocracy/controllers/user.py:254
 msgid "newest"
 msgstr ""
@@ -121,14 +121,14 @@ msgstr ""
 #: adhocracy/controllers/category.py:98 adhocracy/controllers/category.py:105
 #: adhocracy/controllers/instance.py:54 adhocracy/controllers/instance.py:100
 #: adhocracy/controllers/instance.py:107 adhocracy/controllers/issue.py:102
-#: adhocracy/controllers/motion.py:40 adhocracy/controllers/user.py:54
+#: adhocracy/controllers/poll.py:33 adhocracy/controllers/user.py:54
 msgid "activity"
 msgstr ""
 
 #: adhocracy/controllers/category.py:99 adhocracy/controllers/category.py:106
 #: adhocracy/controllers/instance.py:55 adhocracy/controllers/instance.py:101
 #: adhocracy/controllers/instance.py:108 adhocracy/controllers/issue.py:103
-#: adhocracy/controllers/motion.py:42 adhocracy/controllers/user.py:55
+#: adhocracy/controllers/poll.py:35 adhocracy/controllers/user.py:55
 msgid "name"
 msgstr ""
 
@@ -265,42 +265,38 @@ msgstr ""
 msgid "Invalid karma value. Karma is either positive or negative!"
 msgstr ""
 
-#: adhocracy/controllers/motion.py:41
-msgid "urgency"
-msgstr ""
-
-#: adhocracy/controllers/motion.py:58
+#: adhocracy/controllers/motion.py:44
 msgid "Input error while applying relations."
 msgstr ""
 
-#: adhocracy/controllers/motion.py:69
+#: adhocracy/controllers/motion.py:55
 msgid "A motion cannot have a relation with itself."
 msgstr ""
 
-#: adhocracy/controllers/motion.py:73
+#: adhocracy/controllers/motion.py:59
 msgid "A motion can either contradict or require another, not both."
 msgstr ""
 
-#: adhocracy/controllers/motion.py:86
+#: adhocracy/controllers/motion.py:72
 msgid "Cannot identify the parent issue."
 msgstr ""
 
-#: adhocracy/controllers/motion.py:255
+#: adhocracy/controllers/motion.py:241
 #, fuzzy, python-format
 msgid "Motion: %s"
 msgstr ""
 
-#: adhocracy/controllers/motion.py:257
+#: adhocracy/controllers/motion.py:243
 #, python-format
 msgid "Activity on the %s motion"
 msgstr ""
 
-#: adhocracy/controllers/motion.py:259
+#: adhocracy/controllers/motion.py:245
 #, python-format
 msgid "Motion: %(motion)s"
 msgstr ""
 
-#: adhocracy/controllers/motion.py:297
+#: adhocracy/controllers/motion.py:283
 #, python-format
 msgid "%s is not currently in a poll, thus no votes have been counted."
 msgstr ""
@@ -330,13 +326,17 @@ msgstr ""
 msgid "The requested page was not found"
 msgstr ""
 
-#: adhocracy/controllers/poll.py:19
+#: adhocracy/controllers/poll.py:34
+msgid "urgency"
+msgstr ""
+
+#: adhocracy/controllers/poll.py:47
 msgid ""
 "The poll cannot be started either because there are no provisions or a "
 "poll has already started."
 msgstr ""
 
-#: adhocracy/controllers/poll.py:38
+#: adhocracy/controllers/poll.py:66
 msgid "The motion is not undergoing a poll."
 msgstr ""
 
@@ -1740,8 +1740,7 @@ msgstr[1] ""
 msgid "latest <b>%s</b>"
 msgstr ""
 
-#: adhocracy/templates/issue/view.html:61
-#: adhocracy/templates/motion/index.html:6
+#: adhocracy/templates/issue/view.html:61 adhocracy/templates/poll/index.html:6
 msgid "Motions"
 msgstr ""
 
@@ -1834,27 +1833,6 @@ msgstr ""
 msgid ""
 "If necessary, move the motion to a different issue to keep things "
 "organized."
-msgstr ""
-
-#: adhocracy/templates/motion/index.html:3
-#, python-format
-msgid "Critical Motions in %s"
-msgstr ""
-
-#: adhocracy/templates/motion/index.html:9
-msgid "Critical Motions"
-msgstr ""
-
-#: adhocracy/templates/motion/index.html:14
-msgid ""
-"These motions are currently voting and might be nearing a decision. Vote "
-"now to make your voice heard."
-msgstr ""
-
-#: adhocracy/templates/motion/index.html:27
-msgid ""
-"There are currently no polls open. Call a motion into voting state to "
-"begin a poll."
 msgstr ""
 
 #: adhocracy/templates/motion/tiles.html:24
@@ -2017,6 +1995,51 @@ msgid ""
 "wording</strong> unless you re-draft it."
 msgstr ""
 
+#: adhocracy/templates/poll/index.html:3
+#, python-format
+msgid "Critical Motions in %s"
+msgstr ""
+
+#: adhocracy/templates/poll/index.html:9
+msgid "Critical Motions"
+msgstr ""
+
+#: adhocracy/templates/poll/index.html:14
+msgid ""
+"These motions are currently voting and might be nearing a decision. Vote "
+"now to make your voice heard."
+msgstr ""
+
+#: adhocracy/templates/poll/index.html:21
+msgid "Motion filter criteria"
+msgstr ""
+
+#: adhocracy/templates/poll/index.html:24
+msgid "My delegates and I haven't voted."
+msgstr ""
+
+#: adhocracy/templates/poll/index.html:26
+msgid "I haven't voted myself."
+msgstr ""
+
+#: adhocracy/templates/poll/index.html:28
+msgid "Include all polls."
+msgstr ""
+
+#: adhocracy/templates/poll/index.html:30
+msgid "Update"
+msgstr ""
+
+#: adhocracy/templates/poll/index.html:44
+msgid "There are currently no polls in which you haven't voted."
+msgstr ""
+
+#: adhocracy/templates/poll/index.html:46
+msgid ""
+"There are currently no polls open. Call a motion into voting state to "
+"begin a poll."
+msgstr ""
+
 #: adhocracy/templates/poll/state.html:5
 msgid "Adoption"
 msgstr ""
@@ -2035,8 +2058,9 @@ msgid "The motion is adopted, <b>but volatile</b>."
 msgstr ""
 
 #: adhocracy/templates/poll/state.html:20
+#: adhocracy/templates/poll/state.html:40
 #, python-format
-msgid "The majority needs to be re-gained <b>within %s</b>."
+msgid "Majority needs to be held <b>for %s</b>."
 msgstr ""
 
 #: adhocracy/templates/poll/state.html:22
@@ -2066,11 +2090,6 @@ msgstr ""
 #: adhocracy/templates/poll/state.html:38
 #, python-format
 msgid "Majority has been held <b>for %s</b>."
-msgstr ""
-
-#: adhocracy/templates/poll/state.html:40
-#, python-format
-msgid "Majority needs to be held <b>for %s</b>."
 msgstr ""
 
 #: adhocracy/templates/poll/state.html:46
@@ -2354,4 +2373,7 @@ msgstr ""
 #: adhocracy/templates/user/votes.html:12
 msgid "Review your voting track"
 msgstr ""
+
+#~ msgid "The majority needs to be re-gained <b>within %s</b>."
+#~ msgstr ""
 

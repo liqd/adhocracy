@@ -1,13 +1,41 @@
 import logging
 from datetime import datetime
 
+from pylons.i18n import _
+
 from adhocracy.lib.base import *
 from adhocracy.lib.tiles.motion_tiles import MotionTile
 
 log = logging.getLogger(__name__)
 
-class PollController(BaseController):
+class PollIndexFilter(formencode.Schema):
+    filter_made = validators.Int(not_empty=False, if_empty=1, if_missing=1, if_invalid=1, min=0, max=2)
 
+class PollController(BaseController):
+    
+    @RequireInstance
+    @ActionProtector(has_permission("motion.view"))
+    @validate(schema=PollIndexFilter(), post_only=False, on_get=True)
+    def index(self):
+        scored = democracy.State.critical_motions(c.instance)
+        urgency_sort = sorting.dict_value_sorter(scored)
+        motions = scored.keys()
+        
+        c.filter_made = self.form_result.get('filter_made')
+        if c.user and c.filter_made == 1:
+            motions = filter(lambda m: not democracy.Decision(c.user, m.poll).made(), motions)
+        elif c.user and c.filter_made == 2:
+            motions = filter(lambda m: not democracy.Decision(c.user, m.poll).self_made(), motions)
+                
+        c.motions_pager = NamedPager('motions', motions, tiles.motion.detail_row, count=4, #list_item,
+                                     sorts={_("oldest"): sorting.entity_oldest,
+                                            _("newest"): sorting.entity_newest,
+                                            _("activity"): sorting.motion_activity,
+                                            _("urgency"): urgency_sort,
+                                            _("name"): sorting.delegateable_label},
+                                     default_sort=urgency_sort)
+        return render("/poll/index.html")
+    
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("poll.create")) 

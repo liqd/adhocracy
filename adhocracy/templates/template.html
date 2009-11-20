@@ -91,7 +91,7 @@
 				</ul>
 			</li>
 			%if c.instance:
-				<li><a href="/motions">${_("Critical")}</a></li>
+				<li><a href="/polls">${_("Critical")}</a></li>
 				%if c.user:
 					<li><a href="/user/${c.user.user_name}/votes">${_("Review")}</a></li>
 					%if h.has_permission("vote.cast"):

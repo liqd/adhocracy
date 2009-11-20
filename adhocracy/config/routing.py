@@ -45,7 +45,6 @@ def make_map():
     map.connect('/issue/{id}.{format}', controller='issue', action='view')
     map.connect('/issue/{id}', controller='issue', action='view', format='html')
     
-    map.connect('/motions', controller='motion', action='index')
     map.connect('/motion/create', controller='motion', action='create')
     map.connect('/motion/{id}/votes', controller='motion', action='votes')
     map.connect('/motion/{id}/begin_poll', controller='motion', action='begin_poll')
@@ -53,6 +52,8 @@ def make_map():
     map.connect('/motion/{action}/{id}', controller='motion')
     map.connect('/motion/{id}.{format}', controller='motion', action='view')
     map.connect('/motion/{id}', controller='motion', action='view', format='html')
+    
+    map.connect('/polls', controller='poll', action='index')
     
     map.connect('/comment/create', controller='comment', action='create')
     map.connect('/comment/edit/{id}', controller='comment', action='edit')

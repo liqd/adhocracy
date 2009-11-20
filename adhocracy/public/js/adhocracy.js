@@ -4,61 +4,10 @@ $(document).ready(function() {
 		return document.domain.substring(document.domain.split('.')[0].length);
 	}
 	
-	_get = function(e) {
-		if (e.type=="textarea") {
-			return $(e).text();
-		} else {
-			return $(e).val();
-		}
+	submitForm = function(id) {
+		$("#" + id).submit();
 	}
-	
-	_set = function(e, s) {
-		if (e.type=="textarea") {
-			$(e).text(s);
-		} else {
-			$(e).val(s);
-		}
-	}
-	
-	_unset = function(e) {
-		_set(e, "");
-	}
-	
-	arm = function(e, hint) {
-						
-		$(e).focus(function(){
-			if ($(e).hasClass("armed")) {
-				_unset(e);
-				$(e).removeClass("armed");
-			}
-		});
 		
-		on_blur = function() {
-			if ($(e).hasClass("armed")) {
-				return;
-			}
-			
-			if (jQuery.trim($(e).val()).length == 0) {
-				_set(e, hint);
-				$(e).addClass("armed");
-			}
-		}
-		
-		$(e).blur(on_blur);
-		on_blur();
-	}
-	
-	$(".armlabel").each(function(e) {
-		hint = $("[for=" + $(this).attr("name") + "]").text();
-		arm(this, hint);
-	});
-	
-	$("form").submit(function() {
-		$("[name=" + this.name + "] .armed").each(function(i) {
-			_unset(this);
-		});
-	});
-	
 	/* Auto-appends */ 
 	appendRelation = function() {
 		newElem = $(".relation.prototype").clone();
@@ -76,9 +25,6 @@ $(document).ready(function() {
 		return false;
 	}
 	
-	
-	
-
 	$(".userCompleted").autocomplete('/user/complete', {
 		autoFill: false,
 		formatItem: function(d, i, n, q) {
@@ -188,4 +134,61 @@ $(document).ready(function() {
 				$(this).find(".htwarnbox").remove();
 				$(this).attr('title', current_htWarn_title);
 			});
+	
+	/* Armed labels */
+	_get = function(e) {
+		if (e.type=="textarea") {
+			return $(e).text();
+		} else {
+			return $(e).val();
+		}
+	}
+	
+	_set = function(e, s) {
+		if (e.type=="textarea") {
+			$(e).text(s);
+		} else {
+			$(e).val(s);
+		}
+	}
+	
+	_unset = function(e) {
+		_set(e, "");
+	}
+	
+	arm = function(e, hint) {
+						
+		$(e).focus(function(){
+			if ($(e).hasClass("armed")) {
+				_unset(e);
+				$(e).removeClass("armed");
+			}
+		});
+		
+		on_blur = function() {
+			if ($(e).hasClass("armed")) {
+				return;
+			}
+			
+			if (jQuery.trim($(e).val()).length == 0) {
+				_set(e, hint);
+				$(e).addClass("armed");
+			}
+		}
+		
+		$(e).blur(on_blur);
+		on_blur();
+	}
+	
+	$(".armlabel").each(function(e) {
+		hint = $("[for=" + $(this).attr("name") + "]").text();
+		arm(this, hint);
+	});
+	
+	$("form").submit(function() {
+		$("[name=" + this.name + "] .armed").each(function(i) {
+			_unset(this);
+		});
+	});
+	
 });

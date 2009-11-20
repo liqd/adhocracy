@@ -9,7 +9,7 @@ import adhocracy.model.forms as forms
 from adhocracy.lib.tiles.motion_tiles import MotionTile
 
 log = logging.getLogger(__name__)
- 
+
 class MotionCreateForm(formencode.Schema):
     allow_extra_fields = True
     label = validators.String(max=255, min=4, not_empty=True)
@@ -28,20 +28,6 @@ class MotionDecisionsFilterForm(formencode.Schema):
 
 class MotionController(BaseController):
     
-    @RequireInstance
-    @ActionProtector(has_permission("motion.view"))
-    def index(self):
-        scored = democracy.State.critical_motions(c.instance)
-        urgency_sort = sorting.dict_value_sorter(scored)
-        
-        c.motions_pager = NamedPager('motions', scored.keys(), tiles.motion.detail_row, count=4, #list_item,
-                                     sorts={_("oldest"): sorting.entity_oldest,
-                                            _("newest"): sorting.entity_newest,
-                                            _("activity"): sorting.motion_activity,
-                                            _("urgency"): urgency_sort,
-                                            _("name"): sorting.delegateable_label},
-                                     default_sort=urgency_sort)
-        return render("/motion/index.html")
     
     def _parse_relations(self, motion=None):
         types_val = formencode.ForEach(validators.OneOf(['a', 'd', 'n'], not_empty=True), 
