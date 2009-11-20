@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2009-11-20 22:44+0100\n"
+"POT-Creation-Date: 2009-11-21 00:03+0100\n"
 "PO-Revision-Date: 2009-09-15 16:36+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -301,24 +301,34 @@ msgstr ""
 msgid "%s is not currently in a poll, thus no votes have been counted."
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:57
+#: adhocracy/controllers/openidauth.py:58
 msgid "No OpenID was entered."
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:65
+#: adhocracy/controllers/openidauth.py:67
+#, python-format
+msgid "No OpenID with ID '%s' exists."
+msgstr ""
+
+#: adhocracy/controllers/openidauth.py:70 adhocracy/controllers/user.py:95
+#, python-format
+msgid "You're not authorized to change %s's settings."
+msgstr ""
+
+#: adhocracy/controllers/openidauth.py:80
 msgid "OpenID login failed."
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:94
+#: adhocracy/controllers/openidauth.py:109
 msgid "You have already claimed this OpenID."
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:97
+#: adhocracy/controllers/openidauth.py:112
 #, python-format
 msgid "OpenID %s already belongs to %s."
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:120
+#: adhocracy/controllers/openidauth.py:135
 msgid "Justin Case has entered the room."
 msgstr ""
 
@@ -367,11 +377,6 @@ msgstr ""
 #: adhocracy/controllers/user.py:263
 #, python-format
 msgid "No user named '%s' exists"
-msgstr ""
-
-#: adhocracy/controllers/user.py:95
-#, python-format
-msgid "You're not authorized to change %s's settings."
 msgstr ""
 
 #: adhocracy/controllers/user.py:124
@@ -981,6 +986,7 @@ msgstr ""
 #: adhocracy/templates/motion/view.html:84
 #: adhocracy/templates/motion/view.html:86
 #: adhocracy/templates/motion/view.html:88
+#: adhocracy/templates/user/edit.html:69
 msgid "new"
 msgstr ""
 
@@ -1940,7 +1946,7 @@ msgid ""
 " allow you to login using this OpenID in the future."
 msgstr ""
 
-#: adhocracy/templates/openid/form.html:2
+#: adhocracy/templates/openid/form.html:2 adhocracy/templates/user/edit.html:70
 msgid "OpenID"
 msgstr ""
 
@@ -2278,6 +2284,18 @@ msgstr ""
 #: adhocracy/templates/user/edit.html:65
 #: adhocracy/templates/user/register_form.html:16
 msgid "Password (confirm):"
+msgstr ""
+
+#: adhocracy/templates/user/edit.html:73
+msgid "OpenID allows you to use a single login on many web sites."
+msgstr ""
+
+#: adhocracy/templates/user/edit.html:80
+msgid "There are no associated OpenIDs."
+msgstr ""
+
+#: adhocracy/templates/user/edit.html:87
+msgid "remove"
 msgstr ""
 
 #: adhocracy/templates/user/index.html:3 adhocracy/templates/user/index.html:9
