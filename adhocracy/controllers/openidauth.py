@@ -52,11 +52,26 @@ class OpenidauthController(BaseController):
         session.save()
         return redirect_to(redirecturl)
     
+    @ActionProtector(has_permission("user.edit"))
     def connect(self):
         if not c.user:
             h.flash(_("No OpenID was entered."))
             redirect_to("/login")
-        return render("/openid/connect.html")      
+        return render("/openid/connect.html")   
+    
+    @RequireInternalRequest()
+    @ActionProtector(has_permission("user.edit"))
+    def revoke(self, id):
+        openid = model.OpenID.by_id(id)
+        if not openid:
+            abort(404, _("No OpenID with ID '%s' exists.") % id)
+        page_user = openid.user
+        if not (page_user == c.user or h.has_permission("user.manage")): 
+            abort(403, _("You're not authorized to change %s's settings.") % id)
+        openid.delete_time = datetime.now()
+        model.meta.Session.add(openid)
+        model.meta.Session.commit()
+        return redirect_to("/user/edit/%s" % str(page_user.user_name))
 
     def verify(self):
         self.consumer = Consumer(self.openid_session, g.openid_store)
@@ -95,7 +110,7 @@ class OpenidauthController(BaseController):
                 else:
                     return self._failure(info.identity_url,
                         _("OpenID %s already belongs to %s.") 
-                        % (identity.key, oid.user.name))
+                        % (info.identity_url, oid.user.name))
             else: 
                 self._login(oid.user)
                 # returns
@@ -176,7 +191,7 @@ class OpenidauthController(BaseController):
         log.info("OpenID: %s - Error: %s" % (openid, message))
         if c.user:
             h.flash(message)
-            return redirect_to("/user/%s/edit" % str(c.user.user_name))
+            return redirect_to("/user/edit/%s" % str(c.user.user_name))
         else:
             loginhtml = render("/user/login.html")
             return formencode.htmlfill.render(loginhtml, 
