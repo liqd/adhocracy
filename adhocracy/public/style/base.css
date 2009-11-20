@@ -395,9 +395,13 @@ body {
 	bottom: 0px;
 	margin-top: 1em;
 	padding-top: 1em;
-	border-top: 1px solid #aaa;
+	border-top: 1px solid #eee;
 	margin-bottom: 20px;
-	color:  #222;
+	color: #222;
+	
+	background-image: url(/img/footer_bg.png);
+	background-repeat: repeat-x;
+	background-position: top;
 }
 
 #footer a {
@@ -582,6 +586,14 @@ h1, h2, h3 {
 	border-bottom: 1px solid #aaa;
 }
 
+h1 {
+	background-image: url(/img/comment_bg.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
+	
+	border-bottom: 1px solid #eee;
+}
+
 h1 img.cd, 
 h2 img.cd, 
 h3 img.cd,
@@ -596,6 +608,7 @@ h4 img.cd,
 	background-color: #f3f3f3;
 	background-image: url(/img/tile_bg.png);
 	background-repeat: repeat-x;
+	background-position: bottom;
 	padding: 0.3em;
 	padding-top: 0.1em;
 	/*
@@ -649,7 +662,8 @@ h4 img.cd,
 	text-align: right;
 	padding: 0.5em;
 	padding-right: 0em;
-	padding-top: 1em;
+	padding-top: 0.7em;
+	padding-bottom: 0.1em;
 	line-height: 1.5em;
 }
 
@@ -668,9 +682,10 @@ h4 img.cd,
 }
 
 .table {
-	margin-left: 10px;
-	margin-right: 0px;
+	margin-left: 20px;
+	margin-right: 10px;
 	overflow: hidden;
+	/*background-color: #f3f3f3;*/
 }
 
 .table .tile h3 {
@@ -680,6 +695,12 @@ h4 img.cd,
 .table .tile {
 	margin-bottom: 1em;
 	width: inherit;
+	
+	/*
+	background-color: #fff;
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	*/
 }
 
 .table .tile .meta {
@@ -1073,6 +1094,7 @@ a.button.inactive {
 .comment .tile {
 	border: 0px;
 	background-color: #fff;
+	background-image: none;
 	min-height: 30px;
 	margin-top: 7px;
 	margin-left: -24px;
@@ -1166,6 +1188,13 @@ a.button.inactive {
 	padding: 0.3em;
 	padding-left: 0em;
 	padding-bottom: 0.3em;
+	
+	background-image: url(/img/comment_bg.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
+	
+	border-bottom: 1px solid #eee;
+	/*border-right: 1px solid #ddd;*/
 }
 
 .comment .sub {

@@ -27,8 +27,20 @@ class DelayCriterion(Criterion):
         return self.begin_time + self.delay \
                     if self.begin_time else None
     
-    end_time = property(_get_end_time)
-        
+    end_time = property(_get_end_time) 
+    
+class StabilityCriterion(DelayCriterion):
+    """
+    Check to see whether the other adoption criteria have been
+    for the interval specified in the instance. 
+    """
+    
+    def _check_criteria(self, tally):
+        return self.state.majority(tally) and \
+               self.state.participation(tally) and \
+               self.state.alternatives(tally) and \
+               self.state.dependencies(tally)
+               
     def _sfx_check_tally(self, tally):
         # sfx = side effects. 
         # Since this function has the effect of setting 
@@ -60,20 +72,7 @@ class DelayCriterion(Criterion):
         if previous_tally:
             self._begin_time = earliest
             return True
-        return False    
-        
-    
-class StabilityCriterion(DelayCriterion):
-    """
-    Check to see whether the other adoption criteria have been
-    for the interval specified in the instance. 
-    """
-    
-    def _check_criteria(self, tally):
-        return self.state.majority(tally) and \
-               self.state.participation(tally) and \
-               self.state.alternatives(tally) and \
-               self.state.dependencies(tally)
+        return False 
     
     @memoize('stability_criterion')
     def check_tally(self, tally):
@@ -91,11 +90,34 @@ class VolatilityCriterion(DelayCriterion):
     """
         
     def _check_criteria(self, tally):
-        return not self.state.stable(tally)
+        return self.state.stable(tally)
     
+    def _sfx_check_tally(self, tally):        
+        earliest = tally.at_time - self.delay
+        tallies = self.state.get_tallies(start_at=earliest)
+        # is this really necessary?
+        before = libtally.at(self.poll, earliest)
+        tallies.append(before) 
+        
+        previous_tally = None
+        for t in tallies:
+            # filter by time
+            if t.at_time > tally.at_time:
+                continue
+            if t.at_time < before.at_time:
+                break
+        
+            if self._check_criteria(t):
+                self._begin_time = previous_tally.at_time
+                return True
+            
+            previous_tally = t
+        
+        return False   
+
     @memoize('volatility_criterion')
     def check_tally(self, tally):
-        return not self._sfx_check_tally(tally)
+        return self._sfx_check_tally(tally)
     
     def __str__(self):
         return "<VolatilityCriterion(%s)>" % self.state.poll.id

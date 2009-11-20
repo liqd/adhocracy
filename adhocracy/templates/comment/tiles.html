@@ -159,7 +159,7 @@
 <%def name="edit_form(comment)">
 	<form name="edit_comment" class="inplace" method="POST" action="/comment/edit/${comment.id}">
 		${h.field_token()|n}
-		<textarea tabindex="2" class="description" style="min-height: ${min(30, len(comment.latest.text)/90)}em !important;" name="text">${comment.latest.text}</textarea>
+		<textarea tabindex="2" class="description" style="min-height: ${max(7, min(30, len(comment.latest.text)/50))}em !important;" name="text">${comment.latest.text}</textarea>
 		${components.formatting()}
 		${components.savebox("/d/%s" % comment.topic.id)}
 	</form>

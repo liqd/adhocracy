@@ -1,6 +1,6 @@
 
 <%def name="checklist(state)">
-	<div class="boxed">
+	<div class="tile boxed">
 			<div class="inner_boxed">
 				<h4><img src="/img/icons/issue_adopted_16.png" class="cd"/> ${_("Adoption")}</h4>
 	<%
@@ -17,7 +17,7 @@
 		%elif state.adopted:
 			%if state.volatile:
 				<li class="met">${_("The motion is adopted, <b>but volatile</b>.")|n}</li>
-				<li class="unmet">${_("Majority needs to be held <b>for %s</b>.") % h.format_timedelta(state.stable.end_time - datetime.now() if state.stable.end_time else state.stable.delay)|n}</li>
+				<li class="unmet">${_("Majority needs to be held <b>for %s</b>.") % h.format_timedelta(state.volatile.end_time - datetime.now() if state.volatile.end_time else state.volatile.delay)|n}</li>
 			%else:
 				<li class="met">${_("The motion is adopted.")}</li>
 			%endif
