@@ -107,6 +107,11 @@
 					${_("deleted %s") % h.relative_time(comment.delete_time)}
 				%else:
 					<b>${h.user_link(comment.creator)|n}</b>
+					%if tile.creator_delegate:
+						<a href="/delegation/${tile.creator_delegate.id}">
+							<img class="user_icon" src="/img/icons/delegate_16.png" />
+						</a>
+					%endif
 					%if not tile.is_edited: 
 						&middot; ${_("%s") % h.relative_time(comment.create_time)}
 					%else:

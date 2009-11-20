@@ -14,6 +14,7 @@ class CommentTile(BaseTile):
     
     def __init__(self, comment):
         self.comment = comment
+        self.__topic_outbound = None 
         
     def _num_motions(self):
         return len(self.issue.motions)
@@ -44,6 +45,20 @@ class CommentTile(BaseTile):
         return isinstance(self.comment.topic, model.Issue)
     
     on_issue = property(_on_issue)
+    
+    def _creator_delegate(self):
+        if not c.user:
+            return None
+        if not self.__topic_outbound:
+            dnode = democracy.DelegationNode(c.user, self.comment.topic)
+            self.__topic_outbound = dnode.outbound()
+        for delegation in self.__topic_outbound:
+            if delegation.agent == self.comment.creator:
+                return delegation
+        return None
+        
+        
+    creator_delegate = property(_creator_delegate)
     
     def _can_edit(self):
         return auth.on_comment(self.comment, 'comment.edit') \
