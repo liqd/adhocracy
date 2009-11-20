@@ -1,14 +1,11 @@
 from datetime import datetime
-import os.path
-import StringIO
 
 from pylons.i18n import _
-
-import Image
 
 from adhocracy.lib.base import *
 import adhocracy.lib.text as text
 import adhocracy.model.forms as forms
+import adhocracy.lib.logo as logo
 
 import adhocracy.lib.instance as libinstance
 
@@ -30,11 +27,6 @@ class InstanceEditForm(formencode.Schema):
     default_group = forms.ValidGroup(not_empty=True)
 
 class InstanceController(BaseController):
-    
-    def __init__(self):
-        self.LOGO = Image.open(os.path.join(config['pylons.paths']['static_files'], 
-                                            'img', 'header_logo.png'))
-        self.PATH = os.path.join(config['cache.dir'], 'img', '%(key)s.png')    
     
     def _find_key(self, key):
         c.page_instance = model.Instance.find(key)
@@ -124,11 +116,8 @@ class InstanceController(BaseController):
                 c.page_instance.default_group = self.form_result.get('default_group') 
             
             try:
-                logo = request.POST.get('logo')
-                if logo.file:
-                    logo_image = Image.open(logo.file)
-                    logo_image.thumbnail(self.LOGO.size, Image.ANTIALIAS)
-                    logo_image.save(self.PATH % {'key': c.page_instance.key})
+                if request.POST.get('logo').file:
+                    logo.store(c.page_instance, request.POST.get('logo').file)
             except Exception, e:
                 log.debug(e)
             
@@ -151,20 +140,23 @@ class InstanceController(BaseController):
                                                      c.page_instance.default_group else \
                                                      model.Group.INSTANCE_DEFAULT
                                          })
-        
+    
     @ActionProtector(has_permission("instance.index"))
-    def logo(self, key):
-        #self._logo_setup()
+    def header(self, key):
         instance = model.Instance.find(key)
         response.content_type = "application/png"
-        if instance:
-            instance_path = self.PATH % {'key': instance.key}
-            if os.path.exists(instance_path):
-                return open(instance_path, 'rb').read()
-        sio = StringIO.StringIO()
-        self.LOGO.save(sio, 'PNG')
-        return sio.getvalue()
-             
+        return logo.load(instance, header=True)
+        
+    @ActionProtector(has_permission("instance.index"))
+    def icon(self, key, x, y):
+        instance = model.Instance.find(key)
+        response.content_type = "application/png"
+        try:
+            (x, y) = (int(x), int(y))
+        except ValueError, ve:
+            log.debug(ve)
+            (x, y) = (24, 24)
+        return logo.load(instance, size=(x, y), header=False)            
     
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.delete"))
