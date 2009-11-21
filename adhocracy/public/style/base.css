@@ -174,6 +174,10 @@ input.title {
 	background-color: #1553a4;
 }
 
+input.watch {
+	margin-top: 10px;
+}
+
 /* @end */
 
 /* @group Page Layout */
@@ -1245,6 +1249,7 @@ a.button.inactive {
 .comment .savebox,
 .headrev .savebox {
 	padding-top: 5px;
+	display: inline-block;
 }
 
 .comment .savebox button,

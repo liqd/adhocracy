@@ -15,6 +15,16 @@
 	</div>
 </%def>
 
+<%def name="form_watch(entity)">
+	<%
+	watch = False
+	if entity:
+		watch = c.lib.watchlist.get_entity_watch(c.user, entity)
+	%> 
+	<input class="watch" type="checkbox" ${"checked='checked'" if watch else ''} name="watch"/>
+	${_("Notify me of updates.")}
+</%def>
+
 <%def name="watch(entity, return_url)">
 	%if c.user:
 		<%

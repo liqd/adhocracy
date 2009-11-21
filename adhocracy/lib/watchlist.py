@@ -1,3 +1,7 @@
+from datetime import datetime
+
+from pylons import tmpl_context as c, request
+import formencode
 
 import adhocracy.model as model
 import search.entityrefs as entityrefs
@@ -22,3 +26,22 @@ def get_ref_watch(user, ref):
     watch = model.Watch.find(user, ref)
     return watch
 
+def check_watch(entity):
+    if not c.user:
+        return None
+    try:
+        watch_val = formencode.validators.Bool(not_empty=False,
+                                               if_empty=False,
+                                               if_missing=False)
+        do_watch = watch_val.to_python(request.params.get('watch'))
+        watch = get_entity_watch(c.user, entity)
+        if do_watch: 
+            if not watch:
+                watch_entity(cuser, entity)
+        else:
+            if watch:
+                watch.delete_time = datetime.now()
+                model.meta.Session.add(watch)
+                model.meta.Session.commit()        
+    except formencode.Invalid:
+        return None

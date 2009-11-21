@@ -69,6 +69,8 @@ class CommentController(BaseController):
             model.meta.Session.commit()
             model.meta.Session.refresh(comment)
             
+            watchlist.check_watch(comment)
+            
             event.emit(event.T_COMMENT_CREATE, {'comment': comment, 'delegateable': topic},
                        c.user, scopes=[c.instance], topics=[topic, comment])
             
@@ -89,6 +91,8 @@ class CommentController(BaseController):
             c.comment.latest = model.Revision(c.comment, c.user, _text)
             model.meta.Session.add(c.comment.latest)
             model.meta.Session.commit()
+            
+            watchlist.check_watch(c.comment)
             
             event.emit(event.T_COMMENT_EDIT, {'comment': c.comment, 
                                               'delegateable': c.comment.topic},

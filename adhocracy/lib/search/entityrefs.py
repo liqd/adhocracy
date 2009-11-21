@@ -24,7 +24,7 @@ def entity_type(cls):
 def to_ref(entity):
     for cls in TYPES:
         if isinstance(entity, cls):
-            return "@[%s:%s]" % (entity_type(entity), str(entity._index_id()))
+            return u"@[%s:%s]" % (entity_type(entity), str(entity._index_id()))
     return entity
 
 def ref_type(ref):

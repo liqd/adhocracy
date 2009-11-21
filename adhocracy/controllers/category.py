@@ -27,6 +27,8 @@ class CategoryController(BaseController):
             model.meta.Session.commit()
             model.meta.Session.refresh(category)
             
+            watchlist.check_watch(category)
+            
             event.emit(event.T_CATEGORY_CREATE, 
                        {'category': category, 'parent': self.form_result.get("categories")},
                        c.user, scopes=[c.instance], topics = [category, c.instance])
@@ -53,6 +55,8 @@ class CategoryController(BaseController):
                     c.category.parents = [parent]
             model.meta.Session.add(c.category)
             model.meta.Session.commit()
+            
+            watchlist.check_watch(c.category)
             
             event.emit(event.T_CATEGORY_EDIT, {'category': c.category},
                        c.user, scopes=[c.instance], topics = [c.category])

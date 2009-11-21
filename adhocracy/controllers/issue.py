@@ -45,6 +45,8 @@ class IssueController(BaseController):
             model.meta.Session.commit()
             model.meta.Session.refresh(rev)
             
+            watchlist.check_watch(issue)
+            
             event.emit(event.T_ISSUE_CREATE, {'issue': issue}, c.user, 
                        scopes=[c.instance], topics=[issue, c.instance])
             
@@ -66,6 +68,8 @@ class IssueController(BaseController):
             model.meta.Session.add(c.issue)
             model.meta.Session.commit()
             model.meta.Session.refresh(c.issue)
+            
+            watchlist.check_watch(c.issue)
             
             event.emit(event.T_ISSUE_EDIT, {'issue': c.issue}, c.user, 
                        scopes=[c.instance], topics=[c.issue, c.instance])

@@ -119,7 +119,9 @@ class MotionController(BaseController):
                 model.meta.Session.add(motion)
                 model.meta.Session.commit()
                 model.meta.Session.refresh(rev)
-            
+                
+                watchlist.check_watch(motion)
+                
                 event.emit(event.T_MOTION_CREATE, {'motion': motion},
                        c.user, scopes=[c.instance], topics=[motion, motion.issue, c.instance])
             
@@ -210,6 +212,8 @@ class MotionController(BaseController):
                         
                 
                 model.meta.Session.commit()
+                
+                watchlist.check_watch(c.motion)
             
                 event.emit(event.T_MOTION_EDIT, {'motion': c.motion},
                        c.user, scopes=[c.instance], topics=[c.motion, c.motion.issue])
