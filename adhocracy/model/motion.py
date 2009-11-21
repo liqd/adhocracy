@@ -69,7 +69,7 @@ class Motion(Delegateable):
         q = meta.Session.query(Motion)
         q = q.filter(Motion.delete_time==None)
         if instance:
-            q.filter(Motion.instance==instance)
+            q = q.filter(Motion.instance==instance)
         return q.all()
 
 Motion.comment = relation('Comment', 

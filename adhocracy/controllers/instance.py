@@ -61,7 +61,7 @@ class InstanceController(BaseController):
             inst = libinstance.create(self.form_result.get('key'),
                                       self.form_result.get('label'),
                                       c.user)
-            inst.description = self.form_result.get('description')
+            inst.description = text.cleanup(self.form_result.get('description'))
             model.meta.Session.refresh(inst)
             
             event.emit(event.T_INSTANCE_CREATE, {'instance': inst.key},
@@ -146,14 +146,15 @@ class InstanceController(BaseController):
     def header(self, key):
         instance = model.Instance.find(key)
         etag_cache(instance.id if instance else 0)
-        response.content_type = "application/png"
+        response.headers['Content-type'] = 'image/png'
+        #response.content_type = "image/png"
         return logo.load(instance, header=True)
         
     @ActionProtector(has_permission("instance.index"))
     def icon(self, key, x, y):
         instance = model.Instance.find(key)
         etag_cache(instance.id if instance else 0)
-        response.content_type = "application/png"
+        response.headers['Content-type'] = 'image/png'
         try:
             (x, y) = (int(x), int(y))
         except ValueError, ve:

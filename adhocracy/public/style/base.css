@@ -252,6 +252,7 @@ body {
 	/*background: #003366 url(/img/header_bg.png) repeat-x top left;*/
 	padding-top: 0;
 	width: 100%;
+	min-height: 62px;	
 	clear: both;
 	border: 0px;
 }
