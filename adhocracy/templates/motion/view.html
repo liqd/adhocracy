@@ -38,6 +38,7 @@
 	<a class="button title inactive htwarn" title="${c.tile.lack_begin_poll_karma}">${_("call a vote")}</a> 
 %endif
 
+${components.watch(c.motion, '/motion/%s' % str(c.motion.id))}
 
 <h1 class="page_title">
 	%if c.tile.state.adopted:

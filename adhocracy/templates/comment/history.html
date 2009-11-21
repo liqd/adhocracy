@@ -1,9 +1,12 @@
 <%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
 <%def name="title()">${_("Comment History")}</%def>
 
 <%def name="breadcrumbs()">
 	${h.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment History")}
 </%def>
+
+${components.watch(c.comment, '/comment/%s/history' % str(c.comment.id))}
 
 <h1><img src="/img/icons/discuss_24.png" class="cd" /> ${_("Comment History")}</h1>
 

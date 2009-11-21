@@ -18,23 +18,29 @@ TYPES = [model.Vote,
          model.Motion,
          model.Instance]
 
-def _index_name(cls):
+def entity_type(cls):
     return cls.__tablename__
 
 def to_ref(entity):
     for cls in TYPES:
         if isinstance(entity, cls):
-            return "@[%s:%s]" % (_index_name(entity), str(entity._index_id()))
+            return "@[%s:%s]" % (entity_type(entity), str(entity._index_id()))
     return entity
 
-def to_entity(ref):
+def ref_type(ref):
+    match = FORMAT.match(ref)
+    if not match:
+        return None
+    return match.group(1)
+
+def to_entity(ref, instance_filter=False):
     match = FORMAT.match(ref)
     if not match:
         return ref
     for cls in TYPES:
-        if match.group(1) == _index_name(cls):
+        if match.group(1) == entity_type(cls):
             entity = cls.find(match.group(2), 
-                              instance_filter=False)
+                              instance_filter=instance_filter)
             #log.debug("entityref reloaded: %s" % repr(entity))
             return entity
     log.warn("No typeformatter for: %s" % ref)

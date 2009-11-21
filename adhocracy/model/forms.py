@@ -12,6 +12,7 @@ import motion
 import category
 import issue
 import group
+import watch
 import revision
 import comment
 import instance
@@ -127,14 +128,15 @@ class ValidComment(formencode.FancyValidator):
                 _("No comment with ID '%s' exists") % value,
                  value, state)
         return cmt
-    
-class ValidMotionState(formencode.FancyValidator):
+
+class ValidWatch(formencode.FancyValidator):
     def _to_python(self, value, state):
-        if not value in motion.Motion.STATES: 
+        wat = watch.Watch.by_id(value)
+        if not wat: 
            raise formencode.Invalid(
-                _("'%s' is not a valid motion state."),
+                _("No watchlist entry with ID '%s' exists") % value,
                  value, state)
-        return value
+        return wat
         
 class ExistingUserName(formencode.FancyValidator):
     def _to_python(self, value, state):

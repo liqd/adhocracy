@@ -78,6 +78,7 @@ def setup_entities():
     mk_perm("user.edit", default)
     mk_perm("user.view", anonymous)
     mk_perm("delegation.view", anonymous)
+    mk_perm("watch.delete", observer)
     mk_perm("global.admin", admins)
     mk_perm("global.member", admins)
     

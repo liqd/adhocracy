@@ -32,6 +32,7 @@ import event
 import democracy
 import tiles
 import sorting
+import watchlist
 import text.i18n as i18n
 
 

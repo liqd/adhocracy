@@ -15,6 +15,22 @@
 	</div>
 </%def>
 
+<%def name="watch(entity, return_url)">
+	%if c.user:
+		<%
+		watch = c.lib.watchlist.get_entity_watch(c.user, entity) 
+		import urllib
+		ret = urllib.urlencode({'ret': return_url})
+		ref = urllib.urlencode({'ref': c.lib.watchlist.entity2ref(entity)})
+		%>
+		%if watch:
+			<a class="button title edit" href="/watch/delete?watch=${watch.id}&${ret}&${h.url_token()}">${_("unwatch")}</a>
+		%else:
+			<a class="button title admin" href="/watch/create?${ref}&${ret}&${h.url_token()}">${_("watch")}</a>
+		%endif
+	%endif
+</%def>
+
 <%def name="login_ctxitem()">
 	%if not c.user:
 	<div class="contextitem">

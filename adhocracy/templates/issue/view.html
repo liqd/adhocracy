@@ -24,6 +24,8 @@
 	<a class="button title add" href="/delegation/create?scope=${c.issue.id}">${_("delegate")}</a>
 %endif
 
+${components.watch(c.issue, '/issue/%s' % str(c.issue.id))}
+
 <h1 class="page_title"><img src="/img/icons/issue_24.png" class="cd" />${_("Issue: %s") % c.issue.label}</h1>
 
 <div class="sidebar">

@@ -24,7 +24,7 @@ class Indexer(object):
                                 Field.Store.YES, Field.Index.UN_TOKENIZED))
             self._doc.add(Field("ref", entityrefs.to_ref(self.entity), 
                                 Field.Store.YES, Field.Index.UN_TOKENIZED))
-            self._doc.add(Field("type", entityrefs._index_name(self.entity),
+            self._doc.add(Field("type", entityrefs.entity_type(self.entity),
                                 Field.Store.YES, Field.Index.UN_TOKENIZED))
             self._doc.add(Field("entity", "true",
                                 Field.Store.YES, Field.Index.UN_TOKENIZED))

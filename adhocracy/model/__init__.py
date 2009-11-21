@@ -58,6 +58,9 @@ from adhocracy.model.alternative import Alternative
 from adhocracy.model import dependency
 from adhocracy.model.dependency import Dependency
 
+from adhocracy.model import watch
+from adhocracy.model.watch import Watch
+
 from adhocracy.model import filter
 
 def init_model(engine):
