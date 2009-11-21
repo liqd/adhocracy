@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2009-11-21 00:03+0100\n"
+"POT-Creation-Date: 2009-11-21 11:42+0100\n"
 "PO-Revision-Date: 2009-09-15 16:36+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -204,26 +204,26 @@ msgstr ""
 msgid "News from the %s Adhocracy"
 msgstr ""
 
-#: adhocracy/controllers/instance.py:168
+#: adhocracy/controllers/instance.py:169
 msgid "Deleting an instance is not currently implemented"
 msgstr ""
 
-#: adhocracy/controllers/instance.py:175
+#: adhocracy/controllers/instance.py:176
 #, python-format
 msgid "You're already a member in %(instance)s."
 msgstr ""
 
-#: adhocracy/controllers/instance.py:189
+#: adhocracy/controllers/instance.py:190
 #, python-format
 msgid "Welcome to %(instance)s"
 msgstr ""
 
-#: adhocracy/controllers/instance.py:198
+#: adhocracy/controllers/instance.py:199
 #, python-format
 msgid "You're not a member of %(instance)s."
 msgstr ""
 
-#: adhocracy/controllers/instance.py:201
+#: adhocracy/controllers/instance.py:202
 #, python-format
 msgid "You're the founder of %s, cannot leave."
 msgstr ""
@@ -1792,6 +1792,11 @@ msgstr ""
 
 #: adhocracy/templates/motion/create.html:21
 msgid "Give a brief description of <b>what</b> your proposal will do."
+msgstr ""
+
+#: adhocracy/templates/motion/create.html:24
+#, python-format
+msgid "The proposal addresses %s by..."
 msgstr ""
 
 #: adhocracy/templates/motion/create.html:29

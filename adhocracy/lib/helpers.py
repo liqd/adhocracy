@@ -59,7 +59,7 @@ def user_link(user, size=16, link=None, include_score=True):
         instance_url(c.instance, path=link), 
         gravatar_url(user, size=size),
         cgi.escape(user.name),
-        karma.user_score(user) if include_score else '')
+        karma.user_score(user) if (include_score and c.instance) else '')
     
 @cache.memoize('motion_icon', 3600*2)
 def motion_icon(motion, size=16):
