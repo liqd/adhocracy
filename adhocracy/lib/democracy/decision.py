@@ -172,7 +172,8 @@ class Decision(object):
         """
         polls = set([vote.poll for vote in user.votes])
         for poll in polls:
-            yield cls(user, poll, at_time=at_time)
+            if not instance or poll.motion.instance == instance:
+                yield cls(user, poll, at_time=at_time)
             
     @classmethod
     def for_poll(cls, poll, at_time=None):
