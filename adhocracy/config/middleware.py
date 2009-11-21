@@ -8,7 +8,7 @@ from pylons import config
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
-from paste.debug.profile import make_profile_middleware
+#from paste.debug.profile import make_profile_middleware
 
 
 from adhocracy.lib.authentication import setup_auth
