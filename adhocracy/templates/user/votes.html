@@ -8,12 +8,14 @@
 	${parts.user_breadcrumbs(c.page_user)} &raquo; ${_("Votes")}
 </%def>
 
+<h1 class="page_title">
+	<img class="cd" src="/img/icons/vote_24.png" />
 %if c.user and c.user == c.page_user:
-	<h1 class="page_title">${_("Review your voting track")}</h1>
+	${_("Review your voting track")}
 %else:
-	<h1 class="page_title">${_("Votes:")}  
-		<a href="/user/${c.page_user.user_name}">${c.page_user.name}</a></h1>
+	${_("Votes:")} <a href="/user/${c.page_user.user_name}">${c.page_user.name}</a>
 %endif
+</h1>
 
 <div class="sidebar">
 	&nbsp;

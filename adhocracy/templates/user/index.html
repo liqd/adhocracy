@@ -6,7 +6,10 @@
 	${h.breadcrumbs(c.instance.root if c.instance else None)|n} &raquo; ${_("Users")}
 </%def>
 
-<h1 class="page_title">${_("Users in %s") % c.instance.label if c.instance else _("Users")} (${len(c.users)})</h1>
+<h1 class="page_title">
+	<img class="cd" src="/img/icons/user_24.png" />
+	${_("Users in %s") % c.instance.label if c.instance else _("Users")} (${len(c.users)})
+</h1>
 
 <div class="sidebar">
 	&nbsp; 
