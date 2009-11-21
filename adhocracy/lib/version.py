@@ -4,14 +4,14 @@ Versioning for the application, especially for the UI.
 
 import re
 
-svn_revision = "$Revision: 323 $"
+svn_revision = "$Revision: 374 $"
 svn_rev_re = re.compile("\$Revision: (\d*) \$")
 
 rev_num = int(svn_rev_re.match(svn_revision).group(1))
 
-REV_TEMPLATE = "beta 2 (r%s)"
+REV_TEMPLATE = "beta 3 (r%s)"
 # Modify this:
-# foo schnasel // version bumpign 
+# foo schnasel // version bumping 
 
 def get_version():
     """ Get a version identifier for use in the public user interface """
