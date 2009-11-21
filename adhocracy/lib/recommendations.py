@@ -29,6 +29,6 @@ def recommend(scope, user, count=5):
                   (log_with_null(dgb_pop_users.get(u, 0)) * 2) + \
                   (usr_pop_users.get(u, 0) * 3)
     print >>sys.stderr, "RECS DICT", repr(recs)
-    rs = sorted(recs.keys(), key=lambda u: recs[u])[0:count]
+    rs = sorted(recs.keys(), key=lambda u: recs[u], reverse=True)[0:count]
     print >>sys.stderr, "RECS SORTING", repr(rs)
     return rs
