@@ -52,14 +52,14 @@ def has_permission(permission):
 def immutable_motion_message():
     return _("This motion is currently being voted on and cannot be modified.")
 
-def user_link(user, size=16, link=None):
+def user_link(user, size=16, link=None, include_score=True):
     if not link:
         link = "/user/%s" % user.user_name
     return "<a href='%s' class='user_link'><img class='user_icon' src='%s' alt="" /> %s</a><sup>%s</sup>" % (
         instance_url(c.instance, path=link), 
         gravatar_url(user, size=size),
         cgi.escape(user.name),
-        karma.user_score(user))
+        karma.user_score(user) if include_score else '')
     
 @cache.memoize('motion_icon', 3600*2)
 def motion_icon(motion, size=16):

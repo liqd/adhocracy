@@ -99,7 +99,6 @@ class VolatilityCriterion(DelayCriterion):
         before = libtally.at(self.poll, earliest)
         tallies.append(before) 
         
-        previous_tally = None
         for t in tallies:
             # filter by time
             if t.at_time > tally.at_time:
@@ -108,11 +107,8 @@ class VolatilityCriterion(DelayCriterion):
                 break
         
             if self._check_criteria(t):
-                self._begin_time = previous_tally.at_time
+                self._begin_time = t.at_time
                 return True
-            
-            previous_tally = t
-        
         return False   
 
     @memoize('volatility_criterion')

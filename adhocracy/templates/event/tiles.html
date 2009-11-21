@@ -5,7 +5,7 @@
 			${h.relative_time(event.time)}
 		</span>
 		<span class="text">
-			${h.user_link(event.agent)|n}
+			${h.user_link(event.agent, include_score=False)|n}
 			${event.html()|n}
 		</span>
 	</li>

@@ -46,7 +46,7 @@ class UserFormatter(ObjectFormatter):
         return user.name
     
     def html(self, user):
-        return h.user_link(user)
+        return h.user_link(user, include_score=False)
     
 class GroupFormatter(ObjectFormatter):
     
