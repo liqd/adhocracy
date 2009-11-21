@@ -119,7 +119,7 @@ class OpenidauthController(BaseController):
                 oid = model.OpenID(info.identity_url, c.user)
                 model.meta.Session.add(oid)
                 model.meta.Session.commit()
-                redirect_to("/user/%s/edit" % str(c.user.user_name))
+                redirect_to("/user/edit/%s" % str(c.user.user_name))
             else:
                 try:
                     forms.UniqueUsername().to_python(user_name)
