@@ -182,7 +182,7 @@ class UserController(BaseController):
             h.flash(_("%s is not a member of %s") % (c.page_user.name, c.instance.label))
         
         events = event.q.run(event.q._or(event.q.agent(c.page_user), 
-                                       event.q.topic(c.page_user)))
+                                         event.q.topic(c.page_user)))
         
         c.events_pager = NamedPager('events', events, tiles.event.list_item)
         if format == 'rss':

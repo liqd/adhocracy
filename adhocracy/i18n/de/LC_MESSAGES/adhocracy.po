@@ -648,18 +648,18 @@ msgstr "löschte die Kategorie %(category)s"
 
 #: adhocracy/lib/event/types.py:67
 #, python-format
-msgid "created a %(comment)s on %(delegateable)s"
-msgstr "legte in %(delegateable)s einen %(comment)s an"
+msgid "created a %(comment)s on %(topic)s"
+msgstr "legte in %(topic)s einen %(comment)s an"
 
 #: adhocracy/lib/event/types.py:68
 #, python-format
-msgid "edited a %(comment)s on %(delegateable)s"
-msgstr "bearbeitete in %(delegateable)s einen %(comment)s"
+msgid "edited a %(comment)s on %(topic)s"
+msgstr "bearbeitete in %(topic)s einen %(comment)s"
 
 #: adhocracy/lib/event/types.py:69
 #, python-format
-msgid "deleted a %(comment)s from %(delegateable)s"
-msgstr "löschte aus %(delegateable)s einen %(comment)s"
+msgid "deleted a %(comment)s from %(topic)s"
+msgstr "löschte aus %(topic)s einen %(comment)s"
 
 #: adhocracy/lib/event/types.py:70
 #, python-format

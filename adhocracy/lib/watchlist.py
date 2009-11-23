@@ -48,7 +48,7 @@ def check_watch(entity):
         watch = get_entity_watch(c.user, entity)
         if do_watch: 
             if not watch:
-                watch_entity(cuser, entity)
+                watch_entity(c.user, entity)
         else:
             if watch:
                 watch.delete_time = datetime.now()

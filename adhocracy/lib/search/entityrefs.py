@@ -34,7 +34,7 @@ def ref_type(ref):
     return match.group(1)
 
 def to_entity(ref, instance_filter=False):
-    match = FORMAT.match(ref)
+    match = FORMAT.match(unicode(ref))
     if not match:
         return ref
     for cls in TYPES:
@@ -50,7 +50,7 @@ def _ify(fun, obj):
     if isinstance(obj, type([])):
         return [refify(e) for e in obj]
     elif isinstance(obj, type({})):
-        return dict([(refify(k), refify(v)) for k, v in obj.items()])
+        return dict([(k, _ify(fun, v)) for k, v in obj.items()])
     else:
         if obj:
             obj = fun(obj)

@@ -52,7 +52,7 @@ class NamedPager(object):
     def __init__(self, name, items, itemfunc, count=10, sorts={}, default_sort=None, **kwargs):
         self.name = name
         self._items = []
-        for i in items: # stable set() - ugly, can this be done differently? 
+        for i in items: # stable set() - fugly, can this be done differently? 
             if not i in self._items:
                 self._items.append(i) 
         self.itemfunc = itemfunc

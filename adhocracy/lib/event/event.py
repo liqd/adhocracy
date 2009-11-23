@@ -53,13 +53,15 @@ class Event(object):
         return json.dumps(ref_data)
     
     @classmethod
-    def from_json(cls, json):
-        deref_data = entityrefs.derefify(json)
+    def from_json(cls, data):
+        deref_data = entityrefs.derefify(json.loads(data))
         for key in ['event', 'agent', 'time', 'scopes', 'topics']:
             if not key in deref_data.keys():
                 raise EventException("Incomplete JSON Event: %s missing" % key)
         time = datetime.fromtimestamp(deref_data['time'])
-        return cls(deref_data['event'], deref_data['agent'], time=time, **deref_data)
+        kwargs = dict([(str(k), v) for k, v in deref_data.items() \
+                      if not k in [u"time", u"event", u"agent"]])
+        return cls(deref_data['event'], deref_data['agent'], time=time, **kwargs)
     
     def format(self, decoder):
         """
@@ -77,7 +79,6 @@ class Event(object):
         return types.messages.get(self.event)() % args
     
     def html(self):
-        types.messages.get(self.event)()
         return self.format(lambda formatter, value: formatter.html(value))
     
     def __unicode__(self):
