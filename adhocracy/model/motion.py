@@ -49,7 +49,6 @@ class Motion(Delegateable):
                 continue
             return poll
         return None
-                
         
     @classmethod
     def find(cls, id, instance_filter=True):

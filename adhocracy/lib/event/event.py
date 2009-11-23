@@ -41,10 +41,12 @@ class Event(object):
         return self._data.get(attr)
     
     def __hash__(self):
-        hash = hashlib.sha1(str(self._data['time']))
-        hash.update(self.event)
-        hash.update(self.agent.user_name) 
-        return int(hash.hexdigest(), 16)
+        if not self._data.get('id'):
+            hash = hashlib.sha1(str(self._data['time']))
+            hash.update(self.event)
+            hash.update(self.agent.user_name) 
+            self._data['id'] = abs(int(hash.hexdigest(), 16))
+        return self._data['id']
     
     id = property(lambda self: hash(self))
     

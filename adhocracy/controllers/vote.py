@@ -25,7 +25,7 @@ class VoteController(BaseController):
         votes = democracy.Decision(c.user, motion.poll).make(orientation)
         for vote in votes:
             event.emit(event.T_VOTE_CAST, vote.user, scopes=[c.instance], 
-                       topics=[motion, vote.user], vote=vote, motion=motion)
+                       topics=[motion, vote.user], vote=vote, poll=motion.poll)
         redirect_to("/motion/%s" % str(id))
         
     def cast_error(self, id):

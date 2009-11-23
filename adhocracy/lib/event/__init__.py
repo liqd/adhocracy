@@ -8,6 +8,7 @@ from types import *
 import query as q
 from store import EventStore
 from rss import rss_feed
+import notification
 
 import adhocracy.model as model
 
@@ -19,5 +20,6 @@ def emit(event, agent, time=None, scopes=[], topics=[], **kwargs):
     es.persist()
     #print "EVT ", e.to_json()
     log.debug("Event %s: %s" % (agent.name, unicode(e)))
+    notification.notify(e)
     return e
 

@@ -16,6 +16,7 @@ TYPES = [model.Vote,
          model.Category,
          model.Issue,
          model.Motion,
+         model.Poll,
          model.Instance]
 
 def entity_type(cls):

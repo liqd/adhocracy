@@ -44,6 +44,5 @@ def create(key, label, user):
     
     model.meta.Session.commit()
     
-    
     return instance
     

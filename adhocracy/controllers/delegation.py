@@ -27,23 +27,30 @@ class DelegationController(BaseController):
                 if agent == 'other':
                     agent = request.params['agent_other']
                 agent = forms.ExistingUserName().to_python(agent)
+                
                 if agent and agent != c.user:
                     delegation = model.Delegation(c.user, agent, c.scope)
                     model.meta.Session.add(delegation)
                     model.meta.Session.commit()
                     
+                    ## make this optional in the UI 
                     log.debug("Replaying the vote for Delegation: %s" % delegation)
-                    democracy.Decision.replay_decisions(delegation)
+                    replay = validators.Int(if_empty=0, if_missing=0, not_empty=False)
+                    if replay == 1:
+                        for vote in democracy.Decision.replay_decisions(delegation):
+                            event.emit(event.T_VOTE_CAST, vote.user, scopes=[c.instance], 
+                                       topics=[vote.poll.motion, vote.user], vote=vote, poll=vote.poll)
                     
                     event.emit(event.T_DELEGATION_CREATE, c.user, scopes=[c.instance], 
                                topics=[c.scope, agent], scope=c.scope, delegate=agent)
-                    
+                                       
                     redirect_to("/d/%s" % str(c.scope.id))
             except formencode.validators.Invalid, error:
                 errors = error.error_dict
                 #pass
         else:
             fillins['agent'] = 'other'
+            fillins['replay'] = 1
         return htmlfill.render(render("delegation/create.html"),
                     defaults=fillins, errors=errors)
         
@@ -60,7 +67,7 @@ class DelegationController(BaseController):
         
         event.emit(event.T_DELEGATION_REVOKE, c.user, topics=[delegation.scope, 
                                                               delegation.agent],
-                   scope=c.scope, delegate=agent)
+                   scope=c.scope, delegate=delegation.agent)
         
         model.meta.Session.add(delegation)
         model.meta.Session.commit()        

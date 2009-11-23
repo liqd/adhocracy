@@ -28,9 +28,6 @@ T_MOTION_STATE_REDRAFT = u"t_motion_state_draft"
 T_MOTION_STATE_VOTING = u"t_motion_state_voting"
 T_MOTION_DELETE = u"t_motion_delete"
 
-T_EDITOR_ADD = u"t_editor_add"
-T_EDITOR_REMOVE = u"t_editor_remove"
-
 T_CATEGORY_CREATE = u"t_category_create"
 T_CATEGORY_EDIT = u"t_category_edit"
 T_CATEGORY_DELETE = u"t_category_delete"
@@ -65,8 +62,6 @@ messages = {
     T_MOTION_STATE_REDRAFT: lambda: _(u"re-drafted %(motion)s"),
     T_MOTION_STATE_VOTING: lambda: _(u"called a vote on %(motion)s"),
     T_MOTION_DELETE: lambda: _(u"deleted %(motion)s"),
-    T_EDITOR_ADD: lambda: _(u"named %(user)s as an editor for %(motion)s"),
-    T_EDITOR_REMOVE: lambda: _(u"removed %(user)s from the editors of %(motion)s"),
     T_CATEGORY_CREATE: lambda: _(u"created the category %(category)s in %(parent)s"),
     T_CATEGORY_EDIT: lambda: _(u"updated the category %(category)s"),
     T_CATEGORY_DELETE: lambda: _(u"deleted the category %(category)s"),
@@ -75,6 +70,6 @@ messages = {
     T_COMMENT_DELETE: lambda: _(u"deleted a %(comment)s from %(topic)s"),
     T_DELEGATION_CREATE: lambda: _(u"delegated voting on %(scope)s to %(delegate)s"),
     T_DELEGATION_REVOKE: lambda: _(u"revoked their delegation on %(scope)s to %(delegate)s"),
-    T_VOTE_CAST: lambda: _(u"%(vote)s %(motion)s"),
+    T_VOTE_CAST: lambda: _(u"%(vote)s %(poll)s"),
     T_TEST: lambda: _(u"test %(test)s")
     }

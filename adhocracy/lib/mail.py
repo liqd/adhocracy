@@ -14,7 +14,7 @@ import version
 log = logging.getLogger(__name__)
 ENCODING = 'utf-8'
 
-def to_mail(to_name, to_email, subject, body, html_body=None):
+def to_mail(to_name, to_email, subject, body, html_body=None, headers={}):
     email_from = config['adhocracy.email.from']
     smtp_server = config['smtp_server']
     
@@ -33,19 +33,24 @@ def to_mail(to_name, to_email, subject, body, html_body=None):
         msg.attach(plain_part)
         msg.attach(html_part)
     
+    for k, v in headers.items(): msg[k] = v
+    
     subject = Header(subject.encode(ENCODING), ENCODING)
     msg['Subject'] = subject
     msg['From'] = _("Adhocracy <%s>") % email_from
     to = Header(u"%s <%s>" % (to_name, to_email), ENCODING)
     msg['To'] = to
-    msg['X-Mailer'] = _("Adhocracy LD %s") % version.get_version()
+    msg['X-Mailer'] = _("Adhocracy SMTP %s") % version.get_version()
          
     server = smtplib.SMTP(smtp_server)
     #server.set_debuglevel(1)
-    #server.sendmail(email_from, [to_email], header + body)
-    #server.quit()
+    try:
+        server.sendmail(email_from, [to_email], msg.as_string())
+    except Exception, e:
+        log.warn("Error while sending SMTP mail: %s" % e)
+    server.quit()
     
-    log.debug("FAKEMAIL\r\n" + msg.as_string())
+    log.debug("MAIL\r\n" + msg.as_string())
     
-def to_user(to_user, subject, body, html_body=None):
-    return to_mail(to_user.name, to_user.email, subject, body, html_body)
+def to_user(to_user, subject, body, html_body=None, headers={}):
+    return to_mail(to_user.name, to_user.email, subject, body, html_body, headers)

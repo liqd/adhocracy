@@ -222,14 +222,16 @@ class Decision(object):
         
         :param delegation: The delegation that is newly created. 
         """
+        votes = []
         for decision in cls.for_user(delegation.agent, delegation.scope.instance, 
                                      at_time=delegation.create_time):
-            log.debug("RP: Decision %s" % decision)
+            #log.debug("RP: Decision %s" % decision)
             if delegation.is_match(decision.poll.motion):
                 if not decision.poll.end_time: 
                     log.debug("RP: Making %s" % decision)
                     principal_dec = Decision(delegation.principal, decision.poll)
-                    principal_dec.make(decision.result, _edge=delegation)
+                    votes += principal_dec.make(decision.result, _edge=delegation)
+        return votes
                 
         
         

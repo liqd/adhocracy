@@ -1,34 +1,32 @@
-from .... import watchlist
- 
-class Notification(object):
-    
-    def __init__(self, event, user, priority=None):
-        self.event = event
-        self.user = user
-        self.priority = priority
+import logging
+from time import time
+from itertools import chain
 
-def watchlist_notifications(event):
+from sources import watchlist_source, vote_source, instance_source, comment_source, delegation_source
+from filters import self_filter, duplicates_filter
+from sinks import log_sink, mail_sink
+
+log = logging.getLogger(__name__)
+
+def notify(event):
+    log.debug("Event notification processing: %s" % event)
+    begin_time = time()
+    sources = filter(lambda g: g, [watchlist_source(event),
+                                   vote_source(event),
+                                   instance_source(event),
+                                   delegation_source(event),
+                                   comment_source(event)])
+    pipeline = chain(*sources)
     
-    def _delegateable(delegateable):
-        watches = watchlist.get_entity_watches(delegateable)
-        for parent in delegateable.parents:
-            watches += _delegateable(parent)
-        return watches
+    pipeline = self_filter(pipeline)
+    pipeline = duplicates_filter(pipeline)
     
-    def _comment(comment):
-        watches = watchlist.get_entity_watches(comment)
-        if comment.reply:
-            watches += _comment(comment.reply)
-        else:
-            watches += _delegateable(comment.topic)
-        return watches
+    pipeline = log_sink(pipeline)
+    pipeline = mail_sink(pipeline)
     
-    watches = watchlist.get_entity_watches(event.agent)
-    for topic in event.topics:
-        if isinstance(topic, model.Comment):
-            watches += _comment(topic)
-        elif isinstance(topic, model.Delegateable):
-            watches += _delegateable(topic) 
-        elif isinstance(topic, model.User):
-            watches += watchlist.get_entity_watches(topic)
-    return watches
+    for n in pipeline: pass
+    
+    end_time = time() - begin_time
+    log.debug("-> processing took: %sms" % (end_time * 1000)) 
+
+        

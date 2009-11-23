@@ -32,6 +32,9 @@ class Poll(Base):
                                          self.begin_time, 
                                          self.end_time)  
     
+    def _index_id(self):
+        return self.id
+    
     @classmethod
     def find(cls, id, instance_filter=True):
         try:

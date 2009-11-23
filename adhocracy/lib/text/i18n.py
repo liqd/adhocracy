@@ -25,17 +25,26 @@ def handle_request():
     Otherwise, an appropriate locale will be negotiated between the browser 
     accept headers and the available locales.  
     """
-    if c.user and c.user.locale:
-        c.locale = c.user.locale
+    c.locale = user_language(c.user, request.languages)
+
+
+
+def user_language(user, fallbacks=[]):
+    locale = None
+    if user and user.locale:
+        locale = user.locale
     else:
-        lang = Locale.negotiate(request.languages, map(str, LOCALES)) \
+        lang = Locale.negotiate(fallbacks, map(str, LOCALES)) \
                 or str(DEFAULT)
-        c.locale = Locale.parse(lang)
+        locale = Locale.parse(lang)
     
     # pylons 
-    set_lang(c.locale.language)
+    set_lang(locale.language)
     add_fallback(DEFAULT.language)
-    formencode.api.set_stdtranslation(domain="FormEncode", languages=[c.locale.language])
+    formencode.api.set_stdtranslation(domain="FormEncode", languages=[locale.language])
+    return locale
+    
+
 
 def relative_date(time):
     """ Date only, not date & time. """

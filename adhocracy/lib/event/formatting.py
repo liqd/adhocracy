@@ -29,6 +29,16 @@ class MotionFormatter(DelegateableFormatter):
 
 class CategoryFormatter(DelegateableFormatter):
     pass
+
+class PollFormatter(ObjectFormatter):
+    
+    def unicode(self, poll):
+        m = MotionFormatter()
+        return m.unicode(poll.motion)
+    
+    def html(self, poll):
+        m = MotionFormatter()
+        return m.html(poll.motion)
             
 class InstanceFormatter(ObjectFormatter):
     
@@ -82,5 +92,6 @@ FORMATTERS = {model.Vote: VoteFormatter(),
               model.Instance: InstanceFormatter(),
               model.Category: CategoryFormatter(),
               model.Motion: MotionFormatter(),
+              model.Poll: PollFormatter(),
               model.Issue: IssueFormatter(),
               model.Comment: CommentFormatter()}
