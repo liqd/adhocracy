@@ -29,9 +29,9 @@ class CategoryController(BaseController):
             
             watchlist.check_watch(category)
             
-            event.emit(event.T_CATEGORY_CREATE, 
-                       {'category': category, 'parent': self.form_result.get("categories")},
-                       c.user, scopes=[c.instance], topics = [category, c.instance])
+            event.emit(event.T_CATEGORY_CREATE, c.user, scopes=[c.instance], 
+                       topics=[category, c.instance], category=category, 
+                       parent=self.form_result.get("categories"))
             
             redirect_to("/category/%s" % str(category.id))
         return render("/category/create.html")
@@ -58,8 +58,8 @@ class CategoryController(BaseController):
             
             watchlist.check_watch(c.category)
             
-            event.emit(event.T_CATEGORY_EDIT, {'category': c.category},
-                       c.user, scopes=[c.instance], topics = [c.category])
+            event.emit(event.T_CATEGORY_EDIT, c.user, scopes=[c.instance], 
+                       topics = [c.category], category=c.category)
             
             return redirect_to('/category/%s' % str(c.category.id))
         return render("/category/edit.html")
@@ -139,7 +139,7 @@ class CategoryController(BaseController):
         model.meta.Session.add(category)
         model.meta.Session.commit()
         
-        event.emit(event.T_CATEGORY_DELETE, {'category': category},
-                   c.user, scopes=[c.instance], topics=[parent, c.instance, category])
+        event.emit(event.T_CATEGORY_DELETE, c.user, scopes=[c.instance], 
+                   topics=[parent, c.instance, category], category=category)
         
         redirect_to("/category/%s" % str(parent.id))

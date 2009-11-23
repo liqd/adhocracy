@@ -73,7 +73,7 @@ class UserController(BaseController):
             model.meta.Session.add(membership)
             model.meta.Session.commit()
             
-            event.emit(event.T_USER_CREATE, {}, user)
+            event.emit(event.T_USER_CREATE, user)
             
             if c.instance:
                 session['came_from'] = "/instance/join/%s?%s" % (c.instance.key, h.url_token())
@@ -106,10 +106,10 @@ class UserController(BaseController):
             model.meta.Session.commit()
             model.meta.Session.refresh(c.page_user)
             if c.page_user == c.user:
-                event.emit(event.T_USER_EDIT, {}, c.user)
+                event.emit(event.T_USER_EDIT, c.user)
             else:
-                event.emit(event.T_USER_ADMIN_EDIT, {'user': c.page_user},
-                           c.user, topics=[c.page_user])
+                event.emit(event.T_USER_ADMIN_EDIT, c.user, topics=[c.page_user],
+                           user=c.page_user)
             redirect_to("/user/%s" % str(c.page_user.user_name))
         return render("/user/edit.html")
     

@@ -2,8 +2,7 @@ import logging
 
 from lucene import BooleanQuery, TermQuery, Term, Hit, BooleanClause, QueryParser
 
-from event import Event
-import util
+from store import EventStore
 
 log = logging.getLogger(__name__)
 
@@ -32,13 +31,13 @@ def _not(q):
     return "-" + q
 
 def agent(user):
-    return "agent:%s" % util.objtoken(user)
+    return "agent:%s" % EventStore.objtoken(user)
 
 def topic(obj):
-    return "topic:%s" % util.objtoken(obj)
+    return "topic:%s" % EventStore.objtoken(obj)
 
 def scope(obj):
-    return "scope:%s" % util.objtoken(obj)
+    return "scope:%s" % EventStore.objtoken(obj)
 
 def run(query, sort_time=True, sort_time_desc=True,
                from_time=None, to_time=None):
@@ -62,7 +61,7 @@ def run(query, sort_time=True, sort_time_desc=True,
         evts = []
         for hit in hits:
             hit = Hit.cast_(hit)
-            evt = Event.restore(hit.getDocument())
+            evt = EventStore._restore(hit.getDocument())
             if evt:
                 evts.append(evt)
         if from_time:
@@ -76,3 +75,4 @@ def run(query, sort_time=True, sort_time_desc=True,
         raise e
         return []
     return evts
+

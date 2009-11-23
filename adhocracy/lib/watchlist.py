@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from sqlalchemy import or_
 from pylons import tmpl_context as c, request
 import formencode
 
@@ -25,6 +26,16 @@ def get_entity_watch(user, entity):
 def get_ref_watch(user, ref):
     watch = model.Watch.find(user, ref)
     return watch
+
+def get_entity_watches(entity):
+    return get_ref_watches(entity2ref(entity))
+    
+def get_ref_watches(ref):
+    q = model.meta.Session.query(model.Watch)
+    q = q.filter(model.Watch.entity_ref==ref)
+    q = q.filter(or_(model.Watch.delete_time==None,
+                     model.Watch.delete_time>datetime.now()))
+    return q.all()
 
 def check_watch(entity):
     if not c.user:

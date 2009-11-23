@@ -64,8 +64,8 @@ class InstanceController(BaseController):
             inst.description = text.cleanup(self.form_result.get('description'))
             model.meta.Session.refresh(inst)
             
-            event.emit(event.T_INSTANCE_CREATE, {'instance': inst.key},
-                       c.user, scopes=[inst], topics=[inst])
+            event.emit(event.T_INSTANCE_CREATE, c.user, scopes=[inst], 
+                       topics=[inst], instance=inst.key)
             
             redirect_to(h.instance_url(inst))
         return render("/instance/create.html")
@@ -125,8 +125,8 @@ class InstanceController(BaseController):
             model.meta.Session.add(c.page_instance)
             model.meta.Session.commit()
                         
-            event.emit(event.T_INSTANCE_EDIT, {'instance': c.page_instance},
-                       c.user, scopes=[c.page_instance], topics=[c.page_instance])
+            event.emit(event.T_INSTANCE_EDIT, c.user, scopes=[c.page_instance], 
+                       topics=[c.page_instance], instance=c.page_instance)
             
             #h.flash("%s has been updated." % c.page_instance.label)
             redirect_to(h.instance_url(c.page_instance))
@@ -184,8 +184,8 @@ class InstanceController(BaseController):
         model.meta.Session.add(membership)
         model.meta.Session.commit()
         
-        event.emit(event.T_INSTANCE_JOIN, {'instance': c.page_instance},
-                   c.user, scopes=[c.page_instance], topics=[c.page_instance])
+        event.emit(event.T_INSTANCE_JOIN, c.user, scopes=[c.page_instance], 
+                   topics=[c.page_instance], instance=c.page_instance)
         
         h.flash(_("Welcome to %(instance)s") % {
                         'instance': c.page_instance.label})
@@ -213,10 +213,8 @@ class InstanceController(BaseController):
                     
                     democracy.DelegationNode.detach(c.user, c.page_instance)
                     
-                    event.emit(event.T_INSTANCE_LEAVE, 
-                               {'instance': c.page_instance.key},
-                               c.user, scopes=[c.page_instance], 
-                               topics=[c.page_instance])
+                    event.emit(event.T_INSTANCE_LEAVE,  c.user, scopes=[c.page_instance], 
+                               topics=[c.page_instance], instance=c.page_instance)
             model.meta.Session.commit()
         redirect_to('/adhocracies')
 

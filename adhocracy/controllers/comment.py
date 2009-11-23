@@ -71,8 +71,8 @@ class CommentController(BaseController):
             
             watchlist.check_watch(comment)
             
-            event.emit(event.T_COMMENT_CREATE, {'comment': comment, 'delegateable': topic},
-                       c.user, scopes=[c.instance], topics=[topic, comment])
+            event.emit(event.T_COMMENT_CREATE, c.user, scopes=[c.instance], 
+                       topics=[topic, comment], comment=comment, topic=topic)
             
             redirect_to(self._comment_anchor(comment))
         return render('/comment/create.html')
@@ -94,9 +94,9 @@ class CommentController(BaseController):
             
             watchlist.check_watch(c.comment)
             
-            event.emit(event.T_COMMENT_EDIT, {'comment': c.comment, 
-                                              'delegateable': c.comment.topic},
-                       c.user, scopes=[c.instance], topics=[c.comment.topic, c.comment])
+            event.emit(event.T_COMMENT_EDIT, c.user, scopes=[c.instance], 
+                       topics=[c.comment.topic, c.comment], comment=c.comment, 
+                       topic=c.comment.topic)
             
             redirect_to(self._comment_anchor(c.comment))
         return render('/comment/edit.html')
@@ -130,9 +130,9 @@ class CommentController(BaseController):
         model.meta.Session.add(c.comment)
         model.meta.Session.commit()
         
-        event.emit(event.T_COMMENT_DELETE, {'comment': c.comment, 
-                                            'delegateable': c.comment.topic},
-                   c.user, scopes=[c.instance], topics=[c.comment.topic, c.comment])
+        event.emit(event.T_COMMENT_DELETE, c.user, scopes=[c.instance], 
+                   topics=[c.comment.topic, c.comment], comment=c.comment, 
+                   topic=c.comment.topic)
         
         redirect_to(self._comment_anchor(c.comment))
     
@@ -144,7 +144,8 @@ class CommentController(BaseController):
             abort(404, _("No comment with ID %s exists") % id)
         
         
-        c.revisions_pager = NamedPager('revisions', c.comment.revisions, tiles.revision.row, count=10, #list_item,
+        c.revisions_pager = NamedPager('revisions', c.comment.revisions, 
+                                       tiles.revision.row, count=10, #list_item,
                                      sorts={_("oldest"): sorting.entity_oldest,
                                             _("newest"): sorting.entity_newest},
                                      default_sort=sorting.entity_newest)
@@ -161,14 +162,18 @@ class CommentController(BaseController):
         auth.require_comment_perm(c.comment, 'comment.delete')
         revision = self.form_result.get('to')
         if revision.comment != c.comment:
-            abort(500, _("You're trying to revert to a revision which is not part of this comments history"))
+            abort(500, _("You're trying to revert to a revision which is not part " + 
+                         "of this comments history"))
         c.comment.latest = model.Revision(c.comment, c.user, revision.text)
         model.meta.Session.add(c.comment.latest)
         model.meta.Session.commit()
         
         
-        event.emit(event.T_COMMENT_EDIT, {'comment': c.comment, 
-                                          'delegateable': c.comment.topic},
-                   c.user, scopes=[c.instance], topics=[c.comment.topic, c.comment])
+        event.emit(event.T_COMMENT_EDIT, c.user, scopes=[c.instance], 
+                   topics=[c.comment.topic, c.comment], comment=c.comment, 
+                   topic=c.comment.topic)
             
         redirect_to(self._comment_anchor(c.comment))
+
+
+

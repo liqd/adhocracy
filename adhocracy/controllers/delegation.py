@@ -35,8 +35,8 @@ class DelegationController(BaseController):
                     log.debug("Replaying the vote for Delegation: %s" % delegation)
                     democracy.Decision.replay_decisions(delegation)
                     
-                    event.emit(event.T_DELEGATION_CREATE, {'scope': c.scope, 'agent': agent},
-                               c.user, scopes=[c.instance], topics=[c.scope, agent])
+                    event.emit(event.T_DELEGATION_CREATE, c.user, scopes=[c.instance], 
+                               topics=[c.scope, agent], scope=c.scope, delegate=agent)
                     
                     redirect_to("/d/%s" % str(c.scope.id))
             except formencode.validators.Invalid, error:
@@ -58,9 +58,9 @@ class DelegationController(BaseController):
             abort(403, _("Cannot access delegation %(id)s") % {'id': id})
         delegation.revoke_time = datetime.now()
         
-        event.emit(event.T_DELEGATION_REVOKE, 
-                   {'scope': delegation.scope, 'agent': delegation.agent}, c.user,
-                   topics=[delegation.scope, delegation.agent])
+        event.emit(event.T_DELEGATION_REVOKE, c.user, topics=[delegation.scope, 
+                                                              delegation.agent],
+                   scope=c.scope, delegate=agent)
         
         model.meta.Session.add(delegation)
         model.meta.Session.commit()        

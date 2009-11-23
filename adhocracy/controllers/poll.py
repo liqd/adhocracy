@@ -51,8 +51,8 @@ class PollController(BaseController):
             poll = model.Poll(c.motion, c.user)
             model.meta.Session.add(poll)
             model.meta.Session.commit()
-            event.emit(event.T_MOTION_STATE_VOTING, {'motion': c.motion},
-                       c.user, scopes=[c.instance], topics=[c.motion, c.motion.issue, c.instance])
+            event.emit(event.T_MOTION_STATE_VOTING, c.user, scopes=[c.instance], 
+                       topics=[c.motion, c.motion.issue, c.instance], motion=c.motion)
             redirect_to("/motion/%s" % str(c.motion.id))
         return render("/poll/create.html")
                 
@@ -72,8 +72,8 @@ class PollController(BaseController):
             poll.end_user = c.user
             model.meta.Session.add(poll)
             model.meta.Session.commit()
-            event.emit(event.T_MOTION_STATE_REDRAFT, {'motion': c.motion},
-                       c.user, scopes=[c.instance], topics=[c.motion, c.motion.issue, c.instance])
+            event.emit(event.T_MOTION_STATE_REDRAFT, c.user, scopes=[c.instance], 
+                       topics=[c.motion, c.motion.issue, c.instance], motion=c.motion)
             redirect_to("/motion/%s" % str(c.motion.id))
             
         return render("/poll/abort.html")                

@@ -122,8 +122,8 @@ class MotionController(BaseController):
                 
                 watchlist.check_watch(motion)
                 
-                event.emit(event.T_MOTION_CREATE, {'motion': motion},
-                       c.user, scopes=[c.instance], topics=[motion, motion.issue, c.instance])
+                event.emit(event.T_MOTION_CREATE, c.user, scopes=[c.instance], 
+                           topics=[motion, motion.issue, c.instance], motion=motion)
             
                 redirect_to("/motion/%s" % str(motion.id))
             except formencode.Invalid, error:
@@ -215,8 +215,8 @@ class MotionController(BaseController):
                 
                 watchlist.check_watch(c.motion)
             
-                event.emit(event.T_MOTION_EDIT, {'motion': c.motion},
-                       c.user, scopes=[c.instance], topics=[c.motion, c.motion.issue])
+                event.emit(event.T_MOTION_EDIT, c.user, scopes=[c.instance], 
+                           topics=[c.motion, c.motion.issue], motion=c.motion)
             
                 return redirect_to("/motion/%s" % str(id))
             except formencode.Invalid, error:
@@ -265,8 +265,8 @@ class MotionController(BaseController):
             parent = c.motion.parents[0]
         h.flash("Motion %(motion)s has been deleted." % {'motion': c.motion.label})
         
-        event.emit(event.T_MOTION_DELETE, {'motion': c.motion}, 
-                   c.user, scopes=[c.instance], topics=[c.motion, c.motion.issue, c.instance])
+        event.emit(event.T_MOTION_DELETE, c.user, scopes=[c.instance], 
+                   topics=[c.motion, c.motion.issue, c.instance], motion=c.motion)
         
         c.motion.delete_time = datetime.now()
         model.meta.Session.add(c.motion)
@@ -297,3 +297,4 @@ class MotionController(BaseController):
                                            _("newest"): sorting.entity_newest},
                                     default_sort=sorting.entity_newest)
         return render("/motion/votes.html")
+

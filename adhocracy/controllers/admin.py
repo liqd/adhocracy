@@ -57,9 +57,9 @@ class AdminController(BaseController):
                 model.meta.Session.add(membership)
                 model.meta.Session.commit()
                 
-                event.emit(event.T_INSTANCE_MEMBERSHIP_UPDATE, 
-                   {'group': to_group.code, 'instance': c.instance},
-                   user, scopes=[c.instance], topics=[c.page_instance, user])
+                event.emit(event.T_INSTANCE_MEMBERSHIP_UPDATE, user, 
+                           scopes=[c.instance], topics=[c.page_instance, user],
+                           group=to_group.code, instance=c.instance)
                 
                 if had_vote and not user.has_permission("vote.cast"):
                     # user has lost voting privileges
@@ -85,10 +85,9 @@ class AdminController(BaseController):
                 
                 democracy.DelegationNode.detach(user, c.instance)
                 
-                event.emit(event.T_INSTANCE_FORCE_LEAVE, 
-                   {'instance': c.instance, 'user': c.user},
-                   user, scopes=[c.instance], 
-                   topics=[c.page_instance, user, c.user])
+                event.emit(event.T_INSTANCE_FORCE_LEAVE, user, scopes=[c.instance], 
+                           topics=[c.page_instance, user, c.user], instance=c.instance, 
+                           user=c.user)
                 
                 h.flash(_("%(user)s was removed from %(instance)s") % {
                                 'user': user.name, 
@@ -98,3 +97,4 @@ class AdminController(BaseController):
                         'user': user.name, 
                         'instance': c.instance.label})
         return render("/admin/members.html")
+

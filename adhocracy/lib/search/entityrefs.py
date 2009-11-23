@@ -45,4 +45,20 @@ def to_entity(ref, instance_filter=False):
             return entity
     log.warn("No typeformatter for: %s" % ref)
     return ref
+    
+def _ify(fun, obj):
+    if isinstance(obj, type([])):
+        return [refify(e) for e in obj]
+    elif isinstance(obj, type({})):
+        return dict([(refify(k), refify(v)) for k, v in obj.items()])
+    else:
+        if obj:
+            obj = fun(obj)
+            if not obj:
+                obj = _("(Undefined)") 
+        return obj
+    
+refify = lambda obj: _ify(to_ref, obj)
+derefify = lambda obj: _ify(to_entity, obj)
 
+        

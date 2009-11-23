@@ -1,5 +1,11 @@
 from pylons.i18n import _
 
+class EventType(object):
+    def __init__(self, code, format, priority):
+        pass
+    
+
+
 T_USER_CREATE = u"t_account_create"
 T_USER_EDIT = u"t_account_edit"
 T_USER_ADMIN_EDIT = u"t_account_admin_edit"
@@ -64,11 +70,11 @@ messages = {
     T_CATEGORY_CREATE: lambda: _(u"created the category %(category)s in %(parent)s"),
     T_CATEGORY_EDIT: lambda: _(u"updated the category %(category)s"),
     T_CATEGORY_DELETE: lambda: _(u"deleted the category %(category)s"),
-    T_COMMENT_CREATE: lambda: _(u"created a %(comment)s on %(delegateable)s"),
-    T_COMMENT_EDIT: lambda: _(u"edited a %(comment)s on %(delegateable)s"),
-    T_COMMENT_DELETE: lambda: _(u"deleted a %(comment)s from %(delegateable)s"),
-    T_DELEGATION_CREATE: lambda: _(u"delegated voting on %(scope)s to %(agent)s"),
-    T_DELEGATION_REVOKE: lambda: _(u"revoked their delegation on %(scope)s to %(agent)s"),
+    T_COMMENT_CREATE: lambda: _(u"created a %(comment)s on %(topic)s"),
+    T_COMMENT_EDIT: lambda: _(u"edited a %(comment)s on %(topic)s"),
+    T_COMMENT_DELETE: lambda: _(u"deleted a %(comment)s from %(topic)s"),
+    T_DELEGATION_CREATE: lambda: _(u"delegated voting on %(scope)s to %(delegate)s"),
+    T_DELEGATION_REVOKE: lambda: _(u"revoked their delegation on %(scope)s to %(delegate)s"),
     T_VOTE_CAST: lambda: _(u"%(vote)s %(motion)s"),
     T_TEST: lambda: _(u"test %(test)s")
     }

@@ -1,24 +1,118 @@
-from datetime import datetime, date, timedelta
+from datetime import datetime
 import hashlib, logging
 
-import simplejson
+import simplejson as json
 
 from pylons.i18n import _ 
 
-from lucene import Document, Field, BooleanQuery, TermQuery, Term, Hit, BooleanClause
-
-import adhocracy.model as model
-from ..search import index 
 from ..search import entityrefs
-import util, types, formatting
+import types, formatting
 
 log = logging.getLogger(__name__)
 
+class EventException(Exception):
+    pass
+
+class EventFormattingException(EventException):
+    pass
+
 class Event(object):
+    
+    def __init__(self, event, agent, time=None, 
+                 scopes=[], topics=[], **data):
+        if not time:
+            time = datetime.now()
+        if not agent: 
+            raise EventException("No agent for event %s" % event)
+        data['event'] = event
+        data['agent'] = agent
+        data['time'] = int(time.strftime('%s'))
+        data['scopes'] = scopes
+        data['topics'] = topics
+        self._data = data
+        
+    def _get_time(self):
+        return datetime.fromtimestamp(self._data['time'])
+    
+    time = property(_get_time)
+    create_time = property(_get_time) # allow default sorters
+        
+    def __getattr__(self, attr):
+        return self._data.get(attr)
+    
+    def __hash__(self):
+        hash = hashlib.sha1(str(self._data['time']))
+        hash.update(self.event)
+        hash.update(self.agent.user_name) 
+        return int(hash.hexdigest(), 16)
+    
+    id = property(lambda self: hash(self))
+    
+    def to_json(self):
+        ref_data = entityrefs.refify(self._data) 
+        return json.dumps(ref_data)
+    
+    @classmethod
+    def from_json(cls, json):
+        deref_data = entityrefs.derefify(json)
+        for key in ['event', 'agent', 'time', 'scopes', 'topics']:
+            if not key in deref_data.keys():
+                raise EventException("Incomplete JSON Event: %s missing" % key)
+        time = datetime.fromtimestamp(deref_data['time'])
+        return cls(deref_data['event'], deref_data['agent'], time=time, **deref_data)
+    
+    def format(self, decoder):
+        """
+        Given a dict of formatting options, load the appropriate 
+        entities from the database and format them with the given 
+        decoder.
+        """
+        def format_value(value):
+            for cls in formatting.FORMATTERS.keys():
+                if isinstance(value, cls):
+                    return decoder(formatting.FORMATTERS[cls], value)
+            return value
+        args = dict([(k, format_value(v)) for k, v in self._data.items() \
+                     if k not in ['agent', 'topics', 'scopes']])
+        return types.messages.get(self.event)() % args
+    
+    def html(self):
+        types.messages.get(self.event)()
+        return self.format(lambda formatter, value: formatter.html(value))
+    
+    def __unicode__(self):
+        return self.format(lambda formatter, value: formatter.unicode(value))
+    
+    def __eq__(self, other):
+        return hash(self) == hash(other)
+    
+    def __repr__(self):
+        return "Event<%s:%s,%s>" % (self.agent.user_name, self.event, self.time)
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class OldEvent(object):
         
     def __init__(self, event, data, agent, time=None, scopes=[], topics=[]):
-        self.doc = Document()
-        self.add_field("type", "event") 
         if not time:
             time = datetime.now()
         self.time = time  
@@ -32,10 +126,6 @@ class Event(object):
         self.topics = topics
         self.data = data
         
-    def add_field(self, name, value, store=True, tokenize=False):
-        store = store and Field.Store.YES or Field.Store.NO
-        tokenize = tokenize and Field.Index.TOKENIZED or Field.Index.UN_TOKENIZED
-        self.doc.add(Field(name, unicode(value), store, tokenize))
     
     def _set_data(self, data):
         """
@@ -75,74 +165,8 @@ class Event(object):
     def __unicode__(self):
         return self.format(lambda formatter, value: formatter.unicode(value))
                     
-    def persist(self):
-        """
-        Persist the event to the lucene index. 
-        """
-        if self.exists():
-            self.delete()
-        self.add_field("time", self._str_time)
-        self.add_field("event", self.event)
-        self.add_field("_event_hash", str(hash(self)))
-        self.add_field("agent", util.objtoken(self.agent))
-        self.add_field("agent_id", self.agent.user_name)
-        self.add_field("data", simplejson.dumps(self.data), 
-                       store=True, tokenize=False)
-        if not self.agent in self.topics:
-            self.add_field("topic", util.objtoken(self.agent))
-        [self.add_field("scope", util.objtoken(s)) for s in self.scopes]
-        [self.add_field("topic", util.objtoken(t)) for t in self.topics]
-        index.write_document(self.doc)
     
-    @classmethod
-    def restore(cls, doc):
-        """
-        Given a document from the lucene index, restore the Event to its 
-        original state as far as possible. 
-        """
-        try:     
-            agent_id = doc.getField("agent_id").stringValue()
-            agent = model.User.find(agent_id, instance_filter=False)
-            if not agent:
-                raise util.EventException("Can't restore motion with non-existing agent: %s" % agent_id)
-            data_json = doc.getField("data").stringValue()
-            data = simplejson.loads(data_json)
-            time_flat = doc.getField("time").stringValue()
-            time = datetime.strptime(time_flat, formatting.DT_FORMAT)
-            event = doc.getField("event").stringValue()
-            return Event(event, data, agent, time)
-        except ValueError, ve:
-            raise EventException(ve)
-        except AttributeError, ae:
-            raise EventException(ae)
-    
-    @classmethod
-    def by_hash(cls, hash):
-        """
-        Return a given event by its identifying hash value. If there is an error 
-        during restoration, this may raise an EventException.
-        """
-        hquery = TermQuery(util.hash_term(hash))
-        hits = index.query(hquery)
-        if len(hits) > 1:
-            raise util.EventException("Multiple events exist with hash %s" % hash)
-        for hit in hits:
-            hit = Hit.cast_(hit)
-            doc = hit.getDocument()
-            return cls.restore(doc)
         
-    def exists(self):
-        """
-        Check if the event is already saved to the lucene index.
-        """
-        return not self.by_hash(hash(self)) == None
-    
-    def delete(self):
-        """
-        Delete the event from the lucene index if it exists. If it is not 
-        stored yet, nothing will happen. 
-        """
-        index.delete_document(util.hash_term(hash(self)))
     
     def _get_time(self):
         return self._time
@@ -154,8 +178,6 @@ class Event(object):
     time = property(_get_time, _set_time)
     create_time = property(_get_time, _set_time) # allow default sorters
     
-    def __repr__(self):
-        return "Event<%s: %s, %s>" % (repr(self.agent), self.event, self.data)
     
     def __hash__(self):
         hash = hashlib.sha1(str(self.time))

@@ -163,6 +163,9 @@ class OpenidauthController(BaseController):
         model.meta.Session.add(user)
         model.meta.Session.add(oid)
         model.meta.Session.commit()
+        
+        event.emit(event.T_USER_CREATE, user)
+        
         return user
 
     def _login(self, user):

@@ -47,8 +47,8 @@ class IssueController(BaseController):
             
             watchlist.check_watch(issue)
             
-            event.emit(event.T_ISSUE_CREATE, {'issue': issue}, c.user, 
-                       scopes=[c.instance], topics=[issue, c.instance])
+            event.emit(event.T_ISSUE_CREATE, c.user, scopes=[c.instance], 
+                       topics=[issue, c.instance], issue=issue)
             
             redirect_to('/issue/%s' % str(issue.id))
         return render("/issue/create.html")
@@ -71,8 +71,8 @@ class IssueController(BaseController):
             
             watchlist.check_watch(c.issue)
             
-            event.emit(event.T_ISSUE_EDIT, {'issue': c.issue}, c.user, 
-                       scopes=[c.instance], topics=[c.issue, c.instance])
+            event.emit(event.T_ISSUE_EDIT, c.user, scopes=[c.instance], 
+                       topics=[c.issue, c.instance], issue=issue)
             
             redirect_to('/issue/%s' % str(c.issue.id))
         return render("/issue/edit.html")
@@ -136,8 +136,8 @@ class IssueController(BaseController):
         model.meta.Session.add(c.issue)
         model.meta.Session.commit()
         
-        event.emit(event.T_ISSUE_DELETE, {'issue': c.issue},
-                   c.user, scopes=[c.instance], topics=[c.issue, c.instance] + c.issue.parents)
+        event.emit(event.T_ISSUE_DELETE, c.user, scopes=[c.instance], 
+                   topics=[c.issue, c.instance] + c.issue.parents, issue=issue)
         
         redirect_to('/category/%s' % str(parent.id)) 
     
