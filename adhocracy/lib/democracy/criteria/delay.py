@@ -79,7 +79,7 @@ class StabilityCriterion(DelayCriterion):
         return self._sfx_check_tally(tally)
     
     def __str__(self):
-        return "<StabilityCriterion(%s)>" % self.state.poll.id
+        return "<StabilityCriterion(%s)>" % self.state.poll.id if self.state.poll else None
 
 
 class VolatilityCriterion(DelayCriterion):
@@ -116,4 +116,4 @@ class VolatilityCriterion(DelayCriterion):
         return self._sfx_check_tally(tally)
     
     def __str__(self):
-        return "<VolatilityCriterion(%s)>" % self.state.poll.id
+        return "<VolatilityCriterion(%s)>" % (self.state.poll.id if self.state.poll else None)

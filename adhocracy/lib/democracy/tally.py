@@ -96,6 +96,9 @@ class Tally(object):
                       len(self), self.num_affirm,
                       self.num_dissent, self.num_abstain, 
                       int(self.rel_for * 100), int(self.rel_against * 100))
+        
+    def __str__(self):
+        return repr(self)
     
     @classmethod
     def from_decisions(cls, decisions, at_time):

@@ -39,6 +39,7 @@ def make_map():
     map.connect('/user/{id}.{format}', controller='user', action='view')
     map.connect('/user/{id}', controller='user', action='view', format='html')
     map.connect('/openid/{action}', controller='openidauth')
+    map.connect('/twitter/{action}', controller='twitteroauth')
     
     map.connect('/issue/create', controller='issue', action='create')
     map.connect('/issue/{action}/{id}', controller='issue')

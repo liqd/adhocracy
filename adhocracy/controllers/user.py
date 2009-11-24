@@ -33,6 +33,8 @@ class UserEditForm(formencode.Schema):
     chained_validators = [validators.FieldsMatch(
         'password', 'password_confirm')]
     bio = validators.String(max=1000, min=0, not_empty=False)
+    email_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=4)
+    twitter_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=4)
     
 class UserManageForm(formencode.Schema):
     allow_extra_fields = True
@@ -99,6 +101,10 @@ class UserController(BaseController):
             c.page_user.display_name = self.form_result.get("display_name")
             c.page_user.bio = text.cleanup(self.form_result.get("bio"))
             c.page_user.email = self.form_result.get("email").lower()
+            c.page_user.email_priority = self.form_result.get("email_priority")
+            if c.page_user.twitter:
+                c.page_user.twitter.priority = self.form_result.get("twitter_priority")
+                model.meta.Session.add(c.page_user.twitter)
             locale = Locale(self.form_result.get("locale"))
             if locale and locale in i18n.LOCALES:
                 c.page_user.locale = locale 

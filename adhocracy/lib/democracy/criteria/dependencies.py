@@ -32,3 +32,6 @@ class DependenciesCriterion(RelationCriterion):
     
     def check_nopoll(self):
         return not self.check_blocked(self.state.at_time)
+    
+    def __str__(self):
+        return "<DependenciesCriterion(%s)>" % (self.state.poll.id if self.state.poll else None)

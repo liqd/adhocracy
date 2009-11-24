@@ -23,6 +23,7 @@ class User(Base):
     display_name = Column(Unicode(255), nullable=True)
     bio = Column(UnicodeText(), nullable=True)
     email = Column(Unicode(255), nullable=False, unique=False)
+    email_priority = Column(Integer, default=4)
     activation_code = Column(Unicode(255), nullable=True, unique=False)
     reset_code = Column(Unicode(255), nullable=True, unique=False)
     _password = Column('password', Unicode(80), nullable=False)
@@ -102,6 +103,14 @@ class User(Base):
         return list(set(instances))
     
     instances = property(_get_instances)
+    
+    def _get_twitter(self):
+        for twitter in self.twitters:
+            if not twitter.delete_time:
+                return twitter
+        return None
+    
+    twitter = property(_get_twitter)
     
     def _set_password(self, password):
         """Hash password on the fly."""

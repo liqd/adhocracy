@@ -10,6 +10,9 @@ from adhocracy.model.user import User
 from adhocracy.model import openid
 from adhocracy.model.openid import OpenID
 
+from adhocracy.model import twitter
+from adhocracy.model.twitter import Twitter
+
 from adhocracy.model import group
 from adhocracy.model.group import Group
 

@@ -92,6 +92,56 @@
 	</div>
 	
 	<div style="clear:both;"></div>
+	%if c.page_user == c.user and not c.page_user.twitter:
+		<a class="button add" href="/twitter/init?${h.url_token()}">${_("add twitter")}</a>
+	%endif
+	<h3>${_("Notifications")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("Select the intensity and channel with which you would like to be notified of new developments in Adhocracy.")}
+		</div>
+	</div>
+		
+	<div class="mainbar">
+		<table border="0" width="100%">
+			<tr>
+				<th width="50%">${_("Contact")}</th>
+				<th colspan="2">${_("no messages")}</th>
+				<th colspan="3" style="text-align: right;">${_("verbose updates")}</th>
+			</tr>
+			<tr>
+				<td>${_("E-Mail")}</td>
+				<td><input type="radio" name="email_priority" value="6" 
+					${"checked='checked'" if c.page_user.email_priority==6 else ""} /></td>
+				<td><input type="radio" name="email_priority" value="4" 
+					${"checked='checked'" if c.page_user.email_priority==4 else ""} /></td>
+				<td><input type="radio" name="email_priority" value="3" 
+					${"checked='checked'" if c.page_user.email_priority==3 else ""} /></td>
+				<td><input type="radio" name="email_priority" value="2" 
+					${"checked='checked'" if c.page_user.email_priority==2 else ""} /></td>
+				<td><input type="radio" name="email_priority" value="1" 
+					${"checked='checked'" if c.page_user.email_priority==1 else ""} /></td>
+			</tr>
+			%if c.page_user.twitter:
+			<tr>
+				<td>${_("Twitter: %s") % c.page_user.twitter.screen_name} &middot;
+					<a href="/twitter/revoke?${h.url_token()}">${_("remove")}</td>
+				<td><input type="radio" name="twitter_priority" value="6" 
+					${"checked='checked'" if c.page_user.twitter.priority==6 else ""} /></td>
+				<td><input type="radio" name="twitter_priority" value="4" 
+					${"checked='checked'" if c.page_user.twitter.priority==4 else ""} /></td>
+				<td><input type="radio" name="twitter_priority" value="3" 
+					${"checked='checked'" if c.page_user.twitter.priority==3 else ""} /></td>
+				<td><input type="radio" name="twitter_priority" value="2" 
+					${"checked='checked'" if c.page_user.twitter.priority==2 else ""} /></td>
+				<td><input type="radio" name="twitter_priority" value="1" 
+					${"checked='checked'" if c.page_user.twitter.priority==1 else ""} /></td>
+			</tr>
+			%endif
+		</table>
+	</div>
+	
+	<div style="clear:both;"></div>
 	${components.savebox("/user/%s" % c.page_user.user_name)}
 	
 </form>

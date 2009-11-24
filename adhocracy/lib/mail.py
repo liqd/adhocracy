@@ -44,10 +44,7 @@ def to_mail(to_name, to_email, subject, body, html_body=None, headers={}):
          
     server = smtplib.SMTP(smtp_server)
     #server.set_debuglevel(1)
-    try:
-        server.sendmail(email_from, [to_email], msg.as_string())
-    except Exception, e:
-        log.warn("Error while sending SMTP mail: %s" % e)
+    server.sendmail(email_from, [to_email], msg.as_string())
     server.quit()
     
     log.debug("MAIL\r\n" + msg.as_string())

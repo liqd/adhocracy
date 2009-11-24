@@ -3,7 +3,7 @@ from datetime import datetime
 
 from pylons.i18n import _
 
-from openid.consumer.consumer import Consumer, SUCCESS, FAILURE, DiscoveryFailure
+from openid.consumer.consumer import Consumer, SUCCESS, DiscoveryFailure
 from openid.extensions import sreg, ax
 
 from adhocracy.lib.base import *

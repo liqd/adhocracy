@@ -4,7 +4,7 @@ from itertools import chain
 
 from sources import watchlist_source, vote_source, instance_source, comment_source, delegation_source
 from filters import self_filter, duplicates_filter
-from sinks import log_sink, mail_sink
+from sinks import log_sink, mail_sink, twitter_sink
 
 log = logging.getLogger(__name__)
 
@@ -22,6 +22,7 @@ def notify(event):
     pipeline = duplicates_filter(pipeline)
     
     pipeline = log_sink(pipeline)
+    pipeline = twitter_sink(pipeline)
     pipeline = mail_sink(pipeline)
     
     for n in pipeline: pass

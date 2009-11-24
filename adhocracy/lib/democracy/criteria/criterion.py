@@ -1,4 +1,5 @@
-
+from time import time
+from ...cache import memoize
 
 class Criterion(object):
     
@@ -7,13 +8,18 @@ class Criterion(object):
         self.motion = state.motion
         self.poll = state.poll
         self._checked = None
-        
+    
     def check(self):
         if self._checked == None:
-            if self.state.polling:
-                self._checked = self.check_tally(self.state.tally)
-            else:
-                self._checked = self.check_nopoll()
+            #begin_time = time()
+            @memoize('adoption_tally', 120)
+            def _cached(self, poll, motion):
+                if self.state.polling:
+                    return self.check_tally(self.state.tally)
+                else:
+                    return self.check_nopoll()
+            self._checked = _cached(self, self.state.poll, self.state.motion)
+            #print "DEBUG TIME: ", str((time()-begin_time)*1000), "ms FOR ", type(self)
         return self._checked
     
     def check_tally(self, tally):
@@ -29,7 +35,9 @@ class Criterion(object):
         return self.check_tally(tally)
     
     def __repr__(self):
-        return "<Criterion(%s,%s)>" % (self.motion.id, self.poll.id)
+        return "<Criterion(%s,%s)>" % (
+                    self.motion.id if self.motion else None, 
+                    self.poll.id if self.poll else None)
     
     def __str__(self): 
         # relevant for cache keys

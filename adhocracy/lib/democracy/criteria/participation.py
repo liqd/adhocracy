@@ -19,3 +19,5 @@ class ParticipationCriterion(Criterion):
     def check_tally(self, tally):
         return len(tally) >= self.required
     
+    def __str__(self):
+        return "<ParticipationCriterion(%s)>" % (self.state.poll.id if self.state.poll else None)

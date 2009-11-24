@@ -13,3 +13,6 @@ class MajorityCriterion(Criterion):
     
     def check_tally(self, tally):
         return tally.rel_for > self.required 
+    
+    def __str__(self):
+        return "<MajorityCriterion(%s)>" % (self.state.poll.id if self.state.poll else None)
