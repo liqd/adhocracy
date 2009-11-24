@@ -1,7 +1,7 @@
 
 from ... import watchlist
 from notification import Notification
-from types import *
+from ..types import *
 import adhocracy.model as model
 
 class WatchlistSource(object):

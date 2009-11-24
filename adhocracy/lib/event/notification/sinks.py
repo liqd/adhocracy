@@ -16,7 +16,7 @@ def twitter_sink(pipeline):
     for notification in pipeline:
         user = notification.user
         if user.twitter and notification.priority >= user.twitter.priority:
-            tweet = notification.plain_body
+            tweet = notification.body
             tweet = text.truncate(tweet, 130, '...', True)
             try:
                 api = microblog.create_api()
@@ -35,8 +35,7 @@ def mail_sink(pipeline):
             try:
                 mail.to_user(notification.user, 
                          notification.subject, 
-                         notification.plain_body, 
-                         html_body=notification.html_body,
+                         notification.body, 
                          headers=headers)
             except Exception, e:
                 log.warn(e)

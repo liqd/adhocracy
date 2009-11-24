@@ -43,7 +43,7 @@ class Event(object):
     def __hash__(self):
         if not self._data.get('id'):
             hash = hashlib.sha1(str(self._data['time']))
-            hash.update(self.event)
+            hash.update(str(self.event))
             hash.update(self.agent.user_name) 
             self._data['id'] = abs(int(hash.hexdigest(), 16))
         return self._data['id']
@@ -52,6 +52,7 @@ class Event(object):
     
     def to_json(self):
         ref_data = entityrefs.refify(self._data) 
+        ref_data['event'] = str(ref_data.get('event'))
         return json.dumps(ref_data)
     
     @classmethod
@@ -60,9 +61,15 @@ class Event(object):
         for key in ['event', 'agent', 'time', 'scopes', 'topics']:
             if not key in deref_data.keys():
                 raise EventException("Incomplete JSON Event: %s missing" % key)
+            
+        for event in types.TYPES:
+            if str(event) == deref_data['event']:
+                deref_data['event'] = event
+        
         time = datetime.fromtimestamp(deref_data['time'])
         kwargs = dict([(str(k), v) for k, v in deref_data.items() \
                       if not k in [u"time", u"event", u"agent"]])
+        
         return cls(deref_data['event'], deref_data['agent'], time=time, **kwargs)
     
     def format(self, decoder):
@@ -78,7 +85,7 @@ class Event(object):
             return value
         args = dict([(k, format_value(v)) for k, v in self._data.items() \
                      if k not in ['agent', 'topics', 'scopes']])
-        return types.messages.get(self.event)() % args
+        return self.event.event_msg() % args
     
     def html(self):
         return self.format(lambda formatter, value: formatter.html(value))

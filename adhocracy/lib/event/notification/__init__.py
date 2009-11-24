@@ -25,7 +25,7 @@ def notify(event):
     pipeline = twitter_sink(pipeline)
     pipeline = mail_sink(pipeline)
     
-    for n in pipeline: pass
+    for _ in pipeline: pass
     
     end_time = time() - begin_time
     log.debug("-> processing took: %sms" % (end_time * 1000)) 
