@@ -61,4 +61,7 @@ class RootController(BaseController):
                 add_delegateables(instance)
                 
         return render("sitemap.xml")
+    
+    def process(self):
+        event.queue_process()
             

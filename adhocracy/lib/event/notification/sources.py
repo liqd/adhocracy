@@ -99,15 +99,20 @@ def comment_source(event):
         for rev in event.comment.revisions:
             watch = watchlist.get_entity_watch(rev.user, event.comment)
             if watch: 
-                yield Notification(event, rev.user, type=N_COMMENT_EDIT, watch=watch)
+                yield Notification(event, rev.user, 
+                                   type=N_COMMENT_EDIT, 
+                                   watch=watch)
                 
     # for all authors who want to be notified of replies:
     elif event.event == T_COMMENT_CREATE:
         def _rec(comment):
             for rev in event.comment.revisions:
                 watch = watchlist.get_entity_watch(rev.user, event.comment)
+                
                 if watch:
-                    yield Notification(event, rev.user, type=N_COMMENT_REPLY, watch=watch)
+                    yield Notification(event, rev.user, 
+                                       type=N_COMMENT_REPLY, 
+                                       watch=watch)
             if comment.reply:
                 for n in _rec(comment.reply): yield n
         for n in _rec(event.comment): yield n

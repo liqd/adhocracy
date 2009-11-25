@@ -81,7 +81,8 @@ def make_map():
     map.connect('/d/{id}', controller='root', action='dispatch_delegateable')
     map.connect('/sitemap.xml', controller='root', action='sitemap_xml')
     map.connect('/feed.rss', controller='root', action='index', format='rss')
-    
+    map.connect('/_queue_process', controller='root', action='process')
+        
     map.connect('/search', controller='search', action='query')
         
     map.connect('/adhocracies', controller='instance', action='index')

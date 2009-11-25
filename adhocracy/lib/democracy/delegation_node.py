@@ -30,7 +30,7 @@ class DelegationNode(object):
             at_time = datetime.now()
         query = model.meta.Session.query(Delegation)
         query = query.filter(Delegation.scope==self.delegateable)
-        query = query.filter(Delegation.create_time <= at_time)
+        query = query.filter(Delegation.create_time<=at_time)
         query = query.filter(or_(Delegation.revoke_time == None,
                                  Delegation.revoke_time > at_time))
         query = querymod(query)
@@ -79,10 +79,9 @@ class DelegationNode(object):
             _path = []
         elif self.user in _path: 
             return []
-        else:
-            _path.append(self.user)
+        _path.append(self.user)
         
-        delegations = self.inbound(recurse=recurse, at_time=at_time)
+        delegations = self.inbound(recurse=recurse, at_time=at_time, filter=False)
         for delegation in list(delegations):
             ddnode = DelegationNode(delegation.principal, self.delegateable)
             delegations += ddnode.transitive_inbound(recurse=recurse, at_time=at_time,

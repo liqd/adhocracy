@@ -31,8 +31,7 @@ class Notification(object):
     
     def get_subject(self):
         data = self.event.formatted_data(lambda formatter, value: formatter.unicode(value))
-        subject = self.type.subject if self.type.subject else self.type.event_msg
-        return subject() % data
+        return self.type.subject() % data
     
     subject = property(get_subject)
     

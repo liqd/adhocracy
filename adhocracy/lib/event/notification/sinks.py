@@ -16,8 +16,8 @@ def twitter_sink(pipeline):
     for notification in pipeline:
         user = notification.user
         if user.twitter and notification.priority >= user.twitter.priority:
-            tweet = notification.subject
-            tweet = text.truncate(tweet, 130, '...', True)
+            notification.language_context()
+            tweet = text.truncate(notification.subject, 130, '...', True)
             try:
                 api = microblog.create_api()
                 api.PostDirectMessage(user.twitter.screen_name, tweet)
@@ -30,6 +30,7 @@ def twitter_sink(pipeline):
 def mail_sink(pipeline):
     for notification in pipeline:
         if notification.priority >= notification.user.email_priority:
+            notification.language_context() 
             headers = {'X-Notification-Id': notification.id,
                        'X-Priority': str(notification.priority)}
             try:

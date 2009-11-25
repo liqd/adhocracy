@@ -65,9 +65,9 @@ class DelegationController(BaseController):
             abort(403, _("Cannot access delegation %(id)s") % {'id': id})
         delegation.revoke_time = datetime.now()
         
-        event.emit(event.T_DELEGATION_REVOKE, c.user, topics=[delegation.scope, 
-                                                              delegation.agent],
-                   scope=c.scope, delegate=delegation.agent)
+        event.emit(event.T_DELEGATION_REVOKE, c.user, 
+                   topics=[delegation.scope, delegation.agent],
+                   scope=delegation.scope, delegate=delegation.agent)
         
         model.meta.Session.add(delegation)
         model.meta.Session.commit()        

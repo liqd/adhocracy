@@ -23,7 +23,8 @@ setup(
         "repoze.what.plugins.sql>=1.0rc1",
         "repoze.who-friendlyform>=1.0b3",
         "python-twitter>=0.6",
-        "oauth>=1.0.1"
+        "oauth>=1.0.1",
+        "amqplib>=0.8"
     ],
     setup_requires=["PasteScript>=1.6.3", "setuptools>=0.6c6"], # fix OS X 10.5.7
     packages=find_packages(exclude=['ez_setup']),

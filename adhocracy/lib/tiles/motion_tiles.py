@@ -138,7 +138,7 @@ class MotionTile(DelegateableTile):
         if self.__num_principals == None:
             principals = set(map(lambda d: d.principal, self.dnode.transitive_inbound()))
             if self.poll:
-                principals = filter(lambda p: not democracy.Decision(c.user, self.poll).self_made(),
+                principals = filter(lambda p: not democracy.Decision(p, self.poll).self_made(),
                                     principals)
             self.__num_principals = len(principals)
         return self.__num_principals
