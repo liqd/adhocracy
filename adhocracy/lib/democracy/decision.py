@@ -147,20 +147,18 @@ class Decision(object):
         
     def __repr__(self):
         return "<Decision(%s,%s)>" % (self.user.user_name, self.poll.id)
-#    
-#    def without_vote(self, vote):
-#        """
-#        Return the same decision given that a certain vote had not been 
-#        cast. 
-#        """
-#        if not vote in self.relevant_votes:
-#            return self
-#        else:
-#            votes = self.relevant_votes
-#            votes.remove(vote)
-#            return Decision(self.user, self.poll, 
-#                            at_time=self.at_time, votes=votes)
-#            
+    
+    def without_vote(self, vote):
+        """
+        Return the same decision given that a certain vote had not been 
+        cast. 
+        """
+        if not vote in self.relevant_votes:
+            return self
+        else:
+            votes = [v for v in self._votes if v != vote]
+            return Decision(self.user, self.poll, 
+                            at_time=self.at_time, votes=votes)           
     
     @classmethod
     def for_user(cls, user, instance, at_time=None):  # FUUUBARD 

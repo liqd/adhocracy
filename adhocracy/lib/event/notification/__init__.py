@@ -18,6 +18,8 @@ def notify(event):
                                    comment_source(event)])
     pipeline = chain(*sources)
     
+    pipeline = log_sink(pipeline)
+    
     pipeline = self_filter(pipeline)
     pipeline = duplicates_filter(pipeline)
     

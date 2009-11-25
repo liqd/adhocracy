@@ -140,59 +140,62 @@ T_COMMENT_DELETE = EventType(u"t_comment_delete", pri=2,
                           body_tpl='')
 
 T_DELEGATION_CREATE = EventType(u"t_delegation_create", pri=2, 
-                          subject=None,
+                          subject=lambda: _(u"New Delegation: %(agent)s delegated %(scope)s to %(delegate)s"),
                           event_msg=lambda: _(u"delegated voting on %(scope)s to %(delegate)s"),
                           body_tpl='')
 
 T_DELEGATION_REVOKE = EventType(u"t_delegation_revoke", pri=2, 
-                          subject=None,
+                          subject=lambda: _(u"Revoked Delegation: %(agent)s revoked delegation to %(delegate)s"),
                           event_msg=lambda: _(u"revoked their delegation on %(scope)s to %(delegate)s"),
                           body_tpl='')
 
 T_VOTE_CAST = EventType(u"t_vote_cast", pri=2, 
-                          subject=None,
+                          subject=lambda: _(u"Vote: %(agent)s %(vote)s %(poll)s"),
                           event_msg=lambda: _(u"%(vote)s %(poll)s"),
                           body_tpl='')
 
 T_TEST = EventType(u"t_test", pri=5, 
-                          subject=None,
+                          subject=lambda: _(u"Adhocracy says hello: %(test)s"),
                           event_msg=lambda: _(u"test %(test)s"),
                           body_tpl='')
 
+
+
 N_DELEGATION_RECEIVED = NotificationType("n_delegation_receive", pri=4, 
-                          subject=None,
+                          subject=lambda: _(u"You received %(agent)ss delegation on %(scope)s"),
                           body_tpl='')
 
 N_DELEGATION_LOST = NotificationType("n_delegation_lost", pri=4, 
-                          subject=None,
+                          subject=lambda: _(u"You lost %(agent)ss delegation on %(scope)s"),
                           body_tpl='')
 
 N_INSTANCE_FORCE_LEAVE = NotificationType("n_instance_force_leave", pri=5, 
-                          subject=None,
+                          subject=lambda: _(u"Membership: You've been kicked from %(instance)s"),
                           body_tpl='')
 
 N_INSTANCE_MEMBERSHIP_UPDATE = NotificationType("n_instance_membership_update", pri=4, 
-                          subject=None,
+                          subject=lambda: _(u"Membership: you're now a %(group)s in %(instance)s"),
                           body_tpl='')
 
 N_SELF_VOTED = NotificationType("n_self_voted", pri=3, 
-                          subject=None,
+                          subject=lambda: _(u"Vote Confirmation: you %(vote)s %(poll)s"),
                           body_tpl='')
 
 N_DELEGATE_VOTED = NotificationType("n_delegate_voted", pri=4, 
-                          subject=None,
+                          subject=lambda: _(u"Delegate Vote: you %(vote)s %(poll)s"),
                           body_tpl='')
 
 N_DELEGATE_CONFLICT = NotificationType("n_delegate_conflict", pri=5, 
-                          subject=None,
+                          subject=lambda: _(u"Delegate Conflict: %(poll)s"),
                           body_tpl='')
 
 N_COMMENT_REPLY = NotificationType("n_comment_reply", pri=4, 
-                          subject=None,
+                          subject=lambda: _(u"Comment Reply: %(topic)s"),
                           body_tpl='')
 
 N_COMMENT_EDIT = NotificationType("n_comment_edit", pri=4, 
-                          subject=None,
+                          subject=lambda: _(u"Comment Edit: %(topic)s"),
                           body_tpl='')
 
-TYPES = filter(lambda n: isinstance(n, NotificationType), dir())
+# The funny thing about this line is: YOU DO NOT SEE IT!
+TYPES = filter(lambda n: isinstance(n, NotificationType), map(eval, dir())) 

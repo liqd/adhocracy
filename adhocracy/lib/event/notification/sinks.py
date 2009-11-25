@@ -16,7 +16,7 @@ def twitter_sink(pipeline):
     for notification in pipeline:
         user = notification.user
         if user.twitter and notification.priority >= user.twitter.priority:
-            tweet = notification.body
+            tweet = notification.subject
             tweet = text.truncate(tweet, 130, '...', True)
             try:
                 api = microblog.create_api()

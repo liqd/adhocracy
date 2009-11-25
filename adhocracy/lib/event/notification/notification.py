@@ -11,13 +11,13 @@ class Notification(object):
         
     def get_type(self):
         if not self._type:
-            return self.event.event
+            self._type = self.event.event
         return self._type
         
     type = property(get_type)
 
     def get_priority(self):
-        return self.type.pri
+        return self.type.priority
         
     priority = property(get_priority)
     
@@ -30,15 +30,17 @@ class Notification(object):
         return i18n.user_language(self.user)
     
     def get_subject(self):
-        return self.event.event
+        data = self.event.formatted_data(lambda formatter, value: formatter.unicode(value))
+        subject = self.type.subject if self.type.subject else self.type.event_msg
+        return subject() % data
     
     subject = property(get_subject)
     
     def get_body(self):
-        return self.event.agent.name + " " + unicode(self.event)
+        return u"%s %s" % (self.event.agent.name, self.event.plain())
     
     body = property(get_body)
             
     def __repr__(self):
-        return "<Notification(%s,%s)>" % (self.event, self.user.user_name)
+        return "<Notification(%s,%s)>" % (self.type, self.user.user_name)
     

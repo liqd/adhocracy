@@ -1,6 +1,8 @@
 import logging
 import re
 
+from pylons.i18n import _ 
+
 from adhocracy import model
 
 log = logging.getLogger(__name__)

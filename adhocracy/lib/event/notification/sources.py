@@ -61,7 +61,10 @@ def vote_source(event):
     Notify users about their voting behaviour, especially about delegated votes.
     """
     if event.event == T_VOTE_CAST:
-        decision = democracy.Decision(evetn.agent, event.poll)
+        decision = democracy.Decision(event.agent, event.poll)
+        before = decision.without_vote(event.vote)
+        if decision.relevant_votes == before.relevant_votes:
+            return 
         if not decision.made():
             yield Notification(event, event.agent, type=N_DELEGATE_CONFLICT)
         elif decision.self_made():

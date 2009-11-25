@@ -3,6 +3,8 @@ from sqlalchemy.orm import relation, backref
 
 from meta import Base
 import user
+import meta
+import filter as ifilter
 import motion 
 
 class Poll(Base):
@@ -45,7 +47,7 @@ class Poll(Base):
                 poll = poll.motion.instance == ifilter.get_instance() \
                         and poll or None
             return poll
-        except Exception: 
+        except Exception:
             return None
 
 Poll.motion = relation(motion.Motion, backref=backref('polls', cascade='delete', 
