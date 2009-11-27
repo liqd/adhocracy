@@ -63,7 +63,9 @@ def vote_source(event):
     if event.event == T_VOTE_CAST:
         decision = democracy.Decision(event.agent, event.poll)
         before = decision.without_vote(event.vote)
-        if decision.relevant_votes == before.relevant_votes:
+        if (map(lambda v: v.delegation, decision.relevant_votes) == \
+           map(lambda v: v.delegation, before.relevant_votes)) and \
+           (before.result == decision.result):
             return 
         if not decision.made():
             yield Notification(event, event.agent, type=N_DELEGATE_CONFLICT)

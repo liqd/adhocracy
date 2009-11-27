@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-import sha
 import smtplib
 import logging
 
@@ -41,13 +40,14 @@ def to_mail(to_name, to_email, subject, body, html_body=None, headers={}):
     to = Header(u"%s <%s>" % (to_name, to_email), ENCODING)
     msg['To'] = to
     msg['X-Mailer'] = _("Adhocracy SMTP %s") % version.get_version()
+    
+    log.debug("MAIL\r\n" + msg.as_string())
          
     server = smtplib.SMTP(smtp_server)
     #server.set_debuglevel(1)
     server.sendmail(email_from, [to_email], msg.as_string())
     server.quit()
     
-    log.debug("MAIL\r\n" + msg.as_string())
     
 def to_user(to_user, subject, body, html_body=None, headers={}):
     return to_mail(to_user.name, to_user.email, subject, body, html_body, headers)

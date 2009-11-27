@@ -1,5 +1,6 @@
 
 from ...text import i18n
+from ...templating import render_def
 
 class Notification(object):
     
@@ -36,7 +37,11 @@ class Notification(object):
     subject = property(get_subject)
     
     def get_body(self):
-        return u"%s %s" % (self.event.agent.name, self.event.plain())
+        if not ':' in self.type.body_tpl:
+            return u"%s %s" % (self.event.agent.name, self.event.plain())
+        (template, def_) = self.type.body_tpl.split(':')
+        tpl_vars = {'notification': self, 'event': self.event, 'rcpt': self.user, 'etype': self.type}
+        return render_def(template, def_, extra_vars=tpl_vars).strip()
     
     body = property(get_body)
             

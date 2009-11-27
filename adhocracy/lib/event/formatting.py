@@ -69,9 +69,9 @@ class GroupFormatter(ObjectFormatter):
 class VoteFormatter(ObjectFormatter):
     
     def unicode(self, vote):
-        return {1: _("voted for"),
-                0: _("abstained on"),
-               -1: _("voted against")}[vote.orientation]
+        return {1: _("for"),
+                0: _("to abstain"),
+               -1: _("against")}[vote.orientation]
     
     def html(self, value):
         return self.unicode(value)

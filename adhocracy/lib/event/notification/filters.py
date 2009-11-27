@@ -3,7 +3,7 @@ from ..types import *
 
 def self_filter(pipeline):
     for notification in pipeline:
-        if not notification.type.filter_self:
+        if notification.type.notify_self:
             yield notification
         if not notification.event.agent == notification.user: 
             yield notification

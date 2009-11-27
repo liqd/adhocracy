@@ -15,9 +15,9 @@ class NotificationType(object):
         return self.code
         
 class EventType(NotificationType):
-    def __init__(self, code, pri, subject, event_msg, body_tpl):
+    def __init__(self, code, pri, subject, event_msg, body_tpl, notify_self=False):
         self.event_msg = event_msg
-        super(EventType, self).__init__(code, pri, subject, body_tpl)
+        super(EventType, self).__init__(code, pri, subject, body_tpl, notify_self=notify_self)
     
 
 T_USER_CREATE = EventType(u"t_user_create", pri=2, 
@@ -28,12 +28,14 @@ T_USER_CREATE = EventType(u"t_user_create", pri=2,
 T_USER_EDIT = EventType(u"t_account_edit", pri=1, 
                           subject=lambda: _(u"%(agent)s: profile updated"),
                           event_msg=lambda: _(u"edited their profile"),
-                          body_tpl='')
+                          body_tpl='',
+                          notify_self=True)
 
 T_USER_ADMIN_EDIT = EventType(u"t_account_admin_edit", pri=2, 
                           subject=lambda: _(u"%(user)s: profile was edited by %(agent)s"),
                           event_msg=lambda: _(u"edited %(user)ss profile"),
-                          body_tpl='')
+                          body_tpl='',
+                          notify_self=True)
 
 T_INSTANCE_CREATE = EventType(u"t_instance_create", pri=3, 
                           subject=lambda: _(u"New Adhocracy: %(instance)s"),
@@ -86,7 +88,7 @@ T_ISSUE_DELETE = EventType(u"t_issue_delete", pri=2,
                           body_tpl='')
 
 T_MOTION_CREATE = EventType(u"t_motion_create", pri=3, 
-                          subject=lambda: _(u"Created motion: %(motion)s"),
+                          subject=lambda: _(u"New motion: %(motion)s"),
                           event_msg=lambda: _(u"created %(motion)s"),
                           body_tpl='')
 
@@ -152,8 +154,8 @@ T_DELEGATION_REVOKE = EventType(u"t_delegation_revoke", pri=2,
 
 T_VOTE_CAST = EventType(u"t_vote_cast", pri=2, 
                           subject=lambda: _(u"Vote: %(agent)s %(vote)s %(poll)s"),
-                          event_msg=lambda: _(u"%(vote)s %(poll)s"),
-                          body_tpl='')
+                          event_msg=lambda: _(u"voted %(vote)s %(poll)s"),
+                          body_tpl='/poll/notifications.html:t_vote_cast')
 
 T_TEST = EventType(u"t_test", pri=5, 
                           subject=lambda: _(u"Adhocracy says hello: %(test)s"),
@@ -182,17 +184,17 @@ N_INSTANCE_MEMBERSHIP_UPDATE = NotificationType("n_instance_membership_update", 
 
 N_SELF_VOTED = NotificationType("n_self_voted", pri=3, 
                           subject=lambda: _(u"Vote Confirmation: you %(vote)s %(poll)s"),
-                          body_tpl='',
+                          body_tpl='/poll/notifications.html:n_self_voted',
                           notify_self=True)
 
 N_DELEGATE_VOTED = NotificationType("n_delegate_voted", pri=4, 
                           subject=lambda: _(u"Delegate Vote: you %(vote)s %(poll)s"),
-                          body_tpl='',
+                          body_tpl='/poll/notifications.html:n_delegate_voted',
                           notify_self=True)
 
 N_DELEGATE_CONFLICT = NotificationType("n_delegate_conflict", pri=5, 
                           subject=lambda: _(u"Delegate Conflict: %(poll)s"),
-                          body_tpl='',
+                          body_tpl='/poll/notifications.html:n_delegate_conflict',
                           notify_self=True)
 
 N_COMMENT_REPLY = NotificationType("n_comment_reply", pri=4, 

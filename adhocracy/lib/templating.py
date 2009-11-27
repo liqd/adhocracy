@@ -38,10 +38,11 @@ def render_def(template_name, def_name, extra_vars=None, cache_key=None,
         extra_vars = {}
     
     extra_vars.update(tpl_vars())
+    extra_vars.update(kwargs)
     
-    return render_mako_def(template_name, def_name, extra_vars=extra_vars, 
+    return render_mako_def(template_name, def_name,  
                            cache_key=cache_key, cache_type=cache_type,
-                           cache_expire=cache_expire, **kwargs)
+                           cache_expire=cache_expire, **extra_vars)
     
 class NamedPager(object): 
     """

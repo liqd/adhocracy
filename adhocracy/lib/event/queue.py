@@ -47,9 +47,10 @@ def read_events(callback=None):
     def handle_message(message):
         begin_time = time()
         e = Event.from_json(message.body)
-        sleep(10)
+        sleep(1)
         callback(e)
         log.warn("Queue message - > %sms" % ((time() - begin_time)*1000))
+        message.channel.basic_ack(message.delivery_tag)
         
     channel.basic_consume(qname, callback=handle_message)
         

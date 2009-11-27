@@ -1,0 +1,24 @@
+
+<%def name="_orientationstr(vote)"><% 
+if vote.orientation == 1: 
+	return _("for")
+elif vote.orientation == -1:
+	return _("against")
+else:
+	return _("to abstain")
+%></%def>
+
+<%def name="t_vote_cast()">
+</%def>
+
+<%def name="n_self_voted(**kw)">
+	${event.to_json()}
+</%def>
+
+<%def name="n_delegate_voted()">
+
+</%def>
+
+<%def name="n_delegate_conflict()">
+
+</%def>
