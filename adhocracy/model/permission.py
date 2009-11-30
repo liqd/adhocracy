@@ -18,8 +18,8 @@ class Permission(Base):
     id = Column(Integer, primary_key=True)
     permission_name = Column(Unicode(255), nullable=False, unique=True)
     
-    groups = relation('Group', secondary=group_permission,
-                          backref='permissions')
+    groups = relation('Group', secondary=group_permission, lazy=False,
+                          backref=backref('permissions', lazy=False))
     
     def __init__(self, permission_name):
         self.permission_name = permission_name

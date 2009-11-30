@@ -14,7 +14,7 @@ class Comment(Base):
     delete_time = Column(DateTime, default=None, nullable=True)
     
     creator_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    creator = relation(user.User, backref=backref('comments'))
+    creator = relation(user.User, lazy=False, backref=backref('comments'))
     
     topic_id = Column(Unicode(10), ForeignKey('delegateable.id'), nullable=False)
     topic = relation(delegateable.Delegateable, backref=backref('comments', cascade='all'))

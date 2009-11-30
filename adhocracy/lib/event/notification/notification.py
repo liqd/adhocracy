@@ -1,8 +1,18 @@
+import os.path 
+import logging 
+
+from pylons import config
+from pylons.i18n.translation import *
 
 from ...text import i18n
-from ...templating import render_def
+from ...templating import render
+
+log = logging.getLogger(__name__)
 
 class Notification(object):
+    
+    TPL_PATTERN = os.path.join("%s", 'adhocracy', 'templates', '%s') 
+    TPL_NAME = "/notifications/%s.%s.txt"
     
     def __init__(self, event, user, type=None, watch=None):
         self.event = event
@@ -37,11 +47,19 @@ class Notification(object):
     subject = property(get_subject)
     
     def get_body(self):
-        if not ':' in self.type.body_tpl:
-            return u"%s %s" % (self.event.agent.name, self.event.plain())
-        (template, def_) = self.type.body_tpl.split(':')
-        tpl_vars = {'notification': self, 'event': self.event, 'rcpt': self.user, 'etype': self.type}
-        return render_def(template, def_, extra_vars=tpl_vars).strip()
+        locale = self.language_context()
+        tpl_vars = {'n': self, 'e': self.event, 'u': self.user, 't': self.type}
+        
+        # HACK 
+        tpl_name = self.TPL_NAME % (str(self.type), locale.language[0:2])
+        tpl_path = self.TPL_PATTERN % (config.get('here'), tpl_name) 
+        
+        if not os.path.exists(tpl_path):
+            log.warn("Notification body %s needs to be localized to " +
+                     "file %s" % (self.type, tpl_path)) 
+            tpl_name = self.TPL_NAME % (str(self.type), i18n.DEFAULT.language[0:2])
+        
+        return render(tpl_name, extra_vars=tpl_vars).strip()
     
     body = property(get_body)
             

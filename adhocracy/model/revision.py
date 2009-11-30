@@ -15,7 +15,7 @@ class Revision(Base):
     sentiment = Column(Integer, default=0)
     
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    user = relation(user.User, primaryjoin="Revision.user_id==User.id", 
+    user = relation(user.User, lazy=True, primaryjoin="Revision.user_id==User.id", 
                     backref=backref('revisions'))
     
     comment_id = Column(Integer, ForeignKey('comment.id'), nullable=False)
@@ -41,7 +41,7 @@ class Revision(Base):
         return self.id
     
 
-Revision.comment = relation(comment.Comment, 
+Revision.comment = relation(comment.Comment, lazy=False,
                            backref=backref('revisions', cascade='all',
-                                           lazy=False,
+                                           lazy=True,
                                            order_by=Revision.create_time.desc()))

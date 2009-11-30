@@ -3,6 +3,7 @@
 Provides the BaseController class for subclassing.
 """
 import logging
+from time import time
 
 from pylons import config
 from pylons.controllers import WSGIController
@@ -36,6 +37,7 @@ import watchlist
 #import microblog
 import text.i18n as i18n
 
+log = logging.getLogger(__name__)
 
 class BaseController(WSGIController):
         
@@ -49,7 +51,7 @@ class BaseController(WSGIController):
         # WSGIController.__call__ dispatches to the Controller method
         # the request is routed to. This routing information is
         # available in environ['pylons.routes_dict']
-        import adhocracy.lib 
+        import adhocracy.lib
         c.lib = adhocracy.lib 
         c.model = model
         c.instance = model.filter.get_instance()
@@ -80,12 +82,11 @@ class BaseController(WSGIController):
                    + "participation, group decisions, decisions, decision-making"))
         
         try:
+            begin_time = time()
             return WSGIController.__call__(self, environ, start_response)
         finally:
             model.meta.Session.remove()
-
-
-
+            log.debug("Rendering page %s took %sms" % (environ.get('PATH_INFO'), ((time()-begin_time)*1000)))
 
 
 def ExpectFormat(formats=['html', 'rss', 'xml', 'json']):

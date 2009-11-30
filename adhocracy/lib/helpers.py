@@ -27,7 +27,7 @@ from webhelpers.pylonslib import Flash as _Flash
 import webhelpers.text as text
 flash = _Flash()
 
-
+@cache.memoize('delegateable_breadcrumbs')
 def breadcrumbs(delegateable, id=None):
     import adhocracy.model as model
     
@@ -52,6 +52,7 @@ def has_permission(permission):
 def immutable_motion_message():
     return _("This motion is currently being voted on and cannot be modified.")
 
+@cache.memoize('user_link')
 def user_link(user, size=16, link=None, include_score=True):
     if not link:
         link = "/user/%s" % user.user_name
@@ -69,6 +70,7 @@ def motion_icon(motion, size=16):
     else:
         return instance_url(None, path='') + "/img/icons/motion_" + str(size) + ".png"
 
+@cache.memoize('delegateable_link')
 def delegateable_link(delegateable, icon=True, link=True):
     text = ""
     if icon:

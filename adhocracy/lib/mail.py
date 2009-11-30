@@ -17,6 +17,7 @@ def to_mail(to_name, to_email, subject, body, html_body=None, headers={}):
     email_from = config['adhocracy.email.from']
     smtp_server = config['smtp_server']
     
+    print "XXX BODY ", body
     
     body = _(u"Hi %s,") % to_name \
          + u"\r\n\r\n%s\r\n\r\n" % body \

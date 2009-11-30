@@ -1,0 +1,3 @@
+this message confirms your vote on ${e.poll.motion.label}. 
+
+If you'd like to review your choice, visit the poll page: ${h.instance_url(e.poll.motion.instance, path="/motion/%s" % str(e.poll.motion.id))}

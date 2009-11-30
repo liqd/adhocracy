@@ -34,7 +34,7 @@ class Delegateable(Base):
         backref=backref('delegateables', cascade='delete'))
     
     instance_id = Column(Integer, ForeignKey('instance.id'), nullable=False)
-    instance = relation('Instance', 
+    instance = relation('Instance', lazy=True,
         primaryjoin="Delegateable.instance_id==Instance.id", 
         backref=backref('delegateables', cascade='delete'))
     
@@ -99,10 +99,10 @@ class Delegateable(Base):
             except MultipleResultsFound:
                 pass
 
-Delegateable.__mapper__.add_property('parents', relation(Delegateable, lazy=False, secondary=category_graph, 
+Delegateable.__mapper__.add_property('parents', relation(Delegateable, lazy=True, secondary=category_graph, 
     primaryjoin=Delegateable.__table__.c.id == category_graph.c.parent_id,
     secondaryjoin=category_graph.c.child_id == Delegateable.__table__.c.id))
     
-Delegateable.__mapper__.add_property('children', relation(Delegateable, lazy=False, secondary=category_graph, 
+Delegateable.__mapper__.add_property('children', relation(Delegateable, lazy=True, secondary=category_graph, 
     primaryjoin=Delegateable.__table__.c.id == category_graph.c.child_id,
     secondaryjoin=category_graph.c.parent_id == Delegateable.__table__.c.id))

@@ -15,7 +15,6 @@ import helpers as h
 
 log = logging.getLogger(__name__)
 
-
 class InstanceGroupSourceAdapter(SqlGroupsAdapter):
     
     def __init__(self, *args, **kwargs):
@@ -32,13 +31,17 @@ class InstanceGroupSourceAdapter(SqlGroupsAdapter):
                 membership.instance == model.filter.get_instance():
                 users.append(membership.user)
         return set(map(lambda u: u.user_name, users))
+    
+    def _find_sections(self, credentials):
+        sections = super(InstanceGroupSourceAdapter, self)._find_sections(credentials)
+        #sections.append("anonymous")
+        return sections
 
     def _get_item_as_row(self, item_name):
         user = model.User.find(item_name, instance_filter=False)
         if not user:
             raise SourceError("No such user: %s" % item_name)
         return user
-        
         
 class has_permission(what_has_permission):
     """
@@ -49,16 +52,18 @@ class has_permission(what_has_permission):
     
     *WARNING*: This does not include authorizations that are subject to Karma thresholds. 
     """    
+    _anon_group = None
+    
     def evaluate(self, environ, credentials):
         try:
             super(has_permission, self).evaluate(environ, credentials)
         except Exception, e:
-            anonymous = model.Group.by_code(model.Group.CODE_ANONYMOUS)
-            if anonymous:
-                for perm in anonymous.permissions:
-                    if perm.permission_name == self.permission_name:
-                        return
-            raise e 
+            if not self._anon_group:
+                self._anon_group = model.Group.by_code(model.Group.CODE_ANONYMOUS)
+            for perm in self._anon_group.permissions:
+                if perm.permission_name == self.permission_name:
+                    return
+            raise e
         
 def on_delegateable(delegateable, permission_name, allow_creator=True):
     """

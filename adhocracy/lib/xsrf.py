@@ -52,8 +52,14 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
     return decorator(_decorate)
 
 def make_token():
-    token = hashlib.sha1(str(random.random())).hexdigest()
     tokens = session.get('modtokens', [])
+    
+    token = None
+    if len(tokens) < 100:
+        token = hashlib.sha1(str(random.random())).hexdigest()
+    else:
+        token = tokens[-1]
+        
     tokens.append(token)
     session['modtokens'] = tokens
     session.save()

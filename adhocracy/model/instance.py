@@ -29,7 +29,7 @@ class Instance(Base):
         backref=backref('created_instances'))
     
     default_group_id = Column(Integer, ForeignKey('group.id'), nullable=True)
-    default_group = relation('Group')
+    default_group = relation('Group', lazy=True)
         
     root_id = Column(Unicode(10), 
                      ForeignKey('category.id', use_alter=True, name='inst_root_cat'), 
@@ -96,7 +96,7 @@ class Instance(Base):
         return meta.Session.query(Instance).all()
         
         
-Instance.root = relation('Category', 
+Instance.root = relation('Category', lazy=True,
                     primaryjoin="Instance.root_id==Category.id", 
                     foreign_keys=[Instance.root_id], 
                     uselist=False)

@@ -26,6 +26,8 @@ class DelegationNode(object):
         self.delegateable = delegateable
         
     def _query_traverse(self, querymod, recurse, at_time):
+        #return []
+        
         if not at_time:
             at_time = datetime.now()
         query = model.meta.Session.query(Delegation)

@@ -36,8 +36,6 @@
 		</div>
 	</div>
 	<div class="mainbar">
-		<label for="email">${_("E-Mail:")}</label>
-		<input name="email" value="${c.page_user.email}"/>
 		<label for="locale">${_("Language:")}</label>
 		<select name="locale">
 			%for locale in c.lib.text.i18n.LOCALES:
@@ -50,8 +48,7 @@
 		</select>
 	</div>
 	
-	
-	<h3>${_(" ")}</h3>
+	<h3> </h3>
 	<div class="sidebar">
 		<div class="infobox">
 			${_("Select a new password or leave the fields blank to keep your old one.")}
@@ -110,7 +107,10 @@
 				<th colspan="3" style="text-align: right;">${_("verbose updates")}</th>
 			</tr>
 			<tr>
-				<td>${_("E-Mail")}</td>
+				<td>
+		<!-- label for="email">${_("E-Mail:")}</label -->
+					<input name="email" value="${c.page_user.email}"/>
+				</td>
 				<td><input type="radio" name="email_priority" value="6" 
 					${"checked='checked'" if c.page_user.email_priority==6 else ""} /></td>
 				<td><input type="radio" name="email_priority" value="4" 

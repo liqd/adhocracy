@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from util import BaseTile
 
 from pylons import request, response, session, tmpl_context as c

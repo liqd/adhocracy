@@ -1,0 +1,1 @@
+${e.agent.name} has cast a vote on ${e.poll.motion.label}.

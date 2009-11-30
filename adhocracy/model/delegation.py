@@ -13,7 +13,7 @@ class Delegation(Base):
     id = Column(Integer, primary_key=True)
     
     agent_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    agent = relation(User, 
+    agent = relation(User,
         primaryjoin="Delegation.agent_id==User.id", 
         backref=backref('agencies', cascade='all'))
         
@@ -23,7 +23,7 @@ class Delegation(Base):
         backref=backref('delegated', cascade='all'))
     
     scope_id = Column(Unicode(10), ForeignKey('delegateable.id'), nullable=False)
-    scope = relation(Delegateable, 
+    scope = relation(Delegateable, lazy=False,
         primaryjoin="Delegation.scope_id==Delegateable.id", 
         backref=backref('delegations', cascade='all'))
     

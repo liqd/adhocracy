@@ -168,8 +168,13 @@ class Decision(object):
         :param user: The user for which to list ``Decisions``
         :param instance: an ``Instance`` context. 
         """
-        polls = set([vote.poll for vote in user.votes])
-        for poll in polls:
+        query = model.meta.Session.query(Poll)
+        query = query.distinct().join(Vote)
+        query = query.join(Motion)
+        query = query.filter(Motion.instance==instance)
+        query = query.filter(Vote.user==user)
+        query = query.options(eagerload(Poll.motion))
+        for poll in query:
             if not instance or poll.motion.instance == instance:
                 yield cls(user, poll, at_time=at_time)
             

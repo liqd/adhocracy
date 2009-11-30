@@ -1,9 +1,12 @@
+import logging 
 
-from pylons import request, response, session, tmpl_context as c
+from pylons import tmpl_context as c
 
 from .. import helpers as h
-from .. import authorization as auth
 from .. import karma
+#from ..cache import memoize
+
+log = logging.getLogger(__name__)
 
 class BaseTile(object):
     
@@ -23,7 +26,11 @@ class BaseTile(object):
         return lambda self: h.has_permission(perm)
 
 
+from time import time
 
 def render_tile(template_name, def_name, tile, **kwargs):
-    from .. import templating
-    return templating.render_def(template_name, def_name, tile=tile, **kwargs)
+    from .. import templating 
+    begin_time = time()
+    rendered = templating.render_def(template_name, def_name, tile=tile, **kwargs)
+    log.debug("Rendering tile %s:%s took %sms" % (template_name, def_name, (time()-begin_time)*1000))
+    return rendered
