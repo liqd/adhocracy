@@ -108,7 +108,7 @@ ${components.watch(c.motion, '/motion/%s' % str(c.motion.id))}
 		${comment_tiles.create_form(c.motion.comment, c.motion)}
 	</div>
 	%endif
-	%for reply in c.tile.comment_tile.replies:
+	%for (reply, r_tile) in c.tile.comment_tile.replies():
 		${tiles.comment.full(reply, recurse=True)}
 	%endfor
 </div>

@@ -15,7 +15,7 @@
 			%endif
 			<li class="unmet">${_("A vote needs to be called.")}</li>
 		%elif state.adopted:
-			%if state.volatile:
+			%if not state.stable:
 				<li class="met">${_("The motion is adopted, <b>but volatile</b>.")|n}</li>
 				<li class="unmet">${_("Majority needs to be held <b>for %s</b>.") % h.format_timedelta(state.volatile.end_time - datetime.now() if state.volatile.end_time else state.volatile.delay)|n}</li>
 			%else:

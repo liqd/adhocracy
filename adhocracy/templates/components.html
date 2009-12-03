@@ -19,7 +19,7 @@
 	<%
 	watch = False
 	if entity:
-		watch = c.lib.watchlist.get_entity_watch(c.user, entity)
+		watch = c.lib.watchlist.has_entity_watch(entity)
 	%> 
 	<input class="watch" type="checkbox" ${"checked='checked'" if watch else ''} name="watch"/>
 	${_("Notify me of updates.")}

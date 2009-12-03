@@ -1,0 +1,6 @@
+
+<%def name="vote(vote)"><%
+if vote.orientation == 1: context.write(_("for"))
+elif vote.orientation == -1: context.write(_("against"))
+else: context.write(_("with an abstention on"))
+%></%def>

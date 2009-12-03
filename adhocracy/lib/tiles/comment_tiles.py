@@ -15,12 +15,8 @@ class CommentTile(BaseTile):
     def __init__(self, comment):
         self.comment = comment
         self.__topic_outbound = None 
+        self.__score = None
         
-    def _num_motions(self):
-        return len(self.issue.motions)
-    
-    num_motions = property(_num_motions)
-    
     def _text(self):       
         if self.comment and self.comment.latest:
             return text.render(self.comment.latest.text)
@@ -49,7 +45,7 @@ class CommentTile(BaseTile):
     def _creator_delegate(self):
         if not c.user:
             return None
-        if not self.__topic_outbound:
+        if self.__topic_outbound == None: # is often []
             dnode = democracy.DelegationNode(c.user, self.comment.topic)
             self.__topic_outbound = dnode.outbound()
         for delegation in self.__topic_outbound:
@@ -100,7 +96,7 @@ class CommentTile(BaseTile):
     def _is_edited(self):
         if self.is_deleted:
             return False
-        return len(self.comment.revisions) > 1
+        return self.comment.latest.create_time != self.comment.create_time
     
     is_edited = property(_is_edited)
     
@@ -131,7 +127,9 @@ class CommentTile(BaseTile):
     num_children = property(_num_children)
     
     def _karma_score(self):
-        return karma.comment_score(self.comment)
+        if self.__score == None:
+            self.__score = karma.comment_score(self.comment)
+        return self.__score
     
     karma_score = property(_karma_score)
     
@@ -139,19 +137,20 @@ class CommentTile(BaseTile):
         if not c.user:
             return None
         pos = karma.position(self.comment, c.user)
-        if (pos and pos.value == 1) or self.comment.creator == c.user:
+        if (pos and pos == 1):
             return "upvoted"
-        elif pos and pos.value == -1:
+        elif pos and pos == -1:
             return "downvoted"
         return pos
     
     karma_position = property(_karma_position)
     
-    def _replies(self):
-        return sorting.comment_karma(self.comment.replies)
-    
-    replies = property(_replies)
-
+    def replies(self):
+        comments = sorting.comment_karma(self.comment.replies)
+        for comment in comments:
+            tile = self.__class__(comment)
+            tile.__topic_outbound = self.__topic_outbound
+            yield (comment, tile)
 
 def row(comment):
     return render_tile('/comment/tiles.html', 'row', CommentTile(comment), comment=comment)    

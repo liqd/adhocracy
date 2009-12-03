@@ -1,0 +1,1 @@
+${e.agent.name} has deleted the Adhocracy ${e.instance.label}.

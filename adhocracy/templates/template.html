@@ -98,13 +98,13 @@
 						<li><a href="/user/${c.user.user_name}/delegations">${_("Delegations")}</a></li>
 					%endif
 				%endif
-				%if c.user and c.user.has_permission("instance.admin"):
+				%if c.user and h.has_permission("instance.admin"):
 					<li class="admin">
 						<a href="/instance/edit/${c.instance.key}">${_("Administration")}</a>
 						<ul>
 							<li><a href="/instance/edit/${c.instance.key}">${_("Edit %s") % c.instance.label}</a></li>
 							<li><a href="/admin/members">${_("Members")}</a></li>
-							%if c.user and c.user.has_permission("global.admin"):
+							%if c.user and h.has_permission("global.admin"):
 								<li><a href="/admin/permissions">${_("Global Permissions")}</a></li>
 							%endif
 						</ul>	
@@ -168,14 +168,21 @@
 </div>
 %if config.get('adhocracy.analytics') == 'true':
 	<script type="text/javascript">
-	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-6284277-3']);
+	_gaq.push(['_trackPageview']);
+	 
+	(function() {
+	var ga = document.createElement('script');
+	ga.src = ('https:' == document.location.protocol ?
+	    'https://ssl' : 'http://www') +
+	    '.google-analytics.com/ga.js';
+	ga.setAttribute('async', 'true');
+	document.documentElement.firstChild.appendChild(ga);
+	})();
+		
 	</script>
-	<script type="text/javascript">
-	try {
-	var pageTracker = _gat._getTracker("UA-6284277-3");
-	pageTracker._trackPageview();
-	} catch(err) {}</script>
 %endif
 </body>
 </html>

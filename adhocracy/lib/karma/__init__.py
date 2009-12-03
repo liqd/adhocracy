@@ -10,12 +10,12 @@ from scores import *
 
 @memoize('user_comment_position')
 def position(comment, user):
-    q = model.meta.Session.query(model.Karma)
+    q = model.meta.Session.query(model.Karma.value)
     q = q.filter(model.Karma.comment==comment)
     q = q.filter(model.Karma.donor==user)
     try:
-        return q.one()
+        return q.one()[0]
     except NoResultFound:
         return None
     except:
-        return q.all()[0]
+        return q.all()[0][0]

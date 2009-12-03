@@ -15,7 +15,7 @@ def log_sink(pipeline):
 def twitter_sink(pipeline):
     for notification in pipeline:
         user = notification.user
-        if user.twitter and notification.priority >= user.twitter.priority:
+        if user.twitter and (notification.priority >= user.twitter.priority):
             notification.language_context()
             tweet = text.truncate(notification.subject, 130, '...', True)
             try:
@@ -39,6 +39,8 @@ def mail_sink(pipeline):
                          notification.body, 
                          headers=headers)
             except Exception, e:
+                #import traceback
+                #traceback.print_exc()
                 log.warn(e)
                 yield notification
         else:

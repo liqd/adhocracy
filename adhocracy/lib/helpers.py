@@ -13,6 +13,7 @@ from pylons import request
 from pylons.i18n import add_fallback, get_lang, set_lang, gettext, _
 
 import authorization 
+from authorization import has_permission_bool as has_permission
 import karma 
 import democracy
 import cache
@@ -45,9 +46,6 @@ def breadcrumbs(delegateable, id=None):
                                                   text.truncate(delegateable.instance.label, length=30, whole_word=True))
     return link
 
-def has_permission(permission):
-    p = authorization.has_permission(permission)
-    return p.is_met(request.environ)
 
 def immutable_motion_message():
     return _("This motion is currently being voted on and cannot be modified.")
@@ -108,8 +106,6 @@ def contains_delegations(user, delegateable, recurse=True):
             (delegation.scope.is_sub(delegateable) and recurse)):
             return True
     return False
-        
-    
 
 #default_gravatar = "http://adhocracy.cc/img/icons/user_%s.png"
 def gravatar_url(user, size=32):

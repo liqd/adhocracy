@@ -71,11 +71,4 @@
 	"could be laws, strategy decisions or even design patterns.")} 
 	<a href="/page/faq.html#Howdoesvotingwork">${_("Read more...")}</a> 
 	</p>
-	
-	%if c.user and c.user.has_permission("instance-view"):
-		<h2>${_("Activity in my Adhocracies")}</h2>
-		<ul>
-			${c.events_pager.here()}
-		</ul>
-	%endif
 </div>

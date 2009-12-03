@@ -78,7 +78,7 @@ class User(Base):
      
     groups = property(_get_context_groups)
     
-    def has_permission(self, permission_name):
+    def _has_permission(self, permission_name):
         for group in self.groups:
             for perm in group.permissions:
                 if perm.permission_name == permission_name:
@@ -91,7 +91,7 @@ class User(Base):
                 continue
             if membership.instance == instance:
                 return True
-        return self.has_permission('global-member')
+        return False
     
     def _get_instances(self):
         instances = []

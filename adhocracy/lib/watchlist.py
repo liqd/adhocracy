@@ -37,6 +37,20 @@ def get_ref_watches(ref):
                      model.Watch.delete_time>datetime.now()))
     return q.all()
 
+def has_entity_watch(entity):
+    return has_ref_watch(entity2ref(entity))
+
+def has_ref_watch(ref):
+    if not c.user:
+        return None
+    if not request.environ.get('adhocracy.user.watchlist'):
+        q = model.meta.Session.query(model.Watch.entity_ref)
+        q = q.filter(model.Watch.user==c.user)
+        q = q.filter(or_(model.Watch.delete_time==None,
+                         model.Watch.delete_time>datetime.now()))
+        request.environ['adhocracy.user.watchlist'] = q.all()
+    return ref in request.environ.get('adhocracy.user.watchlist')
+
 def check_watch(entity):
     if not c.user:
         return None

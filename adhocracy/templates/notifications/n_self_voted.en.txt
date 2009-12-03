@@ -1,3 +1,5 @@
-this message confirms your vote on ${e.poll.motion.label}. 
+<%namespace name="common" file="/notifications/common.txt"/>
+
+this message confirms your vote on ${e.poll.motion.label}. You voted ${common.vote(e.vote)} the motion.   
 
 If you'd like to review your choice, visit the poll page: ${h.instance_url(e.poll.motion.instance, path="/motion/%s" % str(e.poll.motion.id))}

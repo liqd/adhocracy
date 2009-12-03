@@ -1,8 +1,12 @@
 import logging
 
 from pylons import config, tmpl_context as c
+from pylons import request
 from pylons.controllers.util import abort, redirect_to
 from pylons.i18n import _
+
+from sqlalchemy import and_, or_
+from sqlalchemy.orm import eagerload
 
 from repoze.what.predicates import has_permission as what_has_permission
 from repoze.what.adapters import BaseSourceAdapter, SourceError
@@ -22,26 +26,28 @@ class InstanceGroupSourceAdapter(SqlGroupsAdapter):
         self.is_writable = False
         
     def _get_section_items(self, section):
-        group = model.Group.by_code(section)
-        users = []
-        for membership in group.memberships: 
-            if not membership.instance:
-                users.append(membership.user)
-            elif model.filter.has_instance() and \
-                membership.instance == model.filter.get_instance():
-                users.append(membership.user)
-        return set(map(lambda u: u.user_name, users))
+        q = model.meta.Session.query(model.User.user_name)
+        q = q.join(model.Membership)
+        q = q.join(model.Group)
+        q = q.filter(model.Group.code==section)
+        q = q.filter(or_(model.Membership.instance==None,
+                         model.Membership.instance==model.filter.get_instance()))
+        return q.all()
     
     def _find_sections(self, credentials):
-        sections = super(InstanceGroupSourceAdapter, self)._find_sections(credentials)
-        #sections.append("anonymous")
-        return sections
+        sections = list(super(InstanceGroupSourceAdapter, self)._find_sections(credentials))
+        sections.append("Anonymous")
+        return set(sections)
 
     def _get_item_as_row(self, item_name):
-        user = model.User.find(item_name, instance_filter=False)
-        if not user:
+        q = model.meta.Session.query(model.User)
+        q = q.filter(model.User.user_name==item_name)
+        q = q.options(eagerload(model.User.memberships))
+        try:
+            return q.one()
+        except Exception, e:
+            log.debug(e)
             raise SourceError("No such user: %s" % item_name)
-        return user
         
 class has_permission(what_has_permission):
     """
@@ -52,18 +58,20 @@ class has_permission(what_has_permission):
     
     *WARNING*: This does not include authorizations that are subject to Karma thresholds. 
     """    
-    _anon_group = None
-    
     def evaluate(self, environ, credentials):
-        try:
+        if c.user:
             super(has_permission, self).evaluate(environ, credentials)
-        except Exception, e:
-            if not self._anon_group:
-                self._anon_group = model.Group.by_code(model.Group.CODE_ANONYMOUS)
-            for perm in self._anon_group.permissions:
+        else:
+            anon_group = model.Group.by_code(model.Group.CODE_ANONYMOUS)
+            for perm in anon_group.permissions:
                 if perm.permission_name == self.permission_name:
                     return
-            raise e
+            self.unmet()
+        
+
+def has_permission_bool(permission):
+    p = has_permission(permission)
+    return p.is_met(request.environ)
         
 def on_delegateable(delegateable, permission_name, allow_creator=True):
     """
@@ -73,9 +81,9 @@ def on_delegateable(delegateable, permission_name, allow_creator=True):
     """
     if allow_creator and delegateable and c.user and c.user == delegateable.creator:
         return True
-    if c.user and (c.user.has_permission('instance.admin') or c.user.has_permission('global.admin')):
+    if c.user and (has_permission_bool('instance.admin') or has_permission_bool('global.admin')):
         return True
-    if c.user and c.user.has_permission(permission_name):
+    if c.user and has_permission_bool(permission_name):
         if karma.user_score(c.user) >= karma.threshold.limit(permission_name):
             return True
     return False

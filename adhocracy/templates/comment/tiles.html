@@ -148,8 +148,8 @@
 		</div>
 		%if recurse or link_discussion:
 			<div class="sub ${'link_discussion' if link_discussion else ''}">
-				%for reply in tile.replies:
-					${self.full(tile.__class__(reply), reply, collapse=collapse)}
+				%for r_comment, r_tile in tile.replies():
+					${self.full(r_tile, r_comment, collapse=collapse)}
 				%endfor
 			</div>
 		%endif

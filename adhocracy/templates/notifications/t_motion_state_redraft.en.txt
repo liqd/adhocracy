@@ -1,0 +1,3 @@
+${e.agent.name} called for a vote on the motion ${e.motion.label} within the issue ${e.motion.issue.label}. 
+
+If you like, cast a vote or check that you have assigned an appropriate delegate to the subject area.   

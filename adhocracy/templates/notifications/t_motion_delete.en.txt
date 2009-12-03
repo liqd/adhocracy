@@ -1,0 +1,4 @@
+${e.agent.name} deleted the motion ${e.motion.label} from the issue ${e.motion.issue.label}.  
+
+Here's the last description: 
+${e.motion.comment.latest.text}

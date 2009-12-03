@@ -1,0 +1,7 @@
+${e.agent.name}s profile (bio, contacts, etc.) has updated by {e.user.name}.
+%if e.agent.bio: 
+
+User bio: ${e.agent.bio}  
+%endif
+
+Visit the profile page: ${h.instance_url(None, path="/user/%s" % e.agent)} 

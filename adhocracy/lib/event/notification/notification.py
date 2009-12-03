@@ -55,8 +55,7 @@ class Notification(object):
         tpl_path = self.TPL_PATTERN % (config.get('here'), tpl_name) 
         
         if not os.path.exists(tpl_path):
-            log.warn("Notification body %s needs to be localized to " +
-                     "file %s" % (self.type, tpl_path)) 
+            log.warn("Notification body needs to be localized to file %s" % (tpl_path)) 
             tpl_name = self.TPL_NAME % (str(self.type), i18n.DEFAULT.language[0:2])
         
         return render(tpl_name, extra_vars=tpl_vars).strip()
@@ -64,5 +63,5 @@ class Notification(object):
     body = property(get_body)
             
     def __repr__(self):
-        return "<Notification(%s,%s)>" % (self.type, self.user.user_name)
+        return "<Notification(%s,%s,%s)>" % (self.type, self.user.user_name, self.priority)
     

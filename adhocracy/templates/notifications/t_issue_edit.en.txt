@@ -1,0 +1,11 @@
+${e.agent.name} has modified the issue ${e.issue.label}. 
+
+Here's the current description: 
+${e.issue.comment.latest.text}
+
+It is listed in the following categories:
+%for category in e.issue.parents:
+ * ${category.label}
+%endfor
+
+Have a look at the issue page: ${h.instance_url(e.issue.instance, path="/issue/%s" % e.issue.id)}

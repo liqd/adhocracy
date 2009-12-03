@@ -1,0 +1,2 @@
+
+In the Adhocracy ${e.instance.label}, ${e.agent.name} is now a ${e.group.group_name}. 

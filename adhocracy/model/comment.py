@@ -30,17 +30,7 @@ class Comment(Base):
     def __repr__(self):
         return "<Comment(%d,%s,%s,%s)>" % (self.id, self.creator.user_name,
                                           self.topic_id, self.create_time)
-        
-    def _get_latest(self):
-        if not len(self.revisions):
-            raise ValueError("No latest revision exists")
-        return self.revisions[0]
     
-    def _set_latest(self, rev):
-        self.revisions.insert(0, rev)
-        
-    latest = property(_get_latest, _set_latest)
-
     @classmethod
     def find(cls, id, instance_filter=True):
         try:
@@ -56,4 +46,4 @@ class Comment(Base):
 
 Comment.reply = relation(Comment, cascade='delete', 
                          remote_side=Comment.id, 
-                         backref=backref('replies'))
+                         backref=backref('replies', lazy=False))

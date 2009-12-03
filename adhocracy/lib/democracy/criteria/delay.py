@@ -12,7 +12,7 @@ class DelayCriterion(Criterion):
         self._begin_time = None
     
     def _get_delay(self):
-        return timedelta(days=self.motion.instance.activation_delay)
+        return timedelta(hours=self.motion.instance.activation_delay)
     
     delay = property(_get_delay)
     
@@ -92,7 +92,7 @@ class VolatilityCriterion(DelayCriterion):
     def _check_criteria(self, tally):
         return self.state.stable(tally)
     
-    def _sfx_check_tally(self, tally):        
+    def _sfx_check_tally(self, tally):
         earliest = tally.at_time - self.delay
         tallies = self.state.get_tallies(start_at=earliest)
         # is this really necessary?
@@ -107,7 +107,8 @@ class VolatilityCriterion(DelayCriterion):
                 break
         
             if self._check_criteria(t):
-                self._begin_time = t.at_time
+                if t.at_time != tally.at_time: 
+                    self._begin_time = t.at_time
                 return True
         return False   
 

@@ -5,6 +5,7 @@ import meta
 from meta import Base
 import user
 import comment
+from comment import Comment
 
 class Revision(Base):
     __tablename__ = 'revision'
@@ -41,7 +42,12 @@ class Revision(Base):
         return self.id
     
 
-Revision.comment = relation(comment.Comment, lazy=False,
+Revision.comment = relation(Comment, lazy=False,
                            backref=backref('revisions', cascade='all',
                                            lazy=True,
                                            order_by=Revision.create_time.desc()))
+
+Comment.latest = relation(Revision, lazy=False, 
+                          primaryjoin="Comment.id==Revision.comment_id", 
+                          uselist=False, 
+                          order_by=Revision.create_time.desc())

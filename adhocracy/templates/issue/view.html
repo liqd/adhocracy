@@ -75,7 +75,7 @@ ${components.watch(c.issue, '/issue/%s' % str(c.issue.id))}
 		${comment_tiles.create_form(c.issue.comment, c.issue)}
 	</div>
 	%endif
-	%for reply in c.tile.comment_tile.replies:
+	%for (reply, reply_tile) in c.tile.comment_tile.replies():
 		${tiles.comment.full(reply, recurse=True)}
 	%endfor
 </div>
