@@ -1,0 +1,1 @@
+${e.agent.name|n} has deleted a comment regarding ${e.comment.topic.label|n}.

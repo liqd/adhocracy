@@ -1,0 +1,4 @@
+${e.agent.name|n} has revoked their delegation to ${e.delegate.name|n} on ${e.scope.label|n}.
+
+Delegate page: ${h.instance_url(None, path="/user/%s" % e.delegate.user_name)}
+Topic page: ${h.instance_url(e.scope.instance, path="/d/%s" % e.scope.id)}

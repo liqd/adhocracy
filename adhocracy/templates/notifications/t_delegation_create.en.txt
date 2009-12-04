@@ -1,0 +1,4 @@
+${e.agent.name|n} has delegated voting on ${e.scope.label|n} to ${e.delegate.name|n}.
+
+Delegate page: ${h.instance_url(None, path="/user/%s" % e.delegate.user_name)}
+Topic page: ${h.instance_url(e.scope.instance, path="/d/%s" % e.scope.id)}
