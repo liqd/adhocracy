@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>adhocracy/lib/auth.py</string>
+	<string>setup.py</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -21,6 +21,48 @@
 	<integer>232</integer>
 	<key>metaData</key>
 	<dict>
+		<key>MANIFEST.in</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>README.txt</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>adhoc.wsgi</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>adhocracy/config/routing.py</key>
 		<dict>
 			<key>caret</key>
@@ -29,6 +71,90 @@
 				<integer>34</integer>
 				<key>line</key>
 				<integer>33</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>adhocracy/contrib/GPG.py</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>adhocracy/contrib/__init__.py</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>adhocracy/contrib/markdown2.py</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>adhocracy/contrib/oauthtwitter.py</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>adhocracy/contrib/twitter_oauth/README</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>adhocracy/contrib/twitter_oauth/oauthtwitter.py</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -152,20 +278,6 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-		</dict>
-		<key>adhocracy/lib/auth.py</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>5</integer>
-				<key>line</key>
-				<integer>56</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>11</integer>
 		</dict>
 		<key>adhocracy/lib/base.py</key>
 		<dict>
@@ -527,36 +639,6 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>adhocracy/templates/motion/browse.html</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>50</integer>
-				<key>line</key>
-				<integer>73</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>25</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>18</integer>
-				<key>line</key>
-				<integer>73</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>50</integer>
-				<key>line</key>
-				<integer>73</integer>
-			</dict>
-		</dict>
 		<key>adhocracy/templates/motion/create.html</key>
 		<dict>
 			<key>caret</key>
@@ -689,20 +771,6 @@
 			<key>firstVisibleLine</key>
 			<integer>95</integer>
 		</dict>
-		<key>adhocracy/templates/vote/browse.html</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>43</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>48</integer>
-		</dict>
 		<key>adhocracy/websetup.py</key>
 		<dict>
 			<key>caret</key>
@@ -730,6 +798,34 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+		</dict>
+		<key>setup.cfg</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>setup.py</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>23</integer>
+				<key>line</key>
+				<integer>25</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
@@ -759,22 +855,30 @@
 		<string>adhocracy/model/vote.py</string>
 		<string>adhocracy/model/motion.py</string>
 		<string>adhocracy/model/permission.py</string>
-		<string>adhocracy/lib/auth.py</string>
 		<string>development.ini</string>
 		<string>adhocracy/lib/base.py</string>
 		<string>adhocracy/controllers/category.py</string>
 		<string>adhocracy/model/delegation.py</string>
 		<string>adhocracy/templates/motion/view.html</string>
-		<string>adhocracy/templates/motion/browse.html</string>
 		<string>adhocracy/templates/components.html</string>
 		<string>adhocracy/templates/delegation/review.html</string>
-		<string>adhocracy/templates/vote/browse.html</string>
 		<string>adhocracy/model/delegateable.py</string>
 		<string>adhocracy/templates/category/tree.html</string>
+		<string>adhoc.wsgi</string>
+		<string>MANIFEST.in</string>
+		<string>README.txt</string>
+		<string>setup.py</string>
+		<string>adhocracy/contrib/__init__.py</string>
+		<string>adhocracy/contrib/GPG.py</string>
+		<string>adhocracy/contrib/markdown2.py</string>
+		<string>adhocracy/contrib/oauthtwitter.py</string>
+		<string>adhocracy/contrib/twitter_oauth/oauthtwitter.py</string>
+		<string>adhocracy/contrib/twitter_oauth/README</string>
+		<string>setup.cfg</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{945, 202}, {872, 886}}</string>
+	<string>{{315, 4}, {872, 874}}</string>
 </dict>
 </plist>
