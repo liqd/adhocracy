@@ -24,8 +24,15 @@ setup(
         "repoze.who-friendlyform>=1.0b3",
         "python-twitter>=0.6",
         "oauth>=1.0.1",
-        "amqplib>=0.8"
+        "amqplib>=0.6.1",
+        "babel>=0.9",
+        "beautifulsoup>=3.1",
+        "jcc>=2.4.1",
+#        "pylucene>=2.9", # need to install this by hand sadly as it's not on PyPi
+        "python-openid>=2.2.4",
+        "python-memcached>=1.45",
     ],
+    # REFACT: could/should these become regular dependencies?
     setup_requires=["PasteScript>=1.6.3", "setuptools>=0.6c6"], # fix OS X 10.5.7
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
