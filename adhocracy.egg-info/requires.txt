@@ -1,9 +1,0 @@
-Pylons>=0.9.7
-SQLAlchemy>=0.5
-FormEncode>=1.2.2
-repoze.who>=1.0.15
-repoze.what>=1.0.8
-repoze.who.plugins.sa>=1.0rc2
-repoze.what-pylons>=1.0
-repoze.what.plugins.sql>=1.0rc1
-repoze.who-friendlyform>=1.0b3
