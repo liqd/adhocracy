@@ -19,7 +19,15 @@ a long time.
 Installation and Setup
 ======================
 
-Install ``adhocracy`` using easy_install::
+We recommend that you install ``adhocracy`` inside a virtualenv as it has _many_ dependencies.
+
+You still need to install pylucene by hand sadly (with some tweaks it can also go into the virtualenv).
+
+All dependencies are listed in setup.py so if you want to hack on it, we recommend to install it via::
+
+	python setup.py develop
+
+If you want to just use it, installing ``adhocracy`` via using easy_install (or pip) is recommended::
 
     easy_install adhocracy
 
