@@ -1,14 +1,10 @@
 import adhocracy.model as model
 
-import decision
 from decision import Decision
-
-import delegation_node
 from delegation_node import DelegationNode
-
-import state
 from state import State
 
+# RFACT: try to move all functionality out of here
 def is_comment_mutable(comment):
     """
     Find out whether a comment is a canonical contribution to a motion 
