@@ -28,7 +28,7 @@ setup(
         "babel>=0.9",
         "beautifulsoup>=3.1",
         "jcc>=2.4.1",
-        "lucene>=2.4.1", # "You need to install PyLucene >= 2.9 by hand. Sadly there is no way we can do it via requirements (note: jcc is installed as a regular dependency)"
+        "lucene>=2.9.1", # "You need to install PyLucene >= 2.9 by hand. Sadly there is no way we can do it via requirements (note: jcc is installed as a regular dependency)"
         "python-openid>=2.2.4",
         "python-memcached>=1.45",
     ],
