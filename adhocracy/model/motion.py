@@ -41,6 +41,9 @@ class Motion(Delegateable):
     
     poll = property(_get_poll)
     
+    def search_children(self, recurse=False, cls=Delegateable):
+        return []
+    
     def poll_at(self, at_time):
         for poll in self.polls:
             if poll.begin_time > at_time:

@@ -27,7 +27,7 @@ class Issue(Delegateable):
         
     motions = property(_get_motions, _set_motions)
     
-    def search_children(self, cls=Delegateable): 
+    def search_children(self, recurse=False, cls=Delegateable): 
         """
         Get all child elements of type "cls". Uses DFS. 
         """

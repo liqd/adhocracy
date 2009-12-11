@@ -11,10 +11,18 @@
 	${h.breadcrumbs(c.instance.root)|n} &raquo; ${c.page_user.name} &raquo; ${_("Delegations")}
 </%def>
 
+%if h.has_permission("vote.cast"):
+	<a class="button title add" href="/delegation/create?scope=${c.scope.id}">${_("new")}</a>
+%endif
+
 <h1 class="page_title">
 	<img src="/img/icons/delegate_24.png" class="cd"/>
 	%if c.user == c.page_user:
-		${_("My Delegations")}
+		%if c.scope != c.instance.root:
+			${_("My Delegations: %s") % c.scope.label}
+		%else:
+			${_("My Delegations")}
+		%endif
 	%else: 
 		${_("Delegations: %s") % c.page_user.name}
 	%endif
@@ -26,7 +34,7 @@
 			<th>${_("Given")}</th>
 			<th>${_("Received")}</th>
 		</tr>
-		%for delegateable in [c.category] + c.category.search_children(recurse=True):
+		%for delegateable in [c.scope] + c.scope.search_children(recurse=True):
 			%if h.contains_delegations(c.page_user, delegateable, recurse=False):
 			<tr>
 				<td>

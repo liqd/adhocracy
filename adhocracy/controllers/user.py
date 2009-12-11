@@ -268,8 +268,8 @@ class UserController(BaseController):
         if not c.page_user:
             abort(404, _("No user named '%s' exists") % id)
         
-        cat_id = request.params.get('cat', c.instance.root.id)
-        c.category = forms.ValidCategory().to_python(cat_id)
+        scope_id = request.params.get('scope', c.instance.root.id)
+        c.scope = forms.ValidDelegateable().to_python(scope_id)
         c.nodeClass = democracy.DelegationNode 
         
         return render("/user/delegations.html")
