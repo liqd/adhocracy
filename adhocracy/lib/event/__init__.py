@@ -25,6 +25,7 @@ def emit(event, agent, time=None, scopes=[], topics=[], **kwargs):
     if queue.has_queue():
         queue.post_event(e)
     else:
+        log.warn("Queue failure.")
         process(e)
      
     log.debug("Event %s: %s" % (agent.name, unicode(e)))

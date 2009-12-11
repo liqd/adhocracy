@@ -2,7 +2,6 @@ import os.path
 import logging 
 
 from pylons import config
-from pylons.i18n.translation import *
 
 from ...text import i18n
 from ...templating import render

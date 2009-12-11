@@ -36,7 +36,8 @@ def post_event(event):
         post_channel = create_channel(write=True)
     
     message = amqp.Message(event.to_json(), content_type='text/javascript')
-    post_channel.basic_publish(message, queue_name())
+    post_channel.basic_publish(message, exchange=queue_name(), 
+                               immediate=0)
     
     
 def read_events(callback=None):

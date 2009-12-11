@@ -16,9 +16,7 @@ ENCODING = 'utf-8'
 def to_mail(to_name, to_email, subject, body, html_body=None, headers={}):
     email_from = config['adhocracy.email.from']
     smtp_server = config['smtp_server']
-    
-    print "XXX BODY ", body
-    
+        
     body = _(u"Hi %s,") % to_name \
          + u"\r\n\r\n%s\r\n\r\n" % body \
          + _(u"Cheers,\r\n\r\n    the Adhocracy Team\r\n")
@@ -42,7 +40,7 @@ def to_mail(to_name, to_email, subject, body, html_body=None, headers={}):
     msg['To'] = to
     msg['X-Mailer'] = _("Adhocracy SMTP %s") % version.get_version()
     
-    log.debug("MAIL\r\n" + msg.as_string())
+    #log.debug("MAIL\r\n" + msg.as_string())
          
     server = smtplib.SMTP(smtp_server)
     #server.set_debuglevel(1)

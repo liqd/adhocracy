@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from sqlalchemy import or_
+from sqlalchemy.orm import eagerload
+
 from pylons import tmpl_context as c, request
 import formencode
 
@@ -35,6 +37,7 @@ def get_ref_watches(ref):
     q = q.filter(model.Watch.entity_ref==ref)
     q = q.filter(or_(model.Watch.delete_time==None,
                      model.Watch.delete_time>datetime.now()))
+    q = q.options(eagerload(model.Watch.user))
     return q.all()
 
 def has_entity_watch(entity):
@@ -48,7 +51,8 @@ def has_ref_watch(ref):
         q = q.filter(model.Watch.user==c.user)
         q = q.filter(or_(model.Watch.delete_time==None,
                          model.Watch.delete_time>datetime.now()))
-        request.environ['adhocracy.user.watchlist'] = q.all()
+        request.environ['adhocracy.user.watchlist'] = \
+            map(lambda x: x[0], q.all())
     return ref in request.environ.get('adhocracy.user.watchlist')
 
 def check_watch(entity):

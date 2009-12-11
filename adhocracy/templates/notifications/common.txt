@@ -4,3 +4,22 @@ if vote.orientation == 1: context.write(_("for"))
 elif vote.orientation == -1: context.write(_("against"))
 else: context.write(_("with an abstention on"))
 %></%def>
+
+<%def name="quotecomment(comment)">
+%if e.comment.reply: 
+${self._quotecomment(comment, 1)}
+%endif
+</%def>
+
+
+<%def name="_quotecomment(comment, level)"><%
+context.write(('>' * (level - 1)) + '\n') 
+context.write(('>' * (level - 1)) + (' ' if level > 1 else ''))
+context.write(_("On %s, %s wrote:") % (h.format_date(comment.create_time), comment.creator.name)) 
+context.write('\n')
+for line in comment.latest.text.splitlines():
+	context.write('>' * level + ' ')
+	context.write(line + '\n')
+if comment.reply and level < 5:
+	_quotecomment(comment.reply, level + 1)
+%></%def>

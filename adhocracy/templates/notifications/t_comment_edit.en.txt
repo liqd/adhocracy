@@ -1,18 +1,8 @@
-<%def name="quotecomment(comment, level)"><%
-if comment.reply and level < 5:
-	quotecomment(comment.reply, level + 1)
-for line in comment.latest.text.splitlines():
-	context.write('>' * level + ' ')
-	context.write(line + '\n')
-%></%def>
+<%namespace name="common" file="/notifications/common.txt"/>
 
 ${e.agent.name|n} has changed a comment regarding ${e.comment.topic.label|n}. It now reads:
 
 ${e.comment.latest.text|n}
-%if e.comment.reply: 
-
-The comment is a reply in the following thread:
-${self.quotecomment(e.comment.reply, 1)}
-%endif
+${common.quotecomment(e.comment.reply)}
 
 See the comment: ${h.instance_url(e.comment.topic.instance, path="/comment/r/%s" % e.comment.id)}

@@ -38,7 +38,7 @@ class State(object):
         if not self.polling:
             return []
         if not start_at:
-            start_at = self.at_time - self.stable.delay
+            start_at = self.poll.begin_time
         if self._tallies_start > start_at:
             start_at = max(start_at, self.poll.begin_time)
             self._tallies += libtally.interval(self.poll, 
@@ -53,7 +53,7 @@ class State(object):
     
     def _get_tally(self):
         if not self.polling:
-            return []
+            return None
         return self.tallies[0]
     
     tally = property(_get_tally)

@@ -17,7 +17,6 @@ def notify(event):
                                    delegation_source(event),
                                    comment_source(event)])
     pipeline = chain(*sources)
-    
     pipeline = log_sink(pipeline)
     
     pipeline = self_filter(pipeline)
