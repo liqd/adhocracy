@@ -34,7 +34,7 @@
 		ref = urllib.urlencode({'ref': c.lib.watchlist.entity2ref(entity)})
 		%>
 		%if watch:
-			<a class="button title edit" href="/watch/delete?watch=${watch.id}&${ret}&${h.url_token()}">${_("unwatch")}</a>
+			<a class="button title admin" href="/watch/delete?watch=${watch.id}&${ret}&${h.url_token()}">${_("unwatch")}</a>
 		%else:
 			<a class="button title admin" href="/watch/create?${ref}&${ret}&${h.url_token()}">${_("watch")}</a>
 		%endif

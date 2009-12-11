@@ -191,4 +191,10 @@ $(document).ready(function() {
 		});
 	});
 	
+	$("#top_issue").hover(function() {
+		$("#issue_details").slideDown(60);
+	}, function() {
+		$("#issue_details").slideUp(60);
+	});
+	
 });

@@ -6,23 +6,25 @@
 	${h.breadcrumbs(c.category)|n}
 </%def>
 
-%if c.tile.can_delete:
-	<a class="button title delete" href="/category/delete/${c.category.id}?${h.url_token()}">${_("delete")}</a>
-%elif c.tile.lack_delete_karma:
-	<a class="button title inactive htwarn" title="${c.tile.lack_delete_karma}">${_("delete")}</a>
-%endif
-
-%if c.tile.can_edit:
-	<a class="button title edit" href="/category/edit/${c.category.id}">${_("edit")}</a> 
-%elif c.tile.lack_edit_karma:
-	<a class="button title inactive htwarn" title="${c.tile.lack_edit_karma}">${_("edit")}</a>
-%endif
-
-%if c.tile.can_delegate:
-	<a class="button title add" href="/delegation/create?scope=${c.category.id}">${_("delegate")}</a>
-%endif
-
-${components.watch(c.category, '/category/%s' % str(c.category.id))}
+<div class="top_actions title">
+	${components.watch(c.category, '/category/%s' % str(c.category.id))}
+	
+	%if c.tile.can_delegate:
+		<a class="button title add" href="/delegation/create?scope=${c.category.id}">${_("delegate")}</a>
+	%endif
+		
+	%if c.tile.can_edit:
+		<a class="button title edit" href="/category/edit/${c.category.id}">${_("edit")}</a> 
+	%elif c.tile.lack_edit_karma:
+		<a class="button title inactive htwarn" title="${c.tile.lack_edit_karma}">${_("edit")}</a>
+	%endif
+	
+	%if c.tile.can_delete:
+		<a class="button title delete" href="/category/delete/${c.category.id}?${h.url_token()}">${_("delete")}</a>
+	%elif c.tile.lack_delete_karma:
+		<a class="button title inactive htwarn" title="${c.tile.lack_delete_karma}">${_("delete")}</a>
+	%endif
+</div>
 
 <h1 class="page_title"><img src="/img/icons/stack_24.png" class="cd" /> ${_("Category: %s") % c.category.label}</h1>
 
@@ -45,11 +47,13 @@ ${components.watch(c.category, '/category/%s' % str(c.category.id))}
 	</div>
 	<br/>
 
-	%if c.tile.can_create_category:
-		<a class="button add" href="/category/create?cat=${c.category.id}">${_("new")}</a>
-	%elif c.tile.lack_create_category_karma:
-		<a class="button inactive htwarn" title="${c.tile.lack_create_category_karma}">${_("new")}</a>
-	%endif	
+	<div class="top_actions">
+		%if c.tile.can_create_category:
+			<a class="button add" href="/category/create?cat=${c.category.id}">${_("new")}</a>
+		%elif c.tile.lack_create_category_karma:
+			<a class="button inactive htwarn" title="${c.tile.lack_create_category_karma}">${_("new")}</a>
+		%endif	
+	</div>
 	<h2>${_("Subcategories")} (${c.tile.num_categories})</h2>
 	%if c.tile.num_categories == 0 and c.tile.can_create_category:
 		<span class="infobox">
@@ -65,11 +69,13 @@ ${components.watch(c.category, '/category/%s' % str(c.category.id))}
 
 <div class="mainbar">
 	<br/>
-	%if c.tile.can_create_issue:
-		<a class="button add" href="/issue/create?cat=${c.category.id}">${_("new")}</a>
-	%elif c.tile.lack_create_issue_karma:
-		<a class="button inactive htwarn" title="${c.tile.lack_create_issue_karma}">${_("new")}</a>
-	%endif	
+	<div class="top_actions">
+		%if c.tile.can_create_issue:
+			<a class="button add" href="/issue/create?cat=${c.category.id}">${_("new")}</a>
+		%elif c.tile.lack_create_issue_karma:
+			<a class="button inactive htwarn" title="${c.tile.lack_create_issue_karma}">${_("new")}</a>
+		%endif	
+	</div>
 	<h2>${_("Issues")}  (${c.tile.num_issues})</h2>
 	%if c.tile.num_issues == 0:
 		%if c.tile.can_create_category:

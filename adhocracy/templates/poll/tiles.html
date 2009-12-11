@@ -242,13 +242,15 @@
 			%endif
 		
 		<div class="meta">	
-			${_("Poll #%s &middot; %s") % (tile.poll.id, h.relative_time(tile.poll.begin_time))|n}
-			&middot; 
+			${_("began %s") % h.relative_time(tile.poll.begin_time)|n}
 			%if tile.can_end_poll:
+				&middot; 
 				<a class="delete" href="/poll/abort/${motion.id}">${_("cancel")}</a>
 			%elif c.user and tile.is_immutable:
+				&middot; 
 				<a class="inactive htwarn" title="${_('This vote has recieved the required majority and cannot be cancelled')}">${_("cancel")}</a>
 			%elif c.user and tile.lack_end_poll_karma:
+				&middot; 	
 				<a class="inactive htwarn" title="${tile.lack_end_poll_karma}">${_("cancel")}</a>
 			%endif
 		</div>

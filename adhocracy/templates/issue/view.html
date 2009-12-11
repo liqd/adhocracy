@@ -8,59 +8,90 @@
 	${h.breadcrumbs(c.issue)|n}
 </%def>
 
-%if c.tile.can_delete:
-	<a class="button title delete" href="/issue/delete/${c.issue.id}?${h.url_token()}">${_("delete")}</a>
-%elif c.tile.lack_delete_karma:
-	<a class="button title inactive htwarn" title="${c.tile.lack_delete_karma}">${_("delete")}</a>
-%endif
+<div class="tile issue title">
+	
+	<div class="sidebar">
+		<div class="tile boxed">
+			<div class="inner_boxed">
+				${h.user_link(c.issue.creator)|n} 
+				${_("on")} ${h.format_date(c.issue.create_time)}
+			</div> 
+		</div>
+	</div>
+	
+	<div class="logo">
+		<img src="/img/icons/issue_48.png"/>
+	</div>
+	
+	<div class="base">
+	
+		<h1>${c.issue.label}</h1>
+		${c.tile.tagline}
+	</div>
+			
+	<div class="meta noclear">		
+		${components.watch(c.issue, '/issue/%s' % str(c.issue.id))}
+		
+		%if c.tile.can_delegate and not c.tile.has_overridden:
+			<a class="button add" href="/delegation/create?scope=${c.issue.id}">${_("delegate")}</a>
+		%endif
+		
+		%if c.tile.can_edit:
+			<a class="button edit" href="/issue/edit/${c.issue.id}">${_("edit")}</a>
+		%elif c.tile.lack_edit_karma:
+			<a class="button inactive htwarn" title="${c.tile.lack_edit_karma}">${_("edit")}</a> 
+		%endif
+					
+		%if c.tile.can_delete:
+			<a class="button delete" href="/issue/delete/${c.issue.id}?${h.url_token()}">${_("delete")}</a>
+		%elif c.tile.lack_delete_karma and c.tile.can_edit:
+			<a class="button inactive htwarn" title="${c.tile.lack_delete_karma}">${_("delete")}</a>
+		%endif
+	</div>
+	
+	<div style="clear: both;"></div>
+</div>
 
-%if c.tile.can_edit:
-	<a class="button title edit" href="/issue/edit/${c.issue.id}">${_("edit")}</a>
-%elif c.tile.lack_edit_karma:
-	<a class="button title inactive htwarn" title="${c.tile.lack_edit_karma}">${_("edit")}</a> 
-%endif
-
-%if c.tile.can_delegate and not c.tile.has_overridden:
-	<a class="button title add" href="/delegation/create?scope=${c.issue.id}">${_("delegate")}</a>
-%endif
-
-${components.watch(c.issue, '/issue/%s' % str(c.issue.id))}
-
-<h1 class="page_title"><img src="/img/icons/issue_24.png" class="cd" />${_("Issue: %s") % c.issue.label}</h1>
-
+<div style="clear: both;"></div>
 <div class="sidebar">
 	<div class="tile">
 		<div class="tile boxed">
 			<div class="inner_boxed voting_booth">
-				<h4><img src="/img/icons/stack_16.png" class="cd" /> ${_("Categorization")}</h4>  
-				<ol>
-				%for category in c.issue.parents:
-					<li>
-						${h.breadcrumbs(category)|n}
-					</li>
-				%endfor
-				</ol>
+				<h4><img src="/img/icons/stack_16.png" class="cd" /> ${_("Categories")}</h4> 
+					<ul>
+					%for category in c.issue.parents:
+						<li>${h.delegateable_link(category, icon=False)|n}</li>
+					%endfor
+					</ul>
 			</div>
-		</div>
-		
-		${components.delegation_sidebar(c.issue)}
-		<div class="meta">
-			${_("created %s") % h.relative_time(c.issue.create_time)}
-			&middot; ${h.rss_link("/issue/%s.rss" % c.issue.id)|n}
 		</div>
 	</div>
 </div>
 <div class="mainbar">
-	%if c.issue.comment:
-		${tiles.comment.full(c.issue.comment, recurse=False, collapse=False)}
-	%endif
-	
+%if c.issue.comment:
+	${tiles.comment.full(c.issue.comment, recurse=False, collapse=False)}
+%endif
+</div>
+
+<div style="clear: both;"></div>
+<div class="top_actions">
 	%if c.tile.can_create_motion:
 		<a class="button add" href="/motion/create?issue=${c.issue.id}">${_("new")}</a>
 	%elif c.tile.lack_create_motion_karma:
 		<a class="button inactive htwarn" title="${c.tile.lack_create_motion_karma}">${_("new")}</a>
 	%endif	
-	<h2>${_("Motions")}<sup><a href="/page/faq.html#Howdoesvotingwork">?</a></sup> (${c.tile.num_motions})</h2>
+</div>
+
+<h2>${_("Motions")}<sup><a href="/page/faq.html#Howdoesvotingwork">?</a></sup> (${c.tile.num_motions})</h2>
+
+<div class="sidebar">
+	%if h.has_permission("vote.cast"):
+	<div class="tile">
+		${components.delegation_sidebar(c.issue)}
+	</div>
+	%endif
+</div>
+<div class="mainbar">
 	%if not c.tile.num_motions:
 		<span class="infobox">${_("Motions are <b>proposals</b> that solve some or all of the problems described by this issue. A motion can be <b>discussed and voted</b> upon.")|n}</span>
 	%else:
@@ -68,15 +99,17 @@ ${components.watch(c.issue, '/issue/%s' % str(c.issue.id))}
 			${c.motions_pager.here()}
 		</div>
 	%endif
-	
-	<h2><img src="/img/icons/discuss_20.png" class="cd" /> ${_("Discussion")}</h2>
-	%if c.tile.comment_tile.can_reply:
-	<div class="comment">
-		${comment_tiles.create_form(c.issue.comment, c.issue)}
-	</div>
-	%endif
-	%for (reply, reply_tile) in c.tile.comment_tile.replies():
-		${tiles.comment.full(reply, recurse=True)}
-	%endfor
 </div>
+
+<div style="clear: both;"></div>
+
+<h2><img src="/img/icons/discuss_20.png" class="cd" /> ${_("Discussion")}</h2>
+%if c.tile.comment_tile.can_reply:
+<div class="comment">
+	${comment_tiles.create_form(c.issue.comment, c.issue)}
+</div>
+%endif
+%for (reply, reply_tile) in c.tile.comment_tile.replies():
+	${tiles.comment.full(reply, recurse=True)}
+%endfor
 

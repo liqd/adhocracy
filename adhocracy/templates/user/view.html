@@ -7,13 +7,15 @@
 	${parts.user_breadcrumbs(c.page_user)}
 </%def>
 
-%if c.tile.can_edit:
-	<a class="button title edit" href="/user/edit/${c.page_user.user_name}">${_("edit")}</a>
-%endif
-
-%if c.user and c.page_user != c.user:
-	${components.watch(c.page_user, '/user/%s' % str(c.page_user.user_name))}
-%endif
+<div class="top_actions title">
+	%if c.user and c.page_user != c.user:
+		${components.watch(c.page_user, '/user/%s' % str(c.page_user.user_name))}
+	%endif
+	
+	%if c.tile.can_edit:
+		<a class="button edit" href="/user/edit/${c.page_user.user_name}">${_("edit")}</a>
+	%endif
+</div>
 
 <h1 class="page_title">
 	<img src="${h.gravatar_url(c.page_user, size=24)|n}" class="cd" alt="">

@@ -9,6 +9,7 @@ from adhocracy.lib.tiles.motion_tiles import MotionTile
 log = logging.getLogger(__name__)
 
 class PollIndexFilter(formencode.Schema):
+    allow_extra_fields = True
     filter_made = validators.Int(not_empty=False, if_empty=1, if_missing=1, if_invalid=1, min=0, max=2)
 
 class PollController(BaseController):

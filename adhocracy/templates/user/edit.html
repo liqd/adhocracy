@@ -63,7 +63,9 @@
 		<input type="password" name="password_confirm">
 	</div>
 	
-	<a class="button add" href="/openid/connect">${_("new")}</a>
+	<div class="top_actions">
+		<a class="button add" href="/openid/connect">${_("new")}</a>
+	</div>
 	<h3><img src="/img/icons/openid_20.png" class="cd" /> ${_("OpenID")}</h3>
 	<div class="sidebar">
 		<div class="infobox">
@@ -89,9 +91,11 @@
 	</div>
 	
 	<div style="clear:both;"></div>
-	%if c.page_user == c.user and not c.page_user.twitter:
-		<a class="button add" href="/twitter/init?${h.url_token()}">${_("add twitter")}</a>
-	%endif
+	<div class="top_actions">
+		%if c.page_user == c.user and not c.page_user.twitter:
+			<a class="button add" href="/twitter/init?${h.url_token()}">${_("add twitter")}</a>
+		%endif
+	</div>
 	<h3>${_("Notifications")}</h3>
 	<div class="sidebar">
 		<div class="infobox">

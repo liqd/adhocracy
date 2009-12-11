@@ -466,44 +466,6 @@ body {
 
 /* @end */
 
-/* @group State Flags */
-
-.state {
-	font-variant: small-caps;
-	text-transform: lowercase;
-	font-weight: bolder;
-	padding: 0.0em 0.2em 0.1em 0.2em;
-	color: white;
-	-moz-border-radius-topright: 4px;
-	-webkit-border-top-right-radius: 4px;
-}
-
-.state.draft {
-	background-color: #666;
-}
-
-.state.voting {
-	background-color: #5766ff;
-}
-
-.state.activating {
-	background-color: #82f200;
-}
-
-.state.deactivating {
-	background-color: #ee9805;
-}
-
-.state.unmet, .state.blocked {
-	background-color: #9d0000;
-}
-
-.state.active {
-	background-color: #009800;
-}
-    
-/* @end */
-
 /* @group Typography */
 
 #content {
@@ -591,7 +553,13 @@ h1, h2, h3 {
 	border-bottom: 1px solid #aaa;
 }
 
-h1 {
+h1 a:hover, 
+h2 a:hover, 
+h3 a:hover {
+	text-decoration: none;
+}
+
+h1.page_title {
 	background-image: url(/img/comment_bg.png);
 	background-repeat: repeat-x;
 	background-position: bottom;
@@ -634,9 +602,14 @@ h4 img.cd,
 
 .tile .logo {
 	float: left;
-	padding-right: 1em;
+	height: inherit;
+	margin-right: 1em;
 	padding-top: 0.4em;
 } 
+
+.tile .base {
+	width: inherit;
+}
 
 .tile p {
 	margin-top: 0;
@@ -672,6 +645,16 @@ h4 img.cd,
 	line-height: 1.5em;
 }
 
+.tile .meta.noclear {
+	clear: none;
+}
+
+.tile .meta.leftmeta {
+	float: left;
+	padding-left: 0em;
+	margin-bottom: 0.6em;
+}
+
 .tile .meta img {
 	margin-bottom: -3px;
 }
@@ -684,11 +667,10 @@ h4 img.cd,
 .tile h3 {
 	margin-bottom: 0.0em;
 	margin-top: 0.2em;
+	/* font-weight: normal; */
 }
 
 .table {
-	margin-left: 20px;
-	margin-right: 10px;
 	overflow: hidden;
 	/*background-color: #f3f3f3;*/
 }
@@ -698,14 +680,16 @@ h4 img.cd,
 }
 
 .table .tile {
-	margin-bottom: 1em;
+	padding-left: 20px;
+	padding-right: 10px;
+	margin-bottom: 0.7em;
 	width: inherit;
 	
-	/*
+	
 	background-color: #fff;
-	border-top: 1px solid #ddd;
-	border-left: 1px solid #ddd;
-	*/
+	border-bottom: 1px solid #ddd;
+	border-right: 0px;
+	
 }
 
 .table .tile .meta {
@@ -955,6 +939,18 @@ table.delegations th {
 	color: #666;
 }
 
+.lefthalf {
+	float: left;
+	width: 49%;
+	overflow: hidden;
+}
+
+.righthalf {
+	float: right;
+	width: 49%;
+	overflow: hidden;
+}
+
 .sidebar {
 	float: right;
 	margin-left: 20px;
@@ -991,23 +987,26 @@ table.delegations th {
 
 
 a.button {
-	float: right;
-	font-size: 0.9em;
+	font-size: 10pt;
 	font-size: 100%;
-	margin-top: 0.9em;
 	padding: 0.4em;
 	min-width: 3em;
 	text-align: center;
 	text-transform: lowercase;
-	border-bottom: 1px solid #eee;
-	border-right: 1px solid #eee;
-	color: white;
+	color: #fff;
 	font-weight: bold;
-	margin-left: 0.5em;
+	margin-left: 0.2em;
+	
+	/* -webkit-border-radius: 3px; */
+	background-image: url(/img/button_bg.png);
+	background-repeat: repeat-x;
+	background-position: top;
 }
 
 a.button:hover {
 	text-decoration: none;
+	background-color: #999 !important; 
+	background-position: bottom;
 }
 
 
@@ -1104,6 +1103,8 @@ a.button.inactive {
 	min-height: 30px;
 	margin-top: 7px;
 	margin-left: -24px;
+	
+	max-width: 600px;
 }
 
 .comment .tile.canonical .text{
@@ -1120,7 +1121,7 @@ a.button.inactive {
 
 .comment .karma {
 	padding-top: 0.0em;
-	padding-right: 8px;
+	margin-right: 1em;
 	text-align: center;
 }
 
@@ -1244,6 +1245,7 @@ a.button.inactive {
 .comment textarea,
 .headrev textarea {
 	min-height: 8em !important;
+	max-width: 600px;
 }
 
 .comment .savebox,
@@ -1327,3 +1329,53 @@ a.button.inactive {
 	list-style-image: url(/img/icons/condition_unmet.png);
 }
 
+.tile.issue {
+	/* background-color: #ffedd4; */
+}
+
+.tile.title {
+	margin-bottom: 1em;
+}
+
+.tile.title h1 {
+	/*font-weight: normal;*/
+	font-size: 1.3em;
+	margin-bottom: 0px;
+	border-bottom: 0px;
+}
+
+.tile.title h1 a {
+	/*color: #000;*/
+}
+
+.tile.title table td {
+	font-size: 0.9em;
+	color: #666;
+	padding-bottom: 0.6em;
+}
+
+.top_actions {
+	float: right;
+	margin-top: 1.3em;
+}
+
+.top_actions.title {
+	margin-top: 0em;
+} 
+
+.top_actions.comment {
+	margin-top: 0.2em;	
+}
+
+#issue_details {
+	display: none;
+	position: absolute;
+	width: 560px;
+	padding: 1em;
+	/*padding-top: 0em;*/
+}
+
+#issue_details li {
+	list-style-type: none;
+	margin-left: 0px;
+}

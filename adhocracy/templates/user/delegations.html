@@ -11,9 +11,11 @@
 	${h.breadcrumbs(c.instance.root)|n} &raquo; ${c.page_user.name} &raquo; ${_("Delegations")}
 </%def>
 
-%if h.has_permission("vote.cast"):
-	<a class="button title add" href="/delegation/create?scope=${c.scope.id}">${_("new")}</a>
-%endif
+<div class="top_actions title">
+	%if h.has_permission("vote.cast"):
+		<a class="button title add" href="/delegation/create?scope=${c.scope.id}">${_("new")}</a>
+	%endif
+</div>
 
 <h1 class="page_title">
 	<img src="/img/icons/delegate_24.png" class="cd"/>

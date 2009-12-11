@@ -2,22 +2,24 @@
 <%def name="row(tile, issue)">
 	<div class="tile">
 		<div class="logo">
-			<img src="/img/icons/issue_24.png" />
+			<img src="/img/icons/issue_32.png" />
 		</div>
-		<h3><a class="link" href="/issue/${issue.id}">${issue.label}</a></h3>
-		<div class="text">
-		%if len(tile.tagline):
-			${tile.tagline}
-		%endif
-		</div>
-		<div class="meta">
-			${_("created %s by %s") % (h.relative_time(issue.create_time), h.user_link(issue.creator))|n}
-			&middot; <img src="/img/icons/motion_16.png" /> ${ungettext("%s motion", "%s motions", tile.num_motions) % tile.num_motions}<br />
-			
-			
-			<img src="/img/icons/discuss_16.png" /> 
-			${ungettext("%s comment", "%s comments", (len(issue.comments))) % (len(issue.comments))},
-			${_("latest <b>%s</b>") % h.relative_time(tile.latest_comment)|n}&nbsp;
+		<div class="base">
+			<h3><a class="link" href="/issue/${issue.id}">${issue.label}</a></h3>
+			<!-- div class="text">
+			%if len(tile.tagline):
+				${tile.tagline}
+			%endif
+			</div -->
+			<div class="meta noclear">
+				${_("created %s by %s") % (h.relative_time(issue.create_time), h.user_link(issue.creator))|n}
+				&middot; <img src="/img/icons/motion_16.png" /> ${ungettext("%s motion", "%s motions", tile.num_motions) % tile.num_motions}<br />
+				
+				
+				<img src="/img/icons/discuss_16.png" /> 
+				${ungettext("%s comment", "%s comments", (len(issue.comments))) % (len(issue.comments))},
+				${_("latest <b>%s</b>") % h.relative_time(tile.latest_comment)|n}&nbsp;
+			</div>
 		</div>
 	</div>
 </%def>

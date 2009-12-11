@@ -98,11 +98,13 @@ class NamedPager(object):
         return cand if cand > 0 and cand <= self.pages() else None
     
     def serialize(self, page=None, count=None, sort=None):
-        query = {"%s_page" % self.name: page if page else self.page,
-                 "%s_count" % self.name: count if count else self.count,
-                 "%s_sort" % self.name: sort if sort else self.selected_sort}
-        self.kwargs.update(query)
-        return "?" + urllib.urlencode(self.kwargs.items())
+        query = dict()
+        query.update(request.params)
+        query.update(self.kwargs)
+        query["%s_page" % self.name] = page if page else self.page
+        query["%s_count" % self.name] = count if count else self.count
+        query["%s_sort" % self.name] = sort if sort else self.selected_sort
+        return "?" + urllib.urlencode(query.items())
     
     def here(self):
         return render_def('/pager.html', 'namedpager', pager=self)

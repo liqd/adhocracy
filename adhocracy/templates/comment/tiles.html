@@ -74,34 +74,35 @@
 			
 			<div class="base">
 			<div class="pre">
-				%if link_discussion:
-					%if tile.num_children:
+				<div class="top_actions comment">				
+					%if tile.can_edit:
+						<a class="button edit" onClick="return comment_edit(${comment.id})" href="/comment/edit/${comment.id}">${_("edit")}</a> 
+					%elif tile.is_immutable:
+						<a class="button edit inactive htwarn" title="${h.immutable_motion_message()}">${_("edit")}</a>
+					%elif tile.lack_edit_karma:
+						<a class="button edit inactive htwarn" title="${tile.lack_edit_karma}">${_("edit")}</a>
+					%endif
+									
+					%if tile.can_delete:
+						<a class="button delete" href="/comment/delete/${comment.id}?${h.url_token()}">${_("delete")}</a> 
+					%endif
+								
+					%if tile.can_reply and (recurse or link_discussion):
+						<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/create?reply=${comment.id}&topic=${comment.topic.id}">${_("reply")}</a>
+					%elif tile.lack_reply_karma and recurse:
+						<a class="button reply inactive htwarn" title="${tile.lack_reply_karma}">${_("reply")}</a>
+					%endif 
+					
+					%if collapse:
+						<a class="button delete hide" href="javascript:comment_hide(${comment.id})">-</a>
+						<a class="button add show" href="javascript:comment_show(${comment.id})">+</a>
+					%endif
+										
+					%if link_discussion and tile.num_children:
 						<a class="button add reply" onclick="return comment_link_discussion(${comment.id})" href="/comment/${comment.id}">${_("discussion")} (${tile.num_children}) &raquo;</a>
 					%endif
-				%endif
-			
-				%if collapse:
-					<a class="button delete hide" href="javascript:comment_hide(${comment.id})">-</a>
-					<a class="button add show" href="javascript:comment_show(${comment.id})">+</a>
-				%endif
-			
-				%if tile.can_reply and (recurse or link_discussion):
-					<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/create?reply=${comment.id}&topic=${comment.topic.id}">${_("reply")}</a>
-				%elif tile.lack_reply_karma and recurse:
-					<a class="button reply inactive htwarn" title="${tile.lack_reply_karma}">${_("reply")}</a>
-				%endif 
-								
-				%if tile.can_edit:
-					<a class="button edit" onClick="return comment_edit(${comment.id})" href="/comment/edit/${comment.id}">${_("edit")}</a> 
-				%elif tile.is_immutable:
-					<a class="button edit inactive htwarn" title="${h.immutable_motion_message()}">${_("edit")}</a>
-				%elif tile.lack_edit_karma:
-					<a class="button edit inactive htwarn" title="${tile.lack_edit_karma}">${_("edit")}</a>
-				%endif
+				</div>
 				
-				%if tile.can_delete:
-					<a class="button delete" href="/comment/delete/${comment.id}?${h.url_token()}">${_("delete")}</a> 
-				%endif
 				
 				%if tile.is_deleted:
 					${_("deleted %s") % h.relative_time(comment.delete_time)}
@@ -160,6 +161,7 @@
 	<form name="edit_comment" class="inplace" method="POST" action="/comment/edit/${comment.id}">
 		${h.field_token()|n}
 		<textarea tabindex="2" class="description" style="min-height: ${max(7, min(30, len(comment.latest.text)/50))}em !important;" name="text">${comment.latest.text}</textarea>
+		<br/>
 		${components.formatting()}
 		${components.savebox("/d/%s" % comment.topic.id)}
 		${components.form_watch(comment)}
@@ -174,6 +176,7 @@
 		<input type="hidden" name="canonical" value="${request.params.get('canonical', canonical)}" />
 	
 		<textarea tabindex="2" class="description" name="text"></textarea><br/>
+		<br/>
 		${components.formatting()}
 		${components.savebox("/d/%s" % parent.topic.id if parent else request.params.get('topic'))}
 		${components.form_watch(None)}

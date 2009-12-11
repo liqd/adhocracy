@@ -3,31 +3,33 @@
 	<div class="tile">
 		<div class="logo">
 			%if tile.state.adopted:
-				<img src="/img/icons/motion_adopted_24.png" />
+				<img src="/img/icons/motion_adopted_32.png" />
 			%else:
-				<img src="/img/icons/motion_24.png" />
+				<img src="/img/icons/motion_32.png" />
 			%endif
 		</div>
-		<h3><a class="link" href="/motion/${motion.id}">${motion.label}</a></h3>
-		<div class="text">
-			${tile.tagline}
-		</div>
-		<div class="meta">
-			${_("created %s by %s") % (h.relative_time(motion.create_time), h.user_link(motion.creator))|n}
-			%if detail and motion.issue:
-				&middot; ${h.delegateable_link(motion.issue)|n}
-			%endif
-			<br />
-			
-			%if tile.state.polling:
-				<img class="user_icon" src="/img/icons/vote_16.png">
-				${_("%s votes,") % len(tile.state.tally)}
-				${_("<b>%s%%</b> approval") % int(tile.state.tally.rel_for * 100)|n}
-				&middot; 
-			%endif
-			<img src="/img/icons/discuss_16.png" /> 
-			${ungettext("%s comment", "%s comments", (len(motion.comments)-1)) % (len(motion.comments)-1)},
-			${_("latest <b>%s</b>") % h.relative_time(tile.latest_comment)|n}&nbsp;
+		<div class="base">
+			<h3><a class="link" href="/motion/${motion.id}">${motion.label}</a></h3>
+			<!-- div class="text">
+				${tile.tagline}
+			</div -->
+			<div class="meta noclear">
+				${_("created %s by %s") % (h.relative_time(motion.create_time), h.user_link(motion.creator))|n}
+				%if detail and motion.issue:
+					&middot; ${h.delegateable_link(motion.issue)|n}
+				%endif
+				<br />
+				
+				%if tile.state.polling:
+					<img class="user_icon" src="/img/icons/vote_16.png">
+					${_("%s votes,") % len(tile.state.tally)}
+					${_("<b>%s%%</b> approval") % int(tile.state.tally.rel_for * 100)|n}
+					&middot; 
+				%endif
+				<img src="/img/icons/discuss_16.png" /> 
+				${ungettext("%s comment", "%s comments", (len(motion.comments)-1)) % (len(motion.comments)-1)},
+				${_("latest <b>%s</b>") % h.relative_time(tile.latest_comment)|n}&nbsp;
+			</div>
 		</div>
 	</div>
 </%def>
