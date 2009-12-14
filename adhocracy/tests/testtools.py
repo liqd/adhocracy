@@ -26,10 +26,12 @@ def tt_make_motion(creator=None, voting=False):
     model.meta.Session.refresh(motion)
     
     if voting:
-        tr = model.Transition(motion, model.Motion.STATE_VOTING, creator)
-        motion.transitions.append(tr)
-        model.meta.Session.add(motion)
-        model.meta.Session.commit() 
+        # should be Poll.begin_time and Poll.end_time (datetimes)
+        model.poll.begin_time = datetime.now()
+        # tr = model.Transition(motion, model.Motion.STATE_VOTING, creator)
+        # motion.transitions.append(tr)
+        # model.meta.Session.add(motion)
+        # model.meta.Session.commit() 
     return motion
 
 def tt_make_user(group=None):

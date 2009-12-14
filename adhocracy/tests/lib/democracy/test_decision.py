@@ -1,32 +1,42 @@
 from datetime import datetime
 import time
+from nose.tools import *
+
+from adhocracy.model import Poll
+from adhocracy.lib.democracy import Decision, DelegationNode
+import adhocracy.model as model
 
 from adhocracy.tests import *
 from adhocracy.tests.testtools import *
-from nose.tools import *
 
-import adhocracy.lib.democracy as decision
-from adhocracy.lib.democracy import Decision, Poll, DelegationNode
-import adhocracy.model as model
 
 class TestDecision(TestController):
     
-    def test_direct_vcount(self):
+    def test_can_vote_without_delegation(self):
         motion = tt_make_motion(voting=True)
-        dec = Decision(motion.creator, motion)
-        assert len(dec.votes) == 0
-        assert len(dec.relevant_votes) == 0
-        time.sleep(1)
-        dec.make(model.Vote.AYE)
-        #dec = Decision(motion.creator, motion)
-        assert len(dec.votes) == 1
-        assert len(dec.relevant_votes) == 1  
-        dec.make(model.Vote.AYE)  
-        assert len(dec.votes) == 2
-        assert len(dec.relevant_votes) == 1
-        dec2 = Decision(motion.creator, motion)
-        assert len(dec2.votes) == 2
-        assert len(dec2.relevant_votes) == 1
+        poll = Poll(motion, motion.creator)
+        decision = Decision(motion.creator, poll)
+        
+        assert_equals(len(decision.votes), 0)
+        assert_equals(len(decision.relevant_votes), 0)
+        
+        decision.make(model.Vote.AYE)
+        assert_equals(len(decision.votes), 1)
+        assert_equals(len(decision.relevant_votes), 1)
+    
+    def test_voting_twice_for_one_decision_has_no_effect(self):
+        motion = tt_make_motion(voting=True)
+        poll = Poll(motion, motion.creator)
+        decision = Decision(motion.creator, poll)
+        decision.make(model.Vote.AYE)
+        decision.make(model.Vote.AYE)
+        assert_equals(len(decision.votes), 1)
+        assert_equals(len(decision.relevant_votes), 1)
+        
+        decision2 = Decision(motion.creator, poll)
+        decision2.make(model.Vote.AYE)
+        assert_equals(len(decision2.votes), 2)
+        assert_equals(len(decision2.relevant_votes), 1)
           
         
     def test_made(self):

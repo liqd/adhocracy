@@ -5,9 +5,11 @@ from adhocracy.tests import *
 from adhocracy.tests.testtools import *
 from nose.tools import *
 
-import adhocracy.lib.democracy as poll
-from adhocracy.lib.democracy import Poll, Decision
 import adhocracy.model as model
+from adhocracy.model import Poll
+
+import adhocracy.lib.democracy as poll
+from adhocracy.lib.democracy import Decision
 
 class TestPoll(TestController):
         
