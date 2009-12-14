@@ -19,7 +19,7 @@ class DecisionException(Exception):
 class Decision(object):
     """
     A decision describes the current or past opinion that a user has 
-    expressed on a given motion. This includes opinions that were determined
+    expressed on a given poll. This includes opinions that were determined
     by an agent as a result of delegation. 
     """
     
@@ -37,8 +37,8 @@ class Decision(object):
         Load all votes by the user regarding the poll. 
         """
         q = model.meta.Session.query(Vote)
-        q = q.filter(Vote.user_id==self.user.id)
-        q = q.filter(Vote.poll_id==self.poll.id)
+        q = q.filter(Vote.user_id == self.user.id)
+        q = q.filter(Vote.poll_id == self.poll.id)
         q = q.options(eagerload(Vote.delegation))
         if self.at_time:
             q = q.filter(Vote.create_time<=self.at_time)
