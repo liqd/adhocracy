@@ -63,33 +63,6 @@
 		<input type="password" name="password_confirm">
 	</div>
 	
-	<div class="top_actions">
-		<a class="button add" href="/openid/connect">${_("new")}</a>
-	</div>
-	<h3><img src="/img/icons/openid_20.png" class="cd" /> ${_("OpenID")}</h3>
-	<div class="sidebar">
-		<div class="infobox">
-			${_("OpenID allows you to use a single login on many web sites.")}
-		</div>
-	</div>
-		
-	<div class="mainbar">
-		%if not len(c.page_user.openids):
-			<div class="infobox">
-				${_("There are no associated OpenIDs.")}
-			</div>
-		%else:
-		<table border="0" width="100%">
-			%for openid in c.page_user.openids:
-			<tr>
-				<td><code>${openid.identifier}</code></td>
-				<td><a href="/openid/revoke?id=${openid.id}&${h.url_token()}">${_("remove")}</a></td>
-			</tr>
-			%endfor
-		</table>
-		%endif 
-	</div>
-	
 	<div style="clear:both;"></div>
 	<div class="top_actions">
 		%if c.page_user == c.user and not c.page_user.twitter:
@@ -99,7 +72,7 @@
 	<h3>${_("Notifications")}</h3>
 	<div class="sidebar">
 		<div class="infobox">
-			${_("Select the intensity and channel with which you would like to be notified of new developments in Adhocracy.")}
+			${_("Select how you would like to be notified of news in Adhocracy.")}
 		</div>
 	</div>
 		
@@ -143,6 +116,34 @@
 			</tr>
 			%endif
 		</table>
+	</div>
+	
+	<div style="clear:both;"></div>
+	<div class="top_actions">
+		<a class="button add" href="/openid/connect">${_("new")}</a>
+	</div>
+	<h3><img src="/img/icons/openid_20.png" class="cd" /> ${_("OpenID")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("OpenID allows you to use a single login on many web sites.")}
+		</div>
+	</div>
+		
+	<div class="mainbar">
+		%if not len(c.page_user.openids):
+			<div class="infobox">
+				${_("There are no associated OpenIDs.")}
+			</div>
+		%else:
+		<table border="0" width="100%">
+			%for openid in c.page_user.openids:
+			<tr>
+				<td><code>${openid.identifier}</code></td>
+				<td><a href="/openid/revoke?id=${openid.id}&${h.url_token()}">${_("remove")}</a></td>
+			</tr>
+			%endfor
+		</table>
+		%endif 
 	</div>
 	
 	<div style="clear:both;"></div>
