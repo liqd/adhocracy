@@ -32,17 +32,17 @@
 		</h3>
 		
 		<div class="text">
-			%if not decision.made():
+			%if not decision.is_decided():
 				${_("The user's delegates have voted, but no consensus was" + 
 					"reached among them. The decision is deferred.")}
 			%else:
-				%if decision.self_made():
+				%if decision.is_self_decided():
 					${_("The decision was made without delegations.")}
 				%else:
 					${_("The decision was determined as a result of the following delegations:")}
 				%endif
 			%endif
-			%if not decision.self_made():
+			%if not decision.is_self_decided():
 				<ul>
 				%for delegation in decision.delegations:
 					<li>

@@ -67,9 +67,9 @@ def vote_source(event):
            map(lambda v: v.delegation, before.relevant_votes)) and \
            (before.result == decision.result):
             return 
-        if not decision.made():
+        if not decision.is_decided():
             yield Notification(event, event.agent, type=N_DELEGATE_CONFLICT)
-        elif decision.self_made():
+        elif decision.is_self_decided():
             yield Notification(event, event.agent, type=N_SELF_VOTED)
         else:
             yield Notification(event, event.agent, type=N_DELEGATE_VOTED)

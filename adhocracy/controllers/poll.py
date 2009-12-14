@@ -24,9 +24,9 @@ class PollController(BaseController):
         
         c.filter_made = self.form_result.get('filter_made')
         if c.user and c.filter_made == 1:
-            motions = filter(lambda m: not democracy.Decision(c.user, m.poll).made(), motions)
+            motions = filter(lambda m: not democracy.Decision(c.user, m.poll).is_decided(), motions)
         elif c.user and c.filter_made == 2:
-            motions = filter(lambda m: not democracy.Decision(c.user, m.poll).self_made(), motions)
+            motions = filter(lambda m: not democracy.Decision(c.user, m.poll).is_self_decided(), motions)
                 
         c.motions_pager = NamedPager('motions', motions, tiles.motion.detail_row, count=4, #list_item,
                                      sorts={_("oldest"): sorting.entity_oldest,

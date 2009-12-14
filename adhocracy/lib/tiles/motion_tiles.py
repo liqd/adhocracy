@@ -76,7 +76,7 @@ class MotionTile(DelegateableTile):
     lack_delete_karma = property(DelegateableTile.prop_lack_karma('motion.delete'))
     
     def _has_overridden(self):
-        if self.decision.self_made():
+        if self.decision.is_self_decided():
             return True
         return False
     
@@ -130,7 +130,7 @@ class MotionTile(DelegateableTile):
         agents = []
         for agent in self.delegates:
             decision = democracy.Decision(agent, self.poll)
-            if decision.made() and decision.result == result:
+            if decision.is_decided() and decision.result == result:
                 agents.append(agent)
         return agents
     
@@ -138,7 +138,7 @@ class MotionTile(DelegateableTile):
         if self.__num_principals == None:
             principals = set(map(lambda d: d.principal, self.dnode.transitive_inbound()))
             if self.poll:
-                principals = filter(lambda p: not democracy.Decision(p, self.poll).self_made(),
+                principals = filter(lambda p: not democracy.Decision(p, self.poll).is_self_decided(),
                                     principals)
             self.__num_principals = len(principals)
         return self.__num_principals

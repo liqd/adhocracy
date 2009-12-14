@@ -102,6 +102,6 @@ class Tally(object):
     
     @classmethod
     def from_decisions(cls, decisions, at_time):
-        decisions = filter(lambda d: d.made(), decisions)
+        decisions = filter(lambda d: d.is_decided(), decisions)
         return cls(map(lambda d: d.result, decisions), at_time)
     

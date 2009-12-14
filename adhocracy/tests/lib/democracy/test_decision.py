@@ -12,54 +12,36 @@ from adhocracy.tests.testtools import *
 
 class TestDecision(TestController):
     
-    def test_can_vote_without_delegation(self):
-        motion = tt_make_motion(voting=True)
-        poll = Poll(motion, motion.creator)
-        decision = Decision(motion.creator, poll)
-        
-        assert_equals(len(decision.votes), 0)
-        assert_equals(len(decision.relevant_votes), 0)
-        
-        decision.make(model.Vote.AYE)
-        assert_equals(len(decision.votes), 1)
-        assert_equals(len(decision.relevant_votes), 1)
+    def setUp(self):
+        self.motion = tt_make_motion(voting=True)
+        self.poll = Poll(self.motion, self.motion.creator)
+        self.decision = Decision(self.motion.creator, self.poll)
+    
+    def test_can_vote_directly(self):
+        assert_equals(len(self.decision.relevant_votes), 0)
+        self.decision.make(model.Vote.AYE)
+        assert_equals(len(self.decision.relevant_votes), 1)
     
     def test_multiple_votes_for_one_decision_will_only_count_the_last_one(self):
-        motion = tt_make_motion(voting=True)
-        poll = Poll(motion, motion.creator)
-        decision = Decision(motion.creator, poll)
-        
-        assert_equals(len(decision.votes), 0)
-        assert_equals(len(decision.relevant_votes), 0)
-        
-        decision.make(model.Vote.AYE)
-        decision.make(model.Vote.AYE)
-        assert_equals(len(decision.votes), 2)
-        assert_equals(len(decision.relevant_votes), 1)
+        assert_equals(len(self.decision.relevant_votes), 0)
+        self.decision.make(model.Vote.AYE)
+        self.decision.make(model.Vote.AYE)
+        assert_equals(len(self.decision.relevant_votes), 1)
     
-    def test_can_make_two_two_decisions_for_one_poll(self):
-        motion = tt_make_motion(voting=True)
-        poll = Poll(motion, motion.creator)
-        decision = Decision(motion.creator, poll)
-        decision.make(model.Vote.AYE)
-        decision2 = Decision(motion.creator, poll)
-        decision2.make(model.Vote.AYE)
-        assert_equals(len(decision2.votes), 2)
-        assert_equals(len(decision2.relevant_votes), 1)
+    def test_multiple_votes_for_one_decision_are_recorded_for_posterity(self):
+        assert_equals(len(self.decision.votes), 0)
+        self.decision.make(model.Vote.AYE)
+        assert_equals(len(self.decision.votes), 1)
+        self.decision.make(model.Vote.AYE)
+        assert_equals(len(self.decision.votes), 2)
     
-    # REFACT: relevant votes should have their own tests to specify what they do
+    def test_decision_knows_if_it_is_decided(self):
+        assert_false(self.decision.is_decided())
+        assert_false(self.decision.is_self_decided())
+        self.decision.make(model.Vote.AYE)
+        assert_true(self.decision.is_decided())
+        assert_true(self.decision.is_self_decided())
     
-    def test_made(self):
-        motion = tt_make_motion(voting=True)
-        time.sleep(1)
-        dec = Decision(motion.creator, motion)
-        assert not dec.made()
-        assert not dec.self_made()
-        dec.make(model.Vote.AYE)
-        time.sleep(1)
-        assert dec.made()
-        assert dec.self_made()        
-        
     def test_delegation(self):
         motion = tt_make_motion(voting=True)
         #time.sleep(1)
@@ -138,4 +120,14 @@ class TestDecision(TestController):
         
         assert len(dec.relevant_votes) == 1
         assert dec.result == model.Vote.NAY
-        
+    
+    # This tests a weird bit of the replay mechanism - not sure what that is or if we need it
+    def test_can_make_two_two_decisions_for_one_poll(self):
+        self.decision.make(model.Vote.AYE)
+        decision2 = Decision(self.motion.creator, self.poll)
+        decision2.make(model.Vote.AYE)
+        assert_equals(len(decision2.votes), 2)
+        assert_equals(len(decision2.relevant_votes), 1)
+    
+
+# TODO: special case: two delegations with different votes should cancel

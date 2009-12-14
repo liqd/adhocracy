@@ -130,14 +130,14 @@ class Decision(object):
         self.reload()
         return votes
     
-    def made(self):
+    def is_decided(self):
         """
         Determine if a given decision was made by the user, i.e. if the user
         or one of his/her agents has voted on the motion. 
         """
         return not self.result == None
     
-    def self_made(self):
+    def is_self_decided(self):
         """
         Determine if a given decision was made by the user him-/herself. 
         This does not consider decisions determined by delegation.
