@@ -5,7 +5,6 @@ import lucene
 store = None
 _analyzer = None
 
-index_lock = Lock()
 
 def get_writer():
     return lucene.IndexWriter(store, get_analyzer())
@@ -17,30 +16,18 @@ def get_searcher():
     return lucene.IndexSearcher(store)
 
 def write_document(doc):
-    index_lock.acquire()
-    try:
-        writer = get_writer()
-        writer.addDocument(doc)
-        writer.optimize()
-        writer.close()
-    finally:
-        index_lock.release()
+    writer = get_writer()
+    writer.addDocument(doc)
+    writer.optimize()
+    writer.close()
     
 def delete_document(term):
-    index_lock.acquire()
-    try:
-        reader = get_reader()
-        reader.deleteDocuments(term)
-        reader.close()
-    finally:
-        index_lock.release()
+    reader = get_reader()
+    reader.deleteDocuments(term)
+    reader.close()
     
 def query(q):
-    index_lock.acquire()
-    try:
-        return get_searcher().search(q)
-    finally:
-        index_lock.release()
+    return get_searcher().search(q)
     
 def get_analyzer():
     global _analyzer 
