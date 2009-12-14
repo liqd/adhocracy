@@ -24,21 +24,31 @@ class TestDecision(TestController):
         assert_equals(len(decision.votes), 1)
         assert_equals(len(decision.relevant_votes), 1)
     
-    def test_voting_twice_for_one_decision_has_no_effect(self):
+    def test_multiple_votes_for_one_decision_will_only_count_the_last_one(self):
+        motion = tt_make_motion(voting=True)
+        poll = Poll(motion, motion.creator)
+        decision = Decision(motion.creator, poll)
+        
+        assert_equals(len(decision.votes), 0)
+        assert_equals(len(decision.relevant_votes), 0)
+        
+        decision.make(model.Vote.AYE)
+        decision.make(model.Vote.AYE)
+        assert_equals(len(decision.votes), 2)
+        assert_equals(len(decision.relevant_votes), 1)
+    
+    def test_can_make_two_two_decisions_for_one_poll(self):
         motion = tt_make_motion(voting=True)
         poll = Poll(motion, motion.creator)
         decision = Decision(motion.creator, poll)
         decision.make(model.Vote.AYE)
-        decision.make(model.Vote.AYE)
-        assert_equals(len(decision.votes), 1)
-        assert_equals(len(decision.relevant_votes), 1)
-        
         decision2 = Decision(motion.creator, poll)
         decision2.make(model.Vote.AYE)
         assert_equals(len(decision2.votes), 2)
         assert_equals(len(decision2.relevant_votes), 1)
-          
-        
+    
+    # REFACT: relevant votes should have their own tests to specify what they do
+    
     def test_made(self):
         motion = tt_make_motion(voting=True)
         time.sleep(1)
