@@ -112,5 +112,5 @@ class EventStore(object):
             return "delegation.%s" % obj.id
         elif isinstance(obj, model.Instance):
             return "instance.%s" % obj.key.lower()
-        return str(abs(hash(obj)))
+        return "str." + str(obj)
 
