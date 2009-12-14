@@ -14,7 +14,7 @@ class Delegation(Base):
     
     agent_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     agent = relation(User,
-        primaryjoin="Delegation.agent_id==User.id", 
+        primaryjoin="Delegation.agent_id == User.id", 
         backref=backref('agencies', cascade='all'))
         
     principal_id = Column(Integer, ForeignKey('user.id'), nullable=False)
