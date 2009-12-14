@@ -56,6 +56,7 @@ class TestDecisionWithDelegation(TestController):
     
     def test_can_delegate_to_other_user(self):
         # TODO: works - but is not pretty
+        # consider a method on DelegationNode 
         delegation = model.Delegation(self.user1, self.user2, self.instance.root)
         model.meta.Session.add(delegation)
         model.meta.Session.commit()
@@ -115,6 +116,9 @@ class TestDecisionWithDelegation(TestController):
         assert dec.result == model.Vote.ABSTAIN
         assert len(dec.relevant_votes) == 1
         
+    # TODO test that a user can override their delegate
+    #  this should include proper chain interruption
+    #  i.e. A->B->C, B votes self after A voted, C will now have to adopt B's opinion. 
     def test_delegation_override(self):
         motion = tt_make_motion(voting=True)
         instance = tt_get_instance()
