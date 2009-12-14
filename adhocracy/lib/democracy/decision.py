@@ -28,22 +28,22 @@ class Decision(object):
         self.poll = poll
         self.at_time = at_time
         self.node = DelegationNode(user, poll.motion)
-        self._votes = votes
-    
-    def _get_votes(self):
-        """ All votes a user has created during the current polling interval. """
-        if not self._votes:
-            q = model.meta.Session.query(Vote)
-            q = q.filter(Vote.user_id==self.user.id)
-            q = q.filter(Vote.poll_id==self.poll.id)
-            q = q.options(eagerload(Vote.delegation))
-            if self.at_time:
-                q = q.filter(Vote.create_time<=self.at_time)
-            q = q.order_by(Vote.id.desc())
-            self._votes = q.all()
-        return self._votes
-    
-    votes = property(_get_votes)
+        self.votes = votes
+        if not votes: 
+            self.reload()
+        
+    def reload(self):
+        """ 
+        Load all votes by the user regarding the poll. 
+        """
+        q = model.meta.Session.query(Vote)
+        q = q.filter(Vote.user_id==self.user.id)
+        q = q.filter(Vote.poll_id==self.poll.id)
+        q = q.options(eagerload(Vote.delegation))
+        if self.at_time:
+            q = q.filter(Vote.create_time<=self.at_time)
+        q = q.order_by(Vote.id.desc())
+        self.votes = q.all()
     
     def _relevant_votes(self):
         """ 
