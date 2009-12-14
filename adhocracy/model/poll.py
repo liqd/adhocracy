@@ -9,7 +9,7 @@ import motion
 
 class Poll(Base):
     __tablename__ = 'poll'
-        
+    
     id = Column(Integer, primary_key=True)
     begin_time = Column(DateTime, default=func.now())
     end_time = Column(DateTime, nullable=True)
