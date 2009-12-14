@@ -39,7 +39,7 @@ class Decision(object):
             q = q.options(eagerload(Vote.delegation))
             if self.at_time:
                 q = q.filter(Vote.create_time<=self.at_time)
-            q = q.order_by(Vote.create_time.desc())
+            q = q.order_by(Vote.id.desc())
             self._votes = q.all()
         return self._votes
     
