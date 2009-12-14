@@ -127,6 +127,7 @@ class Decision(object):
         
         votes = self.node.propagate(propagating_vote, _edge=_edge)
         model.meta.Session.commit()
+        self.reload()
         return votes
     
     def made(self):
