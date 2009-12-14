@@ -10,6 +10,7 @@ from delegation import Delegation
 from poll import Poll
 
 class Vote(Base):
+    # REFACT: AYE and NAY are quite similar isually - what about going with YES and NO?
     AYE = 1
     NAY = -1
     ABSTAIN = 0

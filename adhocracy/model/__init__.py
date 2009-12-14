@@ -2,6 +2,8 @@
 import sqlalchemy as sa
 from sqlalchemy import orm
 
+# REFACT: remove the subpackage imports - as they serve no purpose right now (the class imports are what we really want to keep)
+
 from adhocracy.model import meta
 
 from adhocracy.model import user
