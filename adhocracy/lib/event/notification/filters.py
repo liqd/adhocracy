@@ -1,5 +1,5 @@
 
-from ..types import *
+from adhocracy.lib.event.types import *
 
 def self_filter(pipeline):
     for notification in pipeline:
