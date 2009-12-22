@@ -35,7 +35,9 @@ def process(event):
     notification.notify(event)
 
 def queue_process():
-    ep_lock.acquire()
+    not_blocked = ep_lock.acquire(blocking=False)
+    if not_blocked:
+        return
     try:
         queue.read_events(process)
     finally:
