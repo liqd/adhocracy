@@ -64,4 +64,5 @@ class RootController(BaseController):
     
     def process(self):
         event.queue_process()
+        return "done."
             

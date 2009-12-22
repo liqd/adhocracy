@@ -35,7 +35,7 @@ def process(event):
     notification.notify(event)
 
 def queue_process():
-    available = ep_lock.acquire(blocking=False)
+    available = ep_lock.acquire(0)
     if not available:
         return
     try:
