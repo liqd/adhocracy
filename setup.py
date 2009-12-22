@@ -27,8 +27,8 @@ setup(
         "amqplib>=0.6.1",
         "babel>=0.9",
         "beautifulsoup>=3.1",
-        "jcc>=2.4.1",
-        "lucene>=2.9.1", # "You need to install PyLucene >= 2.9 by hand. Sadly there is no way we can do it via requirements (note: jcc is installed as a regular dependency)"
+        "jcc>=2.5",
+        "lucene>=3.0.0", # "You need to install PyLucene >= 3.0.0 by hand. Sadly there is no way we can do it via requirements (note: jcc is installed as a regular dependency)"
         "python-openid>=2.2.4",
         "python-memcached>=1.45",
     ],
