@@ -13,7 +13,7 @@ def get_writer():
     return writer
     
 def get_reader():
-    return lucene.IndexReader.open(store)
+    return lucene.IndexReader.open(store, False)
     
 def get_searcher():
     return lucene.IndexSearcher(store, True)

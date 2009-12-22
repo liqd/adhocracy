@@ -22,9 +22,9 @@ class EventStore(object):
         self.doc = Document()
         self.add_field("type", "event") 
         
-    def add_field(self, name, value, store=True, tokenize=False):
+    def add_field(self, name, value, store=True, analyze=False):
         store = store and Field.Store.YES or Field.Store.NO
-        tokenize = tokenize and Field.Index.TOKENIZED or Field.Index.UN_TOKENIZED
+        analyze = analyze and Field.Index.ANALYZED or Field.Index.NOT_ANALYZED
         self.doc.add(Field(name, unicode(value), store, tokenize))
         
     def get_time(self):
