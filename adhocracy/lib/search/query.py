@@ -1,7 +1,7 @@
 import logging
 
 from lucene import Term, TermQuery, MultiFieldQueryParser, \
-                   BooleanClause, BooleanQuery, Hit
+                   BooleanClause, BooleanQuery
                    
 import entityrefs
 import index
@@ -29,18 +29,15 @@ def run(terms, instance=None, cls=None, fields=['label', 'description', 'user'])
     
     log.debug("Entity query: %s" % bquery.toString().encode("ascii", "replace"))
     
-    hits = index.query(bquery)
+    searcher = index.get_searcher()
+    hits = searcher.search(bquery, limit)
     
     results = []
     for hit in hits:
-        hit = Hit.cast_(hit)
-        ref = hit.getDocument().getField("ref").stringValue()
+        doc = searcher.doc(hit.doc)
+        doc.getField("ref").stringValue()
         entity = entityrefs.to_entity(ref)
-        score = hit.getScore()
         
         if entity:
             results.append(entity)
-            log.debug(" Result: %s (type: %s), score: %s" % (repr(entity), 
-                                                             repr(entity.__class__), 
-                                                             score))
     return results

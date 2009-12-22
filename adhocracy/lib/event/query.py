@@ -1,6 +1,6 @@
 import logging
 
-from lucene import BooleanQuery, TermQuery, Term, Hit, BooleanClause, QueryParser
+from lucene import BooleanQuery, TermQuery, Term, BooleanClause, QueryParser
 
 from store import EventStore
 
@@ -56,11 +56,13 @@ def run(query, sort_time=True, sort_time_desc=True,
     log.debug("Event query: %s" % bquery)
 
     # TODO: run most of this in lucene, not here.
-    hits = index.query(bquery)
+    searcher = index.get_searcher()
+    hits = searcher.search(bquery, limit)
+
     evts = []
     for hit in hits:
-        hit = Hit.cast_(hit)
-        evt = EventStore._restore(hit.getDocument())
+        doc = searcher.doc(hit.doc)
+        evt = EventStore._restore(doc)
         if evt:
             evts.append(evt)
     if from_time:

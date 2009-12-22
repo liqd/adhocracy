@@ -7,13 +7,16 @@ _analyzer = None
 
 
 def get_writer():
-    return lucene.IndexWriter(store, get_analyzer())
+    writer = lucene.IndexWriter(store, get_analyzer(), True, 
+                                lucene.IndexWriter.MaxFieldLength.LIMITED)
+    writer.setMaxFieldLength(1048576)
+    return writer
     
 def get_reader():
     return lucene.IndexReader.open(store)
     
 def get_searcher():
-    return lucene.IndexSearcher(store)
+    return lucene.IndexSearcher(store, True)
 
 def write_document(doc):
     writer = get_writer()
@@ -26,12 +29,9 @@ def delete_document(term):
     reader.deleteDocuments(term)
     reader.close()
     
-def query(q):
-    return get_searcher().search(q)
-    
 def get_analyzer():
     global _analyzer 
     if not _analyzer:
         # TODO: obviously refine tokenization and shit 
-        _analyzer = lucene.StandardAnalyzer()
+        _analyzer = lucene.StandardAnalyzer(lucene.Version.LUCENE_CURRENT)
     return _analyzer

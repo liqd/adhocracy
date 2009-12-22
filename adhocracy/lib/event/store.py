@@ -5,7 +5,7 @@ import simplejson
 
 from pylons.i18n import _ 
 
-from lucene import Document, Field, BooleanQuery, TermQuery, Term, Hit, BooleanClause
+from lucene import Document, Field, BooleanQuery, TermQuery, Term, BooleanClause
 
 import adhocracy.model as model
 from ..search import index 

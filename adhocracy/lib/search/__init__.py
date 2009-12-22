@@ -20,7 +20,7 @@ def index_dir():
 
 def setup_search():
     index.vm = lucene.initVM(lucene.CLASSPATH)
-    index.store  = lucene.FSDirectory.getDirectory(index_dir())
+    index.store  = lucene.SimpleFSDirectory(lucene.File(index_dir()))
     
     index.write_document(lucene.Document())
     
