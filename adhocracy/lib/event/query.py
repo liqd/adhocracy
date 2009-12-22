@@ -1,6 +1,6 @@
 import logging
 
-from lucene import BooleanQuery, TermQuery, Term, BooleanClause, QueryParser
+from lucene import BooleanQuery, TermQuery, Term, BooleanClause, QueryParser, Version
 
 from store import EventStore
 
@@ -40,14 +40,14 @@ def scope(obj):
     return "scope:%s" % EventStore.objtoken(obj)
 
 def run(query, sort_time=True, sort_time_desc=True,
-               from_time=None, to_time=None):
+               from_time=None, to_time=None, limit=1000):
     import adhocracy.lib.search.index as index
 
     bquery = BooleanQuery()
     tquery = TermQuery(Term("type", "event"))
     bquery.add(BooleanClause(tquery, BooleanClause.Occur.MUST))
     if len(query.strip()):
-        query = QueryParser("foo", index.get_analyzer()).parse(query)
+        query = QueryParser(Version.LUCENE_CURRENT, "foo", index.get_analyzer()).parse(query)
         #log.debug("Compiled query: %s" % query.toString())
     else:
         query = TermQuery(Term("schnasel", "0xDEADBEEF"))
@@ -57,11 +57,11 @@ def run(query, sort_time=True, sort_time_desc=True,
 
     # TODO: run most of this in lucene, not here.
     searcher = index.get_searcher()
-    hits = searcher.search(bquery, limit)
+    scoreDocs = searcher.search(bquery, limit).scoreDocs
 
     evts = []
-    for hit in hits:
-        doc = searcher.doc(hit.doc)
+    for scoreDoc in scoreDocs:
+        doc = searcher.doc(scoreDoc).doc
         evt = EventStore._restore(doc)
         if evt:
             evts.append(evt)

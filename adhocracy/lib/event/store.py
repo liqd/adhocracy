@@ -25,7 +25,7 @@ class EventStore(object):
     def add_field(self, name, value, store=True, analyze=False):
         store = store and Field.Store.YES or Field.Store.NO
         analyze = analyze and Field.Index.ANALYZED or Field.Index.NOT_ANALYZED
-        self.doc.add(Field(name, unicode(value), store, tokenize))
+        self.doc.add(Field(name, unicode(value), store, analyze))
         
     def get_time(self):
         return self.event.time.strftime(formatting.DT_FORMAT)
@@ -41,7 +41,7 @@ class EventStore(object):
         self.add_field("_event_id", self.event.id)
         self.add_field("agent", self.objtoken(self.event.agent))
         self.add_field("data", self.event.to_json(), 
-                       store=True, tokenize=False)
+                       store=True, analyze=False)
         if not self.event.agent in self.event.topics:
             self.add_field("topic", self.objtoken(self.event.agent))
         [self.add_field("scope", self.objtoken(s)) for s in self.event.scopes]
@@ -75,12 +75,12 @@ class EventStore(object):
         during restoration, this may raise an EventException.
         """
         hquery = TermQuery(cls._id_term(id))
-        hits = index.query(hquery)
-        if len(hits) > 1:
+        searcher = index.get_searcher()
+        scoreDocs = searcher.search(hquery, 2).scoreDocs
+        if len(scoreDocs) > 1:
             raise util.EventException("Multiple events exist with hash %s" % hash)
-        for hit in hits:
-            hit = Hit.cast_(hit)
-            doc = hit.getDocument()
+        for scoreDoc in scoreDocs:
+            doc = searcher.doc(scoreDoc.doc)
             return cls._restore(doc)
     
     @classmethod

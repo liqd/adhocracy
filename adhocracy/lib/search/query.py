@@ -1,14 +1,14 @@
 import logging
 
 from lucene import Term, TermQuery, MultiFieldQueryParser, \
-                   BooleanClause, BooleanQuery
+                   BooleanClause, BooleanQuery, Version
                    
 import entityrefs
 import index
 
 log = logging.getLogger(__name__)
 
-def run(terms, instance=None, cls=None, fields=['label', 'description', 'user']):
+def run(terms, instance=None, cls=None, limit=50, fields=['label', 'description', 'user']):
     bquery = BooleanQuery()
         
     equery = TermQuery(Term("entity", "true"))
@@ -22,7 +22,8 @@ def run(terms, instance=None, cls=None, fields=['label', 'description', 'user'])
         tquery = TermQuery(Term("type", entityrefs._index_name(cls)))
         bquery.add(BooleanClause(tquery, BooleanClause.Occur.MUST))
         
-    mquery = MultiFieldQueryParser.parse(terms, fields, 
+    mquery = MultiFieldQueryParser.parse(Version.LUCENE_CURRENT,
+        terms, fields, 
         [BooleanClause.Occur.SHOULD] * len(fields),
         index.get_analyzer())
     bquery.add(BooleanClause(mquery, BooleanClause.Occur.MUST))  
@@ -30,11 +31,11 @@ def run(terms, instance=None, cls=None, fields=['label', 'description', 'user'])
     log.debug("Entity query: %s" % bquery.toString().encode("ascii", "replace"))
     
     searcher = index.get_searcher()
-    hits = searcher.search(bquery, limit)
+    scoreDocs = searcher.search(bquery, limit).scoreDocs
     
     results = []
-    for hit in hits:
-        doc = searcher.doc(hit.doc)
+    for scoreDoc in scoreDocs:
+        doc = searcher.doc(scoreDoc.doc)
         doc.getField("ref").stringValue()
         entity = entityrefs.to_entity(ref)
         

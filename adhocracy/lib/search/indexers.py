@@ -21,13 +21,13 @@ class Indexer(object):
         if not self._doc:
             self._doc = Document()
             self._doc.add(Field("id", str(self.entity._index_id()), 
-                                Field.Store.YES, Field.Index.NOT_ANALYZED ))
+                                Field.Store.YES, Field.Index.NOT_ANALYZED))
             self._doc.add(Field("ref", entityrefs.to_ref(self.entity), 
-                                Field.Store.YES, Field.Index.NOT_ANALYZED ))
+                                Field.Store.YES, Field.Index.NOT_ANALYZED))
             self._doc.add(Field("type", entityrefs.entity_type(self.entity),
-                                Field.Store.YES, Field.Index.NOT_ANALYZED ))
+                                Field.Store.YES, Field.Index.NOT_ANALYZED))
             self._doc.add(Field("entity", "true",
-                                Field.Store.YES, Field.Index.NOT_ANALYZED ))
+                                Field.Store.YES, Field.Index.NOT_ANALYZED))
         return self._doc
     
     doc = property(_get_doc)
@@ -37,7 +37,7 @@ class Indexer(object):
             ts = datetime.now()  # for newly persited entities
         ts_str = ts.strftime('%Y%m%d')
         f = Field(key, ts_str, Field.Store.NO,
-                  Field.Index.NOT_ANALYZED )
+                  Field.Index.NOT_ANALYZED)
         f.setBoost(boost)  
         self.doc.add(f)  
     
@@ -53,13 +53,13 @@ class UserIndexer(Indexer):
     
     def serialize(self, partial=False):
         f = Field("user", self.entity.user_name, 
-                  Field.Store.NO, Field.Index.ANALYZED )
+                  Field.Store.NO, Field.Index.ANALYZED)
         f.setBoost(self.boost)
         self.doc.add(f)
         
         if self.entity.display_name:
             f = Field("user", self.entity.display_name, 
-                      Field.Store.NO, Field.Index.ANALYZED )
+                      Field.Store.NO, Field.Index.ANALYZED)
             f.setBoost(self.boost)
             self.doc.add(f)
         if not partial:
@@ -67,13 +67,13 @@ class UserIndexer(Indexer):
                               self.boost * 0.5)
             if self.entity.bio:
                 f = Field("description", text.plain(self.entity.bio), 
-                          Field.Store.NO, Field.Index.ANALYZED )
+                          Field.Store.NO, Field.Index.ANALYZED)
                 f.setBoost(self.boost * 0.5)
                 self.doc.add(f)
             
             for instance in self.entity.instances:
                 f = Field("instance", instance.key, 
-                          Field.Store.YES, Field.Index.NOT_ANALYZED )
+                          Field.Store.YES, Field.Index.NOT_ANALYZED)
                 f.setBoost(self.boost)
                 self.doc.add(f) 
 
@@ -92,7 +92,7 @@ class CommentIndexer(Indexer):
         creator.serialize(partial=True)
         
         f = Field("canonical", "true" if self.entity.canonical else "false", 
-                  Field.Store.NO, Field.Index.NOT_ANALYZED )
+                  Field.Store.NO, Field.Index.NOT_ANALYZED)
         f.setBoost(self.boost * 0.1)
         self.doc.add(f)
         
@@ -101,7 +101,7 @@ class CommentIndexer(Indexer):
                               self.boost * 0.5)
             
             f = Field("description", text.plain(revision.text), 
-                  Field.Store.NO, Field.Index.ANALYZED )
+                  Field.Store.NO, Field.Index.ANALYZED)
             f.setBoost(self.boost * 0.9)
             self.doc.add(f)
             
@@ -139,12 +139,12 @@ class DelegateableIndexer(Indexer):
     
     def serialize_delegateable(self, partial=False):
         f = Field("label", self.entity.label, 
-                  Field.Store.NO, Field.Index.ANALYZED )
+                  Field.Store.NO, Field.Index.ANALYZED)
         f.setBoost(self.boost * 2.0)
         self.doc.add(f)
         
         f = Field("instance", self.entity.instance.key, 
-                  Field.Store.YES, Field.Index.NOT_ANALYZED )
+                  Field.Store.YES, Field.Index.NOT_ANALYZED)
         f.setBoost(self.boost)
         self.doc.add(f)
         
