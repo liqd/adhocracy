@@ -61,7 +61,7 @@ def run(query, sort_time=True, sort_time_desc=True,
 
     evts = []
     for scoreDoc in scoreDocs:
-        doc = searcher.doc(scoreDoc).doc
+        doc = searcher.doc(scoreDoc.doc)
         evt = EventStore._restore(doc)
         if evt:
             evts.append(evt)

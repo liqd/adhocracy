@@ -26,7 +26,7 @@ def create_channel(read=False, write=False):
     conn = create_connection()
     channel = conn.channel()
     channel.access_request('/data', active=True, write=write, read=read)
-    channel.exchange_declare(queue_name(), 'fanout', auto_delete=False,
+    channel.exchange_declare(queue_name(), 'direct', auto_delete=False,
                              durable=True)
     return channel
     
@@ -38,7 +38,6 @@ def post_event(event):
     message = amqp.Message(event.to_json(), content_type='text/javascript')
     post_channel.basic_publish(message, exchange=queue_name(), 
                                immediate=0)
-    
     
 def read_events(callback=None):
     channel = create_channel(read=True)
@@ -59,4 +58,4 @@ def read_events(callback=None):
         channel.wait()
 
     channel.close()
-
+    
