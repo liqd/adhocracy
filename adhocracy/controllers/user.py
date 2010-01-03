@@ -90,9 +90,7 @@ class UserController(BaseController):
     @ActionProtector(has_permission("user.edit"))
     @validate(schema=UserEditForm(), form="edit", post_only=True)
     def edit(self, id):
-        c.page_user = model.User.find(id, instance_filter=False)
-        if not c.page_user:
-            abort(404, _("No user named '%s' exists") % id)
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         if not (c.page_user == c.user or h.has_permission("user.manage")): 
             abort(403, _("You're not authorized to change %s's settings.") % id)
         if request.method == "POST":
@@ -142,13 +140,11 @@ class UserController(BaseController):
         return render("/user/reset_form.html")
     
     def reset_code(self, id):
-        c.page_user = model.User.find(id, instance_filter=False)
-        if not c.page_user:
-            abort(404, _("No user named '%s' exists") % id)
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         try:
-            code = request.params.get('c', 'deadbeef')
-            if c.page_user.reset_code != code:
-                raise ValueError
+            if c.page_user.reset_code != request.params.get('c', 'deadbeef'):
+                h.flash(_("Invalid URL reset code."))
+                redirect_to('/login')
              
             new_password = libutil.random_token()
             c.page_user.password = new_password
@@ -166,10 +162,7 @@ class UserController(BaseController):
             
     @ActionProtector(has_permission("user.view"))
     def view(self, id, format='html'):
-        c.page_user = model.User.find(id, instance_filter=False)
-        if not c.page_user:
-            abort(404, _("No user named '%s' exists") % id)
-        
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         bio = c.page_user.bio
         if not bio:
             bio = _("%(user)s is using Adhocracy, a direct democracy decision-making tool.") % {'user': c.page_user.name}
@@ -206,8 +199,7 @@ class UserController(BaseController):
         return render('/user/login.html')
 
     def perform_login(self):
-        #print "PERFORM LOGIN ", request.params
-        pass
+        pass # managed by repoze.who
 
     def post_login(self):
         if c.user:
@@ -227,7 +219,6 @@ class UserController(BaseController):
         pass # managed by repoze.who
 
     def post_logout(self):
-        #h.flash("Good-bye and thanks for visiting!")
         redirect_to("/")
     
     @ActionProtector(has_permission("user.view"))    
@@ -249,10 +240,7 @@ class UserController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("user.view")) 
     def votes(self, id):
-        c.page_user = model.User.find(id, instance_filter=False)
-        if not c.page_user:
-            abort(404, _("No user named '%s' exists") % id)
-        
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         decisions = democracy.Decision.for_user(c.page_user, c.instance)
             
         c.decisions_pager = NamedPager('decisions', decisions, tiles.decision.user_row, 
@@ -264,10 +252,7 @@ class UserController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("delegation.view"))
     def delegations(self, id):
-        c.page_user = model.User.find(id, instance_filter=False)
-        if not c.page_user:
-            abort(404, _("No user named '%s' exists") % id)
-        
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         scope_id = request.params.get('scope', c.instance.root.id)
         c.scope = forms.ValidDelegateable().to_python(scope_id)
         c.nodeClass = democracy.DelegationNode 

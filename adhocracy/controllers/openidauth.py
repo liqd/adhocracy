@@ -24,6 +24,68 @@ class OpenIDUsernameForm(formencode.Schema):
                            forms.UniqueUsername())
 
 class OpenidauthController(BaseController):
+    
+                
+    def _create(self, user_name, email, identity):
+        """
+        Create a user based on data gathered from OpenID
+        """
+        
+        #TODO put this in a proper shared function with the UserController 
+        user = model.User(user_name, email, util.random_token())
+        grp = model.Group.by_code(model.Group.CODE_DEFAULT)
+        membership = model.Membership(user, None, grp)
+        oid = model.OpenID(identity, user)
+        model.meta.Session.add(membership)
+        model.meta.Session.add(user)
+        model.meta.Session.add(oid)
+        model.meta.Session.commit()
+        
+        event.emit(event.T_USER_CREATE, user)
+        
+        return user
+
+    def _login(self, user):
+        """
+        Raw login giving severe headaches to repoze.who, repoze.what and any
+        bystanding squirrels. 
+        """
+        identity = {
+            'userdata': '',
+            'repoze.who.userid': str(user.user_name),
+            'timestamp': int(datetime.now().strftime("%s")),
+            'user': user,
+                    }
+        
+        # set up repoze.what
+        authorization_md = request.environ['repoze.who.plugins']['authorization_md']
+        authorization_md.add_metadata(request.environ, identity)
+                  
+        auth_tkt = request.environ['repoze.who.plugins']['auth_tkt']
+        header = auth_tkt.remember(request.environ, identity)
+        response.headerlist.extend(header)
+                
+        if c.instance and not c.user.is_member(c.instance):
+            redirect_to(c.instance, 
+                        path="/instance/join/%s?%s" % (c.instance.key, 
+                                                       h.url_token()))
+        redirect_to("/")        
+            
+    def _failure(self, openid, message):
+        """
+        Abort an OpenID authenication attempt and return to login page, 
+        giving an error message at the openid field.
+        """
+        log.info("OpenID: %s - Error: %s" % (openid, message))
+        if c.user:
+            h.flash(message)
+            return redirect_to("/user/edit/%s" % str(c.user.user_name))
+        else:
+            loginhtml = render("/user/login.html")
+            return formencode.htmlfill.render(loginhtml, 
+                defaults = {'openid': openid}, 
+                errors = {'openid': message})
+    
 
     def __before__(self):
         self.openid_session = session.get("openid_session", {})
@@ -152,51 +214,3 @@ class OpenidauthController(BaseController):
             return render('/openid/username.html')
         else:
             redirect_to('/auth/login')
-            
-    def _create(self, user_name, email, identity):
-        #TODO put this in a proper shared function with the UserController 
-        user = model.User(user_name, email, util.random_token())
-        grp = model.Group.by_code(model.Group.CODE_DEFAULT)
-        membership = model.Membership(user, None, grp)
-        oid = model.OpenID(identity, user)
-        model.meta.Session.add(membership)
-        model.meta.Session.add(user)
-        model.meta.Session.add(oid)
-        model.meta.Session.commit()
-        
-        event.emit(event.T_USER_CREATE, user)
-        
-        return user
-
-    def _login(self, user):
-        identity = {
-            'userdata': '',
-            'repoze.who.userid': str(user.user_name),
-            'timestamp': int(datetime.now().strftime("%s")),
-            'user': user,
-                    }
-        
-        # set up repoze.what
-        authorization_md = request.environ['repoze.who.plugins']['authorization_md']
-        authorization_md.add_metadata(request.environ, identity)
-                  
-        auth_tkt = request.environ['repoze.who.plugins']['auth_tkt']
-        header = auth_tkt.remember(request.environ, identity)
-        response.headerlist.extend(header)
-                
-        if c.instance and not c.user.is_member(c.instance):
-            redirect_to(c.instance, 
-                        path="/instance/join/%s?%s" % (c.instance.key, 
-                                                       h.url_token()))
-        redirect_to("/")        
-            
-    def _failure(self, openid, message):
-        log.info("OpenID: %s - Error: %s" % (openid, message))
-        if c.user:
-            h.flash(message)
-            return redirect_to("/user/edit/%s" % str(c.user.user_name))
-        else:
-            loginhtml = render("/user/login.html")
-            return formencode.htmlfill.render(loginhtml, 
-                defaults = {'openid': openid}, 
-                errors = {'openid': message})

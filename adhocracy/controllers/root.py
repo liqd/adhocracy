@@ -28,13 +28,7 @@ class RootController(BaseController):
     
     #@RequireInstance
     def dispatch_delegateable(self, id):
-        if c.instance:
-            dgb = model.Delegateable.find(id)
-        else:
-            dgb = model.Delegateable.find(id, instance_filter=False)
-        if not dgb:
-            abort(404, _("No motion or category with ID %(id)s exists") % {'id': id})
-        
+        dgb = get_entity_or_abort(model.Delegateable, id, instance_filter=False)
         id = str(id)
         
         if isinstance(dgb, model.Category):

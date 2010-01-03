@@ -16,9 +16,7 @@ class DelegationController(BaseController):
     @ActionProtector(has_permission("vote.cast"))
     def create(self):
         id = request.params.get("scope", c.instance.root.id)
-        c.scope = model.Delegateable.find(id)
-        if not c.scope:
-            abort(404, _("No motion or category with ID '%(id)s' exists") % {'id':id})
+        c.scope = get_entity_or_abort(model.Delegateable, id)
         errors = {}
         fillins = dict(request.params.items())
         if request.method == "POST":
@@ -58,27 +56,23 @@ class DelegationController(BaseController):
     @RequireInternalRequest()
     @ActionProtector(has_permission("vote.cast"))
     def revoke(self, id):
-        delegation = model.Delegation.find(id)
-        if not delegation:
-            abort(404, _("Couldn't find delegation %(id)s") % {'id': id})
-        if not delegation.principal == c.user:
+        c.delegation = get_entity_or_abort(model.Delegation, id)
+        if not c.delegation.principal == c.user:
             abort(403, _("Cannot access delegation %(id)s") % {'id': id})
-        delegation.revoke_time = datetime.now()
+        c.delegation.revoke_time = datetime.now()
         
         event.emit(event.T_DELEGATION_REVOKE, c.user, 
-                   topics=[delegation.scope, delegation.agent],
-                   scope=delegation.scope, delegate=delegation.agent)
+                   topics=[c.delegation.scope, c.delegation.agent],
+                   scope=c.delegation.scope, delegate=c.delegation.agent)
         
-        model.meta.Session.add(delegation)
+        model.meta.Session.add(c.delegation)
         model.meta.Session.commit()        
         h.flash(_("The delegation is now revoked."))
-        redirect_to("/d/%s" % str(delegation.scope.id))
+        redirect_to("/d/%s" % str(c.delegation.scope.id))
     
     @ActionProtector(has_permission("delegation.view"))
     def review(self, id):
-        c.delegation = model.Delegation.find(id)
-        if not c.delegation:
-            abort(404, _("Couldn't find delegation %(id)s") % {'id': id})
+        c.delegation = get_entity_or_abort(model.Delegation, id)
         c.scope = c.delegation.scope
         
         decisions = democracy.Decision.for_user(c.delegation.principal, c.instance)

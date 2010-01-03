@@ -26,6 +26,7 @@ from cache import memoize
 from instance import RequireInstance
 from xsrf import RequireInternalRequest
 from templating import render, NamedPager
+from util import get_entity_or_abort
 import adhocracy.model as model
 import search as libsearch
 import helpers as h
@@ -40,12 +41,7 @@ import text.i18n as i18n
 log = logging.getLogger(__name__)
 
 class BaseController(WSGIController):
-        
-    def _parse_motion_id(self, id):       
-        c.motion = model.Motion.find(id)
-        if not c.motion:
-            abort(404, _("No motion with ID %(id)s exists.") % {'id': id})  
-
+    
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
         # WSGIController.__call__ dispatches to the Controller method

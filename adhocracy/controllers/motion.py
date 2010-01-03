@@ -147,7 +147,7 @@ class MotionController(BaseController):
     @ActionProtector(has_permission("motion.edit")) 
     #@validate(schema=MotionEditForm(), form="edit", post_only=True)
     def edit(self, id):
-        self._parse_motion_id(id)
+        c.motion = get_entity_or_abort(model.Motion, id)
         auth.require_motion_perm(c.motion, 'comment.edit')
         c.issues = model.Issue.all(instance=c.instance)
         c.motions = model.Motion.all(instance=c.instance)
@@ -233,9 +233,8 @@ class MotionController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("motion.view"))   
     def view(self, id, format='html'):
-        self._parse_motion_id(id)     
-        
-        h.add_meta("description", "")
+        c.motion = get_entity_or_abort(model.Motion, id)     
+        h.add_meta("description", text.meta_escape(c.motion.comment.latest.text, markdown=False)[0:160])
         h.add_meta("dc.title", text.meta_escape(c.motion.label, markdown=False))
         h.add_meta("dc.date", c.motion.create_time.strftime("%Y-%m-%d"))
         h.add_meta("dc.author", text.meta_escape(c.motion.creator.name, markdown=False))
@@ -258,7 +257,7 @@ class MotionController(BaseController):
     @RequireInternalRequest()
     @ActionProtector(has_permission("motion.delete"))
     def delete(self, id):
-        self._parse_motion_id(id)
+        c.motion = get_entity_or_abort(model.Motion, id)
         auth.require_motion_perm(c.motion, 'comment.delete')
         parent = c.instance.root
         if len(c.motion.parents):
@@ -276,7 +275,7 @@ class MotionController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("motion.view")) 
     def votes(self, id):
-        self._parse_motion_id(id)
+        c.motion = get_entity_or_abort(model.Motion, id)
         filters = dict()
         try:
             filters = MotionDecisionsFilterForm().to_python(request.params)

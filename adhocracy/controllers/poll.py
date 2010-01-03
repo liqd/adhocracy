@@ -41,7 +41,8 @@ class PollController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("poll.create")) 
     def create(self, id):
-        self._parse_motion_id(id)
+        # TODO "id" really shouldn't be an URL part but a request parameter. 
+        c.motion = get_entity_or_abort(model.Motion, id)
         
         tile = MotionTile(c.motion)
         if not tile.can_begin_poll:
@@ -61,7 +62,7 @@ class PollController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("poll.abort")) 
     def abort(self, id):
-        self._parse_motion_id(id)
+        c.motion = get_entity_or_abort(model.Motion, id)
         auth.require_motion_perm(c.motion, 'poll.abort', enforce_immutability=False)
         if not c.motion.poll:
             h.flash(_("The motion is not undergoing a poll."))

@@ -25,23 +25,6 @@ class CommentRevertForm(formencode.Schema):
 
 class CommentController(BaseController):
     
-    def _comment_anchor(self, comment):
-        
-        # for canonical comment discussion, return to the discussion page, 
-        # not the main topic page! 
-        parent = comment
-        while parent.reply:
-            parent = parent.reply
-        if parent.canonical and parent != comment: 
-            return "/comment/%s#c%s" % (str(parent.id), comment.id)
-        
-        if isinstance(comment.topic, model.Issue):
-            return "/issue/%s#c%s" % (str(comment.topic.id), comment.id)
-        elif isinstance(comment.topic, model.Motion):
-            return "/motion/%s#c%s" % (str(comment.topic.id), comment.id)
-        else:
-            abort(500, _("Unsupported topic type."))
-    
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("comment.create"))
@@ -74,7 +57,7 @@ class CommentController(BaseController):
             event.emit(event.T_COMMENT_CREATE, c.user, scopes=[c.instance], 
                        topics=[topic, comment], comment=comment, topic=topic)
             
-            redirect_to(self._comment_anchor(comment))
+            self.redirect(comment.id)
         return render('/comment/create.html')
     
     @RequireInstance
@@ -82,9 +65,7 @@ class CommentController(BaseController):
     @ActionProtector(has_permission("comment.edit"))
     @validate(schema=CommentEditForm(), form="edit", post_only=True)
     def edit(self, id):
-        c.comment = model.Comment.find(id)
-        if not c.comment:
-            abort(404, _("No comment with ID %s exists") % id)
+        c.comment = get_entity_or_abort(model.Comment, id)
         auth.require_comment_perm(c.comment, 'comment.delete')
         if request.method == "POST":
             _text = text.cleanup(self.form_result.get('text'))
@@ -98,33 +79,43 @@ class CommentController(BaseController):
                        topics=[c.comment.topic, c.comment], comment=c.comment, 
                        topic=c.comment.topic)
             
-            redirect_to(self._comment_anchor(c.comment))
+            self.redirect(c.comment.id)
         return render('/comment/edit.html')
     
     @ActionProtector(has_permission("comment.view"))
     def redirect(self, id):
-        c.comment = model.Comment.find(id, instance_filter=False)
-        if not c.comment:
-            abort(404, _("No comment with ID %s exists") % id)
-        redirect_to(h.instance_url(c.comment.topic.instance, 
-                                   path=self._comment_anchor(c.comment)))
+        c.comment = get_entity_or_abort(model.Comment, id, instance_filter=False)
+        
+        with_path = lambda path: redirect_to(h.instance_url(c.comment.topic.instance, 
+                                                            path=path))
+        # for canonical comment discussion, return to the discussion page, 
+        # not the main topic page! 
+        parent = comment
+        while parent.reply:
+            parent = parent.reply
+        
+        # TODO make canonical subcomments visible via javascript instead, don't 
+        # go to comment single view. 
+        if parent.canonical and parent != comment: 
+            with_path("/comment/%s#c%s" % (str(parent.id), comment.id))
+        if isinstance(comment.topic, model.Issue):
+            with_path("/issue/%s#c%s" % (str(comment.topic.id), comment.id))
+        elif isinstance(comment.topic, model.Motion):
+            with_path("/motion/%s#c%s" % (str(comment.topic.id), comment.id))
+        else:
+            abort(500, _("Unsupported topic type."))
     
     @RequireInstance
     @ActionProtector(has_permission("comment.view"))
     def view(self, id):
-        c.comment = model.Comment.find(id)
-        if not c.comment:
-            abort(404, _("No comment with ID %s exists") % id)
-        
+        c.comment = get_entity_or_abort(model.Comment, id)
         return render('/comment/view.html')
     
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("comment.delete"))
     def delete(self, id):
-        c.comment = model.Comment.find(id)
-        if not c.comment:
-            abort(404, _("No comment with ID %s exists") % id)
+        c.comment = get_entity_or_abort(model.Comment, id)
         auth.require_comment_perm(c.comment, 'comment.delete')
         c.comment.delete_time = datetime.now()
         model.meta.Session.add(c.comment)
@@ -139,11 +130,7 @@ class CommentController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("comment.view"))    
     def history(self, id):
-        c.comment = model.Comment.find(id)
-        if not c.comment:
-            abort(404, _("No comment with ID %s exists") % id)
-        
-        
+        c.comment = get_entity_or_abort(model.Comment, id)
         c.revisions_pager = NamedPager('revisions', c.comment.revisions, 
                                        tiles.revision.row, count=10, #list_item,
                                      sorts={_("oldest"): sorting.entity_oldest,
@@ -156,9 +143,7 @@ class CommentController(BaseController):
     @ActionProtector(has_permission("comment.edit"))
     @validate(schema=CommentRevertForm(), form="history", post_only=False, on_get=True)
     def revert(self, id):
-        c.comment = model.Comment.find(id)
-        if not c.comment:
-            abort(404, _("No comment with ID %s exists") % id)
+        c.comment = get_entity_or_abort(model.Comment, id)
         auth.require_comment_perm(c.comment, 'comment.delete')
         revision = self.form_result.get('to')
         if revision.comment != c.comment:
@@ -168,12 +153,8 @@ class CommentController(BaseController):
         model.meta.Session.add(c.comment.latest)
         model.meta.Session.commit()
         
-        
         event.emit(event.T_COMMENT_EDIT, c.user, scopes=[c.instance], 
                    topics=[c.comment.topic, c.comment], comment=c.comment, 
                    topic=c.comment.topic)
             
         redirect_to(self._comment_anchor(c.comment))
-
-
-

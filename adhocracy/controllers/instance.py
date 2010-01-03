@@ -29,14 +29,8 @@ class InstanceEditForm(formencode.Schema):
 
 class InstanceController(BaseController):
     
-    def _find_key(self, key):
-        c.page_instance = model.Instance.find(key)
-        if not c.page_instance:
-            abort(404, _("No such adhocracy exists: %(key)s") % {'key': key})
-
     @ActionProtector(has_permission("instance.index"))
     def index(self):
-        
         h.add_meta("description", _("An index of adhocracies run at adhocracy.cc. " + 
                                     "Select which ones you would like to join and participate in!"))
         
@@ -47,11 +41,7 @@ class InstanceController(BaseController):
                                               _("activity"): sorting.instance_activity,
                                               _("name"): sorting.delegateable_label},
                                        default_sort=sorting.instance_activity)
-        
-        @memoize('instance-index')
-        def cached(user, p):
-            return render("/instance/index.html")  
-        return cached(c.user, request.params)
+        return render("/instance/index.html")  
     
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("instance.create"))
@@ -72,7 +62,7 @@ class InstanceController(BaseController):
 
     @ActionProtector(has_permission("instance.view"))
     def view(self, key, format='html'):
-        self._find_key(key)
+        c.page_instance = get_entity_or_abort(model.Instance, key)
         
         issues = c.page_instance.root.search_children(recurse=True, cls=model.Issue)
         
@@ -107,7 +97,7 @@ class InstanceController(BaseController):
     @ActionProtector(has_permission("instance.admin"))
     @validate(schema=InstanceEditForm(), form="edit", post_only=True)
     def edit(self, key):
-        self._find_key(key)
+        c.page_instance = get_entity_or_abort(model.Instance, key)
         if request.method == "POST":
             c.page_instance.description = text.cleanup(self.form_result.get('description'))
             c.page_instance.label = self.form_result.get('label')
@@ -144,16 +134,16 @@ class InstanceController(BaseController):
     
     @ActionProtector(has_permission("instance.index"))
     def header(self, key):
-        instance = model.Instance.find(key)
-        etag_cache(str(instance.id if instance else 0))
+        c.page_instance = model.Instance.find(key)
+        etag_cache(str(c.page_instance.id if c.page_instance else 0))
         response.headers['Content-type'] = 'image/png'
         #response.content_type = "image/png"
-        return logo.load(instance, header=True)
+        return logo.load(c.page_instance, header=True)
         
     @ActionProtector(has_permission("instance.index"))
     def icon(self, key, x, y):
-        instance = model.Instance.find(key)
-        etag_cache(str(instance.id if instance else 0))
+        c.page_instance = model.Instance.find(key)
+        etag_cache(str(c.page_instance.id if c.page_instance else 0))
         response.headers['Content-type'] = 'image/png'
         try:
             (x, y) = (int(x), int(y))
@@ -165,13 +155,13 @@ class InstanceController(BaseController):
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.delete"))
     def delete(self, key):
-        self._find_key(key)
+        c.page_instance = get_entity_or_abort(model.Instance, key)
         abort(500, _("Deleting an instance is not currently implemented"))
     
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.join"))
     def join(self, key):
-        self._find_key(key)
+        c.page_instance = get_entity_or_abort(model.Instance, key)
         if c.page_instance in c.user.instances:
             h.flash(_("You're already a member in %(instance)s.") % {
                             'instance': c.page_instance.label})
@@ -194,7 +184,7 @@ class InstanceController(BaseController):
     @RequireInternalRequest()            
     @ActionProtector(has_permission("instance.leave"))
     def leave(self, key):
-        self._find_key(key)
+        c.page_instance = get_entity_or_abort(model.Instance, key)
         if not c.page_instance in c.user.instances:
             h.flash(_("You're not a member of %(instance)s.") % {
                             'instance': c.page_instance.label})

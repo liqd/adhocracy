@@ -41,9 +41,7 @@ class CategoryController(BaseController):
     @ActionProtector(has_permission("category.edit"))
     @validate(schema=CategoryEditForm(), form="edit", post_only=True)
     def edit(self, id):
-        c.category = model.Category.find(id)
-        if not c.category:
-            abort(404, _("No category with ID '%s' exists.") % id)
+        c.category = get_entity_or_abort(model.Category, id)
         auth.require_delegateable_perm(c.category, 'category.edit')
         if request.method == "POST":
             c.category.label = self.form_result.get("label")
@@ -67,10 +65,7 @@ class CategoryController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("category.view"))
     def view(self, id, format='html'):
-        c.category = model.Category.find(id)        
-        if not c.category:
-            abort(404, _("No category with ID '%s' exists.") % id)
-        
+        c.category = get_entity_or_abort(model.Category, id)
         if c.category.instance.root == c.category:
             redirect_to("/instance/%s" % str(c.category.instance.key))
         
@@ -116,30 +111,28 @@ class CategoryController(BaseController):
     @RequireInternalRequest()
     @ActionProtector(has_permission("category.delete"))
     def delete(self, id):
-        if id == c.instance.root.id:
+        c.category = get_entity_or_abort(model.Category, id)
+        if c.category == c.instance.root:
             abort(500, _("Deleting the root category isn't possible."))
-        category = model.Category.find(id)
-        if not category:
-            abort(404, _("No category with ID '%(id)s' exists.") % {'id': id})
-        auth.require_delegateable_perm(category, 'category.delete')
+        auth.require_delegateable_perm(c.category, 'category.delete')
         
         parent = c.instance.root
-        if len(category.parents):
-            parent = category.parents[0]
-        for child in category.children:
-            if category in child.parents:
-                child.parents.remove(category)
+        if len(c.category.parents):
+            parent = c.category.parents[0]
+        for child in c.category.children:
+            if c.category in child.parents:
+                child.parents.remove(c.category)
             if not parent in child.parents:
                 child.parents.append(parent)
             model.meta.Session.add(child)
-        category.delete_time = datetime.now()
+        c.category.delete_time = datetime.now()
             
-        h.flash(_("Category '%(category)s' has been deleted.") % {'category': category.label})
+        h.flash(_("Category '%(category)s' has been deleted.") % {'category': c.category.label})
         
-        model.meta.Session.add(category)
+        model.meta.Session.add(c.category)
         model.meta.Session.commit()
         
         event.emit(event.T_CATEGORY_DELETE, c.user, scopes=[c.instance], 
-                   topics=[parent, c.instance, category], category=category)
+                   topics=[parent, c.instance, c.category], category=c.category)
         
         redirect_to("/category/%s" % str(parent.id))

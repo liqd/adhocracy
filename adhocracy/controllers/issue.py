@@ -58,9 +58,7 @@ class IssueController(BaseController):
     @ActionProtector(has_permission("issue.edit"))
     @validate(schema=IssueEditForm(), form="edit", post_only=True)
     def edit(self, id):
-        c.issue = model.Issue.find(id)
-        if not c.issue: 
-            abort(404, _("No issue with ID %s exists." % id))
+        c.issue = get_entity_or_abort(model.Issue, id)
         auth.require_delegateable_perm(c.issue, 'issue.edit')
         if request.method == "POST":
             c.issue.label = self.form_result.get('label')
@@ -80,10 +78,7 @@ class IssueController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("issue.view"))
     def view(self, id, format="html"):
-        c.issue = model.Issue.find(id)
-        if not c.issue: 
-            abort(404, _("No issue with ID %s exists." % id))
-        
+        c.issue = get_entity_or_abort(model.Issue, id)
         h.add_meta("dc.title", text.meta_escape(c.issue.label, markdown=False))
         h.add_meta("dc.date", c.issue.create_time.strftime("%Y-%m-%d"))
         h.add_meta("dc.author", text.meta_escape(c.issue.creator.name, markdown=False))
@@ -106,18 +101,13 @@ class IssueController(BaseController):
                                             _("activity"): sorting.motion_activity,
                                             _("name"): sorting.delegateable_label},
                                      default_sort=sorting.motion_activity)
-        
-        #c.events_pager = NamedPager('events', events, tiles.event.list_item, count=5)
-        
         return render("/issue/view.html")
     
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("issue.delete"))
     def delete(self, id):
-        c.issue = model.Issue.find(id)
-        if not c.issue: 
-            abort(404, _("No issue with ID %s exists." % id))
+        c.issue = get_entity_or_abort(model.Issue, id)
         auth.require_delegateable_perm(c.issue, 'issue.delete')
         parent = c.issue.parents[0]
         
