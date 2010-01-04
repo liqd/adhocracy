@@ -7,17 +7,17 @@ from pylons import tmpl_context as c, request
 import formencode
 
 import adhocracy.model as model
-import search.entityrefs as entityrefs
+import adhocracy.model.refs as refs
 
 def entity2ref(entity):
-    return entityrefs.to_ref(entity)
+    return refs.to_ref(entity)
 
 def watch_entity(user, entity):
     return watch_ref(user, entity2ref(entity))
 
 def watch_ref(user, ref):
     # TODO: Subtransaction. 
-    watch = model.Watch(user, entityrefs.ref_type(ref), ref)
+    watch = model.Watch(user, refs.ref_type(ref), ref)
     model.meta.Session.add(watch)
     model.meta.Session.commit()
     return watch

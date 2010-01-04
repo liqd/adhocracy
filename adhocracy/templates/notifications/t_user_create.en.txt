@@ -1,3 +1,5 @@
 <%namespace name="common" file="/notifications/common.txt"/>
 
-${e.agent.name} has created a new user account. 
+${e.user.name} has created a new user account. 
+
+Visit the profile page: ${h.instance_url(None, path="/user/%s" % e.user)}

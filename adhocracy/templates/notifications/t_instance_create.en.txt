@@ -1,5 +1,5 @@
 
-${e.agent.name} has created a new Adhocracy, ${e.instance.label}.
+${e.user.name} has created a new Adhocracy, ${e.instance.label}.
 %if e.instance.description: 
 
 Description: ${e.instance.description}  

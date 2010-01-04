@@ -47,8 +47,8 @@ class IssueController(BaseController):
             
             watchlist.check_watch(issue)
             
-            event.emit(event.T_ISSUE_CREATE, c.user, scopes=[c.instance], 
-                       topics=[issue, c.instance], issue=issue)
+            event.emit(event.T_ISSUE_CREATE, c.user, instane=c.instance, 
+                       topics=[issue], issue=issue)
             
             redirect_to('/issue/%s' % str(issue.id))
         return render("/issue/create.html")
@@ -69,8 +69,8 @@ class IssueController(BaseController):
             
             watchlist.check_watch(c.issue)
             
-            event.emit(event.T_ISSUE_EDIT, c.user, scopes=[c.instance], 
-                       topics=[c.issue, c.instance], issue=c.issue)
+            event.emit(event.T_ISSUE_EDIT, c.user, instance=[c.instance], 
+                       topics=[c.issue], issue=c.issue)
             
             redirect_to('/issue/%s' % str(c.issue.id))
         return render("/issue/edit.html")
@@ -84,10 +84,11 @@ class IssueController(BaseController):
         h.add_meta("dc.author", text.meta_escape(c.issue.creator.name, markdown=False))
         
         if format == 'rss':
-            events = event.q.run(event.q._or(event.q.topic(c.issue), "foo:schnasel",
-                             *map(event.q.topic, c.issue.motions)))
-        
-            return event.rss_feed(events, _("Issue: %s") % c.issue.label,
+            query = model.meta.Session.query(model.Event)
+            query = query.filter(model.Event.topics.any([c.issue]+c.issue.motions))
+            query = query.order_by(model.Event.time.desc())
+            query = query.limit(50)        
+            return event.rss_feed(query.all(), _("Issue: %s") % c.issue.label,
                                   h.instance_url(c.instance, path="/issue/%s" % str(c.issue.id)),
                                   description=_("Activity on the %s issue") % c.issue.label)
         
@@ -126,8 +127,8 @@ class IssueController(BaseController):
         model.meta.Session.add(c.issue)
         model.meta.Session.commit()
         
-        event.emit(event.T_ISSUE_DELETE, c.user, scopes=[c.instance], 
-                   topics=[c.issue, c.instance] + c.issue.parents, issue=c.issue)
+        event.emit(event.T_ISSUE_DELETE, c.user, instance=c.instance, 
+                   topics=[c.issue], issue=c.issue)
         
         redirect_to('/category/%s' % str(parent.id)) 
     

@@ -1,4 +1,4 @@
-${e.agent.name} has created a new motion, ${e.motion.label} within the issue ${e.motion.issue.label}.  
+${e.user.name} has created a new motion, ${e.motion.label} within the issue ${e.motion.issue.label}.  
 
 Here's the inital description: 
 ${e.motion.comment.latest.text}

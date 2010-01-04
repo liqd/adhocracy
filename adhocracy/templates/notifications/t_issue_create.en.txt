@@ -1,4 +1,4 @@
-${e.agent.name} has created a new issue, ${e.issue.label}. 
+${e.user.name} has created a new issue, ${e.issue.label}. 
 
 Here's the inital description: 
 ${e.issue.comment.latest.text}

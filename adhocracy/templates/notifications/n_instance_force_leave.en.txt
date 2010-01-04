@@ -1,4 +1,4 @@
-you've been forced to leave the ${e.instance.label} Adhocracy by ${e.user.name}. 
+you've been forced to leave the ${e.instance.label} Adhocracy by ${e.admin.name}. 
 
 This could be as a consequence of misbevaviour, but it is not a ban (i.e. you can re-join at any time). 
 

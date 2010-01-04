@@ -122,8 +122,8 @@ class MotionController(BaseController):
                 
                 watchlist.check_watch(motion)
                 
-                event.emit(event.T_MOTION_CREATE, c.user, scopes=[c.instance], 
-                           topics=[motion, motion.issue, c.instance], motion=motion)
+                event.emit(event.T_MOTION_CREATE, c.user, instance=c.instance, 
+                           topics=[motion], motion=motion)
             
                 redirect_to("/motion/%s" % str(motion.id))
             except formencode.Invalid, error:
@@ -215,8 +215,8 @@ class MotionController(BaseController):
                 
                 watchlist.check_watch(c.motion)
             
-                event.emit(event.T_MOTION_EDIT, c.user, scopes=[c.instance], 
-                           topics=[c.motion, c.motion.issue], motion=c.motion)
+                event.emit(event.T_MOTION_EDIT, c.user, instance=c.instance, 
+                           topics=[c.motion], motion=c.motion)
             
                 return redirect_to("/motion/%s" % str(id))
             except formencode.Invalid, error:
@@ -240,8 +240,11 @@ class MotionController(BaseController):
         h.add_meta("dc.author", text.meta_escape(c.motion.creator.name, markdown=False))
         
         if format == 'rss':
-            events = event.q.run(event.q.topic(c.motion))
-            return event.rss_feed(events, _("Motion: %s") % c.motion.label,
+            query = model.meta.Session.query(model.Event)
+            query = query.filter(model.Event.topics.contains(c.motion))
+            query = query.order_by(model.Event.time.desc())
+            query = query.limit(50)  
+            return event.rss_feed(query.all(), _("Motion: %s") % c.motion.label,
                                   h.instance_url(c.instance, path="/motion/%s" % str(c.motion.id)),
                                   description=_("Activity on the %s motion") % c.motion.label)
         
@@ -264,8 +267,8 @@ class MotionController(BaseController):
             parent = c.motion.parents[0]
         h.flash("Motion %(motion)s has been deleted." % {'motion': c.motion.label})
         
-        event.emit(event.T_MOTION_DELETE, c.user, scopes=[c.instance], 
-                   topics=[c.motion, c.motion.issue, c.instance], motion=c.motion)
+        event.emit(event.T_MOTION_DELETE, c.user, instance=c.instance, 
+                   topics=[c.motion], motion=c.motion)
         
         c.motion.delete_time = datetime.now()
         model.meta.Session.add(c.motion)

@@ -3,10 +3,8 @@ from datetime import datetime
 
 from pylons import session, tmpl_context as c
 
-from event import Event, EventException
 from types import *
-import query as q
-from store import EventStore
+import formatting
 from rss import rss_feed
 import notification
 import queue
@@ -15,20 +13,22 @@ import adhocracy.model as model
 
 log = logging.getLogger(__name__)
 
-def emit(event, agent, time=None, scopes=[], topics=[], **kwargs):
-    e = Event(event, agent, time, scopes=scopes, topics=topics, **kwargs)
-    es = EventStore(e)
-    es.persist()
+def emit(event, user, instance=None, topics=[], **kwargs):
+    #return
+    event = model.Event(event, user, kwargs, instance=instance)
+    event.topics = topics
+    model.meta.Session.add(event)
+    model.meta.Session.commit()
+    model.meta.Session.update(event)
     
     if queue.has_queue():
-        queue.post_event(e)
-        #pass
+        queue.post_event(event)
     else:
         log.warn("Queue failure.")
-        process(e)
+        process(event)
      
-    log.debug("Event %s: %s" % (agent.name, unicode(e)))
-    return e
+    log.debug("Event: %s %s" % (user.user_name, formatting.as_unicode(event)))
+    return event
 
 def process(event):
     notification.notify(event)

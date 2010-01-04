@@ -85,8 +85,10 @@ class CommentFormatter(ObjectFormatter):
         return "<a href='/comment/r/%d'>%s</a>" % (comment.id, 
                                                  self.unicode(comment))
 
-           
-FORMATTERS = {model.Vote: VoteFormatter(),
+
+class FormattedEvent(object): 
+               
+    FORMATTERS = {model.Vote: VoteFormatter(),
               model.Group: GroupFormatter(),
               model.User: UserFormatter(),
               model.Instance: InstanceFormatter(),
@@ -95,3 +97,26 @@ FORMATTERS = {model.Vote: VoteFormatter(),
               model.Poll: PollFormatter(),
               model.Issue: IssueFormatter(),
               model.Comment: CommentFormatter()}
+    
+    def __init__(self, event, decoder):
+        self.event = event
+        self.decoder = decoder
+        
+    def __getitem__(self, item):
+        try:
+            value = self.event[item]
+            for cls in self.FORMATTERS.keys():
+                if isinstance(value, cls):
+                    return self.decoder(self.FORMATTERS[cls], value)
+            return value
+        except AttributeError:
+            return _("(Undefined)")
+    
+def as_unicode(event):
+    fe = FormattedEvent(event, lambda f, value: f.unicode(value))
+    return event.event.event_msg() % fe
+
+def as_html(event):
+    fe = FormattedEvent(event, lambda f, value: f.html(value))
+    return event.event.event_msg() % fe
+    

@@ -51,9 +51,7 @@ class BaseController(WSGIController):
         c.lib = adhocracy.lib 
         c.model = model
         c.instance = model.filter.get_instance()
-                
-        libsearch.attach_thread()
-        
+                        
         environ['HTTP_HOST'] = environ['HTTP_HOST_ORIGINAL']
                
         if environ.get('repoze.who.identity'):

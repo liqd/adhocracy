@@ -3,23 +3,33 @@ import re
 
 from pylons.i18n import _ 
 
-from adhocracy import model
+from vote import Vote
+from user import User
+from group import Group
+from permission import Permission
+from comment import Comment
+from delegation import Delegation
+from category import Category
+from issue import Issue
+from motion import Motion
+from poll import Poll
+from instance import Instance
 
 log = logging.getLogger(__name__)
 
 FORMAT = re.compile("@\[(.*):(.*)\]")
 
-TYPES = [model.Vote,
-         model.User,
-         model.Group,
-         model.Permission,
-         model.Comment,
-         model.Delegation,
-         model.Category,
-         model.Issue,
-         model.Motion,
-         model.Poll,
-         model.Instance]
+TYPES = [Vote,
+         User,
+         Group,
+         Permission,
+         Comment,
+         Delegation,
+         Category,
+         Issue,
+         Motion,
+         Poll,
+         Instance]
 
 def entity_type(cls):
     return cls.__tablename__
@@ -61,7 +71,7 @@ def _ify(fun, obj):
                 obj = _("(Undefined)") 
         return obj
     
-refify = lambda obj: _ify(to_ref, obj)
-derefify = lambda obj: _ify(to_entity, obj)
+complex_to_refs = lambda obj: _ify(to_ref, obj)
+complex_to_entities = lambda obj: _ify(to_entity, obj)
 
         

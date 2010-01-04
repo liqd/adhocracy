@@ -2,6 +2,6 @@
 
 Your delegate, ${e.vote.delegation.agent.name}, voted ${common.vote(e.vote)} the ${e.poll.motion.label}. 
 
-This conflicts with a vote from one of your other delegates. As a consequence of this conflice, you're currently abstaining on the motion.    
+This conflicts with a vote from one of your other delegates. As a consequence of this conflict, you're currently abstaining on the motion.    
 
 To vote yourself, visit the poll page: ${h.instance_url(e.poll.motion.instance, path="/motion/%s" % str(e.poll.motion.id))}

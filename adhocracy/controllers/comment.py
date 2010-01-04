@@ -54,8 +54,8 @@ class CommentController(BaseController):
             
             watchlist.check_watch(comment)
             
-            event.emit(event.T_COMMENT_CREATE, c.user, scopes=[c.instance], 
-                       topics=[topic, comment], comment=comment, topic=topic)
+            event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance, 
+                       topics=[topic], comment=comment, topic=topic)
             
             self.redirect(comment.id)
         return render('/comment/create.html')
@@ -75,8 +75,8 @@ class CommentController(BaseController):
             
             watchlist.check_watch(c.comment)
             
-            event.emit(event.T_COMMENT_EDIT, c.user, scopes=[c.instance], 
-                       topics=[c.comment.topic, c.comment], comment=c.comment, 
+            event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
+                       topics=[c.comment.topic], comment=c.comment, 
                        topic=c.comment.topic)
             
             self.redirect(c.comment.id)
@@ -121,8 +121,8 @@ class CommentController(BaseController):
         model.meta.Session.add(c.comment)
         model.meta.Session.commit()
         
-        event.emit(event.T_COMMENT_DELETE, c.user, scopes=[c.instance], 
-                   topics=[c.comment.topic, c.comment], comment=c.comment, 
+        event.emit(event.T_COMMENT_DELETE, c.user, instance=c.instance, 
+                   topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic)
         
         redirect_to(self._comment_anchor(c.comment))
@@ -153,8 +153,8 @@ class CommentController(BaseController):
         model.meta.Session.add(c.comment.latest)
         model.meta.Session.commit()
         
-        event.emit(event.T_COMMENT_EDIT, c.user, scopes=[c.instance], 
-                   topics=[c.comment.topic, c.comment], comment=c.comment, 
+        event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
+                   topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic)
             
         redirect_to(self._comment_anchor(c.comment))

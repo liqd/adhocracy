@@ -5,6 +5,7 @@ from pylons import config
 
 from ...text import i18n
 from ...templating import render
+from .. import formatting
 
 log = logging.getLogger(__name__)
 
@@ -40,7 +41,7 @@ class Notification(object):
         return i18n.user_language(self.user)
     
     def get_subject(self):
-        data = self.event.formatted_data(lambda formatter, value: formatter.unicode(value))
+        formatting.FormattedEvent(self.event, lambda f, value: f.unicode(value))
         return self.type.subject() % data
     
     subject = property(get_subject)

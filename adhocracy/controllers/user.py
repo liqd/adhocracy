@@ -112,8 +112,7 @@ class UserController(BaseController):
             if c.page_user == c.user:
                 event.emit(event.T_USER_EDIT, c.user)
             else:
-                event.emit(event.T_USER_ADMIN_EDIT, c.user, topics=[c.page_user],
-                           user=c.page_user)
+                event.emit(event.T_USER_ADMIN_EDIT, c.page_user, admin=c.user)
             redirect_to("/user/%s" % str(c.page_user.user_name))
         return render("/user/edit.html")
     
@@ -180,10 +179,12 @@ class UserController(BaseController):
         if c.instance and not c.page_user.is_member(c.instance):
             h.flash(_("%s is not a member of %s") % (c.page_user.name, c.instance.label))
         
-        events = event.q.run(event.q._or(event.q.agent(c.page_user), 
-                                         event.q.topic(c.page_user)))
         
-        c.events_pager = NamedPager('events', events, tiles.event.list_item)
+        query = model.meta.Session.query(model.Event)
+        query = query.filter(model.Event.user==c.page_user)
+        query = query.order_by(model.Event.time.desc())
+        query = query.limit(50)  
+        c.events_pager = NamedPager('events', query.all(), tiles.event.list_item)
         if format == 'rss':
             return event.rss_feed(events, "%s Latest Actions" % c.page_user.name,
                                   h.instance_url(None, path='/user/%s' % c.page_user.user_name),

@@ -1,5 +1,5 @@
 <%namespace name="common" file="/notifications/common.txt"/>
 
-${e.agent.name} has cast a vote ${common.vote(e.vote)} ${e.poll.motion.label}.
+${e.user.name} has cast a vote ${common.vote(e.vote)} ${e.poll.motion.label}.
 
 Visit the poll page: ${h.instance_url(e.poll.motion.instance, path="/motion/%s" % str(e.poll.motion.id))}

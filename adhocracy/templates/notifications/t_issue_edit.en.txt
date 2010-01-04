@@ -1,4 +1,4 @@
-${e.agent.name} has modified the issue ${e.issue.label}. 
+${e.user.name} has modified the issue ${e.issue.label}. 
 
 Here's the current description: 
 ${e.issue.comment.latest.text}

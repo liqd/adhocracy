@@ -4,13 +4,13 @@ import logging
 from pylons import config
 import amqplib.client_0_8 as amqp
 
-from event import Event
+from adhocracy.model import Event
 
 log = logging.getLogger(__name__)
 post_channel = None
 
 def has_queue():
-    return True if queue_name() != None else False
+    return queue_name() != None
 
 def queue_name():
     return config.get('adhocracy.amqp.event_queue')
@@ -35,7 +35,7 @@ def post_event(event):
     if not post_channel:
         post_channel = create_channel(write=True)
     
-    message = amqp.Message(event.to_json(), content_type='text/javascript')
+    message = amqp.Message(str(event.id), content_type='application/x-event-id')
     post_channel.basic_publish(message, exchange=queue_name(), 
                                immediate=0)
     
@@ -46,8 +46,7 @@ def read_events(callback=None):
     
     def handle_message(message):
         begin_time = time()
-        e = Event.from_json(message.body)
-        #sleep(20)
+        e = Event.find(int(message.body))
         callback(e)
         log.warn("Queue message - > %sms" % ((time() - begin_time)*1000))
         message.channel.basic_ack(message.delivery_tag)

@@ -1,5 +1,5 @@
 
-${e.agent.name} has modified the Adhocracy ${e.instance.label}. The rules of voting and participation may have changed. 
+${e.user.name} has modified the Adhocracy ${e.instance.label}. The rules of voting and participation may have changed. 
 %if e.instance.description: 
 
 Description: ${e.instance.description}  

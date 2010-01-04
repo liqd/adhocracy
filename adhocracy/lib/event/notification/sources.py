@@ -39,7 +39,7 @@ class WatchlistSource(object):
                       watchlist.get_entity_watches(comment))
     
     def _watches(self, event):
-        watches = watchlist.get_entity_watches(event.agent)
+        watches = watchlist.get_entity_watches(event.user)
         for topic in event.topics:
             if isinstance(topic, model.Comment):
                 watches = self._merge(self._comment(topic), watches)
@@ -61,36 +61,36 @@ def vote_source(event):
     Notify users about their voting behaviour, especially about delegated votes.
     """
     if event.event == T_VOTE_CAST:
-        decision = democracy.Decision(event.agent, event.poll)
+        decision = democracy.Decision(event.user, event.poll)
         before = decision.without_vote(event.vote)
         if (map(lambda v: v.delegation, decision.relevant_votes) == \
            map(lambda v: v.delegation, before.relevant_votes)) and \
            (before.result == decision.result):
             return 
         if not decision.is_decided():
-            yield Notification(event, event.agent, type=N_DELEGATE_CONFLICT)
+            yield Notification(event, event.user, type=N_DELEGATE_CONFLICT)
         elif decision.is_self_decided():
-            yield Notification(event, event.agent, type=N_SELF_VOTED)
+            yield Notification(event, event.user, type=N_SELF_VOTED)
         else:
-            yield Notification(event, event.agent, type=N_DELEGATE_VOTED)
+            yield Notification(event, event.user, type=N_DELEGATE_VOTED)
 
 def delegation_source(event):
     """
     Notifiy users of gained and lost delegations.
     """
     if event.event == T_DELEGATION_CREATE:
-        yield Notification(event, event.delegate, type=N_DELEGATION_RECEIVED)
+        yield Notification(event, event.agent, type=N_DELEGATION_RECEIVED)
     elif event.event == T_DELEGATION_REVOKE:
-        yield Notification(event, event.delegate, type=N_DELEGATION_LOST)
+        yield Notification(event, event.agent, type=N_DELEGATION_LOST)
 
 def instance_source(event):
     """
     Notifiy users of changes in their instance membership.
     """
     if event.event == T_INSTANCE_FORCE_LEAVE:
-        yield Notification(event, event.agent, type=N_INSTANCE_FORCE_LEAVE)
+        yield Notification(event, event.user, type=N_INSTANCE_FORCE_LEAVE)
     elif event.event == T_INSTANCE_MEMBERSHIP_UPDATE:
-        yield Notification(event, event.agent, type=N_INSTANCE_MEMBERSHIP_UPDATE)
+        yield Notification(event, event.user, type=N_INSTANCE_MEMBERSHIP_UPDATE)
 
 def comment_source(event):
     """

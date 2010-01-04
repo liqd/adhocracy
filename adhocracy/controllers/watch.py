@@ -4,7 +4,7 @@ from datetime import datetime
 from pylons.i18n import _
 
 from adhocracy.lib.base import *
-import adhocracy.lib.search.entityrefs as entityrefs
+import adhocracy.model.refs as refs
 import adhocracy.model.forms as forms
 
 log = logging.getLogger(__name__)
@@ -36,7 +36,7 @@ class WatchController(BaseController):
             h.flash(_("Invalid request."))
             redirect_to('/')
         ref = self.form_result.get('ref')
-        ref_type = entityrefs.ref_type(ref)
+        ref_type = refs.ref_type(ref)
         if not ref_type or (not ref_type in WATCH_PERMISSIONS.keys()):
             abort(404, _("Invalid entity reference in watchlist request."))
         if not h.has_permission(WATCH_PERMISSIONS[ref_type]):

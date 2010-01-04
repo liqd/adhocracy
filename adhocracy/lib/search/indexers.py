@@ -1,14 +1,12 @@
 import logging
 from datetime import datetime
 
-from lucene import Field, Document, Term
-
 from adhocracy import model
 from adhocracy.model import hooks
+from adhocracy.model import refs
 from .. import text 
 
 import index
-import entityrefs
 
 class Indexer(object):
     
@@ -22,9 +20,9 @@ class Indexer(object):
             self._doc = Document()
             self._doc.add(Field("id", str(self.entity._index_id()), 
                                 Field.Store.YES, Field.Index.NOT_ANALYZED))
-            self._doc.add(Field("ref", entityrefs.to_ref(self.entity), 
+            self._doc.add(Field("ref", refs.to_ref(self.entity), 
                                 Field.Store.YES, Field.Index.NOT_ANALYZED))
-            self._doc.add(Field("type", entityrefs.entity_type(self.entity),
+            self._doc.add(Field("type", refs.entity_type(self.entity),
                                 Field.Store.YES, Field.Index.NOT_ANALYZED))
             self._doc.add(Field("entity", "true",
                                 Field.Store.YES, Field.Index.NOT_ANALYZED))
@@ -42,7 +40,7 @@ class Indexer(object):
         self.doc.add(f)  
     
     def delete(self):
-        index.delete_document(Term("ref", entityrefs.to_ref(self.entity)))
+        index.delete_document(Term("ref", refs.to_ref(self.entity)))
     
     def add(self):
         self.serialize()
@@ -193,6 +191,7 @@ class MotionIndexer(DelegateableIndexer):
         
 def insert(indexer_cls):
     def f(entity):
+        print "INS"
         #model.meta.Session.refresh(entity)
         indexer = indexer_cls(entity)
         indexer.add()
@@ -200,6 +199,7 @@ def insert(indexer_cls):
 
 def update(indexer_cls):
     def f(entity):
+        print "UPD"
         #model.meta.Session.refresh(entity)
         indexer = indexer_cls(entity)
         indexer.delete()
@@ -208,6 +208,7 @@ def update(indexer_cls):
 
 def delete(indexer_cls):
     def f(entity):
+        print "DEL"
         indexer = indexer_cls(entity)
         indexer.delete()
     return f

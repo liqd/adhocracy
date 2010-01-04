@@ -66,7 +66,11 @@ from adhocracy.model.dependency import Dependency
 from adhocracy.model import watch
 from adhocracy.model.watch import Watch
 
+from adhocracy.model import event
+from adhocracy.model.event import Event
+
 from adhocracy.model import filter
+from adhocracy.model import refs
 
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""

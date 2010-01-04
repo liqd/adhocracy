@@ -1,5 +1,3 @@
-import lucene
-
 from pylons.i18n import _
 
 from adhocracy.lib.base import *
@@ -12,6 +10,8 @@ class EventController(BaseController):
     
     @ActionProtector(has_permission("global.admin"))  
     def all(self):
-        events = event.q.run("+type:event")
-        c.event_pager = NamedPager('events', events, tiles.event.list_item, count=50)
+        query = model.meta.Session.query(model.Event)
+        query = query.order_by(model.Event.time.desc())
+        query = query.limit(200)
+        c.event_pager = NamedPager('events', query.all(), tiles.event.list_item, count=50)
         return render('/event/all.html')

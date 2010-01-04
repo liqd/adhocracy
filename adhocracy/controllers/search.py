@@ -1,5 +1,3 @@
-from lucene import JavaError
-
 from pylons.i18n import _
 
 from adhocracy.lib.base import *

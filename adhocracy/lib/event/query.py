@@ -1,9 +1,5 @@
 import logging
 
-from lucene import BooleanQuery, TermQuery, Term, BooleanClause, QueryParser, Version
-
-from store import EventStore
-
 log = logging.getLogger(__name__)
 
 def _and(*pieces):
@@ -41,7 +37,6 @@ def scope(obj):
 
 def run(query, sort_time=True, sort_time_desc=True,
                from_time=None, to_time=None, limit=1000):
-    import adhocracy.lib.search.index as index
 
     bquery = BooleanQuery()
     tquery = TermQuery(Term("type", "event"))
