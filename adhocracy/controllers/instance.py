@@ -150,7 +150,7 @@ class InstanceController(BaseController):
         except ValueError, ve:
             log.debug(ve)
             (x, y) = (24, 24)
-        return logo.load(instance, size=(x, y), header=False)            
+        return logo.load(c.page_instance, size=(x, y), header=False)            
     
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.delete"))

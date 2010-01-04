@@ -90,18 +90,18 @@ class CommentController(BaseController):
                                                             path=path))
         # for canonical comment discussion, return to the discussion page, 
         # not the main topic page! 
-        parent = comment
+        parent = c.comment
         while parent.reply:
             parent = parent.reply
         
         # TODO make canonical subcomments visible via javascript instead, don't 
         # go to comment single view. 
-        if parent.canonical and parent != comment: 
-            with_path("/comment/%s#c%s" % (str(parent.id), comment.id))
-        if isinstance(comment.topic, model.Issue):
-            with_path("/issue/%s#c%s" % (str(comment.topic.id), comment.id))
-        elif isinstance(comment.topic, model.Motion):
-            with_path("/motion/%s#c%s" % (str(comment.topic.id), comment.id))
+        if parent.canonical and parent != c.comment: 
+            with_path("/comment/%s#c%s" % (str(parent.id), c.comment.id))
+        if isinstance(c.comment.topic, model.Issue):
+            with_path("/issue/%s#c%s" % (str(c.comment.topic.id), c.comment.id))
+        elif isinstance(c.comment.topic, model.Motion):
+            with_path("/motion/%s#c%s" % (str(c.comment.topic.id), c.comment.id))
         else:
             abort(500, _("Unsupported topic type."))
     

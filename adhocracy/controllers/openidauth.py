@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 
 from pylons.i18n import _
+import formencode
 
 from openid.consumer.consumer import Consumer, SUCCESS, DiscoveryFailure
 from openid.extensions import sreg, ax
@@ -65,7 +66,7 @@ class OpenidauthController(BaseController):
         header = auth_tkt.remember(request.environ, identity)
         response.headerlist.extend(header)
                 
-        if c.instance and not c.user.is_member(c.instance):
+        if c.instance and not user.is_member(c.instance):
             redirect_to(c.instance, 
                         path="/instance/join/%s?%s" % (c.instance.key, 
                                                        h.url_token()))
@@ -185,14 +186,12 @@ class OpenidauthController(BaseController):
             else:
                 try:
                     forms.UniqueUsername().to_python(user_name)
-                    if not user_name:
-                        raise Exception()
-                    user = self._create(user_name, email, info.identity_url)
-                    self._login(user)
-                except Exception:
+                except formencode.Invalid:
                     session['openid_req'] = (info.identity_url, user_name, email)
                     session.save()
                     redirect_to('/openid/username')
+                user = self._create(user_name, email, info.identity_url)
+                self._login(user)
                     
         return self._failure(info.identity_url, _("Justin Case has entered the room."))
 

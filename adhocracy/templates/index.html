@@ -6,7 +6,9 @@
 
 <div class="sidebar">
 	%if not c.user:
-		<a class="button add" href="/register">${_("sign up")}</a>
+		<div class="top_actions">
+			<a class="button add" href="/register">${_("sign up")}</a>
+		</div>
 		<h2>${_("Say hi")}</h2>
 		<div class="tile">
 		
@@ -17,8 +19,10 @@
 		<br/>
 	%endif
 	%if c.user:
-		<a class="button edit" href="/adhocracies">${_("more")}</a>
-		<a class="button add" href="/instance/create">${_("new")}</a>
+		<div class="top_actions">
+			<a class="button edit" href="/adhocracies">${_("more")}</a>
+			<a class="button add" href="/instance/create">${_("new")}</a>
+		</div>
 		<h2>${_("My Adhocracies")}</h2>	
 		%if len(c.user.instances):
 			<ul>
@@ -33,8 +37,10 @@
 		%endif
 		
 	%else:
-		<a class="button edit" href="/adhocracies">${_("more")}</a>
-		<a class="button add" href="/instance/create">${_("new")}</a>
+		<div class="top_actions">
+			<a class="button edit" href="/adhocracies">${_("more")}</a>
+			<a class="button add" href="/instance/create">${_("new")}</a>
+		</div>
 		<h2>${_("Adhocracies")}</h2>
 		<ul>
 		%for instance in c.instances:
