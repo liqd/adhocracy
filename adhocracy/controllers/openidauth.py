@@ -67,9 +67,9 @@ class OpenidauthController(BaseController):
         response.headerlist.extend(header)
                 
         if c.instance and not user.is_member(c.instance):
-            redirect_to(c.instance, 
+            redirect_to(h.instance_url(c.instance, 
                         path="/instance/join/%s?%s" % (c.instance.key, 
-                                                       h.url_token()))
+                                                       h.url_token())))
         redirect_to("/")        
             
     def _failure(self, openid, message):
