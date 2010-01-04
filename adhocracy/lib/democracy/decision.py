@@ -44,6 +44,7 @@ class Decision(object):
             q = q.filter(Vote.create_time<=self.at_time)
         q = q.order_by(Vote.id.desc())
         self.votes = q.all()
+        return self
     
     def _relevant_votes(self):
         """ 

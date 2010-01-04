@@ -24,12 +24,11 @@ class DelegationNode(object):
     def __init__(self, user, delegateable):
         self.user = user
         self.delegateable = delegateable
-        
-    def _query_traverse(self, querymod, recurse, at_time):
-        #return []
-        
-        if not at_time:
+    
+    def _query_traverse(self, querymod, recurse, at_time=None):
+        if not at_time: # shouldn't this be if at_time is None: ?
             at_time = datetime.now()
+        
         query = model.meta.Session.query(Delegation)
         query = query.filter(Delegation.scope==self.delegateable)
         query = query.filter(Delegation.create_time<=at_time)
@@ -180,7 +179,7 @@ class DelegationNode(object):
     
     def __ne__(self, other):
         return not self.__eq__(other)
-            
+    
     @classmethod
     def filter_delegations(cls, delegations):
         """
@@ -197,4 +196,12 @@ class DelegationNode(object):
                 if m.scope.is_super(d.scope):
                     matches.remove(m)
         return matches
+    
+    @classmethod
+    def create_delegation(cls, from_user, to_user, scope):
+        delegation = model.Delegation(from_user, to_user, scope)
+        model.meta.Session.add(delegation)
+        model.meta.Session.commit()
+        return delegation
+    
 
