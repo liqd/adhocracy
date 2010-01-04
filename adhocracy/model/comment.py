@@ -31,6 +31,14 @@ class Comment(Base):
         return "<Comment(%d,%s,%s,%s)>" % (self.id, self.creator.user_name,
                                           self.topic_id, self.create_time)
     
+    def _get_latest(self):
+        return self.revisions[0]
+    
+    def _set_latest(self, latest):
+        self.revisions.append(latest)
+    
+    latest = property(_get_latest, _set_latest)
+    
     @classmethod
     def find(cls, id, instance_filter=True):
         try:

@@ -46,8 +46,3 @@ Revision.comment = relation(Comment, lazy=False,
                            backref=backref('revisions', cascade='all',
                                            lazy=True,
                                            order_by=Revision.create_time.desc()))
-
-Comment.latest = relation(Revision, lazy=False, 
-                          primaryjoin="Comment.id==Revision.comment_id", 
-                          uselist=False, 
-                          order_by=Revision.create_time.desc())
