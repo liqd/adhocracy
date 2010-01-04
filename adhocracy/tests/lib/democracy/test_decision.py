@@ -69,65 +69,96 @@ class TestDecisionWithoutDelegation(TestController):
 class TestDecisionWithDelegation(TestController):
     
     def setUp(self):
-        self.user1 = tt_make_user()
-        self.user2 = tt_make_user()
-        self.user3 = tt_make_user()
-        self.motion = tt_make_motion(creator=self.user1, voting=True)
-        self.poll = Poll(self.motion, self.user1)
-        self.decision = Decision(self.user1, self.poll)
+        self.me = tt_make_user()
+        self.high_delegate = tt_make_user()
+        self.low_delegate = tt_make_user()
+        
+        self.motion = tt_make_motion(creator=self.me, voting=True)
+        self.poll = Poll(self.motion, self.me)
+        self.decision = Decision(self.me, self.poll)
         self.instance = tt_get_instance()
     
+    def delegate(self, to, scope):
+        # I would really like to say self.me.delegate_to_user_with_scope(self.high_delegate, self.instance.root)
+        # However, that fails the object design criterias for now
+        DelegationNode.create_delegation(from_user=self.me, to_user=to, scope=scope)
+    
+    def test_delegation_without_vote_is_no_vote(self):
+        self.delegate(self.high_delegate, self.motion)
+        self.decision.reload()
+        assert_equals(len(self.decision.votes), 0)
+        assert_false(self.decision.is_decided())
+        assert_equals(self.decision.result, None)
+    
     def test_can_do_general_delegate_to_other_user(self):
-        DelegationNode.create_delegation(from_user=self.user1, to_user=self.user2, scope=self.instance.root)
-        Decision(self.user2, self.poll).make(model.Vote.AYE)
+        self.delegate(self.high_delegate, self.instance.root)
+        Decision(self.high_delegate, self.poll).make(model.Vote.AYE)
         assert_equals(self.decision.reload().result, model.Vote.AYE)
     
+    def test_delegation_can_decide_a_decision(self):
+        self.delegate(self.high_delegate, self.instance.root)
+        Decision(self.high_delegate, self.poll).make(model.Vote.AYE)
+        self.decision.reload()
+        assert_true(self.decision.is_decided())
+    
+    def test_delegated_decisions_are_not_self_decided(self):
+        self.delegate(self.high_delegate, self.instance.root)
+        Decision(self.high_delegate, self.poll).make(model.Vote.AYE)
+        self.decision.reload()
+        assert_false(self.decision.is_self_decided())
+    
     def test_issue_delegation_will_override_root_delegation(self):
-        DelegationNode.create_delegation(from_user=self.user1, to_user=self.user2, scope=self.instance.root)
-        Decision(self.user2, self.poll).make(model.Vote.AYE)
+        self.delegate(self.high_delegate, self.instance.root)
+        self.delegate(self.low_delegate, self.motion.issue)
+        Decision(self.high_delegate, self.poll).make(model.Vote.AYE)
         assert_equals(self.decision.reload().result, model.Vote.AYE)
-        DelegationNode.create_delegation(from_user=self.user1, to_user=self.user3, scope=self.motion.issue)
-        Decision(self.user3, self.poll).make(model.Vote.NAY)
+        Decision(self.low_delegate, self.poll).make(model.Vote.NAY)
         assert_equals(self.decision.reload().result, model.Vote.NAY)
     
     def test_motion_delegation_will_overide_issue_delegation(self):
-        DelegationNode.create_delegation(from_user=self.user1, to_user=self.user2, scope=self.motion.issue)
-        Decision(self.user2, self.poll).make(model.Vote.AYE)
+        self.delegate(self.high_delegate, self.motion.issue)
+        self.delegate(self.low_delegate, self.motion)
+        Decision(self.high_delegate, self.poll).make(model.Vote.AYE)
         assert_equals(self.decision.reload().result, model.Vote.AYE)
-        DelegationNode.create_delegation(from_user=self.user1, to_user=self.user3, scope=self.motion)
-        Decision(self.user3, self.poll).make(model.Vote.NAY)
+        Decision(self.low_delegate, self.poll).make(model.Vote.NAY)
         assert_equals(self.decision.reload().result, model.Vote.NAY)
     
     def test_two_delegations_at_the_same_level_that_disagree_cancel_each_other(self):
         # This is meant as a safeguard: if I don't fully trust my delegates
-        # I can delegate to two, and my vote will only be autocast if they agree.
+        # I can delegate to n delegates, and my vote will only be autocast if they all agree
         # If not, I need to decide myself
-        DelegationNode.create_delegation(from_user=self.user1, to_user=self.user2, scope=self.motion)
-        Decision(self.user2, self.poll).make(model.Vote.AYE)
-        DelegationNode.create_delegation(from_user=self.user1, to_user=self.user3, scope=self.motion)
-        Decision(self.user3, self.poll).make(model.Vote.NAY)
+        self.delegate(self.high_delegate, self.motion)
+        self.delegate(self.low_delegate, self.motion)
+        Decision(self.high_delegate, self.poll).make(model.Vote.AYE)
+        Decision(self.low_delegate, self.poll).make(model.Vote.NAY)
         assert_equals(self.decision.reload().result, None, "needs to cast his own vote")
     
     def test_two_delegations_at_the_same_level_that_agree_reinforce_each_other(self):
-        DelegationNode.create_delegation(from_user=self.user1, to_user=self.user2, scope=self.motion)
-        Decision(self.user2, self.poll).make(model.Vote.AYE)
-        DelegationNode.create_delegation(from_user=self.user1, to_user=self.user3, scope=self.motion)
-        Decision(self.user3, self.poll).make(model.Vote.AYE)
+        self.delegate(self.high_delegate, self.motion)
+        self.delegate(self.low_delegate, self.motion)
+        Decision(self.high_delegate, self.poll).make(model.Vote.AYE)
+        Decision(self.low_delegate, self.poll).make(model.Vote.AYE)
         assert_equals(self.decision.reload().result, model.Vote.AYE)
     
+    def test_two_delegations_at_the_same_level_are_both_relevant_votes(self):
+        self.delegate(self.high_delegate, self.motion)
+        self.delegate(self.low_delegate, self.motion)
+        Decision(self.high_delegate, self.poll).make(model.Vote.AYE)
+        Decision(self.low_delegate, self.poll).make(model.Vote.AYE)
+        assert_equals(len(self.decision.reload().relevant_votes), 2)
+    
     def test_own_vote_overrides_delegations(self):
-        DelegationNode.create_delegation(from_user=self.user1, to_user=self.user2, scope=self.motion)
-        Decision(self.user2, self.poll).make(model.Vote.AYE)
+        self.delegate(self.high_delegate, self.motion)
+        Decision(self.high_delegate, self.poll).make(model.Vote.AYE)
         self.decision.make(model.Vote.NAY)
         assert_equals(self.decision.reload().result, model.Vote.NAY)
     
-    # TODO: can access history of delegation decisions
-    # TODO: relevant_votes and votes make sense
+    def test_delegation_is_recorded_as_just_another_vote(self):
+        self.delegate(self.high_delegate, self.motion)
+        assert_equals(len(self.decision.reload().votes), 0)
+        Decision(self.high_delegate, self.poll).make(model.Vote.AYE)
+        assert_equals(len(self.decision.reload().votes), 1)
     
-    # def dont_test_something(self):
-    #     assert_equals(len(decision.relevant_votes), 1)
-    #     assert_equals(len(decision.votes), 0)
 
-# TODO: special case: two delegations with different votes should cancel
-# TODO: delegated case can be decided by the delegator or by the user itself
 # TODO: delegated an isue to a user and again a motion inside that issue to the same user: make sure he only gets the right ammount of delegations
+# TODO: can access history of delegation decisions
