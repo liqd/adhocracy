@@ -31,7 +31,7 @@ class Decision(object):
         self.votes = votes
         if not votes: 
             self.reload()
-        
+    
     def reload(self):
         """ 
         Load all votes by the user regarding the poll. 
@@ -145,7 +145,7 @@ class Decision(object):
         
         relevant = self.relevant_votes
         return len(relevant) == 1 and relevant[0].delegation == None
-        
+    
     def __repr__(self):
         return "<Decision(%s,%s)>" % (self.user.user_name, self.poll.id)
     
@@ -178,7 +178,7 @@ class Decision(object):
         for poll in query:
             if not instance or poll.motion.instance == instance:
                 yield cls(user, poll, at_time=at_time)
-            
+    
     @classmethod
     def for_poll(cls, poll, at_time=None):
         """
@@ -192,7 +192,7 @@ class Decision(object):
         if at_time:
             query = query.filter(Vote.create_time<=at_time)
         return [Decision(u, poll, at_time=at_time) for u in query]
-              
+    
     @classmethod
     def average_decisions(cls, instance):
         """
@@ -236,8 +236,5 @@ class Decision(object):
                     principal_dec = Decision(delegation.principal, decision.poll)
                     votes += principal_dec.make(decision.result, _edge=delegation)
         return votes
-                
-        
-        
-
+    
 
