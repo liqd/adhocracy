@@ -78,8 +78,8 @@ def init_model(engine):
     meta.engine = engine
     meta.Session = orm.scoped_session(sm)
     
-    import adhocracy.lib.search as search
-    search.rebuild_all()
+    #import adhocracy.lib.search as search
+    #search.rebuild_all()
     
         
 
