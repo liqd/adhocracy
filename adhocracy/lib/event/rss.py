@@ -5,13 +5,13 @@ from .. import templating
 import formatting
 
 
-from webhelpers.feedgenerator import Rss201rev2Feed, RssUserland091Feed
+from webhelpers.feedgenerator import RssUserland091Feed
 
 def rss_feed(events, name, link, description):
-        rss = Rss201rev2Feed(name, link, description)
+        rss = RssUserland091Feed(name, link, description)
         def event_item(event):
             rss.add_item(title=u"%s %s" % (event.user.name, formatting.as_unicode(event)),
-                         link=h.instance_url(c.instance),
+                         link=h.instance_url(event.instance),
                          pubdate=event.time,
                          description=unicode(u"%s %s" % (h.user_link(event.user), 
                                                 formatting.as_html(event))),

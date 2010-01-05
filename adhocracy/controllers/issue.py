@@ -85,7 +85,9 @@ class IssueController(BaseController):
         
         if format == 'rss':
             query = model.meta.Session.query(model.Event)
-            query = query.filter(model.Event.topics.any([c.issue]+c.issue.motions))
+            query = query.join(model.Event.topics)
+            ids = map(lambda d: d.id, [c.issue]+c.issue.motions)
+            query = query.filter(model.Event.topics.any(model.Issue.id.in_(ids)))
             query = query.order_by(model.Event.time.desc())
             query = query.limit(50)        
             return event.rss_feed(query.all(), _("Issue: %s") % c.issue.label,

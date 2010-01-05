@@ -11,18 +11,19 @@ class RootController(BaseController):
             redirect_to('/instance/%s' % str(c.instance.key))
         
         if format == 'rss':
+            # TODO THIS IS A DATA LEAK
+            query = model.meta.Session.query(model.Event)
+            ids = []
             if c.user:
-                # TODO THIS IS A DATA LEAK
-                query = model.meta.Session.query(model.Event)
-                query = query.filter(model.Event.topics.any([c.issue]+c.issue.motions))
-                query = query.filter(model.Event.instance.any(c.user.instances))
-                query = query.order_by(model.Event.time.desc())
-                query = query.limit(50)  
-                return event.rss_feed(query.all(), _('My Adhocracies'),
+                ids = map(lambda e: e.id, c.user.instances)
+            else:
+                ids = model.meta.Session.query(model.Instance.id).all()
+            query = query.filter(model.Event.instance_id.in_(ids))
+            query = query.order_by(model.Event.time.desc())
+            query = query.limit(50)  
+            return event.rss_feed(query.all(), _('My Adhocracies'),
                                   h.instance_url(None), 
                                   _("Updates from the Adhocracies in which you are a member"))
-            else:
-                abort(401)
         else:
             c.instances = model.Instance.all()[:5]           
             
