@@ -174,15 +174,6 @@ class CategoryEditForm(formencode.Schema):
     description = validators.String(max=1000, if_empty=None, not_empty=False)
     categories = ValidCategory(not_emtpy=True)
     
-class AdminUpdateMembershipForm(formencode.Schema):
-    allow_extra_fields = True
-    user = ExistingUserName()
-    to_group = ValidGroup()
-
-class AdminForceLeaveForm(formencode.Schema):
-    allow_extra_fields = True
-    user = ExistingUserName()
-    
 class EventPanelForm(formencode.Schema):
     allow_extra_fields = True
     event_page = validators.Int(if_missing=1, not_empty=False)

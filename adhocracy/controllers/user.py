@@ -1,4 +1,5 @@
 import urllib
+from datetime import datetime
 
 from pylons.i18n import _
 from babel import Locale
@@ -43,6 +44,10 @@ class UserManageForm(formencode.Schema):
 class UserResetApplyForm(formencode.Schema):
     allow_extra_fields = True
     email = validators.Email(not_empty=True)
+    
+class UserGroupmodForm(formencode.Schema):
+    allow_extra_fields = True
+    to_group = forms.ValidGroup()
 
 class UserController(BaseController):
     
@@ -259,4 +264,57 @@ class UserController(BaseController):
         c.nodeClass = democracy.DelegationNode 
         
         return render("/user/delegations.html")
+    
+    @RequireInstance
+    @RequireInternalRequest()
+    @ActionProtector(has_permission("instance.admin"))
+    @validate(schema=UserGroupmodForm(), form="create", post_only=False, on_get=True)
+    def groupmod(self, id):
+        c.page_user = get_entity_or_abort(model.User, id)
+        to_group = self.form_result.get("to_group")
+        if not to_group.code in [model.Group.CODE_OBSERVER, 
+                                 model.Group.CODE_VOTER, 
+                                 model.Group.CODE_SUPERVISOR]:
+            h.flash("Cannot make %(user)s a member of %(group)s" % {
+                        'user': user.name, 
+                        'group': group.group_name})
+            redirect_to("/user/%s" % str(c.page_user.user_name))
+        
+        had_vote = True if c.page_user._has_permission("vote.cast") else False
+        
+        for membership in c.page_user.memberships:
+            if not membership.expire_time and membership.instance == c.instance:
+                membership.expire_time = datetime.now()
+                model.meta.Session.add(membership)
+        new_membership = model.Membership(c.page_user, c.instance, to_group)
+        model.meta.Session.add(new_membership)
+        model.meta.Session.commit()
+        event.emit(event.T_INSTANCE_MEMBERSHIP_UPDATE, c.page_user, 
+                   instance=c.instance, group=to_group.code, admin=c.user)
+        
+        if had_vote and not c.page_user._has_permission("vote.cast"):
+            # user has lost voting privileges
+            democracy.DelegationNode.detach(c.page_user, c.instance)
+                
+        redirect_to("/user/%s" % str(c.page_user.user_name))
+    
+    @RequireInstance
+    @RequireInternalRequest()
+    @ActionProtector(has_permission("instance.admin"))
+    def kick(self, id):
+        c.page_user = get_entity_or_abort(model.User, id)
+        for membership in c.page_user.memberships:
+            if not membership.expire_time and membership.instance == c.instance:
+                membership.expire_time = datetime.now()
+                model.meta.Session.add(membership)
+        model.meta.Session.commit()
+        event.emit(event.T_INSTANCE_FORCE_LEAVE, c.page_user, instance=c.instance, 
+                   admin=c.user)
+        
+        democracy.DelegationNode.detach(c.page_user, c.instance)
+                        
+        h.flash(_("%(user)s was removed from %(instance)s") % {
+                                        'user': c.page_user.name, 
+                                        'instance': c.instance.label})
+        redirect_to("/user/%s" % str(c.page_user.user_name))
     

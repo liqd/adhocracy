@@ -108,7 +108,6 @@
 						<a href="/instance/edit/${c.instance.key}">${_("Administration")}</a>
 						<ul>
 							<li><a href="/instance/edit/${c.instance.key}">${_("Edit %s") % c.instance.label}</a></li>
-							<li><a href="/admin/members">${_("Members")}</a></li>
 							%if c.user and h.has_permission("global.admin"):
 								<li><a href="/admin/permissions">${_("Global Permissions")}</a></li>
 							%endif

@@ -1,6 +1,7 @@
 from util import render_tile, BaseTile
 
 from pylons import request, response, session, tmpl_context as c
+from pylons.i18n import _ 
 
 from webhelpers.text import truncate
 
@@ -30,11 +31,16 @@ class UserTile(BaseTile):
     tagline = property(_tagline)
     
     def _can_edit(self):
-        return (h.has_permission("user-edit") and c.user == self.user) \
-                 or h.has_permission("user-manage")
+        return (h.has_permission("user.edit") and c.user == self.user) \
+                 or h.has_permission("user.manage")
     
-    can_edit = property(_can_edit)  
+    can_edit = property(_can_edit)
+      
+    def _can_manage(self):
+        return h.has_permission("user.manage")
     
+    can_manage = property(_can_manage) 
+        
     def _karma(self):
         return karma.user_score(self.user)
     
@@ -69,6 +75,15 @@ class UserTile(BaseTile):
         return len(filter(lambda k: k.value < 0, self.karmas()))
     
     num_karma_down = property(_num_karma_down)
+    
+    def _instance_group(self):
+        if c.instance:     
+            for membership in self.user.memberships:
+                if not membership.expire_time and membership.instance == c.instance:
+                    return membership.group
+        return None
+        
+    instance_group = property(_instance_group)
 
 def row(user):
     return render_tile('/user/tiles.html', 'row', UserTile(user), user=user)   

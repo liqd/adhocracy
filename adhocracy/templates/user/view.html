@@ -15,6 +15,16 @@
 	%if c.tile.can_edit:
 		<a class="button edit" href="/user/edit/${c.page_user.user_name}">${_("edit")}</a>
 	%endif
+	
+	%if c.tile.can_manage and c.page_user.is_member(c.instance):
+		<a class="button admin" href="/user/${c.page_user.user_name}/kick?${h.url_token()}">${_("kick")}</a>
+		%for group_code in [c.model.Group.CODE_OBSERVER, c.model.Group.CODE_VOTER, c.model.Group.CODE_SUPERVISOR]:
+			%if group_code != c.tile.instance_group.code:
+				<a class="button admin" href="/user/${c.page_user.user_name}/groupmod?to_group=${group_code}&${h.url_token()}">
+					${_("make %s") % _(c.model.Group.by_code(group_code).group_name)}</a>
+			%endif
+		%endfor
+	%endif
 </div>
 
 <h1 class="page_title">
@@ -32,6 +42,9 @@
 	</div>
 	<div class="meta">
 		%if c.instance:
+			%if c.page_user.is_member(c.instance):
+				${_(c.tile.instance_group.group_name)} &middot;
+			%endif
 			<img src="/img/arrows/aup_a.png" /> ${c.tile.num_karma_up} &middot;
 			<img src="/img/arrows/adown_a.png" /> ${c.tile.num_karma_down} &middot;
 	    
@@ -46,7 +59,9 @@
 </div>
 
 <div class="sidebar">
-	<a class="button add" href="/adhocracies">${_("more")}</a>
+	<div class="top_actions">
+		<a class="button add" href="/adhocracies">${_("more")}</a>
+	</div>
 	<h2>${_("Adhocracies")}</h2>	
 		<span class="hint">
 			${c.page_user.name} ${_("is a member in the following adhocracies:")}
