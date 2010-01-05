@@ -69,7 +69,7 @@ class IssueController(BaseController):
             
             watchlist.check_watch(c.issue)
             
-            event.emit(event.T_ISSUE_EDIT, c.user, instance=[c.instance], 
+            event.emit(event.T_ISSUE_EDIT, c.user, instance=c.instance, 
                        topics=[c.issue], issue=c.issue)
             
             redirect_to('/issue/%s' % str(c.issue.id))
