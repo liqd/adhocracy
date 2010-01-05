@@ -79,7 +79,7 @@ def init_model(engine):
     meta.Session = orm.scoped_session(sm)
     
     import adhocracy.lib.search as search
-    search.rebuild()
+    search.rebuild_all()
     
         
 

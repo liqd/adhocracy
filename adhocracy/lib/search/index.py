@@ -1,11 +1,8 @@
 import logging 
 import os, os.path, shutil
-from pylons import config
 
 from whoosh import index
 from whoosh.fields import *
-
-DEFAULT_INDEX_DIR = "%(here)s/data/index"
 
 log = logging.getLogger(__name__)
 
@@ -19,31 +16,18 @@ schema = Schema(title=TEXT(stored=True),
 
 ix = None
 
-def _index_dir():
-    return config.get("adhocracy.index.dir", DEFAULT_INDEX_DIR % config)
-
-def reset_index():
+def create_index(index_dir):
     global ix
-    idir = _index_dir()
-    log.warn("Resetting Whoosh index at: %s" % idir)
-    if os.path.exists(idir):
-        shutil.rmtree(idir)
-    os.mkdir(idir)
-    ix = index.create_in(idir, schema)
+    ix = index.create_in(index_dir, schema)
     
-def open_index():
+def open_index(index_dir):
     global ix
-    idir = _index_dir()
-    if not os.path.exists(idir):
-        reset_index()
-    else:
-        log.info("Opening Whoosh index at: %s" % idir)
-        ix = index.open_dir(idir)
+    ix = index.open_dir(index_dir)
     
 def get_index():
     global ix
     if not ix:
-        open_index()
+        raise ValueError("Index is not open")
     return ix
     
     
