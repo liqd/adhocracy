@@ -995,14 +995,15 @@ a.button {
 	text-align: center;
 	text-transform: lowercase;
 	color: #fff;
-	font-weight: normal;
 	margin-left: 0.2em;
 	
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
-	/*background-image: url(/img/button_bg.png);
-	background-repeat: repeat-x;
-	background-position: top;*/
+	font-weight: normal !important;
+}
+
+comment a.button {
+	font-size: 10px;
 }
 
 a.button:hover {

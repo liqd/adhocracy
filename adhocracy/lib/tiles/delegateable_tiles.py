@@ -64,7 +64,7 @@ class DelegateableTile(BaseTile):
             query = query.join(model.Comment)
             query = query.filter(model.Comment.topic==dgb)
             query = query.order_by(model.Revision.create_time.desc())
-            return query.one()[0] # always returns a tuple
+            return query.all()[0][0] # always returns a tuple
         return max([dgb_latest(self.delegateable)] + map(dgb_latest, self.delegateable.children))
     
     latest_comment = property(_latest_comment)

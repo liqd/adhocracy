@@ -54,22 +54,17 @@
 
 <div style="clear: both;"></div>
 <div class="sidebar">
+	%if h.has_permission("vote.cast"):
 	<div class="tile">
-		<div class="tile boxed">
-			<div class="inner_boxed voting_booth">
-				<h4>Nix</h4> 
-				DAS HIER MUSS WEG
-			</div>
-		</div>
+		${components.delegation_sidebar(c.issue)}
 	</div>
+	%endif
 </div>
 <div class="mainbar">
 %if c.issue.comment:
 	${tiles.comment.full(c.issue.comment, recurse=False, collapse=False)}
 %endif
-</div>
 
-<div style="clear: both;"></div>
 <div class="top_actions">
 	%if c.tile.can_create_motion:
 		<a class="button add" href="/motion/create?issue=${c.issue.id}">${_("new")}</a>
@@ -80,22 +75,18 @@
 
 <h2>${_("Motions")}<sup><a href="/page/faq.html#Howdoesvotingwork">?</a></sup> (${c.tile.num_motions})</h2>
 
-<div class="sidebar">
-	%if h.has_permission("vote.cast"):
-	<div class="tile">
-		${components.delegation_sidebar(c.issue)}
+%if not c.tile.num_motions:
+	<span class="infobox">${_("Motions are <b>proposals</b> that solve some or all of the problems described by this issue. A motion can be <b>discussed and voted</b> upon.")|n}</span>
+%else:
+	<div class="table">
+		${c.motions_pager.here()}
 	</div>
-	%endif
+%endif
+
 </div>
-<div class="mainbar">
-	%if not c.tile.num_motions:
-		<span class="infobox">${_("Motions are <b>proposals</b> that solve some or all of the problems described by this issue. A motion can be <b>discussed and voted</b> upon.")|n}</span>
-	%else:
-		<div class="table">
-			${c.motions_pager.here()}
-		</div>
-	%endif
-</div>
+
+
+
 
 <div style="clear: both;"></div>
 

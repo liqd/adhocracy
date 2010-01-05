@@ -39,7 +39,7 @@ def breadcrumbs(entity):
     
     if len(entity.parents):
         link = "<a href='/d/%s'>%s</a>" % (entity.id, text.truncate(entity.label, length=30, whole_word=True))
-        link = breadcrumbs(delegateable.parents[0]) + " &raquo; " + link
+        link = breadcrumbs(entity.parents[0]) + " &raquo; " + link
     else:
         link = breadcrumbs(entity.instance)
     return link
