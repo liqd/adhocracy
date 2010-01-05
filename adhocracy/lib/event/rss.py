@@ -10,12 +10,13 @@ from webhelpers.feedgenerator import Rss201rev2Feed, RssUserland091Feed
 def rss_feed(events, name, link, description):
         rss = Rss201rev2Feed(name, link, description)
         def event_item(event):
-            rss.add_item(title="%s %s" % (event.user.name, formatting.as_html(event)),
+            rss.add_item(title=u"%s %s" % (event.user.name, formatting.as_unicode(event)),
                          link=h.instance_url(c.instance),
                          pubdate=event.time,
-                         description="%s %s" % (h.user_link(event.user), 
-                                                formatting.as_html(event)),
-                         author_name=event.user.name)
+                         description=unicode(u"%s %s" % (h.user_link(event.user), 
+                                                formatting.as_html(event))),
+                         author_name=event.user.name,
+                         unique_id=unicode(event.id))
         response.content_type = 'application/rss+xml'
-        templating.NamedPager('rss', events, event_item, count=100).here()
+        templating.NamedPager('rss', events, event_item, count=50).here()
         return rss.writeString('utf-8')
