@@ -52,6 +52,8 @@ class InstanceController(BaseController):
                                       self.form_result.get('label'),
                                       c.user)
             inst.description = text.cleanup(self.form_result.get('description'))
+            model.meta.Session.add(inst)
+            model.meta.Session.commit()
             model.meta.Session.refresh(inst)
             
             event.emit(event.T_INSTANCE_CREATE, c.user, instance=inst)
