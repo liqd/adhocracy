@@ -5,12 +5,10 @@ elif vote.orientation == -1: context.write(_("against"))
 else: context.write(_("with an abstention on"))
 %></%def>
 
-<%def name="quotecomment(comment)">
-%if e.comment.reply: 
-${self._quotecomment(comment, 1)}
-%endif
-</%def>
-
+<%def name="quotecomment(comment)"><%
+if e.comment.reply: 
+	self._quotecomment(comment, 1)
+%></%def>
 
 <%def name="_quotecomment(comment, level)"><%
 context.write(('>' * (level - 1)) + '\n') 

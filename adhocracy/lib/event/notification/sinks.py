@@ -22,7 +22,7 @@ def twitter_sink(pipeline):
                 api = microblog.create_api()
                 api.PostDirectMessage(user.twitter.screen_name, tweet)
             except Exception, e:
-                log.warn(e)
+                log.exception(e)
                 yield notification
         else:
             yield notification
@@ -39,9 +39,7 @@ def mail_sink(pipeline):
                          notification.body, 
                          headers=headers)
             except Exception, e:
-                #import traceback
-                #traceback.print_exc()
-                log.warn(e)
+                log.exception(e)
                 yield notification
         else:
             yield notification

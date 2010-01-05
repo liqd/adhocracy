@@ -41,8 +41,8 @@ class Notification(object):
         return i18n.user_language(self.user)
     
     def get_subject(self):
-        formatting.FormattedEvent(self.event, lambda f, value: f.unicode(value))
-        return self.type.subject() % data
+        fe = formatting.FormattedEvent(self.event, lambda f, value: f.unicode(value))
+        return self.type.subject() % fe
     
     subject = property(get_subject)
     
