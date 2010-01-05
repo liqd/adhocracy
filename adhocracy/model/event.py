@@ -6,6 +6,7 @@ import simplejson as json
 
 import filter as ifilter
 from meta import Base
+import meta
 import user
 import refs
 
@@ -89,8 +90,8 @@ class Event(Base):
         try:
             q = meta.Session.query(Event)
             q = q.filter(Event.id==id)
-            if filter.has_instance() and instance_filter:
-                q = q.filter(Motion.instance_id==filter.get_instance().id)
+            if ifilter.has_instance() and instance_filter:
+                q = q.filter(Event.instance_id==ifilter.get_instance().id)
             return q.one()
-        except: 
+        except:
             return None

@@ -19,7 +19,7 @@ def emit(event, user, instance=None, topics=[], **kwargs):
     event.topics = topics
     model.meta.Session.add(event)
     model.meta.Session.commit()
-    model.meta.Session.update(event)
+    model.meta.Session.refresh(event)
     
     if queue.has_queue():
         queue.post_event(event)

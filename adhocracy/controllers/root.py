@@ -34,9 +34,6 @@ class RootController(BaseController):
         dgb = get_entity_or_abort(model.Delegateable, id, instance_filter=False)
         id = str(id)
         
-        if isinstance(dgb, model.Category):
-            redirect_to(h.instance_url(dgb.instance, path="/category/%s" % id))
-        
         if isinstance(dgb, model.Issue):
             redirect_to(h.instance_url(dgb.instance, path="/issue/%s" % id))
         
@@ -61,5 +58,5 @@ class RootController(BaseController):
     
     def process(self):
         event.queue_process()
-        return "done."
+        return "everything processed. come back soon ;-)"
             

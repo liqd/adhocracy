@@ -5,7 +5,7 @@ def self_filter(pipeline):
     for notification in pipeline:
         if notification.type.notify_self:
             yield notification
-        if not notification.event.agent == notification.user: 
+        if not notification.event.user == notification.user: 
             yield notification
             
 def duplicates_filter(pipeline):
