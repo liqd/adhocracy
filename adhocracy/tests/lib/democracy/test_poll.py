@@ -38,7 +38,7 @@ class TestPoll(TestController):
         assert not len(poll.voters)
         assert not len(poll.decisions)
         time.sleep(1)
-        Decision(motion.creator, motion).make(model.Vote.AYE)
+        Decision(motion.creator, motion).make(model.Vote.YES)
         time.sleep(1)
         assert len(motion.votes) == 1
         poll = Poll(motion)
@@ -48,16 +48,16 @@ class TestPoll(TestController):
         
     def test_decisions(self):
         motion = tt_make_motion(voting=True)
-        Decision(motion.creator, motion).make(model.Vote.AYE)
+        Decision(motion.creator, motion).make(model.Vote.YES)
         poll = Poll(motion)
         
     def test_vote_discard(self):
         motion = tt_make_motion(voting=True)
         time.sleep(1)
-        Decision(motion.creator, motion).make(model.Vote.AYE)
-        Decision(tt_make_user(), motion).make(model.Vote.AYE)
-        Decision(tt_make_user(), motion).make(model.Vote.AYE)
-        Decision(tt_make_user(), motion).make(model.Vote.AYE)
+        Decision(motion.creator, motion).make(model.Vote.YES)
+        Decision(tt_make_user(), motion).make(model.Vote.YES)
+        Decision(tt_make_user(), motion).make(model.Vote.YES)
+        Decision(tt_make_user(), motion).make(model.Vote.YES)
         time.sleep(2)
         p = Poll(motion)
         assert len(p.votes) == 4
@@ -66,7 +66,7 @@ class TestPoll(TestController):
         p2 = Poll.begin(motion, motion.creator)
         assert len(p2.votes) == 0
         time.sleep(1)
-        Decision(motion.creator, motion).make(model.Vote.AYE)
+        Decision(motion.creator, motion).make(model.Vote.YES)
         time.sleep(1)
         p3 = Poll(motion)
         assert len(p3.votes) == 1
@@ -75,13 +75,13 @@ class TestPoll(TestController):
     def test_stats(self):
         motion = tt_make_motion(voting=True)
         time.sleep(1)
-        Decision(motion.creator, motion).make(model.Vote.AYE)
+        Decision(motion.creator, motion).make(model.Vote.YES)
         time.sleep(1)
         p = Poll(motion)
         assert len(p.voters) == 1
         assert p.num_affirm == 1
         assert p.rel_for == 1.0
-        Decision(tt_make_user(), motion).make(model.Vote.NAY)
+        Decision(tt_make_user(), motion).make(model.Vote.NO)
         time.sleep(1)
         p = Poll(motion)
         assert len(p.voters) == 2

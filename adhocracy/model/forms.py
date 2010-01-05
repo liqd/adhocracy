@@ -160,7 +160,7 @@ class EditorRemoveForm(formencode.Schema):
     
 class VoteCastForm(formencode.Schema):
     allow_extra_fields = True
-    orientation = validators.Int(min=vote.Vote.NAY, max=vote.Vote.AYE, not_empty=True)
+    orientation = validators.Int(min=vote.Vote.NO, max=vote.Vote.YES, not_empty=True)
     
 class CategoryCreateForm(formencode.Schema):
     allow_extra_fields = True

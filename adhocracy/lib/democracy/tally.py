@@ -57,13 +57,13 @@ class Tally(object):
     
     def _get_num_affirm(self):
         """ Number of voters who affirmed the motion. """
-        return len(self._filter_positions(Vote.AYE))
+        return len(self._filter_positions(Vote.YES))
     
     num_affirm = property(_get_num_affirm) 
     
     def _get_num_dissent(self):
         """ Number of voters who dissent on the motion. """
-        return len(self._filter_positions(Vote.NAY))
+        return len(self._filter_positions(Vote.NO))
     
     num_dissent = property(_get_num_dissent) 
     

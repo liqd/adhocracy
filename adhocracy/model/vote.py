@@ -10,9 +10,10 @@ from delegation import Delegation
 from poll import Poll
 
 class Vote(Base):
-    # REFACT: AYE and NAY are quite easy to confuse when reading - what about going with YES and NO?
-    AYE = 1
-    NAY = -1
+    # REFACT: Not voted yet is expressed as None in varous places
+    # Might be nice to have an explicit value for that
+    YES = 1
+    NO = -1
     ABSTAIN = 0
         
     __tablename__ = 'vote'

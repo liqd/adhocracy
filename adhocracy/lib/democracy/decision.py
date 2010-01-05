@@ -113,7 +113,7 @@ class Decision(object):
         power to the ``User``. Each delegated vote will be marked as such by 
         saving the ``Delegation`` as a part of the ``Vote``.
         
-        :param orientation: orientation of the vote, ``Vote.AYE``, ``Vote.NAY`` 
+        :param orientation: orientation of the vote, ``Vote.YES``, ``Vote.NO`` 
             or ``Vote.ABSTAIN``
         :returns: the ``Votes`` that has been cast
         """
