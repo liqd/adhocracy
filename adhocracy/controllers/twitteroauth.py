@@ -3,6 +3,7 @@ from datetime import datetime
 
 from oauth import oauth
 from pylons.i18n import _
+from urllib2 import HTTPError
 
 from adhocracy.lib.base import *
 from adhocracy.lib.microblog import create_api, create_oauth, system_user
@@ -37,7 +38,7 @@ class TwitteroauthController(BaseController):
         user_data = api.GetUserInfo()
         
         log.debug(access_token)
-        log.debug(type(user_data))
+        log.debug(user_data)
         
         twitter = model.Twitter(int(user_data.id), c.user, 
                                 user_data.screen_name, 
@@ -47,13 +48,14 @@ class TwitteroauthController(BaseController):
         model.meta.Session.commit()
         
         try:
-            api.CreateFriendship(system_user())
+            # workaround to a hashing fuckup in oatuh
+            api._FetchUrl("http://twitter.com/friendships/create.json", 
+                          post_data={'screen_name': system_user()}, 
+                          no_cache=True)
             h.flash(_("You're now following <b>%s</b> on twitter so Adhocracy " 
-                      + "can send you notifications as direct messages"))
-        except Exception, e:
-            import traceback
-            #traceback.print_exception(e)
-            log.warn(e)
+                      + "can send you notifications as direct messages") % system_user())
+        except HTTPError, he:
+            log.warn(he.read())
         
         redirect_to("/user/edit/%s" % str(c.user.user_name))
     
