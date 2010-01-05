@@ -70,9 +70,7 @@ class PollController(BaseController):
         
         if request.method == "POST":
             poll = c.motion.poll
-            poll.end_time = datetime.now()
-            poll.end_user = c.user
-            model.meta.Session.add(poll)
+            poll.end_poll_with_user(c.user)
             model.meta.Session.commit()
             event.emit(event.T_MOTION_STATE_REDRAFT, c.user, instance=c.instance, 
                        topics=[c.motion], motion=c.motion)

@@ -1,6 +1,9 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
 from sqlalchemy.orm import relation, backref
 
+# REFACT: use absolute imports to make it easier to see where what comes from
 from meta import Base
 import user
 import meta
@@ -36,6 +39,10 @@ class Poll(Base):
     
     def _index_id(self):
         return self.id
+    
+    def end_poll_with_user(self, a_user):
+        self.end_time = datetime.now()
+        self.end_user = a_user
     
     @classmethod
     def find(cls, id, instance_filter=True):
