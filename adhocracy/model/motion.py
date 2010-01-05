@@ -16,7 +16,7 @@ class Motion(Delegateable):
     __tablename__ = 'motion'
     __mapper_args__ = {'polymorphic_identity': 'motion'}
     
-    id = Column(Unicode(10), ForeignKey('delegateable.id'), primary_key=True)
+    id = Column(Integer, ForeignKey('delegateable.id'), primary_key=True)
     comment_id = Column(Integer, ForeignKey('comment.id'), nullable=True)
               
     def __init__(self, instance, label, creator):
@@ -57,7 +57,6 @@ class Motion(Delegateable):
         
     @classmethod
     def find(cls, id, instance_filter=True):
-        id = unicode(id.upper())
         try:
             q = meta.Session.query(Motion)
             q = q.filter(Motion.id==id)

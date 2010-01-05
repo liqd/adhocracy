@@ -10,7 +10,7 @@ class Issue(Delegateable):
     __tablename__ = 'issue'
     __mapper_args__ = {'polymorphic_identity': 'issue'}
     
-    id = Column(Unicode(10), ForeignKey('delegateable.id'), primary_key=True)
+    id = Column(Integer, ForeignKey('delegateable.id'), primary_key=True)
     comment_id = Column(Integer, ForeignKey('comment.id'), nullable=True)
     
     def __init__(self, instance, label, creator):
@@ -41,7 +41,6 @@ class Issue(Delegateable):
 
     @classmethod
     def find(cls, id, instance_filter=True):
-        id = unicode(id.upper())
         try:
             q = meta.Session.query(Issue)
             q = q.filter(Issue.id==id)

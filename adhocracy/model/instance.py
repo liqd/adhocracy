@@ -31,7 +31,7 @@ class Instance(Base):
     default_group_id = Column(Integer, ForeignKey('group.id'), nullable=True)
     default_group = relation('Group', lazy=True)
         
-    root_id = Column(Unicode(10), 
+    root_id = Column(Integer, 
                      ForeignKey('category.id', use_alter=True, name='inst_root_cat'), 
                      nullable=True)
         

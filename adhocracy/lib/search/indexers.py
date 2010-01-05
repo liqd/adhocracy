@@ -20,14 +20,18 @@ def index_user(entity):
     d['title'] = entity.name
     if entity.bio:
         d['text'] = entity.bio
-    d['create_time'] = datetime2str(entity.create_time)
+    ct = datetime2str(entity.create_time if \
+                      entity.create_time else datetime.now())
+    d['create_time'] = ct
     return d
 
 def index_comment(entity):
     d = index_entity(entity)
     d['user'] = " ".join((entity.latest.user.name, 
                           entity.creator.name))
-    d['create_time'] = datetime2str(entity.latest.create_time)
+    ct = datetime2str(entity.latest.create_time if \
+                      entity.latest.create_time else datetime.now())
+    d['create_time'] = ct
     d['text'] = entity.latest.text
     d['instance'] = entity.topic.instance.key
     return d
@@ -35,7 +39,9 @@ def index_comment(entity):
 def index_delegateable(entity):
     d = index_entity(entity)
     d['title'] = entity.label
-    d['create_time'] = datetime2str(entity.create_time)
+    ct = datetime2str(entity.create_time if \
+                      entity.create_time else datetime.now())
+    d['create_time'] = ct
     d['user'] = entity.creator.name
     d['instance'] = entity.instance.key
     return d
@@ -45,7 +51,7 @@ def index_category(entity):
 
 def index_issue(entity):
     d = index_delegateable(entity)
-    d['text'] = entity.comment.latest.text
+    d['text'] = entity.comment.latest.text if entity.comment else ""
     return d
 
 def index_motion(entity):

@@ -12,7 +12,7 @@ import refs
 event_topic = Table('event_topic', Base.metadata,
     Column('event_id', Integer, ForeignKey('event.id',
         onupdate="CASCADE", ondelete="CASCADE")),
-    Column('topic_id', Unicode(10), ForeignKey('delegateable.id',
+    Column('topic_id', Integer, ForeignKey('delegateable.id',
         onupdate="CASCADE", ondelete="CASCADE"))
 )
 

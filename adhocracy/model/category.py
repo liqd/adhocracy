@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Unicode, UnicodeText, ForeignKey
+from sqlalchemy import Column, Unicode, UnicodeText, ForeignKey, Integer
 import meta
 import filter
 from delegateable import Delegateable
@@ -8,7 +8,7 @@ class Category(Delegateable):
     __tablename__ = 'category'
     __mapper_args__ = {'polymorphic_identity': 'category'}
     
-    id = Column(Unicode(10), ForeignKey('delegateable.id'), primary_key=True)
+    id = Column(Integer, ForeignKey('delegateable.id'), primary_key=True)
     description = Column(UnicodeText(), nullable=True)
     
     def __init__(self, instance, label, creator):
@@ -35,7 +35,6 @@ class Category(Delegateable):
 
     @classmethod
     def find(cls, id, instance_filter=True):
-        id = unicode(id.upper())
         try:
             q = meta.Session.query(Category)
             q = q.filter(Category.id==id)

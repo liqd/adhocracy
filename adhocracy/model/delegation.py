@@ -22,7 +22,7 @@ class Delegation(Base):
         primaryjoin="Delegation.principal_id==User.id", 
         backref=backref('delegated', cascade='all'))
     
-    scope_id = Column(Unicode(10), ForeignKey('delegateable.id'), nullable=False)
+    scope_id = Column(Integer, ForeignKey('delegateable.id'), nullable=False)
     scope = relation(Delegateable, lazy=False,
         primaryjoin="Delegation.scope_id==Delegateable.id", 
         backref=backref('delegations', cascade='all'))

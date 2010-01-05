@@ -11,8 +11,8 @@ class Alternative(Base):
     create_time = Column(DateTime, default=func.now())
     delete_time = Column(DateTime, nullable=True)
     
-    left_id = Column(Unicode(10), ForeignKey('motion.id'), nullable=False)
-    right_id = Column(Unicode(10), ForeignKey('motion.id'), nullable=False)
+    left_id = Column(Integer, ForeignKey('motion.id'), nullable=False)
+    right_id = Column(Integer, ForeignKey('motion.id'), nullable=False)
     
     def __init__(self, left, right):
         if left == right:
@@ -22,7 +22,7 @@ class Alternative(Base):
         self.right = right
     
     def __repr__(self):
-        return "<Alternative(%s,%s)>" % (self.left_id, self.right_id)
+        return "<Alternative(%d,%d)>" % (self.left_id, self.right_id)
     
     def other(self, this):
         return self.left if this==self.right else self.right

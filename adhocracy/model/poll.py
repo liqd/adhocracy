@@ -25,7 +25,7 @@ class Poll(Base):
     end_user = relation(user.User, 
                         primaryjoin="Poll.end_user_id==User.id")
     
-    motion_id = Column(Unicode(10), ForeignKey('motion.id'), nullable=False)
+    motion_id = Column(Integer, ForeignKey('motion.id'), nullable=False)
        
     def __init__(self, motion, begin_user):
         self.motion = motion

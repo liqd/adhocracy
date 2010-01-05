@@ -11,8 +11,8 @@ class Dependency(Base):
     create_time = Column(DateTime, default=func.now())
     delete_time = Column(DateTime, nullable=True)
     
-    motion_id = Column(Unicode(10), ForeignKey('motion.id'), nullable=False)
-    requirement_id = Column(Unicode(10), ForeignKey('motion.id'), nullable=False)
+    motion_id = Column(Integer, ForeignKey('motion.id'), nullable=False)
+    requirement_id = Column(Integer, ForeignKey('motion.id'), nullable=False)
     
     def __init__(self, motion, requirement):
         if motion == requirement:
@@ -21,7 +21,7 @@ class Dependency(Base):
         self.requirement = requirement
     
     def __repr__(self):
-        return "<Depdendency(%s,%s)>" % (self.motion_id, self.requirement_id)
+        return "<Depdendency(%d,%d)>" % (self.motion_id, self.requirement_id)
     
 Dependency.motion = relation(Motion, primaryjoin="Dependency.motion_id==Motion.id", 
                              foreign_keys=[Dependency.motion_id], 

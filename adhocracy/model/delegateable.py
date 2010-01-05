@@ -10,17 +10,14 @@ from meta import Base
 from user import User
 
 category_graph = Table('category_graph', Base.metadata,
-    Column('parent_id', Unicode(10), ForeignKey('delegateable.id')),
-    Column('child_id', Unicode(10), ForeignKey('delegateable.id'))
+    Column('parent_id', Integer, ForeignKey('delegateable.id')),
+    Column('child_id', Integer, ForeignKey('delegateable.id'))
     )
 
-class Delegateable(Base):
-    PK_LENGTH = 5
-    PK_ALPHABET = "abcdefgehijklmnopqrstuvwxyz0123456789"
-    
+class Delegateable(Base):    
     __tablename__ = 'delegateable'
     
-    id = Column(Unicode(10), primary_key=True)
+    id = Column(Integer, primary_key=True)
     label = Column(Unicode(255), nullable=False)
     delgateable_type = Column('type', String(50))
     
@@ -42,20 +39,16 @@ class Delegateable(Base):
                        'extension': Base.__mapper_args__.get('extension')}
     
     def __init__(self):
-        raise Exception("Make a category or a motion instead!")
+        raise Exception("Make a category or a proposal instead!")
         
     def init_child(self, instance, label, creator):
         self.instance = instance
-        self.id = self.make_key()
         self.label = label
         self.creator = creator
     
     def __repr__(self):
-        return u"<Delegateable(%s,%s)>" % (self.id, self.instance.key)
+        return u"<Delegateable(%d,%s)>" % (self.id, self.instance.key)
     
-    def __hash__(self):
-        return int(self.id, len(Delegateable.PK_ALPHABET) - 1)
-        
     def is_super(self, delegateable):
         if delegateable in self.children:
             return True
@@ -70,7 +63,6 @@ class Delegateable(Base):
     
     @classmethod
     def find(cls, id, instance_filter=True):
-        id = unicode(id.upper())
         try:
             q = meta.Session.query(Delegateable)
             q = q.filter(Delegateable.id==id)
@@ -82,23 +74,8 @@ class Delegateable(Base):
             return None
         
     def _index_id(self):
-        return self.id.upper()
+        return self.id
     
-    @staticmethod
-    def make_key():
-        """
-        Generate an alphabet-based unique key for a Delegateable.
-        Time needed for this grows as key space becomes less sparse.
-        """
-        while True:
-            candidate = u''.join(random.sample(Delegateable.PK_ALPHABET, Delegateable.PK_LENGTH)).upper()
-            try: 
-                meta.Session.query(Delegateable).filter(Delegateable.id==candidate).one()
-            except NoResultFound:
-                return candidate
-            except MultipleResultsFound:
-                pass
-
 Delegateable.__mapper__.add_property('parents', relation(Delegateable, lazy=True, secondary=category_graph, 
     primaryjoin=Delegateable.__table__.c.id == category_graph.c.parent_id,
     secondaryjoin=category_graph.c.child_id == Delegateable.__table__.c.id))

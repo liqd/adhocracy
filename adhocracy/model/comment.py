@@ -16,7 +16,7 @@ class Comment(Base):
     creator_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     creator = relation(user.User, lazy=False, backref=backref('comments'))
     
-    topic_id = Column(Unicode(10), ForeignKey('delegateable.id'), nullable=False)
+    topic_id = Column(Integer, ForeignKey('delegateable.id'), nullable=False)
     topic = relation(delegateable.Delegateable, backref=backref('comments', cascade='all'))
     
     canonical = Column(Boolean, default=False)
@@ -28,7 +28,7 @@ class Comment(Base):
         self.creator = creator
         
     def __repr__(self):
-        return "<Comment(%d,%s,%s,%s)>" % (self.id, self.creator.user_name,
+        return "<Comment(%d,%s,%d,%s)>" % (self.id, self.creator.user_name,
                                           self.topic_id, self.create_time)
     
     def _get_latest(self):
