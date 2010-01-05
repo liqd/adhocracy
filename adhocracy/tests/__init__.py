@@ -18,10 +18,8 @@ from webtest import TestApp
 import pylons.test
 
 from testtools import *
-import twill.commands as tc 
-import twill 
 
-__all__ = ['environ', 'url', 'TestController', 'tc', 'TwillTestController']
+__all__ = ['environ', 'url', 'TestController']
 
 # Invoke websetup with the current config file
 SetupCommand('setup-app').run([config['__file__']])
@@ -38,17 +36,6 @@ class TestController(TestCase):
         self.app = TestApp(wsgiapp)
         url._push_object(URLGenerator(config['routes.map'], environ))
         TestCase.__init__(self, *args, **kwargs)
-
-class TwillTestController(TestController): 
-    
-    def setUp(self):
-        tc.reset_browser()
-        def build_app():
-            return self.app.app
-        twill.add_wsgi_intercept('adhocracy.lan', 5000, build_app)
-        twill.add_wsgi_intercept('test.adhocracy.lan', 5000, build_app)
-        twill.add_wsgi_intercept('schnasel.adhocracy.lan', 5000, build_app)
-        twill.add_wsgi_intercept('hasen.adhocracy.lan', 5000, build_app)
         
         
         

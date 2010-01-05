@@ -1,1 +1,0 @@
-${e.agent.name} has deleted the category ${e.category.label}. All contained issues have been moved to ${e.category.label} parent categories. 

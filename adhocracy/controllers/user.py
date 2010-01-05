@@ -259,8 +259,13 @@ class UserController(BaseController):
     @ActionProtector(has_permission("delegation.view"))
     def delegations(self, id):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
-        scope_id = request.params.get('scope', c.instance.root.id)
-        c.scope = forms.ValidDelegateable().to_python(scope_id)
+        scope_id = request.params.get('scope', None)
+        c.dgbs = []
+        if scope_id:
+            c.scope = forms.ValidDelegateable().to_python(scope_id)
+            c.dgbs = [c.scope] + c.scope.search_children(recurse=True)
+        else:
+            c.dgbs = model.Delegateable.all(instance=c.instance)  
         c.nodeClass = democracy.DelegationNode 
         
         return render("/user/delegations.html")

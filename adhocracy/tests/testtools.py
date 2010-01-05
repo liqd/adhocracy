@@ -17,10 +17,9 @@ def tt_make_motion(creator=None, voting=False):
     instance = tt_get_instance()
     if not creator:
         creator = tt_make_user()
-    
-    cat = instance.root.search_children(cls=model.Category)[0]
+    issue = model.Issue(instance, tt_make_str(), creator)
     motion = model.Motion(instance, tt_make_str(), creator)
-    motion.parents = [cat]
+    motion.parents = [issue]
     model.meta.Session.add(motion)
     model.meta.Session.commit()
     model.meta.Session.refresh(motion)

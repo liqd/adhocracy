@@ -39,7 +39,7 @@ def delegateable_activity(dgb, from_time=None, to_time=None):
     a = activity(query_filter, from_time, to_time)
     for child in dgb.children:
         a += delegateable_activity(child, from_time, to_time)
-    return a
+    return a * -1
 
 def motion_activity(motion, from_time=None, to_time=None):
     return delegateable_activity(motion, from_time, to_time)
@@ -47,17 +47,14 @@ def motion_activity(motion, from_time=None, to_time=None):
 def issue_activity(issue, from_time=None, to_time=None):
     return delegateable_activity(issue, from_time, to_time)
 
-def category_activity(category, from_time=None, to_time=None):
-    return delegateable_activity(category, from_time, to_time)
-
 #@memoize('instance_activity')
 def instance_activity(instance, from_time=None, to_time=None):
     def query_filter(q):
         return q.filter(model.Event.instance==instance)
-    return activity(query_filter, from_time, to_time)
+    return activity(query_filter, from_time, to_time) * -1
 
 #@memoize('user_activity')
 def user_activity(user, from_time=None, to_time=None):
     def query_filter(q):
         return q.filter(model.Event.user==user)
-    return activity(query_filter, from_time, to_time)
+    return activity(query_filter, from_time, to_time) * -1

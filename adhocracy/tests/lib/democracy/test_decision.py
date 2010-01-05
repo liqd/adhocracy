@@ -74,6 +74,7 @@ class TestDecisionWithDelegation(TestController):
         self.low_delegate = tt_make_user()
         
         self.motion = tt_make_motion(creator=self.me, voting=True)
+        self.issue = self.motion.issue
         self.poll = Poll(self.motion, self.me)
         self.decision = Decision(self.me, self.poll)
         self.instance = tt_get_instance()
@@ -91,24 +92,24 @@ class TestDecisionWithDelegation(TestController):
         assert_equals(self.decision.result, None)
     
     def test_can_do_general_delegate_to_other_user(self):
-        self.delegate(self.high_delegate, self.instance.root)
+        self.delegate(self.high_delegate, self.issue)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         assert_equals(self.decision.reload().result, Vote.YES)
     
     def test_delegation_can_decide_a_decision(self):
-        self.delegate(self.high_delegate, self.instance.root)
+        self.delegate(self.high_delegate, self.issue)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         self.decision.reload()
         assert_true(self.decision.is_decided())
     
     def test_delegated_decisions_are_not_self_decided(self):
-        self.delegate(self.high_delegate, self.instance.root)
+        self.delegate(self.high_delegate, self.issue)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         self.decision.reload()
         assert_false(self.decision.is_self_decided())
     
     def test_issue_delegation_will_override_root_delegation(self):
-        self.delegate(self.high_delegate, self.instance.root)
+        self.delegate(self.high_delegate, self.issue)
         self.delegate(self.low_delegate, self.motion.issue)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         assert_equals(self.decision.reload().result, Vote.YES)

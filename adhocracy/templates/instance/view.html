@@ -3,7 +3,7 @@
 <%def name="title()">${c.page_instance.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.page_instance.root)|n} &raquo; ${_("Home")}
+	${h.breadcrumbs(c.page_instance)|n} &raquo; ${_("Home")}
 </%def>
 
 <div class="top_actions title">
@@ -12,9 +12,6 @@
 	%endif
 	%if not c.user:
 		<a class="button add" href="/register">${_("join")}</a> 
-	%endif
-	%if c.tile.can_delegate:
-		<a class="button add" href="/delegation/create?scope=${c.page_instance.root.id}">${_("delegate")}</a>
 	%endif
 	%if c.tile.can_admin:
 		<a class="button admin" href="/instance/edit/${c.page_instance.key}">${_("edit")}</a>
@@ -40,31 +37,11 @@ ${components.tutu()}
 				<span class="hint">${_("Before becoming active, the majority must be held for the specified interval.")}</span>
 			</div>
 		</div>
-		
-		${components.delegation_sidebar(c.page_instance.root)}
 		<div class="meta">
 			${_("Subscribe to RSS feed:")}
 			${h.rss_link("/instance/%s.rss" % c.page_instance.key)|n}
 		</div>
 	</div>
-	<br/>
-	
-	<div class="top_actions">
-		%if c.tile.can_create_category:
-			<a class="button add" href="/category/create?cat=${c.page_instance.root.id}">${_("new")}</a>
-		%elif c.tile.lack_create_category_karma:
-			<a class="button inactive htwarn" title="${c.tile.lack_create_category_karma}">${_("new")}</a>
-		%endif	
-	</div>
-	<h2>${_("Categories")} (${c.tile.num_categories})</h2>
-	%if c.tile.num_categories == 0 and c.tile.can_create_category:
-		<span class="hint">
-			${_("Create new categories to further structure the debate.")}
-		</span>
-	%endif
-	<ul>
-		${c.subcats_pager.here()}
-	</ul>
 </div>
 
 <div class="mainbar">
@@ -74,17 +51,15 @@ ${components.tutu()}
 	<br />
 	<div class="top_actions">
 		%if c.tile.can_create_issue:
-			<a class="button add" href="/issue/create?cat=${c.page_instance.root.id}">${_("new")}</a>
-		%elif c.tile.lack_create_issue_karma:
-			<a class="button inactive htwarn" title="${c.tile.lack_create_issue_karma}">${_("new")}</a>
-		%endif	
+			<a class="button add" href="/issue/create">${_("new")}</a>
+		%endif
 	</div>
-	<h2>${_("Issues")}  (${c.tile.num_issues})</h2>
-	%if c.tile.num_issues == 0:
-		%if c.tile.can_create_category:
-		<span class="infobox">
-			${_("Create an issue to start debating in this Adhocracy.")}
-		</span>
+	<h2>${_("Issues")}  (${len(c.issues_pager)})</h2>
+	%if len(c.issues_pager) == 0:
+		%if c.tile.can_create_issue:
+			<span class="infobox">
+				${_("Create an issue to start debating in this Adhocracy.")}
+			</span>
 		%endif
 	%else:
 		<div class="table">

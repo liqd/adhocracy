@@ -1,10 +1,9 @@
 <%inherit file="/template.html" />
-<%namespace name="catlist" file="/category/tree.html"/>
 <%namespace name="components" file="/components.html"/>
 <%def name="title()">${_("New issue")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.instance.root)|n} &raquo; ${_("New issue")}
+	${h.breadcrumbs(c.instance)|n} &raquo; ${_("New issue")}
 </%def>
 
 <%def name="contextbox()">
@@ -31,18 +30,7 @@
 		${components.formatting()}
 	</div>
 	
-	
-	<h3>${_("Categorization")}</h3>
-	<div class="sidebar">
-		<div class="infobox">
-			${_("Select the categories in which the issue needs to be listed.")}
-		</div>
-	</div>
-	<div class="mainbar">
-		${catlist.contextselect(type="checkbox", root=False)}
-	</div>
-	
 	<div style="clear: both;"></div>
-	${components.savebox("/category/%s" % request.params.get('cat', c.instance.root.id))}
+	${components.savebox("/instance/%s" % c.instance.key)}
 	${components.form_watch(None)}
 </form>

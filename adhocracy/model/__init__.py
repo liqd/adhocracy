@@ -24,9 +24,6 @@ from adhocracy.model.permission import Permission
 from adhocracy.model import delegateable
 from adhocracy.model.delegateable import Delegateable
 
-from adhocracy.model import category
-from adhocracy.model.category import Category
-
 from adhocracy.model import issue
 from adhocracy.model.issue import Issue
 

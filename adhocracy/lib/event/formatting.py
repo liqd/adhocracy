@@ -27,9 +27,6 @@ class IssueFormatter(DelegateableFormatter):
 class MotionFormatter(DelegateableFormatter):
     pass
 
-class CategoryFormatter(DelegateableFormatter):
-    pass
-
 class PollFormatter(ObjectFormatter):
     
     def unicode(self, poll):
@@ -92,7 +89,6 @@ class FormattedEvent(object):
               model.Group: GroupFormatter(),
               model.User: UserFormatter(),
               model.Instance: InstanceFormatter(),
-              model.Category: CategoryFormatter(),
               model.Motion: MotionFormatter(),
               model.Poll: PollFormatter(),
               model.Issue: IssueFormatter(),

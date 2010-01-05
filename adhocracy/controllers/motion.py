@@ -262,18 +262,15 @@ class MotionController(BaseController):
     def delete(self, id):
         c.motion = get_entity_or_abort(model.Motion, id)
         auth.require_motion_perm(c.motion, 'comment.delete')
-        parent = c.instance.root
-        if len(c.motion.parents):
-            parent = c.motion.parents[0]
-        h.flash("Motion %(motion)s has been deleted." % {'motion': c.motion.label})
         
+        h.flash("Motion %(motion)s has been deleted." % {'motion': c.motion.label})
         event.emit(event.T_MOTION_DELETE, c.user, instance=c.instance, 
                    topics=[c.motion], motion=c.motion)
         
         c.motion.delete_time = datetime.now()
         model.meta.Session.add(c.motion)
         model.meta.Session.commit()
-        redirect_to("/category/%s" % str(parent.id))   
+        redirect_to("/category/%d" % c.motion.issue.id)   
     
     @RequireInstance
     @ActionProtector(has_permission("motion.view")) 

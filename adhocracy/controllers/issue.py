@@ -14,12 +14,10 @@ class IssueCreateForm(formencode.Schema):
     allow_extra_fields = True
     label = validators.String(max=255, min=4, not_empty=True)
     text = validators.String(max=10000, not_empty=False, if_empty="")
-    categories = formencode.Any(formencode.foreach.ForEach(forms.ValidCategory(), convert_to_list=True))
 
 class IssueEditForm(formencode.Schema):
     allow_extra_fields = True
     label = validators.String(max=255, min=4, not_empty=True)
-    categories = formencode.Any(formencode.foreach.ForEach(forms.ValidCategory(), convert_to_list=True))
 
 class IssueController(BaseController):
 
@@ -31,7 +29,6 @@ class IssueController(BaseController):
         auth.require_delegateable_perm(None, 'issue.create')
         if request.method == "POST":
             issue = model.Issue(c.instance, self.form_result.get('label'), c.user)
-            issue.parents = self.form_result.get('categories')
             comment = model.Comment(issue, c.user)
             rev = model.Revision(comment, c.user, 
                                  text.cleanup(self.form_result.get("text")))
@@ -62,7 +59,6 @@ class IssueController(BaseController):
         auth.require_delegateable_perm(c.issue, 'issue.edit')
         if request.method == "POST":
             c.issue.label = self.form_result.get('label')
-            c.issue.parents = self.form_result.get('categories')
             model.meta.Session.add(c.issue)
             model.meta.Session.commit()
             model.meta.Session.refresh(c.issue)

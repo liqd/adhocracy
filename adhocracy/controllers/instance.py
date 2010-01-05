@@ -63,7 +63,7 @@ class InstanceController(BaseController):
     def view(self, key, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, key)
         
-        issues = c.page_instance.root.search_children(recurse=True, cls=model.Issue)
+        issues = model.Issue.all(instance=c.page_instance)
         
         if format == 'rss':
             query = model.meta.Session.query(model.Event)
@@ -84,13 +84,6 @@ class InstanceController(BaseController):
                                            _("activity"): sorting.issue_activity,
                                            _("name"): sorting.delegateable_label},
                                     default_sort=sorting.issue_activity)
-        
-        c.subcats_pager = NamedPager('categories', c.tile.categories, tiles.category.list_item,
-                             sorts={_("oldest"): sorting.entity_oldest,
-                                    _("newest"): sorting.entity_newest,
-                                    _("activity"): sorting.category_activity,
-                                    _("name"): sorting.delegateable_label},
-                             default_sort=sorting.category_activity)
 
         return render("/instance/view.html")
             

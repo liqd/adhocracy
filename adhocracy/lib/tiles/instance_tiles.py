@@ -8,15 +8,14 @@ from .. import text
 from .. import authorization as auth
 from .. import helpers as h
 
+import adhocracy.model as model
 
-from category_tiles import CategoryTile
 
-class InstanceTile(CategoryTile):
+class InstanceTile(BaseTile):
     
     def __init__(self, instance):
         self.instance = instance
         self.__issues = None
-        CategoryTile.__init__(self, instance.root)
         
     def _tagline(self):       
         if self.instance.description:
@@ -56,6 +55,19 @@ class InstanceTile(CategoryTile):
     
     can_leave = property(_can_leave)
     can_admin = property(BaseTile.prop_has_perm('instance.admin'))
+    
+    def _can_create_issue(self):
+        return c.user and h.has_permission("issue.create")
+    
+    can_create_issue = property(_can_create_issue)
+    
+    def _num_issues(self):
+        query = model.meta.Session.query(model.Issue)
+        query = query.filter(model.Issue.instance==self.instance)
+        query = query.filter(model.Issue.delete_time==None)
+        return query.count()
+    
+    num_issues = property(_num_issues)
 
 def list_item(instance):
     return render_tile('/instance/tiles.html', 'list_item', 

@@ -73,6 +73,14 @@ class Delegateable(Base):
         except: 
             return None
         
+    @classmethod    
+    def all(cls, instance=None):
+        q = meta.Session.query(Delegateable)
+        q = q.filter(Delegateable.delete_time==None)
+        if instance:
+            q.filter(Delegateable.instance==instance)
+        return q.all()
+        
     def _index_id(self):
         return self.id
     

@@ -2,7 +2,7 @@
 <%def name="title()">${_("Select a user name")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.instance.root) if c.instance else _("Adhocracy")|n} &raquo; ${_("User name")}
+	${h.breadcrumbs(c.instance) if c.instance else _("Adhocracy")|n} &raquo; ${_("User name")}
 </%def>
 
 <h1 class="page_title">

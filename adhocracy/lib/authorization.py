@@ -102,9 +102,7 @@ def require_delegateable_perm(delegateable, permission_name):
     """ If permission is not present, show a warning page. """
     if not on_delegateable(delegateable, permission_name):
         h.flash(karma.threshold.message(permission_name))
-        if not delegateable:
-            delegateable = c.instance.root
-        redirect_to('/d/%s' % str(delegateable.id))
+        redirect_to('/d/%d' % delegateable.id)
         
 def require_motion_perm(motion, permission_name, enforce_immutability=True):
     """ If permission is not present, show a warning page. """

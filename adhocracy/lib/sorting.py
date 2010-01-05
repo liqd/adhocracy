@@ -14,9 +14,6 @@ def entity_newest(entities):
 def entity_oldest(entities):
     return sorted(entities, key=lambda e: e.create_time, reverse=False)
 
-def category_activity(categories):
-    return sorted(categories, key=lambda c: estats.category_activity(c))
-
 def issue_activity(issues):
     return sorted(issues, key=lambda i: estats.issue_activity(i))
 

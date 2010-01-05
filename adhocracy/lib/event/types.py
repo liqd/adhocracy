@@ -93,18 +93,6 @@ T_MOTION_DELETE = EventType(u"t_motion_delete", pri=2,
                           subject=lambda: _(u"Deleted motion: %(motion)s"),
                           event_msg=lambda: _(u"deleted %(motion)s"))
 
-T_CATEGORY_CREATE = EventType(u"t_category_create", pri=3, 
-                          subject=lambda: _(u"New category: %(category)s"),
-                          event_msg=lambda: _(u"created the category %(category)s in %(parent)s"))
-
-T_CATEGORY_EDIT = EventType(u"t_category_edit", pri=2, 
-                          subject=lambda: _(u"Edited category: %(category)s"),
-                          event_msg=lambda: _(u"updated the category %(category)s"))
-
-T_CATEGORY_DELETE = EventType(u"t_category_delete", pri=3, 
-                          subject=lambda: _(u"Deleted category: %(category)s"),
-                          event_msg=lambda: _(u"deleted the category %(category)s"))
-
 T_COMMENT_CREATE = EventType(u"t_comment_create", pri=2, 
                           subject=lambda: _(u"New comment: in %(topic)s"),
                           event_msg=lambda: _(u"created a %(comment)s on %(topic)s"))

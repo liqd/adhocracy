@@ -45,7 +45,7 @@ class RootController(BaseController):
     def sitemap_xml(self):
         c.delegateables = []
         def add_delegateables(instance):
-            children = instance.root.search_children(recurse=True)
+            children = model.Delegateable.all(instance=instance)
             c.delegateables.extend(children)
             
         response.content_type = "text/xml"

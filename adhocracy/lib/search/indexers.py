@@ -46,9 +46,6 @@ def index_delegateable(entity):
     d['instance'] = entity.instance.key
     return d
 
-def index_category(entity):
-    return index_delegateable(entity)
-
 def index_issue(entity):
     d = index_delegateable(entity)
     d['text'] = entity.comment.latest.text if entity.comment else ""

@@ -9,7 +9,6 @@ from group import Group
 from permission import Permission
 from comment import Comment
 from delegation import Delegation
-from category import Category
 from issue import Issue
 from motion import Motion
 from poll import Poll
@@ -25,7 +24,6 @@ TYPES = [Vote,
          Permission,
          Comment,
          Delegation,
-         Category,
          Issue,
          Motion,
          Poll,

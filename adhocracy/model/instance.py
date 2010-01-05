@@ -14,7 +14,7 @@ class Instance(Base):
     
     id = Column(Integer, primary_key=True)
     _key = Column('key', Unicode(20), nullable=False, unique=True)
-    _label = Column('label', Unicode(255), nullable=False)
+    label = Column(Unicode(255), nullable=False)
     description = Column(UnicodeText(), nullable=True)
     
     required_majority = Column(Float, nullable=False)
@@ -30,10 +30,6 @@ class Instance(Base):
     
     default_group_id = Column(Integer, ForeignKey('group.id'), nullable=True)
     default_group = relation('Group', lazy=True)
-        
-    root_id = Column(Integer, 
-                     ForeignKey('category.id', use_alter=True, name='inst_root_cat'), 
-                     nullable=True)
         
     def __init__(self, key, label, creator, description=None):
         self.key = key
@@ -60,7 +56,7 @@ class Instance(Base):
         for membership in self.memberships:
             if not membership.expire_time:
                 members.append(membership.user)
-        global_membership = model.Permission.by_code('global-member')
+        global_membership = model.Permission.by_code('global.member')
         for group in global_membership.groups:
             for membership in group.memberships:
                 if membership.instance == None and not membership.expire_time:
@@ -69,17 +65,6 @@ class Instance(Base):
     
     members = property(_get_members)
     
-    def _get_label(self):
-        return self._label
-    
-    def _set_label(self, label):
-        self._label = label
-        if self.root:
-            self.root.label = label
-        
-    label = synonym('_label', descriptor=property(_get_label,
-                                                  _set_label))  
-        
     @classmethod
     def find(cls, key, instance_filter=True):
         key = unicode(key.lower())
@@ -94,9 +79,3 @@ class Instance(Base):
     @classmethod  
     def all(cls):
         return meta.Session.query(Instance).all()
-        
-        
-Instance.root = relation('Category', lazy=True,
-                    primaryjoin="Instance.root_id==Category.id", 
-                    foreign_keys=[Instance.root_id], 
-                    uselist=False)

@@ -13,22 +13,21 @@ class TestDelegationNode(TestController):
     
     def test_queries(self):
         motion = tt_make_motion(voting=True)
-        instance = tt_get_instance()
         user1 = tt_make_user()
         user2 = tt_make_user()
         user3 = tt_make_user()
         
-        d1to2 = model.Delegation(user1, user2, instance.root)
+        d1to2 = model.Delegation(user1, user2, motion.issue)
         model.meta.Session.add(d1to2)
         model.meta.Session.commit()
         
-        dn = DelegationNode(user1, instance.root)
+        dn = DelegationNode(user1, motion.issue)
         assert len(dn.outbound()) == 1
              
         dn = DelegationNode(user1, motion)
         assert len(dn.outbound()) == 1
         
-        dn = DelegationNode(user2, instance.root)
+        dn = DelegationNode(user2, motion.issue)
         assert len(dn.inbound()) == 1
         
         dn = DelegationNode(user2, motion)
@@ -38,7 +37,7 @@ class TestDelegationNode(TestController):
         model.meta.Session.add(d3to2)
         model.meta.Session.commit()
         
-        dn = DelegationNode(user2, instance.root)
+        dn = DelegationNode(user2, motion.issue)
         assert len(dn.inbound()) == 1#
         
         dn = DelegationNode(user2, motion)
@@ -98,7 +97,6 @@ class TestDelegationNode(TestController):
     
     def test_filter(self):
         motion = tt_make_motion(voting=True)
-        instance = tt_get_instance()
         user1 = tt_make_user()
         user2 = tt_make_user()
         user3 = tt_make_user()
@@ -106,7 +104,7 @@ class TestDelegationNode(TestController):
         small = model.Delegation(user1, user2, motion)
         model.meta.Session.add(small)
         
-        large = model.Delegation(user1, user3, instance.root)
+        large = model.Delegation(user1, user3, motion.issue)
         model.meta.Session.add(large)
         model.meta.Session.commit()
         

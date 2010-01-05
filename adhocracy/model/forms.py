@@ -9,7 +9,6 @@ import user
 import vote
 import delegateable
 import motion
-import category
 import issue
 import group
 import watch
@@ -74,15 +73,6 @@ class ValidDelegateable(formencode.FancyValidator):
                 _("No entity with ID '%s' exists") % value,
                  value, state)
         return dgb
-
-class ValidCategory(formencode.FancyValidator):
-    def _to_python(self, value, state):
-        cat =  category.Category.find(value)
-        if not cat: 
-           raise formencode.Invalid(
-                _("No category with ID '%s' exists") % value,
-                 value, state)
-        return cat
 
 class ValidIssue(formencode.FancyValidator):
     def _to_python(self, value, state):
@@ -161,19 +151,7 @@ class EditorRemoveForm(formencode.Schema):
 class VoteCastForm(formencode.Schema):
     allow_extra_fields = True
     orientation = validators.Int(min=vote.Vote.NO, max=vote.Vote.YES, not_empty=True)
-    
-class CategoryCreateForm(formencode.Schema):
-    allow_extra_fields = True
-    label = validators.String(max=255, min=4, not_empty=True)
-    description = validators.String(max=1000, if_empty=None, not_empty=False)
-    categories = ValidCategory(not_empty=True)
-    
-class CategoryEditForm(formencode.Schema):
-    allow_extra_fields = True
-    label = validators.String(max=255, min=4, not_empty=True)
-    description = validators.String(max=1000, if_empty=None, not_empty=False)
-    categories = ValidCategory(not_emtpy=True)
-    
+
 class EventPanelForm(formencode.Schema):
     allow_extra_fields = True
     event_page = validators.Int(if_missing=1, not_empty=False)

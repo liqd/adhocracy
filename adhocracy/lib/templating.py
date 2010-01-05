@@ -109,3 +109,5 @@ class NamedPager(object):
     def here(self):
         return render_def('/pager.html', 'namedpager', pager=self)
         
+    def __len__(self):
+        return len(self.items)

@@ -15,7 +15,8 @@ class DelegationController(BaseController):
     @RequireInternalRequest(methods=["POST"])
     @ActionProtector(has_permission("vote.cast"))
     def create(self):
-        id = request.params.get("scope", c.instance.root.id)
+        # todo turn this into a form
+        id = request.params.get("scope")
         c.scope = get_entity_or_abort(model.Delegateable, id)
         errors = {}
         fillins = dict(request.params.items())

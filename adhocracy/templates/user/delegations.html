@@ -8,11 +8,11 @@
 </%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.instance.root)|n} &raquo; ${c.page_user.name} &raquo; ${_("Delegations")}
+	${h.breadcrumbs(c.scope if c.scope else c.instance)|n} &raquo; ${c.page_user.name} &raquo; ${_("Delegations")}
 </%def>
 
 <div class="top_actions title">
-	%if h.has_permission("vote.cast"):
+	%if c.scope and h.has_permission("vote.cast"):
 		<a class="button title add" href="/delegation/create?scope=${c.scope.id}">${_("new")}</a>
 	%endif
 </div>
@@ -20,13 +20,17 @@
 <h1 class="page_title">
 	<img src="/img/icons/delegate_24.png" class="cd"/>
 	%if c.user == c.page_user:
-		%if c.scope != c.instance.root:
+		%if c.scope:
 			${_("My Delegations: %s") % c.scope.label}
 		%else:
 			${_("My Delegations")}
 		%endif
 	%else: 
-		${_("Delegations: %s") % c.page_user.name}
+		%if c.scope:
+			${_("%ss Delegations: %s") % (c.page_user.name, c.scope.label)}
+		%else:
+			${_("%ss Delegations") % c.page_user.name}
+		%endif
 	%endif
 </h1>
 
@@ -36,7 +40,7 @@
 			<th>${_("Given")}</th>
 			<th>${_("Received")}</th>
 		</tr>
-		%for delegateable in [c.scope] + c.scope.search_children(recurse=True):
+		%for delegateable in c.dgbs:
 			%if h.contains_delegations(c.page_user, delegateable, recurse=False):
 			<tr>
 				<td>

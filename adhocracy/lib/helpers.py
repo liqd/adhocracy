@@ -29,21 +29,19 @@ import webhelpers.text as text
 flash = _Flash()
 
 @cache.memoize('delegateable_breadcrumbs')
-def breadcrumbs(delegateable, id=None):
-    import adhocracy.model as model
-    
-    if not delegateable:
+def breadcrumbs(entity):    
+    if not entity:
         return _("Adhocracy")
     
-    if not id:
-        id = delegateable.id
+    if isinstance(entity, model.Instance):
+        return "<a href='/instance/%s'>%s</a>" % (entity.key, 
+                                                  text.truncate(entity.label, length=30, whole_word=True))
     
-    if len(delegateable.parents):
-        link = "<a href='/d/%s'>%s</a>" % (id, text.truncate(delegateable.label, length=30, whole_word=True))
+    if len(entity.parents):
+        link = "<a href='/d/%s'>%s</a>" % (entity.id, text.truncate(entity.label, length=30, whole_word=True))
         link = breadcrumbs(delegateable.parents[0]) + " &raquo; " + link
     else:
-        link = "<a href='/category/%s'>%s</a>" % (delegateable.instance.root.id, 
-                                                  text.truncate(delegateable.instance.label, length=30, whole_word=True))
+        link = breadcrumbs(entity.instance)
     return link
 
 
@@ -76,8 +74,6 @@ def delegateable_link(delegateable, icon=True, link=True):
             text = "<img class='user_icon' src='%s' /> " % motion_icon(delegateable)
         elif isinstance(delegateable, model.Issue):
             text = "<img class='user_icon' src='%s/img/icons/issue_16.png' /> " % instance_url(None, path='')
-        elif isinstance(delegateable, model.Category):
-            text = "<img class='user_icon' src='%s/img/icons/stack_16.png' /> " % instance_url(None, path='')
     text += cgi.escape(delegateable.label)
     if isinstance(delegateable, model.Motion) and icon:
         state = democracy.State(delegateable)
@@ -91,9 +87,6 @@ def delegateable_link(delegateable, icon=True, link=True):
         elif isinstance(delegateable, model.Issue):
             text = "<a href='%s' class='dgb_link'>%s</a>" % (
                         instance_url(delegateable.instance, path='/issue/%s' % delegateable.id), text)
-        elif isinstance(delegateable, model.Category):
-            text = "<a href='%s' class='dgb_link'>%s</a>" % (
-                        instance_url(delegateable.instance, path='/category/%s' % delegateable.id), text)
     return text
 
 def contains_delegations(user, delegateable, recurse=True):
@@ -116,11 +109,6 @@ def gravatar_url(user, size=32):
         'size': str(size)})
     return gravatar_url
     
-def user_or_you(user):
-    if user == c.user:
-        return _("You")
-    return "<a href='/user/%s'>%s</a>" % (user.user_name, cgi.escape(user.name))
-
 def instance_url(instance, path="/"):
     subdomain = ""
     if instance: # don't ask

@@ -20,15 +20,6 @@ def invalidate_comment(comment):
         invalidate_comment(comment.reply)
     invalidate_delegateable(comment.topic)
     
-def invalidate_issue(issue):
-    invalidate_delegateable(issue)
-
-def invalidate_motion(motion):
-    invalidate_delegateable(motion)
-
-def invalidate_category(category):
-    invalidate_delegateable(category)
-    
 def invalidate_delegation(delegation):    
     invalidate_user(delegation.principal)
     invalidate_user(delegation.agent)

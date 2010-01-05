@@ -4,7 +4,6 @@ from adhocracy import model
 
 import issue_tiles as issue
 import instance_tiles as instance
-import category_tiles as category
 import comment_tiles as comment
 import user_tiles as user
 import motion_tiles as motion
@@ -20,8 +19,6 @@ def dispatch_row(entity):
         return user.row(entity)
     elif isinstance(entity, model.Instance):
         return instance.row(entity)
-    elif isinstance(entity, model.Category):
-        return category.row(entity)
     elif isinstance(entity, model.Issue):
         return issue.row(entity)
     elif isinstance(entity, model.Motion):

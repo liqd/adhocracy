@@ -1,8 +1,0 @@
-${e.agent.name} has edit the category ${e.category.label}. It is a subcategory to {e.category.parents[0].label}. 
-%if e.category.description:
-
-Here's the current description: 
-${e.category.description}
-%endif
-
-Have a look at the category: ${h.instance_url(e.category.instance, path="/category/%s" % e.category.id)}
