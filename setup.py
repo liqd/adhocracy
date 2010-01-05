@@ -29,7 +29,8 @@ setup(
         "beautifulsoup>=3.1",
         "python-openid>=2.2.4",
         "python-memcached>=1.45",
-        "Whoosh>=0.3.9"
+        "Whoosh>=0.3.9",
+        "PIL>=1.1.6"
     ],
     # REFACT: could/should these become regular dependencies?
     setup_requires=["PasteScript>=1.6.3", "setuptools>=0.6c6"], # fix OS X 10.5.7
