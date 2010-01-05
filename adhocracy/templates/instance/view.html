@@ -18,7 +18,6 @@
 	%endif
 	%if c.tile.can_admin:
 		<a class="button admin" href="/instance/edit/${c.page_instance.key}">${_("edit")}</a>
-		<a class="button admin" href="/admin/members">${_("members")}</a> 
 	%endif
 	%if c.tile.can_leave:
 		<a class="button delete" href="/instance/leave/${c.page_instance.key}?${h.url_token()}">${_("leave")}</a> 
