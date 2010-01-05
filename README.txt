@@ -2,7 +2,9 @@
 Adhocracy Liquid Democracy Implementation
 =========================================
 
+Instances > Categories > Issues > Motions
 
+Delegation can happeon on all four levels.
 
 Memcache
 ======================
