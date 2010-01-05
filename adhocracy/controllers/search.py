@@ -21,8 +21,6 @@ class SearchController(BaseController):
             c.entities_pager = NamedPager('serp', c.entities, tiles.dispatch_row, q=c.query)
         except formencode.Invalid:
             h.flash(_("Received no query for search."))
-        except JavaError, je:
-            h.flash("Error: %s" % je.message)
                 
         return formencode.htmlfill.render(render("search/results.html"),
                         {'q': c.query})

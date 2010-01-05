@@ -16,11 +16,7 @@ def setup_app(command, conf, vars):
     if config.get('adhocracy.setup.drop', "OH_NOES") == "KILL_EM_ALL":
         log.warn("DELETING DATABASE AND SEARCH/EVENT INDEX")
         meta.metadata.drop_all(bind=meta.engine)
-        import os
-        if os.path.exists(search.index_dir()):
-            import shutil
-            shutil.rmtree(search.index_dir())
-            search.setup_search()
+        search.reset_index()
 
     # Create the tables if they don't already exist
     meta.metadata.create_all(bind=meta.engine)

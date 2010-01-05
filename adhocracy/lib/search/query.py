@@ -1,41 +1,25 @@
 import logging
          
-import index
+from index import get_index, schema
+from adhocracy.model import refs
+from whoosh.qparser import MultifieldParser
+from whoosh.query import *
 
 log = logging.getLogger(__name__)
 
-def run(terms, instance=None, cls=None, limit=50, fields=['label', 'description', 'user']):
-#    bquery = BooleanQuery()
-#        
-#    #equery = TermQuery(Term("entity", "true"))
-#    #bquery.add(BooleanClause(equery, BooleanClause.Occur.MUST))
-#    
-#    if instance:
-#        iquery = TermQuery(Term("instance", str(instance.key)))
-#        bquery.add(BooleanClause(iquery, BooleanClause.Occur.MUST))
-#        
-#    #if cls:
-#    #    tquery = TermQuery(Term("type", entityrefs.entity_type(cls)))
-#    #    bquery.add(BooleanClause(tquery, BooleanClause.Occur.MUST))
-#        
-#    #mquery = MultiFieldQueryParser.parse(Version.LUCENE_CURRENT,
-#    #    terms, fields, 
-#    #    [BooleanClause.Occur.SHOULD] * len(fields),
-#    #    index.get_analyzer())
-#    #bquery.add(BooleanClause(mquery, BooleanClause.Occur.MUST))  
-#    
-#    log.debug("Entity query: %s" % bquery.toString().encode("ascii", "replace"))
-#    
-#    searcher = index.get_searcher()
-#    scoreDocs = searcher.search(bquery, limit).scoreDocs
-#        
-#    results = []
-#    for scoreDoc in scoreDocs:
-#        print scoreDoc
-#        doc = searcher.doc(scoreDoc.doc)
-#        doc.getField("ref").stringValue()
-#        entity = entityrefs.to_entity(ref)
-#        
-#        if entity:
-#            results.append(entity)
-    return []
+def run(terms, instance=None, limit=50, fields=[u'title', u'text', u'user']):
+    searcher = get_index().searcher()    
+    mparser = MultifieldParser(fields, schema=schema)
+    query = mparser.parse(terms)
+    
+    if instance:
+        query = Require(query, Term(u'instance', instance.key))
+    
+    log.debug("Query: %s" % query)
+    
+    results = searcher.search(query, limit=limit)
+    entities = []
+    for fields in results:
+        entity = refs.to_entity(fields.get('ref'))
+        entities.append(entity)
+    return entities

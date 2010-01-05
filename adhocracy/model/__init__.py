@@ -77,6 +77,10 @@ def init_model(engine):
     sm = orm.sessionmaker(autoflush=True, bind=engine)
     meta.engine = engine
     meta.Session = orm.scoped_session(sm)
+    
+    import adhocracy.lib.search as search
+    search.rebuild()
+    
         
 
 
