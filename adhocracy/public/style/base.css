@@ -987,20 +987,22 @@ table.delegations th {
 
 
 a.button {
-	font-size: 10pt;
-	font-size: 100%;
-	padding: 0.4em;
+	font-size: 12px;
+	padding: 0.25em;
+	padding-bottom: 0.2em;
+	padding-top: 0.2em;
 	min-width: 3em;
 	text-align: center;
 	text-transform: lowercase;
 	color: #fff;
-	font-weight: bold;
+	font-weight: normal;
 	margin-left: 0.2em;
 	
-	/* -webkit-border-radius: 3px; */
-	background-image: url(/img/button_bg.png);
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	/*background-image: url(/img/button_bg.png);
 	background-repeat: repeat-x;
-	background-position: top;
+	background-position: top;*/
 }
 
 a.button:hover {
