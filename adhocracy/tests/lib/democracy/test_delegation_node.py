@@ -6,14 +6,13 @@ from adhocracy.tests.testtools import *
 from nose.tools import *
 
 import adhocracy.lib.democracy as poll
-from adhocracy.lib.democracy import Poll, Decision, DelegationNode
+from adhocracy.lib.democracy import Decision, DelegationNode
 import adhocracy.model as model
 
 class TestDelegationNode(TestController):
     
     def test_queries(self):
         motion = tt_make_motion(voting=True)
-        time.sleep(1)
         instance = tt_get_instance()
         user1 = tt_make_user()
         user2 = tt_make_user()
@@ -47,10 +46,9 @@ class TestDelegationNode(TestController):
         
         dn = DelegationNode(user2, motion)
         assert len(dn.inbound(recurse=False)) == 1
-        
+    
     def test_propagate(self):
         motion = tt_make_motion(voting=True)
-        time.sleep(1)
         user1 = tt_make_user()
         user2 = tt_make_user()
         user3 = tt_make_user()
@@ -76,10 +74,9 @@ class TestDelegationNode(TestController):
         def inp(user, deleg, edge):
             return "foo"
         assert len(dn.propagate(inp)) == 5
-        
+    
     def test_detach(self):
         motion = tt_make_motion(voting=True)
-        time.sleep(1)
         user1 = tt_make_user()
         user2 = tt_make_user()
         user3 = tt_make_user()
@@ -98,7 +95,7 @@ class TestDelegationNode(TestController):
         
         dn = DelegationNode(user1, motion)
         assert len(dn.inbound()) == 0
-        
+    
     def test_filter(self):
         motion = tt_make_motion(voting=True)
         instance = tt_get_instance()
@@ -116,3 +113,8 @@ class TestDelegationNode(TestController):
         res = DelegationNode.filter_delegations([small, large])
         assert small in res
         assert large not in res
+    
+
+
+# TODO: delegated an isue to a user and again a motion inside that issue to the same user: make sure he only gets the right ammount of delegations
+# TODO: add delegation_weight() method
