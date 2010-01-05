@@ -61,7 +61,7 @@ def to_entity(ref, instance_filter=False):
     
 def _ify(fun, obj):
     if isinstance(obj, type([])):
-        return [refify(e) for e in obj]
+        return [_ify(fun, e) for e in obj]
     elif isinstance(obj, type({})):
         return dict([(k, _ify(fun, v)) for k, v in obj.items()])
     else:
