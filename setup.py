@@ -7,10 +7,10 @@ except ImportError:
 
 setup(
     name='adhocracy',
-    version='0.2',
+    version='0.3',
     description='Community decision process manager',
     author='Liquid Democracy e.V.',
-    author_email='friedrich@adhocracy.de',
+    author_email='info@adhocracy.de',
     url='http://www.adhocracy.de',
     install_requires=[
         "Pylons>=0.9.7",
