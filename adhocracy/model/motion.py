@@ -10,6 +10,8 @@ from delegateable import Delegateable
 
 log = logging.getLogger(__name__)
 
+# REFACT: rename to Proposal to make it more clear that this is a concrete proposition
+# Might even go as far and call them Solutions (nice symetry between Issues and Solutions)
 class Motion(Delegateable):
     __tablename__ = 'motion'
     __mapper_args__ = {'polymorphic_identity': 'motion'}

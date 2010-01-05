@@ -20,6 +20,7 @@ class TestDecisionWithoutDelegation(TestController):
         assert_equals(len(self.decision.votes), 0)
         assert_equals(len(self.decision.relevant_votes), 0)
         assert_equals(self.decision.result, None, "Not voted yet == not recorded for quorum")
+        # TODO: this quorum thing needs additional tests
     
     def test_new_decisions_are_not_decided(self):
         assert_false(self.decision.is_decided())
