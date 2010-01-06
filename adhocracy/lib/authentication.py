@@ -55,4 +55,5 @@ def setup_auth(app, config):
                       challengers=challengers,
                       mdproviders=mdproviders,
                       log_stream = log_stream,
-                      log_level = logging.DEBUG)
+                      log_level = logging.DEBUG,
+                      skip_authentication=config.get('skip_authentication'))

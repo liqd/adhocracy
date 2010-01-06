@@ -10,7 +10,7 @@ import hashlib
 from urlparse import urlparse
 from decorator import decorator
 
-from pylons import session, request
+from pylons import session, request, config
 from pylons.controllers.util import abort
 from pylons.i18n import _
 
@@ -27,6 +27,8 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
             if not request.method in methods:
                 return True
             if not request.environ.get("AUTH_TYPE") == "cookie":
+                return True
+            if config.get('skip_authentication'):
                 return True
             
             if request.environ.get('HTTP_REFERER'):           

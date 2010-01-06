@@ -22,6 +22,7 @@ setup(
         "repoze.what-pylons>=1.0",
         "repoze.what.plugins.sql>=1.0rc1",
         "repoze.who-friendlyform>=1.0b3",
+        "repoze.who-testutil>=0.9",
         "python-twitter>=0.6",
         "oauth>=1.0.1",
         "amqplib>=0.6.1",

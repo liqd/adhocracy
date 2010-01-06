@@ -158,8 +158,8 @@ class OpenidauthController(BaseController):
         axrep = ax.FetchResponse.fromSuccessResponse(info)
         if axrep:
             args = axrep.getExtensionArgs()
-            if args['type.ext0'] == AX_MAIL_SCHEMA:
-                email = args['value.ext0.1']
+            if args.get('type.ext0') == AX_MAIL_SCHEMA:
+                email = args.get('value.ext0.1')
             
         if 'openid_session' in session:
             del session['openid_session']

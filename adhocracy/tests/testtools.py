@@ -33,24 +33,22 @@ def tt_make_motion(creator=None, voting=False):
         # model.meta.Session.commit() 
     return motion
 
-def tt_make_user(group=None):
-    user = None
-    while True:
-        uname = tt_make_str()
-        if not model.User.find(uname):
-            user = model.User(uname, u"test@test.test", u"test")
-            break
+def tt_make_user(instance_group=None):
+    uname = tt_make_str() 
+    user = model.User(uname, u"test@test.test", u"test")
+    
     defgrp = model.Group.by_code(model.Group.CODE_DEFAULT)
     defmembr = model.Membership(user, None, defgrp)
-    
-    instance = tt_get_instance()
-    if not group:
-        group = model.Group.by_code(model.Group.CODE_VOTER)
-    grpmembr = model.Membership(user, instance, group) 
-    model.meta.Session.add(user)
-    user.memberships += [defmembr, grpmembr]
+    memberships = [defmembr]
     model.meta.Session.add(defmembr)
-    model.meta.Session.add(grpmembr)
+    
+    if instance_group:
+        instance = tt_get_instance()
+        grpmembr = model.Membership(user, instance, instance_group)
+        model.meta.Session.add(grpmembr)
+        memberships.append(grpmembr)
+    user.memberships = memberships 
+    model.meta.Session.add(user)
     model.meta.Session.commit()
     model.meta.Session.refresh(user)
     return user

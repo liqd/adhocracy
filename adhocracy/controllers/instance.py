@@ -161,11 +161,9 @@ class InstanceController(BaseController):
             h.flash(_("You're already a member in %(instance)s.") % {
                             'instance': c.page_instance.label})
             redirect_to('/adhocracies')
-        
-        grp = c.page_instance.default_group
-        if not grp:
-            grp = model.Group.by_code(model.Group.INSTANCE_DEFAULT) 
-        membership = model.Membership(c.user, c.page_instance, grp)
+        membership = model.Membership(c.user, c.page_instance, 
+                                      c.page_instance.default_group)
+        model.meta.Session.expunge(membership)
         model.meta.Session.add(membership)
         model.meta.Session.commit()
         
