@@ -65,7 +65,6 @@ class MotionController(BaseController):
     @ActionProtector(has_permission("motion.create"))
     #@validate(schema=MotionCreateForm(), form="create", post_only=True)
     def create(self):
-        auth.require_motion_perm(None, 'comment.create')
         try:
             c.issue = forms.ValidIssue(not_empty=True).to_python(request.params.get('issue'))
         except formencode.Invalid:
@@ -148,7 +147,8 @@ class MotionController(BaseController):
     #@validate(schema=MotionEditForm(), form="edit", post_only=True)
     def edit(self, id):
         c.motion = get_entity_or_abort(model.Motion, id)
-        auth.require_motion_perm(c.motion, 'comment.edit')
+        if not democracy.is_motion_mutable(c.motion):
+            abort(403, h.immutable_motion_message())
         c.issues = model.Issue.all(instance=c.instance)
         c.motions = model.Motion.all(instance=c.instance)
         c.relations = dict()
@@ -261,7 +261,8 @@ class MotionController(BaseController):
     @ActionProtector(has_permission("motion.delete"))
     def delete(self, id):
         c.motion = get_entity_or_abort(model.Motion, id)
-        auth.require_motion_perm(c.motion, 'comment.delete')
+        if not democracy.is_motion_mutable(c.motion):
+            abort(403, h.immutable_motion_message())
         
         h.flash("Motion %(motion)s has been deleted." % {'motion': c.motion.label})
         event.emit(event.T_MOTION_DELETE, c.user, instance=c.instance, 

@@ -7,6 +7,7 @@ from .. import karma
 from .. import authorization as auth
 from .. import democracy
 from .. import sorting
+from .. import helpers as h
 
 from util import render_tile, BaseTile
 
@@ -57,36 +58,32 @@ class CommentTile(BaseTile):
     creator_delegate = property(_creator_delegate)
     
     def _can_edit(self):
-        return auth.on_comment(self.comment, 'comment.edit') \
+        return h.has_permission('comment.edit') \
                 and not self.is_deleted and not self.is_immutable
     
     can_edit = property(_can_edit)        
-    lack_edit_karma = property(BaseTile.prop_lack_karma('comment.edit'))
     
     def _can_delete(self):
-        if auth.on_comment(self.comment, 'comment.delete') \
+        if h.has_permission('comment.delete') \
             and not self.is_deleted and not self.is_immutable:
             if self.comment.reply or self.comment.canonical:
                 return True
         return False
     
     can_delete = property(_can_delete)
-    lack_delete_karma = property(BaseTile.prop_lack_karma('comment.delete'))
     
     def _can_reply(self):        
-        return auth.on_delegateable(self.comment.topic, 'comment.create') \
+        return h.has_permission('comment.create') \
                 and not self.is_deleted
     
     can_reply = property(_can_reply)
-    lack_reply_karma = property(BaseTile.prop_lack_karma('comment.create'))
     
     def _can_give_karma(self):
-        return auth.on_comment(self.comment, 'karma.give') \
+        return h.has_permission('karma.give') \
                 and not self.is_own \
-                and not self.is_deleted and not self.is_immutable
+                and not self.is_deleted
     
     can_give_karma = property(_can_give_karma)
-    lack_give_karma_karma = property(BaseTile.prop_lack_karma('karma.give'))
     
     def _is_own(self):
         return self.comment.creator == c.user

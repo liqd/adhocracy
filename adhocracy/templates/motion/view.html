@@ -70,24 +70,14 @@
 			<a class="button title add" href="/poll/create/${c.motion.id}">${_("call a vote")}</a>
 		%elif c.user and not c.tile.has_canonicals:
 			<a class="button title inactive htwarn" title="${_('The motion cannot be voted upon since it does not have any provisions yet.')}">${_("call a vote")}</a>
-		%elif c.user and c.tile.lack_begin_poll_karma and not c.tile.poll:
-			<a class="button title inactive htwarn" title="${c.tile.lack_begin_poll_karma}">${_("call a vote")}</a> 
 		%endif
 		
 		%if c.tile.can_edit:
 			<a class="button title edit" href="/motion/edit/${c.motion.id}">${_("edit")}</a>
-		%elif c.user and c.tile.is_immutable:
-			<a class="button title inactive htwarn" title="${h.immutable_motion_message()}">${_("edit")}</a>
-		%elif c.user and c.tile.lack_edit_karma:
-			<a class="button title inactive htwarn" title="${c.tile.lack_edit_karma}">${_("edit")}</a> 
 		%endif
 						
 		%if c.tile.can_delete:
 			<a class="button title delete" href="/motion/delete/${c.motion.id}?${h.url_token()}">${_("delete")}</a>
-		%elif c.user and c.tile.is_immutable:
-			<a class="button title inactive htwarn" title="${h.immutable_motion_message()}">${_("delete")}</a>
-		%elif c.user and c.tile.lack_delete_karma:
-			<a class="button title inactive htwarn" title="${c.tile.lack_delete_karma}">${_("delete")}</a>
 		%endif
 	</div>
 	<div style="clear: both;"></div>	
@@ -133,10 +123,6 @@
 	<div class="top_actions">
 		%if c.tile.can_create_canonical:
 			<a class="button add" onclick="return add_canonical()" href="/comment/create?topic=${c.motion.id}&canonical=1">${_("new")}</a>
-		%elif c.user and c.tile.is_immutable:
-			<a class="button inactive htwarn" title="${h.immutable_motion_message()}">${_("new")}</a>
-		%elif c.user and c.tile.lack_create_canonical_karma:
-			<a class="button inactive htwarn" title="${c.tile.lack_create_canonical_karma}">${_("new")}</a>
 		%endif
 	</div>
 	

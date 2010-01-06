@@ -50,11 +50,6 @@ class DelegateableTile(BaseTile):
     
     has_overridden = property(_has_overridden)      
     
-    @classmethod
-    def prop_has_permkarma(cls, perm, allow_creator=True):
-        return lambda self: auth.on_delegateable(self.delegateable, perm,
-                                                 allow_creator=allow_creator)
-    
     can_vote = property(BaseTile.prop_has_perm('vote.cast'))
     can_delegate = can_vote
 

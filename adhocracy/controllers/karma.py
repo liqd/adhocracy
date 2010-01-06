@@ -22,7 +22,6 @@ class KarmaController(BaseController):
     @validate(schema=KarmaGiveForm(), post_only=False, on_get=True)
     def give(self, format="html"):
         comment = self.form_result.get('comment')
-        auth.require_comment_perm(comment, 'karma.give')
         value = self.form_result.get('value')
         if not value in [1, -1]:
             h.flash(_("Invalid karma value. Karma is either positive or negative!"))

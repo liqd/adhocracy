@@ -61,14 +61,6 @@
 					<a class="up inactive htwarn" title="${_('This is your own comment')}">&nbsp;</a>
 					<span class="score">${tile.karma_score}</span>
 					<a class="down inactive htwarn" title="${_('This is your own comment')}">&nbsp;</a>
-				%elif tile.is_immutable:
-					<a class="up inactive htwarn" title="${h.immutable_motion_message()}">&nbsp;</a>
-					<span class="score">${tile.karma_score}</span>
-					<a class="down inactive htwarn" title="${h.immutable_motion_message()}">&nbsp;</a>
-				%elif tile.lack_give_karma_karma:
-					<a class="up inactive htwarn" title="${tile.lack_give_karma_karma}">&nbsp;</a>
-					<span class="score">${tile.karma_score}</span>
-					<a class="down inactive htwarn" title="${tile.lack_give_karma_karma}">&nbsp;</a>
 				%endif
 			</div>
 			
@@ -77,10 +69,6 @@
 				<div class="top_actions comment">				
 					%if tile.can_edit:
 						<a class="button edit" onClick="return comment_edit(${comment.id})" href="/comment/edit/${comment.id}">${_("edit")}</a> 
-					%elif tile.is_immutable:
-						<a class="button edit inactive htwarn" title="${h.immutable_motion_message()}">${_("edit")}</a>
-					%elif tile.lack_edit_karma:
-						<a class="button edit inactive htwarn" title="${tile.lack_edit_karma}">${_("edit")}</a>
 					%endif
 									
 					%if tile.can_delete:
@@ -89,8 +77,6 @@
 								
 					%if tile.can_reply and (recurse or link_discussion):
 						<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/create?reply=${comment.id}&topic=${comment.topic.id}">${_("reply")}</a>
-					%elif tile.lack_reply_karma and recurse:
-						<a class="button reply inactive htwarn" title="${tile.lack_reply_karma}">${_("reply")}</a>
 					%endif 
 					
 					%if collapse:

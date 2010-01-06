@@ -26,7 +26,6 @@ class IssueController(BaseController):
     @ActionProtector(has_permission("issue.create"))
     @validate(schema=IssueCreateForm(), form="create", post_only=True)
     def create(self):
-        auth.require_delegateable_perm(None, 'issue.create')
         if request.method == "POST":
             issue = model.Issue(c.instance, self.form_result.get('label'), c.user)
             comment = model.Comment(issue, c.user)
@@ -56,7 +55,6 @@ class IssueController(BaseController):
     @validate(schema=IssueEditForm(), form="edit", post_only=True)
     def edit(self, id):
         c.issue = get_entity_or_abort(model.Issue, id)
-        auth.require_delegateable_perm(c.issue, 'issue.edit')
         if request.method == "POST":
             c.issue.label = self.form_result.get('label')
             model.meta.Session.add(c.issue)
@@ -107,12 +105,10 @@ class IssueController(BaseController):
     @ActionProtector(has_permission("issue.delete"))
     def delete(self, id):
         c.issue = get_entity_or_abort(model.Issue, id)
-        auth.require_delegateable_perm(c.issue, 'issue.delete')
         parent = c.issue.parents[0]
         
         for motion in c.issue.motions:
-            state = democracy.State(motion)
-            if not state.motion_mutable:
+            if not democracy.is_motion_mutable(motion):
                 h.flash(_("The issue %(issue)s cannot be deleted, because the contained " +
                           "motion %(motion)s is polling.") % {'issue': c.issue.label, 'motion': motion.label})
                 redirect_to('/issue/%s' % str(c.issue.id))

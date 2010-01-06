@@ -38,14 +38,10 @@
 		
 		%if c.tile.can_edit:
 			<a class="button edit" href="/issue/edit/${c.issue.id}">${_("edit")}</a>
-		%elif c.tile.lack_edit_karma:
-			<a class="button inactive htwarn" title="${c.tile.lack_edit_karma}">${_("edit")}</a> 
 		%endif
 					
 		%if c.tile.can_delete:
 			<a class="button delete" href="/issue/delete/${c.issue.id}?${h.url_token()}">${_("delete")}</a>
-		%elif c.tile.lack_delete_karma and c.tile.can_edit:
-			<a class="button inactive htwarn" title="${c.tile.lack_delete_karma}">${_("delete")}</a>
 		%endif
 	</div>
 	
@@ -68,8 +64,6 @@
 <div class="top_actions">
 	%if c.tile.can_create_motion:
 		<a class="button add" href="/motion/create?issue=${c.issue.id}">${_("new")}</a>
-	%elif c.tile.lack_create_motion_karma:
-		<a class="button inactive htwarn" title="${c.tile.lack_create_motion_karma}">${_("new")}</a>
 	%endif	
 </div>
 

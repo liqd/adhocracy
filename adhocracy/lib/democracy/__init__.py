@@ -15,3 +15,6 @@ def is_comment_mutable(comment):
     if isinstance(comment.topic, model.Motion):
         return State(comment.topic).motion_mutable
     return True
+
+def is_motion_mutable(motion):
+    return State(motion).motion_mutable

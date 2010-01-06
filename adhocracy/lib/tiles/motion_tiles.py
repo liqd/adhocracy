@@ -57,23 +57,21 @@ class MotionTile(DelegateableTile):
         for comment in self.motion.comments:
             if comment.canonical and not comment.delete_time:
                 cs.append(comment)
-        return sorting.comment_karma(cs)
+        return sorting.comment_id(cs)
     
     canonicals = property(_canonicals)
             
     def _can_edit(self):
-        return auth.on_delegateable(self.motion, 'motion.edit') \
+        return h.has_permission('motion.edit') \
                 and not self.is_immutable
     
     can_edit = property(_can_edit)    
-    lack_edit_karma = property(DelegateableTile.prop_lack_karma('motion.edit'))    
     
     def _can_delete(self):
-        return auth.on_delegateable(self.motion, 'motion.delete') \
+        return h.has_permission('motion.delete') \
                 and not self.is_immutable
     
     can_delete = property(_can_delete)
-    lack_delete_karma = property(DelegateableTile.prop_lack_karma('motion.delete'))
     
     def _has_overridden(self):
         if self.decision.is_self_decided():
@@ -81,11 +79,10 @@ class MotionTile(DelegateableTile):
         return False
     
     def _can_create_canonical(self):
-        return auth.on_delegateable(self.motion, 'comment.create') \
+        return h.has_permission('comment.create') \
                 and not self.is_immutable
     
     can_create_canonical = property(_can_create_canonical)
-    lack_create_canonical_karma = property(DelegateableTile.prop_lack_karma('comment.create'))
     
     def _has_canonicals(self):
         return len(self.canonicals) > 0
@@ -97,19 +94,17 @@ class MotionTile(DelegateableTile):
             return False
         if self.poll:
             return False
-        return auth.on_delegateable(self.motion, 'poll.create')
+        return h.has_permission('poll.create')
     
     can_begin_poll = property(_can_begin_poll)
-    lack_begin_poll_karma = property(DelegateableTile.prop_lack_karma('poll.create'))
     
     def _can_end_poll(self):
         if not self.poll:
             return False
-        if auth.on_delegateable(self.motion, 'poll.abort'):
+        if h.has_permission('poll.abort'):
             return self.state.poll_mutable
 
     can_end_poll = property(_can_end_poll)
-    lack_end_poll_karma = property(DelegateableTile.prop_lack_karma('poll.abort'))
     
     def _is_immutable(self):
         return not self.state.motion_mutable

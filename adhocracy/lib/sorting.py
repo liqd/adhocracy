@@ -38,3 +38,6 @@ def comment_karma(comments):
     return sorted(comments, 
                   key=lambda c: karma.comment_score(c, recurse=True),
                   reverse=True)
+
+def comment_id(comments):
+    return sorted(comments, key=lambda c: c.id)

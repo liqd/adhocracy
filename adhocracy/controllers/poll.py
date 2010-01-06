@@ -63,7 +63,6 @@ class PollController(BaseController):
     @ActionProtector(has_permission("poll.abort")) 
     def abort(self, id):
         c.motion = get_entity_or_abort(model.Motion, id)
-        auth.require_motion_perm(c.motion, 'poll.abort', enforce_immutability=False)
         if not c.motion.poll:
             h.flash(_("The motion is not undergoing a poll."))
             redirect_to("/motion/%s" % str(c.motion.id))

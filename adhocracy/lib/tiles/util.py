@@ -11,17 +11,6 @@ log = logging.getLogger(__name__)
 class BaseTile(object):
     
     @classmethod
-    def lack_karma(cls, perm):
-        if h.has_permission(perm) and \
-                not karma.threshold.has(c.user, perm):
-            return karma.threshold.message(perm)
-        return None
-    
-    @classmethod
-    def prop_lack_karma(cls, perm):
-        return lambda self: BaseTile.lack_karma(perm)
-    
-    @classmethod
     def prop_has_perm(cls, perm):
         return lambda self: h.has_permission(perm)
 

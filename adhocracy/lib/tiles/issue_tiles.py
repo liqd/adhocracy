@@ -24,22 +24,16 @@ class IssueTile(DelegateableTile):
     
     tagline = property(_tagline)
     
-    can_edit = property(DelegateableTile.prop_has_permkarma('issue.edit'))
-    lack_edit_karma = property(BaseTile.prop_lack_karma('issue.edit'))   
+    can_edit = property(BaseTile.prop_has_perm('issue.edit'))
         
     def _can_delete(self):
         for motion in self.issue.motions:
-            state = democracy.State(motion)
-            if not state.motion_mutable:
+            if not democracy.is_motion_mutable(motion):
                 return False
-        return auth.on_delegateable(self.issue, "issue.delete",
-                                    allow_creator=False if len(self.issue.motions) else True)
+        return h.has_permission("issue.delete")
     
     can_delete = property(_can_delete)
-    lack_delete_karma = property(BaseTile.prop_lack_karma('issue.delete'))
-    
-    can_create_motion = property(DelegateableTile.prop_has_permkarma('motion.create', allow_creator=False))
-    lack_create_motion_karma = property(BaseTile.prop_lack_karma('motion.create'))
+    can_create_motion = property(BaseTile.prop_has_perm('motion.create'))
     
     def _comment_tile(self):
         if not self.__comment_tile:
