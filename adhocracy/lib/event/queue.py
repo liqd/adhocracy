@@ -46,11 +46,14 @@ def post_event(event):
     post_channel.basic_publish(message, exchange=exchange_name(),
                                routing_key='event')
     
-def read_events(callback=None, wait=False):
+def read_events(callback):
     channel = create_channel(read=True)
     
-    def handle_message(message):
+    while True:
         begin_time = time()
+        message = channel.basic_get(queue_name())
+        if not message:
+            break
         e = Event.find(int(message.body), instance_filter=False)
         try:
             callback(e)
@@ -59,19 +62,5 @@ def read_events(callback=None, wait=False):
             log.exception("Processing error: %s" % ex)
         log.warn("Queue message - > %sms" % ((time() - begin_time)*1000))
 
-    if wait:   
-         channel.basic_consume(queue=queue_name(), callback=handle_message,
-                          consumer_tag='event_reader')
-         try:
-             while channel.callbacks:
-                 channel.wait()
-         finally:
-            channel.basic_cancel('event_reader')
-    else:
-        while True:
-            message = channel.basic_get(queue_name())
-            if not message:
-                break
-            handle_message(message)
     channel.close()
         

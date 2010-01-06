@@ -23,6 +23,8 @@ def _map_pipeline(mapper):
         for notification in pipeline:
             r = mapper(notification)
             if r: yield r
+            else: yield notification
+    return _mapping
 
 def _comment_mapper(n):
     if n.type == T_COMMENT_EDIT:
@@ -41,9 +43,7 @@ def _comment_mapper(n):
                                         type=N_COMMENT_REPLY, 
                                         watch=n.watch)
             if comment.reply: return check_parent(comment.reply)
-            else: return n
         if n.event.comment.reply:
             return check_parent(n.event.comment.reply)
-    return n
 
 comment_filter = _map_pipeline(_comment_mapper)
