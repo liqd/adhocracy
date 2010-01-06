@@ -32,7 +32,7 @@ def mail_sink(pipeline):
         if notification.priority >= notification.user.email_priority:
             notification.language_context() 
             headers = {'X-Notification-Id': notification.id,
-                       'X-Priority': str(notification.priority)}
+                       'X-Notification-Priority': str(notification.priority)}
             try:
                 mail.to_user(notification.user, 
                          notification.subject, 

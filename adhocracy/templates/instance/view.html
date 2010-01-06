@@ -54,7 +54,7 @@ ${components.tutu()}
 			<a class="button add" href="/issue/create">${_("new")}</a>
 		%endif
 	</div>
-	<h2>${_("Issues")}  (${len(c.issues_pager)})</h2>
+	<h2>${_("Issues")}  (${c.tile.num_issues})</h2>
 	%if len(c.issues_pager) == 0:
 		%if c.tile.can_create_issue:
 			<span class="infobox">

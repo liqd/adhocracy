@@ -158,7 +158,7 @@ class Decision(object):
         if not vote in self.relevant_votes:
             return self
         else:
-            votes = [v for v in self._votes if v != vote]
+            votes = [v for v in self.votes if v != vote]
             return Decision(self.user, self.poll, 
                             at_time=self.at_time, votes=votes)           
     

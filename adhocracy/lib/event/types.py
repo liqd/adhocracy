@@ -138,15 +138,15 @@ N_INSTANCE_MEMBERSHIP_UPDATE = NotificationType("n_instance_membership_update", 
                           notify_self=True)
 
 N_SELF_VOTED = NotificationType("n_self_voted", pri=3, 
-                          subject=lambda: _(u"Vote Confirmation: you %(vote)s %(poll)s"),
+                          subject=lambda: _(u"You have voted %(vote)s %(poll)s"),
                           notify_self=True)
 
 N_DELEGATE_VOTED = NotificationType("n_delegate_voted", pri=4, 
-                          subject=lambda: _(u"Delegate Vote: you %(vote)s %(poll)s"),
+                          subject=lambda: _(u"Your delegate %(agent)s has voted %(vote)s %(poll)s"),
                           notify_self=True)
 
 N_DELEGATE_CONFLICT = NotificationType("n_delegate_conflict", pri=5, 
-                          subject=lambda: _(u"Delegate Conflict: %(poll)s"),
+                          subject=lambda: _(u"Delegate conflict regarding %(poll)s"),
                           notify_self=True)
 
 N_COMMENT_REPLY = NotificationType("n_comment_reply", pri=4, 
