@@ -11,12 +11,11 @@ class SearchQueryForm(formencode.Schema):
 
 class SearchController(BaseController):
     
-    @RequireInstance
     @ActionProtector(has_permission("motion.view"))
     def query(self):
         try:
             c.query = SearchQueryForm().to_python(request.params).get("q")
-            c.entities = libsearch.query.run(c.query, instance=c.instance)
+            c.entities = libsearch.query.run(c.query, instance=c.instance if c.instance else None)
             c.entities = filter(lambda e: not isinstance(e, model.Comment), c.entities)
             c.entities_pager = NamedPager('serp', c.entities, tiles.dispatch_row, q=c.query)
         except formencode.Invalid:

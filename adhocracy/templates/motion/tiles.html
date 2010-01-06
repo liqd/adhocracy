@@ -9,7 +9,7 @@
 			%endif
 		</div>
 		<div class="base">
-			<h3><a class="link" href="/motion/${motion.id}">${motion.label}</a></h3>
+			<h3><a class="link" href="${h.instance_url(motion.instance, path='/motion/%s' % motion.id)}">${motion.label}</a></h3>
 			<!-- div class="text">
 				${tile.tagline}
 			</div -->
@@ -36,7 +36,7 @@
 
 <%def name="list_item(tile, motion)">
 	<li class="list_tile">
-		<span class="text"><a href="/motion/${motion.id}">${motion.label}</a></span>
+		<span class="text"><a href="${h.instance_url(motion.instance, path='/motion/%s' % motion.id)}">${motion.label}</a></span>
 		<span class="meta">  
 			${self.state_flag(tile.result.state)} &middot;
 			%if not tile.state.polling:

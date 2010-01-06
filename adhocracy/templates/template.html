@@ -59,13 +59,11 @@
 				&middot; <a href="/user/edit/${c.user.user_name}">${_("settings")}</a>
 				&middot; <a href="/logout">${_("logout")}</a>
 			%endif
-			%if c.instance:
-				<form action="/search" method="GET">
-					<label for="q" class="armhint">${_("search")}</label>
-					<input name="q" class="armlabel" />
-					<button type="submit"><img src="/img/icons/search.png" alt="${_('Go')}" /></button>
-				</form>
-			%endif
+			<form action="/search" method="GET">
+				<label for="q" class="armhint">${_("search")}</label>
+				<input name="q" class="armlabel" />
+				<button type="submit"><img src="/img/icons/search.png" alt="${_('Go')}" /></button>
+			</form>
 			%if c.user and c.instance and not c.user.is_member(c.instance):
 				<br/><a class="join" href="/instance/${c.instance.key}/join?${h.url_token()}">${_("Join %s to contribute") % c.instance.label}</a>	
 			%endif 

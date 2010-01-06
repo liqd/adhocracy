@@ -5,7 +5,7 @@
 			<img src="/img/icons/issue_32.png" />
 		</div>
 		<div class="base">
-			<h3><a class="link" href="/issue/${issue.id}">${issue.label}</a></h3>
+			<h3><a class="link" href="${h.instance_url(issue.instance, path='/issue/%s' % issue.id)}">${issue.label}</a></h3>
 			<!-- div class="text">
 			%if len(tile.tagline):
 				${tile.tagline}
