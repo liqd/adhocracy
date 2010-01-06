@@ -91,31 +91,3 @@ def instance_source(event):
         yield Notification(event, event.user, type=N_INSTANCE_FORCE_LEAVE)
     elif event.event == T_INSTANCE_MEMBERSHIP_UPDATE:
         yield Notification(event, event.user, type=N_INSTANCE_MEMBERSHIP_UPDATE)
-
-def comment_source(event):
-    """
-    Transform comment edits and replies into personal messages.
-    """    
-    
-    # for all authors who want to be notified of edits: 
-    if event.event == T_COMMENT_EDIT:
-        watches = watchlist.get_entity_watches(event.comment)
-        for watch in watches:
-            yield Notification(event, watch.user, 
-                               type=N_COMMENT_EDIT, 
-                               watch=watch)
-                
-    # for all authors who want to be notified of replies:
-    elif event.event == T_COMMENT_CREATE:
-        def _rec(comment):
-            watches = watchlist.get_entity_watches(comment)
-            for watch in watches:
-                yield Notification(event, watch.user, 
-                                   type=N_COMMENT_REPLY, 
-                                   watch=watch)
-            if comment.reply:
-                for n in _rec(comment.reply): yield n
-        
-        if event.comment.reply:
-            for n in _rec(event.comment.reply): yield n
-

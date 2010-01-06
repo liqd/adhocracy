@@ -125,7 +125,7 @@ class CommentController(BaseController):
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic)
         
-        redirect_to(self._comment_anchor(c.comment))
+        self.redirect(comment.id)
     
     @RequireInstance
     @ActionProtector(has_permission("comment.view"))    

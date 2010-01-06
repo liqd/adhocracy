@@ -54,10 +54,10 @@ def read_events(callback=None, wait=False):
         e = Event.find(int(message.body), instance_filter=False)
         try:
             callback(e)
+            channel.basic_ack(message.delivery_tag)
         except Exception, ex:
             log.exception("Processing error: %s" % ex)
         log.warn("Queue message - > %sms" % ((time() - begin_time)*1000))
-        channel.basic_ack(message.delivery_tag)
 
     if wait:   
          channel.basic_consume(queue=queue_name(), callback=handle_message,
