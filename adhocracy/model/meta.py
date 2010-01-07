@@ -10,6 +10,7 @@ __all__ = ['Session', 'metadata', 'Base', 'engine']
 engine = None
 
 # SQLAlchemy session manager.  Updated by model.init_model()
+# REFACT: this is an instance, not a class - so it should be lowercased
 Session = None
 
 # Global metadata. If you have multiple databases with overlapping table
