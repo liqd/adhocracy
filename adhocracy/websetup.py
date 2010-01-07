@@ -21,4 +21,5 @@ def setup_app(command, conf, vars):
     # Create the tables if they don't already exist
     meta.metadata.create_all(bind=meta.engine)
 
-    install.setup_entities()
+    if not config.get('skip_setupentities'):
+        install.setup_entities()
