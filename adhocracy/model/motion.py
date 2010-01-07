@@ -54,7 +54,7 @@ class Motion(Delegateable):
                 continue
             return poll
         return None
-        
+    
     @classmethod
     def find(cls, id, instance_filter=True):
         try:
@@ -74,6 +74,7 @@ class Motion(Delegateable):
         if instance:
             q = q.filter(Motion.instance==instance)
         return q.all()
+    
 
 Motion.comment = relation('Comment', 
                           primaryjoin="Motion.comment_id==Comment.id", 
