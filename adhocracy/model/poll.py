@@ -26,16 +26,16 @@ class Poll(Base):
                         primaryjoin="Poll.end_user_id==User.id")
     
     motion_id = Column(Integer, ForeignKey('motion.id'), nullable=False)
-       
+    
     def __init__(self, motion, begin_user):
         self.motion = motion
         self.begin_user = begin_user
-            
+    
     def __repr__(self):
-        return u"<Poll(%d,%s,%s,%s)>" % (self.id, 
+        return u"<Poll(%s,%s,%s,%s)>" % (self.id, 
                                          self.motion_id,
                                          self.begin_time, 
-                                         self.end_time)  
+                                         self.end_time)
     
     def _index_id(self):
         return self.id
@@ -56,6 +56,7 @@ class Poll(Base):
             return poll
         except Exception:
             return None
+    
 
-Poll.motion = relation(motion.Motion, backref=backref('polls', cascade='delete', 
+Poll.motion = relation(motion.Motion, backref=backref('polls', cascade='all',
                        lazy=False, order_by=Poll.begin_time.desc()))
