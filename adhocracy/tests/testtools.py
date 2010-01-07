@@ -12,10 +12,12 @@ def tt_get_admin():
     return admin
 
 def tt_get_instance():
-    instance = model.Instance(tt_make_str(), "foo schnasel", tt_make_user())
-    model.meta.Session.add(instance)
+    instance = model.Instance.find(u"test")
+    if not instance:
+        instance = model.Instance(u"test", u"foo schnasel", tt_make_user())
+        model.meta.Session.add(instance)
+        model.meta.Session.flush()
     model.filter.setup_thread(instance)
-    model.meta.Session.flush()
     return instance
 
 def tt_make_str(length=20):
