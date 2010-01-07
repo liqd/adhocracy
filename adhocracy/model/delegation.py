@@ -12,11 +12,13 @@ class Delegation(Base):
     
     id = Column(Integer, primary_key=True)
     
+    # REFACT: consider to rename this to target_user or target
     agent_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     agent = relation(User,
         primaryjoin="Delegation.agent_id == User.id", 
         backref=backref('agencies', cascade='all'))
-        
+    
+    # REFACT: consider to rename this to source_user or source
     principal_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     principal = relation(User, 
         primaryjoin="Delegation.principal_id==User.id", 
@@ -29,6 +31,7 @@ class Delegation(Base):
     
     create_time = Column(DateTime, default=func.now())
     revoke_time = Column(DateTime, default=None, nullable=True)
+    # can't be implicit by the next delegation being cast as multiple delegations at the same time are supported
     
     def __init__(self, principal, agent, scope):
         self.principal = principal
