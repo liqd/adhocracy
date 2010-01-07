@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
 from sqlalchemy.orm import relation, backref
 
@@ -29,7 +31,7 @@ class Delegation(Base):
         primaryjoin="Delegation.scope_id==Delegateable.id", 
         backref=backref('delegations', cascade='all'))
     
-    create_time = Column(DateTime, default=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
     revoke_time = Column(DateTime, default=None, nullable=True)
     # can't be implicit by the next delegation being cast as multiple delegations at the same time are supported
     

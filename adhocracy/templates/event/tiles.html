@@ -2,7 +2,7 @@
 <%def name="list_item(tile, event, event_html)">
 	<li class="list_tile event">
 		<span class="meta">  
-			${h.relative_time(event.time)}
+			${h.relative_time(event.time)|n}
 		</span>
 		<span class="text">
 			${h.user_link(event.user, include_score=False)|n}

@@ -61,7 +61,7 @@ class WatchController(BaseController):
             (h.has_permission('instance.admin') or \
              h.has_permission('global.admin')):
             abort(403, _("You're not authorized to delete %s's watchlist entries.") % watch.user.name)
-        watch.delete_time = datetime.now()
+        watch.delete_time = datetime.utcnow()
         model.meta.Session.add(watch)
         model.meta.Session.commit()
         if format == 'json':

@@ -33,7 +33,7 @@ class InstanceTile(BaseTile):
     description = property(_description)
     
     def _activation_delay(self):
-        return text.i18n.format_timedelta(timedelta(days=self.instance.activation_delay))
+        return self.instance.activation_delay
         
     activation_delay = property(_activation_delay)
     

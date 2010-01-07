@@ -25,7 +25,7 @@ def tt_make_proposal(creator=None, voting=False):
     
     if voting:
         poll = model.Poll(proposal, creator)
-        poll.begin_time = datetime.now() - timedelta(hours=1)
+        poll.begin_time = datetime.utcnow() - timedelta(hours=1)
         proposal.polls.append(poll)
         
     model.meta.Session.add(proposal)

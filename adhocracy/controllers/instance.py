@@ -184,7 +184,7 @@ class InstanceController(BaseController):
             h.flash(_("You're the founder of %s, cannot leave.") % {
                             'instance': c.page_instance.label})
         else:
-            t = datetime.now()
+            t = datetime.utcnow()
             
             for membership in c.user.memberships:
                 if membership.expire_time:

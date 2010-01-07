@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import Table, Column, Integer, ForeignKey, DateTime, func, Boolean, Unicode, UnicodeText
 from sqlalchemy.orm import synonym, reconstructor
 from sqlalchemy.orm import relation, backref
@@ -22,7 +24,7 @@ class Event(Base):
     
     id = Column(Integer, primary_key=True)
     _event = Column('event', Unicode(255), nullable=False)
-    time = Column(DateTime, default=func.now())
+    time = Column(DateTime, default=datetime.utcnow)
     _data = Column('data', UnicodeText(), nullable=False)
     
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)

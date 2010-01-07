@@ -289,7 +289,7 @@ class UserController(BaseController):
         
         for membership in c.page_user.memberships:
             if not membership.expire_time and membership.instance == c.instance:
-                membership.expire_time = datetime.now()
+                membership.expire_time = datetime.utcnow()
                 model.meta.Session.add(membership)
         new_membership = model.Membership(c.page_user, c.instance, to_group)
         model.meta.Session.add(new_membership)
@@ -310,7 +310,7 @@ class UserController(BaseController):
         c.page_user = get_entity_or_abort(model.User, id)
         for membership in c.page_user.memberships:
             if not membership.expire_time and membership.instance == c.instance:
-                membership.expire_time = datetime.now()
+                membership.expire_time = datetime.utcnow()
                 model.meta.Session.add(membership)
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_FORCE_LEAVE, c.page_user, instance=c.instance, 

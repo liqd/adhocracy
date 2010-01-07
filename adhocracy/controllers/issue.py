@@ -112,12 +112,12 @@ class IssueController(BaseController):
                 h.flash(_("The issue %(issue)s cannot be deleted, because the contained " +
                           "proposal %(proposal)s is polling.") % {'issue': c.issue.label, 'proposal': proposal.label})
                 redirect_to('/issue/%s' % str(c.issue.id))
-            proposal.delete_time = datetime.now()
+            proposal.delete_time = datetime.utcnow()
             model.meta.Session.add(proposal)
         
         h.flash(_("Issue '%(issue)s' has been deleted.") % {'issue': c.issue.label})
         
-        c.issue.delete_time = datetime.now()
+        c.issue.delete_time = datetime.utcnow()
         model.meta.Session.add(c.issue)
         model.meta.Session.commit()
         

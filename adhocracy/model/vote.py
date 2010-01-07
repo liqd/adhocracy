@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
 from sqlalchemy.orm import relation, backref
 
@@ -20,7 +22,7 @@ class Vote(Base):
     
     id = Column(Integer, primary_key=True)
     orientation = Column(Integer, nullable=False)
-    create_time = Column(DateTime, default=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
     
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     # user See below 

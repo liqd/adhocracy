@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 from sqlalchemy import Column, Integer, Float, Unicode, UnicodeText, ForeignKey, DateTime, func
 from sqlalchemy.orm import relation, synonym, backref
@@ -20,8 +21,8 @@ class Instance(Base):
     required_majority = Column(Float, nullable=False)
     activation_delay = Column(Integer, nullable=False)
     
-    create_time = Column(DateTime, default=func.now())
-    access_time = Column(DateTime, default=func.now(), onupdate=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
+    access_time = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     creator_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     creator = relation(user.User, 

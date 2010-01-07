@@ -14,7 +14,7 @@ class State(object):
         self.proposal = proposal
         
         if not at_time:
-            at_time = datetime.now()
+            at_time = datetime.utcnow()
         self.at_time = at_time
         
         if not poll and len(self.proposal.polls):
@@ -89,7 +89,7 @@ class State(object):
             score += 1.0/float(max(1, state.participation.required - len(state.tally)))
             
             # factor 2: remaining time, i.e. urgency
-            t_remain = min(state.stable.delay, datetime.now() - \
+            t_remain = min(state.stable.delay, datetime.utcnow() - \
                            state.stable.begin_time if state.stable else timedelta(seconds=0))
             score -= timedelta2seconds(t_remain)/float(timedelta2seconds(state.stable.delay))
             

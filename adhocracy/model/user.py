@@ -1,6 +1,7 @@
 import hashlib
 import os
 import logging
+from datetime import datetime
 
 from sqlalchemy import Column, Integer, Unicode, UnicodeText, Boolean, DateTime, func, or_
 from sqlalchemy.orm import synonym
@@ -28,8 +29,8 @@ class User(Base):
     reset_code = Column(Unicode(255), nullable=True, unique=False)
     _password = Column('password', Unicode(80), nullable=False)
     _locale = Column('locale', Unicode(7), nullable=True)
-    create_time = Column(DateTime, default=func.now())
-    access_time = Column(DateTime, default=func.now(), onupdate=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
+    access_time = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     def __init__(self, user_name, email, password, display_name=None, bio=None):
         self.user_name = user_name

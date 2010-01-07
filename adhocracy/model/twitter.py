@@ -12,7 +12,7 @@ class Twitter(Base):
         
     id = Column(Integer, primary_key=True)
     
-    create_time = Column(DateTime, default=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
     delete_time = Column(DateTime, nullable=True)
     
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
@@ -45,7 +45,7 @@ class Twitter(Base):
             q = q.filter(Twitter.screen_name==screen_name)
             if not include_deleted:
                 q = q.filter(or_(Twitter.delete_time==None,
-                                 Twitter.delete_time>datetime.now()))
+                                 Twitter.delete_time>datetime.utcnow()))
             return q.one()
         except Exception:
             return None

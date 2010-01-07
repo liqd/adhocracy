@@ -36,7 +36,7 @@ def get_ref_watches(ref):
     q = model.meta.Session.query(model.Watch)
     q = q.filter(model.Watch.entity_ref==ref)
     q = q.filter(or_(model.Watch.delete_time==None,
-                     model.Watch.delete_time>datetime.now()))
+                     model.Watch.delete_time>datetime.utcnow()))
     q = q.options(eagerload(model.Watch.user))
     return q.all()
 
@@ -50,7 +50,7 @@ def has_ref_watch(ref):
         q = model.meta.Session.query(model.Watch.entity_ref)
         q = q.filter(model.Watch.user==c.user)
         q = q.filter(or_(model.Watch.delete_time==None,
-                         model.Watch.delete_time>datetime.now()))
+                         model.Watch.delete_time>datetime.utcnow()))
         request.environ['adhocracy.user.watchlist'] = \
             map(lambda x: x[0], q.all())
     return ref in request.environ.get('adhocracy.user.watchlist')
@@ -69,7 +69,7 @@ def check_watch(entity):
                 watch_entity(c.user, entity)
         else:
             if watch:
-                watch.delete_time = datetime.now()
+                watch.delete_time = datetime.utcnow()
                 model.meta.Session.add(watch)
                 model.meta.Session.commit()        
     except formencode.Invalid:

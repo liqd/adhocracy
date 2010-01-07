@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, ForeignKey, DateTime, func, Boolean
 from sqlalchemy.orm import relation, backref
 
@@ -11,9 +13,9 @@ class Membership(Base):
     id = Column(Integer, primary_key=True)
     approved = Column(Boolean, nullable=True)
     
-    create_time = Column(DateTime, default=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
     expire_time = Column(DateTime, nullable=True)
-    access_time = Column(DateTime, default=func.now(), onupdate=func.now())
+    access_time = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relation(user.User, lazy=False, 

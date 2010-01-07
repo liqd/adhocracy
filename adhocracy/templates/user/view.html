@@ -54,7 +54,7 @@
 			
 			<a href="/user/${c.page_user.user_name}/delegations"><img src="/img/icons/delegate_16.png" /> ${_("delegations")}</a> &middot;   
 		%endif
-		${_("signed up %s") % h.relative_time(c.page_user.create_time)}
+		${_("signed up %s") % h.relative_time(c.page_user.create_time)|n}
 	</div>
 </div>
 

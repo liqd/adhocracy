@@ -22,9 +22,9 @@
 			</ul>	
 		</div>
 		<div class="meta">
-			${_("established %s") % h.relative_time(c.delegation.create_time)}
+			${_("established %s") % h.relative_time(c.delegation.create_time)|n}
 			%if c.delegation.revoke_time:
-				 &middot; ${_("revoked %s") % h.relative_time(c.delegation.revoke_time)}
+				 &middot; ${_("revoked %s") % h.relative_time(c.delegation.revoke_time)|n}
 			%endif		
 		</div>
 	</div>

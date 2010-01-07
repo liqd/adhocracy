@@ -33,7 +33,7 @@ ${components.tutu()}
 				${_("Required Majority:")} <b>${c.tile.required_majority}</b>
 				<span class="hint">${_("To become active, a proposal must reach the given proportion of approval.")}</span>
 				
-				${_("Activation Delay:")} <b>${c.tile.activation_delay}</b>
+				${_("Activation Delay:")} <b>${_("%(delay)s days") % dict(delay=c.tile.activation_delay)}</b>
 				<span class="hint">${_("Before becoming active, the majority must be held for the specified interval.")}</span>
 			</div>
 		</div>

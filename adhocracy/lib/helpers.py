@@ -20,7 +20,7 @@ import cache
 
 import adhocracy.model as model 
 
-from text.i18n import relative_date, relative_time, format_timedelta, format_date
+from text.i18n import relative_date, relative_time, format_date, countdown_time
 from xsrf import url_token, field_token
 from karma import user_score as user_karma
  

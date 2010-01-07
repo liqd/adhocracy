@@ -11,7 +11,7 @@ class Watch(Base):
     __tablename__ = 'watch'
         
     id = Column(Integer, primary_key=True)
-    create_time = Column(DateTime, default=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
     delete_time = Column(DateTime, nullable=True)
     
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
@@ -35,7 +35,7 @@ class Watch(Base):
             q = q.filter(Watch.id==id)
             if not include_deleted:
                 q = q.filter(or_(Watch.delete_time==None,
-                                 Watch.delete_time>datetime.now()))
+                                 Watch.delete_time>datetime.utcnow()))
             return q.one()
         except:
             return None
@@ -48,7 +48,7 @@ class Watch(Base):
             q = q.filter(Watch.entity_ref==ref)
             if not include_deleted:
                 q = q.filter(or_(Watch.delete_time==None,
-                                 Watch.delete_time>datetime.now()))
+                                 Watch.delete_time>datetime.utcnow()))
             return q.one()
         except:
             return None

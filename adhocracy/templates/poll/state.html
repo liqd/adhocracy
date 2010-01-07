@@ -17,7 +17,7 @@
 		%elif state.adopted:
 			%if not state.stable:
 				<li class="met">${_("The proposal is adopted, <b>but volatile</b>.")|n}</li>
-				<li class="unmet">${_("Majority needs to be held <b>for %s</b>.") % h.format_timedelta(state.volatile.end_time - datetime.now() if state.volatile.end_time else state.volatile.delay)|n}</li>
+				<li class="unmet">${_("Majority needs to be held <b>for %s</b>.") % h.countdown_time(state.volatile.end_time, c.instance.activation_delay)|n}</li>
 			%else:
 				<li class="met">${_("The proposal is adopted.")}</li>
 			%endif
@@ -37,7 +37,7 @@
 			%if state.stable:
 				<li class="met">${_("Majority has been held <b>for %s</b>.") % h.format_timedelta(state.stable.delay)|n}</li>
 			%else:
-				<li class="unmet">${_("Majority needs to be held <b>for %s</b>.") % h.format_timedelta(state.stable.end_time - datetime.now() if state.stable.end_time else state.stable.delay)|n}</li>
+				<li class="unmet">${_("Majority needs to be held <b>for %s</b>.") % h.countdown_time(state.volatile.end_time, c.instance.activation_delay)|n}</li>
 			%endif
 		%endif
 		

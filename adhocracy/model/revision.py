@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, UnicodeText, ForeignKey, DateTime, func
 from sqlalchemy.orm import relation, backref
 
@@ -11,7 +13,7 @@ class Revision(Base):
     __tablename__ = 'revision'
         
     id = Column(Integer, primary_key=True)
-    create_time = Column(DateTime, default=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
     text = Column(UnicodeText(), nullable=False)
     sentiment = Column(Integer, default=0)
     

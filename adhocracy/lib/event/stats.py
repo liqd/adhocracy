@@ -13,7 +13,7 @@ BASE = datetime(2009, 8, 12, 13, 0, 0)
 
 def activity(query_filter, from_time=None, to_time=None):    
     if not to_time:
-        to_time = datetime.now()
+        to_time = datetime.utcnow()
     if not from_time:
         from_time = to_time - timedelta(days=30)
     

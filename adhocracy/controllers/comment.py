@@ -117,7 +117,7 @@ class CommentController(BaseController):
         c.comment = get_entity_or_abort(model.Comment, id)
         if c.comment.canonical and not democracy.is_proposal_mutable(c.comment.topic):
             abort(403, h.immutable_proposal_message())
-        c.comment.delete_time = datetime.now()
+        c.comment.delete_time = datetime.utcnow()
         model.meta.Session.add(c.comment)
         model.meta.Session.commit()
         

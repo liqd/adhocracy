@@ -27,7 +27,7 @@ class DelegationNode(object):
     
     def _query_traverse(self, querymod, recurse, at_time=None):
         if not at_time: # shouldn't this be if at_time is None: ?
-            at_time = datetime.now()
+            at_time = datetime.utcnow()
         
         query = model.meta.Session.query(Delegation)
         query = query.filter(Delegation.scope==self.delegateable)
@@ -158,7 +158,7 @@ class DelegationNode(object):
         """
         log.info("Purging delegation graph for %s in %s" % (repr(user), repr(instance)))
         
-        now = datetime.now()  
+        now = datetime.utcnow()  
         query = model.meta.Session.query(Delegation)
         query = query.filter(Delegation.agent==user)
         query = query.filter(or_(Delegation.revoke_time == None,

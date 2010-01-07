@@ -66,7 +66,7 @@ class TwitteroauthController(BaseController):
             h.flash(_("You have no twitter association."))
             redirect_to("/user/edit/%s" % str(c.user.user_name))
         twitter = c.user.twitter
-        twitter.delete_time = datetime.now()
+        twitter.delete_time = datetime.utcnow()
         model.meta.Session.add(twitter)
         model.meta.Session.commit()
         redirect_to("/user/edit/%s" % str(c.user.user_name))

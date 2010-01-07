@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, Boolean, func
 from sqlalchemy.orm import relation, backref
 
@@ -10,7 +12,7 @@ class Comment(Base):
     __tablename__ = 'comment'
         
     id = Column(Integer, primary_key=True)
-    create_time = Column(DateTime, default=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
     delete_time = Column(DateTime, default=None, nullable=True)
     
     creator_id = Column(Integer, ForeignKey('user.id'), nullable=False)

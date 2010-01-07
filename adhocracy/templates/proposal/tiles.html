@@ -40,7 +40,7 @@
 		<span class="meta">  
 			${self.state_flag(tile.result.state)} &middot;
 			%if not tile.state.polling:
-				${_("created %s") % h.relative_time(proposal.create_time)}
+				${_("created %s") % h.relative_time(proposal.create_time)|n}
 			%else:
 				${_("%s votes cast") % len(tile.poll.decisions)}
 			%endif

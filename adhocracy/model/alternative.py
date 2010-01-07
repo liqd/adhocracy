@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
 from sqlalchemy.orm import relation, backref
 
@@ -8,7 +10,7 @@ class Alternative(Base):
     __tablename__ = "alternative"
     
     id = Column(Integer, primary_key=True)
-    create_time = Column(DateTime, default=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
     delete_time = Column(DateTime, nullable=True)
     
     left_id = Column(Integer, ForeignKey('proposal.id'), nullable=False)

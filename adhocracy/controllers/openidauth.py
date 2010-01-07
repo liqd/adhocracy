@@ -54,7 +54,7 @@ class OpenidauthController(BaseController):
         identity = {
             'userdata': '',
             'repoze.who.userid': str(user.user_name),
-            'timestamp': int(datetime.now().strftime("%s")),
+            'timestamp': int(datetime.utcnow().strftime("%s")),
             'user': user,
                     }
         
@@ -131,7 +131,7 @@ class OpenidauthController(BaseController):
         page_user = openid.user
         if not (page_user == c.user or h.has_permission("user.manage")): 
             abort(403, _("You're not authorized to change %s's settings.") % id)
-        openid.delete_time = datetime.now()
+        openid.delete_time = datetime.utcnow()
         model.meta.Session.add(openid)
         model.meta.Session.commit()
         return redirect_to("/user/edit/%s" % str(page_user.user_name))

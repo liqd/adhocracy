@@ -60,7 +60,7 @@ class DelegationController(BaseController):
         c.delegation = get_entity_or_abort(model.Delegation, id)
         if not c.delegation.principal == c.user:
             abort(403, _("Cannot access delegation %(id)s") % {'id': id})
-        c.delegation.revoke_time = datetime.now()
+        c.delegation.revoke_time = datetime.utcnow()
         
         event.emit(event.T_DELEGATION_REVOKE, c.user, topics=[c.delegation.scope],
                    scope=c.delegation.scope, agent=c.delegation.agent)

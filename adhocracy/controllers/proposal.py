@@ -176,7 +176,7 @@ class ProposalController(BaseController):
             
                 model.meta.Session.add(c.proposal)
                 
-                now = datetime.now()
+                now = datetime.utcnow()
                 for dependency in c.proposal.dependencies:
                     if dependency.delete_time:
                         continue
@@ -268,7 +268,7 @@ class ProposalController(BaseController):
         event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance, 
                    topics=[c.proposal], proposal=c.proposal)
         
-        c.proposal.delete_time = datetime.now()
+        c.proposal.delete_time = datetime.utcnow()
         model.meta.Session.add(c.proposal)
         model.meta.Session.commit()
         redirect_to("/category/%d" % c.proposal.issue.id)   

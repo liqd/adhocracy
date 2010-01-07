@@ -58,23 +58,18 @@ def relative_date(time):
     else:
         return dates.format_date(date, 'long', c.locale)
     
-def format_timedelta(td):
-    # version shit
-    if hasattr(babel.dates, 'format_timedelta'):
-        return babel.dates.format_timedelta(td, locale=c.locale.language)
-    else:
-        return date.time_ago_in_words(datetime.now() - td) 
+def countdown_time(dt, default):
+    # THIS IS A HACK TO GET RID OF BABEL 
+    if not dt: 
+        return _("%d days") % default
+    delta = dt - datetime.utcnow()
+    return _("%d days") % delta.days
  
 def format_date(dt):
     return _("%(ts)s") % {'ts': babel.dates.format_date(dt, format='long', locale=c.locale)}
    
 def relative_time(dt):
     """ A short statement giving the time distance since ``dt``. """
-    now = datetime.now()
-    ago = now - dt
-    if ago <= timedelta(days=1):
-        return _("at %(ts)s") % {'ts': format_time(dt, format='short', locale=c.locale)} 
-        #return _("%(ts)s ago") % {'ts': format_timedelta(dt - datetime.now())}
-    else:
-        return format_date(dt)
+    fmt = "<abbr class='timeago' title='%(iso)s'>%(formatted)s</abbr>"
+    return fmt % dict(iso=dt.isoformat(), formatted=format_date(dt))
         

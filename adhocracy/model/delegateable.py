@@ -1,5 +1,6 @@
 import random 
-    
+from datetime import datetime
+
 from sqlalchemy import Table, Column, Integer, Unicode, String, ForeignKey, DateTime, func
 from sqlalchemy.orm import relation, backref
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
@@ -21,8 +22,8 @@ class Delegateable(Base):
     label = Column(Unicode(255), nullable=False)
     delgateable_type = Column('type', String(50))
     
-    create_time = Column(DateTime, default=func.now())
-    access_time = Column(DateTime, default=func.now(), onupdate=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
+    access_time = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     delete_time = Column(DateTime, nullable=True)
     
     creator_id = Column(Integer, ForeignKey('user.id'), nullable=False)

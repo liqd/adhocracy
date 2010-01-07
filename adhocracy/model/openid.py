@@ -11,7 +11,7 @@ class OpenID(Base):
     __tablename__ = 'openid'
         
     id = Column(Integer, primary_key=True)
-    create_time = Column(DateTime, default=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
     delete_time = Column(DateTime, nullable=True)
     
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
@@ -36,7 +36,7 @@ class OpenID(Base):
             q = q.filter(OpenID.identifier==identifier)
             if not include_deleted:
                 q = q.filter(or_(OpenID.delete_time==None,
-                                 OpenID.delete_time>datetime.now()))
+                                 OpenID.delete_time>datetime.utcnow()))
             return q.one()
         except Exception:
             return None
@@ -49,7 +49,7 @@ class OpenID(Base):
             q = q.filter(OpenID.id==id)
             if not include_deleted:
                 q = q.filter(or_(OpenID.delete_time==None,
-                                 OpenID.delete_time>datetime.now()))
+                                 OpenID.delete_time>datetime.utcnow()))
             return q.one()
         except Exception:
             return None

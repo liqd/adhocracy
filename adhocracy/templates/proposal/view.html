@@ -108,7 +108,7 @@
 		${components.delegation_sidebar(c.proposal)}
 		<!-- 
 		<div class="meta">
-			${_("created %s") % h.relative_time(c.proposal.create_time)}
+			${_("created %s") % h.relative_time(c.proposal.create_time)|n}
 			&middot; ${h.rss_link("/proposal/%s.rss" % c.proposal.id)|n}
 		</div>
 		 -->

@@ -21,7 +21,7 @@ def index_user(entity):
     if entity.bio:
         d['text'] = entity.bio
     ct = datetime2str(entity.create_time if \
-                      entity.create_time else datetime.now())
+                      entity.create_time else datetime.utcnow())
     d['create_time'] = ct
     return d
 
@@ -30,7 +30,7 @@ def index_comment(entity):
     d['user'] = " ".join((entity.latest.user.name, 
                           entity.creator.name))
     ct = datetime2str(entity.latest.create_time if \
-                      entity.latest.create_time else datetime.now())
+                      entity.latest.create_time else datetime.utcnow())
     d['create_time'] = ct
     d['text'] = entity.latest.text
     d['instance'] = entity.topic.instance.key
@@ -40,7 +40,7 @@ def index_delegateable(entity):
     d = index_entity(entity)
     d['title'] = entity.label
     ct = datetime2str(entity.create_time if \
-                      entity.create_time else datetime.now())
+                      entity.create_time else datetime.utcnow())
     d['create_time'] = ct
     d['user'] = entity.creator.name
     d['instance'] = entity.instance.key

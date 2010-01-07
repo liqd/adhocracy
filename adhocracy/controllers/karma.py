@@ -31,7 +31,7 @@ class KarmaController(BaseController):
             karma = position(comment, c.user)
             if karma: 
                 karma.value = value
-                karma.create_time = datetime.now()
+                karma.create_time = datetime.utcnow()
             else:
                 karma = model.Karma(value, c.user, comment.creator, comment)
         

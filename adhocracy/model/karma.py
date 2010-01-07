@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
 from sqlalchemy.orm import relation, backref
 
@@ -15,7 +17,7 @@ class Karma(Base):
     
     id = Column(Integer, primary_key=True)
     value = Column(Integer, nullable=False)
-    create_time = Column(DateTime, default=func.now())
+    create_time = Column(DateTime, default=datetime.utcnow)
     
     comment_id = Column(Integer, ForeignKey('comment.id'), nullable=False)
     comment = relation(Comment, backref=backref('karmas', cascade='delete'))
