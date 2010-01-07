@@ -1,22 +1,22 @@
 
-<%def name="row(tile, motion, detail=False)">
+<%def name="row(tile, proposal, detail=False)">
 	<div class="tile">
 		<div class="logo">
 			%if tile.state.adopted:
-				<img src="/img/icons/motion_adopted_32.png" />
+				<img src="/img/icons/proposal_adopted_32.png" />
 			%else:
-				<img src="/img/icons/motion_32.png" />
+				<img src="/img/icons/proposal_32.png" />
 			%endif
 		</div>
 		<div class="base">
-			<h3><a class="link" href="${h.instance_url(motion.instance, path='/motion/%s' % motion.id)}">${motion.label}</a></h3>
+			<h3><a class="link" href="${h.instance_url(proposal.instance, path='/proposal/%s' % proposal.id)}">${proposal.label}</a></h3>
 			<!-- div class="text">
 				${tile.tagline}
 			</div -->
 			<div class="meta noclear">
-				${_("created %s by %s") % (h.relative_time(motion.create_time), h.user_link(motion.creator))|n}
-				%if detail and motion.issue:
-					&middot; ${h.delegateable_link(motion.issue)|n}
+				${_("created %s by %s") % (h.relative_time(proposal.create_time), h.user_link(proposal.creator))|n}
+				%if detail and proposal.issue:
+					&middot; ${h.delegateable_link(proposal.issue)|n}
 				%endif
 				<br />
 				
@@ -27,30 +27,30 @@
 					&middot; 
 				%endif
 				<img src="/img/icons/discuss_16.png" /> 
-				${ungettext("%s comment", "%s comments", (len(motion.comments)-1)) % (len(motion.comments)-1)},
+				${ungettext("%s comment", "%s comments", (len(proposal.comments)-1)) % (len(proposal.comments)-1)},
 				${_("latest <b>%s</b>") % h.relative_time(tile.latest_comment)|n}&nbsp;
 			</div>
 		</div>
 	</div>
 </%def>
 
-<%def name="list_item(tile, motion)">
+<%def name="list_item(tile, proposal)">
 	<li class="list_tile">
-		<span class="text"><a href="${h.instance_url(motion.instance, path='/motion/%s' % motion.id)}">${motion.label}</a></span>
+		<span class="text"><a href="${h.instance_url(proposal.instance, path='/proposal/%s' % proposal.id)}">${proposal.label}</a></span>
 		<span class="meta">  
 			${self.state_flag(tile.result.state)} &middot;
 			%if not tile.state.polling:
-				${_("created %s") % h.relative_time(motion.create_time)}
+				${_("created %s") % h.relative_time(proposal.create_time)}
 			%else:
 				${_("%s votes cast") % len(tile.poll.decisions)}
 			%endif
-			&middot; ${ungettext("%s comment", "%s comments", len(motion.comments)) % len(motion.comments)}
+			&middot; ${ungettext("%s comment", "%s comments", len(proposal.comments)) % len(proposal.comments)}
 		</span>
 	</li>
 </%def>
 
 
-<%def name="relation(rel_type=None, rel_motion=None, options=None, prototype=False)">
+<%def name="relation(rel_type=None, rel_proposal=None, options=None, prototype=False)">
 	<tr class="relation ${'prototype' if prototype else ''}">
 		<td>
 			<select name="rel_type">
@@ -67,19 +67,19 @@
 		</td>
 		<td>
 			%if options:
-				<select name="rel_motion">
-				%if not rel_motion:
-					<option>${_("(Select a motion)")}</option>
+				<select name="rel_proposal">
+				%if not rel_proposal:
+					<option>${_("(Select a proposal)")}</option>
 				%endif
-				%for motion in options:
-					<option value="${motion.id}" ${"selected='selected'" if motion==rel_motion else ''}>
-						${motion.label}
+				%for proposal in options:
+					<option value="${proposal.id}" ${"selected='selected'" if proposal==rel_proposal else ''}>
+						${proposal.label}
 					</option>
 				%endfor
 				</select>
-			%elif rel_motion:
-				${h.delegateable_link(rel_motion)|n}
-				<input type="hidden" name="rel_motion" value="${rel_motion.id}">
+			%elif rel_proposal:
+				${h.delegateable_link(rel_proposal)|n}
+				<input type="hidden" name="rel_proposal" value="${rel_proposal.id}">
 			%endif
 		</td>
 	</tr>

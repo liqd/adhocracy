@@ -12,7 +12,7 @@ class DelegationNode(object):
     """
     A ``DelegationNode`` describes a part of the voting delegation graph
     sorrounding a ``Delegateable`` (i.e. a ``Category``, ``Issue`` or 
-    ``Motion``) and a ``User``. 
+    ``Proposal``) and a ``User``. 
     
     **TODO:** Developing a good caching strategy for this class would be 
     useful in order to cache the delegation graph to memcached.

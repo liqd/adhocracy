@@ -24,18 +24,18 @@ class DelegateableFormatter(ObjectFormatter):
 class IssueFormatter(DelegateableFormatter):
     pass
 
-class MotionFormatter(DelegateableFormatter):
+class ProposalFormatter(DelegateableFormatter):
     pass
 
 class PollFormatter(ObjectFormatter):
     
     def unicode(self, poll):
-        m = MotionFormatter()
-        return m.unicode(poll.motion)
+        m = ProposalFormatter()
+        return m.unicode(poll.proposal)
     
     def html(self, poll):
-        m = MotionFormatter()
-        return m.html(poll.motion)
+        m = ProposalFormatter()
+        return m.html(poll.proposal)
             
 class InstanceFormatter(ObjectFormatter):
     
@@ -89,7 +89,7 @@ class FormattedEvent(object):
               model.Group: GroupFormatter(),
               model.User: UserFormatter(),
               model.Instance: InstanceFormatter(),
-              model.Motion: MotionFormatter(),
+              model.Proposal: ProposalFormatter(),
               model.Poll: PollFormatter(),
               model.Issue: IssueFormatter(),
               model.Comment: CommentFormatter()}

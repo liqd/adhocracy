@@ -1,0 +1,4 @@
+${e.user.name} deleted the proposal ${e.proposal.label} from the issue ${e.proposal.issue.label}.  
+
+Here's the last description: 
+${e.proposal.comment.latest.text}

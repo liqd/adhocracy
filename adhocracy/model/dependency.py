@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
 from sqlalchemy.orm import relation, backref
 
 from meta import Base
-from motion import Motion
+from proposal import Proposal
 
 class Dependency(Base):
     __tablename__ = "dependency"
@@ -11,22 +11,22 @@ class Dependency(Base):
     create_time = Column(DateTime, default=func.now())
     delete_time = Column(DateTime, nullable=True)
     
-    motion_id = Column(Integer, ForeignKey('motion.id'), nullable=False)
-    requirement_id = Column(Integer, ForeignKey('motion.id'), nullable=False)
+    proposal_id = Column(Integer, ForeignKey('proposal.id'), nullable=False)
+    requirement_id = Column(Integer, ForeignKey('proposal.id'), nullable=False)
     
-    def __init__(self, motion, requirement):
-        if motion == requirement:
+    def __init__(self, proposal, requirement):
+        if proposal == requirement:
             raise ValueError()
-        self.motion = motion
+        self.proposal = proposal
         self.requirement = requirement
     
     def __repr__(self):
-        return "<Depdendency(%d,%d)>" % (self.motion_id, self.requirement_id)
+        return "<Depdendency(%d,%d)>" % (self.proposal_id, self.requirement_id)
     
-Dependency.motion = relation(Motion, primaryjoin="Dependency.motion_id==Motion.id", 
-                             foreign_keys=[Dependency.motion_id], 
+Dependency.proposal = relation(Proposal, primaryjoin="Dependency.proposal_id==Proposal.id", 
+                             foreign_keys=[Dependency.proposal_id], 
                              backref=backref('dependencies', cascade='all'))
 
-Dependency.requirement = relation(Motion, primaryjoin="Dependency.requirement_id==Motion.id", 
+Dependency.requirement = relation(Proposal, primaryjoin="Dependency.requirement_id==Proposal.id", 
                                   foreign_keys=[Dependency.requirement_id], 
                                   backref=backref('dependents', cascade='all'))

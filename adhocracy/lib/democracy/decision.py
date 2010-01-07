@@ -6,7 +6,7 @@ from sqlalchemy.orm import eagerload
 
 from ..cache import memoize
 import adhocracy.model as model
-from adhocracy.model import Motion, Vote, Poll, User
+from adhocracy.model import Proposal, Vote, Poll, User
 
 from delegation_node import DelegationNode
 
@@ -27,7 +27,7 @@ class Decision(object):
         self.user = user
         self.poll = poll
         self.at_time = at_time
-        self.node = DelegationNode(user, poll.motion)
+        self.node = DelegationNode(user, poll.proposal)
         self.votes = votes
         if not votes: 
             self.reload()
@@ -52,7 +52,7 @@ class Decision(object):
         
         **WARNING**: A non-empty list of relevant votes does not always 
         mean a decision was made. This is not true, for example, when multiple
-        delegates match a motion and their opinions differ.
+        delegates match a proposal and their opinions differ.
         
         :returns: List of ``Vote``
         """
@@ -92,8 +92,8 @@ class Decision(object):
     def _result(self):
         """ 
         The result is an ``orientation`` and reflects the ``User``'s current 
-        decision on the ``Motion``. Values match those in ``Vote``. Given multiple 
-        delegates who have voted on the motion, the current approach is to check 
+        decision on the ``Proposal``. Values match those in ``Vote``. Given multiple 
+        delegates who have voted on the proposal, the current approach is to check 
         for an unanimous decision and to discard all other constellations. Another
         approach would be to require only a certain majority of agents to support an 
         opinion, thus creating an inner vote.  
@@ -108,7 +108,7 @@ class Decision(object):
     
     def make(self, orientation, _edge=None):
         """
-        Make a decision on a given motion, i.e. vote. Voting recursively propagates 
+        Make a decision on a given proposal, i.e. vote. Voting recursively propagates 
         through the delegation graph to all principals who have assigned voting 
         power to the ``User``. Each delegated vote will be marked as such by 
         saving the ``Delegation`` as a part of the ``Vote``.
@@ -118,11 +118,11 @@ class Decision(object):
         :returns: the ``Votes`` that has been cast
         """
         
-        def propagating_vote(user, motion, edge):
+        def propagating_vote(user, proposal, edge):
             vote = Vote(user, self.poll, orientation, delegation=edge)
             model.meta.Session.add(vote)
             log.debug("Decision was made: %s is voting '%s' on %s (via %s)" % (repr(user), 
-                                                                orientation, repr(self.poll.motion.id),
+                                                                orientation, repr(self.poll.proposal.id),
                                                                 edge if edge else "self"))
             return vote
         
@@ -134,7 +134,7 @@ class Decision(object):
     def is_decided(self):
         """
         Determine if a given decision was made by the user, i.e. if the user
-        or one of his/her agents has voted on the motion. 
+        or one of his/her agents has voted on the proposal. 
         """
         return not self.result == None
     
@@ -172,12 +172,12 @@ class Decision(object):
         """
         query = model.meta.Session.query(Poll)
         query = query.distinct().join(Vote)
-        query = query.join(Motion)
-        query = query.filter(Motion.instance==instance)
+        query = query.join(Proposal)
+        query = query.filter(Proposal.instance==instance)
         query = query.filter(Vote.user==user)
-        query = query.options(eagerload(Poll.motion))
+        query = query.options(eagerload(Poll.proposal))
         for poll in query:
-            if not instance or poll.motion.instance == instance:
+            if not instance or poll.proposal.instance == instance:
                 yield cls(user, poll, at_time=at_time)
     
     @classmethod
@@ -198,7 +198,7 @@ class Decision(object):
     def average_decisions(cls, instance):
         """
         The average number of decisions that a ``Poll`` in the given instance 
-        has. For each motion, this only includes the current poll in order to 
+        has. For each proposal, this only includes the current poll in order to 
         not accumulate too much historic data.
         
         :param instance: the ``Instance`` for which to calculate the average.   
@@ -206,7 +206,7 @@ class Decision(object):
         @memoize('average_decisions', 84600)
         def avg_decisions(instance):
             query = model.meta.Session.query(Poll)
-            query = query.join(Motion).filter(Motion.instance_id==instance.id)
+            query = query.join(Proposal).filter(Proposal.instance_id==instance.id)
             query = query.filter(Poll.end_time==None)
             decisions = []
             for poll in query:
@@ -231,7 +231,7 @@ class Decision(object):
         for decision in cls.for_user(delegation.agent, delegation.scope.instance, 
                                      at_time=delegation.create_time):
             #log.debug("RP: Decision %s" % decision)
-            if delegation.is_match(decision.poll.motion):
+            if delegation.is_match(decision.poll.proposal):
                 if not decision.poll.end_time: 
                     log.debug("RP: Making %s" % decision)
                     principal_dec = Decision(delegation.principal, decision.poll)

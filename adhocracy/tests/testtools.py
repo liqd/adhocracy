@@ -15,22 +15,22 @@ def tt_get_instance():
 def tt_make_str(length=20):
     return u''.join([random.choice(string.letters) for i in range(length)]) 
 
-def tt_make_motion(creator=None, voting=False):
+def tt_make_proposal(creator=None, voting=False):
     instance = tt_get_instance()
     if creator is None:
         creator = tt_make_user()
     issue = model.Issue(instance, tt_make_str(), creator)
-    motion = model.Motion(instance, tt_make_str(), creator)
-    motion.parents = [issue]
+    proposal = model.Proposal(instance, tt_make_str(), creator)
+    proposal.parents = [issue]
     
     if voting:
-        poll = model.Poll(motion, creator)
+        poll = model.Poll(proposal, creator)
         poll.begin_time = datetime.now() - timedelta(hours=1)
-        motion.polls.append(poll)
+        proposal.polls.append(poll)
         
-    model.meta.Session.add(motion)
+    model.meta.Session.add(proposal)
     model.meta.Session.flush()
-    return motion
+    return proposal
 
 def tt_make_user(instance_group=None):
     uname = tt_make_str() 

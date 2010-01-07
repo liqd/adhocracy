@@ -33,10 +33,10 @@ class CommentTile(BaseTile):
     
     tagline = property(_tagline)
     
-    def _on_motion(self):
-        return isinstance(self.comment.topic, model.Motion)
+    def _on_proposal(self):
+        return isinstance(self.comment.topic, model.Proposal)
     
-    on_motion = property(_on_motion)
+    on_proposal = property(_on_proposal)
     
     def _on_issue(self):
         return isinstance(self.comment.topic, model.Issue)

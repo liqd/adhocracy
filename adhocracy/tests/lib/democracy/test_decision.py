@@ -12,9 +12,9 @@ from adhocracy.tests.testtools import *
 class TestDecisionWithoutDelegation(TestController):
     
     def setUp(self):
-        self.motion = tt_make_motion(voting=True)
-        self.poll = Poll(self.motion, self.motion.creator)
-        self.decision = Decision(self.motion.creator, self.poll)
+        self.proposal = tt_make_proposal(voting=True)
+        self.poll = Poll(self.proposal, self.proposal.creator)
+        self.decision = Decision(self.proposal.creator, self.poll)
     
     def test_new_decisions_have_no_votes(self):
         assert_equals(len(self.decision.votes), 0)
@@ -73,9 +73,9 @@ class TestDecisionWithDelegation(TestController):
         self.high_delegate = tt_make_user()
         self.low_delegate = tt_make_user()
         
-        self.motion = tt_make_motion(creator=self.me, voting=True)
-        self.issue = self.motion.issue
-        self.poll = Poll(self.motion, self.me)
+        self.proposal = tt_make_proposal(creator=self.me, voting=True)
+        self.issue = self.proposal.issue
+        self.poll = Poll(self.proposal, self.me)
         self.decision = Decision(self.me, self.poll)
         self.instance = tt_get_instance()
     
@@ -85,7 +85,7 @@ class TestDecisionWithDelegation(TestController):
         DelegationNode.create_delegation(from_user=self.me, to_user=to, scope=scope)
     
     def test_delegation_without_vote_is_no_vote(self):
-        self.delegate(self.high_delegate, self.motion)
+        self.delegate(self.high_delegate, self.proposal)
         self.decision.reload()
         assert_equals(len(self.decision.votes), 0)
         assert_false(self.decision.is_decided())
@@ -110,15 +110,15 @@ class TestDecisionWithDelegation(TestController):
     
     def test_issue_delegation_will_override_root_delegation(self):
         self.delegate(self.high_delegate, self.issue)
-        self.delegate(self.low_delegate, self.motion.issue)
+        self.delegate(self.low_delegate, self.proposal.issue)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         assert_equals(self.decision.reload().result, Vote.YES)
         Decision(self.low_delegate, self.poll).make(Vote.NO)
         assert_equals(self.decision.reload().result, Vote.NO)
     
-    def test_motion_delegation_will_overide_issue_delegation(self):
-        self.delegate(self.high_delegate, self.motion.issue)
-        self.delegate(self.low_delegate, self.motion)
+    def test_proposal_delegation_will_overide_issue_delegation(self):
+        self.delegate(self.high_delegate, self.proposal.issue)
+        self.delegate(self.low_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         assert_equals(self.decision.reload().result, Vote.YES)
         Decision(self.low_delegate, self.poll).make(Vote.NO)
@@ -128,34 +128,34 @@ class TestDecisionWithDelegation(TestController):
         # This is meant as a safeguard: if I don't fully trust my delegates
         # I can delegate to n delegates, and my vote will only be autocast if they all agree
         # If not, I need to decide myself
-        self.delegate(self.high_delegate, self.motion)
-        self.delegate(self.low_delegate, self.motion)
+        self.delegate(self.high_delegate, self.proposal)
+        self.delegate(self.low_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         Decision(self.low_delegate, self.poll).make(Vote.NO)
         assert_equals(self.decision.reload().result, None, "needs to cast his own vote")
     
     def test_two_delegations_at_the_same_level_that_agree_reinforce_each_other(self):
-        self.delegate(self.high_delegate, self.motion)
-        self.delegate(self.low_delegate, self.motion)
+        self.delegate(self.high_delegate, self.proposal)
+        self.delegate(self.low_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         Decision(self.low_delegate, self.poll).make(Vote.YES)
         assert_equals(self.decision.reload().result, Vote.YES)
     
     def test_two_delegations_at_the_same_level_are_both_relevant_votes(self):
-        self.delegate(self.high_delegate, self.motion)
-        self.delegate(self.low_delegate, self.motion)
+        self.delegate(self.high_delegate, self.proposal)
+        self.delegate(self.low_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         Decision(self.low_delegate, self.poll).make(Vote.YES)
         assert_equals(len(self.decision.reload().relevant_votes), 2)
     
     def test_own_vote_overrides_delegations(self):
-        self.delegate(self.high_delegate, self.motion)
+        self.delegate(self.high_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         self.decision.make(Vote.NO)
         assert_equals(self.decision.reload().result, Vote.NO)
     
     def test_delegation_is_recorded_as_just_another_vote(self):
-        self.delegate(self.high_delegate, self.motion)
+        self.delegate(self.high_delegate, self.proposal)
         assert_equals(len(self.decision.reload().votes), 0)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         assert_equals(len(self.decision.reload().votes), 1)

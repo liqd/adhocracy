@@ -11,7 +11,7 @@ class SearchQueryForm(formencode.Schema):
 
 class SearchController(BaseController):
     
-    @ActionProtector(has_permission("motion.view"))
+    @ActionProtector(has_permission("proposal.view"))
     def query(self):
         try:
             c.query = SearchQueryForm().to_python(request.params).get("q")

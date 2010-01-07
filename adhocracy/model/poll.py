@@ -8,7 +8,7 @@ from meta import Base
 import user
 import meta
 import filter as ifilter
-import motion 
+import proposal 
 
 class Poll(Base):
     __tablename__ = 'poll'
@@ -25,15 +25,15 @@ class Poll(Base):
     end_user = relation(user.User, 
                         primaryjoin="Poll.end_user_id==User.id")
     
-    motion_id = Column(Integer, ForeignKey('motion.id'), nullable=False)
+    proposal_id = Column(Integer, ForeignKey('proposal.id'), nullable=False)
     
-    def __init__(self, motion, begin_user):
-        self.motion = motion
+    def __init__(self, proposal, begin_user):
+        self.proposal = proposal
         self.begin_user = begin_user
     
     def __repr__(self):
         return u"<Poll(%s,%s,%s,%s)>" % (self.id, 
-                                         self.motion_id,
+                                         self.proposal_id,
                                          self.begin_time, 
                                          self.end_time)
     
@@ -51,12 +51,12 @@ class Poll(Base):
             q = q.filter(Poll.id==int(id))
             poll = q.one()
             if ifilter.has_instance() and instance_filter:
-                poll = poll.motion.instance == ifilter.get_instance() \
+                poll = poll.proposal.instance == ifilter.get_instance() \
                         and poll or None
             return poll
         except Exception:
             return None
     
 
-Poll.motion = relation(motion.Motion, backref=backref('polls', cascade='all',
+Poll.proposal = relation(proposal.Proposal, backref=backref('polls', cascade='all',
                        lazy=False, order_by=Poll.begin_time.desc()))

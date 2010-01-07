@@ -1,30 +1,30 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Critical Motions in %s") % c.instance.label}</%def>
+<%def name="title()">${_("Critical Proposals in %s") % c.instance.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Motions")}
+	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Proposals")}
 </%def>
 
-<h1 class="page_title"><img src="/img/icons/motion_24.png" class="cd" /> ${_("Critical Motions")}</h1>
+<h1 class="page_title"><img src="/img/icons/proposal_24.png" class="cd" /> ${_("Critical Proposals")}</h1>
 
 <div class="sidebar">	
-	%if len(c.motions_pager.items):
+	%if len(c.proposals_pager.items):
 	<span class="infobox">
-		${_("These motions are currently voting and might be nearing a decision. Vote now to make your " 
+		${_("These proposals are currently voting and might be nearing a decision. Vote now to make your " 
 		    + "voice heard.")}
 	</span>
 	%endif
 	
 	%if c.user:
-	<form action="?" method="GET" id="motions_filter">
-		<h4>${_("Motion filter criteria")}</h4>
+	<form action="?" method="GET" id="proposals_filter">
+		<h4>${_("Proposal filter criteria")}</h4>
 	
-		<input name="filter_made" value="1" type="radio" onchange="submitForm('motions_filter')" ${"checked='checked'" if c.filter_made == 1 else ""} /> 
+		<input name="filter_made" value="1" type="radio" onchange="submitForm('proposals_filter')" ${"checked='checked'" if c.filter_made == 1 else ""} /> 
 			${_("My delegates and I haven't voted.")}<br/>
-		<input name="filter_made" value="2" type="radio" onchange="submitForm('motions_filter')" ${"checked='checked'" if c.filter_made == 2 else ""} /> 
+		<input name="filter_made" value="2" type="radio" onchange="submitForm('proposals_filter')" ${"checked='checked'" if c.filter_made == 2 else ""} /> 
 			${_("I haven't voted myself.")}<br/>
-		<input name="filter_made" value="0" type="radio" onchange="submitForm('motions_filter')"  ${"checked='checked'" if c.filter_made == 0 else ""} /> 
+		<input name="filter_made" value="0" type="radio" onchange="submitForm('proposals_filter')"  ${"checked='checked'" if c.filter_made == 0 else ""} /> 
 			${_("Include all polls.")}<br/>
 		<noscript>
 			<input type="submit" value="${_("Update")}">
@@ -35,15 +35,15 @@
 </div>
 
 <div class="mainbar">
-	%if len(c.motions_pager.items):
+	%if len(c.proposals_pager.items):
 		<div class="table">
-			${c.motions_pager.here()}
+			${c.proposals_pager.here()}
 		</div>
 	%else:
 		%if c.user and c.filter_made in [1, 2]:
 			<div class="infobox">${_("There are currently no polls in which you haven't voted.")}</div>
 		%else:
-			<div class="infobox">${_("There are currently no polls open. Call a motion into voting state to begin a poll.")}</div>
+			<div class="infobox">${_("There are currently no polls open. Call a proposal into voting state to begin a poll.")}</div>
 		%endif
 	%endif
 </div>

@@ -19,13 +19,13 @@ class Issue(Delegateable):
     def __repr__(self):
         return u"<Issue(%s)>" % (self.id)
     
-    def _get_motions(self):
+    def _get_proposals(self):
         return self.children
     
-    def _set_motions(self, motions):
-        self.children = motions
+    def _set_proposals(self, proposals):
+        self.children = proposals
         
-    motions = property(_get_motions, _set_motions)
+    proposals = property(_get_proposals, _set_proposals)
     
     def search_children(self, recurse=False, cls=Delegateable): 
         """

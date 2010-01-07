@@ -57,15 +57,15 @@ blame the tool if it fails.
 
 <h3 id="Howdoesvotingwork">How does voting work?</h3>
 
-<p>Adhocracy allows users to vote on proposals - so-called motions -
+<p>Adhocracy allows users to vote on proposals - so-called proposals -
 to determine the degree of support they have within the community. In
 order to bring an idea to be voted upon, the following steps are needed:
 </p>
 <ol>
-	<li>A motion is created <strong>within an appropriate issue</strong>. It will
+	<li>A proposal is created <strong>within an appropriate issue</strong>. It will
 	have both a <string>formal and an informal description</string>.</li>
 	<li>The formal descriptions, so-called provisions, are modular.
-	While a motion <strong>needs only a single provision</strong> to be voted upon, it can
+	While a proposal <strong>needs only a single provision</strong> to be voted upon, it can
 	have an arbitrary number of them.
 	<ul>
 		<li>In order to be considered for a vote, any provision must
@@ -74,10 +74,10 @@ order to bring an idea to be voted upon, the following steps are needed:
 		poll.</li>
 	</ul>
 	</li>
-	<li>A motion needs to be explicitly <strong>called into the voting state</strong>
+	<li>A proposal needs to be explicitly <strong>called into the voting state</strong>
 	to allow for ballots to be cast.
 	<ul>
-		<li>The vote can be called by the motion's creator, an
+		<li>The vote can be called by the proposal's creator, an
 		administrator or any user who has met the "call for a vote" karma
 		threshold. Future versions of Adhocracy might require multiple users
 		to agree for a vote begin.</li>
@@ -86,44 +86,44 @@ order to bring an idea to be voted upon, the following steps are needed:
 		dates.</li>
 		<li>Polls can last for any number of days or weeks and need not
 		be stopped at any time. A successful vote (reaching the 'active'
-		state) will last for as long as the motion is in effect. This
+		state) will last for as long as the proposal is in effect. This
 		principle could be called <em>Continuous Legitimization</em>.</li>
 		<li>While voting, the provisions that have been included in the
 		poll cannot be modified. This is required to allow decisions to be
 		made on a fixed proposal.</li>
-		<li>While voting, the motion can adopt various states: it is
+		<li>While voting, the proposal can adopt various states: it is
 		"voting" when it has not yet reached the required majority;
 		"activating" when it has reached its majority but not yet held it for
 		the required delay or "active" when all conditions are met.</li>
-		<li>While voting, neither a motion nor the issue to which it is
+		<li>While voting, neither a proposal nor the issue to which it is
 		associated can be modified. The vote needs to be cancelled first.</li>
 	</ul>
 	</li>
 	<li>A <strong>vote can be cancelled at any time</strong> unless it has acquired the
-	required majority. When that happens, a motion becomes entirely
+	required majority. When that happens, a proposal becomes entirely
 	immutable and cannot be modified without first losing its support among
 	the voters.</li>
 </ol>
 
-<h3 id="Whataremotionstates">What are motion states?</h3>
-<p>Motions have a life cycle that leads them from being drafts to
-community-approved documents. Which state a motion is in depends on
+<h3 id="Whatareproposalstates">What are proposal states?</h3>
+<p>Proposals have a life cycle that leads them from being drafts to
+community-approved documents. Which state a proposal is in depends on
 whether it has been released and on the number of votes it has
 for/against it.</p>
 <ul>
-	<li><strong>draft</strong>: A draft motion is not yet finished and can still be
+	<li><strong>draft</strong>: A draft proposal is not yet finished and can still be
 	edited by any member of the Adhocracy.</li>
-	<li><strong>voting</strong>: After a vote was called, a motion is "voting"; any
-	user can cast a vote on the motion.</li>
+	<li><strong>voting</strong>: After a vote was called, a proposal is "voting"; any
+	user can cast a vote on the proposal.</li>
 	<li><strong>activating</strong>: After gathering approval by the required majority
-	of the participants (usually two thirds of the voters), a motion is
+	of the participants (usually two thirds of the voters), a proposal is
 	activating and must maintain that majority for a certain delay (usually
 	7 days) in order to become active.</li>
-	<li><strong>active</strong>: The motion is approved by the community and can be
+	<li><strong>active</strong>: The proposal is approved by the community and can be
 	seen as part of their established codex.</li>
-	<li><strong>deactivating</strong>: When a motion loses the required majority, it is
+	<li><strong>deactivating</strong>: When a proposal loses the required majority, it is
 	re-transferred to the voting state. Similar to the activating state
-	this transition is delayed. Deactivating motions are, therefore, still
+	this transition is delayed. Deactivating proposals are, therefore, still
 	an active part of an accepted consensus.</li>
 </ul>
 <p></p>
@@ -205,16 +205,16 @@ any time. There are three reasons to do this:</p>
 
 <h3 id="WhichvotingsystemdoesAdhocracyuse">Which voting system does
 Adhocracy use?</h3>
-<p>Adhocracy currently only supports voting on individual motions,
+<p>Adhocracy currently only supports voting on individual proposals,
 not the comparative polling on different alternatives regarding an
 issue. Starting with the next version of Adhocracy, the software will use a fairly complex variant of <strong>approval voting</strong>. In this
-process, users will be able to specify which motions depend upon each
-other and which motions contradict each other. Motions will then become
+process, users will be able to specify which proposals depend upon each
+other and which proposals contradict each other. Proposals will then become
 active only if they meet all their dependencies and have the highest
 level of approvement among their respective cluster of contradicting
-motions.</p>
+proposals.</p>
 <p>While this process is somewhat complicated internally, the voter
-will only have to make a binary decision on whether he thinks a motion
+will only have to make a binary decision on whether he thinks a proposal
 is acceptable or not. Tactical voting is not needed in most approval
 voting systems.</p>
 <p>Unlike instant runoff systems, approval voting also doesn't
@@ -262,10 +262,10 @@ include:</p>
 <ul>
 	<li>Scoring on (5 points) and editing (30 points) other people's
 	comments</li>
-	<li>Editing arbitrary motions or issues (200 points each)</li>
+	<li>Editing arbitrary proposals or issues (200 points each)</li>
 	<li>Beginning and cancelling votes on a proposal. (300 points
 	each)</li>
-	<li>Deleting comments or motions (500 points)</li>
+	<li>Deleting comments or proposals (500 points)</li>
 	<li>Creating and editing categories (600 points)</li>
 	<li>Deleting categories or issues (1000 points)</li>
 	<li>Voting is, of course, excepted from the karma system</li>

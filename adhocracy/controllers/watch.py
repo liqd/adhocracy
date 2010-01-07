@@ -20,7 +20,7 @@ class WatchDeleteForm(formencode.Schema):
     ret = validators.String(not_empty=False, if_empty='/', if_missing='/')
 
 WATCH_PERMISSIONS = {'comment': 'comment.view',
-                     'motion': 'motion.view',
+                     'proposal': 'proposal.view',
                      'issue': 'issue.view',
                      'category': 'category.view',
                      'instance': 'instance.view',

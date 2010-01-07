@@ -41,8 +41,8 @@ def delegateable_activity(dgb, from_time=None, to_time=None):
         a += delegateable_activity(child, from_time, to_time)
     return a * -1
 
-def motion_activity(motion, from_time=None, to_time=None):
-    return delegateable_activity(motion, from_time, to_time)
+def proposal_activity(proposal, from_time=None, to_time=None):
+    return delegateable_activity(proposal, from_time, to_time)
 
 def issue_activity(issue, from_time=None, to_time=None):
     return delegateable_activity(issue, from_time, to_time)

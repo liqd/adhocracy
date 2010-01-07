@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 import adhocracy.model as model
-from adhocracy.model import Motion, Poll
+from adhocracy.model import Proposal, Poll
 from ..cache import memoize
 from ..util import timedelta2seconds
 
@@ -10,15 +10,15 @@ from criteria import *
 
 class State(object):
     
-    def __init__(self, motion, poll=None, at_time=None):
-        self.motion = motion
+    def __init__(self, proposal, poll=None, at_time=None):
+        self.proposal = proposal
         
         if not at_time:
             at_time = datetime.now()
         self.at_time = at_time
         
-        if not poll and len(self.motion.polls):
-            poll = motion.poll_at(at_time)
+        if not poll and len(self.proposal.polls):
+            poll = proposal.poll_at(at_time)
         self.poll = poll
                 
         self._tallies = []
@@ -64,23 +64,23 @@ class State(object):
         return not self.stable._check_criteria(self.tally)
     
     poll_mutable = property(_get_poll_mutable)
-    motion_mutable = property(lambda self: not self.polling)
+    proposal_mutable = property(lambda self: not self.polling)
             
     @classmethod
-    def critical_motions(cls, instance):
+    def critical_proposals(cls, instance):
         """
-        Returns a list of all motions in the given ``Instance``, as a dict key with 
-        a score describing the distance the ``Motion`` has towards making a state 
+        Returns a list of all proposals in the given ``Instance``, as a dict key with 
+        a score describing the distance the ``Proposal`` has towards making a state 
         change.
         
         :param instance: Instance on which to focus
-        :returns: A ``dict`` of (``Motion``, score)
+        :returns: A ``dict`` of (``Proposal``, score)
         """
-        @memoize('motion-criticalness')
-        def motion_criticalness(motion):
-            state = State(motion)
+        @memoize('proposal-criticalness')
+        def proposal_criticalness(proposal):
+            state = State(proposal)
             if not state.polling:
-                print "MOTION HAS NO POLL"
+                print "PROPOSAL HAS NO POLL"
                 return None
             
             score = 1
@@ -100,29 +100,29 @@ class State(object):
             
             return score * -1
         
-        q = model.meta.Session.query(Motion)
-        q = q.filter(Motion.instance==instance)
+        q = model.meta.Session.query(Proposal)
+        q = q.filter(Proposal.instance==instance)
         q = q.join(Poll)
         q = q.filter(Poll.end_time==None)
         scored = {}
-        for motion in q:
-            score = motion_criticalness(motion)
+        for proposal in q:
+            score = proposal_criticalness(proposal)
             if score:
-                scored[motion] = score
+                scored[proposal] = score
         return scored
 
 #from beaker.util import ThreadLocal
 #thread_states = ThreadLocal()
 #
-#def State(motion, poll=None, at_time=None):
-#    key = (motion, poll, at_time)
+#def State(proposal, poll=None, at_time=None):
+#    key = (proposal, poll, at_time)
 #    if thread_states.get() == None:
 #        thread_states.put({})
 #    d = thread_states.get()
 #    if d.get(key):
 #        return d.get(key)
 #    else:
-#        s = _State(motion, poll=None, at_time=None)
+#        s = _State(proposal, poll=None, at_time=None)
 #        d[key] = s
 #        thread_states.put(d)
 #        return s

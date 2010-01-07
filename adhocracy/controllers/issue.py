@@ -80,7 +80,7 @@ class IssueController(BaseController):
         if format == 'rss':
             query = model.meta.Session.query(model.Event)
             query = query.join(model.Event.topics)
-            ids = map(lambda d: d.id, [c.issue]+c.issue.motions)
+            ids = map(lambda d: d.id, [c.issue]+c.issue.proposals)
             query = query.filter(model.Event.topics.any(model.Issue.id.in_(ids)))
             query = query.order_by(model.Event.time.desc())
             query = query.limit(50)        
@@ -92,12 +92,12 @@ class IssueController(BaseController):
             h.instance_url(c.instance, "/issue/%s.rss" % c.issue.id))
         
         c.tile = tiles.issue.IssueTile(c.issue)
-        c.motions_pager = NamedPager('motions', c.tile.motions, tiles.motion.row, count=4, #list_item,
+        c.proposals_pager = NamedPager('proposals', c.tile.proposals, tiles.proposal.row, count=4, #list_item,
                                      sorts={_("oldest"): sorting.entity_oldest,
                                             _("newest"): sorting.entity_newest,
-                                            _("activity"): sorting.motion_activity,
+                                            _("activity"): sorting.proposal_activity,
                                             _("name"): sorting.delegateable_label},
-                                     default_sort=sorting.motion_activity)
+                                     default_sort=sorting.proposal_activity)
         return render("/issue/view.html")
     
     @RequireInstance
@@ -107,13 +107,13 @@ class IssueController(BaseController):
         c.issue = get_entity_or_abort(model.Issue, id)
         parent = c.issue.parents[0]
         
-        for motion in c.issue.motions:
-            if not democracy.is_motion_mutable(motion):
+        for proposal in c.issue.proposals:
+            if not democracy.is_proposal_mutable(proposal):
                 h.flash(_("The issue %(issue)s cannot be deleted, because the contained " +
-                          "motion %(motion)s is polling.") % {'issue': c.issue.label, 'motion': motion.label})
+                          "proposal %(proposal)s is polling.") % {'issue': c.issue.label, 'proposal': proposal.label})
                 redirect_to('/issue/%s' % str(c.issue.id))
-            motion.delete_time = datetime.now()
-            model.meta.Session.add(motion)
+            proposal.delete_time = datetime.now()
+            model.meta.Session.add(proposal)
         
         h.flash(_("Issue '%(issue)s' has been deleted.") % {'issue': c.issue.label})
         

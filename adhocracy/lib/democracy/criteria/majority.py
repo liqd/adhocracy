@@ -7,7 +7,7 @@ class MajorityCriterion(Criterion):
     """
     
     def _get_required(self):
-        return self.motion.instance.required_majority
+        return self.proposal.instance.required_majority
     
     required = property(_get_required)
     

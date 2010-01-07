@@ -26,7 +26,7 @@ class Vote(Base):
     # user See below 
     
     poll_id = Column(Integer, ForeignKey('poll.id'), nullable=False)
-    # motion See below
+    # proposal See below
     
     delegation_id = Column(Integer, ForeignKey('delegation.id'), nullable=True)
     delegation = relation(Delegation, 
@@ -53,7 +53,7 @@ class Vote(Base):
             q = q.filter(Vote.id==int(id))
             vote = q.one()
             if ifilter.has_instance() and instance_filter:
-                vote = vote.poll.motion.instance == ifilter.get_instance() \
+                vote = vote.poll.proposal.instance == ifilter.get_instance() \
                         and vote or None
             return vote
         except Exception, e: 

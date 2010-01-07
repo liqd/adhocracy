@@ -1,5 +1,5 @@
 
-<%def name="row(tile, decision, focus_motion=False, focus_user=False)">
+<%def name="row(tile, decision, focus_proposal=False, focus_user=False)">
 	<div class="tile decision">
 		<div class="logo">
 			%if decision.result == 1:
@@ -26,8 +26,8 @@
 				<a href="/user/${decision.user.user_name}">${decision.user.name}</a>
 			%endif
 			
-			%if focus_motion:
-				<a href="/motion/${decision.poll.motion.id}">${decision.poll.motion.label}</a>
+			%if focus_proposal:
+				<a href="/proposal/${decision.poll.proposal.id}">${decision.poll.proposal.label}</a>
 			%endif
 		</h3>
 		
@@ -56,9 +56,9 @@
 		</div>
 		<div class="meta">
 			${h.relative_time(decision.create_time)|n}
-			%if not focus_motion:
-				&middot; <img src="/img/icons/motion_16.png" /> 
-					<a href="/motion/${decision.poll.motion.id}">${decision.poll.motion.label}</a>
+			%if not focus_proposal:
+				&middot; <img src="/img/icons/proposal_16.png" /> 
+					<a href="/proposal/${decision.poll.proposal.id}">${decision.poll.proposal.label}</a>
 			%endif
 			%if decision.poll:
 				&middot; ${_("poll #%s") % decision.poll.id}

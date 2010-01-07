@@ -10,7 +10,7 @@ from permission import Permission
 from comment import Comment
 from delegation import Delegation
 from issue import Issue
-from motion import Motion
+from proposal import Proposal
 from poll import Poll
 from instance import Instance
 
@@ -25,7 +25,7 @@ TYPES = [Vote,
          Comment,
          Delegation,
          Issue,
-         Motion,
+         Proposal,
          Poll,
          Instance]
 

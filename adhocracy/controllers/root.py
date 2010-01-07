@@ -37,7 +37,7 @@ class RootController(BaseController):
         if isinstance(dgb, model.Issue):
             redirect_to(h.instance_url(dgb.instance, path="/issue/%s" % id))
         
-        redirect_to(h.instance_url(dgb.instance, path="/motion/%s" % id))
+        redirect_to(h.instance_url(dgb.instance, path="/proposal/%s" % id))
         
     def sitemap_xml(self):
         c.delegateables = []

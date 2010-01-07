@@ -3,7 +3,7 @@ from criterion import RelationCriterion, RelationLoop
 class DependenciesCriterion(RelationCriterion):
     
     def get_dependencies(self, at_time):
-        return [d.requirement for d in self.motion.dependencies if \
+        return [d.requirement for d in self.proposal.dependencies if \
                 d.create_time <= at_time and \
                 (not d.delete_time or d.delete_time > at_time)]
     

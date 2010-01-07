@@ -73,25 +73,25 @@ T_ISSUE_DELETE = EventType(u"t_issue_delete", pri=2,
                           subject=lambda: _(u"Deleted issue: %(issue)s"),
                           event_msg=lambda: _(u"deleted %(issue)s"))
 
-T_MOTION_CREATE = EventType(u"t_motion_create", pri=3, 
-                          subject=lambda: _(u"New motion: %(motion)s"),
-                          event_msg=lambda: _(u"created %(motion)s"))
+T_PROPOSAL_CREATE = EventType(u"t_proposal_create", pri=3, 
+                          subject=lambda: _(u"New proposal: %(proposal)s"),
+                          event_msg=lambda: _(u"created %(proposal)s"))
 
-T_MOTION_EDIT = EventType(u"t_motion_edit", pri=1, 
-                          subject=lambda: _(u"Edit motion: %(motion)s"),
-                          event_msg=lambda: _(u"edited %(motion)s"))
+T_PROPOSAL_EDIT = EventType(u"t_proposal_edit", pri=1, 
+                          subject=lambda: _(u"Edit proposal: %(proposal)s"),
+                          event_msg=lambda: _(u"edited %(proposal)s"))
 
-T_MOTION_STATE_REDRAFT = EventType(u"t_motion_state_draft", pri=3, 
-                          subject=lambda: _(u"Poll cancelled: %(motion)s"),
-                          event_msg=lambda: _(u"re-drafted %(motion)s"))
+T_PROPOSAL_STATE_REDRAFT = EventType(u"t_proposal_state_draft", pri=3, 
+                          subject=lambda: _(u"Poll cancelled: %(proposal)s"),
+                          event_msg=lambda: _(u"re-drafted %(proposal)s"))
 
-T_MOTION_STATE_VOTING = EventType(u"t_motion_state_voting", pri=4, 
-                          subject=lambda: _(u"New Poll: %(motion)s"),
-                          event_msg=lambda: _(u"called a vote on %(motion)s"))
+T_PROPOSAL_STATE_VOTING = EventType(u"t_proposal_state_voting", pri=4, 
+                          subject=lambda: _(u"New Poll: %(proposal)s"),
+                          event_msg=lambda: _(u"called a vote on %(proposal)s"))
 
-T_MOTION_DELETE = EventType(u"t_motion_delete", pri=2, 
-                          subject=lambda: _(u"Deleted motion: %(motion)s"),
-                          event_msg=lambda: _(u"deleted %(motion)s"))
+T_PROPOSAL_DELETE = EventType(u"t_proposal_delete", pri=2, 
+                          subject=lambda: _(u"Deleted proposal: %(proposal)s"),
+                          event_msg=lambda: _(u"deleted %(proposal)s"))
 
 T_COMMENT_CREATE = EventType(u"t_comment_create", pri=2, 
                           subject=lambda: _(u"New comment: in %(topic)s"),

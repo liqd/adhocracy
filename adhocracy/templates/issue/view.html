@@ -62,18 +62,18 @@
 %endif
 
 <div class="top_actions">
-	%if c.tile.can_create_motion:
-		<a class="button add" href="/motion/create?issue=${c.issue.id}">${_("new")}</a>
+	%if c.tile.can_create_proposal:
+		<a class="button add" href="/proposal/create?issue=${c.issue.id}">${_("new")}</a>
 	%endif	
 </div>
 
-<h2>${_("Motions")}<sup><a href="/page/faq.html#Howdoesvotingwork">?</a></sup> (${c.tile.num_motions})</h2>
+<h2>${_("Proposals")}<sup><a href="/page/faq.html#Howdoesvotingwork">?</a></sup> (${c.tile.num_proposals})</h2>
 
-%if not c.tile.num_motions:
-	<span class="infobox">${_("Motions are <b>proposals</b> that solve some or all of the problems described by this issue. A motion can be <b>discussed and voted</b> upon.")|n}</span>
+%if not c.tile.num_proposals:
+	<span class="infobox">${_("Proposals are <b>proposals</b> that solve some or all of the problems described by this issue. A proposal can be <b>discussed and voted</b> upon.")|n}</span>
 %else:
 	<div class="table">
-		${c.motions_pager.here()}
+		${c.proposals_pager.here()}
 	</div>
 %endif
 

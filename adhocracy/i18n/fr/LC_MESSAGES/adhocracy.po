@@ -104,7 +104,7 @@ msgstr ""
 #: adhocracy/controllers/comment.py:149 adhocracy/controllers/delegation.py:88
 #: adhocracy/controllers/instance.py:45 adhocracy/controllers/instance.py:91
 #: adhocracy/controllers/instance.py:98 adhocracy/controllers/issue.py:104
-#: adhocracy/controllers/motion.py:296 adhocracy/controllers/poll.py:31
+#: adhocracy/controllers/proposal.py:296 adhocracy/controllers/poll.py:31
 #: adhocracy/controllers/user.py:53 adhocracy/controllers/user.py:259
 msgid "oldest"
 msgstr ""
@@ -113,7 +113,7 @@ msgstr ""
 #: adhocracy/controllers/comment.py:150 adhocracy/controllers/delegation.py:89
 #: adhocracy/controllers/instance.py:46 adhocracy/controllers/instance.py:92
 #: adhocracy/controllers/instance.py:99 adhocracy/controllers/issue.py:105
-#: adhocracy/controllers/motion.py:297 adhocracy/controllers/poll.py:32
+#: adhocracy/controllers/proposal.py:297 adhocracy/controllers/poll.py:32
 #: adhocracy/controllers/user.py:54 adhocracy/controllers/user.py:260
 msgid "newest"
 msgstr ""
@@ -165,7 +165,7 @@ msgstr ""
 
 #: adhocracy/controllers/delegation.py:21
 #, python-format
-msgid "No motion or category with ID '%(id)s' exists"
+msgid "No proposal or category with ID '%(id)s' exists"
 msgstr ""
 
 #: adhocracy/controllers/delegation.py:63
@@ -252,8 +252,8 @@ msgstr ""
 #: adhocracy/controllers/issue.py:127
 #, python-format
 msgid ""
-"The issue %(issue)s cannot be deleted, because the contained motion "
-"%(motion)s is polling."
+"The issue %(issue)s cannot be deleted, because the contained proposal "
+"%(proposal)s is polling."
 msgstr ""
 
 #: adhocracy/controllers/issue.py:133
@@ -265,38 +265,38 @@ msgstr ""
 msgid "Invalid karma value. Karma is either positive or negative!"
 msgstr ""
 
-#: adhocracy/controllers/motion.py:44
+#: adhocracy/controllers/proposal.py:44
 msgid "Input error while applying relations."
 msgstr ""
 
-#: adhocracy/controllers/motion.py:55
-msgid "A motion cannot have a relation with itself."
+#: adhocracy/controllers/proposal.py:55
+msgid "A proposal cannot have a relation with itself."
 msgstr ""
 
-#: adhocracy/controllers/motion.py:59
-msgid "A motion can either contradict or require another, not both."
+#: adhocracy/controllers/proposal.py:59
+msgid "A proposal can either contradict or require another, not both."
 msgstr ""
 
-#: adhocracy/controllers/motion.py:72
+#: adhocracy/controllers/proposal.py:72
 msgid "Cannot identify the parent issue."
 msgstr ""
 
-#: adhocracy/controllers/motion.py:245
+#: adhocracy/controllers/proposal.py:245
 #, fuzzy, python-format
-msgid "Motion: %s"
+msgid "Proposal: %s"
 msgstr ""
 
-#: adhocracy/controllers/motion.py:247
+#: adhocracy/controllers/proposal.py:247
 #, python-format
-msgid "Activity on the %s motion"
+msgid "Activity on the %s proposal"
 msgstr ""
 
-#: adhocracy/controllers/motion.py:249
+#: adhocracy/controllers/proposal.py:249
 #, python-format
-msgid "Motion: %(motion)s"
+msgid "Proposal: %(proposal)s"
 msgstr ""
 
-#: adhocracy/controllers/motion.py:287
+#: adhocracy/controllers/proposal.py:287
 #, python-format
 msgid "%s is not currently in a poll, thus no votes have been counted."
 msgstr ""
@@ -347,7 +347,7 @@ msgid ""
 msgstr ""
 
 #: adhocracy/controllers/poll.py:66
-msgid "The motion is not undergoing a poll."
+msgid "The proposal is not undergoing a poll."
 msgstr ""
 
 #: adhocracy/controllers/root.py:21 adhocracy/lib/base.py:71
@@ -361,7 +361,7 @@ msgstr ""
 
 #: adhocracy/controllers/root.py:36
 #, python-format
-msgid "No motion or category with ID %(id)s exists"
+msgid "No proposal or category with ID %(id)s exists"
 msgstr ""
 
 #: adhocracy/controllers/search.py:25
@@ -452,7 +452,7 @@ msgstr ""
 
 #: adhocracy/controllers/vote.py:16 adhocracy/lib/base.py:45
 #, python-format
-msgid "No motion with ID %(id)s exists."
+msgid "No proposal with ID %(id)s exists."
 msgstr ""
 
 #: adhocracy/controllers/vote.py:18
@@ -460,7 +460,7 @@ msgid "You have no voting rights."
 msgstr ""
 
 #: adhocracy/controllers/vote.py:21
-msgid "This motion is not currently being voted on."
+msgid "This proposal is not currently being voted on."
 msgstr ""
 
 #: adhocracy/controllers/vote.py:32
@@ -511,7 +511,7 @@ msgid "Adhocracy"
 msgstr ""
 
 #: adhocracy/lib/helpers.py:53
-msgid "This motion is currently being voted on and cannot be modified."
+msgid "This proposal is currently being voted on and cannot be modified."
 msgstr ""
 
 #: adhocracy/lib/helpers.py:123
@@ -696,52 +696,52 @@ msgstr ""
 
 #: adhocracy/lib/event/types.py:91
 #, python-format
-msgid "New motion: %(motion)s"
+msgid "New proposal: %(proposal)s"
 msgstr ""
 
 #: adhocracy/lib/event/types.py:92
 #, python-format
-msgid "created %(motion)s"
+msgid "created %(proposal)s"
 msgstr ""
 
 #: adhocracy/lib/event/types.py:96
 #, python-format
-msgid "Edit motion: %(motion)s"
+msgid "Edit proposal: %(proposal)s"
 msgstr ""
 
 #: adhocracy/lib/event/types.py:97
 #, python-format
-msgid "edited %(motion)s"
+msgid "edited %(proposal)s"
 msgstr ""
 
 #: adhocracy/lib/event/types.py:101
 #, python-format
-msgid "Poll cancelled: %(motion)s"
+msgid "Poll cancelled: %(proposal)s"
 msgstr ""
 
 #: adhocracy/lib/event/types.py:102
 #, python-format
-msgid "re-drafted %(motion)s"
+msgid "re-drafted %(proposal)s"
 msgstr ""
 
 #: adhocracy/lib/event/types.py:106
 #, python-format
-msgid "New Poll: %(motion)s"
+msgid "New Poll: %(proposal)s"
 msgstr ""
 
 #: adhocracy/lib/event/types.py:107
 #, python-format
-msgid "called a vote on %(motion)s"
+msgid "called a vote on %(proposal)s"
 msgstr ""
 
 #: adhocracy/lib/event/types.py:111
 #, python-format
-msgid "Deleted motion: %(motion)s"
+msgid "Deleted proposal: %(proposal)s"
 msgstr ""
 
 #: adhocracy/lib/event/types.py:112
 #, python-format
-msgid "deleted %(motion)s"
+msgid "deleted %(proposal)s"
 msgstr ""
 
 #: adhocracy/lib/event/types.py:116
@@ -925,12 +925,12 @@ msgid "rate this comment"
 msgstr ""
 
 #: adhocracy/lib/karma/threshold.py:25
-msgid "create a motion"
+msgid "create a proposal"
 msgstr ""
 
 #: adhocracy/lib/karma/threshold.py:26
 #, fuzzy
-msgid "edit this motion"
+msgid "edit this proposal"
 msgstr ""
 
 #: adhocracy/lib/karma/threshold.py:27
@@ -942,7 +942,7 @@ msgid "cancel a vote"
 msgstr ""
 
 #: adhocracy/lib/karma/threshold.py:29
-msgid "delete a motion"
+msgid "delete a proposal"
 msgstr ""
 
 #: adhocracy/lib/karma/threshold.py:30
@@ -1038,7 +1038,7 @@ msgstr ""
 
 #: adhocracy/model/forms.py:101
 #, python-format
-msgid "No motion with ID '%s' exists"
+msgid "No proposal with ID '%s' exists"
 msgstr ""
 
 #: adhocracy/model/forms.py:110
@@ -1066,8 +1066,8 @@ msgstr ""
 msgid "No user with the user name '%s' exists"
 msgstr ""
 
-#: adhocracy/model/motion.py:28
-msgid "Motion doesn't have a distinct parent issue."
+#: adhocracy/model/proposal.py:28
+msgid "Proposal doesn't have a distinct parent issue."
 msgstr ""
 
 #: adhocracy/templates/components.html:4
@@ -1130,7 +1130,7 @@ msgstr ""
 #: adhocracy/templates/category/view.html:22
 #: adhocracy/templates/instance/view.html:23
 #: adhocracy/templates/issue/view.html:24
-#: adhocracy/templates/motion/view.html:30
+#: adhocracy/templates/proposal/view.html:30
 msgid "delegate"
 msgstr ""
 
@@ -1222,9 +1222,9 @@ msgstr ""
 #: adhocracy/templates/instance/view.html:74
 #: adhocracy/templates/issue/view.html:59
 #: adhocracy/templates/issue/view.html:61
-#: adhocracy/templates/motion/view.html:85
-#: adhocracy/templates/motion/view.html:87
-#: adhocracy/templates/motion/view.html:89
+#: adhocracy/templates/proposal/view.html:85
+#: adhocracy/templates/proposal/view.html:87
+#: adhocracy/templates/proposal/view.html:89
 #: adhocracy/templates/user/edit.html:69
 msgid "new"
 msgstr ""
@@ -1349,7 +1349,7 @@ msgstr ""
 
 #: adhocracy/templates/template.html:105
 #: adhocracy/templates/category/edit.html:4
-#: adhocracy/templates/issue/edit.html:4 adhocracy/templates/motion/edit.html:5
+#: adhocracy/templates/issue/edit.html:4 adhocracy/templates/proposal/edit.html:5
 #, python-format
 msgid "Edit %s"
 msgstr ""
@@ -1474,7 +1474,7 @@ msgid ""
 msgstr ""
 
 #: adhocracy/templates/category/edit.html:7
-#: adhocracy/templates/issue/edit.html:7 adhocracy/templates/motion/edit.html:8
+#: adhocracy/templates/issue/edit.html:7 adhocracy/templates/proposal/edit.html:8
 #: adhocracy/templates/user/edit.html:7
 msgid "Edit"
 msgstr ""
@@ -1500,8 +1500,8 @@ msgstr[1] ""
 #: adhocracy/templates/comment/tiles.html:20
 #: adhocracy/templates/instance/tiles.html:31
 #: adhocracy/templates/issue/view.html:48
-#: adhocracy/templates/motion/tiles.html:41
-#: adhocracy/templates/motion/view.html:73
+#: adhocracy/templates/proposal/tiles.html:41
+#: adhocracy/templates/proposal/view.html:73
 #, python-format
 msgid "created %s"
 msgstr ""
@@ -1518,9 +1518,9 @@ msgstr[1] ""
 #: adhocracy/templates/comment/tiles.html:103
 #: adhocracy/templates/issue/view.html:12
 #: adhocracy/templates/issue/view.html:14
-#: adhocracy/templates/motion/view.html:14
-#: adhocracy/templates/motion/view.html:16
-#: adhocracy/templates/motion/view.html:18
+#: adhocracy/templates/proposal/view.html:14
+#: adhocracy/templates/proposal/view.html:16
+#: adhocracy/templates/proposal/view.html:18
 msgid "delete"
 msgstr ""
 
@@ -1533,9 +1533,9 @@ msgstr ""
 #: adhocracy/templates/instance/view.html:11
 #: adhocracy/templates/issue/view.html:18
 #: adhocracy/templates/issue/view.html:20
-#: adhocracy/templates/motion/view.html:22
-#: adhocracy/templates/motion/view.html:24
-#: adhocracy/templates/motion/view.html:26
+#: adhocracy/templates/proposal/view.html:22
+#: adhocracy/templates/proposal/view.html:24
+#: adhocracy/templates/proposal/view.html:26
 #: adhocracy/templates/user/view.html:11
 msgid "edit"
 msgstr ""
@@ -1820,7 +1820,7 @@ msgstr ""
 
 #: adhocracy/templates/instance/edit.html:34
 msgid ""
-"In order to become active, a motion must reach the given proportion of "
+"In order to become active, a proposal must reach the given proportion of "
 "approval."
 msgstr ""
 
@@ -1837,7 +1837,7 @@ msgid "A two-thirds majority"
 msgstr ""
 
 #: adhocracy/templates/instance/edit.html:43
-msgid "In Soviet Russia, motion votes you."
+msgid "In Soviet Russia, proposal votes you."
 msgstr ""
 
 #: adhocracy/templates/instance/edit.html:50
@@ -1924,7 +1924,7 @@ msgid "Required Majority:"
 msgstr ""
 
 #: adhocracy/templates/instance/view.html:36
-msgid "To become active, a motion must reach the given proportion of approval."
+msgid "To become active, a proposal must reach the given proportion of approval."
 msgstr ""
 
 #: adhocracy/templates/instance/view.html:38
@@ -1970,7 +1970,7 @@ msgid "Issue Title"
 msgstr ""
 
 #: adhocracy/templates/issue/tiles.html:14
-#: adhocracy/templates/motion/tiles.html:16
+#: adhocracy/templates/proposal/tiles.html:16
 #, python-format
 msgid "created %s by %s"
 msgstr ""
@@ -1978,14 +1978,14 @@ msgstr ""
 #: adhocracy/templates/issue/tiles.html:15
 #: adhocracy/templates/user/view.html:37
 #, python-format
-msgid "%s motion"
-msgid_plural "%s motions"
+msgid "%s proposal"
+msgid_plural "%s proposals"
 msgstr[0] ""
 msgstr[1] ""
 
 #: adhocracy/templates/issue/tiles.html:19
-#: adhocracy/templates/motion/tiles.html:29
-#: adhocracy/templates/motion/tiles.html:45
+#: adhocracy/templates/proposal/tiles.html:29
+#: adhocracy/templates/proposal/tiles.html:45
 #: adhocracy/templates/user/view.html:38
 #, python-format
 msgid "%s comment"
@@ -1994,50 +1994,50 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: adhocracy/templates/issue/tiles.html:20
-#: adhocracy/templates/motion/tiles.html:30
+#: adhocracy/templates/proposal/tiles.html:30
 #, python-format
 msgid "latest <b>%s</b>"
 msgstr ""
 
 #: adhocracy/templates/issue/view.html:63 adhocracy/templates/poll/index.html:6
-msgid "Motions"
+msgid "Proposals"
 msgstr ""
 
 #: adhocracy/templates/issue/view.html:65
 msgid ""
-"Motions are <b>proposals</b> that solve some or all of the problems "
-"described by this issue. A motion can be <b>discussed and voted</b> upon."
+"Proposals are <b>proposals</b> that solve some or all of the problems "
+"described by this issue. A proposal can be <b>discussed and voted</b> upon."
 msgstr ""
 
 #: adhocracy/templates/issue/view.html:72
-#: adhocracy/templates/motion/view.html:105
+#: adhocracy/templates/proposal/view.html:105
 msgid "Discussion"
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:5
-#: adhocracy/templates/motion/create.html:8
-#: adhocracy/templates/motion/create.html:15
-msgid "New motion"
+#: adhocracy/templates/proposal/create.html:5
+#: adhocracy/templates/proposal/create.html:8
+#: adhocracy/templates/proposal/create.html:15
+msgid "New proposal"
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:19
+#: adhocracy/templates/proposal/create.html:19
 msgid "Informal description"
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:21
+#: adhocracy/templates/proposal/create.html:21
 msgid "Give a brief description of <b>what</b> your proposal will do."
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:24
+#: adhocracy/templates/proposal/create.html:24
 #, python-format
 msgid "The proposal addresses %s by..."
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:29
+#: adhocracy/templates/proposal/create.html:29
 msgid "Provisions to implement"
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:31
+#: adhocracy/templates/proposal/create.html:31
 msgid ""
 "Describe <b>how</b> your proposal will achieve the desired "
 "effect.<br/><br/>Splitting the proposal into several parts will "
@@ -2045,127 +2045,127 @@ msgid ""
 "want to specify provisions later."
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:38
+#: adhocracy/templates/proposal/create.html:38
 msgid "A specific provision that is part of this proposal."
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:50
+#: adhocracy/templates/proposal/create.html:50
 msgid "Add a provision"
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:55
-#: adhocracy/templates/motion/edit.html:42
-msgid "Relations to other motions"
+#: adhocracy/templates/proposal/create.html:55
+#: adhocracy/templates/proposal/edit.html:42
+msgid "Relations to other proposals"
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:58
-#: adhocracy/templates/motion/edit.html:45
+#: adhocracy/templates/proposal/create.html:58
+#: adhocracy/templates/proposal/edit.html:45
 msgid ""
-"Specify which motions <b>contradict</b> or <b>enable</b> this "
-"proposal.<br/><br/>Contradicting motions cannot be in power at the same "
-"time.<br/><br/>Requirements must be satisfied before the motion can "
+"Specify which proposals <b>contradict</b> or <b>enable</b> this "
+"proposal.<br/><br/>Contradicting proposals cannot be in power at the same "
+"time.<br/><br/>Requirements must be satisfied before the proposal can "
 "activate."
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:70
-#: adhocracy/templates/motion/edit.html:57
+#: adhocracy/templates/proposal/create.html:70
+#: adhocracy/templates/proposal/edit.html:57
 msgid "Relation"
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:71
-#: adhocracy/templates/motion/edit.html:58
+#: adhocracy/templates/proposal/create.html:71
+#: adhocracy/templates/proposal/edit.html:58
 #, fuzzy
-msgid "Motion"
+msgid "Proposal"
 msgstr ""
 
-#: adhocracy/templates/motion/create.html:88
-#: adhocracy/templates/motion/edit.html:77
+#: adhocracy/templates/proposal/create.html:88
+#: adhocracy/templates/proposal/edit.html:77
 msgid "Add a relation"
 msgstr ""
 
-#: adhocracy/templates/motion/edit.html:14
-msgid "New Motion"
+#: adhocracy/templates/proposal/edit.html:14
+msgid "New Proposal"
 msgstr ""
 
-#: adhocracy/templates/motion/edit.html:18
-#: adhocracy/templates/motion/edit.html:28
+#: adhocracy/templates/proposal/edit.html:18
+#: adhocracy/templates/proposal/edit.html:28
 #, fuzzy
 msgid "Issue"
 msgstr ""
 
-#: adhocracy/templates/motion/edit.html:21
+#: adhocracy/templates/proposal/edit.html:21
 msgid ""
-"If necessary, move the motion to a different issue to keep things "
+"If necessary, move the proposal to a different issue to keep things "
 "organized."
 msgstr ""
 
-#: adhocracy/templates/motion/tiles.html:24
+#: adhocracy/templates/proposal/tiles.html:24
 #, python-format
 msgid "%s votes,"
 msgstr ""
 
-#: adhocracy/templates/motion/tiles.html:25
+#: adhocracy/templates/proposal/tiles.html:25
 #, python-format
 msgid "<b>%s%%</b> approval"
 msgstr ""
 
-#: adhocracy/templates/motion/tiles.html:43
+#: adhocracy/templates/proposal/tiles.html:43
 #, python-format
 msgid "%s votes cast"
 msgstr ""
 
-#: adhocracy/templates/motion/tiles.html:56
+#: adhocracy/templates/proposal/tiles.html:56
 msgid "contradicts"
 msgstr ""
 
-#: adhocracy/templates/motion/tiles.html:59
+#: adhocracy/templates/proposal/tiles.html:59
 msgid "requires"
 msgstr ""
 
-#: adhocracy/templates/motion/tiles.html:62
+#: adhocracy/templates/proposal/tiles.html:62
 msgid "no relation"
 msgstr ""
 
-#: adhocracy/templates/motion/tiles.html:70
+#: adhocracy/templates/proposal/tiles.html:70
 #, fuzzy
-msgid "(Select a motion)"
+msgid "(Select a proposal)"
 msgstr ""
 
-#: adhocracy/templates/motion/view.html:34
-#: adhocracy/templates/motion/view.html:36
-#: adhocracy/templates/motion/view.html:38
+#: adhocracy/templates/proposal/view.html:34
+#: adhocracy/templates/proposal/view.html:36
+#: adhocracy/templates/proposal/view.html:38
 msgid "call a vote"
 msgstr ""
 
-#: adhocracy/templates/motion/view.html:36
-msgid "The motion cannot be voted upon since it does not have any provisions yet."
+#: adhocracy/templates/proposal/view.html:36
+msgid "The proposal cannot be voted upon since it does not have any provisions yet."
 msgstr ""
 
-#: adhocracy/templates/motion/view.html:92
+#: adhocracy/templates/proposal/view.html:92
 msgid "Provisions"
 msgstr ""
 
-#: adhocracy/templates/motion/view.html:94
+#: adhocracy/templates/proposal/view.html:94
 msgid ""
-"<b>Provisions</b> are the body of a motion: together they form the "
+"<b>Provisions</b> are the body of a proposal: together they form the "
 "language that will be voted upon. You will need to have at least one "
 "clause in order to call for a vote."
 msgstr ""
 
-#: adhocracy/templates/motion/votes.html:5
+#: adhocracy/templates/proposal/votes.html:5
 #: adhocracy/templates/user/votes.html:5
 #, python-format
 msgid "Votes: %s"
 msgstr ""
 
-#: adhocracy/templates/motion/votes.html:8
+#: adhocracy/templates/proposal/votes.html:8
 #: adhocracy/templates/poll/tiles.html:29
 #: adhocracy/templates/poll/tiles.html:137
 #: adhocracy/templates/user/votes.html:8
 msgid "Votes"
 msgstr ""
 
-#: adhocracy/templates/motion/votes.html:12
+#: adhocracy/templates/proposal/votes.html:12
 #: adhocracy/templates/user/votes.html:16
 msgid "Votes:"
 msgstr ""
@@ -2233,7 +2233,7 @@ msgstr ""
 
 #: adhocracy/templates/poll/abort.html:17
 msgid ""
-"You are about to re-draft this motion. This means that the motion will "
+"You are about to re-draft this proposal. This means that the proposal will "
 "become editable again but that all votes that have been cast at this time"
 " <strong>will be invalidated</strong>."
 msgstr ""
@@ -2254,28 +2254,28 @@ msgstr ""
 
 #: adhocracy/templates/poll/create.html:17
 msgid ""
-"You are about to release this motion and call for a vote. When you do "
-"this, you will lose the ability to <strong>change the motion's "
+"You are about to release this proposal and call for a vote. When you do "
+"this, you will lose the ability to <strong>change the proposal's "
 "wording</strong> unless you re-draft it."
 msgstr ""
 
 #: adhocracy/templates/poll/index.html:3
 #, python-format
-msgid "Critical Motions in %s"
+msgid "Critical Proposals in %s"
 msgstr ""
 
 #: adhocracy/templates/poll/index.html:9
-msgid "Critical Motions"
+msgid "Critical Proposals"
 msgstr ""
 
 #: adhocracy/templates/poll/index.html:14
 msgid ""
-"These motions are currently voting and might be nearing a decision. Vote "
+"These proposals are currently voting and might be nearing a decision. Vote "
 "now to make your voice heard."
 msgstr ""
 
 #: adhocracy/templates/poll/index.html:21
-msgid "Motion filter criteria"
+msgid "Proposal filter criteria"
 msgstr ""
 
 #: adhocracy/templates/poll/index.html:24
@@ -2300,7 +2300,7 @@ msgstr ""
 
 #: adhocracy/templates/poll/index.html:46
 msgid ""
-"There are currently no polls open. Call a motion into voting state to "
+"There are currently no polls open. Call a proposal into voting state to "
 "begin a poll."
 msgstr ""
 
@@ -2310,7 +2310,7 @@ msgstr ""
 
 #: adhocracy/templates/poll/state.html:12
 #: adhocracy/templates/poll/state.html:14
-msgid "Provisions to describe the motion."
+msgid "Provisions to describe the proposal."
 msgstr ""
 
 #: adhocracy/templates/poll/state.html:16
@@ -2318,7 +2318,7 @@ msgid "A vote needs to be called."
 msgstr ""
 
 #: adhocracy/templates/poll/state.html:19
-msgid "The motion is adopted, <b>but volatile</b>."
+msgid "The proposal is adopted, <b>but volatile</b>."
 msgstr ""
 
 #: adhocracy/templates/poll/state.html:20
@@ -2328,7 +2328,7 @@ msgid "Majority needs to be held <b>for %s</b>."
 msgstr ""
 
 #: adhocracy/templates/poll/state.html:22
-msgid "The motion is adopted."
+msgid "The proposal is adopted."
 msgstr ""
 
 #: adhocracy/templates/poll/state.html:26
@@ -2419,7 +2419,7 @@ msgstr ""
 
 #: adhocracy/templates/poll/tiles.html:103
 #, python-format
-msgid "Of the required %s votes, the motion has:"
+msgid "Of the required %s votes, the proposal has:"
 msgstr ""
 
 #: adhocracy/templates/poll/tiles.html:108

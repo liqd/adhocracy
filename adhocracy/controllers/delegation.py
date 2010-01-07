@@ -38,7 +38,7 @@ class DelegationController(BaseController):
                     if replay == 1:
                         for vote in democracy.Decision.replay_decisions(delegation):
                             event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance, 
-                                       topics=[vote.poll.motion], vote=vote, poll=vote.poll)
+                                       topics=[vote.poll.proposal], vote=vote, poll=vote.poll)
                     
                     event.emit(event.T_DELEGATION_CREATE, c.user, instance=c.instance, 
                                topics=[c.scope], scope=c.scope, agent=agent)

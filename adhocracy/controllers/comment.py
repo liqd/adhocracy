@@ -33,10 +33,10 @@ class CommentController(BaseController):
         if request.method == "POST":
             topic = self.form_result.get('topic')
             canonical = True if self.form_result.get('canonical', 0) == 1 else False
-            if canonical and not isinstance(topic, model.Motion):
+            if canonical and not isinstance(topic, model.Proposal):
                 canonical = False
-            elif canonical and not democracy.is_motion_mutable(topic):
-                abort(403, h.immutable_motion_message())
+            elif canonical and not democracy.is_proposal_mutable(topic):
+                abort(403, h.immutable_proposal_message())
             
             comment = model.Comment(topic, c.user)
             _text = text.cleanup(self.form_result.get('text'))
@@ -64,8 +64,8 @@ class CommentController(BaseController):
     @validate(schema=CommentEditForm(), form="edit", post_only=True)
     def edit(self, id):
         c.comment = get_entity_or_abort(model.Comment, id)
-        if c.comment.canonical and not democracy.is_motion_mutable(c.comment.topic):
-            abort(403, h.immutable_motion_message())
+        if c.comment.canonical and not democracy.is_proposal_mutable(c.comment.topic):
+            abort(403, h.immutable_proposal_message())
         if request.method == "POST":
             _text = text.cleanup(self.form_result.get('text'))
             c.comment.latest = model.Revision(c.comment, c.user, _text)
@@ -99,8 +99,8 @@ class CommentController(BaseController):
             with_path("/comment/%s#c%s" % (str(parent.id), c.comment.id))
         if isinstance(c.comment.topic, model.Issue):
             with_path("/issue/%s#c%s" % (str(c.comment.topic.id), c.comment.id))
-        elif isinstance(c.comment.topic, model.Motion):
-            with_path("/motion/%s#c%s" % (str(c.comment.topic.id), c.comment.id))
+        elif isinstance(c.comment.topic, model.Proposal):
+            with_path("/proposal/%s#c%s" % (str(c.comment.topic.id), c.comment.id))
         else:
             abort(500, _("Unsupported topic type."))
     
@@ -115,8 +115,8 @@ class CommentController(BaseController):
     @ActionProtector(has_permission("comment.delete"))
     def delete(self, id):
         c.comment = get_entity_or_abort(model.Comment, id)
-        if c.comment.canonical and not democracy.is_motion_mutable(c.comment.topic):
-            abort(403, h.immutable_motion_message())
+        if c.comment.canonical and not democracy.is_proposal_mutable(c.comment.topic):
+            abort(403, h.immutable_proposal_message())
         c.comment.delete_time = datetime.now()
         model.meta.Session.add(c.comment)
         model.meta.Session.commit()
@@ -144,8 +144,8 @@ class CommentController(BaseController):
     @validate(schema=CommentRevertForm(), form="history", post_only=False, on_get=True)
     def revert(self, id):
         c.comment = get_entity_or_abort(model.Comment, id)
-        if c.comment.canonical and not democracy.is_motion_mutable(c.comment.topic):
-            abort(403, h.immutable_motion_message())
+        if c.comment.canonical and not democracy.is_proposal_mutable(c.comment.topic):
+            abort(403, h.immutable_proposal_message())
         revision = self.form_result.get('to')
         if revision.comment != c.comment:
             abort(400, _("You're trying to revert to a revision which is not part " + 

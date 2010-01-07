@@ -10,7 +10,7 @@ from adhocracy.model.permission import Permission
 from adhocracy.model.delegateable import Delegateable
 from adhocracy.model.issue import Issue
 from adhocracy.model.delegation import Delegation
-from adhocracy.model.motion import Motion
+from adhocracy.model.proposal import Proposal
 from adhocracy.model.poll import Poll
 from adhocracy.model.vote import Vote
 from adhocracy.model.revision import Revision

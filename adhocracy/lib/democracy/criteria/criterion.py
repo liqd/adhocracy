@@ -5,7 +5,7 @@ class Criterion(object):
     
     def __init__(self, state):
         self.state = state
-        self.motion = state.motion
+        self.proposal = state.proposal
         self.poll = state.poll
         self._checked = None
     
@@ -13,12 +13,12 @@ class Criterion(object):
         if self._checked == None:
             #begin_time = time()
             @memoize('adoption_tally', 120)
-            def _cached(self, poll, motion):
+            def _cached(self, poll, proposal):
                 if self.state.polling:
                     return self.check_tally(self.state.tally)
                 else:
                     return self.check_nopoll()
-            self._checked = _cached(self, self.state.poll, self.state.motion)
+            self._checked = _cached(self, self.state.poll, self.state.proposal)
             #print "DEBUG TIME: ", str((time()-begin_time)*1000), "ms FOR ", type(self)
         return self._checked
     
@@ -36,7 +36,7 @@ class Criterion(object):
     
     def __repr__(self):
         return "<Criterion(%s,%s)>" % (
-                    self.motion.id if self.motion else None, 
+                    self.proposal.id if self.proposal else None, 
                     self.poll.id if self.poll else None)
     
     def __str__(self): 
@@ -54,11 +54,11 @@ class RelationCriterion(Criterion):
         return self.state.relation_path 
     
     def loop_abort(self):
-        if self.motion in self._get_path():
+        if self.proposal in self._get_path():
             raise RelationLoop()
         
-    def create_state(self, motion, at_time):
-        state = type(self.state)(motion, at_time=at_time)
-        state.relation_path = self._get_path() + [self.motion]
+    def create_state(self, proposal, at_time):
+        state = type(self.state)(proposal, at_time=at_time)
+        state.relation_path = self._get_path() + [self.proposal]
         return state
             

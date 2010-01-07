@@ -18,7 +18,7 @@ def _index_dir():
 def setup_search():
     init()
     register_indexer(model.Issue, index_issue)
-    register_indexer(model.Motion, index_motion)
+    register_indexer(model.Proposal, index_proposal)
     register_indexer(model.User, index_user)
     register_indexer(model.Comment, index_comment)
 
@@ -45,8 +45,8 @@ def rebuild_all():
         [_insert(x) for x in iter]
     log.info("Re-indexing issues...")
     index_all(model.meta.Session.query(model.Issue), index_issue)
-    log.info("Re-indexing motions...")
-    index_all(model.meta.Session.query(model.Motion), index_motion)
+    log.info("Re-indexing proposals...")
+    index_all(model.meta.Session.query(model.Proposal), index_proposal)
     log.info("Re-indexing users...")
     index_all(model.meta.Session.query(model.User), index_user)
     log.info("Re-indexing comments...")

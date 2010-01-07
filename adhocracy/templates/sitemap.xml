@@ -5,8 +5,8 @@
 		<%
 		controller = "d"
 		if c.instance:
-			if type(d) == c.model.Motion:
-				controller = "motion"
+			if type(d) == c.model.Proposal:
+				controller = "proposal"
 			elif type(d) == c.model.Category:
 				controller = "category"
 			elif type(d) == c.model.Issue:

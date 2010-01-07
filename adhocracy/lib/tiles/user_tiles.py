@@ -52,11 +52,11 @@ class UserTile(BaseTile):
     
     num_issues = property(_num_issues)
     
-    def _num_motions(self):
-        return len(filter(lambda d: isinstance(d, model.Motion) and d.instance==c.instance, 
+    def _num_proposals(self):
+        return len(filter(lambda d: isinstance(d, model.Proposal) and d.instance==c.instance, 
                           self.user.delegateables))
     
-    num_motions = property(_num_motions)
+    num_proposals = property(_num_proposals)
     
     def _num_comments(self):
         return len(filter(lambda cm: cm.topic.instance == c.instance, self.user.comments))

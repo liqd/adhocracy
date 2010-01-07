@@ -12,9 +12,9 @@ log = logging.getLogger(__name__)
 
 # REFACT: rename to Proposal to make it more clear that this is a concrete proposition
 # Might even go as far and call them Solutions (nice symetry between Issues and Solutions)
-class Motion(Delegateable):
-    __tablename__ = 'motion'
-    __mapper_args__ = {'polymorphic_identity': 'motion'}
+class Proposal(Delegateable):
+    __tablename__ = 'proposal'
+    __mapper_args__ = {'polymorphic_identity': 'proposal'}
     
     id = Column(Integer, ForeignKey('delegateable.id'), primary_key=True)
     comment_id = Column(Integer, ForeignKey('comment.id'), nullable=True)
@@ -23,11 +23,11 @@ class Motion(Delegateable):
         self.init_child(instance, label, creator)
         
     def __repr__(self):
-        return u"<Motion(%s)>" % self.id
+        return u"<Proposal(%s)>" % self.id
     
     def _get_issue(self):
         if len(self.parents) != 1:
-            raise ValueError(_("Motion doesn't have a distinct parent issue."))
+            raise ValueError(_("Proposal doesn't have a distinct parent issue."))
         return self.parents[0]
     
     def _set_issue(self, issue):
@@ -58,25 +58,25 @@ class Motion(Delegateable):
     @classmethod
     def find(cls, id, instance_filter=True):
         try:
-            q = meta.Session.query(Motion)
-            q = q.filter(Motion.id==id)
-            q = q.filter(Motion.delete_time==None)
+            q = meta.Session.query(Proposal)
+            q = q.filter(Proposal.id==id)
+            q = q.filter(Proposal.delete_time==None)
             if filter.has_instance() and instance_filter:
-                q = q.filter(Motion.instance_id==filter.get_instance().id)
+                q = q.filter(Proposal.instance_id==filter.get_instance().id)
             return q.one()
         except: 
             return None
     
     @classmethod    
     def all(cls, instance=None):
-        q = meta.Session.query(Motion)
-        q = q.filter(Motion.delete_time==None)
+        q = meta.Session.query(Proposal)
+        q = q.filter(Proposal.delete_time==None)
         if instance:
-            q = q.filter(Motion.instance==instance)
+            q = q.filter(Proposal.instance==instance)
         return q.all()
     
 
-Motion.comment = relation('Comment', 
-                          primaryjoin="Motion.comment_id==Comment.id", 
-                          foreign_keys=[Motion.comment_id], 
+Proposal.comment = relation('Comment', 
+                          primaryjoin="Proposal.comment_id==Comment.id", 
+                          foreign_keys=[Proposal.comment_id], 
                           uselist=False)

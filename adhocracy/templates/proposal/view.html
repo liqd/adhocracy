@@ -1,0 +1,152 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="comment_tiles" file="/comment/tiles.html"/>
+<%namespace name="state" file="/poll/state.html"/>
+<%namespace name="ptiles" file="/poll/tiles.html"/>
+
+<%def name="title()">${c.proposal.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.proposal)|n}
+</%def>
+
+<div id="top_issue">
+<div class="tile proposal title" style="margin-bottom: 0px;">
+	<div class="sidebar">
+		<div class="tile boxed">
+			<div class="inner_boxed voting_booth" style="padding-top: 3px; padding-bottom: 3px;">
+				${h.user_link(c.proposal.issue.creator)|n} 
+				on ${h.format_date(c.proposal.issue.create_time)}
+			</div>
+		</div>
+	</div>
+	<div class="logo">
+		<img src="/img/icons/issue_24.png" style="padding-left: 12px; padding-right: 12px;" />
+	</div>
+	<div class="base">
+		<h1 style="border-bottom: 0px;">${h.delegateable_link(c.proposal.issue, icon=False)|n}</h1>
+	</div>
+</div>	
+<div id="issue_details" class="tile">
+		<ul>
+		%for proposal in c.proposal.issue.proposals:
+			<li>${h.delegateable_link(proposal)|n}</li>
+		%endfor
+		</ul>
+	<div style="clear: both;"></div>	
+</div>
+</div>
+<div class="tile proposal title">
+	<div class="sidebar">
+		<div class="tile boxed">
+			<div class="inner_boxed">
+				${h.user_link(c.proposal.creator)|n} 
+				${_("on")} ${h.format_date(c.proposal.create_time)}
+			</div> 
+		</div>
+	</div>
+	
+	<div class="logo">
+		%if c.tile.state.adopted:
+			<img src="/img/icons/proposal_adopted_24.png" />
+		%else:
+			<img src="/img/icons/proposal_48.png" />
+		%endif
+	</div>
+	
+	<div class="base">	
+		<h1>${c.proposal.label}</h1>
+		&nbsp;
+	</div>
+	
+	<div class="meta noclear">	
+		${components.watch(c.proposal, '/proposal/%s' % str(c.proposal.id))}
+		
+		%if c.tile.can_delegate and not c.tile.has_overridden:
+			<a class="button title add" href="/delegation/create?scope=${c.proposal.id}">${_("delegate")}</a>
+		%endif
+		
+		%if c.tile.can_begin_poll:
+			<a class="button title add" href="/poll/create/${c.proposal.id}">${_("call a vote")}</a>
+		%elif c.user and not c.tile.has_canonicals:
+			<a class="button title inactive htwarn" title="${_('The proposal cannot be voted upon since it does not have any provisions yet.')}">${_("call a vote")}</a>
+		%endif
+		
+		%if c.tile.can_edit:
+			<a class="button title edit" href="/proposal/edit/${c.proposal.id}">${_("edit")}</a>
+		%endif
+						
+		%if c.tile.can_delete:
+			<a class="button title delete" href="/proposal/delete/${c.proposal.id}?${h.url_token()}">${_("delete")}</a>
+		%endif
+	</div>
+	<div style="clear: both;"></div>	
+</div>
+
+<div style="clear: both;"></div>
+
+<div class="sidebar">
+	<div class="tile">
+		<!-- 
+		<div class="text">
+			<p>
+			<img src="/img/icons/issue_16.png" /> <a href="/issue/${c.proposal.issue.id}">${c.proposal.issue.label}</a>:
+			${c.issue_tile.tagline}
+			</p>
+		</div>
+		 -->
+		%if c.tile.poll:
+		<div class="tile boxed">
+			<div class="inner_boxed voting_booth">  
+				${ptiles.sb_booth(c.proposal, c.tile)}
+			</div>
+		</div>
+		%endif
+		
+				${state.checklist(c.tile.state)|n}
+		
+		${components.delegation_sidebar(c.proposal)}
+		<!-- 
+		<div class="meta">
+			${_("created %s") % h.relative_time(c.proposal.create_time)}
+			&middot; ${h.rss_link("/proposal/%s.rss" % c.proposal.id)|n}
+		</div>
+		 -->
+	</div>
+</div>
+
+<div class="mainbar">
+	%if c.proposal.comment:
+		${tiles.comment.full(c.proposal.comment, recurse=False, collapse=False)}
+	%endif
+	
+	<div class="top_actions">
+		%if c.tile.can_create_canonical:
+			<a class="button add" onclick="return add_canonical()" href="/comment/create?topic=${c.proposal.id}&canonical=1">${_("new")}</a>
+		%endif
+	</div>
+	
+	<h2><img src="/img/icons/proposal_24.png" class="cd" /> ${_("Provisions")}<sup><a href="/page/faq.html#Howdoesvotingwork">?</a></sup></h2>
+	%if not c.tile.has_canonicals:
+		<span class="infobox">${_("<b>Provisions</b> are the body of a proposal: together they form the language that will be voted upon. You will need to have at least one clause in order to call for a vote.")|n}</span>
+	%endif
+	
+	<div class="add_canonical comment">
+		${comment_tiles.create_form(None, c.proposal, canonical=1)}
+	</div>
+	
+	%for canonical in c.tile.canonicals:
+		${tiles.comment.full(canonical, recurse=False, collapse=False, link_discussion=True)}
+	%endfor
+</div>
+
+	<div style="clear: both;"></div>
+	<h2><img src="/img/icons/discuss_20.png" class="cd" /> ${_("Discussion")}</h2>
+	%if c.tile.comment_tile.can_reply:
+	<div class="comment">
+		${comment_tiles.create_form(c.proposal.comment, c.proposal)}
+	</div>
+	%endif
+	%for (reply, r_tile) in c.tile.comment_tile.replies():
+		${tiles.comment.full(reply, recurse=True)}
+	%endfor

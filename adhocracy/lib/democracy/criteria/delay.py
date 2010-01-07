@@ -12,7 +12,7 @@ class DelayCriterion(Criterion):
         self._begin_time = None
     
     def _get_delay(self):
-        return timedelta(minutes=self.motion.instance.activation_delay)
+        return timedelta(minutes=self.proposal.instance.activation_delay)
     
     delay = property(_get_delay)
     

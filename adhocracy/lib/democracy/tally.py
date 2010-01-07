@@ -56,25 +56,25 @@ class Tally(object):
         return filter(lambda p: p == position, self.positions)
     
     def _get_num_affirm(self):
-        """ Number of voters who affirmed the motion. """
+        """ Number of voters who affirmed the proposal. """
         return len(self._filter_positions(Vote.YES))
     
     num_affirm = property(_get_num_affirm) 
     
     def _get_num_dissent(self):
-        """ Number of voters who dissent on the motion. """
+        """ Number of voters who dissent on the proposal. """
         return len(self._filter_positions(Vote.NO))
     
     num_dissent = property(_get_num_dissent) 
     
     def _get_num_abstain(self):
-        """ Number of voters who abstained from the motion. """
+        """ Number of voters who abstained from the proposal. """
         return len(self._filter_positions(Vote.ABSTAIN))
     
     num_abstain = property(_get_num_abstain) 
     
     def _get_rel_for(self):
-        """ Fraction of decided voters who are for the motion. """
+        """ Fraction of decided voters who are for the proposal. """
         if self.num_affirm == 0 and self.num_dissent == 0:
             return 0.5
         return self.num_affirm / float(max(1, self.num_affirm + self.num_dissent))
@@ -82,7 +82,7 @@ class Tally(object):
     rel_for = property(_get_rel_for)
         
     def _get_rel_against(self):
-        """ Fraction of decided voters who are against the motion. """
+        """ Fraction of decided voters who are against the proposal. """
         return 1 - self.rel_for
                                                     
     rel_against = property(_get_rel_against)

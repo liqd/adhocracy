@@ -51,7 +51,7 @@ def index_issue(entity):
     d['text'] = entity.comment.latest.text if entity.comment else ""
     return d
 
-def index_motion(entity):
+def index_proposal(entity):
     d = index_delegateable(entity)
     text = entity.comment.latest.text if entity.comment else ""
     for comment in entity.comments:

@@ -12,20 +12,20 @@ from .. import sorting
 from delegateable_tiles import DelegateableTile
 from comment_tiles import CommentTile
 
-class MotionTile(DelegateableTile):
+class ProposalTile(DelegateableTile):
     
-    def __init__(self, motion):
-        self.motion = motion
+    def __init__(self, proposal):
+        self.proposal = proposal
         self.__poll = None
         self.__state = None
         self.__decision = None
         self.__num_principals = None
         self.__comment_tile = None
-        DelegateableTile.__init__(self, motion)
+        DelegateableTile.__init__(self, proposal)
     
     def _tagline(self):       
-        if self.motion.comment and self.motion.comment.latest:
-            tagline = text.plain(self.motion.comment.latest.text)
+        if self.proposal.comment and self.proposal.comment.latest:
+            tagline = text.plain(self.proposal.comment.latest.text)
             return truncate(tagline, length=140, indicator="...", whole_word=True)
         return ""
     
@@ -33,14 +33,14 @@ class MotionTile(DelegateableTile):
     
     def _poll(self):
         if not self.__poll:
-            self.__poll = self.motion.poll
+            self.__poll = self.proposal.poll
         return self.__poll
     
     poll = property(_poll)
     
     def _state(self):
         if not self.__state:
-            self.__state = democracy.State(self.motion, poll=self.poll)
+            self.__state = democracy.State(self.proposal, poll=self.poll)
         return self.__state
     
     state = property(_state)
@@ -54,7 +54,7 @@ class MotionTile(DelegateableTile):
     
     def _canonicals(self):       
         cs = []   
-        for comment in self.motion.comments:
+        for comment in self.proposal.comments:
             if comment.canonical and not comment.delete_time:
                 cs.append(comment)
         return sorting.comment_id(cs)
@@ -62,13 +62,13 @@ class MotionTile(DelegateableTile):
     canonicals = property(_canonicals)
             
     def _can_edit(self):
-        return h.has_permission('motion.edit') \
+        return h.has_permission('proposal.edit') \
                 and not self.is_immutable
     
     can_edit = property(_can_edit)    
     
     def _can_delete(self):
-        return h.has_permission('motion.delete') \
+        return h.has_permission('proposal.delete') \
                 and not self.is_immutable
     
     can_delete = property(_can_delete)
@@ -107,7 +107,7 @@ class MotionTile(DelegateableTile):
     can_end_poll = property(_can_end_poll)
     
     def _is_immutable(self):
-        return not self.state.motion_mutable
+        return not self.state.proposal_mutable
     
     is_immutable = property(_is_immutable)
     
@@ -142,7 +142,7 @@ class MotionTile(DelegateableTile):
     
     def _comment_tile(self):
         if not self.__comment_tile:
-            self.__comment_tile = CommentTile(self.motion.comment)
+            self.__comment_tile = CommentTile(self.proposal.comment)
         return self.__comment_tile
     
     comment_tile = property(_comment_tile)
@@ -158,15 +158,15 @@ class MotionTile(DelegateableTile):
     result_dissent = property(_result_dissent)
 
 
-def row(motion, detail=False):
-    return render_tile('/motion/tiles.html', 'row', MotionTile(motion), motion=motion, detail=detail)
+def row(proposal, detail=False):
+    return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal), proposal=proposal, detail=detail)
 
-def detail_row(motion):
-    return row(motion, detail=True)   
+def detail_row(proposal):
+    return row(proposal, detail=True)   
             
-def list_item(motion):
-    return render_tile('/motion/tiles.html', 'list_item', 
-                       MotionTile(motion), motion=motion)
+def list_item(proposal):
+    return render_tile('/proposal/tiles.html', 'list_item', 
+                       ProposalTile(proposal), proposal=proposal)
 
 def state_flag(state):
-    return render_tile('/motion/tiles.html', 'state_flag', None, state=state)
+    return render_tile('/proposal/tiles.html', 'state_flag', None, state=state)

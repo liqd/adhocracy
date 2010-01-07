@@ -2,7 +2,7 @@
 Adhocracy Liquid Democracy Implementation
 =========================================
 
-Instances > Categories > Issues > Motions
+Instances > Categories > Issues > Proposals
 
 Delegation can happeon on all four levels.
 
@@ -15,7 +15,7 @@ uncomment the memcache config line in your .ini file and point it
 to a running instance of memcache.
 
 If no memcache is configured or available, Adhocracy should still 
-function, but displaying motions that have a lot of votes can take 
+function, but displaying proposals that have a lot of votes can take 
 a long time. 
 
 Installation and Setup

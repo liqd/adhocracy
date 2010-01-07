@@ -1,7 +1,7 @@
 
-<%def name="booth(motion, tile)">
+<%def name="booth(proposal, tile)">
 	%if tile.can_end_poll:
-		<a class="button delete" href="/poll/abort/${motion.id}">${_("cancel")}</a>
+		<a class="button delete" href="/poll/abort/${proposal.id}">${_("cancel")}</a>
 	%elif c.user and tile.is_immutable:
 		<a class="button inactive htwarn" title="${_('This vote has recieved the required majority and cannot be cancelled')}">${_("cancel")}</a>
 	%elif c.user and tile.lack_end_poll_karma:
@@ -12,7 +12,7 @@
 		<!-- div class="text"-->
 		
 			%if tile.can_vote:
-				<form action="/vote/cast/${motion.id}" method="GET">
+				<form action="/vote/cast/${proposal.id}" method="GET">
 					${h.field_token()|n}
 			%endif	
 			
@@ -47,7 +47,7 @@
 							%endfor
 						</ul>					
 					</td>
-					<td class="votes"><a href="/motion/${motion.id}/votes?result=1">${tile.state.tally.num_affirm}</a></td>
+					<td class="votes"><a href="/proposal/${proposal.id}/votes?result=1">${tile.state.tally.num_affirm}</a></td>
 					<td valign="top">${tile.result_affirm}%</td>
 				</tr>
 				<tr class="dissent ${'decision' if c.user and tile.decision.result == -1 else ''}">
@@ -68,7 +68,7 @@
 							%endfor
 						</ul>					
 					</td>
-					<td class="votes"><a href="/motion/${motion.id}/votes?result=-1">${tile.state.tally.num_dissent}</a></td>
+					<td class="votes"><a href="/proposal/${proposal.id}/votes?result=-1">${tile.state.tally.num_dissent}</a></td>
 					<td valign="top">${tile.result_dissent}%</td>
 				</tr>
 				<tr class="abstain ${'decision' if c.user and tile.decision.result == 0 else ''}">
@@ -89,7 +89,7 @@
 							%endfor
 						</ul>					
 					</td>
-					<td class="votes"><a href="/motion/${c.motion.id}/votes?result=0">${tile.state.tally.num_abstain}</a></td>
+					<td class="votes"><a href="/proposal/${c.proposal.id}/votes?result=0">${tile.state.tally.num_abstain}</a></td>
 					<td valign="top">&nbsp;</td>
 				</tr>				
 				<tr class="summary">
@@ -100,11 +100,11 @@
 					</td>
 					<td>
 						<div class="hint" style="padding: 0; text-align: right">
-							<!--${_("Of the required %s votes, the motion has:") % tile.state.participation.required}  -->
+							<!--${_("Of the required %s votes, the proposal has:") % tile.state.participation.required}  -->
 						</div>
 					</td>
 					<td colspan="2">
-						<a href="/motion/${c.motion.id}/votes">
+						<a href="/proposal/${c.proposal.id}/votes">
 							${_("%d votes") % len(tile.state.tally)}
 						</a>
 					</td>
@@ -120,11 +120,11 @@
 
 
 
-<%def name="sb_booth(motion, tile)">
+<%def name="sb_booth(proposal, tile)">
 	<h4><img src="/img/icons/vote_16.png" class="cd" /> ${_("Vote")}<sup><a href="/page/faq.html#Howdoesvotingwork">?</a></sup></h4>
 		
 			%if tile.can_vote:
-				<form action="/vote/cast/${motion.id}" method="GET">
+				<form action="/vote/cast/${proposal.id}" method="GET">
 					${h.field_token()|n}
 			%endif	
 			
@@ -146,7 +146,7 @@
 						<span class="icon">&nbsp;</span>
 					</td>
 					<td class="option">${_("Affirm")}</td>
-					<td class="votes"><a href="/motion/${motion.id}/votes?result=1">${tile.state.tally.num_affirm}</a></td>
+					<td class="votes"><a href="/proposal/${proposal.id}/votes?result=1">${tile.state.tally.num_affirm}</a></td>
 					<td valign="top">${tile.result_affirm}%</td>
 				</tr>
 				<%
@@ -175,7 +175,7 @@
 						<span class="icon">&nbsp;</span>
 					</td>
 					<td class="option">${_("Dissent")}</td>
-					<td class="votes"><a href="/motion/${motion.id}/votes?result=-1">${tile.state.tally.num_dissent}</a></td>
+					<td class="votes"><a href="/proposal/${proposal.id}/votes?result=-1">${tile.state.tally.num_dissent}</a></td>
 					<td valign="top">${tile.result_dissent}%</td>
 				</tr>
 				<%
@@ -204,7 +204,7 @@
 						<span class="icon">&nbsp;</span>
 					</td>
 					<td class="option">${_("Abstain")}</td>
-					<td class="votes"><a href="/motion/${c.motion.id}/votes?result=0">${tile.state.tally.num_abstain}</a></td>
+					<td class="votes"><a href="/proposal/${c.proposal.id}/votes?result=0">${tile.state.tally.num_abstain}</a></td>
 					<td valign="top">&nbsp;</td>
 				</tr>
 				<%
@@ -229,7 +229,7 @@
 						%endif						
 					</td>
 					<td colspan="2">
-						<a href="/motion/${c.motion.id}/votes">
+						<a href="/proposal/${c.proposal.id}/votes">
 							${_("%d votes") % len(tile.state.tally)}
 						</a>
 					</td>
@@ -245,7 +245,7 @@
 			${_("began %s") % h.relative_time(tile.poll.begin_time)|n}
 			%if tile.can_end_poll:
 				&middot; 
-				<a class="delete" href="/poll/abort/${motion.id}">${_("cancel")}</a>
+				<a class="delete" href="/poll/abort/${proposal.id}">${_("cancel")}</a>
 			%elif c.user and tile.is_immutable:
 				&middot; 
 				<a class="inactive htwarn" title="${_('This vote has recieved the required majority and cannot be cancelled')}">${_("cancel")}</a>

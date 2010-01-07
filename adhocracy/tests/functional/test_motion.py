@@ -1,4 +1,4 @@
 from adhocracy.tests import *
 
-class TestMotionController(TestController):
+class TestProposalController(TestController):
     pass

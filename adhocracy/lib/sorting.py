@@ -17,8 +17,8 @@ def entity_oldest(entities):
 def issue_activity(issues):
     return sorted(issues, key=lambda i: estats.issue_activity(i))
 
-def motion_activity(motions):
-    return sorted(motions, key=lambda m: estats.motion_activity(m))
+def proposal_activity(proposals):
+    return sorted(proposals, key=lambda m: estats.proposal_activity(m))
 
 def instance_activity(instances):
     return sorted(instances, key=lambda i: estats.instance_activity(i))

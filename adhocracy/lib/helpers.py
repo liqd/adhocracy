@@ -45,8 +45,8 @@ def breadcrumbs(entity):
     return link
 
 
-def immutable_motion_message():
-    return _("This motion is currently being voted on and cannot be modified.")
+def immutable_proposal_message():
+    return _("This proposal is currently being voted on and cannot be modified.")
 
 @cache.memoize('user_link')
 def user_link(user, size=16, link=None, include_score=True):
@@ -58,32 +58,32 @@ def user_link(user, size=16, link=None, include_score=True):
         cgi.escape(user.name),
         karma.user_score(user) if (include_score and c.instance) else '')
     
-@cache.memoize('motion_icon', 3600*2)
-def motion_icon(motion, size=16):
-    state = democracy.State(motion)
+@cache.memoize('proposal_icon', 3600*2)
+def proposal_icon(proposal, size=16):
+    state = democracy.State(proposal)
     if state.adopted:
-        return instance_url(None, path='') + "/img/icons/motion_adopted_" + str(size) + ".png"
+        return instance_url(None, path='') + "/img/icons/proposal_adopted_" + str(size) + ".png"
     else:
-        return instance_url(None, path='') + "/img/icons/motion_" + str(size) + ".png"
+        return instance_url(None, path='') + "/img/icons/proposal_" + str(size) + ".png"
 
 @cache.memoize('delegateable_link')
 def delegateable_link(delegateable, icon=True, link=True):
     text = ""
     if icon:
-        if isinstance(delegateable, model.Motion):
-            text = "<img class='user_icon' src='%s' /> " % motion_icon(delegateable)
+        if isinstance(delegateable, model.Proposal):
+            text = "<img class='user_icon' src='%s' /> " % proposal_icon(delegateable)
         elif isinstance(delegateable, model.Issue):
             text = "<img class='user_icon' src='%s/img/icons/issue_16.png' /> " % instance_url(None, path='')
     text += cgi.escape(delegateable.label)
-    if isinstance(delegateable, model.Motion) and icon:
+    if isinstance(delegateable, model.Proposal) and icon:
         state = democracy.State(delegateable)
         if state.polling:
             text += " <img class='user_icon' src='/img/icons/vote_16.png' />"
     
     if link and not delegateable.delete_time:
-        if isinstance(delegateable, model.Motion):
+        if isinstance(delegateable, model.Proposal):
             text = "<a href='%s' class='dgb_link'>%s</a>" % (
-                        instance_url(delegateable.instance, path='/motion/%s' % delegateable.id), text)
+                        instance_url(delegateable.instance, path='/proposal/%s' % delegateable.id), text)
         elif isinstance(delegateable, model.Issue):
             text = "<a href='%s' class='dgb_link'>%s</a>" % (
                         instance_url(delegateable.instance, path='/issue/%s' % delegateable.id), text)

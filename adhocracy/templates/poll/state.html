@@ -9,17 +9,17 @@
 	<ul class="checklist">
 		%if not state.polling:
 			%if c.tile.has_canonicals:
-				<li class="met">${_("Provisions to describe the motion.")}</li>
+				<li class="met">${_("Provisions to describe the proposal.")}</li>
 			%else: 
-				<li class="unmet">${_("Provisions to describe the motion.")}</li>
+				<li class="unmet">${_("Provisions to describe the proposal.")}</li>
 			%endif
 			<li class="unmet">${_("A vote needs to be called.")}</li>
 		%elif state.adopted:
 			%if not state.stable:
-				<li class="met">${_("The motion is adopted, <b>but volatile</b>.")|n}</li>
+				<li class="met">${_("The proposal is adopted, <b>but volatile</b>.")|n}</li>
 				<li class="unmet">${_("Majority needs to be held <b>for %s</b>.") % h.format_timedelta(state.volatile.end_time - datetime.now() if state.volatile.end_time else state.volatile.delay)|n}</li>
 			%else:
-				<li class="met">${_("The motion is adopted.")}</li>
+				<li class="met">${_("The proposal is adopted.")}</li>
 			%endif
 		%else:
 			%if state.participation:

@@ -8,7 +8,7 @@ import meta
 import user
 import vote
 import delegateable
-import motion
+import proposal
 import issue
 import group
 import watch
@@ -83,12 +83,12 @@ class ValidIssue(formencode.FancyValidator):
                  value, state)
         return iss
 
-class ValidMotion(formencode.FancyValidator):
+class ValidProposal(formencode.FancyValidator):
     def _to_python(self, value, state):
-        mot =  motion.Motion.find(value)
+        mot =  proposal.Proposal.find(value)
         if not mot: 
            raise formencode.Invalid(
-                _("No motion with ID '%s' exists") % value,
+                _("No proposal with ID '%s' exists") % value,
                  value, state)
         return mot
 
@@ -141,12 +141,12 @@ class ExistingUserName(formencode.FancyValidator):
 class EditorAddForm(formencode.Schema):
     allow_extra_fields = True
     editor = ExistingUserName(not_empty=True)
-    motion = ValidMotion(not_emtpy=True)
+    proposal = ValidProposal(not_emtpy=True)
 
 class EditorRemoveForm(formencode.Schema):
     allow_extra_fields = True
     editor = ExistingUserName(not_empty=True)
-    motion = ValidMotion(not_emtpy=True)
+    proposal = ValidProposal(not_emtpy=True)
     
 class VoteCastForm(formencode.Schema):
     allow_extra_fields = True

@@ -1,23 +1,23 @@
 <%inherit file="/template.html" />
-<%namespace name="tiles_html" file="/motion/tiles.html"/>
+<%namespace name="tiles_html" file="/proposal/tiles.html"/>
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Edit %s") % c.motion.label}</%def>
+<%def name="title()">${_("Edit %s") % c.proposal.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.motion)|n} &raquo; ${_("Edit")}
+	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit")}
 </%def>
 
-<form name="edit_motion" class="inplace" method="POST" action="/motion/edit/${c.motion.id}">
+<form name="edit_proposal" class="inplace" method="POST" action="/proposal/edit/${c.proposal.id}">
 	${h.field_token()|n}
 	<div class="page_title">
-		<label for="label" class="armhint">${_("New Motion")}</label>
-		<input tabindex="1" class="title armlabel" name="label" value="${c.motion.label}"/>
+		<label for="label" class="armhint">${_("New Proposal")}</label>
+		<input tabindex="1" class="title armlabel" name="label" value="${c.proposal.label}"/>
 	</div>
 	
 	<h3>${_("Issue")}</h3>
 	<div class="sidebar">
 		<div class="infobox">
-			${_("If necessary, move the motion to a different issue to keep things organized.")}
+			${_("If necessary, move the proposal to a different issue to keep things organized.")}
 	 	</div>
 	</div>
 	<div class="mainbar">
@@ -29,7 +29,7 @@
 			<td  valign="bottom">
 				<select name="issue">
 				%for issue in c.issues:
-					<option value="${issue.id}" ${"selected='selected'" if issue==c.motion.issue else ''}>${issue.label}</option>
+					<option value="${issue.id}" ${"selected='selected'" if issue==c.proposal.issue else ''}>${issue.label}</option>
 				%endfor
 				</select>
 			</td>
@@ -38,14 +38,14 @@
 	</div>
 	
 	<div style="clear:both;"></div>
-	<h3>${_("Relations to other motions")}</h3>
+	<h3>${_("Relations to other proposals")}</h3>
 	<div class="sidebar">
 		<div class="infobox">
-			${_("Specify which motions <b>contradict</b> or <b>enable</b> this proposal." +
+			${_("Specify which proposals <b>contradict</b> or <b>enable</b> this proposal." +
 			"<br/><br/>" +
-			"Contradicting motions cannot be in power at the same time." + 
+			"Contradicting proposals cannot be in power at the same time." + 
 			"<br/><br/>" +
-			"Requirements must be satisfied before the motion can activate.")|n}			
+			"Requirements must be satisfied before the proposal can activate.")|n}			
 		</div>
 		<br/>
 	</div>
@@ -54,18 +54,18 @@
 		<table width="100%">
 			<tr>
 				<th width="20%">${_("Relation")}</th>
-				<th>${_("Motion")}</th>
+				<th>${_("Proposal")}</th>
 			</tr>
 			<%
-			options = [m for m in c.motions if not m in c.relations.keys()]
-			if c.motion in options:
-				options.remove(c.motion)
+			options = [m for m in c.proposals if not m in c.relations.keys()]
+			if c.proposal in options:
+				options.remove(c.proposal)
 			%>
 			%if len(options):
 				${tiles_html.relation(rel_type='n', options=options, prototype=True)}
 			%endif
-			%for motion, type in c.relations.items():
-				${tiles_html.relation(rel_type=type, rel_motion=motion)}
+			%for proposal, type in c.relations.items():
+				${tiles_html.relation(rel_type=type, rel_proposal=proposal)}
 			%endfor
 			%if len(options):
 				${tiles_html.relation(rel_type='n', options=options)}
@@ -83,7 +83,7 @@
 		&nbsp;
 	</div>
 	<div class="mainbar">
-		${components.savebox("/motion/%s" % c.motion.id)}
-		${components.form_watch(c.motion)}
+		${components.savebox("/proposal/%s" % c.proposal.id)}
+		${components.form_watch(c.proposal)}
 	</div>
 </form>

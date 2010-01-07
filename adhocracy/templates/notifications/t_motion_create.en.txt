@@ -1,6 +1,0 @@
-${e.user.name} has created a new motion, ${e.motion.label} within the issue ${e.motion.issue.label}.  
-
-Here's the inital description: 
-${e.motion.comment.latest.text}
-
-Have a look at the motion page: ${h.instance_url(e.motion.instance, path="/motion/%s" % e.motion.id)}

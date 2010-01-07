@@ -1,7 +1,7 @@
 <%namespace name="common" file="/notifications/common.txt"/>
 
-Your delegate, ${e.vote.delegation.agent.name}, voted ${common.vote(e.vote)} the ${e.poll.motion.label}. 
+Your delegate, ${e.vote.delegation.agent.name}, voted ${common.vote(e.vote)} the ${e.poll.proposal.label}. 
 
-This conflicts with a vote from one of your other delegates. As a consequence of this conflict, you're currently abstaining on the motion.    
+This conflicts with a vote from one of your other delegates. As a consequence of this conflict, you're currently abstaining on the proposal.    
 
-To vote yourself, visit the poll page: ${h.instance_url(e.poll.motion.instance, path="/motion/%s" % str(e.poll.motion.id))}
+To vote yourself, visit the poll page: ${h.instance_url(e.poll.proposal.instance, path="/proposal/%s" % str(e.poll.proposal.id))}

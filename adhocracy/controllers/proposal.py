@@ -6,64 +6,64 @@ from pylons.i18n import _
 from adhocracy.lib.base import *
 import adhocracy.lib.text as text
 import adhocracy.model.forms as forms
-from adhocracy.lib.tiles.motion_tiles import MotionTile
+from adhocracy.lib.tiles.proposal_tiles import ProposalTile
 
 log = logging.getLogger(__name__)
 
-class MotionCreateForm(formencode.Schema):
+class ProposalCreateForm(formencode.Schema):
     allow_extra_fields = True
     label = validators.String(max=255, min=4, not_empty=True)
     text = validators.String(max=10000, min=4, not_empty=True)
     #issue = forms.ValidIssue()
     
-class MotionEditForm(formencode.Schema):
+class ProposalEditForm(formencode.Schema):
     allow_extra_fields = True
     label = validators.String(max=255, min=4, not_empty=True)
     issue = forms.ValidIssue(not_empty=True)
 
-class MotionDecisionsFilterForm(formencode.Schema):
+class ProposalDecisionsFilterForm(formencode.Schema):
     allow_extra_fields = True
     result = validators.Int(not_empty=False, if_empty=None, min=-1, max=1)
 
 
-class MotionController(BaseController):
+class ProposalController(BaseController):
     
     
-    def _parse_relations(self, motion=None):
+    def _parse_relations(self, proposal=None):
         types_val = formencode.ForEach(validators.OneOf(['a', 'd', 'n'], not_empty=True), 
                                               convert_to_list=True)
-        motions_val = formencode.ForEach(forms.ValidMotion(if_empty=None, if_invalid=None), 
+        proposals_val = formencode.ForEach(forms.ValidProposal(if_empty=None, if_invalid=None), 
                                         convert_to_list=True)
         
-        #print "REL_MOTIONS", request.params.getall('rel_motion')
+        #print "REL_PROPOSALS", request.params.getall('rel_proposal')
         
         types = types_val.to_python(request.params.getall('rel_type'))
-        motions = motions_val.to_python(request.params.getall('rel_motion'))
-        if len(types) != len(motions):
+        proposals = proposals_val.to_python(request.params.getall('rel_proposal'))
+        if len(types) != len(proposals):
             raise formencode.Invalid("", type, None,
                         error_dict={'rel_error': _("Input error while applying relations.")})
         
-        #print "MOTIONS ", motions
+        #print "PROPOSALS ", proposals
         
         c.relations = dict()
-        for type, other in zip(types, motions):
+        for type, other in zip(types, proposals):
             if not other:
                 continue
-            if (motion and other == motion) and type in ['a', 'd']:
+            if (proposal and other == proposal) and type in ['a', 'd']:
                 raise formencode.Invalid("", type, None,
                         error_dict={
-                        'rel_error': _("A motion cannot have a relation with itself.")})
+                        'rel_error': _("A proposal cannot have a relation with itself.")})
             if other in c.relations.keys() and c.relations[other] != type:
                 raise formencode.Invalid("", type, None,
                         error_dict={
-                        'rel_error': _("A motion can either contradict " + 
+                        'rel_error': _("A proposal can either contradict " + 
                                        "or require another, not both.")})
             c.relations[other] = type
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
-    @ActionProtector(has_permission("motion.create"))
-    #@validate(schema=MotionCreateForm(), form="create", post_only=True)
+    @ActionProtector(has_permission("proposal.create"))
+    #@validate(schema=ProposalCreateForm(), form="create", post_only=True)
     def create(self):
         try:
             c.issue = forms.ValidIssue(not_empty=True).to_python(request.params.get('issue'))
@@ -71,8 +71,8 @@ class MotionController(BaseController):
             h.flash(_("Cannot identify the parent issue."))
             redirect_to("/")
         c.canonicals = ["", ""]
-        c.relations = dict(map(lambda m: (m, 'a'), c.issue.motions))
-        c.motions = model.Motion.all(instance=c.instance)
+        c.relations = dict(map(lambda m: (m, 'a'), c.issue.proposals))
+        c.proposals = model.Proposal.all(instance=c.instance)
         
         if request.method == "POST":
             try:
@@ -83,21 +83,21 @@ class MotionController(BaseController):
                                       canonicals_val.to_python(request.params.getall('canonicals')))
                 
                 self._parse_relations()
-                form_result = MotionCreateForm().to_python(request.params)
-                motion = model.Motion(c.instance, 
+                form_result = ProposalCreateForm().to_python(request.params)
+                proposal = model.Proposal(c.instance, 
                                       form_result.get("label"),
                                       c.user)
-                motion.issue = c.issue
-                comment = model.Comment(motion, c.user)
+                proposal.issue = c.issue
+                comment = model.Comment(proposal, c.user)
                 rev = model.Revision(comment, c.user, 
                                      text.cleanup(form_result.get("text")))
                 comment.latest = rev
-                model.meta.Session.add(motion)
+                model.meta.Session.add(proposal)
                 model.meta.Session.add(comment)
                 model.meta.Session.add(rev)
                 
                 for c_text in c.canonicals:
-                    canonical = model.Comment(motion, c.user)
+                    canonical = model.Comment(proposal, c.user)
                     canonical.canonical = True
                     c_rev = model.Revision(canonical, c.user, 
                                            text.cleanup(c_text))
@@ -105,79 +105,79 @@ class MotionController(BaseController):
                     model.meta.Session.add(canonical)
                     model.meta.Session.add(c_rev)
                     
-                for r_motion, type in c.relations.items():
+                for r_proposal, type in c.relations.items():
                     if type=='a':
-                        alternative = model.Alternative(motion, r_motion)
+                        alternative = model.Alternative(proposal, r_proposal)
                         model.meta.Session.add(alternative)
                     elif type=='d':
-                        dependency = model.Dependency(motion, r_motion)
+                        dependency = model.Dependency(proposal, r_proposal)
                         model.meta.Session.add(dependency)
                 
                 model.meta.Session.commit()
-                motion.comment = comment
-                model.meta.Session.add(motion)
+                proposal.comment = comment
+                model.meta.Session.add(proposal)
                 model.meta.Session.commit()
                 model.meta.Session.refresh(rev)
                 
-                watchlist.check_watch(motion)
+                watchlist.check_watch(proposal)
                 
-                event.emit(event.T_MOTION_CREATE, c.user, instance=c.instance, 
-                           topics=[motion], motion=motion)
+                event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance, 
+                           topics=[proposal], proposal=proposal)
             
-                redirect_to("/motion/%s" % str(motion.id))
+                redirect_to("/proposal/%s" % str(proposal.id))
             except formencode.Invalid, error:
                 defaults = dict(request.params)
                 del defaults['canonicals']
                 del defaults['rel_type']
-                del defaults['rel_motion']
+                del defaults['rel_proposal']
                 
                 if len(c.canonicals) < 2:
                     c.canonicals += [""] * (2 - len(c.canonicals))
                 
-                page = render("/motion/create.html")
+                page = render("/proposal/create.html")
                 return formencode.htmlfill.render(page, 
                                                   defaults=defaults, 
                                                   errors=error.error_dict,
                                                   force_defaults=False)    
-        return render("/motion/create.html")
+        return render("/proposal/create.html")
 
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
-    @ActionProtector(has_permission("motion.edit")) 
-    #@validate(schema=MotionEditForm(), form="edit", post_only=True)
+    @ActionProtector(has_permission("proposal.edit")) 
+    #@validate(schema=ProposalEditForm(), form="edit", post_only=True)
     def edit(self, id):
-        c.motion = get_entity_or_abort(model.Motion, id)
-        if not democracy.is_motion_mutable(c.motion):
-            abort(403, h.immutable_motion_message())
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        if not democracy.is_proposal_mutable(c.proposal):
+            abort(403, h.immutable_proposal_message())
         c.issues = model.Issue.all(instance=c.instance)
-        c.motions = model.Motion.all(instance=c.instance)
+        c.proposals = model.Proposal.all(instance=c.instance)
         c.relations = dict()
-        for dependency in c.motion.dependencies:
+        for dependency in c.proposal.dependencies:
             if not dependency.delete_time:
                 #print "DEP", dependency
                 c.relations[dependency.requirement] = 'd'
-        for ra in c.motion.right_alternatives:
+        for ra in c.proposal.right_alternatives:
             if not ra.delete_time:
                 c.relations[ra.left] = 'a'
-        for la in c.motion.left_alternatives:
+        for la in c.proposal.left_alternatives:
             if not la.delete_time:
                 c.relations[la.right] = 'a'
-        for m in c.motion.issue.motions:
-            if not m in c.relations.keys() and m != c.motion:
+        for m in c.proposal.issue.proposals:
+            if not m in c.relations.keys() and m != c.proposal:
                 c.relations[m] = 'n'
         
         if request.method == "POST":
             try:
-                self._parse_relations(c.motion)
-                form_result = MotionEditForm().to_python(request.params)
+                self._parse_relations(c.proposal)
+                form_result = ProposalEditForm().to_python(request.params)
                                
-                c.motion.label = form_result.get("label")
-                c.motion.issue = form_result.get("issue")
+                c.proposal.label = form_result.get("label")
+                c.proposal.issue = form_result.get("issue")
             
-                model.meta.Session.add(c.motion)
+                model.meta.Session.add(c.proposal)
                 
                 now = datetime.now()
-                for dependency in c.motion.dependencies:
+                for dependency in c.proposal.dependencies:
                     if dependency.delete_time:
                         continue
                     keep = False
@@ -189,13 +189,13 @@ class MotionController(BaseController):
                         dependency.delete_time = now
                         model.meta.Session.add(dependency)
                 
-                for alternative in c.motion.right_alternatives + \
-                                   c.motion.left_alternatives:
+                for alternative in c.proposal.right_alternatives + \
+                                   c.proposal.left_alternatives:
                     if alternative.delete_time:
                         continue
                     keep = False
                     for other, type in c.relations.items():
-                        if other == alternative.other(c.motion) and type == 'a':
+                        if other == alternative.other(c.proposal) and type == 'a':
                             keep = True
                             del c.relations[other]
                     if not keep:
@@ -204,97 +204,97 @@ class MotionController(BaseController):
                 
                 for other, type in c.relations.items():
                     if type == 'd':
-                        dependency = model.Dependency(c.motion, other)
+                        dependency = model.Dependency(c.proposal, other)
                         model.meta.Session.add(dependency)
                     elif type == 'a':
-                        alternative = model.Alternative(c.motion, other)
+                        alternative = model.Alternative(c.proposal, other)
                         model.meta.Session.add(alternative)
                         
                 
                 model.meta.Session.commit()
                 
-                watchlist.check_watch(c.motion)
+                watchlist.check_watch(c.proposal)
             
-                event.emit(event.T_MOTION_EDIT, c.user, instance=c.instance, 
-                           topics=[c.motion], motion=c.motion)
+                event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance, 
+                           topics=[c.proposal], proposal=c.proposal)
             
-                return redirect_to("/motion/%s" % str(id))
+                return redirect_to("/proposal/%s" % str(id))
             except formencode.Invalid, error:
                 defaults = dict(request.params)
                 del defaults['rel_type']
-                del defaults['rel_motion']
-                page = render("/motion/edit.html")
+                del defaults['rel_proposal']
+                page = render("/proposal/edit.html")
                 return formencode.htmlfill.render(page, 
                                                   defaults=defaults, 
                                                   errors=error.error_dict,
                                                   force_defaults=False)
-        return render("/motion/edit.html")
+        return render("/proposal/edit.html")
     
     @RequireInstance
-    @ActionProtector(has_permission("motion.view"))   
+    @ActionProtector(has_permission("proposal.view"))   
     def view(self, id, format='html'):
-        c.motion = get_entity_or_abort(model.Motion, id)     
-        h.add_meta("description", text.meta_escape(c.motion.comment.latest.text, markdown=False)[0:160])
-        h.add_meta("dc.title", text.meta_escape(c.motion.label, markdown=False))
-        h.add_meta("dc.date", c.motion.create_time.strftime("%Y-%m-%d"))
-        h.add_meta("dc.author", text.meta_escape(c.motion.creator.name, markdown=False))
+        c.proposal = get_entity_or_abort(model.Proposal, id)     
+        h.add_meta("description", text.meta_escape(c.proposal.comment.latest.text, markdown=False)[0:160])
+        h.add_meta("dc.title", text.meta_escape(c.proposal.label, markdown=False))
+        h.add_meta("dc.date", c.proposal.create_time.strftime("%Y-%m-%d"))
+        h.add_meta("dc.author", text.meta_escape(c.proposal.creator.name, markdown=False))
         
         if format == 'rss':
             query = model.meta.Session.query(model.Event)
-            query = query.filter(model.Event.topics.contains(c.motion))
+            query = query.filter(model.Event.topics.contains(c.proposal))
             query = query.order_by(model.Event.time.desc())
             query = query.limit(50)  
-            return event.rss_feed(query.all(), _("Motion: %s") % c.motion.label,
-                                  h.instance_url(c.instance, path="/motion/%s" % str(c.motion.id)),
-                                  description=_("Activity on the %s motion") % c.motion.label)
+            return event.rss_feed(query.all(), _("Proposal: %s") % c.proposal.label,
+                                  h.instance_url(c.instance, path="/proposal/%s" % str(c.proposal.id)),
+                                  description=_("Activity on the %s proposal") % c.proposal.label)
         
-        h.add_rss(_("Motion: %(motion)s") % {'motion': c.motion.label}, 
-                  h.instance_url(c.instance, "/motion/%s.rss" % c.motion.id))
+        h.add_rss(_("Proposal: %(proposal)s") % {'proposal': c.proposal.label}, 
+                  h.instance_url(c.instance, "/proposal/%s.rss" % c.proposal.id))
         
-        c.tile = tiles.motion.MotionTile(c.motion)
-        c.issue_tile = tiles.issue.IssueTile(c.motion.issue)
+        c.tile = tiles.proposal.ProposalTile(c.proposal)
+        c.issue_tile = tiles.issue.IssueTile(c.proposal.issue)
         
-        return render("/motion/view.html")
+        return render("/proposal/view.html")
     
     @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("motion.delete"))
+    @ActionProtector(has_permission("proposal.delete"))
     def delete(self, id):
-        c.motion = get_entity_or_abort(model.Motion, id)
-        if not democracy.is_motion_mutable(c.motion):
-            abort(403, h.immutable_motion_message())
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        if not democracy.is_proposal_mutable(c.proposal):
+            abort(403, h.immutable_proposal_message())
         
-        h.flash("Motion %(motion)s has been deleted." % {'motion': c.motion.label})
-        event.emit(event.T_MOTION_DELETE, c.user, instance=c.instance, 
-                   topics=[c.motion], motion=c.motion)
+        h.flash("Proposal %(proposal)s has been deleted." % {'proposal': c.proposal.label})
+        event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance, 
+                   topics=[c.proposal], proposal=c.proposal)
         
-        c.motion.delete_time = datetime.now()
-        model.meta.Session.add(c.motion)
+        c.proposal.delete_time = datetime.now()
+        model.meta.Session.add(c.proposal)
         model.meta.Session.commit()
-        redirect_to("/category/%d" % c.motion.issue.id)   
+        redirect_to("/category/%d" % c.proposal.issue.id)   
     
     @RequireInstance
-    @ActionProtector(has_permission("motion.view")) 
+    @ActionProtector(has_permission("proposal.view")) 
     def votes(self, id):
-        c.motion = get_entity_or_abort(model.Motion, id)
+        c.proposal = get_entity_or_abort(model.Proposal, id)
         filters = dict()
         try:
-            filters = MotionDecisionsFilterForm().to_python(request.params)
+            filters = ProposalDecisionsFilterForm().to_python(request.params)
         except formencode.Invalid:
             pass
         
-        if not c.motion.poll:
+        if not c.proposal.poll:
             h.flash(_("%s is not currently in a poll, thus no votes have been counted."))
-            redirect_to("/motion/%s" % str(c.motion.id))
+            redirect_to("/proposal/%s" % str(c.proposal.id))
         
-        decisions = democracy.Decision.for_poll(c.motion.poll)
+        decisions = democracy.Decision.for_poll(c.proposal.poll)
             
         if filters.get('result'):
             decisions = filter(lambda d: d.result==filters.get('result'), decisions)
             
-        c.decisions_pager = NamedPager('decisions', decisions, tiles.decision.motion_row, 
+        c.decisions_pager = NamedPager('decisions', decisions, tiles.decision.proposal_row, 
                                     sorts={_("oldest"): sorting.entity_oldest,
                                            _("newest"): sorting.entity_newest},
                                     default_sort=sorting.entity_newest)
-        return render("/motion/votes.html")
+        return render("/proposal/votes.html")
 

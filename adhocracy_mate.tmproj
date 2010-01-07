@@ -221,7 +221,7 @@
 				<integer>45</integer>
 			</dict>
 		</dict>
-		<key>adhocracy/controllers/motion.py</key>
+		<key>adhocracy/controllers/proposal.py</key>
 		<dict>
 			<key>caret</key>
 			<dict>
@@ -393,7 +393,7 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>adhocracy/model/motion.py</key>
+		<key>adhocracy/model/proposal.py</key>
 		<dict>
 			<key>caret</key>
 			<dict>
@@ -639,7 +639,7 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>adhocracy/templates/motion/create.html</key>
+		<key>adhocracy/templates/proposal/create.html</key>
 		<dict>
 			<key>caret</key>
 			<dict>
@@ -669,7 +669,7 @@
 				<integer>17</integer>
 			</dict>
 		</dict>
-		<key>adhocracy/templates/motion/edit.html</key>
+		<key>adhocracy/templates/proposal/edit.html</key>
 		<dict>
 			<key>caret</key>
 			<dict>
@@ -699,7 +699,7 @@
 				<integer>31</integer>
 			</dict>
 		</dict>
-		<key>adhocracy/templates/motion/view.html</key>
+		<key>adhocracy/templates/proposal/view.html</key>
 		<dict>
 			<key>caret</key>
 			<dict>
@@ -845,21 +845,21 @@
 		<string>adhocracy/model/group.py</string>
 		<string>adhocracy/templates/category/create.html</string>
 		<string>adhocracy/templates/delegation/create.html</string>
-		<string>adhocracy/templates/motion/create.html</string>
-		<string>adhocracy/templates/motion/edit.html</string>
+		<string>adhocracy/templates/proposal/create.html</string>
+		<string>adhocracy/templates/proposal/edit.html</string>
 		<string>adhocracy/lib/helpers.py</string>
 		<string>adhocracy/templates/template.html</string>
 		<string>adhocracy/templates/category/view.html</string>
-		<string>adhocracy/controllers/motion.py</string>
+		<string>adhocracy/controllers/proposal.py</string>
 		<string>adhocracy/controllers/vote.py</string>
 		<string>adhocracy/model/vote.py</string>
-		<string>adhocracy/model/motion.py</string>
+		<string>adhocracy/model/proposal.py</string>
 		<string>adhocracy/model/permission.py</string>
 		<string>development.ini</string>
 		<string>adhocracy/lib/base.py</string>
 		<string>adhocracy/controllers/category.py</string>
 		<string>adhocracy/model/delegation.py</string>
-		<string>adhocracy/templates/motion/view.html</string>
+		<string>adhocracy/templates/proposal/view.html</string>
 		<string>adhocracy/templates/components.html</string>
 		<string>adhocracy/templates/delegation/review.html</string>
 		<string>adhocracy/model/delegateable.py</string>
