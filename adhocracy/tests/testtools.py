@@ -29,13 +29,7 @@ def tt_make_motion(creator=None, voting=False):
         motion.polls.append(poll)
         
     model.meta.Session.add(motion)
-    print 'voting', voting
-    print 'model.meta.Session.dirty', model.meta.Session.dirty
-    print 'model.meta.Session.new', model.meta.Session.new
     model.meta.Session.flush()
-    print 'poll', poll
-    print 'motion.poll', motion.poll
-    print 'motion.polls', motion.polls
     return motion
 
 def tt_make_user(instance_group=None):
