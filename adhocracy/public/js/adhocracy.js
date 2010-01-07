@@ -1,5 +1,10 @@
 $(document).ready(function() {
 	
+	jQuery(document).ready(function() {
+		  jQuery('abbr.timeago').timeago();
+	});
+	
+	
 	adhocracyDomain = function() {
 		return document.domain.substring(document.domain.split('.')[0].length);
 	}
