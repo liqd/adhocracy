@@ -4,7 +4,7 @@ import cgi
 from BeautifulSoup import BeautifulSoup, NavigableString
 
 import adhocracy.model as model
-import adhocracy.contrib.markdown2 as markdown
+import markdown2 as markdown
 
 from diff import textDiff as html_diff
 
