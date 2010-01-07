@@ -2,7 +2,7 @@
 	%if c.instance:
 		<a href="/">${c.instance.label}</a>
 	%else:
-		${_("Adhocracy")}
+		${config.get('adhocracy.site.name')}
 	%endif
 	&raquo; <a href="/user/${user.user_name}">${user.name}</a>
 </%def>

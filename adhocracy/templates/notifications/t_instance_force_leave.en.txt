@@ -1,4 +1,4 @@
-${e.user.name}s membership in the Adhocracy ${e.instance.label} was revoked by ${e.admin.name}. 
+${e.user.name}s membership in ${e.instance.label} was revoked by ${e.admin.name}. 
 
 This could be as a consequence of misbevaviour, but it is not a ban (i.e. ${e.user.name} can re-join at any time). 
 

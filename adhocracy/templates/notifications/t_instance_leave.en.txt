@@ -1,1 +1,1 @@
-${e.user.name} has left the Adhocracy ${e.instance.label}.
+${e.user.name} has left ${e.instance.label}.

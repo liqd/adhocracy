@@ -136,7 +136,7 @@ class UserController(BaseController):
             model.meta.Session.add(c.page_user)
             model.meta.Session.commit()
             url = h.instance_url(None, path="/user/reset/%s?c=%s" % (c.page_user.user_name, c.page_user.reset_code))
-            body = _("you have requested that your password for Adhocracy be reset. In order to" 
+            body = _("you have requested that your password be reset. In order to" 
                      +  " confirm the validity of your claim, please open the link below in your"
                      +  " browser:") + "\r\n\r\n  " + url 
             libmail.to_user(c.page_user, _("Reset your password"), body)

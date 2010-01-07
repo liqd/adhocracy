@@ -74,7 +74,7 @@ class InstanceController(BaseController):
             query = query.limit(50)
             return event.rss_feed(query.all(), _('%s News' % c.page_instance.label),
                                       h.instance_url(c.page_instance), 
-                                      _("News from the %s Adhocracy") % c.page_instance.label)
+                                      _("News from %s") % c.page_instance.label)
         
         #c.events_pager = NamedPager('events', events, tiles.event.list_item, count=20)
         

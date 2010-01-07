@@ -58,7 +58,7 @@ ${components.tutu()}
 	%if len(c.issues_pager) == 0:
 		%if c.tile.can_create_issue:
 			<span class="infobox">
-				${_("Create an issue to start debating in this Adhocracy.")}
+				${_("Create an issue to start debating in %(instance)s.") % dict(instance=c.page_instance.label)}
 			</span>
 		%endif
 	%else:

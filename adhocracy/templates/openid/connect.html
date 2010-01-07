@@ -2,7 +2,7 @@
 <%def name="title()">${_("Add an OpenID")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.instance) if c.instance else _("Adhocracy")|n} &raquo; ${_("Add OpenID")}
+	${h.breadcrumbs(c.instance) if c.instance else config.get('adhocracy.site.name')|n} &raquo; ${_("Add OpenID")}
 </%def>
 
 <h1 class="page_title">

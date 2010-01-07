@@ -1,6 +1,6 @@
 """
 XSRF is Cross-Site Request Forgery, where an attacker has a user follow a link that triggers an 
-action on an Adhocracy site which the user did not intentionally want to perform (i.e. vote in 
+action on a site which the user did not intentionally want to perform (i.e. vote in 
 a certain way). To prevent this, some actions are only possible if authorized via HTTP or if a
 modtoken - a shared SHA1 hash - is included.  
 """

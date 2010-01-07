@@ -19,7 +19,7 @@ def to_mail(to_name, to_email, subject, body, html_body=None, headers={}):
         
     body = _(u"Hi %s,") % to_name \
          + u"\r\n\r\n%s\r\n\r\n" % body \
-         + _(u"Cheers,\r\n\r\n    the Adhocracy Team\r\n")
+         + _(u"Cheers,\r\n\r\n    the %s Team\r\n") % config.get('adhocracy.site.name')
     
     msg = MIMEText(body.encode(ENCODING), 'plain', ENCODING)
     if html_body:
@@ -35,7 +35,7 @@ def to_mail(to_name, to_email, subject, body, html_body=None, headers={}):
     
     subject = Header(subject.encode(ENCODING), ENCODING)
     msg['Subject'] = subject
-    msg['From'] = _("Adhocracy <%s>") % email_from
+    msg['From'] = _("%s <%s>") % (config.get('adhocracy.site.name'), email_from)
     to = Header(u"%s <%s>" % (to_name, to_email), ENCODING)
     msg['To'] = to
     msg['X-Mailer'] = _("Adhocracy SMTP %s") % version.get_version()

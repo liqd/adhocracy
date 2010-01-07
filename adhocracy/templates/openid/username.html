@@ -2,7 +2,7 @@
 <%def name="title()">${_("Select a user name")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.instance) if c.instance else _("Adhocracy")|n} &raquo; ${_("User name")}
+	${h.breadcrumbs(c.instance) if c.instance else config.get('adhocracy.site.name')|n} &raquo; ${_("User name")}
 </%def>
 
 <h1 class="page_title">
@@ -12,8 +12,8 @@
 
 <div class="sidebar">
 	<div class="infobox">
-		${_("Adhocracy requires you to provide a unique user name to " +
-		    "login. The username received from your OpenID provider is " + 
+		${_("A unique user name is required for you complete sign up and " +
+		    "login. The user name received from your OpenID provider is " + 
 		    "already taken. Please provide a different, unique user name.")}
 	</div>
 	<br/>

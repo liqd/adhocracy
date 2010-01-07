@@ -1,8 +1,8 @@
 
-${e.user.name} has modified the Adhocracy ${e.instance.label}. The rules of voting and participation may have changed. 
+${e.user.name} has modified ${e.instance.label}. The rules of voting and participation may have changed. 
 %if e.instance.description: 
-
-Description: ${e.instance.description}  
+Description: 
+${e.instance.description}  
 %endif
 
 Visit the instance: ${h.instance_url(e.instance)}

@@ -1,5 +1,5 @@
-you've been forced to leave the ${e.instance.label} Adhocracy by ${e.admin.name}. 
+${e.admin.name} forced you to leave ${e.instance.label}. 
 
-This could be as a consequence of misbevaviour, but it is not a ban (i.e. you can re-join at any time). 
+This could be as a consequence of misbehaviour, but it is not a ban (i.e. you can re-join at any time). 
 
 Visit ${e.instance.label}: ${h.instance_url(e.instance)|n}

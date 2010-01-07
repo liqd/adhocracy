@@ -2,7 +2,7 @@
 <%namespace name="components" file="/components.html"/>
 <%def name="title()">${_("Welcome")}</%def>
 
-<h1 class="page_title">${_("Welcome to Adhocracy")}</h1>
+<h1 class="page_title">${_("Welcome to %(site)s") % dict(site=config.get('adhocracy.site.name'))}</h1>
 
 <div class="sidebar">
 	%if not c.user:

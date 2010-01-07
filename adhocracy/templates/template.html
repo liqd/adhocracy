@@ -33,7 +33,7 @@
 		   	%if c.instance:
 				 ${c.instance.label} 
 		   	%endif
-			${_("Adhocracy")}</title>
+			${config.get('adhocracy.site.name')}</title>
 	<link href="/style/base.css" rel="stylesheet" type="text/css" />
 	<link media="only screen and (max-device-width: 480px)" href="/style/iphone.css" type="text/css" rel="stylesheet" />
 	<link rel="stylesheet" href="/style/print.css" type="text/css" media="print" />
@@ -72,7 +72,7 @@
 		<td class="site_title">
 			<a href="${h.instance_url(c.instance)}">
 				<img src="/instance/header/${c.instance.key if c.instance else '_def'}.png"
-				     alt="${c.instance.label if c.instance else _("Adhocracy")}" />
+				     alt="${c.instance.label if c.instance else config.get('adhocracy.site.name')}" />
 			</a>
 		</td>
 		<td id="menu">

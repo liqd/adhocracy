@@ -1,24 +1,24 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("New Adhocracy")}</%def>
+<%def name="title()">${_("New Instance")}</%def>
 
 <%def name="breadcrumbs()">
-	${_("New Adhocracy")}
+	${_("New Instance")}
 </%def>
 
 <form name="create_instance" class="inplace" method="POST" action="/instance/create">
 	${h.field_token()|n}
 	<div id="page_title">
-		<label for="label" class="armhint">${_("New Adhocracy")}</label>
+		<label for="label" class="armhint">${_("New Instance")}</label>
 		<input tabindex="1" class="title armlabel" name="label" />
 	</div>
 	
 	
-	<h3>${_("Adhocracy address")}</h3>
+	<h3>${_("Instance address")}</h3>
 	<div class="sidebar">
 		<div class="infobox">
 			${_("The address may only contain alpha-numeric characters. Please note " +
-			    "that this key cannot be changed after the Adhocracy has been created.")|n}
+			    "that this key cannot be changed after the Instance has been created.")|n}
 		</div>
 	</div>
 	<div class="mainbar">
@@ -29,7 +29,7 @@
 	<h3>${_("Description")}</h3>
 	<div class="sidebar">
 		<div class="infobox">
-			${_("Describe what the goals of this Adhocracy are and who constitutes " +
+			${_("Describe what the goals of this Instance are and who constitutes " +
 			    "its community.")} 
 		</div>
 	</div>
@@ -38,5 +38,5 @@
 		${components.formatting()}
 	</div>
 	<div style="clear: both;"></div>
-	${components.savebox("/adhocracies")}
+	${components.savebox("/instances")}
 </form>
