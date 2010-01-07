@@ -42,7 +42,7 @@ class DelegationNode(object):
                 delegations += node._query_traverse(querymod, recurse, at_time)
         return delegations
     
-    def inbound(self, recurse=True, at_time=None, filter=True):
+    def inbound(self, recurse=True, at_time=None, should_filter=True):
         """
         Retrieve all inbound delegations (i.e. those that the user has received
         from other users in order to vote on their behalf) that apply to the 
@@ -57,12 +57,20 @@ class DelegationNode(object):
         delegations = self._query_traverse(lambda q: q.filter(Delegation.agent==self.user),
                                            recurse, at_time)
         
-        if filter:
+        if should_filter:
             by_principal = dict()
             for delegation in set(delegations):
                 by_principal[delegation.principal] = by_principal.get(delegation.principal, []) + [delegation]
             delegations = [self.filter_delegations(ds)[0] for ds in by_principal.values()]
         
+        from adhocracy.lib.democracy.decision import Decision
+        def is_overriden_by_own_decision(delegation):
+            if not hasattr(delegation.scope, 'poll'):
+                return True # no poll with this scope -> can't self decide
+            decision = Decision(delegation.principal, delegation.scope.poll)
+            return not decision.is_self_decided()
+        
+        delegations = filter(is_overriden_by_own_decision, delegations)
         return delegations
     
     def transitive_inbound(self, recurse=True, at_time=None, _path=None):
@@ -79,15 +87,27 @@ class DelegationNode(object):
         if _path == None:
             _path = []
         elif self.user in _path: 
-            return []
+            return [] # we already visited this node
+        # circle detection uses this path of visited nodes
         _path.append(self.user)
         
-        delegations = self.inbound(recurse=recurse, at_time=at_time, filter=False)
+        delegations = self.inbound(recurse=recurse, at_time=at_time, should_filter=False)
         for delegation in list(delegations):
             ddnode = DelegationNode(delegation.principal, self.delegateable)
-            delegations += ddnode.transitive_inbound(recurse=recurse, at_time=at_time,
-                                                     _path=_path)
+            additional_delegations = ddnode.transitive_inbound(recurse=recurse, at_time=at_time, _path=_path)
+            for additional_delegation in additional_delegations:
+                if additional_delegation.principal in _path:
+                    continue # this is a delegation from  a node we already visited
+                else:
+                    delegations.append(additional_delegation)
+        # This is used as a stack in the recursion - so we need to remove what we added in going into the recursion
+        _path.remove(self.user)
         return delegations
+    
+    def number_of_votes(self):
+        """Returns the number of votes this user has in this poll"""
+        own_vote = 1
+        return len(self.transitive_inbound()) + own_vote
     
     def outbound(self, recurse=True, at_time=None, filter=True):
         """
@@ -111,7 +131,7 @@ class DelegationNode(object):
             delegations = [self.filter_delegations(ds)[0] for ds in by_agent.values()]
         
         return delegations
-            
+    # TODO: consider to add a transitive-outbound to know where the vote will end up for a specific issue
     
     def propagate(self, callable, _edge=None, _propagation_path=None):
         """
@@ -193,6 +213,7 @@ class DelegationNode(object):
         matches = [d for d in delegations]
         for d in delegations:
             for m in matches:
+                print 'm', m.scope, 'd', d.scope, 'm.scope.is_super(d.scope)', m.scope.is_super(d.scope)
                 if m.scope.is_super(d.scope):
                     matches.remove(m)
         return matches
@@ -201,7 +222,8 @@ class DelegationNode(object):
     def create_delegation(cls, from_user, to_user, scope):
         delegation = model.Delegation(from_user, to_user, scope)
         model.meta.Session.add(delegation)
-        model.meta.Session.commit()
+        # dwt: Why is the flush here neccessary?
+        model.meta.Session.flush()
         return delegation
     
 

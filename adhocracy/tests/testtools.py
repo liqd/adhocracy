@@ -17,6 +17,7 @@ def tt_get_instance():
         instance = model.Instance(u"test", u"foo schnasel", tt_make_user())
         model.meta.Session.add(instance)
         model.meta.Session.flush()
+    # shouldn't setup_threads instance be returned if available?
     model.filter.setup_thread(instance)
     return instance
 
@@ -32,8 +33,9 @@ def tt_make_proposal(creator=None, voting=False):
     proposal.parents = [issue]
     
     if voting:
+        an_hour_ago = datetime.utcnow() - timedelta(hours=2)
         poll = model.Poll(proposal, creator)
-        poll.begin_time = datetime.utcnow() - timedelta(hours=1)
+        poll.begin_time = an_hour_ago
         proposal.polls.append(poll)
         
     model.meta.Session.add(proposal)

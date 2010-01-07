@@ -10,6 +10,7 @@ import filter
 from meta import Base
 from user import User
 
+# REFACT: this should not be used anymore - remove?
 category_graph = Table('category_graph', Base.metadata,
     Column('parent_id', Integer, ForeignKey('delegateable.id')),
     Column('child_id', Integer, ForeignKey('delegateable.id'))

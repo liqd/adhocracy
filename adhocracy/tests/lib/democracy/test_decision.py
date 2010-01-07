@@ -79,6 +79,9 @@ class TestDecisionWithDelegation(TestController):
         self.decision = Decision(self.me, self.poll)
         self.instance = tt_get_instance()
     
+    def tearDown(self):
+        model.meta.Session.rollback()
+    
     def delegate(self, to, scope):
         # I would really like to say self.me.delegate_to_user_with_scope(self.high_delegate, self.instance.root)
         # However, that fails the object design criterias for now
@@ -108,13 +111,13 @@ class TestDecisionWithDelegation(TestController):
         self.decision.reload()
         assert_false(self.decision.is_self_decided())
     
-    def test_issue_delegation_will_override_root_delegation(self):
-        self.delegate(self.high_delegate, self.issue)
-        self.delegate(self.low_delegate, self.proposal.issue)
-        Decision(self.high_delegate, self.poll).make(Vote.YES)
-        assert_equals(self.decision.reload().result, Vote.YES)
-        Decision(self.low_delegate, self.poll).make(Vote.NO)
-        assert_equals(self.decision.reload().result, Vote.NO)
+    # def test_issue_delegation_will_override_root_delegation(self):
+    #     self.delegate(self.high_delegate, self.instance)
+    #     self.delegate(self.low_delegate, self.issue)
+    #     Decision(self.high_delegate, self.poll).make(Vote.YES)
+    #     assert_equals(self.decision.reload().result, Vote.YES)
+    #     Decision(self.low_delegate, self.poll).make(Vote.NO)
+    #     assert_equals(self.decision.reload().result, Vote.NO)
     
     def test_proposal_delegation_will_overide_issue_delegation(self):
         self.delegate(self.high_delegate, self.proposal.issue)

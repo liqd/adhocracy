@@ -186,3 +186,10 @@ class User(Base):
             users = filter(lambda user: user.is_member(ifilter.get_instance()), 
                            users)
         return users
+    
+    def delegation_node(self, scope):
+        from adhocracy.lib.democracy import DelegationNode
+        return DelegationNode(self, scope)
+    
+    def number_of_votes_in_context(self, scope):
+        return self.delegation_node(scope).number_of_votes()
