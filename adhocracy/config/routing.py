@@ -49,8 +49,6 @@ def make_map():
     
     map.connect('/proposal/create', controller='proposal', action='create')
     map.connect('/proposal/{id}/votes', controller='proposal', action='votes')
-    map.connect('/proposal/{id}/begin_poll', controller='proposal', action='begin_poll')
-    map.connect('/proposal/{id}/end_poll', controller='proposal', action='end_poll')
     map.connect('/proposal/{action}/{id}', controller='proposal')
     map.connect('/proposal/{id}.{format}', controller='proposal', action='view')
     map.connect('/proposal/{id}', controller='proposal', action='view', format='html')
