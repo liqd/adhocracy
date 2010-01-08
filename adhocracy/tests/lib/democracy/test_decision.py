@@ -82,31 +82,26 @@ class TestDecisionWithDelegation(TestController):
     def tearDown(self):
         model.meta.Session.rollback()
     
-    def delegate(self, to, scope):
-        # I would really like to say self.me.delegate_to_user_with_scope(self.high_delegate, self.instance.root)
-        # However, that fails the object design criterias for now
-        DelegationNode.create_delegation(from_user=self.me, to_user=to, scope=scope)
-    
     def test_delegation_without_vote_is_no_vote(self):
-        self.delegate(self.high_delegate, self.proposal)
+        self.me.delegate_to_user_in_scope(self.high_delegate, self.proposal)
         self.decision.reload()
         assert_equals(len(self.decision.votes), 0)
         assert_false(self.decision.is_decided())
         assert_equals(self.decision.result, None)
     
     def test_can_do_general_delegate_to_other_user(self):
-        self.delegate(self.high_delegate, self.issue)
+        self.me.delegate_to_user_in_scope(self.high_delegate, self.issue)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         assert_equals(self.decision.reload().result, Vote.YES)
     
     def test_delegation_can_decide_a_decision(self):
-        self.delegate(self.high_delegate, self.issue)
+        self.me.delegate_to_user_in_scope(self.high_delegate, self.issue)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         self.decision.reload()
         assert_true(self.decision.is_decided())
     
     def test_delegated_decisions_are_not_self_decided(self):
-        self.delegate(self.high_delegate, self.issue)
+        self.me.delegate_to_user_in_scope(self.high_delegate, self.issue)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         self.decision.reload()
         assert_false(self.decision.is_self_decided())
@@ -121,8 +116,8 @@ class TestDecisionWithDelegation(TestController):
     #     assert_equals(self.decision.reload().result, Vote.NO)
     
     def test_proposal_delegation_will_overide_issue_delegation(self):
-        self.delegate(self.high_delegate, self.proposal.issue)
-        self.delegate(self.low_delegate, self.proposal)
+        self.me.delegate_to_user_in_scope(self.high_delegate, self.proposal.issue)
+        self.me.delegate_to_user_in_scope(self.low_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         assert_equals(self.decision.reload().result, Vote.YES)
         Decision(self.low_delegate, self.poll).make(Vote.NO)
@@ -132,34 +127,34 @@ class TestDecisionWithDelegation(TestController):
         # This is meant as a safeguard: if I don't fully trust my delegates
         # I can delegate to n delegates, and my vote will only be autocast if they all agree
         # If not, I need to decide myself
-        self.delegate(self.high_delegate, self.proposal)
-        self.delegate(self.low_delegate, self.proposal)
+        self.me.delegate_to_user_in_scope(self.high_delegate, self.proposal)
+        self.me.delegate_to_user_in_scope(self.low_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         Decision(self.low_delegate, self.poll).make(Vote.NO)
         assert_equals(self.decision.reload().result, None, "needs to cast his own vote")
     
     def test_two_delegations_at_the_same_level_that_agree_reinforce_each_other(self):
-        self.delegate(self.high_delegate, self.proposal)
-        self.delegate(self.low_delegate, self.proposal)
+        self.me.delegate_to_user_in_scope(self.high_delegate, self.proposal)
+        self.me.delegate_to_user_in_scope(self.low_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         Decision(self.low_delegate, self.poll).make(Vote.YES)
         assert_equals(self.decision.reload().result, Vote.YES)
     
     def test_two_delegations_at_the_same_level_are_both_relevant_votes(self):
-        self.delegate(self.high_delegate, self.proposal)
-        self.delegate(self.low_delegate, self.proposal)
+        self.me.delegate_to_user_in_scope(self.high_delegate, self.proposal)
+        self.me.delegate_to_user_in_scope(self.low_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         Decision(self.low_delegate, self.poll).make(Vote.YES)
         assert_equals(len(self.decision.reload().relevant_votes), 2)
     
     def test_own_vote_overrides_delegations(self):
-        self.delegate(self.high_delegate, self.proposal)
+        self.me.delegate_to_user_in_scope(self.high_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         self.decision.make(Vote.NO)
         assert_equals(self.decision.reload().result, Vote.NO)
     
     def test_delegation_is_recorded_as_just_another_vote(self):
-        self.delegate(self.high_delegate, self.proposal)
+        self.me.delegate_to_user_in_scope(self.high_delegate, self.proposal)
         assert_equals(len(self.decision.reload().votes), 0)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         assert_equals(len(self.decision.reload().votes), 1)
