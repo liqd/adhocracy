@@ -194,11 +194,7 @@ class User(Base):
         return DelegationNode(self, scope)
     
     def number_of_votes_in_context(self, scope):
-        # REFACT: consider to move the caching into the number of votes method
-        @memoize('number_of_votes')
-        def _gen(user, scope):
-            return self.delegation_node(scope).number_of_votes()
-        return _gen(self, scope)
+        return self.delegation_node(scope).number_of_votes()
     
     def delegate_to_user_in_scope(self, target_user, scope):
         from adhocracy.lib.democracy import DelegationNode
