@@ -39,20 +39,20 @@ class Delegation(Base):
         self.principal = principal
         self.agent = agent
         self.scope = scope
-        
+    
     def __repr__(self):
         return u"<Delegation(%s,%s->%s,%s)>" % (self.id, 
             self.principal.user_name, 
             self.agent.user_name,
             self.scope.id)
-            
+    
     def is_match(self, delegateable):
         if self.revoke_time:
             return False
         if not self.principal.has_permission("vote.cast"):
             return False
         return self.scope == delegateable or self.scope.is_super(delegateable)
-       
+    
     @classmethod
     def find(cls, id, instance_filter=True):
         try:
@@ -65,7 +65,7 @@ class Delegation(Base):
             return d
         except Exception: 
             return None
-            
+    
     def _index_id(self):
         return self.id
     
