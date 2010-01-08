@@ -1373,7 +1373,7 @@ a.button.inactive {
 
 .tile.title {
 	margin-bottom: 1em;
-	border: 1px solid #ddd;
+	/* border: 1px solid #ddd; */
 }
 
 .tile.title h1 {
