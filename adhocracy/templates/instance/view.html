@@ -34,6 +34,14 @@ ${components.tutu()}
 
 <div class="sidebar">
 	<div class="tile">
+		%if c.tile.description:
+		<div class="tile boxed">
+			<div class="inner_boxed">
+				<h4><img src="/img/icons/bonsai_16.png" class="cd"> ${c.page_instance.label}</h4>
+				${c.tile.description|n}
+			</div>
+		</div>
+		%endif
 		<div class="tile boxed">
 			<div class="inner_boxed">
 				<h4><img src="/img/icons/vote_16.png" class="cd"> ${_("Voting Rules")}</h4>
@@ -48,9 +56,6 @@ ${components.tutu()}
 </div>
 
 <div class="mainbar">
-	<div class="description">
-		${c.tile.description|n}
-	</div>
 	%if len(c.issues_pager) == 0:
 		%if c.tile.can_create_issue:
 			<span class="infobox">

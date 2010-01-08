@@ -16,7 +16,7 @@
 		<a class="button edit" href="/user/edit/${c.page_user.user_name}">${_("edit")}</a>
 	%endif
 	
-	%if c.tile.can_manage and c.page_user.is_member(c.instance):
+	%if c.instance and c.tile.can_manage and c.page_user.is_member(c.instance):
 		<a class="button admin" href="/user/${c.page_user.user_name}/kick?${h.url_token()}">${_("kick")}</a>
 		%for group_code in [c.model.Group.CODE_OBSERVER, c.model.Group.CODE_VOTER, c.model.Group.CODE_SUPERVISOR]:
 			%if group_code != c.tile.instance_group.code:

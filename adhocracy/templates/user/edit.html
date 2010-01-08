@@ -101,7 +101,7 @@
 			</tr>
 			%if c.page_user.twitter:
 			<tr>
-				<td>${_("Twitter: %s") % c.page_user.twitter.screen_name} &middot;
+				<td><img src="/img/twitter.png" /> ${_("Twitter: %s") % c.page_user.twitter.screen_name} &middot;
 					<a href="/twitter/revoke?${h.url_token()}">${_("remove")}</td>
 				<td><input type="radio" name="twitter_priority" value="6" 
 					${"checked='checked'" if c.page_user.twitter.priority==6 else ""} /></td>
