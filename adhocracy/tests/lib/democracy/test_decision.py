@@ -111,6 +111,7 @@ class TestDecisionWithDelegation(TestController):
         self.decision.reload()
         assert_false(self.decision.is_self_decided())
     
+    # No root delegation right now?
     # def test_issue_delegation_will_override_root_delegation(self):
     #     self.delegate(self.high_delegate, self.instance)
     #     self.delegate(self.low_delegate, self.issue)
@@ -166,3 +167,4 @@ class TestDecisionWithDelegation(TestController):
 
 # TODO: can access history of delegation decisions
 # TODO: test replay - this is currently in the decision - could go to the DelegationNode though
+# TODO: can delegate on all levels
