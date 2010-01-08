@@ -127,9 +127,12 @@ class ProposalController(BaseController):
                 redirect_to("/proposal/%s" % str(proposal.id))
             except formencode.Invalid, error:
                 defaults = dict(request.params)
-                del defaults['canonicals']
-                del defaults['rel_type']
-                del defaults['rel_proposal']
+                if 'canonicals' in defaults:
+                    del defaults['canonicals']
+                if 'rel_type' in defaults:
+                    del defaults['rel_type']
+                if 'rel_proposal' in defaults:
+                    del defaults['rel_proposal']
                 
                 if len(c.canonicals) < 2:
                     c.canonicals += [""] * (2 - len(c.canonicals))
