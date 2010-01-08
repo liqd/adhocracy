@@ -13,7 +13,7 @@
 			%endif
 			<div class="meta noclear">
 				%if c.instance:
-					${_("%s karma") % tile.karma} &middot;
+					${_(tile.instance_group.group_name)} &middot;
 				%endif
 				${_("signed up %s") % h.relative_time(user.create_time)|n} 
 			</div>

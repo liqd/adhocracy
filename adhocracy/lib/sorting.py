@@ -26,9 +26,6 @@ def instance_activity(instances):
 def user_activity(users):
     return sorted(users, key=lambda u: estats.instance_activity(u))
 
-def user_karma(users):
-    return sorted(users, key=lambda u: karma.user_score(u), reverse=True)
-
 def dict_value_sorter(dict):
     def _sort(items):
         return sorted(items, key=lambda i: dict.get(i))

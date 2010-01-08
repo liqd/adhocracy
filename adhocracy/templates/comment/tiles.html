@@ -15,7 +15,7 @@
 		%endif
 		
 		<div class="meta">
-			${h.user_link(comment.creator)|n}
+			${h.user_link(comment.creator, scope=comment.topic)|n}
 			%if len(comment.revisions) == 1:  
 				&middot; ${_("created %s") % h.relative_time(comment.create_time)|n}
 			%else:
@@ -93,7 +93,7 @@
 				%if tile.is_deleted:
 					${_("deleted %s") % h.relative_time(comment.delete_time)|n}
 				%else:
-					<b>${h.user_link(comment.creator)|n}</b>
+					<b>${h.user_link(comment.creator, scope=comment.topic)|n}</b>
 					%if tile.creator_delegate:
 						<a href="/delegation/${tile.creator_delegate.id}">
 							<img class="user_icon" src="/img/icons/delegate_16.png" />
@@ -107,7 +107,7 @@
 							${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
 						%else:
 						 	${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
-								               			   h.user_link(comment.latest.user))|n}
+								               			   h.user_link(comment.latest.user, scope=comment.topic))|n}
 						%endif 	
 						(<a href="/comment/${comment.id}/history">${_("history")}</a>)
 					%endif

@@ -8,7 +8,6 @@ from webhelpers.text import truncate
 import adhocracy.model as model
 from .. import helpers as h
 from .. import text
-from .. import karma
 
 class UserTile(BaseTile):
     
@@ -41,11 +40,6 @@ class UserTile(BaseTile):
     
     can_manage = property(_can_manage) 
         
-    def _karma(self):
-        return karma.user_score(self.user)
-    
-    karma = property(_karma)      
-    
     def _num_issues(self):
         return len(filter(lambda d: isinstance(d, model.Issue) and d.instance==c.instance, 
                           self.user.delegateables))

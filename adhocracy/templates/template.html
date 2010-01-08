@@ -56,7 +56,7 @@
 				<a href="/login">${_("sign in")}</a>
 			%else:
 				<img src="${h.gravatar_url(c.user, size=16)|n}">
-				<a class="user_name" href="/user/${c.user.user_name}">${c.user.name}</a><sup>${h.user_karma(c.user)}</sup>
+				<a class="user_name" href="/user/${c.user.user_name}">${c.user.name}</a>
 				&middot; <a href="/user/edit/${c.user.user_name}">${_("settings")}</a>
 				&middot; <a href="/logout">${_("logout")}</a>
 			%endif

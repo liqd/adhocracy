@@ -13,7 +13,7 @@
 	<div class="sidebar">
 		<div class="tile boxed">
 			<div class="inner_boxed">
-				${h.user_link(c.issue.creator)|n} 
+				${h.user_link(c.issue.creator, scope=c.issue)|n} 
 				${_("on")} ${h.format_date(c.issue.create_time)}
 			</div> 
 		</div>

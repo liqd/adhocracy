@@ -32,21 +32,7 @@ def comment_score(comment, recurse=False):
         score += karma.value * dnode.number_of_votes()
     return score
 
-def user_score(user):
-    @memoize('user_instance_score')
-    def _user_score(user, instance):
-        q = model.meta.Session.query(model.Karma)
-        q = q.filter(model.Karma.recipient==user)
-        q = q.filter(model.Karma.donor!=user)
-        karmas = q.all()
-        if instance:
-            karmas = [k for k in karmas if k.comment.topic.instance == c.instance]
-        score = 1 + sum([k.value for k in karmas])
-        return max(0, score)
-    return _user_score(user, c.instance)
-
 def delegateable_users(delegateable, donor=None):
-    user_scores = {}
     for comment in delegateable.comments:
         q = model.meta.Session.query(model.Karma)
         q = q.filter(model.Karma.comment==comment)

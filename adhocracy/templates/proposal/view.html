@@ -15,7 +15,7 @@
 	<div class="sidebar">
 		<div class="tile boxed">
 			<div class="inner_boxed voting_booth" style="padding-top: 3px; padding-bottom: 3px;">
-				${h.user_link(c.proposal.issue.creator)|n} 
+				${h.user_link(c.proposal.issue.creator, scope=c.proposal)|n} 
 				on ${h.format_date(c.proposal.issue.create_time)}
 			</div>
 		</div>
@@ -40,7 +40,7 @@
 	<div class="sidebar">
 		<div class="tile boxed">
 			<div class="inner_boxed">
-				${h.user_link(c.proposal.creator)|n} 
+				${h.user_link(c.proposal.creator, scope=c.proposal)|n} 
 				${_("on")} ${h.format_date(c.proposal.create_time)}
 			</div> 
 		</div>

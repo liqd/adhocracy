@@ -22,7 +22,6 @@ import adhocracy.model as model
 
 from text.i18n import relative_date, relative_time, format_date, countdown_time
 from xsrf import url_token, field_token
-from karma import user_score as user_karma
  
 from webhelpers.pylonslib import Flash as _Flash
 import webhelpers.text as text
@@ -48,15 +47,17 @@ def breadcrumbs(entity):
 def immutable_proposal_message():
     return _("This proposal is currently being voted on and cannot be modified.")
 
-@cache.memoize('user_link')
-def user_link(user, size=16, link=None, include_score=True):
-    if not link:
-        link = "/user/%s" % user.user_name
+#@cache.memoize('user_link')
+def user_link(user, size=16, scope=None):
+    link = "/user/%s" % user.user_name
+    score = 0
+    if scope:
+        score = democracy.number_of_votes(user, scope)
     return "<a href='%s' class='user_link'><img class='user_icon' src='%s' alt="" /> %s</a><sup>%s</sup>" % (
         instance_url(c.instance, path=link), 
         gravatar_url(user, size=size),
         cgi.escape(user.name),
-        karma.user_score(user) if (include_score and c.instance) else '')
+        score if scope else '')
     
 @cache.memoize('proposal_icon', 3600*2)
 def proposal_icon(proposal, size=16):

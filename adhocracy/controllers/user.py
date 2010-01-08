@@ -57,10 +57,9 @@ class UserController(BaseController):
         c.users_pager = NamedPager('users', c.users, tiles.user.row,
                                     sorts={_("oldest"): sorting.entity_oldest,
                                            _("newest"): sorting.entity_newest,
-                                           _("karma"): sorting.user_karma,
                                            _("activity"): sorting.user_activity,
                                            _("name"): sorting.user_name},
-                                    default_sort=sorting.user_karma)
+                                    default_sort=sorting.user_activity)
         return render("/user/index.html")
     
     @RequireInternalRequest(methods=['POST'])

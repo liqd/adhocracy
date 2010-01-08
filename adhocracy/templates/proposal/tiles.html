@@ -14,7 +14,7 @@
 				${tile.tagline}
 			</div -->
 			<div class="meta noclear">
-				${_("created %s by %s") % (h.relative_time(proposal.create_time), h.user_link(proposal.creator))|n}
+				${_("created %s by %s") % (h.relative_time(proposal.create_time), h.user_link(proposal.creator, scope=proposal))|n}
 				%if detail and proposal.issue:
 					&middot; ${h.delegateable_link(proposal.issue)|n}
 				%endif
