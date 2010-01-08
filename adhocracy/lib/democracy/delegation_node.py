@@ -56,22 +56,14 @@ class DelegationNode(object):
         """
         delegations = self._query_traverse(lambda q: q.filter(Delegation.agent==self.user),
                                            recurse, at_time)
-        
+        print 'inbound delegations', delegations
         if should_filter:
             by_principal = dict()
             for delegation in set(delegations):
                 by_principal[delegation.principal] = by_principal.get(delegation.principal, []) + [delegation]
             delegations = [self.filter_delegations(ds)[0] for ds in by_principal.values()]
         
-        from adhocracy.lib.democracy.decision import Decision
-        def is_overriden_by_own_decision(delegation):
-            if not hasattr(delegation.scope, 'poll'):
-                return True # no poll with this scope -> can't self decide
-            decision = Decision(delegation.principal, delegation.scope.poll)
-            return not decision.is_self_decided()
-        
-        delegations = filter(is_overriden_by_own_decision, delegations)
-        return delegations
+        return self._filter_out_overrides_by_direct_vote(delegations)
     
     def transitive_inbound(self, recurse=True, at_time=None, _path=None):
         """
@@ -210,10 +202,9 @@ class DelegationNode(object):
         :param delegations: The list of delegations that are to be filtered. 
         :returns: A filtered list of delegations.
         """
-        matches = [d for d in delegations]
+        matches = list(delegations)
         for d in delegations:
             for m in matches:
-                print 'm', m.scope, 'd', d.scope, 'm.scope.is_super(d.scope)', m.scope.is_super(d.scope)
                 if m.scope.is_super(d.scope):
                     matches.remove(m)
         return matches
@@ -227,3 +218,15 @@ class DelegationNode(object):
         return delegation
     
 
+    def _filter_out_overrides_by_direct_vote(self, delegations):
+        from adhocracy.lib.democracy.decision import Decision
+        def is_overriden_by_own_decision(delegation):
+            if not hasattr(delegation.scope, 'poll'):
+                return True # scope doesn't have polls -> can't self decide
+            if delegation.scope.poll is None:
+                return True # currently no poll in this cope -> can't self decide
+            decision = Decision(delegation.principal, delegation.scope.poll)
+            return not decision.is_self_decided()
+            
+        return filter(is_overriden_by_own_decision, delegations)
+    

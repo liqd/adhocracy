@@ -94,33 +94,37 @@ class TestDelegationNode(TestController):
         Decision(self.first, self.proposal.poll).make(Vote.YES)
         node = DelegationNode(self.first, self.proposal)
         assert_equals(node.number_of_votes(), 2)
-        
-    # TODO: can reduce delegation ammount correctly
-    # def test_if_mutual_delegation_is_broken_breaker_gets_two_votes(self):
-    #     self.delegate(self.first, self.second, self.proposal)
-    #     self.delegate(self.second, self.first, self.proposal)
-    #     
-    #     assert_equals()
-    #     Decision(self.first, self.proposal.poll).make(Vote.YES)
-    #     
-    #     
     
-    # TODO: direct votes always override delegations
-    # This needs to be handled in inbound - not in transitive_inbound
+    def test_if_proposal_has_no_poll_no_direct_vote_overides_delegations(self):
+        proposal_without_poll = tt_make_proposal()
+        self.first.delegate_to_user_in_scope(self.second, proposal_without_poll)
+        node = DelegationNode(self.second, proposal_without_poll)
+        assert_equals(node.number_of_votes(), 2)
+
+class TestInteractionOfDelegationOnDifferentLevels(TestController):
     
-    # Delegation and voting are not two methods on the same object
-    # I guess thats the reason why it slipped that casting a vote actually 
-    # needs to override / cancel any delegation for that user
+    def setUp(self):
+        self.me = tt_make_user()
+        self.first = tt_make_user()
+        self.second = tt_make_user()
+        self.proposal = tt_make_proposal(voting=True)
     
-    # What happens when a user wants to retract him voting so his delegations do it again for him?
-    # May be hard right now as not having voted is imo not explicitly represented in the model
+    def test_direct_delegations_on_different_levels_add_to_each_other(self):
+        self.first.delegate_to_user_in_scope(self.me, self.proposal.issue)
+        self.second.delegate_to_user_in_scope(self.me, self.proposal)
+        assert_equals(self.me.number_of_votes_in_scope(self.proposal), 3)
     
-    # TODO: delegation_weight, number_of_votes
-    # TODO: delegation at different levels proposals, issues, categories....
+    def test_direct_delegations_on_different_levels_can_overide_each_other(self):
+        self.me.delegate_to_user_in_scope(self.first, self.proposal.issue)
+        self.me.delegate_to_user_in_scope(self.second, self.proposal)
+        node = self.first.delegation_node(self.proposal)
+        assert_equals(len(node.inbound()), 0)
+        assert_equals(len(node.transitive_inbound()), 0)
+        assert_equals(self.first.number_of_votes_in_scope(self.proposal), 1)
     
-    # Vote ist keine Decision
     
-    
+
+
     
     def test_queries(self):
         proposal = tt_make_proposal(voting=True)
@@ -234,3 +238,11 @@ class TestDelegationNode(TestController):
 # TODO: when delegating to multiple people, how much weight do they get to give when they delegate? Hopefully not each +1...
 # TODO: how is the split delegation handled across multiple levels? I think they just override each other
 # when delegating on different levels, the delegation wheight of each delegation-target depends on the context...
+
+# Delegation and voting are not two methods on the same object
+# I guess thats the reason why it slipped that casting a vote actually 
+# needs to override / cancel any delegation for that user
+
+# What happens when a user wants to retract him voting so his delegations do it again for him?
+# May be hard right now as not having voted is imo not explicitly represented in the model
+

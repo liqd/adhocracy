@@ -191,7 +191,7 @@ class User(Base):
         from adhocracy.lib.democracy import DelegationNode
         return DelegationNode(self, scope)
     
-    def number_of_votes_in_context(self, scope):
+    def number_of_votes_in_scope(self, scope):
         return self.delegation_node(scope).number_of_votes()
     
     def delegate_to_user_in_scope(self, target_user, scope):
