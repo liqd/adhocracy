@@ -3,5 +3,3 @@ ${e.user.name}s profile (bio, contacts, etc.) has updated by {e.admin.name}.
 
 User bio: ${e.user.bio}  
 %endif
-
-Visit the profile page: ${h.instance_url(None, path="/user/%s" % e.user)} 

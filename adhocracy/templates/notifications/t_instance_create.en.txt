@@ -4,5 +4,3 @@ ${e.user.name} has created a new Instance, ${e.instance.label}.
 
 Description: ${e.instance.description}  
 %endif
-
-Visit the instance: ${h.instance_url(e.instance)}

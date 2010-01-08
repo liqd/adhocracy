@@ -4,6 +4,7 @@ import logging
 from pylons import config
 
 from ...text import i18n
+from ... import helpers as h
 from ...templating import render
 from .. import formatting
 
@@ -46,6 +47,12 @@ class Notification(object):
     
     subject = property(get_subject)
     
+    def _get_link(self):
+        return h.instance_url(self.event.instance, 
+                              path=self.type.link_path(self.event))
+    
+    link = property(_get_link)
+    
     def get_body(self):
         locale = self.language_context()
         tpl_vars = {'n': self, 'e': self.event, 'u': self.user, 't': self.type}
@@ -58,7 +65,9 @@ class Notification(object):
             log.warn("Notification body needs to be localized to file %s" % (tpl_path)) 
             tpl_name = self.TPL_NAME % (str(self.type), i18n.DEFAULT.language[0:2])
         
-        return render(tpl_name, extra_vars=tpl_vars).strip()
+        body = render(tpl_name, extra_vars=tpl_vars).strip()
+        body = _("\r\n\r\nMore info: %(url)s") % dict(url=self.link)
+        return body
     
     body = property(get_body)
             

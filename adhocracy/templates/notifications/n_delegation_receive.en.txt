@@ -1,4 +1,3 @@
 you've received a delegation from ${e.user.name|n} regarding votes within ${e.scope.label|n}.
 
 User page: ${h.instance_url(None, path="/user/%s" % e.user.user_name)}
-Topic page: ${h.instance_url(e.scope.instance, path="/d/%s" % e.scope.id)}

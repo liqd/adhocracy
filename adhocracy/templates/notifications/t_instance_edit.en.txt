@@ -4,5 +4,3 @@ ${e.user.name} has modified ${e.instance.label}. The rules of voting and partici
 Description: 
 ${e.instance.description}  
 %endif
-
-Visit the instance: ${h.instance_url(e.instance)}

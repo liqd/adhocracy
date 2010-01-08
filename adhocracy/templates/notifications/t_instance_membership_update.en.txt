@@ -1,4 +1,1 @@
-
-In ${e.instance.label}, ${e.user.name} is now a ${e.group.group_name}. 
-
-Visit ${e.instance.label}: ${h.instance_url(e.instance)|n}
+In ${e.instance.label}, ${e.user.name} is now a ${e.group.group_name}.

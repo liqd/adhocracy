@@ -2,4 +2,4 @@
 
 this message confirms your vote on ${e.poll.proposal.label}. You voted ${common.vote(e.vote)} the proposal.   
 
-If you'd like to review your choice, visit the poll page: ${h.instance_url(e.poll.proposal.instance, path="/proposal/%s" % str(e.poll.proposal.id))}
+If you'd like to review your choice, visit the poll page.

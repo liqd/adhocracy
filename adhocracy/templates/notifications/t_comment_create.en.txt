@@ -4,5 +4,3 @@ ${e.user.name|n} has composed a comment regarding ${e.comment.topic.label|n}. It
 
 ${e.comment.latest.text|n}
 ${common.quotecomment(e.comment.reply)}
-
-See the comment: ${h.instance_url(e.comment.topic.instance, path="/comment/r/%s" % e.comment.id)}

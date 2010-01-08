@@ -82,22 +82,26 @@ label.armhint {
 
 input, 
 textarea {
-	border:  1px solid #666;
+	border:  2px solid #ccc;
 	padding: 3px;
 	margin-top: 3px;
 	margin-bottom: 3px;
-	font-size: 9pt;
+	font-size: 10pt;
+	background-image: url(/img/comment_bg.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
 }
 
-input[type=submit] {
-	display: block;
-	margin-top: 20px;
-	padding:  7px;
-	background-color: #1553a4;
-	color:  #fff;
-	font-weight: bold;
-	border: 1px solid #fff;
-	min-width: 6em;
+input, 
+textarea {
+	border:  2px solid #ccc;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	font-size: 10pt;
+	background-image: url(/img/comment_bg.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
 }
 
 input:focus, 
@@ -106,7 +110,32 @@ input:hover,
 #page_title input:hover,
 textarea:focus,
 textarea:hover {
-	border:  1px solid #000;
+	border:  2px solid #999;
+	background-color: #ffe;
+}
+
+input[type=submit] {
+	display: block;
+	margin-top: 20px;
+	padding:  5px;
+	background-color: #1553a4;
+	color:  #fff;
+	font-weight: bold;
+	border: 0px;
+	min-width: 6em;
+	background-image: none;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+input:hover[type=submit] {
+	background-color: #0e3870;
+}
+
+#page_title input {
+	background-image: url(/img/comment_bg.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
 }
 
 input[type=file] {
@@ -294,6 +323,7 @@ body {
 	font-size: 1.1em;
 	font-weight: bold;
 	text-align: center;
+	/*-webkit-border-radius: 2px;*/
 	background-color: #666;
 	background-image: url(/img/header_bg.png);
 	background-repeat: repeat-x;
@@ -332,6 +362,10 @@ body {
 	display: block;
 	font-size: 0.9em;
 	padding: 0.5em;
+	/*
+	-webkit-border-radius: 0px;
+	margin-left: 3px;
+	*/
 	border-top: 1px solid white;
 }
 
@@ -459,8 +493,8 @@ body {
 	color: #de5614;
 }
 
-.error {
-	border: 1px solid #de5614;
+.error, .error:hover, .error:focus {
+	border: 2px solid #de5614;
 	background-color: #fcea9a;
 }
 
@@ -1339,6 +1373,7 @@ a.button.inactive {
 
 .tile.title {
 	margin-bottom: 1em;
+	border: 1px solid #ddd;
 }
 
 .tile.title h1 {

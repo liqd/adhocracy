@@ -1,3 +1,1 @@
 In ${e.instance.label}, you're now a ${e.group.group_name}.
-
-Visit ${e.instance.label}: ${h.instance_url(e.instance)|n} 
