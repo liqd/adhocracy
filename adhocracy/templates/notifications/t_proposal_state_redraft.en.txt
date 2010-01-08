@@ -1,3 +1,3 @@
-${e.user.name} called for a vote on the proposal ${e.proposal.label} within the issue ${e.proposal.issue.label}. 
+${e.user.name} cancelled an ongoing vote on the proposal ${e.proposal.label} within the issue ${e.proposal.issue.label}. 
 
-If you like, cast a vote or check that you have assigned an appropriate delegate to the subject area.   
+All votes gathered during the current poll have been invalidated, once a new poll is started, you'll have to vote again.

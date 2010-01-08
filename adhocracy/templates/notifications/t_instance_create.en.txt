@@ -2,5 +2,6 @@
 ${e.user.name} has created a new Instance, ${e.instance.label}.
 %if e.instance.description: 
 
-Description: ${e.instance.description}  
+Description: 
+${e.instance.description}  
 %endif

@@ -2,8 +2,3 @@ ${e.user.name} has modified the issue ${e.issue.label}.
 
 Here's the current description: 
 ${e.issue.comment.latest.text}
-
-It is listed in the following categories:
-%for category in e.issue.parents:
- * ${category.label}
-%endfor
