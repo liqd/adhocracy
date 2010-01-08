@@ -11,7 +11,7 @@ def rss_feed(events, name, link, description):
         rss = RssUserland091Feed(name, link, description)
         def event_item(event):
             rss.add_item(title=u"%s %s" % (event.user.name, formatting.as_unicode(event)),
-                         link=h.instance_url(event.instance),
+                         link=h.instance_url(event.instance, path=event.event.link_path(event)),
                          pubdate=event.time,
                          description=unicode(u"%s %s" % (h.user_link(event.user), 
                                                 formatting.as_html(event))),
