@@ -1030,11 +1030,15 @@ a.button {
 	text-align: center;
 	text-transform: lowercase;
 	color: #fff;
-	margin-left: 0.2em;
+	margin-right: 4px !important;
 	
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	font-weight: normal !important;
+}
+
+.button img {
+	margin-bottom: -3px;
 }
 
 comment a.button {

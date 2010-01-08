@@ -139,7 +139,7 @@ T_DELEGATION_REVOKE = EventType(u"t_delegation_revoke", pri=2,
 
 T_VOTE_CAST = EventType(u"t_vote_cast", pri=2, 
                           subject=lambda: _(u"Vote: %(user)s %(vote)s %(poll)s"),
-                          link_path=lambda e: "/proposal/%s" % e.poll.motion.id,
+                          link_path=lambda e: "/proposal/%s" % e.poll.proposal.id,
                           event_msg=lambda: _(u"voted %(vote)s %(poll)s"))
 
 T_TEST = EventType(u"t_test", pri=5, 
@@ -169,17 +169,17 @@ N_INSTANCE_MEMBERSHIP_UPDATE = NotificationType("n_instance_membership_update", 
 
 N_SELF_VOTED = NotificationType("n_self_voted", pri=3, 
                           subject=lambda: _(u"You have voted %(vote)s %(poll)s"),
-                          link_path=lambda e: "/proposal/%s" % e.poll.motion.id,
+                          link_path=lambda e: "/proposal/%s" % e.poll.proposal.id,
                           notify_self=True)
 
 N_DELEGATE_VOTED = NotificationType("n_delegate_voted", pri=4, 
                           subject=lambda: _(u"Your delegate %(agent)s has voted %(vote)s %(poll)s"),
-                          link_path=lambda e: "/proposal/%s" % e.poll.motion.id,
+                          link_path=lambda e: "/proposal/%s" % e.poll.proposal.id,
                           notify_self=True)
 
 N_DELEGATE_CONFLICT = NotificationType("n_delegate_conflict", pri=5, 
                           subject=lambda: _(u"Delegate conflict regarding %(poll)s"),
-                          link_path=lambda e: "/proposal/%s" % e.poll.motion.id,
+                          link_path=lambda e: "/proposal/%s" % e.poll.proposal.id,
                           notify_self=True)
 
 N_COMMENT_REPLY = NotificationType("n_comment_reply", pri=4, 

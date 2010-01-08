@@ -6,7 +6,7 @@ from ... import mail
 from ... import microblog
 
 TWITTER_LENGTH = 140
-TRUNCATE_EXT = '... '
+TRUNCATE_EXT = '...'
 
 log = logging.getLogger(__name__)
 
@@ -22,10 +22,10 @@ def twitter_sink(pipeline):
             notification.language_context()
             short_url = microblog.shorten_url(notification.link)
             remaining_length = TWITTER_LENGTH - \
-                            (len(short_url) + len(TRUNCATE_EXT))
+                            (1 + len(short_url) + len(TRUNCATE_EXT))
             tweet = text.truncate(notification.subject, remaining_length, 
                                   TRUNCATE_EXT, False)
-            tweet += short_url
+            tweet += ' ' + short_url
             try:
                 api = microblog.create_api()
                 api.PostDirectMessage(user.twitter.screen_name, tweet)

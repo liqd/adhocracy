@@ -28,8 +28,6 @@
 	</div>
 			
 	<div class="meta noclear">		
-		${components.watch(c.issue, '/issue/%s' % str(c.issue.id))}
-		
 		%if c.tile.can_delegate and not c.tile.has_overridden:
 			<a class="button add" href="/delegation/create?scope=${c.issue.id}">${_("delegate")}</a>
 		%endif
@@ -41,6 +39,9 @@
 		%if c.tile.can_delete:
 			<a class="button delete" href="/issue/delete/${c.issue.id}?${h.url_token()}">${_("delete")}</a>
 		%endif
+		
+		${components.watch(c.issue, '/issue/%s' % str(c.issue.id))}
+		<a href="/issue/${c.issue.id}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
 	</div>
 	
 	<div style="clear: both;"></div>

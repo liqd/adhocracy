@@ -7,6 +7,9 @@
 </%def>
 
 <div class="top_actions title">
+	%if c.tile.can_create_issue:
+		<a class="button add" href="/issue/create">${_("new issue")}</a>
+	%endif
 	%if c.tile.can_join:
 		<a class="button add" href="/instance/join/${c.page_instance.key}?${h.url_token()}">${_("join")}</a> 
 	%endif
@@ -19,9 +22,10 @@
 	%if c.tile.can_leave:
 		<a class="button delete" href="/instance/leave/${c.page_instance.key}?${h.url_token()}">${_("leave")}</a> 
 	%endif
-	%if c.tile.can_create_issue:
-		<a class="button add" href="/issue/create">${_("new issue")}</a>
-	%endif
+	
+	${components.watch(c.instance, '/instance/%s' % str(c.page_instance.key))}
+	<a href="/instance/${c.page_instance.key}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
+	<!--  ${h.rss_link("/instance/%s.rss" % c.page_instance.key)|n} -->
 </div>
 
 <h1 class="page_title"><img src="/img/icons/bonsai_24.png" class="cd" /> ${c.page_instance.label}</h1>
@@ -39,10 +43,6 @@ ${components.tutu()}
 				${_("Activation Delay:")} <b>${_("%(delay)s days") % dict(delay=c.tile.activation_delay)}</b>
 				<span class="hint">${_("Before becoming active, the majority must be held for the specified interval.")}</span>
 			</div>
-		</div>
-		<div class="meta">
-			${_("Subscribe to RSS feed:")}
-			${h.rss_link("/instance/%s.rss" % c.page_instance.key)|n}
 		</div>
 	</div>
 </div>
