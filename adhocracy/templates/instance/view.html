@@ -19,6 +19,9 @@
 	%if c.tile.can_leave:
 		<a class="button delete" href="/instance/leave/${c.page_instance.key}?${h.url_token()}">${_("leave")}</a> 
 	%endif
+	%if c.tile.can_create_issue:
+		<a class="button add" href="/issue/create">${_("new issue")}</a>
+	%endif
 </div>
 
 <h1 class="page_title"><img src="/img/icons/bonsai_24.png" class="cd" /> ${c.page_instance.label}</h1>
@@ -48,13 +51,6 @@ ${components.tutu()}
 	<div class="description">
 		${c.tile.description|n}
 	</div>
-	<br />
-	<div class="top_actions">
-		%if c.tile.can_create_issue:
-			<a class="button add" href="/issue/create">${_("new")}</a>
-		%endif
-	</div>
-	<h2>${_("Issues")}  (${c.tile.num_issues})</h2>
 	%if len(c.issues_pager) == 0:
 		%if c.tile.can_create_issue:
 			<span class="infobox">

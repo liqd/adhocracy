@@ -3,6 +3,7 @@ import simplejson
 from datetime import datetime
 
 from pylons.i18n import _
+from sqlalchemy.orm.exc import NoResultFound
 
 from adhocracy.lib.base import *
 from adhocracy.lib.karma import *
@@ -28,11 +29,15 @@ class KarmaController(BaseController):
             redirect_to("/comment/r/%s" % comment.id)
         
         if not c.user == comment.creator:
-            karma = position(comment, c.user)
-            if karma: 
+            q = model.meta.Session.query(model.Karma)
+            q = q.filter(model.Karma.comment==comment)
+            q = q.filter(model.Karma.donor==c.user)
+            karma = None
+            try:
+                karma = q.one()
                 karma.value = value
                 karma.create_time = datetime.utcnow()
-            else:
+            except NoResultFound:
                 karma = model.Karma(value, c.user, comment.creator, comment)
         
             model.meta.Session.add(karma)

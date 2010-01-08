@@ -87,14 +87,6 @@
 
 <div class="sidebar">
 	<div class="tile">
-		<!-- 
-		<div class="text">
-			<p>
-			<img src="/img/icons/issue_16.png" /> <a href="/issue/${c.proposal.issue.id}">${c.proposal.issue.label}</a>:
-			${c.issue_tile.tagline}
-			</p>
-		</div>
-		 -->
 		%if c.tile.poll:
 		<div class="tile boxed">
 			<div class="inner_boxed voting_booth">  
@@ -102,16 +94,8 @@
 			</div>
 		</div>
 		%endif
-		
-				${state.checklist(c.tile.state)|n}
-		
+		${state.checklist(c.tile.state)|n}
 		${components.delegation_sidebar(c.proposal)}
-		<!-- 
-		<div class="meta">
-			${_("created %s") % h.relative_time(c.proposal.create_time)|n}
-			&middot; ${h.rss_link("/proposal/%s.rss" % c.proposal.id)|n}
-		</div>
-		 -->
 	</div>
 </div>
 
@@ -126,7 +110,7 @@
 		%endif
 	</div>
 	
-	<h2><img src="/img/icons/proposal_24.png" class="cd" /> ${_("Provisions")}<sup><a href="/page/faq.html#Howdoesvotingwork">?</a></sup></h2>
+	<h2><img src="/img/icons/proposal_24.png" class="cd" /> ${_("Provisions")}<sup>&nbsp;</sup></h2>
 	%if not c.tile.has_canonicals:
 		<span class="infobox">${_("<b>Provisions</b> are the body of a proposal: together they form the language that will be voted upon. You will need to have at least one clause in order to call for a vote.")|n}</span>
 	%endif

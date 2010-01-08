@@ -36,8 +36,21 @@ def dict_value_sorter(dict):
 
 def comment_karma(comments):
     return sorted(comments, 
-                  key=lambda c: karma.comment_score(c, recurse=True),
+                  key=lambda c: karma.comment_score(c),
                   reverse=True)
 
 def comment_id(comments):
     return sorted(comments, key=lambda c: c.id)
+
+
+#
+# Unadapted Ruby, either find a python lib with p distribution tables or 
+# hardcode the "power" argument. 
+#
+#def wilson_confidence_interval(pos, n, power):
+#    if n == 0:
+#        return 0
+#    
+#    z = Statistics2.pnormaldist(1-power/2)
+#    phat = 1.0*pos/n
+#    (phat + z*z/(2*n) - z * Math.sqrt((phat*(1-phat)+z*z/(4*n))/n))/(1+z*z/n)

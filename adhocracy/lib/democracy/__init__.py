@@ -4,6 +4,8 @@ from decision import Decision
 from delegation_node import DelegationNode
 from state import State
 
+from ..cache import memoize
+
 # RFACT: try to move all functionality out of here
 def is_comment_mutable(comment):
     """
@@ -18,3 +20,7 @@ def is_comment_mutable(comment):
 
 def is_proposal_mutable(proposal):
     return State(proposal).proposal_mutable
+
+@memoize('number_of_votes')
+def number_of_votes(user, topic):
+    return DelegationNode(user, topic).number_of_votes()
