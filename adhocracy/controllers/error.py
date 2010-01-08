@@ -13,7 +13,7 @@ from webhelpers.html.builder import literal
 
 from adhocracy.lib.base import BaseController
 
-BODY_RE = re.compile("<br \/><br \/>.*<!--(.*)-->.*<\/body", re.S)
+BODY_RE = re.compile("<br \/><br \/>(.*)<\/body", re.S)
 
 class ErrorController(BaseController):
 

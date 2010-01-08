@@ -1,7 +1,7 @@
 <%inherit file="../template.html" />
 <%def name="title()">${_("Error %s") % c.error_code}</%def>
 
-<h1>${_("Error %s") % c.error_code}</h1>
+<h1 class="page_title">${_("Error %s") % c.error_code}</h1>
 
 <p>${c.error_message|n}</p>
 
