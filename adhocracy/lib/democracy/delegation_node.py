@@ -56,7 +56,7 @@ class DelegationNode(object):
         """
         delegations = self._query_traverse(lambda q: q.filter(Delegation.agent==self.user),
                                            recurse, at_time)
-        print 'inbound', delegations
+        #print 'inbound', delegations
         if should_filter:
             by_principal = dict()
             for delegation in set(delegations):
