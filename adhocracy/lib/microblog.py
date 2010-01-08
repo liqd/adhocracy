@@ -3,6 +3,7 @@ from urllib import urlencode
 import simplejson as json 
 
 from pylons import config
+from cache import memoize
 
 from twitter import Api
 from oauth import oauth
@@ -32,19 +33,23 @@ def create_oauth(key=None, secret=None):
     return OAuthApi(consumer_key=config.get('adhocracy.twitter.consumer_key'),
                     consumer_secret=config.get('adhocracy.twitter.consumer_secret'),
                     access_token=token)
-    
+
+@memoize('short_url')
 def shorten_url(url):
-    query = urlencode({
+    try:
+        query = urlencode({
                 'login': config.get('adhocracy.bitly.login', DEFAULT_SHORTENER_USER),
                 'apiKey': config.get('adhocracy.bitly.key', DEFAULT_SHORTENER_KEY),
                 'longUrl': url,
                 'format': 'json',
                 'version': '2.0.1'})
-    request_url = SHORTENER_URL + "?" + str(query)
-    data = json.loads(urlopen(request_url).read())
-    if not data['statusCode'] == 'OK':
+        request_url = SHORTENER_URL + "?" + str(query)
+        data = json.loads(urlopen(request_url).read())
+        if not data['statusCode'] == 'OK':
+            return url
+        return data['results'][url]['shortUrl']
+    except:
         return url
-    return data['results'][url]['shortUrl']
     
 
 
