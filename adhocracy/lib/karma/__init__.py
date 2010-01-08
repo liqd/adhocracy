@@ -33,6 +33,7 @@ def comment_score(comment, recurse=False):
     return score
 
 def delegateable_users(delegateable, donor=None):
+    user_scores = {}
     for comment in delegateable.comments:
         q = model.meta.Session.query(model.Karma)
         q = q.filter(model.Karma.comment==comment)

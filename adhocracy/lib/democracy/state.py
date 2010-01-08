@@ -80,7 +80,6 @@ class State(object):
         def proposal_criticalness(proposal):
             state = State(proposal)
             if not state.polling:
-                print "PROPOSAL HAS NO POLL"
                 return None
             
             score = 1

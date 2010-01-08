@@ -79,7 +79,7 @@
 		<td id="menu">
 		<ul>
 			<li>
-				<a href="${h.instance_url(c.instance)}">${_("Home")}</a>
+				<a href="${h.instance_url(c.instance)}">${_("Issues")}</a>
 				<ul>
 				%if c.user:
 					%for inst in c.user.instances:
@@ -91,10 +91,10 @@
 			</li>
 			%if c.instance:
 				<li>
-					<a href="/polls">${_("Polls")}</a>
+					<a href="/polls">${_("Votes")}</a>
 					%if c.user:
 					<ul>
-						<li><a href="/polls">${_("Open polls")}</a></li>
+						<li><a href="/polls">${_("Current votes")}</a></li>
 						<li><a href="/user/${c.user.user_name}/votes">${_("Review decisions")}</a></li>						
 					</ul>
 					%endif

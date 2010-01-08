@@ -6,7 +6,7 @@
 	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Proposals")}
 </%def>
 
-<h1 class="page_title"><img src="/img/icons/proposal_24.png" class="cd" /> ${_("Critical Proposals")}</h1>
+<h1 class="page_title"><img src="/img/icons/proposal_24.png" class="cd" /> ${_("Current votes")}</h1>
 
 <div class="sidebar">	
 	%if len(c.proposals_pager.items):
@@ -18,7 +18,7 @@
 	
 	%if c.user:
 	<form action="?" method="GET" id="proposals_filter">
-		<h4>${_("Proposal filter criteria")}</h4>
+		<h4>${_("Filter criteria")}</h4>
 	
 		<input name="filter_made" value="1" type="radio" onchange="submitForm('proposals_filter')" ${"checked='checked'" if c.filter_made == 1 else ""} /> 
 			${_("My delegates and I haven't voted.")}<br/>
