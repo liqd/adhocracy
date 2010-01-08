@@ -9,6 +9,9 @@ from sinks import log_sink, mail_sink, twitter_sink
 log = logging.getLogger(__name__)
 
 def notify(event):
+    if not event:
+        log.warn("Received null as event, shouldn't happen!")
+        return
     log.debug("Event notification processing: %s" % event)
     begin_time = time()
     sources = filter(lambda g: g, [watchlist_source(event),

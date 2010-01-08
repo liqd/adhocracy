@@ -5,8 +5,6 @@ from adhocracy import model
 from adhocracy.lib.cache import memoize
 from adhocracy.lib.util import timedelta2seconds
 
-import query
-
 log = logging.getLogger(__name__)
 
 BASE = datetime(2009, 8, 12, 13, 0, 0)

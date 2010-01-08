@@ -2,6 +2,7 @@ import os.path
 import logging 
 
 from pylons import config
+from pylons.i18n import _ 
 
 from ...text import i18n
 from ... import helpers as h
@@ -66,7 +67,7 @@ class Notification(object):
             tpl_name = self.TPL_NAME % (str(self.type), i18n.DEFAULT.language[0:2])
         
         body = render(tpl_name, extra_vars=tpl_vars).strip()
-        body = _("\r\n\r\nMore info: %(url)s") % dict(url=self.link)
+        body += _("\r\n\r\nMore info: %(url)s") % dict(url=self.link)
         return body
     
     body = property(get_body)

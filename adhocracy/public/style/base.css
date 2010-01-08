@@ -1212,7 +1212,7 @@ a.button.inactive {
 	overflow: hidden;
 }
 
-.comment .anchor {
+.comment .anchor .text {
 	background-color: #fdfbc0;
 }
 

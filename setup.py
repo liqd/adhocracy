@@ -14,7 +14,7 @@ setup(
     url='http://www.adhocracy.de',
     install_requires=[
         "Pylons>=0.9.7",
-        "SQLAlchemy>=0.5",
+        "SQLAlchemy>=0.5.7",
         "FormEncode>=1.2.2",
         "repoze.who>=1.0.15",
         "repoze.what>=1.0.8",
