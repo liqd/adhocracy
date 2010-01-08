@@ -9,8 +9,6 @@ from sqlalchemy.ext.associationproxy import association_proxy
 
 from babel import Locale
 
-from adhocracy.lib.cache import memoize
-
 import meta
 import filter as ifilter
 from meta import Base
