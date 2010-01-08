@@ -79,7 +79,7 @@
 		<td id="menu">
 		<ul>
 			<li>
-				<a href="${h.instance_url(c.instance)}">${_("Issues")}</a>
+				<a href="${h.instance_url(c.instance)}">${_("Issues") if c.instance else _("Home")}</a>
 				<ul>
 				%if c.user:
 					%for inst in c.user.instances:
