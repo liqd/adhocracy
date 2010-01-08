@@ -9,6 +9,8 @@ from sqlalchemy.ext.associationproxy import association_proxy
 
 from babel import Locale
 
+from adhocracy.lib.cache import memoize
+
 import meta
 import filter as ifilter
 from meta import Base
@@ -192,7 +194,7 @@ class User(Base):
         return DelegationNode(self, scope)
     
     def number_of_votes_in_context(self, scope):
-        from adhocracy.lib.cache import memoize
+        # REFACT: consider to move the caching into the number of votes method
         @memoize('number_of_votes')
         def _gen(user, scope):
             return self.delegation_node(scope).number_of_votes()
