@@ -21,42 +21,33 @@ class TestDelegationNode(TestController):
         self.proposal = tt_make_proposal(voting=True)
         self.instance = tt_get_instance()
     
-    def delegate(self, from_user, to_user, scope):
-        return DelegationNode.create_delegation(from_user=from_user, to_user=to_user, scope=scope)
-    
-    
-    
     def test_knows_to_whom_a_delegation_went(self):
-        target = tt_make_user()
-        self.delegate(self.me, target, self.proposal)
+        self.me.delegate_to_user_in_scope(self.first, self.proposal)
         delegations = DelegationNode(self.me, self.proposal)
         assert_equals(len(delegations.outbound()), 1)
     
     def test_can_get_direct_delegations(self):
-        target = tt_make_user()
-        self.delegate(self.me, target, self.proposal)
-        delegations = DelegationNode(target, self.proposal)
+        self.me.delegate_to_user_in_scope(self.first, self.proposal)
+        delegations = DelegationNode(self.first, self.proposal)
         assert_equals(len(delegations.inbound()), 1)
     
     def test_can_get_indirect_delegations(self):
-        intermediate = tt_make_user()
-        target = tt_make_user()
-        self.delegate(self.me, intermediate, self.proposal)
-        self.delegate(intermediate, target, self.proposal)
-        delegations = DelegationNode(target, self.proposal)
+        self.me.delegate_to_user_in_scope(self.first, self.proposal)
+        self.first.delegate_to_user_in_scope(self.second, self.proposal)
+        delegations = DelegationNode(self.second, self.proposal)
         assert_equals(len(delegations.inbound()), 1)
         assert_equals(len(delegations.transitive_inbound()), 2)
     
     def test_mutual_delegation_is_not_counted_as_direct_delegation(self):
-        self.delegate(self.first, self.second, self.proposal)
-        self.delegate(self.second, self.first, self.proposal)
+        self.first.delegate_to_user_in_scope(self.second, self.proposal)
+        self.second.delegate_to_user_in_scope(self.first, self.proposal)
         
         delegations = DelegationNode(self.first, self.proposal)
         assert_equals(len(delegations.inbound()), 1)
     
     def test_mutual_delegation_gives_two_votes_each(self):
-        self.delegate(self.first, self.second, self.proposal)
-        self.delegate(self.second, self.first, self.proposal)
+        self.first.delegate_to_user_in_scope(self.second, self.proposal)
+        self.second.delegate_to_user_in_scope(self.first, self.proposal)
         
         delegations = DelegationNode(self.first, self.proposal)
         assert_equals(len(delegations.transitive_inbound()), 1)
@@ -64,8 +55,8 @@ class TestDelegationNode(TestController):
         assert_equals(len(delegations.transitive_inbound()), 1)
     
     def test_delegation_is_not_used_if_user_has_voted_directly(self):
-        self.delegate(self.first, self.second, self.proposal)
-        self.delegate(self.second, self.first, self.proposal)
+        self.first.delegate_to_user_in_scope(self.second, self.proposal)
+        self.second.delegate_to_user_in_scope(self.first, self.proposal)
         Decision(self.first, self.proposal.poll).make(Vote.YES)
         
         delegations = DelegationNode(self.first, self.proposal)
@@ -78,36 +69,32 @@ class TestDelegationNode(TestController):
         assert_equals(node.number_of_votes(), 1)
     
     def test_delegation_node_adds_direct_delegations_to_number_of_votes(self):
-        self.delegate(self.first, self.me, self.proposal)
-        self.delegate(self.second, self.me, self.proposal)
+        self.first.delegate_to_user_in_scope(self.me, self.proposal)
+        self.second.delegate_to_user_in_scope(self.me, self.proposal)
         node = DelegationNode(self.me, self.proposal)
         assert_equals(node.number_of_votes(), 3)
     
     def test_delegation_node_ads_indirect_delegation_to_number_of_votes(self):
-        self.delegate(self.first, self.me, self.proposal)
-        self.delegate(self.second, self.first, self.proposal)
+        self.first.delegate_to_user_in_scope(self.me, self.proposal)
+        self.second.delegate_to_user_in_scope(self.first, self.proposal)
         node = DelegationNode(self.me, self.proposal)
         assert_equals(node.number_of_votes(), 3)
         
     def test_if_mutual_delegation_is_broken_breaker_gets_two_votes(self):
-        self.delegate(self.first, self.second, self.proposal)
-        self.delegate(self.second, self.first, self.proposal)
+        self.first.delegate_to_user_in_scope(self.second, self.proposal)
+        self.second.delegate_to_user_in_scope(self.first, self.proposal)
         Decision(self.first, self.proposal.poll).make(Vote.YES)
         
         node = DelegationNode(self.first, self.proposal)
         assert_equals(node.number_of_votes(), 2)
     
     def test_if_mutual_delegation_is_broken_other_guy_just_has_his_own_vote_left(self):
-        self.delegate(self.first, self.second, self.proposal)
-        self.delegate(self.second, self.first, self.proposal)
+        self.first.delegate_to_user_in_scope(self.second, self.proposal)
+        self.second.delegate_to_user_in_scope(self.first, self.proposal)
         Decision(self.first, self.proposal.poll).make(Vote.YES)
         node = DelegationNode(self.first, self.proposal)
         assert_equals(node.number_of_votes(), 2)
-    
-    def test_can_get_delegation_count_from_user(self):
-        self.delegate(self.first, self.me, self.proposal)
-        assert_equals(self.me.number_of_votes_in_context(self.proposal), 2)
-    
+        
     # TODO: can reduce delegation ammount correctly
     # def test_if_mutual_delegation_is_broken_breaker_gets_two_votes(self):
     #     self.delegate(self.first, self.second, self.proposal)
