@@ -56,23 +56,15 @@ class DelegationNode(object):
         """
         delegations = self._query_traverse(lambda q: q.filter(Delegation.agent==self.user),
                                            recurse, at_time)
+        print 'inbound', delegations
         if should_filter:
             by_principal = dict()
             for delegation in set(delegations):
                 by_principal[delegation.principal] = by_principal.get(delegation.principal, []) + [delegation]
             delegations = [self.filter_delegations(ds)[0] for ds in by_principal.values()]
+        
         delegations = self._filter_out_overridden_delegations(delegations)
         return self._filter_out_overrides_by_direct_vote(delegations)
-    
-    def _filter_out_overridden_delegations(self, delegations):
-        def is_overriden_by_other_delegation(delegation):
-            node = DelegationNode(delegation.principal, self.delegateable)
-            outbound_delegations = node.outbound()
-            if 1 == len(outbound_delegations):
-                return outbound_delegations[0].agent == self.user
-            else:
-                return False
-        return filter(is_overriden_by_other_delegation, delegations)
     
     def transitive_inbound(self, recurse=True, at_time=None, _path=None):
         """
@@ -241,4 +233,17 @@ class DelegationNode(object):
             return not decision.is_self_decided()
             
         return filter(is_overriden_by_own_decision, delegations)
+    
+    def _filter_out_overridden_delegations(self, delegations):
+        def is_overriden_by_other_delegation(delegation):
+            node = DelegationNode(delegation.principal, self.delegateable)
+            outbound_delegations = node.outbound()
+            if 1 == len(outbound_delegations):
+                return outbound_delegations[0].agent == self.user
+            elif len(outbound_delegations) > 1:
+                for delegation in outbound_delegations:
+                    if delegation.agent == self.user and delegation.scope == self.delegateable:
+                        return True
+            return False
+        return filter(is_overriden_by_other_delegation, delegations)
     

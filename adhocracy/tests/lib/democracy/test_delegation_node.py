@@ -117,10 +117,18 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
     def test_direct_delegations_on_different_levels_can_overide_each_other(self):
         self.me.delegate_to_user_in_scope(self.first, self.proposal.issue)
         self.me.delegate_to_user_in_scope(self.second, self.proposal)
-        node = self.first.delegation_node(self.proposal)
-        assert_equals(len(node.inbound()), 0)
-        assert_equals(len(node.transitive_inbound()), 0)
         assert_equals(self.first.number_of_votes_in_scope(self.proposal), 1)
+    
+    def test_user_with_two_delegations_gets_counted_for_each_delegator_as_number_of_votes(self):
+        self.me.delegate_to_user_in_scope(self.first, self.proposal)
+        self.me.delegate_to_user_in_scope(self.second, self.proposal)
+        
+        node = self.first.delegation_node(self.proposal)
+        assert_equals(len(node.inbound()), 1)
+        # assert_equals(len(node.transitive_inbound()), 0)
+        
+        assert_equals(self.first.number_of_votes_in_scope(self.proposal), 2)
+        assert_equals(self.second.number_of_votes_in_scope(self.proposal), 2)
     
     # TODO: user has two outgoing delegations on one level
     # who gets how much votes? everybody gets the vote
