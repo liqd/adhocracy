@@ -192,8 +192,13 @@ class User(Base):
         return DelegationNode(self, scope)
     
     def number_of_votes_in_context(self, scope):
-        from adhocracy.lib.cache import memoize 
+        from adhocracy.lib.cache import memoize
         @memoize('number_of_votes')
         def _gen(user, scope):
             return self.delegation_node(scope).number_of_votes()
         return _gen(self, scope)
+    
+    def delegate_to_user_in_scope(self, target_user, scope):
+        from adhocracy.lib.democracy import DelegationNode
+        return DelegationNode.create_delegation(from_user=self, to_user=target_user, scope=scope)
+        
