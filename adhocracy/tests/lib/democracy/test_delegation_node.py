@@ -122,7 +122,9 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
         assert_equals(len(node.transitive_inbound()), 0)
         assert_equals(self.first.number_of_votes_in_scope(self.proposal), 1)
     
-    
+    # TODO: user has two outgoing delegations on one level
+    # who gets how much votes? everybody gets the vote
+    # but in an actual poll this needs to be prevented
 
 
     

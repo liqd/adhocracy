@@ -56,14 +56,23 @@ class DelegationNode(object):
         """
         delegations = self._query_traverse(lambda q: q.filter(Delegation.agent==self.user),
                                            recurse, at_time)
-        print 'inbound delegations', delegations
         if should_filter:
             by_principal = dict()
             for delegation in set(delegations):
                 by_principal[delegation.principal] = by_principal.get(delegation.principal, []) + [delegation]
             delegations = [self.filter_delegations(ds)[0] for ds in by_principal.values()]
-        
+        delegations = self._filter_out_overridden_delegations(delegations)
         return self._filter_out_overrides_by_direct_vote(delegations)
+    
+    def _filter_out_overridden_delegations(self, delegations):
+        def is_overriden_by_other_delegation(delegation):
+            node = DelegationNode(delegation.principal, self.delegateable)
+            outbound_delegations = node.outbound()
+            if 1 == len(outbound_delegations):
+                return outbound_delegations[0].agent == self.user
+            else:
+                return False
+        return filter(is_overriden_by_other_delegation, delegations)
     
     def transitive_inbound(self, recurse=True, at_time=None, _path=None):
         """
@@ -212,8 +221,11 @@ class DelegationNode(object):
     @classmethod
     def create_delegation(cls, from_user, to_user, scope):
         delegation = model.Delegation(from_user, to_user, scope)
+        # dwt: why do I need to add the delegation to the session here?
+        # it should just be added via the relation it has to the user and 
+        # either not be in the session at all or automatically via the user object
         model.meta.Session.add(delegation)
-        # dwt: Why is the flush here neccessary?
+        # dwt: Why is the flush here neccessary? - supplies the id of course - but is that needed?
         model.meta.Session.flush()
         return delegation
     
