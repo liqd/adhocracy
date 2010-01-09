@@ -13,7 +13,7 @@ class State(object):
     def __init__(self, proposal, poll=None, at_time=None):
         self.proposal = proposal
         
-        if not at_time:
+        if at_time is None:
             at_time = datetime.utcnow()
         self.at_time = at_time
         
