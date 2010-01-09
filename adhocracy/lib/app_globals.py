@@ -3,7 +3,6 @@ import logging
 
 from pylons import config
 
-from openid.store.memstore import MemoryStore
 import memcache
 
 from adhocracy import model
@@ -34,7 +33,6 @@ class Globals(object):
             log.warn("Skipped memcache, no results caching will take place.")
             self.cache = None
         
-        self.openid_store = MemoryStore()
         search.setup_search()
                 
         

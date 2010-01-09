@@ -8,6 +8,7 @@ from openid.consumer.consumer import Consumer, SUCCESS, DiscoveryFailure
 from openid.extensions import sreg, ax
 
 from adhocracy.lib.base import *
+from adhocracy.lib.openidstore import create_consumer
 import adhocracy.lib.util as util
 import adhocracy.model.forms as forms
 
@@ -93,7 +94,7 @@ class OpenidauthController(BaseController):
     
     @validate(schema=OpenIDInitForm(), form="foo", post_only=False, on_get=True)
     def init(self):
-        self.consumer = Consumer(self.openid_session, g.openid_store)
+        self.consumer = create_consumer(self.openid_session)
         openid = self.form_result.get("openid")
         try:
             authrequest = self.consumer.begin(openid)
@@ -132,12 +133,11 @@ class OpenidauthController(BaseController):
         if not (page_user == c.user or h.has_permission("user.manage")): 
             abort(403, _("You're not authorized to change %s's settings.") % id)
         openid.delete_time = datetime.utcnow()
-        model.meta.Session.add(openid)
         model.meta.Session.commit()
         return redirect_to("/user/edit/%s" % str(page_user.user_name))
 
     def verify(self):
-        self.consumer = Consumer(self.openid_session, g.openid_store)
+        self.consumer = create_consumer(self.openid_session)
         info = self.consumer.complete(request.params, h.instance_url(c.instance, path='/openid/verify'))
         if not info.status == SUCCESS:
             return self._failure(info.identity_url, _("OpenID login failed."))
@@ -179,7 +179,7 @@ class OpenidauthController(BaseController):
                 # returns
         else:
             if c.user:
-                oid = model.OpenID(info.identity_url, c.user)
+                oid = model.OpenID(unicode(info.identity_url), c.user)
                 model.meta.Session.add(oid)
                 model.meta.Session.commit()
                 redirect_to("/user/edit/%s" % str(c.user.user_name))
