@@ -193,6 +193,12 @@ class User(Base):
                            users)
         return users
     
+    def is_deleted(self, at_time=None):
+        if at_time is None:
+            at_time = datetime.utcnow()
+        return (self.delete_time is not None) and \
+               self.delete_time<=at_time
+    
     def delegation_node(self, scope):
         from adhocracy.lib.democracy import DelegationNode
         return DelegationNode(self, scope)

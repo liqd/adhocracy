@@ -103,10 +103,11 @@ class InstanceController(BaseController):
                 c.page_instance.default_group = self.form_result.get('default_group') 
             
             try:
-                if 'logo' in request.POST and request.POST.get('logo').file:
+                if 'logo' in request.POST and hasattr(request.POST.get('logo'), 'file') and \
+                    request.POST.get('logo').file:
                     logo.store(c.page_instance, request.POST.get('logo').file)
             except Exception, e:
-                h.flash(e)
+                h.flash(unicode(e))
                 log.debug(e)
             
             model.meta.Session.add(c.page_instance)

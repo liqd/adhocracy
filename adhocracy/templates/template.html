@@ -47,6 +47,7 @@
 	<script type="text/javascript" src="/js/jquery.autocomplete.min.js"></script>	
 	<script type="text/javascript" src="/js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="/js/jquery.timeago.js"></script>
+	<script type="text/javascript" src="/js/jquery.timeago.${c.locale.language}.js"></script>
 	<script type="text/javascript" src="/js/adhocracy.js"></script>
 </head>
 <body>
@@ -69,6 +70,17 @@
 				<br/><a class="join" href="/instance/${c.instance.key}/join?${h.url_token()}">${_("Join %s to contribute") % c.instance.label}</a>	
 			%endif 
 	</div>
+	<div style="clear: both;"></div>
+	<% messages = h.flash.pop_messages() %>
+	%if messages:
+	<div id="flash_messages">
+		<ul>
+		%for message in messages:
+	    	<li>${message}</li>
+	    %endfor
+		</ul>
+	</div>
+	%endif
 	<table id="header"><tr>
 		<td class="site_title">
 			<a href="${h.instance_url(c.instance)}">
@@ -76,6 +88,7 @@
 				     alt="${c.instance.label if c.instance else config.get('adhocracy.site.name')}" />
 			</a>
 		</td>
+		<td></td>
 		<td id="menu">
 		<ul>
 			<li>
@@ -123,18 +136,7 @@
 	</tr></table>
 	
 	<%def name="page()">
-	<div id="page">	
-		<% messages = h.flash.pop_messages() %>
-		%if messages:
-		<div id="flash_messages">
-			<ul>
-			%for message in messages:
-	    		<li>${message}</li>
-	    	%endfor
-			</ul>
-		</div>
-		%endif
-		
+	<div id="page">			
 		<div id="breadcrumbs">
 			${self.breadcrumbs()}
 		</div>

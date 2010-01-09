@@ -473,19 +473,6 @@ body {
 
 /* @group Error Messages */
 
-#flash_messages,
-.warning_box {
-	border-top: 1px solid #de5614;
-	border-bottom: 1px solid #de5614;
-	background-color: #fcea9a;
-	color: #de5614;
-	padding:  20px;
-}
-
-#flash_messages {
-	font-weight: bold;
-}
-
 .error-message {
 	background: url(/img/icons/cancel.png) top left no-repeat;
 	padding-left: 20px;
@@ -498,6 +485,44 @@ body {
 .error, .error:hover, .error:focus {
 	border: 2px solid #de5614;
 	background-color: #fcea9a;
+}
+
+.htwarnbox {
+	background-color: #9d0000;
+	font-weight: bold;
+	font-size: 10pt;
+	width: 200px;
+	position: absolute;
+	padding: 1em;
+	text-align: left;
+	color:  #fff;
+	margin-top: 0.5em;
+	text-decoration: none;
+}
+
+.infobox,
+#flash_messages {
+	background-repeat: no-repeat;
+	background-position: center left;
+	background-image: url(/img/icons/info_16.png);
+	background-color: #fdfbc0;
+	padding: 0.8em;
+	padding-left: 48px;
+	margin: 0.2em;
+	display: block;
+	font-size: 1.0em;
+	color: #333;
+	line-height: 1.4em;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+}
+
+#flash_messages {
+	/*border: 1px solid #de5614;*/
+	background-color: #de5614;
+	color: white;
+	margin-top: 1em;
+	margin-bottom: 1em;
 }
 
 /* @end */
@@ -1078,34 +1103,6 @@ a.button.inactive {
 	background-color: #f3f3f3;
 	cursor: pointer;
 	color: #ccc;
-}
-
-.htwarnbox {
-	background-color: #9d0000;
-	font-weight: bold;
-	font-size: 10pt;
-	width: 200px;
-	position: absolute;
-	padding: 1em;
-	text-align: left;
-	color:  #fff;
-	margin-top: 0.5em;
-	text-decoration: none;
-}
-
-.infobox {
-	background-repeat: no-repeat;
-	background-position: center left;
-	background-image: url(/img/icons/info_16.png);
-	background-color: #fdfbc0;
-	padding: 0.8em;
-	padding-left: 48px;
-	margin: 0.2em;
-	display: block;
-	font-size: 1.0em;
-	color: #333;
-	line-height: 1.4em;
-	-webkit-border-radius: 10px;
 }
 
 .pager {
