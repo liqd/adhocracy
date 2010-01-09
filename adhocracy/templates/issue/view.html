@@ -69,7 +69,7 @@
 <h2>${_("Proposals")} <sup>(${c.tile.num_proposals})</sup></h2>
 
 %if not c.tile.num_proposals:
-	<span class="infobox">${_("Proposals are <b>proposals</b> that solve some or all of the problems described by this issue. A proposal can be <b>discussed and voted</b> upon.")|n}</span>
+	<span class="infobox">${_("Proposals solve some or all of the problems described by this issue. A proposal can be <b>discussed and voted</b> upon.")|n}</span>
 %else:
 	<div class="table">
 		${c.proposals_pager.here()}

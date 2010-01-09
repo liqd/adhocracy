@@ -136,17 +136,6 @@ class ExistingUserName(formencode.FancyValidator):
                 _("No user with the user name '%s' exists") % value,
                 value, state)
         return u
-
-    
-class EditorAddForm(formencode.Schema):
-    allow_extra_fields = True
-    editor = ExistingUserName(not_empty=True)
-    proposal = ValidProposal(not_emtpy=True)
-
-class EditorRemoveForm(formencode.Schema):
-    allow_extra_fields = True
-    editor = ExistingUserName(not_empty=True)
-    proposal = ValidProposal(not_emtpy=True)
     
 class VoteCastForm(formencode.Schema):
     allow_extra_fields = True

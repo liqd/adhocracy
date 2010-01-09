@@ -45,9 +45,12 @@ class Poll(Base):
         self.end_user = a_user
     
     @classmethod
-    def find(cls, id, instance_filter=True):
+    def find(cls, id, instance_filter=True, include_deleted=True):
         try:
             q = meta.Session.query(Poll)
+            if not include_deleted:
+                q = q.filter(or_(Poll.end_time==None,
+                                 Poll.end_time>datetime.utcnow()))
             q = q.filter(Poll.id==int(id))
             poll = q.one()
             if ifilter.has_instance() and instance_filter:

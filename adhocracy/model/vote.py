@@ -49,7 +49,7 @@ class Vote(Base):
             self.delegation.id if self.delegation else "DIRECT")
         
     @classmethod
-    def find(cls, id, instance_filter=True):
+    def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Vote)
             q = q.filter(Vote.id==int(id))

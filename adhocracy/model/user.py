@@ -31,6 +31,7 @@ class User(Base):
     _locale = Column('locale', Unicode(7), nullable=True)
     create_time = Column(DateTime, default=datetime.utcnow)
     access_time = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    delete_time = Column(DateTime, nullable=False)
     
     def __init__(self, user_name, email, password, display_name=None, bio=None):
         self.user_name = user_name
@@ -164,10 +165,13 @@ class User(Base):
         return completions 
     
     @classmethod
-    def find(cls, user_name, instance_filter=True):
+    def find(cls, user_name, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(User)
             q = q.filter(User.user_name==unicode(user_name))
+            if not include_deleted:
+                q = q.filter(or_(User.delete_time==None,
+                                 User.delete_time>datetime.utcnow()))
             user = q.one()
             if ifilter.has_instance() and instance_filter:
                 user = user.is_member(ifilter.get_instance()) and user or None

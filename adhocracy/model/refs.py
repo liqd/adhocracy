@@ -44,14 +44,15 @@ def ref_type(ref):
         return None
     return match.group(1)
 
-def to_entity(ref, instance_filter=False):
+def to_entity(ref, instance_filter=False, include_deleted=True):
     match = FORMAT.match(unicode(ref))
     if not match:
         return ref
     for cls in TYPES:
         if match.group(1) == entity_type(cls):
             entity = cls.find(match.group(2), 
-                              instance_filter=instance_filter)
+                              instance_filter=instance_filter, 
+                              include_deleted=include_deleted)
             #log.debug("entityref reloaded: %s" % repr(entity))
             return entity
     log.warn("No typeformatter for: %s" % ref)

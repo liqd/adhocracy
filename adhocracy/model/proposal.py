@@ -1,6 +1,7 @@
 import logging
+from datetime import datetime
 
-from sqlalchemy import Column, Unicode, ForeignKey, Integer
+from sqlalchemy import Column, Unicode, ForeignKey, Integer, or_
 from sqlalchemy.orm import relation
 
 import meta
@@ -56,11 +57,13 @@ class Proposal(Delegateable):
         return None
     
     @classmethod
-    def find(cls, id, instance_filter=True):
+    def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Proposal)
             q = q.filter(Proposal.id==id)
-            q = q.filter(Proposal.delete_time==None)
+            if not include_deleted:
+                q = q.filter(or_(Proposal.delete_time==None,
+                                 Proposal.delete_time>datetime.utcnow()))
             if filter.has_instance() and instance_filter:
                 q = q.filter(Proposal.instance_id==filter.get_instance().id)
             return q.one()
@@ -68,7 +71,7 @@ class Proposal(Delegateable):
             return None
     
     @classmethod    
-    def all(cls, instance=None):
+    def all(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Proposal)
         q = q.filter(Proposal.delete_time==None)
         if instance:

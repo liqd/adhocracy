@@ -34,7 +34,7 @@ class Group(Base):
         return meta.Session.query(Group).all()
     
     @classmethod
-    def find(cls, group_name, instance_filter=True):
+    def find(cls, group_name, instance_filter=True, include_deleted=False):
         try:
             return meta.Session.query(Group).filter(Group.group_name==group_name).one()
         except: 

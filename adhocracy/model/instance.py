@@ -1,6 +1,7 @@
 import re
+from datetime import datetime
 
-from sqlalchemy import Column, Integer, Float, Unicode, UnicodeText, ForeignKey, DateTime, func
+from sqlalchemy import Column, Integer, Float, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import relation, synonym, backref
 
 import meta
@@ -23,6 +24,7 @@ class Instance(Base):
     
     create_time = Column(DateTime, default=func.now())
     access_time = Column(DateTime, default=func.now(), onupdate=func.now())
+    delete_time = Column(DateTime, nullable=True)
     
     creator_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     creator = relation(user.User, 
@@ -67,11 +69,16 @@ class Instance(Base):
     members = property(_get_members)
     
     @classmethod
-    def find(cls, key, instance_filter=True):
+    def find(cls, key, instance_filter=True, include_deleted=False):
         key = unicode(key.lower())
         try:
-            return meta.Session.query(Instance).filter(Instance.key==key).one()
-        except: 
+            q = meta.Session.query(Instance)
+            q = q.filter(Instance.key==key)
+            if not include_deleted:
+                q = q.filter(or_(Instance.delete_time==None,
+                                 Instance.delete_time>datetime.utcnow()))
+            return q.one()
+        except:
             return None
     
     def _index_id(self):

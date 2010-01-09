@@ -34,7 +34,7 @@ class Revision(Base):
                                           self.comment_id)
         
     @classmethod
-    def find(cls, id, instance_filter=True):
+    def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             return meta.Session.query(Revision).filter(Revision.id==id).one()
         except: 

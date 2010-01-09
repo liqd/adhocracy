@@ -88,7 +88,7 @@ class Event(Base):
     event = synonym('_event', descriptor=property(_get_event))
     
     @classmethod
-    def find(cls, id, instance_filter=True):
+    def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Event)
             q = q.filter(Event.id==id)

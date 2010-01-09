@@ -1,7 +1,7 @@
 import random 
 from datetime import datetime
 
-from sqlalchemy import Table, Column, Integer, Unicode, String, ForeignKey, DateTime, func
+from sqlalchemy import Table, Column, Integer, Unicode, String, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import relation, backref
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
@@ -64,11 +64,13 @@ class Delegateable(Base):
         return delegateable.is_super(self)
     
     @classmethod
-    def find(cls, id, instance_filter=True):
+    def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Delegateable)
             q = q.filter(Delegateable.id==id)
-            q = q.filter(Delegateable.delete_time==None)
+            if not include_deleted:
+                q = q.filter(or_(Delegateable.delete_time==None,
+                                 Delegateable.delete_time>datetime.utcnow()))
             if filter.has_instance() and instance_filter:
                 q = q.filter(Delegateable.instance_id==filter.get_instance().id)
             return q.one()

@@ -25,13 +25,13 @@ T_USER_CREATE = EventType(u"t_user_create", pri=2,
                           link_path=lambda e: "/user/%s" % e.user.user_name, 
                           event_msg=lambda: _(u"signed up"))
 
-T_USER_EDIT = EventType(u"t_account_edit", pri=1, 
+T_USER_EDIT = EventType(u"t_user_edit", pri=1, 
                           subject=lambda: _(u"%(user)s: profile updated"),
                           link_path=lambda e: "/user/%s" % e.user.user_name, 
                           event_msg=lambda: _(u"edited their profile"),
                           notify_self=True)
 
-T_USER_ADMIN_EDIT = EventType(u"t_account_admin_edit", pri=2, 
+T_USER_ADMIN_EDIT = EventType(u"t_user_admin_edit", pri=2, 
                           subject=lambda: _(u"%(user)s: profile was edited by %(admin)s"),
                           link_path=lambda e: "/user/%s" % e.user.user_name, 
                           event_msg=lambda: _(u"edited %(user)ss profile"),

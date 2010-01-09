@@ -54,7 +54,7 @@ class Delegation(Base):
         return self.scope == delegateable or self.scope.is_super(delegateable)
     
     @classmethod
-    def find(cls, id, instance_filter=True):
+    def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Delegation)
             q = q.filter(Delegation.id==id)

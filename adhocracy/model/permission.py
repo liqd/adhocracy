@@ -28,7 +28,7 @@ class Permission(Base):
         return u"<Permission(%d,%s)>" % (self.id, self.code)
         
     @classmethod
-    def find(cls, permission_name, instance_filter=True):
+    def find(cls, permission_name, instance_filter=True, include_deleted=False):
         try:
             return meta.Session.query(Permission).filter(Permission.permission_name==permission_name).one()
         except: 

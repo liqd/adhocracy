@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, Boolean, func
+from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, Boolean, func, or_
 from sqlalchemy.orm import relation, backref
 
 import meta
@@ -42,10 +42,13 @@ class Comment(Base):
     latest = property(_get_latest, _set_latest)
     
     @classmethod
-    def find(cls, id, instance_filter=True):
+    def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Comment)
             q = q.filter(Comment.id==id)
+            if not include_deleted:
+                q = q.filter(or_(Comment.delete_time==None,
+                                 Comment.delete_time>datetime.utcnow()))
             return q.one()
         except: 
             return None

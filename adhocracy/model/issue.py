@@ -1,4 +1,6 @@
-from sqlalchemy import Column, Unicode, ForeignKey, Integer
+from datetime import datetime
+
+from sqlalchemy import Column, Unicode, ForeignKey, Integer, or_
 from sqlalchemy.orm import relation
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
@@ -40,11 +42,13 @@ class Issue(Delegateable):
         return children
 
     @classmethod
-    def find(cls, id, instance_filter=True):
+    def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Issue)
             q = q.filter(Issue.id==id)
-            q = q.filter(Issue.delete_time==None)
+            if not include_deleted:
+                q = q.filter(or_(Issue.delete_time==None,
+                                 Issue.delete_time>datetime.utcnow()))
             if filter.has_instance() and instance_filter:
                 q = q.filter(Issue.instance_id==filter.get_instance().id)
             return q.one()
