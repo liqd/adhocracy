@@ -16,6 +16,8 @@ def index_entity(entity):
             'doc_type': refs.entity_type(entity)}
 
 def index_user(entity):
+    if entity.is_deleted():
+        return None
     d = index_entity(entity)
     d['title'] = entity.name
     if entity.bio:
@@ -26,6 +28,8 @@ def index_user(entity):
     return d
 
 def index_comment(entity):
+    if entity.is_deleted():
+        return None
     d = index_entity(entity)
     d['user'] = " ".join((entity.latest.user.name, 
                           entity.creator.name))
@@ -37,6 +41,8 @@ def index_comment(entity):
     return d
 
 def index_delegateable(entity):
+    if entity.is_deleted():
+        return None
     d = index_entity(entity)
     d['title'] = entity.label
     ct = datetime2str(entity.create_time if \
@@ -47,11 +53,15 @@ def index_delegateable(entity):
     return d
 
 def index_issue(entity):
+    if entity.is_deleted():
+        return None
     d = index_delegateable(entity)
     d['text'] = entity.comment.latest.text if entity.comment else ""
     return d
 
 def index_proposal(entity):
+    if entity.is_deleted():
+        return None
     d = index_delegateable(entity)
     text = entity.comment.latest.text if entity.comment else ""
     for comment in entity.comments:
@@ -62,28 +72,34 @@ def index_proposal(entity):
 
 def insert(index_func):
     def f(entity):
-        writer = get_index().writer()
-        writer.add_document(**index_func(entity))
-        writer.commit()
+        entry = index_func(entity)
+        if entry is None:
+            delete(entity)
+        else:
+            writer = get_index().writer()
+            writer.add_document(**entry)
+            writer.commit()
     return f
 
 def update(index_func):
     def f(entity):
-        writer = get_index().writer()
-        writer.update_document(**index_func(entity))
-        writer.commit()
+        entry = index_func(entity)
+        if entry is None:
+            delete(entity)
+        else:
+            writer = get_index().writer()
+            writer.update_document(**entry)
+            writer.commit()
     return f
 
-def delete():
-    def f(entity):
-        ix = get_index()
-        ref = refs.to_ref(entity)
-        ix.delete_by_term('ref', ref)
-        ix.commit()
-    return f
+def delete(entity):
+    ix = get_index()
+    ref = refs.to_ref(entity)
+    ix.delete_by_term('ref', ref)
+    ix.commit()
 
 def register_indexer(cls, index_func):
     hooks.patch(cls, hooks.POSTINSERT, insert(index_func))
     hooks.patch(cls, hooks.POSTUPDATE, update(index_func))
-    hooks.patch(cls, hooks.PREDELETE, delete())
+    hooks.patch(cls, hooks.PREDELETE, delete)
 
