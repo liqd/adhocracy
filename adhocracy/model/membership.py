@@ -28,17 +28,29 @@ class Membership(Base):
     group_id = Column(Integer, ForeignKey('group.id'), nullable=False)
     group = relation('Group', backref=backref('memberships'), lazy=False)
     
-    #def _get_context_group(self):
-    #    if not self.instance or self.instance == ifilter.get_instance():
-    #        return self.group
-
-    #context_group = property(_get_context_group)
-        
     def __init__(self, user, instance, group, approved=True):
         self.user = user
         self.instance = instance
         self.group = group
         self.approved = approved
+        
+    def expire(self, expire_time=None):
+        if expire_time is None:
+            expire_time = datetime.utcnow()
+        if not self.is_expired(at_time=expire_time):
+            self.expire_time = expire_time
+        
+    def is_expired(self, at_time=None):
+        if at_time is None:
+            at_time = datetime.utcnow()
+        return (self.expire_time is not None) and \
+               self.expire_time<=at_time
+    
+    def delete(self, delete_time=None):
+        return self.expire(expire_time=delete_time)
+        
+    def is_deleted(self, at_time=None):
+        return self.is_expired(at_time=at_time)
         
     def __repr__(self):
         return u"<Membership(%d,%s,%s,%s)>" % (self.id, 

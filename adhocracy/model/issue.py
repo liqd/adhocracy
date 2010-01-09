@@ -5,7 +5,7 @@ from sqlalchemy.orm import relation
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 import meta
-import filter
+import filter as ifilter
 from delegateable import Delegateable
 
 class Issue(Delegateable):
@@ -22,7 +22,7 @@ class Issue(Delegateable):
         return u"<Issue(%s)>" % (self.id)
     
     def _get_proposals(self):
-        return self.children
+        return filter(lambda p: not p.is_deleted(), self.children)
     
     def _set_proposals(self, proposals):
         self.children = proposals
@@ -49,8 +49,8 @@ class Issue(Delegateable):
             if not include_deleted:
                 q = q.filter(or_(Issue.delete_time==None,
                                  Issue.delete_time>datetime.utcnow()))
-            if filter.has_instance() and instance_filter:
-                q = q.filter(Issue.instance_id==filter.get_instance().id)
+            if ifilter.has_instance() and instance_filter:
+                q = q.filter(Issue.instance_id==ifilter.get_instance().id)
             return q.one()
         except NoResultFound: 
             return None 
@@ -58,9 +58,12 @@ class Issue(Delegateable):
             return None
     
     @classmethod    
-    def all(cls, instance=None):
+    def all(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Issue)
         q = q.filter(Issue.delete_time==None)
+        if not include_deleted:
+            q = q.filter(or_(Issue.delete_time==None,
+                             Issue.delete_time>datetime.utcnow()))
         if instance:
             q.filter(Issue.instance==instance)
         return q.all()

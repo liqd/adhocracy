@@ -189,7 +189,7 @@ class ProposalController(BaseController):
                             keep = True
                             del c.relations[other]
                     if not keep:
-                        dependency.delete_time = now
+                        dependency.delete(delete_time=now)
                         model.meta.Session.add(dependency)
                 
                 for alternative in c.proposal.right_alternatives + \
@@ -202,7 +202,7 @@ class ProposalController(BaseController):
                             keep = True
                             del c.relations[other]
                     if not keep:
-                        alternative.delete_time = now
+                        alternative.delete(delete_time=now)
                         model.meta.Session.add(alternative)
                 
                 for other, type in c.relations.items():
@@ -271,8 +271,7 @@ class ProposalController(BaseController):
         event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance, 
                    topics=[c.proposal], proposal=c.proposal)
         
-        c.proposal.delete_time = datetime.utcnow()
-        model.meta.Session.add(c.proposal)
+        c.proposal.delete()
         model.meta.Session.commit()
         redirect_to("/issue/%d" % c.proposal.issue.id)   
     

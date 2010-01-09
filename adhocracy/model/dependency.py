@@ -25,6 +25,18 @@ class Dependency(Base):
     def __repr__(self):
         return "<Depdendency(%d,%d)>" % (self.proposal_id, self.requirement_id)
     
+    def delete(self, delete_time=None):
+        if delete_time is None:
+            delete_time = datetime.utcnow()
+        if not self.is_deleted(delete_time):
+            self.delete_time = delete_time
+            
+    def is_deleted(self, at_time=None):
+        if at_time is None:
+            at_time = datetime.utcnow()
+        return (self.delete_time is not None) and \
+               self.delete_time<=at_time
+    
 Dependency.proposal = relation(Proposal, primaryjoin="Dependency.proposal_id==Proposal.id", 
                              foreign_keys=[Dependency.proposal_id], 
                              backref=backref('dependencies', cascade='all'))

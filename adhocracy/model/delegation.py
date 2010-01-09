@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
+from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import relation, backref
 
 import meta
@@ -47,8 +47,10 @@ class Delegation(Base):
             self.scope.id)
     
     def is_match(self, delegateable):
-        if self.revoke_time:
+        if self.is_revoked():
             return False
+        # TODO: this is a one-off of using permission in the model
+        # rethink this. 
         if not self.principal.has_permission("vote.cast"):
             return False
         return self.scope == delegateable or self.scope.is_super(delegateable)
@@ -58,13 +60,34 @@ class Delegation(Base):
         try:
             q = meta.Session.query(Delegation)
             q = q.filter(Delegation.id==id)
+            if not include_deleted:
+                q = q.filter(or_(Delegation.revoke_time==None,
+                                 Delegation.revoke_time>datetime.utcnow()))
             d = q.one()
             if ifilter.has_instance() and instance_filter:
                 if d.scope.instance != ifilter.get_instance():
                     return None 
             return d
-        except Exception: 
+        except:
             return None
+        
+    def revoke(self, revoke_time=None):
+        if revoke_time is None:
+            revoke_time = datetime.utcnow()
+        if self.revoke_time is None:
+            self.delete_time = revoke_time
+            
+    def is_revoked(self, at_time=None):
+        if at_time is None:
+            at_time = datetime.utcnow()
+        return (self.revoke_time is not None) and \
+               self.revoke_time<=at_time
+        
+    def delete(self, delete_time=None):
+        return self.revoke(revoke_time=delete_time)
+    
+    def is_deleted(self, at_time=None):
+        return self.is_revoked(at_time=at_time)
     
     def _index_id(self):
         return self.id

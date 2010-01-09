@@ -25,14 +25,18 @@
 		<h1 style="border-bottom: 0px;">${h.delegateable_link(c.proposal.issue, icon=False)|n}</h1>
 	</div>
 </div>	
+%if len(c.proposal.issue.proposals) > 1:
 <div id="issue_details" class="tile">
 		<ul>
 		%for proposal in c.proposal.issue.proposals:
-			<li>${h.delegateable_link(proposal)|n}</li>
+			%if proposal is not c.proposal: 
+				<li>${h.delegateable_link(proposal)|n}</li>
+			%endif
 		%endfor
 		</ul>
 	<div style="clear: both;"></div>	
 </div>
+%endif
 </div>
 <div class="tile proposal title">
 	<div class="sidebar">

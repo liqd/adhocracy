@@ -74,9 +74,28 @@ class Proposal(Delegateable):
     def all(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Proposal)
         q = q.filter(Proposal.delete_time==None)
+        if not include_deleted:
+            q = q.filter(or_(Proposal.delete_time==None,
+                             Proposal.delete_time>datetime.utcnow()))
         if instance:
             q = q.filter(Proposal.instance==instance)
         return q.all()
+    
+    def delete(self, delete_time=None):
+        if delete_time is None:
+            delete_time = datetime.utcnow()
+        super(Proposal, self).delete(delete_time=delete_time)
+        for alternative in self.left_alternatives:
+            alternative.delete(delete_time=delete_time)
+        for alternative in self.right_alternatives:
+            alternative.delete(delete_time=delete_time)
+        for dependency in self.dependencies:
+            dependency.delete(delete_time=delete_time)
+        for dependency in self.dependents:
+            dependency.delete(delete_time=delete_time)
+        # TODO: This really SHOULD have some check: 
+        for poll in self.polls:
+            poll.delete()
     
 
 Proposal.comment = relation('Comment', 

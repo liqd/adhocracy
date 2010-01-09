@@ -117,8 +117,7 @@ class CommentController(BaseController):
         c.comment = get_entity_or_abort(model.Comment, id)
         if c.comment.canonical and not democracy.is_proposal_mutable(c.comment.topic):
             abort(403, h.immutable_proposal_message())
-        c.comment.delete_time = datetime.utcnow()
-        model.meta.Session.add(c.comment)
+        c.comment.delete()
         model.meta.Session.commit()
         
         event.emit(event.T_COMMENT_DELETE, c.user, instance=c.instance, 
@@ -158,4 +157,4 @@ class CommentController(BaseController):
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic)
             
-        redirect_to(self._comment_anchor(c.comment))
+        self.redirect(c.comment.id)

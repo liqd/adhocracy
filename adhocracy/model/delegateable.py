@@ -78,13 +78,34 @@ class Delegateable(Base):
             return None
         
     @classmethod    
-    def all(cls, instance=None):
+    def all(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Delegateable)
         q = q.filter(Delegateable.delete_time==None)
+        if not include_deleted:
+            q = q.filter(or_(Delegateable.delete_time==None,
+                             Delegateable.delete_time>datetime.utcnow()))
         if instance:
             q.filter(Delegateable.instance==instance)
         return q.all()
-        
+    
+    def delete(self, delete_time=None):
+        if delete_time is None:
+            delete_time = datetime.utcnow()
+        if not self.is_deleted(delete_time):
+            self.delete_time = delete_time
+        for child in self.children:
+            child.delete(delete_time=delete_time)
+        for delegation in self.delegations:
+            delegation.delete(delete_time=delete_time)
+        for comment in self.comments:
+            comment.delete(delete_time=delete_time)
+            
+    def is_deleted(self, at_time=None):
+        if at_time is None:
+            at_time = datetime.utcnow()
+        return (self.delete_time is not None) and \
+               self.delete_time<=at_time
+    
     def _index_id(self):
         return self.id
     

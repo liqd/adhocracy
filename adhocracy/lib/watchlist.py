@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 
 from sqlalchemy import or_
@@ -8,6 +9,8 @@ import formencode
 
 import adhocracy.model as model
 import adhocracy.model.refs as refs
+
+log = logging.getLogger(__name__)
 
 def entity2ref(entity):
     return refs.to_ref(entity)
@@ -69,8 +72,21 @@ def check_watch(entity):
                 watch_entity(c.user, entity)
         else:
             if watch:
-                watch.delete_time = datetime.utcnow()
-                model.meta.Session.add(watch)
+                watch.delete()
                 model.meta.Session.commit()        
     except formencode.Invalid:
         return None
+    
+def clean_stale_watches():
+    log.debug("Beginning to clean up watchlist entries...")
+    count = 0
+    for watch in model.Watch.all():
+        entity = refs.to_entity(watch.entity_ref)
+        if hasattr(entity, 'is_deleted') and \
+            entity.is_deleted():
+            count += 1
+            watch.delete()
+    model.meta.Session.commit()
+    if count > 0:
+        log.debug("Removed %d stale watchlist entries." % count)    
+            

@@ -21,10 +21,6 @@ class Poll(Base):
     begin_user = relation(user.User, 
                           primaryjoin="Poll.begin_user_id==User.id")
     
-    end_user_id = Column(Integer, ForeignKey('user.id'), nullable=True)
-    end_user = relation(user.User, 
-                        primaryjoin="Poll.end_user_id==User.id")
-    
     proposal_id = Column(Integer, ForeignKey('proposal.id'), nullable=False)
     
     def __init__(self, proposal, begin_user):
@@ -40,9 +36,23 @@ class Poll(Base):
     def _index_id(self):
         return self.id
     
-    def end_poll_with_user(self, a_user):
-        self.end_time = datetime.utcnow()
-        self.end_user = a_user
+    def end_poll(self, end_time=None):
+        if end_time is None:
+            end_time = datetime.utcnow()
+        if not self.has_ended(at_time=end_time):
+            self.end_time = end_time
+            
+    def has_ended(self, at_time=None):
+        if at_time is None:
+            at_time = datetime.utcnow()
+        return (self.end_time is not None) and \
+               self.end_time<=at_time
+            
+    def delete(self, delete_time=None):
+        return self.end_poll(end_time=delete_time)
+    
+    def is_deleted(self, at_time=None):
+        return has_ended(at_time=at_time)
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=True):

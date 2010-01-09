@@ -53,6 +53,18 @@ class Comment(Base):
         except: 
             return None
         
+    def delete(self, delete_time=None):
+        if delete_time is None:
+            delete_time = datetime.utcnow()
+        if not self.is_deleted(delete_time):
+            self.delete_time = delete_time
+            
+    def is_deleted(self, at_time=None):
+        if at_time is None:
+            at_time = datetime.utcnow()
+        return (self.delete_time is not None) and \
+               self.delete_time<=at_time
+                    
     def _index_id(self):
         return self.id
     

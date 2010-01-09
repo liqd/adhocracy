@@ -72,9 +72,10 @@ class User(Base):
     def _get_context_groups(self):
         groups = []
         for membership in self.memberships: 
-            if membership.expire_time:
+            if membership.is_expired():
                 continue
-            if not membership.instance or membership.instance == ifilter.get_instance():
+            if not membership.instance or \
+                membership.instance == ifilter.get_instance():
                 groups.append(membership.group)
         return groups
      
@@ -89,18 +90,16 @@ class User(Base):
     
     def is_member(self, instance):
         for membership in self.memberships:
-            if membership.expire_time:
-                continue
-            if membership.instance == instance:
+            if (not membership.is_expired()) and \
+                membership.instance == instance:
                 return True
         return False
     
     def _get_instances(self):
         instances = []
         for membership in self.memberships:
-            if membership.expire_time:
-                continue
-            if membership.instance:
+            if (not membership.is_expired()) and \
+                (membership.instance is not None):
                 instances.append(membership.instance)
         return list(set(instances))
     
@@ -183,8 +182,12 @@ class User(Base):
         return self.user_name
     
     @classmethod
-    def all(cls, instance_filter=True):
-        users = meta.Session.query(User).all()
+    def all(cls, instance_filter=True, include_deleted=False):
+        q = meta.Session.query(User)
+        if not include_deleted:
+            q = q.filter(or_(User.delete_time==None,
+                             User.delete_time>datetime.utcnow()))
+        users = q.all()
         if ifilter.has_instance() and instance_filter:
             users = filter(lambda user: user.is_member(ifilter.get_instance()), 
                            users)

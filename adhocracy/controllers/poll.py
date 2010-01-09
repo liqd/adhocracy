@@ -69,7 +69,7 @@ class PollController(BaseController):
         
         if request.method == "POST":
             poll = c.proposal.poll
-            poll.end_poll_with_user(c.user)
+            poll.end_poll()
             model.meta.Session.commit()
             event.emit(event.T_PROPOSAL_STATE_REDRAFT, c.user, instance=c.instance, 
                        topics=[c.proposal], proposal=c.proposal)

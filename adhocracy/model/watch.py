@@ -52,4 +52,25 @@ class Watch(Base):
             return q.one()
         except:
             return None
+    
+    @classmethod
+    def all(cls, include_deleted=False):
+        q = meta.Session.query(Watch)
+        if not include_deleted:
+            q = q.filter(or_(Watch.delete_time==None,
+                             Watch.delete_time>datetime.utcnow()))
+        return q.all()
+        
+    
+    def delete(self, delete_time=None):
+        if delete_time is None:
+            delete_time = datetime.utcnow()
+        if not self.is_deleted(delete_time):
+            self.delete_time = delete_time
+            
+    def is_deleted(self, at_time=None):
+        if at_time is None:
+            at_time = datetime.utcnow()
+        return (self.delete_time is not None) and \
+               self.delete_time<=at_time
         
