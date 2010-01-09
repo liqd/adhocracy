@@ -16,18 +16,6 @@
 	 		value="${c.page_user.display_name}"/>
 	 </div>
 
-	<h3>${_("Short biography")}</h3>
-	<div class="sidebar">
-		<div class="infobox">
-			${_("A bio will allow others to learn about you and perhaps even get you a few delegations.")}
-		</div>
-	</div>
-		
-	<div class="mainbar">
-		<textarea tabindex="2" class="description" name="bio">${c.page_user.bio}</textarea>
-		${components.formatting()}
-	</div>
-	
 	<div style="clear:both;"></div>
 	<h3>${_("User Details")}</h3>
 	<div class="sidebar">
@@ -144,6 +132,19 @@
 			%endfor
 		</table>
 		%endif 
+	</div>
+	
+	<div style="clear:both;"></div>
+	<h3>${_("Short biography")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("A bio will allow others to learn about you and perhaps even get you a few delegations.")}
+		</div>
+	</div>
+		
+	<div class="mainbar">
+		<textarea tabindex="2" class="description" name="bio">${c.page_user.bio}</textarea>
+		${components.formatting()}
 	</div>
 	
 	<div style="clear:both;"></div>

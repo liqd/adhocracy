@@ -41,19 +41,25 @@ class UserTile(BaseTile):
     can_manage = property(_can_manage) 
         
     def _num_issues(self):
-        return len(filter(lambda d: isinstance(d, model.Issue) and d.instance==c.instance, 
-                          self.user.delegateables))
+        pred = lambda d: isinstance(d, model.Issue) and \
+                         d.instance==c.instance and \
+                         not d.is_deleted()
+        return len(filter(pred, self.user.delegateables))
     
     num_issues = property(_num_issues)
     
     def _num_proposals(self):
-        return len(filter(lambda d: isinstance(d, model.Proposal) and d.instance==c.instance, 
-                          self.user.delegateables))
+        pred = lambda d: isinstance(d, model.Proposal) and \
+                         d.instance==c.instance and \
+                         not d.is_deleted()
+        return len(filter(pred, self.user.delegateables))
     
     num_proposals = property(_num_proposals)
     
     def _num_comments(self):
-        return len(filter(lambda cm: cm.topic.instance == c.instance, self.user.comments))
+        pred = lambda cm: cm.topic.instance == c.instance and \
+                          not cm.is_deleted()
+        return len(filter(pred, self.user.comments))
     
     num_comments = property(_num_comments)
     

@@ -188,11 +188,11 @@ class UserController(BaseController):
         query = query.filter(model.Event.user==c.page_user)
         query = query.order_by(model.Event.time.desc())
         query = query.limit(50)  
-        c.events_pager = NamedPager('events', query.all(), tiles.event.list_item)
         if format == 'rss':
-            return event.rss_feed(events, "%s Latest Actions" % c.page_user.name,
+            return event.rss_feed(query.all(), "%s Latest Actions" % c.page_user.name,
                                   h.instance_url(None, path='/user/%s' % c.page_user.user_name),
                                   description)
+        c.events_pager = NamedPager('events', query.all(), tiles.event.list_item)
         c.tile = tiles.user.UserTile(c.page_user)
         
         return render("/user/view.html")

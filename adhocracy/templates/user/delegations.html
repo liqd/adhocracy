@@ -33,7 +33,7 @@
 		%endif
 	%endif
 </h1>
-
+	<% dcount = 0 %>
 	<table class="delegations">
 		<tr>
 			<th>${_("Topic")}</th>
@@ -55,6 +55,7 @@
 				<td>
 					<ul>
 					%for delegation in filter(lambda d: d.scope == delegateable and not d.revoke_time, c.page_user.delegated):
+						<% dcount += 1 %>
 						<li class="nobullet">${tiles.delegation.outbound(delegation)}</li>
 					%endfor	
 					</ul>
@@ -62,6 +63,7 @@
 				<td>
 					<ul>
 					%for delegation in filter(lambda d: d.scope == delegateable and not d.revoke_time, c.page_user.agencies):
+						<% dcount += 1 %>
 						<li class="nobullet">${tiles.delegation.inbound(delegation)}</li>
 					%endfor	
 					</ul>
@@ -70,4 +72,7 @@
 			%endif
 		%endfor
 	</table>
+	%if dcount < 1:
+		<div class="infobox">${_("There are no delegations.")}</div>
+	%endif
 	<br/><br/>

@@ -8,10 +8,6 @@
 </%def>
 
 <div class="top_actions title">
-	%if c.user and c.page_user != c.user:
-		${components.watch(c.page_user, '/user/%s' % str(c.page_user.user_name))}
-	%endif
-	
 	%if c.tile.can_edit:
 		<a class="button edit" href="/user/edit/${c.page_user.user_name}">${_("edit")}</a>
 	%endif
@@ -24,6 +20,10 @@
 					${_("make %s") % _(c.model.Group.by_code(group_code).group_name)}</a>
 			%endif
 		%endfor
+	%endif
+	
+	%if c.user and c.page_user != c.user:
+		${components.watch(c.page_user, '/user/%s' % str(c.page_user.user_name))}
 	%endif
 </div>
 
@@ -57,10 +57,12 @@
 		${_("signed up %s") % h.relative_time(c.page_user.create_time)|n}
 	</div>
 </div>
-
 <div class="sidebar">
+	<br/>
 	<div class="top_actions">
-		<a class="button add" href="/adhocracies">${_("more")}</a>
+		%if c.user == c.page_user:
+			<a class="button add" href="/adhocracies">${_("more")}</a>
+		%endif
 	</div>
 	<h2>${_("Adhocracies")}</h2>	
 		<span class="hint">
@@ -74,6 +76,10 @@
 </div>
 
 <div class="mainbar">
+	<br/>
+	<div class="top_actions">
+		<a href="/user/${c.page_user.user_name}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
+	</div>
 	<h2>${_("Activity")}</h2>
 
 	<ul class="table">

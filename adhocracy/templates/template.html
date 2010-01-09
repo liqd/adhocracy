@@ -96,7 +96,9 @@
 				<ul>
 				%if c.user:
 					%for inst in c.user.instances:
-						<li><a href="${h.instance_url(inst)}">${inst.label}</a></li>
+						%if not inst is c.instance:
+							<li><a href="${h.instance_url(inst)}">${inst.label}</a></li>
+						%endif
 					%endfor
 				%endif
 				<li><a href="${h.instance_url(None, path='/adhocracies')}">${_("More Adhocracies...")}</a></li>
@@ -107,7 +109,7 @@
 					<a href="/polls">${_("Polls")}</a>
 					%if c.user:
 					<ul>
-						<li><a href="/polls">${_("Current votes")}</a></li>
+						<li><a href="/polls">${_("Current polls")}</a></li>
 						<li><a href="/user/${c.user.user_name}/votes">${_("Review decisions")}</a></li>						
 					</ul>
 					%endif
