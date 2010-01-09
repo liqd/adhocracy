@@ -27,8 +27,7 @@ WATCH_PERMISSIONS = {'comment': 'comment.view',
                      'user': 'user.view'}
 
 class WatchController(BaseController):
-        
-    @RequireInstance
+    
     @RequireInternalRequest()
     @validate(schema=WatchCreateForm(), post_only=False, on_get=True)
     def create(self, format='html'):
@@ -48,7 +47,6 @@ class WatchController(BaseController):
             return "OK"
         redirect_to(str(self.form_result.get('ret')))
     
-    @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("watch.delete"))
     @validate(schema=WatchDeleteForm(), post_only=False, on_get=True)

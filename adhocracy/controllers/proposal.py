@@ -274,7 +274,7 @@ class ProposalController(BaseController):
         c.proposal.delete_time = datetime.utcnow()
         model.meta.Session.add(c.proposal)
         model.meta.Session.commit()
-        redirect_to("/category/%d" % c.proposal.issue.id)   
+        redirect_to("/issue/%d" % c.proposal.issue.id)   
     
     @RequireInstance
     @ActionProtector(has_permission("proposal.view")) 

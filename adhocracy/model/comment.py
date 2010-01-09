@@ -25,7 +25,7 @@ class Comment(Base):
     
     reply_id = Column(Integer, ForeignKey('comment.id'), nullable=True)
     
-    def __init__(self, topic, creator,):
+    def __init__(self, topic, creator):
         self.topic = topic
         self.creator = creator
         

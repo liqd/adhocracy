@@ -104,9 +104,7 @@ class IssueController(BaseController):
     @RequireInternalRequest()
     @ActionProtector(has_permission("issue.delete"))
     def delete(self, id):
-        c.issue = get_entity_or_abort(model.Issue, id)
-        parent = c.issue.parents[0]
-        
+        c.issue = get_entity_or_abort(model.Issue, id)        
         for proposal in c.issue.proposals:
             if not democracy.is_proposal_mutable(proposal):
                 h.flash(_("The issue %(issue)s cannot be deleted, because the contained " +
@@ -124,6 +122,6 @@ class IssueController(BaseController):
         event.emit(event.T_ISSUE_DELETE, c.user, instance=c.instance, 
                    topics=[c.issue], issue=c.issue)
         
-        redirect_to('/category/%s' % str(parent.id)) 
+        redirect_to('/instance/%s' % str(c.instance.key)) 
     
     
