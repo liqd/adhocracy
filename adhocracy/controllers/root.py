@@ -57,7 +57,7 @@ class RootController(BaseController):
         return render("sitemap.xml")
     
     def process(self):
-        watchlist.clean_stale_watches()
         event.queue_process()
+        watchlist.clean_stale_watches()
         return "everything processed. come back soon ;-)"
             

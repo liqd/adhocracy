@@ -71,7 +71,7 @@ class InstanceController(BaseController):
             query = model.meta.Session.query(model.Event)
             query = query.filter(model.Event.instance==c.page_instance)
             query = query.order_by(model.Event.time.desc())
-            query = query.limit(50)
+            query = query.limit(25)
             return event.rss_feed(query.all(), _('%s News' % c.page_instance.label),
                                       h.instance_url(c.page_instance), 
                                       _("News from %s") % c.page_instance.label)

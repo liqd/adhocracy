@@ -75,7 +75,7 @@ class Delegation(Base):
         if revoke_time is None:
             revoke_time = datetime.utcnow()
         if self.revoke_time is None:
-            self.delete_time = revoke_time
+            self.revoke_time = revoke_time
             
     def is_revoked(self, at_time=None):
         if at_time is None:

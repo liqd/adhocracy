@@ -63,9 +63,14 @@ class PollController(BaseController):
     @ActionProtector(has_permission("poll.abort")) 
     def abort(self, id):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        tile = ProposalTile(c.proposal)
         if not c.proposal.poll:
             h.flash(_("The proposal is not undergoing a poll."))
             redirect_to("/proposal/%s" % str(c.proposal.id))
+        
+        if not tile.can_cancel_poll:
+            abort(403, _("The poll cannot be canceled because it has met " 
+                         + "some of the adoption criteria."))
         
         if request.method == "POST":
             poll = c.proposal.poll

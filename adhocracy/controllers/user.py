@@ -266,7 +266,6 @@ class UserController(BaseController):
         else:
             c.dgbs = model.Delegateable.all(instance=c.instance)  
         c.nodeClass = democracy.DelegationNode 
-        
         return render("/user/delegations.html")
     
     @RequireInstance
