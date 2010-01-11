@@ -204,7 +204,11 @@ class User(Base):
         return DelegationNode(self, scope)
     
     def number_of_votes_in_scope(self, scope):
-        return self.delegation_node(scope).number_of_votes()
+        """
+        May be a bit too much as multiple delegations are counted for each user
+        they are delegated to. (This is the safety net delegation)
+        """
+        return self.delegation_node(scope).number_of_delegations() + 1
     
     def delegate_to_user_in_scope(self, target_user, scope):
         from adhocracy.lib.democracy import DelegationNode

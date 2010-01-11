@@ -26,10 +26,9 @@ def comment_score(comment, recurse=False):
     q = q.options(eagerload(model.Karma.comment))
     q = q.options(eagerload(model.Karma.donor))
     for karma in q:
-        dnode = DelegationNode(karma.donor, karma.comment.topic)
+        score += kharma.value + kharma.donor.number_of_votes_in_scope(kharma.coment.topic)
         # TODO: this is buggy in that it will lead to some votes
         # being cast twice. 
-        score += karma.value * dnode.number_of_votes()
     return score
 
 def delegateable_users(delegateable, donor=None):
