@@ -73,11 +73,10 @@ class Proposal(Delegateable):
     @classmethod    
     def all(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Proposal)
-        q = q.filter(Proposal.delete_time==None)
         if not include_deleted:
             q = q.filter(or_(Proposal.delete_time==None,
                              Proposal.delete_time>datetime.utcnow()))
-        if instance:
+        if instance is not None:
             q = q.filter(Proposal.instance==instance)
         return q.all()
     

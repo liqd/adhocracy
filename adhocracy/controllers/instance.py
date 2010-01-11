@@ -64,7 +64,6 @@ class InstanceController(BaseController):
     @ActionProtector(has_permission("instance.view"))
     def view(self, key, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, key)
-        
         issues = model.Issue.all(instance=c.page_instance)
         
         if format == 'rss':

@@ -1,5 +1,6 @@
 import logging
 from base64 import b64encode
+from hashlib import sha1
 
 from pylons import g
 
@@ -33,8 +34,9 @@ def make_tag(obj):
 
 def make_key(iden, a, kw=None):
     strs = map(str, a) + map(str, kw.items())
-    key = iden + b64encode(reduce(lambda s, p: s + p, strs, ""))
-    return key[:250]
+    #iden = "None" if iden is None else iden
+    sig = sha1(b64encode(reduce(lambda s, p: s + p, strs, ""))).hexdigest()
+    return iden[:210] + sig
 
 def clear_tag(tag):
     try:

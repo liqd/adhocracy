@@ -60,12 +60,11 @@ class Issue(Delegateable):
     @classmethod    
     def all(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Issue)
-        q = q.filter(Issue.delete_time==None)
         if not include_deleted:
             q = q.filter(or_(Issue.delete_time==None,
                              Issue.delete_time>datetime.utcnow()))
-        if instance:
-            q.filter(Issue.instance==instance)
+        if instance is not None:
+            q = q.filter(Issue.instance==instance)
         return q.all()
 
 Issue.comment = relation('Comment', 

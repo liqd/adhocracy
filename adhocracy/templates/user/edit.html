@@ -25,15 +25,15 @@
 	</div>
 	<div class="mainbar">
 		<label for="locale">${_("Language:")}</label>
-		<select name="locale">
+		<ul>
 			%for locale in c.lib.text.i18n.LOCALES:
-				<option value="${str(locale)}" 
+				<li style="list-style-type: none;"><input type="radio" name="locale" value="${str(locale)}" 
 					%if locale == c.page_user.locale:
-						selected="selected"
+						checked="checked"
 					%endif
-					>${locale.display_name}</option>
+					/> ${locale.display_name}</li>
 			%endfor
-		</select>
+		</ul>
 	</div>
 	
 	<h3> </h3>
