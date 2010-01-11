@@ -8,7 +8,9 @@ from meta import Base
 import user
 import meta
 import filter as ifilter
-import proposal 
+import proposal
+
+class NoPollException(Exception): pass
 
 class Poll(Base):
     __tablename__ = 'poll'
@@ -22,7 +24,8 @@ class Poll(Base):
                           primaryjoin="Poll.begin_user_id==User.id")
     
     proposal_id = Column(Integer, ForeignKey('proposal.id'), nullable=False)
-    
+    proposal = relation(proposal.Proposal, backref=backref('polls', cascade='all',
+                           lazy=False, order_by='Poll.begin_time.desc()'))
     def __init__(self, proposal, begin_user):
         self.proposal = proposal
         self.begin_user = begin_user
@@ -45,8 +48,9 @@ class Poll(Base):
     def has_ended(self, at_time=None):
         if at_time is None:
             at_time = datetime.utcnow()
-        return (self.end_time is not None) and \
-               self.end_time<=at_time
+        
+        return (self.end_time is not None) \
+               and self.end_time<=at_time
             
     def delete(self, delete_time=None):
         return self.end_poll(end_time=delete_time)
@@ -71,5 +75,3 @@ class Poll(Base):
             return None
     
 
-Poll.proposal = relation(proposal.Proposal, backref=backref('polls', cascade='all',
-                       lazy=False, order_by=Poll.begin_time.desc()))

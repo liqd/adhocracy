@@ -25,10 +25,12 @@ class Vote(Base):
     create_time = Column(DateTime, default=datetime.utcnow)
     
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    # user See below 
+    user = relation(User, 
+        primaryjoin="Vote.user_id==User.id", 
+        backref=backref('votes', cascade='delete', order_by='Vote.create_time.desc()'))
     
     poll_id = Column(Integer, ForeignKey('poll.id'), nullable=False)
-    # proposal See below
+    poll = relation(Poll, backref=backref('votes', order_by='Vote.create_time.desc()'))
     
     delegation_id = Column(Integer, ForeignKey('delegation.id'), nullable=True)
     delegation = relation(Delegation, 
@@ -64,9 +66,3 @@ class Vote(Base):
     def _index_id(self):
         return self.id
 
-Vote.user = relation(User, 
-    primaryjoin="Vote.user_id==User.id", 
-    backref=backref('votes', cascade='delete', order_by=Vote.create_time.desc()))
-
-Vote.poll = relation(Poll, 
-    backref=backref('votes', order_by=Vote.create_time.desc()))
