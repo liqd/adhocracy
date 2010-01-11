@@ -214,8 +214,8 @@ class User(Base):
         from adhocracy.lib.democracy import DelegationNode
         return DelegationNode.create_delegation(from_user=self, to_user=target_user, scope=scope)
     
-    def vote_for_proposal(self, proposal, decision):
+    def vote_for_proposal(self, proposal, orientation):
         from adhocracy.lib.democracy.decision import Decision
-        return Decision(self, proposal.poll).make(decision)
+        return Decision(self, proposal.poll).make(orientation)
     
 
