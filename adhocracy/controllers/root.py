@@ -26,7 +26,7 @@ class RootController(BaseController):
                                   _("Updates from the Adhocracies in which you are a member"))
         else:
             c.instances = model.Instance.all()[:5]           
-            
+        c.page = StaticPage('index')
         return render('index.html')
     
     #@RequireInstance

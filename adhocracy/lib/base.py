@@ -25,7 +25,7 @@ from repoze.what.plugins.pylonshq import ActionProtector
 from cache import memoize
 from instance import RequireInstance
 from xsrf import RequireInternalRequest
-from templating import render, NamedPager
+from templating import render, NamedPager, StaticPage
 from util import get_entity_or_abort
 import adhocracy.model as model
 import search as libsearch

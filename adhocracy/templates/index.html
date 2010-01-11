@@ -1,8 +1,8 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Welcome")}</%def>
+<%def name="title()">${c.page.title}</%def>
 
-<h1 class="page_title">${_("Welcome to %(site)s") % dict(site=config.get('adhocracy.site.name'))}</h1>
+<h1 class="page_title">${c.page.title}</h1>
 
 <div class="sidebar">
 	%if not c.user:
@@ -55,26 +55,5 @@
 </div>
 
 <div class="mainbar welcome">
-	<h3 id="claim">${_("Adhocracy helps <strong>groups</strong> make <strong>decisions</strong>.")|n}</h3>
-
-	<p>
-	${_("Adhocracy is a platform for virtual direct democracies where you can cooperate to create and" + 
-	"select solutions to your organization's challenges.")}
-	</p>
-	<br/>
-	<h3>${_("What groups?")}</h3>
-	<p>
-	<img align="left" src="/img/groups.png" /> 
-	${_("Think NGOs, open projects. Distributed, loosely-knit groups in search of " + 
-	"a common strategy or groups with complex internal policies like Wikipedia.")} 
-	<a href="/page/faq.html#WhatisLiquidDemocracy">${_("Read more...")}</a>
-	</p>
-	<br/>
-	<h3>${_("What decisions?")}</h3>
-	<img align="right" src="/img/icons/vote_64.png" />
-	<p>
-	${_("Anything that discusses a method of solving a problem. This " +
-	"could be laws, strategy decisions or even design patterns.")} 
-	<a href="/page/faq.html#Howdoesvotingwork">${_("Read more...")}</a> 
-	</p>
+	${c.page.body|n}
 </div>

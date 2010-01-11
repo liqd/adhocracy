@@ -1,13 +1,20 @@
 import urllib
 import math
+import re
+import os.path 
+
+from BeautifulSoup import BeautifulSoup
 
 from pylons.templating import render_mako, render_mako_def
+from pylons.i18n import _
 from pylons import request, tmpl_context as c
 
 import formencode
 from formencode import foreach, validators, htmlfill
 
 import tiles
+import util
+import text
 
 def tpl_vars():
     vars = dict()
@@ -111,3 +118,48 @@ class NamedPager(object):
         
     def __len__(self):
         return len(self.items)
+    
+    
+
+class StaticPage(object):
+    VALID_PAGE = re.compile("^[a-zA-Z0-9\_\-]*$")
+    DIR = 'page'
+    SUFFIX = '.html'
+    
+    def __init__(self, name):
+        self.exists = False
+        self.title = _("Missing page: %s") % name
+        self.body = ""
+        self.name = name
+        if self.VALID_PAGE.match(name):
+            self.find_page()
+    
+    def find_page(self):
+        fmt = self.name + '.%s' + self.SUFFIX
+        path = util.get_site_path(self.DIR, fmt % c.locale.language)
+        if path is not None: return self._load(path)
+        
+        path = util.get_site_path(self.DIR, fmt % text.i18n.DEFAULT.language)
+        if path is not None: return self._load(path)
+        
+        path = util.get_path(self.DIR, fmt % c.locale.language)
+        if path is not None: return self._load(path)
+        
+        path = util.get_path(self.DIR, fmt % text.i18n.DEFAULT.language)
+        if path is not None: return self._load(path)
+            
+    
+    def _load(self, path):
+        basedir = util.get_site_path(self.DIR)
+        if not os.path.abspath(path).startswith(basedir):
+            return 
+        
+        page_content = file(path, 'r').read()
+        page_soup = BeautifulSoup(page_content)
+        
+        body = page_soup.findAll('body', limit=1)[0].contents
+        self.body = "".join(map(unicode,body))
+        title = page_soup.findAll('title', limit=1)[0].contents
+        self.title = "".join(map(unicode,title))
+        self.exists = True
+        

@@ -1,11 +1,11 @@
 <%inherit file="/template.html" />
 
-<%def name="title()">${c.page_title}</%def>
+<%def name="title()">${c.page.title}</%def>
 
-<h1 class="page_title">${c.page_title}</h1>
+<h1 class="page_title">${c.page.title}</h1>
 <div class="sidebar">
 	&nbsp; 
 </div>
 <div class="doc mainbar">
-	${c.page_text|n}
+	${c.page.body|n}
 </div>
