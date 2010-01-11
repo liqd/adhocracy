@@ -214,6 +214,7 @@ class User(Base):
         from adhocracy.lib.democracy import DelegationNode
         return DelegationNode.create_delegation(from_user=self, to_user=target_user, scope=scope)
     
+    # REFACT: rename: orientation doesn't really ring a bell. decision seems better but isn't
     def vote_for_proposal(self, proposal, orientation):
         from adhocracy.lib.democracy.decision import Decision
         return Decision(self, proposal.poll).make(orientation)
