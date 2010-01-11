@@ -31,7 +31,7 @@ class User(Base):
     _locale = Column('locale', Unicode(7), nullable=True)
     create_time = Column(DateTime, default=datetime.utcnow)
     access_time = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    delete_time = Column(DateTime, nullable=False)
+    delete_time = Column(DateTime)
     
     def __init__(self, user_name, email, password, display_name=None, bio=None):
         self.user_name = user_name
