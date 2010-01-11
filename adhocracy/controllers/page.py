@@ -10,7 +10,7 @@ from adhocracy.lib.base import *
 log = logging.getLogger(__name__)
 
 VALID_PAGE = re.compile("^[a-zA-Z0-9\_\-]*$")
-STATIC_PATH = os.path.join(config.get('here'), 'adhocracy', 'templates', 'static')
+STATIC_PATH = os.path.join(config.get('here'), 'adhocracy', 'page')
 
 class PageController(BaseController):
     
