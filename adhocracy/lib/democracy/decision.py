@@ -106,6 +106,7 @@ class Decision(object):
     
     result = property(_result)
     
+    # REFACT: this api is dangeous as it assumes but does not check that a poll is actually open for this proposal
     def make(self, orientation, _edge=None):
         """
         Make a decision on a given proposal, i.e. vote. Voting recursively propagates 
