@@ -1,10 +1,12 @@
 from datetime import datetime, timedelta
 import smtplib
 import logging
+from time import time
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.header import Header
+import email
 
 from pylons.i18n.translation import *
 from pylons import session, config, request
@@ -38,6 +40,7 @@ def to_mail(to_name, to_email, subject, body, html_body=None, headers={}):
     msg['From'] = _("%s <%s>") % (config.get('adhocracy.site.name'), email_from)
     to = Header(u"%s <%s>" % (to_name, to_email), ENCODING)
     msg['To'] = to
+    msg['Date'] = email.Utils.formatdate(time())
     msg['X-Mailer'] = _("Adhocracy SMTP %s") % version.get_version()
     
     #log.debug("MAIL\r\n" + msg.as_string())
