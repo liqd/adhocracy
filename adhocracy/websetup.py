@@ -1,6 +1,7 @@
 """Setup the adhocracy application"""
 import logging
 import shutil
+import os.path
 
 from adhocracy.config.environment import load_environment
 from adhocracy import model
