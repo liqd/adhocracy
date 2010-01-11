@@ -8,11 +8,33 @@ from adhocracy.model import Delegation
 
 log = logging.getLogger(__name__)
 
+# REFACT: Rename: DelegationTraverser? Maybe thats also a new object that does the traversing in different ways
+# That may become a Strategy object on how the delegation should be traversed
+# REFACT: Extract: DelegationUserGraph, DelegationTopicGraph, perhaps DelegationGraph as common supercluss
+# This object should represent a whole delegation graph from different points of view
+# One Goal would be to be able to load the whole subgraph from the db in as few queries as possible
+# Optimally just one...
+# Maybe there will just be one DelegationGraph with different Strategies of how create/ traverse/ filter it attached
+# Also it needs to be possible to ask the graph for the status at a specific time (all objects have a deleted_at property or it can be determined when they are overridden by a later choice)
+
+# Some problems with this class:
+# - many of the methods work across multiple nodes and layers of the graph
+# - many of the methods take additional parameters to determine when to filter this graph for different criteria
+# - there are methods that work on the whole graph (some as class-methods)
+# - Forward and backward traversal are in the same object
+# - it is oblivious as to why the graph is traversed, either to allow all agents to place their vote
+#   or to find out what the delegation wheight of a specific user is in a specific context
 class DelegationNode(object):
     """
     A ``DelegationNode`` describes a part of the voting delegation graph
     sorrounding a ``Delegateable`` (i.e. a ``Category``, ``Issue`` or 
     ``Proposal``) and a ``User``. 
+    
+    Right now the delegation graph is a graph of incomming and outgoing 
+    delegations on multiple levels - one level per scope.
+    
+    Each DelegationNode represents the incomming and outgoing delegations
+    of one user on one level (scope/delegateable) in this graph.
     
     **TODO:** Developing a good caching strategy for this class would be 
     useful in order to cache the delegation graph to memcached.
@@ -52,18 +74,24 @@ class DelegationNode(object):
             ``Delegateables`` in breadth-first traversal order.
         :param at_time: return the delegation graph at the given time, defaults
             to the current time. 
+        :param should_filter: if ``True`` will filter out all overriden delegations
         :returns: list of ``Delegation``
         """
         delegations = self._query_traverse(lambda q: q.filter(Delegation.agent==self.user),
                                            recurse, at_time)
+        print 'inbound no filter', delegations, 'should_filter', should_filter
+        # filter out delegations that are overriden
         if should_filter:
             by_principal = dict()
             for delegation in set(delegations):
                 by_principal[delegation.principal] = by_principal.get(delegation.principal, []) + [delegation]
             delegations = [self.filter_delegations(ds)[0] for ds in by_principal.values()]
-        
+        print 'inbound after should_filter', delegations
         delegations = self._filter_out_overridden_delegations(delegations)
-        return self._filter_out_overrides_by_direct_vote(delegations)
+        print 'inbound after _filter_out_overridden_delegations', delegations
+        delegations = self._filter_out_overrides_by_direct_vote(delegations)
+        print 'inbound after _filter_out_overrides_by_direct_vote', delegations
+        return delegations
     
     def transitive_inbound(self, recurse=True, at_time=None, _path=None):
         """
@@ -96,10 +124,14 @@ class DelegationNode(object):
         _path.remove(self.user)
         return delegations
     
+    # REFACT: remove
     def number_of_votes(self):
         """Returns the number of votes this user has in this poll"""
         own_vote = 1
-        return len(self.transitive_inbound()) + own_vote
+        return self.number_of_delegations() + own_vote
+    
+    def number_of_delegations(self):
+        return len(self.transitive_inbound())
     
     def outbound(self, recurse=True, at_time=None, filter=True):
         """
@@ -154,6 +186,10 @@ class DelegationNode(object):
                                      _propagation_path=_propagation_path)
         return result
     
+    # REFACT: move to User -> needed so users can e deleted
+    # detach_delegations(instance=root):
+    # remove incomming delegations
+    # remove outgoing delegations
     @classmethod
     def detach(cls, user, instance):
         """
@@ -220,7 +256,7 @@ class DelegationNode(object):
         model.meta.Session.flush()
         return delegation
     
-
+    
     def _filter_out_overrides_by_direct_vote(self, delegations):
         from adhocracy.lib.democracy.decision import Decision
         def is_overriden_by_own_decision(delegation):
@@ -230,7 +266,7 @@ class DelegationNode(object):
                 return True # currently no poll in this cope -> can't self decide
             decision = Decision(delegation.principal, delegation.scope.poll)
             return not decision.is_self_decided()
-            
+        
         return filter(is_overriden_by_own_decision, delegations)
     
     def _filter_out_overridden_delegations(self, delegations):
@@ -244,5 +280,6 @@ class DelegationNode(object):
                     if delegation.agent == self.user and delegation.scope == self.delegateable:
                         return True
             return False
+        
         return filter(is_overriden_by_other_delegation, delegations)
     
