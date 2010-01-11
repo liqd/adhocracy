@@ -79,18 +79,14 @@ class DelegationNode(object):
         """
         delegations = self._query_traverse(lambda q: q.filter(Delegation.agent==self.user),
                                            recurse, at_time)
-        print 'inbound no filter', delegations, 'should_filter', should_filter
         # filter out delegations that are overriden
         if should_filter:
             by_principal = dict()
             for delegation in set(delegations):
                 by_principal[delegation.principal] = by_principal.get(delegation.principal, []) + [delegation]
             delegations = [self.filter_delegations(ds)[0] for ds in by_principal.values()]
-        print 'inbound after should_filter', delegations
         delegations = self._filter_out_overridden_delegations(delegations)
-        print 'inbound after _filter_out_overridden_delegations', delegations
         delegations = self._filter_out_overrides_by_direct_vote(delegations)
-        print 'inbound after _filter_out_overrides_by_direct_vote', delegations
         return delegations
     
     def transitive_inbound(self, recurse=True, at_time=None, _path=None):
