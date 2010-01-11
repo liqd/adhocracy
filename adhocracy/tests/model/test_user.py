@@ -13,4 +13,4 @@ class TestUserController(TestController):
         delegate = tt_make_user()
         
         me.delegate_to_user_in_scope(delegate, proposal)
-        assert_equals(delegate.number_of_votes_in_context(proposal), 2)
+        assert_equals(delegate.number_of_votes_in_scope(proposal), 2)
