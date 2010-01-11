@@ -147,8 +147,7 @@ class CommentController(BaseController):
             abort(403, h.immutable_proposal_message())
         revision = self.form_result.get('to')
         if revision.comment != c.comment:
-            abort(400, _("You're trying to revert to a revision which is not part " + 
-                         "of this comments history"))
+            abort(400, _("You're trying to revert to a revision which is not part of this comments history"))
         c.comment.latest = model.Revision(c.comment, c.user, revision.text)
         model.meta.Session.add(c.comment.latest)
         model.meta.Session.commit()
