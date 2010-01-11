@@ -26,7 +26,7 @@ def comment_score(comment, recurse=False):
     q = q.options(eagerload(model.Karma.comment))
     q = q.options(eagerload(model.Karma.donor))
     for karma in q:
-        score += kharma.value + kharma.donor.number_of_votes_in_scope(kharma.coment.topic)
+        score += karma.value + karma.donor.number_of_votes_in_scope(karma.comment.topic)
         # TODO: this is buggy in that it will lead to some votes
         # being cast twice. 
     return score

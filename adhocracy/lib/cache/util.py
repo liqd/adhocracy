@@ -33,7 +33,8 @@ def make_tag(obj):
 
 def make_key(iden, a, kw=None):
     strs = map(str, a) + map(str, kw.items())
-    return iden + b64encode(reduce(lambda s, p: s + p, strs, ""))
+    key = iden + b64encode(reduce(lambda s, p: s + p, strs, ""))
+    return key[:250]
 
 def clear_tag(tag):
     try:

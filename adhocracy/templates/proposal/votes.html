@@ -5,7 +5,7 @@
 <%def name="title()">${_("Votes: %s") % c.proposal.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.proposal, id=c.proposal.id)|n} &raquo; ${_("Votes")}
+	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("Votes")}
 </%def>
 
 

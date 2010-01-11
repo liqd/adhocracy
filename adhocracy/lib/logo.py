@@ -7,38 +7,41 @@ import Image
 from pylons import config 
 
 from cache import memoize
+import util
 
 log = logging.getLogger(__name__)
     
-HEADER = os.path.join(config['pylons.paths']['static_files'], 
-                             'img', 'header_logo.png')
-DEFAULT = os.path.join(config['pylons.paths']['static_files'], 
-                              'img', 'icons', 'site_64.png')
-PATH = os.path.join(config['cache.dir'], 'img', '%(key)s.png')    
+HEADER = ['static', 'img', 'header_logo.png']
+DEFAULT = ['static', 'img', 'icons', 'site_64.png']
+
+header_image = None
+
+def _instance_logo_path(instance):
+    util.create_site_subdirectory('uploads', 'instance')
+    key = instance.key if instance else '-#-'
+    return util.get_site_path('uploads', 'instance', key + '.png')
 
 def store(instance, file):
-    try:
-        logo_image = Image.open(file)
-        logo_image.save(PATH % {'key': instance.key})
-    except Exception, e:
-        log.debug(e)
-        return None
+    logo_image = Image.open(file)
+    logo_image.save(_instance_logo_path(instance))
 
 @memoize('instance_image')
-def load(instance, size=None, header=False):
+def load(instance, size, fallback=DEFAULT):
     logo_image = None
-    header_image = None
-    if header:
-        header_image = Image.open(HEADER)
-    instance_path = PATH % {'key': instance.key if instance else '--'}
+    instance_path = _instance_logo_path(instance)
     if os.path.exists(instance_path):
         logo_image = Image.open(instance_path)
     else:
-        logo_image = header_image if header else Image.open(DEFAULT)
-    if not size:
-        size = header_image.size 
+        logo_image = Image.open(util.get_path(*fallback))
     logo_image.thumbnail(size, Image.ANTIALIAS)
     sio = StringIO.StringIO()
     logo_image.save(sio, 'PNG')
     return sio.getvalue()
+
+def load_header(instance):
+    global header_image
+    if header_image is None:
+        header_image = Image.open(util.get_path(*HEADER))
+    return load(instance, header_image.size, fallback=HEADER)
+    
     

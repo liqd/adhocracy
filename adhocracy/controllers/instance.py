@@ -135,7 +135,7 @@ class InstanceController(BaseController):
         etag_cache(str(c.page_instance.id if c.page_instance else 0))
         response.headers['Content-type'] = 'image/png'
         #response.content_type = "image/png"
-        return logo.load(c.page_instance, header=True)
+        return logo.load_header(c.page_instance)
         
     @ActionProtector(has_permission("instance.index"))
     def icon(self, key, x, y):
@@ -147,7 +147,7 @@ class InstanceController(BaseController):
         except ValueError, ve:
             log.debug(ve)
             (x, y) = (24, 24)
-        return logo.load(c.page_instance, size=(x, y), header=False)            
+        return logo.load(c.page_instance, size=(x, y))            
     
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.delete"))
