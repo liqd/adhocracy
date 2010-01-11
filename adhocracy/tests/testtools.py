@@ -42,9 +42,16 @@ def tt_make_proposal(creator=None, voting=False):
     model.meta.Session.flush()
     return proposal
 
-def tt_make_user(instance_group=None):
-    uname = tt_make_str() 
-    user = model.User(uname, u"test@test.test", u"test")
+def tt_make_user(name=None): # instance_group=None: not supported right now
+    if name is not None:
+        name = unicode(name)
+        user = model.meta.Session.query(model.User).filter(model.User.user_name==name).first()
+        if user:
+            return user
+    
+    if name is None:
+        name = tt_make_str()
+    user = model.User(name, u"test@test.test", u"test")
     
     #default_group = model.Group.by_code(model.Group.CODE_DEFAULT)
     #default_membership = model.Membership(user, None, default_group)
