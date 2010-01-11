@@ -23,4 +23,4 @@ def is_proposal_mutable(proposal):
 
 @memoize('number_of_votes')
 def number_of_votes(user, topic):
-    return DelegationNode(user, topic).number_of_votes()
+    return user.number_of_votes_in_scope(topic)
