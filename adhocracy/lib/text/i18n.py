@@ -14,8 +14,7 @@ from babel.dates import format_time
 
 
 LOCALES = [babel.Locale('en', 'US'), 
-           babel.Locale('de', 'DE'),
-           babel.Locale('fr', 'FR')]
+           babel.Locale('de', 'DE')]
 
 DEFAULT = babel.Locale('en', 'US')
 

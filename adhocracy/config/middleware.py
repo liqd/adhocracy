@@ -13,6 +13,7 @@ from routes.middleware import RoutesMiddleware
 
 from adhocracy.lib.authentication import setup_auth
 from adhocracy.lib.instance import setup_discriminator
+from adhocracy.lib.util import get_site_path
 from adhocracy.config.environment import load_environment
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
@@ -71,8 +72,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     if asbool(static_files):
         # Serve static files
-        #print "FILES", config['pylons.paths']['static_files']
-        overlay_app = StaticURLParser('/Users/fl/Code/adhocracy/src/local')
+        overlay_app = StaticURLParser(get_site_path('public'))
         static_app = StaticURLParser(config['pylons.paths']['static_files'])
         app = Cascade([overlay_app, static_app, app])
 

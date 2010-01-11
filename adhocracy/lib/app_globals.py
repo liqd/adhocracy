@@ -33,6 +33,5 @@ class Globals(object):
             log.warn("Skipped memcache, no results caching will take place.")
             self.cache = None
         
-        search.setup_search()
                 
         

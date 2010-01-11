@@ -26,7 +26,7 @@ def open_index(index_dir):
     
 def get_index():
     global ix
-    if not ix:
+    if ix is None:
         raise ValueError("Index is not open")
     return ix
     

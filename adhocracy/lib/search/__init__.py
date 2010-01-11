@@ -1,43 +1,38 @@
 import logging 
 import os, os.path, shutil
 from pylons import config
+
+import whoosh
+
 import adhocracy.model as model
 import adhocracy.model.hooks as hooks
-
+from .. import util
 from index import open_index, create_index, get_index
 import query
 from indexers import * 
 
-DEFAULT_INDEX_DIR = "%(here)s/data/index"
+
+SITE_INDEX_DIR = ["_index"]
 
 log = logging.getLogger(__name__)
 
-def _index_dir():
-    return config.get("adhocracy.index.dir", DEFAULT_INDEX_DIR % config)
+def init_search():
+    index_dir = util.get_site_path(*SITE_INDEX_DIR)
+    if not os.path.exists(index_dir):
+        log.warn("Resetting Whoosh %s index at: %s" % (whoosh.versionstring(), index_dir))
+        util.create_site_subdirectory(*SITE_INDEX_DIR)
+        create_index(index_dir)
+        rebuild_all()
+    else: 
+        log.info("Opening Whoosh %s index at: %s" % (whoosh.versionstring(), index_dir))
+        open_index(index_dir)
+    orm_register()
 
-def setup_search():
-    init()
+def orm_register():
     register_indexer(model.Issue, index_issue)
     register_indexer(model.Proposal, index_proposal)
     register_indexer(model.User, index_user)
     register_indexer(model.Comment, index_comment)
-
-def init():
-    index_dir = _index_dir()
-    if not os.path.exists(index_dir):
-        log.warn("Resetting Whoosh index at: %s" % index_dir)
-        reset()
-    else:
-        log.info("Opening Whoosh index at: %s" % index_dir)
-        open_index(index_dir)
-        
-def reset():
-    index_dir = _index_dir()
-    if os.path.exists(index_dir):
-        shutil.rmtree(index_dir)
-    os.mkdir(index_dir)
-    create_index(index_dir)
-    #rebuild_all()
     
 def rebuild_all():
     def index_all(iter, func):
