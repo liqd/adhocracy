@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 HEADER = os.path.join(config['pylons.paths']['static_files'], 
                              'img', 'header_logo.png')
 DEFAULT = os.path.join(config['pylons.paths']['static_files'], 
-                              'img', 'icons', 'bonsai_64.png')
+                              'img', 'icons', 'site_64.png')
 PATH = os.path.join(config['cache.dir'], 'img', '%(key)s.png')    
 
 def store(instance, file):
