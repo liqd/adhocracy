@@ -2,7 +2,7 @@ from datetime import datetime
 import time
 from nose.tools import *
 
-from adhocracy.model import Poll, Vote
+from adhocracy.model import Poll, Vote, Delegation
 from adhocracy.lib.democracy import Decision, DelegationNode
 
 from adhocracy.tests import *
@@ -69,9 +69,9 @@ class TestDecisionWithoutDelegation(TestController):
 class TestDecisionWithDelegation(TestController):
     
     def setUp(self):
-        self.me = tt_make_user()
-        self.high_delegate = tt_make_user()
-        self.low_delegate = tt_make_user()
+        self.me = tt_make_user(name='me')
+        self.high_delegate = tt_make_user(name='high_delegate')
+        self.low_delegate = tt_make_user(name='low_delegate')
         
         self.proposal = tt_make_proposal(creator=self.me, voting=True)
         self.issue = self.proposal.issue
@@ -116,7 +116,7 @@ class TestDecisionWithDelegation(TestController):
     #     assert_equals(self.decision.reload().result, Vote.NO)
     
     def test_proposal_delegation_will_overide_issue_delegation(self):
-        self.me.delegate_to_user_in_scope(self.high_delegate, self.proposal.issue)
+        self.me.delegate_to_user_in_scope(self.high_delegate, self.issue)
         self.me.delegate_to_user_in_scope(self.low_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         assert_equals(self.decision.reload().result, Vote.YES)
