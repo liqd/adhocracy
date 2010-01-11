@@ -41,7 +41,6 @@ class TestDelegationNode(TestController):
     def test_mutual_delegation_is_not_counted_as_direct_delegation(self):
         self.first.delegate_to_user_in_scope(self.second, self.proposal)
         self.second.delegate_to_user_in_scope(self.first, self.proposal)
-        
         delegations = DelegationNode(self.first, self.proposal)
         assert_equals(len(delegations.inbound()), 1)
     
@@ -109,7 +108,7 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
         self.second = tt_make_user()
         self.proposal = tt_make_proposal(voting=True)
     
-    def test_direct_delegations_on_different_levels_add_to_each_other(self):
+    def test_different_direct_delegations_on_different_levels_add_to_each_other(self):
         self.first.delegate_to_user_in_scope(self.me, self.proposal.issue)
         self.second.delegate_to_user_in_scope(self.me, self.proposal)
         assert_equals(self.me.number_of_votes_in_scope(self.proposal), 3)
@@ -122,19 +121,11 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
     def test_user_with_two_delegations_gets_counted_for_each_delegator_as_number_of_votes(self):
         self.me.delegate_to_user_in_scope(self.first, self.proposal)
         self.me.delegate_to_user_in_scope(self.second, self.proposal)
-        
-        node = self.first.delegation_node(self.proposal)
-        assert_equals(len(node.inbound()), 1)
-        # assert_equals(len(node.transitive_inbound()), 0)
-        
         assert_equals(self.first.number_of_votes_in_scope(self.proposal), 2)
         assert_equals(self.second.number_of_votes_in_scope(self.proposal), 2)
     
-    # TODO: user has two outgoing delegations on one level
-    # who gets how much votes? everybody gets the vote
-    # but in an actual poll this needs to be prevented
-
-
+    
+    
     
     def test_queries(self):
         proposal = tt_make_proposal(voting=True)
@@ -256,3 +247,6 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
 # What happens when a user wants to retract him voting so his delegations do it again for him?
 # May be hard right now as not having voted is imo not explicitly represented in the model
 
+# TODO: user has two outgoing delegations on one level
+# who gets how much votes? everybody gets the vote
+# but in an actual poll this needs to be prevented
