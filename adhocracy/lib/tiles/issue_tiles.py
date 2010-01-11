@@ -54,4 +54,4 @@ class IssueTile(DelegateableTile):
             
 
 def row(issue):
-    return render_tile('/issue/tiles.html', 'row', IssueTile(issue), issue=issue)
+    return render_tile('/issue/tiles.html', 'row', IssueTile(issue), issue=issue, cached=True)

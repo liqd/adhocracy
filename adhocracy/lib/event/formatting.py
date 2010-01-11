@@ -58,7 +58,7 @@ class UserFormatter(ObjectFormatter):
 class GroupFormatter(ObjectFormatter):
     
     def unicode(self, group):
-        return group.group_name
+        return _(group.group_name)
     
     def html(self, group):
         return self.unicode(group)

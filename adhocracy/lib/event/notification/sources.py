@@ -22,10 +22,16 @@ class WatchlistSource(object):
             large_scope = keep_list
         return small_scope + large_scope
     
+    def _instance(self, instance):
+        return watchlist.get_entity_watches(instance)
+    
     def _delegateable(self, delegateable):
         watches = []
-        for parent in delegateable.parents:
-            watches += self._delegateable(parent)
+        if len(delegateable.parents):
+            for parent in delegateable.parents:
+                watches += self._delegateable(parent)
+        else:
+            watches += self._instance(delegateable.instance)
         return self._merge(watches, 
                       watchlist.get_entity_watches(delegateable))
     

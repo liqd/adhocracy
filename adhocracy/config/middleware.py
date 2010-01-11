@@ -71,7 +71,9 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     if asbool(static_files):
         # Serve static files
+        #print "FILES", config['pylons.paths']['static_files']
+        overlay_app = StaticURLParser('/Users/fl/Code/adhocracy/src/local')
         static_app = StaticURLParser(config['pylons.paths']['static_files'])
-        app = Cascade([static_app, app])
+        app = Cascade([overlay_app, static_app, app])
 
     return app

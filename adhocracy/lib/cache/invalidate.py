@@ -18,7 +18,8 @@ def invalidate_comment(comment):
     clear_tag(comment)
     if comment.reply:
         invalidate_comment(comment.reply)
-    invalidate_delegateable(comment.topic)
+    else:
+        invalidate_delegateable(comment.topic)
     
 def invalidate_delegation(delegation):    
     invalidate_user(delegation.principal)

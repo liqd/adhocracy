@@ -9,7 +9,7 @@ from sqlalchemy import engine_from_config
 import adhocracy.lib.app_globals as app_globals
 import adhocracy.lib.helpers
 from adhocracy.config.routing import make_map
-from adhocracy.model import init_model
+from adhocracy.model import init_model, meta
 
 def load_environment(global_conf, app_conf):
     """Configure the Pylons environment via the ``pylons.config``
@@ -43,3 +43,18 @@ def load_environment(global_conf, app_conf):
 
     # CONFIGURATION OPTIONS HERE (note: all config options will override
     # any Pylons config options)
+    
+    # /local.overlay/
+    # /l/static/
+    # /l/static/img
+    # /l/static/img/site_*
+    # /l/static/style
+    # /l/static/style/site.css
+    # /l/pages
+    # /l/pages/index.html
+    # /l/pages/about.html
+    # /l/pages/imprint.html
+    # /l/index.whoosh
+    # /l/uploads
+    # /l/uploads/instance_logos
+    

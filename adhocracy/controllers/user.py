@@ -293,7 +293,7 @@ class UserController(BaseController):
         model.meta.Session.add(new_membership)
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_MEMBERSHIP_UPDATE, c.page_user, 
-                   instance=c.instance, group=to_group.code, admin=c.user)
+                   instance=c.instance, group=to_group, admin=c.user)
         
         if had_vote and not c.page_user._has_permission("vote.cast"):
             # user has lost voting privileges
