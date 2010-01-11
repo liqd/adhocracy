@@ -41,10 +41,12 @@ class Delegation(Base):
         self.scope = scope
     
     def __repr__(self):
-        return u"<Delegation(%s,%s->%s,%s)>" % (self.id, 
+        return u"<Delegation(%s, %s->%s, %s)>" % (
+            self.id, 
             self.principal.user_name, 
             self.agent.user_name,
-            self.scope.id)
+            self.scope.id
+        )
     
     def is_match(self, delegateable):
         if self.is_revoked():
