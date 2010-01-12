@@ -75,12 +75,12 @@ class TestDecisionWithDelegation(TestController):
         
         self.proposal = tt_make_proposal(creator=self.me, voting=True)
         self.issue = self.proposal.issue
-        self.poll = Poll(self.proposal, self.me)
+        self.poll = self.proposal.poll
         self.decision = Decision(self.me, self.poll)
         self.instance = tt_get_instance()
     
     def tearDown(self):
-        model.meta.Session.rollback()
+        pass
     
     def test_delegation_without_vote_is_no_vote(self):
         self.me.delegate_to_user_in_scope(self.high_delegate, self.proposal)
@@ -116,6 +116,12 @@ class TestDecisionWithDelegation(TestController):
     #     assert_equals(self.decision.reload().result, Vote.NO)
     
     def test_proposal_delegation_will_overide_issue_delegation(self):
+        # When checking how many delegations somebody has, the higher delegations 
+        # need to be filtered out when a lower delegation exists (as that overrides the higher one)
+        # in a specific context.
+        # However, when propagatign a vote, this filtering is wrong, as it discards high delegates
+        # even if the low delegate hasn't even voted yet
+        # This topic clearly needs more tests.
         self.me.delegate_to_user_in_scope(self.high_delegate, self.issue)
         self.me.delegate_to_user_in_scope(self.low_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
