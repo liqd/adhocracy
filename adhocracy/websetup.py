@@ -1,5 +1,6 @@
 """Setup the adhocracy application"""
 import logging
+import os
 import shutil
 import os.path
 
