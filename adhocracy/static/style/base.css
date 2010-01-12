@@ -448,6 +448,7 @@ body {
 #footer a {
 	color:  #222;
 	text-decoration: underline;
+	text-transform: lowercase;
 }
 
 #footer a.nolink {

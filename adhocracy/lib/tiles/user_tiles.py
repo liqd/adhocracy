@@ -86,5 +86,6 @@ class UserTile(BaseTile):
     instance_group = property(_instance_group)
 
 def row(user):
-    return render_tile('/user/tiles.html', 'row', UserTile(user), user=user, cached=True)   
+    return render_tile('/user/tiles.html', 'row', UserTile(user), 
+                       user=user, instance=c.instance, cached=True)   
 
