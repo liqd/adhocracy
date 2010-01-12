@@ -3,7 +3,7 @@
 # or another command scheduler. 
 # 
 # Here's an example crontab entry:
-# * * * * * nobody $ADHOCRACY_HOME/scripts/queue_process.sh
+# * * * * * nobody $ADHOCRACY_HOME/scripts/queue_process.sh myhost:80
 #
 
 if [ $# -ne 1 ]; then

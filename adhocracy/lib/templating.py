@@ -137,16 +137,20 @@ class StaticPage(object):
     def find_page(self):
         fmt = self.name + '.%s' + self.SUFFIX
         path = util.get_site_path(self.DIR, fmt % c.locale.language)
-        if path is not None: return self._load(path)
+        if os.path.exists(path): 
+            return self._load(path)
         
         path = util.get_site_path(self.DIR, fmt % text.i18n.DEFAULT.language)
-        if path is not None: return self._load(path)
+        if os.path.exists(path): 
+            return self._load(path)
         
         path = util.get_path(self.DIR, fmt % c.locale.language)
-        if path is not None: return self._load(path)
+        if path is not None and os.path.exists(path): 
+            return self._load(path)
         
         path = util.get_path(self.DIR, fmt % text.i18n.DEFAULT.language)
-        if path is not None: return self._load(path)
+        if path is not None and os.path.exists(path): 
+            return self._load(path)
             
     
     def _load(self, path):
