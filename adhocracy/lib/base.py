@@ -82,7 +82,7 @@ class BaseController(WSGIController):
             begin_time = time()
             return WSGIController.__call__(self, environ, start_response)
         except: 
-            model.meta.Session.fallback()
+            model.meta.Session.rollback()
             raise
         finally:
             model.meta.Session.remove()

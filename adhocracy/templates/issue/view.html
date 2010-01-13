@@ -12,7 +12,7 @@
 		<div class="tile boxed">
 			<div class="inner_boxed">
 				${h.user_link(c.issue.creator, scope=c.issue)|n} 
-				${_("on")} ${h.format_date(c.issue.create_time)}
+				${h.relative_time(c.issue.create_time)|n}
 			</div> 
 		</div>
 	</div>
@@ -27,7 +27,7 @@
 		&nbsp;
 	</div>
 			
-	<div class="meta noclear">		
+	<div class="meta rightmeta">		
 		%if c.tile.can_delegate and not c.tile.has_overridden:
 			<a class="button add" href="/delegation/create?scope=${c.issue.id}">${_("delegate")}</a>
 		%endif

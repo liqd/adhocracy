@@ -44,8 +44,6 @@ def user_language(user, fallbacks=[]):
     formencode.api.set_stdtranslation(domain="FormEncode", languages=[locale.language])
     return locale
     
-
-
 def relative_date(time):
     """ Date only, not date & time. """
     date = time.date()
@@ -59,11 +57,11 @@ def relative_date(time):
     
 def countdown_time(dt, default):
     # THIS IS A HACK TO GET RID OF BABEL 
-    if not dt: 
-        return _("%d days") % default
-    delta = dt - datetime.utcnow()
-    return _("%d days") % delta.days
- 
+    if dt is not None:
+        delta = dt - datetime.utcnow()
+        default = delta.days
+    return _("%d days") % default
+    
 def format_date(dt):
     return _("%(ts)s") % {'ts': babel.dates.format_date(dt, format='long', locale=c.locale)}
    
