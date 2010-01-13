@@ -56,12 +56,12 @@ class BaseController(WSGIController):
                
         if environ.get('repoze.who.identity'):
             c.user = environ.get('repoze.who.identity').get('user')
-            model.meta.Session.merge(c.user)
+            #model.meta.Session.merge(c.user)
         else:
             c.user = None
              
-        if c.instance is not None:
-            model.meta.Session.merge(c.instance)
+        #if c.instance is not None:
+        #    model.meta.Session.merge(c.instance)
              
         # have to do this with the user in place
         i18n.handle_request()

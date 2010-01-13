@@ -72,7 +72,7 @@ class ProposalController(BaseController):
             redirect_to("/")
         c.canonicals = ["", ""]
         c.relations = dict(map(lambda m: (m, 'a'), c.issue.proposals))
-        c.proposals = [] #model.Proposal.all(instance=c.instance)
+        c.proposals = model.Proposal.all(instance=c.instance)
         
         if request.method == "POST":
             try:
@@ -84,13 +84,15 @@ class ProposalController(BaseController):
                 
                 self._parse_relations()
                 form_result = ProposalCreateForm().to_python(request.params)
+                
                 proposal = model.Proposal(c.instance, 
-                                      form_result.get("label"),
-                                      c.user)
+                                          form_result.get("label"),
+                                          c.user)
                 proposal.issue = c.issue
                 model.meta.Session.add(proposal)
                 model.meta.Session.flush()
-                
+                model.meta.Session.commit()
+                return "hallo"
                 comment = model.Comment(proposal, c.user)
                 rev = model.Revision(comment, c.user, 
                                      text.cleanup(form_result.get("text")))
