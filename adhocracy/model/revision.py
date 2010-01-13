@@ -19,7 +19,7 @@ class Revision(Base):
     
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relation(user.User, lazy=True, primaryjoin="Revision.user_id==User.id", 
-                    backref=backref('revisions'))
+                    backref=backref('revisions', cascade='all'))
     
     comment_id = Column(Integer, ForeignKey('comment.id'), nullable=False)
        

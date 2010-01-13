@@ -88,15 +88,16 @@ class ProposalController(BaseController):
                                       form_result.get("label"),
                                       c.user)
                 proposal.issue = c.issue
+                model.meta.Session.add(proposal)
+                model.meta.Session.flush()
+                
                 comment = model.Comment(proposal, c.user)
                 rev = model.Revision(comment, c.user, 
                                      text.cleanup(form_result.get("text")))
                 comment.latest = rev
-                model.meta.Session.add(proposal)
                 model.meta.Session.add(comment)
-                model.meta.Session.add(rev)
-                model.meta.Session.flush()
-                
+                #model.meta.Session.add(rev)
+                                
                 for c_text in c.canonicals:
                     canonical = model.Comment(proposal, c.user)
                     canonical.canonical = True
