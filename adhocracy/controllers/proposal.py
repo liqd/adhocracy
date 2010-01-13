@@ -95,6 +95,7 @@ class ProposalController(BaseController):
                 rev = model.Revision(comment, c.user, 
                                      text.cleanup(form_result.get("text")))
                 comment.latest = rev
+                proposal.comment = comment
                 model.meta.Session.add(comment)
                 #model.meta.Session.add(rev)
                                 
@@ -116,10 +117,6 @@ class ProposalController(BaseController):
                         model.meta.Session.add(dependency)
                 
                 model.meta.Session.commit()
-                proposal.comment = comment
-                model.meta.Session.add(proposal)
-                model.meta.Session.commit()
-                
                 # stroh
                 
                 watchlist.check_watch(proposal)
