@@ -67,8 +67,8 @@ class ProposalController(BaseController):
             h.flash(_("Cannot identify the parent issue."))
             redirect_to("/")
         c.canonicals = ["", ""]
-        c.relations = dict() #dict(map(lambda m: (m, 'a'), c.issue.proposals))
-        c.proposals = [] #model.Proposal.all(instance=c.instance)
+        c.relations = dict(map(lambda m: (m, 'a'), c.issue.proposals))
+        c.proposals = model.Proposal.all(instance=c.instance)
         
         if request.method == "POST":
             try:

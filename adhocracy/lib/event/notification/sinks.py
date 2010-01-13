@@ -32,7 +32,7 @@ def twitter_sink(pipeline):
                 api.PostDirectMessage(user.twitter.screen_name, tweet)
             except Exception, e:
                 log.exception(e)
-            yield notification
+            #yield notification
         else:
             yield notification
 
