@@ -97,7 +97,6 @@ class ProposalController(BaseController):
                 comment.latest = rev
                 proposal.comment = comment
                 model.meta.Session.add(comment)
-                #model.meta.Session.add(rev)
                                 
                 for c_text in c.canonicals:
                     canonical = model.Comment(proposal, c.user)

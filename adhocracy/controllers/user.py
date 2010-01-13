@@ -230,7 +230,7 @@ class UserController(BaseController):
     def autocomplete(self):
         try:
             prefix = unicode(request.params['q'])
-            limit = int(request.params.get('limit', 5))
+            limit = int(request.params.get('limit', 15))
             users = model.User.complete(prefix, limit)
             result = ""
             for user in users:
@@ -239,7 +239,7 @@ class UserController(BaseController):
                     s = "%s (%s)" % (user.user_name, s)
                 result += "{s: '%s', k: '%s'}" % (s, user.user_name)
             return result
-        except Exception, e:
+        except:
             return ""
         
     @RequireInstance

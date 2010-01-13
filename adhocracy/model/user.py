@@ -21,7 +21,7 @@ class User(Base):
     
     id = Column(Integer, primary_key=True)
     user_name = Column(Unicode(255), nullable=False, unique=True, index=True)
-    display_name = Column(Unicode(255), nullable=True)
+    display_name = Column(Unicode(255), nullable=True, index=True)
     bio = Column(UnicodeText(), nullable=True)
     email = Column(Unicode(255), nullable=True, unique=False)
     email_priority = Column(Integer, default=4)
