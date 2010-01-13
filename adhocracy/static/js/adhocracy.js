@@ -32,12 +32,22 @@ $(document).ready(function() {
 	
 	$(".userCompleted").autocomplete('/user/complete', {
 		autoFill: false,
-		formatItem: function(d, i, n, q) {
-			return eval('(' + d + ')').s
+		dataType: 'json',
+		formatItem: function(data, i, max, val) {
+			return data.display;
 		}, 
-		formatResult: function(d, i, n, q) {
-			return eval('(' + d + ')').k
+		formatResult: function(data, i, max, val) {
+			alert("fR" + data.user + "val" + val);
+			return data.user;
 		},
+		parse: function(data) {
+			var arr = new Array();
+			for(var i=0;i<data.length;i++) {
+				arr[i] = {data:data[i], value:data[i].display, result:data[i].user};
+			}
+			return arr;
+		},
+		delay: 10,
 	});
 	
 	comment_reply = function(id) {

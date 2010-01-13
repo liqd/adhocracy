@@ -232,13 +232,15 @@ class UserController(BaseController):
             prefix = unicode(request.params['q'])
             limit = int(request.params.get('limit', 15))
             users = model.User.complete(prefix, limit)
-            result = ""
+            results = []
             for user in users:
                 s = user.name
                 if user.user_name != user.name:
                     s = "%s (%s)" % (user.user_name, s)
-                result += "{s: '%s', k: '%s'}" % (s, user.user_name)
-            return result
+                results.append("{display: '%s', user: '%s'}" % (s, user.user_name))
+                #results.append("{s: '%s', k: '%s'}" % (s, user.user_name))
+            response.content_type = "text/javascript"
+            return "[" + ",".join(results) + "]"
         except:
             return ""
         
