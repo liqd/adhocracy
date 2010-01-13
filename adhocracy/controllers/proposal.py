@@ -92,7 +92,6 @@ class ProposalController(BaseController):
                 rev = model.Revision(comment, c.user, 
                                      text.cleanup(form_result.get("text")))
                 comment.latest = rev
-                proposal.comment = comment
                 model.meta.Session.add(comment)
                                 
                 for c_text in c.canonicals:
@@ -112,6 +111,9 @@ class ProposalController(BaseController):
                         dependency = model.Dependency(proposal, r_proposal)
                         model.meta.Session.add(dependency)
                 
+                model.meta.Session.commit()
+                #model.meta.Session.refresh()
+                proposal.comment = comment
                 model.meta.Session.commit()
                 # stroh
                 

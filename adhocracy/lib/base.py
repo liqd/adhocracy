@@ -81,6 +81,9 @@ class BaseController(WSGIController):
         try:
             begin_time = time()
             return WSGIController.__call__(self, environ, start_response)
+        except: 
+            model.meta.Session.fallback()
+            raise
         finally:
             model.meta.Session.remove()
             log.debug("Rendering page %s took %sms" % (environ.get('PATH_INFO'), ((time()-begin_time)*1000)))
