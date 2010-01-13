@@ -72,7 +72,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     if asbool(static_files):
         # Serve static files
-        overlay_app = StaticURLParser(get_site_path('public'))
+        overlay_app = StaticURLParser(get_site_path('static'))
         static_app = StaticURLParser(config['pylons.paths']['static_files'])
         app = Cascade([overlay_app, static_app, app])
 

@@ -117,7 +117,8 @@ class ProposalController(BaseController):
                 proposal.comment = comment
                 model.meta.Session.add(proposal)
                 model.meta.Session.commit()
-                model.meta.Session.refresh(rev)
+                
+                # stroh
                 
                 watchlist.check_watch(proposal)
                 

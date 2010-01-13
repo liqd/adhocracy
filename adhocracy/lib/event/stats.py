@@ -30,7 +30,7 @@ def activity(query_filter, from_time=None, to_time=None):
     log.debug("Activity %s: %s" % (query, act))
     return act
 
-@memoize('delegeteable_activity')
+@memoize('delegeteable_activity', 3600)
 def delegateable_activity(dgb, from_time=None, to_time=None):
     def query_filter(q):
         return q.filter(model.Event.topics.contains(dgb))
@@ -45,13 +45,13 @@ def proposal_activity(proposal, from_time=None, to_time=None):
 def issue_activity(issue, from_time=None, to_time=None):
     return delegateable_activity(issue, from_time, to_time)
 
-#@memoize('instance_activity')
+@memoize('instance_activity', 3600)
 def instance_activity(instance, from_time=None, to_time=None):
     def query_filter(q):
         return q.filter(model.Event.instance==instance)
     return activity(query_filter, from_time, to_time) * -1
 
-#@memoize('user_activity')
+@memoize('user_activity', 3600)
 def user_activity(user, from_time=None, to_time=None):
     def query_filter(q):
         return q.filter(model.Event.user==user)

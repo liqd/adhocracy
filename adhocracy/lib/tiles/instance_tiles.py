@@ -75,4 +75,4 @@ def list_item(instance):
 
 def row(instance):
     return render_tile('/instance/tiles.html', 'row', InstanceTile(instance), 
-                       instance=instance, cached=True)
+                       instance=instance, user=c.user, cached=True)
