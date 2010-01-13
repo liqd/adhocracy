@@ -64,7 +64,7 @@ class DelegationNode(object):
                 delegations += node._query_traverse(querymod, recurse, at_time)
         return delegations
     
-    def inbound(self, recurse=True, at_time=None, should_filter=True):
+    def inbound(self, recurse=True, at_time=None, should_filter=True, is_counting_delegations=False):
         """
         Retrieve all inbound delegations (i.e. those that the user has received
         from other users in order to vote on their behalf) that apply to the 
@@ -85,11 +85,12 @@ class DelegationNode(object):
             for delegation in set(delegations):
                 by_principal[delegation.principal] = by_principal.get(delegation.principal, []) + [delegation]
             delegations = [self.filter_delegations(ds)[0] for ds in by_principal.values()]
-        delegations = self._filter_out_overridden_delegations(delegations)
-        delegations = self._filter_out_overrides_by_direct_vote(delegations)
+        if is_counting_delegations:
+            delegations = self._filter_out_delegations_where_a_more_specific_delegation_exists(delegations)
+        delegations = self._filter_out_delegations_that_are_overriden_by_direct_votes(delegations)
         return delegations
     
-    def transitive_inbound(self, recurse=True, at_time=None, _path=None):
+    def transitive_inbound(self, recurse=True, at_time=None, _path=None, is_counting_delegations=False):
         """
         Retrieve inbound delegations recursing through the delegation graph as well 
         as through the category tree.
@@ -107,10 +108,10 @@ class DelegationNode(object):
         # circle detection uses this path of visited nodes
         _path.append(self.user)
         
-        delegations = self.inbound(recurse=recurse, at_time=at_time, should_filter=False)
+        delegations = self.inbound(recurse=recurse, at_time=at_time, should_filter=False, is_counting_delegations=is_counting_delegations)
         for delegation in list(delegations):
             ddnode = DelegationNode(delegation.principal, self.delegateable)
-            additional_delegations = ddnode.transitive_inbound(recurse=recurse, at_time=at_time, _path=_path)
+            additional_delegations = ddnode.transitive_inbound(recurse=recurse, at_time=at_time, _path=_path, is_counting_delegations=is_counting_delegations)
             for additional_delegation in additional_delegations:
                 if additional_delegation.principal in _path:
                     continue # this is a delegation from  a node we already visited
@@ -119,15 +120,6 @@ class DelegationNode(object):
         # This is used as a stack in the recursion - so we need to remove what we added in going into the recursion
         _path.remove(self.user)
         return delegations
-    
-    # REFACT: remove
-    def number_of_votes(self):
-        """Returns the number of votes this user has in this poll"""
-        own_vote = 1
-        return self.number_of_delegations() + own_vote
-    
-    def number_of_delegations(self):
-        return len(self.transitive_inbound())
     
     def outbound(self, recurse=True, at_time=None, filter=True):
         """
@@ -153,6 +145,7 @@ class DelegationNode(object):
         return delegations
     # TODO: consider to add a transitive-outbound to know where the vote will end up for a specific issue
     
+    # REFACT: rename propagate_vote_to_delegators?
     def propagate(self, callable, _edge=None, _propagation_path=None):
         """
         Propagate a given action along the delegation graph *against* its direction, 
@@ -181,6 +174,9 @@ class DelegationNode(object):
                                      _edge=delegation, 
                                      _propagation_path=_propagation_path)
         return result
+    
+    def number_of_delegations(self):
+        return len(self.transitive_inbound(is_counting_delegations=True))
     
     # REFACT: move to User -> needed so users can e deleted
     # detach_delegations(instance=root):
@@ -253,7 +249,7 @@ class DelegationNode(object):
         return delegation
     
     
-    def _filter_out_overrides_by_direct_vote(self, delegations):
+    def _filter_out_delegations_that_are_overriden_by_direct_votes(self, delegations):
         from adhocracy.lib.democracy.decision import Decision
         def is_overriden_by_own_decision(delegation):
             if not hasattr(delegation.scope, 'poll'):
@@ -265,7 +261,8 @@ class DelegationNode(object):
         
         return filter(is_overriden_by_own_decision, delegations)
     
-    def _filter_out_overridden_delegations(self, delegations):
+    # REFACT: this method apears to do the same as filter_delegations (modulo the pre-work that happens before it is called)
+    def _filter_out_delegations_where_a_more_specific_delegation_exists(self, delegations):
         def is_overriden_by_other_delegation(delegation):
             node = DelegationNode(delegation.principal, self.delegateable)
             outbound_delegations = node.outbound()

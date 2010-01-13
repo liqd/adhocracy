@@ -79,9 +79,6 @@ class TestDecisionWithDelegation(TestController):
         self.decision = Decision(self.me, self.poll)
         self.instance = tt_get_instance()
     
-    def tearDown(self):
-        pass
-    
     def test_delegation_without_vote_is_no_vote(self):
         self.me.delegate_to_user_in_scope(self.high_delegate, self.proposal)
         self.decision.reload()
@@ -164,6 +161,18 @@ class TestDecisionWithDelegation(TestController):
         assert_equals(len(self.decision.reload().votes), 0)
         Decision(self.high_delegate, self.poll).make(Vote.YES)
         assert_equals(len(self.decision.reload().votes), 1)
+    
+    def test_delegation_is_transitive(self):
+        self.me.delegate_to_user_in_scope(self.low_delegate, self.proposal)
+        self.low_delegate.delegate_to_user_in_scope(self.high_delegate, self.proposal)
+        self.high_delegate.vote_for_proposal(self.proposal, Vote.YES)
+        assert_equals(self.decision.reload().result, Vote.YES)
+    
+    def test_delegation_is_transitive_across_delegation_levels(self):
+        self.me.delegate_to_user_in_scope(self.low_delegate, self.proposal)
+        self.low_delegate.delegate_to_user_in_scope(self.high_delegate, self.issue)
+        self.high_delegate.vote_for_proposal(self.proposal, Vote.YES)
+        assert_equals(self.decision.reload().result, Vote.YES)
     
 
 # TODO: can access history of delegation decisions
