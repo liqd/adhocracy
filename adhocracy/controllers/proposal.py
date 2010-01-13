@@ -35,15 +35,11 @@ class ProposalController(BaseController):
         proposals_val = formencode.ForEach(forms.ValidProposal(if_empty=None, if_invalid=None), 
                                         convert_to_list=True)
         
-        #print "REL_PROPOSALS", request.params.getall('rel_proposal')
-        
         types = types_val.to_python(request.params.getall('rel_type'))
         proposals = proposals_val.to_python(request.params.getall('rel_proposal'))
         if len(types) != len(proposals):
             raise formencode.Invalid("", type, None,
                         error_dict={'rel_error': _("Input error while applying relations.")})
-        
-        #print "PROPOSALS ", proposals
         
         c.relations = dict()
         for type, other in zip(types, proposals):
@@ -91,8 +87,7 @@ class ProposalController(BaseController):
                 proposal.issue = c.issue
                 model.meta.Session.add(proposal)
                 model.meta.Session.flush()
-                model.meta.Session.commit()
-                return "hallo"
+                
                 comment = model.Comment(proposal, c.user)
                 rev = model.Revision(comment, c.user, 
                                      text.cleanup(form_result.get("text")))
