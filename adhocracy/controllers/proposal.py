@@ -63,16 +63,16 @@ class ProposalController(BaseController):
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("proposal.create"))
-    #@validate(schema=ProposalCreateForm(), form="create", post_only=True)
     def create(self):
         try:
-            c.issue = forms.ValidIssue(not_empty=True).to_python(request.params.get('issue'))
+            issue_id = request.params.get('issue')
+            c.issue = forms.ValidIssue(not_empty=True).to_python(issue_id)
         except formencode.Invalid:
             h.flash(_("Cannot identify the parent issue."))
             redirect_to("/")
         c.canonicals = ["", ""]
-        c.relations = dict(map(lambda m: (m, 'a'), c.issue.proposals))
-        c.proposals = model.Proposal.all(instance=c.instance)
+        c.relations = dict() #dict(map(lambda m: (m, 'a'), c.issue.proposals))
+        c.proposals = [] #model.Proposal.all(instance=c.instance)
         
         if request.method == "POST":
             try:
