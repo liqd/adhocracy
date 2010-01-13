@@ -154,10 +154,6 @@ class StaticPage(object):
             
     
     def _load(self, path):
-        basedir = util.get_site_path(self.DIR)
-        if not os.path.abspath(path).startswith(basedir):
-            return 
-        
         page_content = file(path, 'r').read()
         page_soup = BeautifulSoup(page_content)
         
