@@ -22,7 +22,11 @@ class PollController(BaseController):
         urgency_sort = sorting.dict_value_sorter(scored)
         proposals = scored.keys()
         
-        c.filter_made = self.form_result.get('filter_made')
+        if hasattr(self, 'form_result'):
+            c.filter_made = self.form_result.get('filter_made')
+        else:
+            c.filter_made = 0
+        
         if c.user and c.filter_made == 1:
             proposals = filter(lambda m: not democracy.Decision(c.user, m.poll).is_decided(), proposals)
         elif c.user and c.filter_made == 2:
