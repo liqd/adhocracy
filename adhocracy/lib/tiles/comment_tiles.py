@@ -93,7 +93,7 @@ class CommentTile(BaseTile):
     def _is_edited(self):
         if self.is_deleted:
             return False
-        return self.comment.latest.create_time != self.comment.create_time
+        return len(self.comment.revisions) > 1
     
     is_edited = property(_is_edited)
     
