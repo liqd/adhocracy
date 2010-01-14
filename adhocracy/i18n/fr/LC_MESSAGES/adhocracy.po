@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-01-12 23:47+0100\n"
+"PO-Revision-Date: 2010-01-14 01:13+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -24,16 +24,16 @@ msgstr ""
 #: adhocracy/controllers/comment.py:135 adhocracy/controllers/delegation.py:79
 #: adhocracy/controllers/instance.py:39 adhocracy/controllers/instance.py:83
 #: adhocracy/controllers/issue.py:96 adhocracy/controllers/poll.py:32
-#: adhocracy/controllers/proposal.py:298 adhocracy/controllers/user.py:58
-#: adhocracy/controllers/user.py:252
+#: adhocracy/controllers/proposal.py:296 adhocracy/controllers/user.py:58
+#: adhocracy/controllers/user.py:254
 msgid "oldest"
 msgstr ""
 
 #: adhocracy/controllers/comment.py:136 adhocracy/controllers/delegation.py:80
 #: adhocracy/controllers/instance.py:40 adhocracy/controllers/instance.py:84
 #: adhocracy/controllers/issue.py:97 adhocracy/controllers/poll.py:33
-#: adhocracy/controllers/proposal.py:299 adhocracy/controllers/user.py:59
-#: adhocracy/controllers/user.py:253
+#: adhocracy/controllers/proposal.py:297 adhocracy/controllers/user.py:59
+#: adhocracy/controllers/user.py:255
 msgid "newest"
 msgstr ""
 
@@ -190,43 +190,43 @@ msgid ""
 "criteria."
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:44
+#: adhocracy/controllers/proposal.py:42
 msgid "Input error while applying relations."
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:55
+#: adhocracy/controllers/proposal.py:51
 msgid "A proposal cannot have a relation with itself."
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:59
+#: adhocracy/controllers/proposal.py:55
 msgid "A proposal can either contradict or require another, not both."
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:71
+#: adhocracy/controllers/proposal.py:67
 msgid "Cannot identify the parent issue."
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:250
+#: adhocracy/controllers/proposal.py:248
 #, fuzzy, python-format
 msgid "Proposal: %s"
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:252
+#: adhocracy/controllers/proposal.py:250
 #, python-format
 msgid "Activity on the %s proposal"
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:254
+#: adhocracy/controllers/proposal.py:252
 #, python-format
 msgid "Proposal: %(proposal)s"
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:289
+#: adhocracy/controllers/proposal.py:287
 #, python-format
 msgid "%s is not currently in a poll, thus no votes have been counted."
 msgstr ""
 
-#: adhocracy/controllers/root.py:24 adhocracy/lib/base.py:67
+#: adhocracy/controllers/root.py:24 adhocracy/lib/base.py:70
 #: adhocracy/templates/index.html:26
 msgid "My Adhocracies"
 msgstr ""
@@ -313,7 +313,7 @@ msgstr ""
 msgid "Invalid user name or password"
 msgstr ""
 
-#: adhocracy/controllers/user.py:319
+#: adhocracy/controllers/user.py:321
 #, python-format
 msgid "%(user)s was removed from %(instance)s"
 msgstr ""
@@ -357,14 +357,14 @@ msgstr ""
 msgid "You're not authorized to delete %s's watchlist entries."
 msgstr ""
 
-#: adhocracy/lib/base.py:72
+#: adhocracy/lib/base.py:75
 msgid ""
 "A liquid democracy platform for making decisions in distributed, open "
 "groups by cooperatively creating proposals and voting on them to "
 "establish their support."
 msgstr ""
 
-#: adhocracy/lib/base.py:75
+#: adhocracy/lib/base.py:78
 msgid ""
 "adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, "
 "voting,participation, group decisions, decisions, decision-making"
@@ -744,22 +744,38 @@ msgstr ""
 msgid "This action is only available in an instance context."
 msgstr ""
 
-#: adhocracy/lib/text/i18n.py:54
+#: adhocracy/lib/text/i18n.py:50
 msgid "Today"
 msgstr ""
 
-#: adhocracy/lib/text/i18n.py:56
+#: adhocracy/lib/text/i18n.py:52
 msgid "Yesterday"
 msgstr ""
 
-#: adhocracy/lib/text/i18n.py:63 adhocracy/lib/text/i18n.py:65
+#: adhocracy/lib/text/i18n.py:61
 #, python-format
 msgid "%d days"
 msgstr ""
 
-#: adhocracy/lib/text/i18n.py:68
+#: adhocracy/lib/text/i18n.py:64
 #, python-format
 msgid "%(ts)s"
+msgstr ""
+
+#: adhocracy/lib/text/i18n_strings.py:4
+msgid "Voter"
+msgstr ""
+
+#: adhocracy/lib/text/i18n_strings.py:5
+msgid "Observer"
+msgstr ""
+
+#: adhocracy/lib/text/i18n_strings.py:6
+msgid "Supervisor"
+msgstr ""
+
+#: adhocracy/lib/text/i18n_strings.py:7
+msgid "Administrator"
 msgstr ""
 
 #: adhocracy/model/forms.py:27
@@ -893,7 +909,7 @@ msgstr ""
 
 #: adhocracy/templates/components.html:68
 #: adhocracy/templates/issue/view.html:32
-#: adhocracy/templates/proposal/view.html:67
+#: adhocracy/templates/proposal/view.html:68
 msgid "delegate"
 msgstr ""
 
@@ -911,8 +927,6 @@ msgstr ""
 
 #: adhocracy/templates/components.html:82
 #: adhocracy/templates/decision/tiles.html:50
-#: adhocracy/templates/issue/view.html:15
-#: adhocracy/templates/proposal/view.html:46
 msgid "on"
 msgstr ""
 
@@ -974,7 +988,7 @@ msgstr ""
 #: adhocracy/templates/index.html:24 adhocracy/templates/index.html:42
 #: adhocracy/templates/instance/index.html:10
 #: adhocracy/templates/issue/view.html:65
-#: adhocracy/templates/proposal/view.html:113
+#: adhocracy/templates/proposal/view.html:114
 #: adhocracy/templates/user/delegations.html:16
 #: adhocracy/templates/user/edit.html:111
 msgid "new"
@@ -984,7 +998,7 @@ msgstr ""
 msgid "Join a few Adhocracies to contribute to their policies."
 msgstr ""
 
-#: adhocracy/templates/index.html:44 adhocracy/templates/template.html:132
+#: adhocracy/templates/index.html:44 adhocracy/templates/template.html:133
 #: adhocracy/templates/instance/index.html:3
 #: adhocracy/templates/instance/index.html:13
 #: adhocracy/templates/user/view.html:67
@@ -1007,102 +1021,102 @@ msgstr ""
 msgid "No Title"
 msgstr ""
 
-#: adhocracy/templates/template.html:57
+#: adhocracy/templates/template.html:58
 msgid "sign in"
 msgstr ""
 
-#: adhocracy/templates/template.html:61
+#: adhocracy/templates/template.html:62
 msgid "settings"
 msgstr ""
 
-#: adhocracy/templates/template.html:62
+#: adhocracy/templates/template.html:63
 msgid "logout"
 msgstr ""
 
-#: adhocracy/templates/template.html:65
+#: adhocracy/templates/template.html:66
 msgid "search"
 msgstr ""
 
-#: adhocracy/templates/template.html:67
+#: adhocracy/templates/template.html:68
 msgid "Go"
 msgstr ""
 
-#: adhocracy/templates/template.html:70
+#: adhocracy/templates/template.html:71
 #, python-format
 msgid "Join %s to contribute"
 msgstr ""
 
-#: adhocracy/templates/template.html:95
+#: adhocracy/templates/template.html:96
 #, fuzzy
 msgid "Issues"
 msgstr ""
 
-#: adhocracy/templates/template.html:95
+#: adhocracy/templates/template.html:96
 #: adhocracy/templates/instance/view.html:6
 msgid "Home"
 msgstr ""
 
-#: adhocracy/templates/template.html:104
+#: adhocracy/templates/template.html:105
 msgid "More Adhocracies..."
 msgstr ""
 
-#: adhocracy/templates/template.html:109
+#: adhocracy/templates/template.html:110
 msgid "Polls"
 msgstr ""
 
-#: adhocracy/templates/template.html:112 adhocracy/templates/poll/index.html:9
+#: adhocracy/templates/template.html:113 adhocracy/templates/poll/index.html:9
 msgid "Current polls"
 msgstr ""
 
-#: adhocracy/templates/template.html:113
+#: adhocracy/templates/template.html:114
 msgid "Review decisions"
 msgstr ""
 
-#: adhocracy/templates/template.html:118
+#: adhocracy/templates/template.html:119
 #: adhocracy/templates/user/delegations.html:11
 msgid "Delegations"
 msgstr ""
 
-#: adhocracy/templates/template.html:122
+#: adhocracy/templates/template.html:123
 msgid "Administration"
 msgstr ""
 
-#: adhocracy/templates/template.html:124 adhocracy/templates/issue/edit.html:3
+#: adhocracy/templates/template.html:125 adhocracy/templates/issue/edit.html:3
 #: adhocracy/templates/proposal/edit.html:4
 #, python-format
 msgid "Edit %s"
 msgstr ""
 
-#: adhocracy/templates/template.html:126
+#: adhocracy/templates/template.html:127
 msgid "Global Permissions"
 msgstr ""
 
-#: adhocracy/templates/template.html:134 adhocracy/templates/user/index.html:3
+#: adhocracy/templates/template.html:135 adhocracy/templates/user/index.html:3
 #: adhocracy/templates/user/index.html:6 adhocracy/templates/user/index.html:11
 msgid "Users"
 msgstr ""
 
-#: adhocracy/templates/template.html:166
+#: adhocracy/templates/template.html:167
 msgid "adhocracy &middot; liquid democracy platform"
 msgstr ""
 
-#: adhocracy/templates/template.html:167
+#: adhocracy/templates/template.html:168
 msgid "about"
 msgstr ""
 
-#: adhocracy/templates/template.html:168
+#: adhocracy/templates/template.html:169
 msgid "help"
 msgstr ""
 
-#: adhocracy/templates/template.html:169
+#: adhocracy/templates/template.html:170
 msgid "report a problem"
 msgstr ""
 
-#: adhocracy/templates/template.html:170
+#: adhocracy/templates/template.html:171
 msgid "privacy"
 msgstr ""
 
-#: adhocracy/templates/template.html:171
+#: adhocracy/templates/template.html:172
 msgid "imprint"
 msgstr ""
 
@@ -1172,7 +1186,7 @@ msgstr ""
 #: adhocracy/templates/comment/tiles.html:71
 #: adhocracy/templates/instance/view.html:20
 #: adhocracy/templates/issue/view.html:36
-#: adhocracy/templates/proposal/view.html:77
+#: adhocracy/templates/proposal/view.html:78
 #: adhocracy/templates/user/view.html:12
 msgid "edit"
 msgstr ""
@@ -1199,7 +1213,7 @@ msgstr ""
 
 #: adhocracy/templates/comment/tiles.html:75
 #: adhocracy/templates/issue/view.html:40
-#: adhocracy/templates/proposal/view.html:81
+#: adhocracy/templates/proposal/view.html:82
 msgid "delete"
 msgstr ""
 
@@ -1524,7 +1538,7 @@ msgstr ""
 
 #: adhocracy/templates/instance/view.html:27
 #: adhocracy/templates/issue/view.html:44
-#: adhocracy/templates/proposal/view.html:85
+#: adhocracy/templates/proposal/view.html:86
 #: adhocracy/templates/user/view.html:81
 msgid "subscribe"
 msgstr ""
@@ -1618,7 +1632,7 @@ msgid ""
 msgstr ""
 
 #: adhocracy/templates/issue/view.html:86
-#: adhocracy/templates/proposal/view.html:132
+#: adhocracy/templates/proposal/view.html:133
 msgid "Discussion"
 msgstr ""
 
@@ -1983,22 +1997,22 @@ msgstr ""
 msgid "(Select a proposal)"
 msgstr ""
 
-#: adhocracy/templates/proposal/view.html:71
-#: adhocracy/templates/proposal/view.html:73
+#: adhocracy/templates/proposal/view.html:72
+#: adhocracy/templates/proposal/view.html:74
 msgid "call a vote"
 msgstr ""
 
-#: adhocracy/templates/proposal/view.html:73
+#: adhocracy/templates/proposal/view.html:74
 msgid ""
 "The proposal cannot be voted upon since it does not have any provisions "
 "yet."
 msgstr ""
 
-#: adhocracy/templates/proposal/view.html:117
+#: adhocracy/templates/proposal/view.html:118
 msgid "Provisions"
 msgstr ""
 
-#: adhocracy/templates/proposal/view.html:119
+#: adhocracy/templates/proposal/view.html:120
 msgid ""
 "<b>Provisions</b> are the body of a proposal: together they form the "
 "language that will be voted upon. You will need to have at least one "
@@ -2279,92 +2293,4 @@ msgstr ""
 #: adhocracy/templates/user/votes.html:14
 msgid "Review your voting track"
 msgstr ""
-
-#~ msgid "Welcome"
-#~ msgstr ""
-
-#~ msgid "Welcome to %(site)s"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Adhocracy helps <strong>groups</strong> make "
-#~ "<strong>decisions</strong>."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Adhocracy is a platform for virtual "
-#~ "direct democracies where you can "
-#~ "cooperate to create andselect solutions "
-#~ "to your organization's challenges."
-#~ msgstr ""
-
-#~ msgid "What groups?"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Think NGOs, open projects. Distributed, "
-#~ "loosely-knit groups in search of a"
-#~ " common strategy or groups with "
-#~ "complex internal policies like Wikipedia."
-#~ msgstr ""
-
-#~ msgid "Read more..."
-#~ msgstr ""
-
-#~ msgid "What decisions?"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Anything that discusses a method of "
-#~ "solving a problem. This could be "
-#~ "laws, strategy decisions or even design"
-#~ " patterns."
-#~ msgstr ""
-
-#~ msgid "Current votes"
-#~ msgstr ""
-
-#~ msgid "faq"
-#~ msgstr ""
-
-#~ msgid "development"
-#~ msgstr ""
-
-#~ msgid "imprint/contact"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "If this error continues to occur, "
-#~ "please <a href='/page/imprint.html'>notify us</a>"
-#~ " with a description of what you "
-#~ "were trying to do."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Before activating, the defined majority "
-#~ "must be continuously held by the "
-#~ "moton for the specified interval."
-#~ msgstr ""
-
-#~ msgid "Subscribe to RSS feed:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Proposals are <b>proposals</b> that solve "
-#~ "some or all of the problems "
-#~ "described by this issue. A proposal "
-#~ "can be <b>discussed and voted</b> upon."
-#~ msgstr ""
-
-#~ msgid "This vote has recieved the required majority and cannot be cancelled"
-#~ msgstr ""
-
-#~ msgid "Vote"
-#~ msgstr ""
-
-#~ msgid "Delegate Recommendations"
-#~ msgstr ""
-
-#~ msgid "Of the required %s votes, the proposal has:"
-#~ msgstr ""
 

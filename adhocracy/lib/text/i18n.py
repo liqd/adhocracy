@@ -27,8 +27,6 @@ def handle_request():
     """
     c.locale = user_language(c.user, request.languages)
 
-
-
 def user_language(user, fallbacks=[]):
     locale = None
     if user and user.locale:
@@ -69,4 +67,4 @@ def relative_time(dt):
     """ A short statement giving the time distance since ``dt``. """
     fmt = "<abbr class='timeago' title='%(iso)sZ'>%(formatted)s</abbr>"
     return fmt % dict(iso=dt.isoformat(), formatted=format_date(dt))
-        
+    

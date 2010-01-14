@@ -22,7 +22,10 @@ def init_search():
         log.warn("Resetting Whoosh %s index at: %s" % (whoosh.versionstring(), index_dir))
         util.create_site_subdirectory(*SITE_INDEX_DIR)
         create_index(index_dir)
-        rebuild_all()
+        try:
+            rebuild_all()
+        except Exception, e:
+            log.warn("Couldn't rebuild index: %s" % e)
     else: 
         log.info("Opening Whoosh %s index at: %s" % (whoosh.versionstring(), index_dir))
         open_index(index_dir)
