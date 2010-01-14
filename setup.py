@@ -43,7 +43,7 @@ setup(
     message_extractors={'adhocracy': [
             ('**.py', 'python', None),
             ('templates/**.html', 'mako', {'input_encoding': 'utf-8'}),
-            ('public/**', 'ignore', None)]},
+            ('static/**', 'ignore', None)]},
     zip_safe=False,
     paster_plugins=['PasteScript', 'Pylons'],
     entry_points="""
