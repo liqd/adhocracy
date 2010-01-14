@@ -2,28 +2,24 @@
 <%namespace name="components" file="/components.html"/>
 <%def name="title()">${c.page.title}</%def>
 
+<div class="top_actions title">
+	%if not c.user:
+		<a class="button add" href="/register">${_("sign up")}</a>
+	%endif
+	%if h.has_permission("instance.create"):
+		<a class="button add" href="/instance/create">${_("new adhocracy")}</a>
+	%endif
+</div>
+
+
 <h1 class="page_title">${c.page.title}</h1>
 
 <div class="sidebar">
 	%if not c.user:
-		<div class="top_actions">
-			<a class="button add" href="/register">${_("sign up")}</a>
-		</div>
-		<h2>${_("Say hi")}</h2>
 		<div class="tile">
-		
 		<%include file="/user/login_form.html"/>
 		</div>
-		<br/>
-	%endif
-	%if c.user:
-		<div class="top_actions">
-			<a class="button edit" href="/adhocracies">${_("more")}</a>
-			%if h.has_permission("instance.create"):
-				<a class="button add" href="/instance/create">${_("new")}</a>
-			%endif
-		</div>
-		<h2>${_("My Adhocracies")}</h2>	
+	%else:
 		%if len(c.user.instances):
 			<ul>
 			%for instance in c.user.instances:
