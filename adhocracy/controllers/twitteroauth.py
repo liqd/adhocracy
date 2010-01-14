@@ -52,7 +52,7 @@ class TwitteroauthController(BaseController):
             api._FetchUrl("http://twitter.com/friendships/create.json", 
                           post_data={'screen_name': system_user()}, 
                           no_cache=True)
-            h.flash(_("You're now following <b>%s</b> on twitter so we " 
+            h.flash(_("You're now following %s on twitter so we " 
                       + "can send you notifications as direct messages") % system_user())
         except HTTPError, he:
             log.warn(he.read())

@@ -38,7 +38,7 @@
 	<link href="/style/site.css" rel="stylesheet" type="text/css" />
 	<link media="only screen and (max-device-width: 480px)" href="/style/iphone.css" type="text/css" rel="stylesheet" />
 	<link rel="stylesheet" href="/style/print.css" type="text/css" media="print" />
-	<link href='http://adhocracy.cc/favicon.ico' rel='shortcut icon' type='image/x-icon' />
+	<link href='/favicon.ico' rel='shortcut icon' type='image/x-icon' />
 	${print_link()}
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -118,7 +118,7 @@
 				%if h.has_permission("vote.cast"):
 					<li><a href="/user/${c.user.user_name}/delegations">${_("Delegations")}</a></li>
 				%endif
-				%if c.user and h.has_permission("instance.admin"):
+				%if c.user and h.has_permission("instance.admin") or h.has_permission("global.admin"):
 					<li class="admin">
 						<a href="/instance/edit/${c.instance.key}">${_("Administration")}</a>
 						<ul>
