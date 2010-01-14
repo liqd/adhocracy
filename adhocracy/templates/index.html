@@ -36,18 +36,7 @@
 			<div class="infobox">
 				${_("Join a few Adhocracies to contribute to their policies.")}
 			</div>
-		%endif
-		
-	%else:
-		<div class="top_actions">
-			<a class="button edit" href="/adhocracies">${_("more")}</a>
-		</div>
-		<h2>${_("Adhocracies")}</h2>
-		<ul>
-		%for instance in c.instances:
-			${tiles.instance.list_item(instance)}
-		%endfor
-		</ul>		
+		%endif		
 	%endif
 	<p>
 	
