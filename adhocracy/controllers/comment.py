@@ -124,7 +124,7 @@ class CommentController(BaseController):
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic)
         
-        self.redirect(c.comment.id)
+        redirect_to("/d/%s" % c.comment.topic.id)
     
     @RequireInstance
     @ActionProtector(has_permission("comment.view"))    
