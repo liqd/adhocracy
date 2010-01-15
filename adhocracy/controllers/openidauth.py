@@ -19,7 +19,7 @@ AX_MAIL_SCHEMA = u'http://schema.openid.net/contact/email'
 AX_MEMBERSHIP_SCHEMA = u'http://schema.liqd.de/membership/signed/'
 
 class OpenIDInitForm(formencode.Schema):
-    openid = validators.String(not_empty=True)
+    openid = validators.String(not_empty=False, if_empty=None)
     
 class OpenIDUsernameForm(formencode.Schema):
     login = formencode.All(validators.PlainText(),
@@ -97,8 +97,9 @@ class OpenidauthController(BaseController):
         self.consumer = create_consumer(self.openid_session)
         openid = self.form_result.get("openid")
         try:
+            if not openid: raise ValueError(_("No OpenID given!"))
             authrequest = self.consumer.begin(openid)
-        except DiscoveryFailure, e:
+        except Exception, e:
             return self._failure(openid, str(e))
         
         if not c.user and not model.OpenID.by_id(openid):
