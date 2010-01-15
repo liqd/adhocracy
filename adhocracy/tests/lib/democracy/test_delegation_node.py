@@ -135,7 +135,7 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
         
         d1to2 = model.Delegation(user1, user2, proposal.issue)
         model.meta.Session.add(d1to2)
-        model.meta.Session.commit()
+        model.meta.Session.flush()
         
         dn = DelegationNode(user1, proposal.issue)
         assert len(dn.outbound()) == 1
