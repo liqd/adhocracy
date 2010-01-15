@@ -62,7 +62,7 @@ class Decision(object):
                 return [vote]
             if relevant.get(vote.delegation, vote).create_time <= vote.create_time:
                 relevant[vote.delegation] = vote
-        use_keys = self.node.filter_delegations(relevant.keys())
+        use_keys = self.node.filter_less_specific_delegations(relevant.keys())
         return [v for k, v in relevant.items() if k in use_keys]
         
     relevant_votes = property(_relevant_votes)

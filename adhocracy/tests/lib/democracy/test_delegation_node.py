@@ -124,6 +124,22 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
         assert_equals(self.first.number_of_votes_in_scope(self.proposal), 2)
         assert_equals(self.second.number_of_votes_in_scope(self.proposal), 2)
     
+    def test_if_user_has_delegated_to_same_user_on_two_levels_only_one_is_counted(self):
+        self.first.delegate_to_user_in_scope(self.me, self.proposal)
+        self.first.delegate_to_user_in_scope(self.me, self.proposal.issue)
+        assert_equals(self.me.number_of_votes_in_scope(self.proposal), 2)
+    
+    def test_if_user_has_delegated_to_same_user_on_two_levels_only_one_is_counted_even_if_encountered_transitive(self):
+        self.first.delegate_to_user_in_scope(self.second, self.proposal)
+        self.first.delegate_to_user_in_scope(self.second, self.proposal.issue)
+        self.second.delegate_to_user_in_scope(self.me, self.proposal)
+        assert_equals(self.me.number_of_votes_in_scope(self.proposal), 3)
+    
+    def test_delegations_to_different_people_are_counted_for_each_delegaton_target(self):
+        self.me.delegate_to_user_in_scope(self.first, self.proposal.issue)
+        self.me.delegate_to_user_in_scope(self.second, self.proposal.issue)
+        assert_equals(self.first.number_of_votes_in_scope(self.proposal), 2)
+        assert_equals(self.second.number_of_votes_in_scope(self.proposal), 2)
     
     
     
@@ -224,7 +240,7 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
         model.meta.Session.add(large)
         model.meta.Session.commit()
         
-        res = DelegationNode.filter_delegations([small, large])
+        res = DelegationNode.filter_less_specific_delegations([small, large])
         assert small in res
         assert large not in res
     
