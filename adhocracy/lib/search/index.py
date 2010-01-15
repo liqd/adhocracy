@@ -1,5 +1,6 @@
 import logging 
 import os, os.path, shutil
+from threading import Lock 
 
 from whoosh import index
 from whoosh.fields import *
@@ -15,14 +16,23 @@ schema = Schema(title=TEXT(stored=True),
                 instance=ID(stored=True))
 
 ix = None
+ix_lock = Lock()
 
 def create_index(index_dir):
     global ix
-    ix = index.create_in(index_dir, schema)
+    ix_lock.acquire()
+    try:
+        ix = index.create_in(index_dir, schema)
+    finally:
+        ix_lock.release()
     
 def open_index(index_dir):
     global ix
-    ix = index.open_dir(index_dir)
+    ix_lock.acquire()
+    try:
+        ix = index.open_dir(index_dir)
+    finally:
+        ix_lock.release()
     
 def get_index():
     global ix

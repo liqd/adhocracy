@@ -6,7 +6,7 @@ from adhocracy.model import hooks
 from adhocracy.model import refs
 from .. import text 
 
-from index import get_index
+from index import get_index, ix_lock
 
 def datetime2str(dt):
     return unicode(dt.strftime("%s"))
@@ -76,9 +76,13 @@ def insert(index_func):
         if entry is None:
             delete(entity)
         else:
-            writer = get_index().writer()
-            writer.add_document(**entry)
-            writer.commit()
+            ix_lock.acquire()
+            try:
+                writer = get_index().writer()
+                writer.add_document(**entry)
+                writer.commit()
+            finally:
+                ix_lock.release()            
     return f
 
 def update(index_func):
@@ -87,17 +91,24 @@ def update(index_func):
         if entry is None:
             delete(entity)
         else:
-            writer = get_index().writer()
-            writer.update_document(**entry)
-            writer.commit()
+            ix_lock.acquire()
+            try:
+                writer = get_index().writer()
+                writer.update_document(**entry)
+                writer.commit()
+            finally:
+                ix_lock.release()
     return f
 
 def delete(entity):
-    ix = get_index()
-    ref = refs.to_ref(entity)
-    ix.delete_by_term('ref', ref)
-    ix.commit()
-
+    ix_lock.acquire()
+    try:
+        ix = get_index()
+        ref = refs.to_ref(entity)
+        ix.delete_by_term('ref', ref)
+        ix.commit()
+    finally:
+        ix_lock.release()
 def register_indexer(cls, index_func):
     hooks.patch(cls, hooks.POSTINSERT, insert(index_func))
     hooks.patch(cls, hooks.POSTUPDATE, update(index_func))
