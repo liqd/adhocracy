@@ -37,7 +37,7 @@ def delegateable_activity(dgb, from_time=None, to_time=None):
     a = activity(query_filter, from_time, to_time)
     for child in dgb.children:
         a += delegateable_activity(child, from_time, to_time)
-    return a * -1
+    return a
 
 def proposal_activity(proposal, from_time=None, to_time=None):
     return delegateable_activity(proposal, from_time, to_time)
