@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 from sqlalchemy import Table, Column, Integer, ForeignKey, DateTime, func, Boolean, Unicode, UnicodeText
 from sqlalchemy.orm import synonym, reconstructor
@@ -11,6 +12,8 @@ from meta import Base
 import meta
 import user
 import refs
+
+log = logging.getLogger(__name__)
 
 event_topic = Table('event_topic', Base.metadata,
     Column('event_id', Integer, ForeignKey('event.id',
@@ -96,4 +99,5 @@ class Event(Base):
                 q = q.filter(Event.instance_id==ifilter.get_instance().id)
             return q.one()
         except:
+            log.exception("find(%s)" % id)
             return None

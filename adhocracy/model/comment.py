@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, Boolean, func, or_
 from sqlalchemy.orm import relation, backref
@@ -7,6 +8,8 @@ import meta
 from meta import Base
 import user
 import delegateable
+
+log = logging.getLogger(__name__)
 
 class Comment(Base):
     __tablename__ = 'comment'

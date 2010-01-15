@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func, or_ 
 from sqlalchemy.orm import relation, backref
@@ -6,6 +7,8 @@ from sqlalchemy.orm import relation, backref
 from meta import Base
 import user 
 import meta 
+
+log = logging.getLogger(__name__)
 
 class Twitter(Base):
     __tablename__ = 'twitter'
@@ -48,5 +51,6 @@ class Twitter(Base):
                                  Twitter.delete_time>datetime.utcnow()))
             return q.one()
         except Exception:
+            log.exception("find(%s)" % id)
             return None
         

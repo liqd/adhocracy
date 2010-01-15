@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 from sqlalchemy import Column, Integer, UnicodeText, ForeignKey, DateTime, func
 from sqlalchemy.orm import relation, backref
@@ -8,6 +9,8 @@ from meta import Base
 import user
 import comment
 from comment import Comment
+
+log = logging.getLogger(__name__)
 
 class Revision(Base):
     __tablename__ = 'revision'
@@ -38,6 +41,7 @@ class Revision(Base):
         try:
             return meta.Session.query(Revision).filter(Revision.id==id).one()
         except: 
+            log.exception("find(%s)" % id)
             return None
             
     def _index_id(self):

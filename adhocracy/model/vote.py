@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
 from sqlalchemy.orm import relation, backref
@@ -10,6 +11,8 @@ import filter as ifilter
 from user import User
 from delegation import Delegation
 from poll import Poll
+
+log = logging.getLogger(__name__)
 
 class Vote(Base):
     # REFACT: Not voted yet is expressed as None in varous places
@@ -60,7 +63,8 @@ class Vote(Base):
                 vote = vote.poll.proposal.instance == ifilter.get_instance() \
                         and vote or None
             return vote
-        except Exception, e: 
+        except:
+            log.exception("find(%s)" % id) 
             return None
         
     def _index_id(self):

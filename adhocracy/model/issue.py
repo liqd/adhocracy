@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 from sqlalchemy import Column, Unicode, ForeignKey, Integer, or_
 from sqlalchemy.orm import relation
@@ -7,6 +8,8 @@ from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 import meta
 import filter as ifilter
 from delegateable import Delegateable
+
+log = logging.getLogger(__name__)
 
 class Issue(Delegateable):
     __tablename__ = 'issue'
@@ -52,9 +55,8 @@ class Issue(Delegateable):
             if ifilter.has_instance() and instance_filter:
                 q = q.filter(Issue.instance_id==ifilter.get_instance().id)
             return q.one()
-        except NoResultFound: 
-            return None 
-        except MultipleResultsFound:
+        except: 
+            log.exception("find(%s)" % id)
             return None
     
     @classmethod    

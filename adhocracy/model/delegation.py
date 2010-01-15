@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import relation, backref
@@ -8,6 +9,8 @@ import filter as ifilter
 from meta import Base
 from user import User
 from delegateable import Delegateable
+
+log = logging.getLogger(__name__)
 
 class Delegation(Base):
     __tablename__ = 'delegation'
@@ -71,6 +74,7 @@ class Delegation(Base):
                     return None 
             return d
         except:
+            log.exception("find(%s)" % id)
             return None
         
     def revoke(self, revoke_time=None):

@@ -1,5 +1,6 @@
 import random 
 from datetime import datetime
+import logging
 
 from sqlalchemy import Table, Column, Integer, Unicode, String, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import relation, backref
@@ -9,6 +10,8 @@ import meta
 import filter
 from meta import Base
 from user import User
+
+log = logging.getLogger(__name__)
 
 # REFACT: this should not be used anymore - remove?
 category_graph = Table('category_graph', Base.metadata,
@@ -75,6 +78,7 @@ class Delegateable(Base):
                 q = q.filter(Delegateable.instance_id==filter.get_instance().id)
             return q.one()
         except: 
+            log.exception("find(%s)" % id)
             return None
         
     @classmethod    

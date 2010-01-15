@@ -1,7 +1,11 @@
+import logging
+
 from sqlalchemy import Column, Integer, Unicode
 
 import meta
 from meta import Base
+
+log = logging.getLogger(__name__)
 
 class Group(Base):
     __tablename__ = 'group'
@@ -38,6 +42,7 @@ class Group(Base):
         try:
             return meta.Session.query(Group).filter(Group.group_name==group_name).one()
         except: 
+            log.exception("find(%s)" % id)
             return None
         
     def _index_id(self):

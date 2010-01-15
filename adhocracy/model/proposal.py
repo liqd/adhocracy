@@ -68,6 +68,7 @@ class Proposal(Delegateable):
                 q = q.filter(Proposal.instance_id==filter.get_instance().id)
             return q.one()
         except: 
+            log.exception("find(%s)" % id)
             return None
     
     @classmethod    

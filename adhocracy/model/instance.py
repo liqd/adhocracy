@@ -1,5 +1,6 @@
 import re
 from datetime import datetime
+import logging
 
 from sqlalchemy import Column, Integer, Float, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import relation, synonym, backref
@@ -7,6 +8,8 @@ from sqlalchemy.orm import relation, synonym, backref
 import meta
 from meta import Base
 import user
+
+log = logging.getLogger(__name__)
 
 # Instance is not a delegateable - but it should - or you cannot do instance wide delegation
 class Instance(Base):
@@ -79,6 +82,7 @@ class Instance(Base):
                                  Instance.delete_time>datetime.utcnow()))
             return q.one()
         except:
+            log.exception("find(%s)" % id)
             return None
     
     def is_deleted(self, at_time=None):

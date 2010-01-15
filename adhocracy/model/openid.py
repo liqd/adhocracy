@@ -1,11 +1,15 @@
 from datetime import datetime
 
+import logging
+
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func, or_ 
 from sqlalchemy.orm import relation, backref
 
 from meta import Base
 import user 
 import meta 
+
+log = logging.getLogger(__name__)
 
 class OpenID(Base):
     __tablename__ = 'openid'
@@ -39,6 +43,7 @@ class OpenID(Base):
                                  OpenID.delete_time>datetime.utcnow()))
             return q.one()
         except Exception:
+            log.exception("find(%s)" % id)
             return None
         
     
@@ -52,4 +57,5 @@ class OpenID(Base):
                                  OpenID.delete_time>datetime.utcnow()))
             return q.one()
         except Exception:
+            log.exception("by_id(%s)" % id)
             return None
