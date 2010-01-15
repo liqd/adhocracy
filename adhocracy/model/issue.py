@@ -48,7 +48,7 @@ class Issue(Delegateable):
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Issue)
-            q = q.filter(Issue.id==id)
+            q = q.filter(Issue.id==int(id))
             if not include_deleted:
                 q = q.filter(or_(Issue.delete_time==None,
                                  Issue.delete_time>datetime.utcnow()))

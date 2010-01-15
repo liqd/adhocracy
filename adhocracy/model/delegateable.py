@@ -70,7 +70,7 @@ class Delegateable(Base):
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Delegateable)
-            q = q.filter(Delegateable.id==id)
+            q = q.filter(Delegateable.id==int(id))
             if not include_deleted:
                 q = q.filter(or_(Delegateable.delete_time==None,
                                  Delegateable.delete_time>datetime.utcnow()))
