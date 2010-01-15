@@ -104,8 +104,9 @@ def contains_delegations(user, delegateable, recurse=True):
 #default_gravatar = "http://adhocracy.cc/img/icons/user_%s.png"
 def gravatar_url(user, size=32):
     # construct the url
+    id = user.email if user.email else user.user_name
     gravatar_url = "http://www.gravatar.com/avatar.php?"
-    gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(user.email).hexdigest(), 
+    gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(id).hexdigest(), 
         'default':'identicon', 
         'size': str(size)})
     return gravatar_url

@@ -155,6 +155,7 @@ def row(comment):
 def full(comment, recurse=True, collapse=True, link_discussion=False):
     return render_tile('/comment/tiles.html', 'full', CommentTile(comment), 
                        recurse=recurse, comment=comment, collapse=collapse, 
-                       link_discussion=link_discussion, topic=comment.topic,
-                       user=c.user if c.user else None, cached=True)
+                       link_discussion=link_discussion, 
+                       #user=c.user if c.user else None, topic=comment.topic, 
+                       cached=False)
 
