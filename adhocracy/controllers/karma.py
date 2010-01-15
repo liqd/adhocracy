@@ -3,7 +3,7 @@ import simplejson
 from datetime import datetime
 
 from pylons.i18n import _
-from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 from adhocracy.lib.base import *
 from adhocracy.lib.karma import *
@@ -39,8 +39,9 @@ class KarmaController(BaseController):
                 karma.create_time = datetime.utcnow()
             except NoResultFound:
                 karma = model.Karma(value, c.user, comment.creator, comment)
-        
-            model.meta.Session.add(karma)
+                model.meta.Session.add(karma)
+            except MultipleResultsFound:
+                log.exception("multiple karmas")
             model.meta.Session.commit()
         
         if format == 'json':
