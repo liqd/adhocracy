@@ -12,7 +12,7 @@ class DelayCriterion(Criterion):
         self._begin_time = None
     
     def _get_delay(self):
-        return timedelta(minutes=self.proposal.instance.activation_delay)
+        return timedelta(days=self.proposal.instance.activation_delay)
     
     delay = property(_get_delay)
     
@@ -28,7 +28,9 @@ class DelayCriterion(Criterion):
                     if self.begin_time else None
     
     end_time = property(_get_end_time) 
-    
+
+
+# REFACT: consider to remember the state from the last check and just compute what has changes since then (for StabilityCriterion and VolatilityCriterion)
 class StabilityCriterion(DelayCriterion):
     """
     Check to see whether the other adoption criteria have been
@@ -36,10 +38,10 @@ class StabilityCriterion(DelayCriterion):
     """
     
     def _check_criteria(self, tally):
-        return self.state.majority(tally) and \
-               self.state.participation(tally) and \
-               self.state.alternatives(tally) and \
-               self.state.dependencies(tally)
+        return self.state.majority(tally) \
+            and self.state.participation(tally) \
+            and self.state.alternatives(tally) \
+            and self.state.dependencies(tally)
                
     def _sfx_check_tally(self, tally):
         # sfx = side effects. 
@@ -90,37 +92,37 @@ class VolatilityCriterion(DelayCriterion):
     """
     
     def _check_criteria(self, tally):
-        return self.state.majority(tally) and \
-               self.state.participation(tally) and \
-               self.state.alternatives(tally) and \
-               self.state.dependencies(tally)
+        return self.state.majority(tally) \
+            and self.state.participation(tally) \
+            and self.state.alternatives(tally) \
+            and self.state.dependencies(tally)
     
     def _sfx_check_tally(self, tally):        
         earliest = tally.at_time - self.delay
         tallies = self.state.get_tallies(start_at=earliest)
-#        
-#        # is this really necessary?
-#        before = libtally.at(self.poll, earliest)
-#        if not self._check_criteria(before):
-#            return False
-#        
-#        previous_tally = None
-#        for t in tallies:
-#            # filter by time
-#            if t.at_time > tally.at_time:
-#                continue
-#            if t.at_time < before.at_time:
-#                break
-#        
-#            if self._check_criteria(t):
-#                if previous_tally:
-#                    self._begin_time = previous_tally.at_time
-#                    return True
-#                return False
-#                
-#            previous_tally = t
-#        
-        return False   
+        
+        # # is this really necessary?
+        # before = libtally.at(self.poll, earliest)
+        # if not self._check_criteria(before):
+        #     return False
+        # 
+        # previous_tally = None
+        # for t in tallies:
+        #     # filter by time
+        #     if t.at_time > tally.at_time:
+        #         continue
+        #     if t.at_time < before.at_time:
+        #         break
+        #     
+        #     if self._check_criteria(t):
+        #         if previous_tally:
+        #             self._begin_time = previous_tally.at_time
+        #             return True
+        #         return False
+        #     
+        #     previous_tally = t
+        
+        return False
 
     @memoize('volatility_criterion')
     def check_tally(self, tally):
