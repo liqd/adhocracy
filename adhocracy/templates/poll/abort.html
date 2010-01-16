@@ -8,7 +8,7 @@
 
 <h1 class="page_title">${_("Cancel vote on: %s") % c.proposal.label}</h1>
 
-<form name="release_proposal" class="inplace" method="POST" action="/poll/abort/${c.proposal.id}">
+<form name="release_proposal" class="inplace" method="POST" action="/poll/${c.poll.id}/abort">
 	${h.field_token()|n}
 	<div class="sidebar">&nbsp;</div>
 	<div class="mainbar">

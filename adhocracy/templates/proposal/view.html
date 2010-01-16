@@ -2,7 +2,6 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 <%namespace name="state" file="/poll/state.html"/>
-<%namespace name="ptiles" file="/poll/tiles.html"/>
 
 <%def name="title()">${c.proposal.label}</%def>
 
@@ -95,7 +94,7 @@
 		%if c.tile.poll:
 		<div class="tile boxed">
 			<div class="inner_boxed voting_booth">  
-				${ptiles.sb_booth(c.proposal, c.tile)}
+				${tiles.poll.booth(c.tile.poll)}
 			</div>
 		</div>
 		%endif

@@ -21,10 +21,6 @@ class ProposalEditForm(formencode.Schema):
     label = validators.String(max=255, min=4, not_empty=True)
     issue = forms.ValidIssue(not_empty=True)
 
-class ProposalDecisionsFilterForm(formencode.Schema):
-    allow_extra_fields = True
-    result = validators.Int(not_empty=False, if_empty=None, min=-1, max=1)
-
 
 class ProposalController(BaseController):
     
@@ -275,26 +271,7 @@ class ProposalController(BaseController):
     
     @RequireInstance
     @ActionProtector(has_permission("proposal.view")) 
-    def votes(self, id):
-        c.proposal = get_entity_or_abort(model.Proposal, id)
-        filters = dict()
-        try:
-            filters = ProposalDecisionsFilterForm().to_python(request.params)
-        except formencode.Invalid:
-            pass
-        
-        if not c.proposal.poll:
-            h.flash(_("%s is not currently in a poll, thus no votes have been counted."))
-            redirect_to("/proposal/%s" % str(c.proposal.id))
-        
-        decisions = democracy.Decision.for_poll(c.proposal.poll)
-            
-        if filters.get('result'):
-            decisions = filter(lambda d: d.result==filters.get('result'), decisions)
-            
-        c.decisions_pager = NamedPager('decisions', decisions, tiles.decision.proposal_row, 
-                                    sorts={_("oldest"): sorting.entity_oldest,
-                                           _("newest"): sorting.entity_newest},
-                                    default_sort=sorting.entity_newest)
-        return render("/proposal/votes.html")
-
+    def adopted(self):
+        issues = model.Issue.all(instance=c.instance)
+        c.issues = sorting.delegateable_label(issues)
+        return render("/proposal/adopted.html")

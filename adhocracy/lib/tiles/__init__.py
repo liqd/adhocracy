@@ -11,6 +11,7 @@ import event_tiles as event
 import decision_tiles as decision
 import delegation_tiles as delegation
 import revision_tiles as revision
+import poll_tiles as poll
 
 log = logging.getLogger(__name__)
 

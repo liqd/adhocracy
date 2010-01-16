@@ -2,22 +2,30 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 
-<%def name="title()">${_("Votes: %s") % c.proposal.label}</%def>
+<%def name="title()">${_("Votes: %s") % c.poll.proposal.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("Votes")}
+	${h.breadcrumbs(c.poll.proposal)|n} &raquo; ${_("Votes")}
 </%def>
 
 
 <h1 class="page_title"><img src="/img/icons/vote_24.png" class="cd" /> ${_("Votes:")}  
-	<a href="/proposal/${c.proposal.id}">${c.proposal.label}</a></h1>
+	<a href="/proposal/${c.poll.proposal.id}">${c.poll.proposal.label}</a></h1>
 
 <div class="sidebar">
-	&nbsp;
+	<div class="tile">
+		%if c.poll:
+		<div class="tile boxed">
+			<div class="inner_boxed voting_booth">  
+				${tiles.poll.booth(c.poll)}
+			</div>
+		</div>
+		%endif
+	</div>
 </div>
 
 <div class="mainbar">
-	%if c.proposal.poll:	
+	%if c.poll:	
 		<div class="table">
 			${c.decisions_pager.here()}
 		</div>

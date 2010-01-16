@@ -1,0 +1,59 @@
+<%inherit file="/template.html" />
+
+<%namespace name="components" file="/components.html"/>
+<%namespace name="comment_tiles" file="/comment/tiles.html"/>
+<%namespace name="state" file="/poll/state.html"/>
+<%namespace name="ptiles" file="/poll/tiles.html"/>
+
+<%def name="title()">${_("Adopted Proposals")}</%def>
+
+<h1 class="page_title"><img class="cd" src="/instance/icon/${c.instance.key}-24x24.png" /> 
+	${_("Adopted Proposals in %s") % c.instance.label}</h1>
+
+<% last_issue = None %>
+<% has_adopted = False %>
+
+%for issue in c.issues:
+	%for proposal in c.lib.sorting.delegateable_label(issue.proposals):
+	<%
+	tile = tiles.proposal.ProposalTile(proposal) 
+	if not tile.poll: continue 
+	if not tile.state.adopted: continue
+	has_adopted = True
+	%>
+	%if issue != last_issue:
+		<% last_issue=issue %>
+		<h2><img src="/img/icons/issue_20.png" class="cd" /> 
+			<a href="/issue/${issue.id}">${issue.label}</a></h2>
+	%endif
+	
+	<h3><img src="/img/icons/proposal_20.png" class="cd" /> 
+		<a href="/proposal/${proposal.id}">${proposal.label}</a></h3>
+	<div class="sidebar">
+		<div class="tile">
+			%if tile.poll:
+			<div class="tile boxed">
+				<div class="inner_boxed voting_booth">  
+					${tiles.poll.booth(tile.poll)}
+				</div>
+			</div>
+			%endif
+		</div>
+	</div>
+	
+	<div class="mainbar">
+		%for comment in tile.canonicals:
+			<% ctile = tiles.comment.CommentTile(comment) %>
+			${ctile.text|n} 
+		%endfor
+	</div>
+	
+	<div style="clear: both;"></div>
+	%endfor
+%endfor
+
+%if not has_adopted:
+	<div class="infobox">
+		${_("No proposals have been adopted yet.")}
+	</div>
+%endif

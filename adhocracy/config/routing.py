@@ -48,11 +48,16 @@ def make_map():
     map.connect('/issue/{id}', controller='issue', action='view', format='html')
     
     map.connect('/proposal/create', controller='proposal', action='create')
+    map.connect('/adopted', controller='proposal', action='adopted')
     map.connect('/proposal/{id}/votes', controller='proposal', action='votes')
     map.connect('/proposal/{action}/{id}', controller='proposal')
     map.connect('/proposal/{id}.{format}', controller='proposal', action='view')
     map.connect('/proposal/{id}', controller='proposal', action='view', format='html')
     
+    map.connect('/poll/create/{id}', controller='poll', action='create')
+    map.connect('/poll/{id}/abort', controller='poll', action='abort')
+    map.connect('/poll/{id}/votes', controller='poll', action='votes')
+    map.connect('/poll/{id}', controller='poll', action='view')
     map.connect('/polls', controller='poll', action='index')
     
     map.connect('/comment/create', controller='comment', action='create')
