@@ -30,7 +30,7 @@ TYPES = [Vote,
          Instance]
 
 def entity_type(cls):
-    return cls.__tablename__
+    return unicode(cls.__tablename__)
 
 def to_ref(entity):
     for cls in TYPES:

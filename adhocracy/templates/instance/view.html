@@ -42,6 +42,19 @@ ${components.tutu()}
 			</div>
 		</div>
 		%endif
+		<div id="issues_filter" class="tile boxed">
+			<div class="inner_boxed">
+				<form action="?" method="GET">
+				<label for="issues_q" class="armhint">${_("Find issues")}</label>
+				<input id="issues_q" class="armlabel" name="issues_q" 
+						type="text" value="${request.params.get('issues_q', '')}" 
+						tabindex="1" />
+				<noscript>
+					<input type="submit" value="${_("Filter")}">
+				</noscript>
+				</form>
+			</div>
+		</div>
 		<div class="tile boxed">
 			<div class="inner_boxed">
 				<h4><img src="/img/icons/vote_16.png" class="cd"> ${_("Voting Rules")}</h4>
@@ -63,7 +76,7 @@ ${components.tutu()}
 			</span>
 		%endif
 	%else:
-		<div class="table">
+		<div id="issues_table" class="table">
 			${c.issues_pager.here()}
 		</div>
 	%endif	

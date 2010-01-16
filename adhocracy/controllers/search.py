@@ -17,7 +17,12 @@ class SearchController(BaseController):
             c.query = SearchQueryForm().to_python(request.params).get("q")
             c.entities = libsearch.query.run(c.query, instance=c.instance if c.instance else None)
             c.entities = filter(lambda e: not isinstance(e, model.Comment), c.entities)
-            c.entities_pager = NamedPager('serp', c.entities, tiles.dispatch_row, q=c.query)
+            c.entities_pager = NamedPager('serp', c.entities, tiles.dispatch_row, 
+                                    sorts={_("oldest"): sorting.entity_oldest,
+                                           _("newest"): sorting.entity_newest,
+                                           _("relevance"): sorting.entity_stable},
+                                    default_sort=sorting.entity_stable,
+                                    q=c.query)
         except formencode.Invalid:
             h.flash(_("Received no query for search."))
                 

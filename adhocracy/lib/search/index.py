@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 
 schema = Schema(title=TEXT(stored=True),
                 ref=ID(stored=True, unique=True),
-                doc_type=STORED,
+                doc_type=ID(stored=True),
                 user=TEXT(stored=True),
                 text=TEXT(stored=True),
                 create_time=ID(stored=True),

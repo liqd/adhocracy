@@ -138,6 +138,11 @@ input:hover[type=submit] {
 	background-position: bottom;
 }
 
+.sidebar input[type=text],
+.sidebar input[type=password] {
+	width: 95%;
+}
+
 input[type=file] {
 	border: 0px;
 }

@@ -27,6 +27,10 @@ class InstanceEditForm(formencode.Schema):
     required_majority = validators.Number(not_empty=True)
     default_group = forms.ValidGroup(not_empty=True)
 
+class InstanceFilterForm(formencode.Schema):
+    allow_extra_fields = True
+    issues_q = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
+
 class InstanceController(BaseController):
     
     @ActionProtector(has_permission("instance.index"))
@@ -62,9 +66,17 @@ class InstanceController(BaseController):
         return render("/instance/create.html")
 
     @ActionProtector(has_permission("instance.view"))
+    @validate(schema=InstanceFilterForm(), post_only=False, on_get=True)
     def view(self, key, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, key)
-        issues = model.Issue.all(instance=c.page_instance)
+        
+        query = self.form_result.get('issues_q')
+        issues = []
+        if query:
+            issues = libsearch.query.run(query + "*", instance=c.page_instance, 
+                                         entity_type=model.Issue)
+        else:
+            issues = model.Issue.all(instance=c.page_instance)
         
         if format == 'rss':
             query = model.meta.Session.query(model.Event)
@@ -79,12 +91,15 @@ class InstanceController(BaseController):
         
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         
-        c.issues_pager = NamedPager('issues', issues, tiles.issue.row, 
-                                    sorts={_("oldest"): sorting.entity_oldest,
-                                           _("newest"): sorting.entity_newest,
-                                           _("activity"): sorting.issue_activity,
-                                           _("name"): sorting.delegateable_label},
-                                    default_sort=sorting.issue_activity)
+        sorts = {_("oldest"): sorting.entity_oldest,
+                 _("newest"): sorting.entity_newest,
+                 _("activity"): sorting.issue_activity,
+                 _("name"): sorting.delegateable_label}
+        if query:
+            sorts[_("relevance")] = sorting.entity_stable
+        
+        c.issues_pager = NamedPager('issues', issues, tiles.issue.row, sorts=sorts,
+                                    default_sort=sorting.entity_stable if query else sorting.issue_activity)
 
         return render("/instance/view.html")
             
@@ -199,5 +214,20 @@ class InstanceController(BaseController):
                     event.emit(event.T_INSTANCE_LEAVE,  c.user, instance=c.page_instance)
             model.meta.Session.commit()
         redirect_to('/adhocracies')
-
+        
+    @ActionProtector(has_permission("issue.view"))
+    @validate(schema=InstanceFilterForm(), post_only=False, on_get=True)
+    def filter(self, key):
+        c.page_instance = get_entity_or_abort(model.Instance, key)
+        query = self.form_result.get('issues_q')
+        issues = libsearch.query.run(query + "*", instance=c.page_instance, 
+                                     entity_type=model.Issue)
+        c.issues_pager = NamedPager('issues', issues, tiles.issue.row, 
+                                    sorts={_("oldest"): sorting.entity_oldest,
+                                           _("newest"): sorting.entity_newest,
+                                           _("activity"): sorting.issue_activity,
+                                           _("relevance"): sorting.entity_stable,
+                                           _("name"): sorting.delegateable_label},
+                                    default_sort=sorting.entity_stable)
+        return c.issues_pager.here()
 

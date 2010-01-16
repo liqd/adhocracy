@@ -7,12 +7,18 @@ from whoosh.query import *
 
 log = logging.getLogger(__name__)
 
-def run(terms, instance=None, limit=50, fields=[u'title', u'text', u'user']):
+def run(terms, instance=None, entity_type=None, limit=100, 
+        fields=[u'title', u'text', u'user']):
     ix_lock.acquire()
     try:
+        if terms is None:
+            terms = u"?"
         searcher = get_index().searcher()    
         mparser = MultifieldParser(fields, schema=schema)
         query = mparser.parse(terms)
+        
+        if entity_type:
+            query = Require(query, Term(u'doc_type', refs.entity_type(entity_type)))
         
         if instance:
             query = Require(query, Term(u'instance', instance.key))
@@ -23,7 +29,8 @@ def run(terms, instance=None, limit=50, fields=[u'title', u'text', u'user']):
         ix_lock.release()
         entities = []
         for fields in results:
-            entity = refs.to_entity(fields.get('ref'))
+            ref = fields.get('ref')
+            entity = refs.to_entity(ref)
             entities.append(entity)
         return entities
     except:

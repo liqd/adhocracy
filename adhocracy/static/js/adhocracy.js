@@ -150,6 +150,24 @@ $(document).ready(function() {
 				$(this).attr('title', current_htWarn_title);
 			});
 	
+	/* Live filter */ 
+	
+	var originalListing = null;
+	$("#issues_q").keyup(function(fld) {
+		
+		if (!originalListing) {
+			originalListing = $("#issues_table").html();
+		}
+		var value = $(this).val();
+		if ($.trim(value).length==0) {
+			$("#issues_table").html(originalListing);
+		}
+		
+		$.get('/instance/test/filter', {'issues_q': value}, function(data, status) {
+			$("#issues_table").html(data);
+		}, 'text');
+	});
+	
 	/* Armed labels */
 	_get = function(e) {
 		if (e.type=="textarea") {
@@ -185,7 +203,7 @@ $(document).ready(function() {
 				return;
 			}
 			
-			if (jQuery.trim($(e).val()).length == 0) {
+			if ($.trim($(e).val()).length==0) {
 				_set(e, hint);
 				$(e).addClass("armed");
 			}
