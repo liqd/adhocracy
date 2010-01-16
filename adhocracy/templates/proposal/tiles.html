@@ -4,6 +4,8 @@
 		<div class="logo">
 			%if tile.state.adopted:
 				<img src="/img/icons/proposal_adopted_32.png" />
+			%elif tile.state.polling:
+				<img src="/img/icons/vote_32.png" />
 			%else:
 				<img src="/img/icons/proposal_32.png" />
 			%endif
@@ -14,15 +16,12 @@
 				${tile.tagline}
 			</div -->
 			<div class="meta noclear">
-				${_("created %s by %s") % (h.relative_time(proposal.create_time), h.user_link(proposal.creator, scope=proposal))|n}
 				%if detail and proposal.issue:
-					&middot; ${h.delegateable_link(proposal.issue)|n}
+					${h.delegateable_link(proposal.issue)|n} <br />
 				%endif
-				<br />
 				
 				%if tile.state.polling:
-					<img class="user_icon" src="/img/icons/vote_16.png">
-					${_("%s votes,") % len(tile.state.tally)}
+					${_("<b>%s</b> votes,") % len(tile.state.tally)|n}
 					${_("<b>%s%%</b> approval") % int(tile.state.tally.rel_for * 100)|n}
 					&middot; 
 				%endif

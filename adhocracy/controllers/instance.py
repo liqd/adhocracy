@@ -219,7 +219,7 @@ class InstanceController(BaseController):
     @validate(schema=InstanceFilterForm(), post_only=False, on_get=True)
     def filter(self, key):
         c.page_instance = get_entity_or_abort(model.Instance, key)
-        query = self.form_result.get('issues_q')
+        query = self.form_result.get('issues_q', '')
         issues = libsearch.query.run(query + "*", instance=c.page_instance, 
                                      entity_type=model.Issue)
         c.issues_pager = NamedPager('issues', issues, tiles.issue.row, 
