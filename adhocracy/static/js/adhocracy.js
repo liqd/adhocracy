@@ -162,8 +162,8 @@ $(document).ready(function() {
 		if ($.trim(value).length==0) {
 			$("#issues_table").html(originalListing);
 		}
-		
-		$.get('/instance/test/filter', {'issues_q': value}, function(data, status) {
+		var instance_key = $("#instance_key").val();
+		$.get('/instance/' + instance_key + '/filter', {'issues_q': value}, function(data, status) {
 			$("#issues_table").html(data);
 		}, 'text');
 	});

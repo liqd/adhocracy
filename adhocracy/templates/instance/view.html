@@ -45,6 +45,7 @@ ${components.tutu()}
 		<div id="issues_filter" class="tile boxed">
 			<div class="inner_boxed">
 				<form action="?" method="GET">
+				<input type="hidden" id="instance_key" value="${c.page_instance.key}" />
 				<label for="issues_q" class="armhint">${_("Find issues")}</label>
 				<input id="issues_q" class="armlabel" name="issues_q" 
 						type="text" value="${request.params.get('issues_q', '')}" 
