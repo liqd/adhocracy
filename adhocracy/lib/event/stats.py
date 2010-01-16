@@ -27,7 +27,7 @@ def activity(query_filter, from_time=None, to_time=None):
     def evt_value(event_time):
         event_age = max(1, timedelta2seconds(now - event_time))
         relative_age = max(1, base_age - event_age)
-        return math.log1p(relative_age)
+        return math.log(relative_age)
     
     act = sum([evt_value(row[0]) for row in query])
     log.debug("Activity %s: %s" % (query, act))
