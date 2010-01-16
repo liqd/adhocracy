@@ -1,13 +1,13 @@
 import logging
+import math
 from datetime import datetime, timedelta
+from time import time
 
 from adhocracy import model
 from adhocracy.lib.cache import memoize
 from adhocracy.lib.util import timedelta2seconds
 
 log = logging.getLogger(__name__)
-
-BASE = datetime(2009, 8, 12, 13, 0, 0)
 
 def activity(query_filter, from_time=None, to_time=None):    
     if not to_time:
@@ -19,12 +19,15 @@ def activity(query_filter, from_time=None, to_time=None):
     query = query.filter(model.Event.time >= from_time)
     query = query.filter(model.Event.time <= to_time)
     query = query.order_by(model.Event.time.asc())
-    
     query = query_filter(query)
     
-    def evt_value(time):
-        t = max(1, timedelta2seconds(time - BASE))
-        return 9001.0/float(t) # over 9000
+    base_age = timedelta2seconds(timedelta(days=7))
+    now = datetime.utcnow()
+        
+    def evt_value(event_time):
+        event_age = max(1, timedelta2seconds(now - event_time))
+        relative_age = max(1, base_age - event_age)
+        return math.log1p(relative_age)
     
     act = sum([evt_value(row[0]) for row in query])
     log.debug("Activity %s: %s" % (query, act))
@@ -36,7 +39,7 @@ def delegateable_activity(dgb, from_time=None, to_time=None):
         return q.filter(model.Event.topics.contains(dgb))
     a = activity(query_filter, from_time, to_time)
     for child in dgb.children:
-        a += delegateable_activity(child, from_time, to_time)
+        a += delegateable_activity(child, from_time, to_time) 
     return a
 
 def proposal_activity(proposal, from_time=None, to_time=None):
@@ -49,10 +52,10 @@ def issue_activity(issue, from_time=None, to_time=None):
 def instance_activity(instance, from_time=None, to_time=None):
     def query_filter(q):
         return q.filter(model.Event.instance==instance)
-    return activity(query_filter, from_time, to_time) * -1
+    return activity(query_filter, from_time, to_time)
 
 @memoize('user_activity', 3600)
 def user_activity(user, from_time=None, to_time=None):
     def query_filter(q):
         return q.filter(model.Event.user==user)
-    return activity(query_filter, from_time, to_time) * -1
+    return activity(query_filter, from_time, to_time)

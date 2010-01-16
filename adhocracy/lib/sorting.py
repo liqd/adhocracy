@@ -15,16 +15,20 @@ def entity_oldest(entities):
     return sorted(entities, key=lambda e: e.create_time, reverse=False)
 
 def issue_activity(issues):
-    return sorted(issues, key=lambda i: estats.issue_activity(i))
+    return sorted(issues, key=lambda i: estats.issue_activity(i), 
+                  reverse=True)
 
 def proposal_activity(proposals):
-    return sorted(proposals, key=lambda m: estats.proposal_activity(m))
+    return sorted(proposals, key=lambda m: estats.proposal_activity(m), 
+                  reverse=True)
 
 def instance_activity(instances):
-    return sorted(instances, key=lambda i: estats.instance_activity(i))
+    return sorted(instances, key=lambda i: estats.instance_activity(i), 
+                  reverse=True)
 
 def user_activity(users):
-    return sorted(users, key=lambda u: estats.instance_activity(u))
+    return sorted(users, key=lambda u: estats.instance_activity(u), 
+                  reverse=True)
 
 def dict_value_sorter(dict):
     def _sort(items):
