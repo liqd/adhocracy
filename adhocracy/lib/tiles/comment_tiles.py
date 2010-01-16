@@ -80,7 +80,6 @@ class CommentTile(BaseTile):
     
     def _can_give_karma(self):
         return h.has_permission('karma.give') \
-                and not self.is_own \
                 and not self.is_deleted
     
     can_give_karma = property(_can_give_karma)

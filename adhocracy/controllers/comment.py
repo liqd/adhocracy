@@ -46,7 +46,10 @@ class CommentController(BaseController):
             if self.form_result.get('reply'):
                 comment.reply = self.form_result.get('reply')
             
+            karma = model.Karma(1, c.user, c.user, comment)
+            
             model.meta.Session.add(comment)
+            model.meta.Session.add(karma)
             model.meta.Session.commit()
             model.meta.Session.refresh(comment)
             

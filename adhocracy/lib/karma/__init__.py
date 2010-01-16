@@ -20,7 +20,7 @@ def position(comment, user):
         return None
 
 def comment_score(comment, recurse=False):
-    score = 1 
+    score = 0 
     q = model.meta.Session.query(model.Karma)
     q = q.filter(model.Karma.comment==comment)
     q = q.options(eagerload(model.Karma.comment))

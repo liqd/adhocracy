@@ -28,21 +28,20 @@ class KarmaController(BaseController):
             h.flash(_("Invalid karma value. Karma is either positive or negative!"))
             redirect_to("/comment/r/%s" % comment.id)
         
-        if not c.user == comment.creator:
-            q = model.meta.Session.query(model.Karma)
-            q = q.filter(model.Karma.comment==comment)
-            q = q.filter(model.Karma.donor==c.user)
-            karma = None
-            try:
-                karma = q.one()
-                karma.value = value
-                karma.create_time = datetime.utcnow()
-            except NoResultFound:
-                karma = model.Karma(value, c.user, comment.creator, comment)
-                model.meta.Session.add(karma)
-            except MultipleResultsFound:
-                log.exception("multiple karmas")
-            model.meta.Session.commit()
+        q = model.meta.Session.query(model.Karma)
+        q = q.filter(model.Karma.comment==comment)
+        q = q.filter(model.Karma.donor==c.user)
+        karma = None
+        try:
+            karma = q.one()
+            karma.value = value
+            karma.create_time = datetime.utcnow()
+        except NoResultFound:
+            karma = model.Karma(value, c.user, comment.creator, comment)
+            model.meta.Session.add(karma)
+        except MultipleResultsFound:
+            log.exception("multiple karmas")
+        model.meta.Session.commit()
         
         if format == 'json':
             return simplejson.dumps({'score': comment_score(comment)})

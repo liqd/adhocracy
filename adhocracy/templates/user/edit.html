@@ -52,9 +52,9 @@
 	</div>
 	
 	<div style="clear:both;"></div>
-	<div class="top_actions">
+	<div class="top_actions" style="margin-top: 0.6em;">
 		%if c.page_user == c.user and not c.page_user.twitter:
-			<a class="button add" href="/twitter/init?${h.url_token()}"><img src="/img/twitter.png" /> ${_("get twitter notifications")}</a>
+			<a href="/twitter/init?${h.url_token()}"><img src="/img/twitter_signin.png" alt="${_("get twitter notifications")}" /></a>
 		%endif
 	</div>
 	<h3>${_("Notifications")}</h3>

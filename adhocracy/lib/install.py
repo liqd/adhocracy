@@ -47,6 +47,7 @@ def setup_entities():
     # ADD EACH NEW PERMISSION HERE 
     
     mk_perm("vote.cast", voter)
+    mk_perm("karma.give", voter)
     mk_perm("instance.index", anonymous)
     mk_perm("instance.view", anonymous)
     mk_perm("instance.create", default)
@@ -59,7 +60,6 @@ def setup_entities():
     mk_perm("comment.create", observer)
     mk_perm("comment.edit", observer)
     mk_perm("comment.delete", supervisor)
-    mk_perm("karma.give", observer)
     mk_perm("proposal.create", observer)
     mk_perm("proposal.edit", observer)
     mk_perm("proposal.delete", supervisor)
@@ -80,8 +80,7 @@ def setup_entities():
     
     model.meta.Session.commit()
     # END PERMISSIONS LIST
-    
-    
+        
     observer.permissions = observer.permissions + anonymous.permissions
     voter.permissions = voter.permissions + observer.permissions
     supervisor.permissions = supervisor.permissions + voter.permissions
