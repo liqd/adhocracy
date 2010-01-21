@@ -138,8 +138,8 @@ input:hover[type=submit] {
 	background-position: bottom;
 }
 
-.sidebar input[type=text],
-.sidebar input[type=password] {
+#issues_q[type=text],
+#issues_q[type=password] {
 	width: 95%;
 }
 
