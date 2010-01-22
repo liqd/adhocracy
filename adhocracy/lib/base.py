@@ -86,6 +86,7 @@ class BaseController(WSGIController):
             raise
         finally:
             model.meta.Session.remove()
+            model.meta.Session.close()
             log.debug("Rendering page %s took %sms" % (environ.get('PATH_INFO'), ((time()-begin_time)*1000)))
 
 
