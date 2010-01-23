@@ -70,12 +70,7 @@ def make_map():
     
     map.connect('/karma/give', controller='karma', action='give', format='html')
     map.connect('/karma/give.json', controller='karma', action='give', format='json')
-    
-    map.connect('/category/create', controller='category', action='create')
-    map.connect('/category/{action}/{id}', controller='category')
-    map.connect('/category/{id}.{format}', controller='category', action='view')
-    map.connect('/category/{id}', controller='category', action='view', format='html')
-    
+        
     map.connect('/delegation/create', controller='delegation', action='create')
     map.connect('/delegation/graph.dot', controller='delegation', action='graph')
     map.connect('/delegation/revoke/{id}', controller='delegation', action='revoke')
@@ -99,8 +94,7 @@ def make_map():
     map.connect('/instance/{action}/{key}', controller='instance')
     map.connect('/instance/{key}.rss', controller='instance', action='view', format='rss')
     map.connect('/instance/{key}', controller='instance', action='view', format='html')
-    
-    
+        
     map.connect('/page/{page_name}.html', controller='page', action='serve')
 
     map.connect('/{controller}/{action}')
