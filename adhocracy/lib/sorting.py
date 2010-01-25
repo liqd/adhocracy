@@ -6,7 +6,8 @@ def delegateable_label(entities):
     return sorted(entities, key=lambda e: e.label.lower())
 
 def delegateable_latest_comment(entities):
-    return sorted(entities, key=lambda e: e.find_latest_comment().latest.create_time, reverse=True)
+    return sorted(entities, key=lambda e: e.find_latest_comment(recurse=True).latest.create_time, 
+                  reverse=True)
 
 def user_name(entities):
     return sorted(entities, key=lambda e: e.name.lower())
