@@ -24,6 +24,8 @@ class TwitteroauthController(BaseController):
     
     @ActionProtector(has_permission("user.edit"))
     def callback(self):
+        if 'denied' in request.params:
+            redirect_to("/user/edit/%s" % str(c.user.user_name))
         request_token = session.get('request_token')
         if not request_token:
             h.flash(_("You have been logged out while authenticating "
