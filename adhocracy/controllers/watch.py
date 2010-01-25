@@ -38,6 +38,8 @@ class WatchController(BaseController):
         ref_type = refs.ref_type(ref)
         if not ref_type or (not ref_type in WATCH_PERMISSIONS.keys()):
             abort(404, _("Invalid entity reference in watchlist request."))
+        if not c.user:
+            abort(403, _("You need to be logged in to create a watchlist entry."))
         if not h.has_permission(WATCH_PERMISSIONS[ref_type]):
             abort(403, _("No permission to create watches on a %s") % ref_type)
         if watchlist.get_ref_watch(c.user, ref):
