@@ -65,9 +65,7 @@ class BaseController(WSGIController):
              
         # have to do this with the user in place
         i18n.handle_request()
-                    
-        if c.user:
-            h.add_rss(_("My Adhocracies"), h.instance_url(None, '/feed.rss'))
+        
         if c.instance:
             h.add_rss("%s News" % c.instance.label, 
                       h.instance_url(c.instance, '/instance/%s.rss' % c.instance.key))
