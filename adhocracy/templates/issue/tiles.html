@@ -21,7 +21,7 @@
 				&middot;
 				<img src="/img/icons/discuss_16.png" /> 
 				${ungettext("%s comment", "%s comments", (len(issue.comments))) % (len(issue.comments))},
-				${_("latest <b>%s</b>") % h.relative_time(tile.latest_comment)|n}&nbsp;
+				${_("latest <b>%s</b>") % h.relative_time(tile.latest_revision_time)|n}&nbsp;
 			</div>
 		</div>
 	</div>

@@ -52,14 +52,8 @@ class DelegateableTile(BaseTile):
     
     can_vote = property(BaseTile.prop_has_perm('vote.cast'))
     can_delegate = can_vote
-
-    def _latest_comment(self):
-        def dgb_latest(dgb):
-            query = model.meta.Session.query(model.Revision.create_time)
-            query = query.join(model.Comment)
-            query = query.filter(model.Comment.topic==dgb)
-            query = query.order_by(model.Revision.create_time.desc())
-            return query.all()[0][0] # always returns a tuple
-        return max([dgb_latest(self.delegateable)] + map(dgb_latest, self.delegateable.children))
     
-    latest_comment = property(_latest_comment)
+    def _latest_revision_time(self):
+        return self.delegateable.find_latest_comment(recurse=True).latest.create_time
+    
+    latest_revision_time = property(_latest_revision_time)

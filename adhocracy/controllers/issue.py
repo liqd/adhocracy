@@ -96,6 +96,7 @@ class IssueController(BaseController):
                                      sorts={_("oldest"): sorting.entity_oldest,
                                             _("newest"): sorting.entity_newest,
                                             _("activity"): sorting.proposal_activity,
+                                            _("newest comment"): sorting.delegateable_latest_comment,
                                             _("name"): sorting.delegateable_label},
                                      default_sort=sorting.proposal_activity)
         return render("/issue/view.html")

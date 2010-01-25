@@ -94,6 +94,7 @@ class InstanceController(BaseController):
         sorts = {_("oldest"): sorting.entity_oldest,
                  _("newest"): sorting.entity_newest,
                  _("activity"): sorting.issue_activity,
+                 _("newest comment"): sorting.delegateable_latest_comment,
                  _("name"): sorting.delegateable_label}
         if query:
             sorts[_("relevance")] = sorting.entity_stable
