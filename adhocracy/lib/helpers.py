@@ -36,11 +36,11 @@ def breadcrumbs(entity):
         return "<a href='/instance/%s'>%s</a>" % (entity.key, 
                                                   text.truncate(entity.label, length=30, whole_word=True))
     
+    link = "<a href='/d/%s'>%s</a>" % (entity.id, text.truncate(entity.label, length=30, whole_word=True))
     if len(entity.parents):
-        link = "<a href='/d/%s'>%s</a>" % (entity.id, text.truncate(entity.label, length=30, whole_word=True))
         link = breadcrumbs(entity.parents[0]) + " &raquo; " + link
     else:
-        link = breadcrumbs(entity.instance)
+        link = breadcrumbs(entity.instance) + " &raquo; " + link
     return link
 
 
