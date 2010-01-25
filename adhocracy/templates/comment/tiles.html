@@ -76,8 +76,8 @@
 					%endif 
 					
 					%if collapse:
-						<a class="button delete hide" href="javascript:comment_hide(${comment.id})">-</a>
-						<a class="button add show" href="javascript:comment_show(${comment.id})">+</a>
+						<a class="button delete hide" onclick="return comment_hide(${comment.id})" href="#">-</a>
+						<a class="button add show" onclick="return comment_show(${comment.id})" href="#">+</a>
 					%endif
 										
 					%if link_discussion and tile.num_children:
