@@ -45,5 +45,14 @@
 			%endif
 		</div>
 	</div>
-	
+	<div class="pager_sorts">
+		${_("entries")} |
+		%for count in range(10, 51, 10):
+			<a class="${'selected' if count == pager.count else ''}" 
+				href="${pager.serialize(count=count)}">${count}</a>
+			%if count < 50:
+				|
+			%endif
+		%endfor
+	</div>
 </%def>

@@ -1116,10 +1116,12 @@ a.button.inactive {
 }
 
 .pager {
-	margin-top: 15px;
+	color: #666;
+	font-size: 0.8em;
+	text-transform: lowercase;
+	margin-top: 0px;
 	margin-bottom: 7px;
 	text-align: center;
-	font-size: 0.9em;
 }
 	
 .pager .prev_page {
