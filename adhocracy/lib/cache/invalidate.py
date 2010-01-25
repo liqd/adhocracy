@@ -7,6 +7,8 @@ def invalidate_delegateable(d):
     clear_tag(d)
     for p in d.parents:
         invalidate_delegateable(p)
+    if not len(d.parents):
+        clear_tag(d.instance)
         
 def invalidate_revision(rev):
     invalidate_comment(rev.comment)
