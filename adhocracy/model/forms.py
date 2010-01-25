@@ -17,12 +17,12 @@ import comment
 import instance
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join", "leave", 
-                   "control", "test", "support"]
+                   "control", "test", "support", "page", "issue", "proposal"]
 
 VALIDUSER = re.compile("^[a-zA-Z0-9_\-]{3,255}$")
 class UniqueUsername(formencode.FancyValidator):
     def _to_python(self, value, state):
-        if not value:
+        if not value or not isinstance(value, basestring):
             raise formencode.Invalid(
                 _('No username is given'),
                 value, state)

@@ -149,7 +149,7 @@ class OpenidauthController(BaseController):
         # evaluate Simple Registration Extension data
         srep = sreg.SRegResponse.fromSuccessResponse(info)
         if srep:
-            user_name = srep.get('nickname')
+            user_name = srep.get('nickname').strip()
             if srep.get('email'):
                 email = srep.get('email')
                     
@@ -164,7 +164,7 @@ class OpenidauthController(BaseController):
             
         if 'openid_session' in session:
             del session['openid_session']
-        
+                
         oid = model.OpenID.find(info.identity_url)
         if oid:
             if c.user:
@@ -186,8 +186,8 @@ class OpenidauthController(BaseController):
                 redirect_to("/user/edit/%s" % str(c.user.user_name))
             else:
                 try:
-                    forms.UniqueUsername().to_python(user_name)
-                except formencode.Invalid:
+                    forms.UniqueUsername(not_empty=True).to_python(user_name)
+                except:
                     session['openid_req'] = (info.identity_url, user_name, email)
                     session.save()
                     redirect_to('/openid/username')
@@ -206,7 +206,7 @@ class OpenidauthController(BaseController):
             (openid, c.user_name, email) = session['openid_req']
             if request.method == "POST":
                 c.user_name = self.form_result.get('login')
-                c.user_name = forms.UniqueUsername().to_python(c.user_name)
+                c.user_name = forms.UniqueUsername(not_empty=True).to_python(c.user_name)
                 if c.user_name:
                     user = self._create(c.user_name, email, openid)
                     del session['openid_req']
