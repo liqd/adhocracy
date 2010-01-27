@@ -658,14 +658,22 @@ h4 img.cd,
 	border-bottom: 1px solid #ddd;
 	border-right: 1px solid #ddd;
 	margin-bottom: 0.3em;
+	
 }
 
-/*
+
 .tile.title {
-	margin-bottom: 0.5em;
-	padding-bottom: 0.5em;
-	border-bottom: 1px solid #666;
-}*/
+	border: 1px solid #ddd;
+	-webkit-border-top-left-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	padding-left: 6px;
+}
+
+.tile.proposal.title {
+	-webkit-border-top-left-radius: 0px;
+	-moz-border-radius-topleft: 0px;
+	border-top: 0px;
+}
 
 .tile .logo {
 	float: left;
