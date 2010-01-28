@@ -22,6 +22,9 @@ class KarmaController(BaseController):
     @ActionProtector(has_permission("karma.give"))
     @validate(schema=KarmaGiveForm(), post_only=False, on_get=True)
     def give(self, format="html"):
+        if not hasattr(self, 'form_result'):
+            abort(400, _("No valid karma data provided"))
+        
         comment = self.form_result.get('comment')
         value = self.form_result.get('value')
         if not value in [1, -1]:
