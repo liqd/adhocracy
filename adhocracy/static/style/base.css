@@ -234,6 +234,7 @@ body {
 	text-align: center;
 	*/
 	width: 900px;
+	min-height: 97%;
 	/*overflow: hidden;*/
 	margin: 0 auto 0 auto;
 	text-align: left;
@@ -436,6 +437,7 @@ body {
 /* @group Footer */
 
 #footer {
+	position: absolute;
 	clear: both;
 	vertical-align: baseline;
 	bottom: 0px;
@@ -445,6 +447,7 @@ body {
 	margin-bottom: 20px;
 	color: #222;
 	
+	width: 900px;
 	background-image: url(/img/footer_bg.png);
 	background-repeat: repeat-x;
 	background-position: top;
