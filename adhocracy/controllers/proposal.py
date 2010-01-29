@@ -88,6 +88,9 @@ class ProposalController(BaseController):
                 rev = model.Revision(comment, c.user, 
                                      text.cleanup(form_result.get("text")))
                 comment.latest = rev
+                karma = model.Karma(1, c.user, c.user, comment)
+                
+                model.meta.Session.add(karma)
                 model.meta.Session.add(comment)
                                 
                 for c_text in c.canonicals:
@@ -96,6 +99,8 @@ class ProposalController(BaseController):
                     c_rev = model.Revision(canonical, c.user, 
                                            text.cleanup(c_text))
                     canonical.latest = c_rev
+                    ckarma = model.Karma(1, c.user, c.user, canonical)
+                    model.meta.Session.add(ckarma)
                     model.meta.Session.add(canonical)
                     model.meta.Session.add(c_rev)
                     

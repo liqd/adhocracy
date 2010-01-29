@@ -7,9 +7,11 @@
 	${h.breadcrumbs(c.instance)|n} &raquo; ${_("New comment")}
 </%def>
 
-<h1>${_("Comment")}</h1>
+<h1>${_("Comment on: %s") % h.delegateable_link(c.topic, icon_size=24)|n}</h1>
 
 <div class="sidebar">&nbsp;</div>
 <div class="mainbar">
+	${tiles.comment.full(c.reply, recurse=False, collapse=False, link_discussion=False)}
+	
 	${t.create_form(None, None)}
 </div>

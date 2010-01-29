@@ -68,18 +68,19 @@ def proposal_icon(proposal, size=16):
         return instance_url(None, path='') + "/img/icons/proposal_" + str(size) + ".png"
 
 @cache.memoize('delegateable_link')
-def delegateable_link(delegateable, icon=True, link=True):
+def delegateable_link(delegateable, icon=True, icon_size=16, link=True):
     text = ""
     if icon:
         if isinstance(delegateable, model.Proposal):
-            text = "<img class='user_icon' src='%s' /> " % proposal_icon(delegateable)
+            text = "<img class='user_icon' src='%s' /> " % proposal_icon(delegateable, size=icon_size)
         elif isinstance(delegateable, model.Issue):
-            text = "<img class='user_icon' src='%s/img/icons/issue_16.png' /> " % instance_url(None, path='')
+            text = "<img class='user_icon' src='%s/img/icons/issue_%s.png' /> " % (
+                        instance_url(None, path=''), icon_size)
     text += cgi.escape(delegateable.label)
     if isinstance(delegateable, model.Proposal) and icon:
         state = democracy.State(delegateable)
         if state.polling:
-            text += " <img class='user_icon' src='/img/icons/vote_16.png' />"
+            text += " <img class='user_icon' src='/img/icons/vote_%s.png' />" % icon_size
     
     if link and not delegateable.delete_time:
         if isinstance(delegateable, model.Proposal):

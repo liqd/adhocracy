@@ -7,10 +7,15 @@
 	${h.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Edit comment")}
 </%def>
 
-<h1>${_("Comment on: %s") % c.comment.topic.label}</h1>
+<h1>${_("Comment on: %s") % h.delegateable_link(c.comment.topic, icon_size=24)|n}</h1>
 
 <div class="sidebar">&nbsp;</div>
 <div class="mainbar">
+	%if c.comment.reply:
+		${tiles.comment.full(c.comment.reply, recurse=False, collapse=False, link_discussion=False)}
+	%endif
+	
+
 	${t.edit_form(c.comment)}
 </div>
 
