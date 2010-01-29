@@ -1,4 +1,8 @@
 from datetime import datetime
+import hashlib
+import os.path
+from time import time
+import rfc822
 
 from pylons.controllers.util import etag_cache
 from pylons.i18n import _
@@ -144,25 +148,34 @@ class InstanceController(BaseController):
                                                      model.Group.INSTANCE_DEFAULT
                                          })
     
+    def _set_image_headers(self, path, io):
+        mtime = os.path.getmtime(path)
+        response.content_type = "image/png"
+        etag_cache(key=str(mtime))
+        response.charset = None
+        response.last_modified = rfc822.formatdate(timeval=mtime)
+        del response.headers['Cache-Control']
+        response.content_length = len(io)
+        response.pragma = None 
+    
     @ActionProtector(has_permission("instance.index"))
     def header(self, key):
         c.page_instance = model.Instance.find(key)
-        etag_cache(str(c.page_instance.id if c.page_instance else 0))
-        response.headers['Content-type'] = 'image/png'
-        #response.content_type = "image/png"
-        return logo.load_header(c.page_instance)
+        (path, io) = logo.load_header(c.page_instance)
+        self._set_image_headers(path, io) 
+        return io
         
     @ActionProtector(has_permission("instance.index"))
     def icon(self, key, x, y):
         c.page_instance = model.Instance.find(key)
-        etag_cache(str(c.page_instance.id if c.page_instance else 0))
-        response.headers['Content-type'] = 'image/png'
         try:
             (x, y) = (int(x), int(y))
         except ValueError, ve:
             log.debug(ve)
             (x, y) = (24, 24)
-        return logo.load(c.page_instance, size=(x, y))            
+        (path, io) = logo.load(c.page_instance, size=(x, y))
+        self._set_image_headers(path, io)
+        return io            
     
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.delete"))

@@ -47,12 +47,17 @@ class BaseController(WSGIController):
         # WSGIController.__call__ dispatches to the Controller method
         # the request is routed to. This routing information is
         # available in environ['pylons.routes_dict']
+        
         import adhocracy.lib
         c.lib = adhocracy.lib 
         c.model = model
         c.instance = model.filter.get_instance()
-                        
+        
+        # http host information was moved around to mess with repoze.who                 
         environ['HTTP_HOST'] = environ['HTTP_HOST_ORIGINAL']
+        
+        from pprint import pprint 
+        pprint(response)
                
         if environ.get('repoze.who.identity'):
             c.user = environ.get('repoze.who.identity').get('user')

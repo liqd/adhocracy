@@ -27,16 +27,14 @@ def store(instance, file):
 
 @memoize('instance_image')
 def load(instance, size, fallback=DEFAULT):
-    logo_image = None
     instance_path = _instance_logo_path(instance)
-    if os.path.exists(instance_path):
-        logo_image = Image.open(instance_path)
-    else:
-        logo_image = Image.open(util.get_path(*fallback))
+    if not os.path.exists(instance_path):
+        instance_path = util.get_path(*fallback)
+    logo_image = Image.open(instance_path)
     logo_image.thumbnail(size, Image.ANTIALIAS)
     sio = StringIO.StringIO()
     logo_image.save(sio, 'PNG')
-    return sio.getvalue()
+    return (instance_path, sio.getvalue())
 
 def load_header(instance):
     global header_image

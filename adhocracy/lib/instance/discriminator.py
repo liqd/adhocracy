@@ -9,10 +9,10 @@ class InstanceDiscriminatorMiddleware(object):
     
     TRUNCATE_PREFIX = "www."
     
-    def __init__(self, app, domains):
+    def __init__(self, app, domain):
         self.app = app
-        self.domains = domains
-        log.debug("VHosts: %s." % ", ".join(domains))
+        self.domain = domain
+        log.debug("Host name: %s." % ", ".join(domain))
         
     def __call__(self, environ, start_response):
         host = environ.get('HTTP_HOST', "")
@@ -23,16 +23,14 @@ class InstanceDiscriminatorMiddleware(object):
         if host.startswith(self.TRUNCATE_PREFIX):
             host = host[len(self.TRUNCATE_PREFIX):]
         
-        environ['adhocracy.active.domain'] = self.domains[0]
-        for domain in self.domains:
-            if host.endswith(domain):
-                host = host[:len(host)-len(domain)]
-                if port:
-                    environ['adhocracy.active.domain'] = environ['HTTP_HOST'] = domain + ':' + port
-                else:
-                    environ['adhocracy.active.domain'] = environ['HTTP_HOST'] = domain
-                #environ['HTTP_HOST'] = '.' + domain repoze auth tkt cookie hack 
-                break
+        active_domain = self.domain 
+        if host.endswith(self.domain):
+            host = host[:len(host)-len(self.domain)]
+            if port:
+                active_domain = active_domain + ':' + port
+        
+        environ['adhocracy.domain'] = environ['HTTP_HOST'] = active_domain
+        
         instance_key = host.strip('. ').lower()
         if len(instance_key):
             #log.debug("Request instance: %s" % instance_key)
@@ -48,6 +46,6 @@ class InstanceDiscriminatorMiddleware(object):
              
 
 def setup_discriminator(app, config):
-    domains = config.get('adhocracy.domains', '')
+    domains = config.get('adhocracy.domain', config.get('adhocracy.domains', ''))
     domains = [d.strip() for d in domains.split(',')]
-    return InstanceDiscriminatorMiddleware(app, domains) 
+    return InstanceDiscriminatorMiddleware(app, domains[0]) 

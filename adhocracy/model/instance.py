@@ -82,7 +82,7 @@ class Instance(Base):
                                  Instance.delete_time>datetime.utcnow()))
             return q.one()
         except:
-            log.exception("find(%s)" % id)
+            log.exception("find(%s)" % key)
             return None
     
     def is_deleted(self, at_time=None):

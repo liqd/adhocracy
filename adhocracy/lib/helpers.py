@@ -116,7 +116,7 @@ def instance_url(instance, path="/"):
     if instance: # don't ask
         subdomain = instance.key + "."
     return str("http://%s%s%s" % (subdomain,
-                               request.environ['adhocracy.active.domain'],
+                               request.environ.get('adhocracy.domain'),
                                path))
     
 def add_meta(key, value):
