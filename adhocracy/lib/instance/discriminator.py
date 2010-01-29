@@ -12,7 +12,7 @@ class InstanceDiscriminatorMiddleware(object):
     def __init__(self, app, domain):
         self.app = app
         self.domain = domain
-        log.debug("Host name: %s." % ", ".join(domain))
+        log.debug("Host name: %s." % domain)
         
     def __call__(self, environ, start_response):
         host = environ.get('HTTP_HOST', "")

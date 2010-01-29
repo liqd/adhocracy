@@ -61,8 +61,8 @@ class CommentController(BaseController):
             self.redirect(comment.id)
         else:
             try: 
-                c.topic = forms.ValidDelegateable().to_python(request.params['topic'])
-                c.reply = forms.ValidComment(if_empty=None).to_python(request.params['reply'])
+                c.topic = forms.ValidDelegateable(not_empty=True).to_python(request.params.get('topic'))
+                c.reply = forms.ValidComment(not_empty=True).to_python(request.params.get('reply'))
                 return render('/comment/create.html')
             except formencode.Invalid, i:
                 abort(400, i)
