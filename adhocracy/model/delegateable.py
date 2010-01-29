@@ -127,7 +127,9 @@ class Delegateable(Base):
         except: 
             log.exception("find_latest_comment(%s)" % self.id)
             return None
-                
+        
+    def comment_count(self):
+        return len(self.comments)
     
     def _index_id(self):
         return self.id

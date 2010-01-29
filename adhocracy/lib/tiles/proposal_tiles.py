@@ -45,14 +45,6 @@ class ProposalTile(DelegateableTile):
     
     state = property(_state)    
     
-    def _canonicals(self):       
-        cs = []   
-        for comment in self.proposal.comments:
-            if comment.canonical and not comment.delete_time:
-                cs.append(comment)
-        return sorting.comment_id(cs)
-    
-    canonicals = property(_canonicals)
             
     def _can_edit(self):
         return h.has_permission('proposal.edit') \
@@ -78,7 +70,7 @@ class ProposalTile(DelegateableTile):
     can_create_canonical = property(_can_create_canonical)
     
     def _has_canonicals(self):
-        return len(self.canonicals) > 0
+        return len(self.proposal.canonicals) > 0
     
     has_canonicals = property(_has_canonicals)
     

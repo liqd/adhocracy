@@ -66,9 +66,9 @@
 	%endif	
 </div>
  
-<h2>${_("Proposals")} <sup>(${c.tile.num_proposals})</sup></h2>
+<h2>${_("Proposals")} <sup>(${len(c.issue.proposals)})</sup></h2>
 
-%if not c.tile.num_proposals:
+%if not len(c.issue.proposals):
 	<span class="infobox">${_("Proposals solve some or all of the problems described by this issue. A proposal can be <b>discussed and voted</b> upon.")|n}</span>
 %else:
 	<div class="table">

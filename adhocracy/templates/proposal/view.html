@@ -123,7 +123,7 @@
 		${comment_tiles.create_form(None, c.proposal, canonical=1)}
 	</div>
 	
-	%for canonical in c.tile.canonicals:
+	%for canonical in c.proposal.canonicals:
 		${tiles.comment.full(canonical, recurse=False, collapse=False, link_discussion=True)}
 	%endfor
 </div>

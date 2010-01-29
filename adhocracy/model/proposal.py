@@ -56,6 +56,11 @@ class Proposal(Delegateable):
             return poll
         return None
     
+    def _get_canonicals(self):
+        return [c for c in self.comments if c.canonical and not c.is_deleted()]
+    
+    canonicals = property(_get_canonicals)
+    
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:
@@ -96,6 +101,12 @@ class Proposal(Delegateable):
         # TODO: This really SHOULD have some check: 
         for poll in self.polls:
             poll.delete()
+            
+    def comment_count(self):
+        count = len([c for c in self.comments if not c.is_deleted()])
+        if self.comment and not self.comment.is_deleted():
+            count -= 1
+        return count - len(self.canonicals) 
     
 
 Proposal.comment = relation('Comment', 

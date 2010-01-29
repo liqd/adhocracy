@@ -56,9 +56,6 @@ class BaseController(WSGIController):
         # http host information was moved around to mess with repoze.who                 
         environ['HTTP_HOST'] = environ['HTTP_HOST_ORIGINAL']
         
-        from pprint import pprint 
-        pprint(response)
-               
         if environ.get('repoze.who.identity'):
             c.user = environ.get('repoze.who.identity').get('user')
             #model.meta.Session.merge(c.user)

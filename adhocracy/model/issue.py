@@ -68,6 +68,12 @@ class Issue(Delegateable):
         if instance is not None:
             q = q.filter(Issue.instance==instance)
         return q.all()
+    
+    def comment_count(self):
+        count = len([c for c in self.comments if not c.is_deleted()])
+        if self.comment and not self.comment.is_deleted():
+            count -= 1
+        return count + sum([p.comment_count() for p in self.proposals]) 
 
 Issue.comment = relation('Comment', 
                          primaryjoin="Issue.comment_id==Comment.id", 

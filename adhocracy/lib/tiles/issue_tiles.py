@@ -41,17 +41,6 @@ class IssueTile(DelegateableTile):
         return self.__comment_tile
     
     comment_tile = property(_comment_tile)
-    
-    def _proposals(self):
-        return [m for m in self.issue.proposals if not m.delete_time]
-    
-    proposals = property(_proposals)
-    
-    def _num_proposals(self):
-        return len(self.proposals)
-    
-    num_proposals = property(_num_proposals)
-            
 
 def row(issue):
     return render_tile('/issue/tiles.html', 'row', IssueTile(issue), issue=issue, cached=True)
