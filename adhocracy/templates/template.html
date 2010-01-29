@@ -155,25 +155,24 @@
 	</%def>
 	
 	${self.tpl_page()}
-	
-	<div id="footer">
-		<div id="links">
-			<div id="license">
-				<a class="nolink" rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/de/">
-					<img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/de/80x15.png" />
-				</a>
-			</div>
-			
-			<a class="nolink" href="http://liqd.net"><img id="button" src="/img/liqd_ev.png"/></a>
-			<a class="nolink" href="http://wiki.liqd.net/Adhocracy">${_("adhocracy &middot; liquid democracy platform")|n}</a><br/>
-			<a href="/page/about.html">${_("about")}</a> &middot;
-			<a href="http://wiki.liqd.net/Adhocracy/Handbuch">${_("help")}</a> &middot; 
-			<a href="http://trac.adhocracy.de/newticket">${_("report a problem")}</a> &middot;
-			<a href="/page/privacy.html">${_("privacy")}</a> &middot; 
-			<a href="/page/imprint.html">${_("imprint")}</a> &middot;
-			${c.lib.get_version()}
-			
+</div>
+
+<div id="footer">
+	<div id="links">
+		<div id="license">
+			<a class="nolink" rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/de/">
+				<img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/de/80x15.png" />
+			</a>
 		</div>
+		
+		<a class="nolink" href="http://liqd.net"><img id="button" src="/img/liqd_ev.png"/></a>
+		<a class="nolink" href="http://wiki.liqd.net/Adhocracy">${_("adhocracy &middot; liquid democracy platform")|n}</a><br/>
+		<a href="/page/about.html">${_("about")}</a> &middot;
+		<a href="http://wiki.liqd.net/Adhocracy/Handbuch">${_("help")}</a> &middot; 
+		<a href="http://trac.adhocracy.de/newticket">${_("report a problem")}</a> &middot;
+		<a href="/page/privacy.html">${_("privacy")}</a> &middot; 
+		<a href="/page/imprint.html">${_("imprint")}</a> &middot;
+		${c.lib.get_version()}
 	</div>
 </div>
 </body>

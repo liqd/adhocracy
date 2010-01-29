@@ -218,54 +218,32 @@ input.watch {
 
 /* @group Page Layout */
 
+html {
+	height: 100%;
+}
+
 body {
 	background: #fff url(/img/page_bg.png) repeat-x;
-	position: absolute;
 	width: 100%;
 	height: 100%;
 	text-align: center;
 }
 
 #frame {
-	/*
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	text-align: center;
-	*/
 	width: 900px;
-	min-height: 97%;
-	/*overflow: hidden;*/
-	margin: 0 auto 0 auto;
+	margin: 0em auto -65px;
 	text-align: left;
-}
-
-#page, 
-#header #menu {
-	/*
-	width: 900px;
-	overflow: hidden;
-	margin: 0 auto 0 auto;
-	text-align: left;
-	*/
+	/*min-height: 100%;*/
+	min-height: 100%;
 }
 
 #page {
 	clear: both;
+	padding-bottom: 65px;
 	text-align: left;
 }
 
-#innerframe {
-	/*padding: 20px;*/
-	/*background-color: #fff;*/
-	z-index: 1;
-	/*overflow: hidden;*/
-	/*border-bottom: 2px solid #d6d6d6;
-	border-right: 1px solid #d6d6d6;*/
-}
-
 #breadcrumbs {
-	/*margin-left: -15px;*/
 	font-weight: bold;
 	margin-top: 0.5em;
 	font-size: 1.0em;
@@ -290,7 +268,6 @@ body {
 /* @group Header */
 
 #header {
-	/*background: #003366 url(/img/header_bg.png) repeat-x top left;*/
 	padding-top: 0;
 	width: 100%;
 	min-height: 62px;	
@@ -361,19 +338,12 @@ body {
 	width: auto;
 	margin-left: -0.6em;
 	margin-top: 0.5em;
-	/*
-	border-right: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;*/
 }
 
 #header #menu li:hover ul li {
 	display: block;
 	font-size: 0.9em;
 	padding: 0.5em;
-	/*
-	-webkit-border-radius: 0px;
-	margin-left: 3px;
-	*/
 	border-top: 1px solid white;
 }
 
@@ -406,7 +376,6 @@ body {
 }
 
 #account a.user_name {
-	/*color: white;*/
 	text-decoration: none;
 	font-weight: bold;
 }
@@ -437,17 +406,15 @@ body {
 /* @group Footer */
 
 #footer {
-	position: absolute;
 	clear: both;
-	vertical-align: baseline;
-	bottom: 0px;
-	margin-top: 1em;
-	padding-top: 1em;
+	margin: -65px auto 0;
+	padding: 1em 0em 0em 1em;
 	border-top: 1px solid #eee;
-	margin-bottom: 20px;
 	color: #222;
-	
+	text-align: left;
+	height: 50px;
 	width: 900px;
+	
 	background-image: url(/img/footer_bg.png);
 	background-repeat: repeat-x;
 	background-position: top;
@@ -1158,8 +1125,6 @@ a.button.inactive {
 	font-weight: bold;
 }
 
-
-
 .comment .tile {
 	border: 0px;
 	background-color: #fff;
@@ -1173,7 +1138,6 @@ a.button.inactive {
 
 .comment .tile.canonical .text{
 	padding-left: 5px;
-	/*border: 1px solid #b1b8fd;*/
 	background-color: rgba(215,209,255,0.5);
 }
 
@@ -1265,11 +1229,9 @@ a.button.inactive {
 	background-position: bottom;
 	
 	border-bottom: 1px solid #eee;
-	/*border-right: 1px solid #ddd;*/
 }
 
 .comment .sub {
-	/*margin-top: -5px;*/
 	margin-left: 25px;
 }
 
@@ -1393,24 +1355,14 @@ a.button.inactive {
 	list-style-image: url(/img/icons/condition_unmet.png);
 }
 
-.tile.issue {
-	/* background-color: #ffedd4; */
-}
-
 .tile.title {
 	margin-bottom: 1em;
-	/* border: 1px solid #ddd; */
 }
 
 .tile.title h1 {
-	/*font-weight: normal;*/
 	font-size: 1.3em;
 	margin-bottom: 0px;
 	border-bottom: 0px;
-}
-
-.tile.title h1 a {
-	/*color: #000;*/
 }
 
 .tile.title table td {
@@ -1437,7 +1389,6 @@ a.button.inactive {
 	position: absolute;
 	width: 560px;
 	padding: 1em;
-	/*padding-top: 0em;*/
 }
 
 #issue_details li {
