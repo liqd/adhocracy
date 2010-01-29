@@ -35,6 +35,7 @@ class OpenidauthController(BaseController):
         
         #TODO put this in a proper shared function with the UserController 
         user = model.User(user_name, email, util.random_token())
+        user.locale = c.locale
         grp = model.Group.by_code(model.Group.CODE_DEFAULT)
         membership = model.Membership(user, None, grp)
         oid = model.OpenID(identity, user)

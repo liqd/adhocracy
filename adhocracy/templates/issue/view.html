@@ -85,9 +85,13 @@
 
 <h2><img src="/img/icons/discuss_20.png" class="cd" /> ${_("Discussion")}</h2>
 %if c.tile.comment_tile.can_reply:
-<div class="comment">
-	${comment_tiles.create_form(c.issue.comment, c.issue)}
-</div>
+	<div class="comment">
+		${comment_tiles.create_form(c.issue.comment, c.issue)}
+	</div>
+%elif not c.issue.comment_count():
+	<div class="infobox">
+		${_("No comments were made yet.")}
+	</div>
 %endif
 %for (reply, reply_tile) in c.tile.comment_tile.replies():
 	${tiles.comment.full(reply, recurse=True)}
