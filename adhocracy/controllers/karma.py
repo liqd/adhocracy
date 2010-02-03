@@ -37,6 +37,10 @@ class KarmaController(BaseController):
         karma = None
         try:
             karma = q.one()
+            if value == -1:
+                value = max(-1, karma.value - 1)
+            else:
+                value = min(1, karma.value + 1)
             karma.value = value
             karma.create_time = datetime.utcnow()
         except NoResultFound:
@@ -47,6 +51,7 @@ class KarmaController(BaseController):
         model.meta.Session.commit()
         
         if format == 'json':
-            return simplejson.dumps({'score': comment_score(comment)})
+            return simplejson.dumps({'score': comment_score(comment),
+                                     'position': position(comment, c.user)})
             
         redirect_to("/comment/r/%s" % comment.id)

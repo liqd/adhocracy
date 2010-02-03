@@ -90,11 +90,12 @@ $(document).ready(function() {
 	comment_karma = function(id, value) {
 		$.getJSON('/karma/give.json', {comment: id, value: value},
 			function(data) {
-				if (value == -1) {
-					$("#tile_c" + id + ".upvoted").removeClass("upvoted");
+				$("#tile_c" + id + ".upvoted").removeClass("upvoted");
+				$("#tile_c" + id + ".downvoted").removeClass("downvoted");
+				if (data.position == -1) {
 					$("#tile_c" + id + "").addClass("downvoted");
-				} else {
-					$("#tile_c" + id + ".downvoted").removeClass("downvoted");
+				} 
+				if (data.position == 1) {
 					$("#tile_c" + id + "").addClass("upvoted");
 				}
 				$("#tile_c" + id + " .score").text(data.score);
