@@ -64,7 +64,7 @@
 				<img src="${h.gravatar_url(c.user, size=16)|n}">
 				<a class="user_name" href="/user/${c.user.user_name}">${c.user.name}</a>
 				%if h.has_permission("vote.cast"):
-					&middot; <a href="/user/${c.user.user_name}/votes">${_("decisions")}</a>
+					&middot; <a href="/user/${c.user.user_name}/votes">${_("votes")}</a>
 					&middot; <a href="/user/${c.user.user_name}/delegations">${_("delegations")}</a>						
 				%endif
 				%if c.instance and not c.user.is_member(c.instance):
@@ -74,7 +74,7 @@
 				&middot; <a href="/logout">${_("logout")}</a>
 			%endif
 			</div>
-			<a href="/"><img id="logo" src="/img/icons/site_64.png" /></a>
+			<a href="/"><img id="logo" src="/instance/icon/${c.instance.key if c.instance else '_def'}-64x64.png" /></a>
 			<div id="menu">
 			<ul>
 				%if not c.instance:

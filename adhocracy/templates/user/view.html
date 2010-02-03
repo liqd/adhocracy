@@ -24,6 +24,7 @@
 	
 	%if c.user and c.page_user != c.user:
 		${components.watch(c.page_user, '/user/%s' % str(c.page_user.user_name))}
+		<a href="/user/${c.page_user.user_name}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
 	%endif
 </div>
 
@@ -32,38 +33,28 @@
 	${self.title()}
 </h1>
 
-<div class="tile">
-	<div class="text">
-		%if c.tile.bio:
-			${c.tile.bio|n}
-		%else:
-			<span class="hint">${_("%s does not have a bio") % c.page_user.name}</span>
-		%endif
-	</div>
-	<div class="meta">
-		%if c.instance:
-			%if c.page_user.is_member(c.instance):
-				${_(c.tile.instance_group.group_name)} &middot;
-			%endif
-			<img src="/img/arrows/aup_a.png" /> ${c.tile.num_karma_up} &middot;
-			<img src="/img/arrows/adown_a.png" /> ${c.tile.num_karma_down} &middot;
-	    
-	    	<img src="/img/icons/issue_16.png" /> ${ungettext("%s issue", "%s issues", c.tile.num_issues) % c.tile.num_issues} &middot;
-		 	<img src="/img/icons/proposal_16.png" /> ${ungettext("%s proposal", "%s proposals", c.tile.num_proposals) % c.tile.num_proposals} &middot; 
-			<img src="/img/icons/discuss_16.png" /> ${ungettext("%s comment", "%s comments", c.tile.num_comments) % c.tile.num_comments} &middot; 
-			
-			<a href="/user/${c.page_user.user_name}/delegations"><img src="/img/icons/delegate_16.png" /> ${_("delegations")}</a> &middot;   
-		%endif
-		${_("signed up %s") % h.relative_time(c.page_user.create_time)|n}
-	</div>
-</div>
 <div class="sidebar">
-	<br/>
-	<div class="top_actions">
-		%if c.user == c.page_user:
-			<a class="button add" href="/adhocracies">${_("more")}</a>
+	<ul>
+	%if c.instance:
+		%if c.page_user.is_member(c.instance):
+			<li>${"%(group)s in %(instance)s" % dict(group=_(c.tile.instance_group.group_name), instance=c.instance.label)}</li> 
 		%endif
-	</div>
+		<li>
+			<img src="/img/arrows/aup_a.png" /> ${c.tile.num_karma_up}
+			<img src="/img/arrows/adown_a.png" /> ${c.tile.num_karma_down}
+		</li>
+    
+    	<li><img src="/img/icons/issue_16.png" /> ${ungettext("%s issue", "%s issues", c.tile.num_issues) % c.tile.num_issues}</li>
+	 	<li><img src="/img/icons/proposal_16.png" /> ${ungettext("%s proposal", "%s proposals", c.tile.num_proposals) % c.tile.num_proposals}</li> 
+		<li><img src="/img/icons/discuss_16.png" /> ${ungettext("%s comment", "%s comments", c.tile.num_comments) % c.tile.num_comments}</li> 
+		
+		<li><a href="/user/${c.page_user.user_name}/delegations"><img src="/img/icons/delegate_16.png" /> ${_("delegations")}</a></li>   
+	%endif
+		<li>${_("signed up %s") % h.relative_time(c.page_user.create_time)|n}</li>
+	</ul>
+	
+	<br/>
+	
 	<h2>${_("Adhocracies")}</h2>	
 		<span class="hint">
 			${c.page_user.name} ${_("is a member in the following adhocracies:")}
@@ -76,13 +67,13 @@
 </div>
 
 <div class="mainbar">
+	%if c.tile.bio:
+		${c.tile.bio|n}
+	%else:
+		<div class="infobox">${_("%s does not have a bio") % c.page_user.name}</div>
+	%endif
 	<br/>
-	<div class="top_actions">
-		<a href="/user/${c.page_user.user_name}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
-	</div>
-	<h2>${_("Activity")}</h2>
-
-	<ul class="table">
+	<div class="table">
 		${c.events_pager.here()}
-	</ul>
+	</div>
 </div>
