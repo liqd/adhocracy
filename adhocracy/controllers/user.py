@@ -234,11 +234,12 @@ class UserController(BaseController):
             users = model.User.complete(prefix, limit)
             results = []
             for user in users:
+                if user == c.user:
+                    continue
                 s = user.name
                 if user.user_name != user.name:
                     s = "%s (%s)" % (user.user_name, s)
                 results.append("{display: '%s', user: '%s'}" % (s, user.user_name))
-                #results.append("{s: '%s', k: '%s'}" % (s, user.user_name))
             response.content_type = "text/javascript"
             return "[" + ",".join(results) + "]"
         except:

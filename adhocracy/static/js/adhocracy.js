@@ -37,7 +37,6 @@ $(document).ready(function() {
 			return data.display;
 		}, 
 		formatResult: function(data, i, max, val) {
-			alert("fR" + data.user + "val" + val);
 			return data.user;
 		},
 		parse: function(data) {
@@ -109,7 +108,8 @@ $(document).ready(function() {
 	}
 
 	$(".comment .hide").show();
-		
+	
+	/* Mark up the comment selected via a URL anchor (i.e. after editing and creation) */
 	anchor = document.location.hash;
 	if (anchor.length > 1) {
 		$("#tile_" + anchor.substring(1)).addClass("anchor");
@@ -117,26 +117,7 @@ $(document).ready(function() {
 			$("#tile_" + anchor.substring(1)).removeClass("anchor");
 			}, 3500);
 	}
-	
-	hide_tutu = function() {
-		if (!$.cookie('hide_tutu')) {
-			$(".tutu").slideUp('slow');
-		} else {
-			$(".tutu").hide();
-		}
-		$.cookie('hide_tutu', 'yes', {expire: 1000, domain: adhocracyDomain()})
-	}
-	
-	check_tutu = function() {
-		if($.cookie('hide_tutu')) {
-			hide_tutu();
-		} else {
-			$('.tutu').slideDown('fast');
-		}
-	}
-	
-	check_tutu();
-	
+		
 	/* Hovering title warnings */
 	current_htWarn_title = "";
 	$(".htwarn").hover(
@@ -150,8 +131,7 @@ $(document).ready(function() {
 				$(this).attr('title', current_htWarn_title);
 			});
 	
-	/* Live filter */ 
-	
+	/* Live filter for issue listing on instance home page */
 	var originalListing = null;
 	$("#issues_q").keyup(function(fld) {
 		
@@ -168,62 +148,37 @@ $(document).ready(function() {
 		}, 'text');
 	});
 	
-	/* Armed labels */
-	_get = function(e) {
-		if (e.type=="textarea") {
-			return $(e).text();
-		} else {
-			return $(e).val();
-		}
-	}
-	
-	_set = function(e, s) {
-		if (e.type=="textarea") {
-			$(e).text(s);
-		} else {
-			$(e).val(s);
-		}
-	}
-	
-	_unset = function(e) {
-		_set(e, "");
-	}
-	
-	arm = function(e, hint) {
-						
-		$(e).focus(function(){
-			if ($(e).hasClass("armed")) {
-				_unset(e);
-				$(e).removeClass("armed");
+	/* Armed labels: Use label text as pre-filling text for empty form fields. */
+	$(".armlabel").each(function(e) {
+		var hint = $("[for=" + $(this).attr("name") + "]").text();
+		var field = this; 
+		
+		$(this).focus(function(){
+			if ($(field).hasClass("armed")) {
+				$(field).val("");
+				$(field).removeClass("armed");
 			}
 		});
 		
 		on_blur = function() {
-			if ($(e).hasClass("armed")) {
-				return;
-			}
-			
-			if ($.trim($(e).val()).length==0) {
-				_set(e, hint);
-				$(e).addClass("armed");
+			if ($.trim($(field).val()).length==0) {
+				$(field).val(hint);
+				$(field).addClass("armed");
 			}
 		}
 		
-		$(e).blur(on_blur);
+		$(this).blur(on_blur);
 		on_blur();
-	}
-	
-	$(".armlabel").each(function(e) {
-		hint = $("[for=" + $(this).attr("name") + "]").text();
-		arm(this, hint);
 	});
 	
+	/* Make sure that we do not submit placeholder texts */
 	$("form").submit(function() {
 		$("[name=" + this.name + "] .armed").each(function(i) {
-			_unset(this);
+			$(i).val("");
 		});
 	});
 	
+	/* Show other proposals regarding an issue when hovering the issue title on the proposal page */
 	$("#top_issue").hover(function() {
 		$("#issue_details").slideDown(60);
 	}, function() {
