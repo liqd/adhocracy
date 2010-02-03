@@ -55,6 +55,24 @@ class Comment(Base):
             return q.one()
         except: 
             return None
+    
+    @classmethod    
+    def create(cls, text, user, topic, reply=None, canonical=False):
+        import adhocracy.lib.text as libtext
+        from revision import Revision
+        from karma import Karma
+        
+        comment = Comment(topic, user)
+        text = libtext.cleanup(text)
+        comment.latest = Revision(comment, user, text)
+        comment.canonical = canonical
+        comment.reply = reply
+        karma = Karma(1, user, user, comment)
+            
+        meta.Session.add(comment)
+        meta.Session.add(karma)
+        meta.Session.flush()
+        return comment
         
     def delete(self, delete_time=None):
         if delete_time is None:

@@ -28,21 +28,12 @@ class IssueController(BaseController):
     def create(self):
         if request.method == "POST":
             issue = model.Issue(c.instance, self.form_result.get('label'), c.user)
-            comment = model.Comment(issue, c.user)
-            rev = model.Revision(comment, c.user, 
-                                 text.cleanup(self.form_result.get("text")))
-            comment.latest = rev
-            karma = model.Karma(1, c.user, c.user, comment)
-            
             model.meta.Session.add(issue)
-            model.meta.Session.add(comment)
-            model.meta.Session.add(karma)
-            model.meta.Session.add(rev)
+            comment = model.Comment.create(self.form_result.get('text'), 
+                                           c.user, issue)
             model.meta.Session.commit()
             issue.comment = comment
-            model.meta.Session.add(issue)
             model.meta.Session.commit()
-            model.meta.Session.refresh(rev)
             
             watchlist.check_watch(issue)
             

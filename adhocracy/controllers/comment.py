@@ -31,27 +31,20 @@ class CommentController(BaseController):
     @validate(schema=CommentCreateForm(), form="create", post_only=True)
     def create(self):
         if request.method == "POST":
-            topic = self.form_result.get('topic')
+            
             canonical = True if self.form_result.get('canonical', 0) == 1 else False
             if canonical and not isinstance(topic, model.Proposal):
-                canonical = False
+                abort(400, _("Trying to create a provision on an issue"))
             elif canonical and not democracy.is_proposal_mutable(topic):
                 abort(403, h.immutable_proposal_message())
             
-            comment = model.Comment(topic, c.user)
-            _text = text.cleanup(self.form_result.get('text'))
-            comment.latest = model.Revision(comment, c.user, _text)
-            comment.canonical = canonical
-           
-            if self.form_result.get('reply'):
-                comment.reply = self.form_result.get('reply')
+            topic = self.form_result.get('topic')
             
-            karma = model.Karma(1, c.user, c.user, comment)
-            
-            model.meta.Session.add(comment)
-            model.meta.Session.add(karma)
+            comment = model.Comment.create(self.form_result.get('text'), 
+                                           c.user, topic, 
+                                           reply=self.form_result.get('reply'), 
+                                           canonical=canonical)
             model.meta.Session.commit()
-            model.meta.Session.refresh(comment)
             
             watchlist.check_watch(comment)
             

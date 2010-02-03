@@ -82,27 +82,14 @@ class ProposalController(BaseController):
                                           c.user)
                 proposal.issue = c.issue
                 model.meta.Session.add(proposal)
-                model.meta.Session.flush()
                 
-                comment = model.Comment(proposal, c.user)
-                rev = model.Revision(comment, c.user, 
-                                     text.cleanup(form_result.get("text")))
-                comment.latest = rev
-                karma = model.Karma(1, c.user, c.user, comment)
-                
-                model.meta.Session.add(karma)
-                model.meta.Session.add(comment)
+                comment = model.Comment.create(form_result.get('text'), 
+                                               c.user, proposal)
                                 
                 for c_text in c.canonicals:
-                    canonical = model.Comment(proposal, c.user)
-                    canonical.canonical = True
-                    c_rev = model.Revision(canonical, c.user, 
-                                           text.cleanup(c_text))
-                    canonical.latest = c_rev
-                    ckarma = model.Karma(1, c.user, c.user, canonical)
-                    model.meta.Session.add(ckarma)
-                    model.meta.Session.add(canonical)
-                    model.meta.Session.add(c_rev)
+                    canonical = model.Comment.create(c_text, 
+                                                     c.user, proposal, 
+                                                     canonical=True)
                     
                 for r_proposal, type in c.relations.items():
                     if type=='a':
@@ -113,10 +100,8 @@ class ProposalController(BaseController):
                         model.meta.Session.add(dependency)
                 
                 model.meta.Session.commit()
-                #model.meta.Session.refresh()
                 proposal.comment = comment
                 model.meta.Session.commit()
-                # stroh
                 
                 watchlist.check_watch(proposal)
                 
