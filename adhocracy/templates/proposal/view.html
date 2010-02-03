@@ -5,7 +5,7 @@
 
 <%def name="title()">${c.proposal.label}</%def>
 
-<%def name="breadcrumbs()"></%def>
+<%def name="breadcrumbs()">${h.breadcrumbs(c.proposal)|n}</%def>
 
 <div id="top_issue">
 <div class="tile issue title" style="margin-bottom: 0px;">
@@ -114,7 +114,7 @@
 		%endif
 	</div>
 	
-	<h2><img src="/img/icons/proposal_24.png" class="cd" /> ${_("Provisions")}<sup>&nbsp;</sup></h2>
+	<h2><img src="/img/icons/proposal_20.png" class="cd" /> ${_("Provisions")}</h2>
 	%if not c.tile.has_canonicals:
 		<span class="infobox">${_("<b>Provisions</b> are the body of a proposal: together they form the language that will be voted upon. You will need to have at least one clause in order to call for a vote.")|n}</span>
 	%endif

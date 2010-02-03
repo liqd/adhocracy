@@ -5,6 +5,11 @@
 <%namespace name="state" file="/poll/state.html"/>
 <%namespace name="ptiles" file="/poll/tiles.html"/>
 
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Adopted Proposals")}
+</%def>
+
+
 <%def name="title()">${_("Adopted Proposals")}</%def>
 
 <h1 class="page_title"><img class="cd" src="/instance/icon/${c.instance.key}-24x24.png" /> 

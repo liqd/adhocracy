@@ -4,10 +4,9 @@
 
 <%def name="title()">${c.issue.label}</%def>
 
-<%def name="breadcrumbs()"></%def>
+<%def name="breadcrumbs()">${h.breadcrumbs(c.issue)|n}</%def>
 
 <div class="tile issue title">
-	
 	<div class="sidebar">
 		<div class="tile boxed">
 			<div class="inner_boxed">
@@ -22,7 +21,6 @@
 	</div>
 	
 	<div class="base">
-	
 		<h1>${c.issue.label}</h1>
 		&nbsp;
 	</div>
@@ -48,6 +46,19 @@
 </div>
 
 <div style="clear: both;"></div>
+
+%if c.issue.comment:
+	${tiles.comment.full(c.issue.comment, recurse=False, collapse=False)}
+%endif
+<br/>	
+
+<div class="top_actions">
+	%if c.tile.can_create_proposal:
+		<a class="button add" href="/proposal/create?issue=${c.issue.id}">${_("new proposal")}</a>
+	%endif	
+</div>
+ 
+<h2><img src="/img/icons/proposal_20.png" class="cd" /> ${_("Proposals")}</h2>
 <div class="sidebar">
 	%if h.has_permission("vote.cast"):
 	<div class="tile">
@@ -56,17 +67,6 @@
 	%endif
 </div>
 <div class="mainbar">
-%if c.issue.comment:
-	${tiles.comment.full(c.issue.comment, recurse=False, collapse=False)}
-%endif
-
-<div class="top_actions">
-	%if c.tile.can_create_proposal:
-		<a class="button add" href="/proposal/create?issue=${c.issue.id}">${_("new")}</a>
-	%endif	
-</div>
- 
-<h2>${_("Proposals")} <sup>(${len(c.issue.proposals)})</sup></h2>
 
 %if not len(c.issue.proposals):
 	<span class="infobox">${_("Proposals solve some or all of the problems described by this issue. A proposal can be <b>discussed and voted</b> upon.")|n}</span>

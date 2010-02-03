@@ -156,11 +156,11 @@
 		<input type="hidden" name="topic" value="${topic.id if topic else request.params.get('topic')}" />
 		<input type="hidden" name="reply" value="${parent.id if parent else request.params.get('reply')}" />
 		<input type="hidden" name="canonical" value="${request.params.get('canonical', canonical)}" />
-	
+		<div style="width: auto;"> 
 		<textarea tabindex="2" class="description" name="text"></textarea><br/>
-		<br/>
 		${components.formatting()}
 		${components.savebox("/d/%s" % parent.topic.id if parent else request.params.get('topic'))}
 		${components.form_watch(None)}
+		</div>
 	</form>
 </%def>

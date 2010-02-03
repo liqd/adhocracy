@@ -14,8 +14,10 @@
 		</span>
 	%endif
 	
-	<div style="clear: both;">
-	
+	<div class="table_listing">
+	%if not len(pager.items):
+		<div class="infobox">${_("No entries.")}</div>
+	%endif
 	%for item in pager.items:
 		${pager.itemfunc(item)}
 	%endfor
@@ -45,14 +47,11 @@
 			%endif
 		</div>
 	</div>
-	<div class="pager_sorts">
-		${_("entries")} |
-		%for count in range(10, 51, 10):
+	<div class="pager_sorts bottom">
+		%for count in range(10, 31, 5):
 			<a class="${'selected' if count == pager.count else ''}" 
-				href="${pager.serialize(count=count)}">${count}</a>
-			%if count < 50:
-				|
-			%endif
+				href="${pager.serialize(count=count)}">${count}</a> |
 		%endfor
+		${_("entries")}
 	</div>
 </%def>

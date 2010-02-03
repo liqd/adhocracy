@@ -25,12 +25,9 @@
 	
 	${components.watch(c.instance, '/instance/%s' % str(c.page_instance.key))}
 	<a href="/instance/${c.page_instance.key}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
-	<!--  ${h.rss_link("/instance/%s.rss" % c.page_instance.key)|n} -->
 </div>
 
 <h1 class="page_title"><img src="/img/icons/site_24.png" class="cd" /> ${c.page_instance.label}</h1>
-
-${components.tutu()}
 
 <div class="sidebar">
 	<div class="tile">

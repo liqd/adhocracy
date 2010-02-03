@@ -2,6 +2,10 @@
 
 <%def name="title()">${c.page.title}</%def>
 
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.instance) if c.instance else _("Adhocracy")} &raquo; ${c.page.title} 
+</%def>
+
 <h1 class="page_title">${c.page.title}</h1>
 <div class="sidebar">
 	&nbsp; 

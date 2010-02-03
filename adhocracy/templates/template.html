@@ -53,97 +53,70 @@
 </head>
 <body>
 <div id="frame">
-	<div id="account">
+	<div id="header">
+		<form action="/search" method="GET">
+		<div id="center">
+			<div id="account">
 			%if not c.user:
-				<a href="/login">${_("sign in")}</a>
+				<a href="/login">${_("sign in")}</a> &middot;
+				<a href="/register">${_("create an account")|n}</a>
 			%else:
 				<img src="${h.gravatar_url(c.user, size=16)|n}">
 				<a class="user_name" href="/user/${c.user.user_name}">${c.user.name}</a>
+				%if h.has_permission("vote.cast"):
+					&middot; <a href="/user/${c.user.user_name}/votes">${_("decisions")}</a>
+					&middot; <a href="/user/${c.user.user_name}/delegations">${_("delegations")}</a>						
+				%endif
+				%if c.instance and not c.user.is_member(c.instance):
+					<a class="join" href="/instance/${c.instance.key}/join?${h.url_token()}">${_("Join %s") % c.instance.label}</a>	
+				%endif 
 				&middot; <a href="/user/edit/${c.user.user_name}">${_("settings")}</a>
 				&middot; <a href="/logout">${_("logout")}</a>
 			%endif
-			<form action="/search" method="GET">
-				<label for="q" class="armhint">${_("search")}</label>
-				<input name="q" class="armlabel" />
-				<button type="submit"><img src="/img/icons/search.png" alt="${_('Go')}" /></button>
-			</form>
-			%if c.user and c.instance and not c.user.is_member(c.instance):
-				<br/><a class="join" href="/instance/${c.instance.key}/join?${h.url_token()}">${_("Join %s to contribute") % c.instance.label}</a>	
-			%endif 
-	</div>
-	<div style="clear: both;"></div>
-	<% messages = h.flash.pop_messages() %>
-	%if messages:
-	<div id="flash_messages">
-		<ul>
-		%for message in messages:
-	    	<li>${message}</li>
-	    %endfor
-		</ul>
-	</div>
-	%endif
-	<table id="header"><tr>
-		<td class="site_title">
-			<a href="${h.instance_url(c.instance)}">
-				<img src="/instance/header/${c.instance.key if c.instance else '_def'}.png"
-				     alt="${c.instance.label if c.instance else config.get('adhocracy.site.name')}" />
-			</a>
-		</td>
-		<td></td>
-		<td id="menu">
-		<ul>
-			<li>
-				<a href="${h.instance_url(c.instance)}">${_("Issues") if c.instance else _("Home")}</a>
-				<ul>
-				%if c.user:
-					%for inst in c.user.instances:
-						%if not inst is c.instance:
-							<li><a href="${h.instance_url(inst)}">${inst.label}</a></li>
-						%endif
-					%endfor
+			</div>
+			<a href="/"><img id="logo" src="/img/icons/site_64.png" /></a>
+			<div id="menu">
+			<ul>
+				%if not c.instance:
+					<li><a href="/">${_("Home")}</a></li>
 				%endif
-				<li><a href="${h.instance_url(None, path='/adhocracies')}">${_("More Adhocracies...")}</a></li>
-				</ul>
-			</li>
-			%if c.instance:
-				<li>
-					<a href="/polls">${_("Polls")}</a>
-					%if c.user:
-					<ul>
-						<li><a href="/polls">${_("Current polls")}</a></li>
-						<li><a href="/user/${c.user.user_name}/votes">${_("Review decisions")}</a></li>						
-						<li><a href="/adopted">${_("Adopted proposals")}</a></li>
-					</ul>
+				%if c.instance:
+					<li><a href="/instance/${c.instance.key}">${_("Issues")}</a></li>
+					<li><a href="/polls">${_("Polls")}</a></li>
+					<!-- li><a href="/adopted">${_("Outcomes")}</a></li  -->
+					%if h.has_permission("instance.admin"):
+						<li><a href="/instance/edit/${c.instance.key}">${_("Manage")}</a></li>
 					%endif
-				</li>
-				%if h.has_permission("vote.cast"):
-					<li><a href="/user/${c.user.user_name}/delegations">${_("Delegations")}</a></li>
 				%endif
-				%if c.user and h.has_permission("instance.admin") or h.has_permission("global.admin"):
-					<li class="admin">
-						<a href="/instance/edit/${c.instance.key}">${_("Administration")}</a>
-						<ul>
-							<li><a href="/instance/edit/${c.instance.key}">${_("Edit %s") % c.instance.label}</a></li>
-							%if c.user and h.has_permission("global.admin"):
-								<li><a href="/admin/permissions">${_("Global Permissions")}</a></li>
-							%endif
-						</ul>	
-					</li>
+				%if h.has_permission("global.admin") and False:
+					<li><a href="/admin/permissions">${_("Admin")}</a></li>
 				%endif
-			%else:
-				<li><a href="/adhocracies" class="first">${_("Adhocracies")}</a></li>
-			%endif
-			<li><a href="/users">${_("Users")}</a></li>
+				<li><a href="${h.instance_url(None, path='/adhocracies')}">${_("Adhocracies")}</a></li>
+				<li><a href="/users">${_("Users")}</a></li>
+			</ul>
 			
-		</ul>
-		</td>
-	</tr></table>
-	
+			<label id="searchlabel" for="q" class="armhint">${_("Search")}</label>
+			<input id="search" name="q" class="armlabel" />	
+			</div>
+		</div>
+		</form>
+	</div>
 	<%def name="page()">
-	<div id="page">			
+	<div id="page">
 		<div id="breadcrumbs">
 			${self.breadcrumbs()}
+		</div>	
+		<% messages = h.flash.pop_messages() %>
+		%if messages:
+		<div id="flash_messages">
+			<ul>
+			%for message in messages:
+	    		<li>${message}</li>
+	    	%endfor
+			</ul>
 		</div>
+		%endif
+	
 		<div id="content">
 			${self.body()}
 		</div>

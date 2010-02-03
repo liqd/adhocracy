@@ -12,8 +12,6 @@
 		<label for="label" class="armhint">${_("Issue Title")}</label>
 		<input tabindex="1" class="title armlabel" name="label" value="${c.issue.label}"/>
 	</div>
-		
-	<div style="clear: both;"></div>
 	${components.savebox("/issue/%s" % c.issue.id)}
 	${components.form_watch(c.issue)}
 </form>

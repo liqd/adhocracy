@@ -10,3 +10,17 @@
 		</span>
 	</li>
 </%def>
+
+<%def name="row(tile, event, event_html)">
+	<div class="tile">
+		<div class="logo">
+			<a href="/user/${event.user.user_name}"><img src="${h.gravatar_url(event.user, size=32)}" /></a>
+		</div>
+		<div class="base">
+			<h3><a href="/user/${event.user.user_name}">${event.user.name}</a> ${event_html|n}</h3>
+			<div class="meta noclear">
+				${_("%s") % h.relative_time(event.time)|n}&nbsp;
+			</div>
+		</div>
+	</div>
+</%def>
