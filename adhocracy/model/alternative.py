@@ -40,6 +40,12 @@ class Alternative(Base):
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
+               
+    def to_dict(self):
+        return dict(left=self.left_id,
+                    right=self.right_id,
+                    create_time=self.create_time,
+                    id=self.id)
     
 
 Alternative.left = relation(Proposal, primaryjoin="Alternative.left_id==Proposal.id", 

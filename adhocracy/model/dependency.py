@@ -36,6 +36,12 @@ class Dependency(Base):
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
+               
+    def to_dict(self):
+        return dict(proposal=self.proposal_id,
+                    requirement=self.requirement_id,
+                    create_time=self.create_time,
+                    id=self.id)
     
 Dependency.proposal = relation(Proposal, primaryjoin="Dependency.proposal_id==Proposal.id", 
                              foreign_keys=[Dependency.proposal_id], 

@@ -98,4 +98,11 @@ class Delegation(Base):
     def _index_id(self):
         return self.id
     
+    def to_dict(self):
+        return dict(id=self.id,
+                    create_time=self.create_time,
+                    principal=self.principal.user_name,
+                    agent=self.agent.user_name,
+                    scope=self.scope_id)
+    
     

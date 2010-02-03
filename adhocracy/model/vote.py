@@ -67,6 +67,14 @@ class Vote(Base):
             log.exception("find(%s)" % id) 
             return None
         
+    def to_dict(self):
+        return dict(id=self.id,
+                    user=self.user_id,
+                    poll=self.poll_id,
+                    result=self.orientation,
+                    create_time=self.create_time,
+                    delegation=self.delegation_id)
+        
     def _index_id(self):
         return self.id
 

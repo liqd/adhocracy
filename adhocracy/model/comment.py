@@ -88,6 +88,21 @@ class Comment(Base):
                     
     def _index_id(self):
         return self.id
+        
+    def to_dict(self):
+        d = dict(id=self.id,
+                 create_time=self.create_time,
+                 topic=self.topic_id,
+                 creator=self.creator.user_name)
+        if self.reply_id: 
+            d['reply'] = self.reply_id
+        if self.canonical:
+            d['canonical'] = self.canonical
+        if self.latest:
+            d['latest_text'] = self.latest.text
+            d['latest_time'] = self.latest.create_time
+            d['latest_user'] = self.latest.user.user_name
+        return d
     
 
 Comment.reply = relation(Comment, cascade='delete', 

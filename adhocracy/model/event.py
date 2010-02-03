@@ -101,3 +101,14 @@ class Event(Base):
         except:
             log.exception("find(%s)" % id)
             return None
+    
+    def to_dict(self):
+        d = dict(id=self.id,
+                 time=self.time,
+                 data=self.data,
+                 user=self.user.user_name,
+                 event=self._event,
+                 instance=self.instance.key)
+        d['topics'] = map(lambda t: t.id, self.topics)
+        return d
+        

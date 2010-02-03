@@ -222,4 +222,17 @@ class User(Base):
         from adhocracy.lib.democracy.decision import Decision
         return Decision(self, proposal.poll).make(orientation)
     
+    def to_dict(self):
+        d = dict(id=self.id,
+                 user_name=self.user_name,
+                 locale=self._locale,
+                 create_time=self.create_time)
+        if self.display_name:
+            d['display_name'] = self.display_name
+        if self.bio:
+            d['bio'] = self.bio
+        d['memberships'] = map(lambda m: m.instance.key, 
+                               self.memberships)
+        return d
+    
 

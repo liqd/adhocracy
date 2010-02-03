@@ -74,6 +74,13 @@ class Issue(Delegateable):
         if self.comment and not self.comment.is_deleted():
             count -= 1
         return count + sum([p.comment_count() for p in self.proposals]) 
+    
+    def to_dict(self):
+        d = super(Issue, self).to_dict()
+        if self.comment_id:
+            d['comment'] = self.comment_id
+        d['proposals'] = map(lambda p: p.id, self.proposals)
+        return d
 
 Issue.comment = relation('Comment', 
                          primaryjoin="Issue.comment_id==Comment.id", 

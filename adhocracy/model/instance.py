@@ -97,3 +97,17 @@ class Instance(Base):
     @classmethod  
     def all(cls):
         return meta.Session.query(Instance).all()
+    
+    def to_dict(self):
+        d = dict(id=self.id,
+                 key=self.key,
+                 label=self.label,
+                 creator=self.creator.user_name,
+                 required_majority=self.required_majority,
+                 activation_delay=self.activation_delay,
+                 default_group=self.default_group.code,
+                 create_time=self.create_time)
+        if self.description:
+            d['description'] = description
+        #d['members'] = map(lambda u: u.user_name, self.members)
+        return d

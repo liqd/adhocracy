@@ -134,6 +134,13 @@ class Delegateable(Base):
     def _index_id(self):
         return self.id
     
+    def to_dict(self):
+        return dict(id=self.id,
+                    label=self.label,
+                    instance=self.instance.key,
+                    creator=self.creator.user_name,
+                    create_time=self.create_time)
+    
 Delegateable.__mapper__.add_property('parents', relation(Delegateable, lazy=True, secondary=category_graph, 
     primaryjoin=Delegateable.__table__.c.id == category_graph.c.parent_id,
     secondaryjoin=category_graph.c.child_id == Delegateable.__table__.c.id))
