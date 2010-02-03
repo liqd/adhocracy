@@ -85,6 +85,7 @@ def make_map():
     map.connect('/search', controller='search', action='query')
         
     map.connect('/adhocracies', controller='instance', action='index')
+    map.connect('/latest', controller='instance', action='latest')
     map.connect('/instance/create', controller='instance', action='create')
     map.connect('/instance/{key}/join', controller='instance', action='join')
     map.connect('/instance/{key}/leave', controller='instance', action='leave')

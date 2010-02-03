@@ -3,7 +3,7 @@
 <%def name="title()">${c.page_instance.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.page_instance)|n} &raquo; ${_("Home")}
+	${h.breadcrumbs(c.page_instance)|n} &raquo; ${_("Latest Events")}
 </%def>
 
 <div class="top_actions title">
@@ -39,20 +39,6 @@
 			</div>
 		</div>
 		%endif
-		<div id="issues_filter" class="tile boxed">
-			<div class="inner_boxed">
-				<form action="?" method="GET">
-				<input type="hidden" id="instance_key" value="${c.page_instance.key}" />
-				<label for="issues_q" class="armhint">${_("Find issues")}</label>
-				<input id="issues_q" class="armlabel" name="issues_q" 
-						type="text" value="${request.params.get('issues_q', '')}" 
-						tabindex="1" />
-				<noscript>
-					<input type="submit" value="${_("Filter")}">
-				</noscript>
-				</form>
-			</div>
-		</div>
 		<div class="tile boxed">
 			<div class="inner_boxed">
 				<h4><img src="/img/icons/vote_16.png" class="cd"> ${_("Voting Rules")}</h4>
@@ -67,13 +53,13 @@
 </div>
 
 <div class="mainbar">
-	%if len(c.issues_pager) == 0:
+	%if len(c.events_pager) == 0:
 		<span class="infobox">
 			${_("Create an issue to start debating in %(instance)s.") % dict(instance=c.page_instance.label)}
 		</span>
 	%else:
-		<div id="issues_table" class="table">
-			${c.issues_pager.here()}
+		<div id="events_table" class="table">
+			${c.events_pager.here()}
 		</div>
 	%endif	
 </div>

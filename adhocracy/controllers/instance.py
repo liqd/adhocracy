@@ -107,6 +107,19 @@ class InstanceController(BaseController):
                                     default_sort=sorting.entity_stable if query else sorting.issue_activity)
 
         return render("/instance/view.html")
+    
+    @RequireInstance
+    def latest(self):
+        c.page_instance = c.instance
+        
+        query = model.meta.Session.query(model.Event)
+        query = query.filter(model.Event.instance==c.page_instance)
+        query = query.order_by(model.Event.time.desc())
+        query = query.limit(100)
+        
+        c.tile = tiles.instance.InstanceTile(c.page_instance)
+        c.events_pager = NamedPager('events', query.all(), tiles.event.row, count=10)
+        return render("/instance/latest.html")
             
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("instance.admin"))

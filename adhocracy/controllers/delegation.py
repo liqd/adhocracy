@@ -62,7 +62,7 @@ class DelegationController(BaseController):
             abort(403, _("Cannot access delegation %(id)s") % {'id': id})
         c.delegation.revoke()
         event.emit(event.T_DELEGATION_REVOKE, c.user, topics=[c.delegation.scope],
-                   scope=c.delegation.scope, agent=c.delegation.agent)
+                   scope=c.delegation.scope, instance=c.instance, agent=c.delegation.agent)
         model.meta.Session.commit()        
         h.flash(_("The delegation is now revoked."))
         redirect_to("/d/%s" % str(c.delegation.scope.id))
