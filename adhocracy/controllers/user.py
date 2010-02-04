@@ -53,7 +53,7 @@ class UserController(BaseController):
     
     @ActionProtector(has_permission("user.view"))
     def index(self):
-        c.users = model.User.all(instance_filter=True if c.instance else False)
+        c.users = model.User.all(instance=c.instance if c.instance else None)
         c.users_pager = NamedPager('users', c.users, tiles.user.row,
                                     sorts={_("oldest"): sorting.entity_oldest,
                                            _("newest"): sorting.entity_newest,

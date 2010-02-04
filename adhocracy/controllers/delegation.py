@@ -2,6 +2,8 @@ from datetime import datetime
 
 from pylons.i18n import _
 import formencode.validators
+import formencode.foreach
+from formencode.validators import RequireIfMissing
 
 from adhocracy.lib.base import *
 import adhocracy.model.forms as forms
@@ -9,68 +11,86 @@ from repoze.what.plugins.pylonshq import ActionProtector
 
 log = logging.getLogger(__name__)
 
+class DelegationNewForm(formencode.Schema):
+    allow_extra_fields = True
+    scope = forms.ValidDelegateable()
+
+class DelegationCreateForm(DelegationNewForm):
+    agent = formencode.foreach.ForEach(forms.ExistingUserName())
+    replay = validators.Int(if_empty=1, if_missing=1, not_empty=False)
+
 class DelegationController(BaseController):
+    
+    @RequireInstance
+    @ActionProtector(has_permission("delegation.view"))
+    def index(self, format='html'):
+        c.delegations = model.Delegation.all(instance=c.instance)
+        if format == 'dot':
+            c.users = model.User.all(instance=c.instance)
+            response.content_type  = "text/plain"
+            return render("/delegation/graph.dot")
+        if format == 'json':
+            return render_json(c.delegations)
+        return self.not_implemented()
+    
+    @RequireInstance
+    @ActionProtector(has_permission("vote.cast"))
+    @validate(schema=DelegationNewForm(), form="bad_request", 
+              post_only=False, on_get=True)
+    def new(self):
+        c.scope = self.form_result.get('scope')
+        return render("/delegation/new.html")
     
     @RequireInstance
     @RequireInternalRequest(methods=["POST"])
     @ActionProtector(has_permission("vote.cast"))
+    @validate(schema=DelegationCreateForm(), form="new", post_only=True)
     def create(self):
-        # todo turn this into a form
-        id = request.params.get("scope")
-        c.scope = get_entity_or_abort(model.Delegateable, id)
-        errors = {}
-        fillins = dict(request.params.items())
-        if request.method == "POST":
-            try:
-                agent = request.params['agent']
-                if agent == 'other':
-                    agent = request.params['agent_other']
-                agent = forms.ExistingUserName().to_python(agent)
-                
-                if agent and agent != c.user:
-                    delegation = model.Delegation(c.user, agent, c.scope)
-                    model.meta.Session.add(delegation)
-                    model.meta.Session.commit()
-                    
-                    ## make this optional in the UI 
-                    log.debug("Replaying the vote for Delegation: %s" % delegation)
-                    replay = validators.Int(if_empty=0, if_missing=0, not_empty=False)
-                    if replay == 1:
-                        for vote in democracy.Decision.replay_decisions(delegation):
-                            event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance, 
-                                       topics=[vote.poll.proposal], vote=vote, poll=vote.poll)
-                    
-                    event.emit(event.T_DELEGATION_CREATE, c.user, instance=c.instance, 
-                               topics=[c.scope], scope=c.scope, agent=agent)
-                                       
-                    redirect_to("/d/%s" % str(c.scope.id))
-            except formencode.validators.Invalid, error:
-                errors = error.error_dict
-                #pass
-        else:
-            fillins['agent'] = 'other'
-            fillins['replay'] = 1
-        return htmlfill.render(render("delegation/create.html"),
-                    defaults=fillins, errors=errors)
+        c.scope = self.form_result.get('scope')
+        agents = filter(lambda f: f is not None, self.form_result.get('agent'))
+        if not len(agents) or agents[0] == c.user:
+            h.flash(_("Invalid delegation recipient"))
+            return self.new()
+        
+        delegation = c.user.delegate_to_user_in_scope(agents[0], c.scope)
+        model.meta.Session.commit()
+        
+        event.emit(event.T_DELEGATION_CREATE, c.user, 
+                   instance=c.instance, 
+                   topics=[c.scope], scope=c.scope, 
+                   agent=agents[0])
+        
+        if self.form_result.get('replay') == 1:
+            log.debug("Replaying the vote for Delegation: %s" % delegation)
+            for vote in democracy.Decision.replay_decisions(delegation):
+                event.emit(event.T_VOTE_CAST, vote.user, 
+                           instance=c.instance, 
+                           topics=[vote.poll.proposal], 
+                           vote=vote, poll=vote.poll)
+        
+        redirect_to("/d/%s" % str(c.scope.id))
         
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("vote.cast"))
-    def revoke(self, id):
+    def delete(self, id):
         c.delegation = get_entity_or_abort(model.Delegation, id)
         if not c.delegation.principal == c.user:
             abort(403, _("Cannot access delegation %(id)s") % {'id': id})
         c.delegation.revoke()
+        model.meta.Session.commit()
         event.emit(event.T_DELEGATION_REVOKE, c.user, topics=[c.delegation.scope],
-                   scope=c.delegation.scope, instance=c.instance, agent=c.delegation.agent)
-        model.meta.Session.commit()        
+                   scope=c.delegation.scope, instance=c.instance, agent=c.delegation.agent)        
         h.flash(_("The delegation is now revoked."))
         redirect_to("/d/%s" % str(c.delegation.scope.id))
     
     @ActionProtector(has_permission("delegation.view"))
-    def review(self, id):
+    def show(self, id, format='html'):
         c.delegation = get_entity_or_abort(model.Delegation, id)
         c.scope = c.delegation.scope
+        
+        if format == 'json':
+            return render_json(c.delegation)
         
         decisions = democracy.Decision.for_user(c.delegation.principal, c.instance)
         decisions = filter(lambda d: c.delegation in d.delegations, decisions)
@@ -80,16 +100,15 @@ class DelegationController(BaseController):
                                            _("newest"): sorting.entity_newest},
                                     default_sort=sorting.entity_newest)
         
-        return render("delegation/review.html")
+        return render("delegation/show.html")
     
     @RequireInstance
-    @ActionProtector(has_permission("user.view"))    
-    def graph(self):
-        c.users = model.meta.Session.query(model.User).all()
-        c.delegations = model.meta.Session.query(model.Delegation).all()
-        response.content_type  = "text/plain"
-        return render("/delegation/graph.dot")
-        
-        
-        
+    @ActionProtector(has_permission("delegation.view"))
+    def edit(self, format='html'):
+        return self.not_implemented()
+    
+    @RequireInstance
+    @ActionProtector(has_permission("delegation.view"))
+    def update(self, format='html'):
+        return self.not_implemented()
     

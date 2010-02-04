@@ -25,7 +25,7 @@ from repoze.what.plugins.pylonshq import ActionProtector
 from cache import memoize
 from instance import RequireInstance
 from xsrf import RequireInternalRequest
-from templating import render, NamedPager, StaticPage
+from templating import render, render_json, NamedPager, StaticPage
 from util import get_entity_or_abort
 import adhocracy.model as model
 import search as libsearch
@@ -35,7 +35,7 @@ import democracy
 import tiles
 import sorting
 import watchlist
-#import microblog
+import rest
 import text.i18n as i18n
 
 log = logging.getLogger(__name__)
@@ -52,18 +52,10 @@ class BaseController(WSGIController):
         c.lib = adhocracy.lib 
         c.model = model
         c.instance = model.filter.get_instance()
+        c.user = environ.get('repoze.who.identity', {}).get('user', None)
         
         # http host information was moved around to mess with repoze.who                 
-        environ['HTTP_HOST'] = environ['HTTP_HOST_ORIGINAL']
-        
-        if environ.get('repoze.who.identity'):
-            c.user = environ.get('repoze.who.identity').get('user')
-            #model.meta.Session.merge(c.user)
-        else:
-            c.user = None
-             
-        #if c.instance is not None:
-        #    model.meta.Session.merge(c.instance)
+        environ['HTTP_HOST'] = environ.get('HTTP_HOST_ORIGINAL')
              
         # have to do this with the user in place
         i18n.handle_request()
@@ -88,10 +80,13 @@ class BaseController(WSGIController):
             model.meta.Session.remove()
             model.meta.Session.close()
             log.debug("Rendering page %s took %sms" % (environ.get('PATH_INFO'), ((time()-begin_time)*1000)))
+            
+    def bad_request(self):
+        log.debug("400 Request", request.environ)
+        abort(400, _("Invalid request. Please go back and try again."))
+        
+    def not_implemented(self):
+        abort(400, _("The method you used is not implemented."))
+    
 
 
-def ExpectFormat(formats=['html', 'rss', 'xml', 'json']):
-    def _parse(f, *a, **kw):
-        #TODO
-        return f(*a, **kw)
-    return decorator(_parse)

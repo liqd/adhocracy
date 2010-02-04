@@ -13,7 +13,7 @@
 
 <div class="top_actions title">
 	%if c.scope and h.has_permission("vote.cast"):
-		<a class="button title add" href="/delegation/create?scope=${c.scope.id}">${_("new")}</a>
+		<a class="button title add" href="/delegation/new?scope=${c.scope.id}">${_("new")}</a>
 	%endif
 </div>
 

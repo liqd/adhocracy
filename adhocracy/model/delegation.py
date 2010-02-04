@@ -76,6 +76,17 @@ class Delegation(Base):
         except:
             log.exception("find(%s)" % id)
             return None
+    
+    @classmethod
+    def all(cls, instance=None, include_deleted=False):
+        q = meta.Session.query(Delegation)
+        q = q.join(Delegateable)
+        if not include_deleted:
+            q = q.filter(or_(Delegation.revoke_time==None,
+                             Delegation.revoke_time>datetime.utcnow()))
+        if instance is not None:
+            q = q.filter(Delegateable.instance==instance)
+        return q.all()
         
     def revoke(self, revoke_time=None):
         if revoke_time is None:

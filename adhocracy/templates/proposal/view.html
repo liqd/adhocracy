@@ -64,7 +64,7 @@
 	<div class="meta rightmeta">	
 		
 		%if c.tile.can_delegate and not c.tile.has_overridden:
-			<a class="button title add" href="/delegation/create?scope=${c.proposal.id}">${_("delegate")}</a>
+			<a class="button title add" href="/delegation/new?scope=${c.proposal.id}">${_("delegate")}</a>
 		%endif
 		
 		%if c.tile.can_begin_poll:

@@ -27,7 +27,7 @@
 			
 	<div class="meta rightmeta">		
 		%if c.tile.can_delegate and not c.tile.has_overridden:
-			<a class="button add" href="/delegation/create?scope=${c.issue.id}">${_("delegate")}</a>
+			<a class="button add" href="/delegation/new?scope=${c.issue.id}">${_("delegate")}</a>
 		%endif
 		
 		%if c.tile.can_edit:
@@ -66,8 +66,8 @@
 	</div>
 	%endif
 </div>
-<div class="mainbar">
 
+<div class="mainbar">
 %if not len(c.issue.proposals):
 	<span class="infobox">${_("Proposals solve some or all of the problems described by this issue. A proposal can be <b>discussed and voted</b> upon.")|n}</span>
 %else:
@@ -75,11 +75,7 @@
 		${c.proposals_pager.here()}
 	</div>
 %endif
-
 </div>
-
-
-
 
 <div style="clear: both;"></div>
 

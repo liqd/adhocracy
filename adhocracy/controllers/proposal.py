@@ -218,7 +218,7 @@ class ProposalController(BaseController):
         return render("/proposal/edit.html")
     
     @RequireInstance
-    @ActionProtector(has_permission("proposal.view"))   
+    @ActionProtector(has_permission("proposal.view"))
     def view(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)     
         h.add_meta("description", text.meta_escape(c.proposal.comment.latest.text, markdown=False)[0:160])
@@ -226,7 +226,7 @@ class ProposalController(BaseController):
         h.add_meta("dc.date", c.proposal.create_time.strftime("%Y-%m-%d"))
         h.add_meta("dc.author", text.meta_escape(c.proposal.creator.name, markdown=False))
         
-        if format == 'rss':
+        if format == Format.FEED:
             query = model.meta.Session.query(model.Event)
             query = query.filter(model.Event.topics.contains(c.proposal))
             query = query.order_by(model.Event.time.desc())

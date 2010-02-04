@@ -1,13 +1,16 @@
 import urllib
 import math
 import re
-import os.path 
+import os.path
+import simplejson 
+from datetime import datetime
+import rfc822
 
 from BeautifulSoup import BeautifulSoup
 
 from pylons.templating import render_mako, render_mako_def
 from pylons.i18n import _
-from pylons import request, tmpl_context as c
+from pylons import request, response, tmpl_context as c
 
 import formencode
 from formencode import foreach, validators, htmlfill
@@ -50,6 +53,19 @@ def render_def(template_name, def_name, extra_vars=None, cache_key=None,
     return render_mako_def(template_name, def_name,  
                            cache_key=cache_key, cache_type=cache_type,
                            cache_expire=cache_expire, **extra_vars)
+    
+def _json_entity(o):
+    if isinstance(o, datetime):
+        return rfc822.formatdate(float(o.strftime("%S")))
+    if hasattr(o, 'to_dict'):
+        return o.to_dict()
+    raise TypeError("This is not serializable: " + repr(o))
+
+def render_json(data, encoding='utf-8'):
+    response.content_type = 'text/javascript'
+    response.content_encoding = encoding
+    return simplejson.dumps(data, default=_json_entity, 
+                            encoding=encoding)
     
 class NamedPager(object): 
     """

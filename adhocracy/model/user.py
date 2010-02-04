@@ -184,14 +184,14 @@ class User(Base):
         return self.user_name
     
     @classmethod
-    def all(cls, instance_filter=True, include_deleted=False):
+    def all(cls, instance=None, include_deleted=False):
         q = meta.Session.query(User)
         if not include_deleted:
             q = q.filter(or_(User.delete_time==None,
                              User.delete_time>datetime.utcnow()))
         users = q.all()
-        if ifilter.has_instance() and instance_filter:
-            users = filter(lambda user: user.is_member(ifilter.get_instance()), 
+        if instance is not None:
+            users = filter(lambda user: user.is_member(instance), 
                            users)
         return users
     

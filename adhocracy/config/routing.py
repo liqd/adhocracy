@@ -71,11 +71,12 @@ def make_map():
     map.connect('/karma/give', controller='karma', action='give', format='html')
     map.connect('/karma/give.json', controller='karma', action='give', format='json')
         
-    map.connect('/delegation/create', controller='delegation', action='create')
-    map.connect('/delegation/graph.dot', controller='delegation', action='graph')
-    map.connect('/delegation/revoke/{id}', controller='delegation', action='revoke')
-    map.connect('/delegation/user/{id}', controller='delegation', action='user')
-    map.connect('/delegation/{id}', controller='delegation', action='review')
+    #map.connect('/delegation/new', controller='delegation', action='new')
+    #map.connect('/delegation/create', controller='delegation', action='create')
+    #map.connect('/delegation/graph.dot', controller='delegation', action='graph')
+    #map.connect('/delegation/revoke/{id}', controller='delegation', action='revoke')
+    #map.connect('/delegation/{id}', controller='delegation', action='review')
+    map.resource('delegation', 'delegation')
     
     map.connect('/d/{id}', controller='root', action='dispatch_delegateable')
     map.connect('/sitemap.xml', controller='root', action='sitemap_xml')
