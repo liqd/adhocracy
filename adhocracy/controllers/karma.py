@@ -29,7 +29,7 @@ class KarmaController(BaseController):
         value = self.form_result.get('value')
         if not value in [1, -1]:
             h.flash(_("Invalid karma value. Karma is either positive or negative!"))
-            redirect_to("/comment/r/%s" % comment.id)
+            redirect_to("/comment/%s.fwd" % comment.id)
         
         q = model.meta.Session.query(model.Karma)
         q = q.filter(model.Karma.comment==comment)
@@ -54,4 +54,4 @@ class KarmaController(BaseController):
             return simplejson.dumps({'score': comment_score(comment),
                                      'position': position(comment, c.user)})
             
-        redirect_to("/comment/r/%s" % comment.id)
+        redirect_to("/comment/%s.fwd" % comment.id)

@@ -81,7 +81,7 @@ class CommentFormatter(ObjectFormatter):
     def html(self, comment):
         if comment.delete_time:
             return self.unicode(comment)
-        return "<a href='/comment/r/%d'>%s</a>" % (comment.id, 
+        return "<a href='/comment/%d.fwd'>%s</a>" % (comment.id, 
                                                  self.unicode(comment))
 
 

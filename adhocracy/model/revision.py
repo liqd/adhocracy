@@ -43,6 +43,14 @@ class Revision(Base):
         except: 
             log.exception("find(%s)" % id)
             return None
+        
+    def to_dict(self):
+        d = dict(id=self.id,
+                 comment=self.comment_id,
+                 create_time=self.create_time,
+                 user=self.user.user_name,
+                 text=self.text)
+        return d
             
     def _index_id(self):
         return self.id

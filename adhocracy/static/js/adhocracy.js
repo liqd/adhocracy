@@ -114,6 +114,7 @@ $(document).ready(function() {
 	anchor = document.location.hash;
 	if (anchor.length > 1) {
 		$("#tile_" + anchor.substring(1)).addClass("anchor");
+		$("#tile_" + anchor.substring(1)).parents().show();
 		setTimeout(function() {
 			$("#tile_" + anchor.substring(1)).removeClass("anchor");
 			}, 3500);

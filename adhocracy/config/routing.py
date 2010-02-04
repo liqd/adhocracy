@@ -60,13 +60,9 @@ def make_map():
     map.connect('/poll/{id}', controller='poll', action='view')
     map.connect('/polls', controller='poll', action='index')
     
-    map.connect('/comment/create', controller='comment', action='create')
-    map.connect('/comment/edit/{id}', controller='comment', action='edit')
-    map.connect('/comment/delete/{id}', controller='comment', action='delete')
-    map.connect('/comment/{id}/history', controller='comment', action='history')
-    map.connect('/comment/{id}/revert', controller='comment', action='revert')
-    map.connect('/comment/r/{id}', controller='comment', action='redirect')
-    map.connect('/comment/{id}', controller='comment', action='view')
+    
+    map.resource('comment', 'comment', member={'history': 'GET',
+                                               'revert': 'GET'})
     
     map.connect('/karma/give', controller='karma', action='give', format='html')
     map.connect('/karma/give.json', controller='karma', action='give', format='json')

@@ -9,7 +9,7 @@
 
 <h1 class="page_title"><img src="/img/icons/delegate_24.png" class="cd"/> ${_("Delegate: %s") % c.scope.label}</h1>
 
-<form name="create_delegation" class="inplace" method="POST" action="/delegation/create">
+<form name="create_delegation" class="inplace" method="POST" action="/delegation">
 	${h.field_token()|n}
 	<input name="scope" value="${c.scope.id}" type="hidden" />
 	

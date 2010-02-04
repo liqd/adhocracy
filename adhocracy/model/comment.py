@@ -44,6 +44,9 @@ class Comment(Base):
     
     latest = property(_get_latest, _set_latest)
     
+    def root(self):
+        return self.reply.root() if self.reply else self
+    
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:
@@ -58,21 +61,25 @@ class Comment(Base):
     
     @classmethod    
     def create(cls, text, user, topic, reply=None, canonical=False):
-        import adhocracy.lib.text as libtext
-        from revision import Revision
         from karma import Karma
-        
         comment = Comment(topic, user)
-        text = libtext.cleanup(text)
-        comment.latest = Revision(comment, user, text)
         comment.canonical = canonical
         comment.reply = reply
         karma = Karma(1, user, user, comment)
-            
         meta.Session.add(comment)
         meta.Session.add(karma)
-        meta.Session.flush()
+        comment.create_revision(text, user)
         return comment
+    
+    def create_revision(self, text, user):
+        from revision import Revision
+        import adhocracy.lib.text as libtext
+        rev = Revision(self, user, 
+                       libtext.cleanup(text))
+        meta.Session.add(rev)
+        self.latest = rev
+        meta.Session.flush()
+        return rev
         
     def delete(self, delete_time=None):
         if delete_time is None:
@@ -99,9 +106,8 @@ class Comment(Base):
         if self.canonical:
             d['canonical'] = self.canonical
         if self.latest:
-            d['latest_text'] = self.latest.text
-            d['latest_time'] = self.latest.create_time
-            d['latest_user'] = self.latest.user.user_name
+            d['latest'] = self.latest.to_dict()
+        d['revisions'] = map(lambda r: r.id, self.revisions)
         return d
     
 

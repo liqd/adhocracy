@@ -52,7 +52,7 @@ def render_def(template_name, def_name, extra_vars=None, cache_key=None,
     
 def _json_entity(o):
     if isinstance(o, datetime):
-        return rfc822.formatdate(float(o.strftime("%S")))
+        return rfc822.formatdate(float(o.strftime("%s")))
     if hasattr(o, 'to_dict'):
         return o.to_dict()
     raise TypeError("This is not serializable: " + repr(o))

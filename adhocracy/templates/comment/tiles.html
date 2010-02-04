@@ -10,7 +10,7 @@
 		
 		%if len(tile.tagline):
 		<div class="text">
-			<a href="/comment/r/${comment.id}">${_("Comment")}</a>: ${tile.tagline}
+			<a href="/comment/${comment.id}.fwd">${_("Comment")}</a>: ${tile.tagline}
 		</div>
 		%endif
 		
@@ -68,7 +68,7 @@
 					%endif
 									
 					%if tile.can_delete:
-						<a class="button delete" href="/comment/delete/${comment.id}?${h.url_token()}">${_("delete")}</a> 
+						<a class="button delete" href="/comment/${comment.id}?_method=DELETE&${h.url_token()}">${_("delete")}</a> 
 					%endif
 								
 					%if tile.can_reply and (recurse or link_discussion):
@@ -140,10 +140,10 @@
 </%def>
 
 <%def name="edit_form(comment)">
-	<form name="edit_comment" class="inplace" method="POST" action="/comment/edit/${comment.id}">
+	<form name="edit_comment" class="inplace" method="POST" action="/comment/${comment.id}">
 		${h.field_token()|n}
 		<textarea tabindex="2" class="description" style="min-height: ${max(7, min(30, len(comment.latest.text)/50))}em !important;" name="text">${comment.latest.text}</textarea>
-		<br/>
+		<input type="hidden" name="_method" value="PUT" />
 		${components.formatting()}
 		${components.savebox("/d/%s" % comment.topic.id)}
 		${components.form_watch(comment)}
@@ -151,7 +151,7 @@
 </%def>
 
 <%def name="create_form(parent, topic, canonical=0)">
-	<form name="create_comment" class="inplace" method="POST" action="/comment/create">
+	<form name="create_comment" class="inplace" method="POST" action="/comment">
 		${h.field_token()|n}
 		<input type="hidden" name="topic" value="${topic.id if topic else request.params.get('topic')}" />
 		<input type="hidden" name="reply" value="${parent.id if parent else request.params.get('reply')}" />

@@ -114,12 +114,12 @@ T_PROPOSAL_DELETE = EventType(u"t_proposal_delete", pri=2,
 
 T_COMMENT_CREATE = EventType(u"t_comment_create", pri=2, 
                           subject=lambda: _(u"New comment: in %(topic)s"),
-                          link_path=lambda e: "/comment/r/%s" % e.comment.id,
+                          link_path=lambda e: "/comment/%s.fwd" % e.comment.id,
                           event_msg=lambda: _(u"created a %(comment)s on %(topic)s"))
 
 T_COMMENT_EDIT = EventType(u"t_comment_edit", pri=1, 
                           subject=lambda: _(u"Edited comment: in %(topic)s"),
-                          link_path=lambda e: "/comment/r/%s" % e.comment.id,
+                          link_path=lambda e: "/comment/%s.fwd" % e.comment.id,
                           event_msg=lambda: _(u"edited a %(comment)s on %(topic)s"))
 
 T_COMMENT_DELETE = EventType(u"t_comment_delete", pri=2, 
@@ -184,11 +184,11 @@ N_DELEGATE_CONFLICT = NotificationType("n_delegate_conflict", pri=5,
 
 N_COMMENT_REPLY = NotificationType("n_comment_reply", pri=4, 
                           subject=lambda: _(u"Comment Reply: %(topic)s"),
-                          link_path=lambda e: "/comment/r/%s" % e.comment.id)
+                          link_path=lambda e: "/comment/%s.fwd" % e.comment.id)
 
 N_COMMENT_EDIT = NotificationType("n_comment_edit", pri=4, 
                           subject=lambda: _(u"Comment Edit: %(topic)s"),
-                          link_path=lambda e: "/comment/r/%s" % e.comment.id)
+                          link_path=lambda e: "/comment/%s.fwd" % e.comment.id)
 
 
 # The funny thing about this line is: YOU DO NOT SEE IT!
