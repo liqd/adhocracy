@@ -226,7 +226,7 @@ class ProposalController(BaseController):
         h.add_meta("dc.date", c.proposal.create_time.strftime("%Y-%m-%d"))
         h.add_meta("dc.author", text.meta_escape(c.proposal.creator.name, markdown=False))
         
-        if format == Format.FEED:
+        if format == 'rss':
             query = model.meta.Session.query(model.Event)
             query = query.filter(model.Event.topics.contains(c.proposal))
             query = query.order_by(model.Event.time.desc())
