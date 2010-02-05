@@ -24,7 +24,7 @@ class UserCreateForm(formencode.Schema):
     chained_validators = [validators.FieldsMatch(
          'password', 'password_confirm')]
          
-class UserEditForm(formencode.Schema):
+class UserUpdateForm(formencode.Schema):
     allow_extra_fields = True
     display_name = validators.String(not_empty=False)
     email = validators.Email(not_empty=True)
@@ -34,8 +34,8 @@ class UserEditForm(formencode.Schema):
     chained_validators = [validators.FieldsMatch(
         'password', 'password_confirm')]
     bio = validators.String(max=1000, min=0, not_empty=False)
-    email_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=4)
-    twitter_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=4)
+    email_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=3)
+    twitter_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=3)
     
 class UserManageForm(formencode.Schema):
     allow_extra_fields = True
@@ -54,6 +54,10 @@ class UserController(BaseController):
     @ActionProtector(has_permission("user.view"))
     def index(self, format='html'):
         c.users = model.User.all(instance=c.instance if c.instance else None)
+        
+        if format == 'json':
+            return render_json(c.users)
+        
         c.users_pager = NamedPager('users', c.users, tiles.user.row,
                                     sorts={_("oldest"): sorting.entity_oldest,
                                            _("newest"): sorting.entity_newest,
@@ -82,65 +86,63 @@ class UserController(BaseController):
                     'login': self.form_result.get("user_name"),
                     'password': self.form_result.get("password")
                 }))
+    
+    @ActionProtector(has_permission("user.edit"))
+    def edit(self, id):
+        c.page_user = self._get_user_for_edit(id)
+        return render("/user/edit.html")
 
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("user.edit"))
-    @validate(schema=UserEditForm(), form="edit", post_only=True)
-    def edit(self, id):
-        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
-        if not (c.page_user == c.user or h.has_permission("user.manage")): 
-            abort(403, _("You're not authorized to change %s's settings.") % id)
-        if request.method == "POST":
-            if self.form_result.get("password"):
-                c.page_user.password = self.form_result.get("password")
-            c.page_user.display_name = self.form_result.get("display_name")
-            c.page_user.bio = text.cleanup(self.form_result.get("bio"))
-            c.page_user.email = self.form_result.get("email").lower()
-            c.page_user.email_priority = self.form_result.get("email_priority")
-            if c.page_user.twitter:
-                c.page_user.twitter.priority = self.form_result.get("twitter_priority")
-                model.meta.Session.add(c.page_user.twitter)
-            locale = Locale(self.form_result.get("locale"))
-            if locale and locale in i18n.LOCALES:
-                c.page_user.locale = locale 
-            model.meta.Session.add(c.page_user)
-            model.meta.Session.commit()
-            model.meta.Session.refresh(c.page_user)
-            if c.page_user == c.user:
-                event.emit(event.T_USER_EDIT, c.user)
-            else:
-                event.emit(event.T_USER_ADMIN_EDIT, c.page_user, admin=c.user)
-            redirect_to("/user/%s" % str(c.page_user.user_name))
-        return render("/user/edit.html")
+    @validate(schema=UserUpdateForm(), form="edit", post_only=True)
+    def update(self, id):
+        c.page_user = self._get_user_for_edit(id)
+        if self.form_result.get("password"):
+            c.page_user.password = self.form_result.get("password")
+        c.page_user.display_name = self.form_result.get("display_name")
+        c.page_user.bio = text.cleanup(self.form_result.get("bio"))
+        c.page_user.email = self.form_result.get("email").lower()
+        c.page_user.email_priority = self.form_result.get("email_priority")
+        if c.page_user.twitter:
+            c.page_user.twitter.priority = self.form_result.get("twitter_priority")
+            model.meta.Session.add(c.page_user.twitter)
+        locale = Locale(self.form_result.get("locale"))
+        if locale and locale in i18n.LOCALES:
+            c.page_user.locale = locale 
+        model.meta.Session.add(c.page_user)
+        model.meta.Session.commit()
+        model.meta.Session.refresh(c.page_user)
+        if c.page_user == c.user:
+            event.emit(event.T_USER_EDIT, c.user)
+        else:
+            event.emit(event.T_USER_ADMIN_EDIT, c.page_user, admin=c.user)
+        redirect_to("/user/%s" % str(c.page_user.user_name))
     
-    @validate(schema=UserResetApplyForm(), form="reset", post_only=True)
-    def reset(self):
-        if request.method == "POST":
-            email = self.form_result.get('email').lower()
-            query = model.meta.Session.query(model.User)
-            query = query.filter(model.User.email==email)
-            users = query.all()
-            if not len(users):
-                h.flash(_("There is no user registered with that email address."))
-                return render("/user/reset_form.html")
-            c.page_user = users[0]
-            c.page_user.reset_code = libutil.random_token()
-            model.meta.Session.add(c.page_user)
-            model.meta.Session.commit()
-            url = h.instance_url(None, path="/user/reset/%s?c=%s" % (c.page_user.user_name, c.page_user.reset_code))
-            body = _("you have requested that your password be reset. In order to" 
-                     +  " confirm the validity of your claim, please open the link below in your"
-                     +  " browser:") + "\r\n\r\n  " + url 
-            libmail.to_user(c.page_user, _("Reset your password"), body)
-            return render("/user/reset_pending.html")
+    def reset_form(self):
         return render("/user/reset_form.html")
     
-    def reset_code(self, id):
+    @validate(schema=UserResetApplyForm(), form="reset", post_only=True)
+    def reset_request(self):
+        c.page_user = model.User.find_by_email(self.form_result.get('email'))
+        if c.page_user is None:
+            msg = _("There is no user registered with that email address.")
+            return htmlfill.render(self.reset_form(), errors=dict(email=msg))
+        
+        c.page_user.reset_code = libutil.random_token()
+        model.meta.Session.add(c.page_user)
+        model.meta.Session.commit()
+        url = h.instance_url(None, path="/user/%s/reset?c=%s" % (c.page_user.user_name, c.page_user.reset_code))
+        body = _("you have requested that your password be reset. In order to" 
+                 +  " confirm the validity of your claim, please open the link below in your"
+                 +  " browser:") + "\r\n\r\n  " + url 
+        libmail.to_user(c.page_user, _("Reset your password"), body)
+        return render("/user/reset_pending.html")
+    
+    def reset(self, id):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         try:
             if c.page_user.reset_code != request.params.get('c', 'deadbeef'):
-                h.flash(_("Invalid URL reset code."))
-                redirect_to('/login')
+                raise ValueError()
              
             new_password = libutil.random_token()
             c.page_user.password = new_password
@@ -157,8 +159,23 @@ class UserController(BaseController):
         
             
     @ActionProtector(has_permission("user.view"))
-    def view(self, id, format='html'):
+    def show(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        
+        if format == 'json':
+            return render_json(c.page_user)
+        
+        query = model.meta.Session.query(model.Event)
+        query = query.filter(model.Event.user==c.page_user)
+        query = query.order_by(model.Event.time.desc())
+        query = query.limit(50)  
+        if format == 'rss':
+            return event.rss_feed(query.all(), "%s Latest Actions" % c.page_user.name,
+                                  h.instance_url(None, path='/user/%s' % c.page_user.user_name),
+                                  description)
+        c.events_pager = NamedPager('events', query.all(), tiles.event.row, count=10)
+        c.tile = tiles.user.UserTile(c.page_user)
+        
         bio = c.page_user.bio
         if not bio:
             bio = _("%(user)s is using Adhocracy, a direct democracy decision-making tool.") % {'user': c.page_user.name}
@@ -174,21 +191,13 @@ class UserController(BaseController):
                   h.instance_url(None, "/user/%s.rss" % c.page_user.user_name))                         
             
         if c.instance and not c.page_user.is_member(c.instance):
-            h.flash(_("%s is not a member of %s") % (c.page_user.name, c.instance.label))
+            h.flash(_("%s is not a member of %s") % (c.page_user.name, c.instance.label))  
         
-        
-        query = model.meta.Session.query(model.Event)
-        query = query.filter(model.Event.user==c.page_user)
-        query = query.order_by(model.Event.time.desc())
-        query = query.limit(50)  
-        if format == 'rss':
-            return event.rss_feed(query.all(), "%s Latest Actions" % c.page_user.name,
-                                  h.instance_url(None, path='/user/%s' % c.page_user.user_name),
-                                  description)
-        c.events_pager = NamedPager('events', query.all(), tiles.event.row, count=10)
-        c.tile = tiles.user.UserTile(c.page_user)
-        
-        return render("/user/view.html")
+        return render("/user/show.html")
+    
+    @ActionProtector(has_permission("user.delete"))
+    def delete(self, id):
+        self.not_implemented()
     
     def login(self):
         session['came_from'] = request.params.get('came_from')
@@ -200,13 +209,10 @@ class UserController(BaseController):
 
     def post_login(self):
         if c.user:
-            if 'came_from' in session:
-                url = str(session['came_from'])
-                del session['came_from']
-                session.save()
-                redirect_to(url)
-            #h.flash("Welcome back, %s" % c.user.user_name)
-            redirect_to("/")
+            url = session.get('came_from', '/')
+            del session['came_from']
+            session.save()
+            redirect_to(str(url))
         else:
             return formencode.htmlfill.render(
                 render("/user/login.html"), 
@@ -219,23 +225,16 @@ class UserController(BaseController):
         redirect_to("/")
     
     @ActionProtector(has_permission("user.view"))    
-    def autocomplete(self):
-        try:
-            prefix = unicode(request.params['q'])
-            limit = int(request.params.get('limit', 15))
-            users = model.User.complete(prefix, limit)
-            results = []
-            for user in users:
-                if user == c.user:
-                    continue
-                s = user.name
-                if user.user_name != user.name:
-                    s = "%s (%s)" % (user.user_name, s)
-                results.append("{display: '%s', user: '%s'}" % (s, user.user_name))
-            response.content_type = "text/javascript"
-            return "[" + ",".join(results) + "]"
-        except:
-            return ""
+    def complete(self):
+        prefix = unicode(request.params.get('q', ''))
+        users = model.User.complete(prefix, 15)
+        results = []
+        for user in users:
+            if user == c.user: continue
+            display = "%s (%s)" % (user.user_name, user.name) if \
+                      user.display_name else user.name
+            results.append(dict(display=display, user=user.user_name))
+        return render_json(results)
         
     @RequireInstance
     @ActionProtector(has_permission("user.view")) 
@@ -266,7 +265,7 @@ class UserController(BaseController):
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.admin"))
-    @validate(schema=UserGroupmodForm(), form="create", post_only=False, on_get=True)
+    @validate(schema=UserGroupmodForm(), form="edit", post_only=False, on_get=True)
     def groupmod(self, id):
         c.page_user = get_entity_or_abort(model.User, id)
         to_group = self.form_result.get("to_group")
@@ -278,7 +277,7 @@ class UserController(BaseController):
                         'group': group.group_name})
             redirect_to("/user/%s" % str(c.page_user.user_name))
         
-        had_vote = True if c.page_user._has_permission("vote.cast") else False
+        had_vote = c.page_user._has_permission("vote.cast")
         
         for membership in c.page_user.memberships:
             if not membership.expire_time and membership.instance == c.instance:
@@ -315,4 +314,9 @@ class UserController(BaseController):
                                         'user': c.page_user.name, 
                                         'instance': c.instance.label})
         redirect_to("/user/%s" % str(c.page_user.user_name))
-    
+        
+    def _get_user_for_edit(self, id):
+        user = get_entity_or_abort(model.User, id, instance_filter=False)
+        if not (user == c.user or h.has_permission("user.manage")): 
+            abort(403, _("You're not authorized to change %s's settings.") % id)
+        return user

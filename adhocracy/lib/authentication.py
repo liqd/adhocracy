@@ -31,10 +31,10 @@ def setup_auth(app, config):
         
     form = FriendlyFormPlugin(
             '/login',
-            '/user/perform_login',
-            '/user/post_login',
+            '/perform_login',
+            '/post_login',
             '/logout',
-            '/user/post_logout',
+            '/post_logout',
             login_counter_name='_login_tries',
             rememberer_name='auth_tkt')
     

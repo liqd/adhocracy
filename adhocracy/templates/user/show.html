@@ -9,7 +9,7 @@
 
 <div class="top_actions title">
 	%if c.tile.can_edit:
-		<a class="button edit" href="/user/edit/${c.page_user.user_name}">${_("edit")}</a>
+		<a class="button edit" href="/user/${c.page_user.user_name}/edit">${_("edit")}</a>
 	%endif
 	
 	%if c.instance and c.tile.can_manage and c.page_user.is_member(c.instance):

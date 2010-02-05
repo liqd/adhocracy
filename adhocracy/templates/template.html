@@ -70,7 +70,7 @@
 				%if c.instance and not c.user.is_member(c.instance):
 					<a class="join" href="/instance/${c.instance.key}/join?${h.url_token()}">${_("Join %s") % c.instance.label}</a>	
 				%endif 
-				&middot; <a href="/user/edit/${c.user.user_name}">${_("settings")}</a>
+				&middot; <a href="/user/${c.user.user_name}/edit">${_("settings")}</a>
 				&middot; <a href="/logout">${_("logout")}</a>
 			%endif
 			</div>
@@ -92,7 +92,7 @@
 					<li><a href="/admin/permissions">${_("Admin")}</a></li>
 				%endif
 				<li><a href="/adhocracies">${_("Adhocracies")}</a></li>
-				<li><a href="/users">${_("Users")}</a></li>
+				<li><a href="/user">${_("Users")}</a></li>
 			</ul>
 			
 			<label id="searchlabel" for="q" class="armhint">${_("Search")}</label>

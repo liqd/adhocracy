@@ -20,28 +20,31 @@ def make_map():
 
     # CUSTOM ROUTES HERE
     map.connect('/', controller='root', action='index')
-    map.connect('/register', controller='user', action='create')
-    map.connect('/login', controller='user', action='login')
-    map.connect('/logout', controller='user', action='logout')
-        
-    map.connect('/users', controller='user', action='index')
-    map.connect('/user/post_logout', controller='user', action='post_logout')
-    map.connect('/user/post_login', controller='user', action='post_login')
-    map.connect('/user/perform_login', controller='user', action='perform_login')
-    map.connect('/user/reset/{id}', controller='user', action='reset_code')
-    map.connect('/user/reset', controller='user', action='reset')
-    map.connect('/user/complete', controller='user', action='autocomplete')
-    map.connect('/user/edit/{id}', controller='user', action='edit')
-    map.connect('/user/{id}/votes', controller='user', action='votes')
-    map.connect('/user/{id}/delegations', controller='user', action='delegations')
-    map.connect('/user/{id}/proposals', controller='user', action='proposals')
-    map.connect('/user/{id}/groupmod', controller='user', action='groupmod')
-    map.connect('/user/{id}/kick', controller='user', action='kick')
-    map.connect('/user/{id}.{format}', controller='user', action='view')
-    map.connect('/user/{id}', controller='user', action='view', format='html')
+    
     map.connect('/openid/{action}', controller='openidauth')
     map.connect('/twitter/{action}', controller='twitteroauth')
     
+    map.resource('user', 'user', member={'votes': 'GET',
+                                         'delegations': 'GET',
+                                         'proposals': 'GET',
+                                         'votes': 'GET',
+                                         'groupmod': 'GET',
+                                         'kick': 'GET',
+                                         'revert': 'GET',
+                                         'reset': 'GET'},
+                                collection={'complete': 'GET'})
+    
+    map.connect('/register', controller='user', action='new')
+    map.connect('/login', controller='user', action='login')
+    map.connect('/logout', controller='user', action='logout')    
+    map.connect('/post_logout', controller='user', action='post_logout')
+    map.connect('/post_login', controller='user', action='post_login')
+    map.connect('/perform_login', controller='user', action='perform_login')
+    map.connect('/reset', controller='user', action='reset_form',
+                conditions=dict(method=['GET']))
+    map.connect('/reset', controller='user', action='reset_request',
+                conditions=dict(method=['POST']))
+        
     map.connect('/issue/create', controller='issue', action='create')
     map.connect('/issue/{action}/{id}', controller='issue')
     map.connect('/issue/{id}.{format}', controller='issue', action='view')

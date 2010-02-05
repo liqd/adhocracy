@@ -17,7 +17,7 @@ class CommentCreateForm(CommentNewForm):
     text = validators.String(max=20000, min=4, not_empty=True)
     canonical = validators.StringBool(not_empty=True)
     
-class CommentEditForm(formencode.Schema):
+class CommentUpdateForm(formencode.Schema):
     allow_extra_fields = True
     text = validators.String(max=20000, min=4, not_empty=True)
 
@@ -67,7 +67,7 @@ class CommentController(BaseController):
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("comment.edit"))
-    @validate(schema=CommentEditForm(), form="edit", post_only=True)
+    @validate(schema=CommentUpdateForm(), form="edit", post_only=True)
     def update(self, id):
         c.comment = self._get_mutable_or_abort(id)
         c.comment.create_revision(self.form_result.get('text'), c.user)

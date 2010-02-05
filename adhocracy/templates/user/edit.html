@@ -8,8 +8,9 @@
 </%def>
 
 
-<form name="settings" class="inplace" method="POST" action="/user/edit/${c.page_user.user_name}">
+<form name="settings" class="inplace" method="POST" action="/user/${c.page_user.user_name}">
 	${h.field_token()|n}
+	<input type="hidden" name="_method" value="PUT" />
 	<div class="page_title">
 		<label for="display_name" class="armhint">${c.page_user.name}</label>
 		<input tabindex="1" class="title armlabel" name="display_name"

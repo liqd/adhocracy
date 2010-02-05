@@ -25,12 +25,12 @@ class TwitteroauthController(BaseController):
     @ActionProtector(has_permission("user.edit"))
     def callback(self):
         if 'denied' in request.params:
-            redirect_to("/user/edit/%s" % str(c.user.user_name))
+            redirect_to("/user/%s/edit" % str(c.user.user_name))
         request_token = session.get('request_token')
         if not request_token:
             h.flash(_("You have been logged out while authenticating "
                       "at twitter. Please try again."))
-            redirect_to("/user/edit/%s" % str(c.user.user_name))
+            redirect_to("/user/%s/edit" % str(c.user.user_name))
         
         request_token = oauth.OAuthToken.from_string(request_token)
         req_api = create_oauth(key=request_token.key, secret=request_token.secret)
@@ -59,16 +59,16 @@ class TwitteroauthController(BaseController):
         except HTTPError, he:
             log.warn(he.read())
         
-        redirect_to("/user/edit/%s" % str(c.user.user_name))
+        redirect_to("/user/%s/edit" % str(c.user.user_name))
     
     @RequireInternalRequest()
     @ActionProtector(has_permission("user.edit"))
     def revoke(self):
         if not c.user.twitter:
             h.flash(_("You have no twitter association."))
-            redirect_to("/user/edit/%s" % str(c.user.user_name))
+            redirect_to("/user/%s/edit" % str(c.user.user_name))
         twitter = c.user.twitter
         twitter.delete_time = datetime.utcnow()
         model.meta.Session.add(twitter)
         model.meta.Session.commit()
-        redirect_to("/user/edit/%s" % str(c.user.user_name))
+        redirect_to("/user/%s/edit" % str(c.user.user_name))

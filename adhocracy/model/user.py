@@ -24,7 +24,7 @@ class User(Base):
     display_name = Column(Unicode(255), nullable=True, index=True)
     bio = Column(UnicodeText(), nullable=True)
     email = Column(Unicode(255), nullable=True, unique=False)
-    email_priority = Column(Integer, default=4)
+    email_priority = Column(Integer, default=3)
     activation_code = Column(Unicode(255), nullable=True, unique=False)
     reset_code = Column(Unicode(255), nullable=True, unique=False)
     _password = Column('password', Unicode(80), nullable=False)
@@ -181,6 +181,16 @@ class User(Base):
             log.warn("find(%s): %s" % (user_name, e))
             return None
     
+    @classmethod
+    def find_by_email(cls, email):
+        try:
+            q = meta.Session.query(User)
+            q = q.filter(User.email==unicode(email))
+            return q.limit(1).first()
+        except Exception, e: 
+            log.warn("find_by_email(%s): %s" % (email, e))
+            return None
+    
     def _index_id(self):
         return self.user_name
     
@@ -266,8 +276,8 @@ class User(Base):
             d['display_name'] = self.display_name
         if self.bio:
             d['bio'] = self.bio
-        d['memberships'] = map(lambda m: m.instance.key, 
-                               self.memberships)
+        #d['memberships'] = map(lambda m: m.instance.key, 
+        #                       self.memberships)
         return d
     
 

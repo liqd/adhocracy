@@ -32,8 +32,6 @@ class OpenidauthController(BaseController):
         """
         Create a user based on data gathered from OpenID
         """
-        
-        #TODO put this in a proper shared function with the UserController 
         user = model.User.create(user_name, email, locale=c.locale, 
                                  openid_identity=identity)
         model.meta.Session.commit()
@@ -76,7 +74,7 @@ class OpenidauthController(BaseController):
         log.info("OpenID: %s - Error: %s" % (openid, message))
         if c.user:
             h.flash(message)
-            return redirect_to("/user/edit/%s" % str(c.user.user_name))
+            return redirect_to("/user/%s/edit" % str(c.user.user_name))
         else:
             loginhtml = render("/user/login.html")
             return formencode.htmlfill.render(loginhtml, 
@@ -130,7 +128,7 @@ class OpenidauthController(BaseController):
             abort(403, _("You're not authorized to change %s's settings.") % id)
         openid.delete_time = datetime.utcnow()
         model.meta.Session.commit()
-        return redirect_to("/user/edit/%s" % str(page_user.user_name))
+        return redirect_to("/user/%s/edit" % str(page_user.user_name))
 
     def verify(self):
         self.consumer = create_consumer(self.openid_session)
@@ -178,7 +176,7 @@ class OpenidauthController(BaseController):
                 oid = model.OpenID(unicode(info.identity_url), c.user)
                 model.meta.Session.add(oid)
                 model.meta.Session.commit()
-                redirect_to("/user/edit/%s" % str(c.user.user_name))
+                redirect_to("/user/%s/edit" % str(c.user.user_name))
             else:
                 try:
                     forms.UniqueUsername(not_empty=True).to_python(user_name)
