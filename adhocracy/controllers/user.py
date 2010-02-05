@@ -37,6 +37,10 @@ class UserUpdateForm(formencode.Schema):
     email_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=3)
     twitter_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=3)
     
+class UserCodeForm(formencode.Schema):
+    allow_extra_fields = True
+    c = validators.String(not_empty=False)
+    
 class UserManageForm(formencode.Schema):
     allow_extra_fields = True
     group = forms.ValidGroup()
@@ -73,13 +77,14 @@ class UserController(BaseController):
     @validate(schema=UserCreateForm(), form="new", post_only=True)
     def create(self):
         user = model.User.create(self.form_result.get("user_name"), 
-                                 self.form_result.get("email"), 
+                                 self.form_result.get("email").lower(), 
                                  password=self.form_result.get("password"), 
                                  locale=c.locale)
         model.meta.Session.commit()
             
         event.emit(event.T_USER_CREATE, user)
-            
+        libmail.send_activation_link(user)
+        
         if c.instance:
             session['came_from'] = "/instance/join/%s?%s" % (c.instance.key, h.url_token())
         redirect_to("/user/perform_login?%s" % urllib.urlencode({
@@ -101,7 +106,9 @@ class UserController(BaseController):
             c.page_user.password = self.form_result.get("password")
         c.page_user.display_name = self.form_result.get("display_name")
         c.page_user.bio = text.cleanup(self.form_result.get("bio"))
-        c.page_user.email = self.form_result.get("email").lower()
+        email = self.form_result.get("email").lower()
+        email_changed = email != c.page_user.email
+        c.page_user.email = email
         c.page_user.email_priority = self.form_result.get("email_priority")
         if c.page_user.twitter:
             c.page_user.twitter.priority = self.form_result.get("twitter_priority")
@@ -111,7 +118,10 @@ class UserController(BaseController):
             c.page_user.locale = locale 
         model.meta.Session.add(c.page_user)
         model.meta.Session.commit()
-        model.meta.Session.refresh(c.page_user)
+        
+        if email_changed:
+            libmail.send_activation_link(c.page_user)       
+        
         if c.page_user == c.user:
             event.emit(event.T_USER_EDIT, c.user)
         else:
@@ -138,10 +148,11 @@ class UserController(BaseController):
         libmail.to_user(c.page_user, _("Reset your password"), body)
         return render("/user/reset_pending.html")
     
+    @validate(schema=UserCodeForm(), form="reset_form", post_only=False, on_get=True)
     def reset(self, id):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         try:
-            if c.page_user.reset_code != request.params.get('c', 'deadbeef'):
+            if c.page_user.reset_code != self.form_result.get('c'):
                 raise ValueError()
              
             new_password = libutil.random_token()
@@ -156,7 +167,29 @@ class UserController(BaseController):
         except Exception:
             h.flash(_("The reset code is invalid. Please repeat the password recovery procedure."))
         redirect_to('/login')
-        
+    
+    @ActionProtector(has_permission("user.edit"))
+    @validate(schema=UserCodeForm(), form="edit", post_only=False, on_get=True)
+    def activate(self, id):
+        c.page_user = self._get_user_for_edit(id)
+        try:
+            if c.page_user.activation_code != self.form_result.get('c'):
+                raise ValueError()
+            c.page_user.activation_code = None
+            model.meta.Session.commit()
+            h.flash(_("Your email has been confirmed."))
+        except Exception:
+            log.exception("Invalid activation code")
+            h.flash(_("The activation code is invalid. Please have it resent."))
+        redirect_to("/user/%s/edit" % str(c.page_user.user_name))
+    
+    @RequireInternalRequest()
+    @ActionProtector(has_permission("user.edit"))
+    def resend(self, id):
+        c.page_user = self._get_user_for_edit(id)
+        libmail.send_activation_link(c.page_user)
+        h.flash(_("The activation link has been re-sent to your email address."))
+        redirect_to("/user/%s/edit" % str(c.page_user.user_name))
             
     @ActionProtector(has_permission("user.view"))
     def show(self, id, format='html'):

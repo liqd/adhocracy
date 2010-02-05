@@ -38,7 +38,7 @@ def twitter_sink(pipeline):
 
 def mail_sink(pipeline):
     for notification in pipeline:
-        if notification.user.email is not None and \
+        if notification.user.is_email_activated() and \
             notification.priority >= notification.user.email_priority:
             notification.language_context() 
             headers = {'X-Notification-Id': notification.id,

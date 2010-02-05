@@ -23,7 +23,7 @@ class User(Base):
     user_name = Column(Unicode(255), nullable=False, unique=True, index=True)
     display_name = Column(Unicode(255), nullable=True, index=True)
     bio = Column(UnicodeText(), nullable=True)
-    email = Column(Unicode(255), nullable=True, unique=False)
+    _email = Column('email', Unicode(255), nullable=True, unique=False)
     email_priority = Column(Integer, default=3)
     activation_code = Column(Unicode(255), nullable=True, unique=False)
     reset_code = Column(Unicode(255), nullable=True, unique=False)
@@ -61,14 +61,22 @@ class User(Base):
         
     locale = synonym('_locale', descriptor=property(_get_locale,
                                                     _set_locale))
+    def _get_email(self):
+        return self._email
     
-    def _get_alternatives(self):
-        return []
+    def _set_email(self, email):
+        import adhocracy.lib.util as util 
+        if not self._email == email:
+            self.activation_code = util.random_token()
+        self._email = email 
+        
+    email = synonym('_email', descriptor=property(_get_email,
+                                                  _set_email))
     
-    def _set_alternatives(self, alternatives):
-        pass
+    def _get_email_hash(self):
+        return hashlib.sha1(self.email).hexdigest()
     
-    alternatives = property(_get_alternatives, _set_alternatives)
+    email_hash = property(_get_email_hash)
     
     def _get_context_groups(self):
         groups = []
@@ -185,7 +193,7 @@ class User(Base):
     def find_by_email(cls, email):
         try:
             q = meta.Session.query(User)
-            q = q.filter(User.email==unicode(email))
+            q = q.filter(User.email==unicode(email).lower())
             return q.limit(1).first()
         except Exception, e: 
             log.warn("find_by_email(%s): %s" % (email, e))
@@ -211,6 +219,9 @@ class User(Base):
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
+               
+    def is_email_activated(self):
+        return self.email is not None and self.activation_code is None
     
     def delegation_node(self, scope):
         from adhocracy.lib.democracy import DelegationNode
@@ -248,7 +259,7 @@ class User(Base):
         if locale is None: 
             locale = i18n.DEFAULT
         
-        user = User(unicode(user_name), unicode(email), 
+        user = User(unicode(user_name), email, 
                     unicode(password), locale)
         meta.Session.add(user)
         default_group = Group.by_code(Group.CODE_DEFAULT)
@@ -271,7 +282,8 @@ class User(Base):
         d = dict(id=self.id,
                  user_name=self.user_name,
                  locale=self._locale,
-                 create_time=self.create_time)
+                 create_time=self.create_time,
+                 mbox=self.email_hash)
         if self.display_name:
             d['display_name'] = self.display_name
         if self.bio:

@@ -31,7 +31,9 @@ def make_map():
                                          'groupmod': 'GET',
                                          'kick': 'GET',
                                          'revert': 'GET',
-                                         'reset': 'GET'},
+                                         'reset': 'GET',
+                                         'activate': 'GET',
+                                         'resend': 'GET'},
                                 collection={'complete': 'GET'})
     
     map.connect('/register', controller='user', action='new')

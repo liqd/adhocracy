@@ -34,6 +34,9 @@ class OpenidauthController(BaseController):
         """
         user = model.User.create(user_name, email, locale=c.locale, 
                                  openid_identity=identity)
+        # trust provided email:
+        user.activation_code = None
+        
         model.meta.Session.commit()
         
         event.emit(event.T_USER_CREATE, user)

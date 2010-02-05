@@ -77,16 +77,21 @@
 		<!-- label for="email">${_("E-Mail:")}</label -->
 					<input name="email" value="${c.page_user.email}"/>
 				</td>
-				<td><input type="radio" name="email_priority" value="6" 
-					${"checked='checked'" if c.page_user.email_priority==6 else ""} /></td>
-				<td><input type="radio" name="email_priority" value="4" 
-					${"checked='checked'" if c.page_user.email_priority==4 else ""} /></td>
-				<td><input type="radio" name="email_priority" value="3" 
-					${"checked='checked'" if c.page_user.email_priority==3 else ""} /></td>
-				<td><input type="radio" name="email_priority" value="2" 
-					${"checked='checked'" if c.page_user.email_priority==2 else ""} /></td>
-				<td><input type="radio" name="email_priority" value="1" 
-					${"checked='checked'" if c.page_user.email_priority==1 else ""} /></td>
+				%if c.page_user.is_email_activated():
+					<td><input type="radio" name="email_priority" value="6" 
+						${"checked='checked'" if c.page_user.email_priority==6 else ""} /></td>
+					<td><input type="radio" name="email_priority" value="4" 
+						${"checked='checked'" if c.page_user.email_priority==4 else ""} /></td>
+					<td><input type="radio" name="email_priority" value="3" 
+						${"checked='checked'" if c.page_user.email_priority==3 else ""} /></td>
+					<td><input type="radio" name="email_priority" value="2" 
+						${"checked='checked'" if c.page_user.email_priority==2 else ""} /></td>
+					<td><input type="radio" name="email_priority" value="1" 
+						${"checked='checked'" if c.page_user.email_priority==1 else ""} /></td>
+				%else:
+					<td colspan="5">${_("Not confirmed.")}
+						<a href="/user/${c.page_user.user_name}/resend?${h.url_token()}">${_("Re-send activation link")}</a></td>
+				%endif
 			</tr>
 			%if c.page_user.twitter:
 			<tr>
