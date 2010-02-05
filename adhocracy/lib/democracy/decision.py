@@ -161,7 +161,17 @@ class Decision(object):
         else:
             votes = [v for v in self.votes if v != vote]
             return Decision(self.user, self.poll, 
-                            at_time=self.at_time, votes=votes)           
+                            at_time=self.at_time, votes=votes)   
+    
+    def to_dict(self):
+        d = dict(user=self.user.user_name,
+                 poll=self.poll.id,
+                 decided=self.is_decided(),
+                 self_decided=self.is_self_decided())
+        if self.is_decided():
+            d['result'] = self.result
+        d['delegations'] = map(lambda d: d.id, self.delegations)
+        return d        
     
     @classmethod
     def for_user(cls, user, instance, at_time=None):  # FUUUBARD 
@@ -238,5 +248,6 @@ class Decision(object):
                     principal_dec = Decision(delegation.principal, decision.poll)
                     votes += principal_dec.make(decision.result, _edge=delegation)
         return votes
+    
     
 

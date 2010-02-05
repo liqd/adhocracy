@@ -300,10 +300,13 @@ class UserController(BaseController):
         
     @RequireInstance
     @ActionProtector(has_permission("user.view")) 
-    def votes(self, id):
+    def votes(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         decisions = democracy.Decision.for_user(c.page_user, c.instance)
-            
+        
+        if format == 'json':
+            return render_json(list(decisions))
+        
         c.decisions_pager = NamedPager('decisions', decisions, tiles.decision.user_row, 
                                     sorts={_("oldest"): sorting.entity_oldest,
                                            _("newest"): sorting.entity_newest},
@@ -384,7 +387,8 @@ class UserController(BaseController):
     @ActionProtector(has_permission("user.view"))
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def filter(self):
-        query = self.form_result.get('users_q', '')
+        query = self.form_result.get('users_q')
+        print "Q", request.params
         users = libsearch.query.run(query + "*", entity_type=model.User)
         if c.instance:
             users = filter(lambda u: u.is_member(c.instance), users)

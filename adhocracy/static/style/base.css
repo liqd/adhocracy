@@ -153,7 +153,14 @@ input:hover[type=button],
 
 #issues_q,
 #users_q {
-	width: 95%;
+	width: 94.5%;
+	padding: 0.3em;
+	font-size: 1.1em;
+	margin-bottom: 0.5em;
+	background-image: url(/img/icons/search.png);
+	background-repeat: no-repeat;
+	background-position: center left;
+	padding-left: 24px;
 }
 
 input[type=file] {

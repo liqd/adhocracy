@@ -135,34 +135,27 @@ $(document).ready(function() {
 	
 	/* Live filter for issue listing on instance home page */
 	var originalListing = null;
-	$("#issues_q").keyup(function(fld) {
-		
-		if (!originalListing) {
-			originalListing = $("#issues_table").html();
-		}
-		var value = $(this).val();
-		if ($.trim(value).length==0) {
-			$("#issues_table").html(originalListing);
-		}
-		var instance_key = $("#instance_key").val();
-		$.get('/instance/' + instance_key + '/filter', {'issues_q': value}, function(data, status) {
-			$("#issues_table").html(data);
-		}, 'text');
-	});
 	
-	$("#users_q").keyup(function(fld) {
-		
-		if (!originalListing) {
-			originalListing = $("#users_table").html();
-		}
-		var value = $(this).val();
-		if ($.trim(value).length==0) {
-			$("#users_table").html(originalListing);
-		}
-		$.get('/user/filter', {'users_q': value}, function(data, status) {
-			$("#users_table").html(data);
-		}, 'text');
-	});
+	live_filter = function(id, url) { 
+		$("#" + id + "_q").keyup(function(fld) {
+			if (!originalListing) {
+				originalListing = $("#" + id + "_table").html();
+			}
+			var destination = $("#" + id + "_table");
+			var value = $.trim($(this).val());
+			if (value.length == 0) {
+				destination.html(originalListing);
+			}
+			$.get(url + '?' + id + '_q=' + value, function(data, status) {
+				destination.html(data);
+			}, 'text');
+		});
+	}
+	
+	live_filter('users', '/user/filter');
+	var instance_key = $("#instance_key").val();
+	live_filter('issues', '/instance/' + instance_key + '/filter');
+	
 	
 	/* Armed labels: Use label text as pre-filling text for empty form fields. */
 	$(".armlabel").each(function(e) {
