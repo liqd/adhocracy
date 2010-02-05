@@ -30,25 +30,19 @@
 <h1 class="page_title"><img src="/img/icons/site_24.png" class="cd" /> ${c.page_instance.label}</h1>
 
 <div class="sidebar">
+	%if c.tile.description:
 	<div class="tile">
-		%if c.tile.description:
-		<div class="tile boxed">
-			<div class="inner_boxed">
-				<h4><img src="/img/icons/site_16.png" class="cd"> ${c.page_instance.label}</h4>
-				${c.tile.description|n}
-			</div>
-		</div>
-		%endif
-		<div class="tile boxed">
-			<div class="inner_boxed">
-				<h4><img src="/img/icons/vote_16.png" class="cd"> ${_("Voting Rules")}</h4>
-				${_("Required Majority:")} <b>${c.tile.required_majority}</b>
-				<span class="hint">${_("To become active, a proposal must reach the given proportion of approval.")}</span>
-				
-				${_("Activation Delay:")} <b>${_("%(delay)s days") % dict(delay=c.tile.activation_delay)}</b>
-				<span class="hint">${_("Before becoming active, the majority must be held for the specified interval.")}</span>
-			</div>
-		</div>
+			<h4><img src="/img/icons/site_16.png" class="cd"> ${c.page_instance.label}</h4>
+			${c.tile.description|n}
+	</div>
+	%endif
+	<div class="tile">
+			<h4><img src="/img/icons/vote_16.png" class="cd"> ${_("Voting Rules")}</h4>
+			${_("Required Majority:")} <b>${c.tile.required_majority}</b>
+			<span class="hint">${_("To become active, a proposal must reach the given proportion of approval.")}</span>
+			
+			${_("Activation Delay:")} <b>${_("%(delay)s days") % dict(delay=c.tile.activation_delay)}</b>
+			<span class="hint">${_("Before becoming active, the majority must be held for the specified interval.")}</span>
 	</div>
 </div>
 

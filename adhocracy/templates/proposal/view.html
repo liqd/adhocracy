@@ -90,13 +90,8 @@
 <div style="clear: both;"></div>
 
 <div class="sidebar">
-	<div class="tile">
-		%if c.tile.poll:
-		<div class="tile boxed">
-			<div class="inner_boxed voting_booth">  
-				${tiles.poll.booth(c.tile.poll)}
-			</div>
-		</div>
+		%if c.tile.poll: 
+			${tiles.poll.booth(c.tile.poll)}
 		%endif
 		${state.checklist(c.tile.state)|n}
 		${components.delegation_sidebar(c.proposal)}

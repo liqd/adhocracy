@@ -61,9 +61,7 @@
 <h2><img src="/img/icons/proposal_20.png" class="cd" /> ${_("Proposals")}</h2>
 <div class="sidebar">
 	%if h.has_permission("vote.cast"):
-	<div class="tile">
-		${components.delegation_sidebar(c.issue)}
-	</div>
+	${components.delegation_sidebar(c.issue)}
 	%endif
 </div>
 

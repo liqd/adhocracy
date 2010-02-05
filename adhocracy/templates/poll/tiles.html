@@ -1,6 +1,7 @@
 
 
 <%def name="booth(tile, poll)">
+	<div class="tile voting_booth">
 	<h4><img src="/img/icons/vote_16.png" class="cd" /> ${_("Poll")}</h4>
 		
 			%if tile.can_vote:
@@ -128,4 +129,5 @@
 				<a class="delete" href="/poll/${poll.id}/abort">${_("cancel")}</a>
 			%endif
 		</div>
+	</div>
 </%def>

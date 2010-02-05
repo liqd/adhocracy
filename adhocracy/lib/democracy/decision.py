@@ -85,7 +85,9 @@ class Decision(object):
         
         :returns: list of ``Delegation``
         """
-        return list(set(map(lambda v: v.delegation, self.relevant_votes)))
+        return filter(lambda d: d is not None, 
+                      list(set(map(lambda v: v.delegation, 
+                                   self.relevant_votes))))
     
     delegations = property(_delegations)
     

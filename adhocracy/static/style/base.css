@@ -98,7 +98,7 @@ textarea {
 
 input, 
 textarea {
-	border:  2px solid #ccc;
+	border:  2px solid #ddd;
 	padding: 3px;
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -156,6 +156,7 @@ input:hover[type=button],
 	width: 94.5%;
 	padding: 0.3em;
 	font-size: 1.1em;
+	margin-top: 0px;
 	margin-bottom: 0.5em;
 	background-image: url(/img/icons/search.png);
 	background-repeat: no-repeat;
@@ -894,6 +895,7 @@ table.delegations th {
 	vertical-align: top;
 	padding: 0.5em 0 0.5em 0;
 	line-height: 1.3em;
+	border-bottom: 1px solid #666;
 }
 
 table.delegations td li {
@@ -919,11 +921,6 @@ table.delegations th {
 	margin-left: 0em !important;
 }
 
-.list_tile.category {
-	padding-left: 1.6em;
-	background: url(/img/icons/stack_16.png) top left no-repeat;
-}
-
 .list_tile .text {
 	font-size: 1.1em;
 	font-weight: bold;
@@ -931,27 +928,6 @@ table.delegations th {
 
 .list_tile .meta {
 	font-size: 0.9em;
-	color: #666;
-}
-
-.list_tile.event {
-	line-height: 1.0em !important;
-	padding-bottom: 0.1em;
-	margin: 0px !important;
-	margin-bottom: 0.2em !important;
-}
-
-.list_tile.event .text {
-	font-size: 1.0em;
-	font-weight: normal;
-	width: inherit;
-}
-
-.list_tile.event .meta {
-	float: right;
-	margin-top: 0.4em;
-	font-size:  0.8em;
-	font-variant: small-caps;
 	color: #666;
 }
 
@@ -983,18 +959,29 @@ table.delegations th {
 	margin-top: 0em;
 }
 
-.boxed {
+.sidebar .tile {
+	border: 2px solid #ddd;
+	background-image: none;
 	background-color: #fff;
-	border: 1px solid #ddd;
-	margin: 0.2em;
+	padding: 0 1em 0.5em 1em;
+	margin-bottom: 1em;
+	
+	background-image: url(/img/tile_bg.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
 }
 
-.boxed .inner_boxed {
-	padding: 0.5em;
-}
-
-.boxed h4 {
-	margin-top: 0em;
+.sidebar .tile h4 {
+	margin-top: 0.3em;
+	margin: 0 -1em 0.5em -1em;
+	background-color: #efefef;
+	padding: 0.6em 1em 0.6em 1em;
+	border-bottom: 2px solid #ddd;
+	font-size: 1.05em;
+	
+	background-image: url(/img/tile_bg.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
 }
 
 .category_tree li {
@@ -1201,9 +1188,7 @@ a.button.inactive {
 	background-image: url(/img/comment_bg.png);
 	background-repeat: repeat-x;
 	background-position: bottom;
-	border-bottom: 1px solid #eee;
-	border-left: 1px solid #eee;
-	border-right: 1px solid #eee;
+	border-bottom: 2px solid #eee;
 }
 
 .comment .sub {
@@ -1214,9 +1199,6 @@ a.button.inactive {
 	font-size: 0.8em;
 	padding-bottom: 0.6em;
 	color:  #666;
-	border-top: 1px solid #eee;
-	border-left: 1px solid #eee;
-	border-right: 1px solid #eee;
 }
 
 
@@ -1304,10 +1286,6 @@ a.button.inactive {
 .headrev .text {
 	padding: 0.4em;
 	background-color: #ffffd0;
-}
-
-.welcome h1, .welcome h2, .welcome h3 {
-	border-bottom: 0px;
 }
 
 .canonical {
