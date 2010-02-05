@@ -69,6 +69,7 @@ class InstanceController(BaseController):
             redirect_to(h.instance_url(inst))
         return render("/instance/create.html")
 
+    @RequireInstance
     @ActionProtector(has_permission("instance.view"))
     @validate(schema=InstanceFilterForm(), post_only=False, on_get=True)
     def view(self, key, format='html'):

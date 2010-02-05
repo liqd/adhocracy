@@ -34,21 +34,10 @@
 		ref = urllib.urlencode({'ref': c.lib.watchlist.entity2ref(entity)})
 		%>
 		%if watch:
-			<a class="button title delete" href="/watch/delete?watch=${watch.id}&${ret}&${h.url_token()}"><img src='/img/mail.png' /> ${_("unwatch")}</a>
+			<a class="button delete" href="/watch/delete?watch=${watch.id}&${ret}&${h.url_token()}"><img src='/img/mail.png' /> ${_("unwatch")}</a>
 		%else:
-			<a class="button title edit" href="/watch/create?${ref}&${ret}&${h.url_token()}"><img src='/img/mail.png' /> ${_("watch")}</a>
+			<a class="button edit" href="/watch/create?${ref}&${ret}&${h.url_token()}"><img src='/img/mail.png' /> ${_("watch")}</a>
 		%endif
-	%endif
-</%def>
-
-<%def name="login_ctxitem()">
-	%if not c.user:
-	<div class="contextitem">
-		<h3>${_("Say hi")}</h3>
-		<%include file="/account/login_form.html"/>
-		
-		<p>${_("If you're not registered yet, <a href='/register'>sign up here</a>.")}</p>
-	</div>
 	%endif
 </%def>
 

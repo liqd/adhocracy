@@ -244,7 +244,8 @@ body {
 }
 
 #frame {
-	margin-botom: -80px;
+	margin-bottom: 0px;
+	padding-bottom: 20px;
 	min-height: 100%;
 }
 

@@ -5,10 +5,10 @@
 		<span class="meta">  
 			(${ungettext("%s issue", "%s issues", tile.num_issues) % tile.num_issues})
 			%if tile.can_join:
-				&middot; <a href="/instance/join/${instance.key}?${h.url_token()}">${_("join")}</a>
+				&middot; <a href="${h.instance_url(instance, path='/instance/join/%s?%s' % (instance.key, h.url_token()))}">${_("join")}</a>
 			%endif
 			%if tile.can_leave:
-				&middot; <a href="/instance/leave/${instance.key}?${h.url_token()}">${_("leave")}</a>
+				&middot; <a href="${h.instance_url(instance, path='/instance/leave/%s?%s' % (instance.key, h.url_token()))}">${_("leave")}</a>
 			%endif
 			
 		</span>
@@ -27,10 +27,10 @@
 				&middot; ${_("created %s") % h.relative_time(instance.create_time)|n}  
 				&middot; ${ungettext("%s issue", "%s issues", tile.num_issues) % tile.num_issues}
 				%if tile.can_join:
-					&middot; <a href="/instance/join/${instance.key}?${h.url_token()}">${_("join")}</a>
+					&middot; <a href="${h.instance_url(instance, path='/instance/join/%s?%s' % (instance.key, h.url_token()))}">${_("join")}</a>
 				%endif
 				%if tile.can_leave:
-					&middot; <a href="/instance/leave/${instance.key}?${h.url_token()}">${_("leave")}</a>
+					&middot; <a href="${h.instance_url(instance, path='/instance/leave/%s?%s' % (instance.key, h.url_token()))}">${_("leave")}</a>
 				%endif
 			</div>
 		</div>
