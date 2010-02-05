@@ -126,7 +126,7 @@ class OpenidauthController(BaseController):
         page_user = openid.user
         if not (page_user == c.user or h.has_permission("user.manage")): 
             abort(403, _("You're not authorized to change %s's settings.") % id)
-        openid.delete_time = datetime.utcnow()
+        openid.delete()
         model.meta.Session.commit()
         return redirect_to("/user/%s/edit" % str(page_user.user_name))
 
