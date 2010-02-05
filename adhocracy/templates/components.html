@@ -51,11 +51,9 @@
 				%if not c.tile.has_delegated:
 					%if c.tile.has_overridden:
 						${_("You have voted yourself and not delegated voting.")}
-						<a href="/page/faq.html#Whatisdelegatedvoting">${_("Info...")}</a>
 					%else:
 						${_("You have not delegated voting.")} 
-						<a href="/delegation/create?scope=${delegateable.id}">${_("delegate")}</a> &middot;
-						<a href="/page/faq.html#Whatisdelegatedvoting">${_("info...")}</a>
+						<a href="/delegation/create?scope=${delegateable.id}">${_("delegate")}</a>
 					%endif 
 				%else:
 					%if c.tile.has_overridden:
