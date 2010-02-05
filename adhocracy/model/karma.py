@@ -41,5 +41,16 @@ class Karma(Base):
                                             self.value, self.recipient.user_name,
                                             self.comment.id) 
     
+    @classmethod
+    def find_by_user_and_comment(cls, user, comment):
+        try:
+            q = meta.Session.query(model.Karma)
+            q = q.filter(model.Karma.comment==comment)
+            q = q.filter(model.Karma.donor==user)
+            return q.one()
+        except Exception, e: 
+            log.exception("find(%s:%s): %s" % (user.user_name, comment.id, e))
+            return None
+    
     def _index_id(self):
         return self.id

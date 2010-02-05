@@ -55,8 +55,8 @@ class Issue(Delegateable):
             if ifilter.has_instance() and instance_filter:
                 q = q.filter(Issue.instance_id==ifilter.get_instance().id)
             return q.one()
-        except: 
-            log.exception("find(%s)" % id)
+        except Exception, e: 
+            log.warn("find(%s): %s" % (id, e))
             return None
     
     @classmethod    

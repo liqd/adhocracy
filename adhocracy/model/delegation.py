@@ -73,8 +73,8 @@ class Delegation(Base):
                 if d.scope.instance != ifilter.get_instance():
                     return None 
             return d
-        except:
-            log.exception("find(%s)" % id)
+        except Exception, e:
+            log.warn("find(%s): %s" % (id, e))
             return None
     
     @classmethod

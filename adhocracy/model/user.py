@@ -176,8 +176,8 @@ class User(Base):
             if ifilter.has_instance() and instance_filter:
                 user = user.is_member(ifilter.get_instance()) and user or None
             return user
-        except Exception: 
-            log.exception("find(%s)" % id)
+        except Exception, e: 
+            log.warn("find(%s): %s" % (user_name, e))
             return None
     
     def _index_id(self):

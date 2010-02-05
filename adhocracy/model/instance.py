@@ -81,8 +81,8 @@ class Instance(Base):
                 q = q.filter(or_(Instance.delete_time==None,
                                  Instance.delete_time>datetime.utcnow()))
             return q.one()
-        except:
-            log.exception("find(%s)" % key)
+        except Exception, e:
+            log.warn("find(%s): %s" % (key, e))
             return None
     
     def is_deleted(self, at_time=None):

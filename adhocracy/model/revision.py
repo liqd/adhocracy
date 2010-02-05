@@ -40,8 +40,8 @@ class Revision(Base):
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             return meta.Session.query(Revision).filter(Revision.id==id).one()
-        except: 
-            log.exception("find(%s)" % id)
+        except Exception, e: 
+            log.warn("find(%s): %s" % (id, e))
             return None
         
     def to_dict(self):

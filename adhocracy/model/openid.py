@@ -42,8 +42,8 @@ class OpenID(Base):
                 q = q.filter(or_(OpenID.delete_time==None,
                                  OpenID.delete_time>datetime.utcnow()))
             return q.one()
-        except Exception:
-            log.exception("find(%s)" % id)
+        except Exception, e:
+            log.warn("find(%s): %s" % (identifier, e))
             return None
         
     

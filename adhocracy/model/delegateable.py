@@ -77,8 +77,8 @@ class Delegateable(Base):
             if filter.has_instance() and instance_filter:
                 q = q.filter(Delegateable.instance_id==filter.get_instance().id)
             return q.one()
-        except: 
-            log.exception("find(%s)" % id)
+        except Exception, e: 
+            log.warn("find(%s): %s" % (id, e))
             return None
         
     @classmethod    

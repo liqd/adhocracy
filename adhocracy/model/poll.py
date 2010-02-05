@@ -71,7 +71,8 @@ class Poll(Base):
                 poll = poll.proposal.instance == ifilter.get_instance() \
                         and poll or None
             return poll
-        except Exception:
+        except Exception, e:
+            log.warn("find(%s): %s" % (id, e))
             return None
     
 

@@ -31,23 +31,17 @@ class KarmaController(BaseController):
             h.flash(_("Invalid karma value. Karma is either positive or negative!"))
             redirect_to("/comment/%s.fwd" % comment.id)
         
-        q = model.meta.Session.query(model.Karma)
-        q = q.filter(model.Karma.comment==comment)
-        q = q.filter(model.Karma.donor==c.user)
-        karma = None
-        try:
-            karma = q.one()
+        karma = model.Karma.find_by_user_and_comment(c.user, comment)
+        if karma:
             if value == -1:
                 value = max(-1, karma.value - 1)
             else:
                 value = min(1, karma.value + 1)
             karma.value = value
             karma.create_time = datetime.utcnow()
-        except NoResultFound:
+        else:
             karma = model.Karma(value, c.user, comment.creator, comment)
             model.meta.Session.add(karma)
-        except MultipleResultsFound:
-            log.exception("multiple karmas")
         model.meta.Session.commit()
         
         if format == 'json':

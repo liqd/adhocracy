@@ -50,8 +50,8 @@ class Watch(Base):
                 q = q.filter(or_(Watch.delete_time==None,
                                  Watch.delete_time>datetime.utcnow()))
             return q.one()
-        except:
-            return None
+        except Exception, e:
+            log.warn("find(%s:%s): %s" % (user, ref, e))
     
     @classmethod
     def all(cls, include_deleted=False):

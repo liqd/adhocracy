@@ -50,7 +50,7 @@ class Twitter(Base):
                 q = q.filter(or_(Twitter.delete_time==None,
                                  Twitter.delete_time>datetime.utcnow()))
             return q.one()
-        except Exception:
-            log.exception("find(%s)" % id)
+        except Exception, e:
+            log.warn("find(%s): %s" % (screen_name, e))
             return None
         

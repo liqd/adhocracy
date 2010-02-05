@@ -98,8 +98,8 @@ class Event(Base):
             if ifilter.has_instance() and instance_filter:
                 q = q.filter(Event.instance_id==ifilter.get_instance().id)
             return q.one()
-        except:
-            log.exception("find(%s)" % id)
+        except Exception, e:
+            log.warn("find(%s): %s" % (id, e))
             return None
     
     def to_dict(self):

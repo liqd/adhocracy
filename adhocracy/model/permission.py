@@ -35,8 +35,8 @@ class Permission(Base):
     def find(cls, permission_name, instance_filter=True, include_deleted=False):
         try:
             return meta.Session.query(Permission).filter(Permission.permission_name==permission_name).one()
-        except: 
-            log.exception("find(%s)" % id)
+        except Exception, e: 
+            log.warn("find(%s): %s" % (id, e))
             return None
         
     def _index_id(self):

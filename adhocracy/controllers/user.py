@@ -52,7 +52,7 @@ class UserGroupmodForm(formencode.Schema):
 class UserController(BaseController):
     
     @ActionProtector(has_permission("user.view"))
-    def index(self):
+    def index(self, format='html'):
         c.users = model.User.all(instance=c.instance if c.instance else None)
         c.users_pager = NamedPager('users', c.users, tiles.user.row,
                                     sorts={_("oldest"): sorting.entity_oldest,
@@ -62,33 +62,33 @@ class UserController(BaseController):
                                     default_sort=sorting.user_activity)
         return render("/user/index.html")
     
+    def new(self):
+        return render("/user/login.html")
+    
     @RequireInternalRequest(methods=['POST'])
-    @validate(schema=UserCreateForm(), form="create", post_only=True)
+    @validate(schema=UserCreateForm(), form="new", post_only=True)
     def create(self):
-        if request.method == "POST":
-            user = model.User(self.form_result.get("user_name"),
-                              self.form_result.get("email"),
-                              self.form_result.get("password"))
-            user.locale = c.locale
-            model.meta.Session.add(user)
+        user = model.User(self.form_result.get("user_name"),
+                          self.form_result.get("email"),
+                          self.form_result.get("password"))
+        user.locale = c.locale
+        model.meta.Session.add(user)
             
-            # the plan is to make this configurable via the instance preferences 
-            # screen.             
-            grp = model.Group.by_code(model.Group.CODE_DEFAULT)
-            membership = model.Membership(user, None, grp)
-            model.meta.Session.add(membership)
-            model.meta.Session.commit()
+        # the plan is to make this configurable via the instance preferences 
+        # screen.             
+        grp = model.Group.by_code(model.Group.CODE_DEFAULT)
+        membership = model.Membership(user, None, grp)
+        model.meta.Session.add(membership)
+        model.meta.Session.commit()
             
-            event.emit(event.T_USER_CREATE, user)
+        event.emit(event.T_USER_CREATE, user)
             
-            if c.instance:
-                session['came_from'] = "/instance/join/%s?%s" % (c.instance.key, h.url_token())
-            login_page = render("/user/login.html")
-            redirect_to("/user/perform_login?%s" % urllib.urlencode({
+        if c.instance:
+            session['came_from'] = "/instance/join/%s?%s" % (c.instance.key, h.url_token())
+        redirect_to("/user/perform_login?%s" % urllib.urlencode({
                     'login': self.form_result.get("user_name"),
                     'password': self.form_result.get("password")
                 }))
-        return render("/user/login.html")
 
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("user.edit"))
@@ -198,9 +198,8 @@ class UserController(BaseController):
         return render("/user/view.html")
     
     def login(self):
-        if 'came_from' in request.params:
-            session['came_from'] = request.params.get('came_from')
-            session.save()
+        session['came_from'] = request.params.get('came_from')
+        session.save()
         return render('/user/login.html')
 
     def perform_login(self):

@@ -63,8 +63,8 @@ class Vote(Base):
                 vote = vote.poll.proposal.instance == ifilter.get_instance() \
                         and vote or None
             return vote
-        except:
-            log.exception("find(%s)" % id) 
+        except Exception, e:
+            log.warn("find(%s): %s" % (id, e))
             return None
         
     def to_dict(self):

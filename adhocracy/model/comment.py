@@ -56,7 +56,8 @@ class Comment(Base):
                 q = q.filter(or_(Comment.delete_time==None,
                                  Comment.delete_time>datetime.utcnow()))
             return q.one()
-        except: 
+        except Exception, e:
+            log.warn("find(%s): %s" % (id, e)) 
             return None
     
     @classmethod    

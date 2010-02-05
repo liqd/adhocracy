@@ -41,8 +41,8 @@ class Group(Base):
     def find(cls, group_name, instance_filter=True, include_deleted=False):
         try:
             return meta.Session.query(Group).filter(Group.group_name==group_name).one()
-        except: 
-            log.exception("find(%s)" % id)
+        except Exception, e: 
+            log.warn("find(%s): %s" % (id, e))
             return None
         
     def _index_id(self):
