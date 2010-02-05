@@ -10,7 +10,7 @@
 				<img src="/img/icons/vote_abstain.png" />
 			%endif
 		</div>
-		
+		<div class="base">
 		<h3>
 			%if decision.result == 1:
 				<span class="affirm">${_("for")}</span>:
@@ -66,6 +66,7 @@
 			%if not focus_user:
 				&middot; ${h.user_link(decision.user)|n}
 			%endif
+		</div>
 		</div>
 	</div>
 </%def>

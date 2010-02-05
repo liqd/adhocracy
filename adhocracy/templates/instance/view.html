@@ -58,9 +58,6 @@
 			<input id="issues_q" class="armlabel" name="issues_q" 
 					type="text" value="${request.params.get('issues_q', '')}" 
 					tabindex="1" />
-			<noscript>
-				<input type="submit" value="${_("Filter")}">
-			</noscript>
 		</form>
 		<div id="issues_table" class="table">
 			${c.issues_pager.here()}

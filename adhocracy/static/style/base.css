@@ -54,6 +54,15 @@ h4, h5, h6 {
 	font-size: 10pt;
 }
 
+.hidden,
+.prototype {
+	display: none;
+}
+
+.smallarea {
+	min-height: 4em;
+}
+
 /* @end */
 
 /* @group Form Elements */
@@ -1292,13 +1301,6 @@ a.button.inactive {
 	list-style-type: none;
 }
 
-.prototype {
-	display: none;
-}
-
-.smallarea {
-	min-height: 4em;
-}
 
 .jsadd {
 	width: 98%;
