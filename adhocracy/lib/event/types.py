@@ -72,7 +72,7 @@ T_INSTANCE_MEMBERSHIP_UPDATE = EventType(u"t_instance_membership_update", pri=3,
                           link_path=lambda e: "/user/%s" % e.user.user_name,
                           event_msg=lambda: _(u"now is a %(group)s within %(instance)s"))
 
-T_ISSUE_CREATE = EventType(u"t_issue_create", pri=3, 
+T_ISSUE_CREATE = EventType(u"t_issue_create", pri=4, 
                           subject=lambda: _(u"New issue: %(issue)s"),
                           link_path=lambda e: "/issue/%s" % e.issue.id,
                           event_msg=lambda: _(u"created %(issue)s"))
@@ -87,7 +87,7 @@ T_ISSUE_DELETE = EventType(u"t_issue_delete", pri=2,
                           link_path=lambda e: "/issue/%s" % e.issue.id,
                           event_msg=lambda: _(u"deleted %(issue)s"))
 
-T_PROPOSAL_CREATE = EventType(u"t_proposal_create", pri=3, 
+T_PROPOSAL_CREATE = EventType(u"t_proposal_create", pri=4, 
                           subject=lambda: _(u"New proposal: %(proposal)s"),
                           link_path=lambda e: "/proposal/%s" % e.proposal.id,
                           event_msg=lambda: _(u"created %(proposal)s"))
