@@ -34,6 +34,8 @@
 </h1>
 
 <div class="sidebar">
+	<div class="tile">
+	<h4><img class="cd" src="${h.gravatar_url(c.page_user, size=16)}"> ${c.page_user.name}</h4>
 	<ul>
 	%if c.instance:
 		%if c.page_user.is_member(c.instance):
@@ -52,8 +54,7 @@
 	%endif
 		<li>${_("signed up %s") % h.relative_time(c.page_user.create_time)|n}</li>
 	</ul>
-	
-	<br/>
+	</div>
 	
 	<h2>${_("Adhocracies")}</h2>	
 		<span class="hint">
