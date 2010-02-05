@@ -33,10 +33,11 @@ class User(Base):
     access_time = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     delete_time = Column(DateTime)
     
-    def __init__(self, user_name, email, password, display_name=None, bio=None):
+    def __init__(self, user_name, email, password, locale, display_name=None, bio=None):
         self.user_name = user_name
         self.email = email
         self.password = password
+        self.locale = locale
         self.display_name = display_name
         self.bio = bio
         
@@ -56,7 +57,7 @@ class User(Base):
         return Locale.parse(self._locale)
     
     def _set_locale(self, locale):
-        self._locale = str(locale)
+        self._locale = unicode(locale)
         
     locale = synonym('_locale', descriptor=property(_get_locale,
                                                     _set_locale))
@@ -172,7 +173,7 @@ class User(Base):
             if not include_deleted:
                 q = q.filter(or_(User.delete_time==None,
                                  User.delete_time>datetime.utcnow()))
-            user = q.one()
+            user = q.limit(1).first()
             if ifilter.has_instance() and instance_filter:
                 user = user.is_member(ifilter.get_instance()) and user or None
             return user
@@ -221,6 +222,40 @@ class User(Base):
         # REFACT: proposals don't automatically have a poll - this is dangeorus
         from adhocracy.lib.democracy.decision import Decision
         return Decision(self, proposal.poll).make(orientation)
+    
+    @classmethod
+    def create(cls, user_name, email, password=None, locale=None, 
+               openid_identity=None, global_admin=False):
+        from group import Group
+        from membership import Membership
+        from openid import OpenID
+        
+        import adhocracy.lib.util as util
+        if password is None:
+            password = util.random_token()
+        
+        import adhocracy.lib.text.i18n as i18n
+        if locale is None: 
+            locale = i18n.DEFAULT
+        
+        user = User(unicode(user_name), unicode(email), 
+                    unicode(password), locale)
+        meta.Session.add(user)
+        default_group = Group.by_code(Group.CODE_DEFAULT)
+        default_membership = Membership(user, None, default_group)
+        meta.Session.add(default_membership)
+        
+        if global_admin:
+            admin_group = Group.by_code(Group.CODE_ADMIN)
+            admin_membership = Membership(user, None, admin_group)
+            meta.Session.add(admin_membership)
+        
+        if openid_identity is not None:
+            openid = OpenID(unicode(openid_identity), user)
+            meta.Session.add(openid)
+        
+        meta.Session.flush()
+        return user
     
     def to_dict(self):
         d = dict(id=self.id,

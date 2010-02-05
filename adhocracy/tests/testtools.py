@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import random, string, time
 import adhocracy.model as model
 import adhocracy.lib.instance as libinstance
+import adhocracy.lib.text.i18n as i18n
 
 #  These functions should all go as convenience functions on the respective models
 
@@ -51,7 +52,7 @@ def tt_make_user(name=None): # instance_group=None: not supported right now
     
     if name is None:
         name = tt_make_str()
-    user = model.User(name, u"test@test.test", u"test")
+    user = model.User(name, u"test@test.test", u"test", i18n.DEFAULT)
     
     #default_group = model.Group.by_code(model.Group.CODE_DEFAULT)
     #default_membership = model.Membership(user, None, default_group)

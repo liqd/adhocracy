@@ -68,17 +68,10 @@ class UserController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserCreateForm(), form="new", post_only=True)
     def create(self):
-        user = model.User(self.form_result.get("user_name"),
-                          self.form_result.get("email"),
-                          self.form_result.get("password"))
-        user.locale = c.locale
-        model.meta.Session.add(user)
-            
-        # the plan is to make this configurable via the instance preferences 
-        # screen.             
-        grp = model.Group.by_code(model.Group.CODE_DEFAULT)
-        membership = model.Membership(user, None, grp)
-        model.meta.Session.add(membership)
+        user = model.User.create(self.form_result.get("user_name"), 
+                                 self.form_result.get("email"), 
+                                 password=self.form_result.get("password"), 
+                                 locale=c.locale)
         model.meta.Session.commit()
             
         event.emit(event.T_USER_CREATE, user)

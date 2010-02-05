@@ -55,7 +55,7 @@ class Comment(Base):
             if not include_deleted:
                 q = q.filter(or_(Comment.delete_time==None,
                                  Comment.delete_time>datetime.utcnow()))
-            return q.one()
+            return q.limit(1).first()
         except Exception, e:
             log.warn("find(%s): %s" % (id, e)) 
             return None

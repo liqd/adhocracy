@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func, or_
@@ -6,6 +7,8 @@ from sqlalchemy.orm import relation, backref
 from meta import Base
 import user
 import meta
+
+log = logging.getLogger(__name__)
 
 class Watch(Base):
     __tablename__ = 'watch'

@@ -27,15 +27,7 @@ def mk_perm(name, *groups):
 def setup_entities():
     #model.meta.Session.begin()
     model.meta.Session.commit()
-    
-    admin = model.User.find(u"admin")
-    if not admin:
-        admin = model.User(u"admin", u"admin@null.naught", u"password")
-        log.debug("Making admin user..")
-        model.meta.Session.add(admin)     
-    
-    model.meta.Session.commit()
-    
+        
     admins = mk_group("Administrator", model.Group.CODE_ADMIN)
     supervisor = mk_group("Supervisor", model.Group.CODE_SUPERVISOR)
     voter = mk_group("Voter", model.Group.CODE_VOTER)
@@ -44,8 +36,8 @@ def setup_entities():
     anonymous = mk_group("Anonymous", model.Group.CODE_ANONYMOUS)
     
     model.meta.Session.commit()
-    # ADD EACH NEW PERMISSION HERE 
     
+    # ADD EACH NEW PERMISSION HERE
     mk_perm("vote.cast", voter)
     mk_perm("karma.give", voter)
     mk_perm("instance.index", anonymous)
@@ -85,12 +77,14 @@ def setup_entities():
     voter.permissions = voter.permissions + observer.permissions
     supervisor.permissions = supervisor.permissions + voter.permissions
     admins.permissions = admins.permissions + supervisor.permissions
-        
-    a = model.Membership(admin, None, admins, approved=True)
-    model.meta.Session.add(a)
-    d = model.Membership(admin, None, default, approved=True)
-    model.meta.Session.add(d)
     
+    
+    admin = model.User.find(u"admin")
+    if not admin:
+        admin = model.User.create(u"admin", u"admin@null.naught", 
+                                  password=u"password", 
+                                  global_admin=True)  
+        
     model.meta.Session.commit()
     
     import instance as libinstance
