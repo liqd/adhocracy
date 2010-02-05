@@ -76,7 +76,10 @@ class Instance(Base):
         key = unicode(key.lower())
         try:
             q = meta.Session.query(Instance)
-            q = q.filter(Instance.key==key)
+            try:
+                q = q.filter(Instance.id==int(key))
+            except ValueError:
+                q = q.filter(Instance.key==unicode(key))
             if not include_deleted:
                 q = q.filter(or_(Instance.delete_time==None,
                                  Instance.delete_time>datetime.utcnow()))

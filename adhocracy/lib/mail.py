@@ -41,7 +41,7 @@ def to_mail(to_name, to_email, subject, body, headers={}):
              
         server = smtplib.SMTP(config.get('smtp_server', 'localhost'))
         #server.set_debuglevel(1)
-        server.sendmail(email_from, [to_email], body) #msg.as_string())
+        server.sendmail(email_from, [to_email], msg.as_string())
         server.quit()
     except Exception:
         log.exception("Sending mail failed.")

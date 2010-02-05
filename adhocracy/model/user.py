@@ -177,7 +177,10 @@ class User(Base):
     def find(cls, user_name, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(User)
-            q = q.filter(User.user_name==unicode(user_name))
+            try:
+                q = q.filter(User.id==int(user_name))
+            except ValueError:
+                q = q.filter(User.user_name==unicode(user_name))
             if not include_deleted:
                 q = q.filter(or_(User.delete_time==None,
                                  User.delete_time>datetime.utcnow()))
