@@ -151,8 +151,8 @@ input:hover[type=button],
 	background-position: bottom;
 }
 
-#issues_q[type=text],
-#issues_q[type=password] {
+#issues_q,
+#users_q {
 	width: 95%;
 }
 

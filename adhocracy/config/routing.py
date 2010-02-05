@@ -34,7 +34,8 @@ def make_map():
                                          'reset': 'GET',
                                          'activate': 'GET',
                                          'resend': 'GET'},
-                                collection={'complete': 'GET'})
+                                collection={'complete': 'GET',
+                                            'filter': 'GET'})
     
     map.connect('/register', controller='user', action='new')
     map.connect('/login', controller='user', action='login')

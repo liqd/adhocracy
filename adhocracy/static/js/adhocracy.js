@@ -150,6 +150,20 @@ $(document).ready(function() {
 		}, 'text');
 	});
 	
+	$("#users_q").keyup(function(fld) {
+		
+		if (!originalListing) {
+			originalListing = $("#users_table").html();
+		}
+		var value = $(this).val();
+		if ($.trim(value).length==0) {
+			$("#users_table").html(originalListing);
+		}
+		$.get('/user/filter', {'users_q': value}, function(data, status) {
+			$("#users_table").html(data);
+		}, 'text');
+	});
+	
 	/* Armed labels: Use label text as pre-filling text for empty form fields. */
 	$(".armlabel").each(function(e) {
 		var hint = $("[for=" + $(this).attr("name") + "]").text();

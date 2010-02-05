@@ -12,12 +12,24 @@
 </h1>
 
 <div class="sidebar">
-	&nbsp; 
-	<!-- TODO: Filter form. -->
+	<div id="users_filter" class="tile boxed">
+		<div class="inner_boxed">
+			<form action="?" method="GET">
+			<input type="hidden" id="instance_key" value="${c.instance.key}" />
+			<label for="users_q" class="armhint">${_("Find users")}</label>
+			<input id="users_q" class="armlabel" name="users_q" 
+					type="text" value="${request.params.get('users_q', '')}" 
+					tabindex="1" />
+			<noscript>
+				<input type="submit" value="${_("Filter")}">
+			</noscript>
+			</form>
+		</div>
+	</div>
 </div>
 
 <div class="mainbar">
-	<div class="table">
+	<div id="users_table" class="table">
 		${c.users_pager.here()}
 	</div>
 </div>

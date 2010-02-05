@@ -52,26 +52,42 @@ class UserResetApplyForm(formencode.Schema):
 class UserGroupmodForm(formencode.Schema):
     allow_extra_fields = True
     to_group = forms.ValidGroup()
+    
+class UserFilterForm(formencode.Schema):
+    allow_extra_fields = True
+    users_q = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
 
 class UserController(BaseController):
     
     @ActionProtector(has_permission("user.view"))
+    @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
-        c.users = model.User.all(instance=c.instance if c.instance else None)
+        query = self.form_result.get('users_q')
+        if query:
+            c.users = libsearch.query.run(query + "*", entity_type=model.User)
+            if c.instance:
+                c.users = filter(lambda u: u.is_member(c.instance), c.users)
+        else:
+            c.users = model.User.all(instance=c.instance if c.instance else None)
         
         if format == 'json':
             return render_json(c.users)
         
-        c.users_pager = NamedPager('users', c.users, tiles.user.row,
-                                    sorts={_("oldest"): sorting.entity_oldest,
-                                           _("newest"): sorting.entity_newest,
-                                           _("activity"): sorting.user_activity,
-                                           _("name"): sorting.user_name},
-                                    default_sort=sorting.user_activity)
+        sorts={_("oldest"): sorting.entity_oldest,
+               _("newest"): sorting.entity_newest,
+               _("activity"): sorting.user_activity,
+               _("name"): sorting.user_name}
+        if query:
+            sorts[_("relevance")] = sorting.entity_stable
+                
+        c.users_pager = NamedPager('users', c.users, tiles.user.row, sorts=sorts,
+                                   default_sort=sorting.entity_stable if query else sorting.user_activity)
         return render("/user/index.html")
+    
     
     def new(self):
         return render("/user/login.html")
+    
     
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserCreateForm(), form="new", post_only=True)
@@ -92,11 +108,13 @@ class UserController(BaseController):
                     'password': self.form_result.get("password")
                 }))
     
+    
     @ActionProtector(has_permission("user.edit"))
     def edit(self, id):
         c.page_user = self._get_user_for_edit(id)
         return render("/user/edit.html")
-
+    
+    
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("user.edit"))
     @validate(schema=UserUpdateForm(), form="edit", post_only=True)
@@ -128,8 +146,10 @@ class UserController(BaseController):
             event.emit(event.T_USER_ADMIN_EDIT, c.page_user, admin=c.user)
         redirect_to("/user/%s" % str(c.page_user.user_name))
     
+    
     def reset_form(self):
         return render("/user/reset_form.html")
+    
     
     @validate(schema=UserResetApplyForm(), form="reset", post_only=True)
     def reset_request(self):
@@ -147,6 +167,7 @@ class UserController(BaseController):
                  +  " browser:") + "\r\n\r\n  " + url 
         libmail.to_user(c.page_user, _("Reset your password"), body)
         return render("/user/reset_pending.html")
+    
     
     @validate(schema=UserCodeForm(), form="reset_form", post_only=False, on_get=True)
     def reset(self, id):
@@ -168,6 +189,7 @@ class UserController(BaseController):
             h.flash(_("The reset code is invalid. Please repeat the password recovery procedure."))
         redirect_to('/login')
     
+    
     @ActionProtector(has_permission("user.edit"))
     @validate(schema=UserCodeForm(), form="edit", post_only=False, on_get=True)
     def activate(self, id):
@@ -183,6 +205,7 @@ class UserController(BaseController):
             h.flash(_("The activation code is invalid. Please have it resent."))
         redirect_to("/user/%s/edit" % str(c.page_user.user_name))
     
+    
     @RequireInternalRequest()
     @ActionProtector(has_permission("user.edit"))
     def resend(self, id):
@@ -190,7 +213,8 @@ class UserController(BaseController):
         libmail.send_activation_link(c.page_user)
         h.flash(_("The activation link has been re-sent to your email address."))
         redirect_to("/user/%s/edit" % str(c.page_user.user_name))
-            
+    
+     
     @ActionProtector(has_permission("user.view"))
     def show(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
@@ -228,18 +252,21 @@ class UserController(BaseController):
         
         return render("/user/show.html")
     
+    
     @ActionProtector(has_permission("user.delete"))
     def delete(self, id):
         self.not_implemented()
+    
     
     def login(self):
         session['came_from'] = request.params.get('came_from')
         session.save()
         return render('/user/login.html')
-
-    def perform_login(self):
-        pass # managed by repoze.who
-
+    
+    
+    def perform_login(self): pass # managed by repoze.who
+    
+    
     def post_login(self):
         if c.user:
             url = session.get('came_from', '/')
@@ -250,12 +277,13 @@ class UserController(BaseController):
             return formencode.htmlfill.render(
                 render("/user/login.html"), 
                 errors = {"login": _("Invalid user name or password")})
-
-    def logout(self):
-        pass # managed by repoze.who
+    
+    
+    def logout(self): pass # managed by repoze.who
 
     def post_logout(self):
         redirect_to("/")
+    
     
     @ActionProtector(has_permission("user.view"))    
     def complete(self):
@@ -268,6 +296,7 @@ class UserController(BaseController):
                       user.display_name else user.name
             results.append(dict(display=display, user=user.user_name))
         return render_json(results)
+    
         
     @RequireInstance
     @ActionProtector(has_permission("user.view")) 
@@ -280,6 +309,7 @@ class UserController(BaseController):
                                            _("newest"): sorting.entity_newest},
                                     default_sort=sorting.entity_newest)
         return render("/user/votes.html")
+    
     
     @RequireInstance
     @ActionProtector(has_permission("delegation.view"))
@@ -294,6 +324,7 @@ class UserController(BaseController):
             c.dgbs = model.Delegateable.all(instance=c.instance)  
         c.nodeClass = democracy.DelegationNode 
         return render("/user/delegations.html")
+    
     
     @RequireInstance
     @RequireInternalRequest()
@@ -328,6 +359,7 @@ class UserController(BaseController):
                 
         redirect_to("/user/%s" % str(c.page_user.user_name))
     
+    
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.admin"))
@@ -347,7 +379,25 @@ class UserController(BaseController):
                                         'user': c.page_user.name, 
                                         'instance': c.instance.label})
         redirect_to("/user/%s" % str(c.page_user.user_name))
-        
+    
+    
+    @ActionProtector(has_permission("user.view"))
+    @validate(schema=UserFilterForm(), post_only=False, on_get=True)
+    def filter(self):
+        query = self.form_result.get('users_q', '')
+        users = libsearch.query.run(query + "*", entity_type=model.User)
+        if c.instance:
+            users = filter(lambda u: u.is_member(c.instance), users)
+        c.users_pager = NamedPager('users', users, tiles.user.row,
+                                    sorts={_("oldest"): sorting.entity_oldest,
+                                           _("newest"): sorting.entity_newest,
+                                           _("activity"): sorting.user_activity,
+                                           _("relevance"): sorting.entity_stable,
+                                           _("name"): sorting.user_name},
+                                    default_sort=sorting.entity_stable)
+        return c.users_pager.here()
+    
+    
     def _get_user_for_edit(self, id):
         user = get_entity_or_abort(model.User, id, instance_filter=False)
         if not (user == c.user or h.has_permission("user.manage")): 
