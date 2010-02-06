@@ -269,9 +269,11 @@ class UserController(BaseController):
     
     def post_login(self):
         if c.user:
-            url = session.get('came_from', '/')
-            del session['came_from']
-            session.save()
+            url = '/'
+            if 'came_from' in session:
+                session.get('came_from')
+                del session['came_from']
+                session.save()
             redirect_to(str(url))
         else:
             return formencode.htmlfill.render(

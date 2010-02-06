@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 
 class SearchQueryForm(formencode.Schema):
     allow_extra_fields = True
-    serp_q = validators.String(max=255, min=1, if_empty=None, if_missing=None)
+    serp_q = validators.String(max=255, min=1, if_empty="", if_missing="", not_empty=False)
 
 class SearchController(BaseController):
     
@@ -33,7 +33,7 @@ class SearchController(BaseController):
     
     
     def _query_pager(self):
-        c.entities = libsearch.query.run(c.query + "*", instance=c.instance if c.instance else None)
+        c.entities = libsearch.query.run(c.query, instance=c.instance if c.instance else None)
         c.entities = filter(lambda e: not isinstance(e, model.Comment), c.entities)
         c.entities_pager = NamedPager('serp', c.entities, tiles.dispatch_row, 
                                       sorts={_("oldest"): sorting.entity_oldest,

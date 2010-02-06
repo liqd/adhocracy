@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging 
 
 from sqlalchemy import Column, Integer, ForeignKey, DateTime, func, Boolean
 from sqlalchemy.orm import relation, backref
@@ -6,6 +7,8 @@ from sqlalchemy.orm import relation, backref
 import filter as ifilter
 from meta import Base
 import user
+
+log = logging.getLogger(__name__)
 
 class Membership(Base):
     __tablename__ = 'membership'

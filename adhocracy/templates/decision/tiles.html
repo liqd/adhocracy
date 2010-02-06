@@ -21,13 +21,12 @@
 			%else:
 				<span class="undecided">${_("undecided")}</span>:
 			%endif
-		
+			&nbsp;
 			%if focus_user:
-				<a href="/user/${decision.user.user_name}">${decision.user.name}</a>
-			%endif
-			
+				${h.user_link(decision.user)|n}
+			%endif		
 			%if focus_proposal:
-				<a href="/proposal/${decision.poll.proposal.id}">${decision.poll.proposal.label}</a>
+				${h.delegateable_link(decision.poll.proposal)|n}
 			%endif
 		</h3>
 		
@@ -57,14 +56,7 @@
 		<div class="meta">
 			${h.relative_time(decision.create_time)|n}
 			%if not focus_proposal:
-				&middot; <img src="/img/icons/proposal_16.png" /> 
-					<a href="/proposal/${decision.poll.proposal.id}">${decision.poll.proposal.label}</a>
-			%endif
-			%if decision.poll:
-				&middot; ${_("poll #%s") % decision.poll.id}
-			%endif
-			%if not focus_user:
-				&middot; ${h.user_link(decision.user)|n}
+				&middot; ${h.delegateable_link(decision.poll.proposal)|n}
 			%endif
 		</div>
 		</div>

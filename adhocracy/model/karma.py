@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
 from sqlalchemy.orm import relation, backref
@@ -11,6 +12,8 @@ from instance import Instance
 from user import User
 from comment import Comment
 from delegateable import Delegateable
+
+log = logging.getLogger(__name__)
 
 class Karma(Base):
     __tablename__ = 'karma'

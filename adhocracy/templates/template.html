@@ -70,7 +70,8 @@
 					&middot; <a href="/user/${c.user.user_name}/delegations">${_("delegations")}</a>						
 				%endif
 				%if c.instance and not c.user.is_member(c.instance):
-					<a class="join" href="/instance/${c.instance.key}/join?${h.url_token()}">${_("Join %s") % c.instance.label}</a>	
+					&middot; 
+					<a class="join" href="/instance/${c.instance.key}/join?${h.url_token()}">${_("join %s") % c.instance.label}</a>	
 				%endif 
 				&middot; <a href="/user/${c.user.user_name}/edit">${_("settings")}</a>
 				&middot; <a href="/logout">${_("logout")}</a>

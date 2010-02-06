@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 post_channel = None
 
 def has_queue():
-    return queue_name() != None
+    return queue_name() is not None
 
 def queue_name():
     return config.get('adhocracy.amqp.event_queue')

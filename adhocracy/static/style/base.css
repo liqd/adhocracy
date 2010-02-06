@@ -683,11 +683,12 @@ h4 img.cd,
 	margin-top: 0;
 }
 
+
 .tile .text {
-	padding: 0.2em;
-	padding-bottom: 0.5em;
+	padding: 0.1em 0em 0.1em 1em;
 	margin: 0;
 }
+
 
 .tile .text ul li {
 	list-style-type: square;
@@ -765,6 +766,13 @@ h4 img.cd,
 	/*border-right: 0px;
 	border-top: 1px solid #ddd;*/
 	
+}
+
+.table .tile .text {
+	padding: 0.1em 0em 0.1em 1em;
+	font-size: 0.9em;
+	color: #666;
+	margin: 0;
 }
 
 .table .base {
