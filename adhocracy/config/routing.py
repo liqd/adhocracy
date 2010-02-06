@@ -81,6 +81,7 @@ def make_map():
     map.connect('/feed.rss', controller='root', action='index', format='rss')
     map.connect('/_queue_process', controller='root', action='process')
         
+    map.connect('/search/filter', controller='search', action='filter')
     map.connect('/search', controller='search', action='query')
         
     map.connect('/adhocracies', controller='instance', action='index')

@@ -6,27 +6,32 @@
 </%def>
 
 <h1 class="page_title">
-	%if len(c.query):
-		${_("Search for '%s'") % c.query}
+	%if c.instance:
+		${_("Search in %s") % c.instance.label}
 	%else:
 		${_("Search")}
 	%endif
 </h1>
 
 <div class="sidebar">
-	&nbsp;
+	<div class="infobox">
+		${_("Search includes issues and proposals.")}
+	</div>
 </div>
 
 <div class="mainbar">
-	%if c.query:
-		%if c.entities:
-		<div class="table">
+	<form action="?" method="GET" autocomplete="off">
+		<input id="serp_q" name="serp_q" 
+				type="text" value="${request.params.get('serp_q', '')}" 
+				tabindex="1" />
+	</form>
+	<div id="serp_table" class="table">
+		%if c.query:
 			${c.entities_pager.here()|n}
-		</div>
 		%else:
 			<div class="infobox">
-			${_("No entries could be found that match your criteria. Try a more general search term.")}
+				${_("You did not provide a search query.")}
 			</div>
 		%endif
-	%endif
+	</div>
 </div>

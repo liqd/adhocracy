@@ -161,7 +161,8 @@ input:hover[type=button],
 }
 
 #issues_q,
-#users_q {
+#users_q,
+#serp_q {
 	width: 94.5%;
 	padding: 0.3em;
 	font-size: 1.1em;
@@ -621,8 +622,11 @@ h3 img.cd,
 h4 img.cd,
 .page_title img.cd {
 	float: left;
-	margin-top: -0px;
 	padding-right: 5px;
+}
+
+.page_title img {
+	margin-top: -4px;
 }
 
 .tile {

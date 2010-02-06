@@ -388,7 +388,6 @@ class UserController(BaseController):
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def filter(self):
         query = self.form_result.get('users_q')
-        print "Q", request.params
         users = libsearch.query.run(query + "*", entity_type=model.User)
         if c.instance:
             users = filter(lambda u: u.is_member(c.instance), users)
