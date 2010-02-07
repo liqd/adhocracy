@@ -13,15 +13,9 @@
 	<a href="/proposal/${c.poll.proposal.id}">${c.poll.proposal.label}</a></h1>
 
 <div class="sidebar">
-	<div class="tile">
-		%if c.poll:
-		<div class="tile boxed">
-			<div class="inner_boxed voting_booth">  
-				${tiles.poll.booth(c.poll)}
-			</div>
-		</div>
-		%endif
-	</div>
+	%if c.poll:
+		${tiles.poll.booth(c.poll)}
+	%endif
 </div>
 
 <div class="mainbar">

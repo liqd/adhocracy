@@ -291,7 +291,7 @@ body {
 	color: #666;
 	/*border-top: 1px solid #eee;*/
 	padding: 0.2em;
-	border-bottom: 1px solid #e0e0e0;
+	/*border-bottom: 1px solid #e0e0e0;*/
 	/*letter-spacing: 0.1em;*/
 }
 
@@ -773,7 +773,7 @@ h4 img.cd,
 }
 
 .table .tile .text {
-	padding: 0.1em 0em 0.1em 1em;
+	padding: 0.1em 0em 0.1em 0em;
 	font-size: 0.9em;
 	color: #666;
 	margin: 0;
@@ -1070,7 +1070,7 @@ a.button.admin {
 a.button.inactive {
 	background-color: #f3f3f3;
 	cursor: pointer;
-	color: #ccc;
+	color: #bbb;
 }
 
 .pager {
@@ -1386,6 +1386,8 @@ a.button.inactive {
 	width: auto;
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
 	border: 1px solid #ddd;
 	background-color: #f2f2f2;
 	margin-bottom: 2em;

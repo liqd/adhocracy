@@ -15,12 +15,10 @@
 
 <div class="sidebar">
 	<div class="tile">
-		<div class="text">
-			<ul>
-				<li class="nobullet"><img class='user_icon' src="/img/icons/delegate_to_16.png" /> ${_("from %s") % h.user_link(c.delegation.principal)|n}</li>
-				<li class="nobullet"><img class='user_icon' src="/img/icons/delegated_to_16.png" /> ${_("to %s") % h.user_link(c.delegation.agent)|n}</li>
-			</ul>	
-		</div>
+		<ul>
+			<li class="nobullet"><img class='user_icon' src="/img/icons/delegate_to_16.png" /> ${_("from %s") % h.user_link(c.delegation.principal)|n}</li>
+			<li class="nobullet"><img class='user_icon' src="/img/icons/delegated_to_16.png" /> ${_("to %s") % h.user_link(c.delegation.agent)|n}</li>
+		</ul>	
 		<div class="meta">
 			${_("established %s") % h.relative_time(c.delegation.create_time)|n}
 			%if c.delegation.revoke_time:
