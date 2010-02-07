@@ -7,7 +7,7 @@ from sqlalchemy.orm import relation, backref
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 import meta
-import filter
+import filter as ifilter
 from meta import Base
 from user import User
 
@@ -74,8 +74,8 @@ class Delegateable(Base):
             if not include_deleted:
                 q = q.filter(or_(Delegateable.delete_time==None,
                                  Delegateable.delete_time>datetime.utcnow()))
-            if filter.has_instance() and instance_filter:
-                q = q.filter(Delegateable.instance_id==filter.get_instance().id)
+            if ifilter.has_instance() and instance_filter:
+                q = q.filter(Delegateable.instance_id==ifilter.get_instance().id)
             return q.one()
         except Exception, e: 
             log.warn("find(%s): %s" % (id, e))
@@ -130,6 +130,9 @@ class Delegateable(Base):
         
     def comment_count(self):
         return len(self.comments)
+    
+    def current_delegations(self):
+        return filter(lambda d: not d.is_revoked(), self.delegations)
     
     def _index_id(self):
         return self.id

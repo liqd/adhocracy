@@ -242,6 +242,22 @@ class ProposalController(BaseController):
         c.issue_tile = tiles.issue.IssueTile(c.proposal.issue)
         
         return render("/proposal/view.html")
+    
+    @RequireInstance
+    @ActionProtector(has_permission("proposal.view"))
+    def delegations(self, id, format="html"):
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        
+        delegations = c.proposal.current_delegations()
+        if format == 'json':
+            return render_json(list(delegations))
+        
+        c.tile = tiles.proposal.ProposalTile(c.proposal)
+        c.delegations_pager = NamedPager('delegations', delegations, tiles.delegation.row,  #list_item,
+                             sorts={_("oldest"): sorting.entity_oldest,
+                                    _("newest"): sorting.entity_newest},
+                             default_sort=sorting.entity_newest)
+        return render("/proposal/delegations.html")
 
     @RequireInstance
     @ActionProtector(has_permission("proposal.view"))

@@ -1,0 +1,20 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_("Delegations: %s") % c.issue.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.issue)|n} &raquo; ${_("Delegations")}
+</%def>
+
+${tiles.issue.header(c.issue, c.tile, active='delegations')}
+
+<div class="sidebar">
+	${components.delegation_sidebar(c.issue)}
+</div>
+
+<div class="mainbar">
+	<div class="table">
+		${c.delegations_pager.here()}
+	</div>
+</div>

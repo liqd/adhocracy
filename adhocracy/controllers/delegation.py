@@ -52,6 +52,13 @@ class DelegationController(BaseController):
             h.flash(_("Invalid delegation recipient"))
             return self.new()
         
+        existing = model.Delegation.find_by_agent_principal_scope(agents[0],
+                                                                  c.user,
+                                                                  c.scope)
+        if existing is not None:
+            h.flash(_("You have already delegated voting to %s in %s") % (agents[0], c.scope))
+            return self.new()
+        
         delegation = c.user.delegate_to_user_in_scope(agents[0], c.scope)
         model.meta.Session.commit()
         

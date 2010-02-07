@@ -16,3 +16,7 @@ def inbound(delegation):
 def outbound(delegation):
     return render_tile('/delegation/tiles.html', 'outbound', 
                        DelegationTile(delegation), delegation=delegation)
+    
+def row(delegation):
+    return render_tile('/delegation/tiles.html', 'row', 
+                       DelegationTile(delegation), delegation=delegation)

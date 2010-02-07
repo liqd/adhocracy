@@ -49,7 +49,8 @@
 			<a href="/user/${user.user_name}" class="activity">${_("Activity")}</a>
 			%if c.instance:
 				<a href="/user/${user.user_name}/votes" class="votes">${_("Votes")}</a>
-				<a href="/user/${user.user_name}/delegations" class="delegations">${_("Delegations")}</a>
+				<a href="/user/${user.user_name}/delegations" class="delegations">${_("Delegations")} 
+					(${len(user.current_agencies())})</a>
 				<a href="/user/${user.user_name}/issues" class="issues">${_("Issues")} (${tile.num_issues})</a>
 				<a href="/user/${user.user_name}/proposals" class="proposals">${_("Proposals")} (${tile.num_proposals})</a>
 				<a href="/user/${user.user_name}/comments" class="comments">${_("Comments")} (${tile.num_comments})</a>

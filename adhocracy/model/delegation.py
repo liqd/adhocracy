@@ -76,6 +76,25 @@ class Delegation(Base):
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))
             return None
+
+    @classmethod
+    def find_by_agent_principal_scope(cls, agent, principal, scope, instance_filter=True, include_deleted=False):
+        try:
+            q = meta.Session.query(Delegation)
+            q = q.filter(Delegation.agent==agent)
+            q = q.filter(Delegation.principal==principal)
+            q = q.filter(Delegation.scope==scope)
+            if not include_deleted:
+                q = q.filter(or_(Delegation.revoke_time==None,
+                                 Delegation.revoke_time>datetime.utcnow()))
+            d = q.one()
+            if ifilter.has_instance() and instance_filter:
+                if d.scope.instance != ifilter.get_instance():
+                    return None 
+            return d
+        except Exception, e:
+            log.warn("find(%s): %s" % (id, e))
+            return None       
     
     @classmethod
     def all(cls, instance=None, include_deleted=False):

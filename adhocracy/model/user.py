@@ -160,6 +160,12 @@ class User(Base):
         hashed_pass = hashlib.sha1(password + self.password[:40])
         return self.password[40:] == hashed_pass.hexdigest()
     
+    def current_agencies(self):
+        return filter(lambda d: not d.is_revoked(), self.agencies)
+    
+    def current_delegated(self):
+        return filter(lambda d: not d.is_revoked(), self.delegated)
+    
     @classmethod
     def complete(cls, prefix, limit=5, instance_filter=True):
         q = meta.Session.query(User)

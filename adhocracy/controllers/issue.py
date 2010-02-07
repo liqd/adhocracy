@@ -120,6 +120,22 @@ class IssueController(BaseController):
         return render("/issue/proposals.html")
     
     @RequireInstance
+    @ActionProtector(has_permission("issue.view"))
+    def delegations(self, id, format="html"):
+        c.issue = get_entity_or_abort(model.Issue, id)
+        
+        delegations = c.issue.current_delegations()
+        if format == 'json':
+            return render_json(list(delegations))
+        
+        c.tile = tiles.issue.IssueTile(c.issue)
+        c.delegations_pager = NamedPager('delegations', delegations, tiles.delegation.row,  #list_item,
+                             sorts={_("oldest"): sorting.entity_oldest,
+                                    _("newest"): sorting.entity_newest},
+                             default_sort=sorting.entity_newest)
+        return render("/issue/delegations.html")
+    
+    @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("issue.delete"))
     def delete(self, id):

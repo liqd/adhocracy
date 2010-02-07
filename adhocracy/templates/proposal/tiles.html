@@ -120,6 +120,7 @@
 			%if tile.poll:
 				<a href="/poll/${tile.poll.id}/votes" class="votes">${_("Votes")} (${len(tile.state.tally)})</a>
 			%endif
+			<a href="/proposal/${proposal.id}/delegations" class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a>
 		</div>
 	</div>
 </%def>
