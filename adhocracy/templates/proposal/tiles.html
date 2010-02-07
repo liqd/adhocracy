@@ -88,7 +88,7 @@
 
 <%def name="header(tile, proposal, active)">
 	<div class="top_actions title">
-		%if tile.can_delegate and not c.tile.has_overridden:
+		%if tile.can_delegate and not tile.has_overridden:
 			<a class="button title add" href="/delegation/new?scope=${proposal.id}">${_("delegate")}</a>
 		%endif
 		
@@ -117,6 +117,9 @@
 			<a href="/proposal/${proposal.id}/activity" class="activity">${_("Activity")}</a>
 			<a href="/proposal/${proposal.id}" class="goal">${_("Goal")}</a>
 			<a href="/proposal/${proposal.id}/provisions" class="provisions">${_("Implementation")} (N)</a>
+			%if tile.poll:
+				<a href="/poll/${tile.poll.id}/votes" class="votes">${_("Votes")} (${len(tile.state.tally)})</a>
+			%endif
 		</div>
 	</div>
 </%def>

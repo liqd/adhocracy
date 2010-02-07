@@ -79,11 +79,13 @@ class Issue(Delegateable):
             q = q.filter(Issue.instance==instance)
         return q.all()
     
-    def comment_count(self):
+    def comment_count(self, recurse=True):
         count = len([c for c in self.comments if not c.is_deleted()])
         if self.comment and not self.comment.is_deleted():
             count -= 1
-        return count + sum([p.comment_count() for p in self.proposals]) 
+        if recurse:
+            count += sum([p.comment_count() for p in self.proposals])
+        return count
     
     def to_dict(self):
         d = super(Issue, self).to_dict()

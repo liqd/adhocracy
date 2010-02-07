@@ -8,9 +8,7 @@
 	${h.breadcrumbs(c.poll.proposal)|n} &raquo; ${_("Votes")}
 </%def>
 
-
-<h1 class="page_title"><img src="/img/icons/vote_24.png" class="cd" /> ${_("Votes:")}  
-	<a href="/proposal/${c.poll.proposal.id}">${c.poll.proposal.label}</a></h1>
+${tiles.proposal.header(c.poll.proposal, active='votes')}
 
 <div class="sidebar">
 	%if c.poll:
