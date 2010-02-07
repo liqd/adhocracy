@@ -25,7 +25,7 @@ def recommend(scope, user, count=5):
                 dgb_pop_users.keys() + usr_pop_users.keys())
     recs = dict()
     for u in users:
-        if u == user:
+        if u == user or not u._has_permission('vote.cast'):
             continue
         recs[u] = (log_with_null(karma_users.get(u, 0)) * 1) + \
                   (donor_karma_users.get(u, 0) * 5) + \
