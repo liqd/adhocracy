@@ -1,0 +1,21 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="parts" file="/user/parts.html"/>
+
+<%def name="title()">${_("Comments: %s") % c.page_user.name}</%def>
+
+<%def name="breadcrumbs()">
+	${parts.user_breadcrumbs(c.page_user)} &raquo; ${_("Commments")}
+</%def>
+
+${tiles.user.header(c.page_user, active='comments')}
+
+<div class="sidebar">
+	&nbsp;
+</div>
+
+<div class="mainbar">
+	<div class="table">
+		${c.comments_pager.here()}
+	</div>
+</div>

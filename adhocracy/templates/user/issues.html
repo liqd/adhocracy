@@ -1,0 +1,21 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="parts" file="/user/parts.html"/>
+
+<%def name="title()">${_("Issues: %s") % c.page_user.name}</%def>
+
+<%def name="breadcrumbs()">
+	${parts.user_breadcrumbs(c.page_user)} &raquo; ${_("Issues")}
+</%def>
+
+${tiles.user.header(c.page_user, active='issues')}
+
+<div class="sidebar">
+	&nbsp;
+</div>
+
+<div class="mainbar">
+	<div class="table">
+		${c.issues_pager.here()}
+	</div>
+</div>
