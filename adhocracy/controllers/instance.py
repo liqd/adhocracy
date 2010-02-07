@@ -110,8 +110,9 @@ class InstanceController(BaseController):
         return render("/instance/view.html")
     
     @RequireInstance
-    def latest(self):
-        c.page_instance = c.instance
+    @ActionProtector(has_permission("instance.view"))
+    def activity(self, key):
+        c.page_instance = get_entity_or_abort(model.Instance, key)
         
         query = model.meta.Session.query(model.Event)
         query = query.filter(model.Event.instance==c.page_instance)
@@ -120,7 +121,7 @@ class InstanceController(BaseController):
         
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         c.events_pager = NamedPager('events', query.all(), tiles.event.row, count=10)
-        return render("/instance/latest.html")
+        return render("/instance/activity.html")
             
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("instance.admin"))

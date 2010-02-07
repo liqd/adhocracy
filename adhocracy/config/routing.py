@@ -27,7 +27,10 @@ def make_map():
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
                                          'proposals': 'GET',
+                                         'issues': 'GET', 
+                                         'comments': 'GET',
                                          'votes': 'GET',
+                                         'instances': 'GET',
                                          'groupmod': 'GET',
                                          'kick': 'GET',
                                          'revert': 'GET',
@@ -85,11 +88,12 @@ def make_map():
     map.connect('/search', controller='search', action='query')
         
     map.connect('/adhocracies', controller='instance', action='index')
-    map.connect('/latest', controller='instance', action='latest')
+    
     map.connect('/instance/create', controller='instance', action='create')
     map.connect('/instance/{key}/join', controller='instance', action='join')
     map.connect('/instance/{key}/leave', controller='instance', action='leave')
     map.connect('/instance/{key}/filter', controller='instance', action='filter')
+    map.connect('/instance/{key}/activity', controller='instance', action='activity')
     map.connect('/instance/header/{key}.png', controller='instance', action='header')
     map.connect('/instance/icon/{key}-{x}x{y}.png', controller='instance', action='icon')
     map.connect('/instance/{action}/{key}', controller='instance')

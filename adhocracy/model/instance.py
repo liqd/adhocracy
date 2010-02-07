@@ -111,6 +111,6 @@ class Instance(Base):
                  default_group=self.default_group.code,
                  create_time=self.create_time)
         if self.description:
-            d['description'] = description
+            d['description'] = self.description
         #d['members'] = map(lambda u: u.user_name, self.members)
         return d

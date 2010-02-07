@@ -89,3 +89,8 @@ def row(user):
     return render_tile('/user/tiles.html', 'row', UserTile(user), 
                        user=user, instance=c.instance, cached=True)   
 
+def header(user, tile=None, active='activity'):
+    if tile is None:
+        tile = UserTile(user)
+    return render_tile('/user/tiles.html', 'header', tile, 
+                       user=user, active=active)

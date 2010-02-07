@@ -7,31 +7,7 @@
 	${parts.user_breadcrumbs(c.page_user)}
 </%def>
 
-<div class="top_actions title">
-	%if c.tile.can_edit:
-		<a class="button edit" href="/user/${c.page_user.user_name}/edit">${_("edit")}</a>
-	%endif
-	
-	%if c.instance and c.tile.can_manage and c.page_user.is_member(c.instance):
-		<a class="button admin" href="/user/${c.page_user.user_name}/kick?${h.url_token()}">${_("kick")}</a>
-		%for group_code in [c.model.Group.CODE_OBSERVER, c.model.Group.CODE_VOTER, c.model.Group.CODE_SUPERVISOR]:
-			%if group_code != c.tile.instance_group.code:
-				<a class="button admin" href="/user/${c.page_user.user_name}/groupmod?to_group=${group_code}&${h.url_token()}">
-					${_("make %s") % _(c.model.Group.by_code(group_code).group_name)}</a>
-			%endif
-		%endfor
-	%endif
-	
-	%if c.user and c.page_user != c.user:
-		${components.watch(c.page_user, '/user/%s' % str(c.page_user.user_name))}
-		<a href="/user/${c.page_user.user_name}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
-	%endif
-</div>
-
-<h1 class="page_title">
-	<img src="${h.gravatar_url(c.page_user, size=24)|n}" class="cd" alt="">
-	${self.title()}
-</h1>
+${tiles.user.header(c.page_user, c.tile, active='activity')}
 
 <div class="sidebar">
 	<div class="tile">
@@ -54,26 +30,10 @@
 	%endif
 		<li>${_("signed up %s") % h.relative_time(c.page_user.create_time)|n}</li>
 	</ul>
-	</div>
-	
-	<h2>${_("Adhocracies")}</h2>	
-		<span class="hint">
-			${c.page_user.name} ${_("is a member in the following adhocracies:")}
-		</span>
-		<ul>
-		%for instance in c.page_user.instances:
-			${tiles.instance.list_item(instance)}
-		%endfor
-		</ul>	
+	</div>	
 </div>
 
 <div class="mainbar">
-	%if c.tile.bio:
-		${c.tile.bio|n}
-	%else:
-		<div class="infobox">${_("%s does not have a bio") % c.page_user.name}</div>
-	%endif
-	<br/>
 	<div class="table">
 		${c.events_pager.here()}
 	</div>

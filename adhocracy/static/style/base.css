@@ -310,7 +310,7 @@ body {
 #header {
 	width: auto; 
 	padding: 0px 2em 0px 2em;
-	height: 75px;
+	height: 85px;
 	background-color: #fff;
 	background-image: url(/img/hdr_bg.png);
 	background-repeat: repeat-x;
@@ -349,18 +349,19 @@ body {
 #header #account a {
 	font-weight: bold;
 	color: #fff;
+	text-transform: lowercase;
 }
 
 #header #logo {
 	float: left;
-	margin-top: 5px;
+	margin-top: 15px;
 	margin-right: 0.9em;
 }
 
 #header #menu {
 	position: absolute;
 	width: 820px;
-	top: 45px;
+	top: 55px;
 	padding-left: 70px;
 }
 
@@ -368,6 +369,7 @@ body {
 #header #search {
 	font-weight: bold;
 	font-size: 14px;
+	text-shadow: #fff 1px 1px 1px;
 	min-width: 15em;
 	padding: 8px 1em 8px 1em;
 	border: 1px solid #ccc;
@@ -383,6 +385,7 @@ body {
 	float: right;
 	margin: -10px 0px 0px 0px;
 	font-weight: normal;
+	text-shadow: none;
 	background-image: url(/img/icons/search.png);
 	background-repeat: no-repeat;
 	background-position: center left;
@@ -400,6 +403,7 @@ body {
 	background-color: #1553a4;
 	color: white;
 	border: 1px solid #1553a4;
+	text-shadow: none;
 }
 
 #header #menu ul {
@@ -916,7 +920,7 @@ table.delegations th {
 	vertical-align: top;
 	padding: 0.5em 0 0.5em 0;
 	line-height: 1.3em;
-	border-bottom: 1px solid #666;
+	border-bottom: 1px solid #ddd;
 }
 
 table.delegations td li {
@@ -982,6 +986,7 @@ table.delegations th {
 
 .sidebar .tile {
 	border: 2px solid #ddd;
+	border-top: 1px solid #ddd;
 	background-image: none;
 	background-color: #fff;
 	padding: 0 1em 0.5em 1em;
@@ -997,8 +1002,9 @@ table.delegations th {
 	margin: 0 -1em 0.5em -1em;
 	background-color: #efefef;
 	padding: 0.6em 1em 0.6em 1em;
-	border-bottom: 2px solid #ddd;
+	border-bottom: 1px solid #ddd;
 	font-size: 1.05em;
+	text-shadow: #fbfbfb 1px 1px 1px;
 	
 	background-image: url(/img/tile_bg.png);
 	background-repeat: repeat-x;
@@ -1373,4 +1379,73 @@ a.button.inactive {
 #issue_details li {
 	list-style-type: none;
 	margin-left: 0px;
+}
+
+
+.panel {
+	width: auto;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border: 1px solid #ddd;
+	background-color: #f2f2f2;
+	margin-bottom: 2em;
+}
+
+.panel .menu {
+	display: block;
+	background-color: #dfdfdf;
+	background-image: url(/img/tile_bg.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
+	overflow: none;
+}
+
+.panel .menu img {
+	margin-bottom: -3px;
+}
+
+.panel .menu a {
+	/*float: left;*/
+	display: inline-block;
+	min-width: 3em;
+	text-align: center;
+	padding: 0.4em 0.8em 0.4em 0.8em;
+	margin: 0.3em 0.4em 0.5em 0.4em;
+	font-size: 1em;
+	color: #333;
+	border: 1px solid rgba(221,221,221,0);
+	-webkit-border-radius: 5px;
+	text-shadow: #eee 1px 1px 1px;
+}
+
+.panel .menu a:hover {
+	background-color: #bbb;
+	text-decoration: none;
+	text-shadow: none;
+}
+
+.panel .menu a.active,
+.panel.activity a.activity,
+.panel.issues a.issues,
+.panel.votes a.votes,
+.panel.delegations a.delegations,
+.panel.proposals a.proposals,
+.panel.comments a.comments,
+.panel.adopted a.adopted,
+.panel.instances a.instances {
+	border-top: 1px solid #bbb;
+	border-left: 1px solid #bbb;
+	background-color: white;
+	color: #000;
+	font-weight: bold;
+	font-size: 0.95em;
+	text-decoration: none;
+}
+
+.panel .description {
+	clear: both;
+	border-top: 1px solid #fff;
+	padding: 0.7em;
+	padding-left: 0.9em;
+	padding-right: 0.9em;
 }

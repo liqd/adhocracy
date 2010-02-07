@@ -59,6 +59,16 @@ class Issue(Delegateable):
             log.warn("find(%s): %s" % (id, e))
             return None
     
+    @classmethod
+    def find_by_creator(cls, user, instance_filter=True):
+        q = meta.Session.query(Issue)
+        q = q.filter(Issue.creator==user)
+        q = q.filter(or_(Issue.delete_time==None,
+                         Issue.delete_time>datetime.utcnow()))
+        if ifilter.has_instance() and instance_filter:
+            q = q.filter(Issue.instance_id==ifilter.get_instance().id)
+        return q.all()
+    
     @classmethod    
     def all(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Issue)

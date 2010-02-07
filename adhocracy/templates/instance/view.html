@@ -6,36 +6,9 @@
 	${h.breadcrumbs(c.page_instance)|n} &raquo; ${_("Home")}
 </%def>
 
-<div class="top_actions title">
-	%if c.tile.can_create_issue:
-		<a class="button add" href="/issue/create">${_("new issue")}</a>
-	%endif
-	%if c.tile.can_join:
-		<a class="button add" href="/instance/join/${c.page_instance.key}?${h.url_token()}">${_("join")}</a> 
-	%endif
-	%if not c.user:
-		<a class="button add" href="/register">${_("join")}</a> 
-	%endif
-	%if c.tile.can_admin:
-		<a class="button admin" href="/instance/edit/${c.page_instance.key}">${_("edit")}</a>
-	%endif
-	%if c.tile.can_leave:
-		<a class="button delete" href="/instance/leave/${c.page_instance.key}?${h.url_token()}">${_("leave")}</a> 
-	%endif
-	
-	${components.watch(c.instance, '/instance/%s' % str(c.page_instance.key))}
-	<a href="/instance/${c.page_instance.key}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
-</div>
-
-<h1 class="page_title"><img src="/img/icons/site_24.png" class="cd" /> ${c.page_instance.label}</h1>
+${tiles.instance.header(c.page_instance, c.tile, active='issues')}
 
 <div class="sidebar">
-	%if c.tile.description:
-	<div class="tile">
-			<h4><img src="/img/icons/site_16.png" class="cd"> ${c.page_instance.label}</h4>
-			${c.tile.description|n}
-	</div>
-	%endif
 	<div class="tile">
 			<h4><img src="/img/icons/vote_16.png" class="cd"> ${_("Voting Rules")}</h4>
 			${_("Required Majority:")} <b>${c.tile.required_majority}</b>

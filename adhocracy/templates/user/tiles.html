@@ -1,3 +1,4 @@
+<%namespace name="components" file="/components.html"/>
 
 <%def name="row(tile, user)">
 	<div class="tile">
@@ -6,11 +7,6 @@
 		</div>
 		<div class="base">
 			<h3><a class="link" href="/user/${user.user_name}">${user.name}</a></h3>
-			%if tile.tagline:
-				<div class="text">
-					${tile.tagline}
-				</div>
-			%endif
 			<div class="meta noclear">
 				%if c.instance:
 					${_(tile.instance_group.group_name)} &middot;
@@ -18,5 +14,53 @@
 				${_("signed up %s") % h.relative_time(user.create_time)|n} 
 			</div>
 		</div>
+	</div>
+</%def>
+
+<%def name="header(tile, user, active)">
+	<div class="top_actions title">
+		%if tile.can_edit:
+			<a class="button edit" href="/user/${user.user_name}/edit">${_("edit")}</a>
+		%endif
+		
+		%if c.instance and tile.can_manage and user.is_member(c.instance):
+			<a class="button admin" href="/user/${user.user_name}/kick?${h.url_token()}">${_("kick")}</a>
+			%for group_code in [c.model.Group.CODE_OBSERVER, c.model.Group.CODE_VOTER, c.model.Group.CODE_SUPERVISOR]:
+				%if group_code != tile.instance_group.code:
+					<a class="button admin" href="/user/${user.user_name}/groupmod?to_group=${group_code}&${h.url_token()}">
+						${_("make %s") % _(c.model.Group.by_code(group_code).group_name)}</a>
+				%endif
+			%endfor
+		%endif
+		
+		%if c.user and user != c.user:
+			${components.watch(user, '/user/%s' % str(user.user_name))}
+			<a href="/user/${user.user_name}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
+		%endif
+	</div>
+	
+	<h1 class="page_title">
+		<img src="${h.gravatar_url(c.page_user, size=24)|n}" class="cd" alt="">
+		${user.name}
+	</h1>
+	
+	<div class="panel ${active}">
+		<div class="menu">
+			<a href="/user/${user.user_name}" class="activity">${_("Activity")}</a>
+			%if c.instance:
+				<a href="/user/${user.user_name}/votes" class="votes">${_("Votes")}</a>
+				<a href="/user/${user.user_name}/delegations" class="delegations">${_("Delegations")}</a>
+				<a href="/user/${user.user_name}/issues" class="issues">${_("Issues")} (${tile.num_issues})</a>
+				<a href="/user/${user.user_name}/proposals" class="proposals">${_("Proposals")} (${tile.num_proposals})</a>
+				<a href="/user/${user.user_name}/comments" class="comments">${_("Comments")} (${tile.num_comments})</a>
+			%endif	
+			<a href="/user/${user.user_name}/instances" class="instances">${_("Adhocracies")} (${len(user.instances)})</a>
+		</div>
+		
+		%if tile.bio:
+			<div class="description">
+				${tile.bio|n}
+			</div>
+		%endif
 	</div>
 </%def>

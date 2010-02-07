@@ -56,8 +56,8 @@ class Delegation(Base):
             return False
         # TODO: this is a one-off of using permission in the model
         # rethink this. 
-        if not self.principal.has_permission("vote.cast"):
-            return False
+        #if not self.principal.has_permission("vote.cast"):
+        #    return False
         return self.scope == delegateable or self.scope.is_super(delegateable)
     
     @classmethod

@@ -3,38 +3,33 @@
 
 <%def name="row(tile, comment)">
 	<div class="tile">
-		
 		<div class="logo">
 			<img src="/img/icons/discuss_24.png" />
 		</div>
-		
-		%if len(tile.tagline):
-		<div class="text">
-			<a href="/comment/${comment.id}.fwd">${_("Comment")}</a>: ${tile.tagline}
-		</div>
-		%endif
-		
-		<div class="meta">
-			${h.user_link(comment.creator, scope=comment.topic)|n}
-			%if len(comment.revisions) == 1:  
-				&middot; ${_("created %s") % h.relative_time(comment.create_time)|n}
-			%else:
-				&middot; ${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
-			%endif  
-			
-			
-			&middot; ${_("in")} 
-			%if tile.on_issue:	 
-				<img src="/img/icons/issue_16.png" /> 
-			%elif tile.on_proposal:
-				<img src="/img/icons/proposal_16.png" />	
+		<div class="base">
+			%if len(tile.tagline):
+				<h3><a href="/comment/${comment.id}.fwd">${_("Comment")}</a>: ${tile.tagline|n}</h3>
 			%endif
-			<a href="/d/${comment.topic.id}">${comment.topic.label}</a>
+			
+			<div class="meta">
+				${h.user_link(comment.creator, scope=comment.topic)|n}
+				%if len(comment.revisions) == 1:  
+					&middot; ${_("created %s") % h.relative_time(comment.create_time)|n}
+				%else:
+					&middot; ${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
+				%endif  	
+				
+				&middot; ${_("in")} 
+				%if tile.on_issue:	 
+					<img src="/img/icons/issue_16.png" /> 
+				%elif tile.on_proposal:
+					<img src="/img/icons/proposal_16.png" />	
+				%endif
+				<a href="/d/${comment.topic.id}">${comment.topic.label}</a>
+			</div>
 		</div>
 	</div>
 </%def>
-
-
 
 
 <%def name="full(tile, comment, recurse=True, collapse=True, link_discussion=False)">

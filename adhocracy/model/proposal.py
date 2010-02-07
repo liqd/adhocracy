@@ -76,6 +76,16 @@ class Proposal(Delegateable):
             log.warn("find(%s): %s" % (id, e))
             return None
     
+    @classmethod
+    def find_by_creator(cls, user, instance_filter=True):
+        q = meta.Session.query(Proposal)
+        q = q.filter(Proposal.creator==user)
+        q = q.filter(or_(Proposal.delete_time==None,
+                         Proposal.delete_time>datetime.utcnow()))
+        if filter.has_instance() and instance_filter:
+            q = q.filter(Proposal.instance_id==filter.get_instance().id)
+        return q.all()
+    
     @classmethod    
     def all(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Proposal)

@@ -76,3 +76,10 @@ def list_item(instance):
 def row(instance):
     return render_tile('/instance/tiles.html', 'row', InstanceTile(instance), 
                        instance=instance, user=c.user, cached=True)
+    
+def header(instance, tile=None, active='issues'):
+    if tile is None:
+        tile = InstanceTile(instance)
+    return render_tile('/instance/tiles.html', 'header', tile, 
+                       instance=instance, active=active)
+    

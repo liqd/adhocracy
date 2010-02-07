@@ -330,6 +330,76 @@ class UserController(BaseController):
         c.nodeClass = democracy.DelegationNode 
         return render("/user/delegations.html")
     
+    @ActionProtector(has_permission("user.view")) 
+    def instances(self, id, format='html'):
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        
+        if format == 'json':
+            return render_json(list(c.page_user.instances))
+        
+        c.instances_pager = NamedPager('instances', c.page_user.instances, tiles.instance.row,
+                                       sorts={_("oldest"): sorting.entity_oldest,
+                                              _("newest"): sorting.entity_newest,
+                                              _("activity"): sorting.instance_activity,
+                                              _("name"): sorting.delegateable_label},
+                                       default_sort=sorting.instance_activity)
+        return render("/user/instances.html")
+    
+        
+    @RequireInstance
+    @ActionProtector(has_permission("user.view")) 
+    def issues(self, id, format='html'):
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        issues = model.Issue.find_by_creator(c.page_user)
+        
+        if format == 'json':
+            return render_json(list(issues))
+
+        c.issues_pager = NamedPager('issues', issues, tiles.issue.row, count=10, #list_item,
+                             sorts={_("oldest"): sorting.entity_oldest,
+                                    _("newest"): sorting.entity_newest,
+                                    _("activity"): sorting.issue_activity,
+                                    _("newest comment"): sorting.delegateable_latest_comment,
+                                    _("name"): sorting.delegateable_label},
+                             default_sort=sorting.issue_activity)
+        return render("/user/issues.html")
+    
+        
+    @RequireInstance
+    @ActionProtector(has_permission("user.view")) 
+    def proposals(self, id, format='html'):
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        proposals = model.Proposal.find_by_creator(c.page_user)
+        
+        if format == 'json':
+            return render_json(list(proposals))
+
+        c.proposals_pager = NamedPager('proposals', proposals, tiles.proposal.row, count=10, #list_item,
+                             sorts={_("oldest"): sorting.entity_oldest,
+                                    _("newest"): sorting.entity_newest,
+                                    _("activity"): sorting.proposal_activity,
+                                    _("newest comment"): sorting.delegateable_latest_comment,
+                                    _("name"): sorting.delegateable_label},
+                             default_sort=sorting.proposal_activity)
+        return render("/user/proposals.html")
+    
+        
+    @RequireInstance
+    @ActionProtector(has_permission("user.view")) 
+    def comments(self, id, format='html'):
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        comments = filter(lambda cm: cm.topic.instance == c.instance and \
+                          not cm.is_deleted(), c.page_user.comments)
+        
+        if format == 'json':
+            return render_json(list(comments))
+        
+        c.comments_pager = NamedPager('comments', comments, tiles.comment.row,
+                                       sorts={_("oldest"): sorting.entity_oldest,
+                                              _("newest"): sorting.entity_newest},
+                                       default_sort=sorting.entity_newest)
+        return render("/user/comments.html")
+    
     
     @RequireInstance
     @RequireInternalRequest()
