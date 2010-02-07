@@ -122,5 +122,12 @@
 			%endif
 			<a href="/proposal/${proposal.id}/delegations" class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a>
 		</div>
+		<div class="meta">
+			${h.user_link(c.proposal.creator, scope=c.proposal)|n} 
+			${h.relative_time(c.proposal.create_time)|n}
+		</div>
+		<div class="description">
+			${proposal.comment.latest.text}
+		</div>
 	</div>
 </%def>

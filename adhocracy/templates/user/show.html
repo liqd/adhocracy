@@ -9,32 +9,6 @@
 
 ${tiles.user.header(c.page_user, c.tile, active='activity')}
 
-<div class="sidebar">
-	<div class="tile">
-	<h4><img class="cd" src="${h.gravatar_url(c.page_user, size=16)}"> ${c.page_user.name}</h4>
-	<ul>
-	%if c.instance:
-		%if c.page_user.is_member(c.instance):
-			<li>${"%(group)s in %(instance)s" % dict(group=_(c.tile.instance_group.group_name), instance=c.instance.label)}</li> 
-		%endif
-		<li>
-			<img src="/img/arrows/aup_a.png" /> ${c.tile.num_karma_up}
-			<img src="/img/arrows/adown_a.png" /> ${c.tile.num_karma_down}
-		</li>
-    
-    	<li><img src="/img/icons/issue_16.png" /> ${ungettext("%s issue", "%s issues", c.tile.num_issues) % c.tile.num_issues}</li>
-	 	<li><img src="/img/icons/proposal_16.png" /> ${ungettext("%s proposal", "%s proposals", c.tile.num_proposals) % c.tile.num_proposals}</li> 
-		<li><img src="/img/icons/discuss_16.png" /> ${ungettext("%s comment", "%s comments", c.tile.num_comments) % c.tile.num_comments}</li> 
-		
-		<li><a href="/user/${c.page_user.user_name}/delegations"><img src="/img/icons/delegate_16.png" /> ${_("delegations")}</a></li>   
-	%endif
-		<li>${_("signed up %s") % h.relative_time(c.page_user.create_time)|n}</li>
-	</ul>
-	</div>	
-</div>
-
-<div class="mainbar">
 	<div class="table">
 		${c.events_pager.here()}
 	</div>
-</div>

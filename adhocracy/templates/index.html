@@ -22,19 +22,7 @@
 	%if not c.user:
 		<div class="tile">
 		<%include file="/user/login_form.html"/>
-		</div>
-	%else:
-		%if len(c.user.instances):
-			<ul>
-			%for instance in c.user.instances:
-				${tiles.instance.list_item(instance)}
-			%endfor
-			</ul>	
-		%else:
-			<div class="infobox">
-				${_("Join a few Adhocracies to contribute to their policies.")}
-			</div>
-		%endif		
+		</div>	
 	%endif
 	<p>
 	

@@ -23,12 +23,6 @@ ${tiles.user.header(c.page_user, active='delegations')}
 			<tr>
 				<td>
 					${h.delegateable_link(delegateable)|n}
-					<span class="hint">
-						%if len(delegateable.parents):
-							${h.breadcrumbs(delegateable.parents[0])|n}
-						%endif
-						&nbsp;
-					</span>
 				</td>
 				<td>
 					<ul>

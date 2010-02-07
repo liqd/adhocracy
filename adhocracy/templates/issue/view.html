@@ -6,52 +6,8 @@
 
 <%def name="breadcrumbs()">${h.breadcrumbs(c.issue)|n}</%def>
 
-
 ${tiles.issue.header(c.issue, c.tile, active='analysis')}
 
-<!-- 
-<div class="tile issue title">
-	<div class="sidebar">
-		<div class="tile boxed">
-			<div class="inner_boxed">
-				${h.user_link(c.issue.creator, scope=c.issue)|n} 
-				${h.relative_time(c.issue.create_time)|n}
-			</div> 
-		</div>
-	</div>
-	
-	<div class="logo">
-		<img src="/img/icons/issue_48.png"/>
-	</div>
-	
-	<div class="base">
-		<h1>${c.issue.label}</h1>
-		&nbsp;
-	</div>
-			
-	<div class="meta rightmeta">		
-		%if c.tile.can_delegate and not c.tile.has_overridden:
-			<a class="button add" href="/delegation/new?scope=${c.issue.id}">${_("delegate")}</a>
-		%endif
-		
-		%if c.tile.can_edit:
-			<a class="button edit" href="/issue/edit/${c.issue.id}">${_("edit")}</a>
-		%endif
-					
-		%if c.tile.can_delete:
-			<a class="button delete" href="/issue/delete/${c.issue.id}?${h.url_token()}">${_("delete")}</a>
-		%endif
-		
-		${components.watch(c.issue, '/issue/%s' % str(c.issue.id))}
-		<a href="/issue/${c.issue.id}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
-	</div>
-	
-	<div style="clear: both;"></div>
-</div>
-
-<div style="clear: both;"></div>
- -->
- 
 %if c.issue.comment:
 	${tiles.comment.full(c.issue.comment, recurse=False, collapse=False)}
 %endif

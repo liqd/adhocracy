@@ -634,18 +634,12 @@ h4 img.cd,
 }
 
 .tile {
-	background-color: #f3f3f3;
 	background-image: url(/img/tile_bg.png);
 	background-repeat: repeat-x;
 	background-position: bottom;
 	padding: 0.3em;
 	padding-top: 0.1em;
-	/*
-	border-top: 1px solid #f0f0f0;
-	border-left: 1px solid #f0f0f0;
-	*/
 	border-bottom: 1px solid #ddd;
-	border-right: 1px solid #ddd;
 	margin-bottom: 0.3em;
 	
 }
@@ -691,8 +685,9 @@ h4 img.cd,
 .tile .text {
 	padding: 0.1em 0em 0.1em 1em;
 	margin: 0;
+	overflow: hidden;
+	line-height: 1.4em;
 }
-
 
 .tile .text ul li {
 	list-style-type: square;
@@ -897,17 +892,13 @@ h4 img.cd,
 	margin-top: 0px;
 }
 
-.tile .text {
-	overflow: hidden;
-	line-height: 1.4em;
-}
-
 .nobullet {
 	list-style-type: none !important;
 }
 
 table.delegations {
 	width: 100%;
+	border-collapse:collapse;
 }
 
 table.delegations .tile {
@@ -918,9 +909,17 @@ table.delegations td,
 table.delegations th {
 	width: 30%;
 	vertical-align: top;
-	padding: 0.5em 0 0.5em 0;
+	padding: 0.5em 0 0.5em 0.5em;
 	line-height: 1.3em;
 	border-bottom: 1px solid #ddd;
+	background-image: url(/img/tile_bg.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
+}
+
+table.delegations th {
+	background-color: #eee;
+	color: #666;
 }
 
 table.delegations td li {
@@ -938,22 +937,6 @@ table.delegations td .hint {
 table.delegations th { 
 	border-bottom: 1px solid #aaa;
 	font-size: 1.1em;
-}
-
-.list_tile {
-	list-style-type: none;
-	padding-bottom: 0.3em;
-	margin-left: 0em !important;
-}
-
-.list_tile .text {
-	font-size: 1.1em;
-	font-weight: bold;
-}
-
-.list_tile .meta {
-	font-size: 0.9em;
-	color: #666;
 }
 
 .lefthalf {
@@ -1010,11 +993,6 @@ table.delegations th {
 	background-repeat: repeat-x;
 	background-position: bottom;
 }
-
-.category_tree li {
-	list-style-type: none;
-}
-
 
 a.button {
 	font-size: 12px;
@@ -1121,14 +1099,13 @@ a.button.inactive {
 
 .comment .tile {
 	border: 0px;
-	background-color: #fff;
 	background-image: none;
 	min-height: 30px;
 	margin-top: 7px;	
 	max-width: 600px;
 }
 
-.comment .tile.canonical .text{
+.comment .tile.canonical .text {
 	background-color: rgba(215,209,255,0.5);
 }
 
@@ -1393,9 +1370,10 @@ a.button.inactive {
 	margin-bottom: 2em;
 }
 
-.panel .menu {
+.panel .menu,
+.panel .meta {
 	display: block;
-	background-color: #dfdfdf;
+	background-color: #e9e9e9;
 	background-image: url(/img/tile_bg.png);
 	background-repeat: repeat-x;
 	background-position: bottom;
@@ -1411,8 +1389,8 @@ a.button.inactive {
 	display: inline-block;
 	min-width: 3em;
 	text-align: center;
-	padding: 0.4em 0.8em 0.4em 0.8em;
-	margin: 0.3em 0.4em 0.5em 0.4em;
+	padding: 0.4em 0.7em 0.4em 0.7em;
+	margin: 0.4em 0.2em 0.5em 0.4em;
 	font-size: 1em;
 	color: #333;
 	border: 1px solid rgba(221,221,221,0);
@@ -1445,6 +1423,15 @@ a.button.inactive {
 	font-weight: bold;
 	font-size: 0.95em;
 	text-decoration: none;
+}
+
+.panel .meta {
+	text-align: right;
+	background-color: #f3f3f3;
+	border-top: 1px solid #fff;
+	padding: 0.7em 1em 0.7em 1em;
+	font-size: 0.8em;
+	color: #666;
 }
 
 .panel .description {
