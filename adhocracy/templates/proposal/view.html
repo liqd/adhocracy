@@ -7,6 +7,7 @@
 
 <%def name="breadcrumbs()">${h.breadcrumbs(c.proposal)|n}</%def>
 
+<!-- 
 <div id="top_issue">
 <div class="tile issue title" style="margin-bottom: 0px;">
 	<div class="sidebar">
@@ -63,31 +64,14 @@
 	
 	<div class="meta rightmeta">	
 		
-		%if c.tile.can_delegate and not c.tile.has_overridden:
-			<a class="button title add" href="/delegation/new?scope=${c.proposal.id}">${_("delegate")}</a>
-		%endif
-		
-		%if c.tile.can_begin_poll:
-			<a class="button title add" href="/poll/create/${c.proposal.id}">${_("call a vote")}</a>
-		%elif c.user and not c.tile.has_canonicals:
-			<a class="button title inactive htwarn" title="${_('The proposal cannot be voted upon since it does not have any provisions yet.')}">${_("call a vote")}</a>
-		%endif
-		
-		%if c.tile.can_edit:
-			<a class="button title edit" href="/proposal/edit/${c.proposal.id}">${_("edit")}</a>
-		%endif
-						
-		%if c.tile.can_delete:
-			<a class="button title delete" href="/proposal/delete/${c.proposal.id}?${h.url_token()}">${_("delete")}</a>
-		%endif
-		
-		${components.watch(c.proposal, '/proposal/%s' % str(c.proposal.id))}
-		<a href="/proposal/${c.proposal.id}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
 	</div>
 	<div style="clear: both;"></div>	
 </div>
 
 <div style="clear: both;"></div>
+ -->
+
+${tiles.proposal.header(c.proposal, c.tile, active='goal')} 
 
 <div class="sidebar">
 		%if c.tile.poll: 

@@ -52,6 +52,8 @@ def make_map():
                 conditions=dict(method=['POST']))
         
     map.connect('/issue/create', controller='issue', action='create')
+    map.connect('/issue/{id}/proposals', controller='issue', action='proposals')
+    map.connect('/issue/{id}/activity', controller='issue', action='activity')
     map.connect('/issue/{action}/{id}', controller='issue')
     map.connect('/issue/{id}.{format}', controller='issue', action='view')
     map.connect('/issue/{id}', controller='issue', action='view', format='html')
@@ -59,6 +61,7 @@ def make_map():
     map.connect('/proposal/create', controller='proposal', action='create')
     map.connect('/adopted', controller='proposal', action='adopted')
     map.connect('/proposal/{id}/votes', controller='proposal', action='votes')
+    map.connect('/proposal/{id}/activity', controller='proposal', action='activity')
     map.connect('/proposal/{action}/{id}', controller='proposal')
     map.connect('/proposal/{id}.{format}', controller='proposal', action='view')
     map.connect('/proposal/{id}', controller='proposal', action='view', format='html')

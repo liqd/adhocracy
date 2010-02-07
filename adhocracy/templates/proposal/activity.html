@@ -1,0 +1,19 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${c.proposal.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("Latest Events")}
+</%def>
+
+${tiles.proposal.header(c.proposal, c.tile, active='activity')}
+
+<div class="sidebar">
+	&nbsp;
+</div>
+
+<div class="mainbar">
+	<div id="events_table" class="table">
+		${c.events_pager.here()}
+	</div>	
+</div>

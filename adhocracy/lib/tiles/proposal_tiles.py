@@ -130,3 +130,9 @@ def list_item(proposal):
 
 def state_flag(state):
     return render_tile('/proposal/tiles.html', 'state_flag', None, state=state)
+
+def header(proposal, tile=None, active='goal'):
+    if tile is None:
+        tile = ProposalTile(proposal)
+    return render_tile('/proposal/tiles.html', 'header', tile, 
+                       proposal=proposal, active=active)

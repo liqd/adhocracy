@@ -86,7 +86,7 @@ class IssueController(BaseController):
             h.instance_url(c.instance, "/issue/%s.rss" % c.issue.id))
         
         c.tile = tiles.issue.IssueTile(c.issue)
-        c.proposals_pager = NamedPager('proposals', c.issue.proposals, tiles.proposal.row, count=10, #list_item,
+        c.proposals_pager = NamedPager('proposals', c.issue.proposals, tiles.proposal.row, #list_item,
                                      sorts={_("oldest"): sorting.entity_oldest,
                                             _("newest"): sorting.entity_newest,
                                             _("activity"): sorting.proposal_activity,
@@ -94,6 +94,30 @@ class IssueController(BaseController):
                                             _("name"): sorting.delegateable_label},
                                      default_sort=sorting.proposal_activity)
         return render("/issue/view.html")
+    
+    @RequireInstance
+    @ActionProtector(has_permission("issue.view"))
+    def activity(self, id, format='html'):
+        c.issue = get_entity_or_abort(model.Issue, id)
+        events = model.Event.find_by_topics([c.issue] + c.issue.proposals)
+        
+        c.tile = tiles.issue.IssueTile(c.issue)
+        c.events_pager = NamedPager('events', events, tiles.event.row, count=10)
+        return render("/issue/activity.html")
+    
+    @RequireInstance
+    @ActionProtector(has_permission("issue.view"))
+    def proposals(self, id, format="html"):
+        c.issue = get_entity_or_abort(model.Issue, id)
+        c.tile = tiles.issue.IssueTile(c.issue)
+        c.proposals_pager = NamedPager('proposals', c.issue.proposals, tiles.proposal.row,  #list_item,
+                             sorts={_("oldest"): sorting.entity_oldest,
+                                    _("newest"): sorting.entity_newest,
+                                    _("activity"): sorting.proposal_activity,
+                                    _("newest comment"): sorting.delegateable_latest_comment,
+                                    _("name"): sorting.delegateable_label},
+                             default_sort=sorting.proposal_activity)
+        return render("/issue/proposals.html")
     
     @RequireInstance
     @RequireInternalRequest()

@@ -1,3 +1,4 @@
+<%namespace name="components" file="/components.html"/>
 
 <%def name="row(tile, issue)">
 	<div class="tile">
@@ -23,6 +24,40 @@
 				${ungettext("%s comment", "%s comments", issue.comment_count()) % issue.comment_count()},
 				${_("latest <b>%s</b>") % h.relative_time(tile.latest_revision_time)|n}&nbsp;
 			</div>
+		</div>
+	</div>
+</%def>
+
+
+<%def name="header(tile, issue, active)">
+	<div class="top_actions title">
+		%if tile.can_create_proposal:
+			<a class="button add" href="/proposal/create?issue=${issue.id}">${_("new proposal")}</a>
+		%endif	
+		
+		%if tile.can_delegate and not tile.has_overridden:
+			<a class="button add" href="/delegation/new?scope=${issue.id}">${_("delegate")}</a>
+		%endif
+		
+		%if tile.can_edit:
+			<a class="button edit" href="/issue/edit/${issue.id}">${_("edit")}</a>
+		%endif
+					
+		%if tile.can_delete:
+			<a class="button delete" href="/issue/delete/${issue.id}?${h.url_token()}">${_("delete")}</a>
+		%endif
+		
+		${components.watch(issue, '/issue/%s' % str(issue.id))}
+		<a href="/issue/${issue.id}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
+	</div>
+	
+	<h1 class="page_title"><img src="/img/icons/issue_24.png" class="cd" /> ${issue.label}</h1>
+	
+	<div class="panel ${active}">
+		<div class="menu">
+			<a href="/issue/${issue.id}/activity" class="activity">${_("Activity")}</a>
+			<a href="/issue/${issue.id}" class="analysis">${_("Analysis")}</a>
+			<a href="/issue/${issue.id}/proposals" class="proposals">${_("Proposals")} (${len(issue.proposals)})</a>
 		</div>
 	</div>
 </%def>

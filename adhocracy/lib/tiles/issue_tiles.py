@@ -44,3 +44,9 @@ class IssueTile(DelegateableTile):
 
 def row(issue):
     return render_tile('/issue/tiles.html', 'row', IssueTile(issue), issue=issue, cached=True)
+
+def header(issue, tile=None, active='goal'):
+    if tile is None:
+        tile = IssueTile(issue)
+    return render_tile('/issue/tiles.html', 'header', tile, 
+                       issue=issue, active=active)

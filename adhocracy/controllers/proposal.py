@@ -242,6 +242,16 @@ class ProposalController(BaseController):
         c.issue_tile = tiles.issue.IssueTile(c.proposal.issue)
         
         return render("/proposal/view.html")
+
+    @RequireInstance
+    @ActionProtector(has_permission("proposal.view"))
+    def activity(self, id, format='html'):
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        events = model.Event.find_by_topic(c.proposal)
+        
+        c.tile = tiles.proposal.ProposalTile(c.proposal)
+        c.events_pager = NamedPager('events', events, tiles.event.row, count=10)
+        return render("/proposal/activity.html")
     
     @RequireInstance
     @RequireInternalRequest()

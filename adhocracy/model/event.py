@@ -101,6 +101,22 @@ class Event(Base):
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))
             return None
+        
+    @classmethod
+    def find_by_topics(cls, topics):
+        from delegateable import Delegateable
+        topics = map(lambda d: d.id, topics)
+        q = meta.Session.query(Event)
+        q = q.join(Event.topics)
+        q = q.filter(Delegateable.id.in_(topics))
+        q = q.order_by(Event.time.desc())
+        if ifilter.has_instance():
+            q = q.filter(Event.instance_id==ifilter.get_instance().id)
+        return q.all()
+    
+    @classmethod
+    def find_by_topic(cls, topic):
+        return Event.find_by_topics([topic])
     
     def to_dict(self):
         d = dict(id=self.id,
