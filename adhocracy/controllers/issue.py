@@ -85,8 +85,14 @@ class IssueController(BaseController):
         h.add_rss(_("Issue: %(issue)s") % {'issue': c.issue.label}, 
             h.instance_url(c.instance, "/issue/%s.rss" % c.issue.id))
         
+        return self.proposals(id, format)
+    
+    @RequireInstance
+    @ActionProtector(has_permission("issue.view"))
+    def discussion(self, id, format='html'):
+        c.issue = get_entity_or_abort(model.Issue, id)
         c.tile = tiles.issue.IssueTile(c.issue)
-        return render("/issue/view.html")
+        return render("/issue/discussion.html")
     
     @RequireInstance
     @ActionProtector(has_permission("issue.view"))

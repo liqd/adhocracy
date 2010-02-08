@@ -2,11 +2,13 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 
-<%def name="title()">${c.issue.label}</%def>
+<%def name="title()">${_("Discussion: %s") % c.issue.label}</%def>
 
-<%def name="breadcrumbs()">${h.breadcrumbs(c.issue)|n}</%def>
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.issue)|n} &raquo; ${_("Discussion")}
+</%def>
 
-${tiles.issue.header(c.issue, c.tile, active='analysis')}
+${tiles.issue.header(c.issue, c.tile, active='discussion')}
 
 %if c.issue.comment:
 	${tiles.comment.full(c.issue.comment, recurse=False, collapse=False)}

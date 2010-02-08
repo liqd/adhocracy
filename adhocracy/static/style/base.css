@@ -936,7 +936,7 @@ table.delegations td .hint {
 }
 
 table.delegations th { 
-	border-bottom: 1px solid #aaa;
+	border-bottom: 1px solid #ddd;
 	font-size: 1.1em;
 }
 
@@ -1427,7 +1427,7 @@ a.button.inactive {
 .panel.goal a.goal,
 .panel.votes a.votes,
 .panel.users a.users,
-.panel.analysis a.analysis,
+.panel.discussion a.discussion,
 .panel.instances a.instances {
 	border-top: 1px solid #bbb;
 	border-left: 1px solid #bbb;

@@ -53,6 +53,7 @@ def make_map():
         
     map.connect('/issue/create', controller='issue', action='create')
     map.connect('/issue/{id}/proposals', controller='issue', action='proposals')
+    map.connect('/issue/{id}/discussion', controller='issue', action='discussion')
     map.connect('/issue/{id}/activity', controller='issue', action='activity')
     map.connect('/issue/{id}/delegations', controller='issue', action='delegations')
     map.connect('/issue/{action}/{id}', controller='issue')
