@@ -116,15 +116,15 @@
 		<div class="menu">
 			<a href="/proposal/${proposal.id}/activity" class="activity">${_("Activity")}</a>
 			<a href="/proposal/${proposal.id}" class="goal">${_("Goal")}</a>
-			<a href="/proposal/${proposal.id}/provisions" class="provisions">${_("Implementation")} (N)</a>
+			<a href="/proposal/${proposal.id}/canonicals" class="canonicals">${_("Implementation")} (${len(proposal.canonicals)})</a>
 			%if tile.poll:
 				<a href="/poll/${tile.poll.id}/votes" class="votes">${_("Votes")} (${len(tile.state.tally)})</a>
 			%endif
 			<a href="/proposal/${proposal.id}/delegations" class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a>
 		</div>
 		<div class="meta">
-			${h.user_link(c.proposal.creator, scope=c.proposal)|n} 
-			${h.relative_time(c.proposal.create_time)|n}
+			${h.user_link(proposal.creator, scope=proposal)|n} 
+			${h.relative_time(proposal.create_time)|n}
 		</div>
 		<div class="description">
 			${proposal.comment.latest.text}

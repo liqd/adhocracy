@@ -95,7 +95,7 @@ class IssueController(BaseController):
         events = model.Event.find_by_topics([c.issue] + c.issue.proposals)
         
         c.tile = tiles.issue.IssueTile(c.issue)
-        c.events_pager = NamedPager('events', events, tiles.event.row, count=10)
+        c.events_pager = pager.events(events)
         return render("/issue/activity.html")
     
     @RequireInstance

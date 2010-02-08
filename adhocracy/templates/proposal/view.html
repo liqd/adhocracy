@@ -22,29 +22,6 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 	%if c.proposal.comment:
 		${tiles.comment.full(c.proposal.comment, recurse=False, collapse=False)}
 	%endif
-	
-	<div class="top_actions">
-		%if c.tile.can_create_canonical:
-			<a class="button add" onclick="return add_canonical()" href="/comment/create?topic=${c.proposal.id}&canonical=1">${_("new")}</a>
-		%endif
-	</div>
-	
-	<h2><img src="/img/icons/proposal_20.png" class="cd" /> ${_("Provisions")}</h2>
-	%if not c.tile.has_canonicals:
-		<span class="infobox">${_("<b>Provisions</b> are the body of a proposal: together they form the language that will be voted upon. You will need to have at least one clause in order to call for a vote.")|n}</span>
-	%endif
-	
-	<div class="add_canonical comment">
-		${comment_tiles.create_form(None, c.proposal, canonical=1)}
-	</div>
-	
-	%for canonical in c.proposal.canonicals:
-		${tiles.comment.full(canonical, recurse=False, collapse=False, link_discussion=True)}
-	%endfor
-</div>
-
-	<div style="clear: both;"></div>
-	<h2><img src="/img/icons/discuss_20.png" class="cd" /> ${_("Discussion")}</h2>
 	%if c.tile.comment_tile.can_reply:
 		<div class="comment">
 			${comment_tiles.create_form(c.proposal.comment, c.proposal)}
@@ -56,4 +33,5 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 	%endif
 	%for (reply, r_tile) in c.tile.comment_tile.replies():
 		${tiles.comment.full(reply, recurse=True)}
-	%endfor
+	%endfor	
+</div>

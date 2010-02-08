@@ -64,6 +64,7 @@ def make_map():
     map.connect('/proposal/{id}/votes', controller='proposal', action='votes')
     map.connect('/proposal/{id}/activity', controller='proposal', action='activity')
     map.connect('/proposal/{id}/delegations', controller='proposal', action='delegations')
+    map.connect('/proposal/{id}/canonicals', controller='proposal', action='canonicals')
     map.connect('/proposal/{action}/{id}', controller='proposal')
     map.connect('/proposal/{id}.{format}', controller='proposal', action='view')
     map.connect('/proposal/{id}', controller='proposal', action='view', format='html')

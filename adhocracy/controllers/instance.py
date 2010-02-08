@@ -104,7 +104,7 @@ class InstanceController(BaseController):
         query = query.limit(100)
         
         c.tile = tiles.instance.InstanceTile(c.page_instance)
-        c.events_pager = NamedPager('events', query.all(), tiles.event.row, count=10)
+        c.events_pager = pager.events(query.all())
         return render("/instance/activity.html")
             
     @RequireInternalRequest(methods=['POST'])

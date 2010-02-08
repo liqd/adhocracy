@@ -255,6 +255,13 @@ class ProposalController(BaseController):
         c.tile = tiles.proposal.ProposalTile(c.proposal)
         c.delegations_pager = pager.delegations(delegations)
         return render("/proposal/delegations.html")
+    
+    @RequireInstance
+    @ActionProtector(has_permission("proposal.view"))
+    def canonicals(self, id, format='html'):
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        c.tile = tiles.proposal.ProposalTile(c.proposal)
+        return render("/proposal/canonicals.html")
 
     @RequireInstance
     @ActionProtector(has_permission("proposal.view"))
@@ -263,7 +270,7 @@ class ProposalController(BaseController):
         events = model.Event.find_by_topic(c.proposal)
         
         c.tile = tiles.proposal.ProposalTile(c.proposal)
-        c.events_pager = NamedPager('events', events, tiles.event.row, count=10)
+        c.events_pager = pager.events(events)
         return render("/proposal/activity.html")
     
     @RequireInstance

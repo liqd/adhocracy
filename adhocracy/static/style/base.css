@@ -1415,6 +1415,7 @@ a.button.inactive {
 .panel.votes a.votes,
 .panel.delegations a.delegations,
 .panel.proposals a.proposals,
+.panel.canonicals a.canonicals,
 .panel.comments a.comments,
 .panel.adopted a.adopted,
 .panel.goal a.goal,

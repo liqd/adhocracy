@@ -141,3 +141,6 @@ def delegations(delegations):
                       sorts={_("oldest"): sorting.entity_oldest,
                              _("newest"): sorting.entity_newest},
                       default_sort=sorting.entity_newest)
+    
+def events(events):
+    return NamedPager('events', events, tiles.event.row, count=10)
