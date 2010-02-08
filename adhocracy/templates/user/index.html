@@ -6,13 +6,17 @@
 	${h.breadcrumbs(c.instance if c.instance else None)|n} &raquo; ${_("Users")}
 </%def>
 
-<h1 class="page_title">
-	<img class="cd" src="/img/icons/user_24.png" />
-	${_("Users in %s") % c.instance.label if c.instance else _("Users")}
-</h1>
+%if c.instance:
+	${tiles.instance.header(c.instance, active='users')}
+%else:
+	<h1 class="page_title">
+		<img class="cd" src="/img/icons/user_24.png" />
+		${_("Users")}
+	</h1>
+%endif
 
 <div class="sidebar">
-	
+	&nbsp;
 </div>
 
 <div class="mainbar">

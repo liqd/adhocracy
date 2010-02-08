@@ -57,11 +57,11 @@ class Instance(Base):
     key = synonym('_key', descriptor=property(_get_key,
                                               _set_key))
     
+    def current_memberships(self):
+        return [m for m in self.memberships if not m.is_expired()]
+    
     def _get_members(self):
-        members = []
-        for membership in self.memberships:
-            if not membership.expire_time:
-                members.append(membership.user)
+        members = self.current_memberships()
         global_membership = model.Permission.by_code('global.member')
         for group in global_membership.groups:
             for membership in group.memberships:

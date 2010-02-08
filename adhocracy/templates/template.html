@@ -91,7 +91,11 @@
 					<li><a href="/admin/permissions">${_("Admin")}</a></li>
 				%endif
 				<li><a href="/adhocracies">${_("Adhocracies")}</a></li>
-				<li><a href="/user">${_("Users")}</a></li>
+				%if c.instance:
+					<li><a href="/user">${_("Members")}</a></li>
+				%else:
+					<li><a href="/user">${_("All Users")}</a></li>
+				%endif
 			</ul>
 			
 			<label id="searchlabel" for="serp_q" class="armhint">${_("Search")}</label>

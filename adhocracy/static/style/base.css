@@ -1419,6 +1419,7 @@ a.button.inactive {
 .panel.adopted a.adopted,
 .panel.goal a.goal,
 .panel.votes a.votes,
+.panel.users a.users,
 .panel.analysis a.analysis,
 .panel.instances a.instances {
 	border-top: 1px solid #bbb;
