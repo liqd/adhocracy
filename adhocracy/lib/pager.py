@@ -24,7 +24,7 @@ class NamedPager(object):
             if not i in self._items:
                 self._items.append(i) 
         self.itemfunc = itemfunc
-        self.count = count
+        self.count = self.initial_count = count
         self.sorts = sorts
         if len(sorts.values()):
             self.selected_sort = sorts.values().index(default_sort) + 1
@@ -105,7 +105,7 @@ def issues(issues, has_query=False):
                       default_sort=sorting.entity_stable if has_query else sorting.issue_activity)
     
 def proposals(proposals):
-    return NamedPager('proposals', c.issue.proposals, tiles.proposal.row,
+    return NamedPager('proposals', proposals, tiles.proposal.row,
                       sorts={_("oldest"): sorting.entity_oldest,
                              _("newest"): sorting.entity_newest,
                              _("activity"): sorting.proposal_activity,

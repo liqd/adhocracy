@@ -60,5 +60,11 @@
 			<a href="/issue/${issue.id}" class="analysis">${_("Discussion")} (${issue.comment_count(recurse=False)})</a>
 			<a href="/issue/${issue.id}/delegations" class="delegations">${_("Delegations")} (${len(issue.current_delegations())})</a>
 		</div>
+		<div class="info">
+			<div class="meta">
+				${h.user_link(issue.creator, scope=issue)|n} 
+				&middot; ${h.relative_time(issue.create_time)|n}
+			</div>
+		</div>
 	</div>
 </%def>

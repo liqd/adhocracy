@@ -8,6 +8,7 @@ from .. import helpers as h
 from .. import text
 from .. import authorization as auth
 from .. import sorting
+from .. import karma
 
 from delegateable_tiles import DelegateableTile
 from comment_tiles import CommentTile
@@ -115,6 +116,18 @@ class ProposalTile(DelegateableTile):
         return self.__comment_tile
     
     comment_tile = property(_comment_tile)
+    
+    def _support(self):
+        return karma.comment_score(self.proposal.comment, recurse=False)
+    
+    support = property(_support)
+
+    def _position(self):
+        if not c.user:
+            return 0
+        return karma.position(c.user, self.proposal.comment)
+    
+    position = property(_position)
 
 
 def row(proposal, detail=False):

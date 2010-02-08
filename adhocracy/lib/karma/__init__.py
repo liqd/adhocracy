@@ -14,10 +14,9 @@ def position(comment, user):
     q = model.meta.Session.query(model.Karma.value)
     q = q.filter(model.Karma.comment==comment)
     q = q.filter(model.Karma.donor==user)
-    try:
-        return q.one()[0]
-    except NoResultFound:
-        return None
+    row = q.limit(1).first()
+    if row:
+        return row[0]
 
 def comment_score(comment, recurse=False):
     score = 0 

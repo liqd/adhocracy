@@ -47,9 +47,9 @@ class Karma(Base):
     @classmethod
     def find_by_user_and_comment(cls, user, comment):
         try:
-            q = meta.Session.query(model.Karma)
-            q = q.filter(model.Karma.comment==comment)
-            q = q.filter(model.Karma.donor==user)
+            q = meta.Session.query(Karma)
+            q = q.filter(Karma.comment==comment)
+            q = q.filter(Karma.donor==user)
             return q.one()
         except Exception, e: 
             log.exception("find(%s:%s): %s" % (user.user_name, comment.id, e))

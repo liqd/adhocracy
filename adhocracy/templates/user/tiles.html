@@ -58,12 +58,13 @@
 			<a href="/user/${user.user_name}/instances" class="instances">${_("Adhocracies")} (${len(user.instances)})</a>
 		</div>
 		
-		<div class="meta">
-		%if c.page_user.is_member(c.instance):
-			${"%(group)s in %(instance)s" % dict(group=_(tile.instance_group.group_name), instance=c.instance.label)}
-			&middot; 
-		%endif
-			${_("signed up %s") % h.relative_time(user.create_time)|n}
+		<div class="info">
+			<div class="meta">
+				${_("signed up %s") % h.relative_time(user.create_time)|n}
+			</div>
+			%if c.page_user.is_member(c.instance):
+				${"%(group)s in %(instance)s" % dict(group=_(tile.instance_group.group_name), instance=c.instance.label)}
+			%endif
 		</div>
 		
 		%if tile.bio:

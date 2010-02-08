@@ -20,22 +20,18 @@ ${tiles.proposal.header(c.proposal, c.tile, active='canonicals')}
 		${components.delegation_sidebar(c.proposal)}
 	</div>
 </div>
-
 <div class="mainbar">
-	<div class="top_actions">
-		%if c.tile.can_create_canonical:
-			<a class="button add" onclick="return add_canonical()" href="/comment/create?topic=${c.proposal.id}&canonical=1">${_("new")}</a>
-		%endif
-	</div>
 	%if not c.tile.has_canonicals:
 		<span class="infobox">${_("<b>Provisions</b> are the body of a proposal: together they form the language that will be voted upon. You will need to have at least one clause in order to call for a vote.")|n}</span>
 	%endif
 	
-	<div class="add_canonical comment">
-		${comment_tiles.create_form(None, c.proposal, canonical=1)}
-	</div>
-	
 	%for canonical in c.proposal.canonicals:
 		${tiles.comment.full(canonical, recurse=False, collapse=False, link_discussion=True)}
 	%endfor
+	
+	%if c.tile.can_create_canonical:
+	<div class="comment">
+		${comment_tiles.create_form(None, c.proposal, canonical=1)}
+	</div>
+	%endif
 </div>

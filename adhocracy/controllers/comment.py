@@ -42,7 +42,6 @@ class CommentController(BaseController):
     @validate(schema=CommentCreateForm(), form="new", post_only=True)
     def create(self):
         canonical = self.form_result.get('canonical')
-        print "CCC", canonical, "FOO", request.params.get('canonical')
         topic = self.form_result.get('topic')
         if canonical and not isinstance(topic, model.Proposal):
             abort(400, _("Trying to create a provision on an issue"))
@@ -140,9 +139,9 @@ class CommentController(BaseController):
     
     def _redirect(self, comment):
         path = None 
-        if isinstance(c.comment.topic, model.Issue):
+        if isinstance(comment.topic, model.Issue):
             path = "/issue/%s#c%s" % (comment.topic.id, comment.id)
-        elif isinstance(c.comment.topic, model.Proposal):
+        elif isinstance(comment.topic, model.Proposal):
             path = "/proposal/%s#c%s" % (comment.topic.id, comment.id)
         else:
             abort(500, _("Unsupported topic type."))

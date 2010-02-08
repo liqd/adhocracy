@@ -48,7 +48,7 @@
 		</div>
 	</div>
 	<div class="pager_sorts bottom">
-		%for count in range(10, 31, 5):
+		%for count in range(pager.initial_count, (pager.initial_count*3)+1, pager.initial_count/2):
 			<a class="${'selected' if count == pager.count else ''}" 
 				href="${pager.serialize(count=count)}">${count}</a> |
 		%endfor

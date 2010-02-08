@@ -1106,7 +1106,7 @@ a.button.inactive {
 	border: 0px;
 	background-image: none;
 	min-height: 30px;
-	margin-top: 7px;	
+	padding-top: 7px;	
 	max-width: 600px;
 }
 
@@ -1194,10 +1194,15 @@ a.button.inactive {
 
 .comment .text {
 	padding: 0.3em 0.2em 0em 0.2em;
-	background-image: url(/img/comment_bg.png);
+	/*background-image: url(/img/comment_bg.png);
 	background-repeat: repeat-x;
 	background-position: bottom;
-	border-bottom: 2px solid #eee;
+	border-bottom: 2px solid #eee;*/
+}
+
+.comment .text:last-child {
+	margin-bottom: 0em;
+	padding-bottom: 0em;
 }
 
 .comment .sub {
@@ -1208,6 +1213,7 @@ a.button.inactive {
 	font-size: 0.8em;
 	padding-bottom: 0.6em;
 	color:  #666;
+	font-weight: bold;
 }
 
 
@@ -1376,7 +1382,7 @@ a.button.inactive {
 }
 
 .panel .menu,
-.panel .meta {
+.panel .info {
 	display: block;
 	background-color: #e9e9e9;
 	background-image: url(/img/tile_bg.png);
@@ -1432,13 +1438,22 @@ a.button.inactive {
 	text-decoration: none;
 }
 
-.panel .meta {
-	text-align: right;
+.panel .info {
 	background-color: #f3f3f3;
 	border-top: 1px solid #fff;
 	padding: 0.7em 1em 0.7em 1em;
 	font-size: 0.8em;
 	color: #666;
+	overflow: hidden;
+	position: relative;
+}
+
+.panel .info .meta {
+	float: right;
+}
+
+.panel .info img {
+	margin-bottom: -3px !important;
 }
 
 .panel .description {
@@ -1447,4 +1462,16 @@ a.button.inactive {
 	padding: 0.7em;
 	padding-left: 0.9em;
 	padding-right: 0.9em;
+}
+
+.panel .description .pre {
+	display: block;
+	float: right;
+	padding-left: 2em;
+	padding-bottom: 1em;
+}
+
+.panel .description:last-child {
+	padding-bottom: 0px;
+	margin-bottom: 0px;
 }

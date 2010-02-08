@@ -1,7 +1,7 @@
 from pylons import response, tmpl_context as c
 
 from .. import helpers as h
-from .. import templating
+from .. import pager
 import formatting
 
 
@@ -17,6 +17,7 @@ def rss_feed(events, name, link, description):
                                                 formatting.as_html(event))),
                          author_name=event.user.name,
                          unique_id=unicode(event.id))
+        
         response.content_type = 'application/rss+xml'
-        templating.NamedPager('rss', events, event_item, count=50).here()
+        pager.NamedPager('rss', events, event_item, count=50).here()
         return rss.writeString('utf-8')
