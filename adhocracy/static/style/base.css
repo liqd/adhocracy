@@ -347,7 +347,7 @@ body {
 }
 
 #header #account a {
-	font-weight: bold;
+	font-weight: normal;
 	color: #fff;
 	text-transform: lowercase;
 }
@@ -642,7 +642,6 @@ h4 img.cd,
 	padding-top: 0.1em;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 0.3em;
-	
 }
 
 
@@ -997,7 +996,7 @@ table.delegations th {
 
 a.button {
 	font-size: 0.9em;
-	padding: 0.4em 0.6em 0.45em 0.6em;
+	padding: 0.35em 0.6em 0.45em 0.5em;
 	min-width: 2em;
 	display: inline-block;
 	text-align: center;
@@ -1006,10 +1005,12 @@ a.button {
 	margin-right: 4px !important;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
-	font-weight: bold;
+	font-weight: normal;
 	background-image: url(/img/menu_bg.png);
 	background-repeat: repeat-x;
 	background-position: top;
+	border-top: 1px solid #777;
+	border-left: 1px solid #777;
 }
 
 .button img {
