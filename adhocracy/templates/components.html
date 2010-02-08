@@ -52,7 +52,7 @@
 					${_("You have voted yourself and not delegated voting.")}
 				%else:
 					${_("You have not delegated voting.")} 
-					<a href="/delegation/create?scope=${delegateable.id}">${_("delegate")}</a>
+					<a href="/delegation/new?scope=${delegateable.id}">${_("delegate")}</a>
 				%endif 
 			%else:
 				%if c.tile.has_overridden:
