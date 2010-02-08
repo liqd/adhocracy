@@ -253,10 +253,7 @@ class ProposalController(BaseController):
             return render_json(list(delegations))
         
         c.tile = tiles.proposal.ProposalTile(c.proposal)
-        c.delegations_pager = NamedPager('delegations', delegations, tiles.delegation.row,  #list_item,
-                             sorts={_("oldest"): sorting.entity_oldest,
-                                    _("newest"): sorting.entity_newest},
-                             default_sort=sorting.entity_newest)
+        c.delegations_pager = pager.delegations(delegations)
         return render("/proposal/delegations.html")
 
     @RequireInstance

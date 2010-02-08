@@ -26,7 +26,8 @@ from repoze.what.plugins.pylonshq import ActionProtector
 from cache import memoize
 from instance import RequireInstance
 from xsrf import RequireInternalRequest
-from templating import render, render_json, NamedPager
+from templating import render, render_json
+from pager import NamedPager
 from static import StaticPage
 from util import get_entity_or_abort
 import adhocracy.model as model
@@ -38,6 +39,7 @@ import tiles
 import sorting
 import watchlist
 import rest
+import pager
 import text.i18n as i18n
 
 log = logging.getLogger(__name__)

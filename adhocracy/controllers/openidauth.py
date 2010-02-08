@@ -36,11 +36,8 @@ class OpenidauthController(BaseController):
                                  openid_identity=identity)
         # trust provided email:
         user.activation_code = None
-        
         model.meta.Session.commit()
-        
         event.emit(event.T_USER_CREATE, user)
-        
         return user
 
     def _login(self, user):
@@ -209,4 +206,4 @@ class OpenidauthController(BaseController):
                     self._login(user)
             return render('/openid/username.html')
         else:
-            redirect_to('/auth/login')
+            redirect_to('/register')

@@ -73,15 +73,7 @@ class UserController(BaseController):
         if format == 'json':
             return render_json(c.users)
         
-        sorts={_("oldest"): sorting.entity_oldest,
-               _("newest"): sorting.entity_newest,
-               _("activity"): sorting.user_activity,
-               _("name"): sorting.user_name}
-        if query:
-            sorts[_("relevance")] = sorting.entity_stable
-                
-        c.users_pager = NamedPager('users', c.users, tiles.user.row, sorts=sorts,
-                                   default_sort=sorting.entity_stable if query else sorting.user_activity)
+        c.users_pager = pager.users(c.users, has_query=query is not None)
         return render("/user/index.html")
     
     
@@ -309,10 +301,7 @@ class UserController(BaseController):
         if format == 'json':
             return render_json(list(decisions))
         
-        c.decisions_pager = NamedPager('decisions', decisions, tiles.decision.user_row, 
-                                    sorts={_("oldest"): sorting.entity_oldest,
-                                           _("newest"): sorting.entity_newest},
-                                    default_sort=sorting.entity_newest)
+        c.decisions_pager = pager.decisions(decisions)
         return render("/user/votes.html")
     
     
@@ -337,12 +326,7 @@ class UserController(BaseController):
         if format == 'json':
             return render_json(list(c.page_user.instances))
         
-        c.instances_pager = NamedPager('instances', c.page_user.instances, tiles.instance.row,
-                                       sorts={_("oldest"): sorting.entity_oldest,
-                                              _("newest"): sorting.entity_newest,
-                                              _("activity"): sorting.instance_activity,
-                                              _("name"): sorting.delegateable_label},
-                                       default_sort=sorting.instance_activity)
+        c.instances_pager = pager.instances(c.page_user.instances)
         return render("/user/instances.html")
     
         
@@ -355,13 +339,7 @@ class UserController(BaseController):
         if format == 'json':
             return render_json(list(issues))
 
-        c.issues_pager = NamedPager('issues', issues, tiles.issue.row, count=10, #list_item,
-                             sorts={_("oldest"): sorting.entity_oldest,
-                                    _("newest"): sorting.entity_newest,
-                                    _("activity"): sorting.issue_activity,
-                                    _("newest comment"): sorting.delegateable_latest_comment,
-                                    _("name"): sorting.delegateable_label},
-                             default_sort=sorting.issue_activity)
+        c.issues_pager = pager.issues(issues)
         return render("/user/issues.html")
     
         
@@ -374,13 +352,7 @@ class UserController(BaseController):
         if format == 'json':
             return render_json(list(proposals))
 
-        c.proposals_pager = NamedPager('proposals', proposals, tiles.proposal.row, count=10, #list_item,
-                             sorts={_("oldest"): sorting.entity_oldest,
-                                    _("newest"): sorting.entity_newest,
-                                    _("activity"): sorting.proposal_activity,
-                                    _("newest comment"): sorting.delegateable_latest_comment,
-                                    _("name"): sorting.delegateable_label},
-                             default_sort=sorting.proposal_activity)
+        c.proposals_pager = pager.proposals(proposals)
         return render("/user/proposals.html")
     
         
@@ -394,10 +366,7 @@ class UserController(BaseController):
         if format == 'json':
             return render_json(list(comments))
         
-        c.comments_pager = NamedPager('comments', comments, tiles.comment.row,
-                                       sorts={_("oldest"): sorting.entity_oldest,
-                                              _("newest"): sorting.entity_newest},
-                                       default_sort=sorting.entity_newest)
+        c.comments_pager = pager.comments(comments)
         return render("/user/comments.html")
     
     
@@ -460,16 +429,11 @@ class UserController(BaseController):
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def filter(self):
         query = self.form_result.get('users_q')
+        if query is None: query = ''
         users = libsearch.query.run(query + "*", entity_type=model.User)
         if c.instance:
             users = filter(lambda u: u.is_member(c.instance), users)
-        c.users_pager = NamedPager('users', users, tiles.user.row,
-                                    sorts={_("oldest"): sorting.entity_oldest,
-                                           _("newest"): sorting.entity_newest,
-                                           _("activity"): sorting.user_activity,
-                                           _("relevance"): sorting.entity_stable,
-                                           _("name"): sorting.user_name},
-                                    default_sort=sorting.entity_stable)
+        c.users_pager = pager.users(users, has_query=True)
         return c.users_pager.here()
     
     

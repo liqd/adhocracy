@@ -618,6 +618,7 @@ h3 a:hover {
 h1.page_title {
 	margin-top: 0.5em;
 	border-bottom: 0px;
+	/*display: block;*/
 }
 
 h1 img.cd, 

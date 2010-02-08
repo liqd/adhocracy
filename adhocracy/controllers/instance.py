@@ -43,12 +43,7 @@ class InstanceController(BaseController):
                                     "Select which ones you would like to join and participate in!"))
         
         instances = model.Instance.all()
-        c.instances_pager = NamedPager('instances', instances, tiles.instance.row,
-                                       sorts={_("oldest"): sorting.entity_oldest,
-                                              _("newest"): sorting.entity_newest,
-                                              _("activity"): sorting.instance_activity,
-                                              _("name"): sorting.delegateable_label},
-                                       default_sort=sorting.instance_activity)
+        c.instances_pager = pager.instances(instances)
         return render("/instance/index.html")  
     
     @RequireInternalRequest(methods=['POST'])
@@ -95,18 +90,7 @@ class InstanceController(BaseController):
         #c.events_pager = NamedPager('events', events, tiles.event.list_item, count=20)
         
         c.tile = tiles.instance.InstanceTile(c.page_instance)
-        
-        sorts = {_("oldest"): sorting.entity_oldest,
-                 _("newest"): sorting.entity_newest,
-                 _("activity"): sorting.issue_activity,
-                 _("newest comment"): sorting.delegateable_latest_comment,
-                 _("name"): sorting.delegateable_label}
-        if query:
-            sorts[_("relevance")] = sorting.entity_stable
-        
-        c.issues_pager = NamedPager('issues', issues, tiles.issue.row, sorts=sorts,
-                                    default_sort=sorting.entity_stable if query else sorting.issue_activity)
-
+        c.issues_pager = pager.issues(issues, has_query=query is not None)
         return render("/instance/view.html")
     
     @RequireInstance
@@ -212,7 +196,8 @@ class InstanceController(BaseController):
         model.meta.Session.add(membership)
         model.meta.Session.commit()
         
-        event.emit(event.T_INSTANCE_JOIN, c.user, instance=c.page_instance)
+        event.emit(event.T_INSTANCE_JOIN, c.user, 
+                   instance=c.page_instance)
         
         h.flash(_("Welcome to %(instance)s") % {
                         'instance': c.page_instance.label})
@@ -229,18 +214,17 @@ class InstanceController(BaseController):
             h.flash(_("You're the founder of %s, cannot leave.") % {
                             'instance': c.page_instance.label})
         else:
-            t = datetime.utcnow()
-            
             for membership in c.user.memberships:
-                if membership.expire_time:
+                if membership.is_expired():
                     continue
                 if membership.instance == c.page_instance:
-                    membership.expire_time = t
+                    membership.expire()
                     model.meta.Session.add(membership)
                     
                     democracy.DelegationNode.detach(c.user, c.page_instance)
                     
-                    event.emit(event.T_INSTANCE_LEAVE,  c.user, instance=c.page_instance)
+                    event.emit(event.T_INSTANCE_LEAVE,  c.user, 
+                               instance=c.page_instance)
             model.meta.Session.commit()
         redirect_to('/adhocracies')
         
@@ -248,15 +232,10 @@ class InstanceController(BaseController):
     @validate(schema=InstanceFilterForm(), post_only=False, on_get=True)
     def filter(self, key):
         c.page_instance = get_entity_or_abort(model.Instance, key)
-        query = self.form_result.get('issues_q', '')
+        query = self.form_result.get('issues_q')
+        if query is None: query = ''
         issues = libsearch.query.run(query + "*", instance=c.page_instance, 
                                      entity_type=model.Issue)
-        c.issues_pager = NamedPager('issues', issues, tiles.issue.row, 
-                                    sorts={_("oldest"): sorting.entity_oldest,
-                                           _("newest"): sorting.entity_newest,
-                                           _("activity"): sorting.issue_activity,
-                                           _("relevance"): sorting.entity_stable,
-                                           _("name"): sorting.delegateable_label},
-                                    default_sort=sorting.entity_stable)
+        c.issues_pager = pager.issues(issues, has_query=True)
         return c.issues_pager.here()
 

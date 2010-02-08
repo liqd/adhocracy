@@ -86,13 +86,6 @@ class IssueController(BaseController):
             h.instance_url(c.instance, "/issue/%s.rss" % c.issue.id))
         
         c.tile = tiles.issue.IssueTile(c.issue)
-        c.proposals_pager = NamedPager('proposals', c.issue.proposals, tiles.proposal.row, #list_item,
-                                     sorts={_("oldest"): sorting.entity_oldest,
-                                            _("newest"): sorting.entity_newest,
-                                            _("activity"): sorting.proposal_activity,
-                                            _("newest comment"): sorting.delegateable_latest_comment,
-                                            _("name"): sorting.delegateable_label},
-                                     default_sort=sorting.proposal_activity)
         return render("/issue/view.html")
     
     @RequireInstance
@@ -110,13 +103,7 @@ class IssueController(BaseController):
     def proposals(self, id, format="html"):
         c.issue = get_entity_or_abort(model.Issue, id)
         c.tile = tiles.issue.IssueTile(c.issue)
-        c.proposals_pager = NamedPager('proposals', c.issue.proposals, tiles.proposal.row,  #list_item,
-                             sorts={_("oldest"): sorting.entity_oldest,
-                                    _("newest"): sorting.entity_newest,
-                                    _("activity"): sorting.proposal_activity,
-                                    _("newest comment"): sorting.delegateable_latest_comment,
-                                    _("name"): sorting.delegateable_label},
-                             default_sort=sorting.proposal_activity)
+        c.proposals_pager = pager.proposals(c.issue.proposals)
         return render("/issue/proposals.html")
     
     @RequireInstance
@@ -129,10 +116,7 @@ class IssueController(BaseController):
             return render_json(list(delegations))
         
         c.tile = tiles.issue.IssueTile(c.issue)
-        c.delegations_pager = NamedPager('delegations', delegations, tiles.delegation.row,  #list_item,
-                             sorts={_("oldest"): sorting.entity_oldest,
-                                    _("newest"): sorting.entity_newest},
-                             default_sort=sorting.entity_newest)
+        c.delegations_pager = pager.delegations(delegations)
         return render("/issue/delegations.html")
     
     @RequireInstance
