@@ -128,18 +128,6 @@
 				&middot; ${h.relative_time(proposal.create_time)|n}
 				&middot; ${_("in %s") % h.delegateable_link(proposal.issue)|n}
 			</div>
-			<div id="support">
-				<b>${tile.support}</b>
-				${_("net support")}
-				%if tile.position == 1:
-					<a href="/karma/give?comment=${proposal.comment.id}&value=-1" class="button edit">${_("retract support")}</a>
-				%elif tile.position == -1:
-					<a href="/karma/give?comment=${proposal.comment.id}&value=-1" class="button edit">${_("retract opposition")}</a>
-				%else:
-					<a href="/karma/give?comment=${proposal.comment.id}&value=1" class="button add">${_("support")}</a>
-					<a href="/karma/give?comment=${proposal.comment.id}&value=-1" class="button delete">${_("oppose")}</a>
-				%endif
-			</div>
 		</div>
 	</div>
 </%def>
