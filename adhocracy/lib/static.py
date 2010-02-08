@@ -7,6 +7,7 @@ from pylons import tmpl_context as c
 from BeautifulSoup import BeautifulSoup
 
 import util
+import text
 
 class StaticPage(object):
     VALID_PAGE = re.compile("^[a-zA-Z0-9\_\-]*$")

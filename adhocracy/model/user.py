@@ -160,11 +160,17 @@ class User(Base):
         hashed_pass = hashlib.sha1(password + self.password[:40])
         return self.password[40:] == hashed_pass.hexdigest()
     
-    def current_agencies(self):
-        return filter(lambda d: not d.is_revoked(), self.agencies)
+    def current_agencies(self, instance_filter=True):
+        ds = filter(lambda d: not d.is_revoked(), self.agencies)
+        if ifilter.has_instance() and instance_filter:
+            ds = filter(lambda d: d.scope.instance == ifilter.get_instance(), ds)
+        return ds
     
-    def current_delegated(self):
-        return filter(lambda d: not d.is_revoked(), self.delegated)
+    def current_delegated(self, instance_filter=True):
+        ds = filter(lambda d: not d.is_revoked(), self.delegated)
+        if ifilter.has_instance() and instance_filter:
+            ds = filter(lambda d: d.scope.instance == ifilter.get_instance(), ds)
+        return ds
     
     @classmethod
     def complete(cls, prefix, limit=5, instance_filter=True):

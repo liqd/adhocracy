@@ -86,12 +86,8 @@
 				%if c.instance:
 					<li><a href="/instance/${c.instance.key}">${_("Issues")}</a></li>
 					<li><a href="/polls">${_("Polls")}</a></li>
-					<!-- li><a href="/adopted">${_("Outcomes")}</a></li  -->
-					%if h.has_permission("instance.admin"):
-						<li><a href="/instance/edit/${c.instance.key}">${_("Manage")}</a></li>
-					%endif
 				%endif
-				%if h.has_permission("global.admin") and False:
+				%if h.has_permission("global.admin"):
 					<li><a href="/admin/permissions">${_("Admin")}</a></li>
 				%endif
 				<li><a href="/adhocracies">${_("Adhocracies")}</a></li>
