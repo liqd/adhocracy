@@ -1009,8 +1009,6 @@ a.button {
 	background-image: url(/img/menu_bg.png);
 	background-repeat: repeat-x;
 	background-position: top;
-	border-top: 1px solid #777;
-	border-left: 1px solid #777;
 }
 
 .button img {
