@@ -1,12 +1,12 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${c.page_instance.label}</%def>
+<%def name="title()">${c.instance.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.page_instance)|n} &raquo; ${_("Home")}
+	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Home")}
 </%def>
 
-${tiles.instance.header(c.page_instance, c.tile, active='issues')}
+${tiles.instance.header(c.instance, c.tile, active='issues')}
 
 <div class="sidebar">
 	<div class="tile">
@@ -22,11 +22,10 @@ ${tiles.instance.header(c.page_instance, c.tile, active='issues')}
 <div class="mainbar">
 	%if len(c.issues_pager) == 0:
 		<span class="infobox">
-			${_("Create an issue to start debating in %(instance)s.") % dict(instance=c.page_instance.label)}
+			${_("Create an issue to start debating in %(instance)s.") % dict(instance=c.instance.label)}
 		</span>
 	%else:
 		<form action="?" method="GET" autocomplete="off">
-			<input type="hidden" id="instance_key" value="${c.page_instance.key}" />
 			<label for="issues_q" class="armhint">${_("Find issues")}</label>
 			<input id="issues_q" class="armlabel" name="issues_q" 
 					type="text" value="${request.params.get('issues_q', '')}" 

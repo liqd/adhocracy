@@ -34,22 +34,6 @@
 	</div>
 </%def>
 
-<%def name="list_item(tile, proposal)">
-	<li class="list_tile">
-		<span class="text"><a href="${h.instance_url(proposal.instance, path='/proposal/%s' % proposal.id)}">${proposal.label}</a></span>
-		<span class="meta">  
-			${self.state_flag(tile.result.state)} &middot;
-			%if not tile.state.polling:
-				${_("created %s") % h.relative_time(proposal.create_time)|n}
-			%else:
-				${_("%s votes cast") % len(tile.poll.decisions)}
-			%endif
-			&middot; ${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()}
-		</span>
-	</li>
-</%def>
-
-
 <%def name="relation(rel_type=None, rel_proposal=None, options=None, prototype=False)">
 	<tr class="relation ${'prototype' if prototype else ''}">
 		<td>

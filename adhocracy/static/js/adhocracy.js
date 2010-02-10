@@ -154,8 +154,7 @@ $(document).ready(function() {
 	
 	live_filter('users', '/user/filter');
 	live_filter('serp', '/search/filter');
-	var instance_key = $("#instance_key").val();
-	live_filter('issues', '/instance/' + instance_key + '/filter');
+	live_filter('issues', '/issue/filter');
 	
 	
 	/* Armed labels: Use label text as pre-filling text for empty form fields. */

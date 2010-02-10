@@ -6,8 +6,9 @@
 	${h.breadcrumbs(c.issue)|n} &raquo; ${_("Edit")}
 </%def>
 
-<form name="edit_issue" class="inplace" method="POST" action="/issue/edit/${c.issue.id}">
+<form name="edit_issue" class="inplace" method="POST" action="/issue/${c.issue.id}">
 	${h.field_token()|n}
+	<input type="hidden" name="_method" value="PUT" />
 	<div class="page_title">
 		<label for="label" class="armhint">${_("Issue Title")}</label>
 		<input tabindex="1" class="title armlabel" name="label" value="${c.issue.label}"/>

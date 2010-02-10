@@ -56,7 +56,7 @@ def render_json(data, encoding='utf-8'):
     response.content_type = 'text/javascript'
     response.content_encoding = encoding
     return simplejson.dumps(data, default=_json_entity, 
-                            encoding=encoding)
+                            encoding=encoding, indent=4)
  
 
 def render_png(io, mtime, content_type="image/png"):

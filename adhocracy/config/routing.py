@@ -50,15 +50,12 @@ def make_map():
                 conditions=dict(method=['GET']))
     map.connect('/reset', controller='user', action='reset_request',
                 conditions=dict(method=['POST']))
-        
-    map.connect('/issue/create', controller='issue', action='create')
-    map.connect('/issue/{id}/proposals', controller='issue', action='proposals')
-    map.connect('/issue/{id}/discussion', controller='issue', action='discussion')
-    map.connect('/issue/{id}/activity', controller='issue', action='activity')
-    map.connect('/issue/{id}/delegations', controller='issue', action='delegations')
-    map.connect('/issue/{action}/{id}', controller='issue')
-    map.connect('/issue/{id}.{format}', controller='issue', action='view')
-    map.connect('/issue/{id}', controller='issue', action='view', format='html')
+    
+    map.resource('issue', 'issue', member={'proposals': 'GET', 
+                                           'discussion': 'GET', 
+                                           'activity': 'GET', 
+                                           'delegations': 'GET'},
+                                   collection={'filter': 'GET'})
     
     map.connect('/proposal/create', controller='proposal', action='create')
     map.connect('/adopted', controller='proposal', action='adopted')

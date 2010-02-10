@@ -32,6 +32,7 @@ class Issue(Delegateable):
         
     proposals = property(_get_proposals, _set_proposals)
     
+    
     def search_children(self, recurse=False, cls=Delegateable): 
         """
         Get all child elements of type "cls". Uses DFS. 
@@ -43,7 +44,8 @@ class Issue(Delegateable):
             if isinstance(child, cls):
                 children.append(child)
         return children
-
+    
+    
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:
@@ -59,6 +61,7 @@ class Issue(Delegateable):
             log.warn("find(%s): %s" % (id, e))
             return None
     
+    
     @classmethod
     def find_by_creator(cls, user, instance_filter=True):
         q = meta.Session.query(Issue)
@@ -68,6 +71,7 @@ class Issue(Delegateable):
         if ifilter.has_instance() and instance_filter:
             q = q.filter(Issue.instance_id==ifilter.get_instance().id)
         return q.all()
+    
     
     @classmethod    
     def all(cls, instance=None, include_deleted=False):
@@ -79,6 +83,7 @@ class Issue(Delegateable):
             q = q.filter(Issue.instance==instance)
         return q.all()
     
+    
     def comment_count(self, recurse=True):
         count = len([c for c in self.comments if not c.is_deleted()])
         if self.comment and not self.comment.is_deleted():
@@ -87,12 +92,22 @@ class Issue(Delegateable):
             count += sum([p.comment_count() for p in self.proposals])
         return count
     
+    
+    @classmethod
+    def create(cls, instance, label, user):
+        issue = Issue(instance, label, user)
+        meta.Session.add(issue)
+        meta.Session.flush()        
+        return issue
+    
+    
     def to_dict(self):
         d = super(Issue, self).to_dict()
         if self.comment_id:
             d['comment'] = self.comment_id
         d['proposals'] = map(lambda p: p.id, self.proposals)
         return d
+
 
 Issue.comment = relation('Comment', 
                          primaryjoin="Issue.comment_id==Comment.id", 

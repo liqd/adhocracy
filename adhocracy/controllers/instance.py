@@ -29,10 +29,6 @@ class InstanceEditForm(formencode.Schema):
     required_majority = validators.Number(not_empty=True)
     default_group = forms.ValidGroup(not_empty=True)
 
-class InstanceFilterForm(formencode.Schema):
-    allow_extra_fields = True
-    issues_q = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
-
 class InstanceController(BaseController):
     
     @ActionProtector(has_permission("instance.index"))
@@ -67,27 +63,13 @@ class InstanceController(BaseController):
 
     @RequireInstance
     @ActionProtector(has_permission("instance.view"))
-    @validate(schema=InstanceFilterForm(), post_only=False, on_get=True)
     def show(self, id, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, id)
-        
-        query = self.form_result.get('issues_q')
-        issues = []
-        if query:
-            issues = libsearch.query.run(query + "*", instance=c.page_instance, 
-                                         entity_type=model.Issue)
-        else:
-            issues = model.Issue.all(instance=c.page_instance)
-        
         if format == 'json':
             return render_json(c.page_instance)
-        
         if format == 'rss':
             return self.activity(id, format)
-        
-        c.tile = tiles.instance.InstanceTile(c.page_instance)
-        c.issues_pager = pager.issues(issues, has_query=query is not None)
-        return render("/instance/view.html")
+        redirect_to("/issue")
     
     
     @RequireInstance
@@ -217,18 +199,6 @@ class InstanceController(BaseController):
                                instance=c.page_instance)
             model.meta.Session.commit()
         redirect_to('/adhocracies')
-    
-    @RequireInstance
-    @ActionProtector(has_permission("issue.view"))
-    @validate(schema=InstanceFilterForm(), post_only=False, on_get=True)
-    def filter(self, id):
-        c.page_instance = self._get_current_instance(id)
-        query = self.form_result.get('issues_q')
-        if query is None: query = ''
-        issues = libsearch.query.run(query + "*", instance=c.page_instance, 
-                                     entity_type=model.Issue)
-        c.issues_pager = pager.issues(issues, has_query=True)
-        return c.issues_pager.here()
     
     def _get_current_instance(self, id):
         if id != c.instance.key:
