@@ -42,6 +42,7 @@ class InstanceController(BaseController):
         instances = model.Instance.all()
         if format == 'json':
             return render_json(instances)
+        h.canonical_url(h.instance_url(None, path="/adhocracies"))
         c.instances_pager = pager.instances(instances)
         return render("/instance/index.html")  
     
@@ -88,6 +89,7 @@ class InstanceController(BaseController):
         c.issues_pager = pager.issues(issues, has_query=query is not None)
         return render("/instance/view.html")
     
+    
     @RequireInstance
     @ActionProtector(has_permission("instance.view"))
     def activity(self, id, format='html'):
@@ -108,6 +110,7 @@ class InstanceController(BaseController):
         return render("/instance/activity.html")
     
     
+    @RequireInstance
     @ActionProtector(has_permission("instance.admin"))
     def edit(self, id):
         c.page_instance = self._get_current_instance(id)
@@ -125,6 +128,7 @@ class InstanceController(BaseController):
                                     'default_group': default_group})
         
     
+    @RequireInstance
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("instance.admin"))
     @validate(schema=InstanceEditForm(), form="edit", post_only=True)
@@ -160,11 +164,13 @@ class InstanceController(BaseController):
         (path, io) = logo.load(c.page_instance, size=(x, y))
         return render_png(io, os.path.getmtime(path))
     
+    @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.delete"))
     def delete(self, id):
         return self.not_implemented()
     
+    @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.join"))
     def join(self, id):
@@ -185,7 +191,8 @@ class InstanceController(BaseController):
         h.flash(_("Welcome to %(instance)s") % {
                         'instance': c.page_instance.label})
         return redirect_to(h.instance_url(c.page_instance))
-        
+    
+    @RequireInstance  
     @RequireInternalRequest()            
     @ActionProtector(has_permission("instance.leave"))
     def leave(self, id):
@@ -210,7 +217,8 @@ class InstanceController(BaseController):
                                instance=c.page_instance)
             model.meta.Session.commit()
         redirect_to('/adhocracies')
-        
+    
+    @RequireInstance
     @ActionProtector(has_permission("issue.view"))
     @validate(schema=InstanceFilterForm(), post_only=False, on_get=True)
     def filter(self, id):

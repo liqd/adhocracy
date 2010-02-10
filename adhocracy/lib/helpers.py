@@ -119,7 +119,10 @@ def instance_url(instance, path="/"):
     return str("http://%s%s%s" % (subdomain,
                                request.environ.get('adhocracy.domain'),
                                path))
-    
+
+def canonical_url(url):
+    c.canonical_url = url
+
 def add_meta(key, value):
     if not c.html_meta:
         c.html_meta = dict()

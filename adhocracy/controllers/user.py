@@ -224,23 +224,7 @@ class UserController(BaseController):
                                   description)
         c.events_pager = pager.events(query.all())
         c.tile = tiles.user.UserTile(c.page_user)
-        
-        bio = c.page_user.bio
-        if not bio:
-            bio = _("%(user)s is using Adhocracy, a direct democracy decision-making tool.") % {'user': c.page_user.name}
-        
-        description = h.text.truncate(text.meta_escape(bio), length=200, whole_word=True) 
-        
-        h.add_meta("description", description)
-        h.add_meta("dc.title", text.meta_escape(c.page_user.name))
-        h.add_meta("dc.date", c.page_user.access_time.strftime("%Y-%m-%d"))
-        h.add_meta("dc.author", text.meta_escape(c.page_user.name))
-                  
-        h.add_rss(_("%(user)ss Activity") % {'user': c.page_user.name}, 
-                  h.instance_url(None, "/user/%s.rss" % c.page_user.user_name))                         
-            
-        if c.instance and not c.page_user.is_member(c.instance):
-            h.flash(_("%s is not a member of %s") % (c.page_user.name, c.instance.label))  
+        self._common_metadata(c.page_user, add_canonical=True)
         
         return render("/user/show.html")
     
@@ -302,6 +286,7 @@ class UserController(BaseController):
             return render_json(list(decisions))
         
         c.decisions_pager = pager.decisions(decisions)
+        self._common_metadata(c.page_user, member='votes')
         return render("/user/votes.html")
     
     
@@ -317,6 +302,7 @@ class UserController(BaseController):
         else:
             c.dgbs = model.Delegateable.all(instance=c.instance)  
         c.nodeClass = democracy.DelegationNode 
+        self._common_metadata(c.page_user, member='delegations')
         return render("/user/delegations.html")
     
     @ActionProtector(has_permission("user.view")) 
@@ -327,6 +313,7 @@ class UserController(BaseController):
             return render_json(list(c.page_user.instances))
         
         c.instances_pager = pager.instances(c.page_user.instances)
+        self._common_metadata(c.page_user, member='instances', add_canonical=True)
         return render("/user/instances.html")
     
         
@@ -340,6 +327,7 @@ class UserController(BaseController):
             return render_json(list(issues))
 
         c.issues_pager = pager.issues(issues)
+        self._common_metadata(c.page_user, member='issues')
         return render("/user/issues.html")
     
         
@@ -353,6 +341,7 @@ class UserController(BaseController):
             return render_json(list(proposals))
 
         c.proposals_pager = pager.proposals(proposals)
+        self._common_metadata(c.page_user, member='proposals')
         return render("/user/proposals.html")
     
         
@@ -367,6 +356,7 @@ class UserController(BaseController):
             return render_json(list(comments))
         
         c.comments_pager = pager.comments(comments)
+        self._common_metadata(c.page_user, member='comments')
         return render("/user/comments.html")
     
     
@@ -442,3 +432,28 @@ class UserController(BaseController):
         if not (user == c.user or h.has_permission("user.manage")): 
             abort(403, _("You're not authorized to change %s's settings.") % id)
         return user
+
+    def _common_metadata(self, user, member=None, add_canonical=False):
+        bio = user.bio
+        if not bio:
+            bio = _("%(user)s is using Adhocracy, a democratic decision-making tool.") % {
+                    'user': c.page_user.name}
+        
+        description = h.text.truncate(text.meta_escape(bio), length=200, whole_word=True) 
+        
+        h.add_meta("description", description)
+        h.add_meta("dc.title", text.meta_escape(user.name))
+        h.add_meta("dc.date", user.access_time.strftime("%Y-%m-%d"))
+        h.add_meta("dc.author", text.meta_escape(user.name))
+                  
+        h.add_rss(_("%(user)ss Activity") % {'user': user.name}, 
+                  h.instance_url(None, "/user/%s.rss" % user.user_name))      
+        
+        canonical_url = h.instance_url(None, path="/user/%s" % user.user_name)
+        if member is not None:
+            canonical_url += "/" + member
+        h.canonical_url(canonical_url)                  
+        
+        if c.instance and not user.is_member(c.instance):
+            h.flash(_("%s is not a member of %s") % (user.name, c.instance.label))  
+        
