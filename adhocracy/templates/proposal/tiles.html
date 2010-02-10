@@ -51,7 +51,8 @@
 			%endfor
 			</select>
 		%elif proposal:
-			<input type="checkbox" name="alternative" value="${proposal.id}" ${"checked='checked'" if checked else ''} />
+			<input type="checkbox" name="alternative" value="${proposal.id}" 
+			       ${"checked='checked'" if checked else ''} />
 			</td>
 			<td>
 			${h.delegateable_link(proposal)|n}

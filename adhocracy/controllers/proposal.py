@@ -105,6 +105,7 @@ class ProposalController(BaseController):
     @ActionProtector(has_permission("proposal.view"))
     def show(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)     
+        
         if format == 'rss':
             return self.activity(id, format)
         
@@ -120,8 +121,8 @@ class ProposalController(BaseController):
     @ActionProtector(has_permission("proposal.view"))
     def delegations(self, id, format="html"):
         c.proposal = get_entity_or_abort(model.Proposal, id)
-        
         delegations = c.proposal.current_delegations()
+        
         if format == 'json':
             return render_json(list(delegations))
         
@@ -134,6 +135,10 @@ class ProposalController(BaseController):
     @ActionProtector(has_permission("proposal.view"))
     def canonicals(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        
+        if format == 'json':
+            return render_json(c.proposal.canonicals)
+        
         c.tile = tiles.proposal.ProposalTile(c.proposal)
         self._common_metadata(c.proposal)
         return render("/proposal/canonicals.html")
@@ -146,7 +151,7 @@ class ProposalController(BaseController):
         
         if format == 'rss':
             return event.rss_feed(events, _("Proposal: %s") % c.proposal.label,
-                                  h.instance_url(c.instance, path="/proposal/%s" % str(c.proposal.id)),
+                                  h.instance_url(c.instance, path="/proposal/%s" % c.proposal.id),
                                   description=_("Activity on the %s proposal") % c.proposal.label)
         
         c.tile = tiles.proposal.ProposalTile(c.proposal)
