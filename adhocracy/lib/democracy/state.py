@@ -30,7 +30,6 @@ class State(object):
         self.volatile = VolatilityCriterion(self)
         self.adopted = AdoptionCriterion(self)
         self.alternatives = AlternativesCriterion(self)
-        self.dependencies = DependenciesCriterion(self)
     
     polling = property(lambda self: self.poll != None)
         

@@ -1,4 +1,5 @@
 import logging
+from itertools import chain
 from datetime import datetime
 
 from sqlalchemy import Column, Unicode, ForeignKey, Integer, or_
@@ -104,10 +105,6 @@ class Proposal(Delegateable):
             alternative.delete(delete_time=delete_time)
         for alternative in self.right_alternatives:
             alternative.delete(delete_time=delete_time)
-        for dependency in self.dependencies:
-            dependency.delete(delete_time=delete_time)
-        for dependency in self.dependents:
-            dependency.delete(delete_time=delete_time)
         # TODO: This really SHOULD have some check: 
         for poll in self.polls:
             poll.delete()
@@ -118,8 +115,31 @@ class Proposal(Delegateable):
             count -= 1
         return count - len(self.canonicals) 
     
+    def current_alternatives(self):
+        proposals = []
+        for alternative in chain(self.left_alternatives, self.right_alternatives):
+            if not alternative.is_deleted():
+                proposals.append(alternative.other(self))
+        return proposals
+    
+    def update_alternatives(self, alternatives):
+        from alternative import Alternative
+        delete_list = []
+        new_list = list(alternatives)
+        for alternative in chain(self.left_alternatives, self.right_alternatives):
+            if alternative.is_deleted(): continue
+            other = alternative.other(self)
+            if other in alternatives:
+                new_list.remove(other)
+            else:
+                delete_list.append(other)
+        [a.delete() for a in delete_list]
+        for proposal in new_list:
+            alternative = Alternative(self, proposal)
+            meta.Session.add(alternative)
+            
+    
 
 Proposal.comment = relation('Comment', 
                           primaryjoin="Proposal.comment_id==Comment.id", 
-                          foreign_keys=[Proposal.comment_id], 
-                          uselist=False)
+                          foreign_keys=[Proposal.comment_id], uselist=False)

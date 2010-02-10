@@ -4,4 +4,3 @@ from majority import MajorityCriterion
 from delay import StabilityCriterion, VolatilityCriterion
 from adoption import AdoptionCriterion
 from alternatives import AlternativesCriterion
-from dependencies import DependenciesCriterion

@@ -14,11 +14,11 @@ $(document).ready(function() {
 	}
 		
 	/* Auto-appends */ 
-	appendRelation = function() {
-		newElem = $(".relation.prototype").clone();
+	appendAlternative = function() {
+		newElem = $(".alternative.prototype").clone();
 		newElem.removeClass('prototype');
 		newElem.slideDown('fast');
-		newElem = newElem.insertAfter($(".relation:last"));
+		newElem = newElem.insertAfter($(".alternative:last"));
 		return false;
 	}	
 	

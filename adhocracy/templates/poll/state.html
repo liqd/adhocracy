@@ -39,18 +39,7 @@
 				<li class="unmet">${_("Majority needs to be held <b>for %s</b>.") % h.countdown_time(state.volatile.end_time, c.instance.activation_delay)|n}</li>
 			%endif
 		%endif
-		
-		%if len(state.dependencies.dependencies):
-			<li class="${'met' if state.dependencies else 'unmet'}">
-				${_("All <b>requirements</b> must be adopted:")|n}
-			</li>
-			%for dependency in state.dependencies.dependencies:
-				<li style="list-style-image: none; list-style: none;" >
-					${h.delegateable_link(dependency, icon=True)|n} ${_('(missing)') if state.dependencies.blocking(dependency) else ''}
-				</li>
-			%endfor
-		%endif
-		
+				
 		%if len(state.alternatives.alternatives):
 			<li class="${'met' if state.alternatives else 'unmet'}">
 				${_("No <b>alternatives</b> may be adopted:")|n}

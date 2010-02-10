@@ -7,7 +7,7 @@
 	${h.breadcrumbs(c.issue)|n} &raquo; ${_("New proposal")}
 </%def>
 
-<form name="create_proposal" class="inplace" method="POST" action="/proposal/create">
+<form name="create_proposal" class="inplace" method="POST" action="/proposal">
 	${h.field_token()|n}
 	<input name="issue" type="hidden" value="${c.issue.id}"/>
 	<div class="page_title">
@@ -34,14 +34,14 @@
 			"You can also leave this blank if you want to specify provisions later.")|n}</div>
 	</div>
 	<div class="mainbar">	
-		<label for="canonicals" class="armhint">${_("A specific provision that is part of this proposal.")|n}</label>
+		<label for="canonical" class="armhint">${_("A specific provision that is part of this proposal.")|n}</label>
 		<ul>
 			<li class="canonical prototype">
-				<textarea class="canonicals smallarea" name="canonicals"></textarea>
+				<textarea class="canonicals smallarea" name="canonical"></textarea>
 			</li>
-			%for p_text in c.canonicals:
+			%for canonical_text in c.canonicals:
 			<li class="canonical">
-				<textarea class="canonicals smallarea armlabel" name="canonicals">${p_text|n}</textarea>
+				<textarea class="canonicals smallarea armlabel" name="canonical">${canonical_text|n}</textarea>
 			</li>
 			%endfor
 		</ul>		
@@ -51,40 +51,30 @@
 	</div>
 	
 	<div style="clear:both;"></div>
-	<h3>${_("Relations to other proposals")}</h3>
+	<h3>${_("Alternatives")}</h3>
 	<div class="sidebar">
 		<div class="infobox">
-			${_("Specify which proposals <b>contradict</b> or <b>enable</b> this proposal." +
-			"<br/><br/>" +
-			"Contradicting proposals cannot be in power at the same time." + 
-			"<br/><br/>" +
-			"Requirements must be satisfied before the proposal can activate.")|n}			
+			${_("Specify which proposals <b>contradict</b> this proposal and should be listed as alternatives.")|n}			
 		</div>
-		<br/>
 	</div>
 	<div class="mainbar">
-		<input type="hidden" name="rel_error" />
 		<table width="100%">
-			<tr>
-				<th width="20%">${_("Relation")}</th>
-				<th>${_("Proposal")}</th>
-			</tr>
 			<%
-			options = [m for m in c.proposals if not m in c.relations.keys()]
+			options = [m for m in c.proposals if not m in c.issue.proposals]
 			%>
 			%if len(options):
-				${tiles_html.relation(rel_type='n', options=options, prototype=True)}
+				${tiles_html.alternative(options=options, prototype=True)}
 			%endif
-			%for proposal, type in c.relations.items():
-				${tiles_html.relation(rel_type=type, rel_proposal=proposal)}
+			%for proposal in c.issue.proposals:
+				${tiles_html.alternative(proposal=proposal)}
 			%endfor
 			%if len(options):
-				${tiles_html.relation(rel_type='n', options=options)}
+				${tiles_html.alternative(options=options)}
 			%endif
 		</table>
 		%if len(options):
 		<div class="jsadd">
-			<input type="button" value="${_("Add a relation")}" onclick="return appendRelation();" />
+			<input type="button" value="${_("Add an alternative")}" onclick="return appendAlternative();" />
 		</div>
 		%endif
 	</div>

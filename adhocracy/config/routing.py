@@ -56,16 +56,14 @@ def make_map():
                                            'activity': 'GET', 
                                            'delegations': 'GET'},
                                    collection={'filter': 'GET'})
+
+    map.resource('proposal', 'proposal', member={'votes': 'GET', 
+                                                 'delegations': 'GET', 
+                                                 'activity': 'GET', 
+                                                 'canonicals': 'GET'},
+                               collection={'filter': 'GET'})
     
-    map.connect('/proposal/create', controller='proposal', action='create')
     map.connect('/adopted', controller='proposal', action='adopted')
-    map.connect('/proposal/{id}/votes', controller='proposal', action='votes')
-    map.connect('/proposal/{id}/activity', controller='proposal', action='activity')
-    map.connect('/proposal/{id}/delegations', controller='proposal', action='delegations')
-    map.connect('/proposal/{id}/canonicals', controller='proposal', action='canonicals')
-    map.connect('/proposal/{action}/{id}', controller='proposal')
-    map.connect('/proposal/{id}.{format}', controller='proposal', action='view')
-    map.connect('/proposal/{id}', controller='proposal', action='view', format='html')
     
     map.connect('/poll/create/{id}', controller='poll', action='create')
     map.connect('/poll/{id}/abort', controller='poll', action='abort')
@@ -92,7 +90,6 @@ def make_map():
     map.connect('/search', controller='search', action='query')
         
     map.connect('/adhocracies', controller='instance', action='index')
-    
     map.connect('/instance/{id}_{x}x{y}.png', 
                 controller='instance', action='icon')
     map.resource('instance', 'instance', member={'join': 'GET', 

@@ -19,7 +19,6 @@ from adhocracy.model.instance import Instance
 from adhocracy.model.membership import Membership
 from adhocracy.model.karma import Karma
 from adhocracy.model.alternative import Alternative
-from adhocracy.model.dependency import Dependency
 from adhocracy.model.watch import Watch
 from adhocracy.model.event import Event
 

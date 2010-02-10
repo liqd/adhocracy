@@ -34,37 +34,28 @@
 	</div>
 </%def>
 
-<%def name="relation(rel_type=None, rel_proposal=None, options=None, prototype=False)">
-	<tr class="relation ${'prototype' if prototype else ''}">
+<%def name="alternative(proposal=None, options=None, prototype=False, checked=False)">
+	<tr class="alternative ${'prototype' if prototype else ''}">
 		<td>
-			<select name="rel_type">
-				<option value="a" ${"selected='selected'" if rel_type=='a' else ''}>
-					${_("contradicts")}
-				</option>
-				<option value="d" ${"selected='selected'" if rel_type=='d' else ''}>
-					${_("requires")}
-				</option>
-				<option value="n" ${"selected='selected'" if rel_type=='n' else ''}>
-					${_("no relation")}
-				</option>
-			</select>
-		</td>
-		<td>
-			%if options:
-				<select name="rel_proposal">
-				%if not rel_proposal:
-					<option>${_("(Select a proposal)")}</option>
-				%endif
-				%for proposal in options:
-					<option value="${proposal.id}" ${"selected='selected'" if proposal==rel_proposal else ''}>
-						${proposal.label}
-					</option>
-				%endfor
-				</select>
-			%elif rel_proposal:
-				${h.delegateable_link(rel_proposal)|n}
-				<input type="hidden" name="rel_proposal" value="${rel_proposal.id}">
+		%if options:
+			</td>
+			<td>
+			<select name="alternative">
+			%if not proposal:
+				<option value="none">${_("(Select a proposal)")}</option>
 			%endif
+			%for current in options:
+				<option value="${current.id}" ${"selected='selected'" if proposal==current else ''}>
+					${current.label}
+				</option>
+			%endfor
+			</select>
+		%elif proposal:
+			<input type="checkbox" name="alternative" value="${proposal.id}" ${"checked='checked'" if checked else ''} />
+			</td>
+			<td>
+			${h.delegateable_link(proposal)|n}
+		%endif
 		</td>
 	</tr>
 </%def>
@@ -83,11 +74,11 @@
 		%endif
 		
 		%if tile.can_edit:
-			<a class="button title edit" href="/proposal/edit/${proposal.id}">${_("edit")}</a>
+			<a class="button title edit" href="/proposal/${proposal.id}/edit">${_("edit")}</a>
 		%endif
 						
 		%if tile.can_delete:
-			<a class="button title delete" href="/proposal/delete/${proposal.id}?${h.url_token()}">${_("delete")}</a>
+			<a class="button title delete" href="/proposal/${proposal.id}?_Method=DELETE&${h.url_token()}">${_("delete")}</a>
 		%endif
 		
 		${components.watch(proposal, '/proposal/%s' % str(proposal.id))}

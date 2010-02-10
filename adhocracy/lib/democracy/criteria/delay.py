@@ -40,8 +40,7 @@ class StabilityCriterion(DelayCriterion):
     def _check_criteria(self, tally):
         return self.state.majority(tally) \
             and self.state.participation(tally) \
-            and self.state.alternatives(tally) \
-            and self.state.dependencies(tally)
+            and self.state.alternatives(tally) 
                
     def _sfx_check_tally(self, tally):
         # sfx = side effects. 
@@ -94,8 +93,7 @@ class VolatilityCriterion(DelayCriterion):
     def _check_criteria(self, tally):
         return self.state.majority(tally) \
             and self.state.participation(tally) \
-            and self.state.alternatives(tally) \
-            and self.state.dependencies(tally)
+            and self.state.alternatives(tally) 
     
     def _sfx_check_tally(self, tally):        
         earliest = tally.at_time - self.delay

@@ -19,7 +19,7 @@ AX_MAIL_SCHEMA = u'http://schema.openid.net/contact/email'
 AX_MEMBERSHIP_SCHEMA = u'http://schema.liqd.de/membership/signed/'
 
 class OpenIDInitForm(formencode.Schema):
-    openid = validators.String(not_empty=False, if_empty=None)
+    openid = validators.OpenId(not_empty=False, if_empty=None)
     
 class OpenIDUsernameForm(formencode.Schema):
     login = formencode.All(validators.PlainText(),

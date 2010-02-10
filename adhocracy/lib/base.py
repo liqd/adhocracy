@@ -62,7 +62,7 @@ class BaseController(WSGIController):
         environ['HTTP_HOST'] = environ.get('HTTP_HOST_ORIGINAL')
         
         # get RESTish:
-        self._parse_REST_request()
+        #self._parse_REST_request()
         
         # have to do this with the user in place
         i18n.handle_request()
@@ -101,7 +101,7 @@ class BaseController(WSGIController):
                 request.params.update(request.PUT)
             
     def bad_request(self):
-        log.debug("400 Request", request.environ)
+        log.debug("400 Request: %s" % request.params)
         abort(400, _("Invalid request. Please go back and try again."))
         
     def not_implemented(self):
