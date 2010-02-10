@@ -155,6 +155,7 @@ $(document).ready(function() {
 	live_filter('users', '/user/filter');
 	live_filter('serp', '/search/filter');
 	live_filter('issues', '/issue/filter');
+	live_filter('proposals', '/proposal/filter');
 	
 	
 	/* Armed labels: Use label text as pre-filling text for empty form fields. */

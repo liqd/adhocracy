@@ -31,9 +31,32 @@ class ProposalEditForm(formencode.Schema):
 class ProposalUpdateForm(ProposalEditForm):
     label = validators.String(max=255, min=4, not_empty=True)
     issue = forms.ValidIssue(not_empty=True)
-
+    
+class ProposalFilterForm(formencode.Schema):
+    allow_extra_fields = True
+    proposals_q = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
 
 class ProposalController(BaseController):
+    
+    @RequireInstance
+    @ActionProtector(has_permission("proposal.view"))
+    @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
+    def index(self, format="html"):
+        query = self.form_result.get('proposals_q')
+        proposals = []
+        if query:
+            proposals = libsearch.query.run(query + "*", instance=c.instance, 
+                                         entity_type=model.Proposal)
+        else:
+            proposals = model.Proposal.all(instance=c.instance)
+        
+        if format == 'json':
+            return render_json(proposals)
+        
+        c.proposals_pager = pager.proposals(proposals, has_query=query is not None)
+        c.tile = tiles.instance.InstanceTile(c.instance)
+        return render("/proposal/index.html")
+    
     
     @RequireInstance
     @ActionProtector(has_permission("proposal.create"))
@@ -177,6 +200,17 @@ class ProposalController(BaseController):
         issues = model.Issue.all(instance=c.instance)
         c.issues = sorting.delegateable_label(issues)
         return render("/proposal/adopted.html")
+    
+    @RequireInstance
+    @ActionProtector(has_permission("proposal.view"))
+    @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
+    def filter(self):
+        query = self.form_result.get('proposals_q')
+        if query is None: query = ''
+        proposals = libsearch.query.run(query + "*", instance=c.instance, 
+                                     entity_type=model.Proposal)
+        c.proposals_pager = pager.proposals(proposals, has_query=True)
+        return c.proposals_pager.here()
     
     def _get_mutable_proposal(self, id):
         proposal = get_entity_or_abort(model.Proposal, id)

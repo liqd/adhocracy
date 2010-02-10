@@ -68,10 +68,15 @@ class InstanceTile(BaseTile):
         return query.count()
     
     num_issues = property(_num_issues)
+    
+    def _num_proposals(self):
+        query = model.meta.Session.query(model.Proposal)
+        query = query.filter(model.Proposal.instance==self.instance)
+        query = query.filter(model.Proposal.delete_time==None)
+        return query.count()
+    
+    num_proposals = property(_num_proposals)
 
-def list_item(instance):
-    return render_tile('/instance/tiles.html', 'list_item', 
-                       InstanceTile(instance), instance=instance)
 
 def row(instance):
     return render_tile('/instance/tiles.html', 'row', InstanceTile(instance), 

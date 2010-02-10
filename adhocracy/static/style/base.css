@@ -161,6 +161,7 @@ input:hover[type=button],
 }
 
 #issues_q,
+#proposals_q,
 #users_q,
 #serp_q {
 	width: 94.5%;
