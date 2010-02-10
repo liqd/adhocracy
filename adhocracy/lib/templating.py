@@ -2,7 +2,9 @@ import simplejson
 from datetime import datetime
 import rfc822
 
+from pylons import request, response
 from pylons.templating import render_mako, render_mako_def
+from pylons.controllers.util import etag_cache
 
 import tiles
 import util
@@ -56,4 +58,15 @@ def render_json(data, encoding='utf-8'):
     return simplejson.dumps(data, default=_json_entity, 
                             encoding=encoding)
  
+
+def render_png(io, mtime, content_type="image/png"):
+    response.content_type = content_type
+    etag_cache(key=str(mtime))
+    response.charset = None
+    response.last_modified = rfc822.formatdate(timeval=mtime)
+    del response.headers['Cache-Control']
+    response.content_length = len(io)
+    response.pragma = None 
+    return io
+
     

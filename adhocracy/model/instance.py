@@ -88,18 +88,41 @@ class Instance(Base):
             log.warn("find(%s): %s" % (key, e))
             return None
     
+    
     def is_deleted(self, at_time=None):
         if at_time is None:
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
     
+    
     def _index_id(self):
         return self.key
+    
     
     @classmethod  
     def all(cls):
         return meta.Session.query(Instance).all()
+    
+    
+    @classmethod  
+    def create(cls, key, label, user, description=None):
+        import adhocracy.lib.text as libtext
+        from group import Group
+        from membership import Membership
+         
+        instance = Instance(key, label, user)
+        if description is not None:
+            instance.description = text.cleanup(description)
+        instance.default_group = Group.by_code(Group.INSTANCE_DEFAULT)
+        meta.Session.add(instance)
+        supervisor_group = Group.by_code(Group.CODE_SUPERVISOR)
+        membership = Membership(user, instance, supervisor_group, 
+                                approved=True)
+        meta.Session.add(membership)
+        meta.Session.flush()
+        return instance
+    
     
     def to_dict(self):
         d = dict(id=self.id,

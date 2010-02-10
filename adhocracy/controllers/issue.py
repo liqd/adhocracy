@@ -85,7 +85,7 @@ class IssueController(BaseController):
         h.add_rss(_("Issue: %(issue)s") % {'issue': c.issue.label}, 
             h.instance_url(c.instance, "/issue/%s.rss" % c.issue.id))
         
-        return self.proposals(id, format)
+        return self.discussion(id, format)
     
     @RequireInstance
     @ActionProtector(has_permission("issue.view"))

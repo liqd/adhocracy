@@ -142,7 +142,10 @@ class CommentController(BaseController):
         if isinstance(comment.topic, model.Issue):
             path = "/issue/%s#c%s" % (comment.topic.id, comment.id)
         elif isinstance(comment.topic, model.Proposal):
-            path = "/proposal/%s#c%s" % (comment.topic.id, comment.id)
+            if comment.root().canonical:
+                path = "/proposal/%s/canonicals#c%s" % (comment.topic.id, comment.id)
+            else:
+                path = "/proposal/%s#c%s" % (comment.topic.id, comment.id)
         else:
             abort(500, _("Unsupported topic type."))
         redirect_to(h.instance_url(comment.topic.instance, path=path))

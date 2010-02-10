@@ -63,7 +63,7 @@ class UserController(BaseController):
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
         query = self.form_result.get('users_q')
-        if query:
+        if query is not None:
             c.users = libsearch.query.run(query + "*", entity_type=model.User)
             if c.instance:
                 c.users = filter(lambda u: u.is_member(c.instance), c.users)
@@ -94,8 +94,8 @@ class UserController(BaseController):
         libmail.send_activation_link(user)
         
         if c.instance:
-            session['came_from'] = "/instance/join/%s?%s" % (c.instance.key, h.url_token())
-        redirect_to("/user/perform_login?%s" % urllib.urlencode({
+            session['came_from'] = "/instance/%s/join?%s" % (c.instance.key, h.url_token())
+        redirect_to("/perform_login?%s" % urllib.urlencode({
                     'login': self.form_result.get("user_name"),
                     'password': self.form_result.get("password")
                 }))

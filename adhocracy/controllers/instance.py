@@ -2,9 +2,7 @@ from datetime import datetime
 import hashlib
 import os.path
 from time import time
-import rfc822
 
-from pylons.controllers.util import etag_cache
 from pylons.i18n import _
 
 from adhocracy.lib.base import *
@@ -38,37 +36,39 @@ class InstanceFilterForm(formencode.Schema):
 class InstanceController(BaseController):
     
     @ActionProtector(has_permission("instance.index"))
-    def index(self):
+    def index(self, format='html'):
         h.add_meta("description", _("An index of adhocracies run at adhocracy.cc. " + 
                                     "Select which ones you would like to join and participate in!"))
-        
         instances = model.Instance.all()
+        if format == 'json':
+            return render_json(instances)
         c.instances_pager = pager.instances(instances)
         return render("/instance/index.html")  
     
+    
+    @ActionProtector(has_permission("instance.create"))
+    def new(self):
+        return render("/instance/new.html")
+    
+    
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("instance.create"))
-    @validate(schema=InstanceCreateForm(), form="create", post_only=True)
+    @validate(schema=InstanceCreateForm(), form="new", post_only=True)
     def create(self):
-        if request.method == "POST":
-            inst = libinstance.create(self.form_result.get('key'),
-                                      self.form_result.get('label'),
-                                      c.user)
-            inst.description = text.cleanup(self.form_result.get('description'))
-            model.meta.Session.add(inst)
-            model.meta.Session.commit()
-            model.meta.Session.refresh(inst)
-            
-            event.emit(event.T_INSTANCE_CREATE, c.user, instance=inst)
-            
-            redirect_to(h.instance_url(inst))
-        return render("/instance/create.html")
+        instance = model.Instance.create(self.form_result.get('key'), 
+                                         self.form_result.get('label'), 
+                                         c.user, 
+                                         description=self.form_result.get('description'))
+        model.meta.Session.commit()
+        event.emit(event.T_INSTANCE_CREATE, c.user, instance=instance)    
+        redirect_to(h.instance_url(instance))
+    
 
     @RequireInstance
     @ActionProtector(has_permission("instance.view"))
     @validate(schema=InstanceFilterForm(), post_only=False, on_get=True)
-    def view(self, key, format='html'):
-        c.page_instance = get_entity_or_abort(model.Instance, key)
+    def show(self, id, format='html'):
+        c.page_instance = get_entity_or_abort(model.Instance, id)
         
         query = self.form_result.get('issues_q')
         issues = []
@@ -78,16 +78,11 @@ class InstanceController(BaseController):
         else:
             issues = model.Issue.all(instance=c.page_instance)
         
-        if format == 'rss':
-            query = model.meta.Session.query(model.Event)
-            query = query.filter(model.Event.instance==c.page_instance)
-            query = query.order_by(model.Event.time.desc())
-            query = query.limit(25)
-            return event.rss_feed(query.all(), _('%s News' % c.page_instance.label),
-                                      h.instance_url(c.page_instance), 
-                                      _("News from %s") % c.page_instance.label)
+        if format == 'json':
+            return render_json(c.page_instance)
         
-        #c.events_pager = NamedPager('events', events, tiles.event.list_item, count=20)
+        if format == 'rss':
+            return self.activity(id, format)
         
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         c.issues_pager = pager.issues(issues, has_query=query is not None)
@@ -95,97 +90,85 @@ class InstanceController(BaseController):
     
     @RequireInstance
     @ActionProtector(has_permission("instance.view"))
-    def activity(self, key):
-        c.page_instance = get_entity_or_abort(model.Instance, key)
+    def activity(self, id, format='html'):
+        c.page_instance = get_entity_or_abort(model.Instance, id)
         
         query = model.meta.Session.query(model.Event)
         query = query.filter(model.Event.instance==c.page_instance)
         query = query.order_by(model.Event.time.desc())
         query = query.limit(100)
+            
+        if format == 'rss':
+            return event.rss_feed(query.all(), _('%s News' % c.page_instance.label),
+                                      h.instance_url(c.page_instance), 
+                                      _("News from %s") % c.page_instance.label)
         
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         c.events_pager = pager.events(query.all())
         return render("/instance/activity.html")
-            
-    @RequireInternalRequest(methods=['POST'])
+    
+    
     @ActionProtector(has_permission("instance.admin"))
-    @validate(schema=InstanceEditForm(), form="edit", post_only=True)
-    def edit(self, key):
-        c.page_instance = get_entity_or_abort(model.Instance, key)
-        if request.method == "POST":
-            c.page_instance.description = text.cleanup(self.form_result.get('description'))
-            c.page_instance.label = self.form_result.get('label')
-            c.page_instance.required_majority = self.form_result.get('required_majority')
-            c.page_instance.activation_delay = self.form_result.get('activation_delay')
-            if self.form_result.get('default_group').code in model.Group.INSTANCE_GROUPS:
-                c.page_instance.default_group = self.form_result.get('default_group') 
-            
-            try:
-                if 'logo' in request.POST and hasattr(request.POST.get('logo'), 'file') and \
-                    request.POST.get('logo').file:
-                    logo.store(c.page_instance, request.POST.get('logo').file)
-            except Exception, e:
-                h.flash(unicode(e))
-                log.debug(e)
-            
-            model.meta.Session.add(c.page_instance)
-            model.meta.Session.commit()
-                        
-            event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)
-            
-            #h.flash("%s has been updated." % c.page_instance.label)
-            redirect_to(h.instance_url(c.page_instance))
+    def edit(self, id):
+        c.page_instance = self._get_current_instance(id)
         c._Group = model.Group
+        default_group = c.page_instance.default_group.code if \
+                        c.page_instance.default_group else \
+                        model.Group.INSTANCE_DEFAULT
         return htmlfill.render(render("/instance/edit.html"),
                                defaults={
+                                    '_method': 'PUT',
                                     'label': c.page_instance.label,
                                     'description': c.page_instance.description,
                                     'required_majority': c.page_instance.required_majority,
                                     'activation_delay': c.page_instance.activation_delay,
-                                    'default_group': c.page_instance.default_group.code if \
-                                                     c.page_instance.default_group else \
-                                                     model.Group.INSTANCE_DEFAULT
-                                         })
+                                    'default_group': default_group})
+        
     
-    def _set_image_headers(self, path, io):
-        mtime = os.path.getmtime(path)
-        response.content_type = "image/png"
-        etag_cache(key=str(mtime))
-        response.charset = None
-        response.last_modified = rfc822.formatdate(timeval=mtime)
-        del response.headers['Cache-Control']
-        response.content_length = len(io)
-        response.pragma = None 
-    
-    @ActionProtector(has_permission("instance.index"))
-    def header(self, key):
-        c.page_instance = model.Instance.find(key)
-        (path, io) = logo.load_header(c.page_instance)
-        self._set_image_headers(path, io) 
-        return io
+    @RequireInternalRequest(methods=['POST'])
+    @ActionProtector(has_permission("instance.admin"))
+    @validate(schema=InstanceEditForm(), form="edit", post_only=True)
+    def update(self, id):
+        c.page_instance = self._get_current_instance(id)
+        c.page_instance.description = text.cleanup(self.form_result.get('description'))
+        c.page_instance.label = self.form_result.get('label')
+        c.page_instance.required_majority = self.form_result.get('required_majority')
+        c.page_instance.activation_delay = self.form_result.get('activation_delay')
+        if self.form_result.get('default_group').code in model.Group.INSTANCE_GROUPS:
+            c.page_instance.default_group = self.form_result.get('default_group') 
+        
+        try:
+            if 'logo' in request.POST and hasattr(request.POST.get('logo'), 'file') and \
+                request.POST.get('logo').file:
+                logo.store(c.page_instance, request.POST.get('logo').file)
+        except Exception, e:
+            h.flash(unicode(e))
+            log.debug(e)
+        
+        model.meta.Session.commit()            
+        event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)
+        redirect_to(h.instance_url(c.page_instance))
         
     @ActionProtector(has_permission("instance.index"))
-    def icon(self, key, x, y):
-        c.page_instance = model.Instance.find(key)
+    def icon(self, id, x, y):
+        c.page_instance = model.Instance.find(id)
         try:
             (x, y) = (int(x), int(y))
         except ValueError, ve:
             log.debug(ve)
             (x, y) = (24, 24)
         (path, io) = logo.load(c.page_instance, size=(x, y))
-        self._set_image_headers(path, io)
-        return io            
+        return render_png(io, os.path.getmtime(path))
     
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.delete"))
-    def delete(self, key):
-        c.page_instance = get_entity_or_abort(model.Instance, key)
-        abort(500, _("Deleting an instance is not currently implemented"))
+    def delete(self, id):
+        return self.not_implemented()
     
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.join"))
-    def join(self, key):
-        c.page_instance = get_entity_or_abort(model.Instance, key)
+    def join(self, id):
+        c.page_instance = self._get_current_instance(id)
         if c.page_instance in c.user.instances:
             h.flash(_("You're already a member in %(instance)s.") % {
                             'instance': c.page_instance.label})
@@ -205,8 +188,8 @@ class InstanceController(BaseController):
         
     @RequireInternalRequest()            
     @ActionProtector(has_permission("instance.leave"))
-    def leave(self, key):
-        c.page_instance = get_entity_or_abort(model.Instance, key)
+    def leave(self, id):
+        c.page_instance = self._get_current_instance(id)
         if not c.page_instance in c.user.instances:
             h.flash(_("You're not a member of %(instance)s.") % {
                             'instance': c.page_instance.label})
@@ -230,12 +213,17 @@ class InstanceController(BaseController):
         
     @ActionProtector(has_permission("issue.view"))
     @validate(schema=InstanceFilterForm(), post_only=False, on_get=True)
-    def filter(self, key):
-        c.page_instance = get_entity_or_abort(model.Instance, key)
+    def filter(self, id):
+        c.page_instance = self._get_current_instance(id)
         query = self.form_result.get('issues_q')
         if query is None: query = ''
         issues = libsearch.query.run(query + "*", instance=c.page_instance, 
                                      entity_type=model.Issue)
         c.issues_pager = pager.issues(issues, has_query=True)
         return c.issues_pager.here()
+    
+    def _get_current_instance(self, id):
+        if id != c.instance.key:
+            abort(403, _("You cannot manipulate one instance from within another instance."))
+        return c.instance
 

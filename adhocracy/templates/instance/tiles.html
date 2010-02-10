@@ -1,25 +1,9 @@
 <%namespace name="components" file="/components.html"/>
 
-<%def name="list_item(tile, instance)">
-	<li class="list_tile">
-		<span class="text"><a href="${h.instance_url(instance)}">${instance.label}</a></span>
-		<span class="meta">  
-			(${ungettext("%s issue", "%s issues", tile.num_issues) % tile.num_issues})
-			%if tile.can_join:
-				&middot; <a href="${h.instance_url(instance, path='/instance/join/%s?%s' % (instance.key, h.url_token()))}">${_("join")}</a>
-			%endif
-			%if tile.can_leave:
-				&middot; <a href="${h.instance_url(instance, path='/instance/leave/%s?%s' % (instance.key, h.url_token()))}">${_("leave")}</a>
-			%endif
-			
-		</span>
-	</li>
-</%def>
-
 <%def name="row(tile, instance)">
 	<div class="tile">
 		<div class="logo">
-			<img src="/instance/icon/${instance.key}-32x32.png" />
+			<img src="/instance/${instance.key}_32x32.png" />
 		</div>
 		<div class="base">
 			<h3><a class="link" href="${h.instance_url(instance)}">${instance.label}</a></h3>
@@ -28,10 +12,10 @@
 				&middot; ${_("created %s") % h.relative_time(instance.create_time)|n}  
 				&middot; ${ungettext("%s issue", "%s issues", tile.num_issues) % tile.num_issues}
 				%if tile.can_join:
-					&middot; <a href="${h.instance_url(instance, path='/instance/join/%s?%s' % (instance.key, h.url_token()))}">${_("join")}</a>
+					&middot; <a href="${h.instance_url(instance, path='/instance/%s/join?%s' % (instance.key, h.url_token()))}">${_("join")}</a>
 				%endif
 				%if tile.can_leave:
-					&middot; <a href="${h.instance_url(instance, path='/instance/leave/%s?%s' % (instance.key, h.url_token()))}">${_("leave")}</a>
+					&middot; <a href="${h.instance_url(instance, path='/instance/%s/leave?%s' % (instance.key, h.url_token()))}">${_("leave")}</a>
 				%endif
 			</div>
 		</div>
@@ -41,19 +25,19 @@
 <%def name="header(tile, instance, active)">
 	<div class="top_actions title">
 		%if tile.can_create_issue:
-			<a class="button add" href="/issue/create">${_("new issue")}</a>
+			<a class="button add" href="/issue/new">${_("new issue")}</a>
 		%endif
 		%if tile.can_join:
-			<a class="button add" href="/instance/join/${instance.key}?${h.url_token()}">${_("join")}</a> 
+			<a class="button add" href="/instance/${instance.key}/join?${h.url_token()}">${_("join")}</a> 
 		%endif
 		%if not c.user:
 			<a class="button add" href="/register">${_("join")}</a> 
 		%endif
 		%if tile.can_admin:
-			<a class="button admin" href="/instance/edit/${instance.key}">${_("edit")}</a>
+			<a class="button admin" href="/instance/${instance.key}/edit">${_("edit")}</a>
 		%endif
 		%if tile.can_leave:
-			<a class="button delete" href="/instance/leave/${instance.key}?${h.url_token()}">${_("leave")}</a> 
+			<a class="button delete" href="/instance/${instance.key}/leave?${h.url_token()}">${_("leave")}</a> 
 		%endif
 		
 		${components.watch(c.instance, '/instance/%s' % str(instance.key))}

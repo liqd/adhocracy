@@ -96,17 +96,13 @@ def make_map():
         
     map.connect('/adhocracies', controller='instance', action='index')
     
-    map.connect('/instance/create', controller='instance', action='create')
-    map.connect('/instance/{key}/join', controller='instance', action='join')
-    map.connect('/instance/{key}/leave', controller='instance', action='leave')
-    map.connect('/instance/{key}/filter', controller='instance', action='filter')
-    map.connect('/instance/{key}/activity', controller='instance', action='activity')
-    map.connect('/instance/header/{key}.png', controller='instance', action='header')
-    map.connect('/instance/icon/{key}-{x}x{y}.png', controller='instance', action='icon')
-    map.connect('/instance/{action}/{key}', controller='instance')
-    map.connect('/instance/{key}.rss', controller='instance', action='view', format='rss')
-    map.connect('/instance/{key}', controller='instance', action='view', format='html')
-        
+    map.connect('/instance/{id}_{x}x{y}.png', 
+                controller='instance', action='icon')
+    map.resource('instance', 'instance', member={'join': 'GET', 
+                                                 'leave': 'GET',
+                                                 'filter': 'GET',
+                                                 'activity': 'GET'})
+    
     map.connect('/page/{page_name}.html', controller='page', action='serve')
 
     map.connect('/{controller}/{action}')

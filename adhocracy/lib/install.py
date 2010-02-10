@@ -89,4 +89,4 @@ def setup_entities():
     
     import instance as libinstance
     if not model.Instance.find(u"test"):
-        libinstance.create(u"test", u"Test Instance", admin)
+        model.Instance.create(u"test", u"Test Instance", admin)

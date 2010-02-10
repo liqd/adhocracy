@@ -26,7 +26,7 @@ from repoze.what.plugins.pylonshq import ActionProtector
 from cache import memoize
 from instance import RequireInstance
 from xsrf import RequireInternalRequest
-from templating import render, render_json
+from templating import render, render_json, render_png
 from pager import NamedPager
 from static import StaticPage
 from util import get_entity_or_abort

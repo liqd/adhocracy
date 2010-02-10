@@ -56,8 +56,8 @@
 	<div class="panel ${active}">
 		<div class="menu">
 			<a href="/issue/${issue.id}/activity" class="activity">${_("Activity")}</a>
-			<a href="/issue/${issue.id}/proposals" class="proposals">${_("Proposals")} (${len(issue.proposals)})</a>
 			<a href="/issue/${issue.id}/discussion" class="discussion">${_("Discussion")} (${issue.comment_count(recurse=False)})</a>
+			<a href="/issue/${issue.id}/proposals" class="proposals">${_("Proposals")} (${len(issue.proposals)})</a>
 			<a href="/issue/${issue.id}/delegations" class="delegations">${_("Delegations")} (${len(issue.current_delegations())})</a>
 		</div>
 		<div class="info">
