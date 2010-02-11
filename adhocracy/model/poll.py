@@ -23,8 +23,7 @@ class Poll(Base):
     end_time = Column(DateTime, nullable=True)
     
     begin_user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    begin_user = relation(user.User, 
-                          primaryjoin="Poll.begin_user_id==User.id")
+    begin_user = relation(user.User, primaryjoin="Poll.begin_user_id==User.id")
     
     proposal_id = Column(Integer, ForeignKey('proposal.id'), nullable=False)
     proposal = relation(proposal.Proposal, backref=backref('polls', cascade='all',
@@ -32,6 +31,10 @@ class Poll(Base):
     def __init__(self, proposal, begin_user):
         self.proposal = proposal
         self.begin_user = begin_user
+    
+    tally = relation('Tally', primaryjoin='Tally.poll_id==Poll.id',
+                     order_by='Tally.create_time.desc()', uselist=False,
+                     viewonly=True, lazy=False)
     
     def __repr__(self):
         return u"<Poll(%s,%s,%s,%s)>" % (self.id, 
@@ -42,7 +45,7 @@ class Poll(Base):
     def _index_id(self):
         return self.id
     
-    def end_poll(self, end_time=None):
+    def end(self, end_time=None):
         if end_time is None:
             end_time = datetime.utcnow()
         if not self.has_ended(at_time=end_time):
@@ -56,10 +59,21 @@ class Poll(Base):
                and self.end_time<=at_time
             
     def delete(self, delete_time=None):
-        return self.end_poll(end_time=delete_time)
+        return self.end(end_time=delete_time)
     
     def is_deleted(self, at_time=None):
         return has_ended(at_time=at_time)
+    
+    
+    @classmethod
+    def create(cls, proposal, user):
+        from tally import Tally
+        poll = Poll(proposal, user)
+        meta.Session.add(poll)
+        Tally.create_from_poll(poll)
+        meta.Session.flush()
+        return poll
+    
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=True):

@@ -64,21 +64,18 @@ class PollTile(BaseTile):
     can_end_poll = property(_can_end_poll)
     
     def _can_vote(self):
-        now = datetime.utcnow()
-        if self.poll.end_time and self.poll.end_time < now:
-            return False
-        return h.has_permission('vote.cast')
+        return (not self.has_ended()) and h.has_permission('vote.cast')
     
     can_vote = property(_can_vote)
     can_delegate = can_vote
     
     def _result_affirm(self):
-        return round(self.state.tally.rel_for * 100.0, 1) 
+        return round(self.poll.tally.rel_for * 100.0, 1) 
     
     result_affirm = property(_result_affirm)
     
     def _result_dissent(self):
-        return round(self.state.tally.rel_against * 100.0, 1) 
+        return round(self.poll.tally.rel_against * 100.0, 1) 
     
     result_dissent = property(_result_dissent)
     

@@ -60,8 +60,7 @@ class PollController(BaseController):
                        + "no provisions or a poll has already started."))
         
         if request.method == "POST":
-            poll = model.Poll(c.proposal, c.user)
-            model.meta.Session.add(poll)
+            model.Poll.create(c.proposal, c.user)
             model.meta.Session.commit()
             event.emit(event.T_PROPOSAL_STATE_VOTING, c.user, instance=c.instance, 
                        topics=[c.proposal], proposal=c.proposal)
@@ -83,7 +82,7 @@ class PollController(BaseController):
                          + "some of the adoption criteria."))
         
         if request.method == "POST":
-            c.poll.end_poll()
+            c.poll.end()
             model.meta.Session.commit()
             event.emit(event.T_PROPOSAL_STATE_REDRAFT, c.user, instance=c.instance, 
                        topics=[c.proposal], proposal=c.proposal)
