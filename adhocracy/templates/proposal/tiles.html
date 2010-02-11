@@ -1,6 +1,6 @@
 <%namespace name="components" file="/components.html"/>
 
-<%def name="row(tile, proposal, detail=False)">
+<%def name="row(tile, proposal)">
 	<div class="tile">
 		<div class="logo">
 			%if tile.state.adopted:
@@ -25,10 +25,6 @@
 				<img src="/img/icons/discuss_16.png" /> 
 				${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
 				${_("latest <b>%s</b>") % h.relative_time(tile.latest_revision_time)|n}&nbsp;
-				
-				%if detail and proposal.issue:
-					<br />${h.delegateable_link(proposal.issue)|n} 
-				%endif
 			</div>
 		</div>
 	</div>

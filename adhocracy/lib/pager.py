@@ -104,7 +104,7 @@ def issues(issues, has_query=False):
     return NamedPager('issues', issues, tiles.issue.row, sorts=sorts,
                       default_sort=sorting.entity_stable if has_query else sorting.issue_activity)
     
-def proposals(proposals, has_query=False):
+def proposals(proposals, has_query=False, detail=True):
     sorts = {_("oldest"): sorting.entity_oldest,
              _("newest"): sorting.entity_newest,
              _("activity"): sorting.proposal_activity,

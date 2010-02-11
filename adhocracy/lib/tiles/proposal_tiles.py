@@ -129,20 +129,9 @@ class ProposalTile(DelegateableTile):
     
     position = property(_position)
 
-
-def row(proposal, detail=False):
+def row(proposal):
     return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal), 
-                       proposal=proposal, detail=detail, cached=True)
-
-def detail_row(proposal):
-    return row(proposal, detail=True)   
-            
-def list_item(proposal):
-    return render_tile('/proposal/tiles.html', 'list_item', 
-                       ProposalTile(proposal), proposal=proposal, cached=True)
-
-def state_flag(state):
-    return render_tile('/proposal/tiles.html', 'state_flag', None, state=state)
+                       proposal=proposal, cached=True)  
 
 def header(proposal, tile=None, active='goal'):
     if tile is None:

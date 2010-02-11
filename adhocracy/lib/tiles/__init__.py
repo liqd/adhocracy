@@ -23,7 +23,7 @@ def dispatch_row(entity):
     elif isinstance(entity, model.Issue):
         return issue.row(entity)
     elif isinstance(entity, model.Proposal):
-        return proposal.detail_row(entity)
+        return proposal.row(entity)
     elif isinstance(entity, model.Comment):
         return comment.row(entity)
     else: 

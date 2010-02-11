@@ -133,7 +133,7 @@ class IssueController(BaseController):
             return render_json(c.issue.proposals)
         
         c.tile = tiles.issue.IssueTile(c.issue)
-        c.proposals_pager = pager.proposals(c.issue.proposals)
+        c.proposals_pager = pager.proposals(c.issue.proposals, detail=True)
         self._common_metadata(c.issue)
         return render("/issue/proposals.html")
     
