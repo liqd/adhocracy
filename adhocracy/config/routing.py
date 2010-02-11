@@ -60,7 +60,8 @@ def make_map():
     map.resource('proposal', 'proposal', member={'votes': 'GET', 
                                                  'delegations': 'GET', 
                                                  'activity': 'GET', 
-                                                 'canonicals': 'GET'},
+                                                 'canonicals': 'GET',
+                                                 'alternatives': 'GET'},
                                collection={'filter': 'GET'})
     
     map.connect('/adopted', controller='proposal', action='adopted')

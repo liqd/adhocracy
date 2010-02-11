@@ -140,6 +140,7 @@ class ProposalController(BaseController):
         self._common_metadata(c.proposal)
         return render("/proposal/view.html")
     
+    
     @RequireInstance
     @ActionProtector(has_permission("proposal.view"))
     def delegations(self, id, format="html"):
@@ -154,6 +155,7 @@ class ProposalController(BaseController):
         self._common_metadata(c.proposal)
         return render("/proposal/delegations.html")
     
+    
     @RequireInstance
     @ActionProtector(has_permission("proposal.view"))
     def canonicals(self, id, format='html'):
@@ -165,6 +167,22 @@ class ProposalController(BaseController):
         c.tile = tiles.proposal.ProposalTile(c.proposal)
         self._common_metadata(c.proposal)
         return render("/proposal/canonicals.html")
+
+    
+    @RequireInstance
+    @ActionProtector(has_permission("proposal.view"))
+    def alternatives(self, id, format="html"):
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        alternatives = c.proposal.current_alternatives()
+        
+        if format == 'json':
+            return render_json(alternatives)
+        
+        c.tile = tiles.proposal.ProposalTile(c.proposal)
+        c.proposals_pager = pager.proposals(alternatives)
+        self._common_metadata(c.proposal)
+        return render("/proposal/alternatives.html")
+    
 
     @RequireInstance
     @ActionProtector(has_permission("proposal.view"))
@@ -182,6 +200,7 @@ class ProposalController(BaseController):
         self._common_metadata(c.proposal)
         return render("/proposal/activity.html")
     
+    
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("proposal.delete"))
@@ -194,12 +213,14 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         redirect_to("/issue/%d" % c.proposal.issue.id)   
     
+    
     @RequireInstance
     @ActionProtector(has_permission("proposal.view")) 
     def adopted(self):
         issues = model.Issue.all(instance=c.instance)
         c.issues = sorting.delegateable_label(issues)
         return render("/proposal/adopted.html")
+    
     
     @RequireInstance
     @ActionProtector(has_permission("proposal.view"))
@@ -212,11 +233,13 @@ class ProposalController(BaseController):
         c.proposals_pager = pager.proposals(proposals, has_query=True)
         return c.proposals_pager.here()
     
+    
     def _get_mutable_proposal(self, id):
         proposal = get_entity_or_abort(model.Proposal, id)
         if not democracy.is_proposal_mutable(proposal):
             abort(403, h.immutable_proposal_message())
         return proposal
+    
     
     def _common_metadata(self, proposal):
         h.add_meta("description", 
