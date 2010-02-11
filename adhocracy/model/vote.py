@@ -17,9 +17,9 @@ log = logging.getLogger(__name__)
 class Vote(Base):
     # REFACT: Not voted yet is expressed as None in varous places
     # Might be nice to have an explicit value for that
-    YES = 1
-    NO = -1
-    ABSTAIN = 0
+    YES = 1L
+    NO = -1L
+    ABSTAIN = 0L
         
     __tablename__ = 'vote'
     

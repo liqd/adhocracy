@@ -12,6 +12,7 @@ from adhocracy.config.routing import make_map
 from adhocracy.model import init_model, meta
 from adhocracy.lib.queue import init_queue
 from adhocracy.lib.search import init_search
+from adhocracy.lib.democracy import init_democracy
 from adhocracy.lib import init_site
 
 
@@ -50,5 +51,6 @@ def load_environment(global_conf, app_conf):
     init_site()
     init_queue()
     init_search()
+    init_democracy()
 
     

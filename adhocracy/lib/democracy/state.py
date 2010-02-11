@@ -108,19 +108,3 @@ class State(object):
             if score:
                 scored[proposal] = score
         return scored
-
-#from beaker.util import ThreadLocal
-#thread_states = ThreadLocal()
-#
-#def State(proposal, poll=None, at_time=None):
-#    key = (proposal, poll, at_time)
-#    if thread_states.get() == None:
-#        thread_states.put({})
-#    d = thread_states.get()
-#    if d.get(key):
-#        return d.get(key)
-#    else:
-#        s = _State(proposal, poll=None, at_time=None)
-#        d[key] = s
-#        thread_states.put(d)
-#        return s

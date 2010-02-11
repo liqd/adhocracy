@@ -7,6 +7,7 @@ import os.path
 from adhocracy.config.environment import load_environment
 from adhocracy import model
 from adhocracy.lib import install, search, openidstore, util, init_site
+from adhocracy.lib.queue import init_queue
 from adhocracy.model import meta
 from pylons import config
 
@@ -16,6 +17,9 @@ def setup_app(command, conf, vars):
     """Place any commands to setup adhocracy here"""
     load_environment(conf.global_conf, conf.local_conf)
     init_site()
+    # disable delayed execution
+    config['adhocracy.amqp.host'] = None 
+    init_queue()
     
     if config.get('adhocracy.setup.drop', "OH_NOES") == "KILL_EM_ALL":
         log.warn("DELETING DATABASE AND SEARCH/EVENT INDEX")

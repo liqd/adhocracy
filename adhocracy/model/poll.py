@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
@@ -9,6 +10,8 @@ import user
 import meta
 import filter as ifilter
 import proposal
+
+log = logging.getLogger(__name__)
 
 class NoPollException(Exception): pass
 
@@ -62,12 +65,12 @@ class Poll(Base):
     def find(cls, id, instance_filter=True, include_deleted=True):
         try:
             q = meta.Session.query(Poll)
+            q = q.filter(Poll.id==int(id))
             if not include_deleted:
                 q = q.filter(or_(Poll.end_time==None,
                                  Poll.end_time>datetime.utcnow()))
-            q = q.filter(Poll.id==int(id))
-            poll = q.one()
-            if ifilter.has_instance() and instance_filter:
+            poll = q.limit(1).first()
+            if ifilter.has_instance() and instance_filter and poll:
                 poll = poll.proposal.instance == ifilter.get_instance() \
                         and poll or None
             return poll

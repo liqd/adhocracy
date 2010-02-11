@@ -21,6 +21,7 @@ from adhocracy.model.karma import Karma
 from adhocracy.model.alternative import Alternative
 from adhocracy.model.watch import Watch
 from adhocracy.model.event import Event
+from adhocracy.model.tally import Tally
 
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""

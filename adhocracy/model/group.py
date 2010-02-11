@@ -40,7 +40,9 @@ class Group(Base):
     @classmethod
     def find(cls, group_name, instance_filter=True, include_deleted=False):
         try:
-            return meta.Session.query(Group).filter(Group.group_name==group_name).one()
+            q = meta.Session.query(Group)
+            q = q.filter(Group.group_name==group_name)
+            return q.limit(1).first()
         except Exception, e: 
             log.warn("find(%s): %s" % (id, e))
             return None
@@ -52,14 +54,18 @@ class Group(Base):
     @classmethod
     def by_id(cls, id):
         try:
-            return meta.Session.query(Group).filter(Group.id==id).one()
+            q = meta.Session.query(Group)
+            q = q.filter(Group.id==id)
+            return q.limit(1).first()
         except: 
             return None
         
     @classmethod
     def by_code(cls, code):
         try:
-            return meta.Session.query(Group).filter(Group.code==code).one()
+            q = meta.Session.query(Group)
+            q = q.filter(Group.code==code)
+            return q.limit(1).first()
         except: 
             return None
         

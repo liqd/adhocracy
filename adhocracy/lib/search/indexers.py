@@ -66,7 +66,7 @@ def index_proposal(entity):
     return d
 
 def insert(index_func):
-    def f(e, entity):
+    def f(entity):
         entry = index_func(entity)
         if entry is None:
             delete(entity)
@@ -81,7 +81,7 @@ def insert(index_func):
     return f
 
 def update(index_func):
-    def f(e, entity):
+    def f(entity):
         entry = index_func(entity)
         if entry is None:
             delete(entity)
@@ -95,7 +95,7 @@ def update(index_func):
                 ix_lock.release()
     return f
 
-def delete(e, entity):
+def delete(entity):
     ix_lock.acquire()
     try:
         ix = get_index()
