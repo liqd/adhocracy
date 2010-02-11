@@ -55,28 +55,51 @@ class Tally(Base):
     
     @classmethod
     def create_from_vote(cls, vote):
-        from adhocracy.lib.democracy import Decision
-        results = {}
-        for decision in Decision.for_poll(vote.poll, at_time=vote.create_time):
-            if decision.is_decided():
-                results[decision.result] = results.get(decision.result, 0) + 1
-        tally = Tally(vote.poll,
-                      results.get(Vote.YES, 0), 
-                      results.get(Vote.NO, 0),
-                      results.get(Vote.ABSTAIN, 0))
-        tally.create_time = vote.create_time
+        tally = Tally.create_from_poll(vote.poll, vote.create_time)
         tally.vote = vote
-        meta.Session.add(tally)
         meta.Session.flush()
         return tally 
     
+    @classmethod
+    def create_from_poll(cls, poll, at_time=None):
+        from adhocracy.lib.democracy import Decision
+        if at_time is None:
+            at_time = datetime.utcnow()
+        results = {}
+        for decision in Decision.for_poll(poll, at_time=at_time):
+            if decision.is_decided():
+                results[decision.result] = results.get(decision.result, 0) + 1
+        tally = Tally(poll,
+                      results.get(Vote.YES, 0), 
+                      results.get(Vote.NO, 0),
+                      results.get(Vote.ABSTAIN, 0))
+        tally.create_time = at_time
+        meta.Session.add(tally)
+        meta.Session.flush()
+        return tally 
     
     @classmethod
     def find_by_vote(cls, vote):
         q = meta.Session.query(Tally)
         q = q.filter(Tally.vote==vote)
         return q.limit(1).first()
-       
+    
+    @classmethod
+    def find_by_poll_and_time(cls, poll, time):
+        q = meta.Session.query(Tally)
+        q = q.filter(Tally.poll==poll)
+        q = q.filter(Tally.create_time<=time)
+        q = q.order_by(Tally.create_time.desc())
+        return q.limit(1).first()
+    
+    @classmethod
+    def poll_by_interval(cls, poll, from_time, to_time):
+        q = meta.Session.query(Tally)
+        q = q.filter(Tally.poll==poll)
+        q = q.filter(Tally.create_time>=from_time)
+        q = q.filter(Tally.create_time<=to_time)
+        q = q.order_by(Tally.create_time.desc())
+        return q.all()
       
     def __repr__(self):
         return "<Tally(%s,%s,%s,%d,%d,%d)>" % (self.id,

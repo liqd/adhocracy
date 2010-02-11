@@ -27,7 +27,7 @@
 						<span class="icon">&nbsp;</span>
 					</td>
 					<td class="option">${_("Affirm")}</td>
-					<td class="votes"><a href="/poll/${poll.id}/votes?result=1">${tile.state.tally.num_affirm}</a></td>
+					<td class="votes"><a href="/poll/${poll.id}/votes?result=1">${tile.state.tally.num_for}</a></td>
 					<td valign="top">${tile.result_affirm}%</td>
 				</tr>
 				<%
@@ -56,7 +56,7 @@
 						<span class="icon">&nbsp;</span>
 					</td>
 					<td class="option">${_("Dissent")}</td>
-					<td class="votes"><a href="/poll/${poll.id}/votes?result=-1">${tile.state.tally.num_dissent}</a></td>
+					<td class="votes"><a href="/poll/${poll.id}/votes?result=-1">${tile.state.tally.num_against}</a></td>
 					<td valign="top">${tile.result_dissent}%</td>
 				</tr>
 				<%

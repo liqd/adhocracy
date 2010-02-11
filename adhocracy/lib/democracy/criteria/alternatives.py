@@ -31,7 +31,7 @@ class AlternativesCriterion(RelationCriterion):
         return False
     
     def check_tally(self, tally):
-        return not self.check_blocked(tally.at_time)
+        return not self.check_blocked(tally.create_time)
 
     def check_nopoll(self):
         return not self.check_blocked(self.state.at_time)

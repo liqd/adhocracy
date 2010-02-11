@@ -36,13 +36,17 @@ class Comment(Base):
         return "<Comment(%d,%s,%d,%s)>" % (self.id, self.creator.user_name,
                                           self.topic_id, self.create_time)
     
-    def _get_latest(self):
-        return self.revisions[0]
+    #def _get_latest(self):
+    #    return self.revisions[0]
     
-    def _set_latest(self, latest):
-        self.revisions.append(latest)
+    #def _set_latest(self, latest):
+    #    self.revisions.append(latest)
     
-    latest = property(_get_latest, _set_latest)
+    #latest = property(_get_latest, _set_latest)
+    
+    latest = relation('Revision', primaryjoin='Revision.comment_id==Comment.id',
+                      order_by='Revision.create_time.desc()', uselist=False,
+                      viewonly=True, lazy=False)
     
     def root(self):
         return self.reply.root() if self.reply else self
@@ -78,7 +82,7 @@ class Comment(Base):
         rev = Revision(self, user, 
                        libtext.cleanup(text))
         meta.Session.add(rev)
-        self.latest = rev
+        self.revisions.append(rev)
         meta.Session.flush()
         return rev
         
@@ -114,4 +118,4 @@ class Comment(Base):
 
 Comment.reply = relation(Comment, cascade='delete', 
                          remote_side=Comment.id, 
-                         backref=backref('replies', lazy=False))
+                         backref=backref('replies', lazy=True))

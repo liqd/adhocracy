@@ -5,7 +5,6 @@ from adhocracy.model import Proposal, Poll
 from ..cache import memoize
 from ..util import timedelta2seconds
 
-import tally as libtally
 from criteria import *
 
 class State(object):
@@ -40,11 +39,11 @@ class State(object):
             start_at = self.poll.begin_time
         if self._tallies_start > start_at:
             start_at = max(start_at, self.poll.begin_time)
-            self._tallies += libtally.interval(self.poll, 
-                                               min_time=start_at, 
-                                               max_time=self._tallies_start)
+            self._tallies += model.Tally.poll_by_interval(self.poll, 
+                                                          from_time=start_at, 
+                                                          to_time=self._tallies_start)
             if not len(self._tallies):
-                self._tallies = [libtally.at(self.poll, start_at)]
+                self._tallies = [model.Tally.find_by_poll_and_time(self.poll, start_at)]
             self._tallies_start = start_at
         return self._tallies
     
