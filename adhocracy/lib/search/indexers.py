@@ -50,24 +50,19 @@ def index_delegateable(entity):
     d['create_time'] = ct
     d['user'] = entity.creator.name
     d['instance'] = entity.instance.key
+    d['text'] = ' '.join(map(lambda c: c.latest.text, entity.comments))
     return d
 
 def index_issue(entity):
     if entity.is_deleted():
         return None
     d = index_delegateable(entity)
-    d['text'] = entity.comment.latest.text if entity.comment else ""
     return d
 
 def index_proposal(entity):
     if entity.is_deleted():
         return None
     d = index_delegateable(entity)
-    text = entity.comment.latest.text if entity.comment else ""
-    for comment in entity.comments:
-        if comment.canonical:
-            text += " " + comment.latest.text
-    d['text'] = text
     return d
 
 def insert(index_func):

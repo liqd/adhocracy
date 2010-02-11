@@ -21,6 +21,7 @@ def register(cls, event, callback):
     REGISTRY[key] = calls
 
 def _process(event, entity):
+    log.debug("Handling %s hooks of %s" % (event, entity))
     for signature, calls in REGISTRY.items():
         (r_type, r_event) = signature
         if r_event == event and r_type == refs.entity_type(entity):
