@@ -15,33 +15,19 @@ SQL_STORES = {'sqlite': SQLiteStore,
 
 log = logging.getLogger(__name__)
 
-def _create_sql_store():
+store = None
+
+def create_store():
     log.debug("Creating SQL-based OpenID store...")
     conn_str = config.get('sqlalchemy.url')
-    if conn_str is None: raise ValueError("OpenID connection")
+    if conn_str is None: 
+        raise ValueError("OpenID connection")
     db_type = conn_str.split(':')[0]
     store_cls = SQL_STORES.get(db_type)  
     return store_cls(meta.engine.raw_connection())
-    
-def _create_file_store():
-    log.debug("Creating FS-based OpenID store...")
-    if 'cache_dir' not in config:
-        raise KeyError() # yeah that could be achieved easier
-    return FileOpenIDStore(config.get('cache_dir'))
-
-def _create_store():
-    # Say it loudly, say it proudly: WTF? 
-    try:
-        return _create_sql_store()
-    except Exception, e:
-        log.exception(e)
-        try:
-            return _create_file_store()
-        except Exception, e:
-            log.exception(e)
-            return MemoryStore()
         
 def create_consumer(openid_session):
-    if not hasattr(g, 'openid_store'):
-        g.openid_store = _create_store()
-    return Consumer(openid_session, g.openid_store)
+    global store
+    if store is None:
+        store = _create_store()
+    return Consumer(openid_session, store)

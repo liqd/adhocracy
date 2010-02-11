@@ -32,7 +32,7 @@ def setup_app(command, conf, vars):
     meta.data.create_all(bind=meta.engine)
     try:
         store = openidstore._create_sql_store()
-        store.createTables()
+        #store.createTables()
     except Exception, e:
         log.warn("Creating OpenID SQL tables failed. No reason to panic: %s" % e)
     
