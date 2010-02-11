@@ -50,7 +50,7 @@ class StabilityCriterion(DelayCriterion):
         # has been cached on a higher level.  
         
         earliest = tally.create_time - self.delay
-        tallies = self.state.get_tallies(start_at=earliest)
+        tallies = self.state.tallies
         # is this really necessary?
         before = libtally.at(self.poll, earliest)
         tallies.append(before) 
@@ -97,7 +97,7 @@ class VolatilityCriterion(DelayCriterion):
     
     def _sfx_check_tally(self, tally):        
         earliest = tally.create_time - self.delay
-        tallies = self.state.get_tallies(start_at=earliest)
+        tallies = self.state.tallies
         
         # # is this really necessary?
         # before = libtally.at(self.poll, earliest)

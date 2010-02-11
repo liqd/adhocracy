@@ -20,32 +20,6 @@ class PollDecisionsFilterForm(formencode.Schema):
 
 class PollController(BaseController):
     
-    @RequireInstance
-    @ActionProtector(has_permission("proposal.view"))
-    @validate(schema=PollIndexFilter(), post_only=False, on_get=True)
-    def index(self):
-        scored = democracy.State.critical_proposals(c.instance)
-        urgency_sort = sorting.dict_value_sorter(scored)
-        proposals = scored.keys()
-        
-        if hasattr(self, 'form_result'):
-            c.filter_made = self.form_result.get('filter_made')
-        else:
-            c.filter_made = 0
-        
-        if c.user and c.filter_made == 1:
-            proposals = filter(lambda m: not democracy.Decision(c.user, m.poll).is_decided(), proposals)
-        elif c.user and c.filter_made == 2:
-            proposals = filter(lambda m: not democracy.Decision(c.user, m.poll).is_self_decided(), proposals)
-                
-        c.proposals_pager = NamedPager('proposals', proposals, tiles.proposal.detail_row, count=4, #list_item,
-                                     sorts={_("oldest"): sorting.entity_oldest,
-                                            _("newest"): sorting.entity_newest,
-                                            _("activity"): sorting.proposal_activity,
-                                            _("urgency"): urgency_sort,
-                                            _("name"): sorting.delegateable_label},
-                                     default_sort=urgency_sort)
-        return render("/poll/index.html")
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])

@@ -64,7 +64,7 @@ class PollTile(BaseTile):
     can_end_poll = property(_can_end_poll)
     
     def _can_vote(self):
-        return (not self.has_ended()) and h.has_permission('vote.cast')
+        return (not self.poll.has_ended()) and h.has_permission('vote.cast')
     
     can_vote = property(_can_vote)
     can_delegate = can_vote

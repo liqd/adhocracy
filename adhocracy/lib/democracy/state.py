@@ -21,7 +21,6 @@ class State(object):
         self.poll = poll
                 
         self._tallies = []
-        self._tallies_start = self.at_time
         
         self.majority = MajorityCriterion(self)
         self.participation = ParticipationCriterion(self)
@@ -32,19 +31,11 @@ class State(object):
     
     polling = property(lambda self: self.poll != None)
         
-    def get_tallies(self, start_at=None):
+    def get_tallies(self):
         if not self.polling:
             return []
-        if not start_at:
-            start_at = self.poll.begin_time
-        if self._tallies_start > start_at:
-            start_at = max(start_at, self.poll.begin_time)
-            self._tallies += model.Tally.poll_by_interval(self.poll, 
-                                                          from_time=start_at, 
-                                                          to_time=self._tallies_start)
-            if not len(self._tallies):
-                self._tallies = [model.Tally.find_by_poll_and_time(self.poll, start_at)]
-            self._tallies_start = start_at
+        if not self._tallies:
+            self._tallies = model.Tally.poll_by_interval(self.poll, self.poll.begin_time, self.at_time)
         return self._tallies
     
     tallies = property(get_tallies)
@@ -52,7 +43,7 @@ class State(object):
     def _get_tally(self):
         if not self.polling:
             return None
-        return self.tallies[0]
+        return self.poll.tally
     
     tally = property(_get_tally)
     
@@ -63,47 +54,3 @@ class State(object):
     
     poll_mutable = property(_get_poll_mutable)
     proposal_mutable = property(lambda self: not self.polling)
-            
-    @classmethod
-    def critical_proposals(cls, instance):
-        """
-        Returns a list of all proposals in the given ``Instance``, as a dict key with 
-        a score describing the distance the ``Proposal`` has towards making a state 
-        change.
-        
-        :param instance: Instance on which to focus
-        :returns: A ``dict`` of (``Proposal``, score)
-        """
-        @memoize('proposal-criticalness')
-        def proposal_criticalness(proposal):
-            state = State(proposal)
-            if not state.polling:
-                return None
-            
-            score = 1
-            
-            # factor 1: missing votes
-            score += 1.0/float(max(1, state.participation.required - len(state.tally)))
-            
-            # factor 2: remaining time, i.e. urgency
-            t_remain = min(state.stable.delay, datetime.utcnow() - \
-                           state.stable.begin_time if state.stable else timedelta(seconds=0))
-            score -= timedelta2seconds(t_remain)/float(timedelta2seconds(state.stable.delay))
-            
-            # factor 3: distance to acceptance majority
-            # shitty formula
-            maj_dist = max(0.000001, abs(state.majority.required - state.tally.rel_for))
-            score *= 0.01/maj_dist
-            
-            return score * -1
-        
-        q = model.meta.Session.query(Proposal)
-        q = q.filter(Proposal.instance==instance)
-        q = q.join(Poll)
-        q = q.filter(Poll.end_time==None)
-        scored = {}
-        for proposal in q:
-            score = proposal_criticalness(proposal)
-            if score:
-                scored[proposal] = score
-        return scored
