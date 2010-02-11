@@ -1,8 +1,8 @@
 from datetime import datetime
 import logging
 
-from sqlalchemy import Column, Unicode, ForeignKey, Integer, or_
-from sqlalchemy.orm import relation
+from sqlalchemy import Table, Column, Unicode, ForeignKey, Integer, or_
+from sqlalchemy.orm import relation, mapper
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 import meta
@@ -11,18 +11,15 @@ from delegateable import Delegateable
 
 log = logging.getLogger(__name__)
 
+issue_table = Table('issue', meta.data,
+    Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
+    Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True)
+    )
+
 class Issue(Delegateable):
-    __tablename__ = 'issue'
-    __mapper_args__ = {'polymorphic_identity': 'issue'}
-    
-    id = Column(Integer, ForeignKey('delegateable.id'), primary_key=True)
-    comment_id = Column(Integer, ForeignKey('comment.id'), nullable=True)
     
     def __init__(self, instance, label, creator):
         self.init_child(instance, label, creator) 
-        
-    def __repr__(self):
-        return u"<Issue(%s)>" % (self.id)
     
     def _get_proposals(self):
         return filter(lambda p: not p.is_deleted(), self.children)
@@ -34,9 +31,7 @@ class Issue(Delegateable):
     
     
     def search_children(self, recurse=False, cls=Delegateable): 
-        """
-        Get all child elements of type "cls". Uses DFS. 
-        """
+        """ Get all child elements of type "cls". Uses DFS. """
         children = []
         for child in self.children:
             if child.delete_time: 
@@ -107,9 +102,7 @@ class Issue(Delegateable):
             d['comment'] = self.comment_id
         d['proposals'] = map(lambda p: p.id, self.proposals)
         return d
-
-
-Issue.comment = relation('Comment', 
-                         primaryjoin="Issue.comment_id==Comment.id", 
-                         foreign_keys=[Issue.comment_id], 
-                         uselist=False)
+        
+    def __repr__(self):
+        return u"<Issue(%s)>" % (self.id)
+    

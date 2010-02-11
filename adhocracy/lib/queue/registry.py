@@ -53,7 +53,7 @@ def handle(event):
     return _call
 
 def init_hooks():
-    for cls in refs.TYPES:
+    for cls in refs.TYPES.keys():
         hooks.patch(cls, hooks.POSTINSERT, handle(INSERT))
         hooks.patch(cls, hooks.POSTUPDATE, handle(UPDATE))
         hooks.patch(cls, hooks.PREDELETE, handle(DELETE))

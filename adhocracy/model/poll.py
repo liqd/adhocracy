@@ -1,46 +1,28 @@
 import logging
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
-from sqlalchemy.orm import relation, backref
+from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func
 
-# REFACT: use absolute imports to make it easier to see where what comes from
-from meta import Base
-import user
 import meta
 import filter as ifilter
-import proposal
 
 log = logging.getLogger(__name__)
 
+poll_table = Table('poll', meta.data,
+    Column('id', Integer, primary_key=True),
+    Column('begin_time', DateTime, default=datetime.utcnow),
+    Column('end_time', DateTime, nullable=True),
+    Column('begin_user_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=False)   
+    )
+
 class NoPollException(Exception): pass
 
-class Poll(Base):
-    __tablename__ = 'poll'
+class Poll(object):
     
-    id = Column(Integer, primary_key=True)
-    begin_time = Column(DateTime, default=datetime.utcnow)
-    end_time = Column(DateTime, nullable=True)
-    
-    begin_user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    begin_user = relation(user.User, primaryjoin="Poll.begin_user_id==User.id")
-    
-    proposal_id = Column(Integer, ForeignKey('proposal.id'), nullable=False)
-    proposal = relation(proposal.Proposal, backref=backref('polls', cascade='all',
-                           lazy=False, order_by='Poll.begin_time.desc()'))
     def __init__(self, proposal, begin_user):
         self.proposal = proposal
         self.begin_user = begin_user
-    
-    tally = relation('Tally', primaryjoin='Tally.poll_id==Poll.id',
-                     order_by='Tally.create_time.desc()', uselist=False,
-                     viewonly=True, lazy=False)
-    
-    def __repr__(self):
-        return u"<Poll(%s,%s,%s,%s)>" % (self.id, 
-                                         self.proposal_id,
-                                         self.begin_time, 
-                                         self.end_time)
     
     def _index_id(self):
         return self.id
@@ -91,5 +73,12 @@ class Poll(Base):
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))
             return None
+    
+        
+    def __repr__(self):
+        return u"<Poll(%s,%s,%s,%s)>" % (self.id, 
+                                         self.proposal_id,
+                                         self.begin_time, 
+                                         self.end_time)
     
 

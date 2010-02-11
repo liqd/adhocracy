@@ -1,45 +1,32 @@
 from datetime import datetime
 import logging
 
-from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func, or_ 
-from sqlalchemy.orm import relation, backref
+from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func, or_ 
 
-from meta import Base
-import user 
 import meta 
 
 log = logging.getLogger(__name__)
 
-class Twitter(Base):
-    __tablename__ = 'twitter'
-        
-    id = Column(Integer, primary_key=True)
-    
-    create_time = Column(DateTime, default=datetime.utcnow)
-    delete_time = Column(DateTime, nullable=True)
-    
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    user = relation(user.User, lazy=False, primaryjoin="Twitter.user_id==User.id", 
-                    backref=backref('twitters', cascade='delete'))
-    
-    twitter_id = Column(Integer)
-    key = Column(Unicode(255), nullable=False)
-    secret = Column(Unicode(255), nullable=False)
-    screen_name = Column(Unicode(255), nullable=False)
-    priority = Column(Integer, default=4)
+twitter_table = Table('twitter', meta.data, 
+    Column('id', Integer, primary_key=True),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('delete_time', DateTime, nullable=True),
+    Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('twitter_id', Integer),
+    Column('key', Unicode(255), nullable=False),
+    Column('secret', Unicode(255), nullable=False),
+    Column('screen_name', Unicode(255), nullable=False),
+    Column('priority', Integer, default=4)
+    )
+
+class Twitter(object):
        
     def __init__(self, twitter_id, user, screen_name, key, secret):
         self.twitter_id = twitter_id
         self.user = user
         self.screen_name = screen_name
         self.key = key
-        self.secret = secret
-            
-    def __repr__(self):
-        return u"<Twitter(%d,%d,%s,%s)>" % (self.id,
-                                            self.twitter_id, 
-                                            self.user.user_name,
-                                            self.screen_name)  
+        self.secret = secret  
     
     @classmethod
     def find(cls, screen_name, include_deleted=False):
@@ -65,4 +52,10 @@ class Twitter(Base):
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
             self.delete_time <= at_time
+    
+    def __repr__(self):
+        return u"<Twitter(%d,%d,%s,%s)>" % (self.id,
+                                            self.twitter_id, 
+                                            self.user.user_name,
+                                            self.screen_name)
         

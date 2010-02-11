@@ -1,35 +1,27 @@
 import logging
 
 from sqlalchemy import Table, Column, Integer, Unicode, String, ForeignKey, DateTime, func, Boolean
-from sqlalchemy.orm import relation, synonym, backref
-from pylons import g
 
 import meta
-from meta import Base
 
 log = logging.getLogger(__name__)
 
-group_permission = Table('group_permission', Base.metadata,
+group_permission_table = Table('group_permission', meta.data,
     Column('group_id', Integer, ForeignKey('group.id',
-        onupdate="CASCADE", ondelete="CASCADE")),
+           onupdate="CASCADE", ondelete="CASCADE")),
     Column('permission_id', Integer, ForeignKey('permission.id',
-        onupdate="CASCADE", ondelete="CASCADE"))
-)
+           onupdate="CASCADE", ondelete="CASCADE"))
+    )
 
-class Permission(Base):
-    __tablename__ = 'permission'
-    
-    id = Column(Integer, primary_key=True)
-    permission_name = Column(Unicode(255), nullable=False, unique=True)
-    
-    groups = relation('Group', secondary=group_permission, lazy=False,
-                          backref=backref('permissions', lazy=False))
+permission_table = Table('permission', meta.data,
+    Column('id', Integer, primary_key=True),
+    Column('permission_name', Unicode(255), nullable=False, unique=True)
+    )
+
+class Permission(object):
     
     def __init__(self, permission_name):
         self.permission_name = permission_name
-        
-    def __repr__(self):
-        return u"<Permission(%d,%s)>" % (self.id, self.code)
         
     @classmethod
     def find(cls, permission_name, instance_filter=True, include_deleted=False):
@@ -38,7 +30,7 @@ class Permission(Base):
             q = q.filter(Permission.permission_name==permission_name)
             q = q.limit(1).first()
         except Exception, e: 
-            log.warn("find(%s): %s" % (id, e))
+            log.warn("find(%s): %s" % (permission_name, e))
             return None
     
     def _index_id(self):
@@ -47,3 +39,6 @@ class Permission(Base):
     @classmethod
     def all(cls):
         return meta.Session.query(Permission).all()
+    
+    def __repr__(self):
+        return u"<Permission(%d,%s)>" % (self.id, self.permission_name)

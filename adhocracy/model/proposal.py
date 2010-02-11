@@ -2,8 +2,8 @@ import logging
 from itertools import chain
 from datetime import datetime
 
-from sqlalchemy import Column, Unicode, ForeignKey, Integer, or_
-from sqlalchemy.orm import relation
+from sqlalchemy import Table, Column, Unicode, ForeignKey, Integer, or_
+from sqlalchemy.orm import relation, mapper
 
 import meta
 import filter
@@ -12,18 +12,15 @@ from delegateable import Delegateable
 
 log = logging.getLogger(__name__)
 
+proposal_table = Table('proposal', meta.data,
+    Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
+    Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True)
+    )
+
 class Proposal(Delegateable):
-    __tablename__ = 'proposal'
-    __mapper_args__ = {'polymorphic_identity': 'proposal'}
-    
-    id = Column(Integer, ForeignKey('delegateable.id'), primary_key=True)
-    comment_id = Column(Integer, ForeignKey('comment.id'), nullable=True)
-              
+       
     def __init__(self, instance, label, creator):
         self.init_child(instance, label, creator)
-        
-    def __repr__(self):
-        return u"<Proposal(%s)>" % self.id
     
     def _get_issue(self):
         if len(self.parents) != 1:
@@ -135,9 +132,7 @@ class Proposal(Delegateable):
         for proposal in new_list:
             alternative = Alternative(self, proposal)
             meta.Session.add(alternative)
-            
     
+    def __repr__(self):
+        return u"<Proposal(%s)>" % self.id
 
-Proposal.comment = relation('Comment', 
-                          primaryjoin="Proposal.comment_id==Comment.id", 
-                          foreign_keys=[Proposal.comment_id], uselist=False)

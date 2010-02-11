@@ -1,55 +1,35 @@
 from datetime import datetime
 import logging
 
-from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, Boolean, func, or_
+from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, Boolean, func, or_
 from sqlalchemy.orm import relation, backref
 
 import meta
-from meta import Base
-import user
-import delegateable
+
 
 log = logging.getLogger(__name__)
 
-class Comment(Base):
-    __tablename__ = 'comment'
-        
-    id = Column(Integer, primary_key=True)
-    create_time = Column(DateTime, default=datetime.utcnow)
-    delete_time = Column(DateTime, default=None, nullable=True)
-    
-    creator_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    creator = relation(user.User, lazy=False, backref=backref('comments'))
-    
-    topic_id = Column(Integer, ForeignKey('delegateable.id'), nullable=False)
-    topic = relation(delegateable.Delegateable, backref=backref('comments', cascade='all'))
-    
-    canonical = Column(Boolean, default=False)
-    
-    reply_id = Column(Integer, ForeignKey('comment.id'), nullable=True)
+
+comment_table = Table('comment', meta.data,                  
+    Column('id', Integer, primary_key=True),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('delete_time', DateTime, default=None, nullable=True),
+    Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('topic_id', Integer, ForeignKey('delegateable.id'), nullable=False),
+    Column('canonical', Boolean, default=False),
+    Column('reply_id', Integer, ForeignKey('comment.id'), nullable=True)
+    )
+     
+
+
+class Comment(object):
     
     def __init__(self, topic, creator):
         self.topic = topic
         self.creator = creator
-        
-    def __repr__(self):
-        return "<Comment(%d,%s,%d,%s)>" % (self.id, self.creator.user_name,
-                                          self.topic_id, self.create_time)
-    
-    #def _get_latest(self):
-    #    return self.revisions[0]
-    
-    #def _set_latest(self, latest):
-    #    self.revisions.append(latest)
-    
-    #latest = property(_get_latest, _set_latest)
-    
-    latest = relation('Revision', primaryjoin='Revision.comment_id==Comment.id',
-                      order_by='Revision.create_time.desc()', uselist=False,
-                      viewonly=True, lazy=False)
     
     def root(self):
-        return self.reply.root() if self.reply else self
+        return self if self.reply is None else self.reply.root()
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
@@ -115,7 +95,6 @@ class Comment(Base):
         d['revisions'] = map(lambda r: r.id, self.revisions)
         return d
     
-
-Comment.reply = relation(Comment, cascade='delete', 
-                         remote_side=Comment.id, 
-                         backref=backref('replies', lazy=True))
+    def __repr__(self):
+        return "<Comment(%d,%s,%d,%s)>" % (self.id, self.creator.user_name,
+                                          self.topic_id, self.create_time)

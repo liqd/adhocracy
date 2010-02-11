@@ -1,33 +1,27 @@
 from datetime import datetime
 import logging
 
-from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
-from sqlalchemy.orm import relation, backref
+from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func
 
-from meta import Base
 import meta
 import filter as ifilter
 
-from vote import Vote
-from poll import Poll
 
 log = logging.getLogger(__name__)
 
-class Tally(Base):
-    __tablename__ = 'tally'
-    
-    id = Column(Integer, primary_key=True)
-    create_time = Column(DateTime, default=datetime.utcnow)
-    
-    poll_id = Column(Integer, ForeignKey('poll.id'), nullable=False)
-    poll = relation(Poll, backref=backref('tallies', order_by='Tally.create_time.desc()'))
-    
-    vote_id = Column(Integer, ForeignKey('vote.id'), nullable=True)
-    vote = relation(Vote, backref=backref('tally', uselist=False))
-    
-    num_for = Column(Integer, nullable=True)
-    num_against = Column(Integer, nullable=True)
-    num_abstain = Column(Integer, nullable=True)
+
+tally_table = Table('tally', meta.data,
+    Column('id', Integer, primary_key=True),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('poll_id', Integer, ForeignKey('poll.id'), nullable=False),
+    Column('vote_id', Integer, ForeignKey('vote.id'), nullable=True),
+    Column('num_for', Integer, nullable=True),
+    Column('num_against', Integer, nullable=True),
+    Column('num_abstain', Integer, nullable=True)
+    )
+
+
+class Tally(object):
     
     def __init__(self, poll, num_for, num_against, num_abstain):
         self.poll = poll
@@ -100,14 +94,7 @@ class Tally(Base):
         q = q.filter(Tally.create_time<=to_time)
         q = q.order_by(Tally.create_time.desc())
         return q.all()
-      
-    def __repr__(self):
-        return "<Tally(%s,%s,%s,%d,%d,%d)>" % (self.id,
-                                            self.poll_id,
-                                            self.vote_id,
-                                            self.num_for,
-                                            self.num_against,
-                                            self.num_abstain)
+    
     
     def __len__(self):
         return self.num_for + self.num_against + self.num_abstain
@@ -121,3 +108,12 @@ class Tally(Base):
     
     def _index_id(self):
         return self.id
+    
+    
+    def __repr__(self):
+        return "<Tally(%s,%s,%s,%d,%d,%d)>" % (self.id,
+                                            self.poll_id,
+                                            self.vote_id,
+                                            self.num_for,
+                                            self.num_against,
+                                            self.num_abstain)

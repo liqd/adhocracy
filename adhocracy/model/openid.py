@@ -2,36 +2,26 @@ from datetime import datetime
 
 import logging
 
-from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func, or_ 
-from sqlalchemy.orm import relation, backref
-
-from meta import Base
-import user 
+from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func, or_ 
+ 
 import meta 
 
 log = logging.getLogger(__name__)
 
-class OpenID(Base):
-    __tablename__ = 'openid'
-        
-    id = Column(Integer, primary_key=True)
-    create_time = Column(DateTime, default=datetime.utcnow)
-    delete_time = Column(DateTime, nullable=True)
+openid_table = Table('openid', meta.data,
+    Column('id', Integer, primary_key=True),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('delete_time', DateTime, nullable=True),
+    Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('identifier', Unicode(255), nullable=False, index=True) 
+    )
+
+class OpenID(object):
     
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    user = relation(user.User, lazy=False, primaryjoin="OpenID.user_id==User.id", 
-                    backref=backref('openids', cascade='delete'))
-    
-    identifier = Column(Unicode(255), nullable=False, index=True)
-       
     def __init__(self, identifier, user):
         self.identifier = identifier
         self.user = user
-            
-    def __repr__(self):
-        return u"<OpenID(%d,%s,%s)>" % (self.id, 
-                                        self.identifier,
-                                        self.user.user_name)  
+    
     
     @classmethod
     def find(cls, identifier, include_deleted=False):
@@ -66,8 +56,15 @@ class OpenID(Base):
         if self.delete_time is None:
             self.delete_time = delete_time  
     
+    
     def is_deleted(self, at_time=None):
         if at_time is None:
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
             self.delete_time <= at_time
+            
+            
+    def __repr__(self):
+        return u"<OpenID(%d,%s,%s)>" % (self.id, 
+                                        self.identifier,
+                                        self.user.user_name)  

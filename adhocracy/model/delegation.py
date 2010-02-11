@@ -1,63 +1,35 @@
 from datetime import datetime
 import logging
 
-from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func, or_
+from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import relation, backref
 
 import meta
 import filter as ifilter
-from meta import Base
 from user import User
 from delegateable import Delegateable
 
 log = logging.getLogger(__name__)
 
-class Delegation(Base):
-    __tablename__ = 'delegation'
-    
-    id = Column(Integer, primary_key=True)
-    
-    # REFACT: consider to rename this to target_user or target
-    agent_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    agent = relation(User,
-        primaryjoin="Delegation.agent_id == User.id", 
-        backref=backref('agencies', cascade='all'))
-    
-    # REFACT: consider to rename this to source_user or source
-    principal_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    principal = relation(User, 
-        primaryjoin="Delegation.principal_id==User.id", 
-        backref=backref('delegated', cascade='all'))
-    
-    scope_id = Column(Integer, ForeignKey('delegateable.id'), nullable=False)
-    scope = relation(Delegateable, lazy=False,
-        primaryjoin="Delegation.scope_id==Delegateable.id", 
-        backref=backref('delegations', cascade='all'))
-    
-    create_time = Column(DateTime, default=datetime.utcnow)
-    revoke_time = Column(DateTime, default=None, nullable=True)
-    # can't be implicit by the next delegation being cast as multiple delegations at the same time are supported
+delegation_table = Table('delegation', meta.data,                      
+    Column('id', Integer, primary_key=True),
+    Column('agent_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('principal_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('revoke_time', DateTime, default=None, nullable=True)
+    )
+
+class Delegation(object):
     
     def __init__(self, principal, agent, scope):
         self.principal = principal
         self.agent = agent
         self.scope = scope
     
-    def __repr__(self):
-        return u"<Delegation(%s, %s->%s, %s)>" % (
-            self.id, 
-            self.principal.user_name, 
-            self.agent.user_name,
-            self.scope.id
-        )
-    
     def is_match(self, delegateable):
         if self.is_revoked():
             return False
-        # TODO: this is a one-off of using permission in the model
-        # rethink this. 
-        #if not self.principal.has_permission("vote.cast"):
-        #    return False
         return self.scope == delegateable or self.scope.is_super(delegateable)
     
     @classmethod
@@ -134,5 +106,13 @@ class Delegation(Base):
                     principal=self.principal.user_name,
                     agent=self.agent.user_name,
                     scope=self.scope_id)
+        
+    def __repr__(self):
+        return u"<Delegation(%s, %s->%s, %s)>" % (
+            self.id, 
+            self.principal.user_name, 
+            self.agent.user_name,
+            self.scope.id
+        )
     
     

@@ -17,7 +17,7 @@ def mk_group(name, code):
 
 def mk_perm(name, *groups):
     perm = model.Permission.find(unicode(name))
-    if not perm:
+    if perm is None:
         log.debug("Creating permission: %s" % name)
         perm = model.Permission(unicode(name))
         model.meta.Session.add(perm)

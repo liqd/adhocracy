@@ -1,10 +1,8 @@
 from datetime import datetime
 import logging
 
-from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
-from sqlalchemy.orm import relation, backref
+from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func
 
-from meta import Base
 import meta
 import filter as ifilter
 
@@ -14,44 +12,27 @@ from poll import Poll
 
 log = logging.getLogger(__name__)
 
-class Vote(Base):
+vote_table = Table('vote', meta.data, 
+    Column('id', Integer, primary_key=True),
+    Column('orientation', Integer, nullable=False),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('poll_id', Integer, ForeignKey('poll.id'), nullable=False),
+    Column('delegation_id', Integer, ForeignKey('delegation.id'), nullable=True)
+    )
+
+class Vote(object):
     # REFACT: Not voted yet is expressed as None in varous places
     # Might be nice to have an explicit value for that
     YES = 1L
     NO = -1L
     ABSTAIN = 0L
-        
-    __tablename__ = 'vote'
-    
-    id = Column(Integer, primary_key=True)
-    orientation = Column(Integer, nullable=False)
-    create_time = Column(DateTime, default=datetime.utcnow)
-    
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    user = relation(User, 
-        primaryjoin="Vote.user_id==User.id", 
-        backref=backref('votes', cascade='delete', order_by='Vote.create_time.desc()'))
-    
-    poll_id = Column(Integer, ForeignKey('poll.id'), nullable=False)
-    poll = relation(Poll, backref=backref('votes', order_by='Vote.create_time.desc()'))
-    
-    delegation_id = Column(Integer, ForeignKey('delegation.id'), nullable=True)
-    delegation = relation(Delegation, 
-        primaryjoin="Vote.delegation_id==Delegation.id", 
-        backref=backref('votes', cascade='delete'))
     
     def __init__(self, user, poll, orientation, delegation=None):
         self.user = user
         self.poll = poll
         self.orientation = orientation
         self.delegation = delegation
-        
-    def __repr__(self):
-        return "<Vote(%s,%s,%s,%s,%s)>" % (self.id, 
-            self.user.user_name,
-            self.poll.id, 
-            self.orientation,
-            self.delegation.id if self.delegation else "DIRECT")
         
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
@@ -77,4 +58,11 @@ class Vote(Base):
         
     def _index_id(self):
         return self.id
+    
+    def __repr__(self):
+        return "<Vote(%s,%s,%s,%s,%s)>" % (self.id, 
+            self.user.user_name,
+            self.poll.id, 
+            self.orientation,
+            self.delegation.id if self.delegation else "DIRECT")
 

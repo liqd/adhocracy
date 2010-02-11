@@ -2,40 +2,32 @@ import re
 from datetime import datetime
 import logging
 
-from sqlalchemy import Column, Integer, Float, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
-from sqlalchemy.orm import relation, synonym, backref
+from sqlalchemy import Table, Column, Integer, Float, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
 
 import meta
-from meta import Base
-import user
 
 log = logging.getLogger(__name__)
 
+instance_table = Table('instance', meta.data,
+    Column('id', Integer, primary_key=True),
+    Column('key', Unicode(20), nullable=False, unique=True),
+    Column('label', Unicode(255), nullable=False),
+    Column('description', UnicodeText(), nullable=True),
+    Column('required_majority', Float, nullable=False),
+    Column('activation_delay', Integer, nullable=False),
+    Column('create_time', DateTime, default=func.now()),
+    Column('access_time', DateTime, default=func.now(), onupdate=func.now()),
+    Column('delete_time', DateTime, nullable=True),
+    Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True)    
+    )
+
 # Instance is not a delegateable - but it should - or you cannot do instance wide delegation
-class Instance(Base):
+class Instance(object):
     __tablename__ = 'instance'
     
     INSTANCE_KEY = re.compile("^[a-zA-Z][a-zA-Z0-9_]{2,18}$")
     
-    id = Column(Integer, primary_key=True)
-    _key = Column('key', Unicode(20), nullable=False, unique=True)
-    label = Column(Unicode(255), nullable=False)
-    description = Column(UnicodeText(), nullable=True)
-    
-    required_majority = Column(Float, nullable=False)
-    activation_delay = Column(Integer, nullable=False)
-    
-    create_time = Column(DateTime, default=func.now())
-    access_time = Column(DateTime, default=func.now(), onupdate=func.now())
-    delete_time = Column(DateTime, nullable=True)
-    
-    creator_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    creator = relation(user.User, 
-        primaryjoin="Instance.creator_id==User.id", 
-        backref=backref('created_instances'))
-    
-    default_group_id = Column(Integer, ForeignKey('group.id'), nullable=True)
-    default_group = relation('Group', lazy=True)
         
     def __init__(self, key, label, creator, description=None):
         self.key = key
@@ -44,18 +36,7 @@ class Instance(Base):
         self.description = description
         self.required_majority = 0.66
         self.activation_delay = 7
-        
-    def __repr__(self):
-        return u"<Instance(%d,%s)>" % (self.id, self.key)
     
-    def _get_key(self):
-        return self._key
-    
-    def _set_key(self, value):
-        self._key = value.lower()
-    
-    key = synonym('_key', descriptor=property(_get_key,
-                                              _set_key))
     
     def current_memberships(self):
         return [m for m in self.memberships if not m.is_expired()]
@@ -137,3 +118,7 @@ class Instance(Base):
             d['description'] = self.description
         #d['members'] = map(lambda u: u.user_name, self.members)
         return d
+    
+    def __repr__(self):
+        return u"<Instance(%d,%s)>" % (self.id, self.key)
+    

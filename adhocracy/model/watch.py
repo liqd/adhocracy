@@ -1,35 +1,29 @@
 import logging
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func, or_
-from sqlalchemy.orm import relation, backref
+from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func, or_
 
-from meta import Base
-import user
 import meta
 
 log = logging.getLogger(__name__)
 
-class Watch(Base):
-    __tablename__ = 'watch'
-        
-    id = Column(Integer, primary_key=True)
-    create_time = Column(DateTime, default=datetime.utcnow)
-    delete_time = Column(DateTime, nullable=True)
-    
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    user = relation(user.User, primaryjoin="Watch.user_id==User.id")
-    
-    entity_type = Column(Unicode(255), nullable=False, index=True)
-    entity_ref = Column(Unicode(255), nullable=False, index=True)
+
+watch_table = Table('watch', meta.data,
+    Column('id', Integer, primary_key=True),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('delete_time', DateTime, nullable=True),
+    Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('entity_type', Unicode(255), nullable=False, index=True),
+    Column('entity_ref', Unicode(255), nullable=False, index=True)                
+    )
+
+
+class Watch(object):
     
     def __init__(self, user, entity_type, entity_ref):
         self.user = user
         self.entity_type = entity_type
         self.entity_ref = entity_ref
-        
-    def __repr__(self):
-        return "<Watch(%s,%s,%s)>" % (self.id, self.user.user_name, self.entity_ref)
     
     @classmethod
     def by_id(cls, id, include_deleted=False):
@@ -76,4 +70,8 @@ class Watch(Base):
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
+    
+    def __repr__(self):
+        return "<Watch(%s,%s,%s)>" % (self.id, self.user.user_name, self.entity_ref)
+
         

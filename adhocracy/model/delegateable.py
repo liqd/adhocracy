@@ -3,45 +3,32 @@ from datetime import datetime
 import logging
 
 from sqlalchemy import Table, Column, Integer, Unicode, String, ForeignKey, DateTime, func, or_
-from sqlalchemy.orm import relation, backref
+from sqlalchemy.orm import relation, backref, mapper
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 import meta
 import filter as ifilter
-from meta import Base
-from user import User
 
 log = logging.getLogger(__name__)
 
 # REFACT: this should not be used anymore - remove?
-category_graph = Table('category_graph', Base.metadata,
+category_graph = Table('category_graph', meta.data,
     Column('parent_id', Integer, ForeignKey('delegateable.id')),
     Column('child_id', Integer, ForeignKey('delegateable.id'))
     )
 
-class Delegateable(Base):    
-    __tablename__ = 'delegateable'
-    
-    id = Column(Integer, primary_key=True)
-    label = Column(Unicode(255), nullable=False)
-    delgateable_type = Column('type', String(50))
-    
-    create_time = Column(DateTime, default=datetime.utcnow)
-    access_time = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    delete_time = Column(DateTime, nullable=True)
-    
-    creator_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    creator = relation(User, 
-        primaryjoin="Delegateable.creator_id==User.id", 
-        backref=backref('delegateables', cascade='delete'))
-    
-    instance_id = Column(Integer, ForeignKey('instance.id'), nullable=False)
-    instance = relation('Instance', lazy=True,
-        primaryjoin="Delegateable.instance_id==Instance.id", 
-        backref=backref('delegateables', cascade='delete'))
-    
-    __mapper_args__ = {'polymorphic_on': delgateable_type,
-                       'extension': Base.__mapper_args__.get('extension')}
+delegateable_table = Table('delegateable', meta.data,
+    Column('id', Integer, primary_key=True),
+    Column('label', Unicode(255), nullable=False),
+    Column('type', String(50)),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('access_time', DateTime, default=datetime.utcnow, onupdate=datetime.utcnow),
+    Column('delete_time', DateTime, nullable=True),
+    Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False)
+    )
+
+class Delegateable(object):
     
     def __init__(self):
         raise Exception("Make a category or a proposal instead!")
@@ -143,11 +130,5 @@ class Delegateable(Base):
                     instance=self.instance.key,
                     creator=self.creator.user_name,
                     create_time=self.create_time)
-    
-Delegateable.__mapper__.add_property('parents', relation(Delegateable, lazy=True, secondary=category_graph, 
-    primaryjoin=Delegateable.__table__.c.id == category_graph.c.parent_id,
-    secondaryjoin=category_graph.c.child_id == Delegateable.__table__.c.id))
-    
-Delegateable.__mapper__.add_property('children', relation(Delegateable, lazy=True, secondary=category_graph, 
-    primaryjoin=Delegateable.__table__.c.id == category_graph.c.child_id,
-    secondaryjoin=category_graph.c.parent_id == Delegateable.__table__.c.id))
+
+

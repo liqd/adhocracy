@@ -3,35 +3,33 @@ import os
 import logging
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, Unicode, UnicodeText, Boolean, DateTime, func, or_
-from sqlalchemy.orm import synonym
-from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy import Table, Column, Integer, Unicode, UnicodeText, Boolean, DateTime, func, or_
 
 from babel import Locale
 
 import meta
 import filter as ifilter
-from meta import Base
 import group
 
 log = logging.getLogger(__name__)
 
-class User(Base):
-    __tablename__ = 'user'
-    
-    id = Column(Integer, primary_key=True)
-    user_name = Column(Unicode(255), nullable=False, unique=True, index=True)
-    display_name = Column(Unicode(255), nullable=True, index=True)
-    bio = Column(UnicodeText(), nullable=True)
-    _email = Column('email', Unicode(255), nullable=True, unique=False)
-    email_priority = Column(Integer, default=3)
-    activation_code = Column(Unicode(255), nullable=True, unique=False)
-    reset_code = Column(Unicode(255), nullable=True, unique=False)
-    _password = Column('password', Unicode(80), nullable=False)
-    _locale = Column('locale', Unicode(7), nullable=True)
-    create_time = Column(DateTime, default=datetime.utcnow)
-    access_time = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    delete_time = Column(DateTime)
+user_table = Table('user', meta.data,
+    Column('id', Integer, primary_key=True),
+    Column('user_name', Unicode(255), nullable=False, unique=True, index=True),
+    Column('display_name', Unicode(255), nullable=True, index=True),
+    Column('bio', UnicodeText(), nullable=True),
+    Column('email', Unicode(255), nullable=True, unique=False),
+    Column('email_priority', Integer, default=3),
+    Column('activation_code', Unicode(255), nullable=True, unique=False),
+    Column('reset_code', Unicode(255), nullable=True, unique=False),
+    Column('password', Unicode(80), nullable=False),
+    Column('locale', Unicode(7), nullable=True),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('access_time', DateTime, default=datetime.utcnow, onupdate=datetime.utcnow),
+    Column('delete_time', DateTime)
+    )
+
+class User(object):
     
     def __init__(self, user_name, email, password, locale, display_name=None, bio=None):
         self.user_name = user_name
@@ -40,9 +38,6 @@ class User(Base):
         self.locale = locale
         self.display_name = display_name
         self.bio = bio
-        
-    def __repr__(self):
-        return u"<User(%s,%s)>" % (self.id, self.user_name)
            
     def _get_name(self):
         return self.display_name.strip() \
@@ -59,8 +54,6 @@ class User(Base):
     def _set_locale(self, locale):
         self._locale = unicode(locale)
         
-    locale = synonym('_locale', descriptor=property(_get_locale,
-                                                    _set_locale))
     def _get_email(self):
         return self._email
     
@@ -68,10 +61,7 @@ class User(Base):
         import adhocracy.lib.util as util 
         if not self._email == email:
             self.activation_code = util.random_token()
-        self._email = email 
-        
-    email = synonym('_email', descriptor=property(_get_email,
-                                                  _set_email))
+        self._email = email
     
     def _get_email_hash(self):
         return hashlib.sha1(self.email).hexdigest()
@@ -116,7 +106,7 @@ class User(Base):
     
     def _get_twitter(self):
         for twitter in self.twitters:
-            if not twitter.delete_time:
+            if not twitter.is_deleted():
                 return twitter
         return None
     
@@ -142,9 +132,6 @@ class User(Base):
     def _get_password(self):
         """Return the password hashed"""
         return self._password
-    
-    password = synonym('_password', descriptor=property(_get_password,
-                                                        _set_password))
     
     def validate_password(self, password):
         """
@@ -306,5 +293,8 @@ class User(Base):
         #d['memberships'] = map(lambda m: m.instance.key, 
         #                       self.memberships)
         return d
+    
+    def __repr__(self):
+        return u"<User(%s,%s)>" % (self.id, self.user_name)
     
 

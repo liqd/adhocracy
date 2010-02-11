@@ -23,13 +23,13 @@ def setup_app(command, conf, vars):
     
     if config.get('adhocracy.setup.drop', "OH_NOES") == "KILL_EM_ALL":
         log.warn("DELETING DATABASE AND SEARCH/EVENT INDEX")
-        meta.metadata.drop_all(bind=meta.engine)
+        meta.data.drop_all(bind=meta.engine)
         index_path = util.get_site_path(*search.SITE_INDEX_DIR)
         if os.path.exists(index_path):
             shutil.rmtree(index_path)
     
     # Create the tables if they don't already exist
-    meta.metadata.create_all(bind=meta.engine)
+    meta.data.create_all(bind=meta.engine)
     try:
         store = openidstore._create_sql_store()
         store.createTables()

@@ -18,22 +18,22 @@ log = logging.getLogger(__name__)
 
 FORMAT = re.compile("@\[(.*):(.*)\]")
 
-TYPES = [Vote,
-         User,
-         Group,
-         Permission,
-         Comment,
-         Delegation,
-         Issue,
-         Proposal,
-         Poll,
-         Instance]
+TYPES = {Vote: 'vote',
+         User: 'user',
+         Group: 'group',
+         Permission: 'permission',
+         Comment: 'comment',
+         Delegation: 'delegation',
+         Issue: 'issue',
+         Proposal: 'proposal',
+         Poll: 'poll',
+         Instance: 'instance'}
 
 def entity_type(cls):
-    return unicode(cls.__tablename__)
+    return TYPES.get(cls)
 
 def to_ref(entity):
-    for cls in TYPES:
+    for cls in TYPES.keys():
         if isinstance(entity, cls):
             return u"@[%s:%s]" % (entity_type(entity), str(entity._index_id()))
     return entity

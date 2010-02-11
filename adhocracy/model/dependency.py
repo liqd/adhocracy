@@ -1,29 +1,25 @@
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, Unicode, ForeignKey, DateTime, func
-from sqlalchemy.orm import relation, backref
+from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func
 
-from meta import Base
+import meta
 from proposal import Proposal
 
-class Dependency(Base):
-    __tablename__ = "dependency"
-    
-    id = Column(Integer, primary_key=True)
-    create_time = Column(DateTime, default=datetime.utcnow)
-    delete_time = Column(DateTime, nullable=True)
-    
-    proposal_id = Column(Integer, ForeignKey('proposal.id'), nullable=False)
-    requirement_id = Column(Integer, ForeignKey('proposal.id'), nullable=False)
+dependency_table = Table('dependency', meta.data,
+    Column('id', Integer, primary_key=True),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('delete_time', DateTime, nullable=True),
+    Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=False),
+    Column('requirement_id', Integer, ForeignKey('proposal.id'), nullable=False)
+    )
+
+class Dependency(object):
     
     def __init__(self, proposal, requirement):
         if proposal == requirement:
             raise ValueError()
         self.proposal = proposal
         self.requirement = requirement
-    
-    def __repr__(self):
-        return "<Depdendency(%d,%d)>" % (self.proposal_id, self.requirement_id)
     
     def delete(self, delete_time=None):
         if delete_time is None:
@@ -43,10 +39,5 @@ class Dependency(Base):
                     create_time=self.create_time,
                     id=self.id)
     
-Dependency.proposal = relation(Proposal, primaryjoin="Dependency.proposal_id==Proposal.id", 
-                             foreign_keys=[Dependency.proposal_id], 
-                             backref=backref('dependencies', cascade='all'))
-
-Dependency.requirement = relation(Proposal, primaryjoin="Dependency.requirement_id==Proposal.id", 
-                                  foreign_keys=[Dependency.requirement_id], 
-                                  backref=backref('dependents', cascade='all'))
+    def __repr__(self):
+        return "<Depdendency(%d,%d)>" % (self.proposal_id, self.requirement_id)

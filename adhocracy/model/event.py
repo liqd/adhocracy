@@ -8,35 +8,32 @@ from sqlalchemy.orm import relation, backref
 import simplejson as json
 
 import filter as ifilter
-from meta import Base
 import meta
-import user
 import refs
+
 
 log = logging.getLogger(__name__)
 
-event_topic = Table('event_topic', Base.metadata,
-    Column('event_id', Integer, ForeignKey('event.id',
-        onupdate="CASCADE", ondelete="CASCADE")),
-    Column('topic_id', Integer, ForeignKey('delegateable.id',
-        onupdate="CASCADE", ondelete="CASCADE"))
-)
 
-class Event(Base):
-    __tablename__ = 'event'
-    
-    id = Column(Integer, primary_key=True)
-    _event = Column('event', Unicode(255), nullable=False)
-    time = Column(DateTime, default=datetime.utcnow)
-    _data = Column('data', UnicodeText(), nullable=False)
-    
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    user = relation(user.User, lazy=False, primaryjoin="Event.user_id==User.id")
-    
-    instance_id = Column(Integer, ForeignKey('instance.id'), nullable=True)
-    instance = relation('Instance', lazy=True, primaryjoin="Event.instance_id==Instance.id")
-    
-    topics = relation('Delegateable', secondary=event_topic, lazy=True)
+event_topic_table = Table('event_topic', meta.data,
+    Column('event_id', Integer, ForeignKey('event.id',
+           onupdate="CASCADE", ondelete="CASCADE")),
+    Column('topic_id', Integer, ForeignKey('delegateable.id',
+           onupdate="CASCADE", ondelete="CASCADE"))
+    )
+
+
+event_table = Table('event', meta.data, 
+    Column('id', Integer, primary_key=True),
+    Column('event', Unicode(255), nullable=False),
+    Column('time', DateTime, default=datetime.utcnow),
+    Column('data', UnicodeText(), nullable=False),
+    Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('instance_id', Integer, ForeignKey('instance.id'), nullable=True)
+    )
+
+
+class Event(object):
     
     def __init__(self, event_type, user, data, instance=None):
         self._event = unicode(event_type)
@@ -49,9 +46,6 @@ class Event(Base):
         self._ref_data = json.loads(self._data)
         self._deref_data = {}
     
-    def __repr__(self):
-        return "<Event(%d,%s,%s,%s)>" % (self.id, self.event, self.time, 
-                                         self.user.user_name)
     
     def __getattr__(self, attr):
         if attr in ['_ref_data', '_deref_data']:
@@ -75,8 +69,6 @@ class Event(Base):
         self._ref_data = refs.complex_to_refs(data)
         self._data = unicode(json.dumps(self._ref_data))
     
-    data = synonym('_data', descriptor=property(_get_data,
-                                                _set_data))
     
     def _get_event(self):
         try:
@@ -88,7 +80,6 @@ class Event(Base):
         except ImportError:
             return self._event
     
-    event = synonym('_event', descriptor=property(_get_event))
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
@@ -127,4 +118,10 @@ class Event(Base):
                  instance=self.instance.key)
         d['topics'] = map(lambda t: t.id, self.topics)
         return d
+    
+    
+    def __repr__(self):
+        return "<Event(%d,%s,%s,%s)>" % (self.id, self.event, self.time, 
+                                         self.user.user_name)
+
         
