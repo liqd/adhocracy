@@ -10,6 +10,7 @@ import adhocracy.lib.app_globals as app_globals
 import adhocracy.lib.helpers
 from adhocracy.config.routing import make_map
 from adhocracy.model import init_model, meta
+from adhocracy.lib.queue import init_queue
 from adhocracy.lib.search import init_search
 from adhocracy.lib import init_site
 
@@ -47,6 +48,7 @@ def load_environment(global_conf, app_conf):
     # CONFIGURATION OPTIONS HERE (note: all config options will override
     # any Pylons config options)
     init_site()
+    init_queue()
     init_search()
 
     

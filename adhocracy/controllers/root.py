@@ -42,6 +42,8 @@ class RootController(BaseController):
         return render("sitemap.xml")
     
     def process(self):
+        import adhocracy.lib.queue as queue
+        queue.process_messages()
         event.queue_process()
         watchlist.clean_stale_watches()
         return "everything processed. come back soon ;-)"

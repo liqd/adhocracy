@@ -12,10 +12,12 @@ def has_queue():
            is not None
 
 def queue_name(service):
-    return config.get('adhocracy.amqp.queue')
+    return config.get('adhocracy.amqp.queue', 
+                      'adhocracy.queue') + '.' + service
 
 def exchange_name(service):
-    return config.get('adhocracy.amqp.exchange')
+    return config.get('adhocracy.amqp.exchange', 
+                      'adhocracy.queue') + '.' + service
 
 def create_connection():
     host = config.get('adhocracy.amqp.host')

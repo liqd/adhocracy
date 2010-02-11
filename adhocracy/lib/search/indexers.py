@@ -71,7 +71,7 @@ def index_proposal(entity):
     return d
 
 def insert(index_func):
-    def f(entity):
+    def f(e, entity):
         entry = index_func(entity)
         if entry is None:
             delete(entity)
@@ -86,7 +86,7 @@ def insert(index_func):
     return f
 
 def update(index_func):
-    def f(entity):
+    def f(e, entity):
         entry = index_func(entity)
         if entry is None:
             delete(entity)
@@ -100,7 +100,7 @@ def update(index_func):
                 ix_lock.release()
     return f
 
-def delete(entity):
+def delete(e, entity):
     ix_lock.acquire()
     try:
         ix = get_index()
@@ -109,8 +109,5 @@ def delete(entity):
         ix.commit()
     finally:
         ix_lock.release()
-def register_indexer(cls, index_func):
-    hooks.patch(cls, hooks.POSTINSERT, insert(index_func))
-    hooks.patch(cls, hooks.POSTUPDATE, update(index_func))
-    hooks.patch(cls, hooks.PREDELETE, delete)
+
 

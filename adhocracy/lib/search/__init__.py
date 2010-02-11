@@ -7,6 +7,7 @@ import whoosh
 import adhocracy.model as model
 import adhocracy.model.hooks as hooks
 from .. import util
+from .. import queue
 from index import open_index, create_index, get_index
 import query
 from indexers import * 
@@ -29,9 +30,14 @@ def init_search():
     else: 
         log.info("Opening Whoosh %s index at: %s" % (whoosh.versionstring(), index_dir))
         open_index(index_dir)
-    orm_register()
+    queue_register()
 
-def orm_register():
+def register_indexer(cls, index_func):
+    queue.register(cls, queue.INSERT, insert(index_func))
+    queue.register(cls, queue.UPDATE, update(index_func))
+    queue.register(cls, queue.DELETE, delete)
+
+def queue_register():
     register_indexer(model.Issue, index_issue)
     register_indexer(model.Proposal, index_proposal)
     register_indexer(model.User, index_user)
