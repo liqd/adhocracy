@@ -47,7 +47,14 @@ class Vote(object):
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))
             return None
-        
+    
+    
+    @classmethod
+    def all(cls):
+        q = meta.Session.query(Vote)
+        return q.all()
+    
+    
     def to_dict(self):
         return dict(id=self.id,
                     user=self.user_id,
