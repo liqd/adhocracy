@@ -53,25 +53,27 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
                          "is prohibited for security reasons.")) 
     return decorator(_decorate)
 
+
 def make_token():
     tokens = session.get('modtokens', [])
-    
     token = None
-    if len(tokens) < 100:
+    if len(tokens) < 30:
         token = hashlib.sha1(str(random.random())).hexdigest()
+        tokens.append(token)
+        session['modtokens'] = tokens
+        session.save()
     else:
-        token = tokens[-1]
-        
-    tokens.append(token)
-    session['modtokens'] = tokens
-    session.save()
+        token = tokens[0]
     return token
+
 
 def url_token():
     return "_csrftoken=%s" % make_token()
 
+
 def field_token():
     return '<input name="_csrftoken" type="hidden" value="%s" />' % make_token() 
+
 
 def has_token():
     if request.params.get('_csrftoken', None) in session['modtokens']:

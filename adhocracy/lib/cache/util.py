@@ -33,9 +33,9 @@ def make_tag(obj):
     return make_key("__tag_", [obj], {})
 
 def make_key(iden, a, kw=None):
-    strs = map(str, a) + map(str, kw.items())
+    strs = map(unicode, a) + map(unicode, kw.items())
     #iden = "None" if iden is None else iden
-    sig = sha1(b64encode(reduce(lambda s, p: s + p, strs, ""))).hexdigest()
+    sig = sha1(u"".join(strs).encode('ascii', 'replace')).hexdigest()
     return iden[:210] + sig
 
 def clear_tag(tag):
