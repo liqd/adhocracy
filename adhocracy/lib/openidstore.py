@@ -29,5 +29,5 @@ def create_store():
 def create_consumer(openid_session):
     global store
     if store is None:
-        store = _create_store()
+        store = create_store()
     return Consumer(openid_session, store)

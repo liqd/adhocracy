@@ -59,6 +59,7 @@ class Tally(object):
     @classmethod
     def create_from_poll(cls, poll, at_time=None):
         from adhocracy.lib.democracy import Decision
+        from vote import Vote
         if at_time is None:
             at_time = datetime.utcnow()
         results = {}

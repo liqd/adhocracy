@@ -33,31 +33,17 @@ class Proposal(Delegateable):
         self.parents = [issue]
 
     issue = property(_get_issue, _set_issue)
-    
-    def _get_poll(self):
-        for poll in self.polls:
-            if not poll.end_time:
-                return poll
-        return None
-    
-    poll = property(_get_poll)
-    
+        
     def search_children(self, recurse=False, cls=Delegateable):
         return []
-    
-    def poll_at(self, at_time):
-        for poll in self.polls:
-            if poll.begin_time > at_time:
-                continue
-            if poll.end_time and poll.end_time < at_time:
-                continue
-            return poll
-        return None
-    
+        
     def _get_canonicals(self):
         return [c for c in self.comments if c.canonical and not c.is_deleted()]
     
     canonicals = property(_get_canonicals)
+    
+    def is_mutable(self):
+        return self.adopt_poll is None or self.adopt_poll.has_ended()
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
@@ -99,7 +85,7 @@ class Proposal(Delegateable):
         from poll import Poll
         proposal = Proposal(instance, label, user)
         proposal.issue = issue
-        model.meta.Session.add(proposal)
+        meta.Session.add(proposal)
         meta.Session.flush()
         poll = Poll.create(proposal, user, Poll.RATE)
         proposal.rate_poll = poll
@@ -114,9 +100,6 @@ class Proposal(Delegateable):
             alternative.delete(delete_time=delete_time)
         for alternative in self.right_alternatives:
             alternative.delete(delete_time=delete_time)
-        # TODO: This really SHOULD have some check: 
-        for poll in self.polls:
-            poll.delete()
             
     def comment_count(self):
         count = len([c for c in self.comments if not c.is_deleted()])

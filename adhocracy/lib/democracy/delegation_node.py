@@ -172,37 +172,6 @@ class DelegationNode(object):
     def number_of_delegations(self):
         return len(self.transitive_inbound(is_counting_delegations=True))
     
-    # REFACT: move to User -> needed so users can e deleted
-    # detach_delegations(instance=root):
-    # remove incomming delegations
-    # remove outgoing delegations
-    @classmethod
-    def detach(cls, user, instance):
-        """
-        Detach a ``User`` from the delegation graph by destroying any 
-        delegations the user might have issued. This operation in necessary 
-        in cases when the user loses voting privileges. Since authorization 
-        is not a part of the voting logic (it is handled on a higher level), 
-        it is important to avoid delegated voting propagation towards the 
-        user. Otherwise the user would still cast votes when pre-existing 
-        delegations match.
-        
-        :param user: The user to be detached.
-        :param instance: Instance for which to detach the graph. 
-        """
-        log.info("Purging delegation graph for %s in %s" % (repr(user), repr(instance)))
-        
-        now = datetime.utcnow()  
-        query = model.meta.Session.query(Delegation)
-        query = query.filter(Delegation.agent==user)
-        query = query.filter(or_(Delegation.revoke_time == None,
-                                 Delegation.revoke_time > now))
-        for d in query.all():
-            if d.scope.instance == instance:
-                d.revoke_time = now
-                model.meta.Session.add(d)
-        model.meta.Session.commit()
-    
     def __repr__(self):
         return "<DelegationNode(%s,%s)>" % (self.user.user_name, 
                                             self.delegateable.id)

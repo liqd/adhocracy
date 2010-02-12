@@ -16,7 +16,7 @@ poll_table = Table('poll', meta.data,
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('action', Unicode(50), nullable=False),
     Column('subject', UnicodeText(), nullable=False),
-    Column('delegateable_id', Integer, ForeignKey('delegateable.id'), nullable=False)
+    Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False)
     )
 
 class NoPollException(Exception): pass
@@ -117,7 +117,7 @@ class Poll(object):
         
     def __repr__(self):
         return u"<Poll(%s,%s,%s,%s)>" % (self.id, 
-                                         self.delegateable_id,
+                                         self.scope_id,
                                          self.begin_time, 
                                          self.end_time)
     

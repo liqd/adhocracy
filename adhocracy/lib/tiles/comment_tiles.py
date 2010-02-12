@@ -102,7 +102,7 @@ class CommentTile(BaseTile):
     is_deleted = property(_is_deleted)
     
     def _is_immutable(self):
-        return not democracy.is_comment_mutable(self.comment)
+        return not self.comment.topic.is_mutable()
     
     is_immutable = property(_is_immutable)
 

@@ -16,8 +16,6 @@ class State(object):
             at_time = datetime.utcnow()
         self.at_time = at_time
         
-        if not poll and len(self.proposal.polls):
-            poll = proposal.poll_at(at_time)
         self.poll = poll
                 
         self._tallies = []

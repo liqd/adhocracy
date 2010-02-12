@@ -34,7 +34,7 @@ class ProposalTile(DelegateableTile):
     
     def _poll(self):
         if not self.__poll:
-            self.__poll = self.proposal.poll
+            self.__poll = self.proposal.adopt_poll
         return self.__poll
     
     poll = property(_poll)

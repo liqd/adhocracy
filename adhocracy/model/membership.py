@@ -35,6 +35,8 @@ class Membership(object):
             expire_time = datetime.utcnow()
         if not self.is_expired(at_time=expire_time):
             self.expire_time = expire_time
+        #if not self.user.is_member(self.instance):
+        #    self.user.revoke_delegations(self.instance)
         
     def is_expired(self, at_time=None):
         if at_time is None:

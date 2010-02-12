@@ -34,7 +34,9 @@ def invalidate_vote(vote):
     
 def invalidate_poll(poll):
     clear_tag(poll)
-    invalidate_delegateable(poll.proposal)
+    invalidate_delegateable(poll.scope)
+    if poll.scope != poll.subject:
+        invalidate_delegateable(poll.subject)
     
 def invalidate_instance(instance):
     # muharhar cache epic fail 

@@ -222,18 +222,34 @@ class User(object):
                            users)
         return users
     
+    
     def is_deleted(self, at_time=None):
         if at_time is None:
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
+    
+    
+    def revoke_delegations(self, instance=None):
+        from delegation import Delegation
+        q = meta.Session.query(Delegation)
+        q = q.filter(or_(Delegation.agent==self,
+                         Delegation.principal==self))
+        q = q.filter(or_(Delegation.revoke_time == None,
+                         Delegation.revoke_time > datetime.utcnow()))
+        for delegation in q:
+            if instance is None or delegation.scope.instance == instance:
+                delegation.revoke()
+        
                
     def is_email_activated(self):
         return self.email is not None and self.activation_code is None
     
+    
     def delegation_node(self, scope):
         from adhocracy.lib.democracy import DelegationNode
         return DelegationNode(self, scope)
+    
     
     def number_of_votes_in_scope(self, scope):
         """
@@ -242,15 +258,18 @@ class User(object):
         """
         return self.delegation_node(scope).number_of_delegations() + 1
     
+    
     def delegate_to_user_in_scope(self, target_user, scope):
         from adhocracy.lib.democracy import DelegationNode
         return DelegationNode.create_delegation(from_user=self, to_user=target_user, scope=scope)
+    
     
     # REFACT: rename: orientation doesn't really ring a bell. decision seems better but isn't
     def vote_for_proposal(self, proposal, orientation):
         # REFACT: proposals don't automatically have a poll - this is dangeorus
         from adhocracy.lib.democracy.decision import Decision
         return Decision(self, proposal.poll).make(orientation)
+    
     
     @classmethod
     def create(cls, user_name, email, password=None, locale=None, 
@@ -286,6 +305,7 @@ class User(object):
         meta.Session.flush()
         return user
     
+    
     def to_dict(self):
         d = dict(id=self.id,
                  user_name=self.user_name,
@@ -299,6 +319,7 @@ class User(object):
         #d['memberships'] = map(lambda m: m.instance.key, 
         #                       self.memberships)
         return d
+    
     
     def __repr__(self):
         return u"<User(%s,%s)>" % (self.id, self.user_name)

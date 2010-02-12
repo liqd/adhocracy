@@ -53,6 +53,9 @@ class Delegateable(object):
     def is_sub(self, delegateable):
         return delegateable.is_super(self)
     
+    def is_mutable(self):
+        return True
+    
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:
@@ -89,6 +92,8 @@ class Delegateable(object):
             delegation.delete(delete_time=delete_time)
         for comment in self.comments:
             comment.delete(delete_time=delete_time)
+        for poll in self.polls:
+            poll.delete()
             
     def is_deleted(self, at_time=None):
         if at_time is None:

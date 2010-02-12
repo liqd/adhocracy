@@ -6,7 +6,7 @@ from sqlalchemy.orm import eagerload
 
 from ..cache import memoize
 import adhocracy.model as model
-from adhocracy.model import Proposal, Vote, Poll, User
+from adhocracy.model import Delegateable, Vote, Poll, User
 
 from delegation_node import DelegationNode
 

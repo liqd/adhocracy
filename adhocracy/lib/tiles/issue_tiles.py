@@ -28,7 +28,7 @@ class IssueTile(DelegateableTile):
         
     def _can_delete(self):
         for proposal in self.issue.proposals:
-            if not democracy.is_proposal_mutable(proposal):
+            if not proposal.is_mutable():
                 return False
         return h.has_permission("issue.delete")
     

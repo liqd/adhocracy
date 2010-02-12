@@ -133,7 +133,7 @@ class CommentController(BaseController):
     # get a comment for editing, checking that it is mutable. 
     def _get_mutable_or_abort(self, id):
         comment = get_entity_or_abort(model.Comment, id)
-        if comment.canonical and not democracy.is_proposal_mutable(comment.topic):
+        if comment.canonical and not comment.topic.is_mutable():
             abort(403, h.immutable_proposal_message())
         return comment
     

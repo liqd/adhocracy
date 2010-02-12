@@ -389,7 +389,8 @@ class UserController(BaseController):
         
         if had_vote and not c.page_user._has_permission("vote.cast"):
             # user has lost voting privileges
-            democracy.DelegationNode.detach(c.page_user, c.instance)
+            c.page_user.revoke_delegations(c.instance)
+        model.meta.Session.commit()
                 
         redirect_to("/user/%s" % str(c.page_user.user_name))
     
@@ -400,14 +401,14 @@ class UserController(BaseController):
     def kick(self, id):
         c.page_user = get_entity_or_abort(model.User, id)
         for membership in c.page_user.memberships:
-            if not membership.expire_time and membership.instance == c.instance:
-                membership.expire_time = datetime.utcnow()
+            if not membership.is_expired() and membership.instance == c.instance:
+                membership.expire()
                 model.meta.Session.add(membership)
+        c.page_user.revoke_delegations(c.instance)
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_FORCE_LEAVE, c.page_user, instance=c.instance, 
                    admin=c.user)
         
-        democracy.DelegationNode.detach(c.page_user, c.instance)
                         
         h.flash(_("%(user)s was removed from %(instance)s") % {
                                         'user': c.page_user.name, 
