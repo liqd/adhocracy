@@ -95,7 +95,7 @@ class OpenidauthController(BaseController):
         except Exception, e:
             return self._failure(openid, str(e))
         
-        if not c.user and not model.OpenID.by_id(openid):
+        if not c.user and not model.OpenID.find(openid):
             axreq = ax.FetchRequest(h.instance_url(c.instance, path='/openid/update'))
             axreq.add(ax.AttrInfo(AX_MAIL_SCHEMA, alias="email", required=True))
             authrequest.addExtension(axreq)

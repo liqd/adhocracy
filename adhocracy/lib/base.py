@@ -61,6 +61,9 @@ class BaseController(WSGIController):
         # http host information was moved around to mess with repoze.who                 
         environ['HTTP_HOST'] = environ.get('HTTP_HOST_ORIGINAL')
         
+        #from pprint import pprint
+        #pprint(environ)
+        
         # get RESTish:
         #self._parse_REST_request()
         

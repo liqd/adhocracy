@@ -38,10 +38,10 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
                     ref_host += ":" + str(ref_url.port)
             
                 if ref_host.endswith(request.environ['adhocracy.domain']):
-                    if request.method != 'GET':
+                    if request.environ['REQUEST_METHOD'] != 'GET':
                         return True
             
-            if request.method == 'GET' and has_token():
+            if request.environ['REQUEST_METHOD'] == 'GET' and has_token():
                 return True
                        
             return False

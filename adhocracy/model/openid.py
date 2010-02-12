@@ -63,7 +63,7 @@ class OpenID(object):
             if not include_deleted:
                 q = q.filter(or_(OpenID.delete_time==None,
                                  OpenID.delete_time>datetime.utcnow()))
-            return q.one()
+            return q.limit(1).first()
         except Exception:
             log.exception("by_id(%s)" % id)
             return None
