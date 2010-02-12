@@ -17,6 +17,5 @@ def setup_cache():
     hooks.patch_default(model.Delegation, invalidate_delegation)
     hooks.patch_default(model.Revision, invalidate_revision)
     hooks.patch_default(model.Comment, invalidate_comment)
-    hooks.patch_default(model.Karma, invalidate_karma)
     hooks.patch_default(model.Poll, invalidate_poll)
             

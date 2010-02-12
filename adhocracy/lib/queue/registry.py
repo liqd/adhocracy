@@ -31,15 +31,15 @@ def _process(event, entity):
 def process_messages():
     if not has_queue():
         return
+    
     def handle_message(message):
+        data = simplejson.loads(message)
+        entity = refs.to_entity(data.get('entity'))
         try:
-            data = simplejson.loads(message)
-            entity = refs.to_entity(data.get('entity'))
             _process(data.get('event'), entity)
-            return True
         except:
             log.exception("Failed to handle message: %s" % message)
-            return False
+    
     read_messages(QUEUE, handle_message)
 
 def handle(event):

@@ -3,7 +3,6 @@ from webhelpers.text import truncate
 
 import adhocracy.model as model
 from .. import text
-from .. import karma
 from .. import authorization as auth
 from .. import democracy
 from .. import sorting
@@ -59,13 +58,13 @@ class CommentTile(BaseTile):
     
     def _can_edit(self):
         return h.has_permission('comment.edit') \
-                and not self.is_deleted and not self.is_immutable
+                and not self.comment.is_deleted() and self.comment.is_mutable()
     
     can_edit = property(_can_edit)        
     
     def _can_delete(self):
         if h.has_permission('comment.delete') \
-            and not self.is_deleted and not self.is_immutable:
+            and not self.comment.is_deleted() and self.comment.is_mutable():
             if self.comment.reply or self.comment.canonical:
                 return True
         return False
@@ -74,40 +73,23 @@ class CommentTile(BaseTile):
     
     def _can_reply(self):        
         return h.has_permission('comment.create') \
-                and not self.is_deleted
+                and not self.comment.is_deleted()
     
     can_reply = property(_can_reply)
     
-    def _can_give_karma(self):
-        return h.has_permission('karma.give') \
-                and not self.is_deleted
+    def _can_rate(self):
+        return h.has_permission('vote.cast') \
+                and not self.comment.poll.has_ended()
     
-    can_give_karma = property(_can_give_karma)
+    can_rate = property(_can_rate)
     
     def _is_own(self):
         return self.comment.creator == c.user
     
     is_own = property(_is_own)
     
-    def _is_edited(self):
-        if self.is_deleted:
-            return False
-        return len(self.comment.revisions) > 1
-    
-    is_edited = property(_is_edited)
-    
-    def _is_deleted(self):
-        return self.comment.delete_time
-    
-    is_deleted = property(_is_deleted)
-    
-    def _is_immutable(self):
-        return not self.comment.topic.is_mutable()
-    
-    is_immutable = property(_is_immutable)
-
     def _show(self):
-        if self.is_deleted:
+        if self.comment.is_deleted():
             children = map(lambda c: CommentTile(c)._show(), self.comment.replies) 
             if not True in children:
                 return False
@@ -122,27 +104,25 @@ class CommentTile(BaseTile):
     
     num_children = property(_num_children)
     
-    def _karma_score(self):
-        if self.__score == None:
-            self.__score = karma.comment_score(self.comment)
-        return self.__score
+    def _score(self):
+        return self.comment.poll.tally.score
     
-    karma_score = property(_karma_score)
+    score = property(_score)
     
-    def _karma_position(self):
+    def _position(self):
         if not c.user:
             return None
-        pos = karma.position(self.comment, c.user)
+        pos = democracy.Decision(c.user, self.comment.poll).result
         if (pos and pos == 1):
             return "upvoted"
         elif pos and pos == -1:
             return "downvoted"
         return pos
     
-    karma_position = property(_karma_position)
+    position = property(_position)
     
     def replies(self):
-        comments = sorting.comment_karma(self.comment.replies)
+        comments = sorting.comment_score(self.comment.replies)
         for comment in comments:
             tile = self.__class__(comment)
             tile.__topic_outbound = self.__topic_outbound

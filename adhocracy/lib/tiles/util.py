@@ -3,7 +3,6 @@ import logging
 from pylons import tmpl_context as c, config
 
 from .. import helpers as h
-from .. import karma
 from ..cache import memoize
 
 log = logging.getLogger(__name__)

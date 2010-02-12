@@ -1,3 +1,4 @@
+import adhocracy.model as model
 from util import clear_tag
 
 def invalidate_user(user):
@@ -12,9 +13,6 @@ def invalidate_delegateable(d):
         
 def invalidate_revision(rev):
     invalidate_comment(rev.comment)
-    
-def invalidate_karma(karma):
-    invalidate_comment(karma.comment)
     
 def invalidate_comment(comment):
     clear_tag(comment)
@@ -34,10 +32,13 @@ def invalidate_vote(vote):
     
 def invalidate_poll(poll):
     clear_tag(poll)
-    invalidate_delegateable(poll.scope)
-    if poll.scope != poll.subject:
+    #invalidate_delegateable(poll.scope)
+    #if poll.scope != poll.subject:
+    if isinstance(poll.subject, model.Delegateable):
         invalidate_delegateable(poll.subject)
-    
+    if isinstance(poll.subject, model.Comment):
+        invalidate_comment(poll.subject)
+        
 def invalidate_instance(instance):
     # muharhar cache epic fail 
     clear_tag(instance)

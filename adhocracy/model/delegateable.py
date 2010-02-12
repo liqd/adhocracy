@@ -93,7 +93,7 @@ class Delegateable(object):
         for comment in self.comments:
             comment.delete(delete_time=delete_time)
         for poll in self.polls:
-            poll.delete()
+            poll.end()
             
     def is_deleted(self, at_time=None):
         if at_time is None:

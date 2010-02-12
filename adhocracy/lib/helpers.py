@@ -14,7 +14,6 @@ from pylons.i18n import add_fallback, get_lang, set_lang, gettext, _
 
 import authorization 
 from authorization import has_permission_bool as has_permission
-import karma 
 import democracy
 import cache
 

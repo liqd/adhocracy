@@ -37,19 +37,19 @@
 		return
 	%>
 	<div class="comment" id="c${comment.id}">
-		<div class="tile ${'canonical' if comment.canonical else ''} ${tile.karma_position}" id="tile_c${comment.id}">
+		<div class="tile ${'canonical' if comment.canonical else ''} ${tile.position}" id="tile_c${comment.id}">
 			<div class="logo karma">
-				%if tile.can_give_karma:
+				%if tile.can_rate:
 					<a class="up" href="/karma/give?comment=${comment.id}&value=1" onclick="return comment_karma(${comment.id}, 1);">
 						&nbsp;
 					</a>
-					<span class="score">${tile.karma_score}</span>
+					<span class="score">${tile.score}</span>
 					<a class="down" href="/karma/give?comment=${comment.id}&value=-1" onclick="return comment_karma(${comment.id}, -1);">
 						&nbsp;
 					</a>
 				%else:
 					<a class="up inactive">&nbsp;</a>
-					<span class="score">${tile.karma_score}</span>
+					<span class="score">${tile.score}</span>
 					<a class="down inactive">&nbsp;</a>
 				%endif
 			</div>
@@ -80,7 +80,7 @@
 				</div>
 				
 				
-				%if tile.is_deleted:
+				%if comment.is_deleted():
 					${_("deleted %s") % h.relative_time(comment.delete_time)|n}
 				%else:
 					<b>${h.user_link(comment.creator, scope=comment.topic)|n}</b>
@@ -89,7 +89,7 @@
 							<img class="user_icon" src="/img/icons/delegate_16.png" />
 						</a>
 					%endif
-					%if not tile.is_edited: 
+					%if not comment.is_edited(): 
 						&middot; ${_("%s") % h.relative_time(comment.create_time)|n}
 					%else:
 						&middot;
@@ -106,7 +106,7 @@
 				<a name="c${comment.id}">&nbsp;</a>
 			</div>
 			<div class="text hide_edit">
-				%if not tile.is_deleted:
+				%if not comment.is_deleted():
 					${tile.text|n}
 				%else:
 					<p>

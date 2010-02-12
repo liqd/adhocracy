@@ -13,8 +13,6 @@ from repoze.what.adapters import BaseSourceAdapter, SourceError
 from repoze.what.plugins.sql.adapters import SqlGroupsAdapter
 
 import adhocracy.model as model 
-import karma 
-import democracy
 import helpers as h
 
 log = logging.getLogger(__name__)

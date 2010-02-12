@@ -5,6 +5,7 @@ from pylons.i18n import _
 from adhocracy.lib.base import *
 import adhocracy.lib.text as text
 import adhocracy.model.forms as forms
+import adhocracy.lib.democracy as democracy
 
 log = logging.getLogger(__name__)
 
@@ -52,6 +53,9 @@ class CommentController(BaseController):
                                        reply=self.form_result.get('reply'), 
                                        canonical=canonical)
         model.meta.Session.commit()
+        if h.has_permission('vote.cast'):
+            decision = democracy.Decision(c.user, comment.poll)
+            decision.make(model.Vote.YES)
         watchlist.check_watch(comment)
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance, 
                    topics=[topic], comment=comment, topic=topic)
@@ -71,6 +75,10 @@ class CommentController(BaseController):
         c.comment = self._get_mutable_or_abort(id)
         c.comment.create_revision(self.form_result.get('text'), c.user)
         model.meta.Session.commit()
+        #if h.has_permission('vote.cast'):
+        #    decision = democracy.Decision(c.user, c.comment.poll)
+        #    if not decision.is_decided():
+        #        decision.make(model.Vote.YES)
         watchlist.check_watch(c.comment)
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
@@ -133,7 +141,7 @@ class CommentController(BaseController):
     # get a comment for editing, checking that it is mutable. 
     def _get_mutable_or_abort(self, id):
         comment = get_entity_or_abort(model.Comment, id)
-        if comment.canonical and not comment.topic.is_mutable():
+        if not comment.is_mutable():
             abort(403, h.immutable_proposal_message())
         return comment
     

@@ -1,6 +1,5 @@
 
 import event.stats as estats
-import karma
 
 def delegateable_label(entities):
     return sorted(entities, key=lambda e: e.label.lower())
@@ -36,16 +35,15 @@ def instance_activity(instances):
 def user_activity(users):
     return sorted(users, key=lambda u: estats.instance_activity(u), 
                   reverse=True)
+                  
+def comment_score(comments):
+    return sorted(comments, key=lambda c: c.poll.tally.score, 
+                  reverse=True)
 
 def dict_value_sorter(dict):
     def _sort(items):
         return sorted(items, key=lambda i: dict.get(i))
     return _sort
-
-def comment_karma(comments):
-    return sorted(comments, 
-                  key=lambda c: karma.comment_score(c),
-                  reverse=True)
 
 def comment_id(comments):
     return sorted(comments, key=lambda c: c.id)

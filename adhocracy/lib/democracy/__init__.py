@@ -18,7 +18,7 @@ def init_democracy():
         for vote in model.Vote.all():
             handle_vote(vote)
     except Exception, e:
-        log.warn("Cannot update tallies: %s" % e)
+        log.exception("Cannot update tallies: %s" % e)
     
     queue.register(model.Vote, queue.INSERT, handle_vote)
     queue.register(model.Vote, queue.UPDATE, handle_vote)

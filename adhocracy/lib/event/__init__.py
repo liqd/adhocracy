@@ -37,7 +37,7 @@ def queue_process():
     def _process(message):
         event = model.Event.find(int(message), instance_filter=False)
         process(event)
-        return True
+    
     queue.read_messages(EVENT_QUEUE, _process)
     
 

@@ -29,10 +29,12 @@ class Tally(object):
         self.num_against = num_against
         self.num_abstain = num_abstain
     
+    
     def _get_rel_base(self):
         return self.num_for + self.num_against
 
     rel_base = property(_get_rel_base)
+    
     
     def _get_rel_for(self):
         if self.rel_base == 0:
@@ -41,10 +43,17 @@ class Tally(object):
     
     rel_for = property(_get_rel_for)
     
+    
     def _get_rel_against(self):
         return 1 - self.rel_for
     
     rel_against = property(_get_rel_against)
+    
+    
+    def _get_score(self):
+        return self.num_for - self.num_against
+        
+    score = property(_get_score)
     
     
     @classmethod

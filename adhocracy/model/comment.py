@@ -17,7 +17,8 @@ comment_table = Table('comment', meta.data,
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('topic_id', Integer, ForeignKey('delegateable.id'), nullable=False),
     Column('canonical', Boolean, default=False),
-    Column('reply_id', Integer, ForeignKey('comment.id'), nullable=True)
+    Column('reply_id', Integer, ForeignKey('comment.id'), nullable=True),
+    Column('poll_id', Integer, ForeignKey('poll.id'), nullable=True)
     )
      
 
@@ -44,43 +45,61 @@ class Comment(object):
             log.warn("find(%s): %s" % (id, e)) 
             return None
     
+    
     @classmethod    
     def create(cls, text, user, topic, reply=None, canonical=False):
-        from karma import Karma
+        from poll import Poll
         comment = Comment(topic, user)
         comment.canonical = canonical
         comment.reply = reply
-        karma = Karma(1, user, user, comment)
         meta.Session.add(comment)
-        meta.Session.add(karma)
+        meta.Session.flush()
+        poll = Poll.create(topic, user, Poll.RATE, comment)
+        comment.poll = poll
         comment.create_revision(text, user)
         return comment
     
+    
     def create_revision(self, text, user):
         from revision import Revision
-        import adhocracy.lib.text as libtext
-        rev = Revision(self, user, 
-                       libtext.cleanup(text))
+        from adhocracy.lib.text import cleanup
+        rev = Revision(self, user, cleanup(text))
         meta.Session.add(rev)
         self.revisions.append(rev)
         meta.Session.flush()
         return rev
+    
         
     def delete(self, delete_time=None):
         if delete_time is None:
             delete_time = datetime.utcnow()
         if not self.is_deleted(delete_time):
             self.delete_time = delete_time
-            
+            if self.poll is not None:
+                self.poll.end()
+    
+    
     def is_deleted(self, at_time=None):
         if at_time is None:
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
+               
+               
+    def is_edited(self):
+        if self.is_deleted():
+            return False
+        return self.latest.create_time != self.create_time
+    
+    
+    def is_mutable(self):
+        return (not self.canonical) or self.topic.is_mutable()
+        
                     
     def _index_id(self):
         return self.id
-        
+    
+    
     def to_dict(self):
         d = dict(id=self.id,
                  create_time=self.create_time,
@@ -94,6 +113,7 @@ class Comment(object):
             d['latest'] = self.latest.to_dict()
         d['revisions'] = map(lambda r: r.id, self.revisions)
         return d
+    
     
     def __repr__(self):
         return "<Comment(%d,%s,%d,%s)>" % (self.id, self.creator.user_name,

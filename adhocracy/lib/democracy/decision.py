@@ -121,7 +121,7 @@ class Decision(object):
         :returns: the ``Votes`` that has been cast
         """
         
-        def propagating_vote(user, proposal, edge):
+        def propagating_vote(user, delegateable, edge):
             vote = Vote(user, self.poll, orientation, delegation=edge)
             model.meta.Session.add(vote)
             log.debug("Decision was made: %s is voting '%s' on %s (via %s)" % (repr(user), 

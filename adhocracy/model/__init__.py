@@ -21,7 +21,6 @@ from adhocracy.model.revision import Revision, revision_table
 from adhocracy.model.comment import Comment, comment_table
 from adhocracy.model.instance import Instance, instance_table
 from adhocracy.model.membership import Membership, membership_table
-from adhocracy.model.karma import Karma, karma_table
 from adhocracy.model.watch import Watch, watch_table
 from adhocracy.model.event import Event, event_topic_table, event_table
 from adhocracy.model.tally import Tally, tally_table
@@ -101,7 +100,9 @@ mapper(Comment, comment_table, properties={
     'creator': relation(User, lazy=False, backref=backref('comments')),
     'topic': relation(Delegateable, backref=backref('comments', cascade='all')),
     'reply': relation(Comment, cascade='delete', remote_side=comment_table.c.id, 
-                      backref=backref('replies', lazy=True))
+                      backref=backref('replies', lazy=True)),
+    'poll': relation(Poll, primaryjoin=comment_table.c.poll_id==poll_table.c.id, 
+                        uselist=False, lazy=False)
     }, extension=meta.extension)
 
 
@@ -156,15 +157,6 @@ mapper(Membership, membership_table, properties={
                     backref=backref('memberships', lazy=True)),
     'instance': relation(Instance, backref=backref('memberships'), lazy=True),
     'group': relation(Group, backref=backref('memberships'), lazy=False)
-    }, extension=meta.extension)
-
-
-mapper(Karma, karma_table, properties={
-    'comment': relation(Comment, backref=backref('karmas', cascade='delete')),
-    'donor': relation(User, primaryjoin=karma_table.c.donor_id==user_table.c.id,
-                     backref=backref('karma_given')),
-    'recipient': relation(User, primaryjoin=karma_table.c.recipient_id==user_table.c.id,
-                         backref=backref('karma_received'))
     }, extension=meta.extension)
 
 

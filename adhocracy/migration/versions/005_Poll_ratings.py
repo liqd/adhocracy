@@ -37,7 +37,7 @@ def upgrade():
     
     for vals in migrate_engine.execute(proposal_table.select()):
         proposal_id = vals[0]
-        q = poll_table.insert(values={'scope': proposal_id, 
+        q = poll_table.insert(values={'scope_id': proposal_id, 
                                       'action': u'rate',
                                       'subject': u"@[proposal:%s]" % proposal_id,
                                       'user_id': 1,

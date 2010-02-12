@@ -3,7 +3,6 @@ import sys
 import logging
 
 from social import * 
-from karma import *
 
 log = logging.getLogger(__name__)
 
@@ -11,8 +10,8 @@ def log_with_null(n):
     return math.log(max(1,n))
 
 def recommend(scope, user, count=5):
-    karma_users = delegateable_users(scope)
-    donor_karma_users = delegateable_users(scope, donor=user)
+    karma_users = {} #delegateable_users(scope)
+    donor_karma_users = {} #delegateable_users(scope, donor=user)
     dgb_pop_users = dict(delegateable_popular_agents(scope))
     usr_pop_users = dict(user_popular_agents(user))
     

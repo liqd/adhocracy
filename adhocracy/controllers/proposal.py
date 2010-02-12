@@ -79,8 +79,12 @@ class ProposalController(BaseController):
         proposal = model.Proposal.create(c.instance, self.form_result.get("label"), 
                                          c.user, c.issue)
         comment = model.Comment.create(self.form_result.get('text'), c.user, proposal)
+        if h.has_permission('vote.cast'):
+            democracy.Decision(c.user, comment.poll).make(model.Vote.YES)
         for c_text in not_null(self.form_result.get('canonical')):
-            model.Comment.create(c_text, c.user, proposal, canonical=True)
+            canonical = model.Comment.create(c_text, c.user, proposal, canonical=True)
+            if h.has_permission('vote.cast'):
+                democracy.Decision(c.user, canonical.poll).make(model.Vote.YES)
         alternatives = not_null(self.form_result.get('alternative'))
         proposal.update_alternatives(alternatives)
         model.meta.Session.commit()

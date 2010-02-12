@@ -59,6 +59,8 @@ class IssueController(BaseController):
                                    c.user)
         model.meta.Session.commit()
         comment = model.Comment.create(self.form_result.get('text'), c.user, issue)
+        if h.has_permission('vote.cast'):
+            decision = democracy.Decision(c.user, comment.poll).make(model.Vote.YES)
         issue.comment = comment
         model.meta.Session.commit()
         watchlist.check_watch(issue)

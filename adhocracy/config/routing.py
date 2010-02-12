@@ -76,9 +76,6 @@ def make_map():
     map.resource('comment', 'comment', member={'history': 'GET',
                                                'revert': 'GET'})
     
-    map.connect('/karma/give', controller='karma', action='give', format='html')
-    map.connect('/karma/give.json', controller='karma', action='give', format='json')
-    
     map.resource('delegation', 'delegation')
     #map.resource('delegations', 'delegation')
     

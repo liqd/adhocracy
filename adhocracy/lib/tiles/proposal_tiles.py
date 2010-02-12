@@ -8,7 +8,6 @@ from .. import helpers as h
 from .. import text
 from .. import authorization as auth
 from .. import sorting
-from .. import karma
 
 from delegateable_tiles import DelegateableTile
 from comment_tiles import CommentTile
