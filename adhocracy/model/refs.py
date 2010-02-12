@@ -48,7 +48,7 @@ def to_entity(ref, instance_filter=False, include_deleted=True):
     match = FORMAT.match(unicode(ref))
     if not match:
         return ref
-    for cls in TYPES:
+    for cls in TYPES.keys():
         if match.group(1) == entity_type(cls):
             entity = cls.find(match.group(2), 
                               instance_filter=instance_filter, 

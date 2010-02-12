@@ -14,7 +14,9 @@ log = logging.getLogger(__name__)
 
 proposal_table = Table('proposal', meta.data,
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
-    Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True)
+    Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True),
+    Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
+    Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True)
     )
 
 class Proposal(Delegateable):
@@ -91,6 +93,18 @@ class Proposal(Delegateable):
         if instance is not None:
             q = q.filter(Proposal.instance==instance)
         return q.all()
+    
+    @classmethod
+    def create(cls, instance, label, user, issue):
+        from poll import Poll
+        proposal = Proposal(instance, label, user)
+        proposal.issue = issue
+        model.meta.Session.add(proposal)
+        meta.Session.flush()
+        poll = Poll.create(proposal, user, Poll.RATE)
+        proposal.rate_poll = poll
+        meta.Session.flush()
+        return proposal
     
     def delete(self, delete_time=None):
         if delete_time is None:

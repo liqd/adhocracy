@@ -28,14 +28,15 @@ class ProposalFormatter(DelegateableFormatter):
     pass
 
 class PollFormatter(ObjectFormatter):
+    # TODO fixme
     
     def unicode(self, poll):
-        m = ProposalFormatter()
-        return m.unicode(poll.proposal)
+        m = DelegateableFormatter()
+        return m.unicode(poll.scope)
     
     def html(self, poll):
-        m = ProposalFormatter()
-        return m.html(poll.proposal)
+        m = DelegateableFormatter()
+        return m.html(poll.scope)
             
 class InstanceFormatter(ObjectFormatter):
     

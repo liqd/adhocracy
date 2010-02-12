@@ -18,12 +18,6 @@ delegateable_table = Table('delegateable', meta,
     )
 
 
-proposal_table = Table('proposal', meta,
-    Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
-    Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True)
-    )
-
-
 def upgrade():
     poll_table_old = Table('poll', meta,
         Column('id', Integer, primary_key=True),
@@ -32,22 +26,34 @@ def upgrade():
         Column('begin_user_id', Integer, ForeignKey('user.id'), nullable=False),
         Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=False)   
         )
+    
+    proposal_table = Table('proposal', meta,
+        Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
+        Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True)
+        )
+    
+    adopt_poll_id = Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True)
+    adopt_poll_id.create(proposal_table)
+    
     action = Column('action', Unicode(50), nullable=False, default='adopt')
     subject = Column('subject', UnicodeText(), nullable=False)
-    delegateable_id = Column('delegateable_id', Integer, ForeignKey('delegateable.id'), nullable=False)
+    scope_id = Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False)
     action.create(poll_table_old)
     subject.create(poll_table_old)
-    delegateable_id.create(poll_table_old)
+    scope_id.create(poll_table_old)
+    poll_table_old.c.begin_user_id.alter(name="user_id")
     
     q = migrate_engine.execute(poll_table_old.select())
     for (id, _, _, _, proposal_id, _, _, _) in q:
         u = poll_table_old.update(id==poll_table_old.c.id, 
-                                  {'delegateable_id': proposal_id,
+                                  {'scope_id': proposal_id,
                                    'subject': u"@[proposal:%s]" % proposal_id,
                                    'action': u'adopt'})
         migrate_engine.execute(u)
+        q = proposal_table.update(proposal_table.c.id==proposal_id,
+                                  {'adopt_poll_id': id})
+        migrate_engine.execute(q)
     
-    poll_table_old.c.begin_user_id.alter(name="user_id")
     poll_table_old.c.proposal_id.drop()
 
 def downgrade():
@@ -58,13 +64,21 @@ def downgrade():
         Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
         Column('action', Unicode(50), nullable=False),
         Column('subject', UnicodeText(), nullable=False),
-        Column('delegateable_id', Integer, ForeignKey('delegateable.id'), nullable=False)
+        Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False)
         ) 
+    
+    proposal_table = Table('proposal', meta,
+        Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
+        Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True),
+        Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True)
+        )
+    
     migrate_engine.execute(poll_table_new.delete())
     poll_table_new.c.action.drop()
     poll_table_new.c.subject.drop()
-    poll_table_new.c.delegateable_id.drop()
+    poll_table_new.c.scope_id.drop()
     proposal = Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=False)
     proposal.create(poll_table_new)
     poll_table_new.c.user_id.alter(name="begin_user_id")
+    proposal_table.c.adopt_poll_id.drop() 
 

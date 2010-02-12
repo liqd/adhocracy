@@ -49,9 +49,11 @@ class Tally(object):
     
     @classmethod
     def create_from_vote(cls, vote):
-        tally = Tally.create_from_poll(vote.poll, vote.create_time)
-        tally.vote = vote
-        meta.Session.flush()
+        tally = cls.find_by_vote(vote)
+        if tally is None:
+            tally = Tally.create_from_poll(vote.poll, vote.create_time)
+            tally.vote = vote
+            meta.Session.flush()
         return tally 
     
     @classmethod

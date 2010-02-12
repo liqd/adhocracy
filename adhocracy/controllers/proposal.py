@@ -76,9 +76,8 @@ class ProposalController(BaseController):
     @validate(schema=ProposalCreateForm(), form='new', post_only=True)
     def create(self):
         c.issue = self.form_result.get('issue')
-        proposal = model.Proposal(c.instance, self.form_result.get("label"), c.user)
-        proposal.issue = c.issue
-        model.meta.Session.add(proposal)
+        proposal = model.Proposal.create(c.instance, self.form_result.get("label"), 
+                                         c.user, c.issue)
         comment = model.Comment.create(self.form_result.get('text'), c.user, proposal)
         for c_text in not_null(self.form_result.get('canonical')):
             model.Comment.create(c_text, c.user, proposal, canonical=True)

@@ -78,7 +78,11 @@ mapper(Issue, issue_table, inherits=Delegateable, polymorphic_identity='issue', 
 
 mapper(Proposal, proposal_table, inherits=Delegateable, polymorphic_identity='proposal', properties={
     'comment': relation(Comment, primaryjoin=proposal_table.c.comment_id==comment_table.c.id, 
-                        uselist=False)
+                        uselist=False),
+    'rate_poll': relation(Poll, primaryjoin=proposal_table.c.rate_poll_id==poll_table.c.id, 
+                        uselist=False, lazy=True),
+    'adopt_poll': relation(Poll, primaryjoin=proposal_table.c.adopt_poll_id==poll_table.c.id, 
+                        uselist=False, lazy=True)
     }, extension=meta.extension)
 
 
@@ -122,8 +126,9 @@ mapper(Delegation, delegation_table, properties={
 mapper(Poll, poll_table, properties={
     'user': relation(User, primaryjoin=poll_table.c.user_id==user_table.c.id),
     'subject': synonym('_subject', map_column=True),
-    'scope': relation(Delegateable, backref=backref('polls', cascade='all',
-                      lazy=False, order_by=poll_table.c.begin_time.desc())),
+    'scope': relation(Delegateable, primaryjoin=poll_table.c.scope_id==delegateable_table.c.id,
+                      backref=backref('polls', cascade='all', lazy=True, 
+                                      order_by=poll_table.c.begin_time.desc())),
     'tally': relation(Tally, primaryjoin=tally_table.c.poll_id==poll_table.c.id,
                       order_by=tally_table.c.create_time.desc(), uselist=False,
                       viewonly=True, lazy=False)

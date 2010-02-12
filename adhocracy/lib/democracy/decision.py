@@ -27,7 +27,7 @@ class Decision(object):
         self.user = user
         self.poll = poll
         self.at_time = at_time
-        self.node = DelegationNode(user, poll.proposal)
+        self.node = DelegationNode(user, poll.scope)
         self.votes = votes
         if not votes: 
             self.reload()
@@ -125,7 +125,7 @@ class Decision(object):
             vote = Vote(user, self.poll, orientation, delegation=edge)
             model.meta.Session.add(vote)
             log.debug("Decision was made: %s is voting '%s' on %s (via %s)" % (repr(user), 
-                                                                orientation, repr(self.poll.proposal.id),
+                                                                orientation, self.poll,
                                                                 edge if edge else "self"))
             return vote
         
@@ -185,12 +185,12 @@ class Decision(object):
         """
         query = model.meta.Session.query(Poll)
         query = query.distinct().join(Vote)
-        query = query.join(Proposal)
-        query = query.filter(Proposal.instance==instance)
+        query = query.join(Delegateable)
+        query = query.filter(Delegateable.instance==instance)
         query = query.filter(Vote.user==user)
-        query = query.options(eagerload(Poll.proposal))
+        query = query.options(eagerload(Poll.scope))
         for poll in query:
-            if not instance or poll.proposal.instance == instance:
+            if not instance or poll.scope.instance == instance:
                 yield cls(user, poll, at_time=at_time)
     
     @classmethod
@@ -219,7 +219,8 @@ class Decision(object):
         @memoize('average_decisions', 84600)
         def avg_decisions(instance):
             query = model.meta.Session.query(Poll)
-            query = query.join(Proposal).filter(Proposal.instance_id==instance.id)
+            query = query.join(Delegateable)
+            query = query.filter(Delegateable.instance_id==instance.id)
             query = query.filter(Poll.end_time==None)
             decisions = []
             for poll in query:
@@ -244,7 +245,7 @@ class Decision(object):
         for decision in cls.for_user(delegation.agent, delegation.scope.instance, 
                                      at_time=delegation.create_time):
             #log.debug("RP: Decision %s" % decision)
-            if delegation.is_match(decision.poll.proposal):
+            if delegation.is_match(decision.poll.scope):
                 if not decision.poll.end_time: 
                     log.debug("RP: Making %s" % decision)
                     principal_dec = Decision(delegation.principal, decision.poll)

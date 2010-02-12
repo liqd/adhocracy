@@ -34,7 +34,7 @@ class PollController(BaseController):
                        + "no provisions or a poll has already started."))
         
         if request.method == "POST":
-            model.Poll.create(c.proposal, c.user)
+            model.Poll.create(c.proposal, c.user, model.Poll.ADOPT)
             model.meta.Session.commit()
             event.emit(event.T_PROPOSAL_STATE_VOTING, c.user, instance=c.instance, 
                        topics=[c.proposal], proposal=c.proposal)

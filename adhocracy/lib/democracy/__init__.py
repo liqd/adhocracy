@@ -14,8 +14,7 @@ log = logging.getLogger(__name__)
 def init_democracy():
     try:
         for vote in model.Vote.all():
-            if model.Tally.find_by_vote(vote) is None:
-                handle_vote(vote)
+            handle_vote(vote)
     except Exception, e:
         log.warn("Cannot update tallies: %s" % e)
     

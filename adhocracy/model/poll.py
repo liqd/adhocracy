@@ -29,14 +29,16 @@ class Poll(object):
     
     ACTIONS = [ADOPT, REPEAL, RATE]
         
-    def __init__(self, scope, user, action, subject):
+    def __init__(self, scope, user, action, subject=None):
         self.scope = scope
         self.user = user
         if not action in self.ACTIONS:
             raise ValueError("Invalid action!")
         self.action = action
-        self.subject = subject
+        if subject is None:
+            subject = scope
         self._subject_entity = None
+        self.subject = subject
     
     
     @reconstructor
@@ -82,9 +84,9 @@ class Poll(object):
     
     
     @classmethod
-    def create(cls, scope, user, action, subject):
+    def create(cls, scope, user, action, subject=None):
         from tally import Tally
-        poll = Poll(scope, user, action, subject)
+        poll = Poll(scope, user, action, subject=subject)
         meta.Session.add(poll)
         Tally.create_from_poll(poll)
         meta.Session.flush()
