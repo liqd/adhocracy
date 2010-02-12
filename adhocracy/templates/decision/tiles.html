@@ -1,5 +1,5 @@
 
-<%def name="row(tile, decision, focus_proposal=False, focus_user=False)">
+<%def name="row(tile, decision, focus_scope=False, focus_user=False)">
 	<div class="tile decision">
 		<div class="logo">
 			%if decision.result == 1:
@@ -25,8 +25,8 @@
 			%if focus_user:
 				${h.user_link(decision.user)|n}
 			%endif		
-			%if focus_proposal:
-				${h.delegateable_link(decision.poll.proposal)|n}
+			%if focus_scope:
+				${h.delegateable_link(decision.poll.scope)|n}
 			%endif
 		</h3>
 		
@@ -55,8 +55,8 @@
 		</div>
 		<div class="meta">
 			${h.relative_time(decision.create_time)|n}
-			%if not focus_proposal:
-				&middot; ${h.delegateable_link(decision.poll.proposal)|n}
+			%if not focus_scope:
+				&middot; ${h.delegateable_link(decision.poll.scope)|n}
 			%endif
 		</div>
 		</div>

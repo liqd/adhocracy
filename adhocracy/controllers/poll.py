@@ -113,10 +113,7 @@ class PollController(BaseController):
         if filters.get('result'):
             decisions = filter(lambda d: d.result==filters.get('result'), decisions)
             
-        c.decisions_pager = NamedPager('decisions', decisions, tiles.decision.proposal_row, 
-                                    sorts={_("oldest"): sorting.entity_oldest,
-                                           _("newest"): sorting.entity_newest},
-                                    default_sort=sorting.entity_newest)
+        c.decisions_pager = pager.scope_descisions(decisions)
         return render("/poll/votes.html")   
     
     def _get_open_poll(self, id):

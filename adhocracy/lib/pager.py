@@ -126,12 +126,18 @@ def users(users, has_query=False):
     return NamedPager('users', users, tiles.user.row, sorts=sorts,
                       default_sort=sorting.entity_stable if has_query else sorting.user_activity)
     
-def decisions(decisions):
+def user_decisions(decisions):
     return NamedPager('decisions', decisions, tiles.decision.user_row, 
                       sorts={_("oldest"): sorting.entity_oldest,
                              _("newest"): sorting.entity_newest},
                       default_sort=sorting.entity_newest)
-    
+
+def scope_decisions(decisions):
+    return NamedPager('decisions', decisions, tiles.decision.scope_row, 
+                      sorts={_("oldest"): sorting.entity_oldest,
+                             _("newest"): sorting.entity_newest},
+                      default_sort=sorting.entity_newest)
+
 def comments(comments):
     return NamedPager('comments', comments, tiles.comment.row,
                       sorts={_("oldest"): sorting.entity_oldest,

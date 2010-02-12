@@ -281,11 +281,12 @@ class UserController(BaseController):
     def votes(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         decisions = democracy.Decision.for_user(c.page_user, c.instance)
-        
+                
         if format == 'json':
             return render_json(list(decisions))
         
-        c.decisions_pager = pager.decisions(decisions)
+        decisions = filter(lambda d: d.poll.action != model.Poll.RATE, decisions)
+        c.decisions_pager = pager.user_decisions(decisions)
         self._common_metadata(c.page_user, member='votes')
         return render("/user/votes.html")
     
