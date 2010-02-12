@@ -20,3 +20,9 @@ def outbound(delegation):
 def row(delegation):
     return render_tile('/delegation/tiles.html', 'row', 
                        DelegationTile(delegation), delegation=delegation)
+    
+def sidebar(delegateable):
+    return render_tile('/delegation/tiles.html', 'sidebar', 
+                       None, delegateable=delegateable, 
+                       user=c.user, cached=True)
+    

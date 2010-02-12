@@ -31,3 +31,48 @@
 		</div>
 	</div>
 </%def>
+
+<%def name="sidebar(tile, delegateable)">
+	%if c.tile.can_vote:
+	<div class="tile">
+		<h4><img src="/img/icons/delegate_16.png" class="cd" /> ${_("Delegate voting")}</h4>
+		<ul>
+		<li style="list-style-image: url(/img/icons/delegate_to_16.png); padding-left: 5px;">
+			%if not c.tile.has_delegated:
+				%if c.tile.has_overridden:
+					${_("You have voted yourself and not delegated voting.")}
+				%else:
+					${_("You have not delegated voting.")} 
+					<a href="/delegation/new?scope=${delegateable.id}">${_("delegate")}</a>
+				%endif 
+			%else:
+				%if c.tile.has_overridden:
+					${_("By voting yourself, you have overridden:")}
+				%else:
+					${_("You have delegated voting to:")}
+				%endif
+			%endif
+		<ul>
+			%for delegation in c.tile.delegations:
+				<li>
+				${h.user_link(delegation.agent)|n}
+				&middot; ${_("on")} <a href="/d/${delegation.scope.id}">${delegation.scope.label}</a>
+				&middot; <a href="/delegation/${delegation.id}">${_("review")}</a>
+				</li>
+			%endfor
+		</ul>
+		</li>
+		
+		%if c.tile.num_principals:
+		<li style="list-style-image: url(/img/icons/delegated_to_16.png); padding-left: 5px;">
+			%if c.tile.num_principals == 1:
+				${_("You hold an additional vote.")}
+			%else:
+				${_("You hold %s additional votes.") % c.tile.num_principals}
+			%endif
+		</li>
+		%endif
+		</ul>
+	</div>
+	%endif
+</%def>
