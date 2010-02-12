@@ -6,10 +6,6 @@ from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, fu
 import meta
 import filter as ifilter
 
-from user import User
-from delegation import Delegation
-from poll import Poll
-
 log = logging.getLogger(__name__)
 
 vote_table = Table('vote', meta.data, 

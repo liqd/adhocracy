@@ -1,7 +1,8 @@
 import logging
 from datetime import datetime
 
-from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func
+from sqlalchemy import Table, Column, Integer, Unicode, UnicodeText, ForeignKey, DateTime, func
+from sqlalchemy.orm import reconstructor
 
 import meta
 import filter as ifilter
@@ -12,45 +13,78 @@ poll_table = Table('poll', meta.data,
     Column('id', Integer, primary_key=True),
     Column('begin_time', DateTime, default=datetime.utcnow),
     Column('end_time', DateTime, nullable=True),
-    Column('begin_user_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=False)   
+    Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('action', Unicode(50), nullable=False),
+    Column('subject', UnicodeText(), nullable=False),
+    Column('delegateable_id', Integer, ForeignKey('delegateable.id'), nullable=False)
     )
 
 class NoPollException(Exception): pass
 
 class Poll(object):
     
-    def __init__(self, proposal, begin_user):
-        self.proposal = proposal
-        self.begin_user = begin_user
+    ADOPT = 'adopt'
+    REPEAL = 'repeal'
+    RATE = 'rate'
     
-    def _index_id(self):
-        return self.id
+    ACTIONS = [ADOPT, REPEAL, RATE]
+        
+    def __init__(self, scope, user, action, subject):
+        self.scope = scope
+        self.user = user
+        if not action in self.ACTIONS:
+            raise ValueError("Invalid action!")
+        self.action = action
+        self.subject = subject
+        self._subject_entity = None
+    
+    
+    @reconstructor
+    def _reconstruct(self):
+        self._subject_entity = None
+    
+    
+    def _get_subject(self):
+        import refs
+        if self._subject_entity is None:
+            self._subject_entity = refs.to_entity(self._subject)
+        return self._subject_entity
+    
+    
+    def _set_subject(self, subject):
+        import refs
+        self._subject_entity = subject
+        self._subject = refs.to_ref(subject)
+    
+    subject = property(_get_subject, _set_subject)
+    
     
     def end(self, end_time=None):
         if end_time is None:
             end_time = datetime.utcnow()
         if not self.has_ended(at_time=end_time):
             self.end_time = end_time
-            
+    
+    
     def has_ended(self, at_time=None):
         if at_time is None:
-            at_time = datetime.utcnow()
-        
+            at_time = datetime.utcnow()    
         return (self.end_time is not None) \
                and self.end_time<=at_time
+    
             
     def delete(self, delete_time=None):
         return self.end(end_time=delete_time)
+    
     
     def is_deleted(self, at_time=None):
         return has_ended(at_time=at_time)
     
     
     @classmethod
-    def create(cls, proposal, user):
+    def create(cls, scope, user, action, subject):
         from tally import Tally
-        poll = Poll(proposal, user)
+        poll = Poll(scope, user, action, subject)
         meta.Session.add(poll)
         Tally.create_from_poll(poll)
         meta.Session.flush()
@@ -74,10 +108,14 @@ class Poll(object):
             log.warn("find(%s): %s" % (id, e))
             return None
     
+    
+    def _index_id(self):
+        return self.id
+    
         
     def __repr__(self):
         return u"<Poll(%s,%s,%s,%s)>" % (self.id, 
-                                         self.proposal_id,
+                                         self.delegateable_id,
                                          self.begin_time, 
                                          self.end_time)
     

@@ -15,7 +15,6 @@ from adhocracy.model.issue import Issue, issue_table
 from adhocracy.model.delegation import Delegation, delegation_table
 from adhocracy.model.proposal import Proposal, proposal_table
 from adhocracy.model.alternative import Alternative, alternative_table
-from adhocracy.model.dependency import Dependency, dependency_table
 from adhocracy.model.poll import Poll, poll_table
 from adhocracy.model.vote import Vote, vote_table
 from adhocracy.model.revision import Revision, revision_table
@@ -120,18 +119,11 @@ mapper(Delegation, delegation_table, properties={
     }, extension=meta.extension)
 
 
-mapper(Dependency, dependency_table, properties={
-    'proposal': relation(Proposal, primaryjoin=dependency_table.c.proposal_id==proposal_table.c.id,  
-                         backref=backref('dependencies', cascade='all')),
-    'requirement': relation(Proposal, primaryjoin=dependency_table.c.requirement_id==proposal_table.c.id, 
-                            backref=backref('dependents', cascade='all'))
-    }, extension=meta.extension)
-
-
 mapper(Poll, poll_table, properties={
-    'begin_user': relation(User, primaryjoin=poll_table.c.begin_user_id==user_table.c.id),
-    'proposal': relation(Proposal, backref=backref('polls', cascade='all',
-                         lazy=False, order_by=poll_table.c.begin_time.desc())),
+    'user': relation(User, primaryjoin=poll_table.c.user_id==user_table.c.id),
+    'subject': synonym('_subject', map_column=True),
+    'scope': relation(Delegateable, backref=backref('polls', cascade='all',
+                      lazy=False, order_by=poll_table.c.begin_time.desc())),
     'tally': relation(Tally, primaryjoin=tally_table.c.poll_id==poll_table.c.id,
                       order_by=tally_table.c.create_time.desc(), uselist=False,
                       viewonly=True, lazy=False)

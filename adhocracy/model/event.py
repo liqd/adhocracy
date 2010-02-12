@@ -2,8 +2,7 @@ from datetime import datetime
 import logging
 
 from sqlalchemy import Table, Column, Integer, ForeignKey, DateTime, func, Boolean, Unicode, UnicodeText
-from sqlalchemy.orm import synonym, reconstructor
-from sqlalchemy.orm import relation, backref
+from sqlalchemy.orm import reconstructor
 
 import simplejson as json
 
