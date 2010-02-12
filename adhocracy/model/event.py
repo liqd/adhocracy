@@ -69,6 +69,7 @@ class Event(object):
         self._ref_data = refs.complex_to_refs(data)
         self._data = unicode(json.dumps(self._ref_data))
     
+    data = property(_get_data, _set_data)
     
     def _get_event(self):
         try:
@@ -80,7 +81,8 @@ class Event(object):
         except ImportError:
             return self._event
     
-    
+    event = property(_get_event)
+        
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:

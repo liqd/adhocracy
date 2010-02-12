@@ -54,6 +54,8 @@ class User(object):
     def _set_locale(self, locale):
         self._locale = unicode(locale)
         
+    locale = property(_get_locale, _set_locale)
+        
     def _get_email(self):
         return self._email
     
@@ -62,6 +64,8 @@ class User(object):
         if not self._email == email:
             self.activation_code = util.random_token()
         self._email = email
+        
+    email = property(_get_email, _set_email)
     
     def _get_email_hash(self):
         return hashlib.sha1(self.email).hexdigest()
@@ -146,6 +150,8 @@ class User(object):
         """
         hashed_pass = hashlib.sha1(password + self.password[:40])
         return self.password[40:] == hashed_pass.hexdigest()
+    
+    password = property(_get_password, _set_password)
     
     def current_agencies(self, instance_filter=True):
         ds = filter(lambda d: not d.is_revoked(), self.agencies)
