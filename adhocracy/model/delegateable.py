@@ -66,7 +66,7 @@ class Delegateable(object):
                                  Delegateable.delete_time>datetime.utcnow()))
             if ifilter.has_instance() and instance_filter:
                 q = q.filter(Delegateable.instance_id==ifilter.get_instance().id)
-            return q.one()
+            return q.limit(1).first()
         except Exception, e: 
             log.warn("find(%s): %s" % (id, e))
             return None

@@ -55,7 +55,7 @@ class Proposal(Delegateable):
                                  Proposal.delete_time>datetime.utcnow()))
             if filter.has_instance() and instance_filter:
                 q = q.filter(Proposal.instance_id==filter.get_instance().id)
-            return q.one()
+            return q.limit(1).first()
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))
             return None

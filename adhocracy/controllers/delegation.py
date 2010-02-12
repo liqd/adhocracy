@@ -69,11 +69,7 @@ class DelegationController(BaseController):
         
         if self.form_result.get('replay') == 1:
             log.debug("Replaying the vote for Delegation: %s" % delegation)
-            for vote in democracy.Decision.replay_decisions(delegation):
-                event.emit(event.T_VOTE_CAST, vote.user, 
-                           instance=c.instance, 
-                           topics=[vote.poll.proposal], 
-                           vote=vote, poll=vote.poll)
+            democracy.Decision.replay_decisions(delegation)
         
         redirect_to("/d/%s" % str(c.scope.id))
         

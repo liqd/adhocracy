@@ -45,10 +45,3 @@ class State(object):
     
     tally = property(_get_tally)
     
-    def _get_poll_mutable(self):
-        if not self.polling:
-            return False
-        return not self.stable._check_criteria(self.tally)
-    
-    poll_mutable = property(_get_poll_mutable)
-    proposal_mutable = property(lambda self: not self.polling)

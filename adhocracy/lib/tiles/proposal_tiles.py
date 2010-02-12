@@ -85,7 +85,7 @@ class ProposalTile(DelegateableTile):
     can_begin_poll = property(_can_begin_poll)
         
     def _is_immutable(self):
-        return not self.state.proposal_mutable
+        return not self.proposal.is_mutable()
     
     is_immutable = property(_is_immutable)
     

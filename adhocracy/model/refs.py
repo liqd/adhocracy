@@ -30,7 +30,7 @@ TYPES = {Vote: 'vote',
          Instance: 'instance'}
 
 def entity_type(cls):
-    return TYPES.get(cls)
+    return TYPES.get(type(cls))
 
 def to_ref(entity):
     for cls in TYPES.keys():
@@ -48,8 +48,8 @@ def to_entity(ref, instance_filter=False, include_deleted=True):
     match = FORMAT.match(unicode(ref))
     if not match:
         return ref
-    for cls in TYPES.keys():
-        if match.group(1) == entity_type(cls):
+    for (cls, typestr) in TYPES.items():
+        if match.group(1) == typestr:
             entity = cls.find(match.group(2), 
                               instance_filter=instance_filter, 
                               include_deleted=include_deleted)

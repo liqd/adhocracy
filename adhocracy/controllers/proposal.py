@@ -137,7 +137,7 @@ class ProposalController(BaseController):
         c.tile = tiles.proposal.ProposalTile(c.proposal)
         c.issue_tile = tiles.issue.IssueTile(c.proposal.issue)
         self._common_metadata(c.proposal)
-        return render("/proposal/view.html")
+        return render("/proposal/show.html")
     
     
     @RequireInstance
