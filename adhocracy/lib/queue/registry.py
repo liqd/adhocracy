@@ -15,7 +15,7 @@ REGISTRY = {}
 
 
 def register(cls, event, callback):
-    key = (refs.entity_type(cls), event)
+    key = (refs.cls_type(cls), event)
     calls = REGISTRY.get(key, [])
     calls.append(callback)
     REGISTRY[key] = calls
@@ -24,7 +24,8 @@ def _process(event, entity):
     log.debug("Handling %s hooks of %s" % (event, entity))
     for signature, calls in REGISTRY.items():
         (r_type, r_event) = signature
-        if r_event == event and r_type == refs.entity_type(entity):
+        if r_event == event and \
+            r_type == refs.entity_type(entity):
             for callback in calls: 
                 callback(entity)
 
@@ -53,7 +54,7 @@ def handle(event):
     return _call
 
 def init_hooks():
-    for cls in refs.TYPES.keys():
+    for cls in refs.TYPES:
         hooks.patch(cls, hooks.POSTINSERT, handle(INSERT))
         hooks.patch(cls, hooks.POSTUPDATE, handle(UPDATE))
         hooks.patch(cls, hooks.PREDELETE, handle(DELETE))

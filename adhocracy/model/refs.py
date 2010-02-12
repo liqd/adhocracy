@@ -18,22 +18,25 @@ log = logging.getLogger(__name__)
 
 FORMAT = re.compile("@\[(.*):(.*)\]")
 
-TYPES = {Vote: 'vote',
-         User: 'user',
-         Group: 'group',
-         Permission: 'permission',
-         Comment: 'comment',
-         Delegation: 'delegation',
-         Issue: 'issue',
-         Proposal: 'proposal',
-         Poll: 'poll',
-         Instance: 'instance'}
+TYPES = [Vote,
+         User,
+         Group,
+         Permission,
+         Comment,
+         Delegation,
+         Issue,
+         Proposal,
+         Poll,
+         Instance]
 
-def entity_type(cls):
-    return TYPES.get(type(cls))
+def entity_type(entity):
+    return cls_type(type(entity))
+    
+def cls_type(cls):
+    return unicode(cls.__name__.lower())
 
 def to_ref(entity):
-    for cls in TYPES.keys():
+    for cls in TYPES:
         if isinstance(entity, cls):
             return u"@[%s:%s]" % (entity_type(entity), str(entity._index_id()))
     return entity
@@ -48,8 +51,8 @@ def to_entity(ref, instance_filter=False, include_deleted=True):
     match = FORMAT.match(unicode(ref))
     if not match:
         return ref
-    for (cls, typestr) in TYPES.items():
-        if match.group(1) == typestr:
+    for cls in TYPES:
+        if match.group(1) == cls_type(cls):
             entity = cls.find(match.group(2), 
                               instance_filter=instance_filter, 
                               include_deleted=include_deleted)

@@ -54,9 +54,9 @@ class DelegateableTile(BaseTile):
     can_delegate = can_vote
     
     def _latest_revision_time(self):
-        comment = self.delegateable.find_latest_comment(recurse=True)
-        if comment: 
-            return comment.latest.create_time
-        return datetime.utcnow() + timedelta(days=1)
+        time = self.delegateable.find_latest_comment_time(recurse=True)
+        if time is None:
+            return self.delegateable.create_time
+        return time
     
     latest_revision_time = property(_latest_revision_time)

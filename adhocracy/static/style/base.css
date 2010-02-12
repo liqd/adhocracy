@@ -1120,13 +1120,13 @@ a.button.inactive {
 	margin-bottom: 5px;
 }
 
-.comment .karma {
+.comment .rate {
 	padding-top: 0.0em;
 	margin-right: 0.5em;
 	text-align: center;
 }
 
-.comment .karma a {
+.comment .rate a {
 	background-repeat: no-repeat;
 	display: block;
 	width: 12px;
@@ -1136,37 +1136,37 @@ a.button.inactive {
 	max-width: 12px;
 }
 
-.comment .karma .score {
+.comment .rate .score {
 	font-weight: bold;
 	color: #666;
 	font-size: 0.8em;
 }
 
-.comment .karma a.inactive {
+.comment .rate a.inactive {
 	cursor: pointer;
 }
 
-.comment .karma a.down {
+.comment .rate a.down {
 	margin-top: 0.2em;
 }
 
-.comment .karma a.up,
-.comment .karma a.up.inactive:hover {
+.comment .rate a.up,
+.comment .rate a.up.inactive:hover {
 	background-image: url(/img/arrows/aup.png);
 }
 
-.comment .karma a.down,
-.comment .karma a.down.inactive:hover {
+.comment .rate a.down,
+.comment .rate a.down.inactive:hover {
 	background-image: url(/img/arrows/adown.png);
 }
 
-.comment .karma a.up:hover,
-.comment .upvoted .karma a.up {
+.comment .rate a.up:hover,
+.comment .upvoted .rate a.up {
 	background-image: url(/img/arrows/aup_a.png);
 }
 
-.comment .karma a.down:hover,
-.comment .downvoted .karma a.down {
+.comment .rate a.down:hover,
+.comment .downvoted .rate a.down {
 	background-image: url(/img/arrows/adown_a.png);
 }
 

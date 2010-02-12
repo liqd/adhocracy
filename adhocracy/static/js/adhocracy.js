@@ -87,19 +87,22 @@ $(document).ready(function() {
 		return false;
 	}
 	
-	comment_karma = function(id, value) {
-		$.getJSON('/karma/give.json', {comment: id, value: value},
+	comment_rate = function(comment_id, poll_id, value) {
+	    $("#tile_c" + comment_id + " .score").text('*');
+		$.post('/poll/' + poll_id + '/vote.json', {position: value},
 			function(data) {
-				$("#tile_c" + id + ".upvoted").removeClass("upvoted");
-				$("#tile_c" + id + ".downvoted").removeClass("downvoted");
-				if (data.position == -1) {
-					$("#tile_c" + id + "").addClass("downvoted");
-				} 
-				if (data.position == 1) {
-					$("#tile_c" + id + "").addClass("upvoted");
+				$("#tile_c" + comment_id + ".upvoted").removeClass("upvoted");
+				$("#tile_c" + comment_id + ".downvoted").removeClass("downvoted");
+				if (data.decision && data.decision.decided) {
+				    if (data.decision.result == -1) {
+    					$("#tile_c" + comment_id).addClass("downvoted");
+    				} 
+    				if (data.decision.result == 1) {
+    					$("#tile_c" + comment_id).addClass("upvoted");
+    				}
 				}
-				$("#tile_c" + id + " .score").text(data.score);
-			});
+				$("#tile_c" + comment_id + " .score").text(data.score);
+			}, 'json');
 		return false;
 	}
 	

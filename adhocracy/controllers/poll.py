@@ -19,10 +19,17 @@ class PollDecisionsFilterForm(formencode.Schema):
     
 class PollVoteForm(formencode.Schema):
     allow_extra_fields = True
-    orientation = validators.Int(min=vote.Vote.NO, max=vote.Vote.YES, not_empty=True)
+    position = validators.Int(min=model.Vote.NO, max=model.Vote.YES, not_empty=True)
 
 
 class PollController(BaseController):
+    
+    def index(self, id):
+        return self.not_implemented()
+    
+        
+    def new(self, id):
+        return self.not_implemented()
     
     
     @RequireInstance
@@ -44,12 +51,21 @@ class PollController(BaseController):
                        topics=[c.proposal], proposal=c.proposal)
             redirect_to("/proposal/%s" % str(c.proposal.id))
         return render("/poll/create.html")
+    
+        
+    def edit(self, id):
+        return self.not_implemented()
+        
+    
+    def update(self, id):
+        return self.not_implemented()
+    
                 
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("poll.abort")) 
     def abort(self, id):
-        c.poll = get_entity_or_abort(model.Poll, id)
+        c.poll = self._get_open_poll(model.Poll, id)
         c.proposal = c.poll.proposal
         tile = PollTile(c.poll)
         if not c.poll or c.poll.has_ended():
@@ -68,29 +84,33 @@ class PollController(BaseController):
             
         return render("/poll/abort.html")   
     
-    @RequireInstance
-    @ActionProtector(has_permission("vote.cast"))
-    def rate(self, id):
-        pass
     
-        
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("vote.cast"))
     @validate(schema=PollVoteForm(), form="bad_request", post_only=False, on_get=True)
-    def vote(self, id):
+    def vote(self, id, format='html'):
         c.poll = self._get_open_poll(id)
         
-        if not h.has_permission("vote.cast"):
-            h.flash(_("You have no voting rights."))
-            redirect_to("/proposal/%s" % str(id))
-            
-        orientation = self.form_result.get("orientation")
-        votes = democracy.Decision(c.user, c.poll).make(orientation)
-        for vote in votes:
-            event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance, 
-                       topics=[c.poll.proposal], vote=vote, poll=c.poll)
-        redirect_to("/proposal/%s" % str(c.poll.proposal.id))
+        decision = democracy.Decision(c.user, c.poll)
+        previous_result = decision.result
+        votes = decision.make(self.form_result.get("position"))
+        
+        if c.poll.action != model.Poll.RATE:
+            for vote in votes:
+                event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance, 
+                           topics=[c.poll.scope], vote=vote, poll=c.poll)
+        
+        if format == 'json':
+            # don't want to compute a tally here, so let's guess. 
+            # fucking ugly, but hopefully quite fast.
+            tally = model.Tally.create_from_poll(c.poll)
+            model.meta.Session.commit()
+            return render_json(dict(decision=decision,
+                                    score=tally.score))
+        
+        # TODO: proper redirect
+        redirect_to("/d/%s" % c.poll.scope.id)
     
         
     @RequireInstance
@@ -114,7 +134,10 @@ class PollController(BaseController):
             decisions = filter(lambda d: d.result==filters.get('result'), decisions)
             
         c.decisions_pager = pager.scope_descisions(decisions)
-        return render("/poll/votes.html")   
+        return render("/poll/votes.html")  
+        
+    def delete(self, id):
+        return self.not_implemented()
     
     def _get_open_poll(self, id):
         poll = get_entity_or_abort(model.Poll, id)

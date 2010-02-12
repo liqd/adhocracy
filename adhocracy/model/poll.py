@@ -103,7 +103,7 @@ class Poll(object):
                                  Poll.end_time>datetime.utcnow()))
             poll = q.limit(1).first()
             if ifilter.has_instance() and instance_filter and poll:
-                poll = poll.proposal.instance == ifilter.get_instance() \
+                poll = poll.scope.instance == ifilter.get_instance() \
                         and poll or None
             return poll
         except Exception, e:

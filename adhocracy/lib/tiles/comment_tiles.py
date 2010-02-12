@@ -79,6 +79,7 @@ class CommentTile(BaseTile):
     
     def _can_rate(self):
         return h.has_permission('vote.cast') \
+                and self.comment.poll is not None \
                 and not self.comment.poll.has_ended()
     
     can_rate = property(_can_rate)

@@ -46,12 +46,12 @@ def breadcrumbs(entity):
 def immutable_proposal_message():
     return _("This proposal is currently being voted on and cannot be modified.")
 
-#@cache.memoize('user_link')
+@cache.memoize('user_link')
 def user_link(user, size=16, scope=None):
     link = "/user/%s" % user.user_name
     score = 0
     if scope:
-        score = democracy.number_of_votes(user, scope)
+        score = user.number_of_votes_in_scope(scope)
     return "<a href='%s' class='user_link'><img class='user_icon' src='%s' alt="" /> %s</a><sup>%s</sup>" % (
         instance_url(c.instance, path=link), 
         gravatar_url(user, size=size),

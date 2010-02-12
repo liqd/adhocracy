@@ -101,21 +101,21 @@ class Delegateable(object):
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
                
-    def find_latest_comment(self, recurse=True):
+    def find_latest_comment_time(self, recurse=True):
         from revision import Revision
         from comment import Comment
         try:
-            query = meta.Session.query(Comment)
-            query = query.join(Revision)
-            query = query.filter(Comment.topic==self)
-            query = query.order_by(Revision.create_time.desc())
-            query = query.limit(1)
-            comment = query.all()[0]
+            topics = [self]
             if recurse:
-                for child in self.children:
-                    comment = max(child.find_latest_comment(recurse=True),
-                                  comment, key=lambda c: c.latest.create_time)
-            return comment
+                topics.extend(self.children)
+            topics = map(lambda t: t.id, topics)
+            query = meta.Session.query(Revision.create_time)
+            query = query.join(Comment)
+            query = query.filter(Comment.topic_id.in_(topics))
+            query = query.order_by(Revision.create_time.desc())
+            query = query.filter(Comment.canonical==False)
+            query = query.limit(1)
+            return query.first()[0]
         except: 
             log.exception("find_latest_comment(%s)" % self.id)
             return None

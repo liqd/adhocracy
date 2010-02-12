@@ -75,6 +75,9 @@ def make_map():
     
     map.resource('comment', 'comment', member={'history': 'GET',
                                                'revert': 'GET'})
+                                               
+    map.resource('poll', 'poll', member={'vote': 'POST',
+                                         'votes': 'GET'})
     
     map.resource('delegation', 'delegation')
     #map.resource('delegations', 'delegation')

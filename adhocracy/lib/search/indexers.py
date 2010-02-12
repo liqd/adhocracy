@@ -21,10 +21,12 @@ def index_user(entity):
     d = index_entity(entity)
     d['title'] = entity.name
     if entity.bio:
-        d['text'] = entity.bio
+        d['text'] = entity.bio if entity.bio is not None else u''
     ct = datetime2str(entity.create_time if \
                       entity.create_time else datetime.utcnow())
     d['create_time'] = ct
+    d['user'] = " ".join((entity.name, 
+                          entity.user_name))
     return d
 
 def index_comment(entity):

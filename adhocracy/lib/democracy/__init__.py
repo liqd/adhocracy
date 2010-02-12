@@ -25,13 +25,9 @@ def init_democracy():
 
 
 def handle_vote(vote):
-    log.debug("Post-processing vote: %s" % vote)
+    #log.debug("Post-processing vote: %s" % vote)
     if model.Tally.find_by_vote(vote) is None:
         tally = model.Tally.create_from_vote(vote)
         model.meta.Session.commit()
         log.debug("Tallied %s: %s" % (vote.poll, tally))
 
-
-@memoize('number_of_votes')
-def number_of_votes(user, topic):
-    return user.number_of_votes_in_scope(topic)
