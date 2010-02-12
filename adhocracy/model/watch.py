@@ -33,7 +33,7 @@ class Watch(object):
             if not include_deleted:
                 q = q.filter(or_(Watch.delete_time==None,
                                  Watch.delete_time>datetime.utcnow()))
-            return q.one()
+            return q.limit(1).first()
         except:
             return None
     
@@ -46,7 +46,7 @@ class Watch(object):
             if not include_deleted:
                 q = q.filter(or_(Watch.delete_time==None,
                                  Watch.delete_time>datetime.utcnow()))
-            return q.one()
+            return q.limit(1).first()
         except Exception, e:
             log.warn("find(%s:%s): %s" % (user, ref, e))
     

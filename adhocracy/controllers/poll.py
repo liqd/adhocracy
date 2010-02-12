@@ -16,6 +16,10 @@ class PollIndexFilter(formencode.Schema):
 class PollDecisionsFilterForm(formencode.Schema):
     allow_extra_fields = True
     result = validators.Int(not_empty=False, if_empty=None, min=-1, max=1)
+    
+class PollVoteForm(formencode.Schema):
+    allow_extra_fields = True
+    orientation = validators.Int(min=vote.Vote.NO, max=vote.Vote.YES, not_empty=True)
 
 
 class PollController(BaseController):
@@ -64,6 +68,30 @@ class PollController(BaseController):
             
         return render("/poll/abort.html")   
     
+    @RequireInstance
+    @ActionProtector(has_permission("vote.cast"))
+    def rate(self, id):
+        pass
+    
+        
+    @RequireInstance
+    @RequireInternalRequest()
+    @ActionProtector(has_permission("vote.cast"))
+    @validate(schema=PollVoteForm(), form="bad_request", post_only=False, on_get=True)
+    def vote(self, id):
+        c.poll = self._get_open_poll(id)
+        
+        if not h.has_permission("vote.cast"):
+            h.flash(_("You have no voting rights."))
+            redirect_to("/proposal/%s" % str(id))
+            
+        orientation = self.form_result.get("orientation")
+        votes = democracy.Decision(c.user, c.poll).make(orientation)
+        for vote in votes:
+            event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance, 
+                       topics=[c.poll.proposal], vote=vote, poll=c.poll)
+        redirect_to("/proposal/%s" % str(c.poll.proposal.id))
+    
         
     @RequireInstance
     @ActionProtector(has_permission("proposal.view")) 
@@ -89,5 +117,11 @@ class PollController(BaseController):
                                     sorts={_("oldest"): sorting.entity_oldest,
                                            _("newest"): sorting.entity_newest},
                                     default_sort=sorting.entity_newest)
-        return render("/poll/votes.html")             
+        return render("/poll/votes.html")   
+    
+    def _get_open_poll(self, id):
+        poll = get_entity_or_abort(model.Poll, id)
+        if poll.has_ended():
+            abort(404, _("The proposal is not undergoing a poll."))
+        return poll          
 

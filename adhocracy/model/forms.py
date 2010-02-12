@@ -136,12 +136,3 @@ class ExistingUserName(formencode.FancyValidator):
                 _("No user with the user name '%s' exists") % value,
                 value, state)
         return u
-    
-class VoteCastForm(formencode.Schema):
-    allow_extra_fields = True
-    orientation = validators.Int(min=vote.Vote.NO, max=vote.Vote.YES, not_empty=True)
-
-class EventPanelForm(formencode.Schema):
-    allow_extra_fields = True
-    event_page = validators.Int(if_missing=1, not_empty=False)
-    event_count = validators.Int(if_missing=None, if_invalid=None, max=100, not_empty=False)
