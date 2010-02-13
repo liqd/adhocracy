@@ -72,7 +72,7 @@ def instance_entity_url(instance, member=None, format=None, **kwargs):
     if member is None and format is None:
         return instance_url(instance, path='/issue')
     return _common_url_builder(instance, 'instance', 
-                               instance.key, **kwargs)
+                               instance.key, member=member, format=format, **kwargs)
 
     
 def delegation_url(delegation, **kwargs):

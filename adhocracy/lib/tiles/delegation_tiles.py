@@ -11,11 +11,13 @@ class DelegationTile(BaseTile):
     
 def inbound(delegation):
     return render_tile('/delegation/tiles.html', 'inbound', 
-                       DelegationTile(delegation), delegation=delegation)
+                       DelegationTile(delegation), delegation=delegation,
+                       user=c.user, cached=True)
 
 def outbound(delegation):
     return render_tile('/delegation/tiles.html', 'outbound', 
-                       DelegationTile(delegation), delegation=delegation)
+                       DelegationTile(delegation), delegation=delegation,
+                       user=c.user, cached=True)
     
 def row(delegation):
     return render_tile('/delegation/tiles.html', 'row', 
