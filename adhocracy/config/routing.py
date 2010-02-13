@@ -68,18 +68,12 @@ def make_map():
     
     map.connect('/adopted', controller='proposal', action='adopted')
     
-    map.connect('/poll/create/{id}', controller='poll', action='create')
-    map.connect('/poll/{id}/abort', controller='poll', action='abort')
-    map.connect('/poll/{id}/votes', controller='poll', action='votes')
-    map.connect('/poll/{id}', controller='poll', action='view')
-    map.connect('/polls', controller='poll', action='index')
-    
-    
     map.resource('comment', 'comment', member={'history': 'GET',
                                                'revert': 'GET'})
                                                
     map.resource('poll', 'poll', member={'vote': 'POST',
-                                         'votes': 'GET'})
+                                         'votes': 'GET',
+                                         'ask_delete': 'GET'})
     
     map.resource('delegation', 'delegation')
     #map.resource('delegations', 'delegation')

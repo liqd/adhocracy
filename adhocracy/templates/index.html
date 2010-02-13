@@ -20,16 +20,10 @@
 
 <div class="sidebar">
 	%if not c.user:
-		<div class="tile">
 		<%include file="/user/login_form.html"/>
-		</div>	
 	%endif
-	<p>
-	
-	<br/>
-	
 </div>
 
-<div class="mainbar welcome">
+<div class="mainbar">
 	${c.page.body|n}
 </div>

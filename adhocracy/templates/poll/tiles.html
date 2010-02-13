@@ -27,7 +27,7 @@
 						<span class="icon">&nbsp;</span>
 					</td>
 					<td class="option">${_("Affirm")}</td>
-					<td class="votes"><a href="/poll/${poll.id}/votes?result=1">${poll.tally.num_for}</a></td>
+					<td class="votes"><a href="${h.entity_url(poll, member='votes')}?result=1">${poll.tally.num_for}</a></td>
 					<td valign="top">${tile.result_affirm}%</td>
 				</tr>
 				<%
@@ -56,7 +56,7 @@
 						<span class="icon">&nbsp;</span>
 					</td>
 					<td class="option">${_("Dissent")}</td>
-					<td class="votes"><a href="/poll/${poll.id}/votes?result=-1">${poll.tally.num_against}</a></td>
+					<td class="votes"><a href="${h.entity_url(poll, member='votes')}?result=-1">${poll.tally.num_against}</a></td>
 					<td valign="top">${tile.result_dissent}%</td>
 				</tr>
 				<%
@@ -85,7 +85,7 @@
 						<span class="icon">&nbsp;</span>
 					</td>
 					<td class="option">${_("Abstain")}</td>
-					<td class="votes"><a href="/poll/${poll.id}/votes?result=0">${poll.tally.num_abstain}</a></td>
+					<td class="votes"><a href="${h.entity_url(poll, member='votes')}?result=0">${poll.tally.num_abstain}</a></td>
 					<td valign="top">&nbsp;</td>
 				</tr>
 				<%
@@ -110,7 +110,7 @@
 						%endif						
 					</td>
 					<td colspan="2">
-						<a href="/poll/${poll.id}/votes">
+						<a href="${h.entity_url(poll, member='votes')}">
 							${_("%d votes") % len(poll.tally)}
 						</a>
 					</td>
@@ -124,9 +124,10 @@
 		
 		<div class="meta">	
 			${_("began %s") % h.relative_time(tile.poll.begin_time)|n}
-			%if tile.can_end_poll:
+			%if poll.can_end() and h.has_permission('poll.abort'):
 				&middot; 
-				<a class="delete" href="/poll/${poll.id}/abort">${_("cancel")}</a>
+				<a class="delete" 
+				   href="${h.entity_url(poll, member='ask_delete')}">${_("cancel")}</a>
 			%endif
 		</div>
 	</div>

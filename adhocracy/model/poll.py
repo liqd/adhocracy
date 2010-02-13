@@ -83,6 +83,12 @@ class Poll(object):
         return has_ended(at_time=at_time)
     
     
+    def can_end(self):
+        if self.has_ended():
+            return False
+        return True
+    
+    
     @classmethod
     def create(cls, scope, user, action, subject=None):
         from tally import Tally

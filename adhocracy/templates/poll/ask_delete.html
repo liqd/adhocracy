@@ -1,0 +1,27 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${c.poll.scope.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.poll.scope)|n} &raquo; ${_("End a poll")}
+</%def>
+
+${tiles.poll.header(c.poll)|n}
+
+<form name="release_proposal" class="inplace" method="POST" 
+	action="${h.entity_url(c.poll)}">
+	${h.field_token()|n}
+	<input type="hidden" name="_method" value="DELETE" />
+	<div class="sidebar">&nbsp;</div>
+	<div class="mainbar">
+		<div class="warning_box">
+			${_("You are about to cancel this poll. This means that the " +
+				"proposal will become editable again but that all votes " + 
+				"that have been cast at this time <strong>will be " + 
+				"invalidated</strong>.")|n}
+		</div>
+		<center>
+			<input type="submit" class="delete" value="${_('Confirm')}" />
+		</center>
+	</div>
+</form>

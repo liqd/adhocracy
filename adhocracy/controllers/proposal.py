@@ -229,6 +229,9 @@ class ProposalController(BaseController):
     @ActionProtector(has_permission("poll.create"))
     def ask_adopt(self, id):
         c.proposal = self._get_mutable_proposal(id)
+        if not c.proposal.can_adopt():
+            abort(403, _("The poll cannot be started either because there are " + 
+                         "no provisions or a poll has already started."))
         return render('/proposal/ask_adopt.html')
         
     
@@ -244,7 +247,7 @@ class ProposalController(BaseController):
         c.proposal.adopt_poll = poll 
         model.meta.Session.commit()
         event.emit(event.T_PROPOSAL_STATE_VOTING, c.user, instance=c.instance, 
-                   topics=[c.proposal], proposal=c.proposal)
+                   topics=[c.proposal], proposal=c.proposal, poll=poll)
         redirect_to(h.entity_url(c.proposal))   
     
     

@@ -62,7 +62,8 @@ class Proposal(Delegateable):
     
     
     def can_adopt(self):
-        return (self.adopt_poll is None) and self.has_canonicals()
+        return (self.adopt_poll is None or self.adopt_poll.has_ended()) \
+            and self.has_canonicals()
     
     
     @classmethod

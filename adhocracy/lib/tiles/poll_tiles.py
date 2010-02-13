@@ -3,6 +3,10 @@ from util import render_tile, BaseTile
 
 from pylons import tmpl_context as c
 from webhelpers.text import truncate
+import adhocracy.model as model
+
+import issue_tiles
+import proposal_tiles
 
 from .. import democracy
 from .. import helpers as h
@@ -55,14 +59,6 @@ class PollTile(BaseTile):
                 agents.append(agent)
         return agents
     
-    def _can_end_poll(self):
-        if not self.poll:
-            return False
-        if h.has_permission('poll.abort'):
-            return self.state.poll_mutable
-
-    can_end_poll = property(_can_end_poll)
-    
     def _can_vote(self):
         return (not self.poll.has_ended()) and h.has_permission('vote.cast')
     
@@ -81,3 +77,9 @@ class PollTile(BaseTile):
     
 def booth(poll):
     return render_tile('/poll/tiles.html', 'booth', PollTile(poll), poll=poll) 
+    
+def header(poll, active=''):
+    if isinstance(poll.scope, model.Issue):
+        return issue_tiles.header(poll.scope, active=active)
+    elif isinstance(poll.scope, model.Proposal):
+        return proposal_tiles.header(poll.scope, active=active)

@@ -177,6 +177,10 @@ input[type=button],
 	-webkit-border-radius: 3px;
 }
 
+input.delete {
+	background-color: #9d0000;	
+}
+
 input:hover[type=submit],
 input:hover[type=button],
 .savebox button:hover {
@@ -184,6 +188,10 @@ input:hover[type=button],
 	background-image: url(/img/menu_bg.png);
 	background-position: top;
 	background-repeat: repeat-x;
+}
+
+input.delete:hover {
+	background-color: #6b0001;	
 }
 
 #page_title input {
