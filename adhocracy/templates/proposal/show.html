@@ -10,12 +10,7 @@
 ${tiles.proposal.header(c.proposal, c.tile, active='goal')} 
 
 <div class="sidebar">
-		%if c.tile.poll: 
-			${tiles.poll.booth(c.tile.poll)}
-		%endif
-		${state.checklist(c.tile.state)|n}
-		${tiles.delegation.sidebar(c.proposal)}
-	</div>
+	${tiles.proposal.sidebar(c.proposal, c.tile)}
 </div>
 
 <div class="mainbar">

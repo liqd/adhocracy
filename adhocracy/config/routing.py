@@ -61,7 +61,9 @@ def make_map():
                                                  'delegations': 'GET', 
                                                  'activity': 'GET', 
                                                  'canonicals': 'GET',
-                                                 'alternatives': 'GET'},
+                                                 'alternatives': 'GET',
+                                                 'ask_adopt': 'GET',
+                                                 'adopt': 'POST'},
                                collection={'filter': 'GET'})
     
     map.connect('/adopted', controller='proposal', action='adopted')

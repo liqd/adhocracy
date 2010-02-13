@@ -5,7 +5,7 @@
 	<h4><img src="/img/icons/vote_16.png" class="cd" /> ${_("Poll")}</h4>
 		
 			%if tile.can_vote:
-				<form action="/vote/cast/${poll.id}" method="GET">
+				<form action="${h.entity_url(poll, member='vote')}" method="POST">
 					${h.field_token()|n}
 			%endif	
 			
@@ -19,7 +19,7 @@
 				<tr class="affirm ${'decision' if c.user and tile.decision.result == 1 else ''}">
 					<td>
 						%if tile.can_vote:
-							<input type="radio" name="orientation" value="1" 
+							<input type="radio" name="position" value="1" 
 								${'checked' if tile.decision.result == 1 else ''|n} />
 						%endif
 					</td>
@@ -48,7 +48,7 @@
 				<tr class="dissent ${'decision' if c.user and tile.decision.result == -1 else ''}">
 					<td class="selector">
 						%if tile.can_vote:
-							<input type="radio" name="orientation" value="-1" 
+							<input type="radio" name="position" value="-1" 
 								${'checked' if tile.decision.result == -1 else ''|n} />
 						%endif
 					</td>
@@ -77,7 +77,7 @@
 				<tr class="abstain ${'decision' if c.user and tile.decision.result == 0 else ''}">
 					<td class="selector">
 						%if tile.can_vote:
-							<input type="radio" name="orientation" value="0" 
+							<input type="radio" name="position" value="0" 
 								${'checked' if tile.decision.result == 0 else ''|n} />
 						%endif		
 					</td>

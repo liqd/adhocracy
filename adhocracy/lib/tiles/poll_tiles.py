@@ -25,7 +25,7 @@ class PollTile(BaseTile):
     
     def _dnode(self):
         if not self.__dnode:
-            self.__dnode = democracy.DelegationNode(c.user, self.poll.proposal)
+            self.__dnode = democracy.DelegationNode(c.user, self.poll.scope)
         return self.__dnode
     
     dnode = property(_dnode)

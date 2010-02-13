@@ -214,7 +214,7 @@ class ProposalController(BaseController):
                    topics=[c.proposal], proposal=c.proposal)
         c.proposal.delete()
         model.meta.Session.commit()
-        redirect_to("/issue/%d" % c.proposal.issue.id)   
+        redirect_to(h.entity_url(c.proposal.issue))   
     
     
     @RequireInstance
@@ -223,6 +223,29 @@ class ProposalController(BaseController):
         issues = model.Issue.all(instance=c.instance)
         c.issues = sorting.delegateable_label(issues)
         return render("/proposal/adopted.html")
+    
+    
+    @RequireInstance
+    @ActionProtector(has_permission("poll.create"))
+    def ask_adopt(self, id):
+        c.proposal = self._get_mutable_proposal(id)
+        return render('/proposal/ask_adopt.html')
+        
+    
+    @RequireInstance
+    @ActionProtector(has_permission("poll.create"))
+    def adopt(self, id):
+        c.proposal = self._get_mutable_proposal(id)
+        if not c.proposal.can_adopt():
+            abort(403, _("The poll cannot be started either because there are " + 
+                         "no provisions or a poll has already started."))
+        poll = model.Poll.create(c.proposal, c.user, model.Poll.ADOPT)
+        model.meta.Session.commit()
+        c.proposal.adopt_poll = poll 
+        model.meta.Session.commit()
+        event.emit(event.T_PROPOSAL_STATE_VOTING, c.user, instance=c.instance, 
+                   topics=[c.proposal], proposal=c.proposal)
+        redirect_to(h.entity_url(c.proposal))   
     
     
     @RequireInstance

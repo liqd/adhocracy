@@ -68,21 +68,7 @@ class ProposalTile(DelegateableTile):
                 and not self.is_immutable
     
     can_create_canonical = property(_can_create_canonical)
-    
-    def _has_canonicals(self):
-        return len(self.proposal.canonicals) > 0
-    
-    has_canonicals = property(_has_canonicals)
-    
-    def _can_begin_poll(self):
-        if not self.has_canonicals:
-            return False
-        if self.poll:
-            return False
-        return h.has_permission('poll.create')
-    
-    can_begin_poll = property(_can_begin_poll)
-        
+            
     def _is_immutable(self):
         return not self.proposal.is_mutable()
     
@@ -137,3 +123,10 @@ def header(proposal, tile=None, active='goal'):
         tile = ProposalTile(proposal)
     return render_tile('/proposal/tiles.html', 'header', tile, 
                        proposal=proposal, active=active)
+
+def sidebar(proposal, tile=None):
+   if tile is None:
+       tile = ProposalTile(proposal)
+   return render_tile('/proposal/tiles.html', 'sidebar', tile, 
+                      proposal=proposal)
+    

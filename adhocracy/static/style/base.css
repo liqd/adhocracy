@@ -409,6 +409,10 @@ body {
 	text-transform: lowercase;
 }
 
+#header #account a:hover {
+	text-decoration: none;
+}
+
 #header #logo {
 	float: left;
 	margin-top: 15px;
@@ -551,6 +555,7 @@ body {
 }
 
 .infobox,
+.warning_box,
 #flash_messages {
 	background-repeat: no-repeat;
 	background-position: center left;

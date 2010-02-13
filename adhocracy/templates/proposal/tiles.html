@@ -1,4 +1,5 @@
 <%namespace name="components" file="/components.html"/>
+<%namespace name="state" file="/poll/state.html"/>
 
 <%def name="row(tile, proposal)">
 	<div class="tile">
@@ -58,6 +59,15 @@
 </%def>
 
 
+<%def name="sidebar(tile, proposal)">
+	%if proposal.adopt_poll: 
+		${tiles.poll.booth(proposal.adopt_poll)}
+	%endif
+	${state.checklist(tile.state)|n}
+	${tiles.delegation.sidebar(proposal)}
+</%def>
+
+
 <%def name="header(tile, proposal, active)">
 	<div class="top_actions title">
 		%if tile.can_delegate and not tile.has_overridden:
@@ -65,14 +75,15 @@
 			    href="/delegation/new?scope=${proposal.id}">${_("delegate")}</a>
 		%endif
 		
-		%if tile.can_begin_poll:
-			<a class="button title add" href="/poll/create/${proposal.id}">${_("call a vote")}</a>
-		%elif c.user and not tile.has_canonicals:
+		%if proposal.can_adopt():
+			<a class="button title add" 
+				href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
+		%elif c.user and not proposal.has_canonicals():
 			<a class="button title inactive htwarn" title="${_('The proposal cannot be voted upon since it does not have any provisions yet.')}">${_("call a vote")}</a>
 		%endif
 		
 		%if tile.can_edit:
-			<a class="button title edit" href="/proposal/${proposal.id}/edit">${_("edit")}</a>
+			<a class="button title edit" href="${h.entity_url(proposal, member='edit')}">${_("edit")}</a>
 		%endif
 						
 		%if tile.can_delete:

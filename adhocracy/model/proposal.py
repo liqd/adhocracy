@@ -36,21 +36,34 @@ class Proposal(Delegateable):
             raise ValueError(_("Proposal doesn't have a distinct parent issue."))
         return self.parents[0]
     
+    
     def _set_issue(self, issue):
         self.parents = [issue]
 
     issue = property(_get_issue, _set_issue)
+    
         
     def search_children(self, recurse=False, cls=Delegateable):
         return []
+    
         
     def _get_canonicals(self):
         return [c for c in self.comments if c.canonical and not c.is_deleted()]
     
     canonicals = property(_get_canonicals)
     
+    
     def is_mutable(self):
         return self.adopt_poll is None or self.adopt_poll.has_ended()
+    
+    
+    def has_canonicals(self):
+        return len(self.canonicals) > 0
+    
+    
+    def can_adopt(self):
+        return (self.adopt_poll is None) and self.has_canonicals()
+    
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False, full=False):

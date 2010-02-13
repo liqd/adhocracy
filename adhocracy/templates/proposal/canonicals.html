@@ -1,7 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
-<%namespace name="state" file="/poll/state.html"/>
 
 
 <%def name="title()">${_("Implementation: %s") % c.proposal.label}</%def>
@@ -13,15 +12,10 @@
 ${tiles.proposal.header(c.proposal, c.tile, active='canonicals')}
 
 <div class="sidebar">
-		%if c.tile.poll: 
-			${tiles.poll.booth(c.tile.poll)}
-		%endif
-		${state.checklist(c.tile.state)|n}
-		${tiles.delegation.sidebar(c.proposal)}
-	</div>
+	${tiles.proposal.sidebar(c.proposal, c.tile)}
 </div>
 <div class="mainbar">
-	%if not c.tile.has_canonicals:
+	%if not c.proposal.has_canonicals():
 		<span class="infobox">${_("<b>Provisions</b> are the body of a proposal: together they form the language that will be voted upon. You will need to have at least one clause in order to call for a vote.")|n}</span>
 	%endif
 	

@@ -110,7 +110,7 @@ class PollController(BaseController):
                                     score=tally.score))
         
         # TODO: proper redirect
-        redirect_to("/d/%s" % c.poll.scope.id)
+        redirect_to(h.entity_url(c.poll.subject))
     
         
     @RequireInstance

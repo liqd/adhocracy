@@ -1,0 +1,27 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Call a vote")}: ${c.proposal.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("Call a vote")}
+</%def>
+
+${tiles.proposal.header(c.proposal, active='')}
+
+<form name="release_proposal" class="inplace" method="POST" 
+	action="${h.entity_url(c.proposal, member='adopt')}">
+	${h.field_token()|n}
+	<div class="sidebar">&nbsp;</div>
+	<div class="mainbar">
+		<div class="warning_box">
+			<p>
+				${_("You are about to call for a vote. When you do this, you will lose " + 
+				"the ability to <strong>change the proposal's wording</strong> unless you "+ 
+				"cancel the vote.")|n} 
+			</p>
+		</div>
+		<center>
+			<input type="submit" value="${_("Confirm")}" />
+		</center>
+	</div>
+</form>
