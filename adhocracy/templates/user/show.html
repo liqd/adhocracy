@@ -1,14 +1,14 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%namespace name="parts" file="/user/parts.html"/>
+
 <%def name="title()">${c.page_user.name}</%def>
 
 <%def name="breadcrumbs()">
-	${parts.user_breadcrumbs(c.page_user)}
+	${h.breadcrumbs(c.page_user)|n}
 </%def>
 
 ${tiles.user.header(c.page_user, c.tile, active='activity')}
 
-	<div class="table">
-		${c.events_pager.here()}
-	</div>
+<div class="table">
+	${c.events_pager.here()}
+</div>

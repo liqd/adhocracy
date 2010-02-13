@@ -1,17 +1,9 @@
 
-<%def name="list_item(tile, event, event_html)">
-	<li class="list_tile event">
-		<span class="meta">  
-			${h.relative_time(event.time)|n}
-		</span>
-		<span class="text">
-			${h.user_link(event.user)|n}
-			${event_html|n}
-		</span>
-	</li>
-</%def>
-
-<%def name="row(tile, event, event_html)">
+<%def name="row(tile, event)">
+	<%
+	from adhocracy.lib.event import formatting
+	event_html = formatting.as_html(event)
+	%>
 	<div class="tile">
 		<div class="logo">
 			<a href="/user/${event.user.user_name}"><img src="${h.gravatar_url(event.user, size=32)}" /></a>

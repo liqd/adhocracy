@@ -6,7 +6,7 @@
 			<img src="${h.gravatar_url(user, size=32)}" />
 		</div>
 		<div class="base">
-			<h3><a class="link" href="/user/${user.user_name}">${user.name}</a></h3>
+			<h3><a class="link" href="${h.entity_url(user)}">${user.name}</a></h3>
 			<div class="meta noclear">
 				%if c.instance:
 					${_(tile.instance_group.group_name)} &middot;
@@ -20,22 +20,22 @@
 <%def name="header(tile, user, active)">
 	<div class="top_actions title">
 		%if tile.can_edit:
-			<a class="button edit" href="/user/${user.user_name}/edit">${_("edit")}</a>
+			<a class="button edit" href="${h.entity_url(user, member='edit')}">${_("edit")}</a>
 		%endif
 		
 		%if c.instance and tile.can_manage and user.is_member(c.instance):
-			<a class="button admin" href="/user/${user.user_name}/kick?${h.url_token()}">${_("kick")}</a>
-			%for group_code in [c.model.Group.CODE_OBSERVER, c.model.Group.CODE_VOTER, c.model.Group.CODE_SUPERVISOR]:
+			%for group_code in c.model.Group.INSTANCE_GROUPS:
 				%if group_code != tile.instance_group.code:
-					<a class="button admin" href="/user/${user.user_name}/groupmod?to_group=${group_code}&${h.url_token()}">
+					<a class="button edit" href="${h.entity_url(user, member='groupmod')}?to_group=${group_code}&${h.url_token()}">
 						${_("make %s") % _(c.model.Group.by_code(group_code).group_name)}</a>
 				%endif
 			%endfor
+			<a class="button delete" href="${h.entity_url(user, member='kick')}?${h.url_token()}">${_("kick")}</a>
 		%endif
 		
 		%if c.user and user != c.user:
 			${components.watch(user, '/user/%s' % str(user.user_name))}
-			<a href="/user/${user.user_name}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
+			${h.rss_button(user)|n}
 		%endif
 	</div>
 	
@@ -46,16 +46,20 @@
 	
 	<div class="panel ${active}">
 		<div class="menu">
-			<a href="/user/${user.user_name}" class="activity">${_("Activity")}</a>
+			<a href="${h.entity_url(user)}" class="activity">${_("Activity")}</a>
 			%if c.instance:
-				<a href="/user/${user.user_name}/votes" class="votes">${_("Votes")}</a>
-				<a href="/user/${user.user_name}/delegations" class="delegations">${_("Delegations")} 
+				<a href="${h.entity_url(user, member='votes')}" class="votes">${_("Votes")}</a>
+				<a href="${h.entity_url(user, member='delegations')}" class="delegations">${_("Delegations")} 
 					(${len(user.current_agencies())})</a>
-				<a href="/user/${user.user_name}/issues" class="issues">${_("Issues")} (${tile.num_issues})</a>
-				<a href="/user/${user.user_name}/proposals" class="proposals">${_("Proposals")} (${tile.num_proposals})</a>
-				<a href="/user/${user.user_name}/comments" class="comments">${_("Comments")} (${tile.num_comments})</a>
+				<a href="${h.entity_url(user, member='issues')}" class="issues">${_("Issues")} 
+					(${tile.num_issues})</a>
+				<a href="${h.entity_url(user, member='proposals')}" class="proposals">${_("Proposals")} 
+					(${tile.num_proposals})</a>
+				<a href="${h.entity_url(user, member='comments')}" class="comments">${_("Comments")} 
+					(${tile.num_comments})</a>
 			%endif	
-			<a href="/user/${user.user_name}/instances" class="instances">${_("Adhocracies")} (${len(user.instances)})</a>
+			<a href="${h.entity_url(user, member='instances')}" class="instances">${_("Adhocracies")} 	
+				(${len(user.instances)})</a>
 		</div>
 		
 		<div class="info">
@@ -63,7 +67,8 @@
 				${_("signed up %s") % h.relative_time(user.create_time)|n}
 			</div>
 			%if c.page_user.is_member(c.instance):
-				${"%(group)s in %(instance)s" % dict(group=_(tile.instance_group.group_name), instance=c.instance.label)}
+				${"%(group)s in %(instance)s" % dict(group=_(tile.instance_group.group_name), 	
+													 instance=c.instance.label)}
 			%endif
 		</div>
 		

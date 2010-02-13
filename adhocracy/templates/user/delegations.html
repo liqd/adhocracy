@@ -1,50 +1,49 @@
-<%namespace name="parts" file="/user/parts.html"/>
-
 <%inherit file="/template.html" />
+
 <%def name="title()">
 	${_("Delegations: %s") % c.page_user.name}
 </%def>
 
 <%def name="breadcrumbs()">
-	${parts.user_breadcrumbs(c.page_user)} &raquo; ${_("Delegations")}
+	${h.breadcrumbs(c.page_user)|n} &raquo; ${_("Delegations")}
 </%def>
 
 ${tiles.user.header(c.page_user, active='delegations')}
 
-	<% dcount = 0 %>
-	<table class="delegations">
+<% dcount = 0 %>
+<table class="delegations">
+	<tr>
+		<th>${_("Topic")}</th>
+		<th>${_("Given")}</th>
+		<th>${_("Received")}</th>
+	</tr>
+	%for delegateable in c.dgbs:
+		%if h.contains_delegations(c.page_user, delegateable, recurse=False):
 		<tr>
-			<th>${_("Topic")}</th>
-			<th>${_("Given")}</th>
-			<th>${_("Received")}</th>
-		</tr>
-		%for delegateable in c.dgbs:
-			%if h.contains_delegations(c.page_user, delegateable, recurse=False):
-			<tr>
-				<td>
-					${h.delegateable_link(delegateable)|n}
-				</td>
-				<td>
-					<ul>
-					%for delegation in filter(lambda d: d.scope == delegateable and not d.revoke_time, c.page_user.delegated):
-						<% dcount += 1 %>
-						<li class="nobullet">${tiles.delegation.outbound(delegation)}</li>
-					%endfor	
-					</ul>
-				</td>
-				<td>
-					<ul>
-					%for delegation in filter(lambda d: d.scope == delegateable and not d.revoke_time, c.page_user.agencies):
-						<% dcount += 1 %>
-						<li class="nobullet">${tiles.delegation.inbound(delegation)}</li>
-					%endfor	
-					</ul>
-				</td>
-			</tr>	
-			%endif
-		%endfor
-	</table>
-	%if dcount < 1:
-		<div class="infobox">${_("There are no delegations.")}</div>
-	%endif
-	<br/><br/>
+			<td>
+				${h.delegateable_link(delegateable)|n}
+			</td>
+			<td>
+				<ul>
+				%for delegation in filter(lambda d: d.scope==delegateable and not d.revoke_time, c.page_user.delegated):
+					<% dcount += 1 %>
+					<li class="nobullet">${tiles.delegation.outbound(delegation)}</li>
+				%endfor	
+				</ul>
+			</td>
+			<td>
+				<ul>
+				%for delegation in filter(lambda d: d.scope==delegateable and not d.revoke_time, c.page_user.agencies):
+					<% dcount += 1 %>
+					<li class="nobullet">${tiles.delegation.inbound(delegation)}</li>
+				%endfor	
+				</ul>
+			</td>
+		</tr>	
+		%endif
+	%endfor
+</table>
+%if dcount < 1:
+	<div class="infobox">${_("There are no delegations.")}</div>
+%endif
+<br/><br/>

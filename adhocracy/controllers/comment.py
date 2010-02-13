@@ -59,7 +59,7 @@ class CommentController(BaseController):
         watchlist.check_watch(comment)
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance, 
                    topics=[topic], comment=comment, topic=topic)
-        self._redirect(comment)
+        redirect_to(h.entity_url(c.comment))
     
     @RequireInstance
     @ActionProtector(has_permission("comment.edit"))
@@ -83,14 +83,14 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic)
-        self._redirect(c.comment)
+        redirect_to(h.entity_url(c.comment))
     
     @RequireInstance
     @ActionProtector(has_permission("comment.view"))
     def show(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
         if format == 'fwd':
-            self._redirect(c.comment)
+            redirect_to(h.entity_url(c.comment))
         elif format == 'json':
             return render_json(c.comment)
         return render('/comment/show.html')
@@ -106,8 +106,7 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_DELETE, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic)
-        
-        redirect_to("/d/%s" % c.comment.topic.id)
+        redirect_to(h.entity_url(c.comment.topic))
     
     @RequireInstance
     @ActionProtector(has_permission("comment.view"))    
@@ -131,12 +130,10 @@ class CommentController(BaseController):
             abort(400, _("You're trying to revert to a revision which is not part of this comments history"))
         c.comment.create_revision(revision.text, c.user)
         model.meta.Session.commit()
-        
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic)
-            
-        self._redirect(c.comment)
+        redirect_to(h.entity_url(c.comment))
     
     # get a comment for editing, checking that it is mutable. 
     def _get_mutable_or_abort(self, id):
@@ -144,16 +141,3 @@ class CommentController(BaseController):
         if not comment.is_mutable():
             abort(403, h.immutable_proposal_message())
         return comment
-    
-    def _redirect(self, comment):
-        path = None 
-        if isinstance(comment.topic, model.Issue):
-            path = "/issue/%s#c%s" % (comment.topic.id, comment.id)
-        elif isinstance(comment.topic, model.Proposal):
-            if comment.root().canonical:
-                path = "/proposal/%s/canonicals#c%s" % (comment.topic.id, comment.id)
-            else:
-                path = "/proposal/%s#c%s" % (comment.topic.id, comment.id)
-        else:
-            abort(500, _("Unsupported topic type."))
-        redirect_to(h.instance_url(comment.topic.instance, path=path))

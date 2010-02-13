@@ -2,15 +2,15 @@
 <%def name="inbound(tile, delegation)">
 			<img class='user_icon' src="/img/icons/delegated_to_16.png" />
 			${_("from %s") % h.user_link(delegation.principal)|n}:  
-			<a href="/delegation/${delegation.id}">${_("track record")}</a>
+			<a href="${h.entity_url(delegation)}">${_("track record")}</a>
 </%def>
 
 <%def name="outbound(tile, delegation)">
 			<img class='user_icon' src="/img/icons/delegate_to_16.png" />
 			${_("to %s") % h.user_link(delegation.agent)|n}:
-			<a href="/delegation/${delegation.id}">${_("track record")}</a>
+			<a href="${h.entity_url(delegation)}">${_("track record")}</a>
 			%if delegation.principal == c.user:
-				&middot; <a href="/delegation/${delegation.id}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
+				&middot; <a href="${h.entity_url(delegation)}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
 			%endif
 </%def>
 
@@ -23,9 +23,9 @@
 			<h3>${h.user_link(delegation.principal)|n} ${_("to %s") % h.user_link(delegation.agent)|n}</h3>
 			<div class="meta">
 				${_("created <b>%s</b>") % h.relative_time(delegation.create_time)|n}
-				&middot; <a href="/delegation/${delegation.id}">${_("track record")}</a>
+				&middot; <a href="${h.entity_url(delegation)}">${_("track record")}</a>
 				%if delegation.principal == c.user:
-					&middot; <a href="/delegation/${delegation.id}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
+					&middot; <a href="${h.entity_url(delegation)}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
 				%endif
 			</div>
 		</div>
@@ -56,8 +56,8 @@
 			%for delegation in c.tile.delegations:
 				<li>
 				${h.user_link(delegation.agent)|n}
-				&middot; ${_("on")} <a href="/d/${delegation.scope.id}">${delegation.scope.label}</a>
-				&middot; <a href="/delegation/${delegation.id}">${_("review")}</a>
+				&middot; ${_("on")} ${h.delegateable_link(delegation.scope)|n}</a>
+				&middot; <a href="${h.entity_url(delegation)}">${_("review")}</a>
 				</li>
 			%endfor
 		</ul>

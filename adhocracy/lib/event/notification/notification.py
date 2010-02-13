@@ -49,8 +49,7 @@ class Notification(object):
     subject = property(get_subject)
     
     def _get_link(self):
-        return h.instance_url(self.event.instance, 
-                              path=self.type.link_path(self.event))
+        return self.type.link_path(self.event)
     
     link = property(_get_link)
     

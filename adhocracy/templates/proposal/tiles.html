@@ -61,7 +61,8 @@
 <%def name="header(tile, proposal, active)">
 	<div class="top_actions title">
 		%if tile.can_delegate and not tile.has_overridden:
-			<a class="button title add" href="/delegation/new?scope=${proposal.id}">${_("delegate")}</a>
+			<a class="button title add" 
+			    href="/delegation/new?scope=${proposal.id}">${_("delegate")}</a>
 		%endif
 		
 		%if tile.can_begin_poll:
@@ -75,25 +76,31 @@
 		%endif
 						
 		%if tile.can_delete:
-			<a class="button title delete" href="/proposal/${proposal.id}?_Method=DELETE&${h.url_token()}">${_("delete")}</a>
+			<a class="button title delete" 	
+				href="${h.entity_url(proposal)}?_Method=DELETE&${h.url_token()}">${_("delete")}</a>
 		%endif
 		
 		${components.watch(proposal, '/proposal/%s' % str(proposal.id))}
-		<a href="/proposal/${proposal.id}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
+		${h.rss_button(proposal)|n}
 	</div>
 	
 	<h1 class="page_title"><img src="/img/icons/proposal_24.png" class="cd" /> ${proposal.label}</h1>
 	
 	<div class="panel ${active}">
 		<div class="menu">
-			<a href="/proposal/${proposal.id}/activity" class="activity">${_("Activity")}</a>
-			<a href="/proposal/${proposal.id}" class="goal">${_("Goal")}</a>
-			<a href="/proposal/${proposal.id}/canonicals" class="canonicals">${_("Implementation")} (${len(proposal.canonicals)})</a>
+			<a href="${h.entity_url(proposal, member='activity')}" 	
+				class="activity">${_("Activity")}</a>
+			<a href="${h.entity_url(proposal)}" class="goal">${_("Goal")}</a>
+			<a href="${h.entity_url(proposal, member='canonicals')}" 
+				class="canonicals">${_("Implementation")} (${len(proposal.canonicals)})</a>
 			%if tile.poll:
-				<a href="/poll/${tile.poll.id}/votes" class="votes">${_("Votes")} (${len(tile.state.tally)})</a>
+				<a href="/poll/${tile.poll.id}/votes" class="votes">${_("Votes")} 
+					(${len(tile.state.tally)})</a>
 			%endif
-			<a href="/proposal/${proposal.id}/delegations" class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a>
-			<a href="/proposal/${proposal.id}/alternatives" class="alternatives">${_("Alternatives")} (${len(proposal.current_alternatives())})</a>
+			<a href="${h.entity_url(proposal, member='delegations')}"
+			   class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a>
+			<a href="${h.entity_url(proposal, member='alternatives')}"
+			   class="alternatives">${_("Alternatives")} (${len(proposal.current_alternatives())})</a>
 		</div>
 		<div class="info">
 			<div class="meta">

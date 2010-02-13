@@ -1006,6 +1006,11 @@ a.button {
 	margin-right: 4px !important;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
+	/*
+	-webkit-border-top-left-radius: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	*/
+	-webkit-border-bottom-left-radius: 0px;
 	font-weight: normal;
 	background-image: url(/img/menu_bg.png);
 	background-repeat: repeat-x;
@@ -1018,8 +1023,9 @@ a.button {
 	font-weight: bold !important;
 }
 
-comment a.button {
+.comment a.button {
 	font-size: 10px;
+	font-weight: normal !important;
 }
 
 a.button:hover {
@@ -1035,7 +1041,7 @@ a.button.title {
 }
 
 a.button.edit{
-	background-color: grey;
+	background-color: #a67a45;
 }
 
 a.button.add {
@@ -1226,7 +1232,6 @@ a.button.inactive {
 
 .comment .button {
 	margin-top: 0;
-	font-weight: bold;
 	font-size: 0.9em;
 }
 

@@ -6,16 +6,16 @@
 			<img src="/instance/${instance.key}_32x32.png" />
 		</div>
 		<div class="base">
-			<h3><a class="link" href="${h.instance_url(instance)}">${instance.label}</a></h3>
+			<h3><a class="link" href="${h.entity_url(instance)}">${instance.label}</a></h3>
 			<div class="meta noclear">
 				${h.user_link(instance.creator)|n}  
 				&middot; ${_("created %s") % h.relative_time(instance.create_time)|n}  
 				&middot; ${ungettext("%s issue", "%s issues", tile.num_issues) % tile.num_issues}
 				%if tile.can_join:
-					&middot; <a href="${h.instance_url(instance, path='/instance/%s/join?%s' % (instance.key, h.url_token()))}">${_("join")}</a>
+					&middot; <a href="${h.entity_url(instance, member='join')}?${h.url_token()}">${_("join")}</a>
 				%endif
 				%if tile.can_leave:
-					&middot; <a href="${h.instance_url(instance, path='/instance/%s/leave?%s' % (instance.key, h.url_token()))}">${_("leave")}</a>
+					&middot; <a href="${h.entity_url(instance, member='leave')}?${h.url_token()}">${_("leave")}</a>
 				%endif
 			</div>
 		</div>
@@ -28,27 +28,31 @@
 			<a class="button add" href="/issue/new">${_("new issue")}</a>
 		%endif
 		%if tile.can_join:
-			<a class="button add" href="/instance/${instance.key}/join?${h.url_token()}">${_("join")}</a> 
+			<a class="button add" 
+				href="${h.entity_url(instance, member='join')}?${h.url_token()}">${_("join")}</a> 
 		%endif
 		%if not c.user:
 			<a class="button add" href="/register">${_("join")}</a> 
 		%endif
 		%if tile.can_admin:
-			<a class="button admin" href="/instance/${instance.key}/edit">${_("edit")}</a>
+			<a class="button admin" 
+				href="${h.entity_url(instance, member='edit')}?${h.url_token()}">${_("edit")}</a>
 		%endif
 		%if tile.can_leave:
-			<a class="button delete" href="/instance/${instance.key}/leave?${h.url_token()}">${_("leave")}</a> 
+			<a class="button delete" 
+				href="${h.entity_url(instance, member='leave')}?${h.url_token()}">${_("leave")}</a> 
 		%endif
 		
 		${components.watch(c.instance, '/instance/%s' % str(instance.key))}
-		<a href="/instance/${instance.key}.rss" class="button edit"><img src='/img/rss.png' /> ${_("subscribe")}</a>
+		${h.rss_button(instance)|n}
 	</div>
 	
 	<h1 class="page_title"><img src="/img/icons/site_24.png" class="cd" /> ${instance.label}</h1>
 	
 	<div class="panel ${active}">
 		<div class="menu">
-			<a href="/instance/${instance.key}/activity" class="activity">${_("Activity")}</a>
+			<a href="${h.entity_url(instance, member='activity')}" 	
+				class="activity">${_("Activity")}</a>
 			<a href="/issue" class="issues">${_("Issues")} (${tile.num_issues})</a>
 			<a href="/proposal" class="proposals">${_("Proposals")} (${tile.num_proposals})</a>
 			<a href="/user" class="users">${_("Members")} (${len(instance.current_memberships())})</a>

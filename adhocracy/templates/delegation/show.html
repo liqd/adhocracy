@@ -11,14 +11,17 @@
 %endif
 </div>
 
-<h1 class="page_title"><img src="/img/icons/delegate_24.png" class="cd"/> ${_("Delegation: %s") % c.scope.label}</h1>
+<h1 class="page_title"><img src="/img/icons/delegate_24.png" class="cd"/> 
+	${_("Delegation: %s") % h.delegateable_link(c.scope)|n}</h1>
 
 <div class="sidebar">
 	<div class="tile">
 		<h4>${_("Delegation")}</h4>
 		<ul>
-			<li class="nobullet"><img class='user_icon' src="/img/icons/delegate_to_16.png" /> ${_("from %s") % h.user_link(c.delegation.principal)|n}</li>
-			<li class="nobullet"><img class='user_icon' src="/img/icons/delegated_to_16.png" /> ${_("to %s") % h.user_link(c.delegation.agent)|n}</li>
+			<li class="nobullet"><img class='user_icon' src="/img/icons/delegate_to_16.png" /> 
+				${_("from %s") % h.user_link(c.delegation.principal)|n}</li>
+			<li class="nobullet"><img class='user_icon' src="/img/icons/delegated_to_16.png" /> 
+				${_("to %s") % h.user_link(c.delegation.agent)|n}</li>
 		</ul>	
 		<div class="meta">
 			${_("established %s") % h.relative_time(c.delegation.create_time)|n}

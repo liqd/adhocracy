@@ -45,7 +45,7 @@ class InstanceFormatter(ObjectFormatter):
     
     def html(self, instance):
         return u"<a class='event_instance' href='%s'>%s</a>" % (
-                h.instance_url(instance),
+                h.entity_url(instance),
                 instance.label)
         
 class UserFormatter(ObjectFormatter):
@@ -82,8 +82,8 @@ class CommentFormatter(ObjectFormatter):
     def html(self, comment):
         if comment.delete_time:
             return self.unicode(comment)
-        return "<a href='/comment/%d.fwd'>%s</a>" % (comment.id, 
-                                                 self.unicode(comment))
+        return "<a href='%s>%s</a>" % (h.entity_url(comment), 
+                                       self.unicode(comment))
 
 
 class FormattedEvent(object): 

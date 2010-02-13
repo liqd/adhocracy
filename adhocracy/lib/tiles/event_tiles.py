@@ -9,7 +9,5 @@ class EventTile():
         self.event = event
     
 def row(event):
-    event_html = formatting.as_html(event)
     return render_tile('/event/tiles.html', 'row', 
-                       EventTile(event), event=event, 
-                       event_html=event_html, cached=True)
+                       EventTile(event), event=event, cached=True)
