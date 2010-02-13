@@ -2,8 +2,8 @@ import logging
 from itertools import chain
 from datetime import datetime
 
-from sqlalchemy import Table, Column, Unicode, ForeignKey, Integer, or_
-from sqlalchemy.orm import relation, mapper
+from sqlalchemy import Table, Column, Unicode, ForeignKey, Integer, or_, and_
+from sqlalchemy.orm import reconstructor, aliased, eagerload
 
 import meta
 import filter
@@ -23,6 +23,13 @@ class Proposal(Delegateable):
        
     def __init__(self, instance, label, creator):
         self.init_child(instance, label, creator)
+        self._current_alternatives = None
+        
+    
+    @reconstructor
+    def _reconstruct(self):
+        self._current_alternatives = None
+    
     
     def _get_issue(self):
         if len(self.parents) != 1:
@@ -46,15 +53,13 @@ class Proposal(Delegateable):
         return self.adopt_poll is None or self.adopt_poll.has_ended()
     
     @classmethod
-    def find(cls, id, instance_filter=True, include_deleted=False):
+    def find(cls, id, instance_filter=True, include_deleted=False, full=False):
         try:
             q = meta.Session.query(Proposal)
             q = q.filter(Proposal.id==int(id))
             if not include_deleted:
                 q = q.filter(or_(Proposal.delete_time==None,
                                  Proposal.delete_time>datetime.utcnow()))
-            if filter.has_instance() and instance_filter:
-                q = q.filter(Proposal.instance_id==filter.get_instance().id)
             return q.limit(1).first()
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))
@@ -108,11 +113,14 @@ class Proposal(Delegateable):
         return count - len(self.canonicals) 
     
     def current_alternatives(self):
-        proposals = []
-        for alternative in chain(self.left_alternatives, self.right_alternatives):
-            if not alternative.is_deleted():
-                proposals.append(alternative.other(self))
-        return proposals
+        if self._current_alternatives is None:
+            self._current_alternatives = []
+            alternatives = chain(self.left_alternatives, self.right_alternatives)
+            for alternative in alternatives:
+                if alternative.is_deleted():
+                    continue
+                self._current_alternatives.append(alternative.other(self))
+        return self._current_alternatives
     
     def update_alternatives(self, alternatives):
         from alternative import Alternative

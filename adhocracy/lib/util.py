@@ -18,14 +18,14 @@ def random_token():
     """ Get a random string, the first char group of a uuid4 """
     return str(uuid.uuid4()).split('-').pop()
 
-def get_entity_or_abort(cls, id, instance_filter=True):
+def get_entity_or_abort(cls, id, instance_filter=True, **kwargs):
     """ 
     Return either the instance identified by the given ID or
     raise a HTTP 404 Exception within the controller. 
     """ 
     if not hasattr(cls, 'find'):
         raise TypeError("The given class does not have a find() method")
-    obj = cls.find(id, instance_filter=instance_filter)
+    obj = cls.find(id, instance_filter=instance_filter, **kwargs)
     if not obj:
         abort(404, "Could not find the entity '%s'" % id)
     return obj

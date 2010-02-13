@@ -38,6 +38,7 @@ class User(object):
         self.locale = locale
         self.display_name = display_name
         self.bio = bio
+        
            
     def _get_name(self):
         return self.display_name.strip() \
