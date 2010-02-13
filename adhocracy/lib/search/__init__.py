@@ -17,16 +17,14 @@ SITE_INDEX_DIR = ["_index"]
 
 log = logging.getLogger(__name__)
 
-def init_search():
+def init_search(with_db=True):
     index_dir = util.get_site_path(*SITE_INDEX_DIR)
     if not os.path.exists(index_dir):
         log.warn("Resetting Whoosh %s index at: %s" % (whoosh.versionstring(), index_dir))
         util.create_site_subdirectory(*SITE_INDEX_DIR)
         create_index(index_dir)
-        try:
+        if with_db:
             rebuild_all()
-        except Exception, e:
-            log.warn("Couldn't rebuild index: %s" % e)
     else: 
         log.info("Opening Whoosh %s index at: %s" % (whoosh.versionstring(), index_dir))
         open_index(index_dir)
@@ -47,15 +45,18 @@ def rebuild_all():
     def index_all(iter, func):
         _insert = update(func)
         [_insert(x) for x in iter]
-    log.info("Re-indexing issues...")
-    index_all(model.meta.Session.query(model.Issue), index_issue)
-    log.info("Re-indexing proposals...")
-    index_all(model.meta.Session.query(model.Proposal), index_proposal)
-    log.info("Re-indexing users...")
-    index_all(model.meta.Session.query(model.User), index_user)
-    log.info("Re-indexing comments...")
-    index_all(model.meta.Session.query(model.Comment), index_comment)
-    log.info("... done")
+    try:
+        log.info("Re-indexing issues...")
+        index_all(model.meta.Session.query(model.Issue), index_issue)
+        log.info("Re-indexing proposals...")
+        index_all(model.meta.Session.query(model.Proposal), index_proposal)
+        log.info("Re-indexing users...")
+        index_all(model.meta.Session.query(model.User), index_user)
+        log.info("Re-indexing comments...")
+        index_all(model.meta.Session.query(model.Comment), index_comment)
+        log.info("... done")
+    except Exception, e:
+        log.warn("Couldn't rebuild index: %s" % e)
     
         
         

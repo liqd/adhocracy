@@ -9,7 +9,6 @@ import adhocracy.lib.democracy as poll
 from adhocracy.lib.democracy import Decision, DelegationNode
 from adhocracy.model import Delegation, Vote, Poll
 
-
 import adhocracy.model as model
 
 class TestDelegationNode(TestController):
@@ -19,6 +18,7 @@ class TestDelegationNode(TestController):
         self.first = tt_make_user()
         self.second = tt_make_user()
         self.proposal = tt_make_proposal(voting=True)
+        self.poll = Poll.create(self.proposal, self.proposal.creator, Poll.ADOPT)
         self.instance = tt_get_instance()
     
     def test_knows_to_whom_a_delegation_went(self):
@@ -56,10 +56,11 @@ class TestDelegationNode(TestController):
     def test_delegation_is_not_used_if_user_has_voted_directly(self):
         self.first.delegate_to_user_in_scope(self.second, self.proposal)
         self.second.delegate_to_user_in_scope(self.first, self.proposal)
-        Decision(self.first, self.proposal.poll).make(Vote.YES)
+        Decision(self.first, self.poll).make(Vote.YES)
         
         delegations = DelegationNode(self.first, self.proposal)
         assert_equals(len(delegations.transitive_inbound()), 1)
+        
         delegations = DelegationNode(self.second, self.proposal)
         assert_equals(len(delegations.transitive_inbound()), 0)
     
@@ -82,7 +83,7 @@ class TestDelegationNode(TestController):
     def test_if_mutual_delegation_is_broken_breaker_gets_one_delegation(self):
         self.first.delegate_to_user_in_scope(self.second, self.proposal)
         self.second.delegate_to_user_in_scope(self.first, self.proposal)
-        Decision(self.first, self.proposal.poll).make(Vote.YES)
+        Decision(self.first, self.poll).make(Vote.YES)
         
         node = DelegationNode(self.first, self.proposal)
         assert_equals(node.number_of_delegations(), 1)
@@ -90,7 +91,7 @@ class TestDelegationNode(TestController):
     def test_if_mutual_delegation_is_broken_other_guy_has_no_delegation(self):
         self.first.delegate_to_user_in_scope(self.second, self.proposal)
         self.second.delegate_to_user_in_scope(self.first, self.proposal)
-        Decision(self.first, self.proposal.poll).make(Vote.YES)
+        Decision(self.first, self.poll).make(Vote.YES)
         node = DelegationNode(self.first, self.proposal)
         assert_equals(node.number_of_delegations(), 1)
     
@@ -222,7 +223,7 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
         dn = DelegationNode(user1, proposal)
         assert len(dn.inbound()) == 2
         
-        DelegationNode.detach(user1, tt_get_instance())
+        user1.revoke_delegations(tt_get_instance())
         
         dn = DelegationNode(user1, proposal)
         assert len(dn.inbound()) == 0

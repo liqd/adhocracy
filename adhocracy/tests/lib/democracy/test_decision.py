@@ -13,7 +13,7 @@ class TestDecisionWithoutDelegation(TestController):
     
     def setUp(self):
         self.proposal = tt_make_proposal(voting=True)
-        self.poll = Poll(self.proposal, self.proposal.creator)
+        self.poll = Poll.create(self.proposal, self.proposal.creator, Poll.ADOPT)
         self.decision = Decision(self.proposal.creator, self.poll)
     
     def test_new_decisions_have_no_votes(self):
@@ -75,7 +75,7 @@ class TestDecisionWithDelegation(TestController):
         
         self.proposal = tt_make_proposal(creator=self.me, voting=True)
         self.issue = self.proposal.issue
-        self.poll = self.proposal.poll
+        self.poll = Poll.create(self.proposal, self.proposal.creator, Poll.ADOPT)
         self.decision = Decision(self.me, self.poll)
         self.instance = tt_get_instance()
     
@@ -115,16 +115,16 @@ class TestDecisionWithDelegation(TestController):
     def test_proposal_delegation_will_overide_issue_delegation(self):
         self.me.delegate_to_user_in_scope(self.high_delegate, self.issue)
         self.me.delegate_to_user_in_scope(self.low_delegate, self.proposal)
-        self.high_delegate.vote_for_proposal(self.proposal, Vote.YES)
+        self.high_delegate.vote_on_poll(self.poll, Vote.YES)
         assert_equals(self.decision.reload().result, Vote.YES)
-        self.low_delegate.vote_for_proposal(self.proposal, Vote.NO)
+        self.low_delegate.vote_on_poll(self.poll, Vote.NO)
         assert_equals(self.decision.reload().result, Vote.NO)
     
     def test_issue_delegation_will_not_overide_existing_proposal_delegation(self):
         self.me.delegate_to_user_in_scope(self.high_delegate, self.issue)
         self.me.delegate_to_user_in_scope(self.low_delegate, self.proposal)
-        self.low_delegate.vote_for_proposal(self.proposal, Vote.NO)
-        self.high_delegate.vote_for_proposal(self.proposal, Vote.YES)
+        self.low_delegate.vote_on_poll(self.poll, Vote.NO)
+        self.high_delegate.vote_on_poll(self.poll, Vote.YES)
         assert_equals(self.decision.reload().result, Vote.NO)
     
     def test_two_delegations_at_the_same_level_that_disagree_cancel_each_other(self):
@@ -166,13 +166,13 @@ class TestDecisionWithDelegation(TestController):
     def test_delegation_is_transitive(self):
         self.me.delegate_to_user_in_scope(self.low_delegate, self.proposal)
         self.low_delegate.delegate_to_user_in_scope(self.high_delegate, self.proposal)
-        self.high_delegate.vote_for_proposal(self.proposal, Vote.YES)
+        self.high_delegate.vote_on_poll(self.poll, Vote.YES)
         assert_equals(self.decision.reload().result, Vote.YES)
     
     def test_delegation_is_transitive_across_delegation_levels(self):
         self.me.delegate_to_user_in_scope(self.low_delegate, self.proposal)
         self.low_delegate.delegate_to_user_in_scope(self.high_delegate, self.issue)
-        self.high_delegate.vote_for_proposal(self.proposal, Vote.YES)
+        self.high_delegate.vote_on_poll(self.poll, Vote.YES)
         assert_equals(self.decision.reload().result, Vote.YES)
     
 

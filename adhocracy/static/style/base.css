@@ -1143,10 +1143,6 @@ a.button.inactive {
 	max-width: 600px;
 }
 
-.comment .tile.canonical .text {
-	background-color: rgba(215,209,255,0.5);
-}
-
 .add_canonical {
 	display: none;
 	padding: 5px;
@@ -1208,7 +1204,8 @@ a.button.inactive {
 	overflow: hidden;
 }
 
-.comment .anchor .text {
+.comment .anchor .text,
+.comment .anchor .pre {
 	background-color: #fdfbc0;
 }
 
@@ -1244,11 +1241,19 @@ a.button.inactive {
 
 .comment .pre {
 	font-size: 0.8em;
-	padding-bottom: 0.6em;
+	padding-bottom: 0.8em;
 	color:  #666;
 	font-weight: bold;
 }
 
+.comment .tile.canonical .pre,
+.comment .tile.canonical .text {
+	background-color: #fdffe6;
+}
+
+.comment .tile.canonical .text {
+	border-bottom: 2px solid #eed8b1;
+}
 
 .comment .hide, 
 .comment .show {

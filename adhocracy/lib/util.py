@@ -16,7 +16,7 @@ def timedelta2seconds(delta):
            
 def random_token():
     """ Get a random string, the first char group of a uuid4 """
-    return str(uuid.uuid4()).split('-').pop()
+    return unicode(uuid.uuid4()).split('-').pop()
 
 def get_entity_or_abort(cls, id, instance_filter=True, **kwargs):
     """ 

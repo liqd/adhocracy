@@ -59,7 +59,7 @@ class CommentController(BaseController):
         watchlist.check_watch(comment)
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance, 
                    topics=[topic], comment=comment, topic=topic)
-        redirect_to(h.entity_url(c.comment))
+        redirect_to(h.entity_url(comment))
     
     @RequireInstance
     @ActionProtector(has_permission("comment.edit"))

@@ -23,9 +23,9 @@ class NoPollException(Exception): pass
 
 class Poll(object):
     
-    ADOPT = 'adopt'
-    REPEAL = 'repeal'
-    RATE = 'rate'
+    ADOPT = u'adopt'
+    REPEAL = u'repeal'
+    RATE = u'rate'
     
     ACTIONS = [ADOPT, REPEAL, RATE]
         

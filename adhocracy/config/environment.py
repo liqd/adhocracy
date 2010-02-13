@@ -16,7 +16,7 @@ from adhocracy.lib.democracy import init_democracy
 from adhocracy.lib import init_site
 
 
-def load_environment(global_conf, app_conf):
+def load_environment(global_conf, app_conf, with_db=True):
     """Configure the Pylons environment via the ``pylons.config``
     object
     """
@@ -49,8 +49,9 @@ def load_environment(global_conf, app_conf):
     # CONFIGURATION OPTIONS HERE (note: all config options will override
     # any Pylons config options)
     init_site()
-    init_queue()
-    init_search()
-    init_democracy()
+    init_queue(with_db)
+    if with_db:
+        init_search()
+    init_democracy(with_db)
 
     

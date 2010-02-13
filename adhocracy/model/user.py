@@ -266,10 +266,10 @@ class User(object):
     
     
     # REFACT: rename: orientation doesn't really ring a bell. decision seems better but isn't
-    def vote_for_proposal(self, proposal, orientation):
+    def vote_on_poll(self, poll, position):
         # REFACT: proposals don't automatically have a poll - this is dangeorus
         from adhocracy.lib.democracy.decision import Decision
-        return Decision(self, proposal.poll).make(orientation)
+        return Decision(self, poll).make(position)
     
     
     @classmethod

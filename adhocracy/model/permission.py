@@ -21,14 +21,14 @@ permission_table = Table('permission', meta.data,
 class Permission(object):
     
     def __init__(self, permission_name):
-        self.permission_name = permission_name
+        self.permission_name = unicode(permission_name)
         
     @classmethod
     def find(cls, permission_name, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Permission)
-            q = q.filter(Permission.permission_name==permission_name)
-            q = q.limit(1).first()
+            q = q.filter(Permission.permission_name==unicode(permission_name))
+            return q.limit(1).first()
         except Exception, e: 
             log.warn("find(%s): %s" % (permission_name, e))
             return None

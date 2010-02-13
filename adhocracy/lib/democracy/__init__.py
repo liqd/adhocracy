@@ -13,12 +13,13 @@ from .. import queue
 log = logging.getLogger(__name__)
 
 
-def init_democracy():
-    try:
-        for vote in model.Vote.all():
-            handle_vote(vote)
-    except Exception, e:
-        log.exception("Cannot update tallies: %s" % e)
+def init_democracy(with_db=True):
+    if with_db:
+        try:
+            for vote in model.Vote.all():
+                handle_vote(vote)
+        except Exception, e:
+            log.exception("Cannot update tallies: %s" % e)
     
     queue.register(model.Vote, queue.INSERT, handle_vote)
     queue.register(model.Vote, queue.UPDATE, handle_vote)

@@ -21,7 +21,7 @@ def register(cls, event, callback):
     REGISTRY[key] = calls
 
 def _process(event, entity):
-    log.debug("Handling %s hooks of %s" % (event, entity))
+    #log.debug("Handling %s hooks of %s" % (event, entity))
     for signature, calls in REGISTRY.items():
         (r_type, r_event) = signature
         if r_event == event and \
@@ -49,8 +49,6 @@ def handle(event):
             entity_ref = refs.to_ref(entity)
             data = dict(event=event, entity=entity_ref)
             post_message(QUEUE, simplejson.dumps(data))
-        else:
-            _process(event, entity)
     return _call
 
 def init_hooks():

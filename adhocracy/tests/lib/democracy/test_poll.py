@@ -11,22 +11,18 @@ from adhocracy.lib.democracy import Decision
 
 class TestPoll(TestController):
         
-    def test_nopoll(self):
-        proposal = tt_make_proposal(voting=False)
-        assert_equals(proposal.poll, None)
     
     def test_begin_end(self):
         proposal = tt_make_proposal(voting=False)
-        poll = Poll(proposal, proposal.creator)
-        poll.end_poll()
+        poll = Poll.create(proposal, proposal.creator, Poll.ADOPT)
+        poll.end()
         assert_true(poll.has_ended())
-        assert_equals(None, Poll.proposal)
     
     def test_poll(self):
         proposal = tt_make_proposal(voting=True)
-        poll = proposal.poll
+        poll = proposal.polls[0]
         assert_equals(0, len(list(poll.votes)))
-        vote = proposal.creator.vote_for_proposal(proposal, Vote.YES)[0]
+        vote = proposal.creator.vote_on_poll(poll, Vote.YES)[0]
         assert_equals(len(poll.votes), 1)
     
 

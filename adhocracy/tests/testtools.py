@@ -32,15 +32,16 @@ def tt_make_proposal(creator=None, voting=False):
     issue = model.Issue(instance, tt_make_str(), creator)
     proposal = model.Proposal(instance, tt_make_str(), creator)
     proposal.parents = [issue]
+    model.meta.Session.add(proposal)
+    model.meta.Session.flush()
     
     if voting:
         an_hour_ago = datetime.utcnow() - timedelta(hours=2)
-        poll = model.Poll(proposal, creator)
+        poll = model.Poll.create(proposal, creator, model.Poll.ADOPT)
         poll.begin_time = an_hour_ago
         proposal.polls.append(poll)
+        model.meta.Session.flush()
         
-    model.meta.Session.add(proposal)
-    model.meta.Session.flush()
     return proposal
 
 def tt_make_user(name=None): # instance_group=None: not supported right now
