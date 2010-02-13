@@ -57,7 +57,15 @@
 		<div class="menu">
 			<a href="/issue/${issue.id}/activity" class="activity">${_("Activity")}</a>
 			<a href="/issue/${issue.id}/discussion" class="discussion">${_("Discussion")} (${issue.comment_count(recurse=False)})</a>
-			<a href="/issue/${issue.id}/proposals" class="proposals">${_("Proposals")} (${len(issue.proposals)})</a>
+			<span class="submenu">
+				<a href="/issue/${issue.id}/proposals" class="proposals">${_("Proposals")} (${len(issue.proposals)}) 
+					<img src="/img/arrows/panel_expand.png" /></a>
+				<ul>
+				%for proposal in issue.proposals[:10]:
+					<li>${h.delegateable_link(proposal)|n}</li>
+				%endfor
+				</ul>
+			</span>
 			<a href="/issue/${issue.id}/delegations" class="delegations">${_("Delegations")} (${len(issue.current_delegations())})</a>
 		</div>
 		<div class="info">

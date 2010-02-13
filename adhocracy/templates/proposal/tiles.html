@@ -99,8 +99,16 @@
 			%endif
 			<a href="${h.entity_url(proposal, member='delegations')}"
 			   class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a>
-			<a href="${h.entity_url(proposal, member='alternatives')}"
-			   class="alternatives">${_("Alternatives")} (${len(proposal.current_alternatives())})</a>
+			<span class="submenu">
+				<a href="${h.entity_url(proposal, member='alternatives')}"
+			   	class="alternatives">${_("Alternatives")} (${len(proposal.current_alternatives())}) 
+					<img src="/img/arrows/panel_expand.png" /></a>
+				<ul>
+				%for proposal in proposal.current_alternatives()[:10]:
+					<li>${h.delegateable_link(proposal)|n}</li>
+				%endfor
+				</ul>
+			</span>
 		</div>
 		<div class="info">
 			<div class="meta">

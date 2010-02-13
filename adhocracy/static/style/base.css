@@ -54,6 +54,38 @@ h4, h5, h6 {
 	font-size: 10pt;
 }
 
+h1, h2, h3 {
+	padding-bottom: 0.3em;
+	margin-bottom: 0.7em;
+	border-bottom: 2px solid #ccc;
+	width: inherit;
+}
+
+h1 a:hover, 
+h2 a:hover, 
+h3 a:hover {
+	text-decoration: none;
+}
+
+h1.page_title {
+	margin-top: 0.5em;
+	border-bottom: 0px;
+	/*display: block;*/
+}
+
+h1 img.cd, 
+h2 img.cd, 
+h3 img.cd,
+h4 img.cd,
+.page_title img.cd {
+	float: left;
+	padding-right: 5px;
+}
+
+.page_title img {
+	margin-top: -4px;
+}
+
 .hidden,
 .prototype {
 	display: none;
@@ -304,6 +336,30 @@ body {
 	margin-bottom: -4px;
 }
 
+.lefthalf {
+	float: left;
+	width: 49%;
+	overflow: hidden;
+}
+
+.righthalf {
+	float: right;
+	width: 49%;
+	overflow: hidden;
+}
+
+.sidebar {
+	float: right;
+	margin-left: 20px;
+	width: 300px;
+	max-width: 300px;
+	overflow: hidden;
+}
+
+.mainbar {
+	width: 580px;
+}
+
 /* @end */
 
 /* @group Header */
@@ -524,21 +580,21 @@ body {
 
 /* @group Typography */
 
-#content {
+.content {
 	width: inherit;
 }
 
-#content p {
+.content p {
 	line-height: 1.3em;
 }
 
-#content ul {
+.content ul {
 	list-style-type: square;
 	list-style-position: inside;
 }
 
-#content ul li, 
-#content ol li {
+.content ul li, 
+.content ol li {
 	margin: 5px;
 	margin-right: 7px;
 	line-height: 1.3em;
@@ -602,38 +658,6 @@ p img[align=left] {
 }
 
 /* @end */
-
-h1, h2, h3 {
-	padding-bottom: 0.3em;
-	margin-bottom: 0.7em;
-	border-bottom: 2px solid #ccc;
-	width: inherit;
-}
-
-h1 a:hover, 
-h2 a:hover, 
-h3 a:hover {
-	text-decoration: none;
-}
-
-h1.page_title {
-	margin-top: 0.5em;
-	border-bottom: 0px;
-	/*display: block;*/
-}
-
-h1 img.cd, 
-h2 img.cd, 
-h3 img.cd,
-h4 img.cd,
-.page_title img.cd {
-	float: left;
-	padding-right: 5px;
-}
-
-.page_title img {
-	margin-top: -4px;
-}
 
 .tile {
 	background-image: url(/img/tile_bg.png);
@@ -738,12 +762,10 @@ h4 img.cd,
 .tile h3 {
 	margin-bottom: 0.0em;
 	margin-top: 0.2em;
-	/* font-weight: normal; */
 }
 
 .table {
 	overflow: hidden;
-	/*background-color: #f3f3f3;*/
 }
 
 .table .tile h3 {
@@ -756,16 +778,12 @@ h4 img.cd,
 .table .tile {
 	padding-left: 20px;
 	padding-right: 10px;
-	/*margin-bottom: 0.7em;*/
 	width: inherit;
 	margin-bottom: 0em;
 	background-color: #fff;
 	border-bottom: 1px solid #ddd;
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;
-	/*border-right: 0px;
-	border-top: 1px solid #ddd;*/
-	
 }
 
 .table .tile .text {
@@ -807,6 +825,9 @@ h4 img.cd,
 	font-weight: bold;
 	color: #ffe700;
 }
+
+
+/* @group Voting Booth */
 
 .voting_booth {
 	overflow: hidden;
@@ -893,6 +914,8 @@ h4 img.cd,
 	margin-top: 0px;
 }
 
+/* @end */
+
 .nobullet {
 	list-style-type: none !important;
 }
@@ -940,30 +963,6 @@ table.delegations th {
 	font-size: 1.1em;
 }
 
-.lefthalf {
-	float: left;
-	width: 49%;
-	overflow: hidden;
-}
-
-.righthalf {
-	float: right;
-	width: 49%;
-	overflow: hidden;
-}
-
-.sidebar {
-	float: right;
-	margin-left: 20px;
-	width: 300px;
-	max-width: 300px;
-	overflow: hidden;
-}
-
-.mainbar {
-	width: 580px;
-}
-
 .description p {
 	margin-top: 0em;
 }
@@ -994,6 +993,10 @@ table.delegations th {
 	background-repeat: repeat-x;
 	background-position: bottom;
 }
+
+
+
+/* @group Action Buttons */
 
 a.button {
 	font-size: 0.9em;
@@ -1062,6 +1065,26 @@ a.button.inactive {
 	color: #bbb;
 }
 
+.top_actions {
+	float: right;
+	margin-top: 1.3em;
+}
+
+.top_actions.title {
+	margin-top: -0.4em;
+	margin-right: -0.3em;
+} 
+
+.top_actions.comment {
+	margin-top: 0.1em;	
+	margin-right: -0.4em;
+}
+
+
+/* @end */
+
+/* @group Pager */
+
 .pager {
 	color: #999;
 	font-size: 0.8em;
@@ -1107,6 +1130,10 @@ a.button.inactive {
 .pager_sorts .selected {
 	font-weight: bold;
 }
+
+/* @end */
+
+/* @group Comments */
 
 .comment .tile {
 	border: 0px;
@@ -1312,6 +1339,8 @@ a.button.inactive {
 	list-style-type: none;
 }
 
+/* @end */
+
 
 .jsadd {
 	width: 98%;
@@ -1331,6 +1360,7 @@ a.button.inactive {
 	list-style-image: url(/img/icons/condition_unmet.png);
 }
 
+/*
 .tile.title {
 	margin-bottom: 1em;
 }
@@ -1347,33 +1377,11 @@ a.button.inactive {
 	padding-bottom: 0.6em;
 }
 
-.top_actions {
-	float: right;
-	margin-top: 1.3em;
-}
 
-.top_actions.title {
-	margin-top: -0.4em;
-	margin-right: -0.3em;
-} 
 
-.top_actions.comment {
-	margin-top: 0.1em;	
-	margin-right: -0.4em;
-}
+*/
 
-#issue_details {
-	display: none;
-	position: absolute;
-	width: 560px;
-	padding: 1em;
-}
-
-#issue_details li {
-	list-style-type: none;
-	margin-left: 0px;
-}
-
+/* @group Panel */
 
 .panel {
 	width: auto;
@@ -1394,6 +1402,7 @@ a.button.inactive {
 	background-repeat: repeat-x;
 	background-position: bottom;
 	overflow: none;
+	position: relative;
 }
 
 .panel .menu img {
@@ -1401,7 +1410,6 @@ a.button.inactive {
 }
 
 .panel .menu a {
-	/*float: left;*/
 	display: inline-block;
 	min-width: 3em;
 	text-align: center;
@@ -1411,6 +1419,7 @@ a.button.inactive {
 	color: #333;
 	border: 1px solid rgba(221,221,221,0);
 	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
 	text-shadow: #eee 1px 1px 1px;
 }
 
@@ -1418,6 +1427,51 @@ a.button.inactive {
 	background-color: #bbb;
 	text-decoration: none;
 	text-shadow: none;
+}
+
+.panel .menu .submenu {
+	
+}
+
+.panel .menu .submenu ul {
+	position: absolute;
+	display: block;
+	margin-top: -0.5em;
+	padding-top: 0.5em;
+	list-style-type: none !important; 
+	z-index: 1000;
+	visibility: hidden;
+	overflow: visible;
+	width: 100%;
+}
+
+.panel .menu .submenu:hover ul {
+	display: block;
+	visibility: visible;
+}
+
+.panel .menu .submenu ul li {
+	margin: 0em;
+	border: 1px solid #ddd;
+	border-top: 0px solid #000;
+	background-color: #f2f2f2;
+}
+
+.panel .menu .submenu ul li:hover {
+	background-color: #ddd;
+}
+	
+.panel .menu .submenu ul a {
+	display: block;
+	margin: 0em 0.3em 0.0em 0.2em;
+	padding: 0.4em 0.2em 0.3em 0.2em;
+	text-align: left;
+	width: inherit;
+	text-shadow: none;
+}
+
+.panel .menu .submenu ul a:hover {
+	background-color: #ddd;
 }
 
 .panel .menu a.active,
@@ -1481,3 +1535,5 @@ a.button.inactive {
 	padding-bottom: 0px;
 	margin-bottom: 0px;
 }
+
+/* @end */
