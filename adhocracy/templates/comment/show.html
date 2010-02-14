@@ -6,12 +6,7 @@
 	${h.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment")}
 </%def>
 
-<div class="top_actions title">
-	${components.watch(c.comment)}
-</div>
-
-<h1 class="page_title"><img src="/img/icons/discuss_24.png" class="cd" /> 
-	${_("Discussion on %s") % h.delegateable_link(c.comment.topic)|n}</h1>
+${tiles.comment.header(c.comment, active='discussion')}
 
 <div class="mainbar">
 	${tiles.comment.full(c.comment)}

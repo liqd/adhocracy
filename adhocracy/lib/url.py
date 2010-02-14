@@ -55,8 +55,8 @@ def poll_url(poll, **kwargs):
                                poll.id, **kwargs)
 
     
-def comment_url(comment, member=None, format=None, **kwargs):
-    if member is None and format is None:
+def comment_url(comment, member=None, format=None, comment_page=False, **kwargs):
+    if member is None and format is None and not comment_page:
         if isinstance(comment.topic, model.Issue):
             return issue_url(comment.topic) + '#c' + str(comment.id)
         elif isinstance(comment.topic, model.Proposal):

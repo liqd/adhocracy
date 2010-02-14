@@ -35,19 +35,21 @@
 		<div class="tile ${'canonical' if comment.canonical else ''} ${tile.position}" id="tile_c${comment.id}">
 			<div class="logo rate">
 				%if tile.can_rate:
-					<a class="up" href="${h.entity_url(comment.poll, member='vote')}?_method=POST&position=1&${h.url_token()}" 
+					<a class="up icon" href="${h.entity_url(comment.poll, member='vote')}?_method=POST&position=1&${h.url_token()}" 
 						onclick="return comment_rate(${comment.id}, ${comment.poll.id}, 1);">
 						&nbsp;
 					</a>
-					<span class="score">${tile.score}</span>
-					<a class="down" href="${h.entity_url(comment.poll, member='vote')}?_method=POST&position=-1&${h.url_token()}" 
+					<a href="${h.entity_url(comment.poll, member='votes')}" 
+						class="score">${tile.score}</a>
+					<a class="down icon" href="${h.entity_url(comment.poll, member='vote')}?_method=POST&position=-1&${h.url_token()}" 
 						onclick="return comment_rate(${comment.id}, ${comment.poll.id}, -1);">
 						&nbsp;
 					</a>
 				%else:
-					<a class="up inactive">&nbsp;</a>
-					<span class="score">${tile.score}</span>
-					<a class="down inactive">&nbsp;</a>
+					<a class="up icon inactive">&nbsp;</a>
+					<a href="${h.entity_url(comment.poll, member='votes')}" 
+						class="score">${tile.score}</a>
+					<a class="down icon inactive">&nbsp;</a>
 				%endif
 			</div>
 			
@@ -59,7 +61,7 @@
 					%endif
 									
 					%if tile.can_delete:
-						<a class="button delete" href="/comment/${comment.id}/ask_delete">${_("delete")}</a> 
+						<a class="button delete" href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a> 
 					%endif
 								
 					%if tile.can_reply and (recurse or link_discussion):
@@ -150,4 +152,35 @@
 		${components.form_watch(None)}
 		</div>
 	</form>
+</%def>
+
+<%def name="header(tile, comment, active)">
+	<div class="top_actions title">
+		%if tile.can_edit:
+			<a class="button edit" onClick="return comment_edit(${comment.id})" 
+				href="${h.entity_url(comment, member='edit')}">${_("edit")}</a> 
+		%endif
+						
+		%if tile.can_delete:
+			<a class="button delete" 
+				href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a> 
+		%endif
+		
+		${components.watch(comment)}
+	</div>
+
+	<h1 class="page_title"><img src="/img/icons/discuss_24.png" class="cd" /> 
+		${_("Discussion on %s") % h.delegateable_link(comment.topic)|n}</h1>
+	
+	<div class="panel ${active}">
+		<div class="menu">
+			<a href="${h.entity_url(comment)}">${_("Context")}</a>
+			<a href="${h.entity_url(comment, comment_page=True)}" 
+				class="discussion">${_("Comment")}</a>	
+			<a href="${h.entity_url(comment, member='history')}" 
+				class="history">${_("History")} (${len(comment.revisions)})</a>
+			<a href="${h.entity_url(comment.poll, member='votes')}" 
+				class="votes">${_("Votes")} (${len(comment.poll.tally)})</a>
+		</div>
+	</div>
 </%def>

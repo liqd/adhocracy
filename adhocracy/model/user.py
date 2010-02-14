@@ -257,6 +257,8 @@ class User(object):
         May be a bit too much as multiple delegations are counted for each user
         they are delegated to. (This is the safety net delegation)
         """
+        if not self._has_permission('vote.cast'):
+            return 0
         return self.delegation_node(scope).number_of_delegations() + 1
     
     

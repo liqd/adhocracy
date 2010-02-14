@@ -7,6 +7,7 @@ from .. import authorization as auth
 from .. import democracy
 from .. import sorting
 from .. import helpers as h
+from .. import cache
 
 from util import render_tile, BaseTile
 
@@ -97,14 +98,18 @@ class CommentTile(BaseTile):
     score = property(_score)
     
     def _position(self):
-        if not c.user:
-            return None
-        pos = democracy.Decision(c.user, self.comment.poll).result
-        if (pos and pos == 1):
-            return "upvoted"
-        elif pos and pos == -1:
-            return "downvoted"
-        return pos
+        @cache.memoize('comment_position')
+        def _cached_position(user, comment):
+            if not user:
+                return None
+            pos = democracy.Decision(user, comment.poll).result
+            if (pos and pos == 1):
+                return "upvoted"
+            elif pos and pos == -1:
+                return "downvoted"
+            return pos
+            
+        return _cached_position(c.user, self.comment)
     
     position = property(_position)
     
@@ -117,6 +122,14 @@ class CommentTile(BaseTile):
 
 def row(comment):
     return render_tile('/comment/tiles.html', 'row', CommentTile(comment), comment=comment)    
+
+
+def header(comment, tile=None, active='comment'):
+    if tile is None:
+        tile = CommentTile(comment)
+    return render_tile('/comment/tiles.html', 'header', tile, 
+                       comment=comment, active=active)
+
 
 def full(comment, recurse=True, collapse=False, link_discussion=False):
     return render_tile('/comment/tiles.html', 'full', CommentTile(comment), 

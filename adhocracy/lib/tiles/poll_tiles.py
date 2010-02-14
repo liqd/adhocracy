@@ -7,6 +7,7 @@ import adhocracy.model as model
 
 import issue_tiles
 import proposal_tiles
+import comment_tiles
 
 from .. import democracy
 from .. import helpers as h
@@ -76,10 +77,14 @@ class PollTile(BaseTile):
     result_dissent = property(_result_dissent)
     
 def booth(poll):
-    return render_tile('/poll/tiles.html', 'booth', PollTile(poll), poll=poll) 
+    return render_tile('/poll/tiles.html', 'booth', 
+                        PollTile(poll), poll=poll, 
+                        user=c.user, cached=poll.has_ended()) 
     
 def header(poll, active=''):
-    if isinstance(poll.scope, model.Issue):
+    if isinstance(poll.subject, model.Comment):
+        return comment_tiles.header(poll.subject, active=active)
+    elif isinstance(poll.scope, model.Issue):
         return issue_tiles.header(poll.scope, active=active)
     elif isinstance(poll.scope, model.Proposal):
         return proposal_tiles.header(poll.scope, active=active)

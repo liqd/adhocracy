@@ -86,6 +86,8 @@ class Poll(object):
     def can_end(self):
         if self.has_ended():
             return False
+        if self.action == self.RATE:
+            return False
         return True
     
     

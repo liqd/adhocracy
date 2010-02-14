@@ -1165,7 +1165,7 @@ a.button.inactive {
 	text-align: center;
 }
 
-.comment .rate a {
+.comment .rate a.icon {
 	background-repeat: no-repeat;
 	display: block;
 	width: 12px;
@@ -1501,6 +1501,7 @@ a.button.inactive {
 .panel.adopted a.adopted,
 .panel.goal a.goal,
 .panel.votes a.votes,
+.panel.history a.history,
 .panel.users a.users,
 .panel.discussion a.discussion,
 .panel.instances a.instances {
