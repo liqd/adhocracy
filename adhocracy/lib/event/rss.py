@@ -2,6 +2,7 @@ from pylons import response, tmpl_context as c
 
 from .. import helpers as h
 from .. import pager
+from .. import text
 import formatting
 
 
@@ -10,11 +11,16 @@ from webhelpers.feedgenerator import RssUserland091Feed
 def rss_feed(events, name, link, description):
         rss = RssUserland091Feed(name, link, description)
         def event_item(event):
+            description = event.text()
+            if description is None:
+                description = unicode(u"%s %s" % (h.user_link(event.user), 
+                                      formatting.as_html(event)))
+            else: 
+                description = text.render(description)
             rss.add_item(title=u"%s %s" % (event.user.name, formatting.as_unicode(event)),
                          link=h.instance_url(event.instance, path=event.event.link_path(event)),
                          pubdate=event.time,
-                         description=unicode(u"%s %s" % (h.user_link(event.user), 
-                                                formatting.as_html(event))),
+                         description=description,
                          author_name=event.user.name,
                          unique_id=unicode(event.id))
         

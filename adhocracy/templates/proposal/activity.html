@@ -8,6 +8,12 @@
 
 ${tiles.proposal.header(c.proposal, c.tile, active='activity')}
 
-<div id="events_table" class="table">
-	${c.events_pager.here()}
-</div>	
+<div class="sidebar">
+	${tiles.proposal.sidebar(c.proposal, c.tile)}
+</div>
+
+<div class="mainbar">
+	<div id="events_table" class="table">
+		${c.events_pager.here()}
+	</div>
+</div>

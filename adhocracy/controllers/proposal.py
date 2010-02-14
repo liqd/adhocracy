@@ -106,7 +106,7 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
         event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance, 
-                   topics=[proposal], proposal=proposal)
+                   topics=[proposal], proposal=proposal, rev=comment.latest)
         redirect_to("/proposal/%s" % proposal.id)
 
 
@@ -145,7 +145,7 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
         event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance, 
-                   topics=[proposal], proposal=proposal)
+                   topics=[proposal], proposal=proposal, rev=c.proposal.comment.latest)
         redirect_to("/proposal/%s" % proposal.id)
     
     

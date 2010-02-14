@@ -65,7 +65,7 @@ class IssueController(BaseController):
         model.meta.Session.commit()
         watchlist.check_watch(issue)
         event.emit(event.T_ISSUE_CREATE, c.user, instane=c.instance, 
-                   topics=[issue], issue=issue)
+                   topics=[issue], issue=issue, rev=comment.latest)
         redirect_to(h.entity_url(issue.instance))
     
     
@@ -87,7 +87,7 @@ class IssueController(BaseController):
         model.meta.Session.commit()        
         watchlist.check_watch(c.issue)
         event.emit(event.T_ISSUE_EDIT, c.user, instance=c.instance, 
-                   topics=[c.issue], issue=c.issue)
+                   topics=[c.issue], issue=c.issue, rev=c.issue.comment.latest)
         redirect_to('/issue/%s' % str(c.issue.id))
     
     @RequireInstance

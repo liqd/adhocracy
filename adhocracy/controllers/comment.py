@@ -58,7 +58,7 @@ class CommentController(BaseController):
             decision.make(model.Vote.YES)
         watchlist.check_watch(comment)
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance, 
-                   topics=[topic], comment=comment, topic=topic)
+                   topics=[topic], comment=comment, topic=topic, rev=comment.latest)
         redirect_to(h.entity_url(comment))
     
     @RequireInstance
@@ -73,7 +73,7 @@ class CommentController(BaseController):
     @validate(schema=CommentUpdateForm(), form="edit", post_only=True)
     def update(self, id):
         c.comment = self._get_mutable_or_abort(id)
-        c.comment.create_revision(self.form_result.get('text'), c.user)
+        rev = c.comment.create_revision(self.form_result.get('text'), c.user)
         model.meta.Session.commit()
         #if h.has_permission('vote.cast'):
         #    decision = democracy.Decision(c.user, c.comment.poll)
@@ -82,7 +82,7 @@ class CommentController(BaseController):
         watchlist.check_watch(c.comment)
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
-                   topic=c.comment.topic)
+                   topic=c.comment.topic, rev=rev)
         redirect_to(h.entity_url(c.comment))
     
     @RequireInstance

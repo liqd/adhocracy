@@ -40,6 +40,7 @@ class Event(object):
         self.instance = instance
         self.data = data
     
+    
     @reconstructor
     def _reconstruct(self):
         self._ref_data = json.loads(self._data)
@@ -56,12 +57,15 @@ class Event(object):
             self._deref_data[attr] = refs.complex_to_entities(val)
         return self._deref_data.get(attr)
     
+    
     def __getitem__(self, item):
         # for string formatting
         return getattr(self, item)
     
+    
     def _get_data(self):
         return refs.complex_to_entities(self._ref_data)
+    
     
     def _set_data(self, data):
         self._deref_data = data
@@ -69,6 +73,7 @@ class Event(object):
         self._data = unicode(json.dumps(self._ref_data))
     
     data = property(_get_data, _set_data)
+    
     
     def _get_event(self):
         try:
@@ -81,7 +86,8 @@ class Event(object):
             return self._event
     
     event = property(_get_event)
-        
+      
+      
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:
@@ -93,7 +99,8 @@ class Event(object):
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))
             return None
-        
+    
+    
     @classmethod
     def find_by_topics(cls, topics):
         from delegateable import Delegateable
@@ -106,9 +113,22 @@ class Event(object):
             q = q.filter(Event.instance_id==ifilter.get_instance().id)
         return q.all()
     
+    
     @classmethod
     def find_by_topic(cls, topic):
         return Event.find_by_topics([topic])
+        
+    
+    def text(self):
+        try:
+            text = self.event.text(self)
+            if (not text) or (not len(text.strip())):
+                return None
+            return text
+        except AttributeError, ae:
+            log.exception("Creating event text")
+            return None
+    
     
     def to_dict(self):
         d = dict(id=self.id,

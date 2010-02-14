@@ -10,6 +10,11 @@
 		</div>
 		<div class="base">
 			<h3><a href="/user/${event.user.user_name}">${event.user.name}</a> ${event_html|n}</h3>
+			%if tile.text:
+				<div class="text">
+					${tile.text}
+				</div>
+			%endif
 			<div class="meta noclear">
 				${_("%s") % h.relative_time(event.time)|n}&nbsp;
 			</div>

@@ -33,12 +33,15 @@ def index_comment(entity):
     if entity.is_deleted():
         return None
     d = index_entity(entity)
-    d['user'] = " ".join((entity.latest.user.name, 
-                          entity.creator.name))
+    if entity.latest:
+        d['user'] = " ".join((entity.latest.user.name, 
+                              entity.creator.name))
+        d['text'] = entity.latest.text
+    else:
+        d['user'] = d['text'] = u""
     ct = datetime2str(entity.latest.create_time if \
-                      entity.latest.create_time else datetime.utcnow())
+            entity.latest else datetime.utcnow())
     d['create_time'] = ct
-    d['text'] = entity.latest.text
     d['instance'] = entity.topic.instance.key
     return d
 

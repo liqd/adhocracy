@@ -14,6 +14,7 @@ from issue import Issue
 from proposal import Proposal
 from poll import Poll
 from instance import Instance
+from revision import Revision
 
 log = logging.getLogger(__name__)
 
@@ -24,6 +25,7 @@ TYPES = [Vote,
          Group,
          Permission,
          Comment,
+         Revision,
          Delegation,
          Issue,
          Proposal,
@@ -66,9 +68,11 @@ def to_entity(ref, instance_filter=False, include_deleted=True):
 def to_url(entity):
     return base64.urlsafe_b64encode(str(to_ref(entity)))
 
+
 def from_url(url):
     return to_entity(base64.urlsafe_b64decode(str(url)))
-    
+
+
 def _ify(fun, obj):
     if isinstance(obj, type([])):
         return [_ify(fun, e) for e in obj]

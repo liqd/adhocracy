@@ -1,12 +1,15 @@
 from pylons.i18n import _
 from .. import helpers as h
 
+no_text = lambda e: None
+
 class NotificationType(object):
-    def __init__(self, code, pri, subject, link_path, notify_self=False):
+    def __init__(self, code, pri, subject, link_path, text=no_text, notify_self=False):
         self.code = code
         self.priority = pri
         self.subject = subject
         self.link_path = link_path
+        self.text = text
         self.notify_self = notify_self
         
     def __str__(self):
@@ -16,9 +19,10 @@ class NotificationType(object):
         return self.code
         
 class EventType(NotificationType):
-    def __init__(self, code, pri, subject, link_path, event_msg, notify_self=False):
+    def __init__(self, code, pri, subject, link_path, event_msg, text=no_text, notify_self=False):
         self.event_msg = event_msg
-        super(EventType, self).__init__(code, pri, subject, link_path, notify_self=notify_self)
+        super(EventType, self).__init__(code, pri, subject, link_path, 
+                                        text=text, notify_self=notify_self)
     
 
 T_USER_CREATE = EventType(u"t_user_create", pri=2, 
@@ -30,23 +34,27 @@ T_USER_EDIT = EventType(u"t_user_edit", pri=1,
                           subject=lambda: _(u"%(user)s: profile updated"),
                           link_path=lambda e: h.entity_url(e.user), 
                           event_msg=lambda: _(u"edited their profile"),
+                          text=lambda e: e.user.bio,
                           notify_self=True)
 
 T_USER_ADMIN_EDIT = EventType(u"t_user_admin_edit", pri=2, 
                           subject=lambda: _(u"%(user)s: profile was edited by %(admin)s"),
                           link_path=lambda e: h.entity_url(e.user), 
                           event_msg=lambda: _(u"had their profile updated by %(admin)s"),
+                          text=lambda e: e.user.bio,
                           notify_self=True)
 
 T_INSTANCE_CREATE = EventType(u"t_instance_create", pri=3, 
                           subject=lambda: _(u"New Adhocracy: %(instance)s"),
                           link_path=lambda e: h.entity_url(e.user), 
-                          event_msg=lambda: _(u"founded the %(instance)s Adhocracy"))
+                          event_msg=lambda: _(u"founded the %(instance)s Adhocracy"),
+                          text=lambda e: e.instance.description)
 
 T_INSTANCE_EDIT = EventType(u"t_instance_edit", pri=3, 
                           subject=lambda: _(u"%(instance)s: Adhocracy was updated"),
                           link_path=lambda e: h.entity_url(e.instance), 
-                          event_msg=lambda: _(u"updated the %(instance)s Adhocracy"))
+                          event_msg=lambda: _(u"updated the %(instance)s Adhocracy"),
+                          text=lambda e: e.instance.description)
 
 T_INSTANCE_DELETE = EventType(u"t_instance_delete", pri=3, 
                           subject=lambda: _(u"Deleted Adhocracy: %(instance)s"),
@@ -76,12 +84,14 @@ T_INSTANCE_MEMBERSHIP_UPDATE = EventType(u"t_instance_membership_update", pri=3,
 T_ISSUE_CREATE = EventType(u"t_issue_create", pri=4, 
                           subject=lambda: _(u"New issue: %(issue)s"),
                           link_path=lambda e: h.entity_url(e.issue),
-                          event_msg=lambda: _(u"created %(issue)s"))
+                          event_msg=lambda: _(u"created %(issue)s"),
+                          text=lambda e: e.rev.text if e.rev else None)
 
 T_ISSUE_EDIT = EventType(u"t_issue_edit", pri=1, 
                           subject=lambda: _(u"Edited issue: %(issue)s"),
                           link_path=lambda e: h.entity_url(e.issue),
-                          event_msg=lambda: _(u"edited %(issue)s"))
+                          event_msg=lambda: _(u"edited %(issue)s"),
+                          text=lambda e: e.rev.text if e.rev else None)
 
 T_ISSUE_DELETE = EventType(u"t_issue_delete", pri=2, 
                           subject=lambda: _(u"Deleted issue: %(issue)s"),
@@ -91,11 +101,13 @@ T_ISSUE_DELETE = EventType(u"t_issue_delete", pri=2,
 T_PROPOSAL_CREATE = EventType(u"t_proposal_create", pri=4, 
                           subject=lambda: _(u"New proposal: %(proposal)s"),
                           link_path=lambda e: h.entity_url(e.proposal),
-                          event_msg=lambda: _(u"created %(proposal)s"))
+                          event_msg=lambda: _(u"created %(proposal)s"),
+                          text=lambda e: e.rev.text if e.rev else None)
 
 T_PROPOSAL_EDIT = EventType(u"t_proposal_edit", pri=1, 
                           subject=lambda: _(u"Edit proposal: %(proposal)s"),
                           link_path=lambda e: h.entity_url(e.proposal),
+                          text=lambda e: e.rev.text if e.rev else None,
                           event_msg=lambda: _(u"edited %(proposal)s"))
 
 T_PROPOSAL_STATE_REDRAFT = EventType(u"t_proposal_state_draft", pri=3, 
@@ -116,12 +128,14 @@ T_PROPOSAL_DELETE = EventType(u"t_proposal_delete", pri=2,
 T_COMMENT_CREATE = EventType(u"t_comment_create", pri=2, 
                           subject=lambda: _(u"New comment: in %(topic)s"),
                           link_path=lambda e: h.entity_url(e.comment),
-                          event_msg=lambda: _(u"created a %(comment)s on %(topic)s"))
+                          event_msg=lambda: _(u"created a %(comment)s on %(topic)s"),
+                          text=lambda e: e.rev.text if e.rev else None)
 
 T_COMMENT_EDIT = EventType(u"t_comment_edit", pri=1, 
                           subject=lambda: _(u"Edited comment: in %(topic)s"),
                           link_path=lambda e: h.entity_url(e.comment),
-                          event_msg=lambda: _(u"edited a %(comment)s on %(topic)s"))
+                          event_msg=lambda: _(u"edited a %(comment)s on %(topic)s"),
+                          text=lambda e: e.rev.text if e.rev else None)
 
 T_COMMENT_DELETE = EventType(u"t_comment_delete", pri=2, 
                           subject=lambda: _(u"Deleted comment: in %(topic)s"),
@@ -185,11 +199,13 @@ N_DELEGATE_CONFLICT = NotificationType("n_delegate_conflict", pri=5,
 
 N_COMMENT_REPLY = NotificationType("n_comment_reply", pri=4, 
                           subject=lambda: _(u"Comment Reply: %(topic)s"),
-                          link_path=lambda e: h.entity_url(e.comment))
+                          link_path=lambda e: h.entity_url(e.comment),
+                          text=lambda e: e.rev.text if e.rev else None)
 
 N_COMMENT_EDIT = NotificationType("n_comment_edit", pri=4, 
                           subject=lambda: _(u"Comment Edit: %(topic)s"),
-                          link_path=lambda e: h.entity_url(e.comment))
+                          link_path=lambda e: h.entity_url(e.comment),
+                          text=lambda e: e.rev.text if e.rev else None)
 
 
 # The funny thing about this line is: YOU DO NOT SEE IT!
