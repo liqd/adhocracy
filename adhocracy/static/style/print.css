@@ -1,11 +1,18 @@
 
-.account, #account,
-.sidebar,
-.button, .pager_sorts,
-.menu, #menu {
+#header, 
+#footer, 
+.button,
+.top_actions,
+.panel .menu,
+.live_search {
 	display: none;
+	visibility: hidden;
+}
+
+
+
+.sidebar {
 }
 
 .mainbar {
-	width: auto;
 }

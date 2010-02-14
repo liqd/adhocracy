@@ -27,7 +27,7 @@ ${tiles.instance.header(c.instance, c.tile, active='proposals')}
 	%else:
 		<form action="?" method="GET" autocomplete="off">
 			<label for="proposals_q" class="armhint">${_("Find proposals")}</label>
-			<input id="proposals_q" class="armlabel" name="proposals_q" 
+			<input id="proposals_q" class="live_search armlabel" name="proposals_q" 
 					type="text" value="${request.params.get('proposals_q', '')}" 
 					tabindex="1" />
 		</form>

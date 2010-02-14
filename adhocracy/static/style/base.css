@@ -200,10 +200,7 @@ input.delete:hover {
 	background-position: bottom;
 }
 
-#issues_q,
-#proposals_q,
-#users_q,
-#serp_q {
+.live_search {
 	width: 94.5%;
 	padding: 0.3em;
 	font-size: 1.1em;
