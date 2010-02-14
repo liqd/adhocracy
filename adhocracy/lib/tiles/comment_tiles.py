@@ -42,20 +42,6 @@ class CommentTile(BaseTile):
     
     on_issue = property(_on_issue)
     
-    def _creator_delegate(self):
-        if not c.user:
-            return None
-        if self.__topic_outbound == None: # is often []
-            dnode = democracy.DelegationNode(c.user, self.comment.topic)
-            self.__topic_outbound = dnode.outbound()
-        for delegation in self.__topic_outbound:
-            if delegation.agent == self.comment.creator:
-                return delegation
-        return None
-        
-        
-    creator_delegate = property(_creator_delegate)
-    
     def _can_edit(self):
         return h.has_permission('comment.edit') \
                 and not self.comment.is_deleted() and self.comment.is_mutable()
@@ -132,7 +118,7 @@ class CommentTile(BaseTile):
 def row(comment):
     return render_tile('/comment/tiles.html', 'row', CommentTile(comment), comment=comment)    
 
-def full(comment, recurse=True, collapse=True, link_discussion=False):
+def full(comment, recurse=True, collapse=False, link_discussion=False):
     return render_tile('/comment/tiles.html', 'full', CommentTile(comment), 
                        recurse=recurse, comment=comment, collapse=collapse, 
                        link_discussion=link_discussion, 

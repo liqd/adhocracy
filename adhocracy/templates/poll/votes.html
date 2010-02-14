@@ -2,24 +2,26 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 
-<%def name="title()">${_("Votes: %s") % c.poll.proposal.label}</%def>
+<%def name="title()">${_("Votes: %s") % c.poll.scope.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.poll.proposal)|n} &raquo; ${_("Votes")}
+	${h.breadcrumbs(c.poll.scope)|n} &raquo; ${_("Votes")}
 </%def>
 
-${tiles.proposal.header(c.poll.proposal, active='votes')}
+${tiles.poll.header(c.poll, active='votes')}
 
 <div class="sidebar">
-	%if c.poll:
-		${tiles.poll.booth(c.poll)}
-	%endif
+	${tiles.poll.booth(c.poll)}
+	
+	<br/>
+	<div class="infobox">
+		${_("Vote results are updated with a short delay. After casting " +
+			"your vote, expect a short delay before the tally updates.")}
+	</div>
 </div>
 
 <div class="mainbar">
-	%if c.poll:	
-		<div class="table">
-			${c.decisions_pager.here()}
-		</div>
-	%endif
+	<div class="table">
+		${c.decisions_pager.here()}
+	</div>
 </div>

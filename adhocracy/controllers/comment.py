@@ -46,7 +46,7 @@ class CommentController(BaseController):
         topic = self.form_result.get('topic')
         if canonical and not isinstance(topic, model.Proposal):
             abort(400, _("Trying to create a provision on an issue"))
-        elif canonical and not democracy.is_proposal_mutable(topic):
+        elif canonical and not topic.is_mutable():
             abort(403, h.immutable_proposal_message())
         comment = model.Comment.create(self.form_result.get('text'), 
                                        c.user, topic, 
@@ -106,6 +106,8 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_DELETE, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic)
+        if c.comment.root().canonical:
+            redirect_to(h.entity_url(c.comment.topic, member='canonicals'))
         redirect_to(h.entity_url(c.comment.topic))
     
     @RequireInstance

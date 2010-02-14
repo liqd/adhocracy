@@ -1,5 +1,6 @@
 import logging
 import re
+import base64
 
 from pylons.i18n import _ 
 
@@ -60,6 +61,13 @@ def to_entity(ref, instance_filter=False, include_deleted=True):
             return entity
     log.warn("No typeformatter for: %s" % ref)
     return ref
+
+
+def to_url(entity):
+    return base64.urlsafe_b64encode(str(to_ref(entity)))
+
+def from_url(url):
+    return to_entity(base64.urlsafe_b64decode(str(url)))
     
 def _ify(fun, obj):
     if isinstance(obj, type([])):

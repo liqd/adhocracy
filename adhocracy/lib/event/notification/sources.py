@@ -23,7 +23,7 @@ class WatchlistSource(object):
         return small_scope + large_scope
     
     def _instance(self, instance):
-        return watchlist.get_entity_watches(instance)
+        return model.Watch.all_by_entity(instance)
     
     def _delegateable(self, delegateable):
         watches = []
@@ -33,7 +33,7 @@ class WatchlistSource(object):
         else:
             watches += self._instance(delegateable.instance)
         return self._merge(watches, 
-                      watchlist.get_entity_watches(delegateable))
+                      model.Watch.all_by_entity(delegateable))
     
     def _comment(self, comment):
         watches = [] 
@@ -42,17 +42,17 @@ class WatchlistSource(object):
         else:
             watches += self._delegateable(comment.topic)
         return self._merge(watches, 
-                      watchlist.get_entity_watches(comment))
+                      model.Watch.all_by_entity(comment))
     
     def _watches(self, event):
-        watches = watchlist.get_entity_watches(event.user)
+        watches = model.Watch.all_by_entity(event.user)
         for topic in event.topics:
             if isinstance(topic, model.Comment):
                 watches = self._merge(self._comment(topic), watches)
             elif isinstance(topic, model.Delegateable):
                 watches = self._merge(self._delegateable(topic), watches) 
             else:
-                watches = self._merge(watchlist.get_entity_watches(topic), watches)
+                watches = self._merge(model.Watch.all_by_entity(topic), watches)
         return watches
                 
     def __call__(self, event):

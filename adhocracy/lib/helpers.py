@@ -21,10 +21,12 @@ import adhocracy.model as model
 from url import instance_url, entity_url
 from text.i18n import relative_date, relative_time, format_date, countdown_time
 from xsrf import url_token, field_token
+from watchlist import make_watch, find_watch
  
 from webhelpers.pylonslib import Flash as _Flash
 import webhelpers.text as text
 flash = _Flash()
+
 
 @cache.memoize('delegateable_breadcrumbs')
 def breadcrumbs(entity):    
@@ -45,16 +47,32 @@ def breadcrumbs(entity):
 def immutable_proposal_message():
     return _("This proposal is currently being voted on and cannot be modified.")
 
-@cache.memoize('user_link')
+
 def user_link(user, size=16, scope=None):
-    score = 0
-    if scope:
-        score = user.number_of_votes_in_scope(scope)
-    return "<a href='%s' class='user_link'><img class='user_icon' src='%s' alt="" /> %s</a><sup>%s</sup>" % (
-        entity_url(user), gravatar_url(user, size=size),
-        cgi.escape(user.name), score if scope else '')
+    @cache.memoize('user_generic_link')
+    def _generic_link(user, size, scope):
+        url = "<a href='%s' class='user_link'><img class='user_icon' src='%s' alt="" /> %s</a>" % (
+            entity_url(user), gravatar_url(user, size=size),
+            cgi.escape(user.name))
+        if scope:
+            url += "<sup>%s</sup>" % user.number_of_votes_in_scope(scope)
+        return url
     
-@cache.memoize('proposal_icon', 3600*2)
+    @cache.memoize('user_specific_link')
+    def _specific_link(user, size, scope, other):
+        url = _generic_link(user, size, scope)
+        if other and scope:
+            dnode = democracy.DelegationNode(other, scope)
+            for delegation in dnode.outbound():
+                if delegation.agent == user:
+                    icon = "<img class='user_icon' src='/img/icons/delegate_16.png' />"
+                    url += "<a href='%s'>%s</a>" % (h.entity_url(delegation), icon)
+        return url
+    
+    return _specific_link(user, size, scope, c.user)
+
+    
+@cache.memoize('proposal_icon')
 def proposal_icon(proposal, size=16):
     state = democracy.State(proposal)
     if state.adopted:
@@ -63,6 +81,7 @@ def proposal_icon(proposal, size=16):
         return instance_url(None, path='') + "/img/icons/vote_" + str(size) + ".png"
     else:
         return instance_url(None, path='') + "/img/icons/proposal_" + str(size) + ".png"
+
 
 @cache.memoize('delegateable_link')
 def delegateable_link(delegateable, icon=True, icon_size=16, link=True):
@@ -78,6 +97,7 @@ def delegateable_link(delegateable, icon=True, icon_size=16, link=True):
         text = "<a href='%s' class='dgb_link'>%s</a>" % (entity_url(delegateable), text)
     return text
 
+
 def contains_delegations(user, delegateable, recurse=True):
     for delegation in user.agencies:
         if not delegation.revoke_time and (delegation.scope == delegateable or \
@@ -89,6 +109,7 @@ def contains_delegations(user, delegateable, recurse=True):
             return True
     return False
 
+
 def gravatar_url(user, size=32):
     id = user.email if user.email else user.user_name
     gravatar_url = "http://www.gravatar.com/avatar.php?"
@@ -98,17 +119,21 @@ def gravatar_url(user, size=32):
         'size': str(size)})
     return gravatar_url
 
+
 def canonical_url(url):
     c.canonical_url = url
+
 
 def add_meta(key, value):
     if not c.html_meta:
         c.html_meta = dict()
     c.html_meta[key] = value
 
+
 def rss_button(entity):
     return "<a href='%s' class='button edit'><img src='/img/rss.png' /> %s</a>" % (
                 entity_url(entity, format='rss'), _("subscribe"))
+
 
 def add_rss(title, link):
     if not c.html_link:
@@ -117,4 +142,3 @@ def add_rss(title, link):
                         'href': link, 
                         'rel': 'alternate',
                         'type': 'application/rss+xml'})
-                                

@@ -91,7 +91,7 @@
 				href="${h.entity_url(proposal)}?_Method=DELETE&${h.url_token()}">${_("delete")}</a>
 		%endif
 		
-		${components.watch(proposal, '/proposal/%s' % str(proposal.id))}
+		${components.watch(proposal)}
 		${h.rss_button(proposal)|n}
 	</div>
 	
@@ -104,9 +104,9 @@
 			<a href="${h.entity_url(proposal)}" class="goal">${_("Goal")}</a>
 			<a href="${h.entity_url(proposal, member='canonicals')}" 
 				class="canonicals">${_("Implementation")} (${len(proposal.canonicals)})</a>
-			%if tile.poll:
+			%if proposal.adopt_poll:
 				<a href="/poll/${tile.poll.id}/votes" class="votes">${_("Votes")} 
-					(${len(tile.state.tally)})</a>
+					(${len(proposal.adopt_poll.tally)})</a>
 			%endif
 			<a href="${h.entity_url(proposal, member='delegations')}"
 			   class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a>

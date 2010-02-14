@@ -7,15 +7,14 @@ from adhocracy.lib.base import *
 from adhocracy.lib.tiles.poll_tiles import PollTile
 from adhocracy.lib.tiles.proposal_tiles import ProposalTile
 
+
 log = logging.getLogger(__name__)
 
-class PollIndexFilter(formencode.Schema):
-    allow_extra_fields = True
-    filter_made = validators.Int(not_empty=False, if_empty=1, if_missing=1, if_invalid=1, min=0, max=2)
 
-class PollDecisionsFilterForm(formencode.Schema):
+class PollVotesFilterForm(formencode.Schema):
     allow_extra_fields = True
-    result = validators.Int(not_empty=False, if_empty=None, min=-1, max=1)
+    result = validators.Int(not_empty=False, if_empty=None, if_missing=None, 
+                            min=model.Vote.NO, max=model.Vote.YES)
     
 class PollVoteForm(formencode.Schema):
     allow_extra_fields = True
@@ -68,29 +67,18 @@ class PollController(BaseController):
         
     @RequireInstance
     @ActionProtector(has_permission("proposal.view")) 
+    @validate(schema=PollVotesFilterForm(), post_only=False, on_get=True)
     def votes(self, id):
         c.poll = get_entity_or_abort(model.Poll, id)
-        filters = dict()
-        try:
-            filters = PollDecisionsFilterForm().to_python(request.params)
-        except formencode.Invalid:
-            pass
-        
-        if not c.poll:
-            abort(404, _("%s is not currently in a poll, thus no votes have been counted."))
-        
-        c.tile = tiles.poll.PollTile(c.poll)
-        
         decisions = democracy.Decision.for_poll(c.poll)
-            
-        if filters.get('result'):
-            decisions = filter(lambda d: d.result==filters.get('result'), decisions)
-            
-        c.decisions_pager = pager.scope_descisions(decisions)
+        if self.form_result.get('result'):
+            decisions = filter(lambda d: d.result==self.form_result.get('result'), 
+                               decisions)
+        c.decisions_pager = pager.scope_decisions(decisions)
         return render("/poll/votes.html")  
         
     
-    @ActionProtector(has_permission("poll.abort"))
+    @ActionProtector(has_permission("poll.delete"))
     def ask_delete(self, id):
         c.poll = self._get_open_poll(id)
         if not c.poll.can_end():
@@ -99,7 +87,7 @@ class PollController(BaseController):
         return render('/poll/ask_delete.html')
     
     
-    @ActionProtector(has_permission("poll.abort"))    
+    @ActionProtector(has_permission("poll.delete"))    
     def delete(self, id):
         c.poll = self._get_open_poll(id)
         if not c.poll.can_end():

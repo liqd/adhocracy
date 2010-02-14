@@ -16,27 +16,24 @@
 </%def>
 
 <%def name="form_watch(entity)">
-	<%
-	watch = False
-	if entity:
-		watch = c.lib.watchlist.has_entity_watch(entity)
-	%> 
-	<input class="watch" type="checkbox" ${"checked='checked'" if watch else ''} name="watch"/>
+	<input class="watch" type="checkbox" 
+		${"checked='checked'" if h.find_watch(entity) else ''} name="watch"/>
 	${_("Notify me of updates.")}
 </%def>
 
-<%def name="watch(entity, return_url)">
+<%def name="watch(entity)">
 	%if c.user:
 		<%
-		watch = c.lib.watchlist.get_entity_watch(c.user, entity) 
-		import urllib
-		ret = urllib.urlencode({'ret': return_url})
-		ref = urllib.urlencode({'ref': c.lib.watchlist.entity2ref(entity)})
+		watch = h.find_watch(entity)
 		%>
 		%if watch:
-			<a class="button delete" href="/watch/delete?watch=${watch.id}&${ret}&${h.url_token()}"><img src='/img/mail.png' /> ${_("unwatch")}</a>
+			<a class="button delete" 
+			   href="/watch/delete?watch=${watch.id}&${h.url_token()}"><img src='/img/mail.png' /> 
+			${_("unwatch")}</a>
 		%else:
-			<a class="button edit" href="/watch/create?${ref}&${ret}&${h.url_token()}"><img src='/img/mail.png' /> ${_("watch")}</a>
+			<a class="button edit" 
+			   href="/watch/create?${h.make_watch(entity)}&${h.url_token()}"><img src='/img/mail.png' /> 
+			${_("watch")}</a>
 		%endif
 	%endif
 </%def>

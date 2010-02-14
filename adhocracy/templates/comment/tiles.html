@@ -8,9 +8,12 @@
 		</div>
 		<div class="base">
 			%if len(tile.tagline):
-				<h3><a href="/comment/${comment.id}.fwd">${_("Comment")}</a>: ${tile.tagline|n}</h3>
+				<h3><a href="${h.entity_url(comment)}">${_("Comment")}</a> 
+					${_("on %s") % h.delegateable_link(comment.topic)|n}</h3>
 			%endif
-			
+			<div class="text">
+				${tile.tagline|n}
+			</div>
 			<div class="meta">
 				${h.user_link(comment.creator, scope=comment.topic)|n}
 				%if len(comment.revisions) == 1:  
@@ -18,14 +21,6 @@
 				%else:
 					&middot; ${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
 				%endif  	
-				
-				&middot; ${_("in")} 
-				%if tile.on_issue:	 
-					<img src="/img/icons/issue_16.png" /> 
-				%elif tile.on_proposal:
-					<img src="/img/icons/proposal_16.png" />	
-				%endif
-				<a href="/d/${comment.topic.id}">${comment.topic.label}</a>
 			</div>
 		</div>
 	</div>
@@ -40,12 +35,12 @@
 		<div class="tile ${'canonical' if comment.canonical else ''} ${tile.position}" id="tile_c${comment.id}">
 			<div class="logo rate">
 				%if tile.can_rate:
-					<a class="up" href="/poll/${comment.poll.id}/vote?_method=POST&position=1&${h.url_token()}" 
+					<a class="up" href="${h.entity_url(comment.poll, member='vote')}?_method=POST&position=1&${h.url_token()}" 
 						onclick="return comment_rate(${comment.id}, ${comment.poll.id}, 1);">
 						&nbsp;
 					</a>
 					<span class="score">${tile.score}</span>
-					<a class="down" href="/poll/${comment.poll.id}/vote?_method=POST&position=-1&${h.url_token()}" 
+					<a class="down" href="${h.entity_url(comment.poll, member='vote')}?_method=POST&position=-1&${h.url_token()}" 
 						onclick="return comment_rate(${comment.id}, ${comment.poll.id}, -1);">
 						&nbsp;
 					</a>
@@ -60,7 +55,7 @@
 			<div class="pre">
 				<div class="top_actions comment">				
 					%if tile.can_edit:
-						<a class="button edit" onClick="return comment_edit(${comment.id})" href="/comment/edit/${comment.id}">${_("edit")}</a> 
+						<a class="button edit" onClick="return comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit')}">${_("edit")}</a> 
 					%endif
 									
 					%if tile.can_delete:
@@ -86,11 +81,6 @@
 					${_("deleted %s") % h.relative_time(comment.delete_time)|n}
 				%else:
 					<b>${h.user_link(comment.creator, scope=comment.topic)|n}</b>
-					%if tile.creator_delegate:
-						<a href="/delegation/${tile.creator_delegate.id}">
-							<img class="user_icon" src="/img/icons/delegate_16.png" />
-						</a>
-					%endif
 					%if not comment.is_edited(): 
 						&middot; ${_("%s") % h.relative_time(comment.create_time)|n}
 					%else:
@@ -101,7 +91,7 @@
 						 	${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
 								               			   h.user_link(comment.latest.user, scope=comment.topic))|n}
 						%endif 	
-						(<a href="/comment/${comment.id}/history">${_("history")}</a>)
+						(<a href="${h.entity_url(comment, member='history')}">${_("history")}</a>)
 					%endif
 				%endif
 				
@@ -111,9 +101,7 @@
 				%if not comment.is_deleted():
 					${tile.text|n}
 				%else:
-					<p>
 					<span class="hint">${_("This comment has been deleted.")}</span>
-					</p>
 				%endif
 			</div>
 			
@@ -149,9 +137,12 @@
 <%def name="create_form(parent, topic, canonical=0)">
 	<form name="create_comment" class="inplace" method="POST" action="/comment">
 		${h.field_token()|n}
-		<input type="hidden" name="topic" value="${topic.id if topic else request.params.get('topic')}" />
-		<input type="hidden" name="reply" value="${parent.id if parent else request.params.get('reply')}" />
-		<input type="hidden" name="canonical" value="${request.params.get('canonical', canonical)}" />
+		<input type="hidden" name="topic" 
+			value="${topic.id if topic else request.params.get('topic')}" />
+		<input type="hidden" name="reply" 
+			value="${parent.id if parent else request.params.get('reply')}" />
+		<input type="hidden" name="canonical" 
+			value="${request.params.get('canonical', canonical)}" />
 		<div style="width: auto;"> 
 		<textarea tabindex="2" class="description" name="text"></textarea><br/>
 		${components.formatting()}

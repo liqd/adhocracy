@@ -43,7 +43,7 @@
 				href="${h.entity_url(instance, member='leave')}?${h.url_token()}">${_("leave")}</a> 
 		%endif
 		
-		${components.watch(c.instance, '/instance/%s' % str(instance.key))}
+		${components.watch(instance)}
 		${h.rss_button(instance)|n}
 	</div>
 	

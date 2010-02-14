@@ -5,6 +5,7 @@ from formencode import validators, foreach
 from pylons.i18n.translation import *
 
 import meta
+import refs
 import user
 import vote
 import delegateable
@@ -127,6 +128,13 @@ class ValidWatch(formencode.FancyValidator):
                 _("No watchlist entry with ID '%s' exists") % value,
                  value, state)
         return wat
+        
+class ValidRef(formencode.FancyValidator):
+    def _to_python(self, value, state):
+        entity = refs.from_url(value)
+        if not entity: 
+            raise formencode.Invalid(_("Invalid reference"), value, state)
+        return entity
         
 class ExistingUserName(formencode.FancyValidator):
     def _to_python(self, value, state):
