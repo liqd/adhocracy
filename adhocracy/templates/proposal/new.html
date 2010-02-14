@@ -59,20 +59,18 @@
 	</div>
 	<div class="mainbar">
 		<table width="100%">
-			<%
-			options = [m for m in c.proposals if not m in c.issue.proposals]
-			%>
-			%if len(options):
-				${tiles_html.alternative(options=options, prototype=True)}
-			%endif
-			%for proposal in c.issue.proposals:
+			%for proposal in c.alternatives:
+				${tiles_html.alternative(proposal=proposal, checked=True)}
+			%endfor
+			%for proposal in c.issue_proposals:
 				${tiles_html.alternative(proposal=proposal)}
 			%endfor
-			%if len(options):
-				${tiles_html.alternative(options=options)}
+			%if len(c.proposals):
+				${tiles_html.alternative(options=c.proposals, prototype=True)}
+				${tiles_html.alternative(options=c.proposals)}
 			%endif
 		</table>
-		%if len(options):
+		%if len(c.proposals):
 		<div class="jsadd">
 			<input type="button" value="${_("Add an alternative")}" onclick="return appendAlternative();" />
 		</div>

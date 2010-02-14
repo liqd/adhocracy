@@ -2,7 +2,7 @@ import cgi
 from datetime import datetime
 
 from pylons.i18n import _
-from formencode import foreach
+from formencode import foreach, Invalid
 
 from adhocracy.lib.base import *
 import adhocracy.lib.text as text
@@ -61,20 +61,32 @@ class ProposalController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("proposal.create"))
     @validate(schema=ProposalNewForm(), form='bad_request', post_only=False, on_get=True)
-    def new(self):
+    def new(self, errors=None):
         c.issue = self.form_result.get('issue')
-        c.proposals = model.Proposal.all(instance=c.instance)
+        defaults = dict(request.params)
         c.canonicals = not_null(self.form_result.get('canonical'))
-        c.canonicals.extend(['', ''][:max(0, 2-len(c.canonicals))])
+        if len(c.canonicals):
+            del defaults['canonical']
+        else:
+            c.canonicals = ['', '']
         c.alternatives = not_null(self.form_result.get('alternative'))
-        return render("/proposal/new.html")
+        if len(c.alternatives):
+            del defaults['alternative']
+        c.issue_proposals = [p for p  in c.issue.proposals if not p in c.alternatives]
+        c.proposals = [p for p in model.Proposal.all(instance=c.instance) if not \
+                       (p in c.alternatives or p in c.issue_proposals)]
+        return htmlfill.render(render("/proposal/new.html"), defaults=defaults, 
+                               errors=errors, force_defaults=False)
     
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("proposal.create"))
-    @validate(schema=ProposalCreateForm(), form='new', post_only=True)
     def create(self):
+        try:
+            self.form_result = ProposalCreateForm().to_python(request.params)
+        except Invalid, i:
+            return self.new(errors=i.unpack_errors())
         c.issue = self.form_result.get('issue')
         proposal = model.Proposal.create(c.instance, self.form_result.get("label"), 
                                          c.user, c.issue)
@@ -99,22 +111,27 @@ class ProposalController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("proposal.edit")) 
     @validate(schema=ProposalEditForm(), form="bad_request", post_only=False, on_get=True)
-    def edit(self, id):
+    def edit(self, id, errors={}):
         c.proposal = self._get_mutable_proposal(id)
-        if 'alternative' in request.params:
-            c.alternatives = not_null(self.form_result.get('alternative'))
-        else: 
-            c.alternatives = c.proposal.current_alternatives()
+        defaults = dict(request.params)
         c.issues = model.Issue.all(instance=c.instance)
-        c.proposals = model.Proposal.all(instance=c.instance)
-        return render("/proposal/edit.html")
+        c.alternatives = not_null(self.form_result.get('alternative'))
+        if len(c.alternatives):
+            del defaults['alternative']
+        c.proposals = [p for p in model.Proposal.all(instance=c.instance) if not \
+                       (p in c.alternatives or p in c.issue_proposals)]
+        return htmlfill.render(render("/proposal/edit.html"), defaults=defaults, 
+                               errors=errors, force_defaults=False)
     
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("proposal.edit")) 
-    @validate(schema=ProposalUpdateForm(), form="edit", post_only=True)
     def update(self, id):
+        try:
+            self.form_result = ProposalUpdateForm().to_python(request.params)
+        except Invalid, i:
+            return self.edit(errors=i.unpack_errors())
         proposal = self._get_mutable_proposal(id)
         proposal.label = self.form_result.get("label")
         proposal.issue = self.form_result.get("issue")

@@ -39,19 +39,12 @@
 	</div>
 	<div class="mainbar">
 		<table width="100%">
-			<%
-			options = [m for m in c.proposals if not m in c.alternatives]
-			if c.proposal in options:
-				options.remove(c.proposal)
-			%>
-			%if len(options):
-				${tiles_html.alternative(options=options, prototype=True)}
-			%endif
 			%for proposal in c.alternatives:
 				${tiles_html.alternative(proposal=proposal, checked=True)}
 			%endfor
-			%if len(options):
-				${tiles_html.alternative(options=options)}
+			%if len(c.proposals):
+				${tiles_html.alternative(options=c.proposals, prototype=True)}
+				${tiles_html.alternative(options=c.proposals)}
 			%endif
 		</table>
 		%if len(options):

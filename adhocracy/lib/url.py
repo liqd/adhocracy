@@ -13,7 +13,7 @@ def instance_url(instance, path=None):
     url += request.environ.get('adhocracy.domain')
     if path is not None:
         url += path
-    return url
+    return str(url)
 
     
 def _append_member_and_format(url, member=None, format=None):

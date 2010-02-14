@@ -58,7 +58,7 @@ class InstanceController(BaseController):
                                          description=self.form_result.get('description'))
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_CREATE, c.user, instance=instance)    
-        redirect_to(h.instance_url(instance))
+        redirect_to(h.entity_url(instance))
     
 
     @RequireInstance
@@ -69,7 +69,7 @@ class InstanceController(BaseController):
             return render_json(c.page_instance)
         if format == 'rss':
             return self.activity(id, format)
-        redirect_to("/issue")
+        redirect_to(h.entity_url(c.page_instance))
     
     
     @RequireInstance
@@ -133,7 +133,7 @@ class InstanceController(BaseController):
         
         model.meta.Session.commit()            
         event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)
-        redirect_to(h.instance_url(c.page_instance))
+        redirect_to(h.entity_url(c.page_instance))
         
     @ActionProtector(has_permission("instance.index"))
     def icon(self, id, x, y):
