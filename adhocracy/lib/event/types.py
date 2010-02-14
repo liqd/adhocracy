@@ -35,7 +35,7 @@ T_USER_EDIT = EventType(u"t_user_edit", pri=1,
 T_USER_ADMIN_EDIT = EventType(u"t_user_admin_edit", pri=2, 
                           subject=lambda: _(u"%(user)s: profile was edited by %(admin)s"),
                           link_path=lambda e: h.entity_url(e.user), 
-                          event_msg=lambda: _(u"edited %(user)ss profile"),
+                          event_msg=lambda: _(u"had their profile updated by %(admin)s"),
                           notify_self=True)
 
 T_INSTANCE_CREATE = EventType(u"t_instance_create", pri=3, 

@@ -173,21 +173,19 @@ $(document).ready(function() {
 			}
 		});
 		
-		on_blur = function() {
+		$(this).blur(function() {
 			if ($.trim($(field).val()).length==0) {
 				$(field).val(hint);
 				$(field).addClass("armed");
 			}
-		}
-		
-		$(this).blur(on_blur);
-		on_blur();
+		});
+		$(this).blur();
 	});
 	
 	/* Make sure that we do not submit placeholder texts */
 	$("form").submit(function() {
-		$("[name=" + this.name + "] .armed").each(function(i) {
-			$(i).val("");
+		$(".armed").each(function(i) {
+			$(this).val("");
 		});
 	});
 	

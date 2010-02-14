@@ -26,11 +26,12 @@
 		%if c.instance and tile.can_manage and user.is_member(c.instance):
 			%for group_code in c.model.Group.INSTANCE_GROUPS:
 				%if group_code != tile.instance_group.code:
-					<a class="button edit" href="${h.entity_url(user, member='groupmod')}?to_group=${group_code}&${h.url_token()}">
+					<a class="button admin" href="${h.entity_url(user, member='groupmod')}?to_group=${group_code}&${h.url_token()}">
 						${_("make %s") % _(c.model.Group.by_code(group_code).group_name)}</a>
 				%endif
 			%endfor
-			<a class="button delete" href="${h.entity_url(user, member='kick')}?${h.url_token()}">${_("kick")}</a>
+			<a class="button delete" 
+				href="${h.entity_url(user, member='kick')}?${h.url_token()}">${_("kick")}</a>
 		%endif
 		
 		%if c.user and user != c.user:
@@ -49,7 +50,8 @@
 			<a href="${h.entity_url(user)}" class="activity">${_("Activity")}</a>
 			%if c.instance:
 				<a href="${h.entity_url(user, member='votes')}" class="votes">${_("Votes")}</a>
-				<a href="${h.entity_url(user, member='delegations')}" class="delegations">${_("Delegations")} 
+				<a href="${h.entity_url(user, member='delegations')}" 
+					class="delegations">${_("Delegations")} 
 					(${len(user.current_agencies())})</a>
 				<a href="${h.entity_url(user, member='issues')}" class="issues">${_("Issues")} 
 					(${tile.num_issues})</a>

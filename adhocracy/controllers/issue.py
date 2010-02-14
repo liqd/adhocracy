@@ -66,7 +66,7 @@ class IssueController(BaseController):
         watchlist.check_watch(issue)
         event.emit(event.T_ISSUE_CREATE, c.user, instane=c.instance, 
                    topics=[issue], issue=issue)
-        redirect_to('/issue/%s' % str(issue.id))
+        redirect_to(h.entity_url(issue.instance))
     
     
     @RequireInstance

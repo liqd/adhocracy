@@ -128,7 +128,6 @@ class UserController(BaseController):
             c.page_user.locale = locale 
         model.meta.Session.add(c.page_user)
         model.meta.Session.commit()
-        
         if email_changed:
             libmail.send_activation_link(c.page_user)       
         
@@ -149,7 +148,6 @@ class UserController(BaseController):
         if c.page_user is None:
             msg = _("There is no user registered with that email address.")
             return htmlfill.render(self.reset_form(), errors=dict(email=msg))
-        
         c.page_user.reset_code = libutil.random_token()
         model.meta.Session.add(c.page_user)
         model.meta.Session.commit()
@@ -167,12 +165,10 @@ class UserController(BaseController):
         try:
             if c.page_user.reset_code != self.form_result.get('c'):
                 raise ValueError()
-             
             new_password = libutil.random_token()
             c.page_user.password = new_password
             model.meta.Session.add(c.page_user)
             model.meta.Session.commit()
-            
             body = _("your password has been reset. It is now:") + "\r\n\r\n  " + new_password + "\r\n\r\n" 
             body += _("Please login and change the password in your user settings.")     
             libmail.to_user(c.page_user, _("Your new password"), body)     
@@ -225,7 +221,6 @@ class UserController(BaseController):
         c.events_pager = pager.events(query.all())
         c.tile = tiles.user.UserTile(c.page_user)
         self._common_metadata(c.page_user, add_canonical=True)
-        
         return render("/user/show.html")
     
     
@@ -258,6 +253,7 @@ class UserController(BaseController):
     
     
     def logout(self): pass # managed by repoze.who
+
 
     def post_logout(self):
         redirect_to("/")
@@ -305,6 +301,7 @@ class UserController(BaseController):
         c.nodeClass = democracy.DelegationNode 
         self._common_metadata(c.page_user, member='delegations')
         return render("/user/delegations.html")
+    
     
     @ActionProtector(has_permission("user.view")) 
     def instances(self, id, format='html'):
@@ -375,9 +372,7 @@ class UserController(BaseController):
                         'user': user.name, 
                         'group': group.group_name})
             redirect_to("/user/%s" % str(c.page_user.user_name))
-        
         had_vote = c.page_user._has_permission("vote.cast")
-        
         for membership in c.page_user.memberships:
             if not membership.expire_time and membership.instance == c.instance:
                 membership.expire_time = datetime.utcnow()
@@ -387,12 +382,10 @@ class UserController(BaseController):
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_MEMBERSHIP_UPDATE, c.page_user, 
                    instance=c.instance, group=to_group, admin=c.user)
-        
         if had_vote and not c.page_user._has_permission("vote.cast"):
             # user has lost voting privileges
             c.page_user.revoke_delegations(c.instance)
         model.meta.Session.commit()
-                
         redirect_to("/user/%s" % str(c.page_user.user_name))
     
     
@@ -408,9 +401,7 @@ class UserController(BaseController):
         c.page_user.revoke_delegations(c.instance)
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_FORCE_LEAVE, c.page_user, instance=c.instance, 
-                   admin=c.user)
-        
-                        
+                   admin=c.user)        
         h.flash(_("%(user)s was removed from %(instance)s") % {
                                         'user': c.page_user.name, 
                                         'instance': c.instance.label})
@@ -435,27 +426,23 @@ class UserController(BaseController):
             abort(403, _("You're not authorized to change %s's settings.") % id)
         return user
 
+
     def _common_metadata(self, user, member=None, add_canonical=False):
         bio = user.bio
         if not bio:
             bio = _("%(user)s is using Adhocracy, a democratic decision-making tool.") % {
                     'user': c.page_user.name}
-        
         description = h.text.truncate(text.meta_escape(bio), length=200, whole_word=True) 
-        
         h.add_meta("description", description)
         h.add_meta("dc.title", text.meta_escape(user.name))
         h.add_meta("dc.date", user.access_time.strftime("%Y-%m-%d"))
         h.add_meta("dc.author", text.meta_escape(user.name))
-                  
         h.add_rss(_("%(user)ss Activity") % {'user': user.name}, 
                   h.instance_url(None, "/user/%s.rss" % user.user_name))      
-        
         canonical_url = h.instance_url(None, path="/user/%s" % user.user_name)
         if member is not None:
             canonical_url += "/" + member
         h.canonical_url(canonical_url)                  
-        
         if c.instance and not user.is_member(c.instance):
             h.flash(_("%s is not a member of %s") % (user.name, c.instance.label))  
         
