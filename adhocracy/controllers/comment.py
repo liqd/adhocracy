@@ -51,11 +51,9 @@ class CommentController(BaseController):
         comment = model.Comment.create(self.form_result.get('text'), 
                                        c.user, topic, 
                                        reply=self.form_result.get('reply'), 
-                                       canonical=canonical)
+                                       canonical=canonical,
+                                       with_vote=h.has_permission('vote.cast'))
         model.meta.Session.commit()
-        if h.has_permission('vote.cast'):
-            decision = democracy.Decision(c.user, comment.poll)
-            decision.make(model.Vote.YES)
         watchlist.check_watch(comment)
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance, 
                    topics=[topic], comment=comment, topic=topic, rev=comment.latest)

@@ -100,13 +100,14 @@ class Proposal(Delegateable):
         return q.all()
     
     @classmethod
-    def create(cls, instance, label, user, issue):
+    def create(cls, instance, label, user, issue, with_vote=False):
         from poll import Poll
         proposal = Proposal(instance, label, user)
         proposal.issue = issue
         meta.Session.add(proposal)
         meta.Session.flush()
-        poll = Poll.create(proposal, user, Poll.RATE)
+        poll = Poll.create(proposal, user, Poll.RATE, 
+                           with_vote=with_vote)
         proposal.rate_poll = poll
         meta.Session.flush()
         return proposal

@@ -54,18 +54,17 @@ class PollController(BaseController):
     def vote(self, id, format='html'):
         c.poll = self._get_open_poll(id)
         decision = democracy.Decision(c.user, c.poll)
-        previous_result = decision.result
         votes = decision.make(self.form_result.get("position"))
         if c.poll.action != model.Poll.RATE:
             for vote in votes:
                 event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance, 
                            topics=[c.poll.scope], vote=vote, poll=c.poll)
-        
         if format == 'json':
             tally = model.Tally.create_from_poll(c.poll)
             model.meta.Session.commit()
             return render_json(dict(decision=decision,
                                     score=tally.score))
+        model.meta.Session.commit()
         redirect_to(h.entity_url(c.poll.subject))
     
         

@@ -8,6 +8,13 @@
 
 ${tiles.issue.header(c.issue, c.tile, active='activity')}
 
-<div id="events_table" class="table">
-	${c.events_pager.here()}
-</div>	
+
+<div class="sidebar">
+	${tiles.delegation.sidebar(c.issue)}
+</div>
+
+<div class="mainbar">
+	<div id="events_table" class="table">
+		${c.events_pager.here()}
+	</div>	
+</div>

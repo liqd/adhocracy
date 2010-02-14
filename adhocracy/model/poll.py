@@ -92,10 +92,14 @@ class Poll(object):
     
     
     @classmethod
-    def create(cls, scope, user, action, subject=None):
+    def create(cls, scope, user, action, subject=None, with_vote=False):
         from tally import Tally
+        from vote import Vote
+        from adhocracy.lib.democracy import Decision
         poll = Poll(scope, user, action, subject=subject)
         meta.Session.add(poll)
+        decision = Decision(user, poll)
+        decision.make(Vote.YES)
         Tally.create_from_poll(poll)
         meta.Session.flush()
         return poll

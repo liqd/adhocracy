@@ -47,14 +47,15 @@ class Comment(object):
     
     
     @classmethod    
-    def create(cls, text, user, topic, reply=None, canonical=False):
+    def create(cls, text, user, topic, reply=None, canonical=False, with_vote=False):
         from poll import Poll
         comment = Comment(topic, user)
         comment.canonical = canonical
         comment.reply = reply
         meta.Session.add(comment)
         meta.Session.flush()
-        poll = Poll.create(topic, user, Poll.RATE, comment)
+        poll = Poll.create(topic, user, Poll.RATE, comment,
+                           with_vote=with_vote)
         comment.poll = poll
         comment.create_revision(text, user)
         return comment

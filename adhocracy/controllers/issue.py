@@ -66,7 +66,7 @@ class IssueController(BaseController):
         watchlist.check_watch(issue)
         event.emit(event.T_ISSUE_CREATE, c.user, instane=c.instance, 
                    topics=[issue], issue=issue, rev=comment.latest)
-        redirect_to(h.entity_url(issue.instance))
+        redirect_to(h.entity_url(c.issue))
     
     
     @RequireInstance
@@ -88,7 +88,7 @@ class IssueController(BaseController):
         watchlist.check_watch(c.issue)
         event.emit(event.T_ISSUE_EDIT, c.user, instance=c.instance, 
                    topics=[c.issue], issue=c.issue, rev=c.issue.comment.latest)
-        redirect_to('/issue/%s' % str(c.issue.id))
+        redirect_to(h.entity_url(c.issue))
     
     @RequireInstance
     @ActionProtector(has_permission("issue.view"))
@@ -176,7 +176,7 @@ class IssueController(BaseController):
         model.meta.Session.commit()
         event.emit(event.T_ISSUE_DELETE, c.user, instance=c.instance, 
                    topics=[c.issue], issue=c.issue)
-        redirect_to('/issue' % str(c.instance.key))
+        redirect_to(h.entity_url(c.issue.instance))
         
         
     @RequireInstance
@@ -197,4 +197,4 @@ class IssueController(BaseController):
         h.add_meta("dc.author", text.meta_escape(issue.creator.name, markdown=False))
         
         h.add_rss(_("Issue: %(issue)s") % {'issue': issue.label}, 
-            h.instance_url(c.instance, "/issue/%s.rss" % issue.id))
+                    h.entity_url(c.issue, format='rss'))

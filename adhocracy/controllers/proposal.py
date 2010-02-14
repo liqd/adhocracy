@@ -89,17 +89,15 @@ class ProposalController(BaseController):
             return self.new(errors=i.unpack_errors())
         c.issue = self.form_result.get('issue')
         proposal = model.Proposal.create(c.instance, self.form_result.get("label"), 
-                                         c.user, c.issue)
+                                         c.user, c.issue, with_vote=h.has_permission('vote.cast'))
         model.meta.Session.commit()
-        comment = model.Comment.create(self.form_result.get('text'), c.user, proposal)
+        comment = model.Comment.create(self.form_result.get('text'), 
+                                       c.user, proposal, 
+                                       with_vote=h.has_permission('vote.cast'))
         model.meta.Session.commit()
-        if h.has_permission('vote.cast'):
-            democracy.Decision(c.user, comment.poll).make(model.Vote.YES)
-            democracy.Decision(c.user, proposal.rate_poll).make(model.Vote.YES)
         for c_text in not_null(self.form_result.get('canonical')):
-            canonical = model.Comment.create(c_text, c.user, proposal, canonical=True)
-            if h.has_permission('vote.cast'):
-                democracy.Decision(c.user, canonical.poll).make(model.Vote.YES)
+            canonical = model.Comment.create(c_text, c.user, proposal, canonical=True, 
+                                             with_vote=h.has_permission('vote.cast'))
         alternatives = not_null(self.form_result.get('alternative'))
         proposal.update_alternatives(alternatives)
         proposal.comment = comment
@@ -309,4 +307,4 @@ class ProposalController(BaseController):
         h.add_meta("dc.author", 
                    text.meta_escape(proposal.creator.name, markdown=False))
         h.add_rss(_("Proposal: %(proposal)s") % {'proposal': proposal.label}, 
-                  h.instance_url(c.instance, "/proposal/%s.rss" % proposal.id))
+                  h.entity_url(c.proposal, format='rss'))
