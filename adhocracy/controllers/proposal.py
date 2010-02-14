@@ -90,16 +90,18 @@ class ProposalController(BaseController):
         c.issue = self.form_result.get('issue')
         proposal = model.Proposal.create(c.instance, self.form_result.get("label"), 
                                          c.user, c.issue)
+        model.meta.Session.commit()
         comment = model.Comment.create(self.form_result.get('text'), c.user, proposal)
+        model.meta.Session.commit()
         if h.has_permission('vote.cast'):
             democracy.Decision(c.user, comment.poll).make(model.Vote.YES)
+            democracy.Decision(c.user, proposal.rate_poll).make(model.Vote.YES)
         for c_text in not_null(self.form_result.get('canonical')):
             canonical = model.Comment.create(c_text, c.user, proposal, canonical=True)
             if h.has_permission('vote.cast'):
                 democracy.Decision(c.user, canonical.poll).make(model.Vote.YES)
         alternatives = not_null(self.form_result.get('alternative'))
         proposal.update_alternatives(alternatives)
-        model.meta.Session.commit()
         proposal.comment = comment
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
@@ -115,11 +117,13 @@ class ProposalController(BaseController):
         c.proposal = self._get_mutable_proposal(id)
         defaults = dict(request.params)
         c.issues = model.Issue.all(instance=c.instance)
-        c.alternatives = not_null(self.form_result.get('alternative'))
-        if len(c.alternatives):
+        if 'alternative' in request.params:
+            c.alternatives = not_null(self.form_result.get('alternative'))
             del defaults['alternative']
+        else: 
+            c.alternatives = c.proposal.current_alternatives()
         c.proposals = [p for p in model.Proposal.all(instance=c.instance) if not \
-                       (p in c.alternatives or p in c.issue_proposals)]
+                       (p in c.alternatives and not p == c.proposal)]
         return htmlfill.render(render("/proposal/edit.html"), defaults=defaults, 
                                errors=errors, force_defaults=False)
     
@@ -135,6 +139,7 @@ class ProposalController(BaseController):
         proposal = self._get_mutable_proposal(id)
         proposal.label = self.form_result.get("label")
         proposal.issue = self.form_result.get("issue")
+        model.meta.Session.commit()
         alternatives = not_null(self.form_result.get('alternative'))
         proposal.update_alternatives(alternatives)
         model.meta.Session.commit()

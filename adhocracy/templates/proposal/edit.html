@@ -47,7 +47,7 @@
 				${tiles_html.alternative(options=c.proposals)}
 			%endif
 		</table>
-		%if len(options):
+		%if len(c.proposals):
 		<div class="jsadd">
 			<input type="button" value="${_("Add an alternative")}" onclick="return appendAlternative();" />
 		</div>
