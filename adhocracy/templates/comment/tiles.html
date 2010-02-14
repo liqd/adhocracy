@@ -59,7 +59,7 @@
 					%endif
 									
 					%if tile.can_delete:
-						<a class="button delete" href="/comment/${comment.id}?_method=DELETE&${h.url_token()}">${_("delete")}</a> 
+						<a class="button delete" href="/comment/${comment.id}/ask_delete">${_("delete")}</a> 
 					%endif
 								
 					%if tile.can_reply and (recurse or link_discussion):

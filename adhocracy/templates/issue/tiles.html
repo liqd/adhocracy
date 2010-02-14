@@ -40,11 +40,12 @@
 		%endif
 		
 		%if tile.can_edit:
-			<a class="button edit" href="/issue/${issue.id}/edit">${_("edit")}</a>
+			<a class="button edit" href="${h.entity_url(issue, member='edit')}">${_("edit")}</a>
 		%endif
 					
 		%if tile.can_delete:
-			<a class="button delete" href="/issue/${issue.id}/delete?_method=DELETE&${h.url_token()}">${_("delete")}</a>
+			<a class="button delete" 
+				href="${h.entity_url(issue, member='ask_delete')}">${_("delete")}</a>
 		%endif
 		
 		${components.watch(issue)}

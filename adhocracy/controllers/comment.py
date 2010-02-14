@@ -95,6 +95,14 @@ class CommentController(BaseController):
             return render_json(c.comment)
         return render('/comment/show.html')
     
+    
+    @RequireInstance
+    @ActionProtector(has_permission("comment.delete"))
+    def ask_delete(self, id):
+        c.comment = self._get_mutable_or_abort(id)
+        return render('/comment/ask_delete.html')
+    
+    
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("comment.delete"))

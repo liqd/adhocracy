@@ -10,13 +10,15 @@
 			&nbsp;
 		
 			%if tile.can_revert:
-				<a href="/comment/${revision.comment.id}/revert?${h.url_token()}&to=${revision.id}">${_("revert here")}</a>
+				<a href="${h.entity_url(revision.comment, member='revert')}?${h.url_token()}&to=${revision.id}">${_("revert here")}</a>
 			%endif
 			
 			%if tile.is_latest:
-				<a href="/comment/${revision.comment.id}.fwd">${_("view comment")}</a> 
+				<a href="${h.entity_url(revision.comment)}">${_("view comment")}</a> 
 				%if tile.can_edit:
-					&middot; <a href="/comment/${revision.comment.id}/edit" onClick="return comment_edit(${revision.comment.id})" >${_("edit")}</a>
+					&middot; 
+					<a href="${h.entity_url(revision.comment, member='edit')}" 
+					   onClick="return comment_edit(${revision.comment.id})" >${_("edit")}</a>
 				%endif
 			%endif
 		</div>

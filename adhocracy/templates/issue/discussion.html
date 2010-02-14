@@ -10,20 +10,28 @@
 
 ${tiles.issue.header(c.issue, c.tile, active='discussion')}
 
-%if c.issue.comment:
-	${tiles.comment.full(c.issue.comment, recurse=False, collapse=False)}
-%endif
 
-%if c.tile.comment_tile.can_reply:
-	<div class="comment">
-		${comment_tiles.create_form(c.issue.comment, c.issue)}
-	</div>
-%elif not c.issue.comment_count():
-	<div class="infobox">
-		${_("No comments were made yet.")}
-	</div>
-%endif
-%for (reply, reply_tile) in c.tile.comment_tile.replies():
-	${tiles.comment.full(reply, recurse=True)}
-%endfor
+<div class="sidebar">
+	${tiles.delegation.sidebar(c.issue)}
+</div>
+
+<div class="mainbar">
+	%if c.issue.comment:
+		${tiles.comment.full(c.issue.comment, recurse=False, collapse=False)}
+	%endif
+
+	%if c.tile.comment_tile.can_reply:
+		<div class="comment">
+			${comment_tiles.create_form(c.issue.comment, c.issue)}
+		</div>
+	%elif not c.issue.comment_count():
+		<div class="infobox">
+			${_("No comments were made yet.")}
+		</div>
+	%endif
+	%for (reply, reply_tile) in c.tile.comment_tile.replies():
+		${tiles.comment.full(reply, recurse=True)}
+	%endfor
+</div>
+
 

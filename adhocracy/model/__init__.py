@@ -125,9 +125,9 @@ mapper(Delegation, delegation_table, properties={
 
 
 mapper(Poll, poll_table, properties={
-    'user': relation(User, primaryjoin=poll_table.c.user_id==user_table.c.id),
+    'user': relation(User, primaryjoin=poll_table.c.user_id==user_table.c.id, lazy=True),
     'subject': synonym('_subject', map_column=True),
-    'scope': relation(Delegateable, primaryjoin=poll_table.c.scope_id==delegateable_table.c.id,
+    'scope': relation(Delegateable, primaryjoin=poll_table.c.scope_id==delegateable_table.c.id, lazy=True,
                       backref=backref('polls', cascade='all', lazy=True, 
                                       order_by=poll_table.c.begin_time.desc())),
     'tally': relation(Tally, primaryjoin=tally_table.c.poll_id==poll_table.c.id,

@@ -205,11 +205,18 @@ class ProposalController(BaseController):
     
     
     @RequireInstance
+    @ActionProtector(has_permission("proposal.delete"))
+    def ask_delete(self, id):
+        c.proposal = self._get_mutable_proposal(id)
+        c.tile = tiles.proposal.ProposalTile(c.proposal)
+        return render('/proposal/ask_delete.html')
+    
+    
+    @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("proposal.delete"))
     def delete(self, id):
         c.proposal = self._get_mutable_proposal(id)
-        h.flash("Proposal %(proposal)s has been deleted." % {'proposal': c.proposal.label})
         event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance, 
                    topics=[c.proposal], proposal=c.proposal)
         c.proposal.delete()

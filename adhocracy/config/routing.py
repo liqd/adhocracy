@@ -54,7 +54,8 @@ def make_map():
     map.resource('issue', 'issue', member={'proposals': 'GET', 
                                            'discussion': 'GET', 
                                            'activity': 'GET', 
-                                           'delegations': 'GET'},
+                                           'delegations': 'GET',
+                                           'ask_delete': 'GET'},
                                    collection={'filter': 'GET'})
 
     map.resource('proposal', 'proposal', member={'votes': 'GET', 
@@ -62,6 +63,7 @@ def make_map():
                                                  'activity': 'GET', 
                                                  'canonicals': 'GET',
                                                  'alternatives': 'GET',
+                                                 'ask_delete': 'GET',
                                                  'ask_adopt': 'GET',
                                                  'adopt': 'POST'},
                                collection={'filter': 'GET'})
@@ -69,7 +71,8 @@ def make_map():
     map.connect('/adopted', controller='proposal', action='adopted')
     
     map.resource('comment', 'comment', member={'history': 'GET',
-                                               'revert': 'GET'})
+                                               'revert': 'GET',
+                                               'ask_delete': 'GET'})
                                                
     map.resource('poll', 'poll', member={'vote': 'POST',
                                          'votes': 'GET',

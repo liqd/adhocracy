@@ -83,12 +83,13 @@
 		%endif
 		
 		%if tile.can_edit:
-			<a class="button title edit" href="${h.entity_url(proposal, member='edit')}">${_("edit")}</a>
+			<a class="button title edit" 
+				href="${h.entity_url(proposal, member='edit')}">${_("edit")}</a>
 		%endif
 						
 		%if tile.can_delete:
 			<a class="button title delete" 	
-				href="${h.entity_url(proposal)}?_Method=DELETE&${h.url_token()}">${_("delete")}</a>
+				href="${h.entity_url(proposal, member='ask_delete')}">${_("delete")}</a>
 		%endif
 		
 		${components.watch(proposal)}

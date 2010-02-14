@@ -43,6 +43,10 @@ class PollController(BaseController):
         return self.not_implemented()  
     
     
+    def show(self, id):
+        return self.not_implemented()  
+    
+    
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("vote.cast"))

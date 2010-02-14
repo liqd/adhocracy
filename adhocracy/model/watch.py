@@ -82,12 +82,11 @@ class Watch(object):
     
     
     @classmethod
-    def all_by_entity(entity):
+    def all_by_entity(self, entity):
         q = meta.Session.query(Watch)
         q = q.filter(Watch.entity_ref==refs.to_ref(entity))
-        if not include_deleted:
-            q = q.filter(or_(Watch.delete_time==None,
-                             Watch.delete_time>datetime.utcnow()))
+        q = q.filter(or_(Watch.delete_time==None,
+                         Watch.delete_time>datetime.utcnow()))
         return q.all()
         
     

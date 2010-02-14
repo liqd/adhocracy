@@ -153,17 +153,25 @@ class IssueController(BaseController):
         self._common_metadata(c.issue)
         return render("/issue/delegations.html")
     
+    
+    @RequireInstance
+    @ActionProtector(has_permission("issue.delete"))
+    def ask_delete(self, id):
+        c.issue = get_entity_or_abort(model.Issue, id)
+        c.tile = tiles.issue.IssueTile(c.issue)
+        return render("/issue/ask_delete.html")
+        
+    
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("issue.delete"))
     def delete(self, id):
         c.issue = get_entity_or_abort(model.Issue, id)        
         for proposal in c.issue.proposals:
-            if not democracy.is_proposal_mutable(proposal):
+            if not proposal.is_mutable():
                 h.flash(_("The issue %(issue)s cannot be deleted, because the contained " +
                           "proposal %(proposal)s is polling.") % {'issue': c.issue.label, 'proposal': proposal.label})
                 redirect_to('/issue/%s' % str(c.issue.id))
-        h.flash(_("Issue '%(issue)s' has been deleted.") % {'issue': c.issue.label})
         c.issue.delete()
         model.meta.Session.commit()
         event.emit(event.T_ISSUE_DELETE, c.user, instance=c.instance, 

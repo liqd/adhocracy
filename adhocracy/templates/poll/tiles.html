@@ -123,7 +123,11 @@
 			%endif
 		
 		<div class="meta">	
-			${_("began %s") % h.relative_time(tile.poll.begin_time)|n}
+			%if poll.has_ended():
+				${_("ended %s") % h.relative_time(tile.poll.end_time)|n}
+			%else:
+				${_("began %s") % h.relative_time(tile.poll.begin_time)|n}
+			%endif
 			%if poll.can_end() and h.has_permission('poll.abort'):
 				&middot; 
 				<a class="delete" 
