@@ -74,10 +74,9 @@ def user_link(user, size=16, scope=None):
     
 @cache.memoize('proposal_icon')
 def proposal_icon(proposal, size=16):
-    state = democracy.State(proposal)
-    if state.adopted:
+    if proposal.adopted:
         return instance_url(None, path='') + "/img/icons/proposal_adopted_" + str(size) + ".png"
-    if state.polling:
+    if proposal.is_adopt_polling():
         return instance_url(None, path='') + "/img/icons/vote_" + str(size) + ".png"
     else:
         return instance_url(None, path='') + "/img/icons/proposal_" + str(size) + ".png"

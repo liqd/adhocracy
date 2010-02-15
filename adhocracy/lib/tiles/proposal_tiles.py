@@ -17,7 +17,6 @@ class ProposalTile(DelegateableTile):
     def __init__(self, proposal):
         self.proposal = proposal
         self.__poll = None
-        self.__state = None
         self.__decision = None
         self.__num_principals = None
         self.__comment_tile = None
@@ -37,15 +36,7 @@ class ProposalTile(DelegateableTile):
         return self.__poll
     
     poll = property(_poll)
-    
-    def _state(self):
-        if not self.__state:
-            self.__state = democracy.State(self.proposal, poll=self.poll)
-        return self.__state
-    
-    state = property(_state)    
-    
-            
+        
     def _can_edit(self):
         return h.has_permission('proposal.edit') \
                 and not self.is_immutable

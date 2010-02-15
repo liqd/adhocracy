@@ -4,7 +4,6 @@ import adhocracy.model as model
 
 from decision import Decision
 from delegation_node import DelegationNode
-from state import State
 
 from ..cache import memoize
 from .. import queue
@@ -23,6 +22,7 @@ def init_democracy(with_db=True):
     
     queue.register(model.Vote, queue.INSERT, handle_vote)
     queue.register(model.Vote, queue.UPDATE, handle_vote)
+    #check_adoptions()
 
 
 def handle_vote(vote):
@@ -32,3 +32,16 @@ def handle_vote(vote):
         model.meta.Session.commit()
         log.debug("Tallied %s: %s" % (vote.poll, tally))
 
+
+def check_adoptions():
+    log.debug("Checking proposals for successful adoption...")
+    for proposal in model.Proposal.all():
+        # check adoptions:
+        if not proposal.adopted and proposal.is_adopt_polling() \
+            and proposal.adopt_poll.is_stable():
+            log.info("Proposal %s is now ADOPTED. Thanks for playing.")
+            proposal.adopted = True
+            proposal.adopt_poll.end()
+        # TODO check repeals
+    model.meta.Session.commit()
+        

@@ -76,7 +76,6 @@ class InstanceController(BaseController):
     @ActionProtector(has_permission("instance.view"))
     def activity(self, id, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, id)
-        
         query = model.meta.Session.query(model.Event)
         query = query.filter(model.Event.instance==c.page_instance)
         query = query.order_by(model.Event.time.desc())
@@ -130,7 +129,6 @@ class InstanceController(BaseController):
         except Exception, e:
             h.flash(unicode(e))
             log.debug(e)
-        
         model.meta.Session.commit()            
         event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)
         redirect_to(h.entity_url(c.page_instance))

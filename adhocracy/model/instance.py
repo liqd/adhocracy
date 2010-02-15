@@ -1,12 +1,15 @@
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 
 from sqlalchemy import Table, Column, Integer, Float, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
+from sqlalchemy.orm import reconstructor
 
 import meta
 
+
 log = logging.getLogger(__name__)
+
 
 instance_table = Table('instance', meta.data,
     Column('id', Integer, primary_key=True),
@@ -22,6 +25,7 @@ instance_table = Table('instance', meta.data,
     Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True)    
     )
 
+
 # Instance is not a delegateable - but it should - or you cannot do instance wide delegation
 class Instance(object):
     __tablename__ = 'instance'
@@ -36,10 +40,17 @@ class Instance(object):
         self.description = description
         self.required_majority = 0.66
         self.activation_delay = 7
+        self._required_participation = None
     
+    
+    @reconstructor
+    def _reconstruct(self):
+        self._required_participation = None
+        
     
     def current_memberships(self):
         return [m for m in self.memberships if not m.is_expired()]
+    
     
     def _get_members(self):
         members = self.current_memberships()
@@ -51,6 +62,24 @@ class Instance(object):
         return members
     
     members = property(_get_members)
+    
+    
+    def _get_required_participation(self):
+        if self._required_participation is None:
+            from adhocracy.lib.democracy import Decision
+            avg = Decision.average_decisions(self)
+            self._required_participation = avg * self.required_majority
+        return self._required_participation
+        
+    required_participation = property(_get_required_participation)
+    
+    
+    def _get_activation_timedelta(self):
+        #return timedelta(days=self.activation_delay)
+        return timedelta(hours=self.activation_delay)
+        
+    activation_timedelta = property(_get_activation_timedelta)
+    
     
     @classmethod
     def find(cls, key, instance_filter=True, include_deleted=False):

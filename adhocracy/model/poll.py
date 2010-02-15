@@ -38,12 +38,16 @@ class Poll(object):
         if subject is None:
             subject = scope
         self._subject_entity = None
+        self._tally = None
+        self._stable = {}
         self.subject = subject
     
     
     @reconstructor
     def _reconstruct(self):
         self._subject_entity = None
+        self._tally = None
+        self._stable = {}
     
     
     def _get_subject(self):
@@ -59,6 +63,18 @@ class Poll(object):
         self._subject = refs.to_ref(subject)
     
     subject = property(_get_subject, _set_subject)
+    
+    
+    def _get_tally(self):
+        if self._tally is None:
+            from tally import Tally
+            q = self.tallies
+            q = q.order_by(Tally.create_time.desc())
+            q = q.order_by(Tally.id.desc())
+            self._tally = q.limit(1).first()
+        return self._tally
+        
+    tally = property(_get_tally)
     
     
     def end(self, end_time=None):
@@ -89,6 +105,27 @@ class Poll(object):
         if self.action == self.RATE:
             return False
         return True
+        
+        
+    def check_stable(self, at_time):
+        from tally import Tally
+        end = datetime.utcnow() if at_time is None else at_time
+        start = end - self.scope.instance.activation_timedelta
+        tallies = Tally.all_samples(self, start, end)
+        if not len(tallies):
+            return False
+        if tallies[0].create_time > start:
+            return False
+        for tally in tallies:
+            if not (tally.has_participation() and \
+                    tally.has_majority()):
+                return False
+        return True
+        
+    def is_stable(self, at_time=None):
+        if not at_time in self._stable:
+            self._stable[at_time] = self.check_stable(at_time)
+        return self._stable[at_time]    
     
     
     @classmethod

@@ -221,13 +221,14 @@ class Decision(object):
             query = query.join(Delegateable)
             query = query.filter(Delegateable.instance_id==instance.id)
             query = query.filter(Poll.end_time==None)
+            query = query.filter(Poll.action!=Poll.RATE)
             decisions = []
             for poll in query:
-                if not poll.end_time: 
-                    # only consider current polls to allow for drops 
-                    # in participation
-                    decisions.append(len(Decision.for_poll(poll)))
-            return sum(decisions)/float(max(1,len(decisions)))
+                # only consider current polls to allow for drops 
+                # in participation
+                decisions.append(len(poll.tally))
+            avg = sum(decisions)/float(max(1,len(decisions)))
+            return max(2, avg)
         return avg_decisions(instance)
     
     @classmethod

@@ -65,6 +65,7 @@ class Tally(object):
             meta.Session.flush()
         return tally 
     
+    
     @classmethod
     def create_from_poll(cls, poll, at_time=None):
         from adhocracy.lib.democracy import Decision
@@ -84,32 +85,43 @@ class Tally(object):
         meta.Session.flush()
         return tally 
     
+    
     @classmethod
     def find_by_vote(cls, vote):
         q = meta.Session.query(Tally)
         q = q.filter(Tally.vote==vote)
         return q.limit(1).first()
     
-    @classmethod
-    def find_by_poll_and_time(cls, poll, time):
-        q = meta.Session.query(Tally)
-        q = q.filter(Tally.poll==poll)
-        q = q.filter(Tally.create_time<=time)
-        q = q.order_by(Tally.create_time.desc())
-        return q.limit(1).first()
     
     @classmethod
-    def poll_by_interval(cls, poll, from_time, to_time):
-        q = meta.Session.query(Tally)
-        q = q.filter(Tally.poll==poll)
-        q = q.filter(Tally.create_time>=from_time)
-        q = q.filter(Tally.create_time<=to_time)
-        q = q.order_by(Tally.create_time.desc())
+    def all_samples(cls, poll, start_time, end_time):
+        qp = meta.Session.query(Tally)
+        qp = qp.filter(Tally.poll==poll)
+        qp = qp.filter(Tally.create_time<=end_time)
+        qp = qp.filter(Tally.create_time>=start_time)
+        qb = meta.Session.query(Tally)
+        qb = qb.filter(Tally.poll==poll)
+        qb = qb.filter(Tally.create_time<start_time)
+        qb = qb.limit(1)
+        q = qb.union(qp)
+        q = q.order_by(Tally.create_time.asc())
+        q = q.order_by(Tally.id.asc())
         return q.all()
+    
+    
+    def has_majority(self):
+        quorum = self.poll.scope.instance.required_majority
+        return self.rel_for > quorum
+        
+    
+    def has_participation(self):
+        quorum = self.poll.scope.instance.required_participation
+        return len(self) >= quorum
     
     
     def __len__(self):
         return self.num_for + self.num_against + self.num_abstain
+    
     
     def to_dict(self):
         return dict(id=self.id,

@@ -2,7 +2,7 @@ import logging
 from itertools import chain
 from datetime import datetime
 
-from sqlalchemy import Table, Column, Unicode, ForeignKey, Integer, or_, and_
+from sqlalchemy import Table, Column, Unicode, ForeignKey, Integer, Boolean, or_, and_
 from sqlalchemy.orm import reconstructor, aliased, eagerload
 
 import meta
@@ -16,7 +16,8 @@ proposal_table = Table('proposal', meta.data,
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
     Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True),
     Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
-    Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True)
+    Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
+    Column('adopted', Boolean, default=False)
     )
 
 class Proposal(Delegateable):
@@ -53,8 +54,11 @@ class Proposal(Delegateable):
     canonicals = property(_get_canonicals)
     
     
+    def is_adopt_polling(self):
+        return self.adopt_poll is not None and not self.adopt_poll.has_ended()
+    
     def is_mutable(self):
-        return self.adopt_poll is None or self.adopt_poll.has_ended()
+        return not self.is_adopt_polling()
     
     
     def has_canonicals(self):

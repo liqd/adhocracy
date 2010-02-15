@@ -46,5 +46,6 @@ class RootController(BaseController):
         queue.process_messages()
         event.queue_process()
         watchlist.clean_stale_watches()
+        democracy.check_adoptions()
         return "everything processed. come back soon ;-)"
             

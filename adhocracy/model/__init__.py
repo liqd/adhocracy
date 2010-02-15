@@ -129,10 +129,7 @@ mapper(Poll, poll_table, properties={
     'subject': synonym('_subject', map_column=True),
     'scope': relation(Delegateable, primaryjoin=poll_table.c.scope_id==delegateable_table.c.id, lazy=True,
                       backref=backref('polls', cascade='all', lazy=True, 
-                                      order_by=poll_table.c.begin_time.desc())),
-    'tally': relation(Tally, primaryjoin=tally_table.c.poll_id==poll_table.c.id, uselist=False,
-                      order_by=[tally_table.c.create_time.desc(), tally_table.c.id.desc()],
-                      viewonly=True, lazy=False)
+                                      order_by=poll_table.c.begin_time.desc()))
     }, extension=meta.extension)
 
 
@@ -175,7 +172,7 @@ mapper(Event, event_table, properties={
 
 
 mapper(Tally, tally_table, properties={
-    'poll': relation(Poll, backref=backref('tallies', order_by=[tally_table.c.create_time.desc(), tally_table.c.id.desc()])),
+    'poll': relation(Poll, backref=backref('tallies', lazy='dynamic')),
     'vote': relation(Vote, backref=backref('tally', uselist=False))
     }, extension=meta.extension)
 
