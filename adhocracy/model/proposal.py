@@ -55,7 +55,8 @@ class Proposal(Delegateable):
     
     
     def is_adopt_polling(self):
-        return self.adopt_poll is not None and not self.adopt_poll.has_ended()
+        return (self.adopt_poll is not None) and \
+            (not self.adopt_poll.has_ended())
     
     def is_mutable(self):
         return not self.is_adopt_polling()
@@ -66,8 +67,8 @@ class Proposal(Delegateable):
     
     
     def can_adopt(self):
-        return (self.adopt_poll is None or self.adopt_poll.has_ended()) \
-            and self.has_canonicals()
+        return not self.is_adopt_polling() \
+            and self.has_canonicals() and not self.adopted
     
     
     @classmethod

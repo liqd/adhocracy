@@ -7,6 +7,7 @@
 		</div>
 		<div class="base">
 			<h3><a class="link" href="${h.entity_url(instance)}">${instance.label}</a></h3>
+			<span class="sparkline" title="${h.entity_url(instance, member='activity', format='sline')}"></span>
 			<div class="meta noclear">
 				${h.user_link(instance.creator)|n}  
 				&middot; ${_("created %s") % h.relative_time(instance.create_time)|n}  

@@ -76,6 +76,11 @@ class InstanceController(BaseController):
     @ActionProtector(has_permission("instance.view"))
     def activity(self, id, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, id)
+        
+        if format == 'sline':
+            sline = event.sparkline_samples(event.instance_activity, c.page_instance)
+            return render_json(dict(activity=sline))
+        
         query = model.meta.Session.query(model.Event)
         query = query.filter(model.Event.instance==c.page_instance)
         query = query.order_by(model.Event.time.desc())

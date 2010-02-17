@@ -11,9 +11,11 @@
 ${tiles.poll.header(c.poll, active='votes')}
 
 <div class="sidebar">
-	${tiles.poll.booth(c.poll)}
+	%if c.poll.action != c.poll.RATE:
+		${tiles.poll.booth(c.poll)}
+		<br/>
+	%endif
 	
-	<br/>
 	<div class="infobox">
 		${_("Vote results are updated with a short delay. After casting " +
 			"your vote, expect a short delay before the tally updates.")}

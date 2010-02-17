@@ -30,16 +30,11 @@ class Tally(object):
         self.num_abstain = num_abstain
     
     
-    def _get_rel_base(self):
-        return self.num_for + self.num_against
-
-    rel_base = property(_get_rel_base)
-    
-    
     def _get_rel_for(self):
-        if self.rel_base == 0:
+        base = self.num_for + self.num_against
+        if base == 0:
             return 0.5
-        return self.num_for / float(max(1, self.rel_base))
+        return self.num_for / float(max(1, base))
     
     rel_for = property(_get_rel_for)
     
@@ -99,14 +94,17 @@ class Tally(object):
         qp = qp.filter(Tally.poll==poll)
         qp = qp.filter(Tally.create_time<=end_time)
         qp = qp.filter(Tally.create_time>=start_time)
+        qp = qp.order_by(Tally.create_time.asc())
+        qp = qp.order_by(Tally.id.asc())
         qb = meta.Session.query(Tally)
         qb = qb.filter(Tally.poll==poll)
         qb = qb.filter(Tally.create_time<start_time)
+        qb = qb.order_by(Tally.create_time.desc())
+        qb = qb.order_by(Tally.id.desc())
         qb = qb.limit(1)
-        q = qb.union(qp)
-        q = q.order_by(Tally.create_time.asc())
-        q = q.order_by(Tally.id.asc())
-        return q.all()
+        # TODO fix this as a union query, but that requires 
+        # some parantheses that SQLalchemy will not set.
+        return qb.all() + qp.all()
     
     
     def has_majority(self):

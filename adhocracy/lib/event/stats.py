@@ -30,7 +30,7 @@ def activity(query_filter, from_time=None, to_time=None):
         return math.log(relative_age)
     
     act = sum([evt_value(row[0]) for row in query])
-    log.debug("Activity %s: %s" % (query, act))
+    log.debug("Activity %s: %s" % (to_time, act))
     return act
 
 @memoize('delegeteable_activity', 3600)
@@ -59,3 +59,13 @@ def user_activity(user, from_time=None, to_time=None):
     def query_filter(q):
         return q.filter(model.Event.user==user)
     return activity(query_filter, from_time, to_time)
+
+def sparkline_samples(func, obj, step=timedelta(days=1), steps=60):
+    begin_time = time = datetime.utcnow().date()
+    samples = []
+    for i in range(1, steps-1):
+        offset = time - (step * i)
+        samples.append(func(obj, from_time=offset-step, to_time=offset))
+    return list(reversed(samples))
+    
+

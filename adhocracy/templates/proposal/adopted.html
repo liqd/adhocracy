@@ -21,8 +21,7 @@ ${tiles.instance.header(c.instance, active='adopted')}
 	%for proposal in c.lib.sorting.delegateable_label(issue.proposals):
 	<%
 	tile = tiles.proposal.ProposalTile(proposal) 
-	if not tile.poll: continue 
-	if not tile.state.adopted: continue
+	if not proposal.adopted: continue
 	has_adopted = True
 	%>
 	%if issue != last_issue:

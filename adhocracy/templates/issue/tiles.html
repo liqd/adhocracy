@@ -6,17 +6,9 @@
 			<img src="/img/icons/issue_32.png" />
 		</div>
 		<div class="base">
-			<h3><a class="link" href="${h.instance_url(issue.instance, path='/issue/%s' % issue.id)}">${issue.label}</a></h3>
-			<!-- div class="text">
-			%if len(tile.tagline):
-				${tile.tagline}
-			%endif
-			</div -->
+			<h3><a class="link" href="${h.entity_url(issue)}">${issue.label}</a></h3>
+			<span class="sparkline" title="${h.entity_url(issue, member='activity', format='sline')}"></span>
 			<div class="meta noclear">
-				<!-- 
-				${_("created %s by %s") % (h.relative_time(issue.create_time), h.user_link(issue.creator, scope=issue))|n}
-				 <br />
-				 -->
 				<img src="/img/icons/proposal_16.png" /> 
 				${ungettext("%s proposal", "%s proposals", len(issue.proposals)) % len(issue.proposals)}
 				&middot;

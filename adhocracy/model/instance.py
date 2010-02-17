@@ -68,15 +68,15 @@ class Instance(object):
         if self._required_participation is None:
             from adhocracy.lib.democracy import Decision
             avg = Decision.average_decisions(self)
-            self._required_participation = avg * self.required_majority
+            self._required_participation = max(2, avg * self.required_majority)
         return self._required_participation
         
     required_participation = property(_get_required_participation)
     
     
     def _get_activation_timedelta(self):
-        #return timedelta(days=self.activation_delay)
-        return timedelta(hours=self.activation_delay)
+        return timedelta(days=self.activation_delay)
+        #return timedelta(minutes=self.activation_delay)
         
     activation_timedelta = property(_get_activation_timedelta)
     

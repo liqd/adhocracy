@@ -8,6 +8,8 @@ import formatting
 from rss import rss_feed
 import notification
 from .. import queue
+from stats import sparkline_samples, instance_activity, \
+        proposal_activity, issue_activity, user_activity
 
 import adhocracy.model as model
 

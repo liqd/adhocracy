@@ -14,9 +14,7 @@
 		</div>
 		<div class="base">
 			<h3><a class="link" href="${h.instance_url(proposal.instance, path='/proposal/%s' % proposal.id)}">${proposal.label}</a></h3>
-			<!-- div class="text">
-				${tile.tagline}
-			</div -->
+			<span class="sparkline" title="${h.entity_url(proposal, member='activity', format='sline')}"></span>
 			<div class="meta noclear">				
 				%if proposal.is_adopt_polling():
 					${_("<b>%s</b> votes,") % len(proposal.adopt_poll.tally)|n}
@@ -95,7 +93,7 @@
 		${h.rss_button(proposal)|n}
 	</div>
 	
-	<h1 class="page_title"><img src="/img/icons/proposal_24.png" class="cd" /> ${proposal.label}</h1>
+	<h1 class="page_title">${h.delegateable_link(proposal, icon_size=24, link=False)|n}</h1>
 	
 	<div class="panel ${active}">
 		<div class="menu">
@@ -104,10 +102,6 @@
 			<a href="${h.entity_url(proposal)}" class="goal">${_("Goal")}</a>
 			<a href="${h.entity_url(proposal, member='canonicals')}" 
 				class="canonicals">${_("Implementation")} (${len(proposal.canonicals)})</a>
-			%if proposal.adopt_poll:
-				<a href="/poll/${tile.poll.id}/votes" class="votes">${_("Votes")} 
-					(${len(proposal.adopt_poll.tally)})</a>
-			%endif
 			<a href="${h.entity_url(proposal, member='delegations')}"
 			   class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a>
 			<span class="submenu">
@@ -115,8 +109,8 @@
 			   	class="alternatives">${_("Alternatives")} (${len(proposal.current_alternatives())}) 
 					<img src="/img/arrows/panel_expand.png" /></a>
 				<ul>
-				%for proposal in proposal.current_alternatives()[:10]:
-					<li>${h.delegateable_link(proposal)|n}</li>
+				%for p in proposal.current_alternatives()[:10]:
+					<li>${h.delegateable_link(p)|n}</li>
 				%endfor
 				</ul>
 			</span>
@@ -128,5 +122,36 @@
 				&middot; ${_("in %s") % h.delegateable_link(proposal.issue)|n}
 			</div>
 		</div>
+		%if proposal.adopted:
+			<div class="info adoption adopted">
+				${_("%s has been adopted %s.") % (h.delegateable_link(proposal, link=False, icon=False),
+												  h.relative_time(proposal.adopt_poll.end_time))|n}
+			</div>
+		%elif proposal.is_adopt_polling():
+			<div class="info adoption">
+				<div class="given first">
+					${_("Adoption requirements:")}
+				</div>
+				%if proposal.adopt_poll.tally.has_majority() and not \
+					proposal.adopt_poll.tally.has_participation():
+					<div class="given">
+						${_("%s%% approval") % int(c.instance.required_majority*100)}
+					</div>
+					<div class="">
+						${_("%s participators") % c.instance.required_participation}
+					</div>
+				%else:
+					<div class="${'given' if proposal.adopt_poll.tally.has_participation() else ''}">
+						${_("%s participators") % c.instance.required_participation}
+					</div>
+					<div class="${'given' if proposal.adopt_poll.tally.has_majority() else ''}">
+						${_("%s%% approval") % int(c.instance.required_majority*100)}
+					</div>
+				%endif
+				<div>
+					${_("stable majority for %s days") % c.instance.activation_delay} 
+				</div>
+			</div>
+		%endif
 	</div>
 </%def>

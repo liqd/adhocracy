@@ -706,6 +706,7 @@ p img[align=left] {
 	height: inherit;
 	margin-right: 1em;
 	padding-top: 0.4em;
+	overflow: visible;
 } 
 
 .tile .base {
@@ -786,6 +787,7 @@ p img[align=left] {
 }
 
 .table .tile {
+	clear: left;
 	padding-left: 20px;
 	padding-right: 10px;
 	width: inherit;
@@ -804,7 +806,7 @@ p img[align=left] {
 }
 
 .table .base {
-	overflow: hidden;
+	overflow: visible;
 }
 
 .table .tile .meta {
@@ -1532,6 +1534,39 @@ a.button.inactive {
 	margin-bottom: -3px !important;
 }
 
+.panel .info.adoption {
+	font-weight: bold;
+	/* color: #9d0000; */
+}
+
+.panel .info.adoption.adopted {
+	background-color: #009800;
+	color: #fff;
+}
+
+.panel .info.adoption div {
+	display: inline-block;
+	margin: -1em;
+	margin-right: -2em;
+	margin-left: 0em;
+	padding: 1em;
+	padding-left: 4em;
+	min-width: 170px;
+	-webkit-border-top-right-radius: 13px;
+	-webkit-border-bottom-right-radius:13px;
+	border-right: 1px solid #fff;
+}
+
+.panel .info.adoption div.first {
+	margin-left: -3.5em;
+}
+
+.panel .info.adoption div.given {
+	background-color: #009800;
+	color: #fff;
+	border-right: 0px;
+}
+
 .panel .description {
 	clear: both;
 	border-top: 1px solid #fff;
@@ -1550,6 +1585,14 @@ a.button.inactive {
 .panel .description:last-child {
 	padding-bottom: 0px;
 	margin-bottom: 0px;
+}
+
+/* @end */
+
+/* @group Sparklines */
+
+.sparkline.loaded {
+	
 }
 
 /* @end */

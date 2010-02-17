@@ -66,7 +66,7 @@ class IssueController(BaseController):
         watchlist.check_watch(issue)
         event.emit(event.T_ISSUE_CREATE, c.user, instane=c.instance, 
                    topics=[issue], issue=issue, rev=comment.latest)
-        redirect_to(h.entity_url(c.issue))
+        redirect_to(h.entity_url(issue))
     
     
     @RequireInstance
@@ -114,6 +114,11 @@ class IssueController(BaseController):
     @ActionProtector(has_permission("issue.view"))
     def activity(self, id, format='html'):
         c.issue = get_entity_or_abort(model.Issue, id)
+        
+        if format == 'sline':
+            sline = event.sparkline_samples(event.issue_activity, c.issue)
+            return render_json(dict(activity=sline))
+        
         events = model.Event.find_by_topics([c.issue] + c.issue.proposals)
         
         if format == 'rss':

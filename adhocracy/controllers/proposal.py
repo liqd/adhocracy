@@ -143,7 +143,7 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
         event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance, 
-                   topics=[proposal], proposal=proposal, rev=c.proposal.comment.latest)
+                   topics=[proposal], proposal=proposal, rev=proposal.comment.latest)
         redirect_to("/proposal/%s" % proposal.id)
     
     
@@ -211,6 +211,11 @@ class ProposalController(BaseController):
     @ActionProtector(has_permission("proposal.view"))
     def activity(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        
+        if format == 'sline':
+            sline = event.sparkline_samples(event.proposal_activity, c.proposal)
+            return render_json(dict(activity=sline))
+        
         events = model.Event.find_by_topic(c.proposal)
         
         if format == 'rss':

@@ -104,6 +104,8 @@ class Poll(object):
             return False
         if self.action == self.RATE:
             return False
+        if self.tally.has_majority() and self.tally.has_participation(): 
+            return False
         return True
         
         

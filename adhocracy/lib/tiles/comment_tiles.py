@@ -134,7 +134,5 @@ def header(comment, tile=None, active='comment'):
 def full(comment, recurse=True, collapse=False, link_discussion=False):
     return render_tile('/comment/tiles.html', 'full', CommentTile(comment), 
                        recurse=recurse, comment=comment, collapse=collapse, 
-                       link_discussion=link_discussion, 
-                       #user=c.user if c.user else None, topic=comment.topic, 
-                       cached=False)
+                       link_discussion=link_discussion, cached=False)
 

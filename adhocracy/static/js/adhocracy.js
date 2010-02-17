@@ -196,4 +196,19 @@ $(document).ready(function() {
 		$("#issue_details").slideUp(60);
 	});
 	
+	
+	/* Sparklines */
+	$(".sparkline").each(function(e) {
+	    var url = $(this).attr('title');
+	    var sparkline = this; 
+	    $.getJSON(url, function(data) {
+	        $(sparkline).sparkline(data.activity, 
+	                        {type: 'bar', 
+	                         barWidth: 5, 
+	                         barColor: '#999',
+	                         height: '10px'});
+	        $(sparkline).addClass('loaded');
+	    });
+	});
+	
 });
