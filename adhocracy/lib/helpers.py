@@ -15,6 +15,7 @@ import authorization
 from authorization import has_permission_bool as has_permission
 import democracy
 import cache
+import sorting
 
 import adhocracy.model as model 
 
@@ -107,6 +108,13 @@ def contains_delegations(user, delegateable, recurse=True):
             (delegation.scope.is_sub(delegateable) and recurse)):
             return True
     return False
+
+    
+def context_instances(count=5):
+    ins = c.user.instances[:count] if c.user else model.Instance.all(limit=count)
+    if c.instance and c.instance in ins:
+        ins.remove(c.instance)
+    return sorting.instance_activity(ins)
 
 
 def gravatar_url(user, size=32):

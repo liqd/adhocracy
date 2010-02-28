@@ -339,6 +339,8 @@ body {
 
 .user_icon {
 	margin-bottom: -4px;
+	width: 16px;
+	height: 16px;
 }
 
 .lefthalf {
@@ -385,33 +387,79 @@ body {
 	width: 900px;
 	text-align: left;
 	margin: 0px auto;
+	position: relative;
+	height: inherit;
 }
 
 #header #account {
-	float: right;
-	background-color: red;
+	position: absolute;
+	top: 0em;
+	list-style: none;
 	margin: -2px 0px 0px 0px;
 	padding: 4px 1em 8px 1em;
+	right: 0em;
 	color: white;
 	background-color: #1553a4;
 	background-image: url(/img/menu_bg.png);
 	background-position: bottom;
 	z-index: 1000;
+	color: white;	
 	-webkit-border-bottom-left-radius: 5px;
 	-moz-border-radius-bottomleft: 5px;
 	-webkit-border-bottom-right-radius: 5px;
 	-moz-border-radius-bottomright: 5px;
 }
 
+#account li {
+	display: inline-block;
+}
+
+#account li ul {
+	position: absolute;
+	visibility: hidden;
+	padding-top: 8px;
+	margin-left: -5px;
+	border-bottom: 5px solid #1553a4;
+}
+
+#account li ul li {
+	background-color: #1553a4;
+	display: block;
+}
+
+#account li ul li a,
+#account li ul li a:hover {
+	display: inline-block;
+	padding: 5px;	
+}
+
+#account li:hover ul {
+	visibility: visible;
+	width: auto;
+	overflow: visible;
+}
+
+#account li:after {
+	content:  " ·";
+}
+
+#account li.last:after,
+#account li ul li:after {
+	content:  "";
+}
+
 #header #account img {
+	display: inline-block;
+	border: 0px;
+	width: 16px;
+	height: 16px;
 	margin-bottom: -4px;
 	padding: 0px;
 }
 
 #header #account a {
-	font-weight: normal;
+	font-weight: bold;
 	color: #fff;
-	text-transform: lowercase;
 }
 
 #header #account a:hover {
@@ -419,16 +467,22 @@ body {
 }
 
 #header #logo {
-	float: left;
-	margin-top: 15px;
+	position: absolute;
+	left: 0em;
+	bottom: 0.4em;
 	margin-right: 0.9em;
 }
 
 #header #menu {
 	position: absolute;
-	width: 820px;
-	top: 55px;
+	bottom: 1.2em;
 	padding-left: 70px;
+}
+
+#header #searchform {
+	position: absolute;
+	bottom: 0.3em;
+	right: 0em;
 }
 
 #header #menu a, 
@@ -438,8 +492,8 @@ body {
 	text-shadow: #fff 1px 1px 1px;
 	min-width: 15em;
 	padding: 8px 1em 8px 1em;
+	margin: -1em 0em 0em 0em;
 	border: 1px solid #ccc;
-	margin: 0px 0.2em 0px 0em;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	background-image: url(/img/comment_bg.png);
@@ -448,18 +502,12 @@ body {
 } 
 
 #header #search {
-	float: right;
-	margin: -10px 0px 0px 0px;
 	font-weight: normal;
 	text-shadow: none;
 	background-image: url(/img/icons/search.png);
 	background-repeat: no-repeat;
 	background-position: center left;
 	padding-left: 24px;
-}
-
-#header form {
-	
 }
 
 #header #menu a:hover {

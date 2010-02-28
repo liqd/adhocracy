@@ -111,8 +111,11 @@ class Instance(object):
     
     
     @classmethod  
-    def all(cls):
-        return meta.Session.query(Instance).all()
+    def all(cls, limit=None):
+        q = meta.Session.query(Instance)
+        if limit is not None:
+            q = q.limit(limit)
+        return q.all()
     
     
     @classmethod  
