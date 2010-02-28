@@ -111,14 +111,16 @@
 						<li><a href="/adhocracies">${_("Adhocracies")}</a></li>
 					%endif
 					%if c.instance:
-						<li><a href="/issue">${_("Issues")}</a></li>
-						<li><a href="/proposal">${_("Proposals")}</a></li>
+						<a href="${h.entity_url(c.instance, member='activity')}" 	
+							class="activity">${_("Activity")}</a>
+						<li><a href="/issue">${_("Issues")} (${c.instance.num_issues})</a></li>
+						<li><a href="/proposal">${_("Proposals")} (${c.instance.num_proposals})</a></li>
 					%endif
 					%if h.has_permission("global.admin"):
 						<li><a href="/admin/permissions">${_("Admin")}</a></li>
 					%endif
 					%if c.instance:
-						<li><a href="/user">${_("Members")}</a></li>
+						<li><a href="/user">${_("Members")} (${c.instance.num_members})</a></li>
 					%endif
 					%if not c.instance:
 						<li><a href="/user">${_("All Users")}</a></li>

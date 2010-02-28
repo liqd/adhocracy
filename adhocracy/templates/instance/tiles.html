@@ -51,14 +51,14 @@
 	<h1 class="page_title"><img src="/img/icons/site_24.png" class="cd" /> ${instance.label}</h1>
 	
 	<div class="panel ${active}">
-		<div class="menu">
+		<!--div class="menu">
 			<a href="${h.entity_url(instance, member='activity')}" 	
 				class="activity">${_("Activity")}</a>
-			<a href="/issue" class="issues">${_("Issues")} (${tile.num_issues})</a>
-			<a href="/proposal" class="proposals">${_("Proposals")} (${tile.num_proposals})</a>
-			<a href="/user" class="users">${_("Members")} (${len(instance.current_memberships())})</a>
+			<a href="/issue" class="issues">${_("Issues")} (${instance.num_issues})</a>
+			<a href="/proposal" class="proposals">${_("Proposals")} (${instance.num_proposals})</a>
+			<a href="/user" class="users">${_("Members")} (${instance.num_members})</a>
 			<a href="/adopted" class="adopted">${_("Outcomes")}</a>
-		</div>
+		</div-->
 		%if tile.description:
 			<div class="description">
 				${tile.description|n}
