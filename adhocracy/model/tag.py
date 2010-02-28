@@ -19,12 +19,12 @@ class Tag(object):
     
     def __init__(self, name):
         self.name = name
-        self._frequency = None
+        self._count = None
     
     
     @reconstructor
     def _reconstruct(self):
-        self._frequency = None
+        self._count = None
     
     
     def __repr__(self):
@@ -35,18 +35,18 @@ class Tag(object):
         return self.name
     
     
-    def _get_frequency(self):
-        if self._frequency is None:
+    def __len__(self):
+        if self._count is None:
             from tagging import Tagging 
             q = meta.Session.query(Tagging)
             q = q.filter(Tagging.tag==self)
             if filter.has_instance():
                 q = q.join(Delegateable)
                 q = q.filter(Delegateable.instance_id==filter.get_instance().id)
-            self._frequency = q.count()
-        return self._frequency
+            self._count = q.count()
+        return self._count
         
-    frequency = property(_get_frequency)
+    count = property(__len__)
     
     
     @classmethod
@@ -71,7 +71,7 @@ class Tag(object):
     @classmethod
     def create(cls, name):
         import adhocracy.lib.text as text
-        tag = Tag(text.tag_noramlize(name))
+        tag = Tag(text.tag_normalize(name))
         meta.Session.add(tag)
         meta.Session.flush()
         return tag

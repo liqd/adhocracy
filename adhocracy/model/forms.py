@@ -16,6 +16,7 @@ import watch
 import revision
 import comment
 import instance
+import tagging
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join", "leave", 
                    "control", "test", "support", "page", "issue", "proposal"]
@@ -144,3 +145,13 @@ class ExistingUserName(formencode.FancyValidator):
                 _("No user with the user name '%s' exists") % value,
                 value, state)
         return u
+
+class ValidTagging(formencode.FancyValidator):
+    def _to_python(self, value, state):
+        taggin = tagging.Tagging.find_by_id(value)
+        if not taggin: 
+           raise formencode.Invalid(
+                _("No tagging with ID '%s' exists") % value,
+                 value, state)
+        return taggin
+

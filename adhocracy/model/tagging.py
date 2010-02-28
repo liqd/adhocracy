@@ -29,9 +29,15 @@ class Tagging(object):
                                      self.tag.name, tag.creator.user_name)
     
     
+    def delete(self):
+        meta.Session.delete(self)
+        meta.Session.flush()
+    
+    
     @classmethod
     def find_by_delegateable_name_creator(cls, delegateable, name, creator):
         import adhocracy.lib.text as text
+        from tag import Tag
         name = text.tag_normalize(name)
         try:
             q = meta.Session.query(Tagging)
@@ -39,10 +45,18 @@ class Tagging(object):
             q = q.filter(Tagging.delegateable==delegateable)
             q = q.join(Tag)
             q = q.filter(Tag.name.like(name))
+            print "Q", q
             return q.limit(1).first()
         except Exception, e:
             log.warn("find_by_delegateable_name_creator(%s): %s" % (id, e))
             return None
+            
+    
+    @classmethod
+    def find_by_id(cls, id):
+        q = meta.Session.query(Tagging)
+        q = q.filter(Tagging.id==id)
+        return q.limit(1).first()
     
     
     @classmethod

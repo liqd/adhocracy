@@ -1574,11 +1574,33 @@ a.button.inactive {
 	position: relative;
 }
 
+.panel .tagarea {
+	color: black;
+}
+
+.panel .tagarea a {
+	font-weight: bold;
+}
+
+.panel .tagarea .addtags {
+	display: none;
+	margin-top: 1em;
+}
+
+.panel .tagarea input {
+	display: inline;
+}
+
+.panel .tagarea input[type=text] {
+	width: 20em;
+}
+
 .panel .info .meta {
 	float: right;
 }
 
-.panel .info img {
+.panel .info img,
+.panel .tagarea img {
 	margin-bottom: -3px !important;
 }
 

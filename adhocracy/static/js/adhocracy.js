@@ -12,6 +12,12 @@ $(document).ready(function() {
 	submitForm = function(id) {
 		$("#" + id).submit();
 	}
+	
+	/* Tag area add form */
+	addTags = function(id) {
+	    $(".addtags").slideToggle('fast');
+	    return false;
+	}
 		
 	/* Auto-appends */ 
 	appendAlternative = function() {

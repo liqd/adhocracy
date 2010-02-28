@@ -9,13 +9,6 @@ import adhocracy.model.forms as forms
 
 log = logging.getLogger(__name__)
 
-class TagCreateForm(formencode.Schema):
-    allow_extra_fields = True
-    text = forms.ValidRef()
-
-class TagDeleteForm(formencode.Schema):
-    allow_extra_fields = True
-    watch = forms.ValidWatch()
 
 class TagController(BaseController):
     

@@ -66,7 +66,7 @@ class Delegateable(object):
         _tags = dict()
         for tagging in self.taggings:
             _tags[tagging.tag] = _tags.get(tagging.tag, 0) + 1
-        return _tags
+        return sorted(_tags.items(), key=lambda (k, v): (v, k), reverse=True)
         
     tags = property(_get_tags)
     

@@ -35,6 +35,15 @@ class ProposalUpdateForm(ProposalEditForm):
 class ProposalFilterForm(formencode.Schema):
     allow_extra_fields = True
     proposals_q = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
+    
+class ProposalTagCreateForm(formencode.Schema):
+    allow_extra_fields = True
+    text = validators.String(max=10000, not_empty=True)
+
+class ProposalTagDeleteForm(formencode.Schema):
+    allow_extra_fields = True
+    tagging = forms.ValidTagging()
+
 
 class ProposalController(BaseController):
     
@@ -293,6 +302,32 @@ class ProposalController(BaseController):
                                      entity_type=model.Proposal)
         c.proposals_pager = pager.proposals(proposals, has_query=True)
         return c.proposals_pager.here()
+        
+        
+    @RequireInstance
+    @ActionProtector(has_permission("tag.create"))
+    @validate(schema=ProposalTagCreateForm(), form="bad_request", post_only=False, on_get=True)
+    def tag(self, id, format='html'):
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        for tag_text in text.tag_split(self.form_result.get('text')):
+            if not model.Tagging.find_by_delegateable_name_creator(c.proposal, tag_text, c.user):
+                tagging = model.Tagging.create(c.proposal, tag_text, c.user)
+        model.meta.Session.commit()
+        redirect_to(h.entity_url(c.proposal))
+        
+        
+    @RequireInstance
+    @RequireInternalRequest()
+    @ActionProtector(has_permission("tag.delete"))
+    @validate(schema=ProposalTagDeleteForm(), form="bad_request", post_only=False, on_get=True)
+    def untag(self, id, format='html'):
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        tagging = self.form_result.get('tagging')
+        if not tagging.delegateable == c.proposal:
+            abort(401, _("Tag does not belong to this proposal."))
+        tagging.delete()
+        model.meta.Session.commit()
+        redirect_to(h.entity_url(c.proposal))
     
     
     def _get_mutable_proposal(self, id):

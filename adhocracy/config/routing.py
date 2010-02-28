@@ -65,7 +65,9 @@ def make_map():
                                                  'alternatives': 'GET',
                                                  'ask_delete': 'GET',
                                                  'ask_adopt': 'GET',
-                                                 'adopt': 'POST'},
+                                                 'adopt': 'POST',
+                                                 'tag': 'POST',
+                                                 'untag': 'GET'},
                                collection={'filter': 'GET'})
     
     map.connect('/adopted', controller='proposal', action='adopted')
