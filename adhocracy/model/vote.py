@@ -35,7 +35,7 @@ class Vote(object):
         try:
             q = meta.Session.query(Vote)
             q = q.filter(Vote.id==int(id))
-            vote = q.one()
+            vote = q.limit(1).first()
             if ifilter.has_instance() and instance_filter:
                 vote = vote.poll.proposal.instance == ifilter.get_instance() \
                         and vote or None

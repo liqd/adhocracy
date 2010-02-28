@@ -24,6 +24,8 @@ from adhocracy.model.membership import Membership, membership_table
 from adhocracy.model.watch import Watch, watch_table
 from adhocracy.model.event import Event, event_topic_table, event_table
 from adhocracy.model.tally import Tally, tally_table
+from adhocracy.model.tag import Tag, tag_table
+from adhocracy.model.tagging import Tagging, tagging_table
 
 
 mapper(User, user_table, properties={
@@ -176,6 +178,17 @@ mapper(Tally, tally_table, properties={
     'vote': relation(Vote, backref=backref('tally', uselist=False))
     }, extension=meta.extension)
 
+
+mapper(Tag, tag_table, extension=meta.extension)
+
+
+mapper(Tagging, tagging_table, properties={
+    'creator': relation(User, lazy=True, primaryjoin=tagging_table.c.creator_id==user_table.c.id, 
+                        backref=backref('tagged')),
+    'delegateable': relation(Delegateable, lazy=True, primaryjoin=tagging_table.c.delegateable_id==delegateable_table.c.id,
+                             backref=backref('taggings')),
+    'tag': relation(Tag, lazy=False, primaryjoin=tagging_table.c.tag_id==tag_table.c.id)
+    }, extension=meta.extension)
 
 
 def init_model(engine):

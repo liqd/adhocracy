@@ -32,14 +32,17 @@ class Delegateable(object):
     
     def __init__(self):
         raise Exception("Make a category or a proposal instead!")
+    
         
     def init_child(self, instance, label, creator):
         self.instance = instance
         self.label = label
         self.creator = creator
     
+    
     def __repr__(self):
         return u"<Delegateable(%d,%s)>" % (self.id, self.instance.key)
+    
     
     def is_super(self, delegateable):
         if delegateable in self.children:
@@ -49,12 +52,24 @@ class Delegateable(object):
             if r:
                 return True
         return False
+    
         
     def is_sub(self, delegateable):
         return delegateable.is_super(self)
     
+    
     def is_mutable(self):
         return True
+    
+      
+    def _get_tags(self):
+        _tags = dict()
+        for tagging in self.taggings:
+            _tags[tagging.tag] = _tags.get(tagging.tag, 0) + 1
+        return _tags
+        
+    tags = property(_get_tags)
+    
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
@@ -70,7 +85,8 @@ class Delegateable(object):
         except Exception, e: 
             log.warn("find(%s): %s" % (id, e))
             return None
-        
+    
+    
     @classmethod    
     def all(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Delegateable)
@@ -80,6 +96,7 @@ class Delegateable(object):
         if instance is not None:
             q = q.filter(Delegateable.instance==instance)
         return q.all()
+    
     
     def delete(self, delete_time=None):
         if delete_time is None:
@@ -94,12 +111,14 @@ class Delegateable(object):
             comment.delete(delete_time=delete_time)
         for poll in self.polls:
             poll.end()
+    
             
     def is_deleted(self, at_time=None):
         if at_time is None:
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
+    
                
     def find_latest_comment_time(self, recurse=True):
         from revision import Revision
@@ -119,15 +138,19 @@ class Delegateable(object):
         except: 
             log.exception("find_latest_comment(%s)" % self.id)
             return None
+    
         
     def comment_count(self):
         return len(self.comments)
     
+    
     def current_delegations(self):
         return filter(lambda d: not d.is_revoked(), self.delegations)
     
+    
     def _index_id(self):
         return self.id
+    
     
     def to_dict(self):
         return dict(id=self.id,

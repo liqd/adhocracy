@@ -1,0 +1,86 @@
+from datetime import datetime
+import logging
+
+from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func
+from sqlalchemy.orm import reconstructor
+
+import meta
+import filter as ifilter
+
+log = logging.getLogger(__name__)
+
+tag_table = Table('tag', meta.data, 
+    Column('id', Integer, primary_key=True),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('name', Unicode(255), nullable=False)
+    )
+
+class Tag(object):
+    
+    def __init__(self, name):
+        self.name = name
+        self._frequency = None
+    
+    
+    @reconstructor
+    def _reconstruct(self):
+        self._frequency = None
+    
+    
+    def __repr__(self):
+        return "<Tag(%s,%s)>" % (self.id, self.name)
+    
+    
+    def __unicode__(self):
+        return self.name
+    
+    
+    def _get_frequency(self):
+        if self._frequency is None:
+            from tagging import Tagging 
+            q = meta.Session.query(Tagging)
+            q = q.filter(Tagging.tag==self)
+            if filter.has_instance():
+                q = q.join(Delegateable)
+                q = q.filter(Delegateable.instance_id==filter.get_instance().id)
+            self._frequency = q.count()
+        return self._frequency
+        
+    frequency = property(_get_frequency)
+    
+    
+    @classmethod
+    def find(cls, name, instance_filter=True, include_deleted=False):
+        import adhocracy.lib.text as text
+        name = text.tag_normalize(name)
+        try:
+            q = meta.Session.query(Tag)
+            q = q.filter(Tag.name.like(name))
+            return q.limit(1).first()
+        except Exception, e:
+            log.warn("find(%s): %s" % (id, e))
+            return None
+    
+    
+    @classmethod
+    def all(cls):
+        q = meta.Session.query(Tag)
+        return q.all()
+        
+        
+    @classmethod
+    def create(cls, name):
+        import adhocracy.lib.text as text
+        tag = Tag(text.tag_noramlize(name))
+        meta.Session.add(tag)
+        meta.Session.flush()
+        return tag
+    
+    
+    @classmethod
+    def find_or_create(cls, name):
+        tag = Tag.find(name)
+        if tag is None:
+            tag = Tag.create(name)
+        return tag
+

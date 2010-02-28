@@ -1,3 +1,4 @@
+import urllib
 import adhocracy.model as model
 from pylons import tmpl_context as c, request
 
@@ -54,7 +55,14 @@ def poll_url(poll, **kwargs):
     return _common_url_builder(poll.scope.instance, 'poll', 
                                poll.id, **kwargs)
 
-    
+
+def tag_url(tag, instance=None, **kwargs):
+    if instance is None:
+        instance = c.instance
+    return _common_url_builder(instance, 'tag',
+                               urllib.quote(tag.name), **kwargs)
+
+
 def comment_url(comment, member=None, format=None, comment_page=False, **kwargs):
     if member is None and format is None and not comment_page:
         if isinstance(comment.topic, model.Issue):
@@ -97,5 +105,7 @@ def entity_url(entity, **kwargs):
         return instance_entity_url(entity, **kwargs)
     elif isinstance(entity, model.Delegation):
         return delegation_url(entity, **kwargs)
+    elif isinstance(entity, model.Tag):
+        return tag_url(entity, **kwargs)
     raise UrlConstructionException()
 

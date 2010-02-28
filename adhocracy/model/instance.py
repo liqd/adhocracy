@@ -84,6 +84,7 @@ class Instance(object):
     def _get_num_issues(self):
         from issue import Issue
         q = meta.Session.query(Issue)
+        q = q.filter(Issue.instance==self)
         q = q.filter(or_(Issue.delete_time==None,
                          Issue.delete_time>=datetime.utcnow()))
         return q.count()
@@ -94,6 +95,7 @@ class Instance(object):
     def _get_num_proposals(self):
         from proposal import Proposal
         q = meta.Session.query(Proposal)
+        q = q.filter(Proposal.instance==self)
         q = q.filter(or_(Proposal.delete_time==None,
                          Proposal.delete_time>=datetime.utcnow()))
         return q.count()
@@ -104,6 +106,7 @@ class Instance(object):
     def _get_num_members(self):
         from membership import Membership
         q = meta.Session.query(Membership)
+        q = q.filter(Membership.instance==self)
         q = q.filter(or_(Membership.expire_time==None,
                          Membership.expire_time>=datetime.utcnow()))
         return q.count()
@@ -156,7 +159,7 @@ class Instance(object):
          
         instance = Instance(key, label, user)
         if description is not None:
-            instance.description = text.cleanup(description)
+            instance.description = libtext.cleanup(description)
         instance.default_group = Group.by_code(Group.INSTANCE_DEFAULT)
         meta.Session.add(instance)
         supervisor_group = Group.by_code(Group.CODE_SUPERVISOR)
