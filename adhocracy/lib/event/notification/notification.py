@@ -49,7 +49,10 @@ class Notification(object):
     subject = property(get_subject)
     
     def _get_link(self):
-        return self.type.link_path(self.event)
+        try:
+            return self.type.link_path(self.event)
+        except:
+            return ""
     
     link = property(_get_link)
     

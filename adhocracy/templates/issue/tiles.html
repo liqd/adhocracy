@@ -7,7 +7,7 @@
 		</div>
 		<div class="base">
 			<h3><a class="link" href="${h.entity_url(issue)}">${issue.label}</a></h3>
-			<span class="sparkline" title="${h.entity_url(issue, member='activity', format='sline')}"></span>
+			<!--span class="sparkline" title="${h.entity_url(issue, member='activity', format='sline')}"></span-->
 			<div class="meta noclear">
 				<img src="/img/icons/proposal_16.png" /> 
 				${ungettext("%s proposal", "%s proposals", len(issue.proposals)) % len(issue.proposals)}

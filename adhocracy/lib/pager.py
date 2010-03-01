@@ -98,11 +98,9 @@ def issues(issues, has_query=False):
              _("activity"): sorting.issue_activity,
              _("newest comment"): sorting.delegateable_latest_comment,
               _("name"): sorting.delegateable_label}
-    if has_query:
-        sorts[_("relevance")] = sorting.entity_stable
         
     return NamedPager('issues', issues, tiles.issue.row, sorts=sorts,
-                      default_sort=sorting.entity_stable if has_query else sorting.issue_activity)
+                      default_sort=sorting.issue_activity)
     
 def proposals(proposals, has_query=False, detail=True):
     sorts = {_("oldest"): sorting.entity_oldest,
@@ -110,21 +108,17 @@ def proposals(proposals, has_query=False, detail=True):
              _("activity"): sorting.proposal_activity,
              _("newest comment"): sorting.delegateable_latest_comment,
               _("name"): sorting.delegateable_label}
-    if has_query:
-        sorts[_("relevance")] = sorting.entity_stable
     return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
-                      default_sort=sorting.entity_stable if has_query else sorting.proposal_activity)
+                      default_sort=sorting.proposal_activity)
 
 def users(users, has_query=False):
     sorts={_("oldest"): sorting.entity_oldest,
            _("newest"): sorting.entity_newest,
            _("activity"): sorting.user_activity,
            _("name"): sorting.user_name}
-    if has_query:
-        sorts[_("relevance")] = sorting.entity_stable
                 
     return NamedPager('users', users, tiles.user.row, sorts=sorts,
-                      default_sort=sorting.entity_stable if has_query else sorting.user_activity)
+                      default_sort=sorting.user_activity)
     
 def user_decisions(decisions):
     return NamedPager('decisions', decisions, tiles.decision.user_row, 

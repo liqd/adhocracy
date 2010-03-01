@@ -135,7 +135,7 @@
 				<a href="#" onclick="return addTags();">${_("add...")}</a>
 				
 				<div class="addtags">
-					<form action="/proposal/${c.proposal.id}/tag" method="POST">
+					<form action="${h.entity_url(proposal, member='tag')}" method="POST">
 						${h.field_token()|n}
 						<input name="text" type="text">
 						<input type="submit" value="${_("Add tags")}">
