@@ -181,6 +181,7 @@ class User(object):
     
     @classmethod
     def find(cls, user_name, instance_filter=True, include_deleted=False):
+        from membership import Membership
         try:
             q = meta.Session.query(User)
             try:
@@ -190,13 +191,16 @@ class User(object):
             if not include_deleted:
                 q = q.filter(or_(User.delete_time==None,
                                  User.delete_time>datetime.utcnow()))
-            user = q.limit(1).first()
             if ifilter.has_instance() and instance_filter:
-                user = user.is_member(ifilter.get_instance()) and user or None
-            return user
+                q = q.join(Membership)
+                q = q.filter(or_(Membership.expire_time==None,
+                                 Membership.expire_time>datetime.utcnow()))
+                q = q.filter(Membership.instance==ifilter.get_instance())
+            return q.limit(1).first()
         except Exception, e: 
             log.warn("find(%s): %s" % (user_name, e))
             return None
+    
     
     @classmethod
     def find_by_email(cls, email):
@@ -208,8 +212,26 @@ class User(object):
             log.warn("find_by_email(%s): %s" % (email, e))
             return None
     
+    
+    @classmethod
+    def find_all(cls, unames, instance_filter=True, include_deleted=False):
+        from membership import Membership
+        q = meta.Session.query(User)
+        q = q.filter(User.user_name.in_(unames))
+        if not include_deleted:
+            q = q.filter(or_(User.delete_time==None,
+                             User.delete_time>datetime.utcnow()))
+        if ifilter.has_instance() and instance_filter:
+            q = q.join(Membership)
+            q = q.filter(or_(Membership.expire_time==None,
+                             Membership.expire_time>datetime.utcnow()))
+            q = q.filter(Membership.instance==ifilter.get_instance())
+        return q.all()
+    
+    
     def _index_id(self):
         return self.user_name
+    
     
     @classmethod
     def all(cls, instance=None, include_deleted=False):

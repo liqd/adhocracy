@@ -34,7 +34,7 @@ class ProposalUpdateForm(ProposalEditForm):
     
 class ProposalFilterForm(formencode.Schema):
     allow_extra_fields = True
-    proposals_q = validators.String(max=255, not_empty=False, if_empty='', if_missing='')
+    proposals_q = validators.String(max=255, not_empty=False, if_empty=u'', if_missing=u'')
     
 class ProposalTagCreateForm(formencode.Schema):
     allow_extra_fields = True
@@ -52,12 +52,8 @@ class ProposalController(BaseController):
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
         query = self.form_result.get('proposals_q')
-        proposals = []
-        if query:
-            proposals = libsearch.query.run(query + "*", instance=c.instance, 
-                                         entity_type=model.Proposal)
-        else:
-            proposals = model.Proposal.all(instance=c.instance)
+        proposals = libsearch.query.run(query + u"*", instance=c.instance, 
+                                        entity_type=model.Proposal)
         
         if format == 'json':
             return render_json(proposals)

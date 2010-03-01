@@ -55,7 +55,7 @@ class UserGroupmodForm(formencode.Schema):
     
 class UserFilterForm(formencode.Schema):
     allow_extra_fields = True
-    users_q = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
+    users_q = validators.String(max=255, not_empty=False, if_empty=u'', if_missing=u'')
 
 class UserController(BaseController):
     
@@ -63,13 +63,8 @@ class UserController(BaseController):
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
         query = self.form_result.get('users_q')
-        if query is not None:
-            c.users = libsearch.query.run(query + "*", entity_type=model.User)
-            if c.instance:
-                c.users = filter(lambda u: u.is_member(c.instance), c.users)
-        else:
-            c.users = model.User.all(instance=c.instance if c.instance else None)
-        
+        c.users = libsearch.query.run(query + u"*", entity_type=model.User)
+
         if format == 'json':
             return render_json(c.users)
         
@@ -412,10 +407,7 @@ class UserController(BaseController):
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def filter(self):
         query = self.form_result.get('users_q')
-        if query is None: query = ''
-        users = libsearch.query.run(query + "*", entity_type=model.User)
-        if c.instance:
-            users = filter(lambda u: u.is_member(c.instance), users)
+        users = libsearch.query.run(query + u"*", entity_type=model.User)
         c.users_pager = pager.users(users, has_query=True)
         return c.users_pager.here()
     

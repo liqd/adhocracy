@@ -18,7 +18,7 @@ def run(terms, instance=None, entity_type=None, limit=100,
         query = mparser.parse(terms)
         
         if entity_type:
-            query = Require(query, Term(u'doc_type', refs.entity_type(entity_type)))
+            query = Require(query, Term(u'doc_type', refs.cls_type(entity_type)))
         
         if instance:
             query = Require(query, Term(u'instance', instance.key))
@@ -28,7 +28,7 @@ def run(terms, instance=None, entity_type=None, limit=100,
         results = searcher.search(query, limit=limit)
         
         if entity_type is not None and hasattr(entity_type, 'find_all') and len(results):
-            return entity_type.find_all(map(lambda r: refs.to_id(fields.get('ref')), results))
+            return entity_type.find_all(map(lambda r: refs.to_id(r.get('ref')), results))
         
         entities = []
         for fields in results:
