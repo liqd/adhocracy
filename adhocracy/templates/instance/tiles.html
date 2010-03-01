@@ -23,7 +23,7 @@
 	</div>
 </%def>
 
-<%def name="header(tile, instance, active)">
+<%def name="header(tile, instance, active, no_panel)">
 	<div class="top_actions title">
 		%if tile.can_create_issue:
 			<a class="button add" href="/issue/new">${_("new issue")}</a>
@@ -50,6 +50,7 @@
 	
 	<h1 class="page_title"><img src="/img/icons/site_24.png" class="cd" /> ${instance.label}</h1>
 	
+	%if not no_panel:
 	<div class="panel ${active}">
 		<!--div class="menu">
 			<a href="${h.entity_url(instance, member='activity')}" 	
@@ -57,7 +58,7 @@
 			<a href="/issue" class="issues">${_("Issues")} (${instance.num_issues})</a>
 			<a href="/proposal" class="proposals">${_("Proposals")} (${instance.num_proposals})</a>
 			<a href="/user" class="users">${_("Members")} (${instance.num_members})</a>
-			<a href="/adopted" class="adopted">${_("Outcomes")}</a>
+						<a href="/adopted" class="adopted">${_("Outcomes")}</a> 
 		</div-->
 		%if tile.description:
 			<div class="description">
@@ -65,4 +66,5 @@
 			</div>
 		%endif
 	</div>
+	%endif
 </%def>

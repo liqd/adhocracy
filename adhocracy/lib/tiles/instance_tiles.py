@@ -82,9 +82,9 @@ def row(instance):
     return render_tile('/instance/tiles.html', 'row', InstanceTile(instance), 
                        instance=instance, user=c.user, cached=True)
     
-def header(instance, tile=None, active='issues'):
+def header(instance, tile=None, active='issues', no_panel=False):
     if tile is None:
         tile = InstanceTile(instance)
     return render_tile('/instance/tiles.html', 'header', tile, 
-                       instance=instance, active=active)
+                       instance=instance, active=active, no_panel=no_panel)
     

@@ -6,23 +6,26 @@
 	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Proposals")}
 </%def>
 
-##${tiles.instance.header(c.instance, c.tile, active='proposals')}
+${tiles.instance.header(c.instance, c.tile, active='proposals', no_panel=True)}
 
 <div class="sidebar">
-	<h3>${_("Interesting Tags")}</h3>
 	
-	<h3>${_("Ignored Tags")}</h3>
+	<h3 class="section">${_("Interesting Tags")}</h3>
+	
+	
+	
+	<h3 class="section">${_("Ignored Tags")}</h3>
 	
 	
 </div>
 
 <div class="mainbar">
-	<form action="?" method="GET" autocomplete="off">
-		<label for="proposals_q" class="armhint">${_("Find proposals")}</label>
-		<input id="proposals_q" class="live_search armlabel" name="proposals_q" 
-				type="text" value="${request.params.get('proposals_q', '')}" 
-				tabindex="1" />
-	</form>
+<form action="?" method="GET" autocomplete="off">
+	<label for="proposals_q" class="armhint">${_("Find proposals")}</label>
+	<input id="proposals_q" class="live_search armlabel" name="proposals_q" 
+			type="text" value="${request.params.get('proposals_q', '')}" 
+			tabindex="1" />
+</form>
 	<div id="proposals_table" class="table">
 		${c.proposals_pager.here()}
 	</div>

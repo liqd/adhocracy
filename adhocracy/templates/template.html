@@ -109,15 +109,16 @@
 			<a href="${h.entity_url(c.instance) if c.instance else '/'}"><img id="logo" src="/instance/${c.instance.key if c.instance else '_def'}_64x64.png" /></a>
 			<div id="menu">
 				<ul>
+					<li><a href="/">${_("Home")}</a></li>
 					%if not c.instance:
-						<li><a href="/">${_("Home")}</a></li>
 						<li><a href="/adhocracies">${_("Adhocracies")}</a></li>
 					%endif
 					%if c.instance:
 						<a href="${h.entity_url(c.instance, member='activity')}" 	
 							class="activity">${_("Activity")}</a>
-						<li><a href="/issue">${_("Issues")} (${c.instance.num_issues})</a></li>
+						<!--li><a href="/issue">${_("Issues")} (${c.instance.num_issues})</a></li-->
 						<li><a href="/proposal">${_("Proposals")} (${c.instance.num_proposals})</a></li>
+						<li><a href="/adopted" class="adopted">${_("Outcomes")}</a></li>
 					%endif
 					%if c.instance:
 						<li><a href="/user">${_("Members")} (${c.instance.num_members})</a></li>

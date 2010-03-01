@@ -82,6 +82,11 @@ h4 img.cd,
 	padding-right: 5px;
 }
 
+h3.section {
+	border-bottom: 0px;
+	margin-top: 0px;
+}
+
 .page_title img {
 	margin-top: -4px;
 }
