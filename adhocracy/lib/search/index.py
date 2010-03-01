@@ -12,6 +12,7 @@ schema = Schema(title=TEXT(stored=True),
                 doc_type=ID(stored=True),
                 user=TEXT(stored=True),
                 text=TEXT(stored=True),
+                tags=TEXT(stored=True),
                 create_time=ID(stored=True),
                 instance=ID(stored=True))
 

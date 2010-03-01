@@ -8,7 +8,7 @@ from whoosh.query import *
 log = logging.getLogger(__name__)
 
 def run(terms, instance=None, entity_type=None, limit=100, 
-        fields=[u'title', u'text', u'user']):
+        fields=[u'title', u'text', u'user', u'tags']):
     ix_lock.acquire()
     try:
         if terms is None:
@@ -26,13 +26,15 @@ def run(terms, instance=None, entity_type=None, limit=100,
         log.debug("Query: %s" % query)
         
         results = searcher.search(query, limit=limit)
-        ix_lock.release()
+        
+        if entity_type is not None and hasattr(entity_type, 'find_all') and len(results):
+            return entity_type.find_all(map(lambda r: refs.to_id(fields.get('ref')), results))
+        
         entities = []
         for fields in results:
             ref = fields.get('ref')
             entity = refs.to_entity(ref)
             entities.append(entity)
         return entities
-    except:
+    finally:
         ix_lock.release()
-        raise

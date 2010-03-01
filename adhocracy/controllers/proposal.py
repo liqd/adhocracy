@@ -34,7 +34,7 @@ class ProposalUpdateForm(ProposalEditForm):
     
 class ProposalFilterForm(formencode.Schema):
     allow_extra_fields = True
-    proposals_q = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
+    proposals_q = validators.String(max=255, not_empty=False, if_empty='', if_missing='')
     
 class ProposalTagCreateForm(formencode.Schema):
     allow_extra_fields = True
@@ -297,8 +297,8 @@ class ProposalController(BaseController):
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def filter(self):
         query = self.form_result.get('proposals_q')
-        if query is None: query = ''
-        proposals = libsearch.query.run(query + "*", instance=c.instance, 
+        if query is None: query = u''
+        proposals = libsearch.query.run(query + u"*", instance=c.instance, 
                                      entity_type=model.Proposal)
         c.proposals_pager = pager.proposals(proposals, has_query=True)
         return c.proposals_pager.here()

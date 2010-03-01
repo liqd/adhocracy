@@ -98,6 +98,14 @@ def delegateable_link(delegateable, icon=True, icon_size=16, link=True):
     return text
 
 
+def tag_link(tag, count=None):
+    text = "<span class='tag_link'><a href='%s'>%s</a>" % (entity_url(tag), tag.name)
+    if count is not None and count > 1:
+        text += "&thinsp;&times;" + str(count)
+    text += "</span>"
+    return text
+    
+
 def contains_delegations(user, delegateable, recurse=True):
     for delegation in user.agencies:
         if not delegation.revoke_time and (delegation.scope == delegateable or \

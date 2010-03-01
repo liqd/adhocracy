@@ -56,7 +56,7 @@ def rebuild_all():
         index_all(model.meta.Session.query(model.Comment), index_comment)
         log.info("... done")
     except Exception, e:
-        log.warn("Couldn't rebuild index: %s" % e)
+        log.exception("Couldn't rebuild index: %s" % e)
     
         
         

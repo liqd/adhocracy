@@ -76,6 +76,8 @@ class Proposal(Delegateable):
         try:
             q = meta.Session.query(Proposal)
             q = q.filter(Proposal.id==int(id))
+            if filter.has_instance() and instance_filter:
+                q = q.filter(Proposal.instance_id==filter.get_instance().id)
             if not include_deleted:
                 q = q.filter(or_(Proposal.delete_time==None,
                                  Proposal.delete_time>datetime.utcnow()))
@@ -83,6 +85,19 @@ class Proposal(Delegateable):
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))
             return None
+    
+    
+    @classmethod
+    def find_all(cls, ids, instance_filter=True, include_deleted=False):
+        q = meta.Session.query(Proposal)
+        q = q.filter(Proposal.id.in_(ids))
+        if filter.has_instance() and instance_filter:
+            q = q.filter(Proposal.instance_id==filter.get_instance().id)
+        if not include_deleted:
+            q = q.filter(or_(Proposal.delete_time==None,
+                             Proposal.delete_time>datetime.utcnow()))
+        return q.all()
+    
     
     @classmethod
     def find_by_creator(cls, user, instance_filter=True):
@@ -94,6 +109,7 @@ class Proposal(Delegateable):
             q = q.filter(Proposal.instance_id==filter.get_instance().id)
         return q.all()
     
+    
     @classmethod    
     def all(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Proposal)
@@ -103,6 +119,7 @@ class Proposal(Delegateable):
         if instance is not None:
             q = q.filter(Proposal.instance==instance)
         return q.all()
+    
     
     @classmethod
     def create(cls, instance, label, user, issue, with_vote=False):
@@ -117,6 +134,7 @@ class Proposal(Delegateable):
         meta.Session.flush()
         return proposal
     
+    
     def delete(self, delete_time=None):
         if delete_time is None:
             delete_time = datetime.utcnow()
@@ -125,12 +143,14 @@ class Proposal(Delegateable):
             alternative.delete(delete_time=delete_time)
         for alternative in self.right_alternatives:
             alternative.delete(delete_time=delete_time)
-            
+    
+      
     def comment_count(self):
         count = len([c for c in self.comments if not c.is_deleted()])
         if self.comment and not self.comment.is_deleted():
             count -= 1
         return count - len(self.canonicals) 
+    
     
     def current_alternatives(self):
         if self._current_alternatives is None:
@@ -141,6 +161,7 @@ class Proposal(Delegateable):
                     continue
                 self._current_alternatives.append(alternative.other(self))
         return self._current_alternatives
+    
     
     def update_alternatives(self, alternatives):
         from alternative import Alternative
@@ -157,6 +178,7 @@ class Proposal(Delegateable):
         for proposal in new_list:
             alternative = Alternative(self, proposal)
             meta.Session.add(alternative)
+    
     
     def __repr__(self):
         return u"<Proposal(%s)>" % self.id

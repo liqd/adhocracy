@@ -343,6 +343,32 @@ body {
 	height: 16px;
 }
 
+.tag_link {
+	font-weight: bold;
+}
+
+.tag_link a {
+	display: inline-block;
+	/*margin-top: -4px;
+	margin-bottom: -4px;*/
+	margin-bottom: 2px;
+	padding: 4px;
+	background-color: #e1eefd;
+	/*color: #b36441;*/
+	border: 1px solid #dfdfdf;
+	border-bottom: 1px solid #666;
+	border-right: 1px solid #666;
+	font-weight: normal !important;
+	font-size: 12px !important;
+	white-space: nowrap;
+}
+
+.tag_link a:hover {
+	text-decoration: none;
+	color: #e1eefd;
+	background-color: #336699;
+}
+
 .lefthalf {
 	float: left;
 	width: 49%;
@@ -829,9 +855,10 @@ p img[align=left] {
 
 .table .tile h3 {
 	border-bottom: 0px;
-	font-size: 1em;
+	font-size: 1.2em;
 	font-weight: bold;
 	line-height: 1.3em;
+	margin-bottom: 0.2em;
 }
 
 .table .tile {
@@ -840,21 +867,25 @@ p img[align=left] {
 	padding-right: 10px;
 	width: inherit;
 	margin-bottom: 0em;
-	background-color: #fff;
+	/*background-color: #fff;*/
 	border-bottom: 1px solid #ddd;
-	border-left: 1px solid #ddd;
-	border-right: 1px solid #ddd;
+	/*border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;*/
 }
 
 .table .tile .text {
 	padding: 0.1em 0em 0.1em 0em;
-	font-size: 0.9em;
-	color: #666;
+	/*font-size: 0.9em;*/
+	color: #333;
 	margin: 0;
 }
 
 .table .base {
 	overflow: visible;
+	background-repeat: no-repeat;
+	background-position: top left;
+	padding-left: 45px;
+	min-height: 40px;
 }
 
 .table .tile .meta {

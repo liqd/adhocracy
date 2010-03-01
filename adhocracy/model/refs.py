@@ -43,12 +43,14 @@ def to_ref(entity):
         if isinstance(entity, cls):
             return u"@[%s:%s]" % (entity_type(entity), str(entity._index_id()))
     return entity
+    
+def to_id(ref):
+    match = FORMAT.match(unicode(ref))
+    return match.group(2) if match else None
 
 def ref_type(ref):
-    match = FORMAT.match(ref)
-    if not match:
-        return None
-    return match.group(1)
+    match = FORMAT.match(unicode(ref))
+    return match.group(1) if match else None
 
 def to_entity(ref, instance_filter=False, include_deleted=True):
     match = FORMAT.match(unicode(ref))

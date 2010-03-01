@@ -18,4 +18,5 @@ def setup_cache():
     hooks.patch_default(model.Revision, invalidate_revision)
     hooks.patch_default(model.Comment, invalidate_comment)
     hooks.patch_default(model.Poll, invalidate_poll)
+    hooks.patch_default(model.Tagging, invalidate_tagging)
             

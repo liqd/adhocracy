@@ -100,6 +100,9 @@
 					<li><a href="${h.entity_url(c.user, member='delegations')}">${_("delegations")}</a></li>						
 				%endif
 				<li><a href="${h.entity_url(c.user, member='edit')}">${_("settings")}</a></li>
+				%if h.has_permission("global.admin"):
+					<li><a href="/admin/permissions">${_("admin")}</a></li>
+				%endif
 				<li class="last"><a href="/logout">${_("logout")}</a></li>
 			%endif
 			</ul>
@@ -115,9 +118,6 @@
 							class="activity">${_("Activity")}</a>
 						<li><a href="/issue">${_("Issues")} (${c.instance.num_issues})</a></li>
 						<li><a href="/proposal">${_("Proposals")} (${c.instance.num_proposals})</a></li>
-					%endif
-					%if h.has_permission("global.admin"):
-						<li><a href="/admin/permissions">${_("Admin")}</a></li>
 					%endif
 					%if c.instance:
 						<li><a href="/user">${_("Members")} (${c.instance.num_members})</a></li>

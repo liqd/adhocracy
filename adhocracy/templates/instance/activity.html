@@ -8,13 +8,24 @@
 
 ${tiles.instance.header(c.page_instance, c.tile, active='activity')}
 
-
-%if len(c.events_pager) == 0:
-	<span class="infobox">
-		${_("Create an issue to start debating in %(instance)s.") % dict(instance=c.page_instance.label)}
-	</span>
-%else:
-	<div id="events_table" class="table">
-		${c.events_pager.here()}
+<div class="sidebar">
+	<div class="tile">
+			<h4><img src="/img/icons/vote_16.png" class="cd"> ${_("Voting Rules")}</h4>
+			${_("Required Majority:")} <b>${c.tile.required_majority}</b>
+			<span class="hint">${_("To become active, a proposal must reach the given proportion of approval.")}</span>
+		
+			${_("Activation Delay:")} <b>${_("%(delay)s days") % dict(delay=c.tile.activation_delay)}</b>
+			<span class="hint">${_("Before becoming active, the majority must be held for the specified interval.")}</span>
 	</div>
-%endif	
+</div>
+<div class="menubar">
+	%if len(c.events_pager) == 0:
+		<span class="infobox">
+			${_("Create an issue to start debating in %(instance)s.") % dict(instance=c.page_instance.label)}
+		</span>
+	%else:
+		<div id="events_table" class="table">
+			${c.events_pager.here()}
+		</div>
+	%endif	
+</div>

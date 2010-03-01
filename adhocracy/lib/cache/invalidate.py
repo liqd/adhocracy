@@ -42,3 +42,7 @@ def invalidate_instance(instance):
     clear_tag(instance)
     for d in instance.delegateables:
         invalidate_delegateable(d)
+        
+def invalidate_tagging(tagging):
+    clear_tag(tagging)
+    invalidate_delegateable(tagging.delegateable)

@@ -3,18 +3,12 @@
 
 <%def name="row(tile, proposal)">
 	<div class="tile">
-		<div class="logo">
-			%if proposal.adopted:
-				<img src="/img/icons/proposal_adopted_32.png" />
-			%elif proposal.is_adopt_polling():
-				<img src="/img/icons/vote_32.png" />
-			%else:
-				<img src="/img/icons/proposal_32.png" />
-			%endif
-		</div>
-		<div class="base">
+		<div class="base" style="background-image: url(${h.proposal_icon(proposal, size=32)});">
 			<h3><a class="link" href="${h.instance_url(proposal.instance, path='/proposal/%s' % proposal.id)}">${proposal.label}</a></h3>
-			<span class="sparkline" title="${h.entity_url(proposal, member='activity', format='sline')}"></span>
+			<!--span class="sparkline" title="${h.entity_url(proposal, member='activity', format='sline')}"></span><br/-->
+			%for (tag, count) in proposal.tags[:5]:
+				${h.tag_link(tag)|n}
+			%endfor
 			<div class="meta noclear">				
 				%if proposal.is_adopt_polling():
 					${_("<b>%s</b> votes,") % len(proposal.adopt_poll.tally)|n}
@@ -123,18 +117,17 @@
 			</div>
 			<div class="tagarea">
 				%for (tag, count) in proposal.tags:
-					<a href="${h.entity_url(tag)}">${tag.name}</a> 
-					${'(%d)' % count if count > 1 else ''}${',' if not c.user else ''}
+					${h.tag_link(tag, count)|n}
 					%if c.user:
 						<% has = False %>
 						%for tagging in proposal.taggings:
 							%if not has and tagging.tag == tag and tagging.creator == c.user:
-								<a href="${h.entity_url(proposal, member='untag')}?tagging=${tagging.id}&${h.url_token()}"><img src="/img/icons/tag_del.png" alt="-" /></a>,
+								<a href="${h.entity_url(proposal, member='untag')}?tagging=${tagging.id}&${h.url_token()}"><img src="/img/icons/tag_del.png" alt="-" /></a>&nbsp;
 								<% has = True %>
 							%endif
 						%endfor
 						%if not has:
-							<a href="${h.entity_url(proposal, member='tag')}?_method=POST&text=${tag.name|u}"><img src="/img/icons/tag_add.png" alt="+" /></a>,
+							<a href="${h.entity_url(proposal, member='tag')}?_method=POST&text=${tag.name|u}"><img src="/img/icons/tag_add.png" alt="+" /></a>&nbsp;
 						%endif
 					%endif
 				%endfor

@@ -1,5 +1,5 @@
 import random 
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 
 from sqlalchemy import Table, Column, Integer, Unicode, String, ForeignKey, DateTime, func, or_
@@ -137,7 +137,7 @@ class Delegateable(object):
             return query.first()[0]
         except: 
             log.exception("find_latest_comment(%s)" % self.id)
-            return None
+            return self.create_time
     
         
     def comment_count(self):

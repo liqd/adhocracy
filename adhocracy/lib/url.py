@@ -59,7 +59,7 @@ def poll_url(poll, **kwargs):
 def tag_url(tag, instance=None, **kwargs):
     if instance is None:
         instance = c.instance
-    return _common_url_builder(instance, 'tag',
+    return _common_url_builder(instance, 't',
                                urllib.quote(tag.name), **kwargs)
 
 
