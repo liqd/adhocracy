@@ -4,6 +4,7 @@ from datetime import datetime
 from pylons.i18n import _
 
 from adhocracy.lib.base import *
+import adhocracy.lib.text as text
 import adhocracy.model.refs as refs
 import adhocracy.model.forms as forms
 
@@ -14,12 +15,14 @@ class TagController(BaseController):
     
     @RequireInstance
     def index(self, format='html'):
-        pass
+        tags = model.Tag.popular_tags(limit=200)
+        c.tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, v): k.name)
+        return render("/tag/index.html")
         
     
     @RequireInstance
     def show(self, id, format='html'):
-        pass
+        return render("/tag/show.html")
       
     
     @RequireInstance 

@@ -6,7 +6,7 @@ available to Controllers. This module is available to templates as 'h'.
 # Import helpers as desired, or define your own, ie:
 #from webhelpers.html.tags import checkbox, password
 
-import urllib, hashlib, cgi
+import urllib, hashlib, cgi, math
 
 from pylons import tmpl_context as c, config, request
 from pylons.i18n import add_fallback, get_lang, set_lang, gettext, _
@@ -88,9 +88,9 @@ def delegateable_link(delegateable, icon=True, icon_size=16, link=True):
     text = ""
     if icon:
         if isinstance(delegateable, model.Proposal):
-            text = "<img class='user_icon' src='%s' /> " % proposal_icon(delegateable, size=icon_size)
+            text = "<img class='dgb_icon' src='%s' /> " % proposal_icon(delegateable, size=icon_size)
         elif isinstance(delegateable, model.Issue):
-            text = "<img class='user_icon' src='%s/img/icons/issue_%s.png' /> " % (
+            text = "<img class='dgb_icon' src='%s/img/icons/issue_%s.png' /> " % (
                         instance_url(None, path=''), icon_size)
     text += cgi.escape(delegateable.label)
     if link and not delegateable.delete_time:
@@ -98,8 +98,12 @@ def delegateable_link(delegateable, icon=True, icon_size=16, link=True):
     return text
 
 
-def tag_link(tag, count=None):
-    text = "<span class='tag_link'><a href='%s'>%s</a>" % (entity_url(tag), tag.name)
+def tag_link(tag, count=None, size=None, base_size=12):
+    text = "<span class='tag_link'><a"
+    if size is not None:
+        size = int(math.sqrt(size) * base_size)
+        text += " style='font-size: %dpx !important;'" % size
+    text += " href='%s'>%s</a>" % (entity_url(tag), tag.name)
     if count is not None and count > 1:
         text += "&thinsp;&times;" + str(count)
     text += "</span>"

@@ -1,9 +1,9 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${c.instance.label}</%def>
+<%def name="title()">${_("Issues")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Home")}
+	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Issues")}
 </%def>
 
 ${tiles.instance.header(c.instance, c.tile, active='issues')}

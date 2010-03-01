@@ -1,0 +1,11 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Tags")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Tags")}
+</%def>
+
+%for (tag, size) in c.tags:
+	${h.tag_link(tag, size=size)|n}
+%endfor

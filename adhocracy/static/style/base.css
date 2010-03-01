@@ -337,8 +337,11 @@ body {
 	white-space: nowrap;
 }
 
-.user_icon {
+.user_icon, .dgb_icon {
 	margin-bottom: -4px;
+}
+
+.user_icon {
 	width: 16px;
 	height: 16px;
 }

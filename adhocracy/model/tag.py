@@ -67,6 +67,24 @@ class Tag(object):
         q = meta.Session.query(Tag)
         return q.all()
         
+    
+    @classmethod
+    def popular_tags(cls, limit=None):
+        from tagging import Tagging, tagging_table
+        from delegateable import Delegateable
+        q = meta.Session.query(Tagging) #[Tagging.tag, func.count(Tagging.tag)])
+        q = q.add_column(func.count(tagging_table.c.id))
+        if ifilter.has_instance():
+            q = q.join(Delegateable)
+            q = q.filter(Delegateable.instance_id==ifilter.get_instance().id)
+        q = q.group_by(tagging_table.c.tag_id)
+        q = q.order_by(func.count(tagging_table.c.id).desc())
+        # SQLAlchemy turns this into a fucking subquery:
+        #if limit is not None: 
+        #    q = q.limit(limit)
+        #print "QUERY", q
+        return map(lambda (k,v): (k.tag, v), q.all())[:limit]
+        
         
     @classmethod
     def create(cls, name):

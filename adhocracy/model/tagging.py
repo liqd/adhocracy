@@ -26,7 +26,7 @@ class Tagging(object):
     
     def __repr__(self):
         return "<Tagging(%s,%s,%s,%s)>" % (self.id, self.delegateable.id,
-                                     self.tag.name, tag.creator.user_name)
+                                     self.tag.name, self.creator.user_name)
     
     
     def delete(self):
@@ -45,7 +45,6 @@ class Tagging(object):
             q = q.filter(Tagging.delegateable==delegateable)
             q = q.join(Tag)
             q = q.filter(Tag.name.like(name))
-            print "Q", q
             return q.limit(1).first()
         except Exception, e:
             log.warn("find_by_delegateable_name_creator(%s): %s" % (id, e))
