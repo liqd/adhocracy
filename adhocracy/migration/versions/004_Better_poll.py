@@ -35,9 +35,9 @@ def upgrade():
     adopt_poll_id = Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True)
     adopt_poll_id.create(proposal_table)
     
-    action = Column('action', Unicode(50), nullable=False, default='adopt')
-    subject = Column('subject', UnicodeText(), nullable=False)
-    scope_id = Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False)
+    action = Column('action', Unicode(50), nullable=True, default='adopt')
+    subject = Column('subject', UnicodeText(), nullable=True)
+    scope_id = Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=True)
     action.create(poll_table_old)
     subject.create(poll_table_old)
     scope_id.create(poll_table_old)

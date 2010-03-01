@@ -36,10 +36,6 @@ def load(instance, size, fallback=DEFAULT):
     logo_image.save(sio, 'PNG')
     return (instance_path, sio.getvalue())
 
-def load_header(instance):
-    global header_image
-    if header_image is None:
-        header_image = Image.open(util.get_path(*HEADER))
-    return load(instance, header_image.size, fallback=HEADER)
+
     
     

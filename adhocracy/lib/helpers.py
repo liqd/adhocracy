@@ -67,7 +67,7 @@ def user_link(user, size=16, scope=None):
             for delegation in dnode.outbound():
                 if delegation.agent == user:
                     icon = "<img class='user_icon' src='/img/icons/delegate_16.png' />"
-                    url += "<a href='%s'>%s</a>" % (h.entity_url(delegation), icon)
+                    url += "<a href='%s'>%s</a>" % (entity_url(delegation), icon)
         return url
     
     return _specific_link(user, size, scope, c.user)

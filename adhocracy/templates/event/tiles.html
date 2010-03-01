@@ -4,7 +4,7 @@
 	from adhocracy.lib.event import formatting
 	event_html = formatting.as_html(event)
 	%>
-	<div class="tile">
+	<div class="tile event">
 		<div class="logo">
 			<a href="/user/${event.user.user_name}"><img src="${h.gravatar_url(event.user, size=32)}" /></a>
 		</div>

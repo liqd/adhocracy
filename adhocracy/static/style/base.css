@@ -869,6 +869,10 @@ p img[align=left] {
 	margin-bottom: 0.2em;
 }
 
+.table .tile.event h3 {
+	font-size: 1em;
+}
+
 .table .tile {
 	clear: left;
 	padding-left: 20px;
