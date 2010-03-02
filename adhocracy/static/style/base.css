@@ -1499,6 +1499,7 @@ a.button.inactive {
 	border: 1px solid #ddd;
 	background-color: #f2f2f2;
 	margin-bottom: 2em;
+	position: relative;
 }
 
 .panel .menu,
@@ -1508,8 +1509,30 @@ a.button.inactive {
 	background-image: url(/img/tile_bg.png);
 	background-repeat: repeat-x;
 	background-position: bottom;
-	overflow: none;
+}
+
+.panel .menu {
+	list-style: none;
+}
+
+.panel .menu li {
 	position: relative;
+	display: inline;
+	padding: 0px;
+	margin: 0px;
+}
+
+.panel .menu li ul {
+	visibility: hidden;
+	position: absolute;
+	z-index: 1001;
+	width: 210%;
+	margin-top: -7px;
+	padding-top: 7px;
+}
+
+.panel .menu li:hover ul {
+	visibility: visible;
 }
 
 .panel .menu img {
@@ -1536,48 +1559,27 @@ a.button.inactive {
 	text-shadow: none;
 }
 
-.panel .menu .submenu {
-	
-}
-
-.panel .menu .submenu ul {
-	position: absolute;
-	display: block;
-	margin-top: -0.5em;
-	padding-top: 0.5em;
-	list-style-type: none !important; 
-	z-index: 1000;
-	visibility: hidden;
-	overflow: visible;
-	width: 100%;
-}
-
-.panel .menu .submenu:hover ul {
-	display: block;
-	visibility: visible;
-}
-
-.panel .menu .submenu ul li {
+.panel .menu li ul li {
 	margin: 0em;
 	border: 1px solid #ddd;
 	border-top: 0px solid #000;
 	background-color: #f2f2f2;
+	display: block;
+	width: auto;
 }
 
-.panel .menu .submenu ul li:hover {
+.panel .menu li ul li:hover {
 	background-color: #ddd;
 }
 	
-.panel .menu .submenu ul a {
-	display: block;
+.panel .menu li ul a {
 	margin: 0em 0.3em 0.0em 0.2em;
 	padding: 0.4em 0.2em 0.3em 0.2em;
 	text-align: left;
-	width: inherit;
 	text-shadow: none;
 }
 
-.panel .menu .submenu ul a:hover {
+.panel .menu li ul a:hover {
 	background-color: #ddd;
 }
 

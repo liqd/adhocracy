@@ -46,29 +46,29 @@
 	</h1>
 	
 	<div class="panel ${active}">
-		<div class="menu">
-			<a href="${h.entity_url(user)}" class="activity">${_("Activity")}</a>
+		<ul class="menu">
+			<li><a href="${h.entity_url(user)}" class="activity">${_("Activity")}</a></li>
 			%if c.instance:
-				<a href="${h.entity_url(user, member='votes')}" class="votes">${_("Votes")}</a>
-				<a href="${h.entity_url(user, member='delegations')}" 
+				<li><a href="${h.entity_url(user, member='votes')}" class="votes">${_("Votes")}</a></li>
+				<li><a href="${h.entity_url(user, member='delegations')}" 
 					class="delegations">${_("Delegations")} 
-					(${len(user.current_agencies())})</a>
-				<a href="${h.entity_url(user, member='issues')}" class="issues">${_("Issues")} 
-					(${tile.num_issues})</a>
-				<a href="${h.entity_url(user, member='proposals')}" class="proposals">${_("Proposals")} 
-					(${tile.num_proposals})</a>
-				<a href="${h.entity_url(user, member='comments')}" class="comments">${_("Comments")} 
-					(${tile.num_comments})</a>
+					(${len(user.current_agencies())})</a></li>
+				<li><a href="${h.entity_url(user, member='issues')}" class="issues">${_("Issues")} 
+					(${tile.num_issues})</a></li>
+				<li><a href="${h.entity_url(user, member='proposals')}" class="proposals">${_("Proposals")} 
+					(${tile.num_proposals})</a></li>
+				<li><a href="${h.entity_url(user, member='comments')}" class="comments">${_("Comments")} 
+					(${tile.num_comments})</a></li>
 			%endif	
-			<a href="${h.entity_url(user, member='instances')}" class="instances">${_("Adhocracies")} 	
-				(${len(user.instances)})</a>
-		</div>
+			<li><a href="${h.entity_url(user, member='instances')}" class="instances">${_("Adhocracies")} 	
+				(${len(user.instances)})</a></li>
+		</ul>
 		
 		<div class="info">
 			<div class="meta">
 				${_("signed up %s") % h.relative_time(user.create_time)|n}
 			</div>
-			%if c.page_user.is_member(c.instance):
+			%if c.instance and c.page_user.is_member(c.instance):
 				${"%(group)s in %(instance)s" % dict(group=_(tile.instance_group.group_name), 	
 													 instance=c.instance.label)}
 			%endif

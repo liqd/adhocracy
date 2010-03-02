@@ -90,25 +90,24 @@
 	<h1 class="page_title">${h.delegateable_link(proposal, icon_size=24, link=False)|n}</h1>
 	
 	<div class="panel ${active}">
-		<div class="menu">
-			<a href="${h.entity_url(proposal, member='activity')}" 	
-				class="activity">${_("Activity")}</a>
-			<a href="${h.entity_url(proposal)}" class="goal">${_("Goal")}</a>
-			<a href="${h.entity_url(proposal, member='canonicals')}" 
-				class="canonicals">${_("Implementation")} (${len(proposal.canonicals)})</a>
-			<a href="${h.entity_url(proposal, member='delegations')}"
-			   class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a>
-			<span class="submenu">
-				<a href="${h.entity_url(proposal, member='alternatives')}"
-			   	class="alternatives">${_("Alternatives")} (${len(proposal.current_alternatives())}) 
+		<ul class="menu">
+			<li><a href="${h.entity_url(proposal, member='activity')}" 	
+				class="activity">${_("Activity")}</a></li>
+			<li><a href="${h.entity_url(proposal)}" class="goal">${_("Goal")}</a></li>
+			<li><a href="${h.entity_url(proposal, member='canonicals')}" 
+				class="canonicals">${_("Implementation")} (${len(proposal.canonicals)})</a></li>
+			<li><a href="${h.entity_url(proposal, member='delegations')}"
+			   class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a></li>
+			<li><a href="${h.entity_url(proposal, member='alternatives')}"
+			   class="alternatives">${_("Alternatives")} (${len(proposal.current_alternatives())}) 
 					<img src="/img/arrows/panel_expand.png" /></a>
 				<ul>
 				%for p in proposal.current_alternatives()[:10]:
 					<li>${h.delegateable_link(p)|n}</li>
 				%endfor
 				</ul>
-			</span>
-		</div>
+			</span></li>
+		</ul>
 		<div class="info">
 			<div class="meta">
 				${h.user_link(proposal.creator, scope=proposal)|n} 

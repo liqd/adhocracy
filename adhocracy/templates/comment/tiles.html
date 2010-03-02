@@ -173,14 +173,14 @@
 		${_("Discussion on %s") % h.delegateable_link(comment.topic, icon_size=24)|n}</h1>
 	
 	<div class="panel ${active}">
-		<div class="menu">
-			<a href="${h.entity_url(comment)}">${_("Context")}</a>
-			<a href="${h.entity_url(comment, comment_page=True)}" 
-				class="discussion">${_("Comment")}</a>	
-			<a href="${h.entity_url(comment, member='history')}" 
-				class="history">${_("History")} (${len(comment.revisions)})</a>
-			<a href="${h.entity_url(comment.poll, member='votes')}" 
-				class="votes">${_("Votes")} (${len(comment.poll.tally)})</a>
-		</div>
+		<ul class="menu">
+			<li><a href="${h.entity_url(comment)}">${_("Context")}</a></li>
+			<li><a href="${h.entity_url(comment, comment_page=True)}" 
+				class="discussion">${_("Comment")}</a></li>	
+			<li><a href="${h.entity_url(comment, member='history')}" 
+				class="history">${_("History")} (${len(comment.revisions)})</a></li>
+			<li><a href="${h.entity_url(comment.poll, member='votes')}" 
+				class="votes">${_("Votes")} (${len(comment.poll.tally)})</a></li>
+		</ul>
 	</div>
 </%def>

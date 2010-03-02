@@ -52,14 +52,6 @@
 	
 	%if not no_panel:
 	<div class="panel ${active}">
-		<!--div class="menu">
-			<a href="${h.entity_url(instance, member='activity')}" 	
-				class="activity">${_("Activity")}</a>
-			<a href="/issue" class="issues">${_("Issues")} (${instance.num_issues})</a>
-			<a href="/proposal" class="proposals">${_("Proposals")} (${instance.num_proposals})</a>
-			<a href="/user" class="users">${_("Members")} (${instance.num_members})</a>
-						<a href="/adopted" class="adopted">${_("Outcomes")}</a> 
-		</div-->
 		%if tile.description:
 			<div class="description">
 				${tile.description|n}

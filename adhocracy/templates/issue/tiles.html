@@ -47,24 +47,22 @@
 	<h1 class="page_title"><img src="/img/icons/issue_24.png" class="cd" /> ${issue.label}</h1>
 	
 	<div class="panel ${active}">
-		<div class="menu">
-			<a href="${h.entity_url(issue, member='activity')}" 
-				class="activity">${_("Activity")}</a>
-			<a href="${h.entity_url(issue, member='discussion')}" 
-				class="discussion">${_("Discussion")} (${issue.comment_count(recurse=False)})</a>
-			<span class="submenu">
-				<a href="${h.entity_url(issue, member='proposals')}" 
+		<ul class="menu">
+			<li><a href="${h.entity_url(issue, member='activity')}" 
+				class="activity">${_("Activity")}</a></li>
+			<li><a href="${h.entity_url(issue, member='discussion')}" 
+				class="discussion">${_("Discussion")} (${issue.comment_count(recurse=False)})</a></li>
+			<li><a href="${h.entity_url(issue, member='proposals')}" 
 					class="proposals">${_("Proposals")} (${len(issue.proposals)}) 
 					<img src="/img/arrows/panel_expand.png" /></a>
 				<ul>
 				%for proposal in issue.proposals[:10]:
 					<li>${h.delegateable_link(proposal)|n}</li>
 				%endfor
-				</ul>
-			</span>
-			<a href="${h.entity_url(issue, member='delegations')}" 
-				class="delegations">${_("Delegations")} (${len(issue.current_delegations())})</a>
-		</div>
+				</ul></li>
+			<li><a href="${h.entity_url(issue, member='delegations')}" 
+				class="delegations">${_("Delegations")} (${len(issue.current_delegations())})</a></li>
+		</ul>
 		<div class="info">
 			<div class="meta">
 				${h.user_link(issue.creator, scope=issue)|n} 
