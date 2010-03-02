@@ -76,6 +76,12 @@ class Proposal(Delegateable):
         try:
             q = meta.Session.query(Proposal)
             q = q.filter(Proposal.id==int(id))
+            if full:
+                q = q.options(eagerload(Proposal.comments))
+                q = q.options(eagerload(Proposal.adopt_poll))
+                q = q.options(eagerload(Proposal.rate_poll))
+                q = q.options(eagerload(Proposal.taggings))
+                q = q.options(eagerload(Proposal.parents))
             if filter.has_instance() and instance_filter:
                 q = q.filter(Proposal.instance_id==filter.get_instance().id)
             if not include_deleted:

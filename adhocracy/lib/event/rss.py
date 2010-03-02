@@ -17,8 +17,13 @@ def rss_feed(events, name, link, description):
                                       formatting.as_html(event)))
             else: 
                 description = text.render(description)
+            item_link = link
+            try:
+                item_link = event.event.link_path(event)
+            except:
+                pass
             rss.add_item(title=u"%s %s" % (event.user.name, formatting.as_unicode(event)),
-                         link=h.instance_url(event.instance, path=event.event.link_path(event)),
+                         link=item_link,
                          pubdate=event.time,
                          description=description,
                          author_name=event.user.name,

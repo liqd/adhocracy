@@ -327,7 +327,7 @@ class ProposalController(BaseController):
     
     
     def _get_mutable_proposal(self, id):
-        proposal = get_entity_or_abort(model.Proposal, id)
+        proposal = get_entity_or_abort(model.Proposal, id, full=True)
         if not proposal.is_mutable():
             abort(403, h.immutable_proposal_message())
         return proposal
