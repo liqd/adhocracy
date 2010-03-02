@@ -140,7 +140,7 @@
 			</form>
 		</div>
 	</div>
-	<%def name="page()">
+	
 	<div id="page">
 		<div id="breadcrumbs">
 			${self.breadcrumbs()}
@@ -158,15 +158,9 @@
 	
 		<div class="content">
 			${self.body()}
+			<div style="clear: both;"></div>
 		</div>
 	</div>
-	</%def>
-	
-	<%def name="tpl_page()">
-		${self.page()}
-	</%def>
-	
-	${self.tpl_page()}
 </div>
 
 <div id="footer">
