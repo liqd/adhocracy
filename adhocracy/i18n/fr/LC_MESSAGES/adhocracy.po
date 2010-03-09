@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-01-16 22:29+0100\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-03-09 14:37+0100\n"
+"Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
@@ -21,80 +21,93 @@ msgstr ""
 msgid "Unsupported topic type."
 msgstr ""
 
-#: adhocracy/controllers/comment.py:138 adhocracy/controllers/delegation.py:79
-#: adhocracy/controllers/instance.py:43 adhocracy/controllers/instance.py:94
-#: adhocracy/controllers/instance.py:226 adhocracy/controllers/issue.py:96
-#: adhocracy/controllers/poll.py:42 adhocracy/controllers/poll.py:116
-#: adhocracy/controllers/search.py:21 adhocracy/controllers/user.py:58
+#: adhocracy/controllers/comment.py:138
+#: adhocracy/controllers/delegation.py:79
+#: adhocracy/controllers/instance.py:43
+#: adhocracy/controllers/instance.py:94
+#: adhocracy/controllers/instance.py:226
+#: adhocracy/controllers/issue.py:96
+#: adhocracy/controllers/poll.py:42
+#: adhocracy/controllers/poll.py:116
+#: adhocracy/controllers/search.py:21
+#: adhocracy/controllers/user.py:58
 #: adhocracy/controllers/user.py:254
 msgid "oldest"
-msgstr ""
+msgstr "dernier"
 
-#: adhocracy/controllers/comment.py:139 adhocracy/controllers/delegation.py:80
-#: adhocracy/controllers/instance.py:44 adhocracy/controllers/instance.py:95
-#: adhocracy/controllers/instance.py:227 adhocracy/controllers/issue.py:97
-#: adhocracy/controllers/poll.py:43 adhocracy/controllers/poll.py:117
-#: adhocracy/controllers/search.py:22 adhocracy/controllers/user.py:59
+#: adhocracy/controllers/comment.py:139
+#: adhocracy/controllers/delegation.py:80
+#: adhocracy/controllers/instance.py:44
+#: adhocracy/controllers/instance.py:95
+#: adhocracy/controllers/instance.py:227
+#: adhocracy/controllers/issue.py:97
+#: adhocracy/controllers/poll.py:43
+#: adhocracy/controllers/poll.py:117
+#: adhocracy/controllers/search.py:22
+#: adhocracy/controllers/user.py:59
 #: adhocracy/controllers/user.py:255
 msgid "newest"
-msgstr ""
+msgstr "premier"
 
 #: adhocracy/controllers/comment.py:153
-msgid ""
-"You're trying to revert to a revision which is not part of this comments "
-"history"
-msgstr ""
+msgid "You're trying to revert to a revision which is not part of this comments history"
+msgstr "Vous essayez de revenir a une révisions qui ne fait pas partie de cet historique du commentaire"
 
 #: adhocracy/controllers/delegation.py:62
 #, python-format
 msgid "Cannot access delegation %(id)s"
-msgstr ""
+msgstr "ne peut pas acceder au délégations %(id)s"
 
 #: adhocracy/controllers/delegation.py:67
 msgid "The delegation is now revoked."
-msgstr ""
+msgstr "La délégations a été révoqué."
 
 #: adhocracy/controllers/instance.py:38
-msgid ""
-"An index of adhocracies run at adhocracy.cc. Select which ones you would "
-"like to join and participate in!"
+msgid "An index of adhocracies run at adhocracy.cc. Select which ones you would like to join and participate in!"
 msgstr ""
 
-#: adhocracy/controllers/instance.py:45 adhocracy/controllers/instance.py:96
-#: adhocracy/controllers/instance.py:228 adhocracy/controllers/issue.py:98
-#: adhocracy/controllers/poll.py:44 adhocracy/controllers/user.py:60
+#: adhocracy/controllers/instance.py:45
+#: adhocracy/controllers/instance.py:96
+#: adhocracy/controllers/instance.py:228
+#: adhocracy/controllers/issue.py:98
+#: adhocracy/controllers/poll.py:44
+#: adhocracy/controllers/user.py:60
 msgid "activity"
-msgstr ""
+msgstr "activité"
 
-#: adhocracy/controllers/instance.py:46 adhocracy/controllers/instance.py:97
-#: adhocracy/controllers/instance.py:230 adhocracy/controllers/issue.py:99
-#: adhocracy/controllers/poll.py:46 adhocracy/controllers/user.py:61
+#: adhocracy/controllers/instance.py:46
+#: adhocracy/controllers/instance.py:97
+#: adhocracy/controllers/instance.py:230
+#: adhocracy/controllers/issue.py:99
+#: adhocracy/controllers/poll.py:46
+#: adhocracy/controllers/user.py:61
 msgid "name"
-msgstr ""
+msgstr "Nom"
 
 #: adhocracy/controllers/instance.py:86
 #, python-format
 msgid "%s News"
-msgstr ""
+msgstr "nouvelles %s"
 
 #: adhocracy/controllers/instance.py:88
 #, python-format
 msgid "News from %s"
-msgstr ""
+msgstr "Nouvelles de %s"
 
-#: adhocracy/controllers/instance.py:99 adhocracy/controllers/instance.py:229
+#: adhocracy/controllers/instance.py:99
+#: adhocracy/controllers/instance.py:229
 #: adhocracy/controllers/search.py:23
 msgid "relevance"
-msgstr ""
+msgstr "pertinence"
 
 #: adhocracy/controllers/instance.py:170
 msgid "Deleting an instance is not currently implemented"
-msgstr ""
+msgstr "Nous somme désolé. Il n'est pas encore possible de supprimer une adhocracie"
 
 #: adhocracy/controllers/instance.py:177
 #, python-format
 msgid "You're already a member in %(instance)s."
-msgstr ""
+msgstr "Vous ête déjà membre de %(instance)s"
 
 #: adhocracy/controllers/instance.py:188
 #, python-format
@@ -104,12 +117,12 @@ msgstr ""
 #: adhocracy/controllers/instance.py:197
 #, python-format
 msgid "You're not a member of %(instance)s."
-msgstr ""
+msgstr "Vous n'êtes pas membre de %(instance)s."
 
 #: adhocracy/controllers/instance.py:200
 #, python-format
 msgid "You're the founder of %s, cannot leave."
-msgstr ""
+msgstr "Vous ête le fondateur de %s, vous ne pouvez pas la quitter."
 
 #: adhocracy/controllers/issue.py:87
 #, python-format
@@ -128,9 +141,7 @@ msgstr ""
 
 #: adhocracy/controllers/issue.py:110
 #, python-format
-msgid ""
-"The issue %(issue)s cannot be deleted, because the contained proposal "
-"%(proposal)s is polling."
+msgid "The issue %(issue)s cannot be deleted, because the contained proposal %(proposal)s is polling."
 msgstr ""
 
 #: adhocracy/controllers/issue.py:114
@@ -144,51 +155,50 @@ msgstr ""
 
 #: adhocracy/controllers/openidauth.py:100
 msgid "No OpenID given!"
-msgstr ""
+msgstr "Vous n'avez pas donné d'identité OpenID!"
 
 #: adhocracy/controllers/openidauth.py:123
 msgid "No OpenID was entered."
-msgstr ""
+msgstr "Aucune OpenID n'as été donné."
 
 #: adhocracy/controllers/openidauth.py:132
 #, python-format
 msgid "No OpenID with ID '%s' exists."
-msgstr ""
+msgstr "L'OpenID \"%s\" n'existe pas."
 
-#: adhocracy/controllers/openidauth.py:135 adhocracy/controllers/user.py:99
+#: adhocracy/controllers/openidauth.py:135
+#: adhocracy/controllers/user.py:99
 #, python-format
 msgid "You're not authorized to change %s's settings."
-msgstr ""
+msgstr "Vous n'êtes pas authorisé a changer les parametres de %s."
 
 #: adhocracy/controllers/openidauth.py:144
 msgid "OpenID login failed."
-msgstr ""
+msgstr "Identification par OpenID raté."
 
 #: adhocracy/controllers/openidauth.py:173
 msgid "You have already claimed this OpenID."
-msgstr ""
+msgstr "Vous avez déjà cet OpenID."
 
 #: adhocracy/controllers/openidauth.py:176
 #, python-format
 msgid "OpenID %s already belongs to %s."
-msgstr ""
+msgstr "L'OpenID %s appartient déjà à %s."
 
 #: adhocracy/controllers/openidauth.py:197
 msgid "Justin Case has entered the room."
-msgstr ""
+msgstr "Justin Case est entré dans la salle."
 
 #: adhocracy/controllers/page.py:20
 msgid "The requested page was not found"
-msgstr ""
+msgstr "La page demandé n'as pas été trouvé. "
 
 #: adhocracy/controllers/poll.py:45
 msgid "urgency"
-msgstr ""
+msgstr "urgence"
 
 #: adhocracy/controllers/poll.py:59
-msgid ""
-"The poll cannot be started either because there are no provisions or a "
-"poll has already started."
+msgid "The poll cannot be started either because there are no provisions or a poll has already started."
 msgstr ""
 
 #: adhocracy/controllers/poll.py:79
@@ -196,9 +206,7 @@ msgid "The proposal is not undergoing a poll."
 msgstr ""
 
 #: adhocracy/controllers/poll.py:82
-msgid ""
-"The poll cannot be canceled because it has met some of the adoption "
-"criteria."
+msgid "The poll cannot be canceled because it has met some of the adoption criteria."
 msgstr ""
 
 #: adhocracy/controllers/poll.py:106
@@ -237,9 +245,10 @@ msgstr ""
 msgid "Proposal: %(proposal)s"
 msgstr ""
 
-#: adhocracy/controllers/root.py:24 adhocracy/lib/base.py:70
+#: adhocracy/controllers/root.py:24
+#: adhocracy/lib/base.py:70
 msgid "My Adhocracies"
-msgstr ""
+msgstr "Mes Adhocracies"
 
 #: adhocracy/controllers/root.py:26
 msgid "Updates from the Adhocracies in which you are a member"
@@ -250,43 +259,37 @@ msgid "Received no query for search."
 msgstr ""
 
 #: adhocracy/controllers/twitteroauth.py:29
-msgid ""
-"You have been logged out while authenticating at twitter. Please try "
-"again."
+msgid "You have been logged out while authenticating at twitter. Please try again."
 msgstr ""
 
 #: adhocracy/controllers/twitteroauth.py:55
 #, python-format
-msgid ""
-"You're now following %s on twitter so we can send you notifications as "
-"direct messages"
+msgid "You're now following %s on twitter so we can send you notifications as direct messages"
 msgstr ""
 
 #: adhocracy/controllers/twitteroauth.py:66
 msgid "You have no twitter association."
-msgstr ""
+msgstr "Vous n'êtes relier a aucun compte twitter."
 
 #: adhocracy/controllers/user.py:131
 msgid "There is no user registered with that email address."
-msgstr ""
+msgstr "Il n'y a pas d'utilisateur enrengistré avec cette adresse email."
 
 #: adhocracy/controllers/user.py:138
-msgid ""
-"you have requested that your password be reset. In order to confirm the "
-"validity of your claim, please open the link below in your browser:"
+msgid "you have requested that your password be reset. In order to confirm the validity of your claim, please open the link below in your browser:"
 msgstr ""
 
 #: adhocracy/controllers/user.py:141
 msgid "Reset your password"
-msgstr ""
+msgstr "réinitialisé votre mot de passe"
 
 #: adhocracy/controllers/user.py:149
 msgid "Invalid URL reset code."
-msgstr ""
+msgstr "Le code URL de réinitialisation n'est pas valide."
 
 #: adhocracy/controllers/user.py:157
 msgid "your password has been reset. It is now:"
-msgstr ""
+msgstr "votre mot de passe à été réinitialisé. Il est maintenant:"
 
 #: adhocracy/controllers/user.py:158
 msgid "Please login and change the password in your user settings."
@@ -294,7 +297,7 @@ msgstr ""
 
 #: adhocracy/controllers/user.py:159
 msgid "Your new password"
-msgstr ""
+msgstr "Votre nouveau mot de passe"
 
 #: adhocracy/controllers/user.py:160
 msgid "Success. You have been sent an email with your new password."
@@ -341,7 +344,8 @@ msgstr ""
 msgid "Illegal input for vote cast."
 msgstr ""
 
-#: adhocracy/controllers/watch.py:35 adhocracy/controllers/watch.py:55
+#: adhocracy/controllers/watch.py:35
+#: adhocracy/controllers/watch.py:55
 msgid "Invalid request."
 msgstr ""
 
@@ -364,16 +368,11 @@ msgid "You're not authorized to delete %s's watchlist entries."
 msgstr ""
 
 #: adhocracy/lib/base.py:75
-msgid ""
-"A liquid democracy platform for making decisions in distributed, open "
-"groups by cooperatively creating proposals and voting on them to "
-"establish their support."
+msgid "A liquid democracy platform for making decisions in distributed, open groups by cooperatively creating proposals and voting on them to establish their support."
 msgstr ""
 
 #: adhocracy/lib/base.py:78
-msgid ""
-"adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, "
-"voting,participation, group decisions, decisions, decision-making"
+msgid "adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, voting,participation, group decisions, decisions, decision-making"
 msgstr ""
 
 #: adhocracy/lib/helpers.py:33
@@ -413,10 +412,7 @@ msgid "Missing page: %s"
 msgstr ""
 
 #: adhocracy/lib/xsrf.py:51
-msgid ""
-"Action failed. You were probably trying to re-perform an action after "
-"using your browser's 'Back' button. This is prohibited for security "
-"reasons."
+msgid "Action failed. You were probably trying to re-perform an action after using your browser's 'Back' button. This is prohibited for security reasons."
 msgstr ""
 
 #: adhocracy/lib/event/formatting.py:69
@@ -441,7 +437,8 @@ msgstr ""
 msgid "comment"
 msgstr ""
 
-#: adhocracy/lib/event/formatting.py:111 adhocracy/model/refs.py:70
+#: adhocracy/lib/event/formatting.py:111
+#: adhocracy/model/refs.py:70
 msgid "(Undefined)"
 msgstr ""
 
@@ -866,16 +863,16 @@ msgstr ""
 
 #: adhocracy/templates/components.html:11
 msgid "Save"
-msgstr ""
+msgstr "Sauvegarde"
 
 #: adhocracy/templates/components.html:13
 msgid "or"
-msgstr ""
+msgstr "ou"
 
 #: adhocracy/templates/components.html:13
 #: adhocracy/templates/poll/tiles.html:128
 msgid "cancel"
-msgstr ""
+msgstr "annuler"
 
 #: adhocracy/templates/components.html:25
 msgid "Notify me of updates."
@@ -1049,7 +1046,8 @@ msgstr ""
 msgid "Polls"
 msgstr ""
 
-#: adhocracy/templates/template.html:113 adhocracy/templates/poll/index.html:9
+#: adhocracy/templates/template.html:113
+#: adhocracy/templates/poll/index.html:9
 msgid "Current polls"
 msgstr ""
 
@@ -1073,7 +1071,8 @@ msgstr ""
 msgid "Administration"
 msgstr ""
 
-#: adhocracy/templates/template.html:126 adhocracy/templates/issue/edit.html:3
+#: adhocracy/templates/template.html:126
+#: adhocracy/templates/issue/edit.html:3
 #: adhocracy/templates/proposal/edit.html:4
 #, python-format
 msgid "Edit %s"
@@ -1090,8 +1089,10 @@ msgstr ""
 msgid "Adhocracies"
 msgstr ""
 
-#: adhocracy/templates/template.html:136 adhocracy/templates/user/index.html:3
-#: adhocracy/templates/user/index.html:6 adhocracy/templates/user/index.html:11
+#: adhocracy/templates/template.html:136
+#: adhocracy/templates/user/index.html:3
+#: adhocracy/templates/user/index.html:6
+#: adhocracy/templates/user/index.html:11
 msgid "Users"
 msgstr ""
 
@@ -1132,9 +1133,7 @@ msgid "Group Permissions"
 msgstr ""
 
 #: adhocracy/templates/admin/permissions.html:14
-msgid ""
-"WARNING: This allows you to shut yourself out of your adhocracy. Handle "
-"with care!"
+msgid "WARNING: This allows you to shut yourself out of your adhocracy. Handle with care!"
 msgstr ""
 
 #: adhocracy/templates/comment/create.html:4
@@ -1256,9 +1255,7 @@ msgid "undecided"
 msgstr ""
 
 #: adhocracy/templates/decision/tiles.html:36
-msgid ""
-"The user's delegates have voted, but no consensus wasreached among them. "
-"The decision is deferred."
+msgid "The user's delegates have voted, but no consensus wasreached among them. The decision is deferred."
 msgstr ""
 
 #: adhocracy/templates/decision/tiles.html:40
@@ -1286,9 +1283,7 @@ msgid "Delegation"
 msgstr ""
 
 #: adhocracy/templates/delegation/create.html:18
-msgid ""
-"These people might be a good match for your delegation. Either select one"
-" of the listed delegates, or enter another user name."
+msgid "These people might be a good match for your delegation. Either select one of the listed delegates, or enter another user name."
 msgstr ""
 
 #: adhocracy/templates/delegation/create.html:54
@@ -1337,9 +1332,7 @@ msgid "The delegation can be overridden or revoked at any time."
 msgstr ""
 
 #: adhocracy/templates/delegation/review.html:45
-msgid ""
-"No decisions have been based on this delegation yet. As soon as this "
-"delegation leads to any decisions, they will be listed here."
+msgid "No decisions have been based on this delegation yet. As soon as this delegation leads to any decisions, they will be listed here."
 msgstr ""
 
 #: adhocracy/templates/delegation/tiles.html:5
@@ -1347,19 +1340,18 @@ msgstr ""
 msgid "track record"
 msgstr ""
 
-#: adhocracy/templates/error/http.html:2 adhocracy/templates/error/http.html:4
+#: adhocracy/templates/error/http.html:2
+#: adhocracy/templates/error/http.html:4
 #, python-format
 msgid "Error %s"
 msgstr ""
 
 #: adhocracy/templates/error/http.html:8
-msgid ""
-"If this error continues to occur, please <a "
-"href='http://trac.adhocracy.de/newticket'>notify the developers</a> with "
-"a description of what you were trying to do."
+msgid "If this error continues to occur, please <a href='http://trac.adhocracy.de/newticket'>notify the developers</a> with a description of what you were trying to do."
 msgstr ""
 
-#: adhocracy/templates/event/all.html:3 adhocracy/templates/event/all.html:10
+#: adhocracy/templates/event/all.html:3
+#: adhocracy/templates/event/all.html:10
 msgid "Whazza"
 msgstr ""
 
@@ -1378,9 +1370,7 @@ msgid "Instance address"
 msgstr ""
 
 #: adhocracy/templates/instance/create.html:20
-msgid ""
-"The address may only contain alpha-numeric characters. Please note that "
-"this key cannot be changed after the instance has been created."
+msgid "The address may only contain alpha-numeric characters. Please note that this key cannot be changed after the instance has been created."
 msgstr ""
 
 #: adhocracy/templates/instance/create.html:29
@@ -1390,9 +1380,7 @@ msgid "Description"
 msgstr ""
 
 #: adhocracy/templates/instance/create.html:32
-msgid ""
-"Describe what the goals of this instance are and who constitutes its "
-"community."
+msgid "Describe what the goals of this instance are and who constitutes its community."
 msgstr ""
 
 #: adhocracy/templates/instance/edit.html:3
@@ -1409,9 +1397,7 @@ msgid "Instance Name"
 msgstr ""
 
 #: adhocracy/templates/instance/edit.html:21
-msgid ""
-"Describe what the goals of this Instance are and who constitutes its "
-"community."
+msgid "Describe what the goals of this Instance are and who constitutes its community."
 msgstr ""
 
 #: adhocracy/templates/instance/edit.html:31
@@ -1420,9 +1406,7 @@ msgid "Voting Rules"
 msgstr ""
 
 #: adhocracy/templates/instance/edit.html:34
-msgid ""
-"In order to become active, a proposal must reach the given proportion of "
-"approval."
+msgid "In order to become active, a proposal must reach the given proportion of approval."
 msgstr ""
 
 #: adhocracy/templates/instance/edit.html:39
@@ -1442,9 +1426,7 @@ msgid "In Soviet Russia, proposal votes you."
 msgstr ""
 
 #: adhocracy/templates/instance/edit.html:50
-msgid ""
-"Before activating, the defined majority must be continuously held by the "
-"proposal for the specified interval."
+msgid "Before activating, the defined majority must be continuously held by the proposal for the specified interval."
 msgstr ""
 
 #: adhocracy/templates/instance/edit.html:55
@@ -1574,9 +1556,7 @@ msgid "%(delay)s days"
 msgstr ""
 
 #: adhocracy/templates/instance/view.html:66
-msgid ""
-"Before becoming active, the majority must be held for the specified "
-"interval."
+msgid "Before becoming active, the majority must be held for the specified interval."
 msgstr ""
 
 #: adhocracy/templates/instance/view.html:76
@@ -1598,7 +1578,7 @@ msgstr ""
 #: adhocracy/templates/proposal/edit.html:7
 #: adhocracy/templates/user/edit.html:7
 msgid "Edit"
-msgstr ""
+msgstr "Éditez"
 
 #: adhocracy/templates/issue/edit.html:12
 msgid "Issue Title"
@@ -1633,40 +1613,37 @@ msgstr[1] ""
 msgid "latest <b>%s</b>"
 msgstr ""
 
-#: adhocracy/templates/issue/view.html:69 adhocracy/templates/poll/index.html:6
+#: adhocracy/templates/issue/view.html:69
+#: adhocracy/templates/poll/index.html:6
 msgid "Proposals"
 msgstr ""
 
 #: adhocracy/templates/issue/view.html:72
-msgid ""
-"Proposals solve some or all of the problems described by this issue. A "
-"proposal can be <b>discussed and voted</b> upon."
+msgid "Proposals solve some or all of the problems described by this issue. A proposal can be <b>discussed and voted</b> upon."
 msgstr ""
 
 #: adhocracy/templates/issue/view.html:86
 #: adhocracy/templates/proposal/view.html:132
 msgid "Discussion"
-msgstr ""
+msgstr "Discussion"
 
 #: adhocracy/templates/openid/connect.html:2
 #: adhocracy/templates/openid/connect.html:10
 msgid "Add an OpenID"
-msgstr ""
+msgstr "Ajouté une OpenID"
 
 #: adhocracy/templates/openid/connect.html:5
 msgid "Add OpenID"
-msgstr ""
+msgstr "Ajouté une OpenID"
 
 #: adhocracy/templates/openid/connect.html:15
-msgid ""
-"Enter the URL of your OpenID to connect the ID to your account. This will"
-" allow you to login using this OpenID in the future."
+msgid "Enter the URL of your OpenID to connect the ID to your account. This will allow you to login using this OpenID in the future."
 msgstr ""
 
 #: adhocracy/templates/openid/form.html:2
 #: adhocracy/templates/user/edit.html:113
 msgid "OpenID"
-msgstr ""
+msgstr "OpenID"
 
 #: adhocracy/templates/openid/form.html:4
 msgid "Login with your OpenID to skip registration."
@@ -1674,36 +1651,33 @@ msgstr ""
 
 #: adhocracy/templates/openid/form.html:9
 msgid "Sign in"
-msgstr ""
+msgstr "Identification"
 
 #: adhocracy/templates/openid/form.html:11
 #: adhocracy/templates/openid/username.html:26
 msgid "Continue"
-msgstr ""
+msgstr "continuez"
 
 #: adhocracy/templates/openid/username.html:2
 #: adhocracy/templates/openid/username.html:10
 msgid "Select a user name"
-msgstr ""
+msgstr "Choisissez un nom d'utilisateur"
 
 #: adhocracy/templates/openid/username.html:5
 msgid "User name"
-msgstr ""
+msgstr "Nom d'utilisateur"
 
 #: adhocracy/templates/openid/username.html:15
-msgid ""
-"A unique user name is required for you complete sign up and login. The "
-"user name received from your OpenID provider is already taken. Please "
-"provide a different, unique user name."
-msgstr ""
+msgid "A unique user name is required for you complete sign up and login. The user name received from your OpenID provider is already taken. Please provide a different, unique user name."
+msgstr "Un nom d'utilisateur unique est nécessaire pour finaliser votre inscription. Le nom d'utilisateur donné par votre fournisseur OpenID est déjà utilisé. Veuillez s'il vous plaît donner un nouveau nom d'utilisateur."
 
 #: adhocracy/templates/openid/username.html:24
 msgid "Username:"
-msgstr ""
+msgstr "Nom d'utilisateur:"
 
 #: adhocracy/templates/poll/abort.html:6
 msgid "End a vote"
-msgstr ""
+msgstr "clore un vote"
 
 #: adhocracy/templates/poll/abort.html:9
 #, python-format
@@ -1711,10 +1685,7 @@ msgid "Cancel vote on: %s"
 msgstr ""
 
 #: adhocracy/templates/poll/abort.html:17
-msgid ""
-"You are about to re-draft this proposal. This means that the proposal "
-"will become editable again but that all votes that have been cast at this"
-" time <strong>will be invalidated</strong>."
+msgid "You are about to re-draft this proposal. This means that the proposal will become editable again but that all votes that have been cast at this time <strong>will be invalidated</strong>."
 msgstr ""
 
 #: adhocracy/templates/poll/abort.html:21
@@ -1724,7 +1695,7 @@ msgstr ""
 
 #: adhocracy/templates/poll/create.html:6
 msgid "Call a vote"
-msgstr ""
+msgstr "Appeler un vote"
 
 #: adhocracy/templates/poll/create.html:9
 #, python-format
@@ -1732,10 +1703,7 @@ msgid "Call a vote on: %s"
 msgstr ""
 
 #: adhocracy/templates/poll/create.html:17
-msgid ""
-"You are about to release this proposal and call for a vote. When you do "
-"this, you will lose the ability to <strong>change the proposal's "
-"wording</strong> unless you re-draft it."
+msgid "You are about to release this proposal and call for a vote. When you do this, you will lose the ability to <strong>change the proposal's wording</strong> unless you re-draft it."
 msgstr ""
 
 #: adhocracy/templates/poll/index.html:3
@@ -1761,12 +1729,10 @@ msgstr ""
 
 #: adhocracy/templates/poll/index.html:25
 msgid "Update"
-msgstr ""
+msgstr "mis à jour"
 
 #: adhocracy/templates/poll/index.html:35
-msgid ""
-"These proposals are currently voting and might be nearing a decision. "
-"Vote now to make your voice heard."
+msgid "These proposals are currently voting and might be nearing a decision. Vote now to make your voice heard."
 msgstr ""
 
 #: adhocracy/templates/poll/index.html:48
@@ -1774,9 +1740,7 @@ msgid "There are currently no polls in which you haven't voted."
 msgstr ""
 
 #: adhocracy/templates/poll/index.html:50
-msgid ""
-"There are currently no polls open. Call a proposal into voting state to "
-"begin a poll."
+msgid "There are currently no polls open. Call a proposal into voting state to begin a poll."
 msgstr ""
 
 #: adhocracy/templates/poll/state.html:5
@@ -1856,7 +1820,8 @@ msgstr ""
 msgid "Option"
 msgstr ""
 
-#: adhocracy/templates/poll/tiles.html:15 adhocracy/templates/poll/votes.html:8
+#: adhocracy/templates/poll/tiles.html:15
+#: adhocracy/templates/poll/votes.html:8
 #: adhocracy/templates/user/votes.html:8
 msgid "Votes"
 msgstr ""
@@ -1891,7 +1856,8 @@ msgstr ""
 msgid "began %s"
 msgstr ""
 
-#: adhocracy/templates/poll/votes.html:5 adhocracy/templates/user/votes.html:5
+#: adhocracy/templates/poll/votes.html:5
+#: adhocracy/templates/user/votes.html:5
 #, python-format
 msgid "Votes: %s"
 msgstr ""
@@ -1941,11 +1907,7 @@ msgid "Provisions to implement"
 msgstr ""
 
 #: adhocracy/templates/proposal/create.html:30
-msgid ""
-"Describe <b>how</b> your proposal will achieve the desired "
-"effect.<br/><br/>Splitting the proposal into several parts will "
-"facilitate its discussion.<br/><br/>You can also leave this blank if you "
-"want to specify provisions later."
+msgid "Describe <b>how</b> your proposal will achieve the desired effect.<br/><br/>Splitting the proposal into several parts will facilitate its discussion.<br/><br/>You can also leave this blank if you want to specify provisions later."
 msgstr ""
 
 #: adhocracy/templates/proposal/create.html:37
@@ -1963,11 +1925,7 @@ msgstr ""
 
 #: adhocracy/templates/proposal/create.html:57
 #: adhocracy/templates/proposal/edit.html:44
-msgid ""
-"Specify which proposals <b>contradict</b> or <b>enable</b> this "
-"proposal.<br/><br/>Contradicting proposals cannot be in power at the same"
-" time.<br/><br/>Requirements must be satisfied before the proposal can "
-"activate."
+msgid "Specify which proposals <b>contradict</b> or <b>enable</b> this proposal.<br/><br/>Contradicting proposals cannot be in power at the same time.<br/><br/>Requirements must be satisfied before the proposal can activate."
 msgstr ""
 
 #: adhocracy/templates/proposal/create.html:69
@@ -1997,9 +1955,7 @@ msgid "Issue"
 msgstr ""
 
 #: adhocracy/templates/proposal/edit.html:20
-msgid ""
-"If necessary, move the proposal to a different issue to keep things "
-"organized."
+msgid "If necessary, move the proposal to a different issue to keep things organized."
 msgstr ""
 
 #: adhocracy/templates/proposal/tiles.html:24
@@ -2040,9 +1996,7 @@ msgid "call a vote"
 msgstr ""
 
 #: adhocracy/templates/proposal/view.html:73
-msgid ""
-"The proposal cannot be voted upon since it does not have any provisions "
-"yet."
+msgid "The proposal cannot be voted upon since it does not have any provisions yet."
 msgstr ""
 
 #: adhocracy/templates/proposal/view.html:117
@@ -2050,10 +2004,7 @@ msgid "Provisions"
 msgstr ""
 
 #: adhocracy/templates/proposal/view.html:119
-msgid ""
-"<b>Provisions</b> are the body of a proposal: together they form the "
-"language that will be voted upon. You will need to have at least one "
-"clause in order to call for a vote."
+msgid "<b>Provisions</b> are the body of a proposal: together they form the language that will be voted upon. You will need to have at least one clause in order to call for a vote."
 msgstr ""
 
 #: adhocracy/templates/search/results.html:2
@@ -2068,9 +2019,7 @@ msgid "Search for '%s'"
 msgstr ""
 
 #: adhocracy/templates/search/results.html:28
-msgid ""
-"No entries could be found that match your criteria. Try a more general "
-"search term."
+msgid "No entries could be found that match your criteria. Try a more general search term."
 msgstr ""
 
 #: adhocracy/templates/user/delegations.html:4
@@ -2100,7 +2049,7 @@ msgstr ""
 
 #: adhocracy/templates/user/delegations.html:39
 msgid "Topic"
-msgstr ""
+msgstr "Sujet"
 
 #: adhocracy/templates/user/delegations.html:40
 msgid "Given"
@@ -2121,7 +2070,7 @@ msgstr ""
 
 #: adhocracy/templates/user/edit.html:20
 msgid "User Details"
-msgstr ""
+msgstr "Information de l'usager"
 
 #: adhocracy/templates/user/edit.html:23
 msgid "Configure your user icon at <a href='http://www.gravatar.com'>Gravatar</a>"
@@ -2129,7 +2078,7 @@ msgstr ""
 
 #: adhocracy/templates/user/edit.html:27
 msgid "Language:"
-msgstr ""
+msgstr "Langue:"
 
 #: adhocracy/templates/user/edit.html:42
 msgid "Select a new password or leave the fields blank to keep your old one."
@@ -2139,12 +2088,12 @@ msgstr ""
 #: adhocracy/templates/user/login_form.html:5
 #: adhocracy/templates/user/register_form.html:13
 msgid "Password:"
-msgstr ""
+msgstr "mot de passe:"
 
 #: adhocracy/templates/user/edit.html:50
 #: adhocracy/templates/user/register_form.html:16
 msgid "Password (confirm):"
-msgstr ""
+msgstr "mot de passe(confirmation):"
 
 #: adhocracy/templates/user/edit.html:57
 msgid "get twitter notifications"
@@ -2160,7 +2109,7 @@ msgstr ""
 
 #: adhocracy/templates/user/edit.html:70
 msgid "Contact"
-msgstr ""
+msgstr "Contactez nous"
 
 #: adhocracy/templates/user/edit.html:71
 msgid "few messages"
@@ -2174,14 +2123,15 @@ msgstr ""
 #: adhocracy/templates/user/register_form.html:9
 #: adhocracy/templates/user/reset_form.html:14
 msgid "E-Mail:"
-msgstr ""
+msgstr "E-Mail:"
 
 #: adhocracy/templates/user/edit.html:92
 #, python-format
 msgid "Twitter: %s"
 msgstr ""
 
-#: adhocracy/templates/user/edit.html:93 adhocracy/templates/user/edit.html:130
+#: adhocracy/templates/user/edit.html:93
+#: adhocracy/templates/user/edit.html:130
 msgid "remove"
 msgstr ""
 
@@ -2195,15 +2145,14 @@ msgstr ""
 
 #: adhocracy/templates/user/edit.html:138
 msgid "Short biography"
-msgstr ""
+msgstr "courte biographie"
 
 #: adhocracy/templates/user/edit.html:141
-msgid ""
-"A bio will allow others to learn about you and perhaps even get you a few"
-" delegations."
+msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
 msgstr ""
 
-#: adhocracy/templates/user/index.html:3 adhocracy/templates/user/index.html:11
+#: adhocracy/templates/user/index.html:3
+#: adhocracy/templates/user/index.html:11
 #, python-format
 msgid "Users in %s"
 msgstr ""
@@ -2215,7 +2164,7 @@ msgstr ""
 #: adhocracy/templates/user/login.html:5
 #: adhocracy/templates/user/login_form.html:8
 msgid "Login"
-msgstr ""
+msgstr "Identification"
 
 #: adhocracy/templates/user/login.html:6
 msgid "If you already have an account, sign in here."
@@ -2224,68 +2173,61 @@ msgstr ""
 #: adhocracy/templates/user/login.html:12
 #: adhocracy/templates/user/register_form.html:19
 msgid "Register"
-msgstr ""
+msgstr "s'inscrire"
 
 #: adhocracy/templates/user/login.html:13
-msgid ""
-"Creating an account is easy; all you need is a user name, password and "
-"email address."
+msgid "Creating an account is easy; all you need is a user name, password and email address."
 msgstr ""
 
 #: adhocracy/templates/user/login.html:18
-msgid ""
-"If you have an account but you've lost your password, <a "
-"href='/user/reset'>click here</a>."
+msgid "If you have an account but you've lost your password, <a href='/user/reset'>click here</a>."
 msgstr ""
 
 #: adhocracy/templates/user/login_form.html:2
 msgid "Login:"
-msgstr ""
+msgstr "Identification:"
 
 #: adhocracy/templates/user/register_form.html:5
 msgid "User name:"
-msgstr ""
+msgstr "Nom d'utilisateur:"
 
 #: adhocracy/templates/user/register_form.html:6
 msgid "Can only contain letters and numbers."
-msgstr ""
+msgstr "Peut seulement contenir des chiffres et des lettres"
 
 #: adhocracy/templates/user/register_form.html:10
 msgid "We don't spam."
-msgstr ""
+msgstr "nous ne spammons pas."
 
 #: adhocracy/templates/user/reset_form.html:2
 #: adhocracy/templates/user/reset_form.html:4
 #: adhocracy/templates/user/reset_pending.html:2
 #: adhocracy/templates/user/reset_pending.html:4
 msgid "Password reset"
-msgstr ""
+msgstr "réinitialisation du mot de passe"
 
 #: adhocracy/templates/user/reset_form.html:8
-msgid ""
-"You will be sent an activation link that, when opened, will cause the "
-"system to email you a new password."
-msgstr ""
+msgid "You will be sent an activation link that, when opened, will cause the system to email you a new password."
+msgstr "Vous allez recevoir un lien. Dès que vous cliqueré dessus, le système vous enveras un nouveau mot de passe."
 
 #: adhocracy/templates/user/reset_form.html:12
 msgid "In order to retrieve your login, you will have to enter your email adress."
-msgstr ""
+msgstr "Pour récupérer votre identifiant, veuillez entrer votre adresse mèl."
 
 #: adhocracy/templates/user/reset_form.html:18
 msgid "Reset"
-msgstr ""
+msgstr "annuler"
 
 #: adhocracy/templates/user/reset_pending.html:4
 msgid "Confirmation pending"
-msgstr ""
+msgstr "confirmation en attente"
 
 #: adhocracy/templates/user/reset_pending.html:11
-msgid ""
-"You have recieved an email containing a link. Please open that link in "
-"order to reset you password"
-msgstr ""
+msgid "You have recieved an email containing a link. Please open that link in order to reset you password"
+msgstr "vous avez reçut un mèl contenant un lien. Veuillez ouvrire ce lien pour réinitialiser votre mot de passe."
 
-#: adhocracy/templates/user/tiles.html:18 adhocracy/templates/user/view.html:57
+#: adhocracy/templates/user/tiles.html:18
+#: adhocracy/templates/user/view.html:57
 #, python-format
 msgid "signed up %s"
 msgstr ""
@@ -2302,27 +2244,27 @@ msgstr ""
 #: adhocracy/templates/user/view.html:40
 #, python-format
 msgid "%s does not have a bio"
-msgstr ""
+msgstr "%s n'a pas de biographie"
 
 #: adhocracy/templates/user/view.html:55
 msgid "delegations"
-msgstr ""
+msgstr "délégations"
 
 #: adhocracy/templates/user/view.html:64
 msgid "more"
-msgstr ""
+msgstr "plus"
 
 #: adhocracy/templates/user/view.html:69
 msgid "is a member in the following adhocracies:"
-msgstr ""
+msgstr "est membre de ces adhocracies:"
 
 #: adhocracy/templates/user/view.html:83
 msgid "Activity"
-msgstr ""
+msgstr "Activité"
 
 #: adhocracy/templates/user/votes.html:14
 msgid "Review your voting track"
-msgstr ""
+msgstr "Revoyer vos votes."
 
 #~ msgid ""
 #~ "You're now following <b>%s</b> on "
@@ -2344,4 +2286,3 @@ msgstr ""
 
 #~ msgid "%s votes,"
 #~ msgstr ""
-
