@@ -137,6 +137,7 @@ class Poll(object):
         from adhocracy.lib.democracy import Decision
         poll = Poll(scope, user, action, subject=subject)
         meta.Session.add(poll)
+        meta.Session.flush()
         decision = Decision(user, poll)
         decision.make(Vote.YES)
         Tally.create_from_poll(poll)

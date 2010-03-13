@@ -59,8 +59,12 @@ def poll_url(poll, **kwargs):
 def tag_url(tag, instance=None, **kwargs):
     if instance is None:
         instance = c.instance
-    return _common_url_builder(instance, 't',
-                               urllib.quote(tag.name), **kwargs)
+    ident = None
+    try:
+        ident = urllib.quote(tag.name)
+    except KeyError:
+        ident = tag.id
+    return _common_url_builder(instance, 't', ident, **kwargs)
 
 
 def comment_url(comment, member=None, format=None, comment_page=False, **kwargs):
@@ -77,8 +81,8 @@ def comment_url(comment, member=None, format=None, comment_page=False, **kwargs)
 
     
 def instance_entity_url(instance, member=None, format=None, **kwargs):
-    if member is None and format is None:
-        return instance_url(instance, path='/issue')
+    #if member is None and format is None:
+    #    return instance_url(instance, path='/instance')
     return _common_url_builder(instance, 'instance', 
                                instance.key, member=member, format=format, **kwargs)
 

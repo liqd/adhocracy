@@ -49,6 +49,8 @@ def handle(event):
             entity_ref = refs.to_ref(entity)
             data = dict(event=event, entity=entity_ref)
             post_message(QUEUE, simplejson.dumps(data))
+        else:
+            log.warn("No queue is configured, processing will not occur.")
     return _call
 
 def init_hooks():

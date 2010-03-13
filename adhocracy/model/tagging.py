@@ -52,9 +52,10 @@ class Tagging(object):
             
     
     @classmethod
-    def find_by_id(cls, id):
+    def find(cls, id, instance_filter=True, include_deleted=False):
         q = meta.Session.query(Tagging)
         q = q.filter(Tagging.id==id)
+        # TODO: Instance filtering
         return q.limit(1).first()
     
     
@@ -67,5 +68,15 @@ class Tagging(object):
         meta.Session.add(tagging)
         meta.Session.flush()
         return tagging
-
+    
+    
+    @classmethod
+    def create_all(cls, delegateable, tags, creator):
+        import adhocracy.lib.text as text
+        return [Tagging.create(delegateable, t, creator) \
+            for t in text.tag_split(tags)]
+    
+    
+    def _index_id(self):
+        return self.id
 

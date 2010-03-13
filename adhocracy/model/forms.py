@@ -19,7 +19,7 @@ import instance
 import tagging
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join", "leave", 
-                   "control", "test", "support", "page", "issue", "proposal"]
+                   "control", "test", "support", "page", "issue", "proposal", "wiki", "blog"]
 
 VALIDUSER = re.compile("^[a-zA-Z0-9_\-]{3,255}$")
 class UniqueUsername(formencode.FancyValidator):
@@ -148,7 +148,7 @@ class ExistingUserName(formencode.FancyValidator):
 
 class ValidTagging(formencode.FancyValidator):
     def _to_python(self, value, state):
-        taggin = tagging.Tagging.find_by_id(value)
+        taggin = tagging.Tagging.find(value)
         if not taggin: 
            raise formencode.Invalid(
                 _("No tagging with ID '%s' exists") % value,

@@ -70,7 +70,7 @@
 			<a class="button title add" 
 				href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
 		%elif c.user and not proposal.has_canonicals():
-			<a class="button title inactive htwarn" title="${_('The proposal cannot be voted upon since it does not have any provisions yet.')}">${_("call a vote")}</a>
+			<a class="button title inactive htwarn" title="${_('The proposal cannot be voted upon since it does not have an implementation yet.')}">${_("call a vote")}</a>
 		%endif
 		
 		%if tile.can_edit:
@@ -87,6 +87,7 @@
 		${h.rss_button(proposal)|n}
 	</div>
 	
+	<div style="clear: both;"></div>
 	<h1 class="page_title">${h.delegateable_link(proposal, icon_size=24, link=False)|n}</h1>
 	
 	<div class="panel ${active}">
@@ -112,7 +113,9 @@
 			<div class="meta">
 				${h.user_link(proposal.creator, scope=proposal)|n} 
 				&middot; ${h.relative_time(proposal.create_time)|n}
-				&middot; ${_("in %s") % h.delegateable_link(proposal.issue)|n}
+				%if proposal.issue:
+					&middot; ${_("in %s") % h.delegateable_link(proposal.issue)|n}
+				%endif
 			</div>
 			<div class="tagarea">
 				%for (tag, count) in proposal.tags:

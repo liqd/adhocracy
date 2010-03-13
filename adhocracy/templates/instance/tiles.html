@@ -25,8 +25,8 @@
 
 <%def name="header(tile, instance, active, no_panel)">
 	<div class="top_actions title">
-		%if tile.can_create_issue:
-			<a class="button add" href="/issue/new">${_("new issue")}</a>
+		%if tile.can_create_proposal:
+			<a class="button add" href="/proposal/new">${_("new proposal")}</a>
 		%endif
 		%if tile.can_join:
 			<a class="button add" 
@@ -47,16 +47,6 @@
 		${components.watch(instance)}
 		${h.rss_button(instance)|n}
 	</div>
-	
+	<div style="clear: both;"></div>
 	<h1 class="page_title"><img src="/img/icons/site_24.png" class="cd" /> ${instance.label}</h1>
-	
-	%if not no_panel:
-	<div class="panel ${active}">
-		%if tile.description:
-			<div class="description">
-				${tile.description|n}
-			</div>
-		%endif
-	</div>
-	%endif
 </%def>

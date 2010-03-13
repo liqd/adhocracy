@@ -4,12 +4,11 @@
 <%def name="title()">${_("New proposal")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.issue)|n} &raquo; ${_("New proposal")}
+	${h.breadcrumbs(c.instance)|n} &raquo; ${_("New proposal")}
 </%def>
 
 <form name="create_proposal" class="inplace" method="POST" action="/proposal">
 	${h.field_token()|n}
-	<input name="issue" type="hidden" value="${c.issue.id}"/>
 	<div class="page_title">
 		<label for="label" class="armhint">${_("New proposal")}</label>
 		<input tabindex="1" class="title armlabel" name="label" />
@@ -20,34 +19,12 @@
 		<div class="infobox">${_("Give a brief description of <b>what</b> your proposal will do.")|n}</div>
 	</div>
 	<div class="mainbar">
-		<label for="text" class="armhint">${_("The proposal addresses %s by...") % c.issue.label}</label>
+		<label for="text" class="armhint">${_("The proposal would...")}</label>
 		<textarea tabindex="2" class="description smallarea armlabel" name="text"></textarea>
 		
-	</div>
-	
-	<h3>${_("Provisions to implement")}</h3>
-	<div class="sidebar">
-		<div class="infobox">${_("Describe <b>how</b> your proposal will achieve the desired effect." +
-			"<br/><br/>" +
-			"Splitting the proposal into several parts will facilitate its discussion." +
-			"<br/><br/>" +
-			"You can also leave this blank if you want to specify provisions later.")|n}</div>
-	</div>
-	<div class="mainbar">	
-		<label for="canonical" class="armhint">${_("A specific provision that is part of this proposal.")|n}</label>
-		<ul>
-			<li class="canonical prototype">
-				<textarea class="canonicals smallarea" name="canonical"></textarea>
-			</li>
-			%for canonical_text in c.canonicals:
-			<li class="canonical">
-				<textarea class="canonicals smallarea armlabel" name="canonical">${canonical_text|n}</textarea>
-			</li>
-			%endfor
-		</ul>		
-		<div class="jsadd">
-			<input type="button" value="${_("Add a provision")}" onclick="return appendCanonical();" />
-		</div>
+		<label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
+		<input name="tags" id="tags" class="armlabel long" />
+		<span class="hint">${_("Multiple tags can be separated by commas or spaces.")}</span>
 	</div>
 	
 	<div style="clear:both;"></div>
@@ -61,9 +38,6 @@
 		<table width="100%">
 			%for proposal in c.alternatives:
 				${tiles_html.alternative(proposal=proposal, checked=True)}
-			%endfor
-			%for proposal in c.issue_proposals:
-				${tiles_html.alternative(proposal=proposal)}
 			%endfor
 			%if len(c.proposals):
 				${tiles_html.alternative(options=c.proposals, prototype=True)}
@@ -80,7 +54,7 @@
 	<div style="clear:both;"></div>
 	<div class="sidebar">&nbsp;</div>
 	<div class="mainbar">
-		${components.savebox("/issue/%s" % str(c.issue.id))}
+		${components.savebox("/")}
 		${components.form_watch(None)}
 	</div>
 </form>	

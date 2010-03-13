@@ -91,6 +91,7 @@ def setup_entities():
         
     model.meta.Session.commit()
     
-    import instance as libinstance
     if not model.Instance.find(u"test"):
         model.Instance.create(u"test", u"Test Instance", admin)
+    
+    model.meta.Session.commit()

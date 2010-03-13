@@ -33,7 +33,7 @@
 		   	%if c.instance:
 				 ${c.instance.label} 
 		   	%endif
-			${config.get('adhocracy.site.name')}</title>
+				${h.site_name()}</title>
 	<link href="/style/base.css" rel="stylesheet" type="text/css" />
 	<link href="/style/site.css" rel="stylesheet" type="text/css" />
 	<link media="only screen and (max-device-width: 480px)" href="/style/iphone.css" type="text/css" rel="stylesheet" />
@@ -75,6 +75,7 @@
 				<img src="/img/icons/adown.png" alt="^"/>
 				<ul>
 					%if h.has_permission("vote.cast"):
+						<li><a href="${h.entity_url(c.user, member='watchlist')}">${_("watchlist")}</a></li>
 						<li><a href="${h.entity_url(c.user, member='votes')}">${_("votes")}</a></li>
 						<li><a href="${h.entity_url(c.user, member='delegations')}">${_("delegations")}</a></li>						
 					%endif
@@ -93,7 +94,7 @@
 						%for i in h.context_instances():
 							<li><a href="${h.entity_url(i)}">${i.label}</a></li>
 						%endfor
-						<li><a href="${h.instance_url(None, path='/adhocracies')}">${_("other...")}</a></li>
+						<li><a href="${h.instance_url(None, path='/instance')}">${_("other...")}</a></li>
 					</ul>
 				</li>
 			%endif
@@ -114,19 +115,20 @@
 			<a href="${h.entity_url(c.instance) if c.instance else '/'}"><img id="logo" src="/instance/${c.instance.key if c.instance else '_def'}_64x64.png" /></a>
 			<div id="menu">
 				<ul>
-					<li><a href="/">${_("Home")}</a></li>
 					%if not c.instance:
-						<li><a href="/adhocracies">${_("Adhocracies")}</a></li>
+						<li><a href="/">${_("Home")}</a></li>
+						<li><a href="/instance">${_("Instances")}</a></li>
 					%endif
 					%if c.instance:
+						<li><a href="${h.entity_url(c.instance)}">${_("Home")}</a></li>
+						<li><a href="/proposal">${_("Proposals")}</a></li>
 						<a href="${h.entity_url(c.instance, member='activity')}" 	
 							class="activity">${_("Activity")}</a>
-						<!--li><a href="/issue">${_("Issues")} (${c.instance.num_issues})</a></li-->
-						<li><a href="/proposal">${_("Proposals")} (${c.instance.num_proposals})</a></li>
+						<!--li><a href="/tag">${_("Tags")}</a></li-->
 						<!--li><a href="/adopted" class="adopted">${_("Outcomes")}</a></li-->
 					%endif
 					%if c.instance:
-						<li><a href="/user">${_("Members")} (${c.instance.num_members})</a></li>
+						<li><a href="/user">${_("Members")}</a></li>
 					%endif
 					%if not c.instance:
 						<li><a href="/user">${_("All Users")}</a></li>

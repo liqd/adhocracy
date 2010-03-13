@@ -6,12 +6,13 @@
 	${h.breadcrumbs(c.page_instance)|n} &raquo; ${_("Latest Events")}
 </%def>
 
-${tiles.instance.header(c.page_instance, c.tile, active='activity', no_panel=True)}
+<h1 class="page_title">${_("Activity")}</h1>
 
 <div class="sidebar">
-	
+	&nbsp;
 </div>
-<div class="menubar">
+
+<div class="mainbar">
 	%if len(c.events_pager) == 0:
 		<span class="infobox">
 			${_("Create an issue to start debating in %(instance)s.") % dict(instance=c.page_instance.label)}

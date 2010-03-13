@@ -90,9 +90,9 @@ class UserController(BaseController):
         
         if c.instance:
             session['came_from'] = "/instance/%s/join?%s" % (c.instance.key, h.url_token())
-        redirect_to("/perform_login?%s" % urllib.urlencode({
-                    'login': self.form_result.get("user_name"),
-                    'password': self.form_result.get("password")
+        redirect("/perform_login?%s" % urllib.urlencode({
+                 'login': self.form_result.get("user_name"),
+                 'password': self.form_result.get("password")
                 }))
     
     
@@ -130,7 +130,7 @@ class UserController(BaseController):
             event.emit(event.T_USER_EDIT, c.user)
         else:
             event.emit(event.T_USER_ADMIN_EDIT, c.page_user, admin=c.user)
-        redirect_to("/user/%s" % str(c.page_user.user_name))
+        redirect(h.entity_url(c.page_user))
     
     
     def reset_form(self):
@@ -170,7 +170,7 @@ class UserController(BaseController):
             h.flash(_("Success. You have been sent an email with your new password."))    
         except Exception:
             h.flash(_("The reset code is invalid. Please repeat the password recovery procedure."))
-        redirect_to('/login')
+        redirect('/login')
     
     
     @ActionProtector(has_permission("user.edit"))
@@ -186,7 +186,7 @@ class UserController(BaseController):
         except Exception:
             log.exception("Invalid activation code")
             h.flash(_("The activation code is invalid. Please have it resent."))
-        redirect_to("/user/%s/edit" % str(c.page_user.user_name))
+        redirect(h.entity_url(c.page_user, member='edit'))
     
     
     @RequireInternalRequest()
@@ -195,7 +195,7 @@ class UserController(BaseController):
         c.page_user = self._get_user_for_edit(id)
         libmail.send_activation_link(c.page_user)
         h.flash(_("The activation link has been re-sent to your email address."))
-        redirect_to("/user/%s/edit" % str(c.page_user.user_name))
+        redirect(h.entity_url(c.page_user, member='edit'))
     
      
     @ActionProtector(has_permission("user.view"))
@@ -240,7 +240,7 @@ class UserController(BaseController):
                 session.get('came_from')
                 del session['came_from']
                 session.save()
-            redirect_to(str(url))
+            redirect(str(url))
         else:
             return formencode.htmlfill.render(
                 render("/user/login.html"), 
@@ -251,7 +251,7 @@ class UserController(BaseController):
 
 
     def post_logout(self):
-        redirect_to("/")
+        redirect("/")
     
     
     @ActionProtector(has_permission("user.view"))    
@@ -338,20 +338,33 @@ class UserController(BaseController):
         return render("/user/proposals.html")
     
         
+    #@RequireInstance
+    #@ActionProtector(has_permission("user.view")) 
+    #def comments(self, id, format='html'):
+    #    c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+    #    comments = filter(lambda cm: cm.topic.instance == c.instance and \
+    #                      not cm.is_deleted(), c.page_user.comments)
+    #    
+    #    if format == 'json':
+    #        return render_json(list(comments))
+    #    
+    #    c.comments_pager = pager.comments(comments)
+    #    self._common_metadata(c.page_user, member='comments')
+    #    return render("/user/comments.html")
+      
+     
     @RequireInstance
     @ActionProtector(has_permission("user.view")) 
-    def comments(self, id, format='html'):
+    def watchlist(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
-        comments = filter(lambda cm: cm.topic.instance == c.instance and \
-                          not cm.is_deleted(), c.page_user.comments)
+        watches = model.Watch.all_by_user(c.page_user)
+        c.entities_pager = NamedPager('watches', map(lambda w: w.entity, watches), tiles.dispatch_row, 
+                                      sorts={_("oldest"): sorting.entity_oldest,
+                                             _("newest"): sorting.entity_newest},
+                                      default_sort=sorting.entity_newest)
+        self._common_metadata(c.page_user, member='watchlist')
+        return render("/user/watchlist.html")    
         
-        if format == 'json':
-            return render_json(list(comments))
-        
-        c.comments_pager = pager.comments(comments)
-        self._common_metadata(c.page_user, member='comments')
-        return render("/user/comments.html")
-    
     
     @RequireInstance
     @RequireInternalRequest()
@@ -366,7 +379,7 @@ class UserController(BaseController):
             h.flash("Cannot make %(user)s a member of %(group)s" % {
                         'user': user.name, 
                         'group': group.group_name})
-            redirect_to("/user/%s" % str(c.page_user.user_name))
+            redirect(h.entity_url(c.page_user))
         had_vote = c.page_user._has_permission("vote.cast")
         for membership in c.page_user.memberships:
             if not membership.expire_time and membership.instance == c.instance:
@@ -381,7 +394,7 @@ class UserController(BaseController):
             # user has lost voting privileges
             c.page_user.revoke_delegations(c.instance)
         model.meta.Session.commit()
-        redirect_to("/user/%s" % str(c.page_user.user_name))
+        redirect(h.entity_url(c.page_user))
     
     
     @RequireInstance
@@ -400,7 +413,7 @@ class UserController(BaseController):
         h.flash(_("%(user)s was removed from %(instance)s") % {
                                         'user': c.page_user.name, 
                                         'instance': c.instance.label})
-        redirect_to("/user/%s" % str(c.page_user.user_name))
+        redirect(h.entity_url(c.page_user))
     
     
     @ActionProtector(has_permission("user.view"))

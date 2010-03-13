@@ -3,7 +3,7 @@
 <%def name="title()">${_("New Instance")}</%def>
 
 <%def name="breadcrumbs()">
-	${_("New Instance")}
+	${h.site_name()} &raquo; ${_("New Instance")}
 </%def>
 
 <form name="create_instance" class="inplace" method="POST" action="/instance">

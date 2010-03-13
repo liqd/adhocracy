@@ -32,7 +32,7 @@ flash = _Flash()
 @cache.memoize('delegateable_breadcrumbs')
 def breadcrumbs(entity):    
     if not entity:
-        return config.get('adhocracy.site.name')
+        return site_name()
     if isinstance(entity, model.User):
         return breadcrumbs(c.instance) + " &raquo; <a href='%s'>%s</a>" % (entity_url(entity),
                                                                            entity.name)
@@ -98,8 +98,8 @@ def delegateable_link(delegateable, icon=True, icon_size=16, link=True):
     return text
 
 
-def tag_link(tag, count=None, size=None, base_size=12):
-    text = "<span class='tag_link'><a"
+def tag_link(tag, count=None, size=None, base_size=12, plain=False):
+    text = "<span class='tag_link %s'><a" % ("plain" if plain else "")
     if size is not None:
         size = int(math.sqrt(size) * base_size)
         text += " style='font-size: %dpx !important;'" % size
@@ -137,6 +137,9 @@ def gravatar_url(user, size=32):
         'default': 'identicon', 
         'size': str(size)})
     return gravatar_url
+
+def site_name():
+    return config.get('adhocracy.site.name', _("Adhocracy"))
 
 
 def canonical_url(url):

@@ -2,7 +2,7 @@ from datetime import datetime
 
 import logging
 
-from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, Binary, func, or_ 
+from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, LargeBinary, func, or_ 
  
 import meta 
 
@@ -18,16 +18,16 @@ openid_table = Table('openid', meta.data,
 
 
 oid_nonces = Table('oid_nonces', meta.data,
-    Column('server_url', Binary, nullable=False),
+    Column('server_url', LargeBinary, nullable=False),
     Column('timestamp', Integer, primary_key=True),
     Column('salt', Unicode(40), nullable=False, index=True)
     )
 
     
 oid_associations = Table('oid_associations', meta.data,
-    Column('server_url', Binary, nullable=False),
+    Column('server_url', LargeBinary, nullable=False),
     Column('handle', Unicode(255), nullable=False, index=True),
-    Column('secret', Binary, nullable=False),
+    Column('secret', LargeBinary, nullable=False),
     Column('issued', Integer, primary_key=True),
     Column('lifetime', Integer, primary_key=True),
     Column('assoc_type', Unicode(64), nullable=False)

@@ -34,7 +34,7 @@ class Proposal(Delegateable):
     
     def _get_issue(self):
         if len(self.parents) != 1:
-            raise ValueError(_("Proposal doesn't have a distinct parent issue."))
+            return None
         return self.parents[0]
     
     
@@ -128,15 +128,17 @@ class Proposal(Delegateable):
     
     
     @classmethod
-    def create(cls, instance, label, user, issue, with_vote=False):
+    def create(cls, instance, label, user, with_vote=False, tags=None):
         from poll import Poll
+        from tagging import Tagging
         proposal = Proposal(instance, label, user)
-        proposal.issue = issue
         meta.Session.add(proposal)
         meta.Session.flush()
         poll = Poll.create(proposal, user, Poll.RATE, 
                            with_vote=with_vote)
         proposal.rate_poll = poll
+        if tags is not None:
+            proposal.taggings = Tagging.create_all(proposal, tags, user)
         meta.Session.flush()
         return proposal
     

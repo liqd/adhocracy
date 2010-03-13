@@ -2,7 +2,7 @@ import logging
 
 from pylons import config, tmpl_context as c
 from pylons import request
-from pylons.controllers.util import abort, redirect_to
+from pylons.controllers.util import abort
 from pylons.i18n import _
 
 from sqlalchemy import and_, or_

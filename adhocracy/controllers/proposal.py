@@ -16,13 +16,13 @@ def not_null(lst):
 
 class ProposalNewForm(formencode.Schema):
     allow_extra_fields = True
-    issue = forms.ValidIssue()
     canonical = foreach.ForEach(validators.String(max=20000, if_empty=None), convert_to_list=True)
     alternative = foreach.ForEach(forms.ValidProposal(if_invalid=None), convert_to_list=True)
 
 class ProposalCreateForm(ProposalNewForm):
     label = validators.String(max=255, min=4, not_empty=True)
     text = validators.String(max=20000, min=4, not_empty=True)
+    tags = validators.String(max=20000, not_empty=False)
     
 class ProposalEditForm(formencode.Schema):
     allow_extra_fields = True
@@ -30,7 +30,6 @@ class ProposalEditForm(formencode.Schema):
     
 class ProposalUpdateForm(ProposalEditForm):
     label = validators.String(max=255, min=4, not_empty=True)
-    issue = forms.ValidIssue(not_empty=True)
     
 class ProposalFilterForm(formencode.Schema):
     allow_extra_fields = True
@@ -58,6 +57,8 @@ class ProposalController(BaseController):
         if format == 'json':
             return render_json(proposals)
         
+        tags = model.Tag.popular_tags(limit=50)
+        c.cloud_tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
         c.proposals_pager = pager.proposals(proposals, has_query=query is not None)
         c.tile = tiles.instance.InstanceTile(c.instance)
         return render("/proposal/index.html")
@@ -67,19 +68,11 @@ class ProposalController(BaseController):
     @ActionProtector(has_permission("proposal.create"))
     @validate(schema=ProposalNewForm(), form='bad_request', post_only=False, on_get=True)
     def new(self, errors=None):
-        c.issue = self.form_result.get('issue')
         defaults = dict(request.params)
-        c.canonicals = not_null(self.form_result.get('canonical'))
-        if len(c.canonicals):
-            del defaults['canonical']
-        else:
-            c.canonicals = ['', '']
         c.alternatives = not_null(self.form_result.get('alternative'))
         if len(c.alternatives):
             del defaults['alternative']
-        c.issue_proposals = [p for p  in c.issue.proposals if not p in c.alternatives]
-        c.proposals = [p for p in model.Proposal.all(instance=c.instance) if not \
-                       (p in c.alternatives or p in c.issue_proposals)]
+        c.proposals = model.Proposal.all(instance=c.instance)
         return htmlfill.render(render("/proposal/new.html"), defaults=defaults, 
                                errors=errors, force_defaults=False)
     
@@ -92,25 +85,22 @@ class ProposalController(BaseController):
             self.form_result = ProposalCreateForm().to_python(request.params)
         except Invalid, i:
             return self.new(errors=i.unpack_errors())
-        c.issue = self.form_result.get('issue')
         proposal = model.Proposal.create(c.instance, self.form_result.get("label"), 
-                                         c.user, c.issue, with_vote=h.has_permission('vote.cast'))
+                                         c.user, with_vote=h.has_permission('vote.cast'),
+                                         tags=self.form_result.get("tags"))
         model.meta.Session.commit()
         comment = model.Comment.create(self.form_result.get('text'), 
                                        c.user, proposal, 
                                        with_vote=h.has_permission('vote.cast'))
-        model.meta.Session.commit()
-        for c_text in not_null(self.form_result.get('canonical')):
-            canonical = model.Comment.create(c_text, c.user, proposal, canonical=True, 
-                                             with_vote=h.has_permission('vote.cast'))
         alternatives = not_null(self.form_result.get('alternative'))
         proposal.update_alternatives(alternatives)
+        model.meta.Session.commit()
         proposal.comment = comment
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
         event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance, 
                    topics=[proposal], proposal=proposal, rev=comment.latest)
-        redirect_to("/proposal/%s" % proposal.id)
+        redirect(h.entity_url(proposal))
 
 
     @RequireInstance
@@ -119,7 +109,6 @@ class ProposalController(BaseController):
     def edit(self, id, errors={}):
         c.proposal = self._get_mutable_proposal(id)
         defaults = dict(request.params)
-        c.issues = model.Issue.all(instance=c.instance)
         if 'alternative' in request.params:
             c.alternatives = not_null(self.form_result.get('alternative'))
             del defaults['alternative']
@@ -141,7 +130,6 @@ class ProposalController(BaseController):
             return self.edit(errors=i.unpack_errors())
         proposal = self._get_mutable_proposal(id)
         proposal.label = self.form_result.get("label")
-        proposal.issue = self.form_result.get("issue")
         model.meta.Session.commit()
         alternatives = not_null(self.form_result.get('alternative'))
         proposal.update_alternatives(alternatives)
@@ -149,7 +137,7 @@ class ProposalController(BaseController):
         watchlist.check_watch(proposal)
         event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance, 
                    topics=[proposal], proposal=proposal, rev=proposal.comment.latest)
-        redirect_to("/proposal/%s" % proposal.id)
+        redirect(h.entity_url(proposal))
     
     
     @RequireInstance
@@ -164,7 +152,6 @@ class ProposalController(BaseController):
             return render_json(c.proposal)
         
         c.tile = tiles.proposal.ProposalTile(c.proposal)
-        c.issue_tile = tiles.issue.IssueTile(c.proposal.issue)
         self._common_metadata(c.proposal)
         return render("/proposal/show.html")
     
@@ -251,7 +238,7 @@ class ProposalController(BaseController):
                    topics=[c.proposal], proposal=c.proposal)
         c.proposal.delete()
         model.meta.Session.commit()
-        redirect_to(h.entity_url(c.proposal.issue))   
+        redirect(h.entity_url(c.instance))   
     
     
     @RequireInstance
@@ -285,7 +272,7 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         event.emit(event.T_PROPOSAL_STATE_VOTING, c.user, instance=c.instance, 
                    topics=[c.proposal], proposal=c.proposal, poll=poll)
-        redirect_to(h.entity_url(c.proposal))   
+        redirect(h.entity_url(c.proposal))   
     
     
     @RequireInstance
@@ -309,7 +296,7 @@ class ProposalController(BaseController):
             if not model.Tagging.find_by_delegateable_name_creator(c.proposal, tag_text, c.user):
                 tagging = model.Tagging.create(c.proposal, tag_text, c.user)
         model.meta.Session.commit()
-        redirect_to(h.entity_url(c.proposal))
+        redirect(h.entity_url(c.proposal))
         
         
     @RequireInstance
@@ -323,7 +310,7 @@ class ProposalController(BaseController):
             abort(401, _("Tag does not belong to this proposal."))
         tagging.delete()
         model.meta.Session.commit()
-        redirect_to(h.entity_url(c.proposal))
+        redirect(h.entity_url(c.proposal))
     
     
     def _get_mutable_proposal(self, id):

@@ -28,9 +28,10 @@ def make_map():
                                          'delegations': 'GET',
                                          'proposals': 'GET',
                                          'issues': 'GET', 
-                                         'comments': 'GET',
+                                         #'comments': 'GET',
                                          'votes': 'GET',
                                          'instances': 'GET',
+                                         'watchlist': 'GET',
                                          'groupmod': 'GET',
                                          'kick': 'GET',
                                          'revert': 'GET',
@@ -95,7 +96,6 @@ def make_map():
     map.connect('/search/filter', controller='search', action='filter')
     map.connect('/search', controller='search', action='query')
         
-    map.connect('/adhocracies', controller='instance', action='index')
     map.connect('/instance/{id}_{x}x{y}.png', 
                 controller='instance', action='icon')
     map.resource('instance', 'instance', member={'join': 'GET', 

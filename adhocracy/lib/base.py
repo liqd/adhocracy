@@ -8,7 +8,7 @@ from time import time
 from pylons import config
 from pylons.controllers import WSGIController
 from pylons import request, response, session, tmpl_context as c, g
-from pylons.controllers.util import abort, redirect_to
+from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _, add_fallback, get_lang, set_lang, gettext
 

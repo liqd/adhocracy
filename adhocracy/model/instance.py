@@ -2,7 +2,7 @@ import re
 from datetime import datetime, timedelta
 import logging
 
-from sqlalchemy import Table, Column, Integer, Float, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
+from sqlalchemy import Table, Column, Integer, Float, Boolean, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import reconstructor
 
 import meta
@@ -22,7 +22,8 @@ instance_table = Table('instance', meta.data,
     Column('access_time', DateTime, default=func.now(), onupdate=func.now()),
     Column('delete_time', DateTime, nullable=True),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True)    
+    Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True),
+    Column('allow_adopt', Boolean, default=True)    
     )
 
 
@@ -116,7 +117,7 @@ class Instance(object):
     
     @classmethod
     def find(cls, key, instance_filter=True, include_deleted=False):
-        key = unicode(key.lower())
+        key = unicode(key).lower()
         try:
             q = meta.Session.query(Instance)
             try:
@@ -126,7 +127,7 @@ class Instance(object):
             if not include_deleted:
                 q = q.filter(or_(Instance.delete_time==None,
                                  Instance.delete_time>datetime.utcnow()))
-            return q.one()
+            return q.limit(1).first()
         except Exception, e:
             log.warn("find(%s): %s" % (key, e))
             return None
@@ -157,7 +158,7 @@ class Instance(object):
         from group import Group
         from membership import Membership
          
-        instance = Instance(key, label, user)
+        instance = Instance(unicode(key).lower(), label, user)
         if description is not None:
             instance.description = libtext.cleanup(description)
         instance.default_group = Group.by_code(Group.INSTANCE_DEFAULT)
@@ -177,6 +178,7 @@ class Instance(object):
                  creator=self.creator.user_name,
                  required_majority=self.required_majority,
                  activation_delay=self.activation_delay,
+                 allow_adopt=self.allow_adopt,
                  default_group=self.default_group.code,
                  create_time=self.create_time)
         if self.description:

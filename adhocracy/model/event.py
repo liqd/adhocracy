@@ -118,6 +118,15 @@ class Event(object):
     def find_by_topic(cls, topic):
         return Event.find_by_topics([topic])
         
+        
+    @classmethod
+    def find_by_instance(cls, instance, limit=100):
+        q = meta.Session.query(Event)
+        q = q.filter(Event.instance==instance)
+        q = q.order_by(Event.time.desc())
+        q = q.limit(100)
+        return q.all()
+        
     
     def text(self):
         try:

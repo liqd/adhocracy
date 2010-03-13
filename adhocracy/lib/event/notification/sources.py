@@ -1,65 +1,15 @@
-
 from ... import watchlist
 from notification import Notification
 from adhocracy.lib.event.types import *
 import adhocracy.model as model
 
-class WatchlistSource(object):
-    """
-    Traverse the watchlist for all affected topics. Returns only the most closely matching 
-    watchlist entries.
-    """
-    
-    def __init__(self):
-        pass
-    
-    def _merge(self, large_scope, small_scope):
-        for small in small_scope:
-            keep_list = []
-            for large in large_scope:
-                if not large.user == small.user:
-                    keep_list.append(large)
-            large_scope = keep_list
-        return small_scope + large_scope
-    
-    def _instance(self, instance):
-        return model.Watch.all_by_entity(instance)
-    
-    def _delegateable(self, delegateable):
-        watches = []
-        if len(delegateable.parents):
-            for parent in delegateable.parents:
-                watches += self._delegateable(parent)
-        else:
-            watches += self._instance(delegateable.instance)
-        return self._merge(watches, 
-                      model.Watch.all_by_entity(delegateable))
-    
-    def _comment(self, comment):
-        watches = [] 
-        if comment.reply:
-            watches += self._comment(comment.reply)
-        else:
-            watches += self._delegateable(comment.topic)
-        return self._merge(watches, 
-                      model.Watch.all_by_entity(comment))
-    
-    def _watches(self, event):
-        watches = model.Watch.all_by_entity(event.user)
-        for topic in event.topics:
-            if isinstance(topic, model.Comment):
-                watches = self._merge(self._comment(topic), watches)
-            elif isinstance(topic, model.Delegateable):
-                watches = self._merge(self._delegateable(topic), watches) 
-            else:
-                watches = self._merge(model.Watch.all_by_entity(topic), watches)
-        return watches
-                
-    def __call__(self, event):
-        for watch in self._watches(event): 
-            yield Notification(event, watch.user, watch=watch)
+def watchlist_source(event):
+    watches = watchlist.traverse_watchlist(event.user)
+    for topic in event.topics:
+        watches += watchlist.traverse_watchlist(topic)
+    for watch in watches: 
+        yield Notification(event, watch.user, watch=watch)
 
-watchlist_source = WatchlistSource() # yeah no its not a 'real' class.
 
 from ... import democracy       
 def vote_source(event):
@@ -97,3 +47,13 @@ def instance_source(event):
         yield Notification(event, event.user, type=N_INSTANCE_FORCE_LEAVE)
     elif event.event == T_INSTANCE_MEMBERSHIP_UPDATE:
         yield Notification(event, event.user, type=N_INSTANCE_MEMBERSHIP_UPDATE)
+
+
+def tag_source(event):
+    watches = []
+    for topic in event.topics:
+        for (tag, count) in topic.tags:
+            watches = watchlist.traverse_watchlist(tag)
+    for watch in set(watches): 
+        yield Notification(event, watch.user, watch=watch)
+    

@@ -38,28 +38,53 @@ class Tag(object):
     def __len__(self):
         if self._count is None:
             from tagging import Tagging 
+            from delegateable import Delegateable
             q = meta.Session.query(Tagging)
             q = q.filter(Tagging.tag==self)
-            if filter.has_instance():
+            if ifilter.has_instance():
                 q = q.join(Delegateable)
-                q = q.filter(Delegateable.instance_id==filter.get_instance().id)
+                q = q.filter(Delegateable.instance_id==ifilter.get_instance().id)
             self._count = q.count()
         return self._count
         
     count = property(__len__)
     
     
+    def __le__(self, other):
+        return self.name >= other.name 
+    
+    
+    def __lt__(self, other):
+        return self.name > other.name
+    
+    
+    @classmethod
+    def by_id(cls, id, instance_filter=True, include_deleted=False):
+        try:
+            q = meta.Session.query(Tag)
+            q = q.filter(Tag.id==id)
+            return q.limit(1).first()
+        except Exception, e:
+            log.warn("by_id(%s): %s" % (id, e))
+            return None
+    
+
     @classmethod
     def find(cls, name, instance_filter=True, include_deleted=False):
         import adhocracy.lib.text as text
         name = text.tag_normalize(name)
         try:
             q = meta.Session.query(Tag)
-            q = q.filter(Tag.name.like(name))
+            try: 
+                id = int(name)
+                q = q.filter(Tag.id==id)
+            except ValueError:
+                q = q.filter(Tag.name.like(name))
             return q.limit(1).first()
         except Exception, e:
-            log.warn("find(%s): %s" % (id, e))
+            log.warn("find(%s): %s" % (name, e))
             return None
+
     
     
     @classmethod
@@ -101,4 +126,9 @@ class Tag(object):
         if tag is None:
             tag = Tag.create(name)
         return tag
+        
+    
+    def _index_id(self):
+        return self.id
+        
 

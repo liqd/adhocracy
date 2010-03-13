@@ -15,21 +15,6 @@
 		<input tabindex="1" class="title armlabel" name="label" value="${c.proposal.label}"/>
 	</div>
 	
-	<h3>${_("Issue")}</h3>
-	<div class="sidebar">
-		<div class="infobox">
-			${_("If necessary, move the proposal to a different issue to keep things organized.")}
-	 	</div>
-	</div>
-	<div class="mainbar">
-		<select name="issue">
-		%for issue in c.issues:
-			<option value="${issue.id}" ${"selected='selected'" if issue==c.proposal.issue else ''}>${issue.label}</option>
-		%endfor
-		</select>
-	</div>
-	
-	<div style="clear:both;"></div>
 	<h3>${_("Alternatives")}</h3>
 	<div class="sidebar">
 		<div class="infobox">

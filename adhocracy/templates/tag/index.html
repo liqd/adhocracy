@@ -6,6 +6,12 @@
 	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Tags")}
 </%def>
 
-%for (tag, size) in c.tags:
-	${h.tag_link(tag, size=size)|n}
-%endfor
+<h1 class="page_title">${_("Popular tags")}</h1>
+
+<div class="sidebar">
+	<div class="infobox">${_("Tags are keywords used to find, sort and filter proposals.")}</div>
+</div>
+
+<div class="mainbar">
+	${tiles.tag.cloud(c.tags, link_more=False)}
+</div>

@@ -117,6 +117,18 @@ class User(object):
     
     twitter = property(_get_twitter)
     
+    
+    def _get_num_watches(self):
+        from watch import Watch
+        q = meta.Session.query(Watch)
+        q = q.filter(Watch.user==self)
+        q = q.filter(or_(Watch.delete_time==None,
+                         Watch.delete_time>=datetime.utcnow()))
+        return q.count()
+        
+    num_watches = property(_get_num_watches)
+    
+    
     def _set_password(self, password):
         """Hash password on the fly."""
         

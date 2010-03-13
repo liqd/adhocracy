@@ -56,10 +56,10 @@ class InstanceTile(BaseTile):
     can_leave = property(_can_leave)
     can_admin = property(BaseTile.prop_has_perm('instance.admin'))
     
-    def _can_create_issue(self):
-        return c.user and h.has_permission("issue.create")
+    def _can_create_proposal(self):
+        return c.user and h.has_permission("proposal.create")
     
-    can_create_issue = property(_can_create_issue)
+    can_create_proposal = property(_can_create_proposal)
     
     def _num_issues(self):
         query = model.meta.Session.query(model.Issue)

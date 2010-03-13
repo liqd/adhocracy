@@ -71,7 +71,8 @@ class DelegationController(BaseController):
             log.debug("Replaying the vote for Delegation: %s" % delegation)
             democracy.Decision.replay_decisions(delegation)
         
-        redirect_to("/d/%s" % str(c.scope.id))
+        redirect(h.entity_url(c.scope))
+    
         
     @RequireInstance
     @RequireInternalRequest()
@@ -85,7 +86,8 @@ class DelegationController(BaseController):
         event.emit(event.T_DELEGATION_REVOKE, c.user, topics=[c.delegation.scope],
                    scope=c.delegation.scope, instance=c.instance, agent=c.delegation.agent)        
         h.flash(_("The delegation is now revoked."))
-        redirect_to("/d/%s" % str(c.delegation.scope.id))
+        redirect(h.entity_url(c.delegation.scope))
+    
     
     @ActionProtector(has_permission("delegation.view"))
     def show(self, id, format='html'):
@@ -97,21 +99,21 @@ class DelegationController(BaseController):
         
         decisions = democracy.Decision.for_user(c.delegation.principal, c.instance)
         decisions = filter(lambda d: c.delegation in d.delegations, decisions)
-        
         c.decisions_pager = NamedPager('decisions', decisions, tiles.decision.user_row, 
                                     sorts={_("oldest"): sorting.entity_oldest,
                                            _("newest"): sorting.entity_newest},
                                     default_sort=sorting.entity_newest)
-        
         return render("delegation/show.html")
+    
     
     @RequireInstance
     @ActionProtector(has_permission("delegation.view"))
     def edit(self, format='html'):
         return self.not_implemented()
     
+    
     @RequireInstance
     @ActionProtector(has_permission("delegation.view"))
     def update(self, format='html'):
         return self.not_implemented()
-    
+

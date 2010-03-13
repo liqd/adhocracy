@@ -186,6 +186,10 @@ input.delete {
 	background-color: #9d0000;	
 }
 
+input.long {
+	width: 98%;
+}
+
 input:hover[type=submit],
 input:hover[type=button],
 .savebox button:hover {
@@ -253,19 +257,6 @@ input.title {
 	float: right;
 }
 
-#registerform,#loginform {
-	overflow: hidden;
-}
-
-#loginform {
-	float: left;
-	padding-right: 2em;
-	width: 50%;
-}
-
-#loginform h3 {
-	width: 100%;
-}
 
 .savebox {
 	padding-top: 20px;
@@ -301,7 +292,7 @@ body {
 	width: 100%;
 	height: 100%;
 	text-align: center;
-	background: #fff url(/img/body_bg.png) repeat-x;
+	/*background: #fff url(/img/body_bg.png) repeat-x;*/
 }
 
 #frame {
@@ -377,16 +368,35 @@ body {
 	background-color: #336699;
 }
 
+.tag_link.plain a {
+	background-color: transparent;
+	border: 0px solid white;
+	padding: 0px;
+	margin: 0px;
+}
+
+.tag_link.plain a:hover {
+	text-decoration: underline;
+	color: #336699;
+}
+
+
+.lefthalf h3 {
+	width: 100%;
+}
+
+.lefthalf, .righthalf {
+	overflow: hidden;	
+}
+
 .lefthalf {
-	float: left;
 	width: 49%;
-	overflow: hidden;
+	float: left;
+	padding-right: 2em;
 }
 
 .righthalf {
-	float: right;
-	width: 49%;
-	overflow: hidden;
+	/*float: right;*/
 }
 
 .sidebar {
@@ -408,7 +418,7 @@ body {
 #header {
 	width: auto; 
 	padding: 0px 2em 0px 2em;
-	height: 85px;
+	height: 74px;
 	background-color: #fff;
 	background-image: url(/img/hdr_bg.png);
 	background-repeat: repeat-x;
@@ -430,12 +440,12 @@ body {
 	top: 0em;
 	list-style: none;
 	margin: -2px 0px 0px 0px;
-	padding: 4px 1em 8px 1em;
+	padding: 6px 1em 12px 1em;
 	right: 0em;
 	color: white;
 	background-color: #1553a4;
 	background-image: url(/img/menu_bg.png);
-	background-position: bottom;
+	background-position: top;
 	z-index: 1000;
 	color: white;	
 	-webkit-border-bottom-left-radius: 5px;
@@ -526,12 +536,6 @@ body {
 	min-width: 15em;
 	padding: 8px 1em 8px 1em;
 	margin: -1em 0em 0em 0em;
-	border: 1px solid #ccc;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	background-image: url(/img/comment_bg.png);
-	background-repeat: repeat-x;
-	background-position: bottom;
 } 
 
 #header #search {
@@ -540,16 +544,22 @@ body {
 	background-image: url(/img/icons/search.png);
 	background-repeat: no-repeat;
 	background-position: center left;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
 	padding-left: 24px;
+	border: 1px solid #ccc;
 }
 
 #header #menu a:hover {
 	text-decoration: none;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	background-repeat: repeat-x;
 	background-image: url(/img/menu_bg.png);
 	background-position: top;
 	background-color: #1553a4;
 	color: white;
-	border: 1px solid #1553a4;
+	/*border: 1px solid #1553a4;*/
 	text-shadow: none;
 }
 
@@ -638,6 +648,7 @@ body {
 	color:  #fff;
 	margin-top: 0.5em;
 	text-decoration: none;
+	z-index: 2000;
 }
 
 .infobox,
@@ -1597,6 +1608,7 @@ a.button.inactive {
 .panel.votes a.votes,
 .panel.history a.history,
 .panel.users a.users,
+.panel.watchlist a.watchlist,
 .panel.discussion a.discussion,
 .panel.instances a.instances {
 	border-top: 1px solid #bbb;

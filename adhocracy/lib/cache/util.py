@@ -2,7 +2,7 @@ import logging
 from base64 import b64encode
 from hashlib import sha1
 
-from pylons import g
+from pylons import app_globals
 
 class NoneResult(object): pass
 
@@ -13,13 +13,13 @@ SEP="|"
 cacheTags = {}
 
 def add_tags(key, tags):
-    ctags = g.cache.get_multi(tags)
+    ctags = app_globals.cache.get_multi(tags)
     for tag in tags:
         if not ctags.get(tag):
             ctags[tag] = key
         else: 
             ctags[tag] += SEP + key
-    g.cache.set_multi(ctags)
+    app_globals.cache.set_multi(ctags)
     
 def tag_fn(key, a, kw):
     tags = []
@@ -41,9 +41,9 @@ def make_key(iden, a, kw=None):
 def clear_tag(tag):
     try:
         tag = make_tag(tag)
-        entities = g.cache.get(tag)
+        entities = app_globals.cache.get(tag)
         if entities:
-            g.cache.delete_multi(entities.split(SEP))
+            app_globals.cache.delete_multi(entities.split(SEP))
     except TypeError, te:
         pass
         #log.warn(te)
@@ -52,18 +52,18 @@ def memoize(iden, time = 0):
     def memoize_fn(fn):
         from adhocracy.lib.cache.util import NoneResult
         def new_fn(*a, **kw):
-            if not g.cache:
+            if not app_globals.cache:
                 res = fn(*a, **kw)
             else:
                 key = make_key(iden, a, kw)
-                res = g.cache.get(key)
+                res = app_globals.cache.get(key)
                 if res is None:
                     res = fn(*a, **kw)
                     #print "Cache miss", key
                     if res is None:
                         res = NoneResult
                     #print "Cache set:", key
-                    g.cache.set(key, res, time = time)
+                    app_globals.cache.set(key, res, time = time)
                     tag_fn(key, a, kw)
                 #else:
                     #print "Cache hit", key

@@ -1,4 +1,4 @@
-import logging
+import logging, sys
 
 from repoze.who.plugins.basicauth import BasicAuthPlugin
 from repoze.who.plugins.auth_tkt import AuthTktCookiePlugin
@@ -42,7 +42,7 @@ def setup_auth(app, config):
     sql_user_md = SQLAlchemyUserMDPlugin(model.User, model.meta.Session)
             
     identifiers = [('form', form),('basicauth', basicauth), ('auth_tkt', auth_tkt)]
-    authenticators = [('sqlauth', sqlauth)]
+    authenticators = [('sqlauth', sqlauth), ('auth_tkt', auth_tkt)]
     challengers = [('form', form), ('basicauth', basicauth)]
     mdproviders = [('sql_user_md', sql_user_md)]
     

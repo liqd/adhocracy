@@ -44,6 +44,7 @@ class IssueController(BaseController):
         c.tile = tiles.instance.InstanceTile(c.instance)
         return render("/issue/index.html")
     
+    
     @RequireInstance
     @ActionProtector(has_permission("issue.create"))
     def new(self):
@@ -57,16 +58,16 @@ class IssueController(BaseController):
     def create(self):
         issue = model.Issue.create(c.instance, self.form_result.get('label'), 
                                    c.user)
-        model.meta.Session.commit()
         comment = model.Comment.create(self.form_result.get('text'), c.user, issue)
         if h.has_permission('vote.cast'):
             decision = democracy.Decision(c.user, comment.poll).make(model.Vote.YES)
+        model.meta.Session.commit()
         issue.comment = comment
         model.meta.Session.commit()
         watchlist.check_watch(issue)
         event.emit(event.T_ISSUE_CREATE, c.user, instane=c.instance, 
                    topics=[issue], issue=issue, rev=comment.latest)
-        redirect_to(h.entity_url(issue))
+        redirect(h.entity_url(issue))
     
     
     @RequireInstance
@@ -88,7 +89,8 @@ class IssueController(BaseController):
         watchlist.check_watch(c.issue)
         event.emit(event.T_ISSUE_EDIT, c.user, instance=c.instance, 
                    topics=[c.issue], issue=c.issue, rev=c.issue.comment.latest)
-        redirect_to(h.entity_url(c.issue))
+        redirect(h.entity_url(c.issue))
+    
     
     @RequireInstance
     @ActionProtector(has_permission("issue.view"))
@@ -97,6 +99,7 @@ class IssueController(BaseController):
         if format == 'rss':
             return self.activity(id, format)      
         return self.discussion(id, format)
+    
     
     @RequireInstance
     @ActionProtector(has_permission("issue.view"))
@@ -109,6 +112,7 @@ class IssueController(BaseController):
         c.tile = tiles.issue.IssueTile(c.issue)
         self._common_metadata(c.issue)
         return render("/issue/discussion.html")
+    
     
     @RequireInstance
     @ActionProtector(has_permission("issue.view"))
@@ -131,6 +135,7 @@ class IssueController(BaseController):
         self._common_metadata(c.issue)
         return render("/issue/activity.html")
     
+    
     @RequireInstance
     @ActionProtector(has_permission("issue.view"))
     def proposals(self, id, format="html"):
@@ -143,6 +148,7 @@ class IssueController(BaseController):
         c.proposals_pager = pager.proposals(c.issue.proposals, detail=True)
         self._common_metadata(c.issue)
         return render("/issue/proposals.html")
+    
     
     @RequireInstance
     @ActionProtector(has_permission("issue.view"))
@@ -176,12 +182,12 @@ class IssueController(BaseController):
             if not proposal.is_mutable():
                 h.flash(_("The issue %(issue)s cannot be deleted, because the contained " +
                           "proposal %(proposal)s is polling.") % {'issue': c.issue.label, 'proposal': proposal.label})
-                redirect_to('/issue/%s' % str(c.issue.id))
+                redirect(h.entity_url(c.issue))
         c.issue.delete()
         model.meta.Session.commit()
         event.emit(event.T_ISSUE_DELETE, c.user, instance=c.instance, 
                    topics=[c.issue], issue=c.issue)
-        redirect_to(h.entity_url(c.issue.instance))
+        redirect(h.entity_url(c.issue.instance))
         
         
     @RequireInstance
@@ -203,3 +209,4 @@ class IssueController(BaseController):
         
         h.add_rss(_("Issue: %(issue)s") % {'issue': issue.label}, 
                     h.entity_url(c.issue, format='rss'))
+

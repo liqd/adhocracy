@@ -65,7 +65,7 @@ class PollController(BaseController):
             return render_json(dict(decision=decision,
                                     score=tally.score))
         model.meta.Session.commit()
-        redirect_to(h.entity_url(c.poll.subject))
+        redirect(h.entity_url(c.poll.subject))
     
         
     @RequireInstance
@@ -100,7 +100,7 @@ class PollController(BaseController):
         model.meta.Session.commit()
         event.emit(event.T_PROPOSAL_STATE_REDRAFT, c.user, instance=c.instance, 
                    topics=[c.poll.scope], proposal=c.poll.scope, poll=c.poll)
-        redirect_to(h.entity_url(c.poll.subject))
+        redirect(h.entity_url(c.poll.subject))
     
     
     def _get_open_poll(self, id):

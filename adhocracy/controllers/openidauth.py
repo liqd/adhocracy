@@ -26,8 +26,7 @@ class OpenIDUsernameForm(formencode.Schema):
                            forms.UniqueUsername())
 
 class OpenidauthController(BaseController):
-    
-                
+                    
     def _create(self, user_name, email, identity):
         """
         Create a user based on data gathered from OpenID
@@ -39,7 +38,8 @@ class OpenidauthController(BaseController):
         model.meta.Session.commit()
         event.emit(event.T_USER_CREATE, user)
         return user
-
+    
+    
     def _login(self, user):
         """
         Raw login giving severe headaches to repoze.who, repoze.what and any
@@ -51,21 +51,19 @@ class OpenidauthController(BaseController):
             'timestamp': int(datetime.utcnow().strftime("%s")),
             'user': user,
                     }
-        
         # set up repoze.what
         authorization_md = request.environ['repoze.who.plugins']['authorization_md']
         authorization_md.add_metadata(request.environ, identity)
-                  
         auth_tkt = request.environ['repoze.who.plugins']['auth_tkt']
         header = auth_tkt.remember(request.environ, identity)
         response.headerlist.extend(header)
-                
         if c.instance and not user.is_member(c.instance):
-            redirect_to(h.instance_url(c.instance, 
-                        path="/instance/join/%s?%s" % (c.instance.key, 
-                                                       h.url_token())))
-        redirect_to("/")        
-            
+            redirect(h.instance_url(c.instance, 
+                     path="/instance/join/%s?%s" % (c.instance.key, 
+                                                    h.url_token())))
+        redirect("/")        
+    
+    
     def _failure(self, openid, message):
         """
         Abort an OpenID authenication attempt and return to login page, 
@@ -74,7 +72,7 @@ class OpenidauthController(BaseController):
         log.info("OpenID: %s - Error: %s" % (openid, message))
         if c.user:
             h.flash(message)
-            return redirect_to("/user/%s/edit" % str(c.user.user_name))
+            return redirect(h.entity_url(c.user, member='edit'))
         else:
             loginhtml = render("/user/login.html")
             return formencode.htmlfill.render(loginhtml, 
@@ -99,7 +97,6 @@ class OpenidauthController(BaseController):
             axreq = ax.FetchRequest(h.instance_url(c.instance, path='/openid/update'))
             axreq.add(ax.AttrInfo(AX_MAIL_SCHEMA, alias="email", required=True))
             authrequest.addExtension(axreq)
-
             sreq = sreg.SRegRequest(required=['nickname'], optional=['email'])
             authrequest.addExtension(sreq)    
         
@@ -108,14 +105,16 @@ class OpenidauthController(BaseController):
                                     immediate=False)
         session['openid_session'] = self.openid_session
         session.save()
-        return redirect_to(redirecturl)
+        return redirect(redirecturl)
+    
     
     @ActionProtector(has_permission("user.edit"))
     def connect(self):
         if not c.user:
             h.flash(_("No OpenID was entered."))
-            redirect_to("/login")
+            redirect("/login")
         return render("/openid/connect.html")   
+    
     
     @RequireInternalRequest()
     @ActionProtector(has_permission("user.edit"))
@@ -128,17 +127,16 @@ class OpenidauthController(BaseController):
             abort(403, _("You're not authorized to change %s's settings.") % id)
         openid.delete()
         model.meta.Session.commit()
-        return redirect_to("/user/%s/edit" % str(page_user.user_name))
-
+        redirect(h.entity_url(c.user, member='edit'))
+    
+    
     def verify(self):
         self.consumer = create_consumer(self.openid_session)
         info = self.consumer.complete(request.params, h.instance_url(c.instance, path='/openid/verify'))
         if not info.status == SUCCESS:
             return self._failure(info.identity_url, _("OpenID login failed."))
-        
         email = None
         user_name = None
-            
         # evaluate Simple Registration Extension data
         srep = sreg.SRegResponse.fromSuccessResponse(info)
         if srep:
@@ -176,19 +174,19 @@ class OpenidauthController(BaseController):
                 oid = model.OpenID(unicode(info.identity_url), c.user)
                 model.meta.Session.add(oid)
                 model.meta.Session.commit()
-                redirect_to("/user/%s/edit" % str(c.user.user_name))
+                redirect(h.entity_url(c.user, member='edit'))
             else:
                 try:
                     forms.UniqueUsername(not_empty=True).to_python(user_name)
                 except:
                     session['openid_req'] = (info.identity_url, user_name, email)
                     session.save()
-                    redirect_to('/openid/username')
+                    redirect('/openid/username')
                 user = self._create(user_name, email, info.identity_url)
-                self._login(user)
-                    
+                self._login(user)                
         return self._failure(info.identity_url, _("Justin Case has entered the room."))
-
+    
+    
     @validate(schema=OpenIDUsernameForm(), form="username", post_only=True)
     def username(self):
         """
@@ -206,4 +204,4 @@ class OpenidauthController(BaseController):
                     self._login(user)
             return render('/openid/username.html')
         else:
-            redirect_to('/register')
+            redirect('/register')

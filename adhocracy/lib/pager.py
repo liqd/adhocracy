@@ -91,7 +91,8 @@ def instances(instances):
                              _("activity"): sorting.instance_activity,
                              _("name"): sorting.delegateable_label},
                       default_sort=sorting.instance_activity)
-    
+
+  
 def issues(issues, has_query=False):
     sorts = {_("oldest"): sorting.entity_oldest,
              _("newest"): sorting.entity_newest,
@@ -101,7 +102,8 @@ def issues(issues, has_query=False):
         
     return NamedPager('issues', issues, tiles.issue.row, sorts=sorts,
                       default_sort=sorting.issue_activity)
-    
+
+  
 def proposals(proposals, has_query=False, detail=True):
     sorts = {_("oldest"): sorting.entity_oldest,
              _("newest"): sorting.entity_newest,
@@ -110,7 +112,8 @@ def proposals(proposals, has_query=False, detail=True):
               _("name"): sorting.delegateable_label}
     return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
                       default_sort=sorting.proposal_activity)
-
+                      
+                      
 def users(users, has_query=False):
     sorts={_("oldest"): sorting.entity_oldest,
            _("newest"): sorting.entity_newest,
@@ -119,12 +122,14 @@ def users(users, has_query=False):
                 
     return NamedPager('users', users, tiles.user.row, sorts=sorts,
                       default_sort=sorting.user_activity)
-    
+
+  
 def user_decisions(decisions):
     return NamedPager('decisions', decisions, tiles.decision.user_row, 
                       sorts={_("oldest"): sorting.entity_oldest,
                              _("newest"): sorting.entity_newest},
                       default_sort=sorting.entity_newest)
+
 
 def scope_decisions(decisions):
     return NamedPager('decisions', decisions, tiles.decision.scope_row, 
@@ -132,17 +137,20 @@ def scope_decisions(decisions):
                              _("newest"): sorting.entity_newest},
                       default_sort=sorting.entity_newest)
 
+
 def comments(comments):
     return NamedPager('comments', comments, tiles.comment.row,
                       sorts={_("oldest"): sorting.entity_oldest,
                              _("newest"): sorting.entity_newest},
                       default_sort=sorting.entity_newest)
-    
+
+   
 def delegations(delegations):
     return NamedPager('delegations', delegations, tiles.delegation.row,
                       sorts={_("oldest"): sorting.entity_oldest,
                              _("newest"): sorting.entity_newest},
                       default_sort=sorting.entity_newest)
-    
+
+
 def events(events):
     return NamedPager('events', events, tiles.event.row, count=10)

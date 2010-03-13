@@ -16,39 +16,32 @@ class TwitteroauthController(BaseController):
     @ActionProtector(has_permission("user.edit"))
     def init(self):
         api = create_oauth()
-        
         request_token = api.getRequestToken()
         session['request_token'] = request_token.to_string()
         session.save()
-        redirect_to(api.getAuthorizationURL(request_token))
+        redirect(api.getAuthorizationURL(request_token))
+    
     
     @ActionProtector(has_permission("user.edit"))
     def callback(self):
         if 'denied' in request.params:
-            redirect_to("/user/%s/edit" % str(c.user.user_name))
+            redirect(h.entity_url(c.user, member='edit'))
         request_token = session.get('request_token')
         if not request_token:
             h.flash(_("You have been logged out while authenticating "
                       "at twitter. Please try again."))
-            redirect_to("/user/%s/edit" % str(c.user.user_name))
-        
+            redirect(h.entity_url(c.user, member='edit'))
         request_token = oauth.OAuthToken.from_string(request_token)
         req_api = create_oauth(key=request_token.key, secret=request_token.secret)
         access_token = req_api.getAccessToken()
-        
         api = create_oauth(key=access_token.key, secret=access_token.secret)
         user_data = api.GetUserInfo()
-        
-        log.debug(access_token)
-        log.debug(user_data)
-        
         twitter = model.Twitter(int(user_data.id), c.user, 
                                 user_data.screen_name, 
                                 unicode(access_token.key), 
                                 unicode(access_token.secret))
         model.meta.Session.add(twitter)
         model.meta.Session.commit()
-        
         try:
             # workaround to a hashing fuckup in oatuh
             api._FetchUrl("http://twitter.com/friendships/create.json", 
@@ -58,15 +51,15 @@ class TwitteroauthController(BaseController):
                       + "can send you notifications as direct messages") % system_user())
         except HTTPError, he:
             log.warn(he.read())
-        
-        redirect_to("/user/%s/edit" % str(c.user.user_name))
+        redirect(h.entity_url(c.user, member='edit'))
+    
     
     @RequireInternalRequest()
     @ActionProtector(has_permission("user.edit"))
     def revoke(self):
         if not c.user.twitter:
             h.flash(_("You have no twitter association."))
-            redirect_to("/user/%s/edit" % str(c.user.user_name))
+            redirect(h.entity_url(c.user, member='edit'))
         c.user.twitter.delete()
         model.meta.Session.commit()
-        redirect_to("/user/%s/edit" % str(c.user.user_name))
+        redirect(h.entity_url(c.user, member='edit'))

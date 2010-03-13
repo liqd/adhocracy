@@ -7,8 +7,8 @@ except ImportError:
 
 setup(
     name='adhocracy',
-    version='0.3',
-    description='Community decision process manager',
+    version='0.4',
+    description='Community decision-making web platform',
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
     url='http://wiki.liqd.net/Adhocracy',
@@ -17,7 +17,7 @@ setup(
         "SQLAlchemy>=0.5.7",
         "sqlalchemy-migrate>=0.5.4",
         "FormEncode>=1.2.2",
-        "repoze.who>=1.0.15",
+        "repoze.who>=2.0a1",
         "repoze.what>=1.0.8",
         "repoze.who.plugins.sa>=1.0rc2",
         "repoze.what-pylons>=1.0",

@@ -1,23 +1,23 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Adhocracies")}</%def>
+<%def name="title()">${_("Instances")}</%def>
 
 <%def name="breadcrumbs()">
-	${_("Adhocracy")} &raquo; ${_("Instances")} 
+	${h.site_name()} &raquo; ${_("Instances")} 
 </%def>
 
 
 <div class="top_actions title">
 	%if h.has_permission("instance.create"):
-		<a class="button title add" href="/instance/create">${_("new")}</a>
+		<a class="button title add" href="/instance/new">${_("new instance")}</a>
 	%endif 
 </div>
 
-<h1 class="page_title">${_("Adhocracies")}</h1>
+<h1 class="page_title">${_("Instances")}</h1>
 
 <div class="sidebar">
 	<div class="infobox">
-		${_("Adhocracies are little democracies that are ran by their community.")}
+		${_("Instances are little democracies that are ran by their community.")}
 	</div>
 	&nbsp;
 </div>

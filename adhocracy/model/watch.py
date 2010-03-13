@@ -91,6 +91,15 @@ class Watch(object):
         
     
     @classmethod
+    def all_by_user(self, user):
+        q = meta.Session.query(Watch)
+        q = q.filter(Watch.user==user)
+        q = q.filter(or_(Watch.delete_time==None,
+                         Watch.delete_time>datetime.utcnow()))
+        return q.all()
+        
+    
+    @classmethod
     def all(cls, include_deleted=False):
         q = meta.Session.query(Watch)
         if not include_deleted:

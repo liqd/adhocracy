@@ -29,8 +29,20 @@ class Comment(object):
         self.topic = topic
         self.creator = creator
     
+    
+    def _get_latest(self):
+        return self.revisions[0] if len(self.revisions) else None
+    
+    
+    def _set_latest(self, rev):
+        return self.revisions.insert(0, rev)
+    
+    latest = property(_get_latest, _set_latest)
+    
+    
     def root(self):
         return self if self.reply is None else self.reply.root()
+    
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):

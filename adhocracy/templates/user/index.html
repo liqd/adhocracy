@@ -8,7 +8,10 @@
 </%def>
 
 %if c.instance:
-	${tiles.instance.header(c.instance, active='users', no_panel=True)}
+	<h1 class="page_title">
+		<img class="cd" src="/img/icons/user_24.png" />
+		${_("Members")}
+		</h1>
 %else:
 	<h1 class="page_title">
 		<img class="cd" src="/img/icons/user_24.png" />

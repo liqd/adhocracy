@@ -29,7 +29,7 @@ class WatchController(BaseController):
         else:
             watch = model.Watch.create(c.user, entity)
             model.meta.Session.commit()
-        redirect_to(h.entity_url(entity))
+        redirect(h.entity_url(entity))
     
     
     @RequireInternalRequest()
@@ -41,4 +41,4 @@ class WatchController(BaseController):
             abort(403, _("You're not authorized to delete %s's watchlist entries.") % watch.user.name)
         watch.delete()
         model.meta.Session.commit()
-        redirect_to(h.entity_url(watch.entity))
+        redirect(h.entity_url(watch.entity))

@@ -15,6 +15,8 @@ from proposal import Proposal
 from poll import Poll
 from instance import Instance
 from revision import Revision
+from tag import Tag 
+from tagging import Tagging
 
 log = logging.getLogger(__name__)
 
@@ -30,27 +32,35 @@ TYPES = [Vote,
          Issue,
          Proposal,
          Poll,
-         Instance]
+         Instance,
+         Tag,
+         Tagging]
+
 
 def entity_type(entity):
     return cls_type(type(entity))
+
     
 def cls_type(cls):
     return unicode(cls.__name__.lower())
 
+
 def to_ref(entity):
     for cls in TYPES:
         if isinstance(entity, cls):
-            return u"@[%s:%s]" % (entity_type(entity), str(entity._index_id()))
+            return u"@[%s:%s]" % (entity_type(entity), unicode(entity._index_id()))
     return entity
+
     
 def to_id(ref):
     match = FORMAT.match(unicode(ref))
     return match.group(2) if match else None
 
+
 def ref_type(ref):
     match = FORMAT.match(unicode(ref))
     return match.group(1) if match else None
+
 
 def to_entity(ref, instance_filter=False, include_deleted=True):
     match = FORMAT.match(unicode(ref))
@@ -86,7 +96,8 @@ def _ify(fun, obj):
             if not obj:
                 obj = _("(Undefined)") 
         return obj
-    
+
+
 complex_to_refs = lambda obj: _ify(to_ref, obj)
 complex_to_entities = lambda obj: _ify(to_entity, obj)
 

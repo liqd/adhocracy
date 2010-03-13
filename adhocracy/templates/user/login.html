@@ -1,14 +1,14 @@
 <%inherit file="/template.html" />
 <%def name="title()">${_("Who are you, then?")}</%def>
 
-<div id="loginform">
+<div class="lefthalf">
 	<h3>${_("Login")}</h3>
 	<span class="hint">${_("If you already have an account, sign in here.")}</span>
 	<%include file="/user/login_form.html"/>
 	<br/>
 </div>
 
-<div id="registerform">
+<div class="righthalf">
 	<h3>${_("Register")}</h3>
 	<span class="hint">${_("Creating an account is easy; all you need is a user name, password and email address.")}</span>
 	<%include file="/user/register_form.html"/>

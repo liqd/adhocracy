@@ -6,17 +6,19 @@
 	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Proposals")}
 </%def>
 
-${tiles.instance.header(c.instance, c.tile, active='proposals', no_panel=True)}
+<div class="top_actions title">
+	%if c.tile.can_create_proposal:
+		<a class="button add" href="/proposal/new">${_("new proposal")}</a>
+	%endif
+</div>
+	
+<h1 class="page_title"><img src="/img/icons/proposal_24.png" class="cd" /> ${_("Proposals")}</h1>
 
 <div class="sidebar">
-	
-	<h3 class="section">${_("Interesting Tags")}</h3>
-	
-	
-	
-	<h3 class="section">${_("Ignored Tags")}</h3>
-	
-	
+	%if len(c.cloud_tags):
+		<h3 class="section">${_("Popular Tags")}</h3>
+		${tiles.tag.cloud(c.cloud_tags)}
+	%endif
 </div>
 
 <div class="mainbar">

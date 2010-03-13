@@ -57,7 +57,7 @@ class CommentController(BaseController):
         watchlist.check_watch(comment)
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance, 
                    topics=[topic], comment=comment, topic=topic, rev=comment.latest)
-        redirect_to(h.entity_url(comment))
+        redirect(h.entity_url(comment))
     
     @RequireInstance
     @ActionProtector(has_permission("comment.edit"))
@@ -81,14 +81,14 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic, rev=rev)
-        redirect_to(h.entity_url(c.comment))
+        redirect(h.entity_url(c.comment))
     
     @RequireInstance
     @ActionProtector(has_permission("comment.view"))
     def show(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
         if format == 'fwd':
-            redirect_to(h.entity_url(c.comment))
+            redirect(h.entity_url(c.comment))
         elif format == 'json':
             return render_json(c.comment)
         return render('/comment/show.html')
@@ -113,8 +113,8 @@ class CommentController(BaseController):
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic)
         if c.comment.root().canonical:
-            redirect_to(h.entity_url(c.comment.topic, member='canonicals'))
-        redirect_to(h.entity_url(c.comment.topic))
+            redirect(h.entity_url(c.comment.topic, member='canonicals'))
+        redirect(h.entity_url(c.comment.topic))
     
     @RequireInstance
     @ActionProtector(has_permission("comment.view"))    
@@ -141,7 +141,7 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic)
-        redirect_to(h.entity_url(c.comment))
+        redirect(h.entity_url(c.comment))
     
     # get a comment for editing, checking that it is mutable. 
     def _get_mutable_or_abort(self, id):

@@ -58,7 +58,7 @@ class InstanceController(BaseController):
                                          description=self.form_result.get('description'))
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_CREATE, c.user, instance=instance)    
-        redirect_to(h.entity_url(instance))
+        redirect(h.entity_url(instance))
     
 
     @RequireInstance
@@ -69,7 +69,10 @@ class InstanceController(BaseController):
             return render_json(c.page_instance)
         if format == 'rss':
             return self.activity(id, format)
-        redirect_to(h.entity_url(c.page_instance))
+        c.tile = tiles.instance.InstanceTile(c.page_instance)
+        tags = model.Tag.popular_tags(limit=70)
+        c.tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
+        return render("/instance/show.html")
     
     
     @RequireInstance
@@ -81,18 +84,15 @@ class InstanceController(BaseController):
             sline = event.sparkline_samples(event.instance_activity, c.page_instance)
             return render_json(dict(activity=sline))
         
-        query = model.meta.Session.query(model.Event)
-        query = query.filter(model.Event.instance==c.page_instance)
-        query = query.order_by(model.Event.time.desc())
-        query = query.limit(100)
+        events = model.Event.find_by_instance(c.page_instance)
             
         if format == 'rss':
-            return event.rss_feed(query.all(), _('%s News' % c.page_instance.label),
+            return event.rss_feed(events, _('%s News' % c.page_instance.label),
                                       h.instance_url(c.page_instance), 
                                       _("News from %s") % c.page_instance.label)
         
         c.tile = tiles.instance.InstanceTile(c.page_instance)
-        c.events_pager = pager.events(query.all())
+        c.events_pager = pager.events(events)
         return render("/instance/activity.html")
     
     
@@ -111,6 +111,7 @@ class InstanceController(BaseController):
                                     'description': c.page_instance.description,
                                     'required_majority': c.page_instance.required_majority,
                                     'activation_delay': c.page_instance.activation_delay,
+                                    'allow_adopt': c.page_instance.allow_adopt,
                                     'default_group': default_group})
         
     
@@ -124,6 +125,7 @@ class InstanceController(BaseController):
         c.page_instance.label = self.form_result.get('label')
         c.page_instance.required_majority = self.form_result.get('required_majority')
         c.page_instance.activation_delay = self.form_result.get('activation_delay')
+        c.page_instance.allow_adopt = self.form_result.get('allow_adopt')
         if self.form_result.get('default_group').code in model.Group.INSTANCE_GROUPS:
             c.page_instance.default_group = self.form_result.get('default_group') 
         
@@ -136,8 +138,9 @@ class InstanceController(BaseController):
             log.debug(e)
         model.meta.Session.commit()            
         event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)
-        redirect_to(h.entity_url(c.page_instance))
-        
+        redirect(h.entity_url(c.page_instance))
+    
+    
     @ActionProtector(has_permission("instance.index"))
     def icon(self, id, x, y):
         c.page_instance = model.Instance.find(id)
@@ -149,11 +152,13 @@ class InstanceController(BaseController):
         (path, io) = logo.load(c.page_instance, size=(x, y))
         return render_png(io, os.path.getmtime(path))
     
+    
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.delete"))
     def delete(self, id):
         return self.not_implemented()
+    
     
     @RequireInstance
     @RequireInternalRequest()
@@ -163,7 +168,7 @@ class InstanceController(BaseController):
         if c.page_instance in c.user.instances:
             h.flash(_("You're already a member in %(instance)s.") % {
                             'instance': c.page_instance.label})
-            redirect_to('/adhocracies')
+            redirect('/adhocracies')
         membership = model.Membership(c.user, c.page_instance, 
                                       c.page_instance.default_group)
         model.meta.Session.expunge(membership)
@@ -175,7 +180,8 @@ class InstanceController(BaseController):
         
         h.flash(_("Welcome to %(instance)s") % {
                         'instance': c.page_instance.label})
-        return redirect_to(h.instance_url(c.page_instance))
+        return redirect(h.instance_url(c.page_instance))
+    
     
     @RequireInstance  
     @RequireInternalRequest()            
@@ -201,7 +207,8 @@ class InstanceController(BaseController):
                     event.emit(event.T_INSTANCE_LEAVE,  c.user, 
                                instance=c.page_instance)
             model.meta.Session.commit()
-        redirect_to('/adhocracies')
+        redirect('/adhocracies')
+    
     
     def _get_current_instance(self, id):
         if id != c.instance.key:
