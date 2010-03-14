@@ -106,12 +106,13 @@ def issues(issues, has_query=False):
   
 def proposals(proposals, has_query=False, detail=True):
     sorts = {_("oldest"): sorting.entity_oldest,
-             _("newest"): sorting.entity_newest,
+             #_("newest"): sorting.entity_newest,
              _("activity"): sorting.proposal_activity,
              _("newest comment"): sorting.delegateable_latest_comment,
+             _("support"): sorting.proposal_support,
               _("name"): sorting.delegateable_label}
     return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
-                      default_sort=sorting.proposal_activity)
+                      default_sort=sorting.proposal_support)
                       
                       
 def users(users, has_query=False):

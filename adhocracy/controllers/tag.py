@@ -33,6 +33,9 @@ class TagController(BaseController):
         
         # TODO "Similar tags"
         c.proposals_pager = pager.proposals(proposals)
+        tags = model.Tag.similar_tags(c.tag, limit=50)
+        c.cloud_tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
+        
         return render("/tag/show.html")
       
     

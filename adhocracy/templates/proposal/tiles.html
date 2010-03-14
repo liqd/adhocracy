@@ -14,6 +14,8 @@
 					${_("<b>%s</b> votes,") % len(proposal.adopt_poll.tally)|n}
 					${_("<b>%s%%</b> approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
 					&middot; 
+				%else: 
+					${_("<b>%s</b> supporters,") % proposal.rate_poll.tally.score|n}
 				%endif
 				<img src="/img/icons/discuss_16.png" /> 
 				${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
@@ -55,6 +57,41 @@
 	%if proposal.adopt_poll: 
 		${tiles.poll.booth(proposal.adopt_poll)}
 	%endif
+	
+	<h3 class="section"><img src="/img/icons/tag_16.png" class="cd" /> ${_("Tags")}</h3>
+	<div class="tagarea">
+		<ul>
+		%for (tag, count) in proposal.tags:
+			<li>${h.tag_link(tag, count)|n}
+			%if c.user:
+				<% has = False %>
+				%for tagging in proposal.taggings:
+					%if not has and tagging.tag == tag and tagging.creator == c.user:
+						<a href="${h.entity_url(proposal, member='untag')}?tagging=${tagging.id}&${h.url_token()}"><img src="/img/icons/tag_del.png" alt="-" /></a>&nbsp;
+						<% has = True %>
+					%endif
+				%endfor
+				%if not has:
+					<a href="${h.entity_url(proposal, member='tag')}?_method=POST&text=${tag.name|u}"><img src="/img/icons/tag_add.png" alt="+" /></a>&nbsp;
+				%endif
+			%endif
+			</li>
+		%endfor
+		
+		<li><a href="#" onclick="return addTags();">${_("add tags...")}</a></li>
+		</ul>
+		
+		<div class="addtags">
+			<form action="${h.entity_url(proposal, member='tag')}" method="POST">
+				${h.field_token()|n}
+				<input name="text" type="text">
+				<input type="submit" value="${_("Add tags")}">
+				<span class="hint">${_("Multiple tags can be separated by commas or spaces.")}</span>
+			</form>
+		</div>
+		<br/>
+	</div>
+	
 	${tiles.delegation.sidebar(proposal)}
 </%def>
 
@@ -69,7 +106,7 @@
 		%if proposal.can_adopt():
 			<a class="button title add" 
 				href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
-		%elif c.user and not proposal.has_canonicals():
+		%elif c.user and not proposal.has_canonicals() and c.instance.allow_adopt:
 			<a class="button title inactive htwarn" title="${_('The proposal cannot be voted upon since it does not have an implementation yet.')}">${_("call a vote")}</a>
 		%endif
 		
@@ -88,8 +125,30 @@
 	</div>
 	
 	<div style="clear: both;"></div>
-	<h1 class="page_title">${h.delegateable_link(proposal, icon_size=24, link=False)|n}</h1>
+	<span class="${tile.position}"  id="tile_p${proposal.id}">
+	<div class="proposal rate">
+		%if tile.can_rate:
+			<a class="up icon" href="${h.entity_url(proposal.rate_poll, member='vote')}?_method=POST&position=1&${h.url_token()}" 
+				onclick="return rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, 1);">
+				&nbsp;
+			</a>
+			<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
+				class="score">${proposal.rate_poll.tally.score}</a>
+			<a class="down icon" href="${h.entity_url(proposal.rate_poll, member='vote')}?_method=POST&position=-1&${h.url_token()}" 
+				onclick="return rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, -1);">
+				&nbsp;
+			</a>
+		%else:
+			<a class="up icon inactive">&nbsp;</a>
+			<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
+				class="score">${proposal.rate_poll.tally.score}</a>
+			<a class="down icon inactive">&nbsp;</a>
+		%endif
+	</div>
+	</span>
 	
+	<h1 class="page_title">${h.delegateable_link(proposal, icon_size=24, link=False)|n}</h1>
+	<br/>
 	<div class="panel ${active}">
 		<ul class="menu">
 			<li><a href="${h.entity_url(proposal, member='activity')}" 	
@@ -109,43 +168,16 @@
 				</ul>
 			</span></li>
 		</ul>
-		<div class="info">
+		<!--div class="info">
 			<div class="meta">
 				${h.user_link(proposal.creator, scope=proposal)|n} 
 				&middot; ${h.relative_time(proposal.create_time)|n}
 				%if proposal.issue:
 					&middot; ${_("in %s") % h.delegateable_link(proposal.issue)|n}
 				%endif
-			</div>
-			<div class="tagarea">
-				%for (tag, count) in proposal.tags:
-					${h.tag_link(tag, count)|n}
-					%if c.user:
-						<% has = False %>
-						%for tagging in proposal.taggings:
-							%if not has and tagging.tag == tag and tagging.creator == c.user:
-								<a href="${h.entity_url(proposal, member='untag')}?tagging=${tagging.id}&${h.url_token()}"><img src="/img/icons/tag_del.png" alt="-" /></a>&nbsp;
-								<% has = True %>
-							%endif
-						%endfor
-						%if not has:
-							<a href="${h.entity_url(proposal, member='tag')}?_method=POST&text=${tag.name|u}"><img src="/img/icons/tag_add.png" alt="+" /></a>&nbsp;
-						%endif
-					%endif
-				%endfor
-				
-				<a href="#" onclick="return addTags();">${_("add...")}</a>
-				
-				<div class="addtags">
-					<form action="${h.entity_url(proposal, member='tag')}" method="POST">
-						${h.field_token()|n}
-						<input name="text" type="text">
-						<input type="submit" value="${_("Add tags")}">
-						<span class="hint">${_("Multiple tags can be separated by commas or spaces.")}</span>
-					</form>
-				</div>
-			</div>
-		</div>
+			</div>	
+		</div-->
+		
 		%if proposal.adopted:
 			<div class="info adoption adopted">
 				${_("%s has been adopted %s.") % (h.delegateable_link(proposal, link=False, icon=False),
@@ -179,3 +211,4 @@
 		%endif
 	</div>
 </%def>
+

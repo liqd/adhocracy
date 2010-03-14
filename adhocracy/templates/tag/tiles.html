@@ -1,0 +1,28 @@
+
+<%def name="row(tile, tag)">
+	<div class="tile">
+		<div class="base" style="background-image: url(/img/icons/tag_24.png);">
+			<h3><a class="link" href="${h.entity_url(tag)}">${tag.name}</a></h3>
+			<div class="meta noclear">
+				${_("created %s") % h.relative_time(tag.create_time)|n} 
+				%if c.instance:
+					 &middot;	${_("used %s times") % len(tag)}
+				%endif
+			</div>
+		</div>
+	</div>
+</%def>
+
+
+<%def name="cloud(tags, plain, show_count, link_more)">
+	<p>
+	%for (tag, count, size) in tags:
+		${h.tag_link(tag, count=0 if not show_count else count, size=size, plain=plain)|n}
+	%endfor
+	</p>
+	%if link_more:
+	<p align="right">
+		<a href="/tag">${_("more tags...")}</a>
+	</p>
+	%endif
+</%def>

@@ -67,6 +67,9 @@ class UserController(BaseController):
 
         if format == 'json':
             return render_json(c.users)
+            
+        if c.instance:
+            c.tile = tiles.instance.InstanceTile(c.instance)
         
         c.users_pager = pager.users(c.users, has_query=query is not None)
         return render("/user/index.html")

@@ -61,10 +61,10 @@ def tag_url(tag, instance=None, **kwargs):
         instance = c.instance
     ident = None
     try:
-        ident = urllib.quote(tag.name)
+        ident = urllib.quote(tag.name.encode('utf-8'))
     except KeyError:
         ident = tag.id
-    return _common_url_builder(instance, 't', ident, **kwargs)
+    return _common_url_builder(instance, 'tag', ident, **kwargs)
 
 
 def comment_url(comment, member=None, format=None, comment_page=False, **kwargs):

@@ -76,7 +76,9 @@
 				<ul>
 					%if h.has_permission("vote.cast"):
 						<li><a href="${h.entity_url(c.user, member='watchlist')}">${_("watchlist")}</a></li>
-						<li><a href="${h.entity_url(c.user, member='votes')}">${_("votes")}</a></li>
+						%if c.instance.allow_adopt: 
+							<li><a href="${h.entity_url(c.user, member='votes')}">${_("votes")}</a></li>
+						%endif
 						<li><a href="${h.entity_url(c.user, member='delegations')}">${_("delegations")}</a></li>						
 					%endif
 					<li><a href="${h.entity_url(c.user, member='edit')}">${_("settings")}</a></li>

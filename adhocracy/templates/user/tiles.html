@@ -50,7 +50,9 @@
 		<ul class="menu">
 			<li><a href="${h.entity_url(user)}" class="activity">${_("Activity")}</a></li>
 			%if c.instance:
-				<li><a href="${h.entity_url(user, member='votes')}" class="votes">${_("Votes")}</a></li>
+				%if c.instance.allow_adopt:
+					<li><a href="${h.entity_url(user, member='votes')}" class="votes">${_("Votes")}</a></li>
+				%endif
 				<li><a href="${h.entity_url(user, member='delegations')}" 
 					class="delegations">${_("Delegations")} 
 					(${len(user.current_agencies())})</a></li>
@@ -76,11 +78,5 @@
 													 instance=c.instance.label)}
 			%endif
 		</div>
-		
-		%if tile.bio:
-			<div class="description">
-				${tile.bio|n}
-			</div>
-		%endif
 	</div>
 </%def>

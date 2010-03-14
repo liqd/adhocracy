@@ -93,24 +93,25 @@ $(document).ready(function() {
 		return false;
 	}
 	
-	comment_rate = function(comment_id, poll_id, value) {
-	    $("#tile_c" + comment_id + " .score").text('*');
+	rate = function(elem_id, poll_id, value) {
+	    $(elem_id + " .score").text('*');
 		$.post('/poll/' + poll_id + '/vote.json', {position: value},
 			function(data) {
-				$("#tile_c" + comment_id + ".upvoted").removeClass("upvoted");
-				$("#tile_c" + comment_id + ".downvoted").removeClass("downvoted");
+				$(elem_id + ".upvoted").removeClass("upvoted");
+				$(elem_id + ".downvoted").removeClass("downvoted");
 				if (data.decision && data.decision.decided) {
 				    if (data.decision.result == -1) {
-    					$("#tile_c" + comment_id).addClass("downvoted");
+    					$(elem_id).addClass("downvoted");
     				} 
     				if (data.decision.result == 1) {
-    					$("#tile_c" + comment_id).addClass("upvoted");
+    					$(elem_id).addClass("upvoted");
     				}
 				}
-				$("#tile_c" + comment_id + " .score").text(data.score);
+				$(elem_id + " .score").text(data.score);
 			}, 'json');
 		return false;
 	}
+    
 	
 	add_canonical = function() {
 		$(".add_canonical").slideToggle('normal');

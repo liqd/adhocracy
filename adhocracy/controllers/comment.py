@@ -73,10 +73,11 @@ class CommentController(BaseController):
         c.comment = self._get_mutable_or_abort(id)
         rev = c.comment.create_revision(self.form_result.get('text'), c.user)
         model.meta.Session.commit()
-        #if h.has_permission('vote.cast'):
-        #    decision = democracy.Decision(c.user, c.comment.poll)
-        #    if not decision.is_decided():
-        #        decision.make(model.Vote.YES)
+        if h.has_permission('vote.cast'):
+            decision = democracy.Decision(c.user, c.comment.poll)
+            if not decision.result == model.Vote.YES:
+                decision.make(model.Vote.YES)
+        model.meta.Session.commit()
         watchlist.check_watch(c.comment)
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
@@ -136,11 +137,11 @@ class CommentController(BaseController):
         revision = self.form_result.get('to')
         if revision.comment != c.comment:
             abort(400, _("You're trying to revert to a revision which is not part of this comments history"))
-        c.comment.create_revision(revision.text, c.user)
+        rev = c.comment.create_revision(revision.text, c.user)
         model.meta.Session.commit()
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
-                   topic=c.comment.topic)
+                   topic=c.comment.topic, rev=rev)
         redirect(h.entity_url(c.comment))
     
     # get a comment for editing, checking that it is mutable. 

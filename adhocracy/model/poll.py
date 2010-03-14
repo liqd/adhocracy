@@ -77,6 +77,16 @@ class Poll(object):
     tally = property(_get_tally)
     
     
+    def can_end(self):
+        if self.has_ended():
+            return False
+        if self.action == self.RATE:
+            return False
+        if self.tally.has_majority() and self.tally.has_participation(): 
+            return False
+        return True
+    
+    
     def end(self, end_time=None):
         if end_time is None:
             end_time = datetime.utcnow()
@@ -97,16 +107,6 @@ class Poll(object):
     
     def is_deleted(self, at_time=None):
         return has_ended(at_time=at_time)
-    
-    
-    def can_end(self):
-        if self.has_ended():
-            return False
-        if self.action == self.RATE:
-            return False
-        if self.tally.has_majority() and self.tally.has_participation(): 
-            return False
-        return True
         
         
     def check_stable(self, at_time):

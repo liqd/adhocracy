@@ -351,7 +351,7 @@ body {
 	/*margin-top: -4px;
 	margin-bottom: -4px;*/
 	margin-bottom: 2px;
-	padding: 4px;
+	padding: 2px;
 	background-color: #e1eefd;
 	/*color: #b36441;*/
 	border: 1px solid #dfdfdf;
@@ -1262,57 +1262,6 @@ a.button.inactive {
 	margin-bottom: 5px;
 }
 
-.comment .rate {
-	padding-top: 0.0em;
-	margin-right: 0.5em;
-	text-align: center;
-}
-
-.comment .rate a.icon {
-	background-repeat: no-repeat;
-	display: block;
-	width: 12px;
-	height: 12px;
-	margin-bottom: 0.1em;
-	text-decoration: none;
-	max-width: 12px;
-}
-
-.comment .rate .score {
-	font-weight: bold;
-	color: #666;
-	font-size: 0.8em;
-}
-
-.comment .rate a.inactive {
-	cursor: pointer;
-}
-
-.comment .rate a.down {
-	margin-top: 0.2em;
-}
-
-.comment .rate a.up,
-.comment .rate a.up.inactive:hover {
-	background-image: url(/img/arrows/aup.png);
-}
-
-.comment .rate a.down,
-.comment .rate a.down.inactive:hover {
-	background-image: url(/img/arrows/adown.png);
-}
-
-.comment .rate a.up:hover,
-.comment .upvoted .rate a.up {
-	background-image: url(/img/arrows/aup_a.png);
-}
-
-.comment .rate a.down:hover,
-.comment .downvoted .rate a.down {
-	background-image: url(/img/arrows/adown_a.png);
-}
-
-
 .comment .base {
 	overflow: hidden;
 }
@@ -1459,6 +1408,65 @@ a.button.inactive {
 
 /* @end */
 
+/* @group Ratings */
+
+.rate {
+	padding-top: 0.0em;
+	margin-right: 0.5em;
+	text-align: center;
+}
+
+.proposal.rate {
+	float: left;
+	overflow: hidden;
+	margin-top: -0.1em;
+}
+
+.rate a.icon {
+	background-repeat: no-repeat;
+	display: block;
+	width: 12px;
+	height: 12px;
+	margin-bottom: 0.1em;
+	text-decoration: none;
+	max-width: 12px;
+}
+
+.rate .score {
+	font-weight: bold;
+	color: #666;
+	font-size: 0.8em;
+}
+
+.rate a.inactive {
+	cursor: pointer;
+}
+
+.rate a.down {
+	margin-top: 0.2em;
+}
+
+.rate a.up,
+.rate a.up.inactive:hover {
+	background-image: url(/img/arrows/aup.png);
+}
+
+.rate a.down,
+.rate a.down.inactive:hover {
+	background-image: url(/img/arrows/adown.png);
+}
+
+.rate a.up:hover,
+.upvoted .rate a.up {
+	background-image: url(/img/arrows/aup_a.png);
+}
+
+.rate a.down:hover,
+.downvoted .rate a.down {
+	background-image: url(/img/arrows/adown_a.png);
+}
+
+/* @end */
 
 .jsadd {
 	width: 98%;
@@ -1477,6 +1485,43 @@ a.button.inactive {
 .checklist li.unmet {
 	list-style-image: url(/img/icons/condition_unmet.png);
 }
+
+
+
+.tagarea {
+	color: black;
+}
+
+/*
+.tagarea ul {
+	
+	list-style: inside;
+	list-style-type: none;
+}
+
+.tagarea ul li {
+	margin: 0px;
+}
+*/
+
+.tagarea a {
+	font-weight: bold;
+}
+
+.tagarea .addtags {
+	display: none;
+	margin-top: 1em;
+}
+
+.tagarea input {
+	display: inline;
+}
+
+.panel .tagarea input[type=text] {
+	width: 20em;
+}
+
+
 
 /*
 .tile.title {
@@ -1629,28 +1674,6 @@ a.button.inactive {
 	overflow: hidden;
 	position: relative;
 }
-
-.panel .tagarea {
-	color: black;
-}
-
-.panel .tagarea a {
-	font-weight: bold;
-}
-
-.panel .tagarea .addtags {
-	display: none;
-	margin-top: 1em;
-}
-
-.panel .tagarea input {
-	display: inline;
-}
-
-.panel .tagarea input[type=text] {
-	width: 20em;
-}
-
 .panel .info .meta {
 	float: right;
 }

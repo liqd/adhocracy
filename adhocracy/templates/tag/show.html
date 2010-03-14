@@ -1,0 +1,32 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${c.tag.name}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Tag")} &raquo; ${c.tag.name}
+</%def>
+
+<div class="top_actions title">
+	%if h.has_permission('proposal.create'):
+		<a class="button add" href="/proposal/new">${_("new proposal")}</a>
+	%endif
+	
+	${components.watch(c.tag)}
+</div>
+
+<h1 class="page_title"><img src="/img/icons/tag_24.png" class="cd" /> ${_("Proposals tagged '%s'") % c.tag.name}</h1>
+
+
+<div class="sidebar">
+	%if len(c.cloud_tags):
+		<h3 class="section">${_("Similar tags")}</h3>
+		${tiles.tag.cloud(c.cloud_tags)}
+	%endif
+</div>
+
+<div class="mainbar">
+	<div id="proposals_table" class="table">
+		${c.proposals_pager.here()}
+	</div>
+</div>
+

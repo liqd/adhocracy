@@ -7,6 +7,10 @@ def delegateable_label(entities):
 def delegateable_latest_comment(entities):
     return sorted(entities, key=lambda e: e.find_latest_comment_time(recurse=True), 
                   reverse=True)
+                  
+def proposal_support(entities):
+    return sorted(entities, key=lambda e: e.rate_poll.tally.score, 
+                  reverse=True)
 
 def user_name(entities):
     return sorted(entities, key=lambda e: e.name.lower())

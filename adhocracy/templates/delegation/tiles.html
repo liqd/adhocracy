@@ -34,10 +34,10 @@
 
 <%def name="sidebar(tile, delegateable)">
 	%if c.tile.can_vote:
-	<div class="tile">
-		<h4><img src="/img/icons/delegate_16.png" class="cd" /> ${_("Delegate voting")}</h4>
+	<div class="not_a_tile">
+		<h3 class="section"><img src="/img/icons/delegate_16.png" class="cd" /> ${_("Delegate voting")}</h3>
 		<ul>
-		<li style="list-style-image: url(/img/icons/delegate_to_16.png); padding-left: 5px;">
+		<li>
 			%if not c.tile.has_delegated:
 				%if c.tile.has_overridden:
 					${_("You have voted yourself and not delegated voting.")}
@@ -64,7 +64,7 @@
 		</li>
 		
 		%if c.tile.num_principals:
-		<li style="list-style-image: url(/img/icons/delegated_to_16.png); padding-left: 5px;">
+		<li>
 			%if c.tile.num_principals == 1:
 				${_("You hold an additional vote.")}
 			%else:

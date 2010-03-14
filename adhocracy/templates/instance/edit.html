@@ -32,6 +32,18 @@
 	<h3>${_("Voting Rules")}</h3>
 	<div class="sidebar">
 		<div class="infobox">
+			${_("You can disable adoption votes, leaving only rating polls enabled.")}
+		</div>
+	</div>
+	<div class="mainbar">
+		<label for="allow_adopt">${_("Enable (final) adoption voting:")}</label>
+		<input type="checkbox" name="allow_adopt" />
+	</div>
+	
+	
+	<div style="clear: both;"></div>
+	<div class="sidebar">
+		<div class="infobox">
 			${_("In order to become active, a proposal must reach the given proportion " + 
 			    "of approval.")}
 		</div>

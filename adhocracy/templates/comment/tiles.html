@@ -36,13 +36,13 @@
 			<div class="logo rate">
 				%if tile.can_rate:
 					<a class="up icon" href="${h.entity_url(comment.poll, member='vote')}?_method=POST&position=1&${h.url_token()}" 
-						onclick="return comment_rate(${comment.id}, ${comment.poll.id}, 1);">
+						onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, 1);">
 						&nbsp;
 					</a>
 					<a href="${h.entity_url(comment.poll, member='votes')}" 
 						class="score">${tile.score}</a>
 					<a class="down icon" href="${h.entity_url(comment.poll, member='vote')}?_method=POST&position=-1&${h.url_token()}" 
-						onclick="return comment_rate(${comment.id}, ${comment.poll.id}, -1);">
+						onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, -1);">
 						&nbsp;
 					</a>
 				%else:

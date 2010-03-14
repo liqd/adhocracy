@@ -8,6 +8,7 @@ from .. import helpers as h
 from .. import text
 from .. import authorization as auth
 from .. import sorting
+from .. import cache
 
 from delegateable_tiles import DelegateableTile
 from comment_tiles import CommentTile
@@ -36,7 +37,25 @@ class ProposalTile(DelegateableTile):
         return self.__poll
     
     poll = property(_poll)
-        
+    
+    
+    def _position(self):
+        @cache.memoize('proposal_position')
+        def _cached_position(user, proposal):
+            if not user:
+                return None
+            pos = democracy.Decision(user, proposal.rate_poll).result
+            if (pos and pos == 1):
+                return "upvoted"
+            elif pos and pos == -1:
+                return "downvoted"
+            return pos
+            
+        return _cached_position(c.user, self.proposal)
+    
+    position = property(_position)
+    
+    
     def _can_edit(self):
         return h.has_permission('proposal.edit') \
                 and not self.is_immutable
@@ -48,6 +67,13 @@ class ProposalTile(DelegateableTile):
                 and not self.is_immutable
     
     can_delete = property(_can_delete)
+    
+    def _can_rate(self):
+        return h.has_permission('vote.cast') \
+                and self.proposal.rate_poll is not None \
+                and not self.proposal.rate_poll.has_ended()
+    
+    can_rate = property(_can_rate)
     
     def _has_overridden(self):
         if self.decision.is_self_decided():
@@ -93,18 +119,6 @@ class ProposalTile(DelegateableTile):
     
     comment_tile = property(_comment_tile)
     
-    def _support(self):
-        return karma.comment_score(self.proposal.comment, recurse=False)
-    
-    support = property(_support)
-
-    def _position(self):
-        if not c.user:
-            return 0
-        return karma.position(c.user, self.proposal.comment)
-    
-    position = property(_position)
-
 def row(proposal):
     return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal), 
                        proposal=proposal, cached=True)  
