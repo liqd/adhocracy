@@ -71,7 +71,10 @@ class Poll(object):
             q = self.tallies
             q = q.order_by(Tally.create_time.desc())
             q = q.order_by(Tally.id.desc())
-            self._tally = q.limit(1).first()
+            _tally = q.limit(1).first()
+            if _tally is None:
+                _tally = Tally.create_from_poll(self)
+            self._tally = _tally
         return self._tally
         
     tally = property(_get_tally)

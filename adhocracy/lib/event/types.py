@@ -45,21 +45,21 @@ T_USER_ADMIN_EDIT = EventType(u"t_user_admin_edit", pri=2,
                           notify_self=True)
 
 T_INSTANCE_CREATE = EventType(u"t_instance_create", pri=3, 
-                          subject=lambda: _(u"New Adhocracy: %(instance)s"),
+                          subject=lambda: _(u"New instance: %(instance)s"),
                           link_path=lambda e: h.entity_url(e.user), 
-                          event_msg=lambda: _(u"founded the %(instance)s Adhocracy"),
+                          event_msg=lambda: _(u"founded the %(instance)s instance"),
                           text=lambda e: e.instance.description)
 
 T_INSTANCE_EDIT = EventType(u"t_instance_edit", pri=3, 
-                          subject=lambda: _(u"%(instance)s: Adhocracy was updated"),
+                          subject=lambda: _(u"%(instance)s: instance was updated"),
                           link_path=lambda e: h.entity_url(e.instance), 
-                          event_msg=lambda: _(u"updated the %(instance)s Adhocracy"),
+                          event_msg=lambda: _(u"updated the %(instance)s instance"),
                           text=lambda e: e.instance.description)
 
 T_INSTANCE_DELETE = EventType(u"t_instance_delete", pri=3, 
                           subject=lambda: _(u"Deleted Adhocracy: %(instance)s"),
                           link_path=lambda e: h.entity_url(e.instance), 
-                          event_msg=lambda: _(u"deleted the %(instance)s Adhocracy"))
+                          event_msg=lambda: _(u"deleted the %(instance)s instance"))
 
 T_INSTANCE_JOIN = EventType(u"t_instance_join", pri=2, 
                           subject=lambda: _(u"%(instance)s: %(user)s joined"),
