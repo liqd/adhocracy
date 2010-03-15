@@ -41,6 +41,7 @@ class Instance(object):
         self.description = description
         self.required_majority = 0.66
         self.activation_delay = 7
+        self.allow_adopt = True
         self._required_participation = None
     
     

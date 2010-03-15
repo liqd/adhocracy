@@ -74,7 +74,7 @@
 				<a class="user_name" href="${h.entity_url(c.user)}">${c.user.name}</a> 
 				<img src="/img/icons/adown.png" alt="^"/>
 				<ul>
-					%if h.has_permission("vote.cast"):
+					%if c.instance and h.has_permission("vote.cast"):
 						<li><a href="${h.entity_url(c.user, member='watchlist')}">${_("watchlist")}</a></li>
 						%if c.instance.allow_adopt: 
 							<li><a href="${h.entity_url(c.user, member='votes')}">${_("votes")}</a></li>
