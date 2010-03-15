@@ -38,7 +38,7 @@ class InstanceController(BaseController):
         instances = model.Instance.all()
         if format == 'json':
             return render_json(instances)
-        h.canonical_url(h.instance_url(None, path="/adhocracies"))
+        h.canonical_url(h.instance_url(None, path="/instance"))
         c.instances_pager = pager.instances(instances)
         return render("/instance/index.html")  
     
