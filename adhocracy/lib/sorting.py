@@ -9,7 +9,7 @@ def delegateable_latest_comment(entities):
                   reverse=True)
                   
 def proposal_support(entities):
-    return sorted(entities, key=lambda e: e.rate_poll.tally.score, 
+    return sorted(entities, key=lambda e: e.rate_poll.tally.score if e.rate_poll else 0, 
                   reverse=True)
 
 def user_name(entities):
