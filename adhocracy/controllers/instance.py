@@ -202,7 +202,7 @@ class InstanceController(BaseController):
                     membership.expire()
                     model.meta.Session.add(membership)
                     
-                    democracy.DelegationNode.detach(c.user, c.page_instance)
+                    c.user.revoke_delegations(c.page_instance)
                     
                     event.emit(event.T_INSTANCE_LEAVE,  c.user, 
                                instance=c.page_instance)

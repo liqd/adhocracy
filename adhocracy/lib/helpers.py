@@ -153,6 +153,7 @@ def add_meta(key, value):
 
 
 def rss_button(entity):
+    return ""
     return "<a href='%s' class='button edit'><img src='/img/rss.png' /> %s</a>" % (
                 entity_url(entity, format='rss'), _("subscribe"))
 

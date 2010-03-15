@@ -77,10 +77,12 @@
 			%endif
 			</li>
 		%endfor
-		
-		<li><a href="#" onclick="return addTags();">${_("add tags...")}</a></li>
+		%if h.has_permission("tag.create"):
+			<li><a href="#" onclick="return addTags();">${_("add tags...")}</a></li>
+		%endif
 		</ul>
 		
+		%if h.has_permission("tag.create"):
 		<div class="addtags">
 			<form action="${h.entity_url(proposal, member='tag')}" method="POST">
 				${h.field_token()|n}
@@ -89,6 +91,8 @@
 				<span class="hint">${_("Multiple tags can be separated by commas or spaces.")}</span>
 			</form>
 		</div>
+		%endif
+		
 		<br/>
 	</div>
 	

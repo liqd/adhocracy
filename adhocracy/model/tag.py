@@ -124,6 +124,7 @@ class Tag(object):
         snd_tagging = aliased(Tagging)
         q = q.join((snd_tagging, Delegateable.taggings))
         q = q.filter(snd_tagging.tag_id==tag.id)
+        q = q.filter(Tag.id!=tag.id)
         if ifilter.has_instance():
             q = q.filter(Delegateable.instance_id==ifilter.get_instance().id)
         q = q.group_by(Tag.id, Tag.create_time, Tag.name)
