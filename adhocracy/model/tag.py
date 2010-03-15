@@ -28,7 +28,7 @@ class Tag(object):
     
     
     def __repr__(self):
-        return "<Tag(%s,%s)>" % (self.id, self.name)
+        return "<Tag(%s,%s)>" % (self.id, self.name.encode('ascii', 'replace'))
     
     
     def __unicode__(self):
@@ -116,19 +116,22 @@ class Tag(object):
     def similar_tags(cls, tag, limit=None):
         from tagging import Tagging, tagging_table
         from delegateable import Delegateable
-        tgt_tagging = aliased(Tagging)
-        ref_tagging = aliased(Tagging)
-        q = meta.Session.query(tgt_tagging) 
-        q = q.add_column(func.count(tagging_table.c.id))
-        q = q.join((Delegateable, Tagging.delegateable))
-        q = q.join((ref_tagging, Delegateable.taggings))
-        q = q.filter(ref_tagging.tag_id!=tgt_tagging.tag_id)
-        q = q.filter(ref_tagging.tag_id==tag.id)
+        q = meta.Session.query(Tag)
+        q = q.add_column(func.count(Tagging.id))
+        fst_tagging = aliased(Tagging)
+        q = q.join(fst_tagging, Tag.taggings)
+        q = q.join((Delegateable, fst_tagging.delegateable))
+        snd_tagging = aliased(Tagging)
+        q = q.join((snd_tagging, Delegateable.taggings))
+        q = q.filter(snd_tagging.tag_id==tag.id)
         if ifilter.has_instance():
             q = q.filter(Delegateable.instance_id==ifilter.get_instance().id)
-        q = q.group_by(tgt_tagging.tag_id)
-        q = q.order_by(func.count(tgt_tagging.id).desc())
-        return map(lambda (k,v): (k.tag, v), q.all())[:limit]
+        q = q.group_by(Tag.id, Tag.create_time, Tag.name)
+        q = q.order_by(func.count(Tagging.id).desc())
+        # SQLAlchemy turns this into a fucking subquery:
+        #if limit is not None: 
+        #    q = q.limit(limit)
+        return q.all()[:limit]
         
         
     @classmethod

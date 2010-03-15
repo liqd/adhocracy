@@ -184,7 +184,7 @@ mapper(Tagging, tagging_table, properties={
                         backref=backref('tagged')),
     'delegateable': relation(Delegateable, lazy=True, primaryjoin=tagging_table.c.delegateable_id==delegateable_table.c.id,
                              backref=backref('taggings')),
-    'tag': relation(Tag, lazy=False, primaryjoin=tagging_table.c.tag_id==tag_table.c.id)
+    'tag': relation(Tag, lazy=False, primaryjoin=tagging_table.c.tag_id==tag_table.c.id, backref=backref('taggings', lazy=True))
     }, extension=meta.extension)
 
 
