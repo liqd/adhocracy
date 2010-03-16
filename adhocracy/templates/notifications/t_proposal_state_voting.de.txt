@@ -1,0 +1,3 @@
+${e.user.name} hat eine Abstimmung für den Vorschlag ${e.proposal.label} initiiert.  
+
+Wenn Sie möchten geben Sie Ihre Stimme ab oder überprüfen Sie, ob Sie Ihre Stimme passend zu dem Thema delegiert haben.

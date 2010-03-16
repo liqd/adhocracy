@@ -1,0 +1,3 @@
+<%namespace name="common" file="/notifications/common.txt"/>
+
+${e.user.name} hat einen neuen Nutzer-Account angelegt.

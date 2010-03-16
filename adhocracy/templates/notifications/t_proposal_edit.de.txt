@@ -1,0 +1,4 @@
+${e.user.name} bearbeitete den Vorschlag ${e.proposal.label}.  
+
+Hier ist die aktuelle Beschreibung: 
+${e.proposal.comment.latest.text}

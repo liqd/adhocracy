@@ -1,0 +1,3 @@
+${e.user.name|n} entzog die Delegation an ${e.agent.name|n} on ${e.scope.label|n}.
+
+Delegation-Seite: ${h.instance_url(None, path="/user/%s" % e.agent.user_name)}

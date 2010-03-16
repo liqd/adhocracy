@@ -1,0 +1,6 @@
+<%namespace name="common" file="/notifications/common.txt"/>
+
+${e.user.name|n} hat ein Kommentar verändert, das Sie betreffs ${e.comment.topic.label|n} eingestellt haben. Es lautet:
+
+${e.comment.latest.text|n}
+${common.quotecomment(e.comment.reply)}

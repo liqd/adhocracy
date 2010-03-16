@@ -1,0 +1,5 @@
+${e.admin.name} hat ads Profil von ${e.user.name} aktualisiert. 
+%if e.user.bio: 
+User bio: 
+${e.user.bio}  
+%endif

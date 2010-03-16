@@ -1,0 +1,3 @@
+Sie haven eine Delegation von ${e.user.name|n} zu dem Thema ${e.scope.label|n} erhalten.
+
+Profil-Seite: ${h.instance_url(None, path="/user/%s" % e.user.user_name)}

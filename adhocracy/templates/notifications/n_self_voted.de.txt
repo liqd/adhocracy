@@ -1,0 +1,5 @@
+<%namespace name="common" file="/notifications/common.txt"/>
+
+Diese Nachricht bestätigt Ihre Stimme an ${e.poll.scope.label}. Sie wählten ${common.vote(e.vote)} den Vorschlag.   
+
+Wenn Sie Ihre Abstimmung überdenken wollen, besuchen Sie die Abstimmungsseite.
