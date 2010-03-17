@@ -1301,6 +1301,10 @@ a.button.inactive {
 	margin-left: 25px;
 }
 
+.comment .sub .sub .sub .sub .sub .sub {
+	margin-left: 0px;
+}
+
 .comment .pre {
 	font-size: 0.8em;
 	padding-bottom: 0.8em;
