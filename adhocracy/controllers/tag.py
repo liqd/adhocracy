@@ -39,6 +39,14 @@ class TagController(BaseController):
         return render("/tag/show.html")
       
     
-    @RequireInstance 
-    def complete(self):
-        pass
+    @RequireInstance
+    @ActionProtector(has_permission("tag.view"))    
+    def autocomplete(self):
+        prefix = unicode(request.params.get('q', ''))
+        (base, prefix) = text.tag_split_last(prefix)
+        results = []
+        for (tag, freq) in model.Tag.complete(prefix, 10):
+            display = "%s (%s)" % (tag.name, freq) 
+            full = base + tag.name + ", "
+            results.append(dict(display=display, tag=full))
+        return render_json(results)

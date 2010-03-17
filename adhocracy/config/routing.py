@@ -83,6 +83,7 @@ def make_map():
     
     # not using REST since tags may contain dots, thus failing format detection. 
     map.connect('/tag', controller='tag', action='index')
+    map.connect('/tag/autocomplete', controller='tag', action='autocomplete')
     map.connect('/tag/{id}', controller='tag', action='show')
     
     map.resource('delegation', 'delegation')

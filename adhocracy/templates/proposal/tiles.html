@@ -86,8 +86,8 @@
 		<div class="addtags">
 			<form action="${h.entity_url(proposal, member='tag')}" method="POST">
 				${h.field_token()|n}
-				<input name="text" type="text">
-				<input type="submit" value="${_("Add tags")}">
+				<input name="tags" type="tags" id="tags" autocomplete="off" />
+				<input type="submit" value="${_("Add tags")}" />
 				<span class="hint">${_("Multiple tags can be separated by commas or spaces.")}</span>
 			</form>
 		</div>

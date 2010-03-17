@@ -91,13 +91,15 @@ class User(object):
                 if perm.permission_name == permission_name:
                     return True
         return False
-    
-    def is_member(self, instance):
+        
+    def instance_membership(self, instance):
         for membership in self.memberships:
             if (not membership.is_expired()) and \
                 membership.instance == instance:
-                return True
-        return False
+                return membership
+    
+    def is_member(self, instance):
+        return self.instance_membership(instance) is not None
     
     def _get_instances(self):
         instances = []

@@ -1517,6 +1517,83 @@ a.button.inactive {
 	display: inline;
 }
 
+.tagInput {
+	
+}
+
+
+.tagInputDiv {
+  display: none;
+  background-color: white;
+  position: absolute;
+  overflow: auto;
+  border: 1px solid lightgray;
+  margin-top:-1px;
+  font:13px/15px arial,sans-serif;
+}
+
+.tagInputLine {
+  color: black;
+  font-weight: normal;
+  padding:4px;
+}
+
+.tagInputSel {
+  background-color: gray;
+  color:white;
+}
+
+
+.tagInputLineTag {
+  min-width: 150px;
+  display: inline-block;
+}
+
+.tagInputLineFreq {
+  min-width: 50px;
+  text-align: right;
+  display: inline-block;
+  float:right;
+}
+
+
+.tagInputSuggestedTags {
+  font-size: 12px;
+  background-color:#e0e0e0;
+  padding:2px;
+  font:13px/15px arial,sans-serif;
+  margin-top:5px;
+  width:550px;
+  color:#303030;
+}
+
+.tagInputSuggestedTags .label{
+  font-weight:bolder;
+}
+
+.tagInputSuggestedTagList{
+
+}
+
+.tagInputSuggestedTagList .tag{
+  padding:2px;
+  cursor:pointer;
+  display:inline-block;
+  margin:1px;
+}
+
+.tagInputSuggestedTagList span.tag:hover{
+  background-color:#f0f0f0;
+}
+
+.tagInputSuggestedTagList .tagUsed{
+  background-color:lightgray;
+}
+
+
+
+
+
 .panel .tagarea input[type=text] {
 	width: 20em;
 }

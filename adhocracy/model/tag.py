@@ -134,6 +134,26 @@ class Tag(object):
         #    q = q.limit(limit)
         return q.all()[:limit]
         
+    
+    @classmethod
+    def complete(cls, prefix, limit=5, instance_filter=True):
+        from tagging import Tagging, tagging_table
+        from delegateable import Delegateable
+        q = meta.Session.query(Tag)
+        q = q.add_column(func.count(Tagging.id))
+        q = q.join(Tagging)
+        q = q.filter(func.lower(Tag.name).like(prefix.lower() + "%"))
+        if ifilter.has_instance() and instance_filter:
+            q = q.join(Delegateable)
+            q = q.filter(Delegateable.instance_id==ifilter.get_instance().id)
+        q = q.group_by(Tag.id, Tag.create_time, Tag.name)
+        q = q.order_by(func.count(Tagging.id).desc())
+        # SQLAlchemy turns this into a fucking subquery:
+        #if limit is not None: 
+        #    q = q.limit(limit)
+        #print "QUERY", q
+        return q.all()[:limit]
+        
         
     @classmethod
     def create(cls, name):

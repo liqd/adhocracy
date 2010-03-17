@@ -24,6 +24,16 @@ def tag_split(text):
         except ValueError:
             tags.append(tag)
     return tags
+
+
+def tag_split_last(text):
+    tags = tag_split(text)
+    if not len(tags):
+        return (text, '')
+    last = tags[-1]
+    if not len(last):
+        return (text, '')
+    return (text[:len(text)-len(last)], last)
     
     
 def tag_cloud_normalize(tags, steps=6):

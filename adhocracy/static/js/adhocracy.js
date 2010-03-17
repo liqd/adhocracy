@@ -4,6 +4,25 @@ $(document).ready(function() {
 		  jQuery('abbr.timeago').timeago();
 	});
 	
+	$('.ttip[title]').qtip({ 
+	    style: {
+            background: '#fdfbc0',
+            textAlign: 'center',
+            border: {
+                width: 2
+            },
+            tip: 'topMiddle',
+            name: 'cream'
+        },
+        position: {
+            corner: {
+                target: 'bottomMiddle',
+                tooltip: 'topMiddle'
+            }
+        },
+        show: {
+            delay: 70
+        }});
 	
 	adhocracyDomain = function() {
 		return document.domain.substring(document.domain.split('.')[0].length);
@@ -49,6 +68,25 @@ $(document).ready(function() {
 			var arr = new Array();
 			for(var i=0;i<data.length;i++) {
 				arr[i] = {data:data[i], value:data[i].display, result:data[i].user};
+			}
+			return arr;
+		},
+		delay: 10,
+	});
+	
+	$("#tags").autocomplete('/tag/autocomplete', {
+		autoFill: false,
+		dataType: 'json',
+		formatItem: function(data, i, max, val) {
+			return data.display;
+		}, 
+		formatResult: function(data, i, max, val) {
+			return data.tag;
+		},
+		parse: function(data) {
+			var arr = new Array();
+			for(var i=0;i<data.length;i++) {
+				arr[i] = {data:data[i], value:data[i].display, result:data[i].tag};
 			}
 			return arr;
 		},
@@ -217,5 +255,4 @@ $(document).ready(function() {
 	        $(sparkline).addClass('loaded');
 	    });
 	});
-	
 });
