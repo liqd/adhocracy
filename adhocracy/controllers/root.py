@@ -8,7 +8,7 @@ class RootController(BaseController):
 
     def index(self, format='html'):
         if c.instance: 
-            redirect('/issue')
+            redirect(h.entity_url(c.instance))
         
         c.instances = model.Instance.all()[:5]           
         c.page = StaticPage('index')

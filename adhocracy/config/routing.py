@@ -100,8 +100,9 @@ def make_map():
     map.connect('/instance/{id}_{x}x{y}.png', 
                 controller='instance', action='icon')
     map.resource('instance', 'instance', member={'join': 'GET', 
-                                                 'leave': 'GET',
+                                                 'leave': 'POST',
                                                  'filter': 'GET',
+                                                 'ask_leave': 'GET',
                                                  'activity': 'GET'})
     
     map.connect('/page/{page_name}.html', controller='page', action='serve')

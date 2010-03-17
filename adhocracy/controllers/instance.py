@@ -183,8 +183,16 @@ class InstanceController(BaseController):
         return redirect(h.instance_url(c.page_instance))
     
     
+    @RequireInstance
+    @ActionProtector(has_permission("instance.leave"))
+    def ask_leave(self, id):
+        c.page_instance = self._get_current_instance(id)
+        c.tile = tiles.instance.InstanceTile(c.page_instance)
+        return render('/instance/ask_leave.html')
+    
+    
     @RequireInstance  
-    @RequireInternalRequest()            
+    @RequireInternalRequest(methods=['POST'])            
     @ActionProtector(has_permission("instance.leave"))
     def leave(self, id):
         c.page_instance = self._get_current_instance(id)
@@ -207,7 +215,7 @@ class InstanceController(BaseController):
                     event.emit(event.T_INSTANCE_LEAVE,  c.user, 
                                instance=c.page_instance)
             model.meta.Session.commit()
-        redirect('/adhocracies')
+        redirect(h.instance_url(None, path='/instance'))
     
     
     def _get_current_instance(self, id):

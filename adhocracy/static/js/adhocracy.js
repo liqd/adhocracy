@@ -9,7 +9,7 @@ $(document).ready(function() {
             background: '#fdfbc0',
             textAlign: 'left',
             border: {
-                width: 2
+                width: 2,
             },
             tip: 'topMiddle',
             name: 'cream'
@@ -29,7 +29,7 @@ $(document).ready(function() {
             background: '#fdfbc0',
             textAlign: 'left',
             border: {
-                width: 2
+                width: 2,
             },
             tip: 'bottomMiddle',
             name: 'cream'

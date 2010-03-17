@@ -7,12 +7,12 @@
 
 <div class="top_actions title">
 %if c.user and c.delegation.principal == c.user and (not c.delegation.revoke_time):
-	<a class="button delete" href="/delegation/${c.delegation.id}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
+	<a class="button delete ttip" title="${_('Cancel this delegation.')}" href="/delegation/${c.delegation.id}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
 %endif
 </div>
 
 <h1 class="page_title"><img src="/img/icons/delegate_24.png" class="cd"/> 
-	${_("Delegation: %s") % h.delegateable_link(c.scope)|n}</h1>
+	${_("Delegation: %s") % h.delegateable_link(c.scope, icon_size=24)|n}</h1>
 
 <div class="sidebar">
 	<div class="tile">

@@ -27,11 +27,11 @@
 		watch = h.find_watch(entity)
 		%>
 		%if watch:
-			<a class="button delete ttip" title="${_('Click here to stop receiving notifications.')}"
+			<a class="button delete ttip" title="${_('Stop receiving notifications.')}"
 			   href="/watch/delete?watch=${watch.id}&${h.url_token()}"><img src='/img/mail.png' /> 
 			${_("unwatch")}</a>
 		%else:
-			<a class="button edit ttip" title="${_('Click here to receive notifications when this item is updated.')}"
+			<a class="button edit ttip" title="${_('Receive notifications when this item is updated.')}"
 			   href="/watch/create?${h.make_watch(entity)}&${h.url_token()}"><img src='/img/mail.png' /> 
 			${_("watch")}</a>
 		%endif

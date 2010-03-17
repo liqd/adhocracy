@@ -110,7 +110,7 @@
 		%if proposal.can_adopt():
 			<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
 				href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
-		%elif c.user and not proposal.has_canonicals() and c.instance.allow_adopt:
+		%elif c.user and not proposal.has_canonicals() and c.instance.allow_adopt and h.has_permission("poll.create"):
 			<a class="button title inactive ttip" title="${_('The proposal cannot be voted upon since it does not have an implementation yet.')}">${_("call a vote")}</a>
 		%endif
 		

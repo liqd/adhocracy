@@ -10,14 +10,14 @@
 %if c.instance:
 	<div class="top_actions title">
 		%if c.tile.can_join:
-			<a class="button add" 
+			<a class="button add ttip" title="${_('Join this instance to start contributing.')}"
 				href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
 		%endif
 		%if not c.user:
-			<a class="button add" href="/register">${_("join")}</a> 
+			<a class="button add ttip" title="${_('Join this instance to start contributing.')}" href="/register">${_("join")}</a> 
 		%endif
 		%if c.tile.can_leave:
-			<a class="button delete" 
+			<a class="button delete ttip" title="${_('Resign from this instance.')}" 
 				href="${h.entity_url(c.instance, member='leave')}?${h.url_token()}">${_("leave")}</a> 
 		%endif
 	</div>
