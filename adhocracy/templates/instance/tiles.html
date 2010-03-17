@@ -26,7 +26,7 @@
 <%def name="header(tile, instance, active, no_panel)">
 	<div class="top_actions title">
 		%if tile.can_create_proposal:
-			<a class="button add ttip" href="/proposal/new" title="">${_("new proposal")}</a>
+			<a class="button add ttip" title="${_('Click here to introduce a new proposal.')}" href="/proposal/new" title="">${_("new proposal")}</a>
 		%endif
 		%if tile.can_join:
 			<a class="button add" 

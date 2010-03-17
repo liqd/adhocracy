@@ -133,13 +133,13 @@
 	<span class="${tile.position}"  id="tile_p${proposal.id}">
 		<div class="proposal rate">
 			%if tile.can_rate:
-				<a class="up icon" href="${h.entity_url(proposal.rate_poll, member='vote')}?_method=POST&position=1&${h.url_token()}" 
+				<a class="up icon otip" title="${_("Support this proposal")}" href="${h.entity_url(proposal.rate_poll, member='vote')}?_method=POST&position=1&${h.url_token()}" 
 					onclick="return rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, 1);">
 					&nbsp;
 				</a>
 				<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
 					class="score">${proposal.rate_poll.tally.score}</a>
-				<a class="down icon" href="${h.entity_url(proposal.rate_poll, member='vote')}?_method=POST&position=-1&${h.url_token()}" 
+				<a class="down icon ttip" title="${_("Oppose this proposal")}" href="${h.entity_url(proposal.rate_poll, member='vote')}?_method=POST&position=-1&${h.url_token()}" 
 					onclick="return rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, -1);">
 					&nbsp;
 				</a>

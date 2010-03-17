@@ -7,7 +7,7 @@ $(document).ready(function() {
 	$('.ttip[title]').qtip({ 
 	    style: {
             background: '#fdfbc0',
-            textAlign: 'center',
+            textAlign: 'left',
             border: {
                 width: 2
             },
@@ -18,6 +18,26 @@ $(document).ready(function() {
             corner: {
                 target: 'bottomMiddle',
                 tooltip: 'topMiddle'
+            }
+        },
+        show: {
+            delay: 70
+        }});
+    
+	$('.otip[title]').qtip({ 
+	    style: {
+            background: '#fdfbc0',
+            textAlign: 'left',
+            border: {
+                width: 2
+            },
+            tip: 'bottomMiddle',
+            name: 'cream'
+        },
+        position: {
+            corner: {
+                target: 'topMiddle',
+                tooltip: 'bottomMiddle'
             }
         },
         show: {
