@@ -103,15 +103,15 @@
 <%def name="header(tile, proposal, active)">
 	<div class="top_actions title">
 		%if tile.can_delegate and not tile.has_overridden:
-			<a class="button title add" 
+			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
 			    href="/delegation/new?scope=${proposal.id}">${_("delegate")}</a>
 		%endif
 		
 		%if proposal.can_adopt():
-			<a class="button title add" 
+			<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
 				href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
 		%elif c.user and not proposal.has_canonicals() and c.instance.allow_adopt:
-			<a class="button title inactive htwarn" title="${_('The proposal cannot be voted upon since it does not have an implementation yet.')}">${_("call a vote")}</a>
+			<a class="button title inactive ttip" title="${_('The proposal cannot be voted upon since it does not have an implementation yet.')}">${_("call a vote")}</a>
 		%endif
 		
 		%if tile.can_edit:
