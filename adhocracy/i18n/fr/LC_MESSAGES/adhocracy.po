@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-03-17 18:06+0100\n"
+"PO-Revision-Date: 2010-03-18 15:38+0100\n"
 "Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: adhocracy/controllers/comment.py:108
 msgid "Unsupported topic type."
-msgstr ""
+msgstr "Le type du sujet n'est pas prise en charge..."
 
 #: adhocracy/controllers/comment.py:138
 #: adhocracy/controllers/delegation.py:79
@@ -127,17 +127,17 @@ msgstr "Vous ête le fondateur de %s, vous ne pouvez pas la quitter."
 #: adhocracy/controllers/issue.py:87
 #, python-format
 msgid "Issue: %s"
-msgstr ""
+msgstr "Thème: %s"
 
 #: adhocracy/controllers/issue.py:89
 #, python-format
 msgid "Activity on the %s issue"
-msgstr ""
+msgstr "Activité sur le thème %s"
 
 #: adhocracy/controllers/issue.py:91
 #, python-format
 msgid "Issue: %(issue)s"
-msgstr ""
+msgstr "Thème: %(issue)s"
 
 #: adhocracy/controllers/issue.py:110
 #, python-format
@@ -147,11 +147,11 @@ msgstr "Le thème  %(issue)s ne peut être supprimé car il contient %(proposal)
 #: adhocracy/controllers/issue.py:114
 #, python-format
 msgid "Issue '%(issue)s' has been deleted."
-msgstr ""
+msgstr "Thème '%(issue)s' a été supprimé."
 
 #: adhocracy/controllers/karma.py:28
 msgid "Invalid karma value. Karma is either positive or negative!"
-msgstr ""
+msgstr "Valeur de Karma invalide. Un Karma est soit positif, soit négatif!"
 
 #: adhocracy/controllers/openidauth.py:100
 msgid "No OpenID given!"
@@ -216,7 +216,7 @@ msgstr "%s n'est pas soumis au vote, il n'y as donc pas de vote compté."
 
 #: adhocracy/controllers/proposal.py:38
 msgid "Input error while applying relations."
-msgstr ""
+msgstr "Erreur d'entrée pendant l'établissement des relations."
 
 #: adhocracy/controllers/proposal.py:47
 msgid "A proposal cannot have a relation with itself."
@@ -228,7 +228,7 @@ msgstr "Une proposition peut soit requerir une autre, soit la contredire, mais p
 
 #: adhocracy/controllers/proposal.py:63
 msgid "Cannot identify the parent issue."
-msgstr ""
+msgstr "Ne peut identifier le thème père."
 
 #: adhocracy/controllers/proposal.py:244
 #, python-format
@@ -320,7 +320,7 @@ msgstr "Activité de  %(user)ss"
 #: adhocracy/controllers/user.py:184
 #, python-format
 msgid "%s is not a member of %s"
-msgstr ""
+msgstr "%s n'est pas un membre de %s"
 
 #: adhocracy/controllers/user.py:221
 msgid "Invalid user name or password"
@@ -329,7 +329,7 @@ msgstr "Nom d'utilisateur ou mot de passe invalide."
 #: adhocracy/controllers/user.py:321
 #, python-format
 msgid "%(user)s was removed from %(instance)s"
-msgstr ""
+msgstr "%(user)s a été des inscrit de %(instance)s"
 
 #: adhocracy/controllers/vote.py:16
 #, python-format
@@ -342,7 +342,7 @@ msgstr "Vous n'avez pas le droit de vote."
 
 #: adhocracy/controllers/vote.py:29
 msgid "Illegal input for vote cast."
-msgstr ""
+msgstr "Entrée non valide pour ce vote."
 
 #: adhocracy/controllers/watch.py:35
 #: adhocracy/controllers/watch.py:55
@@ -351,21 +351,21 @@ msgstr "Requête invalide."
 
 #: adhocracy/controllers/watch.py:40
 msgid "Invalid entity reference in watchlist request."
-msgstr ""
+msgstr "Entité de référence invalide pour la demande de subscription."
 
 #: adhocracy/controllers/watch.py:42
 #, python-format
 msgid "No permission to create watches on a %s"
-msgstr ""
+msgstr "Pas de droit suffisant pour souscrire a %s"
 
 #: adhocracy/controllers/watch.py:44
 msgid "A watchlist entry for this entity already exists."
-msgstr ""
+msgstr "Une subscription pour cette entité existe déjà."
 
 #: adhocracy/controllers/watch.py:61
 #, python-format
 msgid "You're not authorized to delete %s's watchlist entries."
-msgstr ""
+msgstr "Vous n'êtes pas autorisé a supprimer les subscritpions de %s."
 
 #: adhocracy/lib/base.py:75
 msgid "A liquid democracy platform for making decisions in distributed, open groups by cooperatively creating proposals and voting on them to establish their support."
@@ -399,21 +399,21 @@ msgstr ""
 #: adhocracy/lib/mail.py:40
 #, python-format
 msgid "%s <%s>"
-msgstr ""
+msgstr "%s <%s>"
 
 #: adhocracy/lib/mail.py:44
 #, python-format
 msgid "Adhocracy SMTP %s"
-msgstr ""
+msgstr "Adhocracy SMTP %s"
 
 #: adhocracy/lib/templating.py:135
 #, python-format
 msgid "Missing page: %s"
-msgstr ""
+msgstr "Page manquante: %s"
 
 #: adhocracy/lib/xsrf.py:51
 msgid "Action failed. You were probably trying to re-perform an action after using your browser's 'Back' button. This is prohibited for security reasons."
-msgstr ""
+msgstr "Action abrogé: Vous etiez sans doute en train de refaire une action après avoir utiliser le boutton page précédante de votre navigateur. Ceci n'est pas possible pour des raison de securité."
 
 #: adhocracy/lib/event/formatting.py:69
 #: adhocracy/templates/decision/tiles.html:16
@@ -448,12 +448,12 @@ msgstr "Nouvel utilisateur: %(user)s"
 
 #: adhocracy/lib/event/types.py:26
 msgid "signed up"
-msgstr ""
+msgstr "s'est inscrit"
 
 #: adhocracy/lib/event/types.py:29
 #, python-format
 msgid "%(user)s: profile updated"
-msgstr ""
+msgstr "%(user)s: a mis son profil à jours"
 
 #: adhocracy/lib/event/types.py:31
 msgid "edited their profile"
@@ -467,107 +467,107 @@ msgstr "%(user)s: le profil à été changé par %(admin)s"
 #: adhocracy/lib/event/types.py:37
 #, python-format
 msgid "edited %(user)ss profile"
-msgstr ""
+msgstr "a édité le profil de %(user)s"
 
 #: adhocracy/lib/event/types.py:41
 #, python-format
 msgid "New Adhocracy: %(instance)s"
-msgstr ""
+msgstr "Nouvelle adhocracie: %(instance)s"
 
 #: adhocracy/lib/event/types.py:43
 #, python-format
 msgid "founded the %(instance)s Adhocracy"
-msgstr ""
+msgstr "a créé l'adhocracie %(instance)s"
 
 #: adhocracy/lib/event/types.py:46
 #, python-format
 msgid "%(instance)s: Adhocracy was updated"
-msgstr ""
+msgstr "%(instance)s: l'adhocracy a été mise à jour"
 
 #: adhocracy/lib/event/types.py:48
 #, python-format
 msgid "updated the %(instance)s Adhocracy"
-msgstr ""
+msgstr " a mis l'adhocracy %(instance)s à jour"
 
 #: adhocracy/lib/event/types.py:51
 #, python-format
 msgid "Deleted Adhocracy: %(instance)s"
-msgstr ""
+msgstr "Adhocracie supprimé: %(instance)s"
 
 #: adhocracy/lib/event/types.py:53
 #, python-format
 msgid "deleted the %(instance)s Adhocracy"
-msgstr ""
+msgstr "a supprimé l'adhocracy %(instance)s"
 
 #: adhocracy/lib/event/types.py:56
 #, python-format
 msgid "%(instance)s: %(user)s joined"
-msgstr ""
+msgstr "%(instance)s: %(user)s est devenu membre"
 
 #: adhocracy/lib/event/types.py:58
 #, python-format
 msgid "joined %(instance)s"
-msgstr ""
+msgstr "s'inscrire à %(instance)s"
 
 #: adhocracy/lib/event/types.py:61
 #, python-format
 msgid "%(instance)s: %(user)s left"
-msgstr ""
+msgstr "%(instance)s: %(user)s s'est desinscrit"
 
 #: adhocracy/lib/event/types.py:63
 #, python-format
 msgid "left %(instance)s"
-msgstr ""
+msgstr "a quitté %(instance)s"
 
 #: adhocracy/lib/event/types.py:66
 #, python-format
 msgid "%(instance)s: %(user)s was forced to leave"
-msgstr ""
+msgstr "%(instance)s: %(user)s a été obligé de quitter"
 
 #: adhocracy/lib/event/types.py:68
 #, python-format
 msgid "was forced to leave %(instance)s by %(admin)s"
-msgstr ""
+msgstr "a été forcé de quitter %(instance)s par %(admin)s"
 
 #: adhocracy/lib/event/types.py:71
 #, python-format
 msgid "%(instance)s: %(user)s is now a %(group)s"
-msgstr ""
+msgstr "%(instance)s: %(user)s est maintenant un %(group)s"
 
 #: adhocracy/lib/event/types.py:73
 #, python-format
 msgid "now is a %(group)s within %(instance)s"
-msgstr ""
+msgstr "est maintenant un %(group)s dans %(instance)s"
 
 #: adhocracy/lib/event/types.py:76
 #, python-format
 msgid "New issue: %(issue)s"
-msgstr ""
+msgstr "Nouveau thème: %(issue)s"
 
 #: adhocracy/lib/event/types.py:78
 #, python-format
 msgid "created %(issue)s"
-msgstr ""
+msgstr "a créé %(issue)s"
 
 #: adhocracy/lib/event/types.py:81
 #, python-format
 msgid "Edited issue: %(issue)s"
-msgstr ""
+msgstr "A édité le thème: %(issue)s"
 
 #: adhocracy/lib/event/types.py:83
 #, python-format
 msgid "edited %(issue)s"
-msgstr ""
+msgstr "a édité %(issue)s"
 
 #: adhocracy/lib/event/types.py:86
 #, python-format
 msgid "Deleted issue: %(issue)s"
-msgstr ""
+msgstr "Thème supprimé: %(issue)s"
 
 #: adhocracy/lib/event/types.py:88
 #, python-format
 msgid "deleted %(issue)s"
-msgstr ""
+msgstr "a supprimé %(issue)s"
 
 #: adhocracy/lib/event/types.py:91
 #, python-format
@@ -597,7 +597,7 @@ msgstr "Vote annulé: %(proposal)s"
 #: adhocracy/lib/event/types.py:103
 #, python-format
 msgid "re-drafted %(proposal)s"
-msgstr ""
+msgstr "a réécrit %(proposal)s"
 
 #: adhocracy/lib/event/types.py:106
 #, python-format
@@ -677,27 +677,27 @@ msgstr "Vote: %(user)s %(vote)s %(poll)s"
 #: adhocracy/lib/event/types.py:143
 #, python-format
 msgid "voted %(vote)s %(poll)s"
-msgstr ""
+msgstr "a voté %(vote)s %(poll)s"
 
 #: adhocracy/lib/event/types.py:146
 #, python-format
 msgid "Adhocracy says hello: %(test)s"
-msgstr ""
+msgstr "Adhocracy vous dit bonjour: %(test)s"
 
 #: adhocracy/lib/event/types.py:148
 #, python-format
 msgid "test %(test)s"
-msgstr ""
+msgstr "test %(test)s"
 
 #: adhocracy/lib/event/types.py:153
 #, python-format
 msgid "You received %(user)ss delegation on %(scope)s"
-msgstr ""
+msgstr "Vous avez recut la délégation de %(user)s poour %(scope)s"
 
 #: adhocracy/lib/event/types.py:157
 #, python-format
 msgid "You lost %(user)ss delegation on %(scope)s"
-msgstr ""
+msgstr "Vous avez perdu la délégation de %(user)s pour %(scope)s"
 
 #: adhocracy/lib/event/types.py:161
 #, python-format
@@ -1364,42 +1364,42 @@ msgstr ""
 #: adhocracy/templates/instance/create.html:6
 #: adhocracy/templates/instance/create.html:12
 msgid "New Instance"
-msgstr ""
+msgstr "Nouvelle Instance"
 
 #: adhocracy/templates/instance/create.html:17
 msgid "Instance address"
-msgstr ""
+msgstr "Adresse de l'instance"
 
 #: adhocracy/templates/instance/create.html:20
 msgid "The address may only contain alpha-numeric characters. Please note that this key cannot be changed after the instance has been created."
-msgstr ""
+msgstr "L'adresse ne peut contenir que des caractères alpha-numérique. Veuillez noter que cette clef ne peut être modifié une fois l'instance créé."
 
 #: adhocracy/templates/instance/create.html:29
 #: adhocracy/templates/instance/edit.html:18
 #: adhocracy/templates/issue/create.html:21
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 #: adhocracy/templates/instance/create.html:32
 msgid "Describe what the goals of this instance are and who constitutes its community."
-msgstr ""
+msgstr "Décriver quels sont les buts de cette instance et qui constitue ses membres."
 
 #: adhocracy/templates/instance/edit.html:3
 #, python-format
 msgid "Manage: %s"
-msgstr ""
+msgstr "gérer: %s"
 
 #: adhocracy/templates/instance/edit.html:6
 msgid "Manage"
-msgstr ""
+msgstr "gérer"
 
 #: adhocracy/templates/instance/edit.html:14
 msgid "Instance Name"
-msgstr ""
+msgstr "Nom de l'instance"
 
 #: adhocracy/templates/instance/edit.html:21
 msgid "Describe what the goals of this Instance are and who constitutes its community."
-msgstr ""
+msgstr "Décrivez les buts de cet instance et ses membres."
 
 #: adhocracy/templates/instance/edit.html:31
 #: adhocracy/templates/instance/view.html:61
@@ -1408,7 +1408,7 @@ msgstr "Règle du vote"
 
 #: adhocracy/templates/instance/edit.html:34
 msgid "In order to become active, a proposal must reach the given proportion of approval."
-msgstr ""
+msgstr "Pour devenir active, une proposition doit atteindre la proportion donné d'acceptation"
 
 #: adhocracy/templates/instance/edit.html:39
 msgid "Majority:"
@@ -1432,11 +1432,11 @@ msgstr "Avant d'être valable, la majorité définit doit être tenus pour au mo
 
 #: adhocracy/templates/instance/edit.html:55
 msgid "Delay:"
-msgstr ""
+msgstr "Délais:"
 
 #: adhocracy/templates/instance/edit.html:57
 msgid "No delay"
-msgstr ""
+msgstr "Sans délais"
 
 #: adhocracy/templates/instance/edit.html:58
 msgid "1 Day"
@@ -1460,7 +1460,7 @@ msgstr "Quatre semaines"
 
 #: adhocracy/templates/instance/edit.html:67
 msgid "Membership Options"
-msgstr ""
+msgstr "Paramètre d'adhésion"
 
 #: adhocracy/templates/instance/edit.html:70
 msgid "When a new member joins, he or she will be a member of this user group."
@@ -1476,7 +1476,7 @@ msgstr "Logo"
 
 #: adhocracy/templates/instance/edit.html:89
 msgid "Select a logo file to appear in the header area of this Instance."
-msgstr ""
+msgstr "Choisissez un logo qui apparaitra à la tête de votre instance."
 
 #: adhocracy/templates/instance/edit.html:93
 msgid "File upload:"
@@ -1501,8 +1501,8 @@ msgstr "Les Adhocracies sont de petites démocraties tenu par leur communauté."
 #, python-format
 msgid "%s issue"
 msgid_plural "%s issues"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s thème"
+msgstr[1] "%s thèmes"
 
 #: adhocracy/templates/instance/tiles.html:8
 #: adhocracy/templates/instance/tiles.html:29
@@ -1687,7 +1687,7 @@ msgstr "annuler le vote pour: %s"
 
 #: adhocracy/templates/poll/abort.html:17
 msgid "You are about to re-draft this proposal. This means that the proposal will become editable again but that all votes that have been cast at this time <strong>will be invalidated</strong>."
-msgstr ""
+msgstr "Vous êtes en train de réécrire cette proposition. Vous serez certe de nouveau en mesure d'éditer certain passage de texte, mais <b>tous les votes seront invalidé</b>."
 
 #: adhocracy/templates/poll/abort.html:21
 #: adhocracy/templates/poll/create.html:21
@@ -1705,7 +1705,7 @@ msgstr "Appel au vote pour: %s."
 
 #: adhocracy/templates/poll/create.html:17
 msgid "You are about to release this proposal and call for a vote. When you do this, you will lose the ability to <strong>change the proposal's wording</strong> unless you re-draft it."
-msgstr ""
+msgstr "Vous êtes en train de publier cette proposition et d'appeler au vote. Si vous faite ceci, vous seront incapable de <strong>changer la formulation de cette proposition</strong> a moins de la réécrire."
 
 #: adhocracy/templates/poll/index.html:3
 #, python-format
@@ -1794,7 +1794,7 @@ msgstr ""
 #: adhocracy/templates/poll/state.html:38
 #, python-format
 msgid "Majority has been held <b>for %s</b>."
-msgstr ""
+msgstr "La majorité est tenu <b>depuis %s</b>. "
 
 #: adhocracy/templates/poll/state.html:46
 msgid "All <b>requirements</b> must be adopted:"
@@ -1904,11 +1904,11 @@ msgstr ""
 
 #: adhocracy/templates/proposal/create.html:28
 msgid "Provisions to implement"
-msgstr ""
+msgstr "Alinéa a mettre en oeuvre"
 
 #: adhocracy/templates/proposal/create.html:30
 msgid "Describe <b>how</b> your proposal will achieve the desired effect.<br/><br/>Splitting the proposal into several parts will facilitate its discussion.<br/><br/>You can also leave this blank if you want to specify provisions later."
-msgstr ""
+msgstr "Décrivé <b>comment</b>  votre proposition aura l'effet escompté.<br/><br/> Séparer la proposition en plusieur partie peu faciliter la discussion.<br/><br/>Vous pouvez laisser cela vierge si vous preferer entrer les alinéa plus tard."
 
 #: adhocracy/templates/proposal/create.html:37
 msgid "A specific provision that is part of this proposal."
@@ -1926,7 +1926,7 @@ msgstr "Relation avec les autres propositions"
 #: adhocracy/templates/proposal/create.html:57
 #: adhocracy/templates/proposal/edit.html:44
 msgid "Specify which proposals <b>contradict</b> or <b>enable</b> this proposal.<br/><br/>Contradicting proposals cannot be in power at the same time.<br/><br/>Requirements must be satisfied before the proposal can activate."
-msgstr ""
+msgstr "Spécifiez les propositions qui sont en <b>contradiction</b> ou qui sont <b>nécéssaire</b> a cette proposition..<br/><br/> Des propositions contradictoire ne peuvent pas valoir en même temps. <br/><br/> Les propositions nécéssaire doit être d'abord valide pour pouvoir activer cette proposition."
 
 #: adhocracy/templates/proposal/create.html:69
 #: adhocracy/templates/proposal/edit.html:56
@@ -2002,7 +2002,7 @@ msgstr "Alinéas"
 
 #: adhocracy/templates/proposal/view.html:119
 msgid "<b>Provisions</b> are the body of a proposal: together they form the language that will be voted upon. You will need to have at least one clause in order to call for a vote."
-msgstr ""
+msgstr "<b>Les alinéas</b> sont les constituantes d'une proposition: Ensemble elle forme la formulation qui sera mise en vote. Vous avez besoin d'au moin un alinéa pour pouvoir appeler au vote."
 
 #: adhocracy/templates/search/results.html:2
 #: adhocracy/templates/search/results.html:5
@@ -2017,7 +2017,7 @@ msgstr "recherche pour '%s'"
 
 #: adhocracy/templates/search/results.html:28
 msgid "No entries could be found that match your criteria. Try a more general search term."
-msgstr ""
+msgstr "Aucune entré qui correspond à vos critères n'as été trouvé. Essayez une recherche avec des termes plus généraux."
 
 #: adhocracy/templates/user/delegations.html:4
 #: adhocracy/templates/user/delegations.html:26
@@ -2063,7 +2063,7 @@ msgstr "Il n'y as pas de délégation."
 #: adhocracy/templates/user/edit.html:4
 #, python-format
 msgid "Settings: %s"
-msgstr ""
+msgstr "Paramètre: %s"
 
 #: adhocracy/templates/user/edit.html:20
 msgid "User Details"
@@ -2236,7 +2236,7 @@ msgstr ""
 #: adhocracy/templates/user/view.html:20
 #, python-format
 msgid "make %s"
-msgstr ""
+msgstr "faire %s"
 
 #: adhocracy/templates/user/view.html:40
 #, python-format
