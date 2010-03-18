@@ -18,10 +18,18 @@
 
 
 <div class="sidebar">
+	
 	%if len(c.cloud_tags):
 		<h3 class="section">${_("Similar tags")}</h3>
 		${tiles.tag.cloud(c.cloud_tags)}
 	%endif
+	
+	<h3 class="help">${_("Help")}</h3>
+	<ul>
+		<li><a href="/page/tag_faq.html#whatis">Was ist ein Tag?</a></li>
+		<li><a href="/page/proposal_faq.html#whatis">Was ist ein Vorschlag?</a></li>
+		<li><a href="/page/tag_faq.html">${_("More help...")}</a></li>
+	</ul>
 </div>
 
 <div class="mainbar">

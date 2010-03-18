@@ -67,12 +67,12 @@
 				<% has = False %>
 				%for tagging in proposal.taggings:
 					%if not has and tagging.tag == tag and tagging.creator == c.user:
-						<a href="${h.entity_url(proposal, member='untag')}?tagging=${tagging.id}&${h.url_token()}"><img src="/img/icons/tag_del.png" alt="-" /></a>&nbsp;
+						<a class="ttip" title="${_('Remove this tag.')}" href="${h.entity_url(proposal, member='untag')}?tagging=${tagging.id}&${h.url_token()}"><img src="/img/icons/tag_del.png" alt="-" /></a> 
 						<% has = True %>
 					%endif
 				%endfor
 				%if not has:
-					<a href="${h.entity_url(proposal, member='tag')}?_method=POST&text=${tag.name|u}"><img src="/img/icons/tag_add.png" alt="+" /></a>&nbsp;
+					<a class="ttip" title="${_('Support this tag for this proposal.')}" href="${h.entity_url(proposal, member='tag')}?_method=POST&tags=${tag.name|u}"><img src="/img/icons/tag_add.png" alt="+" /></a>
 				%endif
 			%endif
 			</li>
@@ -88,7 +88,8 @@
 				${h.field_token()|n}
 				<input name="tags" type="tags" id="tags" autocomplete="off" />
 				<input type="submit" value="${_("Add tags")}" />
-				<span class="hint">${_("Multiple tags can be separated by commas or spaces.")}</span>
+				<span class="hint">${_("Multiple tags can be separated by commas or spaces.")}
+					<a href="/page/tag_faq.html">${_("Help.")}</a></span>
 			</form>
 		</div>
 		%endif

@@ -108,5 +108,12 @@
 	</div>
 	
 	<div style="clear: both;"></div>
-	${components.savebox("/instance/%s" % c.page_instance.key)}
+	<div class="sidebar">
+		<div class="infobox">
+			<a target="_new" href="/page/instance_faq.html">${_("More help...")}</a>
+		</div>
+	</div>
+	<div class="mainbar">
+		${components.savebox("/instance/%s" % c.page_instance.key)}
+	</div>
 </form>	

@@ -37,7 +37,13 @@
 %endif
 
 <div class="sidebar">
-	&nbsp;
+	<div class="infobox">
+		%if c.instance:
+			${_("A listing of all users that have joined this instance.")}
+		%else:
+			${_("A listing of all users that signed up.")}
+		%endif
+	</div>
 </div>
 
 <div class="mainbar">

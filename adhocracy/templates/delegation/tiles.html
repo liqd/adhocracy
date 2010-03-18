@@ -44,6 +44,7 @@
 				%else:
 					${_("You have not delegated voting.")} 
 					<a href="/delegation/new?scope=${delegateable.id}">${_("delegate")}</a>
+					&middot; <a href="/page/delegation_faq.html">${_("help")}</a>
 				%endif 
 			%else:
 				%if c.tile.has_overridden:

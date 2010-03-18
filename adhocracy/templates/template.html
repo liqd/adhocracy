@@ -122,9 +122,9 @@
 					%endif
 					%if c.instance:
 						<li><a href="${h.entity_url(c.instance)}">${_("Home")}</a></li>
+						<li><a href="${h.entity_url(c.instance, member='activity')}" 	
+							class="activity">${_("Activity")}</a></li>
 						<li><a href="/proposal">${_("Proposals")}</a></li>
-						<a href="${h.entity_url(c.instance, member='activity')}" 	
-							class="activity">${_("Activity")}</a>
 						<!--li><a href="/tag">${_("Tags")}</a></li-->
 						<!--li><a href="/adopted" class="adopted">${_("Outcomes")}</a></li-->
 					%endif

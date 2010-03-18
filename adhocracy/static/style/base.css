@@ -83,6 +83,10 @@ h4 img.cd,
 }
 
 h3.section {
+	margin-top: 0px;
+}
+
+h3.help, h3.section {
 	border-bottom: 0px;
 	margin-top: 0px;
 }
