@@ -43,6 +43,9 @@ $(document).ready(function() {
         show: {
             delay: 70
         }});
+        
+    $(".hidejs").hide();
+    $(".showjs").hide();
 	
 	adhocracyDomain = function() {
 		return document.domain.substring(document.domain.split('.')[0].length);

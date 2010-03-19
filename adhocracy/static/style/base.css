@@ -88,7 +88,6 @@ h3.section {
 
 h3.help, h3.section {
 	border-bottom: 0px;
-	margin-top: 0px;
 }
 
 .page_title img {
@@ -96,7 +95,8 @@ h3.help, h3.section {
 }
 
 .hidden,
-.prototype {
+.prototype,
+.showjs {
 	display: none;
 }
 
@@ -1517,7 +1517,6 @@ a.button.inactive {
 }
 
 .tagarea .addtags {
-	display: none;
 	margin-top: 1em;
 }
 

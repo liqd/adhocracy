@@ -78,12 +78,12 @@
 			</li>
 		%endfor
 		%if h.has_permission("tag.create"):
-			<li><a href="#" onclick="return addTags();">${_("add tags...")}</a></li>
+			<li class="showjs"><a href="#" onclick="return addTags();">${_("add tags...")}</a></li>
 		%endif
 		</ul>
 		
 		%if h.has_permission("tag.create"):
-		<div class="addtags">
+		<div class="addtags hidejs">
 			<form action="${h.entity_url(proposal, member='tag')}" method="POST">
 				${h.field_token()|n}
 				<input name="tags" type="tags" id="tags" autocomplete="off" />

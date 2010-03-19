@@ -56,7 +56,7 @@ class DelegationController(BaseController):
                                                                   c.user,
                                                                   c.scope)
         if existing is not None:
-            h.flash(_("You have already delegated voting to %s in %s") % (agents[0], c.scope))
+            h.flash(_("You have already delegated voting to %s in %s") % (agents[0].name, c.scope.label))
             return self.new()
         
         delegation = c.user.delegate_to_user_in_scope(agents[0], c.scope)
@@ -99,6 +99,7 @@ class DelegationController(BaseController):
         
         decisions = democracy.Decision.for_user(c.delegation.principal, c.instance)
         decisions = filter(lambda d: c.delegation in d.delegations, decisions)
+        decisions = filter(lambda d: isinstance(d.poll.subject, model.Proposal), decisions)
         c.decisions_pager = NamedPager('decisions', decisions, tiles.decision.user_row, 
                                     sorts={_("oldest"): sorting.entity_oldest,
                                            _("newest"): sorting.entity_newest},
