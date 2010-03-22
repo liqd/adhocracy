@@ -11,7 +11,8 @@ from adhocracy.model import meta
 
 SQL_STORES = {'sqlite': SQLiteStore,
               'mysql': MySQLStore,
-              'postgres': PostgreSQLStore}
+              'postgres': PostgreSQLStore,
+              'postgresql': PostgreSQLStore}
 
 log = logging.getLogger(__name__)
 

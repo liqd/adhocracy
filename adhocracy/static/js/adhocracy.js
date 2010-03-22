@@ -45,7 +45,7 @@ $(document).ready(function() {
         }});
         
     $(".hidejs").hide();
-    $(".showjs").hide();
+    $(".showjs").show();
 	
 	adhocracyDomain = function() {
 		return document.domain.substring(document.domain.split('.')[0].length);
@@ -53,6 +53,11 @@ $(document).ready(function() {
 	
 	submitForm = function(id) {
 		$("#" + id).submit();
+	}
+	
+	moreTags = function() {
+	    $(".moreTags").show();
+	    $(".moreTagsLink").hide();
 	}
 	
 	/* Tag area add form */

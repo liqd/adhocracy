@@ -18,7 +18,7 @@
 		%endif
 		%if c.tile.can_leave:
 			<a class="button delete ttip" title="${_('Resign from this instance.')}" 
-				href="${h.entity_url(c.instance, member='leave')}?${h.url_token()}">${_("leave")}</a> 
+				href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave")}</a> 
 		%endif
 	</div>
 %endif

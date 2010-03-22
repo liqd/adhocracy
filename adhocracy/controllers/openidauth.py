@@ -90,22 +90,24 @@ class OpenidauthController(BaseController):
         try:
             if not openid: raise ValueError(_("No OpenID given!"))
             authrequest = self.consumer.begin(openid)
-        except Exception, e:
-            return self._failure(openid, str(e))
         
-        if not c.user and not model.OpenID.find(openid):
-            axreq = ax.FetchRequest(h.instance_url(c.instance, path='/openid/update'))
-            axreq.add(ax.AttrInfo(AX_MAIL_SCHEMA, alias="email", required=True))
-            authrequest.addExtension(axreq)
-            sreq = sreg.SRegRequest(required=['nickname'], optional=['email'])
-            authrequest.addExtension(sreq)    
+            
         
-        redirecturl = authrequest.redirectURL(h.instance_url(c.instance, path='/'), 
+            if not c.user and not model.OpenID.find(openid):
+                axreq = ax.FetchRequest(h.instance_url(c.instance, path='/openid/update'))
+                axreq.add(ax.AttrInfo(AX_MAIL_SCHEMA, alias="email", required=True))
+                authrequest.addExtension(axreq)
+                sreq = sreg.SRegRequest(required=['nickname'], optional=['email'])
+                authrequest.addExtension(sreq)    
+        
+            redirecturl = authrequest.redirectURL(h.instance_url(c.instance, path='/'), 
                                     return_to=h.instance_url(c.instance, path='/openid/verify'), 
                                     immediate=False)
-        session['openid_session'] = self.openid_session
-        session.save()
-        return redirect(redirecturl)
+            session['openid_session'] = self.openid_session
+            session.save()
+            return redirect(redirecturl)
+        except Exception, e:
+            return self._failure(openid, str(e))
     
     
     @ActionProtector(has_permission("user.edit"))

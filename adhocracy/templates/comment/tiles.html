@@ -136,7 +136,7 @@
 	</form>
 </%def>
 
-<%def name="create_form(parent, topic, canonical=0)">
+<%def name="create_form(parent, topic, canonical=0, arm=False)">
 	<form name="create_comment" class="inplace" method="POST" action="/comment">
 		${h.field_token()|n}
 		<input type="hidden" name="topic" 
@@ -146,7 +146,10 @@
 		<input type="hidden" name="canonical" 
 			value="${request.params.get('canonical', canonical)}" />
 		<div style="width: auto;"> 
-		<textarea tabindex="2" class="description" name="text"></textarea><br/>
+		%if arm:
+			<label for="text" class="armhint">${arm}</label>
+		%endif
+		<textarea tabindex="2" class="description armlabel" name="text"></textarea><br/>
 		${components.formatting()}
 		${components.savebox("/d/%s" % parent.topic.id if parent else request.params.get('topic'))}
 		${components.form_watch(None)}
