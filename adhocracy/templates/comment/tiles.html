@@ -155,12 +155,11 @@
 <%def name="create_form(parent, topic, canonical=0, arm=False)">
 	<form name="create_comment" class="inplace" method="POST" action="/comment">
 		${h.field_token()|n}
-		<input type="hidden" name="topic" 
-			value="${topic.id}" />
-		<input type="hidden" name="reply" 
-			value="${parent.id}" />
-		<input type="hidden" name="canonical" 
-			value="${canonical}" />
+		<input type="hidden" name="topic" value="${topic.id}" />
+		%if parent:
+			<input type="hidden" name="reply" value="${parent.id}" />
+		%endif
+		<input type="hidden" name="canonical" value="${canonical}" />
 		<div style="width: auto;">
 		%if not canonical:
 			${_("argumenting")}

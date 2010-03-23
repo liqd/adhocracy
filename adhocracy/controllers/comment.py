@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 class CommentNewForm(formencode.Schema):
     allow_extra_fields = True
     topic = forms.ValidDelegateable()
-    reply = forms.ValidComment(if_empty=None)
+    reply = forms.ValidComment(if_empty=None, if_missing=None)
     canonical = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
 
 
