@@ -161,7 +161,7 @@ $(document).ready(function() {
 	
 	rate = function(elem_id, poll_id, value) {
 	    $(elem_id + " .score").text('*');
-		$.post('/poll/' + poll_id + '/vote.json', {position: value},
+		$.post('/poll/' + poll_id + '/rate.json', {position: value},
 			function(data) {
 				$(elem_id + ".upvoted").removeClass("upvoted");
 				$(elem_id + ".downvoted").removeClass("downvoted");

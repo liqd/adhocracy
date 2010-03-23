@@ -78,6 +78,7 @@ def make_map():
                                                'ask_delete': 'GET'})
                                                
     map.resource('poll', 'poll', member={'vote': 'POST',
+                                         'rate': 'POST',
                                          'votes': 'GET',
                                          'ask_delete': 'GET'})
     

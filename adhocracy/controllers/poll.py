@@ -6,7 +6,7 @@ from pylons.i18n import _
 from adhocracy.lib.base import *
 from adhocracy.lib.tiles.poll_tiles import PollTile
 from adhocracy.lib.tiles.proposal_tiles import ProposalTile
-
+from adhocracy.model import Vote
 
 log = logging.getLogger(__name__)
 
@@ -66,6 +66,40 @@ class PollController(BaseController):
                                     score=tally.score))
         model.meta.Session.commit()
         redirect(h.entity_url(c.poll.subject))
+        
+        
+    @RequireInstance
+    @RequireInternalRequest()
+    @ActionProtector(has_permission("vote.cast"))
+    @validate(schema=PollVoteForm(), form="bad_request", post_only=False, on_get=True)
+    def rate(self, id, format='html'):
+        # rating is like polling but steps via absten, i.e. if you have 
+        # first voted "for", rating will first go to "abstain" and only
+        # then produce "against"-
+        c.poll = self._get_open_poll(id)
+        if c.poll.action != model.Poll.RATE:
+            abort(400, _("This is not a rating poll."))
+        
+        decision = democracy.Decision(c.user, c.poll)
+        old = decision.result
+        new = self.form_result.get("position")
+        
+        position = {(Vote.YES, Vote.YES): Vote.YES,
+                    (Vote.ABSTAIN, Vote.YES): Vote.YES,
+                    (Vote.NO, Vote.YES): Vote.ABSTAIN,
+                    (Vote.YES, Vote.NO): Vote.ABSTAIN,
+                    (Vote.ABSTAIN, Vote.NO): Vote.NO,
+                    (Vote.NO, Vote.NO): Vote.NO}.get((old, new))
+        
+        votes = decision.make(position)
+        
+        if format == 'json':
+            tally = model.Tally.create_from_poll(c.poll)
+            model.meta.Session.commit()
+            return render_json(dict(decision=decision,
+                                    score=tally.score))
+        model.meta.Session.commit()
+        redirect(h.entity_url(c.poll.subject))  
     
         
     @RequireInstance
