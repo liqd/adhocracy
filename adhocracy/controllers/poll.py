@@ -89,7 +89,7 @@ class PollController(BaseController):
                     (Vote.NO, Vote.YES): Vote.ABSTAIN,
                     (Vote.YES, Vote.NO): Vote.ABSTAIN,
                     (Vote.ABSTAIN, Vote.NO): Vote.NO,
-                    (Vote.NO, Vote.NO): Vote.NO}.get((old, new))
+                    (Vote.NO, Vote.NO): Vote.NO}.get((old, new), new)
         
         votes = decision.make(position)
         
