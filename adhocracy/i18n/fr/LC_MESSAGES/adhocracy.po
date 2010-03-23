@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-03-18 15:38+0100\n"
+"PO-Revision-Date: 2010-03-23 11:56+0100\n"
 "Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -199,7 +199,7 @@ msgstr "urgence"
 
 #: adhocracy/controllers/poll.py:59
 msgid "The poll cannot be started either because there are no provisions or a poll has already started."
-msgstr "Le vote ne peu pas commencer, soit parcequ'il n'y as pas d'alinéat, soit par ce qu'il a déjà commencé."
+msgstr "Le vote ne peu pas commencer, soit parce qu'il n'y as pas d'alinéat, soit par ce qu'il a déjà commencé."
 
 #: adhocracy/controllers/poll.py:79
 msgid "The proposal is not undergoing a poll."
@@ -260,7 +260,7 @@ msgstr "N'as pas reçut de demande de recherche."
 
 #: adhocracy/controllers/twitteroauth.py:29
 msgid "You have been logged out while authenticating at twitter. Please try again."
-msgstr "Vous avez été "
+msgstr "Vous avez été desinscrit pendant l'authentification de twitter, veuillez rééssayer."
 
 #: adhocracy/controllers/twitteroauth.py:55
 #, python-format
@@ -281,7 +281,7 @@ msgstr "vous avez fait une demande de réinitialisation de mot de passe. Pour co
 
 #: adhocracy/controllers/user.py:141
 msgid "Reset your password"
-msgstr "réinitialisé votre mot de passe"
+msgstr "Réinitialisé votre mot de passe"
 
 #: adhocracy/controllers/user.py:149
 msgid "Invalid URL reset code."
@@ -329,7 +329,7 @@ msgstr "Nom d'utilisateur ou mot de passe invalide."
 #: adhocracy/controllers/user.py:321
 #, python-format
 msgid "%(user)s was removed from %(instance)s"
-msgstr "%(user)s a été des inscrit de %(instance)s"
+msgstr "%(user)s a été désinscrit de %(instance)s"
 
 #: adhocracy/controllers/vote.py:16
 #, python-format
@@ -395,6 +395,9 @@ msgid ""
 "\r\n"
 "    the %s Team\r\n"
 msgstr ""
+"Yay, \r\n"
+"\r\n"
+"   le Team %s \r\n"
 
 #: adhocracy/lib/mail.py:40
 #, python-format
@@ -507,12 +510,12 @@ msgstr "%(instance)s: %(user)s est devenu membre"
 #: adhocracy/lib/event/types.py:58
 #, python-format
 msgid "joined %(instance)s"
-msgstr "s'inscrire à %(instance)s"
+msgstr "s'est inscrit à %(instance)s"
 
 #: adhocracy/lib/event/types.py:61
 #, python-format
 msgid "%(instance)s: %(user)s left"
-msgstr "%(instance)s: %(user)s s'est desinscrit"
+msgstr "%(instance)s: %(user)s s'est désinscrit"
 
 #: adhocracy/lib/event/types.py:63
 #, python-format
@@ -522,12 +525,12 @@ msgstr "a quitté %(instance)s"
 #: adhocracy/lib/event/types.py:66
 #, python-format
 msgid "%(instance)s: %(user)s was forced to leave"
-msgstr "%(instance)s: %(user)s a été obligé de quitter"
+msgstr "%(instance)s: %(user)s a été expulsé"
 
 #: adhocracy/lib/event/types.py:68
 #, python-format
 msgid "was forced to leave %(instance)s by %(admin)s"
-msgstr "a été forcé de quitter %(instance)s par %(admin)s"
+msgstr "a été expulsé %(instance)s par %(admin)s"
 
 #: adhocracy/lib/event/types.py:71
 #, python-format
@@ -692,7 +695,7 @@ msgstr "test %(test)s"
 #: adhocracy/lib/event/types.py:153
 #, python-format
 msgid "You received %(user)ss delegation on %(scope)s"
-msgstr "Vous avez recut la délégation de %(user)s poour %(scope)s"
+msgstr "Vous avez reçut la délégation de %(user)s poour %(scope)s"
 
 #: adhocracy/lib/event/types.py:157
 #, python-format
@@ -702,12 +705,12 @@ msgstr "Vous avez perdu la délégation de %(user)s pour %(scope)s"
 #: adhocracy/lib/event/types.py:161
 #, python-format
 msgid "Membership: You've been kicked from %(instance)s"
-msgstr ""
+msgstr "Addhésion: Vous avez été expulsé de %(instance)s"
 
 #: adhocracy/lib/event/types.py:166
 #, python-format
 msgid "Membership: you're now a %(group)s in %(instance)s"
-msgstr ""
+msgstr "Addhésion: vous avez le statut de %(group)s dans %(instance)s"
 
 #: adhocracy/lib/event/types.py:171
 #, python-format
@@ -722,17 +725,17 @@ msgstr "Votre délégué %(agent)s a voté %(vote)s %(poll)s"
 #: adhocracy/lib/event/types.py:181
 #, python-format
 msgid "Delegate conflict regarding %(poll)s"
-msgstr ""
+msgstr "Il y a des délégations contradictoire concernant le vote %(poll)s"
 
 #: adhocracy/lib/event/types.py:186
 #, python-format
 msgid "Comment Reply: %(topic)s"
-msgstr ""
+msgstr "Réponse au commentaire: %(topic)s"
 
 #: adhocracy/lib/event/types.py:190
 #, python-format
 msgid "Comment Edit: %(topic)s"
-msgstr ""
+msgstr "changement du commentaire: %(topic)s"
 
 #: adhocracy/lib/event/notification/notification.py:70
 #, python-format
@@ -741,6 +744,9 @@ msgid ""
 "\r\n"
 "More info: %(url)s"
 msgstr ""
+"\r\n"
+"\r\n"
+"plus d'info: %(url)s"
 
 # Wird eigentlich Instance als synonym für adhocracy benutzt?
 #: adhocracy/lib/instance/__init__.py:13
@@ -816,12 +822,12 @@ msgstr "Une instance avec cette clef existe déjà"
 #: adhocracy/model/forms.py:73
 #, python-format
 msgid "No entity with ID '%s' exists"
-msgstr ""
+msgstr "Il n'existe pas d'entité avec l'ID '%s'"
 
 #: adhocracy/model/forms.py:82
 #, python-format
 msgid "No issue with ID '%s' exists"
-msgstr ""
+msgstr "Il n'existe pas de thème avec l'ID '%s'"
 
 #: adhocracy/model/forms.py:91
 #, python-format
@@ -831,27 +837,27 @@ msgstr "Une proposition avec l'ID  '%s' n'existe pas"
 #: adhocracy/model/forms.py:100
 #, python-format
 msgid "No group with ID '%s' exists"
-msgstr ""
+msgstr "Il n'existe pas de group avec l'ID '%s'"
 
 #: adhocracy/model/forms.py:109
 #, python-format
 msgid "No revision with ID '%s' exists"
-msgstr ""
+msgstr "Il n'existe pas de révision avec l'ID '%s'"
 
 #: adhocracy/model/forms.py:118
 #, python-format
 msgid "No comment with ID '%s' exists"
-msgstr ""
+msgstr "Il n'existe pas de commentaire avec l'ID   '%s'"
 
 #: adhocracy/model/forms.py:127
 #, python-format
 msgid "No watchlist entry with ID '%s' exists"
-msgstr ""
+msgstr "Il n'existe pas liste d'observation avec l'ID '%s'"
 
 #: adhocracy/model/forms.py:136
 #, python-format
 msgid "No user with the user name '%s' exists"
-msgstr ""
+msgstr "Il n'existe pas d'utilisateur avec l'ID '%s'"
 
 #: adhocracy/model/proposal.py:31
 msgid "Proposal doesn't have a distinct parent issue."
@@ -884,7 +890,7 @@ msgstr "ne plus suivre"
 
 #: adhocracy/templates/components.html:39
 msgid "watch"
-msgstr ""
+msgstr "observer"
 
 #: adhocracy/templates/components.html:47
 msgid "Say hi"
@@ -922,58 +928,58 @@ msgstr "info..."
 
 #: adhocracy/templates/components.html:73
 msgid "By voting yourself, you have overridden:"
-msgstr ""
+msgstr "En votant vous même, vous avez outrepassé la délégation:"
 
 #: adhocracy/templates/components.html:75
 msgid "You have delegated voting to:"
-msgstr ""
+msgstr "Vous avez d´légué votre vote à:"
 
 #: adhocracy/templates/components.html:82
 #: adhocracy/templates/decision/tiles.html:50
 msgid "on"
-msgstr ""
+msgstr "sur"
 
 #: adhocracy/templates/components.html:83
 #: adhocracy/templates/decision/tiles.html:51
 msgid "review"
-msgstr ""
+msgstr "revoire"
 
 #: adhocracy/templates/components.html:92
 msgid "You hold an additional vote."
-msgstr ""
+msgstr "Vous avez une voix supplementaire."
 
 #: adhocracy/templates/components.html:94
 #, python-format
 msgid "You hold %s additional votes."
-msgstr ""
+msgstr "vous avez %s voix suplementaires."
 
 #: adhocracy/templates/components.html:100
 msgid "Delegation overview"
-msgstr ""
+msgstr "Vue d'ensemble des délégations."
 
 #: adhocracy/templates/components.html:112
 msgid "What now?"
-msgstr ""
+msgstr "Et maintenant?"
 
 #: adhocracy/templates/components.html:112
 msgid "&mdash; using Adhocracy in 3<sup>&frac12;</sup> steps:"
-msgstr ""
+msgstr "&mdash; utiliser Adhocracy en 3<sup>&frac12;</sup> étapes:"
 
 #: adhocracy/templates/components.html:118
 msgid "Create and discuss issues that need solutions."
-msgstr ""
+msgstr "Créer et discuter de thème qui on besoin de changement."
 
 #: adhocracy/templates/components.html:123
 msgid "Cooperate to develop proposals affecting the issues."
-msgstr ""
+msgstr "Coopérer pour déveloper des propositions affectant ces thèmes."
 
 #: adhocracy/templates/components.html:127
 msgid "Vote on proposals to collectively make decisions.*"
-msgstr ""
+msgstr "Voter sur ces proposition pour faire des décisions collectives.*"
 
 #: adhocracy/templates/components.html:132
 msgid "*Or &mdash; if you like &mdash; delegate voting in some fields to a peer."
-msgstr ""
+msgstr "*Ou &mdash; si vous le voulez &mdash; déléguez votrevotre vote sur un sujet a un pair."
 
 #: adhocracy/templates/index.html:7
 msgid "sign up"
@@ -1021,7 +1027,7 @@ msgstr "recherche"
 
 #: adhocracy/templates/template.html:68
 msgid "Go"
-msgstr ""
+msgstr "Aller"
 
 #: adhocracy/templates/template.html:71
 #, python-format
@@ -1029,9 +1035,8 @@ msgid "Join %s to contribute"
 msgstr "rejoigner %s pour participer"
 
 #: adhocracy/templates/template.html:96
-#, fuzzy
 msgid "Issues"
-msgstr ""
+msgstr "Thèmes"
 
 #: adhocracy/templates/template.html:96
 #: adhocracy/templates/instance/view.html:6
@@ -1044,7 +1049,7 @@ msgstr "Plus d'adhocracies..."
 
 #: adhocracy/templates/template.html:110
 msgid "Polls"
-msgstr ""
+msgstr "Votes"
 
 #: adhocracy/templates/template.html:113
 #: adhocracy/templates/poll/index.html:9
@@ -1110,7 +1115,7 @@ msgstr "aide"
 
 #: adhocracy/templates/template.html:171
 msgid "report a problem"
-msgstr ""
+msgstr "rapproter un problème"
 
 #: adhocracy/templates/template.html:172
 msgid "privacy"
@@ -1118,7 +1123,7 @@ msgstr "protection des donnés personnelles"
 
 #: adhocracy/templates/template.html:173
 msgid "imprint"
-msgstr ""
+msgstr "logo"
 
 #: adhocracy/templates/admin/permissions.html:3
 msgid "Admin: Group Permissions"
@@ -1156,13 +1161,13 @@ msgstr "Édité ce commentaire"
 #: adhocracy/templates/comment/edit.html:10
 #, python-format
 msgid "Comment on: %s"
-msgstr ""
+msgstr "Commentaire sur %s"
 
 #: adhocracy/templates/comment/history.html:3
 #: adhocracy/templates/comment/history.html:6
 #: adhocracy/templates/comment/history.html:13
 msgid "Comment History"
-msgstr ""
+msgstr "Historique des commentaires."
 
 #: adhocracy/templates/comment/revision_tiles.html:7
 #: adhocracy/templates/comment/tiles.html:20
@@ -1170,15 +1175,15 @@ msgstr ""
 #: adhocracy/templates/proposal/tiles.html:42
 #, python-format
 msgid "created %s"
-msgstr ""
+msgstr "a créé %s"
 
 #: adhocracy/templates/comment/revision_tiles.html:13
 msgid "revert here"
-msgstr ""
+msgstr "annulé ici"
 
 #: adhocracy/templates/comment/revision_tiles.html:17
 msgid "view comment"
-msgstr ""
+msgstr "voir les commenaires"
 
 #: adhocracy/templates/comment/revision_tiles.html:19
 #: adhocracy/templates/comment/tiles.html:67
@@ -1232,7 +1237,7 @@ msgstr "%s"
 #: adhocracy/templates/comment/tiles.html:105
 #, python-format
 msgid "edited %s by %s"
-msgstr ""
+msgstr "%s a été édité par %s"
 
 #: adhocracy/templates/comment/tiles.html:108
 msgid "history"
@@ -1240,12 +1245,12 @@ msgstr "historique"
 
 #: adhocracy/templates/comment/tiles.html:119
 msgid "This comment has been deleted."
-msgstr ""
+msgstr "Ce commentaire a été supprimer"
 
 #: adhocracy/templates/comment/view.html:13
 #, python-format
 msgid "Discussion on %s"
-msgstr ""
+msgstr "Dicussion à propos de %s"
 
 #: adhocracy/templates/decision/tiles.html:20
 msgid "abstained"
@@ -1270,26 +1275,26 @@ msgstr "La décisions a été déterminé grace au délégations suivantes:"
 #: adhocracy/templates/decision/tiles.html:64
 #, python-format
 msgid "poll #%s"
-msgstr ""
+msgstr "vote: #%s"
 
 #: adhocracy/templates/delegation/create.html:3
 #: adhocracy/templates/delegation/create.html:10
 #, python-format
 msgid "Delegate: %s"
-msgstr ""
+msgstr "délégué: %s"
 
 #: adhocracy/templates/delegation/create.html:6
 #: adhocracy/templates/delegation/review.html:5
 msgid "Delegation"
-msgstr ""
+msgstr "Délégation"
 
 #: adhocracy/templates/delegation/create.html:18
 msgid "These people might be a good match for your delegation. Either select one of the listed delegates, or enter another user name."
-msgstr ""
+msgstr "Ces personne pourrait être une bonne possibilité pour votre délégation. Choisissez une personne sur cette liste ou entrez le nom d'un autre utilisateur."
 
 #: adhocracy/templates/delegation/create.html:54
 msgid "Start typing, you will receive suggestions to find the user."
-msgstr ""
+msgstr "Commencé a taper, vous allez recevoir des suggestions pour trouver l'utilisateur."
 
 #: adhocracy/templates/delegation/create.html:63
 msgid "Include decisions made before now."
@@ -1299,12 +1304,12 @@ msgstr "Ajouté les décisions prise pécédemment."
 #: adhocracy/templates/delegation/review.html:14
 #, python-format
 msgid "Delegation: %s"
-msgstr ""
+msgstr "Délégation: %s"
 
 #: adhocracy/templates/delegation/review.html:10
 #: adhocracy/templates/delegation/tiles.html:13
 msgid "revoke"
-msgstr ""
+msgstr "révoquer"
 
 #: adhocracy/templates/delegation/review.html:20
 #: adhocracy/templates/delegation/tiles.html:4
@@ -1321,44 +1326,44 @@ msgstr "pour %s"
 #: adhocracy/templates/delegation/review.html:25
 #, python-format
 msgid "established %s"
-msgstr ""
+msgstr "a établit %s"
 
 #: adhocracy/templates/delegation/review.html:27
 #, python-format
 msgid "revoked %s"
-msgstr ""
+msgstr "a révoqué %s"
 
 #: adhocracy/templates/delegation/review.html:33
 msgid "The delegation can be overridden or revoked at any time."
-msgstr ""
+msgstr "Cette délégation peu être révoqué ou outrepassé à tout moment."
 
 #: adhocracy/templates/delegation/review.html:45
 msgid "No decisions have been based on this delegation yet. As soon as this delegation leads to any decisions, they will be listed here."
-msgstr ""
+msgstr "Aucune décisions basé sur cette délégation n'a été prise. Dès que cette délégation mènera à une décisions, elle sera inscrite ici."
 
 #: adhocracy/templates/delegation/tiles.html:5
 #: adhocracy/templates/delegation/tiles.html:11
 msgid "track record"
-msgstr ""
+msgstr "historique"
 
 #: adhocracy/templates/error/http.html:2
 #: adhocracy/templates/error/http.html:4
 #, python-format
 msgid "Error %s"
-msgstr ""
+msgstr "Erreure %s"
 
 #: adhocracy/templates/error/http.html:8
 msgid "If this error continues to occur, please <a href='http://trac.adhocracy.de/newticket'>notify the developers</a> with a description of what you were trying to do."
-msgstr ""
+msgstr "Si cette erreure continue, veuiller <a href='http://trac.adhocracy.de/newticket'>notifier le developpeur</a> avec und description de ce que vous vouliez faire."
 
 #: adhocracy/templates/event/all.html:3
 #: adhocracy/templates/event/all.html:10
 msgid "Whazza"
-msgstr ""
+msgstr "Whazza"
 
 #: adhocracy/templates/event/all.html:6
 msgid "All current events."
-msgstr ""
+msgstr "Tout les évenement actuel."
 
 #: adhocracy/templates/instance/create.html:3
 #: adhocracy/templates/instance/create.html:6
@@ -1424,7 +1429,7 @@ msgstr "Une majorité des deux tiers"
 
 #: adhocracy/templates/instance/edit.html:43
 msgid "In Soviet Russia, proposal votes you."
-msgstr ""
+msgstr "En Russie soviétique, les propositions vous vote."
 
 #: adhocracy/templates/instance/edit.html:50
 msgid "Before activating, the defined majority must be continuously held by the proposal for the specified interval."
@@ -1533,7 +1538,7 @@ msgstr "abonner"
 #| msgid "%s issue"
 #| msgid_plural "%s issues"
 msgid "Find issues"
-msgstr "trouver des thèmes"
+msgstr "Trouver des thèmes"
 
 #: adhocracy/templates/instance/view.html:54
 msgid "Filter"
@@ -1710,7 +1715,7 @@ msgstr "Vous êtes en train de publier cette proposition et d'appeler au vote. S
 #: adhocracy/templates/poll/index.html:3
 #, python-format
 msgid "Critical Proposals in %s"
-msgstr ""
+msgstr "Proposition critique dans %s."
 
 #: adhocracy/templates/poll/index.html:17
 msgid "Filter criteria"
@@ -1751,7 +1756,7 @@ msgstr "Adoption"
 #: adhocracy/templates/poll/state.html:12
 #: adhocracy/templates/poll/state.html:14
 msgid "Provisions to describe the proposal."
-msgstr ""
+msgstr "Des alinéas décrivant la proposition."
 
 #: adhocracy/templates/poll/state.html:16
 msgid "A vote needs to be called."
@@ -1774,22 +1779,22 @@ msgstr "Cette proposition est adopté."
 #: adhocracy/templates/poll/state.html:26
 #, python-format
 msgid "More than <b>%s votes</b> have been cast."
-msgstr ""
+msgstr "Plus de <b>%s personne</b>ont voté."
 
 #: adhocracy/templates/poll/state.html:28
 #, python-format
 msgid "At least <b>%s votes</b> need to be cast."
-msgstr ""
+msgstr "Au moins <b>%s votes</b> doivent être donné."
 
 #: adhocracy/templates/poll/state.html:32
 #, python-format
 msgid "More than <b>%s%% of voters</b> approve."
-msgstr ""
+msgstr "plus de <b>%s%% des votants</b> approuve."
 
 #: adhocracy/templates/poll/state.html:34
 #, python-format
 msgid "<b>%s%% of voters</b> must approve."
-msgstr ""
+msgstr "<b>%s%% des votants</b> doivent approuver."
 
 #: adhocracy/templates/poll/state.html:38
 #, python-format
@@ -1798,11 +1803,11 @@ msgstr "La majorité est tenu <b>depuis %s</b>. "
 
 #: adhocracy/templates/poll/state.html:46
 msgid "All <b>requirements</b> must be adopted:"
-msgstr ""
+msgstr "Tout les <b>exigences</b> doivent être adopté:"
 
 #: adhocracy/templates/poll/state.html:50
 msgid "(missing)"
-msgstr ""
+msgstr "(manquant)"
 
 #: adhocracy/templates/poll/state.html:57
 msgid "No <b>alternatives</b> may be adopted:"
@@ -1900,7 +1905,7 @@ msgstr "Donner une bref description de l'<b>effet<b> escompté de votre proposit
 #: adhocracy/templates/proposal/create.html:23
 #, python-format
 msgid "The proposal addresses %s by..."
-msgstr ""
+msgstr "Cette propositions concerne %s a cause de..."
 
 #: adhocracy/templates/proposal/create.html:28
 msgid "Provisions to implement"
@@ -2231,7 +2236,7 @@ msgstr "inscrit dans %s"
 
 #: adhocracy/templates/user/view.html:16
 msgid "kick"
-msgstr ""
+msgstr "expulser"
 
 #: adhocracy/templates/user/view.html:20
 #, python-format
@@ -2261,7 +2266,7 @@ msgstr "Activité"
 
 #: adhocracy/templates/user/votes.html:14
 msgid "Review your voting track"
-msgstr "Revoyer vos votes."
+msgstr "Revoyez vos votes."
 
 #~ msgid ""
 #~ "You're now following <b>%s</b> on "
