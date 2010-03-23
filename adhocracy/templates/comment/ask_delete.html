@@ -10,7 +10,7 @@
 	${_("Comment on %s") % h.delegateable_link(c.comment.topic)|n}</h1>
 
 <form name="ask_delete" class="inplace" method="POST" 
-	action="${h.entity_url(c.comment)}">
+	action="${h.entity_url(c.comment, comment_page=True)}">
 	${h.field_token()|n}
 	<input type="hidden" name="_method" value="DELETE" />
 	<div class="sidebar">&nbsp;</div>

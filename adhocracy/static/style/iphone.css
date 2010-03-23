@@ -1,4 +1,9 @@
 
+a {
+	/* Yay */
+	font-size: 1em !important;
+} 
+
 #frame {
 	width: 95%;
 	padding: 0 2em 0 2em;
@@ -6,6 +11,10 @@
 
 #loginform, #registerform {
 	width: inherit;
+}
+
+.lefthalf {
+	float: none;
 }
 
 #loginform {

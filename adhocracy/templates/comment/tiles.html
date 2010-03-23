@@ -32,7 +32,11 @@
 		return
 	%>
 	<div class="comment" id="c${comment.id}">
-		<div class="tile ${'canonical' if comment.canonical else ''} ${tile.position}" id="tile_c${comment.id}">
+		<div class="tile 
+				        ${'canonical' if comment.canonical else ''} 
+				        ${'pro' if comment.latest.sentiment == c.model.Comment.SENT_PRO else ''} 
+   				      ${'con' if comment.latest.sentiment == c.model.Comment.SENT_CON else ''} 
+				        ${tile.position}" id="tile_c${comment.id}">
 			<div class="logo rate">
 				%if tile.can_rate:
 					<a class="up icon otip" title="${_("Support this comment")}" href="${h.entity_url(comment.poll, member='vote')}?_method=POST&position=1&${h.url_token()}" 
@@ -128,6 +132,18 @@
 <%def name="edit_form(comment)">
 	<form name="edit_comment" class="inplace" method="POST" action="/comment/${comment.id}">
 		${h.field_token()|n}
+		
+		%if not comment.canonical and comment.reply:
+			${_("argumenting")}
+			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == 1 else ''} /> 
+			${_("pro")}
+			<input type="radio" value="0" name="sentiment" ${'checked="checked"' if comment.latest.sentiment not in [-1, 1] else ''}  /> 
+			${_("neutral")}
+			<input type="radio" value="-1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == -1 else ''} /> 
+			${_("against")}
+			<br/>
+		%endif
+		
 		<textarea tabindex="2" class="description" style="min-height: ${max(7, min(30, len(comment.latest.text)/50))}em !important;" name="text">${comment.latest.text}</textarea>
 		<input type="hidden" name="_method" value="PUT" />
 		${components.formatting()}
@@ -140,12 +156,20 @@
 	<form name="create_comment" class="inplace" method="POST" action="/comment">
 		${h.field_token()|n}
 		<input type="hidden" name="topic" 
-			value="${topic.id if topic else request.params.get('topic')}" />
+			value="${topic.id}" />
 		<input type="hidden" name="reply" 
-			value="${parent.id if parent else request.params.get('reply')}" />
+			value="${parent.id}" />
 		<input type="hidden" name="canonical" 
-			value="${request.params.get('canonical', canonical)}" />
-		<div style="width: auto;"> 
+			value="${canonical}" />
+		<div style="width: auto;">
+		%if not canonical:
+			${_("argumenting")}
+			<% pos = h.proposal_position(topic) %>
+			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if pos == 1 else ''} /> ${_("pro")}
+			<input type="radio" value="0" name="sentiment" ${'checked="checked"' if pos not in [-1, 1] else ''}  /> ${_("neutral")}
+			<input type="radio" value="-1" name="sentiment" ${'checked="checked"' if pos == -1 else ''} /> ${_("con")}
+			<br/>
+		%endif
 		%if arm:
 			<label for="text" class="armhint">${arm}</label>
 		%endif

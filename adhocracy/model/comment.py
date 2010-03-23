@@ -25,6 +25,9 @@ comment_table = Table('comment', meta.data,
 
 class Comment(object):
     
+    SENT_PRO = 1
+    SENT_CON = -1
+    
     def __init__(self, topic, creator):
         self.topic = topic
         self.creator = creator
@@ -59,7 +62,7 @@ class Comment(object):
     
     
     @classmethod    
-    def create(cls, text, user, topic, reply=None, canonical=False, with_vote=False):
+    def create(cls, text, user, topic, reply=None, canonical=False, sentiment=0, with_vote=False):
         from poll import Poll
         comment = Comment(topic, user)
         comment.canonical = canonical
@@ -69,14 +72,17 @@ class Comment(object):
         poll = Poll.create(topic, user, Poll.RATE, comment,
                            with_vote=with_vote)
         comment.poll = poll
-        comment.create_revision(text, user)
+        comment.create_revision(text, user, sentiment=sentiment)
         return comment
     
     
-    def create_revision(self, text, user):
+    def create_revision(self, text, user, sentiment=0):
         from revision import Revision
         from adhocracy.lib.text import cleanup
         rev = Revision(self, user, cleanup(text))
+        if self.canonical or not self.reply:
+            sentiment = 0
+        rev.sentiment = sentiment
         meta.Session.add(rev)
         self.revisions.append(rev)
         meta.Session.flush()

@@ -308,6 +308,22 @@ class User(object):
         # REFACT: proposals don't automatically have a poll - this is dangeorus
         from adhocracy.lib.democracy.decision import Decision
         return Decision(self, poll).make(position)
+        
+    
+    def position_on_poll(self, poll):
+        from adhocracy.lib.democracy.decision import Decision
+        return Decision(self, poll).result
+        
+        
+    def any_position_on_proposal(self, proposal):
+        # this is fuzzy since it includes two types of opinions
+        from adhocracy.lib.democracy.decision import Decision
+        if proposal.adopt_poll:
+            dec = Decision(self, proposal.adopt_poll)
+            if dec.is_decided():
+                return dec.result
+        if proposal.rate_poll:
+            return Decision(self, proposal.rate_poll).result
     
     
     @classmethod

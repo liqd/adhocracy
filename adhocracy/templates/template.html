@@ -25,9 +25,26 @@
 	%endfor
 </%def>
 
-
 <!DOCTYPE html>
 <html>
+<!--
+
+                         ''~``
+                        ( o o )
++------------------.oooO--(_)--Oooo.-------------------+
+|                                                      |
+| Ok, here's the thing: Adhocracy does store sensitive | 
+| information but we know it's not 100% secure. So if  |
+| you find vulnerabilities, report them to us and we   |
+| will send you a free T-shirt: "I hacked democracy".  |
+| Deal?                                                | 
+|                    .oooO                             |
+|                    (   )   Oooo.                     |
++---------------------\ (----(   )---------------------+
+                       \_)    ) /
+                             (_/
+
+-->
 <head>
 	<title>${self.title()} - 
 		   	%if c.instance:
@@ -55,6 +72,22 @@
 	<script type="text/javascript" src="/js/jquery.timeago.js"></script>
 	<script type="text/javascript" src="/js/jquery.timeago.${c.locale.language}.js"></script>
 	<script type="text/javascript" src="/js/adhocracy.js"></script>
+	
+	<script type="text/javascript" charset="utf-8">
+	  var is_ssl = ("https:" == document.location.protocol);
+	  var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+	  document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+
+	<script type="text/javascript" charset="utf-8">
+	  var feedback_widget_options = {};
+	  feedback_widget_options.display = "overlay";  
+	  feedback_widget_options.company = "liqd";
+	  feedback_widget_options.placement = "left";
+	  feedback_widget_options.color = "#222";
+	  feedback_widget_options.style = "problem";
+	  var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+	</script>
 </head>
 <body>
 <div id="frame">
@@ -169,19 +202,33 @@
 <div id="footer">
 	<div id="links">
 		<div id="license">
+			<a class="nolink" href="http://wiki.liqd.net/Adhocracy">
+				<img alt="Adhocracy" src="/img/footer_logo.png" />
+			</a>
+			<br/>
 			<a class="nolink" rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/de/">
 				<img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/de/80x15.png" />
 			</a>
+			<a class="nolink" rel="license" href="http://www.opendefinition.org/">
+				<img alt="Open Definition" src="http://m.okfn.org/images/ok_buttons/oc_80x15_blue.png" />
+			</a>
+			
 		</div>
 		
-		<a class="nolink" href="http://liqd.net"><img id="button" src="/img/liqd_ev.png"/></a>
-		<a class="nolink" href="http://wiki.liqd.net/Adhocracy">${_("adhocracy &middot; liquid democracy platform")|n}</a><br/>
-		<a href="/page/about.html">${_("about")}</a> &middot;
-		<a href="http://wiki.liqd.net/Adhocracy/Handbuch">${_("help")}</a> &middot; 
-		<a href="http://trac.adhocracy.de/newticket">${_("report a problem")}</a> &middot;
-		<a href="/page/privacy.html">${_("privacy")}</a> &middot; 
-		<a href="/page/imprint.html">${_("imprint")}</a> &middot;
-		${c.lib.get_version()}
+		<ul>
+			<li><strong>${_("adhocracy")}</strong></li>
+			<li><a href="/page/about.html">${_("about adhocracy")}</a></li>
+			<li><a href="http://getsatisfaction.com/liqd">${_("report a problem")}</a></li>
+			<li><a href="/page/privacy.html">${_("privacy")}</a></li>
+			<li><a href="/page/imprint.html">${_("imprint")}</a></li>
+		</ul>
+		<ul>
+			<li><strong>${_("liqd e.V.")}</strong></li>
+			<li><a href="http://wiki.liqd.net">${_("theory wiki (de)")}</a></li>
+			<li><a href="http://blog.liqd.net">${_("liqd blog (de)")}</a></li>
+			<li><a href="http://twitter.com/liqd_net">${_("twitter")}</a></li>
+			<li><a href="http://lists.liqd.net/cgi-bin/mailman/listinfo/announce">${_("mailing list")}</a></li>
+		</ul>
 	</div>
 </div>
 

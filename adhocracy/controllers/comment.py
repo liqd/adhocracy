@@ -9,22 +9,29 @@ import adhocracy.lib.democracy as democracy
 
 log = logging.getLogger(__name__)
 
+
 class CommentNewForm(formencode.Schema):
     allow_extra_fields = True
     topic = forms.ValidDelegateable()
     reply = forms.ValidComment(if_empty=None)
+    canonical = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
+
 
 class CommentCreateForm(CommentNewForm):
     text = validators.String(max=20000, min=4, not_empty=True)
-    canonical = validators.StringBool(not_empty=True)
+    sentiment = validators.Int(min=model.Comment.SENT_CON, max=model.Comment.SENT_PRO, if_empty=0, if_missing=0)
+    
     
 class CommentUpdateForm(formencode.Schema):
     allow_extra_fields = True
     text = validators.String(max=20000, min=4, not_empty=True)
+    sentiment = validators.Int(min=model.Comment.SENT_CON, max=model.Comment.SENT_PRO, if_empty=0, if_missing=0)
+
 
 class CommentRevertForm(formencode.Schema):
     allow_extra_fields = True
     to = forms.ValidRevision()
+
 
 class CommentController(BaseController):
     
@@ -35,7 +42,9 @@ class CommentController(BaseController):
     def new(self):
         c.topic = self.form_result.get('topic')
         c.reply = self.form_result.get('reply')
+        c.canonical = self.form_result.get('canonical')
         return render('/comment/new.html')
+    
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
@@ -52,6 +61,7 @@ class CommentController(BaseController):
                                        c.user, topic, 
                                        reply=self.form_result.get('reply'), 
                                        canonical=canonical,
+                                       sentiment=self.form_result.get('sentiment'), 
                                        with_vote=h.has_permission('vote.cast'))
         model.meta.Session.commit()
         watchlist.check_watch(comment)
@@ -71,7 +81,9 @@ class CommentController(BaseController):
     @validate(schema=CommentUpdateForm(), form="edit", post_only=True)
     def update(self, id):
         c.comment = self._get_mutable_or_abort(id)
-        rev = c.comment.create_revision(self.form_result.get('text'), c.user)
+        rev = c.comment.create_revision(self.form_result.get('text'), 
+                                        c.user,
+                                        sentiment=self.form_result.get('sentiment'))
         model.meta.Session.commit()
         if h.has_permission('vote.cast'):
             decision = democracy.Decision(c.user, c.comment.poll)

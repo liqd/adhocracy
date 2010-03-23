@@ -423,7 +423,7 @@ body {
 	width: auto; 
 	padding: 0px 2em 0px 2em;
 	height: 74px;
-	background-color: #fff;
+	background-color: #ddd;
 	background-image: url(/img/hdr_bg.png);
 	background-repeat: repeat-x;
 	background-position: bottom;
@@ -584,11 +584,12 @@ body {
 
 #footer {
 	clear: both;
-	margin-top: -80px;
+	margin-top: -60px;
 	padding: 1em 0em 0em 1em;
-	border-top: 10px solid #eee;
+	border-top: 2px solid #ccc;
 	color: #222;
-	height: 55px;
+	height: 110px;
+	overflow: hidden;
 	
 	background-image: url(/img/page_bg.png);
 	background-repeat: repeat-x;
@@ -596,21 +597,30 @@ body {
 }
 
 #footer a {
-	color:  #222;
-	text-decoration: underline;
-	text-transform: lowercase;
+	text-shadow: #fff 1px 1px 1px;
 }
+
+#footer strong {
+	text-shadow: #fff 1px 1px 1px;
+	padding-bottom: 3px;
+}
+
 
 #footer a.nolink {
 	text-decoration: none;
 }
 
 #footer #links {
-	font-size: 11px;
-	line-height: 16px;
 	text-align: left;
 	width: 900px;
 	margin: 0 auto;
+	line-height: 1.5em;
+	text-transform: lowercase;
+}
+
+#footer ul {
+	float: left;
+	width: 300px;
 }
 
 #footer #links #button {
@@ -621,6 +631,11 @@ body {
 
 #footer #license {
 	float:  right;
+	text-align: right;
+}
+
+#footer #license img {
+	padding-top: 10px;
 }
 
 /* @end */
@@ -1323,6 +1338,24 @@ a.button.inactive {
 
 .comment .tile.canonical .text {
 	border-bottom: 2px solid #eed8b1;
+}
+
+.comment .tile.pro .pre,
+.comment .tile.pro .text {
+	background-color: #e6ffed;
+}
+
+.comment .tile.pro .text {
+	border-bottom: 2px solid #b1eeb4;
+}
+
+.comment .tile.con .pre,
+.comment .tile.con .text {
+	background-color: #ffe9e6;
+}
+
+.comment .tile.con .text {
+	border-bottom: 2px solid #eebbb1;
 }
 
 .comment .hide, 
