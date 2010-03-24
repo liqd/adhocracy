@@ -17,7 +17,7 @@ class TagController(BaseController):
     @ActionProtector(has_permission("tag.view"))
     def index(self, format='html'):
         tags = model.Tag.popular_tags(limit=200)
-        c.tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
+        c.tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name.lower())
         return render("/tag/index.html")
         
     
