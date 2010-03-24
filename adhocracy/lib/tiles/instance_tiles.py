@@ -16,6 +16,7 @@ class InstanceTile(BaseTile):
     def __init__(self, instance):
         self.instance = instance
         self.__issues = None
+        self.__proposals_count = None
         
     def _tagline(self):       
         if self.instance.description:
@@ -70,10 +71,12 @@ class InstanceTile(BaseTile):
     num_issues = property(_num_issues)
     
     def _num_proposals(self):
-        query = model.meta.Session.query(model.Proposal)
-        query = query.filter(model.Proposal.instance==self.instance)
-        query = query.filter(model.Proposal.delete_time==None)
-        return query.count()
+        if self.__proposals_count is None:
+            query = model.meta.Session.query(model.Proposal)
+            query = query.filter(model.Proposal.instance==self.instance)
+            query = query.filter(model.Proposal.delete_time==None)
+            self.__proposals_count = query.count()
+        return self.__proposals_count
     
     num_proposals = property(_num_proposals)
 

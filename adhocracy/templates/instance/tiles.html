@@ -11,7 +11,7 @@
 			<div class="meta noclear">
 				${h.user_link(instance.creator)|n}  
 				&middot; ${_("created %s") % h.relative_time(instance.create_time)|n}  
-				&middot; ${ungettext("%s issue", "%s issues", tile.num_issues) % tile.num_issues}
+				&middot; ${ungettext("%s proposal", "%s proposals", tile.num_proposals) % tile.num_proposals}
 				%if tile.can_join:
 					&middot; <a href="${h.entity_url(instance, member='join')}?${h.url_token()}">${_("join")}</a>
 				%endif
