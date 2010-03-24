@@ -37,6 +37,16 @@
 %endif
 
 <div class="sidebar">
+	
+	%if c.instance:
+		<h3 class="section">${_("Filter by group")}</h3>
+		<ul>
+			%for group in c.model.Group.all_instance():
+				<li><a href="${c.users_pager.serialize(users_group=group.code)}">${_(group.group_name)}</a></li>
+			%endfor
+		</ul>
+	%endif
+	
 	<div class="infobox">
 		%if c.instance:
 			${_("A listing of all users that have joined this instance.")}

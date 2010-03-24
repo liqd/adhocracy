@@ -11,6 +11,7 @@ from templating import render_def
 import sorting
 import tiles
 
+
 class NamedPager(object): 
     """
     A ``NamedPager`` is a list generator for the UI. The ``name`` is required
@@ -33,7 +34,8 @@ class NamedPager(object):
         self.sorted = False
         self.kwargs = kwargs
         self._parse_request()
-        
+     
+      
     def _parse_request(self):
         page_val = validators.Int(if_empty=1, not_empty=False)
         self.page = page_val.to_python(request.params.get("%s_page" % self.name))
@@ -45,6 +47,7 @@ class NamedPager(object):
         sort_val = validators.Int(if_empty=self.selected_sort, if_invalid=self.selected_sort, 
                                   min=1, max=len(self.sorts.keys()), not_empty=False)
         self.selected_sort = sort_val.to_python(request.params.get("%s_sort" % self.name))
+     
                 
     def _get_items(self):
         if not self.sorted and len(self.sorts.values()):
@@ -56,18 +59,21 @@ class NamedPager(object):
         return self._items[offset:offset+self.count]
     
     items = property(_get_items)
-        
+    
+       
     def pages(self):
         return int(math.ceil(len(self._items)/float(self.count)))
+    
     
     def rel_page(self, step=1):
         cand = self.page + step
         return cand if cand > 0 and cand <= self.pages() else None
     
-    def serialize(self, page=None, count=None, sort=None):
-        query = dict()
-        query.update(request.params)
+    
+    def serialize(self, page=None, count=None, sort=None, **kwargs):
+        query = dict(request.params.items())
         query.update(self.kwargs)
+        query.update(kwargs)
         query["%s_page" % self.name] = page if page else self.page
         query["%s_count" % self.name] = count if count else self.count
         query["%s_sort" % self.name] = sort if sort else self.selected_sort
@@ -77,11 +83,14 @@ class NamedPager(object):
             query[query_name] = request.params.get(query_name)
         return "?" + urllib.urlencode(query.items())
     
+    
     def here(self):
         return render_def('/pager.html', 'namedpager', pager=self)
+    
         
     def __len__(self):
         return len(self.items)
+
 
 
 def instances(instances):

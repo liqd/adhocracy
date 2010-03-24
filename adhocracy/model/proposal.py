@@ -144,6 +144,21 @@ class Proposal(Delegateable):
         return proposal
     
     
+    @classmethod
+    def filter_by_state(cls, state, proposals):
+        if state: 
+            filtered = []
+            for proposal in proposals:
+                if state == u'draft' and not proposal.is_adopt_polling() \
+                    and not proposal.adopted:
+                    filtered.append(proposal)
+                elif state == u'polling' and proposal.is_adopt_polling():
+                    filtered.append(proposal)
+                elif state == u'adopted' and proposal.adopted:
+                    filtered.append(proposal)
+            return filtered
+    
+    
     def delete(self, delete_time=None):
         if delete_time is None:
             delete_time = datetime.utcnow()

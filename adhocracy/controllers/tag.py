@@ -11,6 +11,11 @@ import adhocracy.model.forms as forms
 log = logging.getLogger(__name__)
 
 
+class TagProposalFilterForm(formencode.Schema):
+    allow_extra_fields = True
+    proposals_state = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
+
+
 class TagController(BaseController):
     
     @RequireInstance
@@ -23,6 +28,7 @@ class TagController(BaseController):
     
     @RequireInstance
     @ActionProtector(has_permission("tag.view"))
+    @validate(schema=TagProposalFilterForm(), post_only=False, on_get=True)
     def show(self, id, format='html'):
         c.tag = get_entity_or_abort(model.Tag, id)
         proposals = libsearch.query.run(c.tag.name, instance=c.instance,  
@@ -30,6 +36,10 @@ class TagController(BaseController):
         
         if format == 'json':
             return render_json(proposals)
+            
+        if self.form_result.get('proposals_state'): 
+            proposals = model.Proposal.filter_by_state(self.form_result.get('proposals_state'), 
+                                                       proposals)
         
         # TODO "Similar tags"
         c.proposals_pager = pager.proposals(proposals)

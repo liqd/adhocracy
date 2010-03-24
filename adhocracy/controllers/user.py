@@ -56,6 +56,7 @@ class UserGroupmodForm(formencode.Schema):
 class UserFilterForm(formencode.Schema):
     allow_extra_fields = True
     users_q = validators.String(max=255, not_empty=False, if_empty=u'', if_missing=u'')
+    users_group = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
 
 class UserController(BaseController):
     
@@ -70,6 +71,15 @@ class UserController(BaseController):
             
         if c.instance:
             c.tile = tiles.instance.InstanceTile(c.instance)
+            
+            group = self.form_result.get('users_group')
+            filtered = []
+            for user in c.users:
+                if user.is_member(c.instance):
+                    mem = user.instance_membership(c.instance)
+                    if not group or mem.group.code == group:
+                        filtered.append(user)
+            c.users = filtered
         
         c.users_pager = pager.users(c.users, has_query=query is not None)
         return render("/user/index.html")

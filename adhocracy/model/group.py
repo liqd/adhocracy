@@ -35,6 +35,12 @@ class Group(object):
     @classmethod
     def all(cls):
         return meta.Session.query(Group).all()
+        
+        
+    @classmethod
+    def all_instance(cls):
+        # todo: one query. 
+        return [cls.by_code(g) for g in cls.INSTANCE_GROUPS] 
     
     
     @classmethod

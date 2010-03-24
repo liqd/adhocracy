@@ -19,10 +19,20 @@
 		<h3 class="section">${_("Popular tags")}</h3>
 		${tiles.tag.cloud(c.cloud_tags)}
 	%endif
+	
+	%if c.instance.allow_adopt:
+		<h3 class="section">${_("Filter by state")}</h3>
+		<ul>
+			<li><a href="${c.proposals_pager.serialize(proposals_state='draft')}">${_("Draft")}</a></li>
+			<li><a href="${c.proposals_pager.serialize(proposals_state='polling')}">${_("Polling")}</a></li>
+			<li><a href="${c.proposals_pager.serialize(proposals_state='adopted')}">${_("Adopted")}</a></li>
+		</ul>
+	%endif
+	
 	<h3 class="help">${_("Help")}</h3>
 	<ul>
-		<li><a href="/page/proposal_faq.html#whatis">Was ist ein Vorschlag?</a></li>
-		<li><a href="/page/proposal_faq.html#support">Wie kann man einen Vorschlag unterstützen?</a></li>
+		<li><a href="/page/proposal_faq.html#whatis">${_("What is a proposal?")}</a></li>
+		<li><a href="/page/proposal_faq.html#support">${_("How can I support a proposal?")}</a></li>
 		<li><a href="/page/proposal_faq.html">${_("More help...")}</a></li>
 	</ul>
 </div>

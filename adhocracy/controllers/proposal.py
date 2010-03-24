@@ -34,6 +34,7 @@ class ProposalUpdateForm(ProposalEditForm):
 class ProposalFilterForm(formencode.Schema):
     allow_extra_fields = True
     proposals_q = validators.String(max=255, not_empty=False, if_empty=u'', if_missing=u'')
+    proposals_state = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
     
 class ProposalTagCreateForm(formencode.Schema):
     allow_extra_fields = True
@@ -56,6 +57,10 @@ class ProposalController(BaseController):
         
         if format == 'json':
             return render_json(proposals)
+        
+        if self.form_result.get('proposals_state'): 
+            proposals = model.Proposal.filter_by_state(self.form_result.get('proposals_state'), 
+                                                       proposals)
         
         tags = model.Tag.popular_tags(limit=50)
         c.cloud_tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
