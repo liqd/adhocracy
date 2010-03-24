@@ -50,6 +50,9 @@ def upgrade():
                                        'num_against': 0,
                                        'num_abstain': 0})
         r = migrate_engine.execute(q)
+        q = proposal_table.update(proposal_table.c.id==proposal_id,
+                                  {'rate_poll_id': poll_id})
+        migrate_engine.execute(q)
     
 
 def downgrade():

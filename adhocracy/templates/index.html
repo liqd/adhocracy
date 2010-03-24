@@ -3,7 +3,7 @@
 <%def name="title()">${c.page.title}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.instance) if c.instance else _("Adhocracy")} &raquo; ${c.page.title} 
+	${h.breadcrumbs(c.instance)|n} &raquo; ${c.page.title} 
 </%def>
 
 <div class="top_actions title">
@@ -11,7 +11,7 @@
 		<a class="button add" href="/register">${_("sign up")}</a>
 	%endif
 	%if h.has_permission("instance.create"):
-		<a class="button add" href="/instance/new">${_("new adhocracy")}</a>
+		<a class="button add" href="/instance/new">${_("new instance")}</a>
 	%endif
 </div>
 
