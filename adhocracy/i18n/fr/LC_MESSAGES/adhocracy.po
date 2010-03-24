@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-03-24 12:34+0100\n"
+"PO-Revision-Date: 2010-03-24 22:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -172,7 +172,6 @@ msgstr "La page demandé n'as pas été trouvé. "
 
 #: adhocracy/controllers/poll.py:81
 #, fuzzy
-#| msgid "The proposal is not undergoing a poll."
 msgid "This is not a rating poll."
 msgstr "Il n'y as pas de vote sur cette propositions en ce moment."
 
@@ -807,84 +806,84 @@ msgstr "Superviseur"
 msgid "Administrator"
 msgstr "Administrateur"
 
-#: adhocracy/model/forms.py:29
+#: adhocracy/model/forms.py:30
 msgid "No username is given"
 msgstr "le nom d'utilisateur manque"
 
-#: adhocracy/model/forms.py:33
+#: adhocracy/model/forms.py:34
 msgid "Username is too short"
 msgstr "le nom d'utilisateur est trop court"
 
-#: adhocracy/model/forms.py:37
+#: adhocracy/model/forms.py:38
 msgid "The username is invalid"
 msgstr "le nom d'utilisateur est invalide"
 
-#: adhocracy/model/forms.py:41
+#: adhocracy/model/forms.py:42
 msgid "That username already exists"
 msgstr "Ce nom d'utilisateur existe déjà"
 
-#: adhocracy/model/forms.py:50
+#: adhocracy/model/forms.py:51
 msgid "That email is already registered"
 msgstr "Cet e-mail est déjà enrengistré"
 
-#: adhocracy/model/forms.py:58
+#: adhocracy/model/forms.py:59
 msgid "No instance key is given"
 msgstr "La clef d'instance manque"
 
-#: adhocracy/model/forms.py:62
+#: adhocracy/model/forms.py:63
 msgid "The instance key is invalid"
 msgstr "La clef d'instance est invalide"
 
-#: adhocracy/model/forms.py:66
+#: adhocracy/model/forms.py:67
 msgid "An instance with that key already exists"
 msgstr "Une instance avec cette clef existe déjà"
 
-#: adhocracy/model/forms.py:75
+#: adhocracy/model/forms.py:76
 #, python-format
 msgid "No entity with ID '%s' exists"
 msgstr "Il n'existe pas d'entité avec l'ID '%s'"
 
-#: adhocracy/model/forms.py:84
+#: adhocracy/model/forms.py:85
 #, python-format
 msgid "No issue with ID '%s' exists"
 msgstr "Il n'existe pas de thème avec l'ID '%s'"
 
-#: adhocracy/model/forms.py:93
+#: adhocracy/model/forms.py:94
 #, python-format
 msgid "No proposal with ID '%s' exists"
 msgstr "Une proposition avec l'ID  '%s' n'existe pas"
 
-#: adhocracy/model/forms.py:102
+#: adhocracy/model/forms.py:103
 #, python-format
 msgid "No group with ID '%s' exists"
 msgstr "Il n'existe pas de group avec l'ID '%s'"
 
-#: adhocracy/model/forms.py:111
+#: adhocracy/model/forms.py:112
 #, python-format
 msgid "No revision with ID '%s' exists"
 msgstr "Il n'existe pas de révision avec l'ID '%s'"
 
-#: adhocracy/model/forms.py:120
+#: adhocracy/model/forms.py:121
 #, python-format
 msgid "No comment with ID '%s' exists"
 msgstr "Il n'existe pas de commentaire avec l'ID   '%s'"
 
-#: adhocracy/model/forms.py:129
+#: adhocracy/model/forms.py:130
 #, python-format
 msgid "No watchlist entry with ID '%s' exists"
 msgstr "Il n'existe pas liste d'observation avec l'ID '%s'"
 
-#: adhocracy/model/forms.py:137
+#: adhocracy/model/forms.py:138
 #, fuzzy
 msgid "Invalid reference"
 msgstr "Requête invalide."
 
-#: adhocracy/model/forms.py:145
+#: adhocracy/model/forms.py:146
 #, python-format
 msgid "No user with the user name '%s' exists"
 msgstr "Il n'existe pas d'utilisateur avec l'ID '%s'"
 
-#: adhocracy/model/forms.py:154
+#: adhocracy/model/forms.py:155
 #, fuzzy, python-format
 msgid "No tagging with ID '%s' exists"
 msgstr "Il n'existe pas de thème avec l'ID '%s'"
@@ -1816,11 +1815,12 @@ msgid "via E-Mail or Twitter"
 msgstr ""
 
 #: adhocracy/templates/instance/tiles.html:14
+#: adhocracy/templates/issue/tiles.html:13
 #, python-format
-msgid "%s issue"
-msgid_plural "%s issues"
-msgstr[0] "%s thème"
-msgstr[1] "%s thèmes"
+msgid "%s proposal"
+msgid_plural "%s proposals"
+msgstr[0] "proposition %s "
+msgstr[1] "propositions %s"
 
 #: adhocracy/templates/instance/tiles.html:16
 #: adhocracy/templates/instance/tiles.html:33
@@ -1954,13 +1954,6 @@ msgstr "Décrivez ce thème. Essayez de resumer le problème qui doit être rés
 #, fuzzy, python-format
 msgid "Proposals: %s"
 msgstr "Propositions: %s"
-
-#: adhocracy/templates/issue/tiles.html:13
-#, python-format
-msgid "%s proposal"
-msgid_plural "%s proposals"
-msgstr[0] "proposition %s "
-msgstr[1] "propositions %s"
 
 #: adhocracy/templates/issue/tiles.html:16
 #: adhocracy/templates/proposal/tiles.html:21
@@ -2275,15 +2268,12 @@ msgid "Adopted"
 msgstr ""
 
 #: adhocracy/templates/proposal/index.html:34
-#, fuzzy, python-format
-#| msgid "%s proposal"
-#| msgid_plural "%s proposals"
+#, fuzzy
 msgid "What is a proposal?"
 msgstr "proposition %s "
 
 #: adhocracy/templates/proposal/index.html:35
 #, fuzzy
-#| msgid "Support this proposal"
 msgid "How can I support a proposal?"
 msgstr "proposition %s "
 
@@ -2300,13 +2290,11 @@ msgstr "Nouvelle proposition"
 
 #: adhocracy/templates/proposal/new.html:17
 #, fuzzy
-#| msgid "Proposals"
 msgid "Proposal goals"
 msgstr "Propositions"
 
 #: adhocracy/templates/proposal/new.html:19
 #, fuzzy
-#| msgid "Give a brief description of <b>what</b> your proposal will do."
 msgid "Give a brief description of <b>the goals</b> of your proposal."
 msgstr ""
 "Donner une bref description de l'<b>effet<b> escompté de votre "
@@ -2628,7 +2616,6 @@ msgstr "Utilisateurs"
 
 #: adhocracy/templates/user/index.html:42
 #, fuzzy
-#| msgid "Default group:"
 msgid "Filter by group"
 msgstr "Groupe de défault."
 
@@ -2787,6 +2774,8 @@ msgid ""
 "concerning each of these items."
 msgstr ""
 
-#~ msgid "Informal description"
-#~ msgstr "Description informelle"
+#~ msgid "%s issue"
+#~ msgid_plural "%s issues"
+#~ msgstr[0] "%s thème"
+#~ msgstr[1] "%s thèmes"
 

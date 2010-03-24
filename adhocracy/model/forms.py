@@ -19,7 +19,8 @@ import instance
 import tagging
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join", "leave", 
-                   "control", "test", "support", "page", "issue", "proposal", "wiki", "blog"]
+                   "control", "test", "support", "page", "issue", "proposal", "wiki", 
+                   "blog", "issues", "proposals", "admin", "dl", "downloads", "stats"]
 
 VALIDUSER = re.compile("^[a-zA-Z0-9_\-]{3,255}$")
 class UniqueUsername(formencode.FancyValidator):

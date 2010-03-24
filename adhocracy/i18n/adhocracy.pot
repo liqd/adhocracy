@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-03-24 12:32+0100\n"
+"POT-Creation-Date: 2010-03-24 22:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -759,83 +759,83 @@ msgstr ""
 msgid "Administrator"
 msgstr ""
 
-#: adhocracy/model/forms.py:29
+#: adhocracy/model/forms.py:30
 msgid "No username is given"
 msgstr ""
 
-#: adhocracy/model/forms.py:33
+#: adhocracy/model/forms.py:34
 msgid "Username is too short"
 msgstr ""
 
-#: adhocracy/model/forms.py:37
+#: adhocracy/model/forms.py:38
 msgid "The username is invalid"
 msgstr ""
 
-#: adhocracy/model/forms.py:41
+#: adhocracy/model/forms.py:42
 msgid "That username already exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:50
+#: adhocracy/model/forms.py:51
 msgid "That email is already registered"
 msgstr ""
 
-#: adhocracy/model/forms.py:58
+#: adhocracy/model/forms.py:59
 msgid "No instance key is given"
 msgstr ""
 
-#: adhocracy/model/forms.py:62
+#: adhocracy/model/forms.py:63
 msgid "The instance key is invalid"
 msgstr ""
 
-#: adhocracy/model/forms.py:66
+#: adhocracy/model/forms.py:67
 msgid "An instance with that key already exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:75
+#: adhocracy/model/forms.py:76
 #, python-format
 msgid "No entity with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:84
+#: adhocracy/model/forms.py:85
 #, python-format
 msgid "No issue with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:93
+#: adhocracy/model/forms.py:94
 #, python-format
 msgid "No proposal with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:102
+#: adhocracy/model/forms.py:103
 #, python-format
 msgid "No group with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:111
+#: adhocracy/model/forms.py:112
 #, python-format
 msgid "No revision with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:120
+#: adhocracy/model/forms.py:121
 #, python-format
 msgid "No comment with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:129
+#: adhocracy/model/forms.py:130
 #, python-format
 msgid "No watchlist entry with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:137
+#: adhocracy/model/forms.py:138
 msgid "Invalid reference"
 msgstr ""
 
-#: adhocracy/model/forms.py:145
+#: adhocracy/model/forms.py:146
 #, python-format
 msgid "No user with the user name '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:154
+#: adhocracy/model/forms.py:155
 #, python-format
 msgid "No tagging with ID '%s' exists"
 msgstr ""
@@ -1703,9 +1703,10 @@ msgid "via E-Mail or Twitter"
 msgstr ""
 
 #: adhocracy/templates/instance/tiles.html:14
+#: adhocracy/templates/issue/tiles.html:13
 #, python-format
-msgid "%s issue"
-msgid_plural "%s issues"
+msgid "%s proposal"
+msgid_plural "%s proposals"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -1831,13 +1832,6 @@ msgstr ""
 #, python-format
 msgid "Proposals: %s"
 msgstr ""
-
-#: adhocracy/templates/issue/tiles.html:13
-#, python-format
-msgid "%s proposal"
-msgid_plural "%s proposals"
-msgstr[0] ""
-msgstr[1] ""
 
 #: adhocracy/templates/issue/tiles.html:16
 #: adhocracy/templates/proposal/tiles.html:21
