@@ -73,8 +73,11 @@
 			<div class="meta">
 				${_("signed up %s") % h.relative_time(user.create_time)|n}
 			</div>
-			%if c.instance and tile.instance_group:
-				${"%(group)s in %(instance)s" % dict(group=_(tile.instance_group.group_name), 	
+			<% 
+			grp = tile.instance_group
+			%>
+			%if grp:
+				${"%(group)s in %(instance)s" % dict(group=_(grp.group_name), 	
 													 instance=c.instance.label)}
 			%endif
 		</div>

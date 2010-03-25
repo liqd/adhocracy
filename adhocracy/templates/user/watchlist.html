@@ -11,7 +11,7 @@ ${tiles.user.header(c.page_user, active='watchlist')}
 
 <div class="sidebar">
 	%if c.user and c.page_user == c.user:
-	<div class="infobox">${_("This is your watchlist. You will receive notifications for events concerning each of these items.")}</div>
+		<div class="infobox">${_("This is your watchlist. You will receive notifications for events concerning each of these items.")}</div>
 	%else:
 		&nbsp;
 	%endif

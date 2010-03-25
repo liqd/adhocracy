@@ -13,6 +13,7 @@ class UserTile(BaseTile):
     
     def __init__(self, user):
         self.user = user
+        self.__instance_group = None
    
     def _bio(self):       
         if self.user.bio:
@@ -77,10 +78,10 @@ class UserTile(BaseTile):
     num_karma_down = property(_num_karma_down)
     
     def _instance_group(self):
-        if c.instance:     
+        if c.instance and not self.__instance_group:     
             m = self.user.instance_membership(c.instance)
-            return m.group if m else None
-        return None
+            self.__instance_group = m.group if m else None
+        return self.__instance_group
         
     instance_group = property(_instance_group)
 
