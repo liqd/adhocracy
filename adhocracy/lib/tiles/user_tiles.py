@@ -78,9 +78,8 @@ class UserTile(BaseTile):
     
     def _instance_group(self):
         if c.instance:     
-            for m in self.user.memberships:
-                if not m.is_expired() and m.instance == c.instance:
-                    return m.group
+            m = self.user.instance_membership(c.instance)
+            return m.group if m else None
         return None
         
     instance_group = property(_instance_group)

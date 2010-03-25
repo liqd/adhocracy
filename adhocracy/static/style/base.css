@@ -465,7 +465,7 @@ body {
 #account li ul {
 	position: absolute;
 	visibility: hidden;
-	padding-top: 8px;
+	padding-top: 10px;
 	margin-left: -5px;
 	border-bottom: 5px solid #1553a4;
 }
