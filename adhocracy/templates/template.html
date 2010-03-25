@@ -146,7 +146,7 @@
 				<li class="last"><a href="/logout">${_("logout")}</a></li>
 			%endif
 			</ul>
-			<a href="${h.entity_url(c.instance) if c.instance else '/'}"><img id="logo" src="/instance/${c.instance.key if c.instance else '_def'}_64x64.png" /></a>
+			<a href="${h.instance_url(c.instance)}"><img id="logo" src="/instance/${c.instance.key if c.instance else '_def'}_64x64.png" /></a>
 			<div id="menu">
 				<ul>
 					%if not c.instance:
@@ -194,6 +194,7 @@
 	
 		<div class="content">
 			${self.body()}
+			<div style="clear: both;"></div>
 		</div>
 	</div>
 </div>

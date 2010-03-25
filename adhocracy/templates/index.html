@@ -18,12 +18,14 @@
 
 <h1 class="page_title">${c.page.title}</h1>
 
-<div class="sidebar">
-	%if not c.user:
-		<%include file="/user/login_form.html"/>
-	%endif
-</div>
+##<div class="sidebar">
+##	%if not c.user:
+##		<%include file="/user/login_form.html"/>
+##	%endif
+##</div>
+##
+##<div class="mainbar">
 
-<div class="mainbar">
 	${c.page.body|n}
-</div>
+
+##</div>
