@@ -300,9 +300,10 @@ body {
 }
 
 #frame {
-	margin-bottom: 0px;
-	padding-bottom: 20px;
+	margin-bottom: -145px;
+	padding-bottom: 0px;
 	min-height: 100%;
+	overflow: hidden;
 }
 
 #page {
@@ -584,11 +585,11 @@ body {
 
 #footer {
 	clear: both;
-	margin-top: -60px;
+	margin-top: -145px;
 	padding: 1em 0em 0em 1em;
 	border-top: 2px solid #ccc;
 	color: #222;
-	height: 110px;
+	height: 130px;
 	overflow: hidden;
 	
 	background-image: url(/img/page_bg.png);
@@ -703,6 +704,7 @@ body {
 
 .content {
 	width: inherit;
+	padding: inherit;
 }
 
 .content p {

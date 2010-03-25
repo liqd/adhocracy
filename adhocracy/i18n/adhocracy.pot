@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-03-24 22:38+0100\n"
+"POT-Creation-Date: 2010-03-25 19:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,38 +123,38 @@ msgstr ""
 msgid "Issue: %(issue)s"
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:91
+#: adhocracy/controllers/openidauth.py:92
 msgid "No OpenID given!"
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:116
+#: adhocracy/controllers/openidauth.py:119
 msgid "No OpenID was entered."
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:126
+#: adhocracy/controllers/openidauth.py:129
 #, python-format
 msgid "No OpenID with ID '%s' exists."
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:129 adhocracy/controllers/user.py:444
+#: adhocracy/controllers/openidauth.py:132 adhocracy/controllers/user.py:444
 #, python-format
 msgid "You're not authorized to change %s's settings."
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:139
+#: adhocracy/controllers/openidauth.py:142
 msgid "OpenID login failed."
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:166
+#: adhocracy/controllers/openidauth.py:169
 msgid "You have already claimed this OpenID."
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:169
+#: adhocracy/controllers/openidauth.py:172
 #, python-format
 msgid "OpenID %s already belongs to %s."
 msgstr ""
 
-#: adhocracy/controllers/openidauth.py:189
+#: adhocracy/controllers/openidauth.py:192
 msgid "Justin Case has entered the room."
 msgstr ""
 
@@ -322,8 +322,7 @@ msgstr ""
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr ""
 
-#: adhocracy/lib/helpers.py:153 adhocracy/templates/index.html:6
-#: adhocracy/templates/template_doc.html:6
+#: adhocracy/lib/helpers.py:153
 msgid "Adhocracy"
 msgstr ""
 
@@ -759,83 +758,83 @@ msgstr ""
 msgid "Administrator"
 msgstr ""
 
-#: adhocracy/model/forms.py:30
+#: adhocracy/model/forms.py:33
 msgid "No username is given"
 msgstr ""
 
-#: adhocracy/model/forms.py:34
+#: adhocracy/model/forms.py:37
 msgid "Username is too short"
 msgstr ""
 
-#: adhocracy/model/forms.py:38
+#: adhocracy/model/forms.py:41
 msgid "The username is invalid"
 msgstr ""
 
-#: adhocracy/model/forms.py:42
+#: adhocracy/model/forms.py:45
 msgid "That username already exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:51
+#: adhocracy/model/forms.py:54
 msgid "That email is already registered"
 msgstr ""
 
-#: adhocracy/model/forms.py:59
+#: adhocracy/model/forms.py:62
 msgid "No instance key is given"
 msgstr ""
 
-#: adhocracy/model/forms.py:63
+#: adhocracy/model/forms.py:66
 msgid "The instance key is invalid"
 msgstr ""
 
-#: adhocracy/model/forms.py:67
+#: adhocracy/model/forms.py:70
 msgid "An instance with that key already exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:76
+#: adhocracy/model/forms.py:79
 #, python-format
 msgid "No entity with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:85
+#: adhocracy/model/forms.py:88
 #, python-format
 msgid "No issue with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:94
+#: adhocracy/model/forms.py:97
 #, python-format
 msgid "No proposal with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:103
+#: adhocracy/model/forms.py:106
 #, python-format
 msgid "No group with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:112
+#: adhocracy/model/forms.py:115
 #, python-format
 msgid "No revision with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:121
+#: adhocracy/model/forms.py:124
 #, python-format
 msgid "No comment with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:130
+#: adhocracy/model/forms.py:133
 #, python-format
 msgid "No watchlist entry with ID '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:138
+#: adhocracy/model/forms.py:141
 msgid "Invalid reference"
 msgstr ""
 
-#: adhocracy/model/forms.py:146
+#: adhocracy/model/forms.py:149
 #, python-format
 msgid "No user with the user name '%s' exists"
 msgstr ""
 
-#: adhocracy/model/forms.py:155
+#: adhocracy/model/forms.py:158
 #, python-format
 msgid "No tagging with ID '%s' exists"
 msgstr ""
@@ -880,8 +879,8 @@ msgstr ""
 msgid "sign up"
 msgstr ""
 
-#: adhocracy/templates/index.html:14
-msgid "new adhocracy"
+#: adhocracy/templates/index.html:14 adhocracy/templates/instance/index.html:12
+msgid "new instance"
 msgstr ""
 
 #: adhocracy/templates/pager.html:6
@@ -1011,24 +1010,28 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: adhocracy/templates/template.html:219
+#: adhocracy/templates/template.html:218
 msgid "adhocracy"
 msgstr ""
 
+#: adhocracy/templates/template.html:219
+msgid "what is liquid democracy"
+msgstr ""
+
 #: adhocracy/templates/template.html:220
-msgid "about adhocracy"
+msgid "adhocracy software"
 msgstr ""
 
 #: adhocracy/templates/template.html:221
-msgid "report a problem"
+msgid "code of conduct"
 msgstr ""
 
 #: adhocracy/templates/template.html:222
-msgid "privacy"
+msgid "terms and conditions"
 msgstr ""
 
 #: adhocracy/templates/template.html:223
-msgid "imprint"
+msgid "privacy"
 msgstr ""
 
 #: adhocracy/templates/template.html:226
@@ -1049,6 +1052,10 @@ msgstr ""
 
 #: adhocracy/templates/template.html:230
 msgid "mailing list"
+msgstr ""
+
+#: adhocracy/templates/template.html:231
+msgid "imprint"
 msgstr ""
 
 #: adhocracy/templates/admin/permissions.html:3
@@ -1588,10 +1595,6 @@ msgstr ""
 
 #: adhocracy/templates/instance/edit.html:106
 msgid "File upload:"
-msgstr ""
-
-#: adhocracy/templates/instance/index.html:12
-msgid "new instance"
 msgstr ""
 
 #: adhocracy/templates/instance/index.html:20
