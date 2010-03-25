@@ -1,3 +1,4 @@
+from datetime import datetime
 from pylons.i18n import _
 
 from adhocracy.lib.base import *
@@ -22,20 +23,21 @@ class RootController(BaseController):
     
     
     def sitemap_xml(self):
-        c.delegateables = []
-        def add_delegateables(instance):
-            children = model.Delegateable.all(instance=instance)
-            c.delegateables.extend(children)
-        
+        if c.instance: 
+            redirect(h.instance_url(None, path="/sitemap.xml"))
+        c.delegateables = model.Delegateable.all()
+        c.change_time = datetime.utcnow()
         response.content_type = "text/xml"
-        if c.instance:
-            add_delegateables(c.instance)
-        else:
-            instances = model.Instance.all()
-            for instance in instances:
-                add_delegateables(instance)        
         return render("sitemap.xml")
     
+    
+    def robots_txt(self):
+        response.content_type = "text/plain"
+        if not c.instance:
+            return render("robots.txt")
+        return render("instance/robots.txt")
+        
+        
     
     def process(self):
         import adhocracy.lib.queue as queue

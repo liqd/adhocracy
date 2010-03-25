@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: ${h.instance_url(None, path="/sitemap.xml")}

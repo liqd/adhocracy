@@ -92,6 +92,7 @@ def make_map():
     
     map.connect('/d/{id}', controller='root', action='dispatch_delegateable')
     map.connect('/sitemap.xml', controller='root', action='sitemap_xml')
+    map.connect('/robots.txt', controller='root', action='robots_txt')
     map.connect('/feed.rss', controller='root', action='index', format='rss')
     map.connect('/_queue_process', controller='root', action='process')
         
