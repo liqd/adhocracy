@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 
 from pylons.i18n import _
+from webob.exc import HTTPFound
 import formencode
 
 from openid.consumer.consumer import Consumer, SUCCESS, DiscoveryFailure
@@ -83,15 +84,13 @@ class OpenidauthController(BaseController):
     def __before__(self):
         self.openid_session = session.get("openid_session", {})
     
-    @validate(schema=OpenIDInitForm(), form="foo", post_only=False, on_get=True)
+    @validate(schema=OpenIDInitForm(), post_only=False, on_get=True)
     def init(self):
         self.consumer = create_consumer(self.openid_session)
         openid = self.form_result.get("openid")
         try:
             if not openid: raise ValueError(_("No OpenID given!"))
             authrequest = self.consumer.begin(openid)
-        
-            
         
             if not c.user and not model.OpenID.find(openid):
                 axreq = ax.FetchRequest(h.instance_url(c.instance, path='/openid/update'))
@@ -106,8 +105,12 @@ class OpenidauthController(BaseController):
             session['openid_session'] = self.openid_session
             session.save()
             return redirect(redirecturl)
+        except HTTPFound, hf:
+            raise
         except Exception, e:
+            log.exception(e)
             return self._failure(openid, str(e))
+        
     
     
     @ActionProtector(has_permission("user.edit"))
