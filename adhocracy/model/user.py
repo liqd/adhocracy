@@ -85,21 +85,27 @@ class User(object):
      
     groups = property(_get_context_groups)
     
+    
     def _has_permission(self, permission_name):
         for group in self.groups:
             for perm in group.permissions:
                 if perm.permission_name == permission_name:
                     return True
         return False
-        
+    
+    
     def instance_membership(self, instance):
+        if not instance: return None
         for membership in self.memberships:
             if (not membership.is_expired()) and \
                 membership.instance == instance:
                 return membership
+        return None
+    
     
     def is_member(self, instance):
         return self.instance_membership(instance) is not None
+    
     
     def _get_instances(self):
         instances = []

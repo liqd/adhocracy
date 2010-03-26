@@ -142,7 +142,7 @@ class InstanceController(BaseController):
     
     
     @ActionProtector(has_permission("instance.index"))
-    def icon(self, id, x, y):
+    def icon(self, id, x=32, y=32):
         c.page_instance = model.Instance.find(id)
         try:
             (x, y) = (int(x), int(y))
