@@ -14,7 +14,7 @@
 				%if mem:
 					${_(tile.instance_group.group_name)} &middot;
 					${_("joined %s") % h.relative_time(mem.create_time)|n}
-				%else 
+				%else: 
 					${_("signed up %s") % h.relative_time(user.create_time)|n}
 				%endif
 			</div>
