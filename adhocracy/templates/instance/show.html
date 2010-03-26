@@ -40,7 +40,9 @@ ${tiles.instance.header(c.page_instance, active='rules')}
 		<li><a href="/page/about.html">${_("General intro")}</a> ${_("on Liquid Democracy")}</li>
 		<li><a href="/page/proposal_faq.html">${_("Proposals")}</a> ${_("(ideas for debate)")}</li>
 		<li><a href="/page/tag_faq.html">${_("Tags")}</a> ${_("(keywords)")}</li>
-		<li><a href="/page/delegation_faq.html">${_("Delegation")}</a> ${_("of voting rights")}</li>
+		%if c.page_instance.allow_delegate:
+			<li><a href="/page/delegation_faq.html">${_("Delegation")}</a> ${_("of voting rights")}</li>
+		%endif
 		<li><a href="/page/notification_faq.html">${_("Notifications")}</a> ${_("via E-Mail or Twitter")}</li>
 	</ul>
 </div>

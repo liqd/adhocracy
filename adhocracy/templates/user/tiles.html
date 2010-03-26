@@ -58,11 +58,11 @@
 				%if c.instance.allow_adopt:
 					<li><a href="${h.entity_url(user, member='votes')}" class="votes">${_("Votes")}</a></li>
 				%endif
-				<li><a href="${h.entity_url(user, member='delegations')}" 
-					class="delegations">${_("Delegations")} 
-					(${len(user.current_agencies())})</a></li>
-				<li><a href="${h.entity_url(user, member='watchlist')}" class="watchlist">${_("Watchlist")}
-					(${user.num_watches})</a></li>
+				%if c.instance.allow_delegate:
+					<li><a href="${h.entity_url(user, member='delegations')}" 
+						class="delegations">${_("Delegations")} 
+						(${len(user.current_agencies())})</a></li>
+				%endif
 				## <li><a href="${h.entity_url(user, member='issues')}" class="issues">${_("Issues")} 
 				##	(${tile.num_issues})</a></li>
 				<li><a href="${h.entity_url(user, member='proposals')}" class="proposals">${_("Proposals")} 
@@ -70,6 +70,8 @@
 				##<li><a href="${h.entity_url(user, member='comments')}" class="comments">${_("Comments")} 
 				##	(${tile.num_comments})</a></li>
 			%endif	
+			<li><a href="${h.entity_url(user, member='watchlist')}" class="watchlist">${_("Watchlist")}
+				(${user.num_watches})</a></li>
 			<li><a href="${h.entity_url(user, member='instances')}" class="instances">${_("Adhocracies")} 	
 				(${len(user.instances)})</a></li>
 		</ul>

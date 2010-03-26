@@ -1,2 +1,6 @@
 User-agent: *
+%if not c.instance.allow_index or c.instance.hidden:
+Disallow: *
+%else:
 Sitemap: ${h.instance_url(None, path="/sitemap.xml")}
+%endif

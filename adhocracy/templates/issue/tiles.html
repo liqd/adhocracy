@@ -60,8 +60,10 @@
 					<li>${h.delegateable_link(proposal)|n}</li>
 				%endfor
 				</ul></li>
-			<li><a href="${h.entity_url(issue, member='delegations')}" 
-				class="delegations">${_("Delegations")} (${len(issue.current_delegations())})</a></li>
+			%if c.instance.allow_delegate:
+				<li><a href="${h.entity_url(issue, member='delegations')}" 
+					class="delegations">${_("Delegations")} (${len(issue.current_delegations())})</a></li>
+			%endif
 		</ul>
 		<div class="info">
 			<div class="meta">

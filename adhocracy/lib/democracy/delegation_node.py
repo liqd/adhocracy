@@ -162,6 +162,8 @@ class DelegationNode(object):
             _propagation_path.append(self)
         
         result = [callable(self.user, self.delegateable, _edge)] 
+        if not self.delegateable.instance.allow_delegate:
+            return result
         for delegation in self.inbound():
             node = DelegationNode(delegation.principal, self.delegateable)
             result += node.propagate(callable, 

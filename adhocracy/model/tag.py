@@ -170,7 +170,11 @@ class Tag(object):
         if tag is None:
             tag = Tag.create(name)
         return tag
-        
+    
+    
+    def to_dict(self):
+        return self.name
+    
     
     def _index_id(self):
         return self.id

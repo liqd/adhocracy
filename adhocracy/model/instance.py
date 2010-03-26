@@ -23,7 +23,10 @@ instance_table = Table('instance', meta.data,
     Column('delete_time', DateTime, nullable=True),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True),
-    Column('allow_adopt', Boolean, default=True)    
+    Column('allow_adopt', Boolean, default=True),       
+    Column('allow_delegate', Boolean, default=True),
+    Column('allow_index', Boolean, default=True),
+    Column('hidden', Boolean, default=False)   
     )
 
 
@@ -42,6 +45,9 @@ class Instance(object):
         self.required_majority = 0.66
         self.activation_delay = 7
         self.allow_adopt = True
+        self.allow_delegate = True
+        self.allow_index = True
+        self.hidden = False
         self._required_participation = None
     
     
@@ -139,6 +145,15 @@ class Instance(object):
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
+               
+    
+    def delete(self, delete_time=None):
+        if delete_time is None:
+            delete_time = datetime.utcnow()
+        for delegateable in self.delegateables:
+            delegateable.delete(delete_time)
+        for membership in self.memberships:
+            membership.expire(delete_time)
     
     
     def _index_id(self):

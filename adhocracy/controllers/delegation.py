@@ -34,7 +34,7 @@ class DelegationController(BaseController):
         return self.not_implemented()
     
     @RequireInstance
-    @ActionProtector(has_permission("vote.cast"))
+    @ActionProtector(has_permission("delegation.create"))
     @validate(schema=DelegationNewForm(), form="bad_request", 
               post_only=False, on_get=True)
     def new(self):
@@ -43,7 +43,7 @@ class DelegationController(BaseController):
     
     @RequireInstance
     @RequireInternalRequest(methods=["POST"])
-    @ActionProtector(has_permission("vote.cast"))
+    @ActionProtector(has_permission("delegation.create"))
     @validate(schema=DelegationCreateForm(), form="new", post_only=True)
     def create(self):
         c.scope = self.form_result.get('scope')
@@ -70,13 +70,12 @@ class DelegationController(BaseController):
         if self.form_result.get('replay') == 1:
             log.debug("Replaying the vote for Delegation: %s" % delegation)
             democracy.Decision.replay_decisions(delegation)
-        
         redirect(h.entity_url(c.scope))
     
         
     @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("vote.cast"))
+    @ActionProtector(has_permission("delegation.delete"))
     def delete(self, id):
         c.delegation = get_entity_or_abort(model.Delegation, id)
         if not c.delegation.principal == c.user:

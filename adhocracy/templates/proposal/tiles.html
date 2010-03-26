@@ -175,8 +175,10 @@
 			<li><a href="${h.entity_url(proposal)}" class="goal">${_("Goal")}</a></li>
 			<li><a href="${h.entity_url(proposal, member='canonicals')}" 
 				class="canonicals">${_("Implementation")} (${len(proposal.canonicals)})</a></li>
-			<li><a href="${h.entity_url(proposal, member='delegations')}"
-			   class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a></li>
+			%if c.instance.allow_delegate:
+				<li><a href="${h.entity_url(proposal, member='delegations')}"
+			   	class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a></li>
+			%endif
 			<li><a href="${h.entity_url(proposal, member='alternatives')}"
 			   class="alternatives">${_("Alternatives")} (${len(proposal.current_alternatives())}) 
 					<img src="/img/arrows/panel_expand.png" /></a>

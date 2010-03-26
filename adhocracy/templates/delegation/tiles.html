@@ -33,7 +33,7 @@
 </%def>
 
 <%def name="sidebar(tile, delegateable)">
-	%if c.tile.can_vote:
+	%if c.tile.can_delegate:
 	<div class="not_a_tile">
 		<h3 class="section"><img src="/img/icons/delegate_16.png" class="cd" /> ${_("Delegate voting")}</h3>
 		<ul>

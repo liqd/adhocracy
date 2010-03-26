@@ -155,6 +155,7 @@ class Delegateable(object):
     def to_dict(self):
         return dict(id=self.id,
                     label=self.label,
+                    tags=self.tags,
                     instance=self.instance.key,
                     creator=self.creator.user_name,
                     create_time=self.create_time)
