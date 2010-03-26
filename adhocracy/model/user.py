@@ -193,6 +193,7 @@ class User(object):
             completions = filter(lambda u: u.is_member(inst), completions)
         return completions 
     
+
     @classmethod
     def find(cls, user_name, instance_filter=True, include_deleted=False):
         from membership import Membership

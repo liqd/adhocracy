@@ -78,9 +78,10 @@ class NamedPager(object):
         query["%s_count" % self.name] = count if count else self.count
         query["%s_sort" % self.name] = sort if sort else self.selected_sort
         
-        query_name = "%s_q" % self.name
-        if query_name in request.params:
-            query[query_name] = request.params.get(query_name)
+        #query_name = "%s_q" % self.name
+        #if query_name in request.params:
+        #    query[query_name] = request.params.get(query_name)
+        query = dict([(str(k), unicode(v).encode('utf-8')) for k, v in query.items()])
         return "?" + urllib.urlencode(query.items())
     
     

@@ -225,7 +225,7 @@ class UserController(BaseController):
         if format == 'rss':
             return event.rss_feed(query.all(), "%s Latest Actions" % c.page_user.name,
                                   h.instance_url(None, path='/user/%s' % c.page_user.user_name),
-                                  description)
+                                  c.page_user.bio)
         c.events_pager = pager.events(query.all())
         c.tile = tiles.user.UserTile(c.page_user)
         self._common_metadata(c.page_user, add_canonical=True)
