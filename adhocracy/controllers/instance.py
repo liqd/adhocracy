@@ -160,10 +160,23 @@ class InstanceController(BaseController):
     
     
     @RequireInstance
+    @ActionProtector(has_permission("global.admin"))
+    def ask_delete(self, id):
+        c.page_instance = self._get_current_instance(id)
+        c.tile = tiles.instance.InstanceTile(c.page_instance)
+        return render('/instance/ask_delete.html')
+    
+    
+    @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("instance.delete"))
+    @ActionProtector(has_permission("global.admin"))
     def delete(self, id):
-        return self.not_implemented()
+        c.page_instance = self._get_current_instance(id)
+        c.page_instance.delete()
+        model.meta.Session.commit()
+        event.emit(event.T_INSTANCE_DELETE, c.user, instance=c.instance, topics=[])
+        h.flash(_("The instance %s has been deleted.") % c.page_instance.label)
+        return redirect(h.instance_url(None, path="/instance"))
     
     
     @RequireInstance

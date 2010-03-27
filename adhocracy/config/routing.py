@@ -105,6 +105,7 @@ def make_map():
                                                  'leave': 'POST',
                                                  'filter': 'GET',
                                                  'ask_leave': 'GET',
+                                                 'ask_delete': 'GET',
                                                  'activity': 'GET'})
     
     map.connect('/page/{page_name}.html', controller='page', action='serve')

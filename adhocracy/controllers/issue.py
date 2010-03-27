@@ -187,6 +187,7 @@ class IssueController(BaseController):
         model.meta.Session.commit()
         event.emit(event.T_ISSUE_DELETE, c.user, instance=c.instance, 
                    topics=[c.issue], issue=c.issue)
+        h.flash(_("The issue %s has been deleted.") % c.issue.label)
         redirect(h.entity_url(c.issue.instance))
         
         

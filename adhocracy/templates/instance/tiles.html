@@ -44,6 +44,11 @@
 				href="${h.entity_url(instance, member='ask_leave')}">${_("leave")}</a> 
 		%endif
 		
+		%if tile.can_delete:
+			<a class="button title delete" 	
+				href="${h.entity_url(instance, member='ask_delete')}">${_("delete")}</a>
+		%endif
+		
 		${components.watch(instance)}
 		${h.rss_button(instance)|n}
 	</div>

@@ -56,6 +56,7 @@ class InstanceTile(BaseTile):
     
     can_leave = property(_can_leave)
     can_admin = property(BaseTile.prop_has_perm('instance.admin'))
+    can_delete = property(BaseTile.prop_has_perm('global.admin'))
     
     def _can_create_proposal(self):
         return c.user and h.has_permission("proposal.create")

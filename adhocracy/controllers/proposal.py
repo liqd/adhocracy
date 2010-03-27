@@ -243,6 +243,7 @@ class ProposalController(BaseController):
                    topics=[c.proposal], proposal=c.proposal)
         c.proposal.delete()
         model.meta.Session.commit()
+        h.flash(_("The proposal %s has been deleted.") % c.proposal.label)
         redirect(h.entity_url(c.instance))   
     
     
