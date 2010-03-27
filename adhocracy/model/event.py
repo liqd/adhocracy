@@ -137,6 +137,10 @@ class Event(object):
         except AttributeError, ae:
             log.exception("Creating event text")
             return None
+            
+            
+    def link(self):
+        return self.event.link_path(self)
     
     
     def to_dict(self):

@@ -13,15 +13,17 @@ from repoze.what.adapters import BaseSourceAdapter, SourceError
 from repoze.what.plugins.sql.adapters import SqlGroupsAdapter
 
 import adhocracy.model as model 
-import helpers as h
+
 
 log = logging.getLogger(__name__)
+
 
 class InstanceGroupSourceAdapter(SqlGroupsAdapter):
     
     def __init__(self, *args, **kwargs):
         super(InstanceGroupSourceAdapter, self).__init__(model.Group, model.User, model.meta.Session)
         self.is_writable = False
+    
         
     def _get_section_items(self, section):
         q = model.meta.Session.query(model.User.user_name)
@@ -32,11 +34,13 @@ class InstanceGroupSourceAdapter(SqlGroupsAdapter):
                          model.Membership.instance==model.filter.get_instance()))
         return q.all()
     
+    
     def _find_sections(self, credentials):
         sections = list(super(InstanceGroupSourceAdapter, self)._find_sections(credentials))
         sections.append(u"Anonymous")
         return set(sections)
-
+    
+    
     def _get_item_as_row(self, item_name):
         q = model.meta.Session.query(model.User)
         q = q.filter(model.User.user_name==unicode(item_name))
@@ -46,7 +50,8 @@ class InstanceGroupSourceAdapter(SqlGroupsAdapter):
         except Exception, e:
             log.debug(e)
             raise SourceError("No such user: %s" % item_name)
-        
+
+
 class has_permission(what_has_permission):
     """
     This modified version of ``repoze.what``'s ``has_permission`` will apply ``Anonymous`` 

@@ -11,8 +11,8 @@ import urllib, hashlib, cgi, math
 from pylons import tmpl_context as c, config, request
 from pylons.i18n import add_fallback, get_lang, set_lang, gettext, _
 
-import authorization 
-from authorization import has_permission_bool as has_permission
+from auth import authorization
+from auth.authorization import has_permission_bool as has_permission
 import democracy
 import cache
 import sorting
@@ -21,7 +21,7 @@ import adhocracy.model as model
 
 from url import instance_url, entity_url
 from text.i18n import relative_date, relative_time, format_date, countdown_time
-from xsrf import url_token, field_token
+from auth.csrf import url_token, field_token
 from watchlist import make_watch, find_watch
  
 from webhelpers.pylonslib import Flash as _Flash

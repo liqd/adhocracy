@@ -115,7 +115,7 @@
 
 <%def name="header(tile, proposal, active)">
 	<div class="top_actions title">
-		%if tile.can_delegate and not tile.has_overridden:
+		%if tile.can_delegate:
 			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
 			    href="/delegation/new?scope=${proposal.id}">${_("delegate")}</a>
 		%endif

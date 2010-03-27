@@ -42,8 +42,10 @@ class IssueTile(DelegateableTile):
     
     comment_tile = property(_comment_tile)
 
+
 def row(issue):
     return render_tile('/issue/tiles.html', 'row', IssueTile(issue), issue=issue, cached=True)
+
 
 def header(issue, tile=None, active='goal'):
     if tile is None:

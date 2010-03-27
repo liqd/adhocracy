@@ -19,13 +19,13 @@ import formencode.validators as validators
 from formencode import htmlfill
 import simplejson
 
-from authorization import has_permission
-import authorization as auth
+from auth.authorization import has_permission
+import auth.authorization as auth
 from repoze.what.plugins.pylonshq import ActionProtector
 
 from cache import memoize
 from instance import RequireInstance
-from xsrf import RequireInternalRequest
+from auth.csrf import RequireInternalRequest
 from templating import render, render_json, render_png
 from pager import NamedPager
 from static import StaticPage

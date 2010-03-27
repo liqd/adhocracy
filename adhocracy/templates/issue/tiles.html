@@ -27,7 +27,7 @@
 			<a class="button add" href="/proposal/new?issue=${issue.id}">${_("new proposal")}</a>
 		%endif	
 		
-		%if tile.can_delegate and not tile.has_overridden:
+		%if tile.can_delegate:
 			<a class="button add" href="/delegation/new?scope=${issue.id}">${_("delegate")}</a>
 		%endif
 		

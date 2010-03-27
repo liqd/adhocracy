@@ -50,10 +50,10 @@ def setup_auth(app, config):
     #log_stream = sys.stdout
     
     return setup_what(app, group_adapters, permission_adapters, 
-                      identifiers=identifiers, 
-                      authenticators=authenticators,
-                      challengers=challengers,
-                      mdproviders=mdproviders,
+                      identifiers = identifiers, 
+                      authenticators = authenticators,
+                      challengers = challengers,
+                      mdproviders = mdproviders,
                       log_stream = log_stream,
                       log_level = logging.DEBUG,
-                      skip_authentication=config.get('skip_authentication'))
+                      skip_authentication = config.get('skip_authentication'))
