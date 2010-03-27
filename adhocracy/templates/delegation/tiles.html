@@ -36,22 +36,15 @@
 	%if c.tile.can_delegate:
 	<div class="not_a_tile">
 		<h3 class="section"><img src="/img/icons/delegate_16.png" class="cd" /> ${_("Delegate voting")}</h3>
-		<ul>
-		<li>
+		
 			%if not c.tile.has_delegated:
-				%if c.tile.has_overridden:
-					${_("You have voted yourself and not delegated voting.")}
-				%else:
+				<div class="infobox">
 					${_("You have not delegated voting.")} 
 					<a href="/delegation/new?scope=${delegateable.id}">${_("delegate")}</a>
 					&middot; <a href="/page/delegation_faq.html">${_("help")}</a>
-				%endif 
+				</div>
 			%else:
-				%if c.tile.has_overridden:
-					${_("By voting yourself, you have overridden:")}
-				%else:
-					${_("You have delegated voting to:")}
-				%endif
+				<p>${_("You have delegated voting to:")}</p>
 			%endif
 		<ul>
 			%for delegation in c.tile.delegations:
@@ -62,18 +55,16 @@
 				</li>
 			%endfor
 		</ul>
-		</li>
 		
 		%if c.tile.num_principals:
-		<li>
+			<p>
 			%if c.tile.num_principals == 1:
 				${_("You hold an additional vote.")}
 			%else:
 				${_("You hold %s additional votes.") % c.tile.num_principals}
 			%endif
-		</li>
+			</p>
 		%endif
-		</ul>
 	</div>
 	%endif
 </%def>
