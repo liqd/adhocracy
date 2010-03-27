@@ -154,6 +154,14 @@ class Instance(object):
             delegateable.delete(delete_time)
         for membership in self.memberships:
             membership.expire(delete_time)
+        if not self.is_deleted(delete_time):
+            self.delete_time = delete_time
+            
+    
+    def is_shown(self, at_time=None):
+        if at_time is None:
+            at_time = datetime.utcnow()
+        return not (self.is_deleted(at_time) or self.hidden)
     
     
     def _index_id(self):
@@ -161,8 +169,14 @@ class Instance(object):
     
     
     @classmethod  
-    def all(cls, limit=None):
+    def all(cls, limit=None, include_deleted=False, include_hidden=False):
         q = meta.Session.query(Instance)
+        if not include_deleted:
+            q = q.filter(or_(Instance.delete_time==None,
+                             Instance.delete_time>datetime.utcnow()))
+        if not include_hidden:
+            q = q.filter(or_(Instance.hidden==None,
+                             Instance.hidden==False))
         if limit is not None:
             q = q.limit(limit)
         return q.all()

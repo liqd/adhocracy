@@ -314,11 +314,12 @@ class UserController(BaseController):
     @ActionProtector(has_permission("user.view")) 
     def instances(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        instances = [i for i in c.page_user.instances if i.is_shown()]
         
         if format == 'json':
-            return render_json(list(c.page_user.instances))
+            return render_json(instances)
         
-        c.instances_pager = pager.instances(c.page_user.instances)
+        c.instances_pager = pager.instances(instances)
         self._common_metadata(c.page_user, member='instances', add_canonical=True)
         return render("/user/instances.html")
     

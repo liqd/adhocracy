@@ -64,6 +64,11 @@ class UserTile(BaseTile):
     
     num_comments = property(_num_comments)
     
+    def _num_instances(self):
+        return len([i for i in self.user.instances if i.is_shown()])
+    
+    num_instances = property(_num_instances)
+    
     def karmas(self):
         return filter(lambda k: k.comment.topic.instance == c.instance, self.user.karma_received)
     
