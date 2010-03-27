@@ -1,6 +1,6 @@
 from .. import democracy
 from .. import helpers as h
-from .. import authorization as auth
+from ..auth import authorization as auth
 
 from util import render_tile, BaseTile
 

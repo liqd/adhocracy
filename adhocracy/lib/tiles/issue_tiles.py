@@ -3,7 +3,7 @@ from webhelpers.text import truncate
 
 from .. import text
 from .. import helpers as h
-from .. import authorization as auth
+from ..auth import authorization as auth
 from .. import democracy
 
 from delegateable_tiles import DelegateableTile

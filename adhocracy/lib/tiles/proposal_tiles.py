@@ -6,7 +6,7 @@ from webhelpers.text import truncate
 from .. import democracy
 from .. import helpers as h
 from .. import text
-from .. import authorization as auth
+from ..auth import authorization as auth
 from .. import sorting
 from .. import cache
 

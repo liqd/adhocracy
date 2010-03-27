@@ -11,7 +11,7 @@ from routes.middleware import RoutesMiddleware
 #from paste.debug.profile import make_profile_middleware
 
 
-from adhocracy.lib.authentication import setup_auth
+from adhocracy.lib.auth.authentication import setup_auth
 from adhocracy.lib.instance import setup_discriminator
 from adhocracy.lib.util import get_site_path
 from adhocracy.config.environment import load_environment

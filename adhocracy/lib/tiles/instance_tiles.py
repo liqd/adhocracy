@@ -5,7 +5,7 @@ from pylons import tmpl_context as c
 
 from webhelpers.text import truncate
 from .. import text
-from .. import authorization as auth
+from ..auth import authorization as auth
 from .. import helpers as h
 
 import adhocracy.model as model

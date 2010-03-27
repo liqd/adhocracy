@@ -3,7 +3,7 @@ from webhelpers.text import truncate
 
 import adhocracy.model as model
 from .. import text
-from .. import authorization as auth
+from ..auth import authorization as auth
 from .. import democracy
 from .. import sorting
 from .. import helpers as h

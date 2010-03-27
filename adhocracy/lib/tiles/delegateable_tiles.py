@@ -6,7 +6,7 @@ from pylons import request, response, session, tmpl_context as c
 
 from .. import democracy
 from .. import helpers as h
-from .. import authorization as auth
+from ..auth import authorization as auth
 import adhocracy.model as model
 
 class DelegateableTile(BaseTile):
