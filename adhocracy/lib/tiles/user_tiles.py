@@ -37,7 +37,7 @@ class UserTile(BaseTile):
     can_edit = property(_can_edit)
       
     def _can_manage(self):
-        return h.has_permission("user.manage")
+        return h.has_permission("instance.admin")
     
     can_manage = property(_can_manage) 
         
