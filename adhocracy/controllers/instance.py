@@ -112,6 +112,9 @@ class InstanceController(BaseController):
                                     'required_majority': c.page_instance.required_majority,
                                     'activation_delay': c.page_instance.activation_delay,
                                     'allow_adopt': c.page_instance.allow_adopt,
+                                    'allow_delegate': c.page_instance.allow_delegate,
+                                    'allow_index': c.page_instance.allow_index,
+                                    'hidden': c.page_instance.hidden,
                                     'default_group': default_group})
         
     
@@ -126,6 +129,9 @@ class InstanceController(BaseController):
         c.page_instance.required_majority = self.form_result.get('required_majority')
         c.page_instance.activation_delay = self.form_result.get('activation_delay')
         c.page_instance.allow_adopt = self.form_result.get('allow_adopt')
+        c.page_instance.allow_delegate = self.form_result.get('allow_delegate')
+        c.page_instance.allow_index = self.form_result.get('allow_index')
+        c.page_instance.allow_hidden = self.form_result.get('allow_hidden')
         if self.form_result.get('default_group').code in model.Group.INSTANCE_GROUPS:
             c.page_instance.default_group = self.form_result.get('default_group') 
         

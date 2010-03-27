@@ -40,6 +40,16 @@
 		<input type="checkbox" name="allow_adopt" />
 	</div>
 	
+	<div style="clear: both;"></div>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("You can disable vote delegation, allowing only direct vote casting.")}
+		</div>
+	</div>
+	<div class="mainbar">
+		<label for="allow_delegate">${_("Enable vote delegation:")}</label>
+		<input type="checkbox" name="allow_delegate" />
+	</div>
 	
 	<div style="clear: both;"></div>
 	<div class="sidebar">
@@ -105,6 +115,29 @@
 	<div class="mainbar">
 		<label for="logo">${_("File upload:")}</label>
 		<input name="logo" type="file" />
+	</div>
+	
+	<div style="clear: both;"></div>
+	<h3>${_("General Settings")}</h3>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("Select whether this instance will be shown in public listings.")}
+		</div>
+	</div>
+	<div class="mainbar">
+		<label for="hidden">${_("Hide this instance:")}</label>
+		<input type="checkbox" name="hidden" />
+	</div>
+	
+	<div style="clear: both;"></div>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("Control whether content produced within this instance will be included in public search engines.")}
+		</div>
+	</div>
+	<div class="mainbar">
+		<label for="allow_index">${_("Allow search engine access:")}</label>
+		<input type="checkbox" name="allow_index" />
 	</div>
 	
 	<div style="clear: both;"></div>
