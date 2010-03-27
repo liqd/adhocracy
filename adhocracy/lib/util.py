@@ -6,6 +6,7 @@ import shutil
 
 from pylons import config
 from pylons.controllers.util import abort
+from pylons.i18n import _
 
 log = logging.getLogger(__name__)
 
@@ -27,7 +28,7 @@ def get_entity_or_abort(cls, id, instance_filter=True, **kwargs):
         raise TypeError("The given class does not have a find() method")
     obj = cls.find(id, instance_filter=instance_filter, **kwargs)
     if not obj:
-        abort(404, "Could not find the entity '%s'" % id)
+        abort(404, _("Could not find the entity '%s'") % id)
     return obj
 
 
