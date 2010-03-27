@@ -131,7 +131,7 @@ class InstanceController(BaseController):
         c.page_instance.allow_adopt = self.form_result.get('allow_adopt')
         c.page_instance.allow_delegate = self.form_result.get('allow_delegate')
         c.page_instance.allow_index = self.form_result.get('allow_index')
-        c.page_instance.allow_hidden = self.form_result.get('allow_hidden')
+        c.page_instance.hidden = self.form_result.get('hidden')
         if self.form_result.get('default_group').code in model.Group.INSTANCE_GROUPS:
             c.page_instance.default_group = self.form_result.get('default_group') 
         

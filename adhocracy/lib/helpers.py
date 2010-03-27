@@ -56,7 +56,9 @@ def user_link(user, size=16, scope=None):
             entity_url(user), gravatar_url(user, size=size),
             cgi.escape(user.name))
         if scope:
-            url += "<sup>%s</sup>" % user.number_of_votes_in_scope(scope)
+            votes = user.number_of_votes_in_scope(scope)
+            if votes > 0:
+                url += "<sup>%s</sup>" % votes
         return url
     
     @cache.memoize('user_specific_link')
