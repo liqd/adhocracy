@@ -25,7 +25,7 @@ from repoze.what.plugins.pylonshq import ActionProtector
 
 from cache import memoize
 from instance import RequireInstance
-from auth.csrf import RequireInternalRequest
+from auth.csrf import RequireInternalRequest, token_id
 from templating import render, render_json, render_png
 from pager import NamedPager
 from static import StaticPage
@@ -61,7 +61,7 @@ class BaseController(WSGIController):
         # http host information was moved around to mess with repoze.who                 
         #environ['HTTP_HOST'] = environ.get('HTTP_HOST_ORIGINAL')
         
-        from pprint import pprint
+        #from pprint import pprint
         #pprint(environ)
         #pprint(environ.get('repoze.who.identity').items())
         #print "SESSION ", session.id

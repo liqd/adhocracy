@@ -33,7 +33,6 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
             
             method = request.environ.get('REQUEST_METHOD').upper()
             if not method in methods:
-                print "INVALID METHOD"
                 return False
             
             identifier = request.environ.get('repoze.who.identity', {}).get('identifier')
@@ -43,7 +42,6 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
             if request.params.get(KEY) == session.id:
                 return True
             
-            print "WRONG ID"
             return False
         if check():
             return f(*a, **kw)
@@ -54,11 +52,18 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
     return decorator(_decorate)
 
 
+def token_id():
+    if not KEY in session:
+        session[KEY] = session.id
+        session.save()
+    return session[KEY]
+
+
 def url_token():
-    return "%s=%s" % (KEY, session.id)
+    return "%s=%s" % (KEY, token_id())
 
 
 def field_token():
-    return '<input name="%s" type="hidden" value="%s" />' % (KEY, session.id)
+    return '<input name="%s" type="hidden" value="%s" />' % (KEY, token_id())
 
 

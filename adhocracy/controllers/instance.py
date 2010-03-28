@@ -115,7 +115,7 @@ class InstanceController(BaseController):
                                     'allow_delegate': c.page_instance.allow_delegate,
                                     'allow_index': c.page_instance.allow_index,
                                     'hidden': c.page_instance.hidden,
-                                    '_tok': session.id,
+                                    '_tok': token_id(),
                                     'default_group': default_group})
         
     
