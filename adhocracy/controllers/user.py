@@ -238,19 +238,21 @@ class UserController(BaseController):
     
     
     def login(self):
-        session['came_from'] = request.params.get('came_from')
+        session['came_from'] = request.params.get('came_from', 
+                                                  h.instance_url(c.instance))
         session.save()
         return render('/user/login.html')
     
     
-    def perform_login(self): pass # managed by repoze.who
+    def perform_login(self): 
+        pass # managed by repoze.who
     
     
     def post_login(self):
         if c.user:
-            url = '/'
+            url = h.instance_url(c.instance)
             if 'came_from' in session:
-                session.get('came_from')
+                url = session.get('came_from')
                 del session['came_from']
                 session.save()
             redirect(str(url))
@@ -264,7 +266,7 @@ class UserController(BaseController):
 
 
     def post_logout(self):
-        redirect("/")
+        redirect(h.instance_url(c.instance))
     
     
     @ActionProtector(has_permission("user.view"))    

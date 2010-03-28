@@ -33,7 +33,7 @@ class InstanceController(BaseController):
     
     @ActionProtector(has_permission("instance.index"))
     def index(self, format='html'):
-        h.add_meta("description", _("An index of adhocracies run at adhocracy.cc. " + 
+        h.add_meta("description", _("An index of instances run at this site. " + 
                                     "Select which ones you would like to join and participate in!"))
         instances = model.Instance.all()
         if format == 'json':
@@ -115,6 +115,7 @@ class InstanceController(BaseController):
                                     'allow_delegate': c.page_instance.allow_delegate,
                                     'allow_index': c.page_instance.allow_index,
                                     'hidden': c.page_instance.hidden,
+                                    '_tok': session.id,
                                     'default_group': default_group})
         
     

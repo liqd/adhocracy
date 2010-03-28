@@ -37,7 +37,7 @@
 		%endif
 		%if tile.can_admin:
 			<a class="button admin ttip" title="${_('Edit this instance to change its description or voting rules.')}"  
-				href="${h.entity_url(instance, member='edit')}?${h.url_token()}">${_("edit")}</a>
+				href="${h.entity_url(instance, member='edit')}">${_("edit")}</a>
 		%endif
 		%if tile.can_leave:
 			<a class="button delete ttip" title="${_('Resign from this instance.')}" 

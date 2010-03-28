@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 
 class AdminController(BaseController):
 
-    @RequireInternalRequest(methods=['POST'])
+    @RequireInternalRequest()
     @ActionProtector(has_permission("global.admin"))
     def permissions(self):
         if request.method == "POST":

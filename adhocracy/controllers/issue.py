@@ -48,6 +48,7 @@ class IssueController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("issue.create"))
     def new(self):
+        return self.not_implemented()
         return render("/issue/new.html")
     
     
@@ -56,6 +57,7 @@ class IssueController(BaseController):
     @ActionProtector(has_permission("issue.create"))
     @validate(schema=IssueCreateForm(), form="new", post_only=True)
     def create(self):
+        return self.not_implemented()
         issue = model.Issue.create(c.instance, self.form_result.get('label'), 
                                    c.user)
         comment = model.Comment.create(self.form_result.get('text'), c.user, issue)
