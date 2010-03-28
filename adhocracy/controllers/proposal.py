@@ -55,16 +55,17 @@ class ProposalController(BaseController):
         proposals = libsearch.query.run(query + u"*", instance=c.instance, 
                                         entity_type=model.Proposal)
         
-        if format == 'json':
-            return render_json(proposals)
-        
         if self.form_result.get('proposals_state'): 
             proposals = model.Proposal.filter_by_state(self.form_result.get('proposals_state'), 
                                                        proposals)
+        c.proposals_pager = pager.proposals(proposals, has_query=query is not None)
+        
+        if format == 'json':
+            return render_json(c.proposals_pager)
         
         tags = model.Tag.popular_tags(limit=50)
         c.cloud_tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
-        c.proposals_pager = pager.proposals(proposals, has_query=query is not None)
+        
         c.tile = tiles.instance.InstanceTile(c.instance)
         return render("/proposal/index.html")
     

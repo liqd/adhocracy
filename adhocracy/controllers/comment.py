@@ -36,6 +36,21 @@ class CommentRevertForm(formencode.Schema):
 class CommentController(BaseController):
     
     @RequireInstance
+    @ActionProtector(has_permission("comment.view"))
+    def index(self, format='html'):
+        comments = model.Comment.all()
+        c.comments_pager = NamedPager('comments', comments, 
+                                       tiles.comment.full, count=10, #list_item,
+                                       sorts={_("oldest"): sorting.entity_oldest,
+                                              _("newest"): sorting.entity_newest},
+                                       default_sort=sorting.entity_newest)
+        if format == 'json':
+            return render_json(c.comments_pager)
+        
+        return self.not_implemented()
+    
+    
+    @RequireInstance
     @ActionProtector(has_permission("comment.create"))
     @validate(schema=CommentCreateForm(), form="bad_request", 
               post_only=False, on_get=True)
@@ -69,11 +84,13 @@ class CommentController(BaseController):
                    topics=[topic], comment=comment, topic=topic, rev=comment.latest)
         redirect(h.entity_url(comment))
     
+    
     @RequireInstance
     @ActionProtector(has_permission("comment.edit"))
     def edit(self, id):
         c.comment = self._get_mutable_or_abort(id)
         return render('/comment/edit.html')
+    
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
@@ -95,6 +112,7 @@ class CommentController(BaseController):
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic, rev=rev)
         redirect(h.entity_url(c.comment))
+    
     
     @RequireInstance
     @ActionProtector(has_permission("comment.view"))
@@ -129,6 +147,7 @@ class CommentController(BaseController):
             redirect(h.entity_url(c.comment.topic, member='canonicals'))
         redirect(h.entity_url(c.comment.topic))
     
+    
     @RequireInstance
     @ActionProtector(has_permission("comment.view"))    
     def history(self, id):
@@ -139,6 +158,7 @@ class CommentController(BaseController):
                                             _("newest"): sorting.entity_newest},
                                      default_sort=sorting.entity_newest)
         return render('/comment/history.html')
+    
     
     @RequireInstance
     @RequireInternalRequest()
@@ -155,6 +175,7 @@ class CommentController(BaseController):
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic, rev=rev)
         redirect(h.entity_url(c.comment))
+    
     
     # get a comment for editing, checking that it is mutable. 
     def _get_mutable_or_abort(self, id):

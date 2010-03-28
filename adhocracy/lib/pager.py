@@ -2,7 +2,7 @@ import urllib
 import math
 
 import formencode
-from formencode import foreach, validators, htmlfill
+from formencode import foreach, validators, htmlfill, Invalid
 
 from pylons.i18n import _
 from pylons import request, response, tmpl_context as c
@@ -37,16 +37,23 @@ class NamedPager(object):
      
       
     def _parse_request(self):
-        page_val = validators.Int(if_empty=1, not_empty=False)
-        self.page = page_val.to_python(request.params.get("%s_page" % self.name))
+        try:
+            page_val = validators.Int(min=1, not_empty=True)
+            self.page = page_val.to_python(request.params.get("%s_page" % self.name))
+        except: 
+            self.page = 1
         
-        count_val = validators.Int(if_empty=self.count, if_invalid=self.count, 
-                                   max=250, not_empty=False)
-        self.count = count_val.to_python(request.params.get("%s_count" % self.name))       
+        try:
+            count_val = validators.Int(min=1, max=250, not_empty=True)
+            self.count = count_val.to_python(request.params.get("%s_count" % self.name))       
+        except: 
+            pass
         
-        sort_val = validators.Int(if_empty=self.selected_sort, if_invalid=self.selected_sort, 
-                                  min=1, max=len(self.sorts.keys()), not_empty=False)
-        self.selected_sort = sort_val.to_python(request.params.get("%s_sort" % self.name))
+        try:
+            sort_val = validators.Int(min=1, max=len(self.sorts.keys()), not_empty=True)
+            self.selected_sort = sort_val.to_python(request.params.get("%s_sort" % self.name))
+        except: 
+            pass
      
                 
     def _get_items(self):
@@ -85,6 +92,10 @@ class NamedPager(object):
     
     def here(self):
         return render_def('/pager.html', 'namedpager', pager=self)
+    
+    
+    def to_dict(self):
+        return self.items
     
         
     def __len__(self):

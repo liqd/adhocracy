@@ -257,6 +257,7 @@ class UserController(BaseController):
                 session.save()
             redirect(str(url))
         else:
+            session.delete()
             return formencode.htmlfill.render(
                 render("/user/login.html"), 
                 errors = {"login": _("Invalid user name or password")})
@@ -266,6 +267,7 @@ class UserController(BaseController):
 
 
     def post_logout(self):
+        session.delete()
         redirect(h.instance_url(c.instance))
     
     

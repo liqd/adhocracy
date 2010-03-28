@@ -153,11 +153,15 @@ class Delegateable(object):
     
     
     def to_dict(self):
+        from adhocracy.lib import url
         return dict(id=self.id,
                     label=self.label,
-                    tags=self.tags,
+                    tags=dict([(k.name, v) for k, v in self.tags]),
+                    url=url.entity_url(self),
                     instance=self.instance.key,
+                    comment=self.comment.id,
                     creator=self.creator.user_name,
+                    creator_url=url.entity_url(self.creator),
                     create_time=self.create_time)
 
 

@@ -202,6 +202,7 @@ class Instance(object):
     
     
     def to_dict(self):
+        from adhocracy.lib import url
         d = dict(id=self.id,
                  key=self.key,
                  label=self.label,
@@ -209,6 +210,11 @@ class Instance(object):
                  required_majority=self.required_majority,
                  activation_delay=self.activation_delay,
                  allow_adopt=self.allow_adopt,
+                 allow_delegate=self.allow_delegate,
+                 allow_index=self.allow_index,
+                 hidden=self.hidden,
+                 url=url.entity_url(self),
+                 instance_url=url.instance_url(self),
                  default_group=self.default_group.code,
                  create_time=self.create_time)
         if self.description:

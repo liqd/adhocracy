@@ -43,7 +43,13 @@ class PollController(BaseController):
         return self.not_implemented()  
     
     
-    def show(self, id):
+    @RequireInstance
+    def show(self, id, format='html'):
+        poll = get_entity_or_abort(model.Poll, id)
+        
+        if format == 'json':
+            return render_json(poll)
+        
         return self.not_implemented()  
     
     
@@ -59,6 +65,7 @@ class PollController(BaseController):
             for vote in votes:
                 event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance, 
                            topics=[c.poll.scope], vote=vote, poll=c.poll)
+        
         if format == 'json':
             tally = model.Tally.create_from_poll(c.poll)
             model.meta.Session.commit()
@@ -105,12 +112,16 @@ class PollController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("proposal.view")) 
     @validate(schema=PollVotesFilterForm(), post_only=False, on_get=True)
-    def votes(self, id):
+    def votes(self, id, format='html'):
         c.poll = get_entity_or_abort(model.Poll, id)
         decisions = democracy.Decision.for_poll(c.poll)
         if self.form_result.get('result'):
             decisions = filter(lambda d: d.result==self.form_result.get('result'), 
                                decisions)
+        
+        if format == 'json':
+            return render_json(decisions)
+            
         c.decisions_pager = pager.scope_decisions(decisions)
         return render("/poll/votes.html")  
         

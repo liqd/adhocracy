@@ -5,8 +5,7 @@ a certain way). To prevent this, some actions are only possible if authorized vi
 modtoken - a shared SHA1 hash - is included.  
 """
 
-import random
-import hashlib
+import uuid
 from urlparse import urlparse
 from decorator import decorator
 
@@ -46,15 +45,13 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
         if check():
             return f(*a, **kw)
         else:
-            abort(403, _("Action failed. You were probably trying to re-perform " +
-                         "an action after using your browser's 'Back' button. This " +
-                         "is prohibited for security reasons.")) 
+            abort(403, _("I'm sorry, it looks like we made a mistake (CSRF alert). Please try again.")) 
     return decorator(_decorate)
 
 
 def token_id():
     if not KEY in session:
-        session[KEY] = session.id
+        session[KEY] = str(uuid.uuid4()).split("-")[-1]
         session.save()
     return session[KEY]
 

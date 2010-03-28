@@ -44,13 +44,15 @@ def render_def(template_name, def_name, extra_vars=None, cache_key=None,
     return render_mako_def(template_name, def_name,  
                            cache_key=cache_key, cache_type=cache_type,
                            cache_expire=cache_expire, **extra_vars)
+
     
 def _json_entity(o):
     if isinstance(o, datetime):
-        return rfc822.formatdate(float(o.strftime("%s")))
+        return o.isoformat() + "Z"
     if hasattr(o, 'to_dict'):
         return o.to_dict()
     raise TypeError("This is not serializable: " + repr(o))
+
 
 def render_json(data, encoding='utf-8'):
     response.content_type = 'text/javascript'

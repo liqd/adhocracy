@@ -5,6 +5,7 @@ from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, Bo
 from sqlalchemy.orm import relation, backref
 
 import meta
+import filter as ifilter
 
 
 log = logging.getLogger(__name__)
@@ -59,6 +60,19 @@ class Comment(object):
         except Exception, e:
             log.warn("find(%s): %s" % (id, e)) 
             return None
+    
+    
+    @classmethod        
+    def all(cls, instance_filter=True, include_deleted=False):
+        from delegateable import Delegateable
+        q = meta.Session.query(Comment)
+        q = q.join(Delegateable)
+        if ifilter.has_instance() and instance_filter:
+            q = q.filter(Delegateable.instance_id==ifilter.get_instance().id)
+        if not include_deleted:
+            q = q.filter(or_(Comment.delete_time==None,
+                             Comment.delete_time>datetime.utcnow()))
+        return q.all()
     
     
     @classmethod    
@@ -120,9 +134,11 @@ class Comment(object):
     
     
     def to_dict(self):
+        from adhocracy.lib import url
         d = dict(id=self.id,
                  create_time=self.create_time,
                  topic=self.topic_id,
+                 url=url.entity_url(self, comment_page=True),
                  creator=self.creator.user_name)
         if self.reply_id: 
             d['reply'] = self.reply_id

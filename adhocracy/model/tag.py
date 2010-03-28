@@ -173,7 +173,11 @@ class Tag(object):
     
     
     def to_dict(self):
-        return self.name
+        from adhocracy.lib import url
+        return dict(id=self.id,
+                    name=self.name,
+                    count=self.count,
+                    url=url.entity_url(self))
     
     
     def _index_id(self):

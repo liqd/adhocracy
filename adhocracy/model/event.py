@@ -147,6 +147,7 @@ class Event(object):
         d = dict(id=self.id,
                  time=self.time,
                  data=self.data,
+                 url=self.link(),
                  user=self.user.user_name,
                  event=self._event,
                  instance=self.instance.key)

@@ -369,9 +369,11 @@ class User(object):
     
     
     def to_dict(self):
+        from adhocracy.lib import url
         d = dict(id=self.id,
                  user_name=self.user_name,
                  locale=self._locale,
+                 url=url.entity_url(self),
                  create_time=self.create_time,
                  mbox=self.email_hash)
         if self.display_name:

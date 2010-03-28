@@ -166,6 +166,19 @@ class Poll(object):
             return None
     
     
+    def to_dict(self):
+        from adhocracy.lib import url
+        return dict(id=self.id,
+                    user=self.user.user_name,
+                    action=self.action,
+                    begin_time=self.begin_time,
+                    end_time=self.end_time,
+                    tally=self.tally,
+                    url=url.entity_url(self),
+                    scope=self.scope,
+                    subject=self.subject)
+    
+    
     def _index_id(self):
         return self.id
     

@@ -36,8 +36,10 @@ class InstanceController(BaseController):
         h.add_meta("description", _("An index of instances run at this site. " + 
                                     "Select which ones you would like to join and participate in!"))
         instances = model.Instance.all()
+        
         if format == 'json':
             return render_json(instances)
+        
         h.canonical_url(h.instance_url(None, path="/instance"))
         c.instances_pager = pager.instances(instances)
         return render("/instance/index.html")  
@@ -61,7 +63,7 @@ class InstanceController(BaseController):
         redirect(h.entity_url(instance))
     
 
-    @RequireInstance
+    #@RequireInstance
     @ActionProtector(has_permission("instance.view"))
     def show(self, id, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, id)
@@ -69,6 +71,9 @@ class InstanceController(BaseController):
             return render_json(c.page_instance)
         if format == 'rss':
             return self.activity(id, format)
+        if c.page_instance != c.instance:
+            redirect(h.entity_url(c.page_instance))
+        
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         tags = model.Tag.popular_tags(limit=70)
         c.tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)

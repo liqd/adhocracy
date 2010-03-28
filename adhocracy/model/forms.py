@@ -136,10 +136,13 @@ class ValidWatch(formencode.FancyValidator):
         
 class ValidRef(formencode.FancyValidator):
     def _to_python(self, value, state):
-        entity = refs.from_url(value)
-        if not entity: 
+        try:
+            entity = refs.from_url(value)
+            if not entity: 
+                raise TypeError()
+            return entity
+        except: 
             raise formencode.Invalid(_("Invalid reference"), value, state)
-        return entity
         
 class ExistingUserName(formencode.FancyValidator):
     def _to_python(self, value, state):
