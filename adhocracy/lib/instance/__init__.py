@@ -10,7 +10,7 @@ from discriminator import setup_discriminator
 
 def _RequireInstance(f, *a, **kw):
     if not c.instance:
-        abort(404, _("This action is only available in an instance context."))
+        abort(400, _("This action is only available in an instance context."))
     else:
         return f(*a, **kw)
     

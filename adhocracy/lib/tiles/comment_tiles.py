@@ -120,6 +120,7 @@ class CommentTile(BaseTile):
             tile.__topic_outbound = self.__topic_outbound
             yield (comment, tile)
 
+
 def row(comment):
     return render_tile('/comment/tiles.html', 'row', CommentTile(comment), comment=comment)    
 

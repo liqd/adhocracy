@@ -367,7 +367,7 @@ class UserController(BaseController):
     #    return render("/user/comments.html")
       
      
-    @RequireInstance
+    #@RequireInstance
     @ActionProtector(has_permission("user.view")) 
     def watchlist(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)

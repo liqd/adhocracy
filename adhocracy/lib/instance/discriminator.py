@@ -20,6 +20,7 @@ class InstanceDiscriminatorMiddleware(object):
         port = None
         if ':' in host:
             (host, port) = host.split(':')
+        
         if host.startswith(self.TRUNCATE_PREFIX):
             host = host[len(self.TRUNCATE_PREFIX):]
         
@@ -29,9 +30,10 @@ class InstanceDiscriminatorMiddleware(object):
             if port:
                 active_domain = active_domain + ':' + port
         
-        environ['adhocracy.domain'] = environ['HTTP_HOST'] = active_domain
+        environ['HTTP_HOST'] = active_domain
+        environ['adhocracy.domain'] = environ['HTTP_HOST']
         
-        instance_key = host.strip('. ').lower()
+        instance_key = host.strip('. ')
         if len(instance_key):
             #log.debug("Request instance: %s" % instance_key)
             instance = model.Instance.find(instance_key)

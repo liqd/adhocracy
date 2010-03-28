@@ -105,7 +105,7 @@ def tag_link(tag, count=None, size=None, base_size=12, plain=False):
     if size is not None:
         size = int(math.sqrt(size) * base_size)
         text += " style='font-size: %dpx !important;'" % size
-    text += " href='%s'>%s</a>" % (entity_url(tag), tag.name)
+    text += " href='%s' rel='tag'>%s</a>" % (entity_url(tag), tag.name)
     if count is not None and count > 1:
         text += "&thinsp;&times;" + str(count)
     text += "</span>"

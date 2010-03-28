@@ -1,18 +1,18 @@
 <%namespace name="components" file="/components.html"/>
 
 <%def name="row(tile, user)">
-	<div class="tile">
+	<div class="tile vcard">
 		<div class="logo">
 			<img src="${h.gravatar_url(user, size=32)}" />
 		</div>
 		<div class="base">
-			<h3><a class="link" href="${h.entity_url(user)}">${user.name}</a></h3>
+			<h3><a class="link fn nickname" href="${h.entity_url(user)}">${user.name}</a></h3>
 			<div class="meta noclear">
 				<%
 				mem = user.instance_membership(c.instance)
 				%>
 				%if mem:
-					${_(tile.instance_group.group_name)} &middot;
+					<span class="role">${_(tile.instance_group.group_name)}</span> &middot;
 					${_("joined %s") % h.relative_time(mem.create_time)|n}
 				%else: 
 					${_("signed up %s") % h.relative_time(user.create_time)|n}
@@ -23,7 +23,7 @@
 </%def>
 
 <%def name="header(tile, user, active)">
-	<div class="top_actions title">
+	<div class="top_actions title vcard">
 		%if tile.can_edit:
 			<a class="button edit" href="${h.entity_url(user, member='edit')}">${_("edit")}</a>
 		%endif
@@ -47,13 +47,13 @@
 	
 	<div style="clear: both;"></div>
 	<h1 class="page_title">
-		<img src="${h.gravatar_url(c.page_user, size=24)|n}" class="cd" alt="">
-		${user.name}
+		<img class="logo photo" src="${h.gravatar_url(c.page_user, size=24)|n}" class="cd" alt="">
+		<span class="fn nickname">${user.name}</span>
 	</h1>
 	
 	<div class="panel ${active}">
 		<ul class="menu">
-			<li><a href="${h.entity_url(user)}" class="activity">${_("Activity")}</a></li>
+			<li><a href="${h.entity_url(user)}" rel="profile url" class="activity">${_("Activity")}</a></li>
 			%if c.instance:
 				%if c.instance.allow_adopt:
 					<li><a href="${h.entity_url(user, member='votes')}" class="votes">${_("Votes")}</a></li>
@@ -84,8 +84,10 @@
 			grp = tile.instance_group
 			%>
 			%if grp:
-				${"%(group)s in %(instance)s" % dict(group=_(grp.group_name), 	
+				<span class="role">
+					${"%(group)s in %(instance)s" % dict(group=_(grp.group_name), 	
 													 instance=c.instance.label)}
+				</span>
 			%endif
 		</div>
 	</div>

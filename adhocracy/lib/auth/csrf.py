@@ -14,9 +14,10 @@ from pylons import session, request, config
 from pylons.controllers.util import abort
 from pylons.i18n import _
 
+
 def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
     """
-    XSRF Spoof Filter
+    CSRF Spoof Filter
     
     TODO: There is still a scenario in which an attacker opens an adhocracy 
     page in an iframe, extracts a valid modtoken via javascript and uses this
@@ -24,7 +25,7 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
     """
     def _decorate(f, *a, **kw):
         def check():
-            if not request.method in methods:
+            if not request.environ.get('REQUEST_METHOD') in methods:
                 return True
             if not request.environ.get("AUTH_TYPE") == "cookie":
                 return True
@@ -41,7 +42,7 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
                     if request.environ['REQUEST_METHOD'] != 'GET':
                         return True
             
-            if request.environ['REQUEST_METHOD'] == 'GET' and has_token():
+            if has_token():
                 return True
                        
             return False
@@ -68,18 +69,14 @@ def make_token():
 
 
 def url_token():
-    return "_csrftoken=%s" % make_token()
+    return "_tok=%s" % session.id
 
 
 def field_token():
-    return '<input name="_csrftoken" type="hidden" value="%s" />' % make_token() 
+    return '<input name="_tok" type="hidden" value="%s" />' % session.id 
 
 
 def has_token():
-    if request.params.get('_csrftoken', None) in session['modtokens']:
-        tokens = session['modtokens']
-        tokens.remove(request.params.get('_csrftoken'))
-        session['modtokens'] = tokens
-        session.save()
+    if request.params.get('_tok', None) == session.id:
         return True
     return False

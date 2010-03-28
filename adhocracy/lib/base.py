@@ -59,10 +59,11 @@ class BaseController(WSGIController):
         c.user = environ.get('repoze.who.identity', {}).get('user', None)
         
         # http host information was moved around to mess with repoze.who                 
-        environ['HTTP_HOST'] = environ.get('HTTP_HOST_ORIGINAL')
+        #environ['HTTP_HOST'] = environ.get('HTTP_HOST_ORIGINAL')
         
         #from pprint import pprint
         #pprint(environ)
+        #print "SESSION ", session.id
         
         # get RESTish:
         #self._parse_REST_request()
@@ -90,6 +91,7 @@ class BaseController(WSGIController):
             model.meta.Session.remove()
             model.meta.Session.close()
             log.debug("Rendering page %s took %sms" % (environ.get('PATH_INFO'), ((time()-begin_time)*1000)))
+    
     
     def _parse_REST_request(self):
         if request.method not in ['POST', 'PUT']:
