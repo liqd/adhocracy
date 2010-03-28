@@ -42,16 +42,16 @@ class AdhocracyClient(object):
     
     def open_url(self, location, method='GET', data=None, headers={}):
         try:
-            if self.user is not None and self.password is not None:
-                passman = urllib2.HTTPPasswordMgrWithDefaultRealm()
-                passman.add_password(None, location, self.user, self.password)
-                authhandler = urllib2.HTTPBasicAuthHandler(passman)
-                opener = urllib2.build_opener(authhandler)
-                urllib2.install_opener(opener)
-            
             if data != None:
-                data = urllib.urlencode({data: 1}) 
+                data = urllib.urlencode(data) 
+            
             req = RequestWithMethod(method, location, data, headers)
+            
+            if self.user is not None and self.password is not None:
+                auth = base64.encodestring('%s:%s' % (self.user, self.password))
+                auth =  "Basic %s" % auth
+                req.add_header("Authorization", auth)
+            
             self.url_response = urllib2.urlopen(req)
         except urllib2.HTTPError, inst:
             print "adhocracyclient: Received HTTP error code from Adhocracy."
@@ -76,16 +76,19 @@ class AdhocracyClient(object):
                 pass
     
     
-    def get_location(self, resource_name, entity_id=None, member=None):
+    def get_location(self, resource_name, entity_id=None, 
+                     member=None, format='json'):
         base = self.base_location
         if self.instance is not None:
             base = self.instance.get('instance_url')
         path = resource_name
         if entity_id is not None:
-            path += '/' + entity_id
+            path += '/' + str(entity_id)
         if member is not None:
             path += '/' + member
-        url = base + '/' + path + '.json'
+        url = base + '/' + path 
+        if format is not None: 
+            url = url + '.json'
         print "adhocracyclient: request url: %s" % url
         return url 
     
@@ -116,6 +119,41 @@ class AdhocracyClient(object):
         self.open_url(url)
         return self.last_message
     
+    
+    def proposal_get(self, id):
+        if self.instance is None:
+            raise ValueError("No instance is set")
+        self.reset()
+        url = self.get_location('proposal', entity_id=id)
+        self.open_url(url)
+        return self.last_message
+    
+    
+    def proposal_create(self, proposal):
+        if self.instance is None:
+            raise ValueError("No instance is set")
+        self.reset()
+        url = self.get_location('proposal', format=None)
+        self.open_url(url, method='POST', data=proposal)
+        return self.last_message
+    
+    
+    def proposal_update(self, proposal):
+        if self.instance is None:
+            raise ValueError("No instance is set")
+        self.reset()
+        url = self.get_location('proposal', entity_id=proposal.get('id'), format=None)
+        self.open_url(url, method='PUT', data=proposal)
+        return self.last_message
+    
+    
+    def proposal_delete(self, id):
+        if self.instance is None:
+            raise ValueError("No instance is set")
+        self.reset()
+        url = self.get_location('proposal', entity_id=id)
+        self.open_url(url, method='DELETE')
+        return self.last_message
     
     #def package_register_get(self):
     #    self.reset()
@@ -152,6 +190,12 @@ class AdhocracyClient(object):
         except ImportError: 
             import simplejson as json
         return json.loads(string)
+
+test_prop = {
+    "label": "foo schnasel",
+    "text": "this is an API test foo schnasel",
+    "tags": "tag, tag2, tag3"
+}
 
 
 test = AdhocracyClient('http://adhocracy.lan:5000', user='admin', 

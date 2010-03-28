@@ -16,7 +16,6 @@ def not_null(lst):
 
 class ProposalNewForm(formencode.Schema):
     allow_extra_fields = True
-    canonical = foreach.ForEach(validators.String(max=20000, if_empty=None), convert_to_list=True)
     alternative = foreach.ForEach(forms.ValidProposal(if_invalid=None), convert_to_list=True)
 
 class ProposalCreateForm(ProposalNewForm):
@@ -86,7 +85,7 @@ class ProposalController(BaseController):
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("proposal.create"))
-    def create(self):
+    def create(self, format='html'):
         try:
             self.form_result = ProposalCreateForm().to_python(request.params)
         except Invalid, i:
@@ -106,7 +105,7 @@ class ProposalController(BaseController):
         watchlist.check_watch(proposal)
         event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance, 
                    topics=[proposal], proposal=proposal, rev=comment.latest)
-        redirect(h.entity_url(proposal))
+        redirect(h.entity_url(proposal, format=format))
 
 
     @RequireInstance
@@ -129,7 +128,7 @@ class ProposalController(BaseController):
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("proposal.edit")) 
-    def update(self, id):
+    def update(self, id, format='html'):
         try:
             self.form_result = ProposalUpdateForm().to_python(request.params)
         except Invalid, i:
@@ -167,12 +166,12 @@ class ProposalController(BaseController):
     def delegations(self, id, format="html"):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         delegations = c.proposal.current_delegations()
+        c.delegations_pager = pager.delegations(delegations)
         
         if format == 'json':
-            return render_json(list(delegations))
+            return render_json(c.delegations_pager)
         
         c.tile = tiles.proposal.ProposalTile(c.proposal)
-        c.delegations_pager = pager.delegations(delegations)
         self._common_metadata(c.proposal)
         return render("/proposal/delegations.html")
     
@@ -195,12 +194,12 @@ class ProposalController(BaseController):
     def alternatives(self, id, format="html"):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         alternatives = c.proposal.current_alternatives()
+        c.proposals_pager = pager.proposals(alternatives)
         
         if format == 'json':
-            return render_json(alternatives)
+            return render_json(c.proposals_pager)
         
         c.tile = tiles.proposal.ProposalTile(c.proposal)
-        c.proposals_pager = pager.proposals(alternatives)
         self._common_metadata(c.proposal)
         return render("/proposal/alternatives.html")
     
@@ -218,7 +217,7 @@ class ProposalController(BaseController):
         
         if format == 'rss':
             return event.rss_feed(events, _("Proposal: %s") % c.proposal.label,
-                                  h.instance_url(c.instance, path="/proposal/%s" % c.proposal.id),
+                                  h.entity_url(c.proposal),
                                   description=_("Activity on the %s proposal") % c.proposal.label)
         
         c.tile = tiles.proposal.ProposalTile(c.proposal)
@@ -246,14 +245,6 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         h.flash(_("The proposal %s has been deleted.") % c.proposal.label)
         redirect(h.entity_url(c.instance))   
-    
-    
-    @RequireInstance
-    @ActionProtector(has_permission("proposal.view")) 
-    def adopted(self):
-        issues = model.Issue.all(instance=c.instance)
-        c.issues = sorting.delegateable_label(issues)
-        return render("/proposal/adopted.html")
     
     
     @RequireInstance

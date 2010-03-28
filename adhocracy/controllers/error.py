@@ -34,22 +34,30 @@ class ErrorController(BaseController):
         # I DID NOT HAVE REGEX RELATIONS WITH THAT HTML PAGE
         for match in BODY_RE.finditer(resp.body):
             c.error_message = match.group(1)
+        
         c.error_code = cgi.escape(request.GET.get('code', str(resp.status_int)))
-
+        
+        if not c.error_message:
+            c.error_message = _("Error %s") % c.error_code
+        
         response.status = resp.status
         return render("/error/http.html")
-
+    
+    
     def img(self, id):
         """Serve Pylons' stock images"""
         return self._serve_file('/'.join(['media/img', id]))
-
+    
+    
     def style(self, id):
         """Serve Pylons' stock stylesheets"""
         return self._serve_file('/'.join(['media/style', id]))
-
+    
+    
     def _serve_file(self, path):
         """Call Paste's FileApp (a WSGI application) to serve the file
         at the specified path
         """
         request.environ['PATH_INFO'] = '/%s' % path
         return forward(PkgResourcesParser('pylons', 'pylons'))
+

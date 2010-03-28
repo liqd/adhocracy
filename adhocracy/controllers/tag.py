@@ -22,7 +22,10 @@ class TagController(BaseController):
     @ActionProtector(has_permission("tag.view"))
     def index(self, format='html'):
         tags = model.Tag.popular_tags(limit=200)
-        c.tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name.lower())
+        if format == 'json':
+            return render_json(tags)
+        c.tags = sorted(text.tag_cloud_normalize(tags), 
+                        key=lambda (k, c, v): k.name.lower())
         return render("/tag/index.html")
         
     
@@ -35,7 +38,7 @@ class TagController(BaseController):
                                         fields=['tags'], entity_type=model.Proposal)
         
         if format == 'json':
-            return render_json(proposals)
+            return render_json(c.tag)
             
         if self.form_result.get('proposals_state'): 
             proposals = model.Proposal.filter_by_state(self.form_result.get('proposals_state'), 
