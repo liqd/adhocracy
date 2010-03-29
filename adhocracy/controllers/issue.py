@@ -5,7 +5,7 @@ from pylons.i18n import _
 
 from adhocracy.lib.base import * 
 from adhocracy.lib.base import BaseController, render
-import adhocracy.model.forms as forms
+import adhocracy.forms as forms
 import adhocracy.lib.text as text
 
 log = logging.getLogger(__name__)

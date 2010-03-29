@@ -6,7 +6,7 @@ from sqlalchemy.orm import reconstructor
 
 import simplejson as json
 
-import filter as ifilter
+import instance_filter as ifilter
 import meta
 import refs
 

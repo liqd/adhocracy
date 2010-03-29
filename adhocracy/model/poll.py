@@ -5,7 +5,7 @@ from sqlalchemy import Table, Column, Integer, Unicode, UnicodeText, ForeignKey,
 from sqlalchemy.orm import reconstructor
 
 import meta
-import filter as ifilter
+import instance_filter as ifilter
 
 log = logging.getLogger(__name__)
 

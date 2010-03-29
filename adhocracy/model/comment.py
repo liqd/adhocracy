@@ -5,7 +5,7 @@ from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, Bo
 from sqlalchemy.orm import relation, backref
 
 import meta
-import filter as ifilter
+import instance_filter as ifilter
 
 
 log = logging.getLogger(__name__)

@@ -7,7 +7,7 @@ from pylons.i18n import _
 
 from adhocracy.lib.base import *
 import adhocracy.lib.text as text
-import adhocracy.model.forms as forms
+import adhocracy.forms as forms
 import adhocracy.lib.logo as logo
 
 import adhocracy.lib.instance as libinstance

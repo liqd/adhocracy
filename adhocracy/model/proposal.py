@@ -6,7 +6,7 @@ from sqlalchemy import Table, Column, Unicode, ForeignKey, Integer, Boolean, or_
 from sqlalchemy.orm import reconstructor, aliased, eagerload
 
 import meta
-import filter
+import instance_filter as ifilter
 
 from delegateable import Delegateable
 
@@ -83,8 +83,8 @@ class Proposal(Delegateable):
                 q = q.options(eagerload(Proposal.rate_poll))
                 q = q.options(eagerload(Proposal.taggings))
                 q = q.options(eagerload(Proposal.parents))
-            if filter.has_instance() and instance_filter:
-                q = q.filter(Proposal.instance_id==filter.get_instance().id)
+            if ifilter.has_instance() and instance_filter:
+                q = q.filter(Proposal.instance_id==ifilter.get_instance().id)
             if not include_deleted:
                 q = q.filter(or_(Proposal.delete_time==None,
                                  Proposal.delete_time>datetime.utcnow()))
@@ -98,8 +98,8 @@ class Proposal(Delegateable):
     def find_all(cls, ids, instance_filter=True, include_deleted=False):
         q = meta.Session.query(Proposal)
         q = q.filter(Proposal.id.in_(ids))
-        if filter.has_instance() and instance_filter:
-            q = q.filter(Proposal.instance_id==filter.get_instance().id)
+        if ifilter.has_instance() and instance_filter:
+            q = q.filter(Proposal.instance_id==ifilter.get_instance().id)
         if not include_deleted:
             q = q.filter(or_(Proposal.delete_time==None,
                              Proposal.delete_time>datetime.utcnow()))
@@ -112,8 +112,8 @@ class Proposal(Delegateable):
         q = q.filter(Proposal.creator==user)
         q = q.filter(or_(Proposal.delete_time==None,
                          Proposal.delete_time>datetime.utcnow()))
-        if filter.has_instance() and instance_filter:
-            q = q.filter(Proposal.instance_id==filter.get_instance().id)
+        if ifilter.has_instance() and instance_filter:
+            q = q.filter(Proposal.instance_id==ifilter.get_instance().id)
         return q.all()
     
     

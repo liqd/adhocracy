@@ -7,7 +7,7 @@ from sqlalchemy.orm import relation, backref, mapper
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 import meta
-import filter as ifilter
+import instance_filter as ifilter
 
 log = logging.getLogger(__name__)
 

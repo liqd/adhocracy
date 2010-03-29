@@ -6,7 +6,7 @@ import formencode.foreach
 from formencode.validators import RequireIfMissing
 
 from adhocracy.lib.base import *
-import adhocracy.model.forms as forms
+import adhocracy.forms as forms
 from repoze.what.plugins.pylonshq import ActionProtector
 
 log = logging.getLogger(__name__)

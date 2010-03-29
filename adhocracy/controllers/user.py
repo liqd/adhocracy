@@ -6,7 +6,7 @@ from babel import Locale
 
 import adhocracy.lib.text as text
 from adhocracy.lib.base import *
-import adhocracy.model.forms as forms
+import adhocracy.forms as forms
 import adhocracy.i18n as i18n
 import adhocracy.lib.util as libutil
 import adhocracy.lib.mail as libmail

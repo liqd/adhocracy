@@ -6,7 +6,7 @@ from sqlalchemy.orm import relation, mapper
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 import meta
-import filter as ifilter
+import instance_filter as ifilter
 from delegateable import Delegateable
 
 log = logging.getLogger(__name__)

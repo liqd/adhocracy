@@ -4,19 +4,7 @@ from formencode import validators, foreach
 
 from pylons.i18n.translation import *
 
-import meta
-import refs
-import user
-import vote
-import delegateable
-import proposal
-import issue
-import group
-import watch
-import revision
-import comment
-import instance
-import tagging
+from adhocracy.model import *
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join", "leave", 
                    "control", "test", "support", "page", "issue", "proposal", "wiki", 
@@ -49,7 +37,7 @@ class UniqueUsername(formencode.FancyValidator):
 class UniqueEmail(formencode.FancyValidator):
     def _to_python(self, value, state):
         email = value.lower()
-        if meta.Session.query(user.User.email).filter(user.User.email == email).all():
+        if meta.Session.query(User.email).filter(User.email == email).all():
             raise formencode.Invalid(
                 _('That email is already registered'),
                 value, state)
@@ -61,11 +49,11 @@ class UniqueInstanceKey(formencode.FancyValidator):
             raise formencode.Invalid(
                 _('No instance key is given'),
                 value, state)
-        if not instance.Instance.INSTANCE_KEY.match(value) or value in FORBIDDEN_NAMES:
+        if not Instance.INSTANCE_KEY.match(value) or value in FORBIDDEN_NAMES:
             raise formencode.Invalid(
                 _('The instance key is invalid'),
                 value, state)
-        if instance.Instance.find(value):
+        if Instance.find(value):
             raise formencode.Invalid(
                 _('An instance with that key already exists'),
                 value, state)
@@ -73,66 +61,66 @@ class UniqueInstanceKey(formencode.FancyValidator):
 
 class ValidDelegateable(formencode.FancyValidator):
     def _to_python(self, value, state):
-        dgb = delegateable.Delegateable.find(value)
-        if not dgb: 
+        delegateable = Delegateable.find(value)
+        if not delegateable: 
            raise formencode.Invalid(
                 _("No entity with ID '%s' exists") % value,
                  value, state)
-        return dgb
+        return delegateable
 
 class ValidIssue(formencode.FancyValidator):
     def _to_python(self, value, state):
-        iss = issue.Issue.find(value)
-        if not iss: 
+        issue = Issue.find(value)
+        if not issue: 
            raise formencode.Invalid(
                 _("No issue with ID '%s' exists") % value,
                  value, state)
-        return iss
+        return issue
 
 class ValidProposal(formencode.FancyValidator):
     def _to_python(self, value, state):
-        mot =  proposal.Proposal.find(value)
-        if not mot: 
+        proposal = Proposal.find(value)
+        if not proposal: 
            raise formencode.Invalid(
                 _("No proposal with ID '%s' exists") % value,
                  value, state)
-        return mot
+        return proposal
 
 class ValidGroup(formencode.FancyValidator):
     def _to_python(self, value, state):
-        grp =  group.Group.by_code(value)
-        if not grp: 
+        group = Group.by_code(value)
+        if not group: 
            raise formencode.Invalid(
                 _("No group with ID '%s' exists") % value,
                  value, state)
-        return grp
+        return group
     
 class ValidRevision(formencode.FancyValidator):
     def _to_python(self, value, state):
-        rev =  revision.Revision.find(value)
-        if not rev: 
+        revision = Revision.find(value)
+        if not revision: 
            raise formencode.Invalid(
                 _("No revision with ID '%s' exists") % value,
                  value, state)
-        return rev
+        return revision
         
 class ValidComment(formencode.FancyValidator):
     def _to_python(self, value, state):
-        cmt = comment.Comment.find(value)
-        if not cmt: 
+        comment = Comment.find(value)
+        if not comment: 
            raise formencode.Invalid(
                 _("No comment with ID '%s' exists") % value,
                  value, state)
-        return cmt
+        return comment
 
 class ValidWatch(formencode.FancyValidator):
     def _to_python(self, value, state):
-        wat = watch.Watch.by_id(value)
-        if not wat: 
+        watch = Watch.by_id(value)
+        if not watch: 
            raise formencode.Invalid(
                 _("No watchlist entry with ID '%s' exists") % value,
                  value, state)
-        return wat
+        return watch
         
 class ValidRef(formencode.FancyValidator):
     def _to_python(self, value, state):
@@ -146,19 +134,19 @@ class ValidRef(formencode.FancyValidator):
         
 class ExistingUserName(formencode.FancyValidator):
     def _to_python(self, value, state):
-        u =  user.User.find(value)
-        if not u: 
+        user = User.find(value)
+        if not user: 
            raise formencode.Invalid(
                 _("No user with the user name '%s' exists") % value,
                 value, state)
-        return u
+        return user
 
 class ValidTagging(formencode.FancyValidator):
     def _to_python(self, value, state):
-        taggin = tagging.Tagging.find(value)
-        if not taggin: 
+        tagging = Tagging.find(value)
+        if not tagging: 
            raise formencode.Invalid(
                 _("No tagging with ID '%s' exists") % value,
                  value, state)
-        return taggin
+        return tagging
 

@@ -2,7 +2,6 @@ from pylons.i18n import _
 
 from adhocracy.lib.base import *
 import adhocracy.lib.helpers as h
-from adhocracy.model.forms import EditorAddForm, EditorRemoveForm
 
 log = logging.getLogger(__name__)
 

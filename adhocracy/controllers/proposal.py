@@ -6,7 +6,7 @@ from formencode import foreach, Invalid
 
 from adhocracy.lib.base import *
 import adhocracy.lib.text as text
-import adhocracy.model.forms as forms
+import adhocracy.forms as forms
 from adhocracy.lib.tiles.proposal_tiles import ProposalTile
 
 log = logging.getLogger(__name__)

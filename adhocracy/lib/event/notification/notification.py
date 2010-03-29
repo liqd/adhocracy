@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 class Notification(object):
     
     TPL_PATTERN = os.path.join("%s", 'adhocracy', 'templates', '%s') 
-    TPL_NAME = "/notifications/%s.%s.txt"
+    TPL_NAME = os.path.join("", "notifications", "%s.%s.txt")
     
     def __init__(self, event, user, type=None, watch=None):
         self.event = event

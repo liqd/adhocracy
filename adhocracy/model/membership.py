@@ -3,7 +3,7 @@ import logging
 
 from sqlalchemy import Table, Column, Integer, ForeignKey, DateTime, func, Boolean
 
-import filter as ifilter
+import instance_filter as ifilter
 import meta
 import user
 

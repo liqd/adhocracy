@@ -5,7 +5,7 @@ from pylons.i18n import _
 
 from adhocracy.lib.base import *
 import adhocracy.model.refs as refs
-import adhocracy.model.forms as forms
+import adhocracy.forms as forms
 
 log = logging.getLogger(__name__)
 

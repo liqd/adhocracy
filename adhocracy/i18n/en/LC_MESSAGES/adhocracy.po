@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-03-29 12:00+0200\n"
+"PO-Revision-Date: 2010-03-29 12:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -323,6 +323,87 @@ msgstr ""
 #: adhocracy/controllers/watch.py:41
 #, python-format
 msgid "You're not authorized to delete %s's watchlist entries."
+msgstr ""
+
+#: adhocracy/forms/common.py:21
+msgid "No username is given"
+msgstr ""
+
+#: adhocracy/forms/common.py:25
+msgid "Username is too short"
+msgstr ""
+
+#: adhocracy/forms/common.py:29
+msgid "The username is invalid"
+msgstr ""
+
+#: adhocracy/forms/common.py:33
+msgid "That username already exists"
+msgstr ""
+
+#: adhocracy/forms/common.py:42
+msgid "That email is already registered"
+msgstr ""
+
+#: adhocracy/forms/common.py:50
+msgid "No instance key is given"
+msgstr ""
+
+#: adhocracy/forms/common.py:54
+msgid "The instance key is invalid"
+msgstr ""
+
+#: adhocracy/forms/common.py:58
+msgid "An instance with that key already exists"
+msgstr ""
+
+#: adhocracy/forms/common.py:67
+#, python-format
+msgid "No entity with ID '%s' exists"
+msgstr ""
+
+#: adhocracy/forms/common.py:76
+#, python-format
+msgid "No issue with ID '%s' exists"
+msgstr ""
+
+#: adhocracy/forms/common.py:85
+#, python-format
+msgid "No proposal with ID '%s' exists"
+msgstr ""
+
+#: adhocracy/forms/common.py:94
+#, python-format
+msgid "No group with ID '%s' exists"
+msgstr ""
+
+#: adhocracy/forms/common.py:103
+#, python-format
+msgid "No revision with ID '%s' exists"
+msgstr ""
+
+#: adhocracy/forms/common.py:112
+#, python-format
+msgid "No comment with ID '%s' exists"
+msgstr ""
+
+#: adhocracy/forms/common.py:121
+#, python-format
+msgid "No watchlist entry with ID '%s' exists"
+msgstr ""
+
+#: adhocracy/forms/common.py:133
+msgid "Invalid reference"
+msgstr ""
+
+#: adhocracy/forms/common.py:140
+#, python-format
+msgid "No user with the user name '%s' exists"
+msgstr ""
+
+#: adhocracy/forms/common.py:149
+#, python-format
+msgid "No tagging with ID '%s' exists"
 msgstr ""
 
 #: adhocracy/i18n/__init__.py:54
@@ -795,87 +876,6 @@ msgstr ""
 
 #: adhocracy/lib/instance/__init__.py:13
 msgid "This action is only available in an instance context."
-msgstr ""
-
-#: adhocracy/model/forms.py:33
-msgid "No username is given"
-msgstr ""
-
-#: adhocracy/model/forms.py:37
-msgid "Username is too short"
-msgstr ""
-
-#: adhocracy/model/forms.py:41
-msgid "The username is invalid"
-msgstr ""
-
-#: adhocracy/model/forms.py:45
-msgid "That username already exists"
-msgstr ""
-
-#: adhocracy/model/forms.py:54
-msgid "That email is already registered"
-msgstr ""
-
-#: adhocracy/model/forms.py:62
-msgid "No instance key is given"
-msgstr ""
-
-#: adhocracy/model/forms.py:66
-msgid "The instance key is invalid"
-msgstr ""
-
-#: adhocracy/model/forms.py:70
-msgid "An instance with that key already exists"
-msgstr ""
-
-#: adhocracy/model/forms.py:79
-#, python-format
-msgid "No entity with ID '%s' exists"
-msgstr ""
-
-#: adhocracy/model/forms.py:88
-#, python-format
-msgid "No issue with ID '%s' exists"
-msgstr ""
-
-#: adhocracy/model/forms.py:97
-#, python-format
-msgid "No proposal with ID '%s' exists"
-msgstr ""
-
-#: adhocracy/model/forms.py:106
-#, python-format
-msgid "No group with ID '%s' exists"
-msgstr ""
-
-#: adhocracy/model/forms.py:115
-#, python-format
-msgid "No revision with ID '%s' exists"
-msgstr ""
-
-#: adhocracy/model/forms.py:124
-#, python-format
-msgid "No comment with ID '%s' exists"
-msgstr ""
-
-#: adhocracy/model/forms.py:133
-#, python-format
-msgid "No watchlist entry with ID '%s' exists"
-msgstr ""
-
-#: adhocracy/model/forms.py:145
-msgid "Invalid reference"
-msgstr ""
-
-#: adhocracy/model/forms.py:152
-#, python-format
-msgid "No user with the user name '%s' exists"
-msgstr ""
-
-#: adhocracy/model/forms.py:161
-#, python-format
-msgid "No tagging with ID '%s' exists"
 msgstr ""
 
 #: adhocracy/templates/components.html:4
@@ -2710,34 +2710,4 @@ msgid ""
 "This is your watchlist. You will receive notifications for events "
 "concerning each of these items."
 msgstr ""
-
-#~ msgid ""
-#~ "An index of adhocracies run at "
-#~ "adhocracy.cc. Select which ones you "
-#~ "would like to join and participate "
-#~ "in!"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Action failed. You were probably trying"
-#~ " to re-perform an action after "
-#~ "using your browser's 'Back' button. This"
-#~ " is prohibited for security reasons."
-#~ msgstr ""
-
-#~ msgid "admin"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "If this error continues to occur, "
-#~ "please <a href='http://trac.adhocracy.de/newticket'>notify"
-#~ " the developers</a> with a description "
-#~ "of what you were trying to do."
-#~ msgstr ""
-
-#~ msgid "Adopted Proposals"
-#~ msgstr ""
-
-#~ msgid "No proposals have been adopted yet."
-#~ msgstr ""
 

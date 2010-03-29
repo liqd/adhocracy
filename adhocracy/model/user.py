@@ -8,7 +8,7 @@ from sqlalchemy import Table, Column, Integer, Unicode, UnicodeText, Boolean, Da
 from babel import Locale
 
 import meta
-import filter as ifilter
+import instance_filter as ifilter
 import group
 
 log = logging.getLogger(__name__)

@@ -4,7 +4,7 @@ import logging
 from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func
 
 import meta
-import filter as ifilter
+import instance_filter as ifilter
 
 log = logging.getLogger(__name__)
 

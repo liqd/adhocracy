@@ -11,7 +11,7 @@ from openid.extensions import sreg, ax
 from adhocracy.lib.base import *
 from adhocracy.lib.openidstore import create_consumer
 import adhocracy.lib.util as util
-import adhocracy.model.forms as forms
+import adhocracy.forms as forms
 
 log = logging.getLogger(__name__)
 
