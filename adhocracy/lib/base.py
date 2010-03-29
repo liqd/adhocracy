@@ -31,6 +31,7 @@ from pager import NamedPager
 from static import StaticPage
 from util import get_entity_or_abort
 import adhocracy.model as model
+import adhocracy.i18n as i18n
 import search as libsearch
 import helpers as h
 import event
@@ -40,7 +41,7 @@ import sorting
 import watchlist
 import rest
 import pager
-import text.i18n as i18n
+
 
 log = logging.getLogger(__name__)
 
@@ -61,8 +62,8 @@ class BaseController(WSGIController):
         # http host information was moved around to mess with repoze.who                 
         #environ['HTTP_HOST'] = environ.get('HTTP_HOST_ORIGINAL')
         
-        from pprint import pprint
-        pprint(environ)
+        #from pprint import pprint
+        #pprint(environ)
         #pprint(environ.get('repoze.who.identity').items())
         #print "SESSION ", session.id
         

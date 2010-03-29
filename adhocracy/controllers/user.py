@@ -7,7 +7,7 @@ from babel import Locale
 import adhocracy.lib.text as text
 from adhocracy.lib.base import *
 import adhocracy.model.forms as forms
-import adhocracy.lib.text.i18n as i18n
+import adhocracy.i18n as i18n
 import adhocracy.lib.util as libutil
 import adhocracy.lib.mail as libmail
 
@@ -112,6 +112,7 @@ class UserController(BaseController):
     @ActionProtector(has_permission("user.edit"))
     def edit(self, id):
         c.page_user = self._get_user_for_edit(id)
+        c.locales = i18n.LOCALES
         return render("/user/edit.html")
     
     

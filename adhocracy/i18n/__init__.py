@@ -10,7 +10,7 @@ import babel
 from babel import Locale
 import babel.dates 
 from babel.dates import format_time
-
+from extra_strings import *
 
 
 LOCALES = [babel.Locale('en', 'US'), 
@@ -18,6 +18,7 @@ LOCALES = [babel.Locale('en', 'US'),
            babel.Locale('fr', 'FR')]
 
 DEFAULT = babel.Locale('en', 'US')
+
 
 def handle_request():
     """
@@ -27,6 +28,7 @@ def handle_request():
     accept headers and the available locales.  
     """
     c.locale = user_language(c.user, request.languages)
+
 
 def user_language(user, fallbacks=[]):
     locale = None
@@ -42,7 +44,8 @@ def user_language(user, fallbacks=[]):
     add_fallback(DEFAULT.language)
     formencode.api.set_stdtranslation(domain="FormEncode", languages=[locale.language])
     return locale
-    
+
+
 def relative_date(time):
     """ Date only, not date & time. """
     date = time.date()
@@ -53,19 +56,24 @@ def relative_date(time):
         return _("Yesterday")
     else:
         return dates.format_date(date, 'long', c.locale)
-    
+
+  
 def countdown_time(dt, default):
     # THIS IS A HACK TO GET RID OF BABEL 
     if dt is not None:
         delta = dt - datetime.utcnow()
         default = delta.days
     return _("%d days") % default
-    
+
+
 def format_date(dt):
-    return _("%(ts)s") % {'ts': babel.dates.format_date(dt, format='long', locale=c.locale)}
-   
+    ts = babel.dates.format_date(dt, format='long', locale=c.locale)
+    return _("%(ts)s") % {'ts': ts}
+
+
 def relative_time(dt):
     """ A short statement giving the time distance since ``dt``. """
     fmt = "<abbr class='timeago' title='%(iso)sZ'>%(formatted)s</abbr>"
-    return fmt % dict(iso=dt.isoformat(), formatted=format_date(dt))
-    
+    return fmt % dict(iso=dt.isoformat(), 
+                      formatted=format_date(dt))
+

@@ -4,7 +4,7 @@ import logging
 from pylons import config
 from pylons.i18n import _ 
 
-from ...text import i18n
+import adhocracy.i18n as i18n
 from ... import helpers as h
 from ...templating import render
 from .. import formatting

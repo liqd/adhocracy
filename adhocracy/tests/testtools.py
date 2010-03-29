@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import random, string, time
 import adhocracy.model as model
 import adhocracy.lib.instance as libinstance
-import adhocracy.lib.text.i18n as i18n
+import adhocracy.i18n as i18n
 
 #  These functions should all go as convenience functions on the respective models
 

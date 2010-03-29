@@ -20,7 +20,7 @@ import sorting
 import adhocracy.model as model 
 
 from url import instance_url, entity_url
-from text.i18n import relative_date, relative_time, format_date, countdown_time
+from adhocracy.i18n import relative_date, relative_time, format_date, countdown_time
 from auth.csrf import url_token, field_token
 from watchlist import make_watch, find_watch
  

@@ -26,7 +26,7 @@
 	<div class="mainbar">
 		<label for="locale">${_("Language:")}</label>
 		<ul>
-			%for locale in c.lib.text.i18n.LOCALES:
+			%for locale in c.locales:
 				<li style="list-style-type: none;"><input type="radio" name="locale" value="${str(locale)}" 
 					%if locale == c.page_user.locale:
 						checked="checked"

@@ -61,19 +61,19 @@ def user_activity(user, from_time=None, to_time=None):
     return activity(query_filter, from_time, to_time)
 
 
-def sparkline_samples(func, obj, steps=60):
-    begin_time = datetime.utcnow().date()
-    
-    @memoize('sl_for_day', 7000)
-    def _for_day(date):
-        return func(obj, from_time=date-timedelta(days=1), to_time=date)
-    
-    @memoize('sl_for_period', 7000)
-    def _for_period(time, steps):
-        samples = []
-        for i in range(0, steps-1):
-            samples.append(_for_day(time - (timedelta(days=1) * i)))
-        return list(reversed(samples))
-    
-    return range(0, steps) # _for_period(begin_time, steps)
+#def sparkline_samples(func, obj, steps=60):
+#    begin_time = datetime.utcnow().date()
+#    
+#    @memoize('sl_for_day', 7000)
+#    def _for_day(date):
+#        return func(obj, from_time=date-timedelta(days=1), to_time=date)
+#    
+#    @memoize('sl_for_period', 7000)
+#    def _for_period(time, steps):
+#        samples = []
+#        for i in range(0, steps-1):
+#            samples.append(_for_day(time - (timedelta(days=1) * i)))
+#        return list(reversed(samples))
+#    
+#    return range(0, steps) # _for_period(begin_time, steps)
     

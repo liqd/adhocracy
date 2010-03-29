@@ -344,7 +344,7 @@ class User(object):
         if password is None:
             password = util.random_token()
         
-        import adhocracy.lib.text.i18n as i18n
+        import adhocracy.i18n as i18n
         if locale is None: 
             locale = i18n.DEFAULT
         
