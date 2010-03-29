@@ -18,12 +18,13 @@ class Group(object):
     
     CODE_ANONYMOUS = u"anonymous"
     CODE_OBSERVER = u"observer"
+    CODE_ADVISOR = u"advisor"
     CODE_VOTER = u"voter"
     CODE_SUPERVISOR = u"supervisor"
     CODE_ADMIN = u"admin"
     CODE_DEFAULT = u"default"    
     
-    INSTANCE_GROUPS = [CODE_OBSERVER, CODE_VOTER, CODE_SUPERVISOR]
+    INSTANCE_GROUPS = [CODE_OBSERVER, CODE_VOTER, CODE_SUPERVISOR, CODE_ADVISOR]
     INSTANCE_DEFAULT = CODE_VOTER
         
     def __init__(self, group_name, code, description=None):

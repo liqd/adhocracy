@@ -1,10 +1,8 @@
 import re
 import formencode
 from formencode import validators, foreach
-
 from pylons.i18n.translation import *
 
-#
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join", "leave", 
                    "control", "test", "support", "page", "issue", "proposal", "wiki", 
@@ -13,7 +11,10 @@ FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join"
                    "event", "comment", "root", "search", "tag", "svn", "trac", "lists", 
                    "list"]
 
+
 VALIDUSER = re.compile("^[a-zA-Z0-9_\-]{3,255}$")
+
+
 class UniqueUsername(formencode.FancyValidator):
     def _to_python(self, value, state):
         if not value or not isinstance(value, basestring):

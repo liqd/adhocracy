@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-03-29 12:42+0200\n"
+"PO-Revision-Date: 2010-03-30 00:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -162,7 +162,7 @@ msgstr "Aucune OpenID n'as été donné."
 msgid "No OpenID with ID '%s' exists."
 msgstr "L'OpenID  '%s' n'existe pas."
 
-#: adhocracy/controllers/openidauth.py:132 adhocracy/controllers/user.py:450
+#: adhocracy/controllers/openidauth.py:132 adhocracy/controllers/user.py:447
 #, python-format
 msgid "You're not authorized to change %s's settings."
 msgstr "Vous n'êtes pas authorisé a changer les parametres de %s."
@@ -317,24 +317,24 @@ msgstr ""
 msgid "Invalid user name or password"
 msgstr "Nom d'utilisateur ou mot de passe invalide."
 
-#: adhocracy/controllers/user.py:432
+#: adhocracy/controllers/user.py:429
 #, python-format
 msgid "%(user)s was removed from %(instance)s"
 msgstr "%(user)s a été désinscrit de %(instance)s"
 
-#: adhocracy/controllers/user.py:457
+#: adhocracy/controllers/user.py:454
 #, fuzzy, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
 msgstr ""
 "%(user)s utilise Adhocracy, une plateforme de prise de décision par la "
 "démocratie directe. "
 
-#: adhocracy/controllers/user.py:464
+#: adhocracy/controllers/user.py:461
 #, python-format
 msgid "%(user)ss Activity"
 msgstr "Activité de  %(user)ss"
 
-#: adhocracy/controllers/user.py:471
+#: adhocracy/controllers/user.py:468
 #, python-format
 msgid "%s is not a member of %s"
 msgstr "%s n'est pas un membre de %s"
@@ -348,84 +348,84 @@ msgstr "Une subscription pour cette entité existe déjà."
 msgid "You're not authorized to delete %s's watchlist entries."
 msgstr "Vous n'êtes pas autorisé a supprimer les subscritpions de %s."
 
-#: adhocracy/forms/common.py:21
+#: adhocracy/forms/common.py:22
 msgid "No username is given"
 msgstr "le nom d'utilisateur manque"
 
-#: adhocracy/forms/common.py:25
+#: adhocracy/forms/common.py:26
 msgid "Username is too short"
 msgstr "le nom d'utilisateur est trop court"
 
-#: adhocracy/forms/common.py:29
+#: adhocracy/forms/common.py:30
 msgid "The username is invalid"
 msgstr "le nom d'utilisateur est invalide"
 
-#: adhocracy/forms/common.py:33
+#: adhocracy/forms/common.py:34
 msgid "That username already exists"
 msgstr "Ce nom d'utilisateur existe déjà"
 
-#: adhocracy/forms/common.py:42
+#: adhocracy/forms/common.py:44
 msgid "That email is already registered"
 msgstr "Cet e-mail est déjà enrengistré"
 
-#: adhocracy/forms/common.py:50
+#: adhocracy/forms/common.py:53
 msgid "No instance key is given"
 msgstr "La clef d'instance manque"
 
-#: adhocracy/forms/common.py:54
+#: adhocracy/forms/common.py:57
 msgid "The instance key is invalid"
 msgstr "La clef d'instance est invalide"
 
-#: adhocracy/forms/common.py:58
+#: adhocracy/forms/common.py:61
 msgid "An instance with that key already exists"
 msgstr "Une instance avec cette clef existe déjà"
 
-#: adhocracy/forms/common.py:67
+#: adhocracy/forms/common.py:71
 #, python-format
 msgid "No entity with ID '%s' exists"
 msgstr "Il n'existe pas d'entité avec l'ID '%s'"
 
-#: adhocracy/forms/common.py:76
+#: adhocracy/forms/common.py:81
 #, python-format
 msgid "No issue with ID '%s' exists"
 msgstr "Il n'existe pas de thème avec l'ID '%s'"
 
-#: adhocracy/forms/common.py:85
+#: adhocracy/forms/common.py:91
 #, python-format
 msgid "No proposal with ID '%s' exists"
 msgstr "Une proposition avec l'ID  '%s' n'existe pas"
 
-#: adhocracy/forms/common.py:94
+#: adhocracy/forms/common.py:101
 #, python-format
 msgid "No group with ID '%s' exists"
 msgstr "Il n'existe pas de group avec l'ID '%s'"
 
-#: adhocracy/forms/common.py:103
+#: adhocracy/forms/common.py:111
 #, python-format
 msgid "No revision with ID '%s' exists"
 msgstr "Il n'existe pas de révision avec l'ID '%s'"
 
-#: adhocracy/forms/common.py:112
+#: adhocracy/forms/common.py:121
 #, python-format
 msgid "No comment with ID '%s' exists"
 msgstr "Il n'existe pas de commentaire avec l'ID   '%s'"
 
-#: adhocracy/forms/common.py:121
+#: adhocracy/forms/common.py:131
 #, python-format
 msgid "No watchlist entry with ID '%s' exists"
 msgstr "Il n'existe pas liste d'observation avec l'ID '%s'"
 
-#: adhocracy/forms/common.py:133
+#: adhocracy/forms/common.py:144
 #, fuzzy
 msgid "Invalid reference"
 msgstr "Requête invalide."
 
-#: adhocracy/forms/common.py:140
+#: adhocracy/forms/common.py:152
 #, python-format
 msgid "No user with the user name '%s' exists"
 msgstr "Il n'existe pas d'utilisateur avec l'ID '%s'"
 
-#: adhocracy/forms/common.py:149
+#: adhocracy/forms/common.py:162
 #, fuzzy, python-format
 msgid "No tagging with ID '%s' exists"
 msgstr "Il n'existe pas de thème avec l'ID '%s'"
@@ -468,6 +468,10 @@ msgstr "Administrateur"
 #, fuzzy
 msgid "Default"
 msgstr "supprimer"
+
+#: adhocracy/i18n/extra_strings.py:9
+msgid "Advisor"
+msgstr ""
 
 #: adhocracy/lib/base.py:80
 msgid ""
@@ -567,7 +571,7 @@ msgstr ""
 msgid "The requested format is not available"
 msgstr "La page demandé n'as pas été trouvé. "
 
-#: adhocracy/lib/static.py:19
+#: adhocracy/lib/static.py:20
 #, python-format
 msgid "Missing page: %s"
 msgstr "Page manquante: %s"
@@ -1014,36 +1018,42 @@ msgstr "préférences"
 msgid "in"
 msgstr "dans"
 
-#: adhocracy/templates/template.html:123
+#: adhocracy/templates/template.html:120
+#, fuzzy
+#| msgid "Instances"
+msgid "your instances"
+msgstr "a quitté %(instance)s"
+
+#: adhocracy/templates/template.html:127
 #, fuzzy
 msgid "other..."
 msgstr "Électeur"
 
-#: adhocracy/templates/template.html:128
+#: adhocracy/templates/template.html:132
 msgid "create an account"
 msgstr ""
 
-#: adhocracy/templates/template.html:132
+#: adhocracy/templates/template.html:136
 #, fuzzy, python-format
 msgid "join %s"
 msgstr "rejoigner"
 
-#: adhocracy/templates/template.html:136
+#: adhocracy/templates/template.html:140
 #, fuzzy
 msgid "perms"
 msgstr "Utilisateurs"
 
-#: adhocracy/templates/template.html:138
+#: adhocracy/templates/template.html:142
 msgid "logout"
 msgstr "se déconnecter"
 
-#: adhocracy/templates/template.html:145 adhocracy/templates/template.html:149
+#: adhocracy/templates/template.html:149 adhocracy/templates/template.html:153
 #: adhocracy/templates/instance/show.html:3
 #: adhocracy/templates/instance/show.html:6
 msgid "Home"
 msgstr "Acceuil"
 
-#: adhocracy/templates/template.html:146
+#: adhocracy/templates/template.html:150
 #: adhocracy/templates/instance/index.html:3
 #: adhocracy/templates/instance/index.html:6
 #: adhocracy/templates/instance/index.html:16
@@ -1052,7 +1062,7 @@ msgstr "Acceuil"
 msgid "Instances"
 msgstr "a quitté %(instance)s"
 
-#: adhocracy/templates/template.html:151
+#: adhocracy/templates/template.html:155
 #: adhocracy/templates/instance/activity.html:14
 #: adhocracy/templates/issue/tiles.html:52
 #: adhocracy/templates/proposal/tiles.html:174
@@ -1060,7 +1070,7 @@ msgstr "a quitté %(instance)s"
 msgid "Activity"
 msgstr "Activité"
 
-#: adhocracy/templates/template.html:152
+#: adhocracy/templates/template.html:156
 #: adhocracy/templates/instance/show.html:41
 #: adhocracy/templates/issue/proposals.html:7
 #: adhocracy/templates/issue/tiles.html:56
@@ -1072,80 +1082,80 @@ msgstr "Activité"
 msgid "Proposals"
 msgstr "Propositions"
 
-#: adhocracy/templates/template.html:153
+#: adhocracy/templates/template.html:157
 #: adhocracy/templates/instance/show.html:42
 #: adhocracy/templates/proposal/tiles.html:61
 #: adhocracy/templates/tag/index.html:3 adhocracy/templates/tag/index.html:6
 msgid "Tags"
 msgstr ""
 
-#: adhocracy/templates/template.html:154
+#: adhocracy/templates/template.html:158
 #, fuzzy
 msgid "Outcomes"
 msgstr "Voix"
 
-#: adhocracy/templates/template.html:157 adhocracy/templates/user/index.html:30
+#: adhocracy/templates/template.html:161 adhocracy/templates/user/index.html:30
 msgid "Members"
 msgstr ""
 
-#: adhocracy/templates/template.html:160
+#: adhocracy/templates/template.html:164
 msgid "All Users"
 msgstr ""
 
-#: adhocracy/templates/template.html:166
+#: adhocracy/templates/template.html:170
 #: adhocracy/templates/search/results.html:2
 #: adhocracy/templates/search/results.html:5
 #: adhocracy/templates/search/results.html:12
 msgid "Search"
 msgstr "recherche"
 
-#: adhocracy/templates/template.html:211
+#: adhocracy/templates/template.html:215
 #, fuzzy
 msgid "adhocracy"
 msgstr "Adhocracie"
 
-#: adhocracy/templates/template.html:212
+#: adhocracy/templates/template.html:216
 msgid "what is liquid democracy"
 msgstr ""
 
-#: adhocracy/templates/template.html:213
+#: adhocracy/templates/template.html:217
 msgid "adhocracy software"
 msgstr ""
 
-#: adhocracy/templates/template.html:214
+#: adhocracy/templates/template.html:218
 msgid "code of conduct"
 msgstr ""
 
-#: adhocracy/templates/template.html:215
+#: adhocracy/templates/template.html:219
 msgid "terms and conditions"
 msgstr ""
 
-#: adhocracy/templates/template.html:216
+#: adhocracy/templates/template.html:220
 msgid "privacy"
 msgstr "protection des donnés personnelles"
 
-#: adhocracy/templates/template.html:219
+#: adhocracy/templates/template.html:223
 msgid "liqd e.V."
 msgstr ""
 
-#: adhocracy/templates/template.html:220
+#: adhocracy/templates/template.html:224
 msgid "theory wiki (de)"
 msgstr ""
 
-#: adhocracy/templates/template.html:221
+#: adhocracy/templates/template.html:225
 msgid "liqd blog (de)"
 msgstr ""
 
-#: adhocracy/templates/template.html:222
+#: adhocracy/templates/template.html:226
 #, fuzzy
 msgid "twitter"
 msgstr "Twitter: %s"
 
-#: adhocracy/templates/template.html:223
+#: adhocracy/templates/template.html:227
 msgid "mailing list"
 msgstr ""
 
-#: adhocracy/templates/template.html:224
+#: adhocracy/templates/template.html:228
 msgid "imprint"
 msgstr "logo"
 

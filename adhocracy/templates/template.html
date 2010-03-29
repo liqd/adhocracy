@@ -112,9 +112,13 @@
 				%endif
 				</li>
 			%endif
-			%if c.instance:
+				%if c.user or c.instance:
 				<li>
+					%if c.instance:
 					<a href="${h.entity_url(c.instance)}">${c.instance.label}</a>
+					%elif c.user:
+					<a href="${h.entity_url(c.user, member='instances')}">${_("your instances")}</a>
+					%endif
 					<img src="/img/icons/adown.png" alt="^"/>
 					<ul>
 						%for i in h.context_instances():

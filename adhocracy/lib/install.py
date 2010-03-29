@@ -32,6 +32,7 @@ def setup_entities():
     supervisor = mk_group("Supervisor", model.Group.CODE_SUPERVISOR)
     voter = mk_group("Voter", model.Group.CODE_VOTER)
     observer = mk_group("Observer", model.Group.CODE_OBSERVER)
+    advisor = mk_group("Advisor", model.Group.CODE_ADVISOR)
     default = mk_group("Default", model.Group.CODE_DEFAULT)
     anonymous = mk_group("Anonymous", model.Group.CODE_ANONYMOUS)
     
@@ -49,17 +50,17 @@ def setup_entities():
     mk_perm("instance.news", anonymous)
     mk_perm("instance.delete", admins)
     mk_perm("comment.view", anonymous)
-    mk_perm("comment.create", observer)
-    mk_perm("comment.edit", observer)
+    mk_perm("comment.create", advisor)
+    mk_perm("comment.edit", advisor)
     mk_perm("comment.delete", supervisor)
-    mk_perm("proposal.create", observer)
-    mk_perm("proposal.edit", observer)
+    mk_perm("proposal.create", advisor)
+    mk_perm("proposal.edit", advisor)
     mk_perm("proposal.delete", supervisor)
     mk_perm("proposal.view", anonymous)
     mk_perm("poll.create", voter)
     mk_perm("poll.delete", supervisor)
-    mk_perm("issue.create", observer)
-    mk_perm("issue.edit", observer)
+    mk_perm("issue.create", advisor)
+    mk_perm("issue.edit", advisor)
     mk_perm("issue.delete", supervisor)
     mk_perm("issue.view", anonymous)
     mk_perm("user.manage", admins)
@@ -68,18 +69,19 @@ def setup_entities():
     mk_perm("delegation.view", anonymous)
     mk_perm("delegation.create", voter)
     mk_perm("delegation.delete", voter)
-    mk_perm("watch.create", observer)
-    mk_perm("watch.delete", observer)
+    mk_perm("watch.create", advisor)
+    mk_perm("watch.delete", advisor)
     mk_perm("tag.view", anonymous)
-    mk_perm("tag.create", observer)
-    mk_perm("tag.delete", observer)
+    mk_perm("tag.create", advisor)
+    mk_perm("tag.delete", advisor)
     mk_perm("global.admin", admins)
     mk_perm("global.member", admins)
     
     model.meta.Session.commit()
     # END PERMISSIONS LIST
-        
-    observer.permissions = observer.permissions + anonymous.permissions
+    
+    advisor.permissions = advisor.permissions + anonymous.permissions
+    observer.permissions = observer.permissions + advisor.permissions
     voter.permissions = voter.permissions + observer.permissions
     supervisor.permissions = supervisor.permissions + voter.permissions
     admins.permissions = admins.permissions + supervisor.permissions

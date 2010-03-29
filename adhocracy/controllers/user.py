@@ -392,18 +392,15 @@ class UserController(BaseController):
     def groupmod(self, id):
         c.page_user = get_entity_or_abort(model.User, id)
         to_group = self.form_result.get("to_group")
-        if not to_group.code in [model.Group.CODE_OBSERVER, 
-                                 model.Group.CODE_VOTER, 
-                                 model.Group.CODE_SUPERVISOR]:
+        if not to_group.code in model.Group.INSTANCE_GROUPS:
             h.flash("Cannot make %(user)s a member of %(group)s" % {
-                        'user': user.name, 
+                        'user': c.page_user.name, 
                         'group': group.group_name})
             redirect(h.entity_url(c.page_user))
         had_vote = c.page_user._has_permission("vote.cast")
         for membership in c.page_user.memberships:
-            if not membership.expire_time and membership.instance == c.instance:
-                membership.expire_time = datetime.utcnow()
-                model.meta.Session.add(membership)
+            if not membership.is_expired() and membership.instance == c.instance:
+                membership.expire()
         new_membership = model.Membership(c.page_user, c.instance, to_group)
         model.meta.Session.add(new_membership)
         model.meta.Session.commit()
