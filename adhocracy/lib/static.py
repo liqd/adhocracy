@@ -8,6 +8,7 @@ from BeautifulSoup import BeautifulSoup
 
 import util
 import text
+import adhocracy.i18n as i18n
 
 class StaticPage(object):
     VALID_PAGE = re.compile("^[a-zA-Z0-9\_\-]*$")
@@ -28,7 +29,7 @@ class StaticPage(object):
         if os.path.exists(path): 
             return self._load(path)
         
-        path = util.get_site_path(self.DIR, fmt % text.i18n.DEFAULT.language)
+        path = util.get_site_path(self.DIR, fmt % i18n.DEFAULT.language)
         if os.path.exists(path): 
             return self._load(path)
         
@@ -36,7 +37,7 @@ class StaticPage(object):
         if path is not None and os.path.exists(path): 
             return self._load(path)
         
-        path = util.get_path(self.DIR, fmt % text.i18n.DEFAULT.language)
+        path = util.get_path(self.DIR, fmt % i18n.DEFAULT.language)
         if path is not None and os.path.exists(path): 
             return self._load(path)
             

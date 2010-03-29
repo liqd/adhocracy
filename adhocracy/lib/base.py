@@ -56,7 +56,7 @@ class BaseController(WSGIController):
         import adhocracy.lib
         c.lib = adhocracy.lib 
         c.model = model
-        c.instance = model.filter.get_instance()
+        c.instance = model.instance_filter.get_instance()
         c.user = environ.get('repoze.who.identity', {}).get('user', None)
         
         # http host information was moved around to mess with repoze.who                 

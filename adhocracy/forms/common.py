@@ -4,7 +4,7 @@ from formencode import validators, foreach
 
 from pylons.i18n.translation import *
 
-from adhocracy.model import *
+#
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join", "leave", 
                    "control", "test", "support", "page", "issue", "proposal", "wiki", 
@@ -36,6 +36,7 @@ class UniqueUsername(formencode.FancyValidator):
 
 class UniqueEmail(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import meta, User
         email = value.lower()
         if meta.Session.query(User.email).filter(User.email == email).all():
             raise formencode.Invalid(
@@ -45,6 +46,7 @@ class UniqueEmail(formencode.FancyValidator):
 
 class UniqueInstanceKey(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import Instance
         if not value:
             raise formencode.Invalid(
                 _('No instance key is given'),
@@ -61,6 +63,7 @@ class UniqueInstanceKey(formencode.FancyValidator):
 
 class ValidDelegateable(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import Delegateable
         delegateable = Delegateable.find(value)
         if not delegateable: 
            raise formencode.Invalid(
@@ -70,6 +73,7 @@ class ValidDelegateable(formencode.FancyValidator):
 
 class ValidIssue(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import Issue
         issue = Issue.find(value)
         if not issue: 
            raise formencode.Invalid(
@@ -79,6 +83,7 @@ class ValidIssue(formencode.FancyValidator):
 
 class ValidProposal(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import Proposal
         proposal = Proposal.find(value)
         if not proposal: 
            raise formencode.Invalid(
@@ -88,6 +93,7 @@ class ValidProposal(formencode.FancyValidator):
 
 class ValidGroup(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import Group
         group = Group.by_code(value)
         if not group: 
            raise formencode.Invalid(
@@ -97,6 +103,7 @@ class ValidGroup(formencode.FancyValidator):
     
 class ValidRevision(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import Revision
         revision = Revision.find(value)
         if not revision: 
            raise formencode.Invalid(
@@ -106,6 +113,7 @@ class ValidRevision(formencode.FancyValidator):
         
 class ValidComment(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import Comment
         comment = Comment.find(value)
         if not comment: 
            raise formencode.Invalid(
@@ -115,6 +123,7 @@ class ValidComment(formencode.FancyValidator):
 
 class ValidWatch(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import Watch
         watch = Watch.by_id(value)
         if not watch: 
            raise formencode.Invalid(
@@ -124,6 +133,7 @@ class ValidWatch(formencode.FancyValidator):
         
 class ValidRef(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import refs
         try:
             entity = refs.from_url(value)
             if not entity: 
@@ -134,6 +144,7 @@ class ValidRef(formencode.FancyValidator):
         
 class ExistingUserName(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import User
         user = User.find(value)
         if not user: 
            raise formencode.Invalid(
@@ -143,6 +154,7 @@ class ExistingUserName(formencode.FancyValidator):
 
 class ValidTagging(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import Tagging
         tagging = Tagging.find(value)
         if not tagging: 
            raise formencode.Invalid(

@@ -40,11 +40,11 @@ class InstanceDiscriminatorMiddleware(object):
             if not instance:
                 log.debug("No such instance: %s, defaulting!" % instance_key)
             else:
-                model.filter.setup_thread(instance)
+                model.instance_filter.setup_thread(instance)
         try:
             return self.app(environ, start_response)
         finally:
-            model.filter.setup_thread(None)
+            model.instance_filter.setup_thread(None)
              
 
 def setup_discriminator(app, config):
