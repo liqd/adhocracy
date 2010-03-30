@@ -17,6 +17,8 @@ from instance import Instance
 from revision import Revision
 from tag import Tag 
 from tagging import Tagging
+from page import Page
+from text import Text
 
 log = logging.getLogger(__name__)
 
@@ -34,6 +36,8 @@ TYPES = [Vote,
          Poll,
          Instance,
          Tag,
+         Page, 
+         Text,
          Tagging]
 
 

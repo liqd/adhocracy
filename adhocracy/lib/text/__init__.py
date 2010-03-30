@@ -56,6 +56,18 @@ def dgb_sub(match):
         return h.delegateable_link(dgb)
     return match.group(0)
 
+SUB_PAGE = re.compile("\[\[([^(\]\])]{3,255})\]\]", re.M)
+
+def page_sub(match):
+    from adhocracy.lib import helpers as h
+    alias = match.group(1)
+    page = model.Page.find(alias) 
+    if page is not None:
+        return h.page_link(page)
+    else:
+        return h.page_link(alias, create=True)
+
+
 def render(text, substitutions=True):
     if text:
         text = cgi.escape(text)
@@ -63,4 +75,5 @@ def render(text, substitutions=True):
         if substitutions:
             text = SUB_USER.sub(user_sub, text)
             text = SUB_DGB.sub(dgb_sub, text)
+            text = SUB_PAGE.sub(page_sub, text)
     return text

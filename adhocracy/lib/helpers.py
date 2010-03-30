@@ -110,6 +110,18 @@ def tag_link(tag, count=None, size=None, base_size=12, plain=False):
         text += "&thinsp;&times;" + str(count)
     text += "</span>"
     return text
+
+
+def page_link(page, create=False):
+    text = "<a class='page_link %s' href='%s'>%s</a>"
+    if create:
+        page = urllib.quote(page.encode('utf-8'))
+        url = "/page/new?title=%s" % page
+        return text % ('new', url, page)
+    else:
+        return text % ('exists', entity_url(page), 
+                       page.title)
+        
     
 
 def contains_delegations(user, delegateable, recurse=True):

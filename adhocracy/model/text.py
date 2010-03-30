@@ -25,6 +25,8 @@ text_table = Table('text', meta.data,
 
 class Text(object):
     
+    HEAD = 'HEAD'
+    
     def __init__(self, page, variant, user, title, text):
         self.page = page
         self.variant = variant
@@ -48,8 +50,12 @@ class Text(object):
 
 
     @classmethod
-    def create(cls, page, variant, user, title, text):
+    def create(cls, page, variant, user, title, text, parent=None):
+        if variant is None:
+            variant = Text.HEAD
         _text = Text(page, variant, user, title, text)
+        if parent:
+            _text.parent = parent
         meta.Session.add(_text)
         meta.Session.flush()
         return _text
@@ -68,6 +74,10 @@ class Text(object):
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
     
+    
+    def render(self):
+        from adhocracy.lib import text
+        return text.render(self.text)
     
     def _index_id(self):
         return self.id

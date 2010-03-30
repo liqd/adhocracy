@@ -743,6 +743,10 @@ p img[align=left] {
 	border-bottom: 0px;
 }
 
+.page_link.new {
+	color: #9d0000;
+}
+
 /* @end */
 
 /* @group Autocompleter */

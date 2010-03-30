@@ -22,6 +22,7 @@ class PageCreateForm(formencode.Schema):
 class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
     title = validators.String(max=255, min=4, not_empty=True)
+    variant = validators.String(max=255, min=4, not_empty=True)
     text = validators.String(max=20000, min=4, not_empty=True)
 
     
@@ -48,6 +49,7 @@ class PageController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("page.create"))
     def new(self, errors=None):
+        c.title = request.params.get('title', None)
         return render("/page/new.html")
     
     
@@ -75,9 +77,12 @@ class PageController(BaseController):
     @validate(schema=PageUpdateForm(), form='edit', post_only=False, on_get=True)
     def update(self, id, format='html'):
         c.page = get_entity_or_abort(model.Page, id)
-        text = model.Text.create(c.page, None, c.user, 
+        text = model.Text.create(c.page, 
+                      self.form_result.get("variant"),  
+                      c.user, 
                       self.form_result.get("title"), 
-                      self.form_result.get("text"))
+                      self.form_result.get("text"),
+                      parent=c.page.head)
         model.meta.Session.commit()
         redirect(h.entity_url(c.page))
     

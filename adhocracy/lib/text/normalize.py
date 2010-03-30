@@ -1,6 +1,6 @@
 import urllib
 from unicodedata import normalize, category
-
+from adhocracy.forms import FORBIDDEN_NAMES
 
 def chr_filter(ch): 
     """ Filter by unicode character category. """
@@ -17,7 +17,7 @@ def title2alias(title, pseudo='pg'):
     title = unicode(title).strip()
     title = normalize('NFKC', title)
     title = u''.join([chr_filter(c) for c in title])
-    if not len(title):
+    if not len(title) or title.lower() in FORBIDDEN_NAMES:
         return pseudo
     try:
         tint = int(title)

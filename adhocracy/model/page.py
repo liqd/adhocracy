@@ -78,7 +78,7 @@ class Page(object):
         page = Page(instance, alias, user)
         meta.Session.add(page)
         meta.Session.flush()
-        _text = Text(page, None, user, title, text)
+        _text = Text(page, Text.HEAD, user, title, text)
         return page
     
     
@@ -88,8 +88,30 @@ class Page(object):
     variants = property(_get_variants)
     
     
+    def variant_head(self, variant):
+        for text in self.texts:
+            if text.variant == variant:
+                return text
+        return None
+    
+    
+    def variant_history(self, variant):
+        history = []
+        for text in self.texts:
+            if text.variant == variant:
+                history.append(text)
+        return history
+    
+    
+    def _get_heads(self):
+        return [self.variant_head(h) for h in self.variants]
+    
+    heads = property(_get_heads)
+    
+    
     def _get_head(self):
-        return self.texts[0]
+        from text import Text
+        return self.variant_head(Text.HEAD)
         
     head = property(_get_head)
     
@@ -103,6 +125,8 @@ class Page(object):
     def delete(self, delete_time=None):
         if delete_time is None:
             delete_time = datetime.utcnow()
+        for text in self.texts:
+            text.delete(delete_time=delete_time)
         if self.delete_time is None:
             self.delete_time = delete_time
     
