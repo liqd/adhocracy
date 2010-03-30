@@ -17,6 +17,7 @@ VALIDUSER = re.compile("^[a-zA-Z0-9_\-]{3,255}$")
 
 class UniqueUsername(formencode.FancyValidator):
     def _to_python(self, value, state):
+        from adhocracy.model import meta, User
         if not value or not isinstance(value, basestring):
             raise formencode.Invalid(
                 _('No username is given'),
@@ -29,7 +30,7 @@ class UniqueUsername(formencode.FancyValidator):
             raise formencode.Invalid(
                 _('The username is invalid'),
                 value, state)
-        if meta.Session.query(user.User.user_name).filter(user.User.user_name == value).all():
+        if meta.Session.query(User.user_name).filter(User.user_name==value).all():
             raise formencode.Invalid(
                 _('That username already exists'),
                 value, state)
