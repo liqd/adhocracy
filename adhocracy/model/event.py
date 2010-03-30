@@ -140,7 +140,13 @@ class Event(object):
             
             
     def link(self):
-        return self.event.link_path(self)
+        try:
+            return self.event.link_path(self)
+        except: 
+            import adhocracy.lib.url as url
+            if self.instance:
+                return url.entity_url(self.instance)
+            return url.instance_url(None)
     
     
     def to_dict(self):
