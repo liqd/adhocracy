@@ -1,5 +1,6 @@
 from datetime import datetime
 import logging
+from itertools import count
 
 from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import relation, backref
@@ -59,9 +60,22 @@ class Page(object):
     
     
     @classmethod
+    def free_alias(cls, title):
+        from adhocracy.lib.text import title2alias
+        alias = title2alias(title)
+        for i in count(0):
+            if i == 0: test = alias
+            else: test = alias + str(i)
+            page = Page.find(test)
+            if page is None: 
+                return test
+    
+    
+    @classmethod
     def create(cls, instance, title, text, user):
         from text import Text
-        page = Page(instance, "alias", user)
+        alias = Page.free_alias(title)
+        page = Page(instance, alias, user)
         meta.Session.add(page)
         meta.Session.flush()
         _text = Text(page, None, user, title, text)
