@@ -71,6 +71,9 @@ def make_map():
                                                  'untag': 'GET'},
                                collection={'filter': 'GET'})
     
+    
+    map.resource('page', 'page', member={'ask_delete': 'GET'})
+    
     #map.connect('/adopted', controller='proposal', action='adopted')
     
     map.resource('comment', 'comment', member={'history': 'GET',

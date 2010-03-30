@@ -132,7 +132,13 @@ def proposals(proposals, has_query=False, detail=True):
               _("name"): sorting.delegateable_label}
     return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
                       default_sort=sorting.proposal_support)
-                      
+
+def pages(pages, has_query=False, detail=True):
+  sorts = {_("oldest"): sorting.entity_oldest,
+           _("newest"): sorting.entity_newest,
+           _("name"): sorting.delegateable_label}
+  return NamedPager('pages', pages, tiles.page.row, sorts=sorts,
+                    default_sort=sorting.delegateable_label)                 
                       
 def users(users, has_query=False):
     sorts={_("oldest"): sorting.entity_oldest,

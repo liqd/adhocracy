@@ -59,19 +59,19 @@ class PollController(BaseController):
     @validate(schema=PollVoteForm(), form="bad_request", post_only=False, on_get=True)
     def vote(self, id, format='html'):
         c.poll = self._get_open_poll(id)
+        if c.poll.action != model.Poll.ADOPT:
+            abort(400, _("This is a rating poll, not an adoption poll."))
         decision = democracy.Decision(c.user, c.poll)
         votes = decision.make(self.form_result.get("position"))
-        if c.poll.action != model.Poll.RATE:
-            for vote in votes:
-                event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance, 
-                           topics=[c.poll.scope], vote=vote, poll=c.poll)
+        for vote in votes:
+            event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance, 
+                       topics=[c.poll.scope], vote=vote, poll=c.poll)
+        model.meta.Session.commit()
         
         if format == 'json':
-            tally = model.Tally.create_from_poll(c.poll)
-            model.meta.Session.commit()
             return render_json(dict(decision=decision,
                                     score=tally.score))
-        model.meta.Session.commit()
+        
         redirect(h.entity_url(c.poll.subject))
         
         
@@ -90,22 +90,20 @@ class PollController(BaseController):
         decision = democracy.Decision(c.user, c.poll)
         old = decision.result
         new = self.form_result.get("position")
-        
         position = {(Vote.YES, Vote.YES): Vote.YES,
                     (Vote.ABSTAIN, Vote.YES): Vote.YES,
                     (Vote.NO, Vote.YES): Vote.ABSTAIN,
                     (Vote.YES, Vote.NO): Vote.ABSTAIN,
                     (Vote.ABSTAIN, Vote.NO): Vote.NO,
                     (Vote.NO, Vote.NO): Vote.NO}.get((old, new), new)
-        
         votes = decision.make(position)
+        tally = model.Tally.create_from_poll(c.poll)
+        model.meta.Session.commit()
         
         if format == 'json':
-            tally = model.Tally.create_from_poll(c.poll)
-            model.meta.Session.commit()
             return render_json(dict(decision=decision,
                                     score=tally.score))
-        model.meta.Session.commit()
+        
         redirect(h.entity_url(c.poll.subject))  
     
         

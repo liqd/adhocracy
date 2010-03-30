@@ -4,7 +4,7 @@
 <%def name="row(tile, proposal)">
 	<div class="tile">
 		<div class="base" style="background-image: url(${h.proposal_icon(proposal, size=32)});">
-			<h3><a class="link" href="${h.instance_url(proposal.instance, path='/proposal/%s' % proposal.id)}">${proposal.label}</a></h3>
+			<h3><a class="link" href="${h.entity_url(proposal)}">${proposal.label}</a></h3>
 			<!--span class="sparkline" title="${h.entity_url(proposal, member='activity', format='sline')}"></span><br/-->
 			%for (tag, count) in proposal.tags[:5]:
 				${h.tag_link(tag)|n}

@@ -22,7 +22,7 @@ page_table = Table('page', meta.data,
 
 class Page(object):
     
-    def __init__(self, alias, user, instance):
+    def __init__(self, instance, alias, user):
         self.alias = alias
         self.user = user
         self.instance = instance
@@ -54,9 +54,18 @@ class Page(object):
         if not include_deleted:
             q = q.filter(or_(Page.delete_time==None,
                              Page.delete_time>datetime.utcnow()))
-        if ifilter.has_instance() and instance_filter:
-            q = q.filter(Page.instance==ifilter.get_instance())
+        q = q.filter(Page.instance==instance)
         return q.all()
+    
+    
+    @classmethod
+    def create(cls, instance, title, text, user):
+        from text import Text
+        page = Page(instance, "alias", user)
+        meta.Session.add(page)
+        meta.Session.flush()
+        _text = Text(page, None, user, title, text)
+        return page
     
     
     def _get_variants(self):
@@ -66,10 +75,16 @@ class Page(object):
     
     
     def _get_head(self):
-        
+        return self.texts[0]
         
     head = property(_get_head)
     
+    
+    def _get_title(self):
+        return self.head.title
+        
+    title = property(_get_title)
+    label = property(_get_title)
     
     def delete(self, delete_time=None):
         if delete_time is None:

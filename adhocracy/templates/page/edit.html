@@ -1,0 +1,35 @@
+<%inherit file="/template.html" />
+<%namespace name="tiles_html" file="/proposal/tiles.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Edit %s") % c.page.title}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.page)|n} &raquo; ${_("Edit")}
+</%def>
+
+<form name="edit_page" class="inplace" method="POST" action="/page/${c.page.id}">
+	${h.field_token()|n}
+	<input type="hidden" name="_method" value="PUT" /> 
+	<div class="page_title">
+		<label for="title" class="armhint">${_("New Page")}</label>
+		<input tabindex="1" class="title armlabel" name="title" value="${c.page.title}"/>
+	</div>
+	
+	<div class="sidebar">
+		&nbsp;
+	</div>
+	<div class="mainbar">
+		<textarea tabindex="2" class="description armlabel" name="text">${c.page.head.text}</textarea>
+	</div>
+	
+	<div style="clear:both;"></div>
+	<div class="sidebar">
+		<div class="infobox">
+			<a target="_new" href="/static/page_faq.html">${_("More help...")}</a>
+		</div>
+	</div>
+	<div class="mainbar">
+		${components.savebox("/page/%s" % c.page.id)}
+		${components.form_watch(c.page)}
+	</div>
+</form>

@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 
-from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func, or_
+from sqlalchemy import Table, Column, Integer, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import relation, backref
 
 import meta
@@ -15,8 +15,7 @@ text_table = Table('text', meta.data,
     Column('page_id', Integer, ForeignKey('page.id'), nullable=False),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('parent_id', Integer, ForeignKey('text.id'), nullable=True),
-    Column('variant', Unicode(255), nullable=False),
-    Column('short_title', Unicode(255), nullable=False),
+    Column('variant', Unicode(255), nullable=True),
     Column('title', Unicode(255), nullable=True),
     Column('text', UnicodeText(), nullable=True),
     Column('create_time', DateTime, default=datetime.utcnow),
@@ -47,6 +46,14 @@ class Text(object):
             log.warn("find(%s): %s" % (id, e))
             return None
 
+
+    @classmethod
+    def create(cls, page, variant, user, title, text):
+        _text = Text(page, variant, user, title, text)
+        meta.Session.add(_text)
+        meta.Session.flush()
+        return _text
+        
     
     def delete(self, delete_time=None):
         if delete_time is None:
@@ -69,13 +76,12 @@ class Text(object):
     def to_dict(self):
         from adhocracy.lib import url
         return dict(id=self.id,
-                    page_id=self.page.id
+                    page_id=self.page.id,
                     url=url.entity_url(self),
                     create_time=self.create_time,
                     text=self.text,
                     variant=self.variant,
                     title=self.title,
-                    short_title=self.short_title
                     user=self.user.user_name)
     
     

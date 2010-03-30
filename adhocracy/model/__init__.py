@@ -26,8 +26,8 @@ from adhocracy.model.event import Event, event_topic_table, event_table
 from adhocracy.model.tally import Tally, tally_table
 from adhocracy.model.tag import Tag, tag_table
 from adhocracy.model.tagging import Tagging, tagging_table
-from adhocracy.model.tagging import Page, page_table
-from adhocracy.model.tagging import Text, text_table
+from adhocracy.model.page import Page, page_table
+from adhocracy.model.text import Text, text_table
 
 
 mapper(User, user_table, properties={
@@ -198,10 +198,10 @@ mapper(Page, page_table, properties={
 
 mapper(Text, text_table, properties={
     'user': relation(User, lazy=True, primaryjoin=text_table.c.user_id==user_table.c.id),
-    'parent': relation(Text, lazy=True, backref=backref('children'), 
-                       primaryjoin=text_table.c.id==text_table.c.parent_id),
+    'parent': relation(Text, lazy=True, 
+                       primaryjoin=text_table.c.parent_id==text_table.c.id),
     'page': relation(Page, lazy=True, backref=backref('texts', order_by=text_table.c.create_time.desc()),
-                     primaryjoin=text_table.c.instance_id==page_table.c.id)
+                     primaryjoin=text_table.c.page_id==page_table.c.id)
     }, extension=meta.extension)
 
 

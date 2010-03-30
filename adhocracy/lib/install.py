@@ -74,6 +74,10 @@ def setup_entities():
     mk_perm("tag.view", anonymous)
     mk_perm("tag.create", advisor)
     mk_perm("tag.delete", advisor)
+    mk_perm("page.view", anonymous)
+    mk_perm("page.create", advisor)
+    mk_perm("page.edit", advisor)
+    mk_perm("page.delete", supervisor)
     mk_perm("global.admin", admins)
     mk_perm("global.member", admins)
     

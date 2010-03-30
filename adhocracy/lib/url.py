@@ -56,6 +56,11 @@ def poll_url(poll, **kwargs):
                                poll.id, **kwargs)
 
 
+def page_url(page, **kwargs):
+    return _common_url_builder(page.instance, 'page', 
+                               page.alias, **kwargs)
+
+
 def tag_url(tag, instance=None, **kwargs):
     if instance is None:
         instance = c.instance
@@ -105,6 +110,8 @@ def entity_url(entity, **kwargs):
         return poll_url(entity, **kwargs)
     elif isinstance(entity, model.Comment):
         return comment_url(entity, **kwargs)
+    elif isinstance(entity, model.Page):
+        return page_url(entity, **kwargs)
     elif isinstance(entity, model.Instance):
         return instance_entity_url(entity, **kwargs)
     elif isinstance(entity, model.Delegation):

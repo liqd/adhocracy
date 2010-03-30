@@ -8,6 +8,7 @@ import markdown2 as markdown
 
 from diff import textDiff as html_diff
 from tag import tag_normalize, tag_split, tag_cloud_normalize, tag_split_last
+from normalize import *
 
 DEFAULT_TAGS = ['a', 'b', 'strong', 'h1', 'h2',
                 'h3', 'h4', 'h5', 'h6', 'i', 
