@@ -4,6 +4,9 @@ import event.stats as estats
 def delegateable_label(entities):
     return sorted(entities, key=lambda e: e.label.lower())
 
+def instance_label(entities):
+    return sorted(entities, key=lambda e: e.label.lower())
+
 def delegateable_latest_comment(entities):
     return sorted(entities, key=lambda e: e.find_latest_comment_time(recurse=True), 
                   reverse=True)

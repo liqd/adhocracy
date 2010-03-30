@@ -125,10 +125,10 @@ def contains_delegations(user, delegateable, recurse=True):
 
     
 def context_instances(count=5):
-    ins = c.user.instances[:count] if c.user else model.Instance.all(limit=count)
+    ins = c.user.instances if c.user else model.Instance.all(limit=count)
     if c.instance and c.instance in ins:
         ins.remove(c.instance)
-    return sorting.instance_activity(ins)
+    return sorting.instance_label(ins)
 
 
 def proposal_position(topic):
