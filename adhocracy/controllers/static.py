@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 VALID_PAGE = re.compile("^[a-zA-Z0-9\_\-]*$")
 STATIC_PATH = os.path.join(config.get('here'), 'adhocracy', 'page')
 
-class PageController(BaseController):
+class StaticController(BaseController):
     
     def serve(self, page_name):
         c.page = StaticPage(page_name)

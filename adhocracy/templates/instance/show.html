@@ -37,12 +37,12 @@ ${tiles.instance.header(c.page_instance, active='rules')}
 	<h3>${_("Help")}</h3>
 	<p>${_("There are help pages on several help topics:")}</p>
 	<ul>
-		<li><a href="/page/about.html">${_("General intro")}</a> ${_("on Liquid Democracy")}</li>
-		<li><a href="/page/proposal_faq.html">${_("Proposals")}</a> ${_("(ideas for debate)")}</li>
-		<li><a href="/page/tag_faq.html">${_("Tags")}</a> ${_("(keywords)")}</li>
+		<li><a href="/static/about.html">${_("General intro")}</a> ${_("on Liquid Democracy")}</li>
+		<li><a href="/static/proposal_faq.html">${_("Proposals")}</a> ${_("(ideas for debate)")}</li>
+		<li><a href="/static/tag_faq.html">${_("Tags")}</a> ${_("(keywords)")}</li>
 		%if c.page_instance.allow_delegate:
-			<li><a href="/page/delegation_faq.html">${_("Delegation")}</a> ${_("of voting rights")}</li>
+			<li><a href="/static/delegation_faq.html">${_("Delegation")}</a> ${_("of voting rights")}</li>
 		%endif
-		<li><a href="/page/notification_faq.html">${_("Notifications")}</a> ${_("via E-Mail or Twitter")}</li>
+		<li><a href="/static/notification_faq.html">${_("Notifications")}</a> ${_("via E-Mail or Twitter")}</li>
 	</ul>
 </div>

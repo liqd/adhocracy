@@ -26,6 +26,8 @@ from adhocracy.model.event import Event, event_topic_table, event_table
 from adhocracy.model.tally import Tally, tally_table
 from adhocracy.model.tag import Tag, tag_table
 from adhocracy.model.tagging import Tagging, tagging_table
+from adhocracy.model.tagging import Page, page_table
+from adhocracy.model.tagging import Text, text_table
 
 
 mapper(User, user_table, properties={
@@ -188,12 +190,27 @@ mapper(Tagging, tagging_table, properties={
     }, extension=meta.extension)
 
 
+mapper(Page, page_table, properties={
+    'user': relation(User, lazy=True, primaryjoin=page_table.c.user_id==user_table.c.id),
+    'instance': relation(Instance, lazy=True, primaryjoin=page_table.c.instance_id==instance_table.c.id)
+    }, extension=meta.extension)
+
+
+mapper(Text, text_table, properties={
+    'user': relation(User, lazy=True, primaryjoin=text_table.c.user_id==user_table.c.id),
+    'parent': relation(Text, lazy=True, backref=backref('children'), 
+                       primaryjoin=text_table.c.id==text_table.c.parent_id),
+    'page': relation(Page, lazy=True, backref=backref('texts', order_by=text_table.c.create_time.desc()),
+                     primaryjoin=text_table.c.instance_id==page_table.c.id)
+    }, extension=meta.extension)
+
+
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""
     sm = orm.sessionmaker(autoflush=True, bind=engine)
     meta.engine = engine
     meta.Session = orm.scoped_session(sm)
     
-        
+       
 
 
