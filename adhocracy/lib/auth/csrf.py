@@ -34,6 +34,9 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
             if not method in methods:
                 return False
             
+            if method in ['POST', 'PUT']:
+                return True
+            
             identifier = request.environ.get('repoze.who.identity', {}).get('identifier')
             if identifier is not None and isinstance(identifier, BasicAuthPlugin):
                 return True
