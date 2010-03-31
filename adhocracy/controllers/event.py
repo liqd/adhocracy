@@ -12,5 +12,6 @@ class EventController(BaseController):
         query = model.meta.Session.query(model.Event)
         query = query.order_by(model.Event.time.desc())
         query = query.limit(200)
-        c.event_pager = NamedPager('events', query.all(), tiles.event.list_item, count=50)
+        c.event_pager = NamedPager('events', query.all(), 
+            tiles.event.row, count=50)
         return render('/event/all.html')

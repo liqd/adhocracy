@@ -7,10 +7,12 @@
 </%def>
 
 
-<h1>${_("Whazza")}</h1>
+<h1 class="page_title">${_("Whazza")}</h1>
 
 <div class="sidebar">&nbsp;</div>
 
 <div class="mainbar">
-	${c.event_pager.here()}
+	<div id="events_table" class="table">
+		${c.event_pager.here()}
+	</div>
 </div>

@@ -60,12 +60,15 @@ SUB_PAGE = re.compile("\[\[([^(\]\])]{3,255})\]\]", re.M)
 
 def page_sub(match):
     from adhocracy.lib import helpers as h
-    alias = match.group(1)
+    alias = title2alias(match.group(1))
     page = model.Page.find(alias) 
     if page is not None:
         return h.page_link(page)
     else:
-        return h.page_link(alias, create=True)
+        from adhocracy.forms import FORBIDDEN_NAMES
+        if alias.lower() in FORBIDDEN_NAMES:
+            return match.group(0)
+        return h.page_link(match.group(1), create=True)
 
 
 def render(text, substitutions=True):

@@ -10,12 +10,27 @@
 ${tiles.page.header(c.page, c.tile, active='view')}
 
 <div class="sidebar">
+	<h3 class="section">${_("Variants")}</h3>
+	<ul>
+		%for variant in c.page.variants:
+			<li>
+				%if variant == c.model.Text.HEAD:
+					<b>(null variant)</b>
+				%else:
+					<code>:${variant}</code>
+				%endif
+				@ rev <code>#${c.page.variant_head(variant).id}</code>
+				</li>
+		%endfor
+	</ul>
+	
 	<h3 class="section">${_("history")}</h3>
 	<ul>
 		%for text in c.page.texts:
 			<li><code>#${text.id}</code>: ${text.user.name} at ${text.create_time.date()}, VAR <code>${text.variant}</code></li>
 		%endfor
 	</ul>
+	
 </div>
 
 <div class="mainbar">
