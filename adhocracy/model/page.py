@@ -152,5 +152,6 @@ class Page(object):
     
     
     def __repr__(self):
-        return u"<Page(%s, %s)>" % (self.id, self.alias)
+        return u"<Page(%s, %s)>" % (self.id, 
+            self.alias.encode('ascii', 'ignore'))
     

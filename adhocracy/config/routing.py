@@ -79,6 +79,11 @@ def make_map():
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant}/edit', controller='page', action='edit',
                 conditions=dict(method=['GET']))
+    map.connect('/page/{id}/edit.{format}', controller='page', action='edit',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id}/edit', controller='page', action='edit',
+                conditions=dict(method=['GET']))
+    
     map.connect('/page/{id}/{variant}-{text}.{format}', controller='page', action='show',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant}/{text}', controller='page', action='show',

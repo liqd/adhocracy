@@ -10,23 +10,23 @@ class UrlConstructionException(Exception):
 def instance_url(instance, path=None):
     url = "http://"
     if instance is not None:
-        url += instance.key + "."
+        url += instance.key + u"."
     url += request.environ.get('adhocracy.domain')
     if path is not None:
         url += path
-    return str(url)
+    return url
 
     
 def _append_member_and_format(url, member=None, format=None):
     if member is not None:
-        url += '/' + member
+        url += u'/' + member
     if format is not None:
-        url += '.' + format.lower()
-    return str(url)
+        url += u'.' + format.lower()
+    return url
 
 
 def _common_url_builder(instance, base, id, **kwargs):
-    url = instance_url(instance, path='/' + base + '/' + str(id))
+    url = instance_url(instance, path=u'/' + base + u'/' + unicode(id))
     return _append_member_and_format(url, **kwargs)
 
 
@@ -57,17 +57,18 @@ def poll_url(poll, **kwargs):
 
 
 def page_url(page, **kwargs):
+    alias = urllib.quote(page.alias.encode('utf-8'))
     return _common_url_builder(page.instance, 'page', 
-                               page.alias, **kwargs)
+                               alias, **kwargs)
 
 
 def text_url(text, with_text=True, **kwargs):
     url = page_url(text.page)
     if text.variant != model.Text.HEAD:
-        url += '/' + urllib.quote(text.variant.encode('utf-8'))
+        url += u'/' + urllib.quote(text.variant.encode('utf-8'))
     if with_text and text != text.page.variant_head(text.variant):
-        url += ';' + str(text.id)
-    return url
+        url += u';' + str(text.id)
+    return _append_member_and_format(url, **kwargs)
 
 
 def tag_url(tag, instance=None, **kwargs):
@@ -78,7 +79,7 @@ def tag_url(tag, instance=None, **kwargs):
         ident = urllib.quote(tag.name.encode('utf-8'))
     except KeyError:
         ident = tag.id
-    return _common_url_builder(instance, 'tag', ident, **kwargs)
+    return _common_url_builder(instance, u'tag', ident, **kwargs)
 
 
 def comment_url(comment, member=None, format=None, comment_page=False, **kwargs):

@@ -84,13 +84,14 @@ class PageController(BaseController):
                       self.form_result.get("text"),
                       parent=c.page.head)
         model.meta.Session.commit()
-        redirect(h.entity_url(c.page))
+        redirect(h.entity_url(text))
     
     
     @RequireInstance
     @ActionProtector(has_permission("page.view"))
     def show(self, id, variant=None, text=None, format='html'):
         c.page, c.text = self._get_page_and_text(id, variant, text)
+        #redirect(h.entity_url(c.text))
         c.tile = tiles.page.PageTile(c.page)
         return render("/page/show.html")
     
