@@ -1,4 +1,5 @@
 import urllib
+from webhelpers.text import truncate
 from unicodedata import normalize, category
 from adhocracy.forms import FORBIDDEN_NAMES
 
@@ -14,9 +15,7 @@ def chr_filter(ch):
 
 def title2alias(title, pseudo='pg'):
     #title = urllib.unquote(title)
-    title = unicode(title).strip()
-    title = normalize('NFKC', title)
-    title = u''.join([chr_filter(c) for c in title])
+    title = escape(title)
     if not len(title) or title.lower() in FORBIDDEN_NAMES:
         return pseudo
     try:
@@ -24,3 +23,16 @@ def title2alias(title, pseudo='pg'):
         return pseudo + tint
     except:
         return title
+
+
+def label2alias(label):
+    title = escape(label)
+    return title[:40]
+
+
+def escape(title):
+    title = unicode(title).strip()
+    title = normalize('NFKD', title)
+    title = u''.join([chr_filter(c) for c in title])
+    title = normalize('NFKC', title)
+    return title

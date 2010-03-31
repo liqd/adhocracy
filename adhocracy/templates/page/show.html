@@ -29,10 +29,10 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 		%endfor
 	</ul>
 	
-	<h3 class="section">${_("history")}</h3>
+	<h3 class="section">${_("variant history")}</h3>
 	<ul>
-		%for text in c.page.texts:
-			<li><code><a href="${h.entity_url(text)}">#${text.id}</a></code>: ${text.user.name} at ${text.create_time.date()}, VAR <code>${text.variant}</code></li>
+		%for text in c.page.variant_history(c.text.variant):
+			<li><code><a href="${h.entity_url(text)}">#${text.id}</a></code>: ${text.user.name} at ${text.create_time.date()}</li>
 		%endfor
 	</ul>
 	

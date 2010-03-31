@@ -1,5 +1,6 @@
 import urllib
 import adhocracy.model as model
+import text
 from pylons import tmpl_context as c, request
 
 
@@ -37,8 +38,9 @@ def user_url(user, instance=None, **kwargs):
 
     
 def proposal_url(proposal, **kwargs):
+    ext = str(proposal.id) + '-' + text.label2alias(proposal.label)
     return _common_url_builder(proposal.instance, 'proposal', 
-                               proposal.id, **kwargs)
+                               ext, **kwargs)
 
     
 def issue_url(issue, **kwargs):
