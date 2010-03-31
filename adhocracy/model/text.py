@@ -39,10 +39,10 @@ class Text(object):
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Text)
-            q = q.filter(Page.id==id)
+            q = q.filter(Text.id==id)
             if not include_deleted:
-                q = q.filter(or_(Page.delete_time==None,
-                                 Page.delete_time>datetime.utcnow()))
+                q = q.filter(or_(Text.delete_time==None,
+                                 Text.delete_time>datetime.utcnow()))
             return q.limit(1).first()
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))

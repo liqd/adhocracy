@@ -66,8 +66,8 @@ class PageController(BaseController):
 
     @RequireInstance
     @ActionProtector(has_permission("page.edit")) 
-    def edit(self, id, errors={}):
-        c.page = get_entity_or_abort(model.Page, id)
+    def edit(self, id, variant=None, text=None):
+        c.page, c.text = self._get_page_and_text(id, variant, text)
         return render('/page/edit.html')
     
     
@@ -75,8 +75,8 @@ class PageController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("page.edit")) 
     @validate(schema=PageUpdateForm(), form='edit', post_only=False, on_get=True)
-    def update(self, id, format='html'):
-        c.page = get_entity_or_abort(model.Page, id)
+    def update(self, id, variant=None, text=None, format='html'):
+        c.page, c.text = self._get_page_and_text(id, variant, text)
         text = model.Text.create(c.page, 
                       self.form_result.get("variant"),  
                       c.user, 
@@ -89,8 +89,8 @@ class PageController(BaseController):
     
     @RequireInstance
     @ActionProtector(has_permission("page.view"))
-    def show(self, id, format='html'):
-        c.page = get_entity_or_abort(model.Page, id)
+    def show(self, id, variant=None, text=None, format='html'):
+        c.page, c.text = self._get_page_and_text(id, variant, text)
         c.tile = tiles.page.PageTile(c.page)
         return render("/page/show.html")
     
@@ -112,6 +112,20 @@ class PageController(BaseController):
         model.meta.Session.commit()
         h.flash(_("The page %s has been deleted.") % c.page.title)
         redirect(h.entity_url(c.page.instance))
+    
+    
+    def _get_page_and_text(self, id, variant, text):
+        page = get_entity_or_abort(model.Page, id)
+        _text = page.head
+        if text is not None:
+            _text = get_entity_or_abort(model.Text, text)
+            if _text.page != page or (variant and _text.variant != variant):
+                abort(404, _("Invalid text ID %s for this page/variant!"))
+        elif variant is not None:
+            _text = page.variant_head(variant)
+            if _text is None:
+                abort(404, _("There is no variant %s of %s") % (variant, page.title))
+        return (page, _text)
     
     
     def _common_metadata(self, page):

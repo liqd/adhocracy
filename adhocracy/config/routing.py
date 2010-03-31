@@ -71,9 +71,29 @@ def make_map():
                                                  'untag': 'GET'},
                                collection={'filter': 'GET'})
     
+    map.connect('/page/{id}/{variant}-{text}/edit.{format}', controller='page', action='edit',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id}/{variant}-{text}/edit', controller='page', action='edit',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id}/{variant}/edit.{format}', controller='page', action='edit',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id}/{variant}/edit', controller='page', action='edit',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id}/{variant}-{text}.{format}', controller='page', action='show',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id}/{variant}/{text}', controller='page', action='show',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id}/{variant}.{format}', controller='page', action='show',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id}/{variant}', controller='page', action='show',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id};{text}.{format}', controller='page', action='show',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id};{text}', controller='page', action='show',
+                conditions=dict(method=['GET']))
     
     map.resource('page', 'page', member={'ask_delete': 'GET'})
-    
+
     #map.connect('/adopted', controller='proposal', action='adopted')
     
     map.resource('comment', 'comment', member={'history': 'GET',

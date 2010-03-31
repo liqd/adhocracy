@@ -61,6 +61,15 @@ def page_url(page, **kwargs):
                                page.alias, **kwargs)
 
 
+def text_url(text, with_text=True, **kwargs):
+    url = page_url(text.page)
+    if text.variant != model.Text.HEAD:
+        url += '/' + urllib.quote(text.variant.encode('utf-8'))
+    if with_text and text != text.page.variant_head(text.variant):
+        url += ';' + str(text.id)
+    return url
+
+
 def tag_url(tag, instance=None, **kwargs):
     if instance is None:
         instance = c.instance
@@ -112,6 +121,8 @@ def entity_url(entity, **kwargs):
         return comment_url(entity, **kwargs)
     elif isinstance(entity, model.Page):
         return page_url(entity, **kwargs)
+    elif isinstance(entity, model.Text):
+        return text_url(entity, **kwargs)
     elif isinstance(entity, model.Instance):
         return instance_entity_url(entity, **kwargs)
     elif isinstance(entity, model.Delegation):

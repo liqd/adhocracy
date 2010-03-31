@@ -9,12 +9,12 @@
 </%def>
 
 
-<%def name="header(tile, page, active)">
+<%def name="header(tile, page, active, text)">
 	<div class="top_actions title">
 		
 		%if tile.can_edit:
 			<a class="button title edit" 
-				href="${h.entity_url(page, member='edit')}">${_("edit")}</a>
+				href="${h.entity_url(text, member='edit')}">${_("edit")}</a>
 		%endif
 						
 		%if tile.can_delete:
@@ -26,6 +26,6 @@
 		${h.rss_button(page)|n}
 	</div>
 	
-	<h1 class="page_title">${page.title}</h1>
+	<h1 class="page_title">${text.title}</h1>
 </%def>
 
