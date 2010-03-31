@@ -96,6 +96,6 @@ class Text(object):
     
     
     def __repr__(self):
-        return u"<Text(%s, %s, %s)>" % (self.id, variant, 
+        return u"<Text(%s, %s, %s)>" % (self.id, self.variant, 
                     self.title.encode('ascii', 'ignore'))
     

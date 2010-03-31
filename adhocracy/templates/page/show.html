@@ -5,7 +5,7 @@
 
 <%def name="title()">${c.page.title}</%def>
 
-<%def name="breadcrumbs()">${h.breadcrumbs(c.page)|n}</%def>
+<%def name="breadcrumbs()">${h.breadcrumbs(c.text)|n}</%def>
 
 ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 
@@ -39,6 +39,8 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 </div>
 
 <div class="mainbar">
-	<code>${_("Currently showing the %s variant of %s") % (c.text.variant, c.page.title)}</code>
+	%if c.text.variant != c.model.Text.HEAD:
+		<div class="infobox">${_("Currently showing the %s variant") % c.text.variant}</div>
+	%endif
 	${c.text.render()|n}
 </div>

@@ -33,11 +33,17 @@ flash = _Flash()
 def breadcrumbs(entity):    
     if not entity:
         return site_name()
+    if isinstance(entity, model.Text):
+        url = breadcrumbs(entity.page) 
+        if entity.variant != model.Text.HEAD:
+            url += " &raquo; <a href='%s'>%s</a>" % (entity_url(entity), 
+                                                     cgi.escape(entity.variant))
+        return url 
     if isinstance(entity, model.User):
         return breadcrumbs(c.instance) + " &raquo; <a href='%s'>%s</a>" % (entity_url(entity),
-                                                                           entity.name)
+                                                                           cgi.escape(entity.name))
     link = "<a href='%s'>%s</a>" % (entity_url(entity), 
-                                    text.truncate(entity.label, length=30, whole_word=True))
+                                    cgi.escape(text.truncate(entity.label, length=40, whole_word=True)))
     if hasattr(entity, 'parents') and len(entity.parents):
         link = breadcrumbs(entity.parents[0]) + " &raquo; " + link
     elif hasattr(entity, 'instance'):
@@ -105,7 +111,7 @@ def tag_link(tag, count=None, size=None, base_size=12, plain=False):
     if size is not None:
         size = int(math.sqrt(size) * base_size)
         text += " style='font-size: %dpx !important;'" % size
-    text += " href='%s' rel='tag'>%s</a>" % (entity_url(tag), tag.name)
+    text += " href='%s' rel='tag'>%s</a>" % (entity_url(tag), cgi.escape(tag.name))
     if count is not None and count > 1:
         text += "&thinsp;&times;" + str(count)
     text += "</span>"
@@ -115,12 +121,12 @@ def tag_link(tag, count=None, size=None, base_size=12, plain=False):
 def page_link(page, create=False):
     text = "<a class='page_link %s' href='%s'>%s</a>"
     if create:
-        page = urllib.quote(page.encode('utf-8'))
-        url = "/page/new?title=%s" % page
-        return text % ('new', url, page)
+        url = urllib.quote(page.encode('utf-8'))
+        url = "/page/new?title=%s" % url
+        return text % ('new', url, cgi.escape(page))
     else:
         return text % ('exists', entity_url(page), 
-                       page.title)
+                       cgi.escape(page.title))
         
     
 

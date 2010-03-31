@@ -4,7 +4,7 @@
 <%def name="title()">${_("Edit %s") % c.page.title}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.page)|n} &raquo; ${_("Edit")}
+	${h.breadcrumbs(c.text)|n} &raquo; ${_("Edit")}
 </%def>
 
 <form name="edit_page" class="inplace" method="POST" action="/page/${c.page.alias}">
