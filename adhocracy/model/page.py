@@ -6,27 +6,21 @@ from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, fu
 from sqlalchemy.orm import relation, backref
 
 import meta
+from delegateable import Delegateable
 import instance_filter as ifilter
 
 log = logging.getLogger(__name__)
 
 
 page_table = Table('page', meta.data,                      
-    Column('id', Integer, primary_key=True),
-    Column('alias', Unicode(255), nullable=False),
-    Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False),
-    Column('create_time', DateTime, default=datetime.utcnow),
-    Column('delete_time', DateTime)
+    Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True)
     )
 
 
-class Page(object):
+class Page(Delegateable):
     
-    def __init__(self, instance, alias, user):
-        self.alias = alias
-        self.user = user
-        self.instance = instance
+    def __init__(self, instance, alias, creator):
+        self.init_child(instance, alias, creator)
     
     
     @classmethod
@@ -37,7 +31,7 @@ class Page(object):
                 id = int(id)
                 q = q.filter(Page.id==id)
             except ValueError:
-                q = q.filter(Page.alias==id)
+                q = q.filter(Page.label==id)
             if not include_deleted:
                 q = q.filter(or_(Page.delete_time==None,
                                  Page.delete_time>datetime.utcnow()))
@@ -60,25 +54,25 @@ class Page(object):
     
     
     @classmethod
-    def free_alias(cls, title):
+    def free_label(cls, title):
         from adhocracy.lib.text import title2alias
-        alias = title2alias(title)
+        label = title2alias(title)
         for i in count(0):
-            if i == 0: test = alias
-            else: test = alias + str(i)
+            if i == 0: test = label
+            else: test = label + str(i)
             page = Page.find(test)
             if page is None: 
                 return test
     
     
     @classmethod
-    def create(cls, instance, title, text, user):
+    def create(cls, instance, title, text, creator):
         from text import Text
-        alias = Page.free_alias(title)
-        page = Page(instance, alias, user)
+        label = Page.free_label(title)
+        page = Page(instance, label, creator)
         meta.Session.add(page)
         meta.Session.flush()
-        _text = Text(page, Text.HEAD, user, title, text)
+        _text = Text(page, Text.HEAD, creator, title, text)
         return page
     
     
@@ -120,7 +114,7 @@ class Page(object):
         return self.head.title
         
     title = property(_get_title)
-    label = property(_get_title)
+    
     
     def delete(self, delete_time=None):
         if delete_time is None:
@@ -147,11 +141,12 @@ class Page(object):
         return dict(id=self.id,
                     url=url.entity_url(self),
                     create_time=self.create_time,
-                    alias=self.alias,
+                    label=self.label,
+                    head=self.head,
                     user=self.user.user_name)
     
     
     def __repr__(self):
         return u"<Page(%s, %s)>" % (self.id, 
-            self.alias.encode('ascii', 'ignore'))
+                    self.label.encode('ascii', 'ignore'))
     

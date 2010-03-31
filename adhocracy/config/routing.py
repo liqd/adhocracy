@@ -85,8 +85,9 @@ def make_map():
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/ask_delete', controller='page', action='ask_delete',
                 conditions=dict(method=['GET']))
-    
-    map.connect('/page/{id}/{variant}-{text}.{format}', controller='page', action='show',
+    map.connect('/page/{id}/{variant};{text}.{format}', controller='page', action='show',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id}/{variant};{text}', controller='page', action='show',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant}/{text}', controller='page', action='show',
                 conditions=dict(method=['GET']))

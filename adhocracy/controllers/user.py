@@ -308,7 +308,7 @@ class UserController(BaseController):
         c.dgbs = []
         if scope_id:
             c.scope = forms.ValidDelegateable().to_python(scope_id)
-            c.dgbs = [c.scope] + c.scope.search_children(recurse=True)
+            c.dgbs = [c.scope] + c.scope.children
         else:
             c.dgbs = model.Delegateable.all(instance=c.instance)  
         c.nodeClass = democracy.DelegationNode 

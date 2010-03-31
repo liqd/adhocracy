@@ -24,31 +24,20 @@ user_table = Table('user', meta,
     Column('delete_time', DateTime)
     )
 
-instance_table = Table('instance', meta,
+    
+delegateable_table = Table('delegateable', meta,
     Column('id', Integer, primary_key=True),
-    Column('key', Unicode(20), nullable=False, unique=True),
     Column('label', Unicode(255), nullable=False),
-    Column('description', UnicodeText(), nullable=True),
-    Column('required_majority', Float, nullable=False),
-    Column('activation_delay', Integer, nullable=False),
-    Column('create_time', DateTime, default=func.now()),
-    Column('access_time', DateTime, default=func.now(), onupdate=func.now()),
+    Column('type', String(50)),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('access_time', DateTime, default=datetime.utcnow, onupdate=datetime.utcnow),
     Column('delete_time', DateTime, nullable=True),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True),
-    Column('allow_adopt', Boolean, default=True),       
-    Column('allow_delegate', Boolean, default=True),
-    Column('allow_index', Boolean, default=True),
-    Column('hidden', Boolean, default=False)   
+    Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False)
     )
 
 page_table = Table('page', meta,                      
-    Column('id', Integer, primary_key=True),
-    Column('alias', Unicode(255), nullable=False),
-    Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False),
-    Column('create_time', DateTime, default=datetime.utcnow),
-    Column('delete_time', DateTime, default=datetime.utcnow)
+    Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True)
     )
  
  
@@ -58,7 +47,6 @@ text_table = Table('text', meta ,
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('parent_id', Integer, ForeignKey('text.id'), nullable=True),
     Column('variant', Unicode(255), nullable=True),
-    Column('short_title', Unicode(255), nullable=False),
     Column('title', Unicode(255), nullable=True),
     Column('text', UnicodeText(), nullable=True),
     Column('create_time', DateTime, default=datetime.utcnow),

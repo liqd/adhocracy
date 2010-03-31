@@ -30,17 +30,6 @@ class Issue(Delegateable):
     proposals = property(_get_proposals, _set_proposals)
     
     
-    def search_children(self, recurse=False, cls=Delegateable): 
-        """ Get all child elements of type "cls". Uses DFS. """
-        children = []
-        for child in self.children:
-            if child.delete_time: 
-                continue
-            if isinstance(child, cls):
-                children.append(child)
-        return children
-    
-    
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:

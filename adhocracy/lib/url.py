@@ -59,9 +59,9 @@ def poll_url(poll, **kwargs):
 
 
 def page_url(page, **kwargs):
-    alias = urllib.quote(page.alias.encode('utf-8'))
+    label = urllib.quote(page.label.encode('utf-8'))
     return _common_url_builder(page.instance, 'page', 
-                               alias, **kwargs)
+                               label, **kwargs)
 
 
 def text_url(text, with_text=True, **kwargs):
@@ -116,16 +116,16 @@ def entity_url(entity, **kwargs):
         return proposal_url(entity, **kwargs)
     elif isinstance(entity, model.Issue):
         return issue_url(entity, **kwargs)
+    elif isinstance(entity, model.Page):
+        return page_url(entity, **kwargs)
+    elif isinstance(entity, model.Text):
+        return text_url(entity, **kwargs)
     elif isinstance(entity, model.Delegateable):
         return delegateable_url(entity, **kwargs)
     elif isinstance(entity, model.Poll):
         return poll_url(entity, **kwargs)
     elif isinstance(entity, model.Comment):
         return comment_url(entity, **kwargs)
-    elif isinstance(entity, model.Page):
-        return page_url(entity, **kwargs)
-    elif isinstance(entity, model.Text):
-        return text_url(entity, **kwargs)
     elif isinstance(entity, model.Instance):
         return instance_entity_url(entity, **kwargs)
     elif isinstance(entity, model.Delegation):

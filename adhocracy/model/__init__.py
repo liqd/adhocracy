@@ -190,9 +190,7 @@ mapper(Tagging, tagging_table, properties={
     }, extension=meta.extension)
 
 
-mapper(Page, page_table, properties={
-    'user': relation(User, lazy=True, primaryjoin=page_table.c.user_id==user_table.c.id),
-    'instance': relation(Instance, lazy=True, primaryjoin=page_table.c.instance_id==instance_table.c.id)
+mapper(Page, page_table, inherits=Delegateable, polymorphic_identity='page', properties={
     }, extension=meta.extension)
 
 

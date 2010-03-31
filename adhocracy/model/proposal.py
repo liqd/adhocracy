@@ -44,10 +44,6 @@ class Proposal(Delegateable):
     issue = property(_get_issue, _set_issue)
     
         
-    def search_children(self, recurse=False, cls=Delegateable):
-        return []
-    
-        
     def _get_canonicals(self):
         return [c for c in self.comments if c.canonical and not c.is_deleted()]
     
