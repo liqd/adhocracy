@@ -7,7 +7,7 @@
 	${h.breadcrumbs(c.text)|n} &raquo; ${_("Edit")}
 </%def>
 
-<form name="edit_page" class="inplace" method="POST" action="/page/${c.page.alias}">
+<form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
 	${h.field_token()|n}
 	<input type="hidden" name="_method" value="PUT" /> 
 	<div class="page_title">

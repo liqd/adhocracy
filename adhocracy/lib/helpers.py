@@ -39,6 +39,11 @@ def breadcrumbs(entity):
             url += " &raquo; <a href='%s'>%s</a>" % (entity_url(entity), 
                                                      cgi.escape(entity.variant))
         return url 
+    if isinstance(entity, model.Page):
+        url = breadcrumbs(entity.instance) 
+        url += " &raquo; <a href='%s'>%s</a>" % (entity_url(entity), 
+                                                 cgi.escape(entity.title))
+        return url
     if isinstance(entity, model.User):
         return breadcrumbs(c.instance) + " &raquo; <a href='%s'>%s</a>" % (entity_url(entity),
                                                                            cgi.escape(entity.name))

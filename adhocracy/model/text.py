@@ -52,7 +52,10 @@ class Text(object):
     @classmethod
     def create(cls, page, variant, user, title, text, parent=None):
         if variant is None:
-            variant = Text.HEAD
+            if parent is not None:
+                variant = parent.variant
+            else:
+                variant = Text.HEAD
         _text = Text(page, variant, user, title, text)
         if parent:
             _text.parent = parent

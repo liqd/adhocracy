@@ -22,7 +22,7 @@ class PageCreateForm(formencode.Schema):
 class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
     title = validators.String(max=255, min=4, not_empty=True)
-    variant = validators.String(max=255, min=4, not_empty=True)
+    variant = validators.String(max=255, min=1, not_empty=False, if_empty=None, if_missing=None)
     text = validators.String(max=20000, min=4, not_empty=True)
 
     
