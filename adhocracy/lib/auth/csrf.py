@@ -6,6 +6,7 @@ modtoken - a shared SHA1 hash - is included.
 """
 
 import uuid
+import logging
 from urlparse import urlparse
 from decorator import decorator
 
@@ -14,6 +15,8 @@ from pylons.controllers.util import abort
 from pylons.i18n import _
 
 from repoze.who.plugins.basicauth import BasicAuthPlugin
+
+log = logging.getLogger(__name__)
 
 KEY = "_tok"
 
@@ -34,14 +37,14 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
             if not method in methods:
                 return False
             
-            if method in ['POST', 'PUT']:
+            if method in ['POST', 'PUT']: # hack
                 return True
             
             identifier = request.environ.get('repoze.who.identity', {}).get('identifier')
             if identifier is not None and isinstance(identifier, BasicAuthPlugin):
                 return True
             
-            if request.params.get(KEY) == session.id:
+            if request.params.get(KEY) == token_id():
                 return True
             
             return False

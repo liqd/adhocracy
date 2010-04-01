@@ -23,7 +23,7 @@ def rss_feed(events, name, link, description):
             except:
                 pass
             rss.add_item(title=u"%s %s" % (event.user.name, formatting.as_unicode(event)),
-                         link=item_link,
+                         link=item_link.encode('utf-8'),
                          pubdate=event.time,
                          description=description,
                          author_name=event.user.name,

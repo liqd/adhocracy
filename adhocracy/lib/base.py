@@ -61,9 +61,8 @@ class BaseController(WSGIController):
         
         # http host information was moved around to mess with repoze.who                 
         #environ['HTTP_HOST'] = environ.get('HTTP_HOST_ORIGINAL')
-        
         #from pprint import pprint
-        #pprint(environ)
+        #pprint(environ.get('paste.cookies')[0].output())
         #pprint(environ.get('repoze.who.identity').items())
         #print "SESSION ", session.id
         
