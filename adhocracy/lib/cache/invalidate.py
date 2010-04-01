@@ -4,6 +4,13 @@ from util import clear_tag
 def invalidate_user(user):
     clear_tag(user)
 
+def invalidate_text(text):
+    clear_tag(text)
+    invalidate_page(text.page)
+    
+def invalidate_page(page):
+    invalidate_delegateable(page)
+
 def invalidate_delegateable(d):
     clear_tag(d)
     for p in d.parents:

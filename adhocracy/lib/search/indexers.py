@@ -72,7 +72,29 @@ def index_proposal(entity):
         return None
     d = index_delegateable(entity)
     return d
+    
+def index_text(entity):
+    if entity.is_deleted(): 
+        return None 
+    d = index_entity(entity)
+    d['title'] = entity.title
+    ct = datetime2str(entity.create_time if \
+                      entity.create_time else datetime.utcnow())
+    d['create_time'] = ct
+    d['user'] = entity.user.name
+    d['instance'] = entity.page.instance.key
+    d['tags'] = "" 
+    d['text'] = entity.text
+    return d
 
+def index_page(entity):
+    if entity.is_deleted():
+        return None
+    d = index_delegateable(entity)
+    d['title'] = entity.head.title
+    d['text'] = entity.head.text
+    return d
+    
 def insert(index_func):
     def f(entity):
         entry = index_func(entity)

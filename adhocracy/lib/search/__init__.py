@@ -40,6 +40,8 @@ def queue_register():
     register_indexer(model.Proposal, index_proposal)
     register_indexer(model.User, index_user)
     register_indexer(model.Comment, index_comment)
+    register_indexer(model.Text, index_text)
+    register_indexer(model.Page, index_page)
     
 def rebuild_all():
     def index_all(iter, func):
@@ -54,6 +56,10 @@ def rebuild_all():
         index_all(model.meta.Session.query(model.User), index_user)
         log.info("Re-indexing comments...")
         index_all(model.meta.Session.query(model.Comment), index_comment)
+        log.info("Re-indexing pages...")
+        index_all(model.meta.Session.query(model.Page), index_page)
+        log.info("Re-indexing texts...")
+        index_all(model.meta.Session.query(model.Text), index_text)
         log.info("... done")
     except Exception, e:
         log.exception("Couldn't rebuild index: %s" % e)

@@ -9,7 +9,8 @@ import formatting
 from webhelpers.feedgenerator import RssUserland091Feed
 
 def rss_feed(events, name, link, description):
-        rss = RssUserland091Feed(name, link, description)
+        rss = RssUserland091Feed(name, link.encode('utf-8'), 
+                                 description)
         def event_item(event):
             description = event.text()
             if description is None:
@@ -22,7 +23,8 @@ def rss_feed(events, name, link, description):
                 item_link = event.event.link_path(event)
             except:
                 pass
-            rss.add_item(title=u"%s %s" % (event.user.name, formatting.as_unicode(event)),
+            rss.add_item(title=u"%s %s" % (event.user.name, 
+                         formatting.as_unicode(event)),
                          link=item_link.encode('utf-8'),
                          pubdate=event.time,
                          description=description,
