@@ -11,6 +11,7 @@ from repoze.what.plugins.sql.adapters import SqlGroupsAdapter, SqlPermissionsAda
 
 import adhocracy.model as model 
 from authorization import InstanceGroupSourceAdapter
+from instance_auth_tkt import InstanceAuthTktCookiePlugin
 
 log = logging.getLogger(__name__)
 
@@ -27,7 +28,8 @@ def setup_auth(app, config):
     permission_adapters = {'sql_auth': permissionadapter}
         
     basicauth = BasicAuthPlugin('Adhocracy HTTP Authentication')
-    auth_tkt = AuthTktCookiePlugin('41d207498d3812741e27c6441760ae494a4f9fbf', cookie_name='adhocracy_login')
+    auth_tkt = InstanceAuthTktCookiePlugin('41d207498d3812741e27c6441760ae494a4f9fbf', 
+                                           cookie_name='adhocracy_login')
         
     form = FriendlyFormPlugin(
             '/login',

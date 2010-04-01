@@ -7,8 +7,6 @@ log = logging.getLogger(__name__)
 
 class InstanceDiscriminatorMiddleware(object):
     
-    TRUNCATE_PREFIX = "www."
-    
     def __init__(self, app, domain):
         self.app = app
         self.domain = domain
@@ -16,23 +14,10 @@ class InstanceDiscriminatorMiddleware(object):
         
     def __call__(self, environ, start_response):
         host = environ.get('HTTP_HOST', "")
-        environ['HTTP_HOST_ORIGINAL'] = host
-        port = None
-        if ':' in host:
-            (host, port) = host.split(':')
+        environ['adhocracy.domain'] = self.domain
         
-        if host.startswith(self.TRUNCATE_PREFIX):
-            host = host[len(self.TRUNCATE_PREFIX):]
-        
-        active_domain = self.domain 
-        if host.endswith(self.domain):
-            host = host[:len(host)-len(self.domain)]
-            if port:
-                active_domain = active_domain + ':' + port
-        
-        environ['HTTP_HOST'] = active_domain
-        environ['adhocracy.domain'] = environ['HTTP_HOST']
-        
+        host = host.split(':', 1)[0]
+        host = host[:len(host)-len(self.domain)-1]
         instance_key = host.strip('. ')
         if len(instance_key):
             #log.debug("Request instance: %s" % instance_key)
