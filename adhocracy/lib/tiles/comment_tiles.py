@@ -114,7 +114,7 @@ class CommentTile(BaseTile):
     position = property(_position)
     
     def replies(self):
-        comments = sorting.comment_score(self.comment.replies)
+        comments = sorting.comment_order(self.comment.replies)
         for comment in comments:
             tile = self.__class__(comment)
             tile.__topic_outbound = self.__topic_outbound
