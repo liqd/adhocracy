@@ -94,7 +94,7 @@ class UserController(BaseController):
     def create(self):
         user = model.User.create(self.form_result.get("user_name"), 
                                  self.form_result.get("email").lower(), 
-                                 password=self.form_result.get("password"), 
+                                 password=self.form_result.get("password").encode('utf-8'), 
                                  locale=c.locale)
         model.meta.Session.commit()
             
@@ -104,8 +104,8 @@ class UserController(BaseController):
         if c.instance:
             session['came_from'] = "/instance/%s/join?%s" % (c.instance.key, h.url_token())
         redirect("/perform_login?%s" % urllib.urlencode({
-                 'login': self.form_result.get("user_name"),
-                 'password': self.form_result.get("password")
+                 'login': self.form_result.get("user_name").encode('utf-8'),
+                 'password': self.form_result.get("password").encode('utf-8')
                 }))
     
     
@@ -122,7 +122,7 @@ class UserController(BaseController):
     def update(self, id):
         c.page_user = self._get_user_for_edit(id)
         if self.form_result.get("password"):
-            c.page_user.password = self.form_result.get("password")
+            c.page_user.password = self.form_result.get("password").encode('utf-8')
         c.page_user.display_name = self.form_result.get("display_name")
         c.page_user.bio = text.cleanup(self.form_result.get("bio"))
         email = self.form_result.get("email").lower()

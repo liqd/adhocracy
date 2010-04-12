@@ -30,7 +30,8 @@ class DelegationController(BaseController):
             response.content_type  = "text/plain"
             return render("/delegation/graph.dot")
         if format == 'json':
-            return render_json(c.delegations)
+            c.delegations_pager = pager.delegations(c.delegations)
+            return render_json(c.delegations_pager)
         return self.not_implemented()
     
     @RequireInstance
@@ -93,9 +94,6 @@ class DelegationController(BaseController):
         c.delegation = get_entity_or_abort(model.Delegation, id)
         c.scope = c.delegation.scope
         
-        if format == 'json':
-            return render_json(c.delegation)
-        
         decisions = democracy.Decision.for_user(c.delegation.principal, c.instance)
         decisions = filter(lambda d: c.delegation in d.delegations, decisions)
         decisions = filter(lambda d: isinstance(d.poll.subject, model.Proposal), decisions)
@@ -103,6 +101,10 @@ class DelegationController(BaseController):
                                     sorts={_("oldest"): sorting.entity_oldest,
                                            _("newest"): sorting.entity_newest},
                                     default_sort=sorting.entity_newest)
+                                    
+        if format == 'json':
+            return render_json((c.delegation, c.decisions_pager))
+        
         return render("delegation/show.html")
     
     

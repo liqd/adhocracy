@@ -150,13 +150,15 @@ class CommentController(BaseController):
     
     @RequireInstance
     @ActionProtector(has_permission("comment.view"))    
-    def history(self, id):
+    def history(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
         c.revisions_pager = NamedPager('revisions', c.comment.revisions, 
                                        tiles.revision.row, count=10, #list_item,
                                      sorts={_("oldest"): sorting.entity_oldest,
                                             _("newest"): sorting.entity_newest},
                                      default_sort=sorting.entity_newest)
+        if format == 'json':
+            return render_json(c.revisions_pager)
         return render('/comment/history.html')
     
     
@@ -169,7 +171,7 @@ class CommentController(BaseController):
         revision = self.form_result.get('to')
         if revision.comment != c.comment:
             abort(400, _("You're trying to revert to a revision which is not part of this comments history"))
-        rev = c.comment.create_revision(revision.text, c.user)
+        rev = c.comment.create_revision(revision.text, c.user, sentiment=revision.sentiment)
         model.meta.Session.commit()
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 

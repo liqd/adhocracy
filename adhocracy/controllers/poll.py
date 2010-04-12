@@ -117,10 +117,9 @@ class PollController(BaseController):
             decisions = filter(lambda d: d.result==self.form_result.get('result'), 
                                decisions)
         
-        if format == 'json':
-            return render_json(decisions)
-            
         c.decisions_pager = pager.scope_decisions(decisions)
+        if format == 'json':
+            return render_json(c.decisions_pager)    
         return render("/poll/votes.html")  
         
     

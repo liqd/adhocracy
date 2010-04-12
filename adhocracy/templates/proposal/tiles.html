@@ -120,19 +120,17 @@
 			    href="/delegation/new?scope=${proposal.id}">${_("delegate")}</a>
 		%endif
 		
-		%if proposal.can_adopt():
+		%if can.proposal.adopt(c.proposal):
 			<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
 				href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
-		%elif c.user and not proposal.has_canonicals() and c.instance.allow_adopt and h.has_permission("poll.create"):
-			<a class="button title inactive ttip" title="${_('The proposal cannot be voted upon since it does not have an implementation yet.')}">${_("call a vote")}</a>
 		%endif
 		
-		%if tile.can_edit:
+		%if can.proposal.edit(c.proposal):
 			<a class="button title edit" 
 				href="${h.entity_url(proposal, member='edit')}">${_("edit")}</a>
 		%endif
 						
-		%if tile.can_delete:
+		%if can.proposal.delete(c.proposal):
 			<a class="button title delete" 	
 				href="${h.entity_url(proposal, member='ask_delete')}">${_("delete")}</a>
 		%endif
@@ -145,7 +143,7 @@
 	%if proposal.rate_poll:
 	<span class="${tile.position}"  id="tile_p${proposal.id}">
 		<div class="proposal rate">
-			%if tile.can_rate:
+			%if can.proposal.rate(c.proposal):
 				<a class="up icon otip" title="${_("Support this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?_method=POST&position=1&${h.url_token()}" 
 					onclick="return rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, 1);">
 					&nbsp;
@@ -189,15 +187,6 @@
 				</ul>
 			</span></li>
 		</ul>
-		<!--div class="info">
-			<div class="meta">
-				${h.user_link(proposal.creator, scope=proposal)|n} 
-				&middot; ${h.relative_time(proposal.create_time)|n}
-				%if proposal.issue:
-					&middot; ${_("in %s") % h.delegateable_link(proposal.issue)|n}
-				%endif
-			</div>	
-		</div-->
 		
 		%if proposal.adopted:
 			<div class="info adoption adopted">

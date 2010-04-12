@@ -9,10 +9,12 @@ from pylons.controllers.util import etag_cache
 import tiles
 import util
 import text
+import auth
 
 def tpl_vars():
     vars = dict()
     vars['tiles'] = tiles
+    vars['can'] = auth.can
     return vars
 
 

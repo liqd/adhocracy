@@ -1,10 +1,15 @@
+#!/usr/bin/python 
+#
+# Python REST client library. 
+
 __version__ = '0.1'
-__description__ = 'The Adhocracy client Python package.'
+__description__ = 'The Adhocracy client python package.'
 __license__ = 'BSD'
 
 import os, urllib, urllib2, base64
 import logging
-logger = logging.getLogger('adhocracyclient')
+log = logging.getLogger('adhocracyclient')
+
 
 class RequestWithMethod(urllib2.Request):
 
@@ -17,8 +22,9 @@ class RequestWithMethod(urllib2.Request):
 
 
 class AdhocracyClient(object):
+    """ Example implementation of a REST client for Adhocracy. """
     
-    base_location = 'http://liqd.net'
+    base_location = 'http://adhocracy.lan:5000'
 
     def __init__(self, base_location=None, user=None, 
                  password=None, instance=None):
@@ -54,11 +60,11 @@ class AdhocracyClient(object):
             
             self.url_response = urllib2.urlopen(req)
         except urllib2.HTTPError, inst:
-            print "adhocracyclient: Received HTTP error code from Adhocracy."
-            print "adhocracyclient: location: %s" % location
-            print "adhocracyclient: response code: %s" % inst.fp.code
-            print "adhocracyclient: request headers: %s" % headers
-            print "adhocracyclient: request data: %s" % data
+            log.debug("adhocracyclient: Received HTTP error code from Adhocracy.")
+            log.debug("adhocracyclient: location: %s" % location)
+            log.debug("adhocracyclient: response code: %s" % inst.fp.code)
+            log.debug("adhocracyclient: request headers: %s" % headers)
+            log.debug("adhocracyclient: request data: %s" % data)
             self.last_http_error = inst
             self.last_status = inst.code
             self.last_message = inst.read()
@@ -66,7 +72,7 @@ class AdhocracyClient(object):
             self.last_url_error = inst
             self.last_status,self.last_message = inst.reason
         else:
-            print "adhocracyclient: OK opening Adhocracy resource: %s" % location
+            log.debug("adhocracyclient: OK opening Adhocracy resource: %s" % location)
             self.last_status = self.url_response.code
             self.last_body = self.url_response.read()
             self.last_headers = self.url_response.headers
@@ -89,7 +95,7 @@ class AdhocracyClient(object):
         url = base + '/' + path 
         if format is not None: 
             url = url + '.json'
-        print "adhocracyclient: request url: %s" % url
+        log.debug("adhocracyclient: request url: %s" % url)
         return url 
     
     
@@ -191,12 +197,13 @@ class AdhocracyClient(object):
             import simplejson as json
         return json.loads(string)
 
-test_prop = {
-    "label": "foo schnasel",
-    "text": "this is an API test foo schnasel",
-    "tags": "tag, tag2, tag3"
-}
+
+#test_prop = {
+#    "label": "foo schnasel",
+#    "text": "this is an API test foo schnasel",
+#    "tags": "tag, tag2, tag3"
+#}
 
 
-test = AdhocracyClient('http://adhocracy.lan:5000', user='admin', 
-                        password='password', instance='schnasel')
+#test = AdhocracyClient('http://adhocracy.lan:5000', user='admin', 
+#                        password='password', instance='schnasel')

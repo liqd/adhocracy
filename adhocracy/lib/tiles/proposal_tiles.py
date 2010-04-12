@@ -55,26 +55,6 @@ class ProposalTile(DelegateableTile):
     
     position = property(_position)
     
-    
-    def _can_edit(self):
-        return h.has_permission('proposal.edit') \
-                and not self.is_immutable
-    
-    can_edit = property(_can_edit)    
-    
-    def _can_delete(self):
-        return h.has_permission('proposal.delete') \
-                and not self.is_immutable
-    
-    can_delete = property(_can_delete)
-    
-    def _can_rate(self):
-        return h.has_permission('vote.cast') \
-                and self.proposal.rate_poll is not None \
-                and not self.proposal.rate_poll.has_ended()
-    
-    can_rate = property(_can_rate)
-    
     def _has_overridden(self):
         if self.decision.is_self_decided():
             return True
@@ -82,15 +62,10 @@ class ProposalTile(DelegateableTile):
     
     def _can_create_canonical(self):
         return h.has_permission('comment.create') \
-                and not self.is_immutable
+                and self.proposal.is_mutable()
     
     can_create_canonical = property(_can_create_canonical)
             
-    def _is_immutable(self):
-        return not self.proposal.is_mutable()
-    
-    is_immutable = property(_is_immutable)
-    
     def _delegates(self):
         agents = []
         if not c.user:

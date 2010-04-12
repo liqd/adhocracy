@@ -47,9 +47,9 @@ class ProposalTagDeleteForm(formencode.Schema):
 class ProposalController(BaseController):
     
     @RequireInstance
-    @ActionProtector(has_permission("proposal.view"))
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
+        require.proposal.index()
         query = self.form_result.get('proposals_q')
         proposals = libsearch.query.run(query + u"*", instance=c.instance, 
                                         entity_type=model.Proposal)
@@ -70,9 +70,9 @@ class ProposalController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("proposal.create"))
     @validate(schema=ProposalNewForm(), form='bad_request', post_only=False, on_get=True)
     def new(self, errors=None):
+        require.proposal.create()
         defaults = dict(request.params)
         c.alternatives = not_null(self.form_result.get('alternative'))
         if len(c.alternatives):
@@ -84,8 +84,8 @@ class ProposalController(BaseController):
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
-    @ActionProtector(has_permission("proposal.create"))
     def create(self, format='html'):
+        require.proposal.create()
         try:
             self.form_result = ProposalCreateForm().to_python(request.params)
         except Invalid, i:
@@ -109,7 +109,6 @@ class ProposalController(BaseController):
 
 
     @RequireInstance
-    @ActionProtector(has_permission("proposal.edit")) 
     @validate(schema=ProposalEditForm(), form="bad_request", post_only=False, on_get=True)
     def edit(self, id, errors={}):
         c.proposal = self._get_mutable_proposal(id)
@@ -127,13 +126,13 @@ class ProposalController(BaseController):
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
-    @ActionProtector(has_permission("proposal.edit")) 
     def update(self, id, format='html'):
         try:
             self.form_result = ProposalUpdateForm().to_python(request.params)
         except Invalid, i:
             return self.edit(errors=i.unpack_errors())
-        proposal = self._get_mutable_proposal(id)
+        proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.edit(proposal)
         proposal.label = self.form_result.get("label")
         model.meta.Session.commit()
         alternatives = not_null(self.form_result.get('alternative'))
@@ -146,9 +145,9 @@ class ProposalController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("proposal.view"))
     def show(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)     
+        require.proposal.show(c.proposal)
         
         if format == 'rss':
             return self.activity(id, format)
@@ -162,9 +161,9 @@ class ProposalController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("proposal.view"))
     def delegations(self, id, format="html"):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.show(c.proposal)
         delegations = c.proposal.current_delegations()
         c.delegations_pager = pager.delegations(delegations)
         
@@ -177,9 +176,9 @@ class ProposalController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("proposal.view"))
     def canonicals(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.show(c.proposal)
         
         if format == 'json':
             return render_json(c.proposal.canonicals)
@@ -190,9 +189,9 @@ class ProposalController(BaseController):
 
     
     @RequireInstance
-    @ActionProtector(has_permission("proposal.view"))
     def alternatives(self, id, format="html"):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.show(c.proposal)
         alternatives = c.proposal.current_alternatives()
         c.proposals_pager = pager.proposals(alternatives)
         
@@ -205,9 +204,9 @@ class ProposalController(BaseController):
     
 
     @RequireInstance
-    @ActionProtector(has_permission("proposal.view"))
     def activity(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.show(c.proposal)
         
         if format == 'sline':
             sline = event.sparkline_samples(event.proposal_activity, c.proposal)
@@ -227,18 +226,18 @@ class ProposalController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("proposal.delete"))
     def ask_delete(self, id):
-        c.proposal = self._get_mutable_proposal(id)
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.delete(c.proposal)
         c.tile = tiles.proposal.ProposalTile(c.proposal)
         return render('/proposal/ask_delete.html')
     
     
     @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("proposal.delete"))
     def delete(self, id):
-        c.proposal = self._get_mutable_proposal(id)
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.delete(c.proposal)
         event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance, 
                    topics=[c.proposal], proposal=c.proposal)
         c.proposal.delete()
@@ -248,22 +247,16 @@ class ProposalController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("poll.create"))
     def ask_adopt(self, id):
-        c.proposal = self._get_mutable_proposal(id)
-        if not c.proposal.can_adopt():
-            abort(403, _("The poll cannot be started either because there are " + 
-                         "no provisions or a poll has already started."))
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.adopt(c.proposal)
         return render('/proposal/ask_adopt.html')
         
     
     @RequireInstance
-    @ActionProtector(has_permission("poll.create"))
     def adopt(self, id):
-        c.proposal = self._get_mutable_proposal(id)
-        if not c.proposal.can_adopt():
-            abort(403, _("The poll cannot be started either because there are " + 
-                         "no provisions or a poll has already started."))
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.adopt(c.proposal)
         poll = model.Poll.create(c.proposal, c.user, model.Poll.ADOPT)
         model.meta.Session.commit()
         c.proposal.adopt_poll = poll 
@@ -274,9 +267,9 @@ class ProposalController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("proposal.view"))
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def filter(self):
+        require.proposal.index()
         query = self.form_result.get('proposals_q')
         if query is None: query = u''
         proposals = libsearch.query.run(query + u"*", instance=c.instance, 
@@ -309,13 +302,6 @@ class ProposalController(BaseController):
         tagging.delete()
         model.meta.Session.commit()
         redirect(h.entity_url(c.proposal))
-    
-    
-    def _get_mutable_proposal(self, id):
-        proposal = get_entity_or_abort(model.Proposal, id, full=True)
-        if not proposal.is_mutable():
-            abort(403, h.immutable_proposal_message())
-        return proposal
     
     
     def _common_metadata(self, proposal):

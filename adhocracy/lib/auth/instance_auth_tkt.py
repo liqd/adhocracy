@@ -14,7 +14,7 @@ class InstanceAuthTktCookiePlugin(AuthTktCookiePlugin):
         else:
             max_age = ''
 
-        cur_domain = environ.get('adhocracy.domain').split(':', 1)[0]
+        cur_domain = environ.get('adhocracy.domain').split(':')[0]
         wild_domain = '.' + cur_domain
         cookies = [
             #('Set-Cookie', '%s="%s"; Path=/%s' % (
