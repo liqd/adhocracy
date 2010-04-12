@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>REST API &mdash; Adhocracy v0.4 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.4',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Adhocracy v0.4 documentation" href="index.html" />
+    <link rel="prev" title="Platform Basics" href="intro.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="intro.html" title="Platform Basics"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Adhocracy v0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="rest-api">
+<h1>REST API<a class="headerlink" href="#rest-api" title="Permalink to this headline">¶</a></h1>
+<p>Adhocracy provides a REST-inspired API for client applications to
+remotely gather or submit data or to synchronize Adhocracy sign-ups
+and voting processes with other sites.</p>
+<p>While at the moment only JSON and RSS is produced and only JSON is
+processed by the software, future support for other formats, such as
+XML (i.e. StratML, EML) is planned.</p>
+<div class="section" id="data-submission">
+<h2>Data Submission<a class="headerlink" href="#data-submission" title="Permalink to this headline">¶</a></h2>
+<p>All data submitted is expected to be either URL-encoded (for GET requests)
+or <tt class="docutils literal"><span class="pre">application/x-www-form-urlencoded</span></tt> (i.e. formatted as an HTML form).
+Accept/Content-type based submission of JSON/XML data will be implemented
+in a later release.</p>
+<p>A meta parameter called <tt class="docutils literal"><span class="pre">_method</span></tt> is evaluated for each request to fake a
+request method if needed. This is useful for older HTTP libraries or
+JavaScript clients which cannot actually perform any of the more exotic
+HTTP methods, such as PUT and DELETE.</p>
+</div>
+<div class="section" id="authentication-and-security">
+<h2>Authentication and Security<a class="headerlink" href="#authentication-and-security" title="Permalink to this headline">¶</a></h2>
+<p>Authentication can take place either via form-based cookie creation
+(POST <tt class="docutils literal"><span class="pre">login</span></tt> and <tt class="docutils literal"><span class="pre">password</span></tt> to <tt class="docutils literal"><span class="pre">/perform_login</span></tt>) or via HTTP
+Basic authentication (i.e. via HTTP headers).</p>
+<p>Please note that for any write action using a cookie-based session,
+the site will expect an additional request parameter, <tt class="docutils literal"><span class="pre">_tok</span></tt>, containing
+a session ID. This is part of Adhocracy&#8217;s CSRF filter and it will
+not apply to requests made using HTTP Basic authentication.</p>
+<p>OAuth-based authorization is planned for a future release and will
+allow for token-based access to specific resources or operations.</p>
+</div>
+<div class="section" id="pagination">
+<h2>Pagination<a class="headerlink" href="#pagination" title="Permalink to this headline">¶</a></h2>
+<p>Many listings in Adhocracy are powered by a common pager system. Each
+pager has a specific prefix (e.g. <tt class="docutils literal"><span class="pre">proposals_</span></tt>) and a set of request
+parameters that can be used to influence the pager:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">[prefix]_page</span></tt>: The page number to retrieve, i.e. offset.</li>
+<li><tt class="docutils literal"><span class="pre">[prefix]_count</span></tt>: Number of items to retrieve per page.</li>
+<li><tt class="docutils literal"><span class="pre">[prefix]_sort</span></tt>: Sorting key. These are somewhat erratically numbered and need to be redone in the future.</li>
+<li>(optional) <tt class="docutils literal"><span class="pre">[prefix]_q</span></tt>: A search query used to filter the items.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="resources">
+<h1>Resources<a class="headerlink" href="#resources" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="instance-group-organization-instances">
+<h2><tt class="docutils literal"><span class="pre">/instance</span></tt> - Group/Organization Instances<a class="headerlink" href="#instance-group-organization-instances" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="index">
+<h3>index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>List all existing and non-hidden instances.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/instance[.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">GET</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: no</li>
+<li>Pager prefix: <tt class="docutils literal"><span class="pre">instances_</span></tt></li>
+</ul>
+</div>
+<div class="section" id="create">
+<h3>create<a class="headerlink" href="#create" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Create a new instance for a group or organization.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/instance[.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">POST</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: yes</li>
+<li>Parameters:</li>
+</ul>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">key</span></tt>: A unique identifier for the instance. Short lower-case alpha-numeric text. This cannot be edited after the instance creation.</li>
+<li><tt class="docutils literal"><span class="pre">label</span></tt>: A title for the instance.</li>
+<li><tt class="docutils literal"><span class="pre">description</span></tt>: Short description for the instance, e.g. a mission statement.</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="show">
+<h3>show<a class="headerlink" href="#show" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>View an instance&#8217;s home page or base data</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/instance/[key][.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">GET</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: no</li>
+<li><em>Note</em>: If no instance subdomain has been specified, this will 302 to the actual instance.</li>
+</ul>
+</div>
+<div class="section" id="update">
+<h3>update<a class="headerlink" href="#update" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Update some of an instance&#8217;s properties.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/instance[.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">PUT</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: yes</li>
+<li>Parameters:</li>
+</ul>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">label</span></tt>: A title for the instance.</li>
+<li><tt class="docutils literal"><span class="pre">description</span></tt>: Short description for the instance, e.g. a mission statement.</li>
+<li><tt class="docutils literal"><span class="pre">required_majority</span></tt>: The percentage of voters required for the adoption of a proposal (e.g. 0.66 for 66%).</li>
+<li><tt class="docutils literal"><span class="pre">activation_delay</span></tt>: Delay (in days) that a proposal needs to maintain a majority to be adopted.</li>
+<li><tt class="docutils literal"><span class="pre">allow_adopt</span></tt>: Whether to allow adoption polls on proposals (<tt class="docutils literal"><span class="pre">bool</span></tt>).</li>
+<li><tt class="docutils literal"><span class="pre">allow_delegate</span></tt>: Whether to enable delegated voting (<tt class="docutils literal"><span class="pre">bool</span></tt>).</li>
+<li><tt class="docutils literal"><span class="pre">allow_index</span></tt>: Allow search engine indexing (via robots.txt, <tt class="docutils literal"><span class="pre">bool</span></tt>).</li>
+<li><tt class="docutils literal"><span class="pre">hidden</span></tt>: Show instance in listings.</li>
+<li><tt class="docutils literal"><span class="pre">default_group</span></tt>: Default group for newly joined members (one of: <tt class="docutils literal"><span class="pre">observer</span></tt>, <tt class="docutils literal"><span class="pre">advisor</span></tt>, <tt class="docutils literal"><span class="pre">voter</span></tt>, <tt class="docutils literal"><span class="pre">supervisor</span></tt>).</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="delete">
+<h3>delete<a class="headerlink" href="#delete" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Delete an instance and all contained entities.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/instance/[key][.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">DELETE</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: yes <em>(requires global admin rights)</em></li>
+<li><em>Note</em>: This will also delete all contained items, such as proposals, delegations, polls or comments.</li>
+</ul>
+</div>
+<div class="section" id="activity">
+<h3>activity<a class="headerlink" href="#activity" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Retrieve a list of the latest events relating to this instance.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/instance/[key]/activity[.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">GET</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">rss</span></tt></li>
+<li>Authentication: no</li>
+<li>Pager prefix: <tt class="docutils literal"><span class="pre">events_</span></tt></li>
+</ul>
+</div>
+<div class="section" id="join">
+<h3>join<a class="headerlink" href="#join" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Make the authenticated user a member of this <tt class="docutils literal"><span class="pre">Instance</span></tt>.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/instance/[key]/join[.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">GET</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html</span></tt></li>
+<li>Authentication: yes</li>
+<li><em>Note</em>: Fails if the user is already a member of the instance.</li>
+</ul>
+</div>
+<div class="section" id="leave">
+<h3>leave<a class="headerlink" href="#leave" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Terminate the authenticated user&#8217;s membership in this <tt class="docutils literal"><span class="pre">Instance</span></tt>.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/instance/[key]/leave[.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">POST</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html</span></tt></li>
+<li>Authentication: yes</li>
+<li><em>Note</em>: Fails if the user is not a member of the instance.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="user-user-management">
+<h2><tt class="docutils literal"><span class="pre">/user</span></tt> - User Management<a class="headerlink" href="#user-user-management" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>votes</li>
+<li>delegations</li>
+<li>instances</li>
+<li>issues</li>
+<li>proposals</li>
+<li>groupmod!</li>
+<li>kick!</li>
+</ul>
+</div>
+<div class="section" id="proposal-proposal-drafting">
+<h2><tt class="docutils literal"><span class="pre">/proposal</span></tt> - Proposal drafting<a class="headerlink" href="#proposal-proposal-drafting" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>delegations</li>
+<li>canonicals</li>
+<li>alternatives</li>
+<li>activity</li>
+<li>adopt!</li>
+<li>tag!</li>
+<li>untag!</li>
+</ul>
+</div>
+<div class="section" id="poll-poll-data-and-voting">
+<h2><tt class="docutils literal"><span class="pre">/poll</span></tt> - Poll data and voting<a class="headerlink" href="#poll-poll-data-and-voting" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>show<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>View a poll, listing the current decisions and offering a chance to vote.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/poll/[id][.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">GET</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: no</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>delete<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>End a poll and close voting.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/poll/[id][.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">DELETE</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: yes</li>
+<li><em>Note</em>: This will only work for adoption polls, rating polls cannot be terminated.</li>
+</ul>
+</div>
+<div class="section" id="votes">
+<h3>votes<a class="headerlink" href="#votes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Retrieve a list of the decisions that were made regarding this poll.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/poll/[id]/votes[.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">GET</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: no</li>
+<li>Pager prefix: <tt class="docutils literal"><span class="pre">decisions_</span></tt></li>
+<li>Parameters:</li>
+</ul>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">result</span></tt>: Filter for a specific decision, i.e. -1 (No), 1 (Yes), 0 (Abstained).</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="rate">
+<h3>rate<a class="headerlink" href="#rate" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Vote in the poll via rating.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/poll/[id]/rate[.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">POST</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: yes</li>
+<li><em>Note</em>: This implements relative voting, i.e. if a user has previously voted -1 and now votes 1, the result will be 0 (a relative change). Used for comment up-/downvoting. Unlike <tt class="docutils literal"><span class="pre">vote</span></tt>, this will also trigger an automated tallying of the poll. It is thus slower, especially for large polls.</li>
+</ul>
+</div>
+<div class="section" id="vote">
+<h3>vote<a class="headerlink" href="#vote" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Vote in the poll.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/poll/[id]/vote[.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">POST</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: yes</li>
+<li><em>Note</em>: This does not trigger tallying. Thus a subsequent call to <tt class="docutils literal"><span class="pre">show</span></tt> might yield an incorrect tally until a server background job has run.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="comment-commenting-and-comment-history">
+<h2><tt class="docutils literal"><span class="pre">/comment</span></tt> - Commenting and comment history<a class="headerlink" href="#comment-commenting-and-comment-history" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>history</li>
+<li>revert!</li>
+</ul>
+</div>
+<div class="section" id="delegation-vote-delegation-management">
+<h2><tt class="docutils literal"><span class="pre">/delegation</span></tt> - Vote delegation management<a class="headerlink" href="#delegation-vote-delegation-management" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>index<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>List all existing delegations.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/delegation[.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">GET</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">json,</span> <span class="pre">dot</span></tt></li>
+<li>Authentication: no</li>
+<li>Pager prefix: <tt class="docutils literal"><span class="pre">delegations_</span></tt></li>
+<li><em>Note</em>: The <tt class="docutils literal"><span class="pre">dot</span></tt> format produces a graphviz file.</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>create<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Create a new delegation to a specified principal in a given scope.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/delegation[.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">POST</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: yes</li>
+<li>Parameters:</li>
+</ul>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">scope</span></tt>: ID of the <tt class="docutils literal"><span class="pre">Delegateable</span></tt> which will be the delegation&#8217;s scope.</li>
+<li><tt class="docutils literal"><span class="pre">agent</span></tt>: User name of the delegation recipient.</li>
+<li><tt class="docutils literal"><span class="pre">replay</span></tt>: Whether or not to re-play all of the agents previous decisions within the scope.</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="id5">
+<h3>show<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>View the delegation.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/delegation/[id][.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">GET</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: no</li>
+<li>Pager prefix: <tt class="docutils literal"><span class="pre">decisions_</span></tt></li>
+<li><em>Note</em>: For <tt class="docutils literal"><span class="pre">json</span></tt> this will return a tuple of the actual serialized delegation and a list of decisions.</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h3>delete<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Revoke a given delegation.</li>
+<li>URL: <tt class="docutils literal"><span class="pre">http://[instance].adhocracy.cc/delegation/[id][.format]</span></tt></li>
+<li>Method: <tt class="docutils literal"><span class="pre">DELETE</span></tt></li>
+<li>Formats: <tt class="docutils literal"><span class="pre">html,</span> <span class="pre">json</span></tt></li>
+<li>Authentication: yes</li>
+<li><em>Note</em>: Can only be performed by the delegation&#8217;s principal.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">REST API</a><ul>
+<li><a class="reference external" href="#data-submission">Data Submission</a></li>
+<li><a class="reference external" href="#authentication-and-security">Authentication and Security</a></li>
+<li><a class="reference external" href="#pagination">Pagination</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#resources">Resources</a><ul>
+<li><a class="reference external" href="#instance-group-organization-instances"><tt class="docutils literal"><span class="pre">/instance</span></tt> - Group/Organization Instances</a><ul>
+<li><a class="reference external" href="#index">index</a></li>
+<li><a class="reference external" href="#create">create</a></li>
+<li><a class="reference external" href="#show">show</a></li>
+<li><a class="reference external" href="#update">update</a></li>
+<li><a class="reference external" href="#delete">delete</a></li>
+<li><a class="reference external" href="#activity">activity</a></li>
+<li><a class="reference external" href="#join">join</a></li>
+<li><a class="reference external" href="#leave">leave</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#user-user-management"><tt class="docutils literal"><span class="pre">/user</span></tt> - User Management</a></li>
+<li><a class="reference external" href="#proposal-proposal-drafting"><tt class="docutils literal"><span class="pre">/proposal</span></tt> - Proposal drafting</a></li>
+<li><a class="reference external" href="#poll-poll-data-and-voting"><tt class="docutils literal"><span class="pre">/poll</span></tt> - Poll data and voting</a><ul>
+<li><a class="reference external" href="#id1">show</a></li>
+<li><a class="reference external" href="#id2">delete</a></li>
+<li><a class="reference external" href="#votes">votes</a></li>
+<li><a class="reference external" href="#rate">rate</a></li>
+<li><a class="reference external" href="#vote">vote</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#comment-commenting-and-comment-history"><tt class="docutils literal"><span class="pre">/comment</span></tt> - Commenting and comment history</a></li>
+<li><a class="reference external" href="#delegation-vote-delegation-management"><tt class="docutils literal"><span class="pre">/delegation</span></tt> - Vote delegation management</a><ul>
+<li><a class="reference external" href="#id3">index</a></li>
+<li><a class="reference external" href="#id4">create</a></li>
+<li><a class="reference external" href="#id5">show</a></li>
+<li><a class="reference external" href="#id6">delete</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="intro.html"
+                                  title="previous chapter">Platform Basics</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/rest.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="intro.html" title="Platform Basics"
+             >previous</a> |</li>
+        <li><a href="index.html">Adhocracy v0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Friedrich Lindenberg.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>
