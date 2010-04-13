@@ -17,6 +17,8 @@ Contents:
 
    intro
    rest
+   resources
+   api
 
 Indices and tables
 ==================

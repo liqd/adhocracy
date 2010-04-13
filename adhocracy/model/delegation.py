@@ -27,10 +27,11 @@ class Delegation(object):
         self.agent = agent
         self.scope = scope
     
-    def is_match(self, delegateable):
-        if self.is_revoked():
-            return False
-        return self.scope == delegateable or self.scope.is_super(delegateable)
+    def is_match(self, delegateable, include_deleted=False):
+        if include_deleted or not self.is_revoked():
+            return self.scope == delegateable or self.scope.is_super(delegateable)
+        return False
+        
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
@@ -66,7 +67,25 @@ class Delegation(object):
             return d
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))
-            return None       
+            return None  
+    
+    @classmethod
+    def find_by_principal(cls, principal, include_deleted=False):
+        try:
+            q = meta.Session.query(Delegation)
+            q = q.filter(Delegation.principal==principal)
+            if not include_deleted:
+                q = q.filter(or_(Delegation.revoke_time==None,
+                                 Delegation.revoke_time>datetime.utcnow()))
+            return q.all()
+        except Exception, e:
+            log.warn("find_by_principal(%s): %s" % (id, e))
+            return None
+       
+    @classmethod
+    def find_by_principal_in_scope(cls, principal, scope, include_deleted=False):
+        return [d for d in cls.find_by_principal(principal, include_deleted=include_deleted) \
+                if d.is_match(scope, include_deleted=include_deleted)]
     
     @classmethod
     def all(cls, instance=None, include_deleted=False):

@@ -132,7 +132,7 @@
 <%def name="edit_form(comment)">
 	<form name="edit_comment" class="inplace" method="POST" action="/comment/${comment.id}">
 		${h.field_token()|n}
-		
+		<input type="hidden" name="_method" value="PUT" />
 		%if not comment.canonical and comment.reply:
 			${_("argumenting")}
 			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == 1 else ''} /> 
@@ -144,10 +144,9 @@
 			<br/>
 		%endif
 		
-		<textarea tabindex="2" class="description" style="min-height: ${max(7, min(30, len(comment.latest.text)/50))}em !important;" name="text">${comment.latest.text}</textarea>
-		<input type="hidden" name="_method" value="PUT" />
+		<textarea class="description" style="min-height: ${max(7, min(30, len(comment.latest.text)/50))}em !important;" name="text">${comment.latest.text}</textarea>
 		${components.formatting()}
-		${components.savebox("/d/%s" % comment.topic.id)}
+		${components.savebox(h.entity_url(comment.topic))}
 		${components.form_watch(comment)}
 	</form>
 </%def>
@@ -172,7 +171,7 @@
 		%if arm:
 			<label for="text" class="armhint">${arm}</label>
 		%endif
-		<textarea tabindex="2" class="description armlabel" name="text"></textarea><br/>
+		<textarea class="description armlabel" name="text"></textarea><br/>
 		${components.formatting()}
 		${components.savebox("/d/%s" % parent.topic.id if parent else request.params.get('topic'))}
 		${components.form_watch(None)}

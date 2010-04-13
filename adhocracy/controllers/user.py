@@ -74,10 +74,7 @@ class UserController(BaseController):
     def index(self, format='html'):
         query = self.form_result.get('users_q')
         c.users = libsearch.query.run(query + u"*", entity_type=model.User)
-
-        if format == 'json':
-            return render_json(c.users)
-            
+    
         if c.instance:
             c.tile = tiles.instance.InstanceTile(c.instance)
             
@@ -89,6 +86,10 @@ class UserController(BaseController):
                     if not group or mem.group.code == group:
                         filtered.append(user)
             c.users = filtered
+        
+        if format == 'json':
+            return render_json(c.users_pager)
+
         
         c.users_pager = pager.users(c.users, has_query=query is not None)
         return render("/user/index.html")
@@ -314,6 +315,15 @@ class UserController(BaseController):
     def delegations(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         scope_id = request.params.get('scope', None)
+        
+        if format == 'json':
+            delegations = model.Delegation.find_by_principal(c.page_user)
+            scope = model.Delegateable.find(scope_id) if scope_id else None
+            if scope is not None:
+                delegations = [d for d in delegations if d.is_match(scope)]
+            delegations_pager = pager.delegations(delegations)
+            return render_json(delegations_pager)
+        
         c.dgbs = []
         if scope_id:
             c.scope = forms.ValidDelegateable().to_python(scope_id)
@@ -329,11 +339,11 @@ class UserController(BaseController):
     def instances(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         instances = [i for i in c.page_user.instances if i.is_shown()]
+        c.instances_pager = pager.instances(instances)
         
         if format == 'json':
-            return render_json(instances)
+            return render_json(c.instances_pager)
         
-        c.instances_pager = pager.instances(instances)
         self._common_metadata(c.page_user, member='instances', add_canonical=True)
         return render("/user/instances.html")
     
@@ -357,11 +367,11 @@ class UserController(BaseController):
     def proposals(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         proposals = model.Proposal.find_by_creator(c.page_user)
+        c.proposals_pager = pager.proposals(proposals)
         
         if format == 'json':
-            return render_json(list(proposals))
-
-        c.proposals_pager = pager.proposals(proposals)
+            return render_json(c.proposals_pager)
+        
         self._common_metadata(c.page_user, member='proposals')
         return render("/user/proposals.html")
     
@@ -390,6 +400,10 @@ class UserController(BaseController):
                                       sorts={_("oldest"): sorting.entity_oldest,
                                              _("newest"): sorting.entity_newest},
                                       default_sort=sorting.entity_newest)
+        
+        if format == 'json':
+            return render_json(c.entities_pager)
+
         self._common_metadata(c.page_user, member='watchlist')
         return render("/user/watchlist.html")    
         

@@ -1,0 +1,437 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Internal API Documentation &mdash; Adhocracy v0.4 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.4',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Adhocracy v0.4 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li><a href="index.html">Adhocracy v0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="internal-api-documentation">
+<h1>Internal API Documentation<a class="headerlink" href="#internal-api-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Adhocracy does not have a public programming API. There is a plan to develop a
+common <em>Kernel</em> interface for <em>Liquid Democracy</em> projects. Once such an API
+becomes available, Adhocracy will be modified to implement that API.</p>
+<div class="section" id="module-adhocracy.lib">
+<h2>The <tt class="xref docutils literal"><span class="pre">adhocracy.lib</span></tt> Module<a class="headerlink" href="#module-adhocracy.lib" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="adhocracy.lib.init_site">
+<tt class="descclassname">adhocracy.lib.</tt><tt class="descname">init_site</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.lib.init_site" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-adhocracy.lib.democracy.decision">
+<h1><tt class="xref docutils literal"><span class="pre">adhocracy.lib.democracy</span></tt> &#8211; Core polling logic<a class="headerlink" href="#module-adhocracy.lib.democracy.decision" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="adhocracy.lib.democracy.decision.Decision">
+<em class="property">class </em><tt class="descclassname">adhocracy.lib.democracy.decision.</tt><tt class="descname">Decision</tt><big>(</big><em>user</em>, <em>poll</em>, <em>at_time=None</em>, <em>votes=None</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision" title="Permalink to this definition">¶</a></dt>
+<dd><p>A decision describes the current or past opinion that a user has 
+expressed on a given poll. This includes opinions that were determined
+by an agent as a result of delegation.</p>
+<dl class="classmethod">
+<dt id="adhocracy.lib.democracy.decision.Decision.average_decisions">
+<em class="property">classmethod </em><tt class="descname">average_decisions</tt><big>(</big><em>instance</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.average_decisions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The average number of decisions that a <tt class="docutils literal"><span class="pre">Poll</span></tt> in the given instance 
+has. For each proposal, this only includes the current poll in order to 
+not accumulate too much historic data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>instance</em> &#8211; the <tt class="docutils literal"><span class="pre">Instance</span></tt> for which to calculate the average.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.lib.democracy.decision.Decision.create_time">
+<tt class="descname">create_time</tt><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.create_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility property to see when this decision became effective. Equals 
+the latest relevant vote creation date.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">datetime</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.lib.democracy.decision.Decision.delegations">
+<tt class="descname">delegations</tt><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.delegations" title="Permalink to this definition">¶</a></dt>
+<dd><p>The set of delegations which have determined this decision, as per 
+<tt class="docutils literal"><span class="pre">relevant_votes</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">list of <tt class="docutils literal"><span class="pre">Delegation</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="adhocracy.lib.democracy.decision.Decision.for_poll">
+<em class="property">classmethod </em><tt class="descname">for_poll</tt><big>(</big><em>poll</em>, <em>at_time=None</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.for_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all decisions that have been made on a poll.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>poll</em> &#8211; The poll on which to get decisions.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="adhocracy.lib.democracy.decision.Decision.for_user">
+<em class="property">classmethod </em><tt class="descname">for_user</tt><big>(</big><em>user</em>, <em>instance</em>, <em>at_time=None</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.for_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Give a list of all decisions the user made within an instance context.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>user</em> &#8211; The user for which to list <tt class="docutils literal"><span class="pre">Decisions</span></tt></li>
+<li><em>instance</em> &#8211; an <tt class="docutils literal"><span class="pre">Instance</span></tt> context.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.lib.democracy.decision.Decision.is_decided">
+<tt class="descname">is_decided</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.is_decided" title="Permalink to this definition">¶</a></dt>
+<dd>Determine if a given decision was made by the user, i.e. if the user
+or one of his/her agents has voted on the proposal.</dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.lib.democracy.decision.Decision.is_self_decided">
+<tt class="descname">is_self_decided</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.is_self_decided" title="Permalink to this definition">¶</a></dt>
+<dd>Determine if a given decision was made by the user him-/herself. 
+This does not consider decisions determined by delegation.</dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.lib.democracy.decision.Decision.make">
+<tt class="descname">make</tt><big>(</big><em>orientation</em>, <em>_edge=None</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.make" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a decision on a given proposal, i.e. vote. Voting recursively propagates 
+through the delegation graph to all principals who have assigned voting 
+power to the <tt class="docutils literal"><span class="pre">User</span></tt>. Each delegated vote will be marked as such by 
+saving the <tt class="docutils literal"><span class="pre">Delegation</span></tt> as a part of the <tt class="docutils literal"><span class="pre">Vote</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>orientation</em> &#8211; orientation of the vote, <tt class="docutils literal"><span class="pre">Vote.YES</span></tt>, <tt class="docutils literal"><span class="pre">Vote.NO</span></tt> 
+or <tt class="docutils literal"><span class="pre">Vote.ABSTAIN</span></tt></td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the <tt class="docutils literal"><span class="pre">Votes</span></tt> that has been cast</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.lib.democracy.decision.Decision.relevant_votes">
+<tt class="descname">relevant_votes</tt><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.relevant_votes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Currently relevant votes for the polling interval.</p>
+<p><strong>WARNING</strong>: A non-empty list of relevant votes does not always 
+mean a decision was made. This is not true, for example, when multiple
+delegates match a proposal and their opinions differ.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">List of <tt class="docutils literal"><span class="pre">Vote</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.lib.democracy.decision.Decision.reload">
+<tt class="descname">reload</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.reload" title="Permalink to this definition">¶</a></dt>
+<dd>Load all votes by the user regarding the poll.</dd></dl>
+
+<dl class="classmethod">
+<dt id="adhocracy.lib.democracy.decision.Decision.replay_decisions">
+<em class="property">classmethod </em><tt class="descname">replay_decisions</tt><big>(</big><em>delegation</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.replay_decisions" title="Permalink to this definition">¶</a></dt>
+<dd><p>For a new delegation, have the principal reproduce all of the agents
+past decisions within the delegation scope. This process is not perfect, 
+since not the full voting history is reproduced, but only the latest 
+interim result. The resulting decisions should be the same, though.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>delegation</em> &#8211; The delegation that is newly created.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.lib.democracy.decision.Decision.result">
+<tt class="descname">result</tt><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.result" title="Permalink to this definition">¶</a></dt>
+<dd>The result is an <tt class="docutils literal"><span class="pre">orientation</span></tt> and reflects the <tt class="docutils literal"><span class="pre">User</span></tt>&#8216;s current 
+decision on the <tt class="docutils literal"><span class="pre">Proposal</span></tt>. Values match those in <tt class="docutils literal"><span class="pre">Vote</span></tt>. Given multiple 
+delegates who have voted on the proposal, the current approach is to check 
+for an unanimous decision and to discard all other constellations. Another
+approach would be to require only a certain majority of agents to support an 
+opinion, thus creating an inner vote.</dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.lib.democracy.decision.Decision.without_vote">
+<tt class="descname">without_vote</tt><big>(</big><em>vote</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.without_vote" title="Permalink to this definition">¶</a></dt>
+<dd>Return the same decision given that a certain vote had not been 
+cast.</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="adhocracy.lib.democracy.decision.DecisionException">
+<em class="property">exception </em><tt class="descclassname">adhocracy.lib.democracy.decision.</tt><tt class="descname">DecisionException</tt><a class="headerlink" href="#adhocracy.lib.democracy.decision.DecisionException" title="Permalink to this definition">¶</a></dt>
+<dd>A general exception for <tt class="docutils literal"><span class="pre">Decision</span></tt> errors</dd></dl>
+
+<div class="section" id="module-adhocracy.lib.democracy.delegation_node">
+<h2>Delegation management and traversal<a class="headerlink" href="#module-adhocracy.lib.democracy.delegation_node" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="adhocracy.lib.democracy.delegation_node.DelegationNode">
+<em class="property">class </em><tt class="descclassname">adhocracy.lib.democracy.delegation_node.</tt><tt class="descname">DelegationNode</tt><big>(</big><em>user</em>, <em>delegateable</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.delegation_node.DelegationNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <tt class="docutils literal"><span class="pre">DelegationNode</span></tt> describes a part of the voting delegation graph
+sorrounding a <tt class="docutils literal"><span class="pre">Delegateable</span></tt> (i.e. a <tt class="docutils literal"><span class="pre">Category</span></tt>, <tt class="docutils literal"><span class="pre">Issue</span></tt> or 
+<tt class="docutils literal"><span class="pre">Proposal</span></tt>) and a <tt class="docutils literal"><span class="pre">User</span></tt>.</p>
+<p>Right now the delegation graph is a graph of incomming and outgoing 
+delegations on multiple levels - one level per scope.</p>
+<p>Each DelegationNode represents the incomming and outgoing delegations
+of one user on one level (scope/delegateable) in this graph.</p>
+<p><strong>TODO:</strong> Developing a good caching strategy for this class would be 
+useful in order to cache the delegation graph to memcached.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>user</em> &#8211; The <tt class="docutils literal"><span class="pre">User</span></tt> at the center of this <tt class="docutils literal"><span class="pre">DelegationNode</span></tt>.</li>
+<li><em>delegateable</em> &#8211; A <tt class="docutils literal"><span class="pre">Delegateable</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="classmethod">
+<dt id="adhocracy.lib.democracy.delegation_node.DelegationNode.filter_less_specific_delegations">
+<em class="property">classmethod </em><tt class="descname">filter_less_specific_delegations</tt><big>(</big><em>delegations</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.delegation_node.DelegationNode.filter_less_specific_delegations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a set of delegations, remove those that are overriden by others. 
+A delegation is overridden whenever there is another delegation with a
+narrower scope that still applies.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>delegations</em> &#8211; The list of delegations that are to be filtered. 
+They need to all be be from the same principal.</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">A filtered list of delegations.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.lib.democracy.delegation_node.DelegationNode.inbound">
+<tt class="descname">inbound</tt><big>(</big><em>recurse=True</em>, <em>at_time=None</em>, <em>is_counting_delegations=False</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.delegation_node.DelegationNode.inbound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all inbound delegations (i.e. those that the user has received
+from other users in order to vote on their behalf) that apply to the 
+<tt class="docutils literal"><span class="pre">Delegateable</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>recurse</em> &#8211; if <tt class="xref docutils literal"><span class="pre">True</span></tt>, search will include delegations on parent 
+<tt class="docutils literal"><span class="pre">Delegateables</span></tt> in breadth-first traversal order.</li>
+<li><em>at_time</em> &#8211; return the delegation graph at the given time, defaults
+to the current time.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.lib.democracy.delegation_node.DelegationNode.outbound">
+<tt class="descname">outbound</tt><big>(</big><em>recurse=True</em>, <em>at_time=None</em>, <em>filter=True</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.delegation_node.DelegationNode.outbound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all outbound delegations (i.e. those that the user has given
+to other users in order allow them to vote on his/her behalf) that 
+apply to the <tt class="docutils literal"><span class="pre">Delegateable</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>recurse</em> &#8211; if <tt class="xref docutils literal"><span class="pre">True</span></tt>, search will include delegations on parent 
+<tt class="docutils literal"><span class="pre">Delegateables</span></tt> in breadth-first traversal order.</li>
+<li><em>at_time</em> &#8211; return the delegation graph at the given time, defaults
+to the current time.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of <tt class="docutils literal"><span class="pre">Delegation</span></tt></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.lib.democracy.delegation_node.DelegationNode.propagate">
+<tt class="descname">propagate</tt><big>(</big><em>callable</em>, <em>_edge=None</em>, <em>_propagation_path=None</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.delegation_node.DelegationNode.propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Propagate a given action along the delegation graph <em>against</em> its direction, 
+i.e. from the agent node towards its principal. This is the natural direction 
+to propagate actions along this network since it allows principals to reproduce
+the actions of their agents.</p>
+<p>Propagation will abort on circular dependencies but has no recursion depth limit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>callable</em> &#8211; A callable that is to be called on each node. It must take 
+three arguments, a <tt class="docutils literal"><span class="pre">User</span></tt>, a <tt class="docutils literal"><span class="pre">Delegateable</span></tt> and the <tt class="docutils literal"><span class="pre">Delegation</span></tt> 
+which served as a transitory edge during the last step of the propagation.</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">a list of all results produced by the callable.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.lib.democracy.delegation_node.DelegationNode.transitive_inbound">
+<tt class="descname">transitive_inbound</tt><big>(</big><em>recurse=True</em>, <em>at_time=None</em>, <em>_path=None</em>, <em>is_counting_delegations=False</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.delegation_node.DelegationNode.transitive_inbound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve inbound delegations recursing through the delegation graph as well 
+as through the category tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>recurse</em> &#8211; if <tt class="xref docutils literal"><span class="pre">True</span></tt>, search will include delegations on parent 
+<tt class="docutils literal"><span class="pre">Delegateables</span></tt> in breadth-first traversal order.</li>
+<li><em>at_time</em> &#8211; return the delegation graph at the given time, defaults
+to the current time.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of <tt class="docutils literal"><span class="pre">Delegation</span></tt></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Internal API Documentation</a><ul>
+<li><a class="reference external" href="#module-adhocracy.lib">The <tt class="docutils literal"><span class="pre">adhocracy.lib</span></tt> Module</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#module-adhocracy.lib.democracy.decision"><tt class="docutils literal"><span class="pre">adhocracy.lib.democracy</span></tt> &#8211; Core polling logic</a><ul>
+<li><a class="reference external" href="#module-adhocracy.lib.democracy.delegation_node">Delegation management and traversal</a></li>
+</ul>
+</li>
+</ul>
+
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/api.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Adhocracy v0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Friedrich Lindenberg.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>
