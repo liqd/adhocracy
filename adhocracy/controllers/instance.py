@@ -225,11 +225,11 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         if not c.page_instance in c.user.instances:
             return ret_abort(entity=c.page_instance, format=format, 
-                               message=_("You're not a member of %(instance)s.") % {
+                             message=_("You're not a member of %(instance)s.") % {
                                     'instance': c.page_instance.label})
         elif c.user == c.page_instance.creator:
             return ret_abort(entity=c.page_instance, format=format, 
-                               message=_("You're the founder of %s, cannot leave.") % {
+                             message=_("You're the founder of %s, cannot leave.") % {
                                     'instance': c.page_instance.label})
         else:
             for membership in c.user.memberships:

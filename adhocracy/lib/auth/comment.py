@@ -29,6 +29,8 @@ def edit(c):
 revert = edit
     
 def delete(co):
+    if co.topic.comment == co:
+        return False
     if c.user and co.creator == c.user and \
         (not co.is_edited()) and revert(co):
         return True
