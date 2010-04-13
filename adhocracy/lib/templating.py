@@ -2,9 +2,10 @@ import simplejson
 from datetime import datetime
 import rfc822
 
-from pylons import request, response
+from pylons import request, response, tmpl_context as c
 from pylons.templating import render_mako, render_mako_def
 from pylons.controllers.util import etag_cache
+from pylons.controllers.util import abort, redirect
 
 import tiles
 import util
@@ -54,6 +55,32 @@ def _json_entity(o):
     if hasattr(o, 'to_dict'):
         return o.to_dict()
     raise TypeError("This is not serializable: " + repr(o))
+
+
+def ret_success(message=None, entity=None, code=200, format='html'):
+    return ret_status('OK', message, entity, code, format)
+
+def ret_abort(message, entity=None, code=500, format='html'):
+    return ret_status('ABORT', message, entity, code, format)
+
+def ret_status(type_, message, entity=None, code=200, format='html'):
+    import adhocracy.lib.helpers as h
+    response.status_int = code
+    if code != 200:
+        if format == 'json':
+            return ret_json_status(type_, message, code)
+        abort(code, message)
+    if message:
+        h.flash(message)
+    if entity is not None:
+        redirect(h.entity_url(entity, format=format))
+    redirect(h.instance_url(c.instance))    
+
+def ret_json_status(type_, message, code=200):
+    data = {'type': type_,
+            'message': message,
+            'code': code}
+    return render_json(data)
 
 
 def render_json(data, encoding='utf-8'):

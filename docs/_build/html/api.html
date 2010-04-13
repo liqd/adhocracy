@@ -19,7 +19,8 @@
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Adhocracy v0.4 documentation" href="index.html" /> 
+    <link rel="top" title="Adhocracy v0.4 documentation" href="index.html" />
+    <link rel="prev" title="REST Resources" href="resources.html" /> 
   </head>
   <body>
     <div class="related">
@@ -31,6 +32,9 @@
         <li class="right" >
           <a href="modindex.html" title="Global Module Index"
              accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="resources.html" title="REST Resources"
+             accesskey="P">previous</a> |</li>
         <li><a href="index.html">Adhocracy v0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -45,17 +49,8 @@
 <p>Adhocracy does not have a public programming API. There is a plan to develop a
 common <em>Kernel</em> interface for <em>Liquid Democracy</em> projects. Once such an API
 becomes available, Adhocracy will be modified to implement that API.</p>
-<div class="section" id="module-adhocracy.lib">
-<h2>The <tt class="xref docutils literal"><span class="pre">adhocracy.lib</span></tt> Module<a class="headerlink" href="#module-adhocracy.lib" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="adhocracy.lib.init_site">
-<tt class="descclassname">adhocracy.lib.</tt><tt class="descname">init_site</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.lib.init_site" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-</div>
-<div class="section" id="module-adhocracy.lib.democracy.decision">
-<h1><tt class="xref docutils literal"><span class="pre">adhocracy.lib.democracy</span></tt> &#8211; Core polling logic<a class="headerlink" href="#module-adhocracy.lib.democracy.decision" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-adhocracy.model.vote">
+<h2>Core polling logic<a class="headerlink" href="#module-adhocracy.model.vote" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="adhocracy.lib.democracy.decision.Decision">
 <em class="property">class </em><tt class="descclassname">adhocracy.lib.democracy.decision.</tt><tt class="descname">Decision</tt><big>(</big><em>user</em>, <em>poll</em>, <em>at_time=None</em>, <em>votes=None</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision" title="Permalink to this definition">¶</a></dt>
@@ -222,6 +217,11 @@ approach would be to require only a certain majority of agents to support an
 opinion, thus creating an inner vote.</dd></dl>
 
 <dl class="method">
+<dt id="adhocracy.lib.democracy.decision.Decision.to_dict">
+<tt class="descname">to_dict</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="adhocracy.lib.democracy.decision.Decision.without_vote">
 <tt class="descname">without_vote</tt><big>(</big><em>vote</em><big>)</big><a class="headerlink" href="#adhocracy.lib.democracy.decision.Decision.without_vote" title="Permalink to this definition">¶</a></dt>
 <dd>Return the same decision given that a certain vote had not been 
@@ -234,6 +234,282 @@ cast.</dd></dl>
 <em class="property">exception </em><tt class="descclassname">adhocracy.lib.democracy.decision.</tt><tt class="descname">DecisionException</tt><a class="headerlink" href="#adhocracy.lib.democracy.decision.DecisionException" title="Permalink to this definition">¶</a></dt>
 <dd>A general exception for <tt class="docutils literal"><span class="pre">Decision</span></tt> errors</dd></dl>
 
+<dl class="exception">
+<dt id="adhocracy.model.poll.NoPollException">
+<em class="property">exception </em><tt class="descclassname">adhocracy.model.poll.</tt><tt class="descname">NoPollException</tt><a class="headerlink" href="#adhocracy.model.poll.NoPollException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="adhocracy.model.poll.Poll">
+<em class="property">class </em><tt class="descclassname">adhocracy.model.poll.</tt><tt class="descname">Poll</tt><big>(</big><em>scope</em>, <em>user</em>, <em>action</em>, <em>subject=None</em><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="adhocracy.model.poll.Poll.action">
+<tt class="descname">action</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.action" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.poll.Poll.begin_time">
+<tt class="descname">begin_time</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.begin_time" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.model.poll.Poll.can_end">
+<tt class="descname">can_end</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.can_end" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.model.poll.Poll.check_stable">
+<tt class="descname">check_stable</tt><big>(</big><em>at_time</em><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.check_stable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="adhocracy.model.poll.Poll.create">
+<em class="property">classmethod </em><tt class="descname">create</tt><big>(</big><em>scope</em>, <em>user</em>, <em>action</em>, <em>subject=None</em>, <em>with_vote=False</em><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.model.poll.Poll.delete">
+<tt class="descname">delete</tt><big>(</big><em>delete_time=None</em><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.model.poll.Poll.end">
+<tt class="descname">end</tt><big>(</big><em>end_time=None</em><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.end" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.poll.Poll.end_time">
+<tt class="descname">end_time</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.end_time" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="classmethod">
+<dt id="adhocracy.model.poll.Poll.find">
+<em class="property">classmethod </em><tt class="descname">find</tt><big>(</big><em>id</em>, <em>instance_filter=True</em>, <em>include_deleted=True</em><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.find" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.model.poll.Poll.has_ended">
+<tt class="descname">has_ended</tt><big>(</big><em>at_time=None</em><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.has_ended" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.poll.Poll.id">
+<tt class="descname">id</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.model.poll.Poll.is_deleted">
+<tt class="descname">is_deleted</tt><big>(</big><em>at_time=None</em><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.is_deleted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.model.poll.Poll.is_stable">
+<tt class="descname">is_stable</tt><big>(</big><em>at_time=None</em><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.is_stable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.poll.Poll.scope">
+<tt class="descname">scope</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.scope" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.poll.Poll.scope_id">
+<tt class="descname">scope_id</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.scope_id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.poll.Poll.subject">
+<tt class="descname">subject</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.subject" title="Permalink to this definition">¶</a></dt>
+<dd>A combination of InsturmentedAttribute and a regular descriptor.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.poll.Poll.tally">
+<tt class="descname">tally</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.tally" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.model.poll.Poll.to_dict">
+<tt class="descname">to_dict</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.poll.Poll.user">
+<tt class="descname">user</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.user" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.poll.Poll.user_id">
+<tt class="descname">user_id</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.user_id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="adhocracy.model.tally.Tally">
+<em class="property">class </em><tt class="descclassname">adhocracy.model.tally.</tt><tt class="descname">Tally</tt><big>(</big><em>poll</em>, <em>num_for</em>, <em>num_against</em>, <em>num_abstain</em><big>)</big><a class="headerlink" href="#adhocracy.model.tally.Tally" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="classmethod">
+<dt id="adhocracy.model.tally.Tally.all_samples">
+<em class="property">classmethod </em><tt class="descname">all_samples</tt><big>(</big><em>poll</em>, <em>start_time</em>, <em>end_time</em><big>)</big><a class="headerlink" href="#adhocracy.model.tally.Tally.all_samples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="adhocracy.model.tally.Tally.create_from_poll">
+<em class="property">classmethod </em><tt class="descname">create_from_poll</tt><big>(</big><em>poll</em>, <em>at_time=None</em><big>)</big><a class="headerlink" href="#adhocracy.model.tally.Tally.create_from_poll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="adhocracy.model.tally.Tally.create_from_vote">
+<em class="property">classmethod </em><tt class="descname">create_from_vote</tt><big>(</big><em>vote</em><big>)</big><a class="headerlink" href="#adhocracy.model.tally.Tally.create_from_vote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.tally.Tally.create_time">
+<tt class="descname">create_time</tt><a class="headerlink" href="#adhocracy.model.tally.Tally.create_time" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="classmethod">
+<dt id="adhocracy.model.tally.Tally.find_by_vote">
+<em class="property">classmethod </em><tt class="descname">find_by_vote</tt><big>(</big><em>vote</em><big>)</big><a class="headerlink" href="#adhocracy.model.tally.Tally.find_by_vote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.model.tally.Tally.has_majority">
+<tt class="descname">has_majority</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.model.tally.Tally.has_majority" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.model.tally.Tally.has_participation">
+<tt class="descname">has_participation</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.model.tally.Tally.has_participation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.tally.Tally.id">
+<tt class="descname">id</tt><a class="headerlink" href="#adhocracy.model.tally.Tally.id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.tally.Tally.num_abstain">
+<tt class="descname">num_abstain</tt><a class="headerlink" href="#adhocracy.model.tally.Tally.num_abstain" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.tally.Tally.num_against">
+<tt class="descname">num_against</tt><a class="headerlink" href="#adhocracy.model.tally.Tally.num_against" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.tally.Tally.num_for">
+<tt class="descname">num_for</tt><a class="headerlink" href="#adhocracy.model.tally.Tally.num_for" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.tally.Tally.poll">
+<tt class="descname">poll</tt><a class="headerlink" href="#adhocracy.model.tally.Tally.poll" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.tally.Tally.poll_id">
+<tt class="descname">poll_id</tt><a class="headerlink" href="#adhocracy.model.tally.Tally.poll_id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.tally.Tally.rel_against">
+<tt class="descname">rel_against</tt><a class="headerlink" href="#adhocracy.model.tally.Tally.rel_against" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.tally.Tally.rel_for">
+<tt class="descname">rel_for</tt><a class="headerlink" href="#adhocracy.model.tally.Tally.rel_for" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.tally.Tally.score">
+<tt class="descname">score</tt><a class="headerlink" href="#adhocracy.model.tally.Tally.score" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.model.tally.Tally.to_dict">
+<tt class="descname">to_dict</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.model.tally.Tally.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.tally.Tally.vote">
+<tt class="descname">vote</tt><a class="headerlink" href="#adhocracy.model.tally.Tally.vote" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.tally.Tally.vote_id">
+<tt class="descname">vote_id</tt><a class="headerlink" href="#adhocracy.model.tally.Tally.vote_id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="adhocracy.model.vote.Vote">
+<em class="property">class </em><tt class="descclassname">adhocracy.model.vote.</tt><tt class="descname">Vote</tt><big>(</big><em>user</em>, <em>poll</em>, <em>orientation</em>, <em>delegation=None</em><big>)</big><a class="headerlink" href="#adhocracy.model.vote.Vote" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="classmethod">
+<dt id="adhocracy.model.vote.Vote.all">
+<em class="property">classmethod </em><tt class="descname">all</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.model.vote.Vote.all" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.vote.Vote.create_time">
+<tt class="descname">create_time</tt><a class="headerlink" href="#adhocracy.model.vote.Vote.create_time" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.vote.Vote.delegation">
+<tt class="descname">delegation</tt><a class="headerlink" href="#adhocracy.model.vote.Vote.delegation" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.vote.Vote.delegation_id">
+<tt class="descname">delegation_id</tt><a class="headerlink" href="#adhocracy.model.vote.Vote.delegation_id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="classmethod">
+<dt id="adhocracy.model.vote.Vote.find">
+<em class="property">classmethod </em><tt class="descname">find</tt><big>(</big><em>id</em>, <em>instance_filter=True</em>, <em>include_deleted=False</em><big>)</big><a class="headerlink" href="#adhocracy.model.vote.Vote.find" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.vote.Vote.id">
+<tt class="descname">id</tt><a class="headerlink" href="#adhocracy.model.vote.Vote.id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.vote.Vote.orientation">
+<tt class="descname">orientation</tt><a class="headerlink" href="#adhocracy.model.vote.Vote.orientation" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.vote.Vote.poll">
+<tt class="descname">poll</tt><a class="headerlink" href="#adhocracy.model.vote.Vote.poll" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.vote.Vote.poll_id">
+<tt class="descname">poll_id</tt><a class="headerlink" href="#adhocracy.model.vote.Vote.poll_id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="method">
+<dt id="adhocracy.model.vote.Vote.to_dict">
+<tt class="descname">to_dict</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.model.vote.Vote.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.vote.Vote.user">
+<tt class="descname">user</tt><a class="headerlink" href="#adhocracy.model.vote.Vote.user" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+<dl class="attribute">
+<dt id="adhocracy.model.vote.Vote.user_id">
+<tt class="descname">user_id</tt><a class="headerlink" href="#adhocracy.model.vote.Vote.user_id" title="Permalink to this definition">¶</a></dt>
+<dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-adhocracy.lib.democracy.delegation_node">
 <h2>Delegation management and traversal<a class="headerlink" href="#module-adhocracy.lib.democracy.delegation_node" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -386,15 +662,15 @@ to the current time.</li>
             <h3><a href="index.html">Table Of Contents</a></h3>
             <ul>
 <li><a class="reference external" href="#">Internal API Documentation</a><ul>
-<li><a class="reference external" href="#module-adhocracy.lib">The <tt class="docutils literal"><span class="pre">adhocracy.lib</span></tt> Module</a></li>
-</ul>
-</li>
-<li><a class="reference external" href="#module-adhocracy.lib.democracy.decision"><tt class="docutils literal"><span class="pre">adhocracy.lib.democracy</span></tt> &#8211; Core polling logic</a><ul>
+<li><a class="reference external" href="#module-adhocracy.model.vote">Core polling logic</a></li>
 <li><a class="reference external" href="#module-adhocracy.lib.democracy.delegation_node">Delegation management and traversal</a></li>
 </ul>
 </li>
 </ul>
 
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="resources.html"
+                                  title="previous chapter">REST Resources</a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="_sources/api.txt"
@@ -426,6 +702,9 @@ to the current time.</li>
         <li class="right" >
           <a href="modindex.html" title="Global Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="resources.html" title="REST Resources"
+             >previous</a> |</li>
         <li><a href="index.html">Adhocracy v0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>

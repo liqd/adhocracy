@@ -53,27 +53,29 @@ class InstanceController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("instance.create"))
     @validate(schema=InstanceCreateForm(), form="new", post_only=True)
-    def create(self):
+    def create(self, format='html'):
         instance = model.Instance.create(self.form_result.get('key'), 
                                          self.form_result.get('label'), 
                                          c.user, 
                                          description=self.form_result.get('description'))
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_CREATE, c.user, instance=instance)    
-        redirect(h.entity_url(instance))
+        return ret_success(entity=instance, format=format)
     
 
     #@RequireInstance
     @ActionProtector(has_permission("instance.view"))
     def show(self, id, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, id)
+        
         if format == 'json':
             return render_json(c.page_instance)
+        
         if format == 'rss':
             return self.activity(id, format)
+        
         if c.page_instance != c.instance:
             redirect(h.entity_url(c.page_instance))
-        
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         tags = model.Tag.popular_tags(limit=70)
         c.tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
@@ -128,7 +130,7 @@ class InstanceController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("instance.admin"))
     @validate(schema=InstanceEditForm(), form="edit", post_only=True)
-    def update(self, id):
+    def update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         c.page_instance.description = text.cleanup(self.form_result.get('description'))
         c.page_instance.label = self.form_result.get('label')
@@ -150,7 +152,7 @@ class InstanceController(BaseController):
             log.debug(e)
         model.meta.Session.commit()            
         event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)
-        redirect(h.entity_url(c.page_instance))
+        return ret_success(entity=c.page_instance, format=format)
     
     
     @ActionProtector(has_permission("instance.index"))
@@ -176,19 +178,19 @@ class InstanceController(BaseController):
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("global.admin"))
-    def delete(self, id):
+    def delete(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         c.page_instance.delete()
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_DELETE, c.user, instance=c.instance, topics=[])
-        h.flash(_("The instance %s has been deleted.") % c.page_instance.label)
-        return redirect(h.instance_url(None, path="/instance"))
+        return ret_success(format=format, 
+                           message=_("The instance %s has been deleted.") % c.page_instance.label)
     
     
     @RequireInstance
     @RequireInternalRequest()
     @ActionProtector(has_permission("instance.join"))
-    def join(self, id):
+    def join(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         if c.page_instance in c.user.instances:
             h.flash(_("You're already a member in %(instance)s.") % {
@@ -203,9 +205,9 @@ class InstanceController(BaseController):
         event.emit(event.T_INSTANCE_JOIN, c.user, 
                    instance=c.page_instance)
         
-        h.flash(_("Welcome to %(instance)s") % {
-                        'instance': c.page_instance.label})
-        return redirect(h.instance_url(c.page_instance))
+        return ret_success(entity=c.page_instance, format=format, 
+                           message=_("Welcome to %(instance)s") % {
+                            'instance': c.page_instance.label})
     
     
     @RequireInstance
@@ -219,14 +221,16 @@ class InstanceController(BaseController):
     @RequireInstance  
     @RequireInternalRequest(methods=['POST'])            
     @ActionProtector(has_permission("instance.leave"))
-    def leave(self, id):
+    def leave(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         if not c.page_instance in c.user.instances:
-            h.flash(_("You're not a member of %(instance)s.") % {
-                            'instance': c.page_instance.label})
+            return ret_abort(entity=c.page_instance, format=format, 
+                               message=_("You're not a member of %(instance)s.") % {
+                                    'instance': c.page_instance.label})
         elif c.user == c.page_instance.creator:
-            h.flash(_("You're the founder of %s, cannot leave.") % {
-                            'instance': c.page_instance.label})
+            return ret_abort(entity=c.page_instance, format=format, 
+                               message=_("You're the founder of %s, cannot leave.") % {
+                                    'instance': c.page_instance.label})
         else:
             for membership in c.user.memberships:
                 if membership.is_expired():
@@ -240,7 +244,9 @@ class InstanceController(BaseController):
                     event.emit(event.T_INSTANCE_LEAVE,  c.user, 
                                instance=c.page_instance)
             model.meta.Session.commit()
-        redirect(h.instance_url(None, path='/instance'))
+        return ret_success(entity=c.page_instance, format=format, 
+                           message=_("You've left %(instance)s.") % {
+                                'instance': c.page_instance.label})
     
     
     def _get_current_instance(self, id):

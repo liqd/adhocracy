@@ -47,7 +47,7 @@ class CommentController(BaseController):
         if format == 'json':
             return render_json(c.comments_pager)
         
-        return self.not_implemented()
+        return self.not_implemented(format=format)
     
     
     @RequireInstance
@@ -67,12 +67,12 @@ class CommentController(BaseController):
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=CommentCreateForm(), form="new", post_only=True)
-    def create(self):
+    def create(self, format='html'):
         canonical = self.form_result.get('canonical')
         topic = self.form_result.get('topic')
         reply = self.form_result.get('reply')
         if canonical and not isinstance(topic, model.Proposal):
-            abort(400, _("Trying to create a provision on an issue"))
+            return ret_abort(_("Trying to create a provision on an issue"), code=400)
         if reply:
             require.comment.reply(reply)
         else: 
@@ -87,7 +87,7 @@ class CommentController(BaseController):
         watchlist.check_watch(comment)
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance, 
                    topics=[topic], comment=comment, topic=topic, rev=comment.latest)
-        redirect(h.entity_url(comment))
+        return ret_success(entity=c.comment, format=format)
     
     
     @RequireInstance
@@ -100,7 +100,7 @@ class CommentController(BaseController):
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=CommentUpdateForm(), form="edit", post_only=True)
-    def update(self, id):
+    def update(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.edit(c.comment)
         rev = c.comment.create_revision(self.form_result.get('text'), 
@@ -116,7 +116,7 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic, rev=rev)
-        redirect(h.entity_url(c.comment))
+        return ret_success(entity=c.comment, format=format)
     
     
     @RequireInstance
@@ -139,7 +139,7 @@ class CommentController(BaseController):
     
     @RequireInstance
     @RequireInternalRequest()
-    def delete(self, id):
+    def delete(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.delete(c.comment)
         c.comment.delete()
@@ -150,7 +150,7 @@ class CommentController(BaseController):
                    topic=c.comment.topic)
         if c.comment.root().canonical:
             redirect(h.entity_url(c.comment.topic, member='canonicals'))
-        redirect(h.entity_url(c.comment.topic))
+        return ret_success(entity=c.comment.topic, format=format)
     
     
     @RequireInstance
@@ -171,16 +171,17 @@ class CommentController(BaseController):
     @RequireInternalRequest()
     @ActionProtector(has_permission("comment.edit"))
     @validate(schema=CommentRevertForm(), form="history", post_only=False, on_get=True)
-    def revert(self, id):
+    def revert(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.revert(c.comment)
         revision = self.form_result.get('to')
         if revision.comment != c.comment:
-            abort(400, _("You're trying to revert to a revision which is not part of this comments history"))
+            return ret_abort(_("You're trying to revert to a revision which is not part of this comments history"),
+                             code=400, format=format)
         rev = c.comment.create_revision(revision.text, c.user, sentiment=revision.sentiment)
         model.meta.Session.commit()
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic, rev=rev)
-        redirect(h.entity_url(c.comment))
+        return ret_success(entity=c.comment, format=format)
     

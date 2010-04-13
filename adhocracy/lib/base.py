@@ -28,6 +28,7 @@ from instance import RequireInstance
 from auth.csrf import RequireInternalRequest, token_id
 from auth import can, require
 from templating import render, render_json, render_png
+from templating import ret_success, ret_abort
 from pager import NamedPager
 from static import StaticPage
 from util import get_entity_or_abort
@@ -63,6 +64,9 @@ class BaseController(WSGIController):
         # http host information was moved around to mess with repoze.who                 
         #environ['HTTP_HOST'] = environ.get('HTTP_HOST_ORIGINAL')
         #from pprint import pprint
+        #pprint(dir(response))
+        #print "STAT", response.status
+        #print "STAT", response.status_int
         #pprint(environ)
         #pprint(environ.get('repoze.who.identity').items())
         #print "SESSION ", session.id
@@ -107,12 +111,16 @@ class BaseController(WSGIController):
                 request.POST.update(request.PUT)
                 request.params.update(request.PUT)
             
-    def bad_request(self):
+    
+    def bad_request(self, format='html'):
         log.debug("400 Request: %s" % request.params)
-        abort(400, _("Invalid request. Please go back and try again."))
+        return ret_abort(_("Invalid request. Please go back and try again."), 
+                         code=400, format=format)
+    
         
-    def not_implemented(self):
-        abort(400, _("The method you used is not implemented."))
+    def not_implemented(self, format='html'):
+        return ret_abort(_("The method you used is not implemented."), 
+                         code=400, format=format)
     
 
 
