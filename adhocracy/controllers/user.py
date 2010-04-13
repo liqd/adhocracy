@@ -11,7 +11,9 @@ import adhocracy.i18n as i18n
 import adhocracy.lib.util as libutil
 import adhocracy.lib.mail as libmail
 
+
 log = logging.getLogger(__name__)
+
         
 class UserCreateForm(formencode.Schema):
     allow_extra_fields = True
@@ -23,6 +25,7 @@ class UserCreateForm(formencode.Schema):
     password_confirm = validators.UnicodeString(not_empty=True)
     chained_validators = [validators.FieldsMatch(
          'password', 'password_confirm')]
+
          
 class UserUpdateForm(formencode.Schema):
     allow_extra_fields = True
@@ -36,27 +39,33 @@ class UserUpdateForm(formencode.Schema):
     bio = validators.String(max=1000, min=0, not_empty=False)
     email_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=3)
     twitter_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=3)
+
     
 class UserCodeForm(formencode.Schema):
     allow_extra_fields = True
     c = validators.String(not_empty=False)
+
     
 class UserManageForm(formencode.Schema):
     allow_extra_fields = True
     group = forms.ValidGroup()
 
+
 class UserResetApplyForm(formencode.Schema):
     allow_extra_fields = True
     email = validators.Email(not_empty=True)
+
     
 class UserGroupmodForm(formencode.Schema):
     allow_extra_fields = True
     to_group = forms.ValidGroup()
+
     
 class UserFilterForm(formencode.Schema):
     allow_extra_fields = True
     users_q = validators.String(max=255, not_empty=False, if_empty=u'', if_missing=u'')
     users_group = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
+
 
 class UserController(BaseController):
     
@@ -274,7 +283,7 @@ class UserController(BaseController):
     
     @ActionProtector(has_permission("user.view"))    
     def complete(self):
-        prefix = unicode(request.params.get('q', ''))
+        prefix = unicode(request.params.get('q', u''))
         users = model.User.complete(prefix, 15)
         results = []
         for user in users:
@@ -459,10 +468,10 @@ class UserController(BaseController):
         h.add_meta("dc.date", user.access_time.strftime("%Y-%m-%d"))
         h.add_meta("dc.author", text.meta_escape(user.name))
         h.add_rss(_("%(user)ss Activity") % {'user': user.name}, 
-                  h.instance_url(None, "/user/%s.rss" % user.user_name))      
-        canonical_url = h.instance_url(None, path="/user/%s" % user.user_name)
+                  h.entity_url(user, format='rss'))      
+        canonical_url = h.entity_url(user, instance=None)
         if member is not None:
-            canonical_url += "/" + member
+            canonical_url += u"/" + member
         h.canonical_url(canonical_url)                  
         if c.instance and not user.is_member(c.instance):
             h.flash(_("%s is not a member of %s") % (user.name, c.instance.label))  

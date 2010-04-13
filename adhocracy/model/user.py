@@ -190,8 +190,8 @@ class User(object):
     def complete(cls, prefix, limit=5, instance_filter=True):
         q = meta.Session.query(User)
         prefix = prefix.lower()
-        q = q.filter(or_(func.lower(User.user_name).like(prefix + "%"),
-                         func.lower(User.display_name).like(prefix + "%")))
+        q = q.filter(or_(func.lower(User.user_name).like(prefix + u"%"),
+                         func.lower(User.display_name).like(prefix + u"%")))
         q = q.limit(limit)
         completions = q.all()
         if ifilter.has_instance() and instance_filter:
