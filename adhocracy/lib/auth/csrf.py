@@ -51,7 +51,8 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
         if check():
             return f(*a, **kw)
         else:
-            abort(403, _("I'm sorry, it looks like we made a mistake (CSRF alert). Please try again.")) 
+            from adhocracy.lib.templating import ret_abort
+            ret_abort(_("I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."), code=403) 
     return decorator(_decorate)
 
 

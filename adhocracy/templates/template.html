@@ -138,6 +138,7 @@
 				
 				%if h.has_permission("global.admin"):
 					<li><a href="/admin/permissions?${h.url_token()}">${_("perms")}</a></li>
+					<li><a href="/event/all">${_("log")}</a></li>
 				%endif
 				<li class="last"><a href="/logout">${_("logout")}</a></li>
 			%endif

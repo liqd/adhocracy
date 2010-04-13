@@ -23,24 +23,24 @@ class PollVoteForm(formencode.Schema):
 
 class PollController(BaseController):
     
-    def index(self, id):
-        return self.not_implemented()
+    def index(self, id, format='html'):
+        return self.not_implemented(format=format)
     
         
-    def new(self, id):
-        return self.not_implemented()
+    def new(self, id, format='html'):
+        return self.not_implemented(format=format)
     
     
-    def create(self, id):
-        return self.not_implemented()
+    def create(self, id, format='html'):
+        return self.not_implemented(format=format)
     
         
-    def edit(self, id):
-        return self.not_implemented()
+    def edit(self, id, format='html'):
+        return self.not_implemented(format=format)
         
     
-    def update(self, id):
-        return self.not_implemented()  
+    def update(self, id, format='html'):
+        return self.not_implemented(format=format)  
     
     
     @RequireInstance
@@ -50,7 +50,7 @@ class PollController(BaseController):
         if format == 'json':
             return render_json(poll)
         
-        return self.not_implemented()  
+        return self.not_implemented(format=format)  
     
     
     @RequireInstance
@@ -116,10 +116,11 @@ class PollController(BaseController):
         if self.form_result.get('result'):
             decisions = filter(lambda d: d.result==self.form_result.get('result'), 
                                decisions)
-        
         c.decisions_pager = pager.scope_decisions(decisions)
+        
         if format == 'json':
             return render_json(c.decisions_pager)    
+        
         return render("/poll/votes.html")  
         
     
@@ -127,27 +128,27 @@ class PollController(BaseController):
     def ask_delete(self, id):
         c.poll = self._get_open_poll(id)
         if not c.poll.can_end():
-            abort(403, _("The poll cannot be canceled because it has met " +
-                         "some of the adoption criteria."))
+            abort(_("The poll cannot be canceled because it has met some of the adoption criteria."),
+                  code=403)
         return render('/poll/ask_delete.html')
     
     
     @ActionProtector(has_permission("poll.delete"))    
-    def delete(self, id):
+    def delete(self, id, format):
         c.poll = self._get_open_poll(id)
         if not c.poll.can_end():
-            abort(403, _("The poll cannot be canceled because it has met " +
-                         "some of the adoption criteria."))
+            return ret_abort(_("The poll cannot be canceled because it has met some of the adoption criteria."),
+                             code=403)
         c.poll.end()
         model.meta.Session.commit()
         event.emit(event.T_PROPOSAL_STATE_REDRAFT, c.user, instance=c.instance, 
                    topics=[c.poll.scope], proposal=c.poll.scope, poll=c.poll)
-        redirect(h.entity_url(c.poll.subject))
+        return ret_success(message=_("The poll has ended."), entity=c.poll.subject)
     
     
     def _get_open_poll(self, id):
         poll = get_entity_or_abort(model.Poll, id)
         if poll.has_ended():
-            abort(404, _("The proposal is not undergoing a poll."))
+            return ret_abort(_("The proposal is not undergoing a poll."), code=404)
         return poll          
 

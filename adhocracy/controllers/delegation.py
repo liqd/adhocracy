@@ -32,7 +32,8 @@ class DelegationController(BaseController):
         if format == 'json':
             c.delegations_pager = pager.delegations(c.delegations)
             return render_json(c.delegations_pager)
-        return self.not_implemented()
+        return self.not_implemented(format=format)
+    
     
     @RequireInstance
     @ActionProtector(has_permission("delegation.create"))
@@ -42,11 +43,12 @@ class DelegationController(BaseController):
         c.scope = self.form_result.get('scope')
         return render("/delegation/new.html")
     
+    
     @RequireInstance
     @RequireInternalRequest(methods=["POST"])
     @ActionProtector(has_permission("delegation.create"))
     @validate(schema=DelegationCreateForm(), form="new", post_only=True)
-    def create(self):
+    def create(self, format='html'):
         c.scope = self.form_result.get('scope')
         agents = filter(lambda f: f is not None, self.form_result.get('agent'))
         if not len(agents) or agents[0] == c.user:
@@ -71,7 +73,7 @@ class DelegationController(BaseController):
         if self.form_result.get('replay') == 1:
             log.debug("Replaying the vote for Delegation: %s" % delegation)
             democracy.Decision.replay_decisions(delegation)
-        redirect(h.entity_url(c.scope))
+        return ret_success(entity=delegation, format=format)
     
         
     @RequireInstance
@@ -80,20 +82,18 @@ class DelegationController(BaseController):
     def delete(self, id):
         c.delegation = get_entity_or_abort(model.Delegation, id)
         if not c.delegation.principal == c.user:
-            abort(403, _("Cannot access delegation %(id)s") % {'id': id})
+            return ret_abort(_("Cannot access delegation %(id)s") % {'id': id}, code=403)
         c.delegation.revoke()
         model.meta.Session.commit()
         event.emit(event.T_DELEGATION_REVOKE, c.user, topics=[c.delegation.scope],
-                   scope=c.delegation.scope, instance=c.instance, agent=c.delegation.agent)        
-        h.flash(_("The delegation is now revoked."))
-        redirect(h.entity_url(c.delegation.scope))
+                   scope=c.delegation.scope, instance=c.instance, agent=c.delegation.agent)   
+        return ret_success(message=_("The delegation is now revoked."), entity=c.delegation.scope)
     
     
     @ActionProtector(has_permission("delegation.view"))
     def show(self, id, format='html'):
         c.delegation = get_entity_or_abort(model.Delegation, id)
         c.scope = c.delegation.scope
-        
         decisions = democracy.Decision.for_user(c.delegation.principal, c.instance)
         decisions = filter(lambda d: c.delegation in d.delegations, decisions)
         decisions = filter(lambda d: isinstance(d.poll.subject, model.Proposal), decisions)
@@ -111,11 +111,11 @@ class DelegationController(BaseController):
     @RequireInstance
     @ActionProtector(has_permission("delegation.view"))
     def edit(self, format='html'):
-        return self.not_implemented()
+        return self.not_implemented(format=format)
     
     
     @RequireInstance
     @ActionProtector(has_permission("delegation.view"))
     def update(self, format='html'):
-        return self.not_implemented()
+        return self.not_implemented(format=format)
 

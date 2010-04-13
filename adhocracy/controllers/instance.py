@@ -193,9 +193,8 @@ class InstanceController(BaseController):
     def join(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         if c.page_instance in c.user.instances:
-            h.flash(_("You're already a member in %(instance)s.") % {
-                            'instance': c.page_instance.label})
-            redirect('/adhocracies')
+            return ret_abort(message=_("You're already a member in %(instance)s.") % {
+                                   'instance': c.page_instance.label}, code=400, format=format)
         membership = model.Membership(c.user, c.page_instance, 
                                       c.page_instance.default_group)
         model.meta.Session.expunge(membership)

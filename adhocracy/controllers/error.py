@@ -29,7 +29,11 @@ class ErrorController(BaseController):
 
     def document(self):
         resp = request.environ.get('pylons.original_response')
-        
+        response.status = resp.status
+        if resp.content_type == 'text/javascript':
+            response.content_type == resp.content_type
+            return resp.body
+            
         # YOU DO NOT SEE THIS. IF YOU DO, ITS NOT WHAT IT LOOKS LIKE
         # I DID NOT HAVE REGEX RELATIONS WITH THAT HTML PAGE
         for match in BODY_RE.finditer(resp.body):
@@ -40,7 +44,6 @@ class ErrorController(BaseController):
         if not c.error_message:
             c.error_message = _("Error %s") % c.error_code
         
-        response.status = resp.status
         return render("/error/http.html")
     
     

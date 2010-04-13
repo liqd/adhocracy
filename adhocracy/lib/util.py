@@ -20,6 +20,7 @@ def random_token():
     return unicode(uuid.uuid4()).split('-').pop()
 
 def get_entity_or_abort(cls, id, instance_filter=True, **kwargs):
+    from templating import ret_abort
     """ 
     Return either the instance identified by the given ID or
     raise a HTTP 404 Exception within the controller. 
@@ -28,7 +29,7 @@ def get_entity_or_abort(cls, id, instance_filter=True, **kwargs):
         raise TypeError("The given class does not have a find() method")
     obj = cls.find(id, instance_filter=instance_filter, **kwargs)
     if not obj:
-        abort(404, _("Could not find the entity '%s'") % id)
+        ret_abort(_("Could not find the entity '%s'") % id, code=404)
     return obj
 
 
