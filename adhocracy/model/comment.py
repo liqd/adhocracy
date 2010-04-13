@@ -86,17 +86,20 @@ class Comment(object):
         poll = Poll.create(topic, user, Poll.RATE, comment,
                            with_vote=with_vote)
         comment.poll = poll
-        comment.create_revision(text, user, sentiment=sentiment)
+        comment.create_revision(text, user, sentiment=sentiment, 
+                                create_time=comment.create_time)
         return comment
     
     
-    def create_revision(self, text, user, sentiment=0):
+    def create_revision(self, text, user, sentiment=0, create_time=None):
         from revision import Revision
         from adhocracy.lib.text import cleanup
         rev = Revision(self, user, cleanup(text))
         if self.canonical or not self.reply:
             sentiment = 0
         rev.sentiment = sentiment
+        if create_time is not None:
+            rev.create_time = create_time
         meta.Session.add(rev)
         self.revisions.append(rev)
         meta.Session.flush()

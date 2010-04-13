@@ -36,8 +36,8 @@ class CommentRevertForm(formencode.Schema):
 class CommentController(BaseController):
     
     @RequireInstance
-    @ActionProtector(has_permission("comment.view"))
     def index(self, format='html'):
+        require.comment.index()
         comments = model.Comment.all()
         c.comments_pager = NamedPager('comments', comments, 
                                        tiles.comment.full, count=10, #list_item,
@@ -51,27 +51,32 @@ class CommentController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("comment.create"))
     @validate(schema=CommentCreateForm(), form="bad_request", 
               post_only=False, on_get=True)
     def new(self):
         c.topic = self.form_result.get('topic')
         c.reply = self.form_result.get('reply')
         c.canonical = self.form_result.get('canonical')
+        if c.reply:
+            require.comment.reply(c.reply)
+        else: 
+            require.comment.create_on(c.topic, canonical=c.canonical)
         return render('/comment/new.html')
     
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
-    @ActionProtector(has_permission("comment.create"))
     @validate(schema=CommentCreateForm(), form="new", post_only=True)
     def create(self):
         canonical = self.form_result.get('canonical')
         topic = self.form_result.get('topic')
+        reply = self.form_result.get('reply')
         if canonical and not isinstance(topic, model.Proposal):
             abort(400, _("Trying to create a provision on an issue"))
-        elif canonical and not topic.is_mutable():
-            abort(403, h.immutable_proposal_message())
+        if reply:
+            require.comment.reply(reply)
+        else: 
+            require.comment.create_on(topic, canonical=canonical)
         comment = model.Comment.create(self.form_result.get('text'), 
                                        c.user, topic, 
                                        reply=self.form_result.get('reply'), 
@@ -86,18 +91,18 @@ class CommentController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("comment.edit"))
     def edit(self, id):
-        c.comment = self._get_mutable_or_abort(id)
+        c.comment = get_entity_or_abort(model.Comment, id)
+        require.comment.edit(c.comment)
         return render('/comment/edit.html')
     
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
-    @ActionProtector(has_permission("comment.edit"))
     @validate(schema=CommentUpdateForm(), form="edit", post_only=True)
     def update(self, id):
-        c.comment = self._get_mutable_or_abort(id)
+        c.comment = get_entity_or_abort(model.Comment, id)
+        require.comment.edit(c.comment)
         rev = c.comment.create_revision(self.form_result.get('text'), 
                                         c.user,
                                         sentiment=self.form_result.get('sentiment'))
@@ -115,9 +120,9 @@ class CommentController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("comment.view"))
     def show(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
+        require.comment.show(c.comment)
         if format == 'fwd':
             redirect(h.entity_url(c.comment))
         elif format == 'json':
@@ -126,17 +131,17 @@ class CommentController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("comment.delete"))
     def ask_delete(self, id):
-        c.comment = self._get_mutable_or_abort(id)
+        c.comment = get_entity_or_abort(model.Comment, id)
+        require.comment.delete(c.comment)
         return render('/comment/ask_delete.html')
     
     
     @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("comment.delete"))
     def delete(self, id):
-        c.comment = self._get_mutable_or_abort(id)
+        c.comment = get_entity_or_abort(model.Comment, id)
+        require.comment.delete(c.comment)
         c.comment.delete()
         model.meta.Session.commit()
         
@@ -149,9 +154,9 @@ class CommentController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("comment.view"))    
     def history(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
+        require.comment.show(c.comment)
         c.revisions_pager = NamedPager('revisions', c.comment.revisions, 
                                        tiles.revision.row, count=10, #list_item,
                                      sorts={_("oldest"): sorting.entity_oldest,
@@ -167,7 +172,8 @@ class CommentController(BaseController):
     @ActionProtector(has_permission("comment.edit"))
     @validate(schema=CommentRevertForm(), form="history", post_only=False, on_get=True)
     def revert(self, id):
-        c.comment = self._get_mutable_or_abort(id)
+        c.comment = get_entity_or_abort(model.Comment, id)
+        require.comment.revert(c.comment)
         revision = self.form_result.get('to')
         if revision.comment != c.comment:
             abort(400, _("You're trying to revert to a revision which is not part of this comments history"))
@@ -178,10 +184,3 @@ class CommentController(BaseController):
                    topic=c.comment.topic, rev=rev)
         redirect(h.entity_url(c.comment))
     
-    
-    # get a comment for editing, checking that it is mutable. 
-    def _get_mutable_or_abort(self, id):
-        comment = get_entity_or_abort(model.Comment, id)
-        if not comment.is_mutable():
-            abort(403, h.immutable_proposal_message())
-        return comment

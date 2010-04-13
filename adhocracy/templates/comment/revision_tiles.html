@@ -9,7 +9,7 @@
 		<div class="meta">
 			&nbsp;
 		
-			%if tile.can_revert:
+			%if can.comment.revert(revision.comment):
 				<a href="${h.entity_url(revision.comment, member='revert')}?${h.url_token()}&to=${revision.id}">${_("revert here")}</a>
 			%endif
 		</div>
@@ -18,7 +18,7 @@
 	
 	
 	<div class="headrev">
-		%if tile.is_latest and tile.can_edit:
+		%if tile.is_latest and can.comment.edit(revision.comment):
 			<div class="edit_form">
 				${comment_tiles.edit_form(revision.comment)}
 			</div>

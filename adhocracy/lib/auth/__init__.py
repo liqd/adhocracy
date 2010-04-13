@@ -10,6 +10,7 @@ import csrf
 
 class _can(object):
     import proposal
+    import comment
     
 can = _can()
 

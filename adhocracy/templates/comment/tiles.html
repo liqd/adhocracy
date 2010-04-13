@@ -38,7 +38,7 @@
    				      ${'con' if comment.latest.sentiment == c.model.Comment.SENT_CON else ''} 
 				        ${tile.position}" id="tile_c${comment.id}">
 			<div class="logo rate">
-				%if tile.can_rate:
+				%if can.comment.rate(comment):
 					<a class="up icon otip" title="${_("Support this comment")}" href="${h.entity_url(comment.poll, member='rate')}?_method=POST&position=1&${h.url_token()}" 
 						onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, 1);">
 						&nbsp;
@@ -60,15 +60,15 @@
 			<div class="base">
 			<div class="pre">
 				<div class="top_actions comment">				
-					%if tile.can_edit:
+					%if can.comment.edit(comment):
 						<a class="button edit" onClick="return comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit')}">${_("edit")}</a> 
 					%endif
 									
-					%if tile.can_delete:
+					%if can.comment.delete(comment):
 						<a class="button delete" href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a> 
 					%endif
 								
-					%if tile.can_reply and (recurse or link_discussion):
+					%if can.comment.reply(comment) and (recurse or link_discussion):
 						<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/create?reply=${comment.id}&topic=${comment.topic.id}">${_("reply")}</a>
 					%endif 
 					
@@ -182,12 +182,12 @@
 
 <%def name="header(tile, comment, active)">
 	<div class="top_actions title">
-		%if tile.can_edit:
+		%if can.comment.edit(comment):
 			<a class="button edit" onClick="return comment_edit(${comment.id})" 
 				href="${h.entity_url(comment, member='edit')}">${_("edit")}</a> 
 		%endif
 						
-		%if tile.can_delete:
+		%if can.comment.delete(comment):
 			<a class="button delete" 
 				href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a> 
 		%endif

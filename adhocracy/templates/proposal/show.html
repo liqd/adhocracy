@@ -25,11 +25,13 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 		${tiles.comment.full(c.proposal.comment, recurse=False, collapse=False)}
 	%endif
 	
-	%if c.tile.comment_tile.can_reply:
+	%if can.comment.reply(c.proposal.comment):
 		<div class="comment">
 			${comment_tiles.create_form(c.proposal.comment, c.proposal, arm=_("Comment on these goals..."))}
 		</div>
-	%elif not c.proposal.comment_count():
+	%endif 
+	
+	%if not c.proposal.comment_count():
 		<div class="infobox">
 			${_("No comments were made yet.")}
 		</div>

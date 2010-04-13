@@ -43,34 +43,6 @@ class CommentTile(BaseTile):
     
     on_issue = property(_on_issue)
     
-    def _can_edit(self):
-        return h.has_permission('comment.edit') \
-                and not self.comment.is_deleted() and self.comment.is_mutable()
-    
-    can_edit = property(_can_edit)        
-    
-    def _can_delete(self):
-        if h.has_permission('comment.delete') \
-            and not self.comment.is_deleted() and self.comment.is_mutable():
-            if self.comment.reply or self.comment.canonical:
-                return True
-        return False
-    
-    can_delete = property(_can_delete)
-    
-    def _can_reply(self):        
-        return h.has_permission('comment.create') \
-                and not self.comment.is_deleted()
-    
-    can_reply = property(_can_reply)
-    
-    def _can_rate(self):
-        return h.has_permission('vote.cast') \
-                and self.comment.poll is not None \
-                and not self.comment.poll.has_ended()
-    
-    can_rate = property(_can_rate)
-    
     def _is_own(self):
         return self.comment.creator == c.user
     
