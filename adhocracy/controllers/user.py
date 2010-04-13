@@ -73,7 +73,8 @@ class UserController(BaseController):
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
         query = self.form_result.get('users_q')
-        c.users = libsearch.query.run(query + u"*", entity_type=model.User)
+        c.users = libsearch.query.run(query + u"*", entity_type=model.User,
+            instance_filter=True)
     
         if c.instance:
             c.tile = tiles.instance.InstanceTile(c.instance)

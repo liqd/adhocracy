@@ -95,10 +95,11 @@ class User(object):
     
     
     def instance_membership(self, instance):
-        if not instance: return None
+        if not instance: 
+            return None
         for membership in self.memberships:
             if (not membership.is_expired()) and \
-                membership.instance == instance:
+                membership.instance_id == instance.id:
                 return membership
         return None
     
