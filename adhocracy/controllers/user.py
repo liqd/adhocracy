@@ -79,10 +79,10 @@ class UserController(BaseController):
         if c.instance:
             c.tile = tiles.instance.InstanceTile(c.instance)
             
-            group = self.form_result.get('users_group')
-            if group:
-                c.users = [u for u in c.users if \
-                           u.instance_membership(c.instance).group.code == group]
+            #group = self.form_result.get('users_group')
+            #if group:
+            #    c.users = [u for u in c.users if \
+            #               u.instance_membership(c.instance).group.code == group]
         
         if format == 'json':
             return render_json(c.users_pager)
@@ -455,7 +455,8 @@ class UserController(BaseController):
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def filter(self):
         query = self.form_result.get('users_q')
-        users = libsearch.query.run(query + u"*", entity_type=model.User)
+        users = libsearch.query.run(query + u"*", entity_type=model.User,
+                                    instance_filter=True)
         c.users_pager = pager.users(users, has_query=True)
         return c.users_pager.here()
     

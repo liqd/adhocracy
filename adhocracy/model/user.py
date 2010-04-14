@@ -248,6 +248,8 @@ class User(object):
             q = q.filter(or_(Membership.expire_time==None,
                              Membership.expire_time>datetime.utcnow()))
             q = q.filter(Membership.instance==ifilter.get_instance())
+        #log.debug("QueryAll: %s" % q)
+        #log.debug("LEN: %s" % len(q.all()))
         return q.all()
     
     

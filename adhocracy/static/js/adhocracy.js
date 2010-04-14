@@ -211,20 +211,28 @@ $(document).ready(function() {
 	
 	/* Live filter for issue listing on instance home page */
 	var originalListing = null;
+	var timeoutSet = false;
 	
 	live_filter = function(id, url) { 
 		$("#" + id + "_q").keyup(function(fld) {
-			if (!originalListing) {
-				originalListing = $("#" + id + "_table").html();
-			}
-			var destination = $("#" + id + "_table");
-			var value = $.trim($(this).val());
-			if (value.length == 0) {
-				destination.html(originalListing);
-			}
-			$.get(url + '?' + id + '_q=' + value, function(data, status) {
-				destination.html(data);
-			}, 'text');
+		    _load = function() {
+    			if (!originalListing) {
+    				originalListing = $("#" + id + "_table").html();
+    			}
+    			var destination = $("#" + id + "_table");
+    			var value = $.trim($(this).val());
+    			if (value.length == 0) {
+    				destination.html(originalListing);
+    			}
+    			$.get(url + '?' + id + '_q=' + value, function(data, status) {
+    				destination.html(data);
+    			}, 'text');
+    			timeoutSet = false;
+		    }
+		    if (!timeoutSet) {
+		        setTimeout(_load, 500);
+		        timeoutSet = true;
+		    }
 		});
 	}
 	

@@ -28,6 +28,7 @@ def run(terms, instance=None, entity_type=None, limit=100,
         results = searcher.search(query, limit=limit)
         
         if entity_type is not None and hasattr(entity_type, 'find_all') and len(results):
+            #log.debug(", ".join(map(lambda r: r.get('ref'), results)))
             return entity_type.find_all(map(lambda r: refs.to_id(r.get('ref')), results), **kwargs)
         
         entities = []
