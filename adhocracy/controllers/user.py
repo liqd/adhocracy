@@ -80,17 +80,12 @@ class UserController(BaseController):
             c.tile = tiles.instance.InstanceTile(c.instance)
             
             group = self.form_result.get('users_group')
-            filtered = []
-            for user in c.users:
-                if user.is_member(c.instance):
-                    mem = user.instance_membership(c.instance)
-                    if not group or mem.group.code == group:
-                        filtered.append(user)
-            c.users = filtered
+            if group:
+                c.users = [u for u in c.users if \
+                           u.instance_membership(c.instance).group.code == group]
         
         if format == 'json':
             return render_json(c.users_pager)
-
         
         c.users_pager = pager.users(c.users, has_query=query is not None)
         return render("/user/index.html")
