@@ -111,7 +111,8 @@ class ProposalController(BaseController):
     @RequireInstance
     @validate(schema=ProposalEditForm(), form="bad_request", post_only=False, on_get=True)
     def edit(self, id, errors={}):
-        c.proposal = self._get_mutable_proposal(id)
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.edit(c.proposal)
         defaults = dict(request.params)
         if 'alternative' in request.params:
             c.alternatives = not_null(self.form_result.get('alternative'))
@@ -131,17 +132,17 @@ class ProposalController(BaseController):
             self.form_result = ProposalUpdateForm().to_python(request.params)
         except Invalid, i:
             return self.edit(errors=i.unpack_errors())
-        proposal = get_entity_or_abort(model.Proposal, id)
-        require.proposal.edit(proposal)
-        proposal.label = self.form_result.get("label")
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.edit(c.proposal)
+        c.proposal.label = self.form_result.get("label")
         model.meta.Session.commit()
         alternatives = not_null(self.form_result.get('alternative'))
-        proposal.update_alternatives(alternatives)
+        c.proposal.update_alternatives(alternatives)
         model.meta.Session.commit()
-        watchlist.check_watch(proposal)
+        watchlist.check_watch(c.proposal)
         event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance, 
-                   topics=[proposal], proposal=proposal, rev=proposal.comment.latest)
-        redirect(h.entity_url(proposal))
+                   topics=[c.proposal], proposal=c.proposal, rev=c.proposal.comment.latest)
+        redirect(h.entity_url(c.proposal))
     
     
     @RequireInstance
