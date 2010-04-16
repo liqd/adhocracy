@@ -57,12 +57,14 @@
 </div>
 
 <div class="mainbar">
+	<!--
 	<form action="?" method="GET" autocomplete="off">
 		<label for="users_q" class="armhint">${_("Find users")}</label>
 		<input id="users_q" class="live_search armlabel" name="users_q" 
 				type="text" value="${request.params.get('users_q', '')}" 
 				tabindex="1" />
 	</form>
+	-->
 	
 	<div id="users_table" class="table">
 		${c.users_pager.here()}

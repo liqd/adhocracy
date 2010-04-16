@@ -72,9 +72,10 @@ class UserController(BaseController):
     @ActionProtector(has_permission("user.view"))
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
-        query = self.form_result.get('users_q')
-        c.users = libsearch.query.run(query + u"*", entity_type=model.User,
-            instance_filter=True)
+        #query = self.form_result.get('users_q')
+        #c.users = libsearch.query.run(query + u"*", entity_type=model.User,
+        #    instance_filter=True)
+        c.users = model.User.all(c.instance if c.instance else None)
     
         if c.instance:
             c.tile = tiles.instance.InstanceTile(c.instance)
@@ -87,7 +88,7 @@ class UserController(BaseController):
         if format == 'json':
             return render_json(c.users_pager)
         
-        c.users_pager = pager.users(c.users, has_query=query is not None)
+        c.users_pager = pager.users(c.users) #, has_query=query is not None)
         return render("/user/index.html")
     
     

@@ -3,7 +3,7 @@
 <%def name="row(tile, user)">
 	<div class="tile vcard">
 		<div class="logo">
-			<img src="${h.gravatar_url(user, size=32)}" />
+			<img src="${h.gravatar_url(user, size=32)|n}" />
 		</div>
 		<div class="base">
 			<h3><a class="link fn nickname" href="${h.entity_url(user)}">${user.name}</a></h3>
