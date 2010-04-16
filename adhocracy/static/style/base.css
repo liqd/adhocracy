@@ -58,7 +58,7 @@ h1, h2, h3 {
 	padding-bottom: 0.3em;
 	margin-bottom: 0.7em;
 	border-bottom: 2px solid #ccc;
-	width: inherit;
+	width: inherit; 
 }
 
 h1 a:hover, 
@@ -584,11 +584,11 @@ body {
 
 #footer {
 	clear: both;
-	margin-top: -145px;
+	margin-top: -160px;
 	padding: 1em 0em 0em 1em;
 	border-top: 2px solid #ccc;
 	color: #222;
-	height: 130px;
+	height: 145px;
 	overflow: hidden;
 	
 	background-image: url(/img/page_bg.png);
