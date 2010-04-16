@@ -9,30 +9,11 @@
 ${tiles.instance.header(c.instance, c.tile, active='issues')}
 
 <div class="sidebar">
-	<div class="tile">
-			<h4><img src="/img/icons/vote_16.png" class="cd"> ${_("Voting Rules")}</h4>
-			${_("Required Majority:")} <b>${c.tile.required_majority}</b>
-			<span class="hint">${_("To become active, a proposal must reach the given proportion of approval.")}</span>
-			
-			${_("Activation Delay:")} <b>${_("%(delay)s days") % dict(delay=c.tile.activation_delay)}</b>
-			<span class="hint">${_("Before becoming active, the majority must be held for the specified interval.")}</span>
-	</div>
+	&nbsp;
 </div>
 
 <div class="mainbar">
-	%if len(c.issues_pager) == 0:
-		<span class="infobox">
-			${_("Create an issue to start debating in %(instance)s.") % dict(instance=c.instance.label)}
-		</span>
-	%else:
-		<form action="?" method="GET" autocomplete="off">
-			<label for="issues_q" class="armhint">${_("Find issues")}</label>
-			<input id="issues_q" class="live_search armlabel" name="issues_q" 
-					type="text" value="${request.params.get('issues_q', '')}" 
-					tabindex="1" />
-		</form>
-		<div id="issues_table" class="table">
-			${c.issues_pager.here()}
-		</div>
-	%endif	
+	<div id="issues_table" class="table">
+		${c.issues_pager.here()}
+	</div>
 </div>

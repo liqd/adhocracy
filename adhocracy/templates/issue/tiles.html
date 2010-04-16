@@ -23,21 +23,8 @@
 
 <%def name="header(tile, issue, active)">
 	<div class="top_actions title">
-		%if tile.can_create_proposal:
-			<a class="button add" href="/proposal/new?issue=${issue.id}">${_("new proposal")}</a>
-		%endif	
-		
 		%if tile.can_delegate:
 			<a class="button add" href="/delegation/new?scope=${issue.id}">${_("delegate")}</a>
-		%endif
-		
-		%if tile.can_edit:
-			<a class="button edit" href="${h.entity_url(issue, member='edit')}">${_("edit")}</a>
-		%endif
-					
-		%if tile.can_delete:
-			<a class="button delete" 
-				href="${h.entity_url(issue, member='ask_delete')}">${_("delete")}</a>
 		%endif
 		
 		${components.watch(issue)}
