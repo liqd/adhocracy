@@ -18,6 +18,7 @@ comment_table = Table('comment', meta.data,
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('topic_id', Integer, ForeignKey('delegateable.id'), nullable=False),
     Column('canonical', Boolean, default=False),
+    Column('wiki', Boolean, default=False),
     Column('reply_id', Integer, ForeignKey('comment.id'), nullable=True),
     Column('poll_id', Integer, ForeignKey('poll.id'), nullable=True)
     )
@@ -76,10 +77,14 @@ class Comment(object):
     
     
     @classmethod    
-    def create(cls, text, user, topic, reply=None, canonical=False, sentiment=0, with_vote=False):
+    def create(cls, text, user, topic, reply=None, wiki=True, canonical=False, 
+               sentiment=0, with_vote=False):
         from poll import Poll
         comment = Comment(topic, user)
         comment.canonical = canonical
+        if canonical:
+            wiki = True
+        comment.wiki = wiki
         comment.reply = reply
         meta.Session.add(comment)
         meta.Session.flush()
@@ -143,12 +148,10 @@ class Comment(object):
                  topic=self.topic_id,
                  url=url.entity_url(self, comment_page=True),
                  creator=self.creator.user_name)
-        if self.reply_id: 
-            d['reply'] = self.reply_id
-        if self.canonical:
-            d['canonical'] = self.canonical
-        if self.latest:
-            d['latest'] = self.latest.to_dict()
+        d['reply'] = self.reply_id
+        d['canonical'] = self.canonical
+        d['wiki'] = self.wiki
+        d['latest'] = self.latest.to_dict()
         d['revisions'] = map(lambda r: r.id, self.revisions)
         return d
     

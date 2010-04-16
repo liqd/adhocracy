@@ -27,7 +27,7 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 	
 	%if can.comment.reply(c.proposal.comment):
 		<div class="comment">
-			${comment_tiles.create_form(c.proposal.comment, c.proposal, arm=_("Comment on these goals..."))}
+			${comment_tiles.create_form(c.proposal.comment, c.proposal)}
 		</div>
 	%endif 
 	

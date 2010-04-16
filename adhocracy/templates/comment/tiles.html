@@ -69,7 +69,7 @@
 					%endif
 								
 					%if can.comment.reply(comment) and (recurse or link_discussion):
-						<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/create?reply=${comment.id}&topic=${comment.topic.id}">${_("reply")}</a>
+						<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1">${_("reply")}</a>
 					%endif 
 					
 					%if collapse:
@@ -97,8 +97,8 @@
 						 	${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
 								               			   h.user_link(comment.latest.user, scope=comment.topic))|n}
 						%endif 	
-						(<a href="${h.entity_url(comment, member='history')}">${_("history")}</a>)
 					%endif
+					(${"%s &middot; " % _("editable") if comment.wiki else ''|n}<a href="${h.entity_url(comment, member='history')}">${_("history")}</a>)
 				%endif
 				
 				<a name="c${comment.id}">&nbsp;</a>
@@ -147,11 +147,10 @@
 		<textarea class="description" style="min-height: ${max(7, min(30, len(comment.latest.text)/50))}em !important;" name="text">${comment.latest.text}</textarea>
 		${components.formatting()}
 		${components.savebox(h.entity_url(comment.topic))}
-		${components.form_watch(comment)}
 	</form>
 </%def>
 
-<%def name="create_form(parent, topic, canonical=0, arm=False)">
+<%def name="create_form(parent, topic, canonical=0, arm=False, can_wiki=True)">
 	<form name="create_comment" class="inplace" method="POST" action="/comment">
 		${h.field_token()|n}
 		<input type="hidden" name="topic" value="${topic.id}" />
@@ -174,7 +173,10 @@
 		<textarea class="description armlabel" name="text"></textarea><br/>
 		${components.formatting()}
 		${components.savebox("/d/%s" % parent.topic.id if parent else request.params.get('topic'))}
-		${components.form_watch(None)}
+		%if can_wiki:
+			<input type="checkbox" checked="checked" name="wiki" value="1" />
+			${_("Allow others to edit this comment.")}
+		%endif
 		</div>
 	</form>
 </%def>

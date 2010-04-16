@@ -95,7 +95,7 @@ class ProposalController(BaseController):
                                          tags=self.form_result.get("tags"))
         model.meta.Session.commit()
         comment = model.Comment.create(self.form_result.get('text'), 
-                                       c.user, proposal, 
+                                       c.user, proposal, wiki=True, 
                                        with_vote=h.has_permission('vote.cast'))
         alternatives = not_null(self.form_result.get('alternative'))
         proposal.update_alternatives(alternatives)

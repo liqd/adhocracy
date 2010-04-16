@@ -25,7 +25,7 @@ ${tiles.proposal.header(c.proposal, c.tile, active='canonicals')}
 	
 	%if c.tile.can_create_canonical:
 	<div class="comment">
-		${comment_tiles.create_form(None, c.proposal, canonical=1, arm=_("Write a new provision..."))}
+		${comment_tiles.create_form(None, c.proposal, canonical=1, can_wiki=False, arm=_("Write a new provision..."))}
 	</div>
 	%endif
 </div>

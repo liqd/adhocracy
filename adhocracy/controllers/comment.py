@@ -14,6 +14,7 @@ class CommentNewForm(formencode.Schema):
     allow_extra_fields = True
     topic = forms.ValidDelegateable()
     reply = forms.ValidComment(if_empty=None, if_missing=None)
+    wiki = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
     canonical = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
 
 
@@ -56,6 +57,7 @@ class CommentController(BaseController):
     def new(self):
         c.topic = self.form_result.get('topic')
         c.reply = self.form_result.get('reply')
+        c.wiki = self.form_result.get('wiki')
         c.canonical = self.form_result.get('canonical')
         if c.reply:
             require.comment.reply(c.reply)
@@ -79,7 +81,8 @@ class CommentController(BaseController):
             require.comment.create_on(topic, canonical=canonical)
         comment = model.Comment.create(self.form_result.get('text'), 
                                        c.user, topic, 
-                                       reply=self.form_result.get('reply'), 
+                                       reply=reply, 
+                                       wiki=self.form_result.get('wiki'),
                                        canonical=canonical,
                                        sentiment=self.form_result.get('sentiment'), 
                                        with_vote=h.has_permission('vote.cast'))
