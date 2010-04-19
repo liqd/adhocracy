@@ -1,6 +1,7 @@
 import re
 from datetime import datetime, timedelta
 import logging
+import math
 
 from sqlalchemy import Table, Column, Integer, Float, Boolean, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import reconstructor
@@ -76,7 +77,7 @@ class Instance(object):
         if self._required_participation is None:
             from adhocracy.lib.democracy import Decision
             avg = Decision.average_decisions(self)
-            self._required_participation = max(2, avg * self.required_majority)
+            self._required_participation = int(math.ceil(max(2, avg * self.required_majority)))
         return self._required_participation
         
     required_participation = property(_get_required_participation)
