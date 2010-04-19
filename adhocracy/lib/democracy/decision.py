@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import logging
+import math
 
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
@@ -228,7 +229,7 @@ class Decision(object):
                 # in participation
                 decisions.append(len(poll.tally))
             avg = sum(decisions)/float(max(1,len(decisions)))
-            return max(2, avg)
+            return int(max(2, math.ceil(avg)))
         return avg_decisions(instance)
     
     @classmethod

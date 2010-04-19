@@ -29,7 +29,7 @@ class StaticPage(object):
         if os.path.exists(path): 
             return self._load(path)
         
-        path = util.get_site_path(self.DIR, fmt % i18n.DEFAULT.language)
+        path = util.get_site_path(self.DIR, fmt % i18n.get_default_locale().language)
         if os.path.exists(path): 
             return self._load(path)
         
@@ -37,7 +37,7 @@ class StaticPage(object):
         if path is not None and os.path.exists(path): 
             return self._load(path)
         
-        path = util.get_path(self.DIR, fmt % i18n.DEFAULT.language)
+        path = util.get_path(self.DIR, fmt % i18n.get_default_locale().language)
         if path is not None and os.path.exists(path): 
             return self._load(path)
             

@@ -349,7 +349,7 @@ class User(object):
         
         import adhocracy.i18n as i18n
         if locale is None: 
-            locale = i18n.DEFAULT
+            locale = i18n.get_default_locale()
         
         user = User(unicode(user_name), email, 
                     unicode(password), locale)

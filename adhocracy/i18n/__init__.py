@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 import formencode
 
-from pylons import request, response, session, tmpl_context as c
+from pylons import request, response, session, tmpl_context as c, config
 from pylons.i18n import _, add_fallback, get_lang, set_lang, gettext
 import webhelpers.date as date
 
@@ -17,8 +17,9 @@ LOCALES = [babel.Locale('en', 'US'),
            babel.Locale('de', 'DE'),
            babel.Locale('fr', 'FR')]
 
-DEFAULT = babel.Locale('en', 'US')
-
+def get_default_locale():
+    (lang, var) = config.get('adhocracy.language', 'en_US').split('_', 1)
+    return babel.Locale(lang, var)
 
 def handle_request():
     """
@@ -35,13 +36,15 @@ def user_language(user, fallbacks=[]):
     if user and user.locale:
         locale = user.locale
     else:
-        lang = Locale.negotiate(fallbacks, map(str, LOCALES)) \
-                or str(DEFAULT)
-        locale = Locale.parse(lang)
+        locales = map(str, LOCALES)
+        #print locales
+        locale = Locale.parse(Locale.negotiate(fallbacks, locales)) \
+                 or get_default_locale()
+        #print "LANG", lang
     
     # pylons 
     set_lang(locale.language)
-    add_fallback(DEFAULT.language)
+    add_fallback(get_default_locale().language)
     formencode.api.set_stdtranslation(domain="FormEncode", languages=[locale.language])
     return locale
 

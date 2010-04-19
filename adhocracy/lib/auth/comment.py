@@ -33,16 +33,16 @@ def is_own(co):
     return c.user and co.creator == c.user
 
 def is_special(co):
-    return co.canonical or co == co.topic.comment
+    return co.canonical or (co == co.topic.comment)
 
-def edit(c):
+def edit(co):
+    if (not co.topic.is_mutable()) and is_special(co):
+        return False
     if has('instance.admin'):
         return True
-    if not (has('comment.edit') and show(c)):
+    if not (has('comment.edit') and show(co)):
         return False
-    if not c.topic.is_mutable() and is_special(c):
-        return False
-    if not is_special(c) and ((not c.wiki) and (not is_own(c))):
+    if not is_special(co) and ((not co.wiki) and (not is_own(co))):
         return False
     return True
 
@@ -55,7 +55,7 @@ def delete(co):
         return False
     if has('instance.admin'):
         return True
-    if is_own(co) and (not co.is_edited()) and revert(co):
+    if edit(co) and is_own(co) and not co.is_edited():
         return True
     return has('comment.delete') and show(co) and not \
         (not co.topic.is_mutable() and co.canonical)

@@ -66,7 +66,7 @@ class Notification(object):
         
         if not os.path.exists(tpl_path):
             log.warn("Notification body needs to be localized to file %s" % (tpl_path)) 
-            tpl_name = self.TPL_NAME % (str(self.type), i18n.DEFAULT.language[0:2])
+            tpl_name = self.TPL_NAME % (str(self.type), i18n.get_default_locale().language[0:2])
         
         body = render(tpl_name, extra_vars=tpl_vars).strip()
         body += _("\r\n\r\nMore info: %(url)s") % dict(url=self.link)

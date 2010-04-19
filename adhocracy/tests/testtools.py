@@ -53,7 +53,7 @@ def tt_make_user(name=None): # instance_group=None: not supported right now
     
     if name is None:
         name = tt_make_str()
-    user = model.User(name, u"test@test.test", u"test", i18n.DEFAULT)
+    user = model.User(name, u"test@test.test", u"test", i18n.get_default_locale())
     
     #default_group = model.Group.by_code(model.Group.CODE_DEFAULT)
     #default_membership = model.Membership(user, None, default_group)

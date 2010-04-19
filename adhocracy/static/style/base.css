@@ -317,7 +317,7 @@ body {
 	background-color: #fff;
 	*/
 	clear: both;
-	padding-bottom: 80px;
+	padding-bottom: 100px;
 	text-align: left;
 }
 
@@ -1500,6 +1500,11 @@ a.button.inactive {
 .rate a.down,
 .rate a.down.inactive:hover {
 	background-image: url(/img/arrows/adown.png);
+}
+
+.rate a.down.inactive:hover,
+.rate a.up.inactive:hover {
+	cursor: default;
 }
 
 .rate a.up:hover,

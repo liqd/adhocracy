@@ -131,10 +131,10 @@ class ProposalController(BaseController):
         try:
             self.form_result = ProposalUpdateForm().to_python(request.params)
         except Invalid, i:
-            return self.edit(errors=i.unpack_errors())
+            return self.edit(id, errors=i.unpack_errors())
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.edit(c.proposal)
-        c.proposal.label = self.form_result.get("label")
+        c.proposal.label = self.form_result.get('label')
         model.meta.Session.commit()
         alternatives = not_null(self.form_result.get('alternative'))
         c.proposal.update_alternatives(alternatives)
