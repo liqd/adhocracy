@@ -54,7 +54,7 @@
 
 
 <%def name="sidebar(tile, proposal)">
-	%if proposal.adopt_poll: 
+	%if proposal.is_adopt_polling(): 
 		${tiles.poll.booth(proposal.adopt_poll)}
 	%endif
 	
