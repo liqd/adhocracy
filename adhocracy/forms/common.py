@@ -73,16 +73,6 @@ class ValidDelegateable(formencode.FancyValidator):
                  value, state)
         return delegateable
 
-class ValidIssue(formencode.FancyValidator):
-    def _to_python(self, value, state):
-        from adhocracy.model import Issue
-        issue = Issue.find(value)
-        if not issue: 
-           raise formencode.Invalid(
-                _("No issue with ID '%s' exists") % value,
-                 value, state)
-        return issue
-
 class ValidProposal(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.model import Proposal
@@ -163,4 +153,14 @@ class ValidTagging(formencode.FancyValidator):
                 _("No tagging with ID '%s' exists") % value,
                  value, state)
         return tagging
+        
+class ValidText(formencode.FancyValidator):
+    def _to_python(self, value, state):
+        from adhocracy.model import Text
+        text = Text.find(value)
+        if not text: 
+            raise formencode.Invalid(
+                _("No text with ID '%s' exists") % value,
+                         value, state)
+        return text
 

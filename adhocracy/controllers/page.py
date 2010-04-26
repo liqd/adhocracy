@@ -30,6 +30,12 @@ class PageFilterForm(formencode.Schema):
     allow_extra_fields = True
     pages_q = validators.String(max=255, not_empty=False, if_empty=u'', if_missing=u'')
 
+    
+class PageDiffForm(formencode.Schema):
+    allow_extra_fields = True
+    left = forms.ValidText()
+    right = forms.ValidText()
+
 
 class PageController(BaseController):
     
@@ -95,6 +101,20 @@ class PageController(BaseController):
         c.tile = tiles.page.PageTile(c.page)
         return render("/page/show.html")
     
+    
+    @RequireInstance
+    @ActionProtector(has_permission("page.view"))
+    @validate(schema=PageDiffForm(), form='bad_request', post_only=False, on_get=True)
+    def diff(self):
+        c.left = self.form_result.get('left')
+        left_html = c.left.render()
+        c.right = self.form_result.get('right')
+        right_html = c.right.render()
+        
+        c.left_diff = text.html_diff(right_html, left_html)
+        c.right_diff = text.html_diff(left_html, right_html)
+        return render("/page/diff.html")
+        
     
     @RequireInstance
     @ActionProtector(has_permission("page.delete"))

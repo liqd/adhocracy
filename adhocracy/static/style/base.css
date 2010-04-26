@@ -734,6 +734,16 @@ del.diff, del.modified {
 	color: #000;
 }
 
+.double del {
+	display: none;
+}
+
+.double ins.diff {
+	color: red;
+	background-color: #fff;
+	text-decoration: none;	
+}
+
 p img[align=left] {
 	margin-right: 7px;
 }

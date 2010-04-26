@@ -1,0 +1,24 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="comment_tiles" file="/comment/tiles.html"/>
+<%namespace name="state" file="/poll/state.html"/>
+
+<%def name="title()">${_("Compare: %s") % c.left.title}</%def>
+
+<%def name="breadcrumbs()">${h.breadcrumbs(c.left)|n}</%def>
+
+${tiles.page.header(c.left.page, None, active='diff', text=c.left)}
+
+<div class="lefthalf double">
+	<div class="infobox">
+		${repr(c.left)}
+	</div>
+	${c.left_diff|n}
+</div>
+
+<div class="righthalf double">
+	<div class="infobox">
+		${repr(c.right)}
+	</div>
+	${c.right_diff|n}
+</div>

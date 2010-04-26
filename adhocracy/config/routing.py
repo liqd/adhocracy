@@ -71,6 +71,8 @@ def make_map():
                                                  'untag': 'GET'},
                                collection={'filter': 'GET'})
     
+    map.connect('/page/diff', controller='page', action='diff',
+                conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant}-{text}/edit.{format}', controller='page', action='edit',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant}-{text}/edit', controller='page', action='edit',
