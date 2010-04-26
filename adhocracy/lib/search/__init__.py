@@ -36,7 +36,6 @@ def register_indexer(cls, index_func):
     queue.register(cls, queue.DELETE, delete)
 
 def queue_register():
-    register_indexer(model.Issue, index_issue)
     register_indexer(model.Proposal, index_proposal)
     register_indexer(model.User, index_user)
     register_indexer(model.Comment, index_comment)
@@ -48,8 +47,6 @@ def rebuild_all():
         _insert = update(func)
         [_insert(x) for x in iter]
     try:
-        log.info("Re-indexing issues...")
-        index_all(model.meta.Session.query(model.Issue), index_issue)
         log.info("Re-indexing proposals...")
         index_all(model.meta.Session.query(model.Proposal), index_proposal)
         log.info("Re-indexing users...")

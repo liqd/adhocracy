@@ -280,10 +280,10 @@ class ProposalController(BaseController):
         
         
     @RequireInstance
-    @ActionProtector(has_permission("tag.create"))
     @validate(schema=ProposalTagCreateForm(), form="bad_request", post_only=False, on_get=True)
     def tag(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.tag.create()
         for tag_text in text.tag_split(self.form_result.get('tags')):
             if not model.Tagging.find_by_delegateable_name_creator(c.proposal, tag_text, c.user):
                 tagging = model.Tagging.create(c.proposal, tag_text, c.user)
@@ -293,10 +293,10 @@ class ProposalController(BaseController):
         
     @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("tag.delete"))
     @validate(schema=ProposalTagDeleteForm(), form="bad_request", post_only=False, on_get=True)
     def untag(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.tag.delete()
         tagging = self.form_result.get('tagging')
         if not tagging.delegateable == c.proposal:
             abort(401, _("Tag does not belong to this proposal."))

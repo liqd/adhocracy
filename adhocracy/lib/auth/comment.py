@@ -32,17 +32,15 @@ def reply(parent):
 def is_own(co):
     return c.user and co.creator == c.user
 
-def is_special(co):
-    return co.canonical or (co == co.topic.comment)
 
 def edit(co):
-    if (not co.topic.is_mutable()) and is_special(co):
+    if (not co.topic.is_mutable()) and co.textual:
         return False
     if has('instance.admin'):
         return True
     if not (has('comment.edit') and show(co)):
         return False
-    if not is_special(co) and ((not co.wiki) and (not is_own(co))):
+    if not co.textual and ((not co.wiki) and (not is_own(co))):
         return False
     return True
 

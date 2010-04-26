@@ -61,12 +61,6 @@ def index_delegateable(entity):
     d['text'] = ' '.join(map(lambda c: c.latest.text, entity.comments))
     return d
 
-def index_issue(entity):
-    if entity.is_deleted():
-        return None
-    d = index_delegateable(entity)
-    return d
-
 def index_proposal(entity):
     if entity.is_deleted():
         return None

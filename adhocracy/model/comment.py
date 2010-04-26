@@ -49,6 +49,10 @@ class Comment(object):
         return self if self.reply is None else self.reply.root()
     
     
+    @property
+    def textual(self):
+        return (not self == self.topic.comment) or self.canonical
+    
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:

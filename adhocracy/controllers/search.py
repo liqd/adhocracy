@@ -1,32 +1,32 @@
 from pylons.i18n import _
 
 from adhocracy.lib.base import *
+from adhocracy.form.search import SearchQueryForm
 import adhocracy.model as model
-from formencode.validators import RequireIfMissing
+
 
 log = logging.getLogger(__name__)
 
-class SearchQueryForm(formencode.Schema):
-    allow_extra_fields = True
-    serp_q = validators.String(max=255, min=1, if_empty="", if_missing="", not_empty=False)
 
 class SearchController(BaseController):
     
-    @ActionProtector(has_permission("proposal.view"))
     def search_form(self):
+        require.proposal.index()
         return render("search/results.html")
     
-    @ActionProtector(has_permission("proposal.view"))
+    
     @validate(schema=SearchQueryForm(), form="search_form", post_only=False, on_get=True)
     def query(self):
+        require.proposal.index()
         c.query = self.form_result.get("serp_q") 
         self._query_pager()
         return formencode.htmlfill.render(render("search/results.html"),
                         {'q': c.query, 'serp_q': c.query})
     
-    @ActionProtector(has_permission("proposal.view"))
+    
     @validate(schema=SearchQueryForm(), post_only=False, on_get=True)
     def filter(self):
+        require.proposal.index()
         c.query = self.form_result.get("serp_q", '') + '*' 
         self._query_pager()
         return c.entities_pager.here()

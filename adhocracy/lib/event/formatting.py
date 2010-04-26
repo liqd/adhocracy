@@ -21,9 +21,6 @@ class DelegateableFormatter(ObjectFormatter):
     def html(self, delegateable):
         return h.delegateable_link(delegateable)
 
-class IssueFormatter(DelegateableFormatter):
-    pass
-
 class ProposalFormatter(DelegateableFormatter):
     pass
 
@@ -93,7 +90,6 @@ class FormattedEvent(object):
               model.Instance: InstanceFormatter(),
               model.Proposal: ProposalFormatter(),
               model.Poll: PollFormatter(),
-              model.Issue: IssueFormatter(),
               model.Comment: CommentFormatter()}
     
     def __init__(self, event, decoder):

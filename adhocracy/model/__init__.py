@@ -11,7 +11,6 @@ from adhocracy.model.twitter import Twitter, twitter_table
 from adhocracy.model.group import Group, group_table
 from adhocracy.model.permission import Permission, group_permission_table, permission_table
 from adhocracy.model.delegateable import Delegateable, delegateable_table, category_graph
-from adhocracy.model.issue import Issue, issue_table
 from adhocracy.model.delegation import Delegation, delegation_table
 from adhocracy.model.proposal import Proposal, proposal_table
 from adhocracy.model.alternative import Alternative, alternative_table
@@ -70,12 +69,6 @@ mapper(Delegateable, delegateable_table, polymorphic_on=delegateable_table.c.typ
     'instance': relation(Instance, lazy=True,
                         primaryjoin=delegateable_table.c.instance_id==instance_table.c.id, 
                         backref=backref('delegateables', cascade='delete'))
-    }, extension=meta.extension)
-
-
-mapper(Issue, issue_table, inherits=Delegateable, polymorphic_identity='issue', properties={
-    'comment': relation(Comment, primaryjoin=issue_table.c.comment_id==comment_table.c.id, 
-                        uselist=False)
     }, extension=meta.extension)
 
 

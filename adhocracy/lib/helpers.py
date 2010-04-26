@@ -98,17 +98,11 @@ def proposal_icon(proposal, size=16):
 
 @cache.memoize('delegateable_link')
 def delegateable_link(delegateable, icon=True, icon_size=16, link=True):
-    text = ""
-    if icon:
-        if isinstance(delegateable, model.Proposal):
-            text = "<img class='dgb_icon' src='%s' /> " % proposal_icon(delegateable, size=icon_size)
-        elif isinstance(delegateable, model.Issue):
-            text = "<img class='dgb_icon' src='%s/img/icons/issue_%s.png' /> " % (
-                        instance_url(None, path=''), icon_size)
-    text += cgi.escape(delegateable.label)
-    if link and not delegateable.delete_time:
-        text = "<a href='%s' class='dgb_link'>%s</a>" % (entity_url(delegateable), text)
-    return text
+    if isinstance(delegateable, model.Proposal):
+        return proposal_link(delegateable, icon=icon, icon_size=icon_size, link=link)
+    elif isinstance(delegateable, model.Page):
+        return page_link(delegateable, link=link)
+    return cgi.escape(delegateable.label)
 
 
 def tag_link(tag, count=None, size=None, base_size=12, plain=False):
@@ -123,7 +117,13 @@ def tag_link(tag, count=None, size=None, base_size=12, plain=False):
     return text
 
 
-def page_link(page, create=False):
+def page_link(page, create=False, link=True):
+    if not create and page.is_deleted():
+        link = False
+    if not link:
+        if create: raise ValueError()
+        return cgi.escape(page.title)
+    
     text = "<a class='page_link %s' href='%s'>%s</a>"
     if create:
         url = urllib.quote(page.encode('utf-8'))
@@ -132,8 +132,16 @@ def page_link(page, create=False):
     else:
         return text % ('exists', entity_url(page), 
                        cgi.escape(page.title))
-        
-    
+
+
+def proposal_link(proposal, icon=True, icon_size=16, link=True):
+    if icon:
+        text = "<img class='dgb_icon' src='%s' /> " % proposal_icon(proposal, size=icon_size)
+    text += cgi.escape(proposal.label)
+    if link and not proposal.is_deleted():
+        text = "<a href='%s' class='dgb_link'>%s</a>" % (entity_url(proposal), text)
+    return text
+
 
 def contains_delegations(user, delegateable, recurse=True):
     for delegation in user.agencies:

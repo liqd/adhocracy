@@ -45,11 +45,6 @@ def proposal_url(proposal, **kwargs):
     return _common_url_builder(proposal.instance, 'proposal', 
                                ext, **kwargs)
 
-    
-def issue_url(issue, **kwargs):
-    return _common_url_builder(issue.instance, 'issue', 
-                               issue.id, **kwargs)
-
 
 def delegateable_url(delegateable, **kwargs):
     return _common_url_builder(delegateable.instance, 'd', 
@@ -117,8 +112,6 @@ def entity_url(entity, **kwargs):
         return user_url(entity, **kwargs)
     elif isinstance(entity, model.Proposal):
         return proposal_url(entity, **kwargs)
-    elif isinstance(entity, model.Issue):
-        return issue_url(entity, **kwargs)
     elif isinstance(entity, model.Page):
         return page_url(entity, **kwargs)
     elif isinstance(entity, model.Text):

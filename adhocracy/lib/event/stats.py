@@ -45,9 +45,6 @@ def delegateable_activity(dgb, from_time=None, to_time=None):
 def proposal_activity(proposal, from_time=None, to_time=None):
     return delegateable_activity(proposal, from_time, to_time)
 
-def issue_activity(issue, from_time=None, to_time=None):
-    return delegateable_activity(issue, from_time, to_time)
-
 @memoize('instance_activity', 3600)
 def instance_activity(instance, from_time=None, to_time=None):
     def query_filter(q):

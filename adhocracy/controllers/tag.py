@@ -19,8 +19,8 @@ class TagProposalFilterForm(formencode.Schema):
 class TagController(BaseController):
     
     @RequireInstance
-    @ActionProtector(has_permission("tag.view"))
     def index(self, format='html'):
+        require.tag.index()
         tags = model.Tag.popular_tags(limit=200)
         if format == 'json':
             return render_json(tags)
@@ -30,10 +30,11 @@ class TagController(BaseController):
         
     
     @RequireInstance
-    @ActionProtector(has_permission("tag.view"))
     @validate(schema=TagProposalFilterForm(), post_only=False, on_get=True)
     def show(self, id, format='html'):
         c.tag = get_entity_or_abort(model.Tag, id)
+        require.tag.show(c.tag)
+        require.proposal.index()
         proposals = libsearch.query.run(c.tag.name, instance=c.instance,  
                                         fields=['tags'], entity_type=model.Proposal)
         
@@ -48,13 +49,12 @@ class TagController(BaseController):
         c.proposals_pager = pager.proposals(proposals)
         tags = model.Tag.similar_tags(c.tag, limit=50)
         c.cloud_tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
-        
         return render("/tag/show.html")
       
     
-    @RequireInstance
-    @ActionProtector(has_permission("tag.view"))    
+    @RequireInstance  
     def autocomplete(self):
+        require.tag.index()
         prefix = unicode(request.params.get('q', ''))
         (base, prefix) = text.tag_split_last(prefix)
         results = []

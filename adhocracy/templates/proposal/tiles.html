@@ -168,8 +168,8 @@
 	<br/>
 	<div class="panel ${active}">
 		<ul class="menu">
-			<li><a href="${h.entity_url(proposal, member='activity')}" 	
-				class="activity">${_("Activity")}</a></li>
+			<!--li><a href="${h.entity_url(proposal, member='activity')}" 	
+				class="activity">${_("Activity")}</a></li-->
 			<li><a href="${h.entity_url(proposal)}" class="goal">${_("Goal")}</a></li>
 			<li><a href="${h.entity_url(proposal, member='canonicals')}" 
 				class="canonicals">${_("Implementation")} (${len(proposal.canonicals)})</a></li>
@@ -185,7 +185,8 @@
 					<li>${h.delegateable_link(p)|n}</li>
 				%endfor
 				</ul>
-			</span></li>
+			</span>
+			</li>
 		</ul>
 		
 		%if proposal.adopted:
