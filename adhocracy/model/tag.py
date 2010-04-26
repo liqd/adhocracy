@@ -170,6 +170,10 @@ class Tag(object):
         if tag is None:
             tag = Tag.create(name)
         return tag
+        
+    
+    def is_deleted(self):
+        return False
     
     
     def to_dict(self):

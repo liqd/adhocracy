@@ -296,8 +296,8 @@ class ProposalController(BaseController):
     @validate(schema=ProposalTagDeleteForm(), form="bad_request", post_only=False, on_get=True)
     def untag(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
-        require.tag.delete()
         tagging = self.form_result.get('tagging')
+        require.tag.delete(tagging)
         if not tagging.delegateable == c.proposal:
             abort(401, _("Tag does not belong to this proposal."))
         tagging.delete()
