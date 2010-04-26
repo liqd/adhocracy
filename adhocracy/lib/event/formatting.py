@@ -1,8 +1,11 @@
+import logging
+
 from pylons.i18n import _ 
 
 import adhocracy.model as model
 from .. import helpers as h
 
+log = logging.getLogger(__name__)
 DT_FORMAT = "%Y%m%d%H%M%S"
 
 class ObjectFormatter(object):
@@ -85,12 +88,12 @@ class CommentFormatter(ObjectFormatter):
 class FormattedEvent(object): 
                
     FORMATTERS = {model.Vote: VoteFormatter(),
-              model.Group: GroupFormatter(),
-              model.User: UserFormatter(),
-              model.Instance: InstanceFormatter(),
-              model.Proposal: ProposalFormatter(),
-              model.Poll: PollFormatter(),
-              model.Comment: CommentFormatter()}
+                  model.Group: GroupFormatter(),
+                  model.User: UserFormatter(),
+                  model.Instance: InstanceFormatter(),
+                  model.Proposal: ProposalFormatter(),
+                  model.Poll: PollFormatter(),
+                  model.Comment: CommentFormatter()}
     
     def __init__(self, event, decoder):
         self.event = event
@@ -103,7 +106,8 @@ class FormattedEvent(object):
                 if isinstance(value, cls):
                     return self.decoder(self.FORMATTERS[cls], value)
             return value
-        except AttributeError:
+        except AttributeError, ae:
+            log.exception(ae)
             return _("(Undefined)")
     
 def as_unicode(event):

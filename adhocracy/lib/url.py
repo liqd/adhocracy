@@ -84,8 +84,8 @@ def tag_url(tag, instance=None, **kwargs):
 
 def comment_url(comment, member=None, format=None, comment_page=False, **kwargs):
     if member is None and format is None and not comment_page:
-        if isinstance(comment.topic, model.Issue):
-            return issue_url(comment.topic) + '#c' + str(comment.id)
+        if isinstance(comment.topic, model.Page):
+            return page_url(comment.topic) + '#c' + str(comment.id)
         elif isinstance(comment.topic, model.Proposal):
             if comment.root().canonical:
                 return proposal_url(comment.topic, member='canonicals') \

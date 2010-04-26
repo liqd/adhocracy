@@ -1,5 +1,6 @@
 import os, os.path
 import re
+from time import time
 
 from BeautifulSoup import BeautifulSoup
 
@@ -15,9 +16,11 @@ STATIC_PATH = os.path.join(config.get('here'), 'adhocracy', 'page')
 class StaticController(BaseController):
     
     def serve(self, page_name):
+        begin_time = time()
         c.page = StaticPage(page_name)
         if not c.page.exists:
             abort(404, _('The requested page was not found'))
         h.canonical_url(h.instance_url(None, path="/page/%s.html" % page_name))
-        return render('/template_doc.html')
-    
+        ret = render('/template_doc.html')
+        log.debug("Rendering static %s took %sms" % (page_name, ((time()-begin_time)*1000)))
+        return ret
