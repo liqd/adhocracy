@@ -57,7 +57,7 @@ class ProposalController(BaseController):
         if self.form_result.get('proposals_state'):
             proposals = model.Proposal.filter_by_state(self.form_result.get('proposals_state'), 
                                                        proposals)
-        c.proposals_pager = pager.proposals(proposals, has_query=query is not None)
+        c.proposals_pager = pager.proposals(proposals)
         
         if format == 'json':
             return render_json(c.proposals_pager)
@@ -275,7 +275,7 @@ class ProposalController(BaseController):
         if query is None: query = u''
         proposals = libsearch.query.run(query + u"*", instance=c.instance, 
                                      entity_type=model.Proposal)
-        c.proposals_pager = pager.proposals(proposals, has_query=True)
+        c.proposals_pager = pager.proposals(proposals)
         return c.proposals_pager.here()
         
         

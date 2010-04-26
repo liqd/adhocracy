@@ -7,8 +7,7 @@ from whoosh.query import *
 
 log = logging.getLogger(__name__)
 
-def run(terms, instance=None, entity_type=None, limit=100, 
-        fields=[u'title', u'text', u'user', u'tags'], **kwargs):
+def run(terms, instance=None, entity_type=None, fields=[u'title', u'text', u'user', u'tags'], **kwargs):
     ix_lock.acquire()
     try:
         if terms is None:
@@ -25,11 +24,11 @@ def run(terms, instance=None, entity_type=None, limit=100,
         
         log.debug("Query: %s" % query)
         
-        results = searcher.search(query, limit=limit)
+        results = searcher.search(query)
         
         if entity_type is not None and hasattr(entity_type, 'find_all') and len(results):
-            #log.debug(", ".join(map(lambda r: r.get('ref'), results)))
-            return entity_type.find_all(map(lambda r: refs.to_id(r.get('ref')), results), **kwargs)
+            ids = [refs.to_id(r.get('ref')) for r in results]
+            return entity_type.find_all(ids, **kwargs)
         
         entities = []
         for fields in results:

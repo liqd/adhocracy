@@ -32,5 +32,5 @@ def rss_feed(events, name, link, description):
                          unique_id=unicode(event.id))
         
         response.content_type = 'application/rss+xml'
-        pager.NamedPager('rss', events, event_item, count=50).here()
+        pager.NamedPager('rss', events, event_item, size=50).here()
         return rss.writeString('utf-8')

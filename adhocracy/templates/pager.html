@@ -24,33 +24,27 @@
 	</div>
 	<div class="pager">
 		<div class="prev_page">
-			%if pager.rel_page(step=-1):
-			<a href="${pager.serialize(page=pager.rel_page(step=-1))}">&laquo; ${_("previous")}</a>
+			%if pager.page > 1:
+			<a href="${pager.serialize(page=pager.page-1)}">&laquo; ${_("previous")}</a>
 			%endif
 		</div>
-		%for i in (-3, -2, -1):
-			%if pager.rel_page(step=i):
-				<a href="${pager.serialize(page=pager.rel_page(step=i))}">${pager.rel_page(step=i)}</a>  
-			%endif
-		%endfor
-		%if pager.pages() > 1:
-			${pager.page}
-		%endif
-		%for i in (1, 2, 3):
-			%if pager.rel_page(step=i):
-				<a href="${pager.serialize(page=pager.rel_page(step=i))}">${pager.rel_page(step=i)}</a>
+		%for i in xrange(1, pager.pages):
+			%if i != pager.page:
+				<a href="${pager.serialize(page=i)}">${i}</a>  
+			%else:
+				${i}
 			%endif
 		%endfor
 		<div class="next_page">
-			%if pager.rel_page(step=1):
-			<a href="${pager.serialize(page=pager.rel_page(step=1))}">${_("next")} &raquo;</a>
+			%if pager.page < pager.pages:
+			<a href="${pager.serialize(page=pager.page+1)}">${_("next")} &raquo;</a>
 			%endif
 		</div>
 	</div>
 	<div class="pager_sorts bottom">
-		%for count in range(pager.initial_count, (pager.initial_count*3)+1, pager.initial_count/2):
-			<a class="${'selected' if count == pager.count else ''}" 
-				href="${pager.serialize(count=count)}">${count}</a> |
+		%for size in range(pager.initial_size, (pager.initial_size*3)+1, pager.initial_size/2):
+			<a class="${'selected' if size == pager.size else ''}" 
+				href="${pager.serialize(size=size)}">${size}</a> |
 		%endfor
 		${_("entries")}
 	</div>

@@ -18,14 +18,11 @@ class NamedPager(object):
     in order to distinguish multiple pagers working on the same page.  
     """
     
-    def __init__(self, name, items, itemfunc, count=10, sorts={}, default_sort=None, **kwargs):
+    def __init__(self, name, items, itemfunc, size=10, sorts={}, default_sort=None, **kwargs):
         self.name = name
-        self._items = []
-        for i in items: # stable set() - fugly, can this be done differently? 
-            if not i in self._items:
-                self._items.append(i) 
+        self._items = items
         self.itemfunc = itemfunc
-        self.count = self.initial_count = count
+        self.size = self.initial_size = size
         self.sorts = sorts
         if len(sorts.values()):
             self.selected_sort = sorts.values().index(default_sort) + 1
@@ -44,8 +41,8 @@ class NamedPager(object):
             self.page = 1
         
         try:
-            count_val = validators.Int(min=1, max=250, not_empty=True)
-            self.count = count_val.to_python(request.params.get("%s_count" % self.name))       
+            size_val = validators.Int(min=1, max=250, not_empty=True)
+            self.size = count_val.to_python(request.params.get("%s_size" % self.name))       
         except: 
             pass
         
@@ -54,35 +51,33 @@ class NamedPager(object):
             self.selected_sort = sort_val.to_python(request.params.get("%s_sort" % self.name))
         except: 
             pass
-     
-                
-    def _get_items(self):
+    
+    
+    @property        
+    def items(self):
         if not self.sorted and len(self.sorts.values()):
             sorter = self.sorts.values()[self.selected_sort - 1]
             self._items = sorter(self._items)
             self.sorted = True
-        
-        offset = (self.page-1)*self.count
-        return self._items[offset:offset+self.count]
+        return self._items[self.offset:self.offset+self.size]
     
-    items = property(_get_items)
     
-       
+    @property
+    def offset(self):
+        return (self.page-1)*self.size
+    
+    
+    @property
     def pages(self):
-        return int(math.ceil(len(self._items)/float(self.count)))
+        return int(math.ceil(len(self._items)/float(self.size)))
     
     
-    def rel_page(self, step=1):
-        cand = self.page + step
-        return cand if cand > 0 and cand <= self.pages() else None
-    
-    
-    def serialize(self, page=None, count=None, sort=None, **kwargs):
+    def serialize(self, page=None, size=None, sort=None, **kwargs):
         query = dict(request.params.items())
         query.update(self.kwargs)
         query.update(kwargs)
         query["%s_page" % self.name] = page if page else self.page
-        query["%s_count" % self.name] = count if count else self.count
+        query["%s_size" % self.name] = size if size else self.size
         query["%s_sort" % self.name] = sort if sort else self.selected_sort
         
         query = dict([(str(k), unicode(v).encode('utf-8')) \
@@ -112,7 +107,7 @@ def instances(instances):
                       default_sort=sorting.instance_activity)
 
   
-def proposals(proposals, has_query=False, detail=True):
+def proposals(proposals, detail=True):
     sorts = {_("oldest"): sorting.entity_oldest,
              #_("newest"): sorting.entity_newest,
              _("activity"): sorting.proposal_activity,
@@ -123,7 +118,7 @@ def proposals(proposals, has_query=False, detail=True):
                       default_sort=sorting.proposal_support)
 
 
-def pages(pages, has_query=False, detail=True):
+def pages(pages, detail=True):
   sorts = {_("oldest"): sorting.entity_oldest,
            _("newest"): sorting.entity_newest,
            _("name"): sorting.page_title}
@@ -131,7 +126,7 @@ def pages(pages, has_query=False, detail=True):
                     default_sort=sorting.page_title)                 
 
       
-def users(users, has_query=False):
+def users(users):
     sorts={_("oldest"): sorting.entity_oldest,
            _("newest"): sorting.entity_newest,
            _("activity"): sorting.user_activity,
@@ -170,4 +165,4 @@ def delegations(delegations):
 
 
 def events(events):
-    return NamedPager('events', events, tiles.event.row, count=10)
+    return NamedPager('events', events, tiles.event.row)
