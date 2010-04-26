@@ -30,17 +30,6 @@ class UserTile(BaseTile):
     
     tagline = property(_tagline)
     
-    def _can_edit(self):
-        return (h.has_permission("user.edit") and c.user == self.user) \
-                 or h.has_permission("user.manage")
-    
-    can_edit = property(_can_edit)
-      
-    def _can_manage(self):
-        return h.has_permission("instance.admin")
-    
-    can_manage = property(_can_manage) 
-        
     def _num_issues(self):
         pred = lambda d: isinstance(d, model.Issue) and \
                          d.instance==c.instance and \

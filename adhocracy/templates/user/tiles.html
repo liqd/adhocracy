@@ -24,11 +24,11 @@
 
 <%def name="header(tile, user, active)">
 	<div class="top_actions title vcard">
-		%if tile.can_edit:
+		%if can.user.edit(user):
 			<a class="button edit" href="${h.entity_url(user, member='edit')}">${_("edit")}</a>
 		%endif
 		
-		%if c.instance and tile.can_manage and user.is_member(c.instance):
+		%if can.user.supervise(user):
 			%for group_code in c.model.Group.INSTANCE_GROUPS:
 				%if group_code != tile.instance_group.code:
 					<a class="button admin" href="${h.entity_url(user, member='groupmod')}?to_group=${group_code}&${h.url_token()}">
@@ -63,8 +63,6 @@
 						class="delegations">${_("Delegations")} 
 						(${len(user.current_agencies())})</a></li>
 				%endif
-				## <li><a href="${h.entity_url(user, member='issues')}" class="issues">${_("Issues")} 
-				##	(${tile.num_issues})</a></li>
 				<li><a href="${h.entity_url(user, member='proposals')}" class="proposals">${_("Proposals")} 
 					(${tile.num_proposals})</a></li>
 				##<li><a href="${h.entity_url(user, member='comments')}" class="comments">${_("Comments")} 

@@ -2,7 +2,6 @@ import logging
 
 from adhocracy import model
 
-import issue_tiles as issue
 import instance_tiles as instance
 import comment_tiles as comment
 import user_tiles as user
@@ -24,8 +23,6 @@ def dispatch_row(entity):
         return user.row(entity)
     elif isinstance(entity, model.Instance):
         return instance.row(entity)
-    elif isinstance(entity, model.Issue):
-        return issue.row(entity)
     elif isinstance(entity, model.Proposal):
         return proposal.row(entity)
     elif isinstance(entity, model.Page):

@@ -72,6 +72,7 @@ class UserController(BaseController):
     @ActionProtector(has_permission("user.view"))
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
+        require.user.index()
         #query = self.form_result.get('users_q')
         #c.users = libsearch.query.run(query + u"*", entity_type=model.User,
         #    instance_filter=True)
@@ -99,6 +100,7 @@ class UserController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserCreateForm(), form="new", post_only=True)
     def create(self):
+        require.user.create()
         user = model.User.create(self.form_result.get("user_name"), 
                                  self.form_result.get("email").lower(), 
                                  password=self.form_result.get("password").encode('utf-8'), 
@@ -118,7 +120,8 @@ class UserController(BaseController):
     
     @ActionProtector(has_permission("user.edit"))
     def edit(self, id):
-        c.page_user = self._get_user_for_edit(id)
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        require.user.edit(c.page_user)
         c.locales = i18n.LOCALES
         return render("/user/edit.html")
     
@@ -127,7 +130,8 @@ class UserController(BaseController):
     @ActionProtector(has_permission("user.edit"))
     @validate(schema=UserUpdateForm(), form="edit", post_only=True)
     def update(self, id):
-        c.page_user = self._get_user_for_edit(id)
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        require.user.edit(c.page_user)
         if self.form_result.get("password"):
             c.page_user.password = self.form_result.get("password").encode('utf-8')
         c.page_user.display_name = self.form_result.get("display_name")
@@ -194,10 +198,10 @@ class UserController(BaseController):
         redirect('/login')
     
     
-    @ActionProtector(has_permission("user.edit"))
     @validate(schema=UserCodeForm(), form="edit", post_only=False, on_get=True)
     def activate(self, id):
-        c.page_user = self._get_user_for_edit(id)
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        require.user.edit(c.page_user)
         try:
             if c.page_user.activation_code != self.form_result.get('c'):
                 raise ValueError()
@@ -211,17 +215,17 @@ class UserController(BaseController):
     
     
     @RequireInternalRequest()
-    @ActionProtector(has_permission("user.edit"))
     def resend(self, id):
-        c.page_user = self._get_user_for_edit(id)
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        require.user.edit(c.page_user)
         libmail.send_activation_link(c.page_user)
         h.flash(_("The activation link has been re-sent to your email address."))
         redirect(h.entity_url(c.page_user, member='edit'))
     
-     
-    @ActionProtector(has_permission("user.view"))
+    
     def show(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        require.user.show(c.page_user)
         
         if format == 'json':
             return render_json(c.page_user)
@@ -240,7 +244,6 @@ class UserController(BaseController):
         return render("/user/show.html")
     
     
-    @ActionProtector(has_permission("user.delete"))
     def delete(self, id):
         self.not_implemented()
     
@@ -293,9 +296,9 @@ class UserController(BaseController):
     
         
     @RequireInstance
-    @ActionProtector(has_permission("user.view")) 
     def votes(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        require.user.show(c.page_user)
         decisions = democracy.Decision.for_user(c.page_user, c.instance)
                 
         if format == 'json':
@@ -308,9 +311,9 @@ class UserController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("delegation.view"))
     def delegations(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        require.user.show(c.page_user)
         scope_id = request.params.get('scope', None)
         
         if format == 'json':
@@ -332,9 +335,9 @@ class UserController(BaseController):
         return render("/user/delegations.html")
     
     
-    @ActionProtector(has_permission("user.view")) 
     def instances(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        require.user.show(c.page_user)
         instances = [i for i in c.page_user.instances if i.is_shown()]
         c.instances_pager = pager.instances(instances)
         
@@ -346,23 +349,9 @@ class UserController(BaseController):
     
         
     @RequireInstance
-    @ActionProtector(has_permission("user.view")) 
-    def issues(self, id, format='html'):
-        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
-        issues = model.Issue.find_by_creator(c.page_user)
-        
-        if format == 'json':
-            return render_json(list(issues))
-
-        c.issues_pager = pager.issues(issues)
-        self._common_metadata(c.page_user, member='issues')
-        return render("/user/issues.html")
-    
-        
-    @RequireInstance
-    @ActionProtector(has_permission("user.view")) 
     def proposals(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        require.user.show(c.page_user)
         proposals = model.Proposal.find_by_creator(c.page_user)
         c.proposals_pager = pager.proposals(proposals)
         
@@ -389,9 +378,9 @@ class UserController(BaseController):
       
      
     #@RequireInstance
-    @ActionProtector(has_permission("user.view")) 
     def watchlist(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        require.user.show(c.page_user)
         watches = model.Watch.all_by_user(c.page_user)
         c.entities_pager = NamedPager('watches', map(lambda w: w.entity, watches), tiles.dispatch_row, 
                                       sorts={_("oldest"): sorting.entity_oldest,
@@ -407,10 +396,10 @@ class UserController(BaseController):
     
     @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("instance.admin"))
     @validate(schema=UserGroupmodForm(), form="edit", post_only=False, on_get=True)
     def groupmod(self, id):
         c.page_user = get_entity_or_abort(model.User, id)
+        require.user.supervise(c.page_user)
         to_group = self.form_result.get("to_group")
         if not to_group.code in model.Group.INSTANCE_GROUPS:
             h.flash("Cannot make %(user)s a member of %(group)s" % {
@@ -435,9 +424,9 @@ class UserController(BaseController):
     
     @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("instance.admin"))
     def kick(self, id):
         c.page_user = get_entity_or_abort(model.User, id)
+        require.user.supervise(c.page_user)
         for membership in c.page_user.memberships:
             if not membership.is_expired() and membership.instance == c.instance:
                 membership.expire()
@@ -452,21 +441,14 @@ class UserController(BaseController):
         redirect(h.entity_url(c.page_user))
     
     
-    @ActionProtector(has_permission("user.view"))
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def filter(self):
+        require.user.index()
         query = self.form_result.get('users_q')
         users = libsearch.query.run(query + u"*", entity_type=model.User,
                                     instance_filter=True)
         c.users_pager = pager.users(users, has_query=True)
         return c.users_pager.here()
-    
-    
-    def _get_user_for_edit(self, id):
-        user = get_entity_or_abort(model.User, id, instance_filter=False)
-        if not (user == c.user or h.has_permission("user.manage")): 
-            abort(403, _("You're not authorized to change %s's settings.") % id)
-        return user
 
 
     def _common_metadata(self, user, member=None, add_canonical=False):

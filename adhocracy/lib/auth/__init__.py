@@ -6,12 +6,11 @@ import authorization
 import csrf
 
 
-
-
 class _can(object):
     import proposal
     import comment
     import tag
+    import user
     
 can = _can()
 
