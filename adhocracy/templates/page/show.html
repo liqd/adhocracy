@@ -24,7 +24,7 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 					<code>${variant}</code>
 				%endif
 				</a>
-				@ rev <code>#${text.id}</code>
+				@ rev <code><a href="/page/diff?left=${c.text.id}&right=${text.id}">#${text.id}</a></code>
 				</li>
 		%endfor
 	</ul>
@@ -32,7 +32,7 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 	<h3 class="section">${_("variant history")}</h3>
 	<ul>
 		%for text in c.page.variant_history(c.text.variant):
-			<li><code><a href="${h.entity_url(text)}">#${text.id}</a></code>: ${text.user.name} at ${text.create_time.date()}</li>
+			<li><code><a href="${h.entity_url(text)}">#${text.id}</a></code>: ${text.user.name} at ${text.create_time.date()} (<a href="/page/diff?left=${c.text.id}&right=${text.id}">cmp</a>)</li>
 		%endfor
 	</ul>
 	
