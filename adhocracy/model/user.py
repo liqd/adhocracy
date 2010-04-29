@@ -259,15 +259,17 @@ class User(object):
     
     @classmethod
     def all(cls, instance=None, include_deleted=False):
+        from membership import Membership
         q = meta.Session.query(User)
         if not include_deleted:
             q = q.filter(or_(User.delete_time==None,
                              User.delete_time>datetime.utcnow()))
-        users = q.all()
-        if instance is not None:
-            users = filter(lambda user: user.is_member(instance), 
-                           users)
-        return users
+        if instance:
+            q = q.join(Membership)
+            q = q.filter(or_(Membership.expire_time==None,
+                             Membership.expire_time>datetime.utcnow()))
+            q = q.filter(Membership.instance==instance)
+        return q.all()
     
     
     def is_deleted(self, at_time=None):

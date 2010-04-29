@@ -145,7 +145,7 @@ mapper(Instance, instance_table, properties={
 
 mapper(Membership, membership_table, properties={
     'user': relation(User, lazy=False, primaryjoin=membership_table.c.user_id==user_table.c.id, 
-                    backref=backref('memberships', lazy=True)),
+                    backref=backref('memberships', lazy=False)),
     'instance': relation(Instance, backref=backref('memberships'), lazy=True),
     'group': relation(Group, backref=backref('memberships'), lazy=False)
     }, extension=meta.extension)

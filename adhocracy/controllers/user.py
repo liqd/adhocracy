@@ -76,8 +76,9 @@ class UserController(BaseController):
         #query = self.form_result.get('users_q')
         #c.users = libsearch.query.run(query + u"*", entity_type=model.User,
         #    instance_filter=True)
+        
         c.users = model.User.all(c.instance if c.instance else None)
-    
+        
         if c.instance:
             c.tile = tiles.instance.InstanceTile(c.instance)
             
