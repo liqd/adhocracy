@@ -9,7 +9,7 @@ def show(u):
     return has('user.view') and not u.is_deleted()
 
 def create():
-    return has('user.create')
+    return not c.user #has('user.create')
     
 def edit(u):
     if manage(u):

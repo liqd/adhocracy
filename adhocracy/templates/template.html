@@ -85,7 +85,7 @@
 		<div id="center">
 			<ul id="account">
 			%if not c.user:
-				<li class="${'last' if c.instance else ''}"><a href="/login">${_("sign in")}</a>
+				<li class="${'last' if c.instance else ''}"><a href="/login">${_("sign in or register")}</a>
 				%if c.instance:
 					${_("to")}
 				%endif
@@ -93,9 +93,9 @@
 			%else:
 				<img src="${h.gravatar_url(c.user, size=16)|n}">
 				<li class="${'last' if c.instance else ''}">
-				<a class="user_name" href="${h.entity_url(c.user)}">${c.user.name}</a> 
-				<img src="/img/icons/adown.png" alt="^"/>
-				<ul>
+					<a class="user_name" href="${h.entity_url(c.user)}">${c.user.name}</a> 
+					<img src="/img/icons/adown.png" alt="^"/>
+					<ul>
 					%if c.instance and h.has_permission("vote.cast"):
 						%if c.instance.allow_adopt: 
 							<li><a href="${h.entity_url(c.user, member='votes')}">${_("votes")}</a></li>
@@ -106,16 +106,21 @@
 					%endif
 					<li><a href="${h.entity_url(c.user, member='watchlist')}">${_("watchlist")}</a></li>						
 					<li><a href="${h.entity_url(c.user, member='edit')}">${_("settings")}</a></li>
-				</ul>
-				%if c.instance:
-					${_("in")}
-				%endif
+					</ul>
+					%if c.instance:
+						${_("in")}
+					%endif
 				</li>
 			%endif
 				%if c.user or c.instance:
 				<li>
 					%if c.instance:
-					<a href="${h.entity_url(c.instance)}">${c.instance.label}</a>
+						%if c.user and not c.user.is_member(c.instance):
+							<a class="join last" 
+								href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join %s") % c.instance.label}</a>
+						%else:
+							<a href="${h.entity_url(c.instance)}">${c.instance.label}</a>
+						%endif
 					%elif c.user:
 					<a href="${h.entity_url(c.user, member='instances')}">${_("your instances")}</a>
 					%endif
@@ -128,14 +133,7 @@
 					</ul>
 				</li>
 			%endif
-			%if not c.user:	
-				<li class="last"><a href="/register">${_("create an account")|n}</a></li>
-			%else:
-				%if c.instance and not c.user.is_member(c.instance):
-					<li><a class="join" 
-						href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join %s") % c.instance.label}</a></li>	
-				%endif 
-				
+			%if c.user:	
 				%if h.has_permission("global.admin"):
 					<li><a href="/admin/permissions?${h.url_token()}">${_("perms")}</a></li>
 					<li><a href="/event/all">${_("log")}</a></li>
