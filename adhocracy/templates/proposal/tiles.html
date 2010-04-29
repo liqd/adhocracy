@@ -170,7 +170,7 @@
 		<ul class="menu">
 			<!--li><a href="${h.entity_url(proposal, member='activity')}" 	
 				class="activity">${_("Activity")}</a></li-->
-			<li><a href="${h.entity_url(proposal)}" class="goal">${_("Goal")}</a></li>
+			<li><a href="${h.entity_url(proposal)}" class="goal">${_("Proposal")}</a></li>
 			<li><a href="${h.entity_url(proposal, member='canonicals')}" 
 				class="canonicals">${_("Implementation")} (${len(proposal.canonicals)})</a></li>
 			%if c.instance.allow_delegate:
@@ -187,6 +187,7 @@
 				</ul>
 			</span>
 			</li>
+			<li><a href="${h.entity_url(proposal, member='contributors')}" class="contributors">${_("Working Group")} (${len(proposal.contributors())})</a></li>
 		</ul>
 		
 		%if proposal.adopted:

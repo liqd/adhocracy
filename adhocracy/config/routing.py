@@ -63,6 +63,7 @@ def make_map():
                                                  'delegations': 'GET', 
                                                  'activity': 'GET', 
                                                  'canonicals': 'GET',
+                                                 'contributors': 'GET',
                                                  'alternatives': 'GET',
                                                  'ask_delete': 'GET',
                                                  'ask_adopt': 'GET',

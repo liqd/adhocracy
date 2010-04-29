@@ -202,6 +202,20 @@ class ProposalController(BaseController):
         c.tile = tiles.proposal.ProposalTile(c.proposal)
         self._common_metadata(c.proposal)
         return render("/proposal/alternatives.html")
+        
+    @RequireInstance
+    def contributors(self, id, format="html"):
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.show(c.proposal)
+        contributors = [user for (user, score) in c.proposal.contributors()]
+        c.users_pager = pager.users(contributors)
+
+        if format == 'json':
+            return render_json(c.users_pager)
+
+        c.tile = tiles.proposal.ProposalTile(c.proposal)
+        self._common_metadata(c.proposal)
+        return render("/proposal/contributors.html")
     
 
     @RequireInstance

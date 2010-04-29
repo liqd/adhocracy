@@ -144,6 +144,22 @@ class Delegateable(object):
         return len(self.comments)
     
     
+    def contributors(self):
+        from user import User
+        from revision import Revision
+        from comment import Comment
+        q = meta.Session.query(User)
+        q = q.join(Revision)
+        q = q.add_column(func.count(Revision.id))
+        q = q.join(Revision.comment)
+        q = q.filter(Comment.topic_id==self.id)
+        q = q.group_by(User.id)
+        q = q.order_by(func.count(Revision.id).desc())
+        #_all = q.all()
+        #print "ALL", _all
+        return q.all()
+    
+    
     def current_delegations(self):
         return filter(lambda d: not d.is_revoked(), self.delegations)
     
