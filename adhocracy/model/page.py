@@ -13,7 +13,9 @@ log = logging.getLogger(__name__)
 
 
 page_table = Table('page', meta.data,                      
-    Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True)
+    Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
+    Column('has_variants', Boolean, default=True),
+    Column('freeze', Boolean, default=False)
     )
 
 
@@ -66,10 +68,12 @@ class Page(Delegateable):
     
     
     @classmethod
-    def create(cls, instance, title, text, creator):
+    def create(cls, instance, title, text, creator, has_variants=True, freeze=False):
         from text import Text
         label = Page.free_label(title)
         page = Page(instance, label, creator)
+        page.freeze = freeze
+        page.has_variants = has_variants
         meta.Session.add(page)
         meta.Session.flush()
         _text = Text(page, Text.HEAD, creator, title, text)
@@ -77,6 +81,8 @@ class Page(Delegateable):
     
     
     def _get_variants(self):
+        if not self.has_variants:
+            return [Text.HEAD]
         return list(set([t.variant for t in self.texts]))
         
     variants = property(_get_variants)
@@ -98,6 +104,8 @@ class Page(Delegateable):
     
     
     def _get_heads(self):
+        if not has_variants:
+            return [self.variant_head(Text.HEAD)]
         return [self.variant_head(h) for h in self.variants]
     
     heads = property(_get_heads)
@@ -143,6 +151,8 @@ class Page(Delegateable):
                     create_time=self.create_time,
                     label=self.label,
                     head=self.head,
+                    freeze=self.freeze,
+                    has_variants=self.has_variants,
                     user=self.user.user_name)
     
     
