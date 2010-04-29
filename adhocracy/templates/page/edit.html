@@ -16,8 +16,9 @@
 	</div>
 	
 	<div class="sidebar">
-		<input name="variant" value="${c.text.variant}" /
-		>
+		%if c.page.has_variants:
+			<input name="variant" value="${c.text.variant}" />
+		%endif
 	</div>
 	<div class="mainbar">
 		<textarea tabindex="2" class="description armlabel" name="text">${c.text.text}</textarea>

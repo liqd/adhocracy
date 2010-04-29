@@ -9,6 +9,7 @@ import instance_filter as ifilter
 
 log = logging.getLogger(__name__)
 
+
 poll_table = Table('poll', meta.data,
     Column('id', Integer, primary_key=True),
     Column('begin_time', DateTime, default=datetime.utcnow),

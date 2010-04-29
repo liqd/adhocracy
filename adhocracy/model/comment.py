@@ -51,7 +51,7 @@ class Comment(object):
     
     @property
     def textual(self):
-        return (not self == self.topic.comment) or self.canonical
+        return (hasattr(self.topic, 'comment') and not self == self.topic.comment) or self.canonical
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):

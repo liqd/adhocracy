@@ -49,7 +49,7 @@ revert = edit
 
     
 def delete(co):
-    if co.topic.comment == co:
+    if hasattr(co.topic, 'comment') and co.topic.comment == co:
         return False
     if has('instance.admin'):
         return True

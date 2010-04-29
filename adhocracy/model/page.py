@@ -2,7 +2,7 @@ from datetime import datetime
 import logging
 from itertools import count
 
-from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func, or_
+from sqlalchemy import Table, Column, Boolean, Integer, Unicode, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import relation, backref
 
 import meta
@@ -81,6 +81,7 @@ class Page(Delegateable):
     
     
     def _get_variants(self):
+        from text import Text
         if not self.has_variants:
             return [Text.HEAD]
         return list(set([t.variant for t in self.texts]))
@@ -104,6 +105,7 @@ class Page(Delegateable):
     
     
     def _get_heads(self):
+        from text import Text
         if not has_variants:
             return [self.variant_head(Text.HEAD)]
         return [self.variant_head(h) for h in self.variants]

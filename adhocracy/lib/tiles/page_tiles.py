@@ -12,6 +12,7 @@ import comment_tiles
 from .. import democracy
 from .. import helpers as h
 from .. import text
+from .. import sorting
 
 class PageTile(BaseTile):
     
@@ -29,7 +30,15 @@ class PageTile(BaseTile):
         return h.has_permission('page.delete')
 
     can_delete = property(_can_delete)
-
+    
+    def comments(self):
+        from comment_tiles import CommentTile
+        comments = sorting.comment_order(self.page.comments)
+        for comment in comments:
+            if comment.reply: 
+                continue
+            tile = CommentTile(comment)
+            yield (comment, tile)
 
 
 def row(page):
