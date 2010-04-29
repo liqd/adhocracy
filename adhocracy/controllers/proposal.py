@@ -205,6 +205,7 @@ class ProposalController(BaseController):
         
     @RequireInstance
     def contributors(self, id, format="html"):
+        # TODO: use my own pager here
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.show(c.proposal)
         contributors = [user for (user, score) in c.proposal.contributors()]
