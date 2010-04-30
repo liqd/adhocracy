@@ -11,6 +11,8 @@ class _can(object):
     import comment
     import tag
     import user
+    import poll 
+    import delegation
     
 can = _can()
 

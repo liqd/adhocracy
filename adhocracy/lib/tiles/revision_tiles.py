@@ -13,16 +13,6 @@ class RevisionTile(BaseTile):
         self.revision = revision
         self.comment_tile = CommentTile(revision.comment)
     
-    def _can_edit(self):
-        return self.comment_tile.can_edit
-    
-    can_edit = property(_can_edit)
-    
-    def _can_revert(self):
-        return self.comment_tile.can_edit and not self.is_latest 
-    
-    can_revert = property(_can_revert)
-    
     def _is_earliest(self):
         return self.revision == min(self.revision.comment.revisions, key=lambda r: r.create_time)
     

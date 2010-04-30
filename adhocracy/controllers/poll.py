@@ -46,6 +46,7 @@ class PollController(BaseController):
     @RequireInstance
     def show(self, id, format='html'):
         poll = get_entity_or_abort(model.Poll, id)
+        require.poll.show(c.poll)
         
         if format == 'json':
             return render_json(poll)
@@ -55,12 +56,12 @@ class PollController(BaseController):
     
     @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("vote.cast"))
     @validate(schema=PollVoteForm(), form="bad_request", post_only=False, on_get=True)
     def vote(self, id, format='html'):
         c.poll = self._get_open_poll(id)
         if c.poll.action != model.Poll.ADOPT:
             abort(400, _("This is a rating poll, not an adoption poll."))
+        require.poll.vote(c.poll)
         decision = democracy.Decision(c.user, c.poll)
         votes = decision.make(self.form_result.get("position"))
         for vote in votes:
@@ -77,7 +78,6 @@ class PollController(BaseController):
         
     @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("vote.cast"))
     @validate(schema=PollVoteForm(), form="bad_request", post_only=False, on_get=True)
     def rate(self, id, format='html'):
         # rating is like polling but steps via absten, i.e. if you have 
@@ -86,6 +86,7 @@ class PollController(BaseController):
         c.poll = self._get_open_poll(id)
         if c.poll.action != model.Poll.RATE:
             abort(400, _("This is not a rating poll."))
+        require.poll.vote(c.poll)
         
         decision = democracy.Decision(c.user, c.poll)
         old = decision.result
@@ -108,10 +109,10 @@ class PollController(BaseController):
     
         
     @RequireInstance
-    @ActionProtector(has_permission("proposal.view")) 
     @validate(schema=PollVotesFilterForm(), post_only=False, on_get=True)
     def votes(self, id, format='html'):
         c.poll = get_entity_or_abort(model.Poll, id)
+        require.poll.show(c.poll)
         decisions = democracy.Decision.for_poll(c.poll)
         if self.form_result.get('result'):
             decisions = filter(lambda d: d.result==self.form_result.get('result'), 
@@ -124,21 +125,15 @@ class PollController(BaseController):
         return render("/poll/votes.html")  
         
     
-    @ActionProtector(has_permission("poll.delete"))
     def ask_delete(self, id):
         c.poll = self._get_open_poll(id)
-        if not c.poll.can_end():
-            abort(_("The poll cannot be canceled because it has met some of the adoption criteria."),
-                  code=403)
+        require.poll.delete(c.poll)
         return render('/poll/ask_delete.html')
     
-    
-    @ActionProtector(has_permission("poll.delete"))    
+       
     def delete(self, id, format):
         c.poll = self._get_open_poll(id)
-        if not c.poll.can_end():
-            return ret_abort(_("The poll cannot be canceled because it has met some of the adoption criteria."),
-                             code=403)
+        require.poll.delete(c.poll)
         c.poll.end()
         model.meta.Session.commit()
         event.emit(event.T_PROPOSAL_STATE_REDRAFT, c.user, instance=c.instance, 

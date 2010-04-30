@@ -26,3 +26,6 @@ def supervise(u):
     
 def delete(p):
     return False
+    
+def vote():
+    return c.instance and c.user and has('vote.cast')

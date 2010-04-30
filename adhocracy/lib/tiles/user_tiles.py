@@ -58,19 +58,6 @@ class UserTile(BaseTile):
     
     num_instances = property(_num_instances)
     
-    def karmas(self):
-        return filter(lambda k: k.comment.topic.instance == c.instance, self.user.karma_received)
-    
-    def _num_karma_up(self):
-        return len(filter(lambda k: k.value > 0, self.karmas()))
-    
-    num_karma_up = property(_num_karma_up)
-    
-    def _num_karma_down(self):
-        return len(filter(lambda k: k.value < 0, self.karmas()))
-    
-    num_karma_down = property(_num_karma_down)
-    
     def _instance_group(self):
         if c.instance and not self.__instance_group:     
             m = self.user.instance_membership(c.instance)

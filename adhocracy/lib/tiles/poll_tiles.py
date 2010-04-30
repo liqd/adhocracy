@@ -60,12 +60,6 @@ class PollTile(BaseTile):
                 agents.append(agent)
         return agents
     
-    def _can_vote(self):
-        return (not self.poll.has_ended()) and h.has_permission('vote.cast')
-    
-    can_vote = property(_can_vote)
-    can_delegate = can_vote
-    
     def _result_affirm(self):
         return round(self.poll.tally.rel_for * 100.0, 1) 
     
@@ -75,12 +69,14 @@ class PollTile(BaseTile):
         return round(self.poll.tally.rel_against * 100.0, 1) 
     
     result_dissent = property(_result_dissent)
-    
+
+
 def booth(poll):
     return render_tile('/poll/tiles.html', 'booth', 
                         PollTile(poll), poll=poll, 
                         user=c.user, cached=poll.has_ended()) 
-    
+
+
 def header(poll, active=''):
     if isinstance(poll.subject, model.Comment):
         return comment_tiles.header(poll.subject, active=active)

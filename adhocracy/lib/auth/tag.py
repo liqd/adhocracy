@@ -11,9 +11,9 @@ def show(t):
 def create():
     return has('tag.create')
     
-def edit(p):
-    return has('tag.edit') and show(p)
+def edit(t):
+    return has('tag.edit') and show(t)
     
-def delete(p):
-    return has('tag.delete') and show(p)
+def delete(t):
+    return has('tag.delete') and show(t)
     

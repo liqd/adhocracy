@@ -91,12 +91,12 @@ class ProposalController(BaseController):
         except Invalid, i:
             return self.new(errors=i.unpack_errors())
         proposal = model.Proposal.create(c.instance, self.form_result.get("label"), 
-                                         c.user, with_vote=h.has_permission('vote.cast'),
+                                         c.user, with_vote=can.user.vote(),
                                          tags=self.form_result.get("tags"))
         model.meta.Session.commit()
         comment = model.Comment.create(self.form_result.get('text'), 
                                        c.user, proposal, wiki=True, 
-                                       with_vote=h.has_permission('vote.cast'))
+                                       with_vote=can.user.vote())
         alternatives = not_null(self.form_result.get('alternative'))
         proposal.update_alternatives(alternatives)
         model.meta.Session.commit()

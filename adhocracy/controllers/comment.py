@@ -85,7 +85,7 @@ class CommentController(BaseController):
                                        wiki=self.form_result.get('wiki'),
                                        canonical=canonical,
                                        sentiment=self.form_result.get('sentiment'), 
-                                       with_vote=h.has_permission('vote.cast'))
+                                       with_vote=can.user.vote())
         model.meta.Session.commit()
         watchlist.check_watch(comment)
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance, 
@@ -110,7 +110,7 @@ class CommentController(BaseController):
                                         c.user,
                                         sentiment=self.form_result.get('sentiment'))
         model.meta.Session.commit()
-        if h.has_permission('vote.cast'):
+        if can.user.vote():
             decision = democracy.Decision(c.user, c.comment.poll)
             if not decision.result == model.Vote.YES:
                 decision.make(model.Vote.YES)

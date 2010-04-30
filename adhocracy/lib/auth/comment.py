@@ -1,7 +1,7 @@
 import adhocracy.model as model 
 from pylons import tmpl_context as c
 from authorization import has_permission_bool as has
-
+import poll
 
 def index():
     return has('comment.view')
@@ -60,7 +60,5 @@ def delete(co):
 
     
 def rate(c):
-    return show(c) and has('vote.cast') \
-            and c.poll is not None \
-            and not c.poll.has_ended()
+    return show(c) and c.poll is not None and poll.vote(c.poll)
 

@@ -63,11 +63,11 @@
 		<ul>
 		<% tagn = 0 %>
 		%for (tag, count) in proposal.tags:
-			<li class="${'hidejs moreTags' if tagn >= 5 else ''}">${h.tag_link(tag, count)|n}
+			<li class="${'hidejs moreTags' if tagn > 5 else ''}">${h.tag_link(tag, count)|n}
 			%if c.user:
 				<% has = False %>
 				%for tagging in proposal.taggings:
-					%if not has and tagging.tag == tag and tagging.creator == c.user:
+					%if not has and tagging.tag == tag and tagging.creator == c.user and can.tag.delete(tagging):
 						<a class="ttip" title="${_('Remove this tag.')}" href="${h.entity_url(proposal, member='untag')}?tagging=${tagging.id}&${h.url_token()}"><img src="/img/icons/tag_del.png" alt="-" /></a> 
 						<% has = True %>
 					%endif
@@ -79,7 +79,7 @@
 			</li>
 			<% tagn = tagn + 1 %>
 		%endfor
-		%if len(proposal.tags) >= 5 or h.has_permission("tag.create"):
+		%if len(proposal.tags) >= 5 or can.tag.create():
 		<li class="showjs">	
 			%if len(proposal.tags) >= 5:
 				<span class="moreTagsLink">
@@ -87,14 +87,14 @@
 				&middot;
 				</span>
 			%endif
-			%if h.has_permission("tag.create"):
+			%if can.tag.create():
 				<a href="#" onclick="return addTags();">${_("add tags...")}</a>
 			%endif
 		</li>
 		%endif
 		</ul>
 		
-		%if h.has_permission("tag.create"):
+		%if can.tag.create():
 		<div class="addtags hidejs">
 			<form action="${h.entity_url(proposal, member='tag')}" method="POST">
 				${h.field_token()|n}
@@ -115,7 +115,7 @@
 
 <%def name="header(tile, proposal, active)">
 	<div class="top_actions title">
-		%if tile.can_delegate:
+		%if can.delegation.create():
 			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
 			    href="/delegation/new?scope=${proposal.id}">${_("delegate")}</a>
 		%endif

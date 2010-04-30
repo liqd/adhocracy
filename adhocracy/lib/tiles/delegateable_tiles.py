@@ -50,14 +50,6 @@ class DelegateableTile(BaseTile):
     
     has_overridden = property(_has_overridden)      
     
-    can_vote = property(BaseTile.prop_has_perm('vote.cast'))
-    
-    def _can_delegate(self):
-        return h.has_permission('delegation.create') and \
-            self.delegateable.instance.allow_delegate
-    
-    can_delegate = property(_can_delegate)      
-    
     def _latest_revision_time(self):
         time = self.delegateable.find_latest_comment_time(recurse=True)
         if time is None:
