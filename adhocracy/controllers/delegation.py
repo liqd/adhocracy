@@ -76,7 +76,7 @@ class DelegationController(BaseController):
         if self.form_result.get('replay') == 1:
             log.debug("Replaying the vote for Delegation: %s" % delegation)
             democracy.Decision.replay_decisions(delegation)
-        return ret_success(entity=delegation, format=format)
+        return ret_success(entity=delegation.scope, format=format)
     
         
     @RequireInstance

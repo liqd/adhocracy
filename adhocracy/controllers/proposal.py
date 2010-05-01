@@ -120,7 +120,7 @@ class ProposalController(BaseController):
         else: 
             c.alternatives = c.proposal.current_alternatives()
         c.proposals = [p for p in model.Proposal.all(instance=c.instance) if not \
-                       (p in c.alternatives and not p == c.proposal)]
+                       (p in c.alternatives or p.id == c.proposal.id)]
         return htmlfill.render(render("/proposal/edit.html"), defaults=defaults, 
                                errors=errors, force_defaults=False)
     

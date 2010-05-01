@@ -19,13 +19,13 @@ class CommentNewForm(formencode.Schema):
 
 
 class CommentCreateForm(CommentNewForm):
-    text = validators.String(max=20000, min=4, not_empty=True)
+    text = validators.String(max=1000, min=4, not_empty=True)
     sentiment = validators.Int(min=model.Comment.SENT_CON, max=model.Comment.SENT_PRO, if_empty=0, if_missing=0)
     
     
 class CommentUpdateForm(formencode.Schema):
     allow_extra_fields = True
-    text = validators.String(max=20000, min=4, not_empty=True)
+    text = validators.String(max=1000, min=4, not_empty=True)
     sentiment = validators.Int(min=model.Comment.SENT_CON, max=model.Comment.SENT_PRO, if_empty=0, if_missing=0)
 
 
