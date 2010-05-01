@@ -1,5 +1,6 @@
 from datetime import datetime
 import logging
+import simplejson as json
 
 from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func
 
@@ -50,6 +51,25 @@ class Selection(object):
         except Exception, e: 
             log.warn("find(%s): %s" % (id, e))
             return None
+    
+    
+    def variant_tuple(self, variant):
+        return [self, variant]
+        
+        
+    def variant_key(self, variant):
+        return json.dumps(self.variant_tuple(variant))
+    
+    
+    @property
+    def subjects(self):
+        return [self.variant_key(v) for v in self.page.variants]
+        
+    
+    @property
+    def polls(self):
+        from poll import Poll
+        return Poll.by_subjects(self.subjects)
     
     
     def to_dict(self):

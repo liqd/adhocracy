@@ -151,19 +151,37 @@ class Poll(object):
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=True):
+        from delegateable import Delegateable
         try:
             q = meta.Session.query(Poll)
             q = q.filter(Poll.id==int(id))
             if not include_deleted:
                 q = q.filter(or_(Poll.end_time==None,
                                  Poll.end_time>datetime.utcnow()))
-            poll = q.limit(1).first()
             if ifilter.has_instance() and instance_filter and poll:
-                poll = poll.scope.instance == ifilter.get_instance() \
-                        and poll or None
-            return poll
+                q = q.join(Delegateable)
+                q = q.filter(Delegateable.instance == ifilter.get_instance())
+            return q.limit(1).first()
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))
+            return None
+            
+            
+    @classmethod
+    def by_subjects(cls, subjects, instance_filter=True, include_deleted=True):
+        from delegateable import Delegateable
+        try:
+            q = meta.Session.query(Poll)
+            q = q.filter(Poll.subject.in_(subjects))
+            if not include_deleted:
+                q = q.filter(or_(Poll.end_time==None,
+                                 Poll.end_time>datetime.utcnow()))
+            if ifilter.has_instance() and instance_filter and poll:
+                q = q.join(Delegateable)
+                q = q.filter(Delegateable.instance == ifilter.get_instance())
+            return q.all()
+        except Exception, e:
+            log.warn("by_subjects(%s): %s" % (id, e))
             return None
     
     
