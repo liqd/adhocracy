@@ -12,12 +12,12 @@
 <%def name="header(tile, page, active, text)">
 	<div class="top_actions title">
 		
-		%if tile.can_edit:
+		%if can.page.edit(page):
 			<a class="button title edit" 
 				href="${h.entity_url(text, member='edit')}">${_("edit")}</a>
 		%endif
 						
-		%if tile.can_delete:
+		%if can.page.delete(page):
 			<a class="button title delete" 	
 				href="${h.entity_url(page, member='ask_delete')}">${_("delete")}</a>
 		%endif

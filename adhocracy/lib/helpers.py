@@ -28,32 +28,7 @@ from webhelpers.pylonslib import Flash as _Flash
 import webhelpers.text as text
 flash = _Flash()
 
-
-@cache.memoize('delegateable_breadcrumbs')
-def breadcrumbs(entity):    
-    if not entity:
-        return site_name()
-    if isinstance(entity, model.Text):
-        url = breadcrumbs(entity.page) 
-        if entity.variant != model.Text.HEAD:
-            url += " &raquo; <a href='%s'>%s</a>" % (entity_url(entity), 
-                                                     cgi.escape(entity.variant))
-        return url 
-    if isinstance(entity, model.Page):
-        url = breadcrumbs(entity.instance) 
-        url += " &raquo; <a href='%s'>%s</a>" % (entity_url(entity), 
-                                                 cgi.escape(entity.title))
-        return url
-    if isinstance(entity, model.User):
-        return breadcrumbs(c.instance) + " &raquo; <a href='%s'>%s</a>" % (entity_url(entity),
-                                                                           cgi.escape(entity.name))
-    link = "<a href='%s'>%s</a>" % (entity_url(entity), 
-                                    cgi.escape(text.truncate(entity.label, length=40, whole_word=True)))
-    if hasattr(entity, 'parents') and len(entity.parents):
-        link = breadcrumbs(entity.parents[0]) + " &raquo; " + link
-    elif hasattr(entity, 'instance'):
-        link = breadcrumbs(entity.instance) + " &raquo; " + link
-    return link
+from breadcrumbs import breadcrumbs
 
 
 def immutable_proposal_message():
