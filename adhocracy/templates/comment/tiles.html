@@ -133,7 +133,7 @@
 	<form name="edit_comment" class="inplace comment_form" method="POST" action="/comment/${comment.id}">
 		${h.field_token()|n}
 		<input type="hidden" name="_method" value="PUT" />
-		%if not comment.canonical and comment.reply:
+		%if not comment.textual:
 			${_("argumenting")}
 			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == 1 else ''} /> 
 			${_("pro")}
