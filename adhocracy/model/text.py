@@ -62,7 +62,15 @@ class Text(object):
         meta.Session.add(_text)
         meta.Session.flush()
         return _text
-        
+    
+    
+    @property
+    def history(self):
+        # TODO: Performance fail.
+        if self.parent:
+            return [self] + self.parent.history
+        return [self]
+    
     
     def delete(self, delete_time=None):
         if delete_time is None:

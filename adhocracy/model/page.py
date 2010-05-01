@@ -108,11 +108,10 @@ class Page(Delegateable):
     
     
     def variant_history(self, variant):
-        history = []
-        for text in self.texts:
-            if text.variant == variant:
-                history.append(text)
-        return history
+        head = self.variant_head(variant)
+        if head:
+            return head.history
+        return None
     
     
     @property

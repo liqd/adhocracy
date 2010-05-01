@@ -32,7 +32,7 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 	%endif
 	<h3 class="section">${_("History")}</h3>
 	<ul>
-		%for text in c.page.variant_history(c.text.variant):
+		%for text in c.text.history:
 			<li><code><a href="${h.entity_url(text)}">#${text.id}</a></code>: ${text.user.name} at ${text.create_time.date()} (<a href="/page/diff?left=${c.text.id}&right=${text.id}">cmp</a>)</li>
 		%endfor
 	</ul>

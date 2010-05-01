@@ -25,6 +25,7 @@ class PageUpdateForm(formencode.Schema):
     variant = validators.String(max=255, min=1, not_empty=False, 
                 if_empty=model.Text.HEAD, if_missing=model.Text.HEAD)
     text = validators.String(max=20000, min=4, not_empty=True)
+    parent = forms.ValidText()
 
     
 class PageFilterForm(formencode.Schema):
@@ -88,12 +89,16 @@ class PageController(BaseController):
     def update(self, id, variant=None, text=None, format='html'):
         c.page, c.text = self._get_page_and_text(id, variant, text)
         require.page.edit(c.page)
+        parent = self.form_result.get("parent")
+        if parent.page != c.page:
+            return ret_abort(_("You're trying to update to a text which is not part of this pages history"),
+                             code=400, format=format)
         text = model.Text.create(c.page, 
                       self.form_result.get("variant"),  
                       c.user, 
                       self.form_result.get("title"), 
                       self.form_result.get("text"),
-                      parent=c.page.head)
+                      parent=parent)
         model.meta.Session.commit()
         watchlist.check_watch(c.page)
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance, 
@@ -119,6 +124,9 @@ class PageController(BaseController):
         c.right = self.form_result.get('right')
         require.page.show(c.right.page)
         right_html = c.right.render()
+        if c.left == c.right: 
+            h.flash(_("Same thing, honey!"))
+            redirect(h.entity_url(c.left))
         
         c.left_diff = text.html_diff(right_html, left_html)
         c.right_diff = text.html_diff(left_html, right_html)
