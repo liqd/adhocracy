@@ -31,10 +31,10 @@ class InstanceEditForm(formencode.Schema):
 
 class InstanceController(BaseController):
     
-    @ActionProtector(has_permission("instance.index"))
     def index(self, format='html'):
+        require.instance.index()
         h.add_meta("description", _("An index of instances run at this site. " + 
-                                    "Select which ones you would like to join and participate in!"))
+                                    "Select which ones you would like to join and participate!"))
         instances = model.Instance.all()
         
         if format == 'json':
@@ -45,15 +45,15 @@ class InstanceController(BaseController):
         return render("/instance/index.html")  
     
     
-    @ActionProtector(has_permission("instance.create"))
     def new(self):
+        require.instance.create()
         return render("/instance/new.html")
     
     
     @RequireInternalRequest(methods=['POST'])
-    @ActionProtector(has_permission("instance.create"))
     @validate(schema=InstanceCreateForm(), form="new", post_only=True)
     def create(self, format='html'):
+        require.instance.create()
         instance = model.Instance.create(self.form_result.get('key'), 
                                          self.form_result.get('label'), 
                                          c.user, 
@@ -64,9 +64,9 @@ class InstanceController(BaseController):
     
 
     #@RequireInstance
-    @ActionProtector(has_permission("instance.view"))
     def show(self, id, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, id)
+        require.instance.show(c.page_instance)
         
         if format == 'json':
             return render_json(c.page_instance)
@@ -83,9 +83,9 @@ class InstanceController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("instance.view"))
     def activity(self, id, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, id)
+        require.instance.show(c.page_instance)
         
         if format == 'sline':
             sline = event.sparkline_samples(event.instance_activity, c.page_instance)
@@ -104,9 +104,10 @@ class InstanceController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("instance.admin"))
     def edit(self, id):
         c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
+        
         c._Group = model.Group
         default_group = c.page_instance.default_group.code if \
                         c.page_instance.default_group else \
@@ -128,10 +129,11 @@ class InstanceController(BaseController):
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
-    @ActionProtector(has_permission("instance.admin"))
     @validate(schema=InstanceEditForm(), form="edit", post_only=True)
     def update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
+        
         c.page_instance.description = text.cleanup(self.form_result.get('description'))
         c.page_instance.label = self.form_result.get('label')
         c.page_instance.required_majority = self.form_result.get('required_majority')
@@ -155,7 +157,6 @@ class InstanceController(BaseController):
         return ret_success(entity=c.page_instance, format=format)
     
     
-    @ActionProtector(has_permission("instance.index"))
     def icon(self, id, x=32, y=32):
         c.page_instance = model.Instance.find(id)
         try:
@@ -168,18 +169,18 @@ class InstanceController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("global.admin"))
     def ask_delete(self, id):
         c.page_instance = self._get_current_instance(id)
+        require.instance.delete(c.page_instance)
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         return render('/instance/ask_delete.html')
     
     
     @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("global.admin"))
     def delete(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
+        require.instance.delete(c.page_instance)
         c.page_instance.delete()
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_DELETE, c.user, instance=c.instance, topics=[])
@@ -189,12 +190,10 @@ class InstanceController(BaseController):
     
     @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("instance.join"))
     def join(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        if c.page_instance in c.user.instances:
-            return ret_abort(message=_("You're already a member in %(instance)s.") % {
-                                   'instance': c.page_instance.label}, code=400, format=format)
+        require.instance.join(c.page_instance)
+        
         membership = model.Membership(c.user, c.page_instance, 
                                       c.page_instance.default_group)
         model.meta.Session.expunge(membership)
@@ -210,16 +209,16 @@ class InstanceController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("instance.leave"))
     def ask_leave(self, id):
         c.page_instance = self._get_current_instance(id)
+        require.instance.leave(c.page_instance)
+        
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         return render('/instance/ask_leave.html')
     
     
     @RequireInstance  
     @RequireInternalRequest(methods=['POST'])            
-    @ActionProtector(has_permission("instance.leave"))
     def leave(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         if not c.page_instance in c.user.instances:
@@ -230,19 +229,19 @@ class InstanceController(BaseController):
             return ret_abort(entity=c.page_instance, format=format, 
                              message=_("You're the founder of %s, cannot leave.") % {
                                     'instance': c.page_instance.label})
-        else:
-            for membership in c.user.memberships:
-                if membership.is_expired():
-                    continue
-                if membership.instance == c.page_instance:
-                    membership.expire()
-                    model.meta.Session.add(membership)
+        require.instance.leave(c.page_instance)
+        
+        for membership in c.user.memberships:
+            if membership.is_expired():
+                continue
+            if membership.instance == c.page_instance:
+                membership.expire()
+                model.meta.Session.add(membership)
                     
-                    c.user.revoke_delegations(c.page_instance)
+                c.user.revoke_delegations(c.page_instance)
                     
-                    event.emit(event.T_INSTANCE_LEAVE,  c.user, 
-                               instance=c.page_instance)
-            model.meta.Session.commit()
+                event.emit(event.T_INSTANCE_LEAVE,c.user, instance=c.page_instance)
+        model.meta.Session.commit()
         return ret_success(entity=c.page_instance, format=format, 
                            message=_("You've left %(instance)s.") % {
                                 'instance': c.page_instance.label})

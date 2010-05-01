@@ -43,33 +43,6 @@ class InstanceTile(BaseTile):
         
     required_majority = property(_required_majority)
     
-    def _can_join(self):
-        return (c.user and not c.user.is_member(self.instance)) \
-                and h.has_permission("instance.join")
-    
-    can_join = property(_can_join)
-    
-    def _can_leave(self):
-        return c.user and c.user.is_member(self.instance) \
-                and h.has_permission("instance.leave") \
-                and not c.user == self.instance.creator 
-    
-    can_leave = property(_can_leave)
-    can_admin = property(BaseTile.prop_has_perm('instance.admin'))
-    can_delete = property(BaseTile.prop_has_perm('global.admin'))
-    
-    def _can_create_proposal(self):
-        return c.user and h.has_permission("proposal.create")
-    
-    can_create_proposal = property(_can_create_proposal)
-    
-    def _num_issues(self):
-        query = model.meta.Session.query(model.Issue)
-        query = query.filter(model.Issue.instance==self.instance)
-        query = query.filter(model.Issue.delete_time==None)
-        return query.count()
-    
-    num_issues = property(_num_issues)
     
     def _num_proposals(self):
         if self.__proposals_count is None:

@@ -12,12 +12,6 @@
 				${h.user_link(instance.creator)|n}  
 				&middot; ${_("created %s") % h.relative_time(instance.create_time)|n}  
 				&middot; ${ungettext("%s proposal", "%s proposals", tile.num_proposals) % tile.num_proposals}
-				%if tile.can_join:
-					&middot; <a href="${h.entity_url(instance, member='join')}?${h.url_token()}">${_("join")}</a>
-				%endif
-				%if tile.can_leave:
-					&middot; <a href="${h.entity_url(instance, member='ask_leave')}">${_("leave")}</a>
-				%endif
 			</div>
 		</div>
 	</div>
@@ -25,26 +19,26 @@
 
 <%def name="header(tile, instance, active, no_panel)">
 	<div class="top_actions title">
-		%if tile.can_create_proposal:
+		%if can.proposal.create():
 			<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new" title="">${_("new proposal")}</a>
 		%endif
-		%if tile.can_join:
+		%if can.instance.join(instance):
 			<a class="button add ttip" title="${_('Join this instance to start contributing.')}" 
 				href="${h.entity_url(instance, member='join')}?${h.url_token()}">${_("join")}</a> 
 		%endif
 		%if not c.user:
 			<a class="button add ttip" title="${_('Join this instance to start contributing.')}"  href="/register">${_("join")}</a> 
 		%endif
-		%if tile.can_admin:
+		%if can.instance.edit(instance):
 			<a class="button admin ttip" title="${_('Edit this instance to change its description or voting rules.')}"  
 				href="${h.entity_url(instance, member='edit')}">${_("edit")}</a>
 		%endif
-		%if tile.can_leave:
+		%if can.instance.leave(instance):
 			<a class="button delete ttip" title="${_('Resign from this instance.')}" 
 				href="${h.entity_url(instance, member='ask_leave')}">${_("leave")}</a> 
 		%endif
 		
-		%if tile.can_delete:
+		%if can.instance.delete(instance):
 			<a class="button title delete" 	
 				href="${h.entity_url(instance, member='ask_delete')}">${_("delete")}</a>
 		%endif

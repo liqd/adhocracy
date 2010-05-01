@@ -41,7 +41,6 @@ def setup_entities():
     # ADD EACH NEW PERMISSION HERE
     mk_perm("vote.cast", voter)
     mk_perm("instance.index", anonymous)
-    mk_perm("instance.view", anonymous)
     mk_perm("instance.show", anonymous)
     mk_perm("instance.create", default)
     mk_perm("instance.admin", supervisor)

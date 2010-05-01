@@ -8,7 +8,7 @@
 
 
 <div class="top_actions title">
-	%if h.has_permission("instance.create"):
+	%if can.instance.create():
 		<a class="button title add" href="/instance/new">${_("new instance")}</a>
 	%endif 
 </div>

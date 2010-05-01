@@ -14,6 +14,7 @@ class _can(object):
     import poll 
     import delegation
     import page
+    import instance
     
 can = _can()
 
