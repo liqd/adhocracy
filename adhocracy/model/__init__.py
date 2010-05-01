@@ -27,6 +27,7 @@ from adhocracy.model.tag import Tag, tag_table
 from adhocracy.model.tagging import Tagging, tagging_table
 from adhocracy.model.page import Page, page_table
 from adhocracy.model.text import Text, text_table
+from adhocracy.model.selection import Selection, selection_table
 
 
 mapper(User, user_table, properties={
@@ -193,6 +194,14 @@ mapper(Text, text_table, properties={
                        primaryjoin=text_table.c.parent_id==text_table.c.id),
     'page': relation(Page, lazy=True, backref=backref('texts', order_by=text_table.c.create_time.desc()),
                      primaryjoin=text_table.c.page_id==page_table.c.id)
+    }, extension=meta.extension)
+
+
+mapper(Selection, selection_table, properties={
+    'proposal': relation(Proposal, lazy=True, backref=backref('selections'), 
+                         primaryjoin=selection_table.c.proposal_id==proposal_table.c.id),
+    'page': relation(Page, lazy=False, backref=backref('selections'),
+                     primaryjoin=selection_table.c.page_id==page_table.c.id)
     }, extension=meta.extension)
 
 

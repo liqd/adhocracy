@@ -164,6 +164,8 @@ class Proposal(Delegateable):
             alternative.delete(delete_time=delete_time)
         for alternative in self.right_alternatives:
             alternative.delete(delete_time=delete_time)
+        for choice in self.choices:
+            choice.delete(delete_time=delete_time)
     
       
     def comment_count(self):

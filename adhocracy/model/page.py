@@ -25,7 +25,7 @@ class Page(Delegateable):
     NORM = "norm"
     
     FUNCTIONS = [DOCUMENT, DESCRIPTION, NORM]
-    WITH_VARIANTS = [DESCRIPTION, NORM]
+    WITH_VARIANTS = [NORM] #[DESCRIPTION, NORM]
     
     def __init__(self, instance, alias, creator, function):
         self.init_child(instance, alias, creator)
@@ -138,6 +138,8 @@ class Page(Delegateable):
             delete_time = datetime.utcnow()
         for text in self.texts:
             text.delete(delete_time=delete_time)
+        for choice in self.choices:
+            choice.delete(delete_time=delete_time)
         if self.delete_time is None:
             self.delete_time = delete_time
     

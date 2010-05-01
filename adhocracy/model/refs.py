@@ -19,6 +19,7 @@ from tag import Tag
 from tagging import Tagging
 from page import Page
 from text import Text
+from selection import Selection
 
 log = logging.getLogger(__name__)
 
@@ -36,6 +37,7 @@ TYPES = [Vote,
          Instance,
          Tag,
          Page, 
+         Selection,
          Text,
          Tagging]
 
