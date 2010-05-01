@@ -27,7 +27,6 @@ class InstanceGroupSourceAdapter(SqlGroupsAdapter):
         
     def _get_section_items(self, section):
         q = model.meta.Session.query(model.User.user_name)
-        q = q.distinct()
         q = q.join(model.Membership)
         q = q.join(model.Group)
         q = q.filter(model.Group.code==section)
@@ -44,7 +43,6 @@ class InstanceGroupSourceAdapter(SqlGroupsAdapter):
     
     def _get_item_as_row(self, item_name):
         q = model.meta.Session.query(model.User)
-        q = q.distinct()
         q = q.filter(model.User.user_name==unicode(item_name))
         q = q.options(eagerload(model.User.memberships))
         try:
@@ -75,9 +73,9 @@ class has_permission(what_has_permission):
         
 
 def has_permission_bool(permission):
-    return permission in request.environ.get('repoze.what.credentials', {}).get('permissions', [])
-    #p = has_permission(permission)
-    #return p.is_met(request.environ)
+    #return permission in request.environ.get('repoze.what.credentials', {}).get('permissions', [])
+    p = has_permission(permission)
+    return p.is_met(request.environ)
 
 
     
