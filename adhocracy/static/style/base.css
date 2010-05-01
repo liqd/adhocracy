@@ -1385,6 +1385,22 @@ a.button.inactive {
 	font-size: 0.9em;
 }
 
+.comment_form {
+    display: block;
+    background: #eee;
+    padding: 4px;
+    border: 1px solid #bbb;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    margin-bottom: 0.5em
+}
+
+.comment_form textarea {
+    border: 1px solid #ddd;
+    border-top: 1px solid #bbb;
+    border-left: 1px solid #bbb;
+}
+
 .comment .reply_form, 
 .comment .edit_form,
 .headrev .edit_form {
@@ -1406,6 +1422,7 @@ a.button.inactive {
 
 .comment .savebox,
 .headrev .savebox {
+    padding-bottom: 5px;
 	padding-top: 5px;
 	display: inline-block;
 }

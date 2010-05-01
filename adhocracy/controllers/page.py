@@ -17,7 +17,7 @@ class PageCreateForm(formencode.Schema):
     allow_extra_fields = True
     title = validators.String(max=255, min=4, not_empty=True)
     text = validators.String(max=20000, min=4, not_empty=True)
-
+    function = forms.ValidPageFunction()
     
 class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
@@ -66,7 +66,8 @@ class PageController(BaseController):
     def create(self, format='html'):
         require.page.create()
         page = model.Page.create(c.instance, self.form_result.get("title"), 
-                                 self.form_result.get("text"), c.user)
+                                 self.form_result.get("text"), c.user, 
+                                 function=self.form_result.get("function"))
         model.meta.Session.commit()
         watchlist.check_watch(page)
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance, 

@@ -164,3 +164,10 @@ class ValidText(formencode.FancyValidator):
                          value, state)
         return text
 
+class ValidPageFunction(formencode.FancyValidator):
+    def _to_python(self, value, state):
+        from adhocracy.model import Page
+        function = value.lower().strip()
+        if function not in Page.FUNCTIONS: 
+            raise formencode.Invalid(_("Invalid page function: %s") % value, value, state)
+        return function

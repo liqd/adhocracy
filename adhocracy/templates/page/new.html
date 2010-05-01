@@ -14,7 +14,9 @@
 	</div>
 
 	<div class="sidebar">
-		&nbsp;
+		%for fun in c.model.Page.FUNCTIONS:
+			<input type="radio" value="${fun}" name="function" /> ${fun}<br/>
+		%endfor
 	</div>
 	<div class="mainbar">
 		<textarea tabindex="2" class="description armlabel" name="text"></textarea>

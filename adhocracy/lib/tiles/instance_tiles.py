@@ -17,34 +17,35 @@ class InstanceTile(BaseTile):
         self.instance = instance
         self.__issues = None
         self.__proposals_count = None
-        
-    def _tagline(self):       
+     
+     
+    @property  
+    def tagline(self):       
         if self.instance.description:
             tagline = text.plain(self.instance.description)
             return truncate(tagline, length=140, indicator="...", whole_word=True)
         return ""
     
-    tagline = property(_tagline)
     
-    def _description(self):
+    @property
+    def description(self):
         if self.instance.description:
             return text.render(self.instance.description)
         return ""
     
-    description = property(_description)
     
-    def _activation_delay(self):
+    @property
+    def activation_delay(self):
         return self.instance.activation_delay
-        
-    activation_delay = property(_activation_delay)
     
-    def _required_majority(self):
+    
+    @property
+    def required_majority(self):
         return "%s%%" % int(self.instance.required_majority * 100)
-        
-    required_majority = property(_required_majority)
     
     
-    def _num_proposals(self):
+    @property
+    def num_proposals(self):
         if self.__proposals_count is None:
             query = model.meta.Session.query(model.Proposal)
             query = query.filter(model.Proposal.instance==self.instance)
@@ -52,7 +53,6 @@ class InstanceTile(BaseTile):
             self.__proposals_count = query.count()
         return self.__proposals_count
     
-    num_proposals = property(_num_proposals)
 
 
 def row(instance):

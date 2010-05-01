@@ -14,15 +14,22 @@ log = logging.getLogger(__name__)
 
 page_table = Table('page', meta.data,                      
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
-    Column('has_variants', Boolean, default=True),
-    Column('freeze', Boolean, default=False)
+    Column('function', Unicode)
     )
 
 
 class Page(Delegateable):
     
-    def __init__(self, instance, alias, creator):
+    DOCUMENT = "document"
+    DESCRIPTION = "description"
+    NORM = "norm"
+    
+    FUNCTIONS = [DOCUMENT, DESCRIPTION, NORM]
+    WITH_VARIANTS = [DESCRIPTION, NORM]
+    
+    def __init__(self, instance, alias, creator, function):
         self.init_child(instance, alias, creator)
+        self.function = function
     
     
     @classmethod
@@ -68,27 +75,31 @@ class Page(Delegateable):
     
     
     @classmethod
-    def create(cls, instance, title, text, creator, has_variants=True, freeze=False):
+    def create(cls, instance, title, text, creator, function=DOCUMENT):
         from text import Text
+        if function not in Page.FUNCTIONS:
+            raise AttributeError("Invalid page function type")
         label = Page.free_label(title)
-        page = Page(instance, label, creator)
-        page.freeze = freeze
-        page.has_variants = has_variants
+        page = Page(instance, label, creator, function)
         meta.Session.add(page)
         meta.Session.flush()
         _text = Text(page, Text.HEAD, creator, title, text)
         return page
     
     
-    def _get_variants(self):
+    @property 
+    def has_variants(self):
+        return self.function in Page.WITH_VARIANTS
+    
+    
+    @property
+    def variants(self):
         from text import Text
         if not self.has_variants:
             return [Text.HEAD]
         return list(set([t.variant for t in self.texts]))
+
         
-    variants = property(_get_variants)
-    
-    
     def variant_head(self, variant):
         for text in self.texts:
             if text.variant == variant:
@@ -104,27 +115,24 @@ class Page(Delegateable):
         return history
     
     
-    def _get_heads(self):
+    @property
+    def heads(self):
         from text import Text
         if not has_variants:
             return [self.variant_head(Text.HEAD)]
         return [self.variant_head(h) for h in self.variants]
     
-    heads = property(_get_heads)
     
-    
-    def _get_head(self):
+    @property
+    def head(self):
         from text import Text
         return self.variant_head(Text.HEAD)
-        
-    head = property(_get_head)
     
     
-    def _get_title(self):
+    @property
+    def title(self):
         return self.head.title
         
-    title = property(_get_title)
-    
     
     def delete(self, delete_time=None):
         if delete_time is None:
@@ -153,8 +161,7 @@ class Page(Delegateable):
                     create_time=self.create_time,
                     label=self.label,
                     head=self.head,
-                    freeze=self.freeze,
-                    has_variants=self.has_variants,
+                    function=self.function,
                     user=self.user.user_name)
     
     

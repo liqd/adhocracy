@@ -14,7 +14,7 @@ def create():
 def edit(p):
     if has('instance.admin'):
         return True
-    return has('page.edit') and show(p) and not p.freeze
+    return has('page.edit') and show(p)
 
 def delete(p):
     return has('page.delete') and show(p) and p.is_mutable()

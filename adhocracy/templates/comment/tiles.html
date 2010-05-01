@@ -130,7 +130,7 @@
 </%def>
 
 <%def name="edit_form(comment)">
-	<form name="edit_comment" class="inplace" method="POST" action="/comment/${comment.id}">
+	<form name="edit_comment" class="inplace comment_form" method="POST" action="/comment/${comment.id}">
 		${h.field_token()|n}
 		<input type="hidden" name="_method" value="PUT" />
 		%if not comment.canonical and comment.reply:
@@ -151,7 +151,7 @@
 </%def>
 
 <%def name="create_form(parent, topic, canonical=0, arm=False, can_wiki=True)">
-	<form name="create_comment" class="inplace" method="POST" action="/comment">
+	<form name="create_comment" class="inplace comment_form" method="POST" action="/comment">
 		${h.field_token()|n}
 		<input type="hidden" name="topic" value="${topic.id}" />
 		%if parent:
