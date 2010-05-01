@@ -41,9 +41,9 @@ class PageDiffForm(formencode.Schema):
 class PageController(BaseController):
     
     @RequireInstance
-    @ActionProtector(has_permission("page.view"))
     @validate(schema=PageFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
+        require.page.index()
         pages = model.Page.all(instance=c.instance)
         c.pages_pager = pager.pages(pages)
         
@@ -54,36 +54,39 @@ class PageController(BaseController):
     
     
     @RequireInstance
-    @ActionProtector(has_permission("page.create"))
     def new(self, errors=None):
+        require.page.create()
         c.title = request.params.get('title', None)
         return render("/page/new.html")
     
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
-    @ActionProtector(has_permission("page.create"))
     @validate(schema=PageCreateForm(), form='new', post_only=False, on_get=True)
     def create(self, format='html'):
+        require.page.create()
         page = model.Page.create(c.instance, self.form_result.get("title"), 
                                  self.form_result.get("text"), c.user)
         model.meta.Session.commit()
+        watchlist.check_watch(page)
+        event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance, 
+                   topics=[page], page=page, text=page.head)
         redirect(h.entity_url(page))
 
 
     @RequireInstance
-    @ActionProtector(has_permission("page.edit")) 
     def edit(self, id, variant=None, text=None):
         c.page, c.text = self._get_page_and_text(id, variant, text)
+        require.page.edit(c.page)
         return render('/page/edit.html')
     
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
-    @ActionProtector(has_permission("page.edit")) 
     @validate(schema=PageUpdateForm(), form='edit', post_only=False, on_get=True)
     def update(self, id, variant=None, text=None, format='html'):
         c.page, c.text = self._get_page_and_text(id, variant, text)
+        require.page.edit(c.page)
         text = model.Text.create(c.page, 
                       self.form_result.get("variant"),  
                       c.user, 
@@ -91,25 +94,29 @@ class PageController(BaseController):
                       self.form_result.get("text"),
                       parent=c.page.head)
         model.meta.Session.commit()
+        watchlist.check_watch(c.page)
+        event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance, 
+                   topics=[c.page], page=c.page, text=text)
         redirect(h.entity_url(text))
     
     
     @RequireInstance
-    @ActionProtector(has_permission("page.view"))
     def show(self, id, variant=None, text=None, format='html'):
         c.page, c.text = self._get_page_and_text(id, variant, text)
+        require.page.show(c.page)
         #redirect(h.entity_url(c.text))
         c.tile = tiles.page.PageTile(c.page)
         return render("/page/show.html")
     
     
     @RequireInstance
-    @ActionProtector(has_permission("page.view"))
     @validate(schema=PageDiffForm(), form='bad_request', post_only=False, on_get=True)
     def diff(self):
         c.left = self.form_result.get('left')
+        require.page.show(c.left.page)
         left_html = c.left.render()
         c.right = self.form_result.get('right')
+        require.page.show(c.right.page)
         right_html = c.right.render()
         
         c.left_diff = text.html_diff(right_html, left_html)
@@ -118,20 +125,22 @@ class PageController(BaseController):
         
     
     @RequireInstance
-    @ActionProtector(has_permission("page.delete"))
     def ask_delete(self, id):
         c.page = get_entity_or_abort(model.Page, id)
+        require.page.delete(c.page)
         c.tile = tiles.page.PageTile(c.page)
         return render("/page/ask_delete.html")
     
     
     @RequireInstance
     @RequireInternalRequest()
-    @ActionProtector(has_permission("page.delete"))
     def delete(self, id):
         c.page = get_entity_or_abort(model.Page, id) 
+        require.page.delete(c.page)
         c.page.delete()
         model.meta.Session.commit()
+        event.emit(event.T_PAGE_DELETE, c.user, instance=c.instance, 
+                   topics=[c.page], page=c.page)
         h.flash(_("The page %s has been deleted.") % c.page.title)
         redirect(h.entity_url(c.page.instance))
     

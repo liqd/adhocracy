@@ -45,6 +45,7 @@ class Group(object):
     
     
     @classmethod
+    #@meta.session_cached
     def find(cls, group_name, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Group)
@@ -60,6 +61,7 @@ class Group(object):
     
     
     @classmethod
+    #@meta.session_cached
     def by_id(cls, id):
         q = meta.Session.query(Group)
         q = q.filter(Group.id==id)

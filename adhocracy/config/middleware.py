@@ -49,8 +49,8 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     app = RoutesMiddleware(app, config['routes.map'])
     app = SessionMiddleware(app, config)
     app = CacheMiddleware(app, config)
-
-    #app = make_profile_middleware(app, config)
+    
+    #app = make_profile_middleware(app, config, log_filename='/tmp/profile.log.tmp')
 
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)   
     app = setup_auth(app, config)
@@ -75,5 +75,5 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
         overlay_app = StaticURLParser(get_site_path('static'))
         static_app = StaticURLParser(config['pylons.paths']['static_files'])
         app = Cascade([overlay_app, static_app, app])
-
+    
     return app

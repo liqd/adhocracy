@@ -124,6 +124,7 @@ class Instance(object):
     
     
     @classmethod
+    #@meta.session_cached
     def find(cls, key, instance_filter=True, include_deleted=False):
         key = unicode(key).lower()
         try:

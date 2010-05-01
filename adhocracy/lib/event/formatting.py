@@ -26,6 +26,9 @@ class DelegateableFormatter(ObjectFormatter):
 
 class ProposalFormatter(DelegateableFormatter):
     pass
+    
+class PageFormatter(DelegateableFormatter):
+    pass
 
 class PollFormatter(ObjectFormatter):
     
@@ -93,6 +96,7 @@ class FormattedEvent(object):
                   model.Instance: InstanceFormatter(),
                   model.Proposal: ProposalFormatter(),
                   model.Poll: PollFormatter(),
+                  model.Page: PageFormatter(),
                   model.Comment: CommentFormatter()}
     
     def __init__(self, event, decoder):

@@ -18,18 +18,7 @@ class PageTile(BaseTile):
     
     def __init__(self, page):
         self.page = page
-        
     
-    def _can_edit(self):
-        return h.has_permission('page.edit')
-
-    can_edit = property(_can_edit)    
-
-
-    def _can_delete(self):
-        return h.has_permission('page.delete')
-
-    can_delete = property(_can_delete)
     
     def comments(self):
         from comment_tiles import CommentTile

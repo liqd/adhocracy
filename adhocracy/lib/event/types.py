@@ -108,6 +108,24 @@ T_PROPOSAL_DELETE = EventType(u"t_proposal_delete", pri=2,
                           link_path=lambda e: h.entity_url(e.proposal),
                           event_msg=lambda: _(u"deleted %(proposal)s"))
 
+
+T_PAGE_CREATE = EventType(u"t_page_create", pri=4, 
+                        subject=lambda: _(u"New page: %(page)s"),
+                        link_path=lambda e: h.entity_url(e.page),
+                        event_msg=lambda: _(u"created %(page)s"),
+                        text=lambda e: e.text.text if e.text else None)
+
+T_PAGE_EDIT = EventType(u"t_page_edit", pri=1, 
+                        subject=lambda: _(u"Edit page: %(page)s"),
+                        link_path=lambda e: h.entity_url(e.page),
+                        text=lambda e: e.text.text if e.text else None,
+                        event_msg=lambda: _(u"edited %(page)s"))
+
+T_PAGE_DELETE = EventType(u"t_page_delete", pri=2, 
+                        subject=lambda: _(u"Deleted page: %(page)s"),
+                        link_path=lambda e: h.entity_url(e.page),
+                        event_msg=lambda: _(u"deleted %(page)s"))
+
 T_COMMENT_CREATE = EventType(u"t_comment_create", pri=2, 
                           subject=lambda: _(u"New comment: in %(topic)s"),
                           link_path=lambda e: h.entity_url(e.comment),

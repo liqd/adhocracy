@@ -52,7 +52,7 @@ mapper(Group, group_table, extension=meta.extension)
 
 
 mapper(Permission, permission_table, properties={
-    'groups': relation(Group, secondary=group_permission_table, lazy=False,
+    'groups': relation(Group, secondary=group_permission_table, lazy=True,
                        backref=backref('permissions', lazy=False))
     }, extension=meta.extension)
 
@@ -91,7 +91,7 @@ mapper(Alternative, alternative_table, properties={
 
 
 mapper(Comment, comment_table, properties={
-    'creator': relation(User, lazy=False, backref=backref('comments')),
+    'creator': relation(User, lazy=False, backref=backref('comments', lazy=True)),
     'topic': relation(Delegateable, backref=backref('comments', cascade='all')),
     'reply': relation(Comment, cascade='delete', remote_side=comment_table.c.id, 
                       backref=backref('replies', lazy=True)),
@@ -102,7 +102,7 @@ mapper(Comment, comment_table, properties={
 
 mapper(Revision, revision_table, properties={
     'user': relation(User, lazy=True, primaryjoin=revision_table.c.user_id==user_table.c.id, 
-                     backref=backref('revisions', lazy=False, cascade='all')),
+                     backref=backref('revisions', lazy=True, cascade='all')),
     'comment': relation(Comment, lazy=False, backref=backref('revisions', cascade='all',
                         lazy=True, order_by=revision_table.c.create_time.desc()))
     }, extension=meta.extension)
@@ -144,8 +144,8 @@ mapper(Instance, instance_table, properties={
 
 
 mapper(Membership, membership_table, properties={
-    'user': relation(User, lazy=False, primaryjoin=membership_table.c.user_id==user_table.c.id, 
-                    backref=backref('memberships', lazy=False)),
+    'user': relation(User, lazy=True, primaryjoin=membership_table.c.user_id==user_table.c.id, 
+                    backref=backref('memberships', lazy=True)),
     'instance': relation(Instance, backref=backref('memberships'), lazy=True),
     'group': relation(Group, backref=backref('memberships'), lazy=False)
     }, extension=meta.extension)

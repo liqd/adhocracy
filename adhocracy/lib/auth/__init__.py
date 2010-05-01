@@ -13,6 +13,7 @@ class _can(object):
     import user
     import poll 
     import delegation
+    import page
     
 can = _can()
 

@@ -200,8 +200,10 @@ class User(object):
             completions = filter(lambda u: u.is_member(inst), completions)
         return completions 
     
-
+    
+    
     @classmethod
+    #@meta.session_cached
     def find(cls, user_name, instance_filter=True, include_deleted=False):
         from membership import Membership
         try:
