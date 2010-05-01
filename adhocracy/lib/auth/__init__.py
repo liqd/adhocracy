@@ -15,6 +15,7 @@ class _can(object):
     import delegation
     import page
     import instance
+    import watch
     
 can = _can()
 

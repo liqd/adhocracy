@@ -20,9 +20,9 @@ class WatchDeleteForm(formencode.Schema):
 class WatchController(BaseController):
     
     @RequireInternalRequest()
-    @ActionProtector(has_permission("watch.create"))
     @validate(schema=WatchCreateForm(), form='bad_request', post_only=False, on_get=True)
     def create(self, format='html'):
+        require.watch.create()
         entity = self.form_result.get('ref')
         if model.Watch.find_by_entity(c.user, entity):
             h.flash(_("A watchlist entry for this entity already exists."))
@@ -33,10 +33,10 @@ class WatchController(BaseController):
     
     
     @RequireInternalRequest()
-    @ActionProtector(has_permission("watch.delete"))
     @validate(schema=WatchDeleteForm(), form='bad_request', post_only=False, on_get=True)
     def delete(self, format='html'):
         watch = self.form_result.get('watch')
+        require.watch.delete(watch)
         if watch.user != c.user and not h.has_permission('instance.admin'):
             abort(403, _("You're not authorized to delete %s's watchlist entries.") % watch.user.name)
         watch.delete()

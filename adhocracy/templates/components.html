@@ -16,9 +16,11 @@
 </%def>
 
 <%def name="form_watch(entity)">
-	<input class="watch" type="checkbox" 
-		${"checked='checked'" if h.find_watch(entity) else ''} name="watch"/>
-	${_("Notify me of updates.")}
+	%if can.watch.create():
+		<input class="watch" type="checkbox" 
+			${"checked='checked'" if h.find_watch(entity) else ''} name="watch"/>
+		${_("Notify me of updates.")}
+	%endif
 </%def>
 
 <%def name="watch(entity)">
@@ -26,11 +28,11 @@
 		<%
 		watch = h.find_watch(entity)
 		%>
-		%if watch:
+		%if watch and can.watch.delete(watch):
 			<a class="button delete ttip" title="${_('Stop receiving notifications.')}"
 			   href="/watch/delete?watch=${watch.id}&${h.url_token()}"><img src='/img/mail.png' /> 
 			${_("unwatch")}</a>
-		%else:
+		%elif can.watch.create():
 			<a class="button edit ttip" title="${_('Receive notifications when this item is updated.')}"
 			   href="/watch/create?${h.make_watch(entity)}&${h.url_token()}"><img src='/img/mail.png' /> 
 			${_("watch")}</a>

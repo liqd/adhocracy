@@ -84,6 +84,7 @@ class OpenidauthController(BaseController):
     def __before__(self):
         self.openid_session = session.get("openid_session", {})
     
+    
     @validate(schema=OpenIDInitForm(), post_only=False, on_get=True)
     def init(self):
         self.consumer = create_consumer(self.openid_session)
@@ -114,9 +115,8 @@ class OpenidauthController(BaseController):
             return self._failure(openid, str(e))
         
     
-    
-    @ActionProtector(has_permission("user.edit"))
     def connect(self):
+        require.user.edit(c.user)
         if not c.user:
             h.flash(_("No OpenID was entered."))
             redirect("/login")
@@ -124,8 +124,8 @@ class OpenidauthController(BaseController):
     
     
     @RequireInternalRequest()
-    @ActionProtector(has_permission("user.edit"))
     def revoke(self, id):
+        require.user.edit(c.user)
         openid = model.OpenID.by_id(id)
         if not openid:
             abort(404, _("No OpenID with ID '%s' exists.") % id)

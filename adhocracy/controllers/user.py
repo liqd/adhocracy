@@ -377,9 +377,9 @@ class UserController(BaseController):
     #    self._common_metadata(c.page_user, member='comments')
     #    return render("/user/comments.html")
       
-     
-    #@RequireInstance
+    
     def watchlist(self, id, format='html'):
+        require.watch.index()
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         require.user.show(c.page_user)
         watches = model.Watch.all_by_user(c.page_user)

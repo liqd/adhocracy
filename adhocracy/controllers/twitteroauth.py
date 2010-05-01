@@ -13,8 +13,8 @@ log = logging.getLogger(__name__)
 class TwitteroauthController(BaseController):
 
     @RequireInternalRequest()
-    @ActionProtector(has_permission("user.edit"))
     def init(self):
+        require.user.edit(c.user)
         api = create_oauth()
         request_token = api.getRequestToken()
         session['request_token'] = request_token.to_string()
@@ -22,8 +22,8 @@ class TwitteroauthController(BaseController):
         redirect(api.getAuthorizationURL(request_token))
     
     
-    @ActionProtector(has_permission("user.edit"))
     def callback(self):
+        require.user.edit(c.user)
         if 'denied' in request.params:
             redirect(h.entity_url(c.user, member='edit'))
         request_token = session.get('request_token')
@@ -55,8 +55,8 @@ class TwitteroauthController(BaseController):
     
     
     @RequireInternalRequest()
-    @ActionProtector(has_permission("user.edit"))
     def revoke(self):
+        require.user.edit(c.user)
         if not c.user.twitter:
             h.flash(_("You have no twitter association."))
             redirect(h.entity_url(c.user, member='edit'))
