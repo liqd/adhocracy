@@ -141,7 +141,9 @@
 				<li class="last"><a href="/logout">${_("logout")}</a></li>
 			%endif
 			</ul>
-			<a href="${h.instance_url(c.instance)}"><img id="logo" src="/instance/${c.instance.key if c.instance else '_def'}_64x64.png" /></a>
+			<a href="${h.instance_url(c.instance)}" id="logo">
+				<img src="/instance/${c.instance.key if c.instance else '_def'}_64x64.png" />
+			</a>
 			<div id="menu">
 				<ul>
 					%if not c.instance:

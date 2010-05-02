@@ -96,20 +96,21 @@ class BaseController(WSGIController):
         finally:
             model.meta.Session.remove()
             model.meta.Session.close()
-            log.debug("Rendering page %s took %sms" % (environ.get('PATH_INFO'), ((time()-begin_time)*1000)))
+            log.debug("Rendering page %s took %sms" % (environ.get('PATH_INFO'), 
+                                                       ((time()-begin_time)*1000)))
     
     
-    def _parse_REST_request(self):
-        if request.method not in ['POST', 'PUT']:
-            return
-        if request.content_type == "text/javascript":
-            if request.method == 'POST':
-                request.POST = simplejson.loads(request.body)
-                request.params.update(request.POST)
-            elif request.method == 'PUT':
-                request.PUT = simplejson.loads(request.body)
-                request.POST.update(request.PUT)
-                request.params.update(request.PUT)
+    #def _parse_REST_request(self):
+    #    if request.method not in ['POST', 'PUT']:
+    #        return
+    #    if request.content_type == "text/javascript":
+    #        if request.method == 'POST':
+    #            request.POST = simplejson.loads(request.body)
+    #            request.params.update(request.POST)
+    #        elif request.method == 'PUT':
+    #            request.PUT = simplejson.loads(request.body)
+    #            request.POST.update(request.PUT)
+    #            request.params.update(request.PUT)
             
     
     def bad_request(self, format='html'):

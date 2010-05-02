@@ -1,7 +1,7 @@
 from pylons.i18n import _
 
 from adhocracy.lib.base import *
-from adhocracy.form.search import SearchQueryForm
+from adhocracy.forms.search import SearchQueryForm
 import adhocracy.model as model
 
 

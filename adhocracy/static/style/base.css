@@ -460,7 +460,7 @@ body {
 }
 
 #account li {
-	display: inline-block;
+	display: inline;
 }
 
 #account li ul {
@@ -1332,11 +1332,15 @@ a.button.inactive {
 }
 
 .comment .sub {
-	margin-left: 25px;
+    margin-left: 10px;
+	padding-left: 15px;
+	border-left: 1px dotted #bbbbdd;
 }
 
 .comment .sub .sub .sub .sub .sub .sub {
-	margin-left: 0px;
+	padding-left: 0px;
+    margin-left: 0px;
+    border-left: 0px;
 }
 
 .comment .pre {
