@@ -1338,6 +1338,14 @@ a.button.inactive {
 	font-weight: bold;
 }
 
+.comment .pre .top_actions {
+    visibility: hidden;
+}
+
+.comment .base:hover .pre .top_actions {
+    visibility: visible;
+}
+
 .comment .tile.canonical .pre,
 .comment .tile.canonical .text {
 	background-color: #fdffe6;
