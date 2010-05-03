@@ -51,15 +51,11 @@ class Text(object):
 
     @classmethod
     def create(cls, page, variant, user, title, text, parent=None):
-        from choice import Choice
         if variant is None:
             if parent is not None:
                 variant = parent.variant
             else:
                 variant = Text.HEAD
-        #choice = Choice.by_page_variant(page, variant)
-        #if not choice: 
-        #    Choice.create(
         _text = Text(page, variant, user, title, text)
         if parent:
             _text.parent = parent

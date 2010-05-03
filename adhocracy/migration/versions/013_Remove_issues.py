@@ -46,6 +46,8 @@ def upgrade():
         if vals[2] == 'issue':
             migrate_engine.execute(category_graph.delete(category_graph.c.parent_id==vals[0]))
             migrate_engine.execute(category_graph.delete(category_graph.c.child_id==vals[0]))
+            migrate_engine.execute(comment_table.delete(comment_table.c.topic_id==vals[0]))
+            migrate_engine.execute(comment_table.delete(poll_table.c.scope_id==vals[0]))
             migrate_engine.execute(delegateable_table.delete(delegateable_table.c.id==vals[0]))
             
 
