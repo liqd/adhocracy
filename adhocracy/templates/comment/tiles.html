@@ -39,13 +39,13 @@
 				        ${tile.position}" id="tile_c${comment.id}">
 			<div class="logo rate">
 				%if can.comment.rate(comment):
-					<a class="up icon otip" title="${_("Support this comment")}" href="${h.entity_url(comment.poll, member='rate')}?_method=POST&position=1&${h.url_token()}" 
+					<a class="up icon otip" title="${_("Support this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=1&${h.url_token()}" 
 						onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, 1);">
 						&nbsp;
 					</a>
 					<a href="${h.entity_url(comment.poll, member='votes')}" 
 						class="score">${tile.score}</a>
-					<a class="down icon ttip" title="${_("Oppose this comment")}" href="${h.entity_url(comment.poll, member='rate')}?_method=POST&position=-1&${h.url_token()}" 
+					<a class="down icon ttip" title="${_("Oppose this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=-1&${h.url_token()}" 
 						onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, -1);">
 						&nbsp;
 					</a>

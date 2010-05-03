@@ -102,9 +102,15 @@ def make_map():
     map.resource('comment', 'comment', member={'history': 'GET',
                                                'revert': 'GET',
                                                'ask_delete': 'GET'})
+    
+    map.connect('/poll/{id}/rate.{format}', controller='poll', action='rate',
+                                   conditions=dict(method=['GET', 'POST']))
+
+    map.connect('/poll/{id}/rate', controller='poll', action='rate',
+                                   conditions=dict(method=['GET', 'POST']))
+    
                                                
     map.resource('poll', 'poll', member={'vote': 'POST',
-                                         'rate': 'POST',
                                          'votes': 'GET',
                                          'ask_delete': 'GET'})
     

@@ -158,7 +158,7 @@ class Poll(object):
             if not include_deleted:
                 q = q.filter(or_(Poll.end_time==None,
                                  Poll.end_time>datetime.utcnow()))
-            if ifilter.has_instance() and instance_filter and poll:
+            if ifilter.has_instance() and instance_filter:
                 q = q.join(Delegateable)
                 q = q.filter(Delegateable.instance == ifilter.get_instance())
             return q.limit(1).first()
