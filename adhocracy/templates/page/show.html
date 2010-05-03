@@ -29,6 +29,7 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 				</li>
 		%endfor
 	</ul>
+	<br/>
 	%endif
 	<h3 class="section">${_("History")}</h3>
 	<ul>
@@ -36,7 +37,8 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 			<li><code><a href="${h.entity_url(text)}">#${text.id}</a></code>: ${text.user.name} at ${text.create_time.date()} (<a href="/page/diff?left=${c.text.id}&right=${text.id}">cmp</a>)</li>
 		%endfor
 	</ul>
-	
+	<br/>
+	${tiles.delegation.sidebar(page)}
 </div>
 
 <div class="mainbar">

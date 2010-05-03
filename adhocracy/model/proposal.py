@@ -31,11 +31,20 @@ class Proposal(Delegateable):
     def _reconstruct(self):
         self._current_alternatives = None
     
-        
-    def _get_canonicals(self):
+    
+    @property
+    def canonicals(self):
         return [c for c in self.comments if c.canonical and not c.is_deleted()]
     
-    canonicals = property(_get_canonicals)
+    
+    @property
+    def title(self):
+        return self.label
+    
+        
+    @property
+    def full_title(self):
+        return self.title
     
     
     def is_adopt_polling(self):

@@ -30,6 +30,14 @@ class Page(Delegateable):
     def __init__(self, instance, alias, creator, function):
         self.init_child(instance, alias, creator)
         self.function = function
+        
+        
+    @property
+    def parent(self):
+        for parent in self.parents:
+            if isinstance(parent, Page):
+                return parent
+        return None
     
     
     @classmethod
@@ -131,7 +139,14 @@ class Page(Delegateable):
     @property
     def title(self):
         return self.head.title
-        
+    
+    
+    @property
+    def full_title(self):
+        title = self.title
+        if self.parent:
+            title = self.parent.title + " - " + title
+        return title
     
     def delete(self, delete_time=None):
         if delete_time is None:

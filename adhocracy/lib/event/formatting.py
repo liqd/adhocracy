@@ -19,7 +19,7 @@ class ObjectFormatter(object):
 class DelegateableFormatter(ObjectFormatter):
     
     def unicode(self, delegateable):
-        return delegateable.label
+        return delegateable.full_title
     
     def html(self, delegateable):
         return h.delegateable_link(delegateable)

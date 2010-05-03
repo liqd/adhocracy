@@ -15,7 +15,7 @@ def breadcrumbs(entity):
     if isinstance(entity, model.Text):
         return _text(entity)
     if isinstance(entity, model.Page):
-        return _variant(entity)
+        return _page(entity)
     if isinstance(entity, model.User):
         return _user(entity)
     if isinstance(entity, model.Proposal):
@@ -39,8 +39,12 @@ def _text(text):
     return bc
     
 def _page(page):
-    bc = _instance(page.instance) + " &raquo; "
-    bc += _link(_("Pages"), '/page') + " &raquo; "
+    bc = ""
+    if page.parent: 
+        bc += _page(page.parent) + " &raquo; "
+    else: 
+        bc += _instance(page.instance) + " &raquo; "
+        bc += _link(_("Pages"), '/page') + " &raquo; "
     bc += _link_entity(page.title, page)
     return bc
     

@@ -13,10 +13,13 @@ from .. import helpers as h
 from .. import text
 from .. import sorting
 
-class PageTile(BaseTile):
+from delegateable_tiles import DelegateableTile
+
+class PageTile(DelegateableTile):
     
     def __init__(self, page):
         self.page = page
+        DelegateableTile.__init__(self, page)
     
     
     def comments(self):
