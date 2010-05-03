@@ -1,6 +1,5 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%namespace name="comment_tiles" file="/comment/tiles.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 
 <%def name="title()">${c.page.title}</%def>
@@ -43,23 +42,5 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 </div>
 
 <div class="mainbar">
-	%if c.text.variant != c.model.Text.HEAD:
-		<div class="infobox">${_("Currently showing the %s variant") % c.text.variant}</div>
-	%endif
-	${c.text.render()|n}
-	
-	%if can.comment.create():
-		<div class="comment">
-			${comment_tiles.create_form(None, c.page)}
-		</div>
-	%endif 
-	
-	%if not c.page.comment_count():
-		<div class="infobox">
-			${_("No comments were made yet.")}
-		</div>
-	%endif
-	%for (reply, r_tile) in c.tile.comments():
-		${tiles.comment.full(reply, recurse=True)}
-	%endfor
+	${tiles.text.full(c.text)}
 </div>

@@ -93,9 +93,11 @@ class PageController(BaseController):
         if parent.page != c.page:
             return ret_abort(_("You're trying to update to a text which is not part of this pages history"),
                              code=400, format=format)
+        variant = self.form_result.get("variant")
+        if not c.page.has_variants:
+            variant = model.Text.HEAD
         text = model.Text.create(c.page, 
-                      self.form_result.get("variant"),  
-                      c.user, 
+                      variant, c.user, 
                       self.form_result.get("title"), 
                       self.form_result.get("text"),
                       parent=parent)

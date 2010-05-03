@@ -23,6 +23,7 @@ class ProposalTile(DelegateableTile):
         self.__comment_tile = None
         DelegateableTile.__init__(self, proposal)
     
+    
     def _tagline(self):       
         if self.proposal.comment and self.proposal.comment.latest:
             tagline = text.plain(self.proposal.comment.latest.text)
@@ -30,6 +31,7 @@ class ProposalTile(DelegateableTile):
         return ""
     
     tagline = property(_tagline)
+    
     
     def _poll(self):
         if not self.__poll:
@@ -55,17 +57,20 @@ class ProposalTile(DelegateableTile):
     
     position = property(_position)
     
+    
     def _has_overridden(self):
         if self.decision.is_self_decided():
             return True
         return False
+    
     
     def _can_create_canonical(self):
         return h.has_permission('comment.create') \
                 and self.proposal.is_mutable()
     
     can_create_canonical = property(_can_create_canonical)
-            
+      
+           
     def _delegates(self):
         agents = []
         if not c.user:
@@ -75,6 +80,7 @@ class ProposalTile(DelegateableTile):
         return set(agents)
     
     delegates = property(_delegates)
+    
     
     def _num_principals(self):
         if self.__num_principals == None:
@@ -87,16 +93,20 @@ class ProposalTile(DelegateableTile):
     
     num_principals = property(_num_principals)
     
+    
     def _comment_tile(self):
         if not self.__comment_tile:
             self.__comment_tile = CommentTile(self.proposal.comment)
         return self.__comment_tile
     
     comment_tile = property(_comment_tile)
+
+
     
 def row(proposal):
     return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal), 
                        proposal=proposal, cached=True)  
+
 
 def header(proposal, tile=None, active='goal'):
     if tile is None:
@@ -104,9 +114,9 @@ def header(proposal, tile=None, active='goal'):
     return render_tile('/proposal/tiles.html', 'header', tile, 
                        proposal=proposal, active=active)
 
+
 def sidebar(proposal, tile=None):
    if tile is None:
        tile = ProposalTile(proposal)
    return render_tile('/proposal/tiles.html', 'sidebar', tile, 
                       proposal=proposal)
-    

@@ -7,6 +7,8 @@ import urllib, hashlib, cgi
 from url import instance_url, entity_url
 import webhelpers.text as text
 
+SEP = " &raquo; "
+
 @cache.memoize('delegateable_breadcrumbs')
 def breadcrumbs(entity):    
     if not entity:
@@ -30,32 +32,35 @@ def _link(title, href):
     return "<a href='%s'>%s</a>" % (href, cgi.escape(text.truncate(title, length=40, whole_word=True)))
     
 def _instance(instance):
+    if not instance: 
+        import helpers as h 
+        return h.site_name()
     return _link_entity(instance.label, instance)
     
 def _text(text):
     bc = _page(text.page)
     if text.variant != model.Text.HEAD:
-        bc += " &raquo; " + _link_entity(text.variant, text)
+        bc += SEP + _link_entity(text.variant, text)
     return bc
     
 def _page(page):
     bc = ""
     if page.parent: 
-        bc += _page(page.parent) + " &raquo; "
+        bc += _page(page.parent) + SEP
     else: 
-        bc += _instance(page.instance) + " &raquo; "
-        bc += _link(_("Pages"), '/page') + " &raquo; "
+        bc += _instance(page.instance) + SEP
+        bc += _link(_("Pages"), '/page') + SEP
     bc += _link_entity(page.title, page)
     return bc
     
 def _proposal(proposal):
-    bc = _instance(proposal.instance) + " &raquo; "
-    bc += _link(_("Proposals"), '/proposal') + " &raquo; "
+    bc = _instance(proposal.instance) + SEP
+    bc += _link(_("Proposals"), '/proposal') + SEP
     bc += _link_entity(proposal.label, proposal)
     return bc
     
 def _user(user):
-    bc = _instance(c.instance) + " &raquo; "
-    bc += _link(_("Users"), '/user') + " &raquo; "
+    bc = _instance(c.instance) + SEP
+    bc += _link(_("Users"), '/user') + SEP
     bc += _link_entity(user.name, user)
     return bc

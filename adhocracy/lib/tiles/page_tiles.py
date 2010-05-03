@@ -11,7 +11,6 @@ import comment_tiles
 from .. import democracy
 from .. import helpers as h
 from .. import text
-from .. import sorting
 
 from delegateable_tiles import DelegateableTile
 
@@ -22,14 +21,6 @@ class PageTile(DelegateableTile):
         DelegateableTile.__init__(self, page)
     
     
-    def comments(self):
-        from comment_tiles import CommentTile
-        comments = sorting.comment_order(self.page.comments)
-        for comment in comments:
-            if comment.reply: 
-                continue
-            tile = CommentTile(comment)
-            yield (comment, tile)
 
 
 def row(page):

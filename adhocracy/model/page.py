@@ -183,13 +183,16 @@ class Page(Delegateable):
     
     def to_dict(self):
         from adhocracy.lib import url
-        return dict(id=self.id,
+        d =    dict(id=self.id,
                     url=url.entity_url(self),
                     create_time=self.create_time,
                     label=self.label,
                     head=self.head,
                     function=self.function,
                     user=self.user.user_name)
+        if self.parent:
+            d['parent'] = self.parent
+        return d 
     
     
     def __repr__(self):

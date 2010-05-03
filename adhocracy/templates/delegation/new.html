@@ -1,6 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Delegate: %s") % c.scope.label}</%def>
+<%def name="title()">${_("Delegate: %s") % c.scope.title}</%def>
 
 <%def name="breadcrumbs()">
 	${h.breadcrumbs(c.scope)|n} &raquo; ${_("Delegation")}

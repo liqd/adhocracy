@@ -69,7 +69,7 @@ def setup_entities():
     mk_perm("delegation.show", anonymous)
     mk_perm("delegation.create", voter)
     mk_perm("delegation.delete", voter)
-    mk_perm("watch.show", advisor)
+    mk_perm("watch.show", anonymous)
     mk_perm("watch.create", advisor)
     mk_perm("watch.delete", advisor)
     mk_perm("tag.show", anonymous)
