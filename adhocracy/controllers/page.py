@@ -113,6 +113,21 @@ class PageController(BaseController):
         #redirect(h.entity_url(c.text))
         c.tile = tiles.page.PageTile(c.page)
         return render("/page/show.html")
+        
+    
+    @RequireInstance
+    def history(self, id, variant=None, text=None, format='html'):
+        c.page, c.text = self._get_page_and_text(id, variant, text)
+        require.page.show(c.page)
+        c.texts_pager = NamedPager('texts', c.text.history, 
+                                   tiles.text.history_row, count=10, #list_item,
+                                   sorts={_("oldest"): sorting.entity_oldest,
+                                          _("newest"): sorting.entity_newest},
+                                   default_sort=sorting.entity_newest)
+        if format == 'json':
+            return render_json(c.texts_pager)
+        c.tile = tiles.page.PageTile(c.page)
+        return render('/page/history.html')
     
     
     @RequireInstance

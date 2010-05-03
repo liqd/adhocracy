@@ -1275,7 +1275,7 @@ a.button.inactive {
 	background-image: none;
 	min-height: 30px;
 	padding-top: 7px;	
-	max-width: 600px;
+	max-width: 640px;
 }
 
 .add_canonical {
@@ -1438,7 +1438,7 @@ a.button.inactive {
 	display: none;
 }
 
-.rev_index {
+.history .index {
 	float: left; 
 	min-width: 2em; 
 	font-size: 2.3em; 

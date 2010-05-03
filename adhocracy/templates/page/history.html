@@ -1,0 +1,20 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="comment_tiles" file="/comment/tiles.html"/>
+<%namespace name="state" file="/poll/state.html"/>
+
+<%def name="title()">${c.page.title}</%def>
+
+<%def name="breadcrumbs()">${h.breadcrumbs(c.text)|n}</%def>
+
+${tiles.page.header(c.page, c.tile, active='history', text=c.text)}
+
+<div class="sidebar">
+	&nbsp;
+</div>
+
+<div class="mainbar">
+	<div id="texts_table" class="table">
+		${c.texts_pager.here()}
+	</div>
+</div>

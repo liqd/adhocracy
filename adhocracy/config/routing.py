@@ -66,15 +66,17 @@ def make_map():
     
     map.connect('/page/diff', controller='page', action='diff',
                 conditions=dict(method=['GET']))
-    map.connect('/page/{id}/{variant}-{text}/edit.{format}', controller='page', action='edit',
+    map.connect('/page/{id}/{variant}/history.{format}', controller='page', action='history',
                 conditions=dict(method=['GET']))
-    map.connect('/page/{id}/{variant}-{text}/edit', controller='page', action='edit',
+    map.connect('/page/{id}/{variant}/history', controller='page', action='history',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant}/edit.{format}', controller='page', action='edit',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant}/edit', controller='page', action='edit',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/edit.{format}', controller='page', action='edit',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id}/history', controller='page', action='history',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/edit', controller='page', action='edit',
                 conditions=dict(method=['GET']))

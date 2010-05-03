@@ -13,6 +13,7 @@ import revision_tiles as revision
 import page_tiles as page
 import poll_tiles as poll
 import tag_tiles as tag
+import text_tiles as text
 
 
 log = logging.getLogger(__name__)

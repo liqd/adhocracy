@@ -90,6 +90,7 @@ class Text(object):
         from adhocracy.lib import text
         return text.render(self.text)
     
+    
     def _index_id(self):
         return self.id
     

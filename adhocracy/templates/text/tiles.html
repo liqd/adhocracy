@@ -1,0 +1,21 @@
+
+<%def name="history_row(tile, text)">
+	<div class="tile text history">
+		<ul>
+			%if (not text.parent) or text.parent.title != text.title:
+				<li>${tile.parent_title_diff|n}</li>
+			%endif
+			%if text.page.has_variants:
+				<li>${text.variant}</li>
+			%endif
+			<li>${_("by %s, ") % h.user_link(text.user, scope=text.page)|n}
+					${_("created %s") % h.relative_time(text.create_time)|n}</li>
+		</ul>
+	</div>
+	
+	<div class="headrev">
+			<div class="text">
+				${tile.parent_text_diff|n}
+			</div>
+	</div>
+</%def>
