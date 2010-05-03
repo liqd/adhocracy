@@ -238,7 +238,6 @@ $(document).ready(function() {
 	
 	live_filter('users', '/user/filter');
 	live_filter('serp', '/search/filter');
-	live_filter('issues', '/issue/filter');
 	live_filter('proposals', '/proposal/filter');
 	
 	
@@ -268,13 +267,6 @@ $(document).ready(function() {
 		$(".armed").each(function(i) {
 			$(this).val("");
 		});
-	});
-	
-	/* Show other proposals regarding an issue when hovering the issue title on the proposal page */
-	$("#top_issue").hover(function() {
-		$("#issue_details").slideDown(60);
-	}, function() {
-		$("#issue_details").slideUp(60);
 	});
 	
 	

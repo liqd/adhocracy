@@ -31,18 +31,6 @@ class Proposal(Delegateable):
     def _reconstruct(self):
         self._current_alternatives = None
     
-    
-    def _get_issue(self):
-        if len(self.parents) != 1:
-            return None
-        return self.parents[0]
-    
-    
-    def _set_issue(self, issue):
-        self.parents = [issue]
-
-    issue = property(_get_issue, _set_issue)
-    
         
     def _get_canonicals(self):
         return [c for c in self.comments if c.canonical and not c.is_deleted()]

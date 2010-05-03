@@ -90,17 +90,6 @@ class Instance(object):
     activation_timedelta = property(_get_activation_timedelta)
     
     
-    def _get_num_issues(self):
-        from issue import Issue
-        q = meta.Session.query(Issue)
-        q = q.filter(Issue.instance==self)
-        q = q.filter(or_(Issue.delete_time==None,
-                         Issue.delete_time>=datetime.utcnow()))
-        return q.count()
-        
-    num_issues = property(_get_num_issues)
-
-    
     def _get_num_proposals(self):
         from proposal import Proposal
         q = meta.Session.query(Proposal)

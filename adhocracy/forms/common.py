@@ -5,8 +5,8 @@ from pylons.i18n.translation import *
 
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join", "leave", 
-                   "control", "test", "support", "page", "issue", "proposal", "wiki", 
-                   "blog", "issues", "proposals", "admin", "dl", "downloads", "stats",
+                   "control", "test", "support", "page", "proposal", "wiki", 
+                   "blog", "proposals", "admin", "dl", "downloads", "stats",
                    "adhocracy", "user", "openid", "auth", "watch", "poll", "delegation",
                    "event", "comment", "root", "search", "tag", "svn", "trac", "lists", 
                    "list", "new", "update", "variant", "provision"]

@@ -30,14 +30,6 @@ class UserTile(BaseTile):
     
     tagline = property(_tagline)
     
-    def _num_issues(self):
-        pred = lambda d: isinstance(d, model.Issue) and \
-                         d.instance==c.instance and \
-                         not d.is_deleted()
-        return len(filter(pred, self.user.delegateables))
-    
-    num_issues = property(_num_issues)
-    
     def _num_proposals(self):
         pred = lambda d: isinstance(d, model.Proposal) and \
                          d.instance==c.instance and \

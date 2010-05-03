@@ -27,7 +27,6 @@ def make_map():
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
                                          'proposals': 'GET',
-                                         'issues': 'GET', 
                                          #'comments': 'GET',
                                          'votes': 'GET',
                                          'instances': 'GET',
@@ -51,13 +50,6 @@ def make_map():
                 conditions=dict(method=['GET']))
     map.connect('/reset', controller='user', action='reset_request',
                 conditions=dict(method=['POST']))
-    
-    map.resource('issue', 'issue', member={'proposals': 'GET', 
-                                           'discussion': 'GET', 
-                                           'activity': 'GET', 
-                                           'delegations': 'GET',
-                                           'ask_delete': 'GET'},
-                                   collection={'filter': 'GET'})
 
     map.resource('proposal', 'proposal', member={'votes': 'GET', 
                                                  'delegations': 'GET', 

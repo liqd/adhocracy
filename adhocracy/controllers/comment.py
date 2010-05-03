@@ -74,7 +74,7 @@ class CommentController(BaseController):
         topic = self.form_result.get('topic')
         reply = self.form_result.get('reply')
         if canonical and not isinstance(topic, model.Proposal):
-            return ret_abort(_("Trying to create a provision on an issue"), code=400)
+            return ret_abort(_("Trying to create a provision on a page"), code=400)
         if reply:
             require.comment.reply(reply)
         else: 

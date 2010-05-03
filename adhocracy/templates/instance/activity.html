@@ -24,7 +24,7 @@
 <div class="mainbar">
 	%if len(c.events_pager) == 0:
 		<span class="infobox">
-			${_("Create an issue to start debating in %(instance)s.") % dict(instance=c.page_instance.label)}
+			${_("Create a proposal to start debating in %(instance)s.") % dict(instance=c.page_instance.label)}
 		</span>
 	%else:
 		<div id="events_table" class="table">

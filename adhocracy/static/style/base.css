@@ -811,18 +811,6 @@ p img[align=left] {
 	padding-left: 6px;
 }
 
-.tile.issue.title {
-	-webkit-border-top-left-radius: 5px;
-	-moz-border-radius-topleft: 5px;
-	-webkit-border-top-right-radius: 5px;
-	-moz-border-radius-topright: 5px;
-}
-
-.tile.issue.title .tile.boxed {
-	-webkit-border-top-right-radius: 5px;
-	-moz-border-radius-topright: 5px;
-}
-
 .tile.proposal.title {
 	border-top: 0px;
 }

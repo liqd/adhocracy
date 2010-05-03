@@ -10,7 +10,6 @@ from group import Group
 from permission import Permission
 from comment import Comment
 from delegation import Delegation
-from issue import Issue
 from proposal import Proposal
 from poll import Poll
 from instance import Instance

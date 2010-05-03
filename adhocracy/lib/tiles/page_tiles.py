@@ -5,7 +5,6 @@ from pylons import tmpl_context as c
 from webhelpers.text import truncate
 import adhocracy.model as model
 
-import issue_tiles
 import proposal_tiles
 import comment_tiles
 

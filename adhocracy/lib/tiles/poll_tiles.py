@@ -5,7 +5,6 @@ from pylons import tmpl_context as c
 from webhelpers.text import truncate
 import adhocracy.model as model
 
-import issue_tiles
 import proposal_tiles
 import comment_tiles
 
@@ -80,7 +79,5 @@ def booth(poll):
 def header(poll, active=''):
     if isinstance(poll.subject, model.Comment):
         return comment_tiles.header(poll.subject, active=active)
-    elif isinstance(poll.scope, model.Issue):
-        return issue_tiles.header(poll.scope, active=active)
     elif isinstance(poll.scope, model.Proposal):
         return proposal_tiles.header(poll.scope, active=active)
