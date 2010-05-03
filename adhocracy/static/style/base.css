@@ -308,7 +308,7 @@ body {
 
 #page {
 	text-align: left;
-	width: 900px;
+	width: 960px;
 	margin: 0em auto 0em auto;
 	padding-top: 0em;
 	/*
@@ -413,7 +413,7 @@ body {
 }
 
 .mainbar {
-	width: 580px;
+	width: 640px;
 }
 
 /* @end */
@@ -433,7 +433,7 @@ body {
 }
 
 #header #center {
-	width: 900px;
+	width: 960px;
 	text-align: left;
 	margin: 0px auto;
 	position: relative;
@@ -612,7 +612,7 @@ body {
 
 #footer #links {
 	text-align: left;
-	width: 900px;
+	width: 960px;
 	margin: 0 auto;
 	line-height: 1.5em;
 	text-transform: lowercase;

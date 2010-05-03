@@ -291,4 +291,40 @@ $(document).ready(function() {
 	        $(sparkline).addClass('loaded');
 	    });
 	});
+	
+	fixIE7Rendering = function () {
+           if ( ! $.browser.msie || $.browser.version > 7)
+                   return;
+
+           // Alternatively setting the height and width of the logo 
+           // enclosing <a> seems to also work in positioning it at roughly the right spot
+           // $('#header #center a:has(#logo)').css('height', 64);
+           // $('#header #center a:has(#logo)').css('width', 64);
+           // the img needs hasLayout to actually show
+           $('#header #center #logo').css('zoom', 1);
+           // also shows search box at appropriately right place
+
+                   // Render menu entries side by side
+           $('#header #center #account > *').css('display', 'inline');
+           // restore distance between items
+           $('#header #center #account > *').css('padding-right', 10);
+
+           // height of main menu a few pixel too much
+           // pulldown pulldown menu position too far to the right
+
+           // Render main menu side by side
+           $('#header #center #menu li').css('display', 'inline');
+
+           // Move lower content off of the main content
+           $('#footer').css('margin-top', 100);
+           // will make the user scroll on short pages, but at least he can access all controlls
+
+           // show layout borders for debugging
+           // $('#header #center').find('*').css('border', '2px solid red');
+
+           //FIXME: FIX THE (X)HTML to get browsers out of quirksmode! 
+           // Otherwise IE debugging is a total PITA
+    }
+    
+    fixIE7Rendering(); 
 });
