@@ -31,14 +31,6 @@ class Page(Delegateable):
         self.init_child(instance, alias, creator)
         self.function = function
         
-        
-    @property
-    def parent(self):
-        for parent in self.parents:
-            if isinstance(parent, Page):
-                return parent
-        return None
-    
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
@@ -139,7 +131,7 @@ class Page(Delegateable):
     @property
     def title(self):
         return self.head.title
-    
+     
     
     @property
     def full_title(self):
@@ -147,6 +139,25 @@ class Page(Delegateable):
         if self.parent:
             title = self.parent.title + " - " + title
         return title
+        
+        
+    @property
+    def parent(self):
+        for parent in self.parents:
+            if isinstance(parent, Page):
+                return parent
+        return None
+    
+
+    #@property
+    #def proposal(self):
+    #    from proposal import Proposal
+    #    if self.function == Page.DESCRIPTION:
+    #        for parent in self.parents:
+    #            if isinstance(parent, Proposal):
+    #                return parent
+    #    return None    
+    
     
     def delete(self, delete_time=None):
         if delete_time is None:

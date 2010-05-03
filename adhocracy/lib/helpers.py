@@ -110,9 +110,10 @@ def page_link(page, create=False, link=True):
 
 
 def proposal_link(proposal, icon=True, icon_size=16, link=True):
+    text = ""
     if icon:
-        text = "<img class='dgb_icon' src='%s' /> " % proposal_icon(proposal, size=icon_size)
-    text += cgi.escape(proposal.label)
+        text += "<img class='dgb_icon' src='%s' /> " % proposal_icon(proposal, size=icon_size)
+    text += cgi.escape(proposal.title)
     if link and not proposal.is_deleted():
         text = "<a href='%s' class='dgb_link'>%s</a>" % (entity_url(proposal), text)
     return text
