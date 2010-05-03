@@ -34,14 +34,6 @@ class ProposalFilterForm(formencode.Schema):
     allow_extra_fields = True
     proposals_q = validators.String(max=255, not_empty=False, if_empty=u'', if_missing=u'')
     proposals_state = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
-    
-class ProposalTagCreateForm(formencode.Schema):
-    allow_extra_fields = True
-    tags = validators.String(max=10000, not_empty=True)
-
-class ProposalTagDeleteForm(formencode.Schema):
-    allow_extra_fields = True
-    tagging = forms.ValidTagging()
 
 
 class ProposalController(BaseController):
@@ -292,33 +284,7 @@ class ProposalController(BaseController):
                                      entity_type=model.Proposal)
         c.proposals_pager = pager.proposals(proposals)
         return c.proposals_pager.here()
-        
-        
-    @RequireInstance
-    @validate(schema=ProposalTagCreateForm(), form="bad_request", post_only=False, on_get=True)
-    def tag(self, id, format='html'):
-        c.proposal = get_entity_or_abort(model.Proposal, id)
-        require.tag.create()
-        for tag_text in text.tag_split(self.form_result.get('tags')):
-            if not model.Tagging.find_by_delegateable_name_creator(c.proposal, tag_text, c.user):
-                tagging = model.Tagging.create(c.proposal, tag_text, c.user)
-        model.meta.Session.commit()
-        redirect(h.entity_url(c.proposal))
-        
-        
-    @RequireInstance
-    @RequireInternalRequest()
-    @validate(schema=ProposalTagDeleteForm(), form="bad_request", post_only=False, on_get=True)
-    def untag(self, id, format='html'):
-        c.proposal = get_entity_or_abort(model.Proposal, id)
-        tagging = self.form_result.get('tagging')
-        require.tag.delete(tagging)
-        if not tagging.delegateable == c.proposal:
-            abort(401, _("Tag does not belong to this proposal."))
-        tagging.delete()
-        model.meta.Session.commit()
-        redirect(h.entity_url(c.proposal))
-    
+       
     
     def _common_metadata(self, proposal):
         h.add_meta("description", 

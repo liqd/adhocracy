@@ -9,7 +9,7 @@ FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join"
                    "blog", "proposals", "admin", "dl", "downloads", "stats",
                    "adhocracy", "user", "openid", "auth", "watch", "poll", "delegation",
                    "event", "comment", "root", "search", "tag", "svn", "trac", "lists", 
-                   "list", "new", "update", "variant", "provision"]
+                   "list", "new", "update", "variant", "provision", "untag"]
 
 
 VALIDUSER = re.compile("^[a-zA-Z0-9_\-]{3,255}$")

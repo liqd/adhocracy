@@ -15,5 +15,7 @@ def edit(t):
     return has('tag.edit') and show(t)
     
 def delete(t):
-    return has('tag.delete') and show(t)
+    if has('instance.admin'):
+        return True
+    return has('tag.delete') and show(t) and c.user and t.creator == c.user
     
