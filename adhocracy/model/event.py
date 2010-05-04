@@ -81,9 +81,9 @@ class Event(object):
             for etype in types.TYPES:
                 if str(etype) == self._event:
                     return etype
-            return self._event
+            return None
         except ImportError:
-            return self._event
+            return None
     
     event = property(_get_event)
       
@@ -130,6 +130,8 @@ class Event(object):
     
     def text(self):
         try:
+            if not self.event:
+                return None
             text = self.event.text(self)
             if (not text) or (not len(text.strip())):
                 return None
@@ -141,6 +143,8 @@ class Event(object):
             
     def link(self):
         try:
+            if not self.event:
+                return None
             return self.event.link_path(self)
         except: 
             import adhocracy.lib.url as url

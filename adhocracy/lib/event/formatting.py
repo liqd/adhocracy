@@ -115,10 +115,14 @@ class FormattedEvent(object):
             return _("(Undefined)")
     
 def as_unicode(event):
+    if not event.event:
+        return _("(Undefined)")
     fe = FormattedEvent(event, lambda f, value: f.unicode(value))
     return event.event.event_msg() % fe
 
 def as_html(event):
+    if not event.event:
+        return _("(Undefined)")
     fe = FormattedEvent(event, lambda f, value: f.html(value))
     return event.event.event_msg() % fe
     

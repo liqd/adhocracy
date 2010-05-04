@@ -9,16 +9,45 @@
 
 ${tiles.page.header(c.left.page, None, active='diff', text=c.left)}
 
-<div class="lefthalf double">
+<%def name="descbox(this, other)">
 	<div class="infobox">
-		${repr(c.left)}
+		<ul>
+			<li><a href="${h.entity_url(this)|n}">${this.title}</a> (${this.id})</li>
+			%if (this.variant != other.variant or this.page != other.page):
+				<li>
+				%if this.variant == c.model.Text.HEAD:
+					${_("Status quo")}
+				%else:
+					${_("Variant: %s") % "<b>" + this.variant + "</b>" |n}
+				%endif
+				</li>
+			%endif
+			<!--
+			<li>${_("created %s by %s") % (h.relative_time(this.create_time), 
+																		 h.user_link(this.user, scope=this.page))|n}</li>
+			-->
+		</ul>
 	</div>
+</%def>
+
+<div class="lefthalf double">
+	${descbox(c.left, c.right)}
 	${c.left_diff|n}
 </div>
 
 <div class="righthalf double">
-	<div class="infobox">
-		${repr(c.right)}
-	</div>
+	${descbox(c.right, c.left)}
 	${c.right_diff|n}
+</div>
+
+<div style="clear: both;"></div>
+
+<div class="lefthalf double">
+	${_("created %s by %s") % (h.relative_time(c.left.create_time), 
+																 h.user_link(c.left.user, scope=c.left.page))|n}
+</div>
+
+<div class="righthalf double">
+	${_("created %s by %s") % (h.relative_time(c.right.create_time), 
+																 h.user_link(c.right.user, scope=c.right.page))|n}
 </div>
