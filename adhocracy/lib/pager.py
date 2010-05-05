@@ -1,5 +1,6 @@
 import urllib
 import math
+import logging
 
 import formencode
 from formencode import foreach, validators, htmlfill, Invalid
@@ -11,6 +12,8 @@ from templating import render_def
 import sorting
 import tiles
 
+
+log = logging.getLogger(__name__)
 
 class NamedPager(object): 
     """
@@ -42,8 +45,8 @@ class NamedPager(object):
         
         try:
             size_val = validators.Int(min=1, max=250, not_empty=True)
-            self.size = count_val.to_python(request.params.get("%s_size" % self.name))       
-        except: 
+            self.size = size_val.to_python(request.params.get("%s_size" % self.name))       
+        except:
             pass
         
         try:
@@ -102,15 +105,13 @@ def instances(instances):
     return NamedPager('instances', instances, tiles.instance.row,
                       sorts={_("oldest"): sorting.entity_oldest,
                              _("newest"): sorting.entity_newest,
-                             _("activity"): sorting.instance_activity,
                              _("name"): sorting.delegateable_label},
-                      default_sort=sorting.instance_activity)
+                      default_sort=sorting.delegateable_label)
 
   
 def proposals(proposals, detail=True):
     sorts = {_("oldest"): sorting.entity_oldest,
              #_("newest"): sorting.entity_newest,
-             _("activity"): sorting.proposal_activity,
              _("newest comment"): sorting.delegateable_latest_comment,
              _("support"): sorting.proposal_support,
               _("name"): sorting.delegateable_label}
