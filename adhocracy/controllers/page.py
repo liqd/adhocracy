@@ -22,8 +22,7 @@ class PageCreateForm(formencode.Schema):
 class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
     title = validators.String(max=255, min=4, not_empty=True)
-    variant = validators.String(max=255, min=1, not_empty=False, 
-                if_empty=model.Text.HEAD, if_missing=model.Text.HEAD)
+    variant = forms.VariantName()
     text = validators.String(max=20000, min=4, not_empty=True)
     parent = forms.ValidText()
 
@@ -135,16 +134,23 @@ class PageController(BaseController):
     @RequireInstance
     @validate(schema=PageDiffForm(), form='bad_request', post_only=False, on_get=True)
     def diff(self):
-        c.left = self.form_result.get('left')
-        require.page.show(c.left.page)
-        left_html = c.left.render()
-        c.right = self.form_result.get('right')
-        require.page.show(c.right.page)
-        right_html = c.right.render()
-        if c.left == c.right: 
-            h.flash(_("Same thing, honey!"))
-            redirect(h.entity_url(c.left))
+        left = self.form_result.get('left')
+        right = self.form_result.get('right')
+        options = [right.page.variant_head(v) for v in right.page.variants]
+        return self._differ(left, right, options=options)
         
+        
+    def _differ(self, left, right, options=None):
+        if left == right: 
+            h.flash(_("Cannot compare identical text revisions."))
+            redirect(h.entity_url(right))
+        c.left, c.right = (left, right)
+        c.left_options = options
+        require.page.show(c.left.page)
+        if c.left.page != c.right.page:
+            require.page.show(c.right.page)
+        right_html = right.render()
+        left_html = left.render()
         c.left_diff = text.html_diff(right_html, left_html)
         c.right_diff = text.html_diff(left_html, right_html)
         return render("/page/diff.html")

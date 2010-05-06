@@ -241,6 +241,10 @@ $(document).ready(function() {
 	live_filter('proposals', '/proposal/filter');
 	
 	
+	$("#diff_left_select").change(function(e) {
+	    $("#diff_left_form").submit()
+    });
+	
 	/* Armed labels: Use label text as pre-filling text for empty form fields. */
 	$(".armlabel").each(function(e) {
 		var hint = $("[for=" + $(this).attr("name") + "]").text();

@@ -13,6 +13,7 @@ FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join"
 
 
 VALIDUSER = re.compile("^[a-zA-Z0-9_\-]{3,255}$")
+VALIDVARIANT = re.compile("^[a-zA-Z0-9_\-]{1,255}$")
 
 
 class UniqueUsername(formencode.FancyValidator):
@@ -164,6 +165,7 @@ class ValidText(formencode.FancyValidator):
                          value, state)
         return text
 
+
 class ValidPageFunction(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.model import Page
@@ -171,3 +173,19 @@ class ValidPageFunction(formencode.FancyValidator):
         if function not in Page.FUNCTIONS: 
             raise formencode.Invalid(_("Invalid page function: %s") % value, value, state)
         return function
+
+
+class VariantName(formencode.FancyValidator):
+    def _to_python(self, value, state):
+        if not value: 
+            return model.Text.HEAD
+        var = value.strip()
+        if not len(var):
+            return model.Text.HEAD
+        if var.lower() in FORBIDDEN_NAMES or not VALIDVARIANT.match(var.lower()): 
+            raise formencode.Invalid(_("Invalid variant name: %s") % value, value, state)
+        try:
+            __ = int(var)
+            raise formencode.Invalid(_("Variant name cannot be purely numeric: %s") % value, value, state)
+        except:
+            return var

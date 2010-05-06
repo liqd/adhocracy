@@ -72,6 +72,14 @@ class Text(object):
         return [self]
     
     
+    @property
+    def variant_title(self):
+        from pylons.i18n import _
+        if self.variant == self.HEAD:
+            return _("[status quo]")
+        return self.variant
+    
+    
     def delete(self, delete_time=None):
         if delete_time is None:
             delete_time = datetime.utcnow()

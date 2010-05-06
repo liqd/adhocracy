@@ -3,17 +3,37 @@
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 
-<%def name="title()">${_("Compare: %s") % c.left.title}</%def>
+<%def name="title()">${_("Compare: %s") % c.right.title}</%def>
 
-<%def name="breadcrumbs()">${h.breadcrumbs(c.left)|n}</%def>
+<%def name="breadcrumbs()">${h.breadcrumbs(c.right)|n}</%def>
 
-${tiles.page.header(c.left.page, None, active='diff', text=c.left)}
+${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
 
-<%def name="descbox(this, other)">
+<%def name="descbox(this, other, options)">
+	%if options:
+		<form action="?" method="GET" id="diff_left_form">
+		<input type="hidden" name="right" value="${other.id}" />
+	%endif
+	
 	<div class="infobox">
 		<ul>
-			<li><a href="${h.entity_url(this)|n}">${this.title}</a> (${this.id})</li>
-			%if (this.variant != other.variant or this.page != other.page):
+			%if this.title != other.title:
+				<li>${_("Variant:")|n} <b><a href="${h.entity_url(this)|n}">${this.title}</a></b></li>
+			%endif
+			%if options:
+				<li>${_("Variant:")|n}
+				<select name="left" id="diff_left_select">
+					%for text in options:
+						%if text == this:
+							<option value="${text.id}" selected="selected">${text.variant_title}</option>
+						%elif text == other:
+							<!-- nop -->
+						%else:
+							<option value="${text.id}">${text.variant_title}</option>
+						%endif
+					%endfor
+				</select></li>
+			%else:
 				<li>
 				%if this.variant == c.model.Text.HEAD:
 					${_("Status quo")}
@@ -22,21 +42,35 @@ ${tiles.page.header(c.left.page, None, active='diff', text=c.left)}
 				%endif
 				</li>
 			%endif
-			<!--
-			<li>${_("created %s by %s") % (h.relative_time(this.create_time), 
-																		 h.user_link(this.user, scope=this.page))|n}</li>
-			-->
 		</ul>
+		%if options:
+			<noscript>
+				<input type="submit" value="${_("Compare")}" />
+			</noscript>
+		%endif
 	</div>
+	
+	%if options:
+		</form>
+	%endif
 </%def>
 
+
 <div class="lefthalf double">
-	${descbox(c.left, c.right)}
+	${descbox(c.left, c.right, c.left_options)}
+</div>
+
+<div class="righthalf double">
+	${descbox(c.right, c.left, None)}
+</div>
+
+<div style="clear: both;"></div>
+
+<div class="lefthalf double">
 	${c.left_diff|n}
 </div>
 
 <div class="righthalf double">
-	${descbox(c.right, c.left)}
 	${c.right_diff|n}
 </div>
 
