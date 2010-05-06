@@ -9,6 +9,10 @@
 </%def>
 
 
+<%def name="inline(tile, page, text)">
+	${tiles.text.full(text)}
+</%def>
+
 <%def name="header(tile, page, active, text)">
 	<div class="top_actions title">
 		%if can.delegation.create():

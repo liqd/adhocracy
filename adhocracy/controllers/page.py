@@ -111,6 +111,9 @@ class PageController(BaseController):
     def show(self, id, variant=None, text=None, format='html'):
         c.page, c.text = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
+        if c.text.variant != model.Text.HEAD:
+            options = [c.page.variant_head(v) for v in c.page.variants]
+            return self._differ(c.page.head, c.text, options=options)
         #redirect(h.entity_url(c.text))
         c.tile = tiles.page.PageTile(c.page)
         return render("/page/show.html")

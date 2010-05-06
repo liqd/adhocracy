@@ -56,15 +56,17 @@ def poll_url(poll, **kwargs):
                                poll.id, **kwargs)
 
 
-def page_url(page, **kwargs):
+def page_url(page, in_context=True, member=None, **kwargs):
+    if in_context and page.proposal and not member:
+        return proposal_url(page.proposal, **kwargs)
     label = urllib.quote(page.label.encode('utf-8'))
     return _common_url_builder(page.instance, 'page', 
                                label, **kwargs)
 
 
 def text_url(text, with_text=True, **kwargs):
-    url = page_url(text.page)
-    if text.variant != model.Text.HEAD:
+    url = page_url(text.page, in_context=text == text.page.variant_head(text.variant))
+    if text.page.has_variants and text.variant != model.Text.HEAD:
         url += u'/' + urllib.quote(text.variant.encode('utf-8'))
     if with_text and text != text.page.variant_head(text.variant):
         url += u';' + str(text.id)

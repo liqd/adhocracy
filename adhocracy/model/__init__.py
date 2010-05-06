@@ -74,8 +74,8 @@ mapper(Delegateable, delegateable_table, polymorphic_on=delegateable_table.c.typ
 
 
 mapper(Proposal, proposal_table, inherits=Delegateable, polymorphic_identity='proposal', properties={
-    'comment': relation(Comment, primaryjoin=proposal_table.c.comment_id==comment_table.c.id, 
-                        uselist=False),
+    'description': relation(Page, primaryjoin=proposal_table.c.description_id==page_table.c.id, 
+                        uselist=False, backref=backref('_proposal')),
     'rate_poll': relation(Poll, primaryjoin=proposal_table.c.rate_poll_id==poll_table.c.id, 
                         uselist=False, lazy=True),
     'adopt_poll': relation(Poll, primaryjoin=proposal_table.c.adopt_poll_id==poll_table.c.id, 

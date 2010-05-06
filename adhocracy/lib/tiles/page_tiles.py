@@ -28,6 +28,14 @@ def row(page):
                        page=page, cached=True)  
 
 
+def inline(page, tile=None, text=None):
+    if tile is None:
+        tile = PageTile(page)
+    if text is None:
+        text = page.head
+    return render_tile('/page/tiles.html', 'inline', tile, page=page, text=text)
+
+
 def header(page, tile=None, active='goal', text=None):
     if tile is None:
         tile = PageTile(page)

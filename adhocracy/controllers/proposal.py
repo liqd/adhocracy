@@ -29,6 +29,7 @@ class ProposalEditForm(formencode.Schema):
     
 class ProposalUpdateForm(ProposalEditForm):
     label = validators.String(max=255, min=4, not_empty=True)
+    text = validators.String(max=20000, min=4, not_empty=True)
     
 class ProposalFilterForm(formencode.Schema):
     allow_extra_fields = True
@@ -86,17 +87,22 @@ class ProposalController(BaseController):
                                          c.user, with_vote=can.user.vote(),
                                          tags=self.form_result.get("tags"))
         model.meta.Session.commit()
-        comment = model.Comment.create(self.form_result.get('text'), 
-                                       c.user, proposal, wiki=True, 
-                                       with_vote=can.user.vote())
+        #comment = model.Comment.create(self.form_result.get('text'), 
+        #                               c.user, proposal, wiki=True, 
+        #                               with_vote=can.user.vote())
         alternatives = not_null(self.form_result.get('alternative'))
         proposal.update_alternatives(alternatives)
+        #proposal.comment = comment
+        description = model.Page.create(c.instance, self.form_result.get("label"), 
+                                        self.form_result.get('text'), c.user, 
+                                        function=model.Page.DESCRIPTION)
+        description.parents = [proposal]
         model.meta.Session.commit()
-        proposal.comment = comment
+        proposal.description = description
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
         event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance, 
-                   topics=[proposal], proposal=proposal, rev=comment.latest)
+                   topics=[proposal], proposal=proposal, text=description.head)
         redirect(h.entity_url(proposal, format=format))
 
 
@@ -127,13 +133,17 @@ class ProposalController(BaseController):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.edit(c.proposal)
         c.proposal.label = self.form_result.get('label')
+        text = model.Text.create(c.proposal.description, model.Text.HEAD, c.user, 
+                                 self.form_result.get('label'), 
+                                 self.form_result.get('text'), 
+                                 parent=c.proposal.description.head)
         model.meta.Session.commit()
         alternatives = not_null(self.form_result.get('alternative'))
         c.proposal.update_alternatives(alternatives)
         model.meta.Session.commit()
         watchlist.check_watch(c.proposal)
         event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance, 
-                   topics=[c.proposal], proposal=c.proposal, rev=c.proposal.comment.latest)
+                   topics=[c.proposal], proposal=c.proposal, text=text)
         redirect(h.entity_url(c.proposal))
     
     
@@ -288,7 +298,7 @@ class ProposalController(BaseController):
     
     def _common_metadata(self, proposal):
         h.add_meta("description", 
-                   text.meta_escape(proposal.comment.latest.text, markdown=False)[0:160])
+                   text.meta_escape(proposal.description.head.text, markdown=False)[0:160])
         h.add_meta("dc.title", 
                    text.meta_escape(proposal.label, markdown=False))
         h.add_meta("dc.date", 

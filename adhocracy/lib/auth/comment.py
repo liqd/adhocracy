@@ -49,8 +49,6 @@ revert = edit
 
     
 def delete(co):
-    if hasattr(co.topic, 'comment') and co.topic.comment == co:
-        return False
     if has('instance.admin'):
         return True
     if edit(co) and is_own(co) and not co.is_edited():

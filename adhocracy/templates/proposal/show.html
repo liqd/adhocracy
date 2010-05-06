@@ -21,22 +21,5 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 </div>
 
 <div class="mainbar">
-	%if c.proposal.comment:
-		${tiles.comment.full(c.proposal.comment, recurse=False, collapse=False)}
-	%endif
-	
-	%if can.comment.reply(c.proposal.comment):
-		<div class="comment">
-			${comment_tiles.create_form(c.proposal.comment, c.proposal)}
-		</div>
-	%endif 
-	
-	%if not c.proposal.comment_count():
-		<div class="infobox">
-			${_("No comments were made yet.")}
-		</div>
-	%endif
-	%for (reply, r_tile) in c.tile.comment_tile.replies():
-		${tiles.comment.full(reply, recurse=True)}
-	%endfor	
+	${tiles.page.inline(c.proposal.description)}
 </div>

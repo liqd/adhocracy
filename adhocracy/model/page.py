@@ -87,6 +87,13 @@ class Page(Delegateable):
         return page
     
     
+    @property
+    def proposal(self):
+        if self.function == Page.DESCRIPTION:
+            return self._proposal[-1]
+        return None
+    
+    
     @property 
     def has_variants(self):
         return self.function in Page.WITH_VARIANTS
@@ -164,8 +171,8 @@ class Page(Delegateable):
             delete_time = datetime.utcnow()
         for text in self.texts:
             text.delete(delete_time=delete_time)
-        for choice in self.choices:
-            choice.delete(delete_time=delete_time)
+        for selection in self.selections:
+            selection.delete(delete_time=delete_time)
         if self.delete_time is None:
             self.delete_time = delete_time
     
@@ -175,6 +182,12 @@ class Page(Delegateable):
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
+    
+    
+    def is_mutable(self):
+        if self.function == self.DESCRIPTION and self.proposal:
+            return self.proposal.is_mutable()
+        return True
     
     
     def _index_id(self):

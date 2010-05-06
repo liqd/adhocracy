@@ -12,10 +12,14 @@ def create():
     return has('page.create')
     
 def edit(p):
+    if not p.is_mutable():
+        return False
     if has('instance.admin'):
         return True
     return has('page.edit') and show(p)
 
 def delete(p):
+    if not p.is_mutable():
+        return False
     return has('page.delete') and show(p) and p.is_mutable()
     

@@ -11,7 +11,7 @@ ${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
 
 <%def name="descbox(this, other, options)">
 	%if options:
-		<form action="?" method="GET" id="diff_left_form">
+		<form action="/page/diff" method="GET" id="diff_left_form">
 		<input type="hidden" name="right" value="${other.id}" />
 	%endif
 	

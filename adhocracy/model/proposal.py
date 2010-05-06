@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 
 proposal_table = Table('proposal', meta.data,
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
-    Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True),
+    Column('description_id', Integer, ForeignKey('page.id'), nullable=True),
     Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('adopted', Boolean, default=False)
@@ -161,15 +161,8 @@ class Proposal(Delegateable):
             alternative.delete(delete_time=delete_time)
         for alternative in self.right_alternatives:
             alternative.delete(delete_time=delete_time)
-        for choice in self.choices:
-            choice.delete(delete_time=delete_time)
-    
-      
-    def comment_count(self):
-        count = len([c for c in self.comments if not c.is_deleted()])
-        if self.comment and not self.comment.is_deleted():
-            count -= 1
-        return count - len(self.canonicals) 
+        for selection in self.selections:
+            selection.delete(delete_time=delete_time)
     
     
     def current_alternatives(self):
