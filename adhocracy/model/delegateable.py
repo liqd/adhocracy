@@ -165,6 +165,10 @@ class Delegateable(object):
         return filter(lambda d: not d.is_revoked(), self.delegations)
     
     
+    def user_position(self, user):
+        return 0
+    
+    
     def _index_id(self):
         return self.id
     

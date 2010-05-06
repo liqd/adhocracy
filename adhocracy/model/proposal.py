@@ -193,6 +193,17 @@ class Proposal(Delegateable):
             meta.Session.add(alternative)
     
     
+    def user_position(self, user):
+        from pylons import tmpl_context as c
+        if not user:
+            return 0
+        if not c.proposal_pos:
+            c.proposal_pos = {}
+            if not self.id in c.proposal_pos:
+                c.proposal_pos[self.id] = c.user.any_position_on_proposal(self)
+            return c.proposal_pos[self.id]
+    
+    
     def __repr__(self):
         return u"<Proposal(%s)>" % self.id
 

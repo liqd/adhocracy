@@ -188,6 +188,12 @@ class Page(Delegateable):
         if self.function == self.DESCRIPTION and self.proposal:
             return self.proposal.is_mutable()
         return True
+        
+    
+    def user_position(self, user):
+        if self.function == self.DESCRIPTION and self.proposal:
+            return self.proposal.user_position(user)
+        return 0
     
     
     def _index_id(self):

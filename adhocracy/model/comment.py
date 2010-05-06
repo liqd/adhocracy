@@ -104,7 +104,7 @@ class Comment(object):
         from revision import Revision
         from adhocracy.lib.text import cleanup
         rev = Revision(self, user, cleanup(text))
-        if self.canonical or not self.reply:
+        if self.canonical:
             sentiment = 0
         rev.sentiment = sentiment
         if create_time is not None:

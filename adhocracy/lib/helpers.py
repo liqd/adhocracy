@@ -138,16 +138,6 @@ def context_instances(count=5):
     return sorting.instance_label(ins)
 
 
-def proposal_position(topic):
-    if not topic or not isinstance(topic, model.Proposal) or not c.user:
-        return 0
-    if not c.proposal_pos:
-        c.proposal_pos = {}
-    if not topic.id in c.proposal_pos:
-        c.proposal_pos[topic.id] = c.user.any_position_on_proposal(topic)
-    return c.proposal_pos[topic.id]
-
-
 def gravatar_url(user, size=32):
     id = user.email if user.email else user.user_name
     gravatar_url = "http://www.gravatar.com/avatar.php?"
