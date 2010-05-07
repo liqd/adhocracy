@@ -740,15 +740,37 @@ del.diff, del.modified {
 	/*display: none;*/
 }
 
-.double ins.diff {
+.double.righthalf ins.diff {
+	color: #fff;
+	background-color: #fff;
+	text-decoration: none;	
+	font-weight: bold;
+}
+
+.double.righthalf del.diff {
+    color: #fff;
+}
+
+.double.righthalf ins.diff {
+	color: green;
+}
+
+.double.lefthalf ins {
+    text-decoration: none;
+    color: #fff;
+    background-color: #fff;
+	/*display: none;*/
+}
+
+.double del.diff {
 	color: red;
 	background-color: #fff;
 	text-decoration: none;	
 	font-weight: bold;
 }
 
-.double.righthalf ins.diff {
-	color: green;
+.double.lefthalf del.diff {
+	color: red;
 }
 
 p img[align=left] {

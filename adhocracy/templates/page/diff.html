@@ -20,8 +20,9 @@ ${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
 			%if this.title != other.title:
 				<li>${_("Title:")|n} <b><a href="${h.entity_url(this)|n}">${this.title}</a></b></li>
 			%endif
+			<li>
 			%if options:
-				<li>${_("Variant:")|n}
+				${_("Variant:")|n}
 				<select name="left" id="diff_left_select">
 					%for text in options:
 						%if text == this:
@@ -33,17 +34,17 @@ ${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
 						%endif
 					%endfor
 				</select>
-				<b><a href="${h.entity_url(this)|n}">${_("view")}</a></b></li>
-				</li>
+				&middot; 
+				<b><a href="${h.entity_url(this)|n}">${_("view")}</a></b>
 			%else:
-				<li>
 				%if this.variant == c.model.Text.HEAD:
-					<b><a href="${h.entity_url(this)|n}">${_("Status quo")}</a></b></li>
+					<b><a href="${h.entity_url(this)|n}">${_("Status quo")}</a></b>
 				%else:
-					${_("Variant:")} <b><a href="${h.entity_url(this)|n}">${this.variant}</a></b></li>
+					${_("Variant:")} <b><a href="${h.entity_url(this)|n}">${this.variant}</a></b>
 				%endif
-				</li>
 			%endif
+			&middot; <b><a href="${h.entity_url(this, member='history')|n}">${_("historic versions")}</a></b>
+			</li>
 			<li>
 				${_("%s by %s") % (h.relative_time(c.left.create_time), 
 													 h.user_link(c.left.user, scope=c.left.page))|n}
@@ -73,7 +74,7 @@ ${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
 <div style="clear: both;"></div>
 
 <div class="lefthalf double">
-	${c.left_diff|n}
+	${c.right_diff|n}
 </div>
 
 <div class="righthalf double">
