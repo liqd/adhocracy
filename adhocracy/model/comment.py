@@ -20,7 +20,8 @@ comment_table = Table('comment', meta.data,
     Column('canonical', Boolean, default=False),
     Column('wiki', Boolean, default=False),
     Column('reply_id', Integer, ForeignKey('comment.id'), nullable=True),
-    Column('poll_id', Integer, ForeignKey('poll.id'), nullable=True)
+    Column('poll_id', Integer, ForeignKey('poll.id'), nullable=True),
+    Column('variant', Unicode(255), nullable=True)
     )
      
 
@@ -30,9 +31,10 @@ class Comment(object):
     SENT_PRO = 1
     SENT_CON = -1
     
-    def __init__(self, topic, creator):
+    def __init__(self, topic, creator, variant):
         self.topic = topic
         self.creator = creator
+        self.variant = variant
     
     
     def _get_latest(self):
@@ -81,10 +83,13 @@ class Comment(object):
     
     
     @classmethod    
-    def create(cls, text, user, topic, reply=None, wiki=True, canonical=False, 
+    def create(cls, text, user, topic, reply=None, wiki=True, variant=None, canonical=False, 
                sentiment=0, with_vote=False):
         from poll import Poll
-        comment = Comment(topic, user)
+        from text import Text
+        if variant is None: 
+            variant = Text.HEAD
+        comment = Comment(topic, user, variant)
         comment.canonical = canonical
         if canonical:
             wiki = True

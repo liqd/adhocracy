@@ -16,6 +16,7 @@ class CommentNewForm(formencode.Schema):
     reply = forms.ValidComment(if_empty=None, if_missing=None)
     wiki = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
     canonical = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
+    variant = forms.VariantName(not_empty=False, if_empty=model.Text.HEAD, if_missing=model.Text.HEAD)
 
 
 class CommentCreateForm(CommentNewForm):
@@ -59,6 +60,7 @@ class CommentController(BaseController):
         c.reply = self.form_result.get('reply')
         c.wiki = self.form_result.get('wiki')
         c.canonical = self.form_result.get('canonical')
+        c.variant = self.form_result.get('variant')
         if c.reply:
             require.comment.reply(c.reply)
         else: 
@@ -73,17 +75,24 @@ class CommentController(BaseController):
         canonical = self.form_result.get('canonical')
         topic = self.form_result.get('topic')
         reply = self.form_result.get('reply')
+        
         if canonical and not isinstance(topic, model.Proposal):
             return ret_abort(_("Trying to create a provision on a page"), code=400)
         if reply:
             require.comment.reply(reply)
         else: 
             require.comment.create_on(topic, canonical=canonical)
+            
+        variant = self.form_result.get('variant')
+        if hasattr(topic, 'variants') and not variant in topic.variants:
+            return ret_abort(_("Comment topic has no variant %s") % variant, code=400)
+        
         comment = model.Comment.create(self.form_result.get('text'), 
                                        c.user, topic, 
                                        reply=reply, 
                                        wiki=self.form_result.get('wiki'),
                                        canonical=canonical,
+                                       variant=variant,
                                        sentiment=self.form_result.get('sentiment'), 
                                        with_vote=can.user.vote())
         model.meta.Session.commit()

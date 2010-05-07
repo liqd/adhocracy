@@ -115,7 +115,7 @@
 				${self.edit_form(comment)}
 			</div>
 			<div class="reply_form sub ${'base_reply' if reply_here else ''}">
-				${self.create_form(comment, comment.topic)}
+				${self.create_form(comment, comment.topic, variant=comment.variant)}
 			</div>
 			</div>
 		</div>
@@ -150,10 +150,13 @@
 	</form>
 </%def>
 
-<%def name="create_form(parent, topic, canonical=0, arm=False, can_wiki=True)">
+<%def name="create_form(parent, topic, canonical=0, arm=False, can_wiki=True, variant=None)">
 	<form name="create_comment" class="inplace comment_form" method="POST" action="/comment">
 		${h.field_token()|n}
 		<input type="hidden" name="topic" value="${topic.id}" />
+		%if variant:
+			<input type="hidden" name="variant" value="${variant}" />
+		%endif
 		%if parent:
 			<input type="hidden" name="reply" value="${parent.id}" />
 		%endif

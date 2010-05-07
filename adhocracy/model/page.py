@@ -119,6 +119,10 @@ class Page(Delegateable):
         if head:
             return head.history
         return None
+        
+        
+    def variant_comments(self, variant):
+        return [c for c in self.comments if (not c.is_deleted()) and c.variant == variant]
     
     
     @property

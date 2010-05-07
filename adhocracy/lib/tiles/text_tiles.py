@@ -14,6 +14,7 @@ class TextTile(BaseTile):
     
     def __init__(self, text):
         self.text = text 
+    
 
     @property
     def page(self):
@@ -34,10 +35,15 @@ class TextTile(BaseTile):
         return text.html_diff(self.text.parent.title,
                               self.text.title)
     
+    
+    @property
+    def comment_count(self):
+        return len([c for c in self.comments()])
+    
                                     
     def comments(self):
         from comment_tiles import CommentTile
-        comments = sorting.comment_order(self.page.comments)
+        comments = sorting.comment_order(self.page.variant_comments(self.text.variant))
         for comment in comments:
             if comment.reply: 
                 continue
@@ -53,4 +59,7 @@ def history_row(text):
 def full(text):
     return render_tile('/text/tiles.html', 'full', 
                        TextTile(text), text=text)
-        
+
+def comments(text):
+    return render_tile('/text/tiles.html', 'comments', 
+                       TextTile(text), text=text)

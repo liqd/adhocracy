@@ -144,7 +144,8 @@ def upgrade():
             r = migrate_engine.execute(q10)
             
             u4 = proposal_table.update(proposal_table.c.id==prop_id, values={
-                'description_id': page_id
+                'description_id': page_id,
+                'comment_id': None
                 })
             migrate_engine.execute(u4)
             

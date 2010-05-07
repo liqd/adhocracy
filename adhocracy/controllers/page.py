@@ -156,6 +156,7 @@ class PageController(BaseController):
         left_html = left.render()
         c.left_diff = text.html_diff(right_html, left_html)
         c.right_diff = text.html_diff(left_html, right_html)
+        c.tile = tiles.page.PageTile(c.right.page)
         return render("/page/diff.html")
         
     

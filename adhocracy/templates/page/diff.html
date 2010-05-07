@@ -67,16 +67,6 @@ ${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
 <div style="clear: both;"></div>
 
 <div class="lefthalf double">
-	${c.left_diff|n}
-</div>
-
-<div class="righthalf double">
-	${c.right_diff|n}
-</div>
-
-<div style="clear: both;"></div>
-
-<div class="lefthalf double">
 	${_("created %s by %s") % (h.relative_time(c.left.create_time), 
 																 h.user_link(c.left.user, scope=c.left.page))|n}
 </div>
@@ -85,3 +75,26 @@ ${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
 	${_("created %s by %s") % (h.relative_time(c.right.create_time), 
 																 h.user_link(c.right.user, scope=c.right.page))|n}
 </div>
+
+<div style="clear: both;"></div>
+
+<div class="lefthalf double">
+	${c.left_diff|n}
+</div>
+
+<div class="righthalf double">
+	${c.right_diff|n}
+</div>
+
+<div style="clear: both;"></div>
+<br/>
+
+<div class="sidebar">
+	${tiles.tag.sidebar(c.right.page)}
+	${tiles.delegation.sidebar(c.right.page)}
+</div>
+
+<div class="mainbar">
+	${tiles.text.comments(c.right)}
+</div>
+
