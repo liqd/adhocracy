@@ -735,13 +735,20 @@ del.diff, del.modified {
 }
 
 .double del {
-	display: none;
+    color: #fff;
+    background-color: #fff;
+	/*display: none;*/
 }
 
 .double ins.diff {
 	color: red;
 	background-color: #fff;
 	text-decoration: none;	
+	font-weight: bold;
+}
+
+.double.righthalf ins.diff {
+	color: green;
 }
 
 p img[align=left] {

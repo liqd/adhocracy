@@ -13,6 +13,7 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 	<h3 class="section">${_("Variants")}</h3>
 	<ul>
 		%for variant in c.page.variants:
+			%if variant != c.text.variant:
 			<li>
 				<%
 				text = c.page.variant_head(variant)
@@ -24,9 +25,9 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 					<code>${variant}</code>
 				%endif
 				</a>
-				@ rev <code><a href="/page/diff?left=${c.text.id}&right=${text.id}">#${text.id}</a></code>
 				(<a href="${h.entity_url(text, member='history')}">history</a>)
 				</li>
+			%endif
 		%endfor
 	</ul>
 	<br/>

@@ -18,7 +18,7 @@ ${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
 	<div class="infobox">
 		<ul>
 			%if this.title != other.title:
-				<li>${_("Variant:")|n} <b><a href="${h.entity_url(this)|n}">${this.title}</a></b></li>
+				<li>${_("Title:")|n} <b><a href="${h.entity_url(this)|n}">${this.title}</a></b></li>
 			%endif
 			%if options:
 				<li>${_("Variant:")|n}
@@ -32,16 +32,22 @@ ${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
 							<option value="${text.id}">${text.variant_title}</option>
 						%endif
 					%endfor
-				</select></li>
+				</select>
+				<b><a href="${h.entity_url(this)|n}">${_("view")}</a></b></li>
+				</li>
 			%else:
 				<li>
 				%if this.variant == c.model.Text.HEAD:
-					${_("Status quo")}
+					<b><a href="${h.entity_url(this)|n}">${_("Status quo")}</a></b></li>
 				%else:
-					${_("Variant: %s") % "<b>" + this.variant + "</b>" |n}
+					${_("Variant:")} <b><a href="${h.entity_url(this)|n}">${this.variant}</a></b></li>
 				%endif
 				</li>
 			%endif
+			<li>
+				${_("%s by %s") % (h.relative_time(c.left.create_time), 
+													 h.user_link(c.left.user, scope=c.left.page))|n}
+			</li>
 		</ul>
 		%if options:
 			<noscript>
@@ -62,18 +68,6 @@ ${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
 
 <div class="righthalf double">
 	${descbox(c.right, c.left, None)}
-</div>
-
-<div style="clear: both;"></div>
-
-<div class="lefthalf double">
-	${_("created %s by %s") % (h.relative_time(c.left.create_time), 
-																 h.user_link(c.left.user, scope=c.left.page))|n}
-</div>
-
-<div class="righthalf double">
-	${_("created %s by %s") % (h.relative_time(c.right.create_time), 
-																 h.user_link(c.right.user, scope=c.right.page))|n}
 </div>
 
 <div style="clear: both;"></div>
