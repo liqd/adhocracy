@@ -18,7 +18,7 @@ class SearchController(BaseController):
     @validate(schema=SearchQueryForm(), form="search_form", post_only=False, on_get=True)
     def query(self):
         require.proposal.index()
-        c.query = self.form_result.get("serp_q") 
+        c.query = self.form_result.get("serp_q", u"*") 
         self._query_pager()
         return formencode.htmlfill.render(render("search/results.html"),
                         {'q': c.query, 'serp_q': c.query})
@@ -27,7 +27,7 @@ class SearchController(BaseController):
     @validate(schema=SearchQueryForm(), post_only=False, on_get=True)
     def filter(self):
         require.proposal.index()
-        c.query = self.form_result.get("serp_q", '') + '*' 
+        c.query = self.form_result.get("serp_q", '') + u'*' 
         self._query_pager()
         return c.entities_pager.here()
     

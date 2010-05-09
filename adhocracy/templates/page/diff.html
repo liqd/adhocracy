@@ -7,7 +7,7 @@
 
 <%def name="breadcrumbs()">${h.breadcrumbs(c.right)|n}</%def>
 
-${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
+${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right)}
 
 <%def name="descbox(this, other, options)">
 	%if options:
@@ -86,7 +86,7 @@ ${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
 
 <div class="sidebar">
 	${tiles.tag.sidebar(c.right.page)}
-	${tiles.delegation.sidebar(c.right.page)}
+	${tiles.delegation.sidebar(c.right.page, c.tile)}
 </div>
 
 <div class="mainbar">
