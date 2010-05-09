@@ -23,8 +23,8 @@ def row(delegation):
     return render_tile('/delegation/tiles.html', 'row', 
                        DelegationTile(delegation), delegation=delegation)
     
-def sidebar(delegateable):
+def sidebar(delegateable, tile):
     return render_tile('/delegation/tiles.html', 'sidebar', 
-                       None, delegateable=delegateable, 
+                       tile=tile, delegateable=delegateable, 
                        user=c.user, cached=True)
     

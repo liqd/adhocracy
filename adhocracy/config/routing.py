@@ -63,6 +63,10 @@ def make_map():
                                                  'tag': 'POST',
                                                  'untag': 'GET'},
                                collection={'filter': 'GET'})
+                               
+    map.resource('implementation', 'implementation', 
+                 parent_resource=dict(member_name='proposal', 
+                                      collection_name='proposal'))
     
     map.connect('/page/diff', controller='page', action='diff',
                 conditions=dict(method=['GET']))

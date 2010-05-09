@@ -3,7 +3,7 @@
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 
-<%def name="title()">${_("Compare: %s") % c.right.title}</%def>
+<%def name="title()">${_("Change request: %s") % c.right.title}</%def>
 
 <%def name="breadcrumbs()">${h.breadcrumbs(c.right)|n}</%def>
 
@@ -46,8 +46,8 @@ ${tiles.page.header(c.right.page, None, active='diff', text=c.right)}
 			&middot; <b><a href="${h.entity_url(this, member='history')|n}">${_("historic versions")}</a></b>
 			</li>
 			<li>
-				${_("%s by %s") % (h.relative_time(c.left.create_time), 
-													 h.user_link(c.left.user, scope=c.left.page))|n}
+				${_("%s by %s") % (h.relative_time(this.create_time), 
+													 h.user_link(this.user, scope=this.page))|n}
 			</li>
 		</ul>
 		%if options:

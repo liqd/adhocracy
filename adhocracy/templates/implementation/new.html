@@ -1,0 +1,17 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_("Implementation: %s") % c.proposal.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("Extend implementation")}
+</%def>
+
+${tiles.proposal.header(c.proposal, active='implementation')}
+
+OPTIONS:
+<ol>
+	<li>Include an existing variant of a norm.</li>
+	<li>Include a new variant of a norm.</li>
+	<li>Propose a new norm.</li>
+</ol>

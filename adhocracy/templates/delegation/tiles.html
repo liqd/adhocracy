@@ -37,7 +37,7 @@
 	<div class="not_a_tile">
 		<h3 class="section"><img src="/img/icons/delegate_16.png" class="cd" /> ${_("Delegate voting")}</h3>
 		
-			%if not c.tile.has_delegated:
+			%if not tile.has_delegated:
 				<div class="infobox">
 					${_("You have not delegated voting.")} 
 					<a href="/delegation/new?scope=${delegateable.id}">${_("delegate")}</a>
@@ -47,7 +47,7 @@
 				<p>${_("You have delegated voting to:")}</p>
 			%endif
 		<ul>
-			%for delegation in c.tile.delegations:
+			%for delegation in tile.delegations:
 				<li>
 				${h.user_link(delegation.agent)|n}
 				&middot; ${_("on")} ${h.delegateable_link(delegation.scope)|n}</a>
@@ -56,12 +56,12 @@
 			%endfor
 		</ul>
 		
-		%if c.tile.num_principals:
+		%if tile.num_principals:
 			<p>
-			%if c.tile.num_principals == 1:
+			%if tile.num_principals == 1:
 				${_("You hold an additional vote.")}
 			%else:
-				${_("You hold %s additional votes.") % c.tile.num_principals}
+				${_("You hold %s additional votes.") % tile.num_principals}
 			%endif
 			</p>
 		%endif

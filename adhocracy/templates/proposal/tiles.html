@@ -59,7 +59,7 @@
 	%endif
 	
 	${tiles.tag.sidebar(proposal)}
-	${tiles.delegation.sidebar(proposal)}
+	${tiles.delegation.sidebar(proposal, tile)}
 </%def>
 
 
@@ -122,7 +122,7 @@
 				class="activity">${_("Activity")}</a></li-->
 			<li><a href="${h.entity_url(proposal)}" class="goal">${_("Proposal")}</a></li>
 			<li><a href="${h.entity_url(proposal, member='canonicals')}" 
-				class="canonicals">${_("Implementation")} (${len(proposal.canonicals)})</a></li>
+				class="implementation">${_("Implementation")} (${len(proposal.canonicals)})</a></li>
 			%if c.instance.allow_delegate:
 				<li><a href="${h.entity_url(proposal, member='delegations')}"
 			   	class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a></li>
