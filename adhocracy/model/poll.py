@@ -27,8 +27,9 @@ class Poll(object):
     ADOPT = u'adopt'
     REPEAL = u'repeal'
     RATE = u'rate'
+    SELECT = u'select'
     
-    ACTIONS = [ADOPT, REPEAL, RATE]
+    ACTIONS = [ADOPT, REPEAL, RATE, SELECT]
         
     def __init__(self, scope, user, action, subject=None):
         self.scope = scope

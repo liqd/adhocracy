@@ -85,6 +85,11 @@ class Page(Delegateable):
         meta.Session.flush()
         _text = Text(page, Text.HEAD, creator, title, text)
         return page
+        
+        
+    def establish_variant(self, variant, user):
+        for selection in self.selections: 
+            selection.make_variant_poll(variant, user)
     
     
     @property

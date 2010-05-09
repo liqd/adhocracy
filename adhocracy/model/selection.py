@@ -3,6 +3,7 @@ import logging
 import simplejson as json
 
 from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func
+from sqlalchemy.orm import reconstructor
 
 import meta
 
@@ -21,6 +22,12 @@ class Selection(object):
     def __init__(self, page, proposal):
         self.page = page
         self.proposal = proposal
+        self._polls = None
+    
+    
+    @reconstructor
+    def _reconstruct(self):
+        self._polls = None
     
         
     @classmethod
@@ -51,14 +58,33 @@ class Selection(object):
         except Exception, e: 
             log.warn("find(%s): %s" % (id, e))
             return None
+            
+    
+    @classmethod
+    def create(cls, proposal, page, user):
+        selection = Selection(page, proposal)
+        meta.Session.add(selection)
+        meta.Session.flush()
+        for variant in page.variants: 
+            selection.make_variant_poll(variant, user)
+        return selection
     
     
-    def variant_tuple(self, variant):
-        return [self, variant]
-        
-        
+    def make_variant_poll(self, variant, user):
+        from poll import Poll
+        key = self.variant_key(variant)
+        for poll in self.polls:
+            if poll.subject == key:
+                return poll
+        poll = Poll.create(self.page, user, Poll.SELECT, 
+                           subject=key)
+        if self._polls is not None:
+            self._polls.append(poll)
+        return poll
+    
+    
     def variant_key(self, variant):
-        return json.dumps(self.variant_tuple(variant))
+        return "[@[selection:%d],\"%s\"]" % (self.id, variant)
     
     
     @property
@@ -69,7 +95,9 @@ class Selection(object):
     @property
     def polls(self):
         from poll import Poll
-        return Poll.by_subjects(self.subjects)
+        if self._polls is None:
+            self._polls = Poll.by_subjects(self.subjects)
+        return self._polls
     
     
     def to_dict(self):

@@ -51,16 +51,20 @@ class Text(object):
 
     @classmethod
     def create(cls, page, variant, user, title, text, parent=None):
+        from adhocracy.lib.text import title2alias
         if variant is None:
             if parent is not None:
                 variant = parent.variant
             else:
                 variant = Text.HEAD
+        variant = title2alias(variant)
         _text = Text(page, variant, user, title, text)
         if parent:
             _text.parent = parent
         meta.Session.add(_text)
         meta.Session.flush()
+        if not variant in page.variants:
+            page.establish_variant(variant, user)
         return _text
     
     
