@@ -30,6 +30,22 @@ ${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right, variant=c
 <div class="sidebar">
 	${tiles.tag.sidebar(c.right.page)}
 	${tiles.delegation.sidebar(c.right.page, c.tile)}
+	
+	%if c.page.function == c.page.NORM:
+		<br/>
+		<h3 class="section"><img class="cd" src="/img/icons/proposal_16.png"/> ${_("Supporting Proposals")}</h3>
+		%if not len(c.page.supporting_selections(c.variant)):
+			<div class="infobox">
+			${_("No proposals support this variant")}
+			</div>
+		%endif
+		<ul>
+			%for selection in c.page.supporting_selections(c.variant):
+				<li>${h.proposal_link(selection.proposal)|n}</li>
+			%endfor
+			<li><a href="/proposal/new">${_("Create a new proposal...")}</a></li>
+		</ul>
+	%endif
 </div>
 
 <div class="mainbar">

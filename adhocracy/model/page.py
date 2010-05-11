@@ -187,6 +187,33 @@ class Page(Delegateable):
                 return parent
         return None
     
+    
+    @property
+    def changing_selections(self):
+        from text import Text
+        selections = []
+        for selection in self.selections:
+            if selection.is_deleted():
+                continue
+            if selection.proposal.adopted:
+                continue
+            if selection.selected != Text.HEAD:
+                selections.append(selection)
+        return selections
+    
+    
+    def supporting_selections(self, variant):
+        from text import Text
+        selections = []
+        for selection in self.selections:
+            if selection.is_deleted():
+                continue
+            if selection.proposal.adopted:
+                continue
+            if selection.selected == variant:
+                selections.append(selection)
+        return selections
+
 
     #@property
     #def proposal(self):
@@ -230,6 +257,19 @@ class Page(Delegateable):
     
     def _index_id(self):
         return self.id
+    
+        
+    def contributors(self):
+        from user import User
+        from text import Text
+        q = meta.Session.query(User)
+        q = q.join(Text)
+        q = q.add_column(func.count(Text.id))
+        q = q.filter(Text.page==self)
+        q = q.group_by(User.id)
+        q = q.order_by(func.count(Text.id).desc())
+        cbs = super(Page, self).contributors()
+        return self._join_contributors(cbs, q.all(), second_factor=2)
     
     
     def to_dict(self):

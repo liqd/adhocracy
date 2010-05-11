@@ -145,6 +145,13 @@ class Delegateable(object):
              + sum([c.comment_count() for c in self.children])
     
     
+    def _join_contributors(self, first, second, second_factor=1):
+        cbs = dict(first)
+        for (i, s) in second:
+            cbs[i] = cbs.get(i, 0) + (s * float(second_factor))
+        return sorted(cbs.items(), key=lambda (c, s): s, reverse=True) 
+    
+    
     def contributors(self):
         from user import User
         from revision import Revision
@@ -156,9 +163,10 @@ class Delegateable(object):
         q = q.filter(Comment.topic_id==self.id)
         q = q.group_by(User.id)
         q = q.order_by(func.count(Revision.id).desc())
-        #_all = q.all()
-        #print "ALL", _all
-        return q.all()
+        cbs = q.all() 
+        for child in self.children: 
+            cbs = self._join_contributors(cbs, child.contributors())
+        return cbs
     
     
     def current_delegations(self):

@@ -35,6 +35,22 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 	<br/>
 	${tiles.tag.sidebar(c.page)}
 	${tiles.delegation.sidebar(c.page, c.tile)}
+	
+	%if c.page.function == c.page.NORM:
+		<br/>
+		<h3 class="section"><img class="cd" src="/img/icons/proposal_16.png"/> ${_("Related Proposals")}</h3>
+		%if not len(c.page.changing_selections):
+			<div class="infobox">
+			${_("No proposals are trying to change %s") % c.page.title}
+			</div>
+		%endif
+		<ul>
+			%for selection in c.page.changing_selections:
+				<li>${h.proposal_link(selection.proposal)|n}</li>
+			%endfor
+			<li><a href="/proposal/new">${_("Create a new proposal...")}</a></li>
+		</ul>
+	%endif
 </div>
 
 <div class="mainbar">
