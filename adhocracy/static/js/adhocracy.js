@@ -58,6 +58,7 @@ $(document).ready(function() {
 	moreTags = function() {
 	    $(".moreTags").show();
 	    $(".moreTagsLink").hide();
+	    return false;
 	}
 	
 	/* Tag area add form */
@@ -220,11 +221,12 @@ $(document).ready(function() {
     				originalListing = $("#" + id + "_table").html();
     			}
     			var destination = $("#" + id + "_table");
-    			var value = $.trim($(this).val());
+    			var value = $.trim($("#" + id + "_q").val());
     			if (value.length == 0) {
     				destination.html(originalListing);
     			}
-    			$.get(url + '?' + id + '_q=' + value, function(data, status) {
+    			var get_url = url + '?' + id + '_q=' + value;
+    			$.get(get_url, function(data, status) {
     				destination.html(data);
     			}, 'text');
     			timeoutSet = false;

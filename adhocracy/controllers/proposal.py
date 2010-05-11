@@ -288,8 +288,7 @@ class ProposalController(BaseController):
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def filter(self):
         require.proposal.index()
-        query = self.form_result.get('proposals_q')
-        if query is None: query = u''
+        query = self.form_result.get('proposals_q', u'')
         proposals = libsearch.query.run(query + u"*", instance=c.instance, 
                                      entity_type=model.Proposal)
         c.proposals_pager = pager.proposals(proposals)
