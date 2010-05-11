@@ -27,10 +27,15 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 				<ol>
 				%for (variant, poll) in selection.variant_polls:
 						<li>
-							<a href="${h.entity_url(selection.page.variant_head(variant))}">${variant}</a>
-							score: ${poll.tally.score} (<a href="${h.entity_url(poll, member='vote')}?position=1&${h.url_token()}&_method=POST">+</a>${poll.tally.num_for}/<a href="${h.entity_url(poll, member='vote')}?position=-1&${h.url_token()}&_method=POST">-</a>${poll.tally.num_against})
+							%if variant == c.model.Text.HEAD:
+								${_("do not modify the status quo")}
+							%else:
+								<b><a href="${h.entity_url(selection.page.variant_head(variant))}">${variant}</a></b>
+							%endif
+							score: <a href="${h.entity_url(poll, member='vote')}?position=1&${h.url_token()}&_method=POST"><img src="/img/arrows/aup_a.png" /></a> <b>${poll.tally.score}</b> <a href="${h.entity_url(poll, member='vote')}?position=-1&${h.url_token()}&_method=POST"><img src="/img/arrows/adown_a.png" /></a>
 						</li>
 				%endfor
+						<a href="#">${_("more variants")}</a> &middot; <a href="#">${_("propose a new variant...")}</a> 
 				</ol>
 			</li>
 		%endfor
