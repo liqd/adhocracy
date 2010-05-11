@@ -85,12 +85,12 @@ T_PROPOSAL_CREATE = EventType(u"t_proposal_create", pri=4,
                           subject=lambda: _(u"New proposal: %(proposal)s"),
                           link_path=lambda e: h.entity_url(e.proposal),
                           event_msg=lambda: _(u"created %(proposal)s"),
-                          text=lambda e: e.text.text if e.text else None)
+                          text=lambda e: e.rev.text if e.text else None)
 
 T_PROPOSAL_EDIT = EventType(u"t_proposal_edit", pri=1, 
                           subject=lambda: _(u"Edit proposal: %(proposal)s"),
                           link_path=lambda e: h.entity_url(e.proposal),
-                          text=lambda e: e.text.text if e.text else None,
+                          text=lambda e: e.rev.text if e.text else None,
                           event_msg=lambda: _(u"edited %(proposal)s"))
 
 T_PROPOSAL_STATE_REDRAFT = EventType(u"t_proposal_state_draft", pri=3, 
@@ -113,12 +113,12 @@ T_PAGE_CREATE = EventType(u"t_page_create", pri=4,
                         subject=lambda: _(u"New page: %(page)s"),
                         link_path=lambda e: h.entity_url(e.page),
                         event_msg=lambda: _(u"created %(page)s"),
-                        text=lambda e: e.text.text if e.text else None)
+                        text=lambda e: e.rev.text if e.text else None)
 
 T_PAGE_EDIT = EventType(u"t_page_edit", pri=1, 
                         subject=lambda: _(u"Edit page: %(page)s"),
                         link_path=lambda e: h.entity_url(e.page),
-                        text=lambda e: e.text.text if e.text else None,
+                        text=lambda e: e.rev.text if e.text else None,
                         event_msg=lambda: _(u"edited %(page)s"))
 
 T_PAGE_DELETE = EventType(u"t_page_delete", pri=2, 

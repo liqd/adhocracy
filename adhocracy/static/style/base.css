@@ -1537,7 +1537,7 @@ a.button.inactive {
 	display: block;
 	width: 12px;
 	height: 12px;
-	margin-bottom: 0.1em;
+	margin-bottom: 0.0em;
 	text-decoration: none;
 	max-width: 12px;
 }

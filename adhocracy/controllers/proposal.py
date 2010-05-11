@@ -102,7 +102,7 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
         event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance, 
-                   topics=[proposal], proposal=proposal, text=description.head)
+                   topics=[proposal], proposal=proposal, rev=description.head)
         redirect(h.entity_url(proposal, format=format))
 
 
@@ -143,7 +143,7 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         watchlist.check_watch(c.proposal)
         event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance, 
-                   topics=[c.proposal], proposal=c.proposal, text=text)
+                   topics=[c.proposal], proposal=c.proposal, rev=text)
         redirect(h.entity_url(c.proposal))
     
     

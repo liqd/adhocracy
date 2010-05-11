@@ -164,6 +164,15 @@ class ValidText(formencode.FancyValidator):
                 _("No text with ID '%s' exists") % value,
                          value, state)
         return text
+        
+        
+class ValidPage(formencode.FancyValidator):
+    def _to_python(self, value, state):
+        from adhocracy.model import Page
+        page = Page.find(value)
+        if not page: 
+            raise formencode.Invalid(_("No page '%s' exists") % value, value, state)
+        return page
 
 
 class ValidPageFunction(formencode.FancyValidator):

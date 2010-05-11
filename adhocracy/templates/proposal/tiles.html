@@ -121,8 +121,8 @@
 			<!--li><a href="${h.entity_url(proposal, member='activity')}" 	
 				class="activity">${_("Activity")}</a></li-->
 			<li><a href="${h.entity_url(proposal)}" class="goal">${_("Proposal")}</a></li>
-			<li><a href="${h.entity_url(proposal, member='canonicals')}" 
-				class="implementation">${_("Implementation")} (${len(proposal.canonicals)})</a></li>
+			<li><a href="${h.entity_url(proposal, member='implementation')}" 
+				class="implementation">${_("Implementation")} (${len(proposal.selections)})</a></li>
 			%if c.instance.allow_delegate:
 				<li><a href="${h.entity_url(proposal, member='delegations')}"
 			   	class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a></li>

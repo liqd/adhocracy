@@ -37,6 +37,9 @@ def plain(html):
 
 def cleanup(text):
     return text
+    
+def field_rows(text):
+    return int((len([ch for ch in text if ch == "\n"]) + len(text)/60) * 1.1)
 
 SUB_USER = re.compile("@([a-zA-Z0-9_\-]{3,255})")
 

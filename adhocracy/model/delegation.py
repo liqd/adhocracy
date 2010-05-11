@@ -27,6 +27,7 @@ class Delegation(object):
         self.agent = agent
         self.scope = scope
     
+    
     def is_match(self, delegateable, include_deleted=False):
         if include_deleted or not self.is_revoked():
             return self.scope == delegateable or self.scope.is_super(delegateable)
@@ -50,6 +51,7 @@ class Delegation(object):
             log.warn("find(%s): %s" % (id, e))
             return None
 
+
     @classmethod
     def find_by_agent_principal_scope(cls, agent, principal, scope, instance_filter=True, include_deleted=False):
         try:
@@ -69,6 +71,7 @@ class Delegation(object):
             log.warn("find(%s): %s" % (id, e))
             return None  
     
+    
     @classmethod
     def find_by_principal(cls, principal, include_deleted=False):
         try:
@@ -81,11 +84,13 @@ class Delegation(object):
         except Exception, e:
             log.warn("find_by_principal(%s): %s" % (id, e))
             return None
-       
+      
+    
     @classmethod
     def find_by_principal_in_scope(cls, principal, scope, include_deleted=False):
         return [d for d in cls.find_by_principal(principal, include_deleted=include_deleted) \
                 if d.is_match(scope, include_deleted=include_deleted)]
+    
     
     @classmethod
     def all(cls, instance=None, include_deleted=False):
@@ -97,27 +102,41 @@ class Delegation(object):
         if instance is not None:
             q = q.filter(Delegateable.instance==instance)
         return q.all()
-        
+    
+    
+    @classmethod
+    def create(cls, principal, agent, scope, replay=True):
+        from adhocracy.lib.democracy import Decision
+        delegation = Delegation(principal, agent, scope)
+        meta.Session.add(delegation)
+        meta.Session.flush()
+        if replay:
+            log.debug("Replaying the vote for Delegation: %s" % delegation)
+            Decision.replay_decisions(delegation)
+        return delegation
+    
+    
     def revoke(self, revoke_time=None):
         if revoke_time is None:
             revoke_time = datetime.utcnow()
         if self.revoke_time is None:
             self.revoke_time = revoke_time
-            
+    
+    delete = revoke
+    
+    
     def is_revoked(self, at_time=None):
         if at_time is None:
             at_time = datetime.utcnow()
         return (self.revoke_time is not None) and \
                self.revoke_time<=at_time
-        
-    def delete(self, delete_time=None):
-        return self.revoke(revoke_time=delete_time)
     
-    def is_deleted(self, at_time=None):
-        return self.is_revoked(at_time=at_time)
+    is_deleted = is_revoked
+    
     
     def _index_id(self):
         return self.id
+    
     
     def to_dict(self):
         from adhocracy.lib import url
@@ -129,7 +148,8 @@ class Delegation(object):
                     agent=self.agent.user_name,
                     agent_url=url.entity_url(self.agent),
                     scope=self.scope_id)
-        
+    
+    
     def __repr__(self):
         return u"<Delegation(%s, %s->%s, %s)>" % (
             self.id, 

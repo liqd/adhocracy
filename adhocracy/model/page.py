@@ -2,7 +2,7 @@ from datetime import datetime
 import logging
 from itertools import count
 
-from sqlalchemy import Table, Column, Boolean, Integer, Unicode, ForeignKey, DateTime, func, or_
+from sqlalchemy import Table, Column, Boolean, Integer, Unicode, ForeignKey, DateTime, func, or_, not_
 from sqlalchemy.orm import relation, backref
 
 import meta
@@ -26,6 +26,7 @@ class Page(Delegateable):
     
     FUNCTIONS = [DOCUMENT, DESCRIPTION, NORM]
     WITH_VARIANTS = [NORM] #[DESCRIPTION, NORM]
+    LISTED = [DOCUMENT, NORM]
     
     def __init__(self, instance, alias, creator, function):
         self.init_child(instance, alias, creator)
@@ -51,15 +52,30 @@ class Page(Delegateable):
             log.warn("find(%s): %s" % (id, e))
             return None
 
-
-    @classmethod
-    def all(cls, instance=None, include_deleted=False):
+    
+    @classmethod       
+    def _all_query(cls, instance=None, functions=[], exclude=[], 
+                   include_deleted=False, include_unlisted=False):
         q = meta.Session.query(Page)
         if not include_deleted:
             q = q.filter(or_(Page.delete_time==None,
                              Page.delete_time>datetime.utcnow()))
-        q = q.filter(Page.instance==instance)
-        return q.all()
+        if functions is not None:
+            q = q.filter(Page.function.in_(functions))
+        if instance is not None:
+            q = q.filter(Page.instance==instance)
+        q = q.filter(not_(Page.id.in_([p.id for p in exclude])))
+        return q 
+
+
+    @classmethod
+    def all(cls, **kwargs): 
+        return cls._all_query(**kwargs).all()
+        
+    
+    @classmethod 
+    def count(cls, **kwargs):
+        return cls._all_query(**kwargs).count()
     
     
     @classmethod
@@ -118,12 +134,19 @@ class Page(Delegateable):
                 return text
         return None
     
+        
+    def variant_at(self, variant, at_time):
+        for text in self.variant_history(variant):
+            if text.create_time <= at_time:
+                return text
+        return None
+            
     
     def variant_history(self, variant):
         head = self.variant_head(variant)
         if head:
             return head.history
-        return None
+        return []
         
         
     def variant_comments(self, variant):
@@ -224,6 +247,5 @@ class Page(Delegateable):
     
     
     def __repr__(self):
-        return u"<Page(%s, %s)>" % (self.id, 
-                    self.label.encode('ascii', 'ignore'))
+        return u"<Page(%s)>" % (self.id)
     

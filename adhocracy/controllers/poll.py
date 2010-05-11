@@ -59,7 +59,7 @@ class PollController(BaseController):
     @validate(schema=PollVoteForm(), form="bad_request", post_only=False, on_get=True)
     def vote(self, id, format='html'):
         c.poll = self._get_open_poll(id)
-        if c.poll.action != model.Poll.ADOPT:
+        if c.poll.action not in [model.Poll.ADOPT, model.Poll.SELECT]:
             abort(400, _("This is a rating poll, not an adoption poll."))
         require.poll.vote(c.poll)
         decision = democracy.Decision(c.user, c.poll)
@@ -72,6 +72,9 @@ class PollController(BaseController):
         if format == 'json':
             return render_json(dict(decision=decision,
                                     score=tally.score))
+        
+        if c.poll.action == model.Poll.SELECT:
+            redirect(h.entity_url(c.poll.selection))
         
         redirect(h.entity_url(c.poll.subject))
         

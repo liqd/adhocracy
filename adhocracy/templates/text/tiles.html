@@ -48,3 +48,62 @@
 </%def>
 
 
+<%def name="descbox(tile, this, other, options, field)">
+	%if options:
+		<form action="/page/diff" method="GET" id="diff_left_form">	
+		<input type="hidden" name="right" value="${other.id}" />
+	%endif
+	
+	<div class="infobox">
+		<ul>
+			%if this.title != other.title:
+				<li>${_("Title:")|n} <b><a href="${h.entity_url(this)|n}">${this.title}</a></b></li>
+			%endif
+			<li>
+			%if options:
+				${_("Variant:")|n}
+				<select name="left" id="diff_left_select">
+					%for text in options:
+						%if text == this:
+							<option value="${text.id}" selected="selected">${text.variant_title}</option>
+						%elif text == other:
+							<!-- nop -->
+						%else:
+							<option value="${text.id}">${text.variant_title}</option>
+						%endif
+					%endfor
+				</select>
+				&middot; 
+				<b><a href="${h.entity_url(this)|n}">${_("view")}</a></b>
+			%else:
+				%if c.variant == c.model.Text.HEAD:
+					<b><a href="${h.entity_url(this)|n}">${_("Status quo")}</a></b>
+				%else:
+					${_("Variant:")} 
+					%if field is not None:
+						<label for="variant" class="armhint">${_("Variant Name")}</label>
+						<input class="armlabel" name="variant" value="${field}"/>
+					%else:
+						<b><a href="${h.entity_url(this)|n}">${this.variant}</a></b>
+					%endif
+				%endif
+			%endif
+			&middot; <b><a href="${h.entity_url(this, member='history')|n}">${_("historic versions")}</a></b>
+			</li>
+			<li>
+				${_("%s by %s") % (h.relative_time(this.create_time), 
+													 h.user_link(this.user, scope=this.page))|n}
+			</li>
+		</ul>
+		%if options:
+			<noscript>
+				<input type="submit" value="${_("Compare")}" />
+			</noscript>
+		%endif
+	</div>
+	
+	%if options:
+		</form>
+	%endif
+</%def>
+

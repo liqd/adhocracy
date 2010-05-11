@@ -12,7 +12,7 @@
 	<input type="hidden" name="parent" value="${c.text.id}" />
 	<input type="hidden" name="_method" value="PUT" /> 
 	<div class="page_title">
-		<label for="title" class="armhint">${_("New Page")}</label>
+		<label for="title" class="armhint">${_("Page Title")}</label>
 		<input tabindex="1" class="title armlabel" name="title" value="${c.text.title}"/>
 	</div>
 	
@@ -32,7 +32,7 @@
 		</div>
 	</div>
 	<div class="mainbar">
-		${components.savebox("/page/%s" % c.page.id)}
+		${components.savebox(h.entity_url(c.text))}
 		${components.form_watch(c.page)}
 	</div>
 </form>

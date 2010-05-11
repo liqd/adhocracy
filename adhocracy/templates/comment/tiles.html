@@ -144,7 +144,8 @@
 			<br/>
 		%endif
 		
-		<textarea class="description" style="min-height: ${max(7, min(30, len(comment.latest.text)/50))}em !important;" name="text">${comment.latest.text}</textarea>
+		<textarea class="description" rows="${c.lib.text.field_rows(comment.latest.text)}" 	
+							name="text">${comment.latest.text}</textarea>
 		${components.formatting()}
 		${components.savebox(h.entity_url(comment.topic))}
 	</form>

@@ -1,74 +1,17 @@
 <%inherit file="/template.html" />
-<%namespace name="components" file="/components.html"/>
-<%namespace name="comment_tiles" file="/comment/tiles.html"/>
-<%namespace name="state" file="/poll/state.html"/>
 
 <%def name="title()">${_("Change request: %s") % c.right.title}</%def>
 
 <%def name="breadcrumbs()">${h.breadcrumbs(c.right)|n}</%def>
 
-${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right)}
-
-<%def name="descbox(this, other, options)">
-	%if options:
-		<form action="/page/diff" method="GET" id="diff_left_form">
-		<input type="hidden" name="right" value="${other.id}" />
-	%endif
-	
-	<div class="infobox">
-		<ul>
-			%if this.title != other.title:
-				<li>${_("Title:")|n} <b><a href="${h.entity_url(this)|n}">${this.title}</a></b></li>
-			%endif
-			<li>
-			%if options:
-				${_("Variant:")|n}
-				<select name="left" id="diff_left_select">
-					%for text in options:
-						%if text == this:
-							<option value="${text.id}" selected="selected">${text.variant_title}</option>
-						%elif text == other:
-							<!-- nop -->
-						%else:
-							<option value="${text.id}">${text.variant_title}</option>
-						%endif
-					%endfor
-				</select>
-				&middot; 
-				<b><a href="${h.entity_url(this)|n}">${_("view")}</a></b>
-			%else:
-				%if this.variant == c.model.Text.HEAD:
-					<b><a href="${h.entity_url(this)|n}">${_("Status quo")}</a></b>
-				%else:
-					${_("Variant:")} <b><a href="${h.entity_url(this)|n}">${this.variant}</a></b>
-				%endif
-			%endif
-			&middot; <b><a href="${h.entity_url(this, member='history')|n}">${_("historic versions")}</a></b>
-			</li>
-			<li>
-				${_("%s by %s") % (h.relative_time(this.create_time), 
-													 h.user_link(this.user, scope=this.page))|n}
-			</li>
-		</ul>
-		%if options:
-			<noscript>
-				<input type="submit" value="${_("Compare")}" />
-			</noscript>
-		%endif
-	</div>
-	
-	%if options:
-		</form>
-	%endif
-</%def>
-
+${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right, variant=c.variant)}
 
 <div class="lefthalf double">
-	${descbox(c.left, c.right, c.left_options)}
+	${tiles.text.descbox(c.left, c.right, options=c.left_options)}
 </div>
 
 <div class="righthalf double">
-	${descbox(c.right, c.left, None)}
+	${tiles.text.descbox(c.right, c.left)}
 </div>
 
 <div style="clear: both;"></div>

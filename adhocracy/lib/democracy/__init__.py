@@ -22,6 +22,8 @@ def init_democracy(with_db=True):
     
     queue.register(model.Vote, queue.INSERT, handle_vote)
     queue.register(model.Vote, queue.UPDATE, handle_vote)
+    queue.register(model.Delegation, queue.INSERT, update_tallies_on_delegation)
+    queue.register(model.Delegation, queue.UPDATE, update_tallies_on_delegation)
     #check_adoptions()
 
 
@@ -46,4 +48,9 @@ def check_adoptions():
             model.meta.Session.commit()
         # TODO check repeals
     
-        
+
+def update_tallies_on_delegation(delegation):
+    for poll in model.Poll.within_scope(delegation.scope):
+        tally = model.Tally.create_from_poll(poll)
+        model.meta.Session.commit()
+        log.debug("Tallied %s: %s" % (poll, tally))

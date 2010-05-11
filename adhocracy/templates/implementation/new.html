@@ -4,15 +4,21 @@
 <%def name="title()">${_("Implementation: %s") % c.proposal.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("Extend implementation")}
+	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("New change request")}
 </%def>
 
 ${tiles.proposal.header(c.proposal, active='implementation')}
 
-OPTIONS:
-<ol>
-	<li>Include an existing variant of a norm.</li>
-	<li>Include a new variant of a norm.</li>
-	<li>Propose a new norm.</li>
-</ol>
+<h3>I want to modify, extend or abolish an existing position or norm.</h3>
+<form name="create_selection" class="inplace" method="POST" 
+      action="${h.entity_url(c.proposal, member='implementation')}">
+	${tiles.page.select_page(functions=[c.model.Page.NORM], exclude=[s.page for s in c.proposal.selections if not s.is_deleted()])}
+	
+	<input type="submit" value="ADD" />
+	
+</form>
+
+<h3>I want to propose the creation of a new position or norm.</h3>
+
+Go figure. 
 

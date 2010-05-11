@@ -16,6 +16,8 @@ class _can(object):
     import page
     import instance
     import watch
+    import norm
+    import selection
     
 can = _can()
 

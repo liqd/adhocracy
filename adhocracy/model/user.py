@@ -310,18 +310,6 @@ class User(object):
         if not self._has_permission('vote.cast'):
             return 0
         return self.delegation_node(scope).number_of_delegations() + 1
-    
-    
-    def delegate_to_user_in_scope(self, target_user, scope):
-        from adhocracy.lib.democracy import DelegationNode
-        return DelegationNode.create_delegation(from_user=self, to_user=target_user, scope=scope)
-    
-    
-    # REFACT: rename: orientation doesn't really ring a bell. decision seems better but isn't
-    def vote_on_poll(self, poll, position):
-        # REFACT: proposals don't automatically have a poll - this is dangeorus
-        from adhocracy.lib.democracy.decision import Decision
-        return Decision(self, poll).make(position)
         
     
     def position_on_poll(self, poll):

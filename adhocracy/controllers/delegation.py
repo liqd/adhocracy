@@ -65,17 +65,15 @@ class DelegationController(BaseController):
             h.flash(_("You have already delegated voting to %s in %s") % (agents[0].name, c.scope.label))
             return self.new()
         
-        delegation = c.user.delegate_to_user_in_scope(agents[0], c.scope)
+        delegation = model.Delegation.create(c.user, agents[0], c.scope, 
+                                             replay=self.form_result.get('replay') == 1)
         model.meta.Session.commit()
         
         event.emit(event.T_DELEGATION_CREATE, c.user, 
                    instance=c.instance, 
                    topics=[c.scope], scope=c.scope, 
-                   agent=agents[0])
+                   agent=agents[0], delegation=delegation)
         
-        if self.form_result.get('replay') == 1:
-            log.debug("Replaying the vote for Delegation: %s" % delegation)
-            democracy.Decision.replay_decisions(delegation)
         return ret_success(entity=delegation.scope, format=format)
     
         

@@ -1,0 +1,47 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_("Change request: %s") % c.text.title}</%def>
+
+<%def name="breadcrumbs()">${h.breadcrumbs(c.text)|n}</%def>
+
+<form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
+	${h.field_token()|n}
+	<input type="hidden" name="parent" value="${c.text.id}" />
+	<input type="hidden" name="_method" value="PUT" /> 
+	<div class="page_title">
+		<label for="title" class="armhint">${_("New Variant")}</label>
+		<input tabindex="1" class="title armlabel" name="title" value="${c.text.title}"/>
+	</div>
+	
+
+	<div class="lefthalf double">
+		${tiles.text.descbox(c.left, c.text)}
+	</div>
+
+	<div class="righthalf double">
+		${tiles.text.descbox(c.text, c.left, field=c.variant)}
+	</div>
+
+	<div style="clear: both;"></div>
+
+	<div class="lefthalf double">
+		${c.right_diff|n}
+	</div>
+
+	<div class="righthalf double">
+		<textarea tabindex="2" class="armlabel" rows="${c.text_rows}" name="text">${c.text.text}</textarea>
+	
+		${components.savebox(h.entity_url(c.text))}
+		${components.form_watch(c.page)}
+	</div>
+
+</form>
+
+<div style="clear: both;"></div>
+<br/>
+
+##<div class="mainbar">
+##	${tiles.text.comments(c.text)}
+##</div>
+

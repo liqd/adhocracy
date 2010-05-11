@@ -12,6 +12,11 @@ import adhocracy.forms as forms
 log = logging.getLogger(__name__)
 
 
+class ImplementationCreateForm(formencode.Schema):
+    allow_extra_fields = True
+    page = forms.ValidPage()
+
+
 class ImplementationController(BaseController):
     
     @RequireInstance
@@ -27,9 +32,10 @@ class ImplementationController(BaseController):
     def new(self, proposal_id, errors=None):
         c.proposal = get_entity_or_abort(model.Proposal, proposal_id)     
         require.proposal.show(c.proposal)
+        defaults = dict(request.params)
         c.proposal_tile = tiles.proposal.ProposalTile(c.proposal)
-        
-        return render("/implementation/new.html")
+        return htmlfill.render(render("/implementation/new.html"), defaults=defaults, 
+                               errors=errors, force_defaults=False)
     
     
     @RequireInstance
@@ -37,8 +43,17 @@ class ImplementationController(BaseController):
     def create(self, proposal_id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, proposal_id)     
         require.proposal.show(c.proposal)
+        try:
+            self.form_result = ImplementationCreateForm().to_python(request.params)
+        except Invalid, i:
+            return self.new(proposal_id, errors=i.unpack_errors())
         
+        selection = model.Selection.create(c.proposal, self.form_result.get('page'), 
+                                           c.user)
+        model.meta.Session.commit()
         # TODO implement
+        # TODO emit an event 
+        return redirect(h.entity_url(c.proposal, member='implementation'))
     
 
     def edit(self, proposal_id, id, errors={}):

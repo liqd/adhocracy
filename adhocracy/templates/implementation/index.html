@@ -21,7 +21,20 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 </div>
 
 <div class="mainbar">
-	List all implementation page variants. 
+	<ul>
+		%for selection in c.proposal.selections: 
+			<li>${h.page_link(selection.page)|n}
+				<ol>
+				%for (variant, poll) in selection.variant_polls:
+						<li>
+							<a href="${h.entity_url(selection.page.variant_head(variant))}">${variant}</a>
+							score: ${poll.tally.score} (<a href="${h.entity_url(poll, member='vote')}?position=1&${h.url_token()}&_method=POST">+</a>${poll.tally.num_for}/<a href="${h.entity_url(poll, member='vote')}?position=-1&${h.url_token()}&_method=POST">-</a>${poll.tally.num_against})
+						</li>
+				%endfor
+				</ol>
+			</li>
+		%endfor
+	</ul>
 	<br/><br/>
 	<a href="${h.entity_url(c.proposal, member='implementation/new')}">Include another norm.</a>
 </div>

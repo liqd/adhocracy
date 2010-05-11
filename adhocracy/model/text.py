@@ -58,12 +58,15 @@ class Text(object):
             else:
                 variant = Text.HEAD
         variant = title2alias(variant)
+        variant_is_new = False
+        if not variant in page.variants:
+            variant_is_new = True
         _text = Text(page, variant, user, title, text)
         if parent:
             _text.parent = parent
         meta.Session.add(_text)
         meta.Session.flush()
-        if not variant in page.variants:
+        if variant_is_new:
             page.establish_variant(variant, user)
         return _text
     
@@ -109,7 +112,7 @@ class Text(object):
     
     def to_dict(self):
         from adhocracy.lib import url
-        return dict(id=self.id,
+        d =    dict(id=self.id,
                     page_id=self.page.id,
                     url=url.entity_url(self),
                     create_time=self.create_time,
@@ -117,9 +120,12 @@ class Text(object):
                     variant=self.variant,
                     title=self.title,
                     user=self.user.user_name)
+        if self.parent:
+            d['parent'] = self.parent.id
+        return d
     
     
     def __repr__(self):
         return u"<Text(%s, %s, %s)>" % (self.id, self.variant, 
-                    self.title.encode('ascii', 'ignore'))
+                                        self.user.user_name)
     

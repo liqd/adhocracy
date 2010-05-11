@@ -73,6 +73,12 @@ def text_url(text, with_text=True, **kwargs):
     return _append_member_and_format(url, **kwargs)
 
 
+def selection_url(selection, **kwargs):
+    url = proposal_url(selection.proposal, member="implementation")
+    # TODO address specific selection
+    return _append_member_and_format(url, **kwargs)
+
+
 def tag_url(tag, instance=None, **kwargs):
     if instance is None:
         instance = c.instance
@@ -122,6 +128,8 @@ def entity_url(entity, **kwargs):
         return delegateable_url(entity, **kwargs)
     elif isinstance(entity, model.Poll):
         return poll_url(entity, **kwargs)
+    elif isinstance(entity, model.Selection):
+        return selection_url(entity, **kwargs)
     elif isinstance(entity, model.Comment):
         return comment_url(entity, **kwargs)
     elif isinstance(entity, model.Instance):
@@ -130,5 +138,5 @@ def entity_url(entity, **kwargs):
         return delegation_url(entity, **kwargs)
     elif isinstance(entity, model.Tag):
         return tag_url(entity, **kwargs)
-    raise UrlConstructionException()
+    raise UrlConstructionException(repr(entity))
 

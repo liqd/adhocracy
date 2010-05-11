@@ -2,10 +2,11 @@ from datetime import datetime
 import logging
 import simplejson as json
 
-from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func
+from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import reconstructor
 
 import meta
+import instance_filter as ifilter
 
 log = logging.getLogger(__name__)
 
@@ -32,6 +33,7 @@ class Selection(object):
         
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
+        from proposal import Proposal
         try:
             q = meta.Session.query(Selection)
             q = q.filter(Selection.id==id)
@@ -61,9 +63,17 @@ class Selection(object):
             
     
     @classmethod
+    def by_key(cls, key, **kwargs):
+        id = int(key.split(':', 1)[1].split(']', 1)[0])
+        print "ID", id
+        return cls.find(id, **kwargs)
+            
+    
+    @classmethod
     def create(cls, proposal, page, user):
         selection = Selection(page, proposal)
         meta.Session.add(selection)
+        page.parents.append(proposal)
         meta.Session.flush()
         for variant in page.variants: 
             selection.make_variant_poll(variant, user)
@@ -98,6 +108,30 @@ class Selection(object):
         if self._polls is None:
             self._polls = Poll.by_subjects(self.subjects)
         return self._polls
+        
+    
+    @property
+    def variant_polls(self):
+        pairs = []
+        for poll in self.polls:
+            for variant in self.page.variants:
+                if self.variant_key(variant) == poll.subject:
+                    pairs.append((variant, poll))
+        return sorted(pairs, key=lambda (k, v): v.tally.score, reverse=True)
+    
+    
+    @property
+    def selected(self):
+        from text import Text
+        variant_polls = self.variant_polls
+        if not len(variant_polls):
+            return Text.HEAD
+        sel_var, sel_poll = variant_polls[0]
+        if len(variant_polls) > 1:
+            next_var, next_poll = variant_polls[1]
+            if sel_poll.tally.score == next_poll.tally.score:
+                return None
+        return sel_var
     
     
     def to_dict(self):
@@ -122,6 +156,8 @@ class Selection(object):
             delete_time = datetime.utcnow()
         if self.delete_time is None:
             self.delete_time = delete_time
+        for poll in self.polls:
+            poll.end(delete_time)
     
     
     def is_deleted(self, at_time=None):

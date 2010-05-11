@@ -1,11 +1,11 @@
-import cgi
+import cgi, math
 from datetime import datetime
 
 from pylons.i18n import _
 from formencode import foreach, Invalid
 
 from adhocracy.lib.base import *
-import adhocracy.lib.text as text
+import adhocracy.lib.text as libtext
 import adhocracy.forms as forms
 from adhocracy.lib.tiles.proposal_tiles import ProposalTile
 
@@ -18,11 +18,13 @@ class PageCreateForm(formencode.Schema):
     title = validators.String(max=255, min=4, not_empty=True)
     text = validators.String(max=20000, min=4, not_empty=True)
     function = forms.ValidPageFunction()
+    parent = forms.ValidPage(if_missing=None, if_empty=None, not_empty=False)
+    
     
 class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
     title = validators.String(max=255, min=4, not_empty=True)
-    variant = forms.VariantName()
+    variant = forms.VariantName(not_empty=False, if_missing=model.Text.HEAD, if_empty=model.Text.HEAD)
     text = validators.String(max=20000, min=4, not_empty=True)
     parent = forms.ValidText()
 
@@ -44,7 +46,7 @@ class PageController(BaseController):
     @validate(schema=PageFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
         require.page.index()
-        pages = model.Page.all(instance=c.instance)
+        pages = model.Page.all(instance=c.instance, functions=model.Page.LISTED)
         c.pages_pager = pager.pages(pages)
         
         if format == 'json':
@@ -68,17 +70,29 @@ class PageController(BaseController):
         page = model.Page.create(c.instance, self.form_result.get("title"), 
                                  self.form_result.get("text"), c.user, 
                                  function=self.form_result.get("function"))
+        
+        if self.form_result.get("parent") is not None:
+            page.parents.append(self.form_result.get("parent"))
+        
         model.meta.Session.commit()
         watchlist.check_watch(page)
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance, 
-                   topics=[page], page=page, text=page.head)
+                   topics=[page], page=page, rev=page.head)
         redirect(h.entity_url(page))
 
 
     @RequireInstance
     def edit(self, id, variant=None, text=None):
-        c.page, c.text = self._get_page_and_text(id, variant, text)
-        require.page.edit(c.page)
+        c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
+        require.page.variant_edit(c.page, c.variant)
+        if c.page.has_variants and c.variant != model.Text.HEAD:
+            require.norm.edit(c.page, variant)
+            c.left = c.page.head
+            right_html = c.text.render()
+            left_html = c.left.render()
+            c.right_diff = libtext.html_diff(left_html, right_html)
+            c.text_rows = libtext.field_rows(c.text.text)
+            return render('/page/diff_edit.html')
         return render('/page/edit.html')
     
     
@@ -86,32 +100,34 @@ class PageController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=PageUpdateForm(), form='edit', post_only=False, on_get=True)
     def update(self, id, variant=None, text=None, format='html'):
-        c.page, c.text = self._get_page_and_text(id, variant, text)
-        require.page.edit(c.page)
+        c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
+        c.variant = self.form_result.get("variant")
+        require.page.variant_edit(c.page, c.variant)
+        
         parent = self.form_result.get("parent")
         if parent.page != c.page:
             return ret_abort(_("You're trying to update to a text which is not part of this pages history"),
                              code=400, format=format)
-        variant = self.form_result.get("variant")
-        if not c.page.has_variants:
-            variant = model.Text.HEAD
+        
         text = model.Text.create(c.page, 
-                      variant, c.user, 
+                      c.variant, c.user, 
                       self.form_result.get("title"), 
                       self.form_result.get("text"),
                       parent=parent)
         model.meta.Session.commit()
         watchlist.check_watch(c.page)
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance, 
-                   topics=[c.page], page=c.page, text=text)
+                   topics=[c.page], page=c.page, rev=text)
         redirect(h.entity_url(text))
     
     
     @RequireInstance
     def show(self, id, variant=None, text=None, format='html'):
-        c.page, c.text = self._get_page_and_text(id, variant, text)
+        c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
-        if c.text.variant != model.Text.HEAD:
+        if c.text.variant != c.variant:
+            abort(404, _("The variant %s does not exist!") % c.variant)
+        if c.variant != model.Text.HEAD:
             options = [c.page.variant_head(v) for v in c.page.variants]
             return self._differ(c.page.head, c.text, options=options)
         #redirect(h.entity_url(c.text))
@@ -120,8 +136,8 @@ class PageController(BaseController):
         
     
     @RequireInstance
-    def history(self, id, variant=None, text=None, format='html'):
-        c.page, c.text = self._get_page_and_text(id, variant, text)
+    def history(self, id, variant=model.Text.HEAD, text=None, format='html'):
+        c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
         c.texts_pager = NamedPager('texts', c.text.history, 
                                    tiles.text.history_row, count=10, #list_item,
@@ -156,7 +172,7 @@ class PageController(BaseController):
         left_html = left.render()
         #c.left_diff = text.html_diff(right_html, left_html)
         #c.left_diff = text.html_diff(right_html, left_html)
-        c.right_diff = text.html_diff(left_html, right_html)
+        c.right_diff = libtext.html_diff(left_html, right_html)
         c.tile = tiles.page.PageTile(c.right.page)
         return render("/page/diff.html")
         
@@ -189,11 +205,14 @@ class PageController(BaseController):
             _text = get_entity_or_abort(model.Text, text)
             if _text.page != page or (variant and _text.variant != variant):
                 abort(404, _("Invalid text ID %s for this page/variant!"))
+            variant = _text.variant
         elif variant is not None:
             _text = page.variant_head(variant)
             if _text is None:
-                abort(404, _("There is no variant %s of %s") % (variant, page.title))
-        return (page, _text)
+                _text = page.head
+        else: 
+            variant = _text.variant
+        return (page, _text, variant)
     
     
     def _common_metadata(self, page):

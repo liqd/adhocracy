@@ -112,7 +112,11 @@ class UserController(BaseController):
         libmail.send_activation_link(user)
         
         if c.instance:
-            session['came_from'] = "/instance/%s/join?%s" % (c.instance.key, h.url_token())
+            membership = model.Membership(user, c.instance, 
+                                          c.instance.default_group)
+            model.meta.Session.expunge(membership)
+            model.meta.Session.add(membership)
+            model.meta.Session.commit()
         redirect("/perform_login?%s" % urllib.urlencode({
                  'login': self.form_result.get("user_name").encode('utf-8'),
                  'password': self.form_result.get("password").encode('utf-8')

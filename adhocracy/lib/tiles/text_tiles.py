@@ -63,3 +63,8 @@ def full(text):
 def comments(text):
     return render_tile('/text/tiles.html', 'comments', 
                        TextTile(text), text=text)
+                       
+def descbox(this, other, options=None, field=None):
+    return render_tile('/text/tiles.html', 'descbox', TextTile(this),
+                       this=this, other=other, options=options, field=field)
+                       

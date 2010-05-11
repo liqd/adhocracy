@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from sqlalchemy import Table, Column, Integer, Unicode, UnicodeText, ForeignKey, DateTime, func
+from sqlalchemy import Table, Column, Integer, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import reconstructor
 
 import meta
@@ -42,6 +42,7 @@ class Poll(object):
         self._subject_entity = None
         self._tally = None
         self._stable = {}
+        self._selection = None
         self.subject = subject
     
     
@@ -50,6 +51,7 @@ class Poll(object):
         self._subject_entity = None
         self._tally = None
         self._stable = {}
+        self._selection = None
     
     
     def _get_subject(self):
@@ -64,10 +66,20 @@ class Poll(object):
         self._subject_entity = subject
         self._subject = refs.to_ref(subject)
     
+    
     subject = property(_get_subject, _set_subject)
     
     
-    def _get_tally(self):
+    @property
+    def selection(self):
+        if self._selection is None:
+            from selection import Selection
+            self._selection = Selection.by_key(self._subject)
+        return self._selection
+    
+    
+    @property
+    def tally(self):
         if self._tally is None:
             from tally import Tally
             q = self.tallies
@@ -78,8 +90,6 @@ class Poll(object):
                 _tally = Tally.create_from_poll(self)
             self._tally = _tally
         return self._tally
-        
-    tally = property(_get_tally)
     
     
     def can_end(self):
@@ -129,6 +139,7 @@ class Poll(object):
                 return False
         return True
         
+    
     def is_stable(self, at_time=None):
         if not at_time in self._stable:
             self._stable[at_time] = self.check_stable(at_time)
@@ -143,8 +154,9 @@ class Poll(object):
         poll = Poll(scope, user, action, subject=subject)
         meta.Session.add(poll)
         meta.Session.flush()
-        decision = Decision(user, poll)
-        decision.make(Vote.YES)
+        if with_vote:
+            decision = Decision(user, poll)
+            decision.make(Vote.YES)
         Tally.create_from_poll(poll)
         meta.Session.flush()
         return poll
@@ -169,7 +181,7 @@ class Poll(object):
             
             
     @classmethod
-    def by_subjects(cls, subjects, instance_filter=True, include_deleted=True):
+    def by_subjects(cls, subjects, include_deleted=True):
         from delegateable import Delegateable
         try:
             q = meta.Session.query(Poll)
@@ -177,13 +189,24 @@ class Poll(object):
             if not include_deleted:
                 q = q.filter(or_(Poll.end_time==None,
                                  Poll.end_time>datetime.utcnow()))
-            if ifilter.has_instance() and instance_filter and poll:
-                q = q.join(Delegateable)
-                q = q.filter(Delegateable.instance == ifilter.get_instance())
             return q.all()
         except Exception, e:
-            log.warn("by_subjects(%s): %s" % (id, e))
-            return None
+            log.exception("by_subjects(%s): %s" % (subjects, e), e)
+            return []
+    
+    
+    @classmethod
+    def within_scope(cls, scope):
+        def _crawl(scope):
+            l = [scope]
+            [l.extend(_crawl(c)) for c in scope.children]
+            return l  
+        scope_ids = [s.id for s in _crawl(scope)]
+        q = meta.Session.query(Poll)
+        q = q.filter(Poll.scope_id.in_(scope_ids))
+        q = q.filter(or_(Poll.end_time==None,
+                         Poll.end_time>datetime.utcnow()))
+        return q.all()
     
     
     def to_dict(self):

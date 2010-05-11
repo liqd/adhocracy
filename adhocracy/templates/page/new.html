@@ -21,6 +21,15 @@
 	<div class="mainbar">
 		<textarea tabindex="2" class="description armlabel" name="text"></textarea>
 	</div>
+	
+	<div class="sidebar">
+		<div class="infobox">
+			${_("...")}
+		</div>
+	</div>
+	<div class="mainbar">
+		${tiles.page.select_page(field_name="parent", functions=c.model.Page.FUNCTIONS)}
+	</div>
 
 	<div style="clear:both;"></div>
 	<div class="sidebar">

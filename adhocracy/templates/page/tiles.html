@@ -9,18 +9,32 @@
 </%def>
 
 
+<%def name="select_page(tile, field_name, exclude, functions, list_limit)">
+	%if list_limit is not None and c.model.Page.count(instance=c.instance, exclude=exclude, functions=functions) > list_limit: 
+		<input name="${field_name}" />
+	%else:
+		<select name="${field_name}"> 
+		%for page in c.model.Page.all(instance=c.instance, exclude=exclude, functions=functions):
+			<option value="${page.label}">${page.title}</option>
+		%endfor
+		</select>
+	%endif 
+</%def>
+
+
+
 <%def name="inline(tile, page, text)">
 	${tiles.text.full(text)}
 </%def>
 
-<%def name="header(tile, page, active, text)">
+<%def name="header(tile, page, active, text, variant)">
 	<div class="top_actions title">
 		%if can.delegation.create():
 			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
 			    href="/delegation/new?scope=${page.id}">${_("delegate")}</a>
 		%endif
 		
-		%if can.page.edit(page):
+		%if can.page.variant_edit(page, variant):
 			<a class="button title edit" 
 				href="${h.entity_url(text, member='edit')}">${_("edit")}</a>
 		%endif
@@ -43,4 +57,5 @@
 	%endif
 	</h1>
 </%def>
+
 

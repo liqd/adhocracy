@@ -141,6 +141,7 @@ class Decision(object):
         """
         return not self.result == None
     
+    
     def is_self_decided(self):
         """
         Determine if a given decision was made by the user him-/herself. 
@@ -150,8 +151,10 @@ class Decision(object):
         relevant = self.relevant_votes
         return len(relevant) == 1 and relevant[0].delegation == None
     
+    
     def __repr__(self):
         return "<Decision(%s,%s)>" % (self.user.user_name, self.poll.id)
+    
     
     def without_vote(self, vote):
         """
@@ -165,6 +168,7 @@ class Decision(object):
             return Decision(self.user, self.poll, 
                             at_time=self.at_time, votes=votes)   
     
+    
     def to_dict(self):
         d = dict(user=self.user.user_name,
                  poll=self.poll.id,
@@ -174,6 +178,7 @@ class Decision(object):
             d['result'] = self.result
         d['delegations'] = map(lambda d: d.id, self.delegations)
         return d        
+    
     
     @classmethod
     def for_user(cls, user, instance, at_time=None):  # FUUUBARD 
@@ -193,6 +198,7 @@ class Decision(object):
             if not instance or poll.scope.instance == instance:
                 yield cls(user, poll, at_time=at_time)
     
+    
     @classmethod
     def for_poll(cls, poll, at_time=None):
         """
@@ -206,6 +212,7 @@ class Decision(object):
         if at_time:
             query = query.filter(Vote.create_time<=at_time)
         return [Decision(u, poll, at_time=at_time) for u in query]
+    
     
     @classmethod
     def average_decisions(cls, instance):
@@ -232,6 +239,7 @@ class Decision(object):
             return int(max(2, math.ceil(avg)))
         return avg_decisions(instance)
     
+    
     @classmethod
     def replay_decisions(cls, delegation):
         """
@@ -242,16 +250,12 @@ class Decision(object):
         
         :param delegation: The delegation that is newly created. 
         """
-        votes = []
-        for decision in cls.for_user(delegation.agent, delegation.scope.instance, 
-                                     at_time=delegation.create_time):
-            #log.debug("RP: Decision %s" % decision)
-            if delegation.is_match(decision.poll.scope):
-                if not decision.poll.end_time: 
-                    log.debug("RP: Making %s" % decision)
-                    principal_dec = Decision(delegation.principal, decision.poll)
-                    votes += principal_dec.make(decision.result, _edge=delegation)
-        return votes
+        for poll in Poll.within_scope(delegation.scope): 
+            agent_decision = Decision(delegation.agent, poll) 
+            if agent_decision.is_decided(): 
+                principal_decision = Decision(delegation.principal, poll)
+                principal_decision.make(agent_decision.result, _edge=delegation)
+                log.debug("RP: Making %s" % principal_decision)
     
     
 
