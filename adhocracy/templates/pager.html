@@ -28,7 +28,7 @@
 			<a href="${pager.serialize(page=pager.page-1)}">&laquo; ${_("previous")}</a>
 			%endif
 		</div>
-		%for i in xrange(1, pager.pages):
+		%for i in xrange(1, pager.pages+1):
 			%if i != pager.page:
 				<a href="${pager.serialize(page=i)}">${i}</a>  
 			%else:

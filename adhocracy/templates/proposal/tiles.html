@@ -6,9 +6,9 @@
 		<div class="base" style="background-image: url(${h.proposal_icon(proposal, size=32)});">
 			<h3><a class="link" href="${h.entity_url(proposal)}">${proposal.label}</a></h3>
 			<!--span class="sparkline" title="${h.entity_url(proposal, member='activity', format='sline')}"></span><br/-->
-			%for (tag, count) in proposal.tags[:5]:
-				${h.tag_link(tag)|n}
-			%endfor
+			##%for (tag, count) in proposal.tags[:5]:
+			##	${h.tag_link(tag)|n}
+			##%endfor
 			<div class="meta noclear">				
 				%if proposal.is_adopt_polling():
 					${_("<b>%s</b> votes,") % len(proposal.adopt_poll.tally)|n}
