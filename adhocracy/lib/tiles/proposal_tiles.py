@@ -111,7 +111,7 @@ def row(proposal):
 def header(proposal, tile=None, active='goal'):
     if tile is None:
         tile = ProposalTile(proposal)
-    return render_tile('/proposal/tiles.html', 'header', tile, 
+    return render_tile('/proposal/tiles.html', 'header', tile,
                        proposal=proposal, active=active)
 
 

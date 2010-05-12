@@ -119,6 +119,16 @@ def proposal_link(proposal, icon=True, icon_size=16, link=True):
     return text
 
 
+def comments_sorted(comments, root=None, variant=None):
+    from adhocracy.lib.tiles.comment_tiles import CommentTile
+    comments = [c for c in comments if c.variant==variant and c.reply==root]
+    _comments = []
+    for comment in sorting.comment_order(comments):
+        tile = CommentTile(comment)
+        _comments.append((comment, tile))
+    return _comments
+
+
 def contains_delegations(user, delegateable, recurse=True):
     for delegation in user.agencies:
         if not delegation.revoke_time and (delegation.scope == delegateable or \

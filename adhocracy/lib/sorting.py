@@ -55,10 +55,13 @@ def comment_score(comments):
 def comment_order(comments):
     max_age = 84600 # 1 days
     def sorter(comment):
-        age = timedelta2seconds(datetime.utcnow() - comment.create_time)
-        freshness = max(1, math.log10(max(1, max_age - age)))
+        score = comment.poll.tally.score
+        freshness = 0
+        if score > -1:
+            age = timedelta2seconds(datetime.utcnow() - comment.create_time)
+            freshness = max(1, math.log10(max(1, max_age - age)))
         #print "FRESH", freshness, "COMM", repr(comment), "TALLY", comment.poll.tally.score, "CT", comment.create_time
-        return (freshness, comment.poll.tally.score, comment.create_time)
+        return (freshness, score, comment.create_time)
     return sorted(comments, key=lambda c: sorter(c), reverse=True)
 
 def dict_value_sorter(dict):

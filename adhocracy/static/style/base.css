@@ -1375,11 +1375,11 @@ a.button.inactive {
 	font-weight: bold;
 }
 
-.comment .pre .top_actions {
+.comment .top_actions {
     visibility: hidden;
 }
 
-.comment .base:hover .pre .top_actions {
+.comment .base:hover .top_actions {
     visibility: visible;
 }
 
@@ -1478,6 +1478,13 @@ a.button.inactive {
 .headrev .savebox .cancel {
 	display: none;
 }
+
+.show_low {
+    font-weight: bold;
+    display: none;
+}
+
+
 
 .link_discussion {
 	display: none;

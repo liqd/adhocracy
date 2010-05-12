@@ -19,6 +19,11 @@ class PageCreateForm(formencode.Schema):
     text = validators.String(max=20000, min=4, not_empty=True)
     function = forms.ValidPageFunction()
     parent = forms.ValidPage(if_missing=None, if_empty=None, not_empty=False)
+
+
+class PageEditForm(formencode.Schema):
+    allow_extra_fields = True
+    new_variant = validators.String(not_empty=False, if_missing=None, if_empty=None)
     
     
 class PageUpdateForm(formencode.Schema):
@@ -82,8 +87,20 @@ class PageController(BaseController):
 
 
     @RequireInstance
+    @validate(schema=PageEditForm(), form='edit', post_only=False, on_get=True)
     def edit(self, id, variant=None, text=None):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
+        
+        new_variant = self.form_result.get('new_variant')
+        if new_variant is not None:
+            variant = libtext.title2alias(new_variant)
+            if variant in c.page.variants:
+                for i in range(1, 100000):
+                    variant = libtext.title2alias(new_variant) + str(i)
+                    if not variant in c.page.variants:
+                        break
+            c.variant = variant
+        
         require.page.variant_edit(c.page, c.variant)
         if c.page.has_variants and c.variant != model.Text.HEAD:
             require.norm.edit(c.page, variant)

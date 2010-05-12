@@ -80,18 +80,15 @@ class CommentTile(BaseTile):
             return pos
             
         return _cached_position(c.user, self.comment)
-    
-    
-    def replies(self):
-        comments = sorting.comment_order(self.comment.replies)
-        for comment in comments:
-            tile = self.__class__(comment)
-            tile.__topic_outbound = self.__topic_outbound
-            yield (comment, tile)
 
 
 def row(comment):
     return render_tile('/comment/tiles.html', 'row', CommentTile(comment), comment=comment)    
+
+
+def static_part(tile, comment):
+    return render_tile('/comment/tiles.html', 'static_part', tile, 
+                       comment=comment, user=c.user, cached=True)    
 
 
 def header(comment, tile=None, active='comment'):
@@ -101,8 +98,13 @@ def header(comment, tile=None, active='comment'):
                        comment=comment, active=active)
 
 
-def full(comment, recurse=True, collapse=False, link_discussion=False):
-    return render_tile('/comment/tiles.html', 'full', CommentTile(comment), 
-                       recurse=recurse, comment=comment, collapse=collapse, 
-                       link_discussion=link_discussion, cached=False)
+def list(topic, root=None, comments=None, variant=None, recurse=True):
+    if comments is None:
+        comments = topic.comments
+    return render_tile('/comment/tiles.html', 'list', tile=None, comments=comments, topic=topic, 
+                        variant=variant, root=root, recurse=recurse, cached=False)
 
+
+def show(comment, recurse=True):
+    return render_tile('/comment/tiles.html', 'full', CommentTile(comment), 
+                       comment=comment, comments=comment.topic.comments, recurse=recurse)

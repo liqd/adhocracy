@@ -23,29 +23,10 @@
 
 
 <%def name="full(tile, text)">
-	%if text.variant != c.model.Text.HEAD:
-		<div class="infobox">${_("Currently showing the %s variant") % text.variant}</div>
-	%endif
 	${text.render()|n}
-	${comments(tile, text)}
+	${tiles.comment.list(text.page, variant=text.variant)}
 </%def>
 
-<%def name="comments(tile, text)">
-	%if can.comment.create():
-		<div class="comment">
-			${comment_tiles.create_form(None, text.page, variant=text.variant)}
-		</div>
-	%endif 
-
-	%if not tile.comment_count:
-		<div class="infobox">
-			${_("No comments were made yet.")}
-		</div>
-	%endif
-	%for (reply, r_tile) in tile.comments():
-		${tiles.comment.full(reply, recurse=True)}
-	%endfor
-</%def>
 
 
 <%def name="descbox(tile, this, other, options, field)">

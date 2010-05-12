@@ -72,8 +72,7 @@ class PollTile(BaseTile):
 
 def booth(poll):
     return render_tile('/poll/tiles.html', 'booth', 
-                        PollTile(poll), poll=poll, 
-                        user=c.user, cached=poll.has_ended()) 
+                        PollTile(poll), poll=poll, user=c.user, cached=True) 
 
 
 def header(poll, active=''):

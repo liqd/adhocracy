@@ -187,6 +187,17 @@ $(document).ready(function() {
 
 	$(".comment .hide").show();
 	
+	/* Low-scoring comments */
+	$(".low_comments").hide();
+	$(".show_low").show();
+	
+	show_low_comments = function(id) {
+	   $("#low_link_" + id).hide();
+	   $("#low_" + id).show();
+	   return false;
+	}
+	
+	
 	/* Mark up the comment selected via a URL anchor (i.e. after editing and creation) */
 	anchor = document.location.hash;
 	if (anchor.length > 1) {
@@ -275,20 +286,6 @@ $(document).ready(function() {
 		});
 	});
 	
-	
-	/* Sparklines */
-	$(".sparkline").each(function(e) {
-	    var url = $(this).attr('title');
-	    var sparkline = this; 
-	    $.getJSON(url, function(data) {
-	        $(sparkline).sparkline(data.activity, 
-	                        {type: 'bar', 
-	                         barWidth: 5, 
-	                         barColor: '#999',
-	                         height: '10px'});
-	        $(sparkline).addClass('loaded');
-	    });
-	});
 	
 	fixIE7Rendering = function () {
            if ( ! $.browser.msie || $.browser.version > 7)

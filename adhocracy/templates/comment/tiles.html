@@ -26,7 +26,49 @@
 	</div>
 </%def>
 
-<%def name="full(tile, comment, recurse=True, collapse=True, link_discussion=False)">
+
+<%def name="list(tile, comments, topic, variant=None, root=None, recurse=True)">
+	<%
+	_comments = h.comments_sorted(comments, root=root, variant=variant)
+	%>
+
+	%if root is None:
+		%if can.comment.create():
+			<div class="comment">
+				${create_form(None, topic, variant=variant)}
+			</div>
+		%endif
+		%if not len(_comments):
+			<div class="infobox">
+				${_("No comments were made yet.")}
+			</div>
+		%endif
+	%endif
+	
+	<%
+	has_lows = False
+	root_id = root.id if root is not None else "all"
+	%>
+	%for comment, tile in _comments:
+		%if tile.score <= -1 and not has_lows:
+			<%
+			has_lows = True
+			%>
+			<a id="low_link_${root_id}" 
+				 class="show_low" onClick="return show_low_comments('${root_id}')" href="#">
+				${_("Show more replies...")}<br/><br/>
+			</a>
+			<div id="low_${root_id}" class="low_comments">
+		%endif
+		${full(tile, comment, comments, recurse)}
+	%endfor
+	%if has_lows:
+		</div>
+	%endif
+</%def>
+
+
+<%def name="full(tile, comment, comments, recurse)">
 	<%	
 	if not tile.show:
 		return
@@ -58,7 +100,7 @@
 			</div>
 			
 			<div class="base">
-			<div class="pre">
+			
 				<div class="top_actions comment">				
 					%if can.comment.edit(comment):
 						<a class="button edit" onClick="return comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit')}">${_("edit")}</a> 
@@ -68,49 +110,13 @@
 						<a class="button delete" href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a> 
 					%endif
 								
-					%if can.comment.reply(comment) and (recurse or link_discussion):
+					%if can.comment.reply(comment) and recurse:
 						<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1">${_("reply")}</a>
 					%endif 
-					
-					%if collapse:
-						<a class="button delete hide" onclick="return comment_hide(${comment.id})" href="#">-</a>
-						<a class="button add show" onclick="return comment_show(${comment.id})" href="#">+</a>
-					%endif
-										
-					%if link_discussion and tile.num_children:
-						<a class="button add reply" onclick="return comment_link_discussion(${comment.id})" href="/comment/${comment.id}">${_("discussion")} (${tile.num_children}) &raquo;</a>
-					%endif
 				</div>
 				
-				
-				%if comment.is_deleted():
-					${_("deleted %s") % h.relative_time(comment.delete_time)|n}
-				%else:
-					<b>${h.user_link(comment.creator, scope=comment.topic)|n}</b>
-					%if not comment.is_edited(): 
-						&middot; ${_("%s") % h.relative_time(comment.create_time)|n}
-					%else:
-						&middot;
-						%if comment.latest.user == comment.creator:
-							${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
-						%else:
-						 	${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
-								               			   h.user_link(comment.latest.user, scope=comment.topic))|n}
-						%endif 	
-					%endif
-					(${"%s &middot; " % _("editable") if comment.wiki else ''|n}<a href="${h.entity_url(comment, member='history')}">${_("history")}</a>)
-				%endif
-				
-				<a name="c${comment.id}">&nbsp;</a>
-			</div>
-			<div class="text hide_edit">
-				%if not comment.is_deleted():
-					${tile.text|n}
-				%else:
-					<span class="hint">${_("This comment has been deleted.")}</span>
-				%endif
-			</div>
-			
+				${tiles.comment.static_part(tile, comment)}
+
 			<div class="edit_form">
 				${self.edit_form(comment)}
 			</div>
@@ -119,11 +125,9 @@
 			</div>
 			</div>
 		</div>
-		%if recurse or link_discussion:
-			<div class="sub ${'link_discussion' if link_discussion else ''}">
-				%for r_comment, r_tile in tile.replies():
-					${self.full(r_tile, r_comment, collapse=collapse)}
-				%endfor
+		%if recurse:
+			<div class="sub">
+				${list(None, comments, comment.topic, variant=comment.variant, root=comment, recurse=recurse)}
 			</div>
 		%endif
 	</div>
@@ -134,7 +138,7 @@
 		${h.field_token()|n}
 		<input type="hidden" name="_method" value="PUT" />
 		%if not comment.textual:
-			${_("argumenting")}
+			${_("argumenting:")}
 			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == 1 else ''} /> 
 			${_("pro")}
 			<input type="radio" value="0" name="sentiment" ${'checked="checked"' if comment.latest.sentiment not in [-1, 1] else ''}  /> 
@@ -164,7 +168,7 @@
 		<input type="hidden" name="canonical" value="${canonical}" />
 		<div style="width: auto;">
 		%if not canonical:
-			${_("argumenting")}
+			${_("argumenting:")}
 			<% pos = topic.user_position(c.user) %>
 			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if pos == 1 else ''} /> ${_("pro")}
 			<input type="radio" value="0" name="sentiment" ${'checked="checked"' if pos not in [-1, 1] else ''}  /> ${_("neutral")}
@@ -184,6 +188,47 @@
 		</div>
 	</form>
 </%def>
+
+
+<%def name="static_part(tile, comment)">
+		<div class="pre">
+			%if comment.is_deleted():
+				${_("deleted %s") % h.relative_time(comment.delete_time)|n}
+			%else:
+				<b>${h.user_link(comment.creator, scope=comment.topic)|n}</b>
+				%if not comment.is_edited(): 
+					&middot; ${h.relative_time(comment.create_time)|n}
+				%else:
+					&middot;
+					%if comment.latest.user == comment.creator:
+						${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
+					%else:
+					 	${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
+							               			   h.user_link(comment.latest.user, scope=comment.topic))|n}
+					%endif 	
+				%endif
+				%if comment.wiki:
+					&middot; ${_("editable") if comment.wiki else ''}
+				%endif
+				%if len(comment.revisions) > 1:
+					&middot;
+					<a href="${h.entity_url(comment, member='history')}">${_("history")}</a>
+				%endif
+			%endif
+			
+			<a name="c${comment.id}">&nbsp;</a>
+		</div>
+		
+		<div class="text hide_edit">
+			%if not comment.is_deleted():
+				${tile.text|n}
+			%else:
+				<span class="hint">${_("This comment has been deleted.")}</span>
+			%endif
+		</div>
+
+</%def>
+
 
 <%def name="header(tile, comment, active)">
 	<div class="top_actions title">

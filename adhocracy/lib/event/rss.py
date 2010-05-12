@@ -6,10 +6,10 @@ from .. import text
 import formatting
 
 
-from webhelpers.feedgenerator import RssUserland091Feed
+from webhelpers.feedgenerator import Rss201rev2Feed as Feed
 
 def rss_feed(events, name, link, description):
-        rss = RssUserland091Feed(name, link.encode('utf-8'), 
+        rss = Feed(name, link.encode('utf-8'), 
                                  description)
         def event_item(event):
             description = event.text()

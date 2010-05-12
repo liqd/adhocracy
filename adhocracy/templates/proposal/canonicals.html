@@ -20,7 +20,7 @@ ${tiles.proposal.header(c.proposal, c.tile, active='implementation')}
 	%endif
 	
 	%for canonical in c.proposal.canonicals:
-		${tiles.comment.full(canonical, recurse=False, collapse=False, link_discussion=True)}
+		${tiles.comment.full(canonical, recurse=False, collapse=False)}
 	%endfor
 	
 	%if c.tile.can_create_canonical:
