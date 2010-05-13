@@ -49,9 +49,9 @@
 			</li>
 			<% tagn = tagn + 1 %>
 		%endfor
-		%if len(delegateable.tags) >= 5 or can.tag.create():
+		%if len(delegateable.tags) > 5 or can.tag.create():
 		<li class="showjs">	
-			%if len(delegateable.tags) >= 5:
+			%if len(delegateable.tags) > 5:
 				<span class="moreTagsLink">
 				<a href="#" onclick="return moreTags();">${_("show more")}</a> 
 				&middot;

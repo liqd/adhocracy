@@ -102,13 +102,14 @@ class PageController(BaseController):
             c.variant = variant
         
         require.page.variant_edit(c.page, c.variant)
+        c.text_rows = libtext.field_rows(c.text.text)
+        
         if c.page.has_variants and c.variant != model.Text.HEAD:
             require.norm.edit(c.page, variant)
             c.left = c.page.head
             right_html = c.text.render()
             left_html = c.left.render()
             c.right_diff = libtext.html_diff(left_html, right_html)
-            c.text_rows = libtext.field_rows(c.text.text)
             return render('/page/diff_edit.html')
         return render('/page/edit.html')
     

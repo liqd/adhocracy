@@ -111,6 +111,7 @@ class ProposalController(BaseController):
     def edit(self, id, errors={}):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.edit(c.proposal)
+        c.text_rows = text.field_rows(c.proposal.description.head.text)
         defaults = dict(request.params)
         if 'alternative' in request.params:
             c.alternatives = not_null(self.form_result.get('alternative'))
