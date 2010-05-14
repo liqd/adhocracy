@@ -21,25 +21,39 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 </div>
 
 <div class="mainbar">
-	<ul>
+	<div class="top_actions title">
+		%if can.selection.create(c.proposal):
+			<a class="button title add ttip" title="${_('Propose to change a norm through this proposal.')}" 
+			    href="${h.entity_url(c.proposal, member='implementation/new')}">${_("Include a norm")}</a>
+		%endif
+	</div>
+	<br/><br/>
+	
+	<div id="selections_table" class="table">
+		%if not len(c.proposal.selections):
+			<div class="infobox">
+				${_("Proposals are implemented by including changes towards new or existing norm text (such as a position, a bylaw or a law). Include a norm for creation or changing to commence discussing an implementation for this proposal.")} 
+			</div>
+		%endif
 		%for selection in c.proposal.selections: 
-			<li>${h.page_link(selection.page)|n}
+			<div class="tile">
+				<h3>${h.page_link(selection.page)|n}</h3>
 				<ol>
 				%for (variant, poll) in selection.variant_polls:
 						<li>
+							<a href="${h.entity_url(poll, member='vote')}?position=1&${h.url_token()}&_method=POST"><img src="/img/arrows/aup_a.png" /></a> 
+							
 							%if variant == c.model.Text.HEAD:
-								${_("do not modify the status quo")}
+								${_("status quo")}
 							%else:
 								<b><a href="${h.entity_url(selection.page.variant_head(variant))}">${variant}</a></b>
 							%endif
-							score: <a href="${h.entity_url(poll, member='vote')}?position=1&${h.url_token()}&_method=POST"><img src="/img/arrows/aup_a.png" /></a> <b>${poll.tally.score}</b> <a href="${h.entity_url(poll, member='vote')}?position=-1&${h.url_token()}&_method=POST"><img src="/img/arrows/adown_a.png" /></a>
+							// score: <b>${poll.tally.score}</b> <a href="${h.entity_url(poll, member='vote')}?position=-1&${h.url_token()}&_method=POST"><img src="/img/arrows/adown_a.png" /></a>
 						</li>
 				%endfor
-						<a href="#">${_("more variants")}</a> &middot; <a href="#">${_("propose a new variant...")}</a> 
+						<a href="#">${_("more variants")}</a> &middot; <a href="${h.entity_url(selection.page, member='edit')}?new_variant=${c.lib.text.title2alias(c.proposal.title)}">${_("propose a new variant...")}</a> 
 				</ol>
-			</li>
+			</div>
 		%endfor
-	</ul>
-	<br/><br/>
-	<a href="${h.entity_url(c.proposal, member='implementation/new')}">Include another norm.</a>
+	</div>
 </div>

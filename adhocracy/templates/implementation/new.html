@@ -20,5 +20,25 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 
 <h3>I want to propose the creation of a new position or norm.</h3>
 
-Go figure. 
-
+<form name="edit_page" class="inplace" method="POST" action="/">
+	${h.field_token()|n}
+	<input type="hidden" name="parent" value="" />
+	<input type="hidden" name="_method" value="PUT" /> 
+	<div class="page_title">
+		<label for="title" class="armhint">${_("Page Title")}</label>
+		<input tabindex="1" class="title armlabel" name="title" value=""/>
+	</div>
+	<div class="mainbar">
+		<textarea tabindex="2" class="description armlabel" rows="10" name="text"></textarea>
+	</div>
+	
+	<div style="clear:both;"></div>
+	<div class="sidebar">
+		<div class="infobox">
+			<a target="_new" href="/static/page_faq.html">${_("More help...")}</a>
+		</div>
+	</div>
+	<div class="mainbar">
+		${components.savebox("/")}
+	</div>
+</form>
