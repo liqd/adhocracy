@@ -1,7 +1,10 @@
 import urllib
+import re
 from webhelpers.text import truncate
 from unicodedata import normalize, category
 from adhocracy.forms import FORBIDDEN_NAMES
+
+INVALID_CHARS = re.compile(u"[\?#\&]", re.U)
 
 def chr_filter(ch): 
     """ Filter by unicode character category. """
@@ -16,6 +19,7 @@ def chr_filter(ch):
 def title2alias(title, pseudo='pg'):
     #title = urllib.unquote(title)
     title = escape(title)
+    title = INVALID_CHARS.sub(u"", title)
     if not len(title) or title.lower() in FORBIDDEN_NAMES:
         return pseudo
     try:

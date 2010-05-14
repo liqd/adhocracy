@@ -137,7 +137,8 @@
 				</ul>
 			</span>
 			</li>
-			<li><a href="${h.entity_url(proposal, member='contributors')}" class="contributors">${_("Working Group")} (${len(proposal.contributors())})</a></li>
+			<li><a href="${h.entity_url(proposal, member='contributors')}" class="contributors">${_("Contributors")} (${len(proposal.contributors())})</a></li>
+			<li><a href="${h.entity_url(proposal.description, member='history')}" class="history">${_("History")}</a></li>
 		</ul>
 		
 		%if proposal.adopted:

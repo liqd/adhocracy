@@ -61,7 +61,7 @@ def page_url(page, in_context=True, member=None, **kwargs):
         return proposal_url(page.proposal, **kwargs)
     label = urllib.quote(page.label.encode('utf-8'))
     return _common_url_builder(page.instance, 'page', 
-                               label, **kwargs)
+                               label, member=member, **kwargs)
 
 
 def text_url(text, with_text=True, **kwargs):
