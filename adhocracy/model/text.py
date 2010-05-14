@@ -102,8 +102,15 @@ class Text(object):
     
     
     def render(self):
+        if not self.has_text:
+            return ""
         from adhocracy.lib import text
         return text.render(self.text)
+    
+    
+    @property
+    def has_text(self):
+        return self.text != None
     
     
     def _index_id(self):

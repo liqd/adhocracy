@@ -23,7 +23,13 @@
 
 
 <%def name="full(tile, text)">
-	${text.render()|n}
+	%if text.has_text:
+		${text.render()|n}
+	%else:
+		<div class="infobox">
+			${_("This page has no text yet.")}
+		</div>
+	%endif
 	${tiles.comment.list(text.page, variant=text.variant)}
 </%def>
 

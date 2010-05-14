@@ -8,15 +8,17 @@
 
 <form name="create_page" class="inplace" method="POST" action="/page">
 	${h.field_token()|n}
+	<input type="hidden" value="${c.function}" name="function" />
+	%if c.proposal:
+		<input type="hidden" value="${c.proposal}" name="proposal" />
+	%endif
 	<div class="page_title">
 		<label for="title" class="armhint">${_("New page")}</label>
 		<input tabindex="1" class="title armlabel" name="title" value="${c.title}"/>
 	</div>
 
 	<div class="sidebar">
-		%for fun in c.model.Page.FUNCTIONS:
-			<input type="radio" value="${fun}" name="function" /> ${fun}<br/>
-		%endfor
+		&nbsp;
 	</div>
 	<div class="mainbar">
 		<textarea tabindex="2" class="description armlabel" name="text"></textarea>
@@ -28,6 +30,7 @@
 		</div>
 	</div>
 	<div class="mainbar">
+		<label for="parent">${_("Parent page:")}</label>
 		${tiles.page.select_page(field_name="parent", functions=c.model.Page.FUNCTIONS)}
 	</div>
 

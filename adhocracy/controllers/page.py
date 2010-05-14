@@ -19,6 +19,7 @@ class PageCreateForm(formencode.Schema):
     text = validators.String(max=20000, min=4, not_empty=True)
     function = forms.ValidPageFunction()
     parent = forms.ValidPage(if_missing=None, if_empty=None, not_empty=False)
+    proposal = forms.ValidProposal(not_empty=False, if_empty=None, if_missing=None)
 
 
 class PageEditForm(formencode.Schema):
@@ -64,6 +65,8 @@ class PageController(BaseController):
     def new(self, errors=None):
         require.page.create()
         c.title = request.params.get('title', None)
+        c.proposal = request.params.get("proposal")
+        c.function = request.params.get("function", model.Page.DOCUMENT)
         return render("/page/new.html")
     
     
@@ -72,18 +75,47 @@ class PageController(BaseController):
     @validate(schema=PageCreateForm(), form='new', post_only=False, on_get=True)
     def create(self, format='html'):
         require.page.create()
+        
+        # a proposal that this norm should be integrated with 
+        proposal = self.form_result.get("proposal")
+        _function = self.form_result.get("function")
+        _text = self.form_result.get("text")
+        
+        # snub out invalid page types 
+        if _function not in [model.Page.DOCUMENT, model.Page.NORM]:
+            _function = model.Page.DOCUMENT
+        
+        if _function == model.Page.NORM:
+            # if a proposal is specified, create a stub:
+            if proposal is not None:
+                _text = None
+            
+            # else, if the user cannot create norms:
+            if proposal is None and not can.norm.create():
+                _function = model.Page.DOCUMENT
+                
         page = model.Page.create(c.instance, self.form_result.get("title"), 
-                                 self.form_result.get("text"), c.user, 
-                                 function=self.form_result.get("function"))
+                                 _text, c.user, function=_function)
         
         if self.form_result.get("parent") is not None:
             page.parents.append(self.form_result.get("parent"))
+        
+        target = page # by default, redirect to the page
+        if proposal is not None and _function == model.Page.NORM:
+            variant = libtext.title2alias(proposal.title)
+            text = model.Text.create(page, variant, c.user, 
+                                     self.form_result.get("title"), 
+                                     self.form_result.get("text"),
+                                     parent=page.head)
+            # if a selection was created, go there instead:
+            target = model.Selection.create(proposal, page, c.user)
         
         model.meta.Session.commit()
         watchlist.check_watch(page)
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance, 
                    topics=[page], page=page, rev=page.head)
-        redirect(h.entity_url(page))
+        
+        redirect(h.entity_url(target))
 
 
     @RequireInstance
