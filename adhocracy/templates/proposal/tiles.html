@@ -72,6 +72,11 @@
 			    href="/delegation/new?scope=${proposal.id}">${_("delegate")}</a>
 		%endif
 		
+		%if can.selection.create(proposal):
+			<a class="button title add ttip" title="${_('Propose to change a norm through this proposal.')}" 
+				    href="${h.entity_url(c.proposal, member='implementation/new')}">${_("amend")}</a>
+		%endif
+		
 		%if can.proposal.adopt(proposal):
 			<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
 				href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
@@ -93,7 +98,7 @@
 	
 	<div style="clear: both;"></div>
 	%if proposal.rate_poll:
-	<span class="${tile.position}"  id="tile_p${proposal.id}">
+	<span class="${h.poll_position_css(proposal.rate_poll)}"  id="tile_p${proposal.id}">
 		<div class="proposal rate">
 			%if can.proposal.rate(proposal):
 				<a class="up icon otip" title="${_("Support this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=1&${h.url_token()}" 

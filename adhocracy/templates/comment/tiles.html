@@ -78,7 +78,7 @@
 				        ${'canonical' if comment.canonical else ''} 
 				        ${'pro' if comment.latest.sentiment == c.model.Comment.SENT_PRO else ''} 
    				      ${'con' if comment.latest.sentiment == c.model.Comment.SENT_CON else ''} 
-				        ${tile.position}" id="tile_c${comment.id}">
+				        ${h.poll_position_css(comment.poll)}" id="tile_c${comment.id}">
 			<div class="logo rate">
 				%if can.comment.rate(comment):
 					<a class="up icon otip" title="${_("Support this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=1&${h.url_token()}" 

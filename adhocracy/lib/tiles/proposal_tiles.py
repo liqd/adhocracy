@@ -41,23 +41,6 @@ class ProposalTile(DelegateableTile):
     poll = property(_poll)
     
     
-    def _position(self):
-        @cache.memoize('proposal_position')
-        def _cached_position(user, proposal):
-            if not user:
-                return None
-            pos = democracy.Decision(user, proposal.rate_poll).result
-            if (pos and pos == 1):
-                return "upvoted"
-            elif pos and pos == -1:
-                return "downvoted"
-            return pos
-            
-        return _cached_position(c.user, self.proposal)
-    
-    position = property(_position)
-    
-    
     def _has_overridden(self):
         if self.decision.is_self_decided():
             return True

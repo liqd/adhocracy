@@ -9,9 +9,11 @@
 	<div class="savebox">
 		<button type="submit"><!--img src="/img/icons/save.png"--> 
 			${_("Save")}</button>
-		<span class="cancel">
-			${_("or")} <a href="${cancel_url}">${_("cancel")}</a>
-		</span>
+		%if cancel_url is not None:
+			<span class="cancel">
+				${_("or")} <a href="${cancel_url}">${_("cancel")}</a>
+			</span>
+		%endif
 	</div>
 </%def>
 

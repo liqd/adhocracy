@@ -66,21 +66,6 @@ class CommentTile(BaseTile):
         return self.comment.poll.tally.score
     
     
-    @property
-    def position(self):
-        @cache.memoize('comment_position')
-        def _cached_position(user, comment):
-            if not user:
-                return None
-            pos = democracy.Decision(user, comment.poll).result
-            if (pos and pos == 1):
-                return "upvoted"
-            elif pos and pos == -1:
-                return "downvoted"
-            return pos
-            
-        return _cached_position(c.user, self.comment)
-
 
 def row(comment):
     return render_tile('/comment/tiles.html', 'row', CommentTile(comment), comment=comment)    

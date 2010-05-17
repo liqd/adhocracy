@@ -148,6 +148,21 @@ def context_instances(count=5):
     return sorting.instance_label(ins)
 
 
+def poll_position_css(poll):
+    @cache.memoize('poll_position_css')
+    def _cached(user, poll):
+        pos = user.position_on_poll(poll)
+        if pos == 1:
+            return "upvoted"
+        elif pos == -1:
+            return "downvoted"
+        else:
+            return ""
+    if c.user:
+        return _cached(c.user, poll)
+    return u""
+        
+
 def gravatar_url(user, size=32):
     id = user.email if user.email else user.user_name
     gravatar_url = "http://www.gravatar.com/avatar.php?"
