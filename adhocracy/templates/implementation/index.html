@@ -40,7 +40,7 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 				<h3>${h.page_link(selection.page)|n}</h3>
 				%if selection.selected is None:
 					<div class="infobox">
-						${_("There is a tie between two variants, thus no variant is included at the moment.")}
+						${_("There is a tie between variants, thus none is included at the moment.")}
 					</div>
 				%elif selection.selected == c.model.Text.HEAD:
 					<div class="infobox">

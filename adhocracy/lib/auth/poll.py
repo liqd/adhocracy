@@ -18,4 +18,6 @@ def delete(p):
     return has('poll.delete') and show(p) and p.can_end()
 
 def vote(p):
+    if p.action == p.SELECT and not p.selection.proposal.is_mutable():
+        return False
     return show(p) and user.vote() and not p.has_ended()
