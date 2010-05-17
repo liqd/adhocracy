@@ -1539,6 +1539,26 @@ a.button.inactive {
 	margin-top: -0.1em;
 }
 
+.selection .rate {
+   margin-left: -25px;
+}
+
+.selection ol li {
+    clear: left;
+}
+
+.selection ol {
+    padding-left: 10px;
+    list-style-type: none;
+}
+
+.selection .variant_header {
+    border: 1px solid #aaa;
+    background-color: #ddd;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
 .rate a.icon {
 	background-repeat: no-repeat;
 	display: block;

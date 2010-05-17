@@ -36,7 +36,7 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 			</div>
 		%endif
 		%for selection in c.proposal.selections: 
-			<div class="tile">
+			<div class="tile selection">
 				<h3>${h.page_link(selection.page)|n}</h3>
 				%if selection.selected is None:
 					<div class="infobox">
@@ -51,28 +51,59 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 				%for (variant, poll) in selection.variant_polls:
 					<%
 					text = selection.page.variant_head(variant)
+					position = 0
+					if c.user:
+					    position = c.user.position_on_poll(poll)
 					%>
-						<li>
-							<a href="${h.entity_url(poll, member='vote')}?position=1&${h.url_token()}&_method=POST"><img src="/img/arrows/aup_a.png" /></a> 
-							
+						<li id="poll_c${poll.id}" class="${'upvoted' if position == 1 else ''} ${'downvoted' if position == -1 else ''}">
+							<div class="logo rate">
+								%if can.poll.vote(poll):
+									<a class="up icon otip" title="${_("Support this variant")}" href="${h.entity_url(poll, member='rate')}?position=1&${h.url_token()}" 
+										onclick="return rate('#poll_c${poll.id}', ${poll.id}, 1);">
+										&nbsp;
+									</a>
+									<a href="${h.entity_url(poll, member='votes')}" 
+										class="score">${poll.tally.score}</a>
+									<a class="down icon ttip" title="${_("Oppose this variant")}" href="${h.entity_url(poll, member='rate')}?position=-1&${h.url_token()}" 
+										onclick="return rate('#poll_c${poll.id}', ${poll.id}, -1);">
+										&nbsp;
+									</a>
+								%else:
+									<a class="up icon inactive">&nbsp;</a>
+									<a href="${h.entity_url(poll, member='votes')}" 
+										class="score">${poll.tally.score}</a>
+									<a class="down icon inactive">&nbsp;</a>
+								%endif
+							</div>
+							<div class="variant_header">				
 							%if variant == c.model.Text.HEAD:
-								${_("status quo")}
+								${_("Status quo (do not change this norm)")}
 							%else:
 								<b><a href="${h.entity_url(text)}">${variant}</a></b>
+								%if variant == selection.selected:
+									${_("(currently selected for inclusion in this proposal)")}
+								%endif
 							%endif
-							// score: <b>${poll.tally.score}</b> <a href="${h.entity_url(poll, member='vote')}?position=-1&${h.url_token()}&_method=POST"><img src="/img/arrows/adown_a.png" /></a>
+							<br/>
+							<% 
+							num_comments = len(selection.page.variant_comments(variant))
+							%>
+							${ungettext("%s comment", "%s comments", num_comments) % num_comments}
+							</div>
 							%if variant == selection.selected and variant != c.model.Text.HEAD:
-								<br/><br/>
+								
 								${text.render()|n}
 							%endif
 						</li>
 				%endfor
-						<a href="#">${_("more variants")}</a> 
+						<li><a href="#">${_("more variants")}</a> 
 						%if can.norm.edit(selection.page, 'any'): 
 							&middot; <a href="${h.entity_url(selection.page, member='edit')}?new_variant=${c.lib.text.title2alias(c.proposal.title)}&proposal=${c.proposal.id}">${_("propose a new variant...")}</a> 
 						%endif
+						</li>
 				</ol>
 			</div>
+			<br/>
 		%endfor
 	</div>
 </div>

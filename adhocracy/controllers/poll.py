@@ -59,24 +59,21 @@ class PollController(BaseController):
     @validate(schema=PollVoteForm(), form="bad_request", post_only=False, on_get=True)
     def vote(self, id, format='html'):
         c.poll = self._get_open_poll(id)
-        if c.poll.action not in [model.Poll.ADOPT, model.Poll.SELECT]:
-            abort(400, _("This is a rating poll, not an adoption poll."))
+        if c.poll.action != model.Poll.ADOPT:
+            abort(400, _("This is not an adoption poll."))
         require.poll.vote(c.poll)
         decision = democracy.Decision(c.user, c.poll)
         votes = decision.make(self.form_result.get("position"))
         
-        if c.poll.action != model.Poll.SELECT:
-            for vote in votes:
-                event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance, 
-                        topics=[c.poll.scope], vote=vote, poll=c.poll)
+        for vote in votes:
+            event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance, 
+                    topics=[c.poll.scope], vote=vote, poll=c.poll)
         model.meta.Session.commit()
         
         if format == 'json':
             return render_json(dict(decision=decision,
                                     score=tally.score))
         
-        if c.poll.action == model.Poll.SELECT:
-            redirect(h.entity_url(c.poll.selection))
         
         redirect(h.entity_url(c.poll.subject))
         
@@ -85,11 +82,11 @@ class PollController(BaseController):
     @RequireInternalRequest()
     @validate(schema=PollVoteForm(), form="bad_request", post_only=False, on_get=True)
     def rate(self, id, format='html'):
-        # rating is like polling but steps via absten, i.e. if you have 
+        # rating is like polling but steps via abstention, i.e. if you have 
         # first voted "for", rating will first go to "abstain" and only
         # then produce "against"-
         c.poll = self._get_open_poll(id)
-        if c.poll.action != model.Poll.RATE:
+        if c.poll.action not in [model.Poll.RATE, model.Poll.SELECT]:
             abort(400, _("This is not a rating poll."))
         require.poll.vote(c.poll)
         
@@ -110,6 +107,9 @@ class PollController(BaseController):
             return render_json(dict(decision=decision,
                                     score=tally.score))
         
+        if c.poll.action == model.Poll.SELECT:
+            redirect(h.entity_url(c.poll.selection))
+                
         redirect(h.entity_url(c.poll.subject))  
     
         
