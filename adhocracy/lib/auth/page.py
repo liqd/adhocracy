@@ -24,10 +24,10 @@ def variant_edit(p, variant):
         return True
     if not edit(p):
         return False
-    #if not p.has_variants and variant != Text.HEAD:
-    #    return False
-    #if p.function == p.NORM and variant == Text.HEAD:
-    #    return False
+    if not p.has_variants and variant != Text.HEAD:
+        return False
+    if p.function == p.NORM and variant == Text.HEAD:
+        return False
     return True
 
 def delete(p):

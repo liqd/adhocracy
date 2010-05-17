@@ -38,7 +38,11 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 		%for selection in c.proposal.selections: 
 			<div class="tile selection">
 				<h3>${h.page_link(selection.page)|n}</h3>
-				%if selection.selected is None:
+				%if len(selection.page.variants) < 2:
+					<div class="infobox">
+						${_("Create a new variant to propose a changed text.")}
+					</div>
+				%elif selection.selected is None:
 					<div class="infobox">
 						${_("There is a tie between variants, thus none is included at the moment.")}
 					</div>
@@ -99,7 +103,7 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 							<br>
 							<a href="#">${_("show more variants")}</a> 
 						%if can.norm.edit(selection.page, 'any'): 
-							&middot; <a href="${h.entity_url(selection.page, member='edit')}?new_variant=${c.lib.text.title2alias(c.proposal.title)}&proposal=${c.proposal.id}">${_("propose a new variant...")}</a> 
+							&middot; <a href="${h.entity_url(selection.page, member='edit')}?new_variant=${c.lib.text.title2alias(c.proposal.title)}&proposal=${c.proposal.id}">${_("create a new variant...")}</a> 
 						%endif
 						</li>
 				</ol>

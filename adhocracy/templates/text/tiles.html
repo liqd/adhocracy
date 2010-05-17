@@ -60,8 +60,6 @@
 						%endif
 					%endfor
 				</select>
-				&middot; 
-				<b><a href="${h.entity_url(this)|n}">${_("view")}</a></b>
 			%else:
 				%if c.variant == c.model.Text.HEAD:
 					<b><a href="${h.entity_url(this)|n}">${_("Status quo")}</a></b>
@@ -75,11 +73,12 @@
 					%endif
 				%endif
 			%endif
-			&middot; <b><a href="${h.entity_url(this, member='history')|n}">${_("historic versions")}</a></b>
+			
 			</li>
 			<li>
 				${_("%s by %s") % (h.relative_time(this.create_time), 
 													 h.user_link(this.user, scope=this.page))|n}
+				&middot; <b><a href="${h.entity_url(this, member='history')|n}">${_("historic versions")}</a></b>
 			</li>
 		</ul>
 		%if options:

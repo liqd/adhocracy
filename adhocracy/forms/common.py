@@ -188,10 +188,8 @@ class VariantName(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.lib.text import variant_normalize
         if not value: 
-            return model.Text.HEAD
+            return None
         var = variant_normalize(value)
-        if not len(var):
-            return model.Text.HEAD
         if var.lower() in FORBIDDEN_NAMES or not VALIDVARIANT.match(var.lower()): 
             raise formencode.Invalid(_("Invalid variant name: %s") % value, value, state)
         try:

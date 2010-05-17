@@ -65,18 +65,30 @@ class PageController(BaseController):
     @RequireInstance
     def new(self, errors=None):
         require.page.create()
+        defaults = dict(request.params)
         c.title = request.params.get('title', None)
         c.proposal = request.params.get("proposal")
         c.function = request.params.get("function", model.Page.DOCUMENT)
-        return render("/page/new.html")
+        
+        html = None
+        if c.proposal is not None:
+            c.proposal = model.Proposal.find(c.proposal)
+            html = render('/selection/new.html')
+        else:
+            html = render("/page/new.html")
+        
+        return htmlfill.render(html, defaults=defaults, errors=errors, force_defaults=False)
     
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
-    @validate(schema=PageCreateForm(), form='new', post_only=False, on_get=True)
     def create(self, format='html'):
         require.page.create()
-        
+        try:
+            self.form_result = PageCreateForm().to_python(request.params)
+        except Invalid, i:
+            return self.new(errors=i.unpack_errors())
+            
         # a proposal that this norm should be integrated with 
         proposal = self.form_result.get("proposal")
         _function = self.form_result.get("function")
@@ -122,9 +134,10 @@ class PageController(BaseController):
 
     @RequireInstance
     @validate(schema=PageEditForm(), form='edit', post_only=False, on_get=True)
-    def edit(self, id, variant=None, text=None):
+    def edit(self, id, variant=None, text=None, errors={}):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         c.proposal = request.params.get("proposal")
+        defaults = dict(request.params)
         
         new_variant = self.form_result.get('new_variant')
         if new_variant is not None:
@@ -139,21 +152,30 @@ class PageController(BaseController):
         require.page.variant_edit(c.page, c.variant)
         c.text_rows = libtext.field_rows(c.text.text)
         
+        html = None
         if c.page.has_variants and c.variant != model.Text.HEAD:
             require.norm.edit(c.page, variant)
             c.left = c.page.head
             right_html = c.text.render()
             left_html = c.left.render()
             c.right_diff = libtext.html_diff(left_html, right_html)
-            return render('/page/diff_edit.html')
-        return render('/page/edit.html')
+            html = render('/page/diff_edit.html')
+        else:
+            html = render('/page/edit.html')
+        
+        return htmlfill.render(html, defaults=defaults, 
+                               errors=errors, force_defaults=False)
     
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
-    @validate(schema=PageUpdateForm(), form='edit', post_only=False, on_get=True)
     def update(self, id, variant=None, text=None, format='html'):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
+        try:
+            self.form_result = PageUpdateForm().to_python(request.params)
+        except Invalid, i:
+            return self.edit(id, variant=c.variant, text=c.text.id, errors=i.unpack_errors())
+        
         c.variant = self.form_result.get("variant")
         proposal = self.form_result.get("proposal")
         
