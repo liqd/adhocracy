@@ -38,22 +38,38 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 		%for selection in c.proposal.selections: 
 			<div class="tile">
 				<h3>${h.page_link(selection.page)|n}</h3>
+				%if selection.selected is None:
+					<div class="infobox">
+						${_("There is a tie between two variants, thus no variant is included at the moment.")}
+					</div>
+				%elif selection.selected == c.model.Text.HEAD:
+					<div class="infobox">
+						${_("Status quo has the most votes, resulting in no change to the norm.")}
+					</div>
+				%endif 
 				<ol>
 				%for (variant, poll) in selection.variant_polls:
+					<%
+					text = selection.page.variant_head(variant)
+					%>
 						<li>
 							<a href="${h.entity_url(poll, member='vote')}?position=1&${h.url_token()}&_method=POST"><img src="/img/arrows/aup_a.png" /></a> 
 							
 							%if variant == c.model.Text.HEAD:
 								${_("status quo")}
 							%else:
-								<b><a href="${h.entity_url(selection.page.variant_head(variant))}">${variant}</a></b>
+								<b><a href="${h.entity_url(text)}">${variant}</a></b>
 							%endif
 							// score: <b>${poll.tally.score}</b> <a href="${h.entity_url(poll, member='vote')}?position=-1&${h.url_token()}&_method=POST"><img src="/img/arrows/adown_a.png" /></a>
+							%if variant == selection.selected and variant != c.model.Text.HEAD:
+								<br/><br/>
+								${text.render()|n}
+							%endif
 						</li>
 				%endfor
 						<a href="#">${_("more variants")}</a> 
 						%if can.norm.edit(selection.page, 'any'): 
-							&middot; <a href="${h.entity_url(selection.page, member='edit')}?new_variant=${c.lib.text.title2alias(c.proposal.title)}">${_("propose a new variant...")}</a> 
+							&middot; <a href="${h.entity_url(selection.page, member='edit')}?new_variant=${c.lib.text.title2alias(c.proposal.title)}&proposal=${c.proposal.id}">${_("propose a new variant...")}</a> 
 						%endif
 				</ol>
 			</div>

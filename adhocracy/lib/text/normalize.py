@@ -4,23 +4,32 @@ from webhelpers.text import truncate
 from unicodedata import normalize, category
 from adhocracy.forms import FORBIDDEN_NAMES
 
-INVALID_CHARS = re.compile(u"[\?#\&]", re.U)
+#INVALID_CHARS = re.compile(u"[\?#\&]", re.U)
 
 def chr_filter(ch): 
     """ Filter by unicode character category. """
+    if ch == u'_':
+        return ch
     cat = category(ch)[0].upper()
     if cat in ['Z']:
-        return '_' # replace spaces
+        return u'_' # replace spaces
     if cat in ['P']:
-        return '' # remove punctuation
+        return u'' # remove punctuation
     return ch
-    
 
-def title2alias(title, pseudo='pg'):
+
+def variant_normalize(variant):
+    var = escape(variant)
+    if var.lower() in FORBIDDEN_NAMES:
+        return u""
+    return var
+
+
+def title2alias(title, pseudo=u'pg'):
     #title = urllib.unquote(title)
     title = escape(title)
-    title = INVALID_CHARS.sub(u"", title)
-    if not len(title) or title.lower() in FORBIDDEN_NAMES:
+    #title = INVALID_CHARS.sub(u"", title)
+    if not len(title) or (title.lower() in FORBIDDEN_NAMES):
         return pseudo
     try:
         tint = int(title)

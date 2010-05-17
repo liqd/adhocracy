@@ -1,10 +1,11 @@
-from pylons.controllers.util import abort
+import logging
 from pylons.i18n import _
 
 import authentication
 import authorization
 import csrf
 
+log = logging.getLogger(__name__)
 
 class _can(object):
     import proposal
@@ -34,7 +35,9 @@ class _require(object):
     def __call__(self, *a, **kw):
         ret = self.obj(*a, **kw)
         if not ret:
-            abort(401, _("We're sorry, but it seems that you lack the permissions to continue."))
+            from adhocracy.lib.templating import ret_abort
+            log.debug("Aborting due to error with permission: %s" % repr(self.obj))
+            ret_abort(_("We're sorry, but it seems that you lack the permissions to continue."), code=403)
         return ret
             
 require = _require(can)

@@ -12,10 +12,10 @@ def show(s):
 def create(p):
     if not p.is_mutable():
         return False
-    return has('proposal.edit')
+    return proposal.edit(p)
     
 def edit(s):
     return False
     
 def delete(s):
-    return has('proposal.delete') and show(s) and s.proposal.is_mutable()
+    return proposal.edit(s.proposal) and show(s)

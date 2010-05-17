@@ -11,6 +11,9 @@
 	${h.field_token()|n}
 	<input type="hidden" name="parent" value="${c.text.id}" />
 	<input type="hidden" name="_method" value="PUT" /> 
+	%if c.proposal:
+		<input type="hidden" value="${c.proposal}" name="proposal" />
+	%endif
 	<div class="page_title">
 		<label for="title" class="armhint">${_("Page Title")}</label>
 		<input tabindex="1" class="title armlabel" name="title" value="${c.text.title}"/>

@@ -8,6 +8,9 @@
 <form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
 	${h.field_token()|n}
 	<input type="hidden" name="parent" value="${c.text.id}" />
+	%if c.proposal:
+		<input type="hidden" value="${c.proposal}" name="proposal" />
+	%endif
 	<input type="hidden" name="_method" value="PUT" /> 
 	<div class="page_title">
 		<label for="title" class="armhint">${_("New Variant")}</label>

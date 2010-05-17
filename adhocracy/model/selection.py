@@ -51,9 +51,16 @@ class Selection(object):
     
     @classmethod
     def by_page(cls, page):
+        return cls.by_page_and_proposal(page, None)
+    
+    
+    @classmethod
+    def by_page_and_proposal(cls, page, proposal):
         try:
             q = meta.Session.query(Selection)
             q = q.filter(Selection.page==page)
+            if proposal is not None:
+                q = q.filter(Selection.proposal==proposal)
             q = q.filter(or_(Selection.delete_time==None,
                              Selection.delete_time>datetime.utcnow()))
             return q.all()
@@ -65,12 +72,14 @@ class Selection(object):
     @classmethod
     def by_key(cls, key, **kwargs):
         id = int(key.split(':', 1)[1].split(']', 1)[0])
-        print "ID", id
         return cls.find(id, **kwargs)
             
     
     @classmethod
     def create(cls, proposal, page, user):
+        selections = cls.by_page_and_proposal(page, proposal)
+        if len(selections):
+            return selections[0]
         selection = Selection(page, proposal)
         meta.Session.add(selection)
         page.parents.append(proposal)

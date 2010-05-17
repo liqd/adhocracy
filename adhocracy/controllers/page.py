@@ -33,6 +33,7 @@ class PageUpdateForm(formencode.Schema):
     variant = forms.VariantName(not_empty=False, if_missing=model.Text.HEAD, if_empty=model.Text.HEAD)
     text = validators.String(max=20000, min=4, not_empty=True)
     parent = forms.ValidText()
+    proposal = forms.ValidProposal(not_empty=False, if_empty=None, if_missing=None)
 
     
 class PageFilterForm(formencode.Schema):
@@ -102,13 +103,14 @@ class PageController(BaseController):
         
         target = page # by default, redirect to the page
         if proposal is not None and _function == model.Page.NORM:
-            variant = libtext.title2alias(proposal.title)
+            variant = libtext.variant_normalize(proposal.title)
             text = model.Text.create(page, variant, c.user, 
                                      self.form_result.get("title"), 
                                      self.form_result.get("text"),
                                      parent=page.head)
             # if a selection was created, go there instead:
-            target = model.Selection.create(proposal, page, c.user)
+            if can.selection.create(proposal):
+                target = model.Selection.create(proposal, page, c.user)
         
         model.meta.Session.commit()
         watchlist.check_watch(page)
@@ -122,13 +124,14 @@ class PageController(BaseController):
     @validate(schema=PageEditForm(), form='edit', post_only=False, on_get=True)
     def edit(self, id, variant=None, text=None):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
+        c.proposal = request.params.get("proposal")
         
         new_variant = self.form_result.get('new_variant')
         if new_variant is not None:
-            variant = libtext.title2alias(new_variant)
+            variant = libtext.variant_normalize(new_variant)
             if variant in c.page.variants:
                 for i in range(1, 100000):
-                    variant = libtext.title2alias(new_variant) + str(i)
+                    variant = libtext.variant_normalize(new_variant) + str(i)
                     if not variant in c.page.variants:
                         break
             c.variant = variant
@@ -152,6 +155,8 @@ class PageController(BaseController):
     def update(self, id, variant=None, text=None, format='html'):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         c.variant = self.form_result.get("variant")
+        proposal = self.form_result.get("proposal")
+        
         require.page.variant_edit(c.page, c.variant)
         
         parent = self.form_result.get("parent")
@@ -164,11 +169,16 @@ class PageController(BaseController):
                       self.form_result.get("title"), 
                       self.form_result.get("text"),
                       parent=parent)
+                      
+        target = text
+        if proposal is not None and can.selection.create(proposal):
+            target = model.Selection.create(proposal, c.page, c.user)
+        
         model.meta.Session.commit()
         watchlist.check_watch(c.page)
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance, 
                    topics=[c.page], page=c.page, rev=text)
-        redirect(h.entity_url(text))
+        redirect(h.entity_url(target))
     
     
     @RequireInstance
