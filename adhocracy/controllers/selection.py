@@ -12,12 +12,12 @@ import adhocracy.forms as forms
 log = logging.getLogger(__name__)
 
 
-class ImplementationCreateForm(formencode.Schema):
+class SelectionCreateForm(formencode.Schema):
     allow_extra_fields = True
     page = forms.ValidPage()
 
 
-class ImplementationController(BaseController):
+class SelectionController(BaseController):
     
     @RequireInstance
     def index(self, proposal_id, format="html"):
@@ -25,7 +25,7 @@ class ImplementationController(BaseController):
         require.selection.index(c.proposal)
         c.proposal_tile = tiles.proposal.ProposalTile(c.proposal)
         
-        return render("/implementation/index.html")
+        return render("/selection/index.html")
     
     
     @RequireInstance
@@ -34,7 +34,7 @@ class ImplementationController(BaseController):
         require.selection.create(c.proposal)
         defaults = dict(request.params)
         c.proposal_tile = tiles.proposal.ProposalTile(c.proposal)
-        return htmlfill.render(render("/implementation/new.html"), defaults=defaults, 
+        return htmlfill.render(render("/selection/new.html"), defaults=defaults, 
                                errors=errors, force_defaults=False)
     
     
@@ -44,7 +44,7 @@ class ImplementationController(BaseController):
         c.proposal = get_entity_or_abort(model.Proposal, proposal_id)     
         require.selection.create(c.proposal)
         try:
-            self.form_result = ImplementationCreateForm().to_python(request.params)
+            self.form_result = SelectionCreateForm().to_python(request.params)
         except Invalid, i:
             return self.new(proposal_id, errors=i.unpack_errors())
         
@@ -71,7 +71,7 @@ class ImplementationController(BaseController):
         require.selection.show(c.selection)
         c.proposal_tile = tiles.proposal.ProposalTile(c.proposal)
         
-        return render("/implementation/show.html")
+        return render("/selection/show.html")
     
     
     @RequireInstance
@@ -81,7 +81,7 @@ class ImplementationController(BaseController):
         require.selection.delete(c.selection)
         c.proposal_tile = tiles.proposal.ProposalTile(c.proposal)
         
-        return render("/implementation/ask_delete.html")
+        return render("/selection/ask_delete.html")
     
     
     @RequireInstance

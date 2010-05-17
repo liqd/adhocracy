@@ -1,0 +1,44 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_("Implementation: %s") % c.proposal.label}</%def>
+
+<%def name="breadcrumbs()">
+	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("New change request")}
+</%def>
+
+${tiles.proposal.header(c.proposal, active='implementation')}
+
+<div class="lefthalf double">
+	<h3>I want to create a new position or norm.</h3>
+
+	<form name="create_page" class="inplace" method="POST" action="/page">
+		${h.field_token()|n}
+		<input type="hidden" value="${c.model.Page.NORM}" name="function" />
+		<input type="hidden" value="${c.proposal.id}" name="proposal" />
+		<div class="page_title">
+			<label for="title" class="armhint">${_("New norm title")}</label>
+			<input tabindex="1" class="title armlabel" name="title" value=""/>
+		</div>
+
+		<textarea tabindex="2" class="description armlabel" rows="20" name="text"></textarea>
+
+		<label for="parent">${_("Parent page:")}</label>
+		${tiles.page.select_page(field_name="parent", functions=c.model.Page.FUNCTIONS)}
+
+		${components.savebox(None)}
+	</form>
+</div>
+
+<div class="righthalf double">
+	<h3>I want to modify or extend an existing norm.</h3>
+	<form name="create_selection" class="inplace" method="POST" 
+	      action="${h.entity_url(c.proposal, member='implementation')}">
+
+		${tiles.page.select_page(functions=[c.model.Page.NORM], exclude=[s.page for s in c.proposal.selections if not s.is_deleted()])}
+		<br/><br/>
+		<input type="submit" value="${_("Include")}" />
+
+
+	</form>
+</div>

@@ -64,7 +64,7 @@ def make_map():
                                                  'untag': 'GET'},
                                collection={'filter': 'GET'})
                                
-    map.resource('implementation', 'implementation', 
+    map.resource('implementation', 'implementation', controller='selection',
                  parent_resource=dict(member_name='proposal', 
                                       collection_name='proposal'))
     

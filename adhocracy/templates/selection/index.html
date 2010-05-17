@@ -51,8 +51,9 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 				%for (variant, poll) in selection.variant_polls:
 					<%
 					text = selection.page.variant_head(variant)
+					selected = (variant == selection.selected)
 					%>
-						<li id="poll_c${poll.id}" class="${h.poll_position_css(poll)}">
+						<li id="poll_c${poll.id}" class="${h.poll_position_css(poll)} ${'selected' if selected else ''}">
 							<div class="logo rate">
 								%if can.poll.vote(poll):
 									<a class="up icon otip" title="${_("Support this variant")}" href="${h.entity_url(poll, member='rate')}?position=1&${h.url_token()}" 
@@ -77,7 +78,7 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 								${_("Status quo (do not change this norm)")}
 							%else:
 								<b><a href="${h.entity_url(text)}">${variant}</a></b>
-								%if variant == selection.selected:
+								%if selected:
 									${_("(currently selected for inclusion in this proposal)")}
 								%endif
 							%endif
@@ -88,7 +89,7 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 							${ungettext("%s comment", "%s comments", num_comments) % num_comments}
 							</div>
 							<div>
-							%if variant == selection.selected and variant != c.model.Text.HEAD:
+							%if selected and variant != c.model.Text.HEAD:
 								${text.render()|n}
 							%endif
 							</div>
@@ -96,7 +97,7 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 				%endfor
 						<li>
 							<br>
-							<a href="#">${_("more variants")}</a> 
+							<a href="#">${_("show more variants")}</a> 
 						%if can.norm.edit(selection.page, 'any'): 
 							&middot; <a href="${h.entity_url(selection.page, member='edit')}?new_variant=${c.lib.text.title2alias(c.proposal.title)}&proposal=${c.proposal.id}">${_("propose a new variant...")}</a> 
 						%endif

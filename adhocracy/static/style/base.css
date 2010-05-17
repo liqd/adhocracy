@@ -1961,3 +1961,7 @@ a.button.inactive {
     padding: 10px;
     margin-bottom: 5px;
 }
+
+.selection .selected .variant_header {
+    background-color: #fdfbc0;
+}
