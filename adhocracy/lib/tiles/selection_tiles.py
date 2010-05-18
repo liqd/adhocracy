@@ -9,7 +9,7 @@ class VariantRow(object):
         self.tile = tile
         self.variant = variant
         self.poll = poll
-        if tile.selection.proposal.is_adopt_polling():
+        if tile.frozen:
             freeze_time = tile.selection.proposal.adopt_poll.begin_time
             self.text = tile.selection.page.variant_at(variant, freeze_time)
         else:
@@ -19,6 +19,17 @@ class VariantRow(object):
     @property
     def selected(self):
         return self.tile.selected == self.variant
+    
+    
+    @property
+    def show(self):
+        return not self.tile.frozen or self.selected
+    
+    
+    @property
+    def can_edit(self):
+        return (not self.tile.frozen) and \
+            can.page.variant_edit(self.tileselection.page, self.row.variant)
     
     
     @property
@@ -39,7 +50,11 @@ class SelectionTile(BaseTile):
     @property
     def has_variants(self):
         return len(self.selection.page.variants) < 2
-        
+    
+    
+    def frozen(self):
+        return self.selection.proposal.is_adopt_polling()
+    
         
     def variant_rows(self):
         num = 0
@@ -53,8 +68,17 @@ class SelectionTile(BaseTile):
         
     @property
     def show_more_link(self):
+        if self.frozen:
+            return False
         return self.max_variants and len(self.variant_polls) > self.max_variants
-
+    
+        
+    @property
+    def show_new_variant_link(self):
+        if self.frozen:
+            return False
+        return can.norm.edit(selection.page, 'any')
+        
         
 
 def full(selection, max_variants=None):
