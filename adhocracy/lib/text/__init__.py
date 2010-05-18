@@ -70,8 +70,6 @@ def page_sub(match):
         return h.page_link(page)
     else:
         from adhocracy.forms import FORBIDDEN_NAMES
-        if alias.lower() in FORBIDDEN_NAMES:
-            return match.group(0)
         return h.page_link(match.group(1), create=True)
 
 
