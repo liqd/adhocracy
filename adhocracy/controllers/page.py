@@ -176,7 +176,7 @@ class PageController(BaseController):
         except Invalid, i:
             return self.edit(id, variant=c.variant, text=c.text.id, errors=i.unpack_errors())
         
-        c.variant = self.form_result.get("variant")
+        c.variant = self.form_result.get("variant", model.Text.HEAD)
         proposal = self.form_result.get("proposal")
         
         require.page.variant_edit(c.page, c.variant)
@@ -186,8 +186,7 @@ class PageController(BaseController):
             return ret_abort(_("You're trying to update to a text which is not part of this pages history"),
                              code=400, format=format)
         
-        text = model.Text.create(c.page, 
-                      c.variant, c.user, 
+        text = model.Text.create(c.page, c.variant, c.user, 
                       self.form_result.get("title"), 
                       self.form_result.get("text"),
                       parent=parent)

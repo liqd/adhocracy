@@ -57,7 +57,7 @@ class Text(object):
                 variant = parent.variant
             else:
                 variant = Text.HEAD
-        variant = title2alias(variant)
+        
         variant_is_new = False
         if not variant in page.variants:
             variant_is_new = True

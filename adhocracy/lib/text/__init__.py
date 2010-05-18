@@ -65,8 +65,7 @@ SUB_PAGE = re.compile("\[\[([^(\]\])]{3,255})\]\]", re.M)
 
 def page_sub(match):
     from adhocracy.lib import helpers as h
-    alias = title2alias(match.group(1))
-    page = model.Page.find(alias) 
+    page = model.Page.find_fuzzy(match.group(1)) 
     if page is not None:
         return h.page_link(page)
     else:

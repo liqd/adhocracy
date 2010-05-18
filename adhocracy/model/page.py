@@ -34,6 +34,24 @@ class Page(Delegateable):
         
     
     @classmethod
+    def find_fuzzy(cls, id, instance_filter=True, include_deleted=False):
+        page = cls.find(id, instance_filter=instance_filter, include_deleted=include_deleted)
+        if page is None:
+            from text import Text
+            q = meta.Session.query(Page)
+            q = q.join(Text)
+            q = q.filter(Text.title.like(id))
+            if not include_deleted:
+                q = q.filter(or_(Page.delete_time==None,
+                                 Page.delete_time>datetime.utcnow()))
+            if ifilter.has_instance() and instance_filter:
+                q = q.filter(Page.instance==ifilter.get_instance())
+            q = q.order_by(Text.create_time.asc())
+            page = q.limit(1).first()
+        return page
+    
+    
+    @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Page)
@@ -41,6 +59,7 @@ class Page(Delegateable):
                 id = int(id)
                 q = q.filter(Page.id==id)
             except ValueError:
+                #from adhocracy.lib.text import title2alias
                 q = q.filter(Page.label==id)
             if not include_deleted:
                 q = q.filter(or_(Page.delete_time==None,

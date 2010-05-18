@@ -21,7 +21,7 @@ def chr_filter(ch):
 def variant_normalize(variant):
     var = escape(variant)
     if var.lower() in FORBIDDEN_NAMES:
-        return u""
+        return None
     return var
 
 
