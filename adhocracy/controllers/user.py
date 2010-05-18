@@ -69,7 +69,7 @@ class UserFilterForm(formencode.Schema):
 
 class UserController(BaseController):
     
-    @ActionProtector(has_permission("user.view"))
+    @RequireInstance
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
         require.user.index()
