@@ -1,5 +1,6 @@
 from pylons import tmpl_context as c
 
+from adhocracy.lib.auth import can
 from util import render_tile, BaseTile
 
 
@@ -29,7 +30,7 @@ class VariantRow(object):
     @property
     def can_edit(self):
         return (not self.tile.frozen) and \
-            can.page.variant_edit(self.tileselection.page, self.row.variant)
+            can.page.variant_edit(self.tile.selection.page, self.variant)
     
     
     @property
@@ -52,6 +53,7 @@ class SelectionTile(BaseTile):
         return len(self.selection.page.variants) < 2
     
     
+    @property
     def frozen(self):
         return self.selection.proposal.is_adopt_polling()
     
@@ -77,7 +79,7 @@ class SelectionTile(BaseTile):
     def show_new_variant_link(self):
         if self.frozen:
             return False
-        return can.norm.edit(selection.page, 'any')
+        return can.norm.edit(self.selection.page, 'any')
         
         
 

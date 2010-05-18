@@ -1,6 +1,10 @@
 
 
 <%def name="full(tile, selection)">
+	<%
+	if tile.frozen and not selection.changes_text:
+		return
+	%>
 	<div class="tile selection">
 		<h3>${h.page_link(selection.page)|n}</h3>
 		%if tile.has_variants:

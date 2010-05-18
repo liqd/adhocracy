@@ -143,6 +143,17 @@ class Selection(object):
         return sel_var
     
     
+    @property
+    def changes_text(self):
+        from text import Text
+        selected = self.selected
+        if selected is None:
+            return False
+        if selected == Text.HEAD:
+            return False
+        return True
+    
+    
     def to_dict(self):
         d = dict(id=self.id,
                  create_time=self.create_time,
