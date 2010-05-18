@@ -49,6 +49,9 @@
 					%endif
 					<br/>
 					${ungettext("%s comment", "%s comments", row.num_comments) % row.num_comments}
+					%if can.page.variant_edit(selection.page, row.variant):
+						&middot; <a href="${h.entity_url(row.text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
+					%endif
 					%if row.selected:
 						&middot; ${_("Currently selected for inclusion in this proposal")}
 					%endif
