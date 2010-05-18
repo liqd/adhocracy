@@ -44,6 +44,8 @@ def label2alias(label):
 
 
 def escape(title):
+    if title is not None:
+        return u""
     title = unicode(title).strip()
     title = normalize('NFKD', title)
     title = u''.join([chr_filter(c) for c in title])
