@@ -101,7 +101,7 @@ def upgrade():
         Column('adopted', Boolean, default=False)
         )
     
-    description = Column('description_id', Integer, ForeignKey('page.id'), nullable=True)
+    description = Column('description_id', Integer, nullable=True) #ForeignKey('page.id'), 
     if migrate_engine.url.drivername == "sqlite":
         description = Column('description_id', Integer, nullable=True)
     description.create(proposal_table)
