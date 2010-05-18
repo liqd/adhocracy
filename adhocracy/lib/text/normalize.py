@@ -25,7 +25,7 @@ def variant_normalize(variant):
     return var
 
 
-def title2alias(title, pseudo=u'pg'):
+def title2alias(title, pseudo=u'page_'):
     #title = urllib.unquote(title)
     title = escape(title)
     #title = INVALID_CHARS.sub(u"", title)
@@ -44,7 +44,7 @@ def label2alias(label):
 
 
 def escape(title):
-    if title is not None:
+    if title is None:
         return u""
     title = unicode(title).strip()
     title = normalize('NFKD', title)
