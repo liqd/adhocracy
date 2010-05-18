@@ -10,6 +10,9 @@
 <form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
 	${h.field_token()|n}
 	<input type="hidden" name="parent" value="${c.text.id}" />
+	%if c.page.has_variants:
+		<input type="hidden" name="variant" value="${c.text.variant}" />
+	%endif
 	<input type="hidden" name="_method" value="PUT" /> 
 	%if c.proposal:
 		<input type="hidden" value="${c.proposal}" name="proposal" />
@@ -20,9 +23,7 @@
 	</div>
 	
 	<div class="sidebar">
-		%if c.page.has_variants:
-			<input name="variant" value="${c.text.variant}" />
-		%endif
+		&nbsp;
 	</div>
 	<div class="mainbar">
 		<textarea tabindex="2" class="description armlabel" rows="${c.text_rows}" name="text">${c.text.text}</textarea>

@@ -3,10 +3,10 @@
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 
 
-<%def name="title()">${_("Working group: %s") % c.proposal.label}</%def>
+<%def name="title()">${_("Contributors: %s") % c.proposal.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("Working group")}
+	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("Contributors")}
 </%def>
 
 ${tiles.proposal.header(c.proposal, c.tile, active='contributors')}

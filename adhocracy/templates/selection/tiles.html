@@ -6,7 +6,12 @@
 		return
 	%>
 	<div class="tile selection">
-		<h3>${h.page_link(selection.page)|n}</h3>
+		<h3>
+			${h.page_link(selection.page)|n} 
+			%if not selection.page.head.has_text:
+				${_("(new)")}
+			%endif
+		</h3>
 		%if tile.has_variants:
 			<div class="infobox">
 				${_("Create a new variant to propose a changed text.")}
