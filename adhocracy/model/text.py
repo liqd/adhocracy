@@ -113,6 +113,11 @@ class Text(object):
         return self.text is not None and len(self.text) > 0
     
     
+    @property 
+    def is_head(self):
+        return self.variant == self.HEAD
+    
+    
     def _index_id(self):
         return self.id
     

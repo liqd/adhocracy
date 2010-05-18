@@ -75,7 +75,7 @@ def text_url(text, with_text=True, **kwargs):
 
 def selection_url(selection, **kwargs):
     url = proposal_url(selection.proposal, member="implementation")
-    # TODO address specific selection
+    url += "/" + str(selection.id)
     return _append_member_and_format(url, **kwargs)
 
 

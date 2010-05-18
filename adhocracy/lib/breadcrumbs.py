@@ -22,6 +22,8 @@ def breadcrumbs(entity):
         return _user(entity)
     if isinstance(entity, model.Proposal):
         return _proposal(entity)
+    if isinstance(entity, model.Selection):
+        return _selection(entity)
     return _link_entity(entity.label, entity)
 
 
@@ -36,6 +38,13 @@ def _instance(instance):
         import helpers as h 
         return h.site_name()
     return _link_entity(instance.label, instance)
+    
+def _selection(selection):
+    bc = _proposal(selection.proposal) + SEP
+    bc += _link(_("Implementation"), 
+                entity_url(selection.proposal, member='implementation')) + SEP
+    bc += _link_entity(selection.page.title, selection)
+    return bc
     
 def _text(text):
     bc = _page(text.page)

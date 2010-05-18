@@ -1,0 +1,78 @@
+
+
+<%def name="full(tile, selection)">
+	<div class="tile selection">
+		<h3>${h.page_link(selection.page)|n}</h3>
+		%if tile.has_variants:
+			<div class="infobox">
+				${_("Create a new variant to propose a changed text.")}
+			</div>
+		%elif tile.selected is None:
+			<div class="infobox">
+				${_("There is a tie between variants, thus none is included at the moment.")}
+			</div>
+		%elif tile.selected == c.model.Text.HEAD:
+			<div class="infobox">
+				${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
+			</div>
+		%endif 
+		<ol>
+		%for row in tile.variant_rows():
+				<li id="poll_c${row.poll.id}" 
+						class="${h.poll_position_css(row.poll)} ${'selected' if row.selected else ''}">
+					<div class="logo rate">
+						%if can.poll.vote(row.poll):
+							<a class="up icon otip" title="${_("Support this variant")}" 
+								 href="${h.entity_url(row.poll, member='rate')}?position=1&${h.url_token()}" 
+								 onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, 1);">
+								&nbsp;
+							</a>
+							<a href="${h.entity_url(row.poll, member='votes')}" 
+								class="score">${row.poll.tally.score}</a>
+							<a class="down icon ttip" title="${_("Oppose this variant")}" 
+								 href="${h.entity_url(row.poll, member='rate')}?position=-1&${h.url_token()}" 
+								 onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, -1);">
+								&nbsp;
+							</a>
+						%else:
+							<a class="up icon inactive">&nbsp;</a>
+							<a href="${h.entity_url(row.poll, member='votes')}" 
+								class="score">${row.poll.tally.score}</a>
+							<a class="down icon inactive">&nbsp;</a>
+						%endif
+					</div>
+					<div class="variant_header">				
+					%if row.text.is_head:
+						${_("Status quo (do not change this norm)")}
+					%else:
+						<b><a href="${h.entity_url(row.text)}">${row.variant}</a></b>
+					%endif
+					<br/>
+					${ungettext("%s comment", "%s comments", row.num_comments) % row.num_comments}
+					%if row.selected:
+						&middot; ${_("Currently selected for inclusion in this proposal")}
+					%endif
+					</div>
+					<div>
+					%if row.selected and not row.text.is_head:
+						${row.text.render()|n}
+					%endif
+					</div>
+				</li>
+		%endfor
+				<li>
+					<br>
+					%if tile.show_more_link:
+						<a href="${h.entity_url(selection)}">${_("show more variants")}</a> 
+					%endif
+					%if can.norm.edit(selection.page, 'any'): 
+						%if tile.show_more_link:
+							&middot; 
+						%endif
+						<a href="${h.entity_url(selection.page, member='edit')}?new_variant=${c.lib.text.title2alias(c.proposal.title)}&proposal=${c.proposal.id}">${_("create a new variant...")}</a> 
+					%endif
+				</li>
+		</ol>
+	</div>
+	<br/>
+</%def>

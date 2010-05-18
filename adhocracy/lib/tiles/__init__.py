@@ -14,6 +14,7 @@ import page_tiles as page
 import poll_tiles as poll
 import tag_tiles as tag
 import text_tiles as text
+import selection_tiles as selection
 
 
 log = logging.getLogger(__name__)
