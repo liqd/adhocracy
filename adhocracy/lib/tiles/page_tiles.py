@@ -28,7 +28,7 @@ def row(page):
                        page=page, cached=True)  
 
 
-def select_page(field_name='page', exclude=[], functions=[], list_limit=20, allow_empty=True):
+def select_page(field_name='page', exclude=[], functions=[], list_limit=500, allow_empty=True):
     return render_tile('/page/tiles.html', 'select_page', None, exclude=exclude,
                        field_name=field_name, functions=functions, 
                        list_limit=list_limit, allow_empty=allow_empty)    
