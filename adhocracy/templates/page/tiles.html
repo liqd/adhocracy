@@ -17,11 +17,14 @@
 </%def>
 
 
-<%def name="select_page(tile, field_name, exclude, functions, list_limit)">
+<%def name="select_page(tile, field_name, exclude, functions, list_limit, allow_empty=True)">
 	%if list_limit is not None and c.model.Page.count(instance=c.instance, exclude=exclude, functions=functions) > list_limit: 
 		<input name="${field_name}" />
 	%else:
 		<select name="${field_name}"> 
+		%if allow_empty:
+			<option value="">${_("(none)")}</option>
+		%endif
 		%for page in c.model.Page.all(instance=c.instance, exclude=exclude, functions=functions):
 			<option value="${page.label}">${page.title}</option>
 		%endfor
@@ -40,6 +43,16 @@
 		%if can.delegation.create():
 			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
 			    href="/delegation/new?scope=${page.id}">${_("delegate")}</a>
+		%endif
+		
+		%if page.function == page.DOCUMENT and can.page.create():
+			<a class="button title add ttip" title="${_('Create a new wiki page.')}" 
+			    href="/page/new">${_("new page")}</a>
+		%endif
+		
+		%if can.norm.create():
+			<a class="button title admin ttip" title="${_('Create a new norm.')}" 
+			    href="/page/new?function=norm">${_("new norm")}</a>
 		%endif
 		
 		%if can.page.variant_edit(page, variant):
