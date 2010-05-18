@@ -105,7 +105,7 @@ def instances(instances):
     return NamedPager('instances', instances, tiles.instance.row,
                       sorts={_("oldest"): sorting.entity_oldest,
                              _("newest"): sorting.entity_newest,
-                             _("name"): sorting.delegateable_label},
+                             _("alphabetically"): sorting.delegateable_label},
                       default_sort=sorting.delegateable_label)
 
   
@@ -114,7 +114,7 @@ def proposals(proposals, detail=True):
              #_("newest"): sorting.entity_newest,
              _("newest comment"): sorting.delegateable_latest_comment,
              _("support"): sorting.proposal_support,
-              _("name"): sorting.delegateable_label}
+              _("alphabetically"): sorting.delegateable_label}
     return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
                       default_sort=sorting.proposal_support)
 
@@ -122,7 +122,7 @@ def proposals(proposals, detail=True):
 def pages(pages, detail=True):
   sorts = {_("oldest"): sorting.entity_oldest,
            _("newest"): sorting.entity_newest,
-           _("name"): sorting.page_title}
+           _("alphabetically"): sorting.page_title}
   return NamedPager('pages', pages, tiles.page.row, sorts=sorts,
                     default_sort=sorting.page_title)                 
 
@@ -131,7 +131,7 @@ def users(users):
     sorts={_("oldest"): sorting.entity_oldest,
            _("newest"): sorting.entity_newest,
            _("activity"): sorting.user_activity,
-           _("name"): sorting.user_name}
+           _("alphabetically"): sorting.user_name}
                 
     return NamedPager('users', users, tiles.user.row, sorts=sorts,
                       default_sort=sorting.user_activity)

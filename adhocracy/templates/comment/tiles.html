@@ -33,6 +33,7 @@
 	%>
 
 	%if root is None:
+		<br/>
 		%if can.comment.create():
 			<div class="comment">
 				${create_form(None, topic, variant=variant)}
