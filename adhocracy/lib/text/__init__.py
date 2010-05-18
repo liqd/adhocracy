@@ -39,6 +39,8 @@ def cleanup(text):
     return text
     
 def field_rows(text):
+    if text is None:
+        return 10
     return int((len([ch for ch in text if ch == "\n"]) + len(text)/60) * 1.1)
 
 SUB_USER = re.compile("@([a-zA-Z0-9_\-]{3,255})")
@@ -75,7 +77,7 @@ def page_sub(match):
 
 
 def render(text, substitutions=True):
-    if text:
+    if text is not None:
         text = cgi.escape(text)
         text = markdowner.convert(text)
         if substitutions:
