@@ -29,7 +29,7 @@ def title2alias(title, pseudo=u'pg'):
     #title = urllib.unquote(title)
     title = escape(title)
     #title = INVALID_CHARS.sub(u"", title)
-    if not len(title) or (title.lower() in FORBIDDEN_NAMES):
+    if (not len(title)) or (title.lower() in FORBIDDEN_NAMES):
         return pseudo
     try:
         tint = int(title)
