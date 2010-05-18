@@ -155,14 +155,9 @@
 						<!--li><a href="${h.entity_url(c.instance, member='activity')}" 	
 							class="activity">${_("Activity")}</a></li-->
 						<li><a href="/proposal">${_("Proposals")}</a></li>
-						<!--li><a href="/tag">${_("Tags")}</a></li-->
+						<li><a href="/page/Main_Page">${_("Wiki")}</a></li>
 						<!--li><a href="/adopted" class="adopted">${_("Outcomes")}</a></li-->
-					%endif
-					%if c.instance:
 						<li><a href="/user">${_("Members")}</a></li>
-					%endif
-					%if not c.instance:
-						<li><a href="/user">${_("All Users")}</a></li>
 					%endif
 				</ul>
 			</div>

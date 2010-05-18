@@ -23,14 +23,14 @@ def upgrade():
         Column('has_variants', Boolean, default=True),
         Column('freeze', Boolean, default=False)
         )
+    page_table.c.has_variants.drop()
+    page_table.c.freeze.drop()
     function = Column('function', Unicode)
     function.create(page_table)
     u = page_table.update(values={
         'function': 'document'
         })
     migrate_engine.execute(u)
-    page_table.c.has_variants.drop()
-    page_table.c.freeze.drop()
     
 
 def downgrade():

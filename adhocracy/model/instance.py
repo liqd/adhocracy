@@ -178,6 +178,7 @@ class Instance(object):
         import adhocracy.lib.text as libtext
         from group import Group
         from membership import Membership
+        from page import Page
          
         instance = Instance(unicode(key).lower(), label, user)
         if description is not None:
@@ -189,6 +190,9 @@ class Instance(object):
                                 approved=True)
         meta.Session.add(membership)
         meta.Session.flush()
+        
+        page = Page.create(instance, "Main Page", None, user)
+        
         return instance
     
     

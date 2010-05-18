@@ -8,7 +8,7 @@ meta = MetaData(migrate_engine)
 
 page_table = Table('page', meta,                      
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
-    Column('function', Unicode)
+    Column('part', Unicode)
     )
 
 proposal_table = Table('proposal', meta,

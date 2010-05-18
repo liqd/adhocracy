@@ -38,6 +38,16 @@ category_graph = Table('category_graph', meta,
     Column('parent_id', Integer, ForeignKey('delegateable.id')),
     Column('child_id', Integer, ForeignKey('delegateable.id'))
     )
+    
+poll_table = Table('poll', meta,
+    Column('id', Integer, primary_key=True),
+    Column('begin_time', DateTime, default=datetime.utcnow),
+    Column('end_time', DateTime, nullable=True),
+    Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('action', Unicode(50), nullable=False),
+    Column('subject', UnicodeText(), nullable=False),
+    Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False)
+    )
 
 
 def upgrade():
@@ -47,7 +57,7 @@ def upgrade():
             migrate_engine.execute(category_graph.delete(category_graph.c.parent_id==vals[0]))
             migrate_engine.execute(category_graph.delete(category_graph.c.child_id==vals[0]))
             migrate_engine.execute(comment_table.delete(comment_table.c.topic_id==vals[0]))
-            migrate_engine.execute(comment_table.delete(poll_table.c.scope_id==vals[0]))
+            migrate_engine.execute(poll_table.delete(poll_table.c.scope_id==vals[0]))
             migrate_engine.execute(delegateable_table.delete(delegateable_table.c.id==vals[0]))
             
 

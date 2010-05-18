@@ -77,7 +77,7 @@ vote_table = Table('vote', meta,
     
 page_table = Table('page', meta,                      
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
-    Column('function', Unicode)
+    Column('part', Unicode)
     )
     
 text_table = Table('text', meta,                      
@@ -112,14 +112,17 @@ def upgrade():
         label = None
         ctime = None
         dtime = None
-        q4 = migrate_engine.execute(delegateable_table.select('id==%d' % prop_id))
+        q4 = migrate_engine.execute(delegateable_table.select(' delegateable.id = %d ' % prop_id))
         for (_, _label, _type, _ctime, _dtime, _, _, _instance_id) in q4:
             instance_id = _instance_id
             label = _label
             ctime = _ctime
             dtime = _dtime
-            
-        q2 = migrate_engine.execute(comment_table.select('id==%d' %comment_id))
+        
+        if comment_id is None: 
+            continue
+        
+        q2 = migrate_engine.execute(comment_table.select(' comment.id = %d ' % comment_id))
         for (_, _, _, creator_id, topic_id, _, _, _, poll_id) in q2:
             migrate_engine.execute(vote_table.delete(vote_table.c.poll_id==poll_id))
             migrate_engine.execute(tally_table.delete(tally_table.c.poll_id==poll_id))
@@ -149,7 +152,7 @@ def upgrade():
                 })
             migrate_engine.execute(u4)
             
-            q6 = migrate_engine.execute(revision_table.select('comment_id==%d' % comment_id))
+            q6 = migrate_engine.execute(revision_table.select(' revision.comment_id = %d ' % comment_id))
             last_id = None
             for (r_id, t_ctime, t_text, _, t_creator_id, _) in q6:
                 q7 = text_table.insert(values={'title': label, 
@@ -183,11 +186,11 @@ def upgrade():
                 migrate_engine.execute(u3)
                 migrate_engine.execute(tally_table.delete(tally_table.c.poll_id==c_poll_id))
                 
-                q8 = migrate_engine.execute(comment_table.select('reply_id==%d' % c_id))
+                q8 = migrate_engine.execute(comment_table.select(' comment.reply_id = %d ' % c_id))
                 for d in q8: 
                     move_comment(d)
                     
-            q9 = migrate_engine.execute(comment_table.select('reply_id==%d' % comment_id))
+            q9 = migrate_engine.execute(comment_table.select(' comment.reply_id = %d ' % comment_id))
             for d in q9: 
                 move_comment(d)
             
