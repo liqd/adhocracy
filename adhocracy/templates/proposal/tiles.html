@@ -135,13 +135,13 @@
 			   	class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a></li>
 			%endif
 			<li><a href="${h.entity_url(proposal, member='alternatives')}"
-			   class="alternatives">${_("Alternatives")} (${len(proposal.current_alternatives())}) 
-					<img src="/img/arrows/panel_expand.png" /></a>
-				<ul>
-				%for p in proposal.current_alternatives()[:10]:
-					<li>${h.delegateable_link(p)|n}</li>
-				%endfor
-				</ul>
+			   class="alternatives">${_("Alternatives")} (${len(proposal.current_alternatives())})</a>
+				##	<img src="/img/arrows/panel_expand.png" />
+				##<ul>
+				##%for p in proposal.current_alternatives()[:10]:
+				##	<li>${h.delegateable_link(p)|n}</li>
+				##%endfor
+				##</ul>
 			</span>
 			</li>
 			<li><a href="${h.entity_url(proposal, member='contributors')}" class="contributors">${_("Contributors")} (${len(proposal.contributors())})</a></li>

@@ -57,12 +57,21 @@ class Proposal(Delegateable):
     
     def has_canonicals(self):
         return len(self.canonicals) > 0
+        
+        
+    def has_implementation(self):
+        from text import Text
+        for selection in self.selections:
+            selected = selection.selected
+            if selected is not None and selected != Text.HEAD:
+                return True
+        return False
     
     
     def can_adopt(self):
         return not self.is_adopt_polling() \
             and self.instance.allow_adopt \
-            and self.has_canonicals() and not self.adopted
+            and self.has_implementation() and not self.adopted
     
     
     @classmethod
