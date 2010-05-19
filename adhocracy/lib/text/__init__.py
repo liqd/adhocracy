@@ -73,7 +73,30 @@ def page_sub(match):
         return h.page_link(match.group(1), create=True)
 
 
-def render(text, substitutions=True):
+SUB_TRANSCLUDE = re.compile("@@([^(@@)]{3,255})@@", re.M)
+
+def transclude_sub(transclude_path):
+    if transclude_path is None:
+        transclude_path = []
+    
+    def render_transclusion(match):
+        from adhocracy.lib import helpers as h
+        page_name, variant = match.group(1), model.Text.HEAD
+        if '/' in page_name:
+            page_name, variant = page_name.split('/', 1)
+        page = model.Page.find_fuzzy(page_name) 
+        if variant not in page.variants:
+            variant = model.Text.HEAD
+        if (page is not None) and (page.id not in transclude_path):
+            transclude_path.append(page.id)
+            text = page.variant_head(variant).text
+            return render(text, transclude_path=transclude_path)
+        return match.group(0)
+    
+    return render_transclusion
+
+
+def render(text, substitutions=True, transclude_path=None):
     if text is not None:
         text = cgi.escape(text)
         text = markdowner.convert(text)
@@ -81,4 +104,5 @@ def render(text, substitutions=True):
             text = SUB_USER.sub(user_sub, text)
             text = SUB_DGB.sub(dgb_sub, text)
             text = SUB_PAGE.sub(page_sub, text)
+            text = SUB_TRANSCLUDE.sub(transclude_sub(transclude_path), text)
     return text
