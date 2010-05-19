@@ -72,6 +72,30 @@ class Proposal(Delegateable):
         return not self.is_adopt_polling() \
             and self.instance.allow_adopt \
             and self.has_implementation() and not self.adopted
+            
+    
+    def adopt(self, at_time=None):
+        from text import Text
+        if at_time is None:
+            at_time = datetime.utcnow()
+        if not self.is_adopt_polling():
+            return
+        for selection in self.selections:
+            selected = selection.selected
+            if selected is None or selected == Text.HEAD:
+                continue
+            if not selected in selection.page.variants:
+                continue
+            source_text = selection.page.variant_at(selected, 
+                                                    self.adopt_poll.begin_time)
+            dest_text = Text.create(selection.page, Text.HEAD, source_text.user, 
+                                    source_text.title, source_text.text, 
+                                    parent=source_text)
+            dest_text.create_time = at_time
+        self.adopted = True
+        meta.Session.commit()
+        self.adopt_poll.end(at_time)
+        meta.Session.flush()
     
     
     @classmethod
