@@ -11,10 +11,6 @@ import adhocracy.forms as forms
 log = logging.getLogger(__name__)
 
 
-class TagProposalFilterForm(formencode.Schema):
-    allow_extra_fields = True
-    proposals_state = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
-    
 class TaggingCreateForm(formencode.Schema):
     allow_extra_fields = True
     tags = validators.String(max=10000, not_empty=True)
@@ -39,23 +35,27 @@ class TagController(BaseController):
         
     
     @RequireInstance
-    @validate(schema=TagProposalFilterForm(), post_only=False, on_get=True)
     def show(self, id, format='html'):
         c.tag = get_entity_or_abort(model.Tag, id)
         require.tag.show(c.tag)
         require.proposal.index()
-        proposals = libsearch.query.run(c.tag.name, instance=c.instance,  
-                                        fields=['tags'], entity_type=model.Proposal)
+        require.page.index()
         
         if format == 'json':
             return render_json(c.tag)
             
-        if self.form_result.get('proposals_state'): 
-            proposals = model.Proposal.filter_by_state(self.form_result.get('proposals_state'), 
-                                                       proposals)
         
-        # TODO "Similar tags"
-        c.proposals_pager = pager.proposals(proposals)
+        entities = libsearch.query.run(c.tag.name, instance=c.instance, fields=['tags'])
+        entities = [e for e in entities if (isinstance(e, model.Proposal) or isinstance(e, model.Page))]
+        
+        c.entities_pager = NamedPager('entities', entities, tiles.dispatch_row, 
+                                      sorts={_("oldest"): sorting.entity_oldest,
+                                             _("newest"): sorting.entity_newest,
+                                             _("alphabetically"): sorting.page_title,
+                                             _("relevance"): sorting.entity_stable},
+                                      default_sort=sorting.entity_stable,
+                                      q=c.query)
+        
         tags = model.Tag.similar_tags(c.tag, limit=50)
         c.cloud_tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
         return render("/tag/show.html")

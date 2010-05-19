@@ -11,10 +11,22 @@
 		<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
 	%endif
 	
+	%if can.page.create():
+		<a class="button title add ttip" title="${_('Create a new wiki page.')}" 
+		    href="/page/new">${_("new page")}</a>
+	%endif
+	
+	%if can.norm.create():
+		<a class="button title admin ttip" title="${_('Create a new norm.')}" 
+		    href="/page/new?function=norm">${_("new norm")}</a>
+	%endif
+	
+	
 	${components.watch(c.tag)}
 </div>
 
-<h1 class="page_title"><img src="/img/icons/tag_24.png" class="cd" /> ${_("Proposals tagged '%s'") % c.tag.name}</h1>
+<div style="clear: both;"></div>
+<h1 class="page_title"><img src="/img/icons/tag_24.png" class="cd" /> ${c.tag.name}</h1>
 
 
 <div class="sidebar">
@@ -23,16 +35,7 @@
 		<h3 class="section">${_("Similar tags")}</h3>
 		${tiles.tag.cloud(c.cloud_tags)}
 	%endif
-	
-	%if c.instance.allow_adopt:
-		<h3 class="section">${_("Filter by state")}</h3>
-		<ul>
-			<li><a href="${c.proposals_pager.serialize(proposals_state='draft')}">${_("Draft")}</a></li>
-			<li><a href="${c.proposals_pager.serialize(proposals_state='polling')}">${_("Polling")}</a></li>
-			<li><a href="${c.proposals_pager.serialize(proposals_state='adopted')}">${_("Adopted")}</a></li>
-		</ul>
-	%endif
-	
+		
 	<h3 class="help">${_("Help")}</h3>
 	<ul>
 		<li><a href="/static/tag_faq.html#whatis">${_("What is a tag?")}</a></li>
@@ -42,8 +45,8 @@
 </div>
 
 <div class="mainbar">
-	<div id="proposals_table" class="table">
-		${c.proposals_pager.here()}
+	<div id="entities_table" class="table">
+		${c.entities_pager.here()}
 	</div>
 </div>
 
