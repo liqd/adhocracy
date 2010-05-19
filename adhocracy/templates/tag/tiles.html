@@ -33,7 +33,7 @@
 		<ul>
 		<% tagn = 0 %>
 		%for (tag, count) in delegateable.tags:
-			<li class="${'hidejs moreTags' if tagn > 5 else ''}">${h.tag_link(tag, count)|n}
+			<li class="${'hidejs moreTags' if tagn >= 5 else ''}">${h.tag_link(tag, count)|n}
 			%if c.user:
 				<% has = False %>
 				%for tagging in delegateable.taggings:

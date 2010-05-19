@@ -65,8 +65,10 @@ SUB_PAGE = re.compile("\[\[([^(\]\])]{3,255})\]\]", re.M)
 
 def page_sub(match):
     from adhocracy.lib import helpers as h
-    page = model.Page.find_fuzzy(match.group(1)) 
+    page = model.Page.find_fuzzy(match.group(1), include_deleted=True) 
     if page is not None:
+        if page.is_deleted():
+            return match.group(1)
         return h.page_link(page)
     else:
         from adhocracy.forms import FORBIDDEN_NAMES
