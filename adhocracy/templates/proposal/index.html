@@ -23,9 +23,21 @@
 	%if c.instance.allow_adopt:
 		<h3 class="section">${_("Filter by state")}</h3>
 		<ul>
-			<li><a href="${c.proposals_pager.serialize(proposals_state='draft')}">${_("Draft")}</a></li>
-			<li><a href="${c.proposals_pager.serialize(proposals_state='polling')}">${_("Polling")}</a></li>
-			<li><a href="${c.proposals_pager.serialize(proposals_state='adopted')}">${_("Adopted")}</a></li>
+		%for state in ['', 'draft', 'polling', 'adopted']:
+			<li>
+			%if state!=request.params.get('proposals_state', ''):
+				<a href="${c.proposals_pager.serialize(proposals_state=state)}">
+			%endif
+			%if state!='':
+				${_(state.capitalize())}
+			%else:
+				${_("All")}
+			%endif
+			%if state!=request.params.get('proposals_state', ''):
+				</a>
+			%endif
+			</li>
+		%endfor
 		</ul>
 	%endif
 	
