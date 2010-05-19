@@ -110,11 +110,10 @@ class Tally(object):
                     users = users.remove(user)
             result_voters[option] = users
         
-        tally = Tally(None,
-                      len(result_voters.get(Vote.YES, [])), 
-                      len(result_voters.get(Vote.NO, [])),
-                      len(result_voters.get(Vote.ABSTAIN, []))
-        return tally      
+        return Tally(None,
+                     len(result_voters.get(Vote.YES, [])), 
+                     len(result_voters.get(Vote.NO, [])),
+                     len(result_voters.get(Vote.ABSTAIN, [])))     
     
     
     @classmethod
