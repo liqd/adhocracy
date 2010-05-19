@@ -387,7 +387,8 @@ class UserController(BaseController):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         require.user.show(c.page_user)
         watches = model.Watch.all_by_user(c.page_user)
-        c.entities_pager = NamedPager('watches', map(lambda w: w.entity, watches), tiles.dispatch_row, 
+        entities = [w.entity for w in watches if not instance(unicode, w.entity)]
+        c.entities_pager = NamedPager('watches', entities, tiles.dispatch_row, 
                                       sorts={_("oldest"): sorting.entity_oldest,
                                              _("newest"): sorting.entity_newest},
                                       default_sort=sorting.entity_newest)

@@ -20,7 +20,10 @@ poll_table = Table('poll', meta.data,
     Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False)
     )
 
-class NoPollException(Exception): pass
+
+class NoPollException(Exception): 
+    pass
+
 
 class Poll(object):
     

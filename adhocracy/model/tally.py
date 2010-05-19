@@ -69,8 +69,9 @@ class Tally(object):
             at_time = datetime.utcnow()
         results = {}
         for decision in Decision.for_poll(poll, at_time=at_time):
-            if decision.is_decided():
-                results[decision.result] = results.get(decision.result, 0) + 1
+            if not decision.is_decided():
+                continue
+            results[decision.result] = results.get(decision.result, 0) + 1
         tally = Tally(poll,
                       results.get(Vote.YES, 0), 
                       results.get(Vote.NO, 0),
@@ -79,6 +80,41 @@ class Tally(object):
         meta.Session.add(tally)
         meta.Session.flush()
         return tally 
+    
+    
+    @classmethod
+    def combine_polls(cls, polls, at_time=None):
+        from adhocracy.lib.democracy import Decision
+        from vote import Vote
+        if at_time is None:
+            at_time = datetime.utcnow()
+        result_voters = {}
+        undecided = []
+        
+        for poll in polls:
+            for decision in Decision.for_poll(poll, at_time=at_time):
+                if not decision.is_decided():
+                    continue
+                for option in [Vote.YES, Vote.NO, Vote.ABSTAIN]:
+                    voters = result_voters.get(option, [])
+                    if option == result and decision.user not in voters:
+                        voters = voters.append(decision.user)
+                    if option != result and decision.user in voters:
+                        undecided.append(decision.user)
+                    result_voters[option] = voters
+        
+        for option in [Vote.YES, Vote.NO, Vote.ABSTAIN]:
+            users = result_voters.get(option, [])
+            for user in undecided:
+                if user in users:
+                    users = users.remove(user)
+            result_voters[option] = users
+        
+        tally = Tally(None,
+                      len(result_voters.get(Vote.YES, [])), 
+                      len(result_voters.get(Vote.NO, [])),
+                      len(result_voters.get(Vote.ABSTAIN, []))
+        return tally      
     
     
     @classmethod

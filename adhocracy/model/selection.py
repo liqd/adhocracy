@@ -129,6 +129,13 @@ class Selection(object):
         return sorted(pairs, key=lambda (k, v): v.tally.score, reverse=True)
     
     
+    def variant_poll(self, variant):
+        for (_variant, poll) in self.variant_polls:
+            if variant == _variant:
+                return poll
+        return None
+    
+    
     @property
     def selected(self):
         from text import Text

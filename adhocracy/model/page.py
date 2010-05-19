@@ -127,6 +127,22 @@ class Page(Delegateable):
             selection.make_variant_poll(variant, user)
     
     
+    def variant_polls(self, variant):
+        polls = [s.variant_poll(variant) for s in self.selections]
+        polls = [p for p in polls if p is not None]
+        return polls
+        
+    
+    def variant_tally(self, variant):
+        from tally import Tally
+        polls = self.variant_polls(variant)
+        return Tally.combine_polls(polls)
+    
+    
+    def variant_tallies(self):
+        return [self.variant_tally(v) for v in self.variants]
+    
+    
     @property
     def proposal(self):
         if self.function == Page.DESCRIPTION:
