@@ -10,7 +10,7 @@
 ${tiles.proposal.header(c.proposal, active='implementation')}
 
 <div class="lefthalf double">
-	<h3>I want to create a new position or norm.</h3>
+	<h3>${_("I want to create a new position or norm.")}</h3>
 
 	<form name="create_page" class="inplace" method="POST" action="/page">
 		${h.field_token()|n}
@@ -31,7 +31,7 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 </div>
 
 <div class="righthalf double">
-	<h3>I want to modify or extend an existing norm.</h3>
+	<h3>${_("I want to modify or extend an existing norm.")}</h3>
 	<form name="create_selection" class="inplace" method="POST" 
 	      action="${h.entity_url(c.proposal, member='implementation')}">
 
