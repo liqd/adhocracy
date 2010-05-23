@@ -181,15 +181,16 @@ class ProposalController(BaseController):
     
     @RequireInstance
     def canonicals(self, id, format='html'):
-        c.proposal = get_entity_or_abort(model.Proposal, id)
-        require.proposal.show(c.proposal)
-        
-        if format == 'json':
-            return render_json(c.proposal.canonicals)
-        
-        c.tile = tiles.proposal.ProposalTile(c.proposal)
-        self._common_metadata(c.proposal)
-        return render("/proposal/canonicals.html")
+        return self.not_implemented(format=format)
+        #c.proposal = get_entity_or_abort(model.Proposal, id)
+        #require.proposal.show(c.proposal)
+        #
+        #if format == 'json':
+        #    return render_json(c.proposal.canonicals)
+        #
+        #c.tile = tiles.proposal.ProposalTile(c.proposal)
+        #self._common_metadata(c.proposal)
+        #return render("/proposal/canonicals.html")
 
     
     @RequireInstance
