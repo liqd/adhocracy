@@ -67,9 +67,10 @@
 					(${tile.num_proposals})</a></li>
 				##<li><a href="${h.entity_url(user, member='comments')}" class="comments">${_("Comments")} 
 				##	(${tile.num_comments})</a></li>
+				
+				<li><a href="${h.entity_url(user, member='watchlist')}" class="watchlist">${_("Watchlist")}
+					(${user.num_watches})</a></li>
 			%endif	
-			<li><a href="${h.entity_url(user, member='watchlist')}" class="watchlist">${_("Watchlist")}
-				(${user.num_watches})</a></li>
 			<li><a href="${h.entity_url(user, member='instances')}" class="instances">${_("Instances")} 	
 				(${tile.num_instances})</a></li>
 		</ul>

@@ -89,6 +89,18 @@
 						<img width="16" height="16" src="${h.gravatar_url(c.user, size=16)|n}"> ${c.user.name}
 					</a>
 				</strong>
+				
+				%if can.user.vote():
+					%if c.instance.allow_adopt: 
+						<a href="${h.entity_url(c.user, member='votes')}">${_("Votes")}</a>
+					%endif
+					%if c.instance.allow_delegate:
+						<a href="${h.entity_url(c.user,member='delegations')}">${_("Delegations")}</a>
+					%endif
+				%endif
+				%if c.instance:
+					<a href="${h.entity_url(c.user, member='watchlist')}">${_("Watchlist")}</a></li>
+				%endif
 				<a href="${h.entity_url(c.user, member='edit')}">${_("Settings")}</a>
 				<a href="/logout">${_("Logout")}</a>
 			%else:
