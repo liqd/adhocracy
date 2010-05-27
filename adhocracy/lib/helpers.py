@@ -38,7 +38,7 @@ def immutable_proposal_message():
 def user_link(user, size=16, scope=None):
     @cache.memoize('user_generic_link')
     def _generic_link(user, size, scope):
-        url = "<a href='%s' class='user_link'><img class='user_icon' src='%s' alt="" /> %s</a>" % (
+        url = "<a href='%s' class='user_link'><img width='16' height='16' class='user_icon' src='%s' alt="" /> %s</a>" % (
             entity_url(user), gravatar_url(user, size=size),
             cgi.escape(user.name))
         if scope:
@@ -54,7 +54,7 @@ def user_link(user, size=16, scope=None):
             dnode = democracy.DelegationNode(other, scope)
             for delegation in dnode.outbound():
                 if delegation.agent == user:
-                    icon = "<img class='user_icon' src='/img/icons/delegate_16.png' />"
+                    icon = "<img class='user_icon' width='16' height='16' src='/img/icons/delegate_16.png' />"
                     url += "<a href='%s'>%s</a>" % (entity_url(delegation), icon)
         return url
     
@@ -92,14 +92,28 @@ def tag_link(tag, count=None, size=None, base_size=12, plain=False):
     return text
 
 
-def page_link(page, create=False, link=True):
+@cache.memoize('proposal_icon')
+def page_icon(page, size=16):
+    path = "/img/icons/page%s_%s.png"
+    if page.function == page.NORM: 
+        return path % ("_norm", size)
+    elif page.function == page.DESCRIPTION:
+        return proposal_icon(page.proposal, size=size)
+    else:
+        return path % ("", size)
+
+
+def page_link(page, create=False, link=True, icon=False, icon_size=16):
+    text = ""
+    if icon:
+        text += "<img class='dgb_icon' src='%s' /> " % page_icon(page, size=icon_size)
     if not create and page.is_deleted():
         link = False
     if not link:
         if create: raise ValueError()
         return cgi.escape(page.title)
     
-    text = "<a class='page_link %s' href='%s'>%s</a>"
+    text += "<a class='page_link %s' href='%s'>%s</a>"
     if create:
         url = urllib.quote(page.encode('utf-8'))
         url = "/page/new?title=%s" % url

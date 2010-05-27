@@ -2,7 +2,7 @@
 
 <%def name="row(tile, page)">
 	<div class="tile">
-		<div class="base" style="background-image: url(/img/icons/page_32.png);">
+		<div class="base" style="background-image: url(${h.page_icon(page, size=32)});">
 			<h3><a class="link" href="${h.entity_url(page)}">${page.title}</a></h3>
 			##%for (tag, count) in page.tags[:5]:
 			##	${h.tag_link(tag)|n}
@@ -72,8 +72,10 @@
 	<div style="clear: both;"></div>
 	<h1 class="page_title">
 	%if text.variant != text.HEAD:
+		<img class="cd" src="/img/icons/page_variant_24.png" />
 		${_("Change request: %s") % text.title}
 	%else:
+		<img class="cd" src="${h.page_icon(page, size=24)|n}" />
 		${text.title}
 	%endif
 	</h1>
