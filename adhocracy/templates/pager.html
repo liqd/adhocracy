@@ -1,7 +1,7 @@
 
 <%def name="namedpager(pager)">
 
-	%if len(pager.sorts.keys()) > 1:
+	%if len(pager.sorts.keys()) > 1 and pager.enable_sorts:
 		<span class="pager_sorts">
 		${_("sort by")} |
 		%for sort, i in zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)):
@@ -22,30 +22,32 @@
 		${pager.itemfunc(item)}
 	%endfor
 	</div>
-	<div class="pager">
-		<div class="prev_page">
-			%if pager.page > 1:
-			<a href="${pager.serialize(page=pager.page-1)}">&laquo; ${_("previous")}</a>
-			%endif
+	%if pager.enable_pages:
+		<div class="pager">
+			<div class="prev_page">
+				%if pager.page > 1:
+				<a href="${pager.serialize(page=pager.page-1)}">&laquo; ${_("previous")}</a>
+				%endif
+			</div>
+			%for i in xrange(1, pager.pages+1):
+				%if i != pager.page:
+					<a href="${pager.serialize(page=i)}">${i}</a>  
+				%else:
+					${i}
+				%endif
+			%endfor
+			<div class="next_page">
+				%if pager.page < pager.pages:
+				<a href="${pager.serialize(page=pager.page+1)}">${_("next")} &raquo;</a>
+				%endif
+			</div>
 		</div>
-		%for i in xrange(1, pager.pages+1):
-			%if i != pager.page:
-				<a href="${pager.serialize(page=i)}">${i}</a>  
-			%else:
-				${i}
-			%endif
-		%endfor
-		<div class="next_page">
-			%if pager.page < pager.pages:
-			<a href="${pager.serialize(page=pager.page+1)}">${_("next")} &raquo;</a>
-			%endif
+		<div class="pager_sorts bottom">
+			%for size in range(pager.initial_size, (pager.initial_size*3)+1, pager.initial_size/2):
+				<a class="${'selected' if size == pager.size else ''}" 
+					href="${pager.serialize(size=size)}">${size}</a> |
+			%endfor
+			${_("entries")}
 		</div>
-	</div>
-	<div class="pager_sorts bottom">
-		%for size in range(pager.initial_size, (pager.initial_size*3)+1, pager.initial_size/2):
-			<a class="${'selected' if size == pager.size else ''}" 
-				href="${pager.serialize(size=size)}">${size}</a> |
-		%endfor
-		${_("entries")}
-	</div>
+	%endif
 </%def>

@@ -1,4 +1,5 @@
 import logging
+import cgi
 
 from pylons.i18n import _ 
 
@@ -32,14 +33,40 @@ class PageFormatter(DelegateableFormatter):
 
 class PollFormatter(ObjectFormatter):
     
+    SELECT_PATTERN = lambda v, p: _("variant %(variant)s of %(page)s") % \
+                                    {'variant': v, 
+                                     'page': p}
+    
+    def _get_formatter(self, poll):
+        if poll.action in [poll.RATE, poll.ADOPT]:
+            if isinstance(poll.subject, model.Comment):
+                return CommentFormatter()
+            if isinstance(poll.subject, model.DelegateableFormatter):
+                return DelegateableFormatter()
+            else: 
+                return unicode(poll.subject)
+            
+    
     def unicode(self, poll):
-        m = DelegateableFormatter()
-        return m.unicode(poll.subject)
+        if poll.action == poll.SELECT: 
+            return self.SELECT_PATTERN(poll.variant, poll.selection.page.title)
+        else:
+            fmt = self._get_formatter(poll)
+            return fmt.unicode(poll.subject)
+    
     
     def html(self, poll):
-        m = DelegateableFormatter()
-        return m.html(poll.subject)
-            
+        if poll.action == poll.SELECT: 
+            text = poll.selection.page.variant_head(poll.variant)
+            variant_link = "<a href='%s'>%s</a>" % (h.entity_url(text), 
+                                                    cgi.escape(text.variant))
+            page_link = h.page_link(poll.selection.page, icon=True, icon_size=16)
+            return self.SELECT_PATTERN(variant_link, page_link)
+        else:
+            fmt = self._get_formatter(poll)
+            return fmt.unicode(poll.subject)
+
+
 class InstanceFormatter(ObjectFormatter):
     
     def unicode(self, instance):

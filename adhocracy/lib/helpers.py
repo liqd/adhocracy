@@ -103,7 +103,7 @@ def page_icon(page, size=16):
         return path % ("", size)
 
 
-def page_link(page, create=False, link=True, icon=False, icon_size=16):
+def page_link(page, create=False, link=True, icon=True, icon_size=16):
     text = ""
     if icon:
         text += "<img class='dgb_icon' src='%s' /> " % page_icon(page, size=icon_size)

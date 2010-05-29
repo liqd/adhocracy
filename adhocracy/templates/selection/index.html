@@ -22,7 +22,7 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 	<div id="selections_table" class="table">
 		%if not len(c.proposal.selections):
 			<div class="infobox">
-				${_("Proposals are implemented by including changes towards new or existing norm text (such as a position, a bylaw or a law). Amend the proposal to change or create a norm.")} 
+				${_("Proposals are implemented by including changes towards new or existing position. Amend the proposal to change or create a position.")} 
 			</div>
 		%endif
 		%for selection in c.proposal.selections: 

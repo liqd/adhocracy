@@ -21,7 +21,8 @@ class NamedPager(object):
     in order to distinguish multiple pagers working on the same page.  
     """
     
-    def __init__(self, name, items, itemfunc, size=20, sorts={}, default_sort=None, **kwargs):
+    def __init__(self, name, items, itemfunc, size=20, sorts={}, 
+                 default_sort=None, enable_sorts=True, enable_pages=True, **kwargs):
         self.name = name
         self._items = items
         self.itemfunc = itemfunc
@@ -32,6 +33,8 @@ class NamedPager(object):
         else:
             self.selected_sort = 0
         self.sorted = False
+        self.enable_sorts = enable_sorts
+        self.enable_pages = enable_pages
         self.kwargs = kwargs
         self._parse_request()
      
@@ -109,14 +112,14 @@ def instances(instances):
                       default_sort=sorting.delegateable_label)
 
   
-def proposals(proposals, detail=True):
+def proposals(proposals, **kwargs):
     sorts = {_("oldest"): sorting.entity_oldest,
              #_("newest"): sorting.entity_newest,
              _("newest comment"): sorting.delegateable_latest_comment,
              _("support"): sorting.proposal_support,
               _("alphabetically"): sorting.delegateable_label}
     return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
-                      default_sort=sorting.proposal_support)
+                      default_sort=sorting.proposal_support, **kwargs)
 
 
 def pages(pages, detail=True):

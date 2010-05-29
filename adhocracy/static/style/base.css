@@ -323,15 +323,18 @@ body {
 
 #breadcrumbs {
 	font-weight: normal;
-	margin-top: 0.5em;
-	margin-bottom: 1.5em;
 	font-size: 0.8em;
 	width: inherit;
-	color: #666;
-	/*border-top: 1px solid #eee;*/
 	padding: 0.2em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
 	/*border-bottom: 1px solid #e0e0e0;*/
 	/*letter-spacing: 0.1em;*/
+}
+
+#breadcrumbs, 
+#breadcrumbs a {
+	color: #aaa;
 }
 
 .user_link {
@@ -464,16 +467,17 @@ body {
 	background-position: bottom;
 }
 
-#instanceheader #headerbox {
-	position: relative;
-	min-height: 60px;
+#instanceheader .headerbox,
+#globalheader .headerbox {
 	width: 960px;
 	margin-left: auto;
 	margin-right: auto;
-	/*
-	border:  1px solid red;
-	*/
 }
+
+#instanceheader .headerbox {
+	position: relative;
+	min-height: 60px;
+} 
 
 #instanceheader #logo {
 	position: absolute;
@@ -485,7 +489,7 @@ body {
 #instanceheader #menu {
 	position: absolute;
 	bottom: 23px;
-	padding-left: 70px;
+	padding-left: 50px;
 }
 
 #instanceheader #searchform {
@@ -573,10 +577,10 @@ body {
 
 #footer #links {
 	text-align: left;
-	/*width: 960px;
-	margin: 0 auto;*/
-	margin-left: 2em;
-	margin-right: 2em;
+	width: 960px;
+	margin: 0 auto;
+	/*margin-left: 2em;
+	margin-right: 2em;*/
 	line-height: 1.5em;
 	text-transform: lowercase;
 }

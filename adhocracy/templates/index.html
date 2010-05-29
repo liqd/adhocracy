@@ -2,10 +2,10 @@
 <%namespace name="components" file="/components.html"/>
 <%def name="title()">${c.page.title}</%def>
 
-<%def name="breadcrumbs()">
-	${h.breadcrumbs(c.instance)|n} &raquo; ${c.page.title} 
-</%def>
+<!--${h.breadcrumbs(c.instance)|n} &raquo; ${c.page.title} -->
+<%def name="breadcrumbs()"></%def>
 
+<!--
 <div class="top_actions title">
 	%if not c.user:
 		<a class="button add" href="/register">${_("sign up")}</a>
@@ -17,7 +17,7 @@
 
 
 <h1 class="page_title">${c.page.title}</h1>
-
+-->
 ##<div class="sidebar">
 ##	%if not c.user:
 ##		<%include file="/user/login_form.html"/>

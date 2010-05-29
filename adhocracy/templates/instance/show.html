@@ -8,33 +8,12 @@
 
 ${tiles.instance.header(c.page_instance, active='rules')}
 
-<div class="lefthalf">
-	${c.tile.description|n}
-</div>
 
-<div class="righthalf">
+<div class="sidebar">
+	<h3 class="section">${_("Topics")}</h3>
 	${tiles.tag.cloud(c.tags)}
-</div>
-
-<div style="clear: both;"></div>
-<div class="lefthalf">
-	<h3>${_("Rules")}</h3>
-	<p>${_("When a new user joins this Instance, they will be a <b>%s</b>.") % _(c.page_instance.default_group.group_name)|n}</p>
 	
-	%if c.page_instance.allow_adopt:
-		<!--h3><img src="/img/icons/vote_16.png" class="cd"> ${_("Voting Rules")}</h3-->
-		<p>${_("To become active, a proposal must reach the given proportion of approval.")}</p>
-		<p><b>${_("Required Majority:")} ${c.tile.required_majority}</b></p>
-			
-		<p>${_("Before becoming active, the majority must be held for the specified interval.")}</p>
-		<p><b>${_("Activation Delay:")} ${_("%(delay)s days") % dict(delay=c.tile.activation_delay)}</b></p>
-	%else:
-		<p>${_("Final votes are currently <b>disabled</b>.")|n}</p>
-	%endif
-</div>
-
-<div class="righthalf">
-	<h3>${_("Help")}</h3>
+	<h3 class="help">${_("Help")}</h3>
 	<p>${_("There are help pages on several help topics:")}</p>
 	<ul>
 		<li><a href="/static/about.html">${_("General intro")}</a> ${_("on Liquid Democracy")}</li>
@@ -46,3 +25,18 @@ ${tiles.instance.header(c.page_instance, active='rules')}
 		<li><a href="/static/notification_faq.html">${_("Notifications")}</a> ${_("via E-Mail or Twitter")}</li>
 	</ul>
 </div>
+
+<div class="mainbar">
+	${c.tile.description|n}
+	
+	
+	<div class="top_actions">
+		<a href="/proposal" class="button edit">${_("more proposals")}</a>
+	</div>
+	<br/>
+	<h3 class="section">${_("Current Proposals")}</h3>
+	<div id="proposals_table" class="table">
+		${c.proposals_pager.here()}
+	</div>
+</div>
+

@@ -47,7 +47,6 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 			%for selection in c.page.changing_selections:
 				<li>${h.proposal_link(selection.proposal)|n}</li>
 			%endfor
-			<li><a href="/proposal/new">${_("Create a new proposal...")}</a></li>
 		</ul>
 	%endif
 </div>

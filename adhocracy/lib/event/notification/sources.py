@@ -56,4 +56,11 @@ def tag_source(event):
             watches = watchlist.traverse_watchlist(tag)
     for watch in set(watches): 
         yield Notification(event, watch.user, watch=watch)
-    
+
+
+def comment_source(event):
+    if event.event == T_COMMENT_EDIT:
+        for revision in event.comment.revisions: 
+            yield Notification(event, 
+                               revision.user, 
+                               type=N_COMMENT_EDIT)

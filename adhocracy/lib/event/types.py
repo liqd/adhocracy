@@ -158,6 +158,18 @@ T_VOTE_CAST = EventType(u"t_vote_cast", pri=2,
                           link_path=lambda e: h.entity_url(e.poll.subject),
                           event_msg=lambda: _(u"voted %(vote)s %(poll)s"))
 
+T_RATING_CAST = EventType(u"t_rating_cast", pri=2, 
+                          subject=lambda: _(u"Rating: %(user)s %(vote)s %(poll)s"),
+                          link_path=lambda e: h.entity_url(e.poll.subject),
+                          event_msg=lambda: _(u"is %(vote)s %(poll)s"))
+
+
+T_SELECT_VARIANT = EventType(u"t_select_variant", pri=2, 
+                        subject=lambda: _(u"Variants: %(user)s %(vote)s %(poll)s"),
+                        link_path=lambda e: h.entity_url(e.poll.selection),
+                        event_msg=lambda: _(u"is %(vote)s %(poll)s"))
+
+
 T_TEST = EventType(u"t_test", pri=5, 
                           subject=lambda: _(u"Adhocracy says hello: %(test)s"),
                           link_path=lambda e: "/",

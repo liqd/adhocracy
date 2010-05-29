@@ -28,11 +28,10 @@ class NoPollException(Exception):
 class Poll(object):
     
     ADOPT = u'adopt'
-    REPEAL = u'repeal'
     RATE = u'rate'
     SELECT = u'select'
     
-    ACTIONS = [ADOPT, REPEAL, RATE, SELECT]
+    ACTIONS = [ADOPT, RATE, SELECT]
         
     def __init__(self, scope, user, action, subject=None):
         self.scope = scope
@@ -79,6 +78,15 @@ class Poll(object):
             from selection import Selection
             self._selection = Selection.by_key(self._subject)
         return self._selection
+        
+        
+    @property
+    def variant(self):
+        if self.selection is None: 
+            return None
+        for (variant, poll) in self.selection.variant_polls():
+            if poll == self:
+                return variant
     
     
     @property

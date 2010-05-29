@@ -117,7 +117,7 @@ class Selection(object):
         if self._polls is None:
             self._polls = Poll.by_subjects(self.subjects)
         return self._polls
-        
+    
     
     @property
     def variant_polls(self):

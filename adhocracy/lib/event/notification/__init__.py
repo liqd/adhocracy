@@ -2,7 +2,8 @@ import logging
 from time import time
 from itertools import chain
 
-from sources import watchlist_source, vote_source, instance_source, delegation_source, tag_source
+from sources import watchlist_source, vote_source, instance_source
+from sources import delegation_source, tag_source, comment_source
 from filters import self_filter, duplicates_filter, comment_filter
 from sinks import log_sink, mail_sink, twitter_sink
 
@@ -18,7 +19,8 @@ def notify(event):
                                    vote_source(event),
                                    instance_source(event),
                                    tag_source(event),
-                                   delegation_source(event)])
+                                   delegation_source(event),
+                                   comment_source(event)])
     pipeline = chain(*sources)
     
     pipeline = comment_filter(pipeline)

@@ -40,19 +40,24 @@
 
 <%def name="header(tile, page, active, text, variant)">
 	<div class="top_actions title">
-		%if can.delegation.create():
-			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
-			    href="/delegation/new?scope=${page.id}">${_("delegate")}</a>
+		
+		%if page.function == page.NORM and can.proposal.create():
+			<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
 		%endif
 		
 		%if page.function == page.DOCUMENT and can.page.create():
-			<a class="button title add ttip" title="${_('Create a new wiki page.')}" 
-			    href="/page/new">${_("new page")}</a>
+			<a class="button title add ttip" title="${_('Create a new document.')}" 
+			    href="/page/new">${_("new document")}</a>
 		%endif
 		
 		%if can.norm.create():
-			<a class="button title admin ttip" title="${_('Create a new norm.')}" 
-			    href="/page/new?function=norm">${_("new norm")}</a>
+			<a class="button title admin ttip" title="${_('Create a new position.')}" 
+			    href="/page/new?function=norm">${_("new position")}</a>
+		%endif
+		
+		%if can.delegation.create():
+			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
+				 href="/delegation/new?scope=${page.id}">${_("delegate")}</a>
 		%endif
 		
 		%if can.page.variant_edit(page, variant):

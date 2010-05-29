@@ -81,7 +81,7 @@
 </head>
 <body>
 <div id="frame">
-	<div id="globalheader">
+	<div id="globalheader"><div class="headerbox">
 		<div id="account">
 			%if c.user:
 				<strong>
@@ -107,7 +107,6 @@
 				<a href="/login">${_("Login")}</a> 
 				<a href="/register">${_("Register")}</a>	
 			%endif
-			<a href="${h.instance_url(None, path='/static/about.html')}">${_("Help")}</a>
 		</div>
 		<div id="navigation">
 		<a href="${h.instance_url(None)}">
@@ -118,11 +117,12 @@
 			<a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
 			<a href="/event/all">${_("Events")}</a>
 		%endif
+		<a href="${h.instance_url(None, path='/static/about.html')}">${_("Help")}</a>
 		</div>
-	</div>
+	</div></div>
 	
 	%if c.instance:
-	<div id="instanceheader"><div id="headerbox">
+	<div id="instanceheader"><div class="headerbox">
 		<a href="${h.instance_url(c.instance)}" id="logo">
 			<img src="/instance/${c.instance.key if c.instance else '_def'}_48x48.png" />
 		</a>
@@ -130,7 +130,7 @@
 			<ul>
 				<li><a href="${h.entity_url(c.instance)}">${_("Home")}</a></li>
 				<li><a href="/proposal">${_("Proposals")}</a></li>
-				<li><a href="/page/Main_Page">${_("Positions")}</a></li>
+				<li><a href="/page/Main_Page">${_("Documents")}</a></li>
 				<li><a href="/user">${_("Members")}</a></li>
 			</ul>
 		</div>
