@@ -213,6 +213,7 @@ class PageController(BaseController):
             return self._differ(c.page.head, c.text, options=options)
         #redirect(h.entity_url(c.text))
         c.tile = tiles.page.PageTile(c.page)
+        self._common_metadata(c.page, c.text)
         return render("/page/show.html")
         
     
@@ -228,6 +229,7 @@ class PageController(BaseController):
         if format == 'json':
             return render_json(c.texts_pager)
         c.tile = tiles.page.PageTile(c.page)
+        self._common_metadata(c.page, c.text)
         return render('/page/history.html')
     
     
@@ -255,6 +257,7 @@ class PageController(BaseController):
         #c.left_diff = text.html_diff(right_html, left_html)
         c.right_diff = libtext.html_diff(left_html, right_html)
         c.tile = tiles.page.PageTile(c.right.page)
+        self._common_metadata(c.right.page, c.right)
         return render("/page/diff.html")
         
     
@@ -296,5 +299,15 @@ class PageController(BaseController):
         return (page, _text, variant)
     
     
-    def _common_metadata(self, page):
-        pass
+    def _common_metadata(self, page, text):
+        h.add_meta("description", 
+                   libtext.meta_escape(text.text, markdown=False)[0:160])
+        h.add_meta("keywords", 
+                   ", ".join([k.name for (k, v) in page.tags]))
+        h.add_meta("dc.title", 
+                   libtext.meta_escape(page.title, markdown=False))
+        h.add_meta("dc.date", 
+                   page.create_time.strftime("%Y-%m-%d"))
+        h.add_meta("dc.author", 
+                   libtext.meta_escape(text.user.name, markdown=False))
+        
