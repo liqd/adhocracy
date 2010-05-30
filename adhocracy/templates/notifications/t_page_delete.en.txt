@@ -1,0 +1,1 @@
+${e.user.name} deleted the page ${e.page.title}.  

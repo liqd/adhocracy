@@ -1,4 +1,4 @@
-${e.user.name} hat einen neuen Vorschlag eingebracht, ${e.proposal.label}.  
+${e.user.name} hat einen neuen Vorschlag eingebracht, ${e.proposal.title}.  
 
 Hier ist die Anfangs-Beschreibung: 
-${e.proposal.comment.latest.text}
+${e.proposal.description.head.text}

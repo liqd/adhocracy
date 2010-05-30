@@ -7,7 +7,7 @@
 	%>
 	<div class="tile selection">
 		<h3>
-			${h.page_link(selection.page)|n} 
+			${h.page_link(selection.page, icon_size=24)|n} 
 			%if not selection.page.head.has_text:
 				${_("(new)")}
 			%endif

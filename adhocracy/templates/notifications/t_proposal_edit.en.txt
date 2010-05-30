@@ -1,4 +1,4 @@
-${e.user.name} edited the proposal ${e.proposal.label}.  
+${e.user.name} edited the proposal ${e.proposal.title}.  
 
 Here's the current description: 
-${e.proposal.comment.latest.text}
+${e.proposal.description.head.text}

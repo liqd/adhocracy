@@ -1,4 +1,1 @@
-${e.user.name} entfernte den Vorschlag ${e.proposal.label}.  
-
-Hier ist die letzte Beschreibung: 
-${e.proposal.comment.latest.text}
+${e.user.name} entfernte den Vorschlag ${e.proposal.title}.  
