@@ -304,8 +304,9 @@ class ProposalController(BaseController):
     def _common_metadata(self, proposal):
         h.add_meta("description", 
                    text.meta_escape(proposal.description.head.text, markdown=False)[0:160])
-        h.add_meta("keywords", 
-                   ", ".join([k.name for (k, v) in proposal.tags]))
+        tags = proposal.tags
+        if len(tags):
+            h.add_meta("keywords", ", ".join([k.name for (k, v) in tags]))
         h.add_meta("dc.title", 
                    text.meta_escape(proposal.label, markdown=False))
         h.add_meta("dc.date", 

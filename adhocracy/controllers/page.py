@@ -293,8 +293,9 @@ class PageController(BaseController):
     def _common_metadata(self, page, text):
         h.add_meta("description", 
                    libtext.meta_escape(text.text, markdown=False)[0:160])
-        h.add_meta("keywords", 
-                   ", ".join([k.name for (k, v) in page.tags]))
+        tags = page.tags
+        if len(tags):
+            h.add_meta("keywords", ", ".join([k.name for (k, v) in tags]))
         h.add_meta("dc.title", 
                    libtext.meta_escape(page.title, markdown=False))
         h.add_meta("dc.date", 
