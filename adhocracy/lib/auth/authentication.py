@@ -29,7 +29,8 @@ def setup_auth(app, config):
         
     basicauth = BasicAuthPlugin('Adhocracy HTTP Authentication')
     auth_tkt = InstanceAuthTktCookiePlugin('41d207498d3812741e27c6441760ae494a4f9fbf', 
-                                           cookie_name='adhocracy_login')
+                                           cookie_name='adhocracy_login', timeout=86400*2, 
+                                           reissue_time=3600)
         
     form = FriendlyFormPlugin(
             '/login',

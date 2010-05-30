@@ -85,7 +85,7 @@
 						%if tile.show_more_link:
 							&middot; 
 						%endif
-						<a href="${h.entity_url(selection.page, member='edit')}?new_variant=${c.lib.text.title2alias(c.proposal.title)}&proposal=${c.proposal.id}">${_("create a new variant...")}</a> 
+						<a href="${h.entity_url(selection.page, member='%20/edit')}?proposal=${c.proposal.id}">${_("create a new variant...")}</a> 
 					%endif
 				</li>
 		</ol>

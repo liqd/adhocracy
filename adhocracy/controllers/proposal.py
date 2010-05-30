@@ -19,7 +19,7 @@ class ProposalNewForm(formencode.Schema):
     alternative = foreach.ForEach(forms.ValidProposal(if_invalid=None), convert_to_list=True)
 
 class ProposalCreateForm(ProposalNewForm):
-    label = validators.String(max=255, min=4, not_empty=True)
+    label = forms.UnusedTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
     tags = validators.String(max=20000, not_empty=False)
     
@@ -28,7 +28,7 @@ class ProposalEditForm(formencode.Schema):
     alternative = foreach.ForEach(forms.ValidProposal(if_invalid=None), convert_to_list=True)
     
 class ProposalUpdateForm(ProposalEditForm):
-    label = validators.String(max=255, min=4, not_empty=True)
+    label = forms.UnusedTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
     
 class ProposalFilterForm(formencode.Schema):
@@ -128,10 +128,14 @@ class ProposalController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     def update(self, id, format='html'):
         try:
-            self.form_result = ProposalUpdateForm().to_python(request.params)
+            c.proposal = get_entity_or_abort(model.Proposal, id)
+            class state_(object):
+                page = c.proposal.description
+            self.form_result = ProposalUpdateForm().to_python(request.params, 
+                                                              state=state_())
         except Invalid, i:
             return self.edit(id, errors=i.unpack_errors())
-        c.proposal = get_entity_or_abort(model.Proposal, id)
+        
         require.proposal.edit(c.proposal)
         c.proposal.label = self.form_result.get('label')
         text = model.Text.create(c.proposal.description, model.Text.HEAD, c.user, 

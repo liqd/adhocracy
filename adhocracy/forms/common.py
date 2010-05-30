@@ -13,7 +13,7 @@ FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join"
 
 
 VALIDUSER = re.compile("^[a-zA-Z0-9_\-]{3,255}$")
-VALIDVARIANT = re.compile("^[a-zA-Z0-9_\-]{1,255}$")
+VALIDVARIANT = re.compile("^[\w-]{1,255}$", re.U)
 
 
 class UniqueUsername(formencode.FancyValidator):
@@ -197,3 +197,18 @@ class VariantName(formencode.FancyValidator):
             raise formencode.Invalid(_("Variant name cannot be purely numeric: %s") % value, value, state)
         except:
             return var
+
+
+class UnusedTitle(formencode.validators.String):
+    def __init__(self, exclude=None):
+        super(UnusedTitle, self).__init__(min=3, max=254, not_empty=True)
+    
+    def _to_python(self, value, state):
+        from adhocracy.model import Page
+        value = super(UnusedTitle, self)._to_python(value, state)
+        page = Page.find_fuzzy(value)
+        if hasattr(state, 'page') and state.page == page:
+            return value
+        if page is not None: 
+            raise formencode.Invalid(_("An entry with this title already exists"), value, state)
+        return value

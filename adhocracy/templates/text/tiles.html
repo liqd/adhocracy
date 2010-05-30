@@ -61,16 +61,19 @@
 					%endfor
 				</select>
 			%else:
-				%if c.variant == c.model.Text.HEAD:
-					<b><a href="${h.entity_url(this)|n}">${_("Status quo")}</a></b>
+				<b></a></b>
+				${_("Variant:")} 
+				%if field is not None:
+					<label for="variant" class="armhint">${_("Variant Name")}</label>
+					<input class="armlabel" name="variant" value="${field}"/>
 				%else:
-					${_("Variant:")} 
-					%if field is not None:
-						<label for="variant" class="armhint">${_("Variant Name")}</label>
-						<input class="armlabel" name="variant" value="${field}"/>
+					<b><a href="${h.entity_url(this)|n}">
+					%if this.variant == c.model.Text.HEAD:
+						${_("Status quo")}
 					%else:
-						<b><a href="${h.entity_url(this)|n}">${this.variant}</a></b>
+						${this.variant}
 					%endif
+					</a></b>
 				%endif
 			%endif
 			

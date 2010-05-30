@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 
 class PageCreateForm(formencode.Schema):
     allow_extra_fields = True
-    title = validators.String(max=255, min=4, not_empty=True)
+    title = forms.UnusedTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
     function = forms.ValidPageFunction()
     parent = forms.ValidPage(if_missing=None, if_empty=None, not_empty=False)
@@ -24,12 +24,11 @@ class PageCreateForm(formencode.Schema):
 
 class PageEditForm(formencode.Schema):
     allow_extra_fields = True
-    new_variant = validators.String(not_empty=False, if_missing=None, if_empty=None)
     
     
 class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
-    title = validators.String(max=255, min=4, not_empty=True)
+    title = forms.UnusedTitle()
     variant = forms.VariantName(not_empty=False, if_missing=model.Text.HEAD, if_empty=model.Text.HEAD)
     text = validators.String(max=20000, min=4, not_empty=True)
     parent = forms.ValidText()
@@ -138,17 +137,7 @@ class PageController(BaseController):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         c.proposal = request.params.get("proposal")
         defaults = dict(request.params)
-        
-        new_variant = self.form_result.get('new_variant')
-        if new_variant is not None:
-            variant = libtext.variant_normalize(new_variant)
-            if variant in c.page.variants:
-                for i in range(1, 100000):
-                    variant = libtext.variant_normalize(new_variant) + str(i)
-                    if not variant in c.page.variants:
-                        break
-            c.variant = variant
-        
+                
         require.page.variant_edit(c.page, c.variant)
         c.text_rows = libtext.field_rows(c.text.text)
         
@@ -172,7 +161,9 @@ class PageController(BaseController):
     def update(self, id, variant=None, text=None, format='html'):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         try:
-            self.form_result = PageUpdateForm().to_python(request.params)
+            class state_(object):
+                page = c.page
+            self.form_result = PageUpdateForm().to_python(request.params, state=state_())
         except Invalid, i:
             return self.edit(id, variant=c.variant, text=c.text.id, errors=i.unpack_errors())
         

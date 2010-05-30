@@ -79,7 +79,7 @@ class InstanceController(BaseController):
         
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         proposals = model.Proposal.all(instance=c.page_instance)
-        c.proposals_pager = pager.proposals(proposals, size=6, enable_sorts=False, 
+        c.proposals_pager = pager.proposals(proposals, size=4, enable_sorts=False, 
                                             enable_pages=False)
         tags = model.Tag.popular_tags(limit=70)
         c.tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
