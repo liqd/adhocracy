@@ -701,20 +701,22 @@ del.diff, del.modified {
 	color: #000;
 }
 
-.double del {
+.double del, .double del a {
     color: #fff;
     background-color: #fff;
 	/*display: none;*/
 }
 
-.double.righthalf ins.diff {
+.double.righthalf ins.diff, 
+.double.righthalf ins.diff a {
 	color: #fff;
 	background-color: #fff;
 	text-decoration: none;	
 	font-weight: bold;
 }
 
-.double.righthalf del.diff {
+.double.righthalf del.diff, 
+.double.righthalf del.diff a {
     color: #fff;
 }
 
@@ -726,21 +728,24 @@ del.diff, del.modified {
 	color: green;
 }
 
-.double.lefthalf ins {
+.double.lefthalf ins,
+.double.lefthalf ins a {
     text-decoration: none;
     color: #fff;
     background-color: #fff;
 	/*display: none;*/
 }
 
-.double del.diff {
+.double del.diff,
+.double del.diff a {
 	color: red;
 	background-color: #fff;
 	text-decoration: none;	
 	font-weight: bold;
 }
 
-.double.lefthalf del.diff {
+.double.lefthalf del.diff,
+.double.lefthalf del.diff a {
 	color: red;
 }
 
