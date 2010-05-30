@@ -41,7 +41,7 @@ def cleanup(text):
 def field_rows(text):
     if text is None:
         return 10
-    return int((len([ch for ch in text if ch == "\n"]) + len(text)/60) * 1.1)
+    return int((len([ch for ch in text if ch == "\n"]) + len(text)/70))
 
 SUB_USER = re.compile("@([a-zA-Z0-9_\-]{3,255})")
 

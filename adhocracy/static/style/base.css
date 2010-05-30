@@ -327,7 +327,7 @@ body {
 	width: inherit;
 	padding: 0.2em;
 	padding-top: 0.5em;
-	padding-bottom: 0.5em;
+	padding-bottom: 1em;
 	/*border-bottom: 1px solid #e0e0e0;*/
 	/*letter-spacing: 0.1em;*/
 }
@@ -489,7 +489,7 @@ body {
 #instanceheader #menu {
 	position: absolute;
 	bottom: 23px;
-	padding-left: 50px;
+	padding-left: 60px;
 }
 
 #instanceheader #searchform {

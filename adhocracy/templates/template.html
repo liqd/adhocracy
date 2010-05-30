@@ -89,7 +89,7 @@
 	<script type="text/javascript" 
 		src="${h.instance_url(c.instance, path='/js/jquery.timeago.js')}"></script>
 	<script type="text/javascript" 
-		src="${h.instance_url(c.instance, path='/js/jquery.timeago.${c.locale.language}.js')}"></script>
+		src="${h.instance_url(c.instance, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script>
 	<script type="text/javascript" 
 		src="${h.instance_url(c.instance, path='/js/adhocracy.js')}"></script>
 	
