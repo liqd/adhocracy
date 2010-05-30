@@ -1915,11 +1915,11 @@ a.button.inactive {
 
 
 
-.selection ol li {
+.selection ol.variants li {
     clear: left;
 }
 
-.selection ol {
+.selection ol.variants {
     padding-left: 10px;
     list-style-type: none;
 }

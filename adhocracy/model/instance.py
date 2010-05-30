@@ -191,7 +191,7 @@ class Instance(object):
         meta.Session.add(membership)
         meta.Session.flush()
         
-        page = Page.create(instance, u"Main Page", u"", user)
+        page = Page.create(instance, u"Main_Page", u"put your positions here", user)
         
         return instance
     

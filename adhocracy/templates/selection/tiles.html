@@ -21,7 +21,7 @@
 				${_("There is a tie between variants, thus none is included at the moment.")}
 			</div>
 		%endif 
-		<ol>
+		<ol class="variants">
 		%for row in tile.variant_rows():
 			<%
 			if not row.show:
