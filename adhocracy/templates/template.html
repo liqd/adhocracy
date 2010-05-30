@@ -56,11 +56,21 @@
 		   	%endif
 				${h.site_name()}
 	</title>
-	<link href="/style/base.css" rel="stylesheet" type="text/css" />
-	<link href="/style/site.css" rel="stylesheet" type="text/css" />
-	<link media="only screen and (max-device-width: 480px)" href="/style/iphone.css" type="text/css" rel="stylesheet" />
-	<link rel="stylesheet" href="/style/print.css" type="text/css" media="print" />
-	<link href='/favicon.ico' rel='shortcut icon' type='image/x-icon' />
+	<link  rel="stylesheet" type="text/css"
+		href="${h.instance_url(c.instance, path='/style/base.css')}" />
+	<link  rel="stylesheet" type="text/css" 
+		href="${h.instance_url(c.instance, path='/style/site.css')}"/>
+	<link media="only screen and (max-device-width: 1024px)" type="text/css" rel="stylesheet"
+		href="${h.instance_url(c.instance, path='/style/ipad.css')}" />
+	<link media="only screen and (max-device-width: 480px)" type="text/css" rel="stylesheet" 
+		href="${h.instance_url(c.instance, path='/style/iphone.css')}"/>
+	<link rel="stylesheet" media="all and (orientation:portrait)" 
+		href="${h.instance_url(c.instance, path='/style/portrait.css')}">
+	<link type="text/css" media="print" rel="stylesheet" 
+		href="${h.instance_url(c.instance, path='/style/print.css')}" />
+	<link rel='shortcut icon' type='image/x-icon' 
+		href='${h.instance_url(c.instance, path='/favicon.ico')}' />
+	
 	${print_link()}
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -72,11 +82,16 @@
 	
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="/js/jquery.autocomplete.min.js"></script>	
-	<script type="text/javascript" src="/js/jquery.qtip.min.js"></script>
-	<script type="text/javascript" src="/js/jquery.timeago.js"></script>
-	<script type="text/javascript" src="/js/jquery.timeago.${c.locale.language}.js"></script>
-	<script type="text/javascript" src="/js/adhocracy.js"></script>
+	<script type="text/javascript" 
+		src="${h.instance_url(c.instance, path='/js/jquery.autocomplete.min.js')}"></script>	
+	<script type="text/javascript" 
+		src="${h.instance_url(c.instance, path='/js/jquery.qtip.min.js')}"></script>
+	<script type="text/javascript" 
+		src="${h.instance_url(c.instance, path='/js/jquery.timeago.js')}"></script>
+	<script type="text/javascript" 
+		src="${h.instance_url(c.instance, path='/js/jquery.timeago.${c.locale.language}.js')}"></script>
+	<script type="text/javascript" 
+		src="${h.instance_url(c.instance, path='/js/adhocracy.js')}"></script>
 	
 </head>
 <body>

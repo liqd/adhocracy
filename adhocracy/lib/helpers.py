@@ -92,7 +92,7 @@ def tag_link(tag, count=None, size=None, base_size=12, plain=False):
     return text
 
 
-@cache.memoize('proposal_icon')
+@cache.memoize('page_icon')
 def page_icon(page, size=16):
     path = "/img/icons/page%s_%s.png"
     if page.function == page.NORM: 
@@ -105,7 +105,7 @@ def page_icon(page, size=16):
 
 def page_link(page, create=False, link=True, icon=True, icon_size=16):
     text = ""
-    if icon:
+    if icon and not create:
         text += "<img class='dgb_icon' src='%s' /> " % page_icon(page, size=icon_size)
     if not create and page.is_deleted():
         link = False

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-05-29 23:54+0100\n"
+"PO-Revision-Date: 2010-05-30 10:37+0100\n"
 "Last-Translator: Friedrich Lindenberg <friedrich@pudo.org>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -130,7 +130,7 @@ msgstr "Du bist kein Mitglied von %(instance)s."
 #: adhocracy/controllers/instance.py:234
 #, python-format
 msgid "You're the founder of %s, cannot leave."
-msgstr "Als Gründer von %s kannst du diese Adhocracy nicht verlassen."
+msgstr "Als Gründer von %s kannst du diese Organisation nicht verlassen."
 
 #: adhocracy/controllers/instance.py:250
 #, python-format
@@ -368,15 +368,15 @@ msgstr "Es hat sich bereits ein Benutzer mit dieser E-Mail-Adresse registriert"
 
 #: adhocracy/forms/common.py:55
 msgid "No instance key is given"
-msgstr "Keine Adhocracy-Kennung angegeben"
+msgstr "Keine Organisations-Kennung angegeben"
 
 #: adhocracy/forms/common.py:59
 msgid "The instance key is invalid"
-msgstr "Diese Adhocracy-Kennung ist ungültig."
+msgstr "Diese Organisations-Kennung ist ungültig."
 
 #: adhocracy/forms/common.py:63
 msgid "An instance with that key already exists"
-msgstr "Eine Adhocracy mit dieser Kennung existiert bereits."
+msgstr "Eine Organisation mit dieser Kennung existiert bereits."
 
 #: adhocracy/forms/common.py:73
 #, python-format
@@ -971,7 +971,7 @@ msgstr ""
 
 #: adhocracy/lib/instance/__init__.py:13
 msgid "This action is only available in an instance context."
-msgstr "Die Handlung ist nur innerhalb einer Adhocracy verfügbar."
+msgstr "Die Handlung ist nur innerhalb einer Organisation verfügbar."
 
 #: adhocracy/model/text.py:86
 msgid "[status quo]"
@@ -1428,7 +1428,7 @@ msgstr "Delegation"
 
 #: adhocracy/templates/delegation/new.html:18
 msgid "These people might be a good match for your delegation. Either select one of the listed delegates, or enter another user name."
-msgstr "Adhocracy versucht, passende Delegaten zu finden. Wähle entweder einen der aufgeführten Benutzer oder gib einen anderen Namen ein."
+msgstr "Wir haben versucht, passende Delegaten zu finden. Wähle entweder einen der aufgeführten Benutzer oder gib einen anderen Namen ein."
 
 #: adhocracy/templates/delegation/new.html:54
 msgid "Start typing, you will receive suggestions to find the user."
@@ -1643,7 +1643,7 @@ msgstr "Verwalten"
 
 #: adhocracy/templates/instance/edit.html:15
 msgid "Instance Name"
-msgstr "Name der Adhocracy"
+msgstr "Name der Organisation"
 
 #: adhocracy/templates/instance/edit.html:19
 #: adhocracy/templates/instance/new.html:29
@@ -1652,7 +1652,7 @@ msgstr "Beschreibung"
 
 #: adhocracy/templates/instance/edit.html:22
 msgid "Describe what the goals of this Instance are and who constitutes its community."
-msgstr "Beschreibe was die Ziele dieser Adhocracy sind und wer zur Gemeinschaft gehört."
+msgstr "Beschreibe was die Ziele dieser Organisation sind und wer zur Gemeinschaft gehört."
 
 #: adhocracy/templates/instance/edit.html:32
 msgid "Voting Rules"
@@ -1798,11 +1798,11 @@ msgstr "Organisations-Adresse"
 
 #: adhocracy/templates/instance/new.html:20
 msgid "The address may only contain alpha-numeric characters. Please note that this key cannot be changed after the instance has been created."
-msgstr "Die Adresse darf nur Buchstaben und Zahlen enthalten. Beachte, dass diese Adresse nach dem Anlegen der Adhocracy nicht mehr geändert werden kann."
+msgstr "Die Adresse darf nur Buchstaben und Zahlen enthalten. Beachte, dass diese Adresse nach dem Anlegen der Organisation nicht mehr geändert werden kann."
 
 #: adhocracy/templates/instance/new.html:32
 msgid "Describe what the goals of this instance are and who constitutes its community."
-msgstr "Beschreibe was die Ziele dieser Adhocracy sind und wer zur Gemeinschaft gehört."
+msgstr "Beschreibe was die Ziele dieser Organisation sind und wer zur Gemeinschaft gehört."
 
 #: adhocracy/templates/instance/show.html:13
 msgid "Topics"
@@ -1851,7 +1851,7 @@ msgstr "via E-Mail oder Twitter"
 #: adhocracy/templates/instance/show.html:34
 #| msgid "new proposal"
 msgid "more proposals"
-msgstr "andere vorschläge"
+msgstr "mehr vorschläge"
 
 #: adhocracy/templates/instance/show.html:37
 msgid "Current Proposals"
