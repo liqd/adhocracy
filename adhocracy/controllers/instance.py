@@ -2,12 +2,14 @@ from datetime import datetime
 import hashlib
 import os.path
 from time import time
+from babel import Locale
 
 from pylons.i18n import _
 
 from adhocracy.lib.base import *
 import adhocracy.lib.text as text
 import adhocracy.forms as forms
+import adhocracy.i18n as i18n
 import adhocracy.lib.logo as logo
 
 import adhocracy.lib.instance as libinstance
@@ -28,6 +30,7 @@ class InstanceEditForm(formencode.Schema):
     activation_delay = validators.Int(not_empty=True)
     required_majority = validators.Number(not_empty=True)
     default_group = forms.ValidGroup(not_empty=True)
+    locale = validators.String(not_empty=False)
 
 class InstanceController(BaseController):
     
@@ -57,7 +60,8 @@ class InstanceController(BaseController):
         instance = model.Instance.create(self.form_result.get('key'), 
                                          self.form_result.get('label'), 
                                          c.user, 
-                                         description=self.form_result.get('description'))
+                                         description=self.form_result.get('description'),
+                                         locale=c.locale)
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_CREATE, c.user, instance=instance)    
         return ret_success(entity=instance, format=format)
@@ -113,6 +117,7 @@ class InstanceController(BaseController):
         require.instance.edit(c.page_instance)
         
         c._Group = model.Group
+        c.locales = i18n.LOCALES
         default_group = c.page_instance.default_group.code if \
                         c.page_instance.default_group else \
                         model.Group.INSTANCE_DEFAULT
@@ -127,6 +132,7 @@ class InstanceController(BaseController):
                                     'allow_delegate': c.page_instance.allow_delegate,
                                     'allow_index': c.page_instance.allow_index,
                                     'hidden': c.page_instance.hidden,
+                                    'locale': c.page_instance.locale,
                                     '_tok': token_id(),
                                     'default_group': default_group})
         
@@ -146,6 +152,11 @@ class InstanceController(BaseController):
         c.page_instance.allow_delegate = self.form_result.get('allow_delegate')
         c.page_instance.allow_index = self.form_result.get('allow_index')
         c.page_instance.hidden = self.form_result.get('hidden')
+        
+        locale = Locale(self.form_result.get("locale"))
+        if locale and locale in i18n.LOCALES:
+            c.page_instance.locale = locale
+        
         if self.form_result.get('default_group').code in model.Group.INSTANCE_GROUPS:
             c.page_instance.default_group = self.form_result.get('default_group') 
         

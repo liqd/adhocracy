@@ -18,8 +18,10 @@ LOCALES = [babel.Locale('en', 'US'),
            babel.Locale('fr', 'FR')]
 
 def get_default_locale():
-    (lang, var) = config.get('adhocracy.language', 'en_US').split('_', 1)
-    return babel.Locale(lang, var)
+    if c.instance and c.instance.locale:
+        return c.instance.locale
+    locale = config.get('adhocracy.language', 'en_US')
+    return babel.Locale.parse(locale)
 
 def handle_request():
     """

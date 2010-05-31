@@ -140,6 +140,7 @@ mapper(Vote, vote_table, properties={
 mapper(Instance, instance_table, properties={
     'creator': relation(User, primaryjoin=instance_table.c.creator_id==user_table.c.id, 
                         backref=backref('created_instances')),
+    'locale': synonym('_locale', map_column=True),
     'default_group': relation(Group, lazy=True)
     }, extension=meta.extension)
 

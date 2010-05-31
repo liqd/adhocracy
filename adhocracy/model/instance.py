@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 import logging
 import math
 
+from babel import Locale
+
 from sqlalchemy import Table, Column, Integer, Float, Boolean, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import reconstructor
 
@@ -27,7 +29,8 @@ instance_table = Table('instance', meta.data,
     Column('allow_adopt', Boolean, default=True),       
     Column('allow_delegate', Boolean, default=True),
     Column('allow_index', Boolean, default=True),
-    Column('hidden', Boolean, default=False)   
+    Column('hidden', Boolean, default=False),
+    Column('locale', Unicode(7), nullable=True)  
     )
 
 
@@ -55,7 +58,18 @@ class Instance(object):
     @reconstructor
     def _reconstruct(self):
         self._required_participation = None
-        
+    
+    
+    def _get_locale(self):
+        if not self._locale:
+            return None
+        return Locale.parse(self._locale)
+
+    def _set_locale(self, locale):
+        self._locale = unicode(locale)
+
+    locale = property(_get_locale, _set_locale)
+
     
     def current_memberships(self):
         return [m for m in self.memberships if not m.is_expired()]
@@ -174,7 +188,7 @@ class Instance(object):
     
     
     @classmethod  
-    def create(cls, key, label, user, description=None):
+    def create(cls, key, label, user, description=None, locale=None):
         import adhocracy.lib.text as libtext
         from group import Group
         from membership import Membership
@@ -184,6 +198,8 @@ class Instance(object):
         if description is not None:
             instance.description = libtext.cleanup(description)
         instance.default_group = Group.by_code(Group.INSTANCE_DEFAULT)
+        if locale is not None:
+            instance.locale = locale
         meta.Session.add(instance)
         supervisor_group = Group.by_code(Group.CODE_SUPERVISOR)
         membership = Membership(user, instance, supervisor_group, 

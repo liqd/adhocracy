@@ -143,6 +143,25 @@
 	<div style="clear: both;"></div>
 	<div class="sidebar">
 		<div class="infobox">
+			${_("The language setting will be overridden by the user's personal setting.")|n} 
+		</div>
+	</div>
+	<div class="mainbar">
+		<label for="locale">${_("Language:")}</label>
+		<ul>
+			%for locale in c.locales:
+				<li style="list-style-type: none;"><input type="radio" name="locale" value="${str(locale)}" 
+					%if locale == c.page_instance.locale:
+						checked="checked"
+					%endif
+					/> ${locale.display_name}</li>
+			%endfor
+		</ul>
+	</div>
+	
+	<div style="clear: both;"></div>
+	<div class="sidebar">
+		<div class="infobox">
 			<a target="_new" href="/static/instance_faq.html">${_("More help...")}</a>
 		</div>
 	</div>
