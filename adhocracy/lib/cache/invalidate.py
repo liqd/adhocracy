@@ -47,8 +47,10 @@ def invalidate_vote(vote):
     
 def invalidate_selection(selection):
     clear_tag(selection)
-    invalidate_delegateable(selection.page)
-    invalidate_delegateable(selection.proposal)
+    if selection.page:
+        invalidate_delegateable(selection.page)
+    if selection.proposal:
+        invalidate_delegateable(selection.proposal)
 
 
 def invalidate_poll(poll):

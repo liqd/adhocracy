@@ -2,6 +2,8 @@
 
 <%def name="full(tile, selection)">
 	<%
+	if selection is None or selection.is_deleted():
+		return
 	if tile.frozen and not selection.changes_text:
 		return
 	%>
