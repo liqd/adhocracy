@@ -17,9 +17,13 @@
 				%elif proposal.rate_poll: 
 					${_("<b>%s</b> supporters,") % proposal.rate_poll.tally.score|n}
 				%endif
+				<img src="/img/icons/page_variant_16.png" /> 
+				${ungettext("%s position", "%s positions", len(proposal.selections)) % len(proposal.selections)}
+				&middot;
 				<img src="/img/icons/discuss_16.png" /> 
 				${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
-				${_("latest <b>%s</b>") % h.relative_time(tile.latest_revision_time)|n}&nbsp;
+				${_("latest <b>%s</b>") % h.relative_time(tile.latest_revision_time)|n} 
+				
 			</div>
 		</div>
 	</div>

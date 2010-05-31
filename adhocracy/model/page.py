@@ -161,6 +161,12 @@ class Page(Delegateable):
         return None
     
     
+    @property
+    def subpages(self):
+        return [c for c in self.children if isinstance(c, Page) and \
+                c.function in self.LISTED and not c.is_deleted()]
+    
+    
     @property 
     def has_variants(self):
         return self.function in Page.WITH_VARIANTS

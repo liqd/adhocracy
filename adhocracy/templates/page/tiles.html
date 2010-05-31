@@ -1,5 +1,11 @@
 <%namespace name="components" file="/components.html"/>
 
+<%def name="smallrow(tile, page)">
+	<div class="tile smallrow">
+		${h.page_link(page, icon=True, icon_size=16)|n}
+	</div>
+</%def>
+
 <%def name="row(tile, page)">
 	<div class="tile">
 		<div class="base" style="background-image: url(${h.page_icon(page, size=32)});">
@@ -38,8 +44,8 @@
 
 
 
-<%def name="inline(tile, page, text)">
-	${tiles.text.full(text)}
+<%def name="inline(tile, page, text, subpages_pager=None)">
+	${tiles.text.full(text, subpages_pager=subpages_pager)}
 </%def>
 
 <%def name="header(tile, page, active, text, variant)">

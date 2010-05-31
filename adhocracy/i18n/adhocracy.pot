@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-05-31 22:58+0200\n"
+"POT-Creation-Date: 2010-06-01 00:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,21 +18,22 @@ msgstr ""
 "Generated-By: Babel 0.9.4\n"
 
 #: adhocracy/controllers/comment.py:46 adhocracy/controllers/comment.py:175
-#: adhocracy/controllers/delegation.py:103 adhocracy/controllers/page.py:239
-#: adhocracy/controllers/search.py:39 adhocracy/controllers/tag.py:52
-#: adhocracy/controllers/user.py:393 adhocracy/lib/pager.py:109
-#: adhocracy/lib/pager.py:116 adhocracy/lib/pager.py:126 adhocracy/lib/pager.py:134
-#: adhocracy/lib/pager.py:145 adhocracy/lib/pager.py:152 adhocracy/lib/pager.py:159
-#: adhocracy/lib/pager.py:166
+#: adhocracy/controllers/delegation.py:103 adhocracy/controllers/page.py:230
+#: adhocracy/controllers/page.py:245 adhocracy/controllers/search.py:39
+#: adhocracy/controllers/tag.py:52 adhocracy/controllers/user.py:393
+#: adhocracy/lib/pager.py:109 adhocracy/lib/pager.py:116 adhocracy/lib/pager.py:126
+#: adhocracy/lib/pager.py:134 adhocracy/lib/pager.py:145 adhocracy/lib/pager.py:152
+#: adhocracy/lib/pager.py:159 adhocracy/lib/pager.py:166
 msgid "oldest"
 msgstr ""
 
 #: adhocracy/controllers/comment.py:47 adhocracy/controllers/comment.py:176
-#: adhocracy/controllers/delegation.py:104 adhocracy/controllers/page.py:240
-#: adhocracy/controllers/search.py:40 adhocracy/controllers/tag.py:53
-#: adhocracy/controllers/user.py:394 adhocracy/lib/pager.py:110
-#: adhocracy/lib/pager.py:127 adhocracy/lib/pager.py:135 adhocracy/lib/pager.py:146
-#: adhocracy/lib/pager.py:153 adhocracy/lib/pager.py:160 adhocracy/lib/pager.py:167
+#: adhocracy/controllers/delegation.py:104 adhocracy/controllers/page.py:231
+#: adhocracy/controllers/page.py:246 adhocracy/controllers/search.py:40
+#: adhocracy/controllers/tag.py:53 adhocracy/controllers/user.py:394
+#: adhocracy/lib/pager.py:110 adhocracy/lib/pager.py:127 adhocracy/lib/pager.py:135
+#: adhocracy/lib/pager.py:146 adhocracy/lib/pager.py:153 adhocracy/lib/pager.py:160
+#: adhocracy/lib/pager.py:167
 msgid "newest"
 msgstr ""
 
@@ -167,25 +168,31 @@ msgstr ""
 msgid "Justin Case has entered the room."
 msgstr ""
 
-#: adhocracy/controllers/page.py:189
+#: adhocracy/controllers/page.py:188
 msgid "You're trying to update to a text which is not part of this pages history"
 msgstr ""
 
-#: adhocracy/controllers/page.py:223
+#: adhocracy/controllers/page.py:222
 #, python-format
 msgid "The variant %s does not exist!"
 msgstr ""
 
-#: adhocracy/controllers/page.py:260
+#: adhocracy/controllers/page.py:232 adhocracy/controllers/tag.py:54
+#: adhocracy/lib/pager.py:111 adhocracy/lib/pager.py:120 adhocracy/lib/pager.py:128
+#: adhocracy/lib/pager.py:137
+msgid "alphabetically"
+msgstr ""
+
+#: adhocracy/controllers/page.py:266
 msgid "Cannot compare identical text revisions."
 msgstr ""
 
-#: adhocracy/controllers/page.py:294
+#: adhocracy/controllers/page.py:300
 #, python-format
 msgid "The page %s has been deleted."
 msgstr ""
 
-#: adhocracy/controllers/page.py:304
+#: adhocracy/controllers/page.py:310
 #, python-format
 msgid "Invalid text ID %s for this page/variant!"
 msgstr ""
@@ -237,11 +244,6 @@ msgstr ""
 
 #: adhocracy/controllers/static.py:22
 msgid "The requested page was not found"
-msgstr ""
-
-#: adhocracy/controllers/tag.py:54 adhocracy/lib/pager.py:111
-#: adhocracy/lib/pager.py:120 adhocracy/lib/pager.py:128 adhocracy/lib/pager.py:137
-msgid "alphabetically"
 msgstr ""
 
 #: adhocracy/controllers/twitteroauth.py:31
@@ -309,22 +311,22 @@ msgstr ""
 msgid "Invalid user name or password"
 msgstr ""
 
-#: adhocracy/controllers/user.py:445
+#: adhocracy/controllers/user.py:443
 #, python-format
 msgid "%(user)s was removed from %(instance)s"
 msgstr ""
 
-#: adhocracy/controllers/user.py:464
+#: adhocracy/controllers/user.py:462
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
 msgstr ""
 
-#: adhocracy/controllers/user.py:471
+#: adhocracy/controllers/user.py:469
 #, python-format
 msgid "%(user)ss Activity"
 msgstr ""
 
-#: adhocracy/controllers/user.py:478
+#: adhocracy/controllers/user.py:476
 #, python-format
 msgid "%s is not a member of %s"
 msgstr ""
@@ -511,7 +513,7 @@ msgid "The method you used is not implemented."
 msgstr ""
 
 #: adhocracy/lib/breadcrumbs.py:44 adhocracy/templates/proposal/canonicals.html:9
-#: adhocracy/templates/proposal/tiles.html:132
+#: adhocracy/templates/proposal/tiles.html:136
 #: adhocracy/templates/selection/index.html:7
 msgid "Implementation"
 msgstr ""
@@ -1043,7 +1045,7 @@ msgstr ""
 
 #: adhocracy/templates/template.html:113
 #: adhocracy/templates/proposal/delegations.html:7
-#: adhocracy/templates/proposal/tiles.html:135
+#: adhocracy/templates/proposal/tiles.html:139
 #: adhocracy/templates/user/delegations.html:8
 #: adhocracy/templates/user/tiles.html:63
 msgid "Delegations"
@@ -1283,8 +1285,8 @@ msgstr ""
 #: adhocracy/templates/comment/tiles.html:107
 #: adhocracy/templates/comment/tiles.html:238
 #: adhocracy/templates/instance/tiles.html:34
-#: adhocracy/templates/page/tiles.html:64
-#: adhocracy/templates/proposal/tiles.html:87
+#: adhocracy/templates/page/tiles.html:70
+#: adhocracy/templates/proposal/tiles.html:91
 #: adhocracy/templates/selection/tiles.html:65
 #: adhocracy/templates/user/tiles.html:28
 msgid "edit"
@@ -1293,8 +1295,8 @@ msgstr ""
 #: adhocracy/templates/comment/tiles.html:111
 #: adhocracy/templates/comment/tiles.html:243
 #: adhocracy/templates/instance/tiles.html:43
-#: adhocracy/templates/page/tiles.html:69
-#: adhocracy/templates/proposal/tiles.html:92
+#: adhocracy/templates/page/tiles.html:75
+#: adhocracy/templates/proposal/tiles.html:96
 #: adhocracy/templates/selection/tiles.html:91
 msgid "delete"
 msgstr ""
@@ -1359,7 +1361,7 @@ msgid "Context"
 msgstr ""
 
 #: adhocracy/templates/comment/tiles.html:258
-#: adhocracy/templates/proposal/tiles.html:148
+#: adhocracy/templates/proposal/tiles.html:152
 msgid "History"
 msgstr ""
 
@@ -1515,8 +1517,8 @@ msgid "You have not delegated voting."
 msgstr ""
 
 #: adhocracy/templates/delegation/tiles.html:43
-#: adhocracy/templates/page/tiles.html:59
-#: adhocracy/templates/proposal/tiles.html:72
+#: adhocracy/templates/page/tiles.html:65
+#: adhocracy/templates/proposal/tiles.html:76
 msgid "delegate"
 msgstr ""
 
@@ -1574,7 +1576,7 @@ msgid "Latest Events"
 msgstr ""
 
 #: adhocracy/templates/instance/activity.html:14
-#: adhocracy/templates/proposal/tiles.html:129
+#: adhocracy/templates/proposal/tiles.html:133
 #: adhocracy/templates/user/tiles.html:56
 msgid "Activity"
 msgstr ""
@@ -2011,7 +2013,7 @@ msgstr ""
 msgid "Create a page of text."
 msgstr ""
 
-#: adhocracy/templates/page/index.html:11 adhocracy/templates/page/tiles.html:54
+#: adhocracy/templates/page/index.html:11 adhocracy/templates/page/tiles.html:60
 #: adhocracy/templates/tag/show.html:16
 msgid "new document"
 msgstr ""
@@ -2059,7 +2061,7 @@ msgstr ""
 msgid "Variants"
 msgstr ""
 
-#: adhocracy/templates/page/show.html:21 adhocracy/templates/text/tiles.html:72
+#: adhocracy/templates/page/show.html:21 adhocracy/templates/text/tiles.html:78
 msgid "Status quo"
 msgstr ""
 
@@ -2072,8 +2074,8 @@ msgstr ""
 msgid "No proposals are trying to change %s"
 msgstr ""
 
-#: adhocracy/templates/page/tiles.html:12
-#: adhocracy/templates/proposal/tiles.html:21
+#: adhocracy/templates/page/tiles.html:18
+#: adhocracy/templates/proposal/tiles.html:24
 #: adhocracy/templates/selection/tiles.html:63
 #, python-format
 msgid "%s comment"
@@ -2081,26 +2083,26 @@ msgid_plural "%s comments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: adhocracy/templates/page/tiles.html:13
-#: adhocracy/templates/proposal/tiles.html:22
+#: adhocracy/templates/page/tiles.html:19
+#: adhocracy/templates/proposal/tiles.html:25
 #, python-format
 msgid "latest <b>%s</b>"
 msgstr ""
 
-#: adhocracy/templates/page/tiles.html:26
+#: adhocracy/templates/page/tiles.html:32
 msgid "(none)"
 msgstr ""
 
-#: adhocracy/templates/page/tiles.html:53 adhocracy/templates/tag/show.html:15
+#: adhocracy/templates/page/tiles.html:59 adhocracy/templates/tag/show.html:15
 msgid "Create a new document."
 msgstr ""
 
-#: adhocracy/templates/page/tiles.html:58
-#: adhocracy/templates/proposal/tiles.html:71
+#: adhocracy/templates/page/tiles.html:64
+#: adhocracy/templates/proposal/tiles.html:75
 msgid "Delegate your say in this debate to another participant."
 msgstr ""
 
-#: adhocracy/templates/page/tiles.html:80
+#: adhocracy/templates/page/tiles.html:86
 #, python-format
 msgid "Variant: %s"
 msgstr ""
@@ -2236,7 +2238,7 @@ msgstr ""
 #: adhocracy/templates/proposal/alternatives.html:7
 #: adhocracy/templates/proposal/edit.html:27
 #: adhocracy/templates/proposal/new.html:33
-#: adhocracy/templates/proposal/tiles.html:138
+#: adhocracy/templates/proposal/tiles.html:142
 msgid "Alternatives"
 msgstr ""
 
@@ -2281,7 +2283,7 @@ msgid "Contributors: %s"
 msgstr ""
 
 #: adhocracy/templates/proposal/contributors.html:9
-#: adhocracy/templates/proposal/tiles.html:147
+#: adhocracy/templates/proposal/tiles.html:151
 msgid "Contributors"
 msgstr ""
 
@@ -2371,62 +2373,69 @@ msgstr ""
 msgid "<b>%s</b> supporters,"
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:36
+#: adhocracy/templates/proposal/tiles.html:21
+#, python-format
+msgid "%s position"
+msgid_plural "%s positions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: adhocracy/templates/proposal/tiles.html:40
 msgid "(Select a proposal)"
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:76
+#: adhocracy/templates/proposal/tiles.html:80
 msgid "Call a vote on this proposal by freezing further development."
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:77
+#: adhocracy/templates/proposal/tiles.html:81
 msgid "call a vote"
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:81
+#: adhocracy/templates/proposal/tiles.html:85
 #: adhocracy/templates/selection/index.html:36
 msgid "Propose to change a position through this proposal."
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:82
+#: adhocracy/templates/proposal/tiles.html:86
 #: adhocracy/templates/selection/index.html:37
 msgid "amend implementation"
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:104
+#: adhocracy/templates/proposal/tiles.html:108
 msgid "Support this proposal"
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:110
+#: adhocracy/templates/proposal/tiles.html:114
 msgid "Oppose this proposal"
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:130
+#: adhocracy/templates/proposal/tiles.html:134
 msgid "Proposal"
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:153
+#: adhocracy/templates/proposal/tiles.html:157
 #, python-format
 msgid "%s has been adopted %s."
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:159
+#: adhocracy/templates/proposal/tiles.html:163
 msgid "Adoption requirements:"
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:164
-#: adhocracy/templates/proposal/tiles.html:174
+#: adhocracy/templates/proposal/tiles.html:168
+#: adhocracy/templates/proposal/tiles.html:178
 #, python-format
 msgid "%s%% approval"
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:167
 #: adhocracy/templates/proposal/tiles.html:171
+#: adhocracy/templates/proposal/tiles.html:175
 #, python-format
 msgid "%s participators"
 msgstr ""
 
-#: adhocracy/templates/proposal/tiles.html:178
+#: adhocracy/templates/proposal/tiles.html:182
 #, python-format
 msgid "stable majority for %s days"
 msgstr ""
@@ -2582,28 +2591,32 @@ msgstr ""
 msgid "by %s, "
 msgstr ""
 
-#: adhocracy/templates/text/tiles.html:47
+#: adhocracy/templates/text/tiles.html:34
+msgid "Subpages"
+msgstr ""
+
+#: adhocracy/templates/text/tiles.html:53
 msgid "Title:"
 msgstr ""
 
-#: adhocracy/templates/text/tiles.html:51 adhocracy/templates/text/tiles.html:65
+#: adhocracy/templates/text/tiles.html:57 adhocracy/templates/text/tiles.html:71
 msgid "Variant:"
 msgstr ""
 
-#: adhocracy/templates/text/tiles.html:67
+#: adhocracy/templates/text/tiles.html:73
 msgid "Variant Name"
 msgstr ""
 
-#: adhocracy/templates/text/tiles.html:82
+#: adhocracy/templates/text/tiles.html:88
 #, python-format
 msgid "%s by %s"
 msgstr ""
 
-#: adhocracy/templates/text/tiles.html:84
+#: adhocracy/templates/text/tiles.html:90
 msgid "historic versions"
 msgstr ""
 
-#: adhocracy/templates/text/tiles.html:89
+#: adhocracy/templates/text/tiles.html:95
 msgid "Compare"
 msgstr ""
 

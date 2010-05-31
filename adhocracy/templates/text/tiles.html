@@ -22,12 +22,18 @@
 </%def>
 
 
-<%def name="full(tile, text)">
+<%def name="full(tile, text, subpages_pager=None)">
 	%if text.has_text:
 		${text.render()|n}
 	%else:
 		<div class="infobox">
 			${_("This page has no text yet.")}
+		</div>
+	%endif
+	%if subpages_pager is not None and len(subpages_pager._items):
+		<h2>${_("Subpages")}</h2>
+		<div id="pages_table" class="table">
+			${subpages_pager.here()}
 		</div>
 	%endif
 	${tiles.comment.list(text.page, variant=text.variant)}

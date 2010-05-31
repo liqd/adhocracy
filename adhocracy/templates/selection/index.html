@@ -26,7 +26,7 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 			</div>
 			<br/>
 		%endif
-		%for selection in c.proposal.selections: 
+		%for selection in sorted(c.proposal.selections, key=lambda s: s.page.title.lower()): 
 			${tiles.selection.full(selection, max_variants=3)}
 		%endfor
 	</div>

@@ -416,9 +416,7 @@ class UserController(BaseController):
         had_vote = c.page_user._has_permission("vote.cast")
         for membership in c.page_user.memberships:
             if not membership.is_expired() and membership.instance == c.instance:
-                membership.expire()
-        new_membership = model.Membership(c.page_user, c.instance, to_group)
-        model.meta.Session.add(new_membership)
+                membership.group = to_group
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_MEMBERSHIP_UPDATE, c.page_user, 
                    instance=c.instance, group=to_group, admin=c.user)

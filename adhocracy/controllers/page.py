@@ -173,7 +173,6 @@ class PageController(BaseController):
                 page = c.page
             self.form_result = PageUpdateForm().to_python(request.params, state=state_())
         except Invalid, i:
-            print "ABORTED '%s'" % c.variant
             return self.edit(id, variant=c.variant, text=c.text.id, errors=i.unpack_errors())
         
         c.variant = self.form_result.get("variant")
@@ -226,6 +225,13 @@ class PageController(BaseController):
             return self._differ(c.page.head, c.text, options=options)
         #redirect(h.entity_url(c.text))
         c.tile = tiles.page.PageTile(c.page)
+        
+        
+        sorts = {_("oldest"): sorting.entity_oldest,
+                 _("newest"): sorting.entity_newest,
+                 _("alphabetically"): sorting.delegateable_title}
+        c.subpages_pager = NamedPager('subpages', c.page.subpages, tiles.page.smallrow, 
+                                      sorts=sorts, default_sort=sorting.delegateable_title, size=10)
         self._common_metadata(c.page, c.text)
         return render("/page/show.html")
         

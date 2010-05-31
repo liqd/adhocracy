@@ -814,6 +814,10 @@ p img[align=left] {
 	margin-bottom: 0.3em;
 }
 
+.tile.smallrow {
+	padding-top: 0.4em;
+	padding-bottom: 0.5em;
+}
 
 .tile.title {
 	border: 1px solid #ddd;

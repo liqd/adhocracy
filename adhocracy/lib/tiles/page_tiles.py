@@ -27,6 +27,10 @@ def row(page):
     return render_tile('/page/tiles.html', 'row', PageTile(page), 
                        page=page, cached=True)  
 
+def smallrow(page):
+    return render_tile('/page/tiles.html', 'smallrow', PageTile(page), 
+                       page=page, cached=True)  
+
 
 def select_page(field_name='page', select=None, exclude=[], functions=[], list_limit=500, allow_empty=True):
     return render_tile('/page/tiles.html', 'select_page', None, select=select, exclude=exclude,
@@ -34,12 +38,13 @@ def select_page(field_name='page', select=None, exclude=[], functions=[], list_l
                        list_limit=list_limit, allow_empty=allow_empty)    
 
 
-def inline(page, tile=None, text=None):
+def inline(page, tile=None, text=None, subpages_pager=None):
     if tile is None:
         tile = PageTile(page)
     if text is None:
         text = page.head
-    return render_tile('/page/tiles.html', 'inline', tile, page=page, text=text)
+    return render_tile('/page/tiles.html', 'inline', tile, page=page, 
+                       text=text, subpages_pager=subpages_pager)
 
 
 def header(page, tile=None, active='goal', text=None, variant=None):
