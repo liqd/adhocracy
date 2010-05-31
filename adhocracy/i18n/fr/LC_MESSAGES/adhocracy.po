@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-05-31 12:16+0200\n"
+"PO-Revision-Date: 2010-05-31 13:44+0200\n"
 "Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Generated-By: Babel 0.9.4\n"
 
 #: adhocracy/controllers/comment.py:46 adhocracy/controllers/comment.py:175
-#: adhocracy/controllers/delegation.py:103 adhocracy/controllers/page.py:217
+#: adhocracy/controllers/delegation.py:103 adhocracy/controllers/page.py:229
 #: adhocracy/controllers/search.py:39 adhocracy/controllers/tag.py:52
 #: adhocracy/controllers/user.py:393 adhocracy/lib/pager.py:109
 #: adhocracy/lib/pager.py:116 adhocracy/lib/pager.py:126
@@ -29,7 +29,7 @@ msgid "oldest"
 msgstr "dernier"
 
 #: adhocracy/controllers/comment.py:47 adhocracy/controllers/comment.py:176
-#: adhocracy/controllers/delegation.py:104 adhocracy/controllers/page.py:218
+#: adhocracy/controllers/delegation.py:104 adhocracy/controllers/page.py:230
 #: adhocracy/controllers/search.py:40 adhocracy/controllers/tag.py:53
 #: adhocracy/controllers/user.py:394 adhocracy/lib/pager.py:110
 #: adhocracy/lib/pager.py:127 adhocracy/lib/pager.py:135
@@ -176,28 +176,28 @@ msgstr "L'OpenID %s appartient déjà à %s."
 msgid "Justin Case has entered the room."
 msgstr "Justin Case est entré dans la salle."
 
-#: adhocracy/controllers/page.py:177
+#: adhocracy/controllers/page.py:184
 #, fuzzy
 msgid "You're trying to update to a text which is not part of this pages history"
 msgstr ""
 "Vous éssayez de revenir a une révisions qui ne fait pas partie de cet "
 "historique du commentaire"
 
-#: adhocracy/controllers/page.py:201
+#: adhocracy/controllers/page.py:213
 #, python-format
 msgid "The variant %s does not exist!"
 msgstr ""
 
-#: adhocracy/controllers/page.py:238
+#: adhocracy/controllers/page.py:250
 msgid "Cannot compare identical text revisions."
 msgstr ""
 
-#: adhocracy/controllers/page.py:272
+#: adhocracy/controllers/page.py:284
 #, fuzzy, python-format
 msgid "The page %s has been deleted."
 msgstr "Thème '%(issue)s' a été supprimé."
 
-#: adhocracy/controllers/page.py:282
+#: adhocracy/controllers/page.py:294
 #, python-format
 msgid "Invalid text ID %s for this page/variant!"
 msgstr ""
@@ -466,7 +466,6 @@ msgstr ""
 
 #: adhocracy/forms/common.py:213
 #, fuzzy
-#| msgid "An instance with that key already exists"
 msgid "An entry with this title already exists"
 msgstr "Une instance avec cette clef existe déjà"
 
@@ -1163,7 +1162,6 @@ msgstr "Acceuil"
 
 #: adhocracy/templates/template.html:148
 #, fuzzy
-#| msgid "new position"
 msgid "Positions"
 msgstr "Option"
 
@@ -1557,7 +1555,7 @@ msgstr "La délégations a été révoqué."
 #: adhocracy/templates/instance/edit.html:146
 #: adhocracy/templates/instance/index.html:27
 #: adhocracy/templates/instance/new.html:43
-#: adhocracy/templates/page/edit.html:35 adhocracy/templates/page/new.html:45
+#: adhocracy/templates/page/edit.html:46 adhocracy/templates/page/new.html:52
 #: adhocracy/templates/proposal/delegations.html:19
 #: adhocracy/templates/proposal/edit.html:55
 #: adhocracy/templates/proposal/index.html:48
@@ -1968,14 +1966,12 @@ msgstr[0] "proposition %s "
 msgstr[1] "propositions %s"
 
 #: adhocracy/templates/instance/tiles.html:23
-#: adhocracy/templates/page/tiles.html:49
 #: adhocracy/templates/proposal/index.html:11
 #: adhocracy/templates/tag/show.html:11
 msgid "Introduce a new idea to debate."
 msgstr ""
 
 #: adhocracy/templates/instance/tiles.html:23
-#: adhocracy/templates/page/tiles.html:49
 #: adhocracy/templates/proposal/index.html:11
 #: adhocracy/templates/tag/show.html:11
 #, fuzzy
@@ -2127,6 +2123,12 @@ msgstr "Éditez"
 msgid "Page Title"
 msgstr ""
 
+#: adhocracy/templates/page/edit.html:37 adhocracy/templates/page/new.html:45
+#: adhocracy/templates/selection/new.html:30
+#, fuzzy
+msgid "Parent page:"
+msgstr "Nouvelle proposition"
+
 #: adhocracy/templates/page/index.html:11
 msgid "Create a page of text."
 msgstr ""
@@ -2144,31 +2146,63 @@ msgid "New page"
 msgstr "Nouvelle proposition"
 
 #: adhocracy/templates/page/new.html:21
-msgid "Mark as a norm:"
-msgstr ""
+#, fuzzy
+#| msgid "new document"
+msgid "Document type:"
+msgstr "nouveau commentaire"
 
-#: adhocracy/templates/page/new.html:24
+#: adhocracy/templates/page/new.html:22
+#, fuzzy
+#| msgid "new page"
+msgid "Wiki page"
+msgstr "Nouvelle proposition"
+
+#: adhocracy/templates/page/new.html:23
+#, fuzzy
+#| msgid "new page"
+msgid "Norm page"
+msgstr "Nouvelle proposition"
+
+#: adhocracy/templates/page/new.html:26
 msgid ""
 "Norms can only be edited by including variants of them in proposals and "
 "voting on them."
 msgstr ""
 
+#: adhocracy/templates/page/new.html:35
+#: adhocracy/templates/proposal/new.html:25
+#: adhocracy/templates/selection/new.html:25
+msgid "Tags to describe the subject"
+msgstr ""
+
+#: adhocracy/templates/page/new.html:37
+#: adhocracy/templates/proposal/new.html:27
+#: adhocracy/templates/selection/new.html:27
+msgid "Multiple tags can be separated by commas."
+msgstr ""
+
 #: adhocracy/templates/page/new.html:38
-#: adhocracy/templates/selection/new.html:26
+#: adhocracy/templates/proposal/new.html:28
+#: adhocracy/templates/selection/new.html:28
+#: adhocracy/templates/tag/tiles.html:75 adhocracy/templates/user/edit.html:64
 #, fuzzy
-msgid "Parent page:"
-msgstr "Nouvelle proposition"
+msgid "Help."
+msgstr "aide"
 
 #: adhocracy/templates/page/show.html:13
 msgid "Variants"
 msgstr ""
 
-#: adhocracy/templates/page/show.html:40
+#: adhocracy/templates/page/show.html:21 adhocracy/templates/text/tiles.html:72
+msgid "Status quo"
+msgstr ""
+
+#: adhocracy/templates/page/show.html:36
 #, fuzzy
 msgid "Related Proposals"
 msgstr "a créé %(proposal)s"
 
-#: adhocracy/templates/page/show.html:43
+#: adhocracy/templates/page/show.html:39
 #, python-format
 msgid "No proposals are trying to change %s"
 msgstr ""
@@ -2482,21 +2516,6 @@ msgstr ""
 "Donner une bref description de l'<b>effet<b> escompté de votre "
 "proposition."
 
-#: adhocracy/templates/proposal/new.html:25
-msgid "Tags to describe the subject"
-msgstr ""
-
-#: adhocracy/templates/proposal/new.html:27
-#: adhocracy/templates/tag/tiles.html:74
-msgid "Multiple tags can be separated by commas or spaces."
-msgstr ""
-
-#: adhocracy/templates/proposal/new.html:28
-#: adhocracy/templates/tag/tiles.html:75 adhocracy/templates/user/edit.html:64
-#, fuzzy
-msgid "Help."
-msgstr "aide"
-
 #: adhocracy/templates/proposal/tiles.html:14
 #, python-format
 msgid "<b>%s</b> votes,"
@@ -2606,11 +2625,11 @@ msgstr "Ajouter un alinéa"
 msgid "New position title"
 msgstr ""
 
-#: adhocracy/templates/selection/new.html:34
+#: adhocracy/templates/selection/new.html:38
 msgid "I want to modify an existing position."
 msgstr ""
 
-#: adhocracy/templates/selection/new.html:42
+#: adhocracy/templates/selection/new.html:46
 msgid "Include"
 msgstr ""
 
@@ -2736,6 +2755,10 @@ msgstr ""
 msgid "Add tags"
 msgstr ""
 
+#: adhocracy/templates/tag/tiles.html:74
+msgid "Multiple tags can be separated by commas or spaces."
+msgstr ""
+
 #: adhocracy/templates/text/tiles.html:12
 #, fuzzy, python-format
 msgid "by %s, "
@@ -2754,10 +2777,6 @@ msgstr "historique"
 
 #: adhocracy/templates/text/tiles.html:67
 msgid "Variant Name"
-msgstr ""
-
-#: adhocracy/templates/text/tiles.html:72
-msgid "Status quo"
 msgstr ""
 
 #: adhocracy/templates/text/tiles.html:82
@@ -3055,6 +3074,6 @@ msgid ""
 "concerning each of these items."
 msgstr ""
 
-#~ msgid "Documents"
-#~ msgstr "commentaire"
+#~ msgid "Mark as a norm:"
+#~ msgstr ""
 

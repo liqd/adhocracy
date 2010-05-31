@@ -17,7 +17,7 @@
 </%def>
 
 
-<%def name="select_page(tile, field_name, exclude, functions, list_limit, allow_empty=True)">
+<%def name="select_page(tile, field_name, select, exclude, functions, list_limit, allow_empty=True)">
 	%if list_limit is not None and c.model.Page.count(instance=c.instance, exclude=exclude, functions=functions) > list_limit: 
 		<input name="${field_name}" />
 	%else:
@@ -30,7 +30,7 @@
 		pages = c.lib.sorting.delegateable_full_title(pages)
 		%>
 		%for page in pages:
-			<option value="${page.label}">${page.full_title}</option>
+			<option value="${page.id}" ${'selected="selected"' if select and select.id == page.id else ""}>${page.full_title}</option>
 		%endfor
 		</select>
 	%endif 
@@ -45,11 +45,11 @@
 <%def name="header(tile, page, active, text, variant)">
 	<div class="top_actions title">
 		
-		%if page.function == page.NORM and can.proposal.create():
-			<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
-		%endif
+		##%if page.function == page.NORM and can.proposal.create():
+		##	<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+		##%endif
 		
-		%if page.function == page.DOCUMENT and can.page.create():
+		%if can.page.create():
 			<a class="button title add ttip" title="${_('Create a new document.')}" 
 			    href="/page/new">${_("new document")}</a>
 		%endif

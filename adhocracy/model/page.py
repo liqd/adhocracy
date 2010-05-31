@@ -110,8 +110,9 @@ class Page(Delegateable):
     
     
     @classmethod
-    def create(cls, instance, title, text, creator, function=DOCUMENT):
+    def create(cls, instance, title, text, creator, function=DOCUMENT, tags=None):
         from text import Text
+        from tagging import Tagging
         if function not in Page.FUNCTIONS:
             raise AttributeError("Invalid page function type")
         label = Page.free_label(title)
@@ -119,6 +120,10 @@ class Page(Delegateable):
         meta.Session.add(page)
         meta.Session.flush()
         _text = Text(page, Text.HEAD, creator, title, text)
+        
+        if tags is not None:
+            page.taggings = Tagging.create_all(page, tags, creator)
+        
         return page
         
         
@@ -214,13 +219,25 @@ class Page(Delegateable):
             title = self.parent.title + " - " + title
         return title
         
-        
-    @property
-    def parent(self):
+    
+    def _get_parent(self):
         for parent in self.parents:
             if isinstance(parent, Page):
                 return parent
         return None
+        
+    
+    def _set_parent(self, parent):
+        parents = []
+        for old_parent in self.parents:
+            if not isinstance(old_parent, Page):
+                parents.append(old_parent)
+        if parent is not None:
+            parents.append(parent)
+        self.parents = parents        
+    
+    
+    parent = property(_get_parent, _set_parent)
     
     
     @property
@@ -313,9 +330,11 @@ class Page(Delegateable):
                     url=url.entity_url(self),
                     create_time=self.create_time,
                     label=self.label,
+                    title=self.title,
+                    full_title=self.full_title,
                     head=self.head,
                     function=self.function,
-                    user=self.user.user_name)
+                    creator=self.creator.user_name)
         if self.parent:
             d['parent'] = self.parent
         return d 

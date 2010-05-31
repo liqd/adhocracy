@@ -7,7 +7,7 @@
 
 <form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
 	${h.field_token()|n}
-	<input type="hidden" name="parent" value="${c.text.id}" />
+	<input type="hidden" name="parent_text" value="${c.text.id}" />
 	%if c.proposal:
 		<input type="hidden" value="${c.proposal}" name="proposal" />
 	%endif

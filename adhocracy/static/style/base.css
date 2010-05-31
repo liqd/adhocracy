@@ -1217,6 +1217,8 @@ a.button.inactive {
 .top_actions.title {
 	margin-top: -0.4em;
 	margin-right: -0.3em;
+	float: none;
+	text-align: right;
 } 
 
 .top_actions.comment {

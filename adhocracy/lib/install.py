@@ -59,7 +59,7 @@ def setup_entities():
     mk_perm("proposal.view", anonymous)
     mk_perm("proposal.show", anonymous)
     mk_perm("poll.show", anonymous)
-    mk_perm("poll.create", voter)
+    mk_perm("poll.create", supervisor)
     mk_perm("poll.delete", supervisor)
     mk_perm("user.manage", admins)
     mk_perm("user.edit", default)

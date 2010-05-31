@@ -18,8 +18,10 @@
 
 	<div class="sidebar">
 		%if can.norm.create():
-			<label for="norm">${_("Mark as a norm:")}</label>
-			<input type="checkbox" value="norm" name="function" />
+			<label for="norm">${_("Document type:")}</label><br/>
+			<input type="radio" value="document" name="function" checked="checked" /> ${_("Wiki page")}<br/>
+			<input type="radio" value="norm" name="function" /> ${_("Norm page")}<br/>
+			<br/>
 			<div class="infobox">
 				${_("Norms can only be edited by including variants of them in proposals and voting on them.")}
 			</div>
@@ -29,6 +31,11 @@
 	</div>
 	<div class="mainbar">
 		<textarea tabindex="2" class="description armlabel" name="text"></textarea>
+		
+		<label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
+		<input name="tags" id="tags" class="armlabel long" />
+		<span class="hint">${_("Multiple tags can be separated by commas.")}
+			<a target="_new" href="/static/tag_faq.html">${_("Help.")}</a></span>
 	</div>
 	
 	<div class="sidebar">

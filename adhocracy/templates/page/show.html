@@ -13,21 +13,17 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 	<h3 class="section">${_("Variants")}</h3>
 	<ul>
 		%for variant in c.page.variants:
-			%if variant != c.text.variant:
+			<%
+			text = c.page.variant_head(variant)
+			%>
 			<li>
-				<%
-				text = c.page.variant_head(variant)
-				%>
-				<a href="${h.entity_url(text)}">
 				%if variant == c.model.Text.HEAD:
-					<b>(status quo)</b>
+					<b>${_("Status quo")}</b>
 				%else:
-					<code>${variant}</code>
+					<a href="${h.entity_url(text)}"><code>${variant}</code></a>
 				%endif
-				</a>
 				(<a href="${h.entity_url(text, member='history')}">history</a>)
 				</li>
-			%endif
 		%endfor
 	</ul>
 	<br/>

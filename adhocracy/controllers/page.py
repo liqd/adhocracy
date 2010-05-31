@@ -12,14 +12,19 @@ from adhocracy.lib.tiles.proposal_tiles import ProposalTile
 
 log = logging.getLogger(__name__)
 
+class NoneObject(object): pass
+NoPage = NoneObject()
+
 
 class PageCreateForm(formencode.Schema):
     allow_extra_fields = True
     title = forms.UnusedTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
-    function = forms.ValidPageFunction()
+    function = forms.ValidPageFunction(not_empty=False, if_missing=model.Page.DOCUMENT, 
+                                       if_empty=model.Page.DOCUMENT)
     parent = forms.ValidPage(if_missing=None, if_empty=None, not_empty=False)
     proposal = forms.ValidProposal(not_empty=False, if_empty=None, if_missing=None)
+    tags = validators.String(max=20000, not_empty=False)
 
 
 class PageEditForm(formencode.Schema):
@@ -31,7 +36,8 @@ class PageUpdateForm(formencode.Schema):
     title = forms.UnusedTitle()
     variant = forms.VariantName(not_empty=False, if_missing=model.Text.HEAD, if_empty="")
     text = validators.String(max=20000, min=4, not_empty=True)
-    parent = forms.ValidText()
+    parent_text = forms.ValidText(if_missing=None, if_empty=None, not_empty=False)
+    parent_page = forms.ValidPage(if_missing=NoPage, if_empty=None, not_empty=False)
     proposal = forms.ValidProposal(not_empty=False, if_empty=None, if_missing=None)
 
     
@@ -107,7 +113,8 @@ class PageController(BaseController):
                 _function = model.Page.DOCUMENT
                 
         page = model.Page.create(c.instance, self.form_result.get("title"), 
-                                 _text, c.user, function=_function)
+                                 _text, c.user, function=_function,
+                                 tags=self.form_result.get("tags"))
         
         if self.form_result.get("parent") is not None:
             page.parents.append(self.form_result.get("parent"))
@@ -172,15 +179,20 @@ class PageController(BaseController):
         
         require.page.variant_edit(c.page, c.variant)
         
-        parent = self.form_result.get("parent")
-        if parent.page != c.page:
+        parent_text = self.form_result.get("parent_text")
+        if parent_text.page != c.page:
             return ret_abort(_("You're trying to update to a text which is not part of this pages history"),
                              code=400, format=format)
+        
+        if can.page.variant_edit(c.page, model.Text.HEAD):
+            parent_page = self.form_result.get("parent_page", NoPage)
+            if parent_page != NoPage and parent_page != c.page:
+                c.page.parent = parent_page
         
         text = model.Text.create(c.page, c.variant, c.user, 
                       self.form_result.get("title"), 
                       self.form_result.get("text"),
-                      parent=parent)
+                      parent=parent_text)
                       
         target = text
         if proposal is not None and can.selection.create(proposal):

@@ -9,7 +9,7 @@
 
 <form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
 	${h.field_token()|n}
-	<input type="hidden" name="parent" value="${c.text.id}" />
+	<input type="hidden" name="parent_text" value="${c.text.id}" />
 	%if c.page.has_variants:
 		<input type="hidden" name="variant" value="${c.text.variant}" />
 	%endif
@@ -27,6 +27,17 @@
 	</div>
 	<div class="mainbar">
 		<textarea tabindex="2" class="description armlabel" rows="${c.text_rows}" name="text">${c.text.text}</textarea>
+	</div>
+	
+	<div class="sidebar">
+		&nbsp;
+	</div>
+	<div class="mainbar">
+		%if can.page.variant_edit(c.page, c.model.Text.HEAD):
+			<label for="parent">${_("Parent page:")}</label>
+			${tiles.page.select_page(field_name="parent_page", select=c.page.parent, 
+			   									     exclude=[c.page], functions=c.model.Page.FUNCTIONS)}
+		%endif
 	</div>
 	
 	<div style="clear:both;"></div>
