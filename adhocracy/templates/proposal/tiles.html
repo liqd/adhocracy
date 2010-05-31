@@ -77,9 +77,9 @@
 				href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
 		%endif
 		
-		%if can.selection.create(c.proposal):
+		%if can.selection.create(proposal):
 			<a class="button title edit ttip" title="${_('Propose to change a position through this proposal.')}" 
-		 	   href="${h.entity_url(c.proposal, member='implementation/new')}">${_("amend implementation")}</a>
+		 	   href="${h.entity_url(proposal, member='implementation/new')}">${_("amend implementation")}</a>
 		%endif		
 				
 		%if can.proposal.edit(proposal):
