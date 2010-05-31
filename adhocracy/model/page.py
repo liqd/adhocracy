@@ -25,6 +25,7 @@ class Page(Delegateable):
     NORM = "norm"
     
     FUNCTIONS = [DOCUMENT, DESCRIPTION, NORM]
+    PARENT_FUNCTIONS = [DOCUMENT, NORM]
     WITH_VARIANTS = [NORM] #[DESCRIPTION, NORM]
     LISTED = [DOCUMENT, NORM]
     
