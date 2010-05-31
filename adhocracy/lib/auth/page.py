@@ -20,9 +20,11 @@ def edit(p):
     return has('page.edit') and show(p)
 
 def variant_edit(p, variant):
-    if has('instance.admin'):
+    if variant is None: 
+        return False
+    if has('instance.admin'): 
         return True
-    if not edit(p):
+    if not edit(p): 
         return False
     if not p.has_variants and variant != Text.HEAD:
         return False

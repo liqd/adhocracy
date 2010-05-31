@@ -7,21 +7,15 @@
 </%def>
 
 <div class="top_actions title">
-	%if h.has_permission('proposal.create'):
+	%if can.document.create():
 		<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
 	%endif
 	
 	%if can.page.create():
-		<a class="button title add ttip" title="${_('Create a new wiki page.')}" 
-		    href="/page/new">${_("new page")}</a>
+		<a class="button title add ttip" title="${_('Create a new document.')}" 
+		    href="/page/new">${_("new document")}</a>
 	%endif
-	
-	%if can.norm.create():
-		<a class="button title admin ttip" title="${_('Create a new position.')}" 
-		    href="/page/new?function=norm">${_("new position")}</a>
-	%endif
-	
-	
+		
 	${components.watch(c.tag)}
 </div>
 

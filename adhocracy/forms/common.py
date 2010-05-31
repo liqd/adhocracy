@@ -187,8 +187,8 @@ class ValidPageFunction(formencode.FancyValidator):
 class VariantName(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.lib.text import variant_normalize
-        if not value: 
-            return None
+        if not value or len(value.strip()) < 2: 
+            raise formencode.Invalid(_("No variant name is given."), value, state)
         var = variant_normalize(value)
         if var.lower() in FORBIDDEN_NAMES or not VALIDVARIANT.match(var.lower()): 
             raise formencode.Invalid(_("Invalid variant name: %s") % value, value, state)
@@ -200,7 +200,7 @@ class VariantName(formencode.FancyValidator):
 
 
 class UnusedTitle(formencode.validators.String):
-    def __init__(self, exclude=None):
+    def __init__(self):
         super(UnusedTitle, self).__init__(min=3, max=254, not_empty=True)
     
     def _to_python(self, value, state):

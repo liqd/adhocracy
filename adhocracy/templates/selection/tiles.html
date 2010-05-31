@@ -14,6 +14,7 @@
 				${_("(new)")}
 			%endif
 		</h3>
+				
 		%if tile.has_variants:
 			<div class="infobox">
 				${_("Create a new variant to propose a changed text.")}
@@ -78,19 +79,18 @@
 				</div>
 			</li>
 		%endfor
-				<li>
-					<br>
-					%if tile.show_more_link:
-						<a href="${h.entity_url(selection)}">${_("show more variants")}</a> 
-					%endif
-					%if tile.show_new_variant_link: 
-						%if tile.show_more_link:
-							&middot; 
-						%endif
-						<a href="${h.entity_url(selection.page, member='%20/edit')}?proposal=${c.proposal.id}">${_("create a new variant...")}</a> 
-					%endif
-				</li>
 		</ol>
+		<div class="top_actions">
+			%if tile.show_new_variant_link: 
+				<a class="button add" href="${h.entity_url(selection.page, member='%20/edit')}?proposal=${c.proposal.id}">${_("new variant")}</a> 
+			%endif
+			%if tile.show_more_link:
+				<a class="button edit" href="${h.entity_url(selection)}">${_("see more variants")}</a> 
+			%endif
+			%if can.selection.delete(selection):
+				<a class="button delete" href="${h.entity_url(selection, member='ask_delete')}">${_("delete")}</a> 
+			%endif
+		</div>
 	</div>
 	<br/>
 </%def>

@@ -12,9 +12,7 @@ def create(variant=Text.HEAD):
 
 
 def edit(n, variant=Text.HEAD):
-    if variant == Text.HEAD and not has('instance.admin'):
-        return False
-    return page.edit(n)
+    return page.variant_edit(n, variant)
 
 
 def delete(n):

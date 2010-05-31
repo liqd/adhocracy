@@ -40,7 +40,7 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 	      action="${h.entity_url(c.proposal, member='implementation')}">
 
 		${tiles.page.select_page(functions=[c.model.Page.NORM], 
-			                       exclude=[s.page for s in c.proposal.selections if not s.is_deleted()], 
+			                       exclude=[s.page for s in c.proposal.selections], 
 			                       allow_empty=False)}
 		<br/><br/>
 		<input type="submit" value="${_("Include")}" />

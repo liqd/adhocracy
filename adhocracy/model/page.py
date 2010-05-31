@@ -32,7 +32,12 @@ class Page(Delegateable):
     def __init__(self, instance, alias, creator, function):
         self.init_child(instance, alias, creator)
         self.function = function
-        
+    
+    
+    @property
+    def selections(self):
+        return [s for s in self._selections if not s.is_deleted()]
+    
     
     @classmethod
     def find_fuzzy(cls, id, instance_filter=True, include_deleted=False):

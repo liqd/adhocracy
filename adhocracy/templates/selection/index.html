@@ -24,9 +24,17 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 			<div class="infobox">
 				${_("Proposals are implemented by including changes towards new or existing position. Amend the proposal to change or create a position.")} 
 			</div>
+			<br/>
 		%endif
 		%for selection in c.proposal.selections: 
 			${tiles.selection.full(selection, max_variants=3)}
 		%endfor
 	</div>
+	
+	%if can.selection.create(c.proposal):
+	<div class="top_actions">
+		<a class="button edit ttip" title="${_('Propose to change a position through this proposal.')}" 
+		   href="${h.entity_url(c.proposal, member='implementation/new')}">${_("amend implementation")}</a>
+	</div>
+	%endif
 </div>

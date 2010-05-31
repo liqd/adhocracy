@@ -34,7 +34,7 @@ class PageEditForm(formencode.Schema):
 class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
     title = forms.UnusedTitle()
-    variant = forms.VariantName(not_empty=False, if_missing=model.Text.HEAD, if_empty="")
+    variant = forms.VariantName()
     text = validators.String(max=20000, min=4, not_empty=True)
     parent_text = forms.ValidText(if_missing=None, if_empty=None, not_empty=False)
     parent_page = forms.ValidPage(if_missing=NoPage, if_empty=None, not_empty=False)
@@ -142,15 +142,16 @@ class PageController(BaseController):
     @validate(schema=PageEditForm(), form='edit', post_only=False, on_get=True)
     def edit(self, id, variant=None, text=None, errors={}):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
+        c.variant = request.params.get("variant", c.variant)
         c.proposal = request.params.get("proposal")
         defaults = dict(request.params)
-                
-        require.page.variant_edit(c.page, c.variant)
+        
+        require.page.variant_edit(c.page, c.variant)    
         c.text_rows = libtext.field_rows(c.text.text)
         
         html = None
         if c.page.has_variants and c.variant != model.Text.HEAD:
-            require.norm.edit(c.page, variant)
+            require.norm.edit(c.page, c.variant)
             c.left = c.page.head
             right_html = c.text.render()
             left_html = c.left.render()
@@ -172,9 +173,13 @@ class PageController(BaseController):
                 page = c.page
             self.form_result = PageUpdateForm().to_python(request.params, state=state_())
         except Invalid, i:
+            print "ABORTED '%s'" % c.variant
             return self.edit(id, variant=c.variant, text=c.text.id, errors=i.unpack_errors())
         
-        c.variant = self.form_result.get("variant", model.Text.HEAD)
+        c.variant = self.form_result.get("variant")
+        if not c.page.has_variants:
+            c.variant = model.Text.HEAD
+        
         proposal = self.form_result.get("proposal")
         
         require.page.variant_edit(c.page, c.variant)
@@ -193,11 +198,16 @@ class PageController(BaseController):
                       self.form_result.get("title"), 
                       self.form_result.get("text"),
                       parent=parent_text)
-                      
+        
         target = text
         if proposal is not None and can.selection.create(proposal):
             target = model.Selection.create(proposal, c.page, c.user)
-        
+            poll = target.variant_poll(c.variant)
+            if poll and can.poll.vote(poll):
+                decision = democracy.Decision(c.user, poll)
+                decision.make(model.Vote.YES)
+                model.Tally.create_from_poll(poll)
+                
         model.meta.Session.commit()
         watchlist.check_watch(c.page)
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance, 

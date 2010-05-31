@@ -18,4 +18,4 @@ def edit(s):
     return False
     
 def delete(s):
-    return proposal.edit(s.proposal) and show(s)
+    return proposal.delete(s.proposal) and show(s)

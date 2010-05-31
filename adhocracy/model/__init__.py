@@ -198,9 +198,9 @@ mapper(Text, text_table, properties={
 
 
 mapper(Selection, selection_table, properties={
-    'proposal': relation(Proposal, lazy=True, backref=backref('selections'), 
+    'proposal': relation(Proposal, lazy=True, backref=backref('_selections'), 
                          primaryjoin=selection_table.c.proposal_id==proposal_table.c.id),
-    'page': relation(Page, lazy=False, backref=backref('selections'),
+    'page': relation(Page, lazy=False, backref=backref('_selections'),
                      primaryjoin=selection_table.c.page_id==page_table.c.id)
     }, extension=meta.extension)
 

@@ -1210,18 +1210,17 @@ a.button.inactive {
 }
 
 .top_actions {
-	float: right;
-	margin-top: 1.3em;
+	margin-top: 0em;
+	text-align: right;
 }
 
 .top_actions.title {
 	margin-top: -0.4em;
 	margin-right: -0.3em;
-	float: none;
-	text-align: right;
 } 
 
 .top_actions.comment {
+	float: right;
 	margin-top: 0.1em;	
 	margin-right: -0.4em;
 }

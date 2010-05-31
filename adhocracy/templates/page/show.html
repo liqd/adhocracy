@@ -10,7 +10,7 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 
 <div class="sidebar">
 	%if c.page.has_variants:
-	<h3 class="section">${_("Variants")}</h3>
+	<h3 class="section"><img class="cd" src="/img/icons/page_variant_16.png"/> ${_("Variants")}</h3>
 	<ul>
 		%for variant in c.page.variants:
 			<%
@@ -44,6 +44,12 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 				<li>${h.proposal_link(selection.proposal)|n}</li>
 			%endfor
 		</ul>
+		%if can.proposal.create():
+		<br/>
+		<div class="top_actions">
+			<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+		</div>
+		%endif
 	%endif
 </div>
 

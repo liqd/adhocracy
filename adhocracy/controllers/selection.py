@@ -92,6 +92,11 @@ class SelectionController(BaseController):
         require.selection.delete(c.selection)
         
         # TODO implement
-        
-        redirect(h.entity_url(c.proposal))
-    
+        #event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance, 
+        #           topics=[c.proposal], proposal=c.proposal)
+        c.selection.delete()
+        model.meta.Session.commit()
+        h.flash(_("The inclusion of %s has been deleted.") % c.selection.page.title)
+                
+        redirect(h.entity_url(c.proposal, member='implementation'))
+

@@ -28,6 +28,7 @@
 			<a target="_new" href="/static/tag_faq.html">${_("Help.")}</a></span>
 	</div>
 	
+	%if len(c.alternatives) > 0 or len(c.proposals) > 0:
 	<div style="clear:both;"></div>
 	<h3>${_("Alternatives")}</h3>
 	<div class="sidebar">
@@ -51,6 +52,7 @@
 		</div>
 		%endif
 	</div>
+	%endif
 	
 	<div style="clear:both;"></div>
 	<div class="sidebar">

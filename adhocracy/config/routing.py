@@ -65,6 +65,7 @@ def make_map():
                                collection={'filter': 'GET'})
                                
     map.resource('implementation', 'implementation', controller='selection',
+                 member={'ask_delete': 'GET'},
                  parent_resource=dict(member_name='proposal', 
                                       collection_name='proposal'))
     

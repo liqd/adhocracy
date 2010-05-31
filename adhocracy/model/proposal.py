@@ -33,8 +33,8 @@ class Proposal(Delegateable):
     
     
     @property
-    def canonicals(self):
-        return [c for c in self.comments if c.canonical and not c.is_deleted()]
+    def selections(self):
+        return [s for s in self._selections if not s.is_deleted()]
     
     
     @property

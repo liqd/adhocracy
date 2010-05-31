@@ -71,17 +71,17 @@
 			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
 			    href="/delegation/new?scope=${proposal.id}">${_("delegate")}</a>
 		%endif
-		
-		%if can.selection.create(proposal):
-			<a class="button title add ttip" title="${_('Propose to change a position through this proposal.')}" 
-				    href="${h.entity_url(proposal, member='implementation/new')}">${_("amend")}</a>
-		%endif
-		
+				
 		%if can.proposal.adopt(proposal):
 			<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
 				href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
 		%endif
 		
+		%if can.selection.create(c.proposal):
+			<a class="button title edit ttip" title="${_('Propose to change a position through this proposal.')}" 
+		 	   href="${h.entity_url(c.proposal, member='implementation/new')}">${_("amend implementation")}</a>
+		%endif		
+				
 		%if can.proposal.edit(proposal):
 			<a class="button title edit" 
 				href="${h.entity_url(proposal, member='edit')}">${_("edit")}</a>
