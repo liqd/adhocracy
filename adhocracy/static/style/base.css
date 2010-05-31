@@ -1223,6 +1223,11 @@ a.button.inactive {
 	margin-right: -0.3em;
 } 
 
+.top_actions.aside {
+	float: right;
+	margin-top: 0.7em;
+}
+
 .top_actions.comment {
 	float: right;
 	margin-top: 0.1em;	
