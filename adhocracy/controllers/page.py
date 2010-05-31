@@ -29,7 +29,7 @@ class PageEditForm(formencode.Schema):
 class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
     title = forms.UnusedTitle()
-    variant = forms.VariantName(not_empty=False, if_missing=model.Text.HEAD, if_empty=model.Text.HEAD)
+    variant = forms.VariantName(not_empty=False, if_missing=model.Text.HEAD, if_empty="")
     text = validators.String(max=20000, min=4, not_empty=True)
     parent = forms.ValidText()
     proposal = forms.ValidProposal(not_empty=False, if_empty=None, if_missing=None)
@@ -291,8 +291,9 @@ class PageController(BaseController):
     
     
     def _common_metadata(self, page, text):
-        h.add_meta("description", 
-                   libtext.meta_escape(text.text, markdown=False)[0:160])
+        if text and text.text and len(text.text):
+            h.add_meta("description", 
+                       libtext.meta_escape(text.text, markdown=False)[0:160])
         tags = page.tags
         if len(tags):
             h.add_meta("keywords", ", ".join([k.name for (k, v) in tags]))
