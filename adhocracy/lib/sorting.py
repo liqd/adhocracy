@@ -9,7 +9,10 @@ def delegateable_label(entities):
 def instance_label(entities):
     return sorted(entities, key=lambda e: e.label.lower())
 
-def page_title(entities):
+def delegateable_title(entities):
+    return sorted(entities, key=lambda e: e.title.lower())
+
+def delegateable_full_title(entities):
     return sorted(entities, key=lambda e: e.title.lower())
 
 def delegateable_latest_comment(entities):

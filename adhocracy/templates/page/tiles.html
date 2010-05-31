@@ -25,8 +25,12 @@
 		%if allow_empty:
 			<option value="">${_("(none)")}</option>
 		%endif
-		%for page in c.model.Page.all(instance=c.instance, exclude=exclude, functions=functions):
-			<option value="${page.label}">${page.title}</option>
+		<%
+		pages = c.model.Page.all(instance=c.instance, exclude=exclude, functions=functions)
+		pages = c.lib.sorting.delegateable_full_title(pages)
+		%>
+		%for page in pages:
+			<option value="${page.label}">${page.full_title}</option>
 		%endfor
 		</select>
 	%endif 
@@ -49,12 +53,7 @@
 			<a class="button title add ttip" title="${_('Create a new document.')}" 
 			    href="/page/new">${_("new document")}</a>
 		%endif
-		
-		%if can.norm.create():
-			<a class="button title admin ttip" title="${_('Create a new position.')}" 
-			    href="/page/new?function=norm">${_("new position")}</a>
-		%endif
-		
+				
 		%if can.delegation.create():
 			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
 				 href="/delegation/new?scope=${page.id}">${_("delegate")}</a>

@@ -125,9 +125,9 @@ def proposals(proposals, **kwargs):
 def pages(pages, detail=True):
   sorts = {_("oldest"): sorting.entity_oldest,
            _("newest"): sorting.entity_newest,
-           _("alphabetically"): sorting.page_title}
+           _("alphabetically"): sorting.delegateable_title}
   return NamedPager('pages', pages, tiles.page.row, sorts=sorts,
-                    default_sort=sorting.page_title)                 
+                    default_sort=sorting.delegateable_title)                 
 
       
 def users(users):

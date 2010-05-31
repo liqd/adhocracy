@@ -59,9 +59,9 @@ def read_messages(service, callback):
             break
         try:
             callback(message.body)
-            channel.basic_ack(message.delivery_tag)
+            #channel.basic_ack(message.delivery_tag)
         except Exception, ex:
             log.exception("Processing error: %s" % ex)
-        #channel.basic_ack(message.delivery_tag)
+        channel.basic_ack(message.delivery_tag)
         log.warn("Queue message - > %sms" % ((time() - begin_time)*1000))
     channel.close()

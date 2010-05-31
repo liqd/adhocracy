@@ -8,7 +8,6 @@
 
 <form name="create_page" class="inplace" method="POST" action="/page">
 	${h.field_token()|n}
-	<input type="hidden" value="${c.function}" name="function" />
 	%if c.proposal:
 		<input type="hidden" value="${c.proposal}" name="proposal" />
 	%endif
@@ -18,7 +17,15 @@
 	</div>
 
 	<div class="sidebar">
-		&nbsp;
+		%if can.norm.create():
+			<label for="norm">${_("Mark as a norm:")}</label>
+			<input type="checkbox" value="norm" name="function" />
+			<div class="infobox">
+				${_("Norms can only be edited by including variants of them in proposals and voting on them.")}
+			</div>
+		%else:
+			<input type="hidden" value="${c.function}" name="function" />
+		%endif
 	</div>
 	<div class="mainbar">
 		<textarea tabindex="2" class="description armlabel" name="text"></textarea>

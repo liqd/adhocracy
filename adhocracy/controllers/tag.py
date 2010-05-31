@@ -51,7 +51,7 @@ class TagController(BaseController):
         c.entities_pager = NamedPager('entities', entities, tiles.dispatch_row, 
                                       sorts={_("oldest"): sorting.entity_oldest,
                                              _("newest"): sorting.entity_newest,
-                                             _("alphabetically"): sorting.page_title,
+                                             _("alphabetically"): sorting.delegateable_title,
                                              _("relevance"): sorting.entity_stable},
                                       default_sort=sorting.entity_stable,
                                       q=c.query)
