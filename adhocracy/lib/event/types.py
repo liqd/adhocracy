@@ -58,7 +58,7 @@ T_INSTANCE_EDIT = EventType(u"t_instance_edit", pri=3,
 
 T_INSTANCE_DELETE = EventType(u"t_instance_delete", pri=3, 
                           subject=lambda: _(u"Deleted Adhocracy: %(instance)s"),
-                          link_path=lambda e: h.entity_url(e.instance), 
+                          link_path=lambda e: h.instance_url(None), 
                           event_msg=lambda: _(u"deleted the %(instance)s instance"))
 
 T_INSTANCE_JOIN = EventType(u"t_instance_join", pri=2, 
@@ -105,7 +105,7 @@ T_PROPOSAL_STATE_VOTING = EventType(u"t_proposal_state_voting", pri=4,
 
 T_PROPOSAL_DELETE = EventType(u"t_proposal_delete", pri=2, 
                           subject=lambda: _(u"Deleted proposal: %(proposal)s"),
-                          link_path=lambda e: h.entity_url(e.proposal),
+                          link_path=lambda e: h.entity_url(e.instance),
                           event_msg=lambda: _(u"deleted %(proposal)s"))
 
 
@@ -123,7 +123,7 @@ T_PAGE_EDIT = EventType(u"t_page_edit", pri=1,
 
 T_PAGE_DELETE = EventType(u"t_page_delete", pri=2, 
                         subject=lambda: _(u"Deleted page: %(page)s"),
-                        link_path=lambda e: h.entity_url(e.page),
+                        link_path=lambda e: h.entity_url(e.instance),
                         event_msg=lambda: _(u"deleted %(page)s"))
 
 T_COMMENT_CREATE = EventType(u"t_comment_create", pri=2, 
@@ -145,12 +145,12 @@ T_COMMENT_DELETE = EventType(u"t_comment_delete", pri=2,
 
 T_DELEGATION_CREATE = EventType(u"t_delegation_create", pri=2, 
                           subject=lambda: _(u"New Delegation: %(user)s delegated %(scope)s to %(agent)s"),
-                          link_path=lambda e: h.entity_url(e.scope),
+                          link_path=lambda e: h.entity_url(e.delegation),
                           event_msg=lambda: _(u"delegated voting on %(scope)s to %(agent)s"))
 
 T_DELEGATION_REVOKE = EventType(u"t_delegation_revoke", pri=2, 
                           subject=lambda: _(u"Revoked Delegation: %(user)s revoked delegation to %(agent)s"),
-                          link_path=lambda e: h.entity_url(e.scope),
+                          link_path=lambda e: h.entity_url(e.delegation),
                           event_msg=lambda: _(u"revoked their delegation on %(scope)s to %(agent)s"))
 
 T_VOTE_CAST = EventType(u"t_vote_cast", pri=2, 

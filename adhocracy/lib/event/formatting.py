@@ -41,7 +41,7 @@ class PollFormatter(ObjectFormatter):
         if poll.action in [poll.RATE, poll.ADOPT]:
             if isinstance(poll.subject, model.Comment):
                 return CommentFormatter()
-            if isinstance(poll.subject, model.DelegateableFormatter):
+            if isinstance(poll.subject, model.Delegateable):
                 return DelegateableFormatter()
             else: 
                 return unicode(poll.subject)

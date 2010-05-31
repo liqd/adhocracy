@@ -119,8 +119,8 @@ class PollController(BaseController):
         c.poll = get_entity_or_abort(model.Poll, id)
         require.poll.show(c.poll)
         decisions = democracy.Decision.for_poll(c.poll)
-        if self.form_result.get('result')!='':
-            decisions = filter(lambda d: d.result==self.form_result.get('result'), 
+        if self.form_result.get('result'):
+            decisions = filter(lambda d: d.result == self.form_result.get('result'), 
                                decisions)
         c.decisions_pager = pager.scope_decisions(decisions)
         
