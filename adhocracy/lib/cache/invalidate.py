@@ -46,6 +46,8 @@ def invalidate_vote(vote):
     
     
 def invalidate_selection(selection):
+    if selection is None: 
+        return
     clear_tag(selection)
     if selection.page:
         invalidate_delegateable(selection.page)
