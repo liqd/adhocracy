@@ -1,6 +1,16 @@
 
 from .diff_match_patch import diff_match_patch
 
+def patch_html(text, tag):
+    out = u"<%s>" % tag
+    for ch in text:
+        if ch == u'<':
+            out += u"</%s>" % tag
+        out += ch
+        if ch == u'>':
+            out += u"<%s>" % tag
+    return out + u"</%s>" % tag
+
 def compare_html(left, right):
     dmp = diff_match_patch()
     diffs = dmp.diff_main(left, right)
@@ -9,9 +19,9 @@ def compare_html(left, right):
     full_diff = []
     for (op, text) in diffs:
         if op == dmp.DIFF_INSERT:
-            text = u"<ins>%s</ins>" % text
+            text = patch_html(text, "ins")
         elif op == dmp.DIFF_DELETE:
-            text = u"<del>%s</del>" % text
+            text = patch_html(text, "del")
         full_diff.append(text)
     #print "STAGE 2", diffs
     #print "STAGE 3", dmp.diff_toDelta(diffs)
