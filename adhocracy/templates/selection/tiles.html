@@ -1,96 +1,42 @@
 
-
-<%def name="full(tile, selection)">
-	<%
-	if selection is None or selection.is_deleted():
-		return
-	if tile.frozen and not selection.changes_text:
-		return
-	%>
+<%def name="row(tile, selection)">
 	<div class="tile selection">
-		<h3>
-			${h.page_link(selection.page, icon_size=24)|n} 
+		<h3 class="section">
+			<a href="${h.entity_url(selection)}">
+			<img class="cd" src="/img/icons/page_variant_24.png">
+			${selection.page.title}
+			</a>
 			%if not selection.page.head.has_text:
 				${_("(new)")}
 			%endif
 		</h3>
-				
-		%if tile.has_variants:
-			<div class="infobox">
-				${_("Create a new variant to propose a changed text.")}
-			</div>
-		%elif tile.selected is None:
-			<div class="infobox">
-				${_("There is a tie between variants, thus none is included at the moment.")}
-			</div>
-		%endif 
-		<ol class="variants">
-		%for row in tile.variant_rows():
-			<%
-			if not row.show:
-				break
-			%>
-			<li id="poll_c${row.poll.id}" 
-					class="${h.poll_position_css(row.poll)} ${'selected' if row.selected else ''}">
-				<div class="logo rate">
-					%if can.poll.vote(row.poll):
-						<a class="up icon otip" title="${_("Support this variant")}" 
-							 href="${h.entity_url(row.poll, member='rate')}?position=1&${h.url_token()}" 
-							 onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, 1);">
-							&nbsp;
-						</a>
-						<a href="${h.entity_url(row.poll, member='votes')}" 
-							class="score">${row.poll.tally.score}</a>
-						<a class="down icon ttip" title="${_("Oppose this variant")}" 
-							 href="${h.entity_url(row.poll, member='rate')}?position=-1&${h.url_token()}" 
-							 onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, -1);">
-							&nbsp;
-						</a>
-					%else:
-						<a class="up icon inactive">&nbsp;</a>
-						<a href="${h.entity_url(row.poll, member='votes')}" 
-							class="score">${row.poll.tally.score}</a>
-						<a class="down icon inactive">&nbsp;</a>
-					%endif
+		
+		<div class="language">
+			%if tile.selected is None:
+				<div class="infobox">
+					${_("There is a tie between variants, thus none is included at the moment.")}
 				</div>
-				<div class="variant_header">				
-				%if row.text.is_head:
-					${_("Status quo (do not change this position)")}
-				%else:
-					<b><a href="${h.entity_url(row.text)}">${row.variant}</a></b>
-				%endif
+			%elif tile.selected_text.is_head:
+				<div class="infobox">
+					${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
+				</div>
+			%else:
+				<div class="meta noclear">
+					${_("Selected variant: <b>%s</b>") % escape(tile.selected)|n}
+				</div>
 				<br/>
-				${ungettext("%s comment", "%s comments", row.num_comments) % row.num_comments}
-				%if row.can_edit:
-					&middot; <a href="${h.entity_url(row.text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
-				%endif
-				%if row.selected and not row.text.is_head and not tile.frozen:
-					&middot; ${_("Currently selected for inclusion in this proposal")}
-				%endif
-				</div>
-				<div>
-				%if row.selected and not row.text.is_head:
-					${row.text.render()|n}
-				%elif row.selected:
-					<div class="infobox">
-						${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
-					</div>
-				%endif
-				</div>
-			</li>
-		%endfor
-		</ol>
-		<div class="top_actions">
-			%if tile.show_new_variant_link: 
-				<a class="button add" href="${h.entity_url(selection.page, member='%20/edit')}?proposal=${c.proposal.id}">${_("new variant")}</a> 
-			%endif
-			%if tile.show_more_link:
-				<a class="button edit" href="${h.entity_url(selection)}">${_("see more variants")}</a> 
-			%endif
-			%if can.selection.delete(selection):
-				<a class="button delete" href="${h.entity_url(selection, member='ask_delete')}">${_("delete")}</a> 
-			%endif
+				${tile.selected_text.render()|n}
+			%endif 
 		</div>
+		
+		<div class="top_actions aside">
+			<a class="button add" href="${h.entity_url(selection)}">${_("discuss and select")}</a> 
+		</div>
+		<div class="meta noclear">
+			${_("There are %s variants of %s.") % (tile.num_variants, selection.page.title)}
+		</div>
+		<br/>
 	</div>
 	<br/>
 </%def>
+

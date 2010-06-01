@@ -41,9 +41,8 @@ class VariantRow(object):
 
 class SelectionTile(BaseTile):
     
-    def __init__(self, selection, max_variants=None):
+    def __init__(self, selection):
         self.selection = selection
-        self.max_variants = max_variants
         self.selected = selection.selected
         self.variant_polls = self.selection.variant_polls
         
@@ -54,25 +53,29 @@ class SelectionTile(BaseTile):
     
     
     @property
+    def num_variants(self):
+        return len(self.selection.page.variants) - 1
+    
+    
+    @property
+    def selected_text(self):
+        variant = self.selected
+        if self.frozen:
+            freeze_time = self.selection.proposal.adopt_poll.begin_time
+            return self.selection.page.variant_at(variant, freeze_time)
+        else:
+            return self.selection.page.variant_head(variant)
+    
+    
+    @property
     def frozen(self):
         return self.selection.proposal.is_adopt_polling()
     
         
     def variant_rows(self):
-        num = 0
         for (variant, poll) in self.variant_polls:
             row = VariantRow(self, variant, poll)
             yield row
-            num += 1
-            if self.max_variants and num >= self.max_variants:
-                break
-        
-        
-    @property
-    def show_more_link(self):
-        if self.frozen:
-            return False
-        return self.max_variants and len(self.variant_polls) > self.max_variants
     
         
     @property
@@ -81,9 +84,18 @@ class SelectionTile(BaseTile):
             return False
         return can.norm.edit(self.selection.page, 'any')
         
-        
 
-def full(selection, max_variants=None):
-    tile = SelectionTile(selection, max_variants=max_variants)
+def row(selection):
+    if selection is None or selection.is_deleted():
+		return ""
+    tile = SelectionTile(selection)
+    return render_tile('/selection/tiles.html', 'row', tile, 
+                       selection=selection)
+         
+
+def full(selection):
+    if selection is None or selection.is_deleted():
+		return ""
+    tile = SelectionTile(selection)
     return render_tile('/selection/tiles.html', 'full', tile, 
                        selection=selection)

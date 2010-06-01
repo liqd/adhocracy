@@ -70,7 +70,7 @@ class SelectionController(BaseController):
         c.selection = get_entity_or_abort(model.Selection, id)     
         require.selection.show(c.selection)
         c.proposal_tile = tiles.proposal.ProposalTile(c.proposal)
-        
+        c.tile = tiles.selection.SelectionTile(c.selection)
         return render("/selection/show.html")
     
     

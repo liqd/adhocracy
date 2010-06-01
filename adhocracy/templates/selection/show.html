@@ -10,7 +10,7 @@
 ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 
 <div class="sidebar">
-	${tiles.proposal.sidebar(c.proposal, c.proposal_tile)}
+	${tiles.delegation.sidebar(c.selection.page, tiles.page.PageTile(c.selection.page))}
 	<br/>
 	<h3 class="help">${_("Help")}</h3>
 	<ul>
@@ -19,7 +19,88 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 </div>
 
 <div class="mainbar">	
-	<div id="selections_table" class="table">
-		${tiles.selection.full(c.selection)}
+	<div class="top_actions aside">
+		%if c.tile.show_new_variant_link: 
+			<a class="button add" href="${h.entity_url(c.selection.page, member='%20/edit')}?proposal=${c.proposal.id}">${_("new variant")}</a> 
+		%endif
+		%if can.selection.delete(c.selection):
+			<a class="button delete" href="${h.entity_url(c.selection, member='ask_delete')}">${_("delete")}</a> 
+		%endif
+	</div>
+	<div class="tile selection">
+		<h3 class="section">
+			${h.page_link(c.selection.page, icon_size=24)|n} 
+			%if not c.selection.page.head.has_text:
+				${_("(new)")}
+			%endif
+		</h3>
+				
+		%if c.tile.has_variants:
+			<div class="infobox">
+				${_("Create a new variant to propose a changed text.")}
+			</div>
+		%elif c.tile.selected is None:
+			<div class="infobox">
+				${_("There is a tie between variants, thus none is included at the moment.")}
+			</div>
+		%endif 
+		<ol class="variants">
+		%for row in c.tile.variant_rows():
+			<%
+			if not row.show:
+				break
+			%>
+			<li id="poll_c${row.poll.id}" 
+					class="${h.poll_position_css(row.poll)} ${'selected' if row.selected else ''}
+					       ${'head' if row.text.is_head else ''}">
+				<div class="logo rate">
+					%if can.poll.vote(row.poll):
+						<a class="up icon otip" title="${_("Support this variant")}" 
+							 href="${h.entity_url(row.poll, member='rate')}?position=1&${h.url_token()}" 
+							 onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, 1);">
+							&nbsp;
+						</a>
+						<a href="${h.entity_url(row.poll, member='votes')}" 
+							class="score">${row.poll.tally.score}</a>
+						<a class="down icon ttip" title="${_("Oppose this variant")}" 
+							 href="${h.entity_url(row.poll, member='rate')}?position=-1&${h.url_token()}" 
+							 onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, -1);">
+							&nbsp;
+						</a>
+					%else:
+						<a class="up icon inactive">&nbsp;</a>
+						<a href="${h.entity_url(row.poll, member='votes')}" 
+							class="score">${row.poll.tally.score}</a>
+						<a class="down icon inactive">&nbsp;</a>
+					%endif
+				</div>
+				<div class="variant_header"><div class="variant_innerheader">				
+					%if row.text.is_head:
+						<b><a href="${h.entity_url(row.text)}">${_("Status quo")}</a></b>
+						${_("(do not change this norm)")}
+					%else:
+						<b><a href="${h.entity_url(row.text)}">${row.variant}</a></b>
+					%endif
+					<br/>
+					${ungettext("%s comment", "%s comments", row.num_comments) % row.num_comments}
+					%if row.can_edit:
+						&middot; <a href="${h.entity_url(row.text, member='edit')}?proposal=${c.selection.proposal.id}">${_("edit")}</a>
+					%endif
+					%if row.selected and not row.text.is_head and not c.tile.frozen:
+						&middot; ${_("Currently selected for inclusion in this proposal")}
+					%endif
+				</div></div>
+				<div>
+				%if row.selected and not row.text.is_head:
+					${row.text.render()|n}
+				%elif row.selected:
+					<div class="infobox">
+						${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
+					</div>
+				%endif
+				</div>
+			</li>
+		%endfor
+		</ol>
 	</div>
 </div>
