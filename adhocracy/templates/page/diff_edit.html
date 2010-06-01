@@ -29,8 +29,11 @@
 	<div style="clear: both;"></div>
 
 	<div class="lefthalf double">
-		${c.right_diff|n}
-		&nbsp;
+		%if c.right.has_text:
+			${c.right_diff|n}
+		%else:
+			${_("This norm has no text yet.")}
+		%endif
 	</div>
 
 	<div class="righthalf double">
