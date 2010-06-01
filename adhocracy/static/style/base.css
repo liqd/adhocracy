@@ -691,67 +691,43 @@ body {
 	margin-left: 20px;
 }
 
-ins.diff, ins.modified {
-	background-color: rgba(57,241,6,0.5);
-	color: #000;
-}
-
-del.diff, del.modified {
-	background-color: rgba(217,25,19,0.5);
-	color: #000;
-}
-
-.double del, .double del a {
-    color: #fff;
-    background-color: #fff;
-	/*display: none;*/
-}
-
-.double.righthalf ins.diff, 
-.double.righthalf ins.diff a {
-	color: #fff;
-	background-color: #fff;
+ins, ins * {
+	background-color: #7ff160;
 	text-decoration: none;	
-	font-weight: bold;
 }
 
-.double.righthalf del.diff, 
-.double.righthalf del.diff a {
-    color: #fff;
+del, del * {
+	background-color: #d85956;
+	text-decoration: none;	
 }
 
-.double.righthalf del.diff.modified {
-    display: none;
+.double del, .double del *,
+.double ins, .double ins * {
+    background-color: #fff;
 }
-    
-.double.righthalf ins.diff {
-	color: green;
+
+.double.righthalf del, 
+.double.righthalf del * {
+	visibility: hidden;
+}
+
+.double.righthalf ins, 
+.double.righthalf ins * {
+    color: green;
+    font-weight: bold;
 }
 
 .double.lefthalf ins,
-.double.lefthalf ins a {
-    text-decoration: none;
-    color: #fff;
-    background-color: #fff;
-	/*display: none;*/
+.double.lefthalf ins * {	
+	visibility: hidden;
 }
 
-.double del.diff,
-.double del.diff a {
+.double.lefthalf del,
+.double.lefthalf del * {
 	color: red;
-	background-color: #fff;
-	text-decoration: none;	
 	font-weight: bold;
 }
 
-.double.lefthalf del.diff,
-.double.lefthalf del.diff a {
-	color: red;
-}
-
-.double.lefthalf ins.diff.modified {
-	display: none;
-}
 
 p img[align=left] {
 	margin-right: 7px;

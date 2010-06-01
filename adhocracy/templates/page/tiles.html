@@ -1,10 +1,12 @@
 <%namespace name="components" file="/components.html"/>
 
+
 <%def name="smallrow(tile, page)">
 	<div class="tile smallrow">
 		${h.page_link(page, icon=True, icon_size=16)|n}
 	</div>
 </%def>
+
 
 <%def name="row(tile, page)">
 	<div class="tile">
@@ -14,6 +16,10 @@
 			##	${h.tag_link(tag)|n}
 			##%endfor
 			<div class="meta noclear">				
+				%if page.function == page.NORM:
+					<img src="/img/icons/proposal_16.png" /> 
+					${ungettext("%s proposal", "%s proposals", len(page.selections)) % len(page.selections)}
+				%endif
 				<img src="/img/icons/discuss_16.png" /> 
 				${ungettext("%s comment", "%s comments", page.comment_count()) % page.comment_count()},
 				${_("latest <b>%s</b>") % h.relative_time(tile.latest_revision_time)|n}&nbsp;
@@ -83,7 +89,7 @@
 	<h1 class="page_title">
 	%if text.variant != text.HEAD:
 		<img class="cd" src="/img/icons/page_variant_24.png" />
-		${_("Variant: %s") % text.title}
+		${_("Norm: %s") % text.title}
 	%else:
 		<img class="cd" src="${h.page_icon(page, size=24)|n}" />
 		${text.title}

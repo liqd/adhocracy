@@ -5,7 +5,7 @@ from BeautifulSoup import BeautifulSoup, NavigableString
 import markdown2 as markdown
 
 import adhocracy.model as model
-from diff import textDiff as html_diff
+from compare import compare_html as html_diff
 from tag import tag_normalize, tag_split, tag_cloud_normalize, tag_split_last
 from normalize import *
 

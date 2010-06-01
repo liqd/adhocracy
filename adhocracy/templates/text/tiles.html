@@ -15,9 +15,15 @@
 	</div>
 	
 	<div class="headrev">
-			<div class="text">
-				${tile.parent_text_diff|n}
-			</div>
+			%if text.has_text:
+				<div class="text">
+					${tile.parent_text_diff|n}
+				</div>
+			%else:
+				<div class="infobox">
+					${_("This revision has no text.")}
+				</div>
+			%endif
 	</div>
 </%def>
 
@@ -70,8 +76,8 @@
 						%endif
 					%endfor
 				</select>
+				<a href="${h.entity_url(this)|n}">${_("see")}</a>
 			%else:
-				<b></a></b>
 				${_("Variant:")} 
 				%if field is not None:
 					<label for="variant" class="armhint">${_("Variant Name")}</label>
