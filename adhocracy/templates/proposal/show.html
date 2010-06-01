@@ -10,6 +10,9 @@
 ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 
 <div class="sidebar">
+	<div class="infobox">
+		${_("Proposal created on %s by %s") % (h.format_date(c.proposal.create_time), h.user_link(c.proposal.creator))|n}
+	</div>
 	${tiles.proposal.sidebar(c.proposal, c.tile)}
 	<br/>
 	<h3 class="help">${_("Help")}</h3>
