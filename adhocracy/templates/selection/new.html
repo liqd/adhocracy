@@ -28,7 +28,7 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 			<a target="_new" href="/static/tag_faq.html">${_("Help.")}</a></span>
 		
 		<label for="parent">${_("Parent page:")}</label>
-		${tiles.page.select_page(field_name="parent", functions=c.model.Page.FUNCTIONS)}
+		${tiles.page.select_page(field_name="parent", functions=c.model.Page.PARENT_FUNCTIONS)}
 
 		${components.savebox(None)}
 	</form>

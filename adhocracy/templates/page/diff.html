@@ -1,6 +1,6 @@
 <%inherit file="/template.html" />
 
-<%def name="title()">${_("Change request: %s") % c.right.title}</%def>
+<%def name="title()">${_("Variant: %s") % c.right.title}</%def>
 
 <%def name="breadcrumbs()">${h.breadcrumbs(c.right)|n}</%def>
 
@@ -20,9 +20,11 @@ ${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right, variant=c
 	%if c.right.has_text:
 		${c.right_diff|n}
 	%else:
-		<div class="infobox">
-			${_("This page has no text yet.")}
-		</div>
+		%if text.page.function == text.page.NORM:
+			${_("This norm has not yet been decided and is thus no official position of this group.")}
+		%else:
+			${_("This document has no text yet.")}
+		%endif
 	%endif
 </div>
 
@@ -31,7 +33,7 @@ ${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right, variant=c
 		${c.right_diff|n}
 	%else:
 		<div class="infobox">
-			${_("This page has no text yet.")}
+			${_("This document has no text yet.")}
 		</div>
 	%endif
 </div>

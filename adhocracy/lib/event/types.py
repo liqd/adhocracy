@@ -206,7 +206,7 @@ N_DELEGATE_VOTED = NotificationType("n_delegate_voted", pri=4,
                           notify_self=True)
 
 N_DELEGATE_CONFLICT = NotificationType("n_delegate_conflict", pri=5, 
-                          subject=lambda: _(u"Delegate conflict regarding %(poll)s"),
+                          subject=lambda: _(u"Delegation conflict regarding %(poll)s"),
                           link_path=lambda e: h.entity_url(e.poll.subject),
                           notify_self=True)
 

@@ -40,14 +40,18 @@ def create_channel(service, read=False, write=False):
     
 def post_message(service, text):
     global post_channels
-    if service not in post_channels.keys():
-        post_channels[service] = create_channel(service, write=True)
+    try:
+        if service not in post_channels.keys():
+            post_channels[service] = create_channel(service, write=True)
     
-    message = amqp.Message(text, content_type='application/adhocracy',
-                           delivery_mode=2)
-    post_channels[service].basic_publish(message, 
-                                        exchange=exchange_name(service),
-                                        routing_key=service)
+        message = amqp.Message(text, content_type='application/adhocracy',
+                               delivery_mode=2)
+        post_channels[service].basic_publish(message, 
+                                             exchange=exchange_name(service),
+                                             routing_key=service)
+    except Exception, e:
+        log.exception("Error posting to queue")
+
     
 def read_messages(service, callback):
     channel = create_channel(service, read=True)

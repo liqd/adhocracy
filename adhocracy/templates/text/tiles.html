@@ -27,7 +27,11 @@
 		${text.render()|n}
 	%else:
 		<div class="infobox">
-			${_("This page has no text yet.")}
+			%if text.page.function == text.page.NORM:
+				${_("This norm has not yet been decided and is thus no official position of this group.")}
+			%else:
+				${_("This document has no text yet.")}
+			%endif
 		</div>
 	%endif
 	%if subpages_pager is not None and len(subpages_pager._items):
