@@ -10,7 +10,11 @@
 ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 
 <div class="sidebar">
-	${tiles.proposal.sidebar(c.proposal, c.proposal_tile)}
+	%if c.proposal.is_adopt_polling(): 
+		${tiles.poll.booth(c.proposal.adopt_poll)}
+	%endif
+	
+	${tiles.delegation.sidebar(c.proposal, c.proposal_tile)}
 	<br/>
 	<h3 class="help">${_("Help")}</h3>
 	<ul>
