@@ -87,12 +87,12 @@
 		%endif		
 				
 		%if can.proposal.edit(proposal):
-			<a class="button title edit" 
+			<a class="button title edit ttip" title="${_('Edit this proposal.')}"
 				href="${h.entity_url(proposal, member='edit')}">${_("edit")}</a>
 		%endif
 						
 		%if can.proposal.delete(proposal):
-			<a class="button title delete" 	
+			<a class="button title delete ttip" title="${_('Delete this proposal.')}" 	
 				href="${h.entity_url(proposal, member='ask_delete')}">${_("delete")}</a>
 		%endif
 		

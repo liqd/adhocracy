@@ -35,6 +35,12 @@
 						${_("make %s") % _(c.model.Group.by_code(group_code).group_name)}</a>
 				%endif
 			%endfor
+			
+			%if c.user and c.instance and c.user == c.page_user and can.instance.leave(c.instance):
+				<a class="button delete ttip" title="${_('Resign from this instance.')}" 
+					href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave instance")}</a> 
+			%endif
+			
 			<a class="button delete" 
 				href="${h.entity_url(user, member='kick')}?${h.url_token()}">${_("kick")}</a>
 		%endif

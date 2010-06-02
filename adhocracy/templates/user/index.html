@@ -15,10 +15,6 @@
 	%if not c.user:
 		<a class="button add ttip" title="${_('Join this instance to start contributing.')}" href="/register">${_("join")}</a> 
 	%endif
-	%if can.instance.leave(c.instance):
-		<a class="button delete ttip" title="${_('Resign from this instance.')}" 
-			href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave")}</a> 
-	%endif
 </div>
 
 <h1 class="page_title">

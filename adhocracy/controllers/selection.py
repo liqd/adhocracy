@@ -51,9 +51,9 @@ class SelectionController(BaseController):
         selection = model.Selection.create(c.proposal, self.form_result.get('page'), 
                                            c.user)
         model.meta.Session.commit()
-        # TODO implement
+        # TODO implement:
         # TODO emit an event 
-        return redirect(h.entity_url(c.proposal, member='implementation'))
+        return redirect(h.entity_url(selection))
     
 
     def edit(self, proposal_id, id, errors={}):

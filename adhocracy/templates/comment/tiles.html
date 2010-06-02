@@ -141,11 +141,11 @@
 		%if not comment.textual:
 			${_("argumenting:")}
 			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == 1 else ''} /> 
-			${_("pro")}
+			<span class="option_pro">${_("pro")}</span>
 			<input type="radio" value="0" name="sentiment" ${'checked="checked"' if comment.latest.sentiment not in [-1, 1] else ''}  /> 
-			${_("neutral")}
+			<span class="option_neutral">${_("neutral")}</span>
 			<input type="radio" value="-1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == -1 else ''} /> 
-			${_("con")}
+			<span class="option_con">${_("con")}</span>
 			<br/>
 		%endif
 		
@@ -171,9 +171,12 @@
 		%if not canonical:
 			${_("argumenting:")}
 			<% pos = topic.user_position(c.user) %>
-			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if pos == 1 else ''} /> ${_("pro")}
-			<input type="radio" value="0" name="sentiment" ${'checked="checked"' if pos not in [-1, 1] else ''}  /> ${_("neutral")}
-			<input type="radio" value="-1" name="sentiment" ${'checked="checked"' if pos == -1 else ''} /> ${_("con")}
+			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if pos == 1 else ''} /> 
+				<span class="option_pro">${_("pro")}</span>
+			<input type="radio" value="0" name="sentiment" ${'checked="checked"' if pos not in [-1, 1] else ''}  /> 
+				<span class="option_neutral">${_("neutral")}</span>
+			<input type="radio" value="-1" name="sentiment" ${'checked="checked"' if pos == -1 else ''} /> 
+				<span class="option_con">${_("con")}</span>
 			<br/>
 		%endif
 		%if arm:

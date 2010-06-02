@@ -19,15 +19,17 @@ class html_diff_generator(object):
         for ch in text:
             if ch == u'<':
                 self.in_tag = True
-                if tag and is_open:
+                if is_open and tag:
+                    is_open = False
                     self.out += u"</%s>" % tag
             self.out += ch
             if ch == u'>':
                 self.in_tag = False
                 if tag and not is_open:
+                    is_open = True
                     self.out += u"<%s>" % tag
         
-        if is_open and tag and not self.in_tag:
+        if is_open and tag:
             self.out += u"</%s>" % tag
         
          
@@ -39,8 +41,8 @@ def compare_html(left, right):
     #print "STAGE 1", diffs
     dmp.diff_cleanupSemantic(diffs)
     levenshtein = dmp.diff_levenshtein(diffs) 
-    if len(left) > 1 and levenshtein > (max(len(left), len(right)) * 0.5):
-        return "<del>%s</del><ins>%s</ins>" % (left, right)
+    #if len(left) > 1 and levenshtein > (max(len(left), len(right)) * 0.5):
+    #    return "<del>%s</del><ins>%s</ins>" % (left, right)
     full_diff = html_diff_generator(left, right)
     for (op, text) in diffs:
         if op == dmp.DIFF_INSERT:

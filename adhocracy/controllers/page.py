@@ -129,6 +129,11 @@ class PageController(BaseController):
             # if a selection was created, go there instead:
             if can.selection.create(proposal):
                 target = model.Selection.create(proposal, page, c.user)
+                poll = target.variant_poll(variant)
+                if poll and can.poll.vote(poll):
+                    decision = democracy.Decision(c.user, poll)
+                    decision.make(model.Vote.YES)
+                    model.Tally.create_from_poll(poll)
         
         model.meta.Session.commit()
         watchlist.check_watch(page)

@@ -1359,6 +1359,12 @@ a.button.inactive {
 	background-color: #e6ffed;
 }
 
+.option_pro {
+	background-color: #e6ffed;
+	/*color: #00ee0a;
+	border: 1px solid #b1eeb4;*/
+}
+
 .comment .tile.pro .text {
 	border-bottom: 2px solid #b1eeb4;
 }
@@ -1368,8 +1374,18 @@ a.button.inactive {
 	background-color: #ffe9e6;
 }
 
+.option_con {
+	background-color: #ffe9e6;
+	/*color: #ee4523;
+	border: 1px solid #eebbb1;*/
+}
+
 .comment .tile.con .text {
 	border-bottom: 2px solid #eebbb1;
+}
+
+.option_neutral {
+	background-color: #fff;
 }
 
 .comment .hide, 

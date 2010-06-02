@@ -27,6 +27,11 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 		%endfor
 	</ul>
 	<br/>
+	%else:
+		<div class="infobox">
+			${_("Page created on %s by %s") % (h.format_date(c.page.create_time), h.user_link(c.page.creator))|n}
+		</div>
+		<br/>
 	%endif
 	${tiles.tag.sidebar(c.page)}
 	${tiles.delegation.sidebar(c.page, c.tile)}

@@ -33,11 +33,7 @@
 			<a class="button admin ttip" title="${_('Edit this instance to change its description or voting rules.')}"  
 				href="${h.entity_url(instance, member='edit')}">${_("edit")}</a>
 		%endif
-		%if can.instance.leave(instance):
-			<a class="button delete ttip" title="${_('Resign from this instance.')}" 
-				href="${h.entity_url(instance, member='ask_leave')}">${_("leave")}</a> 
-		%endif
-		
+				
 		%if can.instance.delete(instance):
 			<a class="button title delete" 	
 				href="${h.entity_url(instance, member='ask_delete')}">${_("delete")}</a>

@@ -30,6 +30,10 @@
 		%endif
 	</div>
 	<div class="mainbar">
+		
+		<label for="parent">${_("Parent page:")}</label>
+		${tiles.page.select_page(field_name="parent", functions=c.model.Page.PARENT_FUNCTIONS)}
+		
 		<textarea tabindex="2" class="description armlabel" name="text"></textarea>
 		
 		<label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
@@ -38,13 +42,6 @@
 			<a target="_new" href="/static/tag_faq.html">${_("Help.")}</a></span>
 	</div>
 	
-	<div class="sidebar">
-		&nbsp;
-	</div>
-	<div class="mainbar">
-		<label for="parent">${_("Parent page:")}</label>
-		${tiles.page.select_page(field_name="parent", functions=c.model.Page.PARENT_FUNCTIONS)}
-	</div>
 
 	<div style="clear:both;"></div>
 	<div class="sidebar">

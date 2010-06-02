@@ -93,11 +93,10 @@ def tag_url(tag, instance=None, **kwargs):
 def comment_url(comment, member=None, format=None, comment_page=False, **kwargs):
     if member is None and format is None and not comment_page:
         if isinstance(comment.topic, model.Page):
+            if comment.topic.function == model.Page.DESCRIPTION:
+                return proposal_url(comment.topic.proposal) + '#c' + str(comment.id)
             return text_url(comment.topic.variant_head(comment.variant)) + '#c' + str(comment.id)
         elif isinstance(comment.topic, model.Proposal):
-            if comment.root().canonical:
-                return proposal_url(comment.topic, member='canonicals') \
-                        + '#c' + str(comment.id)
             return proposal_url(comment.topic) + '#c' + str(comment.id)
     return _common_url_builder(comment.topic.instance, 'comment', 
                                comment.id, member=member, format=format, **kwargs)
