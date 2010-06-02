@@ -16,9 +16,13 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 	
 	${tiles.delegation.sidebar(c.proposal, c.proposal_tile)}
 	<br/>
+	
 	<h3 class="help">${_("Help")}</h3>
 	<ul>
-		<li>TODO</li>
+		<li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
+		<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
+		<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
+		<li>${h.help_link(_("More help..."), 'selection_faq')|n}</li>
 	</ul>
 </div>
 

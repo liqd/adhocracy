@@ -14,6 +14,9 @@
 %endif
 
 <div class="sidebar">
+	%if c.page.proposal:
+		${tiles.proposal.sidebar(c.page.proposal)}
+	%endif
 	&nbsp;
 </div>
 
