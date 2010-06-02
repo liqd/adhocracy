@@ -218,6 +218,8 @@
 					&middot;
 					<a href="${h.entity_url(comment, member='history')}">${_("history")}</a>
 				%endif
+					&middot;
+					<a href="${h.entity_url(comment, comment_page=True)}">${_("permalink")}</a>
 			%endif
 			
 			<a name="c${comment.id}">&nbsp;</a>
