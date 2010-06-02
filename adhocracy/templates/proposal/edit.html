@@ -22,6 +22,7 @@
 	<div class="mainbar">
 		<label for="text" class="armhint">${_("The proposal would...")}</label>
 		<textarea tabindex="2" class="description armlabel" rows="${c.text_rows}" name="text">${c.proposal.description.head.text}</textarea>
+		${components.formatting()}
 	</div>
 	
 	<h3>${_("Alternatives")}</h3>

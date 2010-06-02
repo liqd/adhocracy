@@ -1,33 +1,7 @@
+<%inherit file="root.html" />
 <%namespace name="model" module="adhocracy.model"/>
 <%namespace name="components" file="/components.html"/>
 
-<%def name="title()">${_("No Title")}</%def>
-
-<%def name="page_title()"><h1>${self.title()}</h1></%def>
-
-<%def name="breadcrumbs()">&nbsp;</%def>
-
-<%def name="contextbox()">&nbsp;</%def>
-
-<%def name="page_actions()"></%def>
-
-<%def name="page_actions_bar()">
-	<div id="page_actions">
-		${self.page_actions()}
-	</div>
-</%def>
-
-<%def name="print_meta()">
-	%for key, value in c.html_meta.items():
-		<meta name="${key}" content="${value}" />
-	%endfor
-</%def>
-
-<%def name="print_link()">
-	%for link in c.html_link:
-		<link rel="${link['rel']}" type="${link['type']}" title="${link['title']}" href="${link['href']}" />
-	%endfor
-</%def>
 
 <!DOCTYPE html>
 <html>
@@ -50,49 +24,7 @@
 
 -->
 <head>
-	<title>${self.title()} - 
-		   	%if c.instance:
-				 ${c.instance.label} 
-		   	%endif
-				${h.site_name()}
-	</title>
-	<link  rel="stylesheet" type="text/css"
-		href="${h.instance_url(None, path='/style/base.css')}" />
-	<link  rel="stylesheet" type="text/css" 
-		href="${h.instance_url(None, path='/style/site.css')}"/>
-	<link media="only screen and (max-device-width: 1024px)" type="text/css" rel="stylesheet"
-		href="${h.instance_url(None, path='/style/ipad.css')}" />
-	<link media="only screen and (max-device-width: 480px)" type="text/css" rel="stylesheet" 
-		href="${h.instance_url(None, path='/style/iphone.css')}"/>
-	<link rel="stylesheet" media="all and (orientation:portrait)" 
-		href="${h.instance_url(None, path='/style/portrait.css')}">
-	<link type="text/css" media="print" rel="stylesheet" 
-		href="${h.instance_url(None, path='/style/print.css')}" />
-	<link rel='shortcut icon' type='image/x-icon' 
-		href='${h.instance_url(None, path='/favicon.ico')}' />
-	
-	${print_link()}
-	
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	${print_meta()}
-	
-	%if c.canonical_url:
-		<link rel="canonical" href="${c.canonical_url}" />
-	%endif
-	
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
-	<script type="text/javascript" 
-		src="${h.instance_url(None, path='/js/jquery.autocomplete.min.js')}"></script>	
-	<script type="text/javascript" 
-		src="${h.instance_url(None, path='/js/jquery.qtip.min.js')}"></script>
-	<script type="text/javascript" 
-		src="${h.instance_url(None, path='/js/jquery.timeago.js')}"></script>
-	<script type="text/javascript" 
-		src="${h.instance_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script>
-	<script type="text/javascript" 
-		src="${h.instance_url(None, path='/js/adhocracy.js')}"></script>
-	
+	${self.head()}
 </head>
 <body>
 <div id="frame">
@@ -218,21 +150,6 @@
 	</div>
 </div>
 
-
-%if config.get('piwik.site'):
-<!-- Piwik -->
-<script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "${config.get('piwik.site')}" : "${config.get('piwik.site')}");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", ${config.get('piwik.id')});
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
-} catch( err ) {}
-</script><noscript><p><img src="${config.get('piwik.site')}piwik.php?idsite=${config.get('piwik.id')}" style="border:0" alt=""/></p></noscript>
-<!-- End Piwik Tag -->
-%endif
-
+<%include file="piwik.html"/>
 </body>
 </html>

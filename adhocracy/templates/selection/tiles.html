@@ -2,16 +2,16 @@
 <%def name="row(tile, selection)">
 	<div class="tile selection">
 		<h3 class="section">
-			<a href="${h.entity_url(selection)}">
+			<!--a href="${h.entity_url(selection)}"-->
 			<img class="cd" src="/img/icons/page_variant_24.png">
 			${selection.page.title}
-			</a>
+			<!--/a-->
 			%if not selection.page.head.has_text:
 				${_("(new)")}
 			%endif
 		</h3>
 		
-		<div class="language">
+		<div class="language selected">
 			%if tile.selected is None:
 				<div class="infobox">
 					${_("There is a tie between variants, thus none is included at the moment.")}
@@ -21,8 +21,9 @@
 					${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
 				</div>
 			%else:
-				<div class="meta noclear">
+				<div class="variant_header">
 					${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), escape(tile.selected)))|n}
+					(${ungettext("%s comment", "%s comments", tile.selected_num_comments) % tile.selected_num_comments})
 				</div>
 				<br/>
 				${tile.selected_text.render()|n}

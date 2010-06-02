@@ -151,7 +151,7 @@ def make_map():
                                                  'ask_delete': 'GET',
                                                  'activity': 'GET'})
     
-    map.connect('/static/{page_name}.html', controller='static', action='serve')
+    map.connect('/static/{page_name}.{format}', controller='static', action='serve')
 
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')

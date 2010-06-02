@@ -200,6 +200,13 @@ def add_meta(key, value):
         c.html_meta = dict()
     c.html_meta[key] = value
 
+def help_link(text, page, anchor=None):
+    url = instance_url(None, path="/static/%s.%s")
+    if anchor is not None:
+        url += "#" + anchor
+    full_url = url % (page, 'html')
+    simple_url = url % (page, 'simple')
+    return "<a target='_new' href='%s' onClick='return showHelp(\"%s\")'>%s</a>" % (full_url, simple_url, text)
 
 def rss_button(entity):
     return ""

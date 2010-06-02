@@ -68,6 +68,11 @@ class SelectionTile(BaseTile):
     
     
     @property
+    def selected_num_comments(self):
+        return len(self.selection.page.variant_comments(self.selected))
+
+    
+    @property
     def frozen(self):
         return self.selection.proposal.is_adopt_polling()
     

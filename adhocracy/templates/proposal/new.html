@@ -21,7 +21,8 @@
 	<div class="mainbar">
 		<label for="text" class="armhint">${_("The proposal would...")}</label>
 		<textarea tabindex="2" class="description armlabel" name="text"></textarea>
-		
+		${components.formatting()}
+		<br/><br/>
 		<label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
 		<input name="tags" id="tags" class="armlabel long" />
 		<span class="hint">${_("Multiple tags can be separated by commas.")}

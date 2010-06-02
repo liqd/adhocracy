@@ -52,7 +52,7 @@ class Proposal(Delegateable):
             (not self.adopt_poll.has_ended())
     
     def is_mutable(self):
-        return not self.is_adopt_polling()
+        return (not self.is_adopt_polling()) and (not self.adopted)
     
     
     def has_canonicals(self):

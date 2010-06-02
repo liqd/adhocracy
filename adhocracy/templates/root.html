@@ -1,0 +1,62 @@
+<%def name="title()">${_("No Title")}</%def>
+<%def name="breadcrumbs()">&nbsp;</%def>
+
+<%def name="print_meta()">
+	%for key, value in c.html_meta.items():
+		<meta name="${key}" content="${value}" />
+	%endfor
+</%def>
+
+<%def name="print_link()">
+	%for link in c.html_link:
+		<link rel="${link['rel']}" type="${link['type']}" title="${link['title']}" href="${link['href']}" />
+	%endfor
+</%def>
+
+<%def name="head()">
+	<title>${self.title()} - 
+		   	%if c.instance:
+				 ${c.instance.label} 
+		   	%endif
+				${h.site_name()}
+	</title>
+	<link  rel="stylesheet" type="text/css"
+		href="${h.instance_url(None, path='/style/base.css')}" />
+	<link  rel="stylesheet" type="text/css" 
+		href="${h.instance_url(None, path='/style/site.css')}"/>
+	<link media="only screen and (max-device-width: 1024px)" type="text/css" rel="stylesheet"
+		href="${h.instance_url(None, path='/style/ipad.css')}" />
+	<link media="only screen and (max-device-width: 480px)" type="text/css" rel="stylesheet" 
+		href="${h.instance_url(None, path='/style/iphone.css')}"/>
+	<link rel="stylesheet" media="all and (orientation:portrait)" 
+		href="${h.instance_url(None, path='/style/portrait.css')}">
+	<link type="text/css" media="print" rel="stylesheet" 
+		href="${h.instance_url(None, path='/style/print.css')}" />
+	<link rel='shortcut icon' type='image/x-icon' 
+		href='${h.instance_url(None, path='/favicon.ico')}' />
+	
+	${print_link()}
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	${print_meta()}
+	
+	%if c.canonical_url:
+		<link rel="canonical" href="${c.canonical_url}" />
+	%endif
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+	<script type="text/javascript" 
+		src="${h.instance_url(None, path='/js/jquery.autocomplete.min.js')}"></script>	
+	<script type="text/javascript" 
+		src="${h.instance_url(None, path='/js/jquery.qtip.min.js')}"></script>
+	<script type="text/javascript" 
+		src="${h.instance_url(None, path='/js/jquery.timeago.js')}"></script>
+	<script type="text/javascript" 
+		src="${h.instance_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script>
+	<script type="text/javascript" 
+		src="${h.instance_url(None, path='/js/adhocracy.js')}"></script>
+	
+</%def>
+
+${next.body()}

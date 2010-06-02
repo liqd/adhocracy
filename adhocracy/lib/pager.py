@@ -21,7 +21,7 @@ class NamedPager(object):
     in order to distinguish multiple pagers working on the same page.  
     """
     
-    def __init__(self, name, items, itemfunc, size=20, sorts={}, 
+    def __init__(self, name, items, itemfunc, size=10, sorts={}, 
                  default_sort=None, enable_sorts=True, enable_pages=True, **kwargs):
         self.name = name
         self._items = items

@@ -38,6 +38,8 @@ $(document).ready(function() {
 		</div>
 
 		<textarea tabindex="2" class="description armlabel" rows="20" name="text"></textarea>
+		${components.formatting()}
+		
 		<label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
 		<input name="tags" id="tags" class="armlabel long" />
 		<span class="hint">${_("Multiple tags can be separated by commas.")}

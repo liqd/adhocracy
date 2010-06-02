@@ -1,0 +1,29 @@
+<%inherit file="root.html" />
+<%namespace name="model" module="adhocracy.model"/>
+<%namespace name="components" file="/components.html"/>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	${self.head()}
+	<link  rel="stylesheet" type="text/css"
+		href="${h.instance_url(None, path='/style/plain.css')}" />
+</head>
+<body>
+<div id="frame">
+	<div id="page">
+		<div id="breadcrumbs">
+			${self.breadcrumbs()}
+		</div>	
+	
+		<div class="content">
+			${self.body()}
+			<div style="clear: both;"></div>
+		</div>
+	</div>
+</div>
+
+<%include file="piwik.html"/>
+</body>
+</html>
