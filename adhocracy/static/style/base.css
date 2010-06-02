@@ -709,6 +709,8 @@ del, del * {
 .double.righthalf del, 
 .double.righthalf del * {
 	visibility: hidden;
+	border-bottom: 0px;
+	list-style-type: none;
 }
 
 .double.righthalf ins, 
@@ -720,6 +722,8 @@ del, del * {
 .double.lefthalf ins,
 .double.lefthalf ins * {	
 	visibility: hidden;
+	border-bottom: 0px;
+	list-style-type: none;
 }
 
 .double.lefthalf del,

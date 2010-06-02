@@ -23,7 +23,7 @@ class PollVoteForm(formencode.Schema):
 
 class PollController(BaseController):
     
-    def index(self, id, format='html'):
+    def index(self, format='html'):
         return self.not_implemented(format=format)
     
         

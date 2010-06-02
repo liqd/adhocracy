@@ -22,7 +22,7 @@
 				</div>
 			%else:
 				<div class="meta noclear">
-					${_("Selected variant: <b>%s</b>") % escape(tile.selected)|n}
+					${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), escape(tile.selected)))|n}
 				</div>
 				<br/>
 				${tile.selected_text.render()|n}

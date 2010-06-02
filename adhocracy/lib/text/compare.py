@@ -15,7 +15,10 @@ def compare_html(left, right):
     dmp = diff_match_patch()
     diffs = dmp.diff_main(left, right)
     #print "STAGE 1", diffs
-    dmp.diff_cleanupSemantic(diffs)
+    #dmp.diff_cleanupSemantic(diffs)
+    levenshtein = dmp.diff_levenshtein(diffs) 
+    if len(left) > 1 and levenshtein > (max(len(left), len(right)) * 0.5):
+        return "<del>%s</del><ins>%s</ins>" % (left, right)
     full_diff = []
     for (op, text) in diffs:
         if op == dmp.DIFF_INSERT:
