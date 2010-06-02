@@ -17,9 +17,9 @@ ${tiles.user.header(c.page_user, active='watchlist')}
 	%endif
 	<h3 class="help">${_("Help")}</h3>
 	<ul>
-		<li><a href="/static/notification_faq.html#whatis">Was kann man beobachten?</a></li>
-		<li><a href="/static/notification_faq.html#howto">Wie kann man etwas beobachten?</a></li>
-		<li><a href="/static/notification_faq.html">${_("More help...")}</a></li>
+		<li>${h.help_link(_("What can I watch?"), 'notification_faq', anchor='whatis')|n}</li>
+		<li>${h.help_link(_("What can I create a watch?"), 'notification_faq', anchor='howto')|n}</li>
+		<li>${h.help_link(_("More help..."), 'notification_faq')|n}</li>
 	</ul>
 </div>
 

@@ -32,7 +32,9 @@
 		%if c.left.has_text:
 			${c.right_diff|n}
 		%else:
-			${_("This norm has no text yet.")}
+			<div class="infobox">
+				${_("This norm has no text yet.")}
+			</div>
 		%endif
 	</div>
 

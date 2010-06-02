@@ -32,9 +32,10 @@
 		
 	<h3 class="help">${_("Help")}</h3>
 	<ul>
-		<li><a href="/static/tag_faq.html#whatis">${_("What is a tag?")}</a></li>
-		<li><a href="/static/proposal_faq.html#whatis">${_("What is a proposal?")}</a></li>
-		<li><a href="/static/tag_faq.html">${_("More help...")}</a></li>
+		<li>${h.help_link(_("What is a tag?"), 'tag_faq', anchor='whatis')|n}</li>
+		<li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
+		<li>${h.help_link(_("What is a page?"), 'page_faq', anchor='whatis')|n}</li>
+		<li>${h.help_link(_("More help..."), 'tag_faq')|n}</li>
 	</ul>
 </div>
 

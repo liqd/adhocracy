@@ -21,10 +21,10 @@
 	</div>
 	<h3 class="help">${_("Help")}</h3>
 	<ul>
-		<li><a href="/static/instance_faq.html#whatis">${_("What is an instance?")}</a></li>
-		<li><a href="/static/instance_faq.html#whenmake">${_("When should I create an instance?")}</a></li>
-		<li><a href="/static/instance_faq.html#howmake">${_("How can I create an instance?")}</a></li>
-		<li><a href="/static/instance_faq.html">${_("More help...")}</a></li>
+		<li>${h.help_link(_("What is an instance?"), 'instance_faq', anchor='whatis')|n}</li>
+		<li>${h.help_link(_("When should I create an instance?"), 'instance_faq', anchor='whenmake')|n}</li>
+		<li>${h.help_link(_("How can I create an instance?"), 'instance_faq', anchor='howmake')|n}</li>
+		<li>${h.help_link(_("More help..."), 'instance_faq')|n}</li>
 	</ul>
 </div>
 
