@@ -34,7 +34,7 @@ abbr {
 	border-bottom: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, h3.ui-accordion-header {
 	font-weight: bold;
 }
 
@@ -46,7 +46,7 @@ h2 {
 	font-size: 13pt;
 }
 
-h3 {
+h3, h3.ui-accordion-header {
 	font-size: 12pt;
 }
 
@@ -1957,4 +1957,8 @@ a.button.inactive {
 
 .selection .head .variant_innerheader {
 	background-image: url(/img/icons/page_norm_24.png);
+}
+
+#accordion.ui-accordion .ui-accordion-header a {
+	padding:0.5em 0.5em 0.5em 2em;
 }

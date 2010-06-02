@@ -9,9 +9,25 @@
 
 ${tiles.proposal.header(c.proposal, active='implementation')}
 
-<div class="lefthalf double">
-	<h3>${_("I want to create a new norm.")}</h3>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<script>
+$(document).ready(function() {
+  $("#accordion").accordion({ autoHeight: false });
+});
+</script>
 
+<div id="accordion">
+	<h3><a href="#">${_("I want to modify an existing norm.")}</a></h3>
+	<form name="create_selection" class="inplace" method="POST" 
+	      action="${h.entity_url(c.proposal, member='implementation')}">
+
+		${tiles.page.select_page(functions=[c.model.Page.NORM], 
+			                       exclude=[s.page for s in c.proposal.selections], 
+			                       allow_empty=False)}
+		<input type="submit" value="${_("Include")}" />
+	</form>
+
+	<h3><a href="#">${_("I want to create a new norm.")}</a></h3>
 	<form name="create_page" class="inplace" method="POST" action="/page">
 		${h.field_token()|n}
 		<input type="hidden" value="${c.model.Page.NORM}" name="function" />
@@ -31,20 +47,5 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 		${tiles.page.select_page(field_name="parent", functions=c.model.Page.PARENT_FUNCTIONS)}
 
 		${components.savebox(None)}
-	</form>
-</div>
-
-<div class="righthalf double">
-	<h3>${_("I want to modify an existing norm.")}</h3>
-	<form name="create_selection" class="inplace" method="POST" 
-	      action="${h.entity_url(c.proposal, member='implementation')}">
-
-		${tiles.page.select_page(functions=[c.model.Page.NORM], 
-			                       exclude=[s.page for s in c.proposal.selections], 
-			                       allow_empty=False)}
-		<br/><br/>
-		<input type="submit" value="${_("Include")}" />
-
-
 	</form>
 </div>
