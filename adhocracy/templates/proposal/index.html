@@ -59,4 +59,9 @@
 	<div id="proposals_table" class="table">
 		${c.proposals_pager.here()}
 	</div>
+	<div class="top_actions aside">
+		%if can.proposal.create():
+			<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+		%endif
+	</div>
 </div>

@@ -31,6 +31,10 @@ ${tiles.instance.header(c.page_instance, active='rules')}
 	
 	
 	<div class="top_actions aside">
+		%if can.proposal.create():
+			<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+		%endif
+		
 		<a href="/proposal" class="button edit">${_("more proposals")}</a>
 	</div>
 	<br/>
