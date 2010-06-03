@@ -102,7 +102,6 @@ class Proposal(Delegateable):
     def find(cls, id, instance_filter=True, include_deleted=False, full=False):
         try:
             q = meta.Session.query(Proposal)
-            print "ID", id
             id = int(unicode(id).split('-', 1)[0])
             q = q.filter(Proposal.id==id)
             if full:
