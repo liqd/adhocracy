@@ -39,7 +39,11 @@
 				%endif
 			%else:
 				<a class="button add" href="${h.entity_url(selection)}">${_("select variant")}</a> 
-				<a class="button edit" href="${h.entity_url(tile.selected_text)}">${_("compare variants")}</a> 
+				%if tile.selected_text:
+					<a class="button edit" href="${h.entity_url(tile.selected_text)}">${_("compare variants")}</a> 
+				%else:
+					<a class="button edit" href="${h.entity_url(selection.page)}">${_("see norm")}</a>
+				%endif
 			%endif
 		</div>
 		<div class="meta noclear">
