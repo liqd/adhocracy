@@ -81,7 +81,7 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 				<div class="variant_header"><div class="variant_innerheader">				
 					%if row.text.is_head:
 						<b><a href="${h.entity_url(row.text)}">${_("Status quo")}</a></b>
-						${_("(do not change this norm)")}
+						${_("(this proposal should not change this norm)")}
 					%else:
 						<b><a href="${h.entity_url(row.text)}">${row.variant}</a></b>
 					%endif
@@ -96,7 +96,9 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 				</div></div>
 				<div>
 				%if row.selected and not row.text.is_head:
-					${row.text.render()|n}
+					<div class="tile">
+						${row.text.render()|n}
+					</div>
 				%elif row.selected:
 					<div class="infobox">
 						${_("Status quo has the most votes, resulting in no proposed change to this norm.")}

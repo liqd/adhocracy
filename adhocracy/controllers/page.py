@@ -272,9 +272,10 @@ class PageController(BaseController):
             redirect(h.entity_url(right))
         c.left, c.right = (left, right)
         c.left_options = options
-        require.page.show(c.left.page)
+        require.page.show(c.right.page)
         if c.left.page != c.right.page:
-            require.page.show(c.right.page)
+            h.flash(_("Cannot compare versions of different texts."))
+            redirect(h.entity_url(c.right))
         right_html = right.render()
         left_html = left.render()
         #c.left_diff = text.html_diff(right_html, left_html)

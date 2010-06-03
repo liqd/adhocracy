@@ -32,7 +32,7 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 	</script>
 
 	<div id="accordion">
-		<h3><a href="#">${_("I want to include a change to an existing norm.")}</a></h3>
+		<h3><a href="#">${_("I want to include a change to an existing norm.")|n}</a></h3>
 		<form name="create_selection" class="inplace" method="POST" 
 		      action="${h.entity_url(c.proposal, member='implementation')}">
 
@@ -42,7 +42,7 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 			<input type="submit" value="${_("Include")}" />
 		</form>
 
-		<h3><a href="#">${_("I want to propose the creation of a new norm.")}</a></h3>
+		<h3><a href="#">${_("I want to propose the creation of a new norm.")|n}</a></h3>
 		<form name="create_page" class="inplace" method="POST" action="/page">
 			${h.field_token()|n}
 			<input type="hidden" value="${c.model.Page.NORM}" name="function" />

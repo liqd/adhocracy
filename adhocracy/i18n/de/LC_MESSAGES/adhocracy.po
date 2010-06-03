@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-06-03 13:35+0100\n"
+"PO-Revision-Date: 2010-06-03 15:30+0100\n"
 "Last-Translator: Friedrich Lindenberg <friedrich@pudo.org>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -204,12 +204,17 @@ msgstr "alphabetisch"
 msgid "Cannot compare identical text revisions."
 msgstr "Gleiche Texte können nicht verglichen werden. "
 
-#: adhocracy/controllers/page.py:305
+#: adhocracy/controllers/page.py:277
+#| msgid "Cannot compare identical text revisions."
+msgid "Cannot compare versions of different texts."
+msgstr "Texte von unterschiedlichen Dokumenten können nicht verglichen werden. "
+
+#: adhocracy/controllers/page.py:306
 #, python-format
 msgid "The page %s has been deleted."
 msgstr "Die Seite %s wurde gelöscht."
 
-#: adhocracy/controllers/page.py:315
+#: adhocracy/controllers/page.py:316
 #, python-format
 msgid "Invalid text ID %s for this page/variant!"
 msgstr "Ungültige Text-ID %s für diese Seite oder Variante!"
@@ -1390,6 +1395,8 @@ msgid "editable"
 msgstr "änderbar"
 
 #: adhocracy/templates/comment/tiles.html:219
+#: adhocracy/templates/page/show.html:25
+#: adhocracy/templates/page/show.html:33
 msgid "history"
 msgstr "Historie"
 
@@ -1891,7 +1898,7 @@ msgstr "via E-Mail oder Twitter"
 
 #: adhocracy/templates/instance/show.html:35
 #: adhocracy/templates/instance/tiles.html:23
-#: adhocracy/templates/page/show.html:55
+#: adhocracy/templates/page/show.html:56
 #: adhocracy/templates/proposal/index.html:11
 #: adhocracy/templates/proposal/index.html:64
 #: adhocracy/templates/tag/show.html:11
@@ -1901,7 +1908,7 @@ msgstr "Schlage eine neue Idee vor."
 
 #: adhocracy/templates/instance/show.html:35
 #: adhocracy/templates/instance/tiles.html:23
-#: adhocracy/templates/page/show.html:55
+#: adhocracy/templates/page/show.html:56
 #: adhocracy/templates/proposal/index.html:11
 #: adhocracy/templates/proposal/index.html:64
 #: adhocracy/templates/tag/show.html:11
@@ -2060,7 +2067,7 @@ msgstr "Seitentitel"
 
 #: adhocracy/templates/page/edit.html:36
 #: adhocracy/templates/page/new.html:44
-#: adhocracy/templates/selection/new.html:62
+#: adhocracy/templates/selection/new.html:57
 msgid "Parent page:"
 msgstr "Elternseite:"
 
@@ -2072,8 +2079,7 @@ msgstr "Die Seite wird unter der angegebenen Elternseite kategorisiert."
 #: adhocracy/templates/page/new.html:40
 #: adhocracy/templates/page/new.html:47
 #: adhocracy/templates/proposal/new.html:29
-#: adhocracy/templates/selection/new.html:59
-#: adhocracy/templates/selection/new.html:65
+#: adhocracy/templates/selection/new.html:60
 #: adhocracy/templates/tag/tiles.html:75
 #: adhocracy/templates/user/edit.html:64
 msgid "Help."
@@ -2114,18 +2120,16 @@ msgstr "Normen können nur durch die Einbindung von Varianten in Vorschläge mod
 
 #: adhocracy/templates/page/new.html:37
 #: adhocracy/templates/proposal/new.html:26
-#: adhocracy/templates/selection/new.html:56
 msgid "Tags to describe the subject"
 msgstr "Tag um den Inhalt zu beschreiben."
 
 #: adhocracy/templates/page/new.html:39
 #: adhocracy/templates/proposal/new.html:28
-#: adhocracy/templates/selection/new.html:58
 msgid "Multiple tags can be separated by commas."
 msgstr "Mehrere Tags können durch Kommas getrennt werden."
 
 #: adhocracy/templates/page/new.html:46
-#: adhocracy/templates/selection/new.html:64
+#: adhocracy/templates/selection/new.html:59
 msgid "The new page will be categorized under the specified parent page."
 msgstr "Die neue Seite wird unter der angegebenen Elternseite kategorisiert."
 
@@ -2144,11 +2148,11 @@ msgstr "Status quo"
 msgid "Page created on %s by %s"
 msgstr "Seite wurde am %s von %s angelegt."
 
-#: adhocracy/templates/page/show.html:41
+#: adhocracy/templates/page/show.html:42
 msgid "Related Proposals"
 msgstr "Verwandte Vorschläge"
 
-#: adhocracy/templates/page/show.html:44
+#: adhocracy/templates/page/show.html:45
 #, python-format
 msgid "No proposals are trying to change %s"
 msgstr "Keine Vorschläge versuchen, %s zu ändern"
@@ -2583,7 +2587,7 @@ msgstr "Die Umsetzung eines Vorschlags wird ergänzt, indem Du einen Bezug zu ei
 
 #: adhocracy/templates/selection/new.html:35
 msgid "I want to include a change to an existing norm."
-msgstr "Ich möchte die Umsetzung durch Bezug zu einer bestehenden Norm erweitern."
+msgstr "Ich möchte einen <b>bestehenden</b> Punkt/eine Norm zur Umsetzung hinzufügen."
 
 #: adhocracy/templates/selection/new.html:42
 msgid "Include"
@@ -2591,9 +2595,9 @@ msgstr "Einbinden"
 
 #: adhocracy/templates/selection/new.html:45
 msgid "I want to propose the creation of a new norm."
-msgstr "Ich möchte die Umsetzung durch Bezug zu einer neuen Norm erweitern."
+msgstr "Ich möchte einen <b>neuen</b> Punkt/eine Norm zur Umsetzung hinzufügen."
 
-#: adhocracy/templates/selection/new.html:52
+#: adhocracy/templates/selection/new.html:53
 msgid "New norm title"
 msgstr "Neuer Normentitel"
 
@@ -2625,14 +2629,14 @@ msgid "Oppose this variant"
 msgstr "Diese Variante ablehnen"
 
 #: adhocracy/templates/selection/show.html:84
-msgid "(do not change this norm)"
-msgstr "(diese Norm nicht ändern)"
+msgid "(this proposal should not change this norm)"
+msgstr "(dieser Vorschlag soll diese Norm nicht ändern)"
 
 #: adhocracy/templates/selection/show.html:94
 msgid "Currently selected for inclusion in this proposal"
 msgstr "Aktuell zur Einbindung in diesen Vorschlag ausgewählt"
 
-#: adhocracy/templates/selection/show.html:102
+#: adhocracy/templates/selection/show.html:104
 #: adhocracy/templates/selection/tiles.html:21
 msgid "Status quo has the most votes, resulting in no proposed change to this norm."
 msgstr "Der Status Quo hat die meisten Stimmen, daher wird keine Änderung der Norm angestrebt."
@@ -2643,9 +2647,7 @@ msgid "Selected variant: <b>%s</b>"
 msgstr "Ausgewähle Variante: <b>%s</b>"
 
 #: adhocracy/templates/selection/tiles.html:38
-#, python-format
-#| msgid "%s norm"
-#| msgid_plural "%s norms"
+#: adhocracy/templates/selection/tiles.html:45
 msgid "see norm"
 msgstr "Norm ansehen"
 
@@ -2653,11 +2655,11 @@ msgstr "Norm ansehen"
 msgid "select variant"
 msgstr "variante auswählen"
 
-#: adhocracy/templates/selection/tiles.html:42
+#: adhocracy/templates/selection/tiles.html:43
 msgid "compare variants"
 msgstr "varianten vergleichen"
 
-#: adhocracy/templates/selection/tiles.html:46
+#: adhocracy/templates/selection/tiles.html:50
 #, python-format
 msgid "There are %s variants of the norm %s."
 msgstr "Es gibt %s Varianten der Norm %s."
