@@ -9,45 +9,64 @@
 
 ${tiles.proposal.header(c.proposal, active='implementation')}
 
-<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-<script>
-$(document).ready(function() {
-  $("#accordion").accordion({ autoHeight: false });
-});
-</script>
+<div class="sidebar">
+	<h3 class="help">${_("Help")}</h3>
+	<div class="infobox">
+		${_("The implementation of a proposal is amended by relating to a fixed document, a norm. Please select or create the norm that you want to relate to. You can then add a text variant of that norm, specifying the change you want to implement.")}
+	</div>
+	<br/>
+	<ul>
+		<li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
+		<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
+		<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
+		<li>${h.help_link(_("More help..."), 'selection_faq')|n}</li>
+	</ul>
+</div>
+<div class="mainbar">
 
-<div id="accordion">
-	<h3><a href="#">${_("I want to modify an existing norm.")}</a></h3>
-	<form name="create_selection" class="inplace" method="POST" 
-	      action="${h.entity_url(c.proposal, member='implementation')}">
+	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<script>
+	$(document).ready(function() {
+	  $("#accordion").accordion({ autoHeight: false });
+	});
+	</script>
 
-		${tiles.page.select_page(functions=[c.model.Page.NORM], 
-			                       exclude=[s.page for s in c.proposal.selections], 
-			                       allow_empty=False)}
-		<input type="submit" value="${_("Include")}" />
-	</form>
+	<div id="accordion">
+		<h3><a href="#">${_("I want to include a change to an existing norm.")}</a></h3>
+		<form name="create_selection" class="inplace" method="POST" 
+		      action="${h.entity_url(c.proposal, member='implementation')}">
 
-	<h3><a href="#">${_("I want to create a new norm.")}</a></h3>
-	<form name="create_page" class="inplace" method="POST" action="/page">
-		${h.field_token()|n}
-		<input type="hidden" value="${c.model.Page.NORM}" name="function" />
-		<input type="hidden" value="${c.proposal.id}" name="proposal" />
-		<div class="page_title">
-			<label for="title" class="armhint">${_("New norm title")}</label>
-			<input tabindex="1" class="title armlabel" name="title" value=""/>
-		</div>
+			${tiles.page.select_page(functions=[c.model.Page.NORM], 
+				                       exclude=[s.page for s in c.proposal.selections], 
+				                       allow_empty=False)}
+			<input type="submit" value="${_("Include")}" />
+		</form>
 
-		<textarea tabindex="2" class="description armlabel" rows="20" name="text"></textarea>
-		${components.formatting()}
+		<h3><a href="#">${_("I want to propose the creation of a new norm.")}</a></h3>
+		<form name="create_page" class="inplace" method="POST" action="/page">
+			${h.field_token()|n}
+			<input type="hidden" value="${c.model.Page.NORM}" name="function" />
+			<input type="hidden" value="${c.proposal.id}" name="proposal" />
+			<input type="hidden" value="" name="text" />
+			<div class="page_title">
+				<label for="title" class="armhint">${_("New norm title")}</label>
+				<input tabindex="1" class="title armlabel" name="title" value=""/>
+			</div>
 		
-		<label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
-		<input name="tags" id="tags" class="armlabel long" />
-		<span class="hint">${_("Multiple tags can be separated by commas.")}
-			<a target="_new" href="/static/tag_faq.html">${_("Help.")}</a></span>
+			<label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
+			<input name="tags" id="tags" class="armlabel long" />
+			<span class="hint">${_("Multiple tags can be separated by commas.")}
+				${h.help_link(_("Help."), 'tag_faq')|n}
+			</span>
 		
-		<label for="parent">${_("Parent page:")}</label>
-		${tiles.page.select_page(field_name="parent", functions=c.model.Page.PARENT_FUNCTIONS)}
+			<label for="parent">${_("Parent page:")}</label>
+			${tiles.page.select_page(field_name="parent", functions=c.model.Page.PARENT_FUNCTIONS)}
+			<span class="hint">${_("The new page will be categorized under the specified parent page.")}
+				${h.help_link(_("Help."), 'selection_faq', anchor='parent')|n}
+			</span>
+			
+			${components.savebox(None)}
+		</form>
+	</div>
 
-		${components.savebox(None)}
-	</form>
 </div>

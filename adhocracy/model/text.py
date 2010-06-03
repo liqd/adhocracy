@@ -110,7 +110,7 @@ class Text(object):
     
     @property
     def has_text(self):
-        return self.text is not None and len(self.text) > 0
+        return self.text is not None and len(self.text.strip()) > 0
     
     
     @property 

@@ -19,7 +19,7 @@ NoPage = NoneObject()
 class PageCreateForm(formencode.Schema):
     allow_extra_fields = True
     title = forms.UnusedTitle()
-    text = validators.String(max=20000, min=4, not_empty=True)
+    text = validators.String(max=20000, min=0, not_empty=True)
     function = forms.ValidPageFunction(not_empty=False, if_missing=model.Page.DOCUMENT, 
                                        if_empty=model.Page.DOCUMENT)
     parent = forms.ValidPage(if_missing=None, if_empty=None, not_empty=False)
@@ -35,7 +35,7 @@ class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
     title = forms.UnusedTitle()
     variant = forms.VariantName()
-    text = validators.String(max=20000, min=4, not_empty=True)
+    text = validators.String(max=20000, min=0, not_empty=True)
     parent_text = forms.ValidText(if_missing=None, if_empty=None, not_empty=False)
     parent_page = forms.ValidPage(if_missing=NoPage, if_empty=None, not_empty=False)
     proposal = forms.ValidProposal(not_empty=False, if_empty=None, if_missing=None)
@@ -121,19 +121,19 @@ class PageController(BaseController):
         
         target = page # by default, redirect to the page
         if proposal is not None and _function == model.Page.NORM:
-            variant = libtext.variant_normalize(proposal.title)
-            text = model.Text.create(page, variant, c.user, 
-                                     self.form_result.get("title"), 
-                                     self.form_result.get("text"),
-                                     parent=page.head)
+            #variant = libtext.variant_normalize(proposal.title)
+            #text = model.Text.create(page, variant, c.user, 
+            #                         self.form_result.get("title"), 
+            #                         self.form_result.get("text"),
+            #                         parent=page.head)
             # if a selection was created, go there instead:
             if can.selection.create(proposal):
                 target = model.Selection.create(proposal, page, c.user)
-                poll = target.variant_poll(variant)
-                if poll and can.poll.vote(poll):
-                    decision = democracy.Decision(c.user, poll)
-                    decision.make(model.Vote.YES)
-                    model.Tally.create_from_poll(poll)
+                #poll = target.variant_poll(variant)
+                #if poll and can.poll.vote(poll):
+                #    decision = democracy.Decision(c.user, poll)
+                #    decision.make(model.Vote.YES)
+                #    model.Tally.create_from_poll(poll)
         
         model.meta.Session.commit()
         watchlist.check_watch(page)

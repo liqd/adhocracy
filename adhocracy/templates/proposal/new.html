@@ -26,7 +26,8 @@
 		<label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
 		<input name="tags" id="tags" class="armlabel long" />
 		<span class="hint">${_("Multiple tags can be separated by commas.")}
-			<a target="_new" href="/static/tag_faq.html">${_("Help.")}</a></span>
+			${h.help_link(_("Help."), 'tag_faq')|n}
+		</span>
 	</div>
 	
 	%if len(c.alternatives) > 0 or len(c.proposals) > 0:
