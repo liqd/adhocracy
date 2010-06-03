@@ -19,7 +19,7 @@ NoPage = NoneObject()
 class PageCreateForm(formencode.Schema):
     allow_extra_fields = True
     title = forms.UnusedTitle()
-    text = validators.String(max=20000, min=0, not_empty=True)
+    text = validators.String(max=20000, min=0, not_empty=False, if_empty=None, if_missing=None)
     function = forms.ValidPageFunction(not_empty=False, if_missing=model.Page.DOCUMENT, 
                                        if_empty=model.Page.DOCUMENT)
     parent = forms.ValidPage(if_missing=None, if_empty=None, not_empty=False)
@@ -35,7 +35,7 @@ class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
     title = forms.UnusedTitle()
     variant = forms.VariantName()
-    text = validators.String(max=20000, min=0, not_empty=True)
+    text = validators.String(max=20000, min=0, not_empty=False, if_empty=None, if_missing=None)
     parent_text = forms.ValidText(if_missing=None, if_empty=None, not_empty=False)
     parent_page = forms.ValidPage(if_missing=NoPage, if_empty=None, not_empty=False)
     proposal = forms.ValidProposal(not_empty=False, if_empty=None, if_missing=None)

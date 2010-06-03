@@ -206,7 +206,7 @@ class UserController(BaseController):
     @validate(schema=UserCodeForm(), form="edit", post_only=False, on_get=True)
     def activate(self, id):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
-        require.user.edit(c.page_user)
+        #require.user.edit(c.page_user)
         try:
             if c.page_user.activation_code != self.form_result.get('c'):
                 raise ValueError()
@@ -216,7 +216,7 @@ class UserController(BaseController):
         except Exception:
             log.exception("Invalid activation code")
             h.flash(_("The activation code is invalid. Please have it resent."))
-        redirect(h.entity_url(c.page_user, member='edit'))
+        redirect(h.entity_url(c.page_user))
     
     
     @RequireInternalRequest()

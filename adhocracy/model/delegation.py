@@ -122,7 +122,9 @@ class Delegation(object):
         if self.revoke_time is None:
             self.revoke_time = revoke_time
     
-    delete = revoke
+    
+    def delete(self, delete_time=None):
+        self.revoke(revoke_time=delete_time)
     
     
     def is_revoked(self, at_time=None):

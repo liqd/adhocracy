@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-06-03 01:13+0100\n"
+"PO-Revision-Date: 2010-06-03 13:15+0100\n"
 "Last-Translator: Friedrich Lindenberg <friedrich@pudo.org>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -1130,6 +1130,7 @@ msgstr "Ereignisse"
 #: adhocracy/templates/proposal/index.html:44
 #: adhocracy/templates/proposal/show.html:19
 #: adhocracy/templates/selection/index.html:20
+#: adhocracy/templates/selection/new.html:13
 #: adhocracy/templates/selection/show.html:16
 #: adhocracy/templates/tag/index.html:13
 #: adhocracy/templates/tag/show.html:33
@@ -1526,14 +1527,15 @@ msgstr "Können Delegationen widerrufen werden?"
 #: adhocracy/templates/instance/edit.html:165
 #: adhocracy/templates/instance/index.html:27
 #: adhocracy/templates/instance/new.html:43
-#: adhocracy/templates/page/edit.html:45
-#: adhocracy/templates/page/new.html:51
+#: adhocracy/templates/page/edit.html:48
+#: adhocracy/templates/page/new.html:55
 #: adhocracy/templates/proposal/delegations.html:19
 #: adhocracy/templates/proposal/edit.html:56
 #: adhocracy/templates/proposal/index.html:48
-#: adhocracy/templates/proposal/new.html:61
+#: adhocracy/templates/proposal/new.html:62
 #: adhocracy/templates/proposal/show.html:23
 #: adhocracy/templates/selection/index.html:25
+#: adhocracy/templates/selection/new.html:22
 #: adhocracy/templates/selection/show.html:21
 #: adhocracy/templates/tag/index.html:18
 #: adhocracy/templates/tag/show.html:38
@@ -1572,6 +1574,7 @@ msgstr "delegieren"
 
 #: adhocracy/templates/delegation/tiles.html:44
 #: adhocracy/templates/tag/tiles.html:25
+#: adhocracy/templates/text/tiles.html:87
 msgid "help"
 msgstr "Hilfe"
 
@@ -2056,10 +2059,25 @@ msgid "Page Title"
 msgstr "Seitentitel"
 
 #: adhocracy/templates/page/edit.html:36
-#: adhocracy/templates/page/new.html:43
-#: adhocracy/templates/selection/new.html:48
+#: adhocracy/templates/page/new.html:44
+#: adhocracy/templates/selection/new.html:62
 msgid "Parent page:"
 msgstr "Elternseite:"
+
+#: adhocracy/templates/page/edit.html:39
+msgid "The page will be categorized under the specified parent page."
+msgstr "Die Seite wird unter der angegebenen Elternseite kategorisiert."
+
+#: adhocracy/templates/page/edit.html:40
+#: adhocracy/templates/page/new.html:40
+#: adhocracy/templates/page/new.html:47
+#: adhocracy/templates/proposal/new.html:29
+#: adhocracy/templates/selection/new.html:59
+#: adhocracy/templates/selection/new.html:65
+#: adhocracy/templates/tag/tiles.html:75
+#: adhocracy/templates/user/edit.html:64
+msgid "Help."
+msgstr "Hilfe."
 
 #: adhocracy/templates/page/index.html:11
 msgid "Create a page of text."
@@ -2096,23 +2114,20 @@ msgstr "Normen können nur durch die Einbindung von Varianten in Vorschläge mod
 
 #: adhocracy/templates/page/new.html:37
 #: adhocracy/templates/proposal/new.html:26
-#: adhocracy/templates/selection/new.html:43
+#: adhocracy/templates/selection/new.html:56
 msgid "Tags to describe the subject"
 msgstr "Tag um den Inhalt zu beschreiben."
 
 #: adhocracy/templates/page/new.html:39
 #: adhocracy/templates/proposal/new.html:28
-#: adhocracy/templates/selection/new.html:45
+#: adhocracy/templates/selection/new.html:58
 msgid "Multiple tags can be separated by commas."
 msgstr "Mehrere Tags können durch Kommas getrennt werden."
 
-#: adhocracy/templates/page/new.html:40
-#: adhocracy/templates/proposal/new.html:29
-#: adhocracy/templates/selection/new.html:46
-#: adhocracy/templates/tag/tiles.html:75
-#: adhocracy/templates/user/edit.html:64
-msgid "Help."
-msgstr "Hilfe."
+#: adhocracy/templates/page/new.html:46
+#: adhocracy/templates/selection/new.html:64
+msgid "The new page will be categorized under the specified parent page."
+msgstr "Die neue Seite wird unter der angegebenen Elternseite kategorisiert."
 
 #: adhocracy/templates/page/show.html:13
 msgid "Variants"
@@ -2120,7 +2135,7 @@ msgstr "Varianten"
 
 #: adhocracy/templates/page/show.html:21
 #: adhocracy/templates/selection/show.html:83
-#: adhocracy/templates/text/tiles.html:90
+#: adhocracy/templates/text/tiles.html:91
 msgid "Status quo"
 msgstr "Status quo"
 
@@ -2302,7 +2317,7 @@ msgstr "Alternativen: %s"
 
 #: adhocracy/templates/proposal/alternatives.html:7
 #: adhocracy/templates/proposal/edit.html:28
-#: adhocracy/templates/proposal/new.html:34
+#: adhocracy/templates/proposal/new.html:35
 #: adhocracy/templates/proposal/tiles.html:142
 msgid "Alternatives"
 msgstr "Alternativen"
@@ -2371,12 +2386,12 @@ msgid "The proposal would..."
 msgstr "Dieser Vorschlag will..."
 
 #: adhocracy/templates/proposal/edit.html:31
-#: adhocracy/templates/proposal/new.html:37
+#: adhocracy/templates/proposal/new.html:38
 msgid "Specify which proposals <b>contradict</b> this proposal and should be listed as alternatives."
 msgstr "Geben Sie an, welcher Vorschlag  <b>diesem Vorschlag</b> widerspricht und als Alternative aufgeführt werden soll."
 
 #: adhocracy/templates/proposal/edit.html:47
-#: adhocracy/templates/proposal/new.html:52
+#: adhocracy/templates/proposal/new.html:53
 msgid "Add an alternative"
 msgstr "Alternative hinzufügen"
 
@@ -2537,16 +2552,19 @@ msgid "Are you sure you want to delete the norm %s from this proposal?"
 msgstr "Sind Sie sicher, dass Sie die Änderung der Norm %s aus dem Vorschlag entfernen möchten?"
 
 #: adhocracy/templates/selection/index.html:22
+#: adhocracy/templates/selection/new.html:19
 #: adhocracy/templates/selection/show.html:18
 msgid "What is a norm?"
 msgstr "Was ist eine Norm?"
 
 #: adhocracy/templates/selection/index.html:23
+#: adhocracy/templates/selection/new.html:20
 #: adhocracy/templates/selection/show.html:19
 msgid "What is a variant?"
 msgstr "Was ist eine Variante?"
 
 #: adhocracy/templates/selection/index.html:24
+#: adhocracy/templates/selection/new.html:21
 #: adhocracy/templates/selection/show.html:20
 msgid "What does 'Status quo' mean?"
 msgstr "Was bedeutet 'Status quo'?"
@@ -2559,23 +2577,30 @@ msgstr "Vorschläge werden umgesetzt, indem ihnen Änderungen zu einer bestehend
 msgid "New change request"
 msgstr "Neuer Änderungsantrag"
 
-#: adhocracy/templates/selection/new.html:20
-msgid "I want to modify an existing norm."
-msgstr "Ich möchte eine bestehende Norm ändern."
+#: adhocracy/templates/selection/new.html:15
+msgid "The implementation of a proposal is amended by relating to a fixed document, a norm. Please select or create the norm that you want to relate to. You can then add a text variant of that norm, specifying the change you want to implement."
+msgstr "Die Umsetzung eines Vorschlags wird ergänzt, indem ein Bezug zu einem feststehenden Dokument, einer Norm, hergestellt wird. Bitte wähle die Norm, auf die Du Dich beziehen willst. Später kannst Du eine Variante dieser Norm verfassen, in der Du die gewünschte Änderung formulieren kannst. "
 
-#: adhocracy/templates/selection/new.html:27
+#: adhocracy/templates/selection/new.html:35
+#| msgid "I want to modify an existing norm."
+msgid "I want to include a change to an existing norm."
+msgstr "Ich möchte die Umsetzung durch Bezug zu einer bestehenden Norm erweitern."
+
+#: adhocracy/templates/selection/new.html:42
 msgid "Include"
 msgstr "Einbinden"
 
-#: adhocracy/templates/selection/new.html:30
-msgid "I want to create a new norm."
-msgstr "Ich möchte eine neue Norm anlegen."
+#: adhocracy/templates/selection/new.html:45
+#| msgid "I want to create a new norm."
+msgid "I want to propose the creation of a new norm."
+msgstr "Ich möchte die Umsetzung durch Bezug zu einer neuen Norm erweitern."
 
-#: adhocracy/templates/selection/new.html:36
+#: adhocracy/templates/selection/new.html:52
 msgid "New norm title"
 msgstr "Neuer Normentitel"
 
 #: adhocracy/templates/selection/show.html:28
+#: adhocracy/templates/selection/tiles.html:35
 msgid "new variant"
 msgstr "Neue Variante"
 
@@ -2619,11 +2644,17 @@ msgstr "Der Status Quo hat die meisten Stimmen, daher wird keine Änderung der N
 msgid "Selected variant: <b>%s</b>"
 msgstr "Ausgewähle Variante: <b>%s</b>"
 
-#: adhocracy/templates/selection/tiles.html:34
-msgid "select variants"
-msgstr "varianten auswählen"
-
 #: adhocracy/templates/selection/tiles.html:37
+#| msgid "select variants"
+msgid "select variant"
+msgstr "variante auswählen"
+
+#: adhocracy/templates/selection/tiles.html:38
+#| msgid "new variant"
+msgid "compare variants"
+msgstr "varianten vergleichen"
+
+#: adhocracy/templates/selection/tiles.html:42
 #, python-format
 msgid "There are %s variants of the norm %s."
 msgstr "Es gibt %s Varianten der Norm %s."
@@ -2720,16 +2751,16 @@ msgstr "ansehen"
 msgid "Variant Name"
 msgstr "Variantenname"
 
-#: adhocracy/templates/text/tiles.html:100
+#: adhocracy/templates/text/tiles.html:101
 #, python-format
 msgid "%s by %s"
 msgstr "%s von %s"
 
-#: adhocracy/templates/text/tiles.html:102
+#: adhocracy/templates/text/tiles.html:103
 msgid "historic versions"
 msgstr "alte versionen"
 
-#: adhocracy/templates/text/tiles.html:107
+#: adhocracy/templates/text/tiles.html:108
 msgid "Compare"
 msgstr "Vergleiche"
 
@@ -2996,7 +3027,6 @@ msgid "What can I watch?"
 msgstr "Was kann man beobachten?"
 
 #: adhocracy/templates/user/watchlist.html:21
-#| msgid "What can I create a watch?"
 msgid "How can I create a watch?"
 msgstr "Wie kann man etwas beobachten?"
 
