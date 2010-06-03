@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-06-03 13:12+0200\n"
+"PO-Revision-Date: 2010-06-03 13:22+0200\n"
 "Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -2759,7 +2759,6 @@ msgstr ""
 
 #: adhocracy/templates/selection/new.html:45
 #, fuzzy
-#| msgid "I want to create a new norm."
 msgid "I want to propose the creation of a new norm."
 msgstr "Ajouter un alinéa"
 
@@ -2768,7 +2767,7 @@ msgid "New norm title"
 msgstr ""
 
 #: adhocracy/templates/selection/show.html:28
-#: adhocracy/templates/selection/tiles.html:35
+#: adhocracy/templates/selection/tiles.html:36
 #, fuzzy
 msgid "new variant"
 msgstr "Nouvelle Instance"
@@ -2818,19 +2817,24 @@ msgstr ""
 msgid "Selected variant: <b>%s</b>"
 msgstr "dernier <b>%s</b>"
 
-#: adhocracy/templates/selection/tiles.html:37
+#: adhocracy/templates/selection/tiles.html:38
+#, fuzzy, python-format
+#| msgid "%s norm"
+#| msgid_plural "%s norms"
+msgid "see norm"
+msgstr ""
+
+#: adhocracy/templates/selection/tiles.html:41
 #, fuzzy
-#| msgid "select variants"
 msgid "select variant"
 msgstr "Nouvelle Instance"
 
-#: adhocracy/templates/selection/tiles.html:38
+#: adhocracy/templates/selection/tiles.html:42
 #, fuzzy
-#| msgid "new variant"
 msgid "compare variants"
 msgstr "Nouvelle Instance"
 
-#: adhocracy/templates/selection/tiles.html:42
+#: adhocracy/templates/selection/tiles.html:46
 #, fuzzy, python-format
 msgid "There are %s variants of the norm %s."
 msgstr "plus"
@@ -3240,7 +3244,4 @@ msgstr ""
 #: adhocracy/templates/user/watchlist.html:21
 msgid "How can I create a watch?"
 msgstr ""
-
-#~ msgid "I want to modify an existing norm."
-#~ msgstr ""
 

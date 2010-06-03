@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-06-03 13:15+0100\n"
+"PO-Revision-Date: 2010-06-03 13:23+0100\n"
 "Last-Translator: Friedrich Lindenberg <friedrich@pudo.org>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -2582,7 +2582,6 @@ msgid "The implementation of a proposal is amended by relating to a fixed docume
 msgstr "Die Umsetzung eines Vorschlags wird ergänzt, indem ein Bezug zu einem feststehenden Dokument, einer Norm, hergestellt wird. Bitte wähle die Norm, auf die Du Dich beziehen willst. Später kannst Du eine Variante dieser Norm verfassen, in der Du die gewünschte Änderung formulieren kannst. "
 
 #: adhocracy/templates/selection/new.html:35
-#| msgid "I want to modify an existing norm."
 msgid "I want to include a change to an existing norm."
 msgstr "Ich möchte die Umsetzung durch Bezug zu einer bestehenden Norm erweitern."
 
@@ -2591,7 +2590,6 @@ msgid "Include"
 msgstr "Einbinden"
 
 #: adhocracy/templates/selection/new.html:45
-#| msgid "I want to create a new norm."
 msgid "I want to propose the creation of a new norm."
 msgstr "Ich möchte die Umsetzung durch Bezug zu einer neuen Norm erweitern."
 
@@ -2600,7 +2598,7 @@ msgid "New norm title"
 msgstr "Neuer Normentitel"
 
 #: adhocracy/templates/selection/show.html:28
-#: adhocracy/templates/selection/tiles.html:35
+#: adhocracy/templates/selection/tiles.html:36
 msgid "new variant"
 msgstr "Neue Variante"
 
@@ -2644,17 +2642,22 @@ msgstr "Der Status Quo hat die meisten Stimmen, daher wird keine Änderung der N
 msgid "Selected variant: <b>%s</b>"
 msgstr "Ausgewähle Variante: <b>%s</b>"
 
-#: adhocracy/templates/selection/tiles.html:37
-#| msgid "select variants"
+#: adhocracy/templates/selection/tiles.html:38
+#, python-format
+#| msgid "%s norm"
+#| msgid_plural "%s norms"
+msgid "see norm"
+msgstr "Norm ansehen"
+
+#: adhocracy/templates/selection/tiles.html:41
 msgid "select variant"
 msgstr "variante auswählen"
 
-#: adhocracy/templates/selection/tiles.html:38
-#| msgid "new variant"
+#: adhocracy/templates/selection/tiles.html:42
 msgid "compare variants"
 msgstr "varianten vergleichen"
 
-#: adhocracy/templates/selection/tiles.html:42
+#: adhocracy/templates/selection/tiles.html:46
 #, python-format
 msgid "There are %s variants of the norm %s."
 msgstr "Es gibt %s Varianten der Norm %s."

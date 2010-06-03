@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-06-03 13:12+0200\n"
+"PO-Revision-Date: 2010-06-03 13:22+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -2631,7 +2631,7 @@ msgid "New norm title"
 msgstr ""
 
 #: adhocracy/templates/selection/show.html:28
-#: adhocracy/templates/selection/tiles.html:35
+#: adhocracy/templates/selection/tiles.html:36
 msgid "new variant"
 msgstr ""
 
@@ -2677,15 +2677,22 @@ msgstr ""
 msgid "Selected variant: <b>%s</b>"
 msgstr ""
 
-#: adhocracy/templates/selection/tiles.html:37
+#: adhocracy/templates/selection/tiles.html:38
+#, fuzzy, python-format
+#| msgid "%s norm"
+#| msgid_plural "%s norms"
+msgid "see norm"
+msgstr ""
+
+#: adhocracy/templates/selection/tiles.html:41
 msgid "select variant"
 msgstr ""
 
-#: adhocracy/templates/selection/tiles.html:38
+#: adhocracy/templates/selection/tiles.html:42
 msgid "compare variants"
 msgstr ""
 
-#: adhocracy/templates/selection/tiles.html:42
+#: adhocracy/templates/selection/tiles.html:46
 #, python-format
 msgid "There are %s variants of the norm %s."
 msgstr ""
@@ -3072,13 +3079,4 @@ msgstr ""
 #: adhocracy/templates/user/watchlist.html:21
 msgid "How can I create a watch?"
 msgstr ""
-
-#~ msgid "I want to modify an existing norm."
-#~ msgstr ""
-
-#~ msgid "I want to create a new norm."
-#~ msgstr ""
-
-#~ msgid "select variants"
-#~ msgstr ""
 
