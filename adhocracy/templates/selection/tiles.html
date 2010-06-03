@@ -31,8 +31,12 @@
 		</div>
 		
 		<div class="top_actions aside">
-			%if tile.num_variants == 0 and tile.show_new_variant_link: 
-				<a class="button add" href="${h.entity_url(selection.page, member='%20/edit')}?proposal=${c.proposal.id}">${_("new variant")}</a> 
+			%if tile.num_variants == 0:
+				%if tile.show_new_variant_link: 
+					<a class="button add" href="${h.entity_url(selection.page, member='%20/edit')}?proposal=${c.proposal.id}">${_("new variant")}</a> 
+				%else:
+					<a class="button edit" href="${h.entity_url(selection.page)}">${_("see norm")}</a>
+				%endif
 			%else:
 				<a class="button add" href="${h.entity_url(selection)}">${_("select variant")}</a> 
 				<a class="button edit" href="${h.entity_url(tile.selected_text)}">${_("compare variants")}</a> 
