@@ -48,17 +48,12 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 			<input type="hidden" value="${c.model.Page.NORM}" name="function" />
 			<input type="hidden" value="${c.proposal.id}" name="proposal" />
 			<input type="hidden" value="" name="text" />
+			<input type="hidden" value="" name="tags" />
 			<div class="page_title">
 				<label for="title" class="armhint">${_("New norm title")}</label>
 				<input tabindex="1" class="title armlabel" name="title" value=""/>
 			</div>
-		
-			<label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
-			<input name="tags" id="tags" class="armlabel long" />
-			<span class="hint">${_("Multiple tags can be separated by commas.")}
-				${h.help_link(_("Help."), 'tag_faq')|n}
-			</span>
-		
+				
 			<label for="parent">${_("Parent page:")}</label>
 			${tiles.page.select_page(field_name="parent", functions=c.model.Page.PARENT_FUNCTIONS)}
 			<span class="hint">${_("The new page will be categorized under the specified parent page.")}

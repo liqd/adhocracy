@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-06-03 13:23+0100\n"
+"PO-Revision-Date: 2010-06-03 13:35+0100\n"
 "Last-Translator: Friedrich Lindenberg <friedrich@pudo.org>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -2579,7 +2579,7 @@ msgstr "Neuer Änderungsantrag"
 
 #: adhocracy/templates/selection/new.html:15
 msgid "The implementation of a proposal is amended by relating to a fixed document, a norm. Please select or create the norm that you want to relate to. You can then add a text variant of that norm, specifying the change you want to implement."
-msgstr "Die Umsetzung eines Vorschlags wird ergänzt, indem ein Bezug zu einem feststehenden Dokument, einer Norm, hergestellt wird. Bitte wähle die Norm, auf die Du Dich beziehen willst. Später kannst Du eine Variante dieser Norm verfassen, in der Du die gewünschte Änderung formulieren kannst. "
+msgstr "Die Umsetzung eines Vorschlags wird ergänzt, indem Du einen Bezug zu einem feststehenden Dokument - einer Norm - hergestellt wird. Bitte wähle die Norm, auf die Du Dich beziehen willst. Später kannst Du eine Variante dieser Norm verfassen, in der Du die gewünschte Änderung formulierst. "
 
 #: adhocracy/templates/selection/new.html:35
 msgid "I want to include a change to an existing norm."
