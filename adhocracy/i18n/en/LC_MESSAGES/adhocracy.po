@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-06-04 12:59+0200\n"
+"PO-Revision-Date: 2010-06-04 13:28+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -1161,9 +1161,7 @@ msgid "Home"
 msgstr ""
 
 #: adhocracy/templates/template.html:86
-#, fuzzy, python-format
-#| msgid "%s proposal"
-#| msgid_plural "%s proposals"
+#, fuzzy
 msgid "Show all proposals"
 msgstr ""
 
@@ -3174,7 +3172,4 @@ msgstr ""
 #: adhocracy/templates/user/watchlist.html:21
 msgid "How can I create a watch?"
 msgstr ""
-
-#~ msgid "There are %s variants of the norm %s."
-#~ msgstr ""
 

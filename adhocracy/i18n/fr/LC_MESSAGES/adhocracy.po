@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-06-04 12:59+0200\n"
+"PO-Revision-Date: 2010-06-04 13:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -1142,7 +1142,6 @@ msgstr "préférences"
 
 #: adhocracy/templates/template.html:56
 #, fuzzy
-#| msgid "sign up"
 msgid "Sign out"
 msgstr "s'inscrire"
 
@@ -1163,7 +1162,6 @@ msgstr "S'inscrire"
 
 #: adhocracy/templates/template.html:67
 #, fuzzy
-#| msgid "leave instance"
 msgid "All instances"
 msgstr "Nouvelle Instance"
 
@@ -1205,7 +1203,6 @@ msgstr "aide"
 
 #: adhocracy/templates/template.html:84
 #, fuzzy
-#| msgid "Instance Name"
 msgid "Instance home page"
 msgstr "Nom de l'instance"
 
@@ -1216,8 +1213,7 @@ msgid "Home"
 msgstr "Acceuil"
 
 #: adhocracy/templates/template.html:86
-#, fuzzy, python-format
-#| msgid "New Poll: %(proposal)s"
+#, fuzzy
 msgid "Show all proposals"
 msgstr "Nouveau vote: %(proposal)s"
 
@@ -1238,7 +1234,6 @@ msgstr "Sujet"
 
 #: adhocracy/templates/template.html:91
 #, fuzzy
-#| msgid "Hide this instance:"
 msgid "All members of this instance"
 msgstr "a quitté %(instance)s"
 
@@ -2064,7 +2059,6 @@ msgstr "Nouvelle proposition"
 
 #: adhocracy/templates/instance/show.html:38
 #, fuzzy
-#| msgid "What is a proposal?"
 msgid "show a list of proposals"
 msgstr "proposition %s "
 
@@ -2366,7 +2360,6 @@ msgstr ""
 
 #: adhocracy/templates/page/tiles.html:75
 #, fuzzy
-#| msgid "new document"
 msgid "Edit this document."
 msgstr "nouveau commentaire"
 
@@ -2740,7 +2733,6 @@ msgstr ""
 
 #: adhocracy/templates/proposal/tiles.html:140
 #, fuzzy
-#| msgid "What is a delegation?"
 msgid "Who is receiving delegations?"
 msgstr "délégations"
 
@@ -2928,7 +2920,6 @@ msgstr "Nouvelle Instance"
 
 #: adhocracy/templates/selection/tiles.html:44
 #, fuzzy
-#| msgid "compare variants"
 msgid "Compare this variant text to others."
 msgstr "Nouvelle Instance"
 
@@ -2939,13 +2930,11 @@ msgstr "Nouvelle Instance"
 
 #: adhocracy/templates/selection/tiles.html:52
 #, fuzzy, python-format
-#| msgid "There are %s variants of the norm %s."
 msgid "There are %s of the norm %s."
 msgstr "plus"
 
 #: adhocracy/templates/selection/tiles.html:52
 #, fuzzy, python-format
-#| msgid "new variant"
 msgid "%s variant"
 msgid_plural "%s variants"
 msgstr[0] "Nouvelle Instance"
