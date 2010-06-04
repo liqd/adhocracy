@@ -72,11 +72,11 @@
 		%endif
 		
 		%if can.page.variant_edit(page, variant):
-			<a class="button title edit" 
+			<a class="button title edit ttip" title="${_('Edit this document.')}" 
 				href="${h.entity_url(text, member='edit')}">${_("edit")}</a>
 		%endif
 						
-		%if can.page.delete(page):
+		%if can.page.delete(page) and active != 'variant':
 			<a class="button title delete" 	
 				href="${h.entity_url(page, member='ask_delete')}">${_("delete")}</a>
 		%endif

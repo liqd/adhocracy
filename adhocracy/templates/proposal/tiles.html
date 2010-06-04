@@ -131,14 +131,18 @@
 		<ul class="menu">
 			<!--li><a href="${h.entity_url(proposal, member='activity')}" 	
 				class="activity">${_("Activity")}</a></li-->
-			<li><a href="${h.entity_url(proposal)}" class="goal">${_("Proposal")}</a></li>
-			<li><a href="${h.entity_url(proposal, member='implementation')}" 
+			<li><a class="ttip" title="${_('Which goal does this proposal pursue?')}" 
+			       href="${h.entity_url(proposal)}" class="goal">${_("Proposal")}</a></li>
+			<li><a class="ttip" title="${_('How can this proposal achieve its goal?')}" 
+			       href="${h.entity_url(proposal, member='implementation')}" 
 				class="implementation">${_("Implementation")} (${len(proposal.selections)})</a></li>
 			%if c.instance.allow_delegate:
-				<li><a href="${h.entity_url(proposal, member='delegations')}"
+				<li><a class="ttip" title="${_('Who is receiving delegations?')}" 
+				       href="${h.entity_url(proposal, member='delegations')}"
 			   	class="delegations">${_("Delegations")} (${len(proposal.current_delegations())})</a></li>
 			%endif
-			<li><a href="${h.entity_url(proposal, member='alternatives')}"
+			<li><a class="ttip" title="${_('Which alternatives are there?')}" 
+			       href="${h.entity_url(proposal, member='alternatives')}"
 			   class="alternatives">${_("Alternatives")} (${len(proposal.current_alternatives())})</a>
 				##	<img src="/img/arrows/panel_expand.png" />
 				##<ul>
@@ -148,8 +152,8 @@
 				##</ul>
 			</span>
 			</li>
-			<li><a href="${h.entity_url(proposal, member='contributors')}" class="contributors">${_("Contributors")} (${len(proposal.contributors())})</a></li>
-			<li><a href="${h.entity_url(proposal.description, member='history')}" class="history">${_("History")}</a></li>
+			<li><a class="ttip" title="${_('Who has helped?')}" 
+			       href="${h.entity_url(proposal, member='contributors')}" class="contributors">${_("Contributors")} (${len(proposal.contributors())})</a></li>
 		</ul>
 		
 		%if proposal.adopted:

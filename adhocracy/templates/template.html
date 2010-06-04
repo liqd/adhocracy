@@ -32,24 +32,29 @@
 		<div id="account">
 			%if c.user:
 				<strong>
-					<a class="user_name" href="${h.entity_url(c.user)}">
+					<a class="user_name ttip" title="${_('Your profile')}" href="${h.entity_url(c.user)}">
 						<img width="16" height="16" src="${h.gravatar_url(c.user, size=16)|n}"> ${c.user.name}
 					</a>
 				</strong>
 				
 				%if can.user.vote():
 					%if c.instance.allow_adopt: 
-						<a href="${h.entity_url(c.user, member='votes')}">${_("Votes")}</a>
+						<a class="ttip" title="${_('Your voting record')}" 
+						   href="${h.entity_url(c.user, member='votes')}">${_("Votes")}</a>
 					%endif
 					%if c.instance.allow_delegate:
-						<a href="${h.entity_url(c.user,member='delegations')}">${_("Delegations")}</a>
+						<a class="ttip" title="${_('Your delegation balance')}" 
+						   href="${h.entity_url(c.user,member='delegations')}">${_("Delegations")}</a>
 					%endif
 				%endif
 				%if c.instance:
-					<a href="${h.entity_url(c.user, member='watchlist')}">${_("Watchlist")}</a></li>
+					<a class="ttip" title="${_('Items you are watching')}" 
+						 href="${h.entity_url(c.user, member='watchlist')}">${_("Watchlist")}</a></li>
 				%endif
-				<a href="${h.entity_url(c.user, member='edit')}">${_("Settings")}</a>
-				<a href="/logout">${_("Logout")}</a>
+				<a class="ttip" title="${_('Settings such as language, passwords, etc.')}" 
+				   href="${h.entity_url(c.user, member='edit')}">${_("Settings")}</a>
+				<a class="ttip" title="${_('Sign out')}" 
+				   href="/logout">${_("Logout")}</a>
 			%else:
 				<a href="/login">${_("Login")}</a> 
 				<a href="/register">${_("Register")}</a>	
@@ -59,12 +64,13 @@
 		<a href="${h.instance_url(None)}">
 			<img src="/img/header_link.png" alt="${h.site_name()}"/>
 		</a> 
-		<a href="${h.instance_url(None, path='/instance')}">${_("Instances")}</a>
+		<a class="ttip" title="${_('All instances')}" 
+		   href="${h.instance_url(None, path='/instance')}">${_("Instances")}</a>
 		%if h.has_permission("global.admin"):
 			<a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
 			<a href="/event/all">${_("Events")}</a>
 		%endif
-		<a href="${h.instance_url(None, path='/static/about.html')}">${_("Help")}</a>
+		<a href="${h.instance_url(None, path='/static/help.html')}">${_("Help")}</a>
 		</div>
 	</div></div>
 	
@@ -75,11 +81,15 @@
 		</a>
 		<div id="menu">
 			<ul>
-				<li><a href="${h.entity_url(c.instance)}">${_("Home")}</a></li>
-				<li><a href="/proposal">${_("Proposals")}</a></li>
-				<li><a href="/page/Main_Page">${_("Documents")}</a></li>
+				<li><a class="ttip" title="${_('Instance home page')}" 
+					     href="${h.entity_url(c.instance)}">${_("Home")}</a></li>
+				<li><a class="ttip" title="${_('Show all proposals')}" 
+					     href="/proposal">${_("Proposals")}</a></li>
+				<li><a class="ttip" title="${_('Norms and wiki pages')}" 
+					     href="/page/Main_Page">${_("Documents")}</a></li>
 				<!--li><a href="/tag">${_("Topics")}</a></li-->
-				<li><a href="/user">${_("Members")}</a></li>
+				<li><a class="ttip" title="${_('All members of this instance')}" 
+					     href="/user">${_("Members")}</a></li>
 			</ul>
 		</div>
 		

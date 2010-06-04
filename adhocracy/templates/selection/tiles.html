@@ -38,16 +38,18 @@
 					<a class="button edit" href="${h.entity_url(selection.page)}">${_("see norm")}</a>
 				%endif
 			%else:
-				<a class="button add" href="${h.entity_url(selection)}">${_("select variant")}</a> 
+				<a class="button add ttip" title="${_('Select a variant text to become a part of this proposal.')}" 
+					 href="${h.entity_url(selection)}">${_("select variant")}</a> 
 				%if tile.selected_text:
-					<a class="button edit" href="${h.entity_url(tile.selected_text)}">${_("compare variants")}</a> 
+					<a class="button edit ttip" title="${_('Compare this variant text to others.')}" 
+					   href="${h.entity_url(tile.selected_text)}">${_("compare variants")}</a> 
 				%else:
 					<a class="button edit" href="${h.entity_url(selection.page)}">${_("see norm")}</a>
 				%endif
 			%endif
 		</div>
 		<div class="meta noclear">
-			${_("There are %s variants of the norm %s.") % (tile.num_variants, selection.page.title)}
+			${_("There are %s of the norm %s.") % ("<a href='%s'>%s</a>" % (h.entity_url(selection), ungettext("%s variant", "%s variants", tile.num_variants) % tile.num_variants), escape(selection.page.title))|n}
 		</div>
 		<br/>
 	</div>

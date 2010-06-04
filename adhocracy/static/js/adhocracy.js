@@ -21,7 +21,7 @@ $(document).ready(function() {
             }
         },
         show: {
-            delay: 70
+            delay: 400,
         }});
     
 	$('.otip[title]').qtip({ 
@@ -41,7 +41,7 @@ $(document).ready(function() {
             }
         },
         show: {
-            delay: 70
+            delay: 400,
         }});
         
     $(".hidejs").hide();
