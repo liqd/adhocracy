@@ -26,7 +26,7 @@ class TagController(BaseController):
     @RequireInstance
     def index(self, format='html'):
         require.tag.index()
-        tags = model.Tag.popular_tags(limit=200)
+        tags = model.Tag.popular_tags(limit=500)
         if format == 'json':
             return render_json(tags)
         c.tags = sorted(text.tag_cloud_normalize(tags), 

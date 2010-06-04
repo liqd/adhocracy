@@ -21,8 +21,8 @@ class UserCreateForm(formencode.Schema):
                               forms.UniqueUsername())
     email = formencode.All(validators.Email(),
                            forms.UniqueEmail())
-    password = validators.UnicodeString(not_empty=True)
-    password_confirm = validators.UnicodeString(not_empty=True)
+    password = validators.String(not_empty=True)
+    password_confirm = validators.String(not_empty=True)
     chained_validators = [validators.FieldsMatch(
          'password', 'password_confirm')]
 
@@ -32,8 +32,8 @@ class UserUpdateForm(formencode.Schema):
     display_name = validators.String(not_empty=False)
     email = validators.Email(not_empty=True)
     locale = validators.String(not_empty=False)
-    password = validators.UnicodeString(not_empty=False)
-    password_confirm = validators.UnicodeString(not_empty=False)
+    password = validators.String(not_empty=False)
+    password_confirm = validators.String(not_empty=False)
     chained_validators = [validators.FieldsMatch(
         'password', 'password_confirm')]
     bio = validators.String(max=1000, min=0, not_empty=False)

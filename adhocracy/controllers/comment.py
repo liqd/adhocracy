@@ -42,7 +42,7 @@ class CommentController(BaseController):
         require.comment.index()
         comments = model.Comment.all()
         c.comments_pager = NamedPager('comments', comments, 
-                                       tiles.comment.full, count=10, #list_item,
+                                       tiles.comment.row, count=10, #list_item,
                                        sorts={_("oldest"): sorting.entity_oldest,
                                               _("newest"): sorting.entity_newest},
                                        default_sort=sorting.entity_newest)
