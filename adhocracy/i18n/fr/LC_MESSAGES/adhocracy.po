@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-06-04 13:28+0200\n"
+"PO-Revision-Date: 2010-06-07 00:04+0200\n"
 "Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -1218,7 +1218,7 @@ msgid "Show all proposals"
 msgstr "Nouveau vote: %(proposal)s"
 
 #: adhocracy/templates/template.html:88
-msgid "Norms and wiki pages"
+msgid "Topics and wiki pages"
 msgstr ""
 
 #: adhocracy/templates/template.html:89
@@ -2176,7 +2176,7 @@ msgstr "historique"
 
 #: adhocracy/templates/page/diff.html:24 adhocracy/templates/text/tiles.html:39
 msgid ""
-"This norm has not yet been decided and is thus no official position of "
+"This topic has not yet been decided and is thus no official position of "
 "this group."
 msgstr ""
 
@@ -2211,7 +2211,8 @@ msgstr "Nouvelle Instance"
 
 #: adhocracy/templates/page/diff_edit.html:36
 #, fuzzy
-msgid "This norm has no text yet."
+#| msgid "This norm has no text yet."
+msgid "This topic has no text yet."
 msgstr "Ce commentaire a été supprimer"
 
 #: adhocracy/templates/page/edit.html:4
@@ -2278,12 +2279,13 @@ msgstr "Nouvelle proposition"
 
 #: adhocracy/templates/page/new.html:23
 #, fuzzy
-msgid "Norm page"
+#| msgid "Wiki page"
+msgid "Topic page"
 msgstr "Nouvelle proposition"
 
 #: adhocracy/templates/page/new.html:26
 msgid ""
-"Norms can only be edited by including variants of them in proposals and "
+"Topics can only be edited by including variants of them in proposals and "
 "voting on them."
 msgstr ""
 
@@ -2298,7 +2300,6 @@ msgid "Multiple tags can be separated by commas."
 msgstr ""
 
 #: adhocracy/templates/page/new.html:46
-#: adhocracy/templates/selection/new.html:59
 msgid "The new page will be categorized under the specified parent page."
 msgstr ""
 
@@ -2365,8 +2366,9 @@ msgstr "nouveau commentaire"
 
 #: adhocracy/templates/page/tiles.html:92
 #, fuzzy, python-format
-msgid "Norm: %s"
-msgstr "de %s"
+#| msgid "to %s"
+msgid "Topic: %s"
+msgstr "pour %s"
 
 #: adhocracy/templates/poll/ask_delete.html:6
 #, fuzzy
@@ -2669,10 +2671,11 @@ msgid "<b>%s</b> supporters"
 msgstr "<b>%s</b> voix,"
 
 #: adhocracy/templates/proposal/tiles.html:21
-#, python-format
-msgid "%s norm"
-msgid_plural "%s norms"
-msgstr[0] ""
+#, fuzzy, python-format
+#| msgid "Topic"
+msgid "%s topic"
+msgid_plural "%s topics"
+msgstr[0] "Sujet"
 msgstr[1] ""
 
 #: adhocracy/templates/proposal/tiles.html:40
@@ -2689,7 +2692,7 @@ msgstr "appeler au vote"
 
 #: adhocracy/templates/proposal/tiles.html:85
 #: adhocracy/templates/selection/index.html:42
-msgid "Propose to change a norm through this proposal."
+msgid "Propose to change a topic through this proposal."
 msgstr ""
 
 #: adhocracy/templates/proposal/tiles.html:86
@@ -2723,9 +2726,8 @@ msgid "Which goal does this proposal pursue?"
 msgstr ""
 
 #: adhocracy/templates/proposal/tiles.html:135
-#, fuzzy
-msgid "Proposal"
-msgstr "proposition %s "
+msgid "Goal"
+msgstr ""
 
 #: adhocracy/templates/proposal/tiles.html:136
 msgid "How can this proposal achieve its goal?"
@@ -2790,14 +2792,15 @@ msgstr "Délégation: %s"
 
 #: adhocracy/templates/selection/ask_delete.html:21
 #, python-format
-msgid "Are you sure you want to delete the norm %s from this proposal?"
+msgid "Are you sure you want to delete the topic %s from this proposal?"
 msgstr ""
 
 #: adhocracy/templates/selection/index.html:22
 #: adhocracy/templates/selection/new.html:19
 #: adhocracy/templates/selection/show.html:21
 #, fuzzy
-msgid "What is a norm?"
+#| msgid "What is a page?"
+msgid "What is a topic?"
 msgstr "proposition %s "
 
 #: adhocracy/templates/selection/index.html:23
@@ -2816,7 +2819,7 @@ msgstr ""
 #: adhocracy/templates/selection/index.html:32
 msgid ""
 "Proposals are implemented by including changes towards new or existing "
-"norm. Amend the proposal to change or create a norm."
+"topic. Amend the proposal to change or create a topic."
 msgstr ""
 
 #: adhocracy/templates/selection/new.html:7
@@ -2826,13 +2829,13 @@ msgstr ""
 #: adhocracy/templates/selection/new.html:15
 msgid ""
 "The implementation of a proposal is amended by relating to a fixed "
-"document, a norm. Please select or create the norm that you want to "
-"relate to. You can then add a text variant of that norm, specifying the "
+"document, a topic. Please select or create the topic that you want to "
+"relate to. You can then add a text variant of that topic, specifying the "
 "change you want to implement."
 msgstr ""
 
 #: adhocracy/templates/selection/new.html:35
-msgid "I want to include a change to an existing norm."
+msgid "I want to include a change to an existing topic."
 msgstr ""
 
 #: adhocracy/templates/selection/new.html:42
@@ -2841,15 +2844,22 @@ msgstr ""
 
 #: adhocracy/templates/selection/new.html:45
 #, fuzzy
-msgid "I want to propose the creation of a new norm."
+#| msgid "I want to propose the creation of a new norm."
+msgid "I want to propose the creation of a new topic."
 msgstr "Ajouter un alinéa"
 
 #: adhocracy/templates/selection/new.html:53
-msgid "New norm title"
+msgid "New topic title"
+msgstr ""
+
+#: adhocracy/templates/selection/new.html:59
+msgid "The new topic will be categorized under the specified parent page."
 msgstr ""
 
 #: adhocracy/templates/selection/show.html:18
-msgid "Select which text variant of the norm should be included in this proposal."
+msgid ""
+"Select which text variant of the topic should be included in this "
+"proposal."
 msgstr ""
 
 #: adhocracy/templates/selection/show.html:31
@@ -2884,7 +2894,7 @@ msgid "Oppose this variant"
 msgstr "commentaire %s"
 
 #: adhocracy/templates/selection/show.html:87
-msgid "(this proposal should not change this norm)"
+msgid "(this proposal should not change this topic)"
 msgstr ""
 
 #: adhocracy/templates/selection/show.html:97
@@ -2895,7 +2905,7 @@ msgstr ""
 #: adhocracy/templates/selection/tiles.html:21
 msgid ""
 "Status quo has the most votes, resulting in no proposed change to this "
-"norm."
+"topic."
 msgstr ""
 
 #: adhocracy/templates/selection/tiles.html:25
@@ -2904,9 +2914,7 @@ msgid "Selected variant: <b>%s</b>"
 msgstr "dernier <b>%s</b>"
 
 #: adhocracy/templates/selection/tiles.html:38
-#: adhocracy/templates/selection/tiles.html:47
-#, fuzzy
-msgid "see norm"
+msgid "see topic"
 msgstr ""
 
 #: adhocracy/templates/selection/tiles.html:41
@@ -2914,8 +2922,10 @@ msgid "Select a variant text to become a part of this proposal."
 msgstr ""
 
 #: adhocracy/templates/selection/tiles.html:42
-#, fuzzy
-msgid "select variant"
+#, fuzzy, python-format
+#| msgid "%s variant"
+#| msgid_plural "%s variants"
+msgid "all variants"
 msgstr "Nouvelle Instance"
 
 #: adhocracy/templates/selection/tiles.html:44
@@ -2928,9 +2938,15 @@ msgstr "Nouvelle Instance"
 msgid "compare variants"
 msgstr "Nouvelle Instance"
 
+#: adhocracy/templates/selection/tiles.html:47
+#, fuzzy
+msgid "see norm"
+msgstr ""
+
 #: adhocracy/templates/selection/tiles.html:52
 #, fuzzy, python-format
-msgid "There are %s of the norm %s."
+#| msgid "There are %s of the norm %s."
+msgid "There are %s of the topic %s."
 msgstr "plus"
 
 #: adhocracy/templates/selection/tiles.html:52
@@ -3345,4 +3361,84 @@ msgstr ""
 #: adhocracy/templates/user/watchlist.html:21
 msgid "How can I create a watch?"
 msgstr ""
+
+#~ msgid "Norms and wiki pages"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This norm has not yet been decided"
+#~ " and is thus no official position "
+#~ "of this group."
+#~ msgstr ""
+
+#~ msgid "Norm page"
+#~ msgstr "Nouvelle proposition"
+
+#~ msgid ""
+#~ "Norms can only be edited by "
+#~ "including variants of them in proposals"
+#~ " and voting on them."
+#~ msgstr ""
+
+#~ msgid "Norm: %s"
+#~ msgstr "de %s"
+
+#~ msgid "%s norm"
+#~ msgid_plural "%s norms"
+#~ msgstr[0] ""
+#~ msgstr[1] ""
+
+#~ msgid "Propose to change a norm through this proposal."
+#~ msgstr ""
+
+#~ msgid "Proposal"
+#~ msgstr "proposition %s "
+
+#~ msgid "Are you sure you want to delete the norm %s from this proposal?"
+#~ msgstr ""
+
+#~ msgid "What is a norm?"
+#~ msgstr "proposition %s "
+
+#~ msgid ""
+#~ "Proposals are implemented by including "
+#~ "changes towards new or existing norm."
+#~ " Amend the proposal to change or "
+#~ "create a norm."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The implementation of a proposal is "
+#~ "amended by relating to a fixed "
+#~ "document, a norm. Please select or "
+#~ "create the norm that you want to"
+#~ " relate to. You can then add a"
+#~ " text variant of that norm, "
+#~ "specifying the change you want to "
+#~ "implement."
+#~ msgstr ""
+
+#~ msgid "I want to include a change to an existing norm."
+#~ msgstr ""
+
+#~ msgid "New norm title"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Select which text variant of the "
+#~ "norm should be included in this "
+#~ "proposal."
+#~ msgstr ""
+
+#~ msgid "(this proposal should not change this norm)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Status quo has the most votes, "
+#~ "resulting in no proposed change to "
+#~ "this norm."
+#~ msgstr ""
+
+#~ msgid "select variant"
+#~ msgstr "Nouvelle Instance"
 

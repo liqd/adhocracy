@@ -15,10 +15,10 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 	
 	<h3 class="help">${_("Help")}</h3>
 	<div class="infobox">
-		${_("Select which text variant of the norm should be included in this proposal.")}
+		${_("Select which text variant of the topic should be included in this proposal.")}
 	</div>
 	<ul>
-		<li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
+		<li>${h.help_link(_("What is a topic?"), 'selection_faq', anchor='whatisnorm')|n}</li>
 		<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
 		<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
 		<li>${h.help_link(_("More help..."), 'selection_faq')|n}</li>
@@ -84,7 +84,7 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 				<div class="variant_header"><div class="variant_innerheader">				
 					%if row.text.is_head:
 						<b><a href="${h.entity_url(row.text)}">${_("Status quo")}</a></b>
-						${_("(this proposal should not change this norm)")}
+						${_("(this proposal should not change this topic)")}
 					%else:
 						<b><a href="${h.entity_url(row.text)}">${row.variant}</a></b>
 					%endif
@@ -104,7 +104,7 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 					</div>
 				%elif row.selected:
 					<div class="infobox">
-						${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
+						${_("Status quo has the most votes, resulting in no proposed change to this topic.")}
 					</div>
 				%endif
 				</div>

@@ -33,14 +33,14 @@
 			${c.right_diff|n}
 		%else:
 			<div class="infobox">
-				${_("This norm has no text yet.")}
+				${_("This topic has no text yet.")}
 			</div>
 		%endif
 	</div>
 
 	<div class="righthalf double">
 		<textarea tabindex="2" class="armlabel" rows="${c.text_rows}" name="text">${c.text.text}</textarea>
-	
+		${components.formatting()}
 		${components.savebox(h.entity_url(c.text))}
 		${components.form_watch(c.page)}
 	</div>

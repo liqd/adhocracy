@@ -20,10 +20,10 @@
 		%if can.norm.create():
 			<label for="norm">${_("Document type:")}</label><br/>
 			<input type="radio" value="document" name="function" checked="checked" /> ${_("Wiki page")}<br/>
-			<input type="radio" value="norm" name="function" /> ${_("Norm page")}<br/>
+			<input type="radio" value="norm" name="function" /> ${_("Topic page")}<br/>
 			<br/>
 			<div class="infobox">
-				${_("Norms can only be edited by including variants of them in proposals and voting on them.")}
+				${_("Topics can only be edited by including variants of them in proposals and voting on them.")}
 			</div>
 		%else:
 			<input type="hidden" value="${c.function}" name="function" />

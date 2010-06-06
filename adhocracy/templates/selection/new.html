@@ -12,11 +12,11 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 <div class="sidebar">
 	<h3 class="help">${_("Help")}</h3>
 	<div class="infobox">
-		${_("The implementation of a proposal is amended by relating to a fixed document, a norm. Please select or create the norm that you want to relate to. You can then add a text variant of that norm, specifying the change you want to implement.")}
+		${_("The implementation of a proposal is amended by relating to a fixed document, a topic. Please select or create the topic that you want to relate to. You can then add a text variant of that topic, specifying the change you want to implement.")}
 	</div>
 	<br/>
 	<ul>
-		<li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
+		<li>${h.help_link(_("What is a topic?"), 'selection_faq', anchor='whatisnorm')|n}</li>
 		<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
 		<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
 		<li>${h.help_link(_("More help..."), 'selection_faq')|n}</li>
@@ -32,7 +32,7 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 	</script>
 
 	<div id="accordion">
-		<h3><a href="#">${_("I want to include a change to an existing norm.")|n}</a></h3>
+		<h3><a href="#">${_("I want to include a change to an existing topic.")|n}</a></h3>
 		<form name="create_selection" class="inplace" method="POST" 
 		      action="${h.entity_url(c.proposal, member='implementation')}">
 
@@ -42,7 +42,7 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 			<input type="submit" value="${_("Include")}" />
 		</form>
 
-		<h3><a href="#">${_("I want to propose the creation of a new norm.")|n}</a></h3>
+		<h3><a href="#">${_("I want to propose the creation of a new topic.")|n}</a></h3>
 		<form name="create_page" class="inplace" method="POST" action="/page">
 			${h.field_token()|n}
 			<input type="hidden" value="${c.model.Page.NORM}" name="function" />
@@ -50,13 +50,13 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 			<input type="hidden" value="" name="text" />
 			<input type="hidden" value="" name="tags" />
 			<div class="page_title">
-				<label for="title" class="armhint">${_("New norm title")}</label>
+				<label for="title" class="armhint">${_("New topic title")}</label>
 				<input tabindex="1" class="title armlabel" name="title" value=""/>
 			</div>
 				
 			<label for="parent">${_("Parent page:")}</label>
 			${tiles.page.select_page(field_name="parent", functions=c.model.Page.PARENT_FUNCTIONS)}
-			<span class="hint">${_("The new page will be categorized under the specified parent page.")}
+			<span class="hint">${_("The new topic will be categorized under the specified parent page.")}
 				${h.help_link(_("Help."), 'selection_faq', anchor='parent')|n}
 			</span>
 			
