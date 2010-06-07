@@ -188,7 +188,7 @@ class Delegateable(object):
                     tags=dict([(k.name, v) for k, v in self.tags]),
                     url=url.entity_url(self),
                     instance=self.instance.key,
-                    comment=self.comment.id,
+                    #comment=self.comment.id,
                     creator=self.creator.user_name,
                     creator_url=url.entity_url(self.creator),
                     create_time=self.create_time)
