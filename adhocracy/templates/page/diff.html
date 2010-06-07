@@ -20,7 +20,7 @@ ${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right, variant=c
 	%if c.right.has_text:
 		${c.right_diff|n}
 	%else:
-		%if text.page.function == text.page.NORM:
+		%if c.right.page.function == c.right.page.NORM:
 			${_("This topic has not yet been decided and is thus no official position of this group.")}
 		%elif c.right.text == c.left.text:
 			${_("Both texts are identical.")}
