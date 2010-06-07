@@ -222,6 +222,8 @@ class PageController(BaseController):
     @RequireInstance
     def show(self, id, variant=None, text=None, format='html'):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
+        if format == 'json':
+            return render_json(c.text)
         require.page.show(c.page)
         if c.text.variant != c.variant:
             abort(404, _("The variant %s does not exist!") % c.variant)

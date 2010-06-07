@@ -180,6 +180,15 @@ class AdhocracyClient(object):
         url = self.get_location('page', entity_id=id, variant=variant, member='history')
         self.open_url(url)
         return self.last_message
+
+    
+    def page_get(self, id, variant=None):
+        if self.instance is None:
+            raise ValueError("No instance is set")
+        self.reset()
+        url = self.get_location('page', entity_id=id, variant=variant)
+        self.open_url(url)
+        return self.last_message
     
     #def package_register_get(self):
     #    self.reset()
