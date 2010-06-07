@@ -83,13 +83,15 @@ class AdhocracyClient(object):
     
     
     def get_location(self, resource_name, entity_id=None, 
-                     member=None, format='json'):
+                     variant=None, member=None, format='json'):
         base = self.base_location
         if self.instance is not None:
             base = self.instance.get('instance_url')
         path = resource_name
         if entity_id is not None:
             path += '/' + str(entity_id)
+        if variant is not None:
+            path += '/' + variant
         if member is not None:
             path += '/' + member
         url = base + '/' + path 
@@ -159,6 +161,24 @@ class AdhocracyClient(object):
         self.reset()
         url = self.get_location('proposal', entity_id=id)
         self.open_url(url, method='DELETE')
+        return self.last_message
+
+
+    def page_index(self):
+        if self.instance is None:
+            raise ValueError("No instance is set")
+        self.reset()
+        url = self.get_location('page')
+        self.open_url(url)
+        return self.last_message
+    
+
+    def page_history(self, id, variant):
+        if self.instance is None:
+            raise ValueError("No instance is set")
+        self.reset()
+        url = self.get_location('page', entity_id=id, variant=variant, member='history')
+        self.open_url(url)
         return self.last_message
     
     #def package_register_get(self):
