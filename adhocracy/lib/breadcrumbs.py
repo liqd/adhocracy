@@ -58,7 +58,7 @@ def _page(page):
         bc += _page(page.parent) + SEP
     else: 
         bc += _instance(page.instance) + SEP
-        bc += _link(_("Pages"), '/page') + SEP
+        bc += _link(_("Documents"), '/page') + SEP
     bc += _link_entity(page.title, page)
     return bc
     

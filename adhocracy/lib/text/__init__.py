@@ -1,5 +1,6 @@
 import re
 import cgi
+import logging
 
 from BeautifulSoup import BeautifulSoup, NavigableString
 import markdown2 as markdown
@@ -23,6 +24,7 @@ DEFAULT_ATTRS = ['href', 'width', 'align', 'src',
 META_RE = re.compile("(\n|\t|\")", re.MULTILINE)
 
 markdowner = markdown.Markdown() 
+log = logging.getLogger(__name__)
 
 def meta_escape(text, markdown=True):
     if markdown:
@@ -32,8 +34,12 @@ def meta_escape(text, markdown=True):
     return text
 
 def plain(html):
-    soup = BeautifulSoup(render(html, substitutions=False))
-    return u"".join(map(unicode, soup.findChildren(text=True)))
+    try:
+        soup = BeautifulSoup(render(html, substitutions=False))
+        return u"".join(map(unicode, soup.findChildren(text=True)))
+    except Exception, e:
+        log.exception(e)
+        return html
 
 def cleanup(text):
     return text

@@ -76,7 +76,7 @@
 				href="${h.entity_url(text, member='edit')}">${_("edit")}</a>
 		%endif
 						
-		%if can.page.delete(page) and active != 'variant':
+		%if can.page.delete(page) and active != 'diff':
 			<a class="button title delete" 	
 				href="${h.entity_url(page, member='ask_delete')}">${_("delete")}</a>
 		%endif
