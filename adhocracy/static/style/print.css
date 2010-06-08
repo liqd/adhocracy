@@ -4,7 +4,8 @@
 .button,
 .top_actions,
 .panel .menu,
-.live_search {
+.live_search,
+#uservoice-feedback {
 	display: none;
 	visibility: hidden;
 }
