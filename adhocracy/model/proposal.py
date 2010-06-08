@@ -202,6 +202,12 @@ class Proposal(Delegateable):
         if not self.description:
             return 0
         return self.description.comment_count()
+        
+    
+    def find_latest_comment_time(self):
+        if not self.description:
+            return None
+        return self.description.find_latest_comment_time()
     
     
     def current_alternatives(self):

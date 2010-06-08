@@ -51,7 +51,7 @@ class DelegateableTile(BaseTile):
     has_overridden = property(_has_overridden)      
     
     def _latest_revision_time(self):
-        time = self.delegateable.find_latest_comment_time(recurse=True)
+        time = self.delegateable.find_latest_comment_time()
         if time is None:
             return self.delegateable.create_time
         return time

@@ -16,7 +16,7 @@ def delegateable_full_title(entities):
     return sorted(entities, key=lambda e: e.full_title.lower())
 
 def delegateable_latest_comment(entities):
-    return sorted(entities, key=lambda e: e.find_latest_comment_time(recurse=True), 
+    return sorted(entities, key=lambda e: e.find_latest_comment_time(), 
                   reverse=True)
                   
 def proposal_support(entities):
