@@ -198,6 +198,12 @@ class Proposal(Delegateable):
             selection.delete(delete_time=delete_time)
     
     
+    def comment_count(self):
+        if not self.description:
+            return 0
+        return self.description.comment_count()
+    
+    
     def current_alternatives(self):
         if self._current_alternatives is None:
             self._current_alternatives = []

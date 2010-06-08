@@ -1641,11 +1641,6 @@ a.button.inactive {
   padding:4px;
 }
 
-.tagInputSel {
-  background-color: gray;
-  color:white;
-}
-
 
 .tagInputLineTag {
   min-width: 150px;
@@ -1659,6 +1654,10 @@ a.button.inactive {
   float:right;
 }
 
+.tagInputSel {
+  background-color: gray;
+  color:white;
+}
 
 .tagInputSuggestedTags {
   font-size: 12px;

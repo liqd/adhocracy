@@ -104,7 +104,7 @@ class UserController(BaseController):
         require.user.create()
         user = model.User.create(self.form_result.get("user_name"), 
                                  self.form_result.get("email").lower(), 
-                                 password=self.form_result.get("password").encode('utf-8'), 
+                                 password=self.form_result.get("password"), 
                                  locale=c.locale)
         model.meta.Session.commit()
             
@@ -138,7 +138,7 @@ class UserController(BaseController):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         require.user.edit(c.page_user)
         if self.form_result.get("password"):
-            c.page_user.password = self.form_result.get("password").encode('utf-8')
+            c.page_user.password = self.form_result.get("password")
         c.page_user.display_name = self.form_result.get("display_name")
         c.page_user.bio = text.cleanup(self.form_result.get("bio"))
         email = self.form_result.get("email").lower()

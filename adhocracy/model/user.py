@@ -140,19 +140,17 @@ class User(object):
     
     def _set_password(self, password):
         """Hash password on the fly."""
-        
         if isinstance(password, unicode):
-            password_8bit = password.encode('UTF-8')
+            password_8bit = password.encode('ascii', 'ignore')
         else:
             password_8bit = password
-        
+
         salt = hashlib.sha1(os.urandom(60))
         hash = hashlib.sha1(password_8bit + salt.hexdigest())
         hashed_password = salt.hexdigest() + hash.hexdigest()
         
         if not isinstance(hashed_password, unicode):
-            hashed_password = hashed_password.decode('UTF-8')
-        
+            hashed_password = hashed_password.decode('utf-8')
         self._password = hashed_password
     
     def _get_password(self):
@@ -170,7 +168,11 @@ class User(object):
         :return: Whether the password is valid.
         :rtype: bool
         """
-        hashed_pass = hashlib.sha1(password + self.password[:40])
+        if isinstance(password, unicode):
+            password_8bit = password.encode('ascii', 'ignore')
+        else:
+            password_8bit = password
+        hashed_pass = hashlib.sha1(password_8bit + self.password[:40])
         return self.password[40:] == hashed_pass.hexdigest()
     
     password = property(_get_password, _set_password)
@@ -343,8 +345,7 @@ class User(object):
         if locale is None: 
             locale = i18n.get_default_locale()
         
-        user = User(unicode(user_name), email, 
-                    unicode(password), locale)
+        user = User(user_name, email, password, locale)
         meta.Session.add(user)
         default_group = Group.by_code(Group.CODE_DEFAULT)
         default_membership = Membership(user, None, default_group)
