@@ -2067,7 +2067,9 @@ msgstr "Variante: %s"
 #| msgid "" "This norm has not yet been decided and is thus no official
 #| position of " "this group."
 msgid "This topic has not yet been decided and is thus no official position of this group."
-msgstr "Dieses Thema wurde noch nicht abgestimmt und stellt keine offizielle Position der Gruppe dar."
+msgstr "Deine Organisation hat zu diesem Thema noch keine Regelung getroffen. Möchtest Du, dass dies so bleibt, kannst Du diesen Status Quo ("Es soll weiterhin keine Regelung geben"") wählen.
+Sollte Deine Organisation zu diesem Thema bereits außerhalb von liqd.net eine Regelung getroffen haben, bitte einen der Administratoren (Verwalter) Deiner Organisation diese Regelung nachträglich einzugeben.
+Erlangt eine der anderen Varianten zu diesem Thema bei einer einberufenen Abstimmung die erforderliche Mehrheit, wird sie dadurch zum neuen Status Quo dieses Themas."
 
 #: adhocracy/templates/page/diff.html:26
 msgid "Both texts are identical."
