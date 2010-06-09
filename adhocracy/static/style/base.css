@@ -303,7 +303,7 @@ body {
 	margin-bottom: -145px;
 	padding-bottom: 0px;
 	min-height: 100%;
-	overflow: hidden;
+	overflow: visible;
 }
 
 #page {
@@ -1524,18 +1524,31 @@ a.button.inactive {
 .rate a.icon {
 	background-repeat: no-repeat;
 	display: block;
-	width: 12px;
-	height: 12px;
+	width: 16px;
+	height: 16px;
 	margin-bottom: 0.0em;
 	text-decoration: none;
-	max-width: 12px;
+	max-width: 16px;
 }
+/*
+.rate.proposal a.icon {
+	width: 24px;
+	height: 16px;
+	max-width: 24px;
+}
+*/
 
 .rate .score {
 	font-weight: bold;
 	color: #666;
-	font-size: 0.8em;
+	font-size: 0.9em;
 }
+
+/*
+.rate.proposal .score {
+	font-size: 1.0em;
+}
+*/
 
 .rate a.inactive {
 	cursor: pointer;
@@ -1545,30 +1558,53 @@ a.button.inactive {
 	margin-top: 0.2em;
 }
 
-.rate a.up,
-.rate a.up.inactive:hover {
-	background-image: url(/img/arrows/aup.png);
-}
-
-.rate a.down,
-.rate a.down.inactive:hover {
-	background-image: url(/img/arrows/adown.png);
-}
-
 .rate a.down.inactive:hover,
 .rate a.up.inactive:hover {
 	cursor: default;
 }
 
+
+.rate a.up,
+.rate a.up.inactive:hover {
+	background-image: url(/img/arrows/arrow_up_inactive_16.png);
+}
+
+.rate a.down,
+.rate a.down.inactive:hover {
+	background-image: url(/img/arrows/arrow_down_inactive_16.png);
+}
+
 .rate a.up:hover,
 .upvoted .rate a.up {
-	background-image: url(/img/arrows/aup_a.png);
+	background-image: url(/img/arrows/arrow_up_active_16.png);
 }
 
 .rate a.down:hover,
 .downvoted .rate a.down {
-	background-image: url(/img/arrows/adown_a.png);
+	background-image: url(/img/arrows/arrow_down_active_16.png);
 }
+
+/*
+.rate.proposal a.up,
+.rate.proposal a.up.inactive:hover {
+	background-image: url(/img/arrows/arrows_up_inactive_24.png);
+}
+
+.rate.proposal a.down,
+.rate.proposal a.down.inactive:hover {
+	background-image: url(/img/arrows/arrows_down_inactive_24.png);
+}
+
+.rate.proposal a.up:hover,
+.upvoted .rate.proposal a.up {
+	background-image: url(/img/arrows/arrows_up_active_24.png);
+}
+
+.rate.proposal a.down:hover,
+.downvoted .rate.proposal a.down {
+	background-image: url(/img/arrows/arrows_down_active_24.png);
+}
+*/
 
 /* @end */
 
