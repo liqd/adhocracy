@@ -23,7 +23,7 @@ class UniqueUsername(formencode.FancyValidator):
             raise formencode.Invalid(
                 _('No username is given'),
                 value, state)
-        if len(value) < 3:
+        if len(value.strip()) < 3:
             raise formencode.Invalid(
                 _('Username is too short'),
                 value, state)

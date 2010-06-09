@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
         
 class UserCreateForm(formencode.Schema):
     allow_extra_fields = True
-    user_name = formencode.All(validators.PlainText(),
+    user_name = formencode.All(validators.PlainText(not_empty=True),
                               forms.UniqueUsername())
     email = formencode.All(validators.Email(),
                            forms.UniqueEmail())
