@@ -84,7 +84,7 @@ class Poll(object):
     def variant(self):
         if self.selection is None: 
             return None
-        for (variant, poll) in self.selection.variant_polls():
+        for (variant, poll) in self.selection.variant_polls:
             if poll == self:
                 return variant
     

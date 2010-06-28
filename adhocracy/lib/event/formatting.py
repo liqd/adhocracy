@@ -33,9 +33,9 @@ class PageFormatter(DelegateableFormatter):
 
 class PollFormatter(ObjectFormatter):
     
-    SELECT_PATTERN = lambda v, p: _("variant %(variant)s of %(page)s") % \
-                                    {'variant': v, 
-                                     'page': p}
+    SELECT_PATTERN = lambda s, v, p: _("variant %(variant)s of %(page)s") % \
+                                      {'variant': v, 
+                                       'page': p}
     
     def _get_formatter(self, poll):
         if poll.action in [poll.RATE, poll.ADOPT]:
@@ -49,7 +49,8 @@ class PollFormatter(ObjectFormatter):
     
     def unicode(self, poll):
         if poll.action == poll.SELECT: 
-            return self.SELECT_PATTERN(poll.variant, poll.selection.page.title)
+            title = _("Status quo") if text.variant == text.HEAD else text.variant
+            return self.SELECT_PATTERN(title, poll.selection.page.title)
         else:
             fmt = self._get_formatter(poll)
             return fmt.unicode(poll.subject)
@@ -58,8 +59,9 @@ class PollFormatter(ObjectFormatter):
     def html(self, poll):
         if poll.action == poll.SELECT: 
             text = poll.selection.page.variant_head(poll.variant)
+            title = _("Status quo") if text.variant == text.HEAD else text.variant
             variant_link = "<a href='%s'>%s</a>" % (h.entity_url(text), 
-                                                    cgi.escape(text.variant))
+                                                    cgi.escape(title))
             page_link = h.page_link(poll.selection.page, icon=True, icon_size=16)
             return self.SELECT_PATTERN(variant_link, page_link)
         else:
