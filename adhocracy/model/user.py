@@ -39,13 +39,13 @@ class User(object):
         self.display_name = display_name
         self.bio = bio
         
-           
-    def _get_name(self):
+    
+    @property   
+    def name(self):
         return self.display_name.strip() \
             if self.display_name and len(self.display_name.strip()) > 0 \
             else self.user_name
     
-    name = property(_get_name)
     
     def _get_locale(self):
         if not self._locale:
@@ -68,12 +68,13 @@ class User(object):
         
     email = property(_get_email, _set_email)
     
-    def _get_email_hash(self):
+    
+    @property
+    def email_hash(self):
         return hashlib.sha1(self.email).hexdigest()
     
-    email_hash = property(_get_email_hash)
-    
-    def _get_context_groups(self):
+    @property
+    def groups(self):
         groups = []
         for membership in self.memberships: 
             if membership.is_expired():
@@ -82,8 +83,6 @@ class User(object):
                 membership.instance == ifilter.get_instance():
                 groups.append(membership.group)
         return groups
-     
-    groups = property(_get_context_groups)
     
     
     def _has_permission(self, permission_name):
@@ -108,7 +107,8 @@ class User(object):
         return self.instance_membership(instance) is not None
     
     
-    def _get_instances(self):
+    @property
+    def instances(self):
         instances = []
         for membership in self.memberships:
             if (not membership.is_expired()) and \
@@ -116,26 +116,23 @@ class User(object):
                 instances.append(membership.instance)
         return list(set(instances))
     
-    instances = property(_get_instances)
     
-    def _get_twitter(self):
+    @property
+    def twitter(self):
         for twitter in self.twitters:
             if not twitter.is_deleted():
                 return twitter
         return None
     
-    twitter = property(_get_twitter)
     
-    
-    def _get_num_watches(self):
+    @property
+    def num_watches(self):
         from watch import Watch
         q = meta.Session.query(Watch)
         q = q.filter(Watch.user==self)
         q = q.filter(or_(Watch.delete_time==None,
                          Watch.delete_time>=datetime.utcnow()))
         return q.count()
-        
-    num_watches = property(_get_num_watches)
     
     
     def _set_password(self, password):

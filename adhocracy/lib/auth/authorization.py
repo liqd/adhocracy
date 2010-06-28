@@ -58,8 +58,6 @@ class has_permission(what_has_permission):
     rights to any user making requests. This allows to call ``has_permission`` on methods
     even when they are not protected, thus making the authorization system more 
     configurable.
-    
-    *WARNING*: This does not include authorizations that are subject to Karma thresholds. 
     """    
     def evaluate(self, environ, credentials):
         if c.user:

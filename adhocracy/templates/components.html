@@ -5,10 +5,10 @@
 	</div>
 </%def>
 
-<%def name="savebox(cancel_url)">
+<%def name="savebox(cancel_url, save_text=None)">
 	<div class="savebox">
-		<button type="submit"><!--img src="/img/icons/save.png"--> 
-			${_("Save")}</button>
+		<button type="submit">
+			${save_text if save_text is not None else _("Save")}</button>
 		%if cancel_url is not None:
 			<span class="cancel">
 				${_("or")} <a href="${cancel_url}">${_("cancel")}</a>

@@ -24,6 +24,10 @@
 
 <%def name="header(tile, user, active)">
 	<div class="top_actions title vcard">
+		%if can.user.message(user):
+			<a class="button add" href="${h.entity_url(user, member='message/new')}">${_("send a message")}</a>
+		%endif
+	
 		%if can.user.edit(user):
 			<a class="button edit" href="${h.entity_url(user, member='edit')}">${_("edit")}</a>
 		%endif

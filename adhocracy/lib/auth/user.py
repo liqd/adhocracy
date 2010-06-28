@@ -19,6 +19,9 @@ def edit(u):
 def manage(u):
     return has('user.manage')
     
+def message(u):
+    return has('user.message') and u != c.user and u.email is not None
+    
 def supervise(u):
     if (not c.instance) or (not u.is_member(c.instance)):
         return False

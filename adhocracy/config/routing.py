@@ -24,6 +24,8 @@ def make_map():
     map.connect('/openid/{action}', controller='openidauth')
     map.connect('/twitter/{action}', controller='twitteroauth')
     
+
+    
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
                                          'proposals': 'GET',
@@ -39,6 +41,16 @@ def make_map():
                                          'resend': 'GET'},
                                 collection={'complete': 'GET',
                                             'filter': 'GET'})
+                                            
+    # TODO work this into a complete subcontroller. 
+    map.connect('/user/{id}/message.{format}', controller='message', action='create',
+                conditions=dict(method=['POST', 'PUT']))
+    map.connect('/user/{id}/message', controller='message', action='create',
+                conditions=dict(method=['POST', 'PUT']))
+    map.connect('/user/{id}/message/new.{format}', controller='message', action='new',
+                conditions=dict(method=['GET']))
+    map.connect('/user/{id}/message/new', controller='message', action='new',
+                conditions=dict(method=['GET']))
     
     map.connect('/register', controller='user', action='new')
     map.connect('/login', controller='user', action='login')
