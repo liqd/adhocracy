@@ -108,8 +108,9 @@ def instances(instances):
     return NamedPager('instances', instances, tiles.instance.row,
                       sorts={_("oldest"): sorting.entity_oldest,
                              _("newest"): sorting.entity_newest,
+                             _("activity"): sorting.instance_activity,
                              _("alphabetically"): sorting.delegateable_label},
-                      default_sort=sorting.delegateable_label)
+                      default_sort=sorting.instance_activity)
 
   
 def proposals(proposals, **kwargs):
