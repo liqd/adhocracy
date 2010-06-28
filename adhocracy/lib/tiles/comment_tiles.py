@@ -48,7 +48,7 @@ class CommentTile(BaseTile):
     @property
     def show(self):
         if self.comment.is_deleted():
-            children = map(lambda c: CommentTile(c).show(), self.comment.replies) 
+            children = map(lambda c: CommentTile(c).show, self.comment.replies) 
             if not True in children:
                 return False
         return True
