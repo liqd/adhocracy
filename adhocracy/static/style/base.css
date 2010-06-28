@@ -804,6 +804,10 @@ p img[align=left] {
 	padding-left: 6px;
 }
 
+.tile.fresh {
+	background-color: #fdfbc0;
+}
+
 .tile.proposal.title {
 	border-top: 0px;
 }

@@ -1,4 +1,5 @@
 from util import render_tile
+from datetime import datetime, timedelta
 
 from pylons import tmpl_context as c
 from webhelpers.text import truncate
@@ -23,38 +24,41 @@ class ProposalTile(DelegateableTile):
         self.__comment_tile = None
         DelegateableTile.__init__(self, proposal)
     
-    
-    def _tagline(self):       
+    @property
+    def tagline(self):       
         if self.proposal.comment and self.proposal.comment.latest:
             tagline = text.plain(self.proposal.comment.latest.text)
             return truncate(tagline, length=140, indicator="...", whole_word=True)
         return ""
     
-    tagline = property(_tagline)
     
+    @property
+    def fresh(self):
+        return (datetime.utcnow() - self.proposal.create_time) < timedelta(hours=36)
     
-    def _poll(self):
+         
+    @property
+    def poll(self):
         if not self.__poll:
             self.__poll = self.proposal.adopt_poll
         return self.__poll
     
-    poll = property(_poll)
     
-    
-    def _has_overridden(self):
+    @property
+    def has_overridden(self):
         if self.decision.is_self_decided():
             return True
         return False
     
     
-    def _can_create_canonical(self):
+    @property
+    def can_create_canonical(self):
         return h.has_permission('comment.create') \
                 and self.proposal.is_mutable()
     
-    can_create_canonical = property(_can_create_canonical)
-      
-           
-    def _delegates(self):
+        
+    @property   
+    def delegates(self):
         agents = []
         if not c.user:
             return []
@@ -62,10 +66,9 @@ class ProposalTile(DelegateableTile):
             agents.append(delegation.agent)
         return set(agents)
     
-    delegates = property(_delegates)
     
-    
-    def _num_principals(self):
+    @property
+    def num_principals(self):
         if self.__num_principals == None:
             principals = set(map(lambda d: d.principal, self.dnode.transitive_inbound()))
             if self.poll:
@@ -74,17 +77,7 @@ class ProposalTile(DelegateableTile):
             self.__num_principals = len(principals)
         return self.__num_principals
     
-    num_principals = property(_num_principals)
     
-    
-    def _comment_tile(self):
-        if not self.__comment_tile:
-            self.__comment_tile = CommentTile(self.proposal.comment)
-        return self.__comment_tile
-    
-    comment_tile = property(_comment_tile)
-
-
     
 def row(proposal):
     return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal), 
