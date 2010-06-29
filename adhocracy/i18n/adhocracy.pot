@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-06-28 23:27+0200\n"
+"POT-Creation-Date: 2010-06-29 10:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,9 +21,9 @@ msgstr ""
 #: adhocracy/controllers/delegation.py:103 adhocracy/controllers/page.py:237
 #: adhocracy/controllers/page.py:252 adhocracy/controllers/search.py:39
 #: adhocracy/controllers/tag.py:52 adhocracy/controllers/user.py:393
-#: adhocracy/lib/pager.py:109 adhocracy/lib/pager.py:116 adhocracy/lib/pager.py:126
-#: adhocracy/lib/pager.py:134 adhocracy/lib/pager.py:145 adhocracy/lib/pager.py:152
-#: adhocracy/lib/pager.py:159 adhocracy/lib/pager.py:166
+#: adhocracy/lib/pager.py:109 adhocracy/lib/pager.py:117 adhocracy/lib/pager.py:127
+#: adhocracy/lib/pager.py:135 adhocracy/lib/pager.py:146 adhocracy/lib/pager.py:153
+#: adhocracy/lib/pager.py:160 adhocracy/lib/pager.py:167
 msgid "oldest"
 msgstr ""
 
@@ -31,9 +31,9 @@ msgstr ""
 #: adhocracy/controllers/delegation.py:104 adhocracy/controllers/page.py:238
 #: adhocracy/controllers/page.py:253 adhocracy/controllers/search.py:40
 #: adhocracy/controllers/tag.py:53 adhocracy/controllers/user.py:394
-#: adhocracy/lib/pager.py:110 adhocracy/lib/pager.py:127 adhocracy/lib/pager.py:135
-#: adhocracy/lib/pager.py:146 adhocracy/lib/pager.py:153 adhocracy/lib/pager.py:160
-#: adhocracy/lib/pager.py:167
+#: adhocracy/lib/pager.py:110 adhocracy/lib/pager.py:128 adhocracy/lib/pager.py:136
+#: adhocracy/lib/pager.py:147 adhocracy/lib/pager.py:154 adhocracy/lib/pager.py:161
+#: adhocracy/lib/pager.py:168
 msgid "newest"
 msgstr ""
 
@@ -129,9 +129,13 @@ msgstr ""
 msgid "You cannot manipulate one instance from within another instance."
 msgstr ""
 
-#: adhocracy/controllers/message.py:48
+#: adhocracy/controllers/message.py:50
 #, python-format
 msgid "[%s - Message from %s] %s"
+msgstr ""
+
+#: adhocracy/controllers/message.py:53
+msgid "Your message has been sent. Thanks."
 msgstr ""
 
 #: adhocracy/controllers/openidauth.py:92
@@ -183,8 +187,8 @@ msgid "The variant %s does not exist!"
 msgstr ""
 
 #: adhocracy/controllers/page.py:239 adhocracy/controllers/tag.py:54
-#: adhocracy/lib/pager.py:111 adhocracy/lib/pager.py:120 adhocracy/lib/pager.py:128
-#: adhocracy/lib/pager.py:137
+#: adhocracy/lib/pager.py:112 adhocracy/lib/pager.py:121 adhocracy/lib/pager.py:129
+#: adhocracy/lib/pager.py:138
 msgid "alphabetically"
 msgstr ""
 
@@ -590,16 +594,16 @@ msgstr ""
 msgid "Confirm your email address"
 msgstr ""
 
-#: adhocracy/lib/pager.py:118
-msgid "newest comment"
+#: adhocracy/lib/pager.py:111 adhocracy/lib/pager.py:137
+msgid "activity"
 msgstr ""
 
 #: adhocracy/lib/pager.py:119
-msgid "support"
+msgid "newest comment"
 msgstr ""
 
-#: adhocracy/lib/pager.py:136
-msgid "activity"
+#: adhocracy/lib/pager.py:120
+msgid "support"
 msgstr ""
 
 #: adhocracy/lib/rest.py:19
@@ -629,27 +633,33 @@ msgstr ""
 msgid "variant %(variant)s of %(page)s"
 msgstr ""
 
-#: adhocracy/lib/event/formatting.py:99 adhocracy/templates/decision/tiles.html:16
+#: adhocracy/lib/event/formatting.py:52 adhocracy/lib/event/formatting.py:62
+#: adhocracy/templates/page/show.html:21 adhocracy/templates/selection/show.html:87
+#: adhocracy/templates/text/tiles.html:91
+msgid "Status quo"
+msgstr ""
+
+#: adhocracy/lib/event/formatting.py:101 adhocracy/templates/decision/tiles.html:16
 #: adhocracy/templates/poll/notifications.html:4
 msgid "for"
 msgstr ""
 
-#: adhocracy/lib/event/formatting.py:100
+#: adhocracy/lib/event/formatting.py:102
 #: adhocracy/templates/poll/notifications.html:8
 msgid "to abstain"
 msgstr ""
 
-#: adhocracy/lib/event/formatting.py:101 adhocracy/templates/decision/tiles.html:18
+#: adhocracy/lib/event/formatting.py:103 adhocracy/templates/decision/tiles.html:18
 #: adhocracy/templates/poll/notifications.html:6
 msgid "against"
 msgstr ""
 
-#: adhocracy/lib/event/formatting.py:109
+#: adhocracy/lib/event/formatting.py:111
 msgid "comment"
 msgstr ""
 
-#: adhocracy/lib/event/formatting.py:142 adhocracy/lib/event/formatting.py:146
-#: adhocracy/lib/event/formatting.py:152 adhocracy/model/refs.py:101
+#: adhocracy/lib/event/formatting.py:144 adhocracy/lib/event/formatting.py:148
+#: adhocracy/lib/event/formatting.py:154 adhocracy/model/refs.py:101
 msgid "(Undefined)"
 msgstr ""
 
@@ -2190,11 +2200,6 @@ msgstr ""
 
 #: adhocracy/templates/page/show.html:13
 msgid "Variants"
-msgstr ""
-
-#: adhocracy/templates/page/show.html:21 adhocracy/templates/selection/show.html:87
-#: adhocracy/templates/text/tiles.html:91
-msgid "Status quo"
 msgstr ""
 
 #: adhocracy/templates/page/show.html:32

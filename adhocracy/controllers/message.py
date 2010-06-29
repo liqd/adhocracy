@@ -47,8 +47,8 @@ class MessageController(BaseController):
             headers['Reply-To'] = c.user.email
         
         from adhocracy.lib.mail import to_user
-        subject = _("[%s - Message from %s] %s") % (c.instance.label, c.user.name, c.subject)
+        subject = _("[%s] Message from %s: %s") % (c.instance.label, c.user.name, c.subject)
         to_user(c.page_user, subject, message, headers=headers)
         
-        h.flash("Your message has been sent. Thanks.")
+        h.flash(_("Your message has been sent. Thanks."))
         redirect(h.entity_url(c.page_user))   
