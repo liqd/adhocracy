@@ -99,7 +99,7 @@ class CommentController(BaseController):
         watchlist.check_watch(comment)
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance, 
                    topics=[topic], comment=comment, topic=topic, rev=comment.latest)
-        return ret_success(entity=comment, format=format if format != 'html' else None)
+        return ret_success(entity=comment, format=format)
     
     
     @RequireInstance
@@ -128,7 +128,7 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic, rev=rev)
-        return ret_success(entity=c.comment, format=format if format != 'html' else None)
+        return ret_success(entity=c.comment, format=format)
     
     
     @RequireInstance
@@ -196,6 +196,5 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic, rev=rev)
-        return ret_success(message=_("The comment has been reverted."), entity=c.comment, 
-                           format=format if format != 'html' else None)
+        return ret_success(message=_("The comment has been reverted."), entity=c.comment, format=format)
     
