@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-07-02 18:45+0100\n"
+"PO-Revision-Date: 2010-07-02 19:05+0100\n"
 "Last-Translator: Benjamin Claverie <ben@skl8em.com>\n"
 "Language-Team: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -59,9 +59,9 @@ msgid "Trying to create a provision on a page"
 msgstr "Essai de créer une provision sur une page"
 
 #: adhocracy/controllers/comment.py:88
-#, python-format
+#, fuzzy, python-format
 msgid "Comment topic has no variant %s"
-msgstr "Ce règle de commentaire n'a pas de motion %s"
+msgstr "La règle du commentaire n'a pas de motion %s"
 
 #: adhocracy/controllers/comment.py:165
 msgid "The comment has been deleted."
@@ -73,7 +73,7 @@ msgstr "Vous essayez de revenir a une révisions qui ne fait pas partie de cet h
 
 #: adhocracy/controllers/comment.py:199
 msgid "The comment has been reverted."
-msgstr "Ce commentaire a été repris."
+msgstr "Ce commentaire a été revisé."
 
 #: adhocracy/controllers/delegation.py:58
 msgid "Invalid delegation recipient"
@@ -102,7 +102,7 @@ msgstr "Erreur %s"
 
 #: adhocracy/controllers/instance.py:39
 msgid "An index of instances run at this site. Select which ones you would like to join and participate!"
-msgstr "Un index des adhocracies est visible sur adhocracy.cc. Choisissez celle à laquelle vous voulez participer!"
+msgstr "Un index des adhocracies est visible sur adhocracy.cc. Choisissez celles à laquelles vous voulez participer!"
 
 #: adhocracy/controllers/instance.py:105
 #, python-format
