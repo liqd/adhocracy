@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-07-02 15:09+0100\n"
-"Last-Translator: Friedrich Lindenberg <friedrich@pudo.org>\n"
+"PO-Revision-Date: 2010-07-02 15:43+0100\n"
+"Last-Translator: Benjamin Claverie <ben@skl8em.com>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr "La délégations a été révoqué."
 #: adhocracy/templates/error/http.html:8
 #, python-format
 msgid "Error %s"
-msgstr "Erreure %s"
+msgstr "Erreur %s"
 
 #: adhocracy/controllers/instance.py:39
 #, fuzzy
@@ -646,7 +646,7 @@ msgstr "Nous somme désolé, il semble que vous n'ayez pas les droits requis pou
 
 #: adhocracy/lib/auth/csrf.py:55
 msgid "I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
-msgstr "Nous sommes désolé, il semble que nous ayons faite un erreure (Alerte CSRF). Veuillez réessayer."
+msgstr "Nous sommes désolé, il semble que nous ayons faite un erreur (Alerte CSRF). Veuillez réessayer."
 
 #: adhocracy/lib/event/formatting.py:36
 #, python-format
@@ -1670,9 +1670,8 @@ msgid "You hold %s additional votes."
 msgstr "vous avez %s voix suplementaires."
 
 #: adhocracy/templates/error/http.html:13
-#, fuzzy
 msgid "If this error continues to occur, please <a href='/static/imprint.html'>notify the developers</a> with a description of what you were trying to do."
-msgstr "Si cette erreure continue, veuiller <a href='http://trac.adhocracy.de/newticket'>notifier le developpeur</a> avec und description de ce que vous vouliez faire."
+msgstr "Si cette erreur continue, veuiller <a href='http://trac.adhocracy.de/newticket'>notifier le developpeur</a> avec und description de ce que vous vouliez faire."
 
 #: adhocracy/templates/error/http.html:13
 msgid "An automated email message describing the situation has been sent to our developers."
@@ -2605,11 +2604,11 @@ msgid "<b>%s</b> supporters"
 msgstr "<b>%s</b> voix,"
 
 #: adhocracy/templates/proposal/tiles.html:21
-#, fuzzy, python-format
+#, python-format
 msgid "%s topic"
 msgid_plural "%s topics"
-msgstr[0] "Sujet"
-msgstr[1] ""
+msgstr[0] "%s Sujet"
+msgstr[1] "%s sujets"
 
 #: adhocracy/templates/proposal/tiles.html:40
 msgid "(Select a proposal)"
