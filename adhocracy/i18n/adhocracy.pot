@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-06-29 10:47+0200\n"
+"POT-Creation-Date: 2010-07-02 18:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -131,7 +131,7 @@ msgstr ""
 
 #: adhocracy/controllers/message.py:50
 #, python-format
-msgid "[%s - Message from %s] %s"
+msgid "[%s] Message from %s: %s"
 msgstr ""
 
 #: adhocracy/controllers/message.py:53
@@ -181,9 +181,9 @@ msgstr ""
 msgid "You're trying to update to a text which is not part of this pages history"
 msgstr ""
 
-#: adhocracy/controllers/page.py:229
+#: adhocracy/controllers/page.py:227
 #, python-format
-msgid "The variant %s does not exist!"
+msgid "Variant %s does not exist!"
 msgstr ""
 
 #: adhocracy/controllers/page.py:239 adhocracy/controllers/tag.py:54

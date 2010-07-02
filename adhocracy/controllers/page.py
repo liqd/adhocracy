@@ -222,11 +222,11 @@ class PageController(BaseController):
     @RequireInstance
     def show(self, id, variant=None, text=None, format='html'):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
-        if format == 'json':
-            return render_json(c.text)
         require.page.show(c.page)
         if c.text.variant != c.variant:
-            abort(404, _("The variant %s does not exist!") % c.variant)
+            abort(404, _("Variant %s does not exist!") % c.variant)
+        if format == 'json':
+            return render_json(c.page.to_dict(text=c.text))
         if c.variant != model.Text.HEAD:
             options = [c.page.variant_head(v) for v in c.page.variants]
             return self._differ(c.page.head, c.text, options=options)

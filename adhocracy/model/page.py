@@ -336,7 +336,9 @@ class Page(Delegateable):
         return self._join_contributors(cbs, q.all(), second_factor=2)
     
     
-    def to_dict(self):
+    def to_dict(self, text=None):
+        if text is None:
+            text = self.head
         from adhocracy.lib import url
         d =    dict(id=self.id,
                     url=url.entity_url(self),
@@ -344,7 +346,7 @@ class Page(Delegateable):
                     label=self.label,
                     title=self.title,
                     full_title=self.full_title,
-                    head=self.head,
+                    text=text,
                     function=self.function,
                     creator=self.creator.user_name)
         if self.parent:
