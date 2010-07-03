@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-07-02 19:05+0100\n"
+"PO-Revision-Date: 2010-07-03 12:43+0100\n"
 "Last-Translator: Benjamin Claverie <ben@skl8em.com>\n"
 "Language-Team: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -541,7 +541,7 @@ msgstr "La methode utilisé n'est pas implémenté."
 #: adhocracy/templates/proposal/tiles.html:142
 #: adhocracy/templates/selection/index.html:7
 msgid "Implementation"
-msgstr "Implémenter"
+msgstr "Mise en oeuvre"
 
 #: adhocracy/lib/breadcrumbs.py:61
 #: adhocracy/templates/template.html:89
@@ -1916,7 +1916,7 @@ msgstr "Décriver quels sont les buts de cette instance et qui constitue ses mem
 
 #: adhocracy/templates/instance/show.html:17
 msgid "There are help pages on several help topics:"
-msgstr "Ici sont des pages d'aide sur différents règle:"
+msgstr "Ici sont des pages d'aide sur différents sujets:"
 
 #: adhocracy/templates/instance/show.html:19
 msgid "General intro"
@@ -1973,7 +1973,7 @@ msgstr "Guide: developper des propositions"
 
 #: adhocracy/templates/instance/show.html:29
 msgid "Other help"
-msgstr "Autres règle d'aide"
+msgstr "Autres sujets d'aide"
 
 #: adhocracy/templates/instance/show.html:39
 #: adhocracy/templates/instance/tiles.html:23
@@ -2124,7 +2124,7 @@ msgstr "Motion: %s"
 #: adhocracy/templates/page/diff.html:24
 #: adhocracy/templates/text/tiles.html:39
 msgid "This topic has not yet been decided and is thus no official position of this group."
-msgstr "Le règle n'a pas été encore décidé et n'est donc pas une position officiel de ce groupe."
+msgstr "La règle n'a pas été encore décidé et n'est donc pas une position officielle de ce groupe."
 
 #: adhocracy/templates/page/diff.html:26
 msgid "Both texts are identical."
@@ -2154,7 +2154,7 @@ msgstr "Nouvelle motion"
 
 #: adhocracy/templates/page/diff_edit.html:36
 msgid "This topic has no text yet."
-msgstr "Ce règle n'a pas encore de texte."
+msgstr "Cette règle n'a pas encore de texte."
 
 #: adhocracy/templates/page/edit.html:4
 #: adhocracy/templates/proposal/edit.html:4
@@ -2225,16 +2225,16 @@ msgstr "Page wiki"
 
 #: adhocracy/templates/page/new.html:23
 msgid "Topic page"
-msgstr "Page de règle"
+msgstr "Page des règles"
 
 #: adhocracy/templates/page/new.html:26
 msgid "Topics can only be edited by including variants of them in proposals and voting on them."
-msgstr "Un règle peut seulement être édité en incluant une motion la concernant dans une proposition au vote et soumettant celle ci au vote. "
+msgstr "Une règle peut seulement être édité en incluant une motion la concernant dans une proposition et en soumettant celle ci au vote. "
 
 #: adhocracy/templates/page/new.html:37
 #: adhocracy/templates/proposal/new.html:26
 msgid "Tags to describe the subject"
-msgstr "des tags pour décrire le règle"
+msgstr "des tags pour décrire cette règle"
 
 #: adhocracy/templates/page/new.html:39
 #: adhocracy/templates/proposal/new.html:28
@@ -2455,7 +2455,7 @@ msgstr "àtes vous sur d'éffacer cette proposition?"
 #: adhocracy/templates/selection/show.html:4
 #, python-format
 msgid "Implementation: %s"
-msgstr "Implémentation: %s"
+msgstr "Mise en oeuvre: %s"
 
 #: adhocracy/templates/proposal/canonicals.html:19
 msgid "<b>Provisions</b> are the body of a proposal: together they form the language that will be voted upon. You will need to have at least one clause in order to call for a vote."
@@ -2582,7 +2582,7 @@ msgstr "<b>%s</b> partisans,"
 #, python-format
 msgid "%s topic"
 msgid_plural "%s topics"
-msgstr[0] "%s Règle"
+msgstr[0] "%s règle"
 msgstr[1] "%s règles"
 
 #: adhocracy/templates/proposal/tiles.html:44
@@ -2600,7 +2600,7 @@ msgstr "appeler au vote"
 #: adhocracy/templates/proposal/tiles.html:89
 #: adhocracy/templates/selection/index.html:44
 msgid "Propose to change a topic through this proposal."
-msgstr "Proposé de changer un règle par cette proposition."
+msgstr "Proposé de changer une règle par cette proposition."
 
 #: adhocracy/templates/proposal/tiles.html:90
 #: adhocracy/templates/selection/index.html:45
@@ -2694,13 +2694,13 @@ msgstr "Effacé: Implementation de %s"
 #: adhocracy/templates/selection/ask_delete.html:21
 #, python-format
 msgid "Are you sure you want to delete the topic %s from this proposal?"
-msgstr "Êtes vous sur de vouloir effacer le règle %s de votre proposition?"
+msgstr "Êtes vous sur de vouloir effacer la règle %s de votre proposition?"
 
 #: adhocracy/templates/selection/index.html:22
 #: adhocracy/templates/selection/new.html:19
 #: adhocracy/templates/selection/show.html:21
 msgid "What is a topic?"
-msgstr "Qu'est ce qu'un règle?"
+msgstr "Qu'est ce qu'une règle?"
 
 #: adhocracy/templates/selection/index.html:23
 #: adhocracy/templates/selection/new.html:20
@@ -2716,7 +2716,7 @@ msgstr "Que veut dire \"Status quo\"?"
 
 #: adhocracy/templates/selection/index.html:34
 msgid "Proposals are implemented by including changes towards new or existing topic. Amend the proposal to change or create a topic."
-msgstr "Des propositions sont implementé en incluant des amendements à des règles existants ou nouveaux. Amender la proposition pour changer ou créer le règle concerné."
+msgstr "Des propositions sont mise en oeuvre en incluant des amendements à des règles existantes ou nouvelles. Amender la proposition pour changer ou créer la règle concerné."
 
 #: adhocracy/templates/selection/new.html:7
 msgid "New change request"
@@ -2724,11 +2724,11 @@ msgstr "Nouvelle requête de changement"
 
 #: adhocracy/templates/selection/new.html:15
 msgid "The implementation of a proposal is amended by relating to a fixed document, a topic. Please select or create the topic that you want to relate to. You can then add a text variant of that topic, specifying the change you want to implement."
-msgstr "L'implementation d'une proposition est un amendement a un des documents existant, un règle. Veuillez choisir ou crée le règle que vous voulez amender. Vous pouvez, après cela ajouter une motion sur ce règle, en spécifiant les changement que vous souhaitez implementer. "
+msgstr "La mise en oeuvre d'une proposition est un amendement à un des documents existant, une règle. Veuillez choisir ou créer la règle que vous voulez amender. Vous pouvez, après cela ajouter une motion sur cette règle, en spécifiant les changements que vous souhaitez mettre en oeuvre. "
 
 #: adhocracy/templates/selection/new.html:35
 msgid "I want to include a change to an existing topic."
-msgstr "Je veux inclure un changement à un règle existant. "
+msgstr "Je veux inclure un changement à une règle existante. "
 
 #: adhocracy/templates/selection/new.html:42
 msgid "Include"
@@ -2736,7 +2736,7 @@ msgstr "Inclure"
 
 #: adhocracy/templates/selection/new.html:45
 msgid "I want to propose the creation of a new topic."
-msgstr "Je veux proposer la création d'un nouveau règle."
+msgstr "Je veux proposer la création d'une nouvelle règle."
 
 #: adhocracy/templates/selection/new.html:53
 msgid "New topic title"
@@ -2744,11 +2744,11 @@ msgstr "Nouveau titre de règle"
 
 #: adhocracy/templates/selection/new.html:59
 msgid "The new topic will be categorized under the specified parent page."
-msgstr "Le nouveau règle va être catégorisé sous la page parent spécifié."
+msgstr "La nouvelle règle va être catégorisé sous la page parent spécifié."
 
 #: adhocracy/templates/selection/show.html:18
 msgid "Select which text variant of the topic should be included in this proposal."
-msgstr "Choisissez la motion du règle qui doit être inclut dans cette proposition. "
+msgstr "Choisissez la motion sur cette règle qui doit être inclut dans cette proposition. "
 
 #: adhocracy/templates/selection/show.html:32
 #: adhocracy/templates/selection/tiles.html:36
@@ -2774,7 +2774,7 @@ msgstr "S'opposer à cette motion"
 
 #: adhocracy/templates/selection/show.html:88
 msgid "(this proposal should not change this topic)"
-msgstr "(cette proposition ne devrait pas changer le règle)"
+msgstr "(cette proposition ne devrait pas changer la règle)"
 
 #: adhocracy/templates/selection/show.html:98
 msgid "Currently selected for inclusion in this proposal"
@@ -2783,7 +2783,7 @@ msgstr "Actuellement selectionné pour l'inclusion dans cette proposition"
 #: adhocracy/templates/selection/show.html:108
 #: adhocracy/templates/selection/tiles.html:21
 msgid "Status quo has the most votes, resulting in no proposed change to this topic."
-msgstr "Le Status quo ayant le plus de vote, il n'y a pas de changement dans ce règle."
+msgstr "Le Status quo ayant le plus de vote, il n'y a pas de changement dans cette règle."
 
 #: adhocracy/templates/selection/tiles.html:25
 #, python-format
