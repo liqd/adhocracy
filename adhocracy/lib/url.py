@@ -31,7 +31,7 @@ def _append_member_and_format(url, member=None, format=None):
 
 def _common_url_builder(instance, base, id, **kwargs):
     url = instance_url(instance, path=u'/' + base + u'/' + unicode(id))
-    return _append_member_and_format(url, **kwargs)
+    return _append_member_and_format(url, **kwargs).encode('utf-8')
 
 
 def user_url(user, instance=None, **kwargs):

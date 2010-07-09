@@ -103,25 +103,26 @@ class Page(Delegateable):
         return cls._all_query(**kwargs).count()
     
     
-    @classmethod
-    def free_label(cls, title):
-        from adhocracy.lib.text import title2alias
-        label = title2alias(title)
-        for i in count(0):
-            if i == 0: test = label
-            else: test = label + str(i)
-            page = Page.find(test)
-            if page is None: 
-                return test
+    #@classmethod
+    #def free_label(cls, title):
+    #    from adhocracy.lib.text import title2alias
+    #    label = title2alias(title)
+    #    for i in count(0):
+    #        if i == 0: test = label
+    #        else: test = label + str(i)
+    #        page = Page.find(test)
+    #        if page is None: 
+    #            return test
     
     
     @classmethod
     def create(cls, instance, title, text, creator, function=DOCUMENT, tags=None):
+        from adhocracy.lib.text import title2alias
         from text import Text
         from tagging import Tagging
         if function not in Page.FUNCTIONS:
             raise AttributeError("Invalid page function type")
-        label = Page.free_label(title)
+        label = title2alias(title)
         page = Page(instance, label, creator, function)
         meta.Session.add(page)
         meta.Session.flush()
