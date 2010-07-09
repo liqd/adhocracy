@@ -71,6 +71,7 @@ class PageController(BaseController):
     def new(self, errors=None):
         require.page.create()
         defaults = dict(request.params)
+        defaults['watch'] = defaults.get('watch', True)
         c.title = request.params.get('title', None)
         c.proposal = request.params.get("proposal")
         c.function = request.params.get("function", model.Page.DOCUMENT)

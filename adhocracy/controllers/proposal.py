@@ -67,6 +67,7 @@ class ProposalController(BaseController):
     def new(self, errors=None):
         require.proposal.create()
         defaults = dict(request.params)
+        defaults['watch'] = defaults.get('watch', True)
         c.alternatives = not_null(self.form_result.get('alternative'))
         if len(c.alternatives):
             del defaults['alternative']

@@ -11,7 +11,7 @@ def tag_normalize(text):
     if not isinstance(text, unicode):
         text = unicode(text)
     text = unicodedata.normalize('NFKC', text)
-    return text.strip(SPLIT_CHARS)
+    return text.strip(SPLIT_CHARS).lower()
 
   
 def tag_split(text):

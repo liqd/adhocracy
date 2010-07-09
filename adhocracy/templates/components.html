@@ -17,10 +17,13 @@
 	</div>
 </%def>
 
-<%def name="form_watch(entity)">
+<%def name="form_watch(entity, checked=False)">
 	%if can.watch.create():
-		<input class="watch" type="checkbox" 
-			${"checked='checked'" if h.find_watch(entity) else ''} name="watch"/>
+		<%
+		if entity:
+			checked = checked or (h.find_watch(entity) is not None)
+		%>
+		<input class="watch" type="checkbox" ${'checked=\"checked\"' if checked else ''} name="watch"/>
 		${_("Notify me of updates.")}
 	%endif
 </%def>

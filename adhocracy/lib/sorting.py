@@ -29,7 +29,7 @@ def score_and_freshness_sorter(max_age):
     return _with_age
                                 
 def proposal_support(entities):
-    max_age = 84600 * 2 # 2 days
+    max_age = 3600 * 36 # 2 days
     p_key = lambda p: score_and_freshness_sorter(max_age)(p.rate_poll, p.create_time)
     return sorted(entities, key=p_key, reverse=True)
     

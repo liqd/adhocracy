@@ -95,8 +95,10 @@ class CommentController(BaseController):
                                        variant=variant,
                                        sentiment=self.form_result.get('sentiment'), 
                                        with_vote=can.user.vote())
+        # watch comments by default!
+        watch = model.Watch.create(c.user, comment)
         model.meta.Session.commit()
-        watchlist.check_watch(comment)
+        #watchlist.check_watch(comment)
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance, 
                    topics=[topic], comment=comment, topic=topic, rev=comment.latest)
         if format != 'html':
@@ -127,6 +129,7 @@ class CommentController(BaseController):
                 decision.make(model.Vote.YES)
         model.meta.Session.commit()
         watchlist.check_watch(c.comment)
+        #watch = model.Watch.create(c.user, c.comment)
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic, rev=rev)

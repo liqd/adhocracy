@@ -17,6 +17,7 @@ class InstanceTile(BaseTile):
         self.instance = instance
         self.__issues = None
         self.__proposals_count = None
+        self.__norms_count = None
      
      
     @property  
@@ -52,6 +53,16 @@ class InstanceTile(BaseTile):
             query = query.filter(model.Proposal.delete_time==None)
             self.__proposals_count = query.count()
         return self.__proposals_count
+    
+    @property
+    def num_norms(self):
+        if self.__norms_count is None:
+            query = model.meta.Session.query(model.Page)
+            query = query.filter(model.Page.instance==self.instance)
+            query = query.filter(model.Page.delete_time==None)
+            query = query.filter(model.Page.function==model.Page.NORM)
+            self.__norms_count = query.count()
+        return self.__norms_count
     
 
 
