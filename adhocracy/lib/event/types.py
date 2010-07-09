@@ -61,12 +61,12 @@ T_INSTANCE_DELETE = EventType(u"t_instance_delete", pri=3,
                           link_path=lambda e: h.instance_url(None), 
                           event_msg=lambda: _(u"deleted the %(instance)s instance"))
 
-T_INSTANCE_JOIN = EventType(u"t_instance_join", pri=2, 
+T_INSTANCE_JOIN = EventType(u"t_instance_join", pri=1, 
                           subject=lambda: _(u"%(instance)s: %(user)s joined"),
                           link_path=lambda e: h.entity_url(e.user),
                           event_msg=lambda: _(u"joined %(instance)s"))
 
-T_INSTANCE_LEAVE = EventType(u"t_instance_leave", pri=2, 
+T_INSTANCE_LEAVE = EventType(u"t_instance_leave", pri=1, 
                           subject=lambda: _(u"%(instance)s: %(user)s left"),
                           link_path=lambda e: h.entity_url(e.user),
                           event_msg=lambda: _(u"left %(instance)s"))
@@ -87,7 +87,7 @@ T_PROPOSAL_CREATE = EventType(u"t_proposal_create", pri=4,
                           event_msg=lambda: _(u"created %(proposal)s"),
                           text=lambda e: e.rev.text if e.rev else None)
 
-T_PROPOSAL_EDIT = EventType(u"t_proposal_edit", pri=1, 
+T_PROPOSAL_EDIT = EventType(u"t_proposal_edit", pri=3, 
                           subject=lambda: _(u"Edit proposal: %(proposal)s"),
                           link_path=lambda e: h.entity_url(e.proposal),
                           text=lambda e: e.rev.text if e.text else None,
@@ -103,7 +103,7 @@ T_PROPOSAL_STATE_VOTING = EventType(u"t_proposal_state_voting", pri=4,
                           link_path=lambda e: h.entity_url(e.proposal),
                           event_msg=lambda: _(u"called a vote on %(proposal)s"))
 
-T_PROPOSAL_DELETE = EventType(u"t_proposal_delete", pri=2, 
+T_PROPOSAL_DELETE = EventType(u"t_proposal_delete", pri=4, 
                           subject=lambda: _(u"Deleted proposal: %(proposal)s"),
                           link_path=lambda e: h.entity_url(e.instance),
                           event_msg=lambda: _(u"deleted %(proposal)s"))
@@ -126,19 +126,19 @@ T_PAGE_DELETE = EventType(u"t_page_delete", pri=2,
                         link_path=lambda e: h.entity_url(e.instance),
                         event_msg=lambda: _(u"deleted %(page)s"))
 
-T_COMMENT_CREATE = EventType(u"t_comment_create", pri=2, 
+T_COMMENT_CREATE = EventType(u"t_comment_create", pri=3, 
                           subject=lambda: _(u"New comment: in %(topic)s"),
                           link_path=lambda e: h.entity_url(e.comment),
                           event_msg=lambda: _(u"created a %(comment)s on %(topic)s"),
                           text=lambda e: e.rev.text if e.rev else None)
 
-T_COMMENT_EDIT = EventType(u"t_comment_edit", pri=1, 
+T_COMMENT_EDIT = EventType(u"t_comment_edit", pri=3, 
                           subject=lambda: _(u"Edited comment: in %(topic)s"),
                           link_path=lambda e: h.entity_url(e.comment),
                           event_msg=lambda: _(u"edited a %(comment)s on %(topic)s"),
                           text=lambda e: e.rev.text if e.rev else None)
 
-T_COMMENT_DELETE = EventType(u"t_comment_delete", pri=2, 
+T_COMMENT_DELETE = EventType(u"t_comment_delete", pri=3, 
                           subject=lambda: _(u"Deleted comment: in %(topic)s"),
                           link_path=lambda e: h.entity_url(e.topic),
                           event_msg=lambda: _(u"deleted a %(comment)s from %(topic)s"))
@@ -163,12 +163,10 @@ T_RATING_CAST = EventType(u"t_rating_cast", pri=2,
                           link_path=lambda e: h.entity_url(e.poll.subject),
                           event_msg=lambda: _(u"is %(vote)s %(poll)s"))
 
-
 T_SELECT_VARIANT = EventType(u"t_select_variant", pri=2, 
                         subject=lambda: _(u"Variants: %(user)s %(vote)s %(poll)s"),
                         link_path=lambda e: h.entity_url(e.poll.selection),
                         event_msg=lambda: _(u"is %(vote)s %(poll)s"))
-
 
 T_TEST = EventType(u"t_test", pri=5, 
                           subject=lambda: _(u"Adhocracy says hello: %(test)s"),
@@ -195,12 +193,12 @@ N_INSTANCE_MEMBERSHIP_UPDATE = NotificationType("n_instance_membership_update", 
                           link_path=lambda e: h.entity_url(e.instance),
                           notify_self=True)
 
-N_SELF_VOTED = NotificationType("n_self_voted", pri=3, 
+N_SELF_VOTED = NotificationType("n_self_voted", pri=2, 
                           subject=lambda: _(u"You have voted %(vote)s %(poll)s"),
                           link_path=lambda e: h.entity_url(e.poll.subject),
                           notify_self=True)
 
-N_DELEGATE_VOTED = NotificationType("n_delegate_voted", pri=4, 
+N_DELEGATE_VOTED = NotificationType("n_delegate_voted", pri=2, 
                           subject=lambda: _(u"Your delegate %(agent)s has voted %(vote)s %(poll)s"),
                           link_path=lambda e: h.entity_url(e.poll.subject),
                           notify_self=True)

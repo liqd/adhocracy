@@ -48,11 +48,14 @@ class SelectionController(BaseController):
         except Invalid, i:
             return self.new(proposal_id, errors=i.unpack_errors())
         
-        selection = model.Selection.create(c.proposal, self.form_result.get('page'), 
+        page = self.form_result.get('page')
+        selection = model.Selection.create(c.proposal, page, 
                                            c.user)
         model.meta.Session.commit()
         # TODO implement:
         # TODO emit an event 
+        if len(page.variants) < 2:
+            return redirect(h.entity_url(page, member='%20/edit'))
         return redirect(h.entity_url(selection))
     
 

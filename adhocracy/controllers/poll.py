@@ -101,6 +101,11 @@ class PollController(BaseController):
                     (Vote.NO, Vote.NO): Vote.NO}.get((old, new), new)
         votes = decision.make(position)
         tally = model.Tally.create_from_poll(c.poll)
+        event_type = {model.Poll.RATE: event.T_RATING_CAST,
+                      model.Poll.SELECT: event.T_SELECT_VARIANT}.get(c.poll.action)
+        for vote in votes:
+            event.emit(event_type, vote.user, instance=c.instance, 
+                    topics=[c.poll.scope], vote=vote, poll=c.poll)
         model.meta.Session.commit()
         
         if format == 'json':

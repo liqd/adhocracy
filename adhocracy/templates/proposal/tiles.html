@@ -22,7 +22,7 @@
 					${_("<b>%s</b> supporters") % proposal.rate_poll.tally.score|n} &middot;
 				%endif
 				<img src="/img/icons/page_variant_16.png" /> 
-				${ungettext("%s topic", "%s topics", len(proposal.selections)) % len(proposal.selections)}
+				${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
 				&middot;
 				<img src="/img/icons/discuss_16.png" /> 
 				${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
@@ -86,7 +86,7 @@
 		%endif
 		
 		%if can.selection.create(proposal):
-			<a class="button title add ttip" title="${_('Propose to change a topic through this proposal.')}" 
+			<a class="button title add ttip" title="${_('Propose to change a norm through this proposal.')}" 
 		 	   href="${h.entity_url(proposal, member='implementation/new')}">${_("amend implementation")}</a>
 		%endif		
 				

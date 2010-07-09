@@ -120,7 +120,7 @@ class PageController(BaseController):
         if self.form_result.get("parent") is not None:
             page.parents.append(self.form_result.get("parent"))
         
-        target = page # by default, redirect to the page
+        target = h.entity_url(page) # by default, redirect to the page
         if proposal is not None and _function == model.Page.NORM:
             #variant = libtext.variant_normalize(proposal.title)
             #text = model.Text.create(page, variant, c.user, 
@@ -129,7 +129,8 @@ class PageController(BaseController):
             #                         parent=page.head)
             # if a selection was created, go there instead:
             if can.selection.create(proposal):
-                target = model.Selection.create(proposal, page, c.user)
+                selection = model.Selection.create(proposal, page, c.user)
+                target = h.entity_url(page, member='%20/edit', query={'proposal': proposal.id})
                 #poll = target.variant_poll(variant)
                 #if poll and can.poll.vote(poll):
                 #    decision = democracy.Decision(c.user, poll)
@@ -141,7 +142,7 @@ class PageController(BaseController):
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance, 
                    topics=[page], page=page, rev=page.head)
         
-        redirect(h.entity_url(target))
+        redirect(target)
 
 
     @RequireInstance
@@ -200,8 +201,7 @@ class PageController(BaseController):
                 c.page.parent = parent_page
         
         text = model.Text.create(c.page, c.variant, c.user, 
-                      self.form_result.get("title"), 
-                      self.form_result.get("text"),
+                      self.form_result.get("title"), self.form_result.get("text"),
                       parent=parent_text)
         
         target = text

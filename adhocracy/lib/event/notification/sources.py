@@ -16,7 +16,7 @@ def vote_source(event):
     """
     Notify users about their voting behaviour, especially about delegated votes.
     """
-    if event.event == T_VOTE_CAST:
+    if event.event in [T_VOTE_CAST, T_SELECT_VARIANT, T_RATING_CAST]:
         decision = democracy.Decision(event.user, event.poll)
         before = decision.without_vote(event.vote)
         if (map(lambda v: v.delegation, decision.relevant_votes) == \

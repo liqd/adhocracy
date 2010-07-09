@@ -20,9 +20,9 @@ page_table = Table('page', meta.data,
 
 class Page(Delegateable):
     
-    DOCUMENT = "document"
-    DESCRIPTION = "description"
-    NORM = "norm"
+    DOCUMENT = u"document"
+    DESCRIPTION = u"description"
+    NORM = u"norm"
     
     FUNCTIONS = [DOCUMENT, DESCRIPTION, NORM]
     PARENT_FUNCTIONS = [DOCUMENT, NORM]

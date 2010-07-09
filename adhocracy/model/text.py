@@ -25,7 +25,7 @@ text_table = Table('text', meta.data,
 
 class Text(object):
     
-    HEAD = 'HEAD'
+    HEAD = u'HEAD'
     
     def __init__(self, page, variant, user, title, text):
         self.page = page

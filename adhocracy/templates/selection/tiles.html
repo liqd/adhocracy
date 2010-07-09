@@ -7,7 +7,9 @@
 			${selection.page.title}
 			<!--/a-->
 			%if not selection.page.head.has_text:
-				${_("(new)")}
+				${_("(initiative)")}
+			%else:
+				${_("(change)")}
 			%endif
 		</h3>
 		
@@ -18,7 +20,7 @@
 				</div>
 			%elif tile.selected_text.is_head:
 				<div class="infobox">
-					${_("Status quo has the most votes, resulting in no proposed change to this topic.")}
+					${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
 				</div>
 			%else:
 				<div class="variant_header">
@@ -35,7 +37,7 @@
 				%if tile.show_new_variant_link: 
 					<a class="button add" href="${h.entity_url(selection.page, member='%20/edit')}?proposal=${c.proposal.id}">${_("new variant")}</a> 
 				%else:
-					<a class="button edit" href="${h.entity_url(selection.page)}">${_("see topic")}</a>
+					<a class="button edit" href="${h.entity_url(selection.page)}">${_("see norm")}</a>
 				%endif
 			%else:
 				<a class="button add otip" title="${_('Select a variant text to become a part of this proposal.')}" 
@@ -49,7 +51,7 @@
 			%endif
 		</div>
 		<div class="meta noclear">
-			${_("There are %s of the topic %s.") % ("<a href='%s'>%s</a>" % (h.entity_url(selection), ungettext("%s variant", "%s variants", tile.num_variants) % tile.num_variants), escape(selection.page.title))|n}
+			${_("There are %s of the norm %s.") % ("<a href='%s'>%s</a>" % (h.entity_url(selection), ungettext("%s variant", "%s variants", tile.num_variants) % tile.num_variants), escape(selection.page.title))|n}
 		</div>
 		<br/>
 	</div>
