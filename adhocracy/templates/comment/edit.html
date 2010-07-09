@@ -12,7 +12,7 @@
 <div class="sidebar">&nbsp;</div>
 <div class="mainbar">
 	%if c.comment.reply:
-		${tiles.comment.full(c.comment.reply, recurse=False, collapse=False, link_discussion=False)}
+		${tiles.comment.show(c.comment.reply, recurse=False)}
 	%endif
 	
 

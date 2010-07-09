@@ -44,7 +44,10 @@ def index_comment(entity):
             entity.latest else datetime.utcnow())
     d['create_time'] = ct
     d['tags'] = ""
-    d['instance'] = entity.topic.instance.key
+    if entity.topic:
+        d['instance'] = entity.topic.instance.key
+    else:
+        d['instance'] = None
     return d
 
 def index_delegateable(entity):
