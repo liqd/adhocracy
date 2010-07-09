@@ -186,8 +186,35 @@ class AdhocracyClient(object):
         if self.instance is None:
             raise ValueError("No instance is set")
         self.reset()
-        url = self.get_location('page', entity_id=id, variant=variant)
+        url = self.get_location('page', entity_id=id, variant=variant, format='json')
         self.open_url(url)
+        return self.last_message
+    
+    
+    def page_create(self, page):
+        if self.instance is None:
+            raise ValueError("No instance is set")
+        self.reset()
+        url = self.get_location('page', format=None)
+        self.open_url(url, method='POST', data=page)
+        return self.last_message
+    
+    
+    def page_update(self, page, variant=None):
+        if self.instance is None:
+            raise ValueError("No instance is set")
+        self.reset()
+        url = self.get_location('page', entity_id=page.get('id'), variant=variant, format=None)
+        self.open_url(url, method='PUT', data=proposal)
+        return self.last_message
+
+
+    def page_delete(self, id):
+        if self.instance is None:
+            raise ValueError("No instance is set")
+        self.reset()
+        url = self.get_location('page', entity_id=id)
+        self.open_url(url, method='DELETE')
         return self.last_message
     
     #def package_register_get(self):
