@@ -42,9 +42,15 @@ ${tiles.instance.header(c.page_instance, active='rules')}
 		<a href="/proposal" class="button edit otip" title="${_('show a list of proposals')}">${_("more proposals")}</a>
 	</div>
 	<br/>
-	<h3 class="section">${_("Current Proposals")}</h3>
-	<div id="proposals_table" class="table">
-		${c.proposals_pager.here()}
+	<h3 class="section">${_("Popular Proposals")}</h3>
+	<div id="top_proposals_table" class="table">
+		${c.top_proposals_pager.here()}
+	</div>
+	´
+	<br/>
+	<h3 class="section">${_("Newest Proposals")}</h3>
+	<div id="new_proposals_table" class="table">
+		${c.new_proposals_pager.here()}
 	</div>
 </div>
 

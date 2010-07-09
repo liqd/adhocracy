@@ -30,7 +30,10 @@ instance_table = Table('instance', meta.data,
     Column('allow_delegate', Boolean, default=True),
     Column('allow_index', Boolean, default=True),
     Column('hidden', Boolean, default=False),
-    Column('locale', Unicode(7), nullable=True)  
+    Column('locale', Unicode(7), nullable=True),
+    Column('css', UnicodeText(), nullable=True),
+    Column('main_page_id', Integer, ForeignKey('page.id'), nullable=True),
+    Column('norm_page_id', Integer, ForeignKey('page.id'), nullable=True)
     )
 
 
@@ -205,9 +208,10 @@ class Instance(object):
         membership = Membership(user, instance, supervisor_group, 
                                 approved=True)
         meta.Session.add(membership)
+        main_page = Page.create(instance, u"Main Page", 
+                                u"", user)
+        instance.main_page = page
         meta.Session.flush()
-        page = Page.create(instance, u"Main Page", 
-                           u"", user)
         return instance
     
     

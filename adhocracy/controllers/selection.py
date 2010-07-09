@@ -54,6 +54,7 @@ class SelectionController(BaseController):
         model.meta.Session.commit()
         # TODO implement:
         # TODO emit an event 
+        
         if len(page.variants) < 2:
             return redirect(h.entity_url(page, member='%20/edit'))
         return redirect(h.entity_url(selection))

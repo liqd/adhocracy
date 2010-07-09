@@ -31,6 +31,8 @@ class InstanceEditForm(formencode.Schema):
     required_majority = validators.Number(not_empty=True)
     default_group = forms.ValidGroup(not_empty=True)
     locale = validators.String(not_empty=False)
+    main_page = forms.ValidPage(if_empty=None, not_empty=False)
+    norm_page = forms.ValidPage(if_empty=None, not_empty=False)
 
 class InstanceController(BaseController):
     
@@ -83,9 +85,11 @@ class InstanceController(BaseController):
         
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         proposals = model.Proposal.all(instance=c.page_instance)
-        c.proposals_pager = pager.proposals(proposals, size=3, enable_sorts=False, 
-                                            enable_pages=False)
-        tags = model.Tag.popular_tags(limit=70)
+        c.top_proposals_pager = pager.proposals(proposals, size=3, enable_sorts=False, 
+                                        enable_pages=False, default_sort=sorting.proposal_support)
+        c.new_proposals_pager = pager.proposals(proposals, size=3, enable_sorts=False, 
+                                        enable_pages=False, default_sort=sorting.entity_newest)
+        tags = model.Tag.popular_tags(limit=40)
         c.tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
         return render("/instance/show.html")
     
@@ -118,6 +122,8 @@ class InstanceController(BaseController):
         
         c._Group = model.Group
         c.locales = i18n.LOCALES
+        c.root_norms = model.Page.all_roots(model.Page.NORM)
+        c.root_pages = model.Page.all_roots(model.Page.DOCUMENT)
         default_group = c.page_instance.default_group.code if \
                         c.page_instance.default_group else \
                         model.Group.INSTANCE_DEFAULT
@@ -126,6 +132,9 @@ class InstanceController(BaseController):
                                     '_method': 'PUT',
                                     'label': c.page_instance.label,
                                     'description': c.page_instance.description,
+                                    'css': c.page_instance.css,
+                                    'main_page': c.page_instance.main_page.id if c.page_instance.main_page else None,
+                                    'norm_page': c.page_instance.norm_page.id if c.page_instance.norm_page else None,
                                     'required_majority': c.page_instance.required_majority,
                                     'activation_delay': c.page_instance.activation_delay,
                                     'allow_adopt': c.page_instance.allow_adopt,
@@ -152,6 +161,9 @@ class InstanceController(BaseController):
         c.page_instance.allow_delegate = self.form_result.get('allow_delegate')
         c.page_instance.allow_index = self.form_result.get('allow_index')
         c.page_instance.hidden = self.form_result.get('hidden')
+        c.page_instance.main_page = self.form_result.get('main_page')
+        c.page_instance.norm_page = self.form_result.get('norm_page')
+        c.page_instance.css = self.form_result.get('css')
         
         locale = Locale(self.form_result.get("locale"))
         if locale and locale in i18n.LOCALES:
@@ -181,6 +193,15 @@ class InstanceController(BaseController):
             (x, y) = (24, 24)
         (path, io) = logo.load(c.page_instance, size=(x, y))
         return render_png(io, os.path.getmtime(path))
+    
+    
+    @RequireInstance
+    def style(self, id):
+        c.page_instance = self._get_current_instance(id)
+        response.content_type = 'text/css'
+        if c.page_instance.css:
+            return c.page_instance.css
+        return ''
     
     
     @RequireInstance

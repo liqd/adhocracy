@@ -28,10 +28,13 @@ def score_and_freshness_sorter(max_age):
         return (freshness * poll.tally.score, time)
     return _with_age
                                 
-def proposal_support(entities):
+def proposal_mixed(entities):
     max_age = 3600 * 36 # 2 days
     p_key = lambda p: score_and_freshness_sorter(max_age)(p.rate_poll, p.create_time)
     return sorted(entities, key=p_key, reverse=True)
+    
+def proposal_support(entities):
+    return sorted(entities, key=lambda p: p.rate_poll.tally.score, reverse=True)
     
 def comment_order(comments):
     max_age = 84600 / 2 # 0.5 days

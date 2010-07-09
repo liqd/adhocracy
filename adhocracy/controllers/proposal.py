@@ -55,7 +55,7 @@ class ProposalController(BaseController):
         if format == 'json':
             return render_json(c.proposals_pager)
         
-        tags = model.Tag.popular_tags(limit=50)
+        tags = model.Tag.popular_tags(limit=30)
         c.cloud_tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
         
         c.tile = tiles.instance.InstanceTile(c.instance)

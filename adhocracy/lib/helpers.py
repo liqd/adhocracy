@@ -103,7 +103,7 @@ def page_icon(page, size=16):
         return path % ("", size)
 
 
-def page_link(page, create=False, link=True, icon=True, icon_size=16):
+def page_link(page, variant=model.Text.HEAD, create=False, link=True, icon=True, icon_size=16):
     text = ""
     if icon and not create:
         text += "<img class='dgb_icon' src='%s' /> " % page_icon(page, size=icon_size)
@@ -119,8 +119,11 @@ def page_link(page, create=False, link=True, icon=True, icon_size=16):
         url = "/page/new?title=%s" % url
         return text % ('new', url, cgi.escape(page))
     else:
-        return text % ('exists', entity_url(page), 
-                       cgi.escape(page.title))
+        _text = page.variant_head(variant)
+        title = cgi.escape(page.title)
+        if variant != model.Text.HEAD:
+            title = "%s <code>(%s)</code>" % (title, variant)
+        return text % ('exists', entity_url(_text), title)
 
 
 def proposal_link(proposal, icon=True, icon_size=16, link=True):

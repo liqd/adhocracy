@@ -24,6 +24,11 @@
 		href="${h.instance_url(None, path='/style/base.css')}" />
 	<link  rel="stylesheet" type="text/css" 
 		href="${h.instance_url(None, path='/style/site.css')}"/>
+	%if c.instance and c.instance.css:
+		<link  rel="stylesheet" type="text/css" 
+			href="${h.instance_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
+	%endif
+		
 	<link media="only screen and (max-device-width: 1024px)" type="text/css" rel="stylesheet"
 		href="${h.instance_url(None, path='/style/ipad.css')}" />
 	<link media="only screen and (max-device-width: 480px)" type="text/css" rel="stylesheet" 

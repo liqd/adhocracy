@@ -52,11 +52,6 @@
 	</div>
 	
 	<div style="clear:both;"></div>
-	<div class="top_actions" style="margin-top: 0.6em;">
-		%if c.page_user == c.user and not c.page_user.twitter:
-			<a href="/twitter/init?${h.url_token()}"><img src="/img/twitter_signin.png" alt="${_("get twitter notifications")}" /></a>
-		%endif
-	</div>
 	<h3>${_("Notifications")}</h3>
 	<div class="sidebar">
 		<div class="infobox">
@@ -109,13 +104,20 @@
 					${"checked='checked'" if c.page_user.twitter.priority==1 else ""} /></td>
 			</tr>
 			%endif
+		
+		
+		%if c.page_user == c.user and not c.page_user.twitter:
+		<tr>
+			<td colspan="5">
+				<a href="/twitter/init?${h.url_token()}"><img src="/img/twitter_signin.png" alt="${_("get twitter notifications")}" /></a>
+			</td>
+		</tr>
+		%endif
+			
 		</table>
 	</div>
 	
 	<div style="clear:both;"></div>
-	<div class="top_actions">
-		<a class="button add" href="/openid/connect">${_("new")}</a>
-	</div>
 	<h3><img src="/img/icons/openid_20.png" class="cd" /> ${_("OpenID")}</h3>
 	<div class="sidebar">
 		<div class="infobox">
@@ -138,6 +140,8 @@
 			%endfor
 		</table>
 		%endif 
+		<br/>
+		<a class="button add" href="/openid/connect">${_("new")}</a>
 	</div>
 	
 	<div style="clear:both;"></div>

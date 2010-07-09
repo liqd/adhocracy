@@ -97,6 +97,15 @@ class Page(Delegateable):
     def all(cls, **kwargs): 
         return cls._all_query(**kwargs).all()
         
+    @classmethod  
+    def all_roots(cls, function):
+        q = meta.Session.query(Page)
+        q = q.filter(or_(Page.delete_time==None,
+                         Page.delete_time>datetime.utcnow()))
+        q = q.filter(Page.function==function)
+        if ifilter.has_instance():
+            q = q.filter(Page.instance==ifilter.get_instance())
+        return q.all()
     
     @classmethod 
     def count(cls, **kwargs):

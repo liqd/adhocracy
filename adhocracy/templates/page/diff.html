@@ -49,18 +49,21 @@ ${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right, variant=c
 	
 	%if c.right.page.function == c.right.page.NORM:
 		<br/>
-		<h3 class="section"><img class="cd" src="/img/icons/proposal_16.png"/> ${_("Supporting Proposals")}</h3>
-		%if not len(c.right.page.supporting_selections(c.variant)):
-			<div class="infobox">
-			${_("No proposals support this variant")}
-			</div>
-		%endif
+		<h3 class="section"><img class="cd" src="/img/icons/proposal_16.png"/> ${_("Related Proposals")}</h3>
+		<%
+		supporting = c.right.page.supporting_selections(c.variant)
+		%>
 		<ul>
-			%for selection in c.right.page.supporting_selections(c.variant):
-				<li>${h.proposal_link(selection.proposal)|n}</li>
-			%endfor
-			<li><a href="/proposal/new">${_("Create a new proposal...")}</a></li>
-		</ul>
+		%for selection in c.right.page.selections:
+			<li>
+				${h.proposal_link(selection.proposal)|n}
+				%if selection in supporting:
+					${_("(supports this variant)")}
+				%endif
+			</li>
+		%endfor
+		<li><a href="/proposal/new">${_("Create a new proposal...")}</a></li>
+		</ul>	
 	%endif
 </div>
 

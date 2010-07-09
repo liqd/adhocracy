@@ -113,14 +113,17 @@ def instances(instances):
                       default_sort=sorting.instance_activity)
 
   
-def proposals(proposals, **kwargs):
-    sorts = {_("oldest"): sorting.entity_oldest,
-             #_("newest"): sorting.entity_newest,
+def proposals(proposals, default_sort=None, **kwargs):
+    if default_sort is None: 
+        default_sort = sorting.proposal_mixed
+    sorts = {#_("oldest"): sorting.entity_oldest,
+             _("newest"): sorting.entity_newest,
              _("newest comment"): sorting.delegateable_latest_comment,
              _("support"): sorting.proposal_support,
+             _("mixed"): sorting.proposal_mixed,
               _("alphabetically"): sorting.delegateable_label}
     return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
-                      default_sort=sorting.proposal_support, **kwargs)
+                      default_sort=default_sort, **kwargs)
 
 
 def pages(pages, detail=True):

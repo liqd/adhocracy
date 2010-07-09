@@ -161,6 +161,7 @@ def make_map():
                                                  'filter': 'GET',
                                                  'ask_leave': 'GET',
                                                  'ask_delete': 'GET',
+                                                 'style': 'GET',
                                                  'activity': 'GET'})
     
     map.connect('/static/{page_name}.{format}', controller='static', action='serve')

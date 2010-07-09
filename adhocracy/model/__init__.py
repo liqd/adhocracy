@@ -140,6 +140,10 @@ mapper(Vote, vote_table, properties={
 mapper(Instance, instance_table, properties={
     'creator': relation(User, primaryjoin=instance_table.c.creator_id==user_table.c.id, 
                         backref=backref('created_instances')),
+    'norm_page': relation(Page, primaryjoin=instance_table.c.norm_page_id==page_table.c.id, 
+                        uselist=False, lazy=True),
+    'main_page': relation(Page, primaryjoin=instance_table.c.main_page_id==page_table.c.id, 
+                        uselist=False, lazy=True),
     'locale': synonym('_locale', map_column=True),
     'default_group': relation(Group, lazy=True)
     }, extension=meta.extension)

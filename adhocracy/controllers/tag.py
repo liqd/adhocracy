@@ -20,6 +20,9 @@ class TaggingDeleteForm(formencode.Schema):
     allow_extra_fields = True
     tagging = forms.ValidTagging()
 
+class TaggingCompleteForm(formencode.Schema):
+    allow_extra_fields = True
+    q = validators.String(max=10000, not_empty=False, if_empty=u'', if_missing=u'')
 
 class TagController(BaseController):
     
@@ -85,10 +88,11 @@ class TagController(BaseController):
         redirect(h.entity_url(tagging.delegateable, format=format))
       
     
-    @RequireInstance  
+    @RequireInstance 
+    @validate(schema=TaggingCompleteForm(), form="bad_request", post_only=False, on_get=True) 
     def autocomplete(self):
         require.tag.index()
-        prefix = unicode(request.params.get('q', ''))
+        prefix = self.form_result.get('q')
         (base, prefix) = text.tag_split_last(prefix)
         results = []
         for (tag, freq) in model.Tag.complete(prefix, 10):
@@ -96,3 +100,4 @@ class TagController(BaseController):
             full = base + tag.name + ", "
             results.append(dict(display=display, tag=full))
         return render_json(results)
+

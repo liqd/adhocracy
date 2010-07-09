@@ -80,7 +80,7 @@ def page_sub(match):
     if page is not None:
         if page.is_deleted():
             return page_name
-        return h.page_link(page, icon=not (page.function == page.DOCUMENT))
+        return h.page_link(page, variant=variant, icon=not (page.function == page.DOCUMENT))
     else:
         from adhocracy.forms import FORBIDDEN_NAMES
         return h.page_link(page_name, create=True)
