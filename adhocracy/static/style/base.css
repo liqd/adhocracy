@@ -708,7 +708,8 @@ del, del * {
 
 .double.righthalf del, 
 .double.righthalf del * {
-	visibility: hidden;
+	/*visibility: hidden;*/
+	display: none;
 	border-bottom: 0px;
 	list-style-type: none;
 }
@@ -721,7 +722,8 @@ del, del * {
 
 .double.lefthalf ins,
 .double.lefthalf ins * {	
-	visibility: hidden;
+	/*visibility: hidden;*/
+	display: none;
 	border-bottom: 0px;
 	list-style-type: none;
 }

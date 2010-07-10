@@ -33,7 +33,8 @@ setup(
         "python-memcached>=1.45",
         "Whoosh>=0.3.9",
         "PIL>=1.1.6",
-        "markdown2>=1.0.1"
+        "markdown2>=1.0.1",
+        "lxml>=2.2.6"
     ],
     # REFACT: could/should these become regular dependencies?
     setup_requires=["PasteScript>=1.6.3", "setuptools>=0.6c6"], # fix OS X 10.5.7

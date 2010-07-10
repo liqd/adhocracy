@@ -6,7 +6,7 @@ from BeautifulSoup import BeautifulSoup, NavigableString
 import markdown2 as markdown
 
 import adhocracy.model as model
-from compare import compare_html as html_diff
+from lxml_compare import compare_html as html_diff
 from tag import tag_normalize, tag_split, tag_cloud_normalize, tag_split_last
 from normalize import *
 
