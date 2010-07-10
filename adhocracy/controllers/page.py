@@ -144,7 +144,7 @@ class PageController(BaseController):
         if (c.variant or not len(c.variant.strip())) and c.proposal:
             proposal = model.Proposal.find(c.proposal)
             if proposal:
-                c.variant = libtext.title2alias(proposal.title)[:199]
+                c.variant = libtext.variant_normalize(proposal.title)[:199]
         defaults = dict(request.params)
         
         require.page.variant_edit(c.page, c.variant)    
