@@ -2,7 +2,6 @@ from pylons import response, tmpl_context as c
 
 from .. import helpers as h
 from .. import pager
-from .. import text
 import formatting
 
 
@@ -12,22 +11,16 @@ def rss_feed(events, name, link, description):
         rss = Feed(name, link.encode('utf-8'), 
                                  description)
         def event_item(event):
-            description = event.text()
-            if description is None:
-                description = unicode(u"%s %s" % (h.user_link(event.user), 
-                                      formatting.as_html(event)))
-            else: 
-                description = text.render(description)
-            item_link = link
             try:
                 item_link = event.event.link_path(event)
             except:
-                pass
+                item_link = link
+            
             rss.add_item(title=u"%s %s" % (event.user.name, 
                          formatting.as_unicode(event)),
-                         link=item_link.encode('utf-8'),
+                         link=item_link,
                          pubdate=event.time,
-                         description=description,
+                         description=event.text(),
                          author_name=event.user.name,
                          unique_id=unicode(event.id))
         

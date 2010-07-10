@@ -92,10 +92,18 @@ def tag_link(tag, count=None, size=None, base_size=12, plain=False):
     return text
 
 
-@cache.memoize('page_icon')
 def page_icon(page, size=16):
+    return text_icon(page.head, page, size=size)
+    
+
+@cache.memoize('text_icon')        
+def text_icon(text, page=None, size=16):
+    if page is None:
+        page = page
     path = "/img/icons/page%s_%s.png"
     if page.function == page.NORM: 
+        if text.variant != text.HEAD:
+            return path % ("_variant", size)
         return path % ("_norm", size)
     elif page.function == page.DESCRIPTION:
         return proposal_icon(page.proposal, size=size)
@@ -105,8 +113,9 @@ def page_icon(page, size=16):
 
 def page_link(page, variant=model.Text.HEAD, create=False, link=True, icon=True, icon_size=16):
     text = ""
+    _text = page.variant_head(variant)
     if icon and not create:
-        text += "<img class='dgb_icon' src='%s' /> " % page_icon(page, size=icon_size)
+        text += "<img class='dgb_icon' src='%s' /> " % text_icon(_text, page, size=icon_size)
     if not create and page.is_deleted():
         link = False
     if not link:
@@ -119,7 +128,6 @@ def page_link(page, variant=model.Text.HEAD, create=False, link=True, icon=True,
         url = "/page/new?title=%s" % url
         return text % ('new', url, cgi.escape(page))
     else:
-        _text = page.variant_head(variant)
         title = cgi.escape(page.title)
         if variant != model.Text.HEAD:
             title = "%s <code>(%s)</code>" % (title, variant)

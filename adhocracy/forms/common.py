@@ -210,6 +210,18 @@ class UnusedTitle(formencode.validators.String):
         page = Page.find_fuzzy(value)
         if hasattr(state, 'page') and state.page == page:
             return value
+        
         if page is not None: 
             raise formencode.Invalid(_("An entry with this title already exists"), value, state)
-        return value
+        
+        if not value or len(value) < 2: 
+            raise formencode.Invalid(_("No page name is given."), value, state)
+
+        if value.lower() in FORBIDDEN_NAMES: 
+            raise formencode.Invalid(_("Invalid page name: %s") % value, value, state)
+        
+        try:
+            __ = int(value)
+            raise formencode.Invalid(_("Variant name cannot be purely numeric: %s") % value, value, state)
+        except:
+            return value

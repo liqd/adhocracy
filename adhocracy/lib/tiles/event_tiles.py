@@ -3,7 +3,7 @@ from util import render_tile
 from pylons import tmpl_context as c
 from webhelpers.text import truncate
 from ..event import formatting 
-from ..text import meta_escape
+from ..text import plain_html
 
 class EventTile():
     
@@ -13,11 +13,9 @@ class EventTile():
         
     def _get_text(self):
         if self._text is None:
-           self._text = self.event.text()
-           if self._text is not None:
-               self._text = meta_escape(self._text)
-               self._text = truncate(self._text, length=160, 
-                                     indicator="...", whole_word=True)
+            text = plain_html(self.event.text())
+            self._text = truncate(text, length=160, 
+                                  indicator="...", whole_word=True)
         return self._text
     
     text = property(_get_text)

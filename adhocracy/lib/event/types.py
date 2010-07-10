@@ -1,5 +1,7 @@
 from pylons.i18n import _
 from .. import helpers as h
+from .. import text
+import formatting
 
 no_text = lambda e: None
 
@@ -11,7 +13,7 @@ class NotificationType(object):
         self.link_path = link_path
         self.text = text
         self.notify_self = notify_self
-        
+    
     def __str__(self):
         return self.code
     

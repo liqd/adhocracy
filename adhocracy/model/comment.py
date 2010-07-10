@@ -100,8 +100,8 @@ class Comment(object):
         poll = Poll.create(topic, user, Poll.RATE, comment,
                            with_vote=with_vote)
         comment.poll = poll
-        comment.create_revision(text, user, sentiment=sentiment, 
-                                create_time=comment.create_time)
+        comment.latest = comment.create_revision(text, user, sentiment=sentiment, 
+                                                 create_time=comment.create_time)
         return comment
     
     

@@ -129,16 +129,20 @@ class Event(object):
         
     
     def text(self):
+        text = None
         try:
-            if not self.event:
-                return None
-            text = self.event.text(self)
-            if (not text) or (not len(text.strip())):
-                return None
-            return text
+            if self.event:
+                from adhocracy.lib.text import render
+                text = self.event.text(self)
+                text = render(text)
         except AttributeError, ae:
-            log.exception("Creating event text")
-            return None
+            log.exception("Creating event text", ae)
+        if text is None or not len(text):
+            from adhocracy.lib.event import formatting
+            from adhocracy.lib import helpers as h
+            text = u"%s %s" % (h.user_link(self.user), 
+                               formatting.as_html(self))
+        return text
             
             
     def link(self):

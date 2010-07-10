@@ -33,13 +33,16 @@ def meta_escape(text, markdown=True):
     text = text.strip()
     return text
 
-def plain(html):
+def plain_html(html):
     try:
-        soup = BeautifulSoup(render(html, substitutions=False))
+        soup = BeautifulSoup(html)
         return u"".join(map(unicode, soup.findChildren(text=True)))
     except Exception, e:
         log.exception(e)
         return html
+    
+def plain(html):
+    return plain_html(render(html, substitutions=False))
 
 def cleanup(text):
     return text
