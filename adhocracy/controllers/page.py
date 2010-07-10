@@ -122,20 +122,10 @@ class PageController(BaseController):
         
         target = h.entity_url(page) # by default, redirect to the page
         if proposal is not None and _function == model.Page.NORM:
-            #variant = libtext.variant_normalize(proposal.title)
-            #text = model.Text.create(page, variant, c.user, 
-            #                         self.form_result.get("title"), 
-            #                         self.form_result.get("text"),
-            #                         parent=page.head)
             # if a selection was created, go there instead:
             if can.selection.create(proposal):
                 selection = model.Selection.create(proposal, page, c.user)
                 target = h.entity_url(page, member='%20/edit', query={'proposal': proposal.id})
-                #poll = target.variant_poll(variant)
-                #if poll and can.poll.vote(poll):
-                #    decision = democracy.Decision(c.user, poll)
-                #    decision.make(model.Vote.YES)
-                #    model.Tally.create_from_poll(poll)
         
         model.meta.Session.commit()
         watchlist.check_watch(page)
@@ -151,6 +141,10 @@ class PageController(BaseController):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         c.variant = request.params.get("variant", c.variant)
         c.proposal = request.params.get("proposal")
+        if (c.variant or not len(c.variant.strip())) and c.proposal:
+            proposal = model.Proposal.find(c.proposal)
+            if proposal:
+                c.variant = libtext.title2alias(proposal.title)[:199]
         defaults = dict(request.params)
         
         require.page.variant_edit(c.page, c.variant)    
