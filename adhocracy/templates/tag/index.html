@@ -10,13 +10,15 @@
 
 <div class="sidebar">
 	<div class="infobox">${_("Tags are keywords used to find, sort and filter proposals and documents.")}</div>
-	<h3 class="help">${_("Help")}</h3>
-	<ul>
-		<li>${h.help_link(_("What is a tag?"), 'tag_faq', anchor='whatis')|n}</li>
-		<li>${h.help_link(_("What is a tag cloud?"), 'tag_faq', anchor='cloud')|n}</li>
-		<li>${h.help_link(_("How can tags be added to proposals and pages?"), 'tag_faq', anchor='howto')|n}</li>
-		<li>${h.help_link(_("More help..."), 'tag_faq')|n}</li>
-	</ul>
+	<div class="help">
+		<h3>${_("Help")}</h3>
+		<ul>
+			<li>${h.help_link(_("What is a tag?"), 'tag_faq', anchor='whatis')|n}</li>
+			<li>${h.help_link(_("What is a tag cloud?"), 'tag_faq', anchor='cloud')|n}</li>
+			<li>${h.help_link(_("How can tags be added to proposals and pages?"), 'tag_faq', anchor='howto')|n}</li>
+			<li>${h.help_link(_("More help..."), 'tag_faq')|n}</li>
+		</ul>
+	</div>
 </div>
 
 <div class="mainbar">

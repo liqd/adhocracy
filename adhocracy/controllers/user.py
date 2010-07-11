@@ -37,6 +37,8 @@ class UserUpdateForm(formencode.Schema):
     chained_validators = [validators.FieldsMatch(
         'password', 'password_confirm')]
     bio = validators.String(max=1000, min=0, not_empty=False)
+    no_help = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
+    page_size =  validators.Int(min=1, max=100, not_empty=False, if_empty=10, if_missing=10)
     email_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=3)
     twitter_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=3)
 
@@ -140,6 +142,8 @@ class UserController(BaseController):
         if self.form_result.get("password"):
             c.page_user.password = self.form_result.get("password")
         c.page_user.display_name = self.form_result.get("display_name")
+        c.page_user.page_size = self.form_result.get("page_size")
+        c.page_user.no_help = self.form_result.get("no_help")
         c.page_user.bio = text.cleanup(self.form_result.get("bio"))
         email = self.form_result.get("email").lower()
         email_changed = email != c.page_user.email

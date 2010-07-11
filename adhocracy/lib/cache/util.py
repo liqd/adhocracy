@@ -14,11 +14,13 @@ cacheTags = {}
 
 def add_tags(key, tags):
     ctags = app_globals.cache.get_multi(tags)
+    if not isinstance(ctags, type([])):
+        ctags = {}
     for tag in tags:
         if not ctags.get(tag):
-            ctags[tag] = key
+            ctags[tag] = str(key)
         else: 
-            ctags[tag] += SEP + key
+            ctags[tag] += SEP + str(key)
     app_globals.cache.set_multi(ctags)
     
 def tag_fn(key, a, kw):

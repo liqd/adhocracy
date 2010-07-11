@@ -84,7 +84,9 @@
 				%if field is not None:
 					<label for="variant" class="armhint">${_("Variant Name")}</label>
 					<input class="armlabel" name="variant" maxlength="75" value="${field}"/>
-					&middot; ${h.help_link(_("help"), 'selection_faq', anchor='whatisvariant')|n}
+					<div class="help">
+						&middot; ${h.help_link(_("help"), 'selection_faq', anchor='whatisvariant')|n}
+					</div>
 				%else:
 					<b><a href="${h.entity_url(this)|n}">
 					%if this.variant == c.model.Text.HEAD:

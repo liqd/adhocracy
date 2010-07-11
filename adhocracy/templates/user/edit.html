@@ -157,6 +157,33 @@
 		${components.formatting()}
 	</div>
 	
+	<div style="clear: both;"></div>
+	<h3>${_("Advanced Settings")}</h3>
+	
+	<div class="sidebar">
+		<div class="infobox">
+			${_("The pre-set number of entries in listing pages.")}
+		</div>
+	</div>
+	<div class="mainbar">
+		<label for="page_size">${_("List size:")}</label>
+		<select name="page_size">
+			%for n in [10, 20, 30, 40, 50]:
+				<option value="${n}" ${"selected='selected'" if n == c.page_user.page_size else ''}>${n}</option>
+			%endfor
+		</select>
+	</div>
+	<div style="clear: both;"></div>
+	<div class="sidebar">
+		<div class="infobox">
+			${_("Disable help messages and links to the documentation.")}
+		</div>
+	</div>
+	<div class="mainbar">
+		<label for="page_size">${_("Hide help messages:")}</label>
+		<input type="checkbox" name="no_help" value="true" ${'checked="checked"' if c.page_user.no_help else ''} />
+	</div>
+	
 	<div style="clear:both;"></div>
 	${components.savebox("/user/%s" % c.page_user.user_name)}
 	

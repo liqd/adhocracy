@@ -7,7 +7,7 @@ import urllib, hashlib, cgi
 from url import instance_url, entity_url
 import webhelpers.text as text
 
-SEP = " &raquo; "
+SEP = u" &raquo; "
 
 @cache.memoize('delegateable_breadcrumbs')
 def breadcrumbs(entity):    
@@ -31,7 +31,8 @@ def _link_entity(title, entity):
     return _link(title, entity_url(entity))
 
 def _link(title, href):
-    return "<a href='%s'>%s</a>" % (href, cgi.escape(text.truncate(title, length=40, whole_word=True)))
+    title = cgi.escape(text.truncate(title, length=40, whole_word=True))
+    return u"<a href='%s'>%s</a>" % (href, title)
     
 def _instance(instance):
     if not instance: 
@@ -58,18 +59,18 @@ def _page(page):
         bc += _page(page.parent) + SEP
     else: 
         bc += _instance(page.instance) + SEP
-        bc += _link(_("Documents"), '/page') + SEP
+        bc += _link(_("Documents"), u'/page') + SEP
     bc += _link_entity(page.title, page)
     return bc
     
 def _proposal(proposal):
     bc = _instance(proposal.instance) + SEP
-    bc += _link(_("Proposals"), '/proposal') + SEP
+    bc += _link(_("Proposals"), u'/proposal') + SEP
     bc += _link_entity(proposal.label, proposal)
     return bc
     
 def _user(user):
     bc = _instance(c.instance) + SEP
-    bc += _link(_("Users"), '/user') + SEP
+    bc += _link(_("Users"), u'/user') + SEP
     bc += _link_entity(user.name, user)
     return bc

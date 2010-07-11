@@ -1,8 +1,5 @@
 $(document).ready(function() {
-	
-	jQuery(document).ready(function() {
-		  jQuery('abbr.timeago').timeago();
-	});
+	$('.ts').timeago();
 	
 	$('.ttip[title]').qtip({ 
 	    style: {
@@ -43,6 +40,7 @@ $(document).ready(function() {
         show: {
             delay: 400,
         }});
+    
         
     $(".hidejs").hide();
     $(".showjs").show();
@@ -319,4 +317,11 @@ $(document).ready(function() {
     }
     
     fixIE7Rendering(); 
+    
+    /* jQuery UI stuff */
+    $("#accordion").accordion({ autoHeight: false });
+    
+    $(".tabs").tabs({
+    	
+    });
 });

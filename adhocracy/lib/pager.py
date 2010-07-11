@@ -27,6 +27,8 @@ class NamedPager(object):
         self._items = items
         self.itemfunc = itemfunc
         self.size = self.initial_size = size
+        if c.user and c.user.page_size:
+            self.size = c.user.page_size
         self.sorts = sorts
         if len(sorts.values()):
             self.selected_sort = sorts.values().index(default_sort) + 1

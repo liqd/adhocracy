@@ -49,7 +49,7 @@
 				%endif
 				%if c.instance:
 					<a class="ttip" title="${_('Items you are watching')}" 
-						 href="${h.entity_url(c.user, member='watchlist')}">${_("Watchlist")}</a></li>
+						 href="${h.entity_url(c.user, member='watchlist')}">${_("Watchlist")}</a>
 				%endif
 				<a class="ttip" title="${_('Settings such as language, passwords, etc.')}" 
 				   href="${h.entity_url(c.user, member='edit')}">${_("Settings")}</a>
@@ -61,16 +61,18 @@
 			%endif
 		</div>
 		<div id="navigation">
-		<a href="${h.instance_url(None)}">
-			<img src="/img/header_link.png" alt="${h.site_name()}"/>
-		</a> 
-		<a class="ttip" title="${_('All instances')}" 
-		   href="${h.instance_url(None, path='/instance')}">${_("Instances")}</a>
-		%if h.has_permission("global.admin"):
-			<a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
-			<a href="/event/all">${_("Events")}</a>
-		%endif
-		<a href="${h.instance_url(None, path='/static/help.html')}">${_("Help")}</a>
+			<a href="${h.instance_url(None)}">
+				<img src="/img/header_link.png" alt="${h.site_name()}"/>
+			</a> 
+			<a class="ttip" title="${_('All instances')}" 
+			   href="${h.instance_url(None, path='/instance')}">${_("Instances")}</a>
+			%if h.has_permission("global.admin"):
+				<a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
+				<a href="/event/all">${_("Events")}</a>
+			%endif
+			<div class="help">
+				<a href="${h.instance_url(None, path='/static/help.html')}">${_("Help")}</a>
+			</div>
 		</div>
 	</div></div>
 	

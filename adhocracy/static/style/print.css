@@ -1,10 +1,12 @@
 
-#header, 
+#globalheader,
+#instanceheader, 
 #footer, 
 .button,
 .top_actions,
 .panel .menu,
 .live_search,
+.comment_form,
 #uservoice-feedback {
 	display: none;
 	visibility: hidden;

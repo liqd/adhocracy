@@ -30,7 +30,7 @@ a:hover {
 	text-decoration: underline;
 }
 
-abbr {
+time {
 	border-bottom: none;
 }
 
@@ -86,7 +86,7 @@ h3.section {
 	margin-top: 0px;
 }
 
-h3.help, h3.section {
+.help h3, h3.section {
 	border-bottom: 0px;
 }
 
@@ -462,9 +462,16 @@ body {
 
 #instanceheader {
 	margin-top: -10px;
-	background-image: url(/img/hdr_bg.png);
+	background: #eee;
+	background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#d0d0d0));
+	background: -moz-linear-gradient(top,  #eee,  #d0d0d0);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee', endColorstr='#d0d0d0');
+	box-shadow: 0px 5px 10px #eee;
+	-webkit-box-shadow: 0px 5px 10px #eee;
+	-moz-box-shadow: 0px 5px 10px #eee;
+	/*background-image: url(/img/hdr_bg.png);
 	background-repeat: repeat-x;
-	background-position: bottom;
+	background-position: bottom;*/
 }
 
 #instanceheader .headerbox,
@@ -662,6 +669,11 @@ body {
 	margin-top: 1em;
 	margin-bottom: 1em;
 	font-weight: bold;
+}
+
+.help {
+	display: inline;
+	
 }
 
 /* @end */
@@ -1143,6 +1155,10 @@ a.button {
 	margin-right: 4px !important;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
+	
+	box-shadow: 2px 2px 4px #ddd;
+	-webkit-box-shadow: 2px 2px 4px #ddd;
+	-moz-box-shadow: 2px 2px 4px #ddd;
 	/*
 	-webkit-border-top-left-radius: 0px;
 	-webkit-border-bottom-right-radius: 0px;

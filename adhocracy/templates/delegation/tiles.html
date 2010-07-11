@@ -41,7 +41,9 @@
 				<div class="infobox">
 					${_("You have not delegated voting.")} 
 					<a href="/delegation/new?scope=${delegateable.id}">${_("delegate")}</a>
-					&middot; ${h.help_link(_("help"), 'delegation_faq')|n}
+					<div class="help">
+						&middot; ${h.help_link(_("help"), 'delegation_faq')|n}
+					</div>
 				</div>
 			%else:
 				<p>${_("You have delegated voting to:")}</p>

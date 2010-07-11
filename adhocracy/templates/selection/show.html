@@ -13,17 +13,19 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 	${tiles.delegation.sidebar(c.selection.page, tiles.page.PageTile(c.selection.page))}
 	<br/>
 	
-	<h3 class="help">${_("Help")}</h3>
-	<div class="infobox">
-		${_("Select which text variant of the norm should be included in this proposal.")}
+	<div class="help">
+		<h3>${_("Help")}</h3>
+		<div class="infobox">
+			${_("Select which text variant of the norm should be included in this proposal.")}
+		</div>
+		<ul>
+			<li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
+			<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
+			<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
+			<li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
+			<li>${h.help_link(_("More help..."), 'selection_faq')|n}</li>
+		</ul>
 	</div>
-	<ul>
-		<li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
-		<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
-		<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
-		<li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
-		<li>${h.help_link(_("More help..."), 'selection_faq')|n}</li>
-	</ul>
 </div>
 
 <div class="mainbar">	

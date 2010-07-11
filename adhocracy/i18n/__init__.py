@@ -78,7 +78,7 @@ def format_date(dt):
 
 def relative_time(dt):
     """ A short statement giving the time distance since ``dt``. """
-    fmt = "<abbr class='timeago' title='%(iso)sZ'>%(formatted)s</abbr>"
+    fmt = "<time class='ts' datetime='%(iso)sZ'>%(formatted)s</time>"
     return fmt % dict(iso=dt.isoformat(), 
                       formatted=format_date(dt))
 

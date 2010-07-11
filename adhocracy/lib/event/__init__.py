@@ -8,7 +8,7 @@ import formatting
 from rss import rss_feed
 import notification
 from .. import queue
-from stats import instance_activity, proposal_activity, user_activity
+from stats import *
 
 import adhocracy.model as model
 

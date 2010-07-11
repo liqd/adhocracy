@@ -53,14 +53,6 @@ def entity_oldest(entities):
 def entity_stable(entities):
     return entities
 
-def issue_activity(issues):
-    return sorted(issues, key=lambda i: estats.issue_activity(i), 
-                  reverse=True)
-
-def proposal_activity(proposals):
-    return sorted(proposals, key=lambda m: estats.proposal_activity(m), 
-                  reverse=True)
-
 def instance_activity(instances):
     return sorted(instances, key=lambda i: estats.instance_activity(i), 
                   reverse=True)

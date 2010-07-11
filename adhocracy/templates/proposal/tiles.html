@@ -148,13 +148,6 @@
 			<li><a title="${_('Which alternatives are there?')}" 
 			       href="${h.entity_url(proposal, member='alternatives')}"
 			   class="alternatives ttip">${_("Alternatives")} (${len(proposal.current_alternatives())})</a>
-				##	<img src="/img/arrows/panel_expand.png" />
-				##<ul>
-				##%for p in proposal.current_alternatives()[:10]:
-				##	<li>${h.delegateable_link(p)|n}</li>
-				##%endfor
-				##</ul>
-			</span>
 			</li>
 			<li><a title="${_('Who has helped?')}" 
 			       href="${h.entity_url(proposal, member='contributors')}" class="contributors ttip">${_("Contributors")} (${len(proposal.contributors())})</a></li>

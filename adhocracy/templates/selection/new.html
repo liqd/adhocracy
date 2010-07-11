@@ -10,26 +10,22 @@
 ${tiles.proposal.header(c.proposal, active='implementation')}
 
 <div class="sidebar">
-	<h3 class="help">${_("Help")}</h3>
-	<div class="infobox">
-		${_("The implementation of a proposal is amended by relating to a fixed document, a norm. Please select or create the norm that you want to relate to. You can then add a text variant of that norm, specifying the change you want to implement.")}
+	<div class="help">
+		<h3 class="help">${_("Help")}</h3>
+		<div class="infobox">
+			${_("The implementation of a proposal is amended by relating to a fixed document, a norm. Please select or create the norm that you want to relate to. You can then add a text variant of that norm, specifying the change you want to implement.")}
+		</div>
+		<br/>
+		<ul>
+			<li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
+			<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
+			<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
+			<li>${h.help_link(_("More help..."), 'selection_faq')|n}</li>
+		</ul>
 	</div>
-	<br/>
-	<ul>
-		<li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
-		<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
-		<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
-		<li>${h.help_link(_("More help..."), 'selection_faq')|n}</li>
-	</ul>
 </div>
 <div class="mainbar">
 
-	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-	<script>
-	$(document).ready(function() {
-	  $("#accordion").accordion({ autoHeight: false });
-	});
-	</script>
 
 	<div id="accordion">
 		<h3><a href="#">${_("I want to include a change to an existing norm.")|n}</a></h3>

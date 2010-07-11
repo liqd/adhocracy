@@ -13,6 +13,7 @@ import group
 
 log = logging.getLogger(__name__)
 
+
 user_table = Table('user', meta.data,
     Column('id', Integer, primary_key=True),
     Column('user_name', Unicode(255), nullable=False, unique=True, index=True),
@@ -26,7 +27,9 @@ user_table = Table('user', meta.data,
     Column('locale', Unicode(7), nullable=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('access_time', DateTime, default=datetime.utcnow, onupdate=datetime.utcnow),
-    Column('delete_time', DateTime)
+    Column('delete_time', DateTime),
+    Column('no_help', Boolean, default=False, nullable=True),
+    Column('page_size', Integer, default=10, nullable=True)
     )
 
 class User(object):

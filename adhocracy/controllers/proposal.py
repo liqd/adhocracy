@@ -232,11 +232,6 @@ class ProposalController(BaseController):
     def activity(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.show(c.proposal)
-        
-        if format == 'sline':
-            sline = event.sparkline_samples(event.proposal_activity, c.proposal)
-            return render_json(dict(activity=sline))
-        
         events = model.Event.find_by_topic(c.proposal)
         
         if format == 'rss':

@@ -7,3 +7,6 @@ def strings_not_usually_extracted_by_babel():
     x = _("Administrator")
     x = _("Default")
     x = _("Advisor")
+    x = _("Draft")
+    x = _("Polling")
+    x = _("Adopted")
