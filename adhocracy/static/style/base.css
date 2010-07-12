@@ -644,7 +644,6 @@ body {
 	z-index: 2000;
 }
 
-.infobox,
 .warning_box,
 #flash_messages {
 	background-repeat: no-repeat;
@@ -657,9 +656,21 @@ body {
 	display: block;
 	font-size: 1.0em;
 	color: #333;
-	line-height: 1.4em;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
+}
+
+
+.infobox {
+	padding: 10px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	
+	background-color: #fdfbc0;
+	border: 1px solid #e7e5a3;
+	line-height: 1.3em;
+	color: #333;
 }
 
 #flash_messages {

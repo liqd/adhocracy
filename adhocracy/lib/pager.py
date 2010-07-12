@@ -21,14 +21,18 @@ class NamedPager(object):
     in order to distinguish multiple pagers working on the same page.  
     """
     
-    def __init__(self, name, items, itemfunc, size=10, sorts={}, 
+    def __init__(self, name, items, itemfunc, initial_size=10, size=None, sorts={}, 
                  default_sort=None, enable_sorts=True, enable_pages=True, **kwargs):
         self.name = name
         self._items = items
         self.itemfunc = itemfunc
-        self.size = self.initial_size = size
-        if c.user and c.user.page_size:
+        self.initial_size = initial_size
+        if size is not None:
+            self.size = size
+        elif c.user and c.user.page_size:
             self.size = c.user.page_size
+        else: 
+            self.size = initial_size
         self.sorts = sorts
         if len(sorts.values()):
             self.selected_sort = sorts.values().index(default_sort) + 1

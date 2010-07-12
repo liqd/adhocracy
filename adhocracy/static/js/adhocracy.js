@@ -5,8 +5,12 @@ $(document).ready(function() {
 	    style: {
             background: '#fdfbc0',
             textAlign: 'left',
+            lineHeight: '1.3em',
+            color: '#333',
             border: {
-                width: 2,
+                width: 1,
+                color: '#e7e5a3',
+                radius: 0,
             },
             tip: 'topMiddle',
             name: 'cream'
@@ -25,8 +29,12 @@ $(document).ready(function() {
 	    style: {
             background: '#fdfbc0',
             textAlign: 'left',
+            lineHeight: '1.3em',
+            color: '#333',
             border: {
-                width: 2,
+                width: 1,
+                color: '#e7e5a3',
+                radius: 0,
             },
             tip: 'bottomMiddle',
             name: 'cream'

@@ -233,7 +233,7 @@ class PageController(BaseController):
                  _("newest"): sorting.entity_newest,
                  _("alphabetically"): sorting.delegateable_title}
         c.subpages_pager = NamedPager('subpages', c.page.subpages, tiles.page.smallrow, 
-                                      sorts=sorts, default_sort=sorting.delegateable_title, size=10)
+                                      sorts=sorts, default_sort=sorting.delegateable_title)
         self._common_metadata(c.page, c.text)
         return render("/page/show.html")
         

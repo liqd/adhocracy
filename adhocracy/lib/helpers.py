@@ -112,26 +112,30 @@ def text_icon(text, page=None, size=16):
 
 
 def page_link(page, variant=model.Text.HEAD, create=False, link=True, icon=True, icon_size=16):
-    text = ""
-    _text = page.variant_head(variant)
-    if icon and not create:
-        text += "<img class='dgb_icon' src='%s' /> " % text_icon(_text, page, size=icon_size)
-    if not create and page.is_deleted():
+    if create:
+        page = page.encode('utf-8').replace("&lt;", "<")
+        page = page.replace("&gt;", ">")
+        page = page.replace("&amp;", "&")
+        url = urllib.quote(page)
+        url = "/page/new?title=%s" % url
+        url = instance_url(c.instance, path=url)
+        return "<a class='page_link new' href='%s'>%s</a>" % (url, page)
+    
+    if page.is_deleted():
         link = False
+    
     if not link:
-        if create: raise ValueError()
         return cgi.escape(page.title)
     
-    text += "<a class='page_link %s' href='%s'>%s</a>"
-    if create:
-        url = urllib.quote(page.encode('utf-8'))
-        url = "/page/new?title=%s" % url
-        return text % ('new', url, cgi.escape(page))
-    else:
-        title = cgi.escape(page.title)
-        if variant != model.Text.HEAD:
-            title = "%s <code>(%s)</code>" % (title, variant)
-        return text % ('exists', entity_url(_text), title)
+    text = ""
+    _text = page.variant_head(variant)
+    if icon: 
+        text += "<img class='dgb_icon' src='%s' /> " % text_icon(_text, page, size=icon_size)
+    text += "<a class='page_link exists' href='%s'>%s</a>"
+    title = page.title
+    if variant != model.Text.HEAD:
+        title = "%s <code>(%s)</code>" % (title, variant)
+    return text % (entity_url(_text), cgi.escape(title))
 
 
 def proposal_link(proposal, icon=True, icon_size=16, link=True):
