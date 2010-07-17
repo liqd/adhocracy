@@ -329,7 +329,22 @@ $(document).ready(function() {
     /* jQuery UI stuff */
     $("#accordion").accordion({ autoHeight: false });
     
-    $(".tabs").tabs({
-    	
+    $(".expand_tab").click(function(e) {
+        title = $(this).attr('title').split('@');
+        $('#' + title[1] + " .expand_area").hide();
+        $('#' + title[1] + " .expand_tab").removeClass('area_shown');
+        $('#' + title[1] + ' #' + title[0]).show();
+        $(this).addClass('area_shown');
+    }); 
+    
+    $(".expand_area.area_hidden").hide();
+    $(".expand_tab").each(function(e) {
+        var title = $(this).attr('title').split('@');
+        if ($('#' + title[0]).is(":visible")) {
+            $(this).addClass('area_shown');
+        } else {
+            $(this).removeClass('area_shown');
+        }
     });
+    
 });

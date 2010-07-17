@@ -137,10 +137,9 @@ class Delegateable(object):
     
         
     def comment_count(self):
-        return len([c for c in self.comments if not c.is_deleted() and not c.canonical])
-             
+        return len([c for c in self.comments if not c.is_deleted()])
     
-    
+        
     def _join_contributors(self, first, second, second_factor=1):
         cbs = dict(first)
         for (i, s) in second:

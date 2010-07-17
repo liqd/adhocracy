@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-07-11 18:01+0200\n"
+"PO-Revision-Date: 2010-07-17 22:46+0200\n"
 "Last-Translator: Benjamin Claverie <ben@skl8em.com>\n"
 "Language-Team: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -21,10 +21,10 @@ msgstr ""
 #: adhocracy/controllers/delegation.py:103 adhocracy/controllers/page.py:232
 #: adhocracy/controllers/page.py:247 adhocracy/controllers/search.py:39
 #: adhocracy/controllers/tag.py:55 adhocracy/controllers/user.py:397
-#: adhocracy/lib/pager.py:111 adhocracy/lib/pager.py:132
-#: adhocracy/lib/pager.py:140 adhocracy/lib/pager.py:151
-#: adhocracy/lib/pager.py:158 adhocracy/lib/pager.py:165
-#: adhocracy/lib/pager.py:172
+#: adhocracy/lib/pager.py:115 adhocracy/lib/pager.py:136
+#: adhocracy/lib/pager.py:144 adhocracy/lib/pager.py:155
+#: adhocracy/lib/pager.py:162 adhocracy/lib/pager.py:169
+#: adhocracy/lib/pager.py:176
 msgid "oldest"
 msgstr "premier"
 
@@ -32,10 +32,10 @@ msgstr "premier"
 #: adhocracy/controllers/delegation.py:104 adhocracy/controllers/page.py:233
 #: adhocracy/controllers/page.py:248 adhocracy/controllers/search.py:40
 #: adhocracy/controllers/tag.py:56 adhocracy/controllers/user.py:398
-#: adhocracy/lib/pager.py:112 adhocracy/lib/pager.py:122
-#: adhocracy/lib/pager.py:133 adhocracy/lib/pager.py:141
-#: adhocracy/lib/pager.py:152 adhocracy/lib/pager.py:159
-#: adhocracy/lib/pager.py:166 adhocracy/lib/pager.py:173
+#: adhocracy/lib/pager.py:116 adhocracy/lib/pager.py:126
+#: adhocracy/lib/pager.py:137 adhocracy/lib/pager.py:145
+#: adhocracy/lib/pager.py:156 adhocracy/lib/pager.py:163
+#: adhocracy/lib/pager.py:170 adhocracy/lib/pager.py:177
 msgid "newest"
 msgstr "dernier"
 
@@ -195,8 +195,8 @@ msgid "Variant %s does not exist!"
 msgstr "La motion %s n'existe pas!"
 
 #: adhocracy/controllers/page.py:234 adhocracy/controllers/tag.py:57
-#: adhocracy/lib/pager.py:114 adhocracy/lib/pager.py:126
-#: adhocracy/lib/pager.py:134 adhocracy/lib/pager.py:143
+#: adhocracy/lib/pager.py:118 adhocracy/lib/pager.py:130
+#: adhocracy/lib/pager.py:138 adhocracy/lib/pager.py:147
 msgid "alphabetically"
 msgstr "alphabétique"
 
@@ -487,13 +487,11 @@ msgstr "Une instance avec cette clef existe déjà "
 
 #: adhocracy/forms/common.py:218
 #, fuzzy
-#| msgid "No variant name is given."
 msgid "No page name is given."
 msgstr "Le nom de motion manque."
 
 #: adhocracy/forms/common.py:221
 #, fuzzy, python-format
-#| msgid "Invalid variant name: %s"
 msgid "Invalid page name: %s"
 msgstr "Nom de motion invalide: %s"
 
@@ -603,15 +601,15 @@ msgstr "Propositions"
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: adhocracy/lib/helpers.py:35
+#: adhocracy/lib/helpers.py:37
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Cette proposition est en court de vote et ne peut être modifié."
 
-#: adhocracy/lib/helpers.py:202
+#: adhocracy/lib/helpers.py:208
 msgid "Adhocracy"
 msgstr "Adhocracie"
 
-#: adhocracy/lib/helpers.py:225
+#: adhocracy/lib/helpers.py:231
 msgid "subscribe"
 msgstr "abonner"
 
@@ -653,19 +651,19 @@ msgstr ""
 msgid "Confirm your email address"
 msgstr "Confirmer votre adresse mail."
 
-#: adhocracy/lib/pager.py:113 adhocracy/lib/pager.py:142
+#: adhocracy/lib/pager.py:117 adhocracy/lib/pager.py:146
 msgid "activity"
 msgstr "activité"
 
-#: adhocracy/lib/pager.py:123
+#: adhocracy/lib/pager.py:127
 msgid "newest comment"
 msgstr "dernier commentaire"
 
-#: adhocracy/lib/pager.py:124
+#: adhocracy/lib/pager.py:128
 msgid "support"
 msgstr "soutenir"
 
-#: adhocracy/lib/pager.py:125
+#: adhocracy/lib/pager.py:129
 msgid "mixed"
 msgstr ""
 
@@ -702,7 +700,7 @@ msgstr "motion: %(variant)s de %(page)s"
 
 #: adhocracy/lib/event/formatting.py:52 adhocracy/lib/event/formatting.py:62
 #: adhocracy/templates/page/show.html:21
-#: adhocracy/templates/selection/show.html:91
+#: adhocracy/templates/selection/tiles.html:122
 #: adhocracy/templates/text/tiles.html:93
 msgid "Status quo"
 msgstr "Status quo"
@@ -1445,7 +1443,7 @@ msgstr "s'opposer a ce commentaire"
 #: adhocracy/templates/instance/tiles.html:35
 #: adhocracy/templates/page/tiles.html:76
 #: adhocracy/templates/proposal/tiles.html:95
-#: adhocracy/templates/selection/show.html:99
+#: adhocracy/templates/selection/tiles.html:130
 #: adhocracy/templates/user/tiles.html:32
 msgid "edit"
 msgstr "editer"
@@ -1456,6 +1454,7 @@ msgstr "editer"
 #: adhocracy/templates/page/tiles.html:81
 #: adhocracy/templates/proposal/tiles.html:100
 #: adhocracy/templates/selection/show.html:37
+#: adhocracy/templates/selection/tiles.html:78
 msgid "delete"
 msgstr "effacer"
 
@@ -2290,8 +2289,8 @@ msgstr ""
 "officielle de ce groupe."
 
 #: adhocracy/templates/page/diff.html:24 adhocracy/templates/page/diff.html:35
+#: adhocracy/templates/selection/tiles.html:147
 #, fuzzy
-#| msgid "This revision has no text."
 msgid "This variant has no text."
 msgstr "Cette révision n'a pas de texte."
 
@@ -2423,8 +2422,7 @@ msgstr "Il n'y a pas de proposition qui tente de changer %s"
 
 #: adhocracy/templates/page/tiles.html:24
 #: adhocracy/templates/proposal/tiles.html:28
-#: adhocracy/templates/selection/show.html:97
-#: adhocracy/templates/selection/tiles.html:48
+#: adhocracy/templates/selection/tiles.html:128
 #, python-format
 msgid "%s comment"
 msgid_plural "%s comments"
@@ -2945,7 +2943,7 @@ msgstr ""
 "proposition. "
 
 #: adhocracy/templates/selection/show.html:34
-#: adhocracy/templates/selection/tiles.html:58
+#: adhocracy/templates/selection/tiles.html:67
 msgid "new variant"
 msgstr "nouvelle motion"
 
@@ -2960,34 +2958,17 @@ msgstr ""
 msgid "(change)"
 msgstr "(neuf)"
 
-#: adhocracy/templates/selection/show.html:52
+#: adhocracy/templates/selection/show.html:53
 msgid "Create a new variant to propose a changed text."
 msgstr "Créé une nouvelle motion pour proposer un changement au texte."
 
-#: adhocracy/templates/selection/show.html:56
-#: adhocracy/templates/selection/tiles.html:39
+#: adhocracy/templates/selection/show.html:57
+#: adhocracy/templates/selection/tiles.html:38
 msgid "There is a tie between variants, thus none is included at the moment."
 msgstr "Il y a égalité entre les motions, donc aucune n'est incluse."
 
-#: adhocracy/templates/selection/show.html:70
-msgid "Support this variant"
-msgstr "Soutenir cette motion"
-
-#: adhocracy/templates/selection/show.html:77
-msgid "Oppose this variant"
-msgstr "S'opposer à cette motion"
-
-#: adhocracy/templates/selection/show.html:92
-#, fuzzy
-msgid "(this proposal should not change this norm)"
-msgstr "(cette proposition ne devrait pas changer la règle)"
-
-#: adhocracy/templates/selection/show.html:102
-msgid "Currently selected for inclusion in this proposal"
-msgstr "Actuellement selectionné pour l'inclusion dans cette proposition"
-
-#: adhocracy/templates/selection/show.html:112
-#: adhocracy/templates/selection/tiles.html:43
+#: adhocracy/templates/selection/show.html:61
+#: adhocracy/templates/selection/tiles.html:42
 #, fuzzy
 msgid ""
 "Status quo has the most votes, resulting in no proposed change to this "
@@ -2996,61 +2977,55 @@ msgstr ""
 "Le Status quo ayant le plus de vote, il n'y a pas de changement dans "
 "cette règle."
 
-#: adhocracy/templates/selection/tiles.html:18
-#, fuzzy, python-format
-#| msgid "Selected variant: <b>%s</b>"
+#: adhocracy/templates/selection/tiles.html:21
+#, fuzzy
 msgid "Selected variant"
 msgstr "Motion selectionné <b>%s</b>"
 
-#: adhocracy/templates/selection/tiles.html:19
+#: adhocracy/templates/selection/tiles.html:25
 #, fuzzy, python-format
 #| msgid "Discussion on %s"
-msgid "Discussion"
+msgid "Discussion (%s)"
 msgstr "Dicussion à  propos de %s"
 
-#: adhocracy/templates/selection/tiles.html:20
-#, fuzzy
-#| msgid "compare variants"
-msgid "Other variants"
-msgstr "comparer des motions"
+#: adhocracy/templates/selection/tiles.html:29
+#, python-format
+msgid "Variant selection (%s)"
+msgstr ""
 
-#: adhocracy/templates/selection/tiles.html:47
+#: adhocracy/templates/selection/tiles.html:46
 #, python-format
 msgid "Selected variant: <b>%s</b>"
 msgstr "Motion selectionné <b>%s</b>"
 
-#: adhocracy/templates/selection/tiles.html:60
 #: adhocracy/templates/selection/tiles.html:69
 msgid "see norm"
 msgstr "voir règle"
 
-#: adhocracy/templates/selection/tiles.html:63
-msgid "Select a variant text to become a part of this proposal."
-msgstr "Selectionnez quelle motion doit faire partie de cette proposition. "
-
-#: adhocracy/templates/selection/tiles.html:64
-msgid "all variants"
-msgstr "toutes les motions"
-
-#: adhocracy/templates/selection/tiles.html:66
+#: adhocracy/templates/selection/tiles.html:74
 msgid "Compare this variant text to others."
 msgstr "Comparer cette motion à d'autres."
 
-#: adhocracy/templates/selection/tiles.html:67
-msgid "compare variants"
-msgstr "comparer des motions"
+#: adhocracy/templates/selection/tiles.html:75
+msgid "comparison view"
+msgstr ""
 
-#: adhocracy/templates/selection/tiles.html:74
-#, fuzzy, python-format
-msgid "There are %s of the norm %s."
-msgstr "Il y a %s du règle %s."
+#: adhocracy/templates/selection/tiles.html:100
+msgid "Support this variant"
+msgstr "Soutenir cette motion"
 
-#: adhocracy/templates/selection/tiles.html:74
-#, python-format
-msgid "%s variant"
-msgid_plural "%s variants"
-msgstr[0] "%s variante"
-msgstr[1] "%s variantes"
+#: adhocracy/templates/selection/tiles.html:107
+msgid "Oppose this variant"
+msgstr "S'opposer à cette motion"
+
+#: adhocracy/templates/selection/tiles.html:123
+#, fuzzy
+msgid "(this proposal should not change this norm)"
+msgstr "(cette proposition ne devrait pas changer la règle)"
+
+#: adhocracy/templates/selection/tiles.html:133
+msgid "Currently selected for inclusion in this proposal"
+msgstr "Actuellement selectionné pour l'inclusion dans cette proposition"
 
 #: adhocracy/templates/tag/index.html:12
 msgid "Tags are keywords used to find, sort and filter proposals and documents."
@@ -3298,7 +3273,6 @@ msgstr ""
 
 #: adhocracy/templates/user/edit.html:183
 #, fuzzy
-#| msgid "send a message"
 msgid "Hide help messages:"
 msgstr "envoyer un message"
 
@@ -3475,6 +3449,28 @@ msgstr "Qu'est ce que je peux observer?"
 msgid "How can I create a watch?"
 msgstr "Comment créer une observation?"
 
-#~ msgid "Both texts are identical."
-#~ msgstr "Les deux textes sont identique."
+# | msgid "Discussion on %s"
+#~ msgid "Discussion"
+#~ msgstr "Dicussion à  propos de %s"
+
+# | msgid "compare variants"
+#~ msgid "Other variants"
+#~ msgstr "comparer des motions"
+
+#~ msgid "Select a variant text to become a part of this proposal."
+#~ msgstr "Selectionnez quelle motion doit faire partie de cette proposition. "
+
+#~ msgid "all variants"
+#~ msgstr "toutes les motions"
+
+#~ msgid "compare variants"
+#~ msgstr "comparer des motions"
+
+#~ msgid "There are %s of the norm %s."
+#~ msgstr "Il y a %s du règle %s."
+
+#~ msgid "%s variant"
+#~ msgid_plural "%s variants"
+#~ msgstr[0] "%s variante"
+#~ msgstr[1] "%s variantes"
 

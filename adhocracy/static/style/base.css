@@ -1238,7 +1238,7 @@ a.button.inactive {
 
 .top_actions.aside {
 	float: right;
-	margin-top: 0.7em;
+	margin-top: 0em;
 }
 
 .top_actions.comment {
@@ -1883,6 +1883,7 @@ a.button.inactive {
 	background-color: #ddd;
 }
 
+.panel a.area_shown,
 .panel .menu a.active,
 .panel.activity a.activity,
 .panel.issues a.issues,
@@ -1984,14 +1985,21 @@ a.button.inactive {
 /* @end */
 
 .selection .language {
-	padding-left: 26px;
-	padding-top: 10px;
 	padding-bottom: 15px;
+}
+
+.selection .panel {
+	margin-bottom: 1em;
 }
 
 .selection ol.variants li {
     clear: left;
 }
+
+.selection ol li .area_shown {
+	cursor:default !important;	
+}
+
 
 .selection ol.variants {
     padding-left: 10px;
@@ -2021,6 +2029,12 @@ a.button.inactive {
 
 .selection .head .variant_innerheader {
 	background-image: url(/img/icons/page_norm_24.png);
+}
+
+
+.expand_tab {
+	cursor:pointer;
+	cursor:hand;
 }
 
 #accordion.ui-accordion .ui-accordion-header a {

@@ -82,7 +82,6 @@ class SelectionTile(BaseTile):
             row = VariantRow(self, variant, poll)
             yield row
     
-        
     @property
     def show_new_variant_link(self):
         if self.frozen:
@@ -96,11 +95,9 @@ def row(selection):
     tile = SelectionTile(selection)
     return render_tile('/selection/tiles.html', 'row', tile, 
                        selection=selection)
-         
 
-def full(selection):
-    if selection is None or selection.is_deleted():
-		return ""
-    tile = SelectionTile(selection)
-    return render_tile('/selection/tiles.html', 'full', tile, 
-                       selection=selection)
+def variants(selection, tile=None):
+   if tile is None:
+   		tile = SelectionTile(selection)
+   return render_tile('/selection/tiles.html', 'variants', tile, 
+                      selection=selection)

@@ -1,6 +1,6 @@
 
 <%def name="row(tile, selection)">
-	<div class="tile selection">
+	<div class="tile selection" id="selection_${selection.id}">
 		<h3 class="section">
 			<!--a href="${h.entity_url(selection)}"-->
 			<img class="cd" src="/img/icons/page_variant_24.png">
@@ -13,27 +13,26 @@
 			%endif
 		</h3>
 		
-		<div class="tabs">
-			<ul>
-				<li><a href="#tabs-1">${_("Selected variant")}</a></li>
-				<li><a href="#tabs-3">${_("Discussion")}</a></li>
-				<li><a href="#tabs-2">${_("Other variants")}</a></li>
-				
-			</ul>
-			<div id="tabs-1">
-				<p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
-			</div>
-			<div id="tabs-2">
-				<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
-			</div>
-			<div id="tabs-3">
-				<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-				<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+		<br/>
+		<div class="panel">
+			<div class="menu">
+				<ul>
+					<li><a class="expand_tab" id="tmp" title="text_${selection.id}@selection_${selection.id}">
+						${_("Selected variant")}
+					</a></li>
+					%if tile.selected:
+						<li><a class="expand_tab" title="comments_${selection.id}@selection_${selection.id}">
+							${_("Discussion (%s)") % tile.selected_num_comments}
+						</a></li>
+					%endif
+					<li><a class="expand_tab" title="variants_${selection.id}@selection_${selection.id}">
+						${_("Variant selection (%s)") % max(0, len(selection.page.variants)-1)}
+					</a></li>
+				</ul>
 			</div>
 		</div>
 		
-		
-		<div class="language selected">
+		<div class="expand_area language selected" id="text_${selection.id}">
 			%if tile.selected is None:
 				<div class="infobox">
 					${_("There is a tie between variants, thus none is included at the moment.")}
@@ -45,36 +44,113 @@
 			%else:
 				<div class="variant_header">
 					${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), escape(tile.selected)))|n}
-					(${ungettext("%s comment", "%s comments", tile.selected_num_comments) % tile.selected_num_comments})
 				</div>
 				<br/>
 				${tile.selected_text.render()|n}
 			%endif 
 		</div>
 		
+		%if tile.selected:
+		<div class="expand_area area_hidden" id="comments_${selection.id}">
+			${tiles.comment.list(selection.page, variant=tile.selected)}
+			<br/>
+		</div>
+		%endif
+		
+		<div class="expand_area area_hidden" id="variants_${selection.id}">
+			${self.variants(tile, selection)}
+		</div>
+		
+		
 		<div class="top_actions aside">
-			%if tile.num_variants == 0:
-				%if tile.show_new_variant_link: 
-					<a class="button add" href="${h.entity_url(selection.page, member='%20/edit')}?proposal=${c.proposal.id}">${_("new variant")}</a> 
-				%else:
-					<a class="button edit" href="${h.entity_url(selection.page)}">${_("see norm")}</a>
-				%endif
+			%if tile.show_new_variant_link:
+				<a class="button add" href="${h.entity_url(selection.page, member='%20/edit')}?proposal=${selection.proposal.id}">${_("new variant")}</a> 
 			%else:
-				<a class="button add otip" title="${_('Select a variant text to become a part of this proposal.')}" 
-					 href="${h.entity_url(selection)}">${_("all variants")}</a> 
-				%if tile.selected_text:
-					<a class="button edit otip" title="${_('Compare this variant text to others.')}" 
-					   href="${h.entity_url(tile.selected_text)}">${_("compare variants")}</a> 
-				%else:
-					<a class="button edit" href="${h.entity_url(selection.page)}">${_("see norm")}</a>
-				%endif
+				<a class="button edit" href="${h.entity_url(selection.page)}">${_("see norm")}</a>
+			%endif
+			##<a class="button add otip" title="${_('Select a variant text to become a part of this proposal.')}" 
+			##	 href="${h.entity_url(selection)}">${_("select variants")}</a> 
+			%if tile.selected_text:
+				<a class="button edit otip" title="${_('Compare this variant text to others.')}" 
+				   href="${h.entity_url(tile.selected_text)}">${_("comparison view")}</a> 
+			%endif
+			%if can.selection.delete(selection):
+				<a class="button delete" href="${h.entity_url(selection, member='ask_delete')}">${_("delete")}</a> 
 			%endif
 		</div>
-		<div class="meta noclear">
-			${_("There are %s of the norm %s.") % ("<a href='%s'>%s</a>" % (h.entity_url(selection), ungettext("%s variant", "%s variants", tile.num_variants) % tile.num_variants), escape(selection.page.title))|n}
-		</div>
-		<br/>
+		<br/><br/>
 	</div>
 	<br/>
 </%def>
+
+
+
+<%def name="variants(tile, selection)">
+	<ol class="variants" id="vs_${selection.id}">
+	%for row in tile.variant_rows():
+		<%
+		if not row.show:
+			break
+		%>
+		<li id="poll_c${row.poll.id}" 
+				class="${h.poll_position_css(row.poll)} ${'selected' if row.selected else ''}
+				       ${'head' if row.text.is_head else ''}">
+			<div class="logo rate">
+				%if can.poll.vote(row.poll):
+					<a class="up icon otip" title="${_("Support this variant")}" 
+						 href="${h.entity_url(row.poll, member='rate')}?position=1&${h.url_token()}" 
+						 onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, 1);">
+						&nbsp;
+					</a>
+					<a href="${h.entity_url(row.poll, member='votes')}" 
+						class="score">${row.poll.tally.score}</a>
+					<a class="down icon ttip" title="${_("Oppose this variant")}" 
+						 href="${h.entity_url(row.poll, member='rate')}?position=-1&${h.url_token()}" 
+						 onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, -1);">
+						&nbsp;
+					</a>
+				%else:
+					<a class="up icon inactive">&nbsp;</a>
+					<a href="${h.entity_url(row.poll, member='votes')}" 
+						class="score">${row.poll.tally.score}</a>
+					<a class="down icon inactive">&nbsp;</a>
+				%endif
+			</div>
+			<div class="variant_header expand_tab" title="text_${row.text.id}@vs_${selection.id}">
+				<div class="variant_innerheader">				
+				%if row.text.is_head:
+					<b><a href="${h.entity_url(row.text)}">${_("Status quo")}</a></b>
+					${_("(this proposal should not change this norm)")}
+				%else:
+					<b><a href="${h.entity_url(row.text)}">${row.variant}</a></b>
+				%endif
+				<br/>
+				${ungettext("%s comment", "%s comments", row.num_comments) % row.num_comments}
+				%if row.can_edit:
+					&middot; <a href="${h.entity_url(row.text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
+				%endif
+				%if row.selected and not row.text.is_head and not tile.frozen:
+					&middot; ${_("Currently selected for inclusion in this proposal")}
+				%endif
+			</div></div>
+			<div id="text_${row.text.id}"
+				class="tile expand_area ${'area_hidden' if not row.selected else ''}">
+			
+				%if row.text.has_text:
+					%if tile.selected_text:
+						${h.html_diff(tile.selected_text.render(), row.text.render())|n}
+					%else:
+						${row.text.render()|n}
+					%endif
+				%else:
+					<div class="infobox">
+						${_("This variant has no text.")}
+					</div>
+				%endif
+			</div>
+		</li>
+	%endfor
+	</ol>
+</%def>
+
 

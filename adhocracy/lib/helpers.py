@@ -17,6 +17,8 @@ import democracy
 import cache
 import sorting
 
+from text import html_diff
+
 import adhocracy.model as model 
 
 from url import instance_url, entity_url
