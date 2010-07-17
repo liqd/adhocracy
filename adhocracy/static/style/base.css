@@ -1800,6 +1800,10 @@ a.button.inactive {
 	background-color: #f2f2f2;
 	margin-bottom: 2em;
 	position: relative;
+	
+	box-shadow: 1px 1px 3px #eee;
+	-webkit-box-shadow: 1px 1px 3px #eee;
+	-moz-box-shadow: 1px 1px 3px #eee;
 }
 
 .panel .menu,

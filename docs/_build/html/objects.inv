@@ -25,12 +25,14 @@ adhocracy.model.tally.Tally class api.html
 adhocracy.model.poll.Poll.create classmethod api.html
 adhocracy.model.tally.Tally.create_from_poll classmethod api.html
 adhocracy.model.tally.Tally.num_abstain attribute api.html
+adhocracy.model.tally.Tally.combine_polls classmethod api.html
 adhocracy.model.tally.Tally.rel_against attribute api.html
 adhocracy.model.poll.Poll.find classmethod api.html
 adhocracy.model.vote.Vote class api.html
 adhocracy.lib.democracy.decision.Decision.result attribute api.html
 adhocracy.model.tally.Tally.rel_for attribute api.html
 adhocracy.model.poll.Poll.delete method api.html
+adhocracy.model.poll.Poll.within_scope classmethod api.html
 adhocracy.model.poll.Poll class api.html
 adhocracy.lib.democracy.decision.Decision.for_poll classmethod api.html
 adhocracy.model.vote.Vote.delegation_id attribute api.html
@@ -49,12 +51,14 @@ adhocracy.model.tally.Tally.to_dict method api.html
 adhocracy.lib.democracy.decision.Decision.average_decisions classmethod api.html
 adhocracy.lib.democracy.decision.Decision.is_decided method api.html
 adhocracy.model.poll.Poll.subject attribute api.html
+adhocracy.model.poll.Poll.selection attribute api.html
 adhocracy.model.tally.Tally.poll attribute api.html
 adhocracy.model.tally.Tally.vote_id attribute api.html
 adhocracy.model.vote.Vote.id attribute api.html
 adhocracy.model.poll.Poll.has_ended method api.html
 adhocracy.lib.democracy.decision.Decision.is_self_decided method api.html
 adhocracy.model.vote.Vote.user_id attribute api.html
+adhocracy.model.poll.Poll.variant attribute api.html
 adhocracy.lib.democracy.decision.Decision.relevant_votes attribute api.html
 adhocracy.lib.democracy.delegation_node.DelegationNode.propagate method api.html
 adhocracy.lib.democracy.decision.Decision.without_vote method api.html
@@ -79,6 +83,7 @@ adhocracy.model.tally.Tally.vote attribute api.html
 adhocracy.model.poll.Poll.is_stable method api.html
 adhocracy.model.poll.Poll.to_dict method api.html
 adhocracy.model.tally.Tally.num_against attribute api.html
+adhocracy.model.poll.Poll.by_subjects classmethod api.html
 adhocracy.model.tally.Tally.score attribute api.html
 adhocracy.model.vote.Vote.create_time attribute api.html
 adhocracy.model.tally.Tally.all_samples classmethod api.html

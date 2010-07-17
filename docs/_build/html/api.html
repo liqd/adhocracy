@@ -252,6 +252,11 @@ cast.</dd></dl>
 <tt class="descname">begin_time</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.begin_time" title="Permalink to this definition">¶</a></dt>
 <dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
 
+<dl class="classmethod">
+<dt id="adhocracy.model.poll.Poll.by_subjects">
+<em class="property">classmethod </em><tt class="descname">by_subjects</tt><big>(</big><em>subjects</em>, <em>include_deleted=True</em><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.by_subjects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="adhocracy.model.poll.Poll.can_end">
 <tt class="descname">can_end</tt><big>(</big><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.can_end" title="Permalink to this definition">¶</a></dt>
@@ -318,6 +323,11 @@ cast.</dd></dl>
 <dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
 
 <dl class="attribute">
+<dt id="adhocracy.model.poll.Poll.selection">
+<tt class="descname">selection</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.selection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="adhocracy.model.poll.Poll.subject">
 <tt class="descname">subject</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.subject" title="Permalink to this definition">¶</a></dt>
 <dd>A combination of InsturmentedAttribute and a regular descriptor.</dd></dl>
@@ -342,6 +352,16 @@ cast.</dd></dl>
 <tt class="descname">user_id</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.user_id" title="Permalink to this definition">¶</a></dt>
 <dd>Public-facing descriptor, placed in the mapped class dictionary.</dd></dl>
 
+<dl class="attribute">
+<dt id="adhocracy.model.poll.Poll.variant">
+<tt class="descname">variant</tt><a class="headerlink" href="#adhocracy.model.poll.Poll.variant" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="adhocracy.model.poll.Poll.within_scope">
+<em class="property">classmethod </em><tt class="descname">within_scope</tt><big>(</big><em>scope</em><big>)</big><a class="headerlink" href="#adhocracy.model.poll.Poll.within_scope" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -350,6 +370,11 @@ cast.</dd></dl>
 <dd><dl class="classmethod">
 <dt id="adhocracy.model.tally.Tally.all_samples">
 <em class="property">classmethod </em><tt class="descname">all_samples</tt><big>(</big><em>poll</em>, <em>start_time</em>, <em>end_time</em><big>)</big><a class="headerlink" href="#adhocracy.model.tally.Tally.all_samples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="adhocracy.model.tally.Tally.combine_polls">
+<em class="property">classmethod </em><tt class="descname">combine_polls</tt><big>(</big><em>polls</em>, <em>at_time=None</em><big>)</big><a class="headerlink" href="#adhocracy.model.tally.Tally.combine_polls" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="classmethod">

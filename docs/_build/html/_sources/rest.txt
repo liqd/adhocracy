@@ -15,9 +15,9 @@ Data Submission
 ---------------
 
 All data submitted is expected to be either URL-encoded (for GET requests) 
-or ``application/x-www-form-urlencoded`` (i.e. formatted as an HTML form). 
-Accept/Content-type based submission of JSON/XML data will be implemented 
-in a later release.
+or ``application/x-www-form-urlencoded`` (i.e. formatted as an HTML form, for
+either POST and PUT requests). Accept/Content-type based submission of 
+JSON/XML data will be implemented in a later release.
 
 A meta parameter called ``_method`` is evaluated for each request to fake a 
 request method if needed. This is useful for older HTTP libraries or 

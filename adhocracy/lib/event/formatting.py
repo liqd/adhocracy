@@ -49,6 +49,7 @@ class PollFormatter(ObjectFormatter):
     
     def unicode(self, poll):
         if poll.action == poll.SELECT: 
+            text = poll.selection.page.variant_head(poll.variant)
             title = _("Status quo") if text.variant == text.HEAD else text.variant
             return self.SELECT_PATTERN(title, poll.selection.page.title)
         else:
