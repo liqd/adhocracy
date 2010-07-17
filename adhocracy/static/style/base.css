@@ -1259,10 +1259,12 @@ a.button.inactive {
 	margin-top: 0px;
 	margin-bottom: 0px;
 	text-align: center;
-	background-color: #eee;
+	/*background-color: #eee;*/
 	padding: 5px 5px 0px 5px;
+	/*
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;
+	*/
 }
 	
 .pager .prev_page {
@@ -1282,15 +1284,17 @@ a.button.inactive {
 	text-transform: lowercase;
 	display: block;
 	text-align: right;
-	background-color: #eee;
+	/*background-color: #eee;*/
 	padding: 5px;
+	/*
 	border: 1px solid #ddd;
 	border-bottom: 0px;
+	*/
 }
 
 .pager_sorts.bottom {
 	text-align: left;
-	border: 1px solid #ddd;
+	/*border: 1px solid #ddd;*/
 	border-top: 0px;
 }
 
