@@ -101,6 +101,8 @@ class CommentController(BaseController):
         #watchlist.check_watch(comment)
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance, 
                    topics=[topic], comment=comment, topic=topic, rev=comment.latest)
+        if len(request.params.get('ret_url', '')):
+            redirect(request.params.get('ret_url') + "#c" + str(comment.id))
         if format != 'html':
             return ret_success(entity=comment, format=format)
         return ret_success(entity=comment, format='fwd')
@@ -133,6 +135,8 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic, rev=rev)
+        if len(request.params.get('ret_url', '')):
+            redirect(request.params.get('ret_url') + "#c" + str(c.comment.id))
         if format != 'html':
             return ret_success(entity=comment, format=format)
         return ret_success(entity=c.comment, format='fwd')

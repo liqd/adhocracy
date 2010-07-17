@@ -83,13 +83,13 @@ def header(comment, tile=None, active='comment'):
                        comment=comment, active=active)
 
 
-def list(topic, root=None, comments=None, variant=None, recurse=True):
+def list(topic, root=None, comments=None, variant=None, recurse=True, ret_url=''):
     if comments is None:
         comments = topic.comments
     return render_tile('/comment/tiles.html', 'list', tile=None, comments=comments, topic=topic, 
-                        variant=variant, root=root, recurse=recurse, cached=False)
+                        variant=variant, root=root, recurse=recurse, cached=False, ret_url=ret_url)
 
 
-def show(comment, recurse=True):
+def show(comment, recurse=True, ret_url=''):
     return render_tile('/comment/tiles.html', 'full', CommentTile(comment), 
-                       comment=comment, comments=comment.topic.comments, recurse=recurse)
+                       comment=comment, comments=comment.topic.comments, recurse=recurse, ret_url=ret_url)

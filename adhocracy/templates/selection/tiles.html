@@ -52,7 +52,7 @@
 		
 		%if tile.selected:
 		<div class="expand_area area_hidden" id="comments_${selection.id}">
-			${tiles.comment.list(selection.page, variant=tile.selected)}
+			${tiles.comment.list(selection.page, variant=tile.selected, ret_url=h.entity_url(selection.proposal, member='implementation'))}
 			<br/>
 		</div>
 		%endif

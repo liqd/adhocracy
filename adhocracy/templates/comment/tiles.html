@@ -27,7 +27,7 @@
 </%def>
 
 
-<%def name="list(tile, comments, topic, variant=None, root=None, recurse=True)">
+<%def name="list(tile, comments, topic, variant=None, root=None, recurse=True, ret_url='')">
 	<%
 	_comments = h.comments_sorted(comments, root=root, variant=variant)
 	%>
@@ -36,7 +36,7 @@
 		<br/>
 		%if can.comment.create():
 			<div class="comment">
-				${create_form(None, topic, variant=variant)}
+				${create_form(None, topic, variant=variant, ret_url=ret_url)}
 			</div>
 		%endif
 		%if not len(_comments):
@@ -61,7 +61,7 @@
 			</a>
 			<div id="low_${root_id}" class="low_comments">
 		%endif
-		${full(tile, comment, comments, recurse)}
+		${full(tile, comment, comments, recurse, ret_url=ret_url)}
 	%endfor
 	%if has_lows:
 		</div>
@@ -69,7 +69,7 @@
 </%def>
 
 
-<%def name="full(tile, comment, comments, recurse)">
+<%def name="full(tile, comment, comments, recurse, ret_url='')">
 	<%	
 	if not tile.show:
 		return
@@ -104,7 +104,7 @@
 			
 				<div class="top_actions comment">				
 					%if can.comment.edit(comment):
-						<a class="button edit" onClick="return comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit')}">${_("edit")}</a> 
+						<a class="button edit" onClick="return comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
 					%endif
 									
 					%if can.comment.delete(comment):
@@ -112,17 +112,17 @@
 					%endif
 								
 					%if can.comment.reply(comment) and recurse:
-						<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1">${_("reply")}</a>
+						<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1&ret_url=${ret_url}">${_("reply")}</a>
 					%endif 
 				</div>
 				
 				${tiles.comment.static_part(tile, comment)}
 
 			<div class="edit_form">
-				${self.edit_form(comment)}
+				${self.edit_form(comment, ret_url=ret_url)}
 			</div>
 			<div class="reply_form sub ${'base_reply' if reply_here else ''}">
-				${self.create_form(comment, comment.topic, variant=comment.variant)}
+				${self.create_form(comment, comment.topic, variant=comment.variant, ret_url=ret_url)}
 			</div>
 			</div>
 		</div>
@@ -134,10 +134,11 @@
 	</div>
 </%def>
 
-<%def name="edit_form(comment)">
+<%def name="edit_form(comment, ret_url='')">
 	<form name="edit_comment" class="inplace comment_form" method="POST" action="/comment/${comment.id}">
 		${h.field_token()|n}
 		<input type="hidden" name="_method" value="PUT" />
+		<input type="hidden" name="ret_url" value="${ret_url}" />
 		%if not comment.textual:
 			${_("argumenting:")}
 			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == 1 else ''} /> 
@@ -157,10 +158,11 @@
 	</form>
 </%def>
 
-<%def name="create_form(parent, topic, canonical=0, arm=False, can_wiki=True, variant=None)">
+<%def name="create_form(parent, topic, canonical=0, arm=False, can_wiki=True, variant=None, ret_url='')">
 	<form name="create_comment" class="inplace comment_form" method="POST" action="/comment">
 		${h.field_token()|n}
 		<input type="hidden" name="topic" value="${topic.id}" />
+		<input type="hidden" name="ret_url" value="${ret_url}" />
 		%if variant:
 			<input type="hidden" name="variant" value="${variant}" />
 		%endif

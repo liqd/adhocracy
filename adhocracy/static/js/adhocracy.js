@@ -340,6 +340,7 @@ $(document).ready(function() {
     $(".expand_area.area_hidden").hide();
     $(".expand_tab").each(function(e) {
         var title = $(this).attr('title').split('@');
+        
         if ($('#' + title[0]).is(":visible")) {
             $(this).addClass('area_shown');
         } else {
@@ -347,4 +348,14 @@ $(document).ready(function() {
         }
     });
     
+    /* if a tab contains an active anchor, open it: */
+    var location = document.location.toString();
+    if (location.match('#')) {
+        var id='#' + location.split('#')[1];
+        $(".expand_area").each(function(){
+            $("#" + this.id + ":has(" + id + ")").each(function(){
+                $(".expand_tab[title*=" + this.id + "]").click();
+            });
+        }); 
+    }
 });
