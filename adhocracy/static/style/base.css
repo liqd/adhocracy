@@ -717,14 +717,6 @@ del, del * {
     background-color: #fff;
 }
 
-.double.righthalf del, 
-.double.righthalf del * {
-	/*visibility: hidden;*/
-	display: none;
-	border-bottom: 0px;
-	list-style-type: none;
-}
-
 .double.righthalf ins, 
 .double.righthalf ins * {
     color: green;
@@ -732,11 +724,12 @@ del, del * {
 }
 
 .double.lefthalf ins,
-.double.lefthalf ins * {	
+.double.lefthalf ins *,
+.double.righthalf del, 
+.double.righthalf del * {	
 	/*visibility: hidden;*/
-	display: none;
+	display: none !important;
 	border-bottom: 0px;
-	list-style-type: none;
 }
 
 .double.lefthalf del,
