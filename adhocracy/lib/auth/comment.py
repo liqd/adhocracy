@@ -30,13 +30,13 @@ def is_own(co):
 
 
 def edit(co):
-    if (not co.topic.is_mutable()) and co.textual:
+    if (not co.topic.is_mutable())
         return False
     if has('instance.admin'):
         return True
     if not (has('comment.edit') and show(co)):
         return False
-    if not co.textual and ((not co.wiki) and (not is_own(co))):
+    if (not co.wiki) and (not is_own(co)):
         return False
     return True
 
