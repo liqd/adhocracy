@@ -30,7 +30,7 @@ def is_own(co):
 
 
 def edit(co):
-    if not co.is_mutable()
+    if not co.is_mutable():
         return False
     if has('instance.admin'):
         return True
