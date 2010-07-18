@@ -11,10 +11,8 @@ ${tiles.user.header(c.page_user, c.tile, active='activity')}
 
 <div class="sidebar">
 	<div class="infobox">
-		${_("Signed up %(when)s, is a %(group)s in %(instance)s") % \
-			dict(when=h.relative_time(c.page_user.create_time),
-					 group=_(c.tile.instance_group.group_name), 
-					 instance=c.instance.label)|n}
+		${_("Signed up %(when)s") % \
+			dict(when=h.relative_time(c.page_user.create_time))|n}
 	</div>
 </div>
 
