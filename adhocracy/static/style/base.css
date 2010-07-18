@@ -1314,12 +1314,6 @@ a.button.inactive {
 	max-width: 640px;
 }
 
-.add_canonical {
-	display: none;
-	padding: 5px;
-	margin-bottom: 5px;
-}
-
 .comment .base {
 	overflow: hidden;
 }
@@ -1367,6 +1361,13 @@ a.button.inactive {
     border-left: 0px;
 }
 
+.comment .title {
+	font-size: 1.1em;
+	padding: 0.2em;
+	padding-bottom: 0.5em;
+	/*font-weight: bold;*/
+}
+
 .comment .pre {
 	font-size: 0.8em;
 	padding-bottom: 0.8em;
@@ -1374,42 +1375,31 @@ a.button.inactive {
 	font-weight: bold;
 }
 
-.comment .tile.canonical .pre,
-.comment .tile.canonical .text {
-	background-color: #fdffe6;
-}
-
-.comment .tile.canonical .text {
-	border-bottom: 2px solid #eed8b1;
-}
-
 .comment .tile.pro .pre,
+.comment .tile.pro .title,
 .comment .tile.pro .text {
 	background-color: #e6ffed;
 }
 
 .option_pro {
 	background-color: #e6ffed;
-	/*color: #00ee0a;
-	border: 1px solid #b1eeb4;*/
 }
 
-.comment .tile.pro .text {
+.comment .tile.pro .pre {
 	border-bottom: 2px solid #b1eeb4;
 }
 
 .comment .tile.con .pre,
+.comment .tile.con .title,
 .comment .tile.con .text {
 	background-color: #ffe9e6;
 }
 
 .option_con {
 	background-color: #ffe9e6;
-	/*color: #ee4523;
-	border: 1px solid #eebbb1;*/
 }
 
-.comment .tile.con .text {
+.comment .tile.con .pre {
 	border-bottom: 2px solid #eebbb1;
 }
 
@@ -1439,7 +1429,20 @@ a.button.inactive {
     margin-bottom: 0.5em
 }
 
-.comment_form textarea {
+
+label.inline {
+	display: inline-block;
+}
+
+
+.comment_form .textinput {
+	display: inline-block;
+	min-width: 35%;
+	max-width: 90%;
+}
+
+.comment_form textarea,
+.comment_form .textinput {
     border: 1px solid #ddd;
     border-top: 1px solid #bbb;
     border-left: 1px solid #bbb;
@@ -1524,10 +1527,6 @@ a.button.inactive {
 .headrev .text {
 	padding: 0.4em;
 	background-color: #ffffd0;
-}
-
-.canonical {
-	list-style-type: none;
 }
 
 /* @end */
@@ -1646,16 +1645,6 @@ a.button.inactive {
 	display: inline;
 	margin: 0;
 }
-
-.checklist li {
-	list-style-image: url(/img/icons/condition_met.png);
-}
-
-.checklist li.unmet {
-	list-style-image: url(/img/icons/condition_unmet.png);
-}
-
-
 
 .tagarea {
 	color: black;

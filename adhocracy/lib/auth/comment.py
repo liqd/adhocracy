@@ -15,11 +15,7 @@ def create():
     return has('comment.create')
 
     
-def create_on(topic, canonical=False):
-    if canonical and not isinstance(topic, model.Proposal):
-        return False
-    if canonical and not topic.is_mutable():
-        return False
+def create_on(topic):
     if has('instance.admin'):
         return True
     return create()

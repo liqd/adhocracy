@@ -82,14 +82,6 @@ $(document).ready(function() {
 		return false;
 	}	
 	
-	appendCanonical = function() {
-		newElem = $(".canonical.prototype").clone();
-		newElem = newElem.insertAfter($(".canonical:last"));
-		newElem.slideDown('fast');
-		newElem.removeClass('prototype');
-		return false;
-	}
-	
 	$(".userCompleted").autocomplete('/user/complete', {
 		autoFill: false,
 		dataType: 'json',

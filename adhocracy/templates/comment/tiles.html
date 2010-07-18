@@ -76,7 +76,6 @@
 	%>
 	<div class="comment" id="c${comment.id}">
 		<div class="tile 
-				        ${'canonical' if comment.canonical else ''} 
 				        ${'pro' if comment.latest.sentiment == c.model.Comment.SENT_PRO else ''} 
    				      ${'con' if comment.latest.sentiment == c.model.Comment.SENT_CON else ''} 
 				        ${h.poll_position_css(comment.poll)}" id="tile_c${comment.id}">
@@ -139,6 +138,10 @@
 		${h.field_token()|n}
 		<input type="hidden" name="_method" value="PUT" />
 		<input type="hidden" name="ret_url" value="${ret_url}" />
+		
+		<label for="title" class="inline">${_("Title:")}</label>
+		<input class="textinput" name="title" value="${comment.latest.title}" />
+		
 		%if comment.is_root:
 			${_("argumenting:")}
 			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == 1 else ''} /> 
@@ -170,6 +173,10 @@
 			<input type="hidden" name="reply" value="${parent.id}" />
 		%endif
 		<div style="width: auto;">
+		
+		<label for="title" class="inline">${_("Title:")}</label>
+		<input class="textinput" name="title" value="${h.propose_comment_title(parent=parent, topic=topic)}" />
+		
 		%if not parent:
 			${_("argumenting:")}
 			<% pos = topic.user_position(c.user) %>
@@ -197,6 +204,19 @@
 
 
 <%def name="static_part(tile, comment)">
+		<div class="title">
+		%if comment.latest.has_title:
+			${comment.latest.title}
+		%endif
+		</div>
+		<div class="text hide_edit">
+			%if not comment.is_deleted():
+				${tile.text|n}
+			%else:
+				<span class="hint">${_("This comment has been deleted.")}</span>
+			%endif
+		</div>
+		
 		<div class="pre">
 			%if comment.is_deleted():
 				${_("deleted %s") % h.relative_time(comment.delete_time)|n}
@@ -227,14 +247,6 @@
 			<a name="c${comment.id}">&nbsp;</a>
 		</div>
 		
-		<div class="text hide_edit">
-			%if not comment.is_deleted():
-				${tile.text|n}
-			%else:
-				<span class="hint">${_("This comment has been deleted.")}</span>
-			%endif
-		</div>
-
 </%def>
 
 

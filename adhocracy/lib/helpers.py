@@ -212,6 +212,17 @@ def canonical_url(url):
     c.canonical_url = url
 
 
+def propose_comment_title(parent=None, topic=None):
+    if parent and parent.latest.title:
+        title = parent.latest.title
+        if not title.startswith(_("Re: ")):
+            title = _("Re: ") + title
+        return title
+    elif topic:
+        return _("Re: ") + topic.title
+    return ""
+    
+
 def add_meta(key, value):
     if not c.html_meta:
         c.html_meta = dict()

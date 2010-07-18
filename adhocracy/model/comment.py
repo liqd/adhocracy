@@ -17,7 +17,6 @@ comment_table = Table('comment', meta.data,
     Column('delete_time', DateTime, default=None, nullable=True),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('topic_id', Integer, ForeignKey('delegateable.id'), nullable=False),
-    Column('canonical', Boolean, default=False),
     Column('wiki', Boolean, default=False),
     Column('reply_id', Integer, ForeignKey('comment.id'), nullable=True),
     Column('poll_id', Integer, ForeignKey('poll.id'), nullable=True),
@@ -84,16 +83,13 @@ class Comment(object):
     
     
     @classmethod    
-    def create(cls, text, user, topic, reply=None, wiki=True, variant=None, canonical=False, 
+    def create(cls, title, text, user, topic, reply=None, wiki=True, variant=None, 
                sentiment=0, with_vote=False):
         from poll import Poll
         from text import Text
         if variant is None: 
             variant = Text.HEAD
         comment = Comment(topic, user, variant)
-        comment.canonical = canonical
-        if canonical:
-            wiki = True
         comment.wiki = wiki
         comment.reply = reply
         meta.Session.add(comment)
@@ -101,17 +97,15 @@ class Comment(object):
         poll = Poll.create(topic, user, Poll.RATE, comment,
                            with_vote=with_vote)
         comment.poll = poll
-        comment.latest = comment.create_revision(text, user, sentiment=sentiment, 
+        comment.latest = comment.create_revision(title, text, user, sentiment=sentiment, 
                                                  create_time=comment.create_time)
         return comment
     
     
-    def create_revision(self, text, user, sentiment=0, create_time=None):
+    def create_revision(self, title, text, user, sentiment=0, create_time=None):
         from revision import Revision
         from adhocracy.lib.text import cleanup
-        rev = Revision(self, user, cleanup(text))
-        if self.canonical:
-            sentiment = 0
+        rev = Revision(self, title, user, cleanup(text))
         rev.sentiment = sentiment
         if create_time is not None:
             rev.create_time = create_time
@@ -144,7 +138,7 @@ class Comment(object):
     
     
     def is_mutable(self):
-        return (not self.canonical) or self.topic.is_mutable()
+        return True #self.topic.is_mutable()
         
                     
     def _index_id(self):
@@ -159,7 +153,6 @@ class Comment(object):
                  url=url.entity_url(self, comment_page=True),
                  creator=self.creator.user_name)
         d['reply'] = self.reply_id
-        d['canonical'] = self.canonical
         d['wiki'] = self.wiki
         d['latest'] = self.latest.to_dict()
         d['revisions'] = map(lambda r: r.id, self.revisions)

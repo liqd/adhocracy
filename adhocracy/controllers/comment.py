@@ -15,17 +15,18 @@ class CommentNewForm(formencode.Schema):
     topic = forms.ValidDelegateable()
     reply = forms.ValidComment(if_empty=None, if_missing=None)
     wiki = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
-    canonical = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
     variant = forms.VariantName(not_empty=False, if_empty=model.Text.HEAD, if_missing=model.Text.HEAD)
 
 
 class CommentCreateForm(CommentNewForm):
+    title = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
     text = validators.String(max=21000, min=4, not_empty=True)
     sentiment = validators.Int(min=model.Comment.SENT_CON, max=model.Comment.SENT_PRO, if_empty=0, if_missing=0)
     
     
 class CommentUpdateForm(formencode.Schema):
     allow_extra_fields = True
+    title = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
     text = validators.String(max=21000, min=4, not_empty=True)
     sentiment = validators.Int(min=model.Comment.SENT_CON, max=model.Comment.SENT_PRO, if_empty=0, if_missing=0)
 
@@ -59,12 +60,11 @@ class CommentController(BaseController):
         c.topic = self.form_result.get('topic')
         c.reply = self.form_result.get('reply')
         c.wiki = self.form_result.get('wiki')
-        c.canonical = self.form_result.get('canonical')
         c.variant = self.form_result.get('variant')
         if c.reply:
             require.comment.reply(c.reply)
         else: 
-            require.comment.create_on(c.topic, canonical=c.canonical)
+            require.comment.create_on(c.topic)
         return render('/comment/new.html')
     
     
@@ -72,26 +72,23 @@ class CommentController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=CommentCreateForm(), form="new", post_only=True)
     def create(self, format='html'):
-        canonical = self.form_result.get('canonical')
         topic = self.form_result.get('topic')
         reply = self.form_result.get('reply')
         
-        if canonical and not isinstance(topic, model.Proposal):
-            return ret_abort(_("Trying to create a provision on a page"), code=400)
         if reply:
             require.comment.reply(reply)
         else: 
-            require.comment.create_on(topic, canonical=canonical)
+            require.comment.create_on(topic)
             
         variant = self.form_result.get('variant')
         if hasattr(topic, 'variants') and not variant in topic.variants:
             return ret_abort(_("Comment topic has no variant %s") % variant, code=400)
         
-        comment = model.Comment.create(self.form_result.get('text'), 
+        comment = model.Comment.create(self.form_result.get('title'),
+                                       self.form_result.get('text'), 
                                        c.user, topic, 
                                        reply=reply, 
                                        wiki=self.form_result.get('wiki'),
-                                       canonical=canonical,
                                        variant=variant,
                                        sentiment=self.form_result.get('sentiment'), 
                                        with_vote=can.user.vote())
@@ -121,7 +118,8 @@ class CommentController(BaseController):
     def update(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.edit(c.comment)
-        rev = c.comment.create_revision(self.form_result.get('text'), 
+        rev = c.comment.create_revision(self.form_result.get('title'),
+                                        self.form_result.get('text'), 
                                         c.user,
                                         sentiment=self.form_result.get('sentiment'))
         model.meta.Session.commit()
@@ -171,8 +169,6 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_DELETE, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
                    topic=c.comment.topic)
-        if c.comment.root().canonical:
-            redirect(h.entity_url(c.comment.topic, member='canonicals'))
         return ret_success(message=_("The comment has been deleted."), entity=c.comment.topic, 
                            format=format)
     

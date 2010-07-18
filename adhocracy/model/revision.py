@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 
-from sqlalchemy import Table, Column, Integer, UnicodeText, ForeignKey, DateTime, func
+from sqlalchemy import Table, Column, Integer, Unicode, UnicodeText, ForeignKey, DateTime, func
 
 import meta
 
@@ -13,17 +13,39 @@ revision_table = Table('revision', meta.data,
     Column('text', UnicodeText(), nullable=False),
     Column('sentiment', Integer, default=0),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('comment_id', Integer, ForeignKey('comment.id'), nullable=False)
+    Column('comment_id', Integer, ForeignKey('comment.id'), nullable=False),
+    Column('title', Unicode(255), nullable=True)
     )
 
 class Revision(object):
     
-    def __init__(self, comment, user, text):
+    def __init__(self, comment, title, user, text):
         self.comment = comment
+        self.title = title
         self.user = user
         self.text = text
     
-        
+    
+    @property
+    def has_title(self):
+        return self._title is not None
+    
+    
+    def _get_title(self):
+        if self.has_title:
+            return self._title
+        from adhocracy.lib.helpers import propose_comment_title
+        return propose_comment_title(parent=self.comment.reply, 
+                                     topic=self.comment.topic)
+    
+                                     
+    def _set_title(self, title):
+        self._title = title
+    
+      
+    title = property(_get_title, _set_title)
+    
+    
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
         try:
@@ -37,6 +59,7 @@ class Revision(object):
         
     def to_dict(self):
         d = dict(id=self.id,
+                 title=self.title,
                  comment=self.comment_id,
                  create_time=self.create_time,
                  user=self.user.user_name,

@@ -50,12 +50,6 @@ class ProposalTile(DelegateableTile):
             return True
         return False
     
-    
-    @property
-    def can_create_canonical(self):
-        return h.has_permission('comment.create') \
-                and self.proposal.is_mutable()
-    
         
     @property   
     def delegates(self):

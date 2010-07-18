@@ -105,7 +105,8 @@ mapper(Revision, revision_table, properties={
     'user': relation(User, lazy=True, primaryjoin=revision_table.c.user_id==user_table.c.id, 
                      backref=backref('revisions', lazy=True, cascade='all')),
     'comment': relation(Comment, lazy=False, backref=backref('revisions', cascade='all',
-                        lazy=True, order_by=revision_table.c.create_time.desc()))
+                        lazy=True, order_by=revision_table.c.create_time.desc())),
+    'title': synonym('_title', map_column=True)
     }, extension=meta.extension)
     
 
