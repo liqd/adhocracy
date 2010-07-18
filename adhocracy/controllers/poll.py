@@ -67,7 +67,7 @@ class PollController(BaseController):
         
         for vote in votes:
             event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance, 
-                    topics=[c.poll.scope], vote=vote, poll=c.poll)
+                       topics=[c.poll.scope], vote=vote, poll=c.poll)
         model.meta.Session.commit()
         
         if format == 'json':
@@ -105,7 +105,7 @@ class PollController(BaseController):
                       model.Poll.SELECT: event.T_SELECT_VARIANT}.get(c.poll.action)
         for vote in votes:
             event.emit(event_type, vote.user, instance=c.instance, 
-                    topics=[c.poll.scope], vote=vote, poll=c.poll)
+                       topics=[c.poll.scope], vote=vote, poll=c.poll)
         model.meta.Session.commit()
         
         if format == 'json':

@@ -84,20 +84,5 @@
 			<li><a href="${h.entity_url(user, member='instances')}" class="instances">${_("Instances")} 	
 				(${tile.num_instances})</a></li>
 		</ul>
-		
-		<div class="info">
-			<div class="meta">
-				${_("signed up %s") % h.relative_time(user.create_time)|n}
-			</div>
-			<% 
-			grp = tile.instance_group
-			%>
-			%if grp:
-				<span class="role">
-					${"%(group)s in %(instance)s" % dict(group=_(grp.group_name), 	
-													 instance=c.instance.label)}
-				</span>
-			%endif
-		</div>
 	</div>
 </%def>

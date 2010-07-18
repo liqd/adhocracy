@@ -131,19 +131,19 @@ T_PAGE_DELETE = EventType(u"t_page_delete", pri=2,
 T_COMMENT_CREATE = EventType(u"t_comment_create", pri=3, 
                           subject=lambda: _(u"New comment: in %(topic)s"),
                           link_path=lambda e: h.entity_url(e.comment),
-                          event_msg=lambda: _(u"created a %(comment)s on %(topic)s"),
+                          event_msg=lambda: _(u"commented %(comment)s on %(topic)s"),
                           text=lambda e: e.rev.text if e.rev else None)
 
 T_COMMENT_EDIT = EventType(u"t_comment_edit", pri=3, 
                           subject=lambda: _(u"Edited comment: in %(topic)s"),
                           link_path=lambda e: h.entity_url(e.comment),
-                          event_msg=lambda: _(u"edited a %(comment)s on %(topic)s"),
+                          event_msg=lambda: _(u"edited the comment %(comment)s on %(topic)s"),
                           text=lambda e: e.rev.text if e.rev else None)
 
 T_COMMENT_DELETE = EventType(u"t_comment_delete", pri=3, 
                           subject=lambda: _(u"Deleted comment: in %(topic)s"),
                           link_path=lambda e: h.entity_url(e.topic),
-                          event_msg=lambda: _(u"deleted a %(comment)s from %(topic)s"))
+                          event_msg=lambda: _(u"deleted the comment %(comment)s from %(topic)s"))
 
 T_DELEGATION_CREATE = EventType(u"t_delegation_create", pri=2, 
                           subject=lambda: _(u"New Delegation: %(user)s delegated %(scope)s to %(agent)s"),

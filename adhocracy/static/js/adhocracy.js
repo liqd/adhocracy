@@ -125,11 +125,6 @@ $(document).ready(function() {
 		return false;
 	}
 	
-	comment_link_discussion = function(id) {
-		$("#c" + id + " .link_discussion").slideToggle('fast');
-		return false;
-	}
-	
 	comment_edit = function(id) {
 		$("#tile_c" + id + " .hide_edit").slideToggle('fast');
 		$("#tile_c" + id + " .edit_form").slideToggle('fast');
@@ -177,21 +172,10 @@ $(document).ready(function() {
 		return false;
 	}
     
-	
-	add_canonical = function() {
-		$(".add_canonical").slideToggle('normal');
-		return false;
-	}
-
-	$(".comment .hide").show();
-	
 	/* Low-scoring comments */
-	$(".low_comments").hide();
-	$(".show_low").show();
-	
-	show_low_comments = function(id) {
-	   $("#low_link_" + id).hide();
-	   $("#low_" + id).show();
+	toggle_comment = function(id) {
+	   $("#c" + id).slideToggle('fast');
+	   $("#tc" + id).toggle();
 	   return false;
 	}
 	
@@ -205,19 +189,6 @@ $(document).ready(function() {
 			$("#tile_" + anchor.substring(1)).removeClass("anchor");
 			}, 3500);
 	}
-		
-	/* Hovering title warnings */
-	current_htWarn_title = "";
-	$(".htwarn").hover(
-			function() {
-				current_htWarn_title = $(this).attr('title');
-				$(this).append($("<div class='htwarnbox'>" + current_htWarn_title + "</div>"));
-				$(this).attr('title', '');
-			},
-			function() {
-				$(this).find(".htwarnbox").remove();
-				$(this).attr('title', current_htWarn_title);
-			});
 	
 	/* Live filter for issue listing on instance home page */
 	var originalListing = null;

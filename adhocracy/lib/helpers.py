@@ -219,7 +219,7 @@ def propose_comment_title(parent=None, topic=None):
             title = _("Re: ") + title
         return title
     elif topic:
-        return _("Re: ") + topic.title
+        return _("Re: ") + topic.title[:250]
     return ""
     
 

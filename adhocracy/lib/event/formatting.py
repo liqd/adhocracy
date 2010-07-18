@@ -48,7 +48,7 @@ class PollFormatter(ObjectFormatter):
             
     
     def unicode(self, poll):
-        if poll.action == poll.SELECT: 
+        if poll.action == poll.SELECT and poll.selection: 
             text = poll.selection.page.variant_head(poll.variant)
             title = _("Status quo") if text.variant == text.HEAD else text.variant
             return self.SELECT_PATTERN(title, poll.selection.page.title)
@@ -58,6 +58,7 @@ class PollFormatter(ObjectFormatter):
     
     
     def html(self, poll):
+        print "SUB", repr(poll.subject).encode('utf-8')
         if poll.action == poll.SELECT: 
             text = poll.selection.page.variant_head(poll.variant)
             title = _("Status quo") if text.variant == text.HEAD else text.variant
@@ -109,13 +110,13 @@ class VoteFormatter(ObjectFormatter):
 class CommentFormatter(ObjectFormatter):
     
     def unicode(self, comment):
-        return _("comment")
+        return comment.latest.title
     
     def html(self, comment):
         if comment.delete_time:
             return self.unicode(comment)
         return "<a href='%s'>%s</a>" % (h.entity_url(comment), 
-                                       self.unicode(comment))
+                                        cgi.escape(self.unicode(comment)))
 
 
 class FormattedEvent(object): 

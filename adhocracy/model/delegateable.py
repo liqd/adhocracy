@@ -127,7 +127,6 @@ class Delegateable(object):
         query = query.join(Comment)
         query = query.filter(Comment.topic==self)
         query = query.order_by(Revision.create_time.desc())
-        query = query.filter(Comment.canonical==False)
         query = query.limit(1)
         latest = query.first()
         if latest is None:

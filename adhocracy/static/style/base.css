@@ -630,20 +630,6 @@ body {
 	background-color: #fcea9a;
 }
 
-.htwarnbox {
-	background-color: #9d0000;
-	font-weight: bold;
-	font-size: 10pt;
-	width: 200px;
-	position: absolute;
-	padding: 1em;
-	text-align: left;
-	color:  #fff;
-	margin-top: 0.5em;
-	text-decoration: none;
-	z-index: 2000;
-}
-
 .warning_box,
 #flash_messages {
 	background-repeat: no-repeat;
@@ -1179,6 +1165,9 @@ a.button {
 	background-image: url(/img/menu_bg.png);
 	background-repeat: repeat-x;
 	background-position: top;
+	
+	cursor:pointer;
+	cursor:hand;
 }
 
 .button img {
@@ -1319,6 +1308,7 @@ a.button.inactive {
 }
 
 .comment .anchor .text,
+.comment .anchor .title,
 .comment .anchor .pre {
 	background-color: #fdfbc0;
 }
@@ -1365,7 +1355,7 @@ a.button.inactive {
 	font-size: 1.1em;
 	padding: 0.2em;
 	padding-bottom: 0.5em;
-	/*font-weight: bold;*/
+	font-weight: bold;
 }
 
 .comment .pre {
@@ -1432,13 +1422,15 @@ a.button.inactive {
 
 label.inline {
 	display: inline-block;
+	width: 15%;
 }
 
 
 .comment_form .textinput {
 	display: inline-block;
-	min-width: 35%;
-	max-width: 90%;
+	width: 80%;
+	/*min-width: 35%;
+	max-width: 90%;*/
 }
 
 .comment_form textarea,
@@ -1494,10 +1486,30 @@ label.inline {
     display: none;
 }
 
-
-
-.link_discussion {
+.comment_tiny {
 	display: none;
+	/*font-style: italic;*/
+	font-size: 0.9em;
+	color:  #999;
+	margin-bottom: 0.5em;
+}
+
+.comment_tiny .rate {
+	font-size: 13px;
+	width: 16px;
+	margin-right: 1.1em;
+	float: left;	
+}
+
+.comment_tiny .link {
+}
+
+.comment_tiny.show {
+	display: block;
+}
+
+.comment_tiny a {
+	font-weight: bold;
 }
 
 .history .index {

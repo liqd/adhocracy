@@ -76,7 +76,7 @@ class Poll(object):
     def selection(self):
         if self._selection is None:
             from selection import Selection
-            self._selection = Selection.by_key(self._subject)
+            self._selection = Selection.by_key(self._subject, instance_filter=False)
         return self._selection
         
         

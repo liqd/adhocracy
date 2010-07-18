@@ -64,6 +64,11 @@ class CommentTile(BaseTile):
     @property
     def score(self):
         return self.comment.poll.tally.score
+        
+    
+    @property
+    def is_low(self):
+        return self.score <= -1
     
     
 

@@ -9,7 +9,16 @@
 
 ${tiles.user.header(c.page_user, c.tile, active='activity')}
 
-<div class="lefthalf">
+<div class="sidebar">
+	<div class="infobox">
+		${_("Signed up %(when)s, is a %(group)s in %(instance)s") % \
+			dict(when=h.relative_time(c.page_user.create_time),
+					 group=_(c.tile.instance_group.group_name), 
+					 instance=c.instance.label)|n}
+	</div>
+</div>
+
+<div class="mainbar">
 	%if c.tile.bio:
 		<div class="description">
 			${c.tile.bio|n}
@@ -18,11 +27,11 @@ ${tiles.user.header(c.page_user, c.tile, active='activity')}
 		<div class="infobox">
 			${_("%s does not yet have a bio.") % c.page_user.name}
 		</div>
-	%endif
-</div>
-
-<div class="righthalf">
+	%endif	
+	
+	<br/>
 	<div class="table">
 		${c.events_pager.here()}
 	</div>
 </div>
+

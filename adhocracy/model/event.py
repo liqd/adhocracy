@@ -138,10 +138,11 @@ class Event(object):
         except AttributeError, ae:
             log.exception("Creating event text", ae)
         if text is None or not len(text):
-            from adhocracy.lib.event import formatting
-            from adhocracy.lib import helpers as h
-            text = u"%s %s" % (h.user_link(self.user), 
-                               formatting.as_html(self))
+            text = ''
+            #from adhocracy.lib.event import formatting
+            #from adhocracy.lib import helpers as h
+            #text = u"%s %s" % (h.user_link(self.user), 
+            #                   formatting.as_html(self))
         return text
             
             

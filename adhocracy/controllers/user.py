@@ -242,7 +242,7 @@ class UserController(BaseController):
         query = model.meta.Session.query(model.Event)
         query = query.filter(model.Event.user==c.page_user)
         query = query.order_by(model.Event.time.desc())
-        query = query.limit(50)  
+        query = query.limit(10)  
         if format == 'rss':
             return event.rss_feed(query.all(), "%s Latest Actions" % c.page_user.name,
                                   h.instance_url(None, path='/user/%s' % c.page_user.user_name),
