@@ -46,7 +46,6 @@ def get_site_directory():
     return site_directory
 
 def get_fallback_directory():
-    from pprint import pprint
     return os.path.abspath(config.get('pylons.paths').get('root')) 
 
 def compose_path(basedir, *a):
