@@ -69,11 +69,11 @@ def upgrade():
         )
     css = Column('css', UnicodeText(), nullable=True)
     css.create(instance_table)
-    page_root_id = Column('main_page_id', Integer, ForeignKey('page.id'), nullable=True)
+    page_root_id = Column('main_page_id', Integer, nullable=True)
     if migrate_engine.url.drivername == "sqlite":
         page_root_id = Column('main_page_id', Integer, nullable=True)
     page_root_id.create(instance_table)
-    norm_root_id = Column('norm_page_id', Integer, ForeignKey('page.id'), nullable=True)
+    norm_root_id = Column('norm_page_id', Integer, nullable=True)
     if migrate_engine.url.drivername == "sqlite":
         norm_root_id = Column('norm_page_id', Integer, nullable=True)
     norm_root_id.create(instance_table)
