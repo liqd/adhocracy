@@ -33,6 +33,8 @@ def _common_url_builder(instance, base, id, query=None, **kwargs):
     url = instance_url(instance, path=u'/' + base + u'/' + unicode(id))
     url = _append_member_and_format(url, **kwargs)
     if query is not None:
+        for k, v in query.items():
+            query[k.encode('ascii', 'ignore')] = v.encode('utf-8')
         url = url + u'?' + unicode(urllib.urlencode(query))
     return url #.encode('utf-8')
 
