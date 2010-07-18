@@ -171,7 +171,7 @@
 		<div style="width: auto;">
 		
 		<label for="title" class="inline">${_("Title:")}</label>
-		<input class="textinput" name="title" value="${h.propose_comment_title(parent=parent, topic=topic)}" />
+		<input class="textinput" name="title" value="${h.propose_comment_title(parent=parent, topic=topic, variant=variant)}" />
 		
 		%if not parent:
 			<label for="sentiment" class="inline">${_("Argumenting:")}</label>

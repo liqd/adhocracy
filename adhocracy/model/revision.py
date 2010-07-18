@@ -36,7 +36,8 @@ class Revision(object):
             return self._title
         from adhocracy.lib.helpers import propose_comment_title
         return propose_comment_title(parent=self.comment.reply, 
-                                     topic=self.comment.topic)
+                                     topic=self.comment.topic,
+                                     variant=self.comment.variant)
     
                                      
     def _set_title(self, title):

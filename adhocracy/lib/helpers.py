@@ -212,12 +212,14 @@ def canonical_url(url):
     c.canonical_url = url
 
 
-def propose_comment_title(parent=None, topic=None):
+def propose_comment_title(parent=None, topic=None, variant=None):
     if parent and parent.latest.title:
         title = parent.latest.title
         if not title.startswith(_("Re: ")):
             title = _("Re: ") + title
         return title
+    elif variant:
+        return _("Re: ") + variant[:250]
     elif topic:
         return _("Re: ") + topic.title[:250]
     return ""

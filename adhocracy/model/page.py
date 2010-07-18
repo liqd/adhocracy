@@ -236,9 +236,10 @@ class Page(Delegateable):
     
     @property
     def full_title(self):
-        title = self.title
+        from adhocracy.lib.helpers import text
+        title = text.truncate(self.title, length=40, whole_word=True)
         if self.parent:
-            title = self.parent.title + " - " + title
+            title = self.parent.full_title + " - " + title
         return title
         
     

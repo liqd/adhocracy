@@ -58,9 +58,9 @@
 		<form action="/page/diff" method="GET" id="diff_left_form">	
 		<input type="hidden" name="right" value="${other.id}" />
 	%endif
-	
-	<div class="infobox">
-		<ul>
+
+	<div class="variant_header">
+		<ul class="variant_innerheader">
 			%if this.title != other.title:
 				<li>${_("Title:")|n} <b><a href="${h.entity_url(this)|n}">${this.title}</a></b></li>
 			%endif

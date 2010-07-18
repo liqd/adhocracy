@@ -27,18 +27,35 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 <div class="mainbar">
 
 
-	<div id="accordion">
-		<h3><a href="#">${_("I want to include a change to an existing norm.")|n}</a></h3>
+	<div id="selection_new">
+		
+		<div class="variant_header expand_tab" title="change@selection_new">
+			<div class="variant_innerheader">
+				${_("I want to include a change to an existing norm.")|n}<br/><br/>
+			</div>
+		</div>
+		
+		<div id="change" class="tile expand_area">
+		<p>
+			${_("Select a norm that you want to relate to. You can later write a variant of this norm to propose a change.")|n}
+		</p>
 		<form name="create_selection" class="inplace" method="POST" 
 		      action="${h.entity_url(c.proposal, member='implementation')}">
 
 			${tiles.page.select_page(functions=[c.model.Page.NORM], 
 				                       exclude=[s.page for s in c.proposal.selections], 
 				                       allow_empty=False)}
+			<br/><br/>
 			<input type="submit" value="${_("Include")}" />
 		</form>
-
-		<h3><a href="#">${_("I want to propose the creation of a new norm.")|n}</a></h3>
+		</div>
+	
+		<div class="variant_header expand_tab" title="create@selection_new">
+			<div class="variant_innerheader">
+				${_("I want to propose the creation of a new norm.")|n}<br/><br/>
+			</div>
+		</div>
+		<div id="create" class="tile expand_area area_hidden">
 		<form name="create_page" class="inplace" method="POST" action="/page">
 			${h.field_token()|n}
 			<input type="hidden" value="${c.model.Page.NORM}" name="function" />
@@ -58,6 +75,7 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 			
 			${components.savebox(None)}
 		</form>
+		</div>
 	</div>
 
 </div>

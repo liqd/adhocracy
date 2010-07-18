@@ -6,18 +6,23 @@
 			<img class="cd" src="/img/icons/page_variant_24.png">
 			${selection.page.title}
 			<!--/a-->
+			%if tile.selected and tile.selected != 'HEAD':
+				- <code>${tile.selected}</code>
+			%endif
+			<!--
 			%if not selection.page.head.has_text:
 				${_("(initiative)")}
 			%else:
 				${_("(change)")}
 			%endif
+			-->
 		</h3>
 		
 		<br/>
 		<div class="panel">
 			<div class="menu">
 				<ul>
-					<li><a class="expand_tab" id="tmp" title="text_${selection.id}@selection_${selection.id}">
+					<li><a class="expand_tab" title="text_${selection.id}@selection_${selection.id}">
 						${_("Selected variant")}
 					</a></li>
 					%if tile.selected:
@@ -123,14 +128,17 @@
 					${_("(this proposal should not change this norm)")}
 				%else:
 					<b><a href="${h.entity_url(row.text)}">${row.variant}</a></b>
+					%if row.selected and not row.text.is_head and not tile.frozen:
+						&middot; ${_("Currently selected for inclusion in this proposal")}
+					%endif
 				%endif
 				<br/>
 				${ungettext("%s comment", "%s comments", row.num_comments) % row.num_comments}
 				%if row.can_edit:
 					&middot; <a href="${h.entity_url(row.text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
 				%endif
-				%if row.selected and not row.text.is_head and not tile.frozen:
-					&middot; ${_("Currently selected for inclusion in this proposal")}
+				%if tile.selected_text and row.text.id != tile.selected_text.id:
+					&middot; <a href="/page/diff?right=${row.text.id}&left=${tile.selected_text.id}">${_("compare")}</a>
 				%endif
 			</div></div>
 			<div id="text_${row.text.id}"
