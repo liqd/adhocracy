@@ -43,7 +43,7 @@ def user_link(user, size=16, scope=None):
         url = u"<a href='%s' class='user_link'><img width='16' height='16' class='user_icon' src='%s' alt="" /> %s</a>" % (
             entity_url(user), gravatar_url(user, size=size),
             cgi.escape(user.name))
-        if scope and (not c.instance or c.instance.allow_delegation):
+        if scope and ((not c.instance) or c.instance.allow_delegate):
             votes = user.number_of_votes_in_scope(scope)
             if votes > 0:
                 url += u"<sup>%s</sup>" % votes

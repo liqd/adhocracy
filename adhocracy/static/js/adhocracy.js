@@ -126,33 +126,12 @@ $(document).ready(function() {
 	}
 	
 	comment_edit = function(id) {
+	    $("#tile_c" + id + " .pre").toggle();
 		$("#tile_c" + id + " .hide_edit").slideToggle('fast');
 		$("#tile_c" + id + " .edit_form").slideToggle('fast');
 		return false;
 	}
-	
-	comment_hide = function(id) {
-		$("#tile_c" + id + " .hide").hide();
-		$("#tile_c" + id + " .meta").hide();
-		$("#tile_c" + id + " .text").hide();
-		$("#tile_c" + id + " .edit_form").hide();
-		$("#tile_c" + id + " .reply_form").hide();
-		$("#c" + id + " .sub").hide();
-		$("#tile_c" + id + " .show").show();
-		return false;
-	}
-	
-	comment_show = function(id) {
-		$("#tile_c" + id + " .show").hide();
-		$("#tile_c" + id + " .meta").show();
-		$("#tile_c" + id + " .text").show();
-		$("#c" + id + " .sub").show();
-		$("#tile_c" + id + " .hide").show();
-		$("#c" + id + " .edit_form").hide();
-		$("#c" + id + " .reply_form").hide();
-		return false;
-	}
-	
+		
 	rate = function(elem_id, poll_id, value) {
 	    $(elem_id + " .score").text('*');
 		$.post('/poll/' + poll_id + '/rate.json', {position: value},
