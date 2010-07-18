@@ -34,7 +34,7 @@ def _common_url_builder(instance, base, id, query=None, **kwargs):
     url = _append_member_and_format(url, **kwargs)
     if query is not None:
         url = url + u'?' + unicode(urllib.urlencode(query))
-    return url.encode('utf-8')
+    return url #.encode('utf-8')
 
 
 def user_url(user, instance=None, **kwargs):

@@ -218,7 +218,7 @@ def propose_comment_title(parent=None, topic=None, variant=None):
         if not title.startswith(_("Re: ")):
             title = _("Re: ") + title
         return title
-    elif variant:
+    elif variant and variant != model.Text.HEAD:
         return _("Re: ") + variant[:250]
     elif topic:
         return _("Re: ") + topic.title[:250]
