@@ -1,6 +1,7 @@
 import simplejson 
 from datetime import datetime
 import rfc822
+import hashlib
 
 from pylons import request, response, tmpl_context as c
 from pylons.templating import render_mako, render_mako_def
@@ -97,7 +98,7 @@ def render_json(data, encoding='utf-8'):
 
 def render_png(io, mtime, content_type="image/png"):
     response.content_type = content_type
-    etag_cache(key=str(mtime))
+    etag_cache(key=hashlib.sha1(io).hexdigest())
     response.charset = None
     response.last_modified = rfc822.formatdate(timeval=mtime)
     del response.headers['Cache-Control']

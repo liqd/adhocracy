@@ -21,11 +21,13 @@ def _instance_logo_path(instance):
     key = instance.key if instance else '-#-'
     return util.get_site_path('uploads', 'instance', key + '.png')
 
+
 def store(instance, file):
     logo_image = Image.open(file)
     logo_image.save(_instance_logo_path(instance))
 
-@memoize('instance_image')
+
+@memoize('instance_image', 3600)
 def load(instance, size, fallback=DEFAULT):
     instance_path = _instance_logo_path(instance)
     if not os.path.exists(instance_path):

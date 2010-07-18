@@ -52,8 +52,9 @@ class Comment(object):
     
     
     @property
-    def textual(self):
-        return self.canonical
+    def is_root(self):
+        return self.reply is None
+    
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
