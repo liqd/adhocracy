@@ -40,13 +40,13 @@ def immutable_proposal_message():
 def user_link(user, size=16, scope=None):
     @cache.memoize('user_generic_link')
     def _generic_link(user, size, scope):
-        url = "<a href='%s' class='user_link'><img width='16' height='16' class='user_icon' src='%s' alt="" /> %s</a>" % (
+        url = u"<a href='%s' class='user_link'><img width='16' height='16' class='user_icon' src='%s' alt="" /> %s</a>" % (
             entity_url(user), gravatar_url(user, size=size),
             cgi.escape(user.name))
         if scope:
             votes = user.number_of_votes_in_scope(scope)
             if votes > 0:
-                url += "<sup>%s</sup>" % votes
+                url += u"<sup>%s</sup>" % votes
         return url
     
     @cache.memoize('user_specific_link')
@@ -56,8 +56,8 @@ def user_link(user, size=16, scope=None):
             dnode = democracy.DelegationNode(other, scope)
             for delegation in dnode.outbound():
                 if delegation.agent == user:
-                    icon = "<img class='user_icon' width='16' height='16' src='/img/icons/delegate_16.png' />"
-                    url += "<a href='%s'>%s</a>" % (entity_url(delegation), icon)
+                    icon = u"<img class='user_icon' width='16' height='16' src='/img/icons/delegate_16.png' />"
+                    url += u"<a href='%s'>%s</a>" % (entity_url(delegation), icon)
         return url
     
     return _specific_link(user, size, scope, c.user)
@@ -66,11 +66,11 @@ def user_link(user, size=16, scope=None):
 @cache.memoize('proposal_icon')
 def proposal_icon(proposal, size=16):
     if proposal.adopted:
-        return instance_url(None, path='') + "/img/icons/proposal_adopted_" + str(size) + ".png"
+        return instance_url(None, path='') + u"/img/icons/proposal_adopted_" + str(size) + u".png"
     if proposal.is_adopt_polling():
-        return instance_url(None, path='') + "/img/icons/vote_" + str(size) + ".png"
+        return instance_url(None, path='') + u"/img/icons/vote_" + str(size) + u".png"
     else:
-        return instance_url(None, path='') + "/img/icons/proposal_" + str(size) + ".png"
+        return instance_url(None, path='') + u"/img/icons/proposal_" + str(size) + u".png"
 
 
 @cache.memoize('delegateable_link')
@@ -83,14 +83,14 @@ def delegateable_link(delegateable, icon=True, icon_size=16, link=True):
 
 
 def tag_link(tag, count=None, size=None, base_size=12, plain=False):
-    text = "<span class='tag_link %s'><a" % ("plain" if plain else "")
+    text = u"<span class='tag_link %s'><a" % ("plain" if plain else "")
     if size is not None:
         size = int(math.sqrt(size) * base_size)
-        text += " style='font-size: %dpx !important;'" % size
-    text += " href='%s' rel='tag'>%s</a>" % (entity_url(tag), cgi.escape(tag.name))
+        text += u" style='font-size: %dpx !important;'" % size
+    text += u" href='%s' rel='tag'>%s</a>" % (entity_url(tag), cgi.escape(tag.name))
     if count is not None and count > 1:
-        text += "&thinsp;&times;" + str(count)
-    text += "</span>"
+        text += u"&thinsp;&times;" + str(count)
+    text += u"</span>"
     return text
 
 
@@ -102,7 +102,7 @@ def page_icon(page, size=16):
 def text_icon(text, page=None, size=16):
     if page is None:
         page = page
-    path = "/img/icons/page%s_%s.png"
+    path = u"/img/icons/page%s_%s.png"
     if page.function == page.NORM: 
         if text.variant != text.HEAD:
             return path % ("_variant", size)
@@ -119,9 +119,9 @@ def page_link(page, variant=model.Text.HEAD, create=False, link=True, icon=True,
         page = page.replace("&gt;", ">")
         page = page.replace("&amp;", "&")
         url = urllib.quote(page)
-        url = "/page/new?title=%s" % url
+        url = u"/page/new?title=%s" % url
         url = instance_url(c.instance, path=url)
-        return "<a class='page_link new' href='%s'>%s</a>" % (url, page)
+        return u"<a class='page_link new' href='%s'>%s</a>" % (url, page)
     
     if page.is_deleted():
         link = False
@@ -129,24 +129,24 @@ def page_link(page, variant=model.Text.HEAD, create=False, link=True, icon=True,
     if not link:
         return cgi.escape(page.title)
     
-    text = ""
+    text = u""
     _text = page.variant_head(variant)
     if icon: 
-        text += "<img class='dgb_icon' src='%s' /> " % text_icon(_text, page, size=icon_size)
-    text += "<a class='page_link exists' href='%s'>%s</a>"
+        text += u"<img class='dgb_icon' src='%s' /> " % text_icon(_text, page, size=icon_size)
+    text += u"<a class='page_link exists' href='%s'>%s</a>"
     title = page.title
     if variant != model.Text.HEAD:
-        title = "%s <code>(%s)</code>" % (title, variant)
+        title = u"%s <code>(%s)</code>" % (title, variant)
     return text % (entity_url(_text), cgi.escape(title))
 
 
 def proposal_link(proposal, icon=True, icon_size=16, link=True):
-    text = ""
+    text = u""
     if icon:
-        text += "<img class='dgb_icon' src='%s' /> " % proposal_icon(proposal, size=icon_size)
+        text += u"<img class='dgb_icon' src='%s' /> " % proposal_icon(proposal, size=icon_size)
     text += cgi.escape(proposal.title)
     if link and not proposal.is_deleted():
-        text = "<a href='%s' class='dgb_link'>%s</a>" % (entity_url(proposal), text)
+        text = u"<a href='%s' class='dgb_link'>%s</a>" % (entity_url(proposal), text)
     return text
 
 
@@ -236,7 +236,7 @@ def help_link(text, page, anchor=None):
         url += "#" + anchor
     full_url = url % (page, 'html')
     simple_url = url % (page, 'simple')
-    return "<a target='_new' href='%s' onClick='return showHelp(\"%s\")'>%s</a>" % (full_url, simple_url, text)
+    return u"<a target='_new' href='%s' onClick='return showHelp(\"%s\")'>%s</a>" % (full_url, simple_url, text)
 
 def rss_button(entity):
     return ""
