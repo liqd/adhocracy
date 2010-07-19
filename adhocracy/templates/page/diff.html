@@ -17,7 +17,7 @@ ${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right, variant=c
 <div class="clearboth"></div>
 
 %for i, section in enumerate(c.diff_sections):
-	<div class="lefthalf double">
+	<div class="lefthalf double diffcontent">
 		%if not c.left.has_text and i==0:
 			<div class="infobox">
 			%if c.left == c.right.page.head:
@@ -30,7 +30,7 @@ ${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right, variant=c
 		${section|n} &nbsp;
 	</div>
 	
-	<div class="righthalf double">
+	<div class="righthalf double diffcontent">
 		%if not c.right.has_text and i==0:
 			<div class="infobox">
 			%if c.right == c.right.page.head:

@@ -57,7 +57,6 @@ h4, h5, h6 {
 h1, h2, h3 {
 	padding-bottom: 0.3em;
 	margin-bottom: 0.7em;
-	border-bottom: 2px solid #ccc;
 	width: inherit; 
 }
 
@@ -749,6 +748,10 @@ p img[align=left] {
 
 .page_link.new {
 	color: #9d0000;
+}
+
+.diffcontent p {
+	margin-top: 0em;
 }
 
 /* @end */
