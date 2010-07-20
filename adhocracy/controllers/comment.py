@@ -198,7 +198,10 @@ class CommentController(BaseController):
         if revision.comment != c.comment:
             return ret_abort(_("You're trying to revert to a revision which is not part of this comments history"),
                              code=400, format=format)
-        rev = c.comment.create_revision(revision.text, c.user, sentiment=revision.sentiment)
+        rev = c.comment.create_revision(revision.title, 
+                                        revision.text, 
+                                        c.user, 
+                                        sentiment=revision.sentiment)
         model.meta.Session.commit()
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance, 
                    topics=[c.comment.topic], comment=c.comment, 
