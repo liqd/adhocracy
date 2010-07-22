@@ -3,6 +3,7 @@ import cgi
 
 import markdown2 as markdown
 
+import adhocracy.model as model
 
 markdowner = markdown.Markdown() 
 
@@ -14,15 +15,7 @@ def user_sub(match):
     if user is not None:
         return h.user_link(user)
     return match.group(0)
-
-SUB_DGB = re.compile("#([0-9]*)")
-
-def dgb_sub(match):
-    from adhocracy.lib import helpers as h
-    dgb = model.Delegateable.find(match.group(1), include_deleted=True)
-    if dgb is not None:
-        return h.delegateable_link(dgb)
-    return match.group(0)
+    
 
 SUB_PAGE = re.compile("\[\[([^(\]\])]{3,255})\]\]", re.M)
 
@@ -71,7 +64,6 @@ def render(text, substitutions=True, transclude_path=None):
         text = markdowner.convert(text)
         if substitutions:
             text = SUB_USER.sub(user_sub, text)
-            text = SUB_DGB.sub(dgb_sub, text)
             text = SUB_PAGE.sub(page_sub, text)
-            text = SUB_TRANSCLUDE.sub(transclude_sub(transclude_path), text)
+            #text = SUB_TRANSCLUDE.sub(transclude_sub(transclude_path), text)
     return text
