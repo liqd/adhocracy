@@ -33,6 +33,7 @@ def dispatch_row(entity):
         return tag.row(entity)
     #elif isinstance(entity, model.Comment):
     #    return comment.row(entity)
-    else: 
-        log.warn("WARNING: Cannot render %s!" % repr(entity))
+    else:
+        pass 
+        #log.warn("WARNING: Cannot render %s!" % repr(entity))
 

@@ -5,7 +5,6 @@ import adhocracy.model as model
 from decision import Decision
 from delegation_node import DelegationNode
 
-from ..cache import memoize
 from .. import queue
 
 

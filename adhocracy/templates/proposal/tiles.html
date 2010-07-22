@@ -26,7 +26,7 @@
 				&middot;
 				<img src="/img/icons/discuss_16.png" /> 
 				${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
-				${_("latest <b>%s</b>") % h.relative_time(tile.latest_revision_time)|n} 
+				${_("latest <b>%s</b>") % h.relative_time(proposal.find_latest_comment_time())|n} 
 				
 			</div>
 		</div>

@@ -94,10 +94,10 @@ def row(selection):
 		return ""
     tile = SelectionTile(selection)
     return render_tile('/selection/tiles.html', 'row', tile, 
-                       selection=selection)
+                       selection=selection, user=c.user, cached=True)
 
 def variants(selection, tile=None):
    if tile is None:
    		tile = SelectionTile(selection)
    return render_tile('/selection/tiles.html', 'variants', tile, 
-                      selection=selection)
+                      selection=selection, user=c.user, cached=True)

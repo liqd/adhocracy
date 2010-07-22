@@ -50,7 +50,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     app = SessionMiddleware(app, config)
     app = CacheMiddleware(app, config)
     
-    #app = make_profile_middleware(app, config, log_filename='/tmp/profile.log.tmp')
+    #app = make_profile_middleware(app, config, log_filename='profile.log.tmp')
 
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)   
     app = setup_auth(app, config)

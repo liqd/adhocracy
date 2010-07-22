@@ -1765,36 +1765,12 @@ label.inline {
 }
 
 
-
-/*
-.tile.title {
-	margin-bottom: 1em;
-}
-
-.tile.title h1 {
-	font-size: 1.3em;
-	margin-bottom: 0px;
-	border-bottom: 0px;
-}
-
-.tile.title table td {
-	font-size: 0.9em;
-	color: #666;
-	padding-bottom: 0.6em;
-}
-
-
-
-*/
-
 /* @group Panel */
 
 .panel {
 	width: auto;
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
-	-moz-border-radius-topleft: 5px;
-	-moz-border-radius-topright: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
 	border: 1px solid #ddd;
 	background-color: #f2f2f2;
 	margin-bottom: 2em;

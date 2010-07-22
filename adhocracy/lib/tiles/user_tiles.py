@@ -22,14 +22,6 @@ class UserTile(BaseTile):
     
     bio = property(_bio)
     
-    def _tagline(self):       
-        if self.user.bio:
-            tagline = text.plain(self.user.bio)
-            return truncate(tagline, length=140, indicator="...", whole_word=True)
-        return ""
-    
-    tagline = property(_tagline)
-    
     def _num_proposals(self):
         pred = lambda d: isinstance(d, model.Proposal) and \
                          d.instance==c.instance and \

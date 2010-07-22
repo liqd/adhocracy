@@ -68,7 +68,7 @@ class PollFormatter(ObjectFormatter):
             return self.SELECT_PATTERN(variant_link, page_link)
         else:
             fmt = self._get_formatter(poll)
-            return fmt.unicode(poll.subject)
+            return fmt.html(poll.subject)
 
 
 class InstanceFormatter(ObjectFormatter):
@@ -144,12 +144,14 @@ class FormattedEvent(object):
         except AttributeError, ae:
             log.exception(ae)
             return _("(Undefined)")
-    
+
+
 def as_unicode(event):
     if not event.event:
         return _("(Undefined)")
     fe = FormattedEvent(event, lambda f, value: f.unicode(value))
     return event.event.event_msg() % fe
+
 
 def as_html(event):
     if not event.event:

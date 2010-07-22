@@ -28,24 +28,6 @@ class CommentTile(BaseTile):
     
     
     @property
-    def tagline(self):       
-        if self.comment.latest:
-            tagline = text.plain(self.comment.latest.text)
-            return truncate(tagline, length=140, indicator="...", whole_word=True)
-        return ""
-    
-    
-    @property
-    def on_proposal(self):
-        return isinstance(self.comment.topic, model.Proposal)
-    
-    
-    @property
-    def is_own(self):
-        return self.comment.creator == c.user
-    
-    
-    @property
     def show(self):
         if self.comment.is_deleted():
             children = map(lambda c: CommentTile(c).show, self.comment.replies) 

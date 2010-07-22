@@ -121,7 +121,8 @@ def page_link(page, variant=model.Text.HEAD, create=False, link=True, icon=True,
         url = urllib.quote(page)
         url = u"/page/new?title=%s" % url
         url = instance_url(c.instance, path=url)
-        return u"<a class='page_link new' href='%s'>%s</a>" % (url, page)
+        return u"<a class='page_link new' href='%s'>%s</a>" % (url.encode('utf-8'), 
+                                                               page.encode('utf-8'))
     
     if page.is_deleted():
         link = False

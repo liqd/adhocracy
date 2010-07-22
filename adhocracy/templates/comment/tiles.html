@@ -7,13 +7,8 @@
 			<img src="/img/icons/discuss_24.png" />
 		</div>
 		<div class="base">
-			%if len(tile.tagline):
-				<h3><a href="${h.entity_url(comment)}">${_("Comment")}</a> 
-					${_("on %s") % h.delegateable_link(comment.topic)|n}</h3>
-			%endif
-			<div class="text">
-				${tile.tagline|n}
-			</div>
+			<h3><a href="${h.entity_url(comment)}">${_("Comment")}</a> 
+				${_("on %s") % h.delegateable_link(comment.topic)|n}</h3>
 			<div class="meta">
 				${h.user_link(comment.creator, scope=comment.topic)|n}
 				%if len(comment.revisions) == 1:  

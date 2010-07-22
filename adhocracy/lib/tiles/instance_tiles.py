@@ -18,15 +18,7 @@ class InstanceTile(BaseTile):
         self.__issues = None
         self.__proposals_count = None
         self.__norms_count = None
-     
-     
-    @property  
-    def tagline(self):       
-        if self.instance.description:
-            tagline = text.plain(self.instance.description)
-            return truncate(tagline, length=140, indicator="...", whole_word=True)
-        return ""
-    
+
     
     @property
     def description(self):

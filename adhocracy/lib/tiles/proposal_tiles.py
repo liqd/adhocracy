@@ -24,13 +24,6 @@ class ProposalTile(DelegateableTile):
         self.__comment_tile = None
         DelegateableTile.__init__(self, proposal)
     
-    @property
-    def tagline(self):       
-        if self.proposal.comment and self.proposal.comment.latest:
-            tagline = text.plain(self.proposal.comment.latest.text)
-            return truncate(tagline, length=140, indicator="...", whole_word=True)
-        return ""
-    
     
     @property
     def fresh(self):
@@ -44,13 +37,6 @@ class ProposalTile(DelegateableTile):
         return self.__poll
     
     
-    @property
-    def has_overridden(self):
-        if self.decision.is_self_decided():
-            return True
-        return False
-    
-        
     @property   
     def delegates(self):
         agents = []
