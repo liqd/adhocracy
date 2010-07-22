@@ -4,7 +4,8 @@ import os.path
 from pylons.i18n import _
 from pylons import tmpl_context as c
 
-from BeautifulSoup import BeautifulSoup
+from lxml.html import fromstring
+from lxml.html import tostring
 
 import util
 import text
@@ -41,12 +42,11 @@ class StaticPage(object):
     
     def _load(self, path):
         page_content = file(path, 'r').read()
-        page_soup = BeautifulSoup(page_content)
+        root = fromstring(page_content)
         
-        body = page_soup.findAll('body', limit=1)[0].contents
-        self.body = "".join(map(unicode,body))
-        title = page_soup.findAll('title', limit=1)[0].contents
-        self.title = "".join(map(unicode,title))
+        body = root.find('.//body')
+        self.body = "".join([tostring(c) for c in body.getchildren()])
+        self.title = root.find('.//title').text
         self.exists = True
-        return title
+        return self.title
 
