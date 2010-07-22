@@ -198,8 +198,7 @@ class Instance(object):
         from page import Page
          
         instance = Instance(unicode(key).lower(), label, user)
-        if description is not None:
-            instance.description = libtext.cleanup(description)
+        instance.description = description
         instance.default_group = Group.by_code(Group.INSTANCE_DEFAULT)
         if locale is not None:
             instance.locale = locale

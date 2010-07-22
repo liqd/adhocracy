@@ -152,7 +152,7 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
         
-        c.page_instance.description = text.cleanup(self.form_result.get('description'))
+        c.page_instance.description = self.form_result.get('description')
         c.page_instance.label = self.form_result.get('label')
         c.page_instance.required_majority = self.form_result.get('required_majority')
         c.page_instance.activation_delay = self.form_result.get('activation_delay')

@@ -104,8 +104,7 @@ class Comment(object):
     
     def create_revision(self, title, text, user, sentiment=0, create_time=None):
         from revision import Revision
-        from adhocracy.lib.text import cleanup
-        rev = Revision(self, title, user, cleanup(text))
+        rev = Revision(self, title, user, text)
         rev.sentiment = sentiment
         if create_time is not None:
             rev.create_time = create_time
