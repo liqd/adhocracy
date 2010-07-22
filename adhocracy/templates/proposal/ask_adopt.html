@@ -3,7 +3,7 @@
 <%def name="title()">${_("Call a poll")}: ${c.proposal.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("Call a poll")}
+	${h.proposal.breadcrumb(c.proposal)|n} &raquo; ${_("Call a poll")}
 </%def>
 
 ${tiles.proposal.header(c.proposal, active='')}

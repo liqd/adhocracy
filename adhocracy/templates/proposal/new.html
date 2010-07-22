@@ -4,7 +4,7 @@
 <%def name="title()">${_("New proposal")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.instance)|n} &raquo; ${_("New proposal")}
+	${h.proposal.breadcrumb(None)|n}
 </%def>
 
 <form name="create_proposal" class="inplace" method="POST" action="/proposal">

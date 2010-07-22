@@ -23,7 +23,7 @@ class DelegateableFormatter(ObjectFormatter):
         return delegateable.full_title
     
     def html(self, delegateable):
-        return h.delegateable_link(delegateable)
+        return h.delegateable.link(delegateable)
 
 class ProposalFormatter(DelegateableFormatter):
     pass
@@ -64,7 +64,7 @@ class PollFormatter(ObjectFormatter):
             title = _("Status quo") if text.variant == text.HEAD else text.variant
             variant_link = "<a href='%s'>%s</a>" % (h.entity_url(text), 
                                                     cgi.escape(title))
-            page_link = h.page_link(poll.selection.page, icon=True, icon_size=16)
+            page_link = h.page.link(poll.selection.page, icon=True, icon_size=16)
             return self.SELECT_PATTERN(variant_link, page_link)
         else:
             fmt = self._get_formatter(poll)
@@ -87,7 +87,7 @@ class UserFormatter(ObjectFormatter):
         return user.name
     
     def html(self, user):
-        return h.user_link(user)
+        return h.user.link(user)
     
 class GroupFormatter(ObjectFormatter):
     
@@ -100,9 +100,9 @@ class GroupFormatter(ObjectFormatter):
 class VoteFormatter(ObjectFormatter):
     
     def unicode(self, vote):
-        return {1: _("for"),
-                0: _("to abstain"),
-               -1: _("against")}[vote.orientation]
+        return {1: _("is for"),
+                0: _("abstains on"),
+               -1: _("is against")}[vote.orientation]
     
     def html(self, value):
         return self.unicode(value)

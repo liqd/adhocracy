@@ -7,7 +7,7 @@
 	${h.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Edit comment")}
 </%def>
 
-<h1 class="page_title">${_("Comment on: %s") % h.delegateable_link(c.comment.topic, icon_size=24)|n}</h1>
+<h1 class="page_title">${_("Comment on: %s") % h.delegateable.link(c.comment.topic, icon_size=24)|n}</h1>
 
 <div class="sidebar">&nbsp;</div>
 <div class="mainbar">

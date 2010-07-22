@@ -3,7 +3,7 @@
 <%def name="row(tile, revision)">
 	<div class="tile revision history">
 		<div class="index">${tile.index}</div>
-		${h.user_link(revision.user, scope=revision.comment.topic)|n}
+		${h.user.link(revision.user, scope=revision.comment.topic)|n}
 		&middot; ${_("created %s") % h.relative_time(revision.create_time)|n}
 		
 		<div class="meta">

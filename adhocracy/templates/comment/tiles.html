@@ -8,9 +8,9 @@
 		</div>
 		<div class="base">
 			<h3><a href="${h.entity_url(comment)}">${_("Comment")}</a> 
-				${_("on %s") % h.delegateable_link(comment.topic)|n}</h3>
+				${_("on %s") % h.delegateable.link(comment.topic)|n}</h3>
 			<div class="meta">
-				${h.user_link(comment.creator, scope=comment.topic)|n}
+				${h.user.link(comment.creator, scope=comment.topic)|n}
 				%if len(comment.revisions) == 1:  
 					&middot; ${_("created %s") % h.relative_time(comment.create_time)|n}
 				%else:
@@ -59,7 +59,7 @@
 		<div class="link">
 			
 			<a href="javascript:toggle_comment(${comment.id});">${comment.latest.title}</a>
-			${_("by %(user)s, %(score)s points.") % dict(user=h.user_link(comment.creator, scope=comment.topic),
+			${_("by %(user)s, %(score)s points.") % dict(user=h.user.link(comment.creator, scope=comment.topic),
 					  																		   score=tile.score)|n}
 		</div>
 	</div>
@@ -214,7 +214,7 @@
 			%if comment.is_deleted():
 				${_("deleted %s") % h.relative_time(comment.delete_time)|n}
 			%else:
-				<b>${h.user_link(comment.creator, scope=comment.topic)|n}</b>
+				<b>${h.user.link(comment.creator, scope=comment.topic)|n}</b>
 				%if not comment.is_edited(): 
 					&middot; ${h.relative_time(comment.create_time)|n}
 				%else:
@@ -223,7 +223,7 @@
 						${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
 					%else:
 					 	${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
-							               			   h.user_link(comment.latest.user, scope=comment.topic))|n}
+							               			   h.user.link(comment.latest.user, scope=comment.topic))|n}
 					%endif 	
 				%endif
 				%if comment.wiki:
@@ -258,7 +258,7 @@
 	</div>
 
 	<h1 class="page_title"><img src="/img/icons/discuss_24.png" class="cd" /> 
-		${_("Discussion on %s") % h.delegateable_link(comment.topic, icon_size=32)|n}</h1>
+		${_("Discussion on %s") % h.delegateable.link(comment.topic, icon_size=32)|n}</h1>
 	
 	<div class="panel ${active}">
 		<ul class="menu">

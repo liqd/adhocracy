@@ -2,18 +2,20 @@ from pylons import tmpl_context as c
 from pylons.i18n import _
 
 import adhocracy.model as model
-import cache
+from adhocracy.lib import cache
 import urllib, hashlib, cgi
-from url import instance_url
+from adhocracy.lib.url import instance_url
 import webhelpers.text as text
+
+import site_helper as site
 
 SEP = u" &raquo; "
 
-@cache.memoize('delegateable_breadcrumbs')
+@cache.memoize('breadcrumbs')
 def breadcrumbs(entity):    
     if not entity:
         import helpers as h 
-        return h.site_name()
+        return h.site.name()
     if isinstance(entity, model.Text):
         return _text(entity)
     if isinstance(entity, model.Page):
@@ -27,18 +29,20 @@ def breadcrumbs(entity):
     return _link_entity(entity.label, entity)
 
 
-def _link_entity(title, entity):
-    import helpers as h 
-    return _link(title, h.entity_url(entity))
+def root():
+    return site.name()
+    return _instance(proposal.instance) + SEP
 
-def _link(title, href):
+def link(title, href):
     title = cgi.escape(text.truncate(title, length=40, whole_word=True))
     return u"<a href='%s'>%s</a>" % (href, title)
+    
+    
     
 def _instance(instance):
     if not instance: 
         import helpers as h 
-        return h.site_name()
+        return h.site.name()
     return _link_entity(instance.label, instance)
     
 def _selection(selection):

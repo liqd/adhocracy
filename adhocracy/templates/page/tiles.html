@@ -3,7 +3,7 @@
 
 <%def name="smallrow(tile, page)">
 	<div class="tile smallrow">
-		${h.page_link(page, icon=True, icon_size=16)|n}
+		${h.page.link(page, icon=True, icon_size=16)|n}
 	</div>
 </%def>
 
@@ -12,9 +12,6 @@
 	<div class="tile">
 		<div class="base" style="background-image: url(${h.page_icon(page, size=32)});">
 			<h3><a class="link" href="${h.entity_url(page)}">${page.title}</a></h3>
-			##%for (tag, count) in page.tags[:5]:
-			##	${h.tag_link(tag)|n}
-			##%endfor
 			<div class="meta noclear">				
 				%if page.function == page.NORM:
 					<img src="/img/icons/proposal_16.png" /> 

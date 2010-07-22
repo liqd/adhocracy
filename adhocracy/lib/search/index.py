@@ -17,23 +17,14 @@ schema = Schema(title=TEXT(stored=True),
                 instance=ID(stored=True))
 
 ix = None
-ix_lock = Lock()
 
 def create_index(index_dir):
     global ix
-    ix_lock.acquire()
-    try:
-        ix = index.create_in(index_dir, schema)
-    finally:
-        ix_lock.release()
+    ix = index.create_in(index_dir, schema)
     
 def open_index(index_dir):
     global ix
-    ix_lock.acquire()
-    try:
-        ix = index.open_dir(index_dir)
-    finally:
-        ix_lock.release()
+    ix = index.open_dir(index_dir)
     
 def get_index():
     global ix

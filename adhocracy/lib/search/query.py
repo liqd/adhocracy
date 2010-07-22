@@ -1,6 +1,6 @@
 import logging
          
-from index import get_index, schema, ix_lock
+from index import get_index, schema
 from adhocracy.model import refs
 from whoosh.qparser import MultifieldParser
 from whoosh.query import *
@@ -8,7 +8,6 @@ from whoosh.query import *
 log = logging.getLogger(__name__)
 
 def run(terms, instance=None, entity_type=None, fields=[u'title', u'text', u'user', u'tags'], **kwargs):
-    ix_lock.acquire()
     try:
         if terms is None:
             terms = u"?"
@@ -37,4 +36,4 @@ def run(terms, instance=None, entity_type=None, fields=[u'title', u'text', u'use
             entities.append(entity)
         return entities
     finally:
-        ix_lock.release()
+        pass

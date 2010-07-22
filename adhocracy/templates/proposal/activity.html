@@ -3,7 +3,7 @@
 <%def name="title()">${c.proposal.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("Latest Events")}
+	${h.proposal.breadcrumb(c.proposal)|n} &raquo; ${_("Latest Events")}
 </%def>
 
 ${tiles.proposal.header(c.proposal, c.tile, active='activity')}

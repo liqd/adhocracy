@@ -6,7 +6,7 @@
 <%def name="title()">${_("Contributors: %s") % c.proposal.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("Contributors")}
+	${h.proposal.breadcrumb(c.proposal)|n} &raquo; ${_("Contributors")}
 </%def>
 
 ${tiles.proposal.header(c.proposal, c.tile, active='contributors')}

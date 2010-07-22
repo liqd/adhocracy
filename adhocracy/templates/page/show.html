@@ -29,7 +29,7 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 	<br/>
 	%else:
 		<div class="infobox">
-			${_("Page created on %s by %s") % (h.format_date(c.page.create_time), h.user_link(c.page.creator))|n} 
+			${_("Page created on %s by %s") % (h.format_date(c.page.create_time), h.user.link(c.page.creator))|n} 
 			&middot; <a href="${h.entity_url(c.page, member='history')}">${_("history")}</a>
 		</div>
 		<br/>
@@ -47,7 +47,7 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 		%endif
 		<ul>
 			%for selection in c.page.changing_selections:
-				<li>${h.proposal_link(selection.proposal)|n}</li>
+				<li>${h.proposal.link(selection.proposal)|n}</li>
 			%endfor
 		</ul>
 		%if can.proposal.create():

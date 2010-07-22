@@ -158,17 +158,17 @@ T_DELEGATION_REVOKE = EventType(u"t_delegation_revoke", pri=2,
 T_VOTE_CAST = EventType(u"t_vote_cast", pri=2, 
                           subject=lambda: _(u"Vote: %(user)s %(vote)s %(poll)s"),
                           link_path=lambda e: h.entity_url(e.poll.subject),
-                          event_msg=lambda: _(u"voted %(vote)s %(poll)s"))
+                          event_msg=lambda: _(u"%(vote)s %(poll)s"))
 
 T_RATING_CAST = EventType(u"t_rating_cast", pri=2, 
                           subject=lambda: _(u"Rating: %(user)s %(vote)s %(poll)s"),
                           link_path=lambda e: h.entity_url(e.poll.subject),
-                          event_msg=lambda: _(u"is %(vote)s %(poll)s"))
+                          event_msg=lambda: _(u"%(vote)s %(poll)s"))
 
 T_SELECT_VARIANT = EventType(u"t_select_variant", pri=2, 
                         subject=lambda: _(u"Variants: %(user)s %(vote)s %(poll)s"),
                         link_path=lambda e: h.entity_url(e.poll.selection),
-                        event_msg=lambda: _(u"is %(vote)s %(poll)s"))
+                        event_msg=lambda: _(u"%(vote)s %(poll)s"))
 
 T_TEST = EventType(u"t_test", pri=5, 
                           subject=lambda: _(u"Adhocracy says hello: %(test)s"),
@@ -196,12 +196,12 @@ N_INSTANCE_MEMBERSHIP_UPDATE = NotificationType("n_instance_membership_update", 
                           notify_self=True)
 
 N_SELF_VOTED = NotificationType("n_self_voted", pri=2, 
-                          subject=lambda: _(u"You have voted %(vote)s %(poll)s"),
+                          subject=lambda: _(u"Your vote %(vote)s %(poll)s"),
                           link_path=lambda e: h.entity_url(e.poll.subject),
                           notify_self=True)
 
 N_DELEGATE_VOTED = NotificationType("n_delegate_voted", pri=2, 
-                          subject=lambda: _(u"Your delegate %(agent)s has voted %(vote)s %(poll)s"),
+                          subject=lambda: _(u"Your delegate %(agent)s %(vote)s %(poll)s"),
                           link_path=lambda e: h.entity_url(e.poll.subject),
                           notify_self=True)
 

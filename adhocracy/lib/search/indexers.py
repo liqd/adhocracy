@@ -6,7 +6,7 @@ from adhocracy.model import hooks
 from adhocracy.model import refs
 from .. import text 
 
-from index import get_index, ix_lock
+from index import get_index #, ix_lock
 
 def datetime2str(dt):
     return unicode(dt.strftime("%s"))
@@ -34,6 +34,7 @@ def index_comment(entity):
     if entity.is_deleted():
         return None
     d = index_entity(entity)
+    d['title'] = entity.title
     if entity.latest:
         d['user'] = " ".join((entity.latest.user.name, 
                               entity.creator.name))
@@ -98,13 +99,14 @@ def insert(index_func):
         if entry is None:
             delete(entity)
         else:
-            ix_lock.acquire()
+            #ix_lock.acquire()
             try:
                 writer = get_index().writer()
                 writer.add_document(**entry)
                 writer.commit()
             finally:
-                ix_lock.release()            
+                pass
+                #ix_lock.release()            
     return f
 
 def update(index_func):
@@ -113,13 +115,14 @@ def update(index_func):
         if entry is None:
             delete(entity)
         else:
-            ix_lock.acquire()
+            #ix_lock.acquire()
             try:
                 writer = get_index().writer()
                 writer.update_document(**entry)
                 writer.commit()
             finally:
-                ix_lock.release()
+                pass
+                #ix_lock.release()
     return f
 
 def delete(entity):

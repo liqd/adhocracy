@@ -3,16 +3,12 @@
 
 <%def name="row(tile, proposal)">
 	<div class="tile ${'fresh' if tile.fresh else ''}">
-		<div class="base" style="background-image: url(${h.proposal_icon(proposal, size=32)});">
+		<div class="base" style="background-image: url(${h.proposal.icon_url(proposal, size=32)});">
 			<h3><a class="link" href="${h.entity_url(proposal)}">${proposal.label}</a>
 				%if tile.fresh:
 					${_("(new)")}
 				%endif
 			</h3>
-			<!--span class="sparkline" title="${h.entity_url(proposal, member='activity', format='sline')}"></span><br/-->
-			##%for (tag, count) in proposal.tags[:5]:
-			##	${h.tag_link(tag)|n}
-			##%endfor
 			<div class="meta noclear">				
 				%if proposal.is_adopt_polling():
 					${_("<b>%s</b> votes,") % len(proposal.adopt_poll.tally)|n}
@@ -54,7 +50,7 @@
 			       ${"checked='checked'" if checked else ''} />
 			</td>
 			<td>
-			${h.delegateable_link(proposal)|n}
+			${h.delegateable.link(proposal)|n}
 		%endif
 		</td>
 	</tr>
@@ -128,7 +124,7 @@
 	</span>
 	%endif
 	
-	<h1 class="page_title">${h.delegateable_link(proposal, icon_size=24, link=False)|n}</h1>
+	<h1 class="page_title">${h.delegateable.link(proposal, icon_size=24, link=False)|n}</h1>
 	<br/>
 	<div class="panel ${active}">
 		<ul class="menu">
@@ -154,7 +150,7 @@
 		
 		%if proposal.adopted:
 			<div class="info adoption adopted">
-				${_("%s has been adopted %s.") % (h.delegateable_link(proposal, link=False, icon=False),
+				${_("%s has been adopted %s.") % (h.delegateable.link(proposal, link=False, icon=False),
 												  h.relative_time(proposal.adopt_poll.end_time))|n}
 			</div>
 		%elif proposal.is_adopt_polling():

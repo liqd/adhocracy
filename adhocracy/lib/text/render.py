@@ -13,7 +13,7 @@ def user_sub(match):
     from adhocracy.lib import helpers as h
     user = model.User.find(match.group(1))
     if user is not None:
-        return h.user_link(user)
+        return h.user.link(user)
     return match.group(0)
     
 
@@ -29,10 +29,10 @@ def page_sub(match):
     if page is not None:
         if page.is_deleted():
             return page_name
-        return h.page_link(page, variant=variant, icon=not (page.function == page.DOCUMENT))
+        return h.page.link(page, variant=variant, icon=not (page.function == page.DOCUMENT))
     else:
         from adhocracy.forms import FORBIDDEN_NAMES
-        return h.page_link(page_name, create=True)
+        return h.page.redlink(page_name)
 
 
 SUB_TRANSCLUDE = re.compile("@@([^(@@)]{3,255})@@", re.M)

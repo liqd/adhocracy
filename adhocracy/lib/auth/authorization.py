@@ -71,9 +71,9 @@ class has_permission(what_has_permission):
         
 
 def has(permission):
-    return permission in request.environ.get('repoze.what.credentials', {}).get('permissions', [])
-    #p = has_permission(permission)
-    #return p.is_met(request.environ)
+    #return permission in request.environ.get('repoze.what.credentials', {}).get('permissions', [])
+    p = has_permission(permission)
+    return p.is_met(request.environ)
 
 
     

@@ -9,7 +9,7 @@
 			%if text.page.has_variants:
 				<li>${text.variant}</li>
 			%endif
-			<li>${_("by %s, ") % h.user_link(text.user, scope=text.page)|n}
+			<li>${_("by %s, ") % h.user.link(text.user, scope=text.page)|n}
 					${_("created %s") % h.relative_time(text.create_time)|n}</li>
 		</ul>
 	</div>
@@ -101,7 +101,7 @@
 			</li>
 			<li>
 				${_("%s by %s") % (h.relative_time(this.create_time), 
-													 h.user_link(this.user, scope=this.page))|n}
+													 h.user.link(this.user, scope=this.page))|n}
 				&middot; <b><a href="${h.entity_url(this, member='history')|n}">${_("historic versions")}</a></b>
 			</li>
 		</ul>

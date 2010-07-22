@@ -39,7 +39,7 @@ ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 	</div>
 	<div class="tile selection">
 		<h3 class="section">
-			${h.page_link(c.selection.page, icon_size=24)|n} 
+			${h.page.link(c.selection.page, icon_size=24)|n} 
 			%if not c.selection.page.head.has_text:
 				${_("(initiative)")}
 			%else:

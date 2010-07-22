@@ -17,7 +17,7 @@
 <%def name="cloud(tags, plain, show_count, link_more)">
 	<p>
 	%for (tag, count, size) in tags:
-		${h.tag_link(tag, count=0 if not show_count else count, size=size, plain=plain)|n}
+		${h.tag.link(tag, count=0 if not show_count else count, size=size, plain=plain)|n}
 	%endfor
 	</p>
 	%if link_more:
@@ -33,7 +33,7 @@
 		<ul>
 		<% tagn = 0 %>
 		%for (tag, count) in delegateable.tags:
-			<li class="${'hidejs moreTags' if tagn >= 5 else ''}">${h.tag_link(tag, count)|n}
+			<li class="${'hidejs moreTags' if tagn >= 5 else ''}">${h.tag.link(tag, count)|n}
 			%if c.user:
 				<% has = False %>
 				%for tagging in delegateable.taggings:

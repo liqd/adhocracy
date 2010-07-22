@@ -21,7 +21,7 @@ ${tiles.user.header(c.page_user, active='delegations')}
 		%if h.contains_delegations(c.page_user, delegateable, recurse=False):
 		<tr>
 			<td>
-				${h.delegateable_link(delegateable)|n}
+				${h.delegateable.link(delegateable)|n}
 			</td>
 			<td>
 				<ul>
