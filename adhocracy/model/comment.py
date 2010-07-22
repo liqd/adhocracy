@@ -146,11 +146,11 @@ class Comment(object):
     
     
     def to_dict(self):
-        from adhocracy.lib import url
+        from adhocracy.lib import helpers as h
         d = dict(id=self.id,
                  create_time=self.create_time,
                  topic=self.topic_id,
-                 url=url.entity_url(self, comment_page=True),
+                 url=h.entity_url(self, comment_page=True),
                  creator=self.creator.user_name)
         d['reply'] = self.reply_id
         d['wiki'] = self.wiki

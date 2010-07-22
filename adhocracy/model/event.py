@@ -139,10 +139,6 @@ class Event(object):
             log.exception("Creating event text", ae)
         if text is None or not len(text):
             text = ''
-            #from adhocracy.lib.event import formatting
-            #from adhocracy.lib import helpers as h
-            #text = u"%s %s" % (h.user_link(self.user), 
-            #                   formatting.as_html(self))
         return text
             
             
@@ -152,10 +148,10 @@ class Event(object):
                 return None
             return self.event.link_path(self)
         except: 
-            import adhocracy.lib.url as url
+            from adhocracy.lib import helpers as h
             if self.instance:
-                return url.entity_url(self.instance)
-            return url.instance_url(None)
+                return h.entity_url(self.instance)
+            return h.instance_url(None)
     
     
     def to_dict(self):

@@ -471,11 +471,7 @@ class UserController(BaseController):
         h.add_meta("dc.date", user.access_time.strftime("%Y-%m-%d"))
         h.add_meta("dc.author", text.meta_escape(user.name))
         h.add_rss(_("%(user)ss Activity") % {'user': user.name}, 
-                  h.entity_url(user, format='rss'))      
-        canonical_url = h.entity_url(user, instance=None)
-        if member is not None:
-            canonical_url += u"/" + member
-        h.canonical_url(canonical_url)                  
+                  h.entity_url(user, format='rss'))            
         if c.instance and not user.is_member(c.instance):
             h.flash(_("%s is not a member of %s") % (user.name, c.instance.label))  
         

@@ -209,9 +209,6 @@ def site_name():
     return config.get('adhocracy.site.name', _("Adhocracy"))
 
 
-def canonical_url(url):
-    c.canonical_url = url
-
 
 def propose_comment_title(parent=None, topic=None, variant=None):
     if parent and parent.latest.title:
@@ -239,10 +236,6 @@ def help_link(text, page, anchor=None):
     simple_url = url % (page, 'simple')
     return u"<a target='_new' href='%s' onClick='return showHelp(\"%s\")'>%s</a>" % (full_url, simple_url, text)
 
-def rss_button(entity):
-    return ""
-    return "<a href='%s' class='button edit'><img src='/img/rss.png' /> %s</a>" % (
-                entity_url(entity, format='rss'), _("subscribe"))
 
 
 def add_rss(title, link):
@@ -252,3 +245,30 @@ def add_rss(title, link):
                         'href': link, 
                         'rel': 'alternate',
                         'type': 'application/rss+xml'})
+
+
+from url import *
+def entity_url(entity, **kwargs):
+    if isinstance(entity, model.User):
+        return user_url(entity, **kwargs)
+    elif isinstance(entity, model.Proposal):
+        return proposal_url(entity, **kwargs)
+    elif isinstance(entity, model.Page):
+        return page_url(entity, **kwargs)
+    elif isinstance(entity, model.Text):
+        return text_url(entity, **kwargs)
+    elif isinstance(entity, model.Delegateable):
+        return delegateable_url(entity, **kwargs)
+    elif isinstance(entity, model.Poll):
+        return poll_url(entity, **kwargs)
+    elif isinstance(entity, model.Selection):
+        return selection_url(entity, **kwargs)
+    elif isinstance(entity, model.Comment):
+        return comment_url(entity, **kwargs)
+    elif isinstance(entity, model.Instance):
+        return instance_entity_url(entity, **kwargs)
+    elif isinstance(entity, model.Delegation):
+        return delegation_url(entity, **kwargs)
+    elif isinstance(entity, model.Tag):
+        return tag_url(entity, **kwargs)
+    raise UrlConstructionException(repr(entity))

@@ -350,9 +350,9 @@ class Page(Delegateable):
     def to_dict(self, text=None):
         if text is None:
             text = self.head
-        from adhocracy.lib import url
+        from adhocracy.lib import helpers as h
         d =    dict(id=self.id,
-                    url=url.entity_url(self),
+                    url=h.entity_url(self),
                     create_time=self.create_time,
                     label=self.label,
                     title=self.title,

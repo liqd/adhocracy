@@ -141,14 +141,12 @@ class Delegation(object):
     
     
     def to_dict(self):
-        from adhocracy.lib import url
+        from adhocracy.lib import helpers as h
         return dict(id=self.id,
-                    url=url.entity_url(self),
+                    url=h.entity_url(self),
                     create_time=self.create_time,
                     principal=self.principal.user_name,
-                    principal_url=url.entity_url(self.principal),
                     agent=self.agent.user_name,
-                    agent_url=url.entity_url(self.agent),
                     scope=self.scope_id)
     
     

@@ -21,7 +21,7 @@ def instance_url(instance, path=None):
     return url
 
     
-def _append_member_and_format(url, member=None, format=None):
+def append_member_and_format(url, member=None, format=None):
     if member is not None:
         url += u'/' + member
     if format is not None:
@@ -29,9 +29,9 @@ def _append_member_and_format(url, member=None, format=None):
     return url
 
 
-def _common_url_builder(instance, base, id, query=None, **kwargs):
+def build(instance, base, id, query=None, **kwargs):
     url = instance_url(instance, path=u'/' + base + u'/' + unicode(id))
-    url = _append_member_and_format(url, **kwargs)
+    url = append_member_and_format(url, **kwargs)
     if query is not None:
         for k, v in query.items():
             query[unicode(k).encode('ascii', 'ignore')] = unicode(v).encode('utf-8')
@@ -42,22 +42,22 @@ def _common_url_builder(instance, base, id, query=None, **kwargs):
 def user_url(user, instance=None, **kwargs):
     if instance is None:
         instance = c.instance
-    return _common_url_builder(instance, 'user', user.user_name, **kwargs)
+    return build(instance, 'user', user.user_name, **kwargs)
 
     
 def proposal_url(proposal, **kwargs):
     ext = str(proposal.id) + '-' + text.label2alias(proposal.label)
-    return _common_url_builder(proposal.instance, 'proposal', 
+    return build(proposal.instance, 'proposal', 
                                ext, **kwargs)
 
 
 def delegateable_url(delegateable, **kwargs):
-    return _common_url_builder(delegateable.instance, 'd', 
+    return build(delegateable.instance, 'd', 
                                delegateable.id)
 
     
 def poll_url(poll, **kwargs):
-    return _common_url_builder(poll.scope.instance, 'poll', 
+    return build(poll.scope.instance, 'poll', 
                                poll.id, **kwargs)
 
 
@@ -65,7 +65,7 @@ def page_url(page, in_context=True, member=None, **kwargs):
     if in_context and page.proposal and not member:
         return proposal_url(page.proposal, **kwargs)
     label = urllib.quote(page.label.encode('utf-8'))
-    return _common_url_builder(page.instance, 'page', 
+    return build(page.instance, 'page', 
                                label, member=member, **kwargs)
 
 
@@ -75,13 +75,13 @@ def text_url(text, with_text=True, **kwargs):
         url += u'/' + urllib.quote(text.variant.encode('utf-8'))
     if with_text and text != text.page.variant_head(text.variant):
         url += u';' + str(text.id)
-    return _append_member_and_format(url, **kwargs)
+    return append_member_and_format(url, **kwargs)
 
 
 def selection_url(selection, **kwargs):
     url = proposal_url(selection.proposal, member="implementation")
     url += "/" + str(selection.id)
-    return _append_member_and_format(url, **kwargs)
+    return append_member_and_format(url, **kwargs)
 
 
 def tag_url(tag, instance=None, **kwargs):
@@ -92,7 +92,7 @@ def tag_url(tag, instance=None, **kwargs):
         ident = urllib.quote(tag.name.encode('utf-8'))
     except KeyError:
         ident = tag.id
-    return _common_url_builder(instance, u'tag', ident, **kwargs)
+    return build(instance, u'tag', ident, **kwargs)
 
 
 def comment_url(comment, member=None, format=None, comment_page=False, **kwargs):
@@ -103,44 +103,21 @@ def comment_url(comment, member=None, format=None, comment_page=False, **kwargs)
             return text_url(comment.topic.variant_head(comment.variant)) + '#c' + str(comment.id)
         elif isinstance(comment.topic, model.Proposal):
             return proposal_url(comment.topic) + '#c' + str(comment.id)
-    return _common_url_builder(comment.topic.instance, 'comment', 
+    return build(comment.topic.instance, 'comment', 
                                comment.id, member=member, format=format, **kwargs)
 
     
 def instance_entity_url(instance, member=None, format=None, **kwargs):
     #if member is None and format is None:
     #    return instance_url(instance, path='/instance')
-    return _common_url_builder(instance, 'instance', 
+    return build(instance, 'instance', 
                                instance.key, member=member, format=format, **kwargs)
 
     
 def delegation_url(delegation, **kwargs):
-    return _common_url_builder(delegation.scope.instance, 'delegation', 
+    return build(delegation.scope.instance, 'delegation', 
                                delegation.id, **kwargs)
 
 
-def entity_url(entity, **kwargs):
-    if isinstance(entity, model.User):
-        return user_url(entity, **kwargs)
-    elif isinstance(entity, model.Proposal):
-        return proposal_url(entity, **kwargs)
-    elif isinstance(entity, model.Page):
-        return page_url(entity, **kwargs)
-    elif isinstance(entity, model.Text):
-        return text_url(entity, **kwargs)
-    elif isinstance(entity, model.Delegateable):
-        return delegateable_url(entity, **kwargs)
-    elif isinstance(entity, model.Poll):
-        return poll_url(entity, **kwargs)
-    elif isinstance(entity, model.Selection):
-        return selection_url(entity, **kwargs)
-    elif isinstance(entity, model.Comment):
-        return comment_url(entity, **kwargs)
-    elif isinstance(entity, model.Instance):
-        return instance_entity_url(entity, **kwargs)
-    elif isinstance(entity, model.Delegation):
-        return delegation_url(entity, **kwargs)
-    elif isinstance(entity, model.Tag):
-        return tag_url(entity, **kwargs)
-    raise UrlConstructionException(repr(entity))
+
 

@@ -45,7 +45,6 @@ class InstanceController(BaseController):
         if format == 'json':
             return render_json(instances)
         
-        h.canonical_url(h.instance_url(None, path="/instance"))
         c.instances_pager = pager.instances(instances)
         return render("/instance/index.html")  
     

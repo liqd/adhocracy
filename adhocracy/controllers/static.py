@@ -20,7 +20,6 @@ class StaticController(BaseController):
         c.page = StaticPage(page_name)
         if not c.page.exists:
             abort(404, _('The requested page was not found'))
-        h.canonical_url(h.instance_url(None, path="/page/%s.html" % page_name))
         if format == 'simple':
             ret = render('/plain_doc.html')
         else:
