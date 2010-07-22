@@ -70,10 +70,10 @@ class has_permission(what_has_permission):
             self.unmet()
         
 
-def has_permission_bool(permission):
-    #return permission in request.environ.get('repoze.what.credentials', {}).get('permissions', [])
-    p = has_permission(permission)
-    return p.is_met(request.environ)
+def has(permission):
+    return permission in request.environ.get('repoze.what.credentials', {}).get('permissions', [])
+    #p = has_permission(permission)
+    #return p.is_met(request.environ)
 
 
     

@@ -4,7 +4,7 @@ from pylons.i18n import _
 import adhocracy.model as model
 import cache
 import urllib, hashlib, cgi
-from url import instance_url, entity_url
+from url import instance_url
 import webhelpers.text as text
 
 SEP = u" &raquo; "
@@ -28,7 +28,8 @@ def breadcrumbs(entity):
 
 
 def _link_entity(title, entity):
-    return _link(title, entity_url(entity))
+    import helpers as h 
+    return _link(title, h.entity_url(entity))
 
 def _link(title, href):
     title = cgi.escape(text.truncate(title, length=40, whole_word=True))

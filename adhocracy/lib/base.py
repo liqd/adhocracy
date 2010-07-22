@@ -47,6 +47,7 @@ import pager
 
 log = logging.getLogger(__name__)
 
+from pprint import pprint
 class BaseController(WSGIController):
     
     def __call__(self, environ, start_response):
@@ -61,6 +62,7 @@ class BaseController(WSGIController):
         c.instance = model.instance_filter.get_instance()
         c.user = environ.get('repoze.who.identity', {}).get('user', None)
         
+        #pprint(request.environ)
         # http host information was moved around to mess with repoze.who                 
         #environ['HTTP_HOST'] = environ.get('HTTP_HOST_ORIGINAL')
         #from pprint import pprint

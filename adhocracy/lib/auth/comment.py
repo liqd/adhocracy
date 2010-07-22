@@ -1,6 +1,7 @@
 import adhocracy.model as model 
 from pylons import tmpl_context as c
-from authorization import has_permission_bool as has
+from authorization import has
+
 import poll
 
 def index():

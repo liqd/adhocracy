@@ -12,7 +12,7 @@ from pylons import tmpl_context as c, config, request
 from pylons.i18n import add_fallback, get_lang, set_lang, gettext, _
 
 from auth import authorization
-from auth.authorization import has_permission_bool as has_permission
+from auth.authorization import has as has_permission
 import democracy
 import cache
 import sorting
@@ -21,7 +21,7 @@ from text import html_diff
 
 import adhocracy.model as model 
 
-from url import instance_url, entity_url
+from url import instance_url
 from adhocracy.i18n import relative_date, relative_time, format_date, countdown_time
 from auth.csrf import url_token, field_token
 from watchlist import make_watch, find_watch
@@ -248,6 +248,8 @@ def add_rss(title, link):
 
 
 from url import *
+
+@cache.memoize('entity_url')
 def entity_url(entity, **kwargs):
     if isinstance(entity, model.User):
         return user_url(entity, **kwargs)
