@@ -100,7 +100,7 @@ def render_png(io, mtime, content_type="image/png"):
     response.content_type = content_type
     etag_cache(key=hashlib.sha1(io).hexdigest())
     response.charset = None
-    #response.last_modified = rfc822.formatdate(timeval=mtime)
+    response.last_modified = rfc822.formatdate(timeval=mtime)
     del response.headers['Cache-Control']
     response.content_length = len(io)
     response.pragma = None 

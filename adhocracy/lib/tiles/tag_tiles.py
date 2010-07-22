@@ -22,8 +22,9 @@ def row(tag):
 def cloud(tags, plain=True, show_count=False, link_more=True):
     from .. import templating 
     return templating.render_def('/tag/tiles.html', 'cloud', tags=tags, plain=plain, 
-            show_count=show_count, link_more=link_more)
+            show_count=show_count, link_more=link_more, cached=True)
             
 def sidebar(delegateable):
     from .. import templating 
-    return templating.render_def('/tag/tiles.html', 'sidebar', delegateable=delegateable)
+    return templating.render_def('/tag/tiles.html', 'sidebar', 
+        delegateable=delegateable, cached=True)
