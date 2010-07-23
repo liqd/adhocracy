@@ -4,7 +4,7 @@
 <%def name="title()">${_("Alternatives: %s") % c.proposal.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.proposal.breadcrumb(c.proposal)|n} &raquo; ${_("Alternatives")}
+	${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Alternatives")}
 </%def>
 
 ${tiles.proposal.header(c.proposal, c.tile, active='alternatives')}

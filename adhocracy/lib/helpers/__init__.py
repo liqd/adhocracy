@@ -20,7 +20,6 @@ from adhocracy.lib.text import html_diff
 
 import adhocracy.model as model 
 
-from url import instance_url
 from adhocracy.i18n import relative_date, relative_time, format_date, countdown_time
 from adhocracy.lib.auth.csrf import url_token, field_token
 from adhocracy.lib.watchlist import make_watch, find_watch
@@ -43,7 +42,8 @@ import selection_helper as selection
 import delegation_helper as delegation
 import instance_helper as instance
 
-from breadcrumbs import breadcrumbs
+from site_helper import base_url
+#from breadcrumbs import breadcrumbs
 
 
 def immutable_proposal_message():
@@ -131,7 +131,7 @@ def add_meta(key, value):
     c.html_meta[key] = value
 
 def help_link(text, page, anchor=None):
-    url = instance_url(None, path="/static/%s.%s")
+    url = base_url(None, path="/static/%s.%s")
     if anchor is not None:
         url += "#" + anchor
     full_url = url % (page, 'html')

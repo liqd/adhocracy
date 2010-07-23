@@ -59,7 +59,7 @@ class OpenidauthController(BaseController):
         header = auth_tkt.remember(request.environ, identity)
         response.headerlist.extend(header)
         if c.instance and not user.is_member(c.instance):
-            redirect(h.instance_url(c.instance, 
+            redirect(h.base_url(c.instance, 
                      path="/instance/join/%s?%s" % (c.instance.key, 
                                                     h.url_token())))
         redirect("/")        
@@ -96,14 +96,14 @@ class OpenidauthController(BaseController):
             authrequest = self.consumer.begin(openid)
         
             if not c.user and not model.OpenID.find(openid):
-                axreq = ax.FetchRequest(h.instance_url(c.instance, path='/openid/update'))
+                axreq = ax.FetchRequest(h.base_url(c.instance, path='/openid/update'))
                 axreq.add(ax.AttrInfo(AX_MAIL_SCHEMA, alias="email", required=True))
                 authrequest.addExtension(axreq)
                 sreq = sreg.SRegRequest(required=['nickname'], optional=['email'])
                 authrequest.addExtension(sreq)    
         
-            redirecturl = authrequest.redirectURL(h.instance_url(c.instance, path='/'), 
-                                    return_to=h.instance_url(c.instance, path='/openid/verify'), 
+            redirecturl = authrequest.redirectURL(h.base_url(c.instance, path='/'), 
+                                    return_to=h.base_url(c.instance, path='/openid/verify'), 
                                     immediate=False)
             session['openid_session'] = self.openid_session
             session.save()
@@ -139,7 +139,7 @@ class OpenidauthController(BaseController):
     
     def verify(self):
         self.consumer = create_consumer(self.openid_session)
-        info = self.consumer.complete(request.params, h.instance_url(c.instance, path='/openid/verify'))
+        info = self.consumer.complete(request.params, h.base_url(c.instance, path='/openid/verify'))
         if not info.status == SUCCESS:
             return self._failure(info.identity_url, _("OpenID login failed."))
         email = None

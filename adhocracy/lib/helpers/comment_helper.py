@@ -1,10 +1,11 @@
 
-from adhocracy.lib import url as _url
+
 from adhocracy.lib import cache
 
 import page_helper as page
 import proposal_helper as proposal
 import text_helper as text
+import url as _url
 
 
 @cache.memoize('comment_url')

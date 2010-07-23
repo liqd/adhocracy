@@ -21,27 +21,27 @@
 				${h.site.name()}
 	</title>
 	<link  rel="stylesheet" type="text/css"
-		href="${h.instance_url(None, path='/style/base.css')}" />
+		href="${h.base_url(None, path='/style/base.css')}" />
 	<link  rel="stylesheet" type="text/css" 
-		href="${h.instance_url(None, path='/style/site.css')}"/>
+		href="${h.base_url(None, path='/style/site.css')}"/>
 	%if c.instance and c.instance.css:
 		<link  rel="stylesheet" type="text/css" 
-			href="${h.instance_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
+			href="${h.base_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
 	%endif
 	
 	<link  rel="stylesheet" type="text/css" 
-		href="${h.instance_url(c.instance, path='/style/jquery-ui-1.8.2.custom.css')}"/>
+		href="${h.base_url(c.instance, path='/style/jquery-ui-1.8.2.custom.css')}"/>
 	<link media="only screen and (max-device-width: 1024px)" type="text/css" rel="stylesheet"
-		href="${h.instance_url(None, path='/style/ipad.css')}" />
+		href="${h.base_url(None, path='/style/ipad.css')}" />
 	<link media="only screen and (max-device-width: 480px)" type="text/css" rel="stylesheet" 
-		href="${h.instance_url(None, path='/style/iphone.css')}"/>
+		href="${h.base_url(None, path='/style/iphone.css')}"/>
 	<link rel="stylesheet" media="all and (orientation:portrait)" 
-		href="${h.instance_url(None, path='/style/portrait.css')}">
+		href="${h.base_url(None, path='/style/portrait.css')}">
 	<link type="text/css" media="print" rel="stylesheet" 
-		href="${h.instance_url(None, path='/style/print.css')}" />
+		href="${h.base_url(None, path='/style/print.css')}" />
 	
 	<link rel='shortcut icon' type='image/x-icon' 
-		href='${h.instance_url(None, path='/favicon.ico')}' />
+		href='${h.base_url(None, path='/favicon.ico')}' />
 	
 	${print_link()}
 	
@@ -51,17 +51,17 @@
 	<script type="text/javascript" 
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
 	<script type="text/javascript" 
-		src="${h.instance_url(None, path='/js/jquery.qtip.min.js')}"></script>
+		src="${h.base_url(None, path='/js/jquery.qtip.min.js')}"></script>
 	<script type="text/javascript" 
-	  src="${h.instance_url(None, path='/js/jquery-ui-1.8.2.custom.min.js')}"></script>
+	  src="${h.base_url(None, path='/js/jquery-ui-1.8.2.custom.min.js')}"></script>
 	<script type="text/javascript" 
-		src="${h.instance_url(None, path='/js/jquery.autocomplete.min.js')}"></script>	
+		src="${h.base_url(None, path='/js/jquery.autocomplete.min.js')}"></script>	
 	<script type="text/javascript" 
-		src="${h.instance_url(None, path='/js/jquery.timeago.js')}"></script>
+		src="${h.base_url(None, path='/js/jquery.timeago.js')}"></script>
 	<script type="text/javascript" 
-		src="${h.instance_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script>
+		src="${h.base_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script>
 	<script type="text/javascript" 
-		src="${h.instance_url(None, path='/js/adhocracy.js')}"></script>
+		src="${h.base_url(None, path='/js/adhocracy.js')}"></script>
 		
 	<style> 
 		%if c.user and c.user.no_help:

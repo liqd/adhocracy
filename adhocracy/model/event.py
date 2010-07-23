@@ -151,7 +151,7 @@ class Event(object):
             from adhocracy.lib import helpers as h
             if self.instance:
                 return h.entity_url(self.instance)
-            return h.instance_url(None)
+            return h.base_url(None)
     
     
     def to_dict(self):

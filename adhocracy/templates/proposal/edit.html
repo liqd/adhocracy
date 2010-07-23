@@ -4,7 +4,7 @@
 <%def name="title()">${_("Edit %s") % c.proposal.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.proposal.breadcrumb(c.proposal)|n} &raquo; ${_("Edit")}
+	${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit")}
 </%def>
 
 <form name="edit_proposal" class="inplace" method="POST" action="/proposal/${c.proposal.id}">

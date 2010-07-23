@@ -51,7 +51,7 @@ def to_user(to_user, subject, body, headers={}):
     return to_mail(to_user.name, to_user.email, subject, body, headers)
 
 def send_activation_link(user):
-    url = h.instance_url(None, path="/user/%s/activate?c=%s" % (user.user_name, user.activation_code))
+    url = h.base_url(None, path="/user/%s/activate?c=%s" % (user.user_name, user.activation_code))
     body = _("this email is to check the email address you have provided. In order to" 
              + " confirm this email address, please open the link below in your"
              + " browser:") + "\r\n\r\n  " + url 

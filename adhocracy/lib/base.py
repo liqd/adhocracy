@@ -81,7 +81,7 @@ class BaseController(WSGIController):
         
         if c.instance:
             h.add_rss("%s News" % c.instance.label, 
-                      h.instance_url(c.instance, '/instance/%s.rss' % c.instance.key))
+                      h.base_url(c.instance, '/instance/%s.rss' % c.instance.key))
         
         h.add_meta("description", _("A liquid democracy platform for making decisions in " 
                    + "distributed, open groups by cooperatively creating proposals and voting "

@@ -3,7 +3,7 @@
 <%def name="title()">${_("Delete")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.page_instance)|n} &raquo; ${_("Delete")}
+	${h.instance.breadcrumbs(c.page_instance)|n} &raquo; ${_("Delete")}
 </%def>
 
 ${tiles.instance.header(c.page_instance, active='delete')}

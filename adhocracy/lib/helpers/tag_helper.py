@@ -4,8 +4,9 @@ import urllib
 
 from pylons import tmpl_context as c
 
-from adhocracy.lib import url as _url
 from adhocracy.lib import cache
+
+import url as _url
 
 @cache.memoize('tag_link')
 def link(tag, count=None, size=None, base_size=12, plain=False):

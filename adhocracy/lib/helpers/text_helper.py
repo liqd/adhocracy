@@ -1,9 +1,9 @@
 import urllib
 
-from adhocracy.lib import url as _url
 from adhocracy.lib import cache
 
 import proposal_helper as proposal
+import url as _url
 
 
 @cache.memoize('text_url')

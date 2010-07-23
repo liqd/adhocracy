@@ -1,11 +1,11 @@
 import urllib
+import cgi
 
 import adhocracy.model as model
-from adhocracy.lib import url as _url
 from adhocracy.lib import cache
 
 import proposal_helper as proposal
-
+import url as _url
 
 def page_icon(page, size=16):
     import text_helper as text
@@ -30,9 +30,9 @@ def link(page, variant=model.Text.HEAD, link=True, icon=True, icon_size=16):
     if variant != text_.HEAD:
         buf = u"%s <code>(%s)</code>" % (buf, variant)
     if icon: 
-        buf = u"<img class='dgb_icon' src='%s' /> %s" % (text.icon(text_, page, size=icon_size), buf)
+        buf = u"<img class='dgb_icon' src='%s' /> %s" % (text.icon_url(text_, page, size=icon_size), buf)
     if link and not page.is_deleted():
-        buf = u"<a class='page_link exists' href='%s'>%s</a>" % (url(text_), buf)
+        buf = u"<a class='page_link exists' href='%s'>%s</a>" % (text.url(text_), buf)
     return buf
     
 

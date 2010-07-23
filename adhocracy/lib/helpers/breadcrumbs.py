@@ -4,37 +4,24 @@ from pylons.i18n import _
 import adhocracy.model as model
 from adhocracy.lib import cache
 import urllib, hashlib, cgi
-from adhocracy.lib.url import instance_url
-import webhelpers.text as text
+
+from webhelpers.text import truncate
 
 import site_helper as site
 
 SEP = u" &raquo; "
 
 @cache.memoize('breadcrumbs')
-def breadcrumbs(entity):    
-    if not entity:
-        import helpers as h 
-        return h.site.name()
-    if isinstance(entity, model.Text):
-        return _text(entity)
-    if isinstance(entity, model.Page):
-        return _page(entity)
-    if isinstance(entity, model.User):
-        return _user(entity)
-    if isinstance(entity, model.Proposal):
-        return _proposal(entity)
-    if isinstance(entity, model.Selection):
-        return _selection(entity)
-    return _link_entity(entity.label, entity)
-
+def breadcrumbs(entity):   
+    raise ValueError()
+    
 
 def root():
     return site.name()
     return _instance(proposal.instance) + SEP
 
 def link(title, href):
-    title = cgi.escape(text.truncate(title, length=40, whole_word=True))
+    title = cgi.escape(truncate(title, length=40, whole_word=True))
     return u"<a href='%s'>%s</a>" % (href, title)
     
     

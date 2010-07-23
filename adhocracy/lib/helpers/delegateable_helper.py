@@ -5,6 +5,7 @@ from adhocracy.lib import cache
 
 import page_helper as page
 import proposal_helper as proposal
+import url as _url
 
 
 @cache.memoize('delegateable_link')

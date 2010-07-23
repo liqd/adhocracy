@@ -61,24 +61,24 @@
 			%endif
 		</div>
 		<div id="navigation">
-			<a href="${h.instance_url(None)}">
+			<a href="${h.base_url(None)}">
 				<img src="/img/header_link.png" alt="${h.site.name()}"/>
 			</a> 
 			<a class="ttip" title="${_('All instances')}" 
-			   href="${h.instance_url(None, path='/instance')}">${_("Instances")}</a>
+			   href="${h.base_url(None, path='/instance')}">${_("Instances")}</a>
 			%if h.has_permission("global.admin"):
 				<a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
 				<a href="/event/all">${_("Events")}</a>
 			%endif
 			<div class="help">
-				<a href="${h.instance_url(None, path='/static/help.html')}">${_("Help")}</a>
+				<a href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a>
 			</div>
 		</div>
 	</div></div>
 	
 	%if c.instance:
 	<div id="instanceheader"><div class="headerbox">
-		<a href="${h.instance_url(c.instance)}" id="logo">
+		<a href="${h.base_url(c.instance)}" id="logo">
 			<img src="/instance/${c.instance.key if c.instance else '_def'}_48x48.png" />
 		</a>
 		<div id="menu">

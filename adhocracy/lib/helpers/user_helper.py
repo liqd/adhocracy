@@ -4,10 +4,10 @@ import hashlib
 
 from pylons import tmpl_context as c
 
-from adhocracy.lib import url as _url
 from adhocracy.lib import democracy
 from adhocracy.lib import cache
 
+import url as _url
 
 def icon_url(user, size=32):
     id = user.email if user.email else user.user_name

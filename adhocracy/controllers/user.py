@@ -180,7 +180,7 @@ class UserController(BaseController):
         c.page_user.reset_code = libutil.random_token()
         model.meta.Session.add(c.page_user)
         model.meta.Session.commit()
-        url = h.instance_url(c.instance, path="/user/%s/reset?c=%s" % (c.page_user.user_name, c.page_user.reset_code))
+        url = h.base_url(c.instance, path="/user/%s/reset?c=%s" % (c.page_user.user_name, c.page_user.reset_code))
         body = _("you have requested that your password be reset. In order to" 
                  +  " confirm the validity of your claim, please open the link below in your"
                  +  " browser:") + "\r\n\r\n  " + url 
@@ -245,7 +245,7 @@ class UserController(BaseController):
         query = query.limit(10)  
         if format == 'rss':
             return event.rss_feed(query.all(), "%s Latest Actions" % c.page_user.name,
-                                  h.instance_url(None, path='/user/%s' % c.page_user.user_name),
+                                  h.base_url(None, path='/user/%s' % c.page_user.user_name),
                                   c.page_user.bio)
         c.events_pager = pager.events(query.all())
         c.tile = tiles.user.UserTile(c.page_user)
@@ -259,7 +259,7 @@ class UserController(BaseController):
     
     def login(self):
         session['came_from'] = request.params.get('came_from', 
-                                                  h.instance_url(c.instance))
+                                                  h.base_url(c.instance))
         session.save()
         return render('/user/login.html')
     
@@ -270,7 +270,7 @@ class UserController(BaseController):
     
     def post_login(self):
         if c.user:
-            url = h.instance_url(c.instance)
+            url = h.base_url(c.instance)
             if 'came_from' in session:
                 url = session.get('came_from')
                 del session['came_from']
@@ -288,7 +288,7 @@ class UserController(BaseController):
 
     def post_logout(self):
         session.delete()
-        redirect(h.instance_url(c.instance))
+        redirect(h.base_url(c.instance))
     
     
     @ActionProtector(has_permission("user.view"))    

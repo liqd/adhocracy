@@ -2,20 +2,20 @@ import cgi
 
 from pylons.i18n import _
 
-from adhocracy.lib import url as _url
 from adhocracy.lib import cache
 from adhocracy.lib import text
 
-import breadcrumbs
+import url as _url
+from site_helper import base_url
 
 @cache.memoize('proposal_icon', 3600)
 def icon_url(proposal, size=16):
     if proposal.adopted:
-        return _url.instance_url(None, path='') + u"/img/icons/proposal_adopted_" + str(size) + u".png"
+        return base_url(None, path='') + u"/img/icons/proposal_adopted_" + str(size) + u".png"
     if proposal.is_adopt_polling():
-        return _url.instance_url(None, path='') + u"/img/icons/vote_" + str(size) + u".png"
+        return base_url(None, path='') + u"/img/icons/vote_" + str(size) + u".png"
     else:
-        return _url.instance_url(None, path='') + u"/img/icons/proposal_" + str(size) + u".png"
+        return base_url(None, path='') + u"/img/icons/proposal_" + str(size) + u".png"
 
 
 @cache.memoize('proposal_link', 3600)
@@ -36,9 +36,9 @@ def url(proposal, **kwargs):
 
 
 @cache.memoize('proposal_bc')
-def breadcrumb(proposal):
-    bc = breadcrumbs.root()
-    bc += breadcrumbs.link(_("Proposals"), u'/proposal')
+def breadcrumbs(proposal):
+    bc = _url.root()
+    bc += _url.link(_("Proposals"), u'/proposal')
     if proposal is not None:
-        bc += breadcrumbs.SEP + breadcrumbs.link(proposal.title, url(proposal))
+        bc += _url.BREAD_SEP + _url.link(proposal.title, url(proposal))
     return bc

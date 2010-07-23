@@ -3,7 +3,7 @@
 <%def name="title()">${_("Leave")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.page_instance)|n} &raquo; ${_("Leave")}
+	${h.instance.breadcrumbs(c.page_instance)|n} &raquo; ${_("Leave")}
 </%def>
 
 ${tiles.instance.header(c.page_instance, active='leave')}
