@@ -3,7 +3,7 @@
 <%def name="title()">${_("Comment")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment")}
+	${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment")}
 </%def>
 
 <h1 class="page_title"><img src="/img/icons/discuss_24.png" class="cd" /> 

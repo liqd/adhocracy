@@ -3,7 +3,7 @@
 <%def name="title()">${_("Comment History")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment History")}
+	${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment History")}
 </%def>
 
 ${tiles.comment.header(c.comment, active='history')}

@@ -4,7 +4,7 @@
 <%def name="title()">${_("Edit comment")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Edit comment")}
+	${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Edit comment")}
 </%def>
 
 <h1 class="page_title">${_("Comment on: %s") % h.delegateable.link(c.comment.topic, icon_size=24)|n}</h1>

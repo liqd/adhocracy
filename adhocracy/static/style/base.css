@@ -135,27 +135,16 @@ label.armhint {
 
 input, 
 textarea {
-	border:  2px solid #ccc;
+	border:  1px solid #ccc;
 	padding: 3px;
 	margin-top: 3px;
 	margin-bottom: 3px;
-	font-size: 10pt;
+	font-size: 9pt;
 	background-image: url(/img/comment_bg.png);
 	background-repeat: repeat-x;
 	background-position: bottom;
 }
 
-input, 
-textarea {
-	border:  2px solid #ddd;
-	padding: 3px;
-	margin-top: 3px;
-	margin-bottom: 3px;
-	font-size: 10pt;
-	background-image: url(/img/comment_bg.png);
-	background-repeat: repeat-x;
-	background-position: bottom;
-}
 
 input:focus, 
 input:hover,
@@ -163,7 +152,7 @@ input:hover,
 #page_title input:hover,
 textarea:focus,
 textarea:hover {
-	border:  2px solid #999;
+	border:  1px solid #999;
 	background-color: #ffe;
 }
 
@@ -653,6 +642,7 @@ body {
 .infobox {
 	padding: 10px;
 	border-radius: 5px;
+	margin-bottom: 10px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	background-color: #fdfbc0;
@@ -681,6 +671,7 @@ body {
 .content {
 	width: inherit;
 	padding: inherit;
+	font-size: 10pt;
 }
 
 .content p {
