@@ -42,12 +42,14 @@
 				%endif
 			</div>
 		</div>
+		%if pager.initial_size < len(pager._items):
 		<div class="pager_sorts bottom">
-			%for size in range(pager.initial_size, (pager.initial_size*5)+1, pager.initial_size/2):
+			%for size in range(pager.initial_size, min(len(pager._items)+pager.initial_size/2,(pager.initial_size*5)+1), pager.initial_size/2):
 				<a class="${'selected' if size == pager.size else ''}" 
 					href="${pager.serialize(size=size)}">${size}</a> |
 			%endfor
 			${_("entries")}
 		</div>
+		%endif
 	%endif
 </%def>
