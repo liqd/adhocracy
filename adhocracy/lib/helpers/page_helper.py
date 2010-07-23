@@ -16,15 +16,12 @@ def icon_url(page, size=16):
 
 @cache.memoize('page_redlink')
 def redlink(title):
-    title = title.encode('utf-8')
-    title = title.replace("&lt;", "<")
-    title = title.replace("&gt;", ">")
-    title = title.replace("&amp;", "&")
-    url = urllib.quote(title)
-    url = u"/page/new?title=%s" % url
+    title = title.replace(u"&lt;", u"<").replace(u"&gt;", u">")
+    title = title.replace(u"&amp;", u"&")
+    url = u"/page/new?title=%s" % title
     #url = instance_url(c.instance, path=url)
-    return u"<a class='page_link new' href='%s'>%s</a>" % (url.encode('utf-8'), 
-                                                           page.encode('utf-8'))
+    url = u"<a class='page_link new' href='%s'>%s</a>" % (url, title)
+    return url #.encode('utf-8')
 
 
 @cache.memoize('page_link')
