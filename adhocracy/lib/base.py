@@ -41,7 +41,6 @@ import democracy
 import tiles
 import sorting
 import watchlist
-import rest
 import pager
 
 

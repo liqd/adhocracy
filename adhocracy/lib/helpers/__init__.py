@@ -50,24 +50,6 @@ def immutable_proposal_message():
     return _("This proposal is currently being voted on and cannot be modified.")
 
 
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def comments_sorted(comments, root=None, variant=None):
     from adhocracy.lib.tiles.comment_tiles import CommentTile
     comments = [c for c in comments if c.variant==variant and c.reply==root]
