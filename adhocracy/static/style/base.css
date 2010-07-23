@@ -963,6 +963,9 @@ p img[align=left] {
 
 .voting_booth {
 	overflow: hidden;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .voting_booth table {
