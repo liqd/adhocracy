@@ -5,7 +5,7 @@
 
 <%def name="title()">${c.page.title}</%def>
 
-<%def name="breadcrumbs()">${h.breadcrumbs(c.text)|n}</%def>
+<%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
 %if c.page.proposal:
 	${tiles.proposal.header(c.page.proposal, None, active='history')}

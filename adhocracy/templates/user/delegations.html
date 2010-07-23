@@ -5,7 +5,7 @@
 </%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.page_user)|n} &raquo; ${_("Delegations")}
+	${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Delegations")}
 </%def>
 
 ${tiles.user.header(c.page_user, active='delegations')}

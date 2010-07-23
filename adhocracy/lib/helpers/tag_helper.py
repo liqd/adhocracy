@@ -3,6 +3,7 @@ import cgi
 import urllib
 
 from pylons import tmpl_context as c
+from pylons.i18n import _
 
 from adhocracy.lib import cache
 
@@ -31,3 +32,12 @@ def url(tag, instance=None, **kwargs):
     except KeyError:
         ident = tag.id
     return _url.build(instance, u'tag', ident, **kwargs)
+
+
+@cache.memoize('tag_bc')
+def breadcrumbs(tag):
+    bc = _url.root()
+    bc += _url.link(_("Tags"), u'/tag')
+    if tag is not None:
+        bc += _url.BREAD_SEP + _url.link(tag.name, url(tag))
+    return bc

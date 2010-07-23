@@ -3,12 +3,15 @@ import urllib
 import hashlib
 
 from pylons import tmpl_context as c
+from pylons.i18n import _
 
 from adhocracy.lib import democracy
 from adhocracy.lib import cache
 
 import url as _url
 
+
+@cache.memoize('user_icon')
 def icon_url(user, size=32):
     id = user.email if user.email else user.user_name
     gravatar_url = "http://www.gravatar.com/avatar.php?"
@@ -45,8 +48,17 @@ def link(user, size=16, scope=None):
     return _specific_link(user, size, scope, c.user)
     
 
+@cache.memoize('user_url')
 def url(user, instance=None, **kwargs):
     if instance is None:
         instance = c.instance
     return _url.build(instance, 'user', user.user_name, **kwargs)
 
+
+@cache.memoize('user_bc')
+def breadcrumbs(user):
+    bc = _url.root()
+    bc += _url.link(_("Users"), u'/user')
+    if user is not None:
+        bc += _url.BREAD_SEP + _url.link(user.name, url(user))
+    return bc

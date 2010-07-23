@@ -4,7 +4,7 @@
 <%def name="title()">${c.page_user.name}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.page_user)|n}
+	${h.user.breadcrumbs(c.page_user)|n}
 </%def>
 
 ${tiles.user.header(c.page_user, c.tile, active='activity')}

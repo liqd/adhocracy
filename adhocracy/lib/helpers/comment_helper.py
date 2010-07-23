@@ -1,5 +1,5 @@
 
-
+import adhocracy.model as model
 from adhocracy.lib import cache
 
 import page_helper as page

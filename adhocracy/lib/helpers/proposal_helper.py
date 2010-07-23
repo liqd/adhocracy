@@ -8,6 +8,7 @@ from adhocracy.lib import text
 import url as _url
 from site_helper import base_url
 
+
 @cache.memoize('proposal_icon', 3600)
 def icon_url(proposal, size=16):
     if proposal.adopted:

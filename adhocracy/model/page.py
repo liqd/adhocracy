@@ -236,8 +236,8 @@ class Page(Delegateable):
     
     @property
     def full_title(self):
-        from adhocracy.lib.helpers import text
-        title = text.truncate(self.title, length=40, whole_word=True)
+        from adhocracy.lib.helpers import truncate
+        title = truncate(self.title, length=40, whole_word=True)
         if self.parent:
             title = self.parent.full_title + " - " + title
         return title
@@ -288,17 +288,7 @@ class Page(Delegateable):
             if selection.selected == variant:
                 selections.append(selection)
         return selections
-
-
-    #@property
-    #def proposal(self):
-    #    from proposal import Proposal
-    #    if self.function == Page.DESCRIPTION:
-    #        for parent in self.parents:
-    #            if isinstance(parent, Proposal):
-    #                return parent
-    #    return None    
-    
+        
     
     def delete(self, delete_time=None):
         if delete_time is None:

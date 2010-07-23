@@ -3,7 +3,7 @@
 <%def name="title()">${_("New page")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.instance)|n} &raquo; ${_("New page")}
+	${h.page.breadcrumbs(None)|n} &raquo; ${_("New page")}
 </%def>
 
 <form name="create_page" class="inplace" method="POST" action="/page">

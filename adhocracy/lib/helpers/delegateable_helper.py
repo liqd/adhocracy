@@ -15,3 +15,12 @@ def link(delegateable, icon=True, icon_size=16, link=True):
     elif isinstance(delegateable, model.Page):
         return page.link(delegateable, icon=icon, icon_size=icon_size, link=link)
     return cgi.escape(delegateable.title)
+
+
+@cache.memoize('delegateable_bc')
+def breadcrumbs(delegateable):
+    if isinstance(delegateable, model.Proposal):
+        return proposal.breadcrumbs(delegateable)
+    elif isinstance(delegateable, model.Page):
+        return page.breadcrumbs(delegateable)
+    return cgi.escape(delegateable.title)

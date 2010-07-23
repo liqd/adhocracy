@@ -10,7 +10,7 @@
 
 <%def name="row(tile, page)">
 	<div class="tile">
-		<div class="base" style="background-image: url(${h.page_icon(page, size=32)});">
+		<div class="base" style="background-image: url(${h.page.icon_url(page, size=32)});">
 			<h3><a class="link" href="${h.entity_url(page)}">${page.title}</a></h3>
 			<div class="meta noclear">				
 				%if page.function == page.NORM:
@@ -87,7 +87,7 @@
 		<img class="cd" src="/img/icons/page_variant_24.png" />
 		${_("Norm: %s") % text.title}
 	%else:
-		<img class="cd" src="${h.page_icon(page, size=24)|n}" />
+		<img class="cd" src="${h.page.icon_url(page, size=24)|n}" />
 		${text.title}
 	%endif
 	</h1>

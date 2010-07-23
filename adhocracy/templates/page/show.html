@@ -4,7 +4,7 @@
 
 <%def name="title()">${c.page.title}</%def>
 
-<%def name="breadcrumbs()">${h.breadcrumbs(c.text)|n}</%def>
+<%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
 ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 

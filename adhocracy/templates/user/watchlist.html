@@ -4,7 +4,7 @@
 <%def name="title()">${_("Watchlist: %s") % c.page_user.name}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.page_user)|n} &raquo; ${_("Watchlist")}
+	${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Watchlist")}
 </%def>
 
 ${tiles.user.header(c.page_user, active='watchlist')}

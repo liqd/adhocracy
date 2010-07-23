@@ -4,7 +4,7 @@
 <%def name="title()">${_("Implementation: %s") % c.proposal.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.proposal)|n} &raquo; ${_("New change request")}
+	${h.selection.breadcrumbs(None)|n}
 </%def>
 
 ${tiles.proposal.header(c.proposal, active='implementation')}

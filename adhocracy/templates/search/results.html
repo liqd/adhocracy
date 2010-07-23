@@ -2,7 +2,7 @@
 <%def name="title()">${_("Search") if not c.query else "'%s'" % c.query}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.instance)|n} &raquo; ${_("Search")}
+	${h.instance.breadcrumbs(c.instance)|n} &raquo; ${_("Search")}
 </%def>
 
 <h1 class="page_title">

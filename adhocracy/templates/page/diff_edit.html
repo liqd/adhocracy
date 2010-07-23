@@ -3,7 +3,7 @@
 
 <%def name="title()">${_("Variant: %s") % c.text.title}</%def>
 
-<%def name="breadcrumbs()">${h.breadcrumbs(c.text)|n} &raquo; ${_("Edit variant")}</%def>
+<%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n} &raquo; ${_("Edit variant")}</%def>
 
 <form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
 	${h.field_token()|n}

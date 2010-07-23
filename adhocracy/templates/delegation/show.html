@@ -2,7 +2,7 @@
 <%def name="title()">${_("Delegation: %s") % c.scope.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.scope)|n} &raquo; ${_("Delegation")}
+	${h.delegateable.breadcrumbs(c.scope)|n} &raquo; ${_("Delegation")}
 </%def>
 
 <div class="top_actions title">

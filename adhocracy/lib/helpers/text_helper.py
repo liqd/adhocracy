@@ -1,5 +1,7 @@
 import urllib
 
+from pylons.i18n import _
+
 from adhocracy.lib import cache
 
 import proposal_helper as proposal
@@ -30,3 +32,12 @@ def icon_url(text, page=None, size=16):
         return proposal.icon_url(page.proposal, size=size)
     else:
         return path % ("", size)
+
+
+@cache.memoize('text_bc')
+def breadcrumbs(text):
+    import page_helper as page
+    bc = page.breadcrumbs(text.page)
+    if text.variant != text.HEAD:
+        bc += _url.BREAD_SEP + _url.link(text.variant, url(text))
+    return bc

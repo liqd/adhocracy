@@ -4,7 +4,7 @@
 <%def name="title()">${_("Votes: %s") % c.page_user.name}</%def>
 
 <%def name="breadcrumbs()">
-	${h.breadcrumbs(c.page_user)|n} &raquo; ${_("Votes")}
+	${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Votes")}
 </%def>
 
 ${tiles.user.header(c.page_user, active='votes')}
