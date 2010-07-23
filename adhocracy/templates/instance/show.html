@@ -3,7 +3,7 @@
 <%def name="title()">${_("Home")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.instance.breadcrumbs(c.page_instance)|n} &raquo; ${_("Home")}
+	${h.instance.breadcrumbs(c.page_instance)|n} ${_("Home")}
 </%def>
 
 ${tiles.instance.header(c.page_instance, active='rules')}

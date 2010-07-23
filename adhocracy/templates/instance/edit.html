@@ -3,7 +3,7 @@
 <%def name="title()">${_("Manage: %s") % c.page_instance.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.instance.breadcrumbs(c.page_instance)|n} &raquo; ${_("Manage")}
+	${h.instance.breadcrumbs(c.page_instance)|n} ${_("Manage")}
 </%def>
 
 <form name="create_instance" class="inplace" method="POST" 

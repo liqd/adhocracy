@@ -33,7 +33,7 @@
 			%if c.user:
 				<strong>
 					<a class="user_name ttip" title="${_('Your profile')}" href="${h.entity_url(c.user)}">
-						<img width="16" height="16" src="${h.gravatar_url(c.user, size=16)|n}"> ${c.user.name}
+						<img width="16" height="16" src="${h.user.icon_url(c.user, size=16)|n}"> ${c.user.name}
 					</a>
 				</strong>
 				
