@@ -127,58 +127,64 @@
 	<h1 class="page_title">${h.delegateable.link(proposal, icon_size=24, link=False)|n}</h1>
 	<br/>
 	<div class="panel ${active}">
-		<ul class="menu">
-			<!--li><a href="${h.entity_url(proposal, member='activity')}" 	
-				class="activity">${_("Activity")}</a></li-->
-			<li><a title="${_('Which goal does this proposal pursue?')}" 
-			       href="${h.entity_url(proposal)}" class="goal ttip">${_("Goal")}</a></li>
-			<li><a title="${_('How can this proposal achieve its goal?')}" 
-			       href="${h.entity_url(proposal, member='implementation')}" 
-				class="implementation ttip">${_("Implementation")} (${len(proposal.selections)})</a></li>
-			%if c.instance.allow_delegate:
-				<li><a title="${_('Who is receiving delegations?')}" 
-				       href="${h.entity_url(proposal, member='delegations')}"
-			   	class="delegations ttip">${_("Delegations")} (${len(proposal.current_delegations())})</a></li>
-			%endif
-			<li><a title="${_('Which alternatives are there?')}" 
-			       href="${h.entity_url(proposal, member='alternatives')}"
-			   class="alternatives ttip">${_("Alternatives")} (${len(proposal.current_alternatives())})</a>
-			</li>
-			<li><a title="${_('Who has helped?')}" 
-			       href="${h.entity_url(proposal, member='contributors')}" class="contributors ttip">${_("Contributors")} (${len(proposal.contributors())})</a></li>
-		</ul>
-		
-		%if proposal.adopted:
-			<div class="info adoption adopted">
-				${_("%s has been adopted %s.") % (h.delegateable.link(proposal, link=False, icon=False),
-												  h.relative_time(proposal.adopt_poll.end_time))|n}
-			</div>
-		%elif proposal.is_adopt_polling():
-			<div class="info adoption">
-				<div class="given first">
-					${_("Adoption requirements:")}
-				</div>
-				%if proposal.adopt_poll.tally.has_majority() and not \
-					proposal.adopt_poll.tally.has_participation():
-					<div class="given">
-						${_("%s%% approval") % int(c.instance.required_majority*100)}
-					</div>
-					<div class="">
-						${_("%s participators") % c.instance.required_participation}
-					</div>
-				%else:
-					<div class="${'given' if proposal.adopt_poll.tally.has_participation() else ''}">
-						${_("%s participators") % c.instance.required_participation}
-					</div>
-					<div class="${'given' if proposal.adopt_poll.tally.has_majority() else ''}">
-						${_("%s%% approval") % int(c.instance.required_majority*100)}
-					</div>
-				%endif
-				<div class="last">
-					${_("stable majority for %s days") % c.instance.activation_delay} 
-				</div>
-			</div>
-		%endif
-	</div>
+        ${tiles.proposal.panel(proposal, tile)}
+    </div>
 </%def>
+
+
+<%def name="panel(tile, proposal)">
+    <ul class="menu">
+    	<!--li><a href="${h.entity_url(proposal, member='activity')}" 	
+    		class="activity">${_("Activity")}</a></li-->
+    	<li><a title="${_('Which goal does this proposal pursue?')}" 
+    	       href="${h.entity_url(proposal)}" class="goal ttip">${_("Goal")}</a></li>
+    	<li><a title="${_('How can this proposal achieve its goal?')}" 
+    	       href="${h.entity_url(proposal, member='implementation')}" 
+    		class="implementation ttip">${_("Implementation")} (${len(proposal.selections)})</a></li>
+    	%if c.instance.allow_delegate:
+    		<li><a title="${_('Who is receiving delegations?')}" 
+    		       href="${h.entity_url(proposal, member='delegations')}"
+    	   	class="delegations ttip">${_("Delegations")} (${len(proposal.current_delegations())})</a></li>
+    	%endif
+    	<li><a title="${_('Which alternatives are there?')}" 
+    	       href="${h.entity_url(proposal, member='alternatives')}"
+    	   class="alternatives ttip">${_("Alternatives")} (${len(proposal.current_alternatives())})</a>
+    	</li>
+    	<li><a title="${_('Who has helped?')}" 
+    	       href="${h.entity_url(proposal, member='contributors')}" class="contributors ttip">${_("Contributors")} (${len(proposal.contributors())})</a></li>
+    </ul>
+
+    %if proposal.adopted:
+    	<div class="info adoption adopted">
+    		${_("%s has been adopted %s.") % (h.delegateable.link(proposal, link=False, icon=False),
+    										  h.relative_time(proposal.adopt_poll.end_time))|n}
+    	</div>
+    %elif proposal.is_adopt_polling():
+    	<div class="info adoption">
+    		<div class="given first">
+    			${_("Adoption requirements:")}
+    		</div>
+    		%if proposal.adopt_poll.tally.has_majority() and not \
+    			proposal.adopt_poll.tally.has_participation():
+    			<div class="given">
+    				${_("%s%% approval") % int(c.instance.required_majority*100)}
+    			</div>
+    			<div class="">
+    				${_("%s participators") % c.instance.required_participation}
+    			</div>
+    		%else:
+    			<div class="${'given' if proposal.adopt_poll.tally.has_participation() else ''}">
+    				${_("%s participators") % c.instance.required_participation}
+    			</div>
+    			<div class="${'given' if proposal.adopt_poll.tally.has_majority() else ''}">
+    				${_("%s%% approval") % int(c.instance.required_majority*100)}
+    			</div>
+    		%endif
+    		<div class="last">
+    			${_("stable majority for %s days") % c.instance.activation_delay} 
+    		</div>
+    	</div>
+    %endif
+</%def>
+
 

@@ -28,7 +28,8 @@ def dispatch_row(entity):
     elif isinstance(entity, model.Proposal):
         return proposal.row(entity)
     elif isinstance(entity, model.Page):
-        return page.row(entity)
+        if entity.function != model.Page.DESCRIPTION:
+            return page.row(entity)
     elif isinstance(entity, model.Tag):
         return tag.row(entity)
     #elif isinstance(entity, model.Comment):
