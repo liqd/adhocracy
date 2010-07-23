@@ -138,7 +138,9 @@ class ProposalController(BaseController):
             return self.edit(id, errors=i.unpack_errors())
         
         require.proposal.edit(c.proposal)
+        
         c.proposal.label = self.form_result.get('label')
+        model.meta.Session.add(c.proposal)
         text = model.Text.create(c.proposal.description, model.Text.HEAD, c.user, 
                                  self.form_result.get('label'), 
                                  self.form_result.get('text'), 
@@ -221,9 +223,9 @@ class ProposalController(BaseController):
         events = model.Event.find_by_topic(c.proposal)
         
         if format == 'rss':
-            return event.rss_feed(events, _("Proposal: %s") % c.proposal.label,
+            return event.rss_feed(events, _("Proposal: %s") % c.proposal.title,
                                   h.entity_url(c.proposal),
-                                  description=_("Activity on the %s proposal") % c.proposal.label)
+                                  description=_("Activity on the %s proposal") % c.proposal.title)
         
         c.tile = tiles.proposal.ProposalTile(c.proposal)
         c.events_pager = pager.events(events)
@@ -248,7 +250,7 @@ class ProposalController(BaseController):
                    topics=[c.proposal], proposal=c.proposal)
         c.proposal.delete()
         model.meta.Session.commit()
-        h.flash(_("The proposal %s has been deleted.") % c.proposal.label)
+        h.flash(_("The proposal %s has been deleted.") % c.proposal.title)
         redirect(h.entity_url(c.instance))   
     
     
@@ -290,10 +292,10 @@ class ProposalController(BaseController):
         if len(tags):
             h.add_meta("keywords", ", ".join([k.name for (k, v) in tags]))
         h.add_meta("dc.title", 
-                   text.meta_escape(proposal.label, markdown=False))
+                   text.meta_escape(proposal.title, markdown=False))
         h.add_meta("dc.date", 
                    proposal.create_time.strftime("%Y-%m-%d"))
         h.add_meta("dc.author", 
                    text.meta_escape(proposal.creator.name, markdown=False))
-        h.add_rss(_("Proposal: %(proposal)s") % {'proposal': proposal.label}, 
+        h.add_rss(_("Proposal: %(proposal)s") % {'proposal': proposal.title}, 
                   h.entity_url(c.proposal, format='rss'))

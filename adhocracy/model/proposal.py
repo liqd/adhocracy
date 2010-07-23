@@ -39,7 +39,7 @@ class Proposal(Delegateable):
     
     @property
     def title(self):
-        return self.label
+        return self.description.title
     
         
     @property

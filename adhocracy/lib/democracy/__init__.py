@@ -40,7 +40,7 @@ def check_adoptions():
         # check adoptions:
         if not proposal.adopted and proposal.is_adopt_polling() \
             and proposal.adopt_poll.is_stable():
-            log.info("Proposal %s is now ADOPTED. Thanks for playing." % proposal.label)
+            log.info("Proposal %s is now ADOPTED. Thanks for playing." % proposal.title)
             proposal.adopt()
             model.meta.Session.commit()
         # TODO check repeals

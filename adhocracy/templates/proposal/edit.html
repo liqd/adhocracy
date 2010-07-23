@@ -1,7 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="tiles_html" file="/proposal/tiles.html"/>
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Edit %s") % c.proposal.label}</%def>
+<%def name="title()">${_("Edit %s") % c.proposal.title}</%def>
 
 <%def name="breadcrumbs()">
 	${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit")}
@@ -12,7 +12,7 @@
 	<input type="hidden" name="_method" value="PUT" /> 
 	<div class="page_title">
 		<label for="label" class="armhint">${_("New Proposal")}</label>
-		<input tabindex="1" class="title armlabel" name="label" value="${c.proposal.label}"/>
+		<input tabindex="1" class="title armlabel" name="label" value="${c.proposal.title}"/>
 	</div>
 	
 	<h3>${_("Proposal goals")}</h3>

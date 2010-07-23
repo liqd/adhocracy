@@ -32,7 +32,7 @@ def link(proposal, icon=True, icon_size=16, link=True):
 
 @cache.memoize('proposal_url', 3600)
 def url(proposal, **kwargs):
-    ext = str(proposal.id) + '-' + text.label2alias(proposal.label)
+    ext = str(proposal.id) + '-' + text.label2alias(proposal.title)
     return _url.build(proposal.instance, 'proposal', ext, **kwargs)
 
 

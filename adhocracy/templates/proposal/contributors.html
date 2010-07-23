@@ -3,7 +3,7 @@
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 
 
-<%def name="title()">${_("Contributors: %s") % c.proposal.label}</%def>
+<%def name="title()">${_("Contributors: %s") % c.proposal.title}</%def>
 
 <%def name="breadcrumbs()">
 	${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Contributors")}

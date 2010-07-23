@@ -1,7 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 
-<%def name="title()">${_("Alternatives: %s") % c.proposal.label}</%def>
+<%def name="title()">${_("Alternatives: %s") % c.proposal.title}</%def>
 
 <%def name="breadcrumbs()">
 	${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Alternatives")}
