@@ -32,7 +32,7 @@ def root():
         from instance_helper import url
         return link(c.instance.label, url(c.instance)) + BREAD_SEP
     else:
-        return link(site.name(), site.base_url()) + BREAD_SEP
+        return link(site.name(), site.base_url(None)) + BREAD_SEP
 
 
 def link(title, href):
