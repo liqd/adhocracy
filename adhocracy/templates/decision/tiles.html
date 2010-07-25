@@ -26,7 +26,7 @@
 				${h.user.link(decision.user)|n}
 			%endif		
 			%if focus_scope:
-				${h.delegateable.link(decision.poll.scope)|n}
+			    ${tile.topic|n}
 			%endif
 		</h3>
 		
@@ -35,7 +35,7 @@
 				${_("The user's delegates have voted, but no consensus was" + 
 					"reached among them. The decision is deferred.")}
 			%else:
-				%if decision.is_self_decided():
+				%if decision.is_self_decided() and c.instance and c.instance.allow_delegate:
 					${_("The decision was made without delegations.")}
 				%else:
 					${_("The decision was determined as a result of the following delegations:")}
@@ -56,7 +56,7 @@
 		<div class="meta">
 			${h.relative_time(decision.create_time)|n}
 			%if not focus_scope:
-				&middot; ${h.delegateable.link(decision.poll.scope)|n}
+				&middot; ${tile.topic|n}
 			%endif
 		</div>
 		</div>

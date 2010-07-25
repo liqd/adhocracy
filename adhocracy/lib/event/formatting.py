@@ -62,7 +62,7 @@ class PollFormatter(ObjectFormatter):
         if poll.action == poll.SELECT: 
             text = poll.selection.page.variant_head(poll.variant)
             title = _("Status quo") if text.variant == text.HEAD else text.variant
-            variant_link = "<a href='%s'>%s</a>" % (h.entity_url(text), 
+            variant_link = "<a href='%s'>%s</a>" % (h.text.url(text), 
                                                     cgi.escape(title))
             page_link = h.page.link(poll.selection.page, icon=True, icon_size=16)
             return self.SELECT_PATTERN(variant_link, page_link)
