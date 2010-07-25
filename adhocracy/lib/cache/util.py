@@ -33,10 +33,10 @@ def make_tag(obj):
     """ Collisisons here don't matter much. """
     rep = "catch_all"
     try:
-        rep = repr(obj)
+        rep = repr(obj).encode('ascii', 'ignore')
     except: pass
     try:
-        rep = unicode(obj)
+        rep = unicode(obj).encode('ascii', 'ignore')
     except: pass
     return _hash(rep)
 
@@ -45,13 +45,10 @@ def make_key(iden, args, kwargs):
     return sha1(sig).hexdigest()
 
 def clear_tag(tag):
-    try:
-        entities = app_globals.cache.get(make_tag(tag))
-        if entities:
-            app_globals.cache.delete_multi(entities.split(SEP))
-    except TypeError, te:
-        pass
-
+    entities = app_globals.cache.get(make_tag(tag))
+    if entities:
+        app_globals.cache.delete_multi(entities.split(SEP))
+    
 def memoize(iden, time = 0):
     def memoize_fn(fn):
         from adhocracy.lib.cache.util import NoneResult
