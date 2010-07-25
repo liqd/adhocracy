@@ -31,7 +31,10 @@ def tag_fn(key, args, kwargs):
 
 def make_tag(obj):
     """ Collisisons here don't matter much. """
-    return _hash(repr(obj).encode('ascii', 'ignore'))
+    try:
+        return _hash(repr(obj).encode('ascii', 'ignore'))
+    except:
+        return _hash(unicode(obj).encode('ascii', 'ignore'))
 
 def make_key(iden, args, kwargs):
     sig = iden[:200] + make_tag(args) + make_tag(kwargs)
