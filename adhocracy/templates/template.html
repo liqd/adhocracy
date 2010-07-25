@@ -77,15 +77,15 @@
 	</div></div>
 	
 	%if c.instance:
-	<div id="instanceheader"><div class="headerbox">
+	<div id="instanceheader"><div class="headerbox ${c.active_controller}">
 		<a href="${h.base_url(c.instance)}" id="logo">
 			<img src="/instance/${c.instance.key if c.instance else '_def'}_48x48.png" />
 		</a>
 		<div id="menu">
 			<ul>
-				<li><a class="ttip" title="${_('Instance home page')}" 
+				<li><a class="instance ttip" title="${_('Instance home page')}" 
 					     href="${h.entity_url(c.instance)}">${_("Home")}</a></li>
-				<li><a class="ttip" title="${_('Show all proposals')}" 
+				<li><a class="proposal ttip" title="${_('Show all proposals')}" 
 					     href="/proposal">${_("Proposals")}</a></li>
 				%if c.instance.norm_page:
 					<li><a class="ttip" title="${_('Norm pages')}" 
@@ -98,7 +98,7 @@
 					<li><a class="ttip" title="${_('Wiki pages')}" 
 					     	href="/page/Main_Page">${_("Wiki")}</a></li>
 				%endif
-				<li><a class="ttip" title="${_('All members of this instance')}" 
+				<li><a class="user ttip" title="${_('All members of this instance')}" 
 					     href="/user">${_("Members")}</a></li>
 			</ul>
 		</div>
