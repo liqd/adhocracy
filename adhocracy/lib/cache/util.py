@@ -17,15 +17,11 @@ def _hash(data):
 
 def add_tags(key, tags):
     ctags = app_globals.cache.get_multi(tags)
-    #print "ADD TAGS", ctags
-    #if not isinstance(ctags, type([])):
-    #    ctags = {}
     for tag in tags:
         if not ctags.get(tag):
             ctags[tag] = key
         else: 
             ctags[tag] = ctags[tag] + SEP + key
-    #print "CTAGS", ctags
     app_globals.cache.set_multi(ctags)
     
 def tag_fn(key, args, kwargs):
@@ -35,7 +31,10 @@ def tag_fn(key, args, kwargs):
 
 def make_tag(obj):
     """ Collisisons here don't matter much. """
-    return _hash(repr(obj).encode('utf-8'))
+    try:
+        return _hash(repr(obj))
+    except:
+        return _hash(unicode(obj))
 
 def make_key(iden, args, kwargs):
     sig = iden[:200] + make_tag(args) + make_tag(kwargs)
