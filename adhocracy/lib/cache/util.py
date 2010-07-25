@@ -1,5 +1,5 @@
 import logging
-from base64 import b64encode
+from binascii import crc32
 from hashlib import sha1
 
 from pylons import app_globals
@@ -32,7 +32,11 @@ def tag_fn(key, a, kw):
     add_tags(key, map(make_tag, tags))
 
 def make_tag(obj):
-    return make_key("__tag_", [obj], {})
+    """ Collisisons here don't matter much. """
+    try:
+        return str(hash(obj))
+    except:
+        return crc32(repr(obj))
 
 def make_key(iden, args, kwargs=None):
     sig = iden[:200] + repr(args) + repr(kwargs)
@@ -42,7 +46,6 @@ def clear_tag(tag):
     try:
         tag = make_tag(tag)
         entities = app_globals.cache.get(tag)
-        print "DELETING", entities
         if entities:
             app_globals.cache.delete_multi(entities.split(SEP))
     except TypeError, te:
