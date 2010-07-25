@@ -71,11 +71,9 @@ def header(proposal, tile=None, active='goal'):
                        proposal=proposal, active=active)
 
 
-def panel(proposal, tile=None):
-    if tile is None:
-        tile = ProposalTile(proposal)
+def panel(proposal, tile):
     return render_tile('/proposal/tiles.html', 'panel', tile,
-                      proposal=proposal, cached=True)
+                       proposal=proposal, cached=True)
 
 
 def sidebar(proposal, tile=None):

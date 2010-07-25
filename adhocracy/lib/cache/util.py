@@ -17,37 +17,27 @@ def _hash(data):
 
 def add_tags(key, tags):
     ctags = app_globals.cache.get_multi(tags)
-    if not isinstance(ctags, type([])):
-        ctags = {}
+    #print "ADD TAGS", ctags
+    #if not isinstance(ctags, type([])):
+    #    ctags = {}
     for tag in tags:
         if not ctags.get(tag):
-            ctags[tag] = str(key)
+            ctags[tag] = key
         else: 
-            ctags[tag] += SEP + str(key)
+            ctags[tag] = ctags[tag] + SEP + key
+    #print "CTAGS", ctags
     app_globals.cache.set_multi(ctags)
     
-def tag_fn(key, a, kw):
-    tags = []
-    for arg in a:
-        tags = tags + [arg]
-    for kword in kw.values():
-        tags = tags + [kword]
-    add_tags(key, map(make_tag, tags))
+def tag_fn(key, args, kwargs):
+    tags = [make_tag(a) for a in args]
+    tags += [make_tag(v) for v in kwargs.values()]
+    add_tags(key, tags)
 
 def make_tag(obj):
     """ Collisisons here don't matter much. """
-    try:
-        return _hash(obj)
-    except: pass
-    try:    
-        return str(hash(obj))
-    except: pass
-    try:
-        return _hash(repr(obj))
-    except: pass
-    return _hash(unicode(obj))
+    return _hash(repr(obj).encode('utf-8'))
 
-def make_key(iden, args, kwargs=None):
+def make_key(iden, args, kwargs):
     sig = iden[:200] + make_tag(args) + make_tag(kwargs)
     return sha1(sig).hexdigest()
 

@@ -46,6 +46,11 @@ class Comment(object):
     latest = property(_get_latest, _set_latest)
     
     
+    @property
+    def title(self):
+        return self.latest.title
+    
+    
     def root(self):
         return self if self.reply is None else self.reply.root()
     

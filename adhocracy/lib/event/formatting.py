@@ -38,6 +38,7 @@ class PollFormatter(ObjectFormatter):
                                        'page': p}
     
     def _get_formatter(self, poll):
+        print "POLL_ACTION", poll.action
         if poll.action in [poll.RATE, poll.ADOPT]:
             if isinstance(poll.subject, model.Comment):
                 return CommentFormatter()
