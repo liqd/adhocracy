@@ -60,6 +60,7 @@ class BaseController(WSGIController):
         c.model = model
         c.instance = model.instance_filter.get_instance()
         c.user = environ.get('repoze.who.identity', {}).get('user', None)
+	c.active_controller = request.environ.get('pylons.routes_dict').get('controller')
         
         #pprint(request.environ)
         # http host information was moved around to mess with repoze.who                 
