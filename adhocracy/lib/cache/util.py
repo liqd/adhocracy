@@ -35,16 +35,16 @@ def make_tag(obj):
     """ Collisisons here don't matter much. """
     try:    
         return str(hash(obj))
-    except: 
-        try:
-            return crc32(repr(obj))
-        except:
-            return crc32(unicode(obj))
+    except: pass
+    try:
+        return str(crc32(repr(obj)))
+    except: pass
+    return str(crc32(unicode(obj)))
 
 def make_key(iden, args, kwargs=None):
-    sig = iden[:200]
-    sig += "".join([make_tag(a) for a in args])
-    sig += "".join([make_tag(v) for k, v in kwargs.items()])
+    sig = unicode(iden[:200])
+    sig += u"".join([make_tag(a) for a in args])
+    sig += u"".join([make_tag(v) for k, v in kwargs.items()])
     return sha1(sig).hexdigest()
 
 def clear_tag(tag):
