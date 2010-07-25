@@ -12,6 +12,9 @@ SEP="|"
 
 cacheTags = {}
 
+def _hash(data):
+    return sha1(data).hexdigest()
+
 def add_tags(key, tags):
     ctags = app_globals.cache.get_multi(tags)
     if not isinstance(ctags, type([])):
@@ -33,18 +36,19 @@ def tag_fn(key, a, kw):
 
 def make_tag(obj):
     """ Collisisons here don't matter much. """
+    try:
+        return _hash(obj)
+    except: pass
     try:    
         return str(hash(obj))
     except: pass
     try:
-        return str(crc32(repr(obj)))
+        return _hash(repr(obj))
     except: pass
-    return str(crc32(unicode(obj)))
+    return _hash(unicode(obj))
 
 def make_key(iden, args, kwargs=None):
-    sig = unicode(iden[:200])
-    sig += u"".join([make_tag(a) for a in args])
-    sig += u"".join([make_tag(v) for k, v in kwargs.items()])
+    sig = iden[:200] + make_tag(args) + make_tag(kwargs)
     return sha1(sig).hexdigest()
 
 def clear_tag(tag):
