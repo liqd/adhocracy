@@ -34,16 +34,15 @@ def tag_fn(key, a, kw):
 def make_tag(obj):
     return make_key("__tag_", [obj], {})
 
-def make_key(iden, a, kw=None):
-    strs = map(unicode, a) + map(unicode, kw.items())
-    #iden = "None" if iden is None else iden
-    sig = sha1(u"".join(strs).encode('ascii', 'ignore')).hexdigest()
-    return iden[:210] + sig
+def make_key(iden, args, kwargs=None):
+    sig = iden[:200] + repr(args) + repr(kwargs)
+    return sha1(sig).hexdigest()
 
 def clear_tag(tag):
     try:
         tag = make_tag(tag)
         entities = app_globals.cache.get(tag)
+        print "DELETING", entities
         if entities:
             app_globals.cache.delete_multi(entities.split(SEP))
     except TypeError, te:

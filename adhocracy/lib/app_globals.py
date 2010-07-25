@@ -27,9 +27,8 @@ class Globals(object):
         if 'memcached.server' in config:
             self.cache = memcache.Client([config['memcached.server']])
             log.info("Memcache set up")
-            if config.get("debug"):
-                log.debug("Flushing cache")
-                self.cache.flush_all()
+            log.debug("Flushing cache")
+            self.cache.flush_all()
             cache.setup_cache()
         else:
             log.warn("Skipped memcache, no results caching will take place.")
