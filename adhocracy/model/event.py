@@ -167,7 +167,7 @@ class Event(object):
     
     
     def __repr__(self):
-        return "<Event(%d,%s,%s,%s)>" % (self.id, self.event, self.time, 
+        return "<Event(%d,%s,%s,%s)>" % (self.id, self.event.encode('ascii', 'replace'), self.time, 
                                          self.user.user_name)
 
         

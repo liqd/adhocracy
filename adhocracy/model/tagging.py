@@ -26,7 +26,7 @@ class Tagging(object):
     
     def __repr__(self):
         return "<Tagging(%s,%s,%s,%s)>" % (self.id, self.delegateable.id,
-                                     self.tag.name, self.creator.user_name)
+                                     self.tag.name.encode('ascii', 'replace'), self.creator.user_name)
     
     
     def delete(self):

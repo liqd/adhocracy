@@ -138,6 +138,6 @@ class Text(object):
     
     
     def __repr__(self):
-        return u"<Text(%s, %s, %s)>" % (self.id, self.variant, 
+        return u"<Text(%s, %s, %s)>" % (self.id, self.variant.encode('ascii', 'replace'), 
                                         self.user.user_name)
     
