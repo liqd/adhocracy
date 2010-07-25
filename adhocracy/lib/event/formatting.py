@@ -57,7 +57,6 @@ class PollFormatter(ObjectFormatter):
     
     
     def html(self, poll):
-        #print "SUB", repr(poll.subject).encode('utf-8')
         if poll.action == poll.SELECT: 
             text = poll.selection.page.variant_head(poll.variant)
             title = _("Status quo") if text.variant == text.HEAD else text.variant

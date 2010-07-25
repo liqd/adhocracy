@@ -12,8 +12,10 @@ SEP="|"
 
 cacheTags = {}
 
+
 def _hash(data):
     return sha1(data).hexdigest()
+
 
 def add_tags(key, tags):
     ctags = app_globals.cache.get_multi(tags)
@@ -23,11 +25,13 @@ def add_tags(key, tags):
         else: 
             ctags[tag] = ctags[tag] + SEP + key
     app_globals.cache.set_multi(ctags)
+
     
 def tag_fn(key, args, kwargs):
     tags = [make_tag(a) for a in args]
     tags += [make_tag(v) for v in kwargs.values()]
     add_tags(key, tags)
+
 
 def make_tag(obj):
     """ Collisisons here don't matter much. """
@@ -40,15 +44,18 @@ def make_tag(obj):
     except: pass
     return _hash(rep)
 
+
 def make_key(iden, args, kwargs):
     sig = iden[:200] + make_tag(args) + make_tag(kwargs)
     return sha1(sig).hexdigest()
+
 
 def clear_tag(tag):
     entities = app_globals.cache.get(make_tag(tag))
     if entities:
         app_globals.cache.delete_multi(entities.split(SEP))
-    
+
+ 
 def memoize(iden, time = 0):
     def memoize_fn(fn):
         from adhocracy.lib.cache.util import NoneResult
