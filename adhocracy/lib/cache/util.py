@@ -33,10 +33,8 @@ def tag_fn(key, a, kw):
 
 def make_tag(obj):
     """ Collisisons here don't matter much. """
-    try:
-        return str(hash(obj))
-    except:
-        return crc32(repr(obj))
+    try:    return str(hash(obj))
+    except: return crc32(repr(obj))
 
 def make_key(iden, args, kwargs=None):
     sig = iden[:200] + repr(args) + repr(kwargs)
@@ -44,13 +42,11 @@ def make_key(iden, args, kwargs=None):
 
 def clear_tag(tag):
     try:
-        tag = make_tag(tag)
-        entities = app_globals.cache.get(tag)
+        entities = app_globals.cache.get(make_tag(tag))
         if entities:
             app_globals.cache.delete_multi(entities.split(SEP))
     except TypeError, te:
         pass
-        #log.warn(te)
 
 def memoize(iden, time = 0):
     def memoize_fn(fn):
