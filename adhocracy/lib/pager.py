@@ -88,7 +88,7 @@ class NamedPager(object):
         query = dict(request.params.items())
         query.update(self.kwargs)
         query.update(kwargs)
-        query["%s_page" % self.name] = page if page else self.page
+        query["%s_page" % self.name] = page if page else 1
         query["%s_size" % self.name] = size if size else self.size
         query["%s_sort" % self.name] = sort if sort else self.selected_sort
         

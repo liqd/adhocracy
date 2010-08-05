@@ -22,7 +22,8 @@
 		${pager.itemfunc(item)}
 	%endfor
 	</div>
-	%if pager.enable_pages and pager.initial_size < len(pager._items):
+	%if pager.enable_pages:
+		%if pager.pages > 1:
 		<div class="pager">
 			<div class="prev_page">
 				%if pager.page > 1:
@@ -42,6 +43,8 @@
 				%endif
 			</div>
 		</div>
+		%endif
+		%if pager.initial_size < len(pager._items):
 		<div class="pager_sorts bottom">
 			%for size in range(pager.initial_size, min(len(pager._items)+pager.initial_size/2,(pager.initial_size*5)+1), pager.initial_size/2):
 				<a class="${'selected' if size == pager.size else ''}" 
@@ -49,5 +52,6 @@
 			%endfor
 			${_("entries")}
 		</div>
+		%endif
 	%endif
 </%def>
