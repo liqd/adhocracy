@@ -119,6 +119,7 @@ class UserController(BaseController):
             model.meta.Session.expunge(membership)
             model.meta.Session.add(membership)
             model.meta.Session.commit()
+        h.flash(_("You have successfully registered as user %s.") % user.name)
         redirect("/perform_login?%s" % urllib.urlencode({
                  'login': self.form_result.get("user_name").encode('utf-8'),
                  'password': self.form_result.get("password").encode('utf-8')
@@ -275,6 +276,7 @@ class UserController(BaseController):
                 url = session.get('came_from')
                 del session['came_from']
                 session.save()
+            h.flash(_("You have successfully logged in as user %s.") % c.user.name)
             redirect(str(url))
         else:
             session.delete()
