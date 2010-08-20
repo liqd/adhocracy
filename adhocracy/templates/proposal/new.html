@@ -9,6 +9,8 @@
 
 <form name="create_proposal" class="inplace" method="POST" action="/proposal">
 	${h.field_token()|n}
+
+	<h3>${_("Proposal title")}</h3>
 	<div class="page_title">
 		<label for="label" class="armhint">${_("New proposal")}</label>
 		<input tabindex="1" class="title armlabel" name="label" />
