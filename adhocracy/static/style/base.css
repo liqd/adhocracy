@@ -486,6 +486,7 @@ body {
 #instanceheader .headerbox #menu a.active,
 #instanceheader .headerbox.instance a.instance,
 #instanceheader .headerbox.proposal a.proposal,
+#instanceheader .headerbox.selection a.proposal,
 #instanceheader .headerbox.page.document a.page.document,
 #instanceheader .headerbox.page.norm a.page.norm,
 #instanceheader .headerbox.user a.user
