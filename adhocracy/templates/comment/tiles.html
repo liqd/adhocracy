@@ -152,7 +152,7 @@
 	</form>
 </%def>
 
-<%def name="create_form(parent, topic, arm=False, can_wiki=True, variant=None, ret_url='')">
+<%def name="create_form(parent, topic, wiki=True, arm=False, can_wiki=True, variant=None, ret_url='')">
 	<form name="create_comment" class="inplace comment_form" method="POST" action="/comment">
 		${h.field_token()|n}
 		<input type="hidden" name="topic" value="${topic.id}" />
@@ -186,7 +186,7 @@
 		${components.formatting()}
 		${components.savebox("/d/%s" % parent.topic.id if parent else request.params.get('topic'))}
 		%if can_wiki:
-			<input type="checkbox" checked="checked" name="wiki" value="1" />
+			<input type="checkbox" ${'checked="checked"' if wiki == 1 else ''} name="wiki" value="1" />
 			${_("Allow others to edit this comment.")}
 		%endif
 		</div>

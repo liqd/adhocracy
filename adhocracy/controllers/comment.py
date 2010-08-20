@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from pylons.i18n import _
+from formencode import Invalid
 
 from adhocracy.lib.base import *
 import adhocracy.lib.text as text
@@ -54,24 +55,31 @@ class CommentController(BaseController):
     
     
     @RequireInstance
-    @validate(schema=CommentCreateForm(), form="bad_request", 
+    @validate(schema=CommentNewForm(), form="bad_request", 
               post_only=False, on_get=True)
-    def new(self):
+    def new(self, errors=None):
         c.topic = self.form_result.get('topic')
         c.reply = self.form_result.get('reply')
         c.wiki = self.form_result.get('wiki')
         c.variant = self.form_result.get('variant')
+	defaults = dict(request.params)
         if c.reply:
             require.comment.reply(c.reply)
         else: 
             require.comment.create_on(c.topic)
-        return render('/comment/new.html')
+        return htmlfill.render(render('/comment/new.html'), defaults=defaults,
+			       errors=errors, force_defaults=False)
     
     
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
-    @validate(schema=CommentCreateForm(), form="new", post_only=True)
     def create(self, format='html'):
+        require.comment.create()
+        try:
+            self.form_result = CommentCreateForm().to_python(request.params)
+        except Invalid, i:
+            return self.new(errors=i.unpack_errors())
+
         topic = self.form_result.get('topic')
         reply = self.form_result.get('reply')
         

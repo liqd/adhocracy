@@ -11,8 +11,8 @@
 
 <div class="sidebar">&nbsp;</div>
 <div class="mainbar">
-	%if c.reply:
-		${tiles.comment.full(c.reply, recurse=False, collapse=False, link_discussion=False)}
-	%endif
-	${t.create_form(c.reply, c.topic, canonical=c.canonical, variant=c.variant)}
+##	%if c.reply:
+##		${tiles.comment.show(c.reply)}
+##	%endif
+	${t.create_form(c.reply, c.topic, wiki=c.wiki, can_wiki=True, variant=c.variant)}
 </div>
