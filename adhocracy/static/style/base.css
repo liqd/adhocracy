@@ -722,13 +722,15 @@ del, del * {
 	text-decoration: none;	
 }
 
-.double del, .double del *,
-.double ins, .double ins * {
+.double del, .double del *, .selected del, .selected del *,
+.double ins, .double ins *, .selected ins, .selected ins * {
     background-color: #fff;
 }
 
 .double.righthalf ins, 
-.double.righthalf ins * {
+.double.righthalf ins *,
+.selected ins,
+.selected ins * {
     color: green;
     font-weight: bold;
 }
@@ -743,7 +745,9 @@ del, del * {
 }
 
 .double.lefthalf del,
-.double.lefthalf del * {
+.double.lefthalf del *,
+.selected del,
+.selected del * {
 	color: red;
 	font-weight: bold;
 }
