@@ -115,6 +115,7 @@ class Text(object):
             while len(line) > self.LINE_LENGTH:
                 part = truncate(line, length=self.LINE_LENGTH, indicator='', whole_word=True)
                 line = line[len(part):]
+                line = line.lstrip()
                 yield part
             yield line
     

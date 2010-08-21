@@ -23,10 +23,8 @@ class TextTile(BaseTile):
     
     @property
     def parent_text_diff(self):
-        if not self.text.parent:
-            return self.text.render()
-        return text.html_diff(self.text.parent.render(), 
-                              self.text.render())
+        return text.diff.page_texts_history_compare(self.text,
+                                                    self.text.parent)
         
     @property 
     def parent_title_diff(self):

@@ -96,6 +96,7 @@ class Page(Delegateable):
     @classmethod
     def all(cls, **kwargs): 
         return cls._all_query(**kwargs).all()
+    
         
     @classmethod  
     def all_roots(cls, function):
@@ -107,23 +108,12 @@ class Page(Delegateable):
             q = q.filter(Page.instance==ifilter.get_instance())
         return q.all()
     
+    
     @classmethod 
     def count(cls, **kwargs):
         return cls._all_query(**kwargs).count()
     
-    
-    #@classmethod
-    #def free_label(cls, title):
-    #    from adhocracy.lib.text import title2alias
-    #    label = title2alias(title)
-    #    for i in count(0):
-    #        if i == 0: test = label
-    #        else: test = label + str(i)
-    #        page = Page.find(test)
-    #        if page is None: 
-    #            return test
-    
-    
+        
     @classmethod
     def create(cls, instance, title, text, creator, function=DOCUMENT, tags=None):
         from adhocracy.lib.text import title2alias

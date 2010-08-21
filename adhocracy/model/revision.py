@@ -42,10 +42,30 @@ class Revision(object):
                                      
     def _set_title(self, title):
         self._title = title
-    
-      
+          
     title = property(_get_title, _set_title)
     
+    
+    @property
+    def is_earliest(self):
+        return self == min(self.comment.revisions, key=lambda r: r.create_time)
+    
+    
+    @property
+    def is_latest(self):
+        return self.comment.latest.id == self.id
+    
+    
+    @property    
+    def previous(self):
+        if not self.is_earliest:
+            smaller = filter(lambda r: r.create_time < self.create_time, self.comment.revisions)
+            return max(smaller, key=lambda r: r.create_time)
+    
+    @property
+    def index(self):
+        return len(self.comment.revisions) - self.comment.revisions.index(self)
+        
     
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):

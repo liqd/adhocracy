@@ -2,7 +2,7 @@
 
 <%def name="row(tile, revision)">
 	<div class="tile revision history">
-		<div class="index">${tile.index}</div>
+		<div class="index">${revision.index}</div>
 		${h.user.link(revision.user, scope=revision.comment.topic)|n}
 		&middot; ${_("created %s") % h.relative_time(revision.create_time)|n}
 		
@@ -16,21 +16,20 @@
 		<div style="clear: both;"></div>
 	</div>
 	
-	
 	<div class="headrev">
-		%if tile.is_latest and can.comment.edit(revision.comment):
+		%if revision.is_latest and can.comment.edit(revision.comment):
 			<div class="edit_form">
 				${comment_tiles.edit_form(revision.comment)}
 			</div>
 		%endif
-		%if tile.is_latest:
-		<div class="hide_edit">
+		%if revision.is_latest:
+		    <div class="hide_edit">
 		%endif
 			<div class="text">
 				${tile.diff_text|n}
 			</div>
-		%if tile.is_latest:
-		</div>
+		%if revision.is_latest:
+		    </div>
 		%endif
 	</div>
 </%def>

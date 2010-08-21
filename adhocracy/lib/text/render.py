@@ -69,6 +69,7 @@ def render(text, substitutions=True, transclude_path=None):
         #text = SUB_TRANSCLUDE.sub(transclude_sub(transclude_path), text)
     return text
 
+
 def render_line_based(text_obj): 
     if not text_obj.text:
         return ""
