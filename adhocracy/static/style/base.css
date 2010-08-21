@@ -1285,10 +1285,13 @@ a.button.inactive {
 
 /* @group Pager */
 
-.pager {
+.pager, .pager_sorts, .pager_items {
 	color: #999;
 	font-size: 0.8em;
 	text-transform: lowercase;
+}
+
+.pager {
 	margin-top: 0px;
 	margin-bottom: 0px;
 	text-align: center;
@@ -1300,23 +1303,23 @@ a.button.inactive {
 	*/
 }
 	
-.pager .prev_page {
+.pager .prev_page,
+.pager_items,
+.pager_sorts.bottom {
 	float: left;
 	text-align: left;
 }
 
-.pager .next_page {
+.pager .next_page,
+.pager_sorts {
 	float: right;
 	text-align: right;
 }
 
+.pager_items,
 .pager_sorts {
 	width: auto;
-	color: #999;
-	font-size: 0.8em;
-	text-transform: lowercase;
 	display: block;
-	text-align: right;
 	/*background-color: #eee;*/
 	padding: 5px;
 	/*
@@ -1326,7 +1329,6 @@ a.button.inactive {
 }
 
 .pager_sorts.bottom {
-	text-align: left;
 	/*border: 1px solid #ddd;*/
 	border-top: 0px;
 }

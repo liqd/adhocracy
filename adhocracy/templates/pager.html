@@ -1,6 +1,8 @@
 
 <%def name="namedpager(pager)">
-
+	<span class="pager_items">
+		${_("Items %(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=len(pager._items))}
+	</span>
 	%if len(pager.sorts.keys()) > 1 and pager.enable_sorts:
 		<span class="pager_sorts">
 		${_("sort by:")} |
