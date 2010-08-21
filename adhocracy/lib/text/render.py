@@ -74,9 +74,10 @@ def render_line_based(text_obj):
         return ""
     _out = "<table class='line_based'>\n"
     for num, line in enumerate(text_obj.lines):
+        print "LINE", line.encode('utf-8')
         _out += """\t<tr>
                         <td class='line_number'>%s</td>
-                        <td class='line_text'>%s</td>
+                        <td class='line_text'><pre>%s</pre></td>
                      </tr>\n""" % (num+1, line)
     _out += "</table>\n"
     return _out

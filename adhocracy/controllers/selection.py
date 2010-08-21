@@ -21,11 +21,7 @@ class SelectionController(BaseController):
     
     @RequireInstance
     def index(self, proposal_id, format="html"):
-        c.proposal = get_entity_or_abort(model.Proposal, proposal_id)     
-        require.selection.index(c.proposal)
-        c.proposal_tile = tiles.proposal.ProposalTile(c.proposal)
-        
-        return render("/selection/index.html")
+        return self.not_implemented()
     
     
     @RequireInstance
@@ -72,10 +68,7 @@ class SelectionController(BaseController):
     def show(self, proposal_id, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, proposal_id)     
         c.selection = get_entity_or_abort(model.Selection, id)     
-        require.selection.show(c.selection)
-        c.proposal_tile = tiles.proposal.ProposalTile(c.proposal)
-        c.tile = tiles.selection.SelectionTile(c.selection)
-        return render("/selection/show.html")
+        redirect(h.selection.url(c.selection))
     
     
     @RequireInstance

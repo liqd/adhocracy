@@ -10,11 +10,6 @@
 ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 
 <div class="sidebar">
-	<div class="infobox">
-		${_("Proposal created on %s by %s") % (h.format_date(c.proposal.create_time), h.user.link(c.proposal.creator))|n}
-		&middot; <a href="${h.entity_url(c.proposal.description, member='history')}">${_("history")}</a>
-	</div>
-	<br/>
 	${tiles.proposal.sidebar(c.proposal, c.tile)}
 	<br/>
 	<div class="help">
@@ -63,11 +58,4 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 	%for selection in sorted(c.proposal.selections, key=lambda s: s.page.title.lower()): 
 		${tiles.selection.row(selection)}
 	%endfor
-
-	%if can.selection.create(c.proposal):
-	<div class="top_actions">
-		<a class="button add ttip" title="${_('Propose to change a norm through this proposal.')}" 
-		   href="${h.entity_url(c.proposal, member='implementation/new')}">${_("amend implementation")}</a>
-	</div>
-	%endif
 </div>

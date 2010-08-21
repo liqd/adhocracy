@@ -11,9 +11,6 @@ from adhocracy.lib.tiles.proposal_tiles import ProposalTile
 
 log = logging.getLogger(__name__)
 
-def not_null(lst):
-    return [item for item in lst if item is not None]
-
 class ProposalNewForm(formencode.Schema):
     allow_extra_fields = True
 
@@ -81,17 +78,12 @@ class ProposalController(BaseController):
         proposal = model.Proposal.create(c.instance, self.form_result.get("label"), 
                                          c.user, with_vote=can.user.vote(),
                                          tags=self.form_result.get("tags"))
-        model.meta.Session.commit()
-        #comment = model.Comment.create(self.form_result.get('text'), 
-        #                               c.user, proposal, wiki=True, 
-        #                               with_vote=can.user.vote())
-        alternatives = not_null(self.form_result.get('alternative'))
-        #proposal.comment = comment
+        model.meta.Session.flush()
         description = model.Page.create(c.instance, self.form_result.get("label"), 
                                         self.form_result.get('text'), c.user, 
                                         function=model.Page.DESCRIPTION)
         description.parents = [proposal]
-        model.meta.Session.commit()
+        model.meta.Session.flush()
         proposal.description = description
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
@@ -106,8 +98,7 @@ class ProposalController(BaseController):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.edit(c.proposal)
         c.text_rows = text.field_rows(c.proposal.description.head.text)
-        defaults = dict(request.params)
-        return htmlfill.render(render("/proposal/edit.html"), defaults=defaults, 
+        return htmlfill.render(render("/proposal/edit.html"), defaults=dict(request.params), 
                                errors=errors, force_defaults=False)
     
     

@@ -17,9 +17,11 @@ def append_member_and_format(url, member=None, format=None):
     return url
 
 
-def build(instance, base, id, query=None, **kwargs):
+def build(instance, base, id, query=None, anchor=None, **kwargs):
     url = site.base_url(instance, path=u'/' + base + u'/' + unicode(id))
     url = append_member_and_format(url, **kwargs)
+    if anchor is not None:
+        url += "#" + anchor
     if query is not None:
         for k, v in query.items():
             query[unicode(k).encode('ascii', 'ignore')] = unicode(v).encode('utf-8')

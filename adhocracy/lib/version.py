@@ -4,7 +4,7 @@ Versioning for the application, especially for the UI.
 
 import re
 
-REV_TEMPLATE = "2010.2"
+REV_TEMPLATE = "2010.3"
 # Modify this:
 # bar // version bumping 
 

@@ -20,13 +20,13 @@ def icon_url(proposal, size=16):
 
 
 @cache.memoize('proposal_link', 3600)
-def link(proposal, icon=True, icon_size=16, link=True):
+def link(proposal, icon=True, icon_size=16, link=True, **kwargs):
     text = u""
     if icon:
         text += u"<img class='dgb_icon' src='%s' /> " % icon_url(proposal, size=icon_size)
     text += cgi.escape(proposal.title)
     if link and not proposal.is_deleted():
-        text = u"<a href='%s' class='dgb_link'>%s</a>" % (url(proposal), text)
+        text = u"<a href='%s' class='dgb_link'>%s</a>" % (url(proposal, **kwargs), text)
     return text
 
 

@@ -85,6 +85,10 @@ h3.section {
 	margin-top: 0px;
 }
 
+pre {
+	margin: 0px;
+}
+
 .help h3, h3.section {
 	border-bottom: 0px;
 }
@@ -121,6 +125,10 @@ button img {
 textarea {
 	width: 98%;
 	min-height: 10em;
+}
+
+textarea.normedit {
+	width: auto;
 }
 
 label {
@@ -1900,10 +1908,7 @@ label.inline {
 .panel.votes a.votes,
 .panel.delegations a.delegations,
 .panel.proposals a.proposals,
-.panel.implementation a.implementation,
-.panel.alternatives a.alternatives,
 .panel.comments a.comments,
-.panel.contributors a.contributors,
 .panel.adopted a.adopted,
 .panel.goal a.goal,
 .panel.votes a.votes,
