@@ -1,6 +1,7 @@
 from datetime import datetime
 import logging
 
+from pylons.i18n import _
 from sqlalchemy import Table, Column, Integer, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
 from sqlalchemy.orm import relation, backref
 
@@ -8,6 +9,7 @@ import meta
 import instance_filter as ifilter
 
 log = logging.getLogger(__name__)
+
 
 
 text_table = Table('text', meta.data,                      
@@ -78,15 +80,7 @@ class Text(object):
         if self.parent:
             return [self] + self.parent.history
         return [self]
-    
-    
-    @property
-    def variant_title(self):
-        from pylons.i18n import _
-        if self.variant == self.HEAD:
-            return _("[status quo]")
-        return self.variant
-    
+        
     
     def delete(self, delete_time=None):
         if delete_time is None:
@@ -124,6 +118,13 @@ class Text(object):
     @property
     def has_text(self):
         return self.text is not None and len(self.text.strip()) > 0
+    
+    
+    @property
+    def variant_name(self):
+        if self.is_head:
+            return _("Status Quo")
+        return self.variant
     
     
     @property 

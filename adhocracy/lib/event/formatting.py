@@ -49,8 +49,7 @@ class PollFormatter(ObjectFormatter):
     def unicode(self, poll):
         if poll.action == poll.SELECT and poll.selection: 
             text = poll.selection.page.variant_head(poll.variant)
-            title = _("Status quo") if text.variant == text.HEAD else text.variant
-            return self.SELECT_PATTERN(title, poll.selection.page.title)
+            return self.SELECT_PATTERN(text.variant_name, poll.selection.page.title)
         else:
             fmt = self._get_formatter(poll)
             return fmt.unicode(poll.subject)
@@ -59,9 +58,8 @@ class PollFormatter(ObjectFormatter):
     def html(self, poll):
         if poll.action == poll.SELECT: 
             text = poll.selection.page.variant_head(poll.variant)
-            title = _("Status quo") if text.variant == text.HEAD else text.variant
             variant_link = "<a href='%s'>%s</a>" % (h.text.url(text), 
-                                                    cgi.escape(title))
+                                                    cgi.escape(text.variant_name))
             page_link = h.page.link(poll.selection.page, icon=True, icon_size=16)
             return self.SELECT_PATTERN(variant_link, page_link)
         else:

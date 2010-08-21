@@ -18,8 +18,7 @@ class DecisionTile(BaseTile):
     def topic(self):
         if self.poll.action == self.poll.SELECT and self.poll.selection:
             text = self.poll.selection.page.variant_head(self.poll.variant)
-            title = _("Status quo") if text.variant == text.HEAD else text.variant
-            variant_link = "<a href='%s'><code>%s</code></a>" % (h.text.url(text), cgi.escape(title))
+            variant_link = "<a href='%s'><code>%s</code></a>" % (h.text.url(text), cgi.escape(title.variant_name))
             page_link = h.page.link(self.poll.scope)
             return _("variant %(variant)s of %(page)s") % dict(variant=variant_link, page=page_link)
         else:

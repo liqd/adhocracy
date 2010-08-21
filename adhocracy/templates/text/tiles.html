@@ -99,7 +99,7 @@
 						%elif text == other:
 							<!-- nop -->
 						%else:
-							<option value="${text.id}">${text.variant_title}</option>
+							<option value="${text.id}">${text.variant_name}</option>
 						%endif
 					%endfor
 				</select>
@@ -113,13 +113,7 @@
 						&middot; ${h.help_link(_("help"), 'selection_faq', anchor='whatisvariant')|n}
 					</div>
 				%else:
-					<b><a href="${h.entity_url(this)|n}">
-					%if this.variant == c.model.Text.HEAD:
-						${_("Status quo")}
-					%else:
-						${this.variant}
-					%endif
-					</a></b>
+					<b><a href="${h.entity_url(this)|n}">${this.variant_name}</a></b>
 				%endif
 			%endif
 			
