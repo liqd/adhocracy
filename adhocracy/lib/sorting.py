@@ -1,19 +1,41 @@
+# -*- coding: utf-8 -*-
+
 import math
+import re
 from datetime import datetime
 from util import timedelta2seconds
 import event.stats as estats
 
+SPLIT_RE = re.compile(r"[\s\.,;:]")
+PREFIXES = ['die', 'der', 'das', 'the', 'a', 'le', 'la']
+
+def sortable_text(text):
+    """ String sorting by more human rules. """
+    text = text.lower()
+    text = text.replace(u'ä', 'a')
+    text = text.replace(u'ü', 'u')
+    text = text.replace(u'ö', 'o')
+    text = text.replace(u'é', 'e').replace(u'è', 'e')
+    text = text.replace(u'á', 'a').replace(u'à', 'a')
+    parts = []
+    for part in SPLIT_RE.split(text):
+        try: part = int(part)
+        except ValueError: pass
+        if not part in PREFIXES:
+            parts.append(part)
+    return parts    
+
 def delegateable_label(entities):
-    return sorted(entities, key=lambda e: e.label.lower())
+    return sorted(entities, key=lambda e: sortable_text(e.label))
 
 def instance_label(entities):
-    return sorted(entities, key=lambda e: e.label.lower())
+    return sorted(entities, key=lambda e: sortable_text(e.label))
 
 def delegateable_title(entities):
-    return sorted(entities, key=lambda e: e.title.lower())
+    return sorted(entities, key=lambda e: sortable_text(e.title))
 
 def delegateable_full_title(entities):
-    return sorted(entities, key=lambda e: e.full_title.lower())
+    return sorted(entities, key=lambda e: sortable_text(e.full_title))
 
 def delegateable_latest_comment(entities):
     return sorted(entities, key=lambda e: e.find_latest_comment_time(), 
