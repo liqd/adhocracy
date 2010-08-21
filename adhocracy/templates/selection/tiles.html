@@ -42,16 +42,19 @@
 				<div class="infobox">
 					${_("There is a tie between variants, thus none is included at the moment.")}
 				</div>
-			%elif tile.selected_text.is_head:
-				<div class="infobox">
-					${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
-				</div>
+			
 			%else:
-				<div class="variant_header">
-					${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), escape(tile.selected)))|n}
-				</div>
+			    %if tile.selected_text.is_head:
+			        <div class="infobox">
+        				${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
+        			</div>
+			    %else:
+				    <div class="variant_header">
+					    ${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), escape(tile.selected)))|n}
+					</div>
+				%endif
 				<br/>
-				${h.html_diff(selection.page.head.render(),tile.selected_text.render())|n}
+				${h.html_diff(selection.page.head.render(), tile.selected_text.render())|n}
 			%endif 
 		</div>
 		
