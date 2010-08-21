@@ -16,8 +16,10 @@ ${tiles.page.header(c.page, c.tile, active='')}
 		&nbsp;
 	</div>
 	<div class="mainbar">
-		<div class="warning_box">
+		<div class="infobox">
 			${_("Are you sure you want to purge variant %s?") % c.variant|n}
+			<br/><br/>
+			<b>${_("WARNING: This will remove all revisions of the variant from any proposals that might support it.")|n}</b>
 		</div>
 		<center>
 			<input type="submit" class="delete" value="${_('Confirm')}" />

@@ -140,6 +140,9 @@
 				%if row.can_edit:
 					&middot; <a href="${h.entity_url(row.text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
 				%endif
+				%if can.page.variant_purge(selection.page, row.text.variant):
+					&middot; <a href="${h.entity_url(row.text, member='ask_purge')}">${_("purge variant")}</a>
+				%endif
 				%if tile.selected_text and row.text.id != tile.selected_text.id:
 					&middot; <a href="/page/diff?right=${row.text.id}&left=${tile.selected_text.id}">${_("compare")}</a>
 				%endif
