@@ -42,17 +42,17 @@ def delegateable_latest_comment(entities):
                   reverse=True)
                   
 def score_and_freshness_sorter(max_age):
-    def _with_age(poll, time):
+    def _with_age(score, time):
         freshness = 1
-        if poll.tally.score > -1:
+        if score > -1:
             age = timedelta2seconds(datetime.utcnow() - time)
             freshness = max(1, math.log10(max(1, max_age - age)))
-        return (freshness * poll.tally.score, time)
+        return (freshness * score, time)
     return _with_age
                                 
 def proposal_mixed(entities):
     max_age = 3600 * 36 # 2 days
-    p_key = lambda p: score_and_freshness_sorter(max_age)(p.rate_poll, p.create_time)
+    p_key = lambda p: score_and_freshness_sorter(max_age)(p.rate_poll.tally.num_for, p.create_time)
     return sorted(entities, key=p_key, reverse=True)
     
 def proposal_support(entities):
@@ -60,7 +60,7 @@ def proposal_support(entities):
     
 def comment_order(comments):
     max_age = 84600 / 2 # 0.5 days
-    p_key = lambda c: score_and_freshness_sorter(max_age)(c.poll, c.create_time)
+    p_key = lambda c: score_and_freshness_sorter(max_age)(c.poll.tally.score, c.create_time)
     return sorted(comments, key=p_key, reverse=True)
 
 def user_name(entities):
