@@ -146,7 +146,9 @@ $(document).ready(function() {
     					$(elem_id).addClass("upvoted");
     				}
 				}
-				$(elem_id + " .score").text(data.score);
+				$(elem_id + " .score").text(data.tally.score);
+				$(elem_id + " .num_for").text(data.tally.num_for);
+				$(elem_id + " .num_against").text(data.tally.num_against);
 			}, 'json');
 		return false;
 	}

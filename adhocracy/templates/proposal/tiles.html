@@ -91,7 +91,8 @@
 					&nbsp;
 				</a>
 				<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-					class="score">${proposal.rate_poll.tally.score}</a>
+					class="num_for">${proposal.rate_poll.tally.num_for}</a>:<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
+    				class="num_against">${proposal.rate_poll.tally.num_against}</a>
 				<a class="down icon ttip" title="${_("Oppose this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=-1&${h.url_token()}" 
 					onclick="return rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, -1);">
 					&nbsp;

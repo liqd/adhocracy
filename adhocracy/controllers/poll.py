@@ -110,7 +110,7 @@ class PollController(BaseController):
         
         if format == 'json':
             return render_json(dict(decision=decision,
-                                    score=tally.score))
+                                    tally=tally.to_dict()))
         
         if c.poll.action == model.Poll.SELECT:
             redirect(h.entity_url(c.poll.selection))

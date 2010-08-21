@@ -1613,11 +1613,19 @@ label.inline {
 .proposal.rate {
 	float: left;
 	overflow: hidden;
-	margin-top: -0.1em;
+	margin-top: -0.4em;
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #666;
 }
 
 .selection .rate {
    margin-left: -25px;
+}
+
+.rate a {
+	display: inline-block;
+	width: auto;
 }
 
 .rate a.icon {
@@ -1627,27 +1635,31 @@ label.inline {
 	height: 16px;
 	margin-bottom: 0.0em;
 	text-decoration: none;
-	max-width: 16px;
+	/*max-width: 16px;*/
 }
-/*
-.rate.proposal a.icon {
-	width: 24px;
-	height: 16px;
-	max-width: 24px;
-}
-*/
 
-.rate .score {
+.rate.proposal a.icon {
+	width: 100%;
+	height: 16px;
+	background-position: center center;
+}
+
+
+.rate .score,
+.rate .num_for,
+.rate .num_against {
 	font-weight: bold;
 	color: #666;
 	font-size: 0.9em;
 }
 
-/*
-.rate.proposal .score {
-	font-size: 1.0em;
+.rate .num_for {
+	color: #009800;
 }
-*/
+
+.rate .num_against {
+	color: #9d0000;
+}
 
 .rate a.inactive {
 	cursor: pointer;

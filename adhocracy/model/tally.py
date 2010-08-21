@@ -159,6 +159,7 @@ class Tally(object):
     def to_dict(self):
         return dict(id=self.id,
                     poll=self.poll_id,
+                    score=self.score,
                     num_for=self.num_for,
                     num_against=self.num_against,
                     num_abstain=self.num_abstain)
