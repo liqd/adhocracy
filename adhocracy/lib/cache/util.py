@@ -51,9 +51,11 @@ def make_key(iden, args, kwargs):
 
 
 def clear_tag(tag):
-    entities = app_globals.cache.get(make_tag(tag))
-    if entities:
-        app_globals.cache.delete_multi(entities.split(SEP))
+    try:
+        entities = app_globals.cache.get(make_tag(tag))
+        if entities:
+            app_globals.cache.delete_multi(entities.split(SEP))
+    except TypeError: pass
 
  
 def memoize(iden, time = 0):

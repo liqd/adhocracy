@@ -10,10 +10,25 @@ def _diff_html(left, right):
     return htmldiff(left, right)
 
 
-def _diff_line_based(left_lines, right_lines, include_deletions=True, include_insertions=True):
+def _diff_line_based(left_lines, right_lines, include_deletions=True, include_insertions=True, ratio_skip=0.8):
     dmp = diff_match_patch()
-    diffs = dmp.diff_main('\n'.join(left_lines), '\n'.join(right_lines))
+    left_text = '\n'.join(left_lines)
+    right_text = '\n'.join(right_lines)
+    diffs = dmp.diff_main(left_text, right_text)
     dmp.diff_cleanupSemantic(diffs)
+    
+    lev_ratio = dmp.diff_levenshtein(diffs)/float(max(len(left_text), len(right_text), 1))
+    if lev_ratio >= ratio_skip:
+        lines = []
+        for l, r in izip_longest(left_lines, right_lines, fillvalue=''):
+            line = ''
+            if include_deletions:
+                line += '<del>%s</del>' % l 
+            if include_insertions:
+                line += '<ins>%s</ins>' % r
+            lines.append(line)
+        return lines
+    
     html_match = ''
     for op, text in diffs:
         if op == 0:
@@ -28,12 +43,17 @@ def _diff_line_based(left_lines, right_lines, include_deletions=True, include_in
         #    html_match += text
     
     lines = []
+    carry = None
     for line in html_match.split('\n'):
+        if carry:
+            line = carry + line 
+            carry = None
         for tag_begin, tag_end in (('<ins>', '</ins>'), ('<del>', '</del>')):
             begin_count = count(line, tag_begin)
             end_count = count(line, tag_end)
             if begin_count > end_count:
                 line = line + tag_end
+                carry = tag_begin
             elif begin_count < end_count:
                 line = tag_begin + line
         lines.append(line)            

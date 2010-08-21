@@ -753,45 +753,18 @@ body {
 }
 
 ins, ins * {
-	background-color: #7ff160;
+	color: green;
+	background-color: #e9fde8;
+	font-weight: bold;
 	text-decoration: none;	
 }
 
 del, del * {
-	background-color: #d85956;
-	text-decoration: none;	
-}
-
-.double del, .double del *, .selected del, .selected del *,
-.double ins, .double ins *, .selected ins, .selected ins * {
-    background-color: #fff;
-}
-
-.double.righthalf ins, 
-.double.righthalf ins *,
-.selected ins,
-.selected ins * {
-    color: green;
-    font-weight: bold;
-}
-
-.double.lefthalf ins,
-.double.lefthalf ins *,
-.double.righthalf del, 
-.double.righthalf del * {	
-	/*visibility: hidden;*/
-	display: none !important;
-	border-bottom: 0px;
-}
-
-.double.lefthalf del,
-.double.lefthalf del *,
-.selected del,
-.selected del * {
+	background-color: #ffe9e9;
 	color: red;
 	font-weight: bold;
+	text-decoration: none;	
 }
-
 
 p img[align=left] {
 	margin-right: 7px;
