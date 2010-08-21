@@ -19,13 +19,13 @@ setup(
         "SQLAlchemy==0.5.8",
         "sqlalchemy-migrate>=0.5.4",
         "FormEncode>=1.2.2",
-        "repoze.who>=2.0a1",
-        "repoze.what<=1.0.8", # 1.0.9 conflicts with repoze.who>=2.0
-        "repoze.who.plugins.sa>=1.0rc2",
-        "repoze.what-pylons>=1.0",
-        "repoze.what.plugins.sql>=1.0rc1",
-        "repoze.who-friendlyform>=1.0b3",
-        "repoze.who-testutil>=0.9",
+        "repoze.who==2.0a1",
+        "repoze.what==1.0.8", # 1.0.9 conflicts with repoze.who>=2.0
+        "repoze.who.plugins.sa==1.0rc2",
+        "repoze.what-pylons==1.0",
+        "repoze.what.plugins.sql==1.0rc4",
+        "repoze.who-friendlyform==1.0.4",
+        "repoze.who-testutil==1.0",
         "python-twitter>=0.6",
         "oauth>=1.0.1",
         "amqplib>=0.6.1",
@@ -36,7 +36,7 @@ setup(
         "Whoosh>=0.3.9",
         "PIL>=1.1.6",
         "markdown2>=1.0.1",
-        "lxml>=2.2.6"
+        "lxml>=2.2.7"
     ],
     # REFACT: could/should these become regular dependencies?
     setup_requires=["PasteScript>=1.6.3", "setuptools>=0.6c6"], # fix OS X 10.5.7
