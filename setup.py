@@ -33,7 +33,7 @@ setup(
         "beautifulsoup>=3.0.7",
         "python-openid>=2.2.4",
         "python-memcached>=1.45",
-        "Whoosh>=0.3.9",
+        "Whoosh==0.3.9",
         "PIL>=1.1.6",
         "markdown2>=1.0.1",
         "lxml>=2.2.6"
