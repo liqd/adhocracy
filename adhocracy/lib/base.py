@@ -60,7 +60,7 @@ class BaseController(WSGIController):
         c.model = model
         c.instance = model.instance_filter.get_instance()
         c.user = environ.get('repoze.who.identity', {}).get('user', None)
-	c.active_controller = request.environ.get('pylons.routes_dict').get('controller')
+        c.active_controller = request.environ.get('pylons.routes_dict').get('controller')
         
         #pprint(request.environ)
         # http host information was moved around to mess with repoze.who                 
@@ -97,7 +97,7 @@ class BaseController(WSGIController):
             raise
         finally:
             model.meta.Session.remove()
-            model.meta.Session.close()
+            #model.meta.Session.close()
             log.debug("Rendering page %s took %sms" % (environ.get('PATH_INFO'), 
                                                        ((time()-begin_time)*1000)))
     

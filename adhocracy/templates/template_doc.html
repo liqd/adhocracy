@@ -1,13 +1,17 @@
 <%inherit file="/template.html" />
 
-<%def name="title()">${c.page.title}</%def>
+<%def name="title()">
+    ${c.static.title}
+</%def>
 
-<%def name="breadcrumbs()"></%def>
+<%def name="breadcrumbs()">
+    ${h.instance.breadcrumbs(c.page_instance)|n}
+</%def>
 
-<h1 class="page_title">${c.page.title}</h1>
+<h1 class="page_title">${c.static.title}</h1>
 <div class="sidebar">
-	&nbsp; 
+    &nbsp; 
 </div>
 <div class="doc mainbar">
-	${c.page.body|n}
+	${c.static.body|n}
 </div>

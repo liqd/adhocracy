@@ -77,11 +77,11 @@
 	</div></div>
 	
 	%if c.instance:
-	%if c.page:
-	<div id="instanceheader"><div class="headerbox ${c.active_controller} ${c.page.function}">
-	%else:
-	<div id="instanceheader"><div class="headerbox ${c.active_controller}">
-	%endif
+	    %if c.page:
+	        <div id="instanceheader"><div class="headerbox ${c.active_controller} ${c.page.function}">
+	    %else:
+	        <div id="instanceheader"><div class="headerbox ${c.active_controller}">
+	    %endif
 		<a href="${h.base_url(c.instance)}" id="logo">
 			<img src="/instance/${c.instance.key if c.instance else '_def'}_48x48.png" />
 		</a>
