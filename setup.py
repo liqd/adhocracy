@@ -15,9 +15,9 @@ setup(
     author_email='info@liqd.net',
     url='http://wiki.liqd.net/Adhocracy',
     install_requires=[
-        "Pylons>=0.9.7",
+        "Pylons==0.9.7",
         "SQLAlchemy==0.5.8",
-        "sqlalchemy-migrate>=0.5.4",
+        "sqlalchemy-migrate==0.5.4",
         "FormEncode>=1.2.2",
         "repoze.who==2.0a1",
         "repoze.what==1.0.8", # 1.0.9 conflicts with repoze.who>=2.0
