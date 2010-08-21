@@ -2,12 +2,8 @@
 Versioning for the application, especially for the UI. 
 """
 
-import re
-
-REV_TEMPLATE = "2010.3"
-# Modify this:
-# bar // version bumping 
+from adhocracy import __version__
 
 def get_version():
     """ Get a version identifier for use in the public user interface """
-    return REV_TEMPLATE
+    return __version__

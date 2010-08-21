@@ -126,13 +126,14 @@ def update(index_func):
     return f
 
 def delete(entity):
-    ix_lock.acquire()
+    #ix_lock.acquire()
     try:
         ix = get_index()
         ref = refs.to_ref(entity)
         ix.delete_by_term('ref', ref)
         ix.commit()
     finally:
-        ix_lock.release()
+        pass
+        #ix_lock.release()
 
 
