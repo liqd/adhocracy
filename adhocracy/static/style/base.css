@@ -178,6 +178,7 @@ input[type=button],
 	background-image: url(/img/menu_bg.png);
 	background-position: top;
 	background-repeat: repeat-x;
+	border-radius: 3px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 }
@@ -309,6 +310,8 @@ body {
 	padding-top: 0em;
 	/*
 	border: 1em solid white;
+	border-radius: 0.5em;
+	-moz-border-radius: 0.5em;
 	-webkit-border-radius: 0.5em;
 	background-color: #fff;
 	*/
@@ -535,6 +538,7 @@ body {
 	min-width: 15em;
 	padding: 8px 1em 8px 1em;
 	margin: -1em 0em 0em 0em;
+	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 } 
@@ -542,6 +546,7 @@ body {
 #instanceheader #search {
 	font-weight: normal;
 	text-shadow: none;
+	background-color: white;
 	background-image: url(/img/icons/search.png);
 	background-repeat: no-repeat;
 	background-position: center left;
@@ -662,6 +667,7 @@ body {
 	display: block;
 	font-size: 1.0em;
 	color: #333;
+	border-radius: 10px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 }
@@ -669,8 +675,8 @@ body {
 
 .infobox {
 	padding: 10px;
-	border-radius: 5px;
 	margin-bottom: 10px;
+	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	background-color: #fdfbc0;
@@ -1187,6 +1193,7 @@ a.button {
 	text-transform: lowercase;
 	color: #fff;
 	margin-right: 4px !important;
+	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	
@@ -1808,6 +1815,7 @@ label.inline {
 
 .panel {
 	width: auto;
+	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border: 1px solid #ddd;
@@ -1866,6 +1874,7 @@ label.inline {
 	font-size: 1em;
 	color: #333;
 	border: 1px solid rgba(221,221,221,0);
+	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	text-shadow: #eee 1px 1px 1px;
@@ -1962,6 +1971,10 @@ label.inline {
 	padding: 1em;
 	padding-left: 4em;
 	min-width: 170px;
+	border-top-right-radius: 13px;
+	border-bottom-right-radius: 13px;
+	-moz-border-radius-topright: 13px;
+	-moz-border-radius-bottomright: 13px;
 	-webkit-border-top-right-radius: 13px;
 	-webkit-border-bottom-right-radius:13px;
 	border-right: 1px solid #fff;
