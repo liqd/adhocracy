@@ -11,8 +11,7 @@ ${tiles.user.header(c.page_user, c.tile, active='activity')}
 
 <div class="sidebar">
 	<div class="infobox">
-		${_("Signed up %(when)s") % \
-			dict(when=h.relative_time(c.page_user.create_time))|n}
+		${_("Signed up %s") % h.relative_time(c.page_user.create_time)|n}
 	</div>
 </div>
 
