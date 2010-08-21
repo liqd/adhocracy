@@ -32,32 +32,6 @@
 		</span>
 	</div>
 	
-	%if len(c.alternatives) > 0 or len(c.proposals) > 0:
-	<div style="clear:both;"></div>
-	<h3>${_("Alternatives")}</h3>
-	<div class="sidebar">
-		<div class="infobox">
-			${_("Specify which proposals <b>contradict</b> this proposal and should be listed as alternatives.")|n}			
-		</div>
-	</div>
-	<div class="mainbar">
-		<table width="100%">
-			%for proposal in c.alternatives:
-				${tiles_html.alternative(proposal=proposal, checked=True)}
-			%endfor
-			%if len(c.proposals):
-				${tiles_html.alternative(options=c.proposals, prototype=True)}
-				${tiles_html.alternative(options=c.proposals)}
-			%endif
-		</table>
-		%if len(c.proposals):
-		<div class="jsadd">
-			<input type="button" value="${_("Add an alternative")}" onclick="return appendAlternative();" />
-		</div>
-		%endif
-	</div>
-	%endif
-	
 	<div style="clear:both;"></div>
 	<div class="sidebar">
 		<div class="infobox">

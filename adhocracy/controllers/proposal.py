@@ -16,7 +16,6 @@ def not_null(lst):
 
 class ProposalNewForm(formencode.Schema):
     allow_extra_fields = True
-    alternative = foreach.ForEach(forms.ValidProposal(if_invalid=None), convert_to_list=True)
 
 class ProposalCreateForm(ProposalNewForm):
     label = forms.UnusedTitle()
@@ -25,7 +24,6 @@ class ProposalCreateForm(ProposalNewForm):
     
 class ProposalEditForm(formencode.Schema):
     allow_extra_fields = True
-    alternative = foreach.ForEach(forms.ValidProposal(if_invalid=None), convert_to_list=True)
     
 class ProposalUpdateForm(ProposalEditForm):
     label = forms.UnusedTitle()
@@ -68,10 +66,6 @@ class ProposalController(BaseController):
         require.proposal.create()
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
-        c.alternatives = not_null(self.form_result.get('alternative'))
-        if len(c.alternatives):
-            del defaults['alternative']
-        c.proposals = model.Proposal.all(instance=c.instance)
         return htmlfill.render(render("/proposal/new.html"), defaults=defaults, 
                                errors=errors, force_defaults=False)
     
@@ -92,7 +86,6 @@ class ProposalController(BaseController):
         #                               c.user, proposal, wiki=True, 
         #                               with_vote=can.user.vote())
         alternatives = not_null(self.form_result.get('alternative'))
-        proposal.update_alternatives(alternatives)
         #proposal.comment = comment
         description = model.Page.create(c.instance, self.form_result.get("label"), 
                                         self.form_result.get('text'), c.user, 
@@ -114,13 +107,6 @@ class ProposalController(BaseController):
         require.proposal.edit(c.proposal)
         c.text_rows = text.field_rows(c.proposal.description.head.text)
         defaults = dict(request.params)
-        if 'alternative' in request.params:
-            c.alternatives = not_null(self.form_result.get('alternative'))
-            del defaults['alternative']
-        else: 
-            c.alternatives = c.proposal.current_alternatives()
-        c.proposals = [p for p in model.Proposal.all(instance=c.instance) if not \
-                       (p in c.alternatives or p.id == c.proposal.id)]
         return htmlfill.render(render("/proposal/edit.html"), defaults=defaults, 
                                errors=errors, force_defaults=False)
     
@@ -145,9 +131,6 @@ class ProposalController(BaseController):
                                  self.form_result.get('label'), 
                                  self.form_result.get('text'), 
                                  parent=c.proposal.description.head)
-        model.meta.Session.commit()
-        alternatives = not_null(self.form_result.get('alternative'))
-        c.proposal.update_alternatives(alternatives)
         model.meta.Session.commit()
         watchlist.check_watch(c.proposal)
         event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance, 
@@ -185,20 +168,6 @@ class ProposalController(BaseController):
         self._common_metadata(c.proposal)
         return render("/proposal/delegations.html")
     
-    
-    @RequireInstance
-    def alternatives(self, id, format="html"):
-        c.proposal = get_entity_or_abort(model.Proposal, id)
-        require.proposal.show(c.proposal)
-        alternatives = c.proposal.current_alternatives()
-        c.proposals_pager = pager.proposals(alternatives)
-        
-        if format == 'json':
-            return render_json(c.proposals_pager)
-        
-        c.tile = tiles.proposal.ProposalTile(c.proposal)
-        self._common_metadata(c.proposal)
-        return render("/proposal/alternatives.html")
         
     @RequireInstance
     def contributors(self, id, format="html"):

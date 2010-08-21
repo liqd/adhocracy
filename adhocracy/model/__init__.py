@@ -13,7 +13,6 @@ from adhocracy.model.permission import Permission, group_permission_table, permi
 from adhocracy.model.delegateable import Delegateable, delegateable_table, category_graph
 from adhocracy.model.delegation import Delegation, delegation_table
 from adhocracy.model.proposal import Proposal, proposal_table
-from adhocracy.model.alternative import Alternative, alternative_table
 from adhocracy.model.poll import Poll, poll_table
 from adhocracy.model.vote import Vote, vote_table
 from adhocracy.model.revision import Revision, revision_table
@@ -80,14 +79,6 @@ mapper(Proposal, proposal_table, inherits=Delegateable, polymorphic_identity='pr
                         uselist=False, lazy=True),
     'adopt_poll': relation(Poll, primaryjoin=proposal_table.c.adopt_poll_id==poll_table.c.id, 
                         uselist=False, lazy=True)
-    }, extension=meta.extension)
-
-
-mapper(Alternative, alternative_table, properties={
-    'left': relation(Proposal, primaryjoin=alternative_table.c.left_id==proposal_table.c.id,  
-                     backref=backref('left_alternatives', cascade='all')),
-    'right': relation(Proposal, primaryjoin=alternative_table.c.right_id==proposal_table.c.id, 
-                      backref=backref('right_alternatives', cascade='all'))
     }, extension=meta.extension)
 
 

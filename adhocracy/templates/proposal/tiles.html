@@ -136,10 +136,6 @@
     		       href="${h.entity_url(proposal, member='delegations')}"
     	   	class="delegations ttip">${_("Delegations")} (${len(proposal.current_delegations())})</a></li>
     	%endif
-    	<li><a title="${_('Which alternatives are there?')}" 
-    	       href="${h.entity_url(proposal, member='alternatives')}"
-    	   class="alternatives ttip">${_("Alternatives")} (${len(proposal.current_alternatives())})</a>
-    	</li>
     	<li><a title="${_('Who has helped?')}" 
     	       href="${h.entity_url(proposal, member='contributors')}" class="contributors ttip">${_("Contributors")} (${len(proposal.contributors())})</a></li>
     </ul>

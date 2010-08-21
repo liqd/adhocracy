@@ -204,35 +204,7 @@ class Proposal(Delegateable):
         if not self.description:
             return None
         return self.description.find_latest_comment_time()
-    
-    
-    def current_alternatives(self):
-        if self._current_alternatives is None:
-            self._current_alternatives = []
-            alternatives = chain(self.left_alternatives, self.right_alternatives)
-            for alternative in alternatives:
-                if alternative.is_deleted():
-                    continue
-                self._current_alternatives.append(alternative.other(self))
-        return self._current_alternatives
-    
-    
-    def update_alternatives(self, alternatives):
-        from alternative import Alternative
-        delete_list = []
-        new_list = list(alternatives)
-        for alternative in chain(self.left_alternatives, self.right_alternatives):
-            if alternative.is_deleted(): continue
-            other = alternative.other(self)
-            if other in alternatives:
-                new_list.remove(other)
-            else:
-                delete_list.append(other)
-        [a.delete() for a in delete_list]
-        for proposal in new_list:
-            alternative = Alternative(self, proposal)
-            meta.Session.add(alternative)
-    
+
     
     def user_position(self, user):
         from pylons import tmpl_context as c
