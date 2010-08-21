@@ -95,7 +95,7 @@
 				<select name="left" id="diff_left_select">
 					%for text in options:
 						%if text == this:
-							<option value="${text.id}" selected="selected">${text.variant_title}</option>
+							<option value="${text.id}" selected="selected">${text.variant_name}</option>
 						%elif text == other:
 							<!-- nop -->
 						%else:
