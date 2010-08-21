@@ -36,10 +36,6 @@ class TextTile(BaseTile):
                               self.text.title)
     
     
-    @property
-    def comment_count(self):
-        return len([c for c in self.comments()])
-    
 
      
 def history_row(text):

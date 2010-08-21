@@ -102,5 +102,5 @@ class SelectionController(BaseController):
         model.meta.Session.commit()
         h.flash(_("The inclusion of %s has been deleted.") % c.selection.page.title)
                 
-        redirect(h.entity_url(c.proposal, member='implementation'))
+        redirect(h.entity_url(c.proposal))
 

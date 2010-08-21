@@ -7,10 +7,13 @@ import url as _url
 
 
 @cache.memoize('selection_url')
-def url(selection, **kwargs):
+def url(selection, member=None, format='html', **kwargs):
+    if member is None and format == 'html':
+        anchor = "#selection_%s" % selection.id
+        return proposal.url(selection.proposal) + anchor
     url = proposal.url(selection.proposal, member='implementation')
     url += "/" + str(selection.id)
-    return _url.append_member_and_format(url, **kwargs)
+    return _url.append_member_and_format(url, member=member, format=format, **kwargs)
 
 
 @cache.memoize('selection_bc')

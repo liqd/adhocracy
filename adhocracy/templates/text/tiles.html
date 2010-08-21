@@ -29,26 +29,53 @@
 
 
 <%def name="full(tile, text, subpages_pager=None)">
-	%if text.has_text:
-		<div class="tile">
-		${text.render()|n}
-		</div>
-	%else:
-		<div class="infobox">
-			%if text.page.function == text.page.NORM:
-				${_("This norm has not yet been decided and is thus no official position of this group.")}
-			%else:
-				${_("This document has no text yet.")}
-			%endif
-		</div>
-	%endif
-	%if subpages_pager is not None and len(subpages_pager._items):
-		<h2>${_("Subpages")}</h2>
-		<div id="pages_table" class="table">
-			${subpages_pager.here()}
-		</div>
-	%endif
-	${tiles.comment.list(text.page, variant=text.variant)}
+    <div class="" id="page_${text.page.id}">
+    	<div class="panel">
+    		<div class="menu">
+    			<ul>
+    				<li><a class="expand_tab" title="text_${text.id}@page_${text.page.id}">
+    					${_("Text")}
+    				</a></li>
+    				<li><a class="expand_tab" title="comments_${text.id}@page_${text.page.id}">
+    					${_("Discussion (%s)") % len(text.page.variant_comments(text.variant))}
+    				</a></li>
+    				%if subpages_pager is not None and len(subpages_pager._items):
+    				    <li><a class="expand_tab" title="subpages_${text.id}@page_${text.page.id}">
+        					${_("Subpages (%s)") % len(subpages_pager._items)}
+        				</a></li>
+    				%endif
+    			</ul>
+    		</div>
+    	</div>
+	
+    	<div class="expand_area selected" id="text_${text.id}">
+            %if text.has_text:
+            	<div class="tile">
+            	${text.render()|n}
+            	</div>
+            %else:
+            	<div class="infobox">
+            		%if text.page.function == text.page.NORM:
+            			${_("This norm has not yet been decided and is thus no official position of this group.")}
+            		%else:
+            			${_("This document has no text yet.")}
+            		%endif
+            	</div>
+            %endif
+        </div>
+        
+        %if subpages_pager is not None and len(subpages_pager._items):
+            <div class="expand_area area_hidden" id="subpages_${text.id}">
+        		<div id="pages_table" class="table">
+        			${subpages_pager.here()}
+        		</div>
+        	</div>
+    	%endif
+	    
+	    <div class="expand_area area_hidden" id="comments_${text.id}">
+    	    ${tiles.comment.list(text.page, variant=text.variant)}
+    	</div>
+	</div>
 </%def>
 
 

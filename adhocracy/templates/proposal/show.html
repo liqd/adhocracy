@@ -22,6 +22,9 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 		<ul>
 			<li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
 			<li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
+			<li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
+			<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
+			<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
 			<li>${h.help_link(_("Guide: Supporting proposals"), 'support_text')|n}</li>
 			<li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
 			<li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>
@@ -30,5 +33,41 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 </div>
 
 <div class="mainbar">
-	${tiles.page.inline(c.proposal.description)}
+    <div class="top_actions aside">
+		&nbsp; 		
+		%if can.proposal.edit(c.proposal):
+			<a class="button title edit ttip" title="${_('Edit this proposal.')}"
+				href="${h.entity_url(c.proposal, member='edit')}">${_("edit")}</a>
+		%endif
+	</div>
+    <h2>${_("Proposal goal and description")}</h2>
+    ${tiles.page.inline(c.proposal.description)}
+	
+	<br/>
+	<div class="top_actions aside">
+		&nbsp; 
+		%if can.selection.create(c.proposal):
+			<a class="button title add ttip" title="${_('Propose to change a norm through this proposal.')}" 
+		 	   href="${h.entity_url(c.proposal, member='implementation/new')}">${_("amend implementation")}</a>
+		%endif		
+	</div>
+	<h2>${_("Implementation")}</h2>
+	##%if not len(c.proposal.selections):
+	    <div class="help">
+		<div class="infobox">
+			${_("Proposals are implemented by including changes towards new or existing norm. Amend the proposal to change or create a norm.")} 
+		</div>
+		<br/>
+	    </div>
+	##%endif
+	%for selection in sorted(c.proposal.selections, key=lambda s: s.page.title.lower()): 
+		${tiles.selection.row(selection)}
+	%endfor
+
+	%if can.selection.create(c.proposal):
+	<div class="top_actions">
+		<a class="button add ttip" title="${_('Propose to change a norm through this proposal.')}" 
+		   href="${h.entity_url(c.proposal, member='implementation/new')}">${_("amend implementation")}</a>
+	</div>
+	%endif
 </div>

@@ -80,17 +80,7 @@
 			<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
 				href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
 		%endif
-		
-		%if can.selection.create(proposal):
-			<a class="button title add ttip" title="${_('Propose to change a norm through this proposal.')}" 
-		 	   href="${h.entity_url(proposal, member='implementation/new')}">${_("amend implementation")}</a>
-		%endif		
-				
-		%if can.proposal.edit(proposal):
-			<a class="button title edit ttip" title="${_('Edit this proposal.')}"
-				href="${h.entity_url(proposal, member='edit')}">${_("edit")}</a>
-		%endif
-						
+								
 		%if can.proposal.delete(proposal):
 			<a class="button title delete ttip" title="${_('Delete this proposal.')}" 	
 				href="${h.entity_url(proposal, member='ask_delete')}">${_("delete")}</a>
@@ -137,10 +127,10 @@
     	<!--li><a href="${h.entity_url(proposal, member='activity')}" 	
     		class="activity">${_("Activity")}</a></li-->
     	<li><a title="${_('Which goal does this proposal pursue?')}" 
-    	       href="${h.entity_url(proposal)}" class="goal ttip">${_("Goal")}</a></li>
-    	<li><a title="${_('How can this proposal achieve its goal?')}" 
+    	       href="${h.entity_url(proposal)}" class="goal ttip">${_("Proposal")}</a></li>
+    	<!--li><a title="${_('How can this proposal achieve its goal?')}" 
     	       href="${h.entity_url(proposal, member='implementation')}" 
-    		class="implementation ttip">${_("Implementation")} (${len(proposal.selections)})</a></li>
+    		class="implementation ttip">${_("Implementation")} (${len(proposal.selections)})</a></li-->
     	%if c.instance.allow_delegate:
     		<li><a title="${_('Who is receiving delegations?')}" 
     		       href="${h.entity_url(proposal, member='delegations')}"
