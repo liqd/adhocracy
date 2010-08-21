@@ -55,7 +55,7 @@ def clear_tag(tag):
         entities = app_globals.cache.get(make_tag(tag))
         if entities:
             app_globals.cache.delete_multi(entities.split(SEP))
-    except TypeError: pass
+    except TypeError: pass # when app_globals isn't there yet
 
  
 def memoize(iden, time = 0):
