@@ -37,9 +37,12 @@ def url(proposal, **kwargs):
 
 
 @cache.memoize('proposal_bc')
+def bc_entity(proposal):
+    return _url.BREAD_SEP + _url.link(proposal.title, url(proposal))
+
 def breadcrumbs(proposal):
     bc = _url.root()
     bc += _url.link(_("Proposals"), u'/proposal')
     if proposal is not None:
-        bc += _url.BREAD_SEP + _url.link(proposal.title, url(proposal))
+        bc += bc_entity(proposal)
     return bc

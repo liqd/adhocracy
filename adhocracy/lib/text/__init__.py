@@ -10,7 +10,7 @@ from lxml_compare import compare_html as html_diff
 from lxml_compare import compare_html_sections
 from tag import tag_normalize, tag_split, tag_cloud_normalize, tag_split_last
 from normalize import *
-from render import render
+from render import render, render_line_based
 
 
 META_RE = re.compile("(\n|\t|\")", re.MULTILINE)

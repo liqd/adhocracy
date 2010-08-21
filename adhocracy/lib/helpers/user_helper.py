@@ -56,12 +56,14 @@ def url(user, instance=None, **kwargs):
     return furl(user, instance, **kwargs)
 
 
+@cache.memoize('user_bc')
+def bc_entity(user):
+    return _url.BREAD_SEP + _url.link(user.name, url(user))
+
 def breadcrumbs(user):
-    @cache.memoize('user_bc')
-    def fbreadcrumbs(user, instance):
-        bc = _url.root()
-        bc += _url.link(_("Users"), u'/user')
-        if user is not None:
-            bc += _url.BREAD_SEP + _url.link(user.name, url(user))
-        return bc
-    return fbreadcrumbs(user, c.instance)
+    bc = _url.root()
+    bc += _url.link(_("Users"), u'/user')
+    if user is not None:
+        bc += bc_entity(user)
+    return bc
+    

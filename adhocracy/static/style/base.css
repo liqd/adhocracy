@@ -707,9 +707,22 @@ body {
 .content ol li {
 	margin: 5px;
 	margin-right: 7px;
-	line-height: 1.3em;
+	line-height: 1.2em;
 	list-style-position: outside;
 	margin-left: 20px;
+}
+
+
+.line_based tr td {
+	font-family: Courier, "Courier New", mono;
+	font-size: 1em;
+	line-height: 1.3em;
+}
+
+.line_number {
+	color: #aaa;
+	text-align: right;
+	margin-right: 0.5em;
 }
 
 ins, ins * {

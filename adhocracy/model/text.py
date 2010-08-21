@@ -26,6 +26,7 @@ text_table = Table('text', meta.data,
 class Text(object):
     
     HEAD = u'HEAD'
+    LINE_LENGTH = 60
     
     def __init__(self, page, variant, user, title, text):
         self.page = page
@@ -102,11 +103,20 @@ class Text(object):
     
     
     def render(self):
-        if not self.has_text:
-            return ""
         from adhocracy.lib import text
+        if self.page.function == self.page.NORM:
+            return text.render_line_based(self)
         return text.render(self.text)
     
+    @property
+    def lines(self):
+        from webhelpers.text import truncate
+        for line in self.text.split("\n"):
+            while len(line) > self.LINE_LENGTH:
+                part = truncate(line, length=self.LINE_LENGTH, indicator='', whole_word=True)
+                line = line[len(part):]
+                yield part
+            yield line
     
     @property
     def has_text(self):

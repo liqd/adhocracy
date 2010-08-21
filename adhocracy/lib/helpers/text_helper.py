@@ -35,9 +35,12 @@ def icon_url(text, page=None, size=16):
 
 
 @cache.memoize('text_bc')
+def entity_bc(text):
+    return _url.BREAD_SEP + _url.link(text.variant, url(text))
+
 def breadcrumbs(text):
     import page_helper as page
     bc = page.breadcrumbs(text.page)
-    if text.variant != text.HEAD:
-        bc += _url.BREAD_SEP + _url.link(text.variant, url(text))
+    if text is not None and text.variant != text.HEAD:
+        bc += entity_bc(text)
     return bc

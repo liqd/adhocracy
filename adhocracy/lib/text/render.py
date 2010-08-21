@@ -59,11 +59,24 @@ def transclude_sub(transclude_path):
 
 
 def render(text, substitutions=True, transclude_path=None):
-    if text is not None:
-        text = cgi.escape(text)
-        text = markdowner.convert(text)
-        if substitutions:
-            text = SUB_USER.sub(user_sub, text)
-            text = SUB_PAGE.sub(page_sub, text)
-            #text = SUB_TRANSCLUDE.sub(transclude_sub(transclude_path), text)
+    if text is None:
+        return ""
+    text = cgi.escape(text)
+    text = markdowner.convert(text)
+    if substitutions:
+        text = SUB_USER.sub(user_sub, text)
+        text = SUB_PAGE.sub(page_sub, text)
+        #text = SUB_TRANSCLUDE.sub(transclude_sub(transclude_path), text)
     return text
+
+def render_line_based(text_obj): 
+    if not text_obj.text:
+        return ""
+    _out = "<table class='line_based'>\n"
+    for num, line in enumerate(text_obj.lines):
+        _out += """\t<tr>
+                        <td class='line_number'>%s</td>
+                        <td class='line_text'>%s</td>
+                     </tr>\n""" % (num+1, line)
+    _out += "</table>\n"
+    return _out

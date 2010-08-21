@@ -35,9 +35,12 @@ def url(tag, instance=None, **kwargs):
 
 
 @cache.memoize('tag_bc')
+def bc_entity(tag):
+    return _url.BREAD_SEP + _url.link(tag.name, url(tag))
+    
 def breadcrumbs(tag):
     bc = _url.root()
     bc += _url.link(_("Tags"), u'/tag')
     if tag is not None:
-        bc += _url.BREAD_SEP + _url.link(tag.name, url(tag))
+        bc += bc_entity(tag)
     return bc
