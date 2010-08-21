@@ -280,7 +280,28 @@ class PageController(BaseController):
         c.tile = tiles.page.PageTile(c.right.page)
         self._common_metadata(c.right.page, c.right)
         return render("/page/diff.html")
-        
+    
+    
+    @RequireInstance
+    def ask_purge(self, id, variant):
+        c.page, c.text, c.variant = self._get_page_and_text(id, variant, None)
+        require.page.variant_purge(c.page, c.variant)
+        c.tile = tiles.page.PageTile(c.page)
+        return render("/page/ask_purge.html")
+
+
+    @RequireInstance
+    @RequireInternalRequest()
+    def purge(self, id, variant):
+        c.page, c.text, c.variant = self._get_page_and_text(id, variant, None)
+        require.page.variant_purge(c.page, c.variant)
+        c.page.purge_variant(c.variant)
+        model.meta.Session.commit()
+        #event.emit(event.T_PAGE_DELETE, c.user, instance=c.instance, 
+        #           topics=[c.page], page=c.page)
+        h.flash(_("The variant %s has been deleted.") % c.variant)
+        redirect(h.entity_url(c.page))
+    
     
     @RequireInstance
     def ask_delete(self, id):

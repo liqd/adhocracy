@@ -189,7 +189,7 @@ mapper(Text, text_table, properties={
     'user': relation(User, lazy=True, primaryjoin=text_table.c.user_id==user_table.c.id),
     'parent': relation(Text, lazy=True, uselist=False, 
                        primaryjoin=text_table.c.parent_id==text_table.c.id),
-    'page': relation(Page, lazy=True, backref=backref('texts', order_by=text_table.c.create_time.desc()),
+    'page': relation(Page, lazy=True, backref=backref('_texts', order_by=text_table.c.create_time.desc()),
                      primaryjoin=text_table.c.page_id==page_table.c.id)
     }, extension=meta.extension)
 

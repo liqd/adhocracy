@@ -31,9 +31,18 @@ def variant_edit(p, variant):
     if p.function == p.NORM and variant == Text.HEAD:
         return False
     return True
+    
+def variant_purge(p, variant):
+    if variant is None: 
+        return False
+    if variant == Text.HEAD:
+        return False
+    if has('instance.admin'): 
+        return True
+    return delete(p)
 
 def delete(p):
     if not p.is_mutable():
         return False
-    return has('page.delete') and show(p) and p.is_mutable()
+    return has('page.delete') and show(p)
     

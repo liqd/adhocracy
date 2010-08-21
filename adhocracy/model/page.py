@@ -38,7 +38,10 @@ class Page(Delegateable):
     def selections(self):
         return [s for s in self._selections if not s.is_deleted()]
     
-    
+    @property
+    def texts(self):
+        return [t for t in self._texts if not t.is_deleted()]
+        
     @classmethod
     def find_fuzzy(cls, id, instance_filter=True, include_deleted=False):
         page = cls.find(id, instance_filter=instance_filter, include_deleted=include_deleted)
@@ -296,6 +299,14 @@ class Page(Delegateable):
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
                self.delete_time<=at_time
+    
+    
+    def purge_variant(self, variant, delete_time=None):
+        if delete_time is None:
+            delete_time = datetime.utcnow()
+        for text in self.texts:
+            if text.variant == variant:
+                text.delete(delete_time=delete_time)
     
     
     def is_mutable(self):

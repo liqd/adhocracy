@@ -72,6 +72,11 @@
 			<a class="button title edit ttip" title="${_('Edit this document.')}" 
 				href="${h.entity_url(text, member='edit')}">${_("edit")}</a>
 		%endif
+		
+		%if can.page.variant_purge(page, variant) and active == 'diff':
+			<a class="button title delete ttip" title="${_('Delete this variant.')}" 
+				href="${h.entity_url(text, member='ask_purge')}">${_("purge variant")}</a>
+		%endif
 						
 		%if can.page.delete(page) and active != 'diff':
 			<a class="button title delete" 	

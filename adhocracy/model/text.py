@@ -44,7 +44,7 @@ class Text(object):
             if not include_deleted:
                 q = q.filter(or_(Text.delete_time==None,
                                  Text.delete_time>datetime.utcnow()))
-            return q.limit(1).first()
+            return q.first()
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))
             return None

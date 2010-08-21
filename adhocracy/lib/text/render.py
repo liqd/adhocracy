@@ -70,15 +70,19 @@ def render(text, substitutions=True, transclude_path=None):
     return text
 
 
-def render_line_based(text_obj): 
-    if not text_obj.text:
-        return ""
-    _out = "<table class='line_based'>\n"
-    for num, line in enumerate(text_obj.lines):
-        print "LINE", line.encode('utf-8')
+def _line_table(lines):
+    _out = "<table class='line_based'>"
+    for num, line in enumerate(lines):
         _out += """\t<tr>
                         <td class='line_number'>%s</td>
                         <td class='line_text'><pre>%s</pre></td>
                      </tr>\n""" % (num+1, line)
     _out += "</table>\n"
     return _out
+
+def render_line_based(text_obj): 
+    if not text_obj.text:
+        return ""
+    return _line_table(text_obj.lines)
+    
+
