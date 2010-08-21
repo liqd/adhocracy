@@ -208,6 +208,18 @@ class Page(Delegateable):
         return [c for c in self.comments if (not c.is_deleted()) and c.variant == variant]
     
     
+    def rename_variant(self, old_name, new_name):
+        from text import Text
+        if old_name == Text.HEAD or new_name in self.variants:
+            return 
+        for text in self._texts:
+            if text.variant == old_name:
+                text.variant = new_name
+        for selection in self._selections:
+            poll = selection.variant_poll(old_name)
+            poll.subject = selection.variant_key(new_name)
+    
+    
     @property
     def heads(self):
         from text import Text
@@ -307,6 +319,9 @@ class Page(Delegateable):
         for text in self.texts:
             if text.variant == variant:
                 text.delete(delete_time=delete_time)
+        for selection in self._selections:
+            poll = selection.variant_poll(variant)
+            poll.end()                
     
     
     def is_mutable(self):
