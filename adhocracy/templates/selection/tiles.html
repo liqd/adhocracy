@@ -54,7 +54,7 @@
 					</div>
 				%endif
 				<br/>
-				${h.html_diff(selection.page.head.render(), tile.selected_text.render())|n}
+				${diff.norm_texts_history_compare(tile.selected_text, selection.page.head)|n}
 			%endif 
 		</div>
 		

@@ -111,6 +111,8 @@ class Text(object):
     @property
     def lines(self):
         from webhelpers.text import truncate
+        if self.text is None:
+            return
         for line in self.text.split("\n"):
             while len(line) > self.LINE_LENGTH:
                 part = truncate(line, length=self.LINE_LENGTH, indicator='', whole_word=True)
