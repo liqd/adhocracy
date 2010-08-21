@@ -15,26 +15,6 @@ class TextTile(BaseTile):
     def __init__(self, text):
         self.text = text 
     
-
-    @property
-    def page(self):
-        return self.text.page
-    
-    
-    @property
-    def parent_text_diff(self):
-        return text.diff.page_texts_history_compare(self.text,
-                                                    self.text.parent)
-        
-    @property 
-    def parent_title_diff(self):
-        if not self.text.parent:
-            return self.text.title
-        return text.html_diff(self.text.parent.title,
-                              self.text.title)
-    
-    
-
      
 def history_row(text):
     return render_tile('/text/tiles.html', 'history_row', 

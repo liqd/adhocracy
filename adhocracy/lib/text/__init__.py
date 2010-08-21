@@ -40,6 +40,6 @@ def text_rows(text):
 def revision_rows(revision):
     if revision.text is None:
         return 10
-    rows = int((len([ch for ch in text if ch == "\n"]) + len(text)/70))
+    rows = int((len([ch for ch in revision.text if ch == "\n"]) + len(revision.text)/70))
     return max(min(30, rows), 5)
 

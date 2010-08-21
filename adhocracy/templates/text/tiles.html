@@ -3,9 +3,7 @@
 <%def name="history_row(tile, text)">
 	<div class="tile text history">
 		<ul>
-			%if (not text.parent) or text.parent.title != text.title:
-				<li>${tile.parent_title_diff|n}</li>
-			%endif
+			<li>${diff.page_title_compare(text, text.parent)|n}</li>
 			%if text.page.has_variants:
 				<li>${text.variant}</li>
 			%endif
@@ -17,7 +15,7 @@
 	<div class="headrev">
 			%if text.has_text:
 				<div class="text">
-					${tile.parent_text_diff|n}
+					${diff.page_texts_history_compare(text, text.parent)|n}
 				</div>
 			%else:
 				<div class="infobox">

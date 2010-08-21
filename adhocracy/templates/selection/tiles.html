@@ -150,9 +150,9 @@
 				%if row.text.has_text:
 					%if tile.selected_text:
 						%if row.selected:
-							${h.html_diff(selection.page.head.render(), row.text.render())|n}
+						    ${diff.norm_texts_history_compare(row.text, selection.page.head)|n}
 						%else:
-							${h.html_diff(tile.selected_text.render(), row.text.render())|n}
+						    ${diff.norm_texts_history_compare(row.text, tile.selected_text)|n}
 						%endif
 					%else:
 						${row.text.render()|n}
