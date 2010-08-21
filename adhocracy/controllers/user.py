@@ -32,10 +32,10 @@ class UserUpdateForm(formencode.Schema):
     display_name = validators.String(not_empty=False)
     email = validators.Email(not_empty=True)
     locale = validators.String(not_empty=False)
-    password = validators.String(not_empty=False)
+    password_change = validators.String(not_empty=False)
     password_confirm = validators.String(not_empty=False)
     chained_validators = [validators.FieldsMatch(
-        'password', 'password_confirm')]
+        'password_change', 'password_confirm')]
     bio = validators.String(max=1000, min=0, not_empty=False)
     no_help = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
     page_size =  validators.Int(min=1, max=100, not_empty=False, if_empty=10, if_missing=10)
@@ -140,8 +140,8 @@ class UserController(BaseController):
     def update(self, id):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         require.user.edit(c.page_user)
-        if self.form_result.get("password"):
-            c.page_user.password = self.form_result.get("password")
+        if self.form_result.get("password_change"):
+            c.page_user.password = self.form_result.get("password_change")
         c.page_user.display_name = self.form_result.get("display_name")
         c.page_user.page_size = self.form_result.get("page_size")
         c.page_user.no_help = self.form_result.get("no_help")
