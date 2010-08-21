@@ -127,10 +127,6 @@ textarea {
 	min-height: 10em;
 }
 
-textarea.normedit {
-	width: auto;
-}
-
 label {
 	display: block;
 	padding-top: 7px;
@@ -727,16 +723,33 @@ body {
 }
 
 
+.line_based tr,
+.line_based td {
+	padding: 0em;
+	margin: 0em;
+}
+
 .line_based tr td {
 	font-family: Courier, "Courier New", mono;
 	font-size: 1em;
-	line-height: 1.3em;
+	line-height: 1.2em;
 }
 
-.line_number {
-	color: #aaa;
+.list_diff .line_based tr td {
+	font-size: 0.9em;
+}
+
+.line_based tr td.line_number {
+	color: #aaa !important;
 	text-align: right;
-	margin-right: 0.5em;
+	padding-right: 0.5em !important;
+}
+
+.normedit {
+	width: inherit;
+	font-family: Courier, "Courier New", mono;
+	font-size: 0.9em;
+	line-height: 1.3em;
 }
 
 ins, ins * {
@@ -2071,6 +2084,3 @@ label.inline {
 	cursor:hand;
 }
 
-#accordion.ui-accordion .ui-accordion-header a {
-	padding:0.5em 0.5em 0.5em 2em;
-}

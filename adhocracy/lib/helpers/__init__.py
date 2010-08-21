@@ -16,8 +16,6 @@ from adhocracy.lib import democracy
 from adhocracy.lib import cache
 from adhocracy.lib import sorting
 
-from adhocracy.lib.text import html_diff
-
 import adhocracy.model as model 
 
 from adhocracy.i18n import relative_date, relative_time, format_date, countdown_time

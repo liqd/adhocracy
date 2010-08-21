@@ -7,8 +7,6 @@ from BeautifulSoup import BeautifulSoup, NavigableString
 from lxml.html import fragment_fromstring
 
 import diff
-from lxml_compare import compare_html as html_diff
-from lxml_compare import compare_html_sections
 from tag import tag_normalize, tag_split, tag_cloud_normalize, tag_split_last
 from normalize import *
 from render import render, render_line_based
@@ -35,8 +33,12 @@ def plain(html):
         return html
 
 
-def field_rows(text):
-    if text is None:
+def text_rows(text):
+    rows = len(list(text.lines))
+    return max(min(30, rows), 5)
+
+def revision_rows(revision):
+    if revision.text is None:
         return 10
     rows = int((len([ch for ch in text if ch == "\n"]) + len(text)/70))
     return max(min(30, rows), 5)

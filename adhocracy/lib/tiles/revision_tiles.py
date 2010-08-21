@@ -12,11 +12,6 @@ class RevisionTile(BaseTile):
     def __init__(self, revision):
         self.revision = revision
         self.comment_tile = CommentTile(revision.comment)
-    
-    def _diff_text(self):
-        return text.diff.comment_revisions_compare(self.revision, self.revision.previous)
-    
-    diff_text = property(_diff_text)
 
 
 def row(revision):

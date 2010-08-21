@@ -26,9 +26,9 @@
 
 	<div style="clear: both;"></div>
 
-	<div class="lefthalf double">
+	<div class="lefthalf double list_diff">
 		%if c.left.has_text:
-			${c.right_diff|n}
+			${diff.norm_texts_history_compare(c.left, c.text)|n}
 		%else:
 			<div class="infobox">
 				${_("This norm has no text yet.")}

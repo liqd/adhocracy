@@ -97,7 +97,7 @@ class ProposalController(BaseController):
     def edit(self, id, errors={}):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.edit(c.proposal)
-        c.text_rows = text.field_rows(c.proposal.description.head.text)
+        c.text_rows = text.field_rows(c.proposal.description.head)
         return htmlfill.render(render("/proposal/edit.html"), defaults=dict(request.params), 
                                errors=errors, force_defaults=False)
     

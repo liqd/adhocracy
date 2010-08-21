@@ -58,7 +58,7 @@
 		##	<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
 		##%endif
 		
-		%if can.page.create():
+		%if can.page.create() and active != 'diff':
 			<a class="button title add ttip" title="${_('Create a new document.')}" 
 			    href="/page/new">${_("new document")}</a>
 		%endif

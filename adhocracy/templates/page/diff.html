@@ -16,36 +16,35 @@ ${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right, variant=c
 
 <div class="clearboth"></div>
 
-%for i, section in enumerate(c.diff_sections):
-	<div class="lefthalf double diffcontent">
-		%if not c.left.has_text and i==0:
-			<div class="infobox">
-			%if c.left == c.right.page.head:
-				${_("This norm has not yet been decided and is thus no official position of this group.")}
-			%else:
-				${_("This variant has no text.")}
-			%endif
-			</div>
-		%endif
-		${section|n} &nbsp;
-	</div>
-	
-	<div class="righthalf double diffcontent">
-		%if not c.right.has_text and i==0:
-			<div class="infobox">
-			%if c.right == c.right.page.head:
-				${_("This norm has not yet been decided and is thus no official position of this group.")}
-			%else:
-				${_("This variant has no text.")}
-			%endif
-			</div>
-		%endif
-		${section|n} &nbsp;
-	</div>
-	<div class="clearboth"></div>
-%endfor
+<span class="list_diff">
+%if not c.left.has_text:
+    <div class="lefthalf double">
+        ${_("This variant has no text.")}
+    </div>
+    <div class="righthalf double">
+        ${c.right.render()|n}
+    </div>
+%elif not c.right.has_text:
+    <div class="lefthalf double">
+        ${c.right.render()|n}
+    </div>
+    <div class="righthalf double">
+        ${_("This variant has no text.")}
+    </div>
+%else:
+    ${diff.norm_texts_table_compare(c.left, c.right)|n}
+    <!--
+    <div class="lefthalf double">
+        ${c.left.render()|n}
+    </div>
+    <div class="righthalf double">
+        ${c.right.render()|n}
+    </div>
+    -->
+%endif
+</span>
 
-<br/>
+<div class="clearboth"></div>
 
 <div class="sidebar">
 	%if c.right.page.function == c.right.page.NORM:
@@ -57,7 +56,7 @@ ${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right, variant=c
 		<ul>
 		%for selection in c.right.page.selections:
 			<li>
-				${h.proposal.link(selection.proposal)|n}
+				${h.proposal.link(selection.proposal, anchor='selection_%s' % selection.id)|n}
 				%if selection in supporting:
 					${_("(supports this variant)")}
 				%endif

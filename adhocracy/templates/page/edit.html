@@ -24,7 +24,13 @@
 		&nbsp;
 	</div>
 	<div class="mainbar">
-		<textarea tabindex="2" class="description armlabel" rows="${c.text_rows}" name="text">${c.text.text}</textarea>
+	    %if c.page.function == c.page.NORM:
+		    <textarea tabindex="2" class="description armlabel normedit" rows="${c.text_rows}"
+		              cols="${c.text.LINE_LENGTH}" wrap="hard" name="text">${c.text.text}</textarea>
+		%else:
+		    <textarea tabindex="2" class="description armlabel" rows="${c.text_rows}"
+		              name="text">${c.text.text}</textarea>
+		%endif
 		${components.formatting()}
 	</div>
 	

@@ -1,3 +1,5 @@
+from string import count
+from itertools import izip_longest
 from lxml.html.diff import htmldiff
 from .diff_match_patch import diff_match_patch
 
@@ -8,62 +10,34 @@ def _diff_html(left, right):
     return htmldiff(left, right)
 
 
-def _diffs_lines(diffs):
-    line = []
-    for op, text in diffs:
-        cur_line = ''
-        for chr in text:
-            if chr == '\n':
-                if len(cur_line):
-                    line.append((op, cur_line))
-                yield line
-                line = []
-                cur_line = ''
-                continue
-            cur_line += chr
-        if len(cur_line):
-            line.append((op, cur_line))
-    if len(line):  
-        yield line
-        
-    
-
-def ___x_diff_line_based(left_lines, right_lines):
-    left_text = '\n'.join(left_lines)
-    right_text = '\n'.join(right_lines)
-    print "LEFT: ", left_text.encode('utf-8')
-    print "RITE: ", right_text.encode('utf-8')
+def _diff_line_based(left_lines, right_lines, include_deletions=True, include_insertions=True):
     dmp = diff_match_patch()
-    diffs = dmp.diff_main(left_text, right_text)
+    diffs = dmp.diff_main('\n'.join(left_lines), '\n'.join(right_lines))
     dmp.diff_cleanupSemantic(diffs)
-    _out = "<table class='line_based'>\n"
-    for num, line in enumerate(_diffs_lines(diffs)):
-        print "LINE", repr(line).encode('utf-8')
-        _line = ''
-        for op, text in line:
-            _line += {0: lambda l: l,
-                      1: lambda l: "<ins>%s</ins>" % l,
-                     -1: lambda l: "<del>%s</del>" % l}.get(op)(text)
-        _out += """\t<tr>
-                        <td class='line_number'>%s</td>
-                        <td class='line_text'><pre>%s</pre></td>
-                     </tr>\n""" % (num+1, _line)
-    _out += "</table>\n"
-    return _out
-
-def _diff_line_based(left_lines, right_lines):
-    from difflib import ndiff
+    html_match = ''
+    for op, text in diffs:
+        if op == 0:
+            html_match += text
+        elif op == -1 and include_deletions:
+            html_match += '<del>' + text + '</del>'
+        #elif op == -1 and not include_deletions:
+        #    html_match += text
+        elif op == 1 and include_insertions:
+            html_match += '<ins>' + text + '</ins>'
+        #elif op == 1 and not include_insertions:
+        #    html_match += text
+    
     lines = []
-    for diff in ndiff(left_lines, right_lines):
-        print "DIFF", diff.encode('utf-8')
-        val = diff[2:]
-        if diff.startswith('+'):
-            lines.append("<ins>" + val + "</ins>")
-        elif diff.startswith('-'):
-            lines.append("<del>" + val + "</del>")
-        elif diff.startswith(' '):
-            lines.append(val)
-    return _line_table(lines)
+    for line in html_match.split('\n'):
+        for tag_begin, tag_end in (('<ins>', '</ins>'), ('<del>', '</del>')):
+            begin_count = count(line, tag_begin)
+            end_count = count(line, tag_end)
+            if begin_count > end_count:
+                line = line + tag_end
+            elif begin_count < end_count:
+                line = tag_begin + line
+        lines.append(line)            
+    return lines
 
 def comment_revisions_compare(rev_from, rev_to):
     if rev_to is None:
@@ -82,5 +56,27 @@ def page_texts_history_compare(text_from, text_to):
 def norm_texts_history_compare(text_from, text_to):
     if text_to is None or text_from.id == text_to.id:
         return render_line_based(text_from)
-    return _diff_line_based(list(text_to.lines), 
-                            list(text_from.lines))
+    lines = _diff_line_based(list(text_to.lines), 
+                             list(text_from.lines))
+    return _line_table(lines)
+                            
+
+def norm_texts_table_compare(text_from, text_to):
+    insertions = _diff_line_based(list(text_from.lines), 
+                                  list(text_to.lines),
+                                  include_deletions=False)
+    deletions = _diff_line_based(list(text_from.lines), 
+                                 list(text_to.lines),
+                                 include_insertions=False)
+                            
+    _out = "<table class='line_based'>\n"
+    for num, (left, right) in enumerate(izip_longest(deletions, insertions, fillvalue='')):
+        #print "LINE", repr(line).encode('utf-8')
+        _out += """\t<tr>
+                        <td width='2%%' class='line_number'>%s</td>
+                        <td width='49%%' class='line_text'><pre>%s</pre></td>
+                        <td width='2%%' class='line_number'>%s</td>
+                        <td width='47%%' class='line_text'><pre>%s</pre></td>
+                     </tr>\n""" % (num+1, left, num+1, right)
+    _out += "</table>\n"
+    return _out

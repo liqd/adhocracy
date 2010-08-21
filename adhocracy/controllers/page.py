@@ -148,15 +148,12 @@ class PageController(BaseController):
         defaults = dict(request.params)
         
         require.page.variant_edit(c.page, c.variant)    
-        c.text_rows = libtext.field_rows(c.text.text)
+        c.text_rows = libtext.text_rows(c.text)
         
         html = None
         if c.page.has_variants and c.variant != model.Text.HEAD:
             require.norm.edit(c.page, c.variant)
             c.left = c.page.head
-            right_html = c.text.render()
-            left_html = c.left.render()
-            c.right_diff = libtext.html_diff(left_html, right_html)
             html = render('/page/diff_edit.html')
         else:
             html = render('/page/edit.html')
@@ -273,10 +270,6 @@ class PageController(BaseController):
         if c.left.page != c.right.page:
             h.flash(_("Cannot compare versions of different texts."))
             redirect(h.entity_url(c.right))
-        right_html = right.render()
-        left_html = left.render()
-        c.diff_sections = libtext.compare_html_sections(left_html, right_html)
-        #c.right_diff = libtext.html_diff(left_html, right_html)
         c.tile = tiles.page.PageTile(c.right.page)
         self._common_metadata(c.right.page, c.right)
         return render("/page/diff.html")

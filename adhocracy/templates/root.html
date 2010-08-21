@@ -29,8 +29,6 @@
 			href="${h.base_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
 	%endif
 	
-	<link  rel="stylesheet" type="text/css" 
-		href="${h.base_url(c.instance, path='/style/jquery-ui-1.8.2.custom.css')}"/>
 	<link media="only screen and (max-device-width: 1024px)" type="text/css" rel="stylesheet"
 		href="${h.base_url(None, path='/style/ipad.css')}" />
 	<link media="only screen and (max-device-width: 480px)" type="text/css" rel="stylesheet" 
@@ -52,8 +50,6 @@
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
 	<script type="text/javascript" 
 		src="${h.base_url(None, path='/js/jquery.qtip.min.js')}"></script>
-	<script type="text/javascript" 
-	  src="${h.base_url(None, path='/js/jquery-ui-1.8.2.custom.min.js')}"></script>
 	<script type="text/javascript" 
 		src="${h.base_url(None, path='/js/jquery.autocomplete.min.js')}"></script>	
 	<script type="text/javascript" 
