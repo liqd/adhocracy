@@ -86,6 +86,8 @@ def make_map():
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant}/history', controller='page', action='history',
                 conditions=dict(method=['GET']))
+    map.connect('/page/{id}/{variant}/branch', controller='page', action='edit', branch=True,
+                conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant}/ask_purge', controller='page', action='ask_purge',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant}/purge', controller='page', action='purge',
@@ -98,21 +100,25 @@ def make_map():
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/history', controller='page', action='history',
                 conditions=dict(method=['GET']))
+    map.connect('/page/{id}/branch', controller='page', action='edit', branch=True,
+                conditions=dict(method=['GET']))
     map.connect('/page/{id}/edit', controller='page', action='edit',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/ask_delete', controller='page', action='ask_delete',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant};{text}.{format}', controller='page', action='show',
                 conditions=dict(method=['GET']))
-    map.connect('/page/{id}/{variant};{text}', controller='page', action='show',
+    map.connect('/page/{id}/{variant};{text}/branch', controller='page', action='edit', branch=True,
                 conditions=dict(method=['GET']))
-    map.connect('/page/{id}/{variant}/{text}', controller='page', action='show',
+    map.connect('/page/{id}/{variant};{text}', controller='page', action='show',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant}.{format}', controller='page', action='show',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant}', controller='page', action='show',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id};{text}.{format}', controller='page', action='show',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id};{text}/branch', controller='page', action='edit', branch=True,
                 conditions=dict(method=['GET']))
     map.connect('/page/{id};{text}', controller='page', action='show',
                 conditions=dict(method=['GET']))

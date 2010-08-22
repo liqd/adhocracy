@@ -34,7 +34,7 @@ class PageEditForm(formencode.Schema):
 class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
     title = forms.UnusedTitle()
-    variant = forms.VariantName()
+    variant = forms.VariantName(not_empty=True)
     text = validators.String(max=20000, min=0, not_empty=False, if_empty=None, if_missing=None)
     parent_text = forms.ValidText(if_missing=None, if_empty=None, not_empty=False)
     parent_page = forms.ValidPage(if_missing=NoPage, if_empty=None, not_empty=False)
@@ -137,10 +137,17 @@ class PageController(BaseController):
 
     @RequireInstance
     @validate(schema=PageEditForm(), form='edit', post_only=False, on_get=True)
-    def edit(self, id, variant=None, text=None, errors={}):
+    def edit(self, id, variant=None, text=None, branch=False, errors={}):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         c.variant = request.params.get("variant", c.variant)
         c.proposal = request.params.get("proposal")
+        if not c.page.has_variants: 
+            branch = False
+        c.branch = branch
+        
+        if branch or c.variant is None:
+            c.variant = ""
+        
         if (c.variant or not len(c.variant.strip())) and c.proposal:
             proposal = model.Proposal.find(c.proposal)
             if proposal:
@@ -166,22 +173,32 @@ class PageController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     def update(self, id, variant=None, text=None, format='html'):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
+        branch = False
         try:
             class state_(object):
                 page = c.page
+                
+            # branch is validated on its own, since it needs to be carried to the 
+            # error page.
+            branch_val = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
+            branch = branch_val.to_python(request.params.get('branch'))
+            
             self.form_result = PageUpdateForm().to_python(request.params, state=state_())
+            parent_text = self.form_result.get("parent_text")
+            if (branch or parent_text.variant != self.form_result.get("variant")) \
+               and (self.form_result.get("variant") in c.page.variants):
+                msg = _("Variant %s is already present, cannot branch.") % self.form_result.get("variant")
+                raise Invalid(msg, branch, state_(), error_dict={'variant': msg})
         except Invalid, i:
-            return self.edit(id, variant=c.variant, text=c.text.id, errors=i.unpack_errors())
+            return self.edit(id, variant=c.variant, text=c.text.id, branch=branch, 
+                             errors=i.unpack_errors())
         
         c.variant = self.form_result.get("variant")
         if not c.page.has_variants:
             c.variant = model.Text.HEAD
         
-        proposal = self.form_result.get("proposal")
-        
         require.page.variant_edit(c.page, c.variant)
         
-        parent_text = self.form_result.get("parent_text")
         if parent_text.page != c.page:
             return ret_abort(_("You're trying to update to a text which is not part of this pages history"),
                              code=400, format=format)
@@ -191,11 +208,15 @@ class PageController(BaseController):
             if parent_page != NoPage and parent_page != c.page:
                 c.page.parent = parent_page
         
+        if not branch and c.variant != parent_text.variant and parent_text.variant != model.Text.HEAD:
+            c.page.rename_variant(parent_text.variant, c.variant)
+        
         text = model.Text.create(c.page, c.variant, c.user, 
                       self.form_result.get("title"), self.form_result.get("text"),
                       parent=parent_text)
         
         target = text
+        proposal = self.form_result.get("proposal")
         if proposal is not None and can.selection.create(proposal):
             target = model.Selection.create(proposal, c.page, c.user)
             poll = target.variant_poll(c.variant)
@@ -323,7 +344,7 @@ class PageController(BaseController):
         if text is not None:
             _text = get_entity_or_abort(model.Text, text)
             if _text.page != page or (variant and _text.variant != variant):
-                abort(404, _("Invalid text ID %s for this page/variant!"))
+                abort(404, _("Invalid text ID %s for this page/variant!") % text)
             variant = _text.variant
         elif variant is not None:
             _text = page.variant_head(variant)

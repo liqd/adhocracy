@@ -18,7 +18,8 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 			%>
 			<li>
 				%if variant == c.model.Text.HEAD:
-					<b>${text.variant_name}</b>
+					<b>${text.variant_name}</b> &middot;
+					<a href="${h.page.url(c.page, member='history')}">${_("History")}</a>
 				%else:
 					<a href="${h.entity_url(text)}"><code>${variant}</code></a>
 				%endif

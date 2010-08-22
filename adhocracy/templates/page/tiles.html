@@ -62,6 +62,11 @@
 			<a class="button title add ttip" title="${_('Create a new document.')}" 
 			    href="/page/new">${_("new document")}</a>
 		%endif
+		
+		%if can.page.variant_edit(page, "") and page.has_variants:
+			<a class="button title add ttip" title="${_('Propose alternative language.')}" 
+			    href="${h.entity_url(text, member='branch')}">${_("branch new variant")}</a>
+		%endif
 				
 		%if can.delegation.create():
 			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
@@ -73,7 +78,7 @@
 				href="${h.entity_url(text, member='edit')}">${_("edit")}</a>
 		%endif
 		
-		%if can.page.variant_purge(page, variant) and active == 'diff':
+		%if can.page.variant_purge(page, variant) and active == 'diff' and c.variant:
 			<a class="button title delete ttip" title="${_('Delete this variant.')}" 
 				href="${h.entity_url(text, member='ask_purge')}">${_("purge variant")}</a>
 		%endif

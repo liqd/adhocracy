@@ -120,11 +120,13 @@
 			%endif
 			
 			</li>
-			<li>
-				${_("%s by %s") % (h.relative_time(this.create_time), 
-													 h.user.link(this.user, scope=this.page))|n}
-				&middot; <b><a href="${h.entity_url(this, member='history')|n}">${_("historic versions")}</a></b>
-			</li>
+			%if field is None:
+			    <li>
+				    ${_("%s by %s") % (h.relative_time(this.create_time), 
+													    h.user.link(this.user, scope=this.page))|n}
+				    &middot; <b><a href="${h.entity_url(this, member='history')|n}">${_("History")}</a></b>
+			    </li>
+			%endif
 		</ul>
 		%if options:
 			<noscript>

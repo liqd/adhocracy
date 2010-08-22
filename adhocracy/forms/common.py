@@ -6,14 +6,15 @@ from pylons.i18n.translation import *
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings", "join", "leave", 
                    "control", "test", "support", "page", "proposal", "wiki", 
-                   "blog", "proposals", "admin", "dl", "downloads", "stats",
+                   "blog", "proposals", "admin", "dl", "downloads", "stats", "branch",
+                   "merge", "pull", "push", "hg", "git",
                    "adhocracy", "user", "openid", "auth", "watch", "poll", "delegation",
                    "event", "comment", "root", "search", "tag", "svn", "trac", "lists", 
                    "list", "new", "update", "variant", "provision", "untag"]
 
 
-VALIDUSER = re.compile("^[a-zA-Z0-9_\-]{3,255}$")
-VALIDVARIANT = re.compile("^[\w-]{1,255}$", re.U)
+VALIDUSER = re.compile(r"^[a-zA-Z0-9_\-]{3,255}$")
+VALIDVARIANT = re.compile(r"^[\w\-_ ]{1,255}$", re.U)
 
 
 class UniqueUsername(formencode.FancyValidator):

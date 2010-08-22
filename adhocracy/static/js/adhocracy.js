@@ -179,7 +179,8 @@ $(document).ready(function() {
 	
 	var reflow = function(field) {
 		var cols = $(field).attr('cols');
-		var ss = field.selectionEnd;
+		var ss = field.selectionStart;
+		var se = field.selectionEnd;
 		var v = field.value;
 		var offset = 0;
 		var stable = true;
@@ -201,8 +202,9 @@ $(document).ready(function() {
 						// insert a newline
 						v = v.substring(0, i) + '\n' + v.substring(i, v.length);
 						
-						if (ss >= i) 
+						if (se >= i) 
 							ss++;
+							se++;
 						stable = false;
 						return false;
 					}
@@ -225,7 +227,7 @@ $(document).ready(function() {
 			offset = offset + '\n'.length + line.length;
 		});
 		field.value = v
-		field.setSelectionRange(ss, ss);
+		field.setSelectionRange(ss, se);
 		return stable;
 	}
 	

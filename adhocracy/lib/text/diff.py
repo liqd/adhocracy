@@ -45,7 +45,7 @@ def _diff_line_based(left_lines, right_lines, include_deletions=True, include_in
     s = SequenceMatcher(None, left, right)
 
     #lev_ratio = dmp.diff_levenshtein(diffs)/float(max(len(left_text), len(right_text), 1))
-    if ratio_skip is not None  and s.ratio() >= 1-ratio_skip:
+    if ratio_skip is not None and s.ratio() >= ratio_skip and False: 
         lines = []
         for l, r in izip_longest(left_lines, right_lines, fillvalue=''):
             line = ''
@@ -89,7 +89,7 @@ def _diff_line_based(left_lines, right_lines, include_deletions=True, include_in
                 carry.append(tag_begin)
             elif begin_count < end_count:
                 line = tag_begin + line
-        print "LINE", line.encode('utf-8')
+        #print "LINE", line.encode('utf-8')
         lines.append(line.replace('\n', ''))
     return lines
 
@@ -135,7 +135,9 @@ def norm_texts_table_compare(text_from, text_to):
                                  include_insertions=False,
                                  replace_as_delete=True,
                                  ratio_skip=0.8)
-                            
+    insertions.pop()
+    deletions.pop()
+              
     _out = "<table class='line_based'>\n"
     for num, (left, right) in enumerate(izip_longest(deletions, insertions, fillvalue='')):
         #print "LINE", repr(line).encode('utf-8')

@@ -6,22 +6,20 @@ from adhocracy.forms import FORBIDDEN_NAMES
 
 #INVALID_CHARS = re.compile(u"[\?#\&]", re.U)
 
-def chr_filter(ch): 
+def chr_filter(ch, remove_space): 
     """ Filter by unicode character category. """
     if ch == u'_':
         return ch
     cat = category(ch)[0].upper()
-    if cat in ['Z']:
+    if cat in ['Z'] and remove_space:
         return u'_' # replace spaces
     if cat in ['P']:
         return u'' # remove punctuation
     return ch
 
 
-def variant_normalize(variant):
-    var = escape(variant)
-    if var.lower() in FORBIDDEN_NAMES:
-        return None
+def variant_normalize(variant, remove_space=False):
+    var = escape(variant, remove_space=remove_space)
     return var
 
 
@@ -43,11 +41,11 @@ def label2alias(label):
     return title[:40]
 
 
-def escape(title):
+def escape(title, remove_space=True):
     if title is None:
-        return u""
+        return None
     title = unicode(title).strip()
     title = normalize('NFKD', title)
-    title = u''.join([chr_filter(c) for c in title])
+    title = u''.join([chr_filter(c, remove_space) for c in title])
     title = normalize('NFKC', title)
     return title
