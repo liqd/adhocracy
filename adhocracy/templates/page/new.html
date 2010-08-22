@@ -11,14 +11,10 @@
 	%if c.proposal:
 		<input type="hidden" value="${c.proposal}" name="proposal" />
 	%endif
-	<div class="page_title">
-		<label for="title" class="armhint">${_("New page")}</label>
-		<input tabindex="1" class="title armlabel" name="title" value="${c.title}"/>
-	</div>
-
+	
 	<div class="sidebar">
 		%if can.norm.create():
-			<label for="norm">${_("Document type:")}</label><br/>
+			<h3>${_("Document type:")}</h3>			
 			<input type="radio" value="document" name="function" checked="checked" /> ${_("Wiki page")}<br/>
 			<input type="radio" value="norm" name="function" /> ${_("Norm page")}<br/>
 			<br/>
@@ -28,9 +24,25 @@
 		%else:
 			<input type="hidden" value="${c.function}" name="function" />
 		%endif
+	    
+		<div class="help">
+    		<h3>${_("Help")}</h3>
+    		<ul>
+    		    <li>${h.help_link(_("Which pages types are there?"), 'page_faq', anchor='doctypes')|n}</li>
+    			<li>${h.help_link(_("What is a wiki page?"), 'page_faq', anchor='whatiswiki')|n}</li>
+    			<li>${h.help_link(_("What is a norm?"), 'page_faq', anchor='whatisnorm')|n}</li>
+    			<li>${h.help_link(_("More help..."), 'page_faq')|n}</li>
+    		</ul>
+    	</div>
 	</div>
+	
 	<div class="mainbar">
-		
+	    <h3>${_("Document title")}</h3>
+		<div class="page_title">
+    		<label for="title" class="armhint">${_("New page")}</label>
+    		<input tabindex="1" class="title armlabel" name="title" value="${c.title}"/>
+    	</div>
+    	
 		<textarea tabindex="2" class="description armlabel normedit" wrap="hard" cols="${c.model.Text.LINE_LENGTH}" name="text"></textarea>
 		${components.formatting()}
 		<br/><br/>
@@ -39,7 +51,6 @@
 		<span class="hint">${_("Multiple tags can be separated by commas.")}
 			${h.help_link(_("Help."), 'tag_faq')|n}
 		</span>
-			
 		
 		<label for="parent">${_("Parent page:")}</label>
 		${tiles.page.select_page(field_name="parent", functions=c.model.Page.PARENT_FUNCTIONS)}
@@ -48,7 +59,6 @@
 		</span>
 	</div>
 	
-
 	<div style="clear:both;"></div>
 	<div class="sidebar">
 		<div class="infobox">

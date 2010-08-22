@@ -35,11 +35,11 @@ def plain(html):
 
 def text_rows(text):
     rows = len(list(text.lines))
-    return max(min(30, rows), 5)
+    return max(min(30, rows), 10)
 
 def revision_rows(revision):
     if revision.text is None:
-        return 10
+        return 20
     rows = int((len([ch for ch in revision.text if ch == "\n"]) + len(revision.text)/70))
-    return max(min(30, rows), 5)
+    return max(min(30, rows), 10)
 

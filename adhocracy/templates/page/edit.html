@@ -15,15 +15,26 @@
 	%if c.proposal:
 		<input type="hidden" value="${c.proposal}" name="proposal" />
 	%endif
-	<div class="page_title">
-		<label for="title" class="armhint">${_("Page Title")}</label>
-		<input tabindex="1" class="title armlabel" name="title" value="${c.text.title}"/>
-	</div>
 	
 	<div class="sidebar">
-		&nbsp;
+		<div class="help">
+    		<h3>${_("Help")}</h3>
+    		<ul>
+    		    <li>${h.help_link(_("Which pages types are there?"), 'page_faq', anchor='doctypes')|n}</li>
+    			<li>${h.help_link(_("What is a wiki page?"), 'page_faq', anchor='whatiswiki')|n}</li>
+    			<li>${h.help_link(_("What is a norm?"), 'page_faq', anchor='whatisnorm')|n}</li>
+    			<li>${h.help_link(_("More help..."), 'page_faq')|n}</li>
+    		</ul>
+    	</div>
 	</div>
+    
 	<div class="mainbar">
+	    <h3>${_("Document title")}</h3>
+    	<div class="page_title">
+    		<label for="title" class="armhint">${_("Page Title")}</label>
+    		<input tabindex="1" class="title armlabel" name="title" value="${c.text.title}"/>
+    	</div>
+	    
 	    %if c.page.function == c.page.NORM:
 		    <textarea tabindex="2" class="description armlabel normedit" rows="${c.text_rows}"
 		              cols="${c.text.LINE_LENGTH}" wrap="hard" name="text">${c.text.lines_text}</textarea>
@@ -32,21 +43,18 @@
 		              name="text">${c.text.text}</textarea>
 		%endif
 		${components.formatting()}
-	</div>
+
+	    %if can.page.variant_edit(c.page, c.model.Text.HEAD):
 	
-	%if can.page.variant_edit(c.page, c.model.Text.HEAD):
-	<div class="sidebar">
-		&nbsp;
-	</div>
-	<div class="mainbar">
 			<label for="parent">${_("Parent page:")}</label>
 			${tiles.page.select_page(field_name="parent_page", select=c.page.parent, 
 			   									     exclude=[c.page], functions=c.model.Page.PARENT_FUNCTIONS)}
 			<span class="hint">${_("The page will be categorized under the specified parent page.")}
 				${h.help_link(_("Help."), 'selection_faq', anchor='parent')|n}
 			</span>
+		%endif
 	</div>
-	%endif
+	
 	
 	<div style="clear:both;"></div>
 	<div class="sidebar">
