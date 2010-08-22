@@ -111,7 +111,6 @@ def truncate(text, length):
         if render_count == length:
             break
     x = text[:last_space]
-    print "LINE", last_space, x.encode('utf-8')
     return x
     
     
@@ -120,9 +119,7 @@ def linify(text, length):
         while True:
             part = truncate(line, length)
             yield part
-            print "PART", part.encode('utf-8')
             line = line[len(part):]
             if not len(line):
                 break
-        #yield line
 
