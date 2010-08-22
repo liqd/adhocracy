@@ -1,3 +1,4 @@
+import cgi
 from string import count
 from itertools import izip_longest
 from lxml.html.diff import htmldiff
@@ -37,15 +38,15 @@ def _compose(elems):
         else:
             line.append(elem)
     lines.append(''.join(line))
-    return '\n'.join(lines)
+    return '\n'.join([cgi.escape(l) for l in lines])
         
 
 def _diff_line_based(left_lines, right_lines, include_deletions=True, include_insertions=True, 
                      replace_as_insert=False, replace_as_delete=False, skip_left_newlines=True, 
                      skip_right_newlines=False, ratio_skip=0.7):
     from difflib import SequenceMatcher
-    left = _decompose(left_lines, line_breaks=skip_left_newlines)
-    right = _decompose(right_lines, line_breaks=skip_right_newlines)
+    left = _decompose(left_lines, line_breaks=not skip_left_newlines)
+    right = _decompose(right_lines, line_breaks=not skip_right_newlines)
     s = SequenceMatcher(None, left, right)
 
     if ratio_skip is not None and s.ratio() <= 1-ratio_skip: 
@@ -125,7 +126,9 @@ def norm_texts_history_compare(text_from, text_to):
         return render_line_based(text_from)
     lines = _diff_line_based(list(text_to.lines), 
                              list(text_from.lines),
-                             replace_as_insert=True)
+                             replace_as_insert=True,
+                             skip_left_newlines=False,
+                             skip_right_newlines=False,)
     return _line_table(lines)
                             
 @memoize('normtab_diff')
@@ -134,13 +137,15 @@ def norm_texts_table_compare(text_from, text_to):
                                   list(text_to.lines),
                                   include_deletions=False,
                                   replace_as_insert=True,
-                                  skip_left_newlines=False,
-                                  skip_right_newlines=True,
+                                  skip_left_newlines=True,
+                                  skip_right_newlines=False,
                                   ratio_skip=0.7)
     deletions = _diff_line_based(list(text_from.lines), 
                                  list(text_to.lines),
                                  include_insertions=False,
                                  replace_as_delete=True,
+                                 skip_left_newlines=False,
+                                 skip_right_newlines=True,
                                  ratio_skip=0.7)
     insertions.pop()
     deletions.pop()

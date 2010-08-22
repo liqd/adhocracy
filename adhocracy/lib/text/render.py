@@ -2,6 +2,7 @@ import re
 import cgi
 
 import markdown2 as markdown
+from webhelpers.text import truncate
 
 from adhocracy.lib.cache import memoize
 import adhocracy.model as model
@@ -85,6 +86,4 @@ def _line_table(lines):
 def render_line_based(text_obj): 
     if not text_obj.text:
         return ""
-    return _line_table(text_obj.lines)
-    
-
+    return _line_table([cgi.escape(l) for l in text_obj.lines])
