@@ -94,8 +94,12 @@
 	<div style="clear: both;"></div>
 	<h1 class="page_title">
 	%if text.variant != text.HEAD:
-		<img class="cd" src="/img/icons/page_variant_24.png" />
-		${_("Norm: %s") % text.title}
+	    <img class="cd" src="/img/icons/page_variant_24.png" />
+	    %if c.variant:
+		    ${_("Variant %s of %s") % (text.variant_html, text.title)|n}
+	    %else:
+	        ${_("Variant of %s") % (text.title,)}
+	    %endif
 	%else:
 		<img class="cd" src="${h.page.icon_url(page, size=24)|n}" />
 		${text.title}

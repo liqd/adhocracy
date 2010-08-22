@@ -129,7 +129,7 @@
 			</div>
 			<div class="variant_header expand_tab" title="text_${row.text.id}@vs_${selection.id}">
 				<div class="variant_innerheader">				
-				<b><code>${row.text.variant_name}</code></b>
+				<b>${row.text.variant_html|n}</b>
 				%if row.text.is_head:
 					${_("(this proposal should not change this norm)")}
 				%elif row.selected and not row.text.is_head and not tile.frozen:

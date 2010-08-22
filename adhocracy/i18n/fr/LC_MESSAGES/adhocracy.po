@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-08-22 20:59+0200\n"
+"PO-Revision-Date: 2010-08-22 21:32+0200\n"
 "Last-Translator: Benjamin Claverie <ben@skl8em.com>\n"
 "Language-Team: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -673,23 +673,23 @@ msgstr ""
 msgid "variant %(variant)s of %(page)s"
 msgstr "motion: %(variant)s de %(page)s"
 
-#: adhocracy/lib/event/formatting.py:99
+#: adhocracy/lib/event/formatting.py:98
 #, fuzzy
 msgid "is for"
 msgstr "pour"
 
-#: adhocracy/lib/event/formatting.py:100
+#: adhocracy/lib/event/formatting.py:99
 #, fuzzy
 msgid "abstains on"
 msgstr "abstenu"
 
-#: adhocracy/lib/event/formatting.py:101
+#: adhocracy/lib/event/formatting.py:100
 #, fuzzy
 msgid "is against"
 msgstr "contre"
 
-#: adhocracy/lib/event/formatting.py:142 adhocracy/lib/event/formatting.py:147
-#: adhocracy/lib/event/formatting.py:154 adhocracy/model/refs.py:101
+#: adhocracy/lib/event/formatting.py:141 adhocracy/lib/event/formatting.py:146
+#: adhocracy/lib/event/formatting.py:153 adhocracy/model/refs.py:101
 msgid "(Undefined)"
 msgstr "(non définit)"
 
@@ -1533,7 +1533,6 @@ msgid "editable"
 msgstr "editable"
 
 #: adhocracy/templates/comment/tiles.html:233
-#: adhocracy/templates/page/show.html:33
 msgid "history"
 msgstr "historique"
 
@@ -1552,7 +1551,7 @@ msgid "Context"
 msgstr "Contexte"
 
 #: adhocracy/templates/comment/tiles.html:268
-#: adhocracy/templates/page/show.html:22
+#: adhocracy/templates/page/show.html:22 adhocracy/templates/page/show.html:30
 #: adhocracy/templates/proposal/tiles.html:41
 #: adhocracy/templates/text/tiles.html:127
 msgid "History"
@@ -2147,7 +2146,7 @@ msgstr "Autres sujets d'aide"
 
 #: adhocracy/templates/instance/show.html:40
 #: adhocracy/templates/instance/tiles.html:24
-#: adhocracy/templates/page/show.html:56
+#: adhocracy/templates/page/show.html:53
 #: adhocracy/templates/proposal/index.html:11
 #: adhocracy/templates/proposal/index.html:69
 #: adhocracy/templates/tag/show.html:11 adhocracy/templates/tag/show.html:51
@@ -2156,7 +2155,7 @@ msgstr "Introduire une nouvelle idée a débattre."
 
 #: adhocracy/templates/instance/show.html:40
 #: adhocracy/templates/instance/tiles.html:24
-#: adhocracy/templates/page/show.html:56
+#: adhocracy/templates/page/show.html:53
 #: adhocracy/templates/proposal/index.html:11
 #: adhocracy/templates/proposal/index.html:69
 #: adhocracy/templates/tag/show.html:11 adhocracy/templates/tag/show.html:51
@@ -2333,7 +2332,7 @@ msgstr "Motion: %s"
 msgid "This variant has no text."
 msgstr "Cette révision n'a pas de texte."
 
-#: adhocracy/templates/page/diff.html:48 adhocracy/templates/page/show.html:42
+#: adhocracy/templates/page/diff.html:48 adhocracy/templates/page/show.html:39
 msgid "Related Proposals"
 msgstr "Proposition proche"
 
@@ -2448,12 +2447,12 @@ msgstr "Cette nouvelle page sera catégorisée sous la page parente spécifié."
 msgid "Variants"
 msgstr "Motions"
 
-#: adhocracy/templates/page/show.html:32
+#: adhocracy/templates/page/show.html:29
 #, python-format
 msgid "Page created on %s by %s"
 msgstr "Page créé par %s sur %s"
 
-#: adhocracy/templates/page/show.html:45
+#: adhocracy/templates/page/show.html:42
 #, fuzzy, python-format
 msgid "No proposals are related to %s"
 msgstr "Il n'y a pas de proposition qui tente de changer %s"
@@ -2505,10 +2504,17 @@ msgstr "Motion selectionné <b>%s</b>"
 msgid "purge variant"
 msgstr "nouvelle motion"
 
-#: adhocracy/templates/page/tiles.html:98
+#: adhocracy/templates/page/tiles.html:99
 #, fuzzy, python-format
-msgid "Norm: %s"
-msgstr "de %s"
+#| msgid "variant %(variant)s of %(page)s"
+msgid "Variant %s of %s"
+msgstr "motion: %(variant)s de %(page)s"
+
+#: adhocracy/templates/page/tiles.html:101
+#, fuzzy, python-format
+#| msgid "Variant: %s"
+msgid "Variant of %s"
+msgstr "Motion: %s"
 
 #: adhocracy/templates/poll/ask_delete.html:6
 msgid "End a poll"
@@ -2732,13 +2738,11 @@ msgstr ""
 
 #: adhocracy/templates/proposal/show.html:54
 #, fuzzy
-#| msgid "Propose to change a norm through this proposal."
 msgid "Propose to create a norm through this proposal."
 msgstr "Proposé de changer une règle par cette proposition."
 
 #: adhocracy/templates/proposal/show.html:55
 #, fuzzy
-#| msgid "see norm"
 msgid "propose new norm"
 msgstr "voir règle"
 
@@ -2881,7 +2885,6 @@ msgstr "Mise en oeuvre: %s"
 
 #: adhocracy/templates/selection/include.html:24
 #, fuzzy
-#| msgid "I want to include a change to an existing norm."
 msgid "Change an exisisting norm"
 msgstr "Je veux inclure un changement à une règle existante. "
 
@@ -2901,22 +2904,16 @@ msgstr ""
 
 #: adhocracy/templates/selection/include.html:41
 #, fuzzy
-#| msgid "Create a new proposal..."
 msgid "Create a new norm instead"
 msgstr "Créer une nouvelle proposition"
 
 #: adhocracy/templates/selection/propose.html:24
 #, fuzzy
-#| msgid "see norm"
 msgid "Propose a new norm"
 msgstr "voir règle"
 
 #: adhocracy/templates/selection/propose.html:26
 #, fuzzy
-#| msgid "" "The implementation of a proposal is amended by relating to a fixed
-#| " "document, a norm. Please select or create the norm that you want to "
-#| "relate to. You can then add a text variant of that norm, specifying the "
-#| "change you want to implement."
 msgid ""
 "Create a new norm that you want to relate to. The norm will be created "
 "without any status quo. You can then add a text variant of that norm, "
@@ -2943,7 +2940,6 @@ msgstr ""
 
 #: adhocracy/templates/selection/propose.html:51
 #, fuzzy
-#| msgid "I want to include a change to an existing norm."
 msgid "Include an existing norm instead"
 msgstr "Je veux inclure un changement à une règle existante. "
 
@@ -3458,28 +3454,6 @@ msgstr "Qu'est ce que je peux observer?"
 msgid "How can I create a watch?"
 msgstr "Comment créer une observation?"
 
-#~ msgid "amend implementation"
-#~ msgstr "amender cette implementation."
-
-#~ msgid ""
-#~ "Proposals are implemented by including "
-#~ "changes towards new or existing norm."
-#~ " Amend the proposal to change or "
-#~ "create a norm."
-#~ msgstr ""
-#~ "Des propositions sont mise en oeuvre "
-#~ "en incluant des amendements à des "
-#~ "règles existantes ou nouvelles. Amender "
-#~ "la proposition pour changer ou créer "
-#~ "la règle concerné."
-
-#~ msgid ""
-#~ "Select a norm that you want to "
-#~ "relate to. You can later write a"
-#~ " variant of this norm to propose "
-#~ "a change."
-#~ msgstr ""
-
-#~ msgid "I want to propose the creation of a new norm."
-#~ msgstr "Je veux proposer la création d'une nouvelle règle."
+#~ msgid "Norm: %s"
+#~ msgstr "de %s"
 

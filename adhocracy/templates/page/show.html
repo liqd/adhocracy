@@ -17,12 +17,9 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 			text = c.page.variant_head(variant)
 			%>
 			<li>
-				%if variant == c.model.Text.HEAD:
-					<b>${text.variant_name}</b> &middot;
-					<a href="${h.page.url(c.page, member='history')}">${_("History")}</a>
-				%else:
-					<a href="${h.entity_url(text)}"><code>${variant}</code></a>
-				%endif
+			    <a href="${h.entity_url(text)}">${text.variant_html|n}</a> 
+				&middot;
+				<a href="${h.page.url(c.page, member='history')}">${_("History")}</a>
 			</li>
 		%endfor
 	</ul>
@@ -30,7 +27,7 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 	%else:
 		<div class="infobox">
 			${_("Page created on %s by %s") % (h.format_date(c.page.create_time), h.user.link(c.page.creator))|n} 
-			&middot; <a href="${h.entity_url(c.page, member='history')}">${_("history")}</a>
+			&middot; <a href="${h.entity_url(c.page, member='history')}">${_("History")}</a>
 		</div>
 		<br/>
 	%endif

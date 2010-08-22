@@ -129,7 +129,13 @@ class Text(object):
         if self.is_head:
             return _("Status Quo")
         return self.variant
-    
+        
+    @property
+    def variant_html(self):
+        import cgi
+        if self.is_head:
+            return "<b class='varname'>%s</b>" % cgi.escape(self.variant_name)
+        return"<code class='varname'>%s</code>" % cgi.escape(self.variant_name)
     
     @property 
     def is_head(self):

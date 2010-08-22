@@ -6,7 +6,7 @@
 			<li>
 			    ${diff.page_titles_compare(text, text.parent)|n}
 			    %if text.page.has_variants:
-				    (<code>${text.variant_name}</code>)
+				    (${text.variant_html|n})
 			    %endif
 			</li>
 			<li>${_("by %s, ") % h.user.link(text.user, scope=text.page)|n}
@@ -115,7 +115,7 @@
 						&middot; ${h.help_link(_("help"), 'selection_faq', anchor='whatisvariant')|n}
 					</div>
 				%else:
-					<b><a href="${h.entity_url(this)|n}">${this.variant_name}</a></b>
+					<b><a href="${h.entity_url(this)|n}">${this.variant_html|n}</a></b>
 				%endif
 			%endif
 			

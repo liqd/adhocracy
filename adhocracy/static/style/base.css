@@ -722,6 +722,10 @@ body {
 	margin-left: 20px;
 }
 
+code.varname, b.varname {
+	font-family: "lucida grande", "Verdana", arial, sans-serif;
+	font-variant: small-caps;
+}
 
 .line_based tr,
 .line_based td {

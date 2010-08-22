@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-08-22 20:59+0200\n"
+"PO-Revision-Date: 2010-08-22 21:32+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -640,21 +640,21 @@ msgstr ""
 msgid "variant %(variant)s of %(page)s"
 msgstr ""
 
-#: adhocracy/lib/event/formatting.py:99
+#: adhocracy/lib/event/formatting.py:98
 #, fuzzy
 msgid "is for"
 msgstr ""
 
-#: adhocracy/lib/event/formatting.py:100
+#: adhocracy/lib/event/formatting.py:99
 msgid "abstains on"
 msgstr ""
 
-#: adhocracy/lib/event/formatting.py:101
+#: adhocracy/lib/event/formatting.py:100
 msgid "is against"
 msgstr ""
 
-#: adhocracy/lib/event/formatting.py:142 adhocracy/lib/event/formatting.py:147
-#: adhocracy/lib/event/formatting.py:154 adhocracy/model/refs.py:101
+#: adhocracy/lib/event/formatting.py:141 adhocracy/lib/event/formatting.py:146
+#: adhocracy/lib/event/formatting.py:153 adhocracy/model/refs.py:101
 msgid "(Undefined)"
 msgstr ""
 
@@ -1492,7 +1492,6 @@ msgid "editable"
 msgstr ""
 
 #: adhocracy/templates/comment/tiles.html:233
-#: adhocracy/templates/page/show.html:33
 msgid "history"
 msgstr ""
 
@@ -1510,7 +1509,7 @@ msgid "Context"
 msgstr ""
 
 #: adhocracy/templates/comment/tiles.html:268
-#: adhocracy/templates/page/show.html:22
+#: adhocracy/templates/page/show.html:22 adhocracy/templates/page/show.html:30
 #: adhocracy/templates/proposal/tiles.html:41
 #: adhocracy/templates/text/tiles.html:127
 msgid "History"
@@ -2075,7 +2074,7 @@ msgstr ""
 
 #: adhocracy/templates/instance/show.html:40
 #: adhocracy/templates/instance/tiles.html:24
-#: adhocracy/templates/page/show.html:56
+#: adhocracy/templates/page/show.html:53
 #: adhocracy/templates/proposal/index.html:11
 #: adhocracy/templates/proposal/index.html:69
 #: adhocracy/templates/tag/show.html:11 adhocracy/templates/tag/show.html:51
@@ -2084,7 +2083,7 @@ msgstr ""
 
 #: adhocracy/templates/instance/show.html:40
 #: adhocracy/templates/instance/tiles.html:24
-#: adhocracy/templates/page/show.html:56
+#: adhocracy/templates/page/show.html:53
 #: adhocracy/templates/proposal/index.html:11
 #: adhocracy/templates/proposal/index.html:69
 #: adhocracy/templates/tag/show.html:11 adhocracy/templates/tag/show.html:51
@@ -2256,7 +2255,7 @@ msgstr ""
 msgid "This variant has no text."
 msgstr ""
 
-#: adhocracy/templates/page/diff.html:48 adhocracy/templates/page/show.html:42
+#: adhocracy/templates/page/diff.html:48 adhocracy/templates/page/show.html:39
 #, fuzzy
 msgid "Related Proposals"
 msgstr ""
@@ -2366,12 +2365,12 @@ msgstr ""
 msgid "Variants"
 msgstr ""
 
-#: adhocracy/templates/page/show.html:32
+#: adhocracy/templates/page/show.html:29
 #, python-format
 msgid "Page created on %s by %s"
 msgstr ""
 
-#: adhocracy/templates/page/show.html:45
+#: adhocracy/templates/page/show.html:42
 #, python-format
 msgid "No proposals are related to %s"
 msgstr ""
@@ -2420,9 +2419,14 @@ msgstr ""
 msgid "purge variant"
 msgstr ""
 
-#: adhocracy/templates/page/tiles.html:98
+#: adhocracy/templates/page/tiles.html:99
 #, python-format
-msgid "Norm: %s"
+msgid "Variant %s of %s"
+msgstr ""
+
+#: adhocracy/templates/page/tiles.html:101
+#, python-format
+msgid "Variant of %s"
 msgstr ""
 
 #: adhocracy/templates/poll/ask_delete.html:6
@@ -3318,37 +3322,6 @@ msgstr ""
 msgid "How can I create a watch?"
 msgstr ""
 
-#~ msgid "amend implementation"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Proposals are implemented by including "
-#~ "changes towards new or existing norm."
-#~ " Amend the proposal to change or "
-#~ "create a norm."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "The implementation of a proposal is "
-#~ "amended by relating to a fixed "
-#~ "document, a norm. Please select or "
-#~ "create the norm that you want to"
-#~ " relate to. You can then add a"
-#~ " text variant of that norm, "
-#~ "specifying the change you want to "
-#~ "implement."
-#~ msgstr ""
-
-#~ msgid "I want to include a change to an existing norm."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Select a norm that you want to "
-#~ "relate to. You can later write a"
-#~ " variant of this norm to propose "
-#~ "a change."
-#~ msgstr ""
-
-#~ msgid "I want to propose the creation of a new norm."
+#~ msgid "Norm: %s"
 #~ msgstr ""
 

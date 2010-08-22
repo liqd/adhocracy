@@ -58,8 +58,7 @@ class PollFormatter(ObjectFormatter):
     def html(self, poll):
         if poll.action == poll.SELECT: 
             text = poll.selection.page.variant_head(poll.variant)
-            variant_link = "<a href='%s'>%s</a>" % (h.text.url(text), 
-                                                    cgi.escape(text.variant_name))
+            variant_link = "<a href='%s'>%s</a>" % (h.text.url(text), text.variant_html)
             page_link = h.page.link(poll.selection.page, icon=True, icon_size=16)
             return self.SELECT_PATTERN(variant_link, page_link)
         else:
