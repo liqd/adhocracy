@@ -9,46 +9,56 @@ from render import render, render_line_based, _line_table
 def _diff_html(left, right):
     return htmldiff(left, right)
 
+def _diff_line_based(left_lines, right_lines, include_deletions=True, include_insertions=True, 
+                     replace_as_insert=False, replace_as_delete=False, ratio_skip=None):
+    from difflib import SequenceMatcher
+    #dmp = diff_match_patch()
+    left_text = '\n'.join(left_lines).split(' ')
+    right_text = '\n'.join(right_lines).split(' ')
+    #diffs = dmp.diff_main(left_text, right_text)
+    #dmp.diff_cleanupSemantic(diffs)
+    s = SequenceMatcher(None, left_text, right_text)
 
-def _diff_line_based(left_lines, right_lines, include_deletions=True, include_insertions=True, ratio_skip=0.8):
-    dmp = diff_match_patch()
-    left_text = '\n'.join(left_lines)
-    right_text = '\n'.join(right_lines)
-    diffs = dmp.diff_main(left_text, right_text)
-    dmp.diff_cleanupSemantic(diffs)
-    
-    lev_ratio = dmp.diff_levenshtein(diffs)/float(max(len(left_text), len(right_text), 1))
-    if lev_ratio >= ratio_skip:
+    #lev_ratio = dmp.diff_levenshtein(diffs)/float(max(len(left_text), len(right_text), 1))
+    if ratio_skip is not None  and s.ratio() >= 1-ratio_skip:
         lines = []
         for l, r in izip_longest(left_lines, right_lines, fillvalue=''):
             line = ''
-            if include_deletions:
+            if include_deletions and not replace_as_insert:
                 line += '<del>%s</del>' % l 
-            if include_insertions:
+            if include_insertions and not replace_as_delete:
                 line += '<ins>%s</ins>' % r
             lines.append(line)
         return lines
-    
+
     html_match = ''
-    for op, text in diffs:
-        if op == 0:
-            html_match += text
-        elif op == -1 and include_deletions:
-            html_match += '<del>' + text + '</del>'
+    for op, i1, i2, j1, j2 in s.get_opcodes():
+        #text = ' '.join(text)
+        if op == 'equal':
+            html_match += ' '.join(left_text[i1:i2])
+        elif op == 'delete' and include_deletions:
+            html_match += ' <del>' + ' '.join(left_text[i1:i2]) + '</del> '
         #elif op == -1 and not include_deletions:
         #    html_match += text
-        elif op == 1 and include_insertions:
-            html_match += '<ins>' + text + '</ins>'
+        elif op == 'insert' and include_insertions:
+            html_match += ' <ins>' + ' '.join(right_text[j1:j2]) + '</ins> '
         #elif op == 1 and not include_insertions:
         #    html_match += text
-    
-    lines = []
-    carry = None
-    for line in html_match.split('\n'):
+        elif op == 'replace':
+            if include_insertions and not replace_as_delete:
+                html_match += ' <ins>' + ' '.join(right_text[j1:j2]) + '</ins> '
+            if include_deletions and not replace_as_insert:
+                html_match += ' <del>' + ' '.join(left_text[i1:i2]) + '</del> '
+            
+
+    lines = html_match.split('\n')
+    for tag_begin, tag_end in ((' <ins>', '</ins> '), (' <del>', '</del> ')):
+        carry = None
+        _lines = []
         if carry:
             line = carry + line 
             carry = None
-        for tag_begin, tag_end in (('<ins>', '</ins>'), ('<del>', '</del>')):
+        for line in lines:
             begin_count = count(line, tag_begin)
             end_count = count(line, tag_end)
             if begin_count > end_count:
@@ -56,8 +66,10 @@ def _diff_line_based(left_lines, right_lines, include_deletions=True, include_in
                 carry = tag_begin
             elif begin_count < end_count:
                 line = tag_begin + line
-        lines.append(line)            
+            _lines.append(line)            
+        lines = _lines
     return lines
+
 
 def comment_revisions_compare(rev_from, rev_to):
     if rev_to is None:
@@ -83,17 +95,22 @@ def norm_texts_history_compare(text_from, text_to):
     if text_to is None or text_from.id == text_to.id:
         return render_line_based(text_from)
     lines = _diff_line_based(list(text_to.lines), 
-                             list(text_from.lines))
+                             list(text_from.lines),
+                             replace_as_insert=True)
     return _line_table(lines)
                             
 
 def norm_texts_table_compare(text_from, text_to):
     insertions = _diff_line_based(list(text_from.lines), 
                                   list(text_to.lines),
-                                  include_deletions=False)
+                                  include_deletions=False,
+                                  replace_as_insert=True,
+                                  ratio_skip=0.8)
     deletions = _diff_line_based(list(text_from.lines), 
                                  list(text_to.lines),
-                                 include_insertions=False)
+                                 include_insertions=False,
+                                 replace_as_delete=True,
+                                 ratio_skip=0.8)
                             
     _out = "<table class='line_based'>\n"
     for num, (left, right) in enumerate(izip_longest(deletions, insertions, fillvalue='')):

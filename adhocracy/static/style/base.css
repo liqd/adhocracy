@@ -733,6 +733,7 @@ body {
 	font-family: Courier, "Courier New", mono;
 	font-size: 1em;
 	line-height: 1.2em;
+	overflow: hidden;
 }
 
 .list_diff .line_based tr td {
