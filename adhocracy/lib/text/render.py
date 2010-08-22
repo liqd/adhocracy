@@ -3,6 +3,7 @@ import cgi
 
 import markdown2 as markdown
 
+from adhocracy.lib.cache import memoize
 import adhocracy.model as model
 
 markdowner = markdown.Markdown() 
@@ -80,6 +81,7 @@ def _line_table(lines):
     _out += "</table>\n"
     return _out
 
+@memoize('text_render')
 def render_line_based(text_obj): 
     if not text_obj.text:
         return ""

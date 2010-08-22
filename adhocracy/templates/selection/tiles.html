@@ -86,7 +86,7 @@
 				   href="${h.entity_url(tile.selected_text)}">${_("comparison view")}</a> 
 			%endif
 			%if can.selection.delete(selection):
-				<a class="button delete" href="${h.entity_url(selection, member='ask_delete')}">${_("delete")}</a> 
+				<a class="button delete" href="${h.entity_url(selection, member='ask_delete')}">${_("exclude")}</a> 
 			%endif
 		</div>
 		<br/><br/>
@@ -129,17 +129,15 @@
 			</div>
 			<div class="variant_header expand_tab" title="text_${row.text.id}@vs_${selection.id}">
 				<div class="variant_innerheader">				
+				<b><code>${row.text.variant_name}</code></b>
 				%if row.text.is_head:
-					<b><a href="${h.entity_url(row.text)}">${row.text.variant_name}</a></b>
 					${_("(this proposal should not change this norm)")}
-				%else:
-					<b><a href="${h.entity_url(row.text)}">${row.variant}</a></b>
-					%if row.selected and not row.text.is_head and not tile.frozen:
-						&middot; ${_("Currently selected for inclusion in this proposal")}
-					%endif
+				%elif row.selected and not row.text.is_head and not tile.frozen:
+					&middot; ${_("Currently selected for inclusion in this proposal")}
 				%endif
 				<br/>
 				${ungettext("%s comment", "%s comments", row.num_comments) % row.num_comments}
+				&middot; <a href="${h.entity_url(row.text)}">${_("view")}</a>
 				%if row.can_edit:
 					&middot; <a href="${h.entity_url(row.text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
 				%endif
@@ -147,7 +145,7 @@
 					&middot; <a href="${h.entity_url(row.text, member='ask_purge')}">${_("purge variant")}</a>
 				%endif
 				%if tile.selected_text and row.text.id != tile.selected_text.id:
-					&middot; <a href="/page/diff?right=${row.text.id}&left=${tile.selected_text.id}">${_("compare")}</a>
+					&middot; <a href="/page/diff?left=${row.text.id}&right=${tile.selected_text.id}">${_("compare")}</a>
 				%endif
 			</div></div>
 			<div id="text_${row.text.id}"

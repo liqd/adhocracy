@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 1.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-08-22 19:31+0200\n"
+"POT-Creation-Date: 2010-08-22 19:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1388,7 +1388,7 @@ msgstr ""
 #: adhocracy/templates/instance/tiles.html:35
 #: adhocracy/templates/page/tiles.html:78 adhocracy/templates/proposal/show.html:35
 #: adhocracy/templates/selection/tiles.html:55
-#: adhocracy/templates/selection/tiles.html:144
+#: adhocracy/templates/selection/tiles.html:142
 #: adhocracy/templates/user/tiles.html:32
 msgid "edit"
 msgstr ""
@@ -1398,7 +1398,6 @@ msgstr ""
 #: adhocracy/templates/instance/tiles.html:40
 #: adhocracy/templates/page/tiles.html:88
 #: adhocracy/templates/proposal/tiles.html:78
-#: adhocracy/templates/selection/tiles.html:89
 msgid "delete"
 msgstr ""
 
@@ -2201,7 +2200,7 @@ msgid "Variant: %s"
 msgstr ""
 
 #: adhocracy/templates/page/diff.html:23 adhocracy/templates/page/diff.html:35
-#: adhocracy/templates/selection/tiles.html:168
+#: adhocracy/templates/selection/tiles.html:166
 msgid "This variant has no text."
 msgstr ""
 
@@ -2318,7 +2317,7 @@ msgid "No proposals are related to %s"
 msgstr ""
 
 #: adhocracy/templates/page/tiles.html:21
-#: adhocracy/templates/selection/tiles.html:142
+#: adhocracy/templates/selection/tiles.html:139
 #, python-format
 msgid "%s comment"
 msgid_plural "%s comments"
@@ -2357,7 +2356,7 @@ msgid "Delete this variant."
 msgstr ""
 
 #: adhocracy/templates/page/tiles.html:83
-#: adhocracy/templates/selection/tiles.html:147
+#: adhocracy/templates/selection/tiles.html:145
 msgid "purge variant"
 msgstr ""
 
@@ -2785,6 +2784,10 @@ msgstr ""
 msgid "comparison view"
 msgstr ""
 
+#: adhocracy/templates/selection/tiles.html:89
+msgid "exclude"
+msgstr ""
+
 #: adhocracy/templates/selection/tiles.html:111
 msgid "Support this variant"
 msgstr ""
@@ -2797,11 +2800,15 @@ msgstr ""
 msgid "(this proposal should not change this norm)"
 msgstr ""
 
-#: adhocracy/templates/selection/tiles.html:138
+#: adhocracy/templates/selection/tiles.html:136
 msgid "Currently selected for inclusion in this proposal"
 msgstr ""
 
-#: adhocracy/templates/selection/tiles.html:150
+#: adhocracy/templates/selection/tiles.html:140
+msgid "view"
+msgstr ""
+
+#: adhocracy/templates/selection/tiles.html:148
 msgid "compare"
 msgstr ""
 

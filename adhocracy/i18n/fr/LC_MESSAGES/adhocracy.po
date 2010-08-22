@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-08-22 19:31+0200\n"
+"PO-Revision-Date: 2010-08-22 19:54+0200\n"
 "Last-Translator: Benjamin Claverie <ben@skl8em.com>\n"
 "Language-Team: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -1058,7 +1058,6 @@ msgstr "Cette action est seulement possible a l'interieur d'une instance."
 
 #: adhocracy/model/text.py:130
 #, fuzzy
-#| msgid "[status quo]"
 msgid "Status Quo"
 msgstr "[statut quo]"
 
@@ -1455,7 +1454,7 @@ msgstr "s'opposer a ce commentaire"
 #: adhocracy/templates/page/tiles.html:78
 #: adhocracy/templates/proposal/show.html:35
 #: adhocracy/templates/selection/tiles.html:55
-#: adhocracy/templates/selection/tiles.html:144
+#: adhocracy/templates/selection/tiles.html:142
 #: adhocracy/templates/user/tiles.html:32
 msgid "edit"
 msgstr "editer"
@@ -1465,7 +1464,6 @@ msgstr "editer"
 #: adhocracy/templates/instance/tiles.html:40
 #: adhocracy/templates/page/tiles.html:88
 #: adhocracy/templates/proposal/tiles.html:78
-#: adhocracy/templates/selection/tiles.html:89
 msgid "delete"
 msgstr "effacer"
 
@@ -2324,7 +2322,7 @@ msgid "Variant: %s"
 msgstr "Motion: %s"
 
 #: adhocracy/templates/page/diff.html:23 adhocracy/templates/page/diff.html:35
-#: adhocracy/templates/selection/tiles.html:168
+#: adhocracy/templates/selection/tiles.html:166
 #, fuzzy
 msgid "This variant has no text."
 msgstr "Cette révision n'a pas de texte."
@@ -2455,7 +2453,7 @@ msgid "No proposals are related to %s"
 msgstr "Il n'y a pas de proposition qui tente de changer %s"
 
 #: adhocracy/templates/page/tiles.html:21
-#: adhocracy/templates/selection/tiles.html:142
+#: adhocracy/templates/selection/tiles.html:139
 #, python-format
 msgid "%s comment"
 msgid_plural "%s comments"
@@ -2478,7 +2476,6 @@ msgstr ""
 
 #: adhocracy/templates/page/tiles.html:68
 #, fuzzy
-#| msgid "new variant"
 msgid "branch new variant"
 msgstr "nouvelle motion"
 
@@ -2497,7 +2494,7 @@ msgid "Delete this variant."
 msgstr "Motion selectionné <b>%s</b>"
 
 #: adhocracy/templates/page/tiles.html:83
-#: adhocracy/templates/selection/tiles.html:147
+#: adhocracy/templates/selection/tiles.html:145
 #, fuzzy
 msgid "purge variant"
 msgstr "nouvelle motion"
@@ -2964,6 +2961,12 @@ msgstr "Comparer cette motion à d'autres."
 msgid "comparison view"
 msgstr ""
 
+#: adhocracy/templates/selection/tiles.html:89
+#, fuzzy
+#| msgid "Include"
+msgid "exclude"
+msgstr "Inclure"
+
 #: adhocracy/templates/selection/tiles.html:111
 msgid "Support this variant"
 msgstr "Soutenir cette motion"
@@ -2977,11 +2980,17 @@ msgstr "S'opposer à cette motion"
 msgid "(this proposal should not change this norm)"
 msgstr "(cette proposition ne devrait pas changer la règle)"
 
-#: adhocracy/templates/selection/tiles.html:138
+#: adhocracy/templates/selection/tiles.html:136
 msgid "Currently selected for inclusion in this proposal"
 msgstr "Actuellement selectionné pour l'inclusion dans cette proposition"
 
-#: adhocracy/templates/selection/tiles.html:150
+#: adhocracy/templates/selection/tiles.html:140
+#, fuzzy
+#| msgid "review"
+msgid "view"
+msgstr "revoire"
+
+#: adhocracy/templates/selection/tiles.html:148
 #, fuzzy
 msgid "compare"
 msgstr "comparer"
@@ -3405,10 +3414,4 @@ msgstr "Qu'est ce que je peux observer?"
 #: adhocracy/templates/user/watchlist.html:22
 msgid "How can I create a watch?"
 msgstr "Comment créer une observation?"
-
-#~ msgid "Status quo"
-#~ msgstr "Status quo"
-
-#~ msgid "historic versions"
-#~ msgstr "version historique"
 

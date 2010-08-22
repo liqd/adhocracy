@@ -2045,12 +2045,9 @@ label.inline {
     margin-bottom: 5px;
 }
 
-.selected .variant_header {
-    background-color: #fdfbc0;
-}
-
+.selected .variant_header, 
 #selection_new .variant_header.area_shown {
-	background-color: #fdfbc0;
+    background-color: #fdfbc0;
 }
 
 .variant_innerheader {
@@ -2068,5 +2065,10 @@ label.inline {
 .expand_tab {
 	cursor:pointer;
 	cursor:hand;
+}
+
+.variant_header.expand_tab:hover {
+	background-color: #ccc !important;
+	
 }
 
