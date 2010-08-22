@@ -87,3 +87,42 @@ def render_line_based(text_obj):
     if not text_obj.text:
         return ""
     return _line_table([cgi.escape(l) for l in text_obj.lines])
+
+
+def truncate(text, length):
+    if len(text) <= length:
+        return text
+    
+    last_space = len(text)
+    in_tag = False
+    render_count = 0
+    for i, c in enumerate(text):
+        if c.isspace():
+            last_space = i + 1
+        elif c == '<':
+            in_tag = True
+            continue
+        elif c == '>':
+            in_tag = False
+            continue
+        
+        if not in_tag:
+            render_count += 1
+        if render_count == length:
+            break
+    x = text[:last_space]
+    print "LINE", last_space, x.encode('utf-8')
+    return x
+    
+    
+def linify(text, length):
+    for line in text.strip().split("\n"):
+        while True:
+            part = truncate(line, length)
+            yield part
+            print "PART", part.encode('utf-8')
+            line = line[len(part):]
+            if not len(line):
+                break
+        #yield line
+

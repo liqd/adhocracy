@@ -177,6 +177,7 @@ $(document).ready(function() {
 		this.scrollTop = scrollTop;
 	});
 	
+	/*
 	var reflow = function(field) {
 		var cols = $(field).attr('cols');
 		var ss = field.selectionStart;
@@ -210,20 +211,6 @@ $(document).ready(function() {
 					}
 				} 
 			} 
-			/*if (ss < (offset + line.length + 1) && $.trim(line).length > 0) { // line is too short.
-				var nextLine = v.substring(offset + line.length + 1, v.length).split('\n', 1)[0];
-				var nextWord = $.trim(nextLine).split(' ')[0]
-				if (nextWord.length > 0 && (line.length + nextWord.length + 1) <= cols) {
-					console.log("has room: " + nextWord);
-					if (v.charAt(offset + line.length - 1) == ' ' || v.charAt(offset + line.length + 1) == ' ') {
-						v = v.substring(0, offset + line.length) + v.substring(offset + line.length + 1, v.length);
-					} else {
-						v = v.substring(0, offset + line.length) + ' ' + v.substring(offset + line.length + 1, v.length);
-					}
-					stable = false;
-					return false;
-				}
-			}*/
 			offset = offset + '\n'.length + line.length;
 		});
 		field.value = v
@@ -238,6 +225,7 @@ $(document).ready(function() {
 	$('.normedit').keyup(function(e) {
 		while(!reflow(this));
 	});
+	*/
 	
 	
 	/* Mark up the comment selected via a URL anchor (i.e. after editing and creation) */

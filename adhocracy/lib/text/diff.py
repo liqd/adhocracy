@@ -5,7 +5,7 @@ from lxml.html.diff import htmldiff
 
 import adhocracy.model as model
 from adhocracy.lib.cache import memoize
-from render import render, render_line_based, _line_table
+from render import render, render_line_based, _line_table, linify
 
 def _diff_html(left, right):
     return htmldiff(left, right)
@@ -13,17 +13,18 @@ def _diff_html(left, right):
 LINEBREAK_TOKEN = 23
 SPACE_TOKEN = 42
 
-def _decompose(lines, line_breaks=True):
+def _decompose(text):
+    if text is None:
+        return []
     _tokens = []
-    for line in lines:
+    for line in text.split('\n'):
         line = line.replace('\r', '')
         for token in line.split(' '):
             if len(token):
                 _tokens.append(token)
             _tokens.append(SPACE_TOKEN)
         _tokens.pop()
-        if line_breaks:
-            _tokens.append(LINEBREAK_TOKEN)
+        _tokens.append(LINEBREAK_TOKEN)
     return _tokens
     
 def _compose(elems):
@@ -41,21 +42,21 @@ def _compose(elems):
     return '\n'.join([cgi.escape(l) for l in lines])
         
 
-def _diff_line_based(left_lines, right_lines, include_deletions=True, include_insertions=True, 
-                     replace_as_insert=False, replace_as_delete=False, skip_left_newlines=True, 
-                     skip_right_newlines=False, ratio_skip=0.7):
+def _diff_line_based(left_text, right_text, include_deletions=True, include_insertions=True, 
+                     replace_as_insert=False, replace_as_delete=False, ratio_skip=0.7, 
+                     line_length=model.Text.LINE_LENGTH):
     from difflib import SequenceMatcher
-    left = _decompose(left_lines, line_breaks=not skip_left_newlines)
-    right = _decompose(right_lines, line_breaks=not skip_right_newlines)
+    left = _decompose(left_text)
+    right = _decompose(right_text)
     s = SequenceMatcher(None, left, right)
 
     if ratio_skip is not None and s.ratio() <= 1-ratio_skip: 
         lines = []
-        if include_deletions:
-            for l in left_lines:
+        if include_deletions and left_text is not None:
+            for l in left_text.split('\n'):
                 lines.append('<del>%s</del>' % l)
-        if include_insertions:
-            for r in right_lines:
+        if include_insertions and right_text is not None:
+            for r in right_text.split('\n'):
                 lines.append('<ins>%s</ins>' % r)
         return lines
 
@@ -75,7 +76,7 @@ def _diff_line_based(left_lines, right_lines, include_deletions=True, include_in
     
     carry = []
     lines = []
-    for line in html_match.split('\n'):
+    for line in linify(html_match, line_length):
         for val in carry:
             line = val + line
         carry = []
@@ -124,31 +125,23 @@ def page_texts_history_compare(text_from, text_to):
 def norm_texts_history_compare(text_from, text_to):
     if text_to is None or text_from.id == text_to.id:
         return render_line_based(text_from)
-    lines = _diff_line_based(list(text_to.lines), 
-                             list(text_from.lines),
-                             replace_as_insert=True,
-                             skip_left_newlines=False,
-                             skip_right_newlines=False,)
+    lines = _diff_line_based(text_to.text, 
+                             text_from.text,
+                             replace_as_insert=True,)
     return _line_table(lines)
                             
 @memoize('normtab_diff')
 def norm_texts_table_compare(text_from, text_to):
-    insertions = _diff_line_based(list(text_from.lines), 
-                                  list(text_to.lines),
+    insertions = _diff_line_based(text_from.text, 
+                                  text_to.text,
                                   include_deletions=False,
                                   replace_as_insert=True,
-                                  skip_left_newlines=True,
-                                  skip_right_newlines=False,
                                   ratio_skip=0.7)
-    deletions = _diff_line_based(list(text_from.lines), 
-                                 list(text_to.lines),
+    deletions = _diff_line_based(text_from.text, 
+                                 text_to.text,
                                  include_insertions=False,
                                  replace_as_delete=True,
-                                 skip_left_newlines=False,
-                                 skip_right_newlines=True,
                                  ratio_skip=0.7)
-    insertions.pop()
-    deletions.pop()
               
     _out = "<table class='line_based'>\n"
     for num, (left, right) in enumerate(izip_longest(deletions, insertions, fillvalue='')):
