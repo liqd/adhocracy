@@ -50,7 +50,7 @@
         			</div>
 			    %else:
 				    <div class="variant_header">
-					    ${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), escape(tile.selected)))|n}
+					    ${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), tile.selected_text.variant_html))|n}
 					    %if can.page.variant_edit(selection.page, tile.selected):
         					&middot; <a href="${h.entity_url(tile.selected_text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
         				%endif
