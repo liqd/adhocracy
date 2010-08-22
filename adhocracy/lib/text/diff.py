@@ -65,7 +65,7 @@ def comment_revisions_compare(rev_from, rev_to):
     return _diff_html(render(rev_to.text),
                       render(rev_from.text))
 
-def page_title_compare(text_form, text_to):
+def page_titles_compare(text_from, text_to):
     if text_to is None or text_from.id == text_to.id:
         return text_from.title
     return _diff_html(text_to.title,

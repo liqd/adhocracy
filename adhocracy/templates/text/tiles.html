@@ -3,7 +3,7 @@
 <%def name="history_row(tile, text)">
 	<div class="tile text history">
 		<ul>
-			<li>${diff.page_title_compare(text, text.parent)|n}</li>
+			<li>${diff.page_titles_compare(text, text.parent)|n}</li>
 			%if text.page.has_variants:
 				<li>${text.variant}</li>
 			%endif

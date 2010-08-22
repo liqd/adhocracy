@@ -39,6 +39,8 @@ class Proposal(Delegateable):
     
     @property
     def title(self):
+        if self.description is None or self.description.head is None:
+            return self.label
         return self.description.title
     
         
