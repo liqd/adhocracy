@@ -7,6 +7,8 @@
 .panel .menu,
 .live_search,
 .comment_form,
+.infobox,
+.help,
 #uservoice-feedback {
 	display: none;
 	visibility: hidden;

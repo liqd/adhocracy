@@ -45,7 +45,7 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 		<div class="infobox">
 			${_("Proposals are implemented by including changes towards new or existing norm. Norms are fixed documents that represent the consensus of this instance and can only be changed through a vote. Amend the proposal to change or create a norm.")} 
 		</div>
-		
+	    </div>
     	<div class="top_actions aside">
     		&nbsp; 
     		%if can.selection.create(c.proposal):
@@ -56,7 +56,6 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
     		%endif		
     	</div>
 		<br/><br/>
-	    </div>
 	##%endif
 	%for selection in sorted(c.proposal.selections, key=lambda s: s.page.title.lower()): 
 		${tiles.selection.row(selection)}

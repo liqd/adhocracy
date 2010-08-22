@@ -77,7 +77,9 @@ def _diff_line_based(left_lines, right_lines, include_deletions=True, include_in
                 carry.append(tag_begin)
             elif begin_count < end_count:
                 line = tag_begin + line
-        lines.append(line.replace('\n', ''))
+        if line.startswith(' <'):
+            line = line[1:]
+        lines.append(line)
     return lines
 
 
