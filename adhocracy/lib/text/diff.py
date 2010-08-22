@@ -12,7 +12,7 @@ def _diff_html(left, right):
 LINEBREAK_TOKEN = 23
 SPACE_TOKEN = 42
 
-def _decompose(lines):
+def _decompose(lines, line_breaks=True):
     _tokens = []
     for line in lines:
         line = line.replace('\r', '')
@@ -21,7 +21,8 @@ def _decompose(lines):
                 _tokens.append(token)
             _tokens.append(SPACE_TOKEN)
         _tokens.pop()
-        _tokens.append(LINEBREAK_TOKEN)
+        if line_breaks:
+            _tokens.append(LINEBREAK_TOKEN)
     return _tokens
     
 def _compose(elems):
@@ -40,10 +41,11 @@ def _compose(elems):
         
 
 def _diff_line_based(left_lines, right_lines, include_deletions=True, include_insertions=True, 
-                     replace_as_insert=False, replace_as_delete=False, ratio_skip=0.7):
+                     replace_as_insert=False, replace_as_delete=False, skip_left_newlines=True, 
+                     skip_right_newlines=False, ratio_skip=0.7):
     from difflib import SequenceMatcher
-    left = _decompose(left_lines)
-    right = _decompose(right_lines)
+    left = _decompose(left_lines, line_breaks=skip_left_newlines)
+    right = _decompose(right_lines, line_breaks=skip_right_newlines)
     s = SequenceMatcher(None, left, right)
 
     if ratio_skip is not None and s.ratio() <= 1-ratio_skip: 
@@ -65,10 +67,10 @@ def _diff_line_based(left_lines, right_lines, include_deletions=True, include_in
         elif op == 'insert' and include_insertions:
             html_match += '<ins>' + _compose(right[j1:j2]) + '</ins>'
         elif op == 'replace':
-            if include_insertions and replace_as_insert:
-                html_match += '<ins>' + _compose(right[j1:j2]) + '</ins>'
             if include_deletions and replace_as_delete:
                 html_match += '<del>' + _compose(left[i1:i2]) + '</del>'
+            if include_insertions and replace_as_insert:
+                html_match += '<ins>' + _compose(right[j1:j2]) + '</ins>'
     
     carry = []
     lines = []
@@ -77,6 +79,10 @@ def _diff_line_based(left_lines, right_lines, include_deletions=True, include_in
             line = val + line
         carry = []
         for tag_begin, tag_end in (('<ins>', '</ins>'), ('<del>', '</del>')):
+            if line.startswith(tag_end):
+                line = line[len(tag_end):]
+            if line.endswith(tag_begin):
+                line = line[:len(line)-len(tag_begin)]
             begin_count = count(line, tag_begin)
             end_count = count(line, tag_end)
             if begin_count > end_count:
@@ -120,7 +126,6 @@ def norm_texts_history_compare(text_from, text_to):
     lines = _diff_line_based(list(text_to.lines), 
                              list(text_from.lines),
                              replace_as_insert=True)
-                             #replace_as_delete=True)
     return _line_table(lines)
                             
 @memoize('normtab_diff')
@@ -129,6 +134,8 @@ def norm_texts_table_compare(text_from, text_to):
                                   list(text_to.lines),
                                   include_deletions=False,
                                   replace_as_insert=True,
+                                  skip_left_newlines=False,
+                                  skip_right_newlines=True,
                                   ratio_skip=0.7)
     deletions = _diff_line_based(list(text_from.lines), 
                                  list(text_to.lines),

@@ -58,12 +58,12 @@
 		##	<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
 		##%endif
 		
-		%if can.page.create() and active != 'diff':
+		%if can.page.create() and active == 'view':
 			<a class="button title add ttip" title="${_('Create a new document.')}" 
 			    href="/page/new">${_("new document")}</a>
 		%endif
 		
-		%if can.page.variant_edit(page, "") and page.has_variants:
+		%if can.page.variant_edit(page, "") and page.has_variants and active == 'diff':
 			<a class="button title add ttip" title="${_('Propose alternative language.')}" 
 			    href="${h.entity_url(text, member='branch')}">${_("branch new variant")}</a>
 		%endif

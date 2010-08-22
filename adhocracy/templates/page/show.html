@@ -23,6 +23,12 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 			</li>
 		%endfor
 	</ul>
+	%if can.page.variant_edit(page, ""):
+        <div class="top_actions">
+		<a class="button title add ttip" title="${_('Propose alternative language.')}" 
+		    href="${h.entity_url(c.text, member='branch')}">${_("branch new variant")}</a>
+		</div>
+	%endif
 	<br/>
 	%else:
 		<div class="infobox">
