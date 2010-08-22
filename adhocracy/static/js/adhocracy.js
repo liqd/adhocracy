@@ -187,11 +187,15 @@ $(document).ready(function() {
 			if (line.length > cols) {
 				for (var i = offset + cols - 1; i > offset; i--) {
 					if (v.charAt(i-1) == ' ') {
-						// pull up previous line, insert whitespace when none is there.
-						if (v.charAt(offset + line.length - 1) == ' ' || v.charAt(offset + line.length + 1) == ' ') {
-							v = v.substring(0, offset + line.length) + v.substring(offset + line.length + 1, v.length);
-						} else {
-							v = v.substring(0, offset + line.length) + ' ' + v.substring(offset + line.length + 1, v.length);
+						// pull up next line, insert whitespace when none is there.
+						
+						var nextLine = v.substring(offset + line.length + 1, v.length).split('\n', 1)[0]
+						if ($.trim(nextLine).length > 0) {
+							if (v.charAt(offset + line.length - 1) == ' ' || v.charAt(offset + line.length + 1) == ' ') {
+								v = v.substring(0, offset + line.length) + v.substring(offset + line.length + 1, v.length);
+							} else {
+								v = v.substring(0, offset + line.length) + ' ' + v.substring(offset + line.length + 1, v.length);
+							}
 						}
 						
 						// insert a newline
@@ -199,23 +203,37 @@ $(document).ready(function() {
 						
 						if (ss >= i) 
 							ss++;
-						/*
-						if (field.selectionStart >= i) 
-							field.setSelectionRange(field.selectionStart+1, field.selectionEnd);
-						*/
 						stable = false;
-						break
+						return false;
 					}
+				} 
+			} 
+			/*if (ss < (offset + line.length + 1) && $.trim(line).length > 0) { // line is too short.
+				var nextLine = v.substring(offset + line.length + 1, v.length).split('\n', 1)[0];
+				var nextWord = $.trim(nextLine).split(' ')[0]
+				if (nextWord.length > 0 && (line.length + nextWord.length + 1) <= cols) {
+					console.log("has room: " + nextWord);
+					if (v.charAt(offset + line.length - 1) == ' ' || v.charAt(offset + line.length + 1) == ' ') {
+						v = v.substring(0, offset + line.length) + v.substring(offset + line.length + 1, v.length);
+					} else {
+						v = v.substring(0, offset + line.length) + ' ' + v.substring(offset + line.length + 1, v.length);
+					}
+					stable = false;
+					return false;
 				}
-			}
+			}*/
 			offset = offset + '\n'.length + line.length;
 		});
 		field.value = v
 		field.setSelectionRange(ss, ss);
 		return stable;
 	}
-		
+	
 	$('.normedit').keypress(function(e) {
+		while(!reflow(this));
+	});
+	
+	$('.normedit').keyup(function(e) {
 		while(!reflow(this));
 	});
 	
