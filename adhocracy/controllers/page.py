@@ -125,7 +125,7 @@ class PageController(BaseController):
             # if a selection was created, go there instead:
             if can.selection.create(proposal):
                 selection = model.Selection.create(proposal, page, c.user)
-                target = h.entity_url(page, member='%20/edit', query={'proposal': proposal.id})
+                target = h.entity_url(page, member='branch', query={'proposal': proposal.id})
         
         model.meta.Session.commit()
         watchlist.check_watch(page)
@@ -148,7 +148,7 @@ class PageController(BaseController):
         if branch or c.variant is None:
             c.variant = ""
         
-        if (c.variant or not len(c.variant.strip())) and c.proposal:
+        if branch and c.proposal:
             proposal = model.Proposal.find(c.proposal)
             if proposal:
                 c.variant = libtext.variant_normalize(proposal.title)[:199]

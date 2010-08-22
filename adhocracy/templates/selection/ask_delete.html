@@ -10,7 +10,7 @@
 ${tiles.proposal.header(c.proposal, c.proposal_tile, active='implementation')}
 
 <form name="ask_delete" class="inplace" method="POST" 
-	action="${h.entity_url(c.selection)}">
+	action="${h.entity_url(c.selection, selection_page=True)}">
 	${h.field_token()|n}
 	<input type="hidden" name="_method" value="DELETE" />
 	<div class="sidebar">

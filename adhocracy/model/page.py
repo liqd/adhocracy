@@ -2,6 +2,7 @@ from datetime import datetime
 import logging
 from itertools import count
 
+from pylons.i18n import _
 from sqlalchemy import Table, Column, Boolean, Integer, Unicode, ForeignKey, DateTime, func, or_, not_
 from sqlalchemy.orm import relation, backref
 
@@ -236,6 +237,8 @@ class Page(Delegateable):
     
     @property
     def title(self):
+        if not self.head or not self.head.title:
+            return _("(Untitled)")
         return self.head.title
      
     

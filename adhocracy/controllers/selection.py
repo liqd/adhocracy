@@ -52,7 +52,7 @@ class SelectionController(BaseController):
         # TODO emit an event 
         
         if len(page.variants) < 2:
-            return redirect(h.entity_url(page, member='%20/edit'))
+            return redirect(h.entity_url(page, member='branch', query={'proposal': c.proposal.id}))
         return redirect(h.entity_url(selection))
     
 
@@ -66,7 +66,7 @@ class SelectionController(BaseController):
     
     @RequireInstance
     def show(self, proposal_id, id, format='html'):
-        c.proposal = get_entity_or_abort(model.Proposal, proposal_id)     
+        #c.proposal = get_entity_or_abort(model.Proposal, proposal_id)     
         c.selection = get_entity_or_abort(model.Selection, id)     
         redirect(h.selection.url(c.selection))
     

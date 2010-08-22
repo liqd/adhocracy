@@ -188,10 +188,6 @@ class Proposal(Delegateable):
         if delete_time is None:
             delete_time = datetime.utcnow()
         super(Proposal, self).delete(delete_time=delete_time)
-        for alternative in self.left_alternatives:
-            alternative.delete(delete_time=delete_time)
-        for alternative in self.right_alternatives:
-            alternative.delete(delete_time=delete_time)
         for selection in self.selections:
             selection.delete(delete_time=delete_time)
     

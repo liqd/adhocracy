@@ -7,8 +7,8 @@ import url as _url
 
 
 @cache.memoize('selection_url')
-def url(selection, member=None, format='html', **kwargs):
-    if member is None and format == 'html':
+def url(selection, member=None, format='html', selection_page=False, **kwargs):
+    if member is None and format == 'html' and not selection_page:
         anchor = "selection_%s" % selection.id
         return proposal.url(selection.proposal, anchor=anchor)
     url = proposal.url(selection.proposal, member='implementation')
