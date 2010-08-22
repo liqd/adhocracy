@@ -163,7 +163,12 @@ class Page(Delegateable):
         if self.function == Page.DESCRIPTION:
             return self._proposal[-1]
         return None
-    
+        
+    @property
+    def parent(self):
+        for d in self.parents:
+            if isinstance(d, Page) and d.function in self.LISTED and not d.is_deleted():
+                return d
     
     @property
     def subpages(self):

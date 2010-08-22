@@ -1267,8 +1267,8 @@ a.button.inactive {
 
 .top_actions.comment {
 	float: right;
-	margin-top: 0.1em;	
-	margin-right: -0.4em;
+	margin-top: -0.2em;	
+	margin-right: 0.2em;
 }
 
 
@@ -1404,7 +1404,9 @@ a.button.inactive {
 
 .comment .tile.pro .pre,
 .comment .tile.pro .title,
-.comment .tile.pro .text {
+.comment .tile.pro .text,
+.comment .tile.pro .reply_form, 
+.comment .tile.pro .edit_form {
 	background-color: #e6ffed;
 }
 
@@ -1418,7 +1420,9 @@ a.button.inactive {
 
 .comment .tile.con .pre,
 .comment .tile.con .title,
-.comment .tile.con .text {
+.comment .tile.con .text,
+.comment .tile.con .reply_form, 
+.comment .tile.con .edit_form {
 	background-color: #ffe9e6;
 }
 
@@ -1483,6 +1487,11 @@ label.inline {
 	padding-bottom: 0.7em;
 	width: inherit;
 	display: none;
+}
+
+.comment .edit_form,
+.headrev .edit_form {
+	padding-top: 1.4em;
 }
 
 .comment .reply_form.base_reply,

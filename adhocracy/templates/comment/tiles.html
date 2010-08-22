@@ -88,24 +88,70 @@
 			</div>
 			
 			<div class="base">
-			
-				<div class="top_actions comment">				
-					%if can.comment.edit(comment):
-						<a class="button edit" onClick="return comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
-					%endif
-									
-					%if can.comment.delete(comment):
-						<a class="button delete" href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a> 
-					%endif
-								
-					%if can.comment.reply(comment) and recurse:
-						<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1&ret_url=${ret_url}">${_("reply")}</a>
-					%endif 
-					
-					<a class="button delete" onClick="return toggle_comment(${comment.id})">${_("hide")}</a>
-				</div>
 				
-				${tiles.comment.static_part(tile, comment)}
+				
+			<div class="title">
+    		    %if comment.is_deleted():
+    		        ${_("(deleted)")}
+    		    %else:
+    		        <b>${h.user.link(comment.creator, scope=comment.topic)|n}</b>:
+    		        %if comment.latest.has_title:
+    			        ${comment.latest.title}
+    		        %else:
+    			        &nbsp;
+    		        %endif
+    		    %endif
+    		</div>
+    		<div class="text hide_edit">
+    			%if not comment.is_deleted():
+    				${tile.text|n}
+    			%else:
+    				<span class="hint">${_("This comment has been deleted.")}</span>
+    			%endif
+    		</div>
+
+    		<div class="top_actions comment">				
+    			%if can.comment.edit(comment):
+    				<a class="button edit" onClick="return comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
+    			%endif
+
+    			%if can.comment.delete(comment):
+    				<a class="button delete" href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a> 
+    			%endif
+
+    			%if can.comment.reply(comment) and recurse:
+    				<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1&ret_url=${ret_url}">${_("reply")}</a>
+    			%endif 
+
+    			<a class="button delete" onClick="return toggle_comment(${comment.id})">${_("hide")}</a>
+    		</div>
+
+    		<div class="pre">
+    			%if comment.is_deleted():
+    				${_("deleted %s") % h.relative_time(comment.delete_time)|n}
+    			%else:
+    				%if not comment.is_edited(): 
+    					${h.relative_time(comment.create_time)|n}
+    				%else:
+    					%if comment.latest.user == comment.creator:
+    						${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
+    					%else:
+    					 	${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
+    							               			   h.user.link(comment.latest.user, scope=comment.topic))|n}
+    					%endif 	
+    				%endif
+    				%if comment.wiki:
+    					&middot; ${_("editable") if comment.wiki else ''}
+    				%endif
+    				%if len(comment.revisions) > 1:
+    					&middot;
+    					<a href="${h.entity_url(comment, member='history')}">${_("history")}</a>
+    				%endif
+    				&middot;
+    				<a href="${h.entity_url(comment, comment_page=True)}">${_("link")}</a>
+    			%endif
+    			<a name="c${comment.id}">&nbsp;</a>
+    		</div>
 
 			<div class="edit_form">
 				${self.edit_form(comment, ret_url=ret_url)}
@@ -190,54 +236,6 @@
 		%endif
 		</div>
 	</form>
-</%def>
-
-
-<%def name="static_part(tile, comment)">
-		<div class="title">
-		%if comment.latest.has_title:
-			${comment.latest.title}
-		%else:
-			&nbsp;
-		%endif
-		</div>
-		<div class="text hide_edit">
-			%if not comment.is_deleted():
-				${tile.text|n}
-			%else:
-				<span class="hint">${_("This comment has been deleted.")}</span>
-			%endif
-		</div>
-		
-		<div class="pre">
-			%if comment.is_deleted():
-				${_("deleted %s") % h.relative_time(comment.delete_time)|n}
-			%else:
-				<b>${h.user.link(comment.creator, scope=comment.topic)|n}</b>
-				%if not comment.is_edited(): 
-					&middot; ${h.relative_time(comment.create_time)|n}
-				%else:
-					&middot;
-					%if comment.latest.user == comment.creator:
-						${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
-					%else:
-					 	${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
-							               			   h.user.link(comment.latest.user, scope=comment.topic))|n}
-					%endif 	
-				%endif
-				%if comment.wiki:
-					&middot; ${_("editable") if comment.wiki else ''}
-				%endif
-				%if len(comment.revisions) > 1:
-					&middot;
-					<a href="${h.entity_url(comment, member='history')}">${_("history")}</a>
-				%endif
-				&middot;
-				<a href="${h.entity_url(comment, comment_page=True)}">${_("link")}</a>
-			%endif
-			<a name="c${comment.id}">&nbsp;</a>
-		</div>
-		
 </%def>
 
 

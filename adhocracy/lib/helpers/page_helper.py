@@ -46,9 +46,12 @@ def url(page, in_context=True, member=None, **kwargs):
     return _url.build(page.instance, 'page', label, member=member, **kwargs)
 
 
-@cache.memoize('page_bc')
+@cache.memoize('page_bc', time=3600)
 def entity_bc(page):
-    return _url.BREAD_SEP + _url.link(page.title, url(page))
+    bc = ''
+    if page.parent:
+        bc += entity_bc(page.parent)
+    return bc + _url.BREAD_SEP + _url.link(page.title, url(page))
 
 def breadcrumbs(page):
     bc = _url.root()

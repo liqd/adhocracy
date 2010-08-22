@@ -67,11 +67,6 @@
 			<a class="button title add ttip" title="${_('Propose alternative language.')}" 
 			    href="${h.entity_url(text, member='branch')}">${_("branch new variant")}</a>
 		%endif
-				
-		%if can.delegation.create():
-			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
-				 href="/delegation/new?scope=${page.id}">${_("delegate")}</a>
-		%endif
 		
 		%if can.page.variant_edit(page, variant):
 			<a class="button title edit ttip" title="${_('Edit this document.')}" 

@@ -62,11 +62,6 @@
 <%def name="header(tile, proposal, active)">
 	<div class="top_actions title">
 		&nbsp; 
-		
-		%if can.delegation.create():
-			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
-			    href="/delegation/new?scope=${proposal.id}">${_("delegate")}</a>
-		%endif
 				
 		%if can.proposal.adopt(proposal):
 			<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 

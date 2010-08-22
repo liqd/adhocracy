@@ -10,12 +10,17 @@ def _diff_html(left, right):
     return htmldiff(left, right)
 
 LINEBREAK_TOKEN = 23
+SPACE_TOKEN = 42
 
 def _decompose(lines):
     _tokens = []
     for line in lines:
         line = line.replace('\r', '')
-        _tokens.extend(line.split(' '))
+        for token in line.split(' '):
+            if len(token):
+                _tokens.append(token)
+            _tokens.append(SPACE_TOKEN)
+        _tokens.pop()
         _tokens.append(LINEBREAK_TOKEN)
     return _tokens
     
@@ -24,11 +29,13 @@ def _compose(elems):
     line = []
     for elem in elems:
         if elem == LINEBREAK_TOKEN:
-            lines.append(' '.join(line))
+            lines.append(''.join(line))
             line = []
+        elif elem == SPACE_TOKEN:
+            line.append(' ')
         else:
             line.append(elem)
-    lines.append(' '.join(line))
+    lines.append(''.join(line))
     return '\n'.join(lines)
         
 
@@ -54,14 +61,14 @@ def _diff_line_based(left_lines, right_lines, include_deletions=True, include_in
         if op == 'equal':
             html_match += _compose(left[i1:i2])
         elif op == 'delete' and include_deletions:
-            html_match += ' <del>' + _compose(left[i1:i2]) + '</del> '
+            html_match += '<del>' + _compose(left[i1:i2]) + '</del>'
         elif op == 'insert' and include_insertions:
-            html_match += ' <ins>' + _compose(right[j1:j2]) + '</ins> '
+            html_match += '<ins>' + _compose(right[j1:j2]) + '</ins>'
         elif op == 'replace':
             if include_insertions and replace_as_insert:
-                html_match += ' <ins>' + _compose(right[j1:j2]) + '</ins> '
+                html_match += '<ins>' + _compose(right[j1:j2]) + '</ins>'
             if include_deletions and replace_as_delete:
-                html_match += ' <del>' + _compose(left[i1:i2]) + '</del> '
+                html_match += '<del>' + _compose(left[i1:i2]) + '</del>'
     
     carry = []
     lines = []
@@ -69,7 +76,7 @@ def _diff_line_based(left_lines, right_lines, include_deletions=True, include_in
         for val in carry:
             line = val + line
         carry = []
-        for tag_begin, tag_end in ((' <ins>', '</ins> '), (' <del>', '</del> ')):
+        for tag_begin, tag_end in (('<ins>', '</ins>'), ('<del>', '</del>')):
             begin_count = count(line, tag_begin)
             end_count = count(line, tag_end)
             if begin_count > end_count:

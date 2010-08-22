@@ -40,7 +40,6 @@
 			%if not tile.has_delegated:
 				<div class="infobox">
 					${_("You have not delegated voting.")} 
-					<a href="/delegation/new?scope=${delegateable.id}">${_("delegate")}</a>
 					<div class="help">
 						&middot; ${h.help_link(_("help"), 'delegation_faq')|n}
 					</div>
@@ -57,6 +56,10 @@
 				</li>
 			%endfor
 		</ul>
+		<div class="top_actions">
+			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
+			    href="/delegation/new?scope=${delegateable.id}">${_("delegate")}</a>
+		</div>
 		
 		%if tile.num_principals:
 			<p>

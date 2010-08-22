@@ -58,11 +58,6 @@ def row(comment):
     return render_tile('/comment/tiles.html', 'row', CommentTile(comment), comment=comment)    
 
 
-def static_part(tile, comment):
-    return render_tile('/comment/tiles.html', 'static_part', tile, 
-                       comment=comment, user=c.user, cached=True)    
-
-
 def header(comment, tile=None, active='comment'):
     if tile is None:
         tile = CommentTile(comment)
