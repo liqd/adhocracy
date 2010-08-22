@@ -160,6 +160,65 @@ $(document).ready(function() {
 	   return false;
 	}
 	
+	$('.normedit').keydown(function(e) {
+    var ss = this.selectionStart;
+    var se = this.selectionEnd;
+		var scrollTop = this.scrollTop;
+		        
+		if (e.which == 9) {
+			var tab = '    ';
+			this.value = this.value.substring(0, ss) + tab + this.value.substring(se, this.value.length);
+      this.focus();
+      ss = ss + tab.length;
+			this.setSelectionRange(ss, ss);
+			e.preventDefault();
+		}
+		
+		this.scrollTop = scrollTop;
+	});
+	
+	var reflow = function(field) {
+		var cols = $(field).attr('cols');
+		var ss = field.selectionEnd;
+		var v = field.value;
+		var offset = 0;
+		var stable = true;
+		$.each(v.split('\n'), function(i, line) {
+			if (line.length > cols) {
+				for (var i = offset + cols - 1; i > offset; i--) {
+					if (v.charAt(i-1) == ' ') {
+						// pull up previous line, insert whitespace when none is there.
+						if (v.charAt(offset + line.length - 1) == ' ' || v.charAt(offset + line.length + 1) == ' ') {
+							v = v.substring(0, offset + line.length) + v.substring(offset + line.length + 1, v.length);
+						} else {
+							v = v.substring(0, offset + line.length) + ' ' + v.substring(offset + line.length + 1, v.length);
+						}
+						
+						// insert a newline
+						v = v.substring(0, i) + '\n' + v.substring(i, v.length);
+						
+						if (ss >= i) 
+							ss++;
+						/*
+						if (field.selectionStart >= i) 
+							field.setSelectionRange(field.selectionStart+1, field.selectionEnd);
+						*/
+						stable = false;
+						break
+					}
+				}
+			}
+			offset = offset + '\n'.length + line.length;
+		});
+		field.value = v
+		field.setSelectionRange(ss, ss);
+		return stable;
+	}
+		
+	$('.normedit').keypress(function(e) {
+		while(!reflow(this));
+	});
+	
 	
 	/* Mark up the comment selected via a URL anchor (i.e. after editing and creation) */
 	anchor = document.location.hash;

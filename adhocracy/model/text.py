@@ -108,7 +108,7 @@ class Text(object):
         if self.text is None:
             return
         for line in self.text.strip().split("\n"):
-            while len(line) > self.LINE_LENGTH:
+            while len(line.rstrip()) > self.LINE_LENGTH:
                 part = truncate(line, length=self.LINE_LENGTH, indicator='', whole_word=True)
                 line = line[len(part):]
                 line = line.lstrip()
