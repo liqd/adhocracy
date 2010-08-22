@@ -25,12 +25,20 @@ class SelectionController(BaseController):
     
     
     @RequireInstance
-    def new(self, proposal_id, errors=None):
+    def propose(self, proposal_id):
+        return self._new(proposal_id, '/selection/propose.html', None)
+        
+    @RequireInstance
+    def include(self, proposal_id, errors={}):
+        return self._new(proposal_id, '/selection/include.html', errors)
+    
+        
+    def _new(self, proposal_id, template, errors):
         c.proposal = get_entity_or_abort(model.Proposal, proposal_id)     
         require.selection.create(c.proposal)
         defaults = dict(request.params)
         c.proposal_tile = tiles.proposal.ProposalTile(c.proposal)
-        return htmlfill.render(render("/selection/new.html"), defaults=defaults, 
+        return htmlfill.render(render(template), defaults=defaults, 
                                errors=errors, force_defaults=False)
     
     
@@ -42,7 +50,7 @@ class SelectionController(BaseController):
         try:
             self.form_result = SelectionCreateForm().to_python(request.params)
         except Invalid, i:
-            return self.new(proposal_id, errors=i.unpack_errors())
+            return self.propose(proposal_id, errors=i.unpack_errors())
         
         page = self.form_result.get('page')
         selection = model.Selection.create(c.proposal, page, 
