@@ -88,29 +88,11 @@
 			</div>
 			
 			<div class="base">
-				
-				
-			<div class="title">
-    		    %if comment.is_deleted():
-    		        ${_("(deleted)")}
-    		    %else:
-    		        <b>${h.user.link(comment.creator, scope=comment.topic)|n}</b>:
-    		        %if comment.latest.has_title:
-    			        ${comment.latest.title}
-    		        %else:
-    			        &nbsp;
-    		        %endif
-    		    %endif
-    		</div>
-    		<div class="text hide_edit">
-    			%if not comment.is_deleted():
-    				${tile.text|n}
-    			%else:
-    				<span class="hint">${_("This comment has been deleted.")}</span>
-    			%endif
-    		</div>
-
-    		<div class="top_actions comment">				
+			<div class="sentiment">
+			%if not comment.is_deleted():
+			    <b>${h.user.link(comment.creator, scope=comment.topic)|n}</b>
+			%endif
+			<div class="top_actions comment">				
     			%if can.comment.edit(comment):
     				<a class="button edit" onClick="return comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
     			%endif
@@ -124,6 +106,26 @@
     			%endif 
 
     			<a class="button delete" onClick="return toggle_comment(${comment.id})">${_("hide")}</a>
+    		</div>
+				
+			<div class="title">
+    		    %if comment.is_deleted():
+    		        ${_("(deleted)")}
+    		    %else:
+    		        %if comment.latest.has_title:
+    			        ${comment.latest.title}
+    		        %else:
+    			        &nbsp;
+    		        %endif
+    		    %endif
+    		</div>
+    		
+    		<div class="text hide_edit">
+    			%if not comment.is_deleted():
+    				${tile.text|n}
+    			%else:
+    				<span class="hint">${_("This comment has been deleted.")}</span>
+    			%endif
     		</div>
 
     		<div class="pre">
@@ -151,6 +153,7 @@
     				<a href="${h.entity_url(comment, comment_page=True)}">${_("link")}</a>
     			%endif
     			<a name="c${comment.id}">&nbsp;</a>
+    		</div>
     		</div>
 
 			<div class="edit_form">

@@ -1267,7 +1267,7 @@ a.button.inactive {
 
 .top_actions.comment {
 	float: right;
-	margin-top: -0.2em;	
+	margin-top: 0.2em;	
 	margin-right: 0.2em;
 }
 
@@ -1333,6 +1333,7 @@ a.button.inactive {
 /* @group Comments */
 
 .comment .tile {
+	position: relative;
 	border: 0px;
 	background-image: none;
 	min-height: 30px;
@@ -1389,24 +1390,24 @@ a.button.inactive {
 }
 
 .comment .title {
-	font-size: 1.1em;
+	clear: both;
+	font-size: 1.0em;
 	padding: 0.2em;
-	padding-bottom: 0.5em;
+	padding-bottom: 1em;
 	font-weight: bold;
+	color: #666;
 }
 
 .comment .pre {
+	padding-left: 0.2em;
 	font-size: 0.8em;
 	padding-bottom: 0.8em;
 	color:  #666;
 	font-weight: bold;
+	line-height: 1.3em;
 }
 
-.comment .tile.pro .pre,
-.comment .tile.pro .title,
-.comment .tile.pro .text,
-.comment .tile.pro .reply_form, 
-.comment .tile.pro .edit_form {
+.comment .tile.pro .sentiment {
 	background-color: #e6ffed;
 }
 
@@ -1418,11 +1419,7 @@ a.button.inactive {
 	border-bottom: 2px solid #b1eeb4;
 }
 
-.comment .tile.con .pre,
-.comment .tile.con .title,
-.comment .tile.con .text,
-.comment .tile.con .reply_form, 
-.comment .tile.con .edit_form {
+.comment .tile.con .sentiment {
 	background-color: #ffe9e6;
 }
 
@@ -1484,14 +1481,10 @@ label.inline {
 .comment .reply_form, 
 .comment .edit_form,
 .headrev .edit_form {
+	padding-top: 0.7em;
 	padding-bottom: 0.7em;
 	width: inherit;
 	display: none;
-}
-
-.comment .edit_form,
-.headrev .edit_form {
-	padding-top: 1.4em;
 }
 
 .comment .reply_form.base_reply,
@@ -1527,17 +1520,12 @@ label.inline {
 	display: none;
 }
 
-.show_low {
-    font-weight: bold;
-    display: none;
-}
-
 .comment_tiny {
 	display: none;
 	/*font-style: italic;*/
 	font-size: 0.9em;
 	color:  #999;
-	margin-bottom: 0.5em;
+	margin-bottom: 0.7em;
 }
 
 .comment_tiny .rate {
