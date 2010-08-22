@@ -3,10 +3,12 @@
 <%def name="history_row(tile, text)">
 	<div class="tile text history">
 		<ul>
-			<li>${diff.page_titles_compare(text, text.parent)|n}</li>
-			%if text.page.has_variants:
-				<li>${text.variant}</li>
-			%endif
+			<li>
+			    ${diff.page_titles_compare(text, text.parent)|n}
+			    %if text.page.has_variants:
+				    (<code>${text.variant_name}</code>)
+			    %endif
+			</li>
 			<li>${_("by %s, ") % h.user.link(text.user, scope=text.page)|n}
 					${_("created %s") % h.relative_time(text.create_time)|n}</li>
 		</ul>
@@ -14,7 +16,7 @@
 	
 	<div class="headrev">
 			%if text.has_text:
-				<div class="text">
+				<div class="text" style="width: auto;">
 					${diff.page_texts_history_compare(text, text.parent)|n}
 				</div>
 			%else:
