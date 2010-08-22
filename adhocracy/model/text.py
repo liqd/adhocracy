@@ -114,6 +114,10 @@ class Text(object):
                 line = line.lstrip()
                 yield part
             yield line
+            
+    @property
+    def lines_text(self):
+        return '\n'.join(self.lines)
     
     @property
     def has_text(self):
