@@ -108,7 +108,7 @@ def truncate(text, length):
         
         if not in_tag:
             render_count += 1
-        if render_count == length:
+        if render_count >= length:
             break
     x = text[:last_space]
     return x

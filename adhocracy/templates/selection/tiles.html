@@ -70,26 +70,24 @@
 		
 		<div class="expand_area area_hidden" id="variants_${selection.id}">
 			${self.variants(tile, selection)}
+			<div class="top_actions aside">
+    			%if tile.show_new_variant_link:
+    				<a class="button add" href="${h.entity_url(selection.page, member='branch')}?proposal=${selection.proposal.id}">${_("new variant")}</a> 
+    			##%else:
+    			##	<a class="button edit" href="${h.entity_url(selection.page)}">${_("see norm")}</a>
+    			%endif
+    			##<a class="button add otip" title="${_('Select a variant text to become a part of this proposal.')}" 
+    			##	 href="${h.entity_url(selection)}">${_("select variants")}</a> 
+    			##%if tile.selected_text:
+    			##	<a class="button edit otip" title="${_('Compare this variant text to others.')}" 
+    			##	   href="${h.entity_url(tile.selected_text)}">${_("comparison view")}</a> 
+    			##%endif
+    			%if can.selection.delete(selection):
+    				<a class="button delete" href="${h.entity_url(selection, member='ask_delete')}">${_("exclude")}</a> 
+    			%endif
+    		</div>
+    		<br/><br/>
 		</div>
-		
-		
-		<div class="top_actions aside">
-			%if tile.show_new_variant_link:
-				<a class="button add" href="${h.entity_url(selection.page, member='branch')}?proposal=${selection.proposal.id}">${_("new variant")}</a> 
-			%else:
-				<a class="button edit" href="${h.entity_url(selection.page)}">${_("see norm")}</a>
-			%endif
-			##<a class="button add otip" title="${_('Select a variant text to become a part of this proposal.')}" 
-			##	 href="${h.entity_url(selection)}">${_("select variants")}</a> 
-			%if tile.selected_text:
-				<a class="button edit otip" title="${_('Compare this variant text to others.')}" 
-				   href="${h.entity_url(tile.selected_text)}">${_("comparison view")}</a> 
-			%endif
-			%if can.selection.delete(selection):
-				<a class="button delete" href="${h.entity_url(selection, member='ask_delete')}">${_("exclude")}</a> 
-			%endif
-		</div>
-		<br/><br/>
 	</div>
 	<br/>
 </%def>
