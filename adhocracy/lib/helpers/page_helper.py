@@ -29,6 +29,8 @@ def link(page, variant=model.Text.HEAD, link=True, icon=True, icon_size=16):
     import text_helper as text
     buf = cgi.escape(page.title)
     text_ = page.variant_head(variant)
+    if text_ is None:
+        return _("(Unknown)")
     if variant != text_.HEAD:
         buf = u"%s <code>(%s)</code>" % (buf, variant)
     if icon: 

@@ -75,7 +75,7 @@
 		
 		<div class="top_actions aside">
 			%if tile.show_new_variant_link:
-				<a class="button add" href="${h.entity_url(selection.page, member='%20/edit')}?proposal=${selection.proposal.id}">${_("new variant")}</a> 
+				<a class="button add" href="${h.entity_url(selection.page, member='branch')}?proposal=${selection.proposal.id}">${_("new variant")}</a> 
 			%else:
 				<a class="button edit" href="${h.entity_url(selection.page)}">${_("see norm")}</a>
 			%endif
