@@ -11,6 +11,8 @@ import url as _url
 @cache.memoize('text_url')
 def url(text, **kwargs):
     import page_helper as page
+    if text is None:
+        return ''
     url = page.url(text.page, in_context=text == text.page.variant_head(text.variant))
     if text.page.has_variants and text.variant != text.HEAD:
         url += u'/' + urllib.quote(text.variant.encode('utf-8'))
