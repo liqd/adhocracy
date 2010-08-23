@@ -2,7 +2,7 @@ import re
 import cgi
 
 import markdown2 as markdown
-from webhelpers.text import truncate
+#from webhelpers.text import truncate
 
 from adhocracy.lib.cache import memoize
 import adhocracy.model as model
@@ -116,8 +116,10 @@ def truncate(text, length):
     
 def linify(text, length):
     for line in text.strip().split("\n"):
+        #print "LINE", line.encode('utf-8')
         while True:
             part = truncate(line, length)
+            #print "PART", part.encode('utf-8')
             yield part
             line = line[len(part):]
             if not len(line):

@@ -53,10 +53,10 @@ def _diff_line_based(left_text, right_text, include_deletions=True, include_inse
     if ratio_skip is not None and s.ratio() <= 1-ratio_skip: 
         lines = []
         if include_deletions and left_text is not None:
-            for l in left_text.split('\n'):
+            for l in linify(left_text, line_length):
                 lines.append('<del>%s</del>' % l)
         if include_insertions and right_text is not None:
-            for r in right_text.split('\n'):
+            for r in linify(right_text, line_length):
                 lines.append('<ins>%s</ins>' % r)
         return lines
 
