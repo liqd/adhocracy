@@ -2,20 +2,20 @@
 <%def name="row(tile, selection)">
 	<div class="tile selection" id="selection_${selection.id}">
 		<h3 class="section">
-			<!--a href="${h.entity_url(selection)}"-->
+			##<!--a href="${h.entity_url(selection)}"-->
 			<img class="cd" src="/img/icons/page_variant_16.png">
 			${selection.page.title}
-			<!--/a-->
-			%if tile.selected and tile.selected != 'HEAD':
-				- <code>${tile.selected}</code>
-			%endif
-			<!--
-			%if not selection.page.head.has_text:
-				${_("(initiative)")}
-			%else:
-				${_("(change)")}
-			%endif
-			-->
+			##<!--/a-->
+			##%if tile.selected and tile.selected != 'HEAD':
+			##	- <code>${tile.selected}</code>
+			##%endif
+			##<!--
+			##%if not selection.page.head.has_text:
+			##	${_("(initiative)")}
+			##%else:
+			##	${_("(change)")}
+			##%endif
+			##-->
 			<a name="selection_${selection.id}"></a>
 		</h3>
 		<br/>
