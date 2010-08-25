@@ -771,6 +771,14 @@ del, del * {
 	text-decoration: none;	
 }
 
+ins.replaced, ins.replaced *,
+del.replaced, del.replaced * {
+	background-color: #fdf6e7;
+	color: #d96d18;
+	font-weight: bold;
+	text-decoration: none;	
+}
+
 p img[align=left] {
 	margin-right: 7px;
 }

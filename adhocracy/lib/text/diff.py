@@ -70,9 +70,9 @@ def _diff_line_based(left_text, right_text, include_deletions=True, include_inse
             html_match += '<ins>' + _compose(right[j1:j2]) + '</ins>'
         elif op == 'replace':
             if include_deletions and replace_as_delete:
-                html_match += '<del>' + _compose(left[i1:i2]) + '</del>'
+                html_match += '<del class="replaced">' + _compose(left[i1:i2]) + '</del>'
             if include_insertions and replace_as_insert:
-                html_match += '<ins>' + _compose(right[j1:j2]) + '</ins>'
+                html_match += '<ins class="replaced">' + _compose(right[j1:j2]) + '</ins>'
     
     carry = []
     lines = []
@@ -80,7 +80,10 @@ def _diff_line_based(left_text, right_text, include_deletions=True, include_inse
         for val in carry:
             line = val + line
         carry = []
-        for tag_begin, tag_end in (('<ins>', '</ins>'), ('<del>', '</del>')):
+        for tag_begin, tag_end in (('<ins>', '</ins>'),
+                                   ('<ins class="replaced">', '</ins>'),
+                                   ('<del>', '</del>'),
+                                   ('<del class="replaced">', '</del>')):
             if line.startswith(tag_end):
                 line = line[len(tag_end):]
             if line.endswith(tag_begin):

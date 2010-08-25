@@ -35,5 +35,8 @@ def run(terms, instance=None, entity_type=None, fields=[u'title', u'text', u'use
             entity = refs.to_entity(ref, **kwargs)
             entities.append(entity)
         return entities
+    except Exception, e:
+        log.exception(e)
+        return []
     finally:
         pass
