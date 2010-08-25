@@ -69,9 +69,9 @@ def _diff_line_based(left_text, right_text, include_deletions=True, include_inse
         elif op == 'insert' and include_insertions:
             html_match += '<ins>' + _compose(right[j1:j2]) + '</ins>'
         elif op == 'replace':
-            if include_deletions and replace_as_delete:
+            if replace_as_delete:
                 html_match += '<del class="replaced">' + _compose(left[i1:i2]) + '</del>'
-            if include_insertions and replace_as_insert:
+            if replace_as_insert:
                 html_match += '<ins class="replaced">' + _compose(right[j1:j2]) + '</ins>'
     
     carry = []
@@ -80,10 +80,10 @@ def _diff_line_based(left_text, right_text, include_deletions=True, include_inse
         for val in carry:
             line = val + line
         carry = []
-        for tag_begin, tag_end in (('<ins>', '</ins>'),
-                                   ('<ins class="replaced">', '</ins>'),
-                                   ('<del>', '</del>'),
-                                   ('<del class="replaced">', '</del>')):
+        for tag_begin, tag_end in (('<ins class="replaced">', '</ins>'),
+                                   ('<ins>', '</ins>'),
+                                   ('<del class="replaced">', '</del>'),
+                                   ('<del>', '</del>')):
             if line.startswith(tag_end):
                 line = line[len(tag_end):]
             if line.endswith(tag_begin):
@@ -139,12 +139,12 @@ def norm_texts_table_compare(text_from, text_to):
                                   text_to.text,
                                   include_deletions=False,
                                   replace_as_insert=True,
-                                  ratio_skip=0.7)
+                                  ratio_skip=0.9)
     deletions = _diff_line_based(text_from.text, 
                                  text_to.text,
                                  include_insertions=False,
                                  replace_as_delete=True,
-                                 ratio_skip=0.7)
+                                 ratio_skip=0.9)
               
     _out = "<table class='line_based'>\n"
     for num, (left, right) in enumerate(izip_longest(deletions, insertions, fillvalue='')):
