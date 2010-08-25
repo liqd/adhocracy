@@ -16,28 +16,37 @@ ${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right, variant=c
 
 <div class="clearboth"></div>
 
+<%
+left_table, right_table = diff.norm_texts_table_compare(c.left, c.right)
+%>
+
 <span class="list_diff">
-%if not c.left.has_text:
     <div class="lefthalf double">
-        <div class="infobox">
-            ${_("This variant has no text.")}
-        </div>
+        %if c.left.has_text:
+            %if c.right.has_text:
+                ${left_table|n}
+            %else:
+                ${c.left.render()|n}
+            %endif
+        %else:
+            <div class="infobox">
+                ${_("This variant has no text.")}
+            </div>
+        %endif
     </div>
     <div class="righthalf double">
-        ${c.right.render()|n}
+        %if c.right.has_text:
+            %if c.left.has_text:
+                ${right_table|n}
+            %else:
+                ${c.right.render()|n}
+            %endif
+        %else:
+            <div class="infobox">
+                ${_("This variant has no text.")}
+            </div>
+        %endif
     </div>
-%elif not c.right.has_text:
-    <div class="lefthalf double">
-        ${c.right.render()|n}
-    </div>
-    <div class="righthalf double">
-        <div class="infobox">
-            ${_("This variant has no text.")}
-        </div>
-    </div>
-%else:
-    ${diff.norm_texts_table_compare(c.left, c.right)|n}
-%endif
 </span>
 
 <div class="clearboth"></div>

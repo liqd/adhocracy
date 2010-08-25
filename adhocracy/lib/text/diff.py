@@ -1,10 +1,12 @@
 import cgi
 from string import count
+from pprint import pprint
 from itertools import izip_longest
 from lxml.html.diff import htmldiff
 
 import adhocracy.model as model
 from adhocracy.lib.cache import memoize
+from normalize import simple_form
 from render import render, render_line_based, _line_table, linify
 
 def _diff_html(left, right):
@@ -21,7 +23,7 @@ def _decompose(text):
         line = line.replace('\r', '')
         for token in line.split(' '):
             if len(token):
-                _tokens.append(token)
+                _tokens.append(simple_form(token))
             _tokens.append(SPACE_TOKEN)
         _tokens.pop()
         _tokens.append(LINEBREAK_TOKEN)
@@ -29,16 +31,16 @@ def _decompose(text):
     
 def _compose(elems):
     lines = []
-    line = []
+    line = ''
     for elem in elems:
         if elem == LINEBREAK_TOKEN:
-            lines.append(''.join(line))
-            line = []
+            lines.append(line)
+            line = ''
         elif elem == SPACE_TOKEN:
-            line.append(' ')
+            line += ' '
         else:
-            line.append(elem)
-    lines.append(''.join(line))
+            line += elem
+    lines.append(line)
     return '\n'.join([cgi.escape(l) for l in lines])
         
 
@@ -70,24 +72,25 @@ def _diff_line_based(left_text, right_text, include_deletions=True, include_inse
             html_match += '<ins>' + _compose(right[j1:j2]) + '</ins>'
         elif op == 'replace':
             if replace_as_delete:
-                html_match += '<del class="replaced">' + _compose(left[i1:i2]) + '</del>'
-            if replace_as_insert:
-                html_match += '<ins class="replaced">' + _compose(right[j1:j2]) + '</ins>'
+                html_match += '<del>' + _compose(left[i1:i2]) + '</del>'
+            elif replace_as_insert:
+                html_match += '<ins>' + _compose(right[j1:j2]) + '</ins>'
+            else:
+                html_match += '<span>' + _compose(right[j1:j2]) + '</span>'
     
     carry = []
     lines = []
     for line in linify(html_match, line_length):
-        for val in carry:
+        for val in reversed(carry):
             line = val + line
         carry = []
-        for tag_begin, tag_end in (('<ins class="replaced">', '</ins>'),
+        for tag_begin, tag_end in (('<span>', '</span>'),
                                    ('<ins>', '</ins>'),
-                                   ('<del class="replaced">', '</del>'),
                                    ('<del>', '</del>')):
-            if line.startswith(tag_end):
-                line = line[len(tag_end):]
-            if line.endswith(tag_begin):
-                line = line[:len(line)-len(tag_begin)]
+            #if line.startswith(tag_end):
+            #    line = line[len(tag_end):]
+            #if line.endswith(tag_begin):
+            #    line = line[:len(line)-len(tag_begin)]
             begin_count = count(line, tag_begin)
             end_count = count(line, tag_end)
             if begin_count > end_count:
@@ -95,9 +98,11 @@ def _diff_line_based(left_text, right_text, include_deletions=True, include_inse
                 carry.append(tag_begin)
             elif begin_count < end_count:
                 line = tag_begin + line
-        if line.startswith(' <'):
-            line = line[1:]
+        #if line.startswith(' <'):
+        #    line = line[1:]
         lines.append(line)
+        
+    #pprint(lines)
     return lines
 
 
@@ -129,31 +134,29 @@ def norm_texts_history_compare(text_from, text_to):
     if text_to is None or text_from.id == text_to.id:
         return render_line_based(text_from)
     lines = _diff_line_based(text_to.text, 
-                             text_from.text,
-                             replace_as_insert=True,)
+                             text_from.text)
+                             #replace_as_insert=True,)
     return _line_table(lines)
                             
 @memoize('normtab_diff')
 def norm_texts_table_compare(text_from, text_to):
     insertions = _diff_line_based(text_from.text, 
                                   text_to.text,
+                                  include_insertions=True,
                                   include_deletions=False,
                                   replace_as_insert=True,
-                                  ratio_skip=0.9)
+                                  ratio_skip=0.8)
+                                                              
     deletions = _diff_line_based(text_from.text, 
                                  text_to.text,
                                  include_insertions=False,
+                                 include_deletions=True,
                                  replace_as_delete=True,
-                                 ratio_skip=0.9)
-              
-    _out = "<table class='line_based'>\n"
-    for num, (left, right) in enumerate(izip_longest(deletions, insertions, fillvalue='')):
-        #print "LINE", repr(line).encode('utf-8')
-        _out += """\t<tr>
-                        <td width='2%%' class='line_number'>%s</td>
-                        <td width='49%%' class='line_text'><pre>%s</pre></td>
-                        <td width='2%%' class='line_number'>%s</td>
-                        <td width='47%%' class='line_text'><pre>%s</pre></td>
-                     </tr>\n""" % (num+1, left, num+1, right)
-    _out += "</table>\n"
-    return _out
+                                 ratio_skip=0.8)
+    
+    llines = []
+    rlines = []
+    for left, right in izip_longest(deletions, insertions, fillvalue=''):
+        llines.append(left)
+        rlines.append(right)
+    return _line_table(llines), _line_table(rlines)

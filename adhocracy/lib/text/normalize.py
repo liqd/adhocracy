@@ -41,6 +41,13 @@ def label2alias(label):
     return title[:40]
 
 
+def simple_form(text):
+    #return text
+    #text = text.strip()
+    text = normalize('NFKC', text)
+    return text 
+
+
 def escape(title, remove_space=True):
     if title is None:
         return None

@@ -771,8 +771,8 @@ del, del * {
 	text-decoration: none;	
 }
 
-ins.replaced, ins.replaced *,
-del.replaced, del.replaced * {
+.line_based pre span, 
+.line_based pre span * {
 	background-color: #fdf6e7;
 	color: #d96d18;
 	font-weight: bold;
