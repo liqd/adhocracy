@@ -95,7 +95,8 @@
 			%else:
 				<a class="up icon inactive">&nbsp;</a>
 				<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-					class="score">${proposal.rate_poll.tally.score}</a>
+					class="num_for">${proposal.rate_poll.tally.num_for}</a>:<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
+    				class="num_against">${proposal.rate_poll.tally.num_against}</a>
 				<a class="down icon inactive">&nbsp;</a>
 			%endif
 		</div>
