@@ -16,7 +16,7 @@ poll_table = Table('poll', meta.data,
     Column('end_time', DateTime, nullable=True),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('action', Unicode(50), nullable=False),
-    Column('subject', UnicodeText(), nullable=False),
+    Column('subject', Unicode(254), nullable=False),
     Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False)
     )
 

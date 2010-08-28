@@ -40,13 +40,13 @@ CREATE INDEX idx_evt_instance_id ON event (instance_id);
 CREATE INDEX idx_evt_topic_topic_id ON event_topic (topic_id);
 CREATE INDEX idx_evt_topic_event_topic_id ON event_topic (event_id, topic_id);
 
-CREATE INDEX idx_group_code ON "group" (code);
+CREATE INDEX idx_group_code ON `group` (`code`);
 CREATE INDEX idx_group_perm_group_id ON group_permission (group_id);
 CREATE INDEX idx_group_perm_perm_id ON group_permission (permission_id);
 CREATE INDEX idx_group_perm_perm_group_id ON group_permission (permission_id,group_id);
 
-CREATE INDEX idx_instance_key ON instance (key);
-CREATE INDEX idx_instanced_key ON instance (key,delete_time);
+CREATE INDEX idx_instance_key ON instance (`key`);
+CREATE INDEX idx_instanced_key ON instance (`key`,delete_time);
 CREATE INDEX idx_mem_user_id ON membership (user_id);
 CREATE INDEX idx_mem_instance_id ON membership (instance_id);
 CREATE INDEX idx_mem_group_id ON membership (instance_id);
@@ -61,4 +61,4 @@ CREATE INDEX idx_selectiond_key ON selection (proposal_id,delete_time);
 CREATE INDEX idx_poll_subject ON poll (subject);
 CREATE INDEX idx_tally_poll_id ON tally (poll_id);
 
-CREATE INDEX idx_text_page_id ON "text" (page_id);
+CREATE INDEX idx_text_page_id ON `text` (page_id);
