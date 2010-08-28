@@ -14,7 +14,7 @@ import adhocracy.model as model
 
 log = logging.getLogger(__name__)
 
-EVENT_QUEUE = 'event'
+SERVICE = 'event'
 
 def emit(event, user, instance=None, topics=[], **kwargs):
     event = model.Event(event, user, kwargs, instance=instance)
@@ -23,7 +23,7 @@ def emit(event, user, instance=None, topics=[], **kwargs):
     model.meta.Session.commit()
     
     if queue.has_queue():
-        queue.post_message(EVENT_QUEUE, str(event.id))
+        queue.post_message(SERVICE, str(event.id))
     else:
         log.warn("Queue failure.")
         process(event)
@@ -34,12 +34,6 @@ def emit(event, user, instance=None, topics=[], **kwargs):
 def process(event):
     notification.notify(event)
 
-def queue_process():
-    def _process(message):
-        event = model.Event.find(int(message), instance_filter=False)
-        process(event)
-    
-    queue.read_messages(EVENT_QUEUE, _process)
-    
-
-
+def handle_event_message(message):
+    event = model.Event.find(int(message), instance_filter=False)
+    process(event)

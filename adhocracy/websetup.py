@@ -8,7 +8,7 @@ from adhocracy.config.environment import load_environment
 from adhocracy import model
 from adhocracy.lib import install, search, openidstore, util, init_site
 from adhocracy.lib.queue import init_queue
-from adhocracy.model import meta
+from adhocracy.model import meta, init_queue_hooks
 from pylons import config
 
 import migrate.versioning.api as migrateapi
@@ -22,7 +22,7 @@ def setup_app(command, conf, vars):
     load_environment(conf.global_conf, conf.local_conf, with_db=False)
     # disable delayed execution
     config['adhocracy.amqp.host'] = None    
-    init_queue()
+    init_queue_hooks()
     
     index_path = util.get_site_path(*search.SITE_INDEX_DIR)
     if os.path.exists(index_path):

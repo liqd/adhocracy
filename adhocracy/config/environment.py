@@ -9,8 +9,7 @@ from sqlalchemy import engine_from_config
 import adhocracy.lib.app_globals as app_globals
 import adhocracy.lib.helpers
 from adhocracy.config.routing import make_map
-from adhocracy.model import init_model, meta
-from adhocracy.lib.queue import init_queue
+from adhocracy.model import init_model, init_queue_hooks, meta
 from adhocracy.lib.search import init_search
 from adhocracy.lib.democracy import init_democracy
 from adhocracy.lib import init_site
@@ -49,8 +48,8 @@ def load_environment(global_conf, app_conf, with_db=True):
     # CONFIGURATION OPTIONS HERE (note: all config options will override
     # any Pylons config options)
     init_site()
-    init_queue(with_db)
     if with_db:
+        init_queue_hooks()
         init_search()
     init_democracy(with_db)
 

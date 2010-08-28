@@ -53,7 +53,10 @@ setup(
     entry_points="""
     [paste.app_factory]
     main = adhocracy.config.middleware:make_app
-
+    
+    [paste.paster_command]
+    background = adhocracy.lib.cli:Background
+    
     [paste.app_install]
     main = pylons.util:PylonsInstaller
     """,

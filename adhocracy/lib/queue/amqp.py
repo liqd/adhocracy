@@ -5,67 +5,75 @@ from pylons import config
 import amqplib.client_0_8 as amqp
 
 log = logging.getLogger(__name__)
-post_channels = {}
+post_channel = None
 
 def has_queue():
     return config.get('adhocracy.amqp.host') \
            is not None
 
-def queue_name(service):
+def queue_name():
     return config.get('adhocracy.amqp.queue', 
-                      'adhocracy.queue') + '.' + service
+                      'adhocracy.queue')
 
-def exchange_name(service):
+def exchange_name():
     return config.get('adhocracy.amqp.exchange', 
-                      'adhocracy.queue') + '.' + service
+                      'adhocracy.exchange')
 
 def create_connection():
     host = config.get('adhocracy.amqp.host')
     return amqp.Connection(host=host)
                            
-def create_channel(service, read=False, write=False):
+def create_channel(read=False, write=False):
     conn = create_connection()
     channel = conn.channel()
     channel.access_request('/data', active=True, write=write, read=read)
-    channel.exchange_declare(exchange_name(service), 'direct', auto_delete=False)
-    _, _, _ = channel.queue_declare(queue=queue_name(service), 
-                                    durable=False,
+    channel.exchange_declare(exchange_name(), 'direct', 
+                             durable=True,
+                             auto_delete=False)
+    _, _, _ = channel.queue_declare(queue=queue_name(), 
+                                    durable=True,
                                     exclusive=False, 
                                     auto_delete=False)
-    channel.queue_bind(queue=queue_name(service), 
-                       exchange=exchange_name(service),
-                       routing_key=service)
+    channel.queue_bind(queue=queue_name(), 
+                       exchange=exchange_name(),
+                       routing_key='adhocracy')
     return channel
 
     
 def post_message(service, text):
-    global post_channels
+    global post_channel
     try:
-        if service not in post_channels.keys():
-            post_channels[service] = create_channel(service, write=True)
+        if post_channel is None:
+            post_channel = create_channel(write=True)
     
-        message = amqp.Message(text, content_type='application/adhocracy',
+        message = amqp.Message(text, 
+                               content_type='adhocracy/%s' % service,
+                               application_headers={'service': service},
                                delivery_mode=2)
-        post_channels[service].basic_publish(message, 
-                                             exchange=exchange_name(service),
-                                             routing_key=service)
+        post_channel.basic_publish(message, 
+                                   exchange=exchange_name(),
+                                   routing_key='adhocracy')
     except Exception, e:
         log.exception("Error posting to queue")
 
-    
-def read_messages(service, callback):
-    channel = create_channel(service, read=True)
-    
-    while True:
+
+def callback_wrapper(channel, callback):
+    def _handle(message):
         begin_time = time()
-        message = channel.basic_get(queue_name(service))
-        if not message:
-            break
         try:
-            callback(message.body)
-            #channel.basic_ack(message.delivery_tag)
+            callback(message)
         except Exception, ex:
             log.exception("Processing error: %s" % ex)
         channel.basic_ack(message.delivery_tag)
-        log.warn("Queue message - > %sms" % ((time() - begin_time)*1000))
+        log.debug("Queue message - > %sms" % ((time() - begin_time)*1000))
+    return _handle
+
+   
+def consume(callback):
+    channel = create_channel(read=True)
+    callback = callback_wrapper(channel, callback)
+    channel.basic_consume(queue_name(), callback=callback)
+    while channel.callbacks:
+        channel.wait()
     channel.close()
+    

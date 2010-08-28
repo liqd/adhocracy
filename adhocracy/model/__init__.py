@@ -4,6 +4,7 @@ from sqlalchemy import orm
 from sqlalchemy.orm import mapper, relation, backref, synonym
 
 import meta
+from hooks import register_queue_callback, handle_queue_message, init_queue_hooks
 
 from adhocracy.model.user import User, user_table
 from adhocracy.model.openid import OpenID, openid_table

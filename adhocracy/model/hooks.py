@@ -1,13 +1,18 @@
 # http://www.mail-archive.com/sqlalchemy@googlegroups.com/msg09203.html
-
+import logging
+import simplejson
 from sqlalchemy.orm import MapperExtension, EXT_CONTINUE
 
+log = logging.getLogger(__name__)
+
+SERVICE = 'entity'
 PREINSERT = "_pre_insert"
 PREDELETE = "_pre_delete"
 PREUPDATE = "_pre_update"
 POSTINSERT = "_post_insert"
 POSTDELETE = "_post_delete"
 POSTUPDATE = "_post_update"
+REGISTRY = {}
 
 class HookExtension(MapperExtension):
     """ Extention to add pre-commit hooks.
@@ -71,4 +76,41 @@ def patch(clazz, hook, f):
             prev(*a, **kw)
         a = chain
     setattr(clazz, hook, a)
-        
+
+
+def register_queue_callback(cls, event, callback):
+    import refs
+    key = (refs.cls_type(cls), event)
+    calls = REGISTRY.get(key, [])
+    calls.append(callback)
+    REGISTRY[key] = calls
+
+
+def handle_queue_message(message):
+    import refs
+    data = simplejson.loads(message)
+    entity = refs.to_entity(data.get('entity'))
+    try:
+        for signature, calls in REGISTRY.items():
+            (r_type, r_event) = signature
+            if r_event == data.get('event') and \
+                r_type == refs.entity_type(entity):
+                for callback in calls: 
+                    callback(entity)
+    except:
+        log.exception("Failed to handle message: %s" % message)
+
+
+def init_queue_hooks():
+    from adhocracy.lib.queue import has_queue, post_message
+    import refs
+    for cls in refs.TYPES:
+        for event in [PREINSERT, PREDELETE, PREUPDATE, POSTINSERT, POSTDELETE, POSTUPDATE]:
+            def _handle_event(entity):
+                if has_queue():
+                    entity_ref = refs.to_ref(entity)
+                    data = dict(event=event, entity=entity_ref)
+                    post_message(SERVICE, simplejson.dumps(data))
+                else:
+                    log.warn("No queue is configured, processing will not occur.")
+            patch(cls, event, _handle_event)

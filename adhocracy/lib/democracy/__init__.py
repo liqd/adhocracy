@@ -5,7 +5,7 @@ import adhocracy.model as model
 from decision import Decision
 from delegation_node import DelegationNode
 
-from .. import queue
+from adhocracy.model import hooks
 
 
 log = logging.getLogger(__name__)
@@ -20,10 +20,10 @@ def init_democracy(with_db=True):
         except Exception, e:
             log.exception("Cannot update tallies: %s" % e)
     
-    queue.register(model.Vote, queue.INSERT, handle_vote)
-    queue.register(model.Vote, queue.UPDATE, handle_vote)
-    queue.register(model.Delegation, queue.INSERT, update_tallies_on_delegation)
-    queue.register(model.Delegation, queue.UPDATE, update_tallies_on_delegation)
+    hooks.register_queue_callback(model.Vote, hooks.POSTINSERT, handle_vote)
+    hooks.register_queue_callback(model.Vote, hooks.POSTUPDATE, handle_vote)
+    hooks.register_queue_callback(model.Delegation, hooks.POSTINSERT, update_tallies_on_delegation)
+    hooks.register_queue_callback(model.Delegation, hooks.POSTUPDATE, update_tallies_on_delegation)
     #check_adoptions()
 
 

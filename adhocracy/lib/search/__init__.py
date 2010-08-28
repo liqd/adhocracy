@@ -31,9 +31,9 @@ def init_search(with_db=True):
     queue_register()
 
 def register_indexer(cls, index_func):
-    queue.register(cls, queue.INSERT, insert(index_func))
-    queue.register(cls, queue.UPDATE, update(index_func))
-    queue.register(cls, queue.DELETE, delete)
+    hooks.register_queue_callback(cls, hooks.POSTINSERT, insert(index_func))
+    hooks.register_queue_callback(cls, hooks.POSTUPDATE, update(index_func))
+    hooks.register_queue_callback(cls, hooks.PREDELETE, delete)
 
 def queue_register():
     register_indexer(model.Proposal, index_proposal)
