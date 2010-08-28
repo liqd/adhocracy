@@ -2,7 +2,7 @@ import logging
 from datetime import datetime
 
 from sqlalchemy import Table, Column, Integer, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
-from sqlalchemy.orm import reconstructor
+from sqlalchemy.orm import reconstructor, aliased, eagerload, eagerload_all
 
 import meta
 import instance_filter as ifilter
@@ -92,14 +92,11 @@ class Poll(object):
     @property
     def tally(self):
         if self._tally is None:
-            from tally import Tally
-            q = self.tallies
-            q = q.order_by(Tally.create_time.desc())
-            q = q.order_by(Tally.id.desc())
-            _tally = q.limit(1).first()
-            if _tally is None:
-                _tally = Tally.create_from_poll(self)
-            self._tally = _tally
+            if len(self.tallies):
+                self._tally = self.tallies[0]
+            else:
+                from tally import Tally
+                self._tally = Tally.create_from_poll(self)
         return self._tally
     
     
@@ -197,6 +194,7 @@ class Poll(object):
         try:
             q = meta.Session.query(Poll)
             q = q.filter(Poll.subject.in_(subjects))
+            q = q.options(eagerload(Poll.tallies))
             if not include_deleted:
                 q = q.filter(or_(Poll.end_time==None,
                                  Poll.end_time>datetime.utcnow()))

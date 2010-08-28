@@ -15,7 +15,8 @@ def init_democracy(with_db=True):
     if with_db:
         try:
             for vote in model.Vote.all():
-                handle_vote(vote)
+                pass
+                #handle_vote(vote)
         except Exception, e:
             log.exception("Cannot update tallies: %s" % e)
     

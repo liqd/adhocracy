@@ -58,16 +58,17 @@ class has_permission(what_has_permission):
     rights to any user making requests. This allows to call ``has_permission`` on methods
     even when they are not protected, thus making the authorization system more 
     configurable.
-    """    
+    """
+    
     def evaluate(self, environ, credentials):
         if c.user:
             super(has_permission, self).evaluate(environ, credentials)
         else:
-            anon_group = model.Group.by_code(model.Group.CODE_ANONYMOUS)
-            for perm in anon_group.permissions:
-                if perm.permission_name == self.permission_name:
-                    return
-            self.unmet()
+            if environ.get('anonymous_permissions') is None:
+                anon_group = model.Group.by_code(model.Group.CODE_ANONYMOUS)
+                environ['anonymous_permissions'] = [p.permission_name for p in anon_group.permissions]
+            if not self.permission_name in environ['anonymous_permissions']:
+                self.unmet()
         
 
 def has(permission):

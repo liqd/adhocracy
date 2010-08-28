@@ -74,9 +74,9 @@ mapper(Delegateable, delegateable_table, polymorphic_on=delegateable_table.c.typ
 
 mapper(Proposal, proposal_table, inherits=Delegateable, polymorphic_identity='proposal', properties={
     'description': relation(Page, primaryjoin=proposal_table.c.description_id==page_table.c.id, 
-                        uselist=False, backref=backref('_proposal')),
+                        uselist=False, lazy=True, backref=backref('_proposal')),
     'rate_poll': relation(Poll, primaryjoin=proposal_table.c.rate_poll_id==poll_table.c.id, 
-                        uselist=False, lazy=True),
+                        uselist=False, lazy=False),
     'adopt_poll': relation(Poll, primaryjoin=proposal_table.c.adopt_poll_id==poll_table.c.id, 
                         uselist=False, lazy=True)
     }, extension=meta.extension)
@@ -96,7 +96,7 @@ mapper(Revision, revision_table, properties={
     'user': relation(User, lazy=True, primaryjoin=revision_table.c.user_id==user_table.c.id, 
                      backref=backref('revisions', lazy=True, cascade='all')),
     'comment': relation(Comment, lazy=False, backref=backref('revisions', cascade='all',
-                        lazy=True, order_by=revision_table.c.create_time.desc())),
+                        lazy=False, order_by=revision_table.c.create_time.desc())),
     'title': synonym('_title', map_column=True)
     }, extension=meta.extension)
     
@@ -164,7 +164,7 @@ mapper(Event, event_table, properties={
 
 
 mapper(Tally, tally_table, properties={
-    'poll': relation(Poll, backref=backref('tallies', lazy='dynamic')),
+    'poll': relation(Poll, backref=backref('tallies', order_by=tally_table.c.create_time.desc(), lazy=True)),
     'vote': relation(Vote, backref=backref('tally', uselist=False))
     }, extension=meta.extension)
 
@@ -189,7 +189,7 @@ mapper(Text, text_table, properties={
     'user': relation(User, lazy=True, primaryjoin=text_table.c.user_id==user_table.c.id),
     'parent': relation(Text, lazy=True, uselist=False, 
                        primaryjoin=text_table.c.parent_id==text_table.c.id),
-    'page': relation(Page, lazy=True, backref=backref('_texts', order_by=text_table.c.create_time.desc()),
+    'page': relation(Page, lazy=True, backref=backref('_texts', lazy=False, order_by=text_table.c.create_time.desc()),
                      primaryjoin=text_table.c.page_id==page_table.c.id)
     }, extension=meta.extension)
 
@@ -197,7 +197,7 @@ mapper(Text, text_table, properties={
 mapper(Selection, selection_table, properties={
     'proposal': relation(Proposal, lazy=True, backref=backref('_selections'), 
                          primaryjoin=selection_table.c.proposal_id==proposal_table.c.id),
-    'page': relation(Page, lazy=False, backref=backref('_selections'),
+    'page': relation(Page, lazy=True, backref=backref('_selections'),
                      primaryjoin=selection_table.c.page_id==page_table.c.id)
     }, extension=meta.extension)
 

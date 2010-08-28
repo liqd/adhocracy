@@ -42,11 +42,15 @@
 	    %if c.instance.allow_delegate:
         	<li><a title="${_('Who is receiving delegations?')}" 
         	       href="${h.entity_url(proposal, member='delegations')}"
-           	class="delegations ttip">${_("Delegations")} (${len(proposal.current_delegations())})</a></li>
+           	class="delegations ttip">${_("Delegations")} 
+            ##(${len(proposal.current_delegations())})
+           	</a></li>
         %endif
         <li><a title="${_('Who has helped?')}" 
                href="${h.entity_url(proposal, member='contributors')}" class="contributors ttip">
-               ${_("Contributors")} (${len(proposal.contributors())})</a></li>
+               ${_("Contributors")} 
+               ##(${len(proposal.contributors())})
+            </a></li>
 	</ul>
 	<br/>
 	

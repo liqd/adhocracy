@@ -4,6 +4,7 @@ import logging
 from datetime import datetime
 
 from sqlalchemy import Table, Column, Integer, Unicode, UnicodeText, Boolean, DateTime, func, or_
+from sqlalchemy.orm import eagerload_all
 
 from babel import Locale
 
@@ -269,6 +270,7 @@ class User(object):
             q = q.filter(or_(User.delete_time==None,
                              User.delete_time>datetime.utcnow()))
         if instance:
+            q = q.options(eagerload_all('memberships'))
             q = q.join(Membership)
             q = q.filter(or_(Membership.expire_time==None,
                              Membership.expire_time>datetime.utcnow()))
