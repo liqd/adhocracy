@@ -12,12 +12,14 @@ import tiles
 import util
 import text
 import auth
+import sorting
 
 def tpl_vars():
     vars = dict()
     vars['tiles'] = tiles
     vars['can'] = auth.can
     vars['diff'] = text.diff
+    vars['sorting'] = sorting
     return vars
 
 

@@ -40,24 +40,22 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 	
 	<br/>
 	<h2>${_("Implementation")}</h2>
-	##%if not len(c.proposal.selections):
-	    <div class="help">
-		<div class="infobox">
-			${_("Proposals are implemented by including changes towards new or existing norm. Norms are fixed documents that represent the consensus of this instance and can only be changed through a vote. Amend the proposal to change or create a norm.")} 
-		</div>
-	    </div>
-    	<div class="top_actions aside">
-    		&nbsp; 
-    		%if can.selection.create(c.proposal):
-    			<a class="button title edit ttip" title="${_('Propose to change a norm through this proposal.')}" 
-    		 	   href="${h.entity_url(c.proposal, member='implementation/include')}">${_("change exisitng norm")}</a>
-    		 	<a class="button title add ttip" title="${_('Propose to create a norm through this proposal.')}" 
-       		 	   href="${h.entity_url(c.proposal, member='implementation/propose')}">${_("propose new norm")}</a>
-    		%endif		
-    	</div>
-		<br/><br/>
-	##%endif
-	%for selection in sorted(c.proposal.selections, key=lambda s: s.page.title.lower()): 
-		${tiles.selection.row(selection)}
+    <div class="help">
+	<div class="infobox">
+		${_("Proposals are implemented by including changes towards new or existing norm. Norms are fixed documents that represent the consensus of this instance and can only be changed through a vote. Amend the proposal to change or create a norm.")} 
+	</div>
+    </div>
+	<div class="top_actions aside">
+		&nbsp; 
+		%if can.selection.create(c.proposal):
+			<a class="button title edit ttip" title="${_('Propose to change a norm through this proposal.')}" 
+		 	   href="${h.entity_url(c.proposal, member='implementation/include')}">${_("change exisitng norm")}</a>
+		 	<a class="button title add ttip" title="${_('Propose to create a norm through this proposal.')}" 
+   		 	   href="${h.entity_url(c.proposal, member='implementation/propose')}">${_("propose new norm")}</a>
+		%endif		
+	</div>
+	<br/><br/>
+	%for selection in sorted(c.proposal.selections, key=lambda s: sorting.sortable_text(s.page.title)): 
+	    ${tiles.selection.row(selection)}
 	%endfor
 </div>
