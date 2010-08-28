@@ -88,6 +88,7 @@ class ProposalController(BaseController):
         model.meta.Session.flush()
         proposal.description = description
         model.meta.Session.commit()
+        text.clear_render_cache()
         watchlist.check_watch(proposal)
         event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance, 
                    topics=[proposal], proposal=proposal, rev=description.head)
@@ -120,14 +121,15 @@ class ProposalController(BaseController):
         
         c.proposal.label = self.form_result.get('label')
         model.meta.Session.add(c.proposal)
-        text = model.Text.create(c.proposal.description, model.Text.HEAD, c.user, 
+        _text = model.Text.create(c.proposal.description, model.Text.HEAD, c.user, 
                                  self.form_result.get('label'), 
                                  self.form_result.get('text'), 
                                  parent=c.proposal.description.head)
         model.meta.Session.commit()
+        text.clear_render_cache()
         watchlist.check_watch(c.proposal)
         event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance, 
-                   topics=[c.proposal], proposal=c.proposal, rev=text)
+                   topics=[c.proposal], proposal=c.proposal, rev=_text)
         redirect(h.entity_url(c.proposal))
     
     
@@ -232,6 +234,7 @@ class ProposalController(BaseController):
                    topics=[c.proposal], proposal=c.proposal)
         c.proposal.delete()
         model.meta.Session.commit()
+        text.clear_render_cache()
         h.flash(_("The proposal %s has been deleted.") % c.proposal.title)
         redirect(h.entity_url(c.instance))   
     

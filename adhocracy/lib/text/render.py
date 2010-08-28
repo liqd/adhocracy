@@ -4,7 +4,7 @@ import cgi
 import markdown2 as markdown
 #from webhelpers.text import truncate
 
-from adhocracy.lib.cache import memoize
+from adhocracy.lib.cache.util import memoize, clear_tag
 import adhocracy.model as model
 
 markdowner = markdown.Markdown() 
@@ -60,17 +60,25 @@ def transclude_sub(transclude_path):
     return render_transclusion
 
 
-def render(text, substitutions=True, transclude_path=None):
-    if text is None:
-        return ""
-    text = cgi.escape(text)
-    text = markdowner.convert(text)
-    if substitutions:
-        text = SUB_USER.sub(user_sub, text)
-        text = SUB_PAGE.sub(page_sub, text)
-        #text = SUB_TRANSCLUDE.sub(transclude_sub(transclude_path), text)
-    return text
+REDLINK = 'REDLINK_CACHE_FLUSH'
 
+def render(text, substitutions=True):
+    @memoize('render')
+    def _cached(text, substitutions, redlink_token):
+        if text is None:
+            return ""
+        text = cgi.escape(text)
+        text = markdowner.convert(text)
+        if substitutions:
+            text = SUB_USER.sub(user_sub, text)
+            text = SUB_PAGE.sub(page_sub, text)
+        return text
+    return _cached(text, substitutions, REDLINK)
+
+
+def clear_render_cache():
+    clear_tag(REDLINK)
+    
 
 def _line_table(lines):
     _out = "<table class='line_based'>"
@@ -81,6 +89,7 @@ def _line_table(lines):
                      </tr>\n""" % (num+1, line)
     _out += "</table>\n"
     return _out
+
 
 @memoize('text_render')
 def render_line_based(text_obj): 

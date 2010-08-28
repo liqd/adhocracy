@@ -128,6 +128,7 @@ class PageController(BaseController):
                 target = h.entity_url(page, member='branch', query={'proposal': proposal.id})
         
         model.meta.Session.commit()
+        libtext.clear_render_cache()
         watchlist.check_watch(page)
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance, 
                    topics=[page], page=page, rev=page.head)
@@ -226,6 +227,7 @@ class PageController(BaseController):
                 model.Tally.create_from_poll(poll)
                 
         model.meta.Session.commit()
+        libtext.clear_render_cache()
         watchlist.check_watch(c.page)
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance, 
                    topics=[c.page], page=c.page, rev=text)
@@ -311,6 +313,7 @@ class PageController(BaseController):
         require.page.variant_purge(c.page, c.variant)
         c.page.purge_variant(c.variant)
         model.meta.Session.commit()
+        libtext.clear_render_cache()
         #event.emit(event.T_PAGE_DELETE, c.user, instance=c.instance, 
         #           topics=[c.page], page=c.page)
         h.flash(_("The variant %s has been deleted.") % c.variant)
@@ -332,6 +335,7 @@ class PageController(BaseController):
         require.page.delete(c.page)
         c.page.delete()
         model.meta.Session.commit()
+        libtext.clear_render_cache()
         event.emit(event.T_PAGE_DELETE, c.user, instance=c.instance, 
                    topics=[c.page], page=c.page)
         h.flash(_("The page %s has been deleted.") % c.page.title)
