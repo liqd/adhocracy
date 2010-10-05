@@ -4,7 +4,7 @@ Adhocracy Liquid Democracy Implementation
 
 Instances > Categories > Issues > Proposals
 
-Delegation can happeon on all four levels.
+Delegation can happen on on all four levels.
 
 Memcache
 ======================
