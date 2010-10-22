@@ -1,5 +1,6 @@
 """SQLAlchemy Metadata and Session object"""
 from sqlalchemy import MetaData
+from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from decorator import decorator
 import hooks
@@ -18,3 +19,17 @@ Session = None
 data = MetaData()
 
 extension = hooks.HookExtension() 
+
+
+class Indexable(object):
+    
+    def to_index(self):
+        import refs
+        index = dict(
+            ref=refs.to_ref(self),
+            doc_type=refs.entity_type(self))
+        if hasattr(self, 'is_deleted'):
+            index['skip'] = self.is_deleted()
+        if hasattr(self, 'create_time'):
+            index['create_time'] = self.create_time.strftime("%s")
+        return index

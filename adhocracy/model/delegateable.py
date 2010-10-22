@@ -28,7 +28,7 @@ delegateable_table = Table('delegateable', meta.data,
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False)
     )
 
-class Delegateable(object):
+class Delegateable(meta.Indexable):
     
     def __init__(self):
         raise Exception("Make a category or a proposal instead!")
@@ -185,5 +185,13 @@ class Delegateable(object):
                     #comment=self.comment.id,
                     creator=self.creator.user_name,
                     create_time=self.create_time)
-
-
+    
+    def to_index(self):
+        index = super(Delegateable, self).to_index()
+        index.update(dict(
+            instance=self.instance.key,
+            title=self.label,
+            tag=[k.name for k, v in self.tags],
+            user=self.creator.user_name
+            ))
+        return index

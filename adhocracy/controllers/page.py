@@ -79,7 +79,7 @@ class PageController(BaseController):
         html = None
         if c.proposal is not None:
             c.proposal = model.Proposal.find(c.proposal)
-            html = render('/selection/new.html')
+            html = render('/selection/propose.html')
         else:
             html = render("/page/new.html")
         

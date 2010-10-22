@@ -38,7 +38,7 @@ instance_table = Table('instance', meta.data,
 
 
 # Instance is not a delegateable - but it should - or you cannot do instance wide delegation
-class Instance(object):
+class Instance(meta.Indexable):
     __tablename__ = 'instance'
     
     INSTANCE_KEY = re.compile("^[a-zA-Z][a-zA-Z0-9_]{2,18}$")
@@ -234,6 +234,19 @@ class Instance(object):
             d['description'] = self.description
         #d['members'] = map(lambda u: u.user_name, self.members)
         return d
+
+    
+    def to_index(self):
+        index = super(Instance, self).to_index()
+        index.update(dict(
+            instance=self.key,
+            title=self.label,
+            tags=[],
+            body=self.description,
+            user=self.creator.user_name
+            ))
+        return index
+
     
     def __repr__(self):
         return u"<Instance(%d,%s)>" % (self.id, self.key)

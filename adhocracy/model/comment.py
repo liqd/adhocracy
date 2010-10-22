@@ -25,7 +25,7 @@ comment_table = Table('comment', meta.data,
      
 
 
-class Comment(object):
+class Comment(meta.Indexable):
     
     SENT_PRO = 1
     SENT_CON = -1
@@ -161,6 +161,20 @@ class Comment(object):
         d['latest'] = self.latest.to_dict()
         d['revisions'] = map(lambda r: r.id, self.revisions)
         return d
+    
+    
+    def to_index(self):
+        index = super(Comment, self).to_index()
+        if self.latest is not None:
+            index.update(dict(
+                title=self.title,
+                tag=[],
+                body=self.latest.text,
+                user=self.creator.user_name
+                ))
+        if self.topic and self.topic.instance:
+            index['instance'] = self.topic.instance.key
+        return index
     
     
     def __repr__(self):

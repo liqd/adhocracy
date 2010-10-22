@@ -215,6 +215,15 @@ class Proposal(Delegateable):
             return c.proposal_pos[self.id]
     
     
+    def to_index(self):
+        index = super(Proposal, self).to_index()
+        if self.description is not None and self.description.head is not None:
+            index.update(dict(
+                body=self.description.head.text,
+                ))
+        return index
+    
+    
     def __repr__(self):
         return u"<Proposal(%s)>" % self.id
 

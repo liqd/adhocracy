@@ -34,6 +34,6 @@ def emit(event, user, instance=None, topics=[], **kwargs):
 def process(event):
     notification.notify(event)
 
-def handle_event_message(message):
+def handle_queue_message(message):
     event = model.Event.find(int(message), instance_filter=False)
     process(event)

@@ -379,6 +379,15 @@ class Page(Delegateable):
         return d 
     
     
+    def to_index(self):
+        index = super(Page, self).to_index()
+        if self.head is not None:
+            index.update(dict(
+                body=self.head.text,
+                ))
+        return index
+
+    
     def __repr__(self):
         return u"<Page(%s)>" % (self.id)
     

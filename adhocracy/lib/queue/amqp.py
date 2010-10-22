@@ -63,7 +63,7 @@ def callback_wrapper(channel, callback):
         try:
             callback(message)
         except Exception, ex:
-            log.exception("Processing error: %s" % ex)
+            log.exception(ex)
         channel.basic_ack(message.delivery_tag)
         log.debug("Queue message - > %sms" % ((time() - begin_time)*1000))
     return _handle

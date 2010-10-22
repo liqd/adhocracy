@@ -3,6 +3,10 @@ import sys
 import logging
 
 import paste.script
+import paste.fixture
+import paste.registry
+import paste.deploy.config
+from paste.deploy import loadapp, appconfig
 from paste.script.command import Command
 from paste.script.util.logging_config import fileConfig
 
@@ -20,11 +24,21 @@ class AdhocracyCommand(Command):
             msg = 'No config file supplied'
             raise self.BadCommand(msg)
         self.filename = os.path.abspath(self.options.config)
-        try:
-            fileConfig(self.filename)
-        except Exception: pass
+        self.logging_file_config(self.filename)
         conf = appconfig('config:' + self.filename)
-        load_environment(conf.global_conf, conf.local_conf)
+        conf.update(dict(app_conf=conf.local_conf,
+                         global_conf=conf.global_conf))
+        paste.deploy.config.CONFIG.push_thread_config(conf)
+        wsgiapp = loadapp('config:' + self.filename)
+        test_app = paste.fixture.TestApp(wsgiapp)
+        tresponse = test_app.get('/_test_vars')
+        request_id = int(tresponse.body)
+        test_app.pre_request_hook = lambda self: \
+            paste.registry.restorer.restoration_end()
+        test_app.post_request_hook = lambda self: \
+            paste.registry.restorer.restoration_begin(request_id)
+        paste.registry.restorer.restoration_begin(request_id)
+        #load_environment(conf.global_conf, conf.local_conf)
         
 
     def _setup_app(self):
@@ -39,11 +53,34 @@ class Background(AdhocracyCommand):
     usage = __doc__
     max_args = None
     min_args = None
+    
+    def scheduled_action(self):
+        import adhocracy.lib.queue as queue
+        queue.ping()
+        self.setup_timer()
+    
+    def setup_timer(self):
+        import threading
+        timer = threading.Timer(60.0, self.scheduled_action)
+        timer.start()
+    
+    def command(self):
+        self._load_config()
+        self.scheduled_action()
+        import queue
+        queue.dispatch()
+
+      
+class Index(AdhocracyCommand):
+    '''Re-create Adhocracy's search index.'''
+    summary = __doc__.split('\n')[0]
+    usage = __doc__
+    max_args = None
+    min_args = None
 
     def command(self):
         self._load_config()
-        import queue
-        queue.dispatch()
-        
-        
+        import search
+        search.rebuild_all()
+   
 

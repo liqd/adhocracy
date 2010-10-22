@@ -33,7 +33,7 @@ setup(
         "beautifulsoup>=3.0.7",
         "python-openid>=2.2.4",
         "python-memcached>=1.45",
-        "Whoosh==0.3.9",
+        "solrpy==0.9.3",
         "PIL>=1.1.6",
         "markdown2>=1.0.1",
         "lxml>=2.2.6"
@@ -56,6 +56,7 @@ setup(
     
     [paste.paster_command]
     background = adhocracy.lib.cli:Background
+    index = adhocracy.lib.cli:Index
     
     [paste.app_install]
     main = pylons.util:PylonsInstaller

@@ -33,7 +33,7 @@ user_table = Table('user', meta.data,
     Column('page_size', Integer, default=10, nullable=True)
     )
 
-class User(object):
+class User(meta.Indexable):
     
     def __init__(self, user_name, email, password, locale, display_name=None, bio=None):
         self.user_name = user_name
@@ -381,6 +381,17 @@ class User(object):
         #d['memberships'] = map(lambda m: m.instance.key, 
         #                       self.memberships)
         return d
+    
+    
+    def to_index(self):
+        index = super(User, self).to_index()
+        index.update(dict(
+            title=self.name,
+            tag=[self.user_name],
+            body=self.bio,
+            user=self.user_name
+            ))
+        return index
     
     
     def __repr__(self):

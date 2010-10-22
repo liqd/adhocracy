@@ -30,7 +30,7 @@ class ProposalUpdateForm(ProposalEditForm):
     
 class ProposalFilterForm(formencode.Schema):
     allow_extra_fields = True
-    proposals_q = validators.String(max=255, not_empty=False, if_empty=u'', if_missing=u'')
+    proposals_q = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
     proposals_state = validators.String(max=255, not_empty=False, if_empty=None, if_missing=None)
 
 
@@ -41,7 +41,7 @@ class ProposalController(BaseController):
     def index(self, format="html"):
         require.proposal.index()
         query = self.form_result.get('proposals_q')
-        proposals = libsearch.query.run(query + u"*", instance=c.instance, 
+        proposals = libsearch.query.run(query, instance=c.instance, 
                                         entity_type=model.Proposal)
         
         if self.form_result.get('proposals_state'):
@@ -263,8 +263,8 @@ class ProposalController(BaseController):
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def filter(self):
         require.proposal.index()
-        query = self.form_result.get('proposals_q', u'')
-        proposals = libsearch.query.run(query + u"*", instance=c.instance, 
+        query = self.form_result.get('proposals_q')
+        proposals = libsearch.query.run(query, instance=c.instance, 
                                      entity_type=model.Proposal)
         c.proposals_pager = pager.proposals(proposals)
         return c.proposals_pager.here()
