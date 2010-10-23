@@ -13,18 +13,6 @@
 	%endif
 	
 	<div class="sidebar">
-		%if can.norm.create():
-			<h3>${_("Document type:")}</h3>			
-			<input type="radio" value="document" name="function" checked="checked" /> ${_("Wiki page")}<br/>
-			<input type="radio" value="norm" name="function" /> ${_("Norm page")}<br/>
-			<br/>
-			<div class="infobox">
-				${_("Norms can only be edited by including variants of them in proposals and voting on them.")}
-			</div>
-		%else:
-			<input type="hidden" value="${c.function}" name="function" />
-		%endif
-	    
 		<div class="help">
     		<h3>${_("Help")}</h3>
     		<ul>
@@ -37,9 +25,9 @@
 	</div>
 	
 	<div class="mainbar">
-	    <h3>${_("Document title")}</h3>
+	    <h3>${_("Norm title")}</h3>
 		<div class="page_title">
-    		<label for="title" class="armhint">${_("New page")}</label>
+    		<label for="title" class="armhint">${_("New norm")}</label>
     		<input tabindex="1" class="title armlabel" name="title" value="${c.title}"/>
     	</div>
     	
@@ -54,7 +42,7 @@
 		
 		<label for="parent">${_("Parent page:")}</label>
 		${tiles.page.select_page(field_name="parent", functions=model.Page.PARENT_FUNCTIONS)}
-		<span class="hint">${_("The new page will be categorized under the specified parent page.")}
+		<span class="hint">${_("The new norm will be categorized under the specified parent theme.")}
 			${h.help_link(_("Help."), 'selection_faq', anchor='parent')|n}
 		</span>
 	</div>

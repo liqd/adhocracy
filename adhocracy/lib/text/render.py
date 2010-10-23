@@ -31,7 +31,7 @@ def page_sub(match):
     if page is not None:
         if page.is_deleted():
             return page_name
-        return h.page.link(page, variant=variant, icon=not (page.function == page.DOCUMENT))
+        return h.page.link(page, variant=variant, icon=True)
     else:
         return page_name
 

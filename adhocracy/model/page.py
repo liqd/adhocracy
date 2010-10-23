@@ -21,14 +21,13 @@ page_table = Table('page', meta.data,
 
 class Page(Delegateable):
     
-    DOCUMENT = u"document"
     DESCRIPTION = u"description"
     NORM = u"norm"
     
-    FUNCTIONS = [DOCUMENT, DESCRIPTION, NORM]
-    PARENT_FUNCTIONS = [DOCUMENT, NORM]
+    FUNCTIONS = [DESCRIPTION, NORM]
+    PARENT_FUNCTIONS = [NORM]
     WITH_VARIANTS = [NORM] #[DESCRIPTION, NORM]
-    LISTED = [DOCUMENT, NORM]
+    LISTED = [NORM]
     
     def __init__(self, instance, alias, creator, function):
         self.init_child(instance, alias, creator)
@@ -108,7 +107,7 @@ class Page(Delegateable):
     
         
     @classmethod
-    def create(cls, instance, title, text, creator, function=DOCUMENT, tags=None):
+    def create(cls, instance, title, text, creator, function=NORM, tags=None):
         from adhocracy.lib.text import title2alias
         from text import Text
         from tagging import Tagging

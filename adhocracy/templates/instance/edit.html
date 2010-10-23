@@ -169,22 +169,6 @@
 	<div class="mainbar">
 		<label for="locale">${_("Extra CSS:")}</label>
 		<textarea tabindex="2" class="css" wrap="hard" name="css">${c.page_instance.css}</textarea>
-		
-		<label for="main_page">${_("Main document:")}</label>
-		<select name="main_page">
-			<option value="">${_("(none)")}</option>
-			%for p in c.root_pages:
-				<option value="${p.id}">${p.title}</option>
-			%endfor
-		</select>
-		
-		<label for="norm_page">${_("Main norm:")}</label>
-		<select name="norm_page">
-			<option value="">${_("(none)")}</option>
-			%for p in c.root_norms:
-				<option value="${p.id}">${p.title}</option>
-			%endfor
-		</select>
 	</div>
 	
 	<div style="clear: both;"></div>

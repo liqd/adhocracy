@@ -205,7 +205,7 @@ class Instance(meta.Indexable):
         membership = Membership(user, instance, supervisor_group, 
                                 approved=True)
         meta.Session.add(membership)
-        main_page = Page.create(instance, u"Main Page", 
+        main_page = Page.create(instance, label, 
                                 u"", user)
         meta.Session.flush()
         return instance

@@ -1,18 +1,19 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Pages")}</%def>
+<%def name="title()">${_("Norms")}</%def>
 
 <%def name="breadcrumbs()">
     ${h.page.breadcrumbs(None)|n}
 </%def>
 
 <div class="top_actions title">
-	%if h.has_permission('page.create'):
-		<a class="button add ttip" title="${_('Create a page of text.')}" href="/page/new">${_("new document")}</a>
+	%if can.norm.create():
+		<a class="button title admin ttip" title="${_('Create a new norm.')}" 
+		    href="/page/new">${_("new norm")}</a>
 	%endif
 </div>
 	
-<h1 class="page_title"> ${_("Pages")}</h1>
+<h1 class="page_title"> ${_("Norms")}</h1>
 
 <div class="sidebar">
 	&nbsp;

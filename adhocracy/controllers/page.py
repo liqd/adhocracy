@@ -20,8 +20,6 @@ class PageCreateForm(formencode.Schema):
     allow_extra_fields = True
     title = forms.UnusedTitle()
     text = validators.String(max=20000, min=0, not_empty=False, if_empty=None, if_missing=None)
-    function = forms.ValidPageFunction(not_empty=False, if_missing=model.Page.DOCUMENT, 
-                                       if_empty=model.Page.DOCUMENT)
     parent = forms.ValidPage(if_missing=None, if_empty=None, not_empty=False)
     proposal = forms.ValidProposal(not_empty=False, if_empty=None, if_missing=None)
     tags = validators.String(max=20000, not_empty=False)
@@ -74,7 +72,6 @@ class PageController(BaseController):
         defaults['watch'] = defaults.get('watch', True)
         c.title = request.params.get('title', None)
         c.proposal = request.params.get("proposal")
-        c.function = request.params.get("function", model.Page.DOCUMENT)
         
         html = None
         if c.proposal is not None:
@@ -83,7 +80,8 @@ class PageController(BaseController):
         else:
             html = render("/page/new.html")
         
-        return htmlfill.render(html, defaults=defaults, errors=errors, force_defaults=False)
+        return htmlfill.render(html, defaults=defaults, errors=errors, 
+                               force_defaults=False)
     
     
     @RequireInstance
@@ -92,46 +90,35 @@ class PageController(BaseController):
         require.page.create()
         try:
             self.form_result = PageCreateForm().to_python(request.params)
+            # a proposal that this norm should be integrated with
+            proposal = self.form_result.get("proposal")
+            _text = self.form_result.get("text")
+            if not can.norm.create():
+                if not proposal:
+                    msg = _("No proposal has been specified")
+                    raise Invalid(msg, branch, state_(), error_dict={'title': msg})
+                # if a proposal is specified, create a stub:
+                _text = None
         except Invalid, i:
             return self.new(errors=i.unpack_errors())
-            
-        # a proposal that this norm should be integrated with 
-        proposal = self.form_result.get("proposal")
-        _function = self.form_result.get("function")
-        _text = self.form_result.get("text")
         
-        # snub out invalid page types 
-        if _function not in [model.Page.DOCUMENT, model.Page.NORM]:
-            _function = model.Page.DOCUMENT
-        
-        if _function == model.Page.NORM:
-            # if a proposal is specified, create a stub:
-            if proposal is not None:
-                _text = None
-            
-            # else, if the user cannot create norms:
-            if proposal is None and not can.norm.create():
-                _function = model.Page.DOCUMENT
-                
         page = model.Page.create(c.instance, self.form_result.get("title"), 
-                                 _text, c.user, function=_function,
-                                 tags=self.form_result.get("tags"))
+                                 _text, c.user, tags=self.form_result.get("tags"))
         
         if self.form_result.get("parent") is not None:
             page.parents.append(self.form_result.get("parent"))
         
         target = h.entity_url(page) # by default, redirect to the page
-        if proposal is not None and _function == model.Page.NORM:
+        if proposal is not None and can.selection.create(proposal):
+            selection = model.Selection.create(proposal, page, c.user)
             # if a selection was created, go there instead:
-            if can.selection.create(proposal):
-                selection = model.Selection.create(proposal, page, c.user)
-                target = h.entity_url(page, member='branch', query={'proposal': proposal.id})
+            target = h.page.url(page, member='branch', 
+                                query={'proposal': proposal.id})
         
         model.meta.Session.commit()
         watchlist.check_watch(page)
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance, 
                    topics=[page], page=page, rev=page.head)
-        
         redirect(target)
 
 
@@ -141,30 +128,21 @@ class PageController(BaseController):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         c.variant = request.params.get("variant", c.variant)
         c.proposal = request.params.get("proposal")
-        if not c.page.has_variants: 
-            branch = False
         c.branch = branch
         
         if branch or c.variant is None:
             c.variant = ""
+        
+        require.norm.edit(c.page, c.variant)
         
         if branch and c.proposal:
             proposal = model.Proposal.find(c.proposal)
             if proposal:
                 c.variant = libtext.variant_normalize(proposal.title)[:199]
         defaults = dict(request.params)
-        
-        require.variant.edit(c.page, c.variant)    
         c.text_rows = libtext.text_rows(c.text)
-        
-        html = None
-        if c.page.has_variants and c.variant != model.Text.HEAD:
-            require.norm.edit(c.page, c.variant)
-            c.left = c.page.head
-            html = render('/page/diff_edit.html')
-        else:
-            html = render('/page/edit.html')
-        
+        c.left = c.page.head
+        html = render('/page/edit.html')
         return htmlfill.render(html, defaults=defaults, 
                                errors=errors, force_defaults=False)
     
@@ -194,10 +172,7 @@ class PageController(BaseController):
                              errors=i.unpack_errors())
         
         c.variant = self.form_result.get("variant")
-        if not c.page.has_variants:
-            c.variant = model.Text.HEAD
-        
-        require.variant.edit(c.page, c.variant)
+        require.norm.edit(c.page, c.variant)
         
         if parent_text.page != c.page:
             return ret_abort(_("You're trying to update to a text which is not part of this pages history"),
@@ -208,7 +183,8 @@ class PageController(BaseController):
             if parent_page != NoPage and parent_page != c.page:
                 c.page.parent = parent_page
         
-        if not branch and c.variant != parent_text.variant and parent_text.variant != model.Text.HEAD:
+        if not branch and c.variant != parent_text.variant \
+            and parent_text.variant != model.Text.HEAD:
             c.page.rename_variant(parent_text.variant, c.variant)
         
         text = model.Text.create(c.page, c.variant, c.user, 
@@ -243,7 +219,6 @@ class PageController(BaseController):
         if c.variant != model.Text.HEAD:
             options = [c.page.variant_head(v) for v in c.page.variants]
             return self._differ(c.page.head, c.text, options=options)
-        #redirect(h.entity_url(c.text))
         c.tile = tiles.page.PageTile(c.page)
         
         

@@ -55,7 +55,8 @@ class BaseController(WSGIController):
         #pprint(request.environ)
         c.instance = model.instance_filter.get_instance()
         c.user = environ.get('repoze.who.identity', {}).get('user')
-        c.active_controller = request.environ.get('pylons.routes_dict').get('controller')
+        c.active_controller = request.environ.get('pylons.routes_dict')\
+            .get('controller')
         c.debug = asbool(config.get('debug'))
         i18n.handle_request()
         

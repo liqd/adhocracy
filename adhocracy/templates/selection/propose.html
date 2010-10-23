@@ -27,7 +27,6 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 	</div>
 	<form name="create_page" class="inplace" method="POST" action="/page">
 		${h.field_token()|n}
-		<input type="hidden" value="${model.Page.NORM}" name="function" />
 		<input type="hidden" value="${c.proposal.id}" name="proposal" />
 		<input type="hidden" value="" name="text" />
 		<input type="hidden" value="" name="tags" />

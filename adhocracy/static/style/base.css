@@ -494,8 +494,8 @@ body {
 #instanceheader .headerbox.proposal a.proposal,
 #instanceheader .headerbox.selection a.proposal,
 #instanceheader .headerbox.static a.instance,
-#instanceheader .headerbox.page.document a.page.document,
-#instanceheader .headerbox.page.norm a.page.norm,
+#instanceheader .headerbox.page a.page,
+#instanceheader .headerbox.page a.page,
 #instanceheader .headerbox.user a.user
 {
 	border-top: 1px solid #bbb;

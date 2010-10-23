@@ -190,7 +190,7 @@ class Delegateable(meta.Indexable):
         index = super(Delegateable, self).to_index()
         index.update(dict(
             instance=self.instance.key,
-            title=self.label,
+            title=self.title,
             tag=[k.name for k, v in self.tags],
             user=self.creator.user_name
             ))

@@ -1,70 +1,56 @@
 <%inherit file="/template.html" />
-<%namespace name="tiles_html" file="/proposal/tiles.html"/>
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Edit %s") % c.page.title}</%def>
 
-<%def name="breadcrumbs()">
-	${h.text.breadcrumbs(c.text)|n} &raquo; ${_("Edit")}
-</%def>
+<%def name="title()">${_("Variant: %s") % c.text.title}</%def>
+
+<%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n} &raquo; ${_("Edit variant")}</%def>
 
 <form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
 	${h.field_token()|n}
 	<input type="hidden" name="parent_text" value="${c.text.id}" />
-	<input type="hidden" name="variant" value="${c.text.variant}" />
-	<input type="hidden" name="_method" value="PUT" /> 
+	<input type="hidden" name="branch" value="${c.branch}" />
+	<input type="hidden" name="title" value="${c.text.title}"/>
 	%if c.proposal:
 		<input type="hidden" value="${c.proposal}" name="proposal" />
 	%endif
+	<input type="hidden" name="_method" value="PUT" /> 
 	
-	<div class="sidebar">
-		<div class="help">
-    		<h3>${_("Help")}</h3>
-    		<ul>
-    		    <li>${h.help_link(_("Which pages types are there?"), 'page_faq', anchor='doctypes')|n}</li>
-    			<li>${h.help_link(_("What is a wiki page?"), 'page_faq', anchor='whatiswiki')|n}</li>
-    			<li>${h.help_link(_("What is a norm?"), 'page_faq', anchor='whatisnorm')|n}</li>
-    			<li>${h.help_link(_("More help..."), 'page_faq')|n}</li>
-    		</ul>
-    	</div>
-	</div>
-    
-	<div class="mainbar">
-	    <h3>${_("Document title")}</h3>
-    	<div class="page_title">
-    		<label for="title" class="armhint">${_("Page Title")}</label>
-    		<input tabindex="1" class="title armlabel" name="title" value="${c.text.title}"/>
-    	</div>
-	    
-	    %if c.page.function == c.page.NORM:
-		    <textarea tabindex="2" class="description armlabel normedit" rows="${c.text_rows}"
-		              cols="${c.text.LINE_LENGTH}" name="text">${c.text.text}</textarea>
-		%else:
-		    <textarea tabindex="2" class="description armlabel" rows="${c.text_rows}"
-		              name="text">${c.text.text}</textarea>
-		%endif
-		
-		${components.formatting()}
+	${tiles.page.header(c.text.page, c.tile, active='diff', text=c.text, variant=c.variant)}
 
-	    %if can.variant.edit(c.page, model.Text.HEAD):
-	
-			<label for="parent">${_("Parent page:")}</label>
-			${tiles.page.select_page(field_name="parent_page", select=c.page.parent, 
-			   									     exclude=[c.page], functions=model.Page.PARENT_FUNCTIONS)}
-			<span class="hint">${_("The page will be categorized under the specified parent page.")}
-				${h.help_link(_("Help."), 'selection_faq', anchor='parent')|n}
-			</span>
+	<div class="lefthalf double">
+		${tiles.text.descbox(c.left, c.text)}
+	</div>
+
+	<div class="righthalf double">
+		${tiles.text.descbox(c.text, c.left, field=c.variant)}
+	</div>
+
+	<div style="clear: both;"></div>
+
+	<div class="lefthalf double list_diff">
+		%if c.left.has_text:
+			${diff.norm_texts_history_compare(c.left, c.text)|n}
+		%else:
+			<div class="infobox">
+				${_("This norm has no text yet.")}
+			</div>
 		%endif
 	</div>
-	
-	
-	<div style="clear:both;"></div>
-	<div class="sidebar">
-		<div class="infobox">
-			${h.help_link(_("More help..."), 'page_faq')|n}
-		</div>
-	</div>
-	<div class="mainbar">
+
+	<div class="righthalf double">
+		<textarea tabindex="2" class="armlabel normedit" rows="${c.text_rows}" cols="${model.Text.LINE_LENGTH}" 
+		          name="text">${c.text.text}</textarea>
+		${components.formatting()}
 		${components.savebox(h.entity_url(c.text))}
 		${components.form_watch(c.page)}
 	</div>
+
 </form>
+
+<div style="clear: both;"></div>
+<br/>
+
+##<div class="mainbar">
+##	${tiles.text.comments(c.text)}
+##</div>
+

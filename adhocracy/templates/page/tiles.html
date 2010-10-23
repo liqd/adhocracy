@@ -54,13 +54,9 @@
 <%def name="header(tile, page, active, text, variant)">
 	<div class="top_actions title">
 		
-		##%if page.function == page.NORM and can.proposal.create():
-		##	<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
-		##%endif
-		
-		%if can.page.create() and active == 'view':
-			<a class="button title add ttip" title="${_('Create a new document.')}" 
-			    href="/page/new">${_("new document")}</a>
+		%if can.norm.create() and active == 'view':
+			<a class="button title admin ttip" title="${_('Create a new norm.')}" 
+			    href="/page/new">${_("new norm")}</a>
 		%endif
 		
 		%if can.variant.edit(page, "") and page.has_variants and active == 'diff':
@@ -68,9 +64,12 @@
 			    href="${h.entity_url(text, member='branch')}">${_("branch new variant")}</a>
 		%endif
 		
-		%if can.variant.edit(page, variant):
-			<a class="button title edit ttip" title="${_('Edit this document.')}" 
+		%if variant==model.Text.HEAD and can.variant.edit(page, variant):
+			<a class="button title admin ttip" title="${_('Edit the status quo.')}" 
 				href="${h.entity_url(text, member='edit')}">${_("edit")}</a>
+		%elif can.variant.edit(page, variant):
+        	<a class="button title edit ttip" title="${_('Edit this variant.')}" 
+        		href="${h.entity_url(text, member='edit')}">${_("edit")}</a>
 		%endif
 		
 		%if can.variant.delete(page, variant) and active == 'diff' and c.variant:
