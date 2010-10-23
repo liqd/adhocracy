@@ -23,11 +23,6 @@ def setup_app(command, conf, vars):
     config['adhocracy.amqp.host'] = None    
     init_queue_hooks()
     
-    index_path = util.get_site_path(*search.SITE_INDEX_DIR)
-    if os.path.exists(index_path):
-        shutil.rmtree(index_path)
-        search.init_search(with_db=False)
-    
     # Create the tables if they don't already exist
     url = config.get('sqlalchemy.url') 
     migrate_repo = os.path.join(os.path.dirname(__file__), 'migration')

@@ -14,7 +14,7 @@ selection_table = Table('selection', meta.data,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime),
-    Column('page_id', Integer, ForeignKey('page.id'), nullable=False),
+    Column('page_id', Integer, ForeignKey('page.id'), nullable=True),
     Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=True)
     )
 

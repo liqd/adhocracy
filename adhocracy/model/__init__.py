@@ -72,6 +72,9 @@ mapper(Delegateable, delegateable_table, polymorphic_on=delegateable_table.c.typ
                         backref=backref('delegateables', cascade='delete'))
     }, extension=meta.extension)
 
+mapper(Page, page_table, inherits=Delegateable, polymorphic_identity='page', properties={
+    }, extension=meta.extension)
+
 
 mapper(Proposal, proposal_table, inherits=Delegateable, polymorphic_identity='proposal', properties={
     'description': relation(Page, primaryjoin=proposal_table.c.description_id==page_table.c.id, 
@@ -181,9 +184,6 @@ mapper(Tagging, tagging_table, properties={
     'tag': relation(Tag, lazy=False, primaryjoin=tagging_table.c.tag_id==tag_table.c.id, backref=backref('taggings', lazy=True))
     }, extension=meta.extension)
 
-
-mapper(Page, page_table, inherits=Delegateable, polymorphic_identity='page', properties={
-    }, extension=meta.extension)
 
 
 mapper(Text, text_table, properties={
