@@ -52,15 +52,15 @@ def _diff_line_based(left_text, right_text, include_deletions=True, include_inse
     right = _decompose(right_text)
     s = SequenceMatcher(None, left, right)
 
-    if ratio_skip is not None and s.ratio() <= 1-ratio_skip: 
-        lines = []
-        if include_deletions and left_text is not None:
-            for l in linify(left_text, line_length):
-                lines.append('<del>%s</del>' % l)
-        if include_insertions and right_text is not None:
-            for r in linify(right_text, line_length):
-                lines.append('<ins>%s</ins>' % r)
-        return lines
+    #if ratio_skip is not None and s.ratio() <= 1-ratio_skip: 
+    #    lines = []
+    #    if include_deletions and left_text is not None:
+    #        for l in linify(left_text, line_length):
+    #            lines.append('<del>%s</del>' % l)
+    #    if include_insertions and right_text is not None:
+    #        for r in linify(right_text, line_length):
+    #            lines.append('<ins>%s</ins>' % r)
+    #    return lines
 
     html_match = ''
     for op, i1, i2, j1, j2 in s.get_opcodes():
