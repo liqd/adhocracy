@@ -7,7 +7,6 @@ import os.path
 from adhocracy.config.environment import load_environment
 from adhocracy import model
 from adhocracy.lib import install, search, openidstore, util, init_site
-from adhocracy.lib.queue import init_queue
 from adhocracy.model import meta, init_queue_hooks
 from pylons import config
 
