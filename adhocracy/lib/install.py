@@ -97,7 +97,7 @@ def setup_entities():
     
     admin = model.User.find(u"admin")
     if not admin:
-        admin = model.User.create(u"admin", u"admin@null.naught", 
+        admin = model.User.create(u"admin", u"admin@adhocracy.de", 
                                   password=u"password", 
                                   global_admin=True)  
         

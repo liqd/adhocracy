@@ -54,20 +54,32 @@ class Background(AdhocracyCommand):
     max_args = None
     min_args = None
     
-    def scheduled_action(self):
+    def minute(self):
         import adhocracy.lib.queue as queue
-        queue.ping()
-        self.setup_timer()
+        queue.minute()
+        self.setup_timer(60.0, self.minute)
     
-    def setup_timer(self):
+    def hourly(self):
+        import adhocracy.lib.queue as queue
+        queue.hourly()
+        self.setup_timer(3600.0, self.hourly)
+    
+    def daily(self):
+        import adhocracy.lib.queue as queue
+        queue.daily()
+        self.setup_timer(84600.0, self.daily)
+    
+    def setup_timer(self, interval, func):
         import threading
-        timer = threading.Timer(60.0, self.scheduled_action)
+        timer = threading.Timer(interval, func)
         timer.daemon = True
         timer.start()
     
     def command(self):
         self._load_config()
-        self.scheduled_action()
+        self.minute()
+        self.hourly()
+        self.daily()
         import queue
         queue.dispatch()
 

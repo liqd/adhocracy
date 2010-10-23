@@ -28,7 +28,6 @@ def update(entity):
         del index['skip']
     conn = get_connection()
     try:
-        print "ADDING", index
         conn.add(**index)
         conn.commit()
     except Exception, e:
@@ -46,4 +45,19 @@ def delete(entity):
         log.exception(e)
     finally:
         conn.close()
-    
+  
+def optimize():     
+    # freshen up solr a bit
+    conn = get_connection()
+    conn.optimize()
+    conn.commit()
+    conn.close()
+
+def clear():    
+    conn = get_connection()
+    try:
+        conn.delete_query('*:*')
+        conn.commit()
+    finally:
+        conn.close()
+
