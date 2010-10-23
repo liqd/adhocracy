@@ -31,8 +31,6 @@ class InstanceEditForm(formencode.Schema):
     required_majority = validators.Number(not_empty=True)
     default_group = forms.ValidGroup(not_empty=True)
     locale = validators.String(not_empty=False)
-    main_page = forms.ValidPage(if_empty=None, not_empty=False)
-    norm_page = forms.ValidPage(if_empty=None, not_empty=False)
 
 class InstanceController(BaseController):
     
@@ -121,8 +119,6 @@ class InstanceController(BaseController):
         
         c._Group = model.Group
         c.locales = i18n.LOCALES
-        c.root_norms = model.Page.all_roots(model.Page.NORM)
-        c.root_pages = model.Page.all_roots(model.Page.DOCUMENT)
         default_group = c.page_instance.default_group.code if \
                         c.page_instance.default_group else \
                         model.Group.INSTANCE_DEFAULT
@@ -132,8 +128,6 @@ class InstanceController(BaseController):
                                     'label': c.page_instance.label,
                                     'description': c.page_instance.description,
                                     'css': c.page_instance.css,
-                                    'main_page': c.page_instance.main_page.id if c.page_instance.main_page else None,
-                                    'norm_page': c.page_instance.norm_page.id if c.page_instance.norm_page else None,
                                     'required_majority': c.page_instance.required_majority,
                                     'activation_delay': c.page_instance.activation_delay,
                                     'allow_adopt': c.page_instance.allow_adopt,
@@ -160,8 +154,6 @@ class InstanceController(BaseController):
         c.page_instance.allow_delegate = self.form_result.get('allow_delegate')
         c.page_instance.allow_index = self.form_result.get('allow_index')
         c.page_instance.hidden = self.form_result.get('hidden')
-        c.page_instance.main_page = self.form_result.get('main_page')
-        c.page_instance.norm_page = self.form_result.get('norm_page')
         c.page_instance.css = self.form_result.get('css')
         
         locale = Locale(self.form_result.get("locale"))

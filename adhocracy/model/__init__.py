@@ -126,7 +126,7 @@ mapper(Poll, poll_table, properties={
 
 mapper(Vote, vote_table, properties={
     'user': relation(User, primaryjoin=vote_table.c.user_id==user_table.c.id, 
-                     backref=backref('votes', cascade='delete', order_by='Vote.create_time.desc()')),
+                     backref=backref('votes', cascade='delete', order_by=vote_table.c.create_time.desc())),
     'poll': relation(Poll, backref=backref('votes', order_by=vote_table.c.create_time.desc())),
     'delegation': relation(Delegation, primaryjoin=vote_table.c.delegation_id==delegation_table.c.id, 
                            backref=backref('votes', cascade='delete'))
@@ -136,10 +136,10 @@ mapper(Vote, vote_table, properties={
 mapper(Instance, instance_table, properties={
     'creator': relation(User, primaryjoin=instance_table.c.creator_id==user_table.c.id, 
                         backref=backref('created_instances')),
-    'norm_page': relation(Page, primaryjoin=instance_table.c.norm_page_id==page_table.c.id, 
-                        uselist=False, lazy=True),
-    'main_page': relation(Page, primaryjoin=instance_table.c.main_page_id==page_table.c.id, 
-                        uselist=False, lazy=True),
+    #'norm_page': relation(Page, primaryjoin=instance_table.c.norm_page_id==page_table.c.id, 
+    #                    uselist=False, lazy=True),
+    #'main_page': relation(Page, primaryjoin=instance_table.c.main_page_id==page_table.c.id, 
+    #                    uselist=False, lazy=True),
     'locale': synonym('_locale', map_column=True),
     'default_group': relation(Group, lazy=True)
     }, extension=meta.extension)

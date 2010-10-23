@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 
 page_table = Table('page', meta.data,                      
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
-    Column('function', Unicode)
+    Column('function', Unicode(20))
     )
 
 
@@ -100,17 +100,6 @@ class Page(Delegateable):
     @classmethod
     def all(cls, **kwargs): 
         return cls._all_query(**kwargs).all()
-    
-        
-    @classmethod  
-    def all_roots(cls, function):
-        q = meta.Session.query(Page)
-        q = q.filter(or_(Page.delete_time==None,
-                         Page.delete_time>datetime.utcnow()))
-        q = q.filter(Page.function==function)
-        if ifilter.has_instance():
-            q = q.filter(Page.instance==ifilter.get_instance())
-        return q.all()
     
     
     @classmethod 

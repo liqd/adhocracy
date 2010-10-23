@@ -12,6 +12,7 @@ from pylons import config
 
 import migrate.versioning.api as migrateapi
 from migrate.versioning.exceptions import DatabaseAlreadyControlledError
+from migrate.versioning.exceptions import DatabaseNotControlledError
 from sqlalchemy.exc import NoSuchTableError
 
 log = logging.getLogger(__name__)
@@ -29,23 +30,18 @@ def setup_app(command, conf, vars):
     repo_version = migrateapi.version(migrate_repo)
     
     if config.get('adhocracy.setup.drop', "OH_NOES") == "KILL_EM_ALL":
-        log.warn("DELETING DATABASE AND SEARCH/EVENT INDEX")
         meta.data.drop_all(bind=meta.engine)
-        # HACK: 
         meta.engine.execute("DROP TABLE migrate_version")
     
     try:
-        if config.get('skip_migration'):
-            raise NoSuchTableError()
         db_version = migrateapi.db_version(url, migrate_repo)
         if db_version < repo_version:
             migrateapi.upgrade(url, migrate_repo)
-    except NoSuchTableError:
+    except DatabaseNotControlledError:
         meta.data.create_all(bind=meta.engine)
         migrateapi.version_control(url, migrate_repo, version=repo_version)
     
-    if not config.get('skip_setupentities'):
-        install.setup_entities()
+    install.setup_entities()
     
     
 

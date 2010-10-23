@@ -31,9 +31,12 @@ instance_table = Table('instance', meta.data,
     Column('allow_index', Boolean, default=True),
     Column('hidden', Boolean, default=False),
     Column('locale', Unicode(7), nullable=True),
-    Column('css', UnicodeText(), nullable=True),
-    Column('main_page_id', Integer, ForeignKey('page.id'), nullable=True),
-    Column('norm_page_id', Integer, ForeignKey('page.id'), nullable=True)
+    Column('css', UnicodeText(), nullable=True)
+    #,
+    #Column('main_page_id', Integer, ForeignKey('page.id', name='main_page_fk', 
+    #    use_alter=True), nullable=True),
+    #Column('norm_page_id', Integer, ForeignKey('page.id', name='norm_page_fk', 
+    #    use_alter=True), nullable=True)
     )
 
 
