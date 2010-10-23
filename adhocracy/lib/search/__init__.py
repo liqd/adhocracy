@@ -11,6 +11,8 @@ INDEXED_CLASSES = (model.Proposal, model.Instance, model.User, model.Comment, mo
 
 def init_search(with_db=True):
     queue_register()
+    
+    # freshen up solr a bit
     conn = get_connection()
     conn.optimize()
     conn.commit()
