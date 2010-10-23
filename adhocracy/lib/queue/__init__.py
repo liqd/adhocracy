@@ -11,7 +11,6 @@ def dispatch():
     from adhocracy.model import hooks
     from adhocracy.lib import event
     def _handle_message(message):
-        print message.body
         service = message.application_headers.get('service')
         if service == hooks.SERVICE:
             hooks.handle_queue_message(message.body)

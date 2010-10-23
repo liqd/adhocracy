@@ -22,7 +22,7 @@ class InstanceDiscriminatorMiddleware(object):
         if len(instance_key):
             #log.debug("Request instance: %s" % instance_key)
             instance = model.Instance.find(instance_key)
-            if not instance:
+            if instance is None:
                 log.debug("No such instance: %s, defaulting!" % instance_key)
             else:
                 model.instance_filter.setup_thread(instance)

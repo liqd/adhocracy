@@ -62,6 +62,7 @@ class Background(AdhocracyCommand):
     def setup_timer(self):
         import threading
         timer = threading.Timer(60.0, self.scheduled_action)
+        timer.daemon = True
         timer.start()
     
     def command(self):
