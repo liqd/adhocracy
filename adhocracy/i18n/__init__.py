@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 
 import formencode
 
-from pylons import request, response, session, tmpl_context as c, config
 from pylons.i18n import _, add_fallback, get_lang, set_lang, gettext
 import webhelpers.date as date
 
@@ -18,6 +17,7 @@ LOCALES = [babel.Locale('en', 'US'),
            babel.Locale('fr', 'FR')]
 
 def get_default_locale():
+    from pylons import tmpl_context as c, config
     try:
         if c.instance and c.instance.locale:
             return c.instance.locale
@@ -33,6 +33,7 @@ def handle_request():
     Otherwise, an appropriate locale will be negotiated between the browser 
     accept headers and the available locales.  
     """
+    from pylons import request, tmpl_context as c
     c.locale = user_language(c.user, request.languages)
 
 
@@ -42,12 +43,9 @@ def user_language(user, fallbacks=[]):
         locale = user.locale
     else:
         locales = map(str, LOCALES)
-        #print locales
         locale = Locale.parse(Locale.negotiate(fallbacks, locales)) \
                  or get_default_locale()
-        #print "LANG", lang
     
-    # pylons 
     set_lang(locale.language)
     add_fallback(get_default_locale().language)
     formencode.api.set_stdtranslation(domain="FormEncode", languages=[locale.language])
@@ -75,6 +73,7 @@ def countdown_time(dt, default):
 
 
 def format_date(dt):
+    from pylons import tmpl_context as c
     ts = babel.dates.format_date(dt, format='long', locale=c.locale)
     return _("%(ts)s") % {'ts': ts}
 

@@ -52,18 +52,11 @@ class BaseController(WSGIController):
     
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
-        
+        #pprint(request.environ)
         c.instance = model.instance_filter.get_instance()
-        c.user = environ.get('repoze.who.identity', {}).get('user', None)
+        c.user = environ.get('repoze.who.identity', {}).get('user')
         c.active_controller = request.environ.get('pylons.routes_dict').get('controller')
         c.debug = asbool(config.get('debug'))
-        
-        #pprint(request.environ)
-        
-        # get RESTish:
-        #self._parse_REST_request()
-        
-        # have to do this with the user in place
         i18n.handle_request()
         
         if c.instance:
@@ -79,28 +72,13 @@ class BaseController(WSGIController):
         try:
             begin_time = time()
             return WSGIController.__call__(self, environ, start_response)
-        except: 
+        except Exception, e:
+            log.exception(e) 
             model.meta.Session.rollback()
             raise
         finally:
             model.meta.Session.remove()
-            #model.meta.Session.close()
-            log.debug("Rendering page %s took %sms" % (environ.get('PATH_INFO'), 
-                                                       ((time()-begin_time)*1000)))
-    
-    
-    #def _parse_REST_request(self):
-    #    if request.method not in ['POST', 'PUT']:
-    #        return
-    #    if request.content_type == "text/javascript":
-    #        if request.method == 'POST':
-    #            request.POST = simplejson.loads(request.body)
-    #            request.params.update(request.POST)
-    #        elif request.method == 'PUT':
-    #            request.PUT = simplejson.loads(request.body)
-    #            request.POST.update(request.PUT)
-    #            request.params.update(request.PUT)
-            
+            #log.debug(u"Rendering page took %sms" % ((time()-begin_time)*1000))
     
     def bad_request(self, format='html'):
         log.debug("400 Request: %s" % request.params)

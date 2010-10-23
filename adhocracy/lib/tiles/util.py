@@ -28,5 +28,5 @@ def render_tile(template_name, def_name, tile, cached=False, **kwargs):
         rendered = _cached(locale=c.locale, **kwargs)
     else:
         rendered = render()
-    log.debug("Rendering tile %s:%s took %sms" % (template_name, def_name, (time()-begin_time)*1000))
+    #log.debug("Rendering tile %s:%s took %sms" % (template_name, def_name, (time()-begin_time)*1000))
     return rendered
