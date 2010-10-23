@@ -27,7 +27,7 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 	</div>
 	<form name="create_page" class="inplace" method="POST" action="/page">
 		${h.field_token()|n}
-		<input type="hidden" value="${c.model.Page.NORM}" name="function" />
+		<input type="hidden" value="${model.Page.NORM}" name="function" />
 		<input type="hidden" value="${c.proposal.id}" name="proposal" />
 		<input type="hidden" value="" name="text" />
 		<input type="hidden" value="" name="tags" />
@@ -37,7 +37,7 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 		</div>
 			
 		<label for="parent">${_("Parent page:")}</label>
-		${tiles.page.select_page(field_name="parent", functions=c.model.Page.PARENT_FUNCTIONS)}
+		${tiles.page.select_page(field_name="parent", functions=model.Page.PARENT_FUNCTIONS)}
 		<span class="hint">${_("The new norm will be categorized under the specified parent page.")}
 			${h.help_link(_("Help."), 'selection_faq', anchor='parent')|n}
 		</span>

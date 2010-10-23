@@ -33,8 +33,7 @@ def page_sub(match):
             return page_name
         return h.page.link(page, variant=variant, icon=not (page.function == page.DOCUMENT))
     else:
-        from adhocracy.forms import FORBIDDEN_NAMES
-        return h.page.redlink(page_name)
+        return page_name
 
 
 SUB_TRANSCLUDE = re.compile("@@([^(@@)]{3,255})@@", re.M)
@@ -60,24 +59,16 @@ def transclude_sub(transclude_path):
     return render_transclusion
 
 
-REDLINK = 'REDLINK_CACHE_FLUSH'
-
+@memoize('render')
 def render(text, substitutions=True):
-    @memoize('render')
-    def _cached(text, substitutions, redlink_token):
-        if text is None:
-            return ""
-        text = cgi.escape(text)
-        text = markdowner.convert(text)
-        if substitutions:
-            text = SUB_USER.sub(user_sub, text)
-            text = SUB_PAGE.sub(page_sub, text)
-        return text
-    return _cached(text, substitutions, REDLINK)
-
-
-def clear_render_cache():
-    clear_tag(REDLINK)
+    if text is None:
+        return ""
+    text = cgi.escape(text)
+    text = markdowner.convert(text)
+    if substitutions:
+        text = SUB_USER.sub(user_sub, text)
+        text = SUB_PAGE.sub(page_sub, text)
+    return text
     
 
 def _line_table(lines):

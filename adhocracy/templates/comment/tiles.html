@@ -64,8 +64,8 @@
 	</div>
 	<div class="comment ${'hidden' if tile.is_low else ''}" id="c${comment.id}">
 		<div class="tile 
-				        ${'pro' if comment.latest.sentiment == c.model.Comment.SENT_PRO else ''} 
-   				      ${'con' if comment.latest.sentiment == c.model.Comment.SENT_CON else ''} 
+				        ${'pro' if comment.latest.sentiment == model.Comment.SENT_PRO else ''} 
+   				      ${'con' if comment.latest.sentiment == model.Comment.SENT_CON else ''} 
 				        ${h.poll_position_css(comment.poll)}" id="tile_c${comment.id}">
 			<div class="logo rate">
 				%if can.comment.rate(comment):
@@ -192,7 +192,7 @@
 			<br/>
 		%endif
 		
-		<textarea class="description" rows="${c.lib.text.revision_rows(comment.latest)}" 	
+		<textarea class="description" rows="${lib.text.revision_rows(comment.latest)}" 	
 							name="text">${comment.latest.text}</textarea>
 		${components.formatting()}
 		${components.savebox(h.entity_url(comment.topic))}

@@ -43,7 +43,7 @@
     		<input tabindex="1" class="title armlabel" name="title" value="${c.title}"/>
     	</div>
     	
-		<textarea tabindex="2" class="description armlabel normedit" cols="${c.model.Text.LINE_LENGTH}" name="text"></textarea>
+		<textarea tabindex="2" class="description armlabel normedit" cols="${model.Text.LINE_LENGTH}" name="text"></textarea>
 		${components.formatting()}
 		<br/><br/>
 		<label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
@@ -53,7 +53,7 @@
 		</span>
 		
 		<label for="parent">${_("Parent page:")}</label>
-		${tiles.page.select_page(field_name="parent", functions=c.model.Page.PARENT_FUNCTIONS)}
+		${tiles.page.select_page(field_name="parent", functions=model.Page.PARENT_FUNCTIONS)}
 		<span class="hint">${_("The new page will be categorized under the specified parent page.")}
 			${h.help_link(_("Help."), 'selection_faq', anchor='parent')|n}
 		</span>

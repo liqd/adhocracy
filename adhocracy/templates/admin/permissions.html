@@ -16,7 +16,7 @@
 	<br/><br/>
 		
 	<%
-	groups = c.model.Group.all()
+	groups = model.Group.all()
 	%>
 	<table border="0">
 		<tr>
@@ -25,7 +25,7 @@
 				<th>${_(group.group_name)}</th>
 			%endfor
 		</tr>
-		%for permission in c.model.Permission.all():
+		%for permission in model.Permission.all():
 		<tr>
 			<td>${permission.permission_name}</td>
 			%for group in groups:

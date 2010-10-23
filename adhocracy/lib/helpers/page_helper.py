@@ -14,16 +14,6 @@ def icon_url(page, size=16):
     return text.icon_url(page.head, page, size=size)
 
 
-@cache.memoize('page_redlink')
-def redlink(title):
-    title = title.replace(u"&lt;", u"<").replace(u"&gt;", u">")
-    title = title.replace(u"&amp;", u"&")
-    url = u"/page/new?title=%s" % title
-    #url = instance_url(c.instance, path=url)
-    url = u"<a class='page_link new' href='%s'>%s</a>" % (url, title)
-    return url #.encode('utf-8')
-
-
 @cache.memoize('page_link')
 def link(page, variant=model.Text.HEAD, link=True, icon=True, icon_size=16):
     import text_helper as text

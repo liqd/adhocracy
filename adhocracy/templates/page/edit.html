@@ -45,11 +45,11 @@
 		
 		${components.formatting()}
 
-	    %if can.page.variant_edit(c.page, c.model.Text.HEAD):
+	    %if can.variant.edit(c.page, model.Text.HEAD):
 	
 			<label for="parent">${_("Parent page:")}</label>
 			${tiles.page.select_page(field_name="parent_page", select=c.page.parent, 
-			   									     exclude=[c.page], functions=c.model.Page.PARENT_FUNCTIONS)}
+			   									     exclude=[c.page], functions=model.Page.PARENT_FUNCTIONS)}
 			<span class="hint">${_("The page will be categorized under the specified parent page.")}
 				${h.help_link(_("Help."), 'selection_faq', anchor='parent')|n}
 			</span>

@@ -128,7 +128,6 @@ class PageController(BaseController):
                 target = h.entity_url(page, member='branch', query={'proposal': proposal.id})
         
         model.meta.Session.commit()
-        libtext.clear_render_cache()
         watchlist.check_watch(page)
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance, 
                    topics=[page], page=page, rev=page.head)
@@ -155,7 +154,7 @@ class PageController(BaseController):
                 c.variant = libtext.variant_normalize(proposal.title)[:199]
         defaults = dict(request.params)
         
-        require.page.variant_edit(c.page, c.variant)    
+        require.variant.edit(c.page, c.variant)    
         c.text_rows = libtext.text_rows(c.text)
         
         html = None
@@ -198,13 +197,13 @@ class PageController(BaseController):
         if not c.page.has_variants:
             c.variant = model.Text.HEAD
         
-        require.page.variant_edit(c.page, c.variant)
+        require.variant.edit(c.page, c.variant)
         
         if parent_text.page != c.page:
             return ret_abort(_("You're trying to update to a text which is not part of this pages history"),
                              code=400, format=format)
         
-        if can.page.variant_edit(c.page, model.Text.HEAD):
+        if can.variant.edit(c.page, model.Text.HEAD):
             parent_page = self.form_result.get("parent_page", NoPage)
             if parent_page != NoPage and parent_page != c.page:
                 c.page.parent = parent_page
@@ -227,7 +226,6 @@ class PageController(BaseController):
                 model.Tally.create_from_poll(poll)
                 
         model.meta.Session.commit()
-        libtext.clear_render_cache()
         watchlist.check_watch(c.page)
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance, 
                    topics=[c.page], page=c.page, rev=text)
@@ -304,7 +302,7 @@ class PageController(BaseController):
     @RequireInstance
     def ask_purge(self, id, variant):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, None)
-        require.page.variant_purge(c.page, c.variant)
+        require.variant.delete(c.page, c.variant)
         c.tile = tiles.page.PageTile(c.page)
         return render("/page/ask_purge.html")
 
@@ -313,10 +311,9 @@ class PageController(BaseController):
     @RequireInternalRequest()
     def purge(self, id, variant):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, None)
-        require.page.variant_purge(c.page, c.variant)
+        require.variant.delete(c.page, c.variant)
         c.page.purge_variant(c.variant)
         model.meta.Session.commit()
-        libtext.clear_render_cache()
         #event.emit(event.T_PAGE_DELETE, c.user, instance=c.instance, 
         #           topics=[c.page], page=c.page)
         h.flash(_("The variant %s has been deleted.") % c.variant)
@@ -338,7 +335,6 @@ class PageController(BaseController):
         require.page.delete(c.page)
         c.page.delete()
         model.meta.Session.commit()
-        libtext.clear_render_cache()
         event.emit(event.T_PAGE_DELETE, c.user, instance=c.instance, 
                    topics=[c.page], page=c.page)
         h.flash(_("The page %s has been deleted.") % c.page.title)

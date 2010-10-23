@@ -27,7 +27,7 @@
 
 
 <%def name="select_page(tile, field_name, select, exclude, functions, list_limit, allow_empty=True)">
-	%if list_limit is not None and c.model.Page.count(instance=c.instance, exclude=exclude, functions=functions) > list_limit: 
+	%if list_limit is not None and model.Page.count(instance=c.instance, exclude=exclude, functions=functions) > list_limit: 
 		<input name="${field_name}" />
 	%else:
 		<select name="${field_name}"> 
@@ -35,8 +35,8 @@
 			<option value="">${_("(none)")}</option>
 		%endif
 		<%
-		pages = c.model.Page.all(instance=c.instance, exclude=exclude, functions=functions)
-		pages = c.lib.sorting.delegateable_full_title(pages)
+		pages = model.Page.all(instance=c.instance, exclude=exclude, functions=functions)
+		pages = lib.sorting.delegateable_full_title(pages)
 		%>
 		%for page in pages:
 			<option value="${page.id}" ${'selected="selected"' if select and select.id == page.id else ""}>${page.full_title}</option>
@@ -63,17 +63,17 @@
 			    href="/page/new">${_("new document")}</a>
 		%endif
 		
-		%if can.page.variant_edit(page, "") and page.has_variants and active == 'diff':
+		%if can.variant.edit(page, "") and page.has_variants and active == 'diff':
 			<a class="button title add ttip" title="${_('Propose alternative language.')}" 
 			    href="${h.entity_url(text, member='branch')}">${_("branch new variant")}</a>
 		%endif
 		
-		%if can.page.variant_edit(page, variant):
+		%if can.variant.edit(page, variant):
 			<a class="button title edit ttip" title="${_('Edit this document.')}" 
 				href="${h.entity_url(text, member='edit')}">${_("edit")}</a>
 		%endif
 		
-		%if can.page.variant_purge(page, variant) and active == 'diff' and c.variant:
+		%if can.variant.delete(page, variant) and active == 'diff' and c.variant:
 			<a class="button title delete ttip" title="${_('Delete this variant.')}" 
 				href="${h.entity_url(text, member='ask_purge')}">${_("purge variant")}</a>
 		%endif

@@ -8,6 +8,8 @@ from pylons.templating import render_mako, render_mako_def
 from pylons.controllers.util import etag_cache
 from pylons.controllers.util import abort, redirect
 
+from adhocracy import model
+
 import tiles
 import util
 import text
@@ -16,10 +18,13 @@ import sorting
 
 def tpl_vars():
     vars = dict()
+    import adhocracy.lib
     vars['tiles'] = tiles
+    vars['lib'] = adhocracy.lib
     vars['can'] = auth.can
     vars['diff'] = text.diff
     vars['sorting'] = sorting
+    vars['model'] = model
     return vars
 
 

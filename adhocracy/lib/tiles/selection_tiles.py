@@ -30,7 +30,7 @@ class VariantRow(object):
     @property
     def can_edit(self):
         return (not self.tile.frozen) and \
-            can.page.variant_edit(self.tile.selection.page, self.variant)
+            can.variant.edit(self.tile.selection.page, self.variant)
     
     
     @property

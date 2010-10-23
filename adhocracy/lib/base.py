@@ -52,28 +52,13 @@ class BaseController(WSGIController):
     
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
-        # WSGIController.__call__ dispatches to the Controller method
-        # the request is routed to. This routing information is
-        # available in environ['pylons.routes_dict']
         
-        import adhocracy.lib
-        c.lib = adhocracy.lib 
-        c.model = model
         c.instance = model.instance_filter.get_instance()
         c.user = environ.get('repoze.who.identity', {}).get('user', None)
         c.active_controller = request.environ.get('pylons.routes_dict').get('controller')
         c.debug = asbool(config.get('debug'))
         
         #pprint(request.environ)
-        # http host information was moved around to mess with repoze.who                 
-        #environ['HTTP_HOST'] = environ.get('HTTP_HOST_ORIGINAL')
-        #from pprint import pprint
-        #pprint(dir(response))
-        #print "STAT", response.status
-        #print "STAT", response.status_int
-        #pprint(environ)
-        #pprint(environ.get('repoze.who.identity').items())
-        #print "SESSION ", session.id
         
         # get RESTish:
         #self._parse_REST_request()

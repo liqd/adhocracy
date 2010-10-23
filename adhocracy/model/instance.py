@@ -32,11 +32,6 @@ instance_table = Table('instance', meta.data,
     Column('hidden', Boolean, default=False),
     Column('locale', Unicode(7), nullable=True),
     Column('css', UnicodeText(), nullable=True)
-    #,
-    #Column('main_page_id', Integer, ForeignKey('page.id', name='main_page_fk', 
-    #    use_alter=True), nullable=True),
-    #Column('norm_page_id', Integer, ForeignKey('page.id', name='norm_page_fk', 
-    #    use_alter=True), nullable=True)
     )
 
 
@@ -212,7 +207,6 @@ class Instance(meta.Indexable):
         meta.Session.add(membership)
         main_page = Page.create(instance, u"Main Page", 
                                 u"", user)
-        instance.main_page = main_page
         meta.Session.flush()
         return instance
     
@@ -235,7 +229,6 @@ class Instance(meta.Indexable):
                  create_time=self.create_time)
         if self.description:
             d['description'] = self.description
-        #d['members'] = map(lambda u: u.user_name, self.members)
         return d
 
     

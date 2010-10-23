@@ -19,6 +19,7 @@ class _can(object):
     import watch
     import norm
     import selection
+    import variant
     
 can = _can()
 

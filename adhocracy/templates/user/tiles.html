@@ -33,10 +33,10 @@
 		%endif
 		
 		%if can.user.supervise(user):
-			%for group_code in c.model.Group.INSTANCE_GROUPS:
+			%for group_code in model.Group.INSTANCE_GROUPS:
 				%if group_code != tile.instance_group.code:
 					<a class="button admin" href="${h.entity_url(user, member='groupmod')}?to_group=${group_code}&${h.url_token()}">
-						${_("make %s") % _(c.model.Group.by_code(group_code).group_name)}</a>
+						${_("make %s") % _(model.Group.by_code(group_code).group_name)}</a>
 				%endif
 			%endfor
 			

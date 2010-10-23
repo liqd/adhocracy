@@ -19,6 +19,7 @@ class SelectionCreateForm(formencode.Schema):
 
 class SelectionController(BaseController):
     
+    
     @RequireInstance
     def index(self, proposal_id, format="html"):
         return self.not_implemented()
@@ -27,6 +28,7 @@ class SelectionController(BaseController):
     @RequireInstance
     def propose(self, proposal_id):
         return self._new(proposal_id, '/selection/propose.html', None)
+    
         
     @RequireInstance
     def include(self, proposal_id, errors={}):
@@ -73,8 +75,7 @@ class SelectionController(BaseController):
     
     
     @RequireInstance
-    def show(self, proposal_id, id, format='html'):
-        #c.proposal = get_entity_or_abort(model.Proposal, proposal_id)     
+    def show(self, proposal_id, id, format='html'):     
         c.selection = get_entity_or_abort(model.Selection, id)     
         redirect(h.selection.url(c.selection))
     
