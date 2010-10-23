@@ -61,7 +61,10 @@ class PageController(BaseController):
         
         if format == 'json':
             return render_json(c.pages_pager)
-            
+        
+        tags = model.Tag.popular_tags(limit=30)
+        c.cloud_tags = sorted(libtext.tag_cloud_normalize(tags), 
+                              key=lambda (k, c, v): k.name)
         return render("/page/index.html")
     
     

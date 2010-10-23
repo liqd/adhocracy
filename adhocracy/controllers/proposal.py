@@ -53,8 +53,8 @@ class ProposalController(BaseController):
             return render_json(c.proposals_pager)
         
         tags = model.Tag.popular_tags(limit=30)
-        c.cloud_tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
-        
+        c.cloud_tags = sorted(text.tag_cloud_normalize(tags), 
+                              key=lambda (k, c, v): k.name)
         c.tile = tiles.instance.InstanceTile(c.instance)
         return render("/proposal/index.html")
     
