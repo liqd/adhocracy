@@ -262,6 +262,9 @@ class PageController(BaseController):
     def history(self, id, variant=model.Text.HEAD, text=None, format='html'):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
+        if c.text is None:
+             h.flash(_("No such text revision."))
+             redirect(h.entity_url(c.page))
         c.texts_pager = NamedPager('texts', c.text.history, 
                                    tiles.text.history_row, count=10, #list_item,
                                    sorts={_("oldest"): sorting.entity_oldest,

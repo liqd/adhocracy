@@ -36,14 +36,12 @@ def title2alias(title, pseudo=u'page_'):
         return title
 
 
-def label2alias(label):
+def label2url(label):
     title = escape(label)
-    return title[:40]
+    return title[:40].encode('utf-8')
 
 
 def simple_form(text):
-    #return text
-    #text = text.strip()
     text = normalize('NFKC', text)
     return text 
 
