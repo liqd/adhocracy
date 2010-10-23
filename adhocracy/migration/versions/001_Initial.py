@@ -32,16 +32,16 @@ openid_table = Table('openid', meta,
 
 
 oid_nonces = Table('oid_nonces', meta,
-    Column('server_url', Binary, nullable=False),
+    Column('server_url', LargeBinary, nullable=False),
     Column('timestamp', Integer, primary_key=True),
     Column('salt', Unicode(40), nullable=False, index=True)
     )
 
     
 oid_associations = Table('oid_associations', meta,
-    Column('server_url', Binary, nullable=False),
+    Column('server_url', LargeBinary, nullable=False),
     Column('handle', Unicode(255), nullable=False, index=True),
-    Column('secret', Binary, nullable=False),
+    Column('secret', LargeBinary, nullable=False),
     Column('issued', Integer, primary_key=True),
     Column('lifetime', Integer, primary_key=True),
     Column('assoc_type', Unicode(64), nullable=False)
