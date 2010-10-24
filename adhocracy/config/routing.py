@@ -160,7 +160,6 @@ def make_map():
     map.connect('/sitemap.xml', controller='root', action='sitemap_xml')
     map.connect('/robots.txt', controller='root', action='robots_txt')
     map.connect('/feed.rss', controller='root', action='index', format='rss')
-    map.connect('/_queue_process', controller='root', action='process')
         
     map.connect('/search/filter', controller='search', action='filter')
     map.connect('/search', controller='search', action='query')

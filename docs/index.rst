@@ -15,7 +15,6 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   intro
    rest
    resources
    api

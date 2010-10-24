@@ -37,10 +37,4 @@ class RootController(BaseController):
             return render("robots.txt")
         return render("instance/robots.txt")
         
-        
-    
-    def process(self):
-        import adhocracy.lib.queue as queue
-        queue.ping()
-        return "pinged the background worker"
             
