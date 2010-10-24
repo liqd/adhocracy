@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import *
 from migrate import *
 
-meta = MetaData(migrate_engine)
+meta = MetaData()
 
 proposal_table = Table('proposal', meta,
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
@@ -27,8 +27,9 @@ dependency_table = Table('dependency', meta,
     )
 
 
-def upgrade():
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     dependency_table.drop()
 
-def downgrade():
-    dependency_table.create()
+def downgrade(migrate_engine):
+    raise NotImplementedError()

@@ -1354,9 +1354,10 @@ a.button.inactive {
 }
 
 .comment .anchor .text,
+.comment .anchor .sentiment,
 .comment .anchor .title,
 .comment .anchor .pre {
-	background-color: #fdfbc0;
+	background-color: #fdfbc0 !important;
 }
 
 .comment .meta {
@@ -2021,6 +2022,35 @@ label.inline {
 }
 
 /* @end */
+
+.discuss .discuss_button {
+	color: white;
+	font-size: 1.0em;
+	font-weight: bolder;
+	padding: 0.4em;
+	padding-top: 0.3em;
+	padding-bottom: 0.4em;
+	display: hidden;
+	background: #009800;
+	
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	
+	-webkit-border-top-right-radius: 0px;
+	font-weight: normal;
+	background-image: url(/img/menu_bg.png);
+	background-repeat: repeat-x;
+	background-position: top;
+	
+	cursor:pointer;
+	cursor:hand;
+}
+
+.discuss .discuss_button:hover {
+	text-decoration: none;
+	background-color: #444 !important; 
+}
 
 .selection .language {
 	padding-bottom: 15px;

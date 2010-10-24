@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import *
 from migrate import *
 
-meta = MetaData(migrate_engine)
+meta = MetaData()
 
 user_table = Table('user', meta,
     Column('id', Integer, primary_key=True),
@@ -226,7 +226,8 @@ event_table = Table('event', meta,
     )
 
 
-def upgrade():
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     user_table.create()
     openid_table.create()
     oid_nonces.create()
@@ -253,32 +254,8 @@ def upgrade():
     event_topic_table.create()
     event_table.create()
 
-def downgrade():
-    user_table.drop()
-    openid_table.drop()
-    oid_nonces.drop()
-    oid_associations.drop()
-    twitter_table.drop()
-    group_table.drop()
-    group_permission_table.drop()
-    permission_table.drop()
-    category_graph.drop()
-    delegateable_table.drop()
-    issue_table.drop()
-    delegation_table.drop()
-    proposal_table.drop()
-    alternative_table.drop()
-    dependency_table.drop()
-    poll_table.drop()
-    vote_table.drop()
-    revision_table.drop()
-    comment_table.drop()
-    instance_table.drop()
-    membership_table.drop()
-    karma_table.drop()
-    watch_table.drop()
-    event_topic_table.drop()
-    event_table.drop()
+def downgrade(migrate_engine):
+    raise NotImplementedError()
 
 
 

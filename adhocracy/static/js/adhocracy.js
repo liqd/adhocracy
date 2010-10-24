@@ -177,6 +177,14 @@ $(document).ready(function() {
 		this.scrollTop = scrollTop;
 	});
 	
+	$('.discuss_details').hide();
+	$('.discuss_button').show();
+	$('.discuss_button').css('display', 'inline-block');
+	$('.discuss_button').click(function(e) {
+		$(this).hide();
+		$(this).siblings('.discuss_details').show();
+	});
+	
 	/*
 	var reflow = function(field) {
 		var cols = $(field).attr('cols');
@@ -233,6 +241,7 @@ $(document).ready(function() {
 	if (anchor.length > 1) {
 		$("#tile_" + anchor.substring(1)).addClass("anchor");
 		$("#tile_" + anchor.substring(1)).parents().show();
+		$("#tile_" + anchor.substring(1)).parents('.discuss').children('.discuss_button').hide();
 		setTimeout(function() {
 			$("#tile_" + anchor.substring(1)).removeClass("anchor");
 			}, 3500);

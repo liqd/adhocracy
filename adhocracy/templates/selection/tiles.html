@@ -25,11 +25,6 @@
 					<li><a class="expand_tab" title="text_${selection.id}@selection_${selection.id}">
 						${_("Selected variant")}
 					</a></li>
-					%if tile.selected:
-						<li><a class="expand_tab" title="comments_${selection.id}@selection_${selection.id}">
-							${_("Discussion (%s)") % tile.selected_num_comments}
-						</a></li>
-					%endif
 					<li><a class="expand_tab" title="variants_${selection.id}@selection_${selection.id}">
 						${_("Variant selection (%s)") % max(0, len(selection.page.variants)-1)}
 					</a></li>
@@ -61,12 +56,6 @@
 			%endif 
 		</div>
 		
-		%if tile.selected:
-		<div class="expand_area area_hidden" id="comments_${selection.id}">
-			${tiles.comment.list(selection.page, variant=tile.selected, ret_url=h.entity_url(selection.proposal, member='implementation'))}
-			<br/>
-		</div>
-		%endif
 		
 		<div class="expand_area area_hidden" id="variants_${selection.id}">
 			${self.variants(tile, selection)}
@@ -80,6 +69,14 @@
     		</div>
     		<br/><br/>
 		</div>
+		
+		
+        <div class="discuss">
+            <a class="discuss_button">${_("discuss (%s comments) &raquo") % len(selection.page.variant_comments(tile.selected_text.variant))|n}</a>
+            <div class="discuss_details">
+                ${tiles.comment.list(selection.page, variant=tile.selected_text.variant)}
+            </div>
+        </div>
 	</div>
 	<br/>
 </%def>

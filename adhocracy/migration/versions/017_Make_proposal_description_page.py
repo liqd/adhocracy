@@ -7,7 +7,7 @@ import migrate.changeset
 
 import adhocracy.lib.text as text
 
-meta = MetaData(migrate_engine)
+meta = MetaData()
 
 category_graph = Table('category_graph', meta,
     Column('parent_id', Integer, ForeignKey('delegateable.id')),
@@ -92,7 +92,8 @@ text_table = Table('text', meta,
     Column('delete_time', DateTime)
     )
 
-def upgrade():
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     proposal_table = Table('proposal', meta,
         Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
         Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True),
@@ -200,7 +201,6 @@ def upgrade():
             
     #proposal_table.c.comment_id.drop()
 
-
-def downgrade():
-    raise Error("This is not implemented.")
+def downgrade(migrate_engine):
+    raise NotImplementedError()
 

@@ -4,7 +4,7 @@ from sqlalchemy import *
 from migrate import *
 import migrate.changeset
 
-meta = MetaData(migrate_engine)
+meta = MetaData()
 
 poll_table = Table('poll', meta,
     Column('id', Integer, primary_key=True),
@@ -25,8 +25,9 @@ tally_table = Table('tally', meta,
     Column('num_against', Integer, nullable=True),
     Column('num_abstain', Integer, nullable=True)
     )
-
-def upgrade():
+    
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     proposal_table = Table('proposal', meta,
         Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
         Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True)
@@ -54,12 +55,5 @@ def upgrade():
                                   {'rate_poll_id': poll_id})
         migrate_engine.execute(q)
     
-
-def downgrade():
-    proposal_table = Table('proposal', meta,
-        Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
-        Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True),
-        Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True)
-        )
-    
-    proposal_table.c.rate_poll_id.drop()
+def downgrade(migrate_engine):
+    raise NotImplementedError()

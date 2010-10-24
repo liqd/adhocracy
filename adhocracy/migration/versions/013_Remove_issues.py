@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import *
 from migrate import *
 
-meta = MetaData(migrate_engine)
+meta = MetaData()
 
 
 delegateable_table = Table('delegateable', meta,
@@ -49,8 +49,8 @@ poll_table = Table('poll', meta,
     Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False)
     )
 
-
-def upgrade():
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     issue_table.drop()
     for vals in migrate_engine.execute(delegateable_table.select()):
         if vals[2] == 'issue':
@@ -61,6 +61,5 @@ def upgrade():
             migrate_engine.execute(delegateable_table.delete(delegateable_table.c.id==vals[0]))
             
 
-
-def downgrade():
-    issue_table.create()
+def downgrade(migrate_engine):
+    raise NotImplementedError()

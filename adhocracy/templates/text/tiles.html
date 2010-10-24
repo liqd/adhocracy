@@ -29,41 +29,30 @@
 
 
 <%def name="full(tile, text, subpages_pager=None)">
-    <div class="" id="page_${text.page.id}">
-    	<div class="panel">
-    		<div class="menu">
-    			<ul>
-    				<li><a class="expand_tab" title="text_${text.id}@page_${text.page.id}">
-    					${_("Text")}
-    				</a></li>
-    				<li><a class="expand_tab" title="comments_${text.id}@page_${text.page.id}">
-    					${_("Discussion (%s)") % len(text.page.variant_comments(text.variant))}
-    				</a></li>
-    			</ul>
-    		</div>
+    %if text.has_text:
+    	<div class="tile">
+    	${text.render()|n}
     	</div>
-	
-    	<div class="expand_area selected" id="text_${text.id}">
-            %if text.has_text:
-            	<div class="tile">
-            	${text.render()|n}
-            	</div>
-            %else:
-            	<div class="infobox">
-            		${_("This norm has not yet been decided and is thus no official position of this group.")}
-            	</div>
-            %endif
-            %if subpages_pager is not None and len(subpages_pager._items):
-            	<div id="pages_table" class="table">
-            		${subpages_pager.here()}
-            	</div>
-            %endif
+    %else:
+    	<div class="infobox">
+    		${_("This norm has not yet been decided and is thus no official position of this group.")}
+    	</div>
+    %endif
+    
+    %if subpages_pager is not None and len(subpages_pager._items):
+    	<div id="pages_table" class="table">
+    		${subpages_pager.here()}
+    	</div>
+    %endif
+    
+    <br/>
+    <div class="discuss">
+        <a class="discuss_button">${_("discuss (%s comments) &raquo") % len(text.page.variant_comments(text.variant))|n}</a>
+        <div class="discuss_details">
+            ${tiles.comment.list(text.page, variant=text.variant)}
         </div>
+    </div>
         
-	    <div class="expand_area area_hidden" id="comments_${text.id}">
-    	    ${tiles.comment.list(text.page, variant=text.variant)}
-    	</div>
-	</div>
 </%def>
 
 

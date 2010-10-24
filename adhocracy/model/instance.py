@@ -31,7 +31,8 @@ instance_table = Table('instance', meta.data,
     Column('allow_index', Boolean, default=True),
     Column('hidden', Boolean, default=False),
     Column('locale', Unicode(7), nullable=True),
-    Column('css', UnicodeText(), nullable=True)
+    Column('css', UnicodeText(), nullable=True),
+    Column('use_norms', Boolean, nullable=True, default=True)
     )
 
 

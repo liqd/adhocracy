@@ -4,7 +4,7 @@ from sqlalchemy import *
 from migrate import *
 import migrate.changeset
 
-meta = MetaData(migrate_engine)
+meta = MetaData()
 
 page_table = Table('page', meta,                      
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
@@ -27,8 +27,9 @@ selection_table = Table('selection', meta,
     Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=True)
     )
 
-def upgrade():
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     selection_table.create()
     
-def downgrade():
-    selection_table.drop()
+def downgrade(migrate_engine):
+    raise NotImplementedError()

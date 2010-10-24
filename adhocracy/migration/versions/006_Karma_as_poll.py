@@ -4,7 +4,7 @@ from sqlalchemy import *
 from migrate import *
 import migrate.changeset
 
-meta = MetaData(migrate_engine)
+meta = MetaData()
 
 poll_table = Table('poll', meta,
     Column('id', Integer, primary_key=True),
@@ -60,7 +60,8 @@ user_table = Table('user', meta,
     Column('delete_time', DateTime)
     )
 
-def upgrade():
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     comment_table = Table('comment', meta,                  
         Column('id', Integer, primary_key=True),
         Column('create_time', DateTime, default=datetime.utcnow),
@@ -109,17 +110,5 @@ def upgrade():
     
     karma_table.drop()
 
-def downgrade():
-    comment_table = Table('comment', meta,                  
-        Column('id', Integer, primary_key=True),
-        Column('create_time', DateTime, default=datetime.utcnow),
-        Column('delete_time', DateTime, default=None, nullable=True),
-        Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
-        Column('topic_id', Integer, ForeignKey('delegateable.id'), nullable=False),
-        Column('canonical', Boolean, default=False),
-        Column('reply_id', Integer, ForeignKey('comment.id'), nullable=True),
-        Column('poll_id', Integer, ForeignKey('poll.id'), nullable=True)
-        )
-    
-    comment_table.c.poll_id.drop()
-    karma_table.create()
+def downgrade(migrate_engine):
+    raise NotImplementedError()

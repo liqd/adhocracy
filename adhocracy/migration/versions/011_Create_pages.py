@@ -4,9 +4,7 @@ from sqlalchemy import *
 from migrate import *
 import migrate.changeset
 
-meta = MetaData(migrate_engine)
-
-
+meta = MetaData()
 
 user_table = Table('user', meta,
     Column('id', Integer, primary_key=True),
@@ -54,10 +52,10 @@ text_table = Table('text', meta ,
     )
 
 
-def upgrade():
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     page_table.create()
     text_table.create()
 
-def downgrade():
-    text_table.drop()
-    page_table.drop()
+def downgrade(migrate_engine):
+    raise NotImplementedError()

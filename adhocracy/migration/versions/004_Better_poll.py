@@ -4,7 +4,7 @@ from sqlalchemy import *
 from migrate import *
 import migrate.changeset
 
-meta = MetaData(migrate_engine)
+meta = MetaData()
 
 delegateable_table = Table('delegateable', meta,
     Column('id', Integer, primary_key=True),
@@ -18,7 +18,8 @@ delegateable_table = Table('delegateable', meta,
     )
 
 
-def upgrade():
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     poll_table_old = Table('poll', meta,
         Column('id', Integer, primary_key=True),
         Column('begin_time', DateTime, default=datetime.utcnow),
@@ -56,29 +57,6 @@ def upgrade():
     
     poll_table_old.c.proposal_id.drop()
 
-def downgrade():
-    poll_table_new = Table('poll', meta,
-        Column('id', Integer, primary_key=True),
-        Column('begin_time', DateTime, default=datetime.utcnow),
-        Column('end_time', DateTime, nullable=True),
-        Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
-        Column('action', Unicode(50), nullable=False),
-        Column('subject', UnicodeText(), nullable=False),
-        Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False)
-        ) 
-    
-    proposal_table = Table('proposal', meta,
-        Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
-        Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True),
-        Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True)
-        )
-    
-    migrate_engine.execute(poll_table_new.delete())
-    poll_table_new.c.action.drop()
-    poll_table_new.c.subject.drop()
-    poll_table_new.c.scope_id.drop()
-    proposal = Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=False)
-    proposal.create(poll_table_new)
-    poll_table_new.c.user_id.alter(name="begin_user_id")
-    proposal_table.c.adopt_poll_id.drop() 
+def downgrade(migrate_engine):
+    raise NotImplementedError() 
 

@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import *
 from migrate import *
 
-meta = MetaData(migrate_engine)
+meta = MetaData()
 
 poll_table = Table('poll', meta,
     Column('id', Integer, primary_key=True),
@@ -32,8 +32,9 @@ tally_table = Table('tally', meta,
     Column('num_abstain', Integer, nullable=True)
     )
 
-def upgrade():
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     tally_table.create()
 
-def downgrade():
-    tally_table.drop()
+def downgrade(migrate_engine):
+    raise NotImplementedError()

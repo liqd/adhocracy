@@ -4,7 +4,7 @@ from sqlalchemy import *
 from migrate import *
 import migrate.changeset
 
-meta = MetaData(migrate_engine)
+meta = MetaData()
 
 user_table = Table('user', meta,
     Column('id', Integer, primary_key=True),
@@ -47,10 +47,10 @@ tagging_table = Table('tagging', meta,
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False)
     )
 
-def upgrade():
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     tag_table.create()
     tagging_table.create()
 
-def downgrade():
-    tagging_table.drop()
-    tag_table.drop()
+def downgrade(migrate_engine):
+    raise NotImplementedError()

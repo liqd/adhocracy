@@ -4,7 +4,7 @@ from sqlalchemy import *
 from migrate import *
 import migrate.changeset
 
-meta = MetaData(migrate_engine)
+meta = MetaData()
 
 delegateable_table = Table('delegateable', meta,
     Column('id', Integer, primary_key=True),
@@ -17,7 +17,8 @@ delegateable_table = Table('delegateable', meta,
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False)
     )
 
-def upgrade():
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     page_table = Table('page', meta,                      
         Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
         Column('has_variants', Boolean, default=True),
@@ -35,13 +36,6 @@ def upgrade():
     #migrate_engine.execute(u)
     
 
-def downgrade():
-    page_table = Table('page', meta,                      
-        Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
-        Column('function', Unicode)
-        )
-    has_variants = Column('has_variants', Boolean, default=True)
-    has_variants.create(page_table)
-    freeze = Column('freeze', Boolean, default=False)
-    freeze.create(page_table)
+def downgrade(migrate_engine):
+    raise NotImplementedError()
     

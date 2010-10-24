@@ -5,7 +5,7 @@ from sqlalchemy import *
 from migrate import *
 import migrate.changeset
 
-meta = MetaData(migrate_engine)
+meta = MetaData()
 
 
 user_table = Table('user', meta,
@@ -40,7 +40,8 @@ comment_table = Table('comment', meta,
     )
 
 
-def upgrade():
+def upgrade(migrate_engine):
+    meta.bind = migrate_engine
     revision_table = Table('revision', meta,
         Column('id', Integer, primary_key=True),
         Column('create_time', DateTime, default=datetime.utcnow),
@@ -52,14 +53,5 @@ def upgrade():
     title = Column('title', Unicode(255), nullable=True)
     title.create(revision_table)
 
-def downgrade():
-    revision_table = Table('revision', meta,
-        Column('id', Integer, primary_key=True),
-        Column('create_time', DateTime, default=datetime.utcnow),
-        Column('text', UnicodeText(), nullable=False),
-        Column('sentiment', Integer, default=0),
-        Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
-        Column('comment_id', Integer, ForeignKey('comment.id'), nullable=False),
-        Column('title', Unicode(255), nullable=True)
-        )
-    revision_table.c.title.drop()
+def downgrade(migrate_engine):
+    raise NotImplementedError()
