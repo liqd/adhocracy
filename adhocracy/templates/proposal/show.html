@@ -17,7 +17,9 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 		<ul>
 			<li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
 			<li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
-			<li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
+			%if c.proposal.instance.use_norms:
+			    <li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
+			%endif
 			<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
 			<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
 			<li>${h.help_link(_("Guide: Supporting proposals"), 'support_text')|n}</li>
@@ -38,24 +40,26 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
     <h2>${_("Proposal goal and description")}</h2>
     ${tiles.page.inline(c.proposal.description)}
 	
-	<br/>
-	<h2>${_("Implementation")}</h2>
-    <div class="help">
-	<div class="infobox">
-		${_("Proposals are implemented by including changes towards new or existing norm. Norms are fixed documents that represent the consensus of this instance and can only be changed through a vote. Amend the proposal to change or create a norm.")} 
-	</div>
-    </div>
-	<div class="top_actions aside">
-		&nbsp; 
-		%if can.selection.create(c.proposal):
-			<a class="button title edit ttip" title="${_('Propose to change a norm through this proposal.')}" 
-		 	   href="${h.entity_url(c.proposal, member='implementation/include')}">${_("change exisitng norm")}</a>
-		 	<a class="button title add ttip" title="${_('Propose to create a norm through this proposal.')}" 
-   		 	   href="${h.entity_url(c.proposal, member='implementation/propose')}">${_("propose new norm")}</a>
-		%endif		
-	</div>
-	<br/><br/>
-	%for selection in sorted(c.proposal.selections, key=lambda s: sorting.sortable_text(s.page.title)): 
-	    ${tiles.selection.row(selection)}
-	%endfor
+	%if c.proposal.instance.use_norms:
+    	<br/>
+    	<h2>${_("Implementation")}</h2>
+        <div class="help">
+    	<div class="infobox">
+    		${_("Proposals are implemented by including changes towards new or existing norm. Norms are fixed documents that represent the consensus of this instance and can only be changed through a vote. Amend the proposal to change or create a norm.")} 
+    	</div>
+        </div>
+    	<div class="top_actions aside">
+    		&nbsp; 
+    		%if can.selection.create(c.proposal):
+    			<a class="button title edit ttip" title="${_('Propose to change a norm through this proposal.')}" 
+    		 	   href="${h.entity_url(c.proposal, member='implementation/include')}">${_("change exisitng norm")}</a>
+    		 	<a class="button title add ttip" title="${_('Propose to create a norm through this proposal.')}" 
+       		 	   href="${h.entity_url(c.proposal, member='implementation/propose')}">${_("propose new norm")}</a>
+    		%endif		
+    	</div>
+    	<br/><br/>
+    	%for selection in sorted(c.proposal.selections, key=lambda s: sorting.sortable_text(s.page.title)): 
+    	    ${tiles.selection.row(selection)}
+    	%endfor
+	%endif
 </div>

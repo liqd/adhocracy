@@ -12,8 +12,10 @@ def create(variant=Text.HEAD):
     return has('instance.admin') and page.create()
 
 
-def edit(n, variant=Text.HEAD):
-    return _variant.edit(n, variant)
+def edit(page, variant=Text.HEAD):
+    if not page.instance.use_norms:
+        return False
+    return _variant.edit(page, variant)
 
 
 def delete(n):

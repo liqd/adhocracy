@@ -67,8 +67,10 @@
 			<ul>
 				<li><a class="instance ttip" title="${_('Instance home page')}" 
 					     href="${h.entity_url(c.instance)}">${_("Home")}</a></li>
-				<li><a class="page ttip" title="${_('Norm pages')}" 
-         			     href="/page">${_("Norms")}</a></li>
+				%if c.instance.use_norms:
+				    <li><a class="page ttip" title="${_('Norm pages')}" 
+         			       href="/page">${_("Norms")}</a></li>
+         		%endif
 				<li><a class="proposal ttip" title="${_('Show all proposals')}" 
 					     href="/proposal">${_("Proposals")}</a></li>
 				<li><a class="user ttip" title="${_('All members of this instance')}" 

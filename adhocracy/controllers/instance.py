@@ -31,6 +31,11 @@ class InstanceEditForm(formencode.Schema):
     required_majority = validators.Number(not_empty=True)
     default_group = forms.ValidGroup(not_empty=True)
     locale = validators.String(not_empty=False)
+    allow_adopt = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
+    allow_delegate = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
+    allow_index= validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
+    use_norms = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
+    hidden = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
 
 class InstanceController(BaseController):
     
@@ -135,6 +140,7 @@ class InstanceController(BaseController):
                                     'allow_index': c.page_instance.allow_index,
                                     'hidden': c.page_instance.hidden,
                                     'locale': c.page_instance.locale,
+                                    'use_norms': c.page_instance.use_norms,
                                     '_tok': token_id(),
                                     'default_group': default_group})
         
@@ -155,6 +161,7 @@ class InstanceController(BaseController):
         c.page_instance.allow_index = self.form_result.get('allow_index')
         c.page_instance.hidden = self.form_result.get('hidden')
         c.page_instance.css = self.form_result.get('css')
+        c.page_instance.use_norms = self.form_result.get('use_norms')
         
         locale = Locale(self.form_result.get("locale"))
         if locale and locale in i18n.LOCALES:

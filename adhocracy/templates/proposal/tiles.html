@@ -18,9 +18,11 @@
 					${_("<b>%s</b> supporters") % proposal.rate_poll.tally.num_for|n} &middot;
 					${_("<b>%s</b> opponents") % proposal.rate_poll.tally.num_against|n} &middot;
 				%endif
-				<img src="/img/icons/page_variant_16.png" /> 
-				${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
-				&middot;
+				%if proposal.instance.use_norms:
+				    <img src="/img/icons/page_variant_16.png" /> 
+				    ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
+				    &middot;
+				%endif
 				<img src="/img/icons/discuss_16.png" /> 
 				##${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
 				${_("latest comment <b>%s</b>") % h.relative_time(proposal.find_latest_comment_time())|n} 
@@ -114,19 +116,6 @@
 
 
 <%def name="panel(tile, proposal)">
-    <!--
-    <ul class="menu">
-    	<li><a title="${_('Which goal does this proposal pursue?')}" 
-    	       href="${h.entity_url(proposal)}" class="goal ttip">${_("Proposal")}</a></li>
-    	%if c.instance.allow_delegate:
-    		<li><a title="${_('Who is receiving delegations?')}" 
-    		       href="${h.entity_url(proposal, member='delegations')}"
-    	   	class="delegations ttip">${_("Delegations")} (${len(proposal.current_delegations())})</a></li>
-    	%endif
-    	<li><a title="${_('Who has helped?')}" 
-    	       href="${h.entity_url(proposal, member='contributors')}" class="contributors ttip">${_("Contributors")} (${len(proposal.contributors())})</a></li>
-    </ul>
-    -->
     %if proposal.adopted:
         <div class="panel">
     	    <div class="info adoption adopted">
