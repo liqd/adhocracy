@@ -21,6 +21,8 @@ def edit(i):
 admin = edit    
     
 def delete(i):
+    if g.single_instance:
+        return False
     return has('global.admin') and show(i)
     
 def join(i):
