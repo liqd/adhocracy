@@ -1,7 +1,7 @@
 import logging
 
 import adhocracy.model as model
-from pylons import response
+from pylons import response, config
 
 log = logging.getLogger(__name__)
 
@@ -16,9 +16,12 @@ class InstanceDiscriminatorMiddleware(object):
         host = environ.get('HTTP_HOST', "")
         environ['adhocracy.domain'] = self.domain
         
-        host = host.split(':', 1)[0]
-        host = host[:len(host)-len(self.domain)-1]
-        instance_key = host.strip('. ')
+        instance_key = config.get('adhocracy.instance')
+        if instance_key is None:
+            host = host.split(':', 1)[0]
+            host = host[:len(host)-len(self.domain)-1]
+            instance_key = host.strip('. ')
+        
         if len(instance_key):
             #log.debug("Request instance: %s" % instance_key)
             instance = model.Instance.find(instance_key)

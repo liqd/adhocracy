@@ -80,8 +80,10 @@
 				<li><a href="${h.entity_url(user, member='watchlist')}" class="watchlist">${_("Watchlist")}
 					(${user.num_watches})</a></li>
 			%endif	
-			<li><a href="${h.entity_url(user, member='instances')}" class="instances">${_("Instances")} 	
-				(${tile.num_instances})</a></li>
+			%if g.single_instance is None:
+			    <li><a href="${h.entity_url(user, member='instances')}" class="instances">${_("Instances")} 	
+				    (${tile.num_instances})</a></li>
+		    %endif
 		</ul>
 	</div>
 </%def>

@@ -1,7 +1,7 @@
 import urllib
 import cgi
 
-from pylons import tmpl_context as c
+from pylons import tmpl_context as c, g
 from webhelpers.text import truncate
 
 BREAD_SEP = " &raquo; "

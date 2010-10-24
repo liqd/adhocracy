@@ -103,7 +103,10 @@ def setup_entities():
         
     model.meta.Session.commit()
     
-    if not model.Instance.find(u"test"):
+    from pylons import config
+    if config.get('adhocracy.instance'):
+        model.Instance.create(config.get('adhocracy.instance'), u"Adhocracy", admin)
+    elif not model.Instance.find(u"test"):
         model.Instance.create(u"test", u"Test Instance", admin)
     
     model.meta.Session.commit()

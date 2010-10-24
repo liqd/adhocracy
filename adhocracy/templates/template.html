@@ -46,8 +46,10 @@
 			<a href="${h.base_url(None)}">
 				<img src="/img/header_link.png" alt="${h.site.name()}"/>
 			</a> 
-			<a class="ttip" title="${_('All instances')}" 
-			   href="${h.base_url(None, path='/instance')}">${_("Instances")}</a>
+			%if g.single_instance is None:
+			    <a class="ttip" title="${_('All instances')}" 
+			       href="${h.base_url(None, path='/instance')}">${_("Instances")}</a>
+			%endif
 			%if h.has_permission("global.admin"):
 				<a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
 				<a href="/event/all">${_("Events")}</a>

@@ -1,4 +1,4 @@
-from pylons import tmpl_context as c, config, request
+from pylons import tmpl_context as c, config, request, g
 from pylons.i18n import _
 
 def name():
@@ -6,7 +6,7 @@ def name():
     
 def base_url(instance, path=None):
     url = "http://"
-    if instance is not None:
+    if instance is not None and g.single_instance is None:
         url += instance.key + u"."
     url += request.environ.get('adhocracy.domain')
     port = int(request.environ.get('SERVER_PORT'))

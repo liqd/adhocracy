@@ -69,7 +69,8 @@ class Proposal(Delegateable):
     def can_adopt(self):
         return not self.is_adopt_polling() \
             and self.instance.allow_adopt \
-            and self.has_implementation() and not self.adopted
+            and (not self.instance.use_norms or self.has_implementation()) \
+            and not self.adopted
             
     
     def adopt(self, at_time=None):
