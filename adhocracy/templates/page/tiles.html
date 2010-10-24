@@ -47,8 +47,9 @@
 
 
 
-<%def name="inline(tile, page, text, subpages_pager=None)">
-	${tiles.text.full(text, subpages_pager=subpages_pager)}
+<%def name="inline(tile, page, text, subpages_pager=None, hide_discussion=False)">
+	${tiles.text.full(text, subpages_pager=subpages_pager, 
+	                  hide_discussion=hide_discussion)}
 </%def>
 
 <%def name="header(tile, page, active, text, variant)">

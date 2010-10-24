@@ -2,6 +2,8 @@ from pylons import tmpl_context as c
 from authorization import has
 from adhocracy.model import Text
 
+import page
+
 def edit(p, variant):
     if not p.instance.use_norms:
         return False
@@ -9,7 +11,7 @@ def edit(p, variant):
         return False
     if has('instance.admin'): 
         return True
-    if not edit(p): 
+    if not page.edit(p): 
         return False
     if not p.has_variants and variant != Text.HEAD:
         return False
@@ -24,4 +26,4 @@ def delete(p, variant):
         return False
     if has('instance.admin'): 
         return True
-    return delete(p)
+    return page.delete(p)

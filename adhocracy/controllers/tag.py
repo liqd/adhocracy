@@ -48,7 +48,7 @@ class TagController(BaseController):
             return render_json(c.tag)
             
         
-        entities = libsearch.query.run(c.tag.name, instance=c.instance, fields=['tags'])
+        entities = libsearch.query.run(u'tag:' + c.tag.name, instance=c.instance)
         entities = [e for e in entities if (isinstance(e, model.Proposal) or isinstance(e, model.Page))]
         
         c.entities_pager = NamedPager('entities', entities, tiles.dispatch_row, 

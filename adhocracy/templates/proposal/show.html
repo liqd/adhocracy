@@ -38,7 +38,8 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 		%endif
 	</div>
     <h2>${_("Proposal goal and description")}</h2>
-    ${tiles.page.inline(c.proposal.description)}
+    ${tiles.page.inline(c.proposal.description, 
+                        hide_discussion=g.single_instance==None)}
 	
 	%if c.proposal.instance.use_norms:
     	<br/>

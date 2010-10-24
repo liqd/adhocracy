@@ -21,9 +21,11 @@ def history_row(text):
                        TextTile(text), text=text)
 
     
-def full(text, subpages_pager=None):
+def full(text, subpages_pager=None, hide_discussion=True):
     return render_tile('/text/tiles.html', 'full', 
-                       TextTile(text), text=text, subpages_pager=subpages_pager)
+                       TextTile(text), text=text, 
+                       subpages_pager=subpages_pager,
+                       hide_discussion=hide_discussion)
 
                        
 def descbox(this, other, options=None, field=None):

@@ -28,7 +28,7 @@
 </%def>
 
 
-<%def name="full(tile, text, subpages_pager=None)">
+<%def name="full(tile, text, subpages_pager=None, hide_discussion=True)">
     %if text.has_text:
     	<div class="tile">
     	${text.render()|n}
@@ -46,12 +46,21 @@
     %endif
     
     <br/>
-    <div class="discuss">
-        <a class="discuss_button">${_("discuss (%s comments) &raquo") % len(text.page.variant_comments(text.variant))|n}</a>
-        <div class="discuss_details">
-            ${tiles.comment.list(text.page, variant=text.variant)}
+    
+    %if hide_discussion:
+        <div class="discuss">
+            <a class="discuss_button">
+                ${_("discuss (%s comments) &raquo") % len(text.page.variant_comments(text.variant))|n}
+            </a>
+            <div class="discuss_details">
+    %endif
+    
+    ${tiles.comment.list(text.page, variant=text.variant)}
+    
+    %if hide_discussion:
+            </div>
         </div>
-    </div>
+    %endif
         
 </%def>
 
