@@ -1,0 +1,13 @@
+adhocracy Changelog
+===================
+
+1.1 (2010-XX-YY)
+----------------
+
+- Migrate from whoosh to solr.
+- ...
+
+1.0 (2010-07-24)
+----------------
+
+- Initial release.
