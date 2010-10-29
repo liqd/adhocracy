@@ -1,0 +1,79 @@
+The following installation instructions are kept up-to-date at http://trac.adhocracy.de/wiki/InstallationInstructions
+
+= Installation Instructions = 
+
+Installing Adhocracy is, unfortunately, a complicated process. The administrator should have at least some experience in dealing with Python packages, Unix shell commands and building packages from SVN checkouts. 
+
+== Preflight Entertainment == 
+
+First, make sure the dependencies in http://trac.adhocracy.de/wiki/SoftwareDependencies were satisfied. 
+
+The guide assumes that you're installing Adhocracy at `/opt/adhocracy` and that you've created a dedicated user called `adhocracy`. These assumptions are, of course, not neccessary and would probably be impractical when in a testing or development environment. 
+
+=== virtualenv ===
+
+Adhocracy installs about five metric tons of Python packages. In order to keep your Python install clean, lean and mean, you will want to use a [http://pypi.python.org/pypi/virtualenv virtualenv]. To get going, try this: 
+
+#!sh
+# easy_install virtualenv
+[gibberish]
+# su adhocracy 
+$ python virtualenv.py /opt/adhocracy/env
+[more gibberish]
+$ source /opt/adhocracy/env/bin/activate
+
+Whenever you enter the virtualenv, distutils will only install packages to the virtualenv's library instead of your real site-packages directory.
+
+=== Domain Names ===
+
+Adhocracy uses a scheme in which a single installation can serve as a host for many user groups. These user groups would then access a selection of distinct `instances` which share little but the user registration data. 
+
+In order to identify the active instance, Adhocracy uses domain names. Therefore, if Adhocracy is installed at a domain name like `example.com`, instances would be accessed via `instance.example.com`. 
+
+This means that in a production environment, you will want a [http://en.wikipedia.org/wiki/Wildcard_DNS_record wild card DNS record] to point to the Adhocracy server. For testing purposes, we usually set up a fake domain in our local `/etc/hosts` file: 
+
+#!sh
+127.0.0.1 adhocracy.lan test.adhocracy.lan another.adhocracy.lan 
+
+For simpler setups, a single-instance Adhocracy mode is available. You can enable it by setting the `adhocracy.instance` setting in your config file (see below). Note that the required singleton instance will be created upon executing the `setup-app` command described later on. 
+
+== Getting Adhocracy == 
+
+**If you're a developer, read http://trac.adhocracy.de/wiki/DevelopmentHints instead of this part.**
+
+There is not currently a release on PyPI, so the repository is the only way to install Adhocracy. If you're looking for a stable version, look into http://trac.adhocracy.de/browser/branches for the latest release branch. If you just want to install Adhocracy for deployment, directly check out the Package via easy_install. This will not leave you with a repo checkout to work on, but it is cleaner and simpler than raw SVN.
+
+#!sh
+$ easy_install http://svn.adhocracy.de/trunk
+
+This will install any required Python libraries, including Pylons, Paste, SQLAlchemy, repoze.who, repoze.what, whoosh and a few others.
+
+== Configuration == 
+
+First off, create a new database user and an empty database. Make sure to set UTF-8/Unicode as the default encoding wherever necessary. 
+
+Adhocracy is configured using an .ini file. The default configuration is stored in a template called `development.ini`. To begin your configuration, create a copy of the file that you will work on: 
+
+#!sh
+$ cd /opt/adhocracy
+$ cp development.ini example.ini
+
+Inside the .ini you will find a large number of configuration options. Make sure to at least edit those with an ''INSTALL'' comment. Make especially sure to insert a site specific session secret (`beaker.session.secret`) and to set the `debug` flag to `false` in production environments. 
+
+Once you have configured your .ini, run the following command to initialize the database schema and create a couple of default entities. 
+
+#!sh
+$ cd /opt/adhocracy
+$ paster setup-app example.ini
+
+Among other things, this will create:
+ * a default user called '''admin''' with the password '''password'''.  
+ * an Adhocracy instance named "Test Instance"
+ * a site directory (in `adhocracy.site.dir`) and some template documents (see below). The site directory will be referenced as `$SITE` in the rest of this document (or "example", just to mess with you).
+
+== Running Adhocracy ==
+
+For information on how to execute Adhocracy, see the following pages: 
+ * http://trac.adhocracy.de/wiki/QueueProcessing is required both for development and deployment
+ * http://trac.adhocracy.de/wiki/RunningAdhocracy for development
+ * http://trac.adhocracy.de/wiki/DeploymentSetup for production sites
