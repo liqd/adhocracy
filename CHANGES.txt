@@ -5,7 +5,16 @@ adhocracy Changelog
 ----------------
 
 - Migrate from whoosh to solr.
-- ...
+
+- Allow single-instance mode of operation.
+
+- Allow per-instance deactivation of norms. 
+
+- Remove wiki from system.
+
+- Add INSTALL.txt and CHANGES.txt.
+
+- Change from BSD license to AGPL-3.
 
 1.0 (2010-07-24)
 ----------------
