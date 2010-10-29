@@ -13,7 +13,7 @@ setup(
     description='Community decision-making web platform',
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
-    url='http://wiki.liqd.net/Adhocracy',
+    url='http://trac.adhocracy.de/',
     install_requires=[
         "Pylons==0.9.7",
         "SQLAlchemy>=0.6",
