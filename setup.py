@@ -19,7 +19,7 @@ setup(
         "SQLAlchemy>=0.6",
         "sqlalchemy-migrate>=0.6",
         "FormEncode>=1.2.2",
-        "repoze.who<2.0a1",
+        "repoze.who>=2.0a1",
         "repoze.what==1.0.8", # 1.0.9 conflicts with repoze.who>=2.0
         "repoze.who.plugins.sa==1.0rc2",
         "repoze.what-pylons==1.0",

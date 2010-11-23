@@ -2,8 +2,6 @@ import logging
          
 from index import get_connection
 from adhocracy.model import refs
-from whoosh.qparser import MultifieldParser
-from whoosh.query import *
 
 log = logging.getLogger(__name__)
 
