@@ -23,7 +23,7 @@ class InstanceTile(BaseTile):
     @property
     def description(self):
         if self.instance.description:
-            return text.render(self.instance.description)
+            return text.render(self.instance.description, escape=False)
         return ""
     
     

@@ -60,10 +60,11 @@ def transclude_sub(transclude_path):
 
 
 @memoize('render')
-def render(text, substitutions=True):
+def render(text, substitutions=True, escape=True):
     if text is None:
         return ""
-    text = cgi.escape(text)
+    if escape:
+        text = cgi.escape(text)
     text = markdowner.convert(text)
     if substitutions:
         text = SUB_USER.sub(user_sub, text)
