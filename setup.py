@@ -14,6 +14,35 @@ setup(
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
     url='http://trac.adhocracy.de/',
+    classsifiers=[
+        "License :: OSI Approved :: GNU Affero General Public License v3",
+        "Operating System :: OS Independent",
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Other Audience",
+        "Programming Language :: Python",
+        "Framework :: Pylons",
+        "Environment :: Web Environment",
+        "Topic :: Internet :: WWW/HTTP",
+        "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+        "Topic :: Software Development :: Libraries :: Python Modules"
+    ],
+    long_description = """\
+Adhocracy is a policy drafting tool for distributed groups. 
+It allows members of organizations or the public to compose
+or vote documents that represent the policy of the group.
+
+In order to allow cooperation, Adhocracy uses LiquidDemocracy,
+a set of ideas that include delegating a user's voting rights
+to another to enable both active and passive participation in
+the process. We also implement ideas from  Direkter Parlamentarismus,
+a theory of mass participation in parliamentary processes. 
+
+Installation instructions and further information can be found at
+http://trac.adhocracy.de/wiki/InstallationInstructions
+
+This version requires Python 2.5 or later.
+""",
     install_requires=[
         "Pylons==0.9.7",
         "SQLAlchemy>=0.6",
