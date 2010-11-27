@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-11-02 09:37+0100\n"
+"PO-Revision-Date: 2010-11-27 23:32+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -1826,7 +1826,7 @@ msgstr ""
 #: adhocracy/templates/instance/edit.html:22
 msgid ""
 "Describe what the goals of this Instance are and who constitutes its "
-"community."
+"community. (Both Markdown and HTML are allowed here.)"
 msgstr ""
 
 #: adhocracy/templates/instance/edit.html:32
@@ -1946,9 +1946,7 @@ msgid "Use norm documents to structure the instance debate."
 msgstr ""
 
 #: adhocracy/templates/instance/edit.html:139
-#, fuzzy, python-format
-#| msgid "%s norm"
-#| msgid_plural "%s norms"
+#, fuzzy
 msgid "Use norms:"
 msgstr ""
 
@@ -2026,7 +2024,7 @@ msgstr ""
 #: adhocracy/templates/instance/new.html:32
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
-"community."
+"community. (Both Markdown and HTML are allowed here.)"
 msgstr ""
 
 #: adhocracy/templates/instance/show.html:13
@@ -2300,9 +2298,7 @@ msgstr ""
 #: adhocracy/templates/page/index.html:12
 #: adhocracy/templates/page/tiles.html:60 adhocracy/templates/tag/show.html:16
 #: adhocracy/templates/tag/show.html:56
-#, fuzzy, python-format
-#| msgid "%s norm"
-#| msgid_plural "%s norms"
+#, fuzzy
 msgid "new norm"
 msgstr ""
 
@@ -2336,9 +2332,7 @@ msgid "Norm title"
 msgstr ""
 
 #: adhocracy/templates/page/new.html:30
-#, fuzzy, python-format
-#| msgid "%s norm"
-#| msgid_plural "%s norms"
+#, fuzzy
 msgid "New norm"
 msgstr ""
 
@@ -3287,90 +3281,15 @@ msgstr ""
 msgid "How can I create a watch?"
 msgstr ""
 
-#~ msgid "Wiki pages"
-#~ msgstr ""
-
-#~ msgid "Wiki"
-#~ msgstr ""
-
-#~ msgid "Main document:"
-#~ msgstr ""
-
-#~ msgid "Main norm:"
-#~ msgstr ""
-
-#~ msgid "Page Title"
-#~ msgstr ""
-
-#~ msgid "The page will be categorized under the specified parent page."
-#~ msgstr ""
-
-#~ msgid "Pages"
-#~ msgstr ""
-
-#~ msgid "Create a page of text."
-#~ msgstr ""
-
-#~ msgid "new document"
-#~ msgstr ""
-
-#~ msgid "Document type:"
-#~ msgstr ""
-
-#~ msgid "Wiki page"
-#~ msgstr ""
-
-#~ msgid "Norm page"
+#~ msgid ""
+#~ "Describe what the goals of this "
+#~ "Instance are and who constitutes its "
+#~ "community."
 #~ msgstr ""
 
 #~ msgid ""
-#~ "Norms can only be edited by "
-#~ "including variants of them in proposals"
-#~ " and voting on them."
-#~ msgstr ""
-
-#~ msgid "The new page will be categorized under the specified parent page."
-#~ msgstr ""
-
-#~ msgid "Create a new document."
-#~ msgstr ""
-
-#~ msgid "Edit this document."
-#~ msgstr ""
-
-#~ msgid "Which goal does this proposal pursue?"
-#~ msgstr ""
-
-#~ msgid "Proposal"
-#~ msgstr ""
-
-#~ msgid "(initiative)"
-#~ msgstr ""
-
-#~ msgid "(change)"
-#~ msgstr ""
-
-#~ msgid "Discussion (%s)"
-#~ msgstr ""
-
-#~ msgid "see norm"
-#~ msgstr ""
-
-#~ msgid "Compare this variant text to others."
-#~ msgstr ""
-
-#~ msgid "comparison view"
-#~ msgstr ""
-
-#~ msgid "exclude"
-#~ msgstr ""
-
-#~ msgid "Text"
-#~ msgstr ""
-
-#~ msgid "Subpages (%s)"
-#~ msgstr ""
-
-#~ msgid "This document has no text yet."
+#~ "Describe what the goals of this "
+#~ "instance are and who constitutes its "
+#~ "community."
 #~ msgstr ""
 

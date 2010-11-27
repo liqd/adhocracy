@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2010-11-02 09:37+0100\n"
+"PO-Revision-Date: 2010-11-27 23:32+0100\n"
 "Last-Translator: Benjamin Claverie <ben@skl8em.com>\n"
 "Language-Team: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -180,8 +180,7 @@ msgid "Justin Case has entered the room."
 msgstr "Justin Case est entré dans la salle."
 
 #: adhocracy/controllers/page.py:101
-#, fuzzy, python-format
-#| msgid "The proposal %s has been deleted."
+#, fuzzy
 msgid "No proposal has been specified"
 msgstr "La proposition %s a été effacé."
 
@@ -209,7 +208,6 @@ msgstr "alphabétique"
 
 #: adhocracy/controllers/page.py:242
 #, fuzzy
-#| msgid "Cannot compare identical text revisions."
 msgid "No such text revision."
 msgstr "La comparaisons de version identique du même texte n'est pas possible."
 
@@ -1031,7 +1029,6 @@ msgstr ""
 
 #: adhocracy/lib/helpers/page_helper.py:23
 #, fuzzy
-#| msgid "(none)"
 msgid "(Unknown)"
 msgstr "(rien)"
 
@@ -1495,7 +1492,6 @@ msgstr ""
 
 #: adhocracy/templates/comment/tiles.html:112
 #, fuzzy
-#| msgid "delete"
 msgid "(deleted)"
 msgstr "effacer"
 
@@ -1886,10 +1882,15 @@ msgid "Description"
 msgstr "Description"
 
 #: adhocracy/templates/instance/edit.html:22
+#, fuzzy
+#| msgid "" "Describe what the goals of this instance are and who constitutes
+#| its " "community."
 msgid ""
 "Describe what the goals of this Instance are and who constitutes its "
-"community."
-msgstr "Décrivez les buts de cet instance et ses membres."
+"community. (Both Markdown and HTML are allowed here.)"
+msgstr ""
+"Décriver quels sont les buts de cette instance et qui constitue ses "
+"membres."
 
 #: adhocracy/templates/instance/edit.html:32
 msgid "Voting Rules"
@@ -2017,7 +2018,6 @@ msgstr ""
 
 #: adhocracy/templates/instance/edit.html:139
 #, fuzzy
-#| msgid "see norm"
 msgid "Use norms:"
 msgstr "voir règle"
 
@@ -2099,9 +2099,12 @@ msgstr ""
 "noter que cette clef ne peut être modifié une fois l'instance créé."
 
 #: adhocracy/templates/instance/new.html:32
+#, fuzzy
+#| msgid "" "Describe what the goals of this instance are and who constitutes
+#| its " "community."
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
-"community."
+"community. (Both Markdown and HTML are allowed here.)"
 msgstr ""
 "Décriver quels sont les buts de cette instance et qui constitue ses "
 "membres."
@@ -2378,7 +2381,6 @@ msgstr "Cette règle n'a pas encore de texte."
 #: adhocracy/templates/page/tiles.html:59 adhocracy/templates/tag/show.html:15
 #: adhocracy/templates/tag/show.html:55
 #, fuzzy
-#| msgid "Create a new document."
 msgid "Create a new norm."
 msgstr "Crée un nouveau document."
 
@@ -2386,7 +2388,6 @@ msgstr "Crée un nouveau document."
 #: adhocracy/templates/page/tiles.html:60 adhocracy/templates/tag/show.html:16
 #: adhocracy/templates/tag/show.html:56
 #, fuzzy
-#| msgid "see norm"
 msgid "new norm"
 msgstr "voir règle"
 
@@ -2406,7 +2407,6 @@ msgstr ""
 
 #: adhocracy/templates/page/new.html:20
 #, fuzzy
-#| msgid "What is a page?"
 msgid "What is a wiki page?"
 msgstr "Qu'est ce qu'une page?"
 
@@ -2420,13 +2420,11 @@ msgstr "Qu'est ce qu'une règle?"
 
 #: adhocracy/templates/page/new.html:28
 #, fuzzy
-#| msgid "New norm title"
 msgid "Norm title"
 msgstr "Nouveau titre de règle"
 
 #: adhocracy/templates/page/new.html:30
 #, fuzzy
-#| msgid "see norm"
 msgid "New norm"
 msgstr "voir règle"
 
@@ -2454,7 +2452,6 @@ msgstr "Page parent:"
 
 #: adhocracy/templates/page/new.html:45
 #, fuzzy
-#| msgid "The new norm will be categorized under the specified parent page."
 msgid "The new norm will be categorized under the specified parent theme."
 msgstr "La nouvelle règle va être catégorisé sous la page parent spécifié."
 
@@ -2504,7 +2501,6 @@ msgstr ""
 
 #: adhocracy/templates/page/tiles.html:72
 #, fuzzy
-#| msgid "Delete this variant."
 msgid "Edit this variant."
 msgstr "Motion selectionné <b>%s</b>"
 
@@ -2983,7 +2979,6 @@ msgstr "nouvelle motion"
 
 #: adhocracy/templates/selection/tiles.html:67
 #, fuzzy
-#| msgid "more proposals"
 msgid "remove from proposal"
 msgstr "plus de propositions"
 
@@ -3426,88 +3421,9 @@ msgstr "Qu'est ce que je peux observer?"
 msgid "How can I create a watch?"
 msgstr "Comment créer une observation?"
 
-#~ msgid "Wiki pages"
-#~ msgstr "Page wiki"
-
-#~ msgid "Wiki"
-#~ msgstr ""
-
-#~ msgid "Main document:"
-#~ msgstr "nouveau document"
-
-#~ msgid "Main norm:"
-#~ msgstr ""
-
-#~ msgid "Page Title"
-#~ msgstr "Titre de la page"
-
-#~ msgid "The page will be categorized under the specified parent page."
-#~ msgstr "Cette page sera categorisé sous la page spécifié comme parente."
-
-#~ msgid "Pages"
-#~ msgstr "Pages"
-
-#~ msgid "Create a page of text."
-#~ msgstr "Crée une page de texte."
-
-#~ msgid "new document"
-#~ msgstr "nouveau document"
-
-#~ msgid "Document type:"
-#~ msgstr "Type de document:"
-
-#~ msgid "Wiki page"
-#~ msgstr "Page wiki"
-
-#~ msgid "Norm page"
-#~ msgstr "Page des règles"
-
 #~ msgid ""
-#~ "Norms can only be edited by "
-#~ "including variants of them in proposals"
-#~ " and voting on them."
-#~ msgstr ""
-#~ "Une règle peut seulement être édité "
-#~ "en incluant une motion la concernant "
-#~ "dans une proposition et en soumettant"
-#~ " celle ci au vote. "
-
-#~ msgid "The new page will be categorized under the specified parent page."
-#~ msgstr "Cette nouvelle page sera catégorisée sous la page parente spécifié."
-
-#~ msgid "Edit this document."
-#~ msgstr "Éditer ce document."
-
-#~ msgid "Which goal does this proposal pursue?"
-#~ msgstr "Quel est le but recherché par cette proposition?"
-
-#~ msgid "Proposal"
-#~ msgstr "proposition %s "
-
-#~ msgid "(initiative)"
-#~ msgstr ""
-
-#~ msgid "(change)"
-#~ msgstr "(neuf)"
-
-#~ msgid "Discussion (%s)"
-#~ msgstr "Dicussion à  propos de %s"
-
-#~ msgid "Compare this variant text to others."
-#~ msgstr "Comparer cette motion à d'autres."
-
-#~ msgid "comparison view"
-#~ msgstr ""
-
-#~ msgid "exclude"
-#~ msgstr "Inclure"
-
-#~ msgid "Text"
-#~ msgstr "suivant"
-
-#~ msgid "Subpages (%s)"
-#~ msgstr "Sous-page"
-
-#~ msgid "This document has no text yet."
-#~ msgstr "Ce document n'a pas encore de texte."
+#~ "Describe what the goals of this "
+#~ "Instance are and who constitutes its "
+#~ "community."
+#~ msgstr "Décrivez les buts de cet instance et ses membres."
 
