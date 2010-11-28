@@ -97,12 +97,6 @@ pre {
 	margin-top: -4px;
 }
 
-.hidden,
-.prototype,
-.showjs {
-	display: none;
-}
-
 .smallarea {
 	min-height: 4em;
 }
@@ -2111,3 +2105,9 @@ label.inline {
 	
 }
 
+.hidden,
+.prototype,
+.showjs,
+a.showjs {
+	display: none;
+}

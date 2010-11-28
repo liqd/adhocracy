@@ -163,6 +163,9 @@ def make_map():
         
     map.connect('/search/filter', controller='search', action='filter')
     map.connect('/search', controller='search', action='query')
+    
+    map.connect('/abuse/report', controller='abuse', action='report')
+    map.connect('/abuse/new', controller='abuse', action='new')
         
     map.connect('/instance/{id}_{x}x{y}.png', 
                 controller='instance', action='icon')

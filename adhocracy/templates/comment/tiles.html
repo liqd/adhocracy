@@ -104,7 +104,7 @@
     				<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1&ret_url=${ret_url}">${_("reply")}</a>
     			%endif 
 
-    			<a class="button delete" onClick="return toggle_comment(${comment.id})">${_("hide")}</a>
+    			<a class="button delete showjs" onClick="return toggle_comment(${comment.id})">${_("hide")}</a>
     		</div>
 				
 			<div class="title">
@@ -148,6 +148,8 @@
     					&middot;
     					<a href="${h.entity_url(comment, member='history')}">${_("history")}</a>
     				%endif
+    				&middot;
+    				<a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
     				&middot;
     				<a href="${h.entity_url(comment, comment_page=True)}">${_("link")}</a>
     			%endif

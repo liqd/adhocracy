@@ -35,7 +35,7 @@ def to_mail(to_name, to_email, subject, body, headers={}):
         to = Header(u"%s <%s>" % (to_name, to_email), ENCODING)
         msg['To'] = to
         msg['Date'] = email.Utils.formatdate(time())
-        msg['X-Mailer'] = _("Adhocracy SMTP %s") % version.get_version()
+        msg['X-Mailer'] = "Adhocracy SMTP %s" % version.get_version()
         
         #log.debug("MAIL\r\n" + msg.as_string())
              

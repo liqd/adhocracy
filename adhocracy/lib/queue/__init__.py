@@ -17,12 +17,15 @@ def daily(): post_message(DAILY, '')
 def dispatch():
     from adhocracy.model import hooks
     from adhocracy.lib import event
+    from adhocracy.lib import broadcast
     def _handle_message(message):
         service = message.application_headers.get('service')
         if service == hooks.SERVICE:
             hooks.handle_queue_message(message.body)
         elif service == event.SERVICE:
             event.handle_queue_message(message.body)
+        elif service == broadcast.REPORT_SERVICE:
+            broadcast.handle_abuse_message(message.body)
         elif service == MINUTE:    
             log.debug("Minutely housekeeping...")
             from adhocracy.lib import democracy
