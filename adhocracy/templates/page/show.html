@@ -63,6 +63,17 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 </div>
 
 <div class="mainbar">
+    %if h.has_permission("instance.admin") and c.page.function == 'document':
+        <div class="infobox">
+        Notice to instance administrators: <br/><br/>    
+        <b>
+            Wiki functionality has been removed from Adhocracy in release 1.1. Please move any Wiki pages to an external CMS or wiki before January 31, 2011. If you need assistance, please contact support@adhocracy.cc.
+        </b>
+        
+        
+        </div>
+    %endif
+    
 	${tiles.page.inline(c.page, c.tile, text=c.text, 
 	                    subpages_pager=c.subpages_pager,
 	                    hide_discussion=False)}

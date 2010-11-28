@@ -7,7 +7,7 @@ def name():
 def base_url(instance, path=None):
     url = "http://"
     if instance is not None and g.single_instance is None:
-        url += instance.key + u"."
+        url += instance.key + "."
     url += request.environ.get('adhocracy.domain')
     port = int(request.environ.get('SERVER_PORT'))
     if port != 80:
