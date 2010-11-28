@@ -59,6 +59,10 @@ def clear_tag(tag):
 
  
 def memoize(iden, time = 0):
+    try:
+        from pylons import tmpl_context as c
+        iden = c.instance.key + '.' + iden if c.instance else iden
+    except: pass
     def memoize_fn(fn):
         from adhocracy.lib.cache.util import NoneResult
         def new_fn(*a, **kw):
@@ -82,3 +86,4 @@ def memoize(iden, time = 0):
             return res
         return new_fn
     return memoize_fn
+

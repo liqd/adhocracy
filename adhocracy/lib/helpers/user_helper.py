@@ -16,7 +16,7 @@ def icon_url(user, size=32):
     id = user.email if user.email else user.user_name
     gravatar_url = "http://www.gravatar.com/avatar.php?"
     gravatar_url += urllib.urlencode({
-        'gravatar_id': hashlib.md5(id).hexdigest(), 
+        'gravatar_id': hashlib.md5(id.strip().lower()).hexdigest(), 
         'default': 'identicon', 
         'size': str(size)})
     return gravatar_url
@@ -48,12 +48,11 @@ def link(user, size=16, scope=None):
     return _specific_link(user, c.instance, size, scope, c.user)
     
 
+@cache.memoize('user_url')
 def url(user, instance=None, **kwargs):
-    instance = c.instance if not instance else instance
-    @cache.memoize('user_url')
-    def furl(user, instance=None, **kwargs):
-        return _url.build(instance, 'user', user.user_name, **kwargs)
-    return furl(user, instance, **kwargs)
+    instance = instance if instance is not None else c.instance
+    return _url.build(instance, 'user', user.user_name, **kwargs)
+    
 
 
 @cache.memoize('user_bc')
