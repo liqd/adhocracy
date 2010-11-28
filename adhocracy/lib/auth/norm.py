@@ -9,7 +9,7 @@ show = page.show
 
 
 def create(variant=Text.HEAD):
-    return has('instance.admin') and page.create()
+    return has('instance.admin') and page.create() and c.instance.use_norms
 
 
 def edit(page, variant=Text.HEAD):

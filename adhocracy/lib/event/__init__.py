@@ -36,6 +36,5 @@ def process(event):
     notification.notify(event)
 
 def handle_queue_message(message):
-    sleep(2)
     event = model.Event.find(int(message), instance_filter=False)
     process(event)

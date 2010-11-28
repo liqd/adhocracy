@@ -22,6 +22,7 @@ def update(entity):
         return
     index = entity.to_index()
     index['id'] = gen_id(entity)
+    log.debug("Updating index for: %s" % index.get('id'))
     if index.get('skip', False):
         return
     else:

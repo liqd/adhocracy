@@ -17,6 +17,7 @@ def daily(): post_message(DAILY, '')
 # TODO: Inversion of control
 def dispatch():
     from adhocracy.model import hooks
+    import adhocracy.model as model
     from adhocracy.lib import event
     from adhocracy.lib import broadcast
     def _handle_message(message):        
@@ -41,4 +42,5 @@ def dispatch():
             watchlist.clean_stale_watches()
             from adhocracy.lib.search import index
             index.optimize()
+        model.meta.Session.remove()
     consume(_handle_message)

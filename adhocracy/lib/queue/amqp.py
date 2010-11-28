@@ -60,12 +60,14 @@ def post_message(service, text):
 def callback_wrapper(channel, callback):
     def _handle(message):
         begin_time = time()
+        log.debug("%r, body: %r" % (message.application_headers, message.body))
         try:
             callback(message)
         except Exception, ex:
             log.exception(ex)
         channel.basic_ack(message.delivery_tag)
-        log.debug("Queue message - > %.2fms" % ((time() - begin_time)*1000))
+        log.debug("Queue message %s - > %.2fms" % (message.application_headers, 
+            (time() - begin_time)*1000))
     return _handle
 
    
