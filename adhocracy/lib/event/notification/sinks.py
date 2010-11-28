@@ -28,7 +28,7 @@ def twitter_sink(pipeline):
             tweet += ' ' + short_url
             try:
                 log.debug("twitter DM to %s: %s" % (user.twitter.screen_name, tweet))
-                api = microblog.create_api()
+                api = microblog.create_default()
                 api.PostDirectMessage(user.twitter.screen_name, tweet)
             except Exception, e:
                 raise

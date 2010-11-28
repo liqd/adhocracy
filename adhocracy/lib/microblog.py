@@ -20,11 +20,10 @@ DEFAULT_SHORTENER_KEY = "R_b3085006e627e897970d7bdd1d4fda95"
 def system_user():
     return config.get('adhocracy.twitter.username')
 
-def create_api(username=None, password=None):
-    if not (username and password):
-        username = config.get('adhocracy.twitter.username')
-        password = config.get('adhocracy.twitter.password')
-    return Api(username=username, password=password)
+def create_default():
+    key = config.get('adhocracy.twitter.key')
+    secret = config.get('adhocracy.twitter.secret')
+    return create_oauth(key, secret)
 
 def create_oauth(key=None, secret=None):
     token = None
