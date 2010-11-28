@@ -1,4 +1,5 @@
 import logging
+from time import sleep
 from amqp import has_queue, post_message, consume
 
 log = logging.getLogger(__name__)
@@ -19,6 +20,10 @@ def dispatch():
     from adhocracy.lib import event
     from adhocracy.lib import broadcast
     def _handle_message(message):
+        # mysql commit is non-blocking and rabbit is fast, avoid 
+        # processing entities that have not left transaction yet:
+        sleep(0.1) 
+        
         service = message.application_headers.get('service')
         if service == hooks.SERVICE:
             hooks.handle_queue_message(message.body)
