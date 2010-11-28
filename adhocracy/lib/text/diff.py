@@ -134,8 +134,8 @@ def norm_texts_history_compare(text_from, text_to):
     if text_to is None or text_from.id == text_to.id:
         return render_line_based(text_from)
     lines = _diff_line_based(text_to.text, 
-                             text_from.text)
-                             #replace_as_insert=True,)
+                             text_from.text,
+                             replace_as_insert=True)
     return _line_table(lines)
                             
 @memoize('normtab_diff')

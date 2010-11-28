@@ -276,7 +276,7 @@ class UserController(BaseController):
                 url = session.get('came_from')
                 del session['came_from']
                 session.save()
-            h.flash(_("You have successfully logged in.") % c.user.name)
+            h.flash(_("You have successfully logged in."))
             redirect(str(url))
         else:
             session.delete()
