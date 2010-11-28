@@ -56,7 +56,7 @@
 		</div>
 		<div class="link">
 			
-			<a href="javascript:toggle_comment(${comment.id});">${comment.latest.title}</a>
+			<a href="javascript:toggle_comment(${comment.id});" onClick="return toggle_comment(${comment.id})">${comment.latest.title}</a>
 			${_("by %(user)s, %(score)s points.") % dict(user=h.user.link(comment.creator, scope=comment.topic),
 					  																		   score=tile.score)|n}
 		</div>
