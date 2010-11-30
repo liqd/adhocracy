@@ -9,7 +9,6 @@ from adhocracy.lib import cache
 
 import url as _url
 
-@cache.memoize('tag_link')
 def link(tag, count=None, size=None, base_size=12, plain=False):
     text = u"<span class='tag_link %s'><a" % ("plain" if plain else "")
     if size is not None:
@@ -20,7 +19,6 @@ def link(tag, count=None, size=None, base_size=12, plain=False):
         text += u"&thinsp;&times;" + str(count)
     text += u"</span>"
     return text
-
 
 def url(tag, instance=None, **kwargs):
     if instance is None:
@@ -34,7 +32,6 @@ def url(tag, instance=None, **kwargs):
             ident = tag.id
         return _url.build(instance, u'tag', ident, **kwargs)
     return url_(tag, instance, **kwargs)
-    
     
 def bc_entity(tag):
     return _url.BREAD_SEP + _url.link(tag.name, url(tag))
