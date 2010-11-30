@@ -86,7 +86,7 @@ class TagController(BaseController):
     @RequireInternalRequest()
     @validate(schema=TaggingDeleteForm(), form="bad_request", post_only=False, on_get=True)
     def untag(self, format='html'):
-        tag = self.form_result.get('tag')
+        tagging = self.form_result.get('tagging')
         require.tag.delete(tagging)
         tagging.delete()
         model.meta.Session.commit()

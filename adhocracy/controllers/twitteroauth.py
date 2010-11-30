@@ -6,7 +6,7 @@ from pylons.i18n import _
 from urllib2 import HTTPError
 
 from adhocracy.lib.base import *
-from adhocracy.lib.microblog import create_api, create_oauth, system_user
+from adhocracy.lib.microblog import create_default, create_oauth, system_user
 
 log = logging.getLogger(__name__)
 
