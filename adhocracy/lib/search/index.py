@@ -20,6 +20,9 @@ def gen_id(entity):
 def update(entity):
     if not isinstance(entity, model.meta.Indexable):
         return
+    if hasattr(entity, 'is_deleted') and entity.is_deleted():
+        delete(entity)
+        return
     index = entity.to_index()
     index['id'] = gen_id(entity)
     log.debug("Updating index for: %s" % index.get('id'))

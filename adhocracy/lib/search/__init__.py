@@ -20,10 +20,10 @@ def init_search(with_db=True):
                                       index.delete)
 
 def rebuild_all():
-    clear()
+    #clear()
     for cls in INDEXED_CLASSES:
         log.info("Re-indexing %ss..." % cls.__name__)
-        for entity in model.meta.Session.query(cls):
+        for entity in model.meta.Session.query(cls):            
             index.update(entity)
         
             
