@@ -111,6 +111,8 @@ class Delegateable(meta.Indexable):
             comment.delete(delete_time=delete_time)
         for poll in self.polls:
             poll.end()
+        for tagging in self.taggings:
+            tagging.delete()
     
             
     def is_deleted(self, at_time=None):
