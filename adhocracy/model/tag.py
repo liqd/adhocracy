@@ -109,7 +109,8 @@ class Tag(object):
         #if limit is not None: 
         #    q = q.limit(limit)
         #print "QUERY", q
-        return q.all()[:limit]
+        tags = [(k, v) for k, v in q.all() if v > 0]
+        return tags[:limit]
         
     
     @classmethod
@@ -125,6 +126,7 @@ class Tag(object):
         q = q.join((snd_tagging, Delegateable.taggings))
         q = q.filter(snd_tagging.tag_id==tag.id)
         q = q.filter(Tag.id!=tag.id)
+        #q = q.filter(func.count(Tagging.id)>0)
         if ifilter.has_instance():
             q = q.filter(Delegateable.instance_id==ifilter.get_instance().id)
         q = q.group_by(Tag.id, Tag.create_time, Tag.name)
@@ -132,7 +134,8 @@ class Tag(object):
         # SQLAlchemy turns this into a fucking subquery:
         #if limit is not None: 
         #    q = q.limit(limit)
-        return q.all()[:limit]
+        tags = [(k, v) for k, v in q.all() if v > 0]
+        return tags[:limit]
         
     
     @classmethod

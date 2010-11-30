@@ -48,11 +48,12 @@ def link(user, size=16, scope=None):
     return _specific_link(user, c.instance, size, scope, c.user)
     
 
-@cache.memoize('user_url')
 def url(user, instance=None, **kwargs):
+    @cache.memoize('user_url')
+    def url_(user, instance, **kwargs):
+        return _url.build(instance, 'user', user.user_name, **kwargs)
     instance = instance if instance is not None else c.instance
-    return _url.build(instance, 'user', user.user_name, **kwargs)
-    
+    return url_(user, instance, **kwargs)
 
 
 @cache.memoize('user_bc')
