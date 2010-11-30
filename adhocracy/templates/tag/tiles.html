@@ -46,6 +46,9 @@
 					<a class="ttip" title="${_('Support this tag for this proposal.')}" href="/tag?_method=POST&delegateable=${delegateable.id}&tags=${tag.name|u}"><img src="/img/icons/tag_add.png" alt="+" /></a>
 				%endif
 			%endif
+			%if can.instance.edit(c.instance):
+			    <a href="/untag_all?tag=${tag.id}&delegateable=${delegateable.id}&${h.url_token()}">${_("delete")}</a> 
+			%endif
 			</li>
 			<% tagn = tagn + 1 %>
 		%endfor

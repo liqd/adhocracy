@@ -20,6 +20,11 @@ class TaggingDeleteForm(formencode.Schema):
     allow_extra_fields = True
     tagging = forms.ValidTagging()
 
+class TaggingAllDeleteForm(formencode.Schema):
+    allow_extra_fields = True
+    tag = forms.ValidTag()
+    delegateable = forms.ValidDelegateable()
+
 class TaggingCompleteForm(formencode.Schema):
     allow_extra_fields = True
     q = validators.String(max=10000, not_empty=False, if_empty=u'', if_missing=u'')
@@ -81,12 +86,26 @@ class TagController(BaseController):
     @RequireInternalRequest()
     @validate(schema=TaggingDeleteForm(), form="bad_request", post_only=False, on_get=True)
     def untag(self, format='html'):
-        tagging = self.form_result.get('tagging')
+        tag = self.form_result.get('tag')
         require.tag.delete(tagging)
         tagging.delete()
         model.meta.Session.commit()
         redirect(h.entity_url(tagging.delegateable, format=format))
-      
+    
+        
+    @RequireInstance
+    @RequireInternalRequest()
+    @validate(schema=TaggingAllDeleteForm(), form="bad_request", post_only=False, on_get=True)
+    def untag_all(self, format='html'):
+        # HACK create a proper permission
+        require.instance.edit(c.instance) 
+        delegateable = self.form_result.get('delegateable')
+        tag = self.form_result.get('tag')
+        for tagging in delegateable.taggings:
+            if tagging.tag == tag:
+                tagging.delete()
+        model.meta.Session.commit()
+        redirect(h.entity_url(delegateable, format=format))
     
     @RequireInstance 
     @validate(schema=TaggingCompleteForm(), form="bad_request", post_only=False, on_get=True) 

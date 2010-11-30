@@ -151,6 +151,7 @@ def make_map():
                         conditions=dict(method=['POST']))
     map.connect('/tag/autocomplete', controller='tag', action='autocomplete')
     map.connect('/untag', controller='tag', action='untag')
+    map.connect('/untag_all', controller='tag', action='untag_all')
     map.connect('/tag/{id}', controller='tag', action='show')
     
     map.resource('delegation', 'delegation')

@@ -136,26 +136,6 @@ class ProposalController(BaseController):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.show(c.proposal)
         
-        #q = model.meta.Session.query(model.Proposal)
-        #id = int(unicode(id).split('-', 1)[0])
-        #q = q.filter(model.Proposal.id==id)
-        #q = q.filter(model.Proposal.instance_id==c.instance.id)
-        #q = q.filter(or_(model.Proposal.delete_time==None,
-        #                 model.Proposal.delete_time>datetime.utcnow()))
-        #q = q.options(eagerload_all('parents'))
-        #q = q.options(eagerload_all('rate_poll.tallies'))
-        #q = q.options(eagerload_all('creator'))
-        #q = q.options(eagerload_all('rate_poll.tallies'))
-        #q = q.options(eagerload_all('taggings'))
-        #q = q.options(eagerload_all('description'))
-        #q = q.options(eagerload_all('description.creator'))
-        #q = q.options(eagerload_all('description.comments.revisions'))
-        #q = q.options(eagerload_all(model.Proposal._selections))
-        #q = q.options(eagerload_all('_selections.page._texts'))
-        #q = q.options(eagerload_all('children'))
-        #q = q.options(eagerload_all('parents'))
-        #c.proposal = q.first()
-        
         if format == 'rss':
             return self.activity(id, format)
         

@@ -156,6 +156,17 @@ class ValidTagging(formencode.FancyValidator):
                  value, state)
         return tagging
         
+class ValidTag(formencode.FancyValidator):
+    def _to_python(self, value, state):
+        from adhocracy.model import Tag
+        tag = Tag.find(value)
+        if not tag: 
+            raise formencode.Invalid(
+                _("No tag with ID '%s' exists") % value,
+                value, state)
+        return tag
+        
+        
 class ValidText(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.model import Text
