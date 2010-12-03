@@ -483,7 +483,7 @@ body {
 } 
 
 #instanceheader .headerbox a.area_shown,
-#instanceheader .headerbox #menu a.active,
+#instanceheader .headerbox a.active,
 #instanceheader .headerbox.instance a.instance,
 #instanceheader .headerbox.proposal a.proposal,
 #instanceheader .headerbox.selection a.proposal,
@@ -501,18 +501,25 @@ body {
 	text-decoration: none;
 }
 
-#instanceheader #logo {
-	position: absolute;
-	left: 0em;
-	bottom: 5px;
-	margin-right: 0.9em;
+#instanceheader #menu {
+	position: absolute;	
+	top: 23px;
 }
 
-#instanceheader #menu {
-	position: absolute;
-	bottom: 23px;
-	padding-left: 60px;
+#instanceheader #menu-links {
+	display: inline-block;
 }
+
+#instanceheader #logo { 
+	float: left;
+	margin-top: -16px;
+	padding-right: 20px;
+}
+
+#instanceheader #menu ul {
+	display: inline-block;
+}
+
 
 #instanceheader #searchform {
 	position: absolute;
@@ -520,7 +527,7 @@ body {
 	right: 0em;
 }
 
-#instanceheader #menu a, 
+#instanceheader #menu ul a, 
 #instanceheader #search {
 	font-weight: bold;
 	font-size: 14px;
@@ -544,7 +551,7 @@ body {
 	border: 1px solid #ccc;
 }
 
-#instanceheader #menu a:hover {
+#instanceheader #menu-links ul li a:hover {
 	text-decoration: none;
 	background-repeat: repeat-x;
 	background-image: url(/img/menu_bg.png);
@@ -557,6 +564,7 @@ body {
 
 #instanceheader #menu ul {
 	margin-top: 0px;
+	margin-right: 20px;
 	list-style: none;
 	display: inline;
 }
