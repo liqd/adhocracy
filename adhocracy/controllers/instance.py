@@ -182,13 +182,17 @@ class InstanceController(BaseController):
         return ret_success(entity=c.page_instance, format=format)
     
     
-    def icon(self, id, x=32, y=32):
+    def icon(self, id, y=24, x=None):
         c.page_instance = model.Instance.find(id)
         try:
-            (x, y) = (int(x), int(y))
+            y = int(y)
         except ValueError, ve:
             log.debug(ve)
-            (x, y) = (24, 24)
+            y = 24
+        try: 
+            x = int(x)
+        except: 
+            x = None
         (path, io) = logo.load(c.page_instance, size=(x, y))
         return render_png(io, os.path.getmtime(path))
     

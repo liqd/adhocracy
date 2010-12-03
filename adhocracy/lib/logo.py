@@ -29,11 +29,15 @@ def store(instance, file):
 
 @memoize('instance_image', 3600)
 def load(instance, size, fallback=DEFAULT):
+    x, y = size
     instance_path = _instance_logo_path(instance)
     if not os.path.exists(instance_path):
         instance_path = util.get_path(*fallback)
     logo_image = Image.open(instance_path)
-    logo_image.thumbnail(size, Image.ANTIALIAS)
+    if x is None: 
+        orig_x, orig_y = logo_image.size
+        x = int(y * (float(orig_x) / float(orig_y)))
+    logo_image.thumbnail((x, y), Image.ANTIALIAS)
     sio = StringIO.StringIO()
     logo_image.save(sio, 'PNG')
     return (instance_path, sio.getvalue())
