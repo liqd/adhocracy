@@ -2,7 +2,7 @@ The following installation instructions are kept up-to-date at http://trac.adhoc
 
 = Installation Instructions = 
 
-Installing Adhocracy is, unfortunately, a complicated process. The administrator should have at least some experience in dealing with Python packages, Unix shell commands and building packages from SVN checkouts. 
+Installing Adhocracy is a somewhat complicated process. The administrator should have at least some experience in dealing with Python packages, Unix shell commands, server configuration (for deployment purposes) and optionally, building packages from mercurial checkouts. 
 
 == Preflight Entertainment == 
 
@@ -12,15 +12,29 @@ The guide assumes that you're installing Adhocracy at `/opt/adhocracy` and that 
 
 === virtualenv ===
 
-Adhocracy installs about five metric tons of Python packages. In order to keep your Python install clean, lean and mean, you will want to use a [http://pypi.python.org/pypi/virtualenv virtualenv]. To get going, try this: 
+Adhocracy installs about five metric tons of Python packages. In order to keep your Python install clean, lean and mean, you will want to use a [http://pypi.python.org/pypi/virtualenv virtualenv]. To get going, 
 
+ * either install the virtualenv package found in your system's package manager (on Debian based systems, run  `apt-get install virtualenv`) and do
+
+{{{
 #!sh
-# easy_install virtualenv
+$ su adhocracy
+$ virtualenv /opt/adhocracy/env
 [gibberish]
-# su adhocracy 
+$ source /opt/adhocracy/env/bin/activate
+}}}
+
+ * or, if your system doesn't have virtualenv pre-packaged, try this: 
+
+{{{
+#!sh
+$ easy_install virtualenv
+[gibberish]
+$ su adhocracy 
 $ python virtualenv.py /opt/adhocracy/env
 [more gibberish]
 $ source /opt/adhocracy/env/bin/activate
+}}}
 
 Whenever you enter the virtualenv, distutils will only install packages to the virtualenv's library instead of your real site-packages directory.
 
@@ -39,14 +53,9 @@ For simpler setups, a single-instance Adhocracy mode is available. You can enabl
 
 == Getting Adhocracy == 
 
-**If you're a developer, read http://trac.adhocracy.cc/wiki/DevelopmentHints instead of this part.**
+**If you're a developer (or just would like to checkout the source code from the mercurial repository), read DevelopmentHints instead of this part.**
 
-There is not currently a release on PyPI, so the repository is the only way to install Adhocracy. If you're looking for a stable version, look into http://trac.adhocracy.cc/browser/branches for the latest release branch. If you just want to install Adhocracy for deployment, directly check out the Package via easy_install. This will not leave you with a repo checkout to work on, but it is cleaner and simpler than raw SVN.
-
-#!sh
-$ easy_install http://svn.adhocracy.cc/trunk
-
-This will install any required Python libraries, including Pylons, Paste, SQLAlchemy, repoze.who, repoze.what, whoosh and a few others.
+Adhocracy's source code is hosted on PyPI, so download the version of your choice from http://pypi.python.org/pypi/adhocracy/ and unpack it.
 
 == Configuration == 
 
