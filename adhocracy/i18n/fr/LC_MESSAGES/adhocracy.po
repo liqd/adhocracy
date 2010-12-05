@@ -1820,7 +1820,7 @@ msgid ""
 "of what you were trying to do."
 msgstr ""
 "Si cette erreur continue, veuiller <a "
-"href='http://trac.adhocracy.de/newticket'>notifier le developpeur</a> "
+"href='http://trac.adhocracy.cc/newticket'>notifier le developpeur</a> "
 "avec und description de ce que vous vouliez faire."
 
 #: adhocracy/templates/error/http.html:13

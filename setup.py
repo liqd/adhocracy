@@ -13,7 +13,7 @@ setup(
     description='Policy drafting and decision-making web platform',
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
-    url='http://trac.adhocracy.de/',
+    url='http://adhocracy.cc/',
     classsifiers=[
         "License :: OSI Approved :: GNU Affero General Public License v3",
         "Operating System :: OS Independent",
@@ -39,7 +39,7 @@ the process. We also implement ideas from  Direkter Parlamentarismus,
 a theory of mass participation in parliamentary processes. 
 
 Installation instructions and further information can be found at
-http://trac.adhocracy.de/wiki/InstallationInstructions
+http://trac.adhocracy.cc/wiki/InstallationInstructions
 
 This version requires Python 2.5 or later.
 """,
