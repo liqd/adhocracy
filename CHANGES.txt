@@ -1,22 +1,22 @@
 adhocracy Changelog
 ===================
 
-1.1 (2010-XX-YY)
+1.1 (2010-12-05)
 ----------------
 
+- Join "Goal" and "Implementation" pages on proposals.
 - Migrate from whoosh to solr.
-
 - Allow single-instance mode of operation.
-
 - Allow per-instance deactivation of norms. 
-
 - Remove wiki from system.
-
+- Change from cron-initiated regular background processing 
+  to continuous background queue polling process.
 - Add INSTALL.txt and CHANGES.txt.
-
 - Change from BSD license to AGPL-3.
+- Update to SQLAlchemy 0.6
+- Many smaller bug fixes. 
 
 1.0 (2010-07-24)
 ----------------
 
-- Initial release.
+- Initial stable release.
