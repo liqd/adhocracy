@@ -143,6 +143,9 @@ textarea {
 	background-position: bottom;
 }
 
+input[type='hidden'] {
+    display: none;
+}
 
 input:focus, 
 input:hover,
