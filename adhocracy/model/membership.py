@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging 
 
-from sqlalchemy import Table, Column, Integer, ForeignKey, DateTime, func, Boolean
+from sqlalchemy import Table, Column, Integer, ForeignKey, DateTime, func, Boolean, or_, and_
 
 import instance_filter as ifilter
 import meta
@@ -29,7 +29,24 @@ class Membership(object):
         self.instance = instance
         self.group = group
         self.approved = approved
-        
+    
+    @classmethod        
+    def all_q(cls, instance_filter=True, include_deleted=False):
+        q = meta.Session.query(Membership)
+        if ifilter.has_instance() and instance_filter:
+            q = q.filter(Membership.instance_id==ifilter.get_instance().id)
+        if not include_deleted:
+            q = q.filter(or_(Membership.expire_time==None,
+                             Membership.expire_time>datetime.utcnow()))
+        return q
+
+
+    @classmethod        
+    def all(cls, instance_filter=True, include_deleted=False):
+        return cls.all_q(instance_filter=instance_filter, 
+                         include_deleted=include_deleted).all()
+    
+    
     def expire(self, expire_time=None):
         if expire_time is None:
             expire_time = datetime.utcnow()

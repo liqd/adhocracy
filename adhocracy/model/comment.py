@@ -72,10 +72,9 @@ class Comment(meta.Indexable):
         except Exception, e:
             log.warn("find(%s): %s" % (id, e)) 
             return None
-    
-    
+
     @classmethod        
-    def all(cls, instance_filter=True, include_deleted=False):
+    def all_q(cls, instance_filter=True, include_deleted=False):
         from delegateable import Delegateable
         q = meta.Session.query(Comment)
         q = q.join(Delegateable)
@@ -84,7 +83,13 @@ class Comment(meta.Indexable):
         if not include_deleted:
             q = q.filter(or_(Comment.delete_time==None,
                              Comment.delete_time>datetime.utcnow()))
-        return q.all()
+        return q
+    
+    
+    @classmethod        
+    def all(cls, instance_filter=True, include_deleted=False):
+        return cls.all_q(instance_filter=instance_filter, 
+                         include_deleted=include_deleted).all()
     
     
     @classmethod    

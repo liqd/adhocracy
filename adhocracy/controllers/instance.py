@@ -87,12 +87,18 @@ class InstanceController(BaseController):
         
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         proposals = model.Proposal.all(instance=c.page_instance)
-        c.top_proposals_pager = pager.proposals(proposals, size=3, enable_sorts=False, 
+        c.top_proposals_pager = pager.proposals(proposals, size=5, enable_sorts=False, 
                                         enable_pages=False, default_sort=sorting.proposal_support)
-        c.new_proposals_pager = pager.proposals(proposals, size=3, enable_sorts=False, 
+        c.new_proposals_pager = pager.proposals(proposals, size=5, enable_sorts=False, 
                                         enable_pages=False, default_sort=sorting.entity_newest)
         tags = model.Tag.popular_tags(limit=40)
         c.tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
+                
+        c.stats = {
+            'comments': model.Comment.all_q().count(),
+            'proposals': model.Proposal.all_q(instance=c.page_instance).count(),
+            'members': model.Membership.all_q().count()
+        }
         return render("/instance/show.html")
     
     
