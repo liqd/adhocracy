@@ -1,0 +1,5 @@
+include *.txt *.ini
+recursive-include docs *
+recursive-include scripts *
+recursive-include docs *
+recursive-include solr *
