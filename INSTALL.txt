@@ -50,7 +50,9 @@ For simpler setups, a single-instance Adhocracy mode is available. You can enabl
 
 **If you're a developer (or just would like to checkout the source code from the mercurial repository), read DevelopmentHints instead of this part.**
 
-Adhocracy's source code is hosted on PyPI, so download the version of your choice from http://pypi.python.org/pypi/adhocracy/ and unpack it.
+Adhocracy's source code is hosted on PyPI, so download the version of your choice from http://pypi.python.org/pypi/adhocracy/ and unpack it. Then, run setup by typing
+
+$ python setup.py install
 
 == Configuration == 
 
