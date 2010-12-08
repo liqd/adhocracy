@@ -14,6 +14,7 @@ setup(
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
     url='http://adhocracy.cc/',
+    license='GNU Affero General Public License v3',
     classsifiers=[
         "License :: OSI Approved :: GNU Affero General Public License v3",
         "Operating System :: OS Independent",
