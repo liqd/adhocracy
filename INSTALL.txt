@@ -19,7 +19,7 @@ Adhocracy installs about five metric tons of Python packages. In order to keep y
 {{{
 #!sh
 $ su adhocracy
-$ virtualenv /opt/adhocracy/env
+$ virtualenv /opt/adhocracy/env --setuptools
 [gibberish]
 $ source /opt/adhocracy/env/bin/activate
 }}}
@@ -31,12 +31,14 @@ $ source /opt/adhocracy/env/bin/activate
 $ easy_install virtualenv
 [gibberish]
 $ su adhocracy 
-$ python virtualenv.py /opt/adhocracy/env
+$ python virtualenv.py /opt/adhocracy/env --setuptools
 [more gibberish]
 $ source /opt/adhocracy/env/bin/activate
 }}}
 
 Whenever you enter the virtualenv, distutils will only install packages to the virtualenv's library instead of your real site-packages directory.
+
+Make sure you don't forget the --setuptools parameter as some distributions package virtualenv with a default of distribute which unfortunately has a bug (http://bitbucket.org/tarek/distribute/issue/100/easy_install-u-distribute-errors-out-with) which makes it unusable in a virtualenv.
 
 === Domain Names ===
 

@@ -3,3 +3,5 @@ recursive-include docs *
 recursive-include scripts *
 recursive-include docs *
 recursive-include solr *
+recursive-include adhocracy/page *
+recursive-include adhocracy/static *
