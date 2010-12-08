@@ -11,12 +11,10 @@
 			</h3>
 			<div class="meta noclear">				
 				%if proposal.is_adopt_polling():
-					${_("<b>%s</b> votes,") % len(proposal.adopt_poll.tally)|n}
-					${_("<b>%s%%</b> approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
-					&middot; 
+				    ${_("<b>%s%%</b> approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
+				    &middot;    
 				%elif proposal.rate_poll: 
-					${_("<b>%s</b> supporters") % proposal.rate_poll.tally.num_for|n} &middot;
-					${_("<b>%s</b> opponents") % proposal.rate_poll.tally.num_against|n} &middot;
+					${_("<b>%s:%s</b> votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} &middot;
 				%endif
 				%if proposal.instance.use_norms:
 				    <img src="/img/icons/page_variant_16.png" /> 
@@ -25,7 +23,7 @@
 				%endif
 				<img src="/img/icons/discuss_16.png" /> 
 				##${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
-				${_("latest comment <b>%s</b>") % h.relative_time(proposal.find_latest_comment_time())|n} 
+				${_("(latest: <b>%s</b>)") % h.relative_time(proposal.find_latest_comment_time())|n} 
 				
 			</div>
 		</div>
