@@ -15,7 +15,7 @@ setup(
     author_email='info@liqd.net',
     url='http://adhocracy.cc/',
     license='GNU Affero General Public License v3',
-    classsifiers=[
+    classifiers=[
         "License :: OSI Approved :: GNU Affero General Public License v3",
         "Operating System :: OS Independent",
         "Development Status :: 5 - Production/Stable",
