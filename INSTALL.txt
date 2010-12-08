@@ -16,25 +16,19 @@ Adhocracy installs about five metric tons of Python packages. In order to keep y
 
  * either install the virtualenv package found in your system's package manager (on Debian based systems, run  `apt-get install virtualenv`) and do
 
-{{{
-#!sh
 $ su adhocracy
 $ virtualenv /opt/adhocracy/env --setuptools
 [gibberish]
 $ source /opt/adhocracy/env/bin/activate
-}}}
 
  * or, if your system doesn't have virtualenv pre-packaged, try this: 
 
-{{{
-#!sh
 $ easy_install virtualenv
 [gibberish]
 $ su adhocracy 
 $ python virtualenv.py /opt/adhocracy/env --setuptools
 [more gibberish]
 $ source /opt/adhocracy/env/bin/activate
-}}}
 
 Whenever you enter the virtualenv, distutils will only install packages to the virtualenv's library instead of your real site-packages directory.
 
@@ -48,7 +42,6 @@ In order to identify the active instance, Adhocracy uses domain names. Therefore
 
 This means that in a production environment, you will want a [http://en.wikipedia.org/wiki/Wildcard_DNS_record wild card DNS record] to point to the Adhocracy server. For testing purposes, we usually set up a fake domain in our local `/etc/hosts` file: 
 
-#!sh
 127.0.0.1 adhocracy.lan test.adhocracy.lan another.adhocracy.lan 
 
 For simpler setups, a single-instance Adhocracy mode is available. You can enable it by setting the `adhocracy.instance` setting in your config file (see below). Note that the required singleton instance will be created upon executing the `setup-app` command described later on. 
@@ -65,7 +58,6 @@ First off, create a new database user and an empty database. Make sure to set UT
 
 Adhocracy is configured using an .ini file. The default configuration is stored in a template called `development.ini`. To begin your configuration, create a copy of the file that you will work on: 
 
-#!sh
 $ cd /opt/adhocracy
 $ cp development.ini example.ini
 
@@ -73,7 +65,6 @@ Inside the .ini you will find a large number of configuration options. Make sure
 
 Once you have configured your .ini, run the following command to initialize the database schema and create a couple of default entities. 
 
-#!sh
 $ cd /opt/adhocracy
 $ paster setup-app example.ini
 
