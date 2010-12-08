@@ -1,4 +1,4 @@
-include *.txt *.ini
+include *.txt development.ini test.ini
 recursive-include docs *
 recursive-include scripts *
 recursive-include docs *
