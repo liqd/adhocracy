@@ -1,7 +1,7 @@
 <%namespace name="common" file="/notifications/common.txt"/>
 
-Ihr Delegierter, ${e.vote.delegation.agent.name}, stimmte ${common.vote(e.vote)} fur ${e.poll.scope.label}. 
+Ihr Delegierter, ${e.vote.delegation.agent.name}, stimmte ${common.vote(e.vote)}  ${e.poll.scope.label}. 
 
-Dies steht im Widerspruch zu der Stimme eines anderen Ihrer Delegierten Das hat zur Konsequenz, dass Ihre Stimme zu diesem Vorschlag momentan nicht gewertet wird.
+Dies steht im Widerspruch zu der Stimme eines anderen Ihrer Delegierten. Als Resultat wird Ihre Stimme zu diesem Vorschlag momentan nicht gewertet.
 
-Um selbst abzustimmen,besuchen Sie bitte die Abstimmungsseite.
+Um selbst abzustimmen, besuchen Sie bitte die Abstimmungsseite.

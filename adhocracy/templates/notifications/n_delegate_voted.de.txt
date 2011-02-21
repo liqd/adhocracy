@@ -1,5 +1,5 @@
 <%namespace name="common" file="/notifications/common.txt"/>
 
-Diese Mitteilung bestätigt Ihre Wahl on ${e.poll.scope.label}. Ihre Delegation, ${e.vote.delegation.agent.name}, wählte ${common.vote(e.vote)} den Vorschlag.   
+Diese Mitteilung bestätigt Ihre Wahl bei ${e.poll.scope.label}. Ihr Delegat, ${e.vote.delegation.agent.name}, stimmte ${common.vote(e.vote)} den Vorschlag.   
 
-Wenn Sie Ihre Abstimmung überdenken möchten,besuchen Sie bitte die Abstimmungsseite.
+Wenn Sie Ihre Abstimmung überdenken möchten, besuchen Sie bitte die Abstimmungsseite.

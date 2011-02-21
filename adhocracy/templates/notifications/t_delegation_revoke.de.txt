@@ -1,3 +1,3 @@
-${e.user.name|n} entzog ${e.agent.name|n} die Delegation auf ${e.scope.title|n}.
+${e.user.name|n} entzog ${e.agent.name|n} die Delegation zu ${e.scope.title|n}.
 
-User-Seite: ${h.base_url(None, path="/user/%s" % e.agent.user_name)}
+Seite des Delegaten: ${h.base_url(None, path="/user/%s" % e.agent.user_name)}

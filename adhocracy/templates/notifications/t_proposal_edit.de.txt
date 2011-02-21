@@ -1,4 +1,4 @@
 ${e.user.name} bearbeitete den Vorschlag ${e.proposal.title}.  
 
-Hier ist die aktuelle Beschreibung: 
+Dies ist die aktuelle Beschreibung: 
 ${e.proposal.description.head.text}
