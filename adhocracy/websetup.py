@@ -11,9 +11,16 @@ from adhocracy.model import meta, init_queue_hooks
 from pylons import config
 
 import migrate.versioning.api as migrateapi
-from migrate.versioning.exceptions import DatabaseAlreadyControlledError
-from migrate.versioning.exceptions import DatabaseNotControlledError
+try:
+    from migrate.versioning.exceptions import DatabaseAlreadyControlledError
+    from migrate.versioning.exceptions import DatabaseNotControlledError
+except:
+    # location changed in 0.6.1
+    from migrate.exceptions import DatabaseAlreadyControlledError
+    from migrate.exceptions import DatabaseNotControlledError
+
 from sqlalchemy.exc import NoSuchTableError
+
 
 log = logging.getLogger(__name__)
 
