@@ -57,7 +57,7 @@ This version requires Python 2.5 or later.
         "repoze.who-friendlyform==1.0.4",
         "repoze.who-testutil==1.0",
         "python-twitter>=0.6",
-        "oauth>=1.0.1",
+        "oauth2",
         "amqplib>=0.6.1",
         "babel>=0.9",
         "beautifulsoup>=3.0.7",
