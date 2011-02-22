@@ -91,19 +91,56 @@
 	
 	<div id="page">
 		<div id="breadcrumbs">
-			${self.breadcrumbs()}
-		</div>	
-		<% messages = h.flash.pop_messages() %>
-		%if messages:
-		<div id="flash_messages">
+                  ${self.breadcrumbs()}
+		</div>
+
+		<%
+	messages = h.flash.pop_messages();
+	success_messages = [m for m in messages if m.category == 'success'];
+	notice_messages = [m for m in messages if m.category == 'notice'];
+	warning_messages = [m for m in messages if m.category == 'warning'];
+	error_messages = [m for m in messages if m.category == 'error'];
+		%>
+		%if error_messages:
+		<div class="flash_messages error">
 			<ul>
-			%for message in messages:
-	    		<li>${message}</li>
-	    	%endfor
+			%for message in error_messages:
+			<li>${message}</li>
+		%endfor
 			</ul>
 		</div>
 		%endif
-	
+
+		%if warning_messages:
+		<div class="flash_messages warning">
+			<ul>
+			%for message in warning_messages:
+			<li>${message}</li>
+		%endfor
+			</ul>
+		</div>
+		%endif
+
+		%if notice_messages:
+		<div class="flash_messages notice">
+			<ul>
+			%for message in notice_messages:
+			<li>${message}</li>
+		%endfor
+			</ul>
+		</div>
+		%endif
+
+		%if success_messages:
+		<div class="flash_messages success">
+			<ul>
+			%for message in success_messages:
+			<li>${message}</li>
+		%endfor
+			</ul>
+		</div>
+		%endif
+
 		<div class="content">
 			${self.body()}
 			<div style="clear: both;"></div>

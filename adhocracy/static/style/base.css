@@ -657,7 +657,7 @@ body {
 }
 
 .warning_box,
-#flash_messages {
+.flash_messages {
 	background-repeat: no-repeat;
 	background-position: center left;
 	background-image: url(/img/icons/info_16.png);
@@ -686,13 +686,40 @@ body {
 	color: #333;
 }
 
-#flash_messages {
+.flash_messages {
 	/*border: 1px solid #de5614;*/
-	background-color: #de5614;
 	color: white;
 	margin-top: 1em;
 	margin-bottom: 1em;
 	font-weight: bold;
+}
+
+.flash_messages.success {
+	background-color: #e6efc2;
+	border-color: #c6d880;
+	color: #264409;
+	background-image: url(/img/icons/flash_success_16.png);
+}
+
+.flash_success_messages.notice {
+	background-color: #d5edf8;
+	border-color: #92cae4;
+	color: #205791;
+	background-image: url(/img/icons/flash_notice_16.png);
+}
+
+.flash_messages.warning { 
+	background-color: #fff6bf;
+	border-color: #ffd324;
+	color: #514721;
+	background-image: url(/img/icons/flash_warning_16.png);
+}
+
+.flash_messages.error {
+	background-color: #ffdfdf;
+	border-color: #fbc2c4;
+	color: #8a1f11;
+	background-image: url(/img/icons/flash_error_16.png);
 }
 
 .help {

@@ -29,7 +29,7 @@ class TwitteroauthController(BaseController):
         request_token = session.get('request_token')
         if not request_token:
             h.flash(_("You have been logged out while authenticating "
-                      "at twitter. Please try again."))
+                      "at twitter. Please try again."), 'notice')
             redirect(h.entity_url(c.user, member='edit'))
         request_token = oauth.OAuthToken.from_string(request_token)
         req_api = create_oauth(key=request_token.key, secret=request_token.secret)
@@ -48,7 +48,9 @@ class TwitteroauthController(BaseController):
                           post_data={'screen_name': system_user()}, 
                           no_cache=True)
             h.flash(_("You're now following %s on twitter so we " 
-                      + "can send you notifications as direct messages") % system_user())
+                      + "can send you notifications as direct messages") % 
+                    system_user(),
+                    'success')
         except HTTPError, he:
             log.warn(he.read())
         redirect(h.entity_url(c.user, member='edit'))
@@ -58,7 +60,7 @@ class TwitteroauthController(BaseController):
     def revoke(self):
         require.user.edit(c.user)
         if not c.user.twitter:
-            h.flash(_("You have no twitter association."))
+            h.flash(_("You have no twitter association."), 'notice')
             redirect(h.entity_url(c.user, member='edit'))
         c.user.twitter.delete()
         model.meta.Session.commit()

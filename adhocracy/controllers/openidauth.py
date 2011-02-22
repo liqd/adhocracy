@@ -72,7 +72,7 @@ class OpenidauthController(BaseController):
         """
         log.info("OpenID: %s - Error: %s" % (openid, message))
         if c.user:
-            h.flash(message)
+            h.flash(message, 'error')
             return redirect(h.entity_url(c.user, member='edit'))
         else:
             loginhtml = render("/user/login.html")
@@ -118,7 +118,7 @@ class OpenidauthController(BaseController):
     def connect(self):
         require.user.edit(c.user)
         if not c.user:
-            h.flash(_("No OpenID was entered."))
+            h.flash(_("No OpenID was entered."), 'warning')
             redirect("/login")
         return render("/openid/connect.html")   
     

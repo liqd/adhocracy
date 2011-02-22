@@ -181,7 +181,7 @@ class InstanceController(BaseController):
                 request.POST.get('logo').file:
                 logo.store(c.page_instance, request.POST.get('logo').file)
         except Exception, e:
-            h.flash(unicode(e))
+            h.flash(unicode(e), 'error')
             log.debug(e)
         model.meta.Session.commit()            
         event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)

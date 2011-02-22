@@ -55,14 +55,16 @@ class DelegationController(BaseController):
         c.scope = self.form_result.get('scope')
         agents = filter(lambda f: f is not None, self.form_result.get('agent'))
         if not len(agents) or agents[0] == c.user:
-            h.flash(_("Invalid delegation recipient"))
+            h.flash(_("Invalid delegation recipient"), 'error')
             return self.new()
         
         existing = model.Delegation.find_by_agent_principal_scope(agents[0],
                                                                   c.user,
                                                                   c.scope)
         if existing is not None:
-            h.flash(_("You have already delegated voting to %s in %s") % (agents[0].name, c.scope.label))
+            h.flash(_("You have already delegated voting to %s in %s") % 
+                    (agents[0].name, c.scope.label),
+                    'notice')
             return self.new()
         
         delegation = model.Delegation.create(c.user, agents[0], c.scope, 
