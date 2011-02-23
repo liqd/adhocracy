@@ -180,6 +180,9 @@ def make_map():
                                                  'ask_delete': 'GET',
                                                  'style': 'GET',
                                                  'activity': 'GET'})
+
+    # API
+    map.connect('/api/{action}', controller='api')
     
     map.connect('/static/{page_name}.{format}', controller='static', action='serve')
 
