@@ -43,10 +43,9 @@
 			%endif
 		</div>
 		<div id="navigation">
-			<!--a href="${h.base_url(None)}">
-				<img src="/img/header_link.png" alt="${h.site.name()}"/>
-			</a--> 
-			<a href="${h.base_url(None, path='/')}">${_("Startseite")}</a>
+			<a href="http://enquetebeteiligung.de/">
+				Startseite
+			</a> 
 			%if g.single_instance is None:
 			    <a class="ttip" title="${_('All instances')}" 
 			       href="${h.base_url(None, path='/instance')}">${_("Instances")}</a>
@@ -113,38 +112,39 @@
 </div>
 
 <div id="footer">
-<strong>Diese Seite ist kein Angebot des deutschen Bundestags.</strong>
-        <div id="links">
-                <div id="license">
-                        <a class="nolink" rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/de/">
-                                <img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/de/80x15.png" />
-                        </a>
-                        <a class="nolink" rel="license" href="http://www.opendefinition.org/">
-                                <img alt="Open Definition" src="http://m.okfn.org/images/ok_buttons/oc_80x15_blue.png" />
-                        </a>
-                        <br/>
-                        <code>${_("v. %s") % lib.version.get_version()}</code>
-                </div>
-                <ul>
-                        <li><strong>Rechtliches</strong></li>
-                        <li><a href="/static/privacy.html">${_("privacy")}</a></li>
-                        <li><a href="/static/imprint.html">${_("imprint")}</a></li>
-                </ul>
-                <ul>
-                        <li><strong>Nutzungshinweise</strong></li>
-                        <li><a href="/static/codex.html">${_("code of conduct")}</a></li>
-                        <li><a href="/static/terms.html">${_("terms and conditions")}</a></li>
-                </ul>                   
-                <ul>
-                        <li><strong>${_("adhocracy")}</strong></li>
-                        <li><a href="/static/about.html">${_("what is liquid democracy")}</a></li>
-                        <li><a href="http://unterstuetzen.liqd.net/">Mitmachen</a></li>
-                </ul>
-        </div>
+	<div id="links">
+		<div id="license">
+			<a class="nolink" rel="license" href="http://creativecommons.org/licenses/by/3.0/de/">
+				<img alt="Creative Commons License" src="http://i.creativecommons.org/l/by/3.0/de/80x15.png" />
+			</a>
+			<a class="nolink" rel="license" href="http://www.opendefinition.org/">
+				<img alt="Open Definition" src="http://m.okfn.org/images/ok_buttons/oc_80x15_blue.png" />
+			</a>
+		</div>
+		<ul>
+			<li><strong>${_("adhocracy")}</strong></li>
+			<li><a href="/static/about.html">${_("what is liquid democracy")}</a></li>
+			<li><a href="http://unterstuetzen.liqd.net/">Mitmachen</a></li>
+		</ul>
+		<ul>
+			<li><strong>Nutzungshinweise</strong></li>
+			<li><a href="/static/codex.html">${_("code of conduct")}</a></li>
+			<li><a href="/static/terms.html">${_("terms and conditions")}</a></li>
+		</ul>			
+		<ul>
+			<li><strong>Rechtliches</strong></li>
+			<li><a href="/static/privacy.html">${_("privacy")}</a></li>
+			<li><a href="/static/imprint.html">${_("imprint")}</a></li>
+		</ul>
+	</div>
+	<div style="clear: both;"></div>
+	<br/>
+	<strong>Diese Website wird nicht vom Deutschen Bundestag betrieben. Sie ist ein Angebot des Liquid Democracy e.V.</strong>
 </div>
 
 %if not c.debug:
     <%include file="piwik.html"/>
+
 %endif
 
 </body>
