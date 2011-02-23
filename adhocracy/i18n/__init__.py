@@ -12,9 +12,7 @@ from babel.dates import format_time
 from extra_strings import *
 
 
-LOCALES = [babel.Locale('en', 'US'), 
-           babel.Locale('de', 'DE'),
-           babel.Locale('fr', 'FR')]
+LOCALES = [babel.Locale('de', 'DE')]
 
 def get_default_locale():
     from pylons import tmpl_context as c, config
