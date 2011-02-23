@@ -5,18 +5,28 @@
 <%def name="breadcrumbs()"></%def>
 
 <div class="sidebar"> 
-	<h3 class="section">Themen</h3> 
+	<h3 class="section">Projektgruppen</h3> 
 	<ul>
-		<li>Kultur, Medien, Öffentlichkeit</li>
-		<li>Zugang, Struktur und Sicherheit im Netz</li>
-		<li>Verbraucherschutz</li>
-		<li>Bildung und Forschung</li>
-		<li>Urheberrecht</li>
-		<li>Interoperabilität, Standards, O-Source</li>
-		<li>Datenschutz und Persönlichkeitsrecht</li>
-		<li>Netzneutralität</li>
-		<li>Internationales und Internet Governance</li>
+		<li><a href="http://kultur.enquetebeteiligung.de/">Kultur, Medien, &Ouml;ffentlichkeit</a></li>
+		<li><a href="http://zugang.enquetebeteiligung.de/">Zugang, Struktur und Sicherheit im Netz</a></li>
+		<li><a href="http://verbraucherschutz.enquetebeteiligung.de/">Verbraucherschutz</a></li>
+		<li><a href="http://bildung.enquetebeteiligung.de/">Bildung und Forschung</a></li>
+		<li><a href="http://urheberrecht.enquetebeteiligung.de/">Urheberrecht</a></li>
+		<li><a href="http://opensource.enquetebeteiligung.de/">Interoperabilität, Standards, OpenSource</a></li>
+		<li><a href="http://datenschutz.enquetebeteiligung.de/">Datenschutz und Pers&ouml;nlichkeitsrecht</a></li>
+		<li><a href="http://neutralitaet.enquetebeteiligung.de/">Netzneutralit&auml;t</a></li>
+		<li><a href="http://governance.enquetebeteiligung.de/">Internationales und Internet Governance</a></li>
+		<li><a href="http://demokratie.enquetebeteiligung.de/">Demokratie und Staat</a></li>
+		<li><a href="http://wirtschaft.enquetebeteiligung.de/">Wirtschaft, Arbeit, Green IT</a></li>
+		<li><a href="http://medienkompetenz.enquetebeteiligung.de/">Medienkompetenz </a></li>
 	</ul>
+	<h3>Externe Links</h3>
+	<ul>
+		<li><a href="http://blog.internetenquete.de/" target="_blank">Enquete-Kommission "Internet und digitale Gesellschaft"</a></li>
+		<li><a href="http://blog.internetenquete.de/" target="_blank">Blog der Enquete-Kommission</a></li>
+	</ul>
+	
+	
 	<h3>Vorschl&auml;ge</h3>
         <div id="proposals_table" class="table">
                 ${c.proposals_pager.here()}
@@ -33,23 +43,24 @@
 					<img src="http://www.bundestag.de/internetenquete/includes/forum/bilder/Fragezeichen_teaser.jpg"/>
 				</div>
 				<div class="base">
+					<h3>
+					Hier tagt der 18. Sachverst&auml;ndige der Enquete-Komission "Internet und digitale Gesellschaft"!
+					</h3>
 					<p>
-					Herzlich Willkommen auf der Seite des 18. Sachverständigen. Hier kommt Jens' Erklärbär-Text rein und alle sind glücklich.
+					Gemeinsam gewonnene Erkenntnis bringt die besten Ergebnisse bei der Gestaltung der Zukunft.
+					Jeder B&uuml;rger ist eingeladen als "18. Sachverst&auml;ndiger" sein Wissen und seine Vorstellungen über gute Internetnutzung einzubringen.<br>
+					Damit sich m&ouml;glichst viele B&uuml;rger gut organisiert und mit dem Ziel der besten gemeinsamen Texte einbringen k&ouml;nnen, hat die zust&auml;ndige Enquetekommission des Bundestages ein neues Tool aufgesetzt. 
+					Die Beteiligung der Bev&ouml;lkerung als  "18. Sachverst&auml;ndigen" stellt eine neuartige Form der Teilnahme dar. Durchdacht und doch noch experimentell soll hier aus dem Wutb&uuml;rger ein Mutb&uuml;rger werden.<br>
+					Wie es funktioniert erfahren Sie <a href="/static/help.html">hier</a>.
+					<br>
+					Wer direkt loslegen will, kommt <a href="${h.base_url(None, path='/instance')}">hier</a> zu den einzelnen Projekgruppen.
+					
+					<h3><a href="${h.base_url(None, path='/instance')}">Loslegen</a></h3>
+					<br>
+					
 					</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a mi mauris, in lacinia neque. Sed vitae lectus purus. Mauris libero ligula, ultrices dictum congue et, rutrum et neque. Phasellus pharetra facilisis mi, eget pulvinar elit facilisis vel. Sed vel euismod ante. Vivamus bibendum ipsum hendrerit magna rutrum id lacinia leo eleifend. Aenean molestie tristique tellus, eget ultricies leo commodo non. Praesent rhoncus erat vitae dolor consequat a aliquet risus pellentesque.
-					</p><p>
-					Quisque tincidunt metus purus. Aenean a diam at nisi faucibus euismod venenatis et felis. Fusce velit elit, mollis id condimentum in, tempor a tellus. Suspendisse bibendum neque sed leo dignissim tempor. Donec a luctus libero. Ut laoreet vestibulum ligula ut euismod. Pellentesque sit amet nibh ac metus ornare interdum eget a dolor. Phasellus nibh sapien, sollicitudin sit amet ullamcorper at, ullamcorper vel tortor. Aenean id orci ante, ut pharetra diam. Nullam dignissim, nulla nec molestie aliquam, metus est aliquet lectus, sed commodo nisl magna ut elit. Phasellus euismod vehicula tellus, vitae mollis diam tempor vitae. Vestibulum at eleifend elit. </p>
 				</div>	
 			</div>
 		</div>
 	</div> 
-</div>
-
-<div class="mainbar"> 
-<h3>Neuer Blogeintrag</h3>
-
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a mi mauris, in lacinia neque. Sed vitae lectus purus. Mauris libero ligula, ultrices dictum congue et, rutrum et neque. Phasellus pharetra facilisis mi, eget pulvinar elit facilisis vel. Sed vel euismod ante. Vivamus bibendum ipsum hendrerit magna rutrum id lacinia leo eleifend. Aenean molestie tristique tellus, eget ultricies leo commodo non. Praesent rhoncus erat vitae dolor consequat a aliquet risus pellentesque.
-</p><p>
-Quisque tincidunt metus purus. Aenean a diam at nisi faucibus euismod venenatis et felis. Fusce velit elit, mollis id condimentum in, tempor a tellus. Suspendisse bibendum neque sed leo dignissim tempor. Donec a luctus libero. Ut laoreet vestibulum ligula ut euismod. Pellentesque sit amet nibh ac metus ornare interdum eget a dolor. Phasellus nibh sapien, sollicitudin sit amet ullamcorper at, ullamcorper vel tortor. Aenean id orci ante, ut pharetra diam. Nullam dignissim, nulla nec molestie aliquam, metus est aliquet lectus, sed commodo nisl magna ut elit. Phasellus euismod vehicula tellus, vitae mollis diam tempor vitae. Vestibulum at eleifend elit. </p>
-
 </div>
