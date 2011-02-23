@@ -6,7 +6,7 @@ from repoze.what.plugins.pylonshq import ActionProtector
 
 from adhocracy import model
 from adhocracy.lib.auth.authorization import has_permission
-from adhocracy.lib.auth.csfr import RequireInternalRequest
+from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render
 

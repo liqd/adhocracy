@@ -5,7 +5,7 @@ from babel import Locale
 
 import formencode
 from formencode import htmlfill
-from formencode.validators import validators
+from formencode import validators
 
 from pylons import request, response, tmpl_context as c
 from pylons.controllers.util import abort, redirect
@@ -13,10 +13,10 @@ from pylons.decorators import validate
 from pylons.i18n import _
 
 from adhocracy import forms, i18n, model
-from adhocracy.instance import RequireInstance
+from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, text
 from adhocracy.lib import tiles
-from adhocracy.lib.auth import csfr, require
+from adhocracy.lib.auth import csrf, require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import (render, render_json, render_png,
                                       ret_abort, ret_success)
@@ -74,7 +74,7 @@ class InstanceController(BaseController):
         require.instance.create()
         return render("/instance/new.html")
 
-    @csfr.RequireInternalRequest(methods=['POST'])
+    @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceCreateForm(), form="new", post_only=True)
     def create(self, format='html'):
         require.instance.create()
@@ -167,11 +167,11 @@ class InstanceController(BaseController):
                 'hidden': c.page_instance.hidden,
                 'locale': c.page_instance.locale,
                 'use_norms': c.page_instance.use_norms,
-                '_tok': csfr.token_id(),
+                '_tok': csrf.token_id(),
                 'default_group': default_group})
 
     @RequireInstance
-    @csfr.RequireInternalRequest(methods=['POST'])
+    @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceEditForm(), form="edit", post_only=True)
     def update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
@@ -240,7 +240,7 @@ class InstanceController(BaseController):
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         return render('/instance/ask_delete.html')
 
-    @csfr.RequireInternalRequest()
+    @csrf.RequireInternalRequest()
     def delete(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.delete(c.page_instance)
@@ -253,7 +253,7 @@ class InstanceController(BaseController):
                            c.page_instance.label)
 
     @RequireInstance
-    @csfr.RequireInternalRequest()
+    @csrf.RequireInternalRequest()
     def join(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.join(c.page_instance)
@@ -278,7 +278,7 @@ class InstanceController(BaseController):
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         return render('/instance/ask_leave.html')
 
-    @csfr.RequireInternalRequest(methods=['POST'])
+    @csrf.RequireInternalRequest(methods=['POST'])
     def leave(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         if not c.page_instance in c.user.instances:

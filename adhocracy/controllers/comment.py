@@ -1,23 +1,22 @@
 import logging
 
 import formencode
-from formencode import htmlfill, Invalid
-from formencode.validators import validators
+from formencode import htmlfill, Invalid, validators
 
 from pylons import request, tmpl_context as c
-from pylons.controllers.utils import redirect
+from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
 from repoze.what.plugins.pylonshq import ActionProtector
 
 from adhocracy import forms, model
-from adhocracy.instance import RequireInstance
 from adhocracy.lib import democracy
 from adhocracy.lib import event, helpers as h, sorting, tiles, watchlist
-from adhocracy.lib.auth import can, csfr, require
+from adhocracy.lib.auth import can, csrf, require
 from adhocracy.lib.auth.authorization import has_permission
 from adhocracy.lib.base import BaseController
+from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.pager import NamedPager
 from adhocracy.lib.templating import (render, render_json, ret_abort,
                                       ret_success)
@@ -93,7 +92,7 @@ class CommentController(BaseController):
                                errors=errors, force_defaults=False)
 
     @RequireInstance
-    @csfr.RequireInternalRequest(methods=['POST'])
+    @csrf.RequireInternalRequest(methods=['POST'])
     def create(self, format='html'):
         require.comment.create()
         try:
@@ -144,7 +143,7 @@ class CommentController(BaseController):
         return render('/comment/edit.html')
 
     @RequireInstance
-    @csfr.RequireInternalRequest(methods=['POST'])
+    @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=CommentUpdateForm(), form="edit", post_only=True)
     def update(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
@@ -188,7 +187,7 @@ class CommentController(BaseController):
         return render('/comment/ask_delete.html')
 
     @RequireInstance
-    @csfr.RequireInternalRequest()
+    @csrf.RequireInternalRequest()
     def delete(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.delete(c.comment)
@@ -216,7 +215,7 @@ class CommentController(BaseController):
         return render('/comment/history.html')
 
     @RequireInstance
-    @csfr.RequireInternalRequest()
+    @csrf.RequireInternalRequest()
     @ActionProtector(has_permission("comment.edit"))
     @validate(schema=CommentRevertForm(), form="history",
               post_only=False, on_get=True)

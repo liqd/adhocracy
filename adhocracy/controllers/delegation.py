@@ -11,7 +11,7 @@ from adhocracy import forms, model
 from adhocracy.instance import RequireInstance
 from adhocracy.lib import democracy
 from adhocracy.lib import event, helpers as h, sorting, tiles
-from adhocracy.lib.auth import csfr, require
+from adhocracy.lib.auth import csrf, require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib import pager
 from adhocracy.lib.templating import (render, render_json, ret_abort,
@@ -56,7 +56,7 @@ class DelegationController(BaseController):
         return render("/delegation/new.html")
 
     @RequireInstance
-    @csfr.RequireInternalRequest(methods=["POST"])
+    @csrf.RequireInternalRequest(methods=["POST"])
     @validate(schema=DelegationCreateForm(), form="new", post_only=True)
     def create(self, format='html'):
         require.delegation.create()
@@ -88,7 +88,7 @@ class DelegationController(BaseController):
         return ret_success(entity=delegation.scope, format=format)
 
     @RequireInstance
-    @csfr.RequireInternalRequest()
+    @csrf.RequireInternalRequest()
     def delete(self, id):
         c.delegation = get_entity_or_abort(model.Delegation, id)
         require.delegation.delete(c.delegation)
