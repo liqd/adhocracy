@@ -18,23 +18,23 @@
 
 	<div style="clear:both;"></div>
 	<h3>${_("User Details")}</h3>
-	<div class="sidebar">
-		<div class="infobox">
-			${_("Configure your user icon at <a href='http://www.gravatar.com'>Gravatar</a>")|n} 
-		</div>
-	</div>
-	<div class="mainbar">
-		<label for="locale">${_("Language:")}</label>
-		<ul>
-			%for locale in c.locales:
-				<li style="list-style-type: none;"><input type="radio" name="locale" value="${str(locale)}" 
-					%if locale == c.page_user.locale:
-						checked="checked"
-					%endif
-					/> ${locale.display_name}</li>
-			%endfor
-		</ul>
-	</div>
+##	<div class="sidebar">
+##		<div class="infobox">
+##			${_("Configure your user icon at <a href='http://www.gravatar.com'>Gravatar</a>")|n} 
+##		</div>
+##	</div>
+##	<div class="mainbar">
+##		<label for="locale">${_("Language:")}</label>
+##		<ul>
+##			%for locale in c.locales:
+##				<li style="list-style-type: none;"><input type="radio" name="locale" value="${str(locale)}" 
+##					%if locale == c.page_user.locale:
+##						checked="checked"
+##					%endif
+##					/> ${locale.display_name}</li>
+##			%endfor
+##		</ul>
+##	</div>
 	
 	<h3> </h3>
 	<div class="sidebar">
@@ -109,7 +109,7 @@
 		%if c.page_user == c.user and not c.page_user.twitter:
 		<tr>
 			<td colspan="5">
-				<a href="/twitter/init?${h.url_token()}"><img src="/img/twitter_signin.png" alt="${_("get twitter notifications")}" /></a>
+				##<a href="/twitter/init?${h.url_token()}"><img src="/img/twitter_signin.png" alt="${_("get twitter notifications")}" /></a>
 			</td>
 		</tr>
 		%endif

@@ -43,9 +43,9 @@
 			%endif
 		</div>
 		<div id="navigation">
-			<a href="${h.base_url(None)}">
+			<!--a href="${h.base_url(None)}">
 				<img src="/img/header_link.png" alt="${h.site.name()}"/>
-			</a> 
+			</a--> 
 			%if g.single_instance is None:
 			    <a class="ttip" title="${_('All instances')}" 
 			       href="${h.base_url(None, path='/instance')}">${_("Instances")}</a>
@@ -112,9 +112,12 @@
 </div>
 
 <div id="footer">
-<strong>Diese Seite ist kein Angebot des deutschen Bundestags.</strong>
 	<div id="links">
 		<div id="license">
+			<a class="nolink" href="http://adhocracy.cc/">
+				<img alt="Adhocracy" src="/img/footer_logo.png" />
+			</a>
+			<br/>
 			<a class="nolink" rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/de/">
 				<img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/de/80x15.png" />
 			</a>
@@ -125,19 +128,25 @@
 			<code>${_("v. %s") % lib.version.get_version()}</code>
 		</div>
 		<ul>
-			<li><strong>Rechtliches</strong></li>
+			<li><strong>${_("liqd.net")}</strong></li>
+			<li><a href="/static/codex.html">${_("code of conduct")}</a></li>
+			<li><a href="/static/terms.html">${_("terms and conditions")}</a></li>
 			<li><a href="/static/privacy.html">${_("privacy")}</a></li>
 			<li><a href="/static/imprint.html">${_("imprint")}</a></li>
 		</ul>
 		<ul>
-			<li><strong>Nutzungshinweise</strong></li>
-			<li><a href="/static/codex.html">${_("code of conduct")}</a></li>
-			<li><a href="/static/terms.html">${_("terms and conditions")}</a></li>
-		</ul>			
-		<ul>
 			<li><strong>${_("adhocracy")}</strong></li>
+			<li><a href="http://adhocracy.cc/">${_("general info")}</a></li>
+			<li><a href="http://api.liqd.net/">${_("api documentation")}</a></li>
+			<li><a href="http://adhocracy.cc/">${_("source code")}</a></li>
+			<li><a href="/static/team.html">${_("team")}</a></li>
+		</ul>
+		<ul>
+			<li><strong>${_("liqd e.V.")}</strong></li>
 			<li><a href="/static/about.html">${_("what is liquid democracy")}</a></li>
-			<li><a href="http://unterstuetzen.liqd.net/">Mitmachen</a></li>
+			<li><a href="http://wiki.liqd.net">${_("theory wiki (de)")}</a></li>
+			<li><a href="http://blog.liqd.net">${_("liqd blog (de)")}</a></li>
+			<li><a href="http://lists.liqd.net/cgi-bin/mailman/listinfo/announce">${_("mailing list")}</a></li>
 		</ul>
 	</div>
 </div>
@@ -145,6 +154,32 @@
 %if not c.debug:
     <%include file="piwik.html"/>
 
+%if 1==2:
+    <script type="text/javascript">
+    var uservoiceOptions = {
+      /* required */
+      key: 'liqd',
+      host: 'liqd.uservoice.com', 
+      forum: '60515',
+      showTab: true,  
+      /* optional */
+      alignment: 'right',
+      background_color:'#336699', 
+      text_color: 'white',
+      hover_color: '#000',
+      lang: '${c.locale.language}'
+    };
+
+    function _loadUserVoice() {
+      var s = document.createElement('script');
+      s.setAttribute('type', 'text/javascript');
+      s.setAttribute('src', ("https:" == document.location.protocol ? "https://" : "http://") + "cdn.uservoice.com/javascripts/widgets/tab.js");
+      document.getElementsByTagName('head')[0].appendChild(s);
+    }
+    _loadSuper = window.onload;
+    window.onload = (typeof window.onload != 'function') ? _loadUserVoice : function() { _loadSuper(); _loadUserVoice(); };
+%endif
+    </script>
 %endif
 
 </body>
