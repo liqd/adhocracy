@@ -4,6 +4,8 @@ syntax:glob
 .svn
 .hgsvn
 *.pyc
+*.swp
+*.swo
 *.egg-info
 data/*
 *.DS_Store
