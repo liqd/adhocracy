@@ -43,9 +43,9 @@
 			%endif
 		</div>
 		<div id="navigation">
-			<a href="${h.base_url(None)}">
+			<!--a href="${h.base_url(None)}">
 				<img src="/img/header_link.png" alt="${h.site.name()}"/>
-			</a> 
+			</a--> 
 			%if g.single_instance is None:
 			    <a class="ttip" title="${_('All instances')}" 
 			       href="${h.base_url(None, path='/instance')}">${_("Instances")}</a>
@@ -154,6 +154,7 @@
 %if not c.debug:
     <%include file="piwik.html"/>
 
+%if 1==2:
     <script type="text/javascript">
     var uservoiceOptions = {
       /* required */
@@ -177,6 +178,7 @@
     }
     _loadSuper = window.onload;
     window.onload = (typeof window.onload != 'function') ? _loadUserVoice : function() { _loadSuper(); _loadUserVoice(); };
+%endif
     </script>
 %endif
 
