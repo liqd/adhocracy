@@ -1,20 +1,30 @@
-from datetime import datetime
-import hashlib
+import logging
 import os.path
-from time import time
+
 from babel import Locale
 
+import formencode
+from formencode import htmlfill
+from formencode.validators import validators
+
+from pylons import request, response, tmpl_context as c
+from pylons.controllers.util import abort, redirect
+from pylons.decorators import validate
 from pylons.i18n import _
 
-from adhocracy.lib.base import *
-import adhocracy.lib.text as text
-import adhocracy.forms as forms
-import adhocracy.i18n as i18n
-import adhocracy.lib.logo as logo
+from adhocracy import forms, i18n, model
+from adhocracy.instance import RequireInstance
+from adhocracy.lib import event, helpers as h, logo, pager, sorting, text
+from adhocracy.lib import tiles
+from adhocracy.lib.auth import csfr, require
+from adhocracy.lib.base import BaseController
+from adhocracy.lib.templating import (render, render_json, render_png,
+                                      ret_abort, ret_success)
+from adhocracy.lib.util import get_entity_or_abort
 
-import adhocracy.lib.instance as libinstance
 
 log = logging.getLogger(__name__)
+
 
 class InstanceCreateForm(formencode.Schema):
     allow_extra_fields = True
@@ -22,7 +32,8 @@ class InstanceCreateForm(formencode.Schema):
                               forms.UniqueInstanceKey())
     label = validators.String(min=4, max=254, not_empty=True)
     description = validators.String(max=100000, if_empty=None, not_empty=False)
-    
+
+
 class InstanceEditForm(formencode.Schema):
     allow_extra_fields = True
     label = validators.String(min=4, max=254, not_empty=True)
@@ -31,163 +42,175 @@ class InstanceEditForm(formencode.Schema):
     required_majority = validators.Number(not_empty=True)
     default_group = forms.ValidGroup(not_empty=True)
     locale = validators.String(not_empty=False)
-    allow_adopt = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
-    allow_delegate = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
-    allow_index= validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
-    use_norms = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
-    hidden = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
+    allow_adopt = validators.StringBool(not_empty=False, if_empty=False,
+                                        if_missing=False)
+    allow_delegate = validators.StringBool(not_empty=False, if_empty=False,
+                                           if_missing=False)
+    allow_index = validators.StringBool(not_empty=False, if_empty=False,
+                                       if_missing=False)
+    use_norms = validators.StringBool(not_empty=False, if_empty=False,
+                                      if_missing=False)
+    hidden = validators.StringBool(not_empty=False, if_empty=False,
+                                   if_missing=False)
+
 
 class InstanceController(BaseController):
-    
+
     def index(self, format='html'):
         require.instance.index()
-        h.add_meta("description", _("An index of instances run at this site. " + 
-                                    "Select which ones you would like to join and participate!"))
+        h.add_meta("description",
+                   _("An index of instances run at this site. "
+                     "Select which ones you would like to join "
+                     "and participate!"))
         instances = model.Instance.all()
-        
+
         if format == 'json':
             return render_json(instances)
-        
+
         c.instances_pager = pager.instances(instances)
-        return render("/instance/index.html")  
-    
-    
+        return render("/instance/index.html")
+
     def new(self):
         require.instance.create()
         return render("/instance/new.html")
-    
-    
-    @RequireInternalRequest(methods=['POST'])
+
+    @csfr.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceCreateForm(), form="new", post_only=True)
     def create(self, format='html'):
         require.instance.create()
-        instance = model.Instance.create(self.form_result.get('key'), 
-                                         self.form_result.get('label'), 
-                                         c.user, 
-                                         description=self.form_result.get('description'),
-                                         locale=c.locale)
+        instance = model.Instance.create(
+            self.form_result.get('key'), self.form_result.get('label'),
+            c.user, description=self.form_result.get('description'),
+            locale=c.locale)
         model.meta.Session.commit()
-        event.emit(event.T_INSTANCE_CREATE, c.user, instance=instance)    
+        event.emit(event.T_INSTANCE_CREATE, c.user, instance=instance)
         return ret_success(entity=instance, format=format)
-    
 
     #@RequireInstance
     def show(self, id, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, id)
         require.instance.show(c.page_instance)
-        
+
         if format == 'json':
             return render_json(c.page_instance)
-        
+
         if format == 'rss':
             return self.activity(id, format)
-        
+
         if c.page_instance != c.instance:
             redirect(h.entity_url(c.page_instance))
-        
+
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         proposals = model.Proposal.all(instance=c.page_instance)
-        c.top_proposals_pager = pager.proposals(proposals, size=5, enable_sorts=False, 
-                                        enable_pages=False, default_sort=sorting.proposal_support)
-        c.new_proposals_pager = pager.proposals(proposals, size=5, enable_sorts=False, 
-                                        enable_pages=False, default_sort=sorting.entity_newest)
+        c.top_proposals_pager = pager.proposals(
+            proposals, size=5, enable_sorts=False,
+            enable_pages=False, default_sort=sorting.proposal_support)
+        c.new_proposals_pager = pager.proposals(
+            proposals, size=5, enable_sorts=False,
+            enable_pages=False, default_sort=sorting.entity_newest)
         tags = model.Tag.popular_tags(limit=40)
-        c.tags = sorted(text.tag_cloud_normalize(tags), key=lambda (k, c, v): k.name)
-                
+        c.tags = sorted(text.tag_cloud_normalize(tags),
+                        key=lambda (k, c, v): k.name)
+
         c.stats = {
             'comments': model.Comment.all_q().count(),
-            'proposals': model.Proposal.all_q(instance=c.page_instance).count(),
+            'proposals': model.Proposal.all_q(
+                instance=c.page_instance).count(),
             'members': model.Membership.all_q().count()
         }
         return render("/instance/show.html")
-    
-    
+
     @RequireInstance
     def activity(self, id, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, id)
         require.instance.show(c.page_instance)
-        
+
         if format == 'sline':
-            sline = event.sparkline_samples(event.instance_activity, c.page_instance)
+            sline = event.sparkline_samples(event.instance_activity,
+                                            c.page_instance)
             return render_json(dict(activity=sline))
-        
+
         events = model.Event.find_by_instance(c.page_instance)
-            
+
         if format == 'rss':
-            return event.rss_feed(events, _('%s News' % c.page_instance.label),
-                                      h.base_url(c.page_instance), 
-                                      _("News from %s") % c.page_instance.label)
-        
+            return event.rss_feed(events,
+                                  _('%s News' % c.page_instance.label),
+                                  h.base_url(c.page_instance),
+                                  _("News from %s") % c.page_instance.label)
+
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         c.events_pager = pager.events(events)
         return render("/instance/activity.html")
-    
-    
+
     @RequireInstance
     def edit(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
-        
+
         c._Group = model.Group
         c.locales = i18n.LOCALES
         default_group = c.page_instance.default_group.code if \
                         c.page_instance.default_group else \
                         model.Group.INSTANCE_DEFAULT
-        return htmlfill.render(render("/instance/edit.html"),
-                               defaults={
-                                    '_method': 'PUT',
-                                    'label': c.page_instance.label,
-                                    'description': c.page_instance.description,
-                                    'css': c.page_instance.css,
-                                    'required_majority': c.page_instance.required_majority,
-                                    'activation_delay': c.page_instance.activation_delay,
-                                    'allow_adopt': c.page_instance.allow_adopt,
-                                    'allow_delegate': c.page_instance.allow_delegate,
-                                    'allow_index': c.page_instance.allow_index,
-                                    'hidden': c.page_instance.hidden,
-                                    'locale': c.page_instance.locale,
-                                    'use_norms': c.page_instance.use_norms,
-                                    '_tok': token_id(),
-                                    'default_group': default_group})
-        
-    
+        return htmlfill.render(
+            render("/instance/edit.html"),
+            defaults={
+                '_method': 'PUT',
+                'label': c.page_instance.label,
+                'description': c.page_instance.description,
+                'css': c.page_instance.css,
+                'required_majority': c.page_instance.required_majority,
+                'activation_delay': c.page_instance.activation_delay,
+                'allow_adopt': c.page_instance.allow_adopt,
+                'allow_delegate': c.page_instance.allow_delegate,
+                'allow_index': c.page_instance.allow_index,
+                'hidden': c.page_instance.hidden,
+                'locale': c.page_instance.locale,
+                'use_norms': c.page_instance.use_norms,
+                '_tok': csfr.token_id(),
+                'default_group': default_group})
+
     @RequireInstance
-    @RequireInternalRequest(methods=['POST'])
+    @csfr.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceEditForm(), form="edit", post_only=True)
     def update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
-        
+
         c.page_instance.description = self.form_result.get('description')
         c.page_instance.label = self.form_result.get('label')
-        c.page_instance.required_majority = self.form_result.get('required_majority')
-        c.page_instance.activation_delay = self.form_result.get('activation_delay')
+        c.page_instance.required_majority = self.form_result.get(
+            'required_majority')
+        c.page_instance.activation_delay = self.form_result.get(
+            'activation_delay')
         c.page_instance.allow_adopt = self.form_result.get('allow_adopt')
         c.page_instance.allow_delegate = self.form_result.get('allow_delegate')
         c.page_instance.allow_index = self.form_result.get('allow_index')
         c.page_instance.hidden = self.form_result.get('hidden')
         c.page_instance.css = self.form_result.get('css')
         c.page_instance.use_norms = self.form_result.get('use_norms')
-        
+
         locale = Locale(self.form_result.get("locale"))
         if locale and locale in i18n.LOCALES:
             c.page_instance.locale = locale
-        
-        if self.form_result.get('default_group').code in model.Group.INSTANCE_GROUPS:
-            c.page_instance.default_group = self.form_result.get('default_group') 
-        
+
+        if (self.form_result.get('default_group').code in
+            model.Group.INSTANCE_GROUPS):
+            c.page_instance.default_group = self.form_result.get(
+                'default_group')
+
         try:
-            if 'logo' in request.POST and hasattr(request.POST.get('logo'), 'file') and \
-                request.POST.get('logo').file:
+            if ('logo' in request.POST and
+                hasattr(request.POST.get('logo'), 'file') and
+                request.POST.get('logo').file):
                 logo.store(c.page_instance, request.POST.get('logo').file)
         except Exception, e:
             h.flash(unicode(e), 'error')
             log.debug(e)
-        model.meta.Session.commit()            
+        model.meta.Session.commit()
         event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)
         return ret_success(entity=c.page_instance, format=format)
-    
-    
+
     def icon(self, id, y=24, x=None):
         c.page_instance = model.Instance.find(id)
         try:
@@ -195,14 +218,13 @@ class InstanceController(BaseController):
         except ValueError, ve:
             log.debug(ve)
             y = 24
-        try: 
+        try:
             x = int(x)
-        except: 
+        except:
             x = None
         (path, io) = logo.load(c.page_instance, size=(x, y))
         return render_png(io, os.path.getmtime(path))
-    
-    
+
     @RequireInstance
     def style(self, id):
         c.page_instance = self._get_current_instance(id)
@@ -210,89 +232,85 @@ class InstanceController(BaseController):
         if c.page_instance.css:
             return c.page_instance.css
         return ''
-    
-    
+
     @RequireInstance
     def ask_delete(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.delete(c.page_instance)
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         return render('/instance/ask_delete.html')
-    
-    
-    @RequireInstance
-    @RequireInternalRequest()
+
+    @csfr.RequireInternalRequest()
     def delete(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.delete(c.page_instance)
         c.page_instance.delete()
         model.meta.Session.commit()
-        event.emit(event.T_INSTANCE_DELETE, c.user, instance=c.instance, topics=[])
-        return ret_success(format=format, 
-                           message=_("The instance %s has been deleted.") % c.page_instance.label)
-    
-    
+        event.emit(event.T_INSTANCE_DELETE, c.user, instance=c.instance,
+                   topics=[])
+        return ret_success(format=format,
+                           message=_("The instance %s has been deleted.") %
+                           c.page_instance.label)
+
     @RequireInstance
-    @RequireInternalRequest()
+    @csfr.RequireInternalRequest()
     def join(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.join(c.page_instance)
-        
-        membership = model.Membership(c.user, c.page_instance, 
+
+        membership = model.Membership(c.user, c.page_instance,
                                       c.page_instance.default_group)
         model.meta.Session.expunge(membership)
         model.meta.Session.add(membership)
         model.meta.Session.commit()
-        
-        event.emit(event.T_INSTANCE_JOIN, c.user, 
+
+        event.emit(event.T_INSTANCE_JOIN, c.user,
                    instance=c.page_instance)
-        
-        return ret_success(entity=c.page_instance, format=format, 
+
+        return ret_success(entity=c.page_instance, format=format,
                            message=_("Welcome to %(instance)s") % {
                             'instance': c.page_instance.label})
-    
-    
-    @RequireInstance
+
     def ask_leave(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.leave(c.page_instance)
-        
+
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         return render('/instance/ask_leave.html')
-    
-    
-    @RequireInstance  
-    @RequireInternalRequest(methods=['POST'])            
+
+    @csfr.RequireInternalRequest(methods=['POST'])
     def leave(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         if not c.page_instance in c.user.instances:
-            return ret_abort(entity=c.page_instance, format=format, 
-                             message=_("You're not a member of %(instance)s.") % {
+            return ret_abort(
+                entity=c.page_instance, format=format,
+                message=_("You're not a member of %(instance)s.") % {
                                     'instance': c.page_instance.label})
         elif c.user == c.page_instance.creator:
-            return ret_abort(entity=c.page_instance, format=format, 
-                             message=_("You're the founder of %s, cannot leave.") % {
+            return ret_abort(
+                entity=c.page_instance, format=format,
+                message=_("You're the founder of %s, cannot leave.") % {
                                     'instance': c.page_instance.label})
         require.instance.leave(c.page_instance)
-        
+
         for membership in c.user.memberships:
             if membership.is_expired():
                 continue
             if membership.instance == c.page_instance:
                 membership.expire()
                 model.meta.Session.add(membership)
-                    
+
                 c.user.revoke_delegations(c.page_instance)
-                    
-                event.emit(event.T_INSTANCE_LEAVE,c.user, instance=c.page_instance)
+
+                event.emit(event.T_INSTANCE_LEAVE, c.user,
+                           instance=c.page_instance)
         model.meta.Session.commit()
-        return ret_success(entity=c.page_instance, format=format, 
+        return ret_success(entity=c.page_instance, format=format,
                            message=_("You've left %(instance)s.") % {
                                 'instance': c.page_instance.label})
-    
-    
+
     def _get_current_instance(self, id):
         if id != c.instance.key:
-            abort(403, _("You cannot manipulate one instance from within another instance."))
+            abort(403, _("You cannot manipulate one instance from within "
+                         "another instance."))
         return c.instance
-

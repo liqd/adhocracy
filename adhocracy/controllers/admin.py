@@ -1,10 +1,18 @@
-from datetime import datetime
+import logging
 
-from pylons.i18n import _
+from pylons import request
 
-from adhocracy.lib.base import *
+from repoze.what.plugins.pylonshq import ActionProtector
+
+from adhocracy import model
+from adhocracy.lib.auth.authorization import has_permission
+from adhocracy.lib.auth.csfr import RequireInternalRequest
+from adhocracy.lib.base import BaseController
+from adhocracy.lib.templating import render
+
 
 log = logging.getLogger(__name__)
+
 
 class AdminController(BaseController):
 
@@ -25,4 +33,3 @@ class AdminController(BaseController):
                 model.meta.Session.add(group)
             model.meta.Session.commit()
         return render("/admin/permissions.html")
-
