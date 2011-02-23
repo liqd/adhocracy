@@ -13,6 +13,14 @@ class RootController(BaseController):
         
         c.instances = model.Instance.all()[:5]           
         c.page = StaticPage('index')
+
+        #query = self.form_result.get('proposals_q')
+        proposals = libsearch.query.run(None, entity_type=model.Proposal)
+
+        c.proposals_pager = pager.proposals(proposals)
+
+        if format == 'json':
+            return render_json(c.proposals_pager)
         return render('index.html')
     
     
