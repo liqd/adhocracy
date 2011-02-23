@@ -168,7 +168,7 @@ class CommentController(BaseController):
         if len(request.params.get('ret_url', '')):
             redirect(request.params.get('ret_url') + "#c" + str(c.comment.id))
         if format != 'html':
-            return ret_success(entity=comment, format=format)
+            return ret_success(entity=c.comment, format=format)
         return ret_success(entity=c.comment, format='fwd')
 
     @RequireInstance
