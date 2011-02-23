@@ -11,11 +11,6 @@
 <body lang="${c.locale.language}">
 <div id="frame">
 	<div id="globalheader"><div class="headerbox">
-		<div id="bannerLeiste">
-			<div id="banner">
-				<img src="/img/help/banner.gif"/>
-			</div>
-		</div>
 		
 		<div id="account">
 			%if c.user:
@@ -64,6 +59,13 @@
 				<a href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a>
 			</div>
 		</div>
+		
+		<div id="bannerLeiste">
+			<div id="banner">
+				<img src="/img/help/banner.png"/>
+			</div>
+		</div>
+		
 	</div></div>
 	
 	%if c.instance:
