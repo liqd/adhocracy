@@ -31,7 +31,7 @@ class UserUpdateForm(formencode.Schema):
     allow_extra_fields = True
     display_name = validators.String(not_empty=False)
     email = validators.Email(not_empty=True)
-    locale = validators.String(not_empty=False)
+    #locale = validators.String(not_empty=False)
     password_change = validators.String(not_empty=False)
     password_confirm = validators.String(not_empty=False)
     chained_validators = [validators.FieldsMatch(
@@ -40,7 +40,7 @@ class UserUpdateForm(formencode.Schema):
     no_help = validators.StringBool(not_empty=False, if_empty=False, if_missing=False)
     page_size =  validators.Int(min=1, max=100, not_empty=False, if_empty=10, if_missing=10)
     email_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=3)
-    twitter_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=3)
+    #twitter_priority = validators.Int(min=0, max=6, not_empty=False, if_missing=3)
 
     
 class UserCodeForm(formencode.Schema):
@@ -151,12 +151,12 @@ class UserController(BaseController):
         email_changed = email != c.page_user.email
         c.page_user.email = email
         c.page_user.email_priority = self.form_result.get("email_priority")
-        if c.page_user.twitter:
-            c.page_user.twitter.priority = self.form_result.get("twitter_priority")
-            model.meta.Session.add(c.page_user.twitter)
-        locale = Locale(self.form_result.get("locale"))
-        if locale and locale in i18n.LOCALES:
-            c.page_user.locale = locale 
+        #if c.page_user.twitter:
+        #    c.page_user.twitter.priority = self.form_result.get("twitter_priority")
+        #    model.meta.Session.add(c.page_user.twitter)
+        #locale = Locale(self.form_result.get("locale"))
+        #if locale and locale in i18n.LOCALES:
+        #    c.page_user.locale = locale 
         model.meta.Session.add(c.page_user)
         model.meta.Session.commit()
         if email_changed:

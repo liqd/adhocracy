@@ -2,17 +2,29 @@ from datetime import datetime
 from pylons.i18n import _
 
 from adhocracy.lib.base import *
+from proposal import ProposalFilterForm
 
 log = logging.getLogger(__name__)
 
 class RootController(BaseController):
 
+    @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
+        require.proposal.index()
         if c.instance: 
             redirect(h.entity_url(c.instance))
         
         c.instances = model.Instance.all()[:5]           
         c.page = StaticPage('index')
+
+        query = self.form_result.get('proposals_q')
+        proposals = libsearch.query.run(query, entity_type=model.Proposal)
+
+        c.proposals_pager = pager.proposals(proposals)
+	c.proposals = c.proposals_pager.here()
+
+        if format == 'json':
+            return render_json(c.proposals_pager)
         return render('index.html')
     
     

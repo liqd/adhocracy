@@ -20,8 +20,7 @@
 		   	%endif
 				${h.site.name()}
 	</title>
-	<link  rel="stylesheet" type="text/css"
-		href="${h.base_url(None, path='/style/base.css')}" />
+	<link rel="stylesheet" media="all" href="/style/base.css" />	
 	<link  rel="stylesheet" type="text/css" 
 		href="${h.base_url(None, path='/style/site.css')}"/>
 	%if c.instance and c.instance.css:
@@ -58,7 +57,14 @@
 		src="${h.base_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script>
 	<script type="text/javascript" 
 		src="${h.base_url(None, path='/js/adhocracy.js')}"></script>
-		
+	<!--[if lt IE 7 ]>
+		<script type="text/javascript" 
+			src="${h.base_url(None, path='/js/dd_belatedpng.js') }"></script>
+		<script> DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images </script>
+	<![endif]-->
+
+
+
 	<style> 
 		%if c.user and c.user.no_help:
 			.help {display: none;}

@@ -20,6 +20,7 @@ def make_map():
 
     # CUSTOM ROUTES HERE
     map.connect('/', controller='root', action='index')
+    map.connect('/index{.format}', controller='root', action='index')
     
     map.connect('/openid/{action}', controller='openidauth')
     map.connect('/twitter/{action}', controller='twitteroauth')
@@ -179,6 +180,9 @@ def make_map():
                                                  'ask_delete': 'GET',
                                                  'style': 'GET',
                                                  'activity': 'GET'})
+
+    # API
+    map.connect('/api/{action}', controller='api')
     
     map.connect('/static/{page_name}.{format}', controller='static', action='serve')
 
