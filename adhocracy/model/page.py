@@ -107,7 +107,8 @@ class Page(Delegateable):
     
         
     @classmethod
-    def create(cls, instance, title, text, creator, function=NORM, tags=None):
+    def create(cls, instance, title, text, creator, function=NORM, tags=None,
+               wiki=False):
         from adhocracy.lib.text import title2alias
         from text import Text
         from tagging import Tagging
@@ -117,7 +118,7 @@ class Page(Delegateable):
         page = Page(instance, label, creator, function)
         meta.Session.add(page)
         meta.Session.flush()
-        _text = Text(page, Text.HEAD, creator, title, text)
+        _text = Text(page, Text.HEAD, creator, title, text, wiki=False)
         
         if tags is not None:
             page.taggings = Tagging.create_all(page, tags, creator)

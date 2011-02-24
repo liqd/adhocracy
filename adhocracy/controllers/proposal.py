@@ -1,20 +1,19 @@
 import logging
 
 import formencode
-from formencode import htmlfill, Invalid
-from formencode.validators import validators
+from formencode import htmlfill, Invalid, validators
 
 from pylons import request, tmpl_context as c
-from pylons.controllers.utils import redirect
+from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
 from adhocracy import forms, model
-from adhocracy.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, pager, tiles, watchlist
-from adhocracy.lib.auth import can, csfr, require
-from adhocracy.lib.base import BaseController
 from adhocracy.lib import search as libsearch
+from adhocracy.lib.auth import authorization, can, csrf, require
+from adhocracy.lib.base import BaseController
+from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_json
 from adhocracy.lib.util import get_entity_or_abort
 
@@ -41,6 +40,8 @@ class ProposalEditForm(formencode.Schema):
 class ProposalUpdateForm(ProposalEditForm):
     label = forms.UnusedTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
+    wiki = validators.StringBool(not_empty=False, if_empty=False,
+                                 if_missing=False)
 
 
 class ProposalFilterForm(formencode.Schema):
@@ -87,7 +88,7 @@ class ProposalController(BaseController):
                                force_defaults=False)
 
     @RequireInstance
-    @csfr.RequireInternalRequest(methods=['POST'])
+    @csrf.RequireInternalRequest(methods=['POST'])
     def create(self, format='html'):
         require.proposal.create()
         try:
@@ -101,8 +102,10 @@ class ProposalController(BaseController):
         model.meta.Session.flush()
         description = model.Page.create(c.instance,
                                         self.form_result.get("label"),
-                                        self.form_result.get('text'), c.user,
-                                        function=model.Page.DESCRIPTION)
+                                        self.form_result.get('text'),
+                                        c.user,
+                                        function=model.Page.DESCRIPTION,
+                                        wiki=self.form_result.get('wiki'))
         description.parents = [proposal]
         model.meta.Session.flush()
         proposal.description = description
@@ -117,14 +120,16 @@ class ProposalController(BaseController):
               post_only=False, on_get=True)
     def edit(self, id, errors={}):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        c.can_edit_wiki = self._can_edit_wiki(c.proposal, c.user)
         require.proposal.edit(c.proposal)
+
         c.text_rows = text.text_rows(c.proposal.description.head)
         return htmlfill.render(render("/proposal/edit.html"),
                                defaults=dict(request.params),
                                errors=errors, force_defaults=False)
 
     @RequireInstance
-    @csfr.RequireInternalRequest(methods=['POST'])
+    @csrf.RequireInternalRequest(methods=['POST'])
     def update(self, id, format='html'):
         try:
             c.proposal = get_entity_or_abort(model.Proposal, id)
@@ -141,11 +146,17 @@ class ProposalController(BaseController):
 
         c.proposal.label = self.form_result.get('label')
         model.meta.Session.add(c.proposal)
+
+        if self._can_edit_wiki(c.proposal, c.user):
+            wiki = self.form_result.get('wiki')
+        else:
+            wiki = c.proposal.description.head.wiki
         _text = model.Text.create(c.proposal.description, model.Text.HEAD,
                                   c.user,
                                   self.form_result.get('label'),
                                   self.form_result.get('text'),
-                                 parent=c.proposal.description.head)
+                                  parent=c.proposal.description.head,
+                                  wiki=wiki)
         model.meta.Session.commit()
         watchlist.check_watch(c.proposal)
         event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
@@ -222,7 +233,7 @@ class ProposalController(BaseController):
         return render('/proposal/ask_delete.html')
 
     @RequireInstance
-    @csfr.RequireInternalRequest()
+    @csrf.RequireInternalRequest()
     def delete(self, id):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.delete(c.proposal)
@@ -277,3 +288,10 @@ class ProposalController(BaseController):
                    text.meta_escape(proposal.creator.name, markdown=False))
         h.add_rss(_("Proposal: %(proposal)s") % {'proposal': proposal.title},
                   h.entity_url(c.proposal, format='rss'))
+
+    def _can_edit_wiki(self, proposal, user):
+        if authorization.has('instance.admin'):
+            return True
+        if proposal.creator == user:
+            return True
+        return False

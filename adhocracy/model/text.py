@@ -3,7 +3,7 @@ import logging
 
 from pylons.i18n import _
 from sqlalchemy import Column, ForeignKey, Table, or_
-from sqlalchemy import Integer, Unicode, UnicodeText, DateTime
+from sqlalchemy import Boolean, Integer, Unicode, UnicodeText, DateTime
 
 import meta
 
@@ -18,6 +18,7 @@ text_table = Table('text', meta.data,
     Column('variant', Unicode(255), nullable=True),
     Column('title', Unicode(255), nullable=True),
     Column('text', UnicodeText(), nullable=True),
+    Column('wiki', Boolean, default=False),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime)
     )
@@ -28,12 +29,13 @@ class Text(object):
     HEAD = u'HEAD'
     LINE_LENGTH = 60
 
-    def __init__(self, page, variant, user, title, text):
+    def __init__(self, page, variant, user, title, text, wiki=False):
         self.page = page
         self.variant = variant
         self.user = user
         self.title = title
         self.text = text
+        self.wiki = wiki
 
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
@@ -49,7 +51,7 @@ class Text(object):
             return None
 
     @classmethod
-    def create(cls, page, variant, user, title, text, parent=None):
+    def create(cls, page, variant, user, title, text, parent=None, wiki=False):
         if variant is None:
             if parent is not None:
                 variant = parent.variant
@@ -59,7 +61,7 @@ class Text(object):
         variant_is_new = False
         if not variant in page.variants:
             variant_is_new = True
-        _text = Text(page, variant, user, title, text)
+        _text = Text(page, variant, user, title, text, wiki)
         if parent:
             _text.parent = parent
         meta.Session.add(_text)
@@ -144,6 +146,7 @@ class Text(object):
                  text=self.text,
                  variant=self.variant,
                  title=self.title,
+                 wiki=self.wiki,
                  user=self.user.user_name)
         if self.parent:
             d['parent'] = self.parent.id

@@ -1,5 +1,7 @@
-from authorization import has
-import poll
+from pylons import tmpl_context as c
+
+from adhocracy.lib.auth import poll
+from adhocracy.lib.auth.authorization import has
 
 
 def index():
@@ -15,7 +17,15 @@ def create():
 
 
 def edit(p):
-    return has('proposal.edit') and show(p) and p.is_mutable()
+    if not p.is_mutable():
+        return False
+    if has('instance.admin'):
+        return True
+    if not (has('proposal.edit') and show(p)):
+        return False
+    if (p.description.head.wiki or is_own(p)):
+        return True
+    return False
 
 
 def delete(p):
@@ -28,3 +38,7 @@ def rate(p):
 
 def adopt(p):
     return show(p) and poll.create() and p.can_adopt()
+
+
+def is_own(p):
+    return c.user and p.creator == c.user
