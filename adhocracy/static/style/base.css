@@ -12,7 +12,7 @@ div, body, ul, li, button {
 }
 
 body {
-	background: #fff url(http://www.bundestag.de/internetenquete/includes/images/hintergrund/reichstag_01.jpg);
+	background: #fff url(/img/btor_adhc_4.jpg);
 	line-height: 1; 
 	color: black;
 }
@@ -74,11 +74,10 @@ h3 a:hover {
 }
 
 h1.page_title {
-	margin-top: 0.5em;
 	border-bottom: 0px;
 	background: #fff;
 	width: 960px;
-	padding: 0 20px 20px;
+	padding: 15px 20px 20px;
 	margin-top: -10px;
 	/*display: block;*/
 }
@@ -537,7 +536,7 @@ body {
 	font-weight: bold;
 	font-size: 0.95em;
 	text-decoration: none;
-	background: #fff url(http://www.bundestag.de/internetenquete/includes/images/hauptnavigation_liste_icon_aktiv.gif) bottom left no-repeat !important;
+	background: #fff url(/img/hauptnavigation_liste_icon_aktiv.gif) bottom left no-repeat !important;
 }
 
 #instanceheader #menu {
@@ -565,7 +564,7 @@ body {
 
 #instanceheader #menu ul li a, 
 #instanceheader #search {
-	background: #fff url(http://www.bundestag.de/internetenquete/includes/images/hauptnavigation_liste_icon.gif) bottom left no-repeat;
+	background: #fff url(/img/hauptnavigation_liste_icon.gif) bottom left no-repeat;
 	color: #000;
 	font-weight: bold;
 	font-size: 14px;
@@ -577,14 +576,14 @@ body {
 #instanceheader #search {
 	font-weight: normal;
 	text-shadow: none;
-	background: #fff url(http://www.bundestag.de/includes/images/schnellsuche_submit.gif) center right no-repeat !important;
+	background: #fff url(/img/schnellsuche_submit.gif) center right no-repeat !important;
 	padding-left: 24px;
 	border: none;
 	padding: 1px 2.5em 1px 1em;
 }
 
 #instanceheader #menu-links ul li a:hover {
-	background: #fff url(http://www.bundestag.de/internetenquete/includes/images/hauptnavigation_liste_icon_aktiv.gif) bottom left no-repeat;
+	background: #fff url(/img/hauptnavigation_liste_icon_aktiv.gif) bottom left no-repeat;
 	text-decoration: none;
 	/*border: 1px solid #1553a4;*/
 	text-shadow: none;
