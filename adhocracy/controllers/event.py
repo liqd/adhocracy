@@ -7,7 +7,6 @@ log = logging.getLogger(__name__)
 
 class EventController(BaseController):
     
-    @ActionProtector(has_permission("global.admin"))  
     def all(self):
         query = model.meta.Session.query(model.Event)
         query = query.order_by(model.Event.time.desc())

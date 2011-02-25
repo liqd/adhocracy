@@ -83,6 +83,10 @@ h1.page_title {
 	/*display: block;*/
 }
 
+h1.page_title.with_vote {
+	padding: 20px 50px 20px; 
+}
+
 h1 img.cd, 
 h2 img.cd, 
 h3 img.cd,
@@ -244,10 +248,10 @@ input[type=file] {
 input.title {
 	font-size: 16pt;
 	display: block;
-	width: 960px;
+	width: 92%;
 	padding: 7px 20px;
 	margin: 0;
-	border: none;
+	border: 1px solid #666;
 }
 
 .hint,
@@ -442,6 +446,7 @@ body {
 	padding: 10px 0px;
 	background: url(http://www.bundestag.de/internetenquete/includes/images/service_hintergrund.gif) repeat-x;
 	font-family: Georgia, Times New Roman, Times, serif;
+	font-size: 1.1em;
 	/*
 	background-image: url(/img/hdr_bg.png);
 	background-repeat: repeat-x;
@@ -486,10 +491,10 @@ body {
 #banner {
 	width: 960px;
 	text-align: right;
-	margin: 12px 0 0 -20px;
+	margin: 10px 0 0 -20px;
 	background: white url(/img/bonsai_adhc.png) no-repeat left center;
 	height: 64px;
-	padding: 10px 20px;
+	padding: 20px 20px;
 }
 
 #banner img {
