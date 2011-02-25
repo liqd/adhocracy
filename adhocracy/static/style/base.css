@@ -106,6 +106,7 @@ pre {
 
 .help h3, h3.section {
 	border-bottom: 0px;
+	margin-left: 0;
 }
 
 .page_title img {
@@ -729,6 +730,7 @@ body {
 /* @group Typography */
 
 .content {
+	overflow-x: hidden;
 	width: inherit;
 	padding: inherit;
 	font-size: 10pt;
