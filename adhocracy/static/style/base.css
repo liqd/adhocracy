@@ -900,6 +900,10 @@ p img[align=left] {
 	padding-top: 0.4em;
 	overflow: visible;
 } 
+.tile .logo .copyright {
+	font-size: 80%;
+	color: #777;
+}
 
 .tile .base {
 	width: inherit;
