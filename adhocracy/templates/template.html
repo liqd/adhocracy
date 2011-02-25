@@ -94,24 +94,75 @@
 		<label id="searchlabel" for="serp_q" class="armhint">${_("Search")}</label>
 		<input id="search" name="serp_q" class="armlabel" autocomplete="off" />	
 		</form>
-	</div></div>
+  </div></div>
+  
+    %if can.instance.join(c.instance):  
+    <div class="infobox no_member">
+      ${_("You are not yet a member of %s. To participate, you must join this instance.") % c.instance.label}
+			<a class="button add ttip" title="${_('Join this instance to start contributing.')}" 
+        href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
+    </div>
+		%endif
+		%if not c.user:
+    <div class="infobox no_member">
+      ${_("You are not yet a member of %s. To participate, you must register first.") % c.instance.label}
+      <a class="button add ttip" title="${_('Join this instance to start contributing.')}"  href="/register">${_("join")}</a> 
+    </div>
+		%endif
 	%endif
 	
 	<div id="page">
 		<div id="breadcrumbs">
-			${self.breadcrumbs()}
-		</div>	
-		<% messages = h.flash.pop_messages() %>
-		%if messages:
-		<div id="flash_messages">
+                  ${self.breadcrumbs()}
+		</div>
+
+		<%
+	messages = h.flash.pop_messages();
+	success_messages = [m for m in messages if m.category == 'success'];
+	notice_messages = [m for m in messages if m.category == 'notice'];
+	warning_messages = [m for m in messages if m.category == 'warning'];
+	error_messages = [m for m in messages if m.category == 'error'];
+		%>
+		%if error_messages:
+		<div class="flash_messages error">
 			<ul>
-			%for message in messages:
-	    		<li>${message}</li>
-	    	%endfor
+			%for message in error_messages:
+			<li>${message}</li>
+		%endfor
 			</ul>
 		</div>
 		%endif
-	
+
+		%if warning_messages:
+		<div class="flash_messages warning">
+			<ul>
+			%for message in warning_messages:
+			<li>${message}</li>
+		%endfor
+			</ul>
+		</div>
+		%endif
+
+		%if notice_messages:
+		<div class="flash_messages notice">
+			<ul>
+			%for message in notice_messages:
+			<li>${message}</li>
+		%endfor
+			</ul>
+		</div>
+		%endif
+
+		%if success_messages:
+		<div class="flash_messages success">
+			<ul>
+			%for message in success_messages:
+			<li>${message}</li>
+		%endfor
+			</ul>
+		</div>
+		%endif
+
 		<div class="content">
 			${self.body()}
 			<div style="clear: both;"></div>

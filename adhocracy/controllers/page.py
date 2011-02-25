@@ -239,8 +239,8 @@ class PageController(BaseController):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
         if c.text is None:
-             h.flash(_("No such text revision."))
-             redirect(h.entity_url(c.page))
+            h.flash(_("No such text revision."), 'notice')
+            redirect(h.entity_url(c.page))
         c.texts_pager = NamedPager('texts', c.text.history, 
                                    tiles.text.history_row, count=10, #list_item,
                                    sorts={_("oldest"): sorting.entity_oldest,
@@ -264,13 +264,13 @@ class PageController(BaseController):
         
     def _differ(self, left, right, options=None):
         if left == right: 
-            h.flash(_("Cannot compare identical text revisions."))
+            h.flash(_("Cannot compare identical text revisions."), 'notice')
             redirect(h.entity_url(right))
         c.left, c.right = (left, right)
         c.left_options = options
         require.page.show(c.right.page)
         if c.left.page != c.right.page:
-            h.flash(_("Cannot compare versions of different texts."))
+            h.flash(_("Cannot compare versions of different texts."), 'notice')
             redirect(h.entity_url(c.right))
         c.tile = tiles.page.PageTile(c.right.page)
         self._common_metadata(c.right.page, c.right)
@@ -294,7 +294,8 @@ class PageController(BaseController):
         model.meta.Session.commit()
         #event.emit(event.T_PAGE_DELETE, c.user, instance=c.instance, 
         #           topics=[c.page], page=c.page)
-        h.flash(_("The variant %s has been deleted.") % c.variant)
+        h.flash(_("The variant %s has been deleted.") % c.variant,
+                'success')
         redirect(h.entity_url(c.page))
     
     
@@ -315,7 +316,8 @@ class PageController(BaseController):
         model.meta.Session.commit()
         event.emit(event.T_PAGE_DELETE, c.user, instance=c.instance, 
                    topics=[c.page], page=c.page)
-        h.flash(_("The page %s has been deleted.") % c.page.title)
+        h.flash(_("The page %s has been deleted.") % c.page.title,
+                'success')
         redirect(h.entity_url(c.page.instance))
     
     

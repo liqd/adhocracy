@@ -119,7 +119,8 @@ class UserController(BaseController):
             model.meta.Session.expunge(membership)
             model.meta.Session.add(membership)
             model.meta.Session.commit()
-        h.flash(_("You have successfully registered as user %s.") % user.name)
+        h.flash(_("You have successfully registered as user %s.") % user.name,
+                'success')
         redirect("/perform_login?%s" % urllib.urlencode({
                  'login': self.form_result.get("user_name").encode('utf-8'),
                  'password': self.form_result.get("password").encode('utf-8')
@@ -202,9 +203,11 @@ class UserController(BaseController):
             body = _("your password has been reset. It is now:") + "\r\n\r\n  " + new_password + "\r\n\r\n" 
             body += _("Please login and change the password in your user settings.")     
             libmail.to_user(c.page_user, _("Your new password"), body)     
-            h.flash(_("Success. You have been sent an email with your new password."))    
+            h.flash(_("Success. You have been sent an email with your new "
+                      "password."), 'success')
         except Exception:
-            h.flash(_("The reset code is invalid. Please repeat the password recovery procedure."))
+            h.flash(_("The reset code is invalid. Please repeat the password"
+                      " recovery procedure."), 'error')
         redirect('/login')
     
     
@@ -217,10 +220,11 @@ class UserController(BaseController):
                 raise ValueError()
             c.page_user.activation_code = None
             model.meta.Session.commit()
-            h.flash(_("Your email has been confirmed."))
+            h.flash(_("Your email has been confirmed."), 'success')
         except Exception:
             log.exception("Invalid activation code")
-            h.flash(_("The activation code is invalid. Please have it resent."))
+            h.flash(_("The activation code is invalid. Please have it "
+                      "resent."), 'error')
         redirect(h.entity_url(c.page_user))
     
     
@@ -229,7 +233,8 @@ class UserController(BaseController):
         c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
         require.user.edit(c.page_user)
         libmail.send_activation_link(c.page_user)
-        h.flash(_("The activation link has been re-sent to your email address."))
+        h.flash(_("The activation link has been re-sent to your email "
+                  "address."), 'notice')
         redirect(h.entity_url(c.page_user, member='edit'))
     
     
@@ -276,7 +281,7 @@ class UserController(BaseController):
                 url = session.get('came_from')
                 del session['came_from']
                 session.save()
-            h.flash(_("You have successfully logged in."))
+            h.flash(_("You have successfully logged in."), 'success')
             redirect(str(url))
         else:
             session.delete()
@@ -415,9 +420,10 @@ class UserController(BaseController):
         require.user.supervise(c.page_user)
         to_group = self.form_result.get("to_group")
         if not to_group.code in model.Group.INSTANCE_GROUPS:
-            h.flash("Cannot make %(user)s a member of %(group)s" % {
-                        'user': c.page_user.name, 
-                        'group': group.group_name})
+            h.flash(_("Cannot make %(user)s a member of %(group)s") % {
+                        'user': c.page_user.name,
+                        'group': group.group_name},
+                    'error')
             redirect(h.entity_url(c.page_user))
         had_vote = c.page_user._has_permission("vote.cast")
         for membership in c.page_user.memberships:
@@ -447,8 +453,9 @@ class UserController(BaseController):
         event.emit(event.T_INSTANCE_FORCE_LEAVE, c.page_user, instance=c.instance, 
                    admin=c.user)        
         h.flash(_("%(user)s was removed from %(instance)s") % {
-                                        'user': c.page_user.name, 
-                                        'instance': c.instance.label})
+                    'user': c.page_user.name,
+                    'instance': c.instance.label},
+                'success')
         redirect(h.entity_url(c.page_user))
     
     
@@ -475,5 +482,7 @@ class UserController(BaseController):
         h.add_rss(_("%(user)ss Activity") % {'user': user.name}, 
                   h.entity_url(user, format='rss'))            
         if c.instance and not user.is_member(c.instance):
-            h.flash(_("%s is not a member of %s") % (user.name, c.instance.label))  
+            h.flash(_("%s is not a member of %s") % (user.name,
+                                                     c.instance.label),
+                    'notice')
         

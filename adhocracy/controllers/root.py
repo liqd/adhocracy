@@ -18,7 +18,7 @@ class RootController(BaseController):
         c.page = StaticPage('index')
 
         query = self.form_result.get('proposals_q')
-        proposals = libsearch.query.run(query, entity_type=model.Proposal)
+        proposals = libsearch.query.run(query, entity_type=model.Proposal)[:10]
 
         c.proposals_pager = pager.proposals(proposals)
 	c.proposals = c.proposals_pager.here()

@@ -72,7 +72,7 @@ class OpenidauthController(BaseController):
         """
         log.info("OpenID: %s - Error: %s" % (openid, message))
         if c.user:
-            h.flash(message)
+            h.flash(message, 'error')
             return redirect(h.entity_url(c.user, member='edit'))
         else:
             loginhtml = render("/user/login.html")
@@ -118,14 +118,15 @@ class OpenidauthController(BaseController):
     def connect(self):
         require.user.edit(c.user)
         if not c.user:
-            h.flash(_("No OpenID was entered."))
+            h.flash(_("No OpenID was entered."), 'warning')
             redirect("/login")
         return render("/openid/connect.html")   
     
     
     @RequireInternalRequest()
-    def revoke(self, id):
+    def revoke(self):
         require.user.edit(c.user)
+        id = request.params.get('id')
         openid = model.OpenID.by_id(id)
         if not openid:
             abort(404, _("No OpenID with ID '%s' exists.") % id)

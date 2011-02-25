@@ -45,7 +45,7 @@ mapper(Twitter, twitter_table, properties={
 
 mapper(OpenID, openid_table, properties={
     'user': relation(User, lazy=False, primaryjoin=openid_table.c.user_id==user_table.c.id, 
-                     backref=backref('openids', cascade='delete'))
+                     backref=backref('_openids', cascade='delete'))
     }, extension=meta.extension)
 
 

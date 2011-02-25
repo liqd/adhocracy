@@ -128,7 +128,16 @@ class User(meta.Indexable):
                 return twitter
         return None
     
+
+    @property
+    def openids(self):
+        _ids = []
+        for openid in self._openids:
+            if not openid.is_deleted():
+                _ids.append(openid)
+        return _ids
     
+
     @property
     def num_watches(self):
         from watch import Watch

@@ -25,7 +25,8 @@ class WatchController(BaseController):
         require.watch.create()
         entity = self.form_result.get('ref')
         if model.Watch.find_by_entity(c.user, entity):
-            h.flash(_("A watchlist entry for this entity already exists."))
+            h.flash(_("A watchlist entry for this entity already exists."),
+                    'notice')
         else:
             watch = model.Watch.create(c.user, entity)
             model.meta.Session.commit()

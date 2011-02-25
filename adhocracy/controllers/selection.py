@@ -102,7 +102,9 @@ class SelectionController(BaseController):
         #           topics=[c.proposal], proposal=c.proposal)
         c.selection.delete()
         model.meta.Session.commit()
-        h.flash(_("The inclusion of %s has been deleted.") % c.selection.page.title)
+        h.flash(_("The inclusion of %s has been deleted.") % 
+                c.selection.page.title,
+                'success')
                 
         redirect(h.entity_url(c.proposal))
 

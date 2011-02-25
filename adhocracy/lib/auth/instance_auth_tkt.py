@@ -1,6 +1,7 @@
 import datetime
 from repoze.who.plugins.auth_tkt import AuthTktCookiePlugin, _now
 
+
 class InstanceAuthTktCookiePlugin(AuthTktCookiePlugin):
 
     def _get_cookies(self, environ, value, max_age=None):

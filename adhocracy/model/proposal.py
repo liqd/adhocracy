@@ -85,18 +85,21 @@ class Proposal(Delegateable):
                 continue
             if not selected in selection.page.variants:
                 continue
-            source_text = selection.page.variant_at(selected, 
+            source_text = selection.page.variant_at(selected,
                                                     self.adopt_poll.begin_time)
-            dest_text = Text.create(selection.page, Text.HEAD, source_text.user, 
-                                    source_text.title, source_text.text, 
-                                    parent=source_text)
+            dest_text = Text.create(selection.page,
+                                    Text.HEAD,
+                                    source_text.user,
+                                    source_text.title, source_text.text,
+                                    parent=source_text,
+                                    wiki=source_text.wiki)
             dest_text.create_time = at_time
         self.adopted = True
         meta.Session.commit()
         self.adopt_poll.end(at_time)
         meta.Session.flush()
-    
-    
+
+
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False, full=False):
         try:

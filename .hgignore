@@ -8,6 +8,7 @@ syntax:glob
 *.swo
 *.egg-info
 data/*
+bundestag.ini
 *.DS_Store
 
 # These lines are suggested according to the svn:ignore property

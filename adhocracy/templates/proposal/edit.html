@@ -40,7 +40,13 @@
     	<label for="text" class="armhint">${_("The proposal would...")}</label>
     	<textarea tabindex="2" class="description armlabel" rows="${c.text_rows}" name="text">${c.proposal.description.head.text}</textarea>
     	${components.formatting()}
-	</div>
+
+        %if c.can_edit_wiki:
+        <input type="checkbox" ${'checked="checked"' if c.proposal.description.head.wiki == 1 else ''} name="wiki" value="1" />
+        ${_("Allow others to edit this proposal.")}
+        %endif
+
+        </div>
 	
 	<div style="clear:both;"></div>
 	

@@ -42,7 +42,7 @@ def setup_entities():
     mk_perm("vote.cast", voter)
     mk_perm("instance.index", anonymous)
     mk_perm("instance.show", anonymous)
-    mk_perm("instance.create", default)
+    mk_perm("instance.create", admins)
     mk_perm("instance.admin", supervisor)
     mk_perm("instance.join", default)
     mk_perm("instance.leave", default)
