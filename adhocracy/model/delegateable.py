@@ -140,30 +140,6 @@ class Delegateable(meta.Indexable):
     def comment_count(self):
         return len([c for c in self.comments if not c.is_deleted()])
     
-        
-    def _join_contributors(self, first, second, second_factor=1):
-        cbs = dict(first)
-        for (i, s) in second:
-            cbs[i] = cbs.get(i, 0) + (s * float(second_factor))
-        return sorted(cbs.items(), key=lambda (c, s): s, reverse=True) 
-    
-    
-    def contributors(self):
-        from user import User
-        from revision import Revision
-        from comment import Comment
-        q = meta.Session.query(User)
-        q = q.join(Revision)
-        q = q.add_column(func.count(Revision.id))
-        q = q.join(Revision.comment)
-        q = q.filter(Comment.topic_id==self.id)
-        q = q.group_by(User.id)
-        q = q.order_by(func.count(Revision.id).desc())
-        cbs = q.all() 
-        for child in self.children: 
-            cbs = self._join_contributors(cbs, child.contributors())
-        return cbs
-    
     
     def current_delegations(self):
         return filter(lambda d: not d.is_revoked(), self.delegations)

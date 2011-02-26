@@ -193,21 +193,6 @@ class ProposalController(BaseController):
         return render("/proposal/delegations.html")
 
     @RequireInstance
-    def contributors(self, id, format="html"):
-        # TODO: use my own pager here
-        c.proposal = get_entity_or_abort(model.Proposal, id)
-        require.proposal.show(c.proposal)
-        contributors = [user for (user, score) in c.proposal.contributors()]
-        c.users_pager = pager.users(contributors)
-
-        if format == 'json':
-            return render_json(c.users_pager)
-
-        c.tile = tiles.proposal.ProposalTile(c.proposal)
-        self._common_metadata(c.proposal)
-        return render("/proposal/contributors.html")
-
-    @RequireInstance
     def activity(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.show(c.proposal)

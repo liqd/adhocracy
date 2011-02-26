@@ -67,7 +67,6 @@ def make_map():
     map.resource('proposal', 'proposal', member={'votes': 'GET', 
                                                  'delegations': 'GET', 
                                                  'activity': 'GET', 
-                                                 'contributors': 'GET',
                                                  'alternatives': 'GET',
                                                  'ask_delete': 'GET',
                                                  'ask_adopt': 'GET',
