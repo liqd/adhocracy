@@ -690,12 +690,12 @@ body {
 	background-repeat: no-repeat;
 	background-position: center left;
 	background-image: url(/img/icons/info_16.png);
-	background-color: #fdfbc0;
+	background-color: #9D0000;
 	padding: 0.8em;
 	padding-left: 48px;
 	display: block;
 	font-size: 1.0em;
-	color: #333;
+	color: white;
 }
 
 
