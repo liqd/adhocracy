@@ -201,7 +201,7 @@ class Page(Delegateable):
     @property
     def heads(self):
         from text import Text
-        if not has_variants:
+        if not self.has_variants:
             return [self.variant_head(Text.HEAD)]
         return [self.variant_head(h) for h in self.variants]
 
