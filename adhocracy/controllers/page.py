@@ -100,7 +100,7 @@ class PageController(BaseController):
                 if not proposal:
                     msg = _("No proposal has been specified")
                     raise Invalid(msg, branch, state_(), error_dict={'title': msg})
-                if not c.insatnce.allow_propose:
+                if not c.instance.allow_propose:
                     msg = _("You cannot create a new norm")
                     raise Invalid(msg, branch, state_(), error_dict={'title': msg})
                 # if a proposal is specified, create a stub:
