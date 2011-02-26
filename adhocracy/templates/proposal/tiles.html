@@ -15,7 +15,10 @@
 				    &middot;    
 				%elif proposal.rate_poll: 
 					${_("<b>%s:%s</b> votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} &middot;
-				%endif
+        %endif
+        %if proposal.description.head.wiki: 
+          <b>${_("anyone can edit")}</b> &middot; 
+        %endif
 				%if proposal.instance.use_norms:
 				    <img src="/img/icons/page_variant_16.png" /> 
 				    ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
@@ -35,7 +38,11 @@
     <h3 class="section"><img src="/img/icons/proposal_16.png" class="cd" /> ${_("Information")}</h3>
 	<div class="infobox">
 		${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.format_date(proposal.create_time))|n} 
-		&middot; <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
+    &middot; <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
+  </div>
+  <br/>
+  <div class="infobox">
+    ${_("This is a <b>joint proposal</b> that can be improved by anyone. Edit it to improve or refine the text.")|n}
 	</div>
 	<ul>
 	    <li><a href="${h.entity_url(proposal)}">${_("Main page")}</a></li>
