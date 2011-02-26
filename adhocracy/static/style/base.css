@@ -383,6 +383,7 @@ body {
 
 .tag_link.plain a {
 	background-color: transparent;
+    line-height: 1.2em;
 	border: 0px solid white;
 	padding: 0px;
 	margin: 0px;
@@ -685,7 +686,7 @@ body {
 }
 
 .warning_box,
-#flash_messages {
+.flash_messages {
 	background-repeat: no-repeat;
 	background-position: center left;
 	background-image: url(/img/icons/info_16.png);
@@ -935,6 +936,10 @@ p img[align=left] {
 
 .tile .base {
 	width: inherit;
+}
+
+.tile .base h3 {
+    margin-left: 0px;
 }
 
 .tile p {

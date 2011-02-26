@@ -21,7 +21,7 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 	</div>
 </div>
 <div class="mainbar">
-    <h2>${_("Change an exisisting norm")}</h2>
+    <h2>${_("Change an existing norm")}</h2>
     <div class="infobox">
 	    ${_("Select a norm that you want to relate to. You can later propose a variant of this norm to effect a change.")|n}
 	</div>
@@ -34,11 +34,13 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 	    <br/><br/>
 	    <input type="submit" value="${_("Include")}" />
 	</form>
-	
-	<h3>${_("Can't find an appropriate norm?")}</h3>
-	<ul>
-	    <li><a href="${h.proposal.url(c.proposal, member='implementation/propose')}">
-	        ${_("Create a new norm instead")}</a>
-	    </li>
-	</ul> 
+
+  %if can.norm.propose():
+  	<h3>${_("Can't find an appropriate norm?")}</h3>
+	  <ul>
+	      <li><a href="${h.proposal.url(c.proposal, member='implementation/propose')}">
+	          ${_("Create a new norm instead")}</a>
+	      </li>
+	  </ul> 
+  %endif
 </div>

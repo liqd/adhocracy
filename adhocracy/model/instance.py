@@ -28,6 +28,7 @@ instance_table = Table('instance', meta.data,
     Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True),
     Column('allow_adopt', Boolean, default=True),       
     Column('allow_delegate', Boolean, default=True),
+    Column('allow_propose', Boolean, default=True),
     Column('allow_index', Boolean, default=True),
     Column('hidden', Boolean, default=False),
     Column('locale', Unicode(7), nullable=True),
@@ -52,6 +53,7 @@ class Instance(meta.Indexable):
         self.activation_delay = 7
         self.allow_adopt = True
         self.allow_delegate = True
+        self.allow_propose = True
         self.allow_index = True
         self.hidden = False
         self._required_participation = None
@@ -222,6 +224,7 @@ class Instance(meta.Indexable):
                  activation_delay=self.activation_delay,
                  allow_adopt=self.allow_adopt,
                  allow_delegate=self.allow_delegate,
+                 allow_propose=self.allow_propose,
                  allow_index=self.allow_index,
                  hidden=self.hidden,
                  url=h.entity_url(self),

@@ -46,6 +46,8 @@ class InstanceEditForm(formencode.Schema):
                                         if_missing=False)
     allow_delegate = validators.StringBool(not_empty=False, if_empty=False,
                                            if_missing=False)
+    allow_propose = validators.StringBool(not_empty=False, if_empty=False,
+                                          if_missing=False)
     allow_index = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
     use_norms = validators.StringBool(not_empty=False, if_empty=False,
@@ -163,6 +165,7 @@ class InstanceController(BaseController):
                 'activation_delay': c.page_instance.activation_delay,
                 'allow_adopt': c.page_instance.allow_adopt,
                 'allow_delegate': c.page_instance.allow_delegate,
+                'allow_propose': c.page_instance.allow_propose,
                 'allow_index': c.page_instance.allow_index,
                 'hidden': c.page_instance.hidden,
                 'locale': c.page_instance.locale,
@@ -176,7 +179,6 @@ class InstanceController(BaseController):
     def update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
-
         c.page_instance.description = self.form_result.get('description')
         c.page_instance.label = self.form_result.get('label')
         c.page_instance.required_majority = self.form_result.get(
@@ -185,6 +187,7 @@ class InstanceController(BaseController):
             'activation_delay')
         c.page_instance.allow_adopt = self.form_result.get('allow_adopt')
         c.page_instance.allow_delegate = self.form_result.get('allow_delegate')
+        c.page_instance.allow_propose = self.form_result.get('allow_propose')
         c.page_instance.allow_index = self.form_result.get('allow_index')
         c.page_instance.hidden = self.form_result.get('hidden')
         c.page_instance.css = self.form_result.get('css')

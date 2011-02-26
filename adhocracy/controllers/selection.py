@@ -27,6 +27,7 @@ class SelectionController(BaseController):
     
     @RequireInstance
     def propose(self, proposal_id):
+        require.norm.propose()
         return self._new(proposal_id, '/selection/propose.html', None)
     
         

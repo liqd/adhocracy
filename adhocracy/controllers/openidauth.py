@@ -148,7 +148,8 @@ class OpenidauthController(BaseController):
         # evaluate Simple Registration Extension data
         srep = sreg.SRegResponse.fromSuccessResponse(info)
         if srep:
-            user_name = srep.get('nickname').strip()
+            if srep.get('nickname'):
+                user_name = srep.get('nickname').strip()
             if srep.get('email'):
                 email = srep.get('email')
                     
