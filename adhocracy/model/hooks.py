@@ -14,6 +14,7 @@ POSTDELETE = "_post_delete"
 POSTUPDATE = "_post_update"
 REGISTRY = {}
 
+
 class HookExtension(MapperExtension):
     """ Extention to add pre-commit hooks.
 
@@ -23,7 +24,7 @@ class HookExtension(MapperExtension):
       * _pre_delete()
       * _pre_update()
     """
-    
+
     def before_insert(self, mapper, connection, instance):
         if getattr(instance, PREINSERT, None):
             instance._pre_insert()
@@ -53,20 +54,25 @@ class HookExtension(MapperExtension):
         if getattr(instance, POSTUPDATE, None):
             instance._post_update()
         return EXT_CONTINUE
-    
+
+
 def patch_some(clazz, hooks, f):
     for hook in hooks:
         patch(clazz, hook, f)
-        
+
+
 def patch_pre(clazz, f):
     patch_some(clazz, [PREINSERT, PREUPDATE, PREDELETE], f)
-    
+
+
 def patch_post(clazz, f):
     patch_some(clazz, [POSTINSERT, POSTUPDATE, POSTDELETE], f)
-    
+
+
 def patch_default(clazz, f):
     patch_some(clazz, [POSTINSERT, POSTUPDATE, PREDELETE], f)
-        
+
+
 def patch(clazz, hook, f):
     prev = getattr(clazz, hook, None)
     a = f
@@ -95,7 +101,7 @@ def handle_queue_message(message):
             (r_type, r_event) = signature
             if r_event == data.get('event') and \
                 r_type == refs.entity_type(entity):
-                for callback in calls: 
+                for callback in calls:
                     callback(entity)
     except:
         log.exception("Failed to handle message: %s" % message)
@@ -105,7 +111,8 @@ def init_queue_hooks():
     from adhocracy.lib.queue import has_queue, post_message
     import refs
     for cls in refs.TYPES:
-        for event in [PREINSERT, PREDELETE, PREUPDATE, POSTINSERT, POSTDELETE, POSTUPDATE]:
+        for event in [PREINSERT, PREDELETE, PREUPDATE, POSTINSERT,
+                      POSTDELETE, POSTUPDATE]:
             def _handle_event(entity):
                 if has_queue():
                     entity_ref = refs.to_ref(entity)

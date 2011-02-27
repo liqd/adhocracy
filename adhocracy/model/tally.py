@@ -1,10 +1,9 @@
 from datetime import datetime
 import logging
 
-from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, DateTime, func
+from sqlalchemy import Table, Column, Integer, ForeignKey, DateTime
 
 import meta
-import instance_filter as ifilter
 
 
 log = logging.getLogger(__name__)
@@ -22,35 +21,31 @@ tally_table = Table('tally', meta.data,
 
 
 class Tally(object):
-    
+
     def __init__(self, poll, num_for, num_against, num_abstain):
         self.poll = poll
         self.num_for = num_for
         self.num_against = num_against
         self.num_abstain = num_abstain
-    
-    
+
     def _get_rel_for(self):
         base = self.num_for + self.num_against
         if base == 0:
             return 0.5
         return self.num_for / float(max(1, base))
-    
+
     rel_for = property(_get_rel_for)
-    
-    
+
     def _get_rel_against(self):
         return 1 - self.rel_for
-    
+
     rel_against = property(_get_rel_against)
-    
-    
+
     def _get_score(self):
         return self.num_for - self.num_against
-        
+
     score = property(_get_score)
-    
-    
+
     @classmethod
     def create_from_vote(cls, vote):
         tally = cls.find_by_vote(vote)
@@ -58,9 +53,8 @@ class Tally(object):
             tally = Tally.create_from_poll(vote.poll, vote.create_time)
             tally.vote = vote
             meta.Session.flush()
-        return tally 
-    
-    
+        return tally
+
     @classmethod
     def create_from_poll(cls, poll, at_time=None):
         from adhocracy.lib.democracy import Decision
@@ -73,15 +67,14 @@ class Tally(object):
                 continue
             results[decision.result] = results.get(decision.result, 0) + 1
         tally = Tally(poll,
-                      results.get(Vote.YES, 0), 
+                      results.get(Vote.YES, 0),
                       results.get(Vote.NO, 0),
                       results.get(Vote.ABSTAIN, 0))
         tally.create_time = at_time
         meta.Session.add(tally)
         meta.Session.flush()
-        return tally 
-    
-    
+        return tally
+
     @classmethod
     def combine_polls(cls, polls, at_time=None):
         from adhocracy.lib.democracy import Decision
@@ -90,7 +83,7 @@ class Tally(object):
             at_time = datetime.utcnow()
         result_voters = {}
         undecided = []
-        
+
         for poll in polls:
             for decision in Decision.for_poll(poll, at_time=at_time):
                 if not decision.is_decided():
@@ -102,60 +95,54 @@ class Tally(object):
                     if option != result and decision.user in voters:
                         undecided.append(decision.user)
                     result_voters[option] = voters
-        
+
         for option in [Vote.YES, Vote.NO, Vote.ABSTAIN]:
             users = result_voters.get(option, [])
             for user in undecided:
                 if user in users:
                     users = users.remove(user)
             result_voters[option] = users
-        
+
         return Tally(None,
-                     len(result_voters.get(Vote.YES, [])), 
+                     len(result_voters.get(Vote.YES, [])),
                      len(result_voters.get(Vote.NO, [])),
-                     len(result_voters.get(Vote.ABSTAIN, [])))     
-    
-    
+                     len(result_voters.get(Vote.ABSTAIN, [])))
+
     @classmethod
     def find_by_vote(cls, vote):
         q = meta.Session.query(Tally)
-        q = q.filter(Tally.vote==vote)
+        q = q.filter(Tally.vote == vote)
         return q.limit(1).first()
-    
-    
+
     @classmethod
     def all_samples(cls, poll, start_time, end_time):
         qp = meta.Session.query(Tally)
-        qp = qp.filter(Tally.poll==poll)
-        qp = qp.filter(Tally.create_time<=end_time)
-        qp = qp.filter(Tally.create_time>=start_time)
+        qp = qp.filter(Tally.poll == poll)
+        qp = qp.filter(Tally.create_time <= end_time)
+        qp = qp.filter(Tally.create_time >= start_time)
         qp = qp.order_by(Tally.create_time.asc())
         qp = qp.order_by(Tally.id.asc())
         qb = meta.Session.query(Tally)
-        qb = qb.filter(Tally.poll==poll)
-        qb = qb.filter(Tally.create_time<start_time)
+        qb = qb.filter(Tally.poll == poll)
+        qb = qb.filter(Tally.create_time < start_time)
         qb = qb.order_by(Tally.create_time.desc())
         qb = qb.order_by(Tally.id.desc())
         qb = qb.limit(1)
-        # TODO fix this as a union query, but that requires 
+        # TODO fix this as a union query, but that requires
         # some parantheses that SQLalchemy will not set.
         return qb.all() + qp.all()
-    
-    
+
     def has_majority(self):
         quorum = self.poll.scope.instance.required_majority
         return self.rel_for > quorum
-        
-    
+
     def has_participation(self):
         quorum = self.poll.scope.instance.required_participation
         return len(self) >= quorum
-    
-    
+
     def __len__(self):
         return self.num_for + self.num_against + self.num_abstain
-    
-    
+
     def to_dict(self):
         return dict(id=self.id,
                     poll=self.poll_id,
@@ -163,11 +150,10 @@ class Tally(object):
                     num_for=self.num_for,
                     num_against=self.num_against,
                     num_abstain=self.num_abstain)
-    
+
     def _index_id(self):
         return self.id
-    
-    
+
     def __repr__(self):
         return "<Tally(%s,%s,%s,%d,%d,%d)>" % (self.id,
                                             self.poll_id,

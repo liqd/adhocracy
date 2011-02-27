@@ -1,8 +1,6 @@
 """SQLAlchemy Metadata and Session object"""
+
 from sqlalchemy import MetaData
-from datetime import datetime
-from sqlalchemy.ext.declarative import declarative_base
-from decorator import decorator
 import hooks
 
 __all__ = ['Session', 'data', 'extension', 'engine']
@@ -18,11 +16,11 @@ Session = None
 # names, you'll need a metadata for each database
 data = MetaData()
 
-extension = hooks.HookExtension() 
+extension = hooks.HookExtension()
 
 
 class Indexable(object):
-    
+
     def to_index(self):
         import refs
         index = dict(

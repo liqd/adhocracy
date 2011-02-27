@@ -5,7 +5,8 @@ import math
 
 from babel import Locale
 
-from sqlalchemy import Table, Column, Integer, Float, Boolean, Unicode, UnicodeText, ForeignKey, DateTime, func, or_
+from sqlalchemy import Table, Column, ForeignKey, func, or_
+from sqlalchemy import DateTime, Integer, Float, Boolean, Unicode, UnicodeText
 from sqlalchemy.orm import reconstructor
 
 import meta
@@ -26,7 +27,7 @@ instance_table = Table('instance', meta.data,
     Column('delete_time', DateTime, nullable=True),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True),
-    Column('allow_adopt', Boolean, default=True),       
+    Column('allow_adopt', Boolean, default=True),
     Column('allow_delegate', Boolean, default=True),
     Column('allow_propose', Boolean, default=True),
     Column('allow_index', Boolean, default=True),
@@ -37,13 +38,15 @@ instance_table = Table('instance', meta.data,
     )
 
 
-# Instance is not a delegateable - but it should - or you cannot do instance wide delegation
+# Instance is not a delegateable - but it should - or you cannot do
+# instance wide delegation
+
+
 class Instance(meta.Indexable):
     __tablename__ = 'instance'
-    
+
     INSTANCE_KEY = re.compile("^[a-zA-Z][a-zA-Z0-9_]{2,18}$")
-    
-        
+
     def __init__(self, key, label, creator, description=None):
         self.key = key
         self.label = label
@@ -57,13 +60,11 @@ class Instance(meta.Indexable):
         self.allow_index = True
         self.hidden = False
         self._required_participation = None
-    
-    
+
     @reconstructor
     def _reconstruct(self):
         self._required_participation = None
-    
-    
+
     def _get_locale(self):
         if not self._locale:
             return None
@@ -74,11 +75,9 @@ class Instance(meta.Indexable):
 
     locale = property(_get_locale, _set_locale)
 
-    
     def current_memberships(self):
         return [m for m in self.memberships if not m.is_expired()]
-    
-    
+
     def _get_members(self):
         members = self.current_memberships()
         global_membership = model.Permission.by_code('global.member')
@@ -87,49 +86,45 @@ class Instance(meta.Indexable):
                 if membership.instance == None and not membership.expire_time:
                     members.append(membership.user)
         return members
-    
+
     members = property(_get_members)
-    
-    
+
     def _get_required_participation(self):
         if self._required_participation is None:
             from adhocracy.lib.democracy import Decision
             avg = Decision.average_decisions(self)
-            self._required_participation = int(math.ceil(max(2, avg * self.required_majority)))
+            required = int(math.ceil(max(2, avg * self.required_majority)))
+            self._required_participation = required
         return self._required_participation
-        
+
     required_participation = property(_get_required_participation)
-    
-    
+
     def _get_activation_timedelta(self):
         return timedelta(days=self.activation_delay)
         #return timedelta(minutes=self.activation_delay)
-        
+
     activation_timedelta = property(_get_activation_timedelta)
-    
-    
+
     def _get_num_proposals(self):
         from proposal import Proposal
         q = meta.Session.query(Proposal)
-        q = q.filter(Proposal.instance==self)
-        q = q.filter(or_(Proposal.delete_time==None,
-                         Proposal.delete_time>=datetime.utcnow()))
+        q = q.filter(Proposal.instance == self)
+        q = q.filter(or_(Proposal.delete_time == None,
+                         Proposal.delete_time >= datetime.utcnow()))
         return q.count()
-        
+
     num_proposals = property(_get_num_proposals)
-    
-    
+
     def _get_num_members(self):
         from membership import Membership
         q = meta.Session.query(Membership)
-        q = q.filter(Membership.instance==self)
-        q = q.filter(or_(Membership.expire_time==None,
-                         Membership.expire_time>=datetime.utcnow()))
+        q = q.filter(Membership.instance == self)
+        q = q.filter(or_(Membership.expire_time == None,
+                         Membership.expire_time >= datetime.utcnow()))
         return q.count()
-        
+
     num_members = property(_get_num_members)
-    
-    
+
     @classmethod
     #@meta.session_cached
     def find(cls, key, instance_filter=True, include_deleted=False):
@@ -137,25 +132,23 @@ class Instance(meta.Indexable):
         try:
             q = meta.Session.query(Instance)
             try:
-                q = q.filter(Instance.id==int(key))
+                q = q.filter(Instance.id == int(key))
             except ValueError:
-                q = q.filter(Instance.key==unicode(key))
+                q = q.filter(Instance.key == unicode(key))
             if not include_deleted:
-                q = q.filter(or_(Instance.delete_time==None,
-                                 Instance.delete_time>datetime.utcnow()))
+                q = q.filter(or_(Instance.delete_time == None,
+                                 Instance.delete_time > datetime.utcnow()))
             return q.limit(1).first()
         except Exception, e:
             log.warn("find(%s): %s" % (key, e))
             return None
-    
-    
+
     def is_deleted(self, at_time=None):
         if at_time is None:
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
-               self.delete_time<=at_time
-               
-    
+               self.delete_time <= at_time
+
     def delete(self, delete_time=None):
         if delete_time is None:
             delete_time = datetime.utcnow()
@@ -165,39 +158,34 @@ class Instance(meta.Indexable):
             membership.expire(delete_time)
         if not self.is_deleted(delete_time):
             self.delete_time = delete_time
-            
-    
+
     def is_shown(self, at_time=None):
         if at_time is None:
             at_time = datetime.utcnow()
         return not (self.is_deleted(at_time) or self.hidden)
-    
-    
+
     def _index_id(self):
         return self.key
-    
-    
-    @classmethod  
+
+    @classmethod
     def all(cls, limit=None, include_deleted=False, include_hidden=False):
         q = meta.Session.query(Instance)
         if not include_deleted:
-            q = q.filter(or_(Instance.delete_time==None,
-                             Instance.delete_time>datetime.utcnow()))
+            q = q.filter(or_(Instance.delete_time == None,
+                             Instance.delete_time > datetime.utcnow()))
         if not include_hidden:
-            q = q.filter(or_(Instance.hidden==None,
-                             Instance.hidden==False))
+            q = q.filter(or_(Instance.hidden == None,
+                             Instance.hidden == False))
         if limit is not None:
             q = q.limit(limit)
         return q.all()
-    
-    
-    @classmethod  
+
+    @classmethod
     def create(cls, key, label, user, description=None, locale=None):
-        import adhocracy.lib.text as libtext
         from group import Group
         from membership import Membership
         from page import Page
-         
+
         instance = Instance(unicode(key).lower(), label, user)
         instance.description = description
         instance.default_group = Group.by_code(Group.INSTANCE_DEFAULT)
@@ -205,15 +193,13 @@ class Instance(meta.Indexable):
             instance.locale = locale
         meta.Session.add(instance)
         supervisor_group = Group.by_code(Group.CODE_SUPERVISOR)
-        membership = Membership(user, instance, supervisor_group, 
+        membership = Membership(user, instance, supervisor_group,
                                 approved=True)
         meta.Session.add(membership)
-        main_page = Page.create(instance, label, 
-                                u"", user)
+        Page.create(instance, label, u"", user)
         meta.Session.flush()
         return instance
-    
-    
+
     def to_dict(self):
         from adhocracy.lib import helpers as h
         d = dict(id=self.id,
@@ -235,7 +221,6 @@ class Instance(meta.Indexable):
             d['description'] = self.description
         return d
 
-    
     def to_index(self):
         index = super(Instance, self).to_index()
         index.update(dict(
@@ -247,7 +232,5 @@ class Instance(meta.Indexable):
             ))
         return index
 
-    
     def __repr__(self):
         return u"<Instance(%d,%s)>" % (self.id, self.key)
-    

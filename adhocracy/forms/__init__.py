@@ -1,4 +1,3 @@
-
 from common import UniqueUsername, UniqueEmail, UniqueInstanceKey
 from common import ValidDelegateable, ValidProposal
 from common import ValidGroup, ValidRevision, ValidComment

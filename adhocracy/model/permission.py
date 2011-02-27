@@ -1,6 +1,6 @@
 import logging
 
-from sqlalchemy import Table, Column, Integer, Unicode, String, ForeignKey, DateTime, func, Boolean
+from sqlalchemy import Table, Column, ForeignKey, Integer, Unicode
 
 import meta
 
@@ -18,27 +18,30 @@ permission_table = Table('permission', meta.data,
     Column('permission_name', Unicode(255), nullable=False, unique=True)
     )
 
+
 class Permission(object):
-    
+
     def __init__(self, permission_name):
         self.permission_name = unicode(permission_name)
-        
+
     @classmethod
-    def find(cls, permission_name, instance_filter=True, include_deleted=False):
+    def find(cls, permission_name, instance_filter=True,
+             include_deleted=False):
         try:
             q = meta.Session.query(Permission)
-            q = q.filter(Permission.permission_name==unicode(permission_name))
+            q = q.filter(Permission.permission_name ==
+                         unicode(permission_name))
             return q.limit(1).first()
-        except Exception, e: 
+        except Exception, e:
             log.warn("find(%s): %s" % (permission_name, e))
             return None
-    
+
     def _index_id(self):
         return self.permission_name
-    
+
     @classmethod
     def all(cls):
         return meta.Session.query(Permission).all()
-    
+
     def __repr__(self):
         return u"<Permission(%d,%s)>" % (self.id, self.permission_name)

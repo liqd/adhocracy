@@ -2,23 +2,23 @@ import logging
 import re
 import base64
 
-from pylons.i18n import _ 
+from pylons.i18n import _
 
-from vote import Vote
-from user import User
-from group import Group
-from permission import Permission
 from comment import Comment
 from delegation import Delegation
-from proposal import Proposal
-from poll import Poll
+from group import Group
 from instance import Instance
-from revision import Revision
-from tag import Tag 
-from tagging import Tagging
 from page import Page
-from text import Text
+from permission import Permission
+from poll import Poll
+from proposal import Proposal
+from revision import Revision
 from selection import Selection
+from tag import Tag
+from tagging import Tagging
+from text import Text
+from user import User
+from vote import Vote
 
 log = logging.getLogger(__name__)
 
@@ -35,7 +35,7 @@ TYPES = [Vote,
          Poll,
          Instance,
          Tag,
-         Page, 
+         Page,
          Selection,
          Text,
          Tagging]
@@ -44,7 +44,7 @@ TYPES = [Vote,
 def entity_type(entity):
     return cls_type(type(entity))
 
-    
+
 def cls_type(cls):
     return unicode(cls.__name__.lower())
 
@@ -52,10 +52,11 @@ def cls_type(cls):
 def to_ref(entity):
     for cls in TYPES:
         if isinstance(entity, cls):
-            return u"@[%s:%s]" % (entity_type(entity), unicode(entity._index_id()))
+            return u"@[%s:%s]" % (entity_type(entity),
+                                  unicode(entity._index_id()))
     return entity
 
-    
+
 def to_id(ref):
     match = FORMAT.match(unicode(ref))
     return match.group(2) if match else None
@@ -72,8 +73,8 @@ def to_entity(ref, instance_filter=False, include_deleted=True):
         return ref
     for cls in TYPES:
         if match.group(1) == cls_type(cls):
-            entity = cls.find(match.group(2), 
-                              instance_filter=instance_filter, 
+            entity = cls.find(match.group(2),
+                              instance_filter=instance_filter,
                               include_deleted=include_deleted)
             #log.debug("entityref reloaded: %s" % repr(entity))
             return entity
@@ -98,11 +99,9 @@ def _ify(fun, obj):
         if obj:
             obj = fun(obj)
             if not obj:
-                obj = _("(Undefined)") 
+                obj = _("(Undefined)")
         return obj
 
 
 complex_to_refs = lambda obj: _ify(to_ref, obj)
 complex_to_entities = lambda obj: _ify(to_entity, obj)
-
-        

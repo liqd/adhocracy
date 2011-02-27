@@ -8,13 +8,12 @@ from pylons import config
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
-#from paste.debug.profile import make_profile_middleware
-
 
 from adhocracy.lib.auth.authentication import setup_auth
 from adhocracy.lib.instance import setup_discriminator
 from adhocracy.lib.util import get_site_path
 from adhocracy.config.environment import load_environment
+
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
@@ -39,9 +38,9 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
         defaults to main).
 
     """
-    
+
     debug = asbool(config['debug'])
-    
+
     # Configure the Pylons environment
     load_environment(global_conf, app_conf)
 
@@ -52,13 +51,13 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     app = RoutesMiddleware(app, config['routes.map'])
     app = SessionMiddleware(app, config)
     app = CacheMiddleware(app, config)
-    
+
     #app = make_profile_middleware(app, config, log_filename='profile.log.tmp')
 
-    # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)   
+    # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
     app = setup_auth(app, config)
     app = setup_discriminator(app, config)
-    
+
     if asbool(full_stack):
         # Handle Python exceptions
         app = ErrorHandler(app, global_conf, **config['pylons.errorware'])
@@ -81,5 +80,5 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
         static_app = StaticURLParser(config['pylons.paths']['static_files'],
             cache_max_age=None if debug else cache_age)
         app = Cascade([overlay_app, static_app, app])
-    
+
     return app
