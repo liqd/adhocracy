@@ -17,8 +17,8 @@ from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import  sorting, search as libsearch, tiles, text
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.authorization import has_permission
+from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.csfr import RequireInternalRequest
 from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
 from adhocracy.lib.pager import NamedPager

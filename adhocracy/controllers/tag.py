@@ -12,8 +12,8 @@ from pylons.i18n import _
 from adhocracy import model
 from adhocracy.lib import helpers as h, search as libsearch, sorting, tiles
 from adhocracy.lib.auth import require
+from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.csfr import RequireInternalRequest
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.pager import NamedPager
 from adhocracy.lib.templating import render, render_json

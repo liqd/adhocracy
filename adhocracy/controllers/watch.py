@@ -12,8 +12,8 @@ from adhocracy import model
 import adhocracy.forms as forms
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth import require
+from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.csfr import RequireInternalRequest
 
 
 log = logging.getLogger(__name__)

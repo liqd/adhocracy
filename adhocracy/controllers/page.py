@@ -193,9 +193,9 @@ class PageController(BaseController):
             self.form_result = PageUpdateForm().to_python(request.params,
                                                           state=state_())
             parent_text = self.form_result.get("parent_text")
-            if (branch or
-                parent_text.variant != self.form_result.get("variant") and
-                (self.form_result.get("variant") in c.page.variants)):
+            if ((branch or
+                 parent_text.variant != self.form_result.get("variant")) and
+                self.form_result.get("variant") in c.page.variants):
                 msg = (_("Variant %s is already present, cannot branch.") %
                        self.form_result.get("variant"))
                 raise Invalid(msg, branch, state_(),
