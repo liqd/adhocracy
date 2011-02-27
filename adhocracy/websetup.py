@@ -10,7 +10,7 @@ import migrate.versioning.api as migrateapi
 try:
     from migrate.versioning.exceptions import DatabaseAlreadyControlledError
     from migrate.versioning.exceptions import DatabaseNotControlledError
-except:
+except ImportError:
     # location changed in 0.6.1
     from migrate.exceptions import DatabaseAlreadyControlledError
     from migrate.exceptions import DatabaseNotControlledError
