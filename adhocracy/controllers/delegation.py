@@ -1,7 +1,7 @@
 import logging
 
-from formencode.validators import validators
-import formencode.foreach
+import formencode
+from formencode import validators
 
 from pylons import tmpl_context as c, response
 from pylons.decorators import validate

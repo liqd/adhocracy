@@ -1,15 +1,15 @@
 import logging
 from datetime import datetime
 
-from formencode.validators import validators
-import formencode.foreach
+import formencode
+from formencode import validators
 
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 from webob.exc import HTTPFound
-import formencode
+
 
 from openid.consumer.consumer import SUCCESS
 from openid.extensions import sreg, ax
