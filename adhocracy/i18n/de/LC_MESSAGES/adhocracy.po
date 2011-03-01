@@ -2407,7 +2407,7 @@ msgstr "Seite wurde am %s von %s angelegt."
 #: adhocracy/templates/page/show.html:47
 #, python-format
 msgid "No proposals are related to %s"
-msgstr "Keine Vorschläge versuchen nehmen auf %s Bezug"
+msgstr "Keine Vorschläge beziehen sich auf \"%s\""
 
 #: adhocracy/templates/page/tiles.html:21
 #: adhocracy/templates/selection/tiles.html:128
