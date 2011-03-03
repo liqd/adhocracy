@@ -18,7 +18,8 @@ except ImportError:
 
 from adhocracy.config.environment import load_environment
 from adhocracy.lib import install
-from adhocracy.model import meta, init_queue_hooks
+from adhocracy.model import meta
+from adhocracy.model.hooks import init_queue_hooks
 
 log = logging.getLogger(__name__)
 
@@ -37,7 +38,7 @@ def setup_app(command, conf, vars):
 
     if config.get('adhocracy.setup.drop', "OH_NOES") == "KILL_EM_ALL":
         meta.data.drop_all(bind=meta.engine)
-        meta.engine.execute("DROP TABLE migrate_version")
+        meta.engine.execute("DROP TABLE IF EXISTS migrate_version")
 
     try:
         db_version = migrateapi.db_version(url, migrate_repo)

@@ -23,7 +23,7 @@ def tt_get_instance():
         model.meta.Session.add(instance)
         model.meta.Session.flush()
     # shouldn't setup_threads instance be returned if available?
-    model.instance.setup_thread(instance)
+    model.instance_filter.setup_thread(instance)
     return instance
 
 
@@ -35,9 +35,7 @@ def tt_make_proposal(creator=None, voting=False):
     instance = tt_get_instance()
     if creator is None:
         creator = tt_make_user()
-    issue = model.Issue(instance, tt_make_str(), creator)
     proposal = model.Proposal(instance, tt_make_str(), creator)
-    proposal.parents = [issue]
     model.meta.Session.add(proposal)
     model.meta.Session.flush()
 
