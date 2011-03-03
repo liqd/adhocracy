@@ -1,10 +1,10 @@
 # REFACT: somehow get this down to one import for all unit test stuff
-from adhocracy.tests import *
-from adhocracy.tests.testtools import *
-from nose.tools import *
+from adhocracy.tests import TestController
+from adhocracy.tests.testtools import tt_make_proposal, tt_make_user
 
 from adhocracy.lib.democracy import State, Decision
 from adhocracy.model import Vote
+
 
 class TestState(TestController):
     pass
