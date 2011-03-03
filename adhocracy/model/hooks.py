@@ -110,6 +110,8 @@ def handle_queue_message(message):
 def init_queue_hooks():
     from adhocracy.lib.queue import has_queue, post_message
     import refs
+    log.debug('PATCHING models with pre_* and post_* commit hooks for '
+              'queue handling in a sqlalchemy MapperExtension')
     for cls in refs.TYPES:
         for event in [PREINSERT, PREDELETE, PREUPDATE, POSTINSERT,
                       POSTDELETE, POSTUPDATE]:
