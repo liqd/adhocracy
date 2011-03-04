@@ -108,10 +108,24 @@ def handle_queue_message(message):
 
 
 def init_queue_hooks():
+    '''Patch pre_* and post_* functions into all model classes listed.
+    in :data:`adhocracy.model.refs.TYPES`. The patched in function
+    will add messages to the job queue used to defer external indexing.
+    These will be called by :class:`HookExtension` before and after
+    changed models are commited to the database.
+
+    ..Warning::
+
+    Some of the patched in functions for :class:`adhocracy.model.Vote`
+    and  :class:`adhocracy.model.Delegation` will be overwritten by
+    :func:`adhocracy.lib.democracy.init_democracy`
+    '''
     from adhocracy.lib.queue import has_queue, post_message
     import refs
-    log.debug('PATCHING models with pre_* and post_* commit hooks for '
-              'queue handling in a sqlalchemy MapperExtension')
+    types_list = sorted([repr(t) for t in refs.TYPES])
+    log.debug('PATCHING model classes with pre_* and post_* functions for '
+              ' queue handling to be used in pre/post commit hooks. '
+              'patched:\n%s' % ('\n'.join(types_list)))
     for cls in refs.TYPES:
         for event in [PREINSERT, PREDELETE, PREUPDATE, POSTINSERT,
                       POSTDELETE, POSTUPDATE]:
