@@ -10,13 +10,13 @@ class TestInstanceController(WebTestController):
     def test_nonmember_can_join_instance(self):
         pass
         #self.prepare_app()
-        #assert_false(self._is_member())
+        #self.assertFalse(self._is_member())
         #self.app.get('/instance/join/test')
-        #assert_true(self._is_member())
+        #self.assertTrue(self._is_member())
 
     def test_voter_can_leave_instance(self):
         pass
         #self.prepare_app(group_code=self.VOTER)
-        #assert_true(self._is_member())
+        #self.assertTrue(self._is_member())
         #self.app.get('/instance/leave/test')
-        #assert_false(self._is_member())
+        #self.assertFalse(self._is_member())
