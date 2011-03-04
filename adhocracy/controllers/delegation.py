@@ -8,12 +8,11 @@ from pylons.decorators import validate
 from pylons.i18n import _
 
 from adhocracy import forms, model
-from adhocracy.instance import RequireInstance
 from adhocracy.lib import democracy
-from adhocracy.lib import event, helpers as h, sorting, tiles
+from adhocracy.lib import event, helpers as h, pager, sorting, tiles
 from adhocracy.lib.auth import csrf, require
 from adhocracy.lib.base import BaseController
-from adhocracy.lib import pager
+from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import (render, render_json, ret_abort,
                                       ret_success)
 from adhocracy.lib.util import get_entity_or_abort
