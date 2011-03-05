@@ -505,3 +505,5 @@ class UserController(BaseController):
             h.flash(_("%s is not a member of %s") % (user.name,
                                                      c.instance.label),
                     'notice')
+        if user.banned:
+            h.flash(_("%s is banned from the system.") % user.name, 'notice')
