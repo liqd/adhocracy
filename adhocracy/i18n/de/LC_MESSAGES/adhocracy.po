@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2011-02-26 13:06+0100\n"
-"Last-Translator: Friedrich Lindenberg <friedrich.lindenberg@okfn.org>\n"
+"PO-Revision-Date: 2011-03-01 12:42+0100\n"
+"Last-Translator: C. Felbinger <neilo@gmx.de>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgstr "neueste"
 #: adhocracy/controllers/comment.py:113
 #, python-format
 msgid "Comment topic has no variant %s"
-msgstr "Der Beitrag zu dem dieser Kommentar gehört hat keine Variante %s"
+msgstr "Der Beitrag zu dem dieser Kommentar gehört hat keinen Änderungsantrag %s"
 
 #: adhocracy/controllers/comment.py:200
 msgid "The comment has been deleted."
@@ -203,7 +203,7 @@ msgstr "Sie können kein Papier anlegen."
 #: adhocracy/controllers/page.py:174
 #, python-format
 msgid "Variant %s is already present, cannot branch."
-msgstr "Die Variante %s gibt es schon, sie kann nicht mehr abgeleitet werden."
+msgstr "Den Änderungsantrag %s gibt es schon, er kann nicht mehr abgeleitet werden."
 
 #: adhocracy/controllers/page.py:184
 msgid "You're trying to update to a text which is not part of this pages history"
@@ -212,7 +212,7 @@ msgstr "Sie Versuchen eine Version wiederherzustellen, die nicht Teil dieser Sei
 #: adhocracy/controllers/page.py:222
 #, python-format
 msgid "Variant %s does not exist!"
-msgstr "Variante %s existiert nicht!"
+msgstr "Änderungsantrag %s existiert nicht!"
 
 #: adhocracy/controllers/page.py:233
 #: adhocracy/controllers/tag.py:62
@@ -238,7 +238,7 @@ msgstr "Texte von unterschiedlichen Dokumenten können nicht verglichen werden. 
 #: adhocracy/controllers/page.py:300
 #, python-format
 msgid "The variant %s has been deleted."
-msgstr "Die Variante %s wurde gelöscht."
+msgstr "Der Änderungsantrag %s wurde gelöscht."
 
 #: adhocracy/controllers/page.py:322
 #, python-format
@@ -248,7 +248,7 @@ msgstr "Die Seite %s wurde gelöscht."
 #: adhocracy/controllers/page.py:333
 #, python-format
 msgid "Invalid text ID %s for this page/variant!"
-msgstr "Ungültige Text-ID %s für diese Seite oder Variante!"
+msgstr "Ungültige Text-ID %s für diese Seite oder diesen Änderungsantrag!"
 
 #: adhocracy/controllers/poll.py:63
 msgid "This is not an adoption poll."
@@ -502,18 +502,18 @@ msgstr "Ungültige Seitenfunktion: %s"
 
 #: adhocracy/forms/common.py:204
 msgid "No variant name is given."
-msgstr "Keine Variante wurde angegeben."
+msgstr "Änderungsantrag wurde nicht benannt."
 
 #: adhocracy/forms/common.py:207
 #, python-format
 msgid "Invalid variant name: %s"
-msgstr "Ungültiger Variantenname: %s"
+msgstr "Ungültiger Name des Änderungsantrags: %s"
 
 #: adhocracy/forms/common.py:210
 #: adhocracy/forms/common.py:237
 #, python-format
 msgid "Variant name cannot be purely numeric: %s"
-msgstr "Ein Variantenname kann keine Zahl sein: %s"
+msgstr "Name des Änderungsantrags kann keine Zahl sein: %s"
 
 #: adhocracy/forms/common.py:227
 msgid "An entry with this title already exists"
@@ -682,7 +682,7 @@ msgstr "Entschuldigung, wir haben einen Fehler gemacht (CSRF-Alarm). Bitte laden
 #: adhocracy/lib/tiles/decision_tiles.py:23
 #, python-format
 msgid "variant %(variant)s of %(page)s"
-msgstr "Variante %(variant)s von %(page)s"
+msgstr "Änderungsantrag %(variant)s zu %(page)s"
 
 #: adhocracy/lib/event/formatting.py:98
 msgid "is for"
@@ -951,7 +951,7 @@ msgstr "Bewertung: %(user)s %(vote)s %(poll)s"
 #: adhocracy/lib/event/types.py:169
 #, python-format
 msgid "Variants: %(user)s %(vote)s %(poll)s"
-msgstr "Variante: %(user)s %(vote)s %(poll)s"
+msgstr "Änderungsantrag: %(user)s %(vote)s %(poll)s"
 
 #: adhocracy/lib/event/types.py:174
 #, python-format
@@ -2270,23 +2270,23 @@ msgstr "Sind Sie sicher, dass Sie diese Seite löschen wollen?"
 #: adhocracy/templates/page/ask_purge.html:20
 #, python-format
 msgid "Are you sure you want to purge variant %s?"
-msgstr "Sind Sie sicher, dass Sie die Variante %s entfernen wollen?"
+msgstr "Sind Sie sicher, dass Sie diesen Änderungsantrag %s entfernen wollen?"
 
 #: adhocracy/templates/page/ask_purge.html:22
 msgid "WARNING: This will remove all revisions of the variant from any proposals that might support it."
-msgstr "WARNUNG: Dies wird alle Versionen der Variante aus allen einbindenden Vorschlägen löschen. Dies ist nicht reversibel. "
+msgstr "WARNUNG: Dies wird alle Versionen des Änderungsantrags aus allen einbindenden Vorschlägen löschen. Dies ist nicht reversibel. "
 
 #: adhocracy/templates/page/diff.html:3
 #: adhocracy/templates/page/edit.html:4
 #, python-format
 msgid "Variant: %s"
-msgstr "Variante: %s"
+msgstr "Änderungsantrag: %s"
 
 #: adhocracy/templates/page/diff.html:33
 #: adhocracy/templates/page/diff.html:46
 #: adhocracy/templates/selection/tiles.html:155
 msgid "This variant has no text."
-msgstr "Dieses Variante hat keinen Text."
+msgstr "Dieser Änderungsantrag hat keinen Text."
 
 #: adhocracy/templates/page/diff.html:58
 #: adhocracy/templates/page/show.html:44
@@ -2295,7 +2295,7 @@ msgstr "Verwandte Vorschläge"
 
 #: adhocracy/templates/page/diff.html:67
 msgid "(supports this variant)"
-msgstr "(unterstützt diese Variante)"
+msgstr "(unterstützt diesen Änderungsantrag)"
 
 #: adhocracy/templates/page/diff.html:71
 msgid "Create a new proposal..."
@@ -2303,7 +2303,7 @@ msgstr "Einen neuen Vorschlag anlegen..."
 
 #: adhocracy/templates/page/edit.html:6
 msgid "Edit variant"
-msgstr "Variante bearbeiten"
+msgstr "Änderungsantrag bearbeiten"
 
 #: adhocracy/templates/page/edit.html:35
 msgid "This norm has no text yet."
@@ -2387,7 +2387,7 @@ msgstr "Das neue Papier wird unter dem angegebenen Elternthema eingeordnet."
 
 #: adhocracy/templates/page/show.html:13
 msgid "Variants"
-msgstr "Varianten"
+msgstr "Änderungsanträge"
 
 #: adhocracy/templates/page/show.html:28
 #: adhocracy/templates/page/tiles.html:64
@@ -2397,7 +2397,7 @@ msgstr "Alternativen Text vorschlagen."
 #: adhocracy/templates/page/show.html:29
 #: adhocracy/templates/page/tiles.html:65
 msgid "branch new variant"
-msgstr "Neue Variante ableiten"
+msgstr "Neuen Änderungsantrag ableiten"
 
 #: adhocracy/templates/page/show.html:35
 #, python-format
@@ -2432,26 +2432,26 @@ msgstr "Den Aktuellen Arbeitsstand bearbeiten."
 
 #: adhocracy/templates/page/tiles.html:72
 msgid "Edit this variant."
-msgstr "Diese Variante bearbeiten."
+msgstr "Diesen Änderungsantrag bearbeiten."
 
 #: adhocracy/templates/page/tiles.html:77
 msgid "Delete this variant."
-msgstr "Diese Variante entfernen."
+msgstr "Diesen Änderungsantrag entfernen."
 
 #: adhocracy/templates/page/tiles.html:78
 #: adhocracy/templates/selection/tiles.html:134
 msgid "purge variant"
-msgstr "Variante entfernen"
+msgstr "Änderungsantrag entfernen"
 
 #: adhocracy/templates/page/tiles.html:94
 #, python-format
 msgid "Variant %s of %s"
-msgstr "Variante %s von %s"
+msgstr "Änderungsantrag %s von %s"
 
 #: adhocracy/templates/page/tiles.html:96
 #, python-format
 msgid "Variant of %s"
-msgstr "Variante von %s"
+msgstr "Änderungsantrag von %s"
 
 #: adhocracy/templates/poll/ask_delete.html:6
 msgid "End a poll"
@@ -2621,7 +2621,7 @@ msgstr "Beschreiben Sie kurz, <b>welche Ziele</b> Ihr Vorschlag erreichen soll."
 #: adhocracy/templates/selection/include.html:17
 #: adhocracy/templates/selection/propose.html:17
 msgid "What is a variant?"
-msgstr "Was ist eine Variante?"
+msgstr "Was ist ein Änderungsantrag?"
 
 #: adhocracy/templates/proposal/show.html:24
 #: adhocracy/templates/selection/include.html:18
@@ -2791,7 +2791,7 @@ msgstr "Ein Arbeitspapier ändern."
 
 #: adhocracy/templates/selection/include.html:26
 msgid "Select a norm that you want to relate to. You can later propose a variant of this norm to effect a change."
-msgstr "Wählen Sie ein Papier, auf das Sie Sich beziehen wollen. Später können Sie Änderungen am Text vorschlagen."
+msgstr "Wählen Sie ein Papier, auf das Sie Sich beziehen wollen. Später können Sie einen Änderungsantrag erstellen."
 
 #: adhocracy/templates/selection/include.html:35
 msgid "Include"
@@ -2811,7 +2811,7 @@ msgstr "Neues Papier vorschlagen."
 
 #: adhocracy/templates/selection/propose.html:26
 msgid "Create a new norm that you want to relate to. The norm will be created without any status quo. You can then add a text variant of that norm, specifying the change you want to implement."
-msgstr "Legen Sie ein neues Papier an, auf die Sie Bezug nehmen wollen. Das Papier wird zunächst keinen Aktuellen Arbeitsstand haben. Sie können anschließend eine Variante des Papiers anlegen, um einen Text vorzuschlagen."
+msgstr "Legen Sie ein neues Papier an, auf die Sie Bezug nehmen wollen. Das Papier wird zunächst keinen Aktuellen Arbeitsstand haben. Sie können anschließend einen Änderungsantrag zu dem Papier anlegen."
 
 #: adhocracy/templates/selection/propose.html:34
 msgid "New norm title"
@@ -2831,16 +2831,16 @@ msgstr "Schlagen Sie die Änderung eines bestehenden Papieres vor."
 
 #: adhocracy/templates/selection/tiles.html:26
 msgid "Selected variant"
-msgstr "Ausgewähle Variante"
+msgstr "Ausgewähler Änderungsantrag"
 
 #: adhocracy/templates/selection/tiles.html:29
 #, python-format
 msgid "Variant selection (%s)"
-msgstr "Variantenauswahl (%s)"
+msgstr "Änderungsantragsauswahl (%s)"
 
 #: adhocracy/templates/selection/tiles.html:38
 msgid "There is a tie between variants, thus none is included at the moment."
-msgstr "Mehrere Varianten haben die gleiche Unterstützung, daher wird aktuell keine eingebunden."
+msgstr "Mehrere Änderungsanträge haben die gleiche Unterstützung, daher wird aktuell keine eingebunden."
 
 #: adhocracy/templates/selection/tiles.html:44
 msgid "Status quo has the most votes, resulting in no proposed change to this norm."
@@ -2849,11 +2849,11 @@ msgstr "Der Aktuelle Arbeitsstand hat die meisten Stimmen, daher wird keine Änd
 #: adhocracy/templates/selection/tiles.html:48
 #, python-format
 msgid "Selected variant: <b>%s</b>"
-msgstr "Ausgewähle Variante: <b>%s</b>"
+msgstr "Ausgewählter Änderungsantrag: <b>%s</b>"
 
 #: adhocracy/templates/selection/tiles.html:64
 msgid "new variant"
-msgstr "Neue Variante"
+msgstr "Neuer Änderungsantrag"
 
 #: adhocracy/templates/selection/tiles.html:67
 msgid "remove from proposal"
@@ -2866,11 +2866,11 @@ msgstr "diskutieren %s (%s Kommentare) &raquo"
 
 #: adhocracy/templates/selection/tiles.html:100
 msgid "Support this variant"
-msgstr "Diese Variante unterstützen"
+msgstr "Diesen Änderungsantrag unterstützen"
 
 #: adhocracy/templates/selection/tiles.html:107
 msgid "Oppose this variant"
-msgstr "Diese Variante ablehnen"
+msgstr "Diesen Änderungsantrag ablehnen"
 
 #: adhocracy/templates/selection/tiles.html:123
 msgid "(this proposal should not change this norm)"
@@ -2967,7 +2967,7 @@ msgstr "diskutieren (%s Kommentare) &raquo"
 #: adhocracy/templates/text/tiles.html:82
 #: adhocracy/templates/text/tiles.html:96
 msgid "Variant:"
-msgstr "Variante:"
+msgstr "Änderungsantrag:"
 
 #: adhocracy/templates/text/tiles.html:94
 msgid "see"
@@ -2975,7 +2975,7 @@ msgstr "ansehen"
 
 #: adhocracy/templates/text/tiles.html:98
 msgid "Variant Name"
-msgstr "Variantenname"
+msgstr "Name des Änderungsantrags"
 
 #: adhocracy/templates/text/tiles.html:111
 #, python-format
