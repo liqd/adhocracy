@@ -25,9 +25,10 @@ create
 * Formats: ``html, json``
 * Authentication: yes
 * Parameters:
- * ``key``: A unique identifier for the instance. Short lower-case alpha-numeric text. This cannot be edited after the instance creation. 
- * ``label``: A title for the instance. 
- * ``description``: Short description for the instance, e.g. a mission statement.
+
+  * ``key``: A unique identifier for the instance. Short lower-case alpha-numeric text. This cannot be edited after the instance creation. 
+  * ``label``: A title for the instance. 
+  * ``description``: Short description for the instance, e.g. a mission statement.
 
 
 show
@@ -50,15 +51,16 @@ update
 * Formats: ``html, json``
 * Authentication: yes
 * Parameters: 
- * ``label``: A title for the instance. 
- * ``description``: Short description for the instance, e.g. a mission statement.
- * ``required_majority``: The percentage of voters required for the adoption of a proposal (e.g. 0.66 for 66%).
- * ``activation_delay``: Delay (in days) that a proposal needs to maintain a majority to be adopted. 
- * ``allow_adopt``: Whether to allow adoption polls on proposals (``bool``). 
- * ``allow_delegate``: Whether to enable delegated voting (``bool``).
- * ``allow_index``: Allow search engine indexing (via robots.txt, ``bool``).
- * ``hidden``: Show instance in listings. 
- * ``default_group``: Default group for newly joined members (one of: ``observer``, ``advisor``, ``voter``, ``supervisor``).
+
+  * ``label``: A title for the instance. 
+  * ``description``: Short description for the instance, e.g. a mission statement.
+  * ``required_majority``: The percentage of voters required for the adoption of a proposal (e.g. 0.66 for 66%).
+  * ``activation_delay``: Delay (in days) that a proposal needs to maintain a majority to be adopted. 
+  * ``allow_adopt``: Whether to allow adoption polls on proposals (``bool``). 
+  * ``allow_delegate``: Whether to enable delegated voting (``bool``).
+  * ``allow_index``: Allow search engine indexing (via robots.txt, ``bool``).
+  * ``hidden``: Show instance in listings. 
+  * ``default_group``: Default group for newly joined members (one of: ``observer``, ``advisor``, ``voter``, ``supervisor``).
 
 
 delete
@@ -121,8 +123,10 @@ index
 * Authentication: no
 * Pager prefix: ``users_``
 * Parameters:
- * ``users_q``: A search query to filter with. 
- * ``users_filter``: Filter by membership group (only in an instance context).
+
+  * ``users_q``: A search query to filter with. 
+  * ``users_filter``: Filter by membership group (only in an instance context).
+
 * *Note*: If no instance is specified, all registered users will be returned. 
 
 
@@ -135,10 +139,12 @@ create
 * Formats: ``html, json``
 * Authentication: no
 * Parameters:
- * ``user_name``: A unique user name for the new user. 
- * ``email``: An email, must be validated.
- * ``password``: A password, min. 3 characters. 
- * ``password_confirm``: Must be identical to ``password``.
+
+  * ``user_name``: A unique user name for the new user. 
+  * ``email``: An email, must be validated.
+  * ``password``: A password, min. 3 characters. 
+  * ``password_confirm``: Must be identical to ``password``.
+
 * *Note*: Does not require an instance to be specified. If an instance is selected, the user will also become a member of that instance.  
 
 
@@ -162,14 +168,15 @@ update
 * Formats: ``html, json``
 * Authentication: yes *(either to own user or with user management permissions)*
 * Parameters: 
- * ``display_name``: Display name, i.e. the real name to be shown in the application.
- * ``email``: E-Mail address. Must be re-validated when changed. 
- * ``locale``: A locale, currently: ``de_DE``, ``en_US`` or ``fr_FR``. 
- * ``password``: A password, min. 3 characters. 
- * ``password_confirm``: Must be identical to ``password``.
- * ``bio``: A short bio, markdown-formatted.
- * ``email_priority``: Minimum priority level for E-Mail notifications to be sent (0-6).
- * ``twitter_priority``: Minimum priority level for Twitter direct message notifications to be sent (0-6).
+
+  * ``display_name``: Display name, i.e. the real name to be shown in the application.
+  * ``email``: E-Mail address. Must be re-validated when changed. 
+  * ``locale``: A locale, currently: ``de_DE``, ``en_US`` or ``fr_FR``. 
+  * ``password``: A password, min. 3 characters. 
+  * ``password_confirm``: Must be identical to ``password``.
+  * ``bio``: A short bio, markdown-formatted.
+  * ``email_priority``: Minimum priority level for E-Mail notifications to be sent (0-6).
+  * ``twitter_priority``: Minimum priority level for Twitter direct message notifications to be sent (0-6).
 
 
 delete
@@ -233,7 +240,8 @@ groupmod
 * Formats: ``html``
 * Authentication: yes *(requires instance admin privileges)*
 * Parameters: 
- * ``to_group``: Target group (one of: ``observer``, ``advisor``, ``voter``, ``supervisor``). 
+
+  * ``to_group``: Target group (one of: ``observer``, ``advisor``, ``voter``, ``supervisor``). 
 
 
 kick
@@ -262,8 +270,9 @@ index
 * Authentication: no
 * Pager prefix: ``proposals_``
 * Parameters:
- * ``proposals_q``: A search query to filter with. 
- * ``proposals_state``: Filter by state (one of: ``draft``, ``polling``, ``adopted``). Only available if adoption polling is enabled in the selected instance.
+
+  * ``proposals_q``: A search query to filter with. 
+  * ``proposals_state``: Filter by state (one of: ``draft``, ``polling``, ``adopted``). Only available if adoption polling is enabled in the selected instance.
 
 
 create
@@ -275,10 +284,11 @@ create
 * Formats: ``html, json``
 * Authentication: yes
 * Parameters:
- * ``label``: A title for the proposal. 
- * ``text``: Goals of the proposal.
- * ``tags``: Comma-separated or space-separated tag list to be applied to the proposal.
- * ``alternative`` (multiple values): IDs of any proposals that should be marked as an alternative to this proposal.
+
+  * ``label``: A title for the proposal. 
+  * ``text``: Goals of the proposal.
+  * ``tags``: Comma-separated or space-separated tag list to be applied to the proposal.
+  * ``alternative`` (multiple values): IDs of any proposals that should be marked as an alternative to this proposal.
 
 
 show
@@ -380,7 +390,8 @@ tag
 * Formats: ``html``
 * Authentication: yes
 * Parameters:
- * ``text``: Comma-separated or space-separated tag list to be applied to the proposal.
+
+  * ``text``: Comma-separated or space-separated tag list to be applied to the proposal.
 
 
 untag 
@@ -392,7 +403,9 @@ untag
 * Formats: ``html``
 * Authentication: yes
 * Parameters:
- * ``tagging``: ID of the tagging association to be removed.
+
+  * ``tagging``: ID of the tagging association to be removed.
+
 * *Note*: Only taggings created by the user can be removed.
 
 
@@ -432,7 +445,8 @@ votes
 * Authentication: no
 * Pager prefix: ``decisions_``
 * Parameters: 
- * ``result``: Filter for a specific decision, i.e. -1 (No), 1 (Yes), 0 (Abstained).
+
+  * ``result``: Filter for a specific decision, i.e. -1 (No), 1 (Yes), 0 (Abstained).
 
 
 rate 
@@ -482,11 +496,12 @@ create
 * Formats: ``html, json``
 * Authentication: yes
 * Parameters:
- * ``topic``: ID of the Delegateable to which this comment is associated.
- * ``reply``: A parent comment ID, if applicable.
- * ``canonical`` (bool): Specify whether this is part of the implementation description of the proposal to which it will be associated.
- * ``text``: The comment text, markdown-formatted.
- * ``sentiment``: General tendency of the comment, i.e. -1 for negative, 0 for neutral and 1 for a supporting argument.
+
+  * ``topic``: ID of the Delegateable to which this comment is associated.
+  * ``reply``: A parent comment ID, if applicable.
+  * ``canonical`` (bool): Specify whether this is part of the implementation description of the proposal to which it will be associated.
+  * ``text``: The comment text, markdown-formatted.
+  * ``sentiment``: General tendency of the comment, i.e. -1 for negative, 0 for neutral and 1 for a supporting argument.
 
 
 show
@@ -508,8 +523,9 @@ update
 * Formats: ``html, json``
 * Authentication: yes
 * Parameters:
- * ``text``: The comment text, markdown-formatted.
- * ``sentiment``: General tendency of the comment, i.e. -1 for negative, 0 for neutral and 1 for a supporting argument.
+
+  * ``text``: The comment text, markdown-formatted.
+  * ``sentiment``: General tendency of the comment, i.e. -1 for negative, 0 for neutral and 1 for a supporting argument.
 
 
 delete
@@ -543,7 +559,9 @@ revert
 * Formats: ``html, json``
 * Authentication: yes
 * Parameters:
- * ``to``: Revision ID to revert to.
+
+  * ``to``: Revision ID to revert to.
+
 * *Note*: This will actually create a new revision containing the specified revision's text.
 
 
@@ -573,9 +591,10 @@ create
 * Formats: ``html, json``
 * Authentication: yes
 * Parameters:
- * ``scope``: ID of the ``Delegateable`` which will be the delegation's scope.
- * ``agent``: User name of the delegation recipient.
- * ``replay``: Whether or not to re-play all of the agents previous decisions within the scope.
+
+  * ``scope``: ID of the ``Delegateable`` which will be the delegation's scope.
+  * ``agent``: User name of the delegation recipient.
+  * ``replay``: Whether or not to re-play all of the agents previous decisions within the scope.
 
 
 show
