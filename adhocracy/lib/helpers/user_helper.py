@@ -14,7 +14,7 @@ import url as _url
 @cache.memoize('user_icon')
 def icon_url(user, size=32):
     id = user.email if user.email else user.user_name
-    gravatar_url = "http://www.gravatar.com/avatar.php?"
+    gravatar_url = "https://secure.gravatar.com/avatar.php?"
     gravatar_url += urllib.urlencode({
         'gravatar_id': hashlib.md5(id.strip().lower()).hexdigest(), 
         'default': 'identicon', 

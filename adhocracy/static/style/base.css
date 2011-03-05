@@ -12,7 +12,7 @@ div, body, ul, li, button {
 }
 
 body {
-	background: #fff url(http://www.bundestag.de/internetenquete/includes/images/hintergrund/reichstag_01.jpg);
+	background: #fff url(/img/body_bg.jpg);
 	line-height: 1; 
 	color: black;
 }
@@ -444,7 +444,7 @@ body {
 #globalheader {
 	width: inherit;
 	padding: 10px 0px;
-	background: url(http://www.bundestag.de/internetenquete/includes/images/service_hintergrund.gif) repeat-x;
+	background: url(/img/service_hintergrund.gif) repeat-x;
 	font-family: Georgia, Times New Roman, Times, serif;
 	font-size: 1.1em;
 	/*
@@ -621,7 +621,7 @@ body {
 	width: 1000px;
 	margin-left: auto;
 	margin-right: auto;
-	background: #445052 url(http://www.bundestag.de/internetenquete/includes/images/footer_hintergrund.gif) top repeat-x;
+	background: #445052 url(/img/footer_hintergrund.gif) top repeat-x;
 	font-family: Georgia, Times New Roman, Times, serif;
 }
 
@@ -761,7 +761,7 @@ body {
 	width: inherit;
 	padding: inherit;
 	font-size: 10pt;
-	background: url(http://file.storbeck.me/white-50.png);
+	background: url(/img/white-50.png);
 }
 
 .content p {
