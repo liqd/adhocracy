@@ -127,7 +127,7 @@ class Text(object):
     def variant_html(self):
         import cgi
         if self.is_head:
-            return "<b class='varname'>%s</b>" % cgi.escape(self.variant_name)
+            return "<b class='varname status_quo'>%s</b>" % cgi.escape(self.variant_name)
         return"<code class='varname'>%s</code>" % cgi.escape(self.variant_name)
 
     @property

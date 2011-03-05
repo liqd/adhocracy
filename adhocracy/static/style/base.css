@@ -784,7 +784,11 @@ body {
 
 code.varname, b.varname {
 	font-family: Georgia, Times New Roman, Times, serif;
-	font-variant: small-caps;
+}
+
+b.status_quo {
+    color: #C68E17;
+    font-weight: bold;
 }
 
 .line_based tr,
