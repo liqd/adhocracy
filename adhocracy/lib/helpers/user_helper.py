@@ -23,6 +23,9 @@ def icon_url(user, size=32):
 
 
 def link(user, size=16, scope=None):
+    if user.delete_time: 
+        return _("%s (deleted user)") % user.name
+
     @cache.memoize('user_generic_link')
     def _generic_link(user, instance, size, scope):
         _url = u"<a href='%s' class='user_link'><img width='16' height='16' class='user_icon' src='%s' alt="" /> %s</a>" % (

@@ -44,11 +44,21 @@
 				<a class="button delete ttip" title="${_('Resign from this instance.')}" 
 					href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave instance")}</a> 
 			%endif
-			
-			<a class="button delete" 
-				href="${h.entity_url(user, member='kick')}?${h.url_token()}">${_("kick")}</a>
 		%endif
 		
+        %if user.banned and can.user.manage(user):
+          <a class="button add" href="${h.entity_url(user,
+            member='unban')}?${h.url_token()}">${_("un-ban")}</a>
+        %elif can.user.manage(user):
+          <a class="button delete" href="${h.entity_url(user,
+            member='ban')}?${h.url_token()}">${_("ban")}</a>
+        %endif 
+        
+        %if can.user.delete(user):
+			<a class="button title delete ttip" title="${_('Delete this user.')}" 	
+				href="${h.entity_url(user, member='ask_delete')}">${_("delete")}</a>
+		%endif
+
 		%if c.user and user != c.user:
 			${components.watch(user)}
 		%endif

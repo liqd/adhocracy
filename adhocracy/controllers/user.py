@@ -406,7 +406,7 @@ class UserController(BaseController):
             and (not isinstance(w.entity, unicode))]
 
         c.entities_pager = NamedPager(
-            'watches', entities, tiles.dispatch_row,
+            'watches', entities, tiles.dispatch_row_with_comments,
             sorts={_("oldest"): sorting.entity_oldest,
                    _("newest"): sorting.entity_newest},
             default_sort=sorting.entity_newest)
@@ -447,23 +447,37 @@ class UserController(BaseController):
 
     @RequireInstance
     @RequireInternalRequest()
-    def kick(self, id):
+    def ban(self, id):
         c.page_user = get_entity_or_abort(model.User, id)
-        require.user.supervise(c.page_user)
-        for membership in c.page_user.memberships:
-            if (not membership.is_expired() and
-                membership.instance == c.instance):
-                membership.expire()
-                model.meta.Session.add(membership)
-        c.page_user.revoke_delegations(c.instance)
+        require.user.manage(c.page_user)
+        c.page_user.banned = True
         model.meta.Session.commit()
-        event.emit(event.T_INSTANCE_FORCE_LEAVE, c.page_user,
-                   instance=c.instance, admin=c.user)
-        h.flash(_("%(user)s was removed from %(instance)s") % {
-                    'user': c.page_user.name,
-                    'instance': c.instance.label},
-                'success')
+        h.flash(_("The account has been suspemded."), 'success')
         redirect(h.entity_url(c.page_user))
+    
+    @RequireInstance
+    @RequireInternalRequest()
+    def unban(self, id):
+        c.page_user = get_entity_or_abort(model.User, id)
+        require.user.manage(c.page_user)
+        c.page_user.banned = False
+        model.meta.Session.commit()
+        h.flash(_("The account has been re-activated."), 'success')
+        redirect(h.entity_url(c.page_user))
+    
+    def ask_delete(self, id):
+        c.page_user = get_entity_or_abort(model.User, id)
+        require.user.delete(c.page_user)
+        return render('/user/ask_delete.html')
+
+    @RequireInternalRequest()
+    def delete(self, id):
+        c.page_user = get_entity_or_abort(model.User, id)
+        require.user.delete(c.proposal)
+        c.page_user.delete()
+        model.meta.Session.commit()
+        h.flash(_("The account has been deleted."), 'success')
+        redirect(h.entity_url(c.instance))
 
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def filter(self):

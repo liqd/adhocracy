@@ -19,6 +19,10 @@ import selection_tiles as selection
 
 log = logging.getLogger(__name__)
 
+def dispatch_row_with_comments(entity):
+    if isinstance(entity, model.Comment):
+        return comment.row(entity)
+    return dispatch_row(entity)
 
 def dispatch_row(entity):
     if isinstance(entity, model.User):
@@ -32,8 +36,6 @@ def dispatch_row(entity):
             return page.row(entity)
     elif isinstance(entity, model.Tag):
         return tag.row(entity)
-    #elif isinstance(entity, model.Comment):
-    #    return comment.row(entity)
     else:
         pass 
         #log.warn("WARNING: Cannot render %s!" % repr(entity))

@@ -55,6 +55,8 @@ class BaseController(WSGIController):
         #pprint(request.environ)
         c.instance = model.instance_filter.get_instance()
         c.user = environ.get('repoze.who.identity', {}).get('user')
+        if c.user.banned or c.user.delete_time: 
+            c.user = None
         c.active_controller = request.environ.get('pylons.routes_dict')\
             .get('controller')
         c.debug = asbool(config.get('debug'))

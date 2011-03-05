@@ -3,7 +3,7 @@ import os
 import logging
 from datetime import datetime
 
-from sqlalchemy import Table, Column, func, or_
+from sqlalchemy import Table, Column, func, or_, not_
 from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
 from sqlalchemy.orm import eagerload_all
 
@@ -31,6 +31,7 @@ user_table = Table('user', meta.data,
     Column('access_time', DateTime, default=datetime.utcnow,
            onupdate=datetime.utcnow),
     Column('delete_time', DateTime),
+    Column('banned', Boolean, default=False),
     Column('no_help', Boolean, default=False, nullable=True),
     Column('page_size', Integer, default=10, nullable=True)
     )
@@ -46,12 +47,15 @@ class User(meta.Indexable):
         self.locale = locale
         self.display_name = display_name
         self.bio = bio
+        self.banned = False
 
     @property
     def name(self):
-        return self.display_name.strip() \
-            if self.display_name and len(self.display_name.strip()) > 0 \
-            else self.user_name
+        if self.delete_time: 
+            return self.user_name
+        if self.display_name and len(self.display_name.strip()) > 0:
+            return self.display_name.strip()
+        return self.user_name
 
     def _get_locale(self):
         if not self._locale:
@@ -175,6 +179,8 @@ class User(meta.Indexable):
             password_8bit = password.encode('ascii', 'ignore')
         else:
             password_8bit = password
+        if self.banned or self.delete_time: 
+            return False
         hashed_pass = hashlib.sha1(password_8bit + self.password[:40])
         return self.password[40:] == hashed_pass.hexdigest()
 
@@ -231,10 +237,13 @@ class User(meta.Indexable):
             return None
 
     @classmethod
-    def find_by_email(cls, email):
+    def find_by_email(cls, email, include_deleted=False):
         try:
             q = meta.Session.query(User)
             q = q.filter(User.email == unicode(email).lower())
+            if not include_deleted:
+                q = q.filter(or_(User.delete_time == None,
+                                 User.delete_time > datetime.utcnow()))
             return q.limit(1).first()
         except Exception, e:
             log.warn("find_by_email(%s): %s" % (email, e))
@@ -274,6 +283,22 @@ class User(meta.Indexable):
                              Membership.expire_time > datetime.utcnow()))
             q = q.filter(Membership.instance == instance)
         return q.all()
+
+    def delete(self, delete_time=None):
+        if delete_time is None:
+            delete_time = datetime.utcnow()
+        self.revoke_delegations()
+        for twitter in self.twitters:
+            twitter.delete(delete_time=delete_time)
+        for openid in self.openids:
+            openid.delete(delete_time=delete_time)
+        for comment in self.comments:
+            comment.delete(delete_time=delete_time)
+        for membership in self.memberships:
+            membership.delete(delete_time=delete_time)
+        #for vote in self.votes: 
+        #    vote.delete(delete_time=delete_time)
+        self.delete_time = delete_time
 
     def is_deleted(self, at_time=None):
         if at_time is None:

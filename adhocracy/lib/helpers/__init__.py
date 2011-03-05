@@ -86,13 +86,6 @@ def poll_position_css(poll):
     return u""
         
 
-
-
-
-
-
-
-
 def propose_comment_title(parent=None, topic=None, variant=None):
     if parent and parent.latest.title:
         title = parent.latest.title

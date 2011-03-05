@@ -34,8 +34,8 @@ def supervise(u):
     return manage(u) or has('instance.admin')
 
 
-def delete(p):
-    return False
+def delete(u):
+    return edit(u)
 
 
 def vote():
