@@ -72,7 +72,8 @@ def countdown_time(dt, default):
 
 def format_date(dt):
     from pylons import tmpl_context as c
-    ts = babel.dates.format_date(dt, format='long', locale=c.locale)
+    ts = babel.dates.format_date(dt, format='long', locale=c.locale or
+            babel.Locale('en', 'US'))
     return _("%(ts)s") % {'ts': ts}
 
 

@@ -9,6 +9,12 @@ from sinks import log_sink, mail_sink, twitter_sink
 
 log = logging.getLogger(__name__)
 
+def echo(f):
+    from pprint import pprint
+    for x in f:
+        pprint(x)
+        yield x
+
 def notify(event):
     if not event:
         log.warn("Received null as event, shouldn't happen!")
@@ -22,6 +28,7 @@ def notify(event):
                                    delegation_source(event),
                                    comment_source(event)])
     pipeline = chain(*sources)
+    #pipeline = echo(pipeline)
     
     pipeline = comment_filter(pipeline)
     pipeline = self_filter(pipeline)
