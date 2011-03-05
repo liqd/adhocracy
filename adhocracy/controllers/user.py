@@ -396,21 +396,6 @@ class UserController(BaseController):
         self._common_metadata(c.page_user, member='proposals')
         return render("/user/proposals.html")
 
-    #@RequireInstance
-    #@ActionProtector(has_permission("user.view"))
-    #def comments(self, id, format='html'):
-    #    c.page_user = get_entity_or_abort(model.User, id,
-    #                                      instance_filter=False)
-    #    comments = filter(lambda cm: cm.topic.instance == c.instance and \
-    #                      not cm.is_deleted(), c.page_user.comments)
-    #
-    #    if format == 'json':
-    #        return render_json(list(comments))
-    #
-    #    c.comments_pager = pager.comments(comments)
-    #    self._common_metadata(c.page_user, member='comments')
-    #    return render("/user/comments.html")
-
     def watchlist(self, id, format='html'):
         require.watch.index()
         c.page_user = get_entity_or_abort(model.User, id,
@@ -419,6 +404,7 @@ class UserController(BaseController):
         watches = model.Watch.all_by_user(c.page_user)
         entities = [w.entity for w in watches if (w.entity is not None) \
             and (not isinstance(w.entity, unicode))]
+
         c.entities_pager = NamedPager(
             'watches', entities, tiles.dispatch_row,
             sorts={_("oldest"): sorting.entity_oldest,

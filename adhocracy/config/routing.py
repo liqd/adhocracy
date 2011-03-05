@@ -29,7 +29,6 @@ def make_map():
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
                                          'proposals': 'GET',
-                                         #'comments': 'GET',
                                          'votes': 'GET',
                                          'instances': 'GET',
                                          'watchlist': 'GET',
