@@ -1,7 +1,6 @@
 import logging
 
-import formencode
-from formencode import validators
+from formencode import validators, foreach, Schema
 
 from pylons import tmpl_context as c, response
 from pylons.decorators import validate
@@ -21,13 +20,13 @@ from adhocracy.lib.util import get_entity_or_abort
 log = logging.getLogger(__name__)
 
 
-class DelegationNewForm(formencode.Schema):
+class DelegationNewForm(Schema):
     allow_extra_fields = True
     scope = forms.ValidDelegateable()
 
 
 class DelegationCreateForm(DelegationNewForm):
-    agent = formencode.foreach.ForEach(forms.ExistingUserName())
+    agent = foreach.ForEach(forms.ExistingUserName())
     replay = validators.Int(if_empty=1, if_missing=1, not_empty=False)
 
 

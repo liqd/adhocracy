@@ -1,14 +1,13 @@
 import logging
 
-import formencode
-from formencode import htmlfill, Invalid, validators
+from formencode import htmlfill, Invalid, Schema, validators
 
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.i18n import _
 
 from adhocracy import model
-from adhocracy.lib import h
+from adhocracy.lib import helpers as h
 from adhocracy.lib.auth import require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
@@ -18,7 +17,7 @@ from adhocracy.lib.util import get_entity_or_abort
 log = logging.getLogger(__name__)
 
 
-class MessageCreateForm(formencode.Schema):
+class MessageCreateForm(Schema):
     allow_extra_fields = True
     subject = validators.String(max=250, not_empty=True)
     body = validators.String(max=20000, min=2, not_empty=True)
