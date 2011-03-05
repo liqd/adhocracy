@@ -452,7 +452,7 @@ class UserController(BaseController):
         require.user.manage(c.page_user)
         c.page_user.banned = True
         model.meta.Session.commit()
-        h.flash(_("The account has been suspemded."), 'success')
+        h.flash(_("The account has been suspended."), 'success')
         redirect(h.entity_url(c.page_user))
     
     @RequireInstance
