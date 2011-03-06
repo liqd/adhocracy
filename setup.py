@@ -46,7 +46,7 @@ This version requires Python 2.5 or later.
 """,
     install_requires=[
         "Pylons==0.9.7",
-        "SQLAlchemy>=0.6",
+        "SQLAlchemy >=0.6, <=0.6999",
         "sqlalchemy-migrate>=0.6",
         "FormEncode>=1.2.2",
         "repoze.who>=2.0a1",
