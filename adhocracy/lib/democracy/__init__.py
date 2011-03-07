@@ -11,30 +11,18 @@ log = logging.getLogger(__name__)
 
 
 def init_democracy(with_db=True):
-    '''Patch _post_insert() and _post_update() functions into
-    :class:`adhocracy.models.Vote` and :class:`adhocracy.models.Delegation`
-    The patched in function will update the tally of votes.
-    It will be called by :class:`adhocracy.model.hooks.HookExtension`
-    before and after changed models are commited to the database.
-
-    ..Warning::
-
-    The patched in functions overwrite patches from
-    :func:`adhocracy.model.hooks.init_queue_hooks`
+    '''Register callback functions for  :class:`adhocracy.models.Vote`
+    (:func:`handle_vote`) and :class:`adhocracy.models.Delegation`
+    (:func:`update_tallies_on_delegation`)
     '''
 
-    if with_db:
-        try:
-            for vote in Vote.all():
-                pass
-                #handle_vote(vote)
-        except Exception, e:
-            log.exception("Cannot update tallies: %s" % e)
-
-    log.debug('PATCHING model classes with pre_* and post_* functions '
-              'to update the tallies of votes to be used in pre/post '
-              'commit hooks. patched: \n%s\n%s\n'
-              'WARNING: this overwrites other patches' % (Delegation, Vote))
+    ## if with_db:
+    ##     try:
+    ##         for vote in Vote.all():
+    ##             pass
+    ##             #handle_vote(vote)
+    ##     except Exception, e:
+    ##         log.exception("Cannot update tallies: %s" % e)
 
     hooks.register_queue_callback(Vote, hooks.POSTINSERT, handle_vote)
     hooks.register_queue_callback(Vote, hooks.POSTUPDATE, handle_vote)

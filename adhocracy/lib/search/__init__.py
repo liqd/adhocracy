@@ -1,3 +1,5 @@
+'''Integrate solr with adhocracy'''
+
 import logging
 
 from adhocracy import model
@@ -13,6 +15,10 @@ INDEXED_CLASSES = (model.Proposal, model.Instance, model.User,
 
 
 def init_search(with_db=True):
+    '''Register callback functions for commit hooks to add/update and
+    delete documents in solr when model instances are commited.
+    '''
+
     for cls in INDEXED_CLASSES:
         hooks.register_queue_callback(cls, hooks.POSTINSERT,
                                       index.update)
@@ -23,6 +29,11 @@ def init_search(with_db=True):
 
 
 def rebuild_all():
+    '''(re)index all indexable models in solr. This does not drop
+    orphaned entries from the solr index.
+
+    todo: add an option to clear the index before updating it.
+    '''
     for cls in INDEXED_CLASSES:
         log.info("Re-indexing %ss..." % cls.__name__)
         for entity in model.meta.Session.query(cls):
