@@ -1,3 +1,12 @@
+"""sqlalchemy model and table shared by all modes for which a user should
+be able to delegate the voting to another user (
+:py:class:`adhocracy.model.comment.Comment`,
+:py:class:`adhocracy.model.proposal.Proposal` and
+:py:class:`adhocracy.model.page.Page`).
+
+SQLAlchemy's `joint table inheritance` is used.
+"""
+
 from datetime import datetime
 import logging
 
