@@ -17,7 +17,7 @@ from openid.extensions import sreg, ax
 from adhocracy import forms, model
 from adhocracy.lib import event, helpers as h
 from adhocracy.lib.auth import require
-from adhocracy.lib.csrf import RequireInternalRequest
+from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.openidstore import create_consumer
 from adhocracy.lib.templating import render
