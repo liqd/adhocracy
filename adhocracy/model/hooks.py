@@ -85,14 +85,29 @@ def patch(clazz, hook, f):
 
 
 def register_queue_callback(cls, event, callback):
+    '''Append the callback in the modul global registry to the list
+    of callback for the (cls, event) discriminator.
+    :param cls: a model class
+    :param event: One of the in this module defined PRE* or POST* events
+    :param callback: A callback function that accepts an entity as the
+                     only parameter
+    '''
     import refs
     key = (refs.cls_type(cls), event)
     calls = REGISTRY.get(key, [])
     calls.append(callback)
     REGISTRY[key] = calls
+    log.debug("registered callback:\n%s/%s: %s.%s" % (key[0], key[1],
+                                                      callback.__module__,
+                                                      callback.__name__))
 
 
 def handle_queue_message(message):
+    '''Calls all registered callback functions where the discriminator
+    matches the message.
+    :param meassage: An json that can be decoded to a dictionary with the
+                     keys `event` and `entity`
+    '''
     import refs
     data = simplejson.loads(message)
     entity = refs.to_entity(data.get('entity'))
@@ -111,7 +126,7 @@ def init_queue_hooks():
     '''Patch pre_* and post_* functions into all model classes listed.
     in :data:`adhocracy.model.refs.TYPES`. The patched in function
     will add messages to the job queue used to defer external indexing.
-    These will be called by :class:`HookExtension` before and after
+    These will be called by :class:`.HookExtension` before and after
     changed models are commited to the database.
 
     ..Warning::

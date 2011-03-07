@@ -1,21 +1,25 @@
-import logging 
 import hashlib
-from solr import SolrConnection # == solrpy 
+import logging
 
-import adhocracy.model as model
-import adhocracy.model.refs as refs
+from solr import SolrConnection  # == solrpy
+
+from adhocracy import model
+from adhocracy.model import refs
 
 log = logging.getLogger(__name__)
 
+
 def get_connection():
-    from pylons import config 
+    from pylons import config
     solr_url = config.get('adhocracy.solr.url', 'http://localhost:8983/solr')
     #log.debug('Connecting to Solr at %s...' % solr_url)
     return SolrConnection(solr_url)
 
+
 def gen_id(entity):
     ref = refs.to_ref(entity)
     return hashlib.sha1(ref).hexdigest()
+
 
 def update(entity):
     if not isinstance(entity, model.meta.Indexable):
@@ -39,6 +43,7 @@ def update(entity):
     finally:
         conn.close()
 
+
 def delete(entity):
     conn = get_connection()
     try:
@@ -49,19 +54,20 @@ def delete(entity):
         log.exception(e)
     finally:
         conn.close()
-  
-def optimize():     
+
+
+def optimize():
     # freshen up solr a bit
     conn = get_connection()
     conn.optimize()
     conn.commit()
     conn.close()
 
-def clear():    
+
+def clear():
     conn = get_connection()
     try:
         conn.delete_query('*:*')
         conn.commit()
     finally:
         conn.close()
-

@@ -12,12 +12,24 @@ group's opinions and eventually its decisions regarding a given subject.
 
 Contents:
 
+REST interface
+--------------
+
 .. toctree::
    :maxdepth: 2
 
-   rest
-   resources
-   api
+   rest/intro
+   rest/resources
+
+Development documentation
+-------------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   development/architecture
+   development/api
+
 
 Indices and tables
 ==================
