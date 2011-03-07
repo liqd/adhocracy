@@ -83,6 +83,16 @@ Tables
    Diagramm of all model classes
 
 
+Updating the diagrams
+`````````````````````
+To update the diagramms install graphviz_ and easy_install 
+`sqlalchemy_schemadisplay`_ into the environment adhocracy is installed in.
+Then run `python /adhocracy/scripts/generate-db-diagrams.py`. It will
+create the diagrams as PNG files. You may want to convert them into smaller
+GIF images with only 16 colors. Finally replace the GIF files in
+`adhocracy/docs/development` with the new versions.
+
+
 Delegateables
 '''''''''''''
 
@@ -248,3 +258,5 @@ Authentication and Permissions
 
 
 .. _joint table inheritance: http://www.sqlalchemy.org/docs/orm/inheritance.html#joined-table-inheritance
+.. _sqlalchemy_schemadisplay : http://pypi.python.org/pypi/sqlalchemy_schemadisplay/
+.. _graphviz: http://www.graphviz.org/
