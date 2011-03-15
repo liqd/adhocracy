@@ -105,10 +105,12 @@ class InstanceController(BaseController):
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         proposals = model.Proposal.all(instance=c.page_instance)
         c.new_proposals_pager = pager.proposals(
-            proposals, size=5, enable_sorts=False,
+            proposals, size=7, enable_sorts=False,
             enable_pages=False, default_sort=sorting.entity_newest)
+        pages = model.Page.all(instance=c.page_instance,
+                functions=[model.Page.NORM])
         c.top_pages_pager = pager.pages(
-            proposals, size=5, enable_sorts=False,
+            pages, size=7, enable_sorts=False,
             enable_pages=False, default_sort=sorting.norm_selections)
         tags = model.Tag.popular_tags(limit=40)
         c.tags = sorted(text.tag_cloud_normalize(tags),

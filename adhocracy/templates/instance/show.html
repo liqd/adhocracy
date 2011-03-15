@@ -29,10 +29,12 @@ ${tiles.instance.header(c.page_instance, active='rules')}
 </div>
 
 <div class="righthalf">
-	<h3 class="section">${_("Contested Norms")}</h3>
-	<div id="top_pages_table" class="table">
-		${c.top_pages_pager.here()}
-	</div>
+  %if c.instance.use_norms:
+	  <h3 class="section">${_("Contested Norms")}</h3>
+	  <div id="top_pages_table" class="table">
+		  ${c.top_pages_pager.here()}
+    </div>
+  %endif
 </div>
 
 <br/>
