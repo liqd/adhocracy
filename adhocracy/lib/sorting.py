@@ -58,6 +58,12 @@ def proposal_mixed(entities):
 def proposal_support(entities):
     return sorted(entities, key=lambda p: p.rate_poll.tally.num_for, reverse=True)
     
+def norm_selections(entities):
+    return sorted(entities, key=lambda n: len(n.selections), reverse=True)
+
+def norm_variants(entities):
+    return sorted(entities, key=lambda n: len(n.variants), reverse=True)
+
 def comment_order(comments):
     max_age = 84600 / 2 # 0.5 days
     p_key = lambda c: score_and_freshness_sorter(max_age)(c.poll.tally.score, c.create_time)

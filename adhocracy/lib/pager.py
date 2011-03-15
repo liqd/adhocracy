@@ -132,12 +132,17 @@ def proposals(proposals, default_sort=None, **kwargs):
                       default_sort=default_sort, **kwargs)
 
 
-def pages(pages, detail=True):
-  sorts = {_("oldest"): sorting.entity_oldest,
-           _("newest"): sorting.entity_newest,
-           _("alphabetically"): sorting.delegateable_title}
-  return NamedPager('pages', pages, tiles.page.row, sorts=sorts,
-                    default_sort=sorting.delegateable_title)                 
+def pages(pages, detail=True, default_sort=None, **kwargs):
+    if default_sort is None:
+        default_sort = sorting.delegateable_title
+    sorts = {_("oldest"): sorting.entity_oldest,
+             _("newest comment"): sorting.delegateable_latest_comment,
+             _("newest"): sorting.entity_newest,
+             _("proposals"): sorting.norm_selections,
+             _("variants"): sorting.norm_variants,
+             _("alphabetically"): sorting.delegateable_title}
+    return NamedPager('pages', pages, tiles.page.row, sorts=sorts,
+                    default_sort=default_sort, **kwargs)
 
       
 def users(users):

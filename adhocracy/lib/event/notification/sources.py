@@ -64,6 +64,7 @@ def comment_source(event):
             yield Notification(event, 
                                revision.user, 
                                type=N_COMMENT_EDIT)
-    for watch in watchlist.traverse_watchlist(event.comment):
-        yield Notification(event, watch.user, watch=watch)
+    if 'comment' in event.data:
+        for watch in watchlist.traverse_watchlist(event.comment):
+            yield Notification(event, watch.user, watch=watch)
 

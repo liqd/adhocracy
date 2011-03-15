@@ -50,12 +50,12 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
     	</div>
         </div>
     	<div class="top_actions aside">
-    		&nbsp; 
-    		%if can.selection.create(c.proposal):
-    			<a class="button title edit ttip" title="${_('Propose to change a norm through this proposal.')}" 
-            href="${h.entity_url(c.proposal, member='implementation/include')}">${_("change existing norm")}</a>
+    	  &nbsp; 
+    	  %if can.selection.create(c.proposal):
+    		<a class="button title edit ttip" title="${_('Propose to change a norm through this proposal.')}" 
+              href="${h.entity_url(c.proposal, member='implementation/include')}">${_("change existing norm")}</a>
           %if can.norm.propose():
-      		 	<a class="button title add ttip" title="${_('Propose to create a norm through this proposal.')}" 
+      		<a class="button title add ttip" title="${_('Propose to create a norm through this proposal.')}" 
               href="${h.entity_url(c.proposal, member='implementation/propose')}">${_("propose new norm")}</a>
           %endif
     		%endif		
