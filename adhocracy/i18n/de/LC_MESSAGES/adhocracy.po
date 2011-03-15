@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-26 12:16+0100\n"
-"PO-Revision-Date: 2011-03-05 18:43+0100\n"
+"PO-Revision-Date: 2011-03-15 22:00+0100\n"
 "Last-Translator: Friedrich Lindenberg <friedrich.lindenberg@okfn.org>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -31,12 +31,12 @@ msgstr "Danke für Ihre Hilfe."
 #: adhocracy/controllers/tag.py:80
 #: adhocracy/controllers/user.py:410
 #: adhocracy/lib/pager.py:115
-#: adhocracy/lib/pager.py:136
-#: adhocracy/lib/pager.py:144
-#: adhocracy/lib/pager.py:155
-#: adhocracy/lib/pager.py:162
-#: adhocracy/lib/pager.py:169
-#: adhocracy/lib/pager.py:176
+#: adhocracy/lib/pager.py:138
+#: adhocracy/lib/pager.py:149
+#: adhocracy/lib/pager.py:160
+#: adhocracy/lib/pager.py:167
+#: adhocracy/lib/pager.py:174
+#: adhocracy/lib/pager.py:181
 msgid "oldest"
 msgstr "älteste"
 
@@ -50,12 +50,12 @@ msgstr "älteste"
 #: adhocracy/controllers/user.py:411
 #: adhocracy/lib/pager.py:116
 #: adhocracy/lib/pager.py:126
-#: adhocracy/lib/pager.py:137
-#: adhocracy/lib/pager.py:145
-#: adhocracy/lib/pager.py:156
-#: adhocracy/lib/pager.py:163
-#: adhocracy/lib/pager.py:170
-#: adhocracy/lib/pager.py:177
+#: adhocracy/lib/pager.py:140
+#: adhocracy/lib/pager.py:150
+#: adhocracy/lib/pager.py:161
+#: adhocracy/lib/pager.py:168
+#: adhocracy/lib/pager.py:175
+#: adhocracy/lib/pager.py:182
 msgid "newest"
 msgstr "neueste"
 
@@ -218,8 +218,8 @@ msgstr "Änderungsantrag %s existiert nicht!"
 #: adhocracy/controllers/tag.py:82
 #: adhocracy/lib/pager.py:118
 #: adhocracy/lib/pager.py:130
-#: adhocracy/lib/pager.py:138
-#: adhocracy/lib/pager.py:147
+#: adhocracy/lib/pager.py:143
+#: adhocracy/lib/pager.py:152
 msgid "alphabetically"
 msgstr "alphabetisch"
 
@@ -376,17 +376,14 @@ msgid "Cannot make %(user)s a member of %(group)s"
 msgstr "Kann %(user)s nicht zu einem Mitglied von %(group)s machen"
 
 #: adhocracy/controllers/user.py:455
-#| msgid "The comment has been deleted."
 msgid "The account has been suspended."
 msgstr "Der Nutzer wurde suspendiert."
 
 #: adhocracy/controllers/user.py:465
-#| msgid "The comment has been reverted."
 msgid "The account has been re-activated."
 msgstr "Der Nutzer wurde re-aktiviert."
 
 #: adhocracy/controllers/user.py:479
-#| msgid "The comment has been deleted."
 msgid "The account has been deleted."
 msgstr "Der Nutzer wurde gelöscht."
 
@@ -659,11 +656,12 @@ msgid "Confirm your email address"
 msgstr "Bestätigen Sie Ihre E-Mail-Adresse."
 
 #: adhocracy/lib/pager.py:117
-#: adhocracy/lib/pager.py:146
+#: adhocracy/lib/pager.py:151
 msgid "activity"
 msgstr "Aktivität"
 
 #: adhocracy/lib/pager.py:127
+#: adhocracy/lib/pager.py:139
 msgid "newest comment"
 msgstr "Neuester Kommentar"
 
@@ -674,6 +672,16 @@ msgstr "Unterstützung"
 #: adhocracy/lib/pager.py:129
 msgid "mixed"
 msgstr "gemischt"
+
+#: adhocracy/lib/pager.py:141
+#| msgid "Proposals"
+msgid "proposals"
+msgstr "vorschläge"
+
+#: adhocracy/lib/pager.py:142
+#| msgid "Variants"
+msgid "variants"
+msgstr "anträge"
 
 #: adhocracy/lib/static.py:21
 #, python-format
@@ -1082,7 +1090,6 @@ msgstr "Tags"
 
 #: adhocracy/lib/helpers/user_helper.py:27
 #, python-format
-#| msgid "(deleted)"
 msgid "%s (deleted user)"
 msgstr "%s (gelöscht)"
 
@@ -2091,8 +2098,9 @@ msgid "Newest Proposals"
 msgstr "Neueste Vorschläge"
 
 #: adhocracy/templates/instance/show.html:32
-msgid "Popular Proposals"
-msgstr "Beliebte Vorschläge"
+#| msgid "Use norms:"
+msgid "Contested Norms"
+msgstr "Kontroverse Papiere"
 
 #: adhocracy/templates/instance/show.html:41
 #: adhocracy/templates/instance/tiles.html:28
@@ -3006,7 +3014,6 @@ msgid "Adhocracies"
 msgstr "Adhocracies"
 
 #: adhocracy/templates/user/ask_delete.html:19
-#| msgid "Are you sure you want to delete this instance?"
 msgid "Are you sure you want to delete your profile? This step cannot be reversed."
 msgstr "Sind Sie sicher, dass Sie diesen Account löschen wollen? Der Schritt ist nicht rückgängig zu machen."
 
@@ -3253,12 +3260,10 @@ msgid "un-ban"
 msgstr "entsperren"
 
 #: adhocracy/templates/user/tiles.html:54
-#| msgid "Abstain"
 msgid "ban"
 msgstr "sperren"
 
 #: adhocracy/templates/user/tiles.html:58
-#| msgid "Delete this variant."
 msgid "Delete this user."
 msgstr "Diesen Nutzer entfernen."
 
@@ -3279,14 +3284,5 @@ msgstr "Was kann man beobachten?"
 msgid "How can I create a watch?"
 msgstr "Wie kann man etwas beobachten?"
 
-#~ msgid "%(user)s was removed from %(instance)s"
-#~ msgstr "%(user)s wurde aus %(instance)s entfernt."
-
-#~ msgid "Who has helped?"
-#~ msgstr "Wer hat mitgeholfen?"
-
-#~ msgid "Contributors"
-#~ msgstr "Mitwirkende"
-
-#~ msgid "kick"
-#~ msgstr "ausschließen"
+#~ msgid "Popular Proposals"
+#~ msgstr "Beliebte Vorschläge"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 1.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2011-03-05 18:41+0100\n"
+"POT-Creation-Date: 2011-03-15 21:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,9 +25,9 @@ msgstr ""
 #: adhocracy/controllers/delegation.py:118 adhocracy/controllers/page.py:258
 #: adhocracy/controllers/page.py:276 adhocracy/controllers/search.py:49
 #: adhocracy/controllers/tag.py:80 adhocracy/controllers/user.py:410
-#: adhocracy/lib/pager.py:115 adhocracy/lib/pager.py:136 adhocracy/lib/pager.py:144
-#: adhocracy/lib/pager.py:155 adhocracy/lib/pager.py:162 adhocracy/lib/pager.py:169
-#: adhocracy/lib/pager.py:176
+#: adhocracy/lib/pager.py:115 adhocracy/lib/pager.py:138 adhocracy/lib/pager.py:149
+#: adhocracy/lib/pager.py:160 adhocracy/lib/pager.py:167 adhocracy/lib/pager.py:174
+#: adhocracy/lib/pager.py:181
 msgid "oldest"
 msgstr ""
 
@@ -35,9 +35,9 @@ msgstr ""
 #: adhocracy/controllers/delegation.py:119 adhocracy/controllers/page.py:259
 #: adhocracy/controllers/page.py:277 adhocracy/controllers/search.py:50
 #: adhocracy/controllers/tag.py:81 adhocracy/controllers/user.py:411
-#: adhocracy/lib/pager.py:116 adhocracy/lib/pager.py:126 adhocracy/lib/pager.py:137
-#: adhocracy/lib/pager.py:145 adhocracy/lib/pager.py:156 adhocracy/lib/pager.py:163
-#: adhocracy/lib/pager.py:170 adhocracy/lib/pager.py:177
+#: adhocracy/lib/pager.py:116 adhocracy/lib/pager.py:126 adhocracy/lib/pager.py:140
+#: adhocracy/lib/pager.py:150 adhocracy/lib/pager.py:161 adhocracy/lib/pager.py:168
+#: adhocracy/lib/pager.py:175 adhocracy/lib/pager.py:182
 msgid "newest"
 msgstr ""
 
@@ -200,8 +200,8 @@ msgid "Variant %s does not exist!"
 msgstr ""
 
 #: adhocracy/controllers/page.py:260 adhocracy/controllers/tag.py:82
-#: adhocracy/lib/pager.py:118 adhocracy/lib/pager.py:130 adhocracy/lib/pager.py:138
-#: adhocracy/lib/pager.py:147
+#: adhocracy/lib/pager.py:118 adhocracy/lib/pager.py:130 adhocracy/lib/pager.py:143
+#: adhocracy/lib/pager.py:152
 msgid "alphabetically"
 msgstr ""
 
@@ -640,11 +640,11 @@ msgstr ""
 msgid "Confirm your email address"
 msgstr ""
 
-#: adhocracy/lib/pager.py:117 adhocracy/lib/pager.py:146
+#: adhocracy/lib/pager.py:117 adhocracy/lib/pager.py:151
 msgid "activity"
 msgstr ""
 
-#: adhocracy/lib/pager.py:127
+#: adhocracy/lib/pager.py:127 adhocracy/lib/pager.py:139
 msgid "newest comment"
 msgstr ""
 
@@ -654,6 +654,14 @@ msgstr ""
 
 #: adhocracy/lib/pager.py:129
 msgid "mixed"
+msgstr ""
+
+#: adhocracy/lib/pager.py:141
+msgid "proposals"
+msgstr ""
+
+#: adhocracy/lib/pager.py:142
+msgid "variants"
 msgstr ""
 
 #: adhocracy/lib/static.py:21
@@ -2053,7 +2061,7 @@ msgid "Newest Proposals"
 msgstr ""
 
 #: adhocracy/templates/instance/show.html:32
-msgid "Popular Proposals"
+msgid "Contested Norms"
 msgstr ""
 
 #: adhocracy/templates/instance/show.html:41
