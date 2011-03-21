@@ -35,6 +35,11 @@
 
 
 <%def name="sidebar(tile, proposal)">
+	
+	%if proposal.is_adopt_polling(): 
+		${tiles.poll.booth(proposal.adopt_poll)}
+    %endif
+
     <h3 class="section"><img src="/img/icons/proposal_16.png" class="cd" /> ${_("Information")}</h3>
 	<div class="infobox">
 		${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.format_date(proposal.create_time))|n} 
@@ -56,10 +61,6 @@
         %endif
 	</ul>
 	<br/>
-	
-	%if proposal.is_adopt_polling(): 
-		${tiles.poll.booth(proposal.adopt_poll)}
-	%endif
 	
 	${tiles.tag.sidebar(proposal)}
 	${tiles.delegation.sidebar(proposal, tile)}
@@ -124,7 +125,8 @@
     			     							  h.relative_time(proposal.adopt_poll.end_time))|n}
     	    </div>
         </div>
-    %elif proposal.is_adopt_polling():
+        %elif proposal.is_adopt_polling():
+        <!--
         <div class="panel">
     	<div class="info adoption">
     		<div class="given first">
@@ -150,7 +152,8 @@
     			${_("stable majority for %s days") % c.instance.activation_delay} 
     		</div>
     	</div>
-    	</div>
+      </div>
+      -->
     %endif
 </%def>
 

@@ -39,6 +39,8 @@ def rate(p):
 
 
 def adopt(p):
+    if c.instance.allow_adopt and has('instance.admin'):
+        return True
     return show(p) and poll.create() and p.can_adopt()
 
 
