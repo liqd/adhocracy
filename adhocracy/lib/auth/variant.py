@@ -7,6 +7,8 @@ import page
 def edit(p, variant):
     if not p.instance.use_norms:
         return False
+    if p.instance.frozen:
+        return False
     if variant is None:
         return False
     if has('instance.admin'):

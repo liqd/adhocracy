@@ -34,6 +34,7 @@ instance_table = Table('instance', meta.data,
     Column('hidden', Boolean, default=False),
     Column('locale', Unicode(7), nullable=True),
     Column('css', UnicodeText(), nullable=True),
+    Column('frozen', Boolean, default=False),
     Column('use_norms', Boolean, nullable=True, default=True)
     )
 
@@ -59,6 +60,7 @@ class Instance(meta.Indexable):
         self.allow_propose = True
         self.allow_index = True
         self.hidden = False
+        self.frozen = False
         self._required_participation = None
 
     @reconstructor

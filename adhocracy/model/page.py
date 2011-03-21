@@ -294,7 +294,7 @@ class Page(Delegateable):
     def is_mutable(self):
         if self.function == self.DESCRIPTION and self.proposal:
             return self.proposal.is_mutable()
-        return True
+        return not self.instance.frozen
 
     def user_position(self, user):
         if self.function == self.DESCRIPTION and self.proposal:

@@ -13,6 +13,8 @@ def show(p):
 
 
 def create():
+    if c.instance.frozen:
+        return False
     return has('proposal.create')
 
 

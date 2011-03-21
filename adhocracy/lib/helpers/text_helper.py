@@ -20,9 +20,11 @@ def url(text, **kwargs):
         url += u';' + str(text.id)
     return _url.append_member_and_format(url, **kwargs)
 
-  
-@cache.memoize('text_icon')        
+
+@cache.memoize('text_icon')
 def icon_url(text, page=None, size=16):
+    if text is None:
+        return u"/img/icons/page_%s.png" % size
     if page is None:
         page = text.page
     path = u"/img/icons/page%s_%s.png"
