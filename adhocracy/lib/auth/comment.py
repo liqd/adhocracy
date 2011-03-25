@@ -19,6 +19,8 @@ def create():
 def create_on(topic):
     if has('instance.admin'):
         return True
+    if topic.instance.frozen:
+        return False
     return create()
 
 
@@ -35,6 +37,8 @@ def edit(co):
         return False
     if has('instance.admin'):
         return True
+    if co.topic.instance.frozen:
+        return False
     if not (has('comment.edit') and show(co)):
         return False
     if not (co.wiki or is_own(co)):
@@ -48,6 +52,8 @@ revert = edit
 def delete(co):
     if has('instance.admin'):
         return True
+    if co.topic.instance.frozen:
+        return False
     if edit(co) and is_own(co) and not co.is_edited():
         return True
     return has('comment.delete') and show(co) and not \
@@ -55,4 +61,6 @@ def delete(co):
 
 
 def rate(c):
+    if c.topic.instance.frozen:
+        return False
     return show(c) and c.poll is not None and poll.vote(c.poll)

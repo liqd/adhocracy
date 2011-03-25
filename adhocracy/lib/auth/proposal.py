@@ -35,6 +35,8 @@ def delete(p):
 
 
 def rate(p):
+    if p.instance.frozen:
+        return False
     return show(p) and p.rate_poll is not None and poll.vote(p.rate_poll)
 
 

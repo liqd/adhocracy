@@ -31,12 +31,16 @@ def delete(i):
 
 
 def join(i):
+    if i.frozen:
+        return False
     return show(i) and has('instance.join') and c.user and \
         not c.user.is_member(i)
 
 
 def leave(i):
     if g.single_instance:
+        return False
+    if i.frozen:
         return False
     return show(i) and has('instance.leave') and c.user and \
         c.user.is_member(i) and not c.user == i.creator
