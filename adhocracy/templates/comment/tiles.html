@@ -28,7 +28,7 @@
 	%>
 
 	%if root is None:
-		%if can.comment.create():
+		%if can.comment.create_on(topic):
 			<div class="comment">
 				${create_form(None, topic, variant=variant, ret_url=ret_url)}
 			</div>
