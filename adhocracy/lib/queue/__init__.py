@@ -40,7 +40,5 @@ def dispatch():
             # housekeeping
             from adhocracy.lib import watchlist
             watchlist.clean_stale_watches()
-            from adhocracy.lib.search import index
-            index.optimize()
         model.meta.Session.remove()
     consume(_handle_message)

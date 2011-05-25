@@ -55,15 +55,6 @@ def delete(entity):
     finally:
         conn.close()
 
-
-def optimize():
-    # freshen up solr a bit
-    conn = get_connection()
-    conn.optimize()
-    conn.commit()
-    conn.close()
-
-
 def clear():
     conn = get_connection()
     try:
