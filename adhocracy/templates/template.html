@@ -77,7 +77,13 @@
         	<div id="menu-links">
 			<ul>    
 				<li><a class="instance ttip" title="${_('Instance home page')}" 
-					     href="${h.entity_url(c.instance)}">${_("Home")}</a></li>
+                  href="${h.entity_url(c.instance)}">${_("Home")}</a></li>
+                %if c.instance.key == 'demokratie': 
+                  <!-- HACK HACK HACK -->
+				  <li><a class="instance ttip" title="Gliederung der Themen" 
+                    href="/static/gliederung_demokratie.html">Arbeitsprogramm</a></li>
+
+                %endif 
 				%if c.instance.use_norms:
 				    <li><a class="page ttip" title="${_('Norm pages')}" 
          			       href="/page">${_("Norms")}</a></li>
