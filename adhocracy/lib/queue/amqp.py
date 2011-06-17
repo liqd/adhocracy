@@ -21,7 +21,8 @@ def exchange_name():
 
 def create_connection():
     host = config.get('adhocracy.amqp.host')
-    return amqp.Connection(host=host)
+    port = config.get('adhocracy.amqp.port', '5672')
+    return amqp.Connection(host="%s:%s" % (host,port))
                            
 def create_channel(read=False, write=False):
     conn = create_connection()
