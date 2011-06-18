@@ -15,18 +15,16 @@ INDEXED_CLASSES = (model.Proposal, model.Instance, model.User,
                    model.Comment, model.Page)
 
 
-def init_search(with_db=True):
+def init_search():
     '''Register callback functions for commit hooks to add/update and
     delete documents in solr when model instances are commited.
     '''
-
+    from adhocracy.lib.queue.update import LISTENERS
+    from adhocracy.model.update import INSERT, UPDATE, DELETE
     for cls in INDEXED_CLASSES:
-        hooks.register_queue_callback(cls, hooks.POSTINSERT,
-                                      index.update)
-        hooks.register_queue_callback(cls, hooks.POSTUPDATE,
-                                      index.update)
-        hooks.register_queue_callback(cls, hooks.PREDELETE,
-                                      index.delete)
+        LISTENERS[(cls, INSERT)].append(index.update)
+        LISTENERS[(cls, UPDATE)].append(index.update)
+        LISTENERS[(cls, DELETE)].append(index.delete)
 
 
 def rebuild_all():

@@ -3,7 +3,7 @@
 from sqlalchemy import MetaData
 import hooks
 
-__all__ = ['Session', 'data', 'extension', 'engine']
+__all__ = ['Session', 'data', 'engine']
 
 # SQLAlchemy database engine.  Updated by model.init_model()
 engine = None
@@ -15,9 +15,6 @@ Session = None
 # Global metadata. If you have multiple databases with overlapping table
 # names, you'll need a metadata for each database
 data = MetaData()
-
-extension = hooks.HookExtension()
-
 
 class Indexable(object):
 

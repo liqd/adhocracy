@@ -42,8 +42,8 @@ def invalidate_vote(vote):
     clear_tag(vote)
     invalidate_user(vote.user)
     invalidate_poll(vote.poll)
-    
-    
+
+
 def invalidate_selection(selection):
     if selection is None: 
         return

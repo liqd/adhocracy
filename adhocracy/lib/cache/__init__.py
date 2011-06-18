@@ -6,20 +6,24 @@ import adhocracy.model as model
 from util import memoize
 from invalidate import *
 
-
 log = logging.getLogger(__name__)
 
-def setup_cache():
-    log.info("Setting up memcache-related persistence hooks...")
-    hooks.patch_default(model.User, invalidate_user)
-    hooks.patch_default(model.Vote, invalidate_vote)
-    hooks.patch_default(model.Page, invalidate_page)
-    hooks.patch_default(model.Proposal, invalidate_delegateable)
-    hooks.patch_default(model.Delegation, invalidate_delegation)
-    hooks.patch_default(model.Revision, invalidate_revision)
-    hooks.patch_default(model.Comment, invalidate_comment)
-    hooks.patch_default(model.Poll, invalidate_poll)
-    hooks.patch_default(model.Tagging, invalidate_tagging)
-    hooks.patch_default(model.Text, invalidate_text)
-    hooks.patch_default(model.Selection, invalidate_selection)
-    
+HANDLERS = {
+    model.User: invalidate_user,
+    model.Vote: invalidate_vote,
+    model.Page: invalidate_page,
+    model.Proposal: invalidate_delegateable,
+    model.Delegation: invalidate_delegation,
+    model.Revision: invalidate_revision,
+    model.Comment: invalidate_comment,
+    model.Poll: invalidate_poll,
+    model.Tagging: invalidate_tagging,
+    model.Text: invalidate_text,
+    model.Selection: invalidate_selection
+    }
+
+def invalidate(entity):
+    from pylons import g
+    if g.cache is not None:
+        func = HANDLERS.get(entity.__class__, lambda x: x)
+        func(entity)

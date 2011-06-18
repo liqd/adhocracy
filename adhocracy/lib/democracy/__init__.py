@@ -10,27 +10,17 @@ from adhocracy.model import Delegation, Poll, Proposal, Tally, Vote
 log = logging.getLogger(__name__)
 
 
-def init_democracy(with_db=True):
+def init_democracy():
     '''Register callback functions for  :class:`adhocracy.models.Vote`
     (:func:`handle_vote`) and :class:`adhocracy.models.Delegation`
-    (:func:`update_tallies_on_delegation`)
+    (:func:`update_delegation`)
     '''
-
-    ## if with_db:
-    ##     try:
-    ##         for vote in Vote.all():
-    ##             pass
-    ##             #handle_vote(vote)
-    ##     except Exception, e:
-    ##         log.exception("Cannot update tallies: %s" % e)
-
-    hooks.register_queue_callback(Vote, hooks.POSTINSERT, handle_vote)
-    hooks.register_queue_callback(Vote, hooks.POSTUPDATE, handle_vote)
-    hooks.register_queue_callback(Delegation, hooks.POSTINSERT,
-                                  update_tallies_on_delegation)
-    hooks.register_queue_callback(Delegation, hooks.POSTUPDATE,
-                                  update_tallies_on_delegation)
-    #check_adoptions()
+    from adhocracy.lib.queue.update import LISTENERS
+    from adhocracy.model.update import INSERT, UPDATE, DELETE
+    LISTENERS[(Vote, INSERT)].append(handle_vote)
+    LISTENERS[(Vote, UPDATE)].append(handle_vote)
+    LISTENERS[(Delegation, INSERT)].append(update_delegation)
+    LISTENERS[(Delegation, UPDATE)].append(update_delegation)
 
 
 def handle_vote(vote):
@@ -54,7 +44,7 @@ def check_adoptions():
         # TODO check repeals
 
 
-def update_tallies_on_delegation(delegation):
+def update_delegation(delegation):
     for poll in Poll.within_scope(delegation.scope):
         tally = Tally.create_from_poll(poll)
         meta.Session.commit()

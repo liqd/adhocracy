@@ -22,14 +22,12 @@ def emit(event, user, instance=None, topics=[], **kwargs):
     event.topics = topics
     model.meta.Session.add(event)
     model.meta.Session.commit()
-    
     if queue.has_queue():
         queue.post_message(SERVICE, str(event.id))
     else:
         log.warn("Queue failure.")
         process(event)
-     
-    log.debug("Event: %s %s" % (user.user_name, formatting.as_unicode(event)))
+    log.debug("Event: %s %s, data: %r" % (user.user_name, event, event.data))
     return event
 
 def process(event):

@@ -50,6 +50,5 @@ def load_environment(global_conf, app_conf, with_db=True):
     # any Pylons config options)
     init_site()
     if with_db:
-        init_queue_hooks()
         init_search()
-    init_democracy(with_db)
+    init_democracy()

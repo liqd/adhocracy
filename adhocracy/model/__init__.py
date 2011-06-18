@@ -3,6 +3,7 @@ from sqlalchemy import orm
 from sqlalchemy.orm import mapper, relation, backref, synonym
 
 import meta
+from adhocracy.model.update import SessionModificationExtension
 
 from adhocracy.model.user import User, user_table
 from adhocracy.model.openid import OpenID, openid_table
@@ -34,30 +35,30 @@ mapper(User, user_table, properties={
     'email': synonym('_email', map_column=True),
     'locale': synonym('_locale', map_column=True),
     'password': synonym('_password', map_column=True)
-    }, extension=meta.extension)
+    })
 
 
 mapper(Twitter, twitter_table, properties={
     'user': relation(User, lazy=False,
                      primaryjoin=twitter_table.c.user_id == user_table.c.id,
                      backref=backref('twitters', cascade='delete'))
-    }, extension=meta.extension)
+    })
 
 
 mapper(OpenID, openid_table, properties={
     'user': relation(User, lazy=False,
                      primaryjoin=openid_table.c.user_id == user_table.c.id,
                      backref=backref('_openids', cascade='delete'))
-    }, extension=meta.extension)
+    })
 
 
-mapper(Group, group_table, extension=meta.extension)
+mapper(Group, group_table)
 
 
 mapper(Permission, permission_table, properties={
     'groups': relation(Group, secondary=group_permission_table, lazy=True,
                        backref=backref('permissions', lazy=False))
-    }, extension=meta.extension)
+    })
 
 
 mapper(
@@ -82,11 +83,11 @@ mapper(
             primaryjoin=(delegateable_table.c.instance_id ==
                          instance_table.c.id),
             backref=backref('delegateables', cascade='delete'))
-    }, extension=meta.extension)
+    })
 
 
 mapper(Page, page_table, inherits=Delegateable, polymorphic_identity='page',
-       properties={}, extension=meta.extension)
+       properties={})
 
 
 mapper(Proposal, proposal_table, inherits=Delegateable,
@@ -102,7 +103,7 @@ mapper(Proposal, proposal_table, inherits=Delegateable,
             Poll,
             primaryjoin=proposal_table.c.adopt_poll_id == poll_table.c.id,
             uselist=False, lazy=True)
-    }, extension=meta.extension)
+    })
 
 
 mapper(Comment, comment_table, properties={
@@ -116,7 +117,7 @@ mapper(Comment, comment_table, properties={
     'poll': relation(
             Poll, primaryjoin=comment_table.c.poll_id == poll_table.c.id,
             uselist=False, lazy=False)
-    }, extension=meta.extension)
+    })
 
 
 mapper(Revision, revision_table, properties={
@@ -128,7 +129,7 @@ mapper(Revision, revision_table, properties={
                 'revisions', cascade='all', lazy=False,
                 order_by=revision_table.c.create_time.desc())),
     'title': synonym('_title', map_column=True)
-    }, extension=meta.extension)
+    })
 
 
 mapper(Delegation, delegation_table, properties={
@@ -143,7 +144,7 @@ mapper(Delegation, delegation_table, properties={
             Delegateable, lazy=False,
             primaryjoin=delegation_table.c.scope_id == delegateable_table.c.id,
             backref=backref('delegations', cascade='all'))
-    }, extension=meta.extension)
+    })
 
 
 mapper(Poll, poll_table, properties={
@@ -158,7 +159,7 @@ mapper(Poll, poll_table, properties={
             lazy=True,
             backref=backref('polls', cascade='all', lazy=True,
                             order_by=poll_table.c.begin_time.desc()))
-    }, extension=meta.extension)
+    })
 
 
 mapper(Vote, vote_table, properties={
@@ -174,7 +175,7 @@ mapper(Vote, vote_table, properties={
             Delegation,
             primaryjoin=vote_table.c.delegation_id == delegation_table.c.id,
             backref=backref('votes', cascade='delete'))
-    }, extension=meta.extension)
+    })
 
 
 mapper(Instance, instance_table, properties={
@@ -184,7 +185,7 @@ mapper(Instance, instance_table, properties={
                         backref=backref('created_instances')),
     'locale': synonym('_locale', map_column=True),
     'default_group': relation(Group, lazy=True)
-    }, extension=meta.extension)
+    })
 
 
 mapper(Membership, membership_table, properties={
@@ -194,13 +195,13 @@ mapper(Membership, membership_table, properties={
             backref=backref('memberships', lazy=True)),
     'instance': relation(Instance, backref=backref('memberships'), lazy=True),
     'group': relation(Group, backref=backref('memberships'), lazy=False)
-    }, extension=meta.extension)
+    })
 
 
 mapper(Watch, watch_table, properties={
     'user': relation(User,
                      primaryjoin=watch_table.c.user_id == user_table.c.id)
-    }, extension=meta.extension)
+    })
 
 
 mapper(Event, event_table, properties={
@@ -213,7 +214,7 @@ mapper(Event, event_table, properties={
             Instance, lazy=True,
             primaryjoin=event_table.c.instance_id == instance_table.c.id),
     'topics': relation(Delegateable, secondary=event_topic_table, lazy=True)
-    }, extension=meta.extension)
+    })
 
 
 mapper(Tally, tally_table, properties={
@@ -222,10 +223,10 @@ mapper(Tally, tally_table, properties={
                                   order_by=tally_table.c.create_time.desc(),
                                   lazy=True)),
     'vote': relation(Vote, backref=backref('tally', uselist=False))
-    }, extension=meta.extension)
+    })
 
 
-mapper(Tag, tag_table, extension=meta.extension)
+mapper(Tag, tag_table)
 
 
 mapper(Tagging, tagging_table, properties={
@@ -242,7 +243,7 @@ mapper(Tagging, tagging_table, properties={
             Tag, lazy=False,
             primaryjoin=tagging_table.c.tag_id == tag_table.c.id,
             backref=backref('taggings', lazy=True))
-    }, extension=meta.extension)
+    })
 
 
 mapper(Text, text_table, properties={
@@ -257,7 +258,7 @@ mapper(Text, text_table, properties={
                 '_texts', lazy=False,
                 order_by=text_table.c.create_time.desc()),
             primaryjoin=text_table.c.page_id == page_table.c.id)
-    }, extension=meta.extension)
+    })
 
 
 mapper(Selection, selection_table, properties={
@@ -267,11 +268,13 @@ mapper(Selection, selection_table, properties={
     'page': relation(
             Page, lazy=True, backref=backref('_selections'),
             primaryjoin=selection_table.c.page_id == page_table.c.id)
-    }, extension=meta.extension)
+    })
 
 
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""
-    sm = orm.sessionmaker(autoflush=True, bind=engine)
+    sm = orm.sessionmaker(autoflush=True,
+                          bind=engine,
+                          extension=SessionModificationExtension())
     meta.engine = engine
     meta.Session = orm.scoped_session(sm)

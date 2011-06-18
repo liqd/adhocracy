@@ -29,15 +29,13 @@ class Globals(object):
             log.info("Memcache set up")
             log.debug("Flushing cache")
             self.cache.flush_all()
-            cache.setup_cache()
         else:
             log.warn("Skipped memcache, no results caching will take place.")
             self.cache = None
-            
+
         if 'adhocracy.instance' in config:
             self.single_instance = config.get('adhocracy.instance')
         else:
             self.single_instance = None
-        
-                
-        
+
+

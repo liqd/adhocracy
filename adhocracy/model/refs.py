@@ -79,7 +79,7 @@ def to_ref(entity):
         if isinstance(entity, cls):
             return u"@[%s:%s]" % (entity_type(entity),
                                   unicode(entity._index_id()))
-    return entity
+    return None
 
 
 def to_id(ref):

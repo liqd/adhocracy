@@ -19,7 +19,6 @@ except ImportError:
 from adhocracy.config.environment import load_environment
 from adhocracy.lib import install
 from adhocracy.model import meta
-from adhocracy.model.hooks import init_queue_hooks
 
 log = logging.getLogger(__name__)
 
