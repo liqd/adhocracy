@@ -1,0 +1,163 @@
+import logging
+
+import formencode
+from formencode import htmlfill, Invalid, validators
+
+from pylons import request, tmpl_context as c
+from pylons.controllers.util import redirect
+from pylons.decorators import validate
+from pylons.i18n import _
+
+from adhocracy import forms, model
+from adhocracy.lib import event, helpers as h, pager, tiles, watchlist
+from adhocracy.lib import search as libsearch
+from adhocracy.lib.auth import authorization, can, csrf, require
+from adhocracy.lib.base import BaseController
+from adhocracy.lib.instance import RequireInstance
+from adhocracy.lib.templating import render, render_json
+from adhocracy.lib.util import get_entity_or_abort
+
+import adhocracy.lib.text as text
+
+
+log = logging.getLogger(__name__)
+
+
+class MilestoneNewForm(formencode.Schema):
+    allow_extra_fields = True
+
+
+class MilestoneCreateForm(MilestoneNewForm):
+    title = validators.String(max=2000, min=4, not_empty=True)
+    text = validators.String(max=20000, min=4, not_empty=True)
+    time = forms.ValidDate()
+
+
+class MilestoneEditForm(formencode.Schema):
+    allow_extra_fields = True
+
+
+class MilestoneUpdateForm(MilestoneEditForm):
+    title = validators.String(max=2000, min=4, not_empty=True)
+    text = validators.String(max=20000, min=4, not_empty=True)
+    time = forms.ValidDate()
+
+
+class MilestoneController(BaseController):
+
+    @RequireInstance
+    def index(self, format="html"):
+        require.milestone.index()
+
+        milestones = model.Milestone.all()
+        c.milestones_pager = pager.milestones(milestones)
+
+        if format == 'json':
+            return render_json(c.milestones_pager)
+
+        c.tile = tiles.instance.InstanceTile(c.instance)
+        return render("/milestone/index.html")
+
+    @RequireInstance
+    @validate(schema=MilestoneNewForm(), form='bad_request',
+              post_only=False, on_get=True)
+    def new(self, errors=None):
+        require.proposal.create()
+        defaults = dict(request.params)
+        #defaults['watch'] = defaults.get('watch', True)
+        return htmlfill.render(render("/milestone/new.html"),
+                               defaults=defaults, errors=errors,
+                               force_defaults=False)
+
+    @RequireInstance
+    @csrf.RequireInternalRequest(methods=['POST'])
+    def create(self, format='html'):
+        require.proposal.create()
+        try:
+            self.form_result = MilestoneCreateForm().to_python(request.params)
+        except Invalid, i:
+            return self.new(errors=i.unpack_errors())
+        milestone = model.Milestone.create(c.instance, c.user,
+                                         self.form_result.get("title"),
+                                         self.form_result.get('text'),
+                                         self.form_result.get('time'))
+        model.meta.Session.commit()
+        #watchlist.check_watch(proposal)
+        #event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
+        #           topics=[proposal], proposal=proposal, rev=description.head)
+        redirect(h.entity_url(milestone, format=format))
+
+    @RequireInstance
+    @validate(schema=MilestoneEditForm(), form="bad_request",
+              post_only=False, on_get=True)
+    def edit(self, id, errors={}):
+        c.milestone = get_entity_or_abort(model.Milestone, id)
+        require.milestone.edit(c.milestone)
+        return htmlfill.render(render("/milestone/edit.html"),
+                               defaults=dict(request.params),
+                               errors=errors, force_defaults=False)
+
+    @RequireInstance
+    @csrf.RequireInternalRequest(methods=['POST'])
+    def update(self, id, format='html'):
+        try:
+            c.milestone = get_entity_or_abort(model.Milestone, id)
+            self.form_result = MilestoneUpdateForm().to_python(request.params)
+        except Invalid, i:
+            return self.edit(id, errors=i.unpack_errors())
+
+        require.milestone.edit(c.milestone)
+
+        c.milestone.title = self.form_result.get('title')
+        c.milestone.text = self.form_result.get('text')
+        c.milestone.time = self.form_result.get('time')
+        model.meta.Session.add(c.milestone)
+        model.meta.Session.commit()
+        #watchlist.check_watch(c.proposal)
+        #event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
+        #           topics=[c.proposal], proposal=c.proposal, rev=_text)
+        redirect(h.entity_url(c.milestone))
+
+    @RequireInstance
+    def show(self, id, format='html'):
+        c.milestone = get_entity_or_abort(model.Milestone, id)
+        require.milestone.show(c.milestone)
+
+        if format == 'json':
+            return render_json(c.milestone)
+
+        c.tile = tiles.milestone.MilestoneTile(c.milestone)
+        self._common_metadata(c.milestone)
+        return render("/milestone/show.html")
+
+    @RequireInstance
+    def ask_delete(self, id):
+        c.milestone = get_entity_or_abort(model.Milestone, id)
+        require.milestone.delete(c.milestone)
+        c.tile = tiles.milestone.MilestoneTile(c.milestone)
+        return render('/milestone/ask_delete.html')
+
+    @RequireInstance
+    @csrf.RequireInternalRequest()
+    def delete(self, id):
+        c.milestone = get_entity_or_abort(model.Milestone, id)
+        require.milestone.delete(c.milestone)
+        #event.emit(event.T_milestone_DELETE, c.user, instance=c.instance,
+        #           topics=[c.milestone], milestone=c.milestone)
+        c.milestone.delete()
+        model.meta.Session.commit()
+        h.flash(_("The milestone %s has been deleted.") % c.milestone.title,
+                'success')
+        redirect(h.entity_url(c.instance))
+
+    def _common_metadata(self, milestone):
+        h.add_meta("description",
+                   text.meta_escape(milestone.text,
+                                    markdown=False)[0:160])
+        h.add_meta("dc.title",
+                   text.meta_escape(milestone.title, markdown=False))
+        h.add_meta("dc.date",
+                   milestone.time.strftime("%Y-%m-%d"))
+        h.add_meta("dc.author",
+                   text.meta_escape(milestone.creator.name, markdown=False))
+

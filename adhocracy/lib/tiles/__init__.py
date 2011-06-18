@@ -15,6 +15,7 @@ import poll_tiles as poll
 import tag_tiles as tag
 import text_tiles as text
 import selection_tiles as selection
+import milestone_tiles as milestone
 
 
 log = logging.getLogger(__name__)
@@ -31,6 +32,8 @@ def dispatch_row(entity):
         return instance.row(entity)
     elif isinstance(entity, model.Proposal):
         return proposal.row(entity)
+    elif isinstance(entity, model.Milestone):
+        return milestone.row(entity)
     elif isinstance(entity, model.Page):
         if entity.function != model.Page.DESCRIPTION:
             return page.row(entity)

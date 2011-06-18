@@ -154,6 +154,8 @@ def make_map():
                                                'revert': 'GET',
                                                'ask_delete': 'GET'})
 
+    map.resource('milestone', 'milestone', member={'ask_delete': 'GET'})
+
     map.connect('/poll/{id}/rate.{format}', controller='poll', action='rate',
                                    conditions=dict(method=['GET', 'POST']))
 

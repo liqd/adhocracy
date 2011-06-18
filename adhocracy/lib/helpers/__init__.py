@@ -40,6 +40,7 @@ import selection_helper as selection
 import delegation_helper as delegation
 import instance_helper as instance
 import abuse_helper as abuse
+import milestone_helper as milestone
 
 from site_helper import base_url
 #from breadcrumbs import breadcrumbs
@@ -144,6 +145,8 @@ def entity_url(entity, **kwargs):
         return instance.url(entity, **kwargs)
     elif isinstance(entity, model.Delegation):
         return delegation.url(entity, **kwargs)
+    elif isinstance(entity, model.Milestone):
+        return milestone.url(entity, **kwargs)
     elif isinstance(entity, model.Tag):
         return tag.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))

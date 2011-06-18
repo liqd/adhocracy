@@ -1,0 +1,57 @@
+<%inherit file="/template.html" />
+<%namespace name="tiles_html" file="/milestone/tiles.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("New milestone")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.milestone.breadcrumbs(None)|n}
+</%def>
+
+<form name="create_milestone" class="inplace" method="POST" action="/milestone">
+	${h.field_token()|n}
+    
+    <div class="sidebar">
+        <div class="help">
+    		<h3>${_("Help")}</h3>
+    		<ul>
+    			<li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
+    			<li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
+    			<li>${h.help_link(_("Guide: Supporting proposals"), 'support_text')|n}</li>
+    			<li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
+    			<li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>
+    		</ul>
+    	</div>
+    </div>
+    
+    <div class="mainbar">
+    	<h3>${_("Milestone title")}</h3>
+    	<div class="page_title">
+    		<label for="title" class="armhint">${_("New milestone")}</label>
+    		<input tabindex="1" class="title armlabel" name="title" />
+    	</div>
+
+    	<h3>${_("Milestone description")}</h3>
+    	<div class="infobox">
+    	    ${_("Give a brief description of the milestone.")|n}
+    	</div>
+	
+    	<label for="text" class="armhint">${_("In this milestone we will...")}</label>
+    	<textarea tabindex="2" class="description armlabel" name="text"></textarea>
+    	${components.formatting()}
+    	<br/><br/>
+    	<label for="time" class="armhint">${_("Date of the milestone")}</label>
+    	<input name="time" id="time" class="armlabel long" />
+    	<span class="hint">${_("Please use the DD.MM.YYYY format.")}</span>
+    </div>
+	
+	<div style="clear:both;"></div>
+	<div class="sidebar">
+		<div class="infobox">
+			${h.help_link(_("More help..."), 'milestone_faq')|n}
+		</div>
+	</div>
+	<div class="mainbar">
+		${components.savebox("/milestone")}
+		${components.form_watch(None, checked=True)}
+	</div>
+</form>	

@@ -46,6 +46,21 @@ class Milestone(object):
         meta.Session.flush()
         return milestone
 
+    @classmethod
+    def all_q(cls, instance=None, include_deleted=False):
+        q = meta.Session.query(Milestone)
+        if not include_deleted:
+            q = q.filter(or_(Milestone.delete_time == None,
+                             Milestone.delete_time > datetime.utcnow()))
+        if instance is not None:
+            q = q.filter(Milestone.instance == instance)
+        return q
+
+    @classmethod
+    def all(cls, instance=None, include_deleted=False):
+        return cls.all_q(instance=instance,
+                         include_deleted=include_deleted).all()
+
     def delete(self, delete_time=None):
         if delete_time is None:
             delete_time = datetime.utcnow()

@@ -21,6 +21,7 @@ class _can(object):
     import norm
     import selection
     import variant
+    import milestone
 
 can = _can()
 
