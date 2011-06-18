@@ -8,9 +8,16 @@ from adhocracy.lib import text
 import url as _url
 from site_helper import base_url
 
+@cache.memoize('milestone_icon', 3600)
+def icon_url(size=16):
+    return base_url(None, path='') + u"/img/icons/milestone_" + str(size) + u".png"
+
 @cache.memoize('milestone_link', 3600)
-def link(milestone, link=True, **kwargs):
-    text = cgi.escape(milestone.title)
+def link(milestone, link=True, icon=True, icon_size=16, **kwargs):
+    text = u""
+    if icon:
+        text += u"<img class='dgb_icon' src='%s' /> " % icon_url(size=icon_size)
+    text += cgi.escape(milestone.title)
     if link and not milestone.is_deleted():
         text = u"<a href='%s' class='milestone_link'>%s</a>" % (url(milestone, **kwargs), text)
     return text

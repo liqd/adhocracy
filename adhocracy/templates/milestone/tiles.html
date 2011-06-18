@@ -2,8 +2,8 @@
 <%namespace name="state" file="/poll/state.html"/>
 
 <%def name="row(tile, milestone)">
-	<div class="tile">
-		<div class="base">
+    <div class="tile">
+        <div class="base" style="background-image: url(${h.milestone.icon_url(size=32)});">
 			<h3><a class="link" href="${h.entity_url(milestone)}">${milestone.title}</a></h3>
 			<div class="meta noclear">				
 				${_("ends: <b>%s</b>") % milestone.time.strftime("%d.%m.%Y")|n} 
@@ -12,52 +12,20 @@
 	</div>
 </%def>
 
-<%def name="header(tile, proposal, active)">
+<%def name="header(tile, milestone)">
 	<div class="top_actions title">
 		&nbsp; 
 				
-		%if can.proposal.adopt(proposal):
-			<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
-				href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
-		%endif
-								
-		%if can.proposal.delete(proposal):
-			<a class="button title delete ttip" title="${_('Delete this proposal.')}" 	
-				href="${h.entity_url(proposal, member='ask_delete')}">${_("delete")}</a>
+		%if can.milestone.delete(milestone):
+			<a class="button title delete ttip" title="${_('Delete this milestone.')}" 	
+				href="${h.entity_url(milestone, member='ask_delete')}">${_("delete")}</a>
 		%endif
 		
-		${components.watch(proposal)}
+		${components.watch(milestone)}
 	</div>
 	
 	<div style="clear: both;"></div>
-	%if proposal.rate_poll:
-	<span class="${h.poll_position_css(proposal.rate_poll)}"  id="tile_p${proposal.id}">
-		<div class="proposal rate">
-			%if can.proposal.rate(proposal):
-				<a class="up icon otip" title="${_("Support this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=1&${h.url_token()}" 
-					onclick="return rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, 1);">
-					&nbsp;
-				</a>
-				<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-					class="num_for">${proposal.rate_poll.tally.num_for}</a>:<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-    				class="num_against">${proposal.rate_poll.tally.num_against}</a>
-				<a class="down icon ttip" title="${_("Oppose this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=-1&${h.url_token()}" 
-					onclick="return rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, -1);">
-					&nbsp;
-				</a>
-			%else:
-				<a class="up icon inactive">&nbsp;</a>
-				<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-					class="num_for">${proposal.rate_poll.tally.num_for}</a>:<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-    				class="num_against">${proposal.rate_poll.tally.num_against}</a>
-				<a class="down icon inactive">&nbsp;</a>
-			%endif
-		</div>
-	</span>
-	%endif
-	
-	<h1 class="with_vote page_title">${h.delegateable.link(proposal, icon_size=24, link=False)|n}</h1>
-	<br/>
-    ${tiles.proposal.panel(proposal, tile)}
+	<h1 class="page_title">${h.milestone.link(milestone, icon_size=24,
+      link=False)|n} (${milestone.time.strftime("%d.%m.%Y")})</h1>
 </%def>
 

@@ -1,0 +1,43 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Milestones")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.milestone.breadcrumbs(None)|n}
+</%def>
+
+<div class="top_actions title">
+	%if can.milestone.create():
+		<a class="button add ttip" title="${_('Create a new milestone.')}"
+          href="/milestone/new">${_("new milestone")}</a>
+	%endif
+</div>
+	
+<h1 class="page_title">${_("Milestones")}</h1>
+
+<div class="sidebar">
+	<div class="help">
+		<h3>${_("Help")}</h3>
+		<ul>
+			<li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
+			<li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
+			<li>${h.help_link(_("Guide: Creating proposals"), 'edit_text')|n}</li>
+			<li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
+			<li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>
+		</ul>
+	</div>
+</div>
+
+<div class="mainbar">
+	<div id="milestones_table" class="table">
+		${c.milestones_pager.here()}
+	</div>
+	<br/>
+	<div class="top_actions aside">
+      %if can.milestone.create():
+          <a class="button add ttip" title="${_('Create a new milestone.')}"
+            href="/milestone/new">${_("new milestone")}</a>
+      %endif
+    </div>
+    <div style="clear:both;"></div>
+</div>

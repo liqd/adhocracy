@@ -1,25 +1,18 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%namespace name="comment_tiles" file="/comment/tiles.html"/>
-<%namespace name="state" file="/poll/state.html"/>
 
-<%def name="title()">${c.proposal.title}</%def>
+<%def name="title()">${c.milestone.title}</%def>
 
-<%def name="breadcrumbs()">${h.proposal.breadcrumbs(c.proposal)|n}</%def>
+<%def name="breadcrumbs()">${h.milestone.breadcrumbs(c.milestone)|n}</%def>
 
-${tiles.proposal.header(c.proposal, c.tile, active='goal')}
+${tiles.milestone.header(c.milestone, c.tile)}
 
 <div class="sidebar">
-	${tiles.proposal.sidebar(c.proposal, c.tile)}
-	<br/>
 	<div class="help">
 		<h3>${_("Help")}</h3>
 		<ul>
 			<li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
 			<li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
-			%if c.proposal.instance.use_norms:
-			    <li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
-			%endif
 			<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
 			<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
 			<li>${h.help_link(_("Guide: Supporting proposals"), 'support_text')|n}</li>
@@ -32,37 +25,11 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 <div class="mainbar">
     <div class="top_actions aside">
 		&nbsp; 		
-		%if can.proposal.edit(c.proposal):
-			<a class="button title edit ttip" title="${_('Edit this proposal.')}"
-				href="${h.entity_url(c.proposal, member='edit')}">${_("edit")}</a>
+		%if can.milestone.edit(c.milestone):
+			<a class="button title edit ttip" title="${_('Edit this milestone.')}"
+				href="${h.entity_url(c.milestone, member='edit')}">${_("edit")}</a>
 		%endif
 	</div>
-    <h2>${_("Proposal goal and description")}</h2>
-    ${tiles.page.inline(c.proposal.description, 
-                        hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
-	
-	%if c.proposal.instance.use_norms:
-    	<br/>
-    	<h2>${_("Implementation")}</h2>
-        <div class="help">
-    	<div class="infobox">
-    		${_("Proposals are implemented by including changes towards new or existing norm. Norms are fixed documents that represent the consensus of this instance and can only be changed through a vote. Amend the proposal to change or create a norm.")} 
-    	</div>
-        </div>
-    	<div class="top_actions aside">
-    	  &nbsp; 
-    	  %if can.selection.create(c.proposal):
-    		<a class="button title edit ttip" title="${_('Propose to change a norm through this proposal.')}" 
-              href="${h.entity_url(c.proposal, member='implementation/include')}">${_("change existing norm")}</a>
-            %if can.norm.propose():
-      		<a class="button title add ttip" title="${_('Propose to create a norm through this proposal.')}" 
-              href="${h.entity_url(c.proposal, member='implementation/propose')}">${_("propose new norm")}</a>
-            %endif
-    	  %endif		
-    	</div>
-    	<br/><br/>
-    	%for selection in sorted(c.proposal.selections, key=lambda s: sorting.sortable_text(s.page.title)): 
-    	    ${tiles.selection.row(selection)}
-    	%endfor
-	%endif
+    <h2>${_("Milestone description")}</h2>
+    ${c.tile.text|n}
 </div>
