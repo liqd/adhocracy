@@ -93,13 +93,25 @@ class Delegateable(meta.Indexable):
             return None
 
     @classmethod
-    def all(cls, instance=None, include_deleted=False):
+    def all_q(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Delegateable)
         if not include_deleted:
             q = q.filter(or_(Delegateable.delete_time == None,
                              Delegateable.delete_time > datetime.utcnow()))
         if instance is not None:
-            q = q.filter(Delegateable.instance == instance)
+            q = q.filter(Delegateable.instance==instance)
+        return q
+
+    @classmethod
+    def all(cls, instance=None, include_deleted=False):
+        return self.all_q(instance=instance,
+                include_deleted=include_deleted).all()
+
+    @classmethod
+    def by_milestone(cls, milestone, instance=None, include_deleted=False):
+        q = cls.all_q(instance=instance, 
+                include_deleted=include_deleted)
+        q = q.filter(Delegateable.milestone==milestone)
         return q.all()
 
     def delete(self, delete_time=None):

@@ -9,6 +9,13 @@
 ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
 
 <div class="sidebar">
+    %if c.page.milestone and c.instance.milestones:
+      <div class="infobox">
+        ${_("This norm relates to the milestone %s.") % h.milestone.link(c.page.milestone)|n}
+      </div>
+      <br/>
+    %endif
+
 	%if c.page.has_variants:
 	<h3 class="section"><img class="cd" src="/img/icons/page_variant_16.png"/> ${_("Variants")}</h3>
 	<ul>

@@ -46,6 +46,13 @@
         ${_("Allow others to edit this proposal.")}
         %endif
 
+        %if c.instance.milestones:
+        <br/>
+        <br/>
+        <label for="milestone">${_("Relates to a milestone")}</label>
+        ${tiles.milestone.select(c.proposal.milestone)}
+        %endif
+
         </div>
 	
 	<div style="clear:both;"></div>

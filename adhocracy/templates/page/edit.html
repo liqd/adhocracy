@@ -39,7 +39,16 @@
 
 	<div class="righthalf double">
 		<textarea tabindex="2" class="armlabel normedit" rows="${c.text_rows}" cols="${model.Text.LINE_LENGTH}" 
-		          name="text">${c.text.text}</textarea>
+          name="text">${c.text.text}</textarea>
+
+        %if c.instance.milestones and can.page.manage(c.page):
+           <br/>
+            <br/>
+            <label for="milestone">${_("Relates to a milestone")}</label>
+            ${tiles.milestone.select(c.page.milestone)}
+        %endif
+
+
 		${components.formatting()}
 		${components.savebox(h.entity_url(c.text))}
 		${components.form_watch(c.page)}

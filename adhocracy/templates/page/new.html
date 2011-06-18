@@ -44,7 +44,13 @@
 		${tiles.page.select_page(field_name="parent", functions=model.Page.PARENT_FUNCTIONS)}
 		<span class="hint">${_("The new norm will be categorized under the specified parent theme.")}
 			${h.help_link(_("Help."), 'selection_faq', anchor='parent')|n}
-		</span>
+        </span>
+
+        %if c.instance.milestones:
+          <label for="milestone">${_("Relates to a milestone")}</label>
+          ${tiles.milestone.select(None)}
+        %endif
+
 	</div>
 	
 	<div style="clear:both;"></div>

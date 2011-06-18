@@ -31,6 +31,7 @@ class ProposalCreateForm(ProposalNewForm):
     label = forms.UnusedTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
     tags = validators.String(max=20000, not_empty=False)
+    milestone = forms.MaybeMilestone()
 
 
 class ProposalEditForm(formencode.Schema):
@@ -42,6 +43,7 @@ class ProposalUpdateForm(ProposalEditForm):
     text = validators.String(max=20000, min=4, not_empty=True)
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
+    milestone = forms.MaybeMilestone()
 
 
 class ProposalFilterForm(formencode.Schema):
@@ -99,6 +101,7 @@ class ProposalController(BaseController):
                                          self.form_result.get("label"),
                                          c.user, with_vote=can.user.vote(),
                                          tags=self.form_result.get("tags"))
+        proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.flush()
         description = model.Page.create(c.instance,
                                         self.form_result.get("label"),
@@ -145,6 +148,7 @@ class ProposalController(BaseController):
         require.proposal.edit(c.proposal)
 
         c.proposal.label = self.form_result.get('label')
+        c.proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.add(c.proposal)
 
         if self._can_edit_wiki(c.proposal, c.user):

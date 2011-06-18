@@ -8,7 +8,7 @@ from sqlalchemy.orm import eagerload
 from pylons import tmpl_context as c, request
 import formencode
 
-from adhocracy.model import meta, Watch, Comment, Delegateable
+from adhocracy.model import meta, Watch, Comment, Delegateable, Milestone
 import adhocracy.model.refs as refs
 
 
@@ -67,6 +67,8 @@ def traverse_watchlist(entity):
             watches = merge(watches, 
                             traverse_watchlist(entity.topic))
     elif isinstance(entity, Delegateable):
+        if entity.milestone is not None and not entity.milestone.is_deleted():
+            watches = merge(watches, traverse_watchlist(entity.milestone))
         if len(entity.parents):
             for parent in entity.parents:
                 watches = merge(watches,
@@ -74,6 +76,5 @@ def traverse_watchlist(entity):
         else:
             watches = merge(watches,
                             traverse_watchlist(entity.instance))
-         
     return watches
 

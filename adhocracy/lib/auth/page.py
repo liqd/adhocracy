@@ -21,6 +21,10 @@ def edit(p):
     return has('page.edit') and show(p)
 
 
+def manage(p):
+    return has('instance.admin')
+
+
 def delete(p):
     if not p.is_mutable():
         return False

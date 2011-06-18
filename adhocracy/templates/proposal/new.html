@@ -48,8 +48,12 @@
     	<input type="checkbox" checked="" name="wiki" value="1"
         checked="checked" />
     	${_("Allow others to edit this proposal.")}
-
-
+      %if c.instance.milestones:
+        <br/>
+        <br/>
+        <label for="milestone">${_("Relates to a milestone")}</label>
+        ${tiles.milestone.select(None)}
+      %endif
     </div>
 	
 	<div style="clear:both;"></div>

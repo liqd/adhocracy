@@ -701,7 +701,6 @@ body {
 
 .infobox {
 	padding: 10px;
-	margin-bottom: 10px;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -710,6 +709,7 @@ body {
 	line-height: 1.3em;
 	color: #333;
 	margin: 0.2em;
+	margin-top: 5px;
 }
 
 .flash_messages {
@@ -761,7 +761,8 @@ body {
 	width: inherit;
 	padding: inherit;
 	font-size: 10pt;
-	background: url(/img/white-50.png);
+    background-color: #fefefe;
+	/*background: url(/img/white-50.png);*/
 }
 
 .content p {
@@ -1221,10 +1222,6 @@ table.delegations th {
 
 .description p {
 	margin-top: 0em;
-}
-
-.sidebar .infobox {
-	margin-top: -1em;
 }
 
 .sidebar .tile {

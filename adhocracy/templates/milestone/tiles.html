@@ -4,7 +4,11 @@
 <%def name="row(tile, milestone)">
     <div class="tile">
         <div class="base" style="background-image: url(${h.milestone.icon_url(size=32)});">
-			<h3><a class="link" href="${h.entity_url(milestone)}">${milestone.title}</a></h3>
+            <h3><a class="link" href="${h.entity_url(milestone)}">${milestone.title}</a>
+              %if milestone.over:
+                <strong>${_("(over)")}</strong>
+              %endif
+            </h3>
 			<div class="meta noclear">				
 				${_("ends: <b>%s</b>") % milestone.time.strftime("%d.%m.%Y")|n} 
 			</div>
@@ -29,3 +33,14 @@
       link=False)|n} (${milestone.time.strftime("%d.%m.%Y")})</h1>
 </%def>
 
+<%def name="select(tile, options, name)">
+  <select name="${name}">
+    %for (id, name, selected) in options:
+      %if selected:
+        <option value="${id}" selected="selected">${name}</option>
+      %else:
+        <option value="${id}">${name}</option>
+      %endif
+    %endfor
+  </select>
+</%def>

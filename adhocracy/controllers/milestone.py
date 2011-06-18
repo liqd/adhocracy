@@ -64,7 +64,7 @@ class MilestoneController(BaseController):
     def new(self, errors=None):
         require.milestone.create()
         defaults = dict(request.params)
-        #defaults['watch'] = defaults.get('watch', True)
+        defaults['watch'] = defaults.get('watch', True)
         return htmlfill.render(render("/milestone/new.html"),
                                defaults=defaults, errors=errors,
                                force_defaults=False)
@@ -127,6 +127,14 @@ class MilestoneController(BaseController):
             return render_json(c.milestone)
 
         c.tile = tiles.milestone.MilestoneTile(c.milestone)
+        proposals = model.Proposal.by_milestone(c.milestone,
+                instance=c.instance)
+        c.proposals_pager = pager.proposals(proposals, size=10)
+        pages_q = model.meta.Session.query(model.Page)
+        pages_q = pages_q.filter(model.Page.instance==c.instance)
+        pages_q = pages_q.filter(model.Page.function==model.Page.NORM)
+        pages_q = pages_q.filter(model.Page.milestone==c.milestone)
+        c.pages_pager = pager.pages(pages_q.all(), size=10)
         self._common_metadata(c.milestone)
         return render("/milestone/show.html")
 

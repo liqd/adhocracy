@@ -38,6 +38,7 @@ class PageCreateForm(formencode.Schema):
     proposal = forms.ValidProposal(not_empty=False, if_empty=None,
                                    if_missing=None)
     tags = validators.String(max=20000, not_empty=False)
+    milestone = forms.MaybeMilestone()
 
 
 class PageEditForm(formencode.Schema):
@@ -56,6 +57,7 @@ class PageUpdateForm(formencode.Schema):
                                   not_empty=False)
     proposal = forms.ValidProposal(not_empty=False, if_empty=None,
                                    if_missing=None)
+    milestone = forms.MaybeMilestone()
 
 
 class PageFilterForm(formencode.Schema):
@@ -132,6 +134,8 @@ class PageController(BaseController):
         page = model.Page.create(c.instance, self.form_result.get("title"),
                                  _text, c.user,
                                  tags=self.form_result.get("tags"))
+
+        page.milestone = self.form_result.get('milestone')
 
         if self.form_result.get("parent") is not None:
             page.parents.append(self.form_result.get("parent"))
@@ -216,6 +220,9 @@ class PageController(BaseController):
             parent_page = self.form_result.get("parent_page", NoPage)
             if parent_page != NoPage and parent_page != c.page:
                 c.page.parent = parent_page
+
+        if can.page.manage(c.page):
+            c.page.milestone = self.form_result.get('milestone')
 
         if not branch and c.variant != parent_text.variant \
             and parent_text.variant != model.Text.HEAD:

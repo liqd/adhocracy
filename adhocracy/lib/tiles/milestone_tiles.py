@@ -2,6 +2,7 @@ from datetime import datetime
 from util import render_tile, BaseTile
 
 from pylons import tmpl_context as c
+from pylons.i18n import _ 
 from webhelpers.text import truncate
 import adhocracy.model as model
 
@@ -30,4 +31,11 @@ def header(milestone, tile=None):
     return render_tile('/milestone/tiles.html', 'header',
                        tile, milestone=milestone)
 
+def select(selected, name='milestone'):
+    options = [('--', _('(no milestone)'), selected is None)]
+    for milestone in model.Milestone.all_future():
+        options.append((milestone.id, milestone.title, 
+                        milestone==selected))
+    return render_tile('/milestone/tiles.html', 'select',
+                       None, options=options, name=name)
 

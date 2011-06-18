@@ -45,10 +45,18 @@
 		${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.format_date(proposal.create_time))|n} 
     &middot; <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
   </div>
+  %if proposal.milestone and c.instance.milestones:
+  <br/>
+  <div class="infobox">
+    ${_("This proposal relates to the milestone %s.") % h.milestone.link(proposal.milestone)|n}
+  </div>
+  %endif
+  %if proposal.description.head.wiki:
   <br/>
   <div class="infobox">
     ${_("This is a <b>joint proposal</b> that can be improved by anyone. Edit it to improve or refine the text.")|n}
-	</div>
+  </div>
+  %endif
 	<ul>
 	    <li><a href="${h.entity_url(proposal)}">${_("Main page")}</a></li>
 	    <li><a href="${h.entity_url(proposal.description, member='history')}">${_("History")}</a></li>

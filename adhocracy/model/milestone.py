@@ -61,6 +61,19 @@ class Milestone(object):
         return cls.all_q(instance=instance,
                          include_deleted=include_deleted).all()
 
+    @classmethod
+    def all_future(cls, instance=None, include_deleted=False):
+        q = cls.all_q(instance=instance,
+                         include_deleted=include_deleted)
+        q.filter(Milestone.time > datetime.utcnow())
+        return q.all()
+
+    @property
+    def over(self, expire_time=None):
+        if expire_time is None:
+            expire_time = datetime.utcnow()
+        return expire_time > self.time
+
     def delete(self, delete_time=None):
         if delete_time is None:
             delete_time = datetime.utcnow()
