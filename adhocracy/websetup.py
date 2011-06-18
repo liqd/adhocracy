@@ -28,7 +28,6 @@ def setup_app(command, conf, vars):
     load_environment(conf.global_conf, conf.local_conf, with_db=False)
     # disable delayed execution
     config['adhocracy.amqp.host'] = None
-    init_queue_hooks()
 
     # Create the tables if they don't already exist
     url = config.get('sqlalchemy.url')

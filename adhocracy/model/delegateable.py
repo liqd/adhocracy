@@ -34,6 +34,7 @@ delegateable_table = Table('delegateable', meta.data,
     Column('access_time', DateTime, default=datetime.utcnow,
            onupdate=datetime.utcnow),
     Column('delete_time', DateTime, nullable=True),
+    Column('milestone_id', Integer, ForeignKey('milestone.id'), nullable=True),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False)
     )

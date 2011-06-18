@@ -23,7 +23,10 @@ HANDLERS = {
     }
 
 def invalidate(entity):
-    from pylons import g
-    if g.cache is not None:
-        func = HANDLERS.get(entity.__class__, lambda x: x)
-        func(entity)
+    try:
+        from pylons import g
+        if g.cache is not None:
+            func = HANDLERS.get(entity.__class__, lambda x: x)
+            func(entity)
+    except TypeError, te:
+        pass

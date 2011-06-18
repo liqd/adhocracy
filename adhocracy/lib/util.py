@@ -14,7 +14,7 @@ def timedelta2seconds(delta):
     """ Convert a given timedelta to a number of seconds """
     return delta.microseconds / 1000000.0 \
            + delta.seconds + delta.days * 60*60*24 
-           
+
 def random_token():
     """ Get a random string, the first char group of a uuid4 """
     return unicode(uuid.uuid4()).split('-').pop()

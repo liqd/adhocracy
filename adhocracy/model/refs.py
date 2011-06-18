@@ -33,6 +33,7 @@ from tagging import Tagging
 from text import Text
 from user import User
 from vote import Vote
+from milestone import Milestone
 
 log = logging.getLogger(__name__)
 
@@ -52,6 +53,7 @@ TYPES = [Vote,
          Page,
          Selection,
          Text,
+         Milestone,
          Tagging]
 
 

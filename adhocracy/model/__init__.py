@@ -28,6 +28,7 @@ from adhocracy.model.tag import Tag, tag_table
 from adhocracy.model.tagging import Tagging, tagging_table
 from adhocracy.model.page import Page, page_table
 from adhocracy.model.text import Text, text_table
+from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
 
 
@@ -64,12 +65,12 @@ mapper(Permission, permission_table, properties={
 mapper(
     Delegateable, delegateable_table,
     polymorphic_on=delegateable_table.c.type, properties={
-        'parents': relation(
+    'parents': relation(
             Delegateable, lazy=True, secondary=category_graph,
             primaryjoin=delegateable_table.c.id == category_graph.c.parent_id,
             secondaryjoin=category_graph.c.child_id == delegateable_table.c.id
             ),
-        'children': relation(
+    'children': relation(
             Delegateable, lazy=True, secondary=category_graph,
             primaryjoin=delegateable_table.c.id == category_graph.c.child_id,
             secondaryjoin=category_graph.c.parent_id == delegateable_table.c.id
@@ -82,7 +83,12 @@ mapper(
             Instance, lazy=True,
             primaryjoin=(delegateable_table.c.instance_id ==
                          instance_table.c.id),
-            backref=backref('delegateables', cascade='delete'))
+            backref=backref('delegateables', cascade='delete')),
+    'milestone': relation(
+            Milestone, lazy=True,
+            primaryjoin=(delegateable_table.c.milestone_id ==
+                         milestone_table.c.id),
+            backref=backref('delegateables'))
     })
 
 
@@ -105,6 +111,13 @@ mapper(Proposal, proposal_table, inherits=Delegateable,
             uselist=False, lazy=True)
     })
 
+mapper(Milestone, milestone_table, properties={
+    'creator': relation(
+            User, lazy=False, backref=backref('milestones', lazy=True)),
+    'instance': relation(
+            Instance, lazy=False,
+            primaryjoin=milestone_table.c.instance_id == instance_table.c.id)
+    })
 
 mapper(Comment, comment_table, properties={
     'creator': relation(

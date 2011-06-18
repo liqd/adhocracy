@@ -82,6 +82,10 @@ def setup_entities():
     mk_perm("page.create", advisor)
     mk_perm("page.edit", advisor)
     mk_perm("page.delete", supervisor)
+    mk_perm("milestone.show", anonymous)
+    mk_perm("milestone.create", supervisor)
+    mk_perm("milestone.edit", supervisor)
+    mk_perm("milestone.delete", supervisor)
     mk_perm("global.admin", admins)
     mk_perm("global.member", admins)
     

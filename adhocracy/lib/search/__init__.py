@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 
 INDEXED_CLASSES = (model.Proposal, model.Instance, model.User,
-                   model.Comment, model.Page)
+                   model.Comment, model.Page, model.Milestone)
 
 
 def init_search():
