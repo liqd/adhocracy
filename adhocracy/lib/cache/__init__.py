@@ -1,6 +1,5 @@
 import logging
 
-import adhocracy.model.hooks as hooks
 import adhocracy.model as model
 
 from util import memoize

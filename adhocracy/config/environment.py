@@ -10,7 +10,6 @@ import adhocracy.lib.app_globals as app_globals
 import adhocracy.lib.helpers
 from adhocracy.config.routing import make_map
 from adhocracy.model import init_model
-from adhocracy.model.hooks import init_queue_hooks
 from adhocracy.lib.search import init_search
 from adhocracy.lib.democracy import init_democracy
 from adhocracy.lib import init_site

@@ -5,8 +5,6 @@ import logging
 from adhocracy import model
 from adhocracy.lib.search import index
 from adhocracy.lib.search import query
-from adhocracy.model import hooks
-
 
 log = logging.getLogger(__name__)
 

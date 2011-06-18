@@ -3,7 +3,7 @@ import logging
 from adhocracy.lib.democracy.decision import Decision
 from adhocracy.lib.democracy.delegation_node import DelegationNode
 
-from adhocracy.model import hooks, meta
+from adhocracy.model import meta
 from adhocracy.model import Delegation, Poll, Proposal, Tally, Vote
 
 

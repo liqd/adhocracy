@@ -16,7 +16,7 @@ FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings",
 
 VALIDUSER = re.compile(r"^[a-zA-Z0-9_\-]{3,255}$")
 VALIDVARIANT = re.compile(r"^[\w\-_ ]{1,255}$", re.U)
-
+TIME = re.compile(r"\d{1,2}.\d{1,2}.\d{4}")
 
 class UniqueUsername(formencode.FancyValidator):
     def _to_python(self, value, state):
@@ -49,6 +49,22 @@ class UniqueEmail(formencode.FancyValidator):
             raise formencode.Invalid(
                 _('That email is already registered'),
                 value, state)
+        return value
+
+
+from datetime import datetime
+class ValidDate(formencode.FancyValidator):
+    def _to_python(self, value, state):
+        if not TIME.match(value):
+            raise formencode.Invalid(
+                _('Invalid date, expecting DD.MM.YYYY'),
+                    value, state)
+        try:
+            return datetime.strptime(value, "%d.%m.%Y")
+        except ValueError, ve:
+            raise formencode.Invalid(
+                _('Invalid date, expecting DD.MM.YYYY'),
+                   value, state)
         return value
 
 

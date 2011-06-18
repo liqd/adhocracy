@@ -1,7 +1,6 @@
 """SQLAlchemy Metadata and Session object"""
 
 from sqlalchemy import MetaData
-import hooks
 
 __all__ = ['Session', 'data', 'engine']
 
