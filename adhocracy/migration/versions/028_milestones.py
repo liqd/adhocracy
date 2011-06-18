@@ -26,6 +26,11 @@ def upgrade(migrate_engine):
     ms_col = Column('milestone_id', Integer, ForeignKey('milestone.id'), nullable=True)
     ms_col.create(delegateable_table)
 
+    ms_bool = Column('milestones', Boolean, default=False)
+    ms_bool.create(instance_table)
+    u = instance_table.update(values={'milestones': False})
+    migrate_engine.execute(u)
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

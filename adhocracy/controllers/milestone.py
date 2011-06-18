@@ -62,7 +62,7 @@ class MilestoneController(BaseController):
     @validate(schema=MilestoneNewForm(), form='bad_request',
               post_only=False, on_get=True)
     def new(self, errors=None):
-        require.proposal.create()
+        require.milestone.create()
         defaults = dict(request.params)
         #defaults['watch'] = defaults.get('watch', True)
         return htmlfill.render(render("/milestone/new.html"),
@@ -72,7 +72,7 @@ class MilestoneController(BaseController):
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
     def create(self, format='html'):
-        require.proposal.create()
+        require.milestone.create()
         try:
             self.form_result = MilestoneCreateForm().to_python(request.params)
         except Invalid, i:
@@ -82,7 +82,7 @@ class MilestoneController(BaseController):
                                          self.form_result.get('text'),
                                          self.form_result.get('time'))
         model.meta.Session.commit()
-        #watchlist.check_watch(proposal)
+        watchlist.check_watch(milestone)
         #event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
         #           topics=[proposal], proposal=proposal, rev=description.head)
         redirect(h.entity_url(milestone, format=format))
@@ -113,7 +113,7 @@ class MilestoneController(BaseController):
         c.milestone.time = self.form_result.get('time')
         model.meta.Session.add(c.milestone)
         model.meta.Session.commit()
-        #watchlist.check_watch(c.proposal)
+        watchlist.check_watch(c.milestone)
         #event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
         #           topics=[c.proposal], proposal=c.proposal, rev=_text)
         redirect(h.entity_url(c.milestone))

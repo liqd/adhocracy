@@ -84,6 +84,10 @@
                     href="/static/gliederung_demokratie.html">Arbeitsprogramm</a></li>
 
                 %endif 
+				%if c.instance.milestones:
+				    <li><a class="milestone ttip" title="${_('Milestones')}" 
+         			       href="/milestone">${_("Milestones")}</a></li>
+         		%endif
 				%if c.instance.use_norms:
 				    <li><a class="page ttip" title="${_('Norm pages')}" 
          			       href="/page">${_("Norms")}</a></li>

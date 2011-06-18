@@ -35,6 +35,7 @@ instance_table = Table('instance', meta.data,
     Column('locale', Unicode(7), nullable=True),
     Column('css', UnicodeText(), nullable=True),
     Column('frozen', Boolean, default=False),
+    Column('milestones', Boolean, default=False),
     Column('use_norms', Boolean, nullable=True, default=True)
     )
 

@@ -56,6 +56,8 @@ class InstanceEditForm(formencode.Schema):
                                    if_missing=False)
     frozen = validators.StringBool(not_empty=False, if_empty=False,
                                    if_missing=False)
+    milestones = validators.StringBool(not_empty=False, if_empty=False,
+                                   if_missing=False)
 
 
 class InstanceController(BaseController):
@@ -172,6 +174,7 @@ class InstanceController(BaseController):
                 'allow_propose': c.page_instance.allow_propose,
                 'allow_index': c.page_instance.allow_index,
                 'hidden': c.page_instance.hidden,
+                'milestones': c.page_instance.milestones,
                 'frozen': c.page_instance.frozen,
                 'locale': c.page_instance.locale,
                 'use_norms': c.page_instance.use_norms,
@@ -196,6 +199,7 @@ class InstanceController(BaseController):
         c.page_instance.allow_index = self.form_result.get('allow_index')
         c.page_instance.hidden = self.form_result.get('hidden')
         c.page_instance.frozen = self.form_result.get('frozen')
+        c.page_instance.milestones = self.form_result.get('milestones')
         c.page_instance.css = self.form_result.get('css')
         c.page_instance.use_norms = self.form_result.get('use_norms')
 
