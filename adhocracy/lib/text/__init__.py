@@ -32,12 +32,13 @@ def meta_escape(text, markdown=True):
     return text
 
 
-def plain(html):
+def markdown_to_plain_text(markup):
+    html = render(markup, substitutions=False)
     try:
         return fragment_fromstring(html, create_parent=True).text_content()
     except Exception, e:
         log.exception(e)
-        return html
+        return markup
 
 
 def text_rows(text):
