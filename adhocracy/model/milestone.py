@@ -33,6 +33,10 @@ class Milestone(object):
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
         q = meta.Session.query(Milestone)
+        try:
+            id = int(id)
+        except ValueError, ve:
+            return None
         q = q.filter(Milestone.id == id)
         if not include_deleted:
             q = q.filter(or_(Milestone.delete_time == None,

@@ -121,7 +121,10 @@ class ValidGroup(formencode.FancyValidator):
 class MaybeMilestone(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.model import Milestone
-        return Milestone.find(value)
+        try:
+            return Milestone.find(value)
+        except Exception, e:
+            return None
 
 class ValidRevision(formencode.FancyValidator):
     def _to_python(self, value, state):
