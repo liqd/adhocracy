@@ -8,6 +8,8 @@ from adhocracy.model.update import SessionModificationExtension
 from adhocracy.model.user import User, user_table
 from adhocracy.model.openid import OpenID, openid_table
 from adhocracy.model.twitter import Twitter, twitter_table
+from adhocracy.model.userbadges import Badge, badge_table
+from adhocracy.model.userbadges import UserBadge, user_badges_table
 from adhocracy.model.group import Group, group_table
 from adhocracy.model.permission import (Permission, group_permission_table,
                                         permission_table)
@@ -44,6 +46,31 @@ mapper(Twitter, twitter_table, properties={
                      primaryjoin=twitter_table.c.user_id == user_table.c.id,
                      backref=backref('twitters', cascade='delete'))
     })
+
+
+mapper(UserBadge, user_badges_table,
+       properties={
+           'creator': relation(
+               User, lazy=True,
+               primaryjoin=user_badges_table.c.creator_id == user_table.c.id,
+               backref=backref('badges_created')),
+           'user': relation(
+               User, lazy=True,
+               primaryjoin=(user_badges_table.c.user_id ==
+                            user_table.c.id),
+               backref=backref('userbadges')),
+           'badge': relation(Badge)})
+
+
+mapper(Badge, badge_table,
+       properties={
+           'users': relation(User, secondary=user_badges_table,
+                             primaryjoin=(badge_table.c.id ==
+                                          user_badges_table.c.badge_id),
+                             secondaryjoin=(user_badges_table.c.user_id ==
+                                            user_table.c.id),
+                             backref='badges')
+           })
 
 
 mapper(OpenID, openid_table, properties={
