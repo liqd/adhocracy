@@ -2,6 +2,7 @@ body {
     padding: 2em;
     padding-top: 0em;
     width: auto; 
+    background: #fff;
 }
 
 #frame {
@@ -16,6 +17,8 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     border-bottom: 0px !important; 
+    padding-left: 0px;
+    margin-left: 0px;
 }
 
 
