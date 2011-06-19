@@ -150,7 +150,9 @@ class TestControllerBase(TestCase):
     def teardown_class(cls):
         cls._rollback_session()
         _unregister_instance()
-        print 'environ: ', environ
+
+    def tearDown(self):
+        self._rollback_session()
 
     def __init__(self, *args, **kwargs):
         if pylons.test.pylonsapp:
