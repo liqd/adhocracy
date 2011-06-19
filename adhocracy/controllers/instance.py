@@ -119,7 +119,8 @@ class InstanceController(BaseController):
         tags = model.Tag.popular_tags(limit=40)
         c.tags = sorted(text.tag_cloud_normalize(tags),
                         key=lambda (k, c, v): k.name)
-
+        if c.page_instance.milestones:
+            c.milestones = model.Milestone.all(instance=c.page_instance)
         c.stats = {
             'comments': model.Comment.all_q().count(),
             'proposals': model.Proposal.all_q(

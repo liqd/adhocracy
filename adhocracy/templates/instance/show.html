@@ -20,6 +20,9 @@ ${tiles.instance.header(c.page_instance, active='rules')}
 
 <div style="clear: both;"></div>
 <br/>
+%if c.page_instance.milestones:
+  ${tiles.milestone.timeline(c.milestones)}
+%endif
 
 <div class="lefthalf">
 	<h3 class="section">${_("Newest Proposals")}</h3>
