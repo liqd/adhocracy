@@ -272,6 +272,9 @@ mapper(Selection, selection_table, properties={
 
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""
+    if meta.Session is not None:
+        # for tests where we need a non-scoped session
+        return
     sm = orm.sessionmaker(autoflush=True, bind=engine)
     meta.engine = engine
     meta.Session = orm.scoped_session(sm)
