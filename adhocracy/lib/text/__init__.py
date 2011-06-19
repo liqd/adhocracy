@@ -26,7 +26,7 @@ def meta_escape(text, markdown=True):
     transformation too.
     '''
     if markdown:
-        text = plain(text)
+        text = markdown_to_plain_text(text)
     text = META_RE.sub(" ", text)
     text = text.strip()
     return text
