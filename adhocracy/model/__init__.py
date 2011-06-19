@@ -286,6 +286,8 @@ mapper(Selection, selection_table, properties={
 
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""
+    if meta.Session is not None:
+        return
     sm = orm.sessionmaker(autoflush=True,
                           bind=engine,
                           extension=SessionModificationExtension())

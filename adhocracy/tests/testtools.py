@@ -2,8 +2,8 @@ from datetime import datetime, timedelta
 import random
 import string
 
-import adhocracy.i18n as i18n
-import adhocracy.model as model
+from adhocracy import i18n
+from adhocracy import model
 
 #  These functions should all go as convenience functions on the
 #  respective models
@@ -75,3 +75,16 @@ def tt_make_user(name=None):  # instance_group=None: not supported right now
     model.meta.Session.flush()  # write to db and updated db
                                 # generated attributes
     return user
+
+
+def tt_drop_db():
+    '''
+    drop the data tables and if exists the migrate_version table
+    '''
+    model.meta.data.drop_all(bind=model.meta.engine)
+    model.meta.engine.execute("DROP TABLE IF EXISTS migrate_version")
+
+
+def tt_create_db():
+    '''create the database tables'''
+    model.meta.data.create_all(bind=model.meta.engine)
