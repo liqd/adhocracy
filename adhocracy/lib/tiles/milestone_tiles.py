@@ -39,3 +39,7 @@ def select(selected, name='milestone'):
     return render_tile('/milestone/tiles.html', 'select',
                        None, options=options, name=name)
 
+def timeline(milestones):
+    return render_tile('/milestone/tiles.html', 'timeline',
+                       None, milestones=milestones, cached=True)
+

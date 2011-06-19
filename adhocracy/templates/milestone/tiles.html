@@ -29,7 +29,7 @@
 	</div>
 	
 	<div style="clear: both;"></div>
-	<h1 class="page_title">${h.milestone.link(milestone, icon_size=24,
+	<h1 class="page_title">${h.milestone.link(milestone, icon_size=20,
       link=False)|n} (${milestone.time.strftime("%d.%m.%Y")})</h1>
 </%def>
 
@@ -43,4 +43,56 @@
       %endif
     %endfor
   </select>
+</%def>
+
+<%def name="timeline(tile, milestones)">
+  <script>
+    var Timeline_ajax_url='${h.base_url(None, path='/timeline/timeline_ajax/simile-ajax-api.js')}';
+    var Timeline_urlPrefix='${h.base_url(None, path='/timeline/timeline_js/')}'; 
+    var Timeline_parameters='bundle=true';
+    //var SimileAjax.History.historyFile = Timeline_urlPrefix + '../timeline_ajax/content/history.html';
+  </script>
+  <script src="/timeline/timeline_js/timeline-api.js"></script>
+  <script>
+    var tl;
+    $(function() {
+      $(window).load(function() {
+        var eventSource = new Timeline.DefaultEventSource();
+        Timeline.OriginalEventPainter.prototype._showBubble = function(x, y, evt) {
+          document.location.href=evt.getLink();
+        }
+        var bandInfos = [
+          Timeline.createBandInfo({
+            eventSource:    eventSource,
+            width:          "80%", 
+            intervalUnit:   Timeline.DateTime.DAY, 
+            intervalPixels: 50
+          }),
+          Timeline.createBandInfo({
+            eventSource:    eventSource,
+            width:          "20%", 
+            intervalUnit:   Timeline.DateTime.MONTH, 
+            intervalPixels: 200
+          })
+          ];
+        bandInfos[1].syncWith = 0;
+        bandInfos[1].highlight = true;
+        tl = Timeline.create(document.getElementById("timeline"), bandInfos);
+        eventSource.loadJSON({
+          'dateTimeFormat': 'iso8601',
+          'events': [
+            %for milestone in milestones:
+              {
+                'start': "${milestone.time.isoformat()}Z",
+                'icon': "/img/icons/milestone_12.png",
+                'title': "${milestone.title}",
+                'link': "${h.entity_url(milestone)}"
+              },
+            %endfor
+          ]
+          }, '.');
+      });
+    });
+  </script>
+  <div id="timeline" style="margin-left: 20px; width: 940px; height: 200px;"></div>
 </%def>

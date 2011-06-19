@@ -11,9 +11,11 @@
 		<a class="button add ttip" title="${_('Create a new milestone.')}"
           href="/milestone/new">${_("new milestone")}</a>
 	%endif
-</div>
-	
+</div>	
+
 <h1 class="page_title">${_("Milestones")}</h1>
+
+${tiles.milestone.timeline(c.milestones)}
 
 <div class="sidebar">
 	<div class="help">

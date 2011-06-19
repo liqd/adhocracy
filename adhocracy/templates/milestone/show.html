@@ -36,14 +36,16 @@ ${tiles.milestone.header(c.milestone, c.tile)}
 
 <div style="clear: both;"></div>
 
-<div class="lefthalf">
+<div class="sidebar"></div>
+<div class="mainbar">
 	<h3 class="section">${_("Related Proposals")}</h3>
 	<div id="proposals_table" class="table">
 		${c.proposals_pager.here()}
 	</div>
 </div>
 
-<div class="righthalf">
+<div class="sidebar"></div>
+<div class="mainbar">
   %if c.instance.use_norms:
 	  <h3 class="section">${_("Related Norms")}</h3>
 	  <div id="pages_table" class="table">
