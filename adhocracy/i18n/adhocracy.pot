@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 1.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2011-06-18 20:05+0200\n"
+"POT-Creation-Date: 2011-06-20 15:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.5\n"
+"Generated-By: Babel 0.9.6\n"
 
 #: adhocracy/controllers/abuse.py:45 adhocracy/templates/abuse/new.html:27
 msgid "Thank you for helping."
@@ -90,42 +90,42 @@ msgid ""
 "join and participate!"
 msgstr ""
 
-#: adhocracy/controllers/instance.py:145
+#: adhocracy/controllers/instance.py:146
 #, python-format
 msgid "%s News"
 msgstr ""
 
-#: adhocracy/controllers/instance.py:147
+#: adhocracy/controllers/instance.py:148
 #, python-format
 msgid "News from %s"
 msgstr ""
 
-#: adhocracy/controllers/instance.py:265
+#: adhocracy/controllers/instance.py:266
 #, python-format
 msgid "The instance %s has been deleted."
 msgstr ""
 
-#: adhocracy/controllers/instance.py:284
+#: adhocracy/controllers/instance.py:285
 #, python-format
 msgid "Welcome to %(instance)s"
 msgstr ""
 
-#: adhocracy/controllers/instance.py:300
+#: adhocracy/controllers/instance.py:301
 #, python-format
 msgid "You're not a member of %(instance)s."
 msgstr ""
 
-#: adhocracy/controllers/instance.py:305
+#: adhocracy/controllers/instance.py:306
 #, python-format
 msgid "You're the founder of %s, cannot leave."
 msgstr ""
 
-#: adhocracy/controllers/instance.py:322
+#: adhocracy/controllers/instance.py:323
 #, python-format
 msgid "You've left %(instance)s."
 msgstr ""
 
-#: adhocracy/controllers/instance.py:327
+#: adhocracy/controllers/instance.py:328
 msgid "You cannot manipulate one instance from within another instance."
 msgstr ""
 
@@ -1050,7 +1050,7 @@ msgid "Documents"
 msgstr ""
 
 #: adhocracy/lib/helpers/proposal_helper.py:45 adhocracy/templates/template.html:96
-#: adhocracy/templates/instance/show.html:58
+#: adhocracy/templates/instance/show.html:61
 #: adhocracy/templates/proposal/index.html:3
 #: adhocracy/templates/proposal/index.html:15
 #: adhocracy/templates/user/proposals.html:7 adhocracy/templates/user/tiles.html:85
@@ -1067,7 +1067,7 @@ msgstr ""
 msgid "Adhocracy"
 msgstr ""
 
-#: adhocracy/lib/helpers/tag_helper.py:41 adhocracy/templates/instance/show.html:59
+#: adhocracy/lib/helpers/tag_helper.py:41 adhocracy/templates/instance/show.html:62
 #: adhocracy/templates/tag/index.html:3 adhocracy/templates/tag/tiles.html:31
 msgid "Tags"
 msgstr ""
@@ -1133,8 +1133,27 @@ msgstr ""
 msgid "watch"
 msgstr ""
 
+#: adhocracy/templates/index.html:111 adhocracy/templates/instance/show.html:76
+msgid "By the numbers"
+msgstr ""
+
+#: adhocracy/templates/index.html:114
+msgid "<b>%s</b> members"
+msgstr ""
+
+#: adhocracy/templates/index.html:115 adhocracy/templates/instance/show.html:80
+msgid "<b>%s</b> proposals"
+msgstr ""
+
+#: adhocracy/templates/index.html:116 adhocracy/templates/instance/show.html:81
+msgid "<b>%s</b> comments"
+msgstr ""
+
+#: adhocracy/templates/index.html:117
+msgid "<b>%s</b> votes"
+msgstr ""
+
 #: adhocracy/templates/pager.html:4
-#, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
 msgstr ""
 
@@ -1244,9 +1263,9 @@ msgstr ""
 
 #: adhocracy/templates/template.html:59 adhocracy/templates/delegation/show.html:41
 #: adhocracy/templates/instance/index.html:24
-#: adhocracy/templates/instance/show.html:55
+#: adhocracy/templates/instance/show.html:58
 #: adhocracy/templates/milestone/edit.html:17
-#: adhocracy/templates/milestone/index.html:20
+#: adhocracy/templates/milestone/index.html:22
 #: adhocracy/templates/milestone/new.html:15
 #: adhocracy/templates/milestone/show.html:12 adhocracy/templates/page/new.html:17
 #: adhocracy/templates/proposal/delegations.html:16
@@ -1465,7 +1484,7 @@ msgstr ""
 #: adhocracy/templates/comment/tiles.html:96
 #: adhocracy/templates/comment/tiles.html:250
 #: adhocracy/templates/instance/tiles.html:39
-#: adhocracy/templates/milestone/show.html:30
+#: adhocracy/templates/milestone/show.html:26
 #: adhocracy/templates/page/tiles.html:70 adhocracy/templates/page/tiles.html:73
 #: adhocracy/templates/proposal/show.html:37
 #: adhocracy/templates/selection/tiles.html:50
@@ -1626,7 +1645,7 @@ msgstr ""
 #: adhocracy/templates/delegation/new.html:6
 #: adhocracy/templates/delegation/show.html:5
 #: adhocracy/templates/delegation/show.html:20
-#: adhocracy/templates/instance/show.html:61
+#: adhocracy/templates/instance/show.html:64
 msgid "Delegation"
 msgstr ""
 
@@ -1701,12 +1720,12 @@ msgstr ""
 #: adhocracy/templates/instance/edit.html:221
 #: adhocracy/templates/instance/index.html:29
 #: adhocracy/templates/instance/new.html:43 adhocracy/templates/message/new.html:28
-#: adhocracy/templates/milestone/edit.html:23
-#: adhocracy/templates/milestone/edit.html:54
-#: adhocracy/templates/milestone/index.html:26
-#: adhocracy/templates/milestone/new.html:21
-#: adhocracy/templates/milestone/new.html:50
-#: adhocracy/templates/milestone/show.html:20 adhocracy/templates/page/new.html:22
+#: adhocracy/templates/milestone/edit.html:20
+#: adhocracy/templates/milestone/edit.html:51
+#: adhocracy/templates/milestone/index.html:25
+#: adhocracy/templates/milestone/new.html:18
+#: adhocracy/templates/milestone/new.html:47
+#: adhocracy/templates/milestone/show.html:16 adhocracy/templates/page/new.html:22
 #: adhocracy/templates/page/new.html:59
 #: adhocracy/templates/proposal/delegations.html:20
 #: adhocracy/templates/proposal/edit.html:22
@@ -2108,15 +2127,15 @@ msgstr ""
 msgid "Topics"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:25
+#: adhocracy/templates/instance/show.html:28
 msgid "Newest Proposals"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:33
+#: adhocracy/templates/instance/show.html:36
 msgid "Contested Norms"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:43
+#: adhocracy/templates/instance/show.html:46
 #: adhocracy/templates/instance/tiles.html:28 adhocracy/templates/page/show.html:65
 #: adhocracy/templates/proposal/index.html:11
 #: adhocracy/templates/proposal/index.html:69 adhocracy/templates/tag/show.html:11
@@ -2124,7 +2143,7 @@ msgstr ""
 msgid "Introduce a new idea to debate."
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:43
+#: adhocracy/templates/instance/show.html:46
 #: adhocracy/templates/instance/tiles.html:28 adhocracy/templates/page/show.html:66
 #: adhocracy/templates/proposal/index.html:11
 #: adhocracy/templates/proposal/index.html:69 adhocracy/templates/tag/show.html:11
@@ -2132,53 +2151,48 @@ msgstr ""
 msgid "new proposal"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:46
+#: adhocracy/templates/instance/show.html:49
 msgid "show a list of proposals"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:46
+#: adhocracy/templates/instance/show.html:49
 msgid "more proposals"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:56
+#: adhocracy/templates/instance/show.html:59
 msgid "Help topics:"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:58
+#: adhocracy/templates/instance/show.html:61
 msgid "(ideas for debate)"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:59
+#: adhocracy/templates/instance/show.html:62
 msgid "(keywords)"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:61
+#: adhocracy/templates/instance/show.html:64
 msgid "of voting rights"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:63 adhocracy/templates/user/edit.html:36
+#: adhocracy/templates/instance/show.html:66 adhocracy/templates/user/edit.html:36
 msgid "Notifications"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:63
+#: adhocracy/templates/instance/show.html:66
 msgid "via E-Mail or Twitter"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:64
+#: adhocracy/templates/instance/show.html:67
 msgid "Guide: Signing up"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:65
-#: adhocracy/templates/milestone/index.html:24
+#: adhocracy/templates/instance/show.html:68
 #: adhocracy/templates/proposal/index.html:49
 msgid "Guide: Creating proposals"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:66
-#: adhocracy/templates/milestone/edit.html:22
-#: adhocracy/templates/milestone/index.html:25
-#: adhocracy/templates/milestone/new.html:20
-#: adhocracy/templates/milestone/show.html:19
+#: adhocracy/templates/instance/show.html:69
 #: adhocracy/templates/proposal/edit.html:21
 #: adhocracy/templates/proposal/index.html:50
 #: adhocracy/templates/proposal/new.html:20
@@ -2186,32 +2200,18 @@ msgstr ""
 msgid "Guide: Developing proposals"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:67
+#: adhocracy/templates/instance/show.html:70
 msgid "Other help"
-msgstr ""
-
-#: adhocracy/templates/instance/show.html:73
-msgid "By the numbers"
-msgstr ""
-
-#: adhocracy/templates/instance/show.html:74
-#, python-format
-msgid "%s has:"
-msgstr ""
-
-#: adhocracy/templates/instance/show.html:76
-#, python-format
-msgid "<b>%s</b> community members"
 msgstr ""
 
 #: adhocracy/templates/instance/show.html:77
 #, python-format
-msgid "<b>%s</b> proposals"
+msgid "%s has:"
 msgstr ""
 
-#: adhocracy/templates/instance/show.html:78
+#: adhocracy/templates/instance/show.html:79
 #, python-format
-msgid "<b>%s</b> comments"
+msgid "<b>%s</b> community members"
 msgstr ""
 
 #: adhocracy/templates/instance/tiles.html:14
@@ -2278,9 +2278,60 @@ msgid "Edit"
 msgstr ""
 
 #: adhocracy/templates/milestone/edit.html:19
-#: adhocracy/templates/milestone/index.html:22
+#: adhocracy/templates/milestone/index.html:24
 #: adhocracy/templates/milestone/new.html:17
 #: adhocracy/templates/milestone/show.html:14
+msgid "What is a milestone?"
+msgstr ""
+
+#: adhocracy/templates/milestone/edit.html:26
+#: adhocracy/templates/milestone/new.html:24
+msgid "Milestone title"
+msgstr ""
+
+#: adhocracy/templates/milestone/edit.html:28
+#: adhocracy/templates/milestone/new.html:4
+#: adhocracy/templates/milestone/new.html:26
+msgid "New milestone"
+msgstr ""
+
+#: adhocracy/templates/milestone/edit.html:32
+#: adhocracy/templates/milestone/new.html:30
+#: adhocracy/templates/milestone/show.html:29
+msgid "Milestone description"
+msgstr ""
+
+#: adhocracy/templates/milestone/edit.html:34
+#: adhocracy/templates/milestone/new.html:32
+msgid "Give a brief description of the milestone."
+msgstr ""
+
+#: adhocracy/templates/milestone/edit.html:37
+#: adhocracy/templates/milestone/new.html:35
+msgid "In this milestone we will..."
+msgstr ""
+
+#: adhocracy/templates/milestone/edit.html:42
+#: adhocracy/templates/milestone/new.html:39
+msgid "Date of the milestone"
+msgstr ""
+
+#: adhocracy/templates/milestone/edit.html:44
+#: adhocracy/templates/milestone/new.html:41
+msgid "Please use the DD.MM.YYYY format."
+msgstr ""
+
+#: adhocracy/templates/milestone/index.html:11
+#: adhocracy/templates/milestone/index.html:37
+msgid "Create a new milestone."
+msgstr ""
+
+#: adhocracy/templates/milestone/index.html:12
+#: adhocracy/templates/milestone/index.html:38
+msgid "new milestone"
+msgstr ""
+
+#: adhocracy/templates/milestone/show.html:15
 #: adhocracy/templates/proposal/edit.html:18
 #: adhocracy/templates/proposal/index.html:47
 #: adhocracy/templates/proposal/new.html:17
@@ -2288,98 +2339,17 @@ msgstr ""
 msgid "What is a proposal?"
 msgstr ""
 
-#: adhocracy/templates/milestone/edit.html:20
-#: adhocracy/templates/milestone/index.html:23
-#: adhocracy/templates/milestone/new.html:18
-#: adhocracy/templates/milestone/show.html:15
-#: adhocracy/templates/proposal/edit.html:19
-#: adhocracy/templates/proposal/index.html:48
-#: adhocracy/templates/proposal/new.html:18
-#: adhocracy/templates/proposal/show.html:19
-msgid "How can I support a proposal?"
-msgstr ""
-
-#: adhocracy/templates/milestone/edit.html:21
-#: adhocracy/templates/milestone/new.html:19
-#: adhocracy/templates/milestone/show.html:18
-#: adhocracy/templates/proposal/edit.html:20
-#: adhocracy/templates/proposal/new.html:19
-#: adhocracy/templates/proposal/show.html:25
-msgid "Guide: Supporting proposals"
-msgstr ""
-
-#: adhocracy/templates/milestone/edit.html:29
-#: adhocracy/templates/milestone/new.html:27
-msgid "Milestone title"
-msgstr ""
-
-#: adhocracy/templates/milestone/edit.html:31
-#: adhocracy/templates/milestone/new.html:4
-#: adhocracy/templates/milestone/new.html:29
-msgid "New milestone"
-msgstr ""
-
-#: adhocracy/templates/milestone/edit.html:35
-#: adhocracy/templates/milestone/new.html:33
-#: adhocracy/templates/milestone/show.html:33
-msgid "Milestone description"
-msgstr ""
-
-#: adhocracy/templates/milestone/edit.html:37
-#: adhocracy/templates/milestone/new.html:35
-msgid "Give a brief description of the milestone."
-msgstr ""
-
-#: adhocracy/templates/milestone/edit.html:40
-#: adhocracy/templates/milestone/new.html:38
-msgid "In this milestone we will..."
-msgstr ""
-
-#: adhocracy/templates/milestone/edit.html:45
-#: adhocracy/templates/milestone/new.html:42
-msgid "Date of the milestone"
-msgstr ""
-
-#: adhocracy/templates/milestone/edit.html:47
-#: adhocracy/templates/milestone/new.html:44
-msgid "Please use the DD.MM.YYYY format."
-msgstr ""
-
-#: adhocracy/templates/milestone/index.html:11
-#: adhocracy/templates/milestone/index.html:38
-msgid "Create a new milestone."
-msgstr ""
-
-#: adhocracy/templates/milestone/index.html:12
-#: adhocracy/templates/milestone/index.html:39
-msgid "new milestone"
-msgstr ""
-
-#: adhocracy/templates/milestone/show.html:16
-#: adhocracy/templates/proposal/show.html:23
-#: adhocracy/templates/selection/include.html:17
-#: adhocracy/templates/selection/propose.html:17
-msgid "What is a variant?"
-msgstr ""
-
-#: adhocracy/templates/milestone/show.html:17
-#: adhocracy/templates/proposal/show.html:24
-#: adhocracy/templates/selection/include.html:18
-#: adhocracy/templates/selection/propose.html:18
-msgid "What does 'Status quo' mean?"
-msgstr ""
-
-#: adhocracy/templates/milestone/show.html:29
+#: adhocracy/templates/milestone/show.html:25
 msgid "Edit this milestone."
 msgstr ""
 
-#: adhocracy/templates/milestone/show.html:40 adhocracy/templates/page/diff.html:58
-#: adhocracy/templates/page/show.html:51
-msgid "Related Proposals"
+#: adhocracy/templates/milestone/show.html:38
+msgid "Related Norms"
 msgstr ""
 
-#: adhocracy/templates/milestone/show.html:48
-msgid "Related Norms"
+#: adhocracy/templates/milestone/show.html:48 adhocracy/templates/page/diff.html:58
+#: adhocracy/templates/page/show.html:51
+msgid "Related Proposals"
 msgstr ""
 
 #: adhocracy/templates/milestone/tiles.html:9
@@ -2721,6 +2691,19 @@ msgstr ""
 msgid "Delegations: %s"
 msgstr ""
 
+#: adhocracy/templates/proposal/edit.html:19
+#: adhocracy/templates/proposal/index.html:48
+#: adhocracy/templates/proposal/new.html:18
+#: adhocracy/templates/proposal/show.html:19
+msgid "How can I support a proposal?"
+msgstr ""
+
+#: adhocracy/templates/proposal/edit.html:20
+#: adhocracy/templates/proposal/new.html:19
+#: adhocracy/templates/proposal/show.html:25
+msgid "Guide: Supporting proposals"
+msgstr ""
+
 #: adhocracy/templates/proposal/edit.html:28
 #: adhocracy/templates/proposal/new.html:27
 msgid "Proposal title"
@@ -2767,6 +2750,18 @@ msgstr ""
 
 #: adhocracy/templates/proposal/new.html:35
 msgid "Give a brief description of <b>the goals</b> of your proposal."
+msgstr ""
+
+#: adhocracy/templates/proposal/show.html:23
+#: adhocracy/templates/selection/include.html:17
+#: adhocracy/templates/selection/propose.html:17
+msgid "What is a variant?"
+msgstr ""
+
+#: adhocracy/templates/proposal/show.html:24
+#: adhocracy/templates/selection/include.html:18
+#: adhocracy/templates/selection/propose.html:18
+msgid "What does 'Status quo' mean?"
 msgstr ""
 
 #: adhocracy/templates/proposal/show.html:36

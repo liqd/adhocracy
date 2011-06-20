@@ -36,10 +36,21 @@ class RootController(BaseController):
 
         c.proposals_pager = pager.proposals(proposals)
         c.proposals = c.proposals_pager.here()
+        c.stats_global = self.global_stats()
 
         if format == 'json':
             return render_json(c.proposals_pager)
         return render('index.html')
+
+    def global_stats(self):
+        """Global using statistc"""
+        stats = { 
+                    "members" : len(model.User.all()),
+                    "comments" : len(model.Comment.all()),
+                    "proposals" : len(model.Proposal.all()),
+                    "votes" : len(model.Vote.all()),
+                }
+        return stats
 
     #@RequireInstance
     def dispatch_delegateable(self, id):
