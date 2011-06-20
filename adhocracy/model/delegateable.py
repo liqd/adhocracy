@@ -104,7 +104,7 @@ class Delegateable(meta.Indexable):
 
     @classmethod
     def all(cls, instance=None, include_deleted=False):
-        return self.all_q(instance=instance,
+        return cls.all_q(instance=instance,
                 include_deleted=include_deleted).all()
 
     @classmethod
