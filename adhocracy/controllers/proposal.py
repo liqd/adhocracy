@@ -16,6 +16,7 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_json
 from adhocracy.lib.util import get_entity_or_abort
+from adhocracy.lib import democracy
 
 import adhocracy.lib.text as text
 
@@ -27,11 +28,18 @@ class ProposalNewForm(formencode.Schema):
     allow_extra_fields = True
 
 
+class PageInclusionForm(formencode.Schema):
+    id = forms.ValidPage()
+    text = validators.String(max=20000, min=0, if_empty="")
+
 class ProposalCreateForm(ProposalNewForm):
+    pre_validators = [formencode.variabledecode.NestedVariables()]
     label = forms.UnusedTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
     tags = validators.String(max=20000, not_empty=False)
-    milestone = forms.MaybeMilestone()
+    milestone = forms.MaybeMilestone(if_empty=None, 
+            if_missing=None)
+    page = formencode.foreach.ForEach(PageInclusionForm())
 
 
 class ProposalEditForm(formencode.Schema):
@@ -43,7 +51,8 @@ class ProposalUpdateForm(ProposalEditForm):
     text = validators.String(max=20000, min=4, not_empty=True)
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
-    milestone = forms.MaybeMilestone()
+    milestone = forms.MaybeMilestone(if_empty=None, 
+            if_missing=None)
 
 
 class ProposalFilterForm(formencode.Schema):
@@ -83,6 +92,22 @@ class ProposalController(BaseController):
               post_only=False, on_get=True)
     def new(self, errors=None):
         require.proposal.create()
+        c.pages = []
+        c.exclude_pages = []
+        if 'page' in request.params:
+            page = model.Page.find(request.params.get('page'))
+            if page and page.function == model.Page.NORM:
+                c.pages.append((page.id, page.title, page.head.text))
+                c.exclude_pages.append(page)
+        try:
+            val = formencode.variabledecode.NestedVariables()
+            form = val.to_python(request.params)
+            for pg in form.get('page', []):
+                page = model.Page.find(pg.get('id'))
+                if page and page.function == model.Page.NORM:
+                    c.pages.append((page.id, page.title, pg.get('text')))
+                    c.exclude_pages.append(page)
+        except: pass
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
         return htmlfill.render(render("/proposal/new.html"),
@@ -112,6 +137,27 @@ class ProposalController(BaseController):
         description.parents = [proposal]
         model.meta.Session.flush()
         proposal.description = description
+
+        for page in self.form_result.get('page', []):
+            page_text = page.get('text', '')
+            page = page.get('id')
+            if page is None or page.function != model.Page.NORM: 
+                continue
+            var_val = forms.VariantName()
+            variant = var_val.to_python(self.form_result.get('label'))
+            if not can.norm.edit(page, variant) or \
+                not can.selection.create(proposal):
+                continue
+            model.Text.create(page, variant, c.user,
+                              page.head.title,
+                              page_text, parent=page.head)
+            target = model.Selection.create(proposal, page, c.user)
+            poll = target.variant_poll(variant)
+            if poll and can.poll.vote(poll):
+                decision = democracy.Decision(c.user, poll)
+                decision.make(model.Vote.YES)
+                model.Tally.create_from_poll(poll)
+
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
         event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,

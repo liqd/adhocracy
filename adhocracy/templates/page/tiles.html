@@ -26,7 +26,8 @@
 </%def>
 
 
-<%def name="select_page(tile, field_name, select, exclude, functions, list_limit, allow_empty=True)">
+<%def name="select_page(tile, field_name, select, exclude, functions,
+list_limit, initial_option=None, allow_empty=True)">
 	%if list_limit is not None and model.Page.count(instance=c.instance, exclude=exclude, functions=functions) > list_limit: 
 		<input id="${field_name}" name="${field_name}" />
 	%else:

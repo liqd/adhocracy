@@ -63,9 +63,9 @@ h1, h2, h3 {
 	width: inherit; 
 }
 
-h3 {
+/*h3 {
 	margin-left: 20px;
-}
+}*/
 
 h1 a:hover, 
 h2 a:hover, 
@@ -249,7 +249,7 @@ input.title {
 	font-size: 16pt;
 	display: block;
 	width: 92%;
-	padding: 7px 20px;
+	padding: 7px 5px;
 	margin: 0;
 	border: 1px solid #666;
 }

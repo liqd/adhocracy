@@ -330,7 +330,7 @@ class Page(Delegateable):
                  function=self.function,
                  creator=self.creator.user_name)
         if self.parent:
-            d['parent'] = self.parent
+            d['parent'] = self.parent.id
         return d
 
     def to_index(self):

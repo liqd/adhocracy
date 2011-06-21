@@ -38,7 +38,8 @@ class PageCreateForm(formencode.Schema):
     proposal = forms.ValidProposal(not_empty=False, if_empty=None,
                                    if_missing=None)
     tags = validators.String(max=20000, not_empty=False)
-    milestone = forms.MaybeMilestone()
+    milestone = forms.MaybeMilestone(if_empty=None, 
+            if_missing=None)
 
 
 class PageEditForm(formencode.Schema):
@@ -57,7 +58,8 @@ class PageUpdateForm(formencode.Schema):
                                   not_empty=False)
     proposal = forms.ValidProposal(not_empty=False, if_empty=None,
                                    if_missing=None)
-    milestone = forms.MaybeMilestone()
+    milestone = forms.MaybeMilestone(if_empty=None, 
+            if_missing=None)
 
 
 class PageFilterForm(formencode.Schema):
