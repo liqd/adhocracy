@@ -1,29 +1,28 @@
 import logging
 
-import adhocracy.model as model
-from pylons import response, config
+from adhocracy import model
+from pylons import config
 
 log = logging.getLogger(__name__)
 
+
 class InstanceDiscriminatorMiddleware(object):
-    
+
     def __init__(self, app, domain):
         self.app = app
         self.domain = domain
         log.debug("Host name: %s." % domain)
-        
+
     def __call__(self, environ, start_response):
         host = environ.get('HTTP_HOST', "")
         environ['adhocracy.domain'] = self.domain
-        
         instance_key = config.get('adhocracy.instance')
         if instance_key is None:
             host = host.split(':', 1)[0]
-            host = host[:len(host)-len(self.domain)-1]
+            host = host[:len(host) - len(self.domain)]
             instance_key = host.strip('. ')
-        
+
         if len(instance_key):
-            #log.debug("Request instance: %s" % instance_key)
             instance = model.Instance.find(instance_key)
             if instance is None:
                 log.debug("No such instance: %s, defaulting!" % instance_key)
@@ -33,9 +32,10 @@ class InstanceDiscriminatorMiddleware(object):
             return self.app(environ, start_response)
         finally:
             model.instance_filter.setup_thread(None)
-             
+
 
 def setup_discriminator(app, config):
-    domains = config.get('adhocracy.domain', config.get('adhocracy.domains', ''))
+    domains = config.get('adhocracy.domain',
+                         config.get('adhocracy.domains', ''))
     domains = [d.strip() for d in domains.split(',')]
-    return InstanceDiscriminatorMiddleware(app, domains[0]) 
+    return InstanceDiscriminatorMiddleware(app, domains[0])
