@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 badge_table = Table('badge', meta.data,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
-    Column('title', Unicode(255), nullable=False),
+    Column('title', Unicode(40), nullable=False),
     Column('color', Unicode(7), nullable=False))
 
 
@@ -91,7 +91,7 @@ class Badge(object):
         return dict(id=self.id,
                     title=self.title,
                     color=self.color,
-                    url=h.entity_url(self))
+                    users=[user.name for user in self.users])
 
     def _index_id(self):
         return self.id
