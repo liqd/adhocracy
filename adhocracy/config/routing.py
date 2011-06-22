@@ -166,6 +166,17 @@ def make_map():
                                          'votes': 'GET',
                                          'ask_delete': 'GET'})
 
+    map.connect('/badge', controller='badge', action='index',
+                conditions=dict(method=['GET']))
+    map.connect('/badge/add', controller='badge', action='add',
+                conditions=dict(method=['GET']))
+    map.connect('/badge/add', controller='badge', action='create',
+                conditions=dict(method=['POST']))
+    map.connect('/badge/edit/{id}', controller='badge', action="edit",
+                conditions=dict(method=['GET']))
+    map.connect('/badge/edit/{id}', controller='badge', action="update",
+                conditions=dict(method=['POST']))
+
     # not using REST since tags may contain dots, thus failing format
     # detection.
     map.connect('/tag', controller='tag', action='index',
