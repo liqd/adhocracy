@@ -11,16 +11,17 @@ class InstanceDiscriminatorMiddleware(object):
         self.app = app
         self.domain = domain
         log.debug("Host name: %s." % domain)
-        
+
     def __call__(self, environ, start_response):
         host = environ.get('HTTP_HOST', "")
         environ['adhocracy.domain'] = self.domain
-        
+
         instance_key = config.get('adhocracy.instance')
         if instance_key is None:
             host = host.split(':', 1)[0]
-            host = host[:len(host)-len(self.domain)-1]
-            instance_key = host.strip('. ')
+            host = host.replace(self.domain, "")
+            host = host.strip('.').strip() 
+            instance_key = host
         
         if len(instance_key):
             #log.debug("Request instance: %s" % instance_key)
