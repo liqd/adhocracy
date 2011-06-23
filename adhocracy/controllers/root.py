@@ -10,7 +10,6 @@ from adhocracy.lib import helpers as h, search as libsearch
 from adhocracy.lib import pager
 from adhocracy.lib.auth import require
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.cache import memoize
 from adhocracy.lib.static import StaticPage
 from adhocracy.lib.templating import render, render_json
 from adhocracy.lib.util import get_entity_or_abort
@@ -19,18 +18,6 @@ from proposal import ProposalFilterForm
 
 
 log = logging.getLogger(__name__)
-
-@memoize('global_stats', 1800) 
-def global_stats():
-    """Global member activity statistic"""
-    stats = { 
-                "members" : len(model.User.all()),
-                "comments" : len(model.Comment.all()),
-                "proposals" : len(model.Proposal.all()),
-                "votes" : len(model.Vote.all()),
-            }
-    return stats 
-
 
 class RootController(BaseController):
 
@@ -48,7 +35,12 @@ class RootController(BaseController):
 
         c.proposals_pager = pager.proposals(proposals)
         c.proposals = c.proposals_pager.here()
-        c.stats_global = global_stats()
+        c.stats_global = { 
+                "members" : model.User.all_q().count(),
+                "comments" : model.Comment.all_q().count(),
+                "proposals" : model.Proposal.all_q().count(),
+                "votes" : model.Vote.all_q().count(),
+            }
 
         if format == 'json':
             return render_json(c.proposals_pager)

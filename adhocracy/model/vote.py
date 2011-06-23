@@ -48,11 +48,14 @@ class Vote(object):
             log.exception(e)
             #log.warn("find(%s): %s" % (id, e))
             return None
+    
+    @classmethod
+    def all_q(cls):
+        return meta.Session.query(Vote)
 
     @classmethod
     def all(cls):
-        q = meta.Session.query(Vote)
-        return q.all()
+        return cls.all_q().all()
 
     def to_dict(self):
         return dict(id=self.id,
