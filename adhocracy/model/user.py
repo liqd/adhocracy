@@ -270,7 +270,7 @@ class User(meta.Indexable):
         return self.user_name
 
     @classmethod
-    def all(cls, instance=None, include_deleted=False):
+    def all_q(cls, instance=None, include_deleted=False):
         from membership import Membership
         q = meta.Session.query(User)
         if not include_deleted:
@@ -282,7 +282,12 @@ class User(meta.Indexable):
             q = q.filter(or_(Membership.expire_time == None,
                              Membership.expire_time > datetime.utcnow()))
             q = q.filter(Membership.instance == instance)
-        return q.all()
+        return q
+
+    @classmethod
+    def all(cls, instance=None, include_deleted=False):
+        return cls.all_q(instance=instance, 
+                include_deleted=include_deleted).all()
 
     def delete(self, delete_time=None):
         if delete_time is None:

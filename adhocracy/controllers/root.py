@@ -19,7 +19,6 @@ from proposal import ProposalFilterForm
 
 log = logging.getLogger(__name__)
 
-
 class RootController(BaseController):
 
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
@@ -36,6 +35,12 @@ class RootController(BaseController):
 
         c.proposals_pager = pager.proposals(proposals)
         c.proposals = c.proposals_pager.here()
+        c.stats_global = { 
+                "members" : model.User.all_q().count(),
+                "comments" : model.Comment.all_q().count(),
+                "proposals" : model.Proposal.all_q().count(),
+                "votes" : model.Vote.all_q().count(),
+            }
 
         if format == 'json':
             return render_json(c.proposals_pager)

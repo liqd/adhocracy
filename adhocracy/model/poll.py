@@ -65,6 +65,8 @@ class Poll(object):
         import refs
         self._subject_entity = subject
         self._subject = refs.to_ref(subject)
+        if self._subject is None:
+            self._subject = subject
 
     subject = property(_get_subject, _set_subject)
 

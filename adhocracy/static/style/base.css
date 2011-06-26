@@ -2,7 +2,7 @@
 
 body, td, input, button, textarea, select {
 	font-family: Arial, Helv, Helvetica, Verdana, sans-serif;
-	font-size: 10pt;
+	font-size: 101%;
 }
 
 div, body, ul, li, button {
@@ -22,7 +22,7 @@ body {
 ul { list-style: none; }
 
 a {
-	color: #3C474A;
+	color: #31505F;
 	text-decoration: none;
 }
 
@@ -63,9 +63,9 @@ h1, h2, h3 {
 	width: inherit; 
 }
 
-h3 {
+/*h3 {
 	margin-left: 20px;
-}
+}*/
 
 h1 a:hover, 
 h2 a:hover, 
@@ -249,7 +249,7 @@ input.title {
 	font-size: 16pt;
 	display: block;
 	width: 92%;
-	padding: 7px 20px;
+	padding: 7px 5px;
 	margin: 0;
 	border: 1px solid #666;
 }
@@ -308,7 +308,7 @@ body {
 	margin-bottom: -145px;
 	padding-bottom: 0px;
 	overflow: visible;
-	padding-top: 20px;
+	padding-top: 15px;
 	width: 1000px;
 	margin-left: auto;
 	margin-right: auto;
@@ -331,7 +331,7 @@ body {
 	padding: 20px;
 	padding-top: 1em;
 	padding-bottom: 1em;
-	margin: 1em 0 0 0;
+	margin: 0 0 0 0;
 	width: 960px;
 	/*border-bottom: 1px solid #e0e0e0;*/
 	/*letter-spacing: 0.1em;*/
@@ -443,10 +443,11 @@ body {
 
 #globalheader {
 	width: inherit;
-	padding: 10px 0px;
+    min-height: 1.35em;
+    padding-top: 0.5em;
 	background: url(/img/service_hintergrund.gif) repeat-x;
 	font-family: Georgia, Times New Roman, Times, serif;
-	font-size: 1.1em;
+	/*font-size: 1.1em;*/
 	/*
 	background-image: url(/img/hdr_bg.png);
 	background-repeat: repeat-x;
@@ -502,6 +503,7 @@ body {
 }
 
 #instanceheader {
+    margin-top: 15px;
 	background: #e7ebec;
 	font-family: Georgia, Times New Roman, Times, serif;
 }
@@ -511,7 +513,7 @@ body {
 	width: 960px;
 	margin-left: auto;
 	margin-right: auto;
-	font-size: 0.8em;
+	font-size: 0.75em;
 }
 
 #instanceheader .headerbox,
@@ -578,8 +580,11 @@ body {
 	text-shadow: none;
 	background: #fff url(/img/schnellsuche_submit.gif) center right no-repeat !important;
 	padding-left: 24px;
+    font-size: 11px;
 	border: none;
+    min-width: 10em;
 	padding: 1px 2.5em 1px 1em;
+	font-family: Georgia, Times New Roman, Times, serif;
 }
 
 #instanceheader #menu-links ul li a:hover {
@@ -615,6 +620,7 @@ body {
 #footer {
 	clear: both;
 	margin-top: 123px;
+    font-size: 0.75em;
 	padding: 1em 0em;
 	color: #E7EBEC;
 	overflow: hidden;
@@ -757,9 +763,10 @@ body {
 /* @group Typography */
 
 .content {
-	overflow-x: hidden;
-	width: inherit;
 	padding: inherit;
+    padding-left: 10px;
+    padding-right: 10px;
+	overflow-x: hidden;
 	font-size: 10pt;
     background-color: #fefefe;
 	/*background: url(/img/white-50.png);*/
@@ -1256,31 +1263,25 @@ table.delegations th {
 /* @group Action Buttons */
 
 a.button {
-	font-size: 0.9em;
-	padding: 0.35em 0.6em 0.45em 0.5em;
+	font-size: 1em;
+    font-weight: bold;
+	padding: 0.35em 0.6em 0.4em 0.5em;
 	min-width: 2em;
 	display: inline-block;
 	text-align: center;
 	text-transform: lowercase;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
 	color: #fff;
 	margin-right: 4px !important;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	
-	box-shadow: 2px 2px 4px #ddd;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	/*box-shadow: 2px 2px 4px #ddd;
 	-webkit-box-shadow: 2px 2px 4px #ddd;
-	-moz-box-shadow: 2px 2px 4px #ddd;
-	/*
-	-webkit-border-top-left-radius: 0px;
-	-webkit-border-bottom-right-radius: 0px;
-	*/
-	-webkit-border-bottom-left-radius: 0px;
-	font-weight: normal;
-	background-image: url(/img/menu_bg.png);
-	background-repeat: repeat-x;
-	background-position: top;
-	
+	-moz-box-shadow: 2px 2px 4px #ddd;*/
 	cursor:pointer;
 	cursor:hand;
 }
@@ -1345,7 +1346,6 @@ a.button.inactive {
 
 .top_actions.aside {
 	float: right;
-	margin-right: 20px;
 	margin-top:  0em;
 }
 

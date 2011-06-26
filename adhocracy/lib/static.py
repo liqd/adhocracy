@@ -4,7 +4,7 @@ import os.path
 from pylons.i18n import _
 from pylons import tmpl_context as c
 
-from lxml.html import fromstring
+from lxml.html import parse
 from lxml.html import tostring
 
 import util
@@ -41,11 +41,10 @@ class StaticPage(object):
     
     
     def _load(self, path):
-        page_content = file(path, 'r').read()
-        root = fromstring(page_content)
-        
+        root = parse(path)
         body = root.find('.//body')
-        self.body = "".join([tostring(c) for c in body.getchildren()])
+        body.tag = 'span'
+        self.body = tostring(body).encode('utf-8')
         self.title = root.find('.//title').text
         self.exists = True
         return self.title

@@ -19,8 +19,9 @@ class InstanceDiscriminatorMiddleware(object):
         instance_key = config.get('adhocracy.instance')
         if instance_key is None:
             host = host.split(':', 1)[0]
-            host = host[:len(host) - len(self.domain)]
-            instance_key = host.strip('. ')
+            host = host.replace(self.domain, "")
+            host = host.strip('.').strip() 
+            instance_key = host
 
         if len(instance_key):
             instance = model.Instance.find(instance_key)

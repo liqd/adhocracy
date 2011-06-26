@@ -2,7 +2,10 @@ import os.path
 import logging
 import StringIO
 
-import Image
+try:
+    import Image                     
+except ImportError:
+    from PIL import Image
 
 from pylons import config 
 
