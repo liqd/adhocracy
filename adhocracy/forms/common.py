@@ -132,6 +132,19 @@ class ValidGroup(formencode.FancyValidator):
                 value, state)
         return group
 
+
+class ValidBadge(formencode.FancyValidator):
+
+    def _to_python(self, value, state):
+        from adhocracy.model import Badge
+        badge = Badge.by_id(value)
+        if not badge:
+            raise formencode.Invalid(
+                _("No Badge ID '%s' exists") % value,
+                value, state)
+        return badge
+
+
 class MaybeMilestone(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.model import Milestone
