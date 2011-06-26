@@ -26,6 +26,13 @@ def make_map():
     map.connect('/openid/{action}', controller='openidauth')
     map.connect('/twitter/{action}', controller='twitteroauth')
 
+    map.connect('/user/all', controller='user',
+                action='all', conditions=dict(method=['GET']))
+    map.connect('/user/{id}/badges', controller='user',
+                action='badges', conditions=dict(method=['GET']))
+    map.connect('/user/{id}/badges', controller='user',
+                action='update_badges', conditions=dict(method=['POST']))
+
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
                                          'proposals': 'GET',
