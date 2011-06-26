@@ -7,6 +7,7 @@ syntax:glob
 *.swp
 *.swo
 *.egg-info
+*.db
 data/*
 bundestag.ini
 *.DS_Store
