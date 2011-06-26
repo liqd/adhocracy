@@ -34,7 +34,7 @@
 			<a class="button edit" href="${h.entity_url(user, member='edit')}">${_("edit")}</a>
 		%endif
 
-		%if has_permission('global_admin'):
+		%if lib.auth.authorization.has('global.admin'):
 			<a class="button edit" href="${h.entity_url(user, member='badges')}">${_("Edit Badges")}</a>
 		%endif
 		
