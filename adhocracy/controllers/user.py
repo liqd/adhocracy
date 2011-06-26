@@ -448,7 +448,7 @@ class UserController(BaseController):
         if not to_group.code in model.Group.INSTANCE_GROUPS:
             h.flash(_("Cannot make %(user)s a member of %(group)s") % {
                         'user': c.page_user.name,
-                        'group': group.group_name},
+                        'group': to_group.group_name},
                     'error')
             redirect(h.entity_url(c.page_user))
         had_vote = c.page_user._has_permission("vote.cast")
