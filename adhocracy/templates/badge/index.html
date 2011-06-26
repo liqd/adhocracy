@@ -1,0 +1,49 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Badges")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.tag.breadcrumbs(None)|n}
+</%def>
+
+<h1 class="page_title"><img src="/img/icons/tag_24.png" class="cd" /> ${_("All Badges")}</h1>
+
+<div class="sidebar">
+  <div class="help">
+    <h3>${_("Help")}</h3>
+    <ul>
+      <li>fixme: add help texts</li>
+    </ul>
+  </div>
+</div>
+
+<div class="mainbar">
+  <h1>${_("Badges")}</h1>
+  % if not c.badges:
+  <p>${_("No badges added yet.")}</p>
+  % endif
+
+  <div class="table">
+    <table class="table_listing">
+      <thead>
+        <th>${_("Badge Title")}</th>
+        <th>${_("Color")}</th>
+        <th>${_("Preview")}</th>
+        <th>${_("Actions")}</th>
+      </thead>
+      %for badge in c.badges:
+      <tr class="tile">
+        <td>${badge.title}</td>
+        <td>${badge.color}</td>
+        <td>${components.badge(badge)}</td>
+        <td>
+          <a class="button edit ttip"
+             title='${_("Edit Badge \"%s\"") % badge.title}' 
+             href="./badge/edit/${badge.id}">${_('Edit')}</a></td>
+      </tr>
+      %endfor
+    </table>
+  </div>
+  <p></p>
+  <a class="button add" href="/badge/add">${_("Add new badge...")}</a>
+</div>

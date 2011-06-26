@@ -45,3 +45,8 @@
 	%endif
 </%def>
 
+<%def name="badge(badge)">
+ <span class="tag_link badge">
+   <a name="${badge.title}" style="background-color: ${badge.color}">${badge.title}</a>
+ </span>
+</%def>

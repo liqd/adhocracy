@@ -45,3 +45,8 @@ class TestUserController(TestController):
         self.assertEqual(badged_user.badges, [])
         self.assertEqual(meta.Session.query(UserBadge).count(), 0)
 
+    def test_to_dict(self):
+        creator, badged_user, badge = self._make_one()
+        result = badge.to_dict()
+        self.assertEqual(result, {'color': '#ccc', 'title': 'testbadge',
+                                  'id': 1, 'users': [u'badged_user']})

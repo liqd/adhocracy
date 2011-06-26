@@ -6,7 +6,9 @@
 			<img src="${h.user.icon_url(user, size=32)|n}" />
 		</div>
 		<div class="base">
-			<h3><a class="link fn nickname" href="${h.entity_url(user)}">${user.name}</a></h3>
+			<h3><a class="link fn nickname" href="${h.entity_url(user)}">${user.name}</a> 
+			${tiles.badge.badges(user.badges)}
+</h3>
 			<div class="meta noclear">
 				<%
 				mem = user.instance_membership(c.instance)
@@ -30,6 +32,10 @@
 	
 		%if can.user.edit(user):
 			<a class="button edit" href="${h.entity_url(user, member='edit')}">${_("edit")}</a>
+		%endif
+
+		%if has_permission('global_admin'):
+			<a class="button edit" href="${h.entity_url(user, member='badges')}">${_("Edit Badges")}</a>
 		%endif
 		
 		%if can.user.supervise(user):
