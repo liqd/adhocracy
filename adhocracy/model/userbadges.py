@@ -87,7 +87,6 @@ class Badge(object):
         return badge
 
     def to_dict(self):
-        from adhocracy.lib import helpers as h
         return dict(id=self.id,
                     title=self.title,
                     color=self.color,
