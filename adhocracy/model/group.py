@@ -17,6 +17,7 @@ group_table = Table('group', meta.data,
 class Group(object):
 
     CODE_ANONYMOUS = u"anonymous"
+    CODE_ORGANIZATION = u"organization"
     CODE_OBSERVER = u"observer"
     CODE_ADVISOR = u"advisor"
     CODE_VOTER = u"voter"

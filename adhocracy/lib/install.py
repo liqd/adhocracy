@@ -15,6 +15,7 @@ def mk_group(name, code):
         group.group_name = unicode(name)
     return group
 
+
 def mk_perm(name, *groups):
     perm = model.Permission.find(name)
     if perm is None:
@@ -24,20 +25,22 @@ def mk_perm(name, *groups):
     perm.groups = list(groups)
     return perm
 
+
 def setup_entities():
     #model.meta.Session.begin()
     model.meta.Session.commit()
-        
+
     admins = mk_group("Administrator", model.Group.CODE_ADMIN)
+    organization = mk_group("Organization", model.Group.CODE_ORGANIZATION)
     supervisor = mk_group("Supervisor", model.Group.CODE_SUPERVISOR)
     voter = mk_group("Voter", model.Group.CODE_VOTER)
     observer = mk_group("Observer", model.Group.CODE_OBSERVER)
     advisor = mk_group("Advisor", model.Group.CODE_ADVISOR)
     default = mk_group("Default", model.Group.CODE_DEFAULT)
     anonymous = mk_group("Anonymous", model.Group.CODE_ANONYMOUS)
-    
+
     model.meta.Session.commit()
-    
+
     # ADD EACH NEW PERMISSION HERE
     mk_perm("vote.cast", voter)
     mk_perm("instance.index", anonymous)
@@ -88,29 +91,30 @@ def setup_entities():
     mk_perm("milestone.delete", supervisor)
     mk_perm("global.admin", admins)
     mk_perm("global.member", admins)
-    
+
     model.meta.Session.commit()
     # END PERMISSIONS LIST
-    
+
     advisor.permissions = advisor.permissions + anonymous.permissions
     observer.permissions = observer.permissions + advisor.permissions
     voter.permissions = voter.permissions + observer.permissions
     supervisor.permissions = supervisor.permissions + voter.permissions
     admins.permissions = admins.permissions + supervisor.permissions
-    
-    
+    organization.permissions = observer.permissions
+
     admin = model.User.find(u"admin")
     if not admin:
-        admin = model.User.create(u"admin", u"admin@adhocracy.de", 
-                                  password=u"password", 
-                                  global_admin=True)  
-        
+        admin = model.User.create(u"admin", u"admin@adhocracy.de",
+                                  password=u"password",
+                                  global_admin=True)
+
     model.meta.Session.commit()
-    
+
     from pylons import config
     if config.get('adhocracy.instance'):
-        model.Instance.create(config.get('adhocracy.instance'), u"Adhocracy", admin)
+        model.Instance.create(config.get('adhocracy.instance'),
+                              u"Adhocracy", admin)
     elif not model.Instance.find(u"test"):
         model.Instance.create(u"test", u"Test Instance", admin)
-    
+
     model.meta.Session.commit()
