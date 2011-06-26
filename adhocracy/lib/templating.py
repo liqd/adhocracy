@@ -25,7 +25,6 @@ def tpl_vars():
     vars['diff'] = text.diff
     vars['sorting'] = sorting
     vars['model'] = model
-    vars['has_permission'] = auth.authorization.has_permission
     return vars
 
 
