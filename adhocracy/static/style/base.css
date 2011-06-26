@@ -421,7 +421,7 @@ body {
 	padding: 1em;
 }
 
-.sidebar {
+#sidebar, .sidebar {
 	float: right;
 	margin: 0 20px;
 	padding: 1em;
