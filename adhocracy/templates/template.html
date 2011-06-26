@@ -50,10 +50,16 @@
 			%if g.single_instance is None:
 			    <a class="ttip" title="${_('All instances')}" 
 			       href="${h.base_url(None, path='/instance')}">${_("Instances")}</a>
+			<a class="ttip" 
+			   title="${_('Users across all instances')}" 
+			   href="${h.base_url(None, path='/user/all')}">${_("Users")}</a>
 			%endif
 			%if h.has_permission("global.admin"):
 				<a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
 			%endif
+			<div class="help">
+				<a href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a>
+			</div>
 			<a href="/event/all">${_("Events")}</a>
 			<div class="help">
 				<a href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a>
