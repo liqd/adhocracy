@@ -6,12 +6,13 @@ from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
+from repoze.what.plugins.pylonshq import ActionProtector
 
 
 from adhocracy.forms.common import ValidHTMLColor
 from adhocracy.model import Badge, meta
 from adhocracy.lib import helpers as h
-from adhocracy.lib.auth import require
+from adhocracy.lib.auth.authorization import has_permission
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, render_json
@@ -27,6 +28,7 @@ class BadgeController(BaseController):
 
     base_url = h.site.base_url(instance=None, path='/badge')
 
+    @ActionProtector(has_permission("global.admin"))
     def index(self, format='html'):
         #require.user.manage()
         badges = Badge.all()
@@ -40,6 +42,7 @@ class BadgeController(BaseController):
                 'error')
         redirect(self.base_url)
 
+    @ActionProtector(has_permission("global.admin"))
     def add(self, errors=None):
         c.form_title = c.save_button = _("Add Badge")
         c.action_url = self.base_url + '/add'
@@ -49,6 +52,7 @@ class BadgeController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=BadgeForm(), form='add')
+    @ActionProtector(has_permission("global.admin"))
     def create(self):
         title = self.form_result.get('title').strip()
         color = self.form_result.get('color').strip()
@@ -57,6 +61,7 @@ class BadgeController(BaseController):
         meta.Session.commit()
         redirect(self.base_url)
 
+    @ActionProtector(has_permission("global.admin"))
     def edit(self, id, errors=None):
         c.form_title = c.save_button = _("Edit Badge")
         c.action_url = self.base_url + '/edit/%s' % id
@@ -71,8 +76,8 @@ class BadgeController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=BadgeForm(), form='edit')
+    @ActionProtector(has_permission("global.admin"))
     def update(self, id):
-        require.user.manage(c.user)
         badge = Badge.by_id(id)
         if badge is None:
             self._redirect_not_found(id)
@@ -82,5 +87,5 @@ class BadgeController(BaseController):
         badge.title = title
         badge.color = color
         meta.Session.commit()
-        h.flash(_("Badge changed successfully"))
+        h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
