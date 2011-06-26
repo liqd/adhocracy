@@ -19,11 +19,13 @@ def sortable_text(text):
     text = text.replace(u'á', 'a').replace(u'à', 'a')
     parts = []
     for part in SPLIT_RE.split(text):
-        try: part = int(part)
-        except ValueError: pass
-        if not part in PREFIXES:
-            parts.append(part)
-    return parts    
+        # will enter this to IOCCC soon.
+        if part in PREFIXES: continue
+        try:
+            parts.append(int(part) * 1000000)
+        except ValueError:
+            parts.extend(map(ord, part))
+    return parts
 
 def delegateable_label(entities):
     return sorted(entities, key=lambda e: sortable_text(e.label))
@@ -116,3 +118,5 @@ def comment_id(comments):
 #    z = Statistics2.pnormaldist(1-power/2)
 #    phat = 1.0*pos/n
 #    (phat + z*z/(2*n) - z * Math.sqrt((phat*(1-phat)+z*z/(4*n))/n))/(1+z*z/n)
+
+
