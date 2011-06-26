@@ -23,6 +23,7 @@ def icon_url(user, size=32):
 
 
 def link(user, size=16, scope=None):
+
     if user.delete_time:
         return _("%s (deleted user)") % user.name
 
@@ -40,8 +41,11 @@ def link(user, size=16, scope=None):
 
     @cache.memoize('user_specific_link')
     def _specific_link(user, instance, size, scope, other):
+        from adhocracy.lib import tiles
         from adhocracy.lib.helpers import entity_url
         url = _generic_link(user, instance, size, scope)
+        if user.badges:
+            url += str(tiles.badge.badges(user.badges))
         if other and scope:
             dnode = democracy.DelegationNode(other, scope)
             for delegation in dnode.outbound():

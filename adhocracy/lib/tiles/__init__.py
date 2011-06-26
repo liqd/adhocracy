@@ -2,6 +2,7 @@ import logging
 
 from adhocracy import model
 
+import badge_tiles as badge
 import comment_tiles as comment
 import decision_tiles as decision
 import delegation_tiles as delegation
