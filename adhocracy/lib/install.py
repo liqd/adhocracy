@@ -91,6 +91,7 @@ def setup_entities():
     mk_perm("milestone.delete", supervisor)
     mk_perm("global.admin", admins)
     mk_perm("global.member", admins)
+    mk_perm("global.organization", organization)
 
     model.meta.Session.commit()
     # END PERMISSIONS LIST
