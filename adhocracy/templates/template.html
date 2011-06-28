@@ -54,14 +54,14 @@
 			   title="${_('Users across all instances')}" 
 			   href="${h.base_url(None, path='/user/all')}">${_("Users")}</a>
 
-			<a class="ttip" 
-			   title="${_('Manage Badges')}" 
-			   href="${h.base_url(None, path='/badge')}">${_("Badges")}</a>
-
 			%endif
 			%if h.has_permission("global.admin"):
 				<a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
 			%endif
+
+			<a class="ttip" 
+			   title="${_('Manage Badges')}" 
+			   href="${h.base_url(None, path='/badge')}">${_("Badges")}</a>
 
 			<a href="/event/all">${_("Events")}</a>
 			<div class="help">
