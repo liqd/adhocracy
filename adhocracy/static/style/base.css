@@ -561,7 +561,7 @@ body {
 
 #instanceheader #searchform {
 	float: right;
-	margin: 13px 0 0;
+	margin: 22px 0 0;
 }
 
 #instanceheader #menu ul li a, 
@@ -771,7 +771,9 @@ body {
     background-color: #fefefe;
 	/*background: url(/img/white-50.png);*/
 }
-
+#content {
+  background: url(/img/sidebar_background.png) repeat top right;
+}
 .content p {
 	line-height: 1.3em;
 }
@@ -2188,6 +2190,9 @@ label.inline {
 	
 }
 
+.transparent {
+    background:none !important;
+}
 .hidden,
 .prototype,
 .showjs,
