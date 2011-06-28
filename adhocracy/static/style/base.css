@@ -2193,13 +2193,13 @@ label.inline {
 .transparent {
     background:none !important;
 }
-.grey {
+.grey a {
     color:grey;
 }
-.green {
+.green a {
     color:green;
 }
-.orange {
+.orange a {
     color:orange
 }
 
