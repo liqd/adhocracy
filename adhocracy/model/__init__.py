@@ -69,7 +69,8 @@ mapper(Badge, badge_table,
                                           user_badges_table.c.badge_id),
                              secondaryjoin=(user_badges_table.c.user_id ==
                                             user_table.c.id),
-                             backref='badges')
+                             backref=backref('badges', lazy='joined'),
+                             lazy=False)
            })
 
 
