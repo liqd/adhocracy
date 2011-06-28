@@ -2193,6 +2193,16 @@ label.inline {
 .transparent {
     background:none !important;
 }
+.grey {
+    color:grey;
+}
+.green {
+    color:green;
+}
+.orange {
+    color:orange
+}
+
 .hidden,
 .prototype,
 .showjs,
