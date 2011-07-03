@@ -57,11 +57,11 @@
 			%endif
 			%if h.has_permission("global.admin"):
 				<a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
-			%endif
 
 			<a class="ttip" 
 			   title="${_('Manage Badges')}" 
 			   href="${h.base_url(None, path='/badge')}">${_("Badges")}</a>
+			%endif
 
 			<a href="/event/all">${_("Events")}</a>
 			<div class="help">
