@@ -8,48 +8,31 @@
 
 ${tiles.instance.header(c.page_instance, active='rules')}
 
-
-<div class="sidebar">
-	<h3 class="section">${_("Topics")}</h3>
-	${tiles.tag.cloud(c.tags)}
-</div>
-
-<div class="mainbar">
+<div class="lefthalf">
 	${c.tile.description|n}
 </div>
 
-<div style="clear: both;"></div>
-<br/>
-%if c.page_instance.milestones:
-  ${tiles.milestone.timeline(c.milestones)}
-%endif
-
-<div class="lefthalf">
+<div class="righthalf">
 	<h3 class="section">${_("Newest Proposals")}</h3>
 	<div id="new_proposals_table" class="table">
 		${c.new_proposals_pager.here()}
-	</div>
-</div>
-
-<div class="righthalf">
-  %if c.instance.use_norms:
-	  <h3 class="section">${_("Contested Norms")}</h3>
-	  <div id="top_pages_table" class="table">
-		  ${c.top_pages_pager.here()}
-    </div>
+  </div>
+  <br/>
+  <div class="top_actions aside">
+  %if can.proposal.create():
+    <a class="button add otip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
   %endif
+
+  <a href="/proposal" class="button edit otip" title="${_('show a list of proposals')}">${_("more proposals")}</a>
+  </div>
 </div>
 
-<br/>
-<div class="top_actions aside">
-%if can.proposal.create():
-	<a class="button add otip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
-%endif
-
-<a href="/proposal" class="button edit otip" title="${_('show a list of proposals')}">${_("more proposals")}</a>
-</div>
 <div style="clear: both;"></div>
+  <br/>
 
+%if c.page_instance.milestones:
+  ${tiles.milestone.timeline(c.milestones)}
+%endif
 
 <br/>
 <br/>

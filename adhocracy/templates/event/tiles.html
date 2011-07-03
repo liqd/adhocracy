@@ -9,7 +9,8 @@
 			<a href="/user/${event.user.user_name}"><img src="${h.user.icon_url(event.user, size=32)}" /></a>
 		</div>
 		<div class="base">
-			<h3><a href="/user/${event.user.user_name}">${event.user.name}</a> ${event_html|n}</h3>
+      <h3><a href="/user/${event.user.user_name}">${event.user.name}</a>
+        ${tiles.badge.badges(event.user.badges)} ${event_html|n}</h3>
 			%if tile.text:
 				<div class="text">
 					${tile.text|n}

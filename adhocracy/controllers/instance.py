@@ -111,14 +111,14 @@ class InstanceController(BaseController):
         c.new_proposals_pager = pager.proposals(
             proposals, size=7, enable_sorts=False,
             enable_pages=False, default_sort=sorting.entity_newest)
-        pages = model.Page.all(instance=c.page_instance,
-                functions=[model.Page.NORM])
-        c.top_pages_pager = pager.pages(
-            pages, size=7, enable_sorts=False,
-            enable_pages=False, default_sort=sorting.norm_selections)
-        tags = model.Tag.popular_tags(limit=40)
-        c.tags = sorted(text.tag_cloud_normalize(tags),
-                        key=lambda (k, c, v): k.name)
+        #pages = model.Page.all(instance=c.page_instance,
+        #        functions=[model.Page.NORM])
+        #c.top_pages_pager = pager.pages(
+        #    pages, size=7, enable_sorts=False,
+        #    enable_pages=False, default_sort=sorting.norm_selections)
+        #tags = model.Tag.popular_tags(limit=40)
+        #c.tags = sorted(text.tag_cloud_normalize(tags),
+        #                key=lambda (k, c, v): k.name)
         if c.page_instance.milestones:
             c.milestones = model.Milestone.all(instance=c.page_instance)
         c.stats = {

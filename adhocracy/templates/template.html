@@ -57,11 +57,10 @@
 			%endif
 			%if h.has_permission("global.admin"):
 				<a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
+        <a class="ttip" 
+           title="${_('Manage Badges')}" 
+           href="${h.base_url(None, path='/badge')}">${_("Badges")}</a>
 			%endif
-
-			<a class="ttip" 
-			   title="${_('Manage Badges')}" 
-			   href="${h.base_url(None, path='/badge')}">${_("Badges")}</a>
 
 			<a href="/event/all">${_("Events")}</a>
 			<div class="help">
@@ -87,12 +86,6 @@
 			<ul>    
 				<li><a class="instance ttip" title="${_('Instance home page')}" 
                   href="${h.entity_url(c.instance)}">${_("Home")}</a></li>
-                %if c.instance.key == 'demokratie': 
-                  <!-- HACK HACK HACK -->
-				  <li><a class="programm ttip" title="Gliederung der Themen" 
-                    href="/static/gliederung_demokratie.html">Arbeitsprogramm</a></li>
-
-                %endif 
 				%if c.instance.milestones:
 				    <li><a class="milestone ttip" title="${_('Milestones')}" 
          			       href="/milestone">${_("Milestones")}</a></li>
@@ -132,59 +125,23 @@
 	
 	<div id="page">
 		<div id="breadcrumbs">
-                  ${self.breadcrumbs()}
-		</div>
+      ${self.breadcrumbs()}
+    </div>
 
-		<%
-	messages = h.flash.pop_messages();
-	success_messages = [m for m in messages if m.category == 'success'];
-	notice_messages = [m for m in messages if m.category == 'notice'];
-	warning_messages = [m for m in messages if m.category == 'warning'];
-	error_messages = [m for m in messages if m.category == 'error'];
-		%>
-		%if error_messages:
-		<div class="flash_messages error">
-			<ul>
-			%for message in error_messages:
-			<li>${message}</li>
-		%endfor
-			</ul>
-		</div>
-		%endif
+    %for message in h.flash.pop_messages():
+      <div class="flash_messages ${message.category}">
+        <ul>
+          <li>${message}</li>
+        </ul>
+      </div>
+    %endfor
 
-		%if warning_messages:
-		<div class="flash_messages warning">
-			<ul>
-			%for message in warning_messages:
-			<li>${message}</li>
-		%endfor
-			</ul>
-		</div>
-		%endif
-
-		%if notice_messages:
-		<div class="flash_messages notice">
-			<ul>
-			%for message in notice_messages:
-			<li>${message}</li>
-		%endfor
-			</ul>
-		</div>
-		%endif
-
-		%if success_messages:
-		<div class="flash_messages success">
-			<ul>
-			%for message in success_messages:
-			<li>${message}</li>
-		%endfor
-			</ul>
-		</div>
-		%endif
-
-		<div class="content">
-			${self.body()}
-			<div style="clear: both;"></div>
+    <div class="content">
+      <div class="inner_content">
+  			${self.body()}
+	  		<div style="clear: both;"></div>
+        <br/>
+      </div>
 		</div>
 	</div>
 </div>

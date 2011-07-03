@@ -25,16 +25,49 @@
 	<ul>
 		<li><a href="https://beteiligung.enquetebeteiligung.de/" style="color:green">Online-Beteiligungs-AG</a></li>
   </ul>
-  <h4>Legende</h4>
-  
- 	<ul>
-		<li><span style="color:green;">Aktiv</span></li>
-		<li><span style="color:#FFA500">Themenfindungsphase</span></li>
-		<li><span style="color:grey;">Abgeschlossen</span></li>
+  <br/>
+  <strong>Legende:</strong>
+  <span style="color:green;">Aktiv</span>
+  <span style="color:#FFA500">Themenfindungsphase</span>
+  <!--span style="color:grey;">Abgeschlossen</span-->
+  <br/>
+</div>
 
+<div id="content" class="content-startpage">
+<div class="mainbar"> 
+  <div class="tile">
+    <div class="logo">
+      <img src="/img/konferenzraum.jpg"/>
+      <div class="copyright">Foto: Christian Scholz, CC-BY</div>
+    </div>
+    <div class="base">
+      <h1>
+      Hier tagt der 18. Sachverst&auml;ndige der Enquete-Kommission "Internet und digitale Gesellschaft"!
+      </h1>
+      <p>
+      Gemeinsam gewonnene Erkenntnis bringt die besten Ergebnisse bei der Gestaltung der Zukunft.
+      </p>
+      <p>
+      Jeder B&uuml;rger ist eingeladen als "18. Sachverst&auml;ndiger" sein Wissen und seine Vorstellungen &uuml;ber gute Internetnutzung einzubringen.
+      <br><br>
+      Damit sich m&ouml;glichst viele B&uuml;rger gut organisiert und mit dem Ziel der besten gemeinsamen Texte einbringen k&ouml;nnen, hat die zust&auml;ndige Enquetekommission des Bundestages ein neues Tool aufgesetzt. 
+      Die Beteiligung der Bev&ouml;lkerung als  "18. Sachverst&auml;ndigen" stellt eine neuartige Form der Teilnahme dar. Durchdacht und doch noch experimentell soll hier aus dem Wutb&uuml;rger ein Mutb&uuml;rger werden.
+      <br><br>
+      Wie es funktioniert erfahren Sie <a href="/static/about.html">hier</a>.
+      Wer direkt loslegen will, kommt <a href="${h.base_url(None, path='/instance')}">hier</a> zu den einzelnen <a href="${h.base_url(None, path='/instance')}">Projektgruppen</a>.
+      <br>
+      <h3><a style="color: green; font-weight: bold; " href="${h.base_url(None, path='/instance')}">Los geht's &raquo;</a></h3>
+      </p>					
+    </div>	
+	</div> 
+</div>
+<br/>
+<div class="clearfix"></div>
 
-	</ul>
-  
+${tiles.milestone.timeline(c.milestones)}
+<br/>
+
+<div class="sidebar">
   <br/>
 	<h3 class="section">Zu dieser Seite</h3> 
 	<ul>
@@ -55,69 +88,30 @@
 	</ul>
 </div>
 
-<div id="content" class="content-startpage">
-<div class="mainbar"> 
-	<div class="table">
-		<div class="table_listing">
-			<div class="tile">
-				<div class="logo">
-					<img src="/img/konferenzraum.jpg"/>
-					<div class="copyright">Foto: Christian Scholz, CC-BY</div>
-				</div>
-				<div class="base">
-					<h3>
-					Hier tagt der 18. Sachverst&auml;ndige der Enquete-Kommission "Internet und digitale Gesellschaft"!
-					</h3>
-					<p>
-					Gemeinsam gewonnene Erkenntnis bringt die besten Ergebnisse bei der Gestaltung der Zukunft.
-					</p>
-					<p>
-					Jeder B&uuml;rger ist eingeladen als "18. Sachverst&auml;ndiger" sein Wissen und seine Vorstellungen &uuml;ber gute Internetnutzung einzubringen.
-					<br><br>
-					Damit sich m&ouml;glichst viele B&uuml;rger gut organisiert und mit dem Ziel der besten gemeinsamen Texte einbringen k&ouml;nnen, hat die zust&auml;ndige Enquetekommission des Bundestages ein neues Tool aufgesetzt. 
-					Die Beteiligung der Bev&ouml;lkerung als  "18. Sachverst&auml;ndigen" stellt eine neuartige Form der Teilnahme dar. Durchdacht und doch noch experimentell soll hier aus dem Wutb&uuml;rger ein Mutb&uuml;rger werden.
-					<br><br>
-					Wie es funktioniert erfahren Sie <a href="/static/about.html">hier</a>.
-					<br><br>
-					Den <a href="/static/drucksache.html">Einsetzungsbeschluss des Deutschen Bundestags (Drucksache 17/950) finden Sie hier</a> <a href="http://dipbt.bundestag.de/dip21/btd/17/009/1700950.pdf" target="_blank">(PDF-Version auf bundestag.de)</a>.<br> Dort finden sich auch die konkreten Themen, die im Rahmen der Enquete-Kommission "Internet und digitale Gesellschaft" behandelt werden sollen.
-					<br><br>
-					Wer direkt loslegen will, kommt <a href="${h.base_url(None, path='/instance')}">hier</a> zu den einzelnen <a href="${h.base_url(None, path='/instance')}">Projektgruppen</a>.
-					<br>
-					<h3><a style="color: green; font-weight: bold; " href="${h.base_url(None, path='/instance')}">Los geht's &raquo;</a></h3>
-					</p>					
-				</div>	
-			</div>
-		</div>
-	</div> 
+<div class="mainbar">
+  <div class="tile">
+    <h2>Expertenwissen auf der Beteiligungsplattform</h2>
+    <p>
+    Seit Februar 2011 gibt es über enquetebeteiligung.de die Möglichkeit der
+    Online-Beteiligung an der Arbeit der Internet-Enquete. Gefragt ist auch
+    das Expertenwissen von Vereinen, Stiftungen, Verbänden und anderen
+    Organisationen. Dafür gibt es den neuen Institutionenzugang mit einem
+    verifizierten Account. Wenn Sie sich mit Ihrer Organisation registrieren
+    möchten, nehmen Sie Kontakt mit dem Sekretariat der Enquete-Kommission
+    auf. Details erfahren Sie <a
+      href="http://www.bundestag.de/internetenquete/Expertenwissen_auf_der_Beteiligungsplattform/index.jsp">hier</a>.
+    </p> 
+  </div>
 </div>
 
-
-<div class="mainbar table"> 
-
-<h3>
-Aktuelles
-</h3>
-
-<p class="base">
-Die Projektgruppen <a href="https://neutralitaet.enquetebeteiligung.de/">Netzneutralit&auml;t</a>, <a href="https://urheberrecht.enquetebeteiligung.de/">Urheberrecht</a> sowie <a href="https://datenschutz.enquetebeteiligung.de/">Datenschutz und Pers&ouml;nlichkeitsrecht</a> wurden erneut ge&ouml;ffnet, um die Mitarbeit an den jeweiligen Handlungsempfehlungen zu erm&ouml;glichen. <a href="http://www.bundestag.de/internetenquete/Handlungsempfehlungen_gesucht/index.jsp">Details finden Sie hier.</a>
-
-</p>
-
-<p class="tile" />
-
-</div>
-
-<div class="mainbar table" id="globalstats"> 
-
-<h3>${_("By the numbers")}</h3>
-
+<div class="mainbar" id="globalstats"> 
+  <h3>${_("By the numbers")}</h3>
   <ul class="base">
         <li>${_("<b>%s</b> members") % c.stats_global.get('members')|n}</li>
         <li>${_("<b>%s</b> proposals") % c.stats_global.get('proposals')|n}</li>
         <li>${_("<b>%s</b> comments") % c.stats_global.get('comments')|n}</li>
         <li>${_("<b>%s</b> votes") % c.stats_global.get('votes')|n}</li>
-    </ul>  
-
+  </ul>  
 </div>
 
 </div>
