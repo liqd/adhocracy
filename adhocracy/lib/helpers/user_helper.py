@@ -45,7 +45,8 @@ def link(user, size=16, scope=None):
         from adhocracy.lib.helpers import entity_url
         url = _generic_link(user, instance, size, scope)
         if user.badges:
-            url += str(tiles.badge.badges(user.badges))
+            url += u"<span class='user_link_badges'>" + \
+                unicode(tiles.badge.badges(user.badges)) + "</span>"
         if other and scope:
             dnode = democracy.DelegationNode(other, scope)
             for delegation in dnode.outbound():
