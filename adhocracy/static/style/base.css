@@ -2237,6 +2237,10 @@ h1 .badge, h3 .badge {
   float:right;
 }
 
+.event h3 .badge {
+  float: none;
+}
+
 .badge a {
   color: #fff;
 }
@@ -2246,7 +2250,8 @@ h1 .badge, h3 .badge {
   text-decoration: none;
 }
 
-.user_link_badges .badge {
+.user_link_badges .badge,
+.event .badge {
   margin-top: -2px;
   margin-left: 0px;
   font-size: 70%;
