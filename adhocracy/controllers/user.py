@@ -116,7 +116,7 @@ class UserController(BaseController):
         if format == 'json':
             return render_json(c.users_pager)
 
-        c.users_pager = pager.users(c.users)  # , has_query=query is not None)
+        c.users_pager = pager.users(c.users, c.instance)
         return render("/user/index.html")
 
     def all(self):
@@ -131,7 +131,7 @@ class UserController(BaseController):
 
         c.users = q.all()
 
-        c.users_pager = pager.users(c.users)
+        c.users_pager = pager.users(c.users, c.instance)
         return render("/user/all.html")
 
     def new(self):

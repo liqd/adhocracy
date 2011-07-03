@@ -150,10 +150,11 @@ def pages(pages, detail=True, default_sort=None, **kwargs):
                     default_sort=default_sort, **kwargs)
 
 
-def users(users):
+def users(users, instance):
+    activity_sorting = sorting.user_activity_factory(instance)
     sorts = {_("oldest"): sorting.entity_oldest,
              _("newest"): sorting.entity_newest,
-             _("activity"): sorting.user_activity,
+             _("activity"): activity_sorting,
              _("alphabetically"): sorting.user_name}
 
     return NamedPager('users', users, tiles.user.row, sorts=sorts,

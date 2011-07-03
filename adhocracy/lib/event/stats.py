@@ -39,7 +39,15 @@ def instance_activity(instance, from_time=None, to_time=None):
 
 
 @memoize('user_activity', 84600)
-def user_activity(user, from_time=None, to_time=None):
+def user_activity(instance, user, from_time=None, to_time=None):
+    '''
+    compute the user activity, either for a given
+    :class:`adhocracy.model.Instance` *instance*, or across
+    all instances if *instance* is `None`
+    '''
     def query_filter(q):
-        return q.filter(model.Event.user == user)
+        q = q.filter(model.Event.user == user)
+        if instance is not None:
+            q = q.filter(model.Event.instance == instance)
+        return q
     return activity(query_filter, from_time, to_time)

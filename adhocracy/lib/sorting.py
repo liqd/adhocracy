@@ -118,9 +118,25 @@ def instance_activity(instances):
                   reverse=True)
 
 
-def user_activity(users):
-    return sorted(users, key=lambda u: estats.instance_activity(u),
+def user_activity(instance, users):
+    return sorted(users, key=lambda u: estats.user_activity(instance, u),
                   reverse=True)
+
+
+def user_activity_factory(instance):
+    '''
+    Create an user activity sorting function that uses
+    the given *instance*. If *instance* is `None`, the returned
+    function will sort users by the activity across all instances.
+    If instance is an :class:`adhocracy.model.Instance` object,
+    it will sort the users by their activity in the given instance.
+
+    Returns: A function that accepts a list of users and returns
+    them sorted.
+    '''
+    def func(users):
+        return user_activity(instance, users)
+    return func
 
 
 def comment_score(comments):
