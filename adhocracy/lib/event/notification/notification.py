@@ -1,11 +1,10 @@
 import os.path 
 import logging 
 
-from pylons import config
 from pylons.i18n import _ 
 
-import adhocracy.i18n as i18n
-from ... import helpers as h
+from adhocracy import i18n
+from adhocracy import templates 
 from ...templating import render
 from .. import formatting
 
@@ -13,7 +12,6 @@ log = logging.getLogger(__name__)
 
 class Notification(object):
     
-    TPL_PATTERN = os.path.join("%s", 'adhocracy', 'templates', '%s') 
     TPL_NAME = os.path.join("", "notifications", "%s.%s.txt")
     
     def __init__(self, event, user, type=None, watch=None):
@@ -60,9 +58,8 @@ class Notification(object):
         locale = self.language_context()
         tpl_vars = {'n': self, 'e': self.event, 'u': self.user, 't': self.type}
         
-        # HACK 
         tpl_name = self.TPL_NAME % (str(self.type), locale.language[0:2])
-        tpl_path = self.TPL_PATTERN % (config.get('here'), tpl_name) 
+        tpl_path = os.path.join(templates.__path__[0], tpl_name) 
         
         if not os.path.exists(tpl_path):
             log.warn("Notification body needs to be localized to file %s" % (tpl_path)) 
