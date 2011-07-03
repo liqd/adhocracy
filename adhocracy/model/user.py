@@ -189,7 +189,7 @@ class User(meta.Indexable):
             password_8bit = password.encode('ascii', 'ignore')
         else:
             password_8bit = password
-        if self.banned or self.delete_time: 
+        if self.banned or self.delete_time:
             return False
         hashed_pass = hashlib.sha1(password_8bit + self.password[:40])
         return self.password[40:] == hashed_pass.hexdigest()
@@ -296,8 +296,8 @@ class User(meta.Indexable):
 
     @classmethod
     def all(cls, instance=None, include_deleted=False):
-        return cls.all_q(instance=instance, 
-                include_deleted=include_deleted).all()
+        return cls.all_q(instance=instance,
+                         include_deleted=include_deleted).all()
 
     def delete(self, delete_time=None):
         if delete_time is None:
@@ -311,7 +311,7 @@ class User(meta.Indexable):
             comment.delete(delete_time=delete_time)
         for membership in self.memberships:
             membership.delete(delete_time=delete_time)
-        #for vote in self.votes: 
+        #for vote in self.votes:
         #    vote.delete(delete_time=delete_time)
         self.delete_time = delete_time
 
