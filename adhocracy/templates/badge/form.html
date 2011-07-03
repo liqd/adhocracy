@@ -23,6 +23,21 @@
     <input name="color" style="width: 8em" id="color" class=""
            value="" />
     <span class="hint">${_("Like '#a4a4a4'")}</span>
+
+    <label for="group" 
+           class="">${_("Assign the user exclusively to this group")}</label>
+
+    <select name="group"> 
+        <option value="">${_("No Group")}</option>
+        %for group in c.groups:
+        <option value="${group.code}">${group.group_name}</option>
+        %endfor
+    </select>
+
+    <span class="hint">${_("If an user is assigned exclusively to a group "
+    "with a badge, an instance supervisor will not be able to change the "
+    "uses group or add him to another group.")}</span>
+
     <div class="mainbar">
       ${components.savebox("/badge", c.save_button)}
     </div>

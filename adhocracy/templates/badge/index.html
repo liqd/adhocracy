@@ -29,6 +29,7 @@
         <th>${_("Badge Title")}</th>
         <th>${_("Color")}</th>
         <th>${_("Preview")}</th>
+        <th>${_("Assigned Group")}</th>
         <th>${_("Actions")}</th>
       </thead>
       %for badge in c.badges:
@@ -36,6 +37,8 @@
         <td>${badge.title}</td>
         <td>${badge.color}</td>
         <td>${components.badge(badge)}</td>
+        <td>${badge.group and badge.group.group_name or ""}</td>
+        
         <td>
           <a class="button edit ttip"
              title='${_("Edit Badge \"%s\"") % badge.title}' 

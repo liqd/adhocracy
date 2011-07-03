@@ -1,16 +1,16 @@
+from logging import getLogger
 from operator import attrgetter
 
 import formencode
-from formencode import htmlfill, validators
+from formencode import Any, htmlfill, validators
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 from repoze.what.plugins.pylonshq import ActionProtector
 
-
-from adhocracy.forms.common import ValidHTMLColor
-from adhocracy.model import Badge, meta
+from adhocracy.forms.common import ValidGroup, ValidHTMLColor
+from adhocracy.model import Badge, Group, meta
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has_permission
 from adhocracy.lib.auth.csrf import RequireInternalRequest
@@ -18,10 +18,12 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, render_json
 
 
+
 class BadgeForm(formencode.Schema):
     allow_extra_fields = True
     title = validators.String(max=40, not_empty=True)
     color = ValidHTMLColor()
+    group = Any(validators.Empty, ValidGroup())
 
 
 class BadgeController(BaseController):
@@ -65,11 +67,14 @@ class BadgeController(BaseController):
     def edit(self, id, errors=None):
         c.form_title = c.save_button = _("Edit Badge")
         c.action_url = self.base_url + '/edit/%s' % id
+        c.groups = meta.Session.query(Group).order_by(Group.group_name).all()
         badge = Badge.by_id(id)
         if badge is None:
             self._redirect_not_found(id)
+        group_default = badge.group and badge.group.code or ''
         defaults = dict(title=badge.title,
-                        color=badge.color)
+                        color=badge.color,
+                        group=group_default)
         return htmlfill.render(render("/badge/form.html"),
                                errors=errors,
                                defaults=defaults)
@@ -84,6 +89,12 @@ class BadgeController(BaseController):
 
         title = self.form_result.get('title').strip()
         color = self.form_result.get('color').strip()
+        group = self.form_result.get('group')
+
+        if group:
+            badge.group = group
+        else:
+            badge.group = None
         badge.title = title
         badge.color = color
         meta.Session.commit()
