@@ -149,7 +149,7 @@ class Event(object):
                  url=self.link(),
                  user=self.user.user_name,
                  event=self._event,
-                 instance=self.instance.key)
+                 instance=self.instance and self.instance.key or None)
         d['topics'] = map(lambda t: t.id, self.topics)
         return d
 
