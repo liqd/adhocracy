@@ -29,7 +29,7 @@ class MilestoneNewForm(formencode.Schema):
 
 class MilestoneCreateForm(MilestoneNewForm):
     title = validators.String(max=2000, min=4, not_empty=True)
-    text = validators.String(max=20000, min=4, not_empty=True)
+    text = validators.String(max=60000, min=4, not_empty=True)
     time = forms.ValidDate()
 
 
@@ -39,7 +39,7 @@ class MilestoneEditForm(formencode.Schema):
 
 class MilestoneUpdateForm(MilestoneEditForm):
     title = validators.String(max=2000, min=4, not_empty=True)
-    text = validators.String(max=20000, min=4, not_empty=True)
+    text = validators.String(max=60000, min=4, not_empty=True)
     time = forms.ValidDate()
 
 
