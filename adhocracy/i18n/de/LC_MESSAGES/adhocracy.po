@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-06-20 15:49+0200\n"
-"PO-Revision-Date: 2011-07-03 12:26+0100\n"
+"PO-Revision-Date: 2011-07-03 12:35+0100\n"
 "Last-Translator: Friedrich Lindenberg <friedrich.lindenberg@okfn.org>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -25,23 +25,21 @@ msgstr "Danke für Ihre Hilfe."
 #: adhocracy/controllers/badge.py:41
 #, python-format
 msgid "We cannot find the badge with the id %s"
-msgstr ""
+msgstr "Das Badge mit der ID %s konnte nicht gefunden werden"
 
 #: adhocracy/controllers/badge.py:47
-#, fuzzy
 #| msgid "add tags..."
 msgid "Add Badge"
-msgstr "tags hinzufügen..."
+msgstr "Badge hinzufügen"
 
 #: adhocracy/controllers/badge.py:66
-#, fuzzy
 #| msgid "editable"
 msgid "Edit Badge"
-msgstr "änderbar"
+msgstr "Badge bearbeiten"
 
 #: adhocracy/controllers/badge.py:90
 msgid "Badge changed successfully"
-msgstr ""
+msgstr "Badge erfolgreich geändert"
 
 #: adhocracy/controllers/comment.py:70
 #: adhocracy/controllers/comment.py:210
@@ -472,7 +470,7 @@ msgstr "Ungültiges Datum, das Format muss TT.MM.JJJJ sein."
 
 #: adhocracy/forms/common.py:80
 msgid "Please enter a html color code like '#f0f0f0'. '%(value)' is not a valid color code."
-msgstr ""
+msgstr "Bitte gib einen Farbcode wie '#f0f0f0' ein. '%(value)s' ist kein gültiger Farbcode."
 
 #: adhocracy/forms/common.py:90
 msgid "No instance key is given"
@@ -1509,35 +1507,35 @@ msgstr "WARNUNG: Diese Funktion erlaubt es Ihnen, Sich aus dem Adhocracy-System 
 
 #: adhocracy/templates/badge/form.html:16
 msgid "Badge title"
-msgstr ""
+msgstr "Titel des Badge"
 
 #: adhocracy/templates/badge/form.html:19
 msgid "The title of the badge."
-msgstr ""
+msgstr "Der Name des Badges"
 
 #: adhocracy/templates/badge/form.html:22
 msgid "The color that is used to show the badge"
-msgstr ""
+msgstr "Die für das Badge genutzte Farbe"
 
 #: adhocracy/templates/badge/form.html:25
 msgid "Like '#a4a4a4'"
-msgstr ""
+msgstr "Etwa '#a4a4a4'"
 
 #: adhocracy/templates/badge/index.html:9
 msgid "All Badges"
-msgstr ""
+msgstr "Alle Badges"
 
 #: adhocracy/templates/badge/index.html:23
 msgid "No badges added yet."
-msgstr ""
+msgstr "Noch keine Badges hinzugefügt."
 
 #: adhocracy/templates/badge/index.html:29
 msgid "Badge Title"
-msgstr ""
+msgstr "Titel des Badge"
 
 #: adhocracy/templates/badge/index.html:30
 msgid "Color"
-msgstr ""
+msgstr "Farbe"
 
 #: adhocracy/templates/badge/index.html:31
 #| msgid "review"
@@ -2248,7 +2246,7 @@ msgstr "Neue Projektgruppe"
 
 #: adhocracy/templates/instance/index.html:21
 msgid "Instances are little democracies that are ran by their community."
-msgstr "Projektgruppen sind Untergruppen der Enquete-Kommission zu festgelegten Themen."
+msgstr "Projektgruppen sind Untergruppen der Enquete-Kommission zu festgelegten Themen.Hier finden Sie eine Auflistung der Projektgruppen der Enquete-Kommission \"Internet und digitale Gesellschaft\". Im \"Sandkasten\" können Sie die Funktionsweise von Adhocracy ausprobieren."
 
 #: adhocracy/templates/instance/index.html:26
 msgid "What is an instance?"
@@ -3288,7 +3286,7 @@ msgstr "Alle Benutzer"
 
 #: adhocracy/templates/user/all.html:18
 msgid "A listing of all users in all instance an this adhocracy server."
-msgstr ""
+msgstr "Eine Auflistung aller Benutzer in allen Projektgruppen."
 
 #: adhocracy/templates/user/ask_delete.html:7
 #: adhocracy/templates/user/instances.html:7
@@ -3302,7 +3300,7 @@ msgstr "Sind Sie sicher, dass Sie diesen Account löschen wollen? Der Schritt is
 #: adhocracy/templates/user/badges.html:3
 #, python-format
 msgid "Edit Badges for %s"
-msgstr ""
+msgstr "Badges von %s bearbeiten"
 
 #: adhocracy/templates/user/badges.html:6
 #: adhocracy/templates/user/tiles.html:38
@@ -3312,7 +3310,7 @@ msgstr "badge bearbeiten"
 
 #: adhocracy/templates/user/badges.html:19
 msgid "badge"
-msgstr ""
+msgstr "Badge"
 
 #: adhocracy/templates/user/comments.html:4
 #, python-format
