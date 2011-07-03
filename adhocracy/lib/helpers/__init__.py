@@ -16,12 +16,12 @@ from adhocracy.lib import democracy
 from adhocracy.lib import cache
 from adhocracy.lib import sorting
 
-import adhocracy.model as model 
+import adhocracy.model as model
 
 from adhocracy.i18n import relative_date, relative_time, format_date, countdown_time
 from adhocracy.lib.auth.csrf import url_token, field_token
 from adhocracy.lib.watchlist import make_watch, find_watch
- 
+
 from webhelpers.pylonslib import Flash as _Flash
 from webhelpers.text import truncate
 
@@ -47,12 +47,14 @@ from site_helper import base_url
 
 
 def immutable_proposal_message():
-    return _("This proposal is currently being voted on and cannot be modified.")
+    return _("This proposal is currently being voted on and cannot "
+             "be modified.")
 
 
 def comments_sorted(comments, root=None, variant=None):
     from adhocracy.lib.tiles.comment_tiles import CommentTile
-    comments = [c for c in comments if c.variant==variant and c.reply==root]
+    comments = [c for c in comments if
+                (c.variant == variant and c.reply == root)]
     _comments = []
     for comment in sorting.comment_order(comments):
         tile = CommentTile(comment)
@@ -62,12 +64,14 @@ def comments_sorted(comments, root=None, variant=None):
 
 def contains_delegations(user, delegateable, recurse=True):
     for delegation in user.agencies:
-        if not delegation.revoke_time and (delegation.scope == delegateable or \
-            (delegation.scope.is_sub(delegateable) and recurse)):
+        if (not delegation.revoke_time and
+            (delegation.scope == delegateable or
+            (delegation.scope.is_sub(delegateable) and recurse))):
             return True
     for delegation in user.delegated:
-        if not delegation.revoke_time and (delegation.scope == delegateable or \
-            (delegation.scope.is_sub(delegateable) and recurse)):
+        if (not delegation.revoke_time and
+            (delegation.scope == delegateable or
+            (delegation.scope.is_sub(delegateable) and recurse))):
             return True
     return False
 
@@ -85,7 +89,7 @@ def poll_position_css(poll):
     if c.user:
         return _cached(c.user, poll)
     return u""
-        
+
 
 def propose_comment_title(parent=None, topic=None, variant=None):
     if parent and parent.latest.title:
@@ -98,12 +102,13 @@ def propose_comment_title(parent=None, topic=None, variant=None):
     elif topic:
         return _("Re: ") + topic.title[:250]
     return ""
-    
+
 
 def add_meta(key, value):
     if not c.html_meta:
         c.html_meta = dict()
     c.html_meta[key] = value
+
 
 def help_link(text, page, anchor=None):
     url = base_url(None, path="/static/%s.%s")
@@ -111,15 +116,16 @@ def help_link(text, page, anchor=None):
         url += "#" + anchor
     full_url = url % (page, 'html')
     simple_url = url % (page, 'simple')
-    return u"<a target='_new' href='%s' onClick='return showHelp(\"%s\")'>%s</a>" % (full_url, simple_url, text)
-
+    return (u"<a target='_new' href='%s' "
+            u"onClick='return showHelp(\"%s\")'>%s</a>") % (full_url,
+                                                            simple_url, text)
 
 
 def add_rss(title, link):
     if not c.html_link:
         c.html_link = []
-    c.html_link.append({'title': title, 
-                        'href': link, 
+    c.html_link.append({'title': title,
+                        'href': link,
                         'rel': 'alternate',
                         'type': 'application/rss+xml'})
 
@@ -134,7 +140,7 @@ def entity_url(entity, **kwargs):
     elif isinstance(entity, model.Text):
         return text.url(entity, **kwargs)
     elif isinstance(entity, model.Delegateable):
-        return delegateable_url(entity, **kwargs)
+        return delegateable.url(entity, **kwargs)
     elif isinstance(entity, model.Poll):
         return poll.url(entity, **kwargs)
     elif isinstance(entity, model.Selection):
