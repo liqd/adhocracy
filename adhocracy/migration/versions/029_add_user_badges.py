@@ -26,6 +26,8 @@ user_badges_table = Table('user_badges', metadata,
 
 def upgrade(migrate_engine):
     metadata.bind = migrate_engine
+    group_table = Table('group', metadata, autoload=True)
+    user_table = Table('user', metadata, autoload=True)
     badge_table.create()
     user_badges_table.create()
 

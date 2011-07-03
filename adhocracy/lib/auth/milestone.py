@@ -5,17 +5,17 @@ from adhocracy.lib.auth.authorization import has
 
 
 def index():
-    return has('proposal.show') and c.instance.milestones
+    return has('milestone.show') and c.instance.milestones
 
 
 def show(m):
-    return has('proposal.show') and c.instance.milestones and not m.is_deleted() 
+    return has('milestone.show') and c.instance.milestones and not m.is_deleted() 
 
 
 def create():
     if not c.instance.milestones:
         return False
-    return has('proposal.create')
+    return has('milestone.create')
 
 
 def edit(m):
