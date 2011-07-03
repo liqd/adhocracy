@@ -1,9 +1,11 @@
-from pylons import tmpl_context as c, config, request, g
+from pylons import config, request, g
 from pylons.i18n import _
+
 
 def name():
     return config.get('adhocracy.site.name', _("Adhocracy"))
-    
+
+
 def base_url(instance, path=None):
     url = "%s://" % config.get('adhocracy.protocol', 'http').strip()
     if instance is not None and g.single_instance is None:

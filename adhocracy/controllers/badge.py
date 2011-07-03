@@ -1,16 +1,15 @@
 from operator import attrgetter
 
 import formencode
-from formencode import htmlfill, validators
+from formencode import Any, htmlfill, validators
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 from repoze.what.plugins.pylonshq import ActionProtector
 
-
-from adhocracy.forms.common import ValidHTMLColor
-from adhocracy.model import Badge, meta
+from adhocracy.forms.common import ValidGroup, ValidHTMLColor
+from adhocracy.model import Badge, Group, meta
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has_permission
 from adhocracy.lib.auth.csrf import RequireInternalRequest
@@ -21,7 +20,10 @@ from adhocracy.lib.templating import render, render_json
 class BadgeForm(formencode.Schema):
     allow_extra_fields = True
     title = validators.String(max=40, not_empty=True)
+    description = validators.String(max=255)
     color = ValidHTMLColor()
+    group = Any(validators.Empty, ValidGroup())
+    display_group = validators.StringBoolean(if_missing=False)
 
 
 class BadgeController(BaseController):
@@ -46,6 +48,7 @@ class BadgeController(BaseController):
     def add(self, errors=None):
         c.form_title = c.save_button = _("Add Badge")
         c.action_url = self.base_url + '/add'
+        c.groups = meta.Session.query(Group).order_by(Group.group_name).all()
         return htmlfill.render(render("/badge/form.html"),
                                defaults=dict(request.params),
                                errors=errors)
@@ -55,8 +58,11 @@ class BadgeController(BaseController):
     @ActionProtector(has_permission("global.admin"))
     def create(self):
         title = self.form_result.get('title').strip()
+        description = self.form_result.get('description').strip()
         color = self.form_result.get('color').strip()
-        badge = Badge.create(title, color)
+        group = self.form_result.get('group')
+        display_group = self.form_result.get('display_group')
+        badge = Badge.create(title, color, description, group, display_group)
         meta.Session.add(badge)
         meta.Session.commit()
         redirect(self.base_url)
@@ -65,11 +71,16 @@ class BadgeController(BaseController):
     def edit(self, id, errors=None):
         c.form_title = c.save_button = _("Edit Badge")
         c.action_url = self.base_url + '/edit/%s' % id
+        c.groups = meta.Session.query(Group).order_by(Group.group_name).all()
         badge = Badge.by_id(id)
         if badge is None:
             self._redirect_not_found(id)
+        group_default = badge.group and badge.group.code or ''
         defaults = dict(title=badge.title,
-                        color=badge.color)
+                        description=badge.description,
+                        color=badge.color,
+                        group=group_default,
+                        display_group=badge.display_group )
         return htmlfill.render(render("/badge/form.html"),
                                errors=errors,
                                defaults=defaults)
@@ -83,9 +94,19 @@ class BadgeController(BaseController):
             self._redirect_not_found(id)
 
         title = self.form_result.get('title').strip()
+        description = self.form_result.get('description').strip()
         color = self.form_result.get('color').strip()
+        group = self.form_result.get('group')
+        display_group = self.form_result.get('display_group')
+
+        if group:
+            badge.group = group
+        else:
+            badge.group = None
         badge.title = title
         badge.color = color
+        badge.description = description
+        badge.display_group = display_group
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)

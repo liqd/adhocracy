@@ -1,4 +1,5 @@
 from pylons import tmpl_context as c
+from pylons.i18n import _
 
 from adhocracy import model
 from adhocracy.lib import text
@@ -10,6 +11,7 @@ class UserTile(BaseTile):
     def __init__(self, user):
         self.user = user
         self.__instance_group = None
+        self.__instance_roles = None
 
     def _bio(self):
         if self.user.bio:
@@ -45,6 +47,26 @@ class UserTile(BaseTile):
         return self.__instance_group
 
     instance_group = property(_instance_group)
+
+    def _instance_roles(self):
+        if c.instance and not self.__instance_roles:
+            instance_roles = []
+            for badge in self.user.badges:
+                if badge.group and badge.display_group:
+                    instance_roles.append(badge.group)
+            if instance_roles:
+                self.__instance_roles = instance_roles
+            else:
+                self.__instance_roles = [self.instance_group]
+
+        return self.__instance_roles
+
+    instance_roles = property(_instance_roles)
+
+    def translated_instance_role_names(self):
+        translated_names = [_(group.group_name) for group in
+                            self.instance_roles]
+        return ', '.join(translated_names)
 
 
 def row(user):

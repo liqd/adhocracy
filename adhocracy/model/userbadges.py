@@ -1,7 +1,8 @@
 from datetime import datetime
 import logging
 
-from sqlalchemy import Table, Column, Integer, ForeignKey, DateTime, Unicode
+from sqlalchemy import Table, Column, ForeignKey
+from sqlalchemy import Boolean, Integer, DateTime, Unicode
 
 from adhocracy.model import meta
 
@@ -14,10 +15,13 @@ badge_table = Table(
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('title', Unicode(40), nullable=False),
     Column('color', Unicode(7), nullable=False),
-    Column('group', Integer, ForeignKey('group.id', ondelete="CASCADE")))
+    Column('description', Unicode(255), nullable=False),
+    Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
+    Column('display_group', Boolean))
 
 
-user_badges_table = Table('user_badges', meta.data,
+user_badges_table = Table(
+    'user_badges', meta.data,
     Column('id', Integer, primary_key=True),
     Column('badge_id', Integer, ForeignKey('badge.id'),
            nullable=False),
@@ -29,9 +33,13 @@ user_badges_table = Table('user_badges', meta.data,
 
 class Badge(object):
 
-    def __init__(self, title, color):
+    def __init__(self, title, color, description, group=None,
+                 display_group=False):
         self.title = title
+        self.description = description
         self.color = color
+        self.group = group
+        self.display_group = display_group
 
     def __repr__(self):
         return "<Badge(%s,%s)>" % (self.id,
@@ -75,8 +83,9 @@ class Badge(object):
         return q.all()
 
     @classmethod
-    def create(cls, title, color):
-        badge = cls(title, color)
+    def create(cls, title, color, description, group=None,
+                 display_group=False):
+        badge = cls(title, color, description, group, display_group)
         meta.Session.add(badge)
         meta.Session.flush()
         return badge
@@ -92,6 +101,8 @@ class Badge(object):
         return dict(id=self.id,
                     title=self.title,
                     color=self.color,
+                    group=self.group and self.group.code or None,
+                    display_group=self.display_group,
                     users=[user.name for user in self.users])
 
     def _index_id(self):

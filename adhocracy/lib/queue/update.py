@@ -2,15 +2,12 @@ import json
 from collections import defaultdict
 
 from amqp import has_queue, post_message
-from adhocracy import model
-from adhocracy.model.update import INSERT, UPDATE, DELETE
 from adhocracy.model.refs import to_ref, to_entity
-
-from adhocracy.lib.democracy import handle_vote, update_delegation
 
 UPDATE_SERVICE = 'entity'
 
 LISTENERS = defaultdict(list)
+
 
 def post_update(entity, operation):
     if has_queue():
@@ -19,6 +16,7 @@ def post_update(entity, operation):
             return
         data = dict(operation=operation, entity=entity_ref)
         post_message(UPDATE_SERVICE, json.dumps(data))
+
 
 def handle_update(message):
     data = json.loads(message)
@@ -29,5 +27,3 @@ def handle_update(message):
             continue
         for listener in listeners:
             listener(entity)
-
-

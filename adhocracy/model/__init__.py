@@ -70,6 +70,9 @@ mapper(Badge, badge_table,
                              secondaryjoin=(user_badges_table.c.user_id ==
                                             user_table.c.id),
                              backref=backref('badges', lazy='joined'),
+                             lazy=False),
+           'group': relation(Group, primaryjoin=(group_table.c.id ==
+                                                 badge_table.c.group_id),
                              lazy=False)
            })
 

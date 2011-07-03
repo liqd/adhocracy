@@ -9,14 +9,13 @@ from pylons.decorators import validate
 from pylons.i18n import _
 
 from adhocracy import forms, model
-from adhocracy.lib import event, helpers as h, pager, tiles, watchlist
-from adhocracy.lib import search as libsearch
+from adhocracy.lib import democracy, event, helpers as h, pager
+from adhocracy.lib import search as libsearch, tiles, watchlist
 from adhocracy.lib.auth import authorization, can, csrf, require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_json
 from adhocracy.lib.util import get_entity_or_abort
-from adhocracy.lib import democracy
 
 import adhocracy.lib.text as text
 
@@ -32,12 +31,13 @@ class PageInclusionForm(formencode.Schema):
     id = forms.ValidPage()
     text = validators.String(max=20000, min=0, if_empty="")
 
+
 class ProposalCreateForm(ProposalNewForm):
     pre_validators = [formencode.variabledecode.NestedVariables()]
     label = forms.UnusedTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
     tags = validators.String(max=20000, not_empty=False)
-    milestone = forms.MaybeMilestone(if_empty=None, 
+    milestone = forms.MaybeMilestone(if_empty=None,
             if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
 
@@ -51,7 +51,7 @@ class ProposalUpdateForm(ProposalEditForm):
     text = validators.String(max=20000, min=4, not_empty=True)
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
-    milestone = forms.MaybeMilestone(if_empty=None, 
+    milestone = forms.MaybeMilestone(if_empty=None,
             if_missing=None)
 
 
@@ -107,7 +107,8 @@ class ProposalController(BaseController):
                 if page and page.function == model.Page.NORM:
                     c.pages.append((page.id, page.title, pg.get('text')))
                     c.exclude_pages.append(page)
-        except: pass
+        except:
+            pass
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
         return htmlfill.render(render("/proposal/new.html"),
@@ -141,7 +142,7 @@ class ProposalController(BaseController):
         for page in self.form_result.get('page', []):
             page_text = page.get('text', '')
             page = page.get('id')
-            if page is None or page.function != model.Page.NORM: 
+            if page is None or page.function != model.Page.NORM:
                 continue
             var_val = forms.VariantName()
             variant = var_val.to_python(self.form_result.get('label'))

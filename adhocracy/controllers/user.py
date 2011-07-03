@@ -300,9 +300,6 @@ class UserController(BaseController):
         self._common_metadata(c.page_user, add_canonical=True)
         return render("/user/show.html")
 
-    def delete(self, id):
-        self.not_implemented()
-
     def login(self):
         session['came_from'] = request.params.get('came_from',
                                                   h.base_url(c.instance))
@@ -474,7 +471,7 @@ class UserController(BaseController):
         model.meta.Session.commit()
         h.flash(_("The account has been suspended."), 'success')
         redirect(h.entity_url(c.page_user))
-    
+
     @RequireInstance
     @RequireInternalRequest()
     def unban(self, id):
@@ -484,7 +481,7 @@ class UserController(BaseController):
         model.meta.Session.commit()
         h.flash(_("The account has been re-activated."), 'success')
         redirect(h.entity_url(c.page_user))
-    
+
     def ask_delete(self, id):
         c.page_user = get_entity_or_abort(model.User, id)
         require.user.delete(c.page_user)
@@ -493,11 +490,14 @@ class UserController(BaseController):
     @RequireInternalRequest()
     def delete(self, id):
         c.page_user = get_entity_or_abort(model.User, id)
-        require.user.delete(c.proposal)
+        require.user.delete(c.page_user)
         c.page_user.delete()
         model.meta.Session.commit()
         h.flash(_("The account has been deleted."), 'success')
-        redirect(h.entity_url(c.instance))
+        if c.instance is not None:
+            redirect(h.instance.url(c.instance))
+        else:
+            redirect(h.site.base_url(None))
 
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def filter(self):

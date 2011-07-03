@@ -26,16 +26,23 @@
   <div class="table">
     <table class="table_listing">
       <thead>
-        <th>${_("Badge Title")}</th>
+        <th>${_("Title")}</th>
+        <th>${_("Description")}</th>
         <th>${_("Color")}</th>
         <th>${_("Preview")}</th>
+        <th>${_("Assigned Group")}</th>
+        <th>${_("Display")}</th>
         <th>${_("Actions")}</th>
       </thead>
       %for badge in c.badges:
       <tr class="tile">
         <td>${badge.title}</td>
+        <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${badge.color}</td>
         <td>${components.badge(badge)}</td>
+        <td>${badge.group and badge.group.group_name or ""}</td>
+        <td>${badge.display_group and _("yes") or _("no")}</td>
+        
         <td>
           <a class="button edit ttip"
              title='${_("Edit Badge \"%s\"") % badge.title}' 

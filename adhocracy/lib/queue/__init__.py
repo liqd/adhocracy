@@ -1,6 +1,6 @@
 import logging
-from amqp import has_queue, post_message, consume
-from update import post_update, handle_update, UPDATE_SERVICE
+from amqp import post_message, consume
+from update import handle_update, UPDATE_SERVICE
 
 log = logging.getLogger(__name__)
 
@@ -8,17 +8,25 @@ MINUTE = 'minute'
 HOURLY = 'hourly'
 DAILY = 'daily'
 
-def minute(): post_message(MINUTE, '')
 
-def hourly(): post_message(HOURLY, '')
+def minute():
+    post_message(MINUTE, '')
 
-def daily(): post_message(DAILY, '')
+
+def hourly():
+    post_message(HOURLY, '')
+
+
+def daily():
+    post_message(DAILY, '')
+
 
 # TODO: Inversion of control
 def dispatch():
     import adhocracy.model as model
     from adhocracy.lib import event
     from adhocracy.lib import broadcast
+
     def _handle_message(message):
         service = message.application_headers.get('service')
         if service == UPDATE_SERVICE:

@@ -39,6 +39,6 @@ def delete(u):
 
 
 def vote():
-    if has('global.organization'):
+    if has('vote.prohibit'):
         return False
     return c.instance and c.user and has('vote.cast')

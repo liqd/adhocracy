@@ -1,7 +1,7 @@
 import urllib
 import cgi
 
-from pylons import tmpl_context as c, g
+from pylons import tmpl_context as c
 from webhelpers.text import truncate
 
 BREAD_SEP = " &raquo; "
@@ -27,9 +27,10 @@ def build(instance, base, id, query=None, anchor=None, **kwargs):
         url += "#" + anchor
     if query is not None:
         for k, v in query.items():
-            query[unicode(k).encode('ascii', 'ignore')] = unicode(v).encode('utf-8')
+            key = unicode(k).encode('ascii', 'ignore')
+            query[key] = unicode(v).encode('utf-8')
         url = url + u'?' + unicode(urllib.urlencode(query))
-    return url #.encode('utf-8')
+    return url
 
 
 def root():

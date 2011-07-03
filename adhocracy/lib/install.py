@@ -43,6 +43,7 @@ def setup_entities():
 
     # ADD EACH NEW PERMISSION HERE
     mk_perm("vote.cast", voter)
+    mk_perm("vote.prohibit", organization)
     mk_perm("instance.index", anonymous)
     mk_perm("instance.show", anonymous)
     mk_perm("instance.create", admins)
@@ -101,7 +102,7 @@ def setup_entities():
     voter.permissions = voter.permissions + observer.permissions
     supervisor.permissions = supervisor.permissions + voter.permissions
     admins.permissions = admins.permissions + supervisor.permissions
-    organization.permissions = observer.permissions
+    organization.permissions = organization.permission + observer.permissions
 
     admin = model.User.find(u"admin")
     if not admin:

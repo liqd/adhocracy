@@ -1,17 +1,19 @@
 from datetime import datetime
 
 from sqlalchemy import MetaData, Column, ForeignKey, Table
-from sqlalchemy import DateTime, Integer, Unicode
+from sqlalchemy import Boolean, DateTime, Integer, Unicode
 
 metadata = MetaData()
 
-
-badge_table = Table('badge', metadata,
+badge_table = Table(
+    'badge', metadata,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('title', Unicode(40), nullable=False),
     Column('color', Unicode(7), nullable=False),
-    Column('group', Integer, ForeignKey('group.id', ondelete="CASCADE")))
+    Column('description', Unicode(255), nullable=False),
+    Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
+    Column('display_group', Boolean))
 
 
 user_badges_table = Table('user_badges', metadata,
