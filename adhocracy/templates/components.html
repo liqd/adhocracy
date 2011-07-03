@@ -46,7 +46,7 @@
 </%def>
 
 <%def name="badge(badge)">
- <span class="tag_link badge">
-   <a name="${badge.title}" style="background-color: ${badge.color}">${badge.title}</a>
+ <span class="badge" style="background-color: ${badge.color};">
+   <a name="${badge.title}" class="ttip" title="${_("User has badge: %s") % badge.title}">${badge.title}</a>
  </span>
 </%def>

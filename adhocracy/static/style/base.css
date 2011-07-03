@@ -2215,3 +2215,43 @@ a.showjs {
 	-moz-box-shadow: 0 1px 4px rgba(0,0,0,.2);
 	box-shadow: 0 1px 4px rgba(0,0,0,.2);
 }
+
+.badge {
+  display: inline-block;
+  color: #fff;
+  font-size: 80%;
+  margin-left: 5px;
+  padding: 1px 3px 1px 3px;
+  font-family: sans-serif;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+
+     -moz-border-radius: 4px; 
+  -webkit-border-radius: 4px; 
+          border-radius: 4px; 
+  -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; 
+/*
+     -moz-transform: rotate(5deg);  
+       -o-transform: rotate(5deg);  
+  -webkit-transform: rotate(5deg);  
+      -ms-transform: rotate(5deg);  
+          transform: rotate(5deg);  
+             filter: progid:DXImageTransform.Microsoft.Matrix( 
+                     M11=0.9914448613738104, M12=-0.13052619222005157,M21=0.13052619222005157, M22=0.9914448613738104, sizingMethod='auto expand');
+               zoom: 1;
+  */
+}
+
+h1 .badge, h3 .badge {
+  float:right;
+}
+
+.badge a {
+  color: #fff;
+}
+
+.badge a:hover {
+  color: #fff;
+  text-decoration: none;
+}
