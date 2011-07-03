@@ -57,11 +57,10 @@
 			%endif
 			%if h.has_permission("global.admin"):
 				<a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
+        <a class="ttip" 
+           title="${_('Manage Badges')}" 
+           href="${h.base_url(None, path='/badge')}">${_("Badges")}</a>
 			%endif
-
-			<a class="ttip" 
-			   title="${_('Manage Badges')}" 
-			   href="${h.base_url(None, path='/badge')}">${_("Badges")}</a>
 
 			<a href="/event/all">${_("Events")}</a>
 			<div class="help">
@@ -182,9 +181,12 @@
 		</div>
 		%endif
 
-		<div class="content">
-			${self.body()}
-			<div style="clear: both;"></div>
+    <div class="content">
+      <div class="inner_content">
+  			${self.body()}
+	  		<div style="clear: both;"></div>
+        <br/>
+      </div>
 		</div>
 	</div>
 </div>

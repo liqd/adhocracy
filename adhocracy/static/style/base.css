@@ -763,14 +763,14 @@ body {
 /* @group Typography */
 
 .content {
-	padding: inherit;
-    padding-left: 10px;
-    padding-right: 10px;
 	overflow-x: hidden;
 	font-size: 10pt;
-    background-color: #fefefe;
-	/*background: url(/img/white-50.png);*/
+	background: url(/img/white-50.png);
+	/*padding: inherit;
+    padding-left: 10px;
+    padding-right: 10px;*/
 }
+
 #content {
   background: url(/img/sidebar_background.png) repeat top right;
 }
@@ -2208,4 +2208,10 @@ label.inline {
 .showjs,
 a.showjs {
 	display: none;
+}
+
+#timeline {
+    -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 4px rgba(0,0,0,.2);
+	box-shadow: 0 1px 4px rgba(0,0,0,.2);
 }

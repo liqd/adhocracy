@@ -30,11 +30,11 @@ class RootController(BaseController):
         c.instances = model.Instance.all()[:5]
         c.page = StaticPage('index')
 
-        query = self.form_result.get('proposals_q')
-        proposals = libsearch.query.run(query, entity_type=model.Proposal)[:10]
-
-        c.proposals_pager = pager.proposals(proposals)
-        c.proposals = c.proposals_pager.here()
+        #query = self.form_result.get('proposals_q')
+        #proposals = libsearch.query.run(query, entity_type=model.Proposal)[:10]
+        c.milestones = model.Milestone.all()
+        #c.proposals_pager = pager.proposals(proposals)
+        #c.proposals = c.proposals_pager.here()
         c.stats_global = { 
                 "members" : model.User.all_q().count(),
                 "comments" : model.Comment.all_q().count(),
@@ -42,8 +42,8 @@ class RootController(BaseController):
                 "votes" : model.Vote.all_q().count(),
             }
 
-        if format == 'json':
-            return render_json(c.proposals_pager)
+        #if format == 'json':
+        #    return render_json(c.proposals_pager)
         return render('index.html')
 
     #@RequireInstance
