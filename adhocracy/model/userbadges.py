@@ -17,7 +17,8 @@ badge_table = Table(
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")))
 
 
-user_badges_table = Table('user_badges', meta.data,
+user_badges_table = Table(
+    'user_badges', meta.data,
     Column('id', Integer, primary_key=True),
     Column('badge_id', Integer, ForeignKey('badge.id'),
            nullable=False),
