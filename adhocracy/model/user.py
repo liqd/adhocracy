@@ -3,7 +3,7 @@ import os
 import logging
 from datetime import datetime
 
-from sqlalchemy import Table, Column, func, or_, not_
+from sqlalchemy import Table, Column, func, or_
 from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
 from sqlalchemy.orm import eagerload_all
 
@@ -51,7 +51,7 @@ class User(meta.Indexable):
 
     @property
     def name(self):
-        if self.delete_time: 
+        if self.delete_time:
             return self.user_name
         if self.display_name and len(self.display_name.strip()) > 0:
             return self.display_name.strip()
@@ -82,8 +82,14 @@ class User(meta.Indexable):
     def email_hash(self):
         return hashlib.sha1(self.email).hexdigest()
 
-    @property
-    def groups(self):
+    def badge_groups(self):
+        groups = []
+        for badge in self.badges:
+            if badge.group not in groups:
+                groups.append(badge.group)
+        return groups
+
+    def membership_groups(self):
         groups = []
         for membership in self.memberships:
             if membership.is_expired():
@@ -92,6 +98,10 @@ class User(meta.Indexable):
                 membership.instance == ifilter.get_instance():
                 groups.append(membership.group)
         return groups
+
+    @property
+    def groups(self):
+        return list(set(self.badge_groups() + self.membership_groups()))
 
     def _has_permission(self, permission_name):
         for group in self.groups:
