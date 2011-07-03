@@ -18,14 +18,21 @@
            value="" />
     <span class="hint">${_("The title of the badge.")}</span>
 
+    <label for="description" class="">${_("Badge description")}</label>
+    <textarea name="description" id="description" 
+              style="width:90%; height: 10em" value="" >
+    </textarea>
+    <span class="hint">${_("A description for the badge.")}</span>
+
     <label for="color" 
            class="">${_("The color that is used to show the badge")}</label>
     <input name="color" style="width: 8em" id="color" class=""
            value="" />
     <span class="hint">${_("Like '#a4a4a4'")}</span>
 
-    <label for="group" 
-           class="">${_("Assign the user exclusively to this group")}</label>
+    <label for="group" class="">
+        ${_("Group")}
+    </label>
 
     <select name="group"> 
         <option value="">${_("No Group")}</option>
@@ -33,10 +40,12 @@
         <option value="${group.code}">${group.group_name}</option>
         %endfor
     </select>
+    <span class="hint">${_("Assign the user to this group for all instances in the adhocracy site.")}</span>
 
-    <span class="hint">${_("If an user is assigned exclusively to a group "
-    "with a badge, an instance supervisor will not be able to change the "
-    "uses group or add him to another group.")}</span>
+    <label for="display_group" 
+           class="">${_("Display group in instances")}</label>
+    <input type="checkbox"  name="display_group" id="display_group" />
+    <span class="hint">${_("Display this group in instances instead of the normal group the user is in there.")}</span>
 
     <div class="mainbar">
       ${components.savebox("/badge", c.save_button)}
