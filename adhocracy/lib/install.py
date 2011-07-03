@@ -102,7 +102,7 @@ def setup_entities():
     voter.permissions = voter.permissions + observer.permissions
     supervisor.permissions = supervisor.permissions + voter.permissions
     admins.permissions = admins.permissions + supervisor.permissions
-    organization.permissions = observer.permissions
+    organization.permissions = organization.permission + observer.permissions
 
     admin = model.User.find(u"admin")
     if not admin:
