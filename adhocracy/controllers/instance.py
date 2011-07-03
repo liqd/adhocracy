@@ -14,10 +14,10 @@ from pylons.i18n import _
 
 from adhocracy import forms, i18n, model
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib import event, helpers as h, logo, pager, sorting, text
-from adhocracy.lib import tiles
+from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
 from adhocracy.lib.auth import csrf, require
 from adhocracy.lib.base import BaseController
+from adhocracy.lib.event.stats import instance_activity
 from adhocracy.lib.templating import (render, render_json, render_png,
                                       ret_abort, ret_success)
 from adhocracy.lib.util import get_entity_or_abort
@@ -135,7 +135,7 @@ class InstanceController(BaseController):
         require.instance.show(c.page_instance)
 
         if format == 'sline':
-            sline = event.sparkline_samples(event.instance_activity,
+            sline = event.sparkline_samples(instance_activity,
                                             c.page_instance)
             return render_json(dict(activity=sline))
 

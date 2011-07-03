@@ -4,8 +4,7 @@ from adhocracy import model
 from adhocracy.lib import queue
 from adhocracy.lib.event import formatting, notification
 from adhocracy.lib.event.rss import rss_feed
-from adhocracy.lib.event.stats import (activity, instance_activity,
-                                       user_activity)
+
 from adhocracy.lib.event.types import EventType, NotificationType, TYPES
 from adhocracy.lib.event.types import (
     T_USER_CREATE, T_USER_EDIT, T_USER_ADMIN_EDIT,
