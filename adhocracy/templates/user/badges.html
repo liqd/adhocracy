@@ -1,0 +1,43 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Edit Badges for %s") % c.page_user.name}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Edit Badges")}
+</%def>
+
+
+<form name="settings" class="inplace" method="POST" 
+      action="/user/${c.page_user.user_name}/badges">
+
+    ${h.field_token()|n}
+
+    <label for="badge">Badges</label>
+    <table>
+        <thead>
+            <th></th>
+            <th>${_("badge")}</th>
+        </thead>
+        <tbody>
+            %for badge in c.badges:
+            <tr>
+                <td>
+                    <input type="checkbox" value="${badge.id}" 
+                           name="badge" />
+                </td>
+                <td>${components.badge(badge)}</td>
+            </tr>
+            %endfor
+        </tbody>
+    </table>
+    <!-- <select type="choice" name="badge" multible="multible"> -->
+    <!--     %for badge in c.badges: -->
+    <!--     <option value="${badge.id}">${badge.title}</option> -->
+    <!--     %endfor -->
+    <!-- </select> -->
+
+    <div style="clear:both;"></div>
+ 
+    ${components.savebox("/user/%s" % c.page_user.user_name)}
+    
+</form>

@@ -161,6 +161,7 @@ def users(users):
            _("alphabetically"): sorting.user_name}
                 
     return NamedPager('users', users, tiles.user.row, sorts=sorts,
+                      initial_size=3,
                       default_sort=sorting.user_activity)
 
   

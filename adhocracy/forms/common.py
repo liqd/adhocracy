@@ -68,6 +68,20 @@ class ValidDate(formencode.FancyValidator):
         return value
 
 
+class ValidHTMLColor(formencode.validators.Regex):
+
+    regex = r'^#[0-9a-fA-F]{1,6}'
+
+    def to_python(self, value, state):
+        try:
+            super(ValidHTMLColor, self).to_python(value, state)
+        except formencode.Invalid:
+            raise formencode.Invalid(
+                _("Please enter a html color code like '#f0f0f0'. "
+                  "'%(value)' is not a valid color code."), value, state)
+        return value
+
+
 class UniqueInstanceKey(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.model import Instance
@@ -117,6 +131,19 @@ class ValidGroup(formencode.FancyValidator):
                 _("No group with ID '%s' exists") % value,
                 value, state)
         return group
+
+
+class ValidBadge(formencode.FancyValidator):
+
+    def _to_python(self, value, state):
+        from adhocracy.model import Badge
+        badge = Badge.by_id(value)
+        if not badge:
+            raise formencode.Invalid(
+                _("No Badge ID '%s' exists") % value,
+                value, state)
+        return badge
+
 
 class MaybeMilestone(formencode.FancyValidator):
     def _to_python(self, value, state):

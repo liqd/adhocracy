@@ -2,7 +2,7 @@ import logging
 import urllib
 
 import formencode
-from formencode import htmlfill, validators
+from formencode import ForEach, htmlfill, validators
 
 from pylons import request, session, tmpl_context as c
 from pylons.controllers.util import redirect
@@ -12,7 +12,7 @@ from pylons.i18n import _
 from repoze.what.plugins.pylonshq import ActionProtector
 
 from adhocracy import forms, model
-import adhocracy.i18n as i18n
+from adhocracy import i18n
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import  sorting, search as libsearch, tiles, text
 from adhocracy.lib.auth import require
@@ -87,6 +87,11 @@ class UserFilterForm(formencode.Schema):
                                     if_missing=None)
 
 
+class UserBadgesForm(formencode.Schema):
+    allow_extra_fields = True
+    badge = ForEach(forms.ValidBadge())
+
+
 class UserController(BaseController):
 
     @RequireInstance
@@ -113,6 +118,21 @@ class UserController(BaseController):
 
         c.users_pager = pager.users(c.users)  # , has_query=query is not None)
         return render("/user/index.html")
+
+    def all(self):
+        require.user.index()
+
+        q = model.User.all_q(instance=None)
+
+        for badge_id in request.params.getall('badge'):
+            badge = model.Badge.by_id(badge_id)
+            q = q.filter(model.User.badges.contains(badge))
+            break
+
+        c.users = q.all()
+
+        c.users_pager = pager.users(c.users)
+        return render("/user/all.html")
 
     def new(self):
         return render("/user/login.html")
@@ -428,7 +448,7 @@ class UserController(BaseController):
         if not to_group.code in model.Group.INSTANCE_GROUPS:
             h.flash(_("Cannot make %(user)s a member of %(group)s") % {
                         'user': c.page_user.name,
-                        'group': group.group_name},
+                        'group': to_group.group_name},
                     'error')
             redirect(h.entity_url(c.page_user))
         had_vote = c.page_user._has_permission("vote.cast")
@@ -507,3 +527,35 @@ class UserController(BaseController):
                     'notice')
         if user.banned:
             h.flash(_("%s is banned from the system.") % user.name, 'notice')
+
+    @ActionProtector(has_permission("global.admin"))
+    def badges(self, id, errors=None):
+        c.badges = model.Badge.all()
+        c.page_user = get_entity_or_abort(model.User, id)
+        defaults = {'badge': [str(badge.id) for badge in c.page_user.badges]}
+        return formencode.htmlfill.render(
+            render("/user/badges.html"),
+            defaults=defaults)
+
+    @RequireInternalRequest()
+    @validate(schema=UserBadgesForm(), form='badges')
+    @ActionProtector(has_permission("global.admin"))
+    def update_badges(self, id):
+        user = get_entity_or_abort(model.User, id)
+        badges = self.form_result.get('badge')
+        creator = c.user
+
+        added = []
+        removed = []
+        for badge in user.badges:
+            if badge not in badges:
+                removed.append(badge)
+                user.badges.remove(badge)
+
+        for badge in badges:
+            if badge not in user.badges:
+                model.UserBadge(user, badge, creator)
+                added.append(badge)
+
+        model.meta.Session.commit()
+        redirect(h.entity_url(user))

@@ -1,0 +1,26 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_("Users")}</%def>
+
+<%def name="breadcrumbs()">
+	${h.user.breadcrumbs(None)|n}
+</%def>
+
+
+<h1 class="page_title">
+	<img class="cd" src="/img/icons/user_24.png" />
+	${_("All Members on this Adhocracy Server")}
+</h1>
+
+<div class="sidebar">
+	<div class="infobox">
+		${_("A listing of all users in all instance an this adhocracy server.")}
+	</div>
+</div>
+
+<div class="mainbar">
+	<div id="users_table" class="table">
+		${c.users_pager.here()}
+	</div>
+</div>

@@ -26,6 +26,13 @@ def make_map():
     map.connect('/openid/{action}', controller='openidauth')
     map.connect('/twitter/{action}', controller='twitteroauth')
 
+    map.connect('/user/all', controller='user',
+                action='all', conditions=dict(method=['GET']))
+    map.connect('/user/{id}/badges', controller='user',
+                action='badges', conditions=dict(method=['GET']))
+    map.connect('/user/{id}/badges', controller='user',
+                action='update_badges', conditions=dict(method=['POST']))
+
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
                                          'proposals': 'GET',
@@ -165,6 +172,17 @@ def make_map():
     map.resource('poll', 'poll', member={'vote': 'POST',
                                          'votes': 'GET',
                                          'ask_delete': 'GET'})
+
+    map.connect('/badge', controller='badge', action='index',
+                conditions=dict(method=['GET']))
+    map.connect('/badge/add', controller='badge', action='add',
+                conditions=dict(method=['GET']))
+    map.connect('/badge/add', controller='badge', action='create',
+                conditions=dict(method=['POST']))
+    map.connect('/badge/edit/{id}', controller='badge', action="edit",
+                conditions=dict(method=['GET']))
+    map.connect('/badge/edit/{id}', controller='badge', action="update",
+                conditions=dict(method=['POST']))
 
     # not using REST since tags may contain dots, thus failing format
     # detection.

@@ -8,11 +8,13 @@ from adhocracy.model import meta
 log = logging.getLogger(__name__)
 
 
-badge_table = Table('badge', meta.data,
+badge_table = Table(
+    'badge', meta.data,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
-    Column('title', Unicode(255), nullable=False),
-    Column('color', Unicode(7), nullable=False))
+    Column('title', Unicode(40), nullable=False),
+    Column('color', Unicode(7), nullable=False),
+    Column('group', Integer, ForeignKey('group.id', ondelete="CASCADE")))
 
 
 user_badges_table = Table('user_badges', meta.data,
@@ -87,11 +89,10 @@ class Badge(object):
         return badge
 
     def to_dict(self):
-        from adhocracy.lib import helpers as h
         return dict(id=self.id,
                     title=self.title,
                     color=self.color,
-                    url=h.entity_url(self))
+                    users=[user.name for user in self.users])
 
     def _index_id(self):
         return self.id
