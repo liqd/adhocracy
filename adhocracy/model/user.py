@@ -413,11 +413,23 @@ class User(meta.Indexable):
 
     def to_index(self):
         index = super(User, self).to_index()
+
+        activity_sum = 0
+        instances = []
+        for instance in self.instances:
+            membership = self.instance_membership(instance)
+            index['activity.%s' % instance.key] = membership.activity
+            activity_sum = activity_sum + membership.activity
+            instances.append(instance.key)
+
         index.update(dict(
             title=self.name,
             tag=[self.user_name],
             body=self.bio,
-            user=self.user_name
+            user=self.user_name,
+            badges=[badge.id for badge in self.badges],
+            instances=instances,
+            activity=activity_sum,
             ))
         return index
 
