@@ -259,7 +259,8 @@ class SolrPager(object):
             q = q.sort_by(sort_by)
         self.response = q.execute()
         self._items = self._items_from_response(self.response)
-        self.pages = int(math.ceil(len(self._items) / float(self.size)))
+        self.pages = int(math.ceil(self.response.result.numFound /
+                                   float(self.size)))
 
     @property
     def items(self):
