@@ -21,7 +21,8 @@ from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
-from adhocracy.lib.pager import NamedPager, SolrPager
+from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
+                                 solr_instance_users_pager)
 from adhocracy.lib.templating import render, render_json
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
@@ -99,18 +100,7 @@ class UserController(BaseController):
     def index(self, format='html'):
         require.user.index()
 
-        extra_filter = {'instances': c.instance.key}
-        activity_sort_field = '-activity.%s' % c.instance.key
-        users_pager = SolrPager('users', tiles.user.row,
-                                entity_type=model.User,
-                                sorts=((_("activity"), activity_sort_field),
-                                       (_("name"), 'sort_title'),
-                                       (_("oldest"), '+create_time'),
-                                       (_("newest"), '-create_time')),
-                                extra_filter=extra_filter,
-                                default_sort=activity_sort_field)
-
-        c.users_pager = users_pager
+        c.users_pager = solr_instance_users_pager(c.instance)
         c.users = model.User.all(c.instance if c.instance else None)
 
         if c.instance:
@@ -123,17 +113,7 @@ class UserController(BaseController):
 
     def all(self):
         require.user.index()
-        activity_sort_field = '-activity'
-        solr_user_pager = SolrPager('users', tiles.user.row,
-                                    entity_type=model.User,
-                                    sorts=((_("activity"),
-                                            activity_sort_field),
-                                           (_("name"), 'sort_title'),
-                                       (_("oldest"), '+create_time'),
-                                       (_("newest"), '-create_time')),
-                                    default_sort=activity_sort_field)
-
-        c.users_pager = solr_user_pager
+        c.users_pager = solr_global_users_pager()
         return render("/user/all.html")
 
     def new(self):

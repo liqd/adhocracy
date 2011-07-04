@@ -1,5 +1,20 @@
 
 <%def name="namedpager(pager)">
+%for facet in getattr(pager, "facets", []):
+<h3>Badges</h3>
+<div>
+Show only users with these badges:
+    %for (value, count) in pager.facet_counts(facet):
+    <span>
+        <a class="" href="${pager.serialize(facets=[('badges', value)])}">
+            ${pager._get_facet_title(facet, value)} (${count})
+        </a>
+    </span>
+    %endfor
+    </div>
+    <br />
+%endfor
+
 	<span class="pager_items">
 		${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=len(pager._items))}
 	</span>

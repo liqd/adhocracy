@@ -9,7 +9,7 @@ from pylons import request, tmpl_context as c
 from adhocracy.lib.templating import render_def
 from adhocracy.lib import sorting, tiles
 from adhocracy.lib.search.query import sunburnt_query
-from adhocracy.model import refs, User
+from adhocracy.model import refs, User, Badge
 
 log = logging.getLogger(__name__)
 
@@ -221,13 +221,14 @@ class SolrPager(object):
 
     def __init__(self, name, itemfunc, entity_type=None, extra_filter=None,
                  initial_size=20, size=None, sorts=tuple(), default_sort=None,
-                 enable_sorts=True, enable_pages=True, **kwargs):
+                 enable_sorts=True, enable_pages=True, facets=None):
         self.name = name
         self.entity_type = entity_type
         self.itemfunc = itemfunc
         self.enable_pages = enable_pages
         self.enable_sorts = enable_sorts
         self.extra_filter = extra_filter
+        self.facets = facets and facets or []
         self.initial_size = initial_size
         if size is not None:
             self.size = size
@@ -257,6 +258,14 @@ class SolrPager(object):
         if self.sorts.keys():
             sort_by = self.sorts.values()[self.selected_sort - 1]
             q = q.sort_by(sort_by)
+        used_facets = self._get_used_facets()
+        if used_facets:
+            q = q.filter(**used_facets)
+                    
+        if isinstance(self.facets, basestring):
+            self.facets = [self.facets]
+        for facet in self.facets:
+            q = q.facet_by(facet)
         self.response = q.execute()
         self._items = self._items_from_response(self.response)
         self.pages = int(math.ceil(self.response.result.numFound /
@@ -287,6 +296,16 @@ class SolrPager(object):
             entities.append(entity)
         return entities
 
+    def _get_facet_title(self, facet, value):
+        '''
+        fixme: this is hard coded
+        '''
+        badge = Badge.by_id(value)
+        return badge.title
+
+    def facet_counts(self, facet):
+        return self.response.facet_counts.facet_fields[facet]
+    
     def _get_page(self):
         page = 1
         try:
@@ -295,7 +314,8 @@ class SolrPager(object):
         finally:
             return page
 
-    def serialize(self, page=None, size=None, sort=None, **kwargs):
+    def serialize(self, page=None, size=None, sort=None, facets=tuple(),
+                  **kwargs):
         '''
         b/w compat
         '''
@@ -304,6 +324,8 @@ class SolrPager(object):
         query["%s_page" % self.name] = page if page else 1
         query["%s_size" % self.name] = size if size else self.size
         query["%s_sort" % self.name] = sort if sort else self.selected_sort
+        for (facet_name, facet_value) in facets:
+            query["%s_facet" % self.name] = '%s:%s' % (facet_name, facet_value)
 
         query = dict([(str(k), unicode(v).encode('utf-8')) \
                       for k, v in query.items()])
@@ -325,6 +347,14 @@ class SolrPager(object):
         else:
             return int(sort)
 
+    def _get_used_facets(self):
+        result = {}
+        facets = request.params.getall("%s_facet" % self.name)
+        for facet in facets:
+            key, value = facet.split(':')
+            result[key] = value
+        return result
+    
     def here(self):
         '''
         b/w compat
@@ -342,7 +372,8 @@ def solr_instance_users_pager(instance):
                              (_("activity"), activity_sort_field),
                              (_("alphabetically"), 'sort_title')),
                       extra_filter=extra_filter,
-                      default_sort=activity_sort_field)
+                      default_sort=activity_sort_field,
+                      facets=('badges',))
     return pager
 
 
@@ -355,5 +386,6 @@ def solr_global_users_pager():
                              (_("activity"), activity_sort_field),
                              (_("alphabetically"), 'sort_title')),
                       default_sort=activity_sort_field,
+                      facets=('badges',)
                       )
     return pager
