@@ -21,7 +21,7 @@ from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
-from adhocracy.lib.pager import NamedPager
+from adhocracy.lib.pager import NamedPager, SolrPager
 from adhocracy.lib.templating import render, render_json
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
@@ -98,40 +98,38 @@ class UserController(BaseController):
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
         require.user.index()
-        #query = self.form_result.get('users_q')
-        #c.users = libsearch.query.run(query + u"*", entity_type=model.User,
-        #    instance_filter=True)
 
+        extra_filter = {'instances': c.instance.key}
+        activity_sort_field = 'activity.%s' % c.instance.key
+        users_pager = SolrPager('users', tiles.user.row,
+                                entity_type=model.User,
+                                sorts=((_("activity"), activity_sort_field),
+                                       (_("name"), 'title')),
+                                extra_filter=extra_filter,
+                                default_sort=activity_sort_field)
+
+        c.users_pager = users_pager
         c.users = model.User.all(c.instance if c.instance else None)
 
         if c.instance:
             c.tile = tiles.instance.InstanceTile(c.instance)
 
-            #group = self.form_result.get('users_group')
-            #if group:
-            #    c.users = [u for u in c.users if \
-            #               u.instance_membership(c.instance).group.code \
-            #               == group]
+        #if format == 'json':
+        ##    return render_json(c.users_pager)
 
-        if format == 'json':
-            return render_json(c.users_pager)
-
-        c.users_pager = pager.users(c.users, c.instance)
         return render("/user/index.html")
 
     def all(self):
         require.user.index()
+        activity_sort_field = '+activity'
+        solr_user_pager = SolrPager('users', tiles.user.row,
+                                    entity_type=model.User,
+                                    sorts=((_("activity"),
+                                            activity_sort_field),
+                                           (_("name"), 'title')),
+                                    default_sort=activity_sort_field)
 
-        q = model.User.all_q(instance=None)
-
-        for badge_id in request.params.getall('badge'):
-            badge = model.Badge.by_id(badge_id)
-            q = q.filter(model.User.badges.contains(badge))
-            break
-
-        c.users = q.all()
-
-        c.users_pager = pager.users(c.users, c.instance)
+        c.users_pager = solr_user_pager
         return render("/user/all.html")
 
     def new(self):
