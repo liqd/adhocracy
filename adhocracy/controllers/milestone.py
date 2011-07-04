@@ -49,7 +49,7 @@ class MilestoneController(BaseController):
     def index(self, format="html"):
         require.milestone.index()
 
-        c.milestones = model.Milestone.all()
+        c.milestones = model.Milestone.all(instance=c.instance)
         c.milestones_pager = pager.milestones(c.milestones)
 
         if format == 'json':
