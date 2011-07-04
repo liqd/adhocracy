@@ -2,7 +2,7 @@ from datetime import datetime
 import logging
 
 from sqlalchemy import Table, Column, ForeignKey, or_
-from sqlalchemy import Integer, DateTime, Boolean
+from sqlalchemy import Integer, DateTime, Boolean, Float
 
 import instance_filter as ifilter
 import meta
@@ -10,7 +10,8 @@ import meta
 log = logging.getLogger(__name__)
 
 
-membership_table = Table('membership', meta.data,
+membership_table = Table(
+    'membership', meta.data,
     Column('id', Integer, primary_key=True),
     Column('approved', Boolean, nullable=True),
     Column('create_time', DateTime, default=datetime.utcnow),
@@ -19,7 +20,8 @@ membership_table = Table('membership', meta.data,
            onupdate=datetime.utcnow),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=True),
-    Column('group_id', Integer, ForeignKey('group.id'), nullable=False)
+    Column('group_id', Integer, ForeignKey('group.id'), nullable=False),
+    Column('activity', Float, default=0.0, nullable=True)
     )
 
 
