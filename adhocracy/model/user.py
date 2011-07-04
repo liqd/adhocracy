@@ -412,14 +412,17 @@ class User(meta.Indexable):
         return d
 
     def to_index(self):
+        from adhocracy.lib.event.stats import user_activity
         index = super(User, self).to_index()
 
+        # calculate activities for all instances and
+        # the overall activity of the user.
         activity_sum = 0
         instances = []
         for instance in self.instances:
-            membership = self.instance_membership(instance)
-            index['activity.%s' % instance.key] = membership.activity
-            activity_sum = activity_sum + membership.activity
+            activity = user_activity(instance, self)
+            index['activity.%s' % instance.key] = activity
+            activity_sum = activity_sum + activity
             instances.append(instance.key)
 
         index.update(dict(

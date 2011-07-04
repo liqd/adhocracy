@@ -2,7 +2,7 @@ from datetime import datetime
 import logging
 
 from sqlalchemy import Table, Column, ForeignKey, or_
-from sqlalchemy import Integer, DateTime, Boolean, Float
+from sqlalchemy import Integer, DateTime, Boolean
 
 import instance_filter as ifilter
 import meta
@@ -21,7 +21,6 @@ membership_table = Table(
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=True),
     Column('group_id', Integer, ForeignKey('group.id'), nullable=False),
-    Column('activity', Float, default=0.0, nullable=True)
     )
 
 

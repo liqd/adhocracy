@@ -2,6 +2,7 @@ import logging
 from amqp import has_queue, post_message, consume
 from update import handle_update, post_update, UPDATE_SERVICE
 
+from adhocracy import model
 log = logging.getLogger(__name__)
 
 MINUTE = 'minute'
@@ -19,6 +20,16 @@ def hourly():
 
 def daily():
     post_message(DAILY, '')
+
+
+def update_solr_for_all_user():
+    '''
+    Reindex all users in solr. Mainly to update their
+    activity measurements.
+    '''
+    user_query = model.User.all_q()
+    for user in user_query:
+        post_update(user, model.update.UPDATE)
 
 
 # TODO: Inversion of control

@@ -51,20 +51,3 @@ def user_activity(instance, user, from_time=None, to_time=None):
             q = q.filter(model.Event.instance == instance)
         return q
     return activity(query_filter, from_time, to_time)
-
-
-def update_persistent_activities():
-    '''
-    Calculate the activity, store it as an attribute on
-    membership and reindex the user in solr
-    '''
-
-    from adhocracy.lib.queue.update import post_update
-    from adhocracy.model.update import UPDATE
-    user_query = model.User.all_q()
-    for user in user_query:
-        for instance in user.instances:
-            instance_membership = user.instance_membership(instance)
-            instance_membership.activity = user_activity(instance, user)
-        model.meta.Session.commit()
-        post_update(user, UPDATE)
