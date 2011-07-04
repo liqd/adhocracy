@@ -15,7 +15,6 @@ def get_sunburnt_connection():
     solr_url = solr_url.strip()
     if not solr_url.endswith('/'):
         solr_url = solr_url + '/'
-    print solr_url
     http_connection = Http()
 
     return SolrInterface(solr_url, http_connection=http_connection,
