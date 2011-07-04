@@ -100,11 +100,13 @@ class UserController(BaseController):
         require.user.index()
 
         extra_filter = {'instances': c.instance.key}
-        activity_sort_field = 'activity.%s' % c.instance.key
+        activity_sort_field = '-activity.%s' % c.instance.key
         users_pager = SolrPager('users', tiles.user.row,
                                 entity_type=model.User,
                                 sorts=((_("activity"), activity_sort_field),
-                                       (_("name"), 'title')),
+                                       (_("name"), 'sort_title'),
+                                       (_("oldest"), '+create_time'),
+                                       (_("newest"), '-create_time')),
                                 extra_filter=extra_filter,
                                 default_sort=activity_sort_field)
 
@@ -121,12 +123,14 @@ class UserController(BaseController):
 
     def all(self):
         require.user.index()
-        activity_sort_field = '+activity'
+        activity_sort_field = '-activity'
         solr_user_pager = SolrPager('users', tiles.user.row,
                                     entity_type=model.User,
                                     sorts=((_("activity"),
                                             activity_sort_field),
-                                           (_("name"), 'title')),
+                                           (_("name"), 'sort_title'),
+                                       (_("oldest"), '+create_time'),
+                                       (_("newest"), '-create_time')),
                                     default_sort=activity_sort_field)
 
         c.users_pager = solr_user_pager

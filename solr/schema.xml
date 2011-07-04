@@ -72,17 +72,19 @@
    <field name="create_time" type="string" indexed="true" stored="true"/>
    <field name="text" type="text" indexed="true" stored="false" multiValued="true"/>
 
-   <field name="badges" type="string" indexed="true" stored="false"
+   <field name="sort_title" type="string" indexed="true" stored="true"/>
+   <field name="badges" type="string" indexed="true" stored="true"
           omitNorms="true" multiValued="true"/>
-   <field name="instances" type="string" indexed="true" stored="false"
+   <field name="instances" type="string" indexed="true" stored="true"
           omitNorms="true" multiValued="true"/>
    <dynamicField name="activity*" type="triefloat" indexed="true" 
-                 stored="false"/>   
+                 stored="true"/>   
  </fields>
  
    <uniqueKey>id</uniqueKey>
    <defaultSearchField>text</defaultSearchField>
    <solrQueryParser defaultOperator="OR"/>
+   <copyField source="title" dest="sort_title"/>
    <copyField source="title" dest="text"/>
    <copyField source="body" dest="text"/>
    <copyField source="tag" dest="text"/>

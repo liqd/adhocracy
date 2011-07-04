@@ -9,7 +9,7 @@ from pylons import request, tmpl_context as c
 from adhocracy.lib.templating import render_def
 from adhocracy.lib import sorting, tiles
 from adhocracy.lib.search.query import sunburnt_query
-from adhocracy.model import refs
+from adhocracy.model import refs, User
 
 log = logging.getLogger(__name__)
 
@@ -329,3 +329,30 @@ class SolrPager(object):
         b/w compat
         '''
         return render_def('/pager.html', 'namedpager', pager=self)
+
+
+def solr_instance_users_pager(instance):
+    extra_filter = {'instances': instance.key}
+    activity_sort_field = '-activity.%s' % instance.key
+    pager = SolrPager('users', tiles.user.row,
+                      entity_type=User,
+                      sorts=((_("oldest"), '+create_time'),
+                             (_("newest"), '-create_time'),
+                             (_("activity"), activity_sort_field),
+                             (_("alphabetically"), 'sort_title')),
+                      extra_filter=extra_filter,
+                      default_sort=activity_sort_field)
+    return pager
+
+
+def solr_global_users_pager():
+    activity_sort_field = '-activity'
+    pager = SolrPager('users', tiles.user.row,
+                      entity_type=User,
+                      sorts=((_("oldest"), '+create_time'),
+                             (_("newest"), '-create_time'),
+                             (_("activity"), activity_sort_field),
+                             (_("alphabetically"), 'sort_title')),
+                      default_sort=activity_sort_field,
+                      )
+    return pager
