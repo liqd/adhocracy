@@ -310,7 +310,8 @@ class SolrPager(object):
         for param in request.params.getall("%s_facet" % self.name):
             facet, value = param.split(':')
             values = facets.setdefault(facet, [])
-            values.append(value)
+            if value not in values:
+                values.append(value)
         return facets
 
     def _add_to_facets(self, existing, facet_tuple):
@@ -324,9 +325,10 @@ class SolrPager(object):
 
         Returns A modified copy of *existing*.
         '''
+
         new = deepcopy(existing)
         facet, value = facet_tuple
-        values = existing.setdefault(facet, [])
+        values = new.setdefault(facet, [])
         if value not in values:
             values.append(value)
         return new
@@ -344,9 +346,9 @@ class SolrPager(object):
         '''
         new = deepcopy(existing)
         facet, value = facet_tuple
-        values = existing.setdefault(facet, [])
+        values = new.setdefault(facet, [])
         if value in values:
-            values.pop(value)
+            values.remove(value)
         return new
 
     def _facet_information(self):
@@ -369,9 +371,9 @@ class SolrPager(object):
         used_values = self.used_facets.get(facet, [])
         selected = value in used_values
         if selected:
-            url = self.serialize(facets=(facet, value))
+            url = self.serialize(unselect_facets=((facet, value),))
         else:
-            url = self.serialize(unselect_facets=(facet, value))
+            url = self.serialize(facets=((facet, value),))
         return dict(title=title, url=url, selected=selected, count=count)
 
     def facet_counts(self, facet):
@@ -416,6 +418,8 @@ class SolrPager(object):
         for facet in unselect_facets:
             selected_facets = self._remove_from_facets(selected_facets, facet)
         facet_request_key = "%s_facet" % self.name
+        if facet_request_key in query:
+            del query[facet_request_key]
         for (facet_name, facet_values) in selected_facets.items():
             for facet_value in facet_values:
                 facet_string = "%s:%s" % (facet_name, facet_value)
