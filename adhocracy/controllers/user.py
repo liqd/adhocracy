@@ -23,6 +23,7 @@ from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
 from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
                                  solr_instance_users_pager)
+from adhocracy.lib.queue import post_update
 from adhocracy.lib.templating import render, render_json
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
@@ -540,4 +541,5 @@ class UserController(BaseController):
                 added.append(badge)
 
         model.meta.Session.commit()
+        post_update(user, model.update.UPDATE)
         redirect(h.entity_url(user))
