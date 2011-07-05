@@ -15,9 +15,9 @@ badge_table = Table(
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('title', Unicode(40), nullable=False),
     Column('color', Unicode(7), nullable=False),
-    Column('description', Unicode(255), nullable=False),
+    Column('description', Unicode(255), default=u'', nullable=False),
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
-    Column('display_group', Boolean))
+    Column('display_group', Boolean, default=False))
 
 
 user_badges_table = Table(
