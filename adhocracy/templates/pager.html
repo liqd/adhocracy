@@ -1,18 +1,18 @@
 
 <%def name="namedpager(pager)">
-%for facet in getattr(pager, "facets", []):
-<h3>Badges</h3>
+%for facet in getattr(pager, "facets", []):  # compat for NamedPager
+<h3>Badges ${facet}</h3>
 <div>
 Show only users with these badges:
-    %for (value, count) in pager.facet_counts(facet):
+    %for item in pager.facet_information[facet]:
     <span>
-        <a class="" href="${pager.serialize(facets=[('badges', value)])}">
-            ${pager._get_facet_title(facet, value)} (${count})
+        <a class="${'selected' if item['selected'] else ''}"  href="${item['url']}">
+            ${item['title']} (${item['count']})
         </a>
     </span>
     %endfor
-    </div>
-    <br />
+</div>
+<br />
 %endfor
 
 	<span class="pager_items">
