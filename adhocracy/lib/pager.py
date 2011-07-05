@@ -5,7 +5,8 @@ import logging
 
 from formencode import validators
 from pylons.i18n import _
-from pylons import request, tmpl_context as c
+from pylons import request, tmpl_context as c, url
+from pylons.controllers.util import redirect
 from webob.multidict import MultiDict
 
 from adhocracy.lib.templating import render_def
@@ -250,7 +251,6 @@ class SolrPager(object):
 
         self.page = self._get_page()
         self.offset = (self.page - 1) * self.size
-
         self.used_facets = self._get_used_facets()
 
         self.base_query = sunburnt_query(entity_type)
@@ -270,10 +270,16 @@ class SolrPager(object):
         for facet in self.facets:
             q = q.facet_by(facet)
         self.response = q.execute()
-        self.facet_information = self._facet_information()
-        self._items = self._items_from_response(self.response)
         self.pages = int(math.ceil(self.response.result.numFound /
                                    float(self.size)))
+        # if we are out of the page range do a permanent redirect
+        # to the last page
+        if self.page > self.pages:
+            new_url = self.serialize(page=self.pages)
+            redirect(new_url, code=301)
+
+        self.facet_information = self._facet_information()
+        self._items = self._items_from_response(self.response)
 
     @property
     def items(self):
@@ -428,7 +434,8 @@ class SolrPager(object):
         # sanitize the the query arguments
         query_items = ([(str(key), unicode(value).encode('utf-8')) for
                         (key, value) in query.items()])
-        return "?" + urllib.urlencode(query_items)
+        url_base = url.current(qualified=True)
+        return url_base + "?" + urllib.urlencode(query_items)
 
     def _get_size(self):
 
