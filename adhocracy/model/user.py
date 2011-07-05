@@ -85,8 +85,9 @@ class User(meta.Indexable):
     def badge_groups(self):
         groups = []
         for badge in self.badges:
-            if badge.group not in groups:
-                groups.append(badge.group)
+            group = badge.group
+            if (group is not None and group not in groups):
+                groups.append(group)
         return groups
 
     def membership_groups(self):
