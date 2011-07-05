@@ -80,7 +80,7 @@ class BadgeController(BaseController):
                         description=badge.description,
                         color=badge.color,
                         group=group_default,
-                        display_group=badge.display_group )
+                        display_group=badge.display_group)
         return htmlfill.render(render("/badge/form.html"),
                                errors=errors,
                                defaults=defaults)
