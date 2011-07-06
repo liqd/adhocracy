@@ -79,6 +79,9 @@ class NamedPager(object):
             self.sorted = True
         return self._items[self.offset:self.offset + self.size]
 
+    def total(self):
+        return len(self._items)
+
     @property
     def offset(self):
         return (self.page - 1) * self.size
@@ -248,6 +251,12 @@ class SolrFacet(object):
         self.show_empty = show_empty
         self.response = None
         
+    def add_to_query(self, q):
+        q = q.facet_by(self.solr_field)
+        for value in self.used:
+            q = q.query(**{self.solr_field: value})
+        return q
+
     def update(self, response):
         self.response = response
         counts = response.facet_counts.facet_fields[self.solr_field]
@@ -255,24 +264,6 @@ class SolrFacet(object):
                                     reverse=True)
         self.counts = dict(self.sorted_counts)
         self.items = self._items(self.used, self.sorted_counts)
-
-    def available(self):
-        if not self.response:
-            return False
-
-        total_item_count = sum(self.counts.values())
-        if not total_item_count:
-            return False
-
-        return True
-
-    def _used(self, request):
-        used = []
-        for param in request.params.getall(self.request_key):
-            facet, value = param.split(':')
-            if facet == self.name and value not in used:
-                used.append(value)
-        return used
 
     def sort_items(self, items):
         '''
@@ -289,37 +280,15 @@ class SolrFacet(object):
 
         return sorted(items, key=sort_key_getter)
 
-    def _items(self, used, value_counts):
-        items = []
-        for (value, count) in value_counts:
-            item = self._item(used, value, count)
-            if item is not None:
-                items.append(item)
+    def available(self):
+        if not self.response:
+            return False
 
-        return self.sort_items(items)
+        total_item_count = sum(self.counts.values())
+        if not total_item_count:
+            return False
 
-    def _item(self, values, value, count):
-        '''
-        fixme: this is hard coded to use badges for now.
-        '''
-
-        entity = self.entity_type.by_id(value)
-        if entity is None:
-            log.debug('missed entiy "%s" for entity class "%s"' % (
-                value, self.entity_type))
-            return None
-        values = values[:]
-        selected = value in values
-        if selected and value in values:
-            values.remove(value)
-        if not selected:
-            values.append(value)
-
-        item = {'url': self.build_url(self.request, values),
-                'selected': selected,
-                'count': count,
-                'entity': entity}
-        return item
+        return True
 
     def build_url(self, request, facet_values):
         '''
@@ -359,6 +328,50 @@ class SolrFacet(object):
                   (key, value) in params.items()])
         return items
 
+    def render(self):
+        return render_def('/pager.html', 'facet', facet=self)
+
+    def _used(self, request):
+        used = []
+        for param in request.params.getall(self.request_key):
+            facet, value = param.split(':')
+            if facet == self.name and value not in used:
+                used.append(value)
+        return used
+
+
+    def _items(self, used, value_counts):
+        items = []
+        for (value, count) in value_counts:
+            item = self._item(used, value, count)
+            if item is not None:
+                items.append(item)
+
+        return self.sort_items(items)
+
+    def _item(self, values, value, count):
+        '''
+        fixme: this is hard coded to use badges for now.
+        '''
+
+        entity = self.entity_type.by_id(value)
+        if entity is None:
+            log.debug('missed entiy "%s" for entity class "%s"' % (
+                value, self.entity_type))
+            return None
+        values = values[:]
+        selected = value in values
+        if selected and value in values:
+            values.remove(value)
+        if not selected:
+            values.append(value)
+
+        item = {'url': self.build_url(self.request, values),
+                'selected': selected,
+                'count': count,
+                'entity': entity}
+        return item
+
     def __call__(self, param_prefix, request):
         description = self.description and _(self.description) or None
         facet = self.__class__(self.name, self.entity_type, _(self.title),
@@ -371,14 +384,6 @@ class SolrFacet(object):
         facet.used = facet._used(request)
         return facet
 
-    def render(self):
-        return render_def('/pager.html', 'facet', facet=self)
-
-    def add_to_query(self, q):
-        q = q.facet_by(self.solr_field)
-        for value in self.used:
-            q = q.query(**{self.solr_field: value})
-        return q
 
 BadgeFacet = SolrFacet('badge', Badge, u'Badge', solr_field='badges')
 
@@ -443,14 +448,13 @@ class SolrPager(object):
 
         for facet in self.facets:
             facet.update(self.response)
-        self._items = self._items_from_response(self.response)
+        self.items = self._items_from_response(self.response)
 
-    @property
-    def items(self):
+    def total(self):
         '''
-        bw compat
+        return the total numbers of results
         '''
-        return self._items
+        return self.response.result.numFound
 
     def _items_from_response(self, response):
         '''

@@ -2,7 +2,7 @@
 <%def name="namedpager(pager)">
 
 	<span class="pager_items">
-		${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=len(pager._items))}
+		${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=pager.total())}
 	</span>
 	%if len(pager.sorts.keys()) > 1 and pager.enable_sorts:
 		<span class="pager_sorts">
@@ -47,9 +47,9 @@
 			</div>
 		</div>
 		%endif
-		%if pager.initial_size < len(pager._items):
+		%if pager.initial_size < pager.total():
 		<div class="pager_sorts bottom">
-			%for size in range(pager.initial_size, min(len(pager._items)+pager.initial_size/2,(pager.initial_size*5)+1), pager.initial_size/2):
+			%for size in range(pager.initial_size, min(pager.total()+pager.initial_size/2,(pager.initial_size*5)+1), pager.initial_size/2):
 				<a class="${'selected' if size == pager.size else ''}" 
 					href="${pager.serialize(size=size)}">${size}</a> |
 			%endfor
