@@ -102,10 +102,6 @@ class UserController(BaseController):
         require.user.index()
 
         c.users_pager = solr_instance_users_pager(c.instance)
-        c.users = model.User.all(c.instance if c.instance else None)
-
-        if c.instance:
-            c.tile = tiles.instance.InstanceTile(c.instance)
 
         #if format == 'json':
         ##    return render_json(c.users_pager)
