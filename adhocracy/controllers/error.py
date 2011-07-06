@@ -7,7 +7,8 @@ from pylons.i18n import _
 from paste.urlparser import PkgResourcesParser
 from pylons.controllers.util import forward
 
-from adhocracy.lib.base import BaseController, render
+from adhocracy.lib.base import BaseController
+from adhocracy.lib.templating import render
 
 BODY_RE = re.compile("<br \/><br \/>(.*)<\/body", re.S)
 

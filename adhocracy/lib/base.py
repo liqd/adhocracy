@@ -7,25 +7,18 @@ from time import time
 
 from pylons import config
 from pylons.controllers import WSGIController
-from pylons import request, response, session, tmpl_context as c, g
-from pylons.controllers.util import abort, redirect
-from pylons.decorators import validate
-from pylons.i18n import _, add_fallback, get_lang, set_lang, gettext
+from pylons import request, tmpl_context as c
+from pylons.i18n import _
 from paste.deploy.converters import asbool
 
-import routes
 
-import formencode
-import formencode.validators as validators
-from formencode import htmlfill
-import simplejson
 
-from auth.authorization import has_permission
-import auth.authorization as auth
-from repoze.what.plugins.pylonshq import ActionProtector
 
-from cache import memoize
-from instance import RequireInstance
+
+
+
+
+
 from auth.csrf import RequireInternalRequest, token_id
 from auth import can, require
 from templating import render, render_json, render_png
@@ -47,7 +40,7 @@ import pager
 
 log = logging.getLogger(__name__)
 
-from pprint import pprint
+
 class BaseController(WSGIController):
     
     def __call__(self, environ, start_response):
