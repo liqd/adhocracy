@@ -330,8 +330,10 @@ class SolrFacet(object):
         return items
 
     def __call__(self, param_prefix, request):
+        description = self.description and _(self.description) or None
         facet = self.__class__(self.name, self.entity_type, _(self.title),
-                               _(self.description), self.tile, self.solr_field)
+                               description=description, tile=self.tile,
+                               solr_field=self.solr_field)
         facet.param_prefix = param_prefix
         facet.request = request
         facet.request_key = "%s_facet" % param_prefix
