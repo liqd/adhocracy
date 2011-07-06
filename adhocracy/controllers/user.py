@@ -487,26 +487,6 @@ class UserController(BaseController):
         c.users_pager = pager.users(users, has_query=True)
         return c.users_pager.here()
 
-    def _common_metadata(self, user, member=None, add_canonical=False):
-        bio = user.bio
-        if not bio:
-            bio = _("%(user)s is using Adhocracy, a democratic "
-                    "decision-making tool.") % {'user': c.page_user.name}
-        description = h.truncate(text.meta_escape(bio), length=200,
-                                 whole_word=True)
-        h.add_meta("description", description)
-        h.add_meta("dc.title", text.meta_escape(user.name))
-        h.add_meta("dc.date", user.access_time.strftime("%Y-%m-%d"))
-        h.add_meta("dc.author", text.meta_escape(user.name))
-        h.add_rss(_("%(user)ss Activity") % {'user': user.name},
-                  h.entity_url(user, format='rss'))
-        if c.instance and not user.is_member(c.instance):
-            h.flash(_("%s is not a member of %s") % (user.name,
-                                                     c.instance.label),
-                    'notice')
-        if user.banned:
-            h.flash(_("%s is banned from the system.") % user.name, 'notice')
-
     @ActionProtector(has_permission("global.admin"))
     def badges(self, id, errors=None):
         c.badges = model.Badge.all()
@@ -539,3 +519,23 @@ class UserController(BaseController):
         model.meta.Session.commit()
         post_update(user, model.update.UPDATE)
         redirect(h.entity_url(user))
+
+    def _common_metadata(self, user, member=None, add_canonical=False):
+        bio = user.bio
+        if not bio:
+            bio = _("%(user)s is using Adhocracy, a democratic "
+                    "decision-making tool.") % {'user': c.page_user.name}
+        description = h.truncate(text.meta_escape(bio), length=200,
+                                 whole_word=True)
+        h.add_meta("description", description)
+        h.add_meta("dc.title", text.meta_escape(user.name))
+        h.add_meta("dc.date", user.access_time.strftime("%Y-%m-%d"))
+        h.add_meta("dc.author", text.meta_escape(user.name))
+        h.add_rss(_("%(user)ss Activity") % {'user': user.name},
+                  h.entity_url(user, format='rss'))
+        if c.instance and not user.is_member(c.instance):
+            h.flash(_("%s is not a member of %s") % (user.name,
+                                                     c.instance.label),
+                    'notice')
+        if user.banned:
+            h.flash(_("%s is banned from the system.") % user.name, 'notice')
