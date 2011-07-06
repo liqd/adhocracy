@@ -61,6 +61,8 @@
 
 
 <%def name="facets(pager)">
+%if (True in [facet.available() for facet in pager.facets]):
+<p>${_("You can limit the number of results with the following criteria:")}</p>
 %for facet in pager.facets:
     %if facet.available():
     <div class="facet">
@@ -68,10 +70,11 @@
     </div>
     %endif
 %endfor
+%endif
 </%def>
 
 <%def name="facet(facet)">
-<h3>${facet.name}</h3>
+<h3>${facet.title}</h3>
 %if facet.description:
 <p>${facet.description}</p>
 %endif
