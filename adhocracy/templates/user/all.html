@@ -14,7 +14,10 @@
 </h1>
 
 <div class="sidebar">
-    ${c.users_pager.render_facets()}
+    <div class="infobox">
+        ${_("A listing of all users in all instance an this adhocracy server.")}
+        ${c.users_pager.render_facets()}
+    </div>
 </div>
 
 <div class="mainbar">
