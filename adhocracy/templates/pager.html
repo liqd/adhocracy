@@ -1,13 +1,14 @@
 
 <%def name="namedpager(pager)">
 %for facet in getattr(pager, "facets", []):  # compat for NamedPager
-<h3>Badges ${facet}</h3>
+<h3>Badges ${facet.name} ${facet.solr_field}</h3>
 <div>
 Show only users with these badges:
-    %for item in pager.facet_information[facet]:
+    %for item in facet.items:
     <span>
-        <a class="${'selected' if item['selected'] else ''}"  href="${item['url']}">
-            ${item['title']} (${item['count']})
+        <a class="${'selected' if item['selected'] else ''}"  
+           href="${item['url']}">
+            ${item['entity'].title} (${item['count']})
         </a>
     </span>
     %endfor

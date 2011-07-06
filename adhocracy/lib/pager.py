@@ -215,6 +215,141 @@ class Sorts(object):
         return self._values
 
 
+class SolrFacet(object):
+    """
+    A Facet that can be used in searches.
+    It's used like this:
+
+    globally:
+    >>> SomeFacet = Facet('badge', Badge, u'Badge')
+    >>> some_facet.solr_field
+    facet.badge
+
+    Only in a thread:
+    >>> some_facet = SorlFacet('mypager_prefix', request)
+    >>> q = solr_query()
+    >>> # configure the query further
+    >>> q = some_facet.add_to_query(q)
+    >>> response = q.execute()
+    >>> some_facet.update(response)
+    >>> some_facet.items
+    [...]
+    """
+    def __init__(self, name, entity_type, title, description=None,
+                 tile=None, solr_field=None):
+        self.name = name
+        self.entity_type = entity_type
+        self.title = title
+        self.description = description
+        self.tile = tile
+        self.solr_field = solr_field or "facet." + name
+
+    def update(self, response):
+        self.response = response
+        counts = response.facet_counts.facet_fields[self.solr_field]
+        self.sorted_counts = sorted(counts, key=lambda(value, count): count,
+                                    reverse=True)
+        self.counts = dict(self.sorted_counts)
+        self.items = self._items(self.used, self.sorted_counts)
+
+    def _used(self, request):
+        used = []
+        for param in request.params.getall(self.request_key):
+            facet, value = param.split(':')
+            if facet == self.name and value not in used:
+                used.append(value)
+        return used
+
+    def _items(self, used, value_counts):
+        items = []
+        for (value, count) in value_counts:
+            item = self._item(used, value, count)
+            if item is not None:
+                items.append(item)
+        return items
+
+    def _item(self, values, value, count):
+        '''
+        fixme: this is hard coded to use badges for now.
+        '''
+
+        entity = self.entity_type.by_id(value)
+        if entity is None:
+            log.debug('missed entiy "%s" for entity class "%s"' % (
+                value, self.entity_type))
+            return None
+        values = values[:]
+        selected = value in values
+        if selected and value in values:
+            values.remove(value)
+        if not selected:
+            values.append(value)
+
+        item = {'url': self.build_url(self.request, values),
+                'selected': selected,
+                'count': count,
+                'entity': entity}
+        return item
+
+    def build_url(self, request, facet_values):
+        '''
+        Build an url from the *request* and the *facet_value*
+        '''
+        params = self.build_params(request, facet_values)
+        url_base = url.current(qualified=True)
+        return url_base + "?" + urllib.urlencode(params)
+
+    def build_params(self, request, facet_values):
+        '''
+        Build query parameters using the facet_values for this facet
+        and the request.
+
+        Returns: a list of (parameter, value) two-tuples
+        '''
+        params = MultiDict(request.params)
+
+        # removing all ..._facet parameters and add them again
+        current_facet_parameters = params.getall(self.request_key)
+        if self.request_key in params:
+            del params[self.request_key]
+
+        # readd all _facet parameters not related to us
+        for parameter in current_facet_parameters:
+            name, value = parameter.split(':')
+            if name != self.name:
+                params.add(self.request_key, parameter)
+
+        # add parameters for our facets
+        facet_values = list(set(facet_values))
+        for value in facet_values:
+            params.add(self.request_key, "%s:%s" % (self.name, value))
+
+        # sanitize and encode
+        items = ([(str(key), unicode(value).encode('utf-8')) for
+                  (key, value) in params.items()])
+        return items
+
+    def __call__(self, param_prefix, request):
+        facet = self.__class__(self.name, self.entity_type, _(self.title),
+                               _(self.description), self.tile, self.solr_field)
+        facet.param_prefix = param_prefix
+        facet.request = request
+        facet.request_key = "%s_facet" % param_prefix
+        facet.used = facet._used(request)
+        return facet
+
+    def render_facets(self):
+        return ', '.join(self.used)
+
+    def add_to_query(self, q):
+        q = q.facet_by(self.solr_field)
+        for value in self.used:
+            q = q.query(**{self.solr_field: value})
+        return q
+
+BadgeFacet = SolrFacet('badge', Badge, u'Badge', solr_field='badges')
+
+
 class SolrPager(object):
     '''
     An pager currently compatible to :class:`adhocracy.lib.pager.NamedPager`.
@@ -224,14 +359,13 @@ class SolrPager(object):
 
     def __init__(self, name, itemfunc, entity_type=None, extra_filter=None,
                  initial_size=20, size=None, sorts=tuple(), default_sort=None,
-                 enable_sorts=True, enable_pages=True, facets=None):
+                 enable_sorts=True, enable_pages=True, facets=tuple()):
         self.name = name
-        self.entity_type = entity_type
         self.itemfunc = itemfunc
         self.enable_pages = enable_pages
         self.enable_sorts = enable_sorts
         self.extra_filter = extra_filter
-        self.facets = facets and facets or []
+        self.facets = [Facet(self.name, request) for Facet in facets]
         self.initial_size = initial_size
         if size is not None:
             self.size = size
@@ -251,7 +385,6 @@ class SolrPager(object):
 
         self.page = self._get_page()
         self.offset = (self.page - 1) * self.size
-        self.used_facets = self._get_used_facets()
 
         self.base_query = sunburnt_query(entity_type)
         q = self.base_query
@@ -262,23 +395,21 @@ class SolrPager(object):
         if self.sorts.keys():
             sort_by = self.sorts.values()[self.selected_sort - 1]
             q = q.sort_by(sort_by)
-        if self.used_facets:
-            q = q.filter(**self.used_facets)
 
-        if isinstance(self.facets, basestring):
-            self.facets = [self.facets]
         for facet in self.facets:
-            q = q.facet_by(facet)
+            q = facet.add_to_query(q)
         self.response = q.execute()
         self.pages = int(math.ceil(self.response.result.numFound /
                                    float(self.size)))
+
         # if we are out of the page range do a permanent redirect
         # to the last page
         if self.page > self.pages:
             new_url = self.serialize(page=self.pages)
             redirect(new_url, code=301)
 
-        self.facet_information = self._facet_information()
+        for facet in self.facets:
+            facet.update(self.response)
         self._items = self._items_from_response(self.response)
 
     @property
@@ -306,99 +437,6 @@ class SolrPager(object):
             entities.append(entity)
         return entities
 
-    def _get_used_facets(self):
-        '''
-        extracts the used facets from the request.
-        Returns: A `dict` where the keys are the used facets and
-        the values are lists of values for that facet.
-        '''
-        facets = {}
-        for param in request.params.getall("%s_facet" % self.name):
-            facet, value = param.split(':')
-            values = facets.setdefault(facet, [])
-            if value not in values:
-                values.append(value)
-        return facets
-
-    def _add_to_facets(self, existing, facet_tuple):
-        '''
-        Adds the facet/value in *facet_tuple* to the *exiting* facets if it
-        if it is not already present in *existing*.
-
-        *existing* is a dict returned from :meth:`_get_used_facets`.
-        *facet_tuple* is a two tuple of (*facet*, *value*) tho add to
-        the existing facets.
-
-        Returns A modified copy of *existing*.
-        '''
-
-        new = deepcopy(existing)
-        facet, value = facet_tuple
-        values = new.setdefault(facet, [])
-        if value not in values:
-            values.append(value)
-        return new
-
-    def _remove_from_facets(self, existing, facet_tuple):
-        '''
-        Adds the facet/value in *facet_tuple* to the *exiting* facets if it
-        if it is not already present in *existing*.
-
-        *existing* is a dict returned from :meth:`_get_used_facets`.
-        *facet_tuple* is a two tuple of (*facet*, *value*) tho add to
-        the existing facets.
-
-        Returns A modified copy of *existing*.
-        '''
-        new = deepcopy(existing)
-        facet, value = facet_tuple
-        values = new.setdefault(facet, [])
-        if value in values:
-            values.remove(value)
-        return new
-
-    def _facet_information(self):
-        information = {}
-        for facet in self.facets:
-            facet_items = information.setdefault(facet, [])
-            for (facet_value, count) in self.facet_counts(facet):
-                info = self._facet_value_info(facet, facet_value, count)
-                facet_items.append(info)
-        return information
-
-    def _facet_value_info(self, facet, value, count=0):
-        '''
-        fixme: this is hard coded to use badges for now.
-        '''
-        entity = Badge.by_id(value)
-        if entity is None:
-            return None
-        title = entity.title
-        used_values = self.used_facets.get(facet, [])
-        selected = value in used_values
-        if selected:
-            url = self.serialize(unselect_facets=((facet, value),))
-        else:
-            url = self.serialize(facets=((facet, value),))
-        return dict(title=title, url=url, selected=selected, count=count)
-
-    def facet_counts(self, facet):
-        '''
-        returns a list of (value, count) two-tuples sorted by count
-        (biggest first).
-        '''
-        value_counts = self.response.facet_counts.facet_fields[facet]
-        return sorted(value_counts, key=lambda(value, count): count,
-                      reverse=True)
-
-    def facet_counts_dict(self, facet):
-        '''
-        returns a list of (value, count) two-tuples sorted by count
-        (biggest first).
-        '''
-        value_counts = self.response.facet_counts.facet_fields[facet]
-        return dict(value_counts)
-
     def _get_page(self):
         page = 1
         try:
@@ -417,19 +455,6 @@ class SolrPager(object):
         query["%s_page" % self.name] = page if page else 1
         query["%s_size" % self.name] = size if size else self.size
         query["%s_sort" % self.name] = sort if sort else self.selected_sort
-
-        selected_facets = deepcopy(self.used_facets)
-        for facet in facets:
-            selected_facets = self._add_to_facets(selected_facets, facet)
-        for facet in unselect_facets:
-            selected_facets = self._remove_from_facets(selected_facets, facet)
-        facet_request_key = "%s_facet" % self.name
-        if facet_request_key in query:
-            del query[facet_request_key]
-        for (facet_name, facet_values) in selected_facets.items():
-            for facet_value in facet_values:
-                facet_string = "%s:%s" % (facet_name, facet_value)
-                query.add(facet_request_key, facet_string)
 
         # sanitize the the query arguments
         query_items = ([(str(key), unicode(value).encode('utf-8')) for
@@ -471,7 +496,7 @@ def solr_instance_users_pager(instance):
                              (_("alphabetically"), 'sort_title')),
                       extra_filter=extra_filter,
                       default_sort=activity_sort_field,
-                      facets=('badges',))
+                      facets=[BadgeFacet])
     return pager
 
 
@@ -484,6 +509,6 @@ def solr_global_users_pager():
                              (_("activity"), activity_sort_field),
                              (_("alphabetically"), 'sort_title')),
                       default_sort=activity_sort_field,
-                      facets=('badges',)
+                      facets=[BadgeFacet]
                       )
     return pager
