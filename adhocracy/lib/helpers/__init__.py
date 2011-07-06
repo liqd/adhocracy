@@ -3,47 +3,41 @@
 Consists of functions to typically be used within templates, but also
 available to Controllers. This module is available to templates as 'h'.
 """
-# Import helpers as desired, or define your own, ie:
-#from webhelpers.html.tags import checkbox, password
-
-import urllib, hashlib, cgi
+import cgi
+import hashlib
+import urllib
 
 from pylons import tmpl_context as c, config, request
 from pylons.i18n import _
-
-from adhocracy.lib.auth.authorization import has as has_permission
-from adhocracy.lib import democracy
-from adhocracy.lib import cache
-from adhocracy.lib import sorting
-
-import adhocracy.model as model
-
-from adhocracy.i18n import relative_date, relative_time, format_date, countdown_time
-from adhocracy.lib.auth.csrf import url_token, field_token
-from adhocracy.lib.watchlist import make_watch, find_watch
-
 from webhelpers.pylonslib import Flash as _Flash
 from webhelpers.text import truncate
 
+from adhocracy.lib import cache
+from adhocracy.lib import democracy
+from adhocracy.lib import sorting
+from adhocracy.lib.auth.authorization import has as has_permission
+from adhocracy.lib.auth.csrf import url_token, field_token
+from adhocracy.lib.helpers import site_helper as site
+from adhocracy.lib.helpers import user_helper as user
+from adhocracy.lib.helpers import proposal_helper as proposal
+from adhocracy.lib.helpers import text_helper as text
+from adhocracy.lib.helpers import page_helper as page
+from adhocracy.lib.helpers import delegateable_helper as delegateable
+from adhocracy.lib.helpers import tag_helper as tag
+from adhocracy.lib.helpers import poll_helper as poll
+from adhocracy.lib.helpers import comment_helper as comment
+from adhocracy.lib.helpers import selection_helper as selection
+from adhocracy.lib.helpers import delegation_helper as delegation
+from adhocracy.lib.helpers import instance_helper as instance
+from adhocracy.lib.helpers import abuse_helper as abuse
+from adhocracy.lib.helpers import milestone_helper as milestone
+from adhocracy.lib.helpers.site_helper import base_url
+from adhocracy.lib.watchlist import make_watch, find_watch
+from adhocracy import model
+from adhocracy.i18n import countdown_time, format_date
+from adhocracy.i18n import relative_date, relative_time
+
 flash = _Flash()
-
-import site_helper as site
-import user_helper as user
-import proposal_helper as proposal
-import text_helper as text
-import page_helper as page
-import delegateable_helper as delegateable
-import tag_helper as tag
-import poll_helper as poll
-import comment_helper as comment
-import selection_helper as selection
-import delegation_helper as delegation
-import instance_helper as instance
-import abuse_helper as abuse
-import milestone_helper as milestone
-
-from site_helper import base_url
-#from breadcrumbs import breadcrumbs
 
 
 def immutable_proposal_message():
@@ -104,10 +98,38 @@ def propose_comment_title(parent=None, topic=None, variant=None):
     return ""
 
 
-def add_meta(key, value):
+def add_meta(name, content):
+    '''
+    Add information to be rendered as a meta tag
+    by a template in the html head. *value* will be used for the
+    name attribute, *content* for the content attribute of the
+    meta tag.
+    '''
     if not c.html_meta:
         c.html_meta = dict()
-    c.html_meta[key] = value
+    c.html_meta[name] = content
+
+
+def add_link(title, link, rel, type):
+    '''
+    Add information to be rendered as a link tag
+    by a template in the html head. The parameters
+    correspondent to the attributes of the link tag.
+    '''
+    if not c.html_link:
+        c.html_link = []
+    c.html_link.append({'title': title,
+                        'href': link,
+                        'rel': rel,
+                        'type': type})
+
+
+def add_rss(title, link):
+    '''
+    Add information to be rendered as a link tag in the html
+    head with rel="alternate" and type="application/rss+xml"
+    '''
+    add_link(title, link, rel='alternate', type='application/rss+xml')
 
 
 def help_link(text, page, anchor=None):
@@ -119,15 +141,6 @@ def help_link(text, page, anchor=None):
     return (u"<a target='_new' href='%s' "
             u"onClick='return showHelp(\"%s\")'>%s</a>") % (full_url,
                                                             simple_url, text)
-
-
-def add_rss(title, link):
-    if not c.html_link:
-        c.html_link = []
-    c.html_link.append({'title': title,
-                        'href': link,
-                        'rel': 'alternate',
-                        'type': 'application/rss+xml'})
 
 
 def entity_url(entity, **kwargs):
