@@ -30,7 +30,7 @@ def sunburnt_query(entity_type=None):
     si = get_sunburnt_connection()
     q = si.query()
     if entity_type:
-        q = q.query(doc_type=refs.cls_type(entity_type))
+        q = q.filter(doc_type=refs.cls_type(entity_type))
     return q
 
 
