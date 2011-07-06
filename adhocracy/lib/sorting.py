@@ -1,50 +1,58 @@
 # -*- coding: utf-8 -*-
 
 import math
-import re
+import re                                                                 
+import unicodedata
 from datetime import datetime
 
 from adhocracy.lib.event import stats as estats
 from adhocracy.lib.util import timedelta2seconds
 
-SPLIT_RE = re.compile(r"[\s\.,;:]")
 PREFIXES = ['die', 'der', 'das', 'the', 'a', 'le', 'la']
 
 
-def sortable_text(text):
+def _not_combining(char):
+        return unicodedata.category(char) != 'Mn'
+
+
+def _strip_accents(text):
+        unicode_text= unicodedata.normalize('NFD', text)
+        return filter(_not_combining, unicode_text)
+
+
+def _human_key(key):
+    key = key.lower()
+    parts = re.split(u'(\d+\.\d+|\d+)', key, re.UNICODE)
+    keys = tuple((e.swapcase() if i % 2 == 0 else float(e))
+            for i, e in enumerate(parts))
+    keys = filter(lambda s: s not in PREFIXES, keys)
+    keys = map(lambda s: isinstance(s, unicode) and _strip_accents(s) or s, keys)
+
+    return keys
+
+
+def sortable_text(value_list, key=None):
     """ String sorting by more human rules. """
-    text = text.lower()
-    text = text.replace(u'ä', 'a')
-    text = text.replace(u'ü', 'u')
-    text = text.replace(u'ö', 'o')
-    text = text.replace(u'é', 'e').replace(u'è', 'e')
-    text = text.replace(u'á', 'a').replace(u'à', 'a')
-    parts = []
-    for part in SPLIT_RE.split(text):
-        # will enter this to IOCCC soon.
-        if part in PREFIXES:
-            continue
-        try:
-            parts.append(int(part) * 1000000)
-        except ValueError:
-            parts.extend(map(ord, part))
-    return parts
+    results = list(value_list)        
+    results.sort(key=lambda i: _human_key(key(i)))
+
+    return results
 
 
 def delegateable_label(entities):
-    return sorted(entities, key=lambda e: sortable_text(e.label))
+    return sortable_text(entities, key=lambda e: e.label)
 
 
 def instance_label(entities):
-    return sorted(entities, key=lambda e: sortable_text(e.label))
+    return sortable_text(entities, key=lambda e: e.label)
 
 
 def delegateable_title(entities):
-    return sorted(entities, key=lambda e: sortable_text(e.title))
+    return sortable_text(entities, key=lambda e: e.title)
 
 
 def delegateable_full_title(entities):
-    return sorted(entities, key=lambda e: sortable_text(e.full_title))
+    return sortable_text(entities, key=lambda e: e.full_title)
 
 
 def delegateable_latest_comment(entities):
