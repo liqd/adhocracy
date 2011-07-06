@@ -62,9 +62,11 @@
 
 <%def name="facets(pager)">
 %for facet in pager.facets:
-<div class="facet">
-    ${facet.render()}
-</div>
+    %if facet.available():
+    <div class="facet">
+        ${facet.render()}
+    </div>
+    %endif
 %endfor
 </%def>
 
@@ -76,10 +78,17 @@
 <ul>
     %for item in facet.items:
     <li>
+        %if item['count'] == 0 and facet.show_empty:
+        <span class="disabled">
+            ${item['entity'].title} (${item['count']})
+        </span>
+        %endif
+        %if item['count'] > 0:
         <a class="${'selected' if item['selected'] else ''}"  
            href="${item['url']}">
             ${item['entity'].title} (${item['count']})
         </a>
+        %endif
     </li>
     %endfor
 </ul>

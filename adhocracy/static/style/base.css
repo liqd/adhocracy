@@ -1414,6 +1414,14 @@ a.button.inactive {
 	font-weight: bold;
 }
 
+.facet .selected {
+	font-weight: bold;
+}
+
+.facet.disabled {
+	color: #999;
+}
+
 /* @end */
 
 /* @group Comments */

@@ -238,14 +238,16 @@ class SolrFacet(object):
     [...]
     """
     def __init__(self, name, entity_type, title, description=None,
-                 tile=None, solr_field=None):
+                 tile=None, solr_field=None, show_empty=False):
         self.name = name
         self.entity_type = entity_type
         self.title = title
         self.description = description
         self.tile = tile
         self.solr_field = solr_field or "facet." + name
-
+        self.show_empty = show_empty
+        self.response = None
+        
     def update(self, response):
         self.response = response
         counts = response.facet_counts.facet_fields[self.solr_field]
@@ -253,6 +255,16 @@ class SolrFacet(object):
                                     reverse=True)
         self.counts = dict(self.sorted_counts)
         self.items = self._items(self.used, self.sorted_counts)
+
+    def available(self):
+        if not self.response:
+            return False
+
+        total_item_count = sum(self.counts.values())
+        if not total_item_count:
+            return False
+
+        return True
 
     def _used(self, request):
         used = []
@@ -351,7 +363,8 @@ class SolrFacet(object):
         description = self.description and _(self.description) or None
         facet = self.__class__(self.name, self.entity_type, _(self.title),
                                description=description, tile=self.tile,
-                               solr_field=self.solr_field)
+                               solr_field=self.solr_field,
+                               show_empty=self.show_empty)
         facet.param_prefix = param_prefix
         facet.request = request
         facet.request_key = "%s_facet" % param_prefix
