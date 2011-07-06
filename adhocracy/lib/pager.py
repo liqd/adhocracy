@@ -424,7 +424,7 @@ class SolrPager(object):
 
         # if we are out of the page range do a permanent redirect
         # to the last page
-        if self.page > self.pages:
+        if (self.pages > 0) and (self.page > self.pages):
             new_url = self.serialize(page=self.pages)
             redirect(new_url, code=301)
 
