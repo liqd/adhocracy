@@ -215,6 +215,8 @@ class Sorts(object):
         return self._values
 
 
+marker = object()
+
 class SolrFacet(object):
     """
     A Facet that can be used in searches.
@@ -260,13 +262,29 @@ class SolrFacet(object):
                 used.append(value)
         return used
 
+    def sort_items(self, items):
+        '''
+        hook to sort the items facet specific
+        '''
+        def sort_key_getter(item):
+            entity = item.get('entity', None)
+            if entity:
+                for attribute in ['title', 'name', 'id']:
+                    value = getattr(entity, attribute, marker)
+                    if value is not marker:
+                        return value
+            return item['count'] * -1  # reverse sorting
+
+        return sorted(items, key=sort_key_getter)
+
     def _items(self, used, value_counts):
         items = []
         for (value, count) in value_counts:
             item = self._item(used, value, count)
             if item is not None:
                 items.append(item)
-        return items
+
+        return self.sort_items(items)
 
     def _item(self, values, value, count):
         '''
@@ -340,8 +358,8 @@ class SolrFacet(object):
         facet.used = facet._used(request)
         return facet
 
-    def render_facets(self):
-        return ', '.join(self.used)
+    def render(self):
+        return render_def('/pager.html', 'facet', facet=self)
 
     def add_to_query(self, q):
         q = q.facet_by(self.solr_field)
@@ -480,11 +498,17 @@ class SolrPager(object):
         else:
             return int(sort)
 
-    def here(self):
+    def render_pager(self):
         '''
-        b/w compat
+        render the template for the pager (without facets)
         '''
         return render_def('/pager.html', 'namedpager', pager=self)
+        
+    def render_facets(self):
+        '''
+        render all facets
+        '''
+        return render_def('/pager.html', 'facets', pager=self)
 
 
 def solr_instance_users_pager(instance):

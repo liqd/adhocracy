@@ -1,22 +1,5 @@
 
 <%def name="namedpager(pager)">
-%for facet in getattr(pager, "facets", []):  # compat for NamedPager
-<h3>${facet.name}</h3>
-<div>
-    %if facet.description:
-    <p>${facet.description}</p>
-    %endif
-    %for item in facet.items:
-    <span>
-        <a class="${'selected' if item['selected'] else ''}"  
-           href="${item['url']}">
-            ${item['entity'].title} (${item['count']})
-        </a>
-    </span>
-    %endfor
-</div>
-<br />
-%endfor
 
 	<span class="pager_items">
 		${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=len(pager._items))}
@@ -74,4 +57,31 @@
 		</div>
 		%endif
 	%endif
+</%def>
+
+
+<%def name="facets(pager)">
+%for facet in pager.facets:
+<div class="facet">
+    ${facet.render()}
+</div>
+%endfor
+</%def>
+
+<%def name="facet(facet)">
+<h3>${facet.name}</h3>
+%if facet.description:
+<p>${facet.description}</p>
+%endif
+<ul>
+    %for item in facet.items:
+    <li>
+        <a class="${'selected' if item['selected'] else ''}"  
+           href="${item['url']}">
+            ${item['entity'].title} (${item['count']})
+        </a>
+    </li>
+    %endfor
+</ul>
+<br />
 </%def>

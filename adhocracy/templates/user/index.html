@@ -34,6 +34,7 @@
 	
 	<div class="infobox">
 		${_("A listing of all users that have joined this instance.")}
+                ${c.users_pager.render_facets()}
 	</div>
 </div>
 
@@ -48,6 +49,6 @@
 	-->
 	
 	<div id="users_table" class="table">
-		${c.users_pager.here()}
+		${c.users_pager.render_pager()}
 	</div>
 </div>
