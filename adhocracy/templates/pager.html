@@ -31,18 +31,22 @@
 			<div class="prev_page">
 				%if pager.page > 1:
 				<a href="${pager.serialize(page=pager.page-1)}">&laquo; ${_("previous")}</a>
-				%endif
+				%else:
+				<span>&laquo; ${_("previous")}</span>
+                %endif
 			</div>
 			%for i in xrange(1, pager.pages+1):
 				%if i != pager.page:
 					<a href="${pager.serialize(page=i)}">${i}</a>  
 				%else:
-					${i}
+					<span class="current">${i}</span>
 				%endif
 			%endfor
 			<div class="next_page">
 				%if pager.page < pager.pages:
 				<a href="${pager.serialize(page=pager.page+1)}">${_("next")} &raquo;</a>
+                %else:
+                <span>${_("next")} &raquo;</span>
 				%endif
 			</div>
 		</div>

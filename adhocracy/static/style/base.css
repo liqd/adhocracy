@@ -1371,7 +1371,7 @@ a.button.inactive {
 .pager {
 	margin-top: 0px;
 	margin-bottom: 0px;
-	text-align: center;
+	text-align: left;
 	/*background-color: #eee;*/
 	padding: 5px 5px 0px 5px;
 	/*
@@ -1379,7 +1379,25 @@ a.button.inactive {
 	border-right: 1px solid #ddd;
 	*/
 }
-	
+
+.pager a, .pager span {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid #EEEEEE;
+	padding: 2px 6px;
+	text-decoration: none;
+        line-height: 2.2em;
+}
+
+.pager .current {
+	color: #000;
+	font-weight: bold;
+        background-color: #ddd;
+}
+
+.pager .prev_page span {
+	margin-right: 4px;
+}
+
 .pager .prev_page,
 .pager_items,
 .pager_sorts.bottom {
