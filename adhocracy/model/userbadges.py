@@ -74,7 +74,11 @@ class Badge(object):
 
     @classmethod
     def find(cls, title):
-        q = meta.Session.query(Badge).filter(Badge.title.like(title))
+        q = meta.Session.query(Badge)
+        try:
+            q = q.filter(Badge.id == int(title))
+        except ValueError:
+            q = q.filter(Badge.title.like(title))
         return q.first()
 
     @classmethod

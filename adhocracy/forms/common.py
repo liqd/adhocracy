@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 
 import formencode
@@ -17,6 +18,7 @@ FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings",
 VALIDUSER = re.compile(r"^[a-zA-Z0-9_\-]{3,255}$")
 VALIDVARIANT = re.compile(r"^[\w\-_ ]{1,255}$", re.U)
 TIME = re.compile(r"\d{1,2}.\d{1,2}.\d{4}")
+
 
 class UniqueUsername(formencode.FancyValidator):
     def _to_python(self, value, state):
@@ -52,7 +54,6 @@ class UniqueEmail(formencode.FancyValidator):
         return value
 
 
-from datetime import datetime
 class ValidDate(formencode.FancyValidator):
     def _to_python(self, value, state):
         if not TIME.match(value):
@@ -61,7 +62,7 @@ class ValidDate(formencode.FancyValidator):
                     value, state)
         try:
             return datetime.strptime(value, "%d.%m.%Y")
-        except ValueError, ve:
+        except ValueError:
             raise formencode.Invalid(
                 _('Invalid date, expecting DD.MM.YYYY'),
                    value, state)
@@ -133,6 +134,19 @@ class ValidGroup(formencode.FancyValidator):
         return group
 
 
+class ContainsChar(formencode.validators.Regex):
+
+    regex = r"[a-zA-Z]"
+
+    def to_python(self, value, state):
+        try:
+            super(ContainsChar, self).to_python(value, state)
+        except formencode.Invalid:
+            raise formencode.Invalid(_("At least on character is required"),
+                                     value, state)
+        return value
+
+
 class ValidBadge(formencode.FancyValidator):
 
     def _to_python(self, value, state):
@@ -150,8 +164,9 @@ class MaybeMilestone(formencode.FancyValidator):
         from adhocracy.model import Milestone
         try:
             return Milestone.find(value)
-        except Exception, e:
+        except Exception:
             return None
+
 
 class ValidRevision(formencode.FancyValidator):
     def _to_python(self, value, state):

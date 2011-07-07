@@ -1,14 +1,14 @@
 from operator import attrgetter
 
 import formencode
-from formencode import Any, htmlfill, validators
+from formencode import Any, All, htmlfill, validators
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 from repoze.what.plugins.pylonshq import ActionProtector
 
-from adhocracy.forms.common import ValidGroup, ValidHTMLColor
+from adhocracy.forms.common import ValidGroup, ValidHTMLColor, ContainsChar
 from adhocracy.model import Badge, Group, meta
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has_permission
@@ -19,7 +19,8 @@ from adhocracy.lib.templating import render, render_json
 
 class BadgeForm(formencode.Schema):
     allow_extra_fields = True
-    title = validators.String(max=40, not_empty=True)
+    title = All(validators.String(max=40, not_empty=True),
+                ContainsChar())
     description = validators.String(max=255)
     color = ValidHTMLColor()
     group = Any(validators.Empty, ValidGroup())
