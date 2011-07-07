@@ -1,4 +1,3 @@
-from copy import deepcopy
 import urllib
 import math
 import logging
@@ -219,6 +218,7 @@ class Sorts(object):
 
 
 marker = object()
+
 
 class SolrFacet(object):
     """
