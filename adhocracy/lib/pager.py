@@ -391,6 +391,12 @@ class SolrFacet(object):
                 return
         raise ValueError('Could not find a link_text for %s' % entity)
 
+    def unselect_all_link(self):
+        '''
+        return an url where no value for this facet is selected
+        '''
+        return self.build_url(self.request, [])
+
     def __call__(self, param_prefix, request):
         description = self.description and _(self.description) or None
         facet = self.__class__(self.name, self.entity_type, _(self.title),
