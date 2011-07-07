@@ -11,7 +11,7 @@ from webob.multidict import MultiDict
 from adhocracy.lib.templating import render_def
 from adhocracy.lib import sorting, tiles
 from adhocracy.lib.search.query import sunburnt_query
-from adhocracy.model import refs, User, Badge
+from adhocracy.model import refs, Badge, Instance, User
 
 log = logging.getLogger(__name__)
 
@@ -250,7 +250,7 @@ class SolrFacet(object):
         self.solr_field = solr_field or "facet." + name
         self.show_empty = show_empty
         self.response = None
-        
+
     def add_to_query(self, q):
         q = q.facet_by(self.solr_field)
         for value in self.used:
@@ -339,38 +339,57 @@ class SolrFacet(object):
                 used.append(value)
         return used
 
-
     def _items(self, used, value_counts):
         items = []
         for (value, count) in value_counts:
             item = self._item(used, value, count)
             if item is not None:
                 items.append(item)
-
         return self.sort_items(items)
 
-    def _item(self, values, value, count):
+    def _item(self, selected_values, value, count):
         '''
-        fixme: this is hard coded to use badges for now.
+        Return an item dict for the facet *value*.
+        *selected_values* is list of values used in the current
+        query. count is the number of entries for this value in
+        the current query results.
         '''
-
-        entity = self.entity_type.by_id(value)
-        if entity is None:
-            log.debug('missed entiy "%s" for entity class "%s"' % (
-                value, self.entity_type))
-            return None
-        values = values[:]
+        values = selected_values[:]
         selected = value in values
         if selected and value in values:
             values.remove(value)
         if not selected:
             values.append(value)
-
         item = {'url': self.build_url(self.request, values),
                 'selected': selected,
-                'count': count,
-                'entity': entity}
+                'count': count}
+        try:
+            self.get_item_data(value, item)
+        except ValueError:
+            return None
         return item
+
+    def get_item_data(self, value, item):
+        '''
+        hook to get the entity (or other relevant data) for a facet.
+        *value* is the facet_value, item the item dict that will be
+        stored and passed to the tile.
+
+        Raises: ValueError if the Value cannot be processed.
+
+        Returns: None
+        '''
+        # find the entity
+        entity = self.entity_type.find(value)
+        if entity is None:
+            raise ValueError("Entity %s not found", value)
+        item['entity'] = entity
+        # find an link_text
+        for attribute in ['label', 'title', 'name']:
+            if hasattr(entity, attribute):
+                item['link_text'] = getattr(entity, attribute)
+                return
+        raise ValueError('Could not find a link_text for %s' % entity)
 
     def __call__(self, param_prefix, request):
         description = self.description and _(self.description) or None
@@ -386,6 +405,8 @@ class SolrFacet(object):
 
 
 BadgeFacet = SolrFacet('badge', Badge, u'Badge', solr_field='badges')
+InstanceFacet = SolrFacet('instance', Instance, u'Instance',
+                          solr_field='instances')
 
 
 class SolrPager(object):
@@ -520,7 +541,7 @@ class SolrPager(object):
         render the template for the pager (without facets)
         '''
         return render_def('/pager.html', 'namedpager', pager=self)
-        
+
     def render_facets(self):
         '''
         render all facets
@@ -552,6 +573,6 @@ def solr_global_users_pager():
                              (_("activity"), activity_sort_field),
                              (_("alphabetically"), 'sort_title')),
                       default_sort=activity_sort_field,
-                      facets=[BadgeFacet]
+                      facets=[BadgeFacet, InstanceFacet]
                       )
     return pager

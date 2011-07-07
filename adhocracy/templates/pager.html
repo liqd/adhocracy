@@ -93,7 +93,7 @@
         %if item['count'] > 0:
         <a class="${'selected' if item['selected'] else ''}"  
            href="${item['url']}">
-            ${item['entity'].title} (${item['count']})
+            ${item['link_text']} (${item['count']})
         </a>
         %endif
     </li>
