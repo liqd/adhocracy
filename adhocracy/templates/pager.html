@@ -78,7 +78,13 @@
 </%def>
 
 <%def name="facet(facet)">
-<h3>${facet.title}</h3>
+<h3>
+    ${facet.title}
+    %if facet.used:
+    <a class="remove"
+       href="${facet.unselect_all_link()}">(${_("Remove all")})</a>
+    %endif
+</h3>
 %if facet.description:
 <p>${facet.description}</p>
 %endif
@@ -91,14 +97,20 @@
         </span>
         %endif
         %if item['count'] > 0:
-        <a class="${'selected' if item['selected'] else ''}"  
-           href="${item['url']}">
-            ${item['link_text']} (${item['count']})
-        </a>
+            %if item['selected']:
+            <span class="selected">
+                ${item['link_text']} (${item['count']})
+                <a class="remove" href="${item['url']}">(${_("remove")})</a>
+            </span>
+            %else:
+            <a class="${'selected' if item['selected'] else ''}"  
+               href="${item['url']}">
+                ${item['link_text']} (${item['count']})
+            </a>
+            %endif
         %endif
     </li>
     %endfor
-    <a href="${facet.unselect_all_link()}">${_("Remove selected criteria")}</a>
 </ul>
 <br />
 </%def>

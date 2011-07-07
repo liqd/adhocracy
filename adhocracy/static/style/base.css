@@ -1432,14 +1432,21 @@ a.button.inactive {
 	font-weight: bold;
 }
 
-.facet .selected {
+.facet .selected, .facet h3 {
 	font-weight: bold;
 }
 
-.facet.disabled {
+.facet .disabled{
 	color: #999;
 }
 
+.facet .remove {
+	font-weight: normal;
+}
+
+.facet h3 a.remove {
+	font-size: 10pt;
+}
 /* @end */
 
 /* @group Comments */
