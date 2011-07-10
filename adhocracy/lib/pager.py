@@ -313,8 +313,6 @@ class SolrFacet(object):
         self.used = self._used(request)
         for (key, value) in kwargs.items():
             setattr(self, key, value)
-        if self.solr_field is None:
-            self.solr_field = 'facet.' + self.name
 
     @property
     def response(self):
@@ -530,6 +528,10 @@ class SolrFacet(object):
                   (key, value) in params.items()])
         return items
 
+    @classmethod
+    def add_to_index(cls, entity, index):
+        raise NotImplemented('has to be implemented in subclass')
+
     def render(self):
         return render_def(self.template, 'facet', facet=self)
 
@@ -539,7 +541,13 @@ class BadgeFacet(SolrFacet):
     name = 'badge'
     entity_type = Badge
     title = u'Badge'
-    solr_field = 'badges'
+    solr_field = 'facet.badges'
+
+    @classmethod
+    def add_to_index(cls, user, index):
+        if not isinstance(user, User):
+            return
+        index[cls.solr_field] = [badge.id for badge in user.badges]
 
 
 class InstanceFacet(SolrFacet):
@@ -547,7 +555,16 @@ class InstanceFacet(SolrFacet):
     name = 'instance'
     entity_type = Instance
     title = u'Instance'
-    solr_field = 'instances'
+    solr_field = 'facet.instances'
+
+    @classmethod
+    def add_to_index(cls, user, index):
+        if not isinstance(user, User):
+            return
+        index[cls.solr_field] = [instance.key for instance in user.instances]
+
+
+FACETS = [BadgeFacet, InstanceFacet]
 
 
 class SolrPager(PagerMixin):

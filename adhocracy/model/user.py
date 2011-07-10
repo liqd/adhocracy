@@ -419,20 +419,16 @@ class User(meta.Indexable):
         # calculate activities for all instances and
         # the overall activity of the user.
         activity_sum = 0
-        instances = []
         for instance in self.instances:
             activity = user_activity(instance, self)
             index['activity.%s' % instance.key] = activity
             activity_sum = activity_sum + activity
-            instances.append(instance.key)
 
         index.update(dict(
             title=self.name,
             tag=[self.user_name],
             body=self.bio,
             user=self.user_name,
-            badges=[badge.id for badge in self.badges],
-            instances=instances,
             activity=activity_sum,
             ))
         return index

@@ -59,26 +59,33 @@
 
 
  <fields>
-   <field name="id" type="string" indexed="true" stored="true" required="true" />
-   <field name="ref" type="string" indexed="true" stored="true" required="true" />
-   <field name="doc_type" type="string" indexed="true" stored="true" required="true" /> 
+   <field name="id" type="string" indexed="true" stored="true" 
+          required="true" />
+   <field name="ref" type="string" indexed="true" stored="true" 
+          required="true" />
+   <field name="doc_type" type="string" indexed="true" stored="true" 
+          required="true" /> 
    <field name="instance" type="string" indexed="true" stored="true" /> 
    <field name="title" type="textgen" indexed="true" stored="true"/>
+   <field name="sort_title" type="string" indexed="true" stored="true"
+          multiValued="false" />
    <field name="body" type="textgen" indexed="true" stored="true"/>
    
-   <field name="tag" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
-   <field name="user" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
+   <field name="tag" type="string" indexed="true" stored="true" 
+          multiValued="true" omitNorms="true" />
+   <field name="user" type="string" indexed="true" stored="true" 
+          multiValued="true" omitNorms="true" />
    
    <field name="create_time" type="string" indexed="true" stored="true"/>
-   <field name="text" type="text" indexed="true" stored="false" multiValued="true"/>
+   <field name="text" type="text" indexed="true" stored="false" 
+          multiValued="true"/>
 
-   <field name="sort_title" type="string" indexed="true" stored="true"/>
-   <field name="badges" type="string" indexed="true" stored="true"
-          omitNorms="true" multiValued="true"/>
-   <field name="instances" type="string" indexed="true" stored="true"
-          omitNorms="true" multiValued="true"/>
+   <!-- facets -->
    <dynamicField name="activity*" type="triefloat" indexed="true" 
-                 stored="true"/>   
+                 stored="true" />   
+   <dynamicField name="facet.*" type="string" indexed="true" stored="true"
+          omitNorms="true" multiValued="true" />
+
  </fields>
  
    <uniqueKey>id</uniqueKey>

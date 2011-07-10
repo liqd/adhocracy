@@ -15,10 +15,12 @@ Session = None
 # names, you'll need a metadata for each database
 data = MetaData()
 
+
 class Indexable(object):
 
     def to_index(self):
         import refs
+        from adhocracy.lib.pager import FACETS
         index = dict(
             ref=refs.to_ref(self),
             doc_type=refs.entity_type(self))
@@ -26,4 +28,6 @@ class Indexable(object):
             index['skip'] = self.is_deleted()
         if hasattr(self, 'create_time'):
             index['create_time'] = self.create_time.strftime("%s")
+        for facet in FACETS:
+            facet.add_to_index(self, index)
         return index
