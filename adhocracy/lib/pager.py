@@ -57,12 +57,36 @@ class PagerMixin(object):
         return page_sizes
 
     def pages_items(self):
+
+        def _visible_pages(selected_page, pages):
+            if pages <= 13:
+                return [range(1, pages + 1), []]
+            if selected_page <= 8:
+                return [range(1, 12 + 1) + [pages - 1, pages], [13]]
+            if (pages - selected_page) <= 7:
+                return [[1, 2] + range(pages - 11, pages + 1), [3]]
+            return [[1, 2] + range(selected_page - 4, selected_page + 4 + 1) +
+                    [pages - 1, pages], [3, pages - 1]]
+
+        visible_pages, seperators = _visible_pages(self.page, self.pages)
+
         items = []
         for number in xrange(1, self.pages + 1):
+            if number in seperators:
+                item = {'current': False,
+                        'url': '',
+                        'label': '...',
+                        'class': '',
+                        'seperator': True}
+                items.append(item)
+
             item = {'current': self.page == number,
                     'url': self.build_url(page=number),
-                    'number': number}
+                    'label': str(number),
+                    'class': 'hidden' if number not in visible_pages else '',
+                    'seperator': False}
             items.append(item)
+
         return items
 
     def build_url(self, page=None, size=None, sort=None, facets=tuple(),

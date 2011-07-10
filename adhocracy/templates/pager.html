@@ -35,11 +35,16 @@
 				<span>&laquo; ${_("previous")}</span>
                 %endif
 			</div>
-			%for i in xrange(1, pager.pages+1):
-				%if i != pager.page:
-					<a href="${pager.build_url(page=i)}">${i}</a>  
-				%else:
-					<span class="current">${i}</span>
+			%for page in pager.pages_items():
+				%if page['seperator']:
+                    <span class="seperator">...</span>
+                %else:
+                    %if page['current']:
+                        <span class="current">${page['label']}</span>
+                    %else:
+                        <a href="${page['url']}" 
+                           class="${page['class']}">${page['label']}</a>  
+                    %endif
 				%endif
 			%endfor
 			<div class="next_page">
