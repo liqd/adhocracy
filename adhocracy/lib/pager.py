@@ -273,32 +273,48 @@ class SolrFacet(object):
     It's used like this:
 
     globally:
-    >>> SomeFacet = Facet('badge', Badge, u'Badge')
-    >>> some_facet.solr_field
-    facet.badge
+    >>> class SomeFacet(SolrFacet):
+    ...     name = 'badge'
+    ...     entity_type = Badge
+    ...     title = u'Badge'
 
     Only in a thread:
-    >>> some_facet = SorlFacet('mypager_prefix', request)
+    >>> some_facet = SomeFacet('mypager_prefix', request)
     >>> q = solr_query()
+    >>> counts_query = q
     >>> # configure the query further
-    >>> q = some_facet.add_to_query(q)
+    >>> q, counts_query = some_facet.add_to_queries(q, counts_query)
     >>> response = q.execute()
-    >>> some_facet.update(response)
+    >>> counts_response = counts_response.execute()
+    >>> some_facet.update(response, counts_response)
     >>> some_facet.items
     [...]
     """
-    def __init__(self, name, entity_type, title, description=None,
-                 tile=None, solr_field=None, show_empty=False,
-                 show_current_empty=True):
-        self.name = name
-        self.entity_type = entity_type
-        self.title = title
-        self.description = description
-        self.tile = tile
-        self.solr_field = solr_field or "facet." + name
-        self.show_empty = show_empty
-        self.show_current_empty = show_current_empty
-        self._response = None
+
+    # overwrite in subclasses
+    name = None
+    entity_type = None
+    title = None
+    description = None
+    solr_field = None
+    show_empty = False
+    show_current_empty = True
+    template = '/pager.html'
+    _response = None
+
+    def __init__(self, param_prefix, request, **kwargs):
+        # Translate the title and the description. We need to do that
+        # during the request.
+        self.title = self.title and _(self.title) or None
+        self.description = self.description and _(self.description) or None
+        self.param_prefix = param_prefix
+        self.request = request
+        self.request_key = "%s_facet" % param_prefix
+        self.used = self._used(request)
+        for (key, value) in kwargs.items():
+            setattr(self, key, value)
+        if self.solr_field is None:
+            self.solr_field = 'facet.' + self.name
 
     @property
     def response(self):
@@ -447,7 +463,7 @@ class SolrFacet(object):
         '''
         hook to get the entity (or other relevant data) for a facet.
         *value* is the facet_value, item the item dict that will be
-        stored and passed to the tile.
+        stored and passed to the templates.
 
         This is a generic version that works with entity types that
         have a generic method "find", and a displayable title
@@ -515,33 +531,28 @@ class SolrFacet(object):
         return items
 
     def render(self):
-        return render_def('/pager.html', 'facet', facet=self)
-
-    def __call__(self, param_prefix, request):
-        description = self.description and _(self.description) or None
-        facet = self.__class__(self.name, self.entity_type, _(self.title),
-                               description=description, tile=self.tile,
-                               solr_field=self.solr_field,
-                               show_empty=self.show_empty)
-        facet.param_prefix = param_prefix
-        facet.request = request
-        facet.request_key = "%s_facet" % param_prefix
-        facet.used = facet._used(request)
-        return facet
+        return render_def(self.template, 'facet', facet=self)
 
 
-BadgeFacet = SolrFacet('badge', Badge, u'Badge', solr_field='badges',
-                       show_empty=True)
+class BadgeFacet(SolrFacet):
 
-InstanceFacet = SolrFacet('instance', Instance, u'Instance',
-                          show_empty=True, solr_field='instances')
+    name = 'badge'
+    entity_type = Badge
+    title = u'Badge'
+    solr_field = 'badges'
+
+
+class InstanceFacet(SolrFacet):
+
+    name = 'instance'
+    entity_type = Instance
+    title = u'Instance'
+    solr_field = 'instances'
 
 
 class SolrPager(PagerMixin):
     '''
     An pager currently compatible to :class:`adhocracy.lib.pager.NamedPager`.
-    The API will not stay compatible and will be refactored
-    in the future.
     '''
 
     def __init__(self, name, itemfunc, entity_type=None, extra_filter=None,
