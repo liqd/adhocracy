@@ -19,7 +19,83 @@ PAGE_VALIDATOR = validators.Int(min=1, not_empty=True)
 SIZE_VALIDATOR = validators.Int(min=1, max=250, not_empty=True)
 
 
-class NamedPager(object):
+class PagerMixin(object):
+
+    @property
+    def offset(self):
+        return (self.page - 1) * self.size
+
+    @property
+    def pages(self):
+        return int(math.ceil(self.total_num_items() / float(self.size)))
+
+    def here(self):
+        '''
+        backwarts compatibility. Use :meth:`render_pager`.
+        '''
+        return self.render_pager()
+
+    def page_sizes(self):
+        if self.initial_size <= self.total_num_items():
+            return []
+        page_sizes = []
+        # offer page sizes: from the initial size to either half of the
+        # total size or 5 x the initial size.
+        sizes = range(self.initial_size,
+                      min(self.total_num_items() + self.initial_size / 2,
+                          (self.initial_size * 5)) + 1,
+                      self.initial_size / 2)
+        for size in sizes:
+            page_sizes.append(
+                {'class': 'selected' if size == self.size else '',
+                 'url': self.build_url(size=size),
+                 'size': size,
+                 'last': False})
+
+        if page_sizes:
+            page_sizes[-1]['last'] = True
+        return page_sizes
+
+    def pages_items(self):
+        items = []
+        for number in xrange(1, self.pages + 1):
+            item = {'current': self.page == number,
+                    'url': self.build_url(page=number),
+                    'number': number}
+            items.append(item)
+        return items
+
+    def build_url(self, page=None, size=None, sort=None, facets=tuple(),
+                  unselect_facets=tuple(), **kwargs):
+        '''
+        b/w compat
+        '''
+        query = MultiDict(request.params.items())
+        query.update(kwargs)
+        query["%s_page" % self.name] = page if page else 1
+        query["%s_size" % self.name] = size if size else self.size
+        query["%s_sort" % self.name] = sort if sort else self.selected_sort
+
+        # sanitize the the query arguments
+        query_items = ([(str(key), unicode(value).encode('utf-8')) for
+                        (key, value) in query.items()])
+        url_base = url.current(qualified=True)
+        return url_base + "?" + urllib.urlencode(query_items)
+
+    def to_dict(self):
+        return self.items
+
+    def render_pager(self):
+        '''
+        render the template for the pager (without facets)
+        '''
+        return render_def('/pager.html', 'namedpager', pager=self)
+
+    def __len__(self):
+        return self.total_num_items()
+
+
+class NamedPager(PagerMixin):
     """
     A ``NamedPager`` is a list generator for the UI. The ``name`` is required
     in order to distinguish multiple pagers working on the same page.
@@ -78,37 +154,8 @@ class NamedPager(object):
             self.sorted = True
         return self._items[self.offset:self.offset + self.size]
 
-    def total(self):
+    def total_num_items(self):
         return len(self._items)
-
-    @property
-    def offset(self):
-        return (self.page - 1) * self.size
-
-    @property
-    def pages(self):
-        return int(math.ceil(len(self._items) / float(self.size)))
-
-    def serialize(self, page=None, size=None, sort=None, **kwargs):
-        query = dict(request.params.items())
-        query.update(self.kwargs)
-        query.update(kwargs)
-        query["%s_page" % self.name] = page if page else 1
-        query["%s_size" % self.name] = size if size else self.size
-        query["%s_sort" % self.name] = sort if sort else self.selected_sort
-
-        query = dict([(str(k), unicode(v).encode('utf-8')) \
-                      for k, v in query.items()])
-        return "?" + urllib.urlencode(query.items())
-
-    def here(self):
-        return render_def('/pager.html', 'namedpager', pager=self)
-
-    def to_dict(self):
-        return self.items
-
-    def __len__(self):
-        return len(self.items)
 
 
 def instances(instances):
@@ -241,7 +288,8 @@ class SolrFacet(object):
     [...]
     """
     def __init__(self, name, entity_type, title, description=None,
-                 tile=None, solr_field=None, show_empty=False):
+                 tile=None, solr_field=None, show_empty=False,
+                 show_current_empty=True):
         self.name = name
         self.entity_type = entity_type
         self.title = title
@@ -249,25 +297,88 @@ class SolrFacet(object):
         self.tile = tile
         self.solr_field = solr_field or "facet." + name
         self.show_empty = show_empty
-        self.response = None
+        self.show_current_empty = show_current_empty
+        self._response = None
 
-    def add_to_query(self, q):
-        q = q.facet_by(self.solr_field)
-        for value in self.used:
-            q = q.query(**{self.solr_field: value})
-        return q
+    @property
+    def response(self):
+        if self._response is None:
+            raise AssertionError('You have to .update() the facet first')
+        return self._response
 
-    def update(self, response):
-        self.response = response
-        counts = response.facet_counts.facet_fields[self.solr_field]
-        self.sorted_counts = sorted(counts, key=lambda(value, count): count,
-                                    reverse=True)
-        self.counts = dict(self.sorted_counts)
-        self.items = self._items(self.used, self.sorted_counts)
+    @response.setter
+    def response(self, response):
+        self._response = response
 
-    def sort_items(self, items):
+    def add_to_queries(self, query, counts_query):
         '''
-        hook to sort the items facet specific
+        Add the facet to the queries *query* and *counts_query*.
+        The difference is that the *query* will be limited to facet values
+        used in the the request.
+
+        Returns: the modified queries as a (query, counts_query) tuple
+        '''
+        query = query.facet_by(self.solr_field)
+        counts_query = counts_query.facet_by(self.solr_field)
+        for value in self.used:
+            query = query.query(**{self.solr_field: value})
+        return query, counts_query
+
+    def update(self, response, counts_response):
+        '''
+        Compute and update different attributes of the facet based
+        on the solr *response* and the *base_query*.
+        '''
+        self.response = response
+        self.counts_response = counts_response
+        solr_field = self.solr_field
+
+        # the counts in the current query which is limited to selected
+        # facet values
+        current_counts = response.facet_counts.facet_fields[solr_field]
+        self.sorted_current_counts = sorted(current_counts,
+                                            key=lambda(value, count): count,
+                                            reverse=True)
+        self.current_counts = dict(self.sorted_current_counts)
+
+        # the counts in the current query which is limited to selected
+        # facet values
+        facet_counts = counts_response.facet_counts.facet_fields[solr_field]
+        self.sorted_facet_counts = sorted(facet_counts,
+                                          key=lambda(value, count): count,
+                                          reverse=True)
+        self.facet_counts = dict(self.sorted_facet_counts)
+
+        self.facet_items = self._facet_items(self.sorted_facet_counts)
+        self.current_items = self._current_items()
+
+    # fixme: memoize
+    def _facet_items(self, facet_counts):
+        facet_items = []
+        for (value, count) in facet_counts:
+            facet_item = self._facet_item(value, count)
+            if facet_item is not None:
+                facet_items.append(facet_item)
+        return self.sort_facet_items(facet_items)
+
+    def _facet_item(self, value, count):
+        '''
+        Return an item dict for the facet *value*.
+        *selected_values* is list of values used in the current
+        query. count is the number of entries for this value in
+        the current query results.
+        '''
+        item = self.get_item_data(value)
+        item['facet_count'] = count
+        item['value'] = value
+        return item
+
+    def sort_facet_items(self, items):
+        '''
+        hook to sort the items facet specific. This is a
+        generic that works with entities and sorts by entity title,
+        name or id, or by facet_count. It is only sensible if all
+        entities have the same attributes.
         '''
         def sort_key_getter(item):
             entity = item.get('entity', None)
@@ -276,19 +387,94 @@ class SolrFacet(object):
                     value = getattr(entity, attribute, marker)
                     if value is not marker:
                         return value
-            return item['count'] * -1  # reverse sorting
+            return item['facet_count'] * -1  # reverse sorting
 
         return sorted(items, key=sort_key_getter)
 
     def available(self):
         if not self.response:
             return False
+        return bool(len(self.current_items))
 
-        total_item_count = sum(self.counts.values())
-        if not total_item_count:
-            return False
+    def _used(self, request):
+        used = []
+        for param in request.params.getall(self.request_key):
+            facet, value = param.split(':')
+            if facet == self.name and value not in used:
+                used.append(value)
+        return used
 
-        return True
+    def _current_items(self):
+        '''
+        Return a list of facets to display.
+        '''
+        display_facet_items = []
+        for item in self.facet_items:
+            item = item.copy()
+            facet_value = item['value']
+            item['current_count'] = self.current_counts[facet_value]
+
+            if item['current_count'] == 0 and not (self.show_empty or
+                                                   self.show_current_empty):
+                continue
+            if item['facet_count'] == 0 and not self.show_empty:
+                continue
+
+            item['disabled'] = (item['current_count'] == 0)
+            # filter out by configuration:
+            if item['current_count'] == 0 and not self.show_current_empty:
+                # facets that are now empty, but may return results
+                # if another facet value combination is selected
+                continue
+            if item['facet_count'] == 0 and not self.show_empty:
+                # facets that are 0 in all possible result sets.
+                continue
+
+            values = self.used[:]
+            selected = facet_value in self.used
+            item['selected'] = selected
+            if selected:
+                values.remove(facet_value)
+            else:
+                values.append(facet_value)
+            item['url'] = self.build_url(self.request, values)
+
+            display_facet_items.append(item)
+
+        return display_facet_items
+
+    def get_item_data(self, value):
+        '''
+        hook to get the entity (or other relevant data) for a facet.
+        *value* is the facet_value, item the item dict that will be
+        stored and passed to the tile.
+
+        This is a generic version that works with entity types that
+        have a generic method "find", and a displayable title
+        stored in the attribute label, title or name.
+
+        Raises ValueError if the displayable title cannot be found.
+
+        Returns: An item dict or None if no data can be found for
+        the *value*
+        '''
+        entity = self.entity_type.find(value)
+        if entity is None:
+            return None
+        item = {}
+        item['entity'] = entity
+        # find an link_text
+        for attribute in ['label', 'title', 'name']:
+            if hasattr(entity, attribute):
+                item['link_text'] = getattr(entity, attribute)
+                return item
+        raise ValueError('Could not find a link_text for %s' % entity)
+
+    def unselect_all_link(self):
+        '''
+        return an url where no value for this facet is selected
+        '''
+        return self.build_url(self.request, [])
 
     def build_url(self, request, facet_values):
         '''
@@ -331,72 +517,6 @@ class SolrFacet(object):
     def render(self):
         return render_def('/pager.html', 'facet', facet=self)
 
-    def _used(self, request):
-        used = []
-        for param in request.params.getall(self.request_key):
-            facet, value = param.split(':')
-            if facet == self.name and value not in used:
-                used.append(value)
-        return used
-
-    def _items(self, used, value_counts):
-        items = []
-        for (value, count) in value_counts:
-            item = self._item(used, value, count)
-            if item is not None:
-                items.append(item)
-        return self.sort_items(items)
-
-    def _item(self, selected_values, value, count):
-        '''
-        Return an item dict for the facet *value*.
-        *selected_values* is list of values used in the current
-        query. count is the number of entries for this value in
-        the current query results.
-        '''
-        values = selected_values[:]
-        selected = value in values
-        if selected and value in values:
-            values.remove(value)
-        if not selected:
-            values.append(value)
-        item = {'url': self.build_url(self.request, values),
-                'selected': selected,
-                'count': count}
-        try:
-            self.get_item_data(value, item)
-        except ValueError:
-            return None
-        return item
-
-    def get_item_data(self, value, item):
-        '''
-        hook to get the entity (or other relevant data) for a facet.
-        *value* is the facet_value, item the item dict that will be
-        stored and passed to the tile.
-
-        Raises: ValueError if the Value cannot be processed.
-
-        Returns: None
-        '''
-        # find the entity
-        entity = self.entity_type.find(value)
-        if entity is None:
-            raise ValueError("Entity %s not found", value)
-        item['entity'] = entity
-        # find an link_text
-        for attribute in ['label', 'title', 'name']:
-            if hasattr(entity, attribute):
-                item['link_text'] = getattr(entity, attribute)
-                return
-        raise ValueError('Could not find a link_text for %s' % entity)
-
-    def unselect_all_link(self):
-        '''
-        return an url where no value for this facet is selected
-        '''
-        return self.build_url(self.request, [])
-
     def __call__(self, param_prefix, request):
         description = self.description and _(self.description) or None
         facet = self.__class__(self.name, self.entity_type, _(self.title),
@@ -410,12 +530,14 @@ class SolrFacet(object):
         return facet
 
 
-BadgeFacet = SolrFacet('badge', Badge, u'Badge', solr_field='badges')
+BadgeFacet = SolrFacet('badge', Badge, u'Badge', solr_field='badges',
+                       show_empty=True)
+
 InstanceFacet = SolrFacet('instance', Instance, u'Instance',
-                          solr_field='instances')
+                          show_empty=True, solr_field='instances')
 
 
-class SolrPager(object):
+class SolrPager(PagerMixin):
     '''
     An pager currently compatible to :class:`adhocracy.lib.pager.NamedPager`.
     The API will not stay compatible and will be refactored
@@ -449,35 +571,41 @@ class SolrPager(object):
         self.selected_sort = self._get_sort()
 
         self.page = self._get_page()
-        self.offset = (self.page - 1) * self.size
 
-        self.base_query = sunburnt_query(entity_type)
-        q = self.base_query
-        if enable_pages:
-            q = q.paginate(start=self.offset, rows=self.size)
+        ## build the query
+        query = sunburnt_query(entity_type)
         if self.extra_filter:
-            q = q.filter(**self.extra_filter)
-        if self.sorts.keys():
-            sort_by = self.sorts.values()[self.selected_sort - 1]
-            q = q.sort_by(sort_by)
+            query = query.filter(**self.extra_filter)
+
+        # Add facets
+        counts_query = query
+        counts_query = counts_query.paginate(rows=0)
 
         for facet in self.facets:
-            q = facet.add_to_query(q)
-        self.response = q.execute()
-        self.pages = int(math.ceil(self.response.result.numFound /
-                                   float(self.size)))
+            query, counts_query = facet.add_to_queries(query, counts_query)
+
+        # Add pagination and sorting
+        if enable_pages:
+            query = query.paginate(start=self.offset, rows=self.size)
+        if self.sorts.keys():
+            sort_by = self.sorts.values()[self.selected_sort - 1]
+            query = query.sort_by(sort_by)
+
+        # query solr and calculate values from it
+        self.response = query.execute()
+        self.counts_response = counts_query.execute()
 
         # if we are out of the page range do a permanent redirect
         # to the last page
         if (self.pages > 0) and (self.page > self.pages):
-            new_url = self.serialize(page=self.pages)
+            new_url = self.build_url(page=self.pages)
             redirect(new_url, code=301)
 
         for facet in self.facets:
-            facet.update(self.response)
+            facet.update(self.response, self.counts_response)
         self.items = self._items_from_response(self.response)
 
-    def total(self):
+    def total_num_items(self):
         '''
         return the total numbers of results
         '''
@@ -509,23 +637,6 @@ class SolrPager(object):
         finally:
             return page
 
-    def serialize(self, page=None, size=None, sort=None, facets=tuple(),
-                  unselect_facets=tuple(), **kwargs):
-        '''
-        b/w compat
-        '''
-        query = MultiDict(request.params.items())
-        query.update(kwargs)
-        query["%s_page" % self.name] = page if page else 1
-        query["%s_size" % self.name] = size if size else self.size
-        query["%s_sort" % self.name] = sort if sort else self.selected_sort
-
-        # sanitize the the query arguments
-        query_items = ([(str(key), unicode(value).encode('utf-8')) for
-                        (key, value) in query.items()])
-        url_base = url.current(qualified=True)
-        return url_base + "?" + urllib.urlencode(query_items)
-
     def _get_size(self):
 
         size = self.size
@@ -541,12 +652,6 @@ class SolrPager(object):
             return self.selected_sort
         else:
             return int(sort)
-
-    def render_pager(self):
-        '''
-        render the template for the pager (without facets)
-        '''
-        return render_def('/pager.html', 'namedpager', pager=self)
 
     def render_facets(self):
         '''
