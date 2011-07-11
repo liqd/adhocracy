@@ -61,7 +61,7 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
     	  %endif		
     	</div>
     	<br/><br/>
-    	%for selection in sorted(c.proposal.selections, key=lambda s: sorting.sortable_text(s.page.title)): 
+    	%for selection in sorting.sortable_text(c.proposal.selections, key=lambda s: s.page.title): 
     	    ${tiles.selection.row(selection)}
     	%endfor
 	%endif
