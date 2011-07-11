@@ -45,7 +45,8 @@ if (typeof SimileAjax == "undefined") {
         }
         return null;
     };
-    SimileAjax.includeJavascriptFile = function(doc, url, onerror, charset) {
+    
+    SimileAjax.includeJavascriptFile = function(doc, url, onerror, charset, callback) {
         onerror = onerror || "";
         if (doc.body == null) {
             try {
@@ -70,15 +71,40 @@ if (typeof SimileAjax == "undefined") {
         script.type = "text/javascript";
         script.language = "JavaScript";
         script.src = url;
+        if (callback) script.onload = script.onreadystatechange = function()
+            {if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") callback();};        
         return getHead(doc).appendChild(script);
     };
-    SimileAjax.includeJavascriptFiles = function(doc, urlPrefix, filenames) {
-        for (var i = 0; i < filenames.length; i++) {
-            SimileAjax.includeJavascriptFile(doc, urlPrefix + filenames[i]);
+    function includeJavascriptList(doc, urlPrefix, filenames, loaded, index, callback)
+    {
+        if (!loaded[index]) { // avoid duplicate callback
+            loaded[index] = true;
+            if (index<filenames.length) 
+                 SimileAjax.includeJavascriptFile(doc, urlPrefix + filenames[index], null, null, function()
+                               {includeJavascriptList(doc, urlPrefix, filenames, loaded, index+1, callback);});
+            else if (callback != null) callback();
         }
-        SimileAjax.loadingScriptsCount += filenames.length;
-        SimileAjax.includeJavascriptFile(doc, SimileAjax.urlPrefix + "scripts/signal.js?" + filenames.length);
+    }
+    SimileAjax.includeJavascriptFiles = function(doc, urlPrefix, filenames) {
+        if (doc.body == null) {
+            for (var i = 0; i < filenames.length; i++) {
+                SimileAjax.includeJavascriptFile(doc, urlPrefix + filenames[i]);
+            }
+            SimileAjax.loadingScriptsCount += filenames.length;
+            SimileAjax.includeJavascriptFile(doc, SimileAjax.urlPrefix + "scripts/signal.js?" + filenames.length);
+        }
+        else
+        {
+            var f = null;
+            var loaded = new Array();
+            for (var i = 0; i < filenames.length; i++) loaded[filenames[i]] = false; 
+            if (typeof window.SimileAjax_onLoad == "string") f = eval(window.SimileAjax_onLoad);
+            else if (typeof window.SimileAjax_onLoad == "function") f = window.SimileAjax_onLoad;
+            window.SimileAjax_onLoad = null;
+            includeJavascriptList(doc, urlPrefix, filenames, loaded, 0, f);
+        }
     };
+    
     SimileAjax.includeCssFile = function(doc, url) {
         if (doc.body == null) {
             try {
