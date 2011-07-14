@@ -5,6 +5,7 @@ from pylons import request
 
 from sqlalchemy import or_
 from sqlalchemy.orm import eagerload
+from sqlalchemy.orm.exc import NoResultFound
 
 from repoze.what.predicates import has_permission as what_has_permission
 from repoze.what.adapters import SourceError
@@ -45,8 +46,8 @@ class InstanceGroupSourceAdapter(SqlGroupsAdapter):
         q = q.filter(model.User.user_name == unicode(item_name))
         q = q.options(eagerload(model.User.memberships))
         try:
-            return q.limit(1).first()
-        except Exception, e:
+            return q.one()
+        except NoResultFound, e:
             log.exception(e)
             raise SourceError("No such user: %s" % item_name)
 
