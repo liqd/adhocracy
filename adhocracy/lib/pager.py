@@ -713,7 +713,7 @@ class SolrPager(PagerMixin):
 
 
 def solr_instance_users_pager(instance):
-    extra_filter = {'instances': instance.key}
+    extra_filter = {'facet.instances': instance.key}
     activity_sort_field = '-activity.%s' % instance.key
     pager = SolrPager('users', tiles.user.row,
                       entity_type=User,
