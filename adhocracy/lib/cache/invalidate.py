@@ -1,5 +1,6 @@
-import adhocracy.model as model
-from util import clear_tag
+from adhocracy import model
+from adhocracy.lib.cache.util import clear_tag
+
 
 def invalidate_user(user):
     clear_tag(user)
@@ -21,7 +22,7 @@ def invalidate_delegateable(d):
     if not len(d.parents):
         clear_tag(d.instance)
 
-  
+
 def invalidate_revision(rev):
     invalidate_comment(rev.comment)
 
@@ -32,8 +33,8 @@ def invalidate_comment(comment):
         invalidate_comment(comment.reply)
     invalidate_delegateable(comment.topic)
 
-   
-def invalidate_delegation(delegation):    
+
+def invalidate_delegation(delegation):
     invalidate_user(delegation.principal)
     invalidate_user(delegation.agent)
 
@@ -45,7 +46,7 @@ def invalidate_vote(vote):
 
 
 def invalidate_selection(selection):
-    if selection is None: 
+    if selection is None:
         return
     clear_tag(selection)
     if selection.page:
@@ -65,7 +66,7 @@ def invalidate_poll(poll):
 
 
 def invalidate_instance(instance):
-    # muharhar cache epic fail 
+    # muharhar cache epic fail
     clear_tag(instance)
     for d in instance.delegateables:
         invalidate_delegateable(d)

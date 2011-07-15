@@ -1,4 +1,4 @@
-import url as _url
+from adhocracy.lib.helpers import url as _url
 
 
 def url(instance, member=None, format=None, **kwargs):

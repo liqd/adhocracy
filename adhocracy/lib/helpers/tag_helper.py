@@ -1,13 +1,13 @@
-import math
 import cgi
+import math
 import urllib
 
 from pylons import tmpl_context as c
 from pylons.i18n import _
 
 from adhocracy.lib import cache
+from adhocracy.lib.helpers import url as _url
 
-import url as _url
 
 def link(tag, count=None, size=None, base_size=12, plain=False):
     text = u"<span class='tag_link %s'><a" % ("plain" if plain else "")
@@ -20,9 +20,11 @@ def link(tag, count=None, size=None, base_size=12, plain=False):
     text += u"</span>"
     return text
 
+
 def url(tag, instance=None, **kwargs):
     if instance is None:
         instance = c.instance
+
     @cache.memoize('tag_url')
     def url_(tag, instance, **kwargs):
         ident = None
@@ -32,10 +34,12 @@ def url(tag, instance=None, **kwargs):
             ident = tag.id
         return _url.build(instance, u'tag', ident, **kwargs)
     return url_(tag, instance, **kwargs)
-    
+
+
 def bc_entity(tag):
     return _url.BREAD_SEP + _url.link(tag.name, url(tag))
-    
+
+
 def breadcrumbs(tag):
     bc = _url.root()
     bc += _url.link(_("Tags"), u'/tag')

@@ -3,21 +3,21 @@ import logging
 import StringIO
 
 try:
-    import Image                     
+    import Image
 except ImportError:
     from PIL import Image
 
-from pylons import config 
 
 from cache import memoize
 import util
 
 log = logging.getLogger(__name__)
-    
+
 HEADER = ['static', 'img', 'header_logo.png']
 DEFAULT = ['static', 'img', 'icons', 'site_64.png']
 
 header_image = None
+
 
 def _instance_logo_path(instance):
     util.create_site_subdirectory('uploads', 'instance')
@@ -37,14 +37,10 @@ def load(instance, size, fallback=DEFAULT):
     if not os.path.exists(instance_path):
         instance_path = util.get_path(*fallback)
     logo_image = Image.open(instance_path)
-    if x is None: 
+    if x is None:
         orig_x, orig_y = logo_image.size
         x = int(y * (float(orig_x) / float(orig_y)))
     logo_image.thumbnail((x, y), Image.ANTIALIAS)
     sio = StringIO.StringIO()
     logo_image.save(sio, 'PNG')
     return (instance_path, sio.getvalue())
-
-
-    
-    

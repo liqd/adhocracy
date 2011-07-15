@@ -6,8 +6,9 @@ from BeautifulSoup import BeautifulSoup, NavigableString
 
 from lxml.html import fragment_fromstring
 
-import diff
-from tag import tag_normalize, tag_split, tag_cloud_normalize, tag_split_last
+from adhocracy.lib.text import diff
+from adhocracy.lib.text.tag import (tag_normalize, tag_split,
+                                    tag_cloud_normalize, tag_split_last)
 from normalize import *
 from render import render, render_line_based
 

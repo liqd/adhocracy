@@ -5,11 +5,9 @@ from pylons import config
 
 import memcache
 
-from adhocracy import model
-import cache
-import search
 
 log = logging.getLogger(__name__)
+
 
 class Globals(object):
 
@@ -37,5 +35,3 @@ class Globals(object):
             self.single_instance = config.get('adhocracy.instance')
         else:
             self.single_instance = None
-
-

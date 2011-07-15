@@ -1,11 +1,8 @@
 import urllib
 
-from pylons.i18n import _
-
 from adhocracy.lib import cache
-
-import proposal_helper as proposal
-import url as _url
+from adhocracy.lib.helpers import proposal_helper as proposal
+from adhocracy.lib.helpers import url as _url
 
 
 @cache.memoize('text_url')
@@ -13,7 +10,8 @@ def url(text, **kwargs):
     import page_helper as page
     if text is None:
         return ''
-    url = page.url(text.page, in_context=text == text.page.variant_head(text.variant))
+    in_context = (text == text.page.variant_head(text.variant))
+    url = page.url(text.page, in_context=in_context)
     if text.page.has_variants and text.variant != text.HEAD:
         url += u'/' + urllib.quote(text.variant.encode('utf-8'))
     if text != text.page.variant_head(text.variant):
@@ -28,7 +26,7 @@ def icon_url(text, page=None, size=16):
     if page is None:
         page = text.page
     path = u"/img/icons/page%s_%s.png"
-    if page.function == page.NORM: 
+    if page.function == page.NORM:
         if text.variant != text.HEAD:
             return path % ("_variant", size)
         return path % ("_norm", size)
@@ -41,6 +39,7 @@ def icon_url(text, page=None, size=16):
 @cache.memoize('text_bc')
 def entity_bc(text):
     return _url.BREAD_SEP + _url.link(text.variant, url(text))
+
 
 def breadcrumbs(text):
     import page_helper as page

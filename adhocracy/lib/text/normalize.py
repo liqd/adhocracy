@@ -1,20 +1,16 @@
-import urllib
-import re
-from webhelpers.text import truncate
 from unicodedata import normalize, category
 from adhocracy.forms import FORBIDDEN_NAMES
 
-#INVALID_CHARS = re.compile(u"[\?#\&]", re.U)
 
-def chr_filter(ch, remove_space): 
+def chr_filter(ch, remove_space):
     """ Filter by unicode character category. """
     if ch == u'_':
         return ch
     cat = category(ch)[0].upper()
     if cat in ['Z'] and remove_space:
-        return u'_' # replace spaces
+        return u'_'  # replace spaces
     if cat in ['P']:
-        return u'' # remove punctuation
+        return u''  # remove punctuation
     return ch
 
 
@@ -43,7 +39,7 @@ def label2url(label):
 
 def simple_form(text):
     text = normalize('NFKC', text)
-    return text 
+    return text
 
 
 def escape(title, remove_space=True):

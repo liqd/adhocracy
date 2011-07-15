@@ -1,19 +1,14 @@
-from pylons import tmpl_context as c
-from webhelpers.text import truncate
+from adhocracy.lib.tiles.comment_tiles import CommentTile
+from adhocracy.lib.tiles.util import render_tile, BaseTile
 
-import adhocracy.model as model
-from .. import text
-
-from util import render_tile, BaseTile
-from comment_tiles import CommentTile
 
 class RevisionTile(BaseTile):
-    
+
     def __init__(self, revision):
         self.revision = revision
         self.comment_tile = CommentTile(revision.comment)
 
 
 def row(revision):
-    return render_tile('/comment/revision_tiles.html', 'row', RevisionTile(revision), revision=revision)    
-
+    return render_tile('/comment/revision_tiles.html', 'row',
+                       RevisionTile(revision), revision=revision)

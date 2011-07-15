@@ -1,5 +1,5 @@
 import logging
-from amqp import has_queue, post_message, consume
+from amqp import post_message, consume
 from update import handle_update, post_update, UPDATE_SERVICE
 
 from adhocracy import model
