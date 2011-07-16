@@ -49,7 +49,7 @@ def tt_make_proposal(creator=None, voting=False):
     return proposal
 
 
-def tt_make_user(name=None):  # instance_group=None: not supported right now
+def tt_make_user(name=None, instance_group=None):
     if name is not None:
         name = unicode(name)
         user = model.meta.Session.query(model.User)
@@ -62,15 +62,14 @@ def tt_make_user(name=None):  # instance_group=None: not supported right now
     user = model.User(name, u"test@test.test", u"test",
                       i18n.get_default_locale())
 
-    #default_group = model.Group.by_code(model.Group.CODE_DEFAULT)
-    #default_membership = model.Membership(user, None, default_group)
-    #memberships = [default_membership]
-
-    #if instance_group:
-    #    instance = tt_get_instance()
-    #    group_membership = model.Membership(user, instance, instance_group)
-    #    memberships.append(group_membership)
-    #user.memberships = memberships
+    default_group = model.Group.by_code(model.Group.CODE_DEFAULT)
+    default_membership = model.Membership(user, None, default_group)
+    memberships = [default_membership]
+    if instance_group:
+        instance = tt_get_instance()
+        group_membership = model.Membership(user, instance, instance_group)
+        memberships.append(group_membership)
+    user.memberships = memberships
     model.meta.Session.add(user)
     model.meta.Session.flush()  # write to db and updated db
                                 # generated attributes
