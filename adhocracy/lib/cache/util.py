@@ -1,16 +1,16 @@
 import logging
-from binascii import crc32
 from hashlib import sha1
 
 from pylons import app_globals
 
-class NoneResult(object): pass
-
 log = logging.getLogger(__name__)
 
-SEP="|"
-
+SEP = "|"
 cacheTags = {}
+
+
+class NoneResult(object):
+    pass
 
 
 def _hash(data):
@@ -22,11 +22,11 @@ def add_tags(key, tags):
     for tag in tags:
         if not ctags.get(tag):
             ctags[tag] = key
-        else: 
+        else:
             ctags[tag] = ctags[tag] + SEP + key
     app_globals.cache.set_multi(ctags)
 
-    
+
 def tag_fn(key, args, kwargs):
     tags = [make_tag(a) for a in args]
     tags += [make_tag(v) for v in kwargs.values()]
@@ -38,10 +38,12 @@ def make_tag(obj):
     rep = "catch_all"
     try:
         rep = repr(obj).encode('ascii', 'ignore')
-    except: pass
+    except:
+        pass
     try:
         rep = unicode(obj).encode('ascii', 'ignore')
-    except: pass
+    except:
+        pass
     return _hash(rep)
 
 
@@ -55,16 +57,20 @@ def clear_tag(tag):
         entities = app_globals.cache.get(make_tag(tag))
         if entities:
             app_globals.cache.delete_multi(entities.split(SEP))
-    except TypeError: pass # when app_globals isn't there yet
+    except TypeError:
+        pass  # when app_globals isn't there yet
 
- 
-def memoize(iden, time = 0):
+
+def memoize(iden, time=0):
     try:
         from pylons import tmpl_context as c
         iden = c.instance.key + '.' + iden if c.instance else iden
-    except: pass
+    except:
+        pass
+
     def memoize_fn(fn):
         from adhocracy.lib.cache.util import NoneResult
+
         def new_fn(*a, **kw):
             if not app_globals.cache:
                 res = fn(*a, **kw)
@@ -77,7 +83,7 @@ def memoize(iden, time = 0):
                     if res is None:
                         res = NoneResult
                     #print "Cache set:", key
-                    app_globals.cache.set(key, res, time = time)
+                    app_globals.cache.set(key, res, time=time)
                     tag_fn(key, a, kw)
                 #else:
                     #print "Cache hit", key
@@ -86,4 +92,3 @@ def memoize(iden, time = 0):
             return res
         return new_fn
     return memoize_fn
-

@@ -1,13 +1,13 @@
-import urllib
 import cgi
+import urllib
 
 from pylons.i18n import _
 
-import adhocracy.model as model
+from adhocracy import  model
 from adhocracy.lib import cache
+from adhocracy.lib.helpers import proposal_helper as proposal
+from adhocracy.lib.helpers import url as _url
 
-import proposal_helper as proposal
-import url as _url
 
 def icon_url(page, size=16):
     import text_helper as text
@@ -23,12 +23,14 @@ def link(page, variant=model.Text.HEAD, link=True, icon=True, icon_size=16):
         return _("(Unknown)")
     if variant != text_.HEAD:
         buf = u"%s <code>(%s)</code>" % (buf, variant)
-    if icon: 
-        buf = u"<img class='dgb_icon' src='%s' /> %s" % (text.icon_url(text_, page, size=icon_size), buf)
+    if icon:
+        buf = (u"<img class='dgb_icon' src='%s' /> %s" %
+               (text.icon_url(text_, page, size=icon_size), buf))
     if link and not page.is_deleted():
-        buf = u"<a class='page_link exists' href='%s'>%s</a>" % (text.url(text_), buf)
+        buf = (u"<a class='page_link exists' href='%s'>%s</a>" %
+               (text.url(text_), buf))
     return buf
-    
+
 
 @cache.memoize('page_url')
 def url(page, in_context=True, member=None, **kwargs):
@@ -44,6 +46,7 @@ def entity_bc(page):
     if page.parent:
         bc += entity_bc(page.parent)
     return bc + _url.BREAD_SEP + _url.link(page.title, url(page))
+
 
 def breadcrumbs(page):
     bc = _url.root()

@@ -1,12 +1,13 @@
-import re
 import cgi
+import re
 
 from markdown2 import Markdown
 
+from adhocracy import model
 from adhocracy.lib.cache.util import memoize
-import adhocracy.model as model
 
 SUB_USER = re.compile("@([a-zA-Z0-9_\-]{3,255})")
+
 
 def user_sub(match):
     from adhocracy.lib import helpers as h
@@ -17,6 +18,7 @@ def user_sub(match):
 
 
 SUB_PAGE = re.compile("\[\[([^(\]\])]{3,255})\]\]", re.M)
+
 
 def page_sub(match):
     from adhocracy.lib import helpers as h

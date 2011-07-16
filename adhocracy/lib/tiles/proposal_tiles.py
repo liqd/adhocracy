@@ -1,21 +1,14 @@
-from util import render_tile
 from datetime import datetime, timedelta
 
 from pylons import tmpl_context as c
-from webhelpers.text import truncate
 
-from .. import democracy
-from .. import helpers as h
-from .. import text
-from ..auth import authorization as auth
-from .. import sorting
-from .. import cache
+from adhocracy.lib.democracy import Decision
+from adhocracy.lib.tiles.util import render_tile
+from adhocracy.lib.tiles.delegateable_tiles import DelegateableTile
 
-from delegateable_tiles import DelegateableTile
-from comment_tiles import CommentTile
 
 class ProposalTile(DelegateableTile):
-    
+
     def __init__(self, proposal):
         self.proposal = proposal
         self.__poll = None
@@ -23,21 +16,19 @@ class ProposalTile(DelegateableTile):
         self.__num_principals = None
         self.__comment_tile = None
         DelegateableTile.__init__(self, proposal)
-    
-    
+
     @property
     def fresh(self):
-        return (datetime.utcnow() - self.proposal.create_time) < timedelta(hours=36)
-    
-         
+        return ((datetime.utcnow() - self.proposal.create_time) <
+                timedelta(hours=36))
+
     @property
     def poll(self):
         if not self.__poll:
             self.__poll = self.proposal.adopt_poll
         return self.__poll
-    
-    
-    @property   
+
+    @property
     def delegates(self):
         agents = []
         if not c.user:
@@ -45,23 +36,23 @@ class ProposalTile(DelegateableTile):
         for delegation in self.dnode.outbound():
             agents.append(delegation.agent)
         return set(agents)
-    
-    
+
     @property
     def num_principals(self):
         if self.__num_principals == None:
-            principals = set(map(lambda d: d.principal, self.dnode.transitive_inbound()))
+            principals = set(map(lambda d: d.principal,
+                                 self.dnode.transitive_inbound()))
             if self.poll:
-                principals = filter(lambda p: not democracy.Decision(p, self.poll).is_self_decided(),
-                                    principals)
+                principals = filter(
+                    lambda p: not Decision(p, self.poll).is_self_decided(),
+                    principals)
             self.__num_principals = len(principals)
         return self.__num_principals
-    
-    
-    
+
+
 def row(proposal):
-    return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal), 
-                       proposal=proposal, cached=True)  
+    return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal),
+                       proposal=proposal, cached=True)
 
 
 def header(proposal, tile=None, active='goal'):
@@ -77,7 +68,7 @@ def panel(proposal, tile):
 
 
 def sidebar(proposal, tile=None):
-   if tile is None:
-       tile = ProposalTile(proposal)
-   return render_tile('/proposal/tiles.html', 'sidebar', tile, 
-                      proposal=proposal)
+    if tile is None:
+        tile = ProposalTile(proposal)
+    return render_tile('/proposal/tiles.html', 'sidebar', tile,
+                       proposal=proposal)

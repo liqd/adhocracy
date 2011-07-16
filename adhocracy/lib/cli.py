@@ -1,14 +1,12 @@
 import os
-import sys
-import logging
 
 import paste.script
 import paste.fixture
 import paste.registry
 import paste.deploy.config
-from paste.deploy import loadapp, appconfig
+from paste.deploy import loadapp
 from paste.script.command import Command
-from paste.script.util.logging_config import fileConfig
+
 
 class AdhocracyCommand(Command):
     parser = Command.standard_parser(verbose=True)
@@ -19,7 +17,6 @@ class AdhocracyCommand(Command):
 
     def _load_config(self):
         from paste.deploy import appconfig
-        from adhocracy.config.environment import load_environment
         if not self.options.config:
             msg = 'No config file supplied'
             raise self.BadCommand(msg)
@@ -38,43 +35,40 @@ class AdhocracyCommand(Command):
         test_app.post_request_hook = lambda self: \
             paste.registry.restorer.restoration_begin(request_id)
         paste.registry.restorer.restoration_begin(request_id)
-        #load_environment(conf.global_conf, conf.local_conf)
-        
 
     def _setup_app(self):
-        cmd = paste.script.appinstall.SetupCommand('setup-app') 
+        cmd = paste.script.appinstall.SetupCommand('setup-app')
         cmd.run([self.filename])
-        
-        
-        
+
+
 class Background(AdhocracyCommand):
     '''Run Adhocracy background jobs.'''
     summary = __doc__.split('\n')[0]
     usage = __doc__
     max_args = None
     min_args = None
-    
+
     def minute(self):
         import adhocracy.lib.queue as queue
         queue.minute()
         self.setup_timer(60.0, self.minute)
-    
+
     def hourly(self):
         import adhocracy.lib.queue as queue
         queue.hourly()
         self.setup_timer(3600.0, self.hourly)
-    
+
     def daily(self):
         import adhocracy.lib.queue as queue
         queue.daily()
         self.setup_timer(84600.0, self.daily)
-    
+
     def setup_timer(self, interval, func):
         import threading
         timer = threading.Timer(interval, func)
         timer.daemon = True
         timer.start()
-    
+
     def command(self):
         self._load_config()
         self.minute()
@@ -83,7 +77,7 @@ class Background(AdhocracyCommand):
         import queue
         queue.dispatch()
 
-      
+
 class Index(AdhocracyCommand):
     '''Re-create Adhocracy's search index.'''
     summary = __doc__.split('\n')[0]
@@ -95,5 +89,3 @@ class Index(AdhocracyCommand):
         self._load_config()
         import search
         search.rebuild_all()
-   
-

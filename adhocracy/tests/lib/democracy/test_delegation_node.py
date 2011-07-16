@@ -1,6 +1,6 @@
 from adhocracy import model
 from adhocracy.lib.democracy import Decision, DelegationNode
-from adhocracy.model import Delegation, Poll, Vote
+from adhocracy.model import Delegation, Group, Poll, Vote, meta
 
 from adhocracy.tests import TestController
 from adhocracy.tests.testtools import tt_get_instance
@@ -109,9 +109,10 @@ class TestDelegationNode(TestController):
 class TestInteractionOfDelegationOnDifferentLevels(TestController):
 
     def setUp(self):
-        self.me = tt_make_user()
-        self.first = tt_make_user()
-        self.second = tt_make_user()
+        voter_group = Group.by_code(Group.CODE_VOTER)
+        self.me = tt_make_user(instance_group=voter_group)
+        self.first = tt_make_user(instance_group=voter_group)
+        self.second = tt_make_user(instance_group=voter_group)
         self.proposal = tt_make_proposal(voting=True)
 
     def _do_delegate(self, from_user, delegatee, scope):
@@ -127,17 +128,21 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
         self._do_delegate(self.me, self.second, self.proposal)
         self.assertEqual(self.first.number_of_votes_in_scope(self.proposal), 1)
 
-    def test_user_with_two_delegations_gets_counted_for_each_delegator_as_number_of_votes(self):
+    def test_user_with_two_delegations_gets_counted_for_each_delegator(self):
         self._do_delegate(self.me, self.first, self.proposal)
         self._do_delegate(self.me, self.second, self.proposal)
-        self.assertEqual(self.first.number_of_votes_in_scope(self.proposal), 2)
-        self.assertEqual(self.second.number_of_votes_in_scope(self.proposal),
-                         2)
-    def test_delegations_to_different_people_are_counted_for_each_delegaton_target(self):
+        self.assertEqual(
+            self.first.number_of_votes_in_scope(self.proposal), 2)
+        self.assertEqual(
+            self.second.number_of_votes_in_scope(self.proposal), 2)
+
+    def test_delegations_to_different_ppl_are_counted_for_each_delegaton(self):
         self._do_delegate(self.me, self.first, self.proposal)
         self._do_delegate(self.me, self.second, self.proposal)
-        self.assertEqual(self.first.number_of_votes_in_scope(self.proposal), 2)
-        self.assertEqual(self.second.number_of_votes_in_scope(self.proposal), 2)
+        self.assertEqual(
+            self.first.number_of_votes_in_scope(self.proposal), 2)
+        self.assertEqual(
+            self.second.number_of_votes_in_scope(self.proposal), 2)
 
     def test_queries(self):
         proposal = tt_make_proposal(voting=True)
@@ -150,29 +155,26 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
         model.meta.Session.flush()
 
         dn = DelegationNode(user1, proposal)
-        assert len(dn.outbound()) == 1
+        self.assertEqual(len(dn.outbound()), 1)
 
         dn = DelegationNode(user1, proposal)
-        assert len(dn.outbound()) == 1
+        self.assertEqual(len(dn.outbound()),  1)
 
         dn = DelegationNode(user2, proposal)
-        assert len(dn.inbound()) == 1
+        self.assertEqual(len(dn.inbound()),  1)
 
         dn = DelegationNode(user2, proposal)
-        assert len(dn.inbound()) == 1
+        self.assertEqual(len(dn.inbound()),  1)
 
         d3to2 = Delegation(user3, user2, proposal)
         model.meta.Session.add(d3to2)
         model.meta.Session.commit()
 
         dn = DelegationNode(user2, proposal)
-        assert len(dn.inbound()) == 1
+        self.assertEqual(len(dn.inbound()),  2)
 
         dn = DelegationNode(user2, proposal)
-        assert len(dn.inbound()) == 2
-
-        dn = DelegationNode(user2, proposal)
-        assert len(dn.inbound(recurse=False)) == 1
+        self.assertEqual(len(dn.inbound(recurse=False)), 2)
 
     def test_propagate(self):
         proposal = tt_make_proposal(voting=True)

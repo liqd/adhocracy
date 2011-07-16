@@ -6,18 +6,18 @@ from pylons.controllers.util import redirect
 from pylons.decorators import validate
 
 from adhocracy import model
-from adhocracy.lib import helpers as h, search as libsearch
-from adhocracy.lib import pager
+from adhocracy.lib import helpers as h
 from adhocracy.lib.auth import require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.static import StaticPage
-from adhocracy.lib.templating import render, render_json
+from adhocracy.lib.templating import render
 from adhocracy.lib.util import get_entity_or_abort
 
 from proposal import ProposalFilterForm
 
 
 log = logging.getLogger(__name__)
+
 
 class RootController(BaseController):
 
@@ -31,15 +31,16 @@ class RootController(BaseController):
         c.page = StaticPage('index')
 
         #query = self.form_result.get('proposals_q')
-        #proposals = libsearch.query.run(query, entity_type=model.Proposal)[:10]
+        #proposals = libsearch.query.run(query,
+        #                                entity_type=model.Proposal)[:10]
         c.milestones = model.Milestone.all()
         #c.proposals_pager = pager.proposals(proposals)
         #c.proposals = c.proposals_pager.here()
-        c.stats_global = { 
-                "members" : model.User.all_q().count(),
-                "comments" : model.Comment.all_q().count(),
-                "proposals" : model.Proposal.all_q().count(),
-                "votes" : model.Vote.all_q().count(),
+        c.stats_global = {
+                "members": model.User.all_q().count(),
+                "comments": model.Comment.all_q().count(),
+                "proposals": model.Proposal.all_q().count(),
+                "votes": model.Vote.all_q().count(),
             }
 
         #if format == 'json':

@@ -9,7 +9,7 @@ class TestUserController(TestController):
 
         creator = tt_make_user('creator')
         badged_user = tt_make_user('badged_user')
-        badge = Badge.create('testbadge', '#ccc')
+        badge = Badge.create('testbadge', '#ccc', 'description')
         UserBadge.create(badged_user, badge, creator)
         return creator, badged_user, badge
 
@@ -49,4 +49,5 @@ class TestUserController(TestController):
         creator, badged_user, badge = self._make_one()
         result = badge.to_dict()
         self.assertEqual(result, {'color': '#ccc', 'title': 'testbadge',
-                                  'id': 1, 'users': [u'badged_user']})
+                                  'id': 1, 'users': [u'badged_user'],
+                                  'display_group': False, 'group': None})

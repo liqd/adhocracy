@@ -1,12 +1,12 @@
-import urllib
 import cgi
+import urllib
 
 from pylons import tmpl_context as c
 from webhelpers.text import truncate
 
-BREAD_SEP = " &raquo; "
+from adhocracy.lib.helpers import site_helper as site
 
-import site_helper as site
+BREAD_SEP = " &raquo; "
 
 
 def append_member_and_format(url, member=None, format=None):

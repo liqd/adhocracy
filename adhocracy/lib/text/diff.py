@@ -1,19 +1,22 @@
 import cgi
-from string import count
-from pprint import pprint
 from itertools import izip_longest
+from string import count
+
 from lxml.html.diff import htmldiff
 
-import adhocracy.model as model
+from adhocracy import model
 from adhocracy.lib.cache import memoize
-from normalize import simple_form
-from render import render, render_line_based, _line_table, linify
+from adhocracy.lib.text.normalize import simple_form
+from adhocracy.lib.text.render import (render, render_line_based, _line_table,
+                                       linify)
+
+LINEBREAK_TOKEN = 23
+SPACE_TOKEN = 42
+
 
 def _diff_html(left, right):
     return htmldiff(left, right)
 
-LINEBREAK_TOKEN = 23
-SPACE_TOKEN = 42
 
 def _decompose(text):
     if text is None:
@@ -28,7 +31,8 @@ def _decompose(text):
         _tokens.pop()
         _tokens.append(LINEBREAK_TOKEN)
     return _tokens
-    
+
+
 def _compose(elems):
     lines = []
     line = ''
@@ -42,25 +46,16 @@ def _compose(elems):
             line += elem
     lines.append(line)
     return '\n'.join([cgi.escape(l) for l in lines])
-        
 
-def _diff_line_based(left_text, right_text, include_deletions=True, include_insertions=True, 
-                     replace_as_insert=False, replace_as_delete=False, ratio_skip=0.7, 
+
+def _diff_line_based(left_text, right_text, include_deletions=True,
+                     include_insertions=True, replace_as_insert=False,
+                     replace_as_delete=False, ratio_skip=0.7,
                      line_length=model.Text.LINE_LENGTH):
     from difflib import SequenceMatcher
     left = _decompose(left_text)
     right = _decompose(right_text)
     s = SequenceMatcher(None, left, right)
-
-    #if ratio_skip is not None and s.ratio() <= 1-ratio_skip: 
-    #    lines = []
-    #    if include_deletions and left_text is not None:
-    #        for l in linify(left_text, line_length):
-    #            lines.append('<del>%s</del>' % l)
-    #    if include_insertions and right_text is not None:
-    #        for r in linify(right_text, line_length):
-    #            lines.append('<ins>%s</ins>' % r)
-    #    return lines
 
     html_match = ''
     for op, i1, i2, j1, j2 in s.get_opcodes():
@@ -77,7 +72,7 @@ def _diff_line_based(left_text, right_text, include_deletions=True, include_inse
                 html_match += '<ins>' + _compose(right[j1:j2]) + '</ins>'
             else:
                 html_match += '<span>' + _compose(right[j1:j2]) + '</span>'
-    
+
     carry = []
     lines = []
     for line in linify(html_match, line_length):
@@ -87,10 +82,6 @@ def _diff_line_based(left_text, right_text, include_deletions=True, include_inse
         for tag_begin, tag_end in (('<span>', '</span>'),
                                    ('<ins>', '</ins>'),
                                    ('<del>', '</del>')):
-            #if line.startswith(tag_end):
-            #    line = line[len(tag_end):]
-            #if line.endswith(tag_begin):
-            #    line = line[:len(line)-len(tag_begin)]
             begin_count = count(line, tag_begin)
             end_count = count(line, tag_end)
             if begin_count > end_count:
@@ -98,11 +89,8 @@ def _diff_line_based(left_text, right_text, include_deletions=True, include_inse
                 carry.append(tag_begin)
             elif begin_count < end_count:
                 line = tag_begin + line
-        #if line.startswith(' <'):
-        #    line = line[1:]
         lines.append(line)
-        
-    #pprint(lines)
+
     return lines
 
 
@@ -113,6 +101,7 @@ def comment_revisions_compare(rev_from, rev_to):
     return _diff_html(render(rev_to.text),
                       render(rev_from.text))
 
+
 @memoize('titles_diff')
 def page_titles_compare(text_from, text_to):
     if text_to is None or text_from.id == text_to.id:
@@ -120,7 +109,7 @@ def page_titles_compare(text_from, text_to):
     return _diff_html(text_to.title,
                       text_from.title)
 
-#@memoize('texts_diff')
+
 def page_texts_history_compare(text_from, text_to):
     if text_from.page.function == model.Page.NORM:
         return norm_texts_history_compare(text_from, text_to)
@@ -129,31 +118,33 @@ def page_texts_history_compare(text_from, text_to):
     return _diff_html(render(text_to.text),
                       render(text_from.text))
 
+
 @memoize('norms_diff')
 def norm_texts_history_compare(text_from, text_to):
     if text_to is None or text_from.id == text_to.id:
         return render_line_based(text_from)
-    lines = _diff_line_based(text_to.text, 
+    lines = _diff_line_based(text_to.text,
                              text_from.text,
                              replace_as_insert=True)
     return _line_table(lines)
-                            
+
+
 @memoize('normtab_diff')
 def norm_texts_table_compare(text_from, text_to):
-    insertions = _diff_line_based(text_from.text, 
+    insertions = _diff_line_based(text_from.text,
                                   text_to.text,
                                   include_insertions=True,
                                   include_deletions=False,
                                   replace_as_insert=True,
                                   ratio_skip=0.8)
-                                                              
-    deletions = _diff_line_based(text_from.text, 
+
+    deletions = _diff_line_based(text_from.text,
                                  text_to.text,
                                  include_insertions=False,
                                  include_deletions=True,
                                  replace_as_delete=True,
                                  ratio_skip=0.8)
-    
+
     llines = []
     rlines = []
     for left, right in izip_longest(deletions, insertions, fillvalue=''):

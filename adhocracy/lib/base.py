@@ -4,11 +4,12 @@ Provides the BaseController class for subclassing.
 """
 import logging
 
+from paste.deploy.converters import asbool
 from pylons import config
 from pylons.controllers import WSGIController
 from pylons import request, tmpl_context as c
 from pylons.i18n import _
-from paste.deploy.converters import asbool
+from sqlalchemy.orm.scoping import ScopedSession
 
 from adhocracy import i18n, model
 from adhocracy.lib import helpers as h
@@ -52,7 +53,8 @@ class BaseController(WSGIController):
             model.meta.Session.rollback()
             raise
         finally:
-            model.meta.Session.remove()
+            if isinstance(model.meta.Session, ScopedSession):
+                model.meta.Session.remove()
 
     def bad_request(self, format='html'):
         log.debug("400 Request: %s" % request.params)
