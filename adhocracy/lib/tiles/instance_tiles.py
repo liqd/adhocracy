@@ -1,7 +1,7 @@
 from pylons import tmpl_context as c
 
 from adhocracy.model import Page, Proposal
-from adhocracy.model.meta import Session
+from adhocracy.model import meta
 from adhocracy.lib import text
 from adhocracy.lib.tiles.util import render_tile, BaseTile
 
@@ -31,7 +31,7 @@ class InstanceTile(BaseTile):
     @property
     def num_proposals(self):
         if self.__proposals_count is None:
-            query = Session.query(Proposal)
+            query = meta.Session.query(Proposal)
             query = query.filter(Proposal.instance == self.instance)
             query = query.filter(Proposal.delete_time == None)
             self.__proposals_count = query.count()
@@ -40,7 +40,7 @@ class InstanceTile(BaseTile):
     @property
     def num_norms(self):
         if self.__norms_count is None:
-            query = Session.query(Page)
+            query = meta.Session.query(Page)
             query = query.filter(Page.instance == self.instance)
             query = query.filter(Page.delete_time == None)
             query = query.filter(Page.function == Page.NORM)
