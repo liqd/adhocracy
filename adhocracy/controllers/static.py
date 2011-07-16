@@ -2,7 +2,7 @@ import logging
 import re
 from time import time
 
-from pylons import config, tmpl_context as c
+from pylons import tmpl_context as c
 from pylons.controllers.util import abort
 from pylons.i18n import _
 
