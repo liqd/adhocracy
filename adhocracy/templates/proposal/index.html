@@ -26,7 +26,7 @@
 		%for state in ['', 'draft', 'polling', 'adopted']:
 			<li>
 			%if state!=request.params.get('proposals_state', ''):
-				<a href="${c.proposals_pager.serialize(proposals_state=state)}">
+				<a href="${c.proposals_pager.build_url(proposals_state=state)}">
 			%endif
 			%if state!='':
 				${_(state.capitalize())}
