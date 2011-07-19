@@ -173,9 +173,12 @@ class OpenidauthController(BaseController):
         # TBD: SignedMembership
         axrep = ax.FetchResponse.fromSuccessResponse(info)
         if axrep:
-            args = axrep.getExtensionArgs()
-            if args.get('type.ext0') == AX_MAIL_SCHEMA:
-                email = args.get('value.ext0.1')
+            try:
+                email = axrep.getSingle(AX_MAIL_SCHEMA) or email
+            except ValueError:
+                email = axrep.get(AX_MAIL_SCHEMA)[0]
+            except KeyError:
+                email = email
 
         if 'openid_session' in session:
             del session['openid_session']
