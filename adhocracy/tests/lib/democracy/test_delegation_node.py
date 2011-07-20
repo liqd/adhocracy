@@ -57,13 +57,13 @@ class TestDelegationNode(TestController):
     def test_delegation_is_not_used_if_user_has_voted_directly(self):
         self._do_delegate(self.first, self.second, self.proposal)
         self._do_delegate(self.second, self.first, self.proposal)
+        Decision(self.second, self.poll).make(Vote.NO)
         Decision(self.first, self.poll).make(Vote.YES)
 
-        delegations = DelegationNode(self.first, self.proposal)
-        self.assertEqual(len(delegations.transitive_inbound()), 1)
-
-        delegations = DelegationNode(self.second, self.proposal)
-        self.assertEqual(len(delegations.transitive_inbound()), 0)
+        self.assertEqual(Decision(self.second, self.poll).is_self_decided(),
+                True)
+        self.assertEqual(Decision(self.second, self.poll).result,
+                Vote.NO)
 
     def test_delegation_node_with_no_delegations_has_no_delegations(self):
         node = DelegationNode(self.me, self.proposal)
