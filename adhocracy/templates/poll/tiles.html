@@ -1,138 +1,138 @@
 
 
 <%def name="booth(tile, poll)">
-	<div class="tile voting_booth">
-	<h4><img src="/img/icons/vote_16.png" class="cd" /> ${_("Poll")}</h4>
-		
-			%if can.poll.vote(poll):
-				<form action="${h.entity_url(poll, member='vote')}" method="POST">
-					${h.field_token()|n}
-			%endif	
-			
-			<table border="0" width="100%">
-				<tr>
-					<th></th><th></th>
-					<th>${_("Option")}</th>
-					<th class="votes">${_("Votes")}</th>
-					<th>${_("Percent")}</th>
-				</tr>
-				<tr class="affirm ${'decision' if c.user and tile.decision.result == 1 else ''}">
-					<td>
-						%if can.poll.vote(poll):
-							<input type="radio" name="position" value="1" 
-								${'checked' if tile.decision.result == 1 else ''|n} />
-						%endif
-					</td>
-					<td class="iconcol">
-						<span class="icon">&nbsp;</span>
-					</td>
-					<td class="option">${_("Affirm")}</td>
-					<td class="votes"><a href="${h.entity_url(poll, member='votes')}?result=1">${poll.tally.num_for}</a></td>
-					<td valign="top">${tile.result_affirm}%</td>
-				</tr>
-				<%
-				agents = tile.delegates_result(1)
-				%>
-				%if len(agents):
-				<tr>
-					<td colspan="2"></td>
-					<td colspan="3"> 
-						<ul>
-							%for agent in agents:
-								<li>${h.user.link(agent)|n}</li>
-							%endfor
-						</ul>					
-					</td>
-				</tr>
-				%endif
-				<tr class="dissent ${'decision' if c.user and tile.decision.result == -1 else ''}">
-					<td class="selector">
-						%if can.poll.vote(poll):
-							<input type="radio" name="position" value="-1" 
-								${'checked' if tile.decision.result == -1 else ''|n} />
-						%endif
-					</td>
-					<td class="iconcol">
-						<span class="icon">&nbsp;</span>
-					</td>
-					<td class="option">${_("Dissent")}</td>
-					<td class="votes"><a href="${h.entity_url(poll, member='votes')}?result=-1">${poll.tally.num_against}</a></td>
-					<td valign="top">${tile.result_dissent}%</td>
-				</tr>
-				<%
-				agents = tile.delegates_result(-1)
-				%>
-				%if len(agents):
-				<tr>
-					<td colspan="2"></td>
-					<td colspan="3"> 
-						<ul>
-							%for agent in agents:
-								<li>${h.user.link(agent)|n}</li>
-							%endfor
-						</ul>					
-					</td>
-				</tr>
-				%endif
-				<tr class="abstain ${'decision' if c.user and tile.decision.result == 0 else ''}">
-					<td class="selector">
-						%if can.poll.vote(poll):
-							<input type="radio" name="position" value="0" 
-								${'checked' if tile.decision.result == 0 else ''|n} />
-						%endif		
-					</td>
-					<td class="iconcol">
-						<span class="icon">&nbsp;</span>
-					</td>
-					<td class="option">${_("Abstain")}</td>
-					<td class="votes"><a href="${h.entity_url(poll, member='votes')}?result=0">${poll.tally.num_abstain}</a></td>
-					<td valign="top">&nbsp;</td>
-				</tr>
-				<%
-				agents = tile.delegates_result(0)
-				%>
-				%if len(agents):
-				<tr>
-					<td colspan="2"></td>
-					<td colspan="3"> 
-						<ul>
-							%for agent in agents:
-								<li>${h.user.link(agent)|n}</li>
-							%endfor
-						</ul>					
-					</td>
-				</tr>
-				%endif				
-				<tr class="summary">
-					<td colspan="3" rowspan="2">
-						%if can.poll.vote(poll):
-							<input type="submit" value="${_("vote")}" />
-						%endif						
-					</td>
-					<td colspan="2">
-						<a href="${h.entity_url(poll, member='votes')}">
-							${_("%d votes") % len(poll.tally)}
-						</a>
-					</td>
-				</tr>
-				<tr class="summary"><td colspan="2"></td></tr>
-			</table>
-			
-			%if can.poll.vote(poll):
-				</form>
-			%endif
-		
-		<div class="meta">	
-			%if poll.has_ended():
-				${_("ended %s") % h.relative_time(tile.poll.end_time)|n}
-			%else:
-				${_("began %s") % h.relative_time(tile.poll.begin_time)|n}
-			%endif
-			%if poll.can_end() and h.has_permission('poll.abort'):
-				&middot; 
-				<a class="delete" 
-				   href="${h.entity_url(poll, member='ask_delete')}">${_("cancel")}</a>
-			%endif
-		</div>
-	</div>
+    <div class="tile voting_booth">
+    <h4><img src="/img/icons/vote_16.png" class="cd" /> ${_("Poll")}</h4>
+        
+            %if can.poll.vote(poll):
+                <form action="${h.entity_url(poll, member='vote')}" method="POST">
+                    ${h.field_token()|n}
+            %endif  
+            
+            <table border="0" width="100%">
+                <tr>
+                    <th></th><th></th>
+                    <th>${_("Option")}</th>
+                    <th class="votes">${_("Votes")}</th>
+                    <th>${_("Percent")}</th>
+                </tr>
+                <tr class="affirm ${'decision' if c.user and tile.decision.result == 1 else ''}">
+                    <td>
+                        %if can.poll.vote(poll):
+                            <input type="radio" name="position" value="1" 
+                                ${'checked' if tile.decision.result == 1 else ''|n} />
+                        %endif
+                    </td>
+                    <td class="iconcol">
+                        <span class="icon">&nbsp;</span>
+                    </td>
+                    <td class="option">${_("Affirm")}</td>
+                    <td class="votes"><a href="${h.entity_url(poll, member='votes')}?result=1">${poll.tally.num_for}</a></td>
+                    <td valign="top">${tile.result_affirm}%</td>
+                </tr>
+                <%
+                agents = tile.delegates_result(1)
+                %>
+                %if len(agents):
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="3"> 
+                        <ul>
+                            %for agent in agents:
+                                <li>${h.user.link(agent)|n}</li>
+                            %endfor
+                        </ul>                   
+                    </td>
+                </tr>
+                %endif
+                <tr class="dissent ${'decision' if c.user and tile.decision.result == -1 else ''}">
+                    <td class="selector">
+                        %if can.poll.vote(poll):
+                            <input type="radio" name="position" value="-1" 
+                                ${'checked' if tile.decision.result == -1 else ''|n} />
+                        %endif
+                    </td>
+                    <td class="iconcol">
+                        <span class="icon">&nbsp;</span>
+                    </td>
+                    <td class="option">${_("Dissent")}</td>
+                    <td class="votes"><a href="${h.entity_url(poll, member='votes')}?result=-1">${poll.tally.num_against}</a></td>
+                    <td valign="top">${tile.result_dissent}%</td>
+                </tr>
+                <%
+                agents = tile.delegates_result(-1)
+                %>
+                %if len(agents):
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="3"> 
+                        <ul>
+                            %for agent in agents:
+                                <li>${h.user.link(agent)|n}</li>
+                            %endfor
+                        </ul>                   
+                    </td>
+                </tr>
+                %endif
+                <tr class="abstain ${'decision' if c.user and tile.decision.result == 0 else ''}">
+                    <td class="selector">
+                        %if can.poll.vote(poll):
+                            <input type="radio" name="position" value="0" 
+                                ${'checked' if tile.decision.result == 0 else ''|n} />
+                        %endif      
+                    </td>
+                    <td class="iconcol">
+                        <span class="icon">&nbsp;</span>
+                    </td>
+                    <td class="option">${_("Abstain")}</td>
+                    <td class="votes"><a href="${h.entity_url(poll, member='votes')}?result=0">${poll.tally.num_abstain}</a></td>
+                    <td valign="top">&nbsp;</td>
+                </tr>
+                <%
+                agents = tile.delegates_result(0)
+                %>
+                %if len(agents):
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="3"> 
+                        <ul>
+                            %for agent in agents:
+                                <li>${h.user.link(agent)|n}</li>
+                            %endfor
+                        </ul>                   
+                    </td>
+                </tr>
+                %endif              
+                <tr class="summary">
+                    <td colspan="3" rowspan="2">
+                        %if can.poll.vote(poll):
+                            <input type="submit" value="${_("vote")}" />
+                        %endif                      
+                    </td>
+                    <td colspan="2">
+                        <a href="${h.entity_url(poll, member='votes')}">
+                            ${_("%d votes") % len(poll.tally)}
+                        </a>
+                    </td>
+                </tr>
+                <tr class="summary"><td colspan="2"></td></tr>
+            </table>
+            
+            %if can.poll.vote(poll):
+                </form>
+            %endif
+        
+        <div class="meta">  
+            %if poll.has_ended():
+                ${_("ended %s") % h.relative_time(tile.poll.end_time)|n}
+            %else:
+                ${_("began %s") % h.relative_time(tile.poll.begin_time)|n}
+            %endif
+            %if poll.can_end() and h.has_permission('poll.abort'):
+                &middot; 
+                <a class="delete" 
+                   href="${h.entity_url(poll, member='ask_delete')}">${_("cancel")}</a>
+            %endif
+        </div>
+    </div>
 </%def>

@@ -1,42 +1,42 @@
 
 <%def name="namedpager(pager)">
 
-	<span class="pager_items">
-		${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=pager.total_num_items())}
-	</span>
-	%if len(pager.sorts.keys()) > 1 and pager.enable_sorts:
-		<span class="pager_sorts">
-		${_("sort by:")} |
-		%for sort, i in zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)):
-			<a class="${'selected' if i == pager.selected_sort else ''}" 
-				href="${pager.build_url(sort=i)}">${sort}</a>
-			%if i < len(pager.sorts.keys()):
-				|
-			%endif
-		%endfor
-		</span>
-	%endif
-	
-	<div class="table_listing">
-	%if not len(pager.items):
-		<div class="infobox">${_("No entries.")}</div>
-	%endif
-	%for item in pager.items:
-		${pager.itemfunc(item)}
-	%endfor
-	</div>
-	%if pager.enable_pages:
-		%if pager.pages > 1:
-		<div class="pager">
-			<div class="prev_page">
-				%if pager.page > 1:
-				<a href="${pager.build_url(page=pager.page-1)}">&laquo; ${_("previous")}</a>
-				%else:
-				<span>&laquo; ${_("previous")}</span>
+    <span class="pager_items">
+        ${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=pager.total_num_items())}
+    </span>
+    %if len(pager.sorts.keys()) > 1 and pager.enable_sorts:
+        <span class="pager_sorts">
+        ${_("sort by:")} |
+        %for sort, i in zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)):
+            <a class="${'selected' if i == pager.selected_sort else ''}" 
+                href="${pager.build_url(sort=i)}">${sort}</a>
+            %if i < len(pager.sorts.keys()):
+                |
+            %endif
+        %endfor
+        </span>
+    %endif
+    
+    <div class="table_listing">
+    %if not len(pager.items):
+        <div class="infobox">${_("No entries.")}</div>
+    %endif
+    %for item in pager.items:
+        ${pager.itemfunc(item)}
+    %endfor
+    </div>
+    %if pager.enable_pages:
+        %if pager.pages > 1:
+        <div class="pager">
+            <div class="prev_page">
+                %if pager.page > 1:
+                <a href="${pager.build_url(page=pager.page-1)}">&laquo; ${_("previous")}</a>
+                %else:
+                <span>&laquo; ${_("previous")}</span>
                 %endif
-			</div>
-			%for page in pager.pages_items():
-				%if page['seperator']:
+            </div>
+            %for page in pager.pages_items():
+                %if page['seperator']:
                     <span class="seperator">...</span>
                 %else:
                     %if page['current']:
@@ -45,28 +45,28 @@
                         <a href="${page['url']}" 
                            class="${page['class']}">${page['label']}</a>  
                     %endif
-				%endif
-			%endfor
-			<div class="next_page">
-				%if pager.page < pager.pages:
-				<a href="${pager.build_url(page=pager.page+1)}">${_("next")} &raquo;</a>
+                %endif
+            %endfor
+            <div class="next_page">
+                %if pager.page < pager.pages:
+                <a href="${pager.build_url(page=pager.page+1)}">${_("next")} &raquo;</a>
                 %else:
                 <span>${_("next")} &raquo;</span>
-				%endif
-			</div>
-		</div>
-		%endif
-		%if pager.page_sizes():
-		<div class="pager_sorts bottom">
-			%for size in pager.page_sizes():
-				<a class="${size['class']}" 
-					href="${size['url']}">${size['size']}</a>
+                %endif
+            </div>
+        </div>
+        %endif
+        %if pager.page_sizes():
+        <div class="pager_sorts bottom">
+            %for size in pager.page_sizes():
+                <a class="${size['class']}" 
+                    href="${size['url']}">${size['size']}</a>
                 ${'|' if not size['last'] else ''}
-			%endfor
-			${_("entries")}
-		</div>
-		%endif
-	%endif
+            %endfor
+            ${_("entries")}
+        </div>
+        %endif
+    %endif
 </%def>
 
 

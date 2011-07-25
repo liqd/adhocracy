@@ -4,31 +4,31 @@
 <%def name="title()">${c.page_user.name}</%def>
 
 <%def name="breadcrumbs()">
-	${h.user.breadcrumbs(c.page_user)|n}
+    ${h.user.breadcrumbs(c.page_user)|n}
 </%def>
 
 ${tiles.user.header(c.page_user, c.tile, active='activity')}
 
 <div class="sidebar">
-	<div class="infobox">
-		${_("Signed up %s") % h.relative_time(c.page_user.create_time)|n}
-	</div>
+    <div class="infobox">
+        ${_("Signed up %s") % h.relative_time(c.page_user.create_time)|n}
+    </div>
 </div>
 
 <div class="mainbar">
-	%if c.tile.bio:
-		<div class="description">
-			${c.tile.bio|n}
-		</div>
-	%else:
-		<div class="infobox">
-			${_("%s does not yet have a bio.") % c.page_user.name}
-		</div>
-	%endif	
-	
-	<br/>
-	<div class="table">
-		${c.events_pager.here()}
-	</div>
+    %if c.tile.bio:
+        <div class="description">
+            ${c.tile.bio|n}
+        </div>
+    %else:
+        <div class="infobox">
+            ${_("%s does not yet have a bio.") % c.page_user.name}
+        </div>
+    %endif  
+    
+    <br/>
+    <div class="table">
+        ${c.events_pager.here()}
+    </div>
 </div>
 

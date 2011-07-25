@@ -3,18 +3,18 @@
 <%def name="title()">${_("Comment History")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment History")}
+    ${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment History")}
 </%def>
 
 ${tiles.comment.header(c.comment, active='history')}
 
 <div class="sidebar">
-	&nbsp;
+    &nbsp;
 </div>
 <div class="mainbar">
-	<div class="table">
-		<div id="tile_c${c.comment.id}">
-			${c.revisions_pager.here()}
-		</div>
-	</div>
+    <div class="table">
+        <div id="tile_c${c.comment.id}">
+            ${c.revisions_pager.here()}
+        </div>
+    </div>
 </div>

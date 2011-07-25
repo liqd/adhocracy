@@ -4,17 +4,17 @@
 <h1 class="page_title">${_("Password reset")}</h1>
 
 <form name="settings" class="inplace" method="POST" action="/reset">
-	<div class="sidebar">
-		<div class="infobox">${_("You will be sent an activation link that, when opened, will cause the system to email you a new password.")}</div>
-		<br/><br/>
-	</div>
-	<div class="mainbar">
-		${_("In order to retrieve your login, you will have to enter your email adress.")}
-		<br/><br/>	
-		<label for="email">${_("E-Mail:")}</label>
-		<input name="email" />
-		
-		<br/>
-		<input type="submit" value="${_("Reset")}" />
-	</div>
+    <div class="sidebar">
+        <div class="infobox">${_("You will be sent an activation link that, when opened, will cause the system to email you a new password.")}</div>
+        <br/><br/>
+    </div>
+    <div class="mainbar">
+        ${_("In order to retrieve your login, you will have to enter your email adress.")}
+        <br/><br/>  
+        <label for="email">${_("E-Mail:")}</label>
+        <input name="email" />
+        
+        <br/>
+        <input type="submit" value="${_("Reset")}" />
+    </div>
 </form>

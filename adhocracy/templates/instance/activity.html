@@ -3,31 +3,31 @@
 <%def name="title()">${c.page_instance.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.instance.breadcrumbs(c.page_instance)|n} ${_("Latest Events")}
+    ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Latest Events")}
 </%def>
 
 <div class="top_actions title">
-	${components.watch(c.page_instance)}
+    ${components.watch(c.page_instance)}
 </div>
 
 <h1 class="page_title">${_("Activity")}</h1>
 
 <div class="sidebar">
-	<div class="infobox">
-		${_("This is a record of all recent actions within this instance.")}
-		${_("You can also have notifications sent to you.")}
-	 	<a href="/static/notification_faq.html">${_("Info...")}</a>
-	</div>
+    <div class="infobox">
+        ${_("This is a record of all recent actions within this instance.")}
+        ${_("You can also have notifications sent to you.")}
+        <a href="/static/notification_faq.html">${_("Info...")}</a>
+    </div>
 </div>
 
 <div class="mainbar">
-	%if len(c.events_pager) == 0:
-		<div class="infobox">
-			${_("Create a proposal to start debating in %(instance)s.") % dict(instance=c.page_instance.label)}
-		</div>
-	%else:
-		<div id="events_table" class="table">
-			${c.events_pager.here()}
-		</div>
-	%endif	
+    %if len(c.events_pager) == 0:
+        <div class="infobox">
+            ${_("Create a proposal to start debating in %(instance)s.") % dict(instance=c.page_instance.label)}
+        </div>
+    %else:
+        <div id="events_table" class="table">
+            ${c.events_pager.here()}
+        </div>
+    %endif  
 </div>

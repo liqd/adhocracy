@@ -3,71 +3,71 @@
 <%def name="title()">${_("Proposals")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.proposal.breadcrumbs(None)|n}
+    ${h.proposal.breadcrumbs(None)|n}
 </%def>
 
 <div class="top_actions title">
-	%if can.proposal.create():
-		<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
-	%endif
+    %if can.proposal.create():
+        <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+    %endif
 </div>
-	
+    
 <h1 class="page_title"><img src="/img/icons/proposal_24.png" class="cd" /> ${_("Proposals")}</h1>
 
 <div class="sidebar">
-	%if len(c.cloud_tags):
-		<h3 class="section">${_("Popular tags")}</h3>
-		${tiles.tag.cloud(c.cloud_tags)}
-	%endif
-	
-	%if c.instance.allow_adopt:
-		<h3 class="section">${_("Filter by state")}</h3>
-		<ul>
-		%for state in ['', 'draft', 'polling', 'adopted']:
-			<li>
-			%if state!=request.params.get('proposals_state', ''):
-				<a href="${c.proposals_pager.build_url(proposals_state=state)}">
-			%endif
-			%if state!='':
-				${_(state.capitalize())}
-			%else:
-				${_("All")}
-			%endif
-			%if state!=request.params.get('proposals_state', ''):
-				</a>
-			%endif
-			</li>
-		%endfor
-		</ul>
-	%endif
-	
-	<div class="help">
-		<h3>${_("Help")}</h3>
-		<ul>
-			<li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
-			<li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
-			<li>${h.help_link(_("Guide: Creating proposals"), 'edit_text')|n}</li>
-			<li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
-			<li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>
-		</ul>
-	</div>
+    %if len(c.cloud_tags):
+        <h3 class="section">${_("Popular tags")}</h3>
+        ${tiles.tag.cloud(c.cloud_tags)}
+    %endif
+    
+    %if c.instance.allow_adopt:
+        <h3 class="section">${_("Filter by state")}</h3>
+        <ul>
+        %for state in ['', 'draft', 'polling', 'adopted']:
+            <li>
+            %if state!=request.params.get('proposals_state', ''):
+                <a href="${c.proposals_pager.build_url(proposals_state=state)}">
+            %endif
+            %if state!='':
+                ${_(state.capitalize())}
+            %else:
+                ${_("All")}
+            %endif
+            %if state!=request.params.get('proposals_state', ''):
+                </a>
+            %endif
+            </li>
+        %endfor
+        </ul>
+    %endif
+    
+    <div class="help">
+        <h3>${_("Help")}</h3>
+        <ul>
+            <li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
+            <li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
+            <li>${h.help_link(_("Guide: Creating proposals"), 'edit_text')|n}</li>
+            <li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
+            <li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>
+        </ul>
+    </div>
 </div>
 
 <div class="mainbar">
 <form action="?" method="GET" autocomplete="off">
-	<label for="proposals_q" class="armhint">${_("Find proposals")}</label>
-	<input id="proposals_q" class="live_search armlabel" name="proposals_q" 
-			type="text" value="${request.params.get('proposals_q', '')}" 
-			tabindex="1" />
+    <label for="proposals_q" class="armhint">${_("Find proposals")}</label>
+    <input id="proposals_q" class="live_search armlabel" name="proposals_q" 
+            type="text" value="${request.params.get('proposals_q', '')}" 
+            tabindex="1" />
 </form>
-	<div id="proposals_table" class="table">
-		${c.proposals_pager.here()}
-	</div>
-	<br/>
-	<div class="top_actions aside">
-		%if can.proposal.create():
-			<a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
-		%endif
-	</div>
+    <div id="proposals_table" class="table">
+        ${c.proposals_pager.here()}
+    </div>
+    <br/>
+    <div class="top_actions aside">
+        %if can.proposal.create():
+            <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+        %endif
+    </div>
         <div class="clearboth"></div>
 </div>

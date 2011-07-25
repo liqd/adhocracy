@@ -4,17 +4,17 @@
 <%def name="title()">${_("Proposals: %s") % c.page_user.name}</%def>
 
 <%def name="breadcrumbs()">
-	${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Proposals")}
+    ${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Proposals")}
 </%def>
 
 ${tiles.user.header(c.page_user, active='proposals')}
 
 <div class="sidebar">
-	&nbsp;
+    &nbsp;
 </div>
 
 <div class="mainbar">
-	<div class="table">
-		${c.proposals_pager.here()}
-	</div>
+    <div class="table">
+        ${c.proposals_pager.here()}
+    </div>
 </div>

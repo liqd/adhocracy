@@ -3,65 +3,65 @@
 <%def name="title()">${_("Delegate: %s") % c.scope.title}</%def>
 
 <%def name="breadcrumbs()">
-	${h.delegateable.breadcrumbs(c.scope)|n} &raquo; ${_("Delegation")}
+    ${h.delegateable.breadcrumbs(c.scope)|n} &raquo; ${_("Delegation")}
 </%def>
 
 
 <h1 class="page_title"><img src="/img/icons/delegate_24.png" class="cd"/> ${_("Delegate: %s") % c.scope.title}</h1>
 
 <form name="create_delegation" class="inplace" method="POST" action="/delegation">
-	${h.field_token()|n}
-	<input name="scope" value="${c.scope.id}" type="hidden" />
-	
-	<div class="sidebar">
-		<div class="infobox">
-			${_("These people might be a good match for your delegation. Either select " +
-			    "one of the listed delegates, or enter another user name.")}
-		</div>
-	</div>
-	<div class="mainbar">
-			
-		<%
-		scope_agents = lib.recommend(c.scope, c.user)
-		%>
-		<table class="table" width="100%">
-		%if len(scope_agents):
+    ${h.field_token()|n}
+    <input name="scope" value="${c.scope.id}" type="hidden" />
+    
+    <div class="sidebar">
+        <div class="infobox">
+            ${_("These people might be a good match for your delegation. Either select " +
+                "one of the listed delegates, or enter another user name.")}
+        </div>
+    </div>
+    <div class="mainbar">
+            
+        <%
+        scope_agents = lib.recommend(c.scope, c.user)
+        %>
+        <table class="table" width="100%">
+        %if len(scope_agents):
 
-			%for user in scope_agents:
-			<tr>
-				<td width="1%">
-					<input type="radio" name="agent" value="${user.user_name}" />	
-				</td>
-				<td>
-					${tiles.user.row(user)}
-				</td>
-			</tr>
-			%endfor
-			
-		%endif
-			<tr>
-				<td width="1%">
-					<input type="radio" value="" name="agent" checked="checked" />	
-				</td>
-				<td>
-					<div class="tile">
-						<div class="logo">
-							<img src="/img/icons/user_32.png" />
-						</div>
-						<div class="base">
-						<input name="agent" class="userCompleted" style="padding: 0.5em; width: 85%;" />
-						<div class="meta">
-							${_("Start typing, you will receive suggestions to find the user.")}
-						</div>
-						</div>
-					</div>
-				</td>
-			</tr>
-		</table>
-		
-		<input name="replay" value="1" checked="checked" type="checkbox" /> 
-		${_("Include decisions made before now.")}
-	</div>
-	${components.savebox("/d/%s" % c.scope.id)}
-	
+            %for user in scope_agents:
+            <tr>
+                <td width="1%">
+                    <input type="radio" name="agent" value="${user.user_name}" />   
+                </td>
+                <td>
+                    ${tiles.user.row(user)}
+                </td>
+            </tr>
+            %endfor
+            
+        %endif
+            <tr>
+                <td width="1%">
+                    <input type="radio" value="" name="agent" checked="checked" />  
+                </td>
+                <td>
+                    <div class="tile">
+                        <div class="logo">
+                            <img src="/img/icons/user_32.png" />
+                        </div>
+                        <div class="base">
+                        <input name="agent" class="userCompleted" style="padding: 0.5em; width: 85%;" />
+                        <div class="meta">
+                            ${_("Start typing, you will receive suggestions to find the user.")}
+                        </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+        <input name="replay" value="1" checked="checked" type="checkbox" /> 
+        ${_("Include decisions made before now.")}
+    </div>
+    ${components.savebox("/d/%s" % c.scope.id)}
+    
 </form>

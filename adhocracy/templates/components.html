@@ -1,48 +1,48 @@
 
 <%def name="formatting()">
-	<div class="formatting">
-		${h.help_link(_("formatting hints"), 'formatting')|n}
-	</div>
+    <div class="formatting">
+        ${h.help_link(_("formatting hints"), 'formatting')|n}
+    </div>
 </%def>
 
 <%def name="savebox(cancel_url, save_text=None)">
-	<div class="savebox">
-		<button type="submit">
-			${save_text if save_text is not None else _("Save")}</button>
-		%if cancel_url is not None:
-			<span class="cancel">
-				${_("or")} <a href="${cancel_url}">${_("cancel")}</a>
-			</span>
-		%endif
-	</div>
+    <div class="savebox">
+        <button type="submit">
+            ${save_text if save_text is not None else _("Save")}</button>
+        %if cancel_url is not None:
+            <span class="cancel">
+                ${_("or")} <a href="${cancel_url}">${_("cancel")}</a>
+            </span>
+        %endif
+    </div>
 </%def>
 
 <%def name="form_watch(entity, checked=False)">
-	%if can.watch.create():
-		<%
-		if entity:
-			checked = checked or (h.find_watch(entity) is not None)
-		%>
-		<input class="watch" type="checkbox" ${'checked=\"checked\"' if checked else ''} name="watch"/>
-		${_("Notify me of updates.")}
-	%endif
+    %if can.watch.create():
+        <%
+        if entity:
+            checked = checked or (h.find_watch(entity) is not None)
+        %>
+        <input class="watch" type="checkbox" ${'checked=\"checked\"' if checked else ''} name="watch"/>
+        ${_("Notify me of updates.")}
+    %endif
 </%def>
 
 <%def name="watch(entity)">
-	%if c.user:
-		<%
-		watch = h.find_watch(entity)
-		%>
-		%if watch and can.watch.delete(watch):
-			<a class="button delete ttip" title="${_('Stop receiving notifications.')}"
-			   href="/watch/delete?watch=${watch.id}&${h.url_token()}"><img src='/img/mail.png' /> 
-			${_("unwatch")}</a>
-		%elif can.watch.create():
-			<a class="button edit ttip" title="${_('Receive notifications when this item is updated.')}"
-			   href="/watch/create?${h.make_watch(entity)}&${h.url_token()}"><img src='/img/mail.png' /> 
-			${_("watch")}</a>
-		%endif
-	%endif
+    %if c.user:
+        <%
+        watch = h.find_watch(entity)
+        %>
+        %if watch and can.watch.delete(watch):
+            <a class="button delete ttip" title="${_('Stop receiving notifications.')}"
+               href="/watch/delete?watch=${watch.id}&${h.url_token()}"><img src='/img/mail.png' /> 
+            ${_("unwatch")}</a>
+        %elif can.watch.create():
+            <a class="button edit ttip" title="${_('Receive notifications when this item is updated.')}"
+               href="/watch/create?${h.make_watch(entity)}&${h.url_token()}"><img src='/img/mail.png' /> 
+            ${_("watch")}</a>
+        %endif
+    %endif
 </%def>
 
 <%def name="badge(badge)">

@@ -4,15 +4,15 @@
 <%def name="title()">${_("New comment")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.instance.breadcrumbs(c.instance)|n} &raquo; ${_("New comment")}
+    ${h.instance.breadcrumbs(c.instance)|n} &raquo; ${_("New comment")}
 </%def>
 
 <h1 class="page_title">${_("Comment on: %s") % h.delegateable.link(c.topic, icon_size=24)|n}</h1>
 
 <div class="sidebar">&nbsp;</div>
 <div class="mainbar">
-##	%if c.reply:
-##		${tiles.comment.show(c.reply)}
-##	%endif
-	${t.create_form(c.reply, c.topic, wiki=c.wiki, can_wiki=True, variant=c.variant)}
+##  %if c.reply:
+##      ${tiles.comment.show(c.reply)}
+##  %endif
+    ${t.create_form(c.reply, c.topic, wiki=c.wiki, can_wiki=True, variant=c.variant)}
 </div>

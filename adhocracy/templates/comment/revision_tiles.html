@@ -1,35 +1,35 @@
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 
 <%def name="row(tile, revision)">
-	<div class="tile revision history">
-		<div class="index">${revision.index}</div>
-		${h.user.link(revision.user, scope=revision.comment.topic)|n}
-		&middot; ${_("created %s") % h.relative_time(revision.create_time)|n}
-		
-		<div class="meta">
-			&nbsp;
-		
-			%if can.comment.revert(revision.comment):
-				<a href="${h.entity_url(revision.comment, member='revert')}?${h.url_token()}&to=${revision.id}">${_("revert here")}</a>
-			%endif
-		</div>
-		<div style="clear: both;"></div>
-	</div>
-	
-	<div class="headrev">
-		%if revision.is_latest and can.comment.edit(revision.comment):
-			<div class="edit_form">
-				${comment_tiles.edit_form(revision.comment)}
-			</div>
-		%endif
-		%if revision.is_latest:
-		    <div class="hide_edit">
-		%endif
-			<div class="text">
-				${diff.comment_revisions_compare(revision, revision.previous)|n}
-			</div>
-		%if revision.is_latest:
-		    </div>
-		%endif
-	</div>
+    <div class="tile revision history">
+        <div class="index">${revision.index}</div>
+        ${h.user.link(revision.user, scope=revision.comment.topic)|n}
+        &middot; ${_("created %s") % h.relative_time(revision.create_time)|n}
+        
+        <div class="meta">
+            &nbsp;
+        
+            %if can.comment.revert(revision.comment):
+                <a href="${h.entity_url(revision.comment, member='revert')}?${h.url_token()}&to=${revision.id}">${_("revert here")}</a>
+            %endif
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    
+    <div class="headrev">
+        %if revision.is_latest and can.comment.edit(revision.comment):
+            <div class="edit_form">
+                ${comment_tiles.edit_form(revision.comment)}
+            </div>
+        %endif
+        %if revision.is_latest:
+            <div class="hide_edit">
+        %endif
+            <div class="text">
+                ${diff.comment_revisions_compare(revision, revision.previous)|n}
+            </div>
+        %if revision.is_latest:
+            </div>
+        %endif
+    </div>
 </%def>

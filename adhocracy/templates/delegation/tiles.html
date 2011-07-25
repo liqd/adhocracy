@@ -1,75 +1,75 @@
 
 <%def name="inbound(tile, delegation)">
-			<img class='user_icon' src="/img/icons/delegated_to_16.png" />
-			${_("from %s") % h.user.link(delegation.principal)|n}:  
-			<a href="${h.entity_url(delegation)}">${_("track record")}</a>
+            <img class='user_icon' src="/img/icons/delegated_to_16.png" />
+            ${_("from %s") % h.user.link(delegation.principal)|n}:  
+            <a href="${h.entity_url(delegation)}">${_("track record")}</a>
 </%def>
 
 <%def name="outbound(tile, delegation)">
-			<img class='user_icon' src="/img/icons/delegate_to_16.png" />
-			${_("to %s") % h.user.link(delegation.agent)|n}:
-			<a href="${h.entity_url(delegation)}">${_("track record")}</a>
-			%if delegation.principal == c.user:
-				&middot; <a href="${h.entity_url(delegation)}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
-			%endif
+            <img class='user_icon' src="/img/icons/delegate_to_16.png" />
+            ${_("to %s") % h.user.link(delegation.agent)|n}:
+            <a href="${h.entity_url(delegation)}">${_("track record")}</a>
+            %if delegation.principal == c.user:
+                &middot; <a href="${h.entity_url(delegation)}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
+            %endif
 </%def>
 
 <%def name="row(tile, delegation)">
-	<div class="tile">
-		<div class="logo">
-			<img src="/img/icons/delegate_32.png" />
-		</div>
-		<div class="base">
-			<h3>${h.user.link(delegation.principal)|n} ${_("to %s") % h.user.link(delegation.agent)|n}</h3>
-			<div class="meta">
-				${_("created <b>%s</b>") % h.relative_time(delegation.create_time)|n}
-				&middot; <a href="${h.entity_url(delegation)}">${_("track record")}</a>
-				%if delegation.principal == c.user:
-					&middot; <a href="${h.entity_url(delegation)}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
-				%endif
-			</div>
-		</div>
-	</div>
+    <div class="tile">
+        <div class="logo">
+            <img src="/img/icons/delegate_32.png" />
+        </div>
+        <div class="base">
+            <h3>${h.user.link(delegation.principal)|n} ${_("to %s") % h.user.link(delegation.agent)|n}</h3>
+            <div class="meta">
+                ${_("created <b>%s</b>") % h.relative_time(delegation.create_time)|n}
+                &middot; <a href="${h.entity_url(delegation)}">${_("track record")}</a>
+                %if delegation.principal == c.user:
+                    &middot; <a href="${h.entity_url(delegation)}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
+                %endif
+            </div>
+        </div>
+    </div>
 </%def>
 
 <%def name="sidebar(tile, delegateable)">
-	%if can.delegation.create():
-	<div class="not_a_tile">
-		<h3 class="section"><img src="/img/icons/delegate_16.png" class="cd" /> ${_("Delegate voting")}</h3>
-		
-			%if not tile.has_delegated:
-				<div class="infobox">
-					${_("You have not delegated voting.")} 
-					<div class="help">
-						&middot; ${h.help_link(_("help"), 'delegation_faq')|n}
-					</div>
-				</div>
-			%else:
-				<p>${_("You have delegated voting to:")}</p>
-			%endif
-		<ul>
-			%for delegation in tile.delegations:
-				<li>
-				${h.user.link(delegation.agent)|n}
-				&middot; ${_("on")} ${h.delegateable.link(delegation.scope)|n}</a>
-				&middot; <a href="${h.entity_url(delegation)}">${_("review")}</a>
-				</li>
-			%endfor
-		</ul>
-		<div class="top_actions">
-			<a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
-			    href="/delegation/new?scope=${delegateable.id}">${_("delegate")}</a>
-		</div>
-		
-		%if tile.num_principals:
-			<p>
-			%if tile.num_principals == 1:
-				${_("You hold an additional vote.")}
-			%else:
-				${_("You hold %s additional votes.") % tile.num_principals}
-			%endif
-			</p>
-		%endif
-	</div>
-	%endif
+    %if can.delegation.create():
+    <div class="not_a_tile">
+        <h3 class="section"><img src="/img/icons/delegate_16.png" class="cd" /> ${_("Delegate voting")}</h3>
+        
+            %if not tile.has_delegated:
+                <div class="infobox">
+                    ${_("You have not delegated voting.")} 
+                    <div class="help">
+                        &middot; ${h.help_link(_("help"), 'delegation_faq')|n}
+                    </div>
+                </div>
+            %else:
+                <p>${_("You have delegated voting to:")}</p>
+            %endif
+        <ul>
+            %for delegation in tile.delegations:
+                <li>
+                ${h.user.link(delegation.agent)|n}
+                &middot; ${_("on")} ${h.delegateable.link(delegation.scope)|n}</a>
+                &middot; <a href="${h.entity_url(delegation)}">${_("review")}</a>
+                </li>
+            %endfor
+        </ul>
+        <div class="top_actions">
+            <a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
+                href="/delegation/new?scope=${delegateable.id}">${_("delegate")}</a>
+        </div>
+        
+        %if tile.num_principals:
+            <p>
+            %if tile.num_principals == 1:
+                ${_("You hold an additional vote.")}
+            %else:
+                ${_("You hold %s additional votes.") % tile.num_principals}
+            %endif
+            </p>
+        %endif
+    </div>
+    %endif
 </%def>

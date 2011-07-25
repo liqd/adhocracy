@@ -4,39 +4,39 @@
 <%def name="title()">${_("New proposal")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.proposal.breadcrumbs(None)|n}
+    ${h.proposal.breadcrumbs(None)|n}
 </%def>
 
 <form name="create_proposal" class="inplace" method="POST" action="/proposal">
-	${h.field_token()|n}
+    ${h.field_token()|n}
     
     <div class="sidebar">
         <div class="help">
-    		<h3>${_("Help")}</h3>
-    		<ul>
-    			<li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
-    			<li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
-    			<li>${h.help_link(_("Guide: Supporting proposals"), 'support_text')|n}</li>
-    			<li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
-    			<li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>
-    		</ul>
-    	</div>
+            <h3>${_("Help")}</h3>
+            <ul>
+                <li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
+                <li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
+                <li>${h.help_link(_("Guide: Supporting proposals"), 'support_text')|n}</li>
+                <li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
+                <li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>
+            </ul>
+        </div>
     </div>
     
     <div class="mainbar">
-    	<h3>${_("Proposal title")}</h3>
-    	<div class="page_title">
-    		<label for="label" class="armhint">${_("New proposal")}</label>
-    		<input tabindex="1" class="title armlabel" name="label" />
-    	</div>
+        <h3>${_("Proposal title")}</h3>
+        <div class="page_title">
+            <label for="label" class="armhint">${_("New proposal")}</label>
+            <input tabindex="1" class="title armlabel" name="label" />
+        </div>
 
-    	<h3>${_("Proposal goals")}</h3>
-    	<div class="infobox">
-    	    ${_("Give a brief description of <b>the goals</b> of your proposal.")|n}
-    	</div>
-	
-    	<label for="text" class="armhint">${_("The proposal would...")}</label>
-    	<textarea tabindex="2" class="description armlabel" name="text"></textarea>
+        <h3>${_("Proposal goals")}</h3>
+        <div class="infobox">
+            ${_("Give a brief description of <b>the goals</b> of your proposal.")|n}
+        </div>
+    
+        <label for="text" class="armhint">${_("The proposal would...")}</label>
+        <textarea tabindex="2" class="description armlabel" name="text"></textarea>
         ${components.formatting()}
         
         %if c.instance.use_norms:
@@ -100,15 +100,15 @@
           </div>
         %endif
 
-    	<br/><br/>
+        <br/><br/>
         <h3>${_("Tag and classify")}</h3>
-    	<label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
-    	<input name="tags" id="tags" class="armlabel long" />
-    	<span class="hint">${_("Multiple tags can be separated by commas.")}
-    		${h.help_link(_("Help."), 'tag_faq')|n}
+        <label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
+        <input name="tags" id="tags" class="armlabel long" />
+        <span class="hint">${_("Multiple tags can be separated by commas.")}
+            ${h.help_link(_("Help."), 'tag_faq')|n}
       </span>
       <br/>
-    	<input type="checkbox" checked="" name="wiki" value="1"
+        <input type="checkbox" checked="" name="wiki" value="1"
         checked="checked" />
         ${_("Allow others to edit this proposal.")}
 
@@ -119,15 +119,15 @@
         ${tiles.milestone.select(None)}
       %endif
     </div>
-	
-	<div style="clear:both;"></div>
-	<div class="sidebar">
-		<div class="infobox">
-			${h.help_link(_("More help..."), 'proposal_faq')|n}
-		</div>
-	</div>
-	<div class="mainbar">
-		${components.savebox("/")}
-		${components.form_watch(None, checked=True)}
-	</div>
-</form>	
+    
+    <div style="clear:both;"></div>
+    <div class="sidebar">
+        <div class="infobox">
+            ${h.help_link(_("More help..."), 'proposal_faq')|n}
+        </div>
+    </div>
+    <div class="mainbar">
+        ${components.savebox("/")}
+        ${components.form_watch(None, checked=True)}
+    </div>
+</form> 

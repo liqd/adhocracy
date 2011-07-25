@@ -6,39 +6,39 @@
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n} &raquo; ${_("Edit variant")}</%def>
 
 <form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
-	${h.field_token()|n}
-	<input type="hidden" name="parent_text" value="${c.text.id}" />
-	<input type="hidden" name="branch" value="${c.branch}" />
-	<input type="hidden" name="title" value="${c.text.title}"/>
-	%if c.proposal:
-		<input type="hidden" value="${c.proposal}" name="proposal" />
-	%endif
-	<input type="hidden" name="_method" value="PUT" /> 
-	
-	${tiles.page.header(c.text.page, c.tile, active='diff', text=c.text, variant=c.variant)}
+    ${h.field_token()|n}
+    <input type="hidden" name="parent_text" value="${c.text.id}" />
+    <input type="hidden" name="branch" value="${c.branch}" />
+    <input type="hidden" name="title" value="${c.text.title}"/>
+    %if c.proposal:
+        <input type="hidden" value="${c.proposal}" name="proposal" />
+    %endif
+    <input type="hidden" name="_method" value="PUT" /> 
+    
+    ${tiles.page.header(c.text.page, c.tile, active='diff', text=c.text, variant=c.variant)}
 
-	<div class="lefthalf double">
-		${tiles.text.descbox(c.left, c.text)}
-	</div>
+    <div class="lefthalf double">
+        ${tiles.text.descbox(c.left, c.text)}
+    </div>
 
-	<div class="righthalf double">
-		${tiles.text.descbox(c.text, c.left, field=c.variant)}
-	</div>
+    <div class="righthalf double">
+        ${tiles.text.descbox(c.text, c.left, field=c.variant)}
+    </div>
 
-	<div style="clear: both;"></div>
+    <div style="clear: both;"></div>
 
-	<div class="lefthalf double list_diff">
-		%if c.left.has_text:
-			${diff.norm_texts_history_compare(c.left, c.text)|n}
-		%else:
-			<div class="infobox">
-				${_("This norm has no text yet.")}
-			</div>
-		%endif
-	</div>
+    <div class="lefthalf double list_diff">
+        %if c.left.has_text:
+            ${diff.norm_texts_history_compare(c.left, c.text)|n}
+        %else:
+            <div class="infobox">
+                ${_("This norm has no text yet.")}
+            </div>
+        %endif
+    </div>
 
-	<div class="righthalf double">
-		<textarea tabindex="2" class="armlabel normedit" rows="${c.text_rows}" cols="${model.Text.LINE_LENGTH}" 
+    <div class="righthalf double">
+        <textarea tabindex="2" class="armlabel normedit" rows="${c.text_rows}" cols="${model.Text.LINE_LENGTH}" 
           name="text">${c.text.text}</textarea>
 
         %if c.instance.milestones and can.page.manage(c.page):
@@ -49,10 +49,10 @@
         %endif
 
 
-		${components.formatting()}
-		${components.savebox(h.entity_url(c.text))}
-		${components.form_watch(c.page)}
-	</div>
+        ${components.formatting()}
+        ${components.savebox(h.entity_url(c.text))}
+        ${components.form_watch(c.page)}
+    </div>
 
 </form>
 
@@ -60,6 +60,6 @@
 <br/>
 
 ##<div class="mainbar">
-##	${tiles.text.comments(c.text)}
+##  ${tiles.text.comments(c.text)}
 ##</div>
 

@@ -3,21 +3,21 @@
 <%def name="title()">${_("Leave")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.instance.breadcrumbs(c.page_instance)|n} ${_("Leave")}
+    ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Leave")}
 </%def>
 
 ${tiles.instance.header(c.page_instance, active='leave')}
 
 <form name="ask_delete" class="inplace" method="POST" 
-	action="${h.entity_url(c.page_instance, member='leave')}">
-	${h.field_token()|n}
-	<div class="sidebar"></div>
-	<div class="mainbar">
-		<div class="warning_box">
-			${_("Are you sure you want to leave this instance? You will no longer be able to write contributions or to vote.")|n}
-		</div>
-		<center>
-			<input type="submit" class="delete" value="${_('Confirm')}" />
-		</center>
-	</div>
+    action="${h.entity_url(c.page_instance, member='leave')}">
+    ${h.field_token()|n}
+    <div class="sidebar"></div>
+    <div class="mainbar">
+        <div class="warning_box">
+            ${_("Are you sure you want to leave this instance? You will no longer be able to write contributions or to vote.")|n}
+        </div>
+        <center>
+            <input type="submit" class="delete" value="${_('Confirm')}" />
+        </center>
+    </div>
 </form>

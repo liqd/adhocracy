@@ -5,25 +5,25 @@
 <%def name="title()">${_("Votes: %s") % c.poll.scope.label}</%def>
 
 <%def name="breadcrumbs()">
-	${h.delegateable.breadcrumbs(c.poll.scope)|n} &raquo; ${_("Votes")}
+    ${h.delegateable.breadcrumbs(c.poll.scope)|n} &raquo; ${_("Votes")}
 </%def>
 
 ${tiles.poll.header(c.poll, active='votes')}
 
 <div class="sidebar">
-	%if c.poll.action != c.poll.RATE:
-		${tiles.poll.booth(c.poll)}
-		<br/>
-	%endif
-	
-	<div class="infobox">
-		${_("Vote results are updated with a short delay. After casting " +
-			"your vote, expect a short delay before the tally updates.")}
-	</div>
+    %if c.poll.action != c.poll.RATE:
+        ${tiles.poll.booth(c.poll)}
+        <br/>
+    %endif
+    
+    <div class="infobox">
+        ${_("Vote results are updated with a short delay. After casting " +
+            "your vote, expect a short delay before the tally updates.")}
+    </div>
 </div>
 
 <div class="mainbar">
-	<div class="table">
-		${c.decisions_pager.here()}
-	</div>
+    <div class="table">
+        ${c.decisions_pager.here()}
+    </div>
 </div>

@@ -1,21 +1,21 @@
 
 
 <form name="create" method="POST" action="/user">
-	${h.field_token()|n}
-	<label for="user_name">${_("User name:")}</label>
-	<span class="hint">${_("Can only contain letters and numbers.")}</span>
-	<input name="user_name" />
-		
-	<label for="email">${_("E-Mail:")}</label>
-	<input name="email" />
-	
-	<label for="password">${_("Password:")}</label>
-	<input type="password" name="password">
-	
-	<label for="password_confirm">${_("Password (confirm):")}</label>
-	<input type="password" name="password_confirm">
-	<p>
-	  Durch Ihre Anmeldung stimmen Sie den <a href="http://enquetebeteiligung.de/static/terms.html">Nutzungsbedingungen</a> zu. Wir werden Sie gelegentlich über wichtige Ereignisse wie den Beteiligungsstart einzelner Projektgruppen per E-Mail informieren.
-	</p>
-	<input type="submit" value="${_('Register')}"/>
+    ${h.field_token()|n}
+    <label for="user_name">${_("User name:")}</label>
+    <span class="hint">${_("Can only contain letters and numbers.")}</span>
+    <input name="user_name" />
+        
+    <label for="email">${_("E-Mail:")}</label>
+    <input name="email" />
+    
+    <label for="password">${_("Password:")}</label>
+    <input type="password" name="password">
+    
+    <label for="password_confirm">${_("Password (confirm):")}</label>
+    <input type="password" name="password_confirm">
+    <p>
+      Durch Ihre Anmeldung stimmen Sie den <a href="http://enquetebeteiligung.de/static/terms.html">Nutzungsbedingungen</a> zu. Wir werden Sie gelegentlich über wichtige Ereignisse wie den Beteiligungsstart einzelner Projektgruppen per E-Mail informieren.
+    </p>
+    <input type="submit" value="${_('Register')}"/>
 </form>

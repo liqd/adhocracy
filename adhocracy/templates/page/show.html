@@ -16,48 +16,48 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
       <br/>
     %endif
 
-	%if c.page.has_variants:
-	<h3 class="section"><img class="cd" src="/img/icons/page_variant_16.png"/>
+    %if c.page.has_variants:
+    <h3 class="section"><img class="cd" src="/img/icons/page_variant_16.png"/>
       ${_("Proposed changes")}</h3>
-	<ul>
+    <ul>
       %for selection in c.page.selections:
         <%
-		text = c.page.variant_head(selection.selected)
-		%>
+        text = c.page.variant_head(selection.selected)
+        %>
         <li>${h.proposal.link(selection.proposal, anchor='selection_%s' % selection.id)|n}
         <ul>
           <li>
                 ${_("Variant:")}
-			    <a href="${h.entity_url(text)}">${text.variant_html|n}</a> 
+                <a href="${h.entity_url(text)}">${text.variant_html|n}</a> 
           </li>
           </ul>
         </li>
-	  %endfor
-	</ul>
-	%if can.proposal.create():
-	    <br/>
-	    <div class="top_actions">
-		    <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" 
+      %endfor
+    </ul>
+    %if can.proposal.create():
+        <br/>
+        <div class="top_actions">
+            <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" 
               href="/proposal/new?page=${c.page.id}">
-		        ${_("propose change")}
-		    </a>
-	    </div>
-	%endif
-	<br/>
-	%else:
-		<div class="infobox">
-			${_("Page created on %s by %s") % (h.format_date(c.page.create_time), h.user.link(c.page.creator))|n} 
-			&middot; <a href="${h.entity_url(c.page, member='history')}">${_("History")}</a>
-		</div>
-		<br/>
-	%endif
-	${tiles.tag.sidebar(c.page)}
-	${tiles.delegation.sidebar(c.page, c.tile)}
-	
+                ${_("propose change")}
+            </a>
+        </div>
+    %endif
+    <br/>
+    %else:
+        <div class="infobox">
+            ${_("Page created on %s by %s") % (h.format_date(c.page.create_time), h.user.link(c.page.creator))|n} 
+            &middot; <a href="${h.entity_url(c.page, member='history')}">${_("History")}</a>
+        </div>
+        <br/>
+    %endif
+    ${tiles.tag.sidebar(c.page)}
+    ${tiles.delegation.sidebar(c.page, c.tile)}
+    
 </div>
 
 <div class="mainbar">
-  	${tiles.page.inline(c.page, c.tile, text=c.text, 
-	                    subpages_pager=c.subpages_pager,
-	                    hide_discussion=False)}
+    ${tiles.page.inline(c.page, c.tile, text=c.text, 
+                        subpages_pager=c.subpages_pager,
+                        hide_discussion=False)}
 </div>

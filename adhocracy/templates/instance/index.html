@@ -3,36 +3,36 @@
 <%def name="title()">${_("Instances")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.site.name()} &raquo; ${_("Instances")} 
+    ${h.site.name()} &raquo; ${_("Instances")} 
 </%def>
 
 
 <div class="top_actions title">
-	%if can.instance.create():
-		<a class="button title add" href="/instance/new">${_("new instance")}</a>
-	%endif 
+    %if can.instance.create():
+        <a class="button title add" href="/instance/new">${_("new instance")}</a>
+    %endif 
 </div>
 
 <h1 class="page_title">${_("Instances")}</h1>
 
 
 <div class="sidebar">
-	<div class="infobox">
-		${_("Instances are little democracies that are ran by their community.")}
-	</div>
-	<div class="help">
-		<h3>${_("Help")}</h3>
-		<ul>
-			<li>${h.help_link(_("What is an instance?"), 'instance_faq', anchor='whatis')|n}</li>
-			<li>${h.help_link(_("When should I create an instance?"), 'instance_faq', anchor='whenmake')|n}</li>
-			<li>${h.help_link(_("How can I create an instance?"), 'instance_faq', anchor='howmake')|n}</li>
-			<li>${h.help_link(_("More help..."), 'instance_faq')|n}</li>
-		</ul>
-	</div>
+    <div class="infobox">
+        ${_("Instances are little democracies that are ran by their community.")}
+    </div>
+    <div class="help">
+        <h3>${_("Help")}</h3>
+        <ul>
+            <li>${h.help_link(_("What is an instance?"), 'instance_faq', anchor='whatis')|n}</li>
+            <li>${h.help_link(_("When should I create an instance?"), 'instance_faq', anchor='whenmake')|n}</li>
+            <li>${h.help_link(_("How can I create an instance?"), 'instance_faq', anchor='howmake')|n}</li>
+            <li>${h.help_link(_("More help..."), 'instance_faq')|n}</li>
+        </ul>
+    </div>
 </div>
 
 <div class="mainbar">
-	<div class="table">
-		${c.instances_pager.here()}
-	</div>
+    <div class="table">
+        ${c.instances_pager.here()}
+    </div>
 </div>

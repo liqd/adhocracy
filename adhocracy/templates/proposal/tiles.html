@@ -2,47 +2,47 @@
 <%namespace name="state" file="/poll/state.html"/>
 
 <%def name="row(tile, proposal)">
-	<div class="tile ${'fresh' if tile.fresh else ''}">
-		<div class="base" style="background-image: url(${h.proposal.icon_url(proposal, size=32)});">
-			<h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
-				%if tile.fresh:
-					${_("(new)")}
-				%endif
-			</h3>
-			<div class="meta noclear">				
-				%if proposal.is_adopt_polling():
-				    ${_("<b>%s%%</b> approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
-				    &middot;    
-				%elif proposal.rate_poll: 
-					${_("<b>%s:%s</b> votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} &middot;
+    <div class="tile ${'fresh' if tile.fresh else ''}">
+        <div class="base" style="background-image: url(${h.proposal.icon_url(proposal, size=32)});">
+            <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
+                %if tile.fresh:
+                    ${_("(new)")}
+                %endif
+            </h3>
+            <div class="meta noclear">              
+                %if proposal.is_adopt_polling():
+                    ${_("<b>%s%%</b> approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
+                    &middot;    
+                %elif proposal.rate_poll: 
+                    ${_("<b>%s:%s</b> votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} &middot;
         %endif
         %if proposal.description.head.wiki: 
           <b>${_("anyone can edit")}</b> &middot; 
         %endif
-				%if proposal.instance.use_norms:
-				    <img src="/img/icons/page_variant_16.png" /> 
-				    ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
-				    &middot;
-				%endif
-				<img src="/img/icons/discuss_16.png" /> 
-				##${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
-				${_("(latest: <b>%s</b>)") % h.relative_time(proposal.find_latest_comment_time())|n} 
-				
-			</div>
-		</div>
-	</div>
+                %if proposal.instance.use_norms:
+                    <img src="/img/icons/page_variant_16.png" /> 
+                    ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
+                    &middot;
+                %endif
+                <img src="/img/icons/discuss_16.png" /> 
+                ##${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
+                ${_("(latest: <b>%s</b>)") % h.relative_time(proposal.find_latest_comment_time())|n} 
+                
+            </div>
+        </div>
+    </div>
 </%def>
 
 
 <%def name="sidebar(tile, proposal)">
-	
-	%if proposal.is_adopt_polling(): 
-		${tiles.poll.booth(proposal.adopt_poll)}
+    
+    %if proposal.is_adopt_polling(): 
+        ${tiles.poll.booth(proposal.adopt_poll)}
     %endif
 
     <h3 class="section"><img src="/img/icons/proposal_16.png" class="cd" /> ${_("Information")}</h3>
-	<div class="infobox">
-		${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.format_date(proposal.create_time))|n} 
+    <div class="infobox">
+        ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.format_date(proposal.create_time))|n} 
     &middot; <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
   </div>
   %if proposal.milestone and c.instance.milestones:
@@ -57,70 +57,70 @@
     ${_("This is a <b>joint proposal</b> that can be improved by anyone. Edit it to improve or refine the text.")|n}
   </div>
   %endif
-	<ul>
-	    <li><a href="${h.entity_url(proposal)}">${_("Main page")}</a></li>
-	    <li><a href="${h.entity_url(proposal.description, member='history')}">${_("History")}</a></li>
-	    %if c.instance.allow_delegate:
-        	<li><a title="${_('Who is receiving delegations?')}" 
-        	       href="${h.entity_url(proposal, member='delegations')}"
-           	class="delegations ttip">${_("Delegations")} 
+    <ul>
+        <li><a href="${h.entity_url(proposal)}">${_("Main page")}</a></li>
+        <li><a href="${h.entity_url(proposal.description, member='history')}">${_("History")}</a></li>
+        %if c.instance.allow_delegate:
+            <li><a title="${_('Who is receiving delegations?')}" 
+                   href="${h.entity_url(proposal, member='delegations')}"
+            class="delegations ttip">${_("Delegations")} 
             ##(${len(proposal.current_delegations())})
-           	</a></li>
+            </a></li>
         %endif
-	</ul>
-	<br/>
-	
-	${tiles.tag.sidebar(proposal)}
-	${tiles.delegation.sidebar(proposal, tile)}
+    </ul>
+    <br/>
+    
+    ${tiles.tag.sidebar(proposal)}
+    ${tiles.delegation.sidebar(proposal, tile)}
 </%def>
 
 
 <%def name="header(tile, proposal, active)">
-	<div class="top_actions title">
-		&nbsp; 
-				
-		%if can.proposal.adopt(proposal):
-			<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
-				href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
-		%endif
-								
-		%if can.proposal.delete(proposal):
-			<a class="button title delete ttip" title="${_('Delete this proposal.')}" 	
-				href="${h.entity_url(proposal, member='ask_delete')}">${_("delete")}</a>
-		%endif
-		
-		${components.watch(proposal)}
-	</div>
-	
-	<div style="clear: both;"></div>
-	%if proposal.rate_poll:
-	<span class="${h.poll_position_css(proposal.rate_poll)}"  id="tile_p${proposal.id}">
-		<div class="proposal rate">
-			%if can.proposal.rate(proposal):
-				<a class="up icon otip" title="${_("Support this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=1&${h.url_token()}" 
-					onclick="return rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, 1);">
-					&nbsp;
-				</a>
-				<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-					class="num_for">${proposal.rate_poll.tally.num_for}</a>:<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-    				class="num_against">${proposal.rate_poll.tally.num_against}</a>
-				<a class="down icon ttip" title="${_("Oppose this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=-1&${h.url_token()}" 
-					onclick="return rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, -1);">
-					&nbsp;
-				</a>
-			%else:
-				<a class="up icon inactive">&nbsp;</a>
-				<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-					class="num_for">${proposal.rate_poll.tally.num_for}</a>:<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-    				class="num_against">${proposal.rate_poll.tally.num_against}</a>
-				<a class="down icon inactive">&nbsp;</a>
-			%endif
-		</div>
-	</span>
-	%endif
-	
-	<h1 class="with_vote page_title">${h.delegateable.link(proposal, icon_size=24, link=False)|n}</h1>
-	<br/>
+    <div class="top_actions title">
+        &nbsp; 
+                
+        %if can.proposal.adopt(proposal):
+            <a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
+                href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
+        %endif
+                                
+        %if can.proposal.delete(proposal):
+            <a class="button title delete ttip" title="${_('Delete this proposal.')}"   
+                href="${h.entity_url(proposal, member='ask_delete')}">${_("delete")}</a>
+        %endif
+        
+        ${components.watch(proposal)}
+    </div>
+    
+    <div style="clear: both;"></div>
+    %if proposal.rate_poll:
+    <span class="${h.poll_position_css(proposal.rate_poll)}"  id="tile_p${proposal.id}">
+        <div class="proposal rate">
+            %if can.proposal.rate(proposal):
+                <a class="up icon otip" title="${_("Support this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=1&${h.url_token()}" 
+                    onclick="return rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, 1);">
+                    &nbsp;
+                </a>
+                <a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
+                    class="num_for">${proposal.rate_poll.tally.num_for}</a>:<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
+                    class="num_against">${proposal.rate_poll.tally.num_against}</a>
+                <a class="down icon ttip" title="${_("Oppose this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=-1&${h.url_token()}" 
+                    onclick="return rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, -1);">
+                    &nbsp;
+                </a>
+            %else:
+                <a class="up icon inactive">&nbsp;</a>
+                <a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
+                    class="num_for">${proposal.rate_poll.tally.num_for}</a>:<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
+                    class="num_against">${proposal.rate_poll.tally.num_against}</a>
+                <a class="down icon inactive">&nbsp;</a>
+            %endif
+        </div>
+    </span>
+    %endif
+    
+    <h1 class="with_vote page_title">${h.delegateable.link(proposal, icon_size=24, link=False)|n}</h1>
+    <br/>
     ${tiles.proposal.panel(proposal, tile)}
 </%def>
 
@@ -128,38 +128,38 @@
 <%def name="panel(tile, proposal)">
     %if proposal.adopted:
         <div class="panel">
-    	    <div class="info adoption adopted">
-    		    ${_("%s has been adopted %s.") % (h.delegateable.link(proposal, link=False, icon=False),
-    			     							  h.relative_time(proposal.adopt_poll.end_time))|n}
-    	    </div>
+            <div class="info adoption adopted">
+                ${_("%s has been adopted %s.") % (h.delegateable.link(proposal, link=False, icon=False),
+                                                  h.relative_time(proposal.adopt_poll.end_time))|n}
+            </div>
         </div>
         %elif proposal.is_adopt_polling():
         <!--
         <div class="panel">
-    	<div class="info adoption">
-    		<div class="given first">
-    			${_("Adoption requirements:")}
-    		</div>
-    		%if proposal.adopt_poll.tally.has_majority() and not \
-    			proposal.adopt_poll.tally.has_participation():
-    			<div class="given">
-    				${_("%s%% approval") % int(c.instance.required_majority*100)}
-    			</div>
-    			<div class="">
-    				${_("%s participators") % c.instance.required_participation}
-    			</div>
-    		%else:
-    			<div class="${'given' if proposal.adopt_poll.tally.has_participation() else ''}">
-    				${_("%s participators") % c.instance.required_participation}
-    			</div>
-    			<div class="${'given' if proposal.adopt_poll.tally.has_majority() else ''}">
-    				${_("%s%% approval") % int(c.instance.required_majority*100)}
-    			</div>
-    		%endif
-    		<div class="last">
-    			${_("stable majority for %s days") % c.instance.activation_delay} 
-    		</div>
-    	</div>
+        <div class="info adoption">
+            <div class="given first">
+                ${_("Adoption requirements:")}
+            </div>
+            %if proposal.adopt_poll.tally.has_majority() and not \
+                proposal.adopt_poll.tally.has_participation():
+                <div class="given">
+                    ${_("%s%% approval") % int(c.instance.required_majority*100)}
+                </div>
+                <div class="">
+                    ${_("%s participators") % c.instance.required_participation}
+                </div>
+            %else:
+                <div class="${'given' if proposal.adopt_poll.tally.has_participation() else ''}">
+                    ${_("%s participators") % c.instance.required_participation}
+                </div>
+                <div class="${'given' if proposal.adopt_poll.tally.has_majority() else ''}">
+                    ${_("%s%% approval") % int(c.instance.required_majority*100)}
+                </div>
+            %endif
+            <div class="last">
+                ${_("stable majority for %s days") % c.instance.activation_delay} 
+            </div>
+        </div>
       </div>
       -->
     %endif

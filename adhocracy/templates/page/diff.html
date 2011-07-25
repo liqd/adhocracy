@@ -7,11 +7,11 @@
 ${tiles.page.header(c.right.page, c.tile, active='diff', text=c.right, variant=c.variant)}
 
 <div class="lefthalf double">
-	${tiles.text.descbox(c.left, c.right, options=c.left_options)}
+    ${tiles.text.descbox(c.left, c.right, options=c.left_options)}
 </div>
 
 <div class="righthalf double">
-	${tiles.text.descbox(c.right, c.left)}
+    ${tiles.text.descbox(c.right, c.left)}
 </div>
 
 <div class="clearboth"></div>
@@ -53,29 +53,29 @@ left_table, right_table = diff.norm_texts_table_compare(c.left, c.right)
 <br/>
 
 <div class="sidebar">
-	%if c.right.page.function == c.right.page.NORM:
-		<br/>
-		<h3 class="section"><img class="cd" src="/img/icons/proposal_16.png"/> ${_("Related Proposals")}</h3>
-		<%
-		supporting = c.right.page.supporting_selections(c.variant)
-		%>
-		<ul>
-		%for selection in c.right.page.selections:
-			<li>
-				${h.proposal.link(selection.proposal, anchor='selection_%s' % selection.id)|n}
-				%if selection in supporting:
-					${_("(supports this variant)")}
-				%endif
-			</li>
-		%endfor
-		<li><a href="/proposal/new">${_("Create a new proposal...")}</a></li>
-		</ul>
-		<br/>
-    	${tiles.delegation.sidebar(c.right.page, c.tile)}
-	%endif
+    %if c.right.page.function == c.right.page.NORM:
+        <br/>
+        <h3 class="section"><img class="cd" src="/img/icons/proposal_16.png"/> ${_("Related Proposals")}</h3>
+        <%
+        supporting = c.right.page.supporting_selections(c.variant)
+        %>
+        <ul>
+        %for selection in c.right.page.selections:
+            <li>
+                ${h.proposal.link(selection.proposal, anchor='selection_%s' % selection.id)|n}
+                %if selection in supporting:
+                    ${_("(supports this variant)")}
+                %endif
+            </li>
+        %endfor
+        <li><a href="/proposal/new">${_("Create a new proposal...")}</a></li>
+        </ul>
+        <br/>
+        ${tiles.delegation.sidebar(c.right.page, c.tile)}
+    %endif
 </div>
 
 <div class="mainbar">
-	${tiles.comment.list(c.right.page, variant=c.right.variant)}
+    ${tiles.comment.list(c.right.page, variant=c.right.variant)}
 </div>
 

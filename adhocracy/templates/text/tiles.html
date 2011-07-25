@@ -1,48 +1,48 @@
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 
 <%def name="history_row(tile, text)">
-	<div class="tile text history">
-		<ul>
-			<li>
-			    ${diff.page_titles_compare(text, text.parent)|n}
-			    %if text.page.has_variants:
-				    (${text.variant_html|n})
-			    %endif
-			</li>
-			<li>${_("by %s, ") % h.user.link(text.user, scope=text.page)|n}
-					${_("created %s") % h.relative_time(text.create_time)|n}</li>
-		</ul>
-	</div>
-	
-	<div class="headrev">
-			%if text.has_text:
-				<div class="text" style="width: auto;">
-					${diff.page_texts_history_compare(text, text.parent)|n}
-				</div>
-			%else:
-				<div class="infobox">
-					${_("This revision has no text.")}
-				</div>
-			%endif
-	</div>
+    <div class="tile text history">
+        <ul>
+            <li>
+                ${diff.page_titles_compare(text, text.parent)|n}
+                %if text.page.has_variants:
+                    (${text.variant_html|n})
+                %endif
+            </li>
+            <li>${_("by %s, ") % h.user.link(text.user, scope=text.page)|n}
+                    ${_("created %s") % h.relative_time(text.create_time)|n}</li>
+        </ul>
+    </div>
+    
+    <div class="headrev">
+            %if text.has_text:
+                <div class="text" style="width: auto;">
+                    ${diff.page_texts_history_compare(text, text.parent)|n}
+                </div>
+            %else:
+                <div class="infobox">
+                    ${_("This revision has no text.")}
+                </div>
+            %endif
+    </div>
 </%def>
 
 
 <%def name="full(tile, text, subpages_pager=None, hide_discussion=True)">
     %if text.has_text:
-    	<div class="tile">
-    	${text.render()|n}
-    	</div>
+        <div class="tile">
+        ${text.render()|n}
+        </div>
     %else:
-    	<div class="infobox">
-    		${_("This norm has not yet been decided and is thus no official position of this group.")}
-    	</div>
+        <div class="infobox">
+            ${_("This norm has not yet been decided and is thus no official position of this group.")}
+        </div>
     %endif
     
     %if subpages_pager is not None and len(subpages_pager._items):
-    	<div id="pages_table" class="table">
-    		${subpages_pager.here()}
-    	</div>
+        <div id="pages_table" class="table">
+            ${subpages_pager.here()}
+        </div>
     %endif
     
     <br/>
@@ -67,62 +67,62 @@
 
 
 <%def name="descbox(tile, this, other, options, field)">
-	%if options:
-		<form action="/page/diff" method="GET" id="diff_left_form">	
-		<input type="hidden" name="right" value="${other.id}" />
-	%endif
+    %if options:
+        <form action="/page/diff" method="GET" id="diff_left_form"> 
+        <input type="hidden" name="right" value="${other.id}" />
+    %endif
 
-	<div class="variant_header">
-		<ul class="variant_innerheader">
-			%if this.title != other.title:
-				<li>${_("Title:")|n} <b><a href="${h.entity_url(this)|n}">${this.title}</a></b></li>
-			%endif
-			<li>
-			%if options:
-				${_("Variant:")|n}
-				<select name="left" id="diff_left_select">
-					%for text in options:
-						%if text == this:
-							<option value="${text.id}" selected="selected">${text.variant_name}</option>
-						%elif text == other:
-							<!-- nop -->
-						%else:
-							<option value="${text.id}">${text.variant_name}</option>
-						%endif
-					%endfor
-				</select>
-				<a href="${h.entity_url(this)|n}">${_("see")}</a>
-			%else:
-				${_("Variant:")} 
-				%if field is not None:
-					<label for="variant" class="armhint">${_("Variant Name")}</label>
-					<input class="armlabel" name="variant" maxlength="75" value="${field}"/>
-					<div class="help">
-						&middot; ${h.help_link(_("help"), 'selection_faq', anchor='whatisvariant')|n}
-					</div>
-				%else:
-					<b><a href="${h.entity_url(this)|n}">${this.variant_html|n}</a></b>
-				%endif
-			%endif
-			
-			</li>
-			%if field is None:
-			    <li>
-				    ${_("%s by %s") % (h.relative_time(this.create_time), 
-													    h.user.link(this.user, scope=this.page))|n}
-				    &middot; <b><a href="${h.entity_url(this, member='history')|n}">${_("History")}</a></b>
-			    </li>
-			%endif
-		</ul>
-		%if options:
-			<noscript>
-				<input type="submit" value="${_("Compare")}" />
-			</noscript>
-		%endif
-	</div>
-	
-	%if options:
-		</form>
-	%endif
+    <div class="variant_header">
+        <ul class="variant_innerheader">
+            %if this.title != other.title:
+                <li>${_("Title:")|n} <b><a href="${h.entity_url(this)|n}">${this.title}</a></b></li>
+            %endif
+            <li>
+            %if options:
+                ${_("Variant:")|n}
+                <select name="left" id="diff_left_select">
+                    %for text in options:
+                        %if text == this:
+                            <option value="${text.id}" selected="selected">${text.variant_name}</option>
+                        %elif text == other:
+                            <!-- nop -->
+                        %else:
+                            <option value="${text.id}">${text.variant_name}</option>
+                        %endif
+                    %endfor
+                </select>
+                <a href="${h.entity_url(this)|n}">${_("see")}</a>
+            %else:
+                ${_("Variant:")} 
+                %if field is not None:
+                    <label for="variant" class="armhint">${_("Variant Name")}</label>
+                    <input class="armlabel" name="variant" maxlength="75" value="${field}"/>
+                    <div class="help">
+                        &middot; ${h.help_link(_("help"), 'selection_faq', anchor='whatisvariant')|n}
+                    </div>
+                %else:
+                    <b><a href="${h.entity_url(this)|n}">${this.variant_html|n}</a></b>
+                %endif
+            %endif
+            
+            </li>
+            %if field is None:
+                <li>
+                    ${_("%s by %s") % (h.relative_time(this.create_time), 
+                                                        h.user.link(this.user, scope=this.page))|n}
+                    &middot; <b><a href="${h.entity_url(this, member='history')|n}">${_("History")}</a></b>
+                </li>
+            %endif
+        </ul>
+        %if options:
+            <noscript>
+                <input type="submit" value="${_("Compare")}" />
+            </noscript>
+        %endif
+    </div>
+    
+    %if options:
+        </form>
+    %endif
 </%def>
 

@@ -3,24 +3,24 @@
 <%def name="title()">${_("Tags")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.tag.breadcrumbs(None)|n}
+    ${h.tag.breadcrumbs(None)|n}
 </%def>
 
 <h1 class="page_title"><img src="/img/icons/tag_24.png" class="cd" /> ${_("Popular tags")}</h1>
 
 <div class="sidebar">
-	<div class="infobox">${_("Tags are keywords used to find, sort and filter proposals and documents.")}</div>
-	<div class="help">
-		<h3>${_("Help")}</h3>
-		<ul>
-			<li>${h.help_link(_("What is a tag?"), 'tag_faq', anchor='whatis')|n}</li>
-			<li>${h.help_link(_("What is a tag cloud?"), 'tag_faq', anchor='cloud')|n}</li>
-			<li>${h.help_link(_("How can tags be added to proposals and pages?"), 'tag_faq', anchor='howto')|n}</li>
-			<li>${h.help_link(_("More help..."), 'tag_faq')|n}</li>
-		</ul>
-	</div>
+    <div class="infobox">${_("Tags are keywords used to find, sort and filter proposals and documents.")}</div>
+    <div class="help">
+        <h3>${_("Help")}</h3>
+        <ul>
+            <li>${h.help_link(_("What is a tag?"), 'tag_faq', anchor='whatis')|n}</li>
+            <li>${h.help_link(_("What is a tag cloud?"), 'tag_faq', anchor='cloud')|n}</li>
+            <li>${h.help_link(_("How can tags be added to proposals and pages?"), 'tag_faq', anchor='howto')|n}</li>
+            <li>${h.help_link(_("More help..."), 'tag_faq')|n}</li>
+        </ul>
+    </div>
 </div>
 
 <div class="mainbar">
-	${tiles.tag.cloud(c.tags, link_more=False)}
+    ${tiles.tag.cloud(c.tags, link_more=False)}
 </div>

@@ -2,36 +2,36 @@
 <%def name="title()">${_("Search") if not c.query else "'%s'" % c.query}</%def>
 
 <%def name="breadcrumbs()">
-	${h.instance.breadcrumbs(c.instance)|n} ${_("Search")}
+    ${h.instance.breadcrumbs(c.instance)|n} ${_("Search")}
 </%def>
 
 <h1 class="page_title">
-	%if c.instance:
-		${_("Search in %s") % c.instance.label}
-	%else:
-		${_("Search")}
-	%endif
+    %if c.instance:
+        ${_("Search in %s") % c.instance.label}
+    %else:
+        ${_("Search")}
+    %endif
 </h1>
 
 <div class="sidebar">
-	<div class="infobox">
-		${_("Search includes issues and proposals.")}
-	</div>
+    <div class="infobox">
+        ${_("Search includes issues and proposals.")}
+    </div>
 </div>
 
 <div class="mainbar">
-	<form action="?" method="GET" autocomplete="off">
-		<input id="serp_q" name="serp_q" class="live_search"
-				value="${request.params.get('serp_q', '')}" 
-				tabindex="1" />
-	</form>
-	<div id="serp_table" class="table">
-		%if c.query:
-			${c.entities_pager.here()|n}
-		%else:
-			<div class="infobox">
-				${_("You did not provide a search query.")}
-			</div>
-		%endif
-	</div>
+    <form action="?" method="GET" autocomplete="off">
+        <input id="serp_q" name="serp_q" class="live_search"
+                value="${request.params.get('serp_q', '')}" 
+                tabindex="1" />
+    </form>
+    <div id="serp_table" class="table">
+        %if c.query:
+            ${c.entities_pager.here()|n}
+        %else:
+            <div class="infobox">
+                ${_("You did not provide a search query.")}
+            </div>
+        %endif
+    </div>
 </div>

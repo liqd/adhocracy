@@ -1,85 +1,85 @@
 
 <%def name="row(tile, tag)">
-	<div class="tile">
-		<div class="base" style="background-image: url(/img/icons/tag_24.png);">
-			<h3><a class="link" href="${h.entity_url(tag)}">${tag.name}</a></h3>
-			<div class="meta noclear">
-				${_("created %s") % h.relative_time(tag.create_time)|n} 
-				%if c.instance:
-					 &middot;	${_("used %s times") % len(tag)}
-				%endif
-			</div>
-		</div>
-	</div>
+    <div class="tile">
+        <div class="base" style="background-image: url(/img/icons/tag_24.png);">
+            <h3><a class="link" href="${h.entity_url(tag)}">${tag.name}</a></h3>
+            <div class="meta noclear">
+                ${_("created %s") % h.relative_time(tag.create_time)|n} 
+                %if c.instance:
+                     &middot;   ${_("used %s times") % len(tag)}
+                %endif
+            </div>
+        </div>
+    </div>
 </%def>
 
 
 <%def name="cloud(tags, plain, show_count, link_more)">
-	<p>
-	%for (tag, count, size) in tags:
-		${h.tag.link(tag, count=0 if not show_count else count, size=size, plain=plain)|n}
-	%endfor
-	</p>
-	%if link_more:
-	<div align="right">
-		<div class="help">${h.help_link(_("help"), 'tag_faq')|n} &middot;</div> <a href="/tag">${_("more tags...")}</a>
-	</div>
-	%endif
+    <p>
+    %for (tag, count, size) in tags:
+        ${h.tag.link(tag, count=0 if not show_count else count, size=size, plain=plain)|n}
+    %endfor
+    </p>
+    %if link_more:
+    <div align="right">
+        <div class="help">${h.help_link(_("help"), 'tag_faq')|n} &middot;</div> <a href="/tag">${_("more tags...")}</a>
+    </div>
+    %endif
 </%def>
 
 <%def name="sidebar(delegateable)">
-	<h3 class="section"><img src="/img/icons/tag_16.png" class="cd" /> ${_("Tags")}</h3>
-	<div class="tagarea">
-		<ul>
-		<% tagn = 0 %>
-		%for (tag, count) in delegateable.tags:
-			<li class="${'hidejs moreTags' if tagn >= 5 else ''}">${h.tag.link(tag, count)|n}
-			%if c.user:
-				<% has = False %>
-				%for tagging in delegateable.taggings:
-					%if not has and tagging.tag == tag and tagging.creator == c.user and can.tag.delete(tagging):
-						<a class="ttip" title="${_('Remove this tag.')}" href="/untag?tagging=${tagging.id}&${h.url_token()}"><img src="/img/icons/tag_del.png" alt="-" /></a> 
-						<% has = True %>
-					%endif
-				%endfor
-				%if not has:
-					<a class="ttip" title="${_('Support this tag for this proposal.')}" href="/tag?_method=POST&delegateable=${delegateable.id}&tags=${tag.name|u}"><img src="/img/icons/tag_add.png" alt="+" /></a>
-				%endif
-			%endif
-			%if can.instance.edit(c.instance):
-			    <a href="/untag_all?tag=${tag.id}&delegateable=${delegateable.id}&${h.url_token()}">${_("delete")}</a> 
-			%endif
-			</li>
-			<% tagn = tagn + 1 %>
-		%endfor
-		%if len(delegateable.tags) > 5 or can.tag.create():
-		<li class="showjs">	
-			%if len(delegateable.tags) > 5:
-				<span class="moreTagsLink">
-				<a href="#" onclick="return moreTags();">${_("show more")}</a> 
-				&middot;
-				</span>
-			%endif
-			%if can.tag.create():
-				<a href="#" onclick="return addTags();">${_("add tags...")}</a>
-			%endif
-		</li>
-		%endif
-		</ul>
-	
-		%if can.tag.create():
-		<div class="addtags hidejs">
-			<form action="/tag" method="POST">
-				${h.field_token()|n}
-				<input name="delegateable" type="hidden" value="${delegateable.id}" />
-				<input name="tags" type="tags" id="tags" autocomplete="off" />
-				<span class="hint">${_("Multiple tags can be separated by commas or spaces.")}
-					${h.help_link(_("Help."), 'tag_faq')|n}</span>
-				<input type="submit" value="${_("Add tags")}" />
-				</form>
-		</div>
-		%endif
-	
-		<br/>
-	</div>
+    <h3 class="section"><img src="/img/icons/tag_16.png" class="cd" /> ${_("Tags")}</h3>
+    <div class="tagarea">
+        <ul>
+        <% tagn = 0 %>
+        %for (tag, count) in delegateable.tags:
+            <li class="${'hidejs moreTags' if tagn >= 5 else ''}">${h.tag.link(tag, count)|n}
+            %if c.user:
+                <% has = False %>
+                %for tagging in delegateable.taggings:
+                    %if not has and tagging.tag == tag and tagging.creator == c.user and can.tag.delete(tagging):
+                        <a class="ttip" title="${_('Remove this tag.')}" href="/untag?tagging=${tagging.id}&${h.url_token()}"><img src="/img/icons/tag_del.png" alt="-" /></a> 
+                        <% has = True %>
+                    %endif
+                %endfor
+                %if not has:
+                    <a class="ttip" title="${_('Support this tag for this proposal.')}" href="/tag?_method=POST&delegateable=${delegateable.id}&tags=${tag.name|u}"><img src="/img/icons/tag_add.png" alt="+" /></a>
+                %endif
+            %endif
+            %if can.instance.edit(c.instance):
+                <a href="/untag_all?tag=${tag.id}&delegateable=${delegateable.id}&${h.url_token()}">${_("delete")}</a> 
+            %endif
+            </li>
+            <% tagn = tagn + 1 %>
+        %endfor
+        %if len(delegateable.tags) > 5 or can.tag.create():
+        <li class="showjs"> 
+            %if len(delegateable.tags) > 5:
+                <span class="moreTagsLink">
+                <a href="#" onclick="return moreTags();">${_("show more")}</a> 
+                &middot;
+                </span>
+            %endif
+            %if can.tag.create():
+                <a href="#" onclick="return addTags();">${_("add tags...")}</a>
+            %endif
+        </li>
+        %endif
+        </ul>
+    
+        %if can.tag.create():
+        <div class="addtags hidejs">
+            <form action="/tag" method="POST">
+                ${h.field_token()|n}
+                <input name="delegateable" type="hidden" value="${delegateable.id}" />
+                <input name="tags" type="tags" id="tags" autocomplete="off" />
+                <span class="hint">${_("Multiple tags can be separated by commas or spaces.")}
+                    ${h.help_link(_("Help."), 'tag_faq')|n}</span>
+                <input type="submit" value="${_("Add tags")}" />
+                </form>
+        </div>
+        %endif
+    
+        <br/>
+    </div>
 </%def>

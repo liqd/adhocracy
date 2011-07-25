@@ -1,76 +1,76 @@
 
 <%def name="row(tile, selection)">
-	<div class="tile selection" id="selection_${selection.id}">
-		<h3 class="section">
-			##<!--a href="${h.entity_url(selection)}"-->
-			<img class="cd" src="/img/icons/page_variant_16.png">
-			${selection.page.title}
-			##<!--/a-->
-			##%if tile.selected and tile.selected != 'HEAD':
-			##	- <code>${tile.selected}</code>
-			##%endif
-			##<!--
-			##%if not selection.page.head.has_text:
-			##	${_("(initiative)")}
-			##%else:
-			##	${_("(change)")}
-			##%endif
-			##-->
-			<a name="selection_${selection.id}"></a>
-		</h3>
-		<br/>
-		<div class="panel">
-			<div class="menu">
-				<ul>
-					<li><a class="expand_tab" title="text_${selection.id}@selection_${selection.id}">
-						${_("Selected variant")}
-					</a></li>
-					<li><a class="expand_tab" title="variants_${selection.id}@selection_${selection.id}">
-						${_("Variant selection (%s)") % max(0, len(selection.page.variants)-1)}
-					</a></li>
-				</ul>
-			</div>
-		</div>
-		
-		<div class="expand_area language selected" id="text_${selection.id}">
-			%if tile.selected is None:
-				<div class="infobox">
-					${_("There is a tie between variants, thus none is included at the moment.")}
-				</div>
-			
-			%else:
-			    %if tile.selected_text.is_head:
-			        <div class="infobox">
-        				${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
-        			</div>
-			    %else:
-				    <div class="variant_header">
-					    ${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), tile.selected_text.variant_html))|n}
-					    %if can.variant.edit(selection.page, tile.selected):
-        					&middot; <a href="${h.entity_url(tile.selected_text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
-        				%endif
-					</div>
-				%endif
-				<br/>
-				${diff.norm_texts_history_compare(tile.selected_text, selection.page.head)|n}
-			%endif 
-		</div>
-		
-		
-		<div class="expand_area area_hidden" id="variants_${selection.id}">
-			${self.variants(tile, selection)}
-			<div class="top_actions aside">
-    			%if tile.show_new_variant_link:
-    				<a class="button add" href="${h.entity_url(selection.page, member='branch')}?proposal=${selection.proposal.id}">${_("new variant")}</a> 
-    			%endif
-    			%if can.selection.delete(selection):
-    				<a class="button delete" href="${h.entity_url(selection, member='ask_delete')}">${_("remove from proposal")}</a> 
-    			%endif
-    		</div>
-    		<br/><br/>
-		</div>
-		
-		
+    <div class="tile selection" id="selection_${selection.id}">
+        <h3 class="section">
+            ##<!--a href="${h.entity_url(selection)}"-->
+            <img class="cd" src="/img/icons/page_variant_16.png">
+            ${selection.page.title}
+            ##<!--/a-->
+            ##%if tile.selected and tile.selected != 'HEAD':
+            ##  - <code>${tile.selected}</code>
+            ##%endif
+            ##<!--
+            ##%if not selection.page.head.has_text:
+            ##  ${_("(initiative)")}
+            ##%else:
+            ##  ${_("(change)")}
+            ##%endif
+            ##-->
+            <a name="selection_${selection.id}"></a>
+        </h3>
+        <br/>
+        <div class="panel">
+            <div class="menu">
+                <ul>
+                    <li><a class="expand_tab" title="text_${selection.id}@selection_${selection.id}">
+                        ${_("Selected variant")}
+                    </a></li>
+                    <li><a class="expand_tab" title="variants_${selection.id}@selection_${selection.id}">
+                        ${_("Variant selection (%s)") % max(0, len(selection.page.variants)-1)}
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="expand_area language selected" id="text_${selection.id}">
+            %if tile.selected is None:
+                <div class="infobox">
+                    ${_("There is a tie between variants, thus none is included at the moment.")}
+                </div>
+            
+            %else:
+                %if tile.selected_text.is_head:
+                    <div class="infobox">
+                        ${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
+                    </div>
+                %else:
+                    <div class="variant_header">
+                        ${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), tile.selected_text.variant_html))|n}
+                        %if can.variant.edit(selection.page, tile.selected):
+                            &middot; <a href="${h.entity_url(tile.selected_text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
+                        %endif
+                    </div>
+                %endif
+                <br/>
+                ${diff.norm_texts_history_compare(tile.selected_text, selection.page.head)|n}
+            %endif 
+        </div>
+        
+        
+        <div class="expand_area area_hidden" id="variants_${selection.id}">
+            ${self.variants(tile, selection)}
+            <div class="top_actions aside">
+                %if tile.show_new_variant_link:
+                    <a class="button add" href="${h.entity_url(selection.page, member='branch')}?proposal=${selection.proposal.id}">${_("new variant")}</a> 
+                %endif
+                %if can.selection.delete(selection):
+                    <a class="button delete" href="${h.entity_url(selection, member='ask_delete')}">${_("remove from proposal")}</a> 
+                %endif
+            </div>
+            <br/><br/>
+        </div>
+        
+        
         <div class="discuss">
             %if tile.selected:
             <a class="discuss_button">${_("discuss %s (%s comments) &raquo") % (tile.selected_text.variant_html, len(selection.page.variant_comments(tile.selected_text.variant)))|n}</a>
@@ -79,86 +79,86 @@
             </div>
             %endif
         </div>
-	</div>
-	<br/>
+    </div>
+    <br/>
 </%def>
 
 
 
 <%def name="variants(tile, selection)">
-	<ol class="variants" id="vs_${selection.id}">
-	%for row in tile.variant_rows():
-		<%
-		if not row.show:
-			break
-		%>
-		<li id="poll_c${row.poll.id}" 
-				class="${h.poll_position_css(row.poll)} ${'selected' if row.selected else ''}
-				       ${'head' if row.text.is_head else ''}">
-			<div class="logo rate">
-				%if can.poll.vote(row.poll):
-					<a class="up icon otip" title="${_("Support this variant")}" 
-						 href="${h.entity_url(row.poll, member='rate')}?position=1&${h.url_token()}" 
-						 onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, 1);">
-						&nbsp;
-					</a>
-					<a href="${h.entity_url(row.poll, member='votes')}" 
-						class="score">${row.poll.tally.score}</a>
-					<a class="down icon ttip" title="${_("Oppose this variant")}" 
-						 href="${h.entity_url(row.poll, member='rate')}?position=-1&${h.url_token()}" 
-						 onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, -1);">
-						&nbsp;
-					</a>
-				%else:
-					<a class="up icon inactive">&nbsp;</a>
-					<a href="${h.entity_url(row.poll, member='votes')}" 
-						class="score">${row.poll.tally.score}</a>
-					<a class="down icon inactive">&nbsp;</a>
-				%endif
-			</div>
-			<div class="variant_header expand_tab" title="text_${row.text.id}@vs_${selection.id}">
-				<div class="variant_innerheader">				
-				<b>${row.text.variant_html|n}</b>
-				%if row.text.is_head:
-					${_("(this proposal should not change this norm)")}
-				%elif row.selected and not row.text.is_head and not tile.frozen:
-					&middot; ${_("Currently selected for inclusion in this proposal")}
-				%endif
-				<br/>
-				${ungettext("%s comment", "%s comments", row.num_comments) % row.num_comments}
-				&middot; <a href="${h.entity_url(row.text)}">${_("view")}</a>
-				%if row.can_edit:
-					&middot; <a href="${h.entity_url(row.text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
-				%endif
-				%if can.variant.delete(selection.page, row.text.variant):
-					&middot; <a href="${h.entity_url(row.text, member='ask_purge')}">${_("purge variant")}</a>
-				%endif
-				%if tile.selected_text and row.text.id != tile.selected_text.id:
-					&middot; <a href="/page/diff?left=${row.text.id}&right=${tile.selected_text.id}">${_("compare")}</a>
-				%endif
-			</div></div>
-			<div id="text_${row.text.id}"
-				class="tile expand_area ${'area_hidden' if not row.selected else ''}">
-			
-				%if row.text.has_text:
-					%if tile.selected_text:
-						%if row.selected:
-						    ${diff.norm_texts_history_compare(row.text, selection.page.head)|n}
-						%else:
-						    ${diff.norm_texts_history_compare(row.text, tile.selected_text)|n}
-						%endif
-					%else:
-						${row.text.render()|n}
-					%endif
-				%else:
-					<div class="infobox">
-						${_("This variant has no text.")}
-					</div>
-				%endif
-			</div>
-		</li>
-	%endfor
-	</ol>
+    <ol class="variants" id="vs_${selection.id}">
+    %for row in tile.variant_rows():
+        <%
+        if not row.show:
+            break
+        %>
+        <li id="poll_c${row.poll.id}" 
+                class="${h.poll_position_css(row.poll)} ${'selected' if row.selected else ''}
+                       ${'head' if row.text.is_head else ''}">
+            <div class="logo rate">
+                %if can.poll.vote(row.poll):
+                    <a class="up icon otip" title="${_("Support this variant")}" 
+                         href="${h.entity_url(row.poll, member='rate')}?position=1&${h.url_token()}" 
+                         onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, 1);">
+                        &nbsp;
+                    </a>
+                    <a href="${h.entity_url(row.poll, member='votes')}" 
+                        class="score">${row.poll.tally.score}</a>
+                    <a class="down icon ttip" title="${_("Oppose this variant")}" 
+                         href="${h.entity_url(row.poll, member='rate')}?position=-1&${h.url_token()}" 
+                         onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, -1);">
+                        &nbsp;
+                    </a>
+                %else:
+                    <a class="up icon inactive">&nbsp;</a>
+                    <a href="${h.entity_url(row.poll, member='votes')}" 
+                        class="score">${row.poll.tally.score}</a>
+                    <a class="down icon inactive">&nbsp;</a>
+                %endif
+            </div>
+            <div class="variant_header expand_tab" title="text_${row.text.id}@vs_${selection.id}">
+                <div class="variant_innerheader">               
+                <b>${row.text.variant_html|n}</b>
+                %if row.text.is_head:
+                    ${_("(this proposal should not change this norm)")}
+                %elif row.selected and not row.text.is_head and not tile.frozen:
+                    &middot; ${_("Currently selected for inclusion in this proposal")}
+                %endif
+                <br/>
+                ${ungettext("%s comment", "%s comments", row.num_comments) % row.num_comments}
+                &middot; <a href="${h.entity_url(row.text)}">${_("view")}</a>
+                %if row.can_edit:
+                    &middot; <a href="${h.entity_url(row.text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
+                %endif
+                %if can.variant.delete(selection.page, row.text.variant):
+                    &middot; <a href="${h.entity_url(row.text, member='ask_purge')}">${_("purge variant")}</a>
+                %endif
+                %if tile.selected_text and row.text.id != tile.selected_text.id:
+                    &middot; <a href="/page/diff?left=${row.text.id}&right=${tile.selected_text.id}">${_("compare")}</a>
+                %endif
+            </div></div>
+            <div id="text_${row.text.id}"
+                class="tile expand_area ${'area_hidden' if not row.selected else ''}">
+            
+                %if row.text.has_text:
+                    %if tile.selected_text:
+                        %if row.selected:
+                            ${diff.norm_texts_history_compare(row.text, selection.page.head)|n}
+                        %else:
+                            ${diff.norm_texts_history_compare(row.text, tile.selected_text)|n}
+                        %endif
+                    %else:
+                        ${row.text.render()|n}
+                    %endif
+                %else:
+                    <div class="infobox">
+                        ${_("This variant has no text.")}
+                    </div>
+                %endif
+            </div>
+        </li>
+    %endfor
+    </ol>
 </%def>
 
 

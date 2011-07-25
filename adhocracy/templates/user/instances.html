@@ -4,17 +4,17 @@
 <%def name="title()">${_("Adhocracies: %s") % c.page_user.name}</%def>
 
 <%def name="breadcrumbs()">
-	${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Adhocracies")}
+    ${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Adhocracies")}
 </%def>
 
 ${tiles.user.header(c.page_user, active='instances')}
 
 <div class="sidebar">
-	<div class="infobox">${_("%s is a member in these Adhocracies") % c.page_user.name}</div>
+    <div class="infobox">${_("%s is a member in these Adhocracies") % c.page_user.name}</div>
 </div>
 
 <div class="mainbar">
-	<div class="table">
-		${c.instances_pager.here()}
-	</div>
+    <div class="table">
+        ${c.instances_pager.here()}
+    </div>
 </div>

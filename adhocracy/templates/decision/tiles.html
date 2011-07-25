@@ -1,66 +1,66 @@
 
 <%def name="row(tile, decision, focus_scope=False, focus_user=False)">
-	<div class="tile decision">
-		<div class="logo">
-			%if decision.result == 1:
-				<img src="/img/icons/vote_for.png" />
-			%elif decision.result == -1:
-				<img src="/img/icons/vote_against.png" />
-			%else:
-				<img src="/img/icons/vote_abstain.png" />
-			%endif
-		</div>
-		<div class="base">
-		<h3>
-			%if decision.result == 1:
-				<span class="affirm">${_("for")}</span>:
-			%elif decision.result == -1:
-				<span class="dissent">${_("against")}</span>:
-			%elif decision.result == 0:
-				<span class="abstain">${_("abstained")}</span>:
-			%else:
-				<span class="undecided">${_("undecided")}</span>:
-			%endif
-			&nbsp;
-			%if focus_user:
-				${h.user.link(decision.user)|n}
-			%endif		
-			%if focus_scope:
-			    ${tile.topic|n}
-			%endif
-		</h3>
-		
-		<div class="text">
-		    %if decision.poll.scope.instance.allow_delegate:
-        		%if not decision.is_decided():
-        			${_("The user's delegates have voted, but no consensus was" + 
-        				"reached among them. The decision is deferred.")}
-        		%else:
-        			%if decision.is_self_decided() and c.instance and c.instance.allow_delegate:
-        				${_("The decision was made without delegations.")}
-        			%else:
-        				${_("The decision was determined as a result of the following delegations:")}
-        			%endif
-        		%endif
-        		%if not decision.is_self_decided():
-        			<ul>
-        			%for delegation in decision.delegations:
-        				<li>
-        				${h.user.link(delegation.agent)|n}
-        				&middot; ${_("on")} <a href="/d/${delegation.scope.id}">${delegation.scope.label}</a>
-        				&middot; <a href="/delegation/${delegation.id}">${_("review")}</a>
-        				</li>
-        			%endfor
-        			</ul>
-        		%endif
-			%endif
-		</div>
-		<div class="meta">
-			${h.relative_time(decision.create_time)|n}
-			%if not focus_scope:
-				&middot; ${tile.topic|n}
-			%endif
-		</div>
-		</div>
-	</div>
+    <div class="tile decision">
+        <div class="logo">
+            %if decision.result == 1:
+                <img src="/img/icons/vote_for.png" />
+            %elif decision.result == -1:
+                <img src="/img/icons/vote_against.png" />
+            %else:
+                <img src="/img/icons/vote_abstain.png" />
+            %endif
+        </div>
+        <div class="base">
+        <h3>
+            %if decision.result == 1:
+                <span class="affirm">${_("for")}</span>:
+            %elif decision.result == -1:
+                <span class="dissent">${_("against")}</span>:
+            %elif decision.result == 0:
+                <span class="abstain">${_("abstained")}</span>:
+            %else:
+                <span class="undecided">${_("undecided")}</span>:
+            %endif
+            &nbsp;
+            %if focus_user:
+                ${h.user.link(decision.user)|n}
+            %endif      
+            %if focus_scope:
+                ${tile.topic|n}
+            %endif
+        </h3>
+        
+        <div class="text">
+            %if decision.poll.scope.instance.allow_delegate:
+                %if not decision.is_decided():
+                    ${_("The user's delegates have voted, but no consensus was" + 
+                        "reached among them. The decision is deferred.")}
+                %else:
+                    %if decision.is_self_decided() and c.instance and c.instance.allow_delegate:
+                        ${_("The decision was made without delegations.")}
+                    %else:
+                        ${_("The decision was determined as a result of the following delegations:")}
+                    %endif
+                %endif
+                %if not decision.is_self_decided():
+                    <ul>
+                    %for delegation in decision.delegations:
+                        <li>
+                        ${h.user.link(delegation.agent)|n}
+                        &middot; ${_("on")} <a href="/d/${delegation.scope.id}">${delegation.scope.label}</a>
+                        &middot; <a href="/delegation/${delegation.id}">${_("review")}</a>
+                        </li>
+                    %endfor
+                    </ul>
+                %endif
+            %endif
+        </div>
+        <div class="meta">
+            ${h.relative_time(decision.create_time)|n}
+            %if not focus_scope:
+                &middot; ${tile.topic|n}
+            %endif
+        </div>
+        </div>
+    </div>
 </%def>

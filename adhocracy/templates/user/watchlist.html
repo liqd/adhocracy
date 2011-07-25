@@ -4,29 +4,29 @@
 <%def name="title()">${_("Watchlist: %s") % c.page_user.name}</%def>
 
 <%def name="breadcrumbs()">
-	${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Watchlist")}
+    ${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Watchlist")}
 </%def>
 
 ${tiles.user.header(c.page_user, active='watchlist')}
 
 <div class="sidebar">
-	%if c.user and c.page_user == c.user:
-		<div class="infobox">${_("This is your watchlist. You will receive notifications for events concerning each of these items.")}</div>
-	%else:
-		&nbsp;
-	%endif
-	<div class="help">
-		<h3>${_("Help")}</h3>
-		<ul>
-			<li>${h.help_link(_("What can I watch?"), 'notification_faq', anchor='whatis')|n}</li>
-			<li>${h.help_link(_("How can I create a watch?"), 'notification_faq', anchor='howto')|n}</li>
-			<li>${h.help_link(_("More help..."), 'notification_faq')|n}</li>
-		</ul>
-	</div>
+    %if c.user and c.page_user == c.user:
+        <div class="infobox">${_("This is your watchlist. You will receive notifications for events concerning each of these items.")}</div>
+    %else:
+        &nbsp;
+    %endif
+    <div class="help">
+        <h3>${_("Help")}</h3>
+        <ul>
+            <li>${h.help_link(_("What can I watch?"), 'notification_faq', anchor='whatis')|n}</li>
+            <li>${h.help_link(_("How can I create a watch?"), 'notification_faq', anchor='howto')|n}</li>
+            <li>${h.help_link(_("More help..."), 'notification_faq')|n}</li>
+        </ul>
+    </div>
 </div>
 
 <div class="mainbar">
-	<div class="table">
-		${c.entities_pager.here()}
-	</div>
+    <div class="table">
+        ${c.entities_pager.here()}
+    </div>
 </div>

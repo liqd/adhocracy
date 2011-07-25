@@ -2,274 +2,274 @@
 
 
 <%def name="row(tile, comment)">
-	<div class="tile">
-		<div class="logo">
-			<img src="/img/icons/discuss_24.png" />
-		</div>
-		<div class="base">
-			<h3><a href="${h.entity_url(comment)}">${_("Comment")}</a> 
-				${_("on %s") % h.delegateable.link(comment.topic)|n}</h3>
-			<div class="meta">
-				${h.user.link(comment.creator, scope=comment.topic)|n}
-				%if len(comment.revisions) == 1:  
-					&middot; ${_("created %s") % h.relative_time(comment.create_time)|n}
-				%else:
-					&middot; ${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
-				%endif  	
-			</div>
-		</div>
-	</div>
+    <div class="tile">
+        <div class="logo">
+            <img src="/img/icons/discuss_24.png" />
+        </div>
+        <div class="base">
+            <h3><a href="${h.entity_url(comment)}">${_("Comment")}</a> 
+                ${_("on %s") % h.delegateable.link(comment.topic)|n}</h3>
+            <div class="meta">
+                ${h.user.link(comment.creator, scope=comment.topic)|n}
+                %if len(comment.revisions) == 1:  
+                    &middot; ${_("created %s") % h.relative_time(comment.create_time)|n}
+                %else:
+                    &middot; ${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
+                %endif      
+            </div>
+        </div>
+    </div>
 </%def>
 
 
 <%def name="list(tile, comments, topic, variant=None, root=None, recurse=True, ret_url='')">
-	<%
-	_comments = h.comments_sorted(comments, root=root, variant=variant)
-	%>
+    <%
+    _comments = h.comments_sorted(comments, root=root, variant=variant)
+    %>
 
-	%if root is None:
-		%if can.comment.create_on(topic):
-			<div class="comment">
-				${create_form(None, topic, variant=variant, ret_url=ret_url)}
-			</div>
-		%endif
-		%if not len(_comments):
-			<div class="infobox">
-				${_("No comments were made yet.")}
-			</div>
-		%endif
-	%endif
-	
-	%for comment, tile in _comments:
-		${full(tile, comment, comments, recurse, ret_url=ret_url)}
-	%endfor
+    %if root is None:
+        %if can.comment.create_on(topic):
+            <div class="comment">
+                ${create_form(None, topic, variant=variant, ret_url=ret_url)}
+            </div>
+        %endif
+        %if not len(_comments):
+            <div class="infobox">
+                ${_("No comments were made yet.")}
+            </div>
+        %endif
+    %endif
+    
+    %for comment, tile in _comments:
+        ${full(tile, comment, comments, recurse, ret_url=ret_url)}
+    %endfor
 </%def>
 
 <%def name="full(tile, comment, comments, recurse, ret_url='')">
-	<%	
-	if not tile.show:
-		return
-	%>
-	<div class="comment_tiny ${'show' if tile.is_low else ''}" id="tc${comment.id}">
-		<div class="rate">
-			&nbsp;&nbsp;
-		</div>
-		<div class="link">
-			
-			<a href="javascript:toggle_comment(${comment.id});" onClick="return toggle_comment(${comment.id})">${comment.latest.title}</a>
-			${_("by %(user)s, %(score)s points.") % dict(user=h.user.link(comment.creator, scope=comment.topic),
-					  																		   score=tile.score)|n}
-		</div>
-	</div>
-	<div class="comment ${'hidden' if tile.is_low else ''}" id="c${comment.id}">
-		<div class="tile 
-				        ${'pro' if comment.latest.sentiment == model.Comment.SENT_PRO else ''} 
-   				      ${'con' if comment.latest.sentiment == model.Comment.SENT_CON else ''} 
-				        ${h.poll_position_css(comment.poll)}" id="tile_c${comment.id}">
-			<div class="logo rate">
-				%if can.comment.rate(comment):
-					<a class="up icon otip" title="${_("Support this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=1&${h.url_token()}" 
-						onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, 1);">
-						&nbsp;
-					</a>
-					<a href="${h.entity_url(comment.poll, member='votes')}" 
-						class="score">${tile.score}</a>
-					<a class="down icon ttip" title="${_("Oppose this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=-1&${h.url_token()}" 
-						onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, -1);">
-						&nbsp;
-					</a>
-				%else:
-					<a class="up icon inactive">&nbsp;</a>
-					<a href="${h.entity_url(comment.poll, member='votes')}" 
-						class="score">${tile.score}</a>
-					<a class="down icon inactive">&nbsp;</a>
-				%endif
-			</div>
-			
-			<div class="base">
-			<div class="sentiment">
-			%if not comment.is_deleted():
-			    <b>${h.user.link(comment.creator, scope=comment.topic)|n}</b>
-			%endif
-			<div class="top_actions comment">				
-    			%if can.comment.edit(comment):
-    				<a class="button edit" onClick="return comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
-    			%endif
+    <%  
+    if not tile.show:
+        return
+    %>
+    <div class="comment_tiny ${'show' if tile.is_low else ''}" id="tc${comment.id}">
+        <div class="rate">
+            &nbsp;&nbsp;
+        </div>
+        <div class="link">
+            
+            <a href="javascript:toggle_comment(${comment.id});" onClick="return toggle_comment(${comment.id})">${comment.latest.title}</a>
+            ${_("by %(user)s, %(score)s points.") % dict(user=h.user.link(comment.creator, scope=comment.topic),
+                                                                                               score=tile.score)|n}
+        </div>
+    </div>
+    <div class="comment ${'hidden' if tile.is_low else ''}" id="c${comment.id}">
+        <div class="tile 
+                        ${'pro' if comment.latest.sentiment == model.Comment.SENT_PRO else ''} 
+                      ${'con' if comment.latest.sentiment == model.Comment.SENT_CON else ''} 
+                        ${h.poll_position_css(comment.poll)}" id="tile_c${comment.id}">
+            <div class="logo rate">
+                %if can.comment.rate(comment):
+                    <a class="up icon otip" title="${_("Support this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=1&${h.url_token()}" 
+                        onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, 1);">
+                        &nbsp;
+                    </a>
+                    <a href="${h.entity_url(comment.poll, member='votes')}" 
+                        class="score">${tile.score}</a>
+                    <a class="down icon ttip" title="${_("Oppose this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=-1&${h.url_token()}" 
+                        onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, -1);">
+                        &nbsp;
+                    </a>
+                %else:
+                    <a class="up icon inactive">&nbsp;</a>
+                    <a href="${h.entity_url(comment.poll, member='votes')}" 
+                        class="score">${tile.score}</a>
+                    <a class="down icon inactive">&nbsp;</a>
+                %endif
+            </div>
+            
+            <div class="base">
+            <div class="sentiment">
+            %if not comment.is_deleted():
+                <b>${h.user.link(comment.creator, scope=comment.topic)|n}</b>
+            %endif
+            <div class="top_actions comment">               
+                %if can.comment.edit(comment):
+                    <a class="button edit" onClick="return comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
+                %endif
 
-    			%if can.comment.delete(comment):
-    				<a class="button delete" href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a> 
-    			%endif
+                %if can.comment.delete(comment):
+                    <a class="button delete" href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a> 
+                %endif
 
-    			%if can.comment.reply(comment) and recurse:
-    				<a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1&ret_url=${ret_url}">${_("reply")}</a>
-    			%endif 
+                %if can.comment.reply(comment) and recurse:
+                    <a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1&ret_url=${ret_url}">${_("reply")}</a>
+                %endif 
 
-    			<a class="button delete showjs" onClick="return toggle_comment(${comment.id})">${_("hide")}</a>
-    		</div>
-				
-			<div class="title">
-    		    %if comment.is_deleted():
-    		        ${_("(deleted)")}
-    		    %else:
-    		        %if comment.latest.has_title:
-    			        ${comment.latest.title}
-    		        %else:
-    			        &nbsp;
-    		        %endif
-    		    %endif
-    		</div>
-    		
-    		<div class="text hide_edit">
-    			%if not comment.is_deleted():
-    				${tile.text|n}
-    			%else:
-    				<span class="hint">${_("This comment has been deleted.")}</span>
-    			%endif
-    		</div>
+                <a class="button delete showjs" onClick="return toggle_comment(${comment.id})">${_("hide")}</a>
+            </div>
+                
+            <div class="title">
+                %if comment.is_deleted():
+                    ${_("(deleted)")}
+                %else:
+                    %if comment.latest.has_title:
+                        ${comment.latest.title}
+                    %else:
+                        &nbsp;
+                    %endif
+                %endif
+            </div>
+            
+            <div class="text hide_edit">
+                %if not comment.is_deleted():
+                    ${tile.text|n}
+                %else:
+                    <span class="hint">${_("This comment has been deleted.")}</span>
+                %endif
+            </div>
 
-    		<div class="pre">
-    			%if comment.is_deleted():
-    				${_("deleted %s") % h.relative_time(comment.delete_time)|n}
-    			%else:
-    				%if not comment.is_edited(): 
-    					${h.relative_time(comment.create_time)|n}
-    				%else:
-    					%if comment.latest.user == comment.creator:
-    						${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
-    					%else:
-    					 	${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
-    							               			   h.user.link(comment.latest.user, scope=comment.topic))|n}
-    					%endif 	
-    				%endif
-    				%if comment.wiki:
-    					&middot; ${_("editable") if comment.wiki else ''}
-    				%endif
-    				%if len(comment.revisions) > 1:
-    					&middot;
-    					<a href="${h.entity_url(comment, member='history')}">${_("history")}</a>
-    				%endif
-    				&middot;
-    				<a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
-    				&middot;
-    				<a href="${h.entity_url(comment, comment_page=True)}">${_("link")}</a>
-    			%endif
-    			<a name="c${comment.id}">&nbsp;</a>
-    		</div>
-    		</div>
+            <div class="pre">
+                %if comment.is_deleted():
+                    ${_("deleted %s") % h.relative_time(comment.delete_time)|n}
+                %else:
+                    %if not comment.is_edited(): 
+                        ${h.relative_time(comment.create_time)|n}
+                    %else:
+                        %if comment.latest.user == comment.creator:
+                            ${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
+                        %else:
+                            ${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
+                                                           h.user.link(comment.latest.user, scope=comment.topic))|n}
+                        %endif  
+                    %endif
+                    %if comment.wiki:
+                        &middot; ${_("editable") if comment.wiki else ''}
+                    %endif
+                    %if len(comment.revisions) > 1:
+                        &middot;
+                        <a href="${h.entity_url(comment, member='history')}">${_("history")}</a>
+                    %endif
+                    &middot;
+                    <a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
+                    &middot;
+                    <a href="${h.entity_url(comment, comment_page=True)}">${_("link")}</a>
+                %endif
+                <a name="c${comment.id}">&nbsp;</a>
+            </div>
+            </div>
 
-			<div class="edit_form">
-				${self.edit_form(comment, ret_url=ret_url)}
-			</div>
-			<div class="reply_form sub ${'base_reply' if reply_here else ''}">
-				${self.create_form(comment, comment.topic, variant=comment.variant, ret_url=ret_url)}
-			</div>
-			</div>
-		</div>
-		%if recurse:
-			<div class="sub">
-				${list(None, comments, comment.topic, variant=comment.variant, root=comment, recurse=recurse)}
-			</div>
-		%endif
-	</div>
+            <div class="edit_form">
+                ${self.edit_form(comment, ret_url=ret_url)}
+            </div>
+            <div class="reply_form sub ${'base_reply' if reply_here else ''}">
+                ${self.create_form(comment, comment.topic, variant=comment.variant, ret_url=ret_url)}
+            </div>
+            </div>
+        </div>
+        %if recurse:
+            <div class="sub">
+                ${list(None, comments, comment.topic, variant=comment.variant, root=comment, recurse=recurse)}
+            </div>
+        %endif
+    </div>
 </%def>
 
 <%def name="edit_form(comment, ret_url='')">
-	<form name="edit_comment" class="inplace comment_form" method="POST" action="/comment/${comment.id}">
-		${h.field_token()|n}
-		<input type="hidden" name="_method" value="PUT" />
-		<input type="hidden" name="ret_url" value="${ret_url}" />
-		
-		<label for="title" class="inline">${_("Title:")}</label>
-		<input class="textinput" name="title" value="${comment.latest.title}" />
-		
-		%if comment.is_root:
-			${_("argumenting:")}
-			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == 1 else ''} /> 
-			<span class="option_pro">${_("pro")}</span>
-			<input type="radio" value="0" name="sentiment" ${'checked="checked"' if comment.latest.sentiment not in [-1, 1] else ''}  /> 
-			<span class="option_neutral">${_("neutral")}</span>
-			<input type="radio" value="-1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == -1 else ''} /> 
-			<span class="option_con">${_("con")}</span>
-			<br/>
-		%endif
-		
-		<textarea class="description" rows="${lib.text.revision_rows(comment.latest)}" 	
-							name="text">${comment.latest.text}</textarea>
-		${components.formatting()}
-		${components.savebox(h.entity_url(comment.topic))}
-		${components.form_watch(comment)}
-	</form>
+    <form name="edit_comment" class="inplace comment_form" method="POST" action="/comment/${comment.id}">
+        ${h.field_token()|n}
+        <input type="hidden" name="_method" value="PUT" />
+        <input type="hidden" name="ret_url" value="${ret_url}" />
+        
+        <label for="title" class="inline">${_("Title:")}</label>
+        <input class="textinput" name="title" value="${comment.latest.title}" />
+        
+        %if comment.is_root:
+            ${_("argumenting:")}
+            <input type="radio" value="1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == 1 else ''} /> 
+            <span class="option_pro">${_("pro")}</span>
+            <input type="radio" value="0" name="sentiment" ${'checked="checked"' if comment.latest.sentiment not in [-1, 1] else ''}  /> 
+            <span class="option_neutral">${_("neutral")}</span>
+            <input type="radio" value="-1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == -1 else ''} /> 
+            <span class="option_con">${_("con")}</span>
+            <br/>
+        %endif
+        
+        <textarea class="description" rows="${lib.text.revision_rows(comment.latest)}"  
+                            name="text">${comment.latest.text}</textarea>
+        ${components.formatting()}
+        ${components.savebox(h.entity_url(comment.topic))}
+        ${components.form_watch(comment)}
+    </form>
 </%def>
 
 <%def name="create_form(parent, topic, wiki=True, arm=False, can_wiki=True, variant=None, ret_url='')">
-	<form name="create_comment" class="inplace comment_form" method="POST" action="/comment">
-		${h.field_token()|n}
-		<input type="hidden" name="topic" value="${topic.id}" />
-		<input type="hidden" name="ret_url" value="${ret_url}" />
-		%if variant:
-			<input type="hidden" name="variant" value="${variant}" />
-		%endif
-		%if parent:
-			<input type="hidden" name="reply" value="${parent.id}" />
-		%endif
-		<div style="width: auto;">
-		
-		<label for="title" class="inline">${_("Title:")}</label>
-		<input class="textinput" name="title" value="${h.propose_comment_title(parent=parent, topic=topic, variant=variant)}" />
-		
-		%if not parent:
-			<label for="sentiment" class="inline">${_("Argumenting:")}</label>
-			<% pos = topic.user_position(c.user) %>
-			<input type="radio" value="1" name="sentiment" ${'checked="checked"' if pos == 1 else ''} /> 
-				<span class="option_pro">${_("pro")}</span>
-			<input type="radio" value="0" name="sentiment" ${'checked="checked"' if pos not in [-1, 1] else ''}  /> 
-				<span class="option_neutral">${_("neutral")}</span>
-			<input type="radio" value="-1" name="sentiment" ${'checked="checked"' if pos == -1 else ''} /> 
-				<span class="option_con">${_("con")}</span>
-			<br/>
-		%endif
-		%if arm:
-			<label for="text" class="armhint">${arm}</label>
-		%endif
-		<textarea class="description armlabel" name="text"></textarea><br/>
-		${components.formatting()}
-		${components.savebox("/d/%s" % parent.topic.id if parent else request.params.get('topic'))}
-		%if can_wiki:
-			<input type="checkbox" ${'checked="checked"' if wiki == 1 else ''} name="wiki" value="1" />
-			${_("Allow others to edit this comment.")}
-		%endif
-		</div>
-	</form>
+    <form name="create_comment" class="inplace comment_form" method="POST" action="/comment">
+        ${h.field_token()|n}
+        <input type="hidden" name="topic" value="${topic.id}" />
+        <input type="hidden" name="ret_url" value="${ret_url}" />
+        %if variant:
+            <input type="hidden" name="variant" value="${variant}" />
+        %endif
+        %if parent:
+            <input type="hidden" name="reply" value="${parent.id}" />
+        %endif
+        <div style="width: auto;">
+        
+        <label for="title" class="inline">${_("Title:")}</label>
+        <input class="textinput" name="title" value="${h.propose_comment_title(parent=parent, topic=topic, variant=variant)}" />
+        
+        %if not parent:
+            <label for="sentiment" class="inline">${_("Argumenting:")}</label>
+            <% pos = topic.user_position(c.user) %>
+            <input type="radio" value="1" name="sentiment" ${'checked="checked"' if pos == 1 else ''} /> 
+                <span class="option_pro">${_("pro")}</span>
+            <input type="radio" value="0" name="sentiment" ${'checked="checked"' if pos not in [-1, 1] else ''}  /> 
+                <span class="option_neutral">${_("neutral")}</span>
+            <input type="radio" value="-1" name="sentiment" ${'checked="checked"' if pos == -1 else ''} /> 
+                <span class="option_con">${_("con")}</span>
+            <br/>
+        %endif
+        %if arm:
+            <label for="text" class="armhint">${arm}</label>
+        %endif
+        <textarea class="description armlabel" name="text"></textarea><br/>
+        ${components.formatting()}
+        ${components.savebox("/d/%s" % parent.topic.id if parent else request.params.get('topic'))}
+        %if can_wiki:
+            <input type="checkbox" ${'checked="checked"' if wiki == 1 else ''} name="wiki" value="1" />
+            ${_("Allow others to edit this comment.")}
+        %endif
+        </div>
+    </form>
 </%def>
 
 
 <%def name="header(tile, comment, active)">
-	<div class="top_actions title">
-		%if can.comment.edit(comment):
-			<a class="button edit" onClick="return comment_edit(${comment.id})" 
-				href="${h.entity_url(comment, member='edit')}">${_("edit")}</a> 
-		%endif
-						
-		%if can.comment.delete(comment):
-			<a class="button delete" 
-				href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a> 
-		%endif
-		
-		${components.watch(comment)}
-	</div>
+    <div class="top_actions title">
+        %if can.comment.edit(comment):
+            <a class="button edit" onClick="return comment_edit(${comment.id})" 
+                href="${h.entity_url(comment, member='edit')}">${_("edit")}</a> 
+        %endif
+                        
+        %if can.comment.delete(comment):
+            <a class="button delete" 
+                href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a> 
+        %endif
+        
+        ${components.watch(comment)}
+    </div>
 
-	<h1 class="page_title"><img src="/img/icons/discuss_24.png" class="cd" /> 
-		${_("Discussion on %s") % h.delegateable.link(comment.topic, icon_size=24)|n}</h1>
-	
-	<div class="panel ${active}">
-		<ul class="menu">
-			<li><a href="${h.entity_url(comment)}">${_("Context")}</a></li>
-			<li><a href="${h.entity_url(comment, comment_page=True)}" 
-				class="discussion">${_("Comment")}</a></li>	
-			<li><a href="${h.entity_url(comment, member='history')}" 
-				class="history">${_("History")} (${len(comment.revisions)})</a></li>
-			<li><a href="${h.entity_url(comment.poll, member='votes')}" 
-				class="votes">${_("Votes")} (${len(comment.poll.tally)})</a></li>
-		</ul>
-	</div>
+    <h1 class="page_title"><img src="/img/icons/discuss_24.png" class="cd" /> 
+        ${_("Discussion on %s") % h.delegateable.link(comment.topic, icon_size=24)|n}</h1>
+    
+    <div class="panel ${active}">
+        <ul class="menu">
+            <li><a href="${h.entity_url(comment)}">${_("Context")}</a></li>
+            <li><a href="${h.entity_url(comment, comment_page=True)}" 
+                class="discussion">${_("Comment")}</a></li> 
+            <li><a href="${h.entity_url(comment, member='history')}" 
+                class="history">${_("History")} (${len(comment.revisions)})</a></li>
+            <li><a href="${h.entity_url(comment.poll, member='votes')}" 
+                class="votes">${_("Votes")} (${len(comment.poll.tally)})</a></li>
+        </ul>
+    </div>
 </%def>

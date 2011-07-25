@@ -4,17 +4,17 @@
 <%def name="title()">${_("Comments: %s") % c.page_user.name}</%def>
 
 <%def name="breadcrumbs()">
-	${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Commments")}
+    ${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Commments")}
 </%def>
 
 ${tiles.user.header(c.page_user, active='comments')}
 
 <div class="sidebar">
-	&nbsp;
+    &nbsp;
 </div>
 
 <div class="mainbar">
-	<div class="table">
-		${c.comments_pager.here()}
-	</div>
+    <div class="table">
+        ${c.comments_pager.here()}
+    </div>
 </div>

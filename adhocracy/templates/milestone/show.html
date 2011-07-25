@@ -8,24 +8,24 @@
 ${tiles.milestone.header(c.milestone, c.tile)}
 
 <div class="sidebar">
-	<div class="help">
-		<h3>${_("Help")}</h3>
-		<ul>
-    	<li>${h.help_link(_("What is a milestone?"), 'milestone_faq', anchor='whatis')|n}</li>
-			<li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
-    	<li>${h.help_link(_("More help..."), 'milestone_faq')|n}</li>
-		</ul>
-	</div>
+    <div class="help">
+        <h3>${_("Help")}</h3>
+        <ul>
+        <li>${h.help_link(_("What is a milestone?"), 'milestone_faq', anchor='whatis')|n}</li>
+            <li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
+        <li>${h.help_link(_("More help..."), 'milestone_faq')|n}</li>
+        </ul>
+    </div>
 </div>
 
 <div class="mainbar">
     <div class="top_actions aside">
-		&nbsp; 		
-		%if can.milestone.edit(c.milestone):
-			<a class="button title edit ttip" title="${_('Edit this milestone.')}"
-				href="${h.entity_url(c.milestone, member='edit')}">${_("edit")}</a>
-		%endif
-	</div>
+        &nbsp;      
+        %if can.milestone.edit(c.milestone):
+            <a class="button title edit ttip" title="${_('Edit this milestone.')}"
+                href="${h.entity_url(c.milestone, member='edit')}">${_("edit")}</a>
+        %endif
+    </div>
     <h2>${_("Milestone description")}</h2>
     ${c.tile.text|n}
   </div>
@@ -34,9 +34,9 @@ ${tiles.milestone.header(c.milestone, c.tile)}
 <div class="sidebar"></div>
 <div class="mainbar">
   %if c.instance.use_norms:
-	  <h3 class="section">${_("Related Norms")}</h3>
-	  <div id="pages_table" class="table">
-		  ${c.pages_pager.here()}
+      <h3 class="section">${_("Related Norms")}</h3>
+      <div id="pages_table" class="table">
+          ${c.pages_pager.here()}
     </div>
   %endif
 </div>
@@ -44,9 +44,9 @@ ${tiles.milestone.header(c.milestone, c.tile)}
 
 <div class="sidebar"></div>
 <div class="mainbar">
-	<h3 class="section">${_("Related Proposals")}</h3>
-	<div id="proposals_table" class="table">
-		${c.proposals_pager.here()}
-	</div>
+    <h3 class="section">${_("Related Proposals")}</h3>
+    <div id="proposals_table" class="table">
+        ${c.proposals_pager.here()}
+    </div>
 </div>
 

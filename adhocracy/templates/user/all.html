@@ -4,13 +4,13 @@
 <%def name="title()">${_("Users")}</%def>
 
 <%def name="breadcrumbs()">
-	${h.user.breadcrumbs(None)|n}
+    ${h.user.breadcrumbs(None)|n}
 </%def>
 
 
 <h1 class="page_title">
-	<img class="cd" src="/img/icons/user_24.png" />
-	${_("All Members on this Adhocracy Server")}
+    <img class="cd" src="/img/icons/user_24.png" />
+    ${_("All Members on this Adhocracy Server")}
 </h1>
 
 <div class="sidebar">
@@ -21,7 +21,7 @@
 </div>
 
 <div class="mainbar">
-	<div id="users_table" class="table">
-		${c.users_pager.render_pager()}
-	</div>
+    <div id="users_table" class="table">
+        ${c.users_pager.render_pager()}
+    </div>
 </div>
