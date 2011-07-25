@@ -1,7 +1,6 @@
-
 #globalheader,
-#instanceheader, 
-#footer, 
+#instanceheader,
+#footer,
 .button,
 .top_actions,
 .panel .menu,
@@ -9,12 +8,11 @@
 .comment_form,
 .infobox,
 .help,
+
 #uservoice-feedback {
-	display: none;
-	visibility: hidden;
+    display: none;
+    visibility: hidden;
 }
-
-
 
 .sidebar {
 }

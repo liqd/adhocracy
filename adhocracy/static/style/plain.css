@@ -1,7 +1,7 @@
 body {
     padding: 2em;
     padding-top: 0em;
-    width: auto; 
+    width: auto;
     background: #fff;
 }
 
@@ -10,15 +10,13 @@ body {
 }
 
 #page {
-    width: auto; 
+    width: auto;
     padding-bottom: 0px;
     margin: 0em;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    border-bottom: 0px !important; 
+    border-bottom: 0px !important;
     padding-left: 0px;
     margin-left: 0px;
 }
-
-
