@@ -12,7 +12,7 @@ div, body, ul, li, button {
 }
 
 body {
-    background: #fff url(/img/body_bg.jpg);
+    background-color: #fff;
     line-height: 1;
     color: black;
 }
@@ -34,11 +34,6 @@ a:hover {
 
 time {
     border-bottom: none;
-}
-
-h1, h2, h3, h4, h5, h6, h3.ui-accordion-header {
-    font-family: Georgia, Times New Roman, Times, serif;
-    font-weight: normal;
 }
 
 h1 {
@@ -493,7 +488,7 @@ body {
     width: 960px;
     text-align: right;
     margin: 10px 0 0 -20px;
-    background: white url(/img/bonsai_adhc.png) no-repeat left center;
+    background: white url(/img/header_logo.png) no-repeat left center;
     height: 64px;
     padding: 20px 20px;
 }
@@ -532,13 +527,12 @@ body {
 #instanceheader .headerbox.static a.instance,
 #instanceheader .headerbox.page a.page,
 #instanceheader .headerbox.page a.page,
-#instanceheader .headerbox.user a.user
-{
+#instanceheader .headerbox.user a.user{
     color: #000;
     font-weight: bold;
     font-size: 0.95em;
     text-decoration: none;
-    background: #fff url(/img/hauptnavigation_liste_icon_aktiv.gif) bottom left no-repeat !important;
+    background: #fff bottom left no-repeat !important;
 }
 
 #instanceheader #menu {
@@ -566,7 +560,7 @@ body {
 
 #instanceheader #menu ul li a,
 #instanceheader #search {
-    background: #fff url(/img/hauptnavigation_liste_icon.gif) bottom left no-repeat;
+    background: #fff bottom left no-repeat;
     color: #000;
     font-weight: bold;
     font-size: 14px;
@@ -588,18 +582,18 @@ body {
 }
 
 #instanceheader #menu-links ul li a:hover {
-    background: #fff url(/img/hauptnavigation_liste_icon_aktiv.gif) bottom left no-repeat;
+    background: #fff bottom left no-repeat;
     text-decoration: none;
     /*border: 1px solid #1553a4;*/
     text-shadow: none;
 }
 
 #instanceheader #menu-links ul li:first a {
-    background: #fff url(http://www.bundestag.de/internetenquete/includes/images/hauptnavigation_liste_icon_first.gif) bottom left no-repeat !important;
+    background: #fff bottom left no-repeat !important;
 }
 
 #instanceheader #menu-links ul li:first a:hover {
-    background: #fff url(http://www.bundestag.de/internetenquete/includes/images/hauptnavigation_liste_icon_first_aktiv.gif) bottom left no-repeat !important;
+    background: #fff bottom left no-repeat !important;
 }
 
 #instanceheader #menu ul {
