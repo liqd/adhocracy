@@ -407,6 +407,8 @@ class SolrFacet(object):
         the current query results.
         '''
         item = self.get_item_data(value)
+        if item is None:
+            return None
         item['facet_count'] = count
         item['value'] = value
         return item
