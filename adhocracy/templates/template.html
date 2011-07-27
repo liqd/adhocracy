@@ -5,172 +5,183 @@
 
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     ${self.head()}
-</head>
-<body lang="${c.locale.language}">
-<div id="frame">
-    <div id="globalheader"><div class="headerbox">
-        
-        <div id="account">
+  </head>
+  <body lang="${c.locale.language}">
+    <div id="frame">
+      <div id="globalheader">
+        <div class="headerbox">
+
+          <div id="account">
             %if c.user:
-                <strong>
-                    <a class="user_name ttip" title="${_('Your profile')}" href="${h.entity_url(c.user)}">
-                        <img width="16" height="16" src="${h.user.icon_url(c.user, size=16)|n}"> ${c.user.name}
-                    </a>
-                </strong>
-                
-                %if can.user.vote():
-                    %if c.instance.allow_adopt: 
-                        <a class="ttip" title="${_('Your voting record')}" 
-                           href="${h.entity_url(c.user, member='votes')}">${_("Votes")}</a>
-                    %endif
-                    %if c.instance.allow_delegate:
-                        <a class="ttip" title="${_('Your delegation balance')}" 
-                           href="${h.entity_url(c.user,member='delegations')}">${_("Delegations")}</a>
-                    %endif
-                %endif
-                %if c.instance:
-                    <a class="ttip" title="${_('Items you are watching')}" 
-                         href="${h.entity_url(c.user, member='watchlist')}">${_("Watchlist")}</a>
-                %endif
-                <a class="ttip" title="${_('Settings such as language, passwords, etc.')}" 
-                   href="${h.entity_url(c.user, member='edit')}">${_("Settings")}</a>
-                <a class="ttip" title="${_('Sign out')}" 
-                   href="/logout">${_("Logout")}</a>
-            %else:
-                <a href="/login">${_("Login")}</a> 
-                <a href="/register">${_("Register")}</a>    
+            <strong>
+              <a class="user_name ttip" title="${_('Your profile')}" href="${h.entity_url(c.user)}">
+                <img width="16" height="16" src="${h.user.icon_url(c.user, size=16)|n}"> ${c.user.name}
+              </a>
+            </strong>
+
+            %if can.user.vote():
+              %if c.instance.allow_adopt: 
+                <a class="ttip" title="${_('Your voting record')}" 
+                  href="${h.entity_url(c.user, member='votes')}">${_("Votes")}</a>
+              %endif
+              %if c.instance.allow_delegate:
+                <a class="ttip" title="${_('Your delegation balance')}" 
+                  href="${h.entity_url(c.user,member='delegations')}">${_("Delegations")}</a>
+              %endif
             %endif
-        </div>
-        <div id="navigation">
+            %if c.instance:
+              <a class="ttip" title="${_('Items you are watching')}" 
+                href="${h.entity_url(c.user, member='watchlist')}">${_("Watchlist")}</a>
+            %endif
+            <a class="ttip" title="${_('Settings such as language, passwords, etc.')}" 
+              href="${h.entity_url(c.user, member='edit')}">${_("Settings")}</a>
+            <a class="ttip" title="${_('Sign out')}" 
+              href="/logout">${_("Logout")}</a>
+            %else:
+              <a href="/login">${_("Login")}</a> 
+              <a href="/register">${_("Register")}</a>    
+            %endif
+          </div>
+          <div id="navigation">
             <a href="${h.base_url(None, path='/')}">
-                Startseite
+              Startseite
             </a> 
             %if g.single_instance is None:
-                <a class="ttip" title="${_('All instances')}" 
-                   href="${h.base_url(None, path='/instance')}">${_("Instances")}</a>
-            <a class="ttip" 
-               title="${_('Users across all instances')}" 
-               href="${h.base_url(None, path='/user/all')}">${_("Users")}</a>
+              <a class="ttip" title="${_('All instances')}" 
+                href="${h.base_url(None, path='/instance')}">${_("Instances")}</a>
+              <a class="ttip" 
+                title="${_('Users across all instances')}" 
+                href="${h.base_url(None, path='/user/all')}">${_("Users")}</a>
 
             %endif
             %if h.has_permission("global.admin"):
-                <a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
-        <a class="ttip" 
-           title="${_('Manage Badges')}" 
-           href="${h.base_url(None, path='/badge')}">${_("Badges")}</a>
+              <a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
+              <a class="ttip" 
+                title="${_('Manage Badges')}" 
+                href="${h.base_url(None, path='/badge')}">${_("Badges")}</a>
             %endif
 
             <a href="/event/all">${_("Events")}</a>
             <div class="help">
-                <a href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a>
+              <a class="staticlink_help" href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a>
             </div>
-        </div>
-        
-        <div id="bannerLeiste">
+          </div>
+
+          <div id="bannerLeiste">
             <div id="banner">
-                <img src="/img/liqd_ev.png"/>
+              <img src="/img/liqd_ev.png"/>
             </div>
+          </div>
+
         </div>
-        
-    </div></div>
-    
-    %if c.instance:
-        <div id="instanceheader"><div class="headerbox ${c.active_controller}">
-        <div id="menu">
+      </div>
+
+      %if c.instance:
+      <div id="instanceheader">
+        <div class="headerbox ${c.active_controller}">
+          <div id="menu">
             <a href="${h.base_url(c.instance)}" id="logo">
-                <img src="/instance/${c.instance.key if c.instance else '_def'}_48.png" />
+              <img src="/instance/${c.instance.key if c.instance else '_def'}_48.png" />
             </a>
             <div id="menu-links">
-            <ul>    
+              <ul>    
                 <li><a class="instance ttip" title="${_('Instance home page')}" 
                   href="${h.entity_url(c.instance)}">${_("Home")}</a></li>
                 %if c.instance.milestones:
-                    <li><a class="milestone ttip" title="${_('Milestones')}" 
-                           href="/milestone">${_("Milestones")}</a></li>
+                  <li><a class="milestone ttip" title="${_('Milestones')}" 
+                    href="/milestone">${_("Milestones")}</a></li>
                 %endif
                 %if c.instance.use_norms:
-                    <li><a class="page ttip" title="${_('Norm pages')}" 
-                           href="/page">${_("Norms")}</a></li>
+                  <li><a class="page ttip" title="${_('Norm pages')}" 
+                    href="/page">${_("Norms")}</a></li>
                 %endif
                 <li><a class="proposal ttip" title="${_('Show all proposals')}" 
-                         href="/proposal">${_("Proposals")}</a></li>
+                  href="/proposal">${_("Proposals")}</a></li>
                 <li><a class="user ttip" title="${_('All members of this instance')}" 
-                         href="/user">${_("Members")}</a></li>
-            </ul>
+                  href="/user">${_("Members")}</a></li>
+              </ul>
             </div>
+          </div>
+
+          <form id="searchform" action="/search" method="GET">
+            <label id="searchlabel" for="serp_q" class="armhint">${_("Search")}</label>
+            <input id="search" name="serp_q" class="armlabel" autocomplete="off" /> 
+          </form>
         </div>
-        
-        <form id="searchform" action="/search" method="GET">
-        <label id="searchlabel" for="serp_q" class="armhint">${_("Search")}</label>
-        <input id="search" name="serp_q" class="armlabel" autocomplete="off" /> 
-        </form>
-  </div></div>
-  
-    %if can.instance.join(c.instance):  
-    <div class="infobox no_member">
-      ${_("You are not yet a member of %s. To participate, you must join this instance.") % c.instance.label}
-            <a class="button add ttip" title="${_('Join this instance to start contributing.')}" 
-        href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
-    </div>
+      </div>
+
+      <div id="instance_infobox_wrapper">
+        %if can.instance.join(c.instance):  
+          <div class="infobox no_member">
+            ${_("You are not yet a member of %s. To participate, you must join this instance.") % c.instance.label}
+          <a class="button add ttip" title="${_('Join this instance to start contributing.')}" 
+            href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
+        </div>
         %endif
         %if not c.user:
-    <div class="infobox no_member">
-      ${_("You are not yet a member of %s. To participate, you must register first.") % c.instance.label}
-      <a class="button add ttip" title="${_('Join this instance to start contributing.')}"  href="/register">${_("join")}</a> 
-    </div>
+          <div class="infobox no_member">
+            ${_("You are not yet a member of %s. To participate, you must register first.") % c.instance.label}
+            <a class="button add ttip" title="${_('Join this instance to start contributing.')}"  href="/register">${_("join")}</a> 
+          </div>
         %endif
-    %endif
-    
-    <div id="page">
-        <div id="breadcrumbs">
-      ${self.breadcrumbs()}
-    </div>
-
-    %for message in h.flash.pop_messages():
-      <div class="flash_messages ${message.category}">
-        <ul>
-          <li>${message}</li>
-        </ul>
       </div>
-    %endfor
 
-    <div class="content">
-      <div class="inner_content">
+      %endif
+
+      <div id="page">
+
+        <div id="breadcrumbs">
+          ${self.breadcrumbs()}
+        </div>
+
+        <div id="flash_messages_wrapper">
+          %for message in h.flash.pop_messages():
+            <div class="flash_messages ${message.category}">
+              <ul>
+              <li>${message}</li>
+              </ul>
+            </div>
+          %endfor
+        </div>
+
+        <div class="content">
+          <div class="inner_content">
             ${self.body()}
             <div style="clear: both;"></div>
-        <br/>
-      </div>
+            <br/>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
 
-<div id="footer">
-    <div id="links">
+    </div>
+
+    <div id="footer">
+      <div id="links">
         <div id="license">
-            <a class="nolink" rel="license" href="http://creativecommons.org/licenses/by/3.0/de/">
-                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by/3.0/de/80x15.png" />
-            </a>
-            <a class="nolink" rel="license" href="http://www.opendefinition.org/">
-                <img alt="Open Definition" src="/img/oc_80x15_blue.png" />
-            </a>
+          <a class="nolink staticlink_creativecommons" rel="license" href="http://creativecommons.org/licenses/by/3.0/de/">
+            <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by/3.0/de/80x15.png" />
+          </a>
+          <a class="nolink staticlink_opendefinition" rel="license" href="http://www.opendefinition.org/">
+            <img alt="Open Definition" src="/img/oc_80x15_blue.png" />
+          </a>
         </div>
         <ul>
-            <li><a href="/static/about.html">Wie funktioniert Adhocracy?</a></li>
-            <li><a href="http://blog.liqd.net/unterstuetzen/">Projekt unterst&uuml;tzen</a></li>
+          <li><a class="staticlink_about" href="/static/about.html">Wie funktioniert Adhocracy?</a></li>
+          <li><a href="http://blog.liqd.net/unterstuetzen/">Projekt unterst&uuml;tzen</a></li>
         </ul>
         <ul>
-            <li><a href="/static/codex.html">${_("code of conduct")}</a></li>
-            <li><a href="/static/terms.html">${_("terms and conditions")}</a></li>
+          <li><a class="staticlink_codex" href="/static/codex.html">${_("code of conduct")}</a></li>
+          <li><a class="staticlink_terms" href="/static/terms.html">${_("terms and conditions")}</a></li>
         </ul>           
         <ul>
-            <li><a href="/static/privacy.html">${_("privacy")}</a></li>
-            <li><a href="/static/imprint.html">${_("imprint")}</a></li>
+          <li><a class="staticlink_privacy" href="/static/privacy.html">${_("privacy")}</a></li>
+          <li><a class="staticlink_imprint" href="/static/imprint.html">${_("imprint")}</a></li>
         </ul>
+      </div>
+      <div style="clear: both;"></div>
     </div>
-    <div style="clear: both;"></div>
-</div>
 
-</body>
+  </body>
 </html>
