@@ -10,6 +10,7 @@ from pylons.controllers import WSGIController
 from pylons import request, tmpl_context as c
 from pylons.i18n import _
 from sqlalchemy.orm.scoping import ScopedSession
+from sqlalchemy.orm.exc import DetachedInstanceError 
 
 from adhocracy import i18n, model
 from adhocracy.lib import helpers as h
@@ -24,8 +25,11 @@ class BaseController(WSGIController):
         """Invoke the Controller"""
         c.instance = model.instance_filter.get_instance()
         c.user = environ.get('repoze.who.identity', {}).get('user')
-        if c.user and (c.user.banned or c.user.delete_time):
-            c.user = None
+        try:
+            if c.user and (c.user.banned or c.user.delete_time):
+                c.user = None
+        except DetachedInstanceError, e:
+            log.exception(e)
         c.active_controller = request.environ.get('pylons.routes_dict')\
             .get('controller')
         c.debug = asbool(config.get('debug'))
