@@ -138,8 +138,8 @@ def help_link(text, page, anchor=None):
         url += "#" + anchor
     full_url = url % (page, 'html')
     simple_url = url % (page, 'simple')
-    return (u"<a target='_new' href='%s' "
-            u"onClick='return showHelp(\"%s\")'>%s</a>") % (full_url,
+    return (u"<a target='_new' class='staticlink_%s' href='%s' "
+            u"onClick='return showHelp(\"%s\")'>%s</a>") % (page, full_url,
                                                             simple_url, text)
 
 

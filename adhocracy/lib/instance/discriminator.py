@@ -18,8 +18,8 @@ class InstanceDiscriminatorMiddleware(object):
         environ['adhocracy.domain'] = self.domain
         instance_key = config.get('adhocracy.instance')
         if instance_key is None:
-            host = host.split(':', 1)[0]
             host = host.replace(self.domain, "")
+            host = host.split(':', 1)[0]
             host = host.strip('.').strip() 
             instance_key = host
 
