@@ -5,11 +5,9 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
-from adhocracy import __version__
-
 setup(
     name='adhocracy',
-    version=__version__,
+    version='1.2a2',
     description='Policy drafting and decision-making web platform',
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
