@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='adhocracy',
-    version='1.2a2',
+    version='1.2dev',
     description='Policy drafting and decision-making web platform',
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
