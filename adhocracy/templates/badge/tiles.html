@@ -1,7 +1,12 @@
-<%namespace name="components" file="/components.html"/>
+<%def name="badge(badge)">
+    <span class="badge" style="background-color: ${badge.color};">
+        <a name="${badge.title}" class="ttip" 
+           title="${badge.title}: ${badge.description}">${badge.title}</a>
+    </span>
+</%def>
 
 <%def name="badges(badges)">
-    %for badge in badges:
-        ${components.badge(badge)} 
+    %for badge_ in badges:
+        ${badge(badge_)} 
     %endfor
 </%def>

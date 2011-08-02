@@ -1,5 +1,5 @@
 <%inherit file="/template.html" />
-<%namespace name="components" file="/components.html"/>
+<%namespace name="tiles" file="/badge/tiles.html"/>
 <%def name="title()">${_("Badges")}</%def>
 
 <%def name="breadcrumbs()">
@@ -39,7 +39,7 @@
         <td>${badge.title}</td>
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${badge.color}</td>
-        <td>${components.badge(badge)}</td>
+        <td>${tiles.badge(badge)}</td>
         <td>${badge.group and badge.group.group_name or ""}</td>
         <td>${badge.display_group and _("yes") or _("no")}</td>
         
