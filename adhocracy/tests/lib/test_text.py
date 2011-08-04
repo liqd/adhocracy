@@ -23,4 +23,4 @@ class TestText(TestController):
         tt_make_user('pudo')
         source = '@pudo'
         result = render(source, substitutions=True)
-        self.assertTrue(u'http://test.test.lan:5000/user/pudo"' in result)
+        self.assertTrue(u'http://test.test.lan/user/pudo"' in result)
