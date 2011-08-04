@@ -73,7 +73,7 @@
         
         <div class="discuss">
             %if tile.selected:
-            <a class="discuss_button">${_("discuss %s (%s comments) &raquo") % (tile.selected_text.variant_html, len(selection.page.variant_comments(tile.selected_text.variant)))|n}</a>
+            <a class="discuss_button">${_("discuss %s (%s comments) &raquo;") % (tile.selected_text.variant_html, len(selection.page.variant_comments(tile.selected_text.variant)))|n}</a>
             <div class="discuss_details">
                 ${tiles.comment.list(selection.page, variant=tile.selected_text.variant)}
             </div>

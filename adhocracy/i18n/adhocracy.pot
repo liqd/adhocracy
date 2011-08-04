@@ -3181,7 +3181,7 @@ msgstr ""
 
 #: adhocracy/templates/selection/tiles.html:76
 #, python-format
-msgid "discuss %s (%s comments) &raquo"
+msgid "discuss %s (%s comments) &raquo;"
 msgstr ""
 
 #: adhocracy/templates/selection/tiles.html:100
@@ -3282,7 +3282,7 @@ msgstr ""
 
 #: adhocracy/templates/text/tiles.html:53
 #, python-format
-msgid "discuss (%s comments) &raquo"
+msgid "discuss (%s comments) &raquo;"
 msgstr ""
 
 #: adhocracy/templates/text/tiles.html:94

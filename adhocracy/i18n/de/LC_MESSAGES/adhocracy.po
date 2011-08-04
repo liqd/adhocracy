@@ -3233,8 +3233,8 @@ msgstr "aus dem Vorschlag entfernen"
 
 #: adhocracy/templates/selection/tiles.html:76
 #, python-format
-msgid "discuss %s (%s comments) &raquo"
-msgstr "diskutieren %s (%s Kommentare) &raquo"
+msgid "discuss %s (%s comments) &raquo;"
+msgstr "diskutieren %s (%s Kommentare) &raquo;"
 
 #: adhocracy/templates/selection/tiles.html:100
 msgid "Support this variant"
@@ -3333,8 +3333,8 @@ msgstr "Ihre Projektgruppe hat zu diesem Papier noch keine Regelung getroffen. "
 
 #: adhocracy/templates/text/tiles.html:53
 #, python-format
-msgid "discuss (%s comments) &raquo"
-msgstr "diskutieren (%s Kommentare) &raquo"
+msgid "discuss (%s comments) &raquo;"
+msgstr "diskutieren (%s Kommentare) &raquo;"
 
 #: adhocracy/templates/text/tiles.html:94
 msgid "see"

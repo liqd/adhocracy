@@ -3396,8 +3396,8 @@ msgstr "plus de propositions"
 
 #: adhocracy/templates/selection/tiles.html:76
 #, fuzzy, python-format
-msgid "discuss %s (%s comments) &raquo"
-msgstr "discuter (%s commentaires) &raquo"
+msgid "discuss %s (%s comments) &raquo;"
+msgstr "discuter (%s commentaires) &raquo;"
 
 #: adhocracy/templates/selection/tiles.html:100
 msgid "Support this variant"
@@ -3502,8 +3502,8 @@ msgstr ""
 
 #: adhocracy/templates/text/tiles.html:53
 #, python-format
-msgid "discuss (%s comments) &raquo"
-msgstr "discuter (%s commentaires) &raquo"
+msgid "discuss (%s comments) &raquo;"
+msgstr "discuter (%s commentaires) &raquo;"
 
 #: adhocracy/templates/text/tiles.html:94
 msgid "see"
