@@ -1,5 +1,8 @@
-
+<div id="piwik">
 %if config.get('piwik.site'):
+    %if c.debug:
+    <!-- Piwik: deactivated in debug mode -->
+    %else:
     <!-- Piwik -->
     <script type="text/javascript">
     var pkBaseURL = (("https:" == document.location.protocol) ? "${config.get('piwik.site')}" : "${config.get('piwik.site')}");
@@ -12,4 +15,9 @@
     } catch( err ) {}
     </script><noscript><p><img src="${config.get('piwik.site')}piwik.php?idsite=${config.get('piwik.id')}" style="border:0" alt=""/></p></noscript>
     <!-- End Piwik Tag -->
+    %endif
+%else:
+   %if c.debug:
+   <!-- Piwik: no piwik site -->
 %endif
+</div>
