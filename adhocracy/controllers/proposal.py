@@ -226,6 +226,12 @@ class ProposalController(BaseController):
             return render_json(c.proposal)
 
         c.tile = tiles.proposal.ProposalTile(c.proposal)
+        used_pages = [selection.page for selection in c.proposal.selections]
+        functions = [model.Page.NORM]
+        available_pages = model.Page.all(instance=c.instance,
+                                         exclude=used_pages,
+                                         functions=functions)
+        c.disable_include = len(available_pages) == 0
         self._common_metadata(c.proposal)
         return render("/proposal/show.html")
 
