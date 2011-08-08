@@ -1299,7 +1299,6 @@ a.button:hover {
     text-shadow: none;
 }
 
-
 a.button.title {
     margin-top: 0.0em;
 }
@@ -1320,10 +1319,12 @@ a.button.admin {
     background-color: #de5614;
 }
 
-a.button.inactive {
-    background-color: #f3f3f3;
-    cursor: pointer;
-    color: #bbb;
+a.button.inactive,
+a.button.inactive:hover {
+    background-color: #bbb !important; 
+    color: #fff;
+    cursor: default;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
 }
 
 .top_actions {
