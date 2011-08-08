@@ -1,13 +1,21 @@
-<form name="login" method="POST" action="/openid/init">
-    <label for="openid">${_('OpenID')}:</label>
+<form name="login" id="openid_form" method="POST" action="/openid/init">
+   <label for="openid">${_('OpenID')}:</label>
+   <div id="openid_choice">
+      %if c.openid_scenario and c.openid_scenario == "login":
+         <span class="hint">${_('Login with your OpenID to skip registration.')}</span>
+      %endif
+      <div id="openid_btns"></div>
+   </div>
+   <div id="openid_input_area">
+      <input id="openid" name="openid" type="text" value="http://" />
     %if c.openid_scenario and c.openid_scenario == "login":
-        <span class="hint">${_('Login with your OpenID to skip registration.')}</span>
-    %endif
-    <input id="openid" class="openid_url" name="openid" type="text" value=""/>
-    
-    %if c.openid_scenario and c.openid_scenario == "login":
-        <input type="submit" value="${_('Sign in')}"/>
+        <input id="openid_submit" type="submit" value="${_('Sign in')}"/>
     %else:
-        <input type="submit" value="${_('Continue')}"/>
+        <input id="openid_subit" type="submit" value="${_('Continue')}"/>
     %endif
+   </div>
+   <noscript>
+      <p>OpenID is service that allows you to log-on to many different websites using a single indentity.
+         Find out <a href="http://openid.net/what/">more about OpenID</a> and <a href="http://openid.net/get/">how to get an OpenID enabled account</a>.</p>
+   </noscript>
 </form>

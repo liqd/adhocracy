@@ -168,7 +168,6 @@ class OpenidauthController(BaseController):
                 user_name = srep.get('nickname').strip()
             if srep.get('email'):
                 email = srep.get('email')
-
         # evaluate Attribute Exchange data
         # TBD: AXSCHEMA friendlyName
         # TBD: SignedMembership

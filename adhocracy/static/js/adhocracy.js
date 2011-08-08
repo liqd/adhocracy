@@ -85,9 +85,11 @@ $(document).ready(function () {
     "use strict";
 
     $('.ts').timeago();
+
+    openid.init('openid');
     
-    $(".ttip[title]").tooltip({ 
-        position: "bottom left", 
+    $(".ttip[title]").tooltip({
+        position: "bottom left",
         opacity: 1,
         effect: 'toggle'
     }).dynamic({ bottom: { direction: 'down', bounce: true } });
@@ -338,4 +340,4 @@ $(document).ready(function() {
             wrap.load(this.getTrigger().attr("href") + " .content");
         }
     });
-});     
+});

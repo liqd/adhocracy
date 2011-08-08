@@ -23,6 +23,8 @@
     <link rel="stylesheet" media="all" href="/style/base.css" />    
     <link  rel="stylesheet" type="text/css" 
         href="${h.base_url(None, path='/style/site.css')}"/>
+    <link rel="stylesheet" type="text/css"
+          href="${h.base_url(None, path='/openid-selector/css/openid.css')}" />
     %if c.instance and c.instance.css:
         <link  rel="stylesheet" type="text/css" 
             href="${h.base_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
@@ -59,6 +61,10 @@
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script>
     <!--adhocracy javascript-->
+    <script type="text/javascript" 
+        src="${h.base_url(None, path='/openid-selector/js/openid-jquery.js')}"></script>
+    <script type="text/javascript" 
+        src="${h.base_url(None, path='/openid-selector/js/openid-%s.js') % c.locale.language}"></script>
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/adhocracy.js')}"></script>
     <!--[if lt IE 7 ]>
