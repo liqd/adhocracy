@@ -31,9 +31,9 @@ class SelectionController(BaseController):
         return self.not_implemented()
 
     @RequireInstance
-    def propose(self, proposal_id):
+    def propose(self, proposal_id, errors=None):
         require.norm.propose()
-        return self._new(proposal_id, '/selection/propose.html', None)
+        return self._new(proposal_id, '/selection/propose.html', errors)
 
     @RequireInstance
     def include(self, proposal_id, errors={}):
