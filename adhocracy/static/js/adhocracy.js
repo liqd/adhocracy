@@ -86,8 +86,6 @@ $(document).ready(function () {
 
     $('.ts').timeago();
 
-    openid.init('openid');
-    
     $(".ttip[title]").tooltip({
         position: "bottom left",
         opacity: 1,

@@ -13,17 +13,12 @@
 	font-weight: bold;
 }
 
-#openid_choice {
-	display: none;
-}
-
 #openid_input_area {
-	clear: both;
-	padding: 10px;
+	clear: left;
 }
 
 #openid_btns, #openid_btns br {
-	clear: both;
+	clear: left;
 }
 
 #openid_highlight {
