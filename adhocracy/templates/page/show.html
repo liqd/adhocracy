@@ -20,7 +20,7 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
     <h3 class="section"><img class="cd" src="/img/icons/page_variant_16.png"/>
       ${_("Proposed changes")}</h3>
     <ul>
-      %for selection in c.page.selections:
+      %for selection in [s for s in c.page.selections if s.selected is not None]:
         <%
         text = c.page.variant_head(selection.selected)
         %>
