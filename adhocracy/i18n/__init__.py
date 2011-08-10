@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta
+import pkgutil
 
 import formencode
 
+from pylons import config
 from pylons.i18n import _, add_fallback, get_lang, set_lang, gettext
 import webhelpers.date as date
 
@@ -10,7 +12,6 @@ from babel import Locale
 import babel.dates 
 from babel.dates import format_time
 from extra_strings import *
-
 
 LOCALES = [babel.Locale('de', 'DE')]
 
@@ -36,6 +37,7 @@ def handle_request():
 
 
 def user_language(user, fallbacks=[]):
+    # find out the locale
     locale = None
     if user and user.locale:
         locale = user.locale
@@ -43,9 +45,25 @@ def user_language(user, fallbacks=[]):
         locales = map(str, LOCALES)
         locale = Locale.parse(Locale.negotiate(fallbacks, locales)) \
                  or get_default_locale()
-    
-    set_lang(locale.language)
-    add_fallback(get_default_locale().language)
+
+    # determinate from which path we load the translations
+    translations_module = config.get('adhocracy.translations', 'adhocracy')
+    translations_module_loader = pkgutil.get_loader(translations_module)
+    if translations_module_loader is None:
+        raise ValueError(('Cannot import the module "%s" configured for '
+                          '"adhocracy.translations". Make sure it is an '
+                          'importable module (and contains the '
+                          'translation files in a subdirectory '
+                          '"i18n"') % translations_module)
+
+    translations_root = translations_module_loader.filename
+    translations_config = {'pylons.paths': {'root': translations_root},
+                           'pylons.package': config.get('pylons.package')}
+
+    # set language and fallback
+    set_lang(locale.language, pylons_config=translations_config)
+    add_fallback(get_default_locale().language,
+                 pylons_config=translations_config)
     formencode.api.set_stdtranslation(domain="FormEncode", languages=[locale.language])
     return locale
 
