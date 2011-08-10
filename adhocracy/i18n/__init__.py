@@ -4,33 +4,34 @@ import pkgutil
 import formencode
 
 from pylons import config
-from pylons.i18n import _, add_fallback, get_lang, set_lang, gettext
-import webhelpers.date as date
+from pylons.i18n import _, add_fallback, set_lang
+from pylons import tmpl_context as c
 
 import babel
 from babel import Locale
-import babel.dates 
-from babel.dates import format_time
-from extra_strings import *
+import babel.dates
+
 
 LOCALES = [babel.Locale('de', 'DE')]
 
+
 def get_default_locale():
-    from pylons import tmpl_context as c, config
     try:
         if c.instance and c.instance.locale:
             return c.instance.locale
         locale = config.get('adhocracy.language', 'en_US')
         return babel.Locale.parse(locale)
-    except TypeError, te:
+    except TypeError:
         return babel.Locale.parse('en_US')
+
 
 def handle_request():
     """
-    Given a request, try to determine the appropriate locale to use for the 
-    request. When a user is logged in, his or her settings will first be queried. 
-    Otherwise, an appropriate locale will be negotiated between the browser 
-    accept headers and the available locales.  
+    Given a request, try to determine the appropriate locale to use for the
+    request. When a user is logged in, his or her settings will first be
+    queried.
+    Otherwise, an appropriate locale will be negotiated between the browser
+    accept headers and the available locales.
     """
     from pylons import request, tmpl_context as c
     c.locale = user_language(c.user, request.languages)
@@ -64,7 +65,8 @@ def user_language(user, fallbacks=[]):
     set_lang(locale.language, pylons_config=translations_config)
     add_fallback(get_default_locale().language,
                  pylons_config=translations_config)
-    formencode.api.set_stdtranslation(domain="FormEncode", languages=[locale.language])
+    formencode.api.set_stdtranslation(domain="FormEncode",
+                                      languages=[locale.language])
     return locale
 
 
@@ -77,11 +79,11 @@ def relative_date(time):
     elif date == (today - timedelta(days=1)):
         return _("Yesterday")
     else:
-        return dates.format_date(date, 'long', c.locale)
+        return babel.dates.format_date(date, 'long', c.locale)
 
-  
+
 def countdown_time(dt, default):
-    # THIS IS A HACK TO GET RID OF BABEL 
+    # THIS IS A HACK TO GET RID OF BABEL
     if dt is not None:
         delta = dt - datetime.utcnow()
         default = delta.days
@@ -98,6 +100,5 @@ def format_date(dt):
 def relative_time(dt):
     """ A short statement giving the time distance since ``dt``. """
     fmt = "<time class='ts' datetime='%(iso)sZ'>%(formatted)s</time>"
-    return fmt % dict(iso=dt.isoformat(), 
+    return fmt % dict(iso=dt.isoformat(),
                       formatted=format_date(dt))
-
