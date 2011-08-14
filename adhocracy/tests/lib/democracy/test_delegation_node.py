@@ -168,7 +168,7 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
 
         d3to2 = Delegation(user3, user2, proposal)
         model.meta.Session.add(d3to2)
-        model.meta.Session.commit()
+        model.meta.Session.flush()
 
         dn = DelegationNode(user2, proposal)
         self.assertEqual(len(dn.inbound()),  2)
@@ -195,7 +195,7 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
 
         d4to3 = Delegation(user4, user3, proposal)
         model.meta.Session.add(d4to3)
-        model.meta.Session.commit()
+        model.meta.Session.flush()
 
         dn = DelegationNode(user1, proposal)
         assert len(dn.inbound()) == 2
@@ -215,7 +215,7 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
 
         d3to1 = Delegation(user3, user1, proposal)
         model.meta.Session.add(d3to1)
-        model.meta.Session.commit()
+        model.meta.Session.flush()
 
         dn = DelegationNode(user1, proposal)
         assert len(dn.inbound()) == 2
@@ -238,7 +238,7 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
 
         large = Delegation(user1, user3, proposal.issue)
         model.meta.Session.add(large)
-        model.meta.Session.commit()
+        model.meta.Session.flush()
 
         res = DelegationNode.filter_less_specific_delegations([small, large])
         assert small in res
