@@ -1,6 +1,6 @@
 from adhocracy import model
 from adhocracy.lib.democracy import Decision, DelegationNode
-from adhocracy.model import Delegation, Group, Poll, Vote, meta
+from adhocracy.model import Delegation, Group, Poll, Vote
 
 from adhocracy.tests import TestController
 from adhocracy.tests.testtools import tt_get_instance
