@@ -1,7 +1,7 @@
-import re
 from datetime import datetime, timedelta
 import logging
 import math
+import re
 
 from babel import Locale
 
@@ -81,16 +81,20 @@ class Instance(meta.Indexable):
     def current_memberships(self):
         return [m for m in self.memberships if not m.is_expired()]
 
-    def _get_members(self):
-        members = self.current_memberships()
-        global_membership = model.Permission.by_code('global.member')
+    def members(self):
+        '''
+        return all users that are members of this instance through
+        global or local membership
+        '''
+        from adhocracy.model.permission import Permission
+        members = [membership.user for membership in
+                   self.current_memberships()]
+        global_membership = Permission.find('global.member')
         for group in global_membership.groups:
             for membership in group.memberships:
                 if membership.instance == None and not membership.expire_time:
                     members.append(membership.user)
-        return members
-
-    members = property(_get_members)
+        return list(set(members))
 
     def _get_required_participation(self):
         if self._required_participation is None:
