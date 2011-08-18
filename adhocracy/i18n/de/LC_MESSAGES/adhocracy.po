@@ -347,7 +347,7 @@ msgstr "Sie haben keine Twitter-Verbindung."
 #: adhocracy/controllers/user.py:140
 #, python-format
 msgid "You have successfully registered as user %s."
-msgstr "Sie haben Sich erfolgreich als Benutzer %s angemeldet."
+msgstr "Sie haben sich erfolgreich als Benutzer %s angemeldet."
 
 #: adhocracy/controllers/user.py:197
 msgid "There is no user registered with that email address."
@@ -403,7 +403,7 @@ msgstr "Der Aktivierungs-Link wurde an Ihre E-Mail-Adresse geschickt."
 
 #: adhocracy/controllers/user.py:300
 msgid "You have successfully logged in."
-msgstr "Sie haben Sich erfolgreich angemeldet."
+msgstr "Sie haben sich erfolgreich angemeldet."
 
 #: adhocracy/controllers/user.py:306
 msgid "Invalid user name or password"
@@ -1338,7 +1338,7 @@ msgstr "Abmelden"
 
 #: adhocracy/templates/template.html:41
 msgid "Logout"
-msgstr "abmelden"
+msgstr "Abmelden"
 
 #: adhocracy/templates/template.html:43 adhocracy/templates/user/login.html:5
 #: adhocracy/templates/user/login_form.html:8
@@ -2104,7 +2104,7 @@ msgstr ""
 
 #: adhocracy/templates/event/all.html:3 adhocracy/templates/event/all.html:10
 msgid "Whazza"
-msgstr "Was is der Stand der Dinge?"
+msgstr "Was ist der Stand der Dinge?"
 
 #: adhocracy/templates/event/all.html:6
 msgid "All current events."
@@ -3677,7 +3677,7 @@ msgstr ""
 
 #: adhocracy/templates/user/edit.html:120
 msgid "The pre-set number of entries in listing pages."
-msgstr "Die voreingestellte Zahl der Einträge auf Listenseiten:"
+msgstr "Die voreingestellte Zahl der Einträge auf Listenseiten."
 
 #: adhocracy/templates/user/edit.html:124
 msgid "List size:"
