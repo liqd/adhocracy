@@ -30,6 +30,7 @@ Development documentation
    development/architecture
    development/api
    development/translations
+   development/tests
 
 
 Indices and tables
