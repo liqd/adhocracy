@@ -1,8 +1,8 @@
 Add and run tests
 ===================
 
-Before every commit you should run all tests. Every new feature
-should have a good test coverage. We advise using Test Driven Develpment
+Before every commit you have to run all tests. Every new feature
+has to have a good test coverage. You should use Test Driven Develpment
 (http://en.wikipedia.org/wiki/Test-driven_development) and Acceptance Test 
 Driven Develpment. Acceptance Tests correspondence to user stories 
 (http://en.wikipedia.org/wiki/User_story). They use TestBrowser 
@@ -25,4 +25,11 @@ Run all tests
 ``(adhocracy)/src/adhocracy/$ ../../bin/nosetests .
   If you do not use the buildout, take care that every dependency is in 
   your pyton path.
+
+
+Run one test file 
+------------------
+
+``(adhocracy)/src/adhocracy/$ ../../bin/nosetest -s adhocracy.tests.test_module
+   The -s option enables stdrout, so you can use pdb/ipdb statements in your code.
 
