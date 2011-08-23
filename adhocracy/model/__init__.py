@@ -10,6 +10,7 @@ from adhocracy.model.openid import OpenID, openid_table
 from adhocracy.model.twitter import Twitter, twitter_table
 from adhocracy.model.badge import Badge, badge_table
 from adhocracy.model.userbadges import UserBadge, user_badges_table
+from adhocracy.model.delegateablebadge import DelegateableBadge, delegateable_badge_table
 from adhocracy.model.group import Group, group_table
 from adhocracy.model.permission import (Permission, group_permission_table,
                                         permission_table)
@@ -62,6 +63,20 @@ mapper(UserBadge, user_badges_table,
            'badge': relation(Badge)})
 
 
+mapper(DelegateableBadge, delegateable_badge_table,
+       properties={
+           'creator': relation(
+               User, lazy=True,
+               primaryjoin=delegateable_badge_table.c.creator_id == user_table.c.id,
+               backref=backref('delegateablebadges_created')),
+           'delegateable': relation(
+               Delegateable, lazy=True,
+               primaryjoin=(delegateable_badge_table.c.delegateable_id ==
+                         delegateable_table.c.id),
+               backref=backref('delegateablebadges')),  
+           'badge': relation(Badge)})
+
+
 mapper(Badge, badge_table,
        properties={
            'users': relation(User, secondary=user_badges_table,
@@ -71,6 +86,13 @@ mapper(Badge, badge_table,
                                             user_table.c.id),
                              backref=backref('badges', lazy='joined'),
                              lazy=False),
+           'delegateables': relation(Delegateable, secondary=delegateable_badge_table,
+                             primaryjoin=(badge_table.c.id ==
+                                          delegateable_badge_table.c.badge_id),
+                             secondaryjoin=(delegateable_badge_table.c.delegateable_id ==
+                                            delegateable_table.c.id),
+                             backref=backref('badges', lazy='joined'),
+                             lazy=False),   
            'group': relation(Group, primaryjoin=(group_table.c.id ==
                                                  badge_table.c.group_id),
                              lazy=False)
