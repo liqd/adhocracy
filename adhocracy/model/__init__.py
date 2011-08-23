@@ -8,7 +8,7 @@ from adhocracy.model.update import SessionModificationExtension
 from adhocracy.model.user import User, user_table
 from adhocracy.model.openid import OpenID, openid_table
 from adhocracy.model.twitter import Twitter, twitter_table
-from adhocracy.model.userbadges import Badge, badge_table
+from adhocracy.model.badge import Badge, badge_table
 from adhocracy.model.userbadges import UserBadge, user_badges_table
 from adhocracy.model.group import Group, group_table
 from adhocracy.model.permission import (Permission, group_permission_table,
