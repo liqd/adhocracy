@@ -17,18 +17,20 @@ badge_table = Table(
     Column('color', Unicode(7), nullable=False),
     Column('description', Unicode(255), default=u'', nullable=False),
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
-    Column('display_group', Boolean, default=False))
+    Column('display_group', Boolean, default=False),
+    Column('badge_delegateable', Boolean, default=False))
 
 
 class Badge(object):
 
     def __init__(self, title, color, description, group=None,
-                 display_group=False):
+                 display_group=False, badge_delegateable=False):
         self.title = title
         self.description = description
         self.color = color
         self.group = group
         self.display_group = display_group
+        self.badge_delegateable = badge_delegateable
 
     def __repr__(self):
         return "<Badge(%s,%s)>" % (self.id,
@@ -77,8 +79,9 @@ class Badge(object):
 
     @classmethod
     def create(cls, title, color, description, group=None,
-                 display_group=False):
-        badge = cls(title, color, description, group, display_group)
+                 display_group=False, badge_delegateable=False):
+        badge = cls(title, color, description, group, display_group,
+                    badge_delegateable)
         meta.Session.add(badge)
         meta.Session.flush()
         return badge
@@ -96,7 +99,8 @@ class Badge(object):
                     color=self.color,
                     group=self.group and self.group.code or None,
                     display_group=self.display_group,
-                    users=[user.name for user in self.users])
+                    users=[user.name for user in self.users],
+                    badge_delegateable=self.badge_delegateable)
 
     def _index_id(self):
         return self.id
