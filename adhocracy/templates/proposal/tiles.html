@@ -8,6 +8,8 @@
                 %if tile.fresh:
                     ${_("(new)")}
                 %endif
+                ${tiles.badge.badges(proposal.badges)}
+            </h3>
             </h3>
             <div class="meta noclear">              
                 %if proposal.is_adopt_polling():
@@ -27,7 +29,6 @@
                 <img src="/img/icons/discuss_16.png" /> 
                 ##${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
                 ${_("(latest: <b>%s</b>)") % h.relative_time(proposal.find_latest_comment_time())|n} 
-                
             </div>
         </div>
     </div>
@@ -83,6 +84,10 @@
             <a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
                 href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
         %endif
+
+        %if lib.auth.authorization.has('global.admin'):
+        <a class="button edit" href="${h.entity_url(proposal, member='badges')}">${_("Edit Badges")}</a>
+        %endif
                                 
         %if can.proposal.delete(proposal):
             <a class="button title delete ttip" title="${_('Delete this proposal.')}"   
@@ -119,7 +124,7 @@
     </span>
     %endif
     
-    <h1 class="with_vote page_title">${h.delegateable.link(proposal, icon_size=24, link=False)|n}</h1>
+    <h1 class="with_vote page_title">${h.delegateable.link(proposal, icon_size=24, link=False)|n}  ${tiles.badge.badges(proposal.badges)} </h1>
     <br/>
     ${tiles.proposal.panel(proposal, tile)}
 </%def>
@@ -165,4 +170,16 @@
     %endif
 </%def>
 
-
+<!--TODO-->
+<!--<%def name="badgesform(tile, proposal, badges)">-->
+ <!--<form name="settings" class="inplace" method="POST" -->
+      <!--action="${h.entity_url(proposal, member='update_badges')}">-->
+            <!--%for badge in badges:-->
+                    <!--<input type="checkbox" value="${badge.id}" -->
+                           <!--name="badge" />-->
+                    <!--${badge_tiles.badge(badge)}-->
+            <!--%endfor-->
+    <!--<div style="clear:both;"></div>-->
+    <!--${components.savebox("/proposal/%s" % proposal.id)}-->
+<!--</form> -->
+<!--</%def>    -->

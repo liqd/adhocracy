@@ -47,6 +47,11 @@
     <input type="checkbox"  name="display_group" id="display_group" />
     <span class="hint">${_("Display this group in instances instead of the normal group the user is in there.")}</span>
 
+    <label for="badge_delegateable" 
+           class="">${_("Badge Proposals?")}</label>
+    <input type="checkbox"  name="badge_delegateable" id="badge_delegateable" />
+    <span class="hint">${_("Badge proposals instead of users")}</span>
+                                  
     <div class="mainbar">
       ${components.savebox("/badge", c.save_button)}
     </div>
