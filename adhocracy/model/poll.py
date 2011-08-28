@@ -121,7 +121,7 @@ class Poll(object):
         return self.end(end_time=delete_time)
 
     def is_deleted(self, at_time=None):
-        return has_ended(at_time=at_time)
+        return self.has_ended(at_time=at_time)
 
     def check_stable(self, at_time):
         from tally import Tally

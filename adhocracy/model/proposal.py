@@ -181,9 +181,18 @@ class Proposal(Delegateable):
             return filtered
 
     def delete(self, delete_time=None):
+        '''
+        Delete the proposal and all it's selections
+        (proposal-norm(page)-relations), but not the norms.
+        '''
         if delete_time is None:
             delete_time = datetime.utcnow()
-        super(Proposal, self).delete(delete_time=delete_time)
+
+        # We don't want to delete the children of this
+        # Delegateable cause these are the related norms.
+        Delegateable.delete(self, delete_time=delete_time,
+                            delete_children=False)
+
         for selection in self.selections:
             selection.delete(delete_time=delete_time)
 

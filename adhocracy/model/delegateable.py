@@ -114,13 +114,14 @@ class Delegateable(meta.Indexable):
         q = q.filter(Delegateable.milestone==milestone)
         return q.all()
 
-    def delete(self, delete_time=None):
+    def delete(self, delete_time=None, delete_children=True):
         if delete_time is None:
             delete_time = datetime.utcnow()
         if not self.is_deleted(delete_time):
             self.delete_time = delete_time
-        for child in self.children:
-            child.delete(delete_time=delete_time)
+        if delete_children:
+            for child in self.children:
+                child.delete(delete_time=delete_time)
         for delegation in self.delegations:
             delegation.delete(delete_time=delete_time)
         for comment in self.comments:
