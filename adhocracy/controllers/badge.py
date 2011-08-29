@@ -25,6 +25,7 @@ class BadgeForm(formencode.Schema):
     color = ValidHTMLColor()
     group = Any(validators.Empty, ValidGroup())
     display_group = validators.StringBoolean(if_missing=False)
+    badge_delegateable = validators.StringBoolean(if_missing=False)
 
 
 class BadgeController(BaseController):
@@ -37,7 +38,10 @@ class BadgeController(BaseController):
         badges = Badge.all()
         if format == 'json':
             return render_json([badge.to_dict() for badge in badges])
-        c.badges = sorted(badges, key=attrgetter('title'))
+        badges_users = filter(lambda x: not x.badge_delegateable, badges)
+        c.badges_users = sorted(badges_users, key=attrgetter('title'))
+        badges_delegateables = filter(lambda x: x.badge_delegateable, badges)
+        c.badges_delegateables = sorted(badges_delegateables, key=attrgetter('title'))
         return render("/badge/index.html")
 
     def _redirect_not_found(self, id):
@@ -63,7 +67,8 @@ class BadgeController(BaseController):
         color = self.form_result.get('color').strip()
         group = self.form_result.get('group')
         display_group = self.form_result.get('display_group')
-        badge = Badge.create(title, color, description, group, display_group)
+        badge_delegateable = bool(self.form_result.get('badge_delegateable'))
+        badge = Badge.create(title, color, description, group, display_group, badge_delegateable)
         meta.Session.add(badge)
         meta.Session.commit()
         redirect(self.base_url)
@@ -81,7 +86,10 @@ class BadgeController(BaseController):
                         description=badge.description,
                         color=badge.color,
                         group=group_default,
-                        display_group=badge.display_group)
+                        display_group=badge.display_group,
+                        badge_delegateable=badge.badge_delegateable, 
+                        )
+        
         return htmlfill.render(render("/badge/form.html"),
                                errors=errors,
                                defaults=defaults)

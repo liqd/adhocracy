@@ -73,6 +73,11 @@ def make_map():
     map.connect('/reset', controller='user', action='reset_request',
                 conditions=dict(method=['POST']))
 
+    #map.connect('/proposal/{id}/badges', controller='proposal',
+                #action='badges', conditions=dict(method=['GET']))
+    #map.connect('/proposal/{id}/badges', controller='proposal',
+                #action='update_badges', conditions=dict(method=['POST']))  
+
     map.resource('proposal', 'proposal', member={'votes': 'GET',
                                                  'delegations': 'GET',
                                                  'activity': 'GET',
@@ -81,7 +86,9 @@ def make_map():
                                                  'ask_adopt': 'GET',
                                                  'adopt': 'POST',
                                                  'tag': 'POST',
-                                                 'untag': 'GET'},
+                                                 'untag': 'GET',
+                                                 'badges': 'GET',
+                                                 'update_badges': 'POST'},
                                collection={'filter': 'GET'})
 
     map.resource('implementation', 'implementation', controller='selection',

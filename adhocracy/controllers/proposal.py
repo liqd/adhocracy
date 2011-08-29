@@ -1,4 +1,5 @@
 import logging
+from operator import attrgetter
 
 import formencode
 from formencode import htmlfill, Invalid, validators
@@ -8,13 +9,17 @@ from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
+from repoze.what.plugins.pylonshq import ActionProtector
+
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import search as libsearch, tiles, watchlist
 from adhocracy.lib.auth import authorization, can, csrf, require
+from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_json
+from adhocracy.lib.queue import post_update
 from adhocracy.lib.util import get_entity_or_abort
 
 import adhocracy.lib.text as text
@@ -63,6 +68,11 @@ class ProposalFilterForm(formencode.Schema):
                                         if_empty=None, if_missing=None)
 
 
+class DelegateableBadgesForm(formencode.Schema):
+    allow_extra_fields = True
+    badge = formencode.foreach.ForEach(forms.ValidBadge())
+    
+
 class ProposalController(BaseController):
 
     @RequireInstance
@@ -85,6 +95,9 @@ class ProposalController(BaseController):
         c.cloud_tags = sorted(text.tag_cloud_normalize(tags),
                               key=lambda (k, c, v): k.name)
         c.tile = tiles.instance.InstanceTile(c.instance)
+        c.badges = model.Badge.all()
+        c.badges = filter(lambda x: x.badge_delegateable, c.badges)
+        c.badges = sorted(c.badges, key=attrgetter('title')) 
         return render("/proposal/index.html")
 
     @RequireInstance
@@ -337,3 +350,41 @@ class ProposalController(BaseController):
         if proposal.creator == user:
             return True
         return False
+
+    @ActionProtector(authorization.has_permission("global.admin"))
+    def badges(self, id, errors=None):
+        c.badges = model.Badge.all()
+        c.badges = filter(lambda x: x.badge_delegateable, c.badges)
+        c.badges = sorted(c.badges, key=attrgetter('title'))
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        defaults = {'badge': [str(badge.id) for badge in c.proposal.badges]}
+        return formencode.htmlfill.render(
+            render("/proposal/badges.html"),
+            defaults=defaults)
+
+    @RequireInternalRequest()
+    @validate(schema=DelegateableBadgesForm(), form='badges')
+    @ActionProtector(authorization.has_permission("global.admin"))
+    def update_badges(self, id):
+        proposal = get_entity_or_abort(model.Proposal, id)
+        badges = self.form_result.get('badge')
+        redirect_to_proposals = self.form_result.get('redirect_to_proposals')
+        creator = c.user
+
+        added = []
+        removed = []
+        for badge in proposal.badges:
+            if badge not in badges:
+                removed.append(badge)
+                proposal.badges.remove(badge)
+
+        for badge in badges:
+            if badge not in proposal.badges:
+                model.DelegateableBadge(proposal, badge, creator)
+                added.append(badge)
+
+        model.meta.Session.commit()
+        post_update(proposal, model.update.UPDATE)
+        if redirect_to_proposals:
+            redirect("/proposal")
+        redirect(h.entity_url(proposal))   

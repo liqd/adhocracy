@@ -72,3 +72,9 @@ def sidebar(proposal, tile=None):
         tile = ProposalTile(proposal)
     return render_tile('/proposal/tiles.html', 'sidebar', tile,
                        proposal=proposal)
+
+
+def badgesform(proposal, badges):
+    return render_tile('/proposal/tiles.html', 'badgesform', ProposalTile(proposal),
+                       proposal=proposal, badges=badges, cached=True)
+ 
