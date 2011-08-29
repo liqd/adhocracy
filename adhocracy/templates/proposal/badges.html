@@ -1,0 +1,36 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="badge_tiles" file="/badge/tiles.html"/>
+<%def name="title()">${_("Edit badges for %s") % c.proposal.title}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
+</%def>
+  
+<form name="settings" class="inplace" method="POST" 
+      action="${h.entity_url(c.proposal, member='update_badges')}">
+
+    <label for="badge">Badges</label>
+    <table>
+        <thead>
+            <th></th>
+            <th>${_("badge")}</th>
+        </thead>
+        <tbody>
+            %for badge in c.badges:
+            <tr>
+                <td>
+                    <input type="checkbox" value="${badge.id}" 
+                           name="badge" />
+                </td>
+                <td>${badge_tiles.badge(badge)}</td>
+            </tr>
+            %endfor
+        </tbody>
+    </table>
+
+    <div style="clear:both;"></div>
+
+    ${components.savebox("/proposal/%s" % c.proposal.id)}
+ 
+</form>
