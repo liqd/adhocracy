@@ -8,8 +8,12 @@
                 %if tile.fresh:
                     ${_("(new)")}
                 %endif
-                ${tiles.badge.badges(proposal.badges)}
-            </h3>
+                %if not lib.auth.authorization.has('global.admin'):
+                        ${tiles.badge.badges(proposal.badges)}
+                %endif
+                %if lib.auth.authorization.has('global.admin'):
+                        ${tiles.proposal.badgesform(proposal, c.badges)}
+                %endif
             </h3>
             <div class="meta noclear">              
                 %if proposal.is_adopt_polling():
@@ -171,15 +175,20 @@
 </%def>
 
 <!--TODO-->
-<!--<%def name="badgesform(tile, proposal, badges)">-->
- <!--<form name="settings" class="inplace" method="POST" -->
-      <!--action="${h.entity_url(proposal, member='update_badges')}">-->
-            <!--%for badge in badges:-->
-                    <!--<input type="checkbox" value="${badge.id}" -->
-                           <!--name="badge" />-->
-                    <!--${badge_tiles.badge(badge)}-->
-            <!--%endfor-->
-    <!--<div style="clear:both;"></div>-->
-    <!--${components.savebox("/proposal/%s" % proposal.id)}-->
-<!--</form> -->
-<!--</%def>    -->
+<%def name="badgesform(tile, proposal, badges)">
+ <% proposal_badgeids = [b.id for b in proposal.badges] %>
+ <form name="settings"  class="inplace" method="POST"
+      action="${h.entity_url(proposal, member='update_badges')}">
+            %for badge in badges:
+                   <input type="checkbox" 
+                           value="${badge.id}"
+                           class="badgetsform_input"
+                           name="badge" 
+                           ${'checked="checked"' if badge.id in proposal_badgeids else ''}
+                           /> 
+                   ${tiles.badge.badge(badge)}
+            %endfor
+            <input type="hidden" value="1" name="redirect_to_proposals"></input>
+            <button class="badgetsform_save" type="submit">Save</button>
+</form>
+</%def>   

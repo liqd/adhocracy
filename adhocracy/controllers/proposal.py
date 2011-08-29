@@ -71,7 +71,6 @@ class ProposalFilterForm(formencode.Schema):
 class DelegateableBadgesForm(formencode.Schema):
     allow_extra_fields = True
     badge = formencode.foreach.ForEach(forms.ValidBadge())
-
     
 
 class ProposalController(BaseController):
@@ -96,6 +95,9 @@ class ProposalController(BaseController):
         c.cloud_tags = sorted(text.tag_cloud_normalize(tags),
                               key=lambda (k, c, v): k.name)
         c.tile = tiles.instance.InstanceTile(c.instance)
+        c.badges = model.Badge.all()
+        c.badges = filter(lambda x: x.badge_delegateable, c.badges)
+        c.badges = sorted(c.badges, key=attrgetter('title')) 
         return render("/proposal/index.html")
 
     @RequireInstance
@@ -366,6 +368,7 @@ class ProposalController(BaseController):
     def update_badges(self, id):
         proposal = get_entity_or_abort(model.Proposal, id)
         badges = self.form_result.get('badge')
+        redirect_to_proposals = self.form_result.get('redirect_to_proposals')
         creator = c.user
 
         added = []
@@ -382,7 +385,6 @@ class ProposalController(BaseController):
 
         model.meta.Session.commit()
         post_update(proposal, model.update.UPDATE)
+        if redirect_to_proposals:
+            redirect("/proposal")
         redirect(h.entity_url(proposal))   
-
-
-                                          
