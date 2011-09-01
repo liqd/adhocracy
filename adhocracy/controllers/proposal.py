@@ -70,8 +70,8 @@ class ProposalController(BaseController):
     def index(self, format="html"):
         require.proposal.index()
         query = self.form_result.get('proposals_q')
-        proposals = libsearch.query.run(query, instance=c.instance,
-                                        entity_type=model.Proposal)
+
+        proposals = self._find_proposals(query)
 
         if self.form_result.get('proposals_state'):
             proposals = model.Proposal.filter_by_state(
@@ -305,13 +305,39 @@ class ProposalController(BaseController):
                    topics=[c.proposal], proposal=c.proposal, poll=poll)
         redirect(h.entity_url(c.proposal))
 
+    def _find_proposals(self, query):
+        '''
+        Filter the proposals with a wildcard search
+        The *proposals_q* query string wil be splitted into
+        terms which are matched exactly or as *<term>**
+        and combined into an AND query.
+
+        The search is done on the solr field "text"
+
+        *query*
+           A query string
+
+        Returns: A list of `:class:adhocracy.model.Proposal` objects
+        '''
+        query = query or ''
+        query = query.lower()
+
+        terms = []
+        for term in query.split():
+            term = term.strip('*')
+            term = u'(text:%s OR text:%s*)' % (term, term)
+            terms.append(term)
+        terms = ' AND '.join(terms)
+        proposals = libsearch.query.run(terms, instance=c.instance,
+                                        entity_type=model.Proposal)
+        return proposals
+
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def filter(self):
         require.proposal.index()
         query = self.form_result.get('proposals_q')
-        proposals = libsearch.query.run(query, instance=c.instance,
-                                     entity_type=model.Proposal)
+        proposals = self._find_proposals(query)
         c.proposals_pager = pager.proposals(proposals)
         return c.proposals_pager.here()
 
