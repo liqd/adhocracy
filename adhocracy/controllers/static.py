@@ -1,5 +1,4 @@
 import logging
-import re
 from time import time
 
 from pylons import tmpl_context as c
@@ -11,8 +10,6 @@ from adhocracy.lib.static import StaticPage
 from adhocracy.lib.templating import render
 
 log = logging.getLogger(__name__)
-
-VALID_PAGE = re.compile("^[a-zA-Z0-9\_\-]*$")
 
 
 class StaticController(BaseController):
