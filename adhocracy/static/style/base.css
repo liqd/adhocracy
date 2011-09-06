@@ -2267,8 +2267,12 @@ h1 .badge, h3 .badge {
     float:right;
 }
 
-.event h3 .badge, h1.with_vote .badge {
+.event h3 .badge {
     float: none;
+}
+h1.with_vote .badge {
+    float: right;
+    margin-right: 20px;
 }
 
 .badge a {
