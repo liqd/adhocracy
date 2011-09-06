@@ -1,5 +1,6 @@
 import logging
 import urllib
+from operator import attrgetter
 
 import formencode
 from formencode import ForEach, htmlfill, validators
@@ -491,6 +492,8 @@ class UserController(BaseController):
     @ActionProtector(has_permission("global.admin"))
     def badges(self, id, errors=None):
         c.badges = model.Badge.all()
+        c.badges = filter(lambda x: not x.badge_delegateable, c.badges)
+        c.badges = sorted(c.badges, key=attrgetter('title'))
         c.page_user = get_entity_or_abort(model.User, id)
         defaults = {'badge': [str(badge.id) for badge in c.page_user.badges]}
         return formencode.htmlfill.render(

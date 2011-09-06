@@ -8,6 +8,12 @@
                 %if tile.fresh:
                     ${_("(new)")}
                 %endif
+                %if not lib.auth.authorization.has('global.admin'):
+                        ${tiles.badge.badges(proposal.badges)}
+                %endif
+                %if lib.auth.authorization.has('global.admin'):
+                        ${tiles.proposal.badgesform(proposal, c.badges)}
+                %endif
             </h3>
             <div class="meta noclear">              
                 %if proposal.is_adopt_polling():
@@ -27,7 +33,6 @@
                 <img src="/img/icons/discuss_16.png" /> 
                 ##${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
                 ${_("(latest: <b>%s</b>)") % h.relative_time(proposal.find_latest_comment_time())|n} 
-                
             </div>
         </div>
     </div>
@@ -83,6 +88,10 @@
             <a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
                 href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
         %endif
+
+        %if lib.auth.authorization.has('global.admin'):
+        <a class="button edit" href="${h.entity_url(proposal, member='badges')}">${_("Edit Badges")}</a>
+        %endif
                                 
         %if can.proposal.delete(proposal):
             <a class="button title delete ttip" title="${_('Delete this proposal.')}"   
@@ -119,7 +128,7 @@
     </span>
     %endif
     
-    <h1 class="with_vote page_title">${h.delegateable.link(proposal, icon_size=24, link=False)|n}</h1>
+    <h1 class="with_vote page_title">${h.delegateable.link(proposal, icon_size=24, link=False)|n}  ${tiles.badge.badges(proposal.badges)} </h1>
     <br/>
     ${tiles.proposal.panel(proposal, tile)}
 </%def>
@@ -165,4 +174,21 @@
     %endif
 </%def>
 
-
+<!--TODO-->
+<%def name="badgesform(tile, proposal, badges)">
+ <% proposal_badgeids = [b.id for b in proposal.badges] %>
+ <form name="settings"  class="inplace" method="POST"
+      action="${h.entity_url(proposal, member='update_badges')}">
+            %for badge in badges:
+                   <input type="checkbox" 
+                           value="${badge.id}"
+                           class="badgetsform_input"
+                           name="badge" 
+                           ${'checked="checked"' if badge.id in proposal_badgeids else ''}
+                           /> 
+                   ${tiles.badge.badge(badge)}
+            %endfor
+            <input type="hidden" value="1" name="redirect_to_proposals"></input>
+            <button class="badgetsform_save" type="submit">Save</button>
+</form>
+</%def>   

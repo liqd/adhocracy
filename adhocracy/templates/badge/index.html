@@ -18,8 +18,8 @@
 </div>
 
 <div class="mainbar">
-  <h1>${_("Badges")}</h1>
-  % if not c.badges:
+  <h1>${_("User Badges")}</h1>
+  % if not c.badges_users:
   <p>${_("No badges added yet.")}</p>
   % endif
 
@@ -34,7 +34,7 @@
         <th>${_("Display")}</th>
         <th>${_("Actions")}</th>
       </thead>
-      %for badge in c.badges:
+      %for badge in c.badges_users:
       <tr class="tile">
         <td>${badge.title}</td>
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
@@ -51,6 +51,34 @@
       %endfor
     </table>
   </div>
+  <h1>${_("Proposal Badges")}</h1>
+  % if not c.badges_users:
+  <p>${_("No badges added yet.")}</p>
+  % endif
+  <div class="table">
+    <table class="table_listing">
+      <thead>
+        <th>${_("Title")}</th>
+        <th>${_("Description")}</th>
+        <th>${_("Color")}</th>
+        <th>${_("Preview")}</th>
+        <th>${_("Actions")}</th>
+      </thead>
+      %for badge in c.badges_delegateables:
+      <tr class="tile">
+        <td>${badge.title}</td>
+        <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
+        <td>${badge.color}</td>
+        <td>${tiles.badge(badge)}</td>
+        
+        <td>
+          <a class="button edit ttip"
+             title='${_("Edit Badge \"%s\"") % badge.title}' 
+             href="./badge/edit/${badge.id}">${_('Edit')}</a></td>
+      </tr>
+      %endfor
+    </table>
+  </div>    
   <p></p>
   <a class="button add" href="/badge/add">${_("Add new badge...")}</a>
 </div>
