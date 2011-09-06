@@ -1,6 +1,25 @@
 adhocracy Changelog
 ===================
 
+
+1.2a4 (unreleased)
+-------------------
+
+- proposals can have badgets #263 [joka]
+
+
+1.2a3 
+-----
+
+1.2a2 
+------
+
+1.2a1
+-----
+
+- users can have badgets #214 [carsten]
+- proposal listing with natural sort #212 [joka]
+
 1.1 (2010-12-05)
 ----------------
 
