@@ -44,6 +44,7 @@ This version requires Python 2.5 or later.
 """,
     install_requires=[
         "Pylons==0.9.7",
+        "WebOb==1.0",  # 1.1 removed an imported required by Pylons 0.9.7
         "SQLAlchemy==0.6.8",
         "sqlalchemy-migrate>=0.6",
         "FormEncode>=1.2.2",
