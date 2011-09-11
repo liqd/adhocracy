@@ -70,13 +70,8 @@ class ProposalController(BaseController):
     def index(self, format="html"):
         require.proposal.index()
         query = self.form_result.get('proposals_q')
-
-        proposals = self._find_proposals(query)
-
-        if self.form_result.get('proposals_state'):
-            proposals = model.Proposal.filter_by_state(
-                self.form_result.get('proposals_state'), proposals)
-        c.proposals_pager = pager.proposals(proposals)
+        # fixme: query not used
+        c.proposals_pager = pager.solr_proposal_pager(c.instance)
 
         if format == 'json':
             return render_json(c.proposals_pager)

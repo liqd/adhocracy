@@ -20,7 +20,7 @@ class Indexable(object):
 
     def to_index(self):
         import refs
-        from adhocracy.lib.pager import FACETS
+        from adhocracy.lib.pager import INDEX_DATA_FINDERS
         index = dict(
             ref=refs.to_ref(self),
             doc_type=refs.entity_type(self))
@@ -28,6 +28,7 @@ class Indexable(object):
             index['skip'] = self.is_deleted()
         if hasattr(self, 'create_time'):
             index['create_time'] = self.create_time.strftime("%s")
-        for facet in FACETS:
-            facet.add_to_index(self, index)
+        for indexer in INDEX_DATA_FINDERS:
+            indexer.add_data_to_index(self, index)
+
         return index

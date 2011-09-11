@@ -55,6 +55,7 @@ def delete(entity):
     finally:
         conn.close()
 
+
 def clear():
     conn = get_connection()
     try:

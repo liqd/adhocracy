@@ -4,6 +4,23 @@
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
 
+    <fieldType name="text_lowercase" class="solr.TextField"
+               sortMissingLast="true"
+               omitNorms="true">
+      <analyzer type="index">
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <!-- KeywordTokenizer does no actual tokenizing, so the entire
+               input string is preserved as a single token -->
+          <tokenizer class="solr.KeywordTokenizerFactory"/>
+        <!-- The TrimFilter removes any leading or trailing whitespace -->
+        <filter class="solr.TrimFilterFactory" />
+      </analyzer>
+      <analyzer type="query">
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <tokenizer class="solr.KeywordTokenizerFactory"/>
+      </analyzer>
+    </fieldType> 
+
     <fieldType name="triefloat" class="solr.TrieFloatField" />
 
     <fieldType name="date" class="solr.TrieDateField" omitNorms="true" precisionStep="0" positionIncrementGap="0"/>
@@ -67,8 +84,6 @@
           required="true" /> 
    <field name="instance" type="string" indexed="true" stored="true" /> 
    <field name="title" type="textgen" indexed="true" stored="true"/>
-   <field name="sort_title" type="string" indexed="true" stored="true"
-          multiValued="false" />
    <field name="body" type="textgen" indexed="true" stored="true"/>
    
    <field name="tag" type="string" indexed="true" stored="true" 
@@ -81,17 +96,25 @@
           multiValued="true"/>
 
    <!-- facets -->
-   <dynamicField name="activity*" type="triefloat" indexed="true" 
-                 stored="true" />   
    <dynamicField name="facet.*" type="string" indexed="true" stored="true"
           omitNorms="true" multiValued="true" />
+
+   <!-- order -->
+   <dynamicField name="activity*" type="triefloat" indexed="true" 
+                 stored="true" />
+   <field name="order.comments" type="triefloat" indexed="true" 
+          stored="false" />
+   <field name="order.title" type="text_lowercase" indexed="true"
+          multiValued="false" />
+   <dynamicField name="order.*" type="triefloat" indexed="true" 
+                 stored="true" />
 
  </fields>
  
    <uniqueKey>id</uniqueKey>
    <defaultSearchField>text</defaultSearchField>
    <solrQueryParser defaultOperator="OR"/>
-   <copyField source="title" dest="sort_title"/>
+   <copyField source="title" dest="order.title"/>
    <copyField source="title" dest="text"/>
    <copyField source="body" dest="text"/>
    <copyField source="tag" dest="text"/>
