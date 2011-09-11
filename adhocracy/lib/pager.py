@@ -121,6 +121,8 @@ class PagerMixin(object):
         return self.total_num_items()
 
 
+# --[ sql based NamedPager ]------------------------------------------------
+
 class NamedPager(PagerMixin):
     """
     A ``NamedPager`` is a list generator for the UI. The ``name`` is required
@@ -289,6 +291,8 @@ class Sorts(object):
     def values(self):
         return self._values
 
+
+# --[ solr pager ]----------------------------------------------------------
 
 class SolrIndexer(object):
     '''
