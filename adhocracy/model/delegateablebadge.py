@@ -49,7 +49,8 @@ class DelegateableBadge(object):
         assert isinstance(badge, Badge), (
             "badge has to be an :class:`adhocracy.model.badge.Badge`")
         assert isinstance(delegateable, Delegateable), (
-            "delegateable has to be an :class:`adhocracy.model.delegateable.Delegateable`") 
+            "delegateable has to be an "
+            ":class:`adhocracy.model.delegateable.Delegateable`")
         delegateablebadge = cls(delegateable, badge, creator)
         meta.Session.add(delegateablebadge)
         meta.Session.flush()
