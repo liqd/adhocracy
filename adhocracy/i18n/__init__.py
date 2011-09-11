@@ -1,15 +1,12 @@
 from datetime import datetime, timedelta
 import pkgutil
 
-import formencode
-
-from pylons import config
-from pylons.i18n import _, add_fallback, set_lang
-from pylons import tmpl_context as c
-
 import babel
 from babel import Locale
 import babel.dates
+import formencode
+from pylons.i18n import _, add_fallback, set_lang
+from pylons import config, tmpl_context as c
 
 
 LOCALES = [babel.Locale('de', 'DE')]
@@ -42,7 +39,8 @@ def user_language(user, fallbacks=[]):
     locale = None
     if user and user.locale:
         locale = user.locale
-    else:
+
+    if locale is None:
         locales = map(str, LOCALES)
         locale = Locale.parse(Locale.negotiate(fallbacks, locales)) \
                  or get_default_locale()

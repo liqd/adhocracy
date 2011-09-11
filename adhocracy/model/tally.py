@@ -21,6 +21,12 @@ tally_table = Table('tally', meta.data,
 
 
 class Tally(object):
+    '''
+    Keep track of the current the number of votes in a poll.
+    There to hold denormalized data available in polls.
+
+    TODO: Move this information to solr where we index anyway?
+    '''
 
     def __init__(self, poll, num_for, num_against, num_abstain):
         self.poll = poll

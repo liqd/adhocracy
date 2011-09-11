@@ -3,6 +3,7 @@ import logging
 import os
 import os.path
 import shutil
+import time
 
 from pylons import config
 from pylons.i18n import _
@@ -14,6 +15,14 @@ def timedelta2seconds(delta):
     """ Convert a given timedelta to a number of seconds """
     return ((delta.microseconds / 1000000.0) +
             delta.seconds + (delta.days * 60 * 60 * 24))
+
+
+def datetime2seconds(dt):
+    '''
+    convert a :class:`datetime.datetime` object into seconds since
+    the epoche.
+    '''
+    return time.mktime(dt.timetuple())
 
 
 def random_token():

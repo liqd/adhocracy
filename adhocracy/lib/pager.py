@@ -1,6 +1,6 @@
-import urllib
 import math
 import logging
+import urllib
 
 from formencode import validators
 from pylons.i18n import _
@@ -8,10 +8,12 @@ from pylons import request, tmpl_context as c, url
 from pylons.controllers.util import redirect
 from webob.multidict import MultiDict
 
-from adhocracy.lib.templating import render_def
+from adhocracy import model
 from adhocracy.lib import sorting, tiles
+from adhocracy.lib.event.stats import user_activity
 from adhocracy.lib.search.query import sunburnt_query
-from adhocracy.model import refs, Badge, Instance, User
+from adhocracy.lib.templating import render_def
+
 
 log = logging.getLogger(__name__)
 
@@ -288,10 +290,33 @@ class Sorts(object):
         return self._values
 
 
+class SolrIndexer(object):
+    '''
+    An indexer class to add information to the data
+    which will be indexed in solr.
+    '''
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        '''
+        Add data from/based on *entity* to *data* which will be
+        indexed in solr. Add information to it *data* or modify
+        it. You don't need to return it.
+
+        *entity*
+           An :class:`adhocracy.model.meta.Indexable` object.
+        *data*
+           The data that will be send to solr.
+
+        Return *None*
+        '''
+        raise NotImplemented('has to be implemented in subclass')
+
+
 marker = object()
 
 
-class SolrFacet(object):
+class SolrFacet(SolrIndexer):
     """
     A Facet that can be used in searches.
     It's used like this:
@@ -554,10 +579,6 @@ class SolrFacet(object):
                   (key, value) in params.items()])
         return items
 
-    @classmethod
-    def add_to_index(cls, entity, index):
-        raise NotImplemented('has to be implemented in subclass')
-
     def render(self):
         return render_def(self.template, 'facet', facet=self)
 
@@ -565,13 +586,13 @@ class SolrFacet(object):
 class BadgeFacet(SolrFacet):
 
     name = 'badge'
-    entity_type = Badge
+    entity_type = model.Badge
     title = u'Badge'
     solr_field = 'facet.badges'
 
     @classmethod
-    def add_to_index(cls, user, index):
-        if not isinstance(user, User):
+    def add_data_to_index(cls, user, index):
+        if not isinstance(user, model.User):
             return
         index[cls.solr_field] = [badge.id for badge in user.badges]
 
@@ -579,18 +600,117 @@ class BadgeFacet(SolrFacet):
 class InstanceFacet(SolrFacet):
 
     name = 'instance'
-    entity_type = Instance
+    entity_type = model.Instance
     title = u'Instance'
     solr_field = 'facet.instances'
 
     @classmethod
-    def add_to_index(cls, user, index):
-        if not isinstance(user, User):
+    def add_data_to_index(cls, user, index):
+        if not isinstance(user, model.User):
             return
         index[cls.solr_field] = [instance.key for instance in user.instances]
 
 
-FACETS = [BadgeFacet, InstanceFacet]
+class AddedByUserWithBadgeFacet(SolrFacet):
+
+    name = 'addedByBadge'
+    entity_type = model.Badge
+    title = u'Added by...'
+    solr_field = 'facet.added_by_user_with_badge'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if not isinstance(entity, model.Proposal):
+            return
+
+
+class CommentOrderIndexer(SolrIndexer):
+
+    solr_field = 'order.comment.order'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Comment):
+            data[cls.solr_field] = sorting.comment_order_key(entity)
+
+
+class CommentScoreIndexer(SolrIndexer):
+
+    solr_field = 'order.comment.score'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Comment):
+            data[cls.solr_field] = sorting.comment_score(entity)
+
+
+class NormNumSelectionsIndexer(SolrIndexer):
+
+    solr_field = 'order.norm.num_selections'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if (isinstance(entity, model.Page) and
+            entity.function == model.Page.NORM):
+            data[cls.solr_field] = len(entity.selections)
+
+
+class NormNumVariantsIndexer(SolrIndexer):
+
+    solr_field = 'order.norm.selections'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if (isinstance(entity, model.Page) and
+            entity.function == model.Page.NORM):
+            data[cls.solr_field] = len(entity.selections)
+
+
+class ProposalSupportIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.support'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            data[cls.solr_field] = entity.rate_poll.tally.num_for
+
+
+class ProposalMixedIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.mixed'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            data[cls.solr_field] = sorting.proposal_mixed_key(entity)
+
+
+class UserActivityIndexer(SolrIndexer):
+
+    @classmethod
+    def solr_field(cls, instance=None):
+        field = 'order.user.activity'
+        if instance is not None:
+            field = field + '.%s' % instance.key
+        return field
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.User):
+            activity_sum = 0
+            for instance in entity.instances:
+                activity = user_activity(instance, entity)
+                data[cls.solr_field(instance)] = activity
+                activity_sum = activity_sum + activity
+            data[cls.solr_field()] = activity_sum
+
+
+INDEX_DATA_FINDERS = [BadgeFacet, InstanceFacet,
+                      CommentOrderIndexer, CommentScoreIndexer,
+                      NormNumSelectionsIndexer, NormNumSelectionsIndexer,
+                      ProposalSupportIndexer, ProposalMixedIndexer,
+                      UserActivityIndexer, AddedByUserWithBadgeFacet]
 
 
 class SolrPager(PagerMixin):
@@ -679,7 +799,7 @@ class SolrPager(PagerMixin):
         entities = []
         for doc in response.result.docs:
             ref = doc.get('ref')
-            entity = refs.to_entity(ref)
+            entity = model.refs.to_entity(ref)
             entities.append(entity)
         return entities
 
@@ -718,11 +838,11 @@ def solr_instance_users_pager(instance):
     extra_filter = {'facet.instances': instance.key}
     activity_sort_field = '-activity.%s' % instance.key
     pager = SolrPager('users', tiles.user.row,
-                      entity_type=User,
+                      entity_type=model.User,
                       sorts=((_("oldest"), '+create_time'),
                              (_("newest"), '-create_time'),
                              (_("activity"), activity_sort_field),
-                             (_("alphabetically"), 'sort_title')),
+                             (_("alphabetically"), 'order.title')),
                       extra_filter=extra_filter,
                       default_sort=activity_sort_field,
                       facets=[BadgeFacet])
@@ -732,12 +852,27 @@ def solr_instance_users_pager(instance):
 def solr_global_users_pager():
     activity_sort_field = '-activity'
     pager = SolrPager('users', tiles.user.row,
-                      entity_type=User,
+                      entity_type=model.User,
                       sorts=((_("oldest"), '+create_time'),
                              (_("newest"), '-create_time'),
                              (_("activity"), activity_sort_field),
-                             (_("alphabetically"), 'sort_title')),
+                             (_("alphabetically"), 'order.title')),
                       default_sort=activity_sort_field,
                       facets=[BadgeFacet, InstanceFacet]
                       )
+    return pager
+
+
+def solr_proposal_pager(instance):
+    extra_filter = {'instance': instance.key}
+    support_sort_field = '-order.proposal.support'
+    pager = SolrPager('proposals', tiles.proposal.row,
+                      entity_type=model.Proposal,
+                      sorts=((_("newest"), '-create_time'),
+                             (_("support"), support_sort_field),
+                             (_("mixed"), '-order.proposal.mixed'),
+                             (_("alphabetically"), 'order.title')),
+                      default_sort=support_sort_field,
+                      extra_filter=extra_filter,
+                      facets=[])
     return pager

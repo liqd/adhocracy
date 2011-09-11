@@ -1,8 +1,5 @@
-# http://www.mail-archive.com/sqlalchemy@googlegroups.com/msg09203.html
 import logging
-import json
-from sqlalchemy.orm import MapperExtension, SessionExtension, EXT_CONTINUE
-from sqlalchemy.orm.session import Session
+from sqlalchemy.orm import SessionExtension
 
 log = logging.getLogger(__name__)
 
@@ -12,20 +9,24 @@ UPDATE = "update"
 
 REGISTRY = {}
 
+
 class SessionModificationExtension(SessionExtension):
+    '''
+    A sqlalchemy SessionExtension to do work before commit, like
+    invalidating caches and adding asyncronous tasks.
+    '''
 
     def before_flush(self, session, flush_context, instances):
         if not hasattr(session, '_object_cache'):
-            session._object_cache= {INSERT: set(),
-                                    DELETE: set(),
-                                    UPDATE: set()}
+            session._object_cache = {INSERT: set(),
+                                     DELETE: set(),
+                                     UPDATE: set()}
         session._object_cache[INSERT].update(session.new)
         session._object_cache[DELETE].update(session.deleted)
         session._object_cache[UPDATE].update(session.dirty)
 
     def before_commit(self, session):
         from adhocracy.lib import cache
-        from adhocracy.lib import queue
 
         session.flush()
         if not hasattr(session, '_object_cache'):
@@ -33,7 +34,7 @@ class SessionModificationExtension(SessionExtension):
 
         for operation, entities in session._object_cache.items():
             for entity in entities:
-                queue.post_update(entity, operation)
+                self.post_update(entity, operation)
 
         #for entity in session._object_cache[INSERT]:
 
@@ -45,5 +46,20 @@ class SessionModificationExtension(SessionExtension):
 
         del session._object_cache
 
+    def post_update(self, entity, operation):
+        '''
+        Post an update task for the entity and any related objects.
+        '''
+        from adhocracy import model
+        from adhocracy.lib import queue
+        queue.post_update(entity, operation)
 
-
+        ## Do subsequent updates to reindex related content
+        # NOTE: This may post duplicate update tasks if an entity
+        # is part of the session, and also updated depending on
+        # another entity. Ignored for now cause the real work
+        # is asyncronous and (probably) not expensive.
+        # NOTE: Move the decisions about which other objects to
+        # update to the models
+        if isinstance(entity, model.Poll):
+            queue.post_update(entity.scope, UPDATE)

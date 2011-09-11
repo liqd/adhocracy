@@ -301,6 +301,8 @@ class User(meta.Indexable):
                          include_deleted=include_deleted).all()
 
     def delete(self, delete_time=None):
+        from watch import Watch
+        
         if delete_time is None:
             delete_time = datetime.utcnow()
         self.revoke_delegations()
@@ -312,6 +314,9 @@ class User(meta.Indexable):
             comment.delete(delete_time=delete_time)
         for membership in self.memberships:
             membership.delete(delete_time=delete_time)
+        for watch in Watch.all_by_user(self):
+            watch.delete(delete_time=delete_time)
+
         #for vote in self.votes:
         #    vote.delete(delete_time=delete_time)
         self.delete_time = delete_time
@@ -413,23 +418,13 @@ class User(meta.Indexable):
         return d
 
     def to_index(self):
-        from adhocracy.lib.event.stats import user_activity
         index = super(User, self).to_index()
-
-        # calculate activities for all instances and
-        # the overall activity of the user.
-        activity_sum = 0
-        for instance in self.instances:
-            activity = user_activity(instance, self)
-            index['activity.%s' % instance.key] = activity
-            activity_sum = activity_sum + activity
 
         index.update(dict(
             title=self.name,
             tag=[self.user_name],
             body=self.bio,
             user=self.user_name,
-            activity=activity_sum,
             ))
         return index
 
