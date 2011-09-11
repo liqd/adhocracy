@@ -27,7 +27,6 @@ class SessionModificationExtension(SessionExtension):
 
     def before_commit(self, session):
         from adhocracy.lib import cache
-        from adhocracy.lib import queue
 
         session.flush()
         if not hasattr(session, '_object_cache'):
@@ -35,7 +34,7 @@ class SessionModificationExtension(SessionExtension):
 
         for operation, entities in session._object_cache.items():
             for entity in entities:
-                queue.post_update(entity, operation)
+                self.post_update(entity, operation)
 
         #for entity in session._object_cache[INSERT]:
 
@@ -46,3 +45,21 @@ class SessionModificationExtension(SessionExtension):
             cache.invalidate(entity)
 
         del session._object_cache
+
+    def post_update(self, entity, operation):
+        '''
+        Post an update task for the entity and any related objects.
+        '''
+        from adhocracy import model
+        from adhocracy.lib import queue
+        queue.post_update(entity, operation)
+
+        ## Do subsequent updates to reindex related content
+        # NOTE: This may post duplicate update tasks if an entity
+        # is part of the session, and also updated depending on
+        # another entity. Ignored for now cause the real work
+        # is asyncronous and (probably) not expensive.
+        # NOTE: Move the decisions about which other objects to
+        # update to the models
+        if isinstance(entity, model.Poll):
+            queue.post_update(entity.scope, UPDATE)
