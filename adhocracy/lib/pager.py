@@ -587,9 +587,9 @@ class SolrFacet(SolrIndexer):
         return render_def(self.template, 'facet', facet=self)
 
 
-class BadgeFacet(SolrFacet):
+class UserBadgeFacet(SolrFacet):
 
-    name = 'badge'
+    name = 'userbadge'
     entity_type = model.Badge
     title = u'Badge'
     solr_field = 'facet.badges'
@@ -710,7 +710,7 @@ class UserActivityIndexer(SolrIndexer):
             data[cls.solr_field()] = activity_sum
 
 
-INDEX_DATA_FINDERS = [BadgeFacet, InstanceFacet,
+INDEX_DATA_FINDERS = [UserBadgeFacet, InstanceFacet,
                       CommentOrderIndexer, CommentScoreIndexer,
                       NormNumSelectionsIndexer, NormNumSelectionsIndexer,
                       ProposalSupportIndexer, ProposalMixedIndexer,
@@ -849,7 +849,7 @@ def solr_instance_users_pager(instance):
                              (_("alphabetically"), 'order.title')),
                       extra_filter=extra_filter,
                       default_sort=activity_sort_field,
-                      facets=[BadgeFacet])
+                      facets=[UserBadgeFacet])
     return pager
 
 
@@ -862,7 +862,7 @@ def solr_global_users_pager():
                              (_("activity"), activity_sort_field),
                              (_("alphabetically"), 'order.title')),
                       default_sort=activity_sort_field,
-                      facets=[BadgeFacet, InstanceFacet]
+                      facets=[UserBadgeFacet, InstanceFacet]
                       )
     return pager
 
