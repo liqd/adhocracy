@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
-
 from pylons import tmpl_context as c
 
+from adhocracy.lib.auth import authorization
 from adhocracy.lib.democracy import Decision
 from adhocracy.lib.tiles.util import render_tile
 from adhocracy.lib.tiles.delegateable_tiles import DelegateableTile
@@ -51,8 +51,9 @@ class ProposalTile(DelegateableTile):
 
 
 def row(proposal):
+    global_admin = authorization.has('global.admin')  
     return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal),
-                       proposal=proposal, cached=False)
+            proposal=proposal, cached=True, global_admin=global_admin)
 
 
 def header(proposal, tile=None, active='goal'):
