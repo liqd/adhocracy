@@ -53,3 +53,12 @@ class TestSolrSearch(TestCase):
         self.assertEqual(
             query.params(),
             [('q', 'text:passedin AND (text:wild OR text:wild*)')])
+
+    def test_wildcard_search_ignore_none(self):
+        from adhocracy.lib.search.query import add_wildcard_query
+        search = SolrSearch(interface)
+
+        query = add_wildcard_query(search, 'text', None)
+        self.assertEqual(
+            query.params(),
+            [('q', '*:*')])

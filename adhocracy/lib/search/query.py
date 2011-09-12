@@ -52,6 +52,9 @@ def add_wildcard_query(query, field, string, lower=True):
 
     Returns: A :class:`sunburnt.search.SolrSearch` object
     '''
+    if string is None:
+        return query
+
     if lower:
         string = string.lower()
 
