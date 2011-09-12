@@ -31,13 +31,16 @@ from adhocracy.lib.helpers import delegation_helper as delegation
 from adhocracy.lib.helpers import instance_helper as instance
 from adhocracy.lib.helpers import abuse_helper as abuse
 from adhocracy.lib.helpers import milestone_helper as milestone
+from adhocracy.lib.helpers import recaptcha_helper as recaptcha
 from adhocracy.lib.helpers.site_helper import base_url
 from adhocracy.lib.watchlist import make_watch, find_watch
 from adhocracy import model
 from adhocracy.i18n import countdown_time, format_date
 from adhocracy.i18n import relative_date, relative_time
 
+
 flash = _Flash()
+recaptcha = recaptcha.Recaptcha()
 
 
 def immutable_proposal_message():
@@ -169,3 +172,5 @@ def entity_url(entity, **kwargs):
     elif isinstance(entity, model.Tag):
         return tag.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
+
+

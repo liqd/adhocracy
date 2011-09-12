@@ -285,6 +285,11 @@ input.watch {
     margin-top: 10px;
 }
 
+#register_input_css {
+    margin-left: 3000px;
+    position: absolute;
+}
+
 /* @end */
 
 /* @group Page Layout */

@@ -1,5 +1,7 @@
 
 <form name="create" method="POST" action="/user">
+
+    <!--Fields-->
     ${h.field_token()|n}
     <label for="user_name">${_("User name:")}</label>
     <span class="hint">${_("Can only contain letters and numbers.")}</span>
@@ -13,11 +15,25 @@
     
     <label for="password_confirm">${_("Password (confirm):")}</label>
     <input type="password" name="password_confirm" />
+
     <p>
         Durch Ihre Anmeldung stimmen Sie den 
         <a class="staticlink_terms" href="/static/terms.html">Nutzungsbedingungen</a> 
         zu. Wir werden Sie gelegentlich über wichtige Ereignisse wie den 
         Beteiligungsstart einzelner Projektgruppen per E-Mail informieren.
     </p>
+
+    <!--SPAM protection-->
+    <div id="register_input_js">
+      <label for="input_js">JS ${_('leave empty')}</label>
+      <input name="input_js" />
+    </div>
+    <div id="register_input_css">
+      <label for="input_css">CCS ${_('leave empty')}</label>
+      <input name="input_css" />
+    </div>
+    ${c.recaptcha}
+    
+    <!--Submit button-->
     <input type="submit" value="${_('Register')}" />
 </form>

@@ -379,6 +379,7 @@ $(document).ready(function() {
         }); 
     }
 });
+
 //Proposal badgets javascript
 $(document).ready(function() {
   //hide save button in proposal listing:
@@ -388,3 +389,8 @@ $(document).ready(function() {
       $(this).parent().submit();
   });
 });
+
+//SPAM protection
+$(document).ready(function() {
+  $("#register_input_js").hide()
+});  
