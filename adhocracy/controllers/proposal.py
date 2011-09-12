@@ -13,7 +13,7 @@ from repoze.what.plugins.pylonshq import ActionProtector
 
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h, pager
-from adhocracy.lib import search as libsearch, tiles, watchlist
+from adhocracy.lib import tiles, watchlist
 from adhocracy.lib.auth import authorization, can, csrf, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
@@ -71,7 +71,7 @@ class ProposalFilterForm(formencode.Schema):
 class DelegateableBadgesForm(formencode.Schema):
     allow_extra_fields = True
     badge = formencode.foreach.ForEach(forms.ValidBadge())
-    
+
 
 class ProposalController(BaseController):
 
@@ -80,19 +80,16 @@ class ProposalController(BaseController):
     def index(self, format="html"):
         require.proposal.index()
         query = self.form_result.get('proposals_q')
-        # fixme: query not used
-        c.proposals_pager = pager.solr_proposal_pager(c.instance)
+
+        # FIXME: Add tag filtering again (now solr based)
+        # FIXME: Live filtering ignores selected facets.
+        c.proposals_pager = pager.solr_proposal_pager(c.instance,
+                                                      {'text': query})
 
         if format == 'json':
             return render_json(c.proposals_pager)
 
-        tags = model.Tag.popular_tags(limit=30)
-        c.cloud_tags = sorted(text.tag_cloud_normalize(tags),
-                              key=lambda (k, c, v): k.name)
         c.tile = tiles.instance.InstanceTile(c.instance)
-        c.badges = model.Badge.all()
-        c.badges = filter(lambda x: x.badge_delegateable, c.badges)
-        c.badges = sorted(c.badges, key=attrgetter('title')) 
         return render("/proposal/index.html")
 
     @RequireInstance
@@ -313,41 +310,15 @@ class ProposalController(BaseController):
                    topics=[c.proposal], proposal=c.proposal, poll=poll)
         redirect(h.entity_url(c.proposal))
 
-    def _find_proposals(self, query):
-        '''
-        Filter the proposals with a wildcard search
-        The *proposals_q* query string wil be splitted into
-        terms which are matched exactly or as *<term>**
-        and combined into an AND query.
-
-        The search is done on the solr field "text"
-
-        *query*
-           A query string
-
-        Returns: A list of `:class:adhocracy.model.Proposal` objects
-        '''
-        query = query or ''
-        query = query.lower()
-
-        terms = []
-        for term in query.split():
-            term = term.strip('*')
-            term = u'(text:%s OR text:%s*)' % (term, term)
-            terms.append(term)
-        terms = ' AND '.join(terms)
-        proposals = libsearch.query.run(terms, instance=c.instance,
-                                        entity_type=model.Proposal)
-        return proposals
-
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def filter(self):
         require.proposal.index()
         query = self.form_result.get('proposals_q')
-        proposals = self._find_proposals(query)
-        c.proposals_pager = pager.proposals(proposals)
-        return c.proposals_pager.here()
+        proposals_pager = pager.solr_proposal_pager(c.instance,
+                                                    {'text': query})
+        return render_json({'listing': proposals_pager.here(),
+                            'facets': proposals_pager.render_facets()})
 
     def _common_metadata(self, proposal):
         h.add_meta("description",
@@ -408,4 +379,4 @@ class ProposalController(BaseController):
         post_update(proposal, model.update.UPDATE)
         if redirect_to_proposals:
             redirect("/proposal")
-        redirect(h.entity_url(proposal))   
+        redirect(h.entity_url(proposal))

@@ -15,32 +15,9 @@
 <h1 class="page_title"><img src="/img/icons/proposal_24.png" class="cd" /> ${_("Proposals")}</h1>
 
 <div class="sidebar">
-    %if len(c.cloud_tags):
-        <h3 class="section">${_("Popular tags")}</h3>
-        ${tiles.tag.cloud(c.cloud_tags)}
-    %endif
-    
-    %if c.instance.allow_adopt:
-        <h3 class="section">${_("Filter by state")}</h3>
-        <ul>
-        %for state in ['', 'draft', 'polling', 'adopted']:
-            <li>
-            %if state!=request.params.get('proposals_state', ''):
-                <a href="${c.proposals_pager.build_url(proposals_state=state)}">
-            %endif
-            %if state!='':
-                ${_(state.capitalize())}
-            %else:
-                ${_("All")}
-            %endif
-            %if state!=request.params.get('proposals_state', ''):
-                </a>
-            %endif
-            </li>
-        %endfor
-        </ul>
-    %endif
-    
+    <div id="proposals_facets">
+        ${c.proposals_pager.render_facets()}    
+    </div>
     <div class="help">
         <h3>${_("Help")}</h3>
         <ul>

@@ -205,24 +205,30 @@ $(document).ready(function () {
     }
 
     /* Live filter for issue listing on instance home page */
-    var originalListing = null;
-    var timeoutSet = false;
+    var originalListing = null,
+        originalFacets = null,
+        timeoutSet = false;
 
     var live_filter = function (id, url) {
         $("#" + id + "_q").keyup(function (fld) {
             var _load = function () {
                 if (!originalListing) {
                     originalListing = $("#" + id + "_table").html();
+                    originalFacets = $("#" + id + "_facets").html();
                 }
                 var destination = $("#" + id + "_table");
+                var destinationFacets = $("#" + id + "_facets");
                 var value = $.trim($("#" + id + "_q").val());
                 if (value.length == 0) {
                     destination.html(originalListing);
+                    destinationFacets.html(originalFacets);
                 }
                 var get_url = url + '?' + id + '_q=' + value;
                 $.get(get_url, function (data, status) {
-                    destination.html(data);
-                }, 'text');
+ 
+                    destination.html(data.listing);
+                    destinationFacets.html(data.facets);
+                }, 'json');
                 timeoutSet = false;
             };
             if (!timeoutSet) {
