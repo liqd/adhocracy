@@ -52,7 +52,7 @@ class ProposalTile(DelegateableTile):
 
 def row(proposal):
     return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal),
-                       proposal=proposal, cached=True)
+                       proposal=proposal, cached=False)
 
 
 def header(proposal, tile=None, active='goal'):
