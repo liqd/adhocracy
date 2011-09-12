@@ -34,6 +34,39 @@ def sunburnt_query(entity_type=None):
     return q
 
 
+def add_wildcard_query(query, field, string, lower=True):
+    '''
+    add a wildcard search for all words in *string* for the solr
+    *field* to the existing sunburnt *query*.
+
+    *query*
+       :class:`sunburnt.search.SolrSearch` query object
+    *field*
+       `str`. The name of the solr field.
+    *string*
+       `str` or `unicode`. The search terms as a string
+    *lower*
+       `boolean`. If True (default) the search terms will be lowercased.
+       This is required if the search index is lowercased, which it
+       probably will be.
+
+    Returns: A :class:`sunburnt.search.SolrSearch` object
+    '''
+    if lower:
+        string = string.lower()
+
+    for term in string.split():
+        term = term.strip('*')
+
+        # We need to search for both the term or the term
+        # with an wildcard.
+        term_query = query.Q(**{field: term}) | query.Q(**{field: term + '*'})
+
+        # chain this with the rest of the query as an AND query
+        query = query.query(term_query)
+    return query
+
+
 def run(terms, instance=None, entity_type=None, **kwargs):
     conn = get_connection()
     try:
