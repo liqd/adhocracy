@@ -11,7 +11,7 @@ from webob.multidict import MultiDict
 from adhocracy import model
 from adhocracy.lib import sorting, tiles
 from adhocracy.lib.event.stats import user_activity
-from adhocracy.lib.search.query import sunburnt_query
+from adhocracy.lib.search.query import sunburnt_query, add_wildcard_query
 from adhocracy.lib.templating import render_def
 
 
@@ -615,17 +615,33 @@ class InstanceFacet(SolrFacet):
         index[cls.solr_field] = [instance.key for instance in user.instances]
 
 
-class AddedByUserWithBadgeFacet(SolrFacet):
+class DelegateableBadgeFacet(SolrFacet):
 
-    name = 'addedByBadge'
+    name = 'delegateablebadge'
     entity_type = model.Badge
-    title = u'Added by...'
-    solr_field = 'facet.added_by_user_with_badge'
+    title = u'Type'
+    solr_field = 'facet.delegateable.badge'
 
     @classmethod
     def add_data_to_index(cls, entity, data):
-        if not isinstance(entity, model.Proposal):
+        if not isinstance(entity, model.Delegateable):
             return
+        data[cls.solr_field] = [badge.id for badge in
+                                entity.delegateablebadges]
+
+
+class DelegateableAddedByBadgeFacet(SolrFacet):
+
+    name = 'added_by_badge'
+    entity_type = model.Badge
+    title = u'Added by...'
+    solr_field = 'facet.delegateable.added.by.badge'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if not isinstance(entity, model.Delegateable):
+            return
+        data[cls.solr_field] = [badge.id for badge in entity.creator.badges]
 
 
 class CommentOrderIndexer(SolrIndexer):
@@ -712,9 +728,10 @@ class UserActivityIndexer(SolrIndexer):
 
 INDEX_DATA_FINDERS = [UserBadgeFacet, InstanceFacet,
                       CommentOrderIndexer, CommentScoreIndexer,
+                      DelegateableAddedByBadgeFacet, DelegateableBadgeFacet,
                       NormNumSelectionsIndexer, NormNumSelectionsIndexer,
                       ProposalSupportIndexer, ProposalMixedIndexer,
-                      UserActivityIndexer, AddedByUserWithBadgeFacet]
+                      UserActivityIndexer]
 
 
 class SolrPager(PagerMixin):
@@ -724,13 +741,15 @@ class SolrPager(PagerMixin):
 
     def __init__(self, name, itemfunc, entity_type=None, extra_filter=None,
                  initial_size=20, size=None, sorts=tuple(), default_sort=None,
-                 enable_sorts=True, enable_pages=True, facets=tuple()):
+                 enable_sorts=True, enable_pages=True, facets=tuple(),
+                 wildcard_queries=None):
         self.name = name
         self.itemfunc = itemfunc
         self.enable_pages = enable_pages
         self.enable_sorts = enable_sorts
         self.extra_filter = extra_filter
         self.facets = [Facet(self.name, request) for Facet in facets]
+        self.wildcard_queries = wildcard_queries or {}
         self.initial_size = initial_size
         if size is not None:
             self.size = size
@@ -754,6 +773,8 @@ class SolrPager(PagerMixin):
         query = sunburnt_query(entity_type)
         if self.extra_filter:
             query = query.filter(**self.extra_filter)
+        for field, string in self.wildcard_queries.items():
+            query = add_wildcard_query(query, field, string)
 
         # Add facets
         counts_query = query
@@ -867,7 +888,7 @@ def solr_global_users_pager():
     return pager
 
 
-def solr_proposal_pager(instance):
+def solr_proposal_pager(instance, wildcard_queries=None):
     extra_filter = {'instance': instance.key}
     support_sort_field = '-order.proposal.support'
     pager = SolrPager('proposals', tiles.proposal.row,
@@ -878,5 +899,7 @@ def solr_proposal_pager(instance):
                              (_("alphabetically"), 'order.title')),
                       default_sort=support_sort_field,
                       extra_filter=extra_filter,
-                      facets=[])
+                      facets=[DelegateableBadgeFacet,
+                              DelegateableAddedByBadgeFacet],
+                      wildcard_queries=wildcard_queries)
     return pager
