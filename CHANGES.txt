@@ -5,6 +5,7 @@ adhocracy Changelog
 1.2a4 (unreleased)
 -------------------
 
+- recaptcha support (disabled by default) [joka]
 - proposals can have badgets #263 [joka]
 
 
