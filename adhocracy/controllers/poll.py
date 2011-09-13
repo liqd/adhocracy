@@ -11,7 +11,7 @@ from pylons.i18n import _
 
 from adhocracy import model
 from adhocracy.lib import democracy, event, helpers as h, pager
-from adhocracy.lib.auth import require
+from adhocracy.lib.auth import can, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
@@ -131,6 +131,13 @@ class PollController(BaseController):
     @validate(schema=PollVotesFilterForm(), post_only=False, on_get=True)
     def votes(self, id, format='html'):
         c.poll = get_entity_or_abort(model.Poll, id)
+
+        # cover over data inconsistency because of a bug where pages (norms)
+        # where deleted when a proposal was deleted.
+        # Fixes http://trac.adhocracy.de/ticket/262
+        if c.poll.selection is None:
+            raise abort(404)
+
         require.poll.show(c.poll)
         decisions = democracy.Decision.for_poll(c.poll)
         if (hasattr(self, 'form_result') and

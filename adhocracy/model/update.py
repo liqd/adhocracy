@@ -1,8 +1,5 @@
-# http://www.mail-archive.com/sqlalchemy@googlegroups.com/msg09203.html
 import logging
-import json
-from sqlalchemy.orm import MapperExtension, SessionExtension, EXT_CONTINUE
-from sqlalchemy.orm.session import Session
+from sqlalchemy.orm import SessionExtension
 
 log = logging.getLogger(__name__)
 
@@ -12,13 +9,18 @@ UPDATE = "update"
 
 REGISTRY = {}
 
+
 class SessionModificationExtension(SessionExtension):
+    '''
+    A sqlalchemy SessionExtension to do work before commit, like
+    invalidating caches and adding asyncronous tasks.
+    '''
 
     def before_flush(self, session, flush_context, instances):
         if not hasattr(session, '_object_cache'):
-            session._object_cache= {INSERT: set(),
-                                    DELETE: set(),
-                                    UPDATE: set()}
+            session._object_cache = {INSERT: set(),
+                                     DELETE: set(),
+                                     UPDATE: set()}
         session._object_cache[INSERT].update(session.new)
         session._object_cache[DELETE].update(session.deleted)
         session._object_cache[UPDATE].update(session.dirty)
@@ -44,6 +46,3 @@ class SessionModificationExtension(SessionExtension):
             cache.invalidate(entity)
 
         del session._object_cache
-
-
-

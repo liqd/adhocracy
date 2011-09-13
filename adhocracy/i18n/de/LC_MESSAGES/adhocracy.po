@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-08-08 17:01+0200\n"
-"PO-Revision-Date: 2011-08-08 17:08+0100\n"
+"PO-Revision-Date: 2011-08-31 12:26+0100\n"
 "Last-Translator: Carsten Senger <senger@rehfisch.de>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -359,27 +359,27 @@ msgstr "Sie haben ein neues Passwort für Adhocracy angefordert. Um den Prozess 
 
 #: adhocracy/controllers/user.py:206
 msgid "Reset your password"
-msgstr "Kennwort zurücksetzen."
+msgstr "Passwort zurücksetzen."
 
 #: adhocracy/controllers/user.py:221
 msgid "your password has been reset. It is now:"
-msgstr "Ihr Kennwort wurde zurückgesetzt. Es lautet:"
+msgstr "Ihr Passwort wurde zurückgesetzt. Es lautet:"
 
 #: adhocracy/controllers/user.py:223
 msgid "Please login and change the password in your user settings."
-msgstr "Bitte loggen Sie Sich erneut ein und ändern Sie Ihr Kennwort in den Einstellungen."
+msgstr "Bitte loggen Sie Sich erneut ein und ändern Sie Ihr Passwort in den Einstellungen."
 
 #: adhocracy/controllers/user.py:225
 msgid "Your new password"
-msgstr "Ihr neues Kennwort."
+msgstr "Ihr neues Passwort."
 
 #: adhocracy/controllers/user.py:226
 msgid "Success. You have been sent an email with your new password."
-msgstr "Geschafft. Das neue Kennwort wurde an Ihre E-Mail-Adresse versandt."
+msgstr "Geschafft. Das neue Passwort wurde an Ihre E-Mail-Adresse versandt."
 
 #: adhocracy/controllers/user.py:229
 msgid "The reset code is invalid. Please repeat the password recovery procedure."
-msgstr "Der Code zum Zurücksetzen scheint ungültig. Bitte wiederholen Sie die Prozedur zur Wiederherstellung Ihres Kennworts."
+msgstr "Der Code zum Zurücksetzen scheint ungültig. Bitte wiederholen Sie die Prozedur zur Wiederherstellung Ihres Passworts."
 
 #: adhocracy/controllers/user.py:243
 msgid "Your email has been confirmed."
@@ -3529,7 +3529,7 @@ msgstr "Um einen Account anzulegen, brauchen Sie nur einen Benutzernamen, ein Pa
 
 #: adhocracy/templates/user/login.html:18
 msgid "If you have an account but you've lost your password, <a href='/reset'>click here</a>."
-msgstr "Wenn Sie schon einen Benutzernamen besitzen, aber Ihr Kennwort verloren haben, <a href='/reset'>klick hier</a>."
+msgstr "Wenn Sie schon einen Benutzernamen besitzen, aber Ihr Passwort verloren haben, <a href='/reset'>klick hier</a>."
 
 #: adhocracy/templates/user/login_form.html:2
 msgid "Login:"
@@ -3553,11 +3553,11 @@ msgstr "Darf nur Buchstaben und Zahlen enthalten."
 #: adhocracy/templates/user/reset_pending.html:2
 #: adhocracy/templates/user/reset_pending.html:4
 msgid "Password reset"
-msgstr "Kennwort wurde zurückgesetzt"
+msgstr "Passwort wurde zurückgesetzt"
 
 #: adhocracy/templates/user/reset_form.html:8
 msgid "You will be sent an activation link that, when opened, will cause the system to email you a new password."
-msgstr "Ihnen wird ein Link zugesandt. Öffnen Sie ihn im Browser, dann wird Ihnen Adhocracy ein neues Kennwort zusenden."
+msgstr "Ihnen wird ein Link zugesandt. Öffnen Sie ihn im Browser, dann wird Ihnen Adhocracy ein neues Passwort zusenden."
 
 #: adhocracy/templates/user/reset_form.html:12
 msgid "In order to retrieve your login, you will have to enter your email adress."
@@ -3573,7 +3573,7 @@ msgstr "Bestätigung steht aus"
 
 #: adhocracy/templates/user/reset_pending.html:11
 msgid "You have recieved an email containing a link. Please open that link in order to reset you password"
-msgstr "Sie haben eine E-Mail erhalten. Bitte öffnen Sie den darin enthaltenen Link, um Ihr Kennwort zurückzusetzen."
+msgstr "Sie haben eine E-Mail erhalten. Bitte öffnen Sie den darin enthaltenen Link, um Ihr Passwort zurückzusetzen."
 
 #: adhocracy/templates/user/show.html:14
 #, python-format
@@ -3643,4 +3643,3 @@ msgstr "Wie kann man etwas beobachten?"
 
 #~ msgid "User has badge: %s"
 #~ msgstr "Benutzer ist ausgezeichent als: %s"
-

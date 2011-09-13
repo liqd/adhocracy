@@ -301,6 +301,8 @@ class User(meta.Indexable):
                          include_deleted=include_deleted).all()
 
     def delete(self, delete_time=None):
+        from watch import Watch
+        
         if delete_time is None:
             delete_time = datetime.utcnow()
         self.revoke_delegations()
@@ -312,6 +314,9 @@ class User(meta.Indexable):
             comment.delete(delete_time=delete_time)
         for membership in self.memberships:
             membership.delete(delete_time=delete_time)
+        for watch in Watch.all_by_user(self):
+            watch.delete(delete_time=delete_time)
+
         #for vote in self.votes:
         #    vote.delete(delete_time=delete_time)
         self.delete_time = delete_time
