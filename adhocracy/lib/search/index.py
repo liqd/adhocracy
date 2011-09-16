@@ -21,7 +21,7 @@ def gen_id(entity):
     return hashlib.sha1(ref).hexdigest()
 
 
-def update(entity):
+def update(entity, connection=None, commit=True):
     if not isinstance(entity, model.meta.Indexable):
         return
     if hasattr(entity, 'is_deleted') and entity.is_deleted():
@@ -29,19 +29,23 @@ def update(entity):
         return
     index = entity.to_index()
     index['id'] = gen_id(entity)
-    log.debug("Updating index for: %s" % index.get('id'))
     if index.get('skip', False):
         return
     else:
         del index['skip']
-    conn = get_connection()
+    if connection:
+        conn = connection
+    else:
+        conn = get_connection()
     try:
         conn.add(**index)
-        conn.commit()
+        if commit:
+            conn.commit()
     except Exception, e:
         log.exception(e)
     finally:
-        conn.close()
+        if not connection:
+            conn.close()
 
 
 def delete(entity):

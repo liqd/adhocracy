@@ -1,10 +1,11 @@
 '''Integrate solr with adhocracy'''
 
 import logging
+import time
 
 from adhocracy import model
 from adhocracy.lib.search import index
-from adhocracy.lib.search import query
+
 
 log = logging.getLogger(__name__)
 
@@ -25,13 +26,32 @@ def init_search():
         LISTENERS[(cls, DELETE)].append(index.delete)
 
 
+def rebuild(classes):
+    '''
+    (Re)Index all entities of the given *classes*.
+    '''
+    start = time.time()
+    done = 0
+    connection = index.get_connection()
+    for cls in classes:
+        if cls not in INDEXED_CLASSES:
+            log.warn('Class "%s" is not an indexable class! skipping.' %
+                     cls)
+            continue
+        log.info("Re-indexing %ss..." % cls.__name__)
+        for entity in model.meta.Session.query(cls):
+            index.update(entity, connection=connection, commit=False)
+            done = done + 1
+            if done % 100 == 0:
+                connection.commit()
+                log.info('indexed %d in %ss' % (done, time.time() - start))
+    connection.commit()
+    connection.close()
+
 def rebuild_all():
     '''(re)index all indexable models in solr. This does not drop
     orphaned entries from the solr index.
 
     todo: add an option to clear the index before updating it.
     '''
-    for cls in INDEXED_CLASSES:
-        log.info("Re-indexing %ss..." % cls.__name__)
-        for entity in model.meta.Session.query(cls):
-            index.update(entity)
+    rebuild(INDEXED_CLASSES)
