@@ -661,7 +661,7 @@ class CommentScoreIndexer(SolrIndexer):
     @classmethod
     def add_data_to_index(cls, entity, data):
         if isinstance(entity, model.Comment):
-            data[cls.solr_field] = sorting.comment_score(entity)
+            data[cls.solr_field] = entity.poll.tally.score
 
 
 class NormNumSelectionsIndexer(SolrIndexer):
