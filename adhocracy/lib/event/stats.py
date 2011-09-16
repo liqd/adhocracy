@@ -27,7 +27,6 @@ def activity(query_filter, from_time=None, to_time=None):
         return math.log(max(1, age))
 
     act = sum([evt_value(row[0]) for row in query])
-    log.debug("Activity %s - %s: %s" % (from_time, to_time, act))
     return act
 
 
