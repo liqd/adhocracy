@@ -223,9 +223,12 @@ $(document).ready(function () {
                     destination.html(originalListing);
                     destinationFacets.html(originalFacets);
                 }
-                var get_url = url + '?' + id + '_q=' + value;
-                $.get(get_url, function (data, status) {
- 
+                var get_url = url + '?' + id + '_q=' + value + '&ajax=1';
+                var id_ = id + '_q';
+                var dataToSend = {'ajax': '1'};
+                dataToSend[id] = value;
+                $.get(url, dataToSend, function (data, status) {
+
                     destination.html(data.listing);
                     destinationFacets.html(data.facets);
                 }, 'json');
@@ -240,7 +243,7 @@ $(document).ready(function () {
 
     live_filter('users', '/user/filter');
     live_filter('serp', '/search/filter');
-    live_filter('proposals', '/proposal/filter');
+    live_filter('proposals', '/proposal');
 
 
     $("#diff_left_select").change(function (e) {
