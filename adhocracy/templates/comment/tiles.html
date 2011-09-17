@@ -56,9 +56,9 @@
         </div>
         <div class="link">
             
-            <a href="javascript:toggle_comment(${comment.id});" onClick="return toggle_comment(${comment.id})">${comment.latest.title}</a>
-            ${_("by %(user)s, %(score)s points.") % dict(user=h.user.link(comment.creator, scope=comment.topic),
-                                                                                               score=tile.score)|n}
+            <a href="javascript:toggle_comment(${comment.id});" onClick="return toggle_comment(${comment.id})">${_("by %(user)s, %(score)s points.") % dict(user=h.user.link(comment.creator, scope=comment.topic),
+                                                                                               score=tile.score)|n}</a>
+            
         </div>
     </div>
     <div class="comment ${'hidden' if tile.is_low else ''}" id="c${comment.id}">
@@ -110,12 +110,6 @@
             <div class="title">
                 %if comment.is_deleted():
                     ${_("(deleted)")}
-                %else:
-                    %if comment.latest.has_title:
-                        ${comment.latest.title}
-                    %else:
-                        &nbsp;
-                    %endif
                 %endif
             </div>
             
@@ -179,9 +173,6 @@
         <input type="hidden" name="_method" value="PUT" />
         <input type="hidden" name="ret_url" value="${ret_url}" />
         
-        <label for="title" class="inline">${_("Title:")}</label>
-        <input class="textinput" name="title" value="${comment.latest.title}" />
-        
         %if comment.is_root:
             ${_("argumenting:")}
             <input type="radio" value="1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == 1 else ''} /> 
@@ -213,9 +204,6 @@
             <input type="hidden" name="reply" value="${parent.id}" />
         %endif
         <div style="width: auto;">
-        
-        <label for="title" class="inline">${_("Title:")}</label>
-        <input class="textinput" name="title" value="${h.propose_comment_title(parent=parent, topic=topic, variant=variant)}" />
         
         %if not parent:
             <label for="sentiment" class="inline">${_("Argumenting:")}</label>
