@@ -42,10 +42,6 @@ class Comment(meta.Indexable):
 
     latest = property(_get_latest, _set_latest)
 
-    @property
-    def title(self):
-        return self.latest.title
-
     def root(self):
         return self if self.reply is None else self.reply.root()
 
@@ -84,7 +80,7 @@ class Comment(meta.Indexable):
                          include_deleted=include_deleted).all()
 
     @classmethod
-    def create(cls, title, text, user, topic, reply=None, wiki=True,
+    def create(cls, text, user, topic, reply=None, wiki=True,
                variant=None,
                sentiment=0, with_vote=False):
         from poll import Poll
@@ -100,14 +96,14 @@ class Comment(meta.Indexable):
                            with_vote=with_vote)
         comment.poll = poll
         comment.latest = comment.create_revision(
-            title, text, user, sentiment=sentiment,
+            text, user, sentiment=sentiment,
             create_time=comment.create_time)
         return comment
 
-    def create_revision(self, title, text, user, sentiment=0,
+    def create_revision(self, text, user, sentiment=0,
                         create_time=None):
         from revision import Revision
-        rev = Revision(self, title, user, text)
+        rev = Revision(self, user, text)
         rev.sentiment = sentiment
         if create_time is not None:
             rev.create_time = create_time
@@ -158,7 +154,6 @@ class Comment(meta.Indexable):
         index = super(Comment, self).to_index()
         if self.latest is not None:
             index.update(dict(
-                title=self.title,
                 tag=[],
                 body=self.latest.text,
                 user=self.creator.user_name
