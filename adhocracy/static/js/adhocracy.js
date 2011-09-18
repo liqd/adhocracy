@@ -312,14 +312,6 @@ $(document).ready(function() {
 		});
 	});
 	
-    showHelp = function(url) {
-        id = new Date().getTime();
-        eval("page" + id + " = window.open(url, '" + id + "', 'toolbar=0,scrollbars=1,location=0," +
-             "statusbar=0,menubar=0,resizable=1,width=500,height=500');");
-        return false;
-    }
-	
-	
 	fixIE7Rendering = function () {
         if ( ! $.browser.msie || $.browser.version > 7)
                return;
@@ -390,4 +382,9 @@ $(document).ready(function() {
 //SPAM protection
 $(document).ready(function() {
   $("#register_input_js").hide()
+});  
+
+//open link in overlay (like help pages)
+$(document).ready(function() {
+        
 });  
