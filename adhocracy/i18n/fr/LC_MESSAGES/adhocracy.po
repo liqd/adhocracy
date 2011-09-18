@@ -1116,11 +1116,6 @@ msgstr ""
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Cette proposition est en court de vote et ne peut être modifié."
 
-#: adhocracy/lib/helpers/__init__.py:91 adhocracy/lib/helpers/__init__.py:92
-#: adhocracy/lib/helpers/__init__.py:95 adhocracy/lib/helpers/__init__.py:97
-msgid "Re: "
-msgstr "Re: "
-
 #: adhocracy/lib/helpers/milestone_helper.py:42
 #: adhocracy/templates/template.html:93 adhocracy/templates/template.html:94
 #: adhocracy/templates/milestone/index.html:3
