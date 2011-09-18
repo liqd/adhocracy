@@ -71,6 +71,16 @@ var adhocracy = {
 };
 
 
+$(document).ready(function() {
+
+    $('.comment .thread').click(function (event) {
+        $(this).closest('.comment').find('.sub').not('.reply_form').toggle('slow');
+        event.preventDefault();
+    });
+
+});
+
+
 $(document).ready(function () {
     "use strict";
 
