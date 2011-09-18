@@ -1500,6 +1500,10 @@ a.button.inactive:hover {
     border-left: 1px dotted #bbbbdd;
 }
 
+html.js .comment .sub {
+    display: none;
+}
+
 .comment .sub .sub .sub .sub .sub .sub {
     padding-left: 0px;
     margin-left: 0px;
