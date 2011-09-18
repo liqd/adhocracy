@@ -3,7 +3,9 @@
 <%def name="row(tile, instance)">
     <div class="tile">
         <div class="logo">
+            %if tile.show_icon():
             <img src="/instance/${instance.key}_32x32.png" />
+            %endif
         </div>
         <div class="base">
             <h3><a class="link" href="${h.entity_url(instance)}">${instance.label}</a></h3>

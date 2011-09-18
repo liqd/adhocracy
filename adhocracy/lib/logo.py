@@ -19,21 +19,25 @@ DEFAULT = ['static', 'img', 'icons', 'site_64.png']
 header_image = None
 
 
-def _instance_logo_path(instance):
+def _instance_logo_path(key):
     util.create_site_subdirectory('uploads', 'instance')
-    key = instance.key if instance else '-#-'
     return util.get_site_path('uploads', 'instance', key + '.png')
 
 
 def store(instance, file):
     logo_image = Image.open(file)
-    logo_image.save(_instance_logo_path(instance))
+    logo_image.save(_instance_logo_path(instance.key))
+
+
+def exists(key):
+    instance_path = _instance_logo_path(key)
+    return os.path.exists(instance_path)
 
 
 @memoize('instance_image', 3600)
-def load(instance, size, fallback=DEFAULT):
+def load(key, size, fallback=DEFAULT):
     x, y = size
-    instance_path = _instance_logo_path(instance)
+    instance_path = _instance_logo_path(key)
     if not os.path.exists(instance_path):
         instance_path = util.get_path(*fallback)
     logo_image = Image.open(instance_path)
