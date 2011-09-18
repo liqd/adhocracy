@@ -200,7 +200,6 @@ mapper(Revision, revision_table, properties={
     'comment': relation(Comment, lazy=False, backref=backref(
                 'revisions', cascade='all', lazy=False,
                 order_by=revision_table.c.create_time.desc())),
-    'title': synonym('_title', map_column=True)
     })
 
 

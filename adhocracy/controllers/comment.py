@@ -36,8 +36,6 @@ class CommentNewForm(formencode.Schema):
 
 
 class CommentCreateForm(CommentNewForm):
-    title = validators.String(max=255, not_empty=False, if_empty=None,
-                              if_missing=None)
     text = validators.String(max=21000, min=4, not_empty=True)
     sentiment = validators.Int(min=model.Comment.SENT_CON,
                                max=model.Comment.SENT_PRO, if_empty=0,
@@ -46,8 +44,6 @@ class CommentCreateForm(CommentNewForm):
 
 class CommentUpdateForm(formencode.Schema):
     allow_extra_fields = True
-    title = validators.String(max=255, not_empty=False, if_empty=None,
-                              if_missing=None)
     text = validators.String(max=21000, min=4, not_empty=True)
     sentiment = validators.Int(min=model.Comment.SENT_CON,
                                max=model.Comment.SENT_PRO, if_empty=0,
@@ -114,7 +110,6 @@ class CommentController(BaseController):
                              code=400)
 
         comment = model.Comment.create(
-            self.form_result.get('title'),
             self.form_result.get('text'),
             c.user, topic,
             reply=reply,
@@ -149,7 +144,6 @@ class CommentController(BaseController):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.edit(c.comment)
         rev = c.comment.create_revision(
-            self.form_result.get('title'),
             self.form_result.get('text'),
             c.user,
             sentiment=self.form_result.get('sentiment'))
@@ -225,10 +219,9 @@ class CommentController(BaseController):
         revision = self.form_result.get('to')
         if revision.comment != c.comment:
             return ret_abort(_("You're trying to revert to a revision which "
-                               "is not part of this comments history"),
+                               "is not partri of this comments history"),
                              code=400, format=format)
-        rev = c.comment.create_revision(revision.title,
-                                        revision.text,
+        rev = c.comment.create_revision(revision.text,
                                         c.user,
                                         sentiment=revision.sentiment)
         model.meta.Session.commit()
