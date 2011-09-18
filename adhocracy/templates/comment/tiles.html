@@ -28,11 +28,6 @@
     %>
 
     %if root is None:
-        %if can.comment.create_on(topic):
-            <div class="comment">
-                ${create_form(None, topic, variant=variant, ret_url=ret_url)}
-            </div>
-        %endif
         %if not len(_comments):
             <div class="infobox">
                 ${_("No comments were made yet.")}
@@ -43,7 +38,16 @@
     %for comment, tile in _comments:
         ${full(tile, comment, comments, recurse, ret_url=ret_url)}
     %endfor
+
+    %if root is None:
+        %if can.comment.create_on(topic):
+            <div class="comment">
+                ${create_form(None, topic, variant=variant, ret_url=ret_url)}
+            </div>
+        %endif
+    %endif
 </%def>
+
 
 <%def name="full(tile, comment, comments, recurse, ret_url='')">
     <%  
