@@ -90,6 +90,9 @@ class ProposalController(BaseController):
             return render_json(c.proposals_pager)
 
         c.tile = tiles.instance.InstanceTile(c.instance)
+        c.badges = model.Badge.all()
+        c.badges = filter(lambda x: x.badge_delegateable, c.badges)
+        c.badges = sorted(c.badges, key=attrgetter('title')) 
         return render("/proposal/index.html")
 
     @RequireInstance
