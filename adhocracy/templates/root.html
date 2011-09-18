@@ -45,9 +45,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="X-XRDS-Location" content="${h.base_url(c.instance, path='/openid/xrds')}"/>
     ${print_meta()}
-    
-    <script type="text/javascript" 
-        src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+
+    <!-- jQuery Library + UI Tools -->
+    <script type="text/javascript"
+        src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+    <script  type="text/javascript"
+        src="http://cdn.jquerytools.org/1.2.4/tiny/jquery.tools.min.js"></script>
+    <!-- additional js libraries-->
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/jquery.qtip.min.js')}"></script>
     <script type="text/javascript" 
@@ -56,6 +60,7 @@
         src="${h.base_url(None, path='/js/jquery.timeago.js')}"></script>
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script>
+    <!--adhocracy js-->
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/adhocracy.js')}"></script>
     <!--[if lt IE 7 ]>
