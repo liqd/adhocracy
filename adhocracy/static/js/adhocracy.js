@@ -346,9 +346,6 @@ $(document).ready(function() {
     
     fixIE7Rendering(); 
     
-    /* jQuery UI stuff */
-    //$("#accordion").accordion({ autoHeight: false });
-    
     $(".expand_tab").click(function(e) {
         title = $(this).attr('title').split('@');
         $('#' + title[1] + " .expand_area").hide();
