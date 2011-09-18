@@ -99,14 +99,14 @@
                 %if can.poll.vote(row.poll):
                     <a class="up icon otip" title="${_("Support this variant")}" 
                          href="${h.entity_url(row.poll, member='rate')}?position=1&${h.url_token()}" 
-                         onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, 1);">
+                         onclick="return adhocracy.rate('#poll_c${row.poll.id}', ${row.poll.id}, 1);">
                         &nbsp;
                     </a>
                     <a href="${h.entity_url(row.poll, member='votes')}" 
                         class="score">${row.poll.tally.score}</a>
                     <a class="down icon ttip" title="${_("Oppose this variant")}" 
                          href="${h.entity_url(row.poll, member='rate')}?position=-1&${h.url_token()}" 
-                         onclick="return rate('#poll_c${row.poll.id}', ${row.poll.id}, -1);">
+                         onclick="return adhocracy.rate('#poll_c${row.poll.id}', ${row.poll.id}, -1);">
                         &nbsp;
                     </a>
                 %else:

@@ -4,6 +4,73 @@
 /* TODO:
    Fix remaining jslint warnings: postfix operators, == comparision and eval */
 
+var adhocracy = {
+    moreTags: function () {
+        $(".moreTags").show();
+        $(".moreTagsLink").hide();
+        return false;
+    },
+
+    /* Tag area add form */
+    addTags: function (id) {
+        $(".addtags").slideToggle('fast');
+        return false;
+    },
+
+    /* Auto-appends */
+    appendAlternative: function () {
+        /* TODO: orphaned function? */
+        var newElem;
+        newElem = $(".alternative.prototype").clone();
+        newElem.removeClass('prototype');
+        newElem.slideDown('fast');
+        newElem = newElem.insertAfter($(".alternative:last"));
+        return false;
+    },
+
+    comment_reply: function (id) {
+        $("#tile_c" + id + " .reply_form").slideToggle('fast');
+        return false;
+    },
+
+    comment_edit: function (id) {
+        $("#tile_c" + id + " .pre").toggle();
+            $("#tile_c" + id + " .hide_edit").slideToggle('fast');
+        $("#tile_c" + id + " .edit_form").slideToggle('fast');
+        return false;
+    },
+
+    rate: function (elem_id, poll_id, value) {
+        $(elem_id + " .score").text('*');
+        $.post('/poll/' + poll_id + '/rate.json', {position: value},
+               function (data) {
+                   $(elem_id + ".upvoted").removeClass("upvoted");
+                   $(elem_id + ".downvoted").removeClass("downvoted");
+                   if (data.decision && data.decision.decided) {
+                       if (data.decision.result == -1) {
+                           $(elem_id).addClass("downvoted");
+                       }
+                       if (data.decision.result == 1) {
+                           $(elem_id).addClass("upvoted");
+                       }
+                   }
+                   $(elem_id + " .score").text(data.tally.score);
+                   $(elem_id + " .num_for").text(data.tally.num_for);
+                   $(elem_id + " .num_against").text(data.tally.num_against);
+               }, 'json');
+        return false;
+    },
+
+    /* Low-scoring comments */
+    toggle_comment: function (id) {
+        $("#c" + id).slideToggle('fast');
+        $("#tc" + id).toggle();
+        return false;
+    }
+
+};
+
+
 $(document).ready(function () {
     "use strict";
 
@@ -63,29 +130,6 @@ $(document).ready(function () {
     $(".hidejs").hide();
     $(".showjs").show();
 
-
-    var moreTags = function () {
-        $(".moreTags").show();
-        $(".moreTagsLink").hide();
-        return false;
-    };
-
-    /* Tag area add form */
-    var addTags = function (id) {
-        $(".addtags").slideToggle('fast');
-        return false;
-    };
-
-    /* Auto-appends */
-    var appendAlternative = function () {
-        var newElem;
-        newElem = $(".alternative.prototype").clone();
-        newElem.removeClass('prototype');
-        newElem.slideDown('fast');
-        newElem = newElem.insertAfter($(".alternative:last"));
-        return false;
-    };
-
     $(".userCompleted").autocomplete('/user/complete', {
         autoFill: false,
         dataType: 'json',
@@ -127,46 +171,6 @@ $(document).ready(function () {
         },
         delay: 10
     });
-
-    var comment_reply = function (id) {
-        $("#tile_c" + id + " .reply_form").slideToggle('fast');
-        return false;
-    };
-
-    var comment_edit = function (id) {
-        $("#tile_c" + id + " .pre").toggle();
-        $("#tile_c" + id + " .hide_edit").slideToggle('fast');
-        $("#tile_c" + id + " .edit_form").slideToggle('fast');
-        return false;
-    };
-
-    var rate = function (elem_id, poll_id, value) {
-        $(elem_id + " .score").text('*');
-        $.post('/poll/' + poll_id + '/rate.json', {position: value},
-            function (data) {
-                $(elem_id + ".upvoted").removeClass("upvoted");
-                $(elem_id + ".downvoted").removeClass("downvoted");
-                if (data.decision && data.decision.decided) {
-                    if (data.decision.result == -1) {
-                        $(elem_id).addClass("downvoted");
-                    }
-                    if (data.decision.result == 1) {
-                        $(elem_id).addClass("upvoted");
-                    }
-                }
-                $(elem_id + " .score").text(data.tally.score);
-                $(elem_id + " .num_for").text(data.tally.num_for);
-                $(elem_id + " .num_against").text(data.tally.num_against);
-            }, 'json');
-        return false;
-    };
-
-    /* Low-scoring comments */
-    var toggle_comment = function (id) {
-        $("#c" + id).slideToggle('fast');
-        $("#tc" + id).toggle();
-        return false;
-    };
 
     $('.normedit').keydown(function (e) {
         var ss = this.selectionStart;
@@ -336,7 +340,7 @@ $(document).ready(function () {
 
     /* if a tab contains an active anchor, open it: */
     var location = document.location.toString();
-    if (location.match('#')) {
+   if (location.match('#')) {
         var id = '#' + location.split('#')[1];
         $(".expand_area").each(function () {
             $("#" + this.id + ":has(" + id + ")").each(function () {

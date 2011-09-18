@@ -60,8 +60,8 @@
         </div>
         <div class="link">
             
-            <a href="javascript:toggle_comment(${comment.id});" onClick="return toggle_comment(${comment.id})">${_("by %(user)s, %(score)s points.") % dict(user=h.user.link(comment.creator, scope=comment.topic),
-                                                                                               score=tile.score)|n}</a>
+            <a href="javascript:adhocracy.toggle_comment(${comment.id});" 
+               onClick="return adhocracy.toggle_comment(${comment.id})">${_("by %(user)s, %(score)s points.") % dict(user=h.user.link(comment.creator, scope=comment.topic), score=tile.score)|n}</a>
             
         </div>
     </div>
@@ -73,13 +73,13 @@
             <div class="logo rate">
                 %if can.comment.rate(comment):
                     <a class="up icon otip" title="${_("Support this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=1&${h.url_token()}" 
-                        onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, 1);">
+                        onclick="return adhocracy.rate('#tile_c${comment.id}', ${comment.poll.id}, 1);">
                         &nbsp;
                     </a>
                     <a href="${h.entity_url(comment.poll, member='votes')}" 
                         class="score">${tile.score}</a>
                     <a class="down icon ttip" title="${_("Oppose this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=-1&${h.url_token()}" 
-                        onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, -1);">
+                        onclick="return adhocracy.rate('#tile_c${comment.id}', ${comment.poll.id}, -1);">
                         &nbsp;
                     </a>
                 %else:
@@ -97,7 +97,7 @@
             %endif
             <div class="top_actions comment">               
                 %if can.comment.edit(comment):
-                    <a class="button edit" onClick="return comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
+                    <a class="button edit" onClick="return adhocracy.comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
                 %endif
 
                 %if can.comment.delete(comment):
@@ -105,10 +105,11 @@
                 %endif
 
                 %if can.comment.reply(comment) and recurse:
-                    <a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1&ret_url=${ret_url}">${_("reply")}</a>
+                    <a class="button add reply" onClick="return adhocracy.comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1&ret_url=${ret_url}">${_("reply")}</a>
                 %endif 
 
-                <a class="button delete showjs" onClick="return toggle_comment(${comment.id})">${_("hide")}</a>
+                <a class="button delete showjs" 
+                   onClick="return adhocracy.toggle_comment(${comment.id})">${_("hide")}</a>
             </div>
                 
             <div class="title">
@@ -238,7 +239,7 @@
 <%def name="header(tile, comment, active)">
     <div class="top_actions title">
         %if can.comment.edit(comment):
-            <a class="button edit" onClick="return comment_edit(${comment.id})" 
+            <a class="button edit" onClick="return adhocracy.comment_edit(${comment.id})" 
                 href="${h.entity_url(comment, member='edit')}">${_("edit")}</a> 
         %endif
                         

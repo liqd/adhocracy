@@ -56,12 +56,12 @@
         <li class="showjs"> 
             %if len(delegateable.tags) > 5:
                 <span class="moreTagsLink">
-                <a href="#" onclick="return moreTags();">${_("show more")}</a> 
+                <a href="#" onclick="return adhocracy.moreTags();">${_("show more")}</a> 
                 &middot;
                 </span>
             %endif
             %if can.tag.create():
-                <a href="#" onclick="return addTags();">${_("add tags...")}</a>
+                <a href="#" onclick="return adhocracy.addTags();">${_("add tags...")}</a>
             %endif
         </li>
         %endif
