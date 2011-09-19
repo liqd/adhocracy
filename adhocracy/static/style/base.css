@@ -930,7 +930,7 @@ p img[align=left] {
 }
 
 .tile .logo {
-    float: left;
+    float: right;
     height: inherit;
     margin-right: 1em;
     padding-top: 0.4em;
@@ -1049,7 +1049,6 @@ p img[align=left] {
     overflow: visible;
     background-repeat: no-repeat;
     background-position: top left;
-    padding-left: 45px;
     min-height: 40px;
 }
 

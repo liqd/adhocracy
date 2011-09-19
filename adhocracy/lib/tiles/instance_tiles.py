@@ -1,9 +1,13 @@
-from pylons import tmpl_context as c
+from paste.deploy.converters import asbool
+from pylons import tmpl_context as c, config
 
 from adhocracy.model import Page, Proposal
 from adhocracy.model import meta
-from adhocracy.lib import text
+from adhocracy.lib import logo, text
 from adhocracy.lib.tiles.util import render_tile, BaseTile
+
+import logging
+log = logging.getLogger(__name__)
 
 
 class InstanceTile(BaseTile):
@@ -46,6 +50,11 @@ class InstanceTile(BaseTile):
             query = query.filter(Page.function == Page.NORM)
             self.__norms_count = query.count()
         return self.__norms_count
+
+    def show_icon(self):
+        show_fallback = asbool(
+                config.get('adhocracy.show_instance_fallback_icons'))
+        return show_fallback or logo.exists(self.instance.key)
 
 
 def row(instance):
