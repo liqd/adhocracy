@@ -30,15 +30,6 @@
             <input tabindex="1" class="title armlabel" name="label" />
         </div>
 
-        <h3>${_("Proposal goals")}</h3>
-        <div class="infobox">
-            ${_("Give a brief description of <b>the goals</b> of your proposal.")|n}
-        </div>
-    
-        <label for="text" class="armhint">${_("The proposal would...")}</label>
-        <textarea tabindex="2" class="description armlabel" name="text"></textarea>
-        ${components.formatting()}
-        
         %if c.instance.use_norms:
           <br/><br/>
           <h3>${_("Change norms with this proposal")}</h3>
@@ -99,6 +90,17 @@
                                      allow_empty=True)}
           </div>
         %endif
+
+
+        <h3>${_("Proposal goals")}</h3>
+        <div class="infobox">
+            ${_("Give a brief description of <b>the goals</b> of your proposal.")|n}
+        </div>
+    
+        <label for="text" class="armhint">${_("The proposal would...")}</label>
+        <textarea tabindex="2" class="description armlabel" name="text"></textarea>
+        ${components.formatting()}
+        
 
         <br/><br/>
         <h3>${_("Tag and classify")}</h3>
