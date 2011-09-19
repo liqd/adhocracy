@@ -50,13 +50,13 @@
     var Timeline_ajax_url='${h.base_url(None, path='/timeline/timeline_ajax/simile-ajax-api.js')}';
     var Timeline_urlPrefix='${h.base_url(None, path='/timeline/timeline_js/')}'; 
     var Timeline_parameters='bundle=true';
-    //var SimileAjax.History.historyFile = Timeline_urlPrefix + '../timeline_ajax/content/history.html';
   </script>
   <script src="/timeline/timeline_js/timeline-api.js"></script>
   <script>
     var tl;
     $(function() {
       $(window).load(function() {
+        SimileAjax.History.enabled = false;
         var eventSource = new Timeline.DefaultEventSource();
         Timeline.OriginalEventPainter.prototype._showBubble = function(x, y, evt) {
           document.location.href=evt.getLink();
