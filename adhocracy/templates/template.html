@@ -15,9 +15,80 @@ jquery.need()
   <head>
     ${self.head()}
   </head>
-  <body lang="${c.locale.language}">
+
+
+
+
+<body lang="${c.locale.language}">
+  <!-- begin: header -->
+  <header>
+    <div id="header">
+      <div class="page_margins">
+        <div class="page_wrapper">
+          <!-- begin: top navi -->
+          <div id="topnav">
+            <!-- start: skip link navigation -->
+            <a class="skip" title="skip link" href="#navigation">Skip to the navigation</a><span class="hideme">.</span>
+            <a class="skip" title="skip link" href="#content">Skip to the content</a><span class="hideme">.</span>
+            <!-- end: skip link navigation -->
+            <a href="#" class="icon_link follow">Follow us!</a>
+          </div>
+          <!-- begin: logo -->
+          <div id="blog_select" class="">
+            <div id="current_logo">
+              <a id="logo" href="http://staging_wordpress.adhocracy.cc/" title="adhocracy" rel="home">
+                <img src="/images/logo_1.png" alt="adhocracy" />
+                <h1>adhocracy</h1>
+              </a>
+              <a href="#" id="blog_select_button" class="icon_link">&nbsp;</a>
+            </div>
+            <a href="http://liquid-democracy.staging_wordpress.adhocracy.cc/" title="Liqid Democracy e.V."><img src="/images/logo_2.png" alt="Liqid Democracy e.V." /></a>
+            <a href="http://code.staging_wordpress.adhocracy.cc/" title="Adhocracy Code"><img src="/images/logo_3.png" alt="Adhocracy Code" /></a>
+            <a href="http://ld-support.staging_wordpress.adhocracy.cc/" title="LDSupport"><img src="/images/logo_5.png" alt="LDSupport" /></a>
+            <a href="http://fo-ld.staging_wordpress.adhocracy.cc/" title="FoLD"><img src="/images/logo_4.png" alt="FoLD" /></a>
+          </div>
+          <!-- begin: main navi -->
+          <nav>
+            <div id="nav">
+              <!-- skiplink anchor: navigation -->
+              <a id="navigation" name="navigation"></a>
+              <!-- main navigation: horizontal list -->
+              <div class="menu hlist">
+                <ul>
+                  <li class="current"><a href="http://staging_wordpress.adhocracy.cc/" title="Home">Start</a></li>
+                  <li><a href="http://staging_wordpress.adhocracy.cc/beispiel-seite-2/" title="Beispiel-Seite">Organisationen</a></li>
+                  <li><a href="http://staging_wordpress.adhocracy.cc/beispiel-seite-2/" title="Beispiel-Seite">Beobachtunsliste</a></li>
+                  <li><a href="http://staging_wordpress.adhocracy.cc/beispiel-seite-2/" title="Beispiel-Seite">Über Uns</a></li>
+                  <li><a href="http://staging_wordpress.adhocracy.cc/beispiel-seite-2/" title="Beispiel-Seite">Hilfe</a></li>
+                  %if c.user:
+                  <li>
+                      <a title="${_('Your profile')}" href="${h.entity_url(c.user)}">
+                          <!-- Fixme: User image <img width="16" height="16" src="${h.user.icon_url(c.user, size=16)|n}" /> --> 
+                          ${c.user.name}
+                      </a>
+                  </li>
+                  %else:
+                  <li>
+                      <a href="/login">${_("Login")}</a> 
+                      <!-- FIXME: <a href="/register">${_("Register")}</a> -->
+
+                  </li>
+                  %endif
+              </ul>
+
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
     <div id="frame">
-      <div id="globalheader">
+
+      <!-- Fixme: /start old global head nav -->
+      <div id="globalheader" style="display: none; border: 1px solid red;">
+        Fixme: Old global head nav
         <div class="headerbox">
 
           <div id="account">
@@ -84,7 +155,11 @@ jquery.need()
 
         </div>
       </div>
+      <!-- Fixme: /end old global head nav -->
 
+      <!-- Fixme: /start old instance nav -->
+      <div id="" style="display: none; border: 1px solid red;">
+        Fixme: Old global head nav
       %if c.instance:
       <div id="instanceheader">
         <div class="headerbox ${c.active_controller}">
@@ -118,6 +193,7 @@ jquery.need()
           </form>
         </div>
       </div>
+      </div>
 
       <div id="instance_infobox_wrapper">
         %if can.instance.join(c.instance):  
@@ -127,16 +203,41 @@ jquery.need()
             href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
         </div>
         %endif
-        %if not c.user:
-          <div class="infobox no_member">
-            ${_("You are not yet a member of %s. To participate, you must register first.") % c.instance.label}
-            <a class="button add ttip" title="${_('Join this instance to start contributing.')}"  href="/register">${_("join")}</a> 
-          </div>
-        %endif
       </div>
 
       %endif
+      <div class="clearfix"> </div>
+      <!-- Fixme: /end old instance nav -->
 
+      %if not c.user:
+      <div class="infobox no_member" style="padding: 1em; background-color: #FEFFAC;">
+          <!-- FIXME: Add info box markup and change text/translation -->
+          ${_("You are not yet a member of %s. To participate, you must register first.") % c.instance.label}
+          <a class="button add ttip" title="${_('Join this instance to start contributing.')}"  href="/register">${_("join")}</a> 
+      </div>
+      %endif
+
+      ${c.subnav}
+  <div id="main">
+    <div class="page_margins">
+      <div class="page_wrapper">
+        <!-- begin: page content -->
+        <div id="col1">
+          <div id="col1_content" class="clearfix">
+              
+            ${self.body()}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="clearfix"> </div>
+
+  <div style="display: none; border: 1px solid red;">
+Fixme: Old stuff
+  <div class="clearfix"> </div>
       <div id="page">
 
         <div id="breadcrumbs">
@@ -155,14 +256,11 @@ jquery.need()
 
         <div class="content">
           <div class="inner_content">
-            ${self.body()}
             <div style="clear: both;"></div>
             <br/>
           </div>
         </div>
       </div>
-
-    </div>
 
     <div id="footer">
       <div id="links">
@@ -189,8 +287,82 @@ jquery.need()
       </div>
       <div style="clear: both;"></div>
     </div>
+    <div class="clearfix"> </div>
+</div>    
+</div>
+
 
     <%include file="piwik.html"/>
+
+  <footer>
+    <div id="footer">
+      <div class="page_margins">
+        <div class="page_wrapper">
+          <div id="footer_line">
+            <div id="second_footer_line" class="subcolumns" role="complementary">
+              <div class="c33l footer_content">
+                <div id="footer_logos" class="subcl">
+                  <a href="#" title="Liquid Democracy e.V."><img src="/images/logo_liquid_democracy_ev_footer.png" alt="Liquid Democracy e.V." /></a><br />
+                  <a href="#" title="Adhocracy.de"><img src="/images/logo_adhocracy_de_footer.png" alt="Adhocracy.de" /></a><br />
+                  <a href="#" title="AdhocracyCode"><img src="/images/logo_adhocracy_code_footer.png" alt="AdhocracyCode" /></a><br />
+                  <a href="#" title="LDSupport"><img src="/images/logo_ld_support_footer.png" alt="LDSupport" /></a><br />
+                  <a href="#" title="FoLD"><img src="/images/logo_fold_footer.png" alt="FoLD" /></a><br />
+                </div>
+              </div>
+
+              <div class="c33l footer_content">
+                <div class="subc">
+                  <div class="footer_box">
+                    <h3>Liquid Democracy Support</h3>
+                    <p>Über den Support Bereich erreichen Sie die Menschen, die hinter der Software Adhocracy stehen. Gerne helfen wir Ihnen mit unserer Erfahrung und unterstützen Sie mit professioneller Beratung, Schulungen, Vorträgen, individueller Softwareanpassung und vielem mehr. Sprechen Sie uns einfach an! <a href="http://liquid-democracy.staging_wordpress.adhocracy.cc/uber-uns/organisation/ldsupport//">Mehr...</a></p>
+                    <div class="subcolumns">
+                      <div class="c50l">
+                        <h3>Adhocracy.de</h3>
+                        <ul>
+                          <li><a href="#">Impressum</a></li>
+                          <li><a href="#">AGB</a></li>
+                          <li><a href="#">FAQ</a></li>
+                          <li><a href="#">Hilfe</a></li>
+                          <li><a href="#">Kontakt</a></li>
+                        </ul>
+                      </div>
+                      <div class="c50r">
+                        <h3>Folge dem Liquid Demecracy e.V. auf</h3>
+                        <a href="#"><img src="/images/twitter_icon_footer.png" alt="twitter" /></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="c33r footer_content">
+                <div class="subcr">
+                  <div class="footer_box">
+                    <h3>Newsletter bestellen</h3>
+                    <p>Um regelmäßig über Neuigkeiten informiert zu werden, können Sie hier unseren Newsletter abonnieren.</p>
+                    <div class="subcolumns">
+                      <h3>Diese Plattform wird betrieben mit</h3>
+                      <p><a href="#" title="AdhocracyCode"><img src="/images/logo_adhocracy_code_footer.png" alt="AdhocracyCode" /></a></p>
+                      <p>
+                        <a href="http://creativecommons.org/licenses/by/3.0/de/" rel="license"><img src="/images/80x15.png" alt="Creative Commons License"></a>
+                        <a href="http://www.opendefinition.org/" rel="license"><img src="/images/oc_80x15_blue.png" alt="Open Definition"></a>
+                        Vs 1.1
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+    <!-- Fixme: turn into a Fanstatic resource -->
+    <script type="text/javascript" language="javascript" src="/javascripts/adhocracy.js" charset="utf-8"></script>
+
 
   </body>
 </html>

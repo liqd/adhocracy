@@ -20,32 +20,64 @@
             %endif
                 ${h.site.name()}
     </title>
-    <link rel="stylesheet" media="all" href="/style/base.css" />    
-    <link  rel="stylesheet" type="text/css" 
-        href="${h.base_url(None, path='/style/site.css')}"/>
-    %if c.instance and c.instance.css:
-        <link  rel="stylesheet" type="text/css" 
-            href="${h.base_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
-    %endif
-    
-    <link media="only screen and (max-device-width: 1024px)" type="text/css" rel="stylesheet"
-        href="${h.base_url(None, path='/style/ipad.css')}" />
-    <link media="only screen and (max-device-width: 480px)" type="text/css" rel="stylesheet" 
-        href="${h.base_url(None, path='/style/iphone.css')}"/>
-    <link rel="stylesheet" media="all and (orientation:portrait)" 
-        href="${h.base_url(None, path='/style/portrait.css')}">
-    <link type="text/css" media="print" rel="stylesheet" 
-        href="${h.base_url(None, path='/style/print.css')}" />
-    
-    <link rel='shortcut icon' type='image/x-icon' 
-        href='${h.base_url(None, path='/favicon.ico')}' />
-    
-    ${print_head_links()}
-    
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta http-equiv="X-XRDS-Location" content="${h.base_url(c.instance, path='/openid/xrds')}"/>
-    ${print_meta()}
-    
+
+    <!-- template -->
+  <meta charset='UTF-8' content='text/html' http-equiv='content-type' />
+  <meta name='description' content='adhocracy' />
+  <meta name='author' content='Liquid Democracy e.V.' />
+  <meta name='keywords' content='adhocracy, Liquid Democracy e.V.' />
+  <title>adhocracy</title>
+
+  <link rel="stylesheet" type="text/css" media="all" href="/stylesheets/style.css" />
+  <!--[if lte IE 7]>
+  <link href="/stylesheets/patches/patch.css" rel="stylesheet" type="text/css" />
+  <![endif]-->
+
+  <link rel="icon" href="${h.base_url(None, path='/favicon.ico')}" type="image/png" />
+
+  <script type="text/javascript" language="javascript" 
+          src="${h.base_url(None, path='/js/jquery-1.6.3.js')}" 
+          charset="utf-8"></script>
+  <script type="text/javascript" language="javascript" 
+          src="${h.base_url(None, path='/javascripts/slides.min.jquery.js')}" 
+          charset="utf-8"></script>
+  <script type="text/javascript" language="javascript" 
+          src="${h.base_url(None, path='/javascripts/jquery.multipleelements.cycle.min.js')}" 
+          charset="utf-8"></script>
+  <script type="text/javascript" language="javascript" 
+          src="${h.base_url(None, path='/javascripts/jquery.label_over.js')}" 
+          charset="utf-8"></script>
+  <script type="text/javascript" language="javascript" 
+          src="${h.base_url(None, path='/javascripts/jquery.elastic.js')}" 
+          charset="utf-8"></script>
+
+  <!-- HTML5 elements for IE -->
+  <script>
+    document.createElement('abbr');
+    document.createElement('article');
+    document.createElement('aside');
+    document.createElement('audio');
+    document.createElement('canvas');
+    document.createElement('details');
+    document.createElement('figcaption');
+    document.createElement('figure');
+    document.createElement('footer');
+    document.createElement('header');
+    document.createElement('hgroup');
+    document.createElement('mark');
+    document.createElement('menu');
+    document.createElement('meter');
+    document.createElement('nav');
+    document.createElement('output');
+    document.createElement('progress');
+    document.createElement('section');
+    document.createElement('summary');
+    document.createElement('time');
+    document.createElement('video');
+  </script>
+
+    <!-- /template -->
+
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/modernizr.js')}"></script>
     <script type="text/javascript" 
@@ -58,11 +90,14 @@
         src="${h.base_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script>
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/adhocracy.js')}"></script>
-    <!--[if lt IE 7 ]>
-        <script type="text/javascript" 
-            src="${h.base_url(None, path='/js/dd_belatedpng.js') }"></script>
-        <script> DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images </script>
-    <![endif]-->
+
+    %if c.instance and c.instance.css:
+        <link  rel="stylesheet" type="text/css" 
+            href="${h.base_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
+    %endif
+    
+    ${print_head_links()}
+    
     <style> 
         %if c.user and c.user.no_help:
             .help {display: none;}
@@ -70,5 +105,50 @@
     </style>
     
 </%def>
+
+
+<!-- FIXME: Part of the new theme. Move somewhere else. -->
+<%def name="subnavi_link(link)"><a href="${link['href']}" title="${link.get('title', '')}">${link['text']}</a></%def>
+
+<%def name="subheader_navigation(links=[], search='default', admin_links=[], logo=None)">
+  <div id="subheader">
+    <div class="page_margins">
+      <div class="page_wrapper">
+        <!-- begin: sub navi -->
+        %if logo:
+        <div id="organisation_logo">
+          <img src="${logo}" />
+        </div>
+        %endif
+        <!-- begin: sub navi -->
+        <nav>
+          <div class="hlist">
+            <ul id="subnav">
+                %for link in links:
+                <li class="${link.get('current') and 'current' or ''}"
+                    >${self.subnavi_link(link)}</li>
+                %endfor
+                %for link in admin_links:
+                <li class="settings">${self.subnavi_link(link)}</li>
+                %endfor
+            </ul>
+          </div>
+        </nav>
+        <div id="searchbox">
+          <form action="http://liquid-democracy.staging_wordpress.adhocracy.cc/" id="searchform" method="get">
+            <div class="label_over">
+              <label class="over-apply" for="s">In Die Linke suchen&hellip;</label>
+              <input type="text" id="s" name="s" value="" />
+            </div>
+            <input type="submit" value="Los" id="searchsubmit" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</%def>
+
+<!-- /FIXME: Part of the new theme. Move somewhere else. -->
 
 ${next.body()}

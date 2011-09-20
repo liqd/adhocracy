@@ -14,7 +14,7 @@ from sqlalchemy.orm.exc import DetachedInstanceError
 
 from adhocracy import i18n, model
 from adhocracy.lib import helpers as h
-from adhocracy.lib.templating import ret_abort
+from adhocracy.lib.templating import ret_abort, render_def
 
 log = logging.getLogger(__name__)
 
@@ -23,6 +23,31 @@ class BaseController(WSGIController):
 
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
+
+        # FIXME: Example. Move somewhere else
+        c.subnav = render_def('root.html', 'subheader_navigation',
+                              links=[dict(href='#',
+                                          title="title",
+                                          text=u"Uebersicht",
+                                          current=False),
+                                     dict(href='#',
+                                          title="title",
+                                          text=u"Uebersicht",
+                                          current=True),
+                                     dict(href='#',
+                                          title="title",
+                                          text=u"Uebersicht"),
+                                     dict(href='#',
+                                          title="title",
+                                          text=u"Uebersicht",
+                                          current=False),
+                                     ],
+                              search='/fixme-search',
+                              admin_links=[{'href': '#',
+                                            'title': "_title",
+                                            'text': u"Einstellungen"}],
+                              logo='/images/logo_die_linke.png')
+
         c.instance = model.instance_filter.get_instance()
         c.user = environ.get('repoze.who.identity', {}).get('user')
         try:
