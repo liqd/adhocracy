@@ -7,8 +7,8 @@
     %endfor
 </%def>
 
-<%def name="print_link()">
-    %for link in c.html_link:
+<%def name="print_head_links()">
+    %for link in c.html_head_links:
         <link rel="${link['rel']}" type="${link['type']}" title="${link['title']}" href="${link['href']}" />
     %endfor
 </%def>
@@ -40,7 +40,7 @@
     <link rel='shortcut icon' type='image/x-icon' 
         href='${h.base_url(None, path='/favicon.ico')}' />
     
-    ${print_link()}
+    ${print_head_links()}
     
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="X-XRDS-Location" content="${h.base_url(c.instance, path='/openid/xrds')}"/>
@@ -48,8 +48,6 @@
     
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/modernizr.js')}"></script>
-    <script type="text/javascript" 
-        src="${h.base_url(None, path='/js/jquery-1.6.3.js')}"></script>
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/jquery.qtip.min.js')}"></script>
     <script type="text/javascript" 
