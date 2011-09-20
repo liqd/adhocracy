@@ -100,18 +100,18 @@ def add_meta(name, content):
     c.html_meta[name] = content
 
 
-def add_link(title, link, rel, type):
+def add_html_head_link(title, link, rel, type):
     '''
     Add information to be rendered as a link tag
     by a template in the html head. The parameters
     correspondent to the attributes of the link tag.
     '''
-    if not c.html_link:
-        c.html_link = []
-    c.html_link.append({'title': title,
-                        'href': link,
-                        'rel': rel,
-                        'type': type})
+    if not c.html_head_links:
+        c.html_head_links = []
+    c.html_head_links.append({'title': title,
+                              'href': link,
+                              'rel': rel,
+                              'type': type})
 
 
 def add_rss(title, link):
@@ -119,7 +119,8 @@ def add_rss(title, link):
     Add information to be rendered as a link tag in the html
     head with rel="alternate" and type="application/rss+xml"
     '''
-    add_link(title, link, rel='alternate', type='application/rss+xml')
+    add_html_head_link(title, link, rel='alternate',
+                       type='application/rss+xml')
 
 
 def help_link(text, page, anchor=None):
