@@ -106,7 +106,7 @@
     <span class="${h.poll_position_css(proposal.rate_poll)}"  id="tile_p${proposal.id}">
         <div class="proposal rate">
             %if can.proposal.rate(proposal):
-                <a class="up icon otip" title="${_("Support this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=1&${h.url_token()}" 
+                <a class="up icon ttip" title="${_("Support this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=1&${h.url_token()}" 
                     onclick="return adhocracy.rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, 1);">
                     &nbsp;
                 </a>
