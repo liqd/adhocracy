@@ -5,6 +5,8 @@ adhocracy Changelog
 1.2a4 (unreleased)
 -------------------
 
+- tooltips use jquery tools now [joka]
+- open link with overlay support [joka]
 - recaptcha support (disabled by default) [joka]
 - proposals can have badgets #263 [joka]
 
