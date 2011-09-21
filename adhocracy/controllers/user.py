@@ -119,7 +119,7 @@ class UserController(BaseController):
     def new(self):
         captacha_enabled = config.get('recaptcha.public_key', "")
         c.recaptcha = captacha_enabled and h.recaptcha.displayhtml() 
-        return render("/user/login.html")
+        return render("/user/register.html")
 
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserCreateForm(), form="new", post_only=True)
