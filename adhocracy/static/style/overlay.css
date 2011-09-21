@@ -8,7 +8,7 @@ div.overlay {
     /* styling */
     background-color:#fff;              
     width:675px;
-    height:550px;
+    max-height:550px;
     border:1px solid #666;
     padding: 15px;
 
@@ -28,15 +28,18 @@ div.overlay {
 }
 /* container for external content. uses vertical scrollbar, if needed */
 div.contentWrap {
-    height:541px;
+    max-height:541px;
     overflow-y:auto;
 }
 
 
-/* conten styling cheats*/
+/* content styling cheats*/
 .overlay h1 {
     width: 100%;
 }
-.content {
+.overlay .content {
     text-align:left;
+}
+.overlay .hidejs {
+  display:none;
 }

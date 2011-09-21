@@ -27,7 +27,8 @@
         <link  rel="stylesheet" type="text/css" 
             href="${h.base_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
     %endif
-    
+    <link rel="stylesheet" media="all" 
+        href="${h.base_url(None, path='/style/overlay.css')}">
     <link media="only screen and (max-device-width: 1024px)" type="text/css" rel="stylesheet"
         href="${h.base_url(None, path='/style/ipad.css')}" />
     <link media="only screen and (max-device-width: 480px)" type="text/css" rel="stylesheet" 
