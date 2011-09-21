@@ -27,7 +27,8 @@
         <link  rel="stylesheet" type="text/css" 
             href="${h.base_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
     %endif
-    
+    <link rel="stylesheet" media="all" 
+        href="${h.base_url(None, path='/style/overlay.css')}">
     <link media="only screen and (max-device-width: 1024px)" type="text/css" rel="stylesheet"
         href="${h.base_url(None, path='/style/ipad.css')}" />
     <link media="only screen and (max-device-width: 480px)" type="text/css" rel="stylesheet" 
@@ -46,18 +47,19 @@
 	<meta http-equiv="X-XRDS-Location" content="${h.base_url(c.instance, path='/openid/xrds')}"/>
     ${print_meta()}
     
+    <!--html5 support-->
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/modernizr.js')}"></script>
+    <!--jquery 1.4.2 and jquery plugins-->
     <script type="text/javascript" 
-        src="${h.base_url(None, path='/js/jquery-1.6.3.js')}"></script>
-    <script type="text/javascript" 
-        src="${h.base_url(None, path='/js/jquery.qtip.min.js')}"></script>
+          src="http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js"></script>
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/jquery.autocomplete.min.js')}"></script>  
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/jquery.timeago.js')}"></script>
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script>
+    <!--adhocracy javascript-->
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/adhocracy.js')}"></script>
     <!--[if lt IE 7 ]>

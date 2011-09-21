@@ -5,7 +5,7 @@ from operator import attrgetter
 import formencode
 from formencode import ForEach, htmlfill, validators
 
-from pylons import request, session, tmpl_context as c
+from pylons import config, request, session, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
@@ -40,6 +40,7 @@ class UserCreateForm(formencode.Schema):
     email = formencode.All(validators.Email(),
                            forms.UniqueEmail())
     password = validators.String(not_empty=True)
+    password_confirm = validators.String(not_empty=True)
     password_confirm = validators.String(not_empty=True)
     chained_validators = [validators.FieldsMatch(
          'password', 'password_confirm')]
@@ -116,12 +117,28 @@ class UserController(BaseController):
         return render("/user/all.html")
 
     def new(self):
-        return render("/user/login.html")
+        captacha_enabled = config.get('recaptcha.public_key', "")
+        c.recaptcha = captacha_enabled and h.recaptcha.displayhtml() 
+        return render("/user/register.html")
 
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserCreateForm(), form="new", post_only=True)
     def create(self):
         require.user.create()
+        # SPAM protection recaptcha
+        captacha_enabled = config.get('recaptcha.public_key', "")
+        if captacha_enabled:
+            recaptcha_response = h.recaptcha.submit()
+            if not recaptcha_response.is_valid:
+                c.recaptcha = h.recaptcha.displayhtml(error=recaptcha_response.error_code) 
+                redirect("/register")
+        # SPAM protection hidden input
+        input_css = self.form_result.get("input_css")
+        input_js = self.form_result.get("input_js")
+        if input_css or input_js:
+            redirect("/")
+
+        #create user
         user = model.User.create(self.form_result.get("user_name"),
                                  self.form_result.get("email").lower(),
                                  password=self.form_result.get("password"),
@@ -137,6 +154,8 @@ class UserController(BaseController):
             model.meta.Session.expunge(membership)
             model.meta.Session.add(membership)
             model.meta.Session.commit()
+
+        # info message
         h.flash(_("You have successfully registered as user %s.") % user.name,
                 'success')
         redirect("/perform_login?%s" % urllib.urlencode({

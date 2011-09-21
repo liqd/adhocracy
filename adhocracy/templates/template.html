@@ -9,6 +9,11 @@
     ${self.head()}
   </head>
   <body lang="${c.locale.language}">
+    <div class="overlay" id="overlay-default">
+      <a class="close"></a>
+      <!-- the external content is loaded inside this tag -->
+      <div class="contentWrap"></div>
+    </div>    
     <div id="frame">
       <div id="globalheader">
         <div class="headerbox">
@@ -40,8 +45,8 @@
             <a class="ttip" title="${_('Sign out')}" 
               href="/logout">${_("Logout")}</a>
             %else:
-              <a href="/login">${_("Login")}</a> 
-              <a href="/register">${_("Register")}</a>    
+              <a rel="#overlay-default" href="/login">${_("Login")}</a> 
+              <a rel="#overlay-default" href="/register">${_("Register")}</a>    
             %endif
           </div>
           <div id="navigation">
@@ -64,8 +69,8 @@
             %endif
 
             <a href="/event/all">${_("Events")}</a>
-            <div class="help">
-              <a class="staticlink_help" href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a>
+            <div class="help" >
+              <a rel="#overlay-default" class="staticlink_help" href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a>
             </div>
           </div>
 

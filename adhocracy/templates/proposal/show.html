@@ -12,21 +12,21 @@ ${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 <div class="sidebar">
     ${tiles.proposal.sidebar(c.proposal, c.tile)}
     <br/>
-    <div class="help">
-        <h3>${_("Help")}</h3>
-        <ul>
-            <li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
-            <li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
-            %if c.proposal.instance.use_norms:
-                <li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
-            %endif
-            <li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
-            <li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
-            <li>${h.help_link(_("Guide: Supporting proposals"), 'support_text')|n}</li>
-            <li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
-            <li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>
-        </ul>
-    </div>
+    <!--<div class="help">-->
+        <!--<h3>${_("Help")}</h3>-->
+        <!--<ul>-->
+            <!--<li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>-->
+            <!--<li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>-->
+            <!--%if c.proposal.instance.use_norms:-->
+                <!--<li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>-->
+            <!--%endif-->
+            <!--<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>-->
+            <!--<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>-->
+            <!--<li>${h.help_link(_("Guide: Supporting proposals"), 'support_text')|n}</li>-->
+            <!--<li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>-->
+            <!--<li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>-->
+        <!--</ul>-->
+    <!--</div>-->
 </div>
 
 <div class="mainbar">

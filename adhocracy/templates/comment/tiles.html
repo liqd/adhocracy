@@ -72,7 +72,7 @@
                         ${h.poll_position_css(comment.poll)}" id="tile_c${comment.id}">
             <div class="logo rate">
                 %if can.comment.rate(comment):
-                    <a class="up icon otip" title="${_("Support this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=1&${h.url_token()}" 
+                    <a class="up icon ttip" title="${_("Support this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=1&${h.url_token()}" 
                         onclick="return adhocracy.rate('#tile_c${comment.id}', ${comment.poll.id}, 1);">
                         &nbsp;
                     </a>

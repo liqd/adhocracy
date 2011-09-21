@@ -11,11 +11,11 @@ It has some babel commands preconfigured in setup.cfg.
 Babel command
 -------------
 
-``(adhocracy)/src/adhocracy$ adhocpy setup.py extract_messages``
+``(adhocracy)/src/adhocracy$ ../../bin/adhocpy setup.py extract_messages``
    Extract the messages from the python files and templates into 
    ``adhocracy/i18n/adhocracy.pot``
 
-``(adhocracy)/src/adhocracy$ adhocpy setup.py update_catalog``
+``(adhocracy)/src/adhocracy$ ../../bin/adhocpy setup.py update_catalog``
    Use the ``adhocray.pot``file to update the ``.po`` files for all
    languages in ``adhocracy/i18n/{LANG}/LC_MESSAGES/adhocracy.po``.
    For new msgids babel will try to find a similar msgid and
@@ -23,7 +23,7 @@ Babel command
    those msgstrs (marked with ``, fulzzy`` in the ``.po`` file
    will not be included into the compiled ``.mo`` files.
 
-``(adhocracy)/src/adhocracy$ adhocpy setup.py compile_catalog``
+``(adhocracy)/src/adhocracy$ ../../adhocpy setup.py compile_catalog``
   Compile the ``.po`` files for all languages to ``.mo`` files.
 
 Translation workflow
