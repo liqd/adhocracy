@@ -79,14 +79,14 @@ def memoize(iden, time=0):
                 res = app_globals.cache.get(key)
                 if res is None:
                     res = fn(*a, **kw)
-                    #print "Cache miss", key
+                    #print "Cache miss", key + iden
                     if res is None:
                         res = NoneResult
-                    #print "Cache set:", key
+                    #print "Cache set:", key + iden
                     app_globals.cache.set(key, res, time=time)
                     tag_fn(key, a, kw)
                 #else:
-                    #print "Cache hit", key
+                    #print "Cache hit", key + iden
                 if res == NoneResult:
                     res = None
             return res
