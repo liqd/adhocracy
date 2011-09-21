@@ -36,6 +36,8 @@
         href="${h.base_url(None, path='/style/portrait.css')}">
     <link type="text/css" media="print" rel="stylesheet" 
         href="${h.base_url(None, path='/style/print.css')}" />
+    <link type="text/css" media="all" rel="stylesheet" 
+        href="${h.base_url(None, path='/style/overlay.css')}" />
     
     <link rel='shortcut icon' type='image/x-icon' 
         href='${h.base_url(None, path='/favicon.ico')}' />
@@ -47,23 +49,27 @@
     ${print_meta()}
 
     <!-- jQuery Library + UI Tools -->
-    <script type="text/javascript"
-        src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
-    <script  type="text/javascript"
-        src="http://cdn.jquerytools.org/1.2.4/tiny/jquery.tools.min.js"></script>
+    <!--<script type="text/javascript"-->
+        <!--src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>-->
+    <!--<script  type="text/javascript"-->
+        <!--src="http://cdn.jquerytools.org/1.2.5/tiny/jquery.tools.min.js"></script>-->
+    <!--<script type="text/javascript"-->
+        <!--src="${h.base_url(None, path='/js/jquery.tools.min.js')}"></script>-->
+    <script src="http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js"></script> 
+ 
     <!-- additional js libraries-->
-    <script type="text/javascript" 
+    <script type="text/javascript"
         src="${h.base_url(None, path='/js/jquery.qtip.min.js')}"></script>
-    <script type="text/javascript" 
-        src="${h.base_url(None, path='/js/jquery.autocomplete.min.js')}"></script>  
-    <script type="text/javascript" 
+    <script type="text/javascript"
+        src="${h.base_url(None, path='/js/jquery.autocomplete.min.js')}"></script>
+    <script type="text/javascript"
         src="${h.base_url(None, path='/js/jquery.timeago.js')}"></script>
-    <script type="text/javascript" 
+    <script type="text/javascript"
         src="${h.base_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script>
     <!--adhocracy js-->
-    <script type="text/javascript" 
+    <script type="text/javascript"
         src="${h.base_url(None, path='/js/adhocracy.js')}"></script>
-    <!--[if lt IE 7 ]>
+    <!--<!--[if lt IE 7 ]>-->
         <script type="text/javascript" 
             src="${h.base_url(None, path='/js/dd_belatedpng.js') }"></script>
         <script> DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images </script>
