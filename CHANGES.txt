@@ -6,7 +6,7 @@ adhocracy Changelog
 -------------------
 
 - tooltips use jquery tools now [joka]
-- open link with overlay support [joka]
+- open helper link, login and register form with overlay [joka]
 - recaptcha support (disabled by default) [joka]
 - proposals can have badgets #263 [joka]
 
