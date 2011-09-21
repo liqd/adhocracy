@@ -140,10 +140,8 @@ def help_link(text, page, anchor=None):
     if anchor is not None:
         url += "#" + anchor
     full_url = url % (page, 'html')
-    simple_url = url % (page, 'simple')
     return (u"<a target='_new' class='staticlink_%s' href='%s' "
-            u">%s</a>") % (page, full_url,
-                                                            simple_url, text)
+            u">%s</a>") % (page, full_url, text)
 
 
 def entity_url(entity, **kwargs):
