@@ -67,7 +67,10 @@ This version requires Python 2.5 or later.
         "sunburnt==0.5",
         "PIL>=1.1.6",
         "markdown2>=1.0.1",
-        "lxml>=2.2.6"
+        "lxml>=2.2.6",
+        "fanstatic >=0.11.2, <=0.11.99",
+        "js.jquery >= 1.6.1,<=1.6.99",
+        "js.jquery_qtip >= 1.0.0,<= 1.0.99",
     ],
     # REFACT: could/should these become regular dependencies?
     setup_requires=["PasteScript>=1.6.3",

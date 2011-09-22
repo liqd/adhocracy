@@ -1,5 +1,6 @@
 """Pylons middleware initialization"""
 from beaker.middleware import CacheMiddleware, SessionMiddleware
+from fanstatic import Fanstatic
 from paste.cascade import Cascade
 from paste.registry import RegistryManager
 from paste.urlparser import StaticURLParser
