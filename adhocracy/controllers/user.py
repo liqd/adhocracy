@@ -312,6 +312,13 @@ class UserController(BaseController):
         session.delete()
         redirect(h.base_url(c.instance))
 
+    def dashboard(self):
+        '''
+        Render a personalized dashboard for users
+        FIXME: implement
+        '''
+        return render('/user/dashboard.html')
+
     @ActionProtector(has_permission("user.view"))
     def complete(self):
         prefix = unicode(request.params.get('q', u''))

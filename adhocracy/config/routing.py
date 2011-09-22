@@ -32,7 +32,8 @@ def make_map():
                 action='badges', conditions=dict(method=['GET']))
     map.connect('/user/{id}/badges', controller='user',
                 action='update_badges', conditions=dict(method=['POST']))
-
+    map.connect('/user/{id}/dashboard', controller='user',
+                action='dashboard')
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
                                          'proposals': 'GET',
