@@ -3,7 +3,7 @@
 
 <%def name="row(tile, proposal)">
     <div class="tile ${'fresh' if tile.fresh else ''}">
-        <div class="base" style="background-image: url(${h.proposal.icon_url(proposal, size=32)});">
+        <div class="base">
             <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
                 %if tile.fresh:
                     ${_("(new)")}
