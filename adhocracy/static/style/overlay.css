@@ -1,0 +1,45 @@
+/*the overlay*/
+div.overlay {
+    /*color:#efefef;*/
+    /* must be initially hidden */
+    display:none;
+    /* place overlay on top of other elements */
+    z-index:10000;
+    /* styling */
+    background-color:#fff;              
+    width:675px;
+    max-height:550px;
+    border:1px solid #666;
+    padding: 15px;
+
+    /* CSS3                          styling for latest browsers */
+    -moz-box-shadow:0 0 90px 5px #000;
+    -webkit-box-shadow: 0 0 90px #000;
+}   
+/* default close button positioned on upper right corner */
+.overlay .close {
+    background-image:url(../img/close.png);
+    position:absolute; 
+    right:-15px;
+    top:-15px;
+    cursor:pointer;
+    height:35px;
+    width:35px;
+}
+/* container for external content. uses vertical scrollbar, if needed */
+div.contentWrap {
+    max-height:541px;
+    overflow-y:auto;
+}
+
+
+/* content styling cheats*/
+.overlay h1 {
+    width: 100%;
+}
+.overlay .content {
+    text-align:left;
+}
+.overlay .hidejs {
+  display:none;
+}

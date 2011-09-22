@@ -85,57 +85,12 @@ $(document).ready(function () {
     "use strict";
 
     $('.ts').timeago();
-
-    $('.ttip[title]').qtip({
-        style: {
-            background: '#fdfbc0',
-            textAlign: 'left',
-            lineHeight: '1.3em',
-            color: '#333',
-            border: {
-                width: 1,
-                color: '#e7e5a3',
-                radius: 0
-            },
-            tip: 'topMiddle',
-            name: 'cream'
-        },
-        position: {
-            corner: {
-                target: 'bottomMiddle',
-                tooltip: 'topMiddle'
-            }
-        },
-        show: {
-            delay: 400
-        }
-    });
-
-    $('.otip[title]').qtip({
-        style: {
-            background: '#fdfbc0',
-            textAlign: 'left',
-            lineHeight: '1.3em',
-            color: '#333',
-            border: {
-                width: 1,
-                color: '#e7e5a3',
-                radius: 0
-            },
-            tip: 'bottomMiddle',
-            name: 'cream'
-        },
-        position: {
-            corner: {
-                target: 'topMiddle',
-                tooltip: 'bottomMiddle'
-            }
-        },
-        show: {
-            delay: 400
-        }
-    });
-
+    
+    $(".ttip[title]").tooltip({ 
+        position: "bottom left", 
+        opacity: 1,
+        effect: 'toggle'
+    }).dynamic({ bottom: { direction: 'down', bounce: true } });
 
     $(".hidejs").hide();
     $(".showjs").show();
@@ -370,3 +325,17 @@ $(document).ready(function () {
         $(this).parent().submit();
     });
 });
+
+//open link in overlay (like help pages)
+$(document).ready(function() {
+    $("a[rel=#overlay-default]").overlay({
+
+        mask: 'grey',
+        onBeforeLoad: function() {
+            // grab wrapper element inside content
+            var wrap = this.getOverlay().find(".contentWrap");
+            // load the page specified in the trigger
+            wrap.load(this.getTrigger().attr("href") + " .content");
+        }
+    });
+});     

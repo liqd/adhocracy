@@ -97,7 +97,7 @@
                        ${'head' if row.text.is_head else ''}">
             <div class="logo rate">
                 %if can.poll.vote(row.poll):
-                    <a class="up icon otip" title="${_("Support this variant")}" 
+                    <a class="up icon ttip" title="${_("Support this variant")}" 
                          href="${h.entity_url(row.poll, member='rate')}?position=1&${h.url_token()}" 
                          onclick="return adhocracy.rate('#poll_c${row.poll.id}', ${row.poll.id}, 1);">
                         &nbsp;
