@@ -17,8 +17,6 @@ jquery.need()
   </head>
 
 
-
-
 <body lang="${c.locale.language}">
   <!-- begin: header -->
   <header>
@@ -216,21 +214,37 @@ jquery.need()
           <a class="button add ttip" title="${_('Join this instance to start contributing.')}"  href="/register">${_("join")}</a> 
       </div>
       %endif
-
-      ${c.subnav}
+  </div>
+  ${c.subnav}
   <div id="main">
-    <div class="page_margins">
-      <div class="page_wrapper">
-        <!-- begin: page content -->
-        <div id="col1">
-          <div id="col1_content" class="clearfix">
-              
-            ${self.body()}
+      <%block name="main">
+      <div class="page_margins">
+          <div class="page_wrapper">
+              <!-- begin: page content -->
+              <%block name="content_wrapper">
+    
+              <%block name="headline" />
+              <div id="col1">
+                  <div id="col1_content" class="clearfix">
+                      
+                      <%block name="main_content" />
+                      
+                  </div>
+              </div>
 
-          </div>
+              <aside>
+                  <div id="col3">
+                      <div id="col3_content" class="clearfix">
+                          <%block name="sidebar" />
+                      </div>
+                      <!-- IE Column Clearing -->
+                      <div id="ie_clearing"> &#160; </div>
+                  </div>
+              </aside>
+              </%block>
         </div>
-      </div>
     </div>
+    </%block>
   </div>
   
   <div class="clearfix"> </div>
@@ -288,7 +302,7 @@ Fixme: Old stuff
       <div style="clear: both;"></div>
     </div>
     <div class="clearfix"> </div>
-</div>    
+  </div>    
 </div>
 
 
