@@ -39,7 +39,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     """
 
-    debug = asbool(config['debug'])
+    debug = asbool(global_conf['debug']) or asbool(app_conf['debug'])
 
     # Configure the Pylons environment
     load_environment(global_conf, app_conf)
@@ -81,4 +81,12 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
             cache_max_age=None if debug else cache_age)
         app = Cascade([overlay_app, static_app, app])
 
+    # Fanstatic inserts links for javascript and css ressources.
+    # The required resources can be specified at runtime with <resource>.need()
+    # and can will be delivered with version specifiers in the url and
+    # minified when not in debug mode.
+    app = Fanstatic(app,
+                    minified=not(debug),
+                    versioning=True,
+                    recompute_hashes=debug)
     return app
