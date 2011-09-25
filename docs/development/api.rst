@@ -88,4 +88,29 @@ Delegation
 .. automodule:: adhocracy.model.delegation
 		:members:
 		:undoc-members:
+
     
+Template Variables
+------------------
+
+Pylons provides a thread local variable
+:attribute:`pylons.tmpl_context` that is available in templates a
+`c`. The following variables are commonly or always available in
+templates:
+
+`c.instance`
+  A :class:`adhocracy.model.Instance` object or `None`. It is set by
+  :class:`adhocracy.lib.base.BaseController` from a value determinated
+  by :class:`adhocracy.lib.instance.DescriminatorMiddleware` from the
+  host name.
+
+`c.user`
+  A :class:`adhocracy.model.User` object or `None` if unauthenticated.
+  It is set by :class:`adhocracy.lib.base.BaseController` from a value
+  determinated by the :module:`repoze.who` middleware.
+
+`c.active_global_nav`
+  A `str` naming the current active top navigation item. It is set to
+  'instance' in :class:`adhocracy.lib.base.BaseController` if the
+  request is made to an instance and can be overridden in any
+  controller.
