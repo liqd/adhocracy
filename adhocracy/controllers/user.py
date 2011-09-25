@@ -403,6 +403,7 @@ class UserController(BaseController):
 
     def watchlist(self, id, format='html'):
         require.watch.index()
+        c.active_global_nav = 'watchlist'
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
         require.user.show(c.page_user)

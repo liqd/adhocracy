@@ -1,6 +1,7 @@
 <%inherit file="root.html" />
 <%namespace name="model" module="adhocracy.model"/>
 <%namespace name="components" file="/components.html"/>
+<%namespace name="navigation" file="/navigation.html"/>
 
 <%
 from js.jquery_qtip import qtip
@@ -31,52 +32,9 @@ jquery.need()
             <!-- end: skip link navigation -->
             <a href="#" class="icon_link follow">Follow us!</a>
           </div>
-          <!-- begin: logo -->
-          <div id="blog_select" class="">
-            <div id="current_logo">
-              <a id="logo" href="http://staging_wordpress.adhocracy.cc/" title="adhocracy" rel="home">
-                <img src="/images/logo_1.png" alt="adhocracy" />
-                <h1>adhocracy</h1>
-              </a>
-              <a href="#" id="blog_select_button" class="icon_link">&nbsp;</a>
-            </div>
-            <a href="http://liquid-democracy.staging_wordpress.adhocracy.cc/" title="Liqid Democracy e.V."><img src="/images/logo_2.png" alt="Liqid Democracy e.V." /></a>
-            <a href="http://code.staging_wordpress.adhocracy.cc/" title="Adhocracy Code"><img src="/images/logo_3.png" alt="Adhocracy Code" /></a>
-            <a href="http://ld-support.staging_wordpress.adhocracy.cc/" title="LDSupport"><img src="/images/logo_5.png" alt="LDSupport" /></a>
-            <a href="http://fo-ld.staging_wordpress.adhocracy.cc/" title="FoLD"><img src="/images/logo_4.png" alt="FoLD" /></a>
-          </div>
-          <!-- begin: main navi -->
-          <nav>
-            <div id="nav">
-              <!-- skiplink anchor: navigation -->
-              <a id="navigation" name="navigation"></a>
-              <!-- main navigation: horizontal list -->
-              <div class="menu hlist">
-                <ul>
-                  <li class="current"><a href="http://staging_wordpress.adhocracy.cc/" title="Home">Start</a></li>
-                  <li><a href="http://staging_wordpress.adhocracy.cc/beispiel-seite-2/" title="Beispiel-Seite">Organisationen</a></li>
-                  <li><a href="http://staging_wordpress.adhocracy.cc/beispiel-seite-2/" title="Beispiel-Seite">Beobachtunsliste</a></li>
-                  <li><a href="http://staging_wordpress.adhocracy.cc/beispiel-seite-2/" title="Beispiel-Seite">Über Uns</a></li>
-                  <li><a href="http://staging_wordpress.adhocracy.cc/beispiel-seite-2/" title="Beispiel-Seite">Hilfe</a></li>
-                  %if c.user:
-                  <li>
-                      <a title="${_('Your profile')}" href="${h.entity_url(c.user)}">
-                          <!-- Fixme: User image <img width="16" height="16" src="${h.user.icon_url(c.user, size=16)|n}" /> --> 
-                          ${c.user.name}
-                      </a>
-                  </li>
-                  %else:
-                  <li>
-                      <a href="/login">${_("Login")}</a> 
-                      <!-- FIXME: <a href="/register">${_("Register")}</a> -->
 
-                  </li>
-                  %endif
-              </ul>
-
-              </div>
-            </div>
-          </nav>
+          <%include file="logo.html" />
+          ${navigation.global_nav(c.active_global_nav)}
         </div>
       </div>
     </div>
@@ -124,14 +82,14 @@ jquery.need()
             <a href="${h.base_url(None, path='/')}">
               Startseite
             </a> 
-            %if g.single_instance is None:
-              <a class="ttip" title="${_('All instances')}" 
-                href="${h.base_url(None, path='/instance')}">${_("Instances")}</a>
-              <a class="ttip" 
-                title="${_('Users across all instances')}" 
-                href="${h.base_url(None, path='/user/all')}">${_("Users")}</a>
 
+            %if g.single_instance is None:
+            <!-- FIXME: global users list not part of the UI anymore? -->
+            <a class="ttip" 
+               title="${_('Users across all instances')}" 
+               href="${h.base_url(None, path='/user/all')}">${_("Users")}</a>
             %endif
+
             %if h.has_permission("global.admin"):
               <a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
               <a class="ttip" 
@@ -140,9 +98,6 @@ jquery.need()
             %endif
 
             <a href="/event/all">${_("Events")}</a>
-            <div class="help">
-              <a class="staticlink_help" href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a>
-            </div>
           </div>
 
           <div id="bannerLeiste">
@@ -222,7 +177,7 @@ jquery.need()
           <div class="page_wrapper">
               <!-- begin: page content -->
               <%block name="content_wrapper">
-    
+              
               <%block name="headline" />
               <div id="col1">
                   <div id="col1_content" class="clearfix">
@@ -231,7 +186,7 @@ jquery.need()
                       
                   </div>
               </div>
-
+              
               <aside>
                   <div id="col3">
                       <div id="col3_content" class="clearfix">
@@ -242,9 +197,15 @@ jquery.need()
                   </div>
               </aside>
               </%block>
-        </div>
-    </div>
-    </%block>
+          </div>
+      </div>
+      </%block>
+  </div>
+
+  <!-- FIXME: temporary render template body here. Use the blocks above
+       to render the content -->
+  ${self.body()}
+    
   </div>
   
   <div class="clearfix"> </div>

@@ -1,0 +1,58 @@
+<%def name="global_nav(active)">
+
+<% 
+   active_nav = {}
+   active_nav[active] = 'current'
+
+%>
+<!-- begin: main navi -->
+<nav>
+    <div id="nav">
+        <!-- skiplink anchor: navigation -->
+        <a id="navigation" name="navigation"></a>
+        <!-- main navigation: horizontal list -->
+        <div class="menu hlist">
+            <ul>
+                <li class="${active_nav.get('home', '')}">
+                <a href="${h.base_url(None, path='/')}">${_("Home")}</a></li>
+
+                %if g.single_instance is None:
+                <li class="${active_nav.get('instances', '')}"><a class="ttip" 
+                       href="${h.base_url(None, path='/instance')}"
+                       title="${_('All instances')}">${_("Instances")}</a></li>
+                %endif
+
+                %if c.user:
+                <li class="${active_nav.get('watchlist', '')}"><a class="ttip"
+                       href="${h.entity_url(c.user, member='watchlist')}" 
+                       title="${_('All instances')}">${_("Watchlist")}</a></li>
+                %endif
+                <!-- FIXME: implemente About -->
+                <li class="${active_nav.get('about', '')}"><a href="#" 
+                       >${_('About')}</a></li>
+
+                <li  class="${active_nav.get('help', '')}"
+                     id="nav_help"><a class="" 
+                                      href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a></li>
+
+                <!-- FIXME: implemente personal drop down menu -->
+                %if c.user:
+                <li class="${active_nav.get('user', '')}">
+                    <a title="${_('Your profile')}" href="${h.entity_url(c.user)}">
+                        <!-- FIXME: User image <img width="16" height="16" 
+                             src="${h.user.icon_url(c.user, size=16)|n}" /> --> 
+                        ${c.user.name}
+                    </a>
+                </li>
+                %else:
+                <li class="${active_nav.get('login', '')}">
+                    <a href="/login">${_("Login")}</a> 
+                    <!-- FIXME: <a href="/register">${_("Register")}</a> -->
+
+                </li>
+                %endif
+            </ul>
+        </div>
+    </div>
+</nav>
+</%def>

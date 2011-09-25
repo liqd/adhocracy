@@ -10,7 +10,7 @@ from pylons.controllers import WSGIController
 from pylons import request, tmpl_context as c
 from pylons.i18n import _
 from sqlalchemy.orm.scoping import ScopedSession
-from sqlalchemy.orm.exc import DetachedInstanceError 
+from sqlalchemy.orm.exc import DetachedInstanceError
 
 from adhocracy import i18n, model
 from adhocracy.lib import helpers as h
@@ -49,6 +49,12 @@ class BaseController(WSGIController):
                               logo='/images/logo_die_linke.png')
 
         c.instance = model.instance_filter.get_instance()
+        if c.instance is not None:
+            # setup a global variable to mark the current item in
+            # the global navigation
+            c.active_global_nav = 'instance'
+        else:
+            c.active_global_nav = 'home'
         c.user = environ.get('repoze.who.identity', {}).get('user')
         try:
             if c.user and (c.user.banned or c.user.delete_time):
