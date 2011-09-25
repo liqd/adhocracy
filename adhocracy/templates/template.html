@@ -207,7 +207,7 @@ jquery.need()
       <div class="clearfix"> </div>
       <!-- Fixme: /end old instance nav -->
 
-      %if not c.user:
+      %if not c.user and c.instance:
       <div class="infobox no_member" style="padding: 1em; background-color: #FEFFAC;">
           <!-- FIXME: Add info box markup and change text/translation -->
           ${_("You are not yet a member of %s. To participate, you must register first.") % c.instance.label}
