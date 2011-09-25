@@ -1,18 +1,6 @@
 <%def name="title()">${_("No Title")}</%def>
 <%def name="breadcrumbs()">&nbsp;</%def>
 
-<%def name="print_meta()">
-    %for key, value in c.html_meta.items():
-        <meta name="${key}" content="${value}" />
-    %endfor
-</%def>
-
-<%def name="print_head_links()">
-    %for link in c.html_head_links:
-        <link rel="${link['rel']}" type="${link['type']}" title="${link['title']}" href="${link['href']}" />
-    %endfor
-</%def>
-
 <%def name="head()">
     <title>${self.title()} - 
             %if c.instance:
@@ -21,11 +9,15 @@
                 ${h.site.name()}
     </title>
 
+    <meta http-equiv="X-XRDS-Location" 
+          content="${h.base_url(c.instance, path='/openid/xrds')}"/>
+
+    %for key, value in c.html_meta.items():
+    <meta name="${key}" content="${value}" />
+    %endfor
+
     <!-- template -->
   <meta charset='UTF-8' content='text/html' http-equiv='content-type' />
-  <meta name='description' content='adhocracy' />
-  <meta name='author' content='Liquid Democracy e.V.' />
-  <meta name='keywords' content='adhocracy, Liquid Democracy e.V.' />
 
   <link rel="stylesheet" type="text/css" media="all" href="/stylesheets/style.css" />
   <!--[if lte IE 7]>
@@ -90,8 +82,11 @@
             href="${h.base_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
     %endif
     
-    ${print_head_links()}
-    
+    %for link in c.html_head_links:
+    <link rel="${link['rel']}" type="${link['type']}" 
+          title="${link['title']}" href="${link['href']}" />
+    %endfor
+
     <style> 
         %if c.user and c.user.no_help:
             .help {display: none;}
