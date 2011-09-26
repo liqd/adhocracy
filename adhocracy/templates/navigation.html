@@ -75,7 +75,7 @@
 
 <% 
    active_subnav = {}
-   active_subnav[active] = 'current'
+   active_subnav[active or 'instance'] = 'current'
 
    def _class(identifier):
        return active_subnav.get(identifier, '')
