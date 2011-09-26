@@ -95,47 +95,4 @@
     
 </%def>
 
-
-<!-- FIXME: Part of the new theme. Move somewhere else. -->
-<%def name="subnavi_link(link)"><a href="${link['href']}" title="${link.get('title', '')}">${link['text']}</a></%def>
-
-<%def name="subheader_navigation(links=[], search='default', admin_links=[], logo=None)">
-  <div id="subheader">
-    <div class="page_margins">
-      <div class="page_wrapper">
-        <!-- begin: sub navi -->
-        %if logo:
-        <div id="organisation_logo">
-          <img src="${logo}" />
-        </div>
-        %endif
-        <!-- begin: sub navi -->
-        <nav>
-          <div class="hlist">
-            <ul id="subnav">
-                %for link in links:
-                <li class="${link.get('current') and 'current' or ''}"
-                    >${self.subnavi_link(link)}</li>
-                %endfor
-                %for link in admin_links:
-                <li class="settings">${self.subnavi_link(link)}</li>
-                %endfor
-            </ul>
-          </div>
-        </nav>
-        <div id="searchbox">
-          <form action="http://liquid-democracy.staging_wordpress.adhocracy.cc/" id="searchform" method="get">
-            <div class="label_over">
-              <label class="over-apply" for="s">In Die Linke suchen&hellip;</label>
-              <input type="text" id="s" name="s" value="" />
-            </div>
-            <input type="submit" value="Los" id="searchsubmit" />
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</%def>
-
 ${next.body()}

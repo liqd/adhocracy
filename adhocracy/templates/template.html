@@ -42,6 +42,12 @@ jquery.need()
 
     <div id="frame">
 
+        %if c.instance:
+        ${navigation.subheader_instance_navigation(
+              c.active_subheader_nav,
+              "/instance/%s/_48.png" % c.instance.key)}
+        %endif
+
       <!-- Fixme: /start old global head nav -->
       <div id="globalheader" style="display: none; border: 1px solid red;">
         Fixme: Old global head nav

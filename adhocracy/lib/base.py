@@ -24,30 +24,6 @@ class BaseController(WSGIController):
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
 
-        # FIXME: Example. Move somewhere else
-        c.subnav = render_def('root.html', 'subheader_navigation',
-                              links=[dict(href='#',
-                                          title="title",
-                                          text=u"Uebersicht",
-                                          current=False),
-                                     dict(href='#',
-                                          title="title",
-                                          text=u"Uebersicht",
-                                          current=True),
-                                     dict(href='#',
-                                          title="title",
-                                          text=u"Uebersicht"),
-                                     dict(href='#',
-                                          title="title",
-                                          text=u"Uebersicht",
-                                          current=False),
-                                     ],
-                              search='/fixme-search',
-                              admin_links=[{'href': '#',
-                                            'title': "_title",
-                                            'text': u"Einstellungen"}],
-                              logo='/images/logo_die_linke.png')
-
         c.instance = model.instance_filter.get_instance()
         if c.instance is not None:
             # setup a global variable to mark the current item in
