@@ -11,7 +11,10 @@
    active_nav = {}
    active_nav[active] = 'current'
 
+   def _class(identifier):
+       return active_nav.get(identifier, '')
 %>
+
 <!-- begin: main navi -->
 <nav>
     <div id="nav">
@@ -20,43 +23,46 @@
         <!-- main navigation: horizontal list -->
         <div class="menu hlist">
             <ul>
-                <li class="${active_nav.get('home', '')}">
-                <a href="${h.base_url(None, path='/')}">${_("Home")}</a></li>
+                ${nav_link(href=h.base_url(None, path='/'),
+                           text=_("Home"), class_=_class('home'))}
 
                 %if g.single_instance is None:
-                <li class="${active_nav.get('instances', '')}"><a class="ttip" 
-                       href="${h.base_url(None, path='/instance')}"
-                       title="${_('All instances')}">${_("Instances")}</a></li>
+                ${nav_link(href=h.base_url(None, path='/instance'),
+                           class_=_class('instances'),
+                           title=_('All instances'),
+                           text=_("Instances"))}
                 %endif
 
                 %if c.user:
-                <li class="${active_nav.get('watchlist', '')}"><a class="ttip"
-                       href="${h.entity_url(c.user, member='watchlist')}" 
-                       title="${_('All instances')}">${_("Watchlist")}</a></li>
+                ${nav_link(href=h.entity_url(c.user, member='watchlist'),
+                           title=_('All instances'),
+                           class_=_class('watchlist'),
+                           text=_("Watchlist"))}
                 %endif
                 <!-- FIXME: implemente About -->
-                <li class="${active_nav.get('about', '')}"><a href="#" 
-                       >${_('About')}</a></li>
+                ${nav_link(href="#",
+                           text=_('About'),
+                           class_=_class('about'),
+                           title="")}
 
-                <li  class="${active_nav.get('help', '')}"
-                     id="nav_help"><a class="" 
-                                      href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a></li>
+                ${nav_link(href=h.base_url(None, path='/static/help.html'),
+                           text=_("Help"),
+                           class_=_class('help'),
+                           id_="nav_help")}
 
                 <!-- FIXME: implemente personal drop down menu -->
                 %if c.user:
-                <li class="${active_nav.get('user', '')}">
-                    <a title="${_('Your profile')}" href="${h.entity_url(c.user)}">
+                ${nav_link(href=h.entity_url(c.user),
+                           text=c.user.name,
+                           title=_('Your profile'),
+                           class_=_class('user'))}
                         <!-- FIXME: User image <img width="16" height="16" 
-                             src="${h.user.icon_url(c.user, size=16)|n}" /> --> 
-                        ${c.user.name}
-                    </a>
-                </li>
+                             src="${h.user.icon_url(c.user, size=16)|n}" /> -->
                 %else:
-                <li class="${active_nav.get('login', '')}">
-                    <a href="/login">${_("Login")}</a> 
-                    <!-- FIXME: <a href="/register">${_("Register")}</a> -->
-
-                </li>
+                ${nav_link(href="/login",
+                           text=_("Login"),
+                           class_=_class('login'))}
+                <!-- FIXME: <a href="/register">${_("Register")}</a> -->
                 %endif
             </ul>
         </div>
