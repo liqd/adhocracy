@@ -14,7 +14,7 @@ graph = create_schema_graph(
     concentrate=False   # Don't try to join the relation lines together
 )
 
-graph.write_png('adhocracy-tables.png')
+graph.write_gif('adhocracy-tables.gif')
 
 
 # create an uml diagramm of all mapped classes
@@ -33,4 +33,4 @@ graph = create_uml_graph(mappers,
                          show_operations=False,
                          show_multiplicity_one=True)
 
-graph.write_png('adhocracy-classes.png')
+graph.write_gif('adhocracy-classes.gif')
