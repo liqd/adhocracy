@@ -53,7 +53,7 @@ Some of the more interesting models and support classes are:
 :class:`selection.Selection`
    A *Selection* is a "reference" object for the relation between
    *Pages (Norms)* and *Proposals* and stores additional information,
-    especially when the relation was created or removed.
+   especially when the relation was created or removed.
 
 :class:`text.Text`
    ``Text`` objects are only used to save text for :class:`page.Page`
