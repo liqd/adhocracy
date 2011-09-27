@@ -71,66 +71,38 @@
 </%def>
 
 
-<%def name="subheader_instance_navigation(active, logo, show_search=True)">
-
-<% 
-   active_subnav = {}
-   active_subnav[active or 'instance'] = 'current'
-
-   def _class(identifier):
-       return active_subnav.get(identifier, '')
-%>
+<%def name="subheader_navigation(logo, label, search_action=None, search_label='', 
+                                 search_button_text=None)">
 
   <div id="subheader">
     <div class="page_margins">
       <div class="page_wrapper">
         <!-- begin: sub navi -->
-        %if logo:
+        
         <div id="organisation_logo">
-          <img src="${logo}" />
+          <img src="${logo}" alt="&ldquo;${label}&rdquo; logo"/>
+          <h1 style="display:inline;">${label}</h1>
         </div>
-        %endif
         <!-- begin: sub navi -->
         <nav>
           <div class="hlist">
             <ul id="subnav">
 
-                ${nav_link(href="#",
-                           text=_("Instance"),
-                           class_=_class('instance'))}
-
-                ${nav_link(href="#",
-                           text=_("Milestones"),
-                           class_=_class('milestones'))}
-
-                ${nav_link(href="#",
-                           text=_("Diskussions"),
-                           class_=_class('discussions'))}
-
-                ${nav_link(href="#",
-                           text=_("Norms"),
-                           class_=_class('norms'))}
-
-                ${nav_link(href="#",
-                           text=_("Members"),
-                           class_=_class('members'))}
-
-                ${nav_link(href="#",
-                           text=_("Settings"),
-                           class_=(_class('settings') + ' settings'))}
+                ${caller.body()}
 
             </ul>
           </div>
         </nav>
-        %if show_search:
+        %if search_action:
         <div id="searchbox">
-          <form action="http://liquid-democracy.staging_wordpress.adhocracy.cc/" 
+          <form action="${search_action}" 
                 id="searchform" method="get">
             <div class="label_over">
-              <label class="over-apply" for="s">In Die Linke suchen&hellip;</label>
+              <label class="over-apply" for="s">${search_label|n}</label>
               <input type="text" id="s" name="s" value="" />
             </div>
-            <input type="submit" value="Los" id="searchsubmit" />
+            <input type="submit" value="${search_button_text or _('Search')}" 
+                   id="searchsubmit" />
           </form>
         </div>
         %endif
@@ -139,3 +111,46 @@
   </div>
 
 </%def>
+
+<%def name="subheader_instance_navigation(active)">
+
+<% 
+   import markupsafe
+   active_subnav = {}
+   active_subnav[active or 'instance'] = 'current'
+   search_label = _('Search in &ldquo;%s&rdquo;&hellip;') % markupsafe.escape(c.instance.label)
+   logo = "/instance/%s_48.png" % (c.instance.key if c.instance else '_def')
+   def _class(identifier):
+       return active_subnav.get(identifier, '')
+%>
+
+<%call expr="subheader_navigation(logo, c.instance.label, search_action='/search',
+                                  search_label=search_label)">
+
+  ${nav_link(href="#",
+             text=_("Instance"),
+             class_=_class('instance'))}
+
+  ${nav_link(href="#",
+             text=_("Milestones"),
+             class_=_class('milestones'))}
+
+  ${nav_link(href="#",
+             text=_("Diskussions"),
+             class_=_class('discussions'))}
+
+  ${nav_link(href="#",
+             text=_("Norms"),
+             class_=_class('norms'))}
+
+  ${nav_link(href="#",
+             text=_("Members"),
+             class_=_class('members'))}
+
+  ${nav_link(href="#",
+             text=_("Settings"),
+             class_=(_class('settings') + ' settings'))}
+
+</%call>
+</%def>
+

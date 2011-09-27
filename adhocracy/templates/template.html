@@ -43,9 +43,7 @@ jquery.need()
     <div id="frame">
 
         %if c.instance:
-        ${navigation.subheader_instance_navigation(
-              c.active_subheader_nav,
-              "/instance/%s/_48.png" % c.instance.key)}
+        ${navigation.subheader_instance_navigation(c.active_subheader_nav)}
         %endif
 
       <!-- Fixme: /start old global head nav -->
