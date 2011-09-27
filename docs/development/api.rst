@@ -20,8 +20,102 @@ Delegation management and traversal
 .. automodule:: adhocracy.lib.democracy.delegation_node
     :members: 
 
+
 Database models and helper classes
 ----------------------------------
+
+
+
+Badge
+'''''''''
+
+.. automodule:: adhocracy.model.badge
+		:members: 
+		:undoc-members:
+
+
+Comment
+'''''''
+
+.. automodule:: adhocracy.model.comment
+		:members: 
+		:undoc-members:
+
+
+Delegateable
+''''''''''''
+
+.. automodule:: adhocracy.model.delegateable
+		:members:
+		:undoc-members:
+    
+
+
+Delegateablebadge
+'''''''''''''''''
+
+.. automodule:: adhocracy.model.delegateablebadge
+		:members: 
+		:undoc-members:
+
+
+Delegation
+''''''''''
+
+.. automodule:: adhocracy.model.delegation
+		:members:
+		:undoc-members:
+
+
+Event
+'''''
+
+.. automodule:: adhocracy.model.event
+		:members: 
+		:undoc-members:
+
+
+Group
+'''''
+
+.. automodule:: adhocracy.model.group
+		:members: 
+		:undoc-members:
+
+
+Instance
+''''''''
+
+.. automodule:: adhocracy.model.instance
+		:members: 
+		:undoc-members:
+
+
+Membership
+''''''''''
+
+.. automodule:: adhocracy.model.membership
+		:members: 
+		:undoc-members:
+
+
+
+Milestone
+'''''''''
+
+.. automodule:: adhocracy.model.milestone
+		:members: 
+		:undoc-members:
+
+
+Openid
+''''''
+
+.. automodule:: adhocracy.model.openid
+		:members: 
+		:undoc-members:
+
+
 
 Page
 ''''
@@ -29,6 +123,15 @@ Page
 .. automodule:: adhocracy.model.page
 		:members: 
 		:undoc-members:
+
+
+Permission
+''''''''''
+
+.. automodule:: adhocracy.model.permission
+		:members: 
+		:undoc-members:
+
 
 Poll
 ''''
@@ -44,10 +147,34 @@ Proposal
 		:members: 
 		:undoc-members:
 
+Revision
+''''''''
+
+.. automodule:: adhocracy.model.revision
+		:members: 
+		:undoc-members:
+
+
 Selection
 '''''''''
 
 .. automodule:: adhocracy.model.selection
+		:members: 
+		:undoc-members:
+
+
+Tag
+'''
+
+.. automodule:: adhocracy.model.tag
+		:members: 
+		:undoc-members:
+
+
+Tagging
+'''''''
+
+.. automodule:: adhocracy.model.tagging
 		:members: 
 		:undoc-members:
 
@@ -66,6 +193,22 @@ Text
 		:members: 
 		:undoc-members:
 
+
+Twitter
+'''''''
+
+.. automodule:: adhocracy.model.twitter
+		:members: 
+		:undoc-members:
+
+
+User
+''''
+
+.. automodule:: adhocracy.model.user
+		:members: 
+		:undoc-members:
+
 Vote
 ''''
 
@@ -74,27 +217,20 @@ Vote
 		:undoc-members:
 
 
-Delegateable
-''''''''''''
+Watch
+'''''
 
-.. automodule:: adhocracy.model.delegateable
-		:members:
+.. automodule:: adhocracy.model.watch
+		:members: 
 		:undoc-members:
-    
 
-Delegation
-''''''''''
-
-.. automodule:: adhocracy.model.delegation
-		:members:
-		:undoc-members:
 
     
 Template Variables
 ------------------
 
 Pylons provides a thread local variable
-:attribute:`pylons.tmpl_context` that is available in templates a
+:attr:`pylons.tmpl_context` that is available in templates a
 `c`. The following variables are commonly or always available in
 templates:
 
@@ -107,7 +243,7 @@ templates:
 `c.user`
   A :class:`adhocracy.model.User` object or `None` if unauthenticated.
   It is set by :class:`adhocracy.lib.base.BaseController` from a value
-  determinated by the :module:`repoze.who` middleware.
+  determinated by the :mod:`repoze.who` middleware.
 
 `c.active_global_nav`
   A `str` naming the current active top navigation item. It is set to
