@@ -52,4 +52,4 @@ the `adhocracy mailing list`_.
 .. _adhocracy.buildout: https://bitbucket.org/liqd/adhocracy.buildout
 .. _poedit: http://www.poedit.net/
 .. _adhocracy mailing list: 
-   http://lists.liqd.net/cgi-bin/mailman/listinfo/adhocracy-dev
+  http://lists.liqd.net/cgi-bin/mailman/listinfo/adhocracy-dev
