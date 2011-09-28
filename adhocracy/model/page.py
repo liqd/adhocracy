@@ -112,7 +112,7 @@ class Page(Delegateable):
         page = Page(instance, label, creator, function)
         meta.Session.add(page)
         meta.Session.flush()
-        Text(page, Text.HEAD, creator, title, text, wiki=False)
+        Text(page, Text.HEAD, creator, title, text, wiki)
 
         if tags is not None:
             page.taggings = Tagging.create_all(page, tags, creator)
