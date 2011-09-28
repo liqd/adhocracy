@@ -36,9 +36,6 @@ h1, h2, h3, h4, h5, a {
 a.icon_link {
   background-image: url('/images/sprite.png');
 }
-a.highlight {
-  background-image: url('/images/button_highlight.jpg');
-}
 ul.subpages li a:hover, ul.subpages li.current_page_item a, ul.subpages ul.children li a:hover, ul.subpages ul.children li.current_page_item a {
   color: #9fb5d9;
 }

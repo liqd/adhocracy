@@ -17,6 +17,14 @@ $(document).ready(function(){
   // initial jquery label_over
   $('.label_over label').labelOver('over-apply');
 
+  // overlay
+  $('#overlay_test').overlay({
+    // custom top position
+    top: '25%',
+    // load it immediately after the construction
+    load: true
+  });
+
 });
 
 $('#blog_select_button').click(function () {
@@ -77,4 +85,14 @@ $('.paper a.new_comment').click(function () {
   } else $('#comment_form_' + p_id).remove();
   $(this).toggleClass('open');
   return false;
+})
+
+$('.switch_buttons .button_small').click(function () {
+  $('.switch_buttons .button_small').removeClass('active');
+  $(this).addClass('active');
+  return false;
+})
+
+$('.info_box .close_button').click(function() {
+  $(this).parent().fadeOut();
 })
