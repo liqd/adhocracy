@@ -51,19 +51,30 @@
                            id_="nav_help")}
 
                 <!-- FIXME: implemente personal drop down menu -->
-                %if c.user:
-                ${nav_link(href=h.entity_url(c.user),
-                           text=c.user.name,
-                           title=_('Your profile'),
-                           class_=_class('user'))}
-                        <!-- FIXME: User image <img width="16" height="16" 
-                             src="${h.user.icon_url(c.user, size=16)|n}" /> -->
-                %else:
+                %if c.user is None:
                 ${nav_link(href="/login",
                            text=_("Login"),
                            class_=_class('login'))}
                 <!-- FIXME: <a href="/register">${_("Register")}</a> -->
+                %else:
+                <div id="user_menu">
+                    <ul>
+                        <li>
+                            <a class="icon_link show_me" 
+                               href="${h.entity_url(c.user)}">${c.user.name}</a>
+                            <ul class="children">
+                                <li>
+                                    <a href="${h.entity_url(c.user, member='edit')}">
+                                        ${_('Edit Profile')}
+                                    </a>
+                                </li>
+                                <li><a href="/logout">${_("Logout")}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
                 %endif
+
             </ul>
         </div>
     </div>

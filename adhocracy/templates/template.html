@@ -21,7 +21,7 @@ jquery.need()
 <body lang="${c.locale.language}">
   <!-- begin: header -->
   <header>
-    <div id="header">
+    <div id="header" class="${'logged_in' if c.user else ''}">
       <div class="page_margins">
         <div class="page_wrapper">
           <!-- begin: top navi -->
