@@ -1,11 +1,5 @@
 <!-- begin: logo -->
-<div id="blog_select" class="">
-    <div id="current_logo">
-        <a id="logo" href="${h.base_url(None, path='/')}" 
-           title="FIXME: Portal name" 
-           rel="home">
-            <img src="/images/logo_1.png" alt="FIXME: Portal name" />
-            <h1>FIXME: Portal name</h1>
-        </a>
-    </div>
-</div>
+<a id="logo" href="/" title="${h.site.name()}" rel="home">
+    <img src="/images/logo_adhocracy_de_header.png" alt="${h.site.name()}" />
+    <h1>${h.site.name()}</h1>
+</a>
