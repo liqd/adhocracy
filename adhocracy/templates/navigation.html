@@ -49,7 +49,7 @@
 
                 <!-- FIXME: implemente personal drop down menu -->
                 %if c.user is None:
-                ${nav_link(href="/login",
+                ${nav_link(href=h.site.base_url(None, '/login'),
                            text=_("Login"),
                            class_=_class('login'))}
                 <!-- FIXME: <a href="/register">${_("Register")}</a> -->
