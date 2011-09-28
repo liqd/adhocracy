@@ -29,21 +29,18 @@
                 %if g.single_instance is None:
                 ${nav_link(href=h.base_url(None, path='/instance'),
                            class_=_class('instances'),
-                           title=_('All instances'),
                            text=_("Instances"))}
                 %endif
 
                 %if c.user:
                 ${nav_link(href=h.entity_url(c.user, member='watchlist'),
-                           title=_('All instances'),
                            class_=_class('watchlist'),
                            text=_("Watchlist"))}
                 %endif
                 <!-- FIXME: implemente About -->
                 ${nav_link(href="#",
                            text=_('About'),
-                           class_=_class('about'),
-                           title="")}
+                           class_=_class('about'))}
 
                 ${nav_link(href=h.base_url(None, path='/static/help.html'),
                            text=_("Help"),
