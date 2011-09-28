@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-09-18 16:23+0200\n"
-"PO-Revision-Date: 2011-09-18 16:43+0200\n"
+"PO-Revision-Date: 2011-09-28 21:06+0200\n"
 "Last-Translator: Carsten Senger <senger@rehfisch.de>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -327,9 +327,7 @@ msgstr "Die angeforderte Seite wurde nicht gefunden."
 msgid ""
 "You have been logged out while authenticating at twitter. Please try "
 "again."
-msgstr ""
-"Sie wurden abgemeldet, während Sie Sich bei Twitter angemeldet hatten. "
-"Bitte versuche es erneut."
+msgstr "Sie wurden abgemeldet, während Sie sich bei Twitter angemeldet hatten. Bitte versuche es erneut."
 
 #: adhocracy/controllers/twitteroauth.py:59
 #, python-format
@@ -371,9 +369,7 @@ msgstr "Ihr Passwort wurde zurückgesetzt. Es lautet:"
 
 #: adhocracy/controllers/user.py:225
 msgid "Please login and change the password in your user settings."
-msgstr ""
-"Bitte loggen Sie Sich erneut ein und ändern Sie Ihr Passwort in den "
-"Einstellungen."
+msgstr "Bitte melden Sie sich erneut an und ändern Sie Ihr Passwort in den Einstellungen."
 
 #: adhocracy/controllers/user.py:227
 msgid "Your new password"
@@ -385,9 +381,7 @@ msgstr "Geschafft. Das neue Passwort wurde an Ihre E-Mail-Adresse versandt."
 
 #: adhocracy/controllers/user.py:231
 msgid "The reset code is invalid. Please repeat the password recovery procedure."
-msgstr ""
-"Der Code zum Zurücksetzen scheint ungültig. Bitte wiederholen Sie die "
-"Prozedur zur Wiederherstellung Ihres Passworts."
+msgstr "Der Code zum Zurücksetzen des Passworts ist ungültig. Bitte wiederholen Sie die Prozedur zur Wiederherstellung Ihres Passworts."
 
 #: adhocracy/controllers/user.py:245
 msgid "Your email has been confirmed."
@@ -1524,9 +1518,7 @@ msgstr "Gruppenrechte"
 msgid ""
 "WARNING: This allows you to shut yourself out of your adhocracy. Handle "
 "with care!"
-msgstr ""
-"WARNUNG: Diese Funktion erlaubt es Ihnen, Sich aus dem Adhocracy-System "
-"auszuschließen. Sie ist daher nur mit Vorsicht einzusetzen."
+msgstr "WARNUNG: Diese Funktion erlaubt es Ihnen, sich aus dem Adhocracysystem auszuschließen. Sie sollte daher nur vorsichtig eingesetzt werden."
 
 #: adhocracy/templates/badge/form.html:16
 msgid "Badge title"
@@ -2411,11 +2403,7 @@ msgstr "Neue Projektgruppe"
 
 #: adhocracy/templates/instance/index.html:21
 msgid "Instances are little democracies that are ran by their community."
-msgstr ""
-"Projektgruppen sind Untergruppen der Enquete-Kommission zu festgelegten "
-"Themen.Hier finden Sie eine Auflistung der Projektgruppen der Enquete-"
-"Kommission \"Internet und digitale Gesellschaft\". Im \"Sandkasten\" "
-"können Sie die Funktionsweise von Adhocracy ausprobieren."
+msgstr "Projektgruppen sind Untergruppen der Enquete-Kommission zu festgelegten Themen. Hier finden Sie eine Auflistung der Projektgruppen der Enquete-Kommission \"Internet und digitale Gesellschaft\"."
 
 #: adhocracy/templates/instance/index.html:26
 msgid "What is an instance?"
@@ -2716,7 +2704,7 @@ msgstr "OpenID"
 
 #: adhocracy/templates/openid/form.html:4
 msgid "Login with your OpenID to skip registration."
-msgstr "Nutzen Sie OpenID, um Sich ohne Registrierung anzumelden."
+msgstr "Nutzen Sie OpenID, um sich ohne Registrierung anzumelden."
 
 #: adhocracy/templates/openid/form.html:9
 msgid "Sign in"
@@ -3329,9 +3317,7 @@ msgstr "Ein Arbeitspapier ändern."
 msgid ""
 "Select a norm that you want to relate to. You can later propose a variant"
 " of this norm to effect a change."
-msgstr ""
-"Wählen Sie ein Papier, auf das Sie Sich beziehen wollen. Später können "
-"Sie einen Änderungsantrag erstellen."
+msgstr "Wählen Sie ein Papier, auf das Sie sich beziehen wollen. Später können Sie einen Änderungsantrag erstellen."
 
 #: adhocracy/templates/selection/include.html:35
 msgid "Include"
@@ -3719,7 +3705,7 @@ msgstr "Und wer sind Sie? "
 
 #: adhocracy/templates/user/login.html:6
 msgid "If you already have an account, sign in here."
-msgstr "Wenn Sie schon einen Account haben, melden Sie sich hier an."
+msgstr "Wenn Sie schon einen Benutzernamen haben, melden Sie sich hier an."
 
 #: adhocracy/templates/user/login.html:13
 msgid ""
@@ -3733,9 +3719,7 @@ msgstr ""
 msgid ""
 "If you have an account but you've lost your password, <a "
 "href='/reset'>click here</a>."
-msgstr ""
-"Wenn Sie schon einen Benutzernamen besitzen, aber Ihr Passwort verloren "
-"haben, <a href='/reset'>klick hier</a>."
+msgstr "Wenn Sie schon einen Benutzernamen besitzen, aber Ihr Passwort verloren haben, klicken Sie bitte <a href='/reset'> hier</a>."
 
 #: adhocracy/templates/user/login_form.html:2
 msgid "Login:"
