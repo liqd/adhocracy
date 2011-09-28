@@ -1,0 +1,167 @@
+<%def name="nav_link(href, text, li_class='', a_rel='', id_='', title='')">
+<li class="${li_class}" id="${id_}">
+    <a href="${href}" rel="${a_rel}" title="${title}">${text}</a>
+</li>
+</%def>
+
+
+<%def name="global_nav(active)">
+
+<% 
+   active_nav = {}
+   active_nav[active] = 'current'
+
+   def _class(identifier):
+       return active_nav.get(identifier, '')
+%>
+
+<!-- begin: main navi -->
+<nav>
+    <div id="nav">
+        <!-- skiplink anchor: navigation -->
+        <a id="navigation" name="navigation"></a>
+        <!-- main navigation: horizontal list -->
+        <div class="menu hlist">
+            <ul>
+                ${nav_link(href=h.base_url(None, path='/'),
+                           text=_("Home"), li_class=_class('home'))}
+
+                %if g.single_instance is None:
+                ${nav_link(href=h.base_url(None, path='/instance'),
+                           a_rel='#overlay-default',
+                           li_class=_class('instances'),
+                           title='lksjdfljasdklf aflk asfdk askd',
+                           text=_("Instances"))}
+                %endif
+
+                %if c.user:
+                ${nav_link(href=h.entity_url(c.user, member='watchlist'),
+                           li_class=_class('watchlist'),
+                           text=_("Watchlist"))}
+                %endif
+                <!-- FIXME: implemente About -->
+                ${nav_link(href="#",
+                           text=_('About'),
+                           li_class=_class('about'))}
+
+                ${nav_link(href=h.base_url(None, path='/static/help.html'),
+                           text=_("Help"),
+                           li_class=_class('help'),
+                           id_="nav_help")}
+
+                <!-- FIXME: implemente personal drop down menu -->
+                %if c.user is None:
+                ${nav_link(href=h.site.base_url(None, '/login'),
+                           a_rel='#overlay-default',
+                           text=_("Login"),
+                           li_class=_class('login'))}
+                <!-- FIXME: <a href="/register">${_("Register")}</a> -->
+                %else:
+                <div id="user_menu">
+                    <ul>
+                        <li>
+                            <a class="icon_link show_me" 
+                               href="${h.entity_url(c.user)}">${c.user.name}</a>
+                            <ul class="children">
+                                <li>
+                                    <a href="${h.entity_url(c.user, member='edit')}">
+                                        ${_('Edit Profile')}
+                                    </a>
+                                </li>
+                                <li><a href="/logout">${_("Logout")}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                %endif
+
+            </ul>
+        </div>
+    </div>
+</nav>
+</%def>
+
+
+<%def name="subheader_navigation(logo, label, search_action=None, search_label='', 
+                                 search_button_text=None)">
+
+  <div id="subheader">
+    <div class="page_margins">
+      <div class="page_wrapper">
+        <!-- begin: sub navi -->
+        
+        <div id="organisation_logo">
+          <img src="${logo}" alt="&ldquo;${label}&rdquo; logo"/>
+          <h1 style="display:inline;">${label}</h1>
+        </div>
+        <!-- begin: sub navi -->
+        <nav>
+          <div class="hlist">
+            <ul id="subnav">
+
+                ${caller.body()}
+
+            </ul>
+          </div>
+        </nav>
+        %if search_action:
+        <div id="searchbox">
+          <form action="${search_action}" 
+                id="searchform" method="get">
+            <div class="label_over">
+              <label class="over-apply" for="s">${search_label|n}</label>
+              <input type="text" id="s" name="s" value="" />
+            </div>
+            <input type="submit" value="${search_button_text or _('Search')}" 
+                   id="searchsubmit" />
+          </form>
+        </div>
+        %endif
+      </div>
+    </div>
+  </div>
+
+</%def>
+
+<%def name="subheader_instance_navigation(active)">
+
+<% 
+   import markupsafe
+   active_subnav = {}
+   active_subnav[active or 'instance'] = 'current'
+   search_label = _('Search in &ldquo;%s&rdquo;&hellip;') % markupsafe.escape(c.instance.label)
+   logo = "/instance/%s_48.png" % (c.instance.key if c.instance else '_def')
+   def _class(identifier):
+       return active_subnav.get(identifier, '')
+%>
+
+<%call expr="subheader_navigation(logo, c.instance.label, search_action='/search',
+                                  search_label=search_label)">
+
+  ${nav_link(href="#",
+             text=_("Instance"),
+             li_class=_class('instance'))}
+
+  ${nav_link(href="#",
+             text=_("Milestones"),
+             li_class=_class('milestones'))}
+
+  ${nav_link(href="#",
+             text=_("Diskussions"),
+             li_class=_class('discussions'))}
+
+  ${nav_link(href="#",
+             text=_("Norms"),
+             li_class=_class('norms'))}
+
+  ${nav_link(href="#",
+             text=_("Members"),
+             li_class=_class('members'))}
+
+  ${nav_link(href="#",
+             text=_("Settings"),
+             li_class=(_class('settings') + ' settings'))}
+
+</%call>
+</%def>
+

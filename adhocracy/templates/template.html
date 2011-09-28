@@ -1,12 +1,11 @@
 <%inherit file="root.html" />
 <%namespace name="model" module="adhocracy.model"/>
 <%namespace name="components" file="/components.html"/>
+<%namespace name="navigation" file="/navigation.html"/>
 
 <%
-from js.jquery_qtip import qtip
-qtip.need()
-from js.jquery import jquery
-jquery.need()
+# from js.jquery import jquery
+# jquery.need()
 
 %>
 
@@ -15,14 +14,44 @@ jquery.need()
   <head>
     ${self.head()}
   </head>
-  <body lang="${c.locale.language}">
+
+
+<body lang="${c.locale.language}">
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
       <!-- the external content is loaded inside this tag -->
       <div class="contentWrap"></div>
     </div>    
+  <!-- begin: header -->
+  <header>
+    <div id="header" class="${'logged_in' if c.user else ''}">
+      <div class="page_margins">
+        <div class="page_wrapper">
+          <!-- begin: top navi -->
+          <div id="topnav">
+            <!-- start: skip link navigation -->
+            <a class="skip" title="skip link" href="#navigation">Skip to the navigation</a><span class="hideme">.</span>
+            <a class="skip" title="skip link" href="#content">Skip to the content</a><span class="hideme">.</span>
+            <!-- end: skip link navigation -->
+            <a href="#" class="icon_link follow">Follow us!</a>
+          </div>
+
+          <%include file="logo.html" />
+          ${navigation.global_nav(c.active_global_nav)}
+        </div>
+      </div>
+    </div>
+  </header>
+
     <div id="frame">
-      <div id="globalheader">
+
+        %if c.instance:
+        ${navigation.subheader_instance_navigation(c.active_subheader_nav)}
+        %endif
+
+      <!-- Fixme: /start old global head nav -->
+      <div id="globalheader" style="display: none; border: 1px solid red;">
+        Fixme: Old global head nav
         <div class="headerbox">
 
           <div id="account">
@@ -52,22 +81,22 @@ jquery.need()
             <a class="ttip" title="${_('Sign out')}" 
               href="/logout">${_("Logout")}</a>
             %else:
-              <a rel="#overlay-default" href="/login">${_("Login")}</a> 
-              <a rel="#overlay-default" href="/register">${_("Register")}</a>    
+              <a rel="#overlay-ajax" href="/login">${_("Login")}</a> 
+              <a rel="#overlay-ajax" href="/register">${_("Register")}</a>    
             %endif
           </div>
           <div id="navigation">
             <a href="${h.base_url(None, path='/')}">
               Startseite
             </a> 
-            %if g.single_instance is None:
-              <a class="ttip" title="${_('All instances')}" 
-                href="${h.base_url(None, path='/instance')}">${_("Instances")}</a>
-              <a class="ttip" 
-                title="${_('Users across all instances')}" 
-                href="${h.base_url(None, path='/user/all')}">${_("Users")}</a>
 
+            %if g.single_instance is None:
+            <!-- FIXME: global users list not part of the UI anymore? -->
+            <a class="ttip" 
+               title="${_('Users across all instances')}" 
+               href="${h.base_url(None, path='/user/all')}">${_("Users")}</a>
             %endif
+
             %if h.has_permission("global.admin"):
               <a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
               <a class="ttip" 
@@ -77,8 +106,7 @@ jquery.need()
 
             <a href="/event/all">${_("Events")}</a>
             <div class="help" >
-              <a rel="#overlay-default" class="staticlink_help" href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a>
-            </div>
+              <a rel="#overlay-ajax" class="staticlink_help" href="${h.base_url(None, path='/static/help.html')}">${_("Help")}</a>
           </div>
 
           <div id="bannerLeiste">
@@ -89,7 +117,11 @@ jquery.need()
 
         </div>
       </div>
+      <!-- Fixme: /end old global head nav -->
 
+      <!-- Fixme: /start old instance nav -->
+      <div id="" style="display: none; border: 1px solid red;">
+        Fixme: Old global head nav
       %if c.instance:
       <div id="instanceheader">
         <div class="headerbox ${c.active_controller}">
@@ -123,6 +155,7 @@ jquery.need()
           </form>
         </div>
       </div>
+      </div>
 
       <div id="instance_infobox_wrapper">
         %if can.instance.join(c.instance):  
@@ -132,16 +165,63 @@ jquery.need()
             href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
         </div>
         %endif
-        %if not c.user:
-          <div class="infobox no_member">
-            ${_("You are not yet a member of %s. To participate, you must register first.") % c.instance.label}
-            <a class="button add ttip" title="${_('Join this instance to start contributing.')}"  href="/register">${_("join")}</a> 
-          </div>
-        %endif
       </div>
 
       %endif
+      <div class="clearfix"> </div>
+      <!-- Fixme: /end old instance nav -->
 
+      %if not c.user and c.instance:
+      <div class="infobox no_member" style="padding: 1em; background-color: #FEFFAC;">
+          <!-- FIXME: Add info box markup and change text/translation -->
+          ${_("You are not yet a member of %s. To participate, you must register first.") % c.instance.label}
+          <a class="button add ttip" title="${_('Join this instance to start contributing.')}"  href="/register">${_("join")}</a> 
+      </div>
+      %endif
+  </div>
+  ${c.subnav}
+  <div id="main">
+      <%block name="main">
+      <div class="page_margins">
+          <div class="page_wrapper">
+              <!-- begin: page content -->
+              <%block name="content_wrapper">
+              
+              <%block name="headline" />
+              <div id="col1">
+                  <div id="col1_content" class="clearfix">
+                      
+                      <%block name="main_content" />
+                      
+                  </div>
+              </div>
+              
+              <aside>
+                  <div id="col3">
+                      <div id="col3_content" class="clearfix">
+                          <%block name="sidebar" />
+                      </div>
+                      <!-- IE Column Clearing -->
+                      <div id="ie_clearing"> &#160; </div>
+                  </div>
+              </aside>
+              </%block>
+          </div>
+      </div>
+      </%block>
+  </div>
+
+  <!-- FIXME: temporary render template body here. Use the blocks above
+       to render the content -->
+  ${self.body()}
+    
+  </div>
+  
+  <div class="clearfix"> </div>
+
+  <div style="display: none; border: 1px solid red;">
+Fixme: Old stuff
+  <div class="clearfix"> </div>
       <div id="page">
 
         <div id="breadcrumbs">
@@ -160,14 +240,11 @@ jquery.need()
 
         <div class="content">
           <div class="inner_content">
-            ${self.body()}
             <div style="clear: both;"></div>
             <br/>
           </div>
         </div>
       </div>
-
-    </div>
 
     <div id="footer">
       <div id="links">
@@ -194,8 +271,82 @@ jquery.need()
       </div>
       <div style="clear: both;"></div>
     </div>
+    <div class="clearfix"> </div>
+  </div>    
+</div>
+
 
     <%include file="piwik.html"/>
+
+  <footer>
+    <div id="footer">
+      <div class="page_margins">
+        <div class="page_wrapper">
+          <div id="footer_line">
+            <div id="second_footer_line" class="subcolumns" role="complementary">
+              <div class="c33l footer_content">
+                <div id="footer_logos" class="subcl">
+                  <a href="#" title="Liquid Democracy e.V."><img src="/images/logo_liquid_democracy_ev_footer.png" alt="Liquid Democracy e.V." /></a><br />
+                  <a href="#" title="Adhocracy.de"><img src="/images/logo_adhocracy_de_footer.png" alt="Adhocracy.de" /></a><br />
+                  <a href="#" title="AdhocracyCode"><img src="/images/logo_adhocracy_code_footer.png" alt="AdhocracyCode" /></a><br />
+                  <a href="#" title="LDSupport"><img src="/images/logo_ld_support_footer.png" alt="LDSupport" /></a><br />
+                  <a href="#" title="FoLD"><img src="/images/logo_fold_footer.png" alt="FoLD" /></a><br />
+                </div>
+              </div>
+
+              <div class="c33l footer_content">
+                <div class="subc">
+                  <div class="footer_box">
+                    <h3>Liquid Democracy Support</h3>
+                    <p>Über den Support Bereich erreichen Sie die Menschen, die hinter der Software Adhocracy stehen. Gerne helfen wir Ihnen mit unserer Erfahrung und unterstützen Sie mit professioneller Beratung, Schulungen, Vorträgen, individueller Softwareanpassung und vielem mehr. Sprechen Sie uns einfach an! <a href="http://liquid-democracy.staging_wordpress.adhocracy.cc/uber-uns/organisation/ldsupport//">Mehr...</a></p>
+                    <div class="subcolumns">
+                      <div class="c50l">
+                        <h3>Adhocracy.de</h3>
+                        <ul>
+                          <li><a href="#">Impressum</a></li>
+                          <li><a href="#">AGB</a></li>
+                          <li><a href="#">FAQ</a></li>
+                          <li><a href="#">Hilfe</a></li>
+                          <li><a href="#">Kontakt</a></li>
+                        </ul>
+                      </div>
+                      <div class="c50r">
+                        <h3>Folge dem Liquid Demecracy e.V. auf</h3>
+                        <a href="#"><img src="/images/twitter_icon_footer.png" alt="twitter" /></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="c33r footer_content">
+                <div class="subcr">
+                  <div class="footer_box">
+                    <h3>Newsletter bestellen</h3>
+                    <p>Um regelmäßig über Neuigkeiten informiert zu werden, können Sie hier unseren Newsletter abonnieren.</p>
+                    <div class="subcolumns">
+                      <h3>Diese Plattform wird betrieben mit</h3>
+                      <p><a href="#" title="AdhocracyCode"><img src="/images/logo_adhocracy_code_footer.png" alt="AdhocracyCode" /></a></p>
+                      <p>
+                        <a href="http://creativecommons.org/licenses/by/3.0/de/" rel="license"><img src="/images/80x15.png" alt="Creative Commons License"></a>
+                        <a href="http://www.opendefinition.org/" rel="license"><img src="/images/oc_80x15_blue.png" alt="Open Definition"></a>
+                        Vs 1.1
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+    <!-- Fixme: turn into a Fanstatic resource -->
+    <script type="text/javascript" language="javascript" src="/javascripts/adhocracy.js" charset="utf-8"></script>
+
 
   </body>
 </html>

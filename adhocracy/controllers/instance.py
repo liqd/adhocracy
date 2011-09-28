@@ -64,6 +64,7 @@ class InstanceController(BaseController):
 
     def index(self, format='html'):
         require.instance.index()
+        c.active_global_nav = 'instances'
         h.add_meta("description",
                    _("An index of instances run at this site. "
                      "Select which ones you would like to join "

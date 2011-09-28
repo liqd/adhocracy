@@ -85,9 +85,9 @@ $(document).ready(function () {
     "use strict";
 
     $('.ts').timeago();
-    
-    $(".ttip[title]").tooltip({ 
-        position: "bottom left", 
+
+    $(".ttip[title]").tooltip({
+        position: "bottom left",
         opacity: 1,
         effect: 'toggle'
     }).dynamic({ bottom: { direction: 'down', bounce: true } });
@@ -325,17 +325,3 @@ $(document).ready(function () {
         $(this).parent().submit();
     });
 });
-
-//open link in overlay (like help pages)
-$(document).ready(function() {
-    $("a[rel=#overlay-default]").overlay({
-
-        mask: 'grey',
-        onBeforeLoad: function() {
-            // grab wrapper element inside content
-            var wrap = this.getOverlay().find(".contentWrap");
-            // load the page specified in the trigger
-            wrap.load(this.getTrigger().attr("href") + " .content");
-        }
-    });
-});     

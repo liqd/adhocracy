@@ -61,10 +61,23 @@ def link(user, size=16, scope=None):
 
 
 def url(user, instance=None, **kwargs):
+    '''
+    Generate the url for a user. If *instance* is `None`, it will
+    fallback to the current instance (taken from c.instance) for
+    urls that are supposed to be in an instance subdomain, and ignore
+    the instance argument for all other urls so they are always in the
+    main domain.
+    '''
     @cache.memoize('user_url')
     def url_(user, instance, **kwargs):
         return _url.build(instance, 'user', user.user_name, **kwargs)
-    instance = instance if instance is not None else c.instance
+
+    # Allow only some user urls to be in an instance
+    member = kwargs.get('member', None)
+    if member in ['votes', 'delegations', 'proposals', 'groupmod',
+                  'ban', 'unban', 'filter']:
+        if instance is None:
+            instance = c.instance
     return url_(user, instance, **kwargs)
 
 

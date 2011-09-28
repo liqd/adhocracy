@@ -10,11 +10,11 @@ from pylons.controllers import WSGIController
 from pylons import request, tmpl_context as c
 from pylons.i18n import _
 from sqlalchemy.orm.scoping import ScopedSession
-from sqlalchemy.orm.exc import DetachedInstanceError 
+from sqlalchemy.orm.exc import DetachedInstanceError
 
 from adhocracy import i18n, model
 from adhocracy.lib import helpers as h
-from adhocracy.lib.templating import ret_abort
+from adhocracy.lib.templating import ret_abort, render_def
 
 log = logging.getLogger(__name__)
 
@@ -23,7 +23,14 @@ class BaseController(WSGIController):
 
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
+
         c.instance = model.instance_filter.get_instance()
+        if c.instance is not None:
+            # setup a global variable to mark the current item in
+            # the global navigation
+            c.active_global_nav = 'instance'
+        else:
+            c.active_global_nav = 'home'
         c.user = environ.get('repoze.who.identity', {}).get('user')
         try:
             if c.user and (c.user.banned or c.user.delete_time):
