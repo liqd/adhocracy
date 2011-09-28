@@ -4,9 +4,9 @@
     </div>
 </%def>
 
-<%def name="savebox(cancel_url, save_text=None)">
+<%def name="savebox(cancel_url, save_text=None, tabindex=99)">
     <div class="savebox">
-        <button type="submit">
+        <button type="submit" tabindex="${tabindex}">
             ${save_text if save_text is not None else _("Save")}</button>
         %if cancel_url is not None:
             <span class="cancel">
