@@ -43,13 +43,13 @@
     </div>
   </header>
 
+  %if c.instance:
+  ${navigation.subheader_instance_navigation(c.active_subheader_nav)}
+  %endif
+
+      <!-- Fixme: /start old global head nav
     <div id="frame">
 
-        %if c.instance:
-        ${navigation.subheader_instance_navigation(c.active_subheader_nav)}
-        %endif
-
-      <!-- Fixme: /start old global head nav -->
       <div id="globalheader" style="display: none; border: 1px solid red;">
         Fixme: Old global head nav
         <div class="headerbox">
@@ -91,7 +91,7 @@
             </a> 
 
             %if g.single_instance is None:
-            <!-- FIXME: global users list not part of the UI anymore? -->
+             FIXME: global users list not part of the UI anymore?
             <a class="ttip" 
                title="${_('Users across all instances')}" 
                href="${h.base_url(None, path='/user/all')}">${_("Users")}</a>
@@ -117,9 +117,9 @@
 
         </div>
       </div>
-      <!-- Fixme: /end old global head nav -->
+       -->
 
-      <!-- Fixme: /start old instance nav -->
+      <!-- Fixme: /start old instance nav
       <div id="" style="display: none; border: 1px solid red;">
         Fixme: Old global head nav
       %if c.instance:
@@ -169,18 +169,20 @@
 
       %endif
       <div class="clearfix"> </div>
-      <!-- Fixme: /end old instance nav -->
 
       %if not c.user and c.instance:
       <div class="infobox no_member" style="padding: 1em; background-color: #FEFFAC;">
-          <!-- FIXME: Add info box markup and change text/translation -->
+          FIXME: Add info box markup and change text/translation
           ${_("You are not yet a member of %s. To participate, you must register first.") % c.instance.label}
           <a class="button add ttip" 
              title="${_('Join this instance to start contributing.')}"  
              href="/register">${_("join")}</a> 
       </div>
       %endif
-  </div>
+
+      -->
+
+
   ${c.subnav}
   <div id="main">
       <%block name="main">
@@ -215,39 +217,37 @@
   <!-- FIXME: temporary render template body here. Use the blocks above
        to render the content -->
   ${self.body()}
-    
-  </div>
+
   
   <div class="clearfix"> </div>
 
-  <div style="display: none; border: 1px solid red;">
-Fixme: Old stuff
+  <!-- Fixme: Old stuff
   <div class="clearfix"> </div>
-      <div id="page">
+  <div id="page">
 
-        <div id="breadcrumbs">
+      <div id="breadcrumbs">
           ${self.breadcrumbs()}
-        </div>
-
-        <div id="flash_messages_wrapper">
-          %for message in h.flash.pop_messages():
-            <div class="flash_messages ${message.category}">
-              <ul>
-              <li>${message}</li>
-              </ul>
-            </div>
-          %endfor
-        </div>
-
-        <div class="content">
-          <div class="inner_content">
-            <div style="clear: both;"></div>
-            <br/>
-          </div>
-        </div>
       </div>
 
-    <div id="footer">
+      <div id="flash_messages_wrapper">
+          %for message in h.flash.pop_messages():
+          <div class="flash_messages ${message.category}">
+              <ul>
+                  <li>${message}</li>
+              </ul>
+          </div>
+          %endfor
+      </div>
+
+      <div class="content">
+          <div class="inner_content">
+              <div style="clear: both;"></div>
+              <br/>
+          </div>
+      </div>
+  </div>
+
+  <div id="footer">
       <div id="links">
         <div id="license">
           <a class="nolink staticlink_creativecommons" rel="license" href="http://creativecommons.org/licenses/by/3.0/de/">
@@ -273,11 +273,11 @@ Fixme: Old stuff
       <div style="clear: both;"></div>
     </div>
     <div class="clearfix"> </div>
-  </div>    
-</div>
+      
+    -->
 
-
-    <%include file="piwik.html"/>
+  </div>
+  <%include file="piwik.html"/>
 
   <footer>
     <div id="footer">
