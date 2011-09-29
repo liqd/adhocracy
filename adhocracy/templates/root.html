@@ -2,6 +2,7 @@
 <%def name="breadcrumbs()">&nbsp;</%def>
 
 <%def name="head()">
+  <meta charset="utf-8" />
     <title>${self.title()} - 
             %if c.instance:
                  ${c.instance.label} 
@@ -10,14 +11,13 @@
     </title>
 
     <meta http-equiv="X-XRDS-Location" 
-          content="${h.base_url(c.instance, path='/openid/xrds')}"/>
+          content="${h.base_url(c.instance, path='/openid/xrds')}" />
 
     %for key, value in c.html_meta.items():
     <meta name="${key}" content="${value}" />
     %endfor
 
     <!-- template -->
-  <meta charset='UTF-8' content='text/html' http-equiv='content-type' />
 
   <link rel="stylesheet" type="text/css" media="all" href="/stylesheets/style.css" />
   <!--[if lte IE 7]>
@@ -26,16 +26,16 @@
 
   <link rel="icon" href="${h.base_url(None, path='/favicon.ico')}" type="image/png" />
 
-  <script type="text/javascript" language="javascript" 
+  <script type="text/javascript"
           src="${h.base_url(None, path='/javascripts/slides.min.jquery.js')}" 
           charset="utf-8"></script>
-  <script type="text/javascript" language="javascript" 
+  <script type="text/javascript"
           src="${h.base_url(None, path='/javascripts/jquery.multipleelements.cycle.min.js')}" 
           charset="utf-8"></script>
-  <script type="text/javascript" language="javascript" 
+  <script type="text/javascript"
           src="${h.base_url(None, path='/javascripts/jquery.label_over.js')}" 
           charset="utf-8"></script>
-  <script type="text/javascript" language="javascript" 
+  <script type="text/javascript"
           src="${h.base_url(None, path='/javascripts/jquery.elastic.js')}" 
           charset="utf-8"></script>
 

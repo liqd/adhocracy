@@ -175,7 +175,9 @@
       <div class="infobox no_member" style="padding: 1em; background-color: #FEFFAC;">
           <!-- FIXME: Add info box markup and change text/translation -->
           ${_("You are not yet a member of %s. To participate, you must register first.") % c.instance.label}
-          <a class="button add ttip" title="${_('Join this instance to start contributing.')}"  href="/register">${_("join")}</a> 
+          <a class="button add ttip" 
+             title="${_('Join this instance to start contributing.')}"  
+             href="/register">${_("join")}</a> 
       </div>
       %endif
   </div>
@@ -209,7 +211,6 @@
           </div>
       </div>
       </%block>
-  </div>
 
   <!-- FIXME: temporary render template body here. Use the blocks above
        to render the content -->
