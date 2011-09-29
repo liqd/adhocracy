@@ -1,18 +1,17 @@
-<%inherit file="root.html" />
-<%namespace name="model" module="adhocracy.model"/>
-<%namespace name="components" file="/components.html"/>
-<%namespace name="navigation" file="/navigation.html"/>
+<%namespace name="model" module="adhocracy.model"
+/><%namespace name="components" file="/components.html"
+/><%namespace name="navigation" file="/navigation.html"
+/><%def name="breadcrumbs()">&nbsp</%def><%
 
-<%
 # from js.jquery import jquery
 # jquery.need()
 
-%>
-
-<!DOCTYPE html>
+%><!DOCTYPE html>
 <html class="no-js">
   <head>
-    ${self.head()}
+      <%block name="head">
+      ${components.head()}
+      </%block>
   </head>
 
 
@@ -226,7 +225,7 @@
   <div id="page">
 
       <div id="breadcrumbs">
-          ${self.breadcrumbs()}
+      ${self.breadcrumbs()}}
       </div>
 
       <div id="flash_messages_wrapper">

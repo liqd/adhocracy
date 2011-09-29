@@ -1,5 +1,5 @@
 <%def name="nav_link(href, text, li_class='', a_rel='', id_='', title='')">
-<li class="${li_class}" ${'id="${id_}"' if id_ else ''}>
+<li class="${li_class}" ${'id="${id_}"' if id_ else ''|n}>
     <a href="${href}" rel="${a_rel}" title="${title}">${text}</a>
 </li>
 </%def>
