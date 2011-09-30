@@ -1259,3 +1259,16 @@ textarea { min-height: 128px; }
 .slide_thumb {
   display: inline-block;
 }
+
+/*
+Added during template integration
+*/
+
+.full_teaser {
+padding: 0 23px;
+}
+
+.full_teaser h1 {
+margin-left: 0;
+margin-right: 0;
+}
