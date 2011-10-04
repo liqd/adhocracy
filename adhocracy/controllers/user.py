@@ -118,7 +118,7 @@ class UserController(BaseController):
 
     def new(self):
         captacha_enabled = config.get('recaptcha.public_key', "")
-        c.recaptcha = captacha_enabled and h.recaptcha.displayhtml() 
+        c.recaptcha = captacha_enabled and h.recaptcha.displayhtml()
         return render("/user/register.html")
 
     @RequireInternalRequest(methods=['POST'])
@@ -130,7 +130,8 @@ class UserController(BaseController):
         if captacha_enabled:
             recaptcha_response = h.recaptcha.submit()
             if not recaptcha_response.is_valid:
-                c.recaptcha = h.recaptcha.displayhtml(error=recaptcha_response.error_code) 
+                c.recaptcha = h.recaptcha.displayhtml(
+                    error=recaptcha_response.error_code)
                 redirect("/register")
         # SPAM protection hidden input
         input_css = self.form_result.get("input_css")
