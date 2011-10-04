@@ -1272,3 +1272,12 @@ padding: 0 23px;
 margin-left: 0;
 margin-right: 0;
 }
+
+.inline_input_wrapper {
+float: left;
+padding: 10px;
+}
+
+.inline_input_wrapper .button {
+padding: 0 30px;
+}

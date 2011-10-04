@@ -1,5 +1,4 @@
 <%inherit file="/template.html" />
-<%namespace name="components" file="/components.html"/>
 
 <%def name="title()">${_("Proposals: %s") % c.page_user.name}</%def>
 
@@ -7,14 +6,12 @@
     ${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Proposals")}
 </%def>
 
-${tiles.user.header(c.page_user, active='proposals')}
+<%block name="headline">
+<h1>${c.page_user.user_name} &ndash; ${_(u'Proposals')}</h1>
+</%block>
 
-<div class="sidebar">
-    &nbsp;
+<%block name="main_content">
+<div class="table">
+    ${c.proposals_pager.here()}
 </div>
-
-<div class="mainbar">
-    <div class="table">
-        ${c.proposals_pager.here()}
-    </div>
-</div>
+</%block>

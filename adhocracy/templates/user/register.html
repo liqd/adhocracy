@@ -1,6 +1,9 @@
 <%inherit file="/template.html" />
 <%def name="title()">${_("Who are you, then?")}</%def>
 
+
+<%block name="main_content">
+
 <div class="lefthalf">
   <div id="register_form">
     <h3>${_("Register")}</h3>
@@ -12,3 +15,5 @@
 <div class="infobox" style="clear: both; margin-top: 2em;">
 ${_("If you have an account but you've lost your password, <a href='/reset'>click here</a>.")|n}
 </div>  
+
+</%block>

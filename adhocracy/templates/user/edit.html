@@ -7,6 +7,8 @@
 </%def>
 
 
+<%block name="main_content">
+
 <form name="settings" class="inplace" method="POST" action="/user/${c.page_user.user_name}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
@@ -96,7 +98,9 @@
         </table>
         %endif 
         <br/>
-        <a class="button add" href="/openid/connect">${_("new")}</a>
+        <div class="inline_input_wrapper">
+            <a class="button add" href="/openid/connect">${_("new")}</a>
+        </div>
     </div>
     
     <div style="clear:both;"></div>
@@ -143,3 +147,5 @@
     ${components.savebox("/user/%s" % c.page_user.user_name)}
     
 </form>
+
+</%block>

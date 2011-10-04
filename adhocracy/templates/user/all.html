@@ -7,21 +7,23 @@
     ${h.user.breadcrumbs(None)|n}
 </%def>
 
-
-<h1 class="page_title">
-    <img class="cd" src="/img/icons/user_24.png" />
-    ${_("All Members on this Adhocracy Server")}
-</h1>
-
-<div class="sidebar">
-    <div class="infobox">
+<%block name="headline">
+<div class="full_teaser">
+    <h1>${_("All Members on this Adhocracy Server")}</h1>
+    <p>
         ${_("A listing of all users in all instance an this adhocracy server.")}
-        ${c.users_pager.render_facets()}
-    </div>
+    </p>
 </div>
+</%block>
 
-<div class="mainbar">
-    <div id="users_table" class="table">
-        ${c.users_pager.render_pager()}
-    </div>
+<%block name="sidebar">
+<div class="infobox">
+    ${c.users_pager.render_facets()}
 </div>
+</%block>
+
+<%block name="main_content">
+<div id="users_table" class="table">
+    ${c.users_pager.render_pager()}
+</div>
+</%block></div>

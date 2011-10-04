@@ -8,12 +8,17 @@
 </%def>
 
 
+<%block name="headline">
+<h1>${c.page_user.user_name}</h1>
+</%block>
+
+<%block name="main_content">
+<h2>${_('Badges for %s') % c.page_user.user_name}</h2>
 <form name="settings" class="inplace" method="POST" 
       action="/user/${c.page_user.user_name}/badges">
 
     ${h.field_token()|n}
 
-    <label for="badge">Badges</label>
     <table>
         <thead>
             <th></th>
@@ -26,7 +31,7 @@
                     <input type="checkbox" value="${badge.id}" 
                            name="badge" />
                 </td>
-                <td>${badge_tiles.badge(badge)}</td>
+                <td><b>${badge.title}</b> ${_('Example:')} ${badge_tiles.badge(badge)}</td>
             </tr>
             %endfor
         </tbody>
@@ -37,3 +42,4 @@
     ${components.savebox("/user/%s" % c.page_user.user_name)}
     
 </form>
+</%block>

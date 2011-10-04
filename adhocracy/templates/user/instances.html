@@ -7,14 +7,20 @@
     ${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Adhocracies")}
 </%def>
 
-${tiles.user.header(c.page_user, active='instances')}
+<%block name="headline">
+<div class="full_teaser2">
+    <h1>${c.page_user.user_name}</h1>
+    <p>${_("%s is a member in these Adhocracies") % c.page_user.name}</p>
+</div>
+</%block>
 
-<div class="sidebar">
-    <div class="infobox">${_("%s is a member in these Adhocracies") % c.page_user.name}</div>
+
+<%block name="main_content">
+
+<!-- FIXME: Adhocracies - your kidding ;) -->
+
+<div class="table">
+    ${c.instances_pager.here()}
 </div>
 
-<div class="mainbar">
-    <div class="table">
-        ${c.instances_pager.here()}
-    </div>
-</div>
+</%block>

@@ -7,6 +7,7 @@
     ${h.user.breadcrumbs(None)|n}
 </%def>
 
+<!-- FIXME: Move required parts to new design 
 <div class="top_actions title">
     %if can.instance.join(c.instance):
         <a class="button add ttip" title="${_('Join this instance to start contributing.')}"
@@ -16,13 +17,15 @@
         <a class="button add ttip" title="${_('Join this instance to start contributing.')}" href="/register">${_("join")}</a> 
     %endif
 </div>
+-->
 
-<h1 class="page_title">
-    <img class="cd" src="/img/icons/user_24.png" />
+<%block name="headline">
+<h1>
     ${_("Members")}
 </h1>
+</%block>
 
-<div class="sidebar">
+<%block name="sidebar">
     %if False and c.instance:
         <h3 class="section">${_("Filter by group")}</h3>
         <ul>
@@ -38,7 +41,9 @@
     </div>
 </div>
 
-<div class="mainbar">
+</%block>
+
+<%block name="main_content">
     <!--
     <form action="?" method="GET" autocomplete="off">
         <label for="users_q" class="armhint">${_("Find users")}</label>
@@ -51,4 +56,4 @@
     <div id="users_table" class="table">
         ${c.users_pager.render_pager()}
     </div>
-</div>
+</%block>
