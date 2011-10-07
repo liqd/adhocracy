@@ -36,7 +36,6 @@ def upgrade(migrate_engine):
         migrate_engine.execute(update_statement)
 
     revisions_table.c.title.drop()
-    raise Exception('ksjdfkl')
 
 
 def downgrade(migrate_engine):
