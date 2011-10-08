@@ -7,6 +7,7 @@
 </%def>
 
 
+<%block name="headline">
 <div class="top_actions title">
     %if can.instance.create():
         <a class="button title add" href="/instance/new">${_("new instance")}</a>
@@ -15,24 +16,9 @@
 
 <h1 class="page_title">${_("Instances")}</h1>
 
+<p>${_("Instances are little democracies that are ran by their community.")}</p>
 
-<div class="sidebar">
-    <div class="infobox">
-        ${_("Instances are little democracies that are ran by their community.")}
-    </div>
-    <!--<div class="help">-->
-        <!--<h3>${_("Help")}</h3>-->
-        <!--<ul>-->
-            <!--<li>${h.help_link(_("What is an instance?"), 'instance_faq', anchor='whatis')|n}</li>-->
-            <!--<li>${h.help_link(_("When should I create an instance?"), 'instance_faq', anchor='whenmake')|n}</li>-->
-            <!--<li>${h.help_link(_("How can I create an instance?"), 'instance_faq', anchor='howmake')|n}</li>-->
-            <!--<li>${h.help_link(_("More help..."), 'instance_faq')|n}</li>-->
-        <!--</ul>-->
-    <!--</div>-->
-</div>
-
-<div class="mainbar">
     <div class="table">
         ${c.instances_pager.here()}
     </div>
-</div>
+</%block>

@@ -6,8 +6,9 @@
     ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Home")}
 </%def>
 
-${tiles.instance.header(c.page_instance, active='rules')}
 
+<%block name="headline">
+${tiles.instance.header(c.page_instance, active='rules')}
 <div class="lefthalf">
     ${c.tile.description|n}
 </div>
@@ -64,3 +65,4 @@ ${tiles.instance.header(c.page_instance, active='rules')}
         <li>${_("<b>%s</b> comments") % c.stats.get('comments')|n}</li>
     </ul>
 </div>
+</%block>

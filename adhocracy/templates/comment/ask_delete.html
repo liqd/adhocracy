@@ -6,9 +6,11 @@
     ${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment")}
 </%def>
 
-<h1 class="page_title"><img src="/img/icons/discuss_24.png" class="cd" /> 
-    ${_("Comment on %s") % h.delegateable.link(c.comment.topic, icon_size=24)|n}</h1>
+<%block name="headline">
+<h1>${_("Comment on %s") % h.delegateable.link(c.comment.topic, icon_size=24)|n}</h1>
+</%block>
 
+<%block name="main_content">
 <form name="ask_delete" class="inplace" method="POST" 
     action="${h.entity_url(c.comment, comment_page=True)}">
     ${h.field_token()|n}
@@ -23,3 +25,4 @@
         </center>
     </div>
 </form>
+</%block>

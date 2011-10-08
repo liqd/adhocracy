@@ -7,9 +7,11 @@
     ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Delegations")}
 </%def>
 
+<%block name="headline">
 ${tiles.proposal.header(c.proposal, c.tile, active='delegations')}
+</%block>
 
-<div class="sidebar">
+<%block name="sidebar">
     ${tiles.proposal.sidebar(c.proposal, c.tile)}
     <br/>
     <div class="help">
@@ -20,10 +22,10 @@ ${tiles.proposal.header(c.proposal, c.tile, active='delegations')}
             <li>${h.help_link(_("More help..."), 'delegation_faq')|n}</li>
         </ul>
     </div>
-</div>
+</%block>
 
-<div class="mainbar">
+<%block name="main_content">
     <div class="table">
         ${c.delegations_pager.here()}
     </div>
-</div>
+</%block>

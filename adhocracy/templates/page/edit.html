@@ -5,6 +5,8 @@
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n} &raquo; ${_("Edit variant")}</%def>
 
+<%block name="headline">
+
 <form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
     ${h.field_token()|n}
     <input type="hidden" name="parent_text" value="${c.text.id}" />
@@ -55,11 +57,5 @@
     </div>
 
 </form>
-
-<div style="clear: both;"></div>
-<br/>
-
-##<div class="mainbar">
-##  ${tiles.text.comments(c.text)}
-##</div>
+</%block>
 

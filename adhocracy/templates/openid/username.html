@@ -5,19 +5,14 @@
     ${h.instance.breadcrumbs(c.instance)|n} &raquo; ${_("User name")}
 </%def>
 
-<h1 class="page_title">
-    <img src="/img/icons/user_24.png" class="cd"/>
-    ${_("Select a user name")}
-</h1>
+<%block name="headline">
+<h1>${_("Select a user name")}</h1>
 
-<div class="sidebar">
     <div class="infobox">
         ${_("A unique user name is required for you complete sign up and " +
             "login. The user name received from your OpenID provider is " + 
             "invalid. Please provide a different, unique user name.")}
     </div>
-    <br/>
-</div>
 
 <div class="mainbar">
     <form name="login" method="POST" action="/openid/username">
@@ -26,3 +21,4 @@
         <input type="submit" value="${_('Continue')}"/>
     </form>
 </div>
+</%block>

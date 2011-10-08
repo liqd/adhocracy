@@ -7,6 +7,8 @@
     ${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Message %s") % c.page_user.name}
 </%def>
 
+<%block name="main_content">
+
 <form name="create_proposal" class="inplace" method="POST" action="/user/${c.page_user.user_name}/message">
     ${h.field_token()|n}
     <div class="page_title">

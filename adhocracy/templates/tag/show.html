@@ -6,6 +6,8 @@
     ${h.tag.breadcrumbs(c.tag)|n}
 </%def>
 
+
+<%block name="headline">
 <div class="top_actions title">
     %if can.proposal.create():
         <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
@@ -21,10 +23,10 @@
 
 <div style="clear: both;"></div>
 <h1 class="page_title"><img src="/img/icons/tag_24.png" class="cd" /> ${c.tag.name}</h1>
+</%block>
 
-
-<div class="sidebar">
     
+<%block name="sidebar">
     %if len(c.cloud_tags):
         <h3 class="section">${_("Similar tags")}</h3>
         ${tiles.tag.cloud(c.cloud_tags)}
@@ -39,9 +41,10 @@
             <li>${h.help_link(_("More help..."), 'tag_faq')|n}</li>
         </ul>
     </div>
-</div>
+</%block>
 
-<div class="mainbar">
+
+<%block name="main_content">
     <div id="entities_table" class="table">
         ${c.entities_pager.here()}
     </div>
@@ -56,5 +59,4 @@
                 href="/page/new">${_("new norm")}</a>
         %endif
     </div>
-</div>
-
+</%block>

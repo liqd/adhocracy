@@ -6,6 +6,7 @@
     ${h.milestone.breadcrumbs(None)|n}
 </%def>
 
+<%block name="headline">
 <div class="top_actions title">
     %if can.milestone.create():
         <a class="button add ttip" title="${_('Create a new milestone.')}"
@@ -16,19 +17,9 @@
 <h1 class="page_title">${_("Milestones")}</h1>
 
 ${tiles.milestone.timeline(c.milestones)}
+</%block>
 
-<br/>
-<div class="sidebar">
-    <div class="help">
-        <h3>${_("Help")}</h3>
-        <ul>
-            <li>${h.help_link(_("What is a milestone?"), 'milestone_faq', anchor='whatis')|n}</li>
-            <li>${h.help_link(_("More help..."), 'milestone_faq')|n}</li>
-        </ul>
-    </div>
-</div>
-
-<div class="mainbar">
+<%block name="main_content">
     <div id="milestones_table" class="table">
         ${c.milestones_pager.here()}
     </div>
@@ -40,4 +31,13 @@ ${tiles.milestone.timeline(c.milestones)}
       %endif
     </div>
     <div style="clear:both;"></div>
-</div>
+
+    <div class="help">
+        <h3>${_("Help")}</h3>
+        <ul>
+            <li>${h.help_link(_("What is a milestone?"), 'milestone_faq', anchor='whatis')|n}</li>
+            <li>${h.help_link(_("More help..."), 'milestone_faq')|n}</li>
+        </ul>
+    </div>
+
+</%block>

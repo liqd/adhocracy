@@ -5,9 +5,38 @@
 
 <%def name="breadcrumbs()">${h.milestone.breadcrumbs(c.milestone)|n}</%def>
 
+<%block name="headline">
 ${tiles.milestone.header(c.milestone, c.tile)}
+</%block>
 
-<div class="sidebar">
+<%block name="main_content">
+
+    <div class="top_actions aside">
+        &nbsp;      
+        %if can.milestone.edit(c.milestone):
+            <a class="button title edit ttip" title="${_('Edit this milestone.')}"
+                href="${h.entity_url(c.milestone, member='edit')}">${_("edit")}</a>
+        %endif
+    </div>
+    <h2>${_("Milestone description")}</h2>
+    ${c.tile.text|n}
+
+<div class="mainbar">
+  %if c.instance.use_norms:
+      <h3 class="section">${_("Related Norms")}</h3>
+      <div id="pages_table" class="table">
+          ${c.pages_pager.here()}
+    </div>
+  %endif
+</div>
+
+<div class="mainbar">
+    <h3 class="section">${_("Related Proposals")}</h3>
+    <div id="proposals_table" class="table">
+        ${c.proposals_pager.here()}
+    </div>
+</div>
+
     <div class="help">
         <h3>${_("Help")}</h3>
         <ul>
@@ -18,35 +47,4 @@ ${tiles.milestone.header(c.milestone, c.tile)}
     </div>
 </div>
 
-<div class="mainbar">
-    <div class="top_actions aside">
-        &nbsp;      
-        %if can.milestone.edit(c.milestone):
-            <a class="button title edit ttip" title="${_('Edit this milestone.')}"
-                href="${h.entity_url(c.milestone, member='edit')}">${_("edit")}</a>
-        %endif
-    </div>
-    <h2>${_("Milestone description")}</h2>
-    ${c.tile.text|n}
-  </div>
-
-
-<div class="sidebar"></div>
-<div class="mainbar">
-  %if c.instance.use_norms:
-      <h3 class="section">${_("Related Norms")}</h3>
-      <div id="pages_table" class="table">
-          ${c.pages_pager.here()}
-    </div>
-  %endif
-</div>
-
-
-<div class="sidebar"></div>
-<div class="mainbar">
-    <h3 class="section">${_("Related Proposals")}</h3>
-    <div id="proposals_table" class="table">
-        ${c.proposals_pager.here()}
-    </div>
-</div>
-
+</%block>

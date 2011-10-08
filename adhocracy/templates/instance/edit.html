@@ -6,6 +6,7 @@
     ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Manage")}
 </%def>
 
+<%block name="main_content">
 <form name="create_instance" class="inplace" method="POST" 
         enctype="multipart/form-data" action="/instance/${c.page_instance.key}">
     <input type="hidden" name="_method" value="PUT" />
@@ -225,3 +226,4 @@
         ${components.savebox("/instance/%s" % c.page_instance.key)}
     </div>
 </form> 
+</%block>

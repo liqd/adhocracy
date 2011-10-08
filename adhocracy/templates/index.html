@@ -4,15 +4,19 @@
 
 <%def name="breadcrumbs()"></%def>
 
-<div class="sidebar"> 
+<%block name="content_wrapper">
 
-</div>
+<%doc>
+FIXME: AFAIK id=content is used as a marker for diazo theming
+and not part of our common markup anymor. Drop it at the end of
+the transition
+</%doc>
 
 <div id="content" class="content-startpage">
     <div class="mainbar"> 
     </div>
 </div>
-<br/>
+
 <div class="clearfix"></div>
     ${tiles.milestone.timeline(c.milestones)}
 <br/>
@@ -26,3 +30,4 @@
       <li>${_("<b>%s</b> votes") % c.stats_global.get('votes')|n}</li>
   </ul>  
 </div>
+</%block>

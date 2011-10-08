@@ -6,28 +6,23 @@
     ${h.instance.breadcrumbs(c.instance)|n} ${_("Report abuse")}
 </%def>
 
+<%block name="headline">
+    <h1 class="page_title">${_("Report abuse")}</h1>
+    <p>${_("Thank you for helping.")}</p>
+</%block>
+
+<%block name="main_content">
 <form name="report_abuse" class="inplace" method="POST" action="/abuse/report">
     ${h.field_token()|n}
-    <h1 class="page_title">${_("Report abuse")}</h1>
     
-    <div class="sidebar">
-        
-    </div>
-    <div class="mainbar">
         <strong>${_("Link:")}</strong> <a href="${c.url}">${c.url}</a><br/><br/>
         <input type="hidden" name="url" value="${c.url}" />
         
         <label for="message" class="armhint">${_("Reason to report this page...")}</label>
         <textarea tabindex="1" class="description armlabel" name="message"></textarea>
-    </div>
-    
-    <div style="clear:both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Thank you for helping.")}
-        </div>
-    </div>
-    <div class="mainbar">
+
         ${components.savebox(c.url, save_text=_("Send"))}
-    </div>
 </form>
+
+</%block>
+

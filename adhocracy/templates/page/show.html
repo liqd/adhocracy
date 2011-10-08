@@ -6,8 +6,11 @@
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
+<%block name="headline">
 ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
+</%block>
 
+<%block name="sidebar">
 <div class="sidebar">
     %if c.page.milestone and c.instance.milestones:
       <div class="infobox">
@@ -55,9 +58,10 @@ ${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
     ${tiles.delegation.sidebar(c.page, c.tile)}
     
 </div>
+</%block>
 
-<div class="mainbar">
+<%block name="main_content">
     ${tiles.page.inline(c.page, c.tile, text=c.text, 
                         subpages_pager=c.subpages_pager,
                         hide_discussion=False)}
-</div>
+</%block>

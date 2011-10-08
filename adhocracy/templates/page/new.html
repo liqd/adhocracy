@@ -6,6 +6,7 @@
     ${h.page.breadcrumbs(None)|n} &raquo; ${_("New page")}
 </%def>
 
+<%block name="headline">
 <form name="create_page" class="inplace" method="POST" action="/page">
     ${h.field_token()|n}
     %if c.proposal:
@@ -64,3 +65,4 @@
         ${components.form_watch(None, checked=True)}
     </div>
 </form>
+</%block>

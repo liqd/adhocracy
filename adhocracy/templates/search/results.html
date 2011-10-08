@@ -5,21 +5,19 @@
     ${h.instance.breadcrumbs(c.instance)|n} ${_("Search")}
 </%def>
 
-<h1 class="page_title">
+<%block name="headline">
+<h1>
     %if c.instance:
         ${_("Search in %s") % c.instance.label}
     %else:
         ${_("Search")}
     %endif
 </h1>
+<p>${_("Search includes issues and proposals.")}</p>
+</%block>
 
-<div class="sidebar">
-    <div class="infobox">
-        ${_("Search includes issues and proposals.")}
-    </div>
-</div>
 
-<div class="mainbar">
+<%block name="main_content">
     <form action="?" method="GET" autocomplete="off">
         <input id="serp_q" name="serp_q" class="live_search"
                 value="${request.params.get('serp_q', '')}" 
@@ -34,4 +32,4 @@
             </div>
         %endif
     </div>
-</div>
+</%block>

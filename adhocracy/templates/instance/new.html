@@ -6,46 +6,41 @@
     ${h.site.name()} &raquo; ${_("New Instance")}
 </%def>
 
+<%block name="headline">
+    <h3>${_("Instance address")}</h3>
+
+
 <form name="create_instance" class="inplace" method="POST" action="/instance">
     ${h.field_token()|n}
     <div id="page_title">
         <label for="label" class="armhint">${_("New Instance")}</label>
+        <p>${_(
+        "The address may only contain alpha-numeric characters. "
+        "Please note that this key cannot be changed after the instance "
+        "has been created.")|n}</p>
         <input tabindex="1" class="title armlabel" name="label" />
     </div>
     
     
-    <h3>${_("Instance address")}</h3>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("The address may only contain alpha-numeric characters. Please note " +
-                "that this key cannot be changed after the instance has been created.")|n}
-        </div>
-    </div>
     <div class="mainbar">
         http://<input tabindex="2" class="" style="text-align: right;" name="key" />.${request.environ.get('adhocracy.domain')}
     </div>
     
     <div style="clear: both;"></div>    
     <h3>${_("Description")}</h3>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Describe what the goals of this instance are and who constitutes " +
-                "its community. (Both Markdown and HTML are allowed here.)")} 
-        </div>
-    </div>
-    <div class="mainbar">
+    <p>
+        ${_("Describe what the goals of this instance are and who constitutes "
+            "its community. (Both Markdown and HTML are allowed here.)")} 
+    </p>
         <textarea tabindex="3" class="description" name="description"></textarea>
         ${components.formatting()}
-    </div>
-    <div style="clear: both;"></div>
-    <div class="sidebar">
+
         <div class="infobox">
             ${h.help_link(_("More help..."), 'instance_faq')|n}
         </div>
-    </div>
-    <div class="mainbar">
+    <div class="inline_input_wrapper">
         ${components.savebox("/instances")}
     </div>
-    
-    
+    <div class="clearfix"></div>
 </form>
+</%block>

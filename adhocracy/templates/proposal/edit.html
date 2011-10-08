@@ -7,24 +7,12 @@
     ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit")}
 </%def>
 
+<%block name="main_content">
+
 <form name="edit_proposal" class="inplace" method="POST" action="/proposal/${c.proposal.id}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
-    
-    <div class="sidebar">
-        <div class="help">
-            <h3>${_("Help")}</h3>
-            <ul>
-                <li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
-                <li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
-                <li>${h.help_link(_("Guide: Supporting proposals"), 'support_text')|n}</li>
-                <li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
-                <li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>
-            </ul>
-        </div>
-    </div>
-    
-    <div class="mainbar">
+
         <h3>${_("Proposal title")}</h3>
         <div class="page_title">
             <label for="label" class="armhint">${_("New Proposal")}</label>
@@ -52,18 +40,25 @@
         <label for="milestone">${_("Relates to a milestone")}</label>
         ${tiles.milestone.select(c.proposal.milestone)}
         %endif
-
-        </div>
     
-    <div style="clear:both;"></div>
-    
-    <div class="sidebar">
-        <div class="infobox">
-            ${h.help_link(_("More help..."), 'proposal_faq')|n}
-        </div>
-    </div>
     <div class="mainbar">
         ${components.savebox("/proposal/%s" % c.proposal.id)}
         ${components.form_watch(c.proposal)}
     </div>
 </form>
+</%block>
+
+<%block name="sidebar">
+        <div class="help">
+            <h3>${_("Help")}</h3>
+            <ul>
+                <li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
+                <li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
+                <li>${h.help_link(_("Guide: Supporting proposals"), 'support_text')|n}</li>
+                <li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
+                <li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>
+            </ul>
+        </div>
+</%block>    
+
+    

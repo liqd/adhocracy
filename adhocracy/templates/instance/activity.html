@@ -6,21 +6,20 @@
     ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Latest Events")}
 </%def>
 
+<%block name="headlin">
 <div class="top_actions title">
     ${components.watch(c.page_instance)}
 </div>
-
 <h1 class="page_title">${_("Activity")}</h1>
-
-<div class="sidebar">
     <div class="infobox">
         ${_("This is a record of all recent actions within this instance.")}
         ${_("You can also have notifications sent to you.")}
         <a href="/static/notification_faq.html">${_("Info...")}</a>
     </div>
-</div>
+</%block>
 
-<div class="mainbar">
+<%block name="main_content">
+
     %if len(c.events_pager) == 0:
         <div class="infobox">
             ${_("Create a proposal to start debating in %(instance)s.") % dict(instance=c.page_instance.label)}
@@ -30,4 +29,5 @@
             ${c.events_pager.here()}
         </div>
     %endif  
-</div>
+
+</%block>

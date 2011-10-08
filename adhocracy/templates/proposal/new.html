@@ -7,9 +7,7 @@
     ${h.proposal.breadcrumbs(None)|n}
 </%def>
 
-<form name="create_proposal" class="inplace" method="POST" action="/proposal">
-    ${h.field_token()|n}
-    
+<%block name="sidebar">
     <div class="sidebar">
         <div class="help">
             <h3>${_("Help")}</h3>
@@ -22,6 +20,14 @@
             </ul>
         </div>
     </div>
+
+</%block>
+
+<%block name="main_content">
+
+<form name="create_proposal" class="inplace" method="POST" action="/proposal">
+    ${h.field_token()|n}
+    
     
     <div class="mainbar">
         <h3>${_("Proposal title")}</h3>
@@ -133,3 +139,4 @@
         ${components.form_watch(None, checked=True)}
     </div>
 </form> 
+</%block>
