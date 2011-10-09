@@ -58,8 +58,8 @@ class PageUpdateForm(formencode.Schema):
                                   not_empty=False)
     proposal = forms.ValidProposal(not_empty=False, if_empty=None,
                                    if_missing=None)
-    milestone = forms.MaybeMilestone(if_empty=None, 
-            if_missing=None)
+    milestone = forms.MaybeMilestone(if_empty=None,
+                                     if_missing=None)
 
 
 class PageFilterForm(formencode.Schema):
@@ -75,6 +75,10 @@ class PageDiffForm(formencode.Schema):
 
 
 class PageController(BaseController):
+
+    def __init__(self):
+        super(PageController, self).__init__()
+        c.active_subheader_nav = 'norms'
 
     @RequireInstance
     @validate(schema=PageFilterForm(), post_only=False, on_get=True)

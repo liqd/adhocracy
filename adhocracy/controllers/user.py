@@ -99,6 +99,10 @@ class UserBadgesForm(formencode.Schema):
 
 class UserController(BaseController):
 
+    def __init__(self):
+        super(UserController, self).__init__()
+        c.active_subheader_nav = 'members'
+
     @RequireInstance
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
@@ -548,7 +552,7 @@ class UserController(BaseController):
                 model.UserBadge(user, badge, creator)
                 added.append(badge)
 
-        model.meta.Session.commit()
+        model.meta.Session.flush()
         post_update(user, model.update.UPDATE)
         redirect(h.entity_url(user))
 

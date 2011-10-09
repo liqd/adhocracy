@@ -9,9 +9,8 @@ from pylons.decorators import validate
 from pylons.i18n import _
 
 from adhocracy import forms, model
-from adhocracy.lib import event, helpers as h, pager, tiles, watchlist
-from adhocracy.lib import search as libsearch
-from adhocracy.lib.auth import authorization, can, csrf, require
+from adhocracy.lib import helpers as h, pager, tiles, watchlist
+from adhocracy.lib.auth import csrf, require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_json
@@ -44,6 +43,10 @@ class MilestoneUpdateForm(MilestoneEditForm):
 
 
 class MilestoneController(BaseController):
+
+    def __init__(self):
+        super(MilestoneController, self).__init__()
+        c.active_subheader_nav = 'milestones'
 
     @RequireInstance
     def index(self, format="html"):

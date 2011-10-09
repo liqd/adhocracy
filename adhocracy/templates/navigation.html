@@ -1,7 +1,9 @@
-<%def name="nav_link(href, text, li_class='', a_rel='', id_='', title='')">
+<%def name="nav_link(href, text, li_class='', a_rel='', id_='', title='', condition=True)">
+%if condition:
 <li class="${li_class}" ${'id="${id_}"' if id_ else ''|n}>
     <a href="${href}" rel="${a_rel}" title="${title}">${text}</a>
 </li>
+%endif
 </%def>
 
 
@@ -30,7 +32,6 @@
                 ${nav_link(href=h.base_url(None, path='/instance'),
                            a_rel='#overlay-default',
                            li_class=_class('instances'),
-                           title='lksjdfljasdklf aflk asfdk askd',
                            text=_("Instances"))}
                 %endif
 
@@ -138,29 +139,32 @@
 <%call expr="subheader_navigation(logo, c.instance.label, search_action='/search',
                                   search_label=search_label)">
 
-  ${nav_link(href="#",
+  ${nav_link(href=h.entity_url(c.instance),
              text=_("Instance"),
              li_class=_class('instance'))}
 
-  ${nav_link(href="#",
+  ${nav_link(href="/milestone",
              text=_("Milestones"),
-             li_class=_class('milestones'))}
+             li_class=_class('milestones'),
+             condition=c.instance.milestones)}
 
-  ${nav_link(href="#",
+  ${nav_link(href="/proposal",
              text=_("Diskussions"),
-             li_class=_class('discussions'))}
+             li_class=_class('proposals'))}
 
-  ${nav_link(href="#",
+  ${nav_link(href="/page",
              text=_("Norms"),
-             li_class=_class('norms'))}
+             li_class=_class('norms'),
+             condition=c.instance.use_norms)}
 
-  ${nav_link(href="#",
+  ${nav_link(href="/user",
              text=_("Members"),
              li_class=_class('members'))}
 
-  ${nav_link(href="#",
+  ${nav_link(href=h.entity_url(c.instance, member='edit'),
              text=_("Settings"),
-             li_class=(_class('settings') + ' settings'))}
+             li_class=(_class('settings') + ' settings'),
+             condition=can.instance.edit(c.instance))}
 
 </%call>
 </%def>
