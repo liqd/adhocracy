@@ -15,7 +15,7 @@ def icon_url(page, size=16):
 
 
 @cache.memoize('page_link')
-def link(page, variant=model.Text.HEAD, link=True, icon=True, icon_size=16):
+def link(page, variant=model.Text.HEAD, link=True, icon=False, icon_size=16):
     import text_helper as text
     buf = cgi.escape(page.title)
     text_ = page.variant_head(variant)

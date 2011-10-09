@@ -8,7 +8,7 @@ import proposal_helper as proposal
 
 
 @cache.memoize('delegateable_link')
-def link(delegateable, icon=True, icon_size=16, link=True):
+def link(delegateable, icon=False, icon_size=16, link=True):
     if isinstance(delegateable, model.Proposal):
         return proposal.link(delegateable, icon=icon, icon_size=icon_size,
                              link=link)

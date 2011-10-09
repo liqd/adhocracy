@@ -14,7 +14,7 @@ def icon_url(size=16):
 
 
 @cache.memoize('milestone_link', 3600)
-def link(milestone, link=True, icon=True, icon_size=16, **kwargs):
+def link(milestone, link=True, icon=False, icon_size=16, **kwargs):
     text = u""
     if icon:
         text += (u"<img class='dgb_icon' src='%s' /> " %
