@@ -14,7 +14,7 @@ from sqlalchemy.orm.exc import DetachedInstanceError
 
 from adhocracy import i18n, model
 from adhocracy.lib import helpers as h
-from adhocracy.lib.templating import ret_abort, render_def
+from adhocracy.lib.templating import ret_abort
 
 log = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ class BaseController(WSGIController):
         if c.instance is not None:
             # setup a global variable to mark the current item in
             # the global navigation
-            c.active_global_nav = 'instance'
+            c.active_global_nav = 'instances'
         else:
             c.active_global_nav = 'home'
         c.user = environ.get('repoze.who.identity', {}).get('user')
