@@ -9,7 +9,7 @@
 
 
 <%def name="row(tile, page)">
-    <div class="tile">
+    <li class="content_box">
         <div class="base" style="background-image: url(${h.page.icon_url(page, size=32)});">
             <h3><a class="link" href="${h.entity_url(page)}">${page.title}</a></h3>
             <div class="meta noclear">              
@@ -22,7 +22,8 @@
                 ${_("latest <b>%s</b>") % h.relative_time(page.find_latest_comment_time())|n}&nbsp;
             </div>
         </div>
-    </div>
+        <div class="hr"><hr /></div>
+    </li>
 </%def>
 
 

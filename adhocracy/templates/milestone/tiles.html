@@ -2,18 +2,19 @@
 <%namespace name="state" file="/poll/state.html"/>
 
 <%def name="row(tile, milestone)">
-    <div class="tile">
-        <div class="base" style="background-image: url(${h.milestone.icon_url(size=32)});">
+    <li class="content_box">
+        <div class="base" style="background: url(${h.milestone.icon_url(size=32)}) no-repeat;">
             <h3><a class="link" href="${h.entity_url(milestone)}">${milestone.title}</a>
               %if milestone.over:
-                <strong>${_("(over)")}</strong>
+                <span class="over">${_("(over)")}</span>
               %endif
             </h3>
             <div class="meta noclear">              
                 ${_("ends: <b>%s</b>") % milestone.time.strftime("%d.%m.%Y")|n} 
             </div>
         </div>
-    </div>
+        <div class="hr"><hr /></div>    
+    </li>
 </%def>
 
 <%def name="header(tile, milestone)">
