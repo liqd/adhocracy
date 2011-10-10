@@ -971,11 +971,19 @@ label.over-apply {
   color: #666;
 }
 
+.form_wrapper {
+  background: url("/images/shadow_image_large.jpg") no-repeat scroll center bottom transparent;
+  padding-bottom: 18px;
+}
+
 form {
-  padding: 5px;
-  background: #e5e6e8;
+  background: url("/images/gradient_form.jpg") repeat-y scroll left top #E5E6E8;
+  font-size: 14px;
   line-height: 1.5;
-  margin-bottom: 20px;
+  padding: 30px 120px;
+}
+#openid_form {
+  width: 392px !important;
 }
 .input_wrapper {
   width: 100%;
@@ -987,26 +995,30 @@ form {
   line-height: 24px;
 }
 
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
 input[type=text], input[type=password], textarea {
-  border:  1px solid #c1c1c1;
-  padding: 4px 5px 3px 5px;
+  border: 1px solid #C1C1C1;
+  box-shadow: 2px 2px 4px 0 #DDDDDD inset;
+  font-family: Verdana,Arial,san-serif;
   height: 19px;
-  width: 100%;
-  box-shadow: inset 2px 2px 4px 0 #ddd;
-  -moz-box-shadow: inset 2px 2px 4px 0 #ddd;
-  -webkit-box-shadow: inset 2px 2px 4px 0 #ddd;
+  padding: 4px 5px 3px;
+  width: 382px;
 }
 textarea { min-height: 128px; }
 
 .submit input {
-  float: left;
-  border:  none;
-  height: 27px;
-  padding:  0px 15px 3px;
+  border: medium none;
   cursor: pointer;
-  font-size: 13px;
-  font-weight: bold;
-  margin-right: 15px;
+  float: right;
+  height: 27px;
+  padding: 0 40px 3px;
+  text-transform: uppercase;
 }
 
 /* comment form */

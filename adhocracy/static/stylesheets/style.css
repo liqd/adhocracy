@@ -46,8 +46,11 @@ ul.subpages li, ul.subpages ul.children li {
   background: url('/images/line_subnavi.gif') repeat-x top center;
 }
 .submit input {
-  background: url('/images/sprite_buttons.png') no-repeat 0 -400px;
-  color: #fff;
+  background: url("/images/button_highlight.jpg") no-repeat scroll right top #5491AB;
+  color: #FFFFFF;
+}
+.submit input:hover {
+  background-position: right bottom;
 }
 .slider_content {
   background: url('/images/slideshow_text_bg.png');
