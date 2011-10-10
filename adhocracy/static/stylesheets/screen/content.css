@@ -5,11 +5,11 @@ body {
 }
 
 /* fonts */
-h1, h2, h3, h4, h5, h6 { font-family: 'ColaborateRegular', Arial, sans-serif; line-height: 1.2; }
+h1, h2, h3, h4, h5, h6, legend { font-family: 'ColaborateRegular', Arial, sans-serif; line-height: 1.2; }
 h1 { font-size: 34px; margin: 27px 23px; font-weight: normal; }
 h2 { font-size: 30px; margin-bottom: 10px; font-weight: normal; }
 h3 { font-size: 25px; margin-bottom: 10px; font-weight: normal; }
-h4 { font-size: 20px; margin-bottom: 10px; font-weight: normal; }
+h4, legend { font-size: 20px; margin-bottom: 10px; font-weight: normal; }
 h5 { font-size: 16px; margin-bottom: 5px; font-weight: normal; }
 h6 { font-size: 12px; font-weight: normal; color: #666; }
 
@@ -176,7 +176,7 @@ a.button_small.off:active, a.button_small.off.active {
   margin-bottom: 10px;
 }
 li.content_box {
-  padding: 0;
+  padding: 20px 0 0 0;
   margin-bottom: 20px;
   background: url('/images/list_bg.png') right bottom no-repeat;
 }
@@ -262,6 +262,9 @@ section { margin-bottom: 40px; }
 .pager .current, .pager a:active {
   background: url('/images/sprite_buttons.png') repeat-x 0 -251px;
   color: #fff;
+}
+.pager .hidden {
+  display: none;
 }
 
 .full_teaser {
@@ -974,7 +977,7 @@ label.over-apply {
   left: 10px;
   margin: 0;
   position: absolute;
-  top: 3px;
+  top: 4px;
   z-index: 10;
   font-weight: normal;
   color: #666;
@@ -994,6 +997,12 @@ form {
 #openid_form {
   width: 392px !important;
 }
+form div.prototype { display: none; }
+
+fieldset { margin-bottom: 20px; }
+
+form p.info { margin-bottom: 10px; color: #666; }
+
 .input_wrapper {
   width: 100%;
   margin-bottom: 10px;
@@ -1016,18 +1025,22 @@ input[type=text], input[type=password], textarea {
   box-shadow: 2px 2px 4px 0 #DDDDDD inset;
   font-family: Verdana,Arial,san-serif;
   height: 19px;
-  padding: 4px 5px 3px;
-  width: 382px;
+  padding: 4px 4px 3px;
+  width: 100%;
 }
 textarea { min-height: 128px; }
 
-.submit input {
+select { width: 100%; }
+
+.submit input, .submit button {
   border: medium none;
   cursor: pointer;
-  float: right;
+  float: left;
+  font-size: 13px;
+  font-weight: bold;
   height: 27px;
-  padding: 0 40px 3px;
-  text-transform: uppercase;
+  margin-right: 15px;
+  padding: 0 15px 3px;
 }
 
 /* comment form */
@@ -1038,6 +1051,12 @@ textarea { min-height: 128px; }
   position: absolute;
   bottom: 0px;
 }
+form.new_comment {
+  background: none repeat scroll 0 0 #E5E6E8;
+  margin-bottom: 20px;
+  padding: 5px;
+}
+
 .comment_settings .input_wrapper {
   margin-bottom: 5px;
 }
@@ -1066,7 +1085,7 @@ textarea { min-height: 128px; }
 }
 #searchform #searchsubmit {
   background: url('/images/button_grey.jpg') no-repeat top left;
-  padding: 0px 10px;
+  padding: 0px 10px 2px;
   height: 26px;
   margin-left: -5px;
   color: #fff;

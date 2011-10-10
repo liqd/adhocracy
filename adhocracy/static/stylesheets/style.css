@@ -27,7 +27,7 @@
 
 body { color: #2d3441; }
 
-h1, h2, h3, h4, h5, a {
+h1, h2, h3, h4, h5, a, legend {
   color: #446191;
 }
 
@@ -45,12 +45,12 @@ ul.subpages li a:hover, ul.subpages li.current_page_item a, ul.subpages ul.child
 ul.subpages li, ul.subpages ul.children li {
   background: url('/images/line_subnavi.gif') repeat-x top center;
 }
-.submit input {
-  background: url("/images/button_highlight.jpg") no-repeat scroll right top #5491AB;
+.submit input, .submit button {
+  background: url("/images/sprite_buttons.png") no-repeat scroll 0 -400px transparent;
   color: #FFFFFF;
 }
-.submit input:hover {
-  background-position: right bottom;
+.submit input:hover, .submit button:hover {
+  background-position: 0 -450px;
 }
 .slider_content {
   background: url('/images/slideshow_text_bg.png');
