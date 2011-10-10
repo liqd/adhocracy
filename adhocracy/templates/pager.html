@@ -24,7 +24,7 @@
 
     <ul class="content_list">
     %if not len(pager.items):
-        <li class="content_box infobox">${_("No entries.")}</li>
+        <li class="infobox">${_("No entries.")}</li>
     %endif
     %for item in pager.items:
         ${pager.itemfunc(item)}

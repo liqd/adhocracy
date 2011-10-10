@@ -61,14 +61,40 @@ class PagerMixin(object):
     def pages_items(self):
 
         def _visible_pages(selected_page, pages):
-            if pages <= 13:
-                return [range(1, pages + 1), []]
-            if selected_page <= 8:
-                return [range(1, 12 + 1) + [pages - 1, pages], [13]]
+            '''
+            determinate which page links in a pager are visible
+            and where the '...' seperators should be located.
+            **Warning**: This code is 1-based!
+
+            *selected_page*
+                The selected page (index 1)
+            *pages*
+                The number of pages (index 1)
+            Returns: A *(visible_pages , seperators)* tuple where both
+            are lists.
+            '''
+
+            ### If we have < 11 pages we show all page links
+            ### X X X O X X X X X X X
+            if pages <= 11:
+                return [range(1, pages), []]
+
+            ### if we have > 11 pages, we select which boxes and
+            ### which seperators to show
+            # Case: near the start. Show the pages up to 9, a seperator
+            # and the last 1
+            # X X X X O X X X X ... X
+            if selected_page <= 7:
+                return [range(1, 9 + 1) + [pages], [10]]
+            # Case: near the end. Show the first two pages, the seperator
+            # and the last 9
+            # X ... X X X X X O X X X
             if (pages - selected_page) <= 7:
-                return [[1, 2] + range(pages - 11, pages + 1), [3]]
-            return [[1, 2] + range(selected_page - 4, selected_page + 4 + 1) +
-                    [pages - 1, pages], [3, pages - 1]]
+                return [[1] + range(pages - 8, pages + 1), [2]]
+            # Case: somewhere within the long list
+            # X ... X X X O X X X ... X
+            return [[1] + range(selected_page - 3, selected_page + 3 + 1) +
+                    [pages], [2, pages]]
 
         visible_pages, seperators = _visible_pages(self.page, self.pages)
 
