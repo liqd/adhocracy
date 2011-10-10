@@ -208,24 +208,63 @@ li.content_box .hr {
 
 section { margin-bottom: 40px; }
 
-.filter h2 {
-  float: left;
-  width: 50%;
-}
-.filter .filter_box {
-  float: right;
-  width: 50%;
-  margin-top: 15px;
-  text-align: right;
-  color: #666;
-}
-
 .truncate {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   display: inline-block;
   width: 100%;
+}
+
+/* filter / pager */
+.filter h2 {
+  float: left;
+  width: 50%;
+}
+.filter_box {
+  float: right;
+  text-align: right;
+  color: #666;
+  margin: 0 0 15px 0;
+}
+.filter .filter_box {
+  width: 50%;
+  margin: 15px 0 0 0;
+}
+.filter_box a.selected {
+  color: #666;
+}
+
+.pager {
+  clear: both;
+  text-align: right;
+  margin: 0 0 15px 0;
+}
+.prev_page, .next_page { display: inline; }
+
+.prev_page a, .next_page a, .prev_page span, .next_page span, .pager a, .pager > span {
+  padding: 4px 10px;
+  background: #f0f0f0;
+  margin: 0 2px;
+  color: #666;
+}
+.pager a:hover {
+  background: url('/images/sprite_buttons.png') repeat-x 0 -201px;
+  color: #fff;
+  text-decoration: none;
+}
+.pager .current, .pager a:active {
+  background: url('/images/sprite_buttons.png') repeat-x 0 -251px;
+  color: #fff;
+}
+
+.full_teaser {
+  padding: 0 23px;
+}
+
+.full_teaser h1 {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* header */
@@ -909,6 +948,12 @@ a.show_comments.open:hover:after, a.new_comment.open:hover:after {
   background-position: -18px -109px;
 }
 
+/* instance */
+.content_list .logo {
+  float: left;
+  margin: 0 10px 10px 0;
+}
+
 /* forms */
 form .label_over {
   display: inline-block;
@@ -1264,14 +1309,7 @@ textarea { min-height: 128px; }
 Added during template integration
 */
 
-.full_teaser {
-padding: 0 23px;
-}
 
-.full_teaser h1 {
-margin-left: 0;
-margin-right: 0;
-}
 
 .inline_input_wrapper {
 float: left;
