@@ -8,44 +8,53 @@
 </%def>
 
 <%block name="main_content">
-
-<form name="edit_proposal" class="inplace" method="POST" action="/proposal/${c.proposal.id}">
+<div class="form_wrapper">
+  <form name="edit_proposal" class="inplace" method="POST" action="/proposal/${c.proposal.id}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
-
-        <h3>${_("Proposal title")}</h3>
-        <div class="page_title">
-            <label for="label" class="armhint">${_("New Proposal")}</label>
-            <input tabindex="1" class="title armlabel" name="label" value="${c.proposal.title}"/>
+      
+      <fieldset>
+        <legend>${_("Proposal title")}</legend>
+        <div class="input_wrapper">
+          <label for="label" class="armhint">${_("New Proposal")}</label>
+          <input type="text" tabindex="1" class="title armlabel" name="label" value="${c.proposal.title}"/>
         </div>
-    
-        <h3>${_("Proposal goals")}</h3>
-        <div class="infobox">
-            ${_("A brief description of <b>the goals</b> of your proposal.")|n}
-        </div>
-    
+      </fieldset>
 
-        <label for="text" class="armhint">${_("The proposal would...")}</label>
-        <textarea tabindex="2" class="description armlabel" rows="${c.text_rows}" name="text">${c.proposal.description.head.text}</textarea>
-        ${components.formatting()}
+      <fieldset>
+        <legend>${_("Proposal goals")}</legend>
+        <p class="info">${_("A brief description of <b>the goals</b> of your proposal.")|n}</p>
+        <div class="input_wrapper">
+          <label for="text" class="armhint">${_("The proposal would...")}</label>
+          <textarea tabindex="2" class="description armlabel" rows="${c.text_rows}" name="text">${c.proposal.description.head.text}</textarea>
+          ${components.formatting()}
+        </div>
 
         %if c.can_edit_wiki:
-        <input type="checkbox" ${'checked="checked"' if c.proposal.description.head.wiki == 1 else ''} name="wiki" value="1" />
-        ${_("Allow others to edit this proposal.")}
+        <div class="input_wrapper">
+          <label for="wiki">
+          <input type="checkbox" ${'checked="checked"' if c.proposal.description.head.wiki == 1 else ''} name="wiki" id="wiki" value="1" />
+          ${_("Allow others to edit this proposal.")}</label>
+        </div>
         %endif
 
         %if c.instance.milestones:
-        <br/>
-        <br/>
-        <label for="milestone">${_("Relates to a milestone")}</label>
-        ${tiles.milestone.select(c.proposal.milestone)}
+        <div class="input_wrapper">
+          <label for="milestone">${_("Relates to a milestone")}</label>
+          ${tiles.milestone.select(c.proposal.milestone)}
+        </div>        
         %endif
+      </fieldset>
     
-    <div class="mainbar">
-        ${components.savebox("/proposal/%s" % c.proposal.id)}
+      <div class="input_wrapper">
         ${components.form_watch(c.proposal)}
-    </div>
-</form>
+      </div>    
+
+      <div class="input_wrapper submit">
+        ${components.savebox("/proposal/%s" % c.proposal.id)}
+      </div>
+  </form>
+</div>
 </%block>
 
 <%block name="sidebar">

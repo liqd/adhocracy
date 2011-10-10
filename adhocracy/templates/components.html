@@ -26,8 +26,10 @@
         if entity:
             checked = checked or (h.find_watch(entity) is not None)
         %>
-        <input class="watch" type="checkbox" ${'checked=\"checked\"' if checked else ''} name="watch"/>
-        ${_("Notify me of updates.")}
+        <label for="watch">
+        <input class="watch" type="checkbox" ${'checked=\"checked\"' if checked else ''} name="watch" id="watch" />
+        ${_("Notify me of updates.")}        
+        </label>
     %endif
 </%def>
 

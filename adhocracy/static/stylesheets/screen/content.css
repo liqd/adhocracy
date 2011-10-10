@@ -1032,6 +1032,8 @@ textarea { min-height: 128px; }
 
 select { width: 100%; }
 
+input[type=checkbox], input[type=radio] { vertical-align: text-top; }
+
 .submit input, .submit button {
   border: medium none;
   cursor: pointer;
@@ -1042,6 +1044,11 @@ select { width: 100%; }
   margin-right: 15px;
   padding: 0 15px 3px;
 }
+
+form .error-message {
+  color: darkred;
+}
+form .error { border-color: darkred; }
 
 /* comment form */
 #comment_form {
