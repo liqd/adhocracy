@@ -14,36 +14,32 @@ class PollTile(BaseTile):
         self.__decision = None
         self.__dnode = None
 
-    def _state(self):
+    @property
+    def state(self):
         if not self.__state:
             self.__state = democracy.State(self.poll.proposal, poll=self.poll)
         return self.__state
 
-    state = property(_state)
-
-    def _dnode(self):
+    @property
+    def dnode(self):
         if not self.__dnode:
             self.__dnode = democracy.DelegationNode(c.user, self.poll.scope)
         return self.__dnode
 
-    dnode = property(_dnode)
-
-    def _decision(self):
+    @property
+    def decision(self):
         if not self.__decision and c.user:
             self.__decision = democracy.Decision(c.user, self.poll)
         return self.__decision
 
-    decision = property(_decision)
-
-    def _delegates(self):
+    @property
+    def delegates(self):
         agents = []
         if not c.user:
             return []
         for delegation in self.dnode.outbound():
             agents.append(delegation.agent)
         return set(agents)
-
-    delegates = property(_delegates)
 
     def delegates_result(self, result):
         agents = []
@@ -53,15 +49,13 @@ class PollTile(BaseTile):
                 agents.append(agent)
         return agents
 
-    def _result_affirm(self):
+    @property
+    def result_affirm(self):
         return round(self.poll.tally.rel_for * 100.0, 1)
 
-    result_affirm = property(_result_affirm)
-
-    def _result_dissent(self):
+    @property
+    def result_dissent(self):
         return round(self.poll.tally.rel_against * 100.0, 1)
-
-    result_dissent = property(_result_dissent)
 
 
 def booth(poll):
