@@ -10,6 +10,17 @@ BREAD_SEP = " &raquo; "
 
 
 def append_member_and_format(url, member=None, format=None):
+    '''
+    Add *member* as the last path segment to the url and
+    add the extension .<format> if *format* exists.
+
+    *member*:
+        An *unicode* or None
+    *format*
+        An *unicode* or None
+
+    Returns: An *unicode*
+    '''
     if member is not None:
         url += u'/' + member
     if format is not None:
@@ -17,12 +28,21 @@ def append_member_and_format(url, member=None, format=None):
     return url
 
 
-def build(instance, base, id, query=None, anchor=None, **kwargs):
-    base = '/' + base + '/'
+def build(instance, base, id, query=None, anchor=None, member=None, format=None):
+    '''
+    Build a url which will be placed in the subdomain of the
+    *instance*'. The url will be composed out of *base* and 'id',
+    point to the html id *anchor*, have a 
+    
+    '''
+    if base:
+        base = '/' + base + '/'
+    else:
+        base = u'/'
     id = id.decode('utf-8') if isinstance(id, str) else unicode(id)
     _path = base + id
     url = site.base_url(instance, path=_path)
-    url = append_member_and_format(url, **kwargs)
+    url = append_member_and_format(url, member, format)
     if anchor is not None:
         url += "#" + anchor
     if query is not None:

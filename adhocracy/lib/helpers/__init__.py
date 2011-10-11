@@ -32,6 +32,7 @@ from adhocracy.lib.helpers import instance_helper as instance
 from adhocracy.lib.helpers import abuse_helper as abuse
 from adhocracy.lib.helpers import milestone_helper as milestone
 from adhocracy.lib.helpers import recaptcha_helper as recaptcha
+from adhocracy.lib.helpers.url import build
 from adhocracy.lib.helpers.site_helper import base_url
 from adhocracy.lib.watchlist import make_watch, find_watch
 from adhocracy import model
@@ -130,6 +131,18 @@ def help_link(text, page, anchor=None):
     full_url = url % (page, 'html')
     return (u"<a target='_new' class='staticlink_%s' href='%s' "
             u">%s</a>") % (page, full_url, text)
+
+
+def login_redirect_url(entity, **kwargs):
+    '''
+    builds an ".../login?came_from=http...." pointing to the /login
+    form in the main domain.
+    '''
+    came_from_url = entity_url(entity, **kwargs)
+    # force instance to be None so we always use the main login form.
+    instance = None
+    login_url = build(instance, '', 'login', query={'came_from': came_from_url})
+    return login_url
 
 
 def entity_url(entity, **kwargs):
