@@ -136,12 +136,12 @@ def help_link(text, page, anchor=None):
 def login_redirect_url(entity, **kwargs):
     '''
     builds an ".../login?came_from=http...." pointing to the /login
-    form in the main domain.
+    form in the current instances domain
     '''
     came_from_url = entity_url(entity, **kwargs)
-    # force instance to be None so we always use the main login form.
-    instance = None
-    login_url = build(instance, '', 'login', query={'came_from': came_from_url})
+
+    login_url = build(c.instance, '', 'login',
+                      query={'came_from': came_from_url})
     return login_url
 
 
