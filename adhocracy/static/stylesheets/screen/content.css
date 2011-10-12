@@ -850,7 +850,6 @@ a.follow_paper.active:hover {
 background-image: none !important;
 }
 
-
 /* papers */
 ul.papers_list {
   margin: 0;
@@ -1019,7 +1018,7 @@ form {
 }
 form div.prototype { display: none; }
 
-fieldset { margin-bottom: 20px; }
+fieldset { margin: 20px 0; }
 
 form p.info { margin-bottom: 10px; color: #666; }
 
