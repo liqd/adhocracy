@@ -49,9 +49,10 @@ list_limit, initial_option=None, allow_empty=True)">
 
 
 <%def name="inline(tile, page, text, subpages_pager=None, hide_discussion=False)">
-    ${tiles.text.full(text, subpages_pager=subpages_pager, 
-                      hide_discussion=hide_discussion)}
+    ## FIXME: better text, translate
+    ${tiles.text.minimal(text, missing_translation=_('No text.'))}
 </%def>
+
 
 <%def name="header(tile, page, active, text, variant)">
     <div class="top_actions title">

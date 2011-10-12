@@ -28,6 +28,18 @@
 </%def>
 
 
+<%def name="minimal(tile, text, missing_translation)">
+    %if text.has_text:
+    ${text.render()|n}
+    %elif missing_translation:
+    <p>${missing_translation}</p>
+    %else:
+    ${_("This norm has not yet been decided and is thus no "
+        "official position of this group.")}
+    %endif
+</%def>
+
+
 <%def name="full(tile, text, subpages_pager=None, hide_discussion=True)">
     %if text.has_text:
         <div class="tile">
