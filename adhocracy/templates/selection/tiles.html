@@ -1,9 +1,42 @@
 
 <%def name="row(tile, selection)">
+
+<div class="paper" id="p${selection.id}">
+    <div class="paper_head floatbox">
+        <h4>
+            <a href="${h.entity_url(selection.page)}">
+                ${selection.page.full_title}
+            </a>
+            
+            </h4>
+            <a class="icon_link more" href="${h.entity_url(selection.page)}">
+                ${_('Show Norm')}
+            </a>
+    </div>
+    ${selection.page.head.render()|n}
+    <a href="${h.entity_url(selection.page.head, 
+                            member='edit')}?proposal=${selection.proposal.id}">
+    ${_('edit')}
+    </a>
+    <div class="paper_actions floatbox">
+
+        <div class="hover_active" style="display: none;">
+            <div class="vote_paper">
+                <span class="vote_count">+125</span><a href="#" class="vote_up"><span>&nbsp;</span></a><a href="#" class="vote_down"><span>&nbsp;</span></a>
+            </div>
+            <a href="#" class="show_comments">2 Kommentare</a>
+            <a href="#" class="new_comment">Kommenar hinzufügen</a>
+        </div>
+        <div class="meta">
+            <span class="hover_active" style="display: none;">Vorgeschlagen von <a href="#">max_mustermann</a> &middot; </span><time pubdate="pubdate">14.08.2011</time>
+        </div>
+    </div>
+</div>
+       
+<%doc>           
     <div class="tile selection" id="selection_${selection.id}">
         <h3 class="section">
             ##<!--a href="${h.entity_url(selection)}"-->
-            <img class="cd" src="/img/icons/page_variant_16.png">
             ${selection.page.title}
             ##<!--/a-->
             ##%if tile.selected and tile.selected != 'HEAD':
@@ -81,6 +114,7 @@
         </div>
     </div>
     <br/>
+</%doc>
 </%def>
 
 
@@ -123,7 +157,7 @@
                     ${_("(this proposal should not change this norm)")}
                 %elif row.selected and not row.text.is_head and not tile.frozen:
                     &middot; ${_("Currently selected for inclusion in this proposal")}
-                %endif
+                    %endif 
                 <br/>
                 ${ungettext("%s comment", "%s comments", row.num_comments) % row.num_comments}
                 &middot; <a href="${h.entity_url(row.text)}">${_("view")}</a>
