@@ -9,143 +9,117 @@
 
 <%block name="main_content">
 
-<form name="settings" class="inplace" method="POST" action="/user/${c.page_user.user_name}">
+<div class="form_wrapper">
+  <form name="settings" class="inplace" method="POST" action="/user/${c.page_user.user_name}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
-    <div class="page_title">
-        <label for="display_name" class="armhint">${c.page_user.name}</label>
-        <input tabindex="1" class="title armlabel" name="display_name"
-            value="${c.page_user.display_name}"/>
-     </div>
-
-    <div style="clear:both;"></div>
-    <h3>${_("User Details")}</h3>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Select a new password or leave the fields blank to keep your old one.")}
-        </div>
+    <div class="input_wrapper">
+      <label for="display_name" class="armhint">${c.page_user.name}</label>
+      <input type="text" tabindex="1" class="title armlabel" name="display_name" value="${c.page_user.display_name}"/>
     </div>
     
-    <div class="mainbar">   
+    <fieldset>
+      <legend>${_("User Details")}</legend>
+      <p class="info">${_("Select a new password or leave the fields blank to keep your old one.")}</p>   
+      <div class="input_wrapper">   
         <label for="password_change">${_("Password:")}</label>
         <input type="password" name="password_change">
-
+      </div>
+      <div class="input_wrapper">         
         <label for="password_confirm">${_("Password (confirm):")}</label>
         <input type="password" name="password_confirm">
-    </div>
+      </div>
+    </fieldset>
     
-    <div style="clear:both;"></div>
-    <h3>${_("Notifications")}</h3>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Select how you would like to be notified of events.")}
-            <a target="_new" href="/static/notification_faq.html#howmany">${_("Help.")}</a>
-        </div>
-    </div>
+    <fieldset>
+      <legend>${_("Notifications")}</legend>
+      <p class="info">
+        ${_("Select how you would like to be notified of events.")}
+        <a target="_new" href="/static/notification_faq.html#howmany">${_("Help.")}</a>
+      </p>
         
-    <div class="mainbar">
-        <table border="0" width="100%">
-            <tr>
-                <th width="50%">${_("Contact")}</th>
-                <th colspan="4">${_("fewer")}</th>
-                <th colspan="2">${_("more notifications")}</th>
-            </tr>
-            <tr>
-                <td>
-        <!-- label for="email">${_("E-Mail:")}</label -->
-                    <input name="email" value="${c.page_user.email}"/>
-                </td>
-                %if c.page_user.is_email_activated():
-                    <td><input type="radio" name="email_priority" value="6" 
-                        ${"checked='checked'" if c.page_user.email_priority==6 else ""} /></td>
-                    <td><input type="radio" name="email_priority" value="4" 
-                        ${"checked='checked'" if c.page_user.email_priority==4 else ""} /></td>
-                    <td><input type="radio" name="email_priority" value="3" 
-                        ${"checked='checked'" if c.page_user.email_priority==3 else ""} /></td>
-                    <td><input type="radio" name="email_priority" value="2" 
-                        ${"checked='checked'" if c.page_user.email_priority==2 else ""} /></td>
-                    <td><input type="radio" name="email_priority" value="1" 
-                        ${"checked='checked'" if c.page_user.email_priority==1 else ""} /></td>
-                %else:
-                    <td colspan="5">${_("Not confirmed.")}
-                        <a href="/user/${c.page_user.user_name}/resend?${h.url_token()}">${_("Re-send activation link")}</a></td>
-                %endif
-            </tr>
-        </table>
-    </div>
+      <div class="input_wrapper">
+        <label for="email">${_("E-Mail:")}</label>
+        <input name="email" value="${c.page_user.email}"/>
+      </div>
+      <div class="input_wrapper">
+          <table border="0" width="100%">
+              <tr>
+                  <th colspan="4">${_("fewer")}</th>
+                  <th colspan="2">${_("more notifications")}</th>
+              </tr>
+              <tr>
+                  %if c.page_user.is_email_activated():
+                      <td><input type="radio" name="email_priority" value="6" 
+                          ${"checked='checked'" if c.page_user.email_priority==6 else ""} /></td>
+                      <td><input type="radio" name="email_priority" value="4" 
+                          ${"checked='checked'" if c.page_user.email_priority==4 else ""} /></td>
+                      <td><input type="radio" name="email_priority" value="3" 
+                          ${"checked='checked'" if c.page_user.email_priority==3 else ""} /></td>
+                      <td><input type="radio" name="email_priority" value="2" 
+                          ${"checked='checked'" if c.page_user.email_priority==2 else ""} /></td>
+                      <td><input type="radio" name="email_priority" value="1" 
+                          ${"checked='checked'" if c.page_user.email_priority==1 else ""} /></td>
+                  %else:
+                      <td colspan="5">${_("Not confirmed.")}
+                          <a href="/user/${c.page_user.user_name}/resend?${h.url_token()}">${_("Re-send activation link")}</a></td>
+                  %endif
+              </tr>
+          </table>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><img src="/img/icons/openid_20.png" class="cd" /> ${_("OpenID")}</legend>  
+      <p class="info">${_("OpenID allows you to use a single login on many web sites.")}</p>
+      %if not len(c.page_user.openids):
+        <div class="infobox">
+            ${_("There are no associated OpenIDs.")}
+        </div>
+      %else:
+        <div class="input_wrapper">
+          <table border="0" width="100%">
+              %for openid in c.page_user.openids:
+              <tr>
+                  <td><code>${openid.identifier}</code></td>
+                  <td><a href="/openid/revoke?id=${openid.id}&${h.url_token()}">${_("remove")}</a></td>
+              </tr>
+              %endfor
+          </table>
+        </div>        
+      %endif 
+      <a class="button add" href="/openid/connect">${_("new")}</a>
+    </fieldset>
     
-    <div style="clear:both;"></div>
-    <h3><img src="/img/icons/openid_20.png" class="cd" /> ${_("OpenID")}</h3>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("OpenID allows you to use a single login on many web sites.")}
-        </div>
-    </div>
-        
-    <div class="mainbar">
-        %if not len(c.page_user.openids):
-            <div class="infobox">
-                ${_("There are no associated OpenIDs.")}
-            </div>
-        %else:
-        <table border="0" width="100%">
-            %for openid in c.page_user.openids:
-            <tr>
-                <td><code>${openid.identifier}</code></td>
-                <td><a href="/openid/revoke?id=${openid.id}&${h.url_token()}">${_("remove")}</a></td>
-            </tr>
-            %endfor
-        </table>
-        %endif 
-        <br/>
-        <div class="inline_input_wrapper">
-            <a class="button add" href="/openid/connect">${_("new")}</a>
-        </div>
-    </div>
-    
-    <div style="clear:both;"></div>
-    <h3>${_("Short biography")}</h3>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("A bio will allow others to learn about you and perhaps even get you a few delegations.")}
-        </div>
-    </div>
-        
-    <div class="mainbar">
+    <fieldset>
+      <legend>${_("Short biography")}</legend>
+      <p class="info">${_("A bio will allow others to learn about you and perhaps even get you a few delegations.")}</p>
+      <div class="input_wrapper">
         <textarea tabindex="2" class="description" name="bio">${c.page_user.bio}</textarea>
         ${components.formatting()}
-    </div>
+      </div>
+    </fieldset>
     
-    <div style="clear: both;"></div>
-    <h3>${_("Advanced Settings")}</h3>
-    
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("The pre-set number of entries in listing pages.")}
-        </div>
-    </div>
-    <div class="mainbar">
+    <fieldset>
+      <legend>${_("Advanced Settings")}</legend>
+      <p class="info">${_("The pre-set number of entries in listing pages.")}</p>
+      <div class="input_wrapper">
         <label for="page_size">${_("List size:")}</label>
         <select name="page_size">
             %for n in [10, 20, 30, 40, 50]:
                 <option value="${n}" ${"selected='selected'" if n == c.page_user.page_size else ''}>${n}</option>
             %endfor
         </select>
-    </div>
-    <div style="clear: both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Disable help messages and links to the documentation.")}
-        </div>
-    </div>
-    <div class="mainbar">
+      </div>
+      <p class="info">${_("Disable help messages and links to the documentation.")}</p>
+      <div class="input_wrapper">
         <label for="page_size">${_("Hide help messages:")}</label>
         <input type="checkbox" name="no_help" value="true" ${'checked="checked"' if c.page_user.no_help else ''} />
+      </div>
+    </fieldset>
+    <div class="input_wrapper submit">
+      ${components.savebox("/user/%s" % c.page_user.user_name)}
     </div>
-    
-    <div style="clear:both;"></div>
-    ${components.savebox("/user/%s" % c.page_user.user_name)}
-    
-</form>
-
+  </form>
+</div>
 </%block>

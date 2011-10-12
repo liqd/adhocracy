@@ -99,6 +99,32 @@ class PagerMixin(object):
 
         visible_pages_, seperators = visible_pages(self.page, self.pages)
 
+            *selected_page*
+                The selected page (index 1)
+            *pages*
+                The number of pages (index 1)
+            Returns: A *(visible_pages , seperators)* tuple where both
+            are lists.
+            '''
+
+            ### If we have < 11 pages we show all page links
+            ### X X X O X X X X X X X
+            if pages <= 11:
+                return [range(1, pages), []]
+
+            ### if we have > 11 pages, we select which boxes and
+            ### which seperators to show
+            # Case: near the start. Show the pages up to 9, a seperator
+            # and the last 1
+            # X X X X O X X X X ... X
+            if selected_page <= 7:
+                return [range(1, 9 + 1) + [pages], [10]]
+            # Case: near the end. Show the first two pages, the seperator
+            # and the last 9
+            # X ... X X X X X O X X X
+            return [[1] + range(selected_page - 3, selected_page + 3 + 1) +
+                    [pages], [2, pages]]
+
         items = []
         for number in xrange(1, self.pages + 1):
             if number in seperators:

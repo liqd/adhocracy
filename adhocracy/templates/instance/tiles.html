@@ -1,27 +1,24 @@
 <%namespace name="components" file="/components.html"/>
 
 <%def name="row(tile, instance)">
-    <div class="tile">
-        <div class="logo">
-            %if tile.show_icon():
-            <img src="/instance/${instance.key}_32x32.png" />
+    <li class="content_box">
+        %if tile.show_icon():
+        <img class="logo" src="/instance/${instance.key}_32x32.png" />
+        %endif
+        <h3><a class="link" href="${h.entity_url(instance)}">${instance.label}</a></h3>
+        <!--span class="sparkline" title="${h.entity_url(instance, member='activity', format='sline')}"></span-->
+        <div class="meta">
+            ##${h.user.link(instance.creator)|n} &middot; 
+            ${_("created %s") % h.relative_time(instance.create_time)|n} &middot; 
+            ${ungettext("%s proposal", "%s proposals", tile.num_proposals) % tile.num_proposals} 
+            
+            %if instance.use_norms:
+                &middot;    
+                ${ungettext("%s norm", "%s norms", tile.num_norms) % tile.num_norms}
             %endif
         </div>
-        <div class="base">
-            <h3><a class="link" href="${h.entity_url(instance)}">${instance.label}</a></h3>
-            <!--span class="sparkline" title="${h.entity_url(instance, member='activity', format='sline')}"></span-->
-            <div class="meta noclear">
-                ##${h.user.link(instance.creator)|n} &middot; 
-                ${_("created %s") % h.relative_time(instance.create_time)|n} &middot; 
-                ${ungettext("%s proposal", "%s proposals", tile.num_proposals) % tile.num_proposals} 
-                
-                %if instance.use_norms:
-                    &middot;    
-                    ${ungettext("%s norm", "%s norms", tile.num_norms) % tile.num_norms}
-                %endif
-            </div>
-        </div>
-    </div>
+        <div class="hr"><hr /></div>
+    </li>
 </%def>
 
 <%def name="header(tile, instance, active, no_panel)">
