@@ -1,4 +1,23 @@
-
+<%def name="widget(tile, poll, cls='', deactivated=False, need_auth=False)">
+## cls='' -> normal (small) vote widget.
+## cls='big' -> big vote widget
+## styles: /static/stylesheets/screen/content.css
+## deactivated: Should the widget be deactivated? (e.g. out of the voting phase)
+## need_auth: Redirect user to login page.
+## FIXME: Render vote_up/vote_down as span's if the user already has that
+## position.
+## FIXME: Render the vote_count as a link to the votes listing
+<div id="${tile.html_id}" class="vote ${cls} ${tile.deactivated_class}">
+    <span class="vote_count ${tile.count_class}"
+          >${tile.display_score}</span
+    ><a href="${tile.action_url(+1)}" 
+        class="vote_up ${'active' if tile.current_position == 1 else ''}"
+        ><span>&nbsp;</span></a
+    ><a href="${tile.action_url(-1)}" 
+        class="vote_down ${'active' if tile.current_position == -1 else ''}"
+        ><span>&nbsp;</span></a>
+</div>
+</%def>
 
 <%def name="booth(tile, poll)">
     <div class="tile voting_booth">
