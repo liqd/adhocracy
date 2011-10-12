@@ -97,7 +97,7 @@ class PagerMixin(object):
 
     def pages_items(self):
 
-        visible_pages, seperators = visible_pages(self.page, self.pages)
+        visible_pages_, seperators = visible_pages(self.page, self.pages)
 
         items = []
         for number in xrange(1, self.pages + 1):
@@ -112,7 +112,7 @@ class PagerMixin(object):
             item = {'current': self.page == number,
                     'url': self.build_url(page=number),
                     'label': str(number),
-                    'class': 'hidden' if number not in visible_pages else '',
+                    'class': 'hidden' if number not in visible_pages_ else '',
                     'seperator': False}
             items.append(item)
 
