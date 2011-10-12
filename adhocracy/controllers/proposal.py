@@ -13,7 +13,7 @@ from repoze.what.plugins.pylonshq import ActionProtector
 
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h, pager
-from adhocracy.lib import tiles, watchlist
+from adhocracy.lib import sorting, tiles, watchlist
 from adhocracy.lib.auth import authorization, can, csrf, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
@@ -96,7 +96,7 @@ class ProposalController(BaseController):
         c.tile = tiles.instance.InstanceTile(c.instance)
         c.badges = model.Badge.all()
         c.badges = filter(lambda x: x.badge_delegateable, c.badges)
-        c.badges = sorted(c.badges, key=attrgetter('title')) 
+        c.badges = sorted(c.badges, key=attrgetter('title'))
         return render("/proposal/index.html")
 
     @RequireInstance
@@ -230,6 +230,13 @@ class ProposalController(BaseController):
     def show(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.show(c.proposal)
+
+        c.num_selections = c.proposal.selections
+        c.show_selections = c.proposal.instance.use_norms
+        if c.show_selections:
+            c.sorted_selections = sorting.sortable_text(
+                c.proposal.selections,
+                key=lambda s: s.page.title)
 
         if format == 'rss':
             return self.activity(id, format)

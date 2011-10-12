@@ -7,61 +7,99 @@
 
 <%def name="breadcrumbs()">${h.proposal.breadcrumbs(c.proposal)|n}</%def>
 
-<%block name="headline">
-
-${tiles.proposal.header(c.proposal, c.tile, active='goal')}
-
-    ${tiles.proposal.sidebar(c.proposal, c.tile)}
-
-
-</%block>
 
 <%block name="main_content">
 
-    <div class="top_actions aside">
-        &nbsp;      
-        %if can.proposal.edit(c.proposal):
-            <a class="button title edit ttip" title="${_('Edit this proposal.')}"
-                href="${h.entity_url(c.proposal, member='edit')}">${_("edit")}</a>
-        %endif
-    </div>
-    <h2>${_("Proposal goal and description")}</h2>
-    ${tiles.page.inline(c.proposal.description, 
+    %if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
+      %if can.proposal.rate(c.proposal):
+      ${tiles.poll.widget(c.proposal.rate_poll, cls='big')}
+      %endif
+    %endif
+
+            <section>
+              <article>
+                <h2>
+                    ${h.delegateable.link(c.proposal, icon_size=24, link=False)|n}
+                </h2>
+                <div class="hr"><hr /></div>
+                ## FIXME: translate
+                <div class="utility">
+                    <h4>Ziele und Beschreibung des Vorschlages</h4>
+                    %if can.proposal.edit(c.proposal):
+                    <a href="${h.entity_url(c.proposal, member='edit')}">
+                        ${_("edit")}
+                    </a>
+                    %endif
+                </div>
+                
+                ${tiles.page.inline(c.proposal.description, 
                         hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
     
-    %if c.proposal.instance.use_norms:
-        <br/>
-        <h2>${_("Implementation")}</h2>
-        <div class="help">
-        <div class="infobox">
-            ${_("Proposals are implemented by including changes towards new or existing norm. Norms are fixed documents that represent the consensus of this instance and can only be changed through a vote. Amend the proposal to change or create a norm.")} 
-        </div>
-        </div>
-        <div class="top_actions aside">
-          &nbsp; 
-          %if can.selection.create(c.proposal):
-              %if c.disable_include:
-                  <a class="button title ttip inactive"
-                     title="${_('The proposal refers to all norms already.')}">
-                      ${_("change existing norm")}
-                  </a>
-              %else:
-                  <a class="button title edit ttip" 
-                     title="${_('Propose to change a norm through this proposal.')}" 
-                     href="${h.entity_url(c.proposal, member='implementation/include')}">
-                      ${_("change existing norm")}
-                  </a>
-              %endif
-            %if can.norm.propose():
-            <a class="button title add ttip" title="${_('Propose to create a norm through this proposal.')}" 
-              href="${h.entity_url(c.proposal, member='implementation/propose')}">${_("propose new norm")}</a>
+                
+                ## FIXME: Translate; Really "Reaktions", not "Comments"?
+                <div class="meta">
+                    <a href="#reactions">
+                        ${c.proposal.description.comment_count()} ${_("Comments")}
+                    </a>
+                    %if c.show_selections:
+                    &middot; 
+                    <a href="#proposals">
+                        ${len(c.num_selections)}
+                        ${_("Proposed Implementations")}
+                    </a>
+                    %endif
+                    &middot; 
+                    <a href="${h.abuse.for_entity(c.proposal)}">
+                        ${_("report")}
+                    </a>
+                </div>
+              </article>
+              <br />
+            </section>
+
+            %if c.show_selections:
+            <section>
+              <h3 id="proposals">${_("Proposed Implementations")}</h3>
+              <div class="hr"><hr /></div>
+              <ul class="papers_list">
+                  %for selection in c.sorted_selections: 
+                  ${tiles.selection.row(selection)}
+                  %endfor
+              </ul> 
+            </section>
             %endif
-          %endif        
-        </div>
-        <br/><br/>
-        %for selection in sorting.sortable_text(c.proposal.selections, key=lambda s: s.page.title): 
-            ${tiles.selection.row(selection)}
-        %endfor
-    %endif
+
 </%block>
 
+
+<%block name="sidebar">
+<a class="follow_paper" href="#">${_('Follow Paper')}</a>
+
+              <h3>${_('Informations')}</h3>
+              <summary>
+
+                <h6>${_('Shortlink')}</h6>
+                <p>
+                    <a href="#">
+                        FIXME: implement shortlink http://j.mp/12345
+                    </a>
+                </p>
+
+                <h6>${_('Last Activity')}</h6>
+                <p><time>Fixme: which data? 12.08.2011</time></p>
+
+                <h6>${_('Votes (FIXME: right translation?')}</h6>
+                <p>FIXME: Insgesamt <a href="#">120 Stimmen</a>, davon 120 Unterstützungen, 0 Ablehnungen.</p>
+
+                <h6>${_('Milestones')}</h6>
+                <p>FIXME: Verknüpft mit dem Termin: <a href="#"><time datetime="2011-01-28">Projektrgruppensitzung Demokratie und Staat</time></a>.</p>
+
+                <h6>${_('Created')}</h6>
+                <p>FIXME: von <a href="#">Timoteus</a> am <time pubdate="pubdate">01.01.2011</time>, setdem <a href="#">3 Änderungen</a>.</p>
+
+                <h6>${_('FIXME: Verschlagwortet unter')}</h6>
+                <p>FIXME: <a href="#">Schlagwort 1</a>, <a href="#">Schlagwort 2</a>, <a href="#">Schlagwort 3</a>, <a href="#">Schlagwort 4</a></p>
+                <div class="utility"><a href="#">Schlagwort hinzufügen</a></div>
+              </summary>
+
+</%block>
