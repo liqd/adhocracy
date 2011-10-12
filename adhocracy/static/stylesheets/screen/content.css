@@ -931,7 +931,7 @@ ul.comments_list > li {
 .comment_actions, .paper_actions {
   padding-top: 10px;
 }
-.comment_actions .vote_comment, .comment_actions .show_comments, .comment_actions .new_comment, .paper_actions .vote_paper, .paper_actions .show_comments, .paper_actions .new_comment {
+.comment_actions .vote_comment, .comment_actions .show_comments, .comment_actions .new_comment, .paper_actions .vote_paper, .paper_actions .show_comments, .paper_actions .new_comment, .paper_actions .participate {
   float: left;
   margin-right: 10px;
   font-size: 11px;
@@ -959,7 +959,7 @@ a.show_comments:after, a.new_comment:after {
 .show_comments.open:after, .new_comment.open:after {
   background-position: -18px -9px;
 }
-a.show_comments:hover, a.new_comment:hover {
+a.show_comments:hover, a.new_comment:hover, a.participate {
   text-decoration: none;
   color: #fff;
   background: url('/images/sprite_buttons_small.png') repeat-x 0 -350px;

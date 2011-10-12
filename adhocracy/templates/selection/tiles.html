@@ -18,18 +18,21 @@
                             member='edit')}?proposal=${selection.proposal.id}">
     ${_('edit')}
     </a>
-    <div class="paper_actions floatbox">
 
+    <div class="paper_actions floatbox">
         <div class="hover_active" style="display: none;">
-            <div class="vote_paper">
-                <span class="vote_count">+125</span><a href="#" class="vote_up"><span>&nbsp;</span></a><a href="#" class="vote_down"><span>&nbsp;</span></a>
-            </div>
+            <a href="#FIXME-ParticipateLink"
+               class="participate">${_('FIXME: Participate Link')}
             <a href="#" class="show_comments">2 Kommentare</a>
             <a href="#" class="new_comment">Kommenar hinzufügen</a>
         </div>
         <div class="meta">
             <span class="hover_active" style="display: none;">Vorgeschlagen von <a href="#">max_mustermann</a> &middot; </span><time pubdate="pubdate">14.08.2011</time>
         </div>
+    </div>
+    ## FIXME: Render comments
+    <div class="hr">
+        <hr />
     </div>
 </div>
        
