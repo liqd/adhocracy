@@ -13,10 +13,25 @@
                 ${_('Show Norm')}
             </a>
     </div>
-    ${selection.page.head.render()|n}
+
+            %if tile.selected is None:
+                    ${_("There is a tie between variants, thus none is "
+                        "included at the moment.")}
+            %else:
+                %if tile.selected_text.is_head:
+                        ${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
+                %else:
+                        ${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), tile.selected_text.variant_html))|n}
+                        %if can.variant.edit(selection.page, tile.selected):
+                            &middot; <a href="${h.entity_url(tile.selected_text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
+                        %endif
+                %endif
+                ${diff.norm_texts_history_compare(tile.selected_text, selection.page.head)|n}
+            %endif
+
     <a href="${h.entity_url(selection.page.head, 
                             member='edit')}?proposal=${selection.proposal.id}">
-    ${_('edit')}
+        ${_('edit')}
     </a>
 
     <div class="paper_actions floatbox">
