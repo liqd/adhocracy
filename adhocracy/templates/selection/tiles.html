@@ -4,14 +4,11 @@
 <div class="paper" id="p${selection.id}">
     <div class="paper_head floatbox">
         <h4>
-            <a href="${h.entity_url(selection.page)}">
-                ${selection.page.full_title}
-            </a>
-            
-            </h4>
-            <a class="icon_link more" href="${h.entity_url(selection.page)}">
-                ${_('Show Norm')}
-            </a>
+            ${selection.page.full_title}
+        </h4>
+        <a class="icon_link more" href="${h.entity_url(selection.page)}">
+            ${_('Show Norm')}
+        </a>
     </div>
 
             %if tile.selected is None:
