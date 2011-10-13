@@ -131,6 +131,7 @@ class ProposalController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     def create(self, format='html'):
         require.proposal.create()
+
         try:
             self.form_result = ProposalCreateForm().to_python(request.params)
         except Invalid, i:
@@ -186,9 +187,13 @@ class ProposalController(BaseController):
         require.proposal.edit(c.proposal)
 
         c.text_rows = text.text_rows(c.proposal.description.head)
+
+        force_defaults = False
+        if errors:
+            force_defaults = True
         return htmlfill.render(render("/proposal/edit.html"),
                                defaults=dict(request.params),
-                               errors=errors, force_defaults=False)
+                               errors=errors, force_defaults=force_defaults)
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
