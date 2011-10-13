@@ -9,34 +9,31 @@
 
 <%block name="main_content">
 <div class="form_wrapper">
+    <h2>${_(u'Edit &ldquo;%s&rdquo;') % c.proposal.title|n}</h2>
+    <div class="hr">
+        <hr />
+    </div>
+
   <form name="edit_proposal" class="inplace" method="POST" action="/proposal/${c.proposal.id}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
       
       <fieldset>
-        <legend>${_("Proposal title")}</legend>
+        <legend>${_('Title and Goals')}</legend>
         <div class="input_wrapper">
-          <label for="label" class="armhint">${_("New Proposal")}</label>
+          <label for="label" class="armhint">${_("Proposal title")}</label>
           <input type="text" tabindex="1" class="title armlabel" name="label" value="${c.proposal.title}"/>
         </div>
-      </fieldset>
 
-      <fieldset>
-        <legend>${_("Proposal goals")}</legend>
-        <p class="info">${_("A brief description of <b>the goals</b> of your proposal.")|n}</p>
         <div class="input_wrapper">
-          <label for="text" class="armhint">${_("The proposal would...")}</label>
+          <label for="text" class="armhint">${_("Proposal goals")}</label>
+          <p class="info">
+              ${_("A brief description of <b>the goals</b> of your proposal.")|n} 
+              ${_("The proposal would...")}
+          </p>
           <textarea tabindex="2" class="description armlabel" rows="${c.text_rows}" name="text">${c.proposal.description.head.text}</textarea>
           ${components.formatting()}
         </div>
-
-        %if c.can_edit_wiki:
-        <div class="input_wrapper">
-          <label for="wiki">
-          <input type="checkbox" ${'checked="checked"' if c.proposal.description.head.wiki == 1 else ''} name="wiki" id="wiki" value="1" />
-          ${_("Allow others to edit this proposal.")}</label>
-        </div>
-        %endif
 
         %if c.instance.milestones:
         <div class="input_wrapper">
@@ -45,11 +42,21 @@
         </div>        
         %endif
       </fieldset>
-    
+
+      <fieldset>
+          <legend>${_('Collaboration and Notification')}</legend>
+        %if c.can_edit_wiki:
+        <div class="input_wrapper">
+          <label for="wiki">
+          <input type="checkbox" ${'checked="checked"' if c.proposal.description.head.wiki == 1 else ''} name="wiki" id="wiki" value="1" />
+          ${_("Allow others to edit this proposal.")}</label>
+        </div>
+        %endif
+
       <div class="input_wrapper">
         ${components.form_watch(c.proposal)}
       </div>    
-
+      </fieldset>
       <div class="input_wrapper submit">
         ${components.savebox("/proposal/%s" % c.proposal.id)}
       </div>
@@ -58,6 +65,7 @@
 </%block>
 
 <%block name="sidebar">
+        <div class="follow_spacer"></div>
         <div class="help">
             <h3>${_("Help")}</h3>
             <ul>
