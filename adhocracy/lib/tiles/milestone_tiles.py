@@ -33,10 +33,12 @@ def header(milestone, tile=None):
 def select(selected, name='milestone'):
     options = [('--', _('(no milestone)'), selected is None)]
     all_future = model.Milestone.all_future()
+
     # Add the currently selected milestone if it is in the past
     # so it will be shown and won't be overwritten on save
     if (selected is not None) and (selected not in all_future):
         options.append((selected.id, selected.title, True))
+
     for milestone in all_future:
         options.append((milestone.id, milestone.title,
                         milestone == selected))
