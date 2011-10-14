@@ -1011,7 +1011,7 @@ form {
   background: url("/images/gradient_form.jpg") repeat-y scroll left top #E5E6E8;
   font-size: 14px;
   line-height: 1.5;
-  padding: 30px 120px;
+  padding: 30px;
 }
 #openid_form {
   width: 392px !important;
