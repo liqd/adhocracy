@@ -61,7 +61,7 @@ $('.comment a.show_comments').click(function () {
   $('#' + c_id + '_comments').toggle();
   $(this).toggleClass('open');
   return false;
-})
+});
 
 $('.comment a.new_comment').click(function () {
   var comment_form_html = $('#comment_form_template').html();
@@ -72,20 +72,20 @@ $('.comment a.new_comment').click(function () {
   } else $('#comment_form_' + c_id).remove();
   $(this).toggleClass('open');
   return false;
-})
+});
 
 $('.comment_status .button_small').live('click', function () {
   $('.comment_status .button_small').removeClass('active');
   $(this).addClass('active');
   return false;
-})
+});
 
 $('.paper a.show_comments').click(function () {
   var p_id = $(this).closest('.paper').attr('id');
   $('#' + p_id + '_comments').toggle();
   $(this).toggleClass('open');
   return false;
-})
+});
 
 $('.paper a.new_comment').click(function () {
   var comment_form_html = $('#comment_form_template').html();
@@ -96,14 +96,14 @@ $('.paper a.new_comment').click(function () {
   } else $('#comment_form_' + p_id).remove();
   $(this).toggleClass('open');
   return false;
-})
+});
 
 $('.switch_buttons .button_small').click(function () {
   $('.switch_buttons .button_small').removeClass('active');
   $(this).addClass('active');
   return false;
-})
+});
 
 $('.info_box .close_button').click(function() {
   $(this).parent().fadeOut();
-})
+});
