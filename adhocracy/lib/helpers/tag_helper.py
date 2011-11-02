@@ -9,7 +9,25 @@ from adhocracy.lib import cache
 from adhocracy.lib.helpers import url as _url
 
 
-def link(tag, count=None, size=None, base_size=12, plain=False):
+def link(tag, count=None, size=None, base_size=12, plain=False, simple=False):
+    '''
+    Generate a link to a tag. if *simple* is *True* it will create a plain
+    <a> link and **ignores all other kwargs!**. If *simple* is *False*,
+    it will generate a more fancy link wrapped into a <span>.
+
+    *count* (None or int)
+        If an int is given, it will append the count to the link text
+    *size* (None or int)
+        If given a font-size is set as an inline style.
+    *base_size* (int)
+        Used to calulate the font size.
+    *plain* (boolean)
+        Set the 'plain' css class on the wrapper <span>.
+    '''
+    if simple:
+        return u'<a href="%s" rel="tag">%s</a>' % (url(tag),
+                                                   cgi.escape(tag.name))
+
     text = u"<span class='tag_link %s'><a" % ("plain" if plain else "")
     if size is not None:
         size = int(math.sqrt(size) * base_size)
