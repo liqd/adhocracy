@@ -691,8 +691,7 @@ top: 0px;
   font-weight: normal;
 }
 /* follow button */
-a.follow_paper {
-  background: url('/images/sprite_buttons.png') no-repeat 0 -1px;
+a.follow_paper, div.skip_follow {
   height: 26px;
   line-height: 26px;
   border-radius: 13px;
@@ -701,9 +700,14 @@ a.follow_paper {
   margin: 0 0 20px;
   font-weight: bold;
   font-size: 14px;
-  color: #2D3441;
   padding: 0 20px 0 40px;
 }
+
+a.follow_paper {
+  background: url('/images/sprite_buttons.png') no-repeat 0 -1px;
+  color: #2D3441;
+}
+
 a.follow_paper:hover {
   background-position: 0 -52px;
   text-decoration: none;
@@ -1070,8 +1074,8 @@ form .error-message {
 form .error { border-color: darkred; }
 
 /* comment form */
-#comment_form {
-  position: relative;
+.comment_form {
+  padding: 5px;
 }
 #new_comment .submit {
   position: absolute;

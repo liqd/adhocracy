@@ -33,24 +33,81 @@
     %endif
 </%def>
 
-<%def name="watch(entity)">
+<%def name="watch(entity, what='Norm')">
+    ## FIXME: turn into an ajax call
     %if c.user:
-        <%
-        watch = h.find_watch(entity)
-        %>
-        %if watch and can.watch.delete(watch):
-            <a class="button delete ttip" title="${_('Stop receiving notifications.')}"
-               href="/watch/delete?watch=${watch.id}&${h.url_token()}"><img src='/img/mail.png' /> 
-            ${_("unwatch")}</a>
-        %elif can.watch.create():
-            <a class="button edit ttip" title="${_('Receive notifications when this item is updated.')}"
-               href="/watch/create?${h.make_watch(entity)}&${h.url_token()}"><img src='/img/mail.png' /> 
-            ${_("watch")}</a>
-        %endif
+    <%
+    assert what in ['Norm', 'Proposal']
+    skip = False
+    watch = h.find_watch(entity)
+    if watch and can.watch.delete(watch):
+        css_cls = "active"
+        text = _('Following %s' % what)
+        hover_text = _('Unfollow %s' % what)
+        href = "/watch/delete?watch=%s&%s" % (watch.id, h.url_token())
+    elif not watch and can.watch.create():
+        css_cls = ""
+        text = hover_text = _("Follow %s" % what)
+        href = "/watch/create?%s&%s" % (h.make_watch(entity),
+                                        h.url_token())
+    else:
+        skip = True
+    %>
+    %if skip:
+    <div class="skip_follow">
+    <!-- FIXME: What if a user is authenticated, but is not allowed
+         to watch/unwatch -->
+    </div>
+    %else:
+    <a class="follow_paper ${css_cls}" href="${href}">${text}</a>
+
+    <script type="text/javascript">
+        // <[CDATA[
+        $('.follow_paper').hover(
+        function() {
+          $(this).text('${hover_text}')
+        },
+        function() {
+          $(this).text('${text}')
+        });
+        // ]]>
+    </script>
+    %endif
+
+    %else:
+    ## (not c.user)
+    <div class="skip_follow">
+    <!-- FIXME: render a replacement with auth instructions. Problem:
+         FIXME: How to determinate if login and join the instance is enough?
+    -->
+    </div>
     %endif
 </%def>
 
 <%def name="title()"></%def>
+
+
+<%def name="vertical_tabs(items, css_class)">
+<nav>
+    <div id="sidebar_nav" class="${css_class}"><div>
+        <ul>
+            %for item in items:
+            <li>
+                <a href="${item['href']}"
+                   data-bind="load(${item['variant']}, ${item['href']})"
+                   data-variant="${item['variant']}"
+                   class="${'current' if item['selected'] else ''}">
+                    <span class="truncate">${item['title']}</span>
+                    <span class="count">${item['count']}</span>
+                </a>
+            </li>
+            %endfor
+        </ul>
+    </div></div>
+</nav>
+</%def>
+
+
 
 <%def name="head()">
   <meta charset="utf-8" />
@@ -121,17 +178,14 @@
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/modernizr.js')}"></script>
     <!--jquery 1.4.2 and jquery plugins-->
-    <script type="text/javascript" 
-          src="http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js"></script>
+    <!-- <script type="text/javascript"  -->
+    <!--       src="http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js"></script> -->
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/jquery.autocomplete.min.js')}"></script>  
-    <script type="text/javascript" 
-        src="${h.base_url(None, path='/js/jquery.timeago.js')}"></script>
-    <script type="text/javascript" 
-        src="${h.base_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script>
-    <!--adhocracy javascript-->
-    <script type="text/javascript" 
-        src="${h.base_url(None, path='/js/adhocracy.js')}"></script>
+    <!-- <script type="text/javascript"  -->
+    <!--     src="${h.base_url(None, path='/js/jquery.timeago.js')}"></script> -->
+    <!-- <script type="text/javascript"  -->
+    <!--     src="${h.base_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script> -->
 
     %if c.instance and c.instance.css:
         <link  rel="stylesheet" type="text/css" 
