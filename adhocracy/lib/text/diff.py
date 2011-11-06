@@ -68,9 +68,9 @@ def _diff_line_based(left_text, right_text, include_deletions=True,
         elif op == 'replace':
             if replace_as_delete:
                 html_match += '<del>' + _compose(left[i1:i2]) + '</del>'
-            elif replace_as_insert:
+            if replace_as_insert:
                 html_match += '<ins>' + _compose(right[j1:j2]) + '</ins>'
-            else:
+            if not (replace_as_delete or replace_as_insert):
                 html_match += '<span>' + _compose(right[j1:j2]) + '</span>'
 
     carry = []
@@ -121,11 +121,25 @@ def page_texts_history_compare(text_from, text_to):
 
 @memoize('norms_diff')
 def norm_texts_history_compare(text_from, text_to):
+    '''
+    Note: Inverts from and to inside. Be prepared;)
+    '''
     if text_to is None or text_from.id == text_to.id:
         return render_line_based(text_from)
     lines = _diff_line_based(text_to.text,
                              text_from.text,
                              replace_as_insert=True)
+    return _line_table(lines)
+
+
+@memoize('norms_diff_inline')
+def norm_texts_inline_compare(text_from, text_to):
+    if text_to is None or text_from.id == text_to.id:
+        return render_line_based(text_from)
+    lines = _diff_line_based(text_from.text,
+                             text_to.text,
+                             replace_as_insert=True,
+                             replace_as_delete=True)
     return _line_table(lines)
 
 
