@@ -26,7 +26,7 @@
         <div class="menu hlist">
             <ul>
                 ${nav_link(href=h.base_url(None, path='/'),
-                           text=_("Home"), li_class=_class('home'))}
+                           text=_("Start"), li_class=_class('home'))}
 
                 %if g.single_instance is None:
                 ${nav_link(href=h.base_url(None, path='/instance'),
@@ -140,7 +140,7 @@
                                   search_label=search_label)">
 
   ${nav_link(href=h.entity_url(c.instance),
-             text=_("Instance"),
+             text=_(u"Overview"),
              li_class=_class('instance'))}
 
   ${nav_link(href="/milestone",
