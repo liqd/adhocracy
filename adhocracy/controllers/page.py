@@ -1,4 +1,10 @@
+try:
+    import json
+except ImportError:
+    import simplejson as json
 import logging
+from operator import itemgetter
+
 
 import formencode
 from formencode import htmlfill, Invalid, validators
@@ -16,6 +22,9 @@ from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.text.diff import (norm_texts_inline_compare,
+                                     page_titles_compare)
+from adhocracy.lib.text.render import render_line_based, render as render_text
 import adhocracy.lib.text as libtext
 from adhocracy.lib.util import get_entity_or_abort
 
@@ -255,19 +264,108 @@ class PageController(BaseController):
                    topics=[c.page], page=c.page, rev=text)
         redirect(h.entity_url(target))
 
+    def _diff_details(self, left, right):
+        left_text = left.text.strip() if left.text else ''
+        right_text = right.text.strip() if right.text else ''
+        has_changes = ((left_text != right_text))
+
+        title = right.title
+        text = render_line_based(right)
+        text_diff = norm_texts_inline_compare(left, right)
+        title_diff = page_titles_compare(left, right)
+
+        return dict(title=title, text=text, title_diff=title_diff,
+                    text_diff=text_diff, has_changes=has_changes,
+                    is_head=(right.variant == model.Text.HEAD))
+
+    def _variant_details(self, page, variant, selection_id=None):
+        '''
+        Return details for a variant including diff information
+        and details about the proposals that selected this variant.
+        '''
+        selections = []
+        for selection in page.selections:
+            if selection.selected is None or selection.selected != variant:
+                continue
+            score = selection.variant_poll(variant).tally.score
+            item = {'score': score,
+                    'rendered_score': "%+d" % score,
+                    'selection_id': selection.id,
+                    'proposal_title': selection.proposal.title,
+                    'proposal_text':
+                        render_text(selection.proposal.description.head.text),
+                    'proposal_url': h.selection.url(selection),
+                    'current': selection.id == selection_id,
+                    }
+            selections.append(item)
+
+        head_text = page.head
+        variant_text = page.variant_head(variant)
+        details = self._diff_details(head_text, variant_text)
+        details['variant'] = variant
+        details['history_url'] = h.entity_url(variant_text, member='history')
+        # FIXME: Text.history is marked with comment 'performance fail'
+        details['history_count'] = len(variant_text.history)
+        details['selections'] = selections
+        details['num_selections'] = len(selections)
+        details['is_head'] = (variant == model.Text.HEAD)
+        return details
+
+    def _variant_overview(self, page, variant, current_variant=None):
+        score = page.variant_tally(variant).score
+        is_head = (variant == model.Text.HEAD)
+        title = _('Original Version') if is_head else variant
+        rendered_score = "%+d" % score
+        if score == 0:
+            rendered_score = '0'
+        if is_head:
+            rendered_score = ''
+        details = {'href': h.page.page_variant_url(page, variant=variant),
+                   'title': title,
+                   'is_head': is_head,
+                   'selected': variant == current_variant,
+                   'score': score,
+                   'rendered_score': rendered_score,
+                   'variant': variant}
+        return details
+
     @RequireInstance
     def show(self, id, variant=None, text=None, format='html'):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
+
+        # Error handling and json api
         if c.text.variant != c.variant:
             abort(404, _("Variant %s does not exist!") % c.variant)
         if format == 'json':
             return render_json(c.page.to_dict(text=c.text))
-        if c.variant != model.Text.HEAD:
-            options = [c.page.variant_head(v) for v in c.page.variants]
-            return self._differ(c.page.head, c.text, options=options)
-        c.tile = tiles.page.PageTile(c.page)
 
+        # variant details and returning them as json when requested.
+        requested_selection = request.params.get('selection', 0)
+        c.variant_details = self._variant_details(c.page, c.variant,
+                                                  int(requested_selection))
+        if 'variant_json' in request.params:
+            return render_json(c.variant_details)
+        c.variant_details_json = json.dumps(c.variant_details)
+
+        # Make a list of variants to render the vertical tab navigation
+        head_item = None
+        c.variant_items = []
+        # FIXME: What to do if we get passed a selection that did not select
+        # the current variant? Warn? Redirect?
+        for variant in c.page.variants:
+            details = self._variant_overview(
+                c.page, variant, current_variant=c.variant)
+            if variant == model.Text.HEAD:
+                head_item = details
+            else:
+                c.variant_items.append(details)
+
+        c.variant_items = sorted(c.variant_items, key=itemgetter('score'),
+                                 reverse=True)
+        c.variant_items.insert(0, head_item)
+
+        # Metadata and subpages pager
         sorts = {_("oldest"): sorting.entity_oldest,
                  _("newest"): sorting.entity_newest,
                  _("alphabetically"): sorting.delegateable_title}
@@ -293,7 +391,10 @@ class PageController(BaseController):
             return render_json(c.texts_pager)
         c.tile = tiles.page.PageTile(c.page)
         self._common_metadata(c.page, c.text)
-        return render('/page/history.html')
+        if format == 'overlay':
+            return c.texts_pager.here()
+        else:
+            return render('/page/history.html')
 
     @RequireInstance
     @validate(schema=PageDiffForm(), form='bad_request', post_only=False,

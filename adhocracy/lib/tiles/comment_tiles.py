@@ -8,6 +8,7 @@ class CommentTile(BaseTile):
         self.comment = comment
         self.__topic_outbound = None
         self.__score = None
+        self.__num_child = None
 
     @property
     def text(self):
@@ -25,10 +26,13 @@ class CommentTile(BaseTile):
 
     @property
     def num_children(self):
-        num = len(filter(lambda c: not c.delete_time, self.comment.replies))
-        num += sum(map(lambda c: CommentTile(c)._num_children(),
-                       self.comment.replies))
-        return num
+        if self.__num_child is None:
+            num = len(filter(
+                    lambda c: not c.delete_time, self.comment.replies))
+            num += sum(map(lambda c: CommentTile(c).num_children,
+                           self.comment.replies))
+            self.__num_child = num
+        return self.__num_child
 
     @property
     def score(self):
@@ -56,6 +60,16 @@ def list(topic, root=None, comments=None, variant=None, recurse=True,
     if comments is None:
         comments = topic.comments
     return render_tile('/comment/tiles.html', 'list', tile=None,
+                       comments=comments, topic=topic,
+                       variant=variant, root=root, recurse=recurse,
+                       cached=False, ret_url=ret_url)
+
+
+def list_new(topic, root=None, comments=None, variant=None, recurse=True,
+             ret_url=''):
+    if comments is None:
+        comments = topic.comments
+    return render_tile('/comment/tiles.html', 'list_new', tile=None,
                        comments=comments, topic=topic,
                        variant=variant, root=root, recurse=recurse,
                        cached=False, ret_url=ret_url)

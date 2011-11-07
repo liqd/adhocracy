@@ -55,7 +55,20 @@
                 </div>
               </article>
               <br />
+
+              
             </section>
+            <h3 id="reactions">${_(u'Comments')}</h3>
+            <div id="main_comments">
+                ## comments are attached to the description which is a
+                ## :class:`adhocracy.model.Page`
+                ## proposal descriptions have no other variant than head.
+                ${tiles.comment.list(c.proposal.description, 
+                                     variant=c.proposal.description.head.variant)}
+
+                ${comment_tiles.form(display=True)}
+            </div>
+            
 
             %if c.show_selections:
             <section>
@@ -73,33 +86,63 @@
 
 
 <%block name="sidebar">
-<a class="follow_paper" href="#">${_('Follow Paper')}</a>
 
-              <h3>${_('Informations')}</h3>
-              <summary>
+${components.watch(c.proposal, what="Proposal")}
 
-                <h6>${_('Shortlink')}</h6>
-                <p>
-                    <a href="#">
-                        FIXME: implement shortlink http://j.mp/12345
-                    </a>
-                </p>
+<h3>${_('Informations')}</h3>
+<summary>
 
-                <h6>${_('Last Activity')}</h6>
-                <p><time>Fixme: which data? 12.08.2011</time></p>
+    <!-- <h6>${_('Shortlink')}</h6> -->
+    <!-- <p> -->
+    <!--     <a href="#"> -->
+    <!--         FIXME: implement shortlink http://j.mp/12345 -->
+    <!--     </a> -->
+    <!-- </p> -->
 
-                <h6>${_('Votes (FIXME: right translation?')}</h6>
-                <p>FIXME: Insgesamt <a href="#">120 Stimmen</a>, davon 120 Unterstützungen, 0 Ablehnungen.</p>
+    <h6>${_('Last Activity')}</h6>
+    <p><time>
+        ${h.relative_time(
+        c.proposal.find_latest_comment_time())|n}
+    </time></p>
 
-                <h6>${_('Milestones')}</h6>
-                <p>FIXME: Verknüpft mit dem Termin: <a href="#"><time datetime="2011-01-28">Projektrgruppensitzung Demokratie und Staat</time></a>.</p>
+    <% tally = c.proposal.rate_poll.tally %>
+    <h6>${_('Votes')}</h6>
+    <p>
+        Insgesamt 
+        <a href="#">${tally.score} Stimmen</a>, 
+        davon ${tally.num_for} Unterstützungen, 
+        ${tally.num_against} Ablehnungen.
+    </p>
 
-                <h6>${_('Created')}</h6>
-                <p>FIXME: von <a href="#">Timoteus</a> am <time pubdate="pubdate">01.01.2011</time>, setdem <a href="#">3 Änderungen</a>.</p>
+    <h6>${_('Milestones')}</h6>
+    <% milestone = c.proposal.milestone %>
+    <p>
+        %if milestone:
+        %if milestone.is_deleted():
+        ${_("This proposal relates to the deleted milestone %s."
+        ) % h.milestone.link(milestone)|n}
+        %else:
+        ${_("This proposal relates to the milestone %s."
+        ) % h.milestone.link(milestone)|n}
+        %endif
+        %else:
+        ${_("This proposal is not related to a milestone")}
+        %endif
+    </p>
+    <h6>${_('Created')}</h6>
+    ## FIXME: ensure caching of history count (make it a tile?)
+    <p>
+        ${_("by %s on %s, %s changes since then.") % (
+        h.user.link(c.proposal.creator), 
+        h.format_date(c.proposal.create_time),
+        len(c.proposal.description.variant_history(
+        model.Text.HEAD)))
+        |n}
+    </p>
 
-                <h6>${_('FIXME: Verschlagwortet unter')}</h6>
-                <p>FIXME: <a href="#">Schlagwort 1</a>, <a href="#">Schlagwort 2</a>, <a href="#">Schlagwort 3</a>, <a href="#">Schlagwort 4</a></p>
-                <div class="utility"><a href="#">Schlagwort hinzufügen</a></div>
-              </summary>
+    ${tiles.tag.sidebar(c.proposal)}
+    
+    ## <div class="utility"><a href="#">Schlagwort hinzufügen</a></div>
+</summary>
 
 </%block>

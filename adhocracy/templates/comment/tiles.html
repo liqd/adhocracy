@@ -35,9 +35,49 @@
         %endif
     %endif
     
-    %for comment, tile in _comments:
+    %if _comments:
+    <ul id="${root is not None and 'c%s_comments' % root.id or ''}"
+        class="${root is None and 'comments_list' or 'sub'}">
+        %for comment, tile in _comments:
+        <li>
+            ${full(tile, comment, comments, recurse, ret_url=ret_url)}
+        </li>
+        %endfor
+    </ul>
+    %endif
+
+    %if root is None:
+        %if can.comment.create_on(topic):
+            <div class="comment">
+                ${create_form(None, topic, variant=variant, ret_url=ret_url)}
+            </div>
+        %endif
+    %endif
+</%def>
+
+
+<%def name="list_new(tile, comments, topic, variant=None, 
+                     root=None, recurse=True, 
+                     ret_url='')">
+    <%
+    _comments = h.comments_sorted(comments, root=root, variant=variant)
+    import pdb; pdb.set_trace()
+    %>
+
+
+    %if root is None and not len(_comments):
+        ${_("No comments were made yet.")}
+    %endif
+
+    %if _comments:
+    <ul class="comments_list">
+        <li>
+        %for comment, tile in _comments:
         ${full(tile, comment, comments, recurse, ret_url=ret_url)}
-    %endfor
+        %endfor
+        </li>
+    </ul>
+    %endif
 
     %if root is None:
         %if can.comment.create_on(topic):
@@ -53,18 +93,114 @@
     <%  
     if not tile.show:
         return
+
+    sentiment = {'css': '', 'msg': ''}
+    if comment.latest.sentiment == model.Comment.SENT_PRO:
+        sentiment = {'css': 'pro', 'msg': _(u'is pro')}
+    elif comment.latest.sentiment == model.Comment.SENT_CON:
+        sentiment = {'css': 'con', 'msg': _(u'is con')}
     %>
-    <div class="comment_tiny ${'show' if tile.is_low else ''}" id="tc${comment.id}">
-        <div class="rate">
-            &nbsp;&nbsp;
+
+    ## new code:
+
+    <div id="c${comment.id}" class="comment">
+
+        ## comment title (username / pro/con / deleted)
+        %if not comment.is_deleted():
+        <h5>
+            ${h.user.link(comment.creator, scope=comment.topic)|n} 
+            <span class="${sentiment['css']}">${sentiment['msg']}</span>
+        </h5>
+        %else:
+        <h5>${_("(deleted)")}</h5>
+        %endif
+
+        ## comment text
+        %if not comment.is_deleted():
+        ${tile.text|n}
+        %else:
+        <span class="hint">${_("This comment has been deleted.")}</span>
+        %endif
+
+        %if can.comment.edit(comment):
+        <a href="${h.entity_url(comment, member='edit', 
+                                query=dict(ret_url=ret_url))}">
+            ${_("edit")}
+        </a> 
+        %endif
+
+        <div class="comment_actions floatbox">
+            <div style="display: none;" class="hover_active">
+                <div class="vote_comment">
+                    FIXME: Add rate box.
+                </div>
+
+                ## Number of replies
+                %if tile.num_children > 0:
+                    %if tile.num_children == 1:
+                    <a class="show_comments" href="#">
+                        ${_('1 Comment')}
+                    </a>
+                    %else:
+                    <a class="show_comments" href="#">
+                        ${_('%s Comments') % tile.num_children}
+                    </a>
+                    %endif
+                %else:
+                    <span class="show_comments" href="#">
+                        ${_('%s Comments') % tile.num_children}
+                    </span>
+                %endif
+
+                ## Reply button
+                %if can.comment.reply(comment) and recurse:
+                <a class="new_comment" href="#">${_('reply')}</a>
+                %endif 
+
+            </div>
+            <div class="utility">
+                <span style="display: none;" class="hover_active">
+                    <a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
+                    · 
+                    <%doc>
+                    FIXME: Add when we have implemented permalinks or details overlay dialogs
+                    <a href="#">Link</a> · 
+                    FIXME: Add when we implemented details dialog
+                    <a href="#">Historie</a> · 
+                    </%doc>
+                </span>
+
+                %if comment.is_deleted():
+                ${_("deleted %s") % h.relative_time(comment.delete_time)|n}
+                %else:
+                  %if not comment.is_edited(): 
+                  ${h.relative_time(comment.create_time)|n}
+                  %else:
+                    %if comment.latest.user == comment.creator:
+                    ${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
+                    %else:
+                    ${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
+                    h.user.link(comment.latest.user, scope=comment.topic))|n}
+                    %endif
+                  %endif
+                %endif
+
+            </div>
         </div>
-        <div class="link">
-            
-            <a href="javascript:adhocracy.toggle_comment(${comment.id});" 
-               onClick="return adhocracy.toggle_comment(${comment.id})">${_("by %(user)s, %(score)s points.") % dict(user=h.user.link(comment.creator, scope=comment.topic), score=tile.score)|n}</a>
-            
-        </div>
+
     </div>
+
+
+    %if recurse:
+    ${list(None, comments, comment.topic, variant=comment.variant, root=comment, recurse=recurse)}
+    %endif
+
+
+    ## /end new code
+
+    <%doc>
+    ## old code:
+
     <div class="comment ${'hidden' if tile.is_low else ''}" id="c${comment.id}">
         <div class="tile 
                         ${'pro' if comment.latest.sentiment == model.Comment.SENT_PRO else ''} 
@@ -97,7 +233,8 @@
             %endif
             <div class="top_actions comment">               
                 %if can.comment.edit(comment):
-                    <a class="button edit" onClick="return adhocracy.comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
+                    <a class="button edit" 
+                       href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
                 %endif
 
                 %if can.comment.delete(comment):
@@ -170,6 +307,7 @@
             </div>
         %endif
     </div>
+    </%doc>
 </%def>
 
 <%def name="edit_form(comment, ret_url='')">
@@ -195,6 +333,7 @@
         ${components.savebox(h.entity_url(comment.topic))}
         ${components.form_watch(comment)}
     </form>
+##</%doc>
 </%def>
 
 <%def name="create_form(parent, topic, wiki=True, arm=False, can_wiki=True, variant=None, ret_url='')">
@@ -265,4 +404,40 @@
                 class="votes">${_("Votes")} (${len(comment.poll.tally)})</a></li>
         </ul>
     </div>
+</%def>
+
+<%def name="form(display=False)">
+  <!-- new comment form -->
+  <div id="comment_form_template" ${'style="display: none;' if display == False else ''}">
+    <h4>${_(u'Add comment')}</h4>
+    <form name="new_comment" class="comment_form">
+      <div class="subcolumns">
+        <div class="c60l">
+          <div class="subcl">
+            <textarea></textarea>
+          </div>
+        </div>
+        <div class="c40r">
+          <div class="subcr comment_settings">
+            <div class="input_wrapper comment_status">
+              ${_(u'Comment is...')}<br />
+              <a class="button_small" status="pro" href="#">${_('Pro')}</a>
+              <a class="button_small" status="neutral" href="#">${_('Neutral')}</a>
+              <a class="button_small" status="contra" href="#">${_('Con')}</a>
+              <input type="hidden" name="comment_status" value="pro" />
+            </div>
+            <div class="hr"><hr /></div>
+            <div class="input_wrapper">
+              <label for="editable"><input id="editable" name="editable" type="checkbox" />Andere dürfen diese Antwort bearbeiten.</label>
+            </div>
+            <div class="hr"><hr /></div>
+            <div class="input_wrapper submit">
+              <input type="submit" value="Kommentieren" /><a class="cancel" href="#">Abrechen</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
 </%def>

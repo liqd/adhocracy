@@ -28,45 +28,22 @@
 </%def>
 
 <%def name="sidebar(delegateable)">
-    <h3 class="section"><img src="/img/icons/tag_16.png" class="cd" /> ${_("Tags")}</h3>
-    <div class="tagarea">
-        <ul>
-        <% tagn = 0 %>
-        %for (tag, count) in delegateable.tags:
-            <li class="${'hidejs moreTags' if tagn >= 5 else ''}">${h.tag.link(tag, count)|n}
-            %if c.user:
-                <% has = False %>
-                %for tagging in delegateable.taggings:
-                    %if not has and tagging.tag == tag and tagging.creator == c.user and can.tag.delete(tagging):
-                        <a class="ttip" title="${_('Remove this tag.')}" href="/untag?tagging=${tagging.id}&${h.url_token()}"><img src="/img/icons/tag_del.png" alt="-" /></a> 
-                        <% has = True %>
-                    %endif
-                %endfor
-                %if not has:
-                    <a class="ttip" title="${_('Support this tag for this proposal.')}" href="/tag?_method=POST&delegateable=${delegateable.id}&tags=${tag.name|u}"><img src="/img/icons/tag_add.png" alt="+" /></a>
-                %endif
-            %endif
-            %if can.instance.edit(c.instance):
-                <a href="/untag_all?tag=${tag.id}&delegateable=${delegateable.id}&${h.url_token()}">${_("delete")}</a> 
-            %endif
-            </li>
-            <% tagn = tagn + 1 %>
-        %endfor
-        %if len(delegateable.tags) > 5 or can.tag.create():
-        <li class="showjs"> 
-            %if len(delegateable.tags) > 5:
-                <span class="moreTagsLink">
-                <a href="#" onclick="return adhocracy.moreTags();">${_("show more")}</a> 
-                &middot;
-                </span>
-            %endif
-            %if can.tag.create():
-                <a href="#" onclick="return adhocracy.addTags();">${_("add tags...")}</a>
-            %endif
-        </li>
+    <h6>${_("Tagged with")}</h6>
+    <p>
+        %if len(delegateable.tags):
+        ${", ".join([h.tag.link(tag, simple=True) for 
+                     (tag, count) in delegateable.tags])|n}
+        %else:
+        ${_('Not tagged yet')}
         %endif
-        </ul>
-    
+    </p>
+    <%doc>
+    <div class="showjs"> 
+        %if can.tag.create():
+        <a href="#" onclick="return adhocracy.addTags();">${_("add tags...")}</a>
+        %endif
+    </div>
+    <div>
         %if can.tag.create():
         <div class="addtags hidejs">
             <form action="/tag" method="POST">
@@ -80,6 +57,6 @@
         </div>
         %endif
     
-        <br/>
     </div>
+</%doc>
 </%def>

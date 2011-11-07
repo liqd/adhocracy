@@ -94,11 +94,11 @@
             %for item in items:
             <li>
                 <a href="${item['href']}"
-                   data-bind="load(${item['variant']}, ${item['href']})"
-                   data-variant="${item['variant']}"
+                   data-bind="click: function() {viewModel.load('${item['variant']}', '${item['href']}')},
+                              css: {current: current.variant() === '${item['variant']}'}"
                    class="${'current' if item['selected'] else ''}">
                     <span class="truncate">${item['title']}</span>
-                    <span class="count">${item['count']}</span>
+                    <span class="count">${item['rendered_score']}</span>
                 </a>
             </li>
             %endfor
@@ -138,6 +138,9 @@
           src="${h.base_url(None, path='/javascripts/slides.min.jquery.js')}" 
           charset="utf-8"></script>
   <script type="text/javascript"
+          src="${h.base_url(None, path='/javascripts/jquery.tools.min.js')}" 
+          charset="utf-8"></script>
+  <script type="text/javascript"
           src="${h.base_url(None, path='/javascripts/jquery.multipleelements.cycle.min.js')}" 
           charset="utf-8"></script>
   <script type="text/javascript"
@@ -146,6 +149,10 @@
   <script type="text/javascript"
           src="${h.base_url(None, path='/javascripts/jquery.elastic.js')}" 
           charset="utf-8"></script>
+  <script type="text/javascript" 
+          src="${h.base_url(None, path='/javascripts/knockout-latest.debug.js')}"></script>
+  <script type="text/javascript" 
+          src="${h.base_url(None, path='/javascripts/knockout-mapping.js')}"></script>
 
   <!-- HTML5 elements for IE -->
   <script>

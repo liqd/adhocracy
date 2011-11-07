@@ -40,6 +40,19 @@ def url(page, in_context=True, member=None, **kwargs):
     return _url.build(page.instance, 'page', label, member=member, **kwargs)
 
 
+def page_variant_url(page, variant):
+    '''
+    TODO: Hacked together to implement new page views.
+    Refactor url functions.
+    '''
+    label = urllib.quote(page.label.encode('utf-8'))
+    if variant == model.Text.HEAD:
+        variant = None
+    else:
+        variant = urllib.quote(variant.encode('utf-8'))
+    return _url.build(page.instance, 'page', label, member=variant)
+
+
 @cache.memoize('page_bc', time=3600)
 def entity_bc(page):
     bc = ''

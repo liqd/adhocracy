@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
   // initial jquery slide
   $("#slides").slides({
     generatePagination: false,
@@ -20,9 +19,8 @@ $(document).ready(function(){
   // overlay
   $('#overlay-default').overlay({
     // custom top position
-    top: '25%',
+    top: '25%'
     // load it immediately after the construction
-    load: true
   });
 
   //open link in overlay (like help pages)
@@ -31,10 +29,20 @@ $(document).ready(function(){
     onBeforeLoad: function() {
       // grab wrapper element inside content
       var wrap = this.getOverlay().find(".contentWrap");
-      // load the page specified in the trigger
-      wrap.load(this.getTrigger().attr("href") + " .content");
-        }
-    });
+      var url = this.getTrigger().attr("href") + ".overlay";
+      wrap.load(url);
+      //   var rebind = function(links) {
+      //       links.click(function(event) {
+      //           wrap.load(this.attr("href"));
+      //       });
+      //   };
+      // var links = wrap.find('a');
+
+
+      //   });
+      //   }
+    }
+  });
 
 });
 
@@ -80,6 +88,13 @@ $('.comment_status .button_small').live('click', function () {
   return false;
 });
 
+(function() {
+    // function only to get a function local namespace
+    var second_level_comments = $('.comments_list > li > ul');
+    second_level_comments.hide();
+    second_level_comments.toggleClass('open');
+})();
+
 $('.paper a.show_comments').click(function () {
   var p_id = $(this).closest('.paper').attr('id');
   $('#' + p_id + '_comments').toggle();
@@ -98,11 +113,12 @@ $('.paper a.new_comment').click(function () {
   return false;
 });
 
-$('.switch_buttons .button_small').click(function () {
-  $('.switch_buttons .button_small').removeClass('active');
-  $(this).addClass('active');
-  return false;
-});
+// This is done now by knockout bindings.
+// $('.switch_buttons .button_small').click(function () {
+//   $('.switch_buttons .button_small').removeClass('active');
+//   $(this).addClass('active');
+//   return false;
+// });
 
 $('.info_box .close_button').click(function() {
   $(this).parent().fadeOut();

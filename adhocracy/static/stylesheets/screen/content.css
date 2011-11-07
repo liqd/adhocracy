@@ -160,6 +160,10 @@ a.button_small.off:active, a.button_small.off.active {
   background-position: 0 -100px;
 }
 
+.inactive a.button_small {
+  background-position: 0 -450px !important;
+}
+
 /* class helper */
 .hlist ul {
   list-style: none;
@@ -902,6 +906,10 @@ ul.papers_list li {
     padding: 10px 20px 0 0;
 }
 
+.no-js .changes_switch {
+    display: none;
+}
+
 .changes_switch, .version_function {
   background: url('/images/line_dotted.gif') repeat-x bottom left;
   padding-bottom: 10px;
@@ -911,6 +919,8 @@ ul.papers_list li {
 
 .changes_switch span { float: left; }
 .changes_switch .switch_buttons { float: right; }
+
+.inactive.changes_switch { color: #ccc; }
 
 /* comments */
 ul.comments_list {
@@ -1388,4 +1398,8 @@ padding: 10px;
 
 .inline_input_wrapper .button {
 padding: 0 30px;
+}
+
+.js .only-no-js {
+    display: none;
 }

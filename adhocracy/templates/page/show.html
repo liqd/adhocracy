@@ -6,62 +6,172 @@
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
-<%block name="headline">
-${tiles.page.header(c.page, c.tile, active='view', text=c.text)}
-</%block>
-
 <%block name="sidebar">
-<div class="sidebar">
-    %if c.page.milestone and c.instance.milestones:
-      <div class="infobox">
-        ${_("This norm relates to the milestone %s.") % h.milestone.link(c.page.milestone)|n}
-      </div>
-      <br/>
-    %endif
 
     %if c.page.has_variants:
-    <h3 class="section"><img class="cd" src="/img/icons/page_variant_16.png"/>
-      ${_("Proposed changes")}</h3>
-    <ul>
-      %for selection in [s for s in c.page.selections if s.selected is not None]:
-        <%
-        text = c.page.variant_head(selection.selected)
-        %>
-        <li>${h.proposal.link(selection.proposal, anchor='selection_%s' % selection.id)|n}
-        <ul>
-          <li>
-                ${_("Variant:")}
-                <a href="${h.entity_url(text)}">${text.variant_html|n}</a> 
-          </li>
-          </ul>
-        </li>
-      %endfor
-    </ul>
-    %if can.proposal.create():
-        <br/>
-        <div class="top_actions">
-            <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" 
-              href="/proposal/new?page=${c.page.id}">
-                ${_("propose change")}
-            </a>
+
+    ${components.vertical_tabs(c.variant_items, 'paper_selection')}
+
+    <div class="floatbox changes_switch"
+         data-bind="css: {inactive: current.is_head}">
+        <span>${_("Highlight Changes")}</span>
+        <div class="switch_buttons">
+            <a class="button_small" 
+               data-bind="css: {active: switch_diff},
+                          click: function () {switch_diff(true)}"
+               href="#">An</a> 
+            <a class="button_small" 
+               data-bind="css: {active: !switch_diff()},
+                          click: function () {switch_diff(false)}"
+               href="#">Aus</a>
         </div>
-    %endif
-    <br/>
-    %else:
-        <div class="infobox">
-            ${_("Page created on %s by %s") % (h.format_date(c.page.create_time), h.user.link(c.page.creator))|n} 
-            &middot; <a href="${h.entity_url(c.page, member='history')}">${_("History")}</a>
-        </div>
-        <br/>
-    %endif
-    ${tiles.tag.sidebar(c.page)}
-    ${tiles.delegation.sidebar(c.page, c.tile)}
+    </div>
+
+    ## FIXME: Needs new view.
+    <div class="version_function">
+        <a class="button" href="#">
+            Versionen vergleichen
+        </a>
+    </div>
     
-</div>
+    %if can.proposal.create():
+    ## FIXME: Button for unauth users
+    <div class="version_function">
+        <a class="button highlight" href="/proposal/new?page=${c.page.id}">
+            ${_('Propose new Variant')}
+        </a>
+    </div>
+    %endif
+
+    %endif
+
+    <h3>Information zum Papier</h3>
+    <summary>
+        ## FIXME: <h6>Shortlink</h6>
+        ## FIXME: <p><a href="#">http://j.mp/12345</a></p>
+
+        <h6>Zuletzt aktiv</h6>
+        <p><time>${h.relative_time(c.page.find_latest_comment_time())|n}</time></p>
+
+        %if c.page.milestone and c.instance.milestones:
+        <h6>Termine</h6>
+        <p>
+            ${_("This norm relates to the milestone %s."
+               ) % h.milestone.link(c.page.milestone)|n}
+        </p>
+        %endif
+        ## Fixme: Info zur Version
+        ## <h6>Angelegt</h6>
+        ## <p>von <a href="#">Timoteus</a> am 
+        ## <time pubdate="pubdate">01.01.2011</time>, 
+        ## setdem <a href="#">3 Änderungen</a>.</p>
+
+    ${tiles.tag.sidebar(c.page)}
+
+    </summary>
+
+</section>
+
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        var init_variant = ${c.variant_details_json|n}
+        /* ]]> */
+    </script>
+    <script type="text/javascript" 
+            src="${h.base_url(None, path='/javascripts/paper.js')}"></script>
+
 </%block>
 
 <%block name="main_content">
-    ${tiles.page.inline(c.page, c.tile, text=c.text, 
-                        subpages_pager=c.subpages_pager,
-                        hide_discussion=False)}
+
+<script id="proposalTmpl" type="text/html">
+    <h5 data-bind="text:proposal_title"></h5>
+    <div data-bind="html: proposal_text"></div>
+    <div class="comment_actions floatbox">
+        <div class="utility">
+            <span class="hover_active" style="display: none;">
+                <!-- <a href="#">Link</a> &middot;  -->
+                <a data-bind="attr: {href: proposal_url}">${_('View Proposal')}</a>
+                </span>&nbsp;
+        </div>
+    </div>
+</script>
+
+
+<div class="utility">
+    <h2>${c.page.title}</h2>
+    <a href="FIXME">Bearbeiten</a>
+</div>
+
+<section>
+    <div id="paper_box">
+        <article>
+            <div class="paper_header">
+                <h3>Variante &ldquo;<span data-bind="text:current.title">
+                ${c.variant_details['title']}</span>&rdquo;</h3>
+            </div>
+            <div class="paper_text text"
+                 data-bind="visible: show_plain()">
+                <h4>${_("Text")}</h4>
+                <div data-bind="html: current.text">
+                %if not c.variant_details['text']:
+                ${_(u'Kein Text')}
+                %else:
+                ${c.variant_details['text']|n}
+                %endif
+                </div>
+            </div>
+            <div class="paper_text diff"
+                 data-bind="visible: show_diff()">
+                <h4>${_("Text (compared to the original version)")}</h4>
+                <div data-bind="html: current.text_diff">
+                    ${c.variant_details['text_diff']|n}
+                </div>
+            </div>
+
+            <div class="paper_text"
+                 ## FIXME: styling
+                 data-bind="visible: current.history_count() > 1"
+                 style="${'display: none' if c.variant_details['history_count'] > 1 else ''}">
+                <a rel="#overlay-ajax"
+                   href="${c.variant_details['history_url']}"
+                   data-bind="attr: {href: current.history_url}">
+                    ${_('History')}
+                </a>
+            </div>
+        </article>
+        <div class="paper_comments">
+            <div class="paper" id="p1">
+                <h4>${_('Proposals')}
+                    (<span data-bind="text:current.num_selections"
+                    >${c.variant_details['num_selections']}</span>)</h4>
+                <div data-bind="template: {name: 'proposalTmpl', foreach: current.selections}">
+                </div>
+                <div class="only-no-js">
+                    %for selection in c.variant_details['selections']:
+                    <h5>${selection['proposal_title']}</h5>
+                    <div>${selection['proposal_text']|n}</div>
+                    <div class="comment_actions floatbox">
+                        <div class="utility">
+                            <span class="hover_active" style="display: none;">
+                                <!-- <a href="#">Link</a> &middot;  -->
+                                <a href="${selection['proposal_url']}">${_('View Proposal')}</a>
+                                </span>&nbsp;
+                        </div>
+                    </div>
+                    %endfor
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- overlayed element -->
+<div class="overlay" id="overlay-ajax">
+
+	<!-- the external content is loaded inside this tag -->
+	<div class="contentWrap"></div>
+
+</div>
 </%block>
