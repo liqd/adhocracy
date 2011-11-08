@@ -34,14 +34,16 @@
             </div>
         %endif
     %endif
-    
+
     %if _comments:
     <ul id="${root is not None and 'c%s_comments' % root.id or ''}"
         class="${root is None and 'comments_list' or 'sub'}">
         %for comment, tile in _comments:
+        %if tile.show:
         <li>
             ${full(tile, comment, comments, recurse, ret_url=ret_url)}
         </li>
+        %endif
         %endfor
     </ul>
     %endif
