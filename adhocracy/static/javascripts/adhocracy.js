@@ -71,21 +71,73 @@ $('.comment a.show_comments').click(function () {
   return false;
 });
 
-$('.comment a.new_comment').click(function () {
-  var comment_form_html = $('#comment_form_template').html();
+// get a comment reply form and insert it into the page
+
+$('.comment a.new_comment').click(function (event) {
+  event.preventDefault();
   var c_id = $(this).closest('.comment').attr('id');
-  var comment_form = $('#comment_form_' + c_id).attr('comment_id');
+  var comment_form_id = 'comment_form_' + c_id;
+  var reply_id = $(this).data('reply');
+  var comment_form = $('#' + comment_form_id).attr('comment_id');
   if(!comment_form) {
-    $('#' + c_id).append('<div id="comment_form_' + c_id + '" comment_id="' + c_id + '">' + comment_form_html + '</div>');
-  } else $('#comment_form_' + c_id).remove();
+      var form_url = '/comment/form/reply/' + reply_id;
+      var comment_div = $('#' + c_id);
+      // create a container and load the form into it.
+      var form_div = comment_div.add('<div></div>').not(comment_div);
+      form_div.insertAfter(comment_div);
+      form_div.attr('comment_id', c_id);
+      form_div.attr('id', comment_form_id);
+      form_div.load(form_url, function() {
+          form_div.find('a.cancel').click(function (event) {
+              // the cancel button removes the form from the dom
+              form_div.remove();
+              event.preventDefault();
+          });
+      });
+  } else {
+      $('#comment_form_' + c_id).remove();
+  }
   $(this).toggleClass('open');
-  return false;
 });
 
-$('.comment_status .button_small').live('click', function () {
-  $('.comment_status .button_small').removeClass('active');
-  $(this).addClass('active');
-  return false;
+// load the comment edit form into the page
+
+$('.comment a.edit_comment').click(function (event) {
+  event.preventDefault();
+  var c_id = $(this).closest('.comment').attr('id');
+  var comment_edit_form_id = 'comment_edit_form_' + c_id;
+  var comment_id = $(this).data('comment');
+  var comment_form = $('#' + comment_edit_form_id).attr('comment_id');
+  if(!comment_form) {
+      var form_url = '/comment/' + comment_id + '/edit.ajax';
+      var comment_div = $('#' + c_id);
+      // create a container and load the form into it.
+      var form_div = comment_div.add('<div></div>').not(comment_div);
+      form_div.insertAfter(comment_div);
+      form_div.attr('comment_id', c_id);
+      form_div.attr('id', comment_edit_form_id);
+      form_div.load(form_url, function() {
+          // when loaded:
+          comment_div.hide();
+          form_div.find('a.cancel').click(function (event) {
+              // the cancel button removes the form from the dom
+              form_div.remove();
+              comment_div.show();
+              event.preventDefault();
+          });
+      });
+  } else {
+      $('#' + comment_edit_form_id).remove();
+  }
+});
+
+$('.comment_status .button_small').live('click', function (event) {
+  event.preventDefault();
+    var comment_form = $(this).closest('form');
+    comment_form.find('.comment_status .button_small').removeClass('active');
+    $(this).addClass('active');
+    var new_sentiment = $(this).data('status');
+    comment_form.find('input[name="sentiment"]').attr('value', new_sentiment);
 });
 
 (function() {

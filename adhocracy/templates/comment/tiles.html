@@ -123,7 +123,9 @@
         %endif
 
         %if can.comment.edit(comment):
-        <a href="${h.entity_url(comment, member='edit', 
+        <a class="edit_comment"
+           data-comment="${comment.id}"
+           href="${h.entity_url(comment, member='edit', 
                                 query=dict(ret_url=ret_url))}">
             ${_("edit")}
         </a> 
@@ -154,7 +156,7 @@
 
                 ## Reply button
                 %if can.comment.reply(comment) and recurse:
-                <a class="new_comment" href="#">${_('reply')}</a>
+                <a class="new_comment" data-reply="${comment.id}" href="#">${_('reply')}</a>
                 %endif 
 
             </div>
@@ -311,33 +313,76 @@
 </%def>
 
 <%def name="edit_form(comment, ret_url='')">
-    <form name="edit_comment" class="inplace comment_form" method="POST" action="/comment/${comment.id}">
+
+<%
+
+sentiment = comment.latest.sentiment
+
+def klass(sentiment_button):
+    value = 'button_small'
+    if sentiment_button == sentiment:
+        value += ' active'
+    return value
+
+klass_pro = klass(1)
+klass_neutral = klass(0)
+klass_con = klass(-1)
+%>
+  <div class="comment_form">
+    <form name="new_comment" class="comment_form"
+          method="POST" action="/comment/${comment.id}">
         ${h.field_token()|n}
         <input type="hidden" name="_method" value="PUT" />
         <input type="hidden" name="ret_url" value="${ret_url}" />
-        
-        %if comment.is_root:
-            ${_("argumenting:")}
-            <input type="radio" value="1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == 1 else ''} /> 
-            <span class="option_pro">${_("pro")}</span>
-            <input type="radio" value="0" name="sentiment" ${'checked="checked"' if comment.latest.sentiment not in [-1, 1] else ''}  /> 
-            <span class="option_neutral">${_("neutral")}</span>
-            <input type="radio" value="-1" name="sentiment" ${'checked="checked"' if comment.latest.sentiment == -1 else ''} /> 
-            <span class="option_con">${_("con")}</span>
-            <br/>
-        %endif
-        
-        <textarea class="description" rows="${lib.text.revision_rows(comment.latest)}"  
-                            name="text">${comment.latest.text}</textarea>
-        ${components.formatting()}
-        ${components.savebox(h.entity_url(comment.topic))}
-        ${components.form_watch(comment)}
+      <div class="subcolumns">
+        <div class="c60l">
+          <div class="subcl">
+            <textarea name="text">${comment.latest.text}</textarea>
+            ${components.formatting()}
+          </div>
+        </div>
+        <div class="c40r">
+          <div class="subcr comment_settings">
+            <div class="input_wrapper comment_status">
+              ${_(u'Comment is...')}<br />
+              <a class="${klass_pro}" 
+                 data-status="1" href="#">${_('Pro')}</a>
+              <a class="${klass_neutral}" 
+                 data-status="0" 
+                 href="#">${_('Neutral')}</a>
+              <a class="${klass_con}" 
+                 data-status="-1" 
+                 href="#">${_('Con')}</a>
+              <input type="hidden" name="sentiment" 
+                     value="${str(comment.latest.sentiment)}" />
+            </div>
+            <div class="hr"><hr /></div>
+            <div class="input_wrapper submit">
+              <input type="submit" value="${_('Save')}" />
+              <a class="cancel"
+                 href="${h.entity_url(comment.topic)}">${_("cancel")}</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </form>
-##</%doc>
+  </div>
+
 </%def>
 
-<%def name="create_form(parent, topic, wiki=True, arm=False, can_wiki=True, variant=None, ret_url='')">
-    <form name="create_comment" class="inplace comment_form" method="POST" action="/comment">
+
+<%def name="create_form(parent, topic, wiki=True, arm=False, can_wiki=True, variant=None, ret_url='', format=None)">
+
+<%
+if format is None:
+    format = ''
+else:
+    format = ".%s" % format
+%>
+  <div class="comment_form">
+    <h4>${_(u'Add comment')}</h4>
+    <form name="new_comment" class="comment_form"
+          method="POST" action="/comment${format}">
         ${h.field_token()|n}
         <input type="hidden" name="topic" value="${topic.id}" />
         <input type="hidden" name="ret_url" value="${ret_url}" />
@@ -347,31 +392,41 @@
         %if parent:
             <input type="hidden" name="reply" value="${parent.id}" />
         %endif
-        <div style="width: auto;">
-        
-        %if not parent:
-            <label for="sentiment" class="inline">${_("Argumenting:")}</label>
-            <% pos = topic.user_position(c.user) %>
-            <input type="radio" value="1" name="sentiment" ${'checked="checked"' if pos == 1 else ''} /> 
-                <span class="option_pro">${_("pro")}</span>
-            <input type="radio" value="0" name="sentiment" ${'checked="checked"' if pos not in [-1, 1] else ''}  /> 
-                <span class="option_neutral">${_("neutral")}</span>
-            <input type="radio" value="-1" name="sentiment" ${'checked="checked"' if pos == -1 else ''} /> 
-                <span class="option_con">${_("con")}</span>
-            <br/>
-        %endif
-        %if arm:
-            <label for="text" class="armhint">${arm}</label>
-        %endif
-        <textarea class="description armlabel" name="text"></textarea><br/>
-        ${components.formatting()}
-        ${components.savebox("/d/%s" % parent.topic.id if parent else request.params.get('topic'))}
-        %if can_wiki:
-            <input type="checkbox" ${'checked="checked"' if wiki == 1 else ''} name="wiki" value="1" />
-            ${_("Allow others to edit this comment.")}
-        %endif
+      <div class="subcolumns">
+        <div class="c60l">
+          <div class="subcl">
+            <textarea name="text"></textarea>
+            ${components.formatting()}
+          </div>
         </div>
+        <div class="c40r">
+          <div class="subcr comment_settings">
+            <div class="input_wrapper comment_status">
+              ${_(u'Comment is...')}<br />
+              <a class="button_small" data-status="1" href="#">${_('Pro')}</a>
+              <a class="button_small" data-status="0" href="#">${_('Neutral')}</a>
+              <a class="button_small" data-status="-1" href="#">${_('Con')}</a>
+              <input type="hidden" name="sentiment" value="0" />
+            </div>
+            <div class="hr"><hr /></div>
+            <div class="input_wrapper">
+              <label for="wiki">
+                  <input id="editable" name="wiki" type="checkbox" /> 
+                  ${_("Allow others to edit this comment.")}
+              </label>
+            </div>
+            <div class="hr"><hr /></div>
+            <div class="input_wrapper submit">
+              <input type="submit" value="${_('Save')}" />
+              <a class="cancel" 
+                 href="${'/d/%s' % parent.topic.id if parent else request.params.get('topic')}">${_("cancel")}</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </form>
+  </div>
+
 </%def>
 
 
@@ -410,7 +465,18 @@
   <!-- new comment form -->
   <div id="comment_form_template" ${'style="display: none;' if display == False else ''}">
     <h4>${_(u'Add comment')}</h4>
-    <form name="new_comment" class="comment_form">
+    <form name="new_comment" class="comment_form" 
+          method="POST" action="/comment">
+
+        <input type="hidden" name="topic" value="${topic.id}" />
+        <input type="hidden" name="ret_url" value="${ret_url}" />
+        %if variant:
+            <input type="hidden" name="variant" value="${variant}" />
+        %endif
+        %if parent:
+            <input type="hidden" name="reply" value="${parent.id}" />
+        %endif
+
       <div class="subcolumns">
         <div class="c60l">
           <div class="subcl">

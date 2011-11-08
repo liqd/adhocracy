@@ -169,6 +169,13 @@ def make_map():
                                                'revert': 'GET',
                                                'ask_delete': 'GET'})
 
+    map.connect('/comment/form/edit/{id}', controller='comment',
+                action='edit_form')
+    map.connect('/comment/form/create/{topic}', controller='comment',
+                action='create_form', variant=None)
+    map.connect('/comment/form/reply/{id}', controller='comment',
+                action='reply_form')
+
     map.resource('milestone', 'milestone', member={'ask_delete': 'GET'})
 
     map.connect('/poll/{id}/rate.{format}', controller='poll', action='rate',
