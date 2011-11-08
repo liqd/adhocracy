@@ -129,6 +129,9 @@ def booth(poll):
 
 def widget(poll, cls='', deactivated=False, need_auth=False):
     '''
+    FIXME: fix caching. Poll objects don't change. Tallies are
+    generated for every vote. Ask @pudo about this.
+
     Render a rating widget for an :class:`adhocracy.model.poll.Poll`
     TODO: Add support for helpful tooltips for the voting buttons.
 
@@ -142,7 +145,6 @@ def widget(poll, cls='', deactivated=False, need_auth=False):
     *need_auth*
        Render the widget in a semi-active state where users will be
        redirected to the login form. TODO: Implement useful tooltips.
-       
     '''
     t = PollTile(poll, deactivated, need_auth)
     return render_tile('/poll/tiles.html', 'widget',
