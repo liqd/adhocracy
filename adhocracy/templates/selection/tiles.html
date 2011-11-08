@@ -1,12 +1,26 @@
 
 <%def name="row(tile, selection)">
 
+<%
+is_different_variant = (tile.selected is not None and
+                        not tile.selected_text.is_head)
+if is_different_variant:
+    variant_url = h.page.page_variant_url(
+                   selection.page, variant=tile.selected_text.variant)
+else:
+    variant_url = h.entity_url(selection.page)
+%>
 <div class="paper" id="p${selection.id}">
     <div class="paper_head floatbox">
-        <h4>
+        <h4><a href="${variant_url}">
             ${selection.page.full_title}
-        </h4>
-        <a class="icon_link more" href="${h.entity_url(selection.page)}">
+            %if is_different_variant:
+            &middot;
+            ${_('Variant: %s') % tile.selected_text.variant}
+            %endif
+        </a></h4>
+
+        <a class="icon_link more" href="${variant_url}">
             ${_('Show Norm')}
         </a>
     </div>
@@ -18,23 +32,34 @@
                 %if tile.selected_text.is_head:
                         ${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
                 %else:
-                        ${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), tile.selected_text.variant_html))|n}
-                        %if can.variant.edit(selection.page, tile.selected):
-                            &middot; <a href="${h.entity_url(tile.selected_text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
-                        %endif
-                %endif
+
                 ${diff.norm_texts_history_compare(tile.selected_text, selection.page.head)|n}
+
+                %endif
+
+
             %endif
 
     <div class="paper_actions floatbox">
-        <div class="hover_active" style="display: none;">
+        <div>
             <a href="#FIXME-ParticipateLink"
-               class="participate">${_('FIXME: Participate Link')}</a>
+               class="participate">${_('Get Involved')}</a>
+            <%doc> FIXME: Remove completely when we keep that out
             <a href="#" class="show_comments">2 Kommentare</a>
             <a href="#" class="new_comment">Kommenar hinzufügen</a>
+            </%doc>
         </div>
         <div class="meta">
-            <span class="hover_active" style="display: none;">Vorgeschlagen von <a href="#">max_mustermann</a> &middot; </span><time pubdate="pubdate">14.08.2011</time>
+            %if tile.selected is not None and not tile.selected_text.is_head:
+            <span class="hover_active" style="display: none;">
+                ${_('Proposed by')}
+                &middot; ${h.user.link(tile.selected_text.user, 
+                                       show_icon=False, show_badges=False)|n}
+            </span>
+            <time pubdate="pubdate">14.08.2011</time>
+            %else:
+            <span>&nbsp;</span>
+            %endif
         </div>
     </div>
     ## FIXME: Render comments
