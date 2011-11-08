@@ -8,6 +8,8 @@
     ${h.instance.breadcrumbs(c.page_instance)|n}
 </%def>
 
+<%block name="main_content">
+<div id="static_content">
 <h1 class="page_title">${c.static.title}</h1>
 <div class="sidebar">
     &nbsp; 
@@ -15,3 +17,4 @@
 <div class="doc mainbar">
     ${c.static.body|n}
 </div>
+</%block>
