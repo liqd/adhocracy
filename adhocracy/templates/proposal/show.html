@@ -56,17 +56,15 @@
               </article>
               <br />
 
-              
-            </section>
-            <h3 id="reactions">${_(u'Comments')}</h3>
-            <div id="main_comments">
-                ## comments are attached to the description which is a
-                ## :class:`adhocracy.model.Page`
-                ## proposal descriptions have no other variant than head.
-                ${tiles.comment.list(c.proposal.description, 
-                                     variant=c.proposal.description.head.variant)}
-
+              <div id="main_comments">
+                  <h3 id="reactions">${_(u'Comments')}</h3>
+                  ## comments are attached to the description which is a
+                  ## :class:`adhocracy.model.Page`
+                  ## proposal descriptions have no other variant than head.
+                  ${tiles.comment.list(c.proposal.description, 
+                                       variant=c.proposal.description.head.variant)}
             </div>
+            </section>
             
 
             %if c.show_selections:
