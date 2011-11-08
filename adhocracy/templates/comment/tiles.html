@@ -50,9 +50,11 @@
 
     %if root is None:
         %if can.comment.create_on(topic):
+        <div class="comment_wrapper">
             <div class="comment">
                 ${create_form(None, topic, variant=variant, ret_url=ret_url)}
             </div>
+        </div>
         %endif
     %endif
 </%def>

@@ -923,7 +923,7 @@ ul.papers_list li {
 .inactive.changes_switch { color: #ccc; }
 
 /* comments */
-ul.comments_list {
+ul.comments_list, .comment_wrapper {
   background: url('/images/gradient_comments.jpg') repeat-y top left #e5e6e8;
   margin: 0;
   padding-bottom: 20px;
@@ -933,7 +933,7 @@ ul.comments_list ul {
   margin: 0;
   list-style: none;
 }
-ul.comments_list li {
+ul.comments_list li, .comment_wrapper .comment {
   padding: 10px 0 0 20px;
   border-top: 1px solid #fff;
   cursor: pointer;
