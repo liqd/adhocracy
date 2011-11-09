@@ -40,7 +40,8 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     """
 
-    debug = asbool(global_conf['debug']) or asbool(app_conf['debug'])
+    debug = (asbool(global_conf.get('debug', False)) or
+             asbool(app_conf.get('debug', False)))
 
     # Configure the Pylons environment
     load_environment(global_conf, app_conf)
