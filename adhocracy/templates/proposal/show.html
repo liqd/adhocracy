@@ -22,9 +22,9 @@
                     ${h.delegateable.link(c.proposal, icon_size=24, link=False)|n}
                 </h2>
                 <div class="hr"><hr /></div>
-                ## FIXME: translate
+                
                 <div class="utility">
-                    <h4>Ziele und Beschreibung des Vorschlages</h4>
+<%doc>FIXME: translate:</%doc><h4>Ziele und Beschreibung des Vorschlages</h4
                     %if can.proposal.edit(c.proposal):
                     <a href="${h.entity_url(c.proposal, member='edit')}">
                         ${_("edit")}
@@ -52,6 +52,9 @@
                     <a href="${h.abuse.for_entity(c.proposal)}">
                         ${_("report")}
                     </a>
+                    &middot;
+                    <a href="${c.history_url}"
+                       rel="#overlay-ajax">History</a>
                 </div>
               </article>
               <br />

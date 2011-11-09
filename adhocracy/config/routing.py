@@ -89,7 +89,8 @@ def make_map():
                                                  'tag': 'POST',
                                                  'untag': 'GET',
                                                  'badges': 'GET',
-                                                 'update_badges': 'POST'},
+                                                 'update_badges': 'POST',
+                                                 'history': 'GET'},
                                collection={'filter': 'GET'})
 
     map.resource('implementation', 'implementation', controller='selection',

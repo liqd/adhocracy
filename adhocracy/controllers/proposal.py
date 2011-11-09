@@ -18,7 +18,7 @@ from adhocracy.lib.auth import authorization, can, csrf, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, render_json
+from adhocracy.lib.templating import render, render_def, render_json
 from adhocracy.lib.queue import post_update
 from adhocracy.lib.util import get_entity_or_abort
 
@@ -256,8 +256,28 @@ class ProposalController(BaseController):
                                          exclude=used_pages,
                                          functions=functions)
         c.disable_include = len(available_pages) == 0
+        c.history_url = h.entity_url(c.proposal.description.head,
+                                     member='history')
         self._common_metadata(c.proposal)
         return render("/proposal/show.html")
+
+    @RequireInstance
+    def history(self, id, format="html"):
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.show(c.proposal)
+
+        proposal_text = c.proposal.description.head
+        c.texts_pager = pager.NamedPager(
+            'texts', proposal_text.history, tiles.text.history_row, count=10,
+            sorts={_("oldest"): sorting.entity_oldest,
+                   _("newest"): sorting.entity_newest},
+            default_sort=sorting.entity_newest)
+
+        self._common_metadata(c.proposal)
+        if format == 'overlay':
+            return render_def('/proposal/history.html', 'overlay_content')
+        else:
+            return render('/proposal/history.html')
 
     @RequireInstance
     def delegations(self, id, format="html"):
