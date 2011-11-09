@@ -26,6 +26,7 @@ $(document).ready(function(){
   //open link in overlay (like help pages)
   $("a[rel=#overlay-ajax]").overlay({
 
+    target: '#overlay',
     onBeforeLoad: function() {
       // grab wrapper element inside content
       var wrap = this.getOverlay().find(".contentWrap");
