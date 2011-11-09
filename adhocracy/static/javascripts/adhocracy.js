@@ -27,25 +27,27 @@ $(document).ready(function(){
   $("a[rel=#overlay-ajax]").overlay({
 
     target: '#overlay-default',
-      
+
     onBeforeLoad: function() {
       // grab wrapper element inside content
       var wrap = this.getOverlay().find(".contentWrap");
       var url = this.getTrigger().attr("href") + ".overlay";
       wrap.load(url);
-      //   var rebind = function(links) {
-      //       links.click(function(event) {
-      //           wrap.load(this.attr("href"));
-      //       });
-      //   };
-      // var links = wrap.find('a');
-
-
-      //   });
-      //   }
-    }
+    },
+      onLoad: function() {
+          // bind links containing the string '.overlay'
+          // to a handler that loads the url into the overlay
+          var wrap = this.getOverlay().find(".contentWrap");
+          $(wrap).delegate('a', 'click', function(event) {
+              var href = $(this).attr('href');
+              var re = new RegExp('\\.overlay');
+              if (re.test(href)) {
+                  wrap.load(href);
+                  event.preventDefault();
+              }
+          });
+      }
   });
-
 });
 
 $('#blog_select_button').click(function () {
