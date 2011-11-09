@@ -69,6 +69,13 @@
                                         ${_('Edit Profile')}
                                     </a>
                                 </li>
+                               	%if h.has_permission("global.admin"):
+                                <li>
+                                    <a href="${h.base_url(None, path='/admin')}">
+                                        ${_('Administrate Site')}
+                                    </a>
+                                </li>
+                                %endif
                                 <li><a href="/logout">${_("Logout")}</a></li>
                             </ul>
                         </li>

@@ -238,6 +238,7 @@ def make_map():
 
     # API
     map.connect('/api/{action}', controller='api')
+    map.connect('/admin', controller='admin', action="index")
 
     map.connect('/static/{page_name}.{format}', controller='static',
                 action='serve')

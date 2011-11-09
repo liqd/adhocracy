@@ -1,0 +1,28 @@
+<%def name="navigation(active=None)">
+
+<%
+def klass(what):
+    if what == active:
+        return 'active'
+    return ''
+%>
+<ul>
+    <li class="${klass('badges')}">
+        <a href="${h.base_url(None, path='/badge')}">${_("Badges")}</a>
+    </li>
+
+    <li class="${klass('permissions')}">
+        <a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
+    </li>
+
+</ul>
+</%def>
+
+<%def name="headline(active=None)">
+<%
+appendix = ': %s' % active if active else ''
+%>
+<h2>
+    ${_('Site administration')}${appendix}
+</h2>
+</%def>

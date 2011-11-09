@@ -1,0 +1,19 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html" />
+<%namespace name="admin_tiles" file="/admin/tiles.html" />
+
+<%def name="title()">${c.page.title}</%def>
+
+
+<%block name="headline">
+${admin_tiles.headline()}
+</%block>
+
+<%block name="main_content"
+_('Administrate the Installation')
+</%block>
+
+<%block name="sidebar">
+${admin_tiles.navigation()}
+</%block>
+
