@@ -12,22 +12,24 @@ and not part of our common markup anymor. Drop it at the end of
 the transition
 </%doc>
 
-<div id="content" class="content-startpage">
-    <div class="mainbar"> 
-    </div>
+<div id="content-startpage" class="full_teaser">
+  <!--This is dummy tag and only usefull to merge in wordpress content-->
 </div>
 
-<div class="clearfix"></div>
-    ${tiles.milestone.timeline(c.milestones)}
-<br/>
+<div class="full_teaser">
+  <div class="clearfix"></div>
+  ${tiles.milestone.timeline(c.milestones)}
+  <br/>
 
-<div class="mainbar" id="globalstats"> 
-  <h3>${_("By the numbers")}</h3>
-  <ul class="base">
+  <div class="mainbar" id="globalstats"> 
+    <h3>${_("By the numbers")}</h3>
+    <ul class="base">
       <li>${_("<b>%s</b> members") % c.stats_global.get('members')|n}</li>
       <li>${_("<b>%s</b> proposals") % c.stats_global.get('proposals')|n}</li>
       <li>${_("<b>%s</b> comments") % c.stats_global.get('comments')|n}</li>
       <li>${_("<b>%s</b> votes") % c.stats_global.get('votes')|n}</li>
-  </ul>  
+    </ul>  
+  </div>  
 </div>
+
 </%block>
