@@ -13,16 +13,16 @@
     ${components.vertical_tabs(c.variant_items, 'paper_selection')}
 
     <div class="floatbox changes_switch"
-         data-bind="css: {inactive: current.is_head}">
+         data-bind="css: {inactive: variants.current.is_head}">
         <span>${_("Highlight Changes")}</span>
         <div class="switch_buttons">
             <a class="button_small" 
-               data-bind="css: {active: switch_diff},
-                          click: function () {switch_diff(true)}"
+               data-bind="css: {active: variants.switchDiff},
+                          click: function () {variants.switchDiff(true)}"
                href="#">An</a> 
             <a class="button_small" 
-               data-bind="css: {active: !switch_diff()},
-                          click: function () {switch_diff(false)}"
+               data-bind="css: {active: !variants.switchDiff()},
+                          click: function () {variants.switchDiff(false)}"
                href="#">Aus</a>
         </div>
     </div>
@@ -72,13 +72,18 @@
 
 </section>
 
+    <script type="text/javascript" 
+            src="${h.base_url(None, path='/javascripts/paper.js')}"></script>
     <script type="text/javascript">
         /* <![CDATA[ */
         var init_variant = ${c.variant_details_json|n}
+
+        var viewModel = new adhocracy.PaperModel()
+        viewModel.variants.init(init_variant);
+        //debugger;
+        ko.applyBindings(viewModel);
         /* ]]> */
     </script>
-    <script type="text/javascript" 
-            src="${h.base_url(None, path='/javascripts/paper.js')}"></script>
 
 </%block>
 
@@ -107,13 +112,13 @@
     <div id="paper_box">
         <article>
             <div class="paper_header">
-                <h3>Variante &ldquo;<span data-bind="text:current.title">
+                <h3>Variante &ldquo;<span data-bind="text:variants.current.title">
                 ${c.variant_details['title']}</span>&rdquo;</h3>
             </div>
             <div class="paper_text text"
-                 data-bind="visible: show_plain()">
+                 data-bind="visible: variants.showPlain()">
                 <h4>${_("Text")}</h4>
-                <div data-bind="html: current.text">
+                <div data-bind="html: variants.current.text">
                 %if not c.variant_details['text']:
                 ${_(u'Kein Text')}
                 %else:
@@ -122,20 +127,20 @@
                 </div>
             </div>
             <div class="paper_text diff"
-                 data-bind="visible: show_diff()">
+                 data-bind="visible: variants.showDiff()">
                 <h4>${_("Text (compared to the original version)")}</h4>
-                <div data-bind="html: current.text_diff">
+                <div data-bind="html: variants.current.text_diff">
                     ${c.variant_details['text_diff']|n}
                 </div>
             </div>
 
             <div class="paper_text"
                  ## FIXME: styling
-                 data-bind="visible: current.history_count() > 1"
+                 data-bind="visible: variants.current.history_count() > 1"
                  style="${'display: none' if c.variant_details['history_count'] > 1 else ''}">
                 <a rel="#overlay-ajax"
                    href="${c.variant_details['history_url']}"
-                   data-bind="attr: {href: current.history_url}">
+                   data-bind="attr: {href: variants.current.history_url}">
                     ${_('History')}
                 </a>
             </div>
@@ -143,9 +148,9 @@
         <div class="paper_comments">
             <div class="paper" id="p1">
                 <h4>${_('Proposals')}
-                    (<span data-bind="text:current.num_selections"
+                    (<span data-bind="text:variants.current.num_selections"
                     >${c.variant_details['num_selections']}</span>)</h4>
-                <div data-bind="template: {name: 'proposalTmpl', foreach: current.selections}">
+                <div data-bind="template: {name: 'proposalTmpl', foreach: variants.current.selections}">
                 </div>
                 <div class="only-no-js">
                     %for selection in c.variant_details['selections']:

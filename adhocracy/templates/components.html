@@ -94,8 +94,8 @@
             %for item in items:
             <li>
                 <a href="${item['href']}"
-                   data-bind="click: function() {viewModel.load('${item['variant']}', '${item['href']}')},
-                              css: {current: current.variant() === '${item['variant']}'}"
+                   data-bind="click: function() {variants.load('${item['variant']}', '${item['href']}')},
+                              css: {current: variants.current.variant() === '${item['variant']}'}"
                    class="${'current' if item['selected'] else ''}">
                     <span class="truncate">${item['title']}</span>
                     <span class="count">${item['rendered_score']}</span>
