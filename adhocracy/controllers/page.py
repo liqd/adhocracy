@@ -264,7 +264,8 @@ class PageController(BaseController):
                    topics=[c.page], page=c.page, rev=text)
         redirect(h.entity_url(target))
 
-    def _diff_details(self, left, right):
+    @classmethod
+    def _diff_details(cls, left, right):
         left_text = left.text.strip() if left.text else ''
         right_text = right.text.strip() if right.text else ''
         has_changes = ((left_text != right_text))
@@ -278,40 +279,57 @@ class PageController(BaseController):
                     text_diff=text_diff, has_changes=has_changes,
                     is_head=(right.variant == model.Text.HEAD))
 
-    def _variant_details(self, page, variant, selection_id=None):
+    @classmethod
+    def selection_details(cls, selection, current_selection=None):
+        selected_variant = selection.selected
+        score = rendered_score = None
+        if selected_variant is not None:
+            score = selection.variant_poll(selected_variant).tally.score
+            rendered_score = "%+d" % score
+        item = {'score': score,
+                'rendered_score': rendered_score,
+                'selection_id': selection.id,
+                'proposal_title': selection.proposal.title,
+                'proposal_text':
+                    render_text(selection.proposal.description.head.text),
+                'proposal_url': h.selection.url(selection),
+                'current': selection.id == current_selection,
+                }
+        return item
+
+    @classmethod
+    def supporting_selections_details(cls, page, variant,
+                                      current_selection=None):
+        selections = []
+        for selection in page.supporting_selections(variant):
+            selections.append(
+                cls.selection_details(selection,
+                                      current_selection=current_selection))
+        return selections
+
+    @classmethod
+    def variant_details(cls, page, variant, current_selection=None):
         '''
         Return details for a variant including diff information
         and details about the proposals that selected this variant.
         '''
-        selections = []
-        for selection in page.selections:
-            if selection.selected is None or selection.selected != variant:
-                continue
-            score = selection.variant_poll(variant).tally.score
-            item = {'score': score,
-                    'rendered_score': "%+d" % score,
-                    'selection_id': selection.id,
-                    'proposal_title': selection.proposal.title,
-                    'proposal_text':
-                        render_text(selection.proposal.description.head.text),
-                    'proposal_url': h.selection.url(selection),
-                    'current': selection.id == selection_id,
-                    }
-            selections.append(item)
-
         head_text = page.head
         variant_text = page.variant_head(variant)
-        details = self._diff_details(head_text, variant_text)
-        details['variant'] = variant
-        details['history_url'] = h.entity_url(variant_text, member='history')
-        # FIXME: Text.history is marked with comment 'performance fail'
-        details['history_count'] = len(variant_text.history)
-        details['selections'] = selections
-        details['num_selections'] = len(selections)
-        details['is_head'] = (variant == model.Text.HEAD)
+        details = cls._diff_details(head_text, variant_text)
+        selections = cls.supporting_selections_details(
+            page, variant, current_selection=current_selection)
+        details.update(
+            {'variant': variant,
+             'history_url': h.entity_url(variant_text, member='history'),
+             # FIXME: Text.history is marked with comment 'performance fail'
+             'history_count': len(variant_text.history),
+             'selections': selections,
+             'num_selections': len(selections),
+             'is_head': (variant == model.Text.HEAD)})
         return details
 
-    def _variant_overview(self, page, variant, current_variant=None):
+    @classmethod
+    def variant_overview(cls, page, variant, current_variant=None):
         score = page.variant_tally(variant).score
         is_head = (variant == model.Text.HEAD)
         title = _('Original Version') if is_head else variant
@@ -342,8 +360,8 @@ class PageController(BaseController):
 
         # variant details and returning them as json when requested.
         requested_selection = request.params.get('selection', 0)
-        c.variant_details = self._variant_details(c.page, c.variant,
-                                                  int(requested_selection))
+        c.variant_details = self.variant_details(
+            c.page, c.variant, current_selection=int(requested_selection))
         if 'variant_json' in request.params:
             return render_json(c.variant_details)
         c.variant_details_json = json.dumps(c.variant_details)
@@ -354,8 +372,8 @@ class PageController(BaseController):
         # FIXME: What to do if we get passed a selection that did not select
         # the current variant? Warn? Redirect?
         for variant in c.page.variants:
-            details = self._variant_overview(
-                c.page, variant, current_variant=c.variant)
+            details = self.variant_overview(c.page, variant,
+                                            current_variant=c.variant)
             if variant == model.Text.HEAD:
                 head_item = details
             else:
