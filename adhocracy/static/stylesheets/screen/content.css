@@ -162,6 +162,7 @@ a.button_small.off:active, a.button_small.off.active {
 
 .inactive a.button_small {
   background-position: 0 -450px !important;
+  box-shadow: none;
 }
 
 /* class helper */
