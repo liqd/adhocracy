@@ -1,10 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%namespace name="state" file="/poll/state.html"/>
 
 <%def name="title()">${c.page.title}</%def>
-
-<%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
 <%block name="sidebar">
 
@@ -44,7 +41,7 @@
     %endif
 
     %endif
-
+<%doc>
     <h3>Information zum Papier</h3>
     <summary>
         ## FIXME: <h6>Shortlink</h6>
@@ -69,7 +66,7 @@
     ${tiles.tag.sidebar(c.page)}
 
     </summary>
-
+</%doc>
 </section>
 
     <script type="text/javascript" 
@@ -77,10 +74,10 @@
     <script type="text/javascript">
         /* <![CDATA[ */
         var init_variant = ${c.variant_details_json|n}
+        var selection_details = ${c.selection_details_json|n}
 
-        var viewModel = new adhocracy.PaperModel()
-        viewModel.variants.init(init_variant);
-        //debugger;
+        var viewModel = new adhocracy.SelectionModel()
+        viewModel.init(init_variant, selection_details);
         ko.applyBindings(viewModel);
         /* ]]> */
     </script>
@@ -109,8 +106,44 @@
 </div>
 
 <section>
-    <div id="paper_box">
-        <article>
+    <div id="selection_box">
+        <ul>
+            <li>
+                <a id="text_link" href="#text"
+                   data-bind="css: {active: showText},
+                              click: function () { selectTab('text') }">
+                    ${_(u'Vote')}
+                </a>
+            </li>
+            <li>
+                <a id="history_link" href="#history"
+                   data-bind="css: {active: showHistory},
+                              click: function () { selectTab('history') }">
+                    ${_(u'History')}
+                </a>
+            </li>
+            <li>
+                <a id="votes_link" href="#votes"
+                   data-bind="css: {active: showVotes},
+                              click: function () { selectTab('votes') }">
+                    ${_(u'Votes')}
+                </a>
+            </li>
+            <%doc>
+            ## FIXME: disabled deleations cause they are not
+            ## activated on enquetebeteiligung
+            <li>
+                <a id="delegations_link" href="#delegates"
+                   data-bind="css: {active: showDelegates},
+                              click: function () { selectTab('delegates') }">
+                    ${_(u'Delegations')}
+                </a>
+            </li>
+            </%doc>
+        </ul>
+        <article class="text_content"
+                 id="text"
+                 data-bind="visible: showText">
             <div class="paper_header">
                 <h3>Variante &ldquo;<span data-bind="text:variants.current.title">
                 ${c.variant_details['title']}</span>&rdquo;</h3>
@@ -133,41 +166,33 @@
                     ${c.variant_details['text_diff']|n}
                 </div>
             </div>
-            ## FIXME: styling
-            <div class="paper_text"
-                 data-bind="visible: variants.current.history_count() > 1"
-                 style="${'display: none' if c.variant_details['history_count'] > 1 else ''}">
-                <a rel="#overlay-ajax"
-                   href="${c.variant_details['history_url']}"
-                   data-bind="attr: {href: variants.current.history_url}">
-                    ${_('History')}
-                </a>
-            </div>
         </article>
-        <div class="paper_comments">
-            <div class="paper" id="p1">
-                <h4>${_('Proposals')}
-                    (<span data-bind="text:variants.current.num_selections"
-                    >${c.variant_details['num_selections']}</span>)</h4>
-                <div data-bind="template: {name: 'proposalTmpl', foreach: variants.current.selections}">
-                </div>
-                <div class="only-no-js">
-                    %for selection in c.variant_details['selections']:
-                    <h5>${selection['proposal_title']}</h5>
-                    <div>${selection['proposal_text']|n}</div>
-                    <div class="comment_actions floatbox">
-                        <div class="utility">
-                            <span class="hover_active" style="display: none;">
-                                <!-- <a href="#">Link</a> &middot;  -->
-                                <a href="${selection['proposal_url']}">${_('View Proposal')}</a>
-                                </span>&nbsp;
-                        </div>
-                    </div>
-                    %endfor
-                </div>
-            </div>
 
-        </div>
+        <details id="history" class="only-js"
+                 data-bind="visible: showHistory">
+            <summary>
+                <h4>${_('History of this variant')}</h4>
+            </summary>
+            <div data-bind="html: variants.current.history"></div>
+        </details>
+        <details id="votes" class="only-js"
+                 data-bind="visible: showVotes">
+            <summary>
+                <h4>${_('Votes for this variant')}</h4>
+            </summary>
+            <div data-bind="html: variants.current.votes"></div>
+        </details>
+        <%doc>
+        ## FIXME: disabled deleations cause they are not
+        ## activated on enquetebeteiligung
+        <details id="delegates" class="only-js"
+                 data-bind="visible: showDelegates">
+            <summary>
+                <h4>${_('Delegations for this variant')}</h4>
+            </summary>
+            <div data-bind="html: variants.current.delegates"></div>
+        </details>
+        </%doc>
     </div>
 </section>
 

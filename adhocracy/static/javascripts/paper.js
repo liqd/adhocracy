@@ -65,7 +65,7 @@ if (typeof (adhocracy) === "undefined") {
              * @param {String} url The url to load data from
              * @return {undefined}
              */
-            load: function (variant, url) {
+            load: function (variant, url, callback) {
                 var self = this,
                     update_model;
 
@@ -81,6 +81,7 @@ if (typeof (adhocracy) === "undefined") {
                         function (data) {
                             self.cache[data.variant] = data;
                             update_model();
+                            callback();
                         });
                 }
             },
@@ -114,6 +115,127 @@ if (typeof (adhocracy) === "undefined") {
              */
             showPlain: function () { return this.showText() === 'plain'; }
         };
+
+        this.loadVariant = function (variant, url, callback) {
+            this.variants.load(variant, url, callback);
+        };
+
+        this.init = function (variant_data) {
+            this.variants.init(variant_data);
+        };
     };
+
+    /**
+     *  @class SelectionModel
+     */
+    adhocracy.SelectionModel = function () {
+
+        this.init = function (variantData, selectionDetails) {
+            var self = this,
+                add = function (name) {
+                    if (self.variants.current[name] === undefined) {
+                        self.variants.current[name] = ko.observable();
+                    }
+                };
+            this.variants.init(variantData);
+            this.selectionDetails = selectionDetails;
+            // add possibly missing observables
+            add('history');
+            add('votes');
+            add('delegates');
+        };
+
+        this.loadVariant = function (variant, url) {
+            var self = this,
+            tab = this.currentTab();
+            this.variants.load(variant, url, function () {
+                // ensure we have the data of the current tab loaded
+                self.selectTab(tab, variant);
+            });
+        };
+
+        this.currentTab = ko.observable('text');
+        this.selectTab = function (tab, variant) {
+            // load the tabcontend if necessary
+            //debugger;
+            if ($.inArray(tab, ['history', 'votes', 'delegates']) !== -1) {
+                if (variant === undefined) {
+                    variant = this.variants.current.variant();
+                }
+                this.loadTabContents(variant, tab);
+            }
+
+            // update currentTab observable if necessary
+            if (this.currentTab() !== tab) {
+                this.currentTab(tab);
+            }
+        };
+
+        this.showDiffSwitcher = ko.dependentObservable(function () {
+            if (this.variants.current === undefined) {
+                // early state where current in not initialized
+                return true;
+            }
+            if (!this.variants.current.is_head() && this.currentTab() === 'text') {
+                return true;
+            } else {
+                return false;
+            }
+        }.bind(this));
+
+        this.loadTabContents = function (variant, tab) {
+            var self = this,
+                url,  // the url to load the data from
+                cached = this.variants.cache[variant], // the cached variant d.
+                current = this.variants.current, // the current variant obj.
+                target = current[tab]; // the observable for the content
+            console.log([variant, tab, cached]);
+            if (cached[tab] !== undefined) {
+                // we already have a cached value
+                if (target() !== cached[tab]) {
+                    // set the target observable to the cached value
+                    target(cached[tab]);
+                }
+            } else {
+                // we don't have a cache. Load the tab content
+                if (tab === 'history') {
+                    url = current.history_url() + '.overlay';
+                } else if (tab === 'votes') {
+                    url = self.selectionDetails.urls[variant].votes + '.overlay';
+                }
+                $.ajax({
+                    url: url,
+                    dataType: 'html',
+                    success: function (data) {
+                        // save in cache and update the observable
+                        cached[tab] = data;
+                        target(data);
+                    },
+                    error: function () {
+                        var msg = '<p>error</p>';
+                        cached[tab] = msg;
+                        target(msg);
+                    }
+                });
+            }
+        };
+
+        this.showText = ko.dependentObservable(function () {
+            return this.currentTab() === 'text';
+        }.bind(this));
+
+        this.showHistory = ko.dependentObservable(function () {
+            return this.currentTab() === 'history';
+        }.bind(this));
+
+        this.showVotes = ko.dependentObservable(function () {
+            return this.currentTab() === 'votes';
+        }.bind(this));
+
+        this.showDelegates = ko.dependentObservable(function () {
+            return this.currentTab() === 'delegates';
+        }.bind(this));
+    };
+    adhocracy.SelectionModel.prototype = new adhocracy.PaperModel();
 
 }());

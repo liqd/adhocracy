@@ -1,3 +1,7 @@
+try:
+    import json
+except ImportError:
+    import simplejson as json
 import logging
 
 import formencode
@@ -8,12 +12,13 @@ from pylons.controllers.util import redirect
 from pylons.i18n import _
 
 from adhocracy import forms, model
+from adhocracy.controllers.page import PageController
 from adhocracy.lib import helpers as h, tiles
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render
+from adhocracy.lib.templating import render, ret_abort
 from adhocracy.lib.util import get_entity_or_abort
 
 log = logging.getLogger(__name__)
@@ -106,3 +111,35 @@ class SelectionController(BaseController):
                 'success')
 
         redirect(h.entity_url(c.proposal))
+
+    @classmethod
+    def selection_details(cls, selection):
+        urls = {}
+        for (variant, poll) in selection.variant_polls:
+            urls[variant] = {'votes': h.entity_url(poll, member="votes")}
+        return {'urls': urls}
+
+    def details(self, proposal_id, selection_id):
+        '''
+        '''
+        selection = get_entity_or_abort(model.Selection, selection_id)
+        proposal = get_entity_or_abort(model.Proposal, proposal_id)
+        if selection.proposal is not proposal:
+            ret_abort(_('Page not Found'), code=404)
+        c.page = selection.page
+        variant_polls = dict(selection.variant_polls)
+        show_variant = selection.selected
+        if not show_variant:
+            show_variant = model.Text.HEAD
+
+        score_getter = lambda variant: variant_polls[variant].tally.score
+        c.variant_items = PageController.variant_items(
+            c.page, score_getter=score_getter)
+
+        c.variant_details = PageController.variant_details(c.page,
+                                                           show_variant,
+                                                           show_variant)
+        c.variant_details_json = json.dumps(c.variant_details)
+        c.selection_details = self.selection_details(selection)
+        c.selection_details_json = json.dumps(c.selection_details)
+        return render('/proposal/details.html')

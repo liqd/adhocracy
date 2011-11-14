@@ -92,7 +92,10 @@ def make_map():
                                                  'update_badges': 'POST',
                                                  'history': 'GET'},
                                collection={'filter': 'GET'})
-
+    map.connect('/proposal/{proposal_id}/{selection_id}/details',
+                controller='selection',
+                action='details')
+    
     map.resource('implementation', 'implementation', controller='selection',
                  member={'ask_delete': 'GET'},
                  collection={'include': 'GET',
