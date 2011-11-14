@@ -15,7 +15,7 @@ from adhocracy.lib.auth import require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, render_json
+from adhocracy.lib.templating import render, render_def, render_json
 from adhocracy.lib.templating import ret_abort, ret_success
 from adhocracy.lib.util import get_entity_or_abort
 
@@ -81,7 +81,7 @@ class PollController(BaseController):
 
         if format == 'json':
             return render_json(dict(decision=decision,
-                                    score=tally.score))
+                                    score=c.poll.tally.score))
 
         redirect(h.entity_url(c.poll.subject))
 
@@ -145,6 +145,10 @@ class PollController(BaseController):
             result_form = self.form_result.get('result')
             decisions = filter(lambda d: d.result == result_form, decisions)
         c.decisions_pager = pager.scope_decisions(decisions)
+
+        if format == 'overlay':
+            return render_def('/pager.html', 'overlay_pager',
+                              pager=c.decisions_pager)
 
         if format == 'json':
             return render_json(c.decisions_pager)

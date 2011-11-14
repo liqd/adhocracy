@@ -124,3 +124,13 @@
 </ul>
 <br />
 </%def>
+
+<%def name="overlay_pager(pager, render_facets=True)">
+
+<div>${pager.render_pager()}</div>
+%if render_facets:
+<div>${pager.render_facets()}</div>
+%endif
+</%def>
+
+
