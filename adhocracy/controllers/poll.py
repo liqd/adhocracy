@@ -148,7 +148,8 @@ class PollController(BaseController):
 
         if format == 'overlay':
             return render_def('/pager.html', 'overlay_pager',
-                              pager=c.decisions_pager)
+                              pager=c.decisions_pager,
+                              render_facets=False)
 
         if format == 'json':
             return render_json(c.decisions_pager)
