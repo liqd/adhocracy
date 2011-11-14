@@ -329,8 +329,12 @@ class PageController(BaseController):
         return details
 
     @classmethod
-    def variant_overview(cls, page, variant, current_variant=None):
-        score = page.variant_tally(variant).score
+    def variant_overview(cls, page, variant, current_variant=None,
+                         score_getter=None):
+        if score_getter is None:
+            score = page.variant_tally(variant).score
+        else:
+            score = score_getter(variant)
         is_head = (variant == model.Text.HEAD)
         title = _('Original Version') if is_head else variant
         rendered_score = "%+d" % score
@@ -346,6 +350,26 @@ class PageController(BaseController):
                    'rendered_score': rendered_score,
                    'variant': variant}
         return details
+
+    @classmethod
+    def variant_items(self, page, current_variant=None, score_getter=None):
+        head_item = None
+        variant_items = []
+        # FIXME: What to do if we get passed a selection that did not select
+        # the current variant? Warn? Redirect?
+        for variant in page.variants:
+            details = self.variant_overview(page, variant,
+                                            current_variant=current_variant,
+                                            score_getter=score_getter)
+            if variant == model.Text.HEAD:
+                head_item = details
+            else:
+                variant_items.append(details)
+
+        variant_items = sorted(variant_items, key=itemgetter('score'),
+                               reverse=True)
+        variant_items.insert(0, head_item)
+        return variant_items
 
     @RequireInstance
     def show(self, id, variant=None, text=None, format='html'):
@@ -367,21 +391,7 @@ class PageController(BaseController):
         c.variant_details_json = json.dumps(c.variant_details)
 
         # Make a list of variants to render the vertical tab navigation
-        head_item = None
-        c.variant_items = []
-        # FIXME: What to do if we get passed a selection that did not select
-        # the current variant? Warn? Redirect?
-        for variant in c.page.variants:
-            details = self.variant_overview(c.page, variant,
-                                            current_variant=c.variant)
-            if variant == model.Text.HEAD:
-                head_item = details
-            else:
-                c.variant_items.append(details)
-
-        c.variant_items = sorted(c.variant_items, key=itemgetter('score'),
-                                 reverse=True)
-        c.variant_items.insert(0, head_item)
+        c.variant_items = self.variant_items(c.page, current_variant=c.variant)
 
         # Metadata and subpages pager
         sorts = {_("oldest"): sorting.entity_oldest,
