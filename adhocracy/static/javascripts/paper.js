@@ -171,16 +171,23 @@ if (typeof (adhocracy) === "undefined") {
             }
         };
 
-        this.showDiffSwitcher = ko.dependentObservable(function () {
+        this.hideDiffSwitcher = ko.dependentObservable(function () {
+            var currentTab = this.currentTab(),
+                current = this.variants.current;
+            console.log(current);
             if (this.variants.current === undefined) {
                 // early state where current in not initialized
                 return true;
             }
-            if (!this.variants.current.is_head() && this.currentTab() === 'text') {
+            console.log(this.currentTab());
+            if (this.currentTab() !== 'text') {
                 return true;
-            } else {
-                return false;
             }
+            console.log(this.variants.current.is_head());
+            if (this.variants.current.is_head()) {
+                return true;
+            }
+            return false;
         }.bind(this));
 
         this.loadTabContents = function (variant, tab) {

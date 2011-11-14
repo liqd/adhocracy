@@ -10,7 +10,7 @@
     ${components.vertical_tabs(c.variant_items, 'paper_selection')}
 
     <div class="floatbox changes_switch"
-         data-bind="css: {inactive: variants.current.is_head}">
+         data-bind="css: {inactive: hideDiffSwitcher}">
         <span>${_("Highlight Changes")}</span>
         <div class="switch_buttons">
             <a class="button_small" 
