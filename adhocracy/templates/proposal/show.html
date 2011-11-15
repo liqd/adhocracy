@@ -132,14 +132,14 @@ ${components.watch(c.proposal, what="Proposal")}
     <h6>${_('Created')}</h6>
     ## FIXME: ensure caching of history count (make it a tile?)
     <p>
-        ${_("by %s on %s, %s changes since then.") % (
-        h.user.link(c.proposal.creator), 
-        h.format_date(c.proposal.create_time),
-        len(c.proposal.description.variant_history(
-        model.Text.HEAD)))
-        |n}
+<%
+created_msg = _("by %s on %s, %s changes since then.") % (
+    h.user.link(c.proposal.creator), 
+    h.format_date(c.proposal.create_time),
+    len(c.proposal.description.variant_history(model.Text.HEAD)))
+%>
     </p>
-
+    ${created_msg|n}
     ${tiles.tag.sidebar(c.proposal)}
     
     ## <div class="utility"><a href="#">Schlagwort hinzufügen</a></div>
