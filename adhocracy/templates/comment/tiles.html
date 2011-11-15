@@ -60,39 +60,6 @@
 </%def>
 
 
-<%def name="list_new(tile, comments, topic, variant=None, 
-                     root=None, recurse=True, 
-                     ret_url='')">
-    <%
-    _comments = h.comments_sorted(comments, root=root, variant=variant)
-    import pdb; pdb.set_trace()
-    %>
-
-
-    %if root is None and not len(_comments):
-        ${_("No comments were made yet.")}
-    %endif
-
-    %if _comments:
-    <ul class="comments_list">
-        <li>
-        %for comment, tile in _comments:
-        ${full(tile, comment, comments, recurse, ret_url=ret_url)}
-        %endfor
-        </li>
-    </ul>
-    %endif
-
-    %if root is None:
-        %if can.comment.create_on(topic):
-            <div class="comment">
-                ${create_form(None, topic, variant=variant, ret_url=ret_url)}
-            </div>
-        %endif
-    %endif
-</%def>
-
-
 <%def name="full(tile, comment, comments, recurse, ret_url='')">
     <%  
     if not tile.show:
