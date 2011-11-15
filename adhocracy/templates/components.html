@@ -5,8 +5,19 @@
 </%def>
 
 <%def name="headline()">
-<
+
 </%def>
+
+
+<%def name="shortlink(delegateable)">
+<%
+shortlink = h.site.shortlink_url(delegateable)
+%>
+        <h6>${_('Shortlink')}</h6>
+        <p><a href="${shortlink}">${shortlink}</a></p>
+
+</%def>
+
 
 <%def name="savebox(cancel_url, save_text=None, tabindex=99)">
     <div class="savebox">
@@ -20,6 +31,7 @@
     </div>
 </%def>
 
+
 <%def name="form_watch(entity, checked=False)">
     %if can.watch.create():
         <%
@@ -32,6 +44,7 @@
         </label>
     %endif
 </%def>
+
 
 <%def name="watch(entity, what='Norm')">
     ## FIXME: turn into an ajax call
