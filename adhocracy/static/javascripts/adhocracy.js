@@ -592,15 +592,22 @@ $(document).ready(function () {
         return false;
     });
 
-    // This is done now by knockout bindings.
-    // $('.switch_buttons .button_small').click(function () {
-    //   $('.switch_buttons .button_small').removeClass('active');
-    //   $(this).addClass('active');
-    //   return false;
-    // });
 
     $('.info_box .close_button').click(function () {
         $(this).parent().fadeOut();
     });
 
+
+    $('.follow_paper').hover(
+        function () {
+            var button = $(this),
+                text = button.data('hover-text');
+            button.text(text);
+        },
+        function () {
+            var button = $(this),
+                text = button.data('text');
+            button.text(text);
+        }
+    );
 });

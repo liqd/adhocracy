@@ -68,31 +68,24 @@ shortlink = h.site.shortlink_url(delegateable)
     %>
     %if skip:
     <div class="skip_follow">
-    <!-- FIXME: What if a user is authenticated, but is not allowed
-         to watch/unwatch -->
+        <%doc>
+        placeholder div to fill the space if we cannot render a widget.
+        FIXME: What if a user is authenticated, but is not allowed
+        to watch/unwatch
+        </%doc>
     </div>
     %else:
-    <a class="follow_paper ${css_cls}" href="${href}">${text}</a>
-
-    <script type="text/javascript">
-        // <[CDATA[
-        $('.follow_paper').hover(
-        function() {
-          $(this).text('${hover_text}')
-        },
-        function() {
-          $(this).text('${text}')
-        });
-        // ]]>
-    </script>
+    <a class="follow_paper ${css_cls}" href="${href}"
+       data-text="${text}" data-hover-text="${hover_text}">${text}</a>
     %endif
 
     %else:
     ## (not c.user)
     <div class="skip_follow">
-    <!-- FIXME: render a replacement with auth instructions. Problem:
-         FIXME: How to determinate if login and join the instance is enough?
-    -->
+        <%doc>
+        FIXME: render a replacement with auth instructions. Problem:
+        FIXME: How to determinate if login and join the instance is enough?
+        </%doc>
     </div>
     %endif
 </%def>
