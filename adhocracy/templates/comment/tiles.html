@@ -29,8 +29,10 @@
 
     %if root is None:
         %if not len(_comments):
-            <div class="infobox">
-                ${_("No comments were made yet.")}
+            <div class="comment_wrapper">
+                <div class="comment empty">
+                    ${_("No comments were made yet.")}
+                </div>
             </div>
         %endif
     %endif

@@ -943,6 +943,12 @@ ul.comments_list li, .comment_wrapper .comment {
   border-top: 1px solid #fff;
   cursor: pointer;
 }
+.comment_wrapper .comment.empty {
+  padding-top: 20px;
+  font-weight: bold;
+  font-style: italic;
+  color: #999;
+}
 ul.comments_list > li {
   padding: 10px 20px 0 20px;
 }
