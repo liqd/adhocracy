@@ -289,7 +289,8 @@ if (typeof (adhocracy) === "undefined") {
 $(document).ready(function(){
 
     var overlayAjaxLoadContent,
-        overlayAjaxRebindLinks;
+        overlayAjaxRebindLinks,
+        overlayMask;
 
     overlayAjaxLoadContent = function () {
 
@@ -313,6 +314,10 @@ $(document).ready(function(){
         });
     };
 
+    overlayMask = {color: '#111',
+                   opacity: 0.9,
+                   loadSpeed: 'fast'};
+
   // initial jquery slide
   $("#slides").slides({
     generatePagination: false,
@@ -334,17 +339,18 @@ $(document).ready(function(){
   $('#overlay-default').overlay({
     // custom top position
     top: '25%'
-    // load it immediately after the construction
   });
 
   //open link in overlay (like help pages)
   $("a[rel=#overlay-ajax]").overlay({
     target: '#overlay-default',
+    mask: overlayMask,
     onBeforeLoad: overlayAjaxLoadContent,
     onLoad: overlayAjaxRebindLinks
   });
 
   $("a[rel=#overlay-ajax-big]").overlay({
+    mask: overlayMask,
     target: '#overlay-big',
     onBeforeLoad: overlayAjaxLoadContent,
     onLoad: overlayAjaxRebindLinks
