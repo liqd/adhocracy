@@ -137,11 +137,20 @@
                 <span style="display: none;" class="hover_active">
                     <a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
                     · 
+                    %if len(comment.revisions) > 1:
+                    <span class="only-js"> 
+                        ## FIXME: remove when we can support no-js clients.
+                        <a href="${h.entity_url(comment, member='history')}"
+                           rel="#overlay-ajax">
+                            ${_("history")}
+                        </a> 
+                        ·
+                    </span>
+                    %endif
                     <%doc>
                     FIXME: Add when we have implemented permalinks or details overlay dialogs
                     <a href="#">Link</a> · 
                     FIXME: Add when we implemented details dialog
-                    <a href="#">Historie</a> · 
                     </%doc>
                 </span>
 
