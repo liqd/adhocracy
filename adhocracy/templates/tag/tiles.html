@@ -38,6 +38,7 @@
         %endif
     </p>
     <%doc>
+    ## FIXME: Reimplement Tagging
     <div class="showjs"> 
         %if can.tag.create():
         <a href="#" onclick="return adhocracy.addTags();">${_("add tags...")}</a>
@@ -59,4 +60,25 @@
     
     </div>
 </%doc>
+</%def>
+
+<%def name="widget(delegateable)">
+
+## FIXME: Reimplement Tagging
+%if can.tag.create():
+
+<form action="/tag" method="POST">
+    ${h.field_token()|n}
+    <input name="delegateable" type="hidden" value="${delegateable.id}" />
+    <select data-placeholder="${_('Add tags')}"
+            class="chzn-select">
+    </select>
+    <input name="tags" type="tags" id="tags" autocomplete="off" />
+    <span class="hint">${_("Multiple tags can be separated by commas or spaces.")}
+    ${h.help_link(_("Help."), 'tag_faq')|n}</span>
+    <input type="submit" value="${_("Add tags")}" />
+</form>
+
+
+%endif
 </%def>
