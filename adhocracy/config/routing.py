@@ -92,7 +92,7 @@ def make_map():
                                                  'update_badges': 'POST',
                                                  'history': 'GET'},
                                collection={'filter': 'GET'})
-    map.connect('/proposal/{proposal_id}/{selection_id}/details',
+    map.connect('/proposal/{proposal_id}/{selection_id}/details{.format}',
                 controller='selection',
                 action='details')
     

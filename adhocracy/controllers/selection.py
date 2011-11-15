@@ -18,7 +18,7 @@ from adhocracy.lib.auth import require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, ret_abort
+from adhocracy.lib.templating import render, ret_abort, render_def
 from adhocracy.lib.util import get_entity_or_abort
 
 log = logging.getLogger(__name__)
@@ -119,7 +119,7 @@ class SelectionController(BaseController):
             urls[variant] = {'votes': h.entity_url(poll, member="votes")}
         return {'urls': urls}
 
-    def details(self, proposal_id, selection_id):
+    def details(self, proposal_id, selection_id, format='html'):
         '''
         '''
         selection = get_entity_or_abort(model.Selection, selection_id)
@@ -142,4 +142,6 @@ class SelectionController(BaseController):
         c.variant_details_json = json.dumps(c.variant_details)
         c.selection_details = self.selection_details(selection)
         c.selection_details_json = json.dumps(c.selection_details)
+        if format == 'overlay':
+            return render('/proposal/details.html', overlay=True)
         return render('/proposal/details.html')
