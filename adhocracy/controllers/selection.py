@@ -18,7 +18,7 @@ from adhocracy.lib.auth import require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, ret_abort, render_def
+from adhocracy.lib.templating import render, ret_abort
 from adhocracy.lib.util import get_entity_or_abort
 
 log = logging.getLogger(__name__)
@@ -116,8 +116,9 @@ class SelectionController(BaseController):
     def selection_details(cls, selection):
         urls = {}
         for (variant, poll) in selection.variant_polls:
-            urls[variant] = {'votes': h.entity_url(poll, member="votes"),
-                             'poll_widget': h.entity_url(poll, member="widget")}
+            urls[variant] = {
+                'votes': h.entity_url(poll, member="votes"),
+                'poll_widget': h.entity_url(poll, member="widget")}
         return {'urls': urls}
 
     def details(self, proposal_id, selection_id, format='html'):
