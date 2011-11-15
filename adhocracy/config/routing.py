@@ -95,7 +95,7 @@ def make_map():
     map.connect('/proposal/{proposal_id}/{selection_id}/details{.format}',
                 controller='selection',
                 action='details')
-    
+
     map.resource('implementation', 'implementation', controller='selection',
                  member={'ask_delete': 'GET'},
                  collection={'include': 'GET',
@@ -105,14 +105,15 @@ def make_map():
 
     map.connect('/page/diff', controller='page', action='diff',
                 conditions=dict(method=['GET']))
-    map.connect('/page/{id}/{variant}/history.{format}',
+    map.connect('/page/{id}/{variant}/history{.format}',
                 controller='page',
                 action='history',
                 conditions=dict(method=['GET']))
-    map.connect('/page/{id}/{variant}/history',
+    map.connect('/page/{id}/history{.format}',
                 controller='page',
                 action='history',
-                conditions=dict(method=['GET']))
+                conditions=dict(method=['GET']),
+                )
     map.connect('/page/{id}/{variant}/branch',
                 controller='page',
                 action='edit',
@@ -132,8 +133,6 @@ def make_map():
     map.connect('/page/{id}/{variant}/edit', controller='page', action='edit',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/edit.{format}', controller='page', action='edit',
-                conditions=dict(method=['GET']))
-    map.connect('/page/{id}/history', controller='page', action='history',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/branch', controller='page', action='edit',
                 branch=True,
