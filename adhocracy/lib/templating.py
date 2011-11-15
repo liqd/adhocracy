@@ -29,14 +29,20 @@ def tpl_vars():
 
 
 def render(template_name, extra_vars=None, cache_key=None,
-               cache_type=None, cache_expire=None):
+               cache_type=None, cache_expire=None, overlay=False):
     """
-    Signature matches that of pylons actual render_mako.
+    Signature matches that of pylons actual render_mako. Except
+    for the *overlay* parameter. If it is *True*, the template will
+    be rendered in a minimal template containing only the main content
+    markup of the site.
     """
     if not extra_vars:
         extra_vars = {}
 
     extra_vars.update(tpl_vars())
+
+    if overlay:
+        extra_vars['root_template'] = '/overlay.html'
 
     page = render_mako(template_name, extra_vars=extra_vars,
                        cache_key=cache_key, cache_type=cache_type,

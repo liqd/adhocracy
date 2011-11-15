@@ -1,0 +1,75 @@
+<%namespace name="model" module="adhocracy.model"
+/><%namespace name="components" file="/components.html"
+/><%namespace name="navigation" file="/navigation.html"
+/><%def name="breadcrumbs()">&nbsp</%def><%
+
+from js.jquery import jquery
+jquery.need()
+
+%><!DOCTYPE html>
+<html class="no-js">
+  <head>
+      <%block name="head">
+      ${components.head()}
+      </%block>
+  </head>
+
+
+<body lang="${c.locale.language}">
+    <div class="overlay" id="overlay-default">
+      <a class="close"></a>
+      <!-- the external content is loaded inside this tag -->
+      <div class="contentWrap"></div>
+    </div>    
+  <!-- begin: header -->
+  <header>
+    <div id="header" class="${'logged_in' if c.user else ''}">
+      <div class="page_margins">
+        <div class="page_wrapper">
+          <!-- begin: top navi -->
+          <div id="topnav">
+            <!-- start: skip link navigation -->
+            <a class="skip" title="skip link" href="#navigation">Skip to the navigation</a><span class="hideme">.</span>
+            <a class="skip" title="skip link" href="#content">Skip to the content</a><span class="hideme">.</span>
+            <!-- end: skip link navigation -->
+            <a href="#" class="icon_link follow">Follow us!</a>
+          </div>
+
+          <%include file="logo.html" />
+          ${navigation.global_nav(c.active_global_nav)}
+        </div>
+      </div>
+    </div>
+  </header>
+
+  %if c.instance:
+  ${navigation.subheader_instance_navigation(c.active_subheader_nav)}
+  %endif
+
+
+  ${c.subnav}
+
+  <%block name="main">
+  </%block>
+      
+  <!-- Fixme: Here to render error pages -->
+  ${self.body()}
+
+  <%include file="piwik.html"/>
+  <%include file="footer.html"/>
+
+  <!-- overlayed element -->
+  <div class="overlay" id="overlay-default">
+      
+      <!-- the external content is loaded inside this tag -->
+	<div class="contentWrap"></div>
+
+  </div>
+    
+    <!-- Dummy tag to merge in wordpress scripts -->
+    <div id="external_scripts" />
+    <!-- Fixme: turn into a Fanstatic resource -->
+    <script type="text/javascript" language="javascript" src="/javascripts/adhocracy.js" charset="utf-8"></script>
+
+  </body>
+</html>

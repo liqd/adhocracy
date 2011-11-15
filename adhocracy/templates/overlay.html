@@ -1,0 +1,12 @@
+<%namespace name="model" module="adhocracy.model"
+/><%namespace name="components" file="/components.html"
+/><%namespace name="navigation" file="/navigation.html"
+/><%def name="breadcrumbs()">&nbsp</%def>
+
+## an alternative root template to render the template as
+## a html fragment
+
+<%block name="main">
+   Only the main block is rendered. No header, navigation or footer
+   If template.html inherits from this template instead of template.html
+</%block>
