@@ -10,7 +10,7 @@ from pylons.i18n import _
 
 
 from adhocracy import model
-from adhocracy.lib import democracy, event, helpers as h, pager
+from adhocracy.lib import democracy, event, helpers as h, pager, tiles
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
@@ -177,3 +177,7 @@ class PollController(BaseController):
             return ret_abort(_("The proposal is not undergoing a poll."),
                              code=404)
         return poll
+
+    def widget(self, id):
+        poll = get_entity_or_abort(model.Poll, id)
+        return tiles.poll.widget(poll, cls="big")

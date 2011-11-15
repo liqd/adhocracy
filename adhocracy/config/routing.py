@@ -190,7 +190,8 @@ def make_map():
 
     map.resource('poll', 'poll', member={'vote': 'POST',
                                          'votes': 'GET',
-                                         'ask_delete': 'GET'})
+                                         'ask_delete': 'GET',
+                                         'widget': 'GET'})
 
     map.connect('/badge', controller='badge', action='index',
                 conditions=dict(method=['GET']))

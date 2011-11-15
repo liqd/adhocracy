@@ -78,6 +78,7 @@
 
         var viewModel = new adhocracy.SelectionModel()
         viewModel.init(init_variant, selection_details);
+        viewModel.doUpdateVoteWidget();
         ko.applyBindings(viewModel);
         /* ]]> */
     </script>
@@ -145,6 +146,9 @@
                  id="text"
                  data-bind="visible: showText">
             <div class="paper_header">
+                <div data-bind="html: voteWidget">
+                    $(tiles.poll.widget(c.current_variant_poll, cls="big")
+                </div>
                 <h3>Variante &ldquo;<span data-bind="text:variants.current.title">
                 ${c.variant_details['title']}</span>&rdquo;</h3>
             </div>

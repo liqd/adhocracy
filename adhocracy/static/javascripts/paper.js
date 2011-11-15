@@ -19,6 +19,17 @@ if (typeof (adhocracy) === "undefined") {
 
     "use strict";
 
+    var variant_dummy = {"history_url": undefined,
+            "is_head": undefined,
+            "title": undefined,
+            "text_diff": undefined,
+            "num_selections": undefined,
+            "title_diff": undefined,
+            "history_count": undefined,
+            "has_changes": undefined,
+            "variant": undefined};
+
+
     /**
      * @namespace adhocracy
      * @class PaperModel
@@ -48,11 +59,11 @@ if (typeof (adhocracy) === "undefined") {
              * @type object (with observeable properties)
              * @default
              */
-            current: undefined,
+            current: ko.mapping.fromJS(variant_dummy),
             init: function (data) {
                 var variant = data.variant;
                 this.cache[variant] = data;
-                this.current = ko.mapping.fromJS(data);
+                this.current = ko.mapping.fromJS(data, this.current);
                 this.load(variant);
             },
             /**
@@ -130,6 +141,8 @@ if (typeof (adhocracy) === "undefined") {
      */
     adhocracy.SelectionModel = function () {
 
+        this.selectionDetails = {urls: {}};
+
         this.init = function (variantData, selectionDetails) {
             var self = this,
                 add = function (name) {
@@ -157,7 +170,6 @@ if (typeof (adhocracy) === "undefined") {
         this.currentTab = ko.observable('text');
         this.selectTab = function (tab, variant) {
             // load the tabcontend if necessary
-            //debugger;
             if ($.inArray(tab, ['history', 'votes', 'delegates']) !== -1) {
                 if (variant === undefined) {
                     variant = this.variants.current.variant();
@@ -174,16 +186,13 @@ if (typeof (adhocracy) === "undefined") {
         this.hideDiffSwitcher = ko.dependentObservable(function () {
             var currentTab = this.currentTab(),
                 current = this.variants.current;
-            console.log(current);
             if (this.variants.current === undefined) {
                 // early state where current in not initialized
                 return true;
             }
-            console.log(this.currentTab());
             if (this.currentTab() !== 'text') {
                 return true;
             }
-            console.log(this.variants.current.is_head());
             if (this.variants.current.is_head()) {
                 return true;
             }
@@ -196,7 +205,6 @@ if (typeof (adhocracy) === "undefined") {
                 cached = this.variants.cache[variant], // the cached variant d.
                 current = this.variants.current, // the current variant obj.
                 target = current[tab]; // the observable for the content
-            console.log([variant, tab, cached]);
             if (cached[tab] !== undefined) {
                 // we already have a cached value
                 if (target() !== cached[tab]) {
@@ -226,6 +234,36 @@ if (typeof (adhocracy) === "undefined") {
                 });
             }
         };
+
+        this.voteWidget = ko.observable();
+
+        this.doUpdateVoteWidget = function () {
+            var variant = this.variants.current.variant(),
+                urls = this.selectionDetails.urls[variant],
+            voteWidget = this.voteWidget;
+
+            if (this.variants.current !== undefined) {
+
+
+                if (urls !== undefined) {
+
+                $.ajax({url: urls.poll_widget,
+                        success: function (data) {
+                            voteWidget(data); },
+                        error: function () {
+                            voteWidget(''); }});
+
+                }
+            } else {
+             voteWidget('');
+            }
+
+        };
+        
+        this.updateVoteWidget = ko.dependentObservable(function () {
+            this.doUpdateVoteWidget();
+        }.bind(this));
+
 
         this.showText = ko.dependentObservable(function () {
             return this.currentTab() === 'text';

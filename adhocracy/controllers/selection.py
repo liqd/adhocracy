@@ -116,7 +116,8 @@ class SelectionController(BaseController):
     def selection_details(cls, selection):
         urls = {}
         for (variant, poll) in selection.variant_polls:
-            urls[variant] = {'votes': h.entity_url(poll, member="votes")}
+            urls[variant] = {'votes': h.entity_url(poll, member="votes"),
+                             'poll_widget': h.entity_url(poll, member="widget")}
         return {'urls': urls}
 
     def details(self, proposal_id, selection_id, format='html'):
@@ -128,20 +129,21 @@ class SelectionController(BaseController):
             ret_abort(_('Page not Found'), code=404)
         c.page = selection.page
         variant_polls = dict(selection.variant_polls)
-        show_variant = selection.selected
-        if not show_variant:
-            show_variant = model.Text.HEAD
+        variant_to_show = selection.selected
+        if not variant_to_show:
+            variant_to_show = model.Text.HEAD
 
         score_getter = lambda variant: variant_polls[variant].tally.score
         c.variant_items = PageController.variant_items(
             c.page, score_getter=score_getter)
 
         c.variant_details = PageController.variant_details(c.page,
-                                                           show_variant,
-                                                           show_variant)
+                                                           variant_to_show,
+                                                           variant_to_show)
         c.variant_details_json = json.dumps(c.variant_details)
         c.selection_details = self.selection_details(selection)
         c.selection_details_json = json.dumps(c.selection_details)
+        c.current_variant_poll = variant_polls[variant_to_show]
         if format == 'overlay':
             return render('/proposal/details.html', overlay=True)
         return render('/proposal/details.html')
