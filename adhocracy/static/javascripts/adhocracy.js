@@ -20,16 +20,21 @@ if (typeof (adhocracy) === "undefined") {
 
     "use strict";
 
-    var variant_dummy = {"history_url": undefined,
-            "is_head": undefined,
-            "title": undefined,
-            "text_diff": undefined,
-            "num_selections": undefined,
-            "title_diff": undefined,
-            "history_count": undefined,
-            "has_changes": undefined,
-            "variant": undefined};
-
+    /**
+     * Example for an json object returned for variants.
+     * Used to initialze an observable
+     */
+    var variantDummy = {
+        "history_url": undefined,
+        "is_head": undefined,
+        "title": undefined,
+        "text_diff": undefined,
+        "num_selections": undefined,
+        "title_diff": undefined,
+        "history_count": undefined,
+        "has_changes": undefined,
+        "variant": undefined
+    };
 
     /**
      * @namespace adhocracy
@@ -60,7 +65,7 @@ if (typeof (adhocracy) === "undefined") {
              * @type object (with observeable properties)
              * @default
              */
-            current: ko.mapping.fromJS(variant_dummy),
+            current: ko.mapping.fromJS(variantDummy),
             init: function (data) {
                 var variant = data.variant;
                 this.cache[variant] = data;
@@ -132,18 +137,59 @@ if (typeof (adhocracy) === "undefined") {
             this.variants.load(variant, url, callback);
         };
 
-        this.init = function (variant_data) {
-            this.variants.init(variant_data);
+        this.init = function (variantData) {
+            this.variants.init(variantData);
         };
     };
 
     /**
-     *  @class SelectionModel
+     * A model to work with the selection details overlay.
+     *
+     * FIXME: delegates tab not implemented.
+     *
+     * @class adhocracy.SelectionModel
+     * @extends adhocracy.PaperModel
      */
     adhocracy.SelectionModel = function () {
 
+        /**
+         * Store data related to the selection. Atm this contains
+         * only one property: 'urls' with subproperties for each
+         * variant.
+         *
+         * @method selectionDetails
+         * @type object
+         *
+         */
         this.selectionDetails = {urls: {}};
 
+        /**
+         * Observable to store the name of the current Tab. This is
+         * one of the following strings: 'text', 'history', 'votes'
+         * or 'delegates'
+         *
+         * @method currentTab
+         * @type ko.observable
+         */
+        this.currentTab = ko.observable('text');
+
+        /**
+         * Observable to store the vote widget for the current variant
+         *
+         * @method voteWidget
+         * @type ko.observable
+         */
+        this.voteWidget = ko.observable();
+
+        /**
+         * Initialize the model
+         *
+         * @method init
+         * @param {json/object} variantData Json/object for the initial
+         * variant. Similar to PaperModel.init and variantDummy.
+         * @param {json/object} selectionDetails Json/object with details
+         * about the selection. See @property selectionDetails
+         */
         this.init = function (variantData, selectionDetails) {
             var self = this,
                 add = function (name) {
@@ -159,23 +205,35 @@ if (typeof (adhocracy) === "undefined") {
             add('delegates');
         };
 
+        /**
+         * Load a variant. See PaperModel.loadVariant()
+         * for the signature
+         */
         this.loadVariant = function (variant, url) {
             var self = this,
-            tab = this.currentTab();
+                tab = this.currentTab();
             this.variants.load(variant, url, function () {
                 // ensure we have the data of the current tab loaded
                 self.selectTab(tab, variant);
             });
         };
 
-        this.currentTab = ko.observable('text');
+        /**
+         * Function to call when another tab is loaded. If requied it
+         * loads the content with ajax for the tab and current variant, and
+         * stores the tab as the @param currentTab.
+         *
+         * @param {string} tab The name of the tab
+         * @param {string} variant The variant if not the current
+         * variant (optional)
+         */
         this.selectTab = function (tab, variant) {
             // load the tabcontend if necessary
             if ($.inArray(tab, ['history', 'votes', 'delegates']) !== -1) {
                 if (variant === undefined) {
                     variant = this.variants.current.variant();
                 }
-                this.loadTabContents(variant, tab);
+                this.loadTabContents(tab, variant);
             }
 
             // update currentTab observable if necessary
@@ -184,6 +242,13 @@ if (typeof (adhocracy) === "undefined") {
             }
         };
 
+        /**
+         * DependendObservable that returns true if the diff switcher
+         * should be hidden/inactive. Is notified automatically if other
+         * relevant observables change.
+         *
+         * @method hideDiffSwitcher
+         */
         this.hideDiffSwitcher = ko.dependentObservable(function () {
             var currentTab = this.currentTab(),
                 current = this.variants.current;
@@ -200,7 +265,14 @@ if (typeof (adhocracy) === "undefined") {
             return false;
         }.bind(this));
 
-        this.loadTabContents = function (variant, tab) {
+        /**
+         * Utility function to load a tab content from a cache or with ajax
+         * And sets it as the tab content for the current variant.
+         * @method loadTabContents
+         * @param {string} tab The name of the tab
+         * @param {string} variant The variant
+         */
+        this.loadTabContents = function (tab, variant) {
             var self = this,
                 url,  // the url to load the data from
                 cached = this.variants.cache[variant], // the cached variant d.
@@ -236,47 +308,85 @@ if (typeof (adhocracy) === "undefined") {
             }
         };
 
-        this.voteWidget = ko.observable();
-
+        /**
+         * Utility function to fetch the current vote widget (without caching it) and
+         * store it in the observable this.voteWidget().
+         *
+         * This is factored out of ko.dependentObservable to use it during initialization.
+         */
         this.doUpdateVoteWidget = function () {
             var variant = this.variants.current.variant(),
                 urls = this.selectionDetails.urls[variant],
-            voteWidget = this.voteWidget;
+                voteWidget = this.voteWidget;
 
-            if (this.variants.current !== undefined) {
+            if (urls !== undefined) {
+                $.ajax({
+                    url: urls.poll_widget,
+                    success: function (data) {
+                        voteWidget(data);
+                    },
+                    error: function () {
+                        voteWidget('');
+                    }
+                });
 
-
-                if (urls !== undefined) {
-
-                $.ajax({url: urls.poll_widget,
-                        success: function (data) {
-                            voteWidget(data); },
-                        error: function () {
-                            voteWidget(''); }});
-
-                }
             } else {
-             voteWidget('');
+                voteWidget('');
             }
-
         };
 
+        /**
+         * dependentObservable to update the vote widget.
+         * FIXME: This might be a simple subscriber to
+         * this.variants.current.variant
+         *
+         * @method updateVoteWidget
+         * @type ko.dependentObservable
+         */
         this.updateVoteWidget = ko.dependentObservable(function () {
             this.doUpdateVoteWidget();
         }.bind(this));
 
+        /**
+         * Convenient dependentObservable for less verbose data binding.
+         * Indicates to show the text tab.
+         *
+         * @method showText
+         * @type ko.dependentObservable
+         */
         this.showText = ko.dependentObservable(function () {
             return this.currentTab() === 'text';
         }.bind(this));
 
+        /**
+         * Convenient dependentObservable for less verbose data binding.
+         * Indicates to show the history tab.
+         *
+         * @method showHistory
+         * @type ko.dependentObservable
+         */
         this.showHistory = ko.dependentObservable(function () {
             return this.currentTab() === 'history';
         }.bind(this));
 
+        /**
+         * Convenient dependentObservable for less verbose data binding.
+         * Indicates to show the votes tab.
+         *
+         * @method showVotes
+         * @type ko.dependentObservable
+         */
         this.showVotes = ko.dependentObservable(function () {
             return this.currentTab() === 'votes';
         }.bind(this));
 
+        /**
+         * Convenient dependentObservable for less verbose data binding.
+         * Indicates to show the delegates tab.
+         *
+         * @method showDelegates
+         * @type ko.dependentObservable
+         */
         this.showDelegates = ko.dependentObservable(function () {
             return this.currentTab() === 'delegates';
         }.bind(this));
@@ -286,7 +396,9 @@ if (typeof (adhocracy) === "undefined") {
 }());
 
 
-$(document).ready(function(){
+$(document).ready(function () {
+
+    'use strict';
 
     var overlayAjaxLoadContent,
         overlayAjaxRebindLinks,
@@ -304,7 +416,7 @@ $(document).ready(function(){
         // bind links containing the string '.overlay'
         // to a handler that loads the url into the overlay
         var wrap = this.getOverlay().find(".contentWrap");
-        $(wrap).delegate('a', 'click', function(event) {
+        $(wrap).delegate('a', 'click', function (event) {
             var href = $(this).attr('href');
             var re = new RegExp('\\.overlay');
             if (re.test(href)) {
@@ -319,171 +431,176 @@ $(document).ready(function(){
                    loadSpeed: 'fast'};
 
   // initial jquery slide
-  $("#slides").slides({
-    generatePagination: false,
-    effect: 'fade'
-  });
+    $("#slides").slides({
+        generatePagination: false,
+        effect: 'fade'
+    });
 
-  // initial jquery elements circle
-  $("#projects_slides").multipleElementsCycle({
-    start: 0
-  });
+    // initial jquery elements circle
+    $("#projects_slides").multipleElementsCycle({
+        start: 0
+    });
 
-  // initial jquery elastic
-  $('textarea').elastic();
+    // initial jquery elastic
+    $('textarea').elastic();
 
-  // initial jquery label_over
-  $('.label_over label').labelOver('over-apply');
+    // initial jquery label_over
+    $('.label_over label').labelOver('over-apply');
 
-  // overlay
-  $('#overlay-default').overlay({
-    // custom top position
-    top: '25%'
-  });
+    // overlay
+    $('#overlay-default').overlay({
+        // custom top position
+        top: '25%'
+    });
 
-  //open link in overlay (like help pages)
-  $("a[rel=#overlay-ajax]").overlay({
-    target: '#overlay-default',
-    mask: overlayMask,
-    onBeforeLoad: overlayAjaxLoadContent,
-    onLoad: overlayAjaxRebindLinks
-  });
+    //open link in overlay (like help pages)
+    $("a[rel=#overlay-ajax]").overlay({
+        target: '#overlay-default',
+        mask: overlayMask,
+        onBeforeLoad: overlayAjaxLoadContent,
+        onLoad: overlayAjaxRebindLinks
+    });
 
-  $("a[rel=#overlay-ajax-big]").overlay({
-    mask: overlayMask,
-    target: '#overlay-big',
-    onBeforeLoad: overlayAjaxLoadContent,
-    onLoad: overlayAjaxRebindLinks
-  });
+    $("a[rel=#overlay-ajax-big]").overlay({
+        mask: overlayMask,
+        target: '#overlay-big',
+        onBeforeLoad: overlayAjaxLoadContent,
+        onLoad: overlayAjaxRebindLinks
+    });
 
-$('#blog_select_button').click(function () {
-  $('#blog_select').toggleClass('open');
-  return false;
-});
-$('body').click(function () {
-  $('#blog_select.open').removeClass('open');
-});
+    $('#blog_select_button').click(function () {
+        $('#blog_select').toggleClass('open');
+        return false;
+    });
+    $('body').click(function () {
+        $('#blog_select.open').removeClass('open');
+    });
 
-// comments
-$('.comment, .paper').hover(
-  function(){
-    $(this).find('.hover_active').fadeIn('slow');
-  },
-  function(){
-    $(this).find('.hover_active').fadeOut('fast');
-  }
-);
+    // comments
+    $('.comment, .paper').hover(
+        function () {
+            $(this).find('.hover_active').fadeIn('slow');
+        },
+        function () {
+            $(this).find('.hover_active').fadeOut('fast');
+        }
+    );
 
-$('.comment a.show_comments').click(function () {
-  var c_id = $(this).closest('.comment').attr('id');
-  $('#' + c_id + '_comments').toggle();
-  $(this).toggleClass('open');
-  return false;
-});
+    $('.comment a.show_comments').click(function () {
+        var c_id = $(this).closest('.comment').attr('id');
+        $('#' + c_id + '_comments').toggle();
+        $(this).toggleClass('open');
+        return false;
+    });
 
-// get a comment reply form and insert it into the page
+    // get a comment reply form and insert it into the page
 
-$('.comment a.new_comment').click(function (event) {
-  event.preventDefault();
-  var c_id = $(this).closest('.comment').attr('id');
-  var comment_form_id = 'comment_form_' + c_id;
-  var reply_id = $(this).data('reply');
-  var comment_form = $('#' + comment_form_id).attr('comment_id');
-  if(!comment_form) {
-      var form_url = '/comment/form/reply/' + reply_id;
-      var comment_div = $('#' + c_id);
-      // create a container and load the form into it.
-      var form_div = comment_div.add('<div></div>').not(comment_div);
-      form_div.insertAfter(comment_div);
-      form_div.attr('comment_id', c_id);
-      form_div.attr('id', comment_form_id);
-      form_div.load(form_url, function() {
-          form_div.find('a.cancel').click(function (event) {
-              // the cancel button removes the form from the dom
-              form_div.remove();
-              event.preventDefault();
-          });
-      });
-  } else {
-      $('#comment_form_' + c_id).remove();
-  }
-  $(this).toggleClass('open');
-});
+    $('.comment a.new_comment').click(function (event) {
+        event.preventDefault();
+        var c_id = $(this).closest('.comment').attr('id');
+        var comment_form_id = 'comment_form_' + c_id;
+        var reply_id = $(this).data('reply');
+        var comment_form = $('#' + comment_form_id).attr('comment_id');
+        if (!comment_form) {
+            var form_url = '/comment/form/reply/' + reply_id;
+            var comment_div = $('#' + c_id);
+            // create a container and load the form into it.
+            var form_div = comment_div.add('<div></div>').not(comment_div);
+            form_div.insertAfter(comment_div);
+            form_div.attr('comment_id', c_id);
+            form_div.attr('id', comment_form_id);
+            form_div.load(form_url, function () {
+                form_div.find('a.cancel').click(function (event) {
+                    // the cancel button removes the form from the dom
+                    form_div.remove();
+                    event.preventDefault();
+                });
+            });
+        } else {
+            $('#comment_form_' + c_id).remove();
+        }
+        $(this).toggleClass('open');
+    });
 
-// load the comment edit form into the page
+    // load the comment edit form into the page
 
-$('.comment a.edit_comment').click(function (event) {
-  event.preventDefault();
-  var c_id = $(this).closest('.comment').attr('id');
-  var comment_edit_form_id = 'comment_edit_form_' + c_id;
-  var comment_id = $(this).data('comment');
-  var comment_form = $('#' + comment_edit_form_id).attr('comment_id');
-  if(!comment_form) {
-      var form_url = '/comment/' + comment_id + '/edit.ajax';
-      var comment_div = $('#' + c_id);
-      // create a container and load the form into it.
-      var form_div = comment_div.add('<div></div>').not(comment_div);
-      form_div.insertAfter(comment_div);
-      form_div.attr('comment_id', c_id);
-      form_div.attr('id', comment_edit_form_id);
-      form_div.load(form_url, function() {
-          // when loaded:
-          comment_div.hide();
-          form_div.find('a.cancel').click(function (event) {
-              // the cancel button removes the form from the dom
-              form_div.remove();
-              comment_div.show();
-              event.preventDefault();
-          });
-      });
-  } else {
-      $('#' + comment_edit_form_id).remove();
-  }
-});
+    $('.comment a.edit_comment').click(function (event) {
+        event.preventDefault();
+        var c_id = $(this).closest('.comment').attr('id');
+        var comment_edit_form_id = 'comment_edit_form_' + c_id;
+        var comment_id = $(this).data('comment');
+        var comment_form = $('#' + comment_edit_form_id).attr('comment_id');
+        if (!comment_form) {
+            var form_url = '/comment/' + comment_id + '/edit.ajax';
+            var comment_div = $('#' + c_id);
+            // create a container and load the form into it.
+            var form_div = comment_div.add('<div></div>').not(comment_div);
+            form_div.insertAfter(comment_div);
+            form_div.attr('comment_id', c_id);
+            form_div.attr('id', comment_edit_form_id);
+            form_div.load(form_url, function () {
+                // when loaded:
+                comment_div.hide();
+                form_div.find('a.cancel').click(function (event) {
+                    // the cancel button removes the form from the dom
+                    form_div.remove();
+                    comment_div.show();
+                    event.preventDefault();
+                });
+            });
+        } else {
+            $('#' + comment_edit_form_id).remove();
+        }
+    });
 
-$('.comment_status .button_small').live('click', function (event) {
-  event.preventDefault();
-    var comment_form = $(this).closest('form');
-    comment_form.find('.comment_status .button_small').removeClass('active');
-    $(this).addClass('active');
-    var new_sentiment = $(this).data('status');
-    comment_form.find('input[name="sentiment"]').attr('value', new_sentiment);
-});
+    $('.comment_status .button_small').live('click', function (event) {
+        event.preventDefault();
+        var comment_form = $(this).closest('form');
+        comment_form.find('.comment_status .button_small').removeClass('active');
+        $(this).addClass('active');
+        var new_sentiment = $(this).data('status');
+        comment_form.find('input[name="sentiment"]').attr('value', new_sentiment);
+    });
 
-(function() {
-    // function only to get a function local namespace
-    var second_level_comments = $('.comments_list > li > ul');
-    second_level_comments.hide();
-    second_level_comments.toggleClass('open');
-})();
+    (function () {
+        // function only to get a function local namespace
+        var second_level_comments = $('.comments_list > li > ul');
+        second_level_comments.hide();
+        second_level_comments.toggleClass('open');
+    }());
 
-$('.paper a.show_comments').click(function () {
-  var p_id = $(this).closest('.paper').attr('id');
-  $('#' + p_id + '_comments').toggle();
-  $(this).toggleClass('open');
-  return false;
-});
+    $('.paper a.show_comments').click(function () {
+        var p_id = $(this).closest('.paper').attr('id');
+        $('#' + p_id + '_comments').toggle();
+        $(this).toggleClass('open');
+        return false;
+    });
 
-$('.paper a.new_comment').click(function () {
-  var comment_form_html = $('#comment_form_template').html();
-  var p_id = $(this).closest('.paper').attr('id');
-  var comment_form = $('#comment_form_' + p_id).attr('comment_id');
-  if(!comment_form) {
-    $('#' + p_id).append('<div id="comment_form_' + p_id + '" comment_id="' + p_id + '">' + comment_form_html + '</div>');
-  } else $('#comment_form_' + p_id).remove();
-  $(this).toggleClass('open');
-  return false;
-});
+    $('.paper a.new_comment').click(function () {
+        var comment_form_html = $('#comment_form_template').html();
+        var p_id = $(this).closest('.paper').attr('id');
+        var comment_form = $('#comment_form_' + p_id).attr('comment_id');
+        if (!comment_form) {
+            $('#' + p_id).append('<div id="comment_form_' + p_id +
+                                 '" comment_id="' + p_id + '">' +
+                                 comment_form_html + '</div>');
+        } else {
+            $('#comment_form_' + p_id).remove();
+        }
 
-// This is done now by knockout bindings.
-// $('.switch_buttons .button_small').click(function () {
-//   $('.switch_buttons .button_small').removeClass('active');
-//   $(this).addClass('active');
-//   return false;
-// });
+        $(this).toggleClass('open');
+        return false;
+    });
 
-$('.info_box .close_button').click(function() {
-  $(this).parent().fadeOut();
-});
+    // This is done now by knockout bindings.
+    // $('.switch_buttons .button_small').click(function () {
+    //   $('.switch_buttons .button_small').removeClass('active');
+    //   $(this).addClass('active');
+    //   return false;
+    // });
+
+    $('.info_box .close_button').click(function () {
+        $(this).parent().fadeOut();
+    });
 
 });
