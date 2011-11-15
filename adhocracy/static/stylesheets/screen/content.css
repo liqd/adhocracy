@@ -517,7 +517,7 @@ top: 0px;
   background-position: center -657px;
 }
 
-/* the overlayed element */
+/* the overlayed elements */
 .overlay {
 
 	/* must be initially hidden */
@@ -537,6 +537,10 @@ top: 0px;
   box-shadow: 0 0 10px 5px #666;
 	-moz-box-shadow:0 0 10px 5px #666;
 	-webkit-box-shadow: 0 0 10px #666;
+}
+
+#overlay-big.overlay {
+	width: 1000px;
 }
 
 #welcome_message .info_box {

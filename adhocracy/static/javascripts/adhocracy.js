@@ -1,4 +1,30 @@
 $(document).ready(function(){
+
+    var overlayAjaxLoadContent,
+        overlayAjaxRebindLinks;
+
+    overlayAjaxLoadContent = function () {
+
+        // grab wrapper element inside content
+        var wrap = this.getOverlay().find(".contentWrap");
+        var url = this.getTrigger().attr("href") + ".overlay";
+        wrap.load(url);
+    };
+
+    overlayAjaxRebindLinks = function () {
+        // bind links containing the string '.overlay'
+        // to a handler that loads the url into the overlay
+        var wrap = this.getOverlay().find(".contentWrap");
+        $(wrap).delegate('a', 'click', function(event) {
+            var href = $(this).attr('href');
+            var re = new RegExp('\\.overlay');
+            if (re.test(href)) {
+                wrap.load(href);
+                event.preventDefault();
+            }
+        });
+    };
+
   // initial jquery slide
   $("#slides").slides({
     generatePagination: false,
@@ -25,29 +51,17 @@ $(document).ready(function(){
 
   //open link in overlay (like help pages)
   $("a[rel=#overlay-ajax]").overlay({
-
     target: '#overlay-default',
-
-    onBeforeLoad: function() {
-      // grab wrapper element inside content
-      var wrap = this.getOverlay().find(".contentWrap");
-      var url = this.getTrigger().attr("href") + ".overlay";
-      wrap.load(url);
-    },
-      onLoad: function() {
-          // bind links containing the string '.overlay'
-          // to a handler that loads the url into the overlay
-          var wrap = this.getOverlay().find(".contentWrap");
-          $(wrap).delegate('a', 'click', function(event) {
-              var href = $(this).attr('href');
-              var re = new RegExp('\\.overlay');
-              if (re.test(href)) {
-                  wrap.load(href);
-                  event.preventDefault();
-              }
-          });
-      }
+    onBeforeLoad: overlayAjaxLoadContent,
+    onLoad: overlayAjaxRebindLinks
   });
+
+  $("a[rel=#overlay-ajax-big]").overlay({
+    target: '#overlay-big',
+    onBeforeLoad: overlayAjaxLoadContent,
+    onLoad: overlayAjaxRebindLinks
+  });
+
 });
 
 $('#blog_select_button').click(function () {
