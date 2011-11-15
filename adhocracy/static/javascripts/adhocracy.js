@@ -350,8 +350,6 @@ $(document).ready(function(){
     onLoad: overlayAjaxRebindLinks
   });
 
-});
-
 $('#blog_select_button').click(function () {
   $('#blog_select').toggleClass('open');
   return false;
@@ -480,4 +478,6 @@ $('.paper a.new_comment').click(function () {
 
 $('.info_box .close_button').click(function() {
   $(this).parent().fadeOut();
+});
+
 });
