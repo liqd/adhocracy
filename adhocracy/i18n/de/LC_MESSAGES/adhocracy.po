@@ -3635,41 +3635,34 @@ msgstr ""
 
 #: adhocracy/templates/user/dashboard.html:4
 msgid "Startpage"
-msgstr ""
+msgstr "Startseite"
 
 #: adhocracy/templates/user/dashboard.html:12
-#, fuzzy, python-format
-#| msgid "%s proposal"
-#| msgid_plural "%s proposals"
 msgid "List all proposals"
-msgstr "%s Vorschlag"
+msgstr "Zeige alle Vorschläge"
 
 #: adhocracy/templates/user/dashboard.html:13
 #: adhocracy/templates/user/dashboard.html:22
 msgid "list all"
-msgstr ""
+msgstr "zeige alle"
 
 #: adhocracy/templates/user/dashboard.html:21
 msgid "List all pages"
-msgstr ""
+msgstr "Zeige alle Papiere"
 
 #: adhocracy/templates/user/dashboard.html:34
-#, fuzzy
-#| msgid "Delegate voting"
 msgid "Current Voting"
 msgstr "Abstimmung delegieren"
 
 #: adhocracy/templates/user/dashboard.html:37
 msgid "Organisations"
-msgstr ""
+msgstr "Organisationen"
 
 #: adhocracy/templates/user/delegations.html:20
 msgid "Topic"
 msgstr ""
 
 #: adhocracy/templates/user/delegations.html:21
-#, fuzzy
-#| msgid "Login"
 msgid "Given"
 msgstr "Anmelden"
 
