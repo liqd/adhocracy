@@ -27,6 +27,7 @@ from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
 from adhocracy.lib.queue import post_update
 from adhocracy.lib.templating import render, render_json
 from adhocracy.lib.util import get_entity_or_abort, random_token
+from adhocracy.model.instance import Instance
 
 
 log = logging.getLogger(__name__)
@@ -336,12 +337,72 @@ class UserController(BaseController):
         session.delete()
         redirect(h.base_url(c.instance))
 
-    def dashboard(self):
-        '''
-        Render a personalized dashboard for users
-        FIXME: implement
-        '''
+    def dashboard(self, id):
+        '''Render a personalized dashboard for users'''
+        
+        #user object
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.show(c.page_user)
+        #instances
+        instances = c.page_user.instances
+        #proposals
+        proposals = [model.Proposal.all(instance=i) for i in instances]
+        proposals = reduce(lambda x,y: x + y, proposals)
+        c.proposals_pager = pager.proposals(proposals, size=3,
+                                                    enable_pages=False) 
+        #pages
+        require.page.index()
+        pages = [model.Page.all(instance=i, functions=model.Page.LISTED ) \
+                                                        for i in instances]
+        pages = reduce(lambda x,y: x + y, pages)
+        c.pages_pager = pager.pages(pages, size=3, enable_pages=False)  
+        #watchlist
+        require.watch.index()
+        c.active_global_nav = 'watchlist'
+        watches = model.Watch.all_by_user(c.page_user)
+        entities = [w.entity for w in watches if (w.entity is not None) \
+            and (not isinstance(w.entity, unicode))]
+        c.watchlist_pager = NamedPager('watches', entities, \
+            tiles.dispatch_row_with_comments,
+            size=3,
+            enable_pages=False,
+            enable_sorts=False,
+            default_sort=sorting.entity_newest)
+        #render result
         return render('/user/dashboard.html')
+
+    def dashboard_proposals(self, id):
+        '''Render all proposals for all instances the use is member'''
+        #user object
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.show(c.page_user)
+        #instances
+        instances = c.page_user.instances
+        #proposals
+        proposals = [model.Proposal.all(instance=i) for i in instances]
+        proposals = reduce(lambda x,y: x + y, proposals)
+        c.proposals_pager= pager.proposals(proposals)
+        #render result
+        return render("/user/proposals.html")
+
+    def dashboard_pages(self, id):
+        '''Render all proposals for all instances the use is member'''
+        #user object
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.show(c.page_user)
+        #instances
+        instances = c.page_user.instances
+        #pages
+        require.page.index()
+        pages = [model.Page.all(instance=i, functions=model.Page.LISTED ) \
+                                                        for i in instances]
+        pages = reduce(lambda x,y: x + y, pages)
+        c.pages_pager = pager.pages(pages)  
+        #render result
+        return render("/user/pages.html") 
 
     @ActionProtector(has_permission("user.view"))
     def complete(self):

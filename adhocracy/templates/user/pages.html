@@ -1,0 +1,17 @@
+<%inherit file="/template.html" />
+
+<%def name="title()">${_("Proposals: %s") % c.page_user.name}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Norms")}
+</%def>
+
+<%block name="headline">
+<h1>${c.page_user.user_name} &ndash; ${_(u'Norms')}</h1>
+</%block>
+
+<%block name="main_content">
+<div class="table">
+    ${c.pages_pager.here()}
+</div>
+</%block>

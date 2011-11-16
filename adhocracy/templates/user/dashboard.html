@@ -1,152 +1,48 @@
 <%inherit file="/template.html" />
 
-<%block name="title">
-    Fixme: Personal dashboard of John Doe
-</%block>
-
 <%block name="headline">
-<h1>Personal Startpage</h1>
+<h1>${_("Startpage")}</h1>
 </%block>
 
 <%block name="main_content">
 <section>
-    <div class="floatbox filter">
-        <h2>FIXME: real content.</h2>
-        <div class="filter_box">
-            Neueste | <a href="#">Aktuell</a> | <a href="#">Meistdiskutiert</a>
-        </div>
-    </div>
-    <div class="hr"><hr /></div>
-    <ul class="content_list">
-        <li class="content_box">
-            <article>
-                <h3><a href="#">Transparenz in Datenschutz einbeziehen</a></h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua&hellip; <a href="#" class="icon_link more">mehr</a>
-                </p>
-                <div class="meta">vor 20 Minuten in <a href="#">Demokratie und Staat</a> &middot; +6 Stimmen &middot; 4 Kommentare</div>
-                <div class="hr"><hr /></div>
-            </article>
-        </li>
-        <li class="content_box">
-            <article>
-                <h3><a href="#">Transparenz in Datenschutz einbeziehen</a></h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&hellip; <a href="#" class="icon_link more">mehr</a>
-                </p>
-                <div class="meta">vor 20 Minuten in <a href="#">Demokratie und Staat</a> &middot; +6 Stimmen &middot; 4 Kommentare</div>
-                <div class="hr"><hr /></div>
-            </article>
-        </li>
-        <li class="content_box">
-            <article>
-                <h3><a href="#">Transparenz in Datenschutz einbeziehen</a></h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&hellip; <a href="#" class="icon_link more">mehr</a>
-                </p>
-                <div class="meta">vor 20 Minuten in <a href="#">Demokratie und Staat</a> &middot; +6 Stimmen &middot; 4 Kommentare</div>
-                <div class="hr"><hr /></div>
-            </article>
-        </li>
-    </ul>
-    <a href="#" class="icon_link more view_all">alle ansehen</a>
+    <h2>${_('Proposals')}</h2>
+    ${c.proposals_pager.here()}
+    <p>
+      <a title="${_('List all proposals')}" class="icon_link more view_all"
+        href="${h.entity_url(c.page_user, member='dashboard_proposals')}">${_('list all')}
+      </a>        
+    </p>
 </section>
-<br /><br />
 <section>
-    <div class="floatbox filter">
-        <h2>Papiere</h2>
-        <div class="filter_box">
-            Neueste | <a href="#">Aktuell</a> | <a href="#">Meistdiskutiert</a>
-        </div>
-    </div>
-    <div class="hr"><hr /></div>
-    <ul class="content_list">
-        <li class="content_box">
-            <article>
-                <h3><a href="#">Transparenz in Datenschutz einbeziehen</a></h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.&hellip; <a href="#" class="icon_link more">mehr</a>
-                </p>
-                <div class="meta">vor 20 Minuten in <a href="#">Demokratie und Staat</a> &middot; +6 Stimmen &middot; 4 Kommentare</div>
-                <div class="hr"><hr /></div>
-            </article>
-        </li>
-        <li class="content_box">
-            <article>
-                <h3><a href="#">Transparenz in Datenschutz einbeziehen</a></h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&hellip; <a href="#" class="icon_link more">mehr</a>
-                </p>
-                <div class="meta">vor 20 Minuten in <a href="#">Demokratie und Staat</a> &middot; +6 Stimmen &middot; 4 Kommentare</div>
-                <div class="hr"><hr /></div>
-            </article>
-        </li>
-        <li class="content_box">
-            <article>
-                <h3><a href="#">Transparenz in Datenschutz einbeziehen</a></h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&hellip; <a href="#" class="icon_link more">mehr</a>
-                </p>
-                <div class="meta">vor 20 Minuten in <a href="#">Demokratie und Staat</a> &middot; +6 Stimmen &middot; 4 Kommentare</div>
-                <div class="hr"><hr /></div>
-            </article>
-        </li>
-    </ul>
-    <a href="#" class="icon_link more view_all">alle ansehen</a>
+    <h2>${_("Pages")}</h2>
+    ${c.pages_pager.here()}
+    <p>
+      <a title="${_("List all pages")}" class="icon_link more view_all"
+        href="${h.entity_url(c.page_user, member='dashboard_pages')}">${_("list all")}
+      </a>        
+    </p>
 </section>
 </%block>
 
 <%block name="sidebar">
 <section>
-    <h3>Beobachtungsliste</h3>
-    <ul class="content_list">
-        <li>
-            <h5><a href="#">Transparenz in Datenschutz einbeziehen</a></h5>
-            <div class="meta">vor 20 Minuten in <a href="#">Demokratie und Staat</a> &middot; 6 Stimmen &middot; 4 Kommentare</div>
-        </li>
-        <li>
-            <h5><a href="#">Die Linke</a></h5>
-            <div class="meta">vor 20 Minuten in <a href="#">Demokratie und Staat</a> &middot; 6 Stimmen &middot; 4 Kommentare</div>
-        </li>
-        <li>
-            <h5><a href="#">Transparenz in Datenschutz einbeziehen</a></h5>
-            <div class="meta">vor 20 Minuten in <a href="#">Demokratie und Staat</a> &middot; 6 Stimmen &middot; 4 Kommentare</div>
-        </li>
-    </ul>
+  <h3>${_("Watchlist")}</h3>
+    ${c.watchlist_pager.here()}
 </section>
 <section>
-    <h3>Aktuelle Abstimmungen</h3>
-    <ul class="content_list">
-        <li>
-            <span class="countdown highlight">Noch 20 Minuten</span><br />
-            <a href="#">Transparenz im Datenschutz</a>
-        </li>
-        <li>
-            <span class="countdown highlight">Noch 20 Minuten</span><br />
-            <a href="#">Transparenz im Datenschutz</a>
-        </li>
-        <li>
-            <span class="countdown highlight">Noch 20 Minuten</span><br />
-            <a href="#">Transparenz im Datenschutz</a>
-        </li>
-        <li>
-            <span class="countdown highlight">Noch 20 Minuten</span><br />
-            <a href="#">Transparenz im Datenschutz</a>
-        </li>
-        <li>
-            <span class="countdown">Bis <time>20.12.2011</time></span><br />
-            <a href="#">Transparenz im Datenschutz</a>
-        </li>
-    </ul>
+  <h3>${_("Current Voting")}</h3>
 </section>
 <section>
-    <h3>Organisationen</h3>
-    Aktuelle Organisiationen<br />
+  <h3>${_("Organisations")}</h3>
     <ul>
-        <li><a href="#">Die Linke</a></li>
-        <li><a href="#">Greenpeace</a></li>
-        <li><a href="#">Deutscher Frauenbund</a></li>
-        <li><a href="#">Bund für Naturschutz</a></li>
+    %for instance in c.page_user.instances:
+      <li>
+         <a title="${instance.label}" 
+            href="${h.entity_url(instance)}">${instance.label}
+        </a>
+      </li>
+    %endfor   
     </ul>
 </section>
 </%block>
