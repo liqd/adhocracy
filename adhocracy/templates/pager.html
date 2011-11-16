@@ -1,35 +1,42 @@
 
 <%def name="namedpager(pager)">
-    <div class="floatbox">
-        <span class="pager_items">
-            ${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=pager.total_num_items())}
-        </span>
-      <div class="filter_box">        
-        %if len(pager.sorts.keys()) > 1 and pager.enable_sorts:
-            <span class="pager_sorts">
-            ${_("sort by:")}
-            %for sort, i in zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)):
-                <a class="${'selected' if i == pager.selected_sort else ''}" 
-                    href="${pager.build_url(sort=i)}">${sort}</a>
-                %if i < len(pager.sorts.keys()):
-                    |
-                %endif
-            %endfor
-            </span>
-        %endif
-      </div>
-    </div>
-
-    <div class="hr"><hr /></div>
-
-    <ul class="content_list">
+    %if pager.enable_pages or pager.enable_sorts:
+        <div class="floatbox">
+            %if pager.enable_pages:
+                <span class="pager_items">
+                    ${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=pager.total_num_items())}
+                </span>
+            %endif
+            %if len(pager.sorts.keys()) > 1 and pager.enable_sorts:
+                <div class="filter_box">        
+                    <span class="pager_sorts">
+                    ${_("sort by:")}
+                    %for sort, i in zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)):
+                        <a class="${'selected' if i == pager.selected_sort else ''}" 
+                            href="${pager.build_url(sort=i)}">${sort}</a>
+                        %if i < len(pager.sorts.keys()):
+                            |
+                        %endif
+                    %endfor
+                    </span>
+                </div>
+            %endif
+        </div>
+        <div class="hr"><hr /></div>
+    %endif
+    %if pager.enable_pages or pager.enable_sorts:
+      <ul class="content_list">
+    %endif
+    %if not pager.enable_pages or pager.enable_sorts:
+      <ul class="content_list without_paging">
+    %endif
     %if not len(pager.items):
         <li class="infobox">${_("No entries.")}</li>
     %endif
     %for item in pager.items:
         ${pager.itemfunc(item)}
     %endfor
-    </ul>
+      </ul>
     %if pager.enable_pages:
         %if pager.pages > 1:
         <div class="pager">
@@ -73,7 +80,6 @@
         %endif
     %endif
 </%def>
-
 
 <%def name="facets(pager)">
 %if (True in [facet.available() for facet in pager.facets]):
