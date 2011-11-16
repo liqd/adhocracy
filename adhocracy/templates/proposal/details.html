@@ -104,9 +104,9 @@
     <a href="FIXME">Bearbeiten</a>
 </div>
 
-<section>
-    <div id="selection_box">
-        <ul>
+<nav>
+    <div class="hlist">
+        <ul class="tabnav">
             <li>
                 <a id="text_link" href="#text"
                    data-bind="css: {active: showText},
@@ -140,6 +140,11 @@
             </li>
             </%doc>
         </ul>
+    </div>
+</nav>
+
+<section>
+    <div id="selection_box">
         <article class="text_content"
                  id="text"
                  data-bind="visible: showText">
@@ -172,16 +177,12 @@
 
         <details id="history" class="only-js"
                  data-bind="visible: showHistory">
-            <summary>
-                <h4>${_('History of this variant')}</h4>
-            </summary>
+                <h3>${_('History of this variant')}</h3>
             <div data-bind="html: variants.current.history"></div>
         </details>
         <details id="votes" class="only-js"
                  data-bind="visible: showVotes">
-            <summary>
-                <h4>${_('Votes for this variant')}</h4>
-            </summary>
+                <h3>${_('Votes for this variant')}</h3>
             <div data-bind="html: variants.current.votes"></div>
         </details>
         <%doc>
@@ -189,9 +190,7 @@
         ## activated on enquetebeteiligung
         <details id="delegates" class="only-js"
                  data-bind="visible: showDelegates">
-            <summary>
-                <h4>${_('Delegations for this variant')}</h4>
-            </summary>
+                <h3>${_('Delegations for this variant')}</h3>
             <div data-bind="html: variants.current.delegates"></div>
         </details>
         </%doc>
