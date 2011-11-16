@@ -472,20 +472,6 @@ class UserController(BaseController):
                               add_canonical=True)
         return render("/user/instances.html")
 
-    @RequireInstance
-    def proposals(self, id, format='html'):
-        c.page_user = get_entity_or_abort(model.User, id,
-                                          instance_filter=False)
-        require.user.show(c.page_user)
-        proposals = model.Proposal.find_by_creator(c.page_user)
-        c.proposals_pager = pager.proposals(proposals)
-
-        if format == 'json':
-            return render_json(c.proposals_pager)
-
-        self._common_metadata(c.page_user, member='proposals')
-        return render("/user/proposals.html")
-
     def watchlist(self, id, format='html'):
         require.watch.index()
         c.active_global_nav = 'watchlist'

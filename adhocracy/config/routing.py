@@ -40,7 +40,6 @@ def make_map():
                 action='dashboard_pages')
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
-                                         'proposals': 'GET',
                                          'votes': 'GET',
                                          'instances': 'GET',
                                          'watchlist': 'GET',
