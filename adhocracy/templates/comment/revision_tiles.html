@@ -17,19 +17,11 @@
     </div>
     
     <div class="headrev">
-        %if revision.is_latest and can.comment.edit(revision.comment):
-            <div class="edit_form">
-                ${comment_tiles.edit_form(revision.comment)}
-            </div>
-        %endif
         %if revision.is_latest:
             <div class="hide_edit">
         %endif
             <div class="text">
                 ${diff.comment_revisions_compare(revision, revision.previous)|n}
             </div>
-        %if revision.is_latest:
-            </div>
-        %endif
     </div>
 </%def>

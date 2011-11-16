@@ -25,7 +25,8 @@ class PollTile(BaseTile):
         self.count_class = ('positive' if score > 0 else 'negative' if
                             score < 0 else 'neutral')
         self.display_score = u'0' if score == 0 else u"%+d" % score
-        self.login_redirect_url = h.login_redirect_url(poll.scope, anchor=self.html_id)
+        self.login_redirect_url = h.login_redirect_url(poll.scope,
+                                                       anchor=self.html_id)
 
     def action_url(self, position, type_=RATE):
         '''
@@ -48,9 +49,10 @@ class PollTile(BaseTile):
         if type_ == self.RATE:
             if position == 0:
                 raise ValueError('Rating neutral is not possible')
-            return self._rate_url(self.poll, 1)
+            return self._rate_url(self.poll, position)
         elif type_ == self.VOTE:
-            raise NotImplemented('PollTile does not support action_url for voting')
+            raise NotImplemented('PollTile does not support '
+                                 'action_url for voting')
         else:
             raise ValueError('Unsupported type_, use VOTE or RATE')
 
@@ -119,7 +121,7 @@ class PollTile(BaseTile):
         params = {'url': h.entity_url(poll, member='rate'),
                   'token_param': h.url_token(),
                   'position': position}
-        return "%(url)s?position=%(position)s&%(token_param)s" % params
+        return "%(url)s?position=%(position)d&%(token_param)s" % params
 
 
 def booth(poll):

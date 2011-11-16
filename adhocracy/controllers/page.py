@@ -404,7 +404,7 @@ class PageController(BaseController):
         return render("/page/show.html")
 
     @RequireInstance
-    def history(self, id, variant=model.Text.HEAD, text=None, format='html'):
+    def history(self, id, variant=model.Text.HEAD, text=None, format=None):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
         if c.text is None:
@@ -415,10 +415,12 @@ class PageController(BaseController):
             sorts={_("oldest"): sorting.entity_oldest,
                    _("newest"): sorting.entity_newest},
             default_sort=sorting.entity_newest)
+
         if format == 'json':
             return render_json(c.texts_pager)
         c.tile = tiles.page.PageTile(c.page)
         self._common_metadata(c.page, c.text)
+
         if format == 'overlay':
             return c.texts_pager.here()
         else:

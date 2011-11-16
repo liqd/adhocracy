@@ -47,8 +47,8 @@
 
     <h3>Information zum Papier</h3>
     <summary>
-        ## FIXME: <h6>Shortlink</h6>
-        ## FIXME: <p><a href="#">http://j.mp/12345</a></p>
+        ## Shortlink http://domain/d/1234
+        ${components.shortlink(c.page)}
 
         <h6>Zuletzt aktiv</h6>
         <p><time>${h.relative_time(c.page.find_latest_comment_time())|n}</time></p>

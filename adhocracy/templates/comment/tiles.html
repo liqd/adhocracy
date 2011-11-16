@@ -29,8 +29,10 @@
 
     %if root is None:
         %if not len(_comments):
-            <div class="infobox">
-                ${_("No comments were made yet.")}
+            <div class="comment_wrapper">
+                <div class="comment empty">
+                    ${_("No comments were made yet.")}
+                </div>
             </div>
         %endif
     %endif
@@ -55,39 +57,6 @@
                 ${create_form(None, topic, variant=variant, ret_url=ret_url)}
             </div>
         </div>
-        %endif
-    %endif
-</%def>
-
-
-<%def name="list_new(tile, comments, topic, variant=None, 
-                     root=None, recurse=True, 
-                     ret_url='')">
-    <%
-    _comments = h.comments_sorted(comments, root=root, variant=variant)
-    import pdb; pdb.set_trace()
-    %>
-
-
-    %if root is None and not len(_comments):
-        ${_("No comments were made yet.")}
-    %endif
-
-    %if _comments:
-    <ul class="comments_list">
-        <li>
-        %for comment, tile in _comments:
-        ${full(tile, comment, comments, recurse, ret_url=ret_url)}
-        %endfor
-        </li>
-    </ul>
-    %endif
-
-    %if root is None:
-        %if can.comment.create_on(topic):
-            <div class="comment">
-                ${create_form(None, topic, variant=variant, ret_url=ret_url)}
-            </div>
         %endif
     %endif
 </%def>
@@ -168,11 +137,20 @@
                 <span style="display: none;" class="hover_active">
                     <a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
                     · 
+                    %if len(comment.revisions) > 1:
+                    <span class="only-js"> 
+                        ## FIXME: remove when we can support no-js clients.
+                        <a href="${h.entity_url(comment, member='history')}"
+                           rel="#overlay-ajax">
+                            ${_("history")}
+                        </a> 
+                        ·
+                    </span>
+                    %endif
                     <%doc>
                     FIXME: Add when we have implemented permalinks or details overlay dialogs
                     <a href="#">Link</a> · 
                     FIXME: Add when we implemented details dialog
-                    <a href="#">Historie</a> · 
                     </%doc>
                 </span>
 

@@ -211,6 +211,8 @@ class CommentController(BaseController):
             sorts={_("oldest"): sorting.entity_oldest,
                    _("newest"): sorting.entity_newest},
                                      default_sort=sorting.entity_newest)
+        if format == 'overlay':
+            return c.revisions_pager.render_pager()
         if format == 'json':
             return render_json(c.revisions_pager)
         return render('/comment/history.html')

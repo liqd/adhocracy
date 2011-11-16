@@ -16,9 +16,6 @@ def url(text, **kwargs):
         url += u'/' + urllib.quote(text.variant.encode('utf-8'))
     if text != text.page.variant_head(text.variant):
         url += u';' + str(text.id)
-    if kwargs.get('member') == 'history' and text.variant == text.HEAD:
-        # history urls do not work without the variant in the url.
-        url += '/HEAD'
     return _url.append_member_and_format(url, **kwargs)
 
 
