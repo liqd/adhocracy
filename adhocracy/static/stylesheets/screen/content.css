@@ -4,6 +4,10 @@ body {
   line-height: 1.5;
 }
 
+/* HTML5 DECLARATIONS */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, dialog {display: block}
+audio[controls],canvas,video {display: inline-block; *display: inline; zoom: 1}
+
 /* fonts */
 h1, h2, h3, h4, h5, h6, legend { font-family: 'ColaborateRegular', Arial, sans-serif; line-height: 1.2; }
 h1 { font-size: 34px; margin: 27px 23px; font-weight: normal; }
@@ -38,6 +42,20 @@ li {
   margin-bottom: 20px;
 }
 .hr hr { display: none; }
+
+table {
+  margin-bottom: 20px;
+}
+table td.line_number {
+  width: 20px;
+  padding-right: 10px;
+  text-align: right;
+  color: #666;
+}
+table td.line_text {
+ font-family: Courier;
+  color: #000;
+}
 
 /* links */
 a {
@@ -183,7 +201,7 @@ a.button_small.off:active, a.button_small.off.active {
 li.content_box {
   padding: 20px 0 0 0;
   margin-bottom: 20px;
-  background: url('/images/list_bg.png') right bottom no-repeat;
+  background: url('/images/list_bg.png') right top no-repeat;
 }
 li.content_box h3, li.content_box p, li.content_box .meta {
   padding-right: 20px;
@@ -520,27 +538,26 @@ top: 0px;
 /* the overlayed elements */
 .overlay {
 
-	/* must be initially hidden */
-	display:none;
+  /* must be initially hidden */
+  display:none;
+  
+  /* place overlay on top of other elements */
+  z-index:10000;
 
-	/* place overlay on top of other elements */
-	z-index:10000;
-
-	/* styling */
-	background-color:#333;
-
-	width: 500px;
+  /* styling */
+  width: 500px;
   padding: 20px;
   border-radius: 10px;
   border: 1px solid #d4d4d4;
   background: #fffde4;
   box-shadow: 0 0 10px 5px #666;
-	-moz-box-shadow:0 0 10px 5px #666;
-	-webkit-box-shadow: 0 0 10px #666;
+  -moz-box-shadow:0 0 10px 5px #666;
+  -webkit-box-shadow: 0 0 10px #666;
 }
 
 #overlay-big.overlay {
-	width: 1000px;
+  width: 1000px;
+  background-color: #fff;
 }
 
 #welcome_message .info_box {
@@ -644,6 +661,25 @@ top: 0px;
 #subnav li.settings:hover {
   background: url('/images/sprite_tab_navigation.png') repeat-x 0 -213px;
 }
+
+/* tab nav  */
+.tabnav {
+  margin: 0;
+}
+.tabnav li {
+  margin-top: 10px;
+}
+.tabnav li a {
+  padding: 5px 15px;
+  display: block;
+  color: #000;
+  border-bottom: 1px solid #fff;
+}
+.tabnav li a.active, .tabnav li a:hover {
+  background: #F2F6F6;
+  text-decoration: none;
+}
+
 
 /* sidebar_nav */
 #sidebar_nav {
@@ -879,38 +915,42 @@ ul.papers_list li {
 }
 
 .paper_selection {
-  margin-top: 35px;
+  padding-top: 35px;
+}
+#main-overlay .paper_selection {
+  padding-top: 85px;
 }
 
-#paper_box {
+#paper_box, #selection_box {
   background: #f2f6f6;
 }
-#paper_box .paper_header, #paper_box .paper_text, #paper_box .paper_comments {
+#paper_box .paper_header, #paper_box .paper_text, #paper_box .paper_comments, #selection_box .paper_header, #selection_box .paper_text, #selection .paper_comments {
   padding:  20px 20px 0;
   border-bottom: 1px solid #fff;
 }
-#paper_box .paper_text h4, #paper_box .paper_comments h3, #paper_box .paper_comments h4 {
+#paper_box .paper_text h4, #paper_box .paper_comments h3, #paper_box .paper_comments h4, #selection_box .paper_text h4, #selection_box .paper_comments h3, #selection_box .paper_comments h4 {
   color: #2d3441;
   font-size: 16px;
 }
-#paper_box .paper_text {
-  font-family: Courier;
-  color: #000;
-}
-#paper_box .paper_comments {
+#paper_box .paper_comments, #selection_box .paper_comments {
   cursor: pointer;
 }
-#paper_box .paper_comments .meta {
+#paper_box .paper_comments .meta, #selection_box .paper_comments .meta {
   margin-bottom: 0px;
   padding-top: 10px;
 }
-#paper_box .paper_comments ul.comments_list {
+#paper_box .paper_comments ul.comments_list, #selection_box .paper_comments ul.comments_list {
   background: none;
 }
-#paper_box .paper_comments ul.comments_list > li {
+#paper_box .paper_comments ul.comments_list > li, #selection_box .paper_comments ul.comments_list > li {
     padding: 10px 20px 0 0;
 }
-
+#paper_box details, #selection_box details {
+  padding: 20px 20px 0;
+}
+#paper_box details .hr, #selection_box details .hr {
+  background: #fff;
+}
 .no-js .changes_switch {
     display: none;
 }

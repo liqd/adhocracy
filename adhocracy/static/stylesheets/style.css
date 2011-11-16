@@ -27,7 +27,7 @@
 
 body { color: #2d3441; }
 
-h1, h2, h3, h4, h5, a, legend {
+h1, h2, h3, h4, h5, a, legend, .tabnav li a.active, .tabnav li a:hover {
   color: #446191;
 }
 
