@@ -68,6 +68,7 @@ This version requires Python 2.5 or later.
         "PIL>=1.1.6",
         "markdown2>=1.0.1",
         "lxml>=2.2.6",
+        "Mako>=0.4.2",
         "recaptcha-client>=1.0.6",
         "fanstatic >=0.11.2, <=0.11.99",
         "js.jquery >= 1.6.1,<=1.6.99",
