@@ -175,24 +175,28 @@
             </div>
         </article>
 
-        <details id="history" class="only-js"
+        <section id="comments" data-bind="visible: showText">
+            ${tiles.comment.list(c.page, variant=c.variant_details['variant'])}
+        </section>
+            
+        <section id="history" class="only-js"
                  data-bind="visible: showHistory">
                 <h3>${_('History of this variant')}</h3>
             <div data-bind="html: variants.current.history"></div>
-        </details>
-        <details id="votes" class="only-js"
+        </section>
+        <section id="votes" class="only-js"
                  data-bind="visible: showVotes">
                 <h3>${_('Votes for this variant')}</h3>
             <div data-bind="html: variants.current.votes"></div>
-        </details>
+        </section>
         <%doc>
         ## FIXME: disabled deleations cause they are not
         ## activated on enquetebeteiligung
-        <details id="delegates" class="only-js"
+        <section id="delegates" class="only-js"
                  data-bind="visible: showDelegates">
                 <h3>${_('Delegations for this variant')}</h3>
             <div data-bind="html: variants.current.delegates"></div>
-        </details>
+        </section>
         </%doc>
     </div>
 </section>
