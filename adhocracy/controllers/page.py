@@ -325,7 +325,8 @@ class PageController(BaseController):
              'history_count': len(variant_text.history),
              'selections': selections,
              'num_selections': len(selections),
-             'is_head': (variant == model.Text.HEAD)})
+             'is_head': (variant == model.Text.HEAD),
+             'can_edit': can.variant.edit(page, variant)})
         return details
 
     @classmethod
@@ -388,7 +389,7 @@ class PageController(BaseController):
             c.page, c.variant, current_selection=int(requested_selection))
         if 'variant_json' in request.params:
             return render_json(c.variant_details)
-        c.variant_details_json = json.dumps(c.variant_details)
+        c.variant_details_json = json.dumps(c.variant_details, indent=4)
 
         # Make a list of variants to render the vertical tab navigation
         c.variant_items = self.variant_items(c.page, current_variant=c.variant)
