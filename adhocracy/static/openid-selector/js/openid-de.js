@@ -14,16 +14,16 @@ var providers_large = {
 		name : 'Yahoo',
 		url : 'http://me.yahoo.com/'
 	},
-	aol : {
+	/*aol : {
 		name : 'AOL',
 		label : 'Bitte den AOL Benutzernamen eingeben.',
 		url : 'http://openid.aol.com/{username}'
-	},
-	myopenid : {
+	},*/
+	/*myopenid : {
 		name : 'MyOpenID',
 		label : 'Bitte den MyOpenID Benutzernamen eingeben.',
 		url : 'http://{username}.myopenid.com/'
-	},
+	},*/
 	openid : {
 		name : 'OpenID',
 		label : 'Bitte OpenID eingeben.',
@@ -32,7 +32,7 @@ var providers_large = {
 };
 
 var providers_small = {
-	livejournal : {
+	/*livejournal : {
 		name : 'LiveJournal',
 		label : 'Bitte den LiveJournal Benutzernamen eingeben.',
 		url : 'http://{username}.livejournal.com/'
@@ -47,21 +47,21 @@ var providers_small = {
 		label: 'Bitte den Technorati Benutzernamen eingeben.',
 		url: 'http://technorati.com/people/technorati/{username}/'
 	}, */
-	wordpress : {
+	/*wordpress : {
 		name : 'Wordpress',
 		label : 'Bitte den Wordpress.com Benutzernamen eingeben.',
 		url : 'http://{username}.wordpress.com/'
-	},
-	blogger : {
+	},*/
+	/*blogger : {
 		name : 'Blogger',
 		label : 'Ihr Blogger Konto',
 		url : 'http://{username}.blogspot.com/'
-	},
-	verisign : {
+	},*/
+	/*verisign : {
 		name : 'Verisign',
 		label : 'Ihr Verisign Benutzername',
 		url : 'http://{username}.pip.verisignlabs.com/'
-	},
+	},*/
 	/* vidoop: {
 		name: 'Vidoop',
 		label: 'Ihr Vidoop Benutzername',
@@ -72,21 +72,21 @@ var providers_small = {
 		label: 'Ihr Launchpad Benutzername',
 		url: 'https://launchpad.net/~{username}'
 	}, */
-	claimid : {
+	/*claimid : {
 		name : 'ClaimID',
 		label : 'Ihr ClaimID Benutzername',
 		url : 'http://claimid.com/{username}'
-	},
-	clickpass : {
+	},*/
+	/*clickpass : {
 		name : 'ClickPass',
 		label : 'Bitte den ClickPass Benutzernamen eingeben',
 		url : 'http://clickpass.com/public/{username}'
-	},
-	google_profile : {
+	},*/
+	/*google_profile : {
 		name : 'Google Profile',
 		label : 'Bitte den Google Profile Benutzernamen eingeben',
 		url : 'http://www.google.com/profiles/{username}'
-	}
+	}*/
 };
 
 openid.locale = 'de';
