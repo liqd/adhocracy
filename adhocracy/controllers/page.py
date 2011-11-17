@@ -320,14 +320,22 @@ class PageController(BaseController):
             page, variant, current_selection=current_selection)
         details.update(
             {'variant': variant,
+             'display_title': cls.variant_display_title(variant),
              'history_url': h.entity_url(variant_text, member='history'),
              # FIXME: Text.history is marked with comment 'performance fail'
              'history_count': len(variant_text.history),
              'selections': selections,
              'num_selections': len(selections),
              'is_head': (variant == model.Text.HEAD),
-             'can_edit': can.variant.edit(page, variant)})
+             'can_edit': can.variant.edit(page, variant),
+             'edit_url': h.entity_url(variant_text, member='edit')})
         return details
+
+    @classmethod
+    def variant_display_title(cls, variant):
+        if variant == model.Text.HEAD:
+            return  _('Original version')
+        return _(u'Variant: "%s"') % variant
 
     @classmethod
     def variant_overview(cls, page, variant, current_variant=None,
@@ -345,6 +353,7 @@ class PageController(BaseController):
             rendered_score = ''
         details = {'href': h.page.page_variant_url(page, variant=variant),
                    'title': title,
+                   'display_title': cls.variant_display_title(variant),
                    'is_head': is_head,
                    'selected': variant == current_variant,
                    'score': score,

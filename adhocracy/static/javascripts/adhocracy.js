@@ -34,7 +34,9 @@ if (typeof (adhocracy) === "undefined") {
         "history_count": undefined,
         "has_changes": undefined,
         "variant": undefined,
-        "can_edit": undefined
+        "can_edit": undefined,
+        "edit_url": undefined,
+        "display_title": undefined
     };
 
     /**
