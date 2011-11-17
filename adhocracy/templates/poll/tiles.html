@@ -8,8 +8,10 @@
 ## position.
 ## FIXME: Render the vote_count as a link to the votes listing
 <div id="${tile.html_id}" class="vote ${cls} ${tile.deactivated_class}">
-    <span class="vote_count ${tile.count_class}"
-          >${tile.display_score}</span
+    <a href="${tile.votes_listing_url()}"
+       rel="[#overlay-ajax]"
+    class="vote_count ${tile.count_class}"
+          >${tile.display_score}</a
     ><a href="${tile.action_url(+1)}" 
         class="vote_up ${'active' if tile.current_position == 1 else ''}"
         ><span>&nbsp;</span></a
