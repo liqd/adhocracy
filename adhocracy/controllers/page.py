@@ -316,6 +316,16 @@ class PageController(BaseController):
         head_text = page.head
         variant_text = page.variant_head(variant)
         details = cls._diff_details(head_text, variant_text)
+
+        # Replace items comming from diff_details for the UI
+        messages = (('text', _('<i>(No text)</i>')),
+                    ('title', _('<i>(No title))</i>')),
+                    ('text_diff', _('<i>(No differences))</i>')),
+                    ('title_diff', _('<i>(No differences)</i>')))
+        for (key, message) in messages:
+            if details[key].strip() == '':
+                details[key] = message
+
         selections = cls.supporting_selections_details(
             page, variant, current_selection=current_selection)
         details.update(
