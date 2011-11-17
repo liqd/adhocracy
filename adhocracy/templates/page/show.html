@@ -101,17 +101,21 @@
 </script>
 
 
-<div class="utility">
     <h2>${c.page.title}</h2>
-    <a href="FIXME">Bearbeiten</a>
-</div>
 
 <section>
     <div id="paper_box">
         <article>
             <div class="paper_header">
-                <h3>Variante &ldquo;<span data-bind="text:variants.current.title">
-                ${c.variant_details['title']}</span>&rdquo;</h3>
+                <div class="utility">
+                <h3 data-bind="text:variants.current.display_title">
+                    ${c.variant_details['display_title']}
+                </h3>
+                <a href="${c.variant_details['edit_url']}"
+                   style="${'display: none' if not c.variant_details['can_edit'] else ''}">
+                    ${_('edit')}
+                </a>
+                </div>
             </div>
             <div class="paper_text text"
                  data-bind="visible: variants.showPlain()">
