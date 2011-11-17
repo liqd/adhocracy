@@ -416,13 +416,10 @@ $(document).ready(function () {
         // bind links containing the string '.overlay'
         // to a handler that loads the url into the overlay
         var wrap = this.getOverlay().find(".contentWrap");
-        $(wrap).delegate('a', 'click', function (event) {
+        wrap.delegate('a[href*=\\.overlay]', 'click', function (event) {
             var href = $(this).attr('href');
-            var re = new RegExp('\\.overlay');
-            if (re.test(href)) {
-                wrap.load(href);
-                event.preventDefault();
-            }
+            wrap.load(href);
+            event.preventDefault();
         });
     };
 
