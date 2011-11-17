@@ -2,6 +2,7 @@ from pylons import tmpl_context as c
 
 from adhocracy import model
 from adhocracy.lib import democracy, helpers as h
+from adhocracy.lib.auth import can
 from adhocracy.lib.tiles import comment_tiles, proposal_tiles
 from adhocracy.lib.tiles.util import render_tile, BaseTile
 
@@ -13,10 +14,10 @@ class PollTile(BaseTile):
     RATE = 0
     VOTE = 1
 
-    def __init__(self, poll, deactivated=False, need_auth=False):
+    def __init__(self, poll, deactivated=False):
         self.poll = poll
         self.deactivated = deactivated
-        self.need_auth = need_auth
+        self.need_auth = (not can.poll.vote(poll))
         self.__state = None
         self.__decision = None
         self.__dnode = None
@@ -123,18 +124,24 @@ class PollTile(BaseTile):
                   'position': position}
         return "%(url)s?position=%(position)d&%(token_param)s" % params
 
+    def votes_listing_url(self):
+        return h.entity_url(self.poll, member="votes")
+
 
 def booth(poll):
     return render_tile('/poll/tiles.html', 'booth',
                         PollTile(poll), poll=poll, user=c.user, cached=True)
 
 
-def widget(poll, cls='', deactivated=False, need_auth=False):
+def widget(poll, cls='', deactivated=False):
     '''
     FIXME: fix caching. Poll objects don't change. Tallies are
     generated for every vote. Ask @pudo about this.
 
-    Render a rating widget for an :class:`adhocracy.model.poll.Poll`
+    Render a rating widget for an :class:`adhocracy.model.poll.Poll`.
+    It is rendered based on the permission of the current user to
+    vote for the poll.
+
     TODO: Add support for helpful tooltips for the voting buttons.
 
     *cls* (str)
@@ -144,14 +151,11 @@ def widget(poll, cls='', deactivated=False, need_auth=False):
     *deactivated*
         Render the widget deactivated which does not show vote buttons
         or the current position of the user, but still the vote count.
-    *need_auth*
-       Render the widget in a semi-active state where users will be
-       redirected to the login form. TODO: Implement useful tooltips.
     '''
-    t = PollTile(poll, deactivated, need_auth)
+    t = PollTile(poll, deactivated)
     return render_tile('/poll/tiles.html', 'widget',
                        t, poll=poll, user=c.user, cls=cls,
-                       deactivated=deactivated, need_auth=need_auth,
+                       deactivated=deactivated,
                        cached=True)
 
 
