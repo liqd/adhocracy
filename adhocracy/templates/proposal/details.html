@@ -100,8 +100,7 @@
 
 
 <div class="utility">
-    <h2>${c.page.title}</h2>
-    <a href="FIXME">Bearbeiten</a>
+    <h2>${_('Get Involved')}</h2>
 </div>
 
 <nav>
@@ -152,8 +151,9 @@
                 <div data-bind="html: voteWidget">
                     $(tiles.poll.widget(c.current_variant_poll, cls="big")
                 </div>
-                <h3>Variante &ldquo;<span data-bind="text:variants.current.title">
-                ${c.variant_details['title']}</span>&rdquo;</h3>
+                <h3 data-bind="text:variants.current.display_title">
+                    ${c.variant_details['display_title']}
+                </h3>
             </div>
             <div class="paper_text text"
                  data-bind="visible: variants.showPlain()">
@@ -172,6 +172,18 @@
                 <div data-bind="html: variants.current.text_diff">
                     ${c.variant_details['text_diff']|n}
                 </div>
+            </div>
+            <div class="input_wrapper"
+                 data-bind="visible: variants.current.can_edit"
+                 style="${'display: none' if not c.variant_details['can_edit'] else ''}">
+                <div class="right">
+                    <a class="button highlight"
+                       href="${c.variant_details['edit_url']}"
+                       data-bind="attr: {href: variants.current.edit_url}">
+                        ${_('Edit')}
+                    </a>
+                </div>
+                <div class="clearfix"></div>
             </div>
         </article>
 

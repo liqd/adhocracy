@@ -1449,6 +1449,10 @@ float: left;
 padding: 10px;
 }
 
+.input_wrapper .right {
+float: right;
+}
+
 .inline_input_wrapper .button {
 padding: 0 30px;
 }
