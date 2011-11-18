@@ -3,12 +3,16 @@
 /><%namespace name="navigation" file="/navigation.html"
 /><%def name="breadcrumbs()">&nbsp</%def>
 
-## an alternative root template to render the template as
+## an alternative root template to render the "main" block
+## and the flash messages and infoboxes
 ## a html fragment
 
 <div id="main-overlay">
-<%block name="main">
-   Only the main block is rendered. No header, navigation or footer
-   If template.html inherits from this template instead of template.html
-</%block>
+    <%block name="welcome">
+        <%block name="flashmessages"></%block>
+        <%block name="infoboxes"></%block>
+    </%block>
+
+    <%block name="main">
+    </%block>
 </div>

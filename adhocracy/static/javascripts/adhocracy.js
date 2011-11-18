@@ -481,6 +481,30 @@ var adhocracy = adhocracy || {};
             effect: 'toggle'
         }).dynamic({ bottom: { direction: 'down', bounce: true } });
     };
+
+
+    /***************************************************
+     * @namespace: adhocracy.tooltip
+     ***************************************************/
+
+    adhocracy.namespace('adhocracy.helpers');
+
+    /**
+     * Initialize delegates that implement the close function for
+     * flash messages and info boxes
+     */
+    adhocracy.helpers.initializeFlashMessageDelegates = function () {
+
+        var fadeParent;
+
+        fadeParent = function (event) {
+            event.preventDefault();
+            $(this).parent().fadeOut();
+        };
+        $('body').delegate('.info_box .close_button', 'click', fadeParent);
+        $('body').delegate('.alert-message .close_button', 'click', fadeParent);
+    };
+
 }());
 
 $(document).ready(function () {
@@ -502,6 +526,7 @@ $(document).ready(function () {
     $('textarea').elastic();
 
     adhocracy.tooltips.initialize();
+    adhocracy.helpers.initializeFlashMessageDelegates();
 
     // initial jquery label_over
     $('.label_over label').labelOver('over-apply');
@@ -650,12 +675,6 @@ $(document).ready(function () {
         $(this).toggleClass('open');
         return false;
     });
-
-
-    $('.info_box .close_button').click(function () {
-        $(this).parent().fadeOut();
-    });
-
 
     $('.follow_paper').hover(
         function () {

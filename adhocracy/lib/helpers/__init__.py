@@ -44,6 +44,21 @@ flash = _Flash()
 recaptcha = recaptcha.Recaptcha()
 
 
+def sorted_flash_messages():
+    '''
+    Return the flash messages sorted by priority, keeping
+    the order.
+    '''
+    order = ['error', 'warning', 'success', 'info']
+    sorted_ = []
+    unsorted = flash.pop_messages()
+    for category in order:
+        for message in unsorted:
+            if message.category == category:
+                sorted_.append(message)
+    return sorted_
+
+
 def immutable_proposal_message():
     return _("This proposal is currently being voted on and cannot "
              "be modified.")

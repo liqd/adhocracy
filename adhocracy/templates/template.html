@@ -1,5 +1,9 @@
 <%inherit file="${context.get('root_template', '/root.html')}" />
+<%namespace name="components" file="/components.html"/>
 
+<%block name="flashmessages">
+${components.flashmessages()}
+</%block>
 
 <%block name="main">
       <div class="page_margins">

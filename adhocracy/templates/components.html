@@ -19,6 +19,24 @@ shortlink = h.site.shortlink_url(delegateable)
 </%def>
 
 
+<%def name="build_infobox()">
+<div class="info_box to_hide">
+    <a class="close_button only-js">close</a>
+    ${caller.body()}
+</div>
+</%def>
+
+<%def name="flashmessages()">
+<% messages = h.sorted_flash_messages() %>
+%if messages:
+    %for message in messages:
+    <div class="alert-message ${message.category}">
+        <a class="close_button only-js" href="#">x</a>
+    ${message}</div>
+    %endfor
+%endif
+</%def>
+
 <%def name="savebox(cancel_url, save_text=None, tabindex=99)">
     <div class="savebox">
         <button type="submit" tabindex="${tabindex}">
