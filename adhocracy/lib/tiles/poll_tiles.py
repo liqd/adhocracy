@@ -1,4 +1,5 @@
 from pylons import tmpl_context as c
+from pylons.i18n import _
 
 from adhocracy import model
 from adhocracy.lib import democracy, helpers as h
@@ -7,59 +8,99 @@ from adhocracy.lib.tiles import comment_tiles, proposal_tiles
 from adhocracy.lib.tiles.util import render_tile, BaseTile
 
 
+# A mapping from (current_position, action) to (css_class, title)
+# title is a lambda to defer the call of _() until we have a request
+action_class = {(model.Vote.YES, model.Vote.YES):
+                    ('vote_up active disabled',
+                     lambda: _('Your current vote is already pro')),
+                (model.Vote.YES, model.Vote.NO):
+                    ('vote_down',
+                     lambda: _('Click to change you vote to neutral')),
+                (model.Vote.ABSTAIN, model.Vote.YES):
+                    ('vote_up', lambda: _('Click to vote pro')),
+                (model.Vote.ABSTAIN, model.Vote.NO):
+                    ('vote_down', lambda: _('Click to vote con')),
+                (model.Vote.NO, model.Vote.YES):
+                    ('vote_up',
+                     lambda: _('Click to change you vote to neutral')),
+                (model.Vote.NO, model.Vote.NO):
+                    ('vote_down active disabled',
+                     lambda: _('Your current vote is already pro'))}
+
+
 class PollTile(BaseTile):
     '''
     A class to write poll tiles with helper methods for the template.
     '''
-    RATE = 0
-    VOTE = 1
 
-    def __init__(self, poll, deactivated=False):
-        self.poll = poll
-        self.deactivated = deactivated
-        self.need_auth = (not can.poll.vote(poll))
+    def __init__(self, poll, deactivated=False, widget_class=''):
         self.__state = None
         self.__decision = None
         self.__dnode = None
-        self.html_id = 'poll%s' % poll.id
+        self.poll = poll
+        self.deactivated = deactivated
+        self.widget_class = 'vote ' + widget_class
+        self.widget_class += ' deactivated' if self.deactivated else ''
         score = poll.tally.score
         self.count_class = ('positive' if score > 0 else 'negative' if
                             score < 0 else 'neutral')
         self.display_score = u'0' if score == 0 else u"%+d" % score
+        self.html_id = 'poll%s' % poll.id
         self.login_redirect_url = h.login_redirect_url(poll.scope,
                                                        anchor=self.html_id)
+        self._calculate_conditions()
 
-    def action_url(self, position, type_=RATE):
+    def _calculate_conditions(self):
+        self.has_ended = self.poll.has_ended()
+        self.can_vote = can.poll.vote(self.poll)
+        if self.has_ended or self.can_vote:
+            self.need_auth = False
+            self.need_membership = False
+            self.need_else = False
+        else:
+            self.need_auth = (not self.can_vote and c.user is None)
+            self.need_membership = (not self.need_auth and
+                                    not c.user.is_member(c.instance) and
+                                    can.instance.join(c.instance))
+            self.need_else = (not self.need_membership)
+
+    def widget_action_attrs(self, position):
         '''
         Generate an url to rate or vote in a poll.
 
         *position*
             The value of the vote. +1 = Pro, 0 = Neutral, +1 = Con.
             For *type_* 'rate' it's only +1 and -1
-        *type_*
-            The type to use the poll. Either ``RATE`` (default)
-            or ``VOTE``. ``RATE`` is a three step variant
-            where the user steps from -1 to 0 to +1 or the other
-            way around. ``VOTE`` will directly set the selected position
-            and is NotImplemented.
         '''
-        if self.need_auth:
-            return self.login_redirect_url
-        elif self.deactivated:
-            return ''
-        if type_ == self.RATE:
-            if position == 0:
-                raise ValueError('Rating neutral is not possible')
-            return self._rate_url(self.poll, position)
-        elif type_ == self.VOTE:
-            raise NotImplemented('PollTile does not support '
-                                 'action_url for voting')
-        else:
-            raise ValueError('Unsupported type_, use VOTE or RATE')
 
-    @property
-    def deactivated_class(self):
-        return 'deactivated' if self.deactivated else ''
+        if position not in [model.Vote.YES, model.Vote.NO]:
+            raise ValueError(('position "%s" not supported by widget. Use'
+                              'model.Vote.YES or model.Vote.NO.') % position)
+        title = ''
+        url = ''
+        klass = 'vote_up' if position == model.Vote.YES else 'vote_down'
+        if self.can_vote:
+            url = self._rate_url(self.poll, position)
+            klass, title_func = action_class[(self.current_position, position)]
+            title = title_func()
+        elif self.has_ended:
+            url = self.votes_listing_url
+            title = _('Voting has ended. Click to view the list of votes')
+        elif self.need_auth:
+            url = self.login_redirect_url
+            title = _('Please login or register to vote.')
+        elif self.need_membership:
+            url = '#%s' % self.html_id  # FIXME: implement join and redirect?
+            title = _('Please join the instance "%s" to vote.')
+        elif self.need_else:
+            # We can't figure out what to do, so no options to vote
+            url = self.votes_listing_url
+            title = _('Click to see the list of votes')
+        else:
+            raise ValueError(
+                'Dunno how this could happen. A bug apparently :)')
+
+        return {'title': title, 'url': url, 'class': klass}
 
     @property
     def state(self):
@@ -107,16 +148,18 @@ class PollTile(BaseTile):
     @property
     def current_position(self):
         '''
-        Return the decision of the current user
-        This will be
-        *None*
-            if there is no user
-        *-1, 0 or 1 (int)*
-            against, abstain/not voted and affirmation
+        Returns: the decision of the current user
+        This will be *model.Vote.YES*, *model.Vote.ABSTAIN* or
+        *model.Vote.NO*. If there is no current user, it will
+        return *model.Vote.ABSTAIN*.
         '''
+        result = None
         decision = self.decision
         if decision:
-            return decision.result
+            result = decision.result
+        if result is None:
+            result = model.Vote.ABSTAIN
+        return result
 
     def _rate_url(self, poll, position):
         params = {'url': h.entity_url(poll, member='rate'),
@@ -124,6 +167,7 @@ class PollTile(BaseTile):
                   'position': position}
         return "%(url)s?position=%(position)d&%(token_param)s" % params
 
+    @property
     def votes_listing_url(self):
         return h.entity_url(self.poll, member="votes")
 
@@ -152,9 +196,9 @@ def widget(poll, cls='', deactivated=False):
         Render the widget deactivated which does not show vote buttons
         or the current position of the user, but still the vote count.
     '''
-    t = PollTile(poll, deactivated)
+    t = PollTile(poll, deactivated, widget_class=cls)
     return render_tile('/poll/tiles.html', 'widget',
-                       t, poll=poll, user=c.user, cls=cls,
+                       t, poll=poll, user=c.user, widget_class=cls,
                        deactivated=deactivated,
                        cached=True)
 
