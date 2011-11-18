@@ -457,6 +457,30 @@ var adhocracy = adhocracy || {};
         loadSpeed: 'fast'
     };
 
+
+    /***************************************************
+     * @namespace: adhocracy.tooltip
+     ***************************************************/
+
+    adhocracy.namespace('adhocracy.tooltips');
+
+    /**
+     * Initialize the tooltips for all correctly marked
+     * elements found inside baseSelector. If baseSelector
+     * is not given, it searchs for all elements in the
+     * document body.
+     *
+     * @param {string} baseSelector A selector string that can be
+     * passed to jQuery. Optional, defaults to 'body'.
+     */
+    adhocracy.tooltips.initialize = function (baseSelector) {
+        baseSelector = baseSelector || 'body';
+        $(baseSelector).find(".ttip[title]").tooltip({
+            position: "bottom left",
+            opacity: 1,
+            effect: 'toggle'
+        }).dynamic({ bottom: { direction: 'down', bounce: true } });
+    };
 }());
 
 $(document).ready(function () {
@@ -476,6 +500,8 @@ $(document).ready(function () {
 
     // initial jquery elastic
     $('textarea').elastic();
+
+    adhocracy.tooltips.initialize();
 
     // initial jquery label_over
     $('.label_over label').labelOver('over-apply');
