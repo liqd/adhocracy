@@ -48,7 +48,7 @@ class Vote(object):
             log.exception(e)
             #log.warn("find(%s): %s" % (id, e))
             return None
-    
+
     @classmethod
     def all_q(cls):
         return meta.Session.query(Vote)
