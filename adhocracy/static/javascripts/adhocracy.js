@@ -10,21 +10,50 @@
  *
  */
 
-// Make sure we have an "adhocracy" namespace.
-var adhocracy;
-if (typeof (adhocracy) === "undefined") {
-    adhocracy = {};
-}
+// Make sure we have an "adhocracy" and namespace.
+var adhocracy = adhocracy || {};
 
 (function () {
 
     "use strict";
 
     /**
+     * General purpose namespace creation and retrivel, taken
+     * from Stoyan Stefanov's marvellous book
+     * "JavaScript Patterns"
+     *
+     * @method namespace
+     */
+    adhocracy.namespace =  function (ns_string) {
+        var parts = ns_string.split('.'),
+            parent = adhocracy,
+            i;
+        // strip redundant leading global
+        if (parts[0] === "adhocracy") {
+            parts = parts.slice(1);
+        }
+        for (i = 0; i < parts.length; i += 1) {
+            // create a property if it doesn't exist
+            if (typeof parent[parts[i]] === "undefined") {
+                parent[parts[i]] = {};
+            }
+            parent = parent[parts[i]];
+        }
+        return parent;
+    };
+
+
+    /***************************************************
+     * @namespace: adhocracy.ko
+     ***************************************************/
+
+    adhocracy.namespace('adhocracy.ko');
+
+    /**
      * Example for an json object returned for variants.
      * Used to initialze an observable
      */
-    var variantDummy = {
+    adhocracy.ko.variantDummy = {
         "history_url": undefined,
         "is_head": undefined,
         "title": undefined,
@@ -43,7 +72,8 @@ if (typeof (adhocracy) === "undefined") {
      * @namespace adhocracy
      * @class PaperModel
      */
-    adhocracy.PaperModel = function () {
+    adhocracy.ko.PaperModel = function () {
+
         this.variants = {
             /**
              * Cache for variant data
@@ -68,7 +98,7 @@ if (typeof (adhocracy) === "undefined") {
              * @type object (with observeable properties)
              * @default
              */
-            current: ko.mapping.fromJS(variantDummy),
+            current: ko.mapping.fromJS(adhocracy.ko.variantDummy),
             init: function (data) {
                 var variant = data.variant;
                 this.cache[variant] = data;
@@ -153,7 +183,7 @@ if (typeof (adhocracy) === "undefined") {
      * @class adhocracy.SelectionModel
      * @extends adhocracy.PaperModel
      */
-    adhocracy.SelectionModel = function () {
+    adhocracy.ko.SelectionModel = function () {
 
         /**
          * Store data related to the selection. Atm this contains
@@ -312,10 +342,11 @@ if (typeof (adhocracy) === "undefined") {
         };
 
         /**
-         * Utility function to fetch the current vote widget (without caching it) and
-         * store it in the observable this.voteWidget().
+         * Utility function to fetch the current vote widget (without caching
+         * it) and store it in the observable this.voteWidget().
          *
-         * This is factored out of ko.dependentObservable to use it during initialization.
+         * This is factored out of the ko.dependentObservable to use it
+         * during initialization.
          */
         this.doUpdateVoteWidget = function () {
             var variant = this.variants.current.variant(),
@@ -394,28 +425,22 @@ if (typeof (adhocracy) === "undefined") {
             return this.currentTab() === 'delegates';
         }.bind(this));
     };
-    adhocracy.SelectionModel.prototype = new adhocracy.PaperModel();
+    adhocracy.ko.SelectionModel.prototype = new adhocracy.ko.PaperModel();
 
-}());
+    /***************************************************
+     * @namespace: adhocracy.overlay
+     ***************************************************/
 
+    adhocracy.namespace('adhocracy.overlay');
 
-$(document).ready(function () {
-
-    'use strict';
-
-    var overlayAjaxLoadContent,
-        overlayAjaxRebindLinks,
-        overlayMask;
-
-    overlayAjaxLoadContent = function () {
-
+    adhocracy.overlay.ajaxLoadContent = function () {
         // grab wrapper element inside content
         var wrap = this.getOverlay().find(".contentWrap");
         var url = this.getTrigger().attr("href") + ".overlay";
         wrap.load(url);
     };
 
-    overlayAjaxRebindLinks = function () {
+    adhocracy.overlay.ajaxRebindLinks = function () {
         // bind links containing the string '.overlay'
         // to a handler that loads the url into the overlay
         var wrap = this.getOverlay().find(".contentWrap");
@@ -426,9 +451,17 @@ $(document).ready(function () {
         });
     };
 
-    overlayMask = {color: '#111',
-                   opacity: 0.9,
-                   loadSpeed: 'fast'};
+    adhocracy.overlay.mask = {
+        color: '#111',
+        opacity: 0.9,
+        loadSpeed: 'fast'
+    };
+
+}());
+
+$(document).ready(function () {
+
+    'use strict';
 
   // initial jquery slide
     $("#slides").slides({
@@ -456,16 +489,16 @@ $(document).ready(function () {
     //open link in overlay (like help pages)
     $("a[rel=#overlay-ajax]").overlay({
         target: '#overlay-default',
-        mask: overlayMask,
-        onBeforeLoad: overlayAjaxLoadContent,
-        onLoad: overlayAjaxRebindLinks
+        mask: adhocracy.overlay.mask,
+        onBeforeLoad: adhocracy.overlay.ajaxLoadContent,
+        onLoad: adhocracy.overlay.ajaxRebindLinks
     });
 
     $("a[rel=#overlay-ajax-big]").overlay({
-        mask: overlayMask,
+        mask: adhocracy.overlay.mask,
         target: '#overlay-big',
-        onBeforeLoad: overlayAjaxLoadContent,
-        onLoad: overlayAjaxRebindLinks
+        onBeforeLoad: adhocracy.overlay.ajaxLoadContent,
+        onLoad: adhocracy.overlay.ajaxRebindLinks
     });
 
     $('#blog_select_button').click(function () {

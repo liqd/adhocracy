@@ -77,7 +77,7 @@
         /* <![CDATA[ */
         var init_variant = ${c.variant_details_json|n}
 
-        var viewModel = new adhocracy.PaperModel()
+        var viewModel = new adhocracy.ko.PaperModel()
         viewModel.variants.init(init_variant);
         //debugger;
         ko.applyBindings(viewModel);
