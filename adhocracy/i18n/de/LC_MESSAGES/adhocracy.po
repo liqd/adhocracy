@@ -360,7 +360,7 @@ msgstr "Sie haben keine Twitter-Verbindung."
 #: adhocracy/controllers/user.py:165
 #, python-format
 msgid "You have successfully registered as user %s."
-msgstr "Sie haben sich erfolgreich als Benutzer %s angemeldet."
+msgstr "Sie haben sich erfolgreich als Benutzer %s registriert."
 
 #: adhocracy/controllers/user.py:222
 msgid "There is no user registered with that email address."
