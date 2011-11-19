@@ -3840,7 +3840,7 @@ msgstr ""
 #: adhocracy/templates/user/reset_pending.html:2
 #: adhocracy/templates/user/reset_pending.html:4
 msgid "Password reset"
-msgstr "Passwort wurde zurückgesetzt"
+msgstr "Passwort zurücksetzen"
 
 #: adhocracy/templates/user/reset_form.html:6
 msgid ""
