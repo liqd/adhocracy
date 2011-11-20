@@ -23,9 +23,6 @@
 
 <%def name="header(tile, instance, active, no_panel)">
     <div class="top_actions title">
-        %if can.proposal.create():
-            <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new" title="">${_("new proposal")}</a>
-        %endif
         %if can.instance.join(instance):
             <a class="button add ttip" title="${_('Join this instance to start contributing.')}" 
                 href="${h.entity_url(instance, member='join')}?${h.url_token()}">${_("join")}</a> 
