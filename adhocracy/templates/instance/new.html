@@ -7,8 +7,10 @@
 </%def>
 
 <%block name="headline">
-    <h3>${_("Instance address")}</h3>
+    <h3>${_("Create new instance")}</h3>
+</%block>
 
+<%block name="main_content">
 
 <form name="create_instance" class="inplace" method="POST" action="/instance">
     ${h.field_token()|n}

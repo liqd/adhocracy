@@ -7,19 +7,26 @@
 </%def>
 
 
+<%block name="headline">
+    <h3>${_("Your User Details")}</h3>
+</%block>
+
 <%block name="main_content">
 
 <div class="form_wrapper">
   <form name="settings" class="inplace" method="POST" action="/user/${c.page_user.user_name}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
-    <div class="input_wrapper">
-      <label for="display_name" class="armhint">${c.page_user.name}</label>
-      <input type="text" tabindex="1" class="title armlabel" name="display_name" value="${c.page_user.display_name}"/>
-    </div>
+    <fieldset>
+      <legend>${_("Display name for")} ${c.page_user.user_name}</legend>
+      <p class="info">${_("You can chose which name other users see.")}</p>   
+      <div class="input_wrapper">
+        <label for="display_name" class="armhint">${c.page_user.name}</label>
+        <input type="text" tabindex="1" class="title armlabel" name="display_name" value="${c.page_user.display_name}"/>
+      </div>
     
     <fieldset>
-      <legend>${_("User Details")}</legend>
+      <legend>${_("Password")}</legend>
       <p class="info">${_("Select a new password or leave the fields blank to keep your old one.")}</p>   
       <div class="input_wrapper">   
         <label for="password_change">${_("Password:")}</label>
@@ -88,7 +95,7 @@
           </table>
         </div>        
       %endif 
-      <a class="button add" href="/openid/connect">${_("new")}</a>
+      <a class="button add" href="/openid/connect">${_("Add OpenID")}</a>
     </fieldset>
     
     <fieldset>
