@@ -135,7 +135,12 @@ class PollController(BaseController):
         # cover over data inconsistency because of a bug where pages (norms)
         # where deleted when a proposal was deleted.
         # Fixes http://trac.adhocracy.de/ticket/262
-        if c.poll.selection is None:
+        if (c.poll.action == model.Poll.SELECT and
+            c.poll.selection is None):
+            logmsg = ('Poll: "%s" is a model.Poll.rate poll, which should '
+                      'have a selection, but the selection is None. Subject '
+                      'of the Poll is %s') % (c.poll, c.poll.subject)
+            log.error(logmsg)
             raise abort(404)
 
         require.poll.show(c.poll)
