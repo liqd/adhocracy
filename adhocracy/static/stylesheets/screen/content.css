@@ -1580,7 +1580,8 @@ existing info_box styles.*/
 .alert-message {
   position: relative;
   padding: 7px 15px;
-  margin-bottom: 18px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   color: #404040;
   background-color: #eedc94;
   background-repeat: repeat-x;
