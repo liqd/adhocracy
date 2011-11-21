@@ -16,6 +16,12 @@
       %endif
     %endif
 
+    %if c.proposal.is_adopt_polling():
+      %if can.proposal.rate(c.proposal):
+      ${tiles.poll.widget(c.proposal.adopt_poll, cls='big')}
+      %endif
+    %endif
+
             <section>
               <article>
                 <h2>
