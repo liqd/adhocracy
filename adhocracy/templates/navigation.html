@@ -52,7 +52,7 @@
 
                 <!-- FIXME: implemente personal drop down menu -->
                 %if c.user is None:
-                ${nav_link(href=h.site.base_url(None, '/login'),
+                ${nav_link(href=h.site.base_url(c.instance, '/login'),
                            a_rel='#overlay-default',
                            text=_("Login"),
                            li_class=_class('login'))}
@@ -65,7 +65,7 @@
                                href="${h.entity_url(c.user, member='dashboard')}">${c.user.name}</a>
                             <ul class="children">
                                 <li>
-                                    <a href="${h.entity_url(c.user, member='edit')}">
+                                    <a href="${h.entity_url(c.user, instance=c.instance, member='edit')}">
                                         ${_('Edit Profile')}
                                     </a>
                                 </li>
@@ -98,10 +98,12 @@
       <div class="page_wrapper">
         <!-- begin: sub navi -->
         
-        <div id="organisation_logo">
-          <img src="${logo}" alt="&ldquo;${label}&rdquo; logo"/>
-          <h2>${label}</h2>
-        </div>
+        <a href="${h.base_url(c.instance, path='/')}">
+          <div id="organisation_logo">
+            <img src="${logo}" alt="&ldquo;${label}&rdquo; logo"/>
+            <h2>${label}</h2>
+          </div>
+        </a>
         <!-- begin: sub navi -->
         <nav>
           <div class="hlist">
