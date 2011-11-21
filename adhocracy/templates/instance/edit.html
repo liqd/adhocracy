@@ -6,12 +6,23 @@
     ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Manage")}
 </%def>
 
+<%block name="headline">
+<h3>${_("Edit instance")}</h3>
+<div class="top_actions title">
+%if can.instance.delete(c.page_instance):
+  <a class="button title delete"  
+      href="${h.entity_url(c.page_instance, member='ask_delete')}">${_("Delete instance")}</a>
+  %endif
+</div>
+</%block>
+
 <%block name="main_content">
 <form name="create_instance" class="inplace" method="POST" 
         enctype="multipart/form-data" action="/instance/${c.page_instance.key}">
     <input type="hidden" name="_method" value="PUT" />
     ${h.field_token()|n}
         
+    <h3>${_("Name")}</h3>
     <div id="page_title">
         <label for="label" class="armhint">${_("Instance Name")}</label>
         <input tabindex="1" class="title armlabel" name="label" value="${c.page_instance.label}" />
