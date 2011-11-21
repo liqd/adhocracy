@@ -23,13 +23,6 @@
 
 <%def name="header(tile, instance, active, no_panel)">
     <div class="top_actions title">
-        %if can.instance.join(instance):
-            <a class="button add ttip" title="${_('Join this instance to start contributing.')}" 
-                href="${h.entity_url(instance, member='join')}?${h.url_token()}">${_("join")}</a> 
-        %endif
-        %if not c.user:
-            <a class="button add ttip" title="${_('Join this instance to start contributing.')}"  href="/register">${_("join")}</a> 
-        %endif
         %if can.instance.edit(instance):
             <a class="button admin ttip" title="${_('Edit this instance to change its description or voting rules.')}"  
                 href="${h.entity_url(instance, member='edit')}">${_("edit")}</a>

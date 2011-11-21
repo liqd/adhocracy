@@ -48,12 +48,13 @@ jquery.need()
   </header>
 
   <%block name="attention_getter">
-  %if c.user is None and c.instance is not None:
+  %if c.instance is not None and (c.user is None or can.instance.join(c.instance)):
   <%doc>add an attention getter on instances</%doc>
     <div id="flash_message">
       <div class="page_margins">
           <div class="page_wrapper">
               <div class="message">
+                  %if c.user is None:
                   <div class="register">
                       <a href="${h.base_url(c.instance, path='/register')}" 
                          ## rel="#overlay-ajax" FIXME: reactivate when ready.
@@ -66,6 +67,14 @@ jquery.need()
                   <p>
                       ${_('Get an account to participate in the discussion.')}
                   </p>
+                  %elif can.instance.join(c.instance):
+                  <div class="register">
+                      <a class="button" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
+                  </div>
+                  <p>
+                      ${_('Join this instance to start contributing.')}
+                  </p>
+                  %endif
               </div>
           </div>
       </div>
