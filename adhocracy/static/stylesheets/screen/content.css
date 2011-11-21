@@ -141,6 +141,7 @@ a.button.highlight:hover {
   line-height: 27px;
   float: left;
   margin-right: 15px;
+  padding: 0;
 }
 .register a.button:hover {
   background-position: 0 -650px;
