@@ -12,7 +12,15 @@
       <input type="submit" value="${_('Login')}"/>
     </div>
   </form>
-  <p><a href="/register">${_("Register new account")|n}</a></p>
+<%
+from urllib import urlencode
+came_from = request.params.get('came_from', '')
+query_string = ''
+if came_from:
+    query_string = '?%s' % urlencode({'came_from': came_from.encode('utf-8')})
+%>
+
+  <p><a href="/register${query_string}">${_("Register new account")|n}</a></p>
   <%
   c.openid_scenario = "login"
   %>

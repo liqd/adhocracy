@@ -323,6 +323,8 @@ class UserController(BaseController):
                 del session['came_from']
                 session.save()
             h.flash(_("You have successfully logged in."), 'success')
+            if isinstance(url, unicode):
+                url = url.encode('utf-8')
             redirect(str(url))
         else:
             session.delete()
