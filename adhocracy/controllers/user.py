@@ -350,14 +350,16 @@ class UserController(BaseController):
         instances = c.page_user.instances
         #proposals
         proposals = [model.Proposal.all(instance=i) for i in instances]
-        proposals = reduce(lambda x,y: x + y, proposals)
+        proposals = proposals and reduce(lambda x,y: x + y, proposals)
+        c.proposals = proposals
         c.proposals_pager = pager.proposals(proposals, size=3,
                                                     enable_pages=False) 
         #pages
         require.page.index()
         pages = [model.Page.all(instance=i, functions=model.Page.LISTED ) \
                                                         for i in instances]
-        pages = reduce(lambda x,y: x + y, pages)
+        pages = pages and reduce(lambda x,y: x + y, pages)
+        c.pages = pages
         c.pages_pager = pager.pages(pages, size=3, enable_pages=False)  
         #watchlist
         require.watch.index()
@@ -384,7 +386,7 @@ class UserController(BaseController):
         instances = c.page_user.instances
         #proposals
         proposals = [model.Proposal.all(instance=i) for i in instances]
-        proposals = reduce(lambda x,y: x + y, proposals)
+        proposals = proposals and reduce(lambda x,y: x + y, proposals)
         c.proposals_pager= pager.proposals(proposals)
         #render result
         return render("/user/proposals.html")
@@ -401,7 +403,7 @@ class UserController(BaseController):
         require.page.index()
         pages = [model.Page.all(instance=i, functions=model.Page.LISTED ) \
                                                         for i in instances]
-        pages = reduce(lambda x,y: x + y, pages)
+        pages = pages and reduce(lambda x,y: x + y, pages)
         c.pages_pager = pager.pages(pages)  
         #render result
         return render("/user/pages.html") 
