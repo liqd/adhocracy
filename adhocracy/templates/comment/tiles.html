@@ -365,15 +365,15 @@ else:
     <h4>${_(u'Add comment')}</h4>
     <form name="new_comment" class="comment_form"
           method="POST" action="/comment${format}">
-        ${h.field_token()|n}
-        <input type="hidden" name="topic" value="${topic.id}" />
-        <input type="hidden" name="ret_url" value="${ret_url}" />
-        %if variant:
-            <input type="hidden" name="variant" value="${variant}" />
-        %endif
-        %if parent:
-            <input type="hidden" name="reply" value="${parent.id}" />
-        %endif
+      ${h.field_token()|n}
+      <input type="hidden" name="topic" value="${topic.id}" />
+      <input type="hidden" name="ret_url" value="${ret_url}" />
+      %if variant:
+          <input type="hidden" name="variant" value="${variant}" />
+      %endif
+      %if parent:
+          <input type="hidden" name="reply" value="${parent.id}" />
+      %endif
       <div class="subcolumns">
         <div class="c60l">
           <div class="subcl">

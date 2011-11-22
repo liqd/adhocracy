@@ -1145,10 +1145,6 @@ form .error { border-color: darkred; }
 .comment_form {
   padding: 5px;
 }
-#new_comment .submit {
-  position: absolute;
-  bottom: 0px;
-}
 form.new_comment {
   background: none repeat scroll 0 0 #E5E6E8;
   margin-bottom: 20px;
