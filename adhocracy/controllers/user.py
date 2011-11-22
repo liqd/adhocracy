@@ -354,6 +354,16 @@ class UserController(BaseController):
         c.proposals = proposals
         c.proposals_pager = pager.proposals(proposals, size=3,
                                                     enable_pages=False) 
+        #polls
+        polls = [p.adopt_poll for p in proposals if p.is_adopt_polling()]
+        polls = filter(lambda p: p.has_ended() != True and 
+                                 p.is_deleted() != True,
+                        polls)
+        c.polls = polls
+        c.polls_pager = pager.polls(polls, 
+                size=20, 
+                enable_pages=False, 
+                enable_sorts=False,)
         #pages
         require.page.index()
         pages = [model.Page.all(instance=i, functions=model.Page.LISTED ) \
