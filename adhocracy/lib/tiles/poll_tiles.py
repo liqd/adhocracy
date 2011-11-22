@@ -59,8 +59,8 @@ class PollTile(BaseTile):
             self.need_else = False
         else:
             self.need_auth = (not self.can_vote and c.user is None)
-            self.need_membership = (not self.need_auth and
-                                    not c.user.is_member(c.instance) and
+            self.need_membership = (not self.need_auth and 
+                                    (c.instance and not c.user.is_member(c.instance)) and
                                     can.instance.join(c.instance))
             self.need_else = (not self.need_membership)
 
@@ -176,6 +176,9 @@ def booth(poll):
     return render_tile('/poll/tiles.html', 'booth',
                         PollTile(poll), poll=poll, user=c.user, cached=True)
 
+def row(poll):
+    return render_tile('/poll/tiles.html', 'row',
+                        PollTile(poll), poll=poll, user=c.user, cached=True)
 
 def widget(poll, cls='', deactivated=False):
     '''

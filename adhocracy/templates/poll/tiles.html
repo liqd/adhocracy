@@ -164,3 +164,18 @@ con = tile.widget_action_attrs(model.Vote.NO)
         </div>
     </div>
 </%def>
+
+<%def name="row(tile, poll)">
+<li>
+    <span class="countdown">
+      %if not poll.end_time:
+        ${_("no enddate")}
+      %else:
+        ${h.countdown_time(tile.poll.end_time, 0)}
+      %endif      
+    </span>
+     
+    <br />
+  <a class="link" href="${h.entity_url(poll.scope)}">${poll.scope.title}</a> 
+</li>
+</%def>   

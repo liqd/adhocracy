@@ -302,6 +302,13 @@ def events(events):
     return NamedPager('events', events, tiles.event.row)
 
 
+def polls(polls, default_sort=None, **kwargs):
+    if default_sort is None:
+        default_sort = sorting.polls_time
+    return NamedPager('polls', polls, tiles.poll.row,
+                    default_sort=default_sort, **kwargs)
+
+
 class Sorts(object):
     '''
     Class to store sorting options in :class:`SolrPager`
