@@ -1,4 +1,9 @@
-<!-- begin: logo -->
+<%
+logo = '/images/logo_small.png'
+if c.user is None:
+     logo = '/images/logo_big.png'
+%>
 <a id="logo" href="${h.base_url(None, path='/')}" title="${h.site.name()}" rel="home">
-    <img src="/images/logo_adhocracy_de_header.png" alt="${h.site.name()}" />
+    
+    <img src="${logo}" alt="${h.site.name()} logo" />
 </a>
