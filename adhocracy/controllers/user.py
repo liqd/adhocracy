@@ -1,5 +1,4 @@
 import logging
-import urllib
 from operator import attrgetter
 
 import formencode
@@ -10,7 +9,10 @@ from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
+from webob.exc import HTTPFound
+
 from repoze.what.plugins.pylonshq import ActionProtector
+from repoze.who.api import get_api
 
 from adhocracy import forms, model
 from adhocracy import i18n
@@ -27,7 +29,6 @@ from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
 from adhocracy.lib.queue import post_update
 from adhocracy.lib.templating import render, render_json
 from adhocracy.lib.util import get_entity_or_abort, random_token
-from adhocracy.model.instance import Instance
 
 
 log = logging.getLogger(__name__)
@@ -161,13 +162,24 @@ class UserController(BaseController):
             model.meta.Session.add(membership)
             model.meta.Session.commit()
 
-        # info message
+        # authenticate the new registered member using the repoze.who
+        # api. This is done here and not with an redirect to the login
+        # to omit the generic welcome message
+        who_api = get_api(request.environ)
+        credentials = {
+            'login': self.form_result.get("user_name").encode('utf-8'),
+            'password': self.form_result.get("password").encode('utf-8')}
+        authenticated, headers = who_api.login(credentials)
         h.flash(_("You have successfully registered as user %s.") % user.name,
                 'success')
-        redirect("/perform_login?%s" % urllib.urlencode({
-                 'login': self.form_result.get("user_name").encode('utf-8'),
-                 'password': self.form_result.get("password").encode('utf-8')
-                }))
+        if authenticated:
+            # redirect. FIXME: redirect to dashboard?
+            came_from = request.params.get('came_from', h.base_url(c.instance))
+            raise HTTPFound(location=came_from, headers=headers)
+        else:
+            raise Exception('We have added the user to the Database '
+                            'but cannot authenticate him: '
+                            '%s (%s)' % (credentials['login'], user))
 
     @ActionProtector(has_permission("user.edit"))
     def edit(self, id):
