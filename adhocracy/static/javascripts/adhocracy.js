@@ -546,7 +546,7 @@ $(document).ready(function () {
     });
 
     $("a[rel=#overlay-ajax-big]").overlay({
-        top: '5%',
+        fixed: false,
         mask: adhocracy.overlay.mask,
         target: '#overlay-big',
         onBeforeLoad: adhocracy.overlay.ajaxLoadContent,

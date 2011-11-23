@@ -561,18 +561,14 @@ top: 0px;
 }
 
 #overlay-big.overlay {
-  width: 90%;
-  max-width: 1010px;
+  width: 1000px;
   background-color: #fff;
-  height: 90%;
 }
 
 #overlay-big .contentWrap {
   width: 100%;
   height: 100%;
-  overflow: auto;
 }
-
 
 #welcome_message .info_box {
   margin-left: 23px;
