@@ -1,70 +1,46 @@
 import cgi
-import urllib
-import hashlib
 
 from pylons import tmpl_context as c
 from pylons.i18n import _
 
-from adhocracy.lib import democracy
 from adhocracy.lib import cache
-
-import url as _url
-
-
-@cache.memoize('user_icon')
-def icon_url(user, size=32):
-    id = user.email if user.email else user.user_name
-    gravatar_url = "https://secure.gravatar.com/avatar.php?"
-    gravatar_url += urllib.urlencode({
-        'gravatar_id': hashlib.md5(id.strip().lower()).hexdigest(),
-        'default': 'identicon',
-        'size': str(size)})
-    return gravatar_url
+from adhocracy.lib.helpers import url as _url
 
 
-def link(user, size=16, scope=None, show_icon=True, show_badges=True):
+def link(user, size=16, scope=None, show_badges=True):
 
     if user.delete_time:
         return _("%s (deleted user)") % user.name
 
     @cache.memoize('user_generic_link')
-    def _generic_link(user, instance, size, scope, show_icon):
-        icon = ''
-        if show_icon:
-            icon = (u'<img width="16" height="16" class="user_icon" src="%s" '
-                    u'alt="" />') % icon_url(user, size=size)
-        _url = u'<a href="%s" class="user_link">%s %s</a>' % (
-            url(user), icon, cgi.escape(user.name))
-        if scope and ((not c.instance) or c.instance.allow_delegate):
-            votes = user.number_of_votes_in_scope(scope)
-            if votes > 0:
-                _url += u"<sup>%s</sup>" % votes
+    def _generic_link(user, instance, size, scope):
+        _url = u'<a href="%s" class="user">%s</a>' % (
+            url(user), cgi.escape(user.name))
         return _url
 
     @cache.memoize('user_specific_link')
-    def _specific_link(user, instance, size, scope, other, show_icon,
+    def _specific_link(user, instance, size, scope, other,
                        show_badges):
         from adhocracy.lib import tiles
-        from adhocracy.lib.helpers import entity_url
-        url = _generic_link(user, instance, size, scope, show_icon)
+        url = _generic_link(user, instance, size, scope)
         if show_badges and user.badges:
-            url += u"<span class='user_link_badges'>" + \
+            url += u"<span class='badges'>" + \
                 unicode(tiles.badge.badges(user.badges)) + "</span>"
-        if other and scope:
-            dnode = democracy.DelegationNode(other, scope)
-            for delegation in dnode.outbound():
-                if delegation.agent == user:
-                    icon = ''
-                    if show_icon:
-                        icon = (
-                            u'<img class="user_icon" width="16" height="16" '
-                            'src="/img/icons/delegate_16.png" />')
-                    url += u'<a href="%s">%s</a>' % (entity_url(delegation),
-                                                     icon)
+        # FIXME: We removed user icons from the UI. What to do
+        # with delegates?
+        # if other and scope:
+        #     dnode = democracy.DelegationNode(other, scope)
+        #     for delegation in dnode.outbound():
+        #         if delegation.agent == user:
+        #             if show_icon:
+        #                 icon = (
+        #                     u'<img class="user_icon" width="16" height="16" '
+        #                     'src="/img/icons/delegate_16.png" />')
+        #             url += u'<a href="%s">%s</a>' % (entity_url(delegation),
+        #                                              icon)
         return url
 
-    return _specific_link(user, c.instance, size, scope, c.user, show_icon,
-                          show_badges)
+    return _specific_link(user, c.instance, size, scope, c.user, show_badges)
 
 
 def url(user, instance=None, **kwargs):
