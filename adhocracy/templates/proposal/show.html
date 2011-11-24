@@ -30,7 +30,7 @@
                 <div class="hr"><hr /></div>
                 
                 <div class="utility">
-<%doc>FIXME: translate:</%doc><h4>Ziele und Beschreibung des Vorschlages</h4
+                    <h4>${_('Topic and Description of the Proposal')}</h4>
                     %if can.proposal.edit(c.proposal):
                     <a href="${h.entity_url(c.proposal, member='edit')}">
                         ${_("edit")}
@@ -60,7 +60,7 @@
                     </a>
                     &middot;
                     <a href="${c.history_url}"
-                       rel="#overlay-ajax">History</a>
+                       rel="#overlay-ajax">${'history'}</a>
                 </div>
               </article>
               <br />
