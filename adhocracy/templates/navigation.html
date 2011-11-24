@@ -98,12 +98,12 @@
       <div class="page_wrapper">
         <!-- begin: sub navi -->
         
-        <a href="${h.base_url(c.instance, path='/')}">
-          <div id="organisation_logo">
+        <div id="organisation_logo">
+            %if logo:
             <img src="${logo}" alt="&ldquo;${label}&rdquo; logo"/>
+            %endif
             <h2>${label}</h2>
-          </div>
-        </a>
+        </div>
         <!-- begin: sub navi -->
         <nav>
           <div class="hlist">
