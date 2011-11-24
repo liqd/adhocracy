@@ -123,9 +123,12 @@ class UserController(BaseController):
         return render("/user/all.html")
 
     def new(self):
-        captacha_enabled = config.get('recaptcha.public_key', "")
-        c.recaptcha = captacha_enabled and h.recaptcha.displayhtml()
-        return render("/user/register.html")
+        if c.user:
+            redirect('/')
+        else:
+            captacha_enabled = config.get('recaptcha.public_key', "")
+            c.recaptcha = captacha_enabled and h.recaptcha.displayhtml()
+            return render("/user/register.html")
 
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserCreateForm(), form="new", post_only=True)
@@ -319,10 +322,13 @@ class UserController(BaseController):
         return render("/user/show.html")
 
     def login(self):
-        session['came_from'] = request.params.get('came_from',
-                                                  h.base_url(c.instance))
-        session.save()
-        return render('/user/login.html')
+        if c.user:
+            redirect('/')
+        else:
+            session['came_from'] = request.params.get('came_from',
+                                                      h.base_url(c.instance))
+            session.save()
+            return render('/user/login.html')
 
     def perform_login(self):
         pass  # managed by repoze.who
