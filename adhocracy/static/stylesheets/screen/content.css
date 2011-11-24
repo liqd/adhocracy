@@ -981,7 +981,6 @@ ul.papers_list li {
 ul.comments_list, .comment_wrapper {
   background: url('/images/gradient_comments.jpg') repeat-y top left #e5e6e8;
   margin: 0;
-  padding-bottom: 20px;
   list-style: none;
 }
 ul.comments_list ul {
