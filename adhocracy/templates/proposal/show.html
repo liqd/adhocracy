@@ -139,8 +139,9 @@ created_msg = _("by %s on %s, %s changes since then.") % (
     h.format_date(c.proposal.create_time),
     len(c.proposal.description.variant_history(model.Text.HEAD)))
 %>
-    </p>
     ${created_msg|n}
+    </p>
+
     ${tiles.tag.sidebar(c.proposal)}
     
     ## FIXME: Reimplement Tagging
