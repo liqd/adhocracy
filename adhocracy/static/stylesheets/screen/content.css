@@ -992,6 +992,11 @@ ul.comments_list li, .comment_wrapper .comment {
   border-top: 1px solid #fff;
   cursor: pointer;
 }
+
+.comment_wrapper .comment {
+  padding: 10px 20px 20px 20px;
+}
+
 .comment_wrapper .comment.empty {
   padding-top: 20px;
   font-weight: bold;
@@ -1147,7 +1152,8 @@ form .error { border-color: darkred; }
 
 /* comment form */
 .comment_form {
-  padding: 5px;
+  background: none #E6E6E6;
+  padding: 3px;
 }
 form.new_comment {
   background: none repeat scroll 0 0 #E5E6E8;

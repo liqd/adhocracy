@@ -361,8 +361,8 @@ if format is None:
 else:
     format = ".%s" % format
 %>
+  <h4>${_(u'Add comment')}</h4>
   <div class="comment_form">
-    <h4>${_(u'Add comment')}</h4>
     <form name="new_comment" class="comment_form"
           method="POST" action="/comment${format}">
       ${h.field_token()|n}
