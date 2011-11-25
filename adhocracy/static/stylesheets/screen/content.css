@@ -15,7 +15,7 @@ h2 { font-size: 30px; margin-bottom: 10px; font-weight: normal; }
 h3 { font-size: 25px; margin-bottom: 10px; font-weight: normal; }
 h4, legend { font-size: 20px; margin-bottom: 10px; font-weight: normal; }
 h5 { font-size: 16px; margin-bottom: 5px; font-weight: normal; }
-h6 { font-size: 12px; font-weight: normal; color: #666; }
+h6 { font-size: 14px; font-weight: normal; color: #666; }
 
 #col3 h3 {
   font-size: 25px;
@@ -981,7 +981,6 @@ ul.papers_list li {
 ul.comments_list, .comment_wrapper {
   background: url('/images/gradient_comments.jpg') repeat-y top left #e5e6e8;
   margin: 0;
-  padding-bottom: 20px;
   list-style: none;
 }
 ul.comments_list ul {
@@ -993,6 +992,11 @@ ul.comments_list li, .comment_wrapper .comment {
   border-top: 1px solid #fff;
   cursor: pointer;
 }
+
+.comment_wrapper .comment {
+  padding: 10px 20px 20px 20px;
+}
+
 .comment_wrapper .comment.empty {
   padding-top: 20px;
   font-weight: bold;
@@ -1148,7 +1152,8 @@ form .error { border-color: darkred; }
 
 /* comment form */
 .comment_form {
-  padding: 5px;
+  background: none #E6E6E6;
+  padding: 3px;
 }
 form.new_comment {
   background: none repeat scroll 0 0 #E5E6E8;

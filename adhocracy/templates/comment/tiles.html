@@ -105,7 +105,7 @@
         %endif
 
         <div class="comment_actions floatbox">
-            <div style="display: none;" class="hover_active">
+            <div>
                 <div class="vote_comment">
                     ${tiles.poll.widget(comment.poll)}
                 </div>
@@ -361,8 +361,8 @@ if format is None:
 else:
     format = ".%s" % format
 %>
+  <h4>${_(u'Add comment')}</h4>
   <div class="comment_form">
-    <h4>${_(u'Add comment')}</h4>
     <form name="new_comment" class="comment_form"
           method="POST" action="/comment${format}">
       ${h.field_token()|n}
