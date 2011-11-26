@@ -7,39 +7,52 @@
 </%def>
 
 <%block name="headline">
+    <h3>${_("Create norm")}</h3>
+</%block>
+
+<%block name="sidebar">
+    <div class="help">
+        <h3>${_("Help")}</h3>
+        <ul>
+            <li>${h.help_link(_("Which page types are there?"), 'page_faq', anchor='doctypes')|n}</li>
+            <li>${h.help_link(_("What is a wiki page?"), 'page_faq', anchor='whatiswiki')|n}</li>
+            <li>${h.help_link(_("What is a norm?"), 'page_faq', anchor='whatisnorm')|n}</li>
+            <li>${h.help_link(_("More help..."), 'page_faq')|n}</li>
+        </ul>
+    </div>
+</%block>
+
+<%block name="main_content">
 <form name="create_page" class="inplace" method="POST" action="/page">
     ${h.field_token()|n}
     %if c.proposal:
         <input type="hidden" value="${c.proposal}" name="proposal" />
     %endif
     
-    <div class="sidebar">
-        <div class="help">
-            <h3>${_("Help")}</h3>
-            <ul>
-                <li>${h.help_link(_("Which pages types are there?"), 'page_faq', anchor='doctypes')|n}</li>
-                <li>${h.help_link(_("What is a wiki page?"), 'page_faq', anchor='whatiswiki')|n}</li>
-                <li>${h.help_link(_("What is a norm?"), 'page_faq', anchor='whatisnorm')|n}</li>
-                <li>${h.help_link(_("More help..."), 'page_faq')|n}</li>
-            </ul>
-        </div>
-    </div>
     
     <div class="mainbar">
-        <h3>${_("Norm title")}</h3>
-        <div class="page_title">
-            <label for="title" class="armhint">${_("New norm")}</label>
-            <input tabindex="1" class="title armlabel" name="title" value="${c.title}"/>
-        </div>
-        
-        <textarea tabindex="2" class="description armlabel normedit" cols="${model.Text.LINE_LENGTH}" name="text"></textarea>
-        ${components.formatting()}
-        <br/><br/>
-        <label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
-        <input name="tags" id="tags" class="armlabel long" />
-        <span class="hint">${_("Multiple tags can be separated by commas.")}
-            ${h.help_link(_("Help."), 'tag_faq')|n}
-        </span>
+        <fieldset>
+            <legend>${_("Norm title")}</legend>
+            <div class="input_wrapper page_title">
+                <label for="title" class="armhint">${_("New norm")}</label>
+                <input type="text" tabindex="1" class="title armlabel" name="title" value="${c.title}"/>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>${_("Norm content")}</legend>
+            <textarea tabindex="2" class="description armlabel normedit" cols="${model.Text.LINE_LENGTH}" name="text"></textarea>
+            ${components.formatting()}
+        </fieldset>
+
+        <fieldset>
+            <legend>${_("Tag and classify")}</legend>
+            <div class="input_wrapper">      
+                <label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
+                <input type="text" name="tags" id="tags" class="armlabel long" />
+                <p class="info">${_("Multiple tags can be separated by commas.")} ${h.help_link(_("Help."), 'tag_faq')|n}</p>      
+            </div>
+        </fieldset>
         
         <label for="parent">${_("Parent page:")}</label>
         ${tiles.page.select_page(field_name="parent", functions=model.Page.PARENT_FUNCTIONS)}
@@ -61,7 +74,9 @@
         </div>
     </div>
     <div class="mainbar">
-        ${components.savebox("/")}
+        <div class="submit">
+            ${components.savebox("/")}
+        </div>
         ${components.form_watch(None, checked=True)}
     </div>
 </form>
