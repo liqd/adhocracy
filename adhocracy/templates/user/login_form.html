@@ -1,3 +1,10 @@
+<%
+from urllib import urlencode
+came_from = request.params.get('came_from', '')
+query_string = ''
+if came_from:
+    query_string = '?%s' % urlencode({'came_from': came_from.encode('utf-8')})
+%>
 <div class="form_wrapper">
   <form name="login" method="POST" action="/perform_login">
     <div class="input_wrapper">
@@ -10,17 +17,12 @@
     </div>
     <div class="input_wrapper submit">        
       <input type="submit" value="${_('Login')}"/>
+      ${_("or")} 
+      <a href="/register${query_string}" class="icon_link more_uppercase">
+          ${_("Register new account")|n}</a>
     </div>
   </form>
-<%
-from urllib import urlencode
-came_from = request.params.get('came_from', '')
-query_string = ''
-if came_from:
-    query_string = '?%s' % urlencode({'came_from': came_from.encode('utf-8')})
-%>
 
-  <p><a href="/register${query_string}">${_("Register new account")|n}</a></p>
   <%
   c.openid_scenario = "login"
   %>
