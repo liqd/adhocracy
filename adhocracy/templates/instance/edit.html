@@ -22,219 +22,235 @@
     <input type="hidden" name="_method" value="PUT" />
     ${h.field_token()|n}
         
-    <h3>${_("Name")}</h3>
-    <div id="page_title">
-        <label for="label" class="armhint">${_("Instance Name")}</label>
-        <input tabindex="1" class="title armlabel" name="label" value="${c.page_instance.label}" />
-    </div>
+    <fieldset>
+      <legend>${_("Instance name")}</legend>
+      <div class="input_wrapper">
+        <label for="label" class="armhint">${_("New Instance")}</label>
+        <input type="text" tabindex="1" class="title armlabel" name="label" />
+      </div>
+    </fieldset>
     
-    <h3>${_("Description")}</h3>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Describe what the goals of this Instance are and who constitutes " +
-                "its community. (Both Markdown and HTML are allowed here.)")} 
-        </div>
-    </div>
-    <div class="mainbar">
-        <textarea tabindex="2" class="description" name="description">${c.page_instance.description}</textarea>
-        ${components.formatting()}
-    </div>
-    
-    <div style="clear: both;"></div>
-    <h3>${_("Voting Rules")}</h3>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("You can disable adoption votes, leaving only rating polls enabled.")}
-        </div>
-    </div>
-    <div class="mainbar">
-        <label for="allow_adopt">${_("Enable (final) adoption voting:")}</label>
-        <input type="checkbox" name="allow_adopt" />
-    </div>
-    
-    <div style="clear: both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("You can disable vote delegation, allowing only direct vote casting.")}
-        </div>
-    </div>
-    <div class="mainbar">
-        <label for="allow_delegate">${_("Enable vote delegation:")}</label>
-        <input type="checkbox" name="allow_delegate" />
-    </div>
-    
-    <div style="clear: both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("In order to become active, a proposal must reach the given proportion " + 
-                "of approval.")}
-        </div>
-    </div>
-    <div class="mainbar">
-        <label for="required_majority">${_("Majority:")}</label>
-        <select name="required_majority">
-            <option value="0.5">${_("A simple majority (&frac12; of vote)")|n}</option>
-            <option value="0.66">${_("A two-thirds majority")}</option>
-            <option value="0.98">${_("In Soviet Russia, proposal votes you.")}</option>
-        </select>
-    </div>
-    
-    <div style="clear: both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Before activating, the defined majority must be continuously held " + 
-                "by the proposal for the specified interval.")}
-        </div>
-    </div>
-    <div class="mainbar">
-        <label for="activation_delay">${_("Delay:")}</label>
-        <select name="activation_delay">
-            <option value="0">${_("No delay")}</option>
-            <option value="1">${_("1 Day")}</option>
-            <option value="2">${_("2 Days")}</option>
-            <option value="7">${_("One Week")}</option>
-            <option value="14">${_("Two Weeks")}</option>
-            <option value="28">${_("Four Weeks")}</option>
-        </select>
-    </div>
-    
-    <div style="clear: both;"></div>
-    <h3>${_("Membership Options")}</h3>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("When a new member joins, he or she will be a member of this user group.")}
-        </div>
-    </div>
-    <div class="mainbar">
-        <label for="default_group">${_("Default group:")}</label>
-        <select name="default_group">
-        %for possible_group in c._Group.INSTANCE_GROUPS:
-            <%
-            group = c._Group.by_code(possible_group)
-            %> 
-            <option value="${group.code}">${_(group.group_name)|n}</option>
-        %endfor
-        </select>
-    </div>
-    
-    <div style="clear: both;"></div>
-    <h3>${_("Logo")}</h3>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Select a logo file to appear in the header area of this Instance.")}
-        </div>
-    </div>
-    <div class="mainbar">
-        <label for="logo">${_("File upload:")}</label>
-        <input name="logo" type="file" />
-    </div>
-    
-    <div style="clear: both;"></div>
-    <h3>${_("General Settings")}</h3>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Select whether this instance will be shown in public listings.")}
-        </div>
-    </div>
-    <div class="mainbar">
-        <label for="hidden">${_("Hide this instance:")}</label>
-        <input type="checkbox" name="hidden" />
-    </div>
-    
-    <div style="clear: both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Freeze all substantive work in this instance, only voting and commenting will proceed.")}
-        </div>
-    </div>
-    <div class="mainbar">
-        <label for="frozen">${_("Freeze this instance:")}</label>
-        <input type="checkbox" name="frozen" />
-    </div>
+    <fieldset>
+      <legend>${_("Description")}</legend>
+      <p class="info">
+      ${_("Describe what the goals of this instance are and who constitutes "
+          "its community. (Both Markdown and HTML are allowed here.)")} 
+      </p>
+      <textarea tabindex="3" class="description" name="description"></textarea>
+      ${components.formatting()}
+    </fieldset>
 
+    <fieldset>
+      <legend>${_("Voting Rules")}</legend>
+
+      <div class="sidebar">
+          <div class="infobox">
+              ${_("You can disable adoption votes, leaving only rating polls enabled.")}
+          </div>
+      </div>
+      <div class="mainbar">
+          <label for="allow_adopt">${_("Enable (final) adoption voting:")}</label>
+          <input type="checkbox" name="allow_adopt" />
+      </div>
+
+      <div style="clear: both;"></div>
+      <div class="sidebar">
+          <div class="infobox">
+              ${_("You can disable vote delegation, allowing only direct vote casting.")}
+          </div>
+      </div>
+      <div class="mainbar">
+          <label for="allow_delegate">${_("Enable vote delegation:")}</label>
+          <input type="checkbox" name="allow_delegate" />
+      </div>
+
+      <div style="clear: both;"></div>
+      <div class="sidebar">
+          <div class="infobox">
+              ${_("In order to become active, a proposal must reach the given proportion " + 
+              "of approval.")}
+          </div>
+      </div>
+      <div class="mainbar">
+          <label for="required_majority">${_("Majority:")}</label>
+          <select name="required_majority">
+              <option value="0.5">${_("A simple majority (&frac12; of vote)")|n}</option>
+              <option value="0.66">${_("A two-thirds majority")}</option>
+              <option value="0.98">${_("In Soviet Russia, proposal votes you.")}</option>
+          </select>
+      </div>
+
+      <div style="clear: both;"></div>
+      <div class="sidebar">
+          <div class="infobox">
+              ${_("Before activating, the defined majority must be continuously held " + 
+              "by the proposal for the specified interval.")}
+          </div>
+      </div>
+      <div class="mainbar">
+          <label for="activation_delay">${_("Delay:")}</label>
+          <select name="activation_delay">
+              <option value="0">${_("No delay")}</option>
+              <option value="1">${_("1 Day")}</option>
+              <option value="2">${_("2 Days")}</option>
+              <option value="7">${_("One Week")}</option>
+              <option value="14">${_("Two Weeks")}</option>
+              <option value="28">${_("Four Weeks")}</option>
+          </select>
+      </div>
+
+    </fieldset>
     <div style="clear: both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Use norm documents to structure the instance debate.")}
+    
+    <fieldset>
+        <legend>${_("Membership Options")}</legend>
+        <div class="sidebar">
+            <div class="infobox">
+                ${_("When a new member joins, he or she will be a member of this user group.")}
+            </div>
         </div>
-    </div>
-    <div class="mainbar">
-        <label for="use_norms">${_("Use norms:")}</label>
-        <input type="checkbox" name="use_norms" />
-    </div>
+        <div class="mainbar">
+            <label for="default_group">${_("Default group:")}</label>
+            <select name="default_group">
+                %for possible_group in c._Group.INSTANCE_GROUPS:
+                <%
+                group = c._Group.by_code(possible_group)
+                %> 
+                <option value="${group.code}">${_(group.group_name)|n}</option>
+                %endfor
+            </select>
+        </div>
+    </fieldset>
     
     <div style="clear: both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Use milestones to set deadlines for work in the instances.")}
+
+    <fieldset>
+        <legend>${_("Logo")}</legend>
+        <div class="sidebar">
+            <div class="infobox">
+                ${_("Select a logo file to appear in the header area of this Instance.")}
+            </div>
         </div>
-    </div>
-    <div class="mainbar">
-        <label for="milestones">${_("Use milestones:")}</label>
-        <input type="checkbox" name="milestones" />
-    </div>
-  
-  <div style="clear: both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Users can propose new norms. These are created as empty stubs until filled upon proposal adoption.")}
+        <div class="mainbar">
+            <label for="logo">${_("File upload:")}</label>
+            <input name="logo" type="file" />
         </div>
-    </div>
-    <div class="mainbar">
-    <label for="allow_propose">${_("Allow users to propose norms:")}</label>
-        <input type="checkbox" name="allow_propose" />
-    </div>
+    </fieldset>
     
     <div style="clear: both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("Control whether content produced within this instance will be included in public search engines.")}
+
+    <fieldset>
+        <legend>${_("General Settings")}</legend>
+        <div class="sidebar">
+            <div class="infobox">
+                ${_("Select whether this instance will be shown in public listings.")}
+            </div>
         </div>
-    </div>
-    <div class="mainbar">
-        <label for="allow_index">${_("Allow search engine access:")}</label>
-        <input type="checkbox" name="allow_index" />
-    </div>
-    
-    <div style="clear: both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("The language setting will be overridden by the user's personal setting.")|n} 
+        <div class="mainbar">
+            <label for="hidden">${_("Hide this instance:")}</label>
+            <input type="checkbox" name="hidden" />
         </div>
-    </div>
-    <div class="mainbar">
-        <label for="locale">${_("Language:")}</label>
-        <ul>
-            %for locale in c.locales:
+
+        <div style="clear: both;"></div>
+        <div class="sidebar">
+            <div class="infobox">
+                ${_("Freeze all substantive work in this instance, only voting and commenting will proceed.")}
+            </div>
+        </div>
+        <div class="mainbar">
+            <label for="frozen">${_("Freeze this instance:")}</label>
+            <input type="checkbox" name="frozen" />
+        </div>
+
+        <div style="clear: both;"></div>
+        <div class="sidebar">
+            <div class="infobox">
+                ${_("Use norm documents to structure the instance debate.")}
+            </div>
+        </div>
+        <div class="mainbar">
+            <label for="use_norms">${_("Use norms:")}</label>
+            <input type="checkbox" name="use_norms" />
+        </div>
+
+        <div style="clear: both;"></div>
+        <div class="sidebar">
+            <div class="infobox">
+                ${_("Use milestones to set deadlines for work in the instances.")}
+            </div>
+        </div>
+        <div class="mainbar">
+            <label for="milestones">${_("Use milestones:")}</label>
+            <input type="checkbox" name="milestones" />
+        </div>
+
+        <div style="clear: both;"></div>
+        <div class="sidebar">
+            <div class="infobox">
+                ${_("Users can propose new norms. These are created as empty stubs until filled upon proposal adoption.")}
+            </div>
+        </div>
+        <div class="mainbar">
+            <label for="allow_propose">${_("Allow users to propose norms:")}</label>
+            <input type="checkbox" name="allow_propose" />
+        </div>
+
+        <div style="clear: both;"></div>
+        <div class="sidebar">
+            <div class="infobox">
+                ${_("Control whether content produced within this instance will be included in public search engines.")}
+            </div>
+        </div>
+        <div class="mainbar">
+            <label for="allow_index">${_("Allow search engine access:")}</label>
+            <input type="checkbox" name="allow_index" />
+        </div>
+
+        <div style="clear: both;"></div>
+        <div class="sidebar">
+            <div class="infobox">
+                ${_("The language setting will be overridden by the user's personal setting.")|n} 
+            </div>
+        </div>
+        <div class="mainbar">
+            <label for="locale">${_("Language:")}</label>
+            <ul>
+                %for locale in c.locales:
                 <li style="list-style-type: none;"><input type="radio" name="locale" value="${str(locale)}" 
-                    %if locale == c.page_instance.locale:
-                        checked="checked"
-                    %endif
-                    /> ${locale.display_name}</li>
-            %endfor
-        </ul>
-    </div>
+                %if locale == c.page_instance.locale:
+                checked="checked"
+                %endif
+                /> ${locale.display_name}</li>
+                %endfor
+            </ul>
+        </div>
+    </fieldset>
     
     <div style="clear: both;"></div>
-    <h3>${_("Advanced Settings")}</h3>
-    <div class="sidebar">
-        <div class="infobox">
-            ${_("These settings allow you to further customize your instance by adding custom CSS to change the layout of your instance, and by setting the main menu link destinations.")}
+
+    <fieldset>
+        <legend>${_("Advanced Settings")}</legend>
+        <div class="sidebar">
+            <div class="infobox">
+                ${_("These settings allow you to further customize your instance by adding custom CSS to change the layout of your instance, and by setting the main menu link destinations.")}
+            </div>
         </div>
-    </div>
-    <div class="mainbar">
-        <label for="locale">${_("Extra CSS:")}</label>
-        <textarea tabindex="2" class="css" wrap="hard" name="css">${c.page_instance.css}</textarea>
-    </div>
-    
+        <div class="mainbar">
+            <label for="locale">${_("Extra CSS:")}</label>
+            <textarea tabindex="2" class="css" wrap="hard" name="css">${c.page_instance.css}</textarea>
+        </div>
+    </fieldset>
+
     <div style="clear: both;"></div>
     <div class="sidebar">
         <div class="infobox">
             ${h.help_link(_("More help..."), 'instance_faq')|n}
         </div>
     </div>
-    <div class="mainbar">
-        ${components.savebox("/instance/%s" % c.page_instance.key)}
-    </div>
+    <fieldset>
+        <div class="submit">
+            ${components.savebox("/instance/%s" % c.page_instance.key)}
+        </div>
+    </fieldset>
 </form> 
 </%block>
