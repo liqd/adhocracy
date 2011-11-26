@@ -718,4 +718,7 @@ $(document).ready(function () {
             $(this).val("");
         });
     });
+
+    /* Hide hidejs class elements, e.g. input field in user.register */
+    $(".hidejs").hide();
 });
