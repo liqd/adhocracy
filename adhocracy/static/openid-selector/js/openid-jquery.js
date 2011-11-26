@@ -189,7 +189,7 @@ openid = {
 			style = 'background: #FFF url(' + this.img_path + 'openid-inputicon.gif) no-repeat scroll 0 50%; padding-left:18px;';
 		}
 		html += '<input id="' + id + '" type="text" style="' + style + '" name="' + id + '" value="' + value + '" />'
-				+ '<input id="openid_submit" type="submit" value="' + this.signin_text + '"/>';
+				+ '<div class="input_wrapper submit"><input id="openid_submit" type="submit" value="' + this.signin_text + '" /></div>';
 		input_area.empty();
 		input_area.append(html);
 		$('#' + id).focus();
