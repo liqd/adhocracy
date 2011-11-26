@@ -47,7 +47,7 @@
         
       <div class="input_wrapper">
         <label for="email">${_("E-Mail:")}</label>
-        <input name="email" value="${c.page_user.email}"/>
+        <input type="text" name="email" value="${c.page_user.email}"/>
       </div>
       <div class="input_wrapper">
           <table border="0" width="100%">
@@ -95,7 +95,7 @@
           </table>
         </div>        
       %endif 
-      <a class="button add" href="/openid/connect">${_("Add OpenID")}</a>
+      <a class="add" href="/openid/connect">${_("Add OpenID")}</a>
     </fieldset>
     
     <fieldset>
