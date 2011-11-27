@@ -534,11 +534,13 @@ $(document).ready(function () {
     // overlay
     $('#overlay-default').overlay({
         // custom top position
+        fixed: false,
         top: '25%'
     });
 
     //open link in overlay (like help pages)
     $("a[rel=#overlay-ajax]").overlay({
+        fixed: false,
         target: '#overlay-default',
         mask: adhocracy.overlay.mask,
         onBeforeLoad: adhocracy.overlay.ajaxLoadContent,
