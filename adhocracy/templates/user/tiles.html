@@ -24,7 +24,7 @@
 
 <%def name="header(tile, user, active)">
 
-<!-- FIXME: Move required parts to new design 
+<%doc> FIXME: Move required parts to new design 
     <div class="top_actions title vcard">
         %if can.user.message(user):
             <a class="button add" href="${h.entity_url(user, member='message/new')}">${_("send a message")}</a>
@@ -71,11 +71,11 @@
             ${components.watch(user)}
         %endif
     </div>
-    -->
+</%doc>
 
     <h2>${user.name}</h2>
 
-<!-- FIXME: move to new design?    
+<%doc> FIXME: move to new design?    
     <div class="panel ${active}">
         <ul class="menu">
             <li><a href="${h.entity_url(user)}" rel="profile url" class="activity">${_("Activity")}</a></li>
@@ -100,6 +100,6 @@
             %endif
         </ul>
     </div>
--->
+</%doc>
 
 </%def>
