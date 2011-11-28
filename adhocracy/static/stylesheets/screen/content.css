@@ -1688,3 +1688,7 @@ existing info_box styles.*/
   color: #404040;
 }
 
+#stats {
+    font-size: 20px;
+    text-align: center;
+}
