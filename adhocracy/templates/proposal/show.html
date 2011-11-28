@@ -11,15 +11,11 @@
 <%block name="main_content">
 
     %if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
-      %if can.proposal.rate(c.proposal):
-      ${tiles.poll.widget(c.proposal.rate_poll, cls='big')}
-      %endif
+    ${tiles.poll.widget(c.proposal.rate_poll, cls='big')}
     %endif
 
     %if c.proposal.is_adopt_polling():
-      %if can.proposal.rate(c.proposal):
-      ${tiles.poll.widget(c.proposal.adopt_poll, cls='big')}
-      %endif
+    ${tiles.poll.widget(c.proposal.adopt_poll, cls='big')}
     %endif
 
             <section>
