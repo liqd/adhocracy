@@ -36,7 +36,8 @@
     %if can.proposal.create():
     ## FIXME: Button for unauth users
     <div class="version_function">
-        <a class="button highlight" href="/proposal/new?page=${c.page.id}">
+        <a class="button highlight" 
+           href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}">
             ${_('Propose new Variant')}
         </a>
     </div>

@@ -145,6 +145,7 @@ class SelectionController(BaseController):
         c.selection_details = self.selection_details(selection)
         c.selection_details_json = json.dumps(c.selection_details, indent=4)
         c.current_variant_poll = variant_polls[variant_to_show]
+        c.selection = selection
         if format == 'overlay':
             return render('/proposal/details.html', overlay=True)
         return render('/proposal/details.html')
