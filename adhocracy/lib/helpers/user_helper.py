@@ -61,6 +61,7 @@ def url(user, instance=None, **kwargs):
                   'ban', 'unban', 'filter']:
         if instance is None:
             instance = c.instance
+
     return url_(user, instance, **kwargs)
 
 
