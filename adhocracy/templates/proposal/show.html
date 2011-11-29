@@ -40,7 +40,7 @@
                 
                 <div class="meta">
                     <a href="#discussions">
-                        ${_("%s Discussions") % c.proposal.description.comment_count()}
+                        ${_("%s Discussions") % c.proposal.description.comment_count(reply_filter=None)}
                     </a>
                     %if c.show_selections:
                     &middot; 
