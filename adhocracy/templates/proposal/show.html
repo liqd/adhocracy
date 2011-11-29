@@ -38,16 +38,14 @@
                         hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
     
                 
-                ## FIXME: Translate; Really "Reaktions", not "Comments"?
                 <div class="meta">
-                    <a href="#reactions">
-                        ${c.proposal.description.comment_count()} ${_("Comments")}
+                    <a href="#discussions">
+                        ${_("%s Discussions") % c.proposal.description.comment_count()}
                     </a>
                     %if c.show_selections:
                     &middot; 
                     <a href="#proposals">
-                        ${len(c.num_selections)}
-                        ${_("Proposed Implementations")}
+                        ${_("%s Proposed Implementations") % len(c.num_selections)}
                     </a>
                     %endif
                     &middot; 
@@ -62,7 +60,7 @@
               <br />
 
               <div id="main_comments">
-                  <h3 id="reactions">${_(u'Comments')}</h3>
+                  <h3 id="discussions">${_('Discussions')}</h3>
                   ## comments are attached to the description which is a
                   ## :class:`adhocracy.model.Page`
                   ## proposal descriptions have no other variant than head.
