@@ -190,6 +190,7 @@ class UserController(BaseController):
                                           instance_filter=False)
         require.user.edit(c.page_user)
         c.locales = i18n.LOCALES
+        c.tile = tiles.user.UserTile(c.page_user)
         return render("/user/edit.html")
 
     @RequireInternalRequest(methods=['POST'])

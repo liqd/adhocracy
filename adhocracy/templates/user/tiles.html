@@ -2,7 +2,7 @@
 
 <%def name="row(tile, user)">
     <li class="content_box vcard">
-        <h3><a class="link fn nickname" href="${h.entity_url(user)}">${user.name}</a> 
+        <h3><a class="link fn nickname" href="${h.entity_url(user, instance=c.instance)}">${user.name}</a> 
         ${tiles.badge.badges(user.badges)}
 </h3>
         <div class="meta">
@@ -24,16 +24,11 @@
 
 <%def name="header(tile, user, active)">
 
-<%doc> FIXME: Move required parts to new design 
     <div class="top_actions title vcard">
         %if can.user.message(user):
             <a class="button add" href="${h.entity_url(user, member='message/new')}">${_("send a message")}</a>
         %endif
     
-        %if can.user.edit(user):
-            <a class="button edit" href="${h.entity_url(user, member='edit')}">${_("edit")}</a>
-        %endif
-
         %if lib.auth.authorization.has('global.admin'):
             <a class="button edit" href="${h.entity_url(user, member='badges')}">${_("Edit Badges")}</a>
         %endif
@@ -71,9 +66,7 @@
             ${components.watch(user)}
         %endif
     </div>
-</%doc>
 
-    <h2>${user.name}</h2>
 
 <%doc> FIXME: move to new design?    
     <div class="panel ${active}">
