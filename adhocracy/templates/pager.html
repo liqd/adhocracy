@@ -11,7 +11,6 @@
             %if len(pager.sorts.keys()) > 1 and pager.enable_sorts:
                 <div class="filter_box">        
                     <span class="pager_sorts">
-                    ${_("sort by:")}
                     %for sort, i in zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)):
                         <a class="${'selected' if i == pager.selected_sort else ''}" 
                             href="${pager.build_url(sort=i)}">${sort}</a>
