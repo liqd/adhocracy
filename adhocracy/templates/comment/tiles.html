@@ -50,14 +50,31 @@
     </ul>
     %endif
 
-    %if root is None:
-        %if can.comment.create_on(topic):
-        <div class="comment_wrapper">
+    %if root is None  and can.comment.create_on(topic):
+        <%
+        hide_form = True
+        target = 'new_toplevel_comment'
+        if len(comments) == 0:
+             hide_form = False
+        %>
+        <div class="comment_wrapper"
+             style="${'display: none' if hide_form else ''}"
+             id="${target}"
+             data-cancel=".cancel">
             <div class="comment">
                 ${create_form(None, topic, variant=variant, ret_url=ret_url)}
             </div>
         </div>
+        %if hide_form:
+        <div class="list_button">
+            <a class="button highlight showhide_button" 
+               href="/comment/new?topic=${comment.topic.id}&wiki=1"
+               data-target="#${target}">
+                ${_('Start new Discussion')}
+            </a>
+        </div>
         %endif
+
     %endif
 </%def>
 

@@ -1704,3 +1704,11 @@ font-size: 16px;
 font-weight: bold;
 margin-bottom: 0;
 }
+
+/* Button below lists that should left-align with the text inside 
+ * the list.
+ */
+
+.list_button {
+  padding: 10px 10px;
+}
