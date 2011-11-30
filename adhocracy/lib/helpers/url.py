@@ -28,12 +28,12 @@ def append_member_and_format(url, member=None, format=None):
     return url
 
 
-def build(instance, base, id, query=None, anchor=None, member=None, format=None):
+def build(instance, base, id, query=None, anchor=None, member=None,
+          format=None):
     '''
-    Build a url which will be placed in the subdomain of the
+    Build an url which will be placed in the subdomain of the
     *instance*'. The url will be composed out of *base* and 'id',
-    point to the html id *anchor*, have a 
-    
+    point to the html id *anchor*.
     '''
     if base:
         base = '/' + base + '/'
