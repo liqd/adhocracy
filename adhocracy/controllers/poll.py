@@ -66,7 +66,7 @@ class PollController(BaseController):
     @RequireInternalRequest()
     @validate(schema=PollVoteForm(), form="bad_request", post_only=False,
               on_get=True)
-    def vote(self, id, format='html'):
+    def vote(self, id, format):
         c.poll = self._get_open_poll(id)
         if c.poll.action != model.Poll.ADOPT:
             abort(400, _("This is not an adoption poll."))
@@ -89,7 +89,7 @@ class PollController(BaseController):
     @RequireInternalRequest()
     @validate(schema=PollVoteForm(), form="bad_request",
               post_only=False, on_get=True)
-    def rate(self, id, format='html'):
+    def rate(self, id, format):
         # rating is like polling but steps via abstention, i.e. if you have
         # first voted "for", rating will first go to "abstain" and only
         # then produce "against"-

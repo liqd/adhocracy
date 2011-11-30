@@ -184,14 +184,13 @@ def make_map():
 
     map.resource('milestone', 'milestone', member={'ask_delete': 'GET'})
 
-    map.connect('/poll/{id}/rate.{format}', controller='poll', action='rate',
-                                   conditions=dict(method=['GET', 'POST']))
+    map.connect('/poll/{id}/rate{.format}', controller='poll', action='rate',
+                conditions=dict(method=['GET', 'POST']))
 
-    map.connect('/poll/{id}/rate', controller='poll', action='rate',
-                                   conditions=dict(method=['GET', 'POST']))
+    map.connect('/poll/{id}/vote{.format}', controller='poll', action='vote',
+                conditions=dict(method=['GET', 'POST']))
 
-    map.resource('poll', 'poll', member={'vote': 'POST',
-                                         'votes': 'GET',
+    map.resource('poll', 'poll', member={'votes': 'GET',
                                          'ask_delete': 'GET',
                                          'widget': 'GET'})
 
