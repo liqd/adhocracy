@@ -123,6 +123,7 @@ class UserController(BaseController):
         return render("/user/all.html")
 
     def new(self):
+        c.active_global_nav = "login"
         if c.user:
             redirect('/')
         else:
@@ -323,6 +324,7 @@ class UserController(BaseController):
         return render("/user/show.html")
 
     def login(self):
+        c.active_global_nav = "login"
         if c.user:
             redirect('/')
         else:

@@ -1,7 +1,7 @@
-<%def name="nav_link(href, text, li_class='', a_rel='', id_='', title='', condition=True)">
+<%def name="nav_link(href, text, li_class='', a_class='',  a_rel='', id_='', title='', condition=True)">
 %if condition:
-<li class="${li_class}" ${'id="${id_}"' if id_ else ''|n}>
-    <a href="${href}" rel="${a_rel}" title="${title}">${text}</a>
+<li class="${li_class}" id="${id_}">
+    <a href="${href}" class="${a_class}" rel="${a_rel}" title="${title}">${text}</a>
 </li>
 %endif
 </%def>
@@ -40,13 +40,15 @@
                            li_class=_class('watchlist'),
                            text=_("Watchlist"))}
                 %endif
-                <!-- FIXME: implemente About -->
-                ${nav_link(href="#",
+                ${nav_link(href=h.base_url(None, path='/static/about.html'),
                            text=_('About'),
-                           li_class=_class('about'))}
+                           a_class='staticlink_about',
+                           li_class=_class('about'),
+                           id_="nav_about")}
 
                 ${nav_link(href=h.base_url(None, path='/static/help.html'),
                            text=_("Help"),
+                           a_class='staticlink_help',
                            li_class=_class('help'),
                            id_="nav_help")}
 

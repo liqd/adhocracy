@@ -17,6 +17,7 @@ class StaticController(BaseController):
     def serve(self, page_name, format='html'):
         begin_time = time()
         c.static = StaticPage(page_name)
+        c.active_global_nav = page_name
         if not c.static.exists:
             abort(404, _('The requested page was not found'))
         if format == 'simple':
