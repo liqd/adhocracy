@@ -8,25 +8,26 @@
 
 
 <%block name="headline">
-<h1>${_("Proposals")}</h1>
 
 </%block>
 
 <%block name="main_content">
-<div class="top_actions title">
-    %if can.proposal.create():
-        <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
-    %endif
-</div>
-    
-<form action="?" method="GET" autocomplete="off">
-    <label for="proposals_q" class="armhint">${_("Find proposals")}</label>
-    <input id="proposals_q" class="live_search armlabel" name="proposals_q" 
-            type="text" value="${request.params.get('proposals_q', '')}" 
-            tabindex="1" />
+<h2>${_("Proposals")}</h2>
+<div class="hr"><hr /></div>
+<div class="list_filter">
+<form class="list_form" action="?" method="GET" autocomplete="off">
+    <label class="floating" for="proposals_q">${_("Find proposals")}</label>
+    <input class="q" 
+           id="proposals_q" class="live_search" name="proposals_q" 
+           type="text" value="${request.params.get('proposals_q', '')}" 
+           tabindex="1" />
+    <input type="submit" value="${_('Go')}" 
+           class="go" />
+
 </form>
+</div>
     <div id="proposals_table" class="table">
-        ${c.proposals_pager.here()}
+        ${c.proposals_pager.render_pager()}
     </div>
     <br/>
     <div class="top_actions aside">

@@ -2,8 +2,8 @@
 
 <%def name="history_row(tile, text)">
     <div class="tile text history">
-        <ul>
-            <li>
+        <ul class="content_list">
+            <li class="title">
                 ${diff.page_titles_compare(text, text.parent)|n}
                 %if text.page.has_variants:
                     (${text.variant_html|n})

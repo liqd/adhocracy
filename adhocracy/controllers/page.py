@@ -111,13 +111,14 @@ class PageController(BaseController):
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
         c.title = request.params.get('title', None)
-        c.proposal = request.params.get("proposal")
+        proposal_id = request.params.get("proposal")
 
         html = None
-        if c.proposal is not None:
-            c.proposal = model.Proposal.find(c.proposal)
+        if proposal_id is not None:
+            c.proposal = model.Proposal.find(proposal_id)
             html = render('/selection/propose.html')
         else:
+            c.propose = None
             html = render("/page/new.html")
 
         return htmlfill.render(html, defaults=defaults, errors=errors,
@@ -432,8 +433,7 @@ class PageController(BaseController):
             redirect(h.entity_url(c.page))
         c.texts_pager = pager.NamedPager(
             'texts', c.text.history, tiles.text.history_row, count=10,
-            sorts={_("oldest"): sorting.entity_oldest,
-                   _("newest"): sorting.entity_newest},
+            sorts={},
             default_sort=sorting.entity_newest)
 
         if format == 'json':

@@ -534,11 +534,13 @@ $(document).ready(function () {
     // overlay
     $('#overlay-default').overlay({
         // custom top position
+        fixed: false,
         top: '25%'
     });
 
     //open link in overlay (like help pages)
     $("a[rel=#overlay-ajax]").overlay({
+        fixed: false,
         target: '#overlay-default',
         mask: adhocracy.overlay.mask,
         onBeforeLoad: adhocracy.overlay.ajaxLoadContent,
@@ -721,4 +723,32 @@ $(document).ready(function () {
 
     /* Hide hidejs class elements, e.g. input field in user.register */
     $(".hidejs").hide();
+
+    /* Generic buttons that show/hide an element with a specific id.
+     * Requriements:
+     * * The button needs the class showhide_button
+     * * and an attribute 'data-target' with a selector string to find
+     *   the target.
+     * * The targed element needs to have an attribute 'data-cancel' with
+     *   containing a selector string. The click event of the matching
+     *   elements will hide the target an unhide the button.
+     */
+    $('body').delegate('.showhide_button', 'click', function (event) {
+        event.preventDefault();
+        var self = $(this),
+            target_selector = self.data('target'),
+            target = $(target_selector),
+            cancel_selector = target.data('cancel'),
+            cancel = target.find(cancel_selector);
+
+        target.show();
+        self.hide();
+
+        // bind a possible cancel action to show the button and hide the target
+        cancel.bind('click', function (event) {
+            event.preventDefault();
+            self.show();
+            target.hide();
+        });
+    });
 });

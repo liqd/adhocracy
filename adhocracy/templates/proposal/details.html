@@ -36,7 +36,8 @@
     %if can.proposal.create():
     ## FIXME: Button for unauth users
     <div class="version_function">
-        <a class="button highlight" href="/proposal/new?page=${c.page.id}">
+        <a class="button highlight" 
+           href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}">
             ${_('Propose new Variant')}
         </a>
     </div>
@@ -159,7 +160,6 @@
             </div>
             <div class="paper_text text"
                  data-bind="visible: variants.showPlain()">
-                <h4>${_("Text")}</h4>
                 <div data-bind="html: variants.current.text">
                 %if not c.variant_details['text']:
                 ${_(u'Kein Text')}
@@ -170,7 +170,7 @@
             </div>
             <div class="paper_text diff"
                  data-bind="visible: variants.showDiff()">
-                <h4>${_("Text (compared to the original version)")}</h4>
+                <h4>${_("Text compared to the original version")}</h4>
                 <div data-bind="html: variants.current.text_diff">
                     ${c.variant_details['text_diff']|n}
                 </div>

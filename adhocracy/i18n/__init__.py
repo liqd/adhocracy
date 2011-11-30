@@ -89,14 +89,26 @@ def countdown_time(dt, default):
 
 
 def format_date(dt):
+    '''
+    Format the date in a local aware format.
+    '''
     from pylons import tmpl_context as c
-    ts = babel.dates.format_date(dt, format='long', locale=c.locale or
-            babel.Locale('en', 'US'))
-    return _("%(ts)s") % {'ts': ts}
+    return babel.dates.format_date(dt, format='long', locale=c.locale or
+                                   babel.Locale('en', 'US'))
+
+
+def format_time(dt):
+    '''
+    Format the date in a local aware format.
+    '''
+    from pylons import tmpl_context as c
+    return babel.dates.format_time(dt, format='short', locale=c.locale or
+                                   babel.Locale('en', 'US'))
 
 
 def relative_time(dt):
     """ A short statement giving the time distance since ``dt``. """
     fmt = "<time class='ts' datetime='%(iso)sZ'>%(formatted)s</time>"
-    return fmt % dict(iso=dt.isoformat(),
-                      formatted=format_date(dt))
+    formatted = "%s %s" % (format_date(dt), format_time(dt))
+    return fmt % dict(iso=dt.isoformat(), formatted=formatted)
+

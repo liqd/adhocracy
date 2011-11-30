@@ -165,7 +165,7 @@
              condition=c.instance.milestones)}
 
   ${nav_link(href="/proposal",
-             text=_("Diskussions"),
+             text=_("Proposals"),
              li_class=_class('proposals'))}
 
   ${nav_link(href="/page",
@@ -178,7 +178,7 @@
              li_class=_class('members'))}
 
   ${nav_link(href=h.entity_url(c.instance, member='edit'),
-             text=_("Settings"),
+             text=_("Edit"),
              li_class=(_class('settings') + ' settings'),
              condition=can.instance.edit(c.instance))}
 

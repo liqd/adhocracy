@@ -16,22 +16,17 @@
         </h3>
         <div class="meta">              
             %if proposal.is_adopt_polling():
-                ${_("<b>%s%%</b> approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
+                ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
                 &middot;    
             %elif proposal.rate_poll: 
-                ${_("<b>%s:%s</b> votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} &middot;
-    %endif
-    %if proposal.description.head.wiki: 
-      <b>${_("anyone can edit")}</b> &middot; 
+                ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} &middot;
     %endif
             %if proposal.instance.use_norms:
-                <img src="/img/icons/page_variant_16.png" /> 
                 ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
                 &middot;
             %endif
-            <img src="/img/icons/discuss_16.png" /> 
             ##${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
-            ${_("(latest: <b>%s</b>)") % h.relative_time(proposal.find_latest_comment_time())|n} 
+            ${_("(latest: %s)") % h.relative_time(proposal.find_latest_comment_time())|n} 
         </div>
         <div class="hr"><hr /></div>
     </li>

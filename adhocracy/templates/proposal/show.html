@@ -11,15 +11,11 @@
 <%block name="main_content">
 
     %if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
-      %if can.proposal.rate(c.proposal):
-      ${tiles.poll.widget(c.proposal.rate_poll, cls='big')}
-      %endif
+    ${tiles.poll.widget(c.proposal.rate_poll, cls='big')}
     %endif
 
     %if c.proposal.is_adopt_polling():
-      %if can.proposal.rate(c.proposal):
-      ${tiles.poll.widget(c.proposal.adopt_poll, cls='big')}
-      %endif
+    ${tiles.poll.widget(c.proposal.adopt_poll, cls='big')}
     %endif
 
             <section>
@@ -42,16 +38,14 @@
                         hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
     
                 
-                ## FIXME: Translate; Really "Reaktions", not "Comments"?
                 <div class="meta">
-                    <a href="#reactions">
-                        ${c.proposal.description.comment_count()} ${_("Comments")}
+                    <a href="#discussions">
+                        ${_("%s Discussions") % c.proposal.description.comment_count(reply_filter=None)}
                     </a>
                     %if c.show_selections:
                     &middot; 
                     <a href="#proposals">
-                        ${len(c.num_selections)}
-                        ${_("Proposed Implementations")}
+                        ${_("%s Proposed Implementations") % len(c.num_selections)}
                     </a>
                     %endif
                     &middot; 
@@ -66,7 +60,7 @@
               <br />
 
               <div id="main_comments">
-                  <h3 id="reactions">${_(u'Comments')}</h3>
+                  <h3 id="discussions">${_('Discussions')}</h3>
                   ## comments are attached to the description which is a
                   ## :class:`adhocracy.model.Page`
                   ## proposal descriptions have no other variant than head.
@@ -85,7 +79,25 @@
                   ${tiles.selection.row(selection)}
                   %endfor
               </ul> 
+              %if can.selection.create(c.proposal):
+              <div class="list_button">
+              <a class="button highlight" 
+                 href="${h.entity_url(c.proposal, member='implementation/include')}">
+                  ${_("Propose to change a norm")}
+              </a>
+              
+              <%doc> FIXME: Enable change existing norm option
+              %if norm.can.create
+              <a class="button" 
+                 title="${_('Propose to create a norm through this proposal.')}" 
+                 href="${h.entity_url(c.proposal, member='implementation/propose')}">
+                  ${_("propose new norm")}
+              </a>
+              </%doc>
+              </div>
+              %endif          
             </section>
+             
             %endif
 
 </%block>

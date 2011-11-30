@@ -151,8 +151,35 @@ class Delegateable(meta.Indexable):
         else:
             return latest[0]
 
-    def comment_count(self):
-        return len([c for c in self.comments if not c.is_deleted()])
+    def _comment_count_query(self):
+        from comment import Comment
+        query = meta.Session.query(Comment)
+        query = query.filter(Comment.topic_id == self.id)
+        query = query.filter(or_(Comment.delete_time == None,
+                                 Comment.delete_time > datetime.utcnow()))
+        return query
+
+    def comment_count(self, reply_filter=False):
+        '''
+        Return the number of comments on the delegateable.
+
+        *reply_id_filter* (default: `False`)
+            Count only Replies to a certain comment. By default,
+            all comments are counted. If `None`, only the top level
+            comments are counted. If an *int* or an
+            :class:`adhocracy.model.comment.Comment` is given, only replies
+            this comment are counted.
+        '''
+        from comment import Comment
+        query = self._comment_count_query()
+        if reply_filter is None:
+            query = query.filter(Comment.reply_id == None)
+        elif reply_filter is not False:
+            if isinstance(reply_filter, Comment):
+                reply_filter = reply_filter.id
+            assert isinstance(reply_filter, int)
+            query.filter(Comment.reply_id == reply_filter)
+        return query.count()
 
     def current_delegations(self):
         return filter(lambda d: not d.is_revoked(), self.delegations)
