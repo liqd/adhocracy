@@ -199,9 +199,12 @@ a.button_small.off:active, a.button_small.off.active {
 .content_list li {
   margin-bottom: 10px;
 }
+.content_list h3 {
+  font-size: 18px;
+}
 li.content_box {
-  padding: 20px 0 0 0;
-  margin-bottom: 20px;
+  padding: 10px 0 0 0;
+  margin-bottom: 0;
   background: url('/images/list_bg.png') right top no-repeat;
 }
 li.content_box h3, li.content_box p, li.content_box .meta {
@@ -265,10 +268,24 @@ section { margin-bottom: 40px; }
   color: #666;
 }
 
+.pager_wrapper .floatbox {
+  padding: 5px 10px;
+  background: url("/images/gradient_form.jpg") repeat-y scroll left top #E5E6E8;
+}
+
+.pager_wrapper .filter_box {
+margin: 0;
+}
+
+.pager_wrapper .hr {
+margin-bottom: 0;
+}
+
 .pager {
   clear: both;
   text-align: right;
   margin: 0 0 15px 0;
+  padding-top: 10px;
 }
 .prev_page, .next_page { display: inline; }
 
@@ -1098,6 +1115,15 @@ form {
   line-height: 1.5;
   padding: 30px;
 }
+
+form.list_filter {
+  background: none;
+}
+
+form.list_filter label {
+  font-size: 16px;
+}
+
 #openid_form {
   width: 392px !important;
 }
@@ -1173,25 +1199,39 @@ form.new_comment {
 }
 
 /* searchform */
-#searchbox {
+#searchbox,
+.list_filter {
   display: block;
   overflow: hidden;
   padding-top: 29px;
   padding-right: 20px;
 }
-#searchform {
+
+.list_filter {
+padding: 20px 20px 40px 20px;
+}
+
+#searchform,
+.list_form {
   float: right;
   padding: 0;
   background:  none;
 }
-#searchform #s {
+#searchform #s,
+.list_form input.q {
   width: 225px;
   padding:  0px 4px;
   height: 24px;
   font-size: 13px;
   vertical-align: top;
 }
-#searchform #searchsubmit {
+
+.list_form input.q {
+  width: 530px;
+}
+
+#searchform #searchsubmit,
+.list_form input.go {
   background: url('/images/button_grey.jpg') no-repeat top left;
   padding: 0px 10px 2px;
   height: 26px;
@@ -1200,7 +1240,10 @@ form.new_comment {
   text-transform: uppercase;
   border: none;
 }
-#searchform #searchsubmit:hover { cursor: pointer; }
+#searchform #searchsubmit:hover,
+.list_form input.submit:hover { 
+  cursor: pointer; 
+}
 
 /* footer */
 #footer .page_wrapper {
