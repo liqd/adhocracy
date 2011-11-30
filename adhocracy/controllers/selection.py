@@ -136,11 +136,10 @@ class SelectionController(BaseController):
 
         score_getter = lambda variant: variant_polls[variant].tally.score
         c.variant_items = PageController.variant_items(
-            c.page, score_getter=score_getter)
+            c.page, score_getter=score_getter, render_head_score=True)
 
-        c.variant_details = PageController.variant_details(c.page,
-                                                           variant_to_show,
-                                                           variant_to_show)
+        c.variant_details = PageController.variant_details(
+            c.page, variant_to_show, current_selection=variant_to_show)
         c.variant_details_json = json.dumps(c.variant_details, indent=4)
         c.selection_details = self.selection_details(selection)
         c.selection_details_json = json.dumps(c.selection_details, indent=4)
