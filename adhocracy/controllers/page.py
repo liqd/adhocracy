@@ -433,8 +433,7 @@ class PageController(BaseController):
             redirect(h.entity_url(c.page))
         c.texts_pager = pager.NamedPager(
             'texts', c.text.history, tiles.text.history_row, count=10,
-            sorts={_("oldest"): sorting.entity_oldest,
-                   _("newest"): sorting.entity_newest},
+            sorts={},
             default_sort=sorting.entity_newest)
 
         if format == 'json':
