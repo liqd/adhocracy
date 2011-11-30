@@ -519,6 +519,10 @@ top: 0px;
   float: right;
 }
 
+#flash_message p.register_msg {
+  line-height: 27px;
+}
+
 /* info box and overlay */
 .info_box {
   padding:  20px;
