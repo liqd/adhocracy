@@ -79,7 +79,25 @@
                   ${tiles.selection.row(selection)}
                   %endfor
               </ul> 
+              %if can.selection.create(c.proposal):
+              <div class="list_button">
+              <a class="button highlight" 
+                 href="${h.entity_url(c.proposal, member='implementation/include')}">
+                  ${_("Propose to change a norm")}
+              </a>
+              
+              <%doc> FIXME: Enable change existing norm option
+              %if norm.can.create
+              <a class="button" 
+                 title="${_('Propose to create a norm through this proposal.')}" 
+                 href="${h.entity_url(c.proposal, member='implementation/propose')}">
+                  ${_("propose new norm")}
+              </a>
+              </%doc>
+              </div>
+              %endif          
             </section>
+             
             %endif
 
 </%block>
