@@ -1016,6 +1016,10 @@ ul.comments_list > li {
   padding-left: 10px;
   padding-right: 10px;
 }
+.comment_actions .vote_comment {
+  padding-left: 0;
+  padding-top: 1px;
+}
 .comment_actions .utility {
   float: right;
 }
