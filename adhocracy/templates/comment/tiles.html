@@ -410,7 +410,8 @@ else:
             <div class="hr"><hr /></div>
             <div class="input_wrapper">
               <label for="wiki">
-                  <input id="editable" name="wiki" type="checkbox" /> 
+                  <input id="editable" name="wiki" type="checkbox" 
+                         ${'checked="checked"' if wiki else ''}/> 
                   ${_("Allow others to edit this comment.")}
               </label>
             </div>
