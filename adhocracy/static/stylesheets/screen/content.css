@@ -270,7 +270,7 @@ section { margin-bottom: 40px; }
 
 .pager_wrapper .floatbox {
   padding: 5px 10px;
-  background: url("/images/gradient_form.jpg") repeat-y scroll left top #E5E6E8;
+  background: url("/images/gradient_form.jpg") repeat-y scroll left top #F3F3F3;
 }
 
 .pager_wrapper .filter_box {
@@ -520,7 +520,7 @@ top: 0px;
 }
 
 #flash_message p.register_msg {
-  line-height: 27px;
+  line-height: 27px;g
 }
 
 /* info box and overlay */
