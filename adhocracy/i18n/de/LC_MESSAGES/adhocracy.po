@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-11-30 11:25+0100\n"
-"PO-Revision-Date: 2011-09-28 21:06+0200\n"
-"Last-Translator: Carsten Senger <senger@rehfisch.de>\n"
+"PO-Revision-Date: 2011-11-30 17:47+0100\n"
+"Last-Translator: ac1 <sebe_schneider@web.de>\n"
 "Language-Team: de <team@adhocracy.de>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: adhocracy/controllers/abuse.py:45 adhocracy/templates/abuse/new.html:11
+#: adhocracy/controllers/abuse.py:45
+#: adhocracy/templates/abuse/new.html:11
 msgid "Thank you for helping."
 msgstr "Danke für Ihre Hilfe."
 
@@ -38,32 +39,52 @@ msgstr "Badge bearbeiten"
 msgid "Badge changed successfully"
 msgstr "Badge erfolgreich geändert"
 
-#: adhocracy/controllers/comment.py:66 adhocracy/controllers/comment.py:211
-#: adhocracy/controllers/delegation.py:118 adhocracy/controllers/page.py:418
-#: adhocracy/controllers/proposal.py:272 adhocracy/controllers/search.py:49
-#: adhocracy/controllers/tag.py:80 adhocracy/controllers/user.py:519
-#: adhocracy/lib/pager.py:218 adhocracy/lib/pager.py:244
-#: adhocracy/lib/pager.py:253 adhocracy/lib/pager.py:264
-#: adhocracy/lib/pager.py:275 adhocracy/lib/pager.py:282
-#: adhocracy/lib/pager.py:289 adhocracy/lib/pager.py:296
-#: adhocracy/lib/pager.py:901 adhocracy/lib/pager.py:915
+#: adhocracy/controllers/comment.py:66
+#: adhocracy/controllers/comment.py:211
+#: adhocracy/controllers/delegation.py:118
+#: adhocracy/controllers/page.py:418
+#: adhocracy/controllers/proposal.py:272
+#: adhocracy/controllers/search.py:49
+#: adhocracy/controllers/tag.py:80
+#: adhocracy/controllers/user.py:519
+#: adhocracy/lib/pager.py:218
+#: adhocracy/lib/pager.py:244
+#: adhocracy/lib/pager.py:253
+#: adhocracy/lib/pager.py:264
+#: adhocracy/lib/pager.py:275
+#: adhocracy/lib/pager.py:282
+#: adhocracy/lib/pager.py:289
+#: adhocracy/lib/pager.py:296
+#: adhocracy/lib/pager.py:901
+#: adhocracy/lib/pager.py:915
 msgid "oldest"
 msgstr "älteste"
 
-#: adhocracy/controllers/comment.py:67 adhocracy/controllers/comment.py:212
-#: adhocracy/controllers/delegation.py:119 adhocracy/controllers/page.py:419
-#: adhocracy/controllers/proposal.py:273 adhocracy/controllers/search.py:50
-#: adhocracy/controllers/tag.py:81 adhocracy/controllers/user.py:520
-#: adhocracy/lib/pager.py:219 adhocracy/lib/pager.py:229
-#: adhocracy/lib/pager.py:243 adhocracy/lib/pager.py:255
-#: adhocracy/lib/pager.py:265 adhocracy/lib/pager.py:276
-#: adhocracy/lib/pager.py:283 adhocracy/lib/pager.py:290
-#: adhocracy/lib/pager.py:297 adhocracy/lib/pager.py:902
-#: adhocracy/lib/pager.py:916 adhocracy/lib/pager.py:930
+#: adhocracy/controllers/comment.py:67
+#: adhocracy/controllers/comment.py:212
+#: adhocracy/controllers/delegation.py:119
+#: adhocracy/controllers/page.py:419
+#: adhocracy/controllers/proposal.py:273
+#: adhocracy/controllers/search.py:50
+#: adhocracy/controllers/tag.py:81
+#: adhocracy/controllers/user.py:520
+#: adhocracy/lib/pager.py:219
+#: adhocracy/lib/pager.py:229
+#: adhocracy/lib/pager.py:243
+#: adhocracy/lib/pager.py:255
+#: adhocracy/lib/pager.py:265
+#: adhocracy/lib/pager.py:276
+#: adhocracy/lib/pager.py:283
+#: adhocracy/lib/pager.py:290
+#: adhocracy/lib/pager.py:297
+#: adhocracy/lib/pager.py:902
+#: adhocracy/lib/pager.py:916
+#: adhocracy/lib/pager.py:930
 msgid "newest"
 msgstr "neueste"
 
-#: adhocracy/controllers/comment.py:113 adhocracy/controllers/comment.py:250
+#: adhocracy/controllers/comment.py:113
+#: adhocracy/controllers/comment.py:250
 #, python-format
 msgid "Comment topic has no variant %s"
 msgstr "Der Beitrag zu dem dieser Kommentar gehört hat keinen Änderungsantrag %s"
@@ -74,12 +95,8 @@ msgstr "Dieser Kommentar wurde gelöscht."
 
 #: adhocracy/controllers/comment.py:230
 #, fuzzy
-msgid ""
-"You're trying to revert to a revision which is not partri of this "
-"comments history"
-msgstr ""
-"Sie versuchen eine Version wiederherzustellen, die nicht Teil dieses "
-"Kommentars ist."
+msgid "You're trying to revert to a revision which is not partri of this comments history"
+msgstr "Sie versuchen eine Version wiederherzustellen, die nicht Teil dieses Kommentars ist."
 
 #: adhocracy/controllers/comment.py:240
 msgid "The comment has been reverted."
@@ -87,7 +104,7 @@ msgstr "Dieser Kommentar wurde zurück gesetzt."
 
 #: adhocracy/controllers/comment.py:246
 msgid "Wrong topic"
-msgstr ""
+msgstr "Falsches Thema"
 
 #: adhocracy/controllers/delegation.py:64
 msgid "Invalid delegation recipient"
@@ -107,19 +124,16 @@ msgstr "Die Delegation %(id)s ist nicht verfügbar"
 msgid "The delegation is now revoked."
 msgstr "Die Delegation ist aufgehoben."
 
-#: adhocracy/controllers/error.py:44 adhocracy/templates/error/http.html:2
+#: adhocracy/controllers/error.py:44
+#: adhocracy/templates/error/http.html:2
 #: adhocracy/templates/error/http.html:6
 #, python-format
 msgid "Error %s"
 msgstr "Fehler %s"
 
 #: adhocracy/controllers/instance.py:69
-msgid ""
-"An index of instances run at this site. Select which ones you would like "
-"to join and participate!"
-msgstr ""
-"Eine Liste aller Projektgruppen, die auf dieser Seite existieren. Wählen "
-"Sie einige aus und nehmen Sie teil!"
+msgid "An index of instances run at this site. Select which ones you would like to join and participate!"
+msgstr "Eine Liste aller Projektgruppen, die auf dieser Seite existieren. Wählen Sie einige aus und nehmen Sie teil!"
 
 #: adhocracy/controllers/instance.py:147
 #, python-format
@@ -158,9 +172,7 @@ msgstr "Sie haben %(instance)s verlassen."
 
 #: adhocracy/controllers/instance.py:328
 msgid "You cannot manipulate one instance from within another instance."
-msgstr ""
-"Sie können eine Projektgruppe nicht von einer anderen Projektgruppe aus "
-"bearbeiten."
+msgstr "Sie können eine Projektgruppe nicht von einer anderen Projektgruppe aus bearbeiten."
 
 #: adhocracy/controllers/message.py:53
 #, python-format
@@ -226,35 +238,31 @@ msgstr "Sie können kein Papier anlegen."
 #: adhocracy/controllers/page.py:219
 #, python-format
 msgid "Variant %s is already present, cannot branch."
-msgstr ""
-"Den Änderungsantrag %s gibt es schon, er kann nicht mehr abgeleitet "
-"werden."
+msgstr "Den Änderungsantrag %s gibt es schon, er kann nicht mehr abgeleitet werden."
 
 #: adhocracy/controllers/page.py:231
 msgid "You're trying to update to a text which is not part of this pages history"
-msgstr ""
-"Sie Versuchen eine Version wiederherzustellen, die nicht Teil dieser "
-"Seite ist."
+msgstr "Sie Versuchen eine Version wiederherzustellen, die nicht Teil dieser Seite ist."
 
 #: adhocracy/controllers/page.py:322
 msgid "<i>(No text)</i>"
-msgstr ""
+msgstr "<i>(Kein text)</i>"
 
 #: adhocracy/controllers/page.py:323
 msgid "<i>(No title))</i>"
-msgstr ""
+msgstr "<i>(Kein Titel))</i>"
 
 #: adhocracy/controllers/page.py:324
 msgid "<i>(No differences))</i>"
-msgstr ""
+msgstr "<i>(Keine Unterschiede))</i>"
 
 #: adhocracy/controllers/page.py:325
 msgid "<i>(No differences)</i>"
-msgstr ""
+msgstr "<i>(Keine Unterschiede)</i>"
 
 #: adhocracy/controllers/page.py:348
 msgid "Original version"
-msgstr ""
+msgstr "Originalversion"
 
 #: adhocracy/controllers/page.py:349
 #, fuzzy, python-format
@@ -263,18 +271,23 @@ msgstr "Änderungsantrag: %s"
 
 #: adhocracy/controllers/page.py:359
 msgid "Original Version"
-msgstr ""
+msgstr "Originalversion"
 
 #: adhocracy/controllers/page.py:402
 #, python-format
 msgid "Variant %s does not exist!"
 msgstr "Änderungsantrag %s existiert nicht!"
 
-#: adhocracy/controllers/page.py:420 adhocracy/controllers/tag.py:82
-#: adhocracy/lib/pager.py:221 adhocracy/lib/pager.py:233
-#: adhocracy/lib/pager.py:245 adhocracy/lib/pager.py:257
-#: adhocracy/lib/pager.py:267 adhocracy/lib/pager.py:904
-#: adhocracy/lib/pager.py:918 adhocracy/lib/pager.py:933
+#: adhocracy/controllers/page.py:420
+#: adhocracy/controllers/tag.py:82
+#: adhocracy/lib/pager.py:221
+#: adhocracy/lib/pager.py:233
+#: adhocracy/lib/pager.py:245
+#: adhocracy/lib/pager.py:257
+#: adhocracy/lib/pager.py:267
+#: adhocracy/lib/pager.py:904
+#: adhocracy/lib/pager.py:918
+#: adhocracy/lib/pager.py:933
 msgid "alphabetically"
 msgstr "alphabetisch"
 
@@ -341,7 +354,8 @@ msgstr "Der Vorschlag %s wurde gelöscht."
 msgid "Proposal: %(proposal)s"
 msgstr "Vorschlag: %(proposal)s"
 
-#: adhocracy/controllers/search.py:51 adhocracy/controllers/tag.py:83
+#: adhocracy/controllers/search.py:51
+#: adhocracy/controllers/tag.py:83
 msgid "relevance"
 msgstr "relevanz"
 
@@ -351,7 +365,6 @@ msgid "The inclusion of %s has been deleted."
 msgstr "Die Einbindung von %s wurde gelöscht."
 
 #: adhocracy/controllers/selection.py:130
-#, fuzzy
 msgid "Page not Found"
 msgstr "Die angeforderte Seite wurde nicht gefunden."
 
@@ -360,21 +373,13 @@ msgid "The requested page was not found"
 msgstr "Die angeforderte Seite wurde nicht gefunden."
 
 #: adhocracy/controllers/twitteroauth.py:39
-msgid ""
-"You have been logged out while authenticating at twitter. Please try "
-"again."
-msgstr ""
-"Sie wurden abgemeldet, während Sie sich bei Twitter angemeldet hatten. "
-"Bitte versuche es erneut."
+msgid "You have been logged out while authenticating at twitter. Please try again."
+msgstr "Sie wurden abgemeldet, während Sie sich bei Twitter angemeldet hatten. Bitte versuche es erneut."
 
 #: adhocracy/controllers/twitteroauth.py:59
 #, python-format
-msgid ""
-"You're now following %s on twitter so we can send you notifications as "
-"direct messages"
-msgstr ""
-"Sie folgen nun %s auf Twitter, damit Adhocracy dir Benachrichtigungen als"
-" Direkte Nachrichten schicken kann."
+msgid "You're now following %s on twitter so we can send you notifications as direct messages"
+msgstr "Sie folgen nun %s auf Twitter, damit Adhocracy dir Benachrichtigungen als Direkte Nachrichten schicken kann."
 
 #: adhocracy/controllers/twitteroauth.py:71
 msgid "You have no twitter association."
@@ -390,12 +395,8 @@ msgid "There is no user registered with that email address."
 msgstr "Unter dieser E-Mail-Adresse ist kein Benutzer angemeldet."
 
 #: adhocracy/controllers/user.py:245
-msgid ""
-"you have requested that your password be reset. In order to confirm the "
-"validity of your claim, please open the link below in your browser:"
-msgstr ""
-"Sie haben ein neues Passwort für Adhocracy angefordert. Um den Prozess "
-"abzuschließen, muss der folgende Link in Ihrem Browser geöffnet werden."
+msgid "you have requested that your password be reset. In order to confirm the validity of your claim, please open the link below in your browser:"
+msgstr "Sie haben ein neues Passwort für Adhocracy angefordert. Um den Prozess abzuschließen, muss der folgende Link in Ihrem Browser geöffnet werden."
 
 #: adhocracy/controllers/user.py:248
 msgid "Reset your password"
@@ -407,9 +408,7 @@ msgstr "Ihr Passwort wurde zurückgesetzt. Es lautet:"
 
 #: adhocracy/controllers/user.py:265
 msgid "Please login and change the password in your user settings."
-msgstr ""
-"Bitte melden Sie sich erneut an und ändern Sie Ihr Passwort in den "
-"Einstellungen."
+msgstr "Bitte melden Sie sich erneut an und ändern Sie Ihr Passwort in den Einstellungen."
 
 #: adhocracy/controllers/user.py:267
 msgid "Your new password"
@@ -421,9 +420,7 @@ msgstr "Geschafft. Das neue Passwort wurde an Ihre E-Mail-Adresse versandt."
 
 #: adhocracy/controllers/user.py:271
 msgid "The reset code is invalid. Please repeat the password recovery procedure."
-msgstr ""
-"Der Code zum Zurücksetzen des Passworts ist ungültig. Bitte wiederholen "
-"Sie die Prozedur zur Wiederherstellung Ihres Passworts."
+msgstr "Der Code zum Zurücksetzen des Passworts ist ungültig. Bitte wiederholen Sie die Prozedur zur Wiederherstellung Ihres Passworts."
 
 #: adhocracy/controllers/user.py:285
 msgid "Your email has been confirmed."
@@ -465,9 +462,7 @@ msgstr "Der Nutzer wurde gelöscht."
 #: adhocracy/controllers/user.py:641
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
-msgstr ""
-"%(user)s verwenden Adhocracy, ein demokratisches "
-"Entscheidungsfindungstool."
+msgstr "%(user)s verwenden Adhocracy, ein demokratisches Entscheidungsfindungstool."
 
 #: adhocracy/controllers/user.py:649
 #, python-format
@@ -513,17 +508,14 @@ msgstr "Dieser Benutzername ist bereits vergeben."
 msgid "That email is already registered"
 msgstr "Es hat sich bereits ein Benutzer mit dieser E-Mail-Adresse registriert."
 
-#: adhocracy/forms/common.py:61 adhocracy/forms/common.py:67
+#: adhocracy/forms/common.py:61
+#: adhocracy/forms/common.py:67
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Ungültiges Datum, das Format muss TT.MM.JJJJ sein."
 
 #: adhocracy/forms/common.py:81
-msgid ""
-"Please enter a html color code like '#f0f0f0'. '%(value)' is not a valid "
-"color code."
-msgstr ""
-"Bitte gib einen Farbcode wie '#f0f0f0' ein. '%(value)s' ist kein gültiger"
-" Farbcode."
+msgid "Please enter a html color code like '#f0f0f0'. '%(value)' is not a valid color code."
+msgstr "Bitte gib einen Farbcode wie '#f0f0f0' ein. '%(value)s' ist kein gültiger Farbcode."
 
 #: adhocracy/forms/common.py:91
 msgid "No instance key is given"
@@ -619,7 +611,8 @@ msgstr "Änderungsantrag wurde nicht benannt."
 msgid "Invalid variant name: %s"
 msgstr "Ungültiger Name des Änderungsantrags: %s"
 
-#: adhocracy/forms/common.py:295 adhocracy/forms/common.py:326
+#: adhocracy/forms/common.py:295
+#: adhocracy/forms/common.py:326
 #, python-format
 msgid "Variant name cannot be purely numeric: %s"
 msgstr "Name des Änderungsantrags kann keine Zahl sein: %s"
@@ -687,21 +680,12 @@ msgid "Adopted"
 msgstr "Angenommen"
 
 #: adhocracy/lib/base.py:51
-msgid ""
-"A liquid democracy platform for making decisions in distributed, open "
-"groups by cooperatively creating proposals and voting on them to "
-"establish their support."
-msgstr ""
-"Eine Liquid Democracy-Plattform, auf der verteilte, offene Gruppen "
-"kooperativ Vorschläge erarbeiten und abstimmen können."
+msgid "A liquid democracy platform for making decisions in distributed, open groups by cooperatively creating proposals and voting on them to establish their support."
+msgstr "Eine Liquid Democracy-Plattform, auf der verteilte, offene Gruppen kooperativ Vorschläge erarbeiten und abstimmen können."
 
 #: adhocracy/lib/base.py:56
-msgid ""
-"adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, "
-"voting,participation, group decisions, decisions, decision-making"
-msgstr ""
-"adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, "
-"voting,participation, group decisions, decisions, decision-making"
+msgid "adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, voting,participation, group decisions, decisions, decision-making"
+msgstr "adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, voting,participation, group decisions, decisions, decision-making"
 
 #: adhocracy/lib/base.py:72
 msgid "Invalid request. Please go back and try again."
@@ -749,32 +733,32 @@ msgid "%s <%s>"
 msgstr "%s <%s>"
 
 #: adhocracy/lib/mail.py:58
-msgid ""
-"this email is to check the email address you have provided. In order to "
-"confirm this email address, please open the link below in your browser:"
-msgstr ""
-"Diese E-Mail hat den Zweck um die von Ihnen angegebene E-Mail-Adresse zu "
-"überprüfen. Um diese E-Mail-Adresse zu bestätigen klicken Sie bitte auf "
-"den darunter genannten Link."
+msgid "this email is to check the email address you have provided. In order to confirm this email address, please open the link below in your browser:"
+msgstr "Diese E-Mail hat den Zweck um die von Ihnen angegebene E-Mail-Adresse zu überprüfen. Um diese E-Mail-Adresse zu bestätigen klicken Sie bitte auf den darunter genannten Link."
 
 #: adhocracy/lib/mail.py:61
 msgid "Confirm your email address"
 msgstr "Bestätigen Sie Ihre E-Mail-Adresse."
 
-#: adhocracy/lib/pager.py:220 adhocracy/lib/pager.py:266
-#: adhocracy/lib/pager.py:903 adhocracy/lib/pager.py:917
+#: adhocracy/lib/pager.py:220
+#: adhocracy/lib/pager.py:266
+#: adhocracy/lib/pager.py:903
+#: adhocracy/lib/pager.py:917
 msgid "activity"
 msgstr "Aktivität"
 
-#: adhocracy/lib/pager.py:230 adhocracy/lib/pager.py:254
+#: adhocracy/lib/pager.py:230
+#: adhocracy/lib/pager.py:254
 msgid "newest comment"
 msgstr "Neuester Kommentar"
 
-#: adhocracy/lib/pager.py:231 adhocracy/lib/pager.py:931
+#: adhocracy/lib/pager.py:231
+#: adhocracy/lib/pager.py:931
 msgid "support"
 msgstr "Unterstützung"
 
-#: adhocracy/lib/pager.py:232 adhocracy/lib/pager.py:932
+#: adhocracy/lib/pager.py:232
+#: adhocracy/lib/pager.py:932
 msgid "mixed"
 msgstr "gemischt"
 
@@ -802,9 +786,7 @@ msgstr "Sie scheinen nicht die benötigten Rechte zu haben, fortzufahren."
 
 #: adhocracy/lib/auth/csrf.py:57
 msgid "I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
-msgstr ""
-"Entschuldigung, wir haben einen Fehler gemacht (CSRF-Alarm). Bitte laden "
-"Sie die Seite neu und versuchen Sie es noch einmal."
+msgstr "Entschuldigung, wir haben einen Fehler gemacht (CSRF-Alarm). Bitte laden Sie die Seite neu und versuchen Sie es noch einmal."
 
 #: adhocracy/lib/event/formatting.py:41
 #: adhocracy/lib/tiles/decision_tiles.py:20
@@ -824,8 +806,10 @@ msgstr "enthält sich bei"
 msgid "is against"
 msgstr "ist gegen"
 
-#: adhocracy/lib/event/formatting.py:151 adhocracy/lib/event/formatting.py:156
-#: adhocracy/lib/event/formatting.py:163 adhocracy/model/refs.py:147
+#: adhocracy/lib/event/formatting.py:151
+#: adhocracy/lib/event/formatting.py:156
+#: adhocracy/lib/event/formatting.py:163
+#: adhocracy/model/refs.py:147
 msgid "(Undefined)"
 msgstr "(nicht definiert)"
 
@@ -1062,7 +1046,8 @@ msgstr "hob die Delegation von %(scope)s an %(agent)s auf"
 msgid "Vote: %(user)s %(vote)s %(poll)s"
 msgstr "Stimme: %(user)s %(vote)s %(poll)s"
 
-#: adhocracy/lib/event/types.py:189 adhocracy/lib/event/types.py:195
+#: adhocracy/lib/event/types.py:189
+#: adhocracy/lib/event/types.py:195
 #: adhocracy/lib/event/types.py:201
 #, python-format
 msgid "%(vote)s %(poll)s"
@@ -1146,9 +1131,7 @@ msgstr ""
 
 #: adhocracy/lib/helpers/__init__.py:63
 msgid "This proposal is currently being voted on and cannot be modified."
-msgstr ""
-"Über diesen Vorschlag wird gerade abgestimmt, er kann daher nicht "
-"verändert werden."
+msgstr "Über diesen Vorschlag wird gerade abgestimmt, er kann daher nicht verändert werden."
 
 #: adhocracy/lib/helpers/milestone_helper.py:42
 #: adhocracy/templates/navigation.html:156
@@ -1197,7 +1180,8 @@ msgstr "Tags"
 msgid "%s (deleted user)"
 msgstr "%s (gelöscht)"
 
-#: adhocracy/lib/helpers/user_helper.py:74 adhocracy/templates/user/all.html:4
+#: adhocracy/lib/helpers/user_helper.py:74
+#: adhocracy/templates/user/all.html:4
 #: adhocracy/templates/user/index.html:4
 msgid "Users"
 msgstr "Benutzer"
@@ -1210,38 +1194,40 @@ msgstr "Die Handlung ist nur innerhalb einer Projektgruppe verfügbar."
 msgid "(no milestone)"
 msgstr "(kein Termin)"
 
-#: adhocracy/lib/tiles/poll_tiles.py:15 adhocracy/lib/tiles/poll_tiles.py:28
+#: adhocracy/lib/tiles/poll_tiles.py:15
+#: adhocracy/lib/tiles/poll_tiles.py:28
 msgid "Your current vote is already pro"
-msgstr ""
+msgstr "Sie haben bereits mit \"zugunsten\" abgestimmt"
 
-#: adhocracy/lib/tiles/poll_tiles.py:18 adhocracy/lib/tiles/poll_tiles.py:25
+#: adhocracy/lib/tiles/poll_tiles.py:18
+#: adhocracy/lib/tiles/poll_tiles.py:25
 msgid "Click to change you vote to neutral"
-msgstr ""
+msgstr "Klicken Sie hier, um mit \"neutral\" abzustimmen"
 
 #: adhocracy/lib/tiles/poll_tiles.py:20
 msgid "Click to vote pro"
-msgstr ""
+msgstr "Zugunsten abstimmen"
 
 #: adhocracy/lib/tiles/poll_tiles.py:22
 msgid "Click to vote con"
-msgstr ""
+msgstr "Dagegen abstimmen"
 
 #: adhocracy/lib/tiles/poll_tiles.py:88
 msgid "Voting has ended. Click to view the list of votes"
-msgstr ""
+msgstr "Die Abstimmung ist beendet. Clicken Sie hier für eine Übersicht über die abgegebenen Stimmen"
 
 #: adhocracy/lib/tiles/poll_tiles.py:91
 msgid "Please login or register to vote."
-msgstr ""
+msgstr "Bitte melden Sie sich an oder registrieren Sie sich, um abzustimmen"
 
 #: adhocracy/lib/tiles/poll_tiles.py:94
 #, python-format
 msgid "Please join the instance \"%s\" to vote."
-msgstr ""
+msgstr "Bitte treten Sie der Projektgruppe \"%s\" bei, um abzustimmen."
 
 #: adhocracy/lib/tiles/poll_tiles.py:98
 msgid "Click to see the list of votes"
-msgstr ""
+msgstr "Klicken Sie hier für eine Übersicht über die abgegebenen Stimmen"
 
 #: adhocracy/model/page.py:216
 msgid "(Untitled)"
@@ -1249,7 +1235,7 @@ msgstr "(Unbenannt)"
 
 #: adhocracy/model/text.py:123
 msgid "Status Quo"
-msgstr "Aktueller Arbeitsstand"
+msgstr "Originalversion"
 
 #: adhocracy/templates/components.html:3
 msgid "formatting hints"
@@ -1257,7 +1243,7 @@ msgstr "Formatierungshilfen"
 
 #: adhocracy/templates/components.html:16
 msgid "Shortlink"
-msgstr ""
+msgstr "Kurzlink"
 
 #: adhocracy/templates/components.html:43
 #: adhocracy/templates/comment/tiles.html:341
@@ -1265,7 +1251,8 @@ msgstr ""
 msgid "Save"
 msgstr "Speichern"
 
-#: adhocracy/templates/components.html:46 adhocracy/templates/root.html:62
+#: adhocracy/templates/components.html:46
+#: adhocracy/templates/root.html:62
 #: adhocracy/templates/instance/ask_delete.html:25
 #: adhocracy/templates/user/login_form.html:20
 msgid "or"
@@ -1291,7 +1278,7 @@ msgstr "In Abstimmung %s"
 #: adhocracy/templates/components.html:77
 #, python-format
 msgid "Unfollow %s"
-msgstr ""
+msgstr "Entfolge %s"
 
 #: adhocracy/templates/components.html:81
 #, python-format
@@ -1319,12 +1306,14 @@ msgstr "impressum"
 msgid "<b>%s</b> members"
 msgstr "<b>%s:%s</b> Stimmen"
 
-#: adhocracy/templates/index.html:24 adhocracy/templates/instance/show.html:59
+#: adhocracy/templates/index.html:24
+#: adhocracy/templates/instance/show.html:59
 #, fuzzy, python-format
 msgid "<b>%s</b> proposals"
 msgstr "<b>%s%%</b> Zustimmung"
 
-#: adhocracy/templates/index.html:25 adhocracy/templates/instance/show.html:60
+#: adhocracy/templates/index.html:25
+#: adhocracy/templates/instance/show.html:60
 #, fuzzy, python-format
 msgid "<b>%s</b> comments"
 msgstr "<b>%s:%s</b> Stimmen"
@@ -1336,7 +1325,7 @@ msgstr "<b>%s:%s</b> Stimmen"
 
 #: adhocracy/templates/navigation.html:29
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #: adhocracy/templates/navigation.html:35
 #: adhocracy/templates/instance/index.html:3
@@ -1353,7 +1342,7 @@ msgstr "Beobachtungsliste"
 
 #: adhocracy/templates/navigation.html:45
 msgid "About"
-msgstr ""
+msgstr "Über diese Seite"
 
 #: adhocracy/templates/navigation.html:49
 #: adhocracy/templates/delegation/show.html:40
@@ -1367,17 +1356,20 @@ msgstr ""
 #: adhocracy/templates/proposal/new.html:17
 #: adhocracy/templates/selection/include.html:17
 #: adhocracy/templates/selection/propose.html:17
-#: adhocracy/templates/tag/index.html:17 adhocracy/templates/tag/show.html:36
+#: adhocracy/templates/tag/index.html:17
+#: adhocracy/templates/tag/show.html:36
 #: adhocracy/templates/user/delegations.html:57
 msgid "Help"
 msgstr "Hilfe"
 
-#: adhocracy/templates/navigation.html:57 adhocracy/templates/user/login.html:9
+#: adhocracy/templates/navigation.html:57
+#: adhocracy/templates/user/login.html:9
 #: adhocracy/templates/user/login_form.html:19
 msgid "Login"
 msgstr "Anmelden"
 
-#: adhocracy/templates/navigation.html:59 adhocracy/templates/root.html:61
+#: adhocracy/templates/navigation.html:59
+#: adhocracy/templates/root.html:61
 #: adhocracy/templates/user/register.html:13
 #: adhocracy/templates/user/register_form.html:48
 msgid "Register"
@@ -1407,7 +1399,7 @@ msgstr "Suchen"
 #: adhocracy/templates/navigation.html:142
 #, python-format
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
-msgstr ""
+msgstr "Suchen in &ldquo;%s&rdquo;&hellip;"
 
 #: adhocracy/templates/navigation.html:152
 #, fuzzy
@@ -1415,7 +1407,8 @@ msgid "Overview"
 msgstr "prüfen"
 
 #: adhocracy/templates/navigation.html:165
-#: adhocracy/templates/page/index.html:3 adhocracy/templates/page/index.html:16
+#: adhocracy/templates/page/index.html:3
+#: adhocracy/templates/page/index.html:16
 #: adhocracy/templates/user/dashboard.html:20
 #: adhocracy/templates/user/pages.html:4
 msgid "Norms"
@@ -1449,11 +1442,13 @@ msgstr "sortieren:"
 msgid "No entries."
 msgstr "Keine Eintragungen."
 
-#: adhocracy/templates/pager.html:45 adhocracy/templates/pager.html:47
+#: adhocracy/templates/pager.html:45
+#: adhocracy/templates/pager.html:47
 msgid "previous"
 msgstr "vorherige"
 
-#: adhocracy/templates/pager.html:64 adhocracy/templates/pager.html:66
+#: adhocracy/templates/pager.html:64
+#: adhocracy/templates/pager.html:66
 msgid "next"
 msgstr "nächste"
 
@@ -1469,7 +1464,8 @@ msgstr "Sie können die Suche mit den folgenden Kriterien einschränken"
 msgid "Remove all"
 msgstr "Alle entfernen"
 
-#: adhocracy/templates/pager.html:119 adhocracy/templates/user/edit.html:92
+#: adhocracy/templates/pager.html:119
+#: adhocracy/templates/user/edit.html:92
 msgid "remove"
 msgstr "entfernen"
 
@@ -1480,35 +1476,38 @@ msgstr "Anmelden"
 
 #: adhocracy/templates/root.html:68
 msgid "Get an account to participate in the discussion."
-msgstr ""
+msgstr "Registrieren Sie sich, um an dieser Diskussion teilzunehmen."
 
-#: adhocracy/templates/root.html:72 adhocracy/templates/user/index.html:14
+#: adhocracy/templates/root.html:72
+#: adhocracy/templates/user/index.html:14
 #: adhocracy/templates/user/index.html:17
 msgid "join"
 msgstr "beitreten"
 
-#: adhocracy/templates/root.html:75 adhocracy/templates/user/index.html:13
+#: adhocracy/templates/root.html:75
+#: adhocracy/templates/user/index.html:13
 #: adhocracy/templates/user/index.html:17
 msgid "Join this instance to start contributing."
 msgstr "Treten Sie dieser Projektgruppe bei, um beizutragen."
 
-#: adhocracy/templates/abuse/new.html:3 adhocracy/templates/abuse/new.html:6
+#: adhocracy/templates/abuse/new.html:3
+#: adhocracy/templates/abuse/new.html:6
 #: adhocracy/templates/abuse/new.html:10
 msgid "Report abuse"
 msgstr "Mißbrauch melden"
 
 #: adhocracy/templates/abuse/new.html:18
 msgid "Link:"
-msgstr ""
+msgstr "Link:"
 
 #: adhocracy/templates/abuse/new.html:21
 msgid "Reason to report this page..."
-msgstr ""
+msgstr "Diese Seite melden..."
 
 #: adhocracy/templates/abuse/new.html:24
 #: adhocracy/templates/message/new.html:33
 msgid "Send"
-msgstr ""
+msgstr "Senden"
 
 #: adhocracy/templates/admin/permissions.html:3
 msgid "Admin: Group Permissions"
@@ -1524,10 +1523,8 @@ msgid "Group Permissions"
 msgstr "Verwaltung: Gruppenrechte"
 
 #: adhocracy/templates/admin/permissions.html:13
-msgid ""
-"WARNING: This allows you to shut yourself out of your adhocracy. Handle "
-"with care!"
-msgstr ""
+msgid "WARNING: This allows you to shut yourself out of your adhocracy. Handle with care!"
+msgstr "ACHTUNG: Dies schließt sie aus Ihrer eigenen Instanz aus. Seien Sie vorsichtig!"
 
 #: adhocracy/templates/admin/tiles.html:11
 #: adhocracy/templates/badge/index.html:3
@@ -1545,39 +1542,39 @@ msgstr "Administrator"
 
 #: adhocracy/templates/badge/form.html:16
 msgid "Badge title"
-msgstr ""
+msgstr "Titel des Badges"
 
 #: adhocracy/templates/badge/form.html:19
 msgid "The title of the badge."
-msgstr ""
+msgstr "Der Name des Badges."
 
 #: adhocracy/templates/badge/form.html:21
 msgid "Badge description"
-msgstr ""
+msgstr "Beschreibung des Badges"
 
 #: adhocracy/templates/badge/form.html:25
 msgid "A description for the badge."
-msgstr ""
+msgstr "Beschreibung des Badges"
 
 #: adhocracy/templates/badge/form.html:28
 msgid "The color that is used to show the badge"
-msgstr ""
+msgstr "Die Farbe, die für den Badge benutzt wird"
 
 #: adhocracy/templates/badge/form.html:31
 msgid "Like '#a4a4a4'"
-msgstr ""
+msgstr "'#a4a4a4' liken"
 
 #: adhocracy/templates/badge/form.html:34
 msgid "Group"
-msgstr ""
+msgstr "Benutzerrolle"
 
 #: adhocracy/templates/badge/form.html:38
 msgid "No Group"
-msgstr ""
+msgstr "Keine Benutzerrolle"
 
 #: adhocracy/templates/badge/form.html:43
 msgid "Assign the user to this group for all instances in the adhocracy site."
-msgstr ""
+msgstr "Dem Beutzer diese Benutzerrolle für alle Projektgruppe zuschreiben."
 
 #: adhocracy/templates/badge/form.html:46
 #, fuzzy
@@ -1585,10 +1582,8 @@ msgid "Display group in instances"
 msgstr "ist jetzt ein %(group)s in %(instance)s"
 
 #: adhocracy/templates/badge/form.html:48
-msgid ""
-"Display this group in instances instead of the normal group the user is "
-"in there."
-msgstr ""
+msgid "Display this group in instances instead of the normal group the user is in there."
+msgstr "Zeige diese Nutzerrolle nach Projektgruppen sortiert. "
 
 #: adhocracy/templates/badge/form.html:51
 #, fuzzy
@@ -1597,12 +1592,11 @@ msgstr "vorschläge"
 
 #: adhocracy/templates/badge/form.html:53
 msgid "Badge proposals instead of users"
-msgstr ""
+msgstr "Markieren Sie Vorschläge anstatt Benutzer"
 
 #: adhocracy/templates/badge/index.html:11
-#, fuzzy
 msgid "All Badges"
-msgstr "Badges"
+msgstr "Alle Badges"
 
 #: adhocracy/templates/badge/index.html:15
 #, fuzzy
@@ -1612,7 +1606,7 @@ msgstr "Benutzername"
 #: adhocracy/templates/badge/index.html:17
 #: adhocracy/templates/badge/index.html:49
 msgid "No badges added yet."
-msgstr ""
+msgstr "Bisher wurden keine Badges hinzugefügt."
 
 #: adhocracy/templates/badge/index.html:23
 #: adhocracy/templates/badge/index.html:54
@@ -1625,12 +1619,12 @@ msgstr "Titel:"
 #: adhocracy/templates/instance/edit.html:34
 #: adhocracy/templates/instance/new.html:37
 msgid "Description"
-msgstr ""
+msgstr "Beschreibung"
 
 #: adhocracy/templates/badge/index.html:25
 #: adhocracy/templates/badge/index.html:56
 msgid "Color"
-msgstr ""
+msgstr "Farbe"
 
 #: adhocracy/templates/badge/index.html:26
 #: adhocracy/templates/badge/index.html:57
@@ -1645,7 +1639,7 @@ msgstr "meldete sich an"
 
 #: adhocracy/templates/badge/index.html:28
 msgid "Display"
-msgstr ""
+msgstr "Anzeigen"
 
 #: adhocracy/templates/badge/index.html:29
 #: adhocracy/templates/badge/index.html:58
@@ -1655,11 +1649,11 @@ msgstr "Delegationen"
 
 #: adhocracy/templates/badge/index.html:38
 msgid "yes"
-msgstr ""
+msgstr "Ja"
 
 #: adhocracy/templates/badge/index.html:38
 msgid "no"
-msgstr ""
+msgstr "Nein"
 
 #: adhocracy/templates/badge/index.html:47
 #, fuzzy
@@ -1668,7 +1662,7 @@ msgstr "vorschläge"
 
 #: adhocracy/templates/badge/index.html:76
 msgid "Add new badge..."
-msgstr ""
+msgstr "Neuen Badge hinzufügen..."
 
 #: adhocracy/templates/comment/ask_delete.html:3
 #: adhocracy/templates/comment/ask_delete.html:6
@@ -1727,7 +1721,8 @@ msgstr "Neuer Kommentar"
 #: adhocracy/templates/comment/revision_tiles.html:7
 #: adhocracy/templates/comment/tiles.html:15
 #: adhocracy/templates/instance/tiles.html:12
-#: adhocracy/templates/tag/tiles.html:7 adhocracy/templates/text/tiles.html:13
+#: adhocracy/templates/tag/tiles.html:7
+#: adhocracy/templates/text/tiles.html:13
 #, python-format
 msgid "created %s"
 msgstr "%s angelegt"
@@ -1880,7 +1875,8 @@ msgid "History"
 msgstr "Historie"
 
 #: adhocracy/templates/comment/tiles.html:439
-#: adhocracy/templates/poll/tiles.html:44 adhocracy/templates/poll/votes.html:8
+#: adhocracy/templates/poll/tiles.html:44
+#: adhocracy/templates/poll/votes.html:8
 #: adhocracy/templates/proposal/details.html:130
 #: adhocracy/templates/proposal/show.html:104
 #: adhocracy/templates/user/votes.html:7
@@ -1906,12 +1902,8 @@ msgid "undecided"
 msgstr "unentschieden"
 
 #: adhocracy/templates/decision/tiles.html:36
-msgid ""
-"The user's delegates have voted, but no consensus wasreached among them. "
-"The decision is deferred."
-msgstr ""
-"Die Delegaten des Benutzers haben abgestimmt, aber unter ihnen herrscht "
-"kein Konsens. Für den Benutzer wurde daher noch keine Stimme gezählt."
+msgid "The user's delegates have voted, but no consensus wasreached among them. The decision is deferred."
+msgstr "Die Delegaten des Benutzers haben abgestimmt, aber unter ihnen herrscht kein Konsens. Für den Benutzer wurde daher noch keine Stimme gezählt."
 
 #: adhocracy/templates/decision/tiles.html:40
 msgid "The decision was made without delegations."
@@ -1945,18 +1937,16 @@ msgid "Delegation"
 msgstr "Delegation"
 
 #: adhocracy/templates/delegation/new.html:20
-msgid ""
-"These people might be a good match for your delegation. Either select one"
-" of the listed delegates, or enter another user name."
-msgstr ""
+msgid "These people might be a good match for your delegation. Either select one of the listed delegates, or enter another user name."
+msgstr "Diese Benutzer könnten sich gut für Ihre Delegation eignen. Wählen Sie entweder einen Benutzer aus der Liste aus oder geben Sie einen anderen Benutzernamen ein."
 
 #: adhocracy/templates/delegation/new.html:56
 msgid "Start typing, you will receive suggestions to find the user."
-msgstr ""
+msgstr "Wenn Sie beginnen zu tippen, bekommen Sie erste Benutzer vorgeschlagen."
 
 #: adhocracy/templates/delegation/new.html:65
 msgid "Include decisions made before now."
-msgstr ""
+msgstr "Bereits getroffene Entscheidungen einbeziehen."
 
 #: adhocracy/templates/delegation/show.html:2
 #: adhocracy/templates/delegation/show.html:14
@@ -2024,23 +2014,23 @@ msgstr "Die Delegation ist aufgehoben."
 #: adhocracy/templates/milestone/index.html:39
 #: adhocracy/templates/milestone/new.html:19
 #: adhocracy/templates/milestone/new.html:48
-#: adhocracy/templates/page/new.html:20 adhocracy/templates/page/new.html:73
+#: adhocracy/templates/page/new.html:20
+#: adhocracy/templates/page/new.html:73
 #: adhocracy/templates/proposal/delegations.html:22
 #: adhocracy/templates/proposal/edit.html:76
 #: adhocracy/templates/proposal/new.html:23
 #: adhocracy/templates/proposal/new.html:140
 #: adhocracy/templates/selection/include.html:22
 #: adhocracy/templates/selection/propose.html:22
-#: adhocracy/templates/tag/index.html:22 adhocracy/templates/tag/show.html:41
+#: adhocracy/templates/tag/index.html:22
+#: adhocracy/templates/tag/show.html:41
 #, fuzzy
 msgid "More help..."
 msgstr "mehr Tags"
 
 #: adhocracy/templates/delegation/show.html:56
-msgid ""
-"No decisions have been based on this delegation yet. As soon as this "
-"delegation leads to any decisions, they will be listed here."
-msgstr ""
+msgid "No decisions have been based on this delegation yet. As soon as this delegation leads to any decisions, they will be listed here."
+msgstr "Unter dieser Delegation wurde bisher keine Entscheidung getroffen. Sobald diese Delegation zu einer Entscheidung führt, wird diese hier aufgelistet."
 
 #: adhocracy/templates/delegation/tiles.html:5
 #: adhocracy/templates/delegation/tiles.html:11
@@ -2073,9 +2063,7 @@ msgstr "Sie haben Ihre Stimme delegiert an:"
 
 #: adhocracy/templates/delegation/tiles.html:60
 msgid "Delegate your say in this debate to another participant."
-msgstr ""
-"Übergeben Sie Ihr Stimmrecht in dieser Debatte an einen anderen "
-"Teilnehmer."
+msgstr "Übergeben Sie Ihr Stimmrecht in dieser Debatte an einen anderen Teilnehmer."
 
 #: adhocracy/templates/delegation/tiles.html:61
 msgid "delegate"
@@ -2091,19 +2079,15 @@ msgid "You hold %s additional votes."
 msgstr "Sie verfügen über %s zusätzliche Stimmen."
 
 #: adhocracy/templates/error/http.html:10
-msgid ""
-"If this error continues to occur, please <a class='staticlink_imprint' "
-"href='/static/imprint.html'>notify the developers</a> with a description "
-"of what you were trying to do."
-msgstr ""
+msgid "If this error continues to occur, please <a class='staticlink_imprint' href='/static/imprint.html'>notify the developers</a> with a description of what you were trying to do."
+msgstr "Falls dieser Fehler erneut auftritt, <a class='staticlink_imprint' href='/static/imprint.html'>informieren Sie bitte die Entwickler</a> mit einer Beschreibung Ihres Vorhabens."
 
 #: adhocracy/templates/error/http.html:10
-msgid ""
-"An automated email message describing the situation has been sent to our "
-"developers."
-msgstr ""
+msgid "An automated email message describing the situation has been sent to our developers."
+msgstr "Es wurde eine automatische Nachricht mit einer Fehlerbeschreibung an die Entwickler gesendet."
 
-#: adhocracy/templates/event/all.html:3 adhocracy/templates/event/all.html:11
+#: adhocracy/templates/event/all.html:3
+#: adhocracy/templates/event/all.html:11
 msgid "Whazza"
 msgstr "Was ist der Stand der Dinge?"
 
@@ -2132,22 +2116,22 @@ msgstr "Verlauf"
 #: adhocracy/templates/instance/activity.html:13
 #: adhocracy/templates/proposal/activity.html:11
 msgid "This is a record of all recent actions within this instance."
-msgstr ""
+msgstr "Dies ist eine Übersicht aller Aktivitäten in dieser Projektgruppe."
 
 #: adhocracy/templates/instance/activity.html:14
 #: adhocracy/templates/proposal/activity.html:12
 msgid "You can also have notifications sent to you."
-msgstr ""
+msgstr "Sie können auch Benachrichtigungen erhalten."
 
 #: adhocracy/templates/instance/activity.html:15
 #: adhocracy/templates/proposal/activity.html:13
 msgid "Info..."
-msgstr ""
+msgstr "Info..."
 
 #: adhocracy/templates/instance/activity.html:23
 #, python-format
 msgid "Create a proposal to start debating in %(instance)s."
-msgstr ""
+msgstr "Legen Sie einen Vorschlag an, um in %(instance)s zu diskutieren."
 
 #: adhocracy/templates/instance/ask_delete.html:3
 #: adhocracy/templates/instance/ask_delete.html:6
@@ -2165,9 +2149,8 @@ msgid "Delete instance"
 msgstr "Projektgruppe verlassen"
 
 #: adhocracy/templates/instance/ask_delete.html:21
-#, fuzzy
 msgid "Are you sure you want to delete this instance?"
-msgstr "Sind Sie sicher, dass Sie diesen Vorschlag entfernen möchten?"
+msgstr "Sind Sie sicher, dass Sie diese Projektgruppe entfernen möchten?"
 
 #: adhocracy/templates/instance/ask_leave.html:3
 #: adhocracy/templates/instance/ask_leave.html:6
@@ -2175,10 +2158,8 @@ msgid "Leave"
 msgstr "verlassen"
 
 #: adhocracy/templates/instance/ask_leave.html:20
-msgid ""
-"Are you sure you want to leave this instance? You will no longer be able "
-"to write contributions or to vote."
-msgstr ""
+msgid "Are you sure you want to leave this instance? You will no longer be able to write contributions or to vote."
+msgstr "Sind Sie sicher, dass Sie diese Projektgruppe verlassen wollen? Sie werden keine Beiträge und Stimmen mehr abgeben können."
 
 #: adhocracy/templates/instance/edit.html:3
 #, python-format
@@ -2210,10 +2191,8 @@ msgstr "Neue Projektgruppe"
 
 #: adhocracy/templates/instance/edit.html:36
 #: adhocracy/templates/instance/new.html:39
-msgid ""
-"Describe what the goals of this instance are and who constitutes its "
-"community. (Both Markdown and HTML are allowed here.)"
-msgstr ""
+msgid "Describe what the goals of this instance are and who constitutes its community. (Both Markdown and HTML are allowed here.)"
+msgstr "Beschreiben Sie die Ziele dieser Projektgruppe und wer ihre Mitglieder sind. (Markdown und HTML sind hier erlaubt.)"
 
 #: adhocracy/templates/instance/edit.html:44
 #, fuzzy
@@ -2222,51 +2201,47 @@ msgstr "Weiter"
 
 #: adhocracy/templates/instance/edit.html:48
 msgid "You can disable adoption votes, leaving only rating polls enabled."
-msgstr ""
+msgstr "Sie können Abstimmungen über Verabschiedungen abstellen und nur Bewertungen zulassen."
 
 #: adhocracy/templates/instance/edit.html:52
 msgid "Enable (final) adoption voting:"
-msgstr ""
+msgstr "Endgültige Verabschiedung zulassen:"
 
 #: adhocracy/templates/instance/edit.html:59
 msgid "You can disable vote delegation, allowing only direct vote casting."
-msgstr ""
+msgstr "Sie können die Delegation abstellen und nur die direkte Abstimmung erlauben."
 
 #: adhocracy/templates/instance/edit.html:63
 msgid "Enable vote delegation:"
-msgstr ""
+msgstr "Delegation erlauben"
 
 #: adhocracy/templates/instance/edit.html:70
-msgid ""
-"In order to become active, a proposal must reach the given proportion of "
-"approval."
-msgstr ""
+msgid "In order to become active, a proposal must reach the given proportion of approval."
+msgstr "Um aktiviert zu werden, muss ein Vorschlag eine bestimmte Zustimmungsrate erreichen."
 
 #: adhocracy/templates/instance/edit.html:75
 msgid "Majority:"
-msgstr ""
+msgstr "Mehrheit:"
 
 #: adhocracy/templates/instance/edit.html:77
 msgid "A simple majority (&frac12; of vote)"
-msgstr ""
+msgstr "Einfache Mehrheit (&frac12; of vote)"
 
 #: adhocracy/templates/instance/edit.html:78
 msgid "A two-thirds majority"
-msgstr ""
+msgstr "Eine Zweidrittelmehrheit"
 
 #: adhocracy/templates/instance/edit.html:79
 msgid "In Soviet Russia, proposal votes you."
-msgstr ""
+msgstr "In Soviet Russia, proposal votes you."
 
 #: adhocracy/templates/instance/edit.html:86
-msgid ""
-"Before activating, the defined majority must be continuously held by the "
-"proposal for the specified interval."
-msgstr ""
+msgid "Before activating, the defined majority must be continuously held by the proposal for the specified interval."
+msgstr "Bevor ein Vorschlag aktiviert wird, muss dieser eine bestimmte Zustimmungsrate über einen bestimmten Zeitraum erreichen."
 
 #: adhocracy/templates/instance/edit.html:91
 msgid "Delay:"
-msgstr ""
+msgstr "Verzögerung:"
 
 #: adhocracy/templates/instance/edit.html:93
 #, fuzzy
@@ -2285,27 +2260,27 @@ msgstr "%d Tage"
 
 #: adhocracy/templates/instance/edit.html:96
 msgid "One Week"
-msgstr ""
+msgstr "Eine Woche"
 
 #: adhocracy/templates/instance/edit.html:97
 msgid "Two Weeks"
-msgstr ""
+msgstr "Zwei Wochen"
 
 #: adhocracy/templates/instance/edit.html:98
 msgid "Four Weeks"
-msgstr ""
+msgstr "Vier Wochen"
 
 #: adhocracy/templates/instance/edit.html:106
 msgid "Membership Options"
-msgstr ""
+msgstr "Mitgliedschaftsoptionen"
 
 #: adhocracy/templates/instance/edit.html:109
 msgid "When a new member joins, he or she will be a member of this user group."
-msgstr ""
+msgstr "Wenn ein neues Mitglied beitritt, wird es Mitglied dieser Benutzergruppe."
 
 #: adhocracy/templates/instance/edit.html:113
 msgid "Default group:"
-msgstr ""
+msgstr "Benutzergruppe Standard"
 
 #: adhocracy/templates/instance/edit.html:128
 #, fuzzy
@@ -2314,19 +2289,19 @@ msgstr "Abmelden"
 
 #: adhocracy/templates/instance/edit.html:131
 msgid "Select a logo file to appear in the header area of this Instance."
-msgstr ""
+msgstr "Wählen Sie ein Logo für diese Projektgruppe."
 
 #: adhocracy/templates/instance/edit.html:135
 msgid "File upload:"
-msgstr ""
+msgstr "Datei hochladen:"
 
 #: adhocracy/templates/instance/edit.html:143
 msgid "General Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #: adhocracy/templates/instance/edit.html:146
 msgid "Select whether this instance will be shown in public listings."
-msgstr ""
+msgstr "Bitte wählen Sie aus, ob diese Projektgruppe öffentlich gemacht werden soll."
 
 #: adhocracy/templates/instance/edit.html:150
 #, fuzzy
@@ -2334,10 +2309,8 @@ msgid "Hide this instance:"
 msgstr "Von der Projektgruppe zurücktreten."
 
 #: adhocracy/templates/instance/edit.html:157
-msgid ""
-"Freeze all substantive work in this instance, only voting and commenting "
-"will proceed."
-msgstr ""
+msgid "Freeze all substantive work in this instance, only voting and commenting will proceed."
+msgstr "Deaktiviert alle Bearbeitungsmöglichkeiten in dieser Projektgruppe, sodass es nur noch möglich ist, abzustimmen und zu kommentieren."
 
 #: adhocracy/templates/instance/edit.html:161
 #, fuzzy
@@ -2346,7 +2319,7 @@ msgstr "Von der Projektgruppe zurücktreten."
 
 #: adhocracy/templates/instance/edit.html:168
 msgid "Use norm documents to structure the instance debate."
-msgstr ""
+msgstr "Nutzen Sie Papiere um die Diskussion in dieser Projektgruppe zu strukturieren."
 
 #: adhocracy/templates/instance/edit.html:172
 #, fuzzy
@@ -2355,7 +2328,7 @@ msgstr "%s Papier"
 
 #: adhocracy/templates/instance/edit.html:179
 msgid "Use milestones to set deadlines for work in the instances."
-msgstr ""
+msgstr "Termine nutzen, um Fristen in dieser Projektgruppe zu setzen."
 
 #: adhocracy/templates/instance/edit.html:183
 #, fuzzy
@@ -2363,28 +2336,24 @@ msgid "Use milestones:"
 msgstr "Neuer Termin"
 
 #: adhocracy/templates/instance/edit.html:190
-msgid ""
-"Users can propose new norms. These are created as empty stubs until "
-"filled upon proposal adoption."
-msgstr ""
+msgid "Users can propose new norms. These are created as empty stubs until filled upon proposal adoption."
+msgstr "Benutzer können neue Papiere erstellen. Diese existieren zunächst als Platzhalter, bis sie durch einen Vorschlag angenommen werden."
 
 #: adhocracy/templates/instance/edit.html:194
 msgid "Allow users to propose norms:"
-msgstr ""
+msgstr "Benutzern erlauben, Papiere einzubringen:"
 
 #: adhocracy/templates/instance/edit.html:201
-msgid ""
-"Control whether content produced within this instance will be included in"
-" public search engines."
-msgstr ""
+msgid "Control whether content produced within this instance will be included in public search engines."
+msgstr "Stellen Sie ein, ob Inhalte aus dieser Projektgruppe in öffentlichen Suchmaschinen erscheinen sollen."
 
 #: adhocracy/templates/instance/edit.html:205
 msgid "Allow search engine access:"
-msgstr ""
+msgstr "Suchmaschinenzugriff erlauben"
 
 #: adhocracy/templates/instance/edit.html:212
 msgid "The language setting will be overridden by the user's personal setting."
-msgstr ""
+msgstr "Die Spracheinstellelungen des jeweiligen Benutzers heben diese allgemeinen Spracheinstellungen auf."
 
 #: adhocracy/templates/instance/edit.html:216
 #, fuzzy
@@ -2394,18 +2363,15 @@ msgstr "Verwalten"
 #: adhocracy/templates/instance/edit.html:232
 #: adhocracy/templates/user/edit.html:111
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Erweiterte Einstellungen"
 
 #: adhocracy/templates/instance/edit.html:235
-msgid ""
-"These settings allow you to further customize your instance by adding "
-"custom CSS to change the layout of your instance, and by setting the main"
-" menu link destinations."
-msgstr ""
+msgid "These settings allow you to further customize your instance by adding custom CSS to change the layout of your instance, and by setting the main menu link destinations."
+msgstr "Diese Einstellungen erlauben ihnen, das Layout und die Menüs ihrer Projektgruppe mithilfe von CSS Ihren Bedürfnissen anzupassen."
 
 #: adhocracy/templates/instance/edit.html:239
 msgid "Extra CSS:"
-msgstr ""
+msgstr "Extra CSS:"
 
 #: adhocracy/templates/instance/index.html:13
 #, fuzzy
@@ -2414,7 +2380,7 @@ msgstr "Neue Projektgruppe"
 
 #: adhocracy/templates/instance/index.html:19
 msgid "Instances are little democracies that are ran by their community."
-msgstr ""
+msgstr "Projektgruppen sind von einer Gemeinschaft verwaltete Kleinstdemokratien."
 
 #: adhocracy/templates/instance/new.html:10
 #, fuzzy
@@ -2422,16 +2388,13 @@ msgid "Create new instance"
 msgstr "Neue Projektgruppe"
 
 #: adhocracy/templates/instance/new.html:27
-#, fuzzy
 #| msgid "new instance"
 msgid "Instance URL"
-msgstr "Neue Projektgruppe"
+msgstr "URL der Projektgruppe"
 
 #: adhocracy/templates/instance/new.html:29
-msgid ""
-"The address may only contain alpha-numeric characters. Please note that "
-"this key cannot be changed after the instance has been created."
-msgstr ""
+msgid "The address may only contain alpha-numeric characters. Please note that this key cannot be changed after the instance has been created."
+msgstr "Die Adresse darf nur alphanumerische Zeichen enthalten. Bitte beachten Sie, dass die Adresse nicht mehr geändert werden kann, nachdem die Projektgruppe erstellt wurde."
 
 #: adhocracy/templates/instance/show.html:3
 #: adhocracy/templates/instance/show.html:6
@@ -2446,14 +2409,16 @@ msgstr "Neuer Vorschlag"
 #: adhocracy/templates/instance/show.html:23
 #: adhocracy/templates/proposal/index.html:18
 #: adhocracy/templates/proposal/index.html:34
-#: adhocracy/templates/tag/show.html:13 adhocracy/templates/tag/show.html:54
+#: adhocracy/templates/tag/show.html:13
+#: adhocracy/templates/tag/show.html:54
 msgid "Introduce a new idea to debate."
 msgstr "Schlagen Sie eine neue Idee vor."
 
 #: adhocracy/templates/instance/show.html:23
 #: adhocracy/templates/proposal/index.html:18
 #: adhocracy/templates/proposal/index.html:34
-#: adhocracy/templates/tag/show.html:13 adhocracy/templates/tag/show.html:54
+#: adhocracy/templates/tag/show.html:13
+#: adhocracy/templates/tag/show.html:54
 msgid "new proposal"
 msgstr "Neuer Vorschlag"
 
@@ -2463,21 +2428,20 @@ msgid "show a list of proposals"
 msgstr "rief zu einer Abstimmung zum Vorschlag %(proposal)s auf"
 
 #: adhocracy/templates/instance/show.html:26
-#, fuzzy
 msgid "more proposals"
-msgstr "vorschläge"
+msgstr "Weitere Vorschläge"
 
 #: adhocracy/templates/instance/show.html:38
 msgid "Help topics:"
-msgstr ""
+msgstr "Hilfethemen:"
 
 #: adhocracy/templates/instance/show.html:40
 msgid "(ideas for debate)"
-msgstr ""
+msgstr "(Ideen für die Diskussion)"
 
 #: adhocracy/templates/instance/show.html:41
 msgid "(keywords)"
-msgstr ""
+msgstr "(Schlagworte)"
 
 #: adhocracy/templates/instance/show.html:43
 #, fuzzy
@@ -2487,15 +2451,15 @@ msgstr "Formatierungshilfen"
 #: adhocracy/templates/instance/show.html:45
 #: adhocracy/templates/user/edit.html:42
 msgid "Notifications"
-msgstr ""
+msgstr "Benachrichtungen"
 
 #: adhocracy/templates/instance/show.html:45
 msgid "via E-Mail or Twitter"
-msgstr ""
+msgstr "per E-Mail oder Twiter"
 
 #: adhocracy/templates/instance/show.html:46
 msgid "Guide: Signing up"
-msgstr ""
+msgstr "Anleitung: Registrieren und Einsteigen"
 
 #: adhocracy/templates/instance/show.html:47
 #, fuzzy
@@ -2506,25 +2470,25 @@ msgstr "legte den Vorschlag %(proposal)s an"
 #: adhocracy/templates/proposal/edit.html:75
 #: adhocracy/templates/proposal/new.html:22
 msgid "Guide: Developing proposals"
-msgstr ""
+msgstr "Anleitung: Vorschläge anlegen"
 
 #: adhocracy/templates/instance/show.html:49
 msgid "Other help"
-msgstr ""
+msgstr "Weitere Hilfe..."
 
 #: adhocracy/templates/instance/show.html:55
 msgid "By the numbers"
-msgstr ""
+msgstr "nach Anzahl"
 
 #: adhocracy/templates/instance/show.html:56
 #, python-format
 msgid "%s has:"
-msgstr ""
+msgstr "%s hat:"
 
 #: adhocracy/templates/instance/show.html:58
-#, fuzzy, python-format
+#, python-format
 msgid "<b>%s</b> community members"
-msgstr "<b>%s:%s</b> Stimmen"
+msgstr "<b>%s</b> Mitglieder"
 
 #: adhocracy/templates/instance/tiles.html:13
 #: adhocracy/templates/page/tiles.html:18
@@ -2550,18 +2514,16 @@ msgstr "%s anschreiben"
 
 #: adhocracy/templates/message/new.html:14
 msgid "Subject"
-msgstr ""
+msgstr "Inhalt"
 
 #: adhocracy/templates/message/new.html:19
-msgid ""
-"Your e-mail address will be included in this message to give the "
-"recipient a method to reply to you."
-msgstr ""
+msgid "Your e-mail address will be included in this message to give the recipient a method to reply to you."
+msgstr "Ihre E-Mail-Adresse wird in der Nachricht angezeigt, damit der Empfänger Ihnen antworten kann."
 
 #: adhocracy/templates/message/new.html:22
 #, python-format
 msgid "Dear %s, ..."
-msgstr ""
+msgstr "Liebe/r %s, ..."
 
 #: adhocracy/templates/milestone/ask_delete.html:3
 #: adhocracy/templates/page/ask_delete.html:3
@@ -2605,12 +2567,12 @@ msgstr "Neuer Termin"
 #: adhocracy/templates/milestone/new.html:31
 #: adhocracy/templates/milestone/show.html:21
 msgid "Milestone description"
-msgstr ""
+msgstr "Terminbeschreibung"
 
 #: adhocracy/templates/milestone/edit.html:35
 #: adhocracy/templates/milestone/new.html:33
 msgid "Give a brief description of the milestone."
-msgstr ""
+msgstr "Kurze Beschreibung des Termins:"
 
 #: adhocracy/templates/milestone/edit.html:38
 #: adhocracy/templates/milestone/new.html:36
@@ -2627,13 +2589,12 @@ msgstr "Diesen Termin entfernen."
 #: adhocracy/templates/milestone/edit.html:45
 #: adhocracy/templates/milestone/new.html:42
 msgid "Please use the DD.MM.YYYY format."
-msgstr ""
+msgstr "Bitte nutzen Sie folgendes Datumsformat: DD.MM.YYYY"
 
 #: adhocracy/templates/milestone/index.html:12
 #: adhocracy/templates/milestone/index.html:29
-#, fuzzy
 msgid "Create a new milestone."
-msgstr "Ein neues Papier anlegen."
+msgstr "Einen neuen Termin anlegen."
 
 #: adhocracy/templates/milestone/index.html:13
 #: adhocracy/templates/milestone/index.html:30
@@ -2687,14 +2648,12 @@ msgid "Add OpenID"
 msgstr "OpenID hinzufügen"
 
 #: adhocracy/templates/openid/connect.html:11
-msgid ""
-"Enter the URL of your OpenID to connect the ID to your account. This will"
-" allow you to login using this OpenID in the future."
-msgstr ""
+msgid "Enter the URL of your OpenID to connect the ID to your account. This will allow you to login using this OpenID in the future."
+msgstr "Geben Sie die Adresse Ihres OpenID-Accounts an. Danach können Sie sich mit der angegebenen OpenID anmelden."
 
 #: adhocracy/templates/openid/form.html:2
 msgid "Alternative"
-msgstr ""
+msgstr "Alternative"
 
 #: adhocracy/templates/openid/form.html:5
 msgid "Login with your OpenID to skip registration."
@@ -2720,11 +2679,8 @@ msgid "User name"
 msgstr "Benutzername"
 
 #: adhocracy/templates/openid/username.html:12
-msgid ""
-"A unique user name is required for you complete sign up and login. The "
-"user name received from your OpenID provider is invalid. Please provide a"
-" different, unique user name."
-msgstr ""
+msgid "A unique user name is required for you complete sign up and login. The user name received from your OpenID provider is invalid. Please provide a different, unique user name."
+msgstr "Um den Anmeldeprozess abzuschließen ist ein eindeutiger Benutzernamen erforderlich. Der über Ihre OpenID zur Verfügung gestellte Benutzername ist ungültig. Bitte wählen Sie einen anderen, eindeutigen Benuzernamen."
 
 #: adhocracy/templates/openid/username.html:19
 #, fuzzy
@@ -2742,18 +2698,18 @@ msgid "Are you sure you want to purge variant %s?"
 msgstr "Sind Sie sicher, dass Sie diesen Vorschlag entfernen möchten?"
 
 #: adhocracy/templates/page/ask_purge.html:24
-msgid ""
-"WARNING: This will remove all revisions of the variant from any proposals"
-" that might support it."
-msgstr ""
+msgid "WARNING: This will remove all revisions of the variant from any proposals that might support it."
+msgstr "ACHTUNG: Dieser Schritt entfernt alle Überarbeitungen dieser Variante von allen Vorschlägen, die diese unterstützen."
 
-#: adhocracy/templates/page/diff.html:3 adhocracy/templates/page/edit.html:4
+#: adhocracy/templates/page/diff.html:3
+#: adhocracy/templates/page/edit.html:4
 #: adhocracy/templates/selection/tiles.html:19
 #, python-format
 msgid "Variant: %s"
 msgstr "Änderungsantrag: %s"
 
-#: adhocracy/templates/page/diff.html:35 adhocracy/templates/page/diff.html:48
+#: adhocracy/templates/page/diff.html:35
+#: adhocracy/templates/page/diff.html:48
 #: adhocracy/templates/selection/tiles.html:229
 msgid "This variant has no text."
 msgstr "Dieser Änderungsantrag hat keinen Text."
@@ -2777,7 +2733,8 @@ msgstr "Änderungsantrag bearbeiten"
 msgid "This norm has no text yet."
 msgstr "Dieser Änderungsantrag hat keinen Text."
 
-#: adhocracy/templates/page/edit.html:49 adhocracy/templates/page/new.html:64
+#: adhocracy/templates/page/edit.html:49
+#: adhocracy/templates/page/new.html:64
 #: adhocracy/templates/proposal/edit.html:40
 #: adhocracy/templates/proposal/new.html:135
 #, fuzzy
@@ -2785,22 +2742,26 @@ msgid "Relates to a milestone"
 msgstr "Diesen Termin entfernen."
 
 #: adhocracy/templates/page/index.html:12
-#: adhocracy/templates/page/tiles.html:62 adhocracy/templates/tag/show.html:17
+#: adhocracy/templates/page/tiles.html:62
+#: adhocracy/templates/tag/show.html:17
 #: adhocracy/templates/tag/show.html:58
 msgid "Create a new norm."
 msgstr "Ein neues Papier anlegen."
 
 #: adhocracy/templates/page/index.html:13
-#: adhocracy/templates/page/tiles.html:63 adhocracy/templates/tag/show.html:18
+#: adhocracy/templates/page/tiles.html:63
+#: adhocracy/templates/tag/show.html:18
 #: adhocracy/templates/tag/show.html:59
 msgid "new norm"
 msgstr "Neues Papier"
 
-#: adhocracy/templates/page/index.html:23 adhocracy/templates/tag/index.html:10
+#: adhocracy/templates/page/index.html:23
+#: adhocracy/templates/tag/index.html:10
 msgid "Popular tags"
-msgstr ""
+msgstr "Beliebte Tags"
 
-#: adhocracy/templates/page/new.html:3 adhocracy/templates/page/new.html:6
+#: adhocracy/templates/page/new.html:3
+#: adhocracy/templates/page/new.html:6
 msgid "New page"
 msgstr "Neue Seite"
 
@@ -2812,17 +2773,17 @@ msgstr "Ein neues Papier anlegen."
 
 #: adhocracy/templates/page/new.html:17
 msgid "Which page types are there?"
-msgstr ""
+msgstr "Welche Seiten gibt es?"
 
 #: adhocracy/templates/page/new.html:18
 msgid "What is a wiki page?"
-msgstr ""
+msgstr "Was ist eine Wiki-Seite?"
 
 #: adhocracy/templates/page/new.html:19
 #: adhocracy/templates/selection/include.html:19
 #: adhocracy/templates/selection/propose.html:19
 msgid "What is a norm?"
-msgstr ""
+msgstr "Was ist ein Papier?"
 
 #: adhocracy/templates/page/new.html:35
 #, fuzzy
@@ -2836,17 +2797,17 @@ msgstr "Neues Papier"
 
 #: adhocracy/templates/page/new.html:43
 msgid "Norm content"
-msgstr ""
+msgstr "Inhalt des Papiers"
 
 #: adhocracy/templates/page/new.html:49
 #: adhocracy/templates/proposal/new.html:119
 msgid "Tag and classify"
-msgstr ""
+msgstr "Tags und Eigenschaften"
 
 #: adhocracy/templates/page/new.html:51
 #: adhocracy/templates/proposal/new.html:121
 msgid "Tags to describe the subject"
-msgstr ""
+msgstr "Tags um den Inhalt zu beschreiben"
 
 #: adhocracy/templates/page/new.html:53
 #: adhocracy/templates/proposal/new.html:123
@@ -2854,10 +2815,12 @@ msgstr ""
 msgid "Multiple tags can be separated by commas."
 msgstr "Mehrere Tags können durch Kommas oder Leerzeichen getrennt werden."
 
-#: adhocracy/templates/page/new.html:53 adhocracy/templates/page/new.html:60
+#: adhocracy/templates/page/new.html:53
+#: adhocracy/templates/page/new.html:60
 #: adhocracy/templates/proposal/new.html:123
 #: adhocracy/templates/selection/propose.html:47
-#: adhocracy/templates/tag/tiles.html:78 adhocracy/templates/user/edit.html:45
+#: adhocracy/templates/tag/tiles.html:78
+#: adhocracy/templates/user/edit.html:45
 msgid "Help."
 msgstr "Hilfe."
 
@@ -2869,12 +2832,12 @@ msgstr "Hauptseite"
 
 #: adhocracy/templates/page/new.html:59
 msgid "The new norm will be categorized under the specified parent theme."
-msgstr ""
+msgstr "Das neue Papier wird unter dem angegebenen Elternthema eingeordnet."
 
 #: adhocracy/templates/page/show.html:17
 #: adhocracy/templates/proposal/details.html:14
 msgid "Highlight Changes"
-msgstr ""
+msgstr "Änderungen hervorheben"
 
 #: adhocracy/templates/page/show.html:43
 #: adhocracy/templates/proposal/details.html:41
@@ -2887,7 +2850,8 @@ msgstr "Diesen Änderungsantrag ablehnen"
 msgid "This norm relates to the milestone %s."
 msgstr "Dieser Vorschlag bezieht sich auf den Termin %s."
 
-#: adhocracy/templates/page/show.html:99 adhocracy/templates/page/show.html:165
+#: adhocracy/templates/page/show.html:99
+#: adhocracy/templates/page/show.html:165
 #: adhocracy/templates/proposal/details.html:98
 #, fuzzy
 msgid "View Proposal"
@@ -2902,7 +2866,7 @@ msgstr "Kontext"
 #: adhocracy/templates/page/show.html:134
 #: adhocracy/templates/proposal/details.html:173
 msgid "Text compared to the original version"
-msgstr ""
+msgstr "Der Text verglichen mit der Originalversion"
 
 #: adhocracy/templates/page/tiles.html:21
 #: adhocracy/templates/selection/tiles.html:202
@@ -2936,7 +2900,7 @@ msgstr "Neuen Änderungsantrag ableiten"
 
 #: adhocracy/templates/page/tiles.html:72
 msgid "Edit the status quo."
-msgstr "Den Aktuellen Arbeitsstand bearbeiten."
+msgstr "Die Originalversion bearbeiten."
 
 #: adhocracy/templates/page/tiles.html:75
 msgid "Edit this variant."
@@ -2966,11 +2930,8 @@ msgid "End a poll"
 msgstr "Beendet die Abstimmung"
 
 #: adhocracy/templates/poll/ask_delete.html:22
-msgid ""
-"You are about to cancel this poll. This means that the proposal will "
-"become editable again but that all votes that have been cast at this time"
-" <strong>will be invalidated</strong>."
-msgstr ""
+msgid "You are about to cancel this poll. This means that the proposal will become editable again but that all votes that have been cast at this time <strong>will be invalidated</strong>."
+msgstr "Sie sind im Begriff, diese Abstimmung abzubrechen. Dies bedeutet, dass der Vorschlag wieder editierbar sein wird, bereits abgegebene Stimmen jedoch <strong>ungültig</strong> werden."
 
 #: adhocracy/templates/poll/notifications.html:8
 msgid "to abstain"
@@ -3023,16 +2984,15 @@ msgstr "begann %s"
 msgid "no enddate"
 msgstr "kein Enddatum"
 
-#: adhocracy/templates/poll/votes.html:5 adhocracy/templates/user/votes.html:4
+#: adhocracy/templates/poll/votes.html:5
+#: adhocracy/templates/user/votes.html:4
 #, python-format
 msgid "Votes: %s"
 msgstr "%s Stimmen abgegeben"
 
 #: adhocracy/templates/poll/votes.html:22
-msgid ""
-"Vote results are updated with a short delay. After casting your vote, "
-"expect a short delay before the tally updates."
-msgstr ""
+msgid "Vote results are updated with a short delay. After casting your vote, expect a short delay before the tally updates."
+msgstr "Die Abstimmungsergebnisse werden mit einer kurzen Verzögerung aktualisiert. "
 
 #: adhocracy/templates/proposal/ask_adopt.html:3
 #: adhocracy/templates/proposal/ask_adopt.html:6
@@ -3040,11 +3000,8 @@ msgid "Call a poll"
 msgstr "Zur Abstimmung aufrufen."
 
 #: adhocracy/templates/proposal/ask_adopt.html:20
-msgid ""
-"You are about to call for a vote. When you do this, you will lose the "
-"ability to <strong>change the proposal's wording</strong> unless you "
-"cancel the vote."
-msgstr ""
+msgid "You are about to call for a vote. When you do this, you will lose the ability to <strong>change the proposal's wording</strong> unless you cancel the vote."
+msgstr "Sie sind im Begriff, eine Abstimmung zu beginnen. Während der Abstimmung kann der Vorschlag <strong>nicht bearbeitet</strong> werden, es sei denn diese wird abgebrochen."
 
 #: adhocracy/templates/proposal/ask_delete.html:20
 msgid "Are you sure you want to delete this proposal?"
@@ -3082,7 +3039,7 @@ msgstr "Delegationen"
 #: adhocracy/templates/proposal/details.html:106
 #: adhocracy/templates/selection/tiles.html:51
 msgid "Get Involved"
-msgstr ""
+msgstr "Mitmachen"
 
 #: adhocracy/templates/proposal/details.html:116
 #, fuzzy
@@ -3102,11 +3059,11 @@ msgstr "Diesen Änderungsantrag ablehnen"
 #: adhocracy/templates/proposal/edit.html:12
 #, python-format
 msgid "Edit &ldquo;%s&rdquo;"
-msgstr ""
+msgstr "&ldquo;%s&rdquo; bearbeiten"
 
 #: adhocracy/templates/proposal/edit.html:22
 msgid "Title and Goals"
-msgstr ""
+msgstr "Titel und Ziele"
 
 #: adhocracy/templates/proposal/edit.html:24
 #: adhocracy/templates/proposal/new.html:37
@@ -3122,7 +3079,7 @@ msgstr "vorschläge"
 
 #: adhocracy/templates/proposal/edit.html:31
 msgid "A brief description of <b>the goals</b> of your proposal."
-msgstr ""
+msgstr "Eine kurze Beschreibung der <b>Ziele</b> ihres Vorschlags."
 
 #: adhocracy/templates/proposal/edit.html:32
 #: adhocracy/templates/proposal/new.html:112
@@ -3132,7 +3089,7 @@ msgstr "Neuer Vorschlag"
 
 #: adhocracy/templates/proposal/edit.html:47
 msgid "Collaboration and Notification"
-msgstr ""
+msgstr "Zusammenarbeit und Benachrichtigung"
 
 #: adhocracy/templates/proposal/edit.html:52
 #: adhocracy/templates/proposal/new.html:129
@@ -3180,24 +3137,20 @@ msgid "Change norms with this proposal"
 msgstr "Unterstützen Sie diesen Vorschlag"
 
 #: adhocracy/templates/proposal/new.html:79
-msgid ""
-"Proposals are implemented by including changes towards new or existing "
-"norm. Norms are fixed documents that represent the consensus of this "
-"instance and can only be changed through a vote. Amend the proposal to "
-"change or create a norm."
-msgstr ""
+msgid "Proposals are implemented by including changes towards new or existing norm. Norms are fixed documents that represent the consensus of this instance and can only be changed through a vote. Amend the proposal to change or create a norm."
+msgstr "Vorschläge enthalten Änderungen, die sich auf neue oder bereits existierende Papiere beziehen. Papiere sind Dokumente, welche die beschlossene und derzeitige Arbeitsgrundlage der Projektgruppe beschreiben und die durch eine Abstimmung verändert werden können. Ändern Sie den Vorschlag ab, um ein Papier zu bearbeiten oder zu erstellen."
 
 #: adhocracy/templates/proposal/new.html:98
 msgid "Select a norm to change:"
-msgstr ""
+msgstr "Wählen Sie ein Papier aus, das Sie ändern wollen:"
 
 #: adhocracy/templates/proposal/new.html:110
 msgid "Give a brief description of <b>the goals</b> of your proposal."
-msgstr ""
+msgstr "Eine kurze Beschreibung der <b>Ziele</b> ihres Vorschlags."
 
 #: adhocracy/templates/proposal/show.html:29
 msgid "Topic and Description of the Proposal"
-msgstr ""
+msgstr "Thema und Beschreibung des Vorschlags"
 
 #: adhocracy/templates/proposal/show.html:43
 #, fuzzy, python-format
@@ -3256,7 +3209,7 @@ msgstr "%s angelegt"
 #: adhocracy/templates/proposal/show.html:131
 #, python-format
 msgid "by %s on %s, %s changes since then."
-msgstr ""
+msgstr "von %s am %s angelegt, %s Änderungen seitdem."
 
 #: adhocracy/templates/proposal/tiles.html:8
 msgid "(new)"
@@ -3291,12 +3244,8 @@ msgid "The proposal was created by %s on %s"
 msgstr "Der Vorschlag wurde von %s am %s angelegt."
 
 #: adhocracy/templates/proposal/tiles.html:61
-msgid ""
-"This is a <b>joint proposal</b> that can be improved by anyone. Edit it "
-"to improve or refine the text."
-msgstr ""
-"Dies ist ein <b>gemeinsamer Vorschlag</b> der von jedem verbessert werden"
-" kann."
+msgid "This is a <b>joint proposal</b> that can be improved by anyone. Edit it to improve or refine the text."
+msgstr "Dies ist ein <b>gemeinsamer Vorschlag</b> der von jedem verbessert werden kann."
 
 #: adhocracy/templates/proposal/tiles.html:65
 msgid "Main page"
@@ -3359,11 +3308,11 @@ msgstr "Änderungsantrag: %s"
 
 #: adhocracy/templates/search/results.html:16
 msgid "Search includes issues and proposals."
-msgstr ""
+msgstr "Die Suche umfasst Themen und Vorschläge."
 
 #: adhocracy/templates/search/results.html:31
 msgid "You did not provide a search query."
-msgstr ""
+msgstr "Bitte geben Sie einen Suchbegriff ein"
 
 #: adhocracy/templates/selection/ask_delete.html:4
 #, python-format
@@ -3390,25 +3339,23 @@ msgstr "Diesen Änderungsantrag bearbeiten."
 #: adhocracy/templates/selection/include.html:21
 #: adhocracy/templates/selection/propose.html:21
 msgid "What does 'Status quo' mean?"
-msgstr ""
+msgstr "Was bedeutet 'Originalversion'?"
 
 #: adhocracy/templates/selection/include.html:27
 msgid "Change an existing norm"
-msgstr ""
+msgstr "Ändern Sie ein bestehendes Papier"
 
 #: adhocracy/templates/selection/include.html:29
-msgid ""
-"Select a norm that you want to relate to. You can later propose a variant"
-" of this norm to effect a change."
-msgstr ""
+msgid "Select a norm that you want to relate to. You can later propose a variant of this norm to effect a change."
+msgstr "Wählen Sie ein Papier aus, auf das Sie sich beziehen. Sie können später eine Variante dieses Papiers vorschlagen, um es zu ändern."
 
 #: adhocracy/templates/selection/include.html:38
 msgid "Include"
-msgstr ""
+msgstr "Aufnehmen"
 
 #: adhocracy/templates/selection/include.html:42
 msgid "Can't find an appropriate norm?"
-msgstr ""
+msgstr "Können Sie kein entsprechendes Papier finden?"
 
 #: adhocracy/templates/selection/include.html:45
 #, fuzzy
@@ -3421,11 +3368,8 @@ msgid "Propose a new norm"
 msgstr "Ein neues Papier anlegen."
 
 #: adhocracy/templates/selection/propose.html:32
-msgid ""
-"Create a new norm that you want to relate to. The norm will be created "
-"without any status quo. You can then add a text variant of that norm, "
-"specifying the change you want to implement."
-msgstr ""
+msgid "Create a new norm that you want to relate to. The norm will be created without any status quo. You can then add a text variant of that norm, specifying the change you want to implement."
+msgstr "Erstellen Sie ein neues Papier, auf das Sie sich beziehen wollen. Sie können dann eine Textvariante dieses Papiers hinzufügen, das die von Ihnen gewünschten Änderungen darstellt."
 
 #: adhocracy/templates/selection/propose.html:40
 #, fuzzy
@@ -3434,15 +3378,15 @@ msgstr "Neues Papier"
 
 #: adhocracy/templates/selection/propose.html:46
 msgid "The new norm will be categorized under the specified parent page."
-msgstr ""
+msgstr "Das neue Papier wird unter der angegebenen Elternseite eingeordnet."
 
 #: adhocracy/templates/selection/propose.html:53
 msgid "Have you checked for exisiting norms?"
-msgstr ""
+msgstr "Haben Sie bereits nachgeschaut, ob ein ähnliches Papier eventuell bereits besteht?"
 
 #: adhocracy/templates/selection/propose.html:56
 msgid "Include an existing norm instead"
-msgstr ""
+msgstr "Stattdessen ein vorhandes Papier einfügen"
 
 #: adhocracy/templates/selection/tiles.html:24
 #, fuzzy
@@ -3451,17 +3395,11 @@ msgstr "mehr zeigen"
 
 #: adhocracy/templates/selection/tiles.html:29
 msgid "There is a tie between variants, thus none is included at the moment."
-msgstr ""
-"Mehrere Änderungsanträge haben die gleiche Unterstützung, daher wird "
-"aktuell keine eingebunden."
+msgstr "Mehrere Änderungsanträge haben die gleiche Unterstützung, daher wird aktuell keine eingebunden."
 
 #: adhocracy/templates/selection/tiles.html:33
-msgid ""
-"Status quo has the most votes, resulting in no proposed change to this "
-"norm."
-msgstr ""
-"Der Aktuelle Arbeitsstand hat die meisten Stimmen, daher wird keine "
-"Änderung des Papiers angestrebt."
+msgid "Status quo has the most votes, resulting in no proposed change to this norm."
+msgstr "Die Originalversion hat die meisten Stimmen, daher wird keine Änderung des Papiers angestrebt."
 
 #: adhocracy/templates/selection/tiles.html:60
 #, fuzzy
@@ -3494,27 +3432,28 @@ msgstr "vergleichen"
 
 #: adhocracy/templates/tag/index.html:15
 msgid "Tags are keywords used to find, sort and filter proposals and documents."
-msgstr ""
+msgstr "Tags sind Schlagworte, die helfen Vorschläge und Dokumente zu finden, zu sorteiren und zu filtern."
 
-#: adhocracy/templates/tag/index.html:19 adhocracy/templates/tag/show.html:38
+#: adhocracy/templates/tag/index.html:19
+#: adhocracy/templates/tag/show.html:38
 msgid "What is a tag?"
-msgstr ""
+msgstr "Was ist ein Tag?"
 
 #: adhocracy/templates/tag/index.html:20
 msgid "What is a tag cloud?"
-msgstr ""
+msgstr "Was ist eine Tag-Wolke?"
 
 #: adhocracy/templates/tag/index.html:21
 msgid "How can tags be added to proposals and pages?"
-msgstr ""
+msgstr "Wie können Tags zu Vorschlägen und Papieren hinzugefügt werden?"
 
 #: adhocracy/templates/tag/show.html:31
 msgid "Similar tags"
-msgstr ""
+msgstr "Ähnliche Tags"
 
 #: adhocracy/templates/tag/show.html:40
 msgid "What is a page?"
-msgstr ""
+msgstr "Was ist eine Seite?"
 
 #: adhocracy/templates/tag/tiles.html:9
 #, python-format
@@ -3527,13 +3466,14 @@ msgstr "mehr Tags"
 
 #: adhocracy/templates/tag/tiles.html:31
 msgid "Tagged with"
-msgstr ""
+msgstr "Tags"
 
 #: adhocracy/templates/tag/tiles.html:37
 msgid "Not tagged yet"
-msgstr ""
+msgstr "Es wurden noch keine Tags angegeben"
 
-#: adhocracy/templates/tag/tiles.html:73 adhocracy/templates/tag/tiles.html:79
+#: adhocracy/templates/tag/tiles.html:73
+#: adhocracy/templates/tag/tiles.html:79
 msgid "Add tags"
 msgstr "Tag hinzufügen"
 
@@ -3552,9 +3492,7 @@ msgstr "Dieses Version hat keinen Text."
 
 #: adhocracy/templates/text/tiles.html:37
 #: adhocracy/templates/text/tiles.html:50
-msgid ""
-"This norm has not yet been decided and is thus no official position of "
-"this group."
+msgid "This norm has not yet been decided and is thus no official position of this group."
 msgstr "Ihre Projektgruppe hat zu diesem Papier noch keine Regelung getroffen. "
 
 #: adhocracy/templates/text/tiles.html:65
@@ -3590,17 +3528,15 @@ msgstr "Vergleiche"
 
 #: adhocracy/templates/user/all.html:12
 msgid "All Members on this Adhocracy Server"
-msgstr ""
+msgstr "Alle Benutzer auf diesem Adhocracy-Server"
 
 #: adhocracy/templates/user/all.html:14
 msgid "A listing of all users in all instance an this adhocracy server."
-msgstr ""
+msgstr "Eine Liste aller Benutzer in dieser Projektgruppe und auf diesem Adhocracy-Server."
 
 #: adhocracy/templates/user/ask_delete.html:18
 #, fuzzy
-msgid ""
-"Are you sure you want to delete your profile? This step cannot be "
-"reversed."
+msgid "Are you sure you want to delete your profile? This step cannot be reversed."
 msgstr "Sind Sie sicher, dass Sie diesen Vorschlag entfernen möchten?"
 
 #: adhocracy/templates/user/badges.html:4
@@ -3615,7 +3551,7 @@ msgstr "Badges von %s bearbeiten"
 
 #: adhocracy/templates/user/badges.html:34
 msgid "Example:"
-msgstr ""
+msgstr "Beispiel:"
 
 #: adhocracy/templates/user/dashboard.html:4
 msgid "Startpage"
@@ -3644,7 +3580,7 @@ msgstr "Organisationen"
 
 #: adhocracy/templates/user/delegations.html:20
 msgid "Topic"
-msgstr ""
+msgstr "Thema"
 
 #: adhocracy/templates/user/delegations.html:21
 msgid "Given"
@@ -3652,7 +3588,7 @@ msgstr "Anmelden"
 
 #: adhocracy/templates/user/delegations.html:22
 msgid "Received"
-msgstr ""
+msgstr "Erhalten"
 
 #: adhocracy/templates/user/delegations.html:55
 msgid "There are no delegations."
@@ -3665,15 +3601,15 @@ msgstr "Einstellungen: %s"
 
 #: adhocracy/templates/user/edit.html:11
 msgid "Your User Details"
-msgstr ""
+msgstr "Ihre Benutzerprofil"
 
 #: adhocracy/templates/user/edit.html:21
 msgid "Display name for"
-msgstr ""
+msgstr "Name anzeigen für"
 
 #: adhocracy/templates/user/edit.html:22
 msgid "You can chose which name other users see."
-msgstr ""
+msgstr "Sie können auswählen, welcher Name den anderen Benutzern angezeigt werden soll."
 
 #: adhocracy/templates/user/edit.html:29
 #: adhocracy/templates/user/register_form.html:21
@@ -3683,7 +3619,7 @@ msgstr "Passwort:"
 
 #: adhocracy/templates/user/edit.html:30
 msgid "Select a new password or leave the fields blank to keep your old one."
-msgstr ""
+msgstr "Wählen Sie ein neues Passwort aus oder lassen Sie das Feld frei, um Ihr altes Passwort zu behalten."
 
 #: adhocracy/templates/user/edit.html:32
 #: adhocracy/templates/user/login_form.html:15
@@ -3697,7 +3633,7 @@ msgstr "Passwort (bestätigen):"
 
 #: adhocracy/templates/user/edit.html:44
 msgid "Select how you would like to be notified of events."
-msgstr ""
+msgstr "Wählen Sie hier aus, wie Sie über Ereignisse informiert werden wollen."
 
 #: adhocracy/templates/user/edit.html:49
 #: adhocracy/templates/user/reset_form.html:14
@@ -3706,19 +3642,19 @@ msgstr "E-Mail:"
 
 #: adhocracy/templates/user/edit.html:55
 msgid "fewer"
-msgstr ""
+msgstr "weniger"
 
 #: adhocracy/templates/user/edit.html:56
 msgid "more notifications"
-msgstr ""
+msgstr "mehr Benachrichtigungen"
 
 #: adhocracy/templates/user/edit.html:71
 msgid "Not confirmed."
-msgstr ""
+msgstr "Nicht bestätigt."
 
 #: adhocracy/templates/user/edit.html:72
 msgid "Re-send activation link"
-msgstr ""
+msgstr "Aktivierungslink erneut zusenden"
 
 #: adhocracy/templates/user/edit.html:80
 msgid "OpenID"
@@ -3726,11 +3662,11 @@ msgstr "OpenID"
 
 #: adhocracy/templates/user/edit.html:81
 msgid "OpenID allows you to use a single login on many web sites."
-msgstr ""
+msgstr "OpenID erlaubt es, den gleichen Benutzernamen auf vielen Webseiten zu verwenden."
 
 #: adhocracy/templates/user/edit.html:84
 msgid "There are no associated OpenIDs."
-msgstr ""
+msgstr "Ungültige Eingabe."
 
 #: adhocracy/templates/user/edit.html:102
 #, fuzzy
@@ -3738,22 +3674,20 @@ msgid "Short biography"
 msgstr "sortieren:"
 
 #: adhocracy/templates/user/edit.html:103
-msgid ""
-"A bio will allow others to learn about you and perhaps even get you a few"
-" delegations."
-msgstr ""
+msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
+msgstr "Wenn Sie eine kurze Selbstbeschreibung eingeben, können andere mehr über Sie erfahren und werden vielleicht Entscheidungen an Sie delegieren."
 
 #: adhocracy/templates/user/edit.html:112
 msgid "The pre-set number of entries in listing pages."
-msgstr ""
+msgstr "Die voreingestellte Anzahl an Einträgen in Listen."
 
 #: adhocracy/templates/user/edit.html:114
 msgid "List size:"
-msgstr ""
+msgstr "Listenlänge:"
 
 #: adhocracy/templates/user/edit.html:121
 msgid "Disable help messages and links to the documentation."
-msgstr ""
+msgstr "Hilfenachrichten und Links zur Dokumentation abstellen."
 
 #: adhocracy/templates/user/edit.html:123
 #, fuzzy
@@ -3762,15 +3696,15 @@ msgstr "eine Nachricht senden"
 
 #: adhocracy/templates/user/index.html:30
 msgid "Filter by group"
-msgstr ""
+msgstr "Nach Gruppen sortieren"
 
 #: adhocracy/templates/user/index.html:39
 msgid "A listing of all users that have joined this instance."
-msgstr ""
+msgstr "Eine Liste aller Benutzer, die Mitglied dieser Projektgruppe sind."
 
 #: adhocracy/templates/user/index.html:49
 msgid "Find users"
-msgstr ""
+msgstr "Benutzer suchen"
 
 #: adhocracy/templates/user/instances.html:4
 #, python-format
@@ -3784,7 +3718,7 @@ msgstr "Adhocracies"
 #: adhocracy/templates/user/instances.html:13
 #, python-format
 msgid "%s is a member in these Adhocracies"
-msgstr ""
+msgstr "%s ist Mitglied in den folgenden Instanzen"
 
 #: adhocracy/templates/user/login.html:2
 #: adhocracy/templates/user/register.html:2
@@ -3793,10 +3727,8 @@ msgstr "Und wer sind Sie? "
 
 #: adhocracy/templates/user/login.html:12
 #: adhocracy/templates/user/register.html:20
-msgid ""
-"If you have an account but you've lost your password, <a "
-"href='/reset'>click here</a>."
-msgstr ""
+msgid "If you have an account but you've lost your password, <a href='/reset'>click here</a>."
+msgstr "Falls Sie ihr Passwort vergessen haben, <a href='/reset'>klicken Sie hier</a>."
 
 #: adhocracy/templates/user/login_form.html:11
 msgid "Login:"
@@ -3804,13 +3736,11 @@ msgstr "Benutzername:"
 
 #: adhocracy/templates/user/login_form.html:22
 msgid "Register new account"
-msgstr ""
+msgstr "Registrieren"
 
 #: adhocracy/templates/user/register.html:14
-msgid ""
-"Creating an account is easy; all you need is a user name, password and "
-"email address."
-msgstr ""
+msgid "Creating an account is easy; all you need is a user name, password and email address."
+msgstr "Um einen Account anzulegen, brauchen Sie nur einen Benutzernamen, ein Passwort und eine E-Mail-Adresse."
 
 #: adhocracy/templates/user/register_form.html:7
 msgid "Can only contain letters and numbers."
@@ -3831,7 +3761,7 @@ msgstr "Passwort zurücksetzen."
 #: adhocracy/templates/user/register_form.html:31
 #, python-format
 msgid "By registering, you agree with the %s."
-msgstr ""
+msgstr "Durch Ihre Anmeldung stimmen Sie den %s zu."
 
 #: adhocracy/templates/user/register_form.html:31
 #, fuzzy
@@ -3842,7 +3772,7 @@ msgstr "Nutzungsbedingungen"
 #: adhocracy/templates/user/register_form.html:38
 #: adhocracy/templates/user/register_form.html:42
 msgid "leave empty"
-msgstr ""
+msgstr "frei lassen"
 
 #: adhocracy/templates/user/reset_form.html:2
 #: adhocracy/templates/user/reset_form.html:5
@@ -3852,30 +3782,24 @@ msgid "Password reset"
 msgstr "Passwort zurücksetzen"
 
 #: adhocracy/templates/user/reset_form.html:6
-msgid ""
-"You will be sent an activation link that, when opened, will cause the "
-"system to email you a new password."
-msgstr ""
+msgid "You will be sent an activation link that, when opened, will cause the system to email you a new password."
+msgstr "Ihnen wird ein Link zugesandt. Wenn Sie diesen öffnen, wird Ihnen Adhocracy ein neues Kennwort zusenden."
 
 #: adhocracy/templates/user/reset_form.html:12
 msgid "In order to retrieve your login, you will have to enter your email adress."
-msgstr ""
+msgstr "Geben Sie bitte Ihre Mailadresse an, um Ihr Passwort wiederherzustellen."
 
 #: adhocracy/templates/user/reset_form.html:18
 msgid "Reset"
-msgstr ""
+msgstr "Zurücksetzen"
 
 #: adhocracy/templates/user/reset_pending.html:4
 msgid "Confirmation pending"
 msgstr "Bestätigung steht aus"
 
 #: adhocracy/templates/user/reset_pending.html:11
-msgid ""
-"You have recieved an email containing a link. Please open that link in "
-"order to reset you password"
-msgstr ""
-"Sie haben eine E-Mail erhalten. Bitte öffnen Sie den darin enthaltenen "
-"Link, um Ihr Passwort zurückzusetzen."
+msgid "You have recieved an email containing a link. Please open that link in order to reset you password"
+msgstr "Sie haben eine E-Mail erhalten. Bitte öffnen Sie den darin enthaltenen Link, um Ihr Passwort zurückzusetzen."
 
 #: adhocracy/templates/user/show.html:15
 #, fuzzy, python-format
@@ -3885,7 +3809,7 @@ msgstr "%s angemeldet"
 #: adhocracy/templates/user/show.html:24
 #, python-format
 msgid "%s does not yet have a bio."
-msgstr ""
+msgstr "%s hat noch keine Kurzbiographie angegeben."
 
 #: adhocracy/templates/user/tiles.html:16
 #, python-format
@@ -3903,64 +3827,11 @@ msgid "Watchlist: %s"
 msgstr "Beobachtungsliste: %s"
 
 #: adhocracy/templates/user/watchlist.html:13
-msgid ""
-"This is your watchlist. You will receive notifications for events "
-"concerning each of these items."
-msgstr ""
+msgid "This is your watchlist. You will receive notifications for events concerning each of these items."
+msgstr "Dies ist Ihre Beobachtungsliste. Sie erhalten eine Benachrichtigung bei Ereignissen in diesen Projektgruppen."
 
 #~ msgid "%(ts)s"
 #~ msgstr "%(ts)s"
 
 #~ msgid "Settings"
 #~ msgstr "Einstellungen"
-
-# | msgid "Username:"
-#~ msgid "Name"
-#~ msgstr "Benutzername:"
-
-#~ msgid ""
-#~ "Describe what the goals of this "
-#~ "Instance are and who constitutes its "
-#~ "community. (Both Markdown and HTML are"
-#~ " allowed here.)"
-#~ msgstr ""
-
-#~ msgid "Which pages types are there?"
-#~ msgstr ""
-
-#~ msgid "Text"
-#~ msgstr "nächste"
-
-#~ msgid "Text (compared to the original version)"
-#~ msgstr ""
-
-#~ msgid "Comments"
-#~ msgstr "Kommentar"
-
-#~ msgid "If you already have an account, sign in here."
-#~ msgstr ""
-
-#~ msgid "User name:"
-#~ msgstr "Benutzername:"
-
-#~ msgid "send a message"
-#~ msgstr "eine Nachricht senden"
-
-#~ msgid "make %s"
-#~ msgstr "zum %s machen"
-
-#~ msgid "Resign from this instance."
-#~ msgstr "Von der Projektgruppe zurücktreten."
-
-#~ msgid "leave instance"
-#~ msgstr "Projektgruppe verlassen"
-
-#~ msgid "un-ban"
-#~ msgstr "entsperren"
-
-#~ msgid "ban"
-#~ msgstr "sperren"
-
-#~ msgid "Delete this user."
-#~ msgstr "Diesen Nutzer entfernen."
-
