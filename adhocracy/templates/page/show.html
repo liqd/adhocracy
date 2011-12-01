@@ -119,32 +119,33 @@
                 </a>
                 </div>
             </div>
-            <div class="paper_text text"
-                 data-bind="visible: variants.showPlain()">
-                <div data-bind="html: variants.current.text">
+            <div class="paper_text">
+                <div data-bind="visible: variants.showPlain(),
+                                html: variants.current.text">
                 %if not c.variant_details['text']:
                 ${_(u'Kein Text')}
                 %else:
                 ${c.variant_details['text']|n}
                 %endif
                 </div>
-            </div>
-            <div class="paper_text diff"
-                 data-bind="visible: variants.showDiff()">
-                <h4>${_("Text compared to the original version")}</h4>
-                <div data-bind="html: variants.current.text_diff">
-                    ${c.variant_details['text_diff']|n}
+        
+                <div data-bind="visible: variants.showDiff()">
+                    <h4>${_("Text compared to the original version")}</h4>
+                    <div data-bind="html: variants.current.text_diff">
+                        ${c.variant_details['text_diff']|n}
+                    </div>
                 </div>
-            </div>
-            ## FIXME: styling
-            <div class="paper_text"
-                 data-bind="visible: variants.current.history_count() > 1"
-                 style="${'display: none' if c.variant_details['history_count'] > 1 else ''}">
-                <a rel="#overlay-ajax"
-                   href="${c.variant_details['history_url']}"
-                   data-bind="attr: {href: variants.current.history_url}">
-                    ${_('History')}
-                </a>
+                %if c.text and c.text.text:
+                ${components.social_share_buttons(c.variant)}
+                %endif
+                <div data-bind="visible: variants.current.history_count() > 1"
+                     style="${'display: none' if c.variant_details['history_count'] > 1 else ''}">
+                    <a rel="#overlay-ajax"
+                       href="${c.variant_details['history_url']}"
+                       data-bind="attr: {href: variants.current.history_url}">
+                        ${_('History')}
+                    </a>
+                </div>
             </div>
         </article>
         <div class="paper_comments">

@@ -37,7 +37,8 @@
                 ${tiles.page.inline(c.proposal.description, 
                         hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
     
-                
+                ${components.social_share_buttons(c.proposal)}
+
                 <div class="meta">
                     <a href="#discussions">
                         ${_("%s Discussions") % c.proposal.description.comment_count(reply_filter=None)}

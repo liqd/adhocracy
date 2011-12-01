@@ -131,7 +131,24 @@ shortlink = h.site.shortlink_url(delegateable)
 </nav>
 </%def>
 
+<%def name="social_share_buttons(entity)">
+<%
+# need() the lib and get it's url
+from fanstatic import get_needed
+from js.socialshareprivacy import library, socialshareprivacy
+socialshareprivacy.need()
+base_url = get_needed().library_url(library)
 
+# create the tweet text
+text = "%s - %s: %s" % (h.site.name, c.instance.label, entity.title)
+%>
+<div id="socialshareprivacy"></div>
+<script type="text/javascript">
+    adhocracy.helpers.createSocialButtons('#socialshareprivacy', '${text}',
+    '${base_url}');
+</script>
+
+</%def>
 
 <%def name="head()">
   <meta charset="utf-8" />

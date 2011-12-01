@@ -73,6 +73,7 @@ This version requires Python 2.5 or later.
         "fanstatic >=0.11.2, <=0.11.99",
         "js.jquery >= 1.6.1,<=1.6.99",
         "js.jquery_qtip >= 1.0.0,<= 1.0.99",
+        'js.socialshareprivacy >= 1.3dev'
     ],
     # REFACT: could/should these become regular dependencies?
     setup_requires=["PasteScript>=1.6.3",

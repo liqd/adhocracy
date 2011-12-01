@@ -530,6 +530,41 @@ var adhocracy = adhocracy || {};
         $('body').delegate('.alert-message .close_button', 'click', fadeParent);
     };
 
+    /*
+     * Initialize twitter, facebook and google+ buttons in the element(s)
+     * selector.
+     *
+     * @param {string, dom element or jquery element} selector Something
+     * to wrap into the jQuery function to find the container element(s)
+     * @param {string} text The text for the tweet. It will be chopped
+     * to 120 Characters.
+     * @param {string} baseUrl The url from where the plugins 'image'
+     * folder is served. if not given it will be relative to the current
+     * page.
+     */
+    adhocracy.helpers.createSocialButtons = function (selector, tweetText, baseUrl) {
+        var elements = $(selector);
+        if (elements.length > 0) {
+            elements.socialSharePrivacy({
+                services : {
+                    facebook: {
+                        'dummy_img': baseUrl + '/images/dummy_facebook.png',
+                        'perma_option': 'off'
+                    },
+                    twitter : {
+                        'dummy_img': baseUrl + '/images/dummy_twitter.png',
+                        'perma_option': 'off',
+                        'tweet_text': tweetText
+                    },
+                    gplus : {
+                        'dummy_img': baseUrl + '/images/dummy_gplus.png',
+                        'perma_option': 'off'
+                    }
+                },
+                'css_path': ''
+            });
+        }
+    };
 }());
 
 $(document).ready(function () {
