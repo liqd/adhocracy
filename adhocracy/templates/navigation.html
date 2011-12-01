@@ -145,10 +145,15 @@
 
 <% 
    import markupsafe
+   from adhocracy.lib.tiles.instance_tiles import InstanceTile
    active_subnav = {}
    active_subnav[active or 'instance'] = 'current'
    search_label = _('Search in &ldquo;%s&rdquo;&hellip;') % markupsafe.escape(c.instance.label)
-   logo = "/instance/%s_48.png" % (c.instance.key if c.instance else '_def')
+   logo = ''
+   if c.instance:
+       if InstanceTile(c.instance).show_icon():
+           logo = "/instance/%s_48.png" % c.instance.key           
+   
    def _class(identifier):
        return active_subnav.get(identifier, '')
 %>
