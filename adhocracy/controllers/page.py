@@ -350,7 +350,7 @@ class PageController(BaseController):
 
     @classmethod
     def variant_overview(cls, page, variant, current_variant=None,
-                         score_getter=None):
+                         score_getter=None, render_head_score=False):
         if score_getter is None:
             score = page.variant_tally(variant).score
         else:
@@ -360,7 +360,7 @@ class PageController(BaseController):
         rendered_score = "%+d" % score
         if score == 0:
             rendered_score = '0'
-        if is_head:
+        if is_head and not render_head_score:
             rendered_score = ''
         details = {'href': h.page.page_variant_url(page, variant=variant),
                    'title': title,
@@ -373,7 +373,8 @@ class PageController(BaseController):
         return details
 
     @classmethod
-    def variant_items(self, page, current_variant=None, score_getter=None):
+    def variant_items(self, page, current_variant=None, score_getter=None,
+                      render_head_score=False):
         head_item = None
         variant_items = []
         # FIXME: What to do if we get passed a selection that did not select
@@ -381,7 +382,8 @@ class PageController(BaseController):
         for variant in page.variants:
             details = self.variant_overview(page, variant,
                                             current_variant=current_variant,
-                                            score_getter=score_getter)
+                                            score_getter=score_getter,
+                                            render_head_score=render_head_score)
             if variant == model.Text.HEAD:
                 head_item = details
             else:

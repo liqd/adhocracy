@@ -7,16 +7,12 @@
 </%def>
 
 <%block name="headline">
-<div class="top_actions title">
-    %if can.milestone.create():
-        <a class="button add ttip" title="${_('Create a new milestone.')}"
-          href="/milestone/new">${_("new milestone")}</a>
-    %endif
-</div>  
 
-<h1 class="page_title">${_("Milestones")}</h1>
+<h2>${_("Milestones")}</h2>
+<div class="hr"><hr /></div>
 
 ${tiles.milestone.timeline(c.milestones)}
+
 </%block>
 
 <%block name="main_content">
@@ -31,13 +27,5 @@ ${tiles.milestone.timeline(c.milestones)}
       %endif
     </div>
     <div style="clear:both;"></div>
-
-    <div class="help">
-        <h3>${_("Help")}</h3>
-        <ul>
-            <li>${h.help_link(_("What is a milestone?"), 'milestone_faq', anchor='whatis')|n}</li>
-            <li>${h.help_link(_("More help..."), 'milestone_faq')|n}</li>
-        </ul>
-    </div>
 
 </%block>

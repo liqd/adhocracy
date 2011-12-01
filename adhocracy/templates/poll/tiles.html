@@ -11,21 +11,22 @@
 pro = tile.widget_action_attrs(model.Vote.YES)
 con = tile.widget_action_attrs(model.Vote.NO)
 %>
+<div class='vote_wrapper'>
 <div id="${tile.html_id}" class="${tile.widget_class}">
     <a href="${tile.votes_listing_url}"
-       rel="[#overlay-ajax]"
+       rel="#overlay-ajax"
     class="vote_count ${tile.count_class}"
           >${tile.display_score}</a
-    ><a href="${pro['url']}" 
-        class="${pro['class']} ttip"
+    ><a href="${pro['url']}"
+        class="${pro['class']} ttip ${'do_vote' if tile.can_vote else ''}"
         title="${pro['title']}"
         ><span>&nbsp;</span></a
-    ><a href="${con['url']}" 
-        class="${con['class']} ttip"
+    ><a href="${con['url']}"
+        class="${con['class']} ttip ${'do_vote' if tile.can_vote else ''}"
         title="${con['title']}"
         ><span>&nbsp;</span></a>
 </div>
-
+</div>
 </%def>
 
 <%def name="booth(tile, poll)">

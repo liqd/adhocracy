@@ -3,13 +3,16 @@
 
 <%def name="row(tile, milestone)">
     <li class="content_box">
-        <div class="base" style="background: url(${h.milestone.icon_url(size=32)}) no-repeat;">
-            <h3><a class="link" href="${h.entity_url(milestone)}">${milestone.title}</a>
+        <div>
+            <h3>
+                <a class="link" href="${h.entity_url(milestone)}">
+                    ${milestone.title}
+                </a>
               %if milestone.over:
                 <span class="over">${_("(over)")}</span>
               %endif
             </h3>
-            <div class="meta noclear">              
+            <div class="meta noclear">
                 ${_("ends: <b>%s</b>") % milestone.time.strftime("%d.%m.%Y")|n} 
             </div>
         </div>
@@ -30,8 +33,7 @@
     </div>
     
     <div style="clear: both;"></div>
-    <h1 class="page_title">${h.milestone.link(milestone, icon_size=20,
-      link=False)|n} (${milestone.time.strftime("%d.%m.%Y")})</h1>
+    <h1>${milestone.title} (${milestone.time.strftime("%d.%m.%Y")})</h1>
 </%def>
 
 <%def name="select(tile, options, name)">
@@ -95,5 +97,8 @@
       });
     });
   </script>
-  <div id="timeline" style="margin-left: 20px; width: 96%; height: 200px;"></div>
+  
+  <div role="presentation" id="timeline_wrapper" style="margin-bottom: 20px;">
+      <div id="timeline" style="height: 280px;"></div>
+  </div>
 </%def>
