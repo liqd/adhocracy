@@ -457,6 +457,31 @@ var adhocracy = adhocracy || {};
         loadSpeed: 'fast'
     };
 
+    adhocracy.overlay.bindOverlays = function (element) {
+        var wrapped = $(element);
+        wrapped.find('#overlay-default').overlay({
+            // custom top position
+            fixed: false,
+            top: '25%'
+        });
+
+        //open link in overlay (like help pages)
+        wrapped.find("a[rel=#overlay-ajax]").overlay({
+            fixed: false,
+            target: '#overlay-default',
+            mask: adhocracy.overlay.mask,
+            onBeforeLoad: adhocracy.overlay.ajaxLoadContent,
+            onLoad: adhocracy.overlay.ajaxRebindLinks
+        });
+
+        wrapped.find("a[rel=#overlay-ajax-big]").overlay({
+            fixed: false,
+            mask: adhocracy.overlay.mask,
+            target: '#overlay-big',
+            onBeforeLoad: adhocracy.overlay.ajaxLoadContent,
+            onLoad: adhocracy.overlay.ajaxRebindLinks
+        });
+    };
 
     /***************************************************
      * @namespace: adhocracy.tooltip
@@ -527,33 +552,11 @@ $(document).ready(function () {
 
     adhocracy.tooltips.initialize();
     adhocracy.helpers.initializeFlashMessageDelegates();
+    adhocracy.overlay.bindOverlays('body');
 
     // initial jquery label_over
     $('.label_over label').labelOver('over-apply');
 
-    // overlay
-    $('#overlay-default').overlay({
-        // custom top position
-        fixed: false,
-        top: '25%'
-    });
-
-    //open link in overlay (like help pages)
-    $("a[rel=#overlay-ajax]").overlay({
-        fixed: false,
-        target: '#overlay-default',
-        mask: adhocracy.overlay.mask,
-        onBeforeLoad: adhocracy.overlay.ajaxLoadContent,
-        onLoad: adhocracy.overlay.ajaxRebindLinks
-    });
-
-    $("a[rel=#overlay-ajax-big]").overlay({
-        fixed: false,
-        mask: adhocracy.overlay.mask,
-        target: '#overlay-big',
-        onBeforeLoad: adhocracy.overlay.ajaxLoadContent,
-        onLoad: adhocracy.overlay.ajaxRebindLinks
-    });
 
     $('#blog_select_button').click(function () {
         $('#blog_select').toggleClass('open');
@@ -749,6 +752,23 @@ $(document).ready(function () {
             event.preventDefault();
             self.show();
             target.hide();
+        });
+    });
+
+    $('body').delegate('a.do_vote', 'click', function (event) {
+        event.preventDefault();
+        var self = $(this),
+            target = self.closest('.vote_wrapper'),
+            splitted,
+            widget_url;
+        splitted = self.attr('href').split('?');
+        widget_url = splitted[0] + '.overlay?' + splitted[1];
+        $.ajax({
+            url: widget_url,
+            success: function (data) {
+                target.html(data);
+                adhocracy.overlay.bindOverlays(target);
+            }
         });
     });
 });

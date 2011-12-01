@@ -39,6 +39,7 @@ class PollTile(BaseTile):
         self.__dnode = None
         self.poll = poll
         self.deactivated = deactivated
+        self.widget_size = widget_class
         self.widget_class = 'vote ' + widget_class
         self.widget_class += ' deactivated' if self.deactivated else ''
         score = poll.tally.score
@@ -59,8 +60,9 @@ class PollTile(BaseTile):
             self.need_else = False
         else:
             self.need_auth = (not self.can_vote and c.user is None)
-            self.need_membership = (not self.need_auth and 
-                                    (c.instance and not c.user.is_member(c.instance)) and
+            self.need_membership = (not self.need_auth and
+                                    (c.instance and not
+                                     c.user.is_member(c.instance)) and
                                     can.instance.join(c.instance))
             self.need_else = (not self.need_membership)
 
@@ -164,8 +166,10 @@ class PollTile(BaseTile):
     def _rate_url(self, poll, position):
         params = {'url': h.entity_url(poll, member='rate'),
                   'token_param': h.url_token(),
-                  'position': position}
-        return "%(url)s?position=%(position)d&%(token_param)s" % params
+                  'position': position,
+                  'cls': self.widget_size}
+        return ("%(url)s?position=%(position)d&"
+                "%(token_param)s&cls=%(cls)s") % params
 
     @property
     def votes_listing_url(self):
@@ -176,9 +180,11 @@ def booth(poll):
     return render_tile('/poll/tiles.html', 'booth',
                         PollTile(poll), poll=poll, user=c.user, cached=True)
 
+
 def row(poll):
     return render_tile('/poll/tiles.html', 'row',
                         PollTile(poll), poll=poll, user=c.user, cached=True)
+
 
 def widget(poll, cls='', deactivated=False):
     '''

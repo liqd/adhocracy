@@ -122,6 +122,9 @@ class PollController(BaseController):
             return render_json(dict(decision=decision,
                                     tally=tally.to_dict()))
 
+        if format == 'overlay':
+            return self.widget(id, format=self.form_result.get('cls'))
+
         if c.poll.action == model.Poll.SELECT:
             redirect(h.entity_url(c.poll.selection))
 
@@ -183,6 +186,8 @@ class PollController(BaseController):
                              code=404)
         return poll
 
-    def widget(self, id):
+    def widget(self, id, format):
+        if format is None:
+            format = ''
         poll = get_entity_or_abort(model.Poll, id)
-        return tiles.poll.widget(poll, cls="big")
+        return tiles.poll.widget(poll, cls=format)

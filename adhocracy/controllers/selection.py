@@ -118,7 +118,7 @@ class SelectionController(BaseController):
         for (variant, poll) in selection.variant_polls:
             urls[variant] = {
                 'votes': h.entity_url(poll, member="votes"),
-                'poll_widget': h.entity_url(poll, member="widget")}
+                'poll_widget': h.entity_url(poll, member="widget.big")}
         return {'urls': urls}
 
     def details(self, proposal_id, selection_id, format='html'):
