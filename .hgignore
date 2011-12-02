@@ -12,6 +12,7 @@ syntax:glob
 *.DS_Store
 .\#*
 bundestag.ini
+*~
 
 data/*
 docs/_build/*
