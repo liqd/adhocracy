@@ -148,12 +148,17 @@ def help_link(text, page, anchor=None):
             u">%s</a>") % (page, full_url, text)
 
 
-def login_redirect_url(entity, **kwargs):
+def login_redirect_url(entity=None, **kwargs):
     '''
-    builds an ".../login?came_from=http...." pointing to the /login
-    form in the current instances domain
+    Builds an ".../login?came_from=http...." pointing to the /login
+    form in the current instance domain. If ``entity`` is set, this
+    will redirect to the given entity after successful login. If
+    ``entity`` is None, it will redirect to the current URL.
     '''
-    came_from_url = entity_url(entity, **kwargs)
+    if entity is None:
+        came_from_url = request.path_url
+    else:
+        came_from_url = entity_url(entity, **kwargs)
 
     login_url = build(c.instance, '', 'login',
                       query={'came_from': came_from_url})
@@ -186,5 +191,3 @@ def entity_url(entity, **kwargs):
     elif isinstance(entity, model.Tag):
         return tag.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
-
-

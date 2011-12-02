@@ -113,3 +113,14 @@ class AuthCheck(object):
         """
         if value is True:
             self.other_refusals.add(label)
+
+    def permission_missing(self):
+        """ Determines whether a permission is missing. """
+        return len(self.permission_refusals) > 0
+
+    def propose_login(self):
+        """
+        Login is proposed in case a permission refusal exist and the user is
+        not logged in.
+        """
+        return c.user is None and self.permission_missing()
