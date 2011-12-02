@@ -2,28 +2,27 @@ from authorization import has
 import proposal
 
 
-def index(p):
-    return proposal.index()
+def index(check, p):
+    return proposal.index(check)
 
 
-def show(s):
-    return has('proposal.show') and not s.is_deleted()
+def show(check, s):
+    check.perm('proposal.show')
+    check.other('selection_is_deleted', s.is_deleted())
 
 
-def create(p):
-    if not p.is_mutable():
-        return False
+def create(check, p):
+    check.other('proposal_not_mutable', not p.is_mutable())
     if has('instance.admin'):
-        return True
-    if not (has('proposal.edit') and show(p)):
-        return False
-    #if (p.description.head.wiki or is_own(p)):
-    #    return True
-    return True
-
-def edit(s):
-    return False
+        return
+    check.perm('proposal.edit')
+    show(check, p)
 
 
-def delete(s):
-    return proposal.delete(s.proposal) and show(s)
+def edit(check, s):
+    check.other('selections_can_not_be_edited', False)
+
+
+def delete(check, s):
+    proposal.delete(check, s.proposal)
+    show(check, s)

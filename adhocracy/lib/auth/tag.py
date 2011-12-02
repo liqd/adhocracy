@@ -2,23 +2,27 @@ from pylons import tmpl_context as c
 from authorization import has
 
 
-def index():
-    return has('tag.show')
+def index(check):
+    check.perm('tag.show')
 
 
-def show(t):
-    return has('tag.show')
+def show(check, t):
+    check.perm('tag.show')
 
 
-def create():
-    return has('tag.create')
+def create(check):
+    check.perm('tag.create')
 
 
-def edit(t):
-    return has('tag.edit') and show(t)
+def edit(check, t):
+    check.perm('tag.edit')
+    show(check, t)
 
 
-def delete(t):
+def delete(check, t):
     if has('instance.admin'):
-        return True
-    return has('tag.delete') and show(t) and c.user and t.creator == c.user
+        return
+    check.perm('tag.delete')
+    show(check, t)
+    check.other('not_logged_in', not c.user)
+    check.other('tag_creator_is_not_user', t.creator != c.user)

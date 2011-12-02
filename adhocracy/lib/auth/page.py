@@ -1,31 +1,32 @@
 from authorization import has
 
 
-def index():
-    return has('page.show')
+def index(check):
+    check.perm('page.show')
 
 
-def show(p):
-    return has('page.show') and not p.is_deleted()
+def show(check, p):
+    check.perm('page.show')
+    check.other('page_deleted', p.is_deleted())
 
 
-def create():
-    return has('page.create')
+def create(check):
+    check.perm('page.create')
 
 
-def edit(p):
-    if not p.is_mutable():
-        return False
+def edit(check, p):
+    check.other('page_not_mutable', not p.is_mutable())
     if has('instance.admin'):
-        return True
-    return has('page.edit') and show(p)
+        return
+    check.perm('page.edit')
+    show(check, p)
 
 
-def manage(p):
-    return has('instance.admin')
+def manage(check, p):
+    check.perm('instance.admin')
 
 
-def delete(p):
-    if not p.is_mutable():
-        return False
-    return has('page.delete') and show(p)
+def delete(check, p):
+    check.other('page_not_mutable', not p.is_mutable())
+    check.perm('page.delete')
+    show(check, p)

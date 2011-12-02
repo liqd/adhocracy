@@ -1,44 +1,53 @@
 from pylons import tmpl_context as c
-from authorization import has
+from adhocracy.lib.auth.authorization import has
 
 
-def index():
-    return has('user.view')
+def index(check):
+    check.perm('user.view')
 
 
-def show(u):
-    return has('user.view') and not u.is_deleted()
+def show(check, u):
+    check.perm('user.view')
+    check.other('user_deleted', u.is_deleted())
 
 
-def create():
-    return not c.user  # has('user.create')
+def create(check):
+    check.other('user_logged_in', c.user)
+
+    # previously, there was the following comment:
+    # return not c.user  # has('user.create')
 
 
-def edit(u):
-    if manage(u):
-        return True
-    return has('user.edit') and show(u) and u == c.user
+def edit(check, u):
+    if has('user.manage'):
+        return
+    check.perm('user.edit')
+    show(check, u)
+    check.other('user_not_self', u != c.user)
 
 
-def manage(u):
-    return has('user.manage')
+def manage(check, u):
+    check.perm('user.manage')
 
 
-def message(u):
-    return has('user.message') and u != c.user and u.email is not None
+def message(check, u):
+    check.perm('user.message')
+    check.other('user_not_self', u != c.user)
+    check.other('user_without_email', u.email is None)
 
 
-def supervise(u):
-    if (not c.instance) or (not u.is_member(c.instance)):
-        return False
-    return manage(u) or has('instance.admin')
+def supervise(check, u):
+    check.other('not_in_instance', not c.instance)
+    check.other('no_member_in_instance', not u.is_member(c.instance))
+    check.other('not_user.manage_or_instance.admin',
+        not (has('user.manage') or has('instance.admin')))
 
 
-def delete(u):
-    return edit(u)
+delete = edit
 
 
-def vote():
-    if has('vote.prohibit'):
-        return False
-    return c.instance and c.user and has('vote.cast')
+def vote(check):
+    check.other('vote_prohibited', has('vote.prohibit'))
+    check.other('not_in_instance', not c.instance)
+    check.other('not_logged_in', not c.user)
+    check.perm('vote.cast')

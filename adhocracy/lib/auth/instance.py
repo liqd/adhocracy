@@ -1,46 +1,47 @@
 from pylons import tmpl_context as c, g
-from authorization import has
 
 
-def index():
-    if g.single_instance:
-        return False
-    return has('instance.index')
+def index(check):
+    check.other('is_single_instance', g.single_instance)
+    check.perm('instance.index')
 
 
-def show(i):
-    return has('instance.show') and not i.is_deleted()
+def show(check, i):
+    check.perm('instance.show')
+    check.other('instance_deleted', i.is_deleted())
 
 
-def create():
-    if g.single_instance:
-        return False
-    return has('instance.create')
+def create(check):
+    check.other('is_single_instance', g.single_instance)
+    check.perm('instance.create')
 
 
-def edit(i):
-    return has('instance.admin') and show(i)
+def edit(check, i):
+    check.perm('instance.admin')
+    show(check, i)
 
 admin = edit
 
 
-def delete(i):
-    if g.single_instance:
-        return False
-    return has('global.admin') and show(i)
+def delete(check, i):
+    check.other('is_single_instance', g.single_instance)
+    check.perm('global.admin')
+    show(check, i)
 
 
-def join(i):
-    if i.frozen:
-        return False
-    return show(i) and has('instance.join') and c.user and \
-        not c.user.is_member(i)
+def join(check, i):
+    check.other('instance_frozen', i.frozen)
+    show(check, i)
+    check.perm('instance.join')
+    check.other('not_logged_in', not c.user)
+    check.other('user_is_member', c.user.is_member(i))
 
 
-def leave(i):
-    if g.single_instance:
-        return False
-    if i.frozen:
-        return False
-    return show(i) and has('instance.leave') and c.user and \
-        c.user.is_member(i) and not c.user == i.creator
+def leave(check, i):
+    check.other('is_single_instance', g.single_instance)
+    check.other('instance_frozen', i.frozen)
+    show(check, i)
+    check.perm('instance.leave')
+    check.other('not_logged_in', not c.user)
+    check.other('user_is_no_member', not c.user.is_member(i))
+    check.other('user_is_instance_creator', c.user == i.creator)

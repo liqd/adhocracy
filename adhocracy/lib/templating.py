@@ -22,6 +22,7 @@ def tpl_vars():
     vars['tiles'] = tiles
     vars['lib'] = adhocracy.lib
     vars['can'] = auth.can
+    vars['check'] = auth.check
     vars['diff'] = text.diff
     vars['sorting'] = sorting
     vars['model'] = model

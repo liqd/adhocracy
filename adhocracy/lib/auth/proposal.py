@@ -4,47 +4,56 @@ from adhocracy.lib.auth import poll
 from adhocracy.lib.auth.authorization import has
 
 
-def index():
-    return has('proposal.show')
-
-
-def show(p):
-    return has('proposal.show') and not p.is_deleted()
-
-
-def create():
-    if c.instance.frozen:
-        return False
-    return has('proposal.create')
-
-
-def edit(p):
-    if not p.is_mutable():
-        return False
-    if has('instance.admin'):
-        return True
-    if not (has('proposal.edit') and show(p)):
-        return False
-    if (p.description.head.wiki or is_own(p)):
-        return True
-    return False
-
-
-def delete(p):
-    return has('proposal.delete') and show(p) and p.is_mutable()
-
-
-def rate(p):
-    if p.instance.frozen:
-        return False
-    return show(p) and p.rate_poll is not None and poll.vote(p.rate_poll)
-
-
-def adopt(p):
-    if c.instance.allow_adopt and has('instance.admin'):
-        return True
-    return show(p) and poll.create() and p.can_adopt()
-
+# helper functions
 
 def is_own(p):
     return c.user and p.creator == c.user
+
+
+# authorisation checks
+
+def index(check):
+    check.perm('proposal.show')
+
+
+def show(check, p):
+    check.perm('proposal.show')
+    check.other('proposal_deleted', p.is_deleted())
+
+
+def create(check):
+    check.other('instance_frozen', c.instance.frozen)
+    check.perm('proposal.create')
+
+
+def edit(check, p):
+    check.other('proposal_not_mutable', not p.is_mutable())
+    if has('instance.admin'):
+        return
+    check.perm('proposal.edit')
+    show(check, p)
+    check.other('proposal_head_not_wiki_or_own',
+        not is_own(p) and not p.description.head.wiki)
+
+
+def delete(check, p):
+    check.perm('proposal.delete')
+    show(check, p)
+    check.other('proposal_not_mutable', not p.is_mutable())
+
+
+def rate(check, p):
+    check.other('instance_frozen', c.instance.frozen)
+    show(check, p)
+    if p.rate_poll is None:
+        check.other('proposal_no_rate_poll', True)
+    else:
+        poll.vote(check, p.rate_poll)
+
+
+def adopt(check, p):
+    if c.instance.allow_adopt and has('instance.admin'):
+        return
+    show(check, p)
+    poll.create(check)
+    check.other('proposal_cannot_adopt', not p.can_adopt())

@@ -76,3 +76,40 @@ def has(permission):
     #{}).get('permissions', [])
     p = has_permission(permission)
     return p.is_met(request.environ)
+
+
+class AuthCheck(object):
+    """
+    AuthCheck collects reasons for authorisation refusals in two sets:
+    ``permission_refusals`` and ``other_refusals``. It evaluates to True in
+    case authorisation is granted, otherwise False.
+    """
+
+    # IDEA: Collect fulfilled authorisation checks as well
+
+    def __init__(self, method):
+        self.method = method
+        self.permission_refusals = set()
+        self.other_refusals = set()
+
+    def __repr__(self):
+        return 'AuthCheck for %s' % (self.method)
+
+    def __nonzero__(self):
+        return not (self.permission_refusals or self.other_refusals)
+
+    def perm(self, permission):
+        """
+        Convenience function performing a permission check, which adds the
+        permission to ``self.permission_refusal``.
+        """
+        if not has(permission):
+            self.permission_refusals.add(permission)
+
+    def other(self, label, value):
+        """
+        Convenience function, which adds a refusal label to
+        ``self.other_refusals`` in case the given value is ``True``.
+        """
+        if value is True:
+            self.other_refusals.add(label)
