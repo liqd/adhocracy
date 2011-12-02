@@ -3,7 +3,6 @@ from pylons.i18n import _
 
 import authentication
 import authorization
-import exceptions
 import csrf
 
 log = logging.getLogger(__name__)
@@ -32,7 +31,7 @@ class AuthModuleWrapper(object):
     import milestone
 
 
-class _require(object):
+class RecursiveAuthWrapper(object):
     """ dirty hack providing syntactic suger like ``can.proposal.create``"""
 
     def __init__(self, obj, raise_type):
@@ -41,7 +40,7 @@ class _require(object):
 
     def __getattr__(self, attr):
         orig = getattr(self.obj, attr)
-        return _require(orig, self.raise_type)
+        return RecursiveAuthWrapper(orig, self.raise_type)
 
     def __call__(self, *a, **kw):
         auth_check = authorization.AuthCheck(method=self.obj.func_name)
@@ -67,6 +66,6 @@ class _require(object):
 
 auth_module_wrapper = AuthModuleWrapper()
 
-require = _require(auth_module_wrapper, RETURN_TEMPLATE)
-check = _require(auth_module_wrapper, RETURN_AUTH_CHECK)
-can = _require(auth_module_wrapper, RETURN_BOOL)
+require = RecursiveAuthWrapper(auth_module_wrapper, RETURN_TEMPLATE)
+check = RecursiveAuthWrapper(auth_module_wrapper, RETURN_AUTH_CHECK)
+can = RecursiveAuthWrapper(auth_module_wrapper, RETURN_BOOL)
