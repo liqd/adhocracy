@@ -1,8 +1,11 @@
 <%inherit file="/template.html" />
 <%def name="title()">${_("Password reset")}</%def>
 
+<%block name="headline">
 <h1 class="page_title">${_("Password reset")}: ${_("Confirmation pending")}</h1>
+</%block>
 
+<%block name="main_content">
 <div class="sidebar">
     &nbsp;
 </div>
@@ -11,3 +14,4 @@
         ${_("You have recieved an email containing a link. Please open that link in order to reset you password")}
     </div>
 </div>
+</%block>
