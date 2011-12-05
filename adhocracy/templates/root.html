@@ -15,7 +15,7 @@ jquery.need()
   </head>
 
 
-<body lang="${c.locale.language}">
+<body lang="${c.locale.language}" class="${'logged_in' if c.user else ''}">
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
       <!-- the external content is loaded inside this tag -->
@@ -55,7 +55,7 @@ jquery.need()
     %endif
   <!-- begin: header -->
   <header>
-    <div id="header" class="${'logged_in' if c.user else ''}">
+    <div id="header">
       <div class="page_margins">
         <div class="page_wrapper">
           <!-- begin: top navi -->

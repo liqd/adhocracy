@@ -323,7 +323,7 @@ margin-bottom: 0;
   padding: 0 23px;
   height: 90px;
 }
-#header.logged_in .page_wrapper {
+body.logged_in #header .page_wrapper {
   height: 40px;
 }
 #blog_select {
@@ -375,10 +375,10 @@ margin-bottom: 0;
   display: inline-block;
   float: left;
 }
-.logged_in #logo {
+body.logged_in #logo {
   height: 40px;
 }
-.logged_in #logo h1 {
+body.logged_in #logo h1 {
   text-indent: -900em;
 }
 #blog_select_button {
@@ -420,7 +420,7 @@ top: 0px;
   font-size: 15px;
   color: #fff;
 }
-.logged_in #nav {
+body.logged_in #nav {
   height: 40px;
   padding-top: 0px;
   font-weight: normal;
@@ -439,7 +439,7 @@ top: 0px;
   margin:  0 0 0 1px;
   position: relative;
 }
-.logged_in #nav li {
+body.logged_in #nav li {
   height: 32px;
   padding-top: 8px;
 }
@@ -450,7 +450,7 @@ top: 0px;
   height: 52px;
   display: block;
 }
-.logged_in #nav li a {
+body.logged_in #nav li a {
   height: 32px;
 }
 #nav li.current a {
