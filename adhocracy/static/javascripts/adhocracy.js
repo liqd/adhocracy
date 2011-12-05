@@ -451,6 +451,14 @@ var adhocracy = adhocracy || {};
         });
     };
 
+    adhocracy.overlay.rebindLoginLinks = function() {
+        var came_from = this.getTrigger().attr('href');
+        if (came_from==null) {came_from=window.location.pathname};
+        this.getOverlay().find(".patchme").attr('href', function(i, href) {
+              return href+'?came_from='+came_from;
+        });
+    };
+
     adhocracy.overlay.mask = {
         color: '#111',
         opacity: 0.9,
@@ -481,6 +489,15 @@ var adhocracy = adhocracy || {};
             onBeforeLoad: adhocracy.overlay.ajaxLoadContent,
             onLoad: adhocracy.overlay.ajaxRebindLinks
         });
+
+        wrapped.find("a[rel=#overlay-login-button]").overlay({
+            fixed: false,
+            mask: adhocracy.overlay.mask,
+            target: '#overlay-login',
+            onBeforeLoad: adhocracy.overlay.rebindLoginLinks,
+            //onLoad: adhocracy.overlay.rebindLoginLinks,
+        });
+
     };
 
     /***************************************************

@@ -50,7 +50,10 @@
     </ul>
     %endif
 
-    %if root is None  and can.comment.create_on(topic):
+    <% auth = check.comment.create_on(topic) %>
+    %if root is None:
+        %if auth:
+
         <%
         hide_form = True
         target = 'new_toplevel_comment'
@@ -73,6 +76,11 @@
                 ${_('Start new Discussion')}
             </a>
         </div>
+        %endif
+
+        %else:
+        <a class="button add ttip" title="${_('Login to comment.')}" rel="#overlay-login-button">${_("Add comment")}</a>
+
         %endif
 
     %endif
@@ -145,9 +153,12 @@
                 %endif
 
                 ## Reply button
-                %if can.comment.reply(comment) and recurse:
+                <% auth = check.comment.reply(comment) %>
+                %if auth and recurse:
                 <a class="new_comment" data-reply="${comment.id}" href="#">${_('reply')}</a>
-                %endif 
+                %elif auth.propose_login():
+                <a class="new_comment" title="${_('Login to reply')}" rel="#overlay-login-button">${_('reply')}</a>
+                %endif
 
             </div>
             <div class="utility">

@@ -118,9 +118,26 @@ class AuthCheck(object):
         """ Determines whether a permission is missing. """
         return len(self.permission_refusals) > 0
 
-    def propose_login(self):
+    def need_login(self):
         """
-        Login is proposed in case a permission refusal exist and the user is
+        Login is needed in case a permission refusal exists and the user is
         not logged in.
         """
         return c.user is None and self.permission_missing()
+
+    def propose_login(self):
+        """
+        Login is proposed if the user isn't logged in, but a registered user
+        with default instance permissions would be able to perform the action.
+        """
+        # FIXME
+        return True
+
+    def propose_join(self):
+        """
+        Login is proposed if the user is logged in, but not member of the
+        instance and can therefore not perform the requested action.
+        """
+        # FIXME
+        return True
+

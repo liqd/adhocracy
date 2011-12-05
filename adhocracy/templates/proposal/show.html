@@ -80,12 +80,18 @@
                   ${tiles.selection.row(selection)}
                   %endfor
               </ul> 
-              %if can.selection.create(c.proposal):
               <div class="list_button">
+              <% auth = check.selection.create(c.proposal) %>
+              %if auth:
               <a class="button highlight" 
                  href="${h.entity_url(c.proposal, member='implementation/include')}">
                   ${_("Propose to change a norm")}
               </a>
+              %else:
+              <a class="button highlight" href="${h.entity_url(c.proposal, member='implementation/include')}" rel="#overlay-login-button" title="${_('Login to propose to change a norm')}">
+                  ${_("Propose to change a norm")}
+              </a>
+              %endif          
               
               <%doc> FIXME: Enable change existing norm option
               %if norm.can.create
@@ -96,7 +102,6 @@
               </a>
               </%doc>
               </div>
-              %endif          
             </section>
              
             %endif

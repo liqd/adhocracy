@@ -34,7 +34,8 @@ def join(check, i):
     show(check, i)
     check.perm('instance.join')
     check.other('not_logged_in', not c.user)
-    check.other('user_is_member', c.user.is_member(i))
+    if c.user:
+        check.other('user_is_member', c.user.is_member(i))
 
 
 def leave(check, i):
@@ -43,5 +44,6 @@ def leave(check, i):
     show(check, i)
     check.perm('instance.leave')
     check.other('not_logged_in', not c.user)
-    check.other('user_is_no_member', not c.user.is_member(i))
-    check.other('user_is_instance_creator', c.user == i.creator)
+    if c.user:
+        check.other('user_is_no_member', not c.user.is_member(i))
+        check.other('user_is_instance_creator', c.user == i.creator)
