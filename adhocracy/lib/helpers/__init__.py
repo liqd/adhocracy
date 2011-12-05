@@ -49,7 +49,7 @@ def sorted_flash_messages():
     Return the flash messages sorted by priority, keeping
     the order.
     '''
-    order = ['error', 'warning', 'success', 'info']
+    order = ['error', 'warning', 'success', 'notice']
     sorted_ = []
     unsorted = flash.pop_messages()
     for category in order:
