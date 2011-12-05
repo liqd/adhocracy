@@ -16,11 +16,11 @@ def create(check, variant=Text.HEAD):
 
 
 def propose(check):
-    check.other('instance_without_norms')
+    check.other('instance_without_norms', not c.instance.use_norms)
     if has('instance.admin'):
         return
     check.other('no_instance_allow_propose', not c.instance.allow_propose)
-    check.other('instance_frozen', i.frozen)
+    check.other('instance_frozen', c.instance.frozen)
     check.perm('page.edit')
 
 
