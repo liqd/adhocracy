@@ -192,7 +192,6 @@ openid = {
 				+ '<div class="input_wrapper submit"><input id="openid_submit" type="submit" value="' + this.signin_text + '" /></div>';
 		input_area.empty();
 		input_area.append(html);
-		$('#' + id).focus();
 	},
 
 	setDemoMode : function(demoMode) {

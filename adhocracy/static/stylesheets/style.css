@@ -118,4 +118,5 @@ h1.with_vote .badge {
 #register_input_css {
     margin-left: 3000px;
     position: absolute;
+    display: none;
 }
