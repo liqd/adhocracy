@@ -813,6 +813,18 @@ a.follow_paper.active:hover {
   background: url('/images/sprite_buttons_small.png') repeat-x 0 -150px;
   padding: 0 5px;
 }
+
+.vote_count.neutral {
+  color: #888;
+}
+.vote_count.negative {
+  background-position: 0 -50px;
+}
+
+.vote_count.neutral {
+  background-position: 0 -300px;
+}
+
 .vote_up, .vote_down {
   border-left: 1px solid #ccc;
   padding: 0 10px;
@@ -868,7 +880,7 @@ a.follow_paper.active:hover {
 }
 
 .vote.big .vote_count {
-  background: url('/images/sprite_buttons_small.png') repeat-x 0 -450px;
+  background-position: 0 -450px;
   padding: 0 10px;
 }
 
@@ -877,7 +889,7 @@ a.follow_paper.active:hover {
 }
 
 .vote.big .vote_count.negative {
-  background-position: 0 -500px;
+  background-position: 0 -600px;
 }
 
 .vote.big .vote_up, .vote.big .vote_down {
