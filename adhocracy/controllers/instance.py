@@ -283,7 +283,8 @@ class InstanceController(BaseController):
 
         return ret_success(entity=c.page_instance, format=format,
                            message=_("Welcome to %(instance)s") % {
-                            'instance': c.page_instance.label})
+                            'instance': c.page_instance.label},
+                            category='success')
 
     def ask_leave(self, id):
         c.page_instance = self._get_current_instance(id)
