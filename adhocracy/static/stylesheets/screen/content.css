@@ -1759,3 +1759,7 @@ margin-bottom: 0;
 .list_button {
   padding: 10px 10px;
 }
+
+body.logged_in .only-anon {
+  display: none;
+}
