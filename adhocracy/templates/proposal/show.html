@@ -44,16 +44,16 @@
                         ${_("%s Discussions") % c.proposal.description.comment_count(reply_filter=None)}
                     </a>
                     %if c.show_selections:
-                    &middot; 
+                    · 
                     <a href="#proposals">
                         ${_("%s Proposed Implementations") % len(c.num_selections)}
                     </a>
                     %endif
-                    &middot; 
+                    · 
                     <a href="${h.abuse.for_entity(c.proposal)}">
                         ${_("report")}
                     </a>
-                    &middot;
+                    ·
                     <a href="${c.history_url}"
                        rel="#overlay-ajax">${'history'}</a>
                 </div>

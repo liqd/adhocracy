@@ -15,7 +15,7 @@ else:
         <h4><a href="${variant_url}">
             ${selection.page.full_title}
             %if is_different_variant:
-            &middot;
+            ·
             ${_('Variant: %s') % tile.selected_text.variant}
             %endif
         </a></h4>
@@ -58,7 +58,7 @@ else:
             %if tile.selected is not None and not tile.selected_text.is_head:
             <span class="hover_active" style="display: none;">
                 ${_('Proposed by')}
-                &middot; ${h.user.link(tile.selected_text.user, 
+                · ${h.user.link(tile.selected_text.user, 
                                        show_badges=False)|n}
             </span>
             <time pubdate="pubdate">14.08.2011</time>
@@ -120,7 +120,7 @@ else:
                     <div class="variant_header">
                         ${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), tile.selected_text.variant_html))|n}
                         %if can.variant.edit(selection.page, tile.selected):
-                            &middot; <a href="${h.entity_url(tile.selected_text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
+                            · <a href="${h.entity_url(tile.selected_text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
                         %endif
                     </div>
                 %endif
@@ -196,19 +196,19 @@ else:
                 %if row.text.is_head:
                     ${_("(this proposal should not change this norm)")}
                 %elif row.selected and not row.text.is_head and not tile.frozen:
-                    &middot; ${_("Currently selected for inclusion in this proposal")}
+                    · ${_("Currently selected for inclusion in this proposal")}
                     %endif 
                 <br/>
                 ${ungettext("%s comment", "%s comments", row.num_comments) % row.num_comments}
-                &middot; <a href="${h.entity_url(row.text)}">${_("view")}</a>
+                · <a href="${h.entity_url(row.text)}">${_("view")}</a>
                 %if row.can_edit:
-                    &middot; <a href="${h.entity_url(row.text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
+                    · <a href="${h.entity_url(row.text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
                 %endif
                 %if can.variant.delete(selection.page, row.text.variant):
-                    &middot; <a href="${h.entity_url(row.text, member='ask_purge')}">${_("purge variant")}</a>
+                    · <a href="${h.entity_url(row.text, member='ask_purge')}">${_("purge variant")}</a>
                 %endif
                 %if tile.selected_text and row.text.id != tile.selected_text.id:
-                    &middot; <a href="/page/diff?left=${row.text.id}&right=${tile.selected_text.id}">${_("compare")}</a>
+                    · <a href="/page/diff?left=${row.text.id}&right=${tile.selected_text.id}">${_("compare")}</a>
                 %endif
             </div></div>
             <div id="text_${row.text.id}"

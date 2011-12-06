@@ -26,7 +26,7 @@
         <div class="meta">
             ${_("established %s") % h.relative_time(c.delegation.create_time)|n}
             %if c.delegation.is_revoked():
-                 &middot; ${_("revoked %s") % h.relative_time(c.delegation.revoke_time)|n}
+                 · ${_("revoked %s") % h.relative_time(c.delegation.revoke_time)|n}
             %endif      
         </div>
     </div>

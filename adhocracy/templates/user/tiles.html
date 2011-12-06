@@ -12,7 +12,7 @@
             %if mem:
                 <span class="role">
                     ${tile.translated_instance_role_names()}
-                    </span> &middot;
+                    </span> ·
                 ${_("joined %s") % h.relative_time(mem.create_time)|n}
             %else: 
                 ${_("signed up %s") % h.relative_time(user.create_time)|n}

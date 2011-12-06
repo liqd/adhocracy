@@ -158,7 +158,7 @@ con = tile.widget_action_attrs(model.Vote.NO)
                 ${_("began %s") % h.relative_time(tile.poll.begin_time)|n}
             %endif
             %if poll.can_end() and h.has_permission('poll.abort'):
-                &middot; 
+                · 
                 <a class="delete" 
                    href="${h.entity_url(poll, member='ask_delete')}">${_("cancel")}</a>
             %endif
