@@ -57,6 +57,28 @@ table td.line_text {
   color: #000;
 }
 
+/* images - make wordpress styles work */
+.alignleft {
+  float: left;
+  margin-right: 14px;
+}
+.alignright {
+  float: right;
+  margin-left: 14px;
+}
+.aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.wp-caption-text,
+.wp-caption-dd {
+  font-size: 11px;
+  line-height: 17px;
+  padding: 0 4px 5px;
+  text-align: center;
+}
+
 /* links */
 a {
   text-decoration: none;
