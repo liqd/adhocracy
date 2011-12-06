@@ -13,8 +13,7 @@ def link(delegateable, icon=False, icon_size=16, link=True):
         return proposal.link(delegateable, icon=icon, icon_size=icon_size,
                              link=link)
     elif isinstance(delegateable, model.Page):
-        return page.link(delegateable, icon=icon, icon_size=icon_size,
-                         link=link)
+        return page.link(delegateable, link=link)
     return cgi.escape(delegateable.title)
 
 
