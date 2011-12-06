@@ -11,16 +11,16 @@
     <a class="button delete ttip" title="${_('Cancel this delegation.')}" href="/delegation/${c.delegation.id}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
 %endif
 </div>
-<h1>${_("Delegation: %s") % h.delegateable.link(c.scope, icon_size=24)|n}</h1>
+<h1>${_("Delegation: %s") % h.delegateable.link(c.scope)|n}</h1>
 </%block>
 
 <%block name="sidebar">
     <div class="tile">
         <h4>${_("Delegation")}</h4>
         <ul>
-            <li class="nobullet"><img class='user_icon' src="/img/icons/delegate_to_16.png" /> 
+            <li class="nobullet">
                 ${_("from %s") % h.user.link(c.delegation.principal)|n}</li>
-            <li class="nobullet"><img class='user_icon' src="/img/icons/delegated_to_16.png" /> 
+            <li class="nobullet">
                 ${_("to %s") % h.user.link(c.delegation.agent)|n}</li>
         </ul>   
         <div class="meta">

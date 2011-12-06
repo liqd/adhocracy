@@ -3,10 +3,7 @@
 
 <%def name="row(tile, comment)">
     <div class="tile">
-        <div class="logo">
-            <img src="/img/icons/discuss_24.png" />
-        </div>
-        <div class="base">
+        <div>
             <h3><a href="${h.entity_url(comment)}">${_("Comment")}</a> 
                 ${_("on %s") % h.delegateable.link(comment.topic)|n}</h3>
             <div class="meta">
@@ -456,8 +453,8 @@ else:
         ${components.watch(comment)}
     </div>
 
-    <h1 class="page_title"><img src="/img/icons/discuss_24.png" class="cd" /> 
-        ${_("Discussion on %s") % h.delegateable.link(comment.topic, icon_size=24)|n}</h1>
+    <h1 class="page_title">
+        ${_("Discussion on %s") % h.delegateable.link(comment.topic)|n}</h1>
     
     <div class="panel ${active}">
         <ul class="menu">

@@ -40,8 +40,8 @@
         ${tiles.poll.booth(proposal.adopt_poll)}
     %endif
 
-    <h3 class="section"><img src="/img/icons/proposal_16.png" class="cd" /> ${_("Information")}</h3>
-    <div class="infobox">
+    <h3>${_("Information")}</h3>
+    <div>
         ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.format_date(proposal.create_time))|n} 
     · <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
   </div>
@@ -123,7 +123,7 @@
     </span>
     %endif
     
-    <h1 class="with_vote page_title">${h.delegateable.link(proposal, icon_size=24, link=False)|n}  ${tiles.badge.badges(proposal.badges)} </h1>
+    <h1>${h.delegateable.link(proposal, link=False)|n}  ${tiles.badge.badges(proposal.badges)} </h1>
     <br/>
     ${tiles.proposal.panel(proposal, tile)}
 </%def>
