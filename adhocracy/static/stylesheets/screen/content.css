@@ -146,6 +146,12 @@ a.button.highlight:hover {
 .register a.button:hover {
   background-position: 0 -650px;
 }
+.register a.link_about_info {
+  background-position: 10px -600px;
+}
+.register a.link_about_info:hover {
+  background-position: 10px -650px;
+}
 
 a.button_small {
   text-decoration: none;
@@ -566,7 +572,7 @@ body.logged_in #nav li a {
 
   /* must be initially hidden */
   display:none;
-  
+
   /* place overlay on top of other elements */
   z-index:10000;
 
@@ -935,7 +941,7 @@ a.follow_paper.active:hover {
 .vote.deactivated .vote_up,
 .vote.deactivated .vote_down {
   background-position: 0 -450px !important;
-  box-shadow: none !important; 
+  box-shadow: none !important;
 }
 .vote.deactivated .vote_up span,
 .vote.deactivated .vote_down span {
@@ -1257,8 +1263,8 @@ padding: 20px 20px 40px 20px;
   border: none;
 }
 #searchform #searchsubmit:hover,
-.list_form input.submit:hover { 
-  cursor: pointer; 
+.list_form input.submit:hover {
+  cursor: pointer;
 }
 
 /* footer */
@@ -1556,9 +1562,9 @@ html.js .only-no-js, html.no-js .only-js {
 }
 
 
-/* Flash messages with close buttons. Striped down version 
-from bootstrap.css 
-NOTE: nifty, but might want to remove in the future and reuse 
+/* Flash messages with close buttons. Striped down version
+from bootstrap.css
+NOTE: nifty, but might want to remove in the future and reuse
 existing info_box styles.*/
 
 .alert-message.danger,
@@ -1764,7 +1770,7 @@ font-weight: bold;
 margin-bottom: 0;
 }
 
-/* Button below lists that should left-align with the text inside 
+/* Button below lists that should left-align with the text inside
  * the list.
  */
 
