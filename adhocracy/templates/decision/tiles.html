@@ -47,8 +47,8 @@
                     %for delegation in decision.delegations:
                         <li>
                         ${h.user.link(delegation.agent)|n}
-                        &middot; ${_("on")} <a href="/d/${delegation.scope.id}">${delegation.scope.label}</a>
-                        &middot; <a href="/delegation/${delegation.id}">${_("review")}</a>
+                        · ${_("on")} <a href="/d/${delegation.scope.id}">${delegation.scope.label}</a>
+                        · <a href="/delegation/${delegation.id}">${_("review")}</a>
                         </li>
                     %endfor
                     </ul>
@@ -58,7 +58,7 @@
         <div class="meta">
             ${h.relative_time(decision.create_time)|n}
             %if not focus_scope:
-                &middot; ${tile.topic|n}
+                · ${tile.topic|n}
             %endif
         </div>
         </div>

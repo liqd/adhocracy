@@ -1,7 +1,14 @@
 <%def name="badge(badge)">
-    <span class="badge" style="background-color: ${badge.color};">
-        <a name="${badge.title}" class="ttip" 
-           title="${badge.title}: ${badge.description}">${badge.title}</a>
+<%
+description = badge.description.strip() if badge.description else ''
+if description:
+    title = _('Marked as: %(badge)s (%(description)s)') % {
+        'badge': badge.title, 'description': badge.description}
+else:
+    title = _('Marked as: %(badge)s') % {'badge': badge.title}
+%>
+    <span class="badge badge_${badge.id}">
+        <a class="ttip" title="${title}">${badge.title}</a>
     </span>
 </%def>
 
@@ -9,4 +16,13 @@
     %for badge_ in badges:
         ${badge(badge_)} 
     %endfor
+</%def>
+
+<%def name="badge_styles(badges)">
+<style type="text/css" media="screen">
+    %for badge_ in badges:
+    .badge_${badge_.id}.badge:before { color: ${badge_.color}; }
+    %endfor
+</style>
+
 </%def>

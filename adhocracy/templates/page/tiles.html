@@ -3,22 +3,22 @@
 
 <%def name="smallrow(tile, page)">
     <div class="tile smallrow">
-        ${h.page.link(page, icon=True, icon_size=16)|n}
+        ${h.page.link(page)|n}
     </div>
 </%def>
 
 
 <%def name="row(tile, page)">
     <li class="content_box">
-        <div class="base" style="background-image: url(${h.page.icon_url(page, size=32)});">
+        <div>
             <h3><a class="link" href="${h.entity_url(page)}">${page.title}</a></h3>
             <div class="meta noclear">              
                 %if page.function == page.NORM:
-                    <img src="/img/icons/proposal_16.png" /> 
                     ${ungettext("%s proposal", "%s proposals", len(page.selections)) % len(page.selections)}
+                    ·
                 %endif
-                <img src="/img/icons/discuss_16.png" /> 
-                ${ungettext("%s comment", "%s comments", page.comment_count()) % page.comment_count()},
+                ${ungettext("%s comment", "%s comments", page.comment_count()) % page.comment_count()}
+                ·
                 ${_("latest <b>%s</b>") % h.relative_time(page.find_latest_comment_time())|n}&nbsp;
             </div>
         </div>

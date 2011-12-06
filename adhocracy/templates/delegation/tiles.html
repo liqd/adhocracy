@@ -10,7 +10,7 @@
             ${_("to %s") % h.user.link(delegation.agent)|n}:
             <a href="${h.entity_url(delegation)}">${_("track record")}</a>
             %if delegation.principal == c.user:
-                &middot; <a href="${h.entity_url(delegation)}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
+                · <a href="${h.entity_url(delegation)}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
             %endif
 </%def>
 
@@ -23,9 +23,9 @@
             <h3>${h.user.link(delegation.principal)|n} ${_("to %s") % h.user.link(delegation.agent)|n}</h3>
             <div class="meta">
                 ${_("created <b>%s</b>") % h.relative_time(delegation.create_time)|n}
-                &middot; <a href="${h.entity_url(delegation)}">${_("track record")}</a>
+                · <a href="${h.entity_url(delegation)}">${_("track record")}</a>
                 %if delegation.principal == c.user:
-                    &middot; <a href="${h.entity_url(delegation)}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
+                    · <a href="${h.entity_url(delegation)}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
                 %endif
             </div>
         </div>
@@ -41,7 +41,7 @@
                 <div class="infobox">
                     ${_("You have not delegated voting.")} 
                     <div class="help">
-                        &middot; ${h.help_link(_("help"), 'delegation_faq')|n}
+                        · ${h.help_link(_("help"), 'delegation_faq')|n}
                     </div>
                 </div>
             %else:
@@ -51,8 +51,8 @@
             %for delegation in tile.delegations:
                 <li>
                 ${h.user.link(delegation.agent)|n}
-                &middot; ${_("on")} ${h.delegateable.link(delegation.scope)|n}</a>
-                &middot; <a href="${h.entity_url(delegation)}">${_("review")}</a>
+                · ${_("on")} ${h.delegateable.link(delegation.scope)|n}</a>
+                · <a href="${h.entity_url(delegation)}">${_("review")}</a>
                 </li>
             %endfor
         </ul>

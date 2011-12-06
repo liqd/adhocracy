@@ -6,7 +6,7 @@
             <div class="meta noclear">
                 ${_("created %s") % h.relative_time(tag.create_time)|n} 
                 %if c.instance:
-                     &middot;   ${_("used %s times") % len(tag)}
+                     ·   ${_("used %s times") % len(tag)}
                 %endif
             </div>
         </div>
@@ -22,7 +22,7 @@
     </p>
     %if link_more:
     <div align="right">
-        <div class="help">${h.help_link(_("help"), 'tag_faq')|n} &middot;</div> <a href="/tag">${_("more tags...")}</a>
+        <div class="help">${h.help_link(_("help"), 'tag_faq')|n} ·</div> <a href="/tag">${_("more tags...")}</a>
     </div>
     %endif
 </%def>

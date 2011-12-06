@@ -110,7 +110,7 @@
                     <label for="variant" class="armhint">${_("Variant Name")}</label>
                     <input class="armlabel" name="variant" maxlength="75" value="${field}"/>
                     <div class="help">
-                        &middot; ${h.help_link(_("help"), 'selection_faq', anchor='whatisvariant')|n}
+                        · ${h.help_link(_("help"), 'selection_faq', anchor='whatisvariant')|n}
                     </div>
                 %else:
                     <b><a href="${h.entity_url(this)|n}">${this.variant_html|n}</a></b>
@@ -122,7 +122,7 @@
                 <li>
                     ${_("%s by %s") % (h.relative_time(this.create_time), 
                                                         h.user.link(this.user, scope=this.page))|n}
-                    &middot; <b><a href="${h.entity_url(this, member='history')|n}">${_("History")}</a></b>
+                    · <b><a href="${h.entity_url(this, member='history')|n}">${_("History")}</a></b>
                 </li>
             %endif
         </ul>

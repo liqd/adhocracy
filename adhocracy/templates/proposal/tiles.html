@@ -17,16 +17,17 @@
         <div class="meta">              
             %if proposal.is_adopt_polling():
                 ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
-                &middot;    
+                ·
             %elif proposal.rate_poll: 
-                ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} &middot;
+                ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} 
+                ·
     %endif
             %if proposal.instance.use_norms:
                 ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
-                &middot;
+                ·
             %endif
             ##${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
-            ${_("(latest: %s)") % h.relative_time(proposal.find_latest_comment_time())|n} 
+            ${_("latest: <b>%s</b>") % h.relative_time(proposal.find_latest_comment_time())|n} 
         </div>
         <div class="hr"><hr /></div>
     </li>
@@ -39,10 +40,10 @@
         ${tiles.poll.booth(proposal.adopt_poll)}
     %endif
 
-    <h3 class="section"><img src="/img/icons/proposal_16.png" class="cd" /> ${_("Information")}</h3>
-    <div class="infobox">
+    <h3>${_("Information")}</h3>
+    <div>
         ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.format_date(proposal.create_time))|n} 
-    &middot; <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
+    · <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
   </div>
   %if proposal.milestone and c.instance.milestones:
   <br/>
@@ -122,7 +123,7 @@
     </span>
     %endif
     
-    <h1 class="with_vote page_title">${h.delegateable.link(proposal, icon_size=24, link=False)|n}  ${tiles.badge.badges(proposal.badges)} </h1>
+    <h1>${h.delegateable.link(proposal, link=False)|n}  ${tiles.badge.badges(proposal.badges)} </h1>
     <br/>
     ${tiles.proposal.panel(proposal, tile)}
 </%def>

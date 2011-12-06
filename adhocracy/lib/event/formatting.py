@@ -64,8 +64,7 @@ class PollFormatter(ObjectFormatter):
             text = poll.selection.page.variant_head(poll.variant)
             variant_link = "<a href='%s'>%s</a>" % (h.text.url(text),
                                                     text.variant_html)
-            page_link = h.page.link(poll.selection.page, icon=True,
-                                    icon_size=16)
+            page_link = h.page.link(poll.selection.page)
             return self.SELECT_PATTERN(variant_link, page_link)
         else:
             fmt = self._get_formatter(poll)

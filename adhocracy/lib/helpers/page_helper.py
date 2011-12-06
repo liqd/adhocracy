@@ -9,13 +9,8 @@ from adhocracy.lib.helpers import proposal_helper as proposal
 from adhocracy.lib.helpers import url as _url
 
 
-def icon_url(page, size=16):
-    import text_helper as text
-    return text.icon_url(page.head, page, size=size)
-
-
 @cache.memoize('page_link')
-def link(page, variant=model.Text.HEAD, link=True, icon=False, icon_size=16):
+def link(page, variant=model.Text.HEAD, link=True):
     import text_helper as text
     buf = cgi.escape(page.title)
     text_ = page.variant_head(variant)
@@ -23,9 +18,6 @@ def link(page, variant=model.Text.HEAD, link=True, icon=False, icon_size=16):
         return _("(Unknown)")
     if variant != text_.HEAD:
         buf = u"%s <code>(%s)</code>" % (buf, variant)
-    if icon:
-        buf = (u"<img class='dgb_icon' src='%s' /> %s" %
-               (text.icon_url(text_, page, size=icon_size), buf))
     if link and not page.is_deleted():
         buf = (u"<a class='page_link exists' href='%s'>%s</a>" %
                (text.url(text_), buf))

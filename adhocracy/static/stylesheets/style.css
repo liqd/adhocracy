@@ -69,52 +69,6 @@ ul.subpages li, ul.subpages ul.children li {
   background-image: url('/images/sprite.png');
 }
 
-.badge {
-    display: inline-block;
-    color: #fff;
-    font-size: 80%;
-    margin-left: 5px;
-    padding: 1px 3px 1px 3px;
-    font-family: sans-serif;
-    webkit-box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    moz-box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    box-shadow: 0 1px 4px rgba(0,0,0,.2);
-
-    moz-border-radius: 4px;
-    webkit-border-radius: 4px;
-    border-radius: 4px;
-    moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
-}
-
-h1 .badge, h3 .badge {
-    float:right;
-}
-
-.event h3 .badge {
-    float: none;
-}
-h1.with_vote .badge {
-    float: right;
-    margin-right: 20px;
-}
-
-.badge a {
-    color: #fff;
-}
-
-.badge a:hover {
-    color: #fff;
-    text-decoration: none;
-}
-
-.user_link_badges .badge,
-.event .badge {
-    margin-top: -2px;
-    margin-left: 0px;
-    font-size: 70%;
-    padding: 0px 2px 0px 2px;
-}
-
 #register_input_css {
     margin-left: 3000px;
     position: absolute;

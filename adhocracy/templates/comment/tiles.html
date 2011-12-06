@@ -3,18 +3,15 @@
 
 <%def name="row(tile, comment)">
     <div class="tile">
-        <div class="logo">
-            <img src="/img/icons/discuss_24.png" />
-        </div>
-        <div class="base">
+        <div>
             <h3><a href="${h.entity_url(comment)}">${_("Comment")}</a> 
                 ${_("on %s") % h.delegateable.link(comment.topic)|n}</h3>
             <div class="meta">
                 ${h.user.link(comment.creator, scope=comment.topic)|n}
                 %if len(comment.revisions) == 1:  
-                    &middot; ${_("created %s") % h.relative_time(comment.create_time)|n}
+                    · ${_("created %s") % h.relative_time(comment.create_time)|n}
                 %else:
-                    &middot; ${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
+                    · ${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
                 %endif      
             </div>
         </div>
@@ -290,15 +287,15 @@
                         %endif  
                     %endif
                     %if comment.wiki:
-                        &middot; ${_("editable") if comment.wiki else ''}
+                        · ${_("editable") if comment.wiki else ''}
                     %endif
                     %if len(comment.revisions) > 1:
-                        &middot;
+                        ·
                         <a href="${h.entity_url(comment, member='history')}">${_("history")}</a>
                     %endif
-                    &middot;
+                    ·
                     <a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
-                    &middot;
+                    ·
                     <a href="${h.entity_url(comment, comment_page=True)}">${_("link")}</a>                    <a href="#" class="thread">Show subthread</a>
                 %endif
                 <a name="c${comment.id}">&nbsp;</a>
@@ -456,8 +453,8 @@ else:
         ${components.watch(comment)}
     </div>
 
-    <h1 class="page_title"><img src="/img/icons/discuss_24.png" class="cd" /> 
-        ${_("Discussion on %s") % h.delegateable.link(comment.topic, icon_size=24)|n}</h1>
+    <h1 class="page_title">
+        ${_("Discussion on %s") % h.delegateable.link(comment.topic)|n}</h1>
     
     <div class="panel ${active}">
         <ul class="menu">
