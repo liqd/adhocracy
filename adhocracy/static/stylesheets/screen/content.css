@@ -135,6 +135,7 @@ a.button.highlight:hover {
   line-height: 27px;
 }
 .register a.button {
+  color: #fff;
   background-position: 0 -600px;
   width: 150px;
   height: 27px;
@@ -146,9 +147,15 @@ a.button.highlight:hover {
 .register a.button:hover {
   background-position: 0 -650px;
 }
+.register a.link_more_info,
+.register a.link_more_info:hover {
+  color: #446191;
+}
+.register a.link_register_now,
 .register a.link_about_info {
   background-position: 10px -600px;
 }
+.register a.link_register_now:hover,
 .register a.link_about_info:hover {
   background-position: 10px -650px;
 }
