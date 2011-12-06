@@ -1775,3 +1775,48 @@ margin-bottom: 0;
 body.logged_in .only-anon {
   display: none;
 }
+
+/*
+ * Badges
+ */
+
+.badge {
+    font-family: Arial,san-serif;
+  font-size: 10px;
+  line-height: 14px;
+  height: 13px;
+  padding: 1px 15px 0px 3px;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  text-transform: uppercase;
+  border-left: 1px solid #e3e3e3;
+  color: #666;
+  position: relative;
+  background: url('/images/badge_bg.png') right top no-repeat;
+}
+.badge:before {
+  content: '\25E4';
+  width: 12px;
+  height: 12px;
+  display: block;
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  font-size: 14px;
+  line-height: 10px;
+  color: #bdbdbd;
+}
+.badge:hover {
+  color: #2D3441;
+  cursor: pointer;  
+}
+.badge.admin:before {
+  color: #f98c8c
+}
+.badge.author:before {
+  color: #ebd973
+}
+.badge.user:before {
+  color: #a8d37e
+}
