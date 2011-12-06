@@ -133,6 +133,7 @@ a.button.highlight:hover {
 .register {
   height: 27px;
   line-height: 27px;
+  font-size:13px;
 }
 .register a.button {
   color: #fff;
