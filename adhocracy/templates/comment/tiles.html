@@ -75,9 +75,10 @@
         </div>
         %endif
 
-        %else:
+        %elif auth.propose_join():
+        <a class="button add ttip" title="${_('Join instance to comment.')}" rel="#overlay-join-button">${_("Add comment")}</a>
+        %elif auth.propose_login():
         <a class="button add ttip" title="${_('Login to comment.')}" rel="#overlay-login-button">${_("Add comment")}</a>
-
         %endif
 
     %endif
@@ -153,6 +154,8 @@
                 <% auth = check.comment.reply(comment) %>
                 %if auth and recurse:
                 <a class="new_comment" data-reply="${comment.id}" href="#">${_('reply')}</a>
+                %elif auth.propose_join():
+                <a class="new_comment" title="${_('Join instance to reply')}" rel="#overlay-join-button">${_('reply')}</a>
                 %elif auth.propose_login():
                 <a class="new_comment" title="${_('Login to reply')}" rel="#overlay-login-button">${_('reply')}</a>
                 %endif

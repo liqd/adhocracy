@@ -451,12 +451,19 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.overlay.rebindLoginLinks = function() {
+    adhocracy.overlay.rebindCameFrom = function() {
         var came_from = this.getTrigger().attr('href');
         if (came_from==null) {came_from=window.location.pathname};
-        this.getOverlay().find(".patchme").attr('href', function(i, href) {
-              return href+'?came_from='+came_from;
+        this.getOverlay().find(".patch_camefrom").attr('href', function(i, href) {
+            return href+'?came_from='+came_from;
         });
+    };
+    adhocracy.overlay.rewriteDescription = function() {
+        var description = this.getTrigger().data('description');
+        if (description==null) {description = this.getTrigger().data('title')};
+        if (description!=null) {
+            this.getOverlay().find(".patch_description").html(description);
+        };
     };
 
     adhocracy.overlay.mask = {
@@ -494,8 +501,15 @@ var adhocracy = adhocracy || {};
             fixed: false,
             mask: adhocracy.overlay.mask,
             target: '#overlay-login',
-            onBeforeLoad: adhocracy.overlay.rebindLoginLinks,
-            //onLoad: adhocracy.overlay.rebindLoginLinks,
+            onBeforeLoad: adhocracy.overlay.rewriteDescription,
+            onLoad: adhocracy.overlay.rebindCameFrom,
+        });
+
+        wrapped.find("a[rel=#overlay-join-button]").overlay({
+            fixed: false,
+            mask: adhocracy.overlay.mask,
+            target: '#overlay-join',
+            onBeforeLoad: adhocracy.overlay.rewriteDescription,
         });
 
     };

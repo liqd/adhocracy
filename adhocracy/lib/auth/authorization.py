@@ -71,6 +71,24 @@ class has_permission(what_has_permission):
                 self.unmet()
 
 
+class has_default_permission(what_has_permission):
+    """
+    Checks whether a member of the default group of the given instance has the
+    given permission.
+    """
+
+    def evaluate(self, environ, credentials):
+        if environ.get('default_permissions') is None:
+            if c.instance is not None:
+                default_group = c.instance.default_group
+            else:
+                default_group = model.Group.by_code(model.Group.INSTANCE_DEFAULT)
+            environ['default_permissions'] = [p.permission_name for p in
+                    default_group.permissions]
+        if not self.permission_name in environ['default_permissions']:
+            self.unmet()
+
+
 def has(permission):
     #return permission in request.environ.get('repoze.what.credentials',
     #{}).get('permissions', [])
@@ -125,19 +143,25 @@ class AuthCheck(object):
         """
         return c.user is None and self.permission_missing()
 
+    def _propose_join_or_login(self):
+        if not self.permission_refusals or self.other_refusals:
+            return False
+        else:
+            return all(map(
+                lambda perm: has_default_permission(perm).is_met(request.environ),
+                self.permission_refusals))
+
     def propose_login(self):
         """
-        Login is proposed if the user isn't logged in, but a registered user
-        with default instance permissions would be able to perform the action.
+        Login is proposed if the user isn't logged in or hasn't joined
+        c.instance, but a registered user with default instance permissions
+        would be able to perform the action.
         """
-        # FIXME
-        return True
+        return not c.user and self._propose_join_or_login()
 
     def propose_join(self):
         """
         Login is proposed if the user is logged in, but not member of the
         instance and can therefore not perform the requested action.
         """
-        # FIXME
-        return True
-
+        return c.user is not None and not c.user.is_member(c.instance) and self._propose_join_or_login()
