@@ -76,7 +76,7 @@ table td.line_text {
   font-size: 11px;
   line-height: 17px;
   padding: 0 4px 5px;
-  text-align: center;
+  text-align: left;
 }
 
 /* links */
@@ -1791,6 +1791,8 @@ existing info_box styles.*/
 #stats {
     font-size: 20px;
     text-align: center;
+    border-top: 1px dotted #cccccc;
+    padding-top: 14px;
 }
 
 /* History listings */
@@ -1845,7 +1847,7 @@ body.logged_in .only-anon {
 }
 .badge:hover {
   color: #2D3441;
-  cursor: pointer;  
+  cursor: pointer;
 }
 .badge.admin:before {
   color: #f98c8c
