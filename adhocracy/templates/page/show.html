@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="sidebar_defs" file="/sidebar.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 
 <%def name="title()">${c.page.title}</%def>
@@ -50,7 +51,7 @@
     <h3>Information zum Papier</h3>
     <summary>
         ## Shortlink http://domain/d/1234
-        ${components.shortlink(c.page)}
+        ${sidebar_defs.shortlink(c.page)}
 
         <h6>Zuletzt aktiv</h6>
         <p><time>${h.relative_time(c.page.find_latest_comment_time())|n}</time></p>

@@ -5,9 +5,20 @@ num_votes = len(tally)
 url = h.entity_url(poll, member='votes')
 para = _('A total of <a href="%(url)s">%(votes)s Votes</a>, thereof %(for)s ayes and %(against)s nays') % {'url': url, 'for': tally.num_for, 'against': tally.num_against, 'votes': num_votes}
 %>
+
 <h6>${_('Votes')}</h6>
 <p>
     ${para|n}
 </p>
+
+</%def>
+
+<%def name="shortlink(delegateable)">
+<%
+shortlink = h.site.shortlink_url(delegateable)
+%>
+
+<h6>${_('Shortlink')}</h6>
+<p><a href="${shortlink}">${shortlink}</a></p>
 
 </%def>
