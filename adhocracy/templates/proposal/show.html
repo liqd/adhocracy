@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="sidebar_defs" file="/sidebar.html"/>
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 
@@ -129,13 +130,8 @@ ${components.watch(c.proposal, what="Proposal")}
     </time></p>
 
     <% tally = c.proposal.rate_poll.tally %>
-    <h6>${_('Votes')}</h6>
-    <p>
-        Insgesamt 
-        <a href="#">${tally.score} Stimmen</a>, 
-        davon ${tally.num_for} Unterstützungen, 
-        ${tally.num_against} Ablehnungen.
-    </p>
+
+    ${sidebar_defs.votes(c.proposal.rate_poll)}
 
     <h6>${_('Milestones')}</h6>
     <% milestone = c.proposal.milestone %>
