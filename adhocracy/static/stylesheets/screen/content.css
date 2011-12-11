@@ -73,7 +73,7 @@ table td.line_text {
 }
 .wp-caption-text,
 .wp-caption-dd {
-  font-size: 11px;
+  font-size: 9px;
   line-height: 17px;
   padding: 0 4px 5px;
   text-align: left;
@@ -1177,7 +1177,7 @@ form.list_filter label {
 }
 
 #openid_form {
-  width: 392px !important;
+  width: auto !important; /*do not know why there was a fixed value here [joka] */
 }
 form div.prototype { display: none; }
 
