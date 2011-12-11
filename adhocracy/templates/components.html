@@ -42,7 +42,7 @@
 
 <%def name="form_watch(entity, checked=False)">
     %if can.watch.create():
-        <%
+    <%
         if entity:
             checked = checked or (h.find_watch(entity) is not None)
         %>
@@ -53,14 +53,43 @@
     %endif
 </%def>
 
-
-<%def name="watch(entity, what='Norm')">
+<%doc>
+## msgids used in the following def watch()
+## repeated here to have something babel can pick up
+_('Proposal')
+_('Norm')
+_('Instance')
+_('Milestone')
+_('User')
+_('Comment')
+_('Tag')
+</%doc>
+<%def name="watch(entity)">
     ## FIXME: turn into an ajax call
     %if c.user:
     <%
-    assert what in ['Norm', 'Proposal']
+    if isinstance(entity, model.Page):
+        what = 'Norm'
+    elif isinstance(entity, model.Instance):
+        what = 'Instance'
+    elif isinstance(entity, model.Proposal):
+        what = 'Proposal'
+    elif isinstance(entity, model.Milestone):
+        what = 'Milestone'
+    elif isinstance(entity, model.User):
+        what = 'User'
+    elif isinstance(entity, model.Comment):
+        what = 'Comment'
+    elif isinstance(entity, model.Tag):
+        what = 'Tag'
+    else:
+        log.error('Unknown entity for watch button: %s' % entity)
+
+
+    assert what in ['Norm', 'Proposal', 'Milestone', 'Instance']
     skip = False
     watch = h.find_watch(entity)
+    what = _(what)
     if watch and can.watch.delete(watch):
         css_cls = "active"
         text = _('Following %s' % what)
