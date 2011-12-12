@@ -663,11 +663,16 @@ body.logged_in #nav li a {
   max-height: 100px;
   overflow: hidden;
 }
+
 #organisation_logo {
-  height: 35px;
   overflow: hidden;
   padding-left: 23px;
 }
+
+#subheader.logo #organisation_logo{
+  height: 35px;
+}
+
 #organisation_logo img {
   vertical-align: bottom;
   margin-right: 10px;
@@ -681,6 +686,10 @@ body.logged_in #nav li a {
   display: inline;
 }
 
+#organisation_logo a:hover {
+  text-decoration: none;
+}
+
 /* subnavi */
 #subnav {
   clear: none;
@@ -689,8 +698,11 @@ body.logged_in #nav li a {
   font-size: 15px;
   color: #fff;
   margin: 0px;
-  padding-top: 29px;
+  padding-top: 19px;
   float: left;
+}
+#subheader.logo #subnav {
+  padding-top: 29px;
 }
 #subnav li {
   height: 36px;
@@ -1255,8 +1267,12 @@ form.new_comment {
 .list_filter {
   display: block;
   overflow: hidden;
-  padding-top: 29px;
+  padding-top: 19px;
   padding-right: 20px;
+}
+
+#subheader.logo #searchbox {
+  padding-top: 29px;
 }
 
 .list_filter {
