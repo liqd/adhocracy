@@ -640,7 +640,7 @@ class InstanceFacet(SolrFacet):
 
     name = 'instance'
     entity_type = model.Instance
-    title = u'Instance'
+    title = u'Projektgruppe'
     solr_field = 'facet.instances'
 
     @classmethod
@@ -654,7 +654,7 @@ class DelegateableBadgeFacet(SolrFacet):
 
     name = 'delegateablebadge'
     entity_type = model.Badge
-    title = u'Type'
+    title = u'Beteiligte'  # FIXME: translate
     solr_field = 'facet.delegateable.badge'
 
     @classmethod
@@ -669,7 +669,7 @@ class DelegateableAddedByBadgeFacet(SolrFacet):
 
     name = 'added_by_badge'
     entity_type = model.Badge
-    title = u'Added by...'
+    title = u'Erstellt von'  # FIXME: translate
     solr_field = 'facet.delegateable.added.by.badge'
 
     @classmethod
