@@ -56,7 +56,7 @@ def delete(check, co):
     check.other('comment_topic_instance_frozen', co.topic.instance.frozen)
     edit(check, co)
     check.other('comment_is_not_own', not is_own(co))
-    cehck.other('comment_is_edited', co.is_edited())
+    check.other('comment_is_edited', co.is_edited())
     check.perm('comment.delete')
     show(check, co)
     check.other('comment_not_mutable_and_canonical',
