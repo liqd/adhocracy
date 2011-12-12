@@ -219,7 +219,8 @@ def instances(instances):
                              _("newest"): sorting.entity_newest,
                              _("activity"): sorting.instance_activity,
                              _("alphabetically"): sorting.delegateable_label},
-                      default_sort=sorting.instance_activity)
+                      default_sort=sorting.instance_activity,
+                      size=20)  # FIXME: hardcoded for enquetebeteiligung
 
 
 def proposals(proposals, default_sort=None, **kwargs):
