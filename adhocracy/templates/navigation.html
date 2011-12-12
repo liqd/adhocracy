@@ -99,18 +99,24 @@
 
 
 <%def name="subheader_navigation(logo, label, search_action=None, search_label='', 
-                                 search_button_text=None)">
+                                 search_button_text=None, url=None)">
 
-  <div id="subheader">
+  <div id="subheader" class="${'logo' if logo else ''}">
     <div class="page_margins">
       <div class="page_wrapper">
         <!-- begin: sub navi -->
         
         <div id="organisation_logo">
+            %if url:
+            <a href="${url}">
+            %endif
             %if logo:
             <img src="${logo}" alt="&ldquo;${label}&rdquo; logo"/>
             %endif
             <h2>${label}</h2>
+            %if url:
+            </a>
+            %endif
         </div>
         <!-- begin: sub navi -->
         <nav>
@@ -150,16 +156,20 @@
    active_subnav[active or 'instance'] = 'current'
    search_label = _('Search in &ldquo;%s&rdquo;&hellip;') % markupsafe.escape(c.instance.label)
    logo = ''
+   url = None
    if c.instance:
        if InstanceTile(c.instance).show_icon():
-           logo = "/instance/%s_48.png" % c.instance.key           
+           logo = "/instance/%s_48.png" % c.instance.key
+           url = h.entity_url(c.instance)
    
    def _class(identifier):
        return active_subnav.get(identifier, '')
 %>
 
-<%call expr="subheader_navigation(logo, c.instance.label, search_action='/search',
-                                  search_label=search_label)">
+<%call expr="subheader_navigation(logo, c.instance.label, 
+                                  search_action='/search', 
+                                  search_label=search_label, 
+                                  url=url)">
 
   ${nav_link(href=h.entity_url(c.instance),
              text=_(u"Overview"),
