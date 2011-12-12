@@ -1879,3 +1879,7 @@ body.logged_in .only-anon {
 float: right;
 padding-right: 2em;
 }
+
+.facet ul {
+list-style: none;
+}

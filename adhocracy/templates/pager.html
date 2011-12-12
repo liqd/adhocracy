@@ -84,7 +84,7 @@
 
 <%def name="facets(pager)">
 %if (True in [facet.available() for facet in pager.facets]):
-<p>${_("You can limit the number of results with the following criteria:")}</p>
+
 %for facet in pager.facets:
     %if facet.available():
     <div class="facet">
@@ -96,13 +96,13 @@
 </%def>
 
 <%def name="facet(facet)">
-<h3>
+<h4>
     ${facet.title}
     %if facet.used:
     <a class="remove"
        href="${facet.unselect_all_link()}">(${_("Remove all")})</a>
     %endif
-</h3>
+</h4>
 %if facet.description:
 <p>${facet.description}</p>
 %endif
