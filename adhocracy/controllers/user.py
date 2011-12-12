@@ -635,6 +635,7 @@ class UserController(BaseController):
                 added.append(badge)
 
         model.meta.Session.flush()
+        model.meta.Session.commit() # FIXME: does not work without.
         post_update(user, model.update.UPDATE)
         redirect(h.entity_url(user))
 
