@@ -3116,7 +3116,7 @@ msgstr "Thema und Beschreibung des Vorschlags"
 #: adhocracy/templates/proposal/show.html:45
 #, python-format
 msgid "%s Discussions"
-msgstr "Diskussion zu %s"
+msgstr "%s Diskussionen"
 
 #: adhocracy/templates/proposal/show.html:50
 #, python-format
