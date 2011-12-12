@@ -596,6 +596,31 @@ var adhocracy = adhocracy || {};
             });
         }
     };
+
+    adhocracy.helpers.initializeTagsAutocomplete = function (selector) {
+
+        $("#tags").autocomplete('/tag/autocomplete', {
+            autoFill: false,
+            dataType: 'json',
+            formatItem: function (data, i, max, val) {
+                return data.display;
+            },
+            formatResult: function (data, i, max, val) {
+                return data.tag;
+            },
+            parse: function (data) {
+                var arr = [],
+                    i;
+                for (i = 0; i < data.length; i++) {
+                    arr[i] = {data: data[i], value: data[i].display,
+                    result: data[i].tag};
+                }
+                return arr;
+            },
+            delay: 10
+        });
+    };
+
 }());
 
 $(document).ready(function () {
@@ -618,6 +643,7 @@ $(document).ready(function () {
 
     adhocracy.tooltips.initialize();
     adhocracy.helpers.initializeFlashMessageDelegates();
+    adhocracy.helpers.initializeTagsAutocomplete('#tags');
     adhocracy.overlay.bindOverlays('body');
 
     // initial jquery label_over
@@ -798,9 +824,10 @@ $(document).ready(function () {
      * * The button needs the class showhide_button
      * * and an attribute 'data-target' with a selector string to find
      *   the target.
-     * * The targed element needs to have an attribute 'data-cancel' with
+     * * The targed element needs to have an attribute 'data-cancel'
      *   containing a selector string. The click event of the matching
-     *   elements will hide the target an unhide the button.
+     *   elements *inside the target* will hide the target an unhide
+     *   the button.
      */
     $('body').delegate('.showhide_button', 'click', function (event) {
         event.preventDefault();

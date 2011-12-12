@@ -37,29 +37,28 @@
         ${_('Not tagged yet')}
         %endif
     </p>
-    <%doc>
-    ## FIXME: Reimplement Tagging
-    <div class="showjs"> 
-        %if can.tag.create():
-        <a href="#" onclick="return adhocracy.addTags();">${_("add tags...")}</a>
-        %endif
+    %if can.tag.create():
+    <div class="only-js" id="add_tags"> 
+        <a href="#" class="showhide_button button_small" 
+           data-target="#tags_form">
+            ${_("add tags...")}
+        </a>
     </div>
-    <div>
-        %if can.tag.create():
-        <div class="addtags hidejs">
-            <form action="/tag" method="POST">
-                ${h.field_token()|n}
-                <input name="delegateable" type="hidden" value="${delegateable.id}" />
-                <input name="tags" type="tags" id="tags" autocomplete="off" />
-                <span class="hint">${_("Multiple tags can be separated by commas or spaces.")}
-                    ${h.help_link(_("Help."), 'tag_faq')|n}</span>
-                <input type="submit" value="${_("Add tags")}" />
-                </form>
-        </div>
-        %endif
-    
+    <div class="close" id="tags_form" data-cancel=".cancel">
+        <form action="/tag" method="POST">
+            ${h.field_token()|n}
+            <input name="delegateable" type="hidden" value="${delegateable.id}" />
+            <input name="tags" type="tags" id="tags" autocomplete="off" />
+            <div>
+                ${_("Multiple tags can be separated by commas or spaces.")}
+            </div>
+            <div class="submit">        
+                <input type="submit" value="${_('Add tags')}" />
+                <a href="#" class="cancel">${_('Cancel')}</a>
+                </div>
+        </form>
     </div>
-</%doc>
+    %endif
 </%def>
 
 <%def name="widget(delegateable)">

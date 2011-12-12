@@ -1858,3 +1858,8 @@ body.logged_in .only-anon {
 .badge.user:before {
   color: #a8d37e
 }
+
+#add_tags {
+float: right;
+padding-right: 2em;
+}
