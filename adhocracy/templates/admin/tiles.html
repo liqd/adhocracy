@@ -15,6 +15,10 @@ def klass(what):
         <a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
     </li>
 
+    <li class="${klass('users')}">
+        <a href="/user/all">${_("Users")}</a>
+    </li>
+
 </ul>
 </%def>
 
