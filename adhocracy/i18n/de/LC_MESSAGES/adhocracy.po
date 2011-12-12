@@ -1268,18 +1268,18 @@ msgstr "Ich möchte über Neuigkeiten informiert werden."
 
 #: adhocracy/templates/components.html:95
 #, python-format
-msgid "Following %s"
-msgstr "In Abstimmung %s"
+msgid "Following"
+msgstr "Wird verfolgt"
 
 #: adhocracy/templates/components.html:96
 #, python-format
-msgid "Unfollow %s"
-msgstr "Entfolge %s"
+msgid "Unfollow"
+msgstr "entfolgen"
 
 #: adhocracy/templates/components.html:100
 #, python-format
 msgid "Follow %s"
-msgstr "von %s"
+msgstr "%s verfolgen"
 
 #: adhocracy/templates/footer.html:15
 msgid "code of conduct"
@@ -3822,3 +3822,7 @@ msgstr "Dies ist Ihre Beobachtungsliste. Sie erhalten eine Benachrichtigung bei 
 
 #~ msgid "sort by:"
 #~ msgstr "sortieren:"
+
+
+msgid "Proposal"
+msgstr "Vorschlag"

@@ -1238,12 +1238,12 @@ msgstr ""
 
 #: adhocracy/templates/components.html:95
 #, python-format
-msgid "Following %s"
+msgid "Following"
 msgstr ""
 
 #: adhocracy/templates/components.html:96
 #, python-format
-msgid "Unfollow %s"
+msgid "Unfollow"
 msgstr ""
 
 #: adhocracy/templates/components.html:100

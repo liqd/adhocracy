@@ -88,14 +88,15 @@ _('Tag')
     skip = False
     watch = h.find_watch(entity)
     what = _(what)
+
     if watch and can.watch.delete(watch):
         css_cls = "active"
-        text = _('Following %s' % what)
-        hover_text = _('Unfollow %s' % what)
+        text = _('Following')
+        hover_text = _('Unfollow')
         href = "/watch/delete?watch=%s&%s" % (watch.id, h.url_token())
     elif not watch and can.watch.create():
         css_cls = ""
-        text = hover_text = _("Follow %s" % what)
+        text = hover_text = _("Follow %s") % what
         href = "/watch/create?%s&%s" % (h.make_watch(entity),
                                         h.url_token())
     else:
