@@ -1532,7 +1532,7 @@ msgstr "Gruppenrechte"
 
 #: adhocracy/templates/admin/permissions.html:13
 msgid "WARNING: This allows you to shut yourself out of your adhocracy. Handle with care!"
-msgstr "ACHTUNG: Dies schließt sie aus Ihrer eigenen Instanz aus. Seien Sie vorsichtig!"
+msgstr "ACHTUNG: Hiermit können Sie sich aus ihrer eigenen Projektgruppe ausschließen. Seien Sie vorsichtig!"
 
 #: adhocracy/templates/admin/tiles.html:11
 #: adhocracy/templates/badge/index.html:3
@@ -1825,7 +1825,7 @@ msgstr "antworten"
 #, python-format
 #| msgid "joined %(instance)s"
 msgid "Join instance to reply"
-msgstr "Instanz zum Antworten beitreten"
+msgstr "Projektgruppe zum Antworten beitreten"
 
 #: adhocracy/templates/comment/tiles.html:160
 msgid "Login to reply"
@@ -3077,7 +3077,7 @@ msgstr "Los"
 #: adhocracy/templates/proposal/index.html:38
 #| msgid "Create a new proposal..."
 msgid "Join instance to create a new proposal."
-msgstr "Instanz beitreten, um einen neuen Vorschlag anzulegen."
+msgstr "Projektgruppe beitreten, um einen neuen Vorschlag anzulegen."
 
 #: adhocracy/templates/proposal/index.html:40
 #| msgid "Create a new proposal..."
@@ -3680,7 +3680,7 @@ msgstr "Adhocracies"
 #: adhocracy/templates/user/instances.html:13
 #, python-format
 msgid "%s is a member in these Adhocracies"
-msgstr "%s ist Mitglied in den folgenden Instanzen"
+msgstr "%s ist Mitglied in den folgenden Projektgruppen"
 
 #: adhocracy/templates/user/login.html:2
 #: adhocracy/templates/user/register.html:2
