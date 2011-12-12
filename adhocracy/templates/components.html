@@ -85,8 +85,6 @@ _('Tag')
     else:
         log.error('Unknown entity for watch button: %s' % entity)
 
-
-    assert what in ['Norm', 'Proposal', 'Milestone', 'Instance']
     skip = False
     watch = h.find_watch(entity)
     what = _(what)
