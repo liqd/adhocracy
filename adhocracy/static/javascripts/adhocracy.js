@@ -455,7 +455,7 @@ var adhocracy = adhocracy || {};
         var came_from = this.getTrigger().attr('href');
         if (came_from==null) {came_from=window.location.pathname};
         this.getOverlay().find(".patch_camefrom").attr('href', function(i, href) {
-            return href+'?came_from='+came_from;
+            return href.split('?')[0]+'?came_from='+came_from;
         });
     };
     adhocracy.overlay.rewriteDescription = function() {
