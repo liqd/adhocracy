@@ -501,8 +501,10 @@ var adhocracy = adhocracy || {};
             fixed: false,
             mask: adhocracy.overlay.mask,
             target: '#overlay-login',
-            onBeforeLoad: adhocracy.overlay.rewriteDescription,
-            onLoad: adhocracy.overlay.rebindCameFrom,
+            onBeforeLoad: function(event) {
+                adhocracy.overlay.rewriteDescription.call(this, event);
+                adhocracy.overlay.rebindCameFrom.call(this, event);
+            }
         });
 
         wrapped.find("a[rel=#overlay-join-button]").overlay({
