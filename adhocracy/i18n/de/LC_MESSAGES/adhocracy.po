@@ -1300,19 +1300,19 @@ msgstr "impressum"
 #: adhocracy/templates/index.html:23
 #, python-format
 msgid "<b>%s</b> members"
-msgstr "<b>%s</b> Stimmen"
+msgstr "<b>%s</b> Mitglieder"
 
 #: adhocracy/templates/index.html:24
 #: adhocracy/templates/instance/show.html:59
 #, python-format
 msgid "<b>%s</b> proposals"
-msgstr "<b>%s</b> Zustimmung"
+msgstr "<b>%s</b> Vorschläge"
 
 #: adhocracy/templates/index.html:25
 #: adhocracy/templates/instance/show.html:60
 #, python-format
 msgid "<b>%s</b> comments"
-msgstr "<b>%s</b> Stimmen"
+msgstr "<b>%s</b> Kommentare"
 
 #: adhocracy/templates/index.html:26
 #, python-format
