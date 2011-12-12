@@ -455,7 +455,7 @@ var adhocracy = adhocracy || {};
         var came_from = this.getTrigger().attr('href');
         if (came_from==null) {came_from=window.location.pathname};
         this.getOverlay().find(".patch_camefrom").attr('href', function(i, href) {
-            return href+'?came_from='+came_from;
+            return href.split('?')[0]+'?came_from='+came_from;
         });
     };
     adhocracy.overlay.rewriteDescription = function() {
@@ -501,8 +501,10 @@ var adhocracy = adhocracy || {};
             fixed: false,
             mask: adhocracy.overlay.mask,
             target: '#overlay-login',
-            onBeforeLoad: adhocracy.overlay.rewriteDescription,
-            onLoad: adhocracy.overlay.rebindCameFrom,
+            onBeforeLoad: function(event) {
+                adhocracy.overlay.rewriteDescription.call(this, event);
+                adhocracy.overlay.rebindCameFrom.call(this, event);
+            }
         });
 
         wrapped.find("a[rel=#overlay-join-button]").overlay({
