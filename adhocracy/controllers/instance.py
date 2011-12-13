@@ -136,9 +136,7 @@ class InstanceController(BaseController):
         require.instance.show(c.page_instance)
 
         if format == 'sline':
-            sline = event.sparkline_samples(instance_activity,
-                                            c.page_instance)
-            return render_json(dict(activity=sline))
+            ret_abort(u'Sparkline data is not available anymore.', code=410);
 
         events = model.Event.find_by_instance(c.page_instance)
 
