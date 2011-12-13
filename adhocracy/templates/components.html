@@ -186,7 +186,7 @@ text = "%s - %s: %s" % (h.site.name, c.instance.label, entity.title)
 
     <!-- template -->
 
-  <link rel="stylesheet" type="text/css" media="all" href="/stylesheets/style.css" />
+  <link rel="stylesheet" type="text/css" media="all" href="${h.base_url(None, path='/stylesheets/style.css')}" />
   <!--[if lte IE 7]>
   <link href="/stylesheets/patches/patch.css" rel="stylesheet" type="text/css" />
   <![endif]-->
@@ -212,12 +212,12 @@ text = "%s - %s: %s" % (h.site.name, c.instance.label, entity.title)
           src="${h.base_url(None, path='/javascripts/knockout-latest.debug.js')}"></script>
   <script type="text/javascript" 
           src="${h.base_url(None, path='/javascripts/knockout-mapping.js')}"></script>
-    <script type="text/javascript" src="/javascripts/adhocracy.js" charset="utf-8"></script>
+    <script type="text/javascript" src="${h.base_url(None, path='/javascripts/adhocracy.js')}" charset="utf-8"></script>
 
     <script type="text/javascript" 
-            src="/javascripts/jquery.autocomplete.min.js"></script>
+            src="${h.base_url(None, path='/javascripts/jquery.autocomplete.min.js')}"></script>
     <link rel="stylesheet" type="text/css" media="all" 
-          href="/javascripts/jquery.autocomplete.css" />
+          href="${h.base_url(None, path='/javascripts/jquery.autocomplete.css')}" />
 
   <!-- HTML5 elements for IE -->
   <script>
