@@ -133,6 +133,9 @@ class PagerMixin(object):
         query_items = ([(str(key), unicode(value).encode('utf-8')) for
                         (key, value) in query.items()])
         url_base = url.current(qualified=True)
+        if ', ' in url_base:
+            # hard coded fix for enquetebeteiligung.de
+            url_base = 'https://' + url_base.split(', ')[1]
         return url_base + "?" + urllib.urlencode(query_items)
 
     def to_dict(self):
@@ -822,7 +825,12 @@ class SolrPager(PagerMixin):
         if enable_pages:
             query = query.paginate(start=self.offset, rows=self.size)
         if self.sorts.keys():
-            sort_by = self.sorts.values()[self.selected_sort - 1]
+            try:
+                sort_by = self.sorts.values()[self.selected_sort - 1]
+            except IndexError:
+                # if the number of sort options changes, search engine
+                # bots will still try to index the old page.
+                redirect(self.build_url(sort=1), code=301)
             query = query.sort_by(sort_by)
 
         # query solr and calculate values from it

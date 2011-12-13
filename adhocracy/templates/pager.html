@@ -13,7 +13,8 @@
                     <span class="pager_sorts">
                     %for sort, i in zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)):
                         <a class="${'selected' if i == pager.selected_sort else ''}" 
-                            href="${pager.build_url(sort=i)}">${sort}</a>
+                           href="${pager.build_url(sort=i)}"
+			   rel="nofollow">${sort}</a>
                         %if i < len(pager.sorts.keys()):
                             |
                         %endif
@@ -72,7 +73,8 @@
         <div class="pager_sorts bottom">
             %for size in pager.page_sizes():
                 <a class="${size['class']}" 
-                    href="${size['url']}">${size['size']}</a>
+                   href="${size['url']}"
+		   rel="nofollow">${size['size']}</a>
                 ${'|' if not size['last'] else ''}
             %endfor
             ${_("entries")}
