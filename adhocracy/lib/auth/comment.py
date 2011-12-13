@@ -59,8 +59,7 @@ def delete(check, co):
     check.other('comment_is_edited', co.is_edited())
     check.perm('comment.delete')
     show(check, co)
-    check.other('comment_not_mutable_and_canonical',
-            not co.topic.is_mutable() and co.canonical)
+    check.other('comment_not_mutable', not co.topic.is_mutable())
 
 
 def rate(check, co):
