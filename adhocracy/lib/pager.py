@@ -4,7 +4,7 @@ import urllib
 
 from formencode import validators
 from pylons.i18n import _
-from pylons import request, tmpl_context as c, url
+from pylons import config, request, tmpl_context as c, url
 from pylons.controllers.util import redirect
 from webob.multidict import MultiDict
 
@@ -133,9 +133,13 @@ class PagerMixin(object):
         query_items = ([(str(key), unicode(value).encode('utf-8')) for
                         (key, value) in query.items()])
         url_base = url.current(qualified=True)
+        protocol = config.get('adhocracy.protocol', 'http').strip()
         if ', ' in url_base:
             # hard coded fix for enquetebeteiligung.de
-            url_base = 'https://' + url_base.split(', ')[1]
+            url_base = '%s://%s' % (protocol, url_base.split(', ')[1])
+        else:
+            url_base = '%s://%s' % (protocol, url_base.split('://')[1])
+        log.error(url_base)
         return url_base + "?" + urllib.urlencode(query_items)
 
     def to_dict(self):
@@ -589,6 +593,12 @@ class SolrFacet(SolrIndexer):
         '''
         params = self.build_params(request, facet_values)
         url_base = url.current(qualified=True)
+        protocol = config.get('adhocracy.protocol', 'http').strip()
+        if ', ' in url_base:
+            # hard coded fix for enquetebeteiligung.de
+            url_base = '%s://%s' % (protocol, url_base.split(', ')[1])
+        else:
+            url_base = '%s://%s' % (protocol, url_base.split('://')[1])
         return url_base + "?" + urllib.urlencode(params)
 
     def build_params(self, request, facet_values):
