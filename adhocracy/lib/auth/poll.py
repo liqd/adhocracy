@@ -26,8 +26,10 @@ def delete(check, p):
 
 
 def vote(check, p):
+    check.other('poll_has_ended', p.has_ended())
+    
     check.other('select_poll_not_mutable',
-            p.action == p.SELECT and not p.selection.proposal.is_mutable())
+                (p.action == p.SELECT and p.selection and 
+                not p.selection.proposal.is_mutable()))
     show(check, p)
     user.vote(check)
-    check.other('poll_has_ended', p.has_ended())
