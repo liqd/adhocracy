@@ -175,19 +175,19 @@
              text=_(u"Overview"),
              li_class=_class('instance'))}
 
-  ${nav_link(href="/milestone",
-             text=_("Milestones"),
-             li_class=_class('milestones'),
-             condition=c.instance.milestones)}
+  ${nav_link(href="/page",
+             text=_("Norms"),
+             li_class=_class('norms'),
+             condition=c.instance.use_norms)}
 
   ${nav_link(href="/proposal",
              text=_("Proposals"),
              li_class=_class('proposals'))}
 
-  ${nav_link(href="/page",
-             text=_("Norms"),
-             li_class=_class('norms'),
-             condition=c.instance.use_norms)}
+  ${nav_link(href="/milestone",
+             text=_("Milestones"),
+             li_class=_class('milestones'),
+             condition=c.instance.milestones)}
 
   ${nav_link(href="/user",
              text=_("Members"),
