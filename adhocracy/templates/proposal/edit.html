@@ -7,11 +7,65 @@
     ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit")}
 </%def>
 
-<form name="edit_proposal" class="inplace" method="POST" action="/proposal/${c.proposal.id}">
+<%block name="main_content">
+<div class="form_wrapper">
+    <h2>${_(u'Edit &ldquo;%s&rdquo;') % c.proposal.title|n}</h2>
+    <div class="hr">
+        <hr />
+    </div>
+
+  <form name="edit_proposal" class="inplace" method="POST" action="/proposal/${c.proposal.id}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
-    
-    <div class="sidebar">
+      
+      <fieldset>
+        <legend>${_('Title and Goals')}</legend>
+        <div class="input_wrapper">
+          <label for="label" class="armhint">${_("Proposal title")}</label>
+          <input type="text" tabindex="1" class="title armlabel" name="label" value="${c.proposal.title}"/>
+        </div>
+
+        <div class="input_wrapper">
+          <label for="text" class="armhint">${_("Proposal goals")}</label>
+          <p class="info">
+              ${_("A brief description of <b>the goals</b> of your proposal.")|n} 
+              ${_("The proposal would...")}
+          </p>
+          <textarea tabindex="2" class="description armlabel" rows="${c.text_rows}" name="text">${c.proposal.description.head.text}</textarea>
+          ${components.formatting()}
+        </div>
+
+        %if c.instance.milestones:
+        <div class="input_wrapper">
+          <label for="milestone">${_("Relates to a milestone")}</label>
+          ${tiles.milestone.select(c.proposal.milestone)}
+        </div>        
+        %endif
+      </fieldset>
+
+      <fieldset>
+          <legend>${_('Collaboration and Notification')}</legend>
+        %if c.can_edit_wiki:
+        <div class="input_wrapper">
+          <label for="wiki">
+          <input type="checkbox" ${'checked="checked"' if c.proposal.description.head.wiki == 1 else ''} name="wiki" id="wiki" value="1" />
+          ${_("Allow others to edit this proposal.")}</label>
+        </div>
+        %endif
+
+      <div class="input_wrapper">
+        ${components.form_watch(c.proposal)}
+      </div>    
+      </fieldset>
+      <div class="input_wrapper submit">
+        ${components.savebox("/proposal/%s" % c.proposal.id)}
+      </div>
+  </form>
+</div>
+</%block>
+
+<%block name="sidebar">
+        <div class="follow_spacer"></div>
         <div class="help">
             <h3>${_("Help")}</h3>
             <ul>
@@ -22,48 +76,6 @@
                 <li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>
             </ul>
         </div>
-    </div>
-    
-    <div class="mainbar">
-        <h3>${_("Proposal title")}</h3>
-        <div class="page_title">
-            <label for="label" class="armhint">${_("New Proposal")}</label>
-            <input tabindex="1" class="title armlabel" name="label" value="${c.proposal.title}"/>
-        </div>
-    
-        <h3>${_("Proposal goals")}</h3>
-        <div class="infobox">
-            ${_("A brief description of <b>the goals</b> of your proposal.")|n}
-        </div>
-    
+</%block>    
 
-        <label for="text" class="armhint">${_("The proposal would...")}</label>
-        <textarea tabindex="2" class="description armlabel" rows="${c.text_rows}" name="text">${c.proposal.description.head.text}</textarea>
-        ${components.formatting()}
-
-        %if c.can_edit_wiki:
-        <input type="checkbox" ${'checked="checked"' if c.proposal.description.head.wiki == 1 else ''} name="wiki" value="1" />
-        ${_("Allow others to edit this proposal.")}
-        %endif
-
-        %if c.instance.milestones:
-        <br/>
-        <br/>
-        <label for="milestone">${_("Relates to a milestone")}</label>
-        ${tiles.milestone.select(c.proposal.milestone)}
-        %endif
-
-        </div>
     
-    <div style="clear:both;"></div>
-    
-    <div class="sidebar">
-        <div class="infobox">
-            ${h.help_link(_("More help..."), 'proposal_faq')|n}
-        </div>
-    </div>
-    <div class="mainbar">
-        ${components.savebox("/proposal/%s" % c.proposal.id)}
-        ${components.form_watch(c.proposal)}
-    </div>
-</form>

@@ -1,8 +1,37 @@
-
+<%def name="widget(tile, poll, cls='', deactivated=False, need_auth=False)">
+## cls='' -> normal (small) vote widget.
+## cls='big' -> big vote widget
+## styles: /static/stylesheets/screen/content.css
+## deactivated: Should the widget be deactivated? (e.g. out of the voting phase)
+## need_auth: Redirect user to login page.
+## FIXME: Render vote_up/vote_down as span's if the user already has that
+## position.
+## FIXME: Render the vote_count as a link to the votes listing
+<%
+pro = tile.widget_action_attrs(model.Vote.YES)
+con = tile.widget_action_attrs(model.Vote.NO)
+%>
+<div class='vote_wrapper'>
+<div id="${tile.html_id}" class="${tile.widget_class}">
+    <a href="${tile.votes_listing_url}"
+       rel="#overlay-ajax"
+    class="vote_count ${tile.count_class}"
+          >${tile.display_score}</a
+    ><a href="${pro['url']}"
+        class="${pro['class']} ttip ${'do_vote' if tile.can_vote else ''}"
+        title="${pro['title']}"
+        ><span>&nbsp;</span></a
+    ><a href="${con['url']}"
+        class="${con['class']} ttip ${'do_vote' if tile.can_vote else ''}"
+        title="${con['title']}"
+        ><span>&nbsp;</span></a>
+</div>
+</div>
+</%def>
 
 <%def name="booth(tile, poll)">
     <div class="tile voting_booth">
-    <h4><img src="/img/icons/vote_16.png" class="cd" /> ${_("Poll")}</h4>
+    <h4>${_("Poll")}</h4>
         
             %if can.poll.vote(poll):
                 <form action="${h.entity_url(poll, member='vote')}" method="POST">
@@ -129,10 +158,25 @@
                 ${_("began %s") % h.relative_time(tile.poll.begin_time)|n}
             %endif
             %if poll.can_end() and h.has_permission('poll.abort'):
-                &middot; 
+                · 
                 <a class="delete" 
                    href="${h.entity_url(poll, member='ask_delete')}">${_("cancel")}</a>
             %endif
         </div>
     </div>
 </%def>
+
+<%def name="row(tile, poll)">
+<li>
+    <span class="countdown">
+      %if not poll.end_time:
+        ${_("no enddate")}
+      %else:
+        ${h.countdown_time(tile.poll.end_time, 0)}
+      %endif      
+    </span>
+     
+    <br />
+  <a class="link" href="${h.entity_url(poll.scope)}">${poll.scope.title}</a> 
+</li>
+</%def>   

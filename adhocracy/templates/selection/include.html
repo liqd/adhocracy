@@ -7,19 +7,12 @@
     ${h.selection.breadcrumbs(None)|n}
 </%def>
 
+<%block name="headline">
 ${tiles.proposal.header(c.proposal, active='implementation')}
+</%block>
 
-<div class="sidebar">
-    <div class="help">
-        <h3>${_("Help")}</h3>
-        <ul>
-            <li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
-            <li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
-            <li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
-            <li>${h.help_link(_("More help..."), 'selection_faq')|n}</li>
-        </ul>
-    </div>
-</div>
+
+<%block name="main_content">
 <div class="mainbar">
     <h2>${_("Change an existing norm")}</h2>
     <div class="infobox">
@@ -43,4 +36,4 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
           </li>
       </ul> 
   %endif
-</div>
+</%block>

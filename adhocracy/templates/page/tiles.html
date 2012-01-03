@@ -3,26 +3,27 @@
 
 <%def name="smallrow(tile, page)">
     <div class="tile smallrow">
-        ${h.page.link(page, icon=True, icon_size=16)|n}
+        ${h.page.link(page)|n}
     </div>
 </%def>
 
 
 <%def name="row(tile, page)">
-    <div class="tile">
-        <div class="base" style="background-image: url(${h.page.icon_url(page, size=32)});">
+    <li class="content_box">
+        <div>
             <h3><a class="link" href="${h.entity_url(page)}">${page.title}</a></h3>
             <div class="meta noclear">              
                 %if page.function == page.NORM:
-                    <img src="/img/icons/proposal_16.png" /> 
                     ${ungettext("%s proposal", "%s proposals", len(page.selections)) % len(page.selections)}
+                    ·
                 %endif
-                <img src="/img/icons/discuss_16.png" /> 
-                ${ungettext("%s comment", "%s comments", page.comment_count()) % page.comment_count()},
+                ${ungettext("%s comment", "%s comments", page.comment_count()) % page.comment_count()}
+                ·
                 ${_("latest <b>%s</b>") % h.relative_time(page.find_latest_comment_time())|n}&nbsp;
             </div>
         </div>
-    </div>
+        <div class="hr"><hr /></div>
+    </li>
 </%def>
 
 
@@ -49,9 +50,10 @@ list_limit, initial_option=None, allow_empty=True)">
 
 
 <%def name="inline(tile, page, text, subpages_pager=None, hide_discussion=False)">
-    ${tiles.text.full(text, subpages_pager=subpages_pager, 
-                      hide_discussion=hide_discussion)}
+    ## FIXME: better text, translate
+    ${tiles.text.minimal(text, missing_translation=_('No text.'))}
 </%def>
+
 
 <%def name="header(tile, page, active, text, variant)">
     <div class="top_actions title">
@@ -90,14 +92,12 @@ list_limit, initial_option=None, allow_empty=True)">
     <div style="clear: both;"></div>
     <h1 class="page_title">
     %if text.variant != text.HEAD:
-        <img class="cd" src="/img/icons/page_variant_24.png" />
         %if c.variant:
             ${_("Variant %s of %s") % (text.variant_html, text.title)|n}
         %else:
             ${_("Variant of %s") % (text.title,)}
         %endif
     %else:
-        <img class="cd" src="${h.page.icon_url(page, size=24)|n}" />
         ${text.title}
     %endif
     </h1>

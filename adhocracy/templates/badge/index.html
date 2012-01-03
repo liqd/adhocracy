@@ -6,18 +6,12 @@
     ${h.tag.breadcrumbs(None)|n}
 </%def>
 
-<h1 class="page_title"><img src="/img/icons/tag_24.png" class="cd" /> ${_("All Badges")}</h1>
+<%block name="headline">
 
-<div class="sidebar">
-  <div class="help">
-    <h3>${_("Help")}</h3>
-    <ul>
-      <li>fixme: add help texts</li>
-    </ul>
-  </div>
-</div>
+<h1 class="page_title">${_("All Badges")}</h1>
+</%block>
 
-<div class="mainbar">
+<%block name="main_content">
   <h1>${_("User Badges")}</h1>
   % if not c.badges_users:
   <p>${_("No badges added yet.")}</p>
@@ -45,7 +39,6 @@
         
         <td>
           <a class="button edit ttip"
-             title='${_("Edit Badge \"%s\"") % badge.title}' 
              href="./badge/edit/${badge.id}">${_('Edit')}</a></td>
       </tr>
       %endfor
@@ -73,12 +66,14 @@
         
         <td>
           <a class="button edit ttip"
-             title='${_("Edit Badge \"%s\"") % badge.title}' 
              href="./badge/edit/${badge.id}">${_('Edit')}</a></td>
       </tr>
       %endfor
     </table>
   </div>    
-  <p></p>
-  <a class="button add" href="/badge/add">${_("Add new badge...")}</a>
-</div>
+
+  <div class="inline_input_wrapper">
+      <a class="button add" href="/badge/add">${_("Add new badge...")}</a>
+  </div>
+</%block>
+

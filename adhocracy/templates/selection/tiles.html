@@ -1,9 +1,82 @@
 
 <%def name="row(tile, selection)">
+
+<%
+is_different_variant = (tile.selected is not None and
+                        not tile.selected_text.is_head)
+if is_different_variant:
+    variant_url = h.page.page_variant_url(
+                   selection.page, variant=tile.selected_text.variant)
+else:
+    variant_url = h.entity_url(selection.page)
+%>
+<div class="paper" id="p${selection.id}">
+    <div class="paper_head floatbox">
+        <h4><a href="${variant_url}">
+            ${selection.page.full_title}
+            %if is_different_variant:
+            ·
+            ${_('Variant: %s') % tile.selected_text.variant}
+            %endif
+        </a></h4>
+
+        <a class="icon_link more" href="${variant_url}">
+            ${_('Show Norm')}
+        </a>
+    </div>
+
+            %if tile.selected is None:
+                    ${_("There is a tie between variants, thus none is "
+                        "included at the moment.")}
+            %else:
+                %if tile.selected_text.is_head:
+                        ${_("Status quo has the most votes, resulting in no proposed change to this norm.")}
+                %else:
+
+                ${diff.norm_texts_history_compare(tile.selected_text, selection.page.head)|n}
+
+                %endif
+
+
+            %endif
+
+    <div class="paper_actions floatbox">
+        <div>
+            <%
+            proposal_url = h.proposal.url(selection.proposal)
+            details_url = "%s/%s/details" % (proposal_url, str(selection.id))
+            %>
+            <a href="${details_url}"
+               rel="#overlay-ajax-big"
+               class="participate">${_('Get Involved')}</a>
+            <%doc> FIXME: Remove completely when we keep that out
+            <a href="#" class="show_comments">2 Kommentare</a>
+            <a href="#" class="new_comment">Kommenar hinzufügen</a>
+            </%doc>
+        </div>
+        <div class="meta">
+            %if tile.selected is not None and not tile.selected_text.is_head:
+            <span class="hover_active" style="display: none;">
+                ${_('Proposed by')}
+                · ${h.user.link(tile.selected_text.user, 
+                                       show_badges=False)|n}
+            </span>
+            <time pubdate="pubdate">14.08.2011</time>
+            %else:
+            <span>&nbsp;</span>
+            %endif
+        </div>
+    </div>
+    ## FIXME: Render comments
+    <div class="hr">
+        <hr />
+    </div>
+</div>
+       
+<%doc>           
     <div class="tile selection" id="selection_${selection.id}">
         <h3 class="section">
             ##<!--a href="${h.entity_url(selection)}"-->
-            <img class="cd" src="/img/icons/page_variant_16.png">
             ${selection.page.title}
             ##<!--/a-->
             ##%if tile.selected and tile.selected != 'HEAD':
@@ -47,7 +120,7 @@
                     <div class="variant_header">
                         ${_("Selected variant: <b>%s</b>") % ("<a href='%s'>%s</a>" % (h.entity_url(tile.selected_text), tile.selected_text.variant_html))|n}
                         %if can.variant.edit(selection.page, tile.selected):
-                            &middot; <a href="${h.entity_url(tile.selected_text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
+                            · <a href="${h.entity_url(tile.selected_text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
                         %endif
                     </div>
                 %endif
@@ -81,6 +154,7 @@
         </div>
     </div>
     <br/>
+</%doc>
 </%def>
 
 
@@ -122,19 +196,19 @@
                 %if row.text.is_head:
                     ${_("(this proposal should not change this norm)")}
                 %elif row.selected and not row.text.is_head and not tile.frozen:
-                    &middot; ${_("Currently selected for inclusion in this proposal")}
-                %endif
+                    · ${_("Currently selected for inclusion in this proposal")}
+                    %endif 
                 <br/>
                 ${ungettext("%s comment", "%s comments", row.num_comments) % row.num_comments}
-                &middot; <a href="${h.entity_url(row.text)}">${_("view")}</a>
+                · <a href="${h.entity_url(row.text)}">${_("view")}</a>
                 %if row.can_edit:
-                    &middot; <a href="${h.entity_url(row.text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
+                    · <a href="${h.entity_url(row.text, member='edit')}?proposal=${selection.proposal.id}">${_("edit")}</a>
                 %endif
                 %if can.variant.delete(selection.page, row.text.variant):
-                    &middot; <a href="${h.entity_url(row.text, member='ask_purge')}">${_("purge variant")}</a>
+                    · <a href="${h.entity_url(row.text, member='ask_purge')}">${_("purge variant")}</a>
                 %endif
                 %if tile.selected_text and row.text.id != tile.selected_text.id:
-                    &middot; <a href="/page/diff?left=${row.text.id}&right=${tile.selected_text.id}">${_("compare")}</a>
+                    · <a href="/page/diff?left=${row.text.id}&right=${tile.selected_text.id}">${_("compare")}</a>
                 %endif
             </div></div>
             <div id="text_${row.text.id}"

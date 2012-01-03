@@ -8,23 +8,26 @@ index = page.index
 show = page.show
 
 
-def create(variant=Text.HEAD):
-    return has('instance.admin') and page.create() and \
-            c.instance.use_norms and not c.instance.frozen
+def create(check, variant=Text.HEAD):
+    check.perm('instance.admin')
+    page.create(check)
+    check.other('instance_without_norms', not c.instance.use_norms)
+    check.other('instance_frozen', c.instance.frozen)
 
-def propose():
-    if has('instance.admin') and c.instance.use_norms:
-        return True
-    if not c.instance.allow_propose:
-        return False
-    if c.instance.frozen:
-        return False
-    return has('page.edit')
 
-def edit(page, variant=Text.HEAD):
-    if not page.instance.use_norms:
-        return False
-    return _variant.edit(page, variant)
+def propose(check):
+    check.other('instance_without_norms', not c.instance.use_norms)
+    if has('instance.admin'):
+        return
+    check.other('no_instance_allow_propose', not c.instance.allow_propose)
+    check.other('instance_frozen', c.instance.frozen)
+    check.perm('page.edit')
 
-def delete(n):
-    return False
+
+def edit(check, page, variant=Text.HEAD):
+    check.other('page_instance_without_norms', not page.instance.use_norms)
+    _variant.edit(check, page, variant)
+
+
+def delete(check, n):
+    check.other('norms_cannot_be_deleted', True)

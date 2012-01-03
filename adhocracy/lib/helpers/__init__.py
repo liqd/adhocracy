@@ -15,6 +15,7 @@ from webhelpers.text import truncate
 from adhocracy.lib import cache
 from adhocracy.lib import democracy
 from adhocracy.lib import sorting
+from adhocracy.lib import version
 from adhocracy.lib.auth.authorization import has as has_permission
 from adhocracy.lib.auth.csrf import url_token, field_token
 from adhocracy.lib.helpers import site_helper as site
@@ -32,6 +33,7 @@ from adhocracy.lib.helpers import instance_helper as instance
 from adhocracy.lib.helpers import abuse_helper as abuse
 from adhocracy.lib.helpers import milestone_helper as milestone
 from adhocracy.lib.helpers import recaptcha_helper as recaptcha
+from adhocracy.lib.helpers.url import build
 from adhocracy.lib.helpers.site_helper import base_url
 from adhocracy.lib.watchlist import make_watch, find_watch
 from adhocracy import model
@@ -41,6 +43,21 @@ from adhocracy.i18n import relative_date, relative_time
 
 flash = _Flash()
 recaptcha = recaptcha.Recaptcha()
+
+
+def sorted_flash_messages():
+    '''
+    Return the flash messages sorted by priority, keeping
+    the order.
+    '''
+    order = ['error', 'warning', 'success', 'notice']
+    sorted_ = []
+    unsorted = flash.pop_messages()
+    for category in order:
+        for message in unsorted:
+            if message.category == category:
+                sorted_.append(message)
+    return sorted_
 
 
 def immutable_proposal_message():
@@ -132,6 +149,23 @@ def help_link(text, page, anchor=None):
             u">%s</a>") % (page, full_url, text)
 
 
+def login_redirect_url(entity=None, **kwargs):
+    '''
+    Builds an ".../login?came_from=http...." pointing to the /login
+    form in the current instance domain. If ``entity`` is set, this
+    will redirect to the given entity after successful login. If
+    ``entity`` is None, it will redirect to the current URL.
+    '''
+    if entity is None:
+        came_from_url = request.path_url
+    else:
+        came_from_url = entity_url(entity, **kwargs)
+
+    login_url = build(c.instance, '', 'login',
+                      query={'came_from': came_from_url})
+    return login_url
+
+
 def entity_url(entity, **kwargs):
     if isinstance(entity, model.User):
         return user.url(entity, **kwargs)
@@ -158,5 +192,3 @@ def entity_url(entity, **kwargs):
     elif isinstance(entity, model.Tag):
         return tag.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
-
-

@@ -13,12 +13,12 @@ from repoze.what.plugins.pylonshq import ActionProtector
 
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h, pager
-from adhocracy.lib import tiles, watchlist
+from adhocracy.lib import sorting, tiles, watchlist
 from adhocracy.lib.auth import authorization, can, csrf, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, render_json
+from adhocracy.lib.templating import render, render_def, render_json
 from adhocracy.lib.queue import post_update
 from adhocracy.lib.util import get_entity_or_abort
 
@@ -75,6 +75,10 @@ class DelegateableBadgesForm(formencode.Schema):
 
 class ProposalController(BaseController):
 
+    def __init__(self):
+        super(ProposalController, self).__init__()
+        c.active_subheader_nav = 'proposals'
+
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
@@ -92,7 +96,7 @@ class ProposalController(BaseController):
         c.tile = tiles.instance.InstanceTile(c.instance)
         c.badges = model.Badge.all()
         c.badges = filter(lambda x: x.badge_delegateable, c.badges)
-        c.badges = sorted(c.badges, key=attrgetter('title')) 
+        c.badges = sorted(c.badges, key=attrgetter('title'))
         return render("/proposal/index.html")
 
     @RequireInstance
@@ -127,6 +131,7 @@ class ProposalController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     def create(self, format='html'):
         require.proposal.create()
+
         try:
             self.form_result = ProposalCreateForm().to_python(request.params)
         except Invalid, i:
@@ -182,9 +187,13 @@ class ProposalController(BaseController):
         require.proposal.edit(c.proposal)
 
         c.text_rows = text.text_rows(c.proposal.description.head)
+
+        force_defaults = False
+        if errors:
+            force_defaults = True
         return htmlfill.render(render("/proposal/edit.html"),
                                defaults=dict(request.params),
-                               errors=errors, force_defaults=False)
+                               errors=errors, force_defaults=force_defaults)
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
@@ -227,6 +236,13 @@ class ProposalController(BaseController):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.show(c.proposal)
 
+        c.num_selections = c.proposal.selections
+        c.show_selections = c.proposal.instance.use_norms
+        if c.show_selections:
+            c.sorted_selections = sorting.sortable_text(
+                c.proposal.selections,
+                key=lambda s: s.page.title)
+
         if format == 'rss':
             return self.activity(id, format)
 
@@ -240,8 +256,28 @@ class ProposalController(BaseController):
                                          exclude=used_pages,
                                          functions=functions)
         c.disable_include = len(available_pages) == 0
+        c.history_url = h.entity_url(c.proposal.description.head,
+                                     member='history')
         self._common_metadata(c.proposal)
         return render("/proposal/show.html")
+
+    @RequireInstance
+    def history(self, id, format="html"):
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.show(c.proposal)
+
+        proposal_text = c.proposal.description.head
+        c.texts_pager = pager.NamedPager(
+            'texts', proposal_text.history, tiles.text.history_row, count=10,
+            sorts={_("oldest"): sorting.entity_oldest,
+                   _("newest"): sorting.entity_newest},
+            default_sort=sorting.entity_newest)
+
+        self._common_metadata(c.proposal)
+        if format == 'overlay':
+            return render_def('/proposal/history.html', 'overlay_content')
+        else:
+            return render('/proposal/history.html')
 
     @RequireInstance
     def delegations(self, id, format="html"):

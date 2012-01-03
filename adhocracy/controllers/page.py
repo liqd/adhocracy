@@ -1,4 +1,10 @@
+try:
+    import json
+except ImportError:
+    import simplejson as json
 import logging
+from operator import itemgetter
+
 
 import formencode
 from formencode import htmlfill, Invalid, validators
@@ -16,6 +22,9 @@ from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.text.diff import (norm_texts_inline_compare,
+                                     page_titles_compare)
+from adhocracy.lib.text.render import render_line_based, render as render_text
 import adhocracy.lib.text as libtext
 from adhocracy.lib.util import get_entity_or_abort
 
@@ -58,8 +67,8 @@ class PageUpdateForm(formencode.Schema):
                                   not_empty=False)
     proposal = forms.ValidProposal(not_empty=False, if_empty=None,
                                    if_missing=None)
-    milestone = forms.MaybeMilestone(if_empty=None, 
-            if_missing=None)
+    milestone = forms.MaybeMilestone(if_empty=None,
+                                     if_missing=None)
 
 
 class PageFilterForm(formencode.Schema):
@@ -75,6 +84,10 @@ class PageDiffForm(formencode.Schema):
 
 
 class PageController(BaseController):
+
+    def __init__(self):
+        super(PageController, self).__init__()
+        c.active_subheader_nav = 'norms'
 
     @RequireInstance
     @validate(schema=PageFilterForm(), post_only=False, on_get=True)
@@ -98,13 +111,14 @@ class PageController(BaseController):
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
         c.title = request.params.get('title', None)
-        c.proposal = request.params.get("proposal")
+        proposal_id = request.params.get("proposal")
 
         html = None
-        if c.proposal is not None:
-            c.proposal = model.Proposal.find(c.proposal)
+        if proposal_id is not None:
+            c.proposal = model.Proposal.find(proposal_id)
             html = render('/selection/propose.html')
         else:
+            c.propose = None
             html = render("/page/new.html")
 
         return htmlfill.render(html, defaults=defaults, errors=errors,
@@ -251,19 +265,158 @@ class PageController(BaseController):
                    topics=[c.page], page=c.page, rev=text)
         redirect(h.entity_url(target))
 
+    @classmethod
+    def _diff_details(cls, left, right):
+        left_text = left.text.strip() if left.text else ''
+        right_text = right.text.strip() if right.text else ''
+        has_changes = ((left_text != right_text))
+
+        title = right.title
+        text = render_line_based(right)
+        text_diff = norm_texts_inline_compare(left, right)
+        title_diff = page_titles_compare(left, right)
+
+        return dict(title=title, text=text, title_diff=title_diff,
+                    text_diff=text_diff, has_changes=has_changes,
+                    is_head=(right.variant == model.Text.HEAD))
+
+    @classmethod
+    def selection_details(cls, selection, current_selection=None):
+        selected_variant = selection.selected
+        score = rendered_score = None
+        if selected_variant is not None:
+            score = selection.variant_poll(selected_variant).tally.score
+            rendered_score = "%+d" % score
+        item = {'score': score,
+                'rendered_score': rendered_score,
+                'selection_id': selection.id,
+                'proposal_title': selection.proposal.title,
+                'proposal_text':
+                    render_text(selection.proposal.description.head.text),
+                'proposal_url': h.selection.url(selection),
+                'current': selection.id == current_selection,
+                }
+        return item
+
+    @classmethod
+    def supporting_selections_details(cls, page, variant,
+                                      current_selection=None):
+        selections = []
+        for selection in page.supporting_selections(variant):
+            selections.append(
+                cls.selection_details(selection,
+                                      current_selection=current_selection))
+        return selections
+
+    @classmethod
+    def variant_details(cls, page, variant, current_selection=None):
+        '''
+        Return details for a variant including diff information
+        and details about the proposals that selected this variant.
+        '''
+        head_text = page.head
+        variant_text = page.variant_head(variant)
+        details = cls._diff_details(head_text, variant_text)
+
+        # Replace items comming from diff_details for the UI
+        messages = (('text', _('<i>(No text)</i>')),
+                    ('title', _('<i>(No title))</i>')),
+                    ('text_diff', _('<i>(No differences))</i>')),
+                    ('title_diff', _('<i>(No differences)</i>')))
+        for (key, message) in messages:
+            if details[key].strip() == '':
+                details[key] = message
+
+        selections = cls.supporting_selections_details(
+            page, variant, current_selection=current_selection)
+        details.update(
+            {'variant': variant,
+             'display_title': cls.variant_display_title(variant),
+             'history_url': h.entity_url(variant_text, member='history'),
+             # FIXME: Text.history is marked with comment 'performance fail'
+             'history_count': len(variant_text.history),
+             'selections': selections,
+             'num_selections': len(selections),
+             'is_head': (variant == model.Text.HEAD),
+             'can_edit': can.variant.edit(page, variant),
+             'edit_url': h.entity_url(variant_text, member='edit')})
+        return details
+
+    @classmethod
+    def variant_display_title(cls, variant):
+        if variant == model.Text.HEAD:
+            return  _('Original version')
+        return _(u'Variant: "%s"') % variant
+
+    @classmethod
+    def variant_overview(cls, page, variant, current_variant=None,
+                         score_getter=None, render_head_score=False):
+        if score_getter is None:
+            score = page.variant_tally(variant).score
+        else:
+            score = score_getter(variant)
+        is_head = (variant == model.Text.HEAD)
+        title = _('Original Version') if is_head else variant
+        rendered_score = "%+d" % score
+        if score == 0:
+            rendered_score = '0'
+        if is_head and not render_head_score:
+            rendered_score = ''
+        details = {'href': h.page.page_variant_url(page, variant=variant),
+                   'title': title,
+                   'display_title': cls.variant_display_title(variant),
+                   'is_head': is_head,
+                   'selected': variant == current_variant,
+                   'score': score,
+                   'rendered_score': rendered_score,
+                   'variant': variant}
+        return details
+
+    @classmethod
+    def variant_items(self, page, current_variant=None, score_getter=None,
+                      render_head_score=False):
+        head_item = None
+        variant_items = []
+        # FIXME: What to do if we get passed a selection that did not select
+        # the current variant? Warn? Redirect?
+        for variant in page.variants:
+            details = self.variant_overview(page, variant,
+                                            current_variant=current_variant,
+                                            score_getter=score_getter,
+                                            render_head_score=render_head_score)
+            if variant == model.Text.HEAD:
+                head_item = details
+            else:
+                variant_items.append(details)
+
+        variant_items = sorted(variant_items, key=itemgetter('score'),
+                               reverse=True)
+        variant_items.insert(0, head_item)
+        return variant_items
+
     @RequireInstance
     def show(self, id, variant=None, text=None, format='html'):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
+
+        # Error handling and json api
         if c.text.variant != c.variant:
             abort(404, _("Variant %s does not exist!") % c.variant)
         if format == 'json':
             return render_json(c.page.to_dict(text=c.text))
-        if c.variant != model.Text.HEAD:
-            options = [c.page.variant_head(v) for v in c.page.variants]
-            return self._differ(c.page.head, c.text, options=options)
-        c.tile = tiles.page.PageTile(c.page)
 
+        # variant details and returning them as json when requested.
+        requested_selection = request.params.get('selection', 0)
+        c.variant_details = self.variant_details(
+            c.page, c.variant, current_selection=int(requested_selection))
+        if 'variant_json' in request.params:
+            return render_json(c.variant_details)
+        c.variant_details_json = json.dumps(c.variant_details, indent=4)
+
+        # Make a list of variants to render the vertical tab navigation
+        c.variant_items = self.variant_items(c.page, current_variant=c.variant)
+
+        # Metadata and subpages pager
         sorts = {_("oldest"): sorting.entity_oldest,
                  _("newest"): sorting.entity_newest,
                  _("alphabetically"): sorting.delegateable_title}
@@ -274,7 +427,7 @@ class PageController(BaseController):
         return render("/page/show.html")
 
     @RequireInstance
-    def history(self, id, variant=model.Text.HEAD, text=None, format='html'):
+    def history(self, id, variant=model.Text.HEAD, text=None, format=None):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
         if c.text is None:
@@ -282,14 +435,18 @@ class PageController(BaseController):
             redirect(h.entity_url(c.page))
         c.texts_pager = pager.NamedPager(
             'texts', c.text.history, tiles.text.history_row, count=10,
-            sorts={_("oldest"): sorting.entity_oldest,
-                   _("newest"): sorting.entity_newest},
+            sorts={},
             default_sort=sorting.entity_newest)
+
         if format == 'json':
             return render_json(c.texts_pager)
         c.tile = tiles.page.PageTile(c.page)
         self._common_metadata(c.page, c.text)
-        return render('/page/history.html')
+
+        if format == 'overlay':
+            return c.texts_pager.here()
+        else:
+            return render('/page/history.html')
 
     @RequireInstance
     @validate(schema=PageDiffForm(), form='bad_request', post_only=False,

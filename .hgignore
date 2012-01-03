@@ -11,6 +11,7 @@ syntax:glob
 *.rej
 *.DS_Store
 .\#*
+*~ 
 bundestag.ini
 test-site/*
 
@@ -18,3 +19,4 @@ data/*
 docs/_build/*
 test-data/index
 site/*
+test-site/*

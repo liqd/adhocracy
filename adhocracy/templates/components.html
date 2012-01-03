@@ -4,6 +4,29 @@
     </div>
 </%def>
 
+<%def name="headline()">
+
+</%def>
+
+
+<%def name="build_infobox()">
+<div class="info_box to_hide">
+    <a class="close_button only-js">close</a>
+    ${caller.body()}
+</div>
+</%def>
+
+<%def name="flashmessages()">
+<% messages = h.sorted_flash_messages() %>
+%if messages:
+    %for message in messages:
+    <div class="alert-message ${message.category}">
+        <a class="close_button only-js" href="#">x</a>
+    ${message}</div>
+    %endfor
+%endif
+</%def>
+
 <%def name="savebox(cancel_url, save_text=None, tabindex=99)">
     <div class="savebox">
         <button type="submit" tabindex="${tabindex}">
@@ -16,30 +39,239 @@
     </div>
 </%def>
 
+
 <%def name="form_watch(entity, checked=False)">
     %if can.watch.create():
-        <%
+    <%
         if entity:
             checked = checked or (h.find_watch(entity) is not None)
         %>
-        <input class="watch" type="checkbox" ${'checked=\"checked\"' if checked else ''} name="watch"/>
-        ${_("Notify me of updates.")}
+        <label for="watch">
+        <input class="watch" type="checkbox" ${'checked=\"checked\"' if checked else ''} name="watch" id="watch" />
+        ${_("Notify me of updates.")}        
+        </label>
     %endif
 </%def>
 
+<%doc>
+## msgids used in the following def watch()
+## repeated here to have something babel can pick up
+_('Proposal')
+_('Norm')
+_('Instance')
+_('Milestone')
+_('User')
+_('Comment')
+_('Tag')
+</%doc>
 <%def name="watch(entity)">
+    ## FIXME: turn into an ajax call
     %if c.user:
-        <%
-        watch = h.find_watch(entity)
-        %>
-        %if watch and can.watch.delete(watch):
-            <a class="button delete ttip" title="${_('Stop receiving notifications.')}"
-               href="/watch/delete?watch=${watch.id}&${h.url_token()}"><img src='/img/mail.png' /> 
-            ${_("unwatch")}</a>
-        %elif can.watch.create():
-            <a class="button edit ttip" title="${_('Receive notifications when this item is updated.')}"
-               href="/watch/create?${h.make_watch(entity)}&${h.url_token()}"><img src='/img/mail.png' /> 
-            ${_("watch")}</a>
-        %endif
+    <%
+    if isinstance(entity, model.Page):
+        what = 'Norm'
+    elif isinstance(entity, model.Instance):
+        what = 'Instance'
+    elif isinstance(entity, model.Proposal):
+        what = 'Proposal'
+    elif isinstance(entity, model.Milestone):
+        what = 'Milestone'
+    elif isinstance(entity, model.User):
+        what = 'User'
+    elif isinstance(entity, model.Comment):
+        what = 'Comment'
+    elif isinstance(entity, model.Tag):
+        what = 'Tag'
+    else:
+        log.error('Unknown entity for watch button: %s' % entity)
+
+    skip = False
+    watch = h.find_watch(entity)
+    what = _(what)
+
+    if watch and can.watch.delete(watch):
+        css_cls = "active"
+        text = _('Following')
+        hover_text = _('Unfollow')
+        href = "/watch/delete?watch=%s&%s" % (watch.id, h.url_token())
+    elif not watch and can.watch.create():
+        css_cls = ""
+        text = hover_text = _("Follow %s") % what
+        href = "/watch/create?%s&%s" % (h.make_watch(entity),
+                                        h.url_token())
+    else:
+        skip = True
+    %>
+    %if skip:
+    <div class="skip_follow">
+        <%doc>
+        placeholder div to fill the space if we cannot render a widget.
+        FIXME: What if a user is authenticated, but is not allowed
+        to watch/unwatch
+        </%doc>
+    </div>
+    %else:
+    <a class="follow_paper ${css_cls}" href="${href}"
+       data-text="${text}" data-hover-text="${hover_text}">${text}</a>
     %endif
+
+    %else:
+    ## (not c.user)
+    <div class="skip_follow">
+        <%doc>
+        FIXME: render a replacement with auth instructions. Problem:
+        FIXME: How to determinate if login and join the instance is enough?
+        </%doc>
+    </div>
+    %endif
+</%def>
+
+<%def name="title()"></%def>
+
+
+<%def name="vertical_tabs(items, css_class)">
+<nav>
+    <div id="sidebar_nav" class="${css_class}"><div>
+        <ul>
+            %for item in items:
+            <li>
+                <a href="${item['href']}"
+                   data-bind="click: function() {loadVariant('${item['variant']}', '${item['href']}')},
+                              css: {current: variants.current.variant() === '${item['variant']}'}"
+                   class="${'current' if item['selected'] else ''}">
+                    <span class="truncate">${item['title']}</span>
+                    <span class="count">${item['rendered_score']}</span>
+                </a>
+            </li>
+            %endfor
+        </ul>
+    </div></div>
+</nav>
+</%def>
+
+<%def name="social_share_buttons(entity)">
+<%
+# need() the lib and get it's url
+from fanstatic import get_needed
+from js.socialshareprivacy import library, socialshareprivacy
+socialshareprivacy.need()
+base_url = get_needed().library_url(library)
+
+# create the tweet text
+text = "%s - %s: %s" % (h.site.name, c.instance.label, entity.title)
+%>
+<div id="socialshareprivacy"></div>
+<script type="text/javascript">
+    adhocracy.helpers.createSocialButtons('#socialshareprivacy', '${text}',
+    '${base_url}');
+</script>
+
+</%def>
+
+<%def name="head()">
+  <meta charset="utf-8" />
+    <title>${'self.title() - ' if self.title() else ''} - 
+            %if c.instance:
+                 ${c.instance.label} 
+            %endif
+                ${h.site.name()}
+    </title>
+
+    <meta http-equiv="X-XRDS-Location" 
+          content="${h.base_url(c.instance, path='/openid/xrds')}" />
+
+    %for key, value in c.html_meta.items():
+    <meta name="${key}" content="${value}" />
+    %endfor
+
+    <!-- template -->
+
+  <link rel="stylesheet" type="text/css" media="all" href="${h.base_url(None, path='/stylesheets/style.css')}" />
+  <!--[if lte IE 7]>
+  <link href="/stylesheets/patches/patch.css" rel="stylesheet" type="text/css" />
+  <![endif]-->
+
+  <link rel="icon" href="${h.base_url(None, path='/favicon.ico')}" type="image/png" />
+
+  <script type="text/javascript"
+          src="${h.base_url(None, path='/javascripts/slides.min.jquery.js')}" 
+          charset="utf-8"></script>
+  <script type="text/javascript"
+          src="${h.base_url(None, path='/javascripts/jquery.tools.min.js')}" 
+          charset="utf-8"></script>
+  <script type="text/javascript"
+          src="${h.base_url(None, path='/javascripts/jquery.multipleelements.cycle.min.js')}" 
+          charset="utf-8"></script>
+  <script type="text/javascript"
+          src="${h.base_url(None, path='/javascripts/jquery.label_over.js')}" 
+          charset="utf-8"></script>
+  <script type="text/javascript"
+          src="${h.base_url(None, path='/javascripts/jquery.elastic.js')}" 
+          charset="utf-8"></script>
+  <script type="text/javascript" 
+          src="${h.base_url(None, path='/javascripts/knockout-latest.debug.js')}"></script>
+  <script type="text/javascript" 
+          src="${h.base_url(None, path='/javascripts/knockout-mapping.js')}"></script>
+    <script type="text/javascript" src="${h.base_url(None, path='/javascripts/adhocracy.js')}" charset="utf-8"></script>
+
+    <script type="text/javascript" 
+            src="${h.base_url(None, path='/javascripts/jquery.autocomplete.min.js')}"></script>
+    <link rel="stylesheet" type="text/css" media="all" 
+          href="${h.base_url(None, path='/javascripts/jquery.autocomplete.css')}" />
+
+  <!-- HTML5 elements for IE -->
+  <script>
+    document.createElement('abbr');
+    document.createElement('article');
+    document.createElement('aside');
+    document.createElement('audio');
+    document.createElement('canvas');
+    document.createElement('details');
+    document.createElement('figcaption');
+    document.createElement('figure');
+    document.createElement('footer');
+    document.createElement('header');
+    document.createElement('hgroup');
+    document.createElement('mark');
+    document.createElement('menu');
+    document.createElement('meter');
+    document.createElement('nav');
+    document.createElement('output');
+    document.createElement('progress');
+    document.createElement('section');
+    document.createElement('summary');
+    document.createElement('time');
+    document.createElement('video');
+  </script>
+
+    <!-- /template -->
+
+    <!--html5 support-->
+    <script type="text/javascript" 
+        src="${h.base_url(None, path='/js/modernizr.js')}"></script>
+    <!--jquery 1.4.2 and jquery plugins-->
+    <!-- <script type="text/javascript"  -->
+    <!--       src="http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js"></script> -->
+    <!-- <script type="text/javascript"  -->
+    <!--     src="${h.base_url(None, path='/js/jquery.timeago.js')}"></script> -->
+    <!-- <script type="text/javascript"  -->
+    <!--     src="${h.base_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script> -->
+
+    %if c.instance and c.instance.css:
+        <link  rel="stylesheet" type="text/css" 
+            href="${h.base_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
+    %endif
+    
+    %for link in c.html_head_links:
+    <link rel="${link['rel']}" type="${link['type']}" 
+          title="${link['title']}" href="${link['href']}" />
+    %endfor
+
+    <style> 
+        %if c.user and c.user.no_help:
+            .help {display: none;}
+        %endif
+    </style>
+    
+      ${tiles.badge.badge_styles()}
 </%def>

@@ -1,20 +1,11 @@
 <%inherit file="/template.html" />
-<%namespace name="components" file="/components.html"/>
 
-<%def name="title()">${_("Proposals: %s") % c.page_user.name}</%def>
+<%block name="headline">
+<h1>${_(u'Proposals')}</h1>
+</%block>
 
-<%def name="breadcrumbs()">
-    ${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Proposals")}
-</%def>
-
-${tiles.user.header(c.page_user, active='proposals')}
-
-<div class="sidebar">
-    &nbsp;
-</div>
-
-<div class="mainbar">
-    <div class="table">
-        ${c.proposals_pager.here()}
-    </div>
-</div>
+<%block name="main_content">
+<section>
+    ${c.proposals_pager.here()}
+</section>
+</%block>

@@ -8,6 +8,7 @@ class CommentTile(BaseTile):
         self.comment = comment
         self.__topic_outbound = None
         self.__score = None
+        self.__num_child = None
 
     @property
     def text(self):
@@ -25,10 +26,13 @@ class CommentTile(BaseTile):
 
     @property
     def num_children(self):
-        num = len(filter(lambda c: not c.delete_time, self.comment.replies))
-        num += sum(map(lambda c: CommentTile(c)._num_children(),
-                       self.comment.replies))
-        return num
+        if self.__num_child is None:
+            num = len(filter(
+                    lambda c: not c.delete_time, self.comment.replies))
+            num += sum(map(lambda c: CommentTile(c).num_children,
+                           self.comment.replies))
+            self.__num_child = num
+        return self.__num_child
 
     @property
     def score(self):

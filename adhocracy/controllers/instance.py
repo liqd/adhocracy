@@ -64,6 +64,7 @@ class InstanceController(BaseController):
 
     def index(self, format='html'):
         require.instance.index()
+        c.active_global_nav = 'instances'
         h.add_meta("description",
                    _("An index of instances run at this site. "
                      "Select which ones you would like to join "
@@ -135,9 +136,7 @@ class InstanceController(BaseController):
         require.instance.show(c.page_instance)
 
         if format == 'sline':
-            sline = event.sparkline_samples(instance_activity,
-                                            c.page_instance)
-            return render_json(dict(activity=sline))
+            ret_abort(u'Sparkline data is not available anymore.', code=410);
 
         events = model.Event.find_by_instance(c.page_instance)
 
@@ -282,7 +281,8 @@ class InstanceController(BaseController):
 
         return ret_success(entity=c.page_instance, format=format,
                            message=_("Welcome to %(instance)s") % {
-                            'instance': c.page_instance.label})
+                            'instance': c.page_instance.label},
+                            category='success')
 
     def ask_leave(self, id):
         c.page_instance = self._get_current_instance(id)

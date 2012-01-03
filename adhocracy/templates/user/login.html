@@ -1,15 +1,14 @@
 <%inherit file="/template.html" />
 <%def name="title()">${_("Who are you, then?")}</%def>
 
-<div class="lefthalf">
-  <div id="loginform">
-    <h3>${_("Login")}</h3>
-    <span class="hint">${_("If you already have an account, sign in here.")}</span>
-    <%include file="/user/login_form.html"/>
-    <br/>
-  </div>
-</div>
+<%block name="attention_getter">
+## disable the attention getter if somebody is about to log in.
+</%block>
 
-<div class="infobox" style="clear: both; margin-top: 2em;">
-${_("If you have an account but you've lost your password, <a href='/reset'>click here</a>.")|n}
-</div>  
+<%block name="main_content">
+  <h3>${_("Login")}</h3>
+  <%include file="/user/login_form.html"/>
+
+  <p>${_("If you have an account but you've lost your password, <a href='/reset'>click here</a>.")|n}</p>
+
+</%block>

@@ -1,0 +1,24 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="comment_tiles" file="/comment/tiles.html"/>
+<%namespace name="state" file="/poll/state.html"/>
+
+<%def name="title()">${c.page.title}</%def>
+
+<%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
+
+<%block name="headline">
+</%block>
+
+<%block name="content_wrapper">
+
+${overlay_content()}
+</%block>
+
+<%def name="overlay_content()">
+
+<h2>${c.proposal.title} - ${_('History')}</h2>
+<div id="texts_table" class="table">
+    ${c.texts_pager.here()}
+</div>
+</%def>

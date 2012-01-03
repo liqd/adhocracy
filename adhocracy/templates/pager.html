@@ -1,36 +1,49 @@
 
 <%def name="namedpager(pager)">
-
-    <span class="pager_items">
-        ${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=pager.total_num_items())}
-    </span>
-    %if len(pager.sorts.keys()) > 1 and pager.enable_sorts:
-        <span class="pager_sorts">
-        ${_("sort by:")} |
-        %for sort, i in zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)):
-            <a class="${'selected' if i == pager.selected_sort else ''}" 
-                href="${pager.build_url(sort=i)}">${sort}</a>
-            %if i < len(pager.sorts.keys()):
-                |
+<div class="pager_wrapper">
+    %if pager.enable_pages or pager.enable_sorts:
+        <div class="floatbox">
+            %if pager.enable_pages:
+                <span class="pager_items">
+                    ${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=pager.total_num_items())}
+                </span>
             %endif
-        %endfor
-        </span>
+            %if len(pager.sorts.keys()) > 1 and pager.enable_sorts:
+                <div class="filter_box">        
+                    <span class="pager_sorts">
+                    %for sort, i in zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)):
+                        <a class="${'selected' if i == pager.selected_sort else ''}" 
+                           href="${pager.build_url(sort=i)|n}"
+			   rel="nofollow">${sort}</a>
+                        %if i < len(pager.sorts.keys()):
+                            |
+                        %endif
+                    %endfor
+                    </span>
+                </div>
+            %endif
+        </div>
     %endif
-    
-    <div class="table_listing">
+    <div class="hr"><hr /></div>
+    %if pager.enable_pages or pager.enable_sorts:
+      <ul class="content_list">
+    %endif
+    %if not (pager.enable_pages or pager.enable_sorts):
+      <ul class="content_list without_paging">
+    %endif
     %if not len(pager.items):
-        <div class="infobox">${_("No entries.")}</div>
+        <li class="infobox">${_("No entries.")}</li>
     %endif
     %for item in pager.items:
         ${pager.itemfunc(item)}
     %endfor
-    </div>
+      </ul>
     %if pager.enable_pages:
         %if pager.pages > 1:
         <div class="pager">
             <div class="prev_page">
                 %if pager.page > 1:
-                <a href="${pager.build_url(page=pager.page-1)}">&laquo; ${_("previous")}</a>
+                <a href="${pager.build_url(page=pager.page-1)|n}">&laquo; ${_("previous")}</a>
                 %else:
                 <span>&laquo; ${_("previous")}</span>
                 %endif
@@ -42,14 +55,14 @@
                     %if page['current']:
                         <span class="current">${page['label']}</span>
                     %else:
-                        <a href="${page['url']}" 
+                        <a href="${page['url']|n}" 
                            class="${page['class']}">${page['label']}</a>  
                     %endif
                 %endif
             %endfor
             <div class="next_page">
                 %if pager.page < pager.pages:
-                <a href="${pager.build_url(page=pager.page+1)}">${_("next")} &raquo;</a>
+                <a href="${pager.build_url(page=pager.page+1)|n}">${_("next")} &raquo;</a>
                 %else:
                 <span>${_("next")} &raquo;</span>
                 %endif
@@ -60,19 +73,22 @@
         <div class="pager_sorts bottom">
             %for size in pager.page_sizes():
                 <a class="${size['class']}" 
-                    href="${size['url']}">${size['size']}</a>
+                   href="${size['url']|n}"
+		   rel="nofollow">${size['size']}</a>
                 ${'|' if not size['last'] else ''}
             %endfor
             ${_("entries")}
         </div>
         %endif
     %endif
+</div>
 </%def>
-
 
 <%def name="facets(pager)">
 %if (True in [facet.available() for facet in pager.facets]):
-<p>${_("You can limit the number of results with the following criteria:")}</p>
+<h3>Liste filtern</h3>
+## FIXME: translate
+
 %for facet in pager.facets:
     %if facet.available():
     <div class="facet">
@@ -84,13 +100,14 @@
 </%def>
 
 <%def name="facet(facet)">
-<h3>
+<h4>
     ${facet.title}
     %if facet.used:
     <a class="remove"
-       href="${facet.unselect_all_link()}">(${_("Remove all")})</a>
+       href="${facet.unselect_all_link()|n}"
+       rel="nofollow">(${_("Remove all")})</a>
     %endif
-</h3>
+</h4>
 %if facet.description:
 <p>${facet.description}</p>
 %endif
@@ -105,11 +122,15 @@
             %if item['selected']:
             <span class="selected">
                 ${item['link_text']}
-                <a class="remove" href="${item['url']}">(${_("remove")})</a>
+                <a class="remove" href="${item['url']|n}" 
+		   rel="nofollow">
+		    (${_("remove")})
+		</a>
             </span>
             %else:
             <a class="${item['selected']}"  
-               href="${item['url']}">
+               href="${item['url']|n}"
+	       rel="nofollow">
                 ${item['link_text']} (${item['current_count']})
             </a>
             %endif
@@ -119,3 +140,13 @@
 </ul>
 <br />
 </%def>
+
+<%def name="overlay_pager(pager, render_facets=True)">
+
+<div>${pager.render_pager()}</div>
+%if render_facets:
+<div>${pager.render_facets()}</div>
+%endif
+</%def>
+
+

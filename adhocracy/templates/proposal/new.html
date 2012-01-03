@@ -7,9 +7,11 @@
     ${h.proposal.breadcrumbs(None)|n}
 </%def>
 
-<form name="create_proposal" class="inplace" method="POST" action="/proposal">
-    ${h.field_token()|n}
-    
+<%block name="headline">
+    <h3>${_("Create new proposal")}</h3>
+</%block>
+
+<%block name="sidebar">
     <div class="sidebar">
         <div class="help">
             <h3>${_("Help")}</h3>
@@ -22,114 +24,128 @@
             </ul>
         </div>
     </div>
-    
-    <div class="mainbar">
-        <h3>${_("Proposal title")}</h3>
-        <div class="page_title">
-            <label for="label" class="armhint">${_("New proposal")}</label>
-            <input tabindex="1" class="title armlabel" name="label" />
-        </div>
 
-        %if c.instance.use_norms:
-          <br/><br/>
-          <h3>${_("Change norms with this proposal")}</h3>
-          <!-- norm nom nom -->
-          <script>
-            var page_index = ${len(c.pages)+1};
-            $(document).ready(function() {
-              $("#selectpage").change(function(e) {
-                var id = $(e.target).val();
-                var url = '/page/' + id + '.json';
-                $.get(url, function(data) {
-                  var norm = $("#norms .prototype").clone();
-                  norm.children(".page-id").attr('name', 
-                    'page-' + page_index + '.id');
-                  norm.children(".page-id").val(id);
-                  norm.children(".page-title").html(data.title);
-                  norm.children(".page-text").attr('name', 
-                    'page-' + page_index + '.text');
-                  norm.children(".page-text").html(data.text.text);
-                  norm.insertBefore("#norms .prototype");
-                  $("#norm-help").slideUp('fast');
-                  norm.slideDown('fast');
-                  norm.removeClass('prototype');
-                  $(e.target).val("")
-                  console.log(id);
-                  $(e.target).children("option[value='" + id + "']").remove();
-                  // TODO: remove option afterwards
-                  page_index = page_index + 1;
-                }, 'json');
-              });
-            }); 
-          </script>
-          <div id="norms">
-            %if not len(c.pages):
-              <div id="norm-help" class="infobox">
-                ${_("Proposals are implemented by including changes towards new or existing norm. Norms are fixed documents that represent the consensus of this instance and can only be changed through a vote. Amend the proposal to change or create a norm.")} 
-              </div>
-            %endif
-            %for i, (id, title, text) in enumerate(c.pages):
-              <div class="proposal-new-norm">
-                <label for="page-${i+1}.text" 
-                  class="page-title">${title}</label>
-                <input type="hidden" class="page-id" 
-                  name="page-${i+1}.id" value="${id}" />
-                <textarea class="page-text" 
-                  name="page-${i+1}.text">${text}</textarea>
-              </div>
-            %endfor
-            <div class="proposal-new-norm prototype">
-              <label for="" class="page-title"></label>
-              <input type="hidden" class="page-id" />
-              <textarea class="page-text"></textarea>
-            </div>
-            <label for="selectpage">${_("Select a norm to change:")}</label>
-            ${tiles.page.select_page(field_name='selectpage',
-                                     functions=[model.Page.NORM], 
-                                     exclude=c.exclude_pages, 
-                                     allow_empty=True)}
-          </div>
+</%block>
+
+<%block name="main_content">
+<div class="form_wrapper">
+  <form name="create_proposal" class="inplace" method="POST" action="/proposal">
+    ${h.field_token()|n}
+    
+    
+    <fieldset>
+      <legend>${_("Proposal title")}</legend>
+      <div class="input_wrapper">
+        <label for="label" class="armhint">${_("New proposal")}</label>
+        <input type="text" tabindex="1" class="title armlabel" name="label" />
+      </div>
+    </fieldset>
+    
+    %if c.instance.use_norms:
+    <fieldset>          
+      <legend>${_("Change norms with this proposal")}</legend>
+      <!-- norm nom nom -->
+      <script>
+        var page_index = ${len(c.pages)+1};
+        $(document).ready(function() {
+          $("#selectpage").change(function(e) {
+            var id = $(e.target).val();
+            var url = '/page/' + id + '.json';
+            $.get(url, function(data) {
+              var norm = $("#norms .prototype").clone();
+              norm.children(".page-id").attr('name', 
+                'page-' + page_index + '.id');
+              norm.children(".page-id").val(id);
+              norm.children(".page-title").html(data.title);
+              norm.children(".page-text").attr('name', 
+                'page-' + page_index + '.text');
+              norm.children(".page-text").html(data.text.text);
+              norm.insertBefore("#norms .prototype");
+              $("#norm-help").slideUp('fast');
+              norm.slideDown('fast');
+              norm.removeClass('prototype');
+              $(e.target).val("")
+              console.log(id);
+              $(e.target).children("option[value='" + id + "']").remove();
+              // TODO: remove option afterwards
+              page_index = page_index + 1;
+            }, 'json');
+          });
+        }); 
+      </script>
+      <div id="norms">
+        %if not len(c.pages):
+          <p class="info">
+            ${_("Proposals are implemented by including changes towards new or existing norm. Norms are fixed documents that represent the consensus of this instance and can only be changed through a vote. Amend the proposal to change or create a norm.")} 
+          </p>
         %endif
-
-
-        <h3>${_("Proposal goals")}</h3>
-        <div class="infobox">
-            ${_("Give a brief description of <b>the goals</b> of your proposal.")|n}
+        %for i, (id, title, text) in enumerate(c.pages):
+          <div class="input_wrapper proposal-new-norm">
+            <label for="page-${i+1}.text" 
+              class="page-title">${title}</label>
+            <input type="hidden" class="page-id" 
+              name="page-${i+1}.id" value="${id}" />
+            <textarea class="page-text" 
+              name="page-${i+1}.text">${text}</textarea>
+          </div>
+        %endfor
+        <div class="input_wrapper proposal-new-norm prototype">
+          <label for="" class="page-title"></label>
+          <input type="hidden" class="page-id" />
+          <textarea class="page-text"></textarea>
         </div>
-    
+        <div class="input_wrapper">
+          <label for="selectpage">${_("Select a norm to change:")}</label>
+        ${tiles.page.select_page(field_name='selectpage',
+                                 functions=[model.Page.NORM], 
+                                 exclude=c.exclude_pages, 
+                                 allow_empty=True)}
+        </div>
+      </div>
+    </fieldset>
+    %endif
+
+    <fieldset>
+      <legend>${_("Proposal goals")}</legend>
+      <p class="info">${_("Give a brief description of <b>the goals</b> of your proposal.")|n}</p>
+      <div class="input_wrapper">
         <label for="text" class="armhint">${_("The proposal would...")}</label>
         <textarea tabindex="2" class="description armlabel" name="text"></textarea>
         ${components.formatting()}
+      </div>
+    </fieldset>
         
-
-        <br/><br/>
-        <h3>${_("Tag and classify")}</h3>
+    <fieldset>
+      <legend>${_("Tag and classify")}</legend>
+      <div class="input_wrapper">      
         <label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
-        <input name="tags" id="tags" class="armlabel long" />
-        <span class="hint">${_("Multiple tags can be separated by commas.")}
-            ${h.help_link(_("Help."), 'tag_faq')|n}
-      </span>
-      <br/>
-        <input type="checkbox" checked="" name="wiki" value="1"
-        checked="checked" />
-        ${_("Allow others to edit this proposal.")}
+        <input type="text" name="tags" id="tags" class="armlabel long" />
+        <p class="info">${_("Multiple tags can be separated by commas.")} ${h.help_link(_("Help."), 'tag_faq')|n}</p>      
+      </div>
+        
+      <div class="input_wrapper">
+        <label for="wiki">
+          <input type="checkbox" checked="" name="wiki" id="wiki" value="1" checked="checked" />
+          ${_("Allow others to edit this proposal.")}
+        </label>
+      </div>
 
       %if c.instance.milestones:
-        <br/>
-        <br/>
-        <label for="milestone">${_("Relates to a milestone")}</label>
-        ${tiles.milestone.select(None)}
-      %endif
-    </div>
-    
-    <div style="clear:both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${h.help_link(_("More help..."), 'proposal_faq')|n}
+        <div class="input_wrapper">
+          <label for="milestone">${_("Relates to a milestone")}</label>
+          ${tiles.milestone.select(None)}
         </div>
+      %endif
+
+      <p class="info">${h.help_link(_("More help..."), 'proposal_faq')|n}</p>
+    </fieldset>
+   
+    <div class="input_wrapper">
+      ${components.form_watch(None, checked=True)}
     </div>
-    <div class="mainbar">
-        ${components.savebox("/")}
-        ${components.form_watch(None, checked=True)}
+    <div class="input_wrapper submit">
+      ${components.savebox("/")}
     </div>
-</form> 
+  </form> 
+</div>
+</%block>

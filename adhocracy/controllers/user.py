@@ -1,5 +1,4 @@
 import logging
-import urllib
 from operator import attrgetter
 
 import formencode
@@ -10,7 +9,10 @@ from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
+from webob.exc import HTTPFound
+
 from repoze.what.plugins.pylonshq import ActionProtector
+from repoze.who.api import get_api
 
 from adhocracy import forms, model
 from adhocracy import i18n
@@ -99,6 +101,10 @@ class UserBadgesForm(formencode.Schema):
 
 class UserController(BaseController):
 
+    def __init__(self):
+        super(UserController, self).__init__()
+        c.active_subheader_nav = 'members'
+
     @RequireInstance
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
@@ -117,9 +123,13 @@ class UserController(BaseController):
         return render("/user/all.html")
 
     def new(self):
-        captacha_enabled = config.get('recaptcha.public_key', "")
-        c.recaptcha = captacha_enabled and h.recaptcha.displayhtml() 
-        return render("/user/register.html")
+        c.active_global_nav = "login"
+        if c.user:
+            redirect('/')
+        else:
+            captacha_enabled = config.get('recaptcha.public_key', "")
+            c.recaptcha = captacha_enabled and h.recaptcha.displayhtml()
+            return render("/user/register.html")
 
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserCreateForm(), form="new", post_only=True)
@@ -130,7 +140,8 @@ class UserController(BaseController):
         if captacha_enabled:
             recaptcha_response = h.recaptcha.submit()
             if not recaptcha_response.is_valid:
-                c.recaptcha = h.recaptcha.displayhtml(error=recaptcha_response.error_code) 
+                c.recaptcha = h.recaptcha.displayhtml(
+                    error=recaptcha_response.error_code)
                 redirect("/register")
         # SPAM protection hidden input
         input_css = self.form_result.get("input_css")
@@ -155,13 +166,24 @@ class UserController(BaseController):
             model.meta.Session.add(membership)
             model.meta.Session.commit()
 
-        # info message
+        # authenticate the new registered member using the repoze.who
+        # api. This is done here and not with an redirect to the login
+        # to omit the generic welcome message
+        who_api = get_api(request.environ)
+        credentials = {
+            'login': self.form_result.get("user_name").encode('utf-8'),
+            'password': self.form_result.get("password").encode('utf-8')}
+        authenticated, headers = who_api.login(credentials)
         h.flash(_("You have successfully registered as user %s.") % user.name,
                 'success')
-        redirect("/perform_login?%s" % urllib.urlencode({
-                 'login': self.form_result.get("user_name").encode('utf-8'),
-                 'password': self.form_result.get("password").encode('utf-8')
-                }))
+        if authenticated:
+            # redirect. FIXME: redirect to dashboard?
+            came_from = request.params.get('came_from', h.base_url(c.instance))
+            raise HTTPFound(location=came_from, headers=headers)
+        else:
+            raise Exception('We have added the user to the Database '
+                            'but cannot authenticate him: '
+                            '%s (%s)' % (credentials['login'], user))
 
     @ActionProtector(has_permission("user.edit"))
     def edit(self, id):
@@ -169,6 +191,7 @@ class UserController(BaseController):
                                           instance_filter=False)
         require.user.edit(c.page_user)
         c.locales = i18n.LOCALES
+        c.tile = tiles.user.UserTile(c.page_user)
         return render("/user/edit.html")
 
     @RequireInternalRequest(methods=['POST'])
@@ -301,10 +324,14 @@ class UserController(BaseController):
         return render("/user/show.html")
 
     def login(self):
-        session['came_from'] = request.params.get('came_from',
-                                                  h.base_url(c.instance))
-        session.save()
-        return render('/user/login.html')
+        c.active_global_nav = "login"
+        if c.user:
+            redirect('/')
+        else:
+            session['came_from'] = request.params.get('came_from',
+                                                      h.base_url(c.instance))
+            session.save()
+            return render('/user/login.html')
 
     def perform_login(self):
         pass  # managed by repoze.who
@@ -317,6 +344,8 @@ class UserController(BaseController):
                 del session['came_from']
                 session.save()
             h.flash(_("You have successfully logged in."), 'success')
+            if isinstance(url, unicode):
+                url = url.encode('utf-8')
             redirect(str(url))
         else:
             session.delete()
@@ -330,6 +359,85 @@ class UserController(BaseController):
     def post_logout(self):
         session.delete()
         redirect(h.base_url(c.instance))
+
+    def dashboard(self, id):
+        '''Render a personalized dashboard for users'''
+        
+        #user object
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.show(c.page_user)
+        #instances
+        instances = c.page_user.instances
+        #proposals
+        proposals = [model.Proposal.all(instance=i) for i in instances]
+        proposals = proposals and reduce(lambda x,y: x + y, proposals)
+        c.proposals = proposals
+        c.proposals_pager = pager.proposals(proposals, size=3,
+                                                    enable_pages=False) 
+        #polls
+        polls = [p.adopt_poll for p in proposals if p.is_adopt_polling()]
+        polls = filter(lambda p: p.has_ended() != True and 
+                                 p.is_deleted() != True,
+                        polls)
+        c.polls = polls
+        c.polls_pager = pager.polls(polls, 
+                size=20, 
+                enable_pages=False, 
+                enable_sorts=False,)
+        #pages
+        require.page.index()
+        pages = [model.Page.all(instance=i, functions=model.Page.LISTED ) \
+                                                        for i in instances]
+        pages = pages and reduce(lambda x,y: x + y, pages)
+        c.pages = pages
+        c.pages_pager = pager.pages(pages, size=3, enable_pages=False)  
+        #watchlist
+        require.watch.index()
+        c.active_global_nav = 'watchlist'
+        watches = model.Watch.all_by_user(c.page_user)
+        entities = [w.entity for w in watches if (w.entity is not None) \
+            and (not isinstance(w.entity, unicode))]
+        c.watchlist_pager = NamedPager('watches', entities, \
+            tiles.dispatch_row_with_comments,
+            size=3,
+            enable_pages=False,
+            enable_sorts=False,
+            default_sort=sorting.entity_newest)
+        #render result
+        return render('/user/dashboard.html')
+
+    def dashboard_proposals(self, id):
+        '''Render all proposals for all instances the use is member'''
+        #user object
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.show(c.page_user)
+        #instances
+        instances = c.page_user.instances
+        #proposals
+        proposals = [model.Proposal.all(instance=i) for i in instances]
+        proposals = proposals and reduce(lambda x,y: x + y, proposals)
+        c.proposals_pager= pager.proposals(proposals)
+        #render result
+        return render("/user/proposals.html")
+
+    def dashboard_pages(self, id):
+        '''Render all proposals for all instances the use is member'''
+        #user object
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.show(c.page_user)
+        #instances
+        instances = c.page_user.instances
+        #pages
+        require.page.index()
+        pages = [model.Page.all(instance=i, functions=model.Page.LISTED ) \
+                                                        for i in instances]
+        pages = pages and reduce(lambda x,y: x + y, pages)
+        c.pages_pager = pager.pages(pages)  
+        #render result
+        return render("/user/pages.html") 
 
     @ActionProtector(has_permission("user.view"))
     def complete(self):
@@ -399,22 +507,9 @@ class UserController(BaseController):
                               add_canonical=True)
         return render("/user/instances.html")
 
-    @RequireInstance
-    def proposals(self, id, format='html'):
-        c.page_user = get_entity_or_abort(model.User, id,
-                                          instance_filter=False)
-        require.user.show(c.page_user)
-        proposals = model.Proposal.find_by_creator(c.page_user)
-        c.proposals_pager = pager.proposals(proposals)
-
-        if format == 'json':
-            return render_json(c.proposals_pager)
-
-        self._common_metadata(c.page_user, member='proposals')
-        return render("/user/proposals.html")
-
     def watchlist(self, id, format='html'):
         require.watch.index()
+        c.active_global_nav = 'watchlist'
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
         require.user.show(c.page_user)
@@ -539,7 +634,8 @@ class UserController(BaseController):
                 model.UserBadge(user, badge, creator)
                 added.append(badge)
 
-        model.meta.Session.commit()
+        model.meta.Session.flush()
+        model.meta.Session.commit() # FIXME: does not work without.
         post_update(user, model.update.UPDATE)
         redirect(h.entity_url(user))
 

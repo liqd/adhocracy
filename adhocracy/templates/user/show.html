@@ -3,19 +3,19 @@
 
 <%def name="title()">${c.page_user.name}</%def>
 
-<%def name="breadcrumbs()">
-    ${h.user.breadcrumbs(c.page_user)|n}
-</%def>
 
+<%block name="headline">
+</%block>
+
+
+<%block name="main_content">
+
+<h3>${c.page_user.name}</h3>
 ${tiles.user.header(c.page_user, c.tile, active='activity')}
+<p>  
+    ${_("Signed up %s") % h.relative_time(c.page_user.create_time)|n}
+</p>
 
-<div class="sidebar">
-    <div class="infobox">
-        ${_("Signed up %s") % h.relative_time(c.page_user.create_time)|n}
-    </div>
-</div>
-
-<div class="mainbar">
     %if c.tile.bio:
         <div class="description">
             ${c.tile.bio|n}
@@ -30,5 +30,7 @@ ${tiles.user.header(c.page_user, c.tile, active='activity')}
     <div class="table">
         ${c.events_pager.here()}
     </div>
-</div>
+
+</%block>
+
 

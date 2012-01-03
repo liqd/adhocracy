@@ -1,0 +1,56 @@
+<%inherit file="/template.html" />
+
+<%block name="headline">
+<h1>${_("Startpage")}</h1>
+</%block>
+
+<%block name="main_content">
+<section>
+    <h2>${_('Proposals')}</h2>
+    ${c.proposals_pager.here()}
+    <p>
+    % if c.proposals:
+      <a title="${_('List all proposals')}" class="icon_link more view_all"
+        href="${h.entity_url(c.page_user, member='dashboard_proposals')}">${_('list all')}
+      </a>        
+    % endif
+    </p>
+</section>
+<section>
+    <h2>${_("Norms")}</h2>
+    ${c.pages_pager.here()}
+    <p>
+    % if c.pages:
+      <a title="${_("List all pages")}" class="icon_link more view_all"
+        href="${h.entity_url(c.page_user, member='dashboard_pages')}">${_("list all")}
+      </a>        
+    % endif
+    </p>
+</section>
+</%block>
+
+<%block name="sidebar">
+<section>
+  <h3>${_("Watchlist")}</h3>
+    ${c.watchlist_pager.here()}
+</section>
+% if c.polls:
+  <section>
+    <h3>${_("Current pollings")}</h3>
+      ${c.polls_pager.here()}
+  </section>
+% endif
+<section>
+  <h3>${_("Organisations")}</h3>
+    <ul>
+    %for instance in c.page_user.instances:
+      <li>
+         <a title="${instance.label}" 
+            href="${h.entity_url(instance)}">${instance.label}
+        </a>
+      </li>
+    %endfor   
+    </ul>
+</section>
+</%block>
+    

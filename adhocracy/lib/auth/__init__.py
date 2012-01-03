@@ -8,7 +8,14 @@ import csrf
 log = logging.getLogger(__name__)
 
 
-class _can(object):
+RETURN_TEMPLATE = 'return_template'
+RETURN_AUTH_CHECK = 'return_auth_check'
+RETURN_BOOL = 'return_bool'
+
+
+class AuthModuleWrapper(object):
+    """ dirty hack providing syntactic suger like ``can.proposal.create``"""
+
     import proposal
     import comment
     import tag
@@ -23,26 +30,47 @@ class _can(object):
     import variant
     import milestone
 
-can = _can()
 
+class RecursiveAuthWrapper(object):
+    """ dirty hack providing syntactic suger like ``can.proposal.create``"""
 
-class _require(object):
-
-    def __init__(self, obj):
+    def __init__(self, obj, raise_type):
         self.obj = obj
+        self.raise_type = raise_type
 
     def __getattr__(self, attr):
         orig = getattr(self.obj, attr)
-        return _require(orig)
+        return RecursiveAuthWrapper(orig, self.raise_type)
 
     def __call__(self, *a, **kw):
-        ret = self.obj(*a, **kw)
-        if not ret:
-            from adhocracy.lib.templating import ret_abort
-            log.debug("Aborting due to error with permission: %s" %
-                      repr(self.obj))
-            ret_abort(_("We're sorry, but it seems that you lack the "
-                        "permissions to continue."), code=403)
-        return ret
+        auth_check = authorization.AuthCheck(method=self.obj.func_name)
+        self.obj(auth_check, *a, **kw)
 
-require = _require(can)
+        if self.raise_type == RETURN_AUTH_CHECK:
+            return auth_check
+
+        elif self.raise_type == RETURN_BOOL:
+            return bool(auth_check)
+
+        else:
+            assert(self.raise_type == RETURN_TEMPLATE)
+            if auth_check:
+                return auth_check
+            elif auth_check.need_login():
+                # Authentication might help
+                from adhocracy.lib.helpers import login_redirect_url
+                from pylons.controllers.util import redirect
+                redirect(login_redirect_url())
+            else:
+                from adhocracy.lib.templating import ret_abort
+                log.debug("Aborting due to authorisation error: %s" %
+                          repr(self.obj))
+                ret_abort(_("We're sorry, but it seems that you lack the "
+                            "permissions to continue."), code=403)
+
+
+auth_module_wrapper = AuthModuleWrapper()
+
+require = RecursiveAuthWrapper(auth_module_wrapper, RETURN_TEMPLATE)
+check = RecursiveAuthWrapper(auth_module_wrapper, RETURN_AUTH_CHECK)
+can = RecursiveAuthWrapper(auth_module_wrapper, RETURN_BOOL)

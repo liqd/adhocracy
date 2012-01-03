@@ -6,45 +6,45 @@
     ${h.proposal.breadcrumbs(None)|n}
 </%def>
 
-<div class="top_actions title">
-    %if can.proposal.create():
-        <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
-    %endif
-</div>
-    
-<h1 class="page_title"><img src="/img/icons/proposal_24.png" class="cd" /> ${_("Proposals")}</h1>
 
-<div class="sidebar">
-    <div id="proposals_facets">
-        ${c.proposals_pager.render_facets()}    
-    </div>
-    <!--<div class="help">-->
-        <!--<h3>${_("Help")}</h3>-->
-        <!--<ul>-->
-            <!--<li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>-->
-            <!--<li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>-->
-            <!--<li>${h.help_link(_("Guide: Creating proposals"), 'edit_text')|n}</li>-->
-            <!--<li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>-->
-            <!--<li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>-->
-        <!--</ul>-->
-    <!--</div>-->
-</div>
+<%block name="headline">
 
-<div class="mainbar">
-<form action="?" method="GET" autocomplete="off">
-    <label for="proposals_q" class="armhint">${_("Find proposals")}</label>
-    <input id="proposals_q" class="live_search armlabel" name="proposals_q" 
-            type="text" value="${request.params.get('proposals_q', '')}" 
-            tabindex="1" />
+</%block>
+
+<%block name="main_content">
+<h2>${_("Proposals")}</h2>
+<div class="hr"><hr /></div>
+<div class="list_filter">
+<form class="list_form" action="?" method="GET" autocomplete="off">
+    <label class="floating" for="proposals_q">${_("Find proposals")}</label>
+    <input class="q" 
+           id="proposals_q" class="live_search" name="proposals_q" 
+           type="text" value="${request.params.get('proposals_q', '')}" 
+           tabindex="1" />
+    <input type="submit" value="${_('Go')}" 
+           class="go" />
+
 </form>
+</div>
     <div id="proposals_table" class="table">
-        ${c.proposals_pager.here()}
+        ${c.proposals_pager.render_pager()}
     </div>
     <br/>
     <div class="top_actions aside">
-        %if can.proposal.create():
+        <% auth = check.proposal.create() %>
+        %if auth:
             <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+        %elif auth.propose_join():
+            <a class="button add ttip" title="${_('Join instance to create a new proposal.')}" href="/proposal/new" rel="#overlay-join-button">${_("new proposal")}</a>
+        %elif auth.propose_login():
+            <a class="button add ttip" title="${_('Login to create a new proposal.')}" href="/proposal/new" rel="#overlay-login-button">${_("new proposal")}</a>
         %endif
+
     </div>
-        <div class="clearboth"></div>
-</div>
+</%block>
+
+<%block name="sidebar">
+    <div id="proposals_facets">
+        ${c.proposals_pager.render_facets()}    
+    </div>
+</%block>

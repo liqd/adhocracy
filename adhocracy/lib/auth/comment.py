@@ -4,63 +4,66 @@ from authorization import has
 import poll
 
 
-def index():
-    return has('comment.view')
-
-
-def show(c):
-    return has('comment.view') and not c.is_deleted()
-
-
-def create():
-    return has('comment.create')
-
-
-def create_on(topic):
-    if has('instance.admin'):
-        return True
-    if topic.instance.frozen:
-        return False
-    return create()
-
-
-def reply(parent):
-    return create_on(parent.topic) and not parent.is_deleted()
-
+# helper functions
 
 def is_own(co):
     return c.user and co.creator == c.user
 
 
-def edit(co):
-    if not co.is_mutable():
-        return False
+# authorisation checks
+
+def index(check):
+    check.perm('comment.view')
+
+
+def show(check, co):
+    check.perm('comment.view')
+    check.other('comment_is_deleted', co.is_deleted())
+
+
+def create(check):
+    check.perm('comment.create')
+
+
+def create_on(check, topic):
     if has('instance.admin'):
-        return True
-    if co.topic.instance.frozen:
-        return False
-    if not (has('comment.edit') and show(co)):
-        return False
-    if not (co.wiki or is_own(co)):
-        return False
-    return True
+        return
+    check.other('topic_instance_frozen', topic.instance.frozen)
+    create(check)
+
+
+def reply(check, parent):
+    create_on(check, parent.topic)
+    check.other('parent_deleted', parent.is_deleted())
+
+
+def edit(check, co):
+    check.other('comment_not_mutable', not co.is_mutable())
+    if has('instance.admin'):
+        return
+    check.other('comment_topic_instance_frozen', co.topic.instance.frozen)
+    check.perm('comment.edit')
+    show(check, co)
+    check.other('comment_is_not_wiki_or_own', not (co.wiki or is_own(co)))
 
 
 revert = edit
 
 
-def delete(co):
+def delete(check, co):
     if has('instance.admin'):
-        return True
-    if co.topic.instance.frozen:
-        return False
-    if edit(co) and is_own(co) and not co.is_edited():
-        return True
-    return has('comment.delete') and show(co) and not \
-        (not co.topic.is_mutable() and co.canonical)
+        return
+    check.other('comment_topic_instance_frozen', co.topic.instance.frozen)
+    edit(check, co)
+    check.other('comment_is_not_own', not is_own(co))
+    check.other('comment_is_edited', co.is_edited())
+    check.perm('comment.delete')
+    show(check, co)
+    check.other('comment_not_mutable', not co.topic.is_mutable())
 
 
-def rate(c):
-    if c.topic.instance.frozen:
-        return False
-    return show(c) and c.poll is not None and poll.vote(c.poll)
+def rate(check, co):
+    check.other('comment_topic_instance_frozen', co.topic.instance.frozen)
+    show(check, co)
+    check.other('comment_poll_is_none', co.poll is not None)
+    poll.vote(check, co.poll)

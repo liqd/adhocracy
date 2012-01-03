@@ -1,53 +1,24 @@
 <%namespace name="components" file="/components.html"/>
 
 <%def name="row(tile, instance)">
-    <div class="tile">
-        <div class="logo">
-            %if tile.show_icon():
-            <img src="/instance/${instance.key}_32x32.png" />
+    <li class="content_box">
+        %if tile.show_icon():
+        <img class="logo" src="/instance/${instance.key}_32x32.png" />
+        %endif
+        <h3><a class="link" href="${h.entity_url(instance)}">${instance.label}</a></h3>
+        <div class="meta">
+            ##${h.user.link(instance.creator)|n} · 
+            ${_("created %s") % h.relative_time(instance.create_time)|n} · 
+            ${ungettext("%s proposal", "%s proposals", tile.num_proposals) % tile.num_proposals} 
+            
+            %if instance.use_norms:
+                ·    
+                ${ungettext("%s norm", "%s norms", tile.num_norms) % tile.num_norms}
             %endif
         </div>
-        <div class="base">
-            <h3><a class="link" href="${h.entity_url(instance)}">${instance.label}</a></h3>
-            <!--span class="sparkline" title="${h.entity_url(instance, member='activity', format='sline')}"></span-->
-            <div class="meta noclear">
-                ##${h.user.link(instance.creator)|n} &middot; 
-                ${_("created %s") % h.relative_time(instance.create_time)|n} &middot; 
-                ${ungettext("%s proposal", "%s proposals", tile.num_proposals) % tile.num_proposals} 
-                
-                %if instance.use_norms:
-                    &middot;    
-                    ${ungettext("%s norm", "%s norms", tile.num_norms) % tile.num_norms}
-                %endif
-            </div>
-        </div>
-    </div>
+        <div class="hr"><hr /></div>
+    </li>
 </%def>
 
 <%def name="header(tile, instance, active, no_panel)">
-    <div class="top_actions title">
-        %if can.proposal.create():
-            <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new" title="">${_("new proposal")}</a>
-        %endif
-        %if can.instance.join(instance):
-            <a class="button add ttip" title="${_('Join this instance to start contributing.')}" 
-                href="${h.entity_url(instance, member='join')}?${h.url_token()}">${_("join")}</a> 
-        %endif
-        %if not c.user:
-            <a class="button add ttip" title="${_('Join this instance to start contributing.')}"  href="/register">${_("join")}</a> 
-        %endif
-        %if can.instance.edit(instance):
-            <a class="button admin ttip" title="${_('Edit this instance to change its description or voting rules.')}"  
-                href="${h.entity_url(instance, member='edit')}">${_("edit")}</a>
-        %endif
-                
-        %if can.instance.delete(instance):
-            <a class="button title delete"  
-                href="${h.entity_url(instance, member='ask_delete')}">${_("delete")}</a>
-        %endif
-        
-        ${components.watch(instance)}
-    </div>
-    <div style="clear: both;"></div>
-    <h1 class="page_title"><img src="/instance/${instance.key}_24x24.png" class="cd" /> ${instance.label}</h1>
 </%def>

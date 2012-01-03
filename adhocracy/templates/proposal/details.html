@@ -1,0 +1,218 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${c.page.title}</%def>
+
+<%block name="sidebar">
+
+    %if c.page.has_variants:
+
+    ${components.vertical_tabs(c.variant_items, 'paper_selection')}
+
+    <div class="floatbox changes_switch"
+         data-bind="css: {inactive: hideDiffSwitcher}">
+        <span>${_("Highlight Changes")}</span>
+        <div class="switch_buttons">
+            <a class="button_small" 
+               data-bind="css: {active: variants.switchDiff},
+                          click: function () {variants.switchDiff(true)}"
+               href="#">An</a> 
+            <a class="button_small" 
+               data-bind="css: {active: !variants.switchDiff()},
+                          click: function () {variants.switchDiff(false)}"
+               href="#">Aus</a>
+        </div>
+    </div>
+
+    <%doc>
+    ## FIXME: Needs new view: https://www.pivotaltracker.com/story/show/21036813
+    <div class="version_function">
+        <a class="button" href="#">
+            Versionen vergleichen
+        </a>
+    </div>
+    </%doc>
+    
+    %if can.proposal.create():
+    ## FIXME: Button for unauth users
+    <div class="version_function">
+        <a class="button highlight" 
+           href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}">
+            ${_('Propose new Variant')}
+        </a>
+    </div>
+    %endif
+
+    %endif
+<%doc>
+    <h3>Information zum Papier</h3>
+    <summary>
+        ## FIXME: <h6>Shortlink</h6>
+        ## FIXME: <p><a href="#">http://j.mp/12345</a></p>
+
+        <h6>Zuletzt aktiv</h6>
+        <p><time>${h.relative_time(c.page.find_latest_comment_time())|n}</time></p>
+
+        %if c.page.milestone and c.instance.milestones:
+        <h6>Termine</h6>
+        <p>
+            ${_("This norm relates to the milestone %s."
+               ) % h.milestone.link(c.page.milestone)|n}
+        </p>
+        %endif
+        ## Fixme: Info zur Version
+        ## <h6>Angelegt</h6>
+        ## <p>von <a href="#">Timoteus</a> am 
+        ## <time pubdate="pubdate">01.01.2011</time>, 
+        ## setdem <a href="#">3 Änderungen</a>.</p>
+
+    ${tiles.tag.sidebar(c.page)}
+
+    </summary>
+</%doc>
+</section>
+
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        var init_variant = ${c.variant_details_json|n}
+        var selection_details = ${c.selection_details_json|n}
+
+        var viewModel = new adhocracy.ko.SelectionModel()
+        viewModel.init(init_variant, selection_details);
+        viewModel.doUpdateVoteWidget();
+        ko.applyBindings(viewModel);
+        /* ]]> */
+    </script>
+
+</%block>
+
+<%block name="main_content">
+
+<script id="proposalTmpl" type="text/html">
+    <h5 data-bind="text:proposal_title"></h5>
+    <div data-bind="html: proposal_text"></div>
+    <div class="comment_actions floatbox">
+        <div class="utility">
+            <span class="hover_active" style="display: none;">
+                <!-- <a href="#">Link</a> ·  -->
+                <a data-bind="attr: {href: proposal_url}">${_('View Proposal')}</a>
+                </span>&nbsp;
+        </div>
+    </div>
+</script>
+
+
+<div class="utility">
+    <h2>${_('Get Involved')}</h2>
+</div>
+
+<nav>
+    <div class="hlist">
+        <ul class="tabnav">
+            <li>
+                <a id="text_link" href="#text"
+                   data-bind="css: {active: showText},
+                              click: function () { selectTab('text') }">
+                    ${_(u'Vote')}
+                </a>
+            </li>
+            <li>
+                <a id="history_link" href="#history"
+                   data-bind="css: {active: showHistory},
+                              click: function () { selectTab('history') }">
+                    ${_(u'History')}
+                </a>
+            </li>
+            <li>
+                <a id="votes_link" href="#votes"
+                   data-bind="css: {active: showVotes},
+                              click: function () { selectTab('votes') }">
+                    ${_(u'Votes')}
+                </a>
+            </li>
+            <%doc>
+            ## FIXME: disabled deleations cause they are not
+            ## activated on enquetebeteiligung
+            <li>
+                <a id="delegations_link" href="#delegates"
+                   data-bind="css: {active: showDelegates},
+                              click: function () { selectTab('delegates') }">
+                    ${_(u'Delegations')}
+                </a>
+            </li>
+            </%doc>
+        </ul>
+    </div>
+</nav>
+
+<section>
+    <div id="selection_box">
+        <article class="text_content"
+                 id="text"
+                 data-bind="visible: showText">
+            <div class="paper_header">
+                <div data-bind="html: voteWidget">
+                    $(tiles.poll.widget(c.current_variant_poll, cls="big")
+                </div>
+                <h3 data-bind="text:variants.current.display_title">
+                    ${c.variant_details['display_title']}
+                </h3>
+            </div>
+            <div class="paper_text text"
+                 data-bind="visible: variants.showPlain()">
+                <div data-bind="html: variants.current.text">
+                %if not c.variant_details['text']:
+                ${_(u'Kein Text')}
+                %else:
+                ${c.variant_details['text']|n}
+                %endif
+                </div>
+            </div>
+            <div class="paper_text diff"
+                 data-bind="visible: variants.showDiff()">
+                <h4>${_("Text compared to the original version")}</h4>
+                <div data-bind="html: variants.current.text_diff">
+                    ${c.variant_details['text_diff']|n}
+                </div>
+            </div>
+            <div class="input_wrapper"
+                 data-bind="visible: variants.current.can_edit"
+                 style="${'display: none' if not c.variant_details['can_edit'] else ''}">
+                <div class="right">
+                    <a class="button highlight"
+                       href="${c.variant_details['edit_url']}"
+                       data-bind="attr: {href: variants.current.edit_url}">
+                        ${_('Edit')}
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </article>
+
+        <section id="comments" data-bind="visible: showText">
+            ${tiles.comment.list(c.page, variant=c.variant_details['variant'])}
+        </section>
+            
+        <section id="history" class="only-js"
+                 data-bind="visible: showHistory">
+                <h3>${_('History of this variant')}</h3>
+            <div data-bind="html: variants.current.history"></div>
+        </section>
+        <section id="votes" class="only-js"
+                 data-bind="visible: showVotes">
+                <h3>${_('Votes for this variant')}</h3>
+            <div data-bind="html: variants.current.votes"></div>
+        </section>
+        <%doc>
+        ## FIXME: disabled deleations cause they are not
+        ## activated on enquetebeteiligung
+        <section id="delegates" class="only-js"
+                 data-bind="visible: showDelegates">
+                <h3>${_('Delegations for this variant')}</h3>
+            <div data-bind="html: variants.current.delegates"></div>
+        </section>
+        </%doc>
+    </div>
+</section>
+
+</%block>

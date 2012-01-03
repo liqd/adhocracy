@@ -6,8 +6,10 @@
     ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Leave")}
 </%def>
 
-${tiles.instance.header(c.page_instance, active='leave')}
+<%block name="headline">
+</%block>
 
+<%block name="main_content">
 <form name="ask_delete" class="inplace" method="POST" 
     action="${h.entity_url(c.page_instance, member='leave')}">
     ${h.field_token()|n}
@@ -16,8 +18,9 @@ ${tiles.instance.header(c.page_instance, active='leave')}
         <div class="warning_box">
             ${_("Are you sure you want to leave this instance? You will no longer be able to write contributions or to vote.")|n}
         </div>
-        <center>
+        <div class="input_wrapper submit">
             <input type="submit" class="delete" value="${_('Confirm')}" />
-        </center>
+        </div>
     </div>
 </form>
+</%block>

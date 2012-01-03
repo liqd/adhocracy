@@ -16,6 +16,9 @@ log = logging.getLogger(__name__)
 
 class AdminController(BaseController):
 
+    def index(self):
+        return render("/admin/index.html")
+
     @RequireInternalRequest()
     @ActionProtector(has_permission("global.admin"))
     def permissions(self):

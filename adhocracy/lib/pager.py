@@ -4,7 +4,7 @@ import urllib
 
 from formencode import validators
 from pylons.i18n import _
-from pylons import request, tmpl_context as c, url
+from pylons import config, request, tmpl_context as c, url
 from pylons.controllers.util import redirect
 from webob.multidict import MultiDict
 
@@ -19,6 +19,43 @@ log = logging.getLogger(__name__)
 
 PAGE_VALIDATOR = validators.Int(min=1, not_empty=True)
 SIZE_VALIDATOR = validators.Int(min=1, max=250, not_empty=True)
+
+
+def visible_pages(selected_page, pages):
+    '''
+    determinate which page links in a pager are visible
+    and where the '...' seperators should be located.
+    **Warning**: This code is 1-based!
+
+    *selected_page*
+        The selected page (index 1)
+    *pages*
+        The number of pages (index 1)
+    Returns: A *(visible_pages , seperators)* tuple where both
+    are lists.
+    '''
+
+    ### If we have < 11 pages we show all page links
+    ### X X X O X X X X X X X
+    if pages <= 11:
+        return [range(1, pages + 1), []]
+
+    ### if we have > 11 pages, we select which boxes and
+    ### which seperators to show
+    # Case: near the start. Show the pages up to 9, a seperator
+    # and the last 1
+    # X X X X O X X X X ... X
+    if selected_page <= 7:
+        return [range(1, 9 + 1) + [pages], [10]]
+    # Case: near the end. Show the first two pages, the seperator
+    # and the last 9
+    # X ... X X X X X O X X X
+    if (pages - selected_page) <= 7:
+        return [[1] + range(pages - 8, pages + 1), [2]]
+    # Case: somewhere within the long list
+    # X ... X X X O X X X ... X
+    return [[1] + range(selected_page - 3, selected_page + 3 + 1) +
+            [pages], [2, pages]]
 
 
 class PagerMixin(object):
@@ -60,17 +97,7 @@ class PagerMixin(object):
 
     def pages_items(self):
 
-        def _visible_pages(selected_page, pages):
-            if pages <= 13:
-                return [range(1, pages + 1), []]
-            if selected_page <= 8:
-                return [range(1, 12 + 1) + [pages - 1, pages], [13]]
-            if (pages - selected_page) <= 7:
-                return [[1, 2] + range(pages - 11, pages + 1), [3]]
-            return [[1, 2] + range(selected_page - 4, selected_page + 4 + 1) +
-                    [pages - 1, pages], [3, pages - 1]]
-
-        visible_pages, seperators = _visible_pages(self.page, self.pages)
+        visible_pages_, seperators = visible_pages(self.page, self.pages)
 
         items = []
         for number in xrange(1, self.pages + 1):
@@ -85,7 +112,7 @@ class PagerMixin(object):
             item = {'current': self.page == number,
                     'url': self.build_url(page=number),
                     'label': str(number),
-                    'class': 'hidden' if number not in visible_pages else '',
+                    'class': 'hidden' if number not in visible_pages_ else '',
                     'seperator': False}
             items.append(item)
 
@@ -106,6 +133,13 @@ class PagerMixin(object):
         query_items = ([(str(key), unicode(value).encode('utf-8')) for
                         (key, value) in query.items()])
         url_base = url.current(qualified=True)
+        protocol = config.get('adhocracy.protocol', 'http').strip()
+        if ', ' in url_base:
+            # hard coded fix for enquetebeteiligung.de
+            url_base = '%s://%s' % (protocol, url_base.split(', ')[1])
+        else:
+            url_base = '%s://%s' % (protocol, url_base.split('://')[1])
+        log.error(url_base)
         return url_base + "?" + urllib.urlencode(query_items)
 
     def to_dict(self):
@@ -192,7 +226,8 @@ def instances(instances):
                              _("newest"): sorting.entity_newest,
                              _("activity"): sorting.instance_activity,
                              _("alphabetically"): sorting.delegateable_label},
-                      default_sort=sorting.instance_activity)
+                      default_sort=sorting.instance_activity,
+                      size=20)  # FIXME: hardcoded for enquetebeteiligung
 
 
 def proposals(proposals, default_sort=None, **kwargs):
@@ -273,6 +308,13 @@ def delegations(delegations):
 
 def events(events):
     return NamedPager('events', events, tiles.event.row)
+
+
+def polls(polls, default_sort=None, **kwargs):
+    if default_sort is None:
+        default_sort = sorting.polls_time
+    return NamedPager('polls', polls, tiles.poll.row,
+                    default_sort=default_sort, **kwargs)
 
 
 class Sorts(object):
@@ -551,6 +593,12 @@ class SolrFacet(SolrIndexer):
         '''
         params = self.build_params(request, facet_values)
         url_base = url.current(qualified=True)
+        protocol = config.get('adhocracy.protocol', 'http').strip()
+        if ', ' in url_base:
+            # hard coded fix for enquetebeteiligung.de
+            url_base = '%s://%s' % (protocol, url_base.split(', ')[1])
+        else:
+            url_base = '%s://%s' % (protocol, url_base.split('://')[1])
         return url_base + "?" + urllib.urlencode(params)
 
     def build_params(self, request, facet_values):
@@ -605,7 +653,7 @@ class InstanceFacet(SolrFacet):
 
     name = 'instance'
     entity_type = model.Instance
-    title = u'Instance'
+    title = u'Projektgruppe'
     solr_field = 'facet.instances'
 
     @classmethod
@@ -619,7 +667,7 @@ class DelegateableBadgeFacet(SolrFacet):
 
     name = 'delegateablebadge'
     entity_type = model.Badge
-    title = u'Type'
+    title = u'Beteiligte'  # FIXME: translate
     solr_field = 'facet.delegateable.badge'
 
     @classmethod
@@ -634,7 +682,7 @@ class DelegateableAddedByBadgeFacet(SolrFacet):
 
     name = 'added_by_badge'
     entity_type = model.Badge
-    title = u'Added by...'
+    title = u'Erstellt von'  # FIXME: translate
     solr_field = 'facet.delegateable.added.by.badge'
 
     @classmethod
@@ -787,7 +835,12 @@ class SolrPager(PagerMixin):
         if enable_pages:
             query = query.paginate(start=self.offset, rows=self.size)
         if self.sorts.keys():
-            sort_by = self.sorts.values()[self.selected_sort - 1]
+            try:
+                sort_by = self.sorts.values()[self.selected_sort - 1]
+            except IndexError:
+                # if the number of sort options changes, search engine
+                # bots will still try to index the old page.
+                redirect(self.build_url(sort=1), code=301)
             query = query.sort_by(sort_by)
 
         # query solr and calculate values from it

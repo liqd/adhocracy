@@ -135,10 +135,11 @@ def comment_order(comments):
 def user_name(entities):
     return sorted(entities, key=lambda e: e.name.lower())
 
-
 def milestone_time(entities):
     return sorted(entities, key=lambda e: e.time)
 
+def polls_time(entities):
+    return sorted(entities, key=lambda e: e.end_time)
 
 def entity_newest(entities):
     return sorted(entities, key=lambda e: e.create_time, reverse=True)

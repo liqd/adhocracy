@@ -6,6 +6,8 @@
     ${h.page.breadcrumbs(c.page)|n} &raquo; ${_("Delete")}
 </%def>
 
+<%block name="headline">
+
 ${tiles.page.header(c.page, c.tile, active='')}
 
 <form name="ask_purge" class="inplace" method="POST" 
@@ -26,3 +28,4 @@ ${tiles.page.header(c.page, c.tile, active='')}
         </center>
     </div>
 </form>
+</%block>

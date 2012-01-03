@@ -6,20 +6,17 @@
     ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Latest Events")}
 </%def>
 
+<%block name="headline">
 ${tiles.proposal.header(c.proposal, c.tile, active='activity')}
+${_("This is a record of all recent actions within this instance.")}
+${_("You can also have notifications sent to you.")}
+<a href="/static/notification_faq.html">${_("Info...")}</a>
+</%block>
 
-<div class="sidebar">
-    ${tiles.proposal.sidebar(c.proposal, c.tile)}
+<%block name="main_content">
+<div id="events_table" class="table">
+    ${c.events_pager.here()}
+</div>
+${tiles.proposal.sidebar(c.proposal, c.tile)}
     
-    <div class="infobox">
-        ${_("This is a record of all recent actions within this instance.")}
-        ${_("You can also have notifications sent to you.")}
-        <a href="/static/notification_faq.html">${_("Info...")}</a>
-    </div>
-</div>
-
-<div class="mainbar">
-    <div id="events_table" class="table">
-        ${c.events_pager.here()}
-    </div>
-</div>
+</%block>

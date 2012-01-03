@@ -7,17 +7,18 @@
     ${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Edit comment")}
 </%def>
 
-<h1 class="page_title">${_("Comment on: %s") % h.delegateable.link(c.comment.topic, icon_size=24)|n}</h1>
+<%block name="headline">
+<h1>${_("Comment on: %s") % h.delegateable.link(c.comment.topic)|n}</h1>
+</%block>
 
-<div class="sidebar">&nbsp;</div>
-<div class="mainbar">
+<%block name="main_content">
     %if c.comment.reply:
         ${tiles.comment.show(c.comment.reply, recurse=False)}
     %endif
     
 
     ${t.edit_form(c.comment)}
-</div>
+</%block>
 
 
 

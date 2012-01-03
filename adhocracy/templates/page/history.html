@@ -7,21 +7,22 @@
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
+<%block name="headline">
 %if c.page.proposal:
     ${tiles.proposal.header(c.page.proposal, None, active='history')}
 %else:
     ${tiles.page.header(c.page, c.tile, active='history', text=c.text, variant=c.variant)}
 %endif
+</%block>
 
-<div class="sidebar">
+<%block name="sidebar">
     %if c.page.proposal:
         ${tiles.proposal.sidebar(c.page.proposal)}
     %endif
-    &nbsp;
-</div>
+</%block>
 
-<div class="mainbar">
+<%block name="main_content">
     <div id="texts_table" class="table">
         ${c.texts_pager.here()}
     </div>
-</div>
+</%block>

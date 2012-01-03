@@ -1,14 +1,31 @@
-<form name="login" method="POST" action="/perform_login">
-    <label for="username">${_("Login:")}</label>
-    <input name="login" />
-
-    <label for="password">${_("Password:")}</label>
-    <input type="password" name="password">
-        
-    <input type="submit" value="${_('Login')}"/>
-</form>
-<br/>
 <%
-c.openid_scenario = "login"
+from urllib import urlencode
+came_from = request.params.get('came_from', '')
+query_string = ''
+if came_from:
+    query_string = '?%s' % urlencode({'came_from': came_from.encode('utf-8')})
 %>
-<%include file="/openid/form.html"/>
+<div class="form_wrapper">
+  <form name="login" method="POST" action="/perform_login">
+    <div class="input_wrapper">
+      <label for="username">${_("Login:")}</label>
+      <input type="text" name="login" tabindex="1" />
+    </div>
+    <div class="input_wrapper">
+      <label for="password">${_("Password:")}</label>
+      <input type="password" name="password" tabindex="2" />
+    </div>
+    <div class="input_wrapper submit">        
+      <input type="submit" value="${_('Login')}" tabindex="3" />
+      ${_("or")} 
+      <a href="/register${query_string}" class="icon_link more_uppercase"
+          tabindex="4">
+          ${_("Register new account")|n}</a>
+    </div>
+  </form>
+
+  <%
+  c.openid_scenario = "login"
+  %>
+  <%include file="/openid/form.html"/>
+</div>

@@ -72,8 +72,97 @@ class has_permission(what_has_permission):
                 self.unmet()
 
 
+class has_default_permission(what_has_permission):
+    """
+    Checks whether a member of the default group of the given instance has the
+    given permission.
+    """
+
+    def evaluate(self, environ, credentials):
+        if environ.get('default_permissions') is None:
+            if c.instance is not None:
+                default_group = c.instance.default_group
+            else:
+                default_group = model.Group.by_code(model.Group.INSTANCE_DEFAULT)
+            environ['default_permissions'] = [p.permission_name for p in
+                    default_group.permissions]
+        if not self.permission_name in environ['default_permissions']:
+            self.unmet()
+
+
 def has(permission):
     #return permission in request.environ.get('repoze.what.credentials',
     #{}).get('permissions', [])
     p = has_permission(permission)
     return p.is_met(request.environ)
+
+
+class AuthCheck(object):
+    """
+    AuthCheck collects reasons for authorisation refusals in two sets:
+    ``permission_refusals`` and ``other_refusals``. It evaluates to True in
+    case authorisation is granted, otherwise False.
+    """
+
+    # IDEA: Collect fulfilled authorisation checks as well
+
+    def __init__(self, method):
+        self.method = method
+        self.permission_refusals = set()
+        self.other_refusals = set()
+
+    def __repr__(self):
+        return 'AuthCheck for %s' % (self.method)
+
+    def __nonzero__(self):
+        return not (self.permission_refusals or self.other_refusals)
+
+    def perm(self, permission):
+        """
+        Convenience function performing a permission check, which adds the
+        permission to ``self.permission_refusal``.
+        """
+        if not has(permission):
+            self.permission_refusals.add(permission)
+
+    def other(self, label, value):
+        """
+        Convenience function, which adds a refusal label to
+        ``self.other_refusals`` in case the given value is ``True``.
+        """
+        if value is True:
+            self.other_refusals.add(label)
+
+    def permission_missing(self):
+        """ Determines whether a permission is missing. """
+        return len(self.permission_refusals) > 0
+
+    def need_login(self):
+        """
+        Login is needed in case a permission refusal exists and the user is
+        not logged in.
+        """
+        return c.user is None and self.permission_missing()
+
+    def _propose_join_or_login(self):
+        if not self.permission_refusals or self.other_refusals:
+            return False
+        else:
+            return all(map(
+                lambda perm: has_default_permission(perm).is_met(request.environ),
+                self.permission_refusals))
+
+    def propose_login(self):
+        """
+        Login is proposed if the user isn't logged in or hasn't joined
+        c.instance, but a registered user with default instance permissions
+        would be able to perform the action.
+        """
+        return not c.user and self._propose_join_or_login()
+
+    def propose_join(self):
+        """
+        Login is proposed if the user is logged in, but not member of the
+        instance and can therefore not perform the requested action.
+        """
+        return c.user is not None and not c.user.is_member(c.instance) and self._propose_join_or_login()

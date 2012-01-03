@@ -7,12 +7,9 @@
     ${h.instance.breadcrumbs(c.instance)|n} &raquo; ${_("New comment")}
 </%def>
 
-<h1 class="page_title">${_("Comment on: %s") % h.delegateable.link(c.topic, icon_size=24)|n}</h1>
-
-<div class="sidebar">&nbsp;</div>
-<div class="mainbar">
-##  %if c.reply:
-##      ${tiles.comment.show(c.reply)}
-##  %endif
+<%block name="headline">
+<h1>${_("Comment on: %s") % h.delegateable.link(c.topic)|n}</h1>
+</%block>
+<%block name="main_content">
     ${t.create_form(c.reply, c.topic, wiki=c.wiki, can_wiki=True, variant=c.variant)}
-</div>
+</%block>

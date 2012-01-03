@@ -14,3 +14,8 @@ def base_url(instance, path=None):
     if path is not None:
         url += path
     return url
+
+
+def shortlink_url(delegateable):
+    path = "/d/%s" % delegateable.id
+    return base_url(None, path=path)

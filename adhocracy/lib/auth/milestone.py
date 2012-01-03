@@ -3,34 +3,40 @@ from pylons import tmpl_context as c
 from adhocracy.lib.auth.authorization import has
 
 
-def index():
-    return has('milestone.show') and c.instance.milestones
-
-
-def show(m):
-    return (has('milestone.show') and c.instance.milestones and not
-            m.is_deleted())
-
-
-def create():
-    if not c.instance.milestones:
-        return False
-    return has('milestone.create')
-
-
-def edit(m):
-    if not c.instance.milestones:
-        return False
-    if has('instance.admin'):
-        return True
-    if not (has('milestone.edit') and show(m)):
-        return False
-    return False
-
-
-def delete(m):
-    return has('milestone.delete') and show(m)
-
+# helper functions
 
 def is_own(m):
     return c.user and m.creator == c.user
+
+
+# authorisation checks
+
+def index(check):
+    check.perm('milestone.show')
+    check.other('instance_without_milestones', not c.instance.milestones)
+
+
+def show(check, m):
+    check.perm('milestone.show')
+    check.other('instance_without_milestones', not c.instance.milestones)
+    check.other('milestone_deleted', m.is_deleted())
+
+
+def create(check):
+    check.other('instance_without_milestones', not c.instance.milestones)
+    check.perm('milestone.create')
+
+
+def edit(check, m):
+    check.other('instance_without_milestones', not c.instance.milestones)
+    if has('instance.admin'):
+        return
+    check.perm('milestone.edit')
+    show(check, m)
+    # FIXME: is this - milestone_not_editable - intended?
+    check.other('milestone_not_editable', True)
+
+
+def delete(check, m):
+    check.perm('milestone.delete')
+    show(check, m)

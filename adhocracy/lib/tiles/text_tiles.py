@@ -19,6 +19,12 @@ def full(text, subpages_pager=None, hide_discussion=True):
                        hide_discussion=hide_discussion)
 
 
+def minimal(text, missing_translation=None):
+    return render_tile('/text/tiles.html', 'minimal',
+                       TextTile(text), text=text,
+                       missing_translation=missing_translation)
+
+
 def descbox(this, other, options=None, field=None):
     return render_tile('/text/tiles.html', 'descbox', TextTile(this),
                        this=this, other=other, options=options, field=field)

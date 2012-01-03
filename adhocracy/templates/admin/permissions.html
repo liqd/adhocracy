@@ -6,15 +6,18 @@
     ${_("Admin &raquo; Group Permissions")|n}
 </%def>
 
-<form name="settings" class="inplace" method="POST" action="/admin/permissions">
-    ${h.field_token()|n}
+<%block name="headline">
     <h1>${_("Group Permissions")}</h1>
 
     <strong>
         ${_("WARNING: This allows you to shut yourself out of your adhocracy. Handle with care!")}
     </strong>
-    <br/><br/>
-        
+</%block>
+
+<%block name="main_content">
+<form name="settings" class="inplace" method="POST" action="/admin/permissions">
+    ${h.field_token()|n}
+
     <%
     groups = model.Group.all()
     %>
@@ -43,3 +46,5 @@
     </table>
     ${components.savebox("/")}
 </form>
+
+</%block>

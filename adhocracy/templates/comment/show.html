@@ -6,8 +6,10 @@
     ${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment")}
 </%def>
 
+<%block name="headline">
 ${tiles.comment.header(c.comment, active='discussion')}
+</%block>
 
-<div class="mainbar">
+<%block name="main_content">
     ${tiles.comment.show(c.comment)}
-</div>
+</%block>

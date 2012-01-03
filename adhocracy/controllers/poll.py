@@ -10,12 +10,12 @@ from pylons.i18n import _
 
 
 from adhocracy import model
-from adhocracy.lib import democracy, event, helpers as h, pager
-from adhocracy.lib.auth import can, require
+from adhocracy.lib import democracy, event, helpers as h, pager, tiles
+from adhocracy.lib.auth import require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, render_json
+from adhocracy.lib.templating import render, render_def, render_json
 from adhocracy.lib.templating import ret_abort, ret_success
 from adhocracy.lib.util import get_entity_or_abort
 
@@ -66,7 +66,7 @@ class PollController(BaseController):
     @RequireInternalRequest()
     @validate(schema=PollVoteForm(), form="bad_request", post_only=False,
               on_get=True)
-    def vote(self, id, format='html'):
+    def vote(self, id, format):
         c.poll = self._get_open_poll(id)
         if c.poll.action != model.Poll.ADOPT:
             abort(400, _("This is not an adoption poll."))
@@ -81,7 +81,7 @@ class PollController(BaseController):
 
         if format == 'json':
             return render_json(dict(decision=decision,
-                                    score=tally.score))
+                                    score=c.poll.tally.score))
 
         redirect(h.entity_url(c.poll.subject))
 
@@ -89,7 +89,7 @@ class PollController(BaseController):
     @RequireInternalRequest()
     @validate(schema=PollVoteForm(), form="bad_request",
               post_only=False, on_get=True)
-    def rate(self, id, format='html'):
+    def rate(self, id, format):
         # rating is like polling but steps via abstention, i.e. if you have
         # first voted "for", rating will first go to "abstain" and only
         # then produce "against"-
@@ -122,6 +122,9 @@ class PollController(BaseController):
             return render_json(dict(decision=decision,
                                     tally=tally.to_dict()))
 
+        if format == 'overlay':
+            return self.widget(id, format=self.form_result.get('cls'))
+
         if c.poll.action == model.Poll.SELECT:
             redirect(h.entity_url(c.poll.selection))
 
@@ -135,7 +138,12 @@ class PollController(BaseController):
         # cover over data inconsistency because of a bug where pages (norms)
         # where deleted when a proposal was deleted.
         # Fixes http://trac.adhocracy.de/ticket/262
-        if c.poll.selection is None:
+        if (c.poll.action == model.Poll.SELECT and
+            c.poll.selection is None):
+            logmsg = ('Poll: "%s" is a model.Poll.rate poll, which should '
+                      'have a selection, but the selection is None. Subject '
+                      'of the Poll is %s') % (c.poll, c.poll.subject)
+            log.error(logmsg)
             raise abort(404)
 
         require.poll.show(c.poll)
@@ -145,6 +153,11 @@ class PollController(BaseController):
             result_form = self.form_result.get('result')
             decisions = filter(lambda d: d.result == result_form, decisions)
         c.decisions_pager = pager.scope_decisions(decisions)
+
+        if format == 'overlay':
+            return render_def('/pager.html', 'overlay_pager',
+                              pager=c.decisions_pager,
+                              render_facets=False)
 
         if format == 'json':
             return render_json(c.decisions_pager)
@@ -172,3 +185,9 @@ class PollController(BaseController):
             return ret_abort(_("The proposal is not undergoing a poll."),
                              code=404)
         return poll
+
+    def widget(self, id, format):
+        if format is None:
+            format = ''
+        poll = get_entity_or_abort(model.Poll, id)
+        return tiles.poll.widget(poll, cls=format)

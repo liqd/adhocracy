@@ -18,8 +18,8 @@ from adhocracy.lib.auth.authorization import has_permission
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.pager import NamedPager
-from adhocracy.lib.templating import (render, render_json, ret_abort,
-                                      ret_success)
+from adhocracy.lib.templating import (render, render_def, render_json,
+                                      ret_abort, ret_success)
 from adhocracy.lib.util import get_entity_or_abort
 
 log = logging.getLogger(__name__)
@@ -74,7 +74,7 @@ class CommentController(BaseController):
     @RequireInstance
     @validate(schema=CommentNewForm(), form="bad_request",
               post_only=False, on_get=True)
-    def new(self, errors=None):
+    def new(self, errors=None, format='html'):
         c.topic = self.form_result.get('topic')
         c.reply = self.form_result.get('reply')
         c.wiki = self.form_result.get('wiki')
@@ -84,7 +84,11 @@ class CommentController(BaseController):
             require.comment.reply(c.reply)
         else:
             require.comment.create_on(c.topic)
-        return htmlfill.render(render('/comment/new.html'), defaults=defaults,
+        if format == 'ajax':
+            html = self._render_ajax_create_form(c.reply, c.topic, c.variant)
+        else:
+            html = render('/comment/new.html')
+        return htmlfill.render(html, defaults=defaults,
                                errors=errors, force_defaults=False)
 
     @RequireInstance
@@ -94,7 +98,7 @@ class CommentController(BaseController):
         try:
             self.form_result = CommentCreateForm().to_python(request.params)
         except Invalid, i:
-            return self.new(errors=i.unpack_errors())
+            return self.new(errors=i.unpack_errors(), format=format)
 
         topic = self.form_result.get('topic')
         reply = self.form_result.get('reply')
@@ -132,9 +136,12 @@ class CommentController(BaseController):
         return ret_success(entity=comment, format='fwd')
 
     @RequireInstance
-    def edit(self, id):
+    def edit(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.edit(c.comment)
+        if format == 'ajax':
+            return render_def('/comment/tiles.html', 'edit_form',
+                              {'comment': c.comment})
         return render('/comment/edit.html')
 
     @RequireInstance
@@ -204,6 +211,8 @@ class CommentController(BaseController):
             sorts={_("oldest"): sorting.entity_oldest,
                    _("newest"): sorting.entity_newest},
                                      default_sort=sorting.entity_newest)
+        if format == 'overlay':
+            return c.revisions_pager.render_pager()
         if format == 'json':
             return render_json(c.revisions_pager)
         return render('/comment/history.html')
@@ -230,3 +239,39 @@ class CommentController(BaseController):
                    topic=c.comment.topic, rev=rev)
         return ret_success(message=_("The comment has been reverted."),
                            entity=c.comment, format=format)
+
+    def create_form(self, topic):
+        topic = model.Delegateable.find(int(topic))
+        if topic is None:
+            return ret_abort(_('Wrong topic'))  # FIXME: better msg
+        require.comment.create_on(topic)
+        variant = request.params.get('variant', None)
+        if hasattr(topic, 'variants') and not variant in topic.variants:
+            return ret_abort(_("Comment topic has no variant %s") % variant,
+                             code=400)
+        return self._render_ajax_create_form(None, topic, variant)
+
+    def _render_ajax_create_form(self, parent, topic, variant):
+        '''
+        render a create form fragment that can be inserted loaded
+        into another page.
+        '''
+        # FIXME: uncomment the format parameter when we have javascript
+        # code to submit the form with ajax and replace the form with the
+        # response
+        # For now, it renders the form with error messages or redirects
+        # the user to the new comments anchor on success
+        template_args = dict(parent=parent,
+                             topic=topic,
+                             variant=variant,
+                             #format="ajax"
+                             )
+        return render_def('/comment/tiles.html', 'create_form',
+                          template_args)
+
+    def reply_form(self, id):
+        parent = get_entity_or_abort(model.Comment, int(id))
+        require.comment.reply(parent)
+        topic = parent.topic
+        variant = getattr(topic, 'variant', None)
+        return self._render_ajax_create_form(parent, topic, variant)

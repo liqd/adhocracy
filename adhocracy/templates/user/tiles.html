@@ -1,41 +1,34 @@
 <%namespace name="components" file="/components.html"/>
 
 <%def name="row(tile, user)">
-    <div class="tile vcard">
-        <div class="logo">
-            <img src="${h.user.icon_url(user, size=32)|n}" />
-        </div>
-        <div class="base">
-            <h3><a class="link fn nickname" href="${h.entity_url(user)}">${user.name}</a> 
-            ${tiles.badge.badges(user.badges)}
+    <li class="content_box vcard">
+        <h3><a class="link fn nickname" href="${h.entity_url(user, instance=c.instance)}">${user.name}</a> 
+        ${tiles.badge.badges(user.badges)}
 </h3>
-            <div class="meta noclear">
-                <%
-                mem = user.instance_membership(c.instance)
-                %>
-                %if mem:
-                    <span class="role">
-                        ${tile.translated_instance_role_names()}
-                        </span> &middot;
-                    ${_("joined %s") % h.relative_time(mem.create_time)|n}
-                %else: 
-                    ${_("signed up %s") % h.relative_time(user.create_time)|n}
-                %endif
-            </div>
+        <div class="meta">
+            <%
+            mem = user.instance_membership(c.instance)
+            %>
+            %if mem:
+                <span class="role">
+                    ${tile.translated_instance_role_names()}
+                    </span> ·
+                ${_("joined %s") % h.relative_time(mem.create_time)|n}
+            %else: 
+                ${_("signed up %s") % h.relative_time(user.create_time)|n}
+            %endif
         </div>
-    </div>
+        <div class="hr"><hr /></div>
+    </li>
 </%def>
 
 <%def name="header(tile, user, active)">
+
     <div class="top_actions title vcard">
         %if can.user.message(user):
             <a class="button add" href="${h.entity_url(user, member='message/new')}">${_("send a message")}</a>
         %endif
     
-        %if can.user.edit(user):
-            <a class="button edit" href="${h.entity_url(user, member='edit')}">${_("edit")}</a>
-        %endif
-
         %if lib.auth.authorization.has('global.admin'):
             <a class="button edit" href="${h.entity_url(user, member='badges')}">${_("Edit Badges")}</a>
         %endif
@@ -48,11 +41,13 @@
                 %endif
             %endfor
             
-            %if c.user and c.instance and c.user == c.page_user and can.instance.leave(c.instance):
-                <a class="button delete ttip" title="${_('Resign from this instance.')}" 
-                    href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave instance")}</a> 
-            %endif
         %endif
+
+        %if c.user and c.instance and c.user == c.page_user and can.instance.leave(c.instance):
+        <a class="button delete ttip" title="${_('Resign from this instance.')}" 
+           href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave instance")}</a> 
+        %endif
+
         
         %if user.banned and can.user.manage(user):
           <a class="button add" href="${h.entity_url(user,
@@ -71,13 +66,9 @@
             ${components.watch(user)}
         %endif
     </div>
-    
-    <div style="clear: both;"></div>
-    <h1 class="page_title">
-        <img class="logo photo" src="${h.user.icon_url(c.page_user, size=24)|n}" class="cd" alt="">
-        <span class="fn nickname">${user.name}</span>
-    </h1>
-    
+
+
+<%doc> FIXME: move to new design?    
     <div class="panel ${active}">
         <ul class="menu">
             <li><a href="${h.entity_url(user)}" rel="profile url" class="activity">${_("Activity")}</a></li>
@@ -102,4 +93,6 @@
             %endif
         </ul>
     </div>
+</%doc>
+
 </%def>

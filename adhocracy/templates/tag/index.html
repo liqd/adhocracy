@@ -6,9 +6,12 @@
     ${h.tag.breadcrumbs(None)|n}
 </%def>
 
-<h1 class="page_title"><img src="/img/icons/tag_24.png" class="cd" /> ${_("Popular tags")}</h1>
+<%block name="headline">
+<h1>${_("Popular tags")}</h1>
+</%block>
 
-<div class="sidebar">
+<%block name="sidebar">
+
     <div class="infobox">${_("Tags are keywords used to find, sort and filter proposals and documents.")}</div>
     <div class="help">
         <h3>${_("Help")}</h3>
@@ -19,8 +22,9 @@
             <li>${h.help_link(_("More help..."), 'tag_faq')|n}</li>
         </ul>
     </div>
-</div>
 
-<div class="mainbar">
+</%block>
+
+<%block name="main_content">
     ${tiles.tag.cloud(c.tags, link_more=False)}
-</div>
+</%block>

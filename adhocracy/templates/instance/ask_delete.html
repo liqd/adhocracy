@@ -6,19 +6,24 @@
     ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Delete")}
 </%def>
 
-${tiles.instance.header(c.page_instance, active='delete')}
+<%block name="headline">
+<h3>${_("Delete instance")}</h3>
+</%block>
 
+<%block name="main_content">
 <form name="ask_delete" class="inplace" method="POST" 
     action="${h.entity_url(c.page_instance)}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="DELETE" />
     <div class="sidebar"></div>
     <div class="mainbar">
-        <div class="warning_box">
+        <div class="warning_box submit">
             ${_("Are you sure you want to delete this instance?")|n}
         </div>
-        <center>
+        <div class="input_wrapper submit">
             <input type="submit" class="delete" value="${_('Confirm')}" />
-        </center>
+                ${_("or")} <a href="${h.entity_url(c.page_instance)}">${_("cancel")}</a>
+        </div>
     </div>
 </form>
+</%block>

@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="sidebar_defs" file="/sidebar.html"/>
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 
@@ -7,72 +8,165 @@
 
 <%def name="breadcrumbs()">${h.proposal.breadcrumbs(c.proposal)|n}</%def>
 
-${tiles.proposal.header(c.proposal, c.tile, active='goal')}
 
-<div class="sidebar">
-    ${tiles.proposal.sidebar(c.proposal, c.tile)}
-    <br/>
-    <!--<div class="help">-->
-        <!--<h3>${_("Help")}</h3>-->
-        <!--<ul>-->
-            <!--<li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>-->
-            <!--<li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>-->
-            <!--%if c.proposal.instance.use_norms:-->
-                <!--<li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>-->
-            <!--%endif-->
-            <!--<li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>-->
-            <!--<li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>-->
-            <!--<li>${h.help_link(_("Guide: Supporting proposals"), 'support_text')|n}</li>-->
-            <!--<li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>-->
-            <!--<li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>-->
-        <!--</ul>-->
-    <!--</div>-->
-</div>
+<%block name="main_content">
 
-<div class="mainbar">
-    <div class="top_actions aside">
-        &nbsp;      
-        %if can.proposal.edit(c.proposal):
-            <a class="button title edit ttip" title="${_('Edit this proposal.')}"
-                href="${h.entity_url(c.proposal, member='edit')}">${_("edit")}</a>
-        %endif
-    </div>
-    <h2>${_("Proposal goal and description")}</h2>
-    ${tiles.page.inline(c.proposal.description, 
+    %if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
+    ${tiles.poll.widget(c.proposal.rate_poll, cls='big')}
+    %endif
+
+    %if c.proposal.is_adopt_polling():
+    ${tiles.poll.widget(c.proposal.adopt_poll, cls='big')}
+    %endif
+
+            <section>
+              <article>
+                <h2>
+                    ${h.delegateable.link(c.proposal, link=False)|n}
+                </h2>
+                <div class="hr"><hr /></div>
+                
+                <div class="utility">
+                    <h4>${_('Topic and Description of the Proposal')}</h4>
+                    %if can.proposal.edit(c.proposal):
+                    <a href="${h.entity_url(c.proposal, member='edit')}">
+                        ${_("edit")}
+                    </a>
+                    %endif
+                </div>
+                
+                ${tiles.page.inline(c.proposal.description, 
                         hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
     
-    %if c.proposal.instance.use_norms:
-        <br/>
-        <h2>${_("Implementation")}</h2>
-        <div class="help">
-        <div class="infobox">
-            ${_("Proposals are implemented by including changes towards new or existing norm. Norms are fixed documents that represent the consensus of this instance and can only be changed through a vote. Amend the proposal to change or create a norm.")} 
-        </div>
-        </div>
-        <div class="top_actions aside">
-          &nbsp; 
-          %if can.selection.create(c.proposal):
-              %if c.disable_include:
-                  <a class="button title ttip inactive"
-                     title="${_('The proposal refers to all norms already.')}">
-                      ${_("change existing norm")}
-                  </a>
-              %else:
-                  <a class="button title edit ttip" 
-                     title="${_('Propose to change a norm through this proposal.')}" 
-                     href="${h.entity_url(c.proposal, member='implementation/include')}">
-                      ${_("change existing norm")}
-                  </a>
-              %endif
-            %if can.norm.propose():
-            <a class="button title add ttip" title="${_('Propose to create a norm through this proposal.')}" 
-              href="${h.entity_url(c.proposal, member='implementation/propose')}">${_("propose new norm")}</a>
+                ${components.social_share_buttons(c.proposal)}
+
+                <div class="meta">
+                    <a href="#discussions">
+                        ${_("%s Discussions") % c.proposal.description.comment_count(reply_filter=None)}
+                    </a>
+                    %if c.show_selections:
+                    · 
+                    <a href="#proposals">
+                        ${_("%s Proposed Implementations") % len(c.num_selections)}
+                    </a>
+                    %endif
+                    · 
+                    <a href="${h.abuse.for_entity(c.proposal)}">
+                        ${_("report")}
+                    </a>
+                    ·
+                    <a href="${c.history_url}"
+                       rel="#overlay-ajax">${'history'}</a>
+                </div>
+              </article>
+              <br />
+
+              <div id="main_comments">
+                  <h3 id="discussions">${_('Discussions')}</h3>
+                  ## comments are attached to the description which is a
+                  ## :class:`adhocracy.model.Page`
+                  ## proposal descriptions have no other variant than head.
+                  ${tiles.comment.list(c.proposal.description, 
+                                       variant=c.proposal.description.head.variant)}
+            </div>
+            </section>
+            
+
+            %if c.show_selections:
+            <section>
+              <h3 id="proposals">${_("Proposed Implementations")}</h3>
+              <div class="hr"><hr /></div>
+              <ul class="papers_list">
+                  %for selection in c.sorted_selections: 
+                  ${tiles.selection.row(selection)}
+                  %endfor
+              </ul> 
+              <div class="list_button">
+              <% auth = check.selection.create(c.proposal) %>
+              %if auth:
+              <a class="button highlight" 
+                 href="${h.entity_url(c.proposal, member='implementation/include')}">
+                  ${_("Propose to change a norm")}
+              </a>
+              %elif auth.propose_login():
+              <a class="button highlight" href="${h.entity_url(c.proposal, member='implementation/include')}" rel="#overlay-login-button" title="${_('Login to propose to change a norm')}">
+                  ${_("Propose to change a norm")}
+              </a>
+              %elif auth.propose_join():
+              <a class="button highlight" href="${h.entity_url(c.proposal, member='implementation/include')}" rel="#overlay-join-button" title="${_('Join instance to propose to change a norm')}" data-description="LULA">
+                  ${_("Propose to change a norm")}
+              </a>
+              %endif          
+              
+              <%doc> FIXME: Enable change existing norm option
+              %if norm.can.create
+              <a class="button" 
+                 title="${_('Propose to create a norm through this proposal.')}" 
+                 href="${h.entity_url(c.proposal, member='implementation/propose')}">
+                  ${_("propose new norm")}
+              </a>
+              </%doc>
+              </div>
+            </section>
+             
             %endif
-          %endif        
-        </div>
-        <br/><br/>
-        %for selection in sorting.sortable_text(c.proposal.selections, key=lambda s: s.page.title): 
-            ${tiles.selection.row(selection)}
-        %endfor
-    %endif
-</div>
+
+</%block>
+
+
+<%block name="sidebar">
+
+${components.watch(c.proposal)}
+
+<h3>${_('Informations')}</h3>
+<summary>
+
+    ${sidebar_defs.shortlink(c.proposal)}
+
+    <h6>${_('Last Activity')}</h6>
+    <p><time>
+        ${h.relative_time(
+        c.proposal.find_latest_comment_time())|n}
+    </time></p>
+
+    <% tally = c.proposal.rate_poll.tally %>
+
+    ${sidebar_defs.votes(c.proposal.rate_poll)}
+
+    <h6>${_('Milestones')}</h6>
+    <% milestone = c.proposal.milestone %>
+    <p>
+        %if milestone:
+        %if milestone.is_deleted():
+        ${_("This proposal relates to the deleted milestone %s."
+        ) % h.milestone.link(milestone)|n}
+        %else:
+        ${_("This proposal relates to the milestone %s."
+        ) % h.milestone.link(milestone)|n}
+        %endif
+        %else:
+        ${_("This proposal is not related to a milestone")}
+        %endif
+    </p>
+    <h6>${_('Created')}</h6>
+    ## FIXME: ensure caching of history count (make it a tile?)
+    <p>
+<%
+created_msg = _("by %s on %s, %s changes since then.") % (
+    h.user.link(c.proposal.creator), 
+    h.format_date(c.proposal.create_time),
+    len(c.proposal.description.variant_history(model.Text.HEAD)))
+%>
+    ${created_msg|n}
+    </p>
+
+    ${tiles.tag.sidebar(c.proposal)}
+    
+    ## FIXME: Reimplement Tagging
+    ## <div class="only-js" id="add-tag">
+    ##     <a href="#">Schlagwort hinzufügen</a>
+    ## </div>
+</summary>
+
+
+</%block>

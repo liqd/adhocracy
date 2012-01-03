@@ -32,10 +32,14 @@ def make_map():
                 action='badges', conditions=dict(method=['GET']))
     map.connect('/user/{id}/badges', controller='user',
                 action='update_badges', conditions=dict(method=['POST']))
-
+    map.connect('/user/{id}/dashboard', controller='user',
+                action='dashboard')
+    map.connect('/user/{id}/dashboard_proposals', controller='user',
+                action='dashboard_proposals')
+    map.connect('/user/{id}/dashboard_pages', controller='user',
+                action='dashboard_pages')
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
-                                         'proposals': 'GET',
                                          'votes': 'GET',
                                          'instances': 'GET',
                                          'watchlist': 'GET',
@@ -88,8 +92,12 @@ def make_map():
                                                  'tag': 'POST',
                                                  'untag': 'GET',
                                                  'badges': 'GET',
-                                                 'update_badges': 'POST'},
+                                                 'update_badges': 'POST',
+                                                 'history': 'GET'},
                                collection={'filter': 'GET'})
+    map.connect('/proposal/{proposal_id}/{selection_id}/details{.format}',
+                controller='selection',
+                action='details')
 
     map.resource('implementation', 'implementation', controller='selection',
                  member={'ask_delete': 'GET'},
@@ -100,14 +108,15 @@ def make_map():
 
     map.connect('/page/diff', controller='page', action='diff',
                 conditions=dict(method=['GET']))
-    map.connect('/page/{id}/{variant}/history.{format}',
+    map.connect('/page/{id}/{variant}/history{.format}',
                 controller='page',
                 action='history',
                 conditions=dict(method=['GET']))
-    map.connect('/page/{id}/{variant}/history',
+    map.connect('/page/{id}/history{.format}',
                 controller='page',
                 action='history',
-                conditions=dict(method=['GET']))
+                conditions=dict(method=['GET']),
+                )
     map.connect('/page/{id}/{variant}/branch',
                 controller='page',
                 action='edit',
@@ -127,8 +136,6 @@ def make_map():
     map.connect('/page/{id}/{variant}/edit', controller='page', action='edit',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/edit.{format}', controller='page', action='edit',
-                conditions=dict(method=['GET']))
-    map.connect('/page/{id}/history', controller='page', action='history',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/branch', controller='page', action='edit',
                 branch=True,
@@ -168,17 +175,27 @@ def make_map():
                                                'revert': 'GET',
                                                'ask_delete': 'GET'})
 
+    map.connect('/comment/form/edit/{id}', controller='comment',
+                action='edit_form')
+    map.connect('/comment/form/create/{topic}', controller='comment',
+                action='create_form', variant=None)
+    map.connect('/comment/form/reply/{id}', controller='comment',
+                action='reply_form')
+
     map.resource('milestone', 'milestone', member={'ask_delete': 'GET'})
 
-    map.connect('/poll/{id}/rate.{format}', controller='poll', action='rate',
-                                   conditions=dict(method=['GET', 'POST']))
+    map.connect('/poll/{id}/rate{.format}', controller='poll', action='rate',
+                conditions=dict(method=['GET', 'POST']))
 
-    map.connect('/poll/{id}/rate', controller='poll', action='rate',
-                                   conditions=dict(method=['GET', 'POST']))
+    map.connect('/poll/{id}/widget{.format}', controller='poll',
+                action='widget', conditions=dict(method=['GET', 'POST']))
 
-    map.resource('poll', 'poll', member={'vote': 'POST',
-                                         'votes': 'GET',
-                                         'ask_delete': 'GET'})
+    map.connect('/poll/{id}/vote{.format}', controller='poll', action='vote',
+                conditions=dict(method=['GET', 'POST']))
+
+    map.resource('poll', 'poll', member={'votes': 'GET',
+                                         'ask_delete': 'GET',
+                                         'widget': 'GET'})
 
     map.connect('/badge', controller='badge', action='index',
                 conditions=dict(method=['GET']))
@@ -230,6 +247,7 @@ def make_map():
 
     # API
     map.connect('/api/{action}', controller='api')
+    map.connect('/admin', controller='admin', action="index")
 
     map.connect('/static/{page_name}.{format}', controller='static',
                 action='serve')

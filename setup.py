@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='adhocracy',
-    version='1.2a4dev',
+    version='1.2beta2',
     description='Policy drafting and decision-making web platform',
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
@@ -47,8 +47,8 @@ This version requires Python 2.5 or later.
         "WebOb==1.0.8",  # 1.1 removed an imported required by Pylons 0.9.7
         "SQLAlchemy==0.6.8",
         "sqlalchemy-migrate>=0.6",
-        "FormEncode>=1.2.2",
-        "repoze.who>=2.0a1",
+        "FormEncode>=1.2.4",
+        "repoze.who>=2.0",
         "repoze.what==1.0.8",  # 1.0.9 conflicts with repoze.who>=2.0
         "repoze.who.plugins.sa==1.0rc2",
         "repoze.what-pylons==1.0",
@@ -68,7 +68,12 @@ This version requires Python 2.5 or later.
         "PIL>=1.1.6",
         "markdown2>=1.0.1",
         "lxml>=2.2.6",
+        "Mako>=0.4.2",
         "recaptcha-client>=1.0.6",
+        "fanstatic >=0.11.2, <=0.11.99",
+        "js.jquery >= 1.6.1,<=1.6.99",
+        "js.jquery_qtip >= 1.0.0,<= 1.0.99",
+        'js.socialshareprivacy >= 1.3dev'
     ],
     # REFACT: could/should these become regular dependencies?
     setup_requires=["PasteScript>=1.6.3",

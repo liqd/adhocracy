@@ -7,6 +7,7 @@
     ${h.milestone.breadcrumbs(c.milestone)|n} &raquo; ${_("Edit")}
 </%def>
 
+<%block name="main_content">
 <form name="edit_milestone" class="inplace" method="POST"
   action="/milestone/${c.milestone.id}">
     ${h.field_token()|n}
@@ -56,3 +57,4 @@
         ${components.form_watch(c.milestone)}
     </div>
 </form>
+</%block>

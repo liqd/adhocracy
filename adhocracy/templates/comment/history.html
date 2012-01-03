@@ -6,15 +6,15 @@
     ${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment History")}
 </%def>
 
+<%block name="headline">
 ${tiles.comment.header(c.comment, active='history')}
+</%block>
 
-<div class="sidebar">
-    &nbsp;
-</div>
-<div class="mainbar">
+<%block name="main_content">
     <div class="table">
         <div id="tile_c${c.comment.id}">
             ${c.revisions_pager.here()}
         </div>
     </div>
-</div>
+</%block>
+

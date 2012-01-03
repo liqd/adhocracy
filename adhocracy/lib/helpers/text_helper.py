@@ -1,7 +1,6 @@
 import urllib
 
 from adhocracy.lib import cache
-from adhocracy.lib.helpers import proposal_helper as proposal
 from adhocracy.lib.helpers import url as _url
 
 
@@ -17,23 +16,6 @@ def url(text, **kwargs):
     if text != text.page.variant_head(text.variant):
         url += u';' + str(text.id)
     return _url.append_member_and_format(url, **kwargs)
-
-
-@cache.memoize('text_icon')
-def icon_url(text, page=None, size=16):
-    if text is None:
-        return u"/img/icons/page_%s.png" % size
-    if page is None:
-        page = text.page
-    path = u"/img/icons/page%s_%s.png"
-    if page.function == page.NORM:
-        if text.variant != text.HEAD:
-            return path % ("_variant", size)
-        return path % ("_norm", size)
-    elif page.function == page.DESCRIPTION:
-        return proposal.icon_url(page.proposal, size=size)
-    else:
-        return path % ("", size)
 
 
 @cache.memoize('text_bc')

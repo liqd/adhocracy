@@ -6,8 +6,11 @@
     ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Call a poll")}
 </%def>
 
+<%block name="headline">
 ${tiles.proposal.header(c.proposal, active='')}
+</%block>
 
+<%block name="main_content">
 <form name="release_proposal" class="inplace" method="POST" 
     action="${h.entity_url(c.proposal, member='adopt')}">
     ${h.field_token()|n}
@@ -23,3 +26,4 @@ ${tiles.proposal.header(c.proposal, active='')}
         </center>
     </div>
 </form>
+</%block>
