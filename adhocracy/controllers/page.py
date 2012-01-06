@@ -282,12 +282,19 @@ class PageController(BaseController):
                     is_head=(right.variant == model.Text.HEAD))
 
     @classmethod
-    def selection_details(cls, selection, current_selection=None):
-        selected_variant = selection.selected
-        score = rendered_score = None
-        if selected_variant is not None:
-            score = selection.variant_poll(selected_variant).tally.score
-            rendered_score = "%+d" % score
+    def selection_urls(cls, selection):
+        urls = {}
+        for (variant, poll) in selection.variant_polls:
+            urls[variant] = {
+                'votes': h.entity_url(poll, member="votes"),
+                'poll_widget': h.entity_url(poll, member="widget.big")}
+        return {'urls': urls}
+
+    @classmethod
+    def selection_details(cls, page, variant, current_selection=None):
+        selection = model.Selection.by_variant(page, variant)
+        score = selection.variant_poll(variant).tally.score
+        rendered_score = "%+d" % score
         item = {'score': score,
                 'rendered_score': rendered_score,
                 'selection_id': selection.id,
@@ -298,16 +305,6 @@ class PageController(BaseController):
                 'current': selection.id == current_selection,
                 }
         return item
-
-    @classmethod
-    def supporting_selections_details(cls, page, variant,
-                                      current_selection=None):
-        selections = []
-        for selection in page.supporting_selections(variant):
-            selections.append(
-                cls.selection_details(selection,
-                                      current_selection=current_selection))
-        return selections
 
     @classmethod
     def variant_details(cls, page, variant, current_selection=None):
@@ -328,8 +325,8 @@ class PageController(BaseController):
             if details[key].strip() == '':
                 details[key] = message
 
-        selections = cls.supporting_selections_details(
-            page, variant, current_selection=current_selection)
+        selections = [cls.selection_details(
+                page, variant, current_selection=current_selection)]
         details.update(
             {'variant': variant,
              'display_title': cls.variant_display_title(variant),
@@ -416,10 +413,18 @@ class PageController(BaseController):
         if 'variant_json' in request.params:
             return render_json(c.variant_details)
         c.variant_details_json = json.dumps(c.variant_details, indent=4)
+        # FIXME: only if != HEAD
+        selection = model.Selection.by_variant(c.page, c.variant)
+        c.current_variant_poll = selection.variant_poll(c.variant)
+        if c.variant and c.variant != model.Text.HEAD:
+            c.selection_details = self.selection_urls(selection)
+        else:
+            c.selection_details = None
+        c.selection_details_json = json.dumps(c.selection_details,
+                                              indent=4)
 
         # Make a list of variants to render the vertical tab navigation
         c.variant_items = self.variant_items(c.page, current_variant=c.variant)
-
         # Metadata and subpages pager
         sorts = {_("oldest"): sorting.entity_oldest,
                  _("newest"): sorting.entity_newest,
