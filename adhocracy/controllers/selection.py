@@ -134,9 +134,8 @@ class SelectionController(BaseController):
         if not variant_to_show:
             variant_to_show = model.Text.HEAD
 
-        score_getter = lambda variant: variant_polls[variant].tally.score
         c.variant_items = PageController.variant_items(
-            c.page, score_getter=score_getter, render_head_score=True)
+            c.page, render_head_score=True, selection=selection)
 
         c.variant_details = PageController.variant_details(
             c.page, variant_to_show, current_selection=variant_to_show)

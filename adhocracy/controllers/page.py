@@ -350,11 +350,11 @@ class PageController(BaseController):
 
     @classmethod
     def variant_overview(cls, page, variant, current_variant=None,
-                         score_getter=None, render_head_score=False):
-        if score_getter is None:
+                         render_head_score=False, selection=None):
+        if selection is None:
             score = page.variant_tally(variant).score
         else:
-            score = score_getter(variant)
+            score = selection.variant_poll(variant).tally.score
         is_head = (variant == model.Text.HEAD)
         title = _('Original Version') if is_head else variant
         rendered_score = "%+d" % score
@@ -373,17 +373,20 @@ class PageController(BaseController):
         return details
 
     @classmethod
-    def variant_items(self, page, current_variant=None, score_getter=None,
-                      render_head_score=False):
+    def variant_items(self, page, current_variant=None,
+                      render_head_score=False, selection=None):
         head_item = None
         variant_items = []
         # FIXME: What to do if we get passed a selection that did not select
         # the current variant? Warn? Redirect?
         for variant in page.variants:
-            details = self.variant_overview(page, variant,
-                                            current_variant=current_variant,
-                                            score_getter=score_getter,
-                                            render_head_score=render_head_score)
+            if selection and variant not in selection.variants:
+                continue
+            details = self.variant_overview(
+                page, variant,
+                current_variant=current_variant,
+                render_head_score=render_head_score,
+                selection=selection)
             if variant == model.Text.HEAD:
                 head_item = details
             else:

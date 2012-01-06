@@ -137,8 +137,9 @@ class Selection(object):
 
     @property
     def subjects(self):
+        variants = self.variants or []
         return [self.variant_key(v) for v in self.page.variants
-                if v in self.variants]
+                if v in variants]
 
     @property
     def polls(self):
