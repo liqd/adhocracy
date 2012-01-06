@@ -47,8 +47,7 @@ class PageCreateForm(formencode.Schema):
     proposal = forms.ValidProposal(not_empty=False, if_empty=None,
                                    if_missing=None)
     tags = validators.String(max=20000, not_empty=False)
-    milestone = forms.MaybeMilestone(if_empty=None, 
-            if_missing=None)
+    milestone = forms.MaybeMilestone(if_empty=None, if_missing=None)
 
 
 class PageEditForm(formencode.Schema):
@@ -147,7 +146,8 @@ class PageController(BaseController):
         except Invalid, i:
             return self.new(errors=i.unpack_errors())
 
-        page = model.Page.create(c.instance, self.form_result.get("title"),
+        variant = self.form_result.get("title")
+        page = model.Page.create(c.instance, variant,
                                  _text, c.user,
                                  tags=self.form_result.get("tags"))
 
@@ -158,7 +158,7 @@ class PageController(BaseController):
 
         target = h.entity_url(page)  # by default, redirect to the page
         if proposal is not None and can.selection.create(proposal):
-            model.Selection.create(proposal, page, c.user)
+            model.Selection.create(proposal, page, c.user, variant=variant)
             # if a selection was created, go there instead:
             target = h.page.url(page, member='branch',
                                 query={'proposal': proposal.id})
@@ -252,7 +252,8 @@ class PageController(BaseController):
         target = text
         proposal = self.form_result.get("proposal")
         if proposal is not None and can.selection.create(proposal):
-            target = model.Selection.create(proposal, c.page, c.user)
+            target = model.Selection.create(proposal, c.page, c.user,
+                                            variant=c.variant)
             poll = target.variant_poll(c.variant)
             if poll and can.poll.vote(poll):
                 decision = democracy.Decision(c.user, poll)

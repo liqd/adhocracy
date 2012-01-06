@@ -104,7 +104,11 @@ class Selection(object):
     def create(cls, proposal, page, user, variant=None):
         selections = cls.by_page_and_proposal(page, proposal)
         if len(selections):
-            return selections[0]
+            selection = selections[0]
+            if variant is not None and variant not in selection.variants:
+                selection.add_variant(variant)
+                selection.make_variant_poll(variant, user)
+            return selection
         selection = Selection(page, proposal, variant=variant)
         meta.Session.add(selection)
         page.parents.append(proposal)
@@ -133,6 +137,10 @@ class Selection(object):
     def add_variant(self, variant):
         assert variant in self.page.variants
         assert not self.by_variant(self.page, variant)
+        if variant is None:
+            return
+        if variant in self.variants:
+            return
         self.variants.append(variant)
 
     @property
