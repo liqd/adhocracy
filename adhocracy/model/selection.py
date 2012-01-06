@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 
-from sqlalchemy import Table, Column, ForeignKey
+from sqlalchemy import Table, Column, ForeignKey, PickleType
 from sqlalchemy import Integer, DateTime, or_
 from sqlalchemy.orm import reconstructor
 
@@ -10,23 +10,44 @@ import instance_filter as ifilter
 
 log = logging.getLogger(__name__)
 
-selection_table = Table('selection', meta.data,
+
+def are_elements_equal(x, y):
+    return x == y
+
+selection_table = Table(
+    'selection', meta.data,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime),
     Column('page_id', Integer, ForeignKey('page.id',
            name='selection_page', use_alter=True), nullable=True),
     Column('proposal_id', Integer, ForeignKey('proposal.id',
-           name='selection_proposal', use_alter=True), nullable=True)
+           name='selection_proposal', use_alter=True), nullable=True),
+    Column('variants', PickleType(comparator=are_elements_equal),
+           nullable=True)
     )
 
 
 class Selection(object):
 
-    def __init__(self, page, proposal):
+    def __init__(self, page, proposal, variant=None):
+        '''
+        Create a new Selection.
+
+        page (:class:`adhocracy.model.page.Page`)
+            The selected page
+        proposal (:class:`adhocracy.mode.page.Page`)
+            The proposal from which the page is selected
+        variant `str`
+            The variant for which the selection is valid
+        '''
+        from text import Text
         self.page = page
         self.proposal = proposal
         self._polls = None
+        self.variants = [Text.HEAD]
+        if variant is not None:
+            self.variants.append(variant)
 
     @reconstructor
     def _reconstruct(self):
@@ -54,6 +75,13 @@ class Selection(object):
         return cls.by_page_and_proposal(page, None)
 
     @classmethod
+    def by_variant(cls, page, variant):
+        selections = cls.by_page(page)
+        for selection in selections:
+            if variant in selection.variants:
+                return selection
+
+    @classmethod
     def by_page_and_proposal(cls, page, proposal):
         try:
             q = meta.Session.query(Selection)
@@ -73,11 +101,11 @@ class Selection(object):
         return cls.find(id, **kwargs)
 
     @classmethod
-    def create(cls, proposal, page, user):
+    def create(cls, proposal, page, user, variant=None):
         selections = cls.by_page_and_proposal(page, proposal)
         if len(selections):
             return selections[0]
-        selection = Selection(page, proposal)
+        selection = Selection(page, proposal, variant=variant)
         meta.Session.add(selection)
         page.parents.append(proposal)
         meta.Session.flush()
@@ -87,6 +115,8 @@ class Selection(object):
 
     def make_variant_poll(self, variant, user):
         from poll import Poll
+        if variant not in self.variants:
+            return None
         key = self.variant_key(variant)
         for poll in self.polls:
             if poll.subject == key:
@@ -100,9 +130,15 @@ class Selection(object):
     def variant_key(self, variant):
         return "[@[selection:%d],\"%s\"]" % (self.id, variant)
 
+    def add_variant(self, variant):
+        assert variant in self.page.variants
+        assert not self.by_variant(self.page, variant)
+        self.variants.append(variant)
+
     @property
     def subjects(self):
-        return [self.variant_key(v) for v in self.page.variants]
+        return [self.variant_key(v) for v in self.page.variants
+                if v in self.variants]
 
     @property
     def polls(self):

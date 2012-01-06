@@ -165,8 +165,9 @@ class ProposalController(BaseController):
             model.Text.create(page, variant, c.user,
                               page.head.title,
                               page_text, parent=page.head)
-            target = model.Selection.create(proposal, page, c.user)
-            poll = target.variant_poll(variant)
+            selection = model.Selection.create(proposal, page, c.user,
+                                               variant=variant)
+            poll = selection.variant_poll(variant)
             if poll and can.poll.vote(poll):
                 decision = democracy.Decision(c.user, poll)
                 decision.make(model.Vote.YES)
