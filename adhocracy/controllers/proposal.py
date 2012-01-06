@@ -136,6 +136,13 @@ class ProposalController(BaseController):
             self.form_result = ProposalCreateForm().to_python(request.params)
         except Invalid, i:
             return self.new(errors=i.unpack_errors())
+
+        pages = self.form_result.get('page', [])
+        if c.instance.require_selection and len(pages) < 1:
+            h.flash(
+                _('Please select a working paper and propose a change to it.'),
+                'error')
+            return self.new()
         proposal = model.Proposal.create(c.instance,
                                          self.form_result.get("label"),
                                          c.user, with_vote=can.user.vote(),
@@ -152,7 +159,7 @@ class ProposalController(BaseController):
         model.meta.Session.flush()
         proposal.description = description
 
-        for page in self.form_result.get('page', []):
+        for page in pages:
             page_text = page.get('text', '')
             page = page.get('id')
             if page is None or page.function != model.Page.NORM:

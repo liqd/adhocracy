@@ -52,6 +52,8 @@ class InstanceEditForm(formencode.Schema):
                                        if_missing=False)
     use_norms = validators.StringBool(not_empty=False, if_empty=False,
                                       if_missing=False)
+    require_selection = validators.StringBool(not_empty=False, if_empty=False,
+                                              if_missing=False)
     hidden = validators.StringBool(not_empty=False, if_empty=False,
                                    if_missing=False)
     frozen = validators.StringBool(not_empty=False, if_empty=False,
@@ -136,7 +138,7 @@ class InstanceController(BaseController):
         require.instance.show(c.page_instance)
 
         if format == 'sline':
-            ret_abort(u'Sparkline data is not available anymore.', code=410);
+            ret_abort(u'Sparkline data is not available anymore.', code=410)
 
         events = model.Event.find_by_instance(c.page_instance)
 
@@ -178,6 +180,7 @@ class InstanceController(BaseController):
                 'frozen': c.page_instance.frozen,
                 'locale': c.page_instance.locale,
                 'use_norms': c.page_instance.use_norms,
+                'require_selection': c.page_instance.require_selection,
                 '_tok': csrf.token_id(),
                 'default_group': default_group})
 
@@ -202,6 +205,8 @@ class InstanceController(BaseController):
         c.page_instance.milestones = self.form_result.get('milestones')
         c.page_instance.css = self.form_result.get('css')
         c.page_instance.use_norms = self.form_result.get('use_norms')
+        c.page_instance.require_selection = self.form_result.get(
+            'require_selection')
 
         locale = Locale(self.form_result.get("locale"))
         if locale and locale in i18n.LOCALES:
