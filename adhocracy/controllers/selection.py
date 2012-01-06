@@ -112,15 +112,6 @@ class SelectionController(BaseController):
 
         redirect(h.entity_url(c.proposal))
 
-    @classmethod
-    def selection_details(cls, selection):
-        urls = {}
-        for (variant, poll) in selection.variant_polls:
-            urls[variant] = {
-                'votes': h.entity_url(poll, member="votes"),
-                'poll_widget': h.entity_url(poll, member="widget.big")}
-        return {'urls': urls}
-
     def details(self, proposal_id, selection_id, format='html'):
         '''
         '''
@@ -134,14 +125,13 @@ class SelectionController(BaseController):
         if not variant_to_show:
             variant_to_show = model.Text.HEAD
 
-        score_getter = lambda variant: variant_polls[variant].tally.score
         c.variant_items = PageController.variant_items(
-            c.page, score_getter=score_getter, render_head_score=True)
+            c.page, render_head_score=True, selection=selection)
 
         c.variant_details = PageController.variant_details(
             c.page, variant_to_show, current_selection=variant_to_show)
         c.variant_details_json = json.dumps(c.variant_details, indent=4)
-        c.selection_details = self.selection_details(selection)
+        c.selection_details = PageController.selection_urls(selection)
         c.selection_details_json = json.dumps(c.selection_details, indent=4)
         c.current_variant_poll = variant_polls[variant_to_show]
         c.selection = selection

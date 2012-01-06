@@ -111,6 +111,9 @@
         <article>
             <div class="paper_header">
                 <div class="utility">
+                        %if c.current_variant_poll:
+                        ${tiles.poll.widget(c.current_variant_poll, cls="big")}
+                        %endif
                 <h3 data-bind="text:variants.current.display_title">
                     ${c.variant_details['display_title']}
                 </h3>
