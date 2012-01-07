@@ -358,6 +358,7 @@ margin-bottom: 0;
   position: relative;
   padding: 0 23px;
   height: 90px;
+  overflow: visible; /*allow long popup menu */
 }
 body.logged_in #header .page_wrapper {
   height: 40px;
