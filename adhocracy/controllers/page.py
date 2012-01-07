@@ -292,8 +292,15 @@ class PageController(BaseController):
 
     @classmethod
     def selection_details(cls, page, variant, current_selection=None):
+        log.error(page)
+        log.error(variant)
         selection = model.Selection.by_variant(page, variant)
-        score = selection.variant_poll(variant).tally.score
+        if selection is None:
+            return
+        try:
+            score = selection.variant_poll(variant).tally.score
+        except:
+            score = 0
         rendered_score = "%+d" % score
         item = {'score': score,
                 'rendered_score': rendered_score,
@@ -410,12 +417,15 @@ class PageController(BaseController):
         requested_selection = request.params.get('selection', 0)
         c.variant_details = self.variant_details(
             c.page, c.variant, current_selection=int(requested_selection))
+        log.error(c.variant_details.keys())
+        if c.variant_details['selections'] == [None]:
+            c.variant_details['selections'] = []
         if 'variant_json' in request.params:
             return render_json(c.variant_details)
         c.variant_details_json = json.dumps(c.variant_details, indent=4)
         # FIXME: only if != HEAD
-        selection = model.Selection.by_variant(c.page, c.variant)
-        c.current_variant_poll = selection.variant_poll(c.variant)
+        #selection = model.Selection.by_variant(c.page, c.variant)
+        #c.current_variant_poll = selection.variant_poll(c.variant)
         if c.variant and c.variant != model.Text.HEAD:
             c.selection_details = self.selection_urls(selection)
         else:
