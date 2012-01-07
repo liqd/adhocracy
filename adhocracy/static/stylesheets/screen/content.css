@@ -461,11 +461,14 @@ body.logged_in #nav {
   padding-top: 0px;
   font-weight: normal;
 }
-
 #user_menu {
   display: inline-block;
   background: url("/images/line_header.jpg") no-repeat scroll left bottom transparent;
 }
+#about_menu {
+  display: inline-block;
+}
+#about_menu ul,
 #user_menu ul {
   margin-left: 0;
 }
@@ -479,6 +482,7 @@ body.logged_in #nav li {
   height: 32px;
   padding-top: 8px;
 }
+#about_menu_link,
 #nav li a {
   color: #fff;
   text-decoration: none;
@@ -498,6 +502,8 @@ body.logged_in #nav li a {
 #nav li:hover {
   background: url('/images/gradient_navi_hover.png') right top no-repeat transparent;
 }
+
+#about_menu li:hover a,
 #user_menu li:hover a {
   background: none;
 }
