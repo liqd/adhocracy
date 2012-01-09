@@ -75,11 +75,25 @@ class Selection(object):
         return cls.by_page_and_proposal(page, None)
 
     @classmethod
-    def by_variant(cls, page, variant):
-        selections = cls.by_page(page)
-        for selection in selections:
-            if variant in selection.variants:
-                return selection
+    def by_variant(cls, page, variant, proposal=None):
+        '''
+        Return a list of selections for a *variant*. If a *proposal* is
+        given, only the selections for related to the *proposal* are
+        returned.
+
+        page:
+            A :class:`adhocracy.model.page.Page` object
+        variant (str):
+            The variant name.
+        proposal:
+            A :class:`adhocracy.model.proposal.Proposal` object
+
+        Returns: A `list` of :class:`adhocracy.model.selection.Selection`
+        objects.
+        '''
+        selections = cls.by_page_and_proposal(page, proposal)
+        return [selection for selection in selections if variant in
+                selection.variants]
 
     @classmethod
     def by_page_and_proposal(cls, page, proposal):

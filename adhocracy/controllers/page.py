@@ -291,17 +291,22 @@ class PageController(BaseController):
         return {'urls': urls}
 
     @classmethod
-    def selection_details(cls, page, variant, current_selection=None):
-        log.error(page)
-        log.error(variant)
-        selection = model.Selection.by_variant(page, variant)
-        if selection is None:
-            return
+    def selections_details(cls, page, variant, current_selection=None):
+        selections = model.Selection.by_variant(page, variant)
+        return [cls.selection_details(selection, variant,
+                                      current_selection=current_selection)
+                for selection in selections]
+
+    @classmethod
+    def selection_details(cls, selection, variant, current_selection=None):
         try:
             score = selection.variant_poll(variant).tally.score
         except:
             score = 0
         rendered_score = "%+d" % score
+        current = False
+        if current_selection is not None:
+            current = selection.id == current_selection.id
         item = {'score': score,
                 'rendered_score': rendered_score,
                 'selection_id': selection.id,
@@ -309,12 +314,12 @@ class PageController(BaseController):
                 'proposal_text':
                     render_text(selection.proposal.description.head.text),
                 'proposal_url': h.selection.url(selection),
-                'current': selection.id == current_selection,
+                'current': current,
                 }
         return item
 
     @classmethod
-    def variant_details(cls, page, variant, current_selection=None):
+    def variant_details(cls, page, variant):
         '''
         Return details for a variant including diff information
         and details about the proposals that selected this variant.
@@ -332,8 +337,15 @@ class PageController(BaseController):
             if details[key].strip() == '':
                 details[key] = message
 
-        selections = [cls.selection_details(
-                page, variant, current_selection=current_selection)]
+        selections = cls.selections_details(page, variant)
+        if variant == model.Text.HEAD:
+            is_head = True
+            votewidget_url = ''
+        else:
+            is_head = False
+            selection = model.Selection.by_variant(page, variant)[0]
+            votewidget_url = h.entity_url(selection.variant_poll(variant),
+                                          member="widget.big")
         details.update(
             {'variant': variant,
              'display_title': cls.variant_display_title(variant),
@@ -342,9 +354,10 @@ class PageController(BaseController):
              'history_count': len(variant_text.history),
              'selections': selections,
              'num_selections': len(selections),
-             'is_head': (variant == model.Text.HEAD),
+             'is_head': is_head,
              'can_edit': can.variant.edit(page, variant),
-             'edit_url': h.entity_url(variant_text, member='edit')})
+             'edit_url': h.entity_url(variant_text, member='edit'),
+             'votewidget_url': votewidget_url})
         return details
 
     @classmethod
@@ -414,24 +427,10 @@ class PageController(BaseController):
             return render_json(c.page.to_dict(text=c.text))
 
         # variant details and returning them as json when requested.
-        requested_selection = request.params.get('selection', 0)
-        c.variant_details = self.variant_details(
-            c.page, c.variant, current_selection=int(requested_selection))
-        log.error(c.variant_details.keys())
-        if c.variant_details['selections'] == [None]:
-            c.variant_details['selections'] = []
+        c.variant_details = self.variant_details(c.page, c.variant)
         if 'variant_json' in request.params:
             return render_json(c.variant_details)
         c.variant_details_json = json.dumps(c.variant_details, indent=4)
-        # FIXME: only if != HEAD
-        #selection = model.Selection.by_variant(c.page, c.variant)
-        #c.current_variant_poll = selection.variant_poll(c.variant)
-        if c.variant and c.variant != model.Text.HEAD:
-            c.selection_details = self.selection_urls(selection)
-        else:
-            c.selection_details = None
-        c.selection_details_json = json.dumps(c.selection_details,
-                                              indent=4)
 
         # Make a list of variants to render the vertical tab navigation
         c.variant_items = self.variant_items(c.page, current_variant=c.variant)

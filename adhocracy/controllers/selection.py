@@ -129,7 +129,7 @@ class SelectionController(BaseController):
             c.page, render_head_score=True, selection=selection)
 
         c.variant_details = PageController.variant_details(
-            c.page, variant_to_show, current_selection=variant_to_show)
+            c.page, variant_to_show)
         c.variant_details_json = json.dumps(c.variant_details, indent=4)
         c.selection_details = PageController.selection_urls(selection)
         c.selection_details_json = json.dumps(c.selection_details, indent=4)

@@ -65,7 +65,8 @@ var adhocracy = adhocracy || {};
         "variant": undefined,
         "can_edit": undefined,
         "edit_url": undefined,
-        "display_title": undefined
+        "display_title": undefined,
+        "votewidget_url": undefined
     };
 
     /**
@@ -73,6 +74,16 @@ var adhocracy = adhocracy || {};
      * @class PaperModel
      */
     adhocracy.ko.PaperModel = function () {
+
+        var viewModel = this;
+
+        /**
+         * Observable to store the vote widget for the current variant
+         *
+         * @method voteWidget
+         * @type ko.observable
+         */
+        this.voteWidget = ko.observable();
 
         this.variants = {
             /**
@@ -101,8 +112,12 @@ var adhocracy = adhocracy || {};
             current: ko.mapping.fromJS(adhocracy.ko.variantDummy),
             init: function (data) {
                 var variant = data.variant;
+
                 this.cache[variant] = data;
                 this.current = ko.mapping.fromJS(data, this.current);
+                this.current.variant.subscribe(
+                    function () { viewModel.updateVoteWidget(); }
+                );
                 this.load(variant);
             },
             /**
@@ -131,7 +146,9 @@ var adhocracy = adhocracy || {};
                         function (data) {
                             self.cache[data.variant] = data;
                             update_model();
-                            callback();
+                            if (callback !== undefined) {
+                                callback();
+                            }
                         });
                 }
             },
@@ -173,6 +190,30 @@ var adhocracy = adhocracy || {};
         this.init = function (variantData) {
             this.variants.init(variantData);
         };
+
+        /**
+         * Utility function to fetch the current vote widget (without caching
+         * it) and store it in the observable this.voteWidget().
+         */
+        this.updateVoteWidget = function () {
+            var variant = this.variants.current.variant(),
+                url = this.variants.current.votewidget_url(),
+                voteWidget = this.voteWidget,
+                clearVoteWidget = function () { voteWidget(''); };
+
+            if (url !== '') {
+                $.ajax({
+                    url: url,
+                    success: function (data) {
+                        // update the voteWidget observable
+                        voteWidget(data);
+                    },
+                    error: clearVoteWidget
+                });
+            } else {
+                clearVoteWidget();
+            }
+        };
     };
 
     /**
@@ -205,14 +246,6 @@ var adhocracy = adhocracy || {};
          * @type ko.observable
          */
         this.currentTab = ko.observable('text');
-
-        /**
-         * Observable to store the vote widget for the current variant
-         *
-         * @method voteWidget
-         * @type ko.observable
-         */
-        this.voteWidget = ko.observable();
 
         /**
          * Initialize the model
