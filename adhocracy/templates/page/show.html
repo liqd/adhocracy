@@ -118,7 +118,8 @@
                     ${c.variant_details['display_title']}
                 </h3>
                 <a href="${c.variant_details['edit_url']}"
-                   style="${'display: none' if not c.variant_details['can_edit'] else ''}">
+                   style="${'display: none' if not c.variant_details['can_edit'] else ''}"
+                   data-bind="attr: {href: variants.current.edit_url}">
                     ${_('edit')}
                 </a>
                 </div>
