@@ -344,8 +344,9 @@ class PageController(BaseController):
         else:
             is_head = False
             selection = model.Selection.by_variant(page, variant)[0]
-            votewidget_url = h.entity_url(selection.variant_poll(variant),
-                                          member="widget.big")
+            votewidget_url = h.entity_url(
+                selection.proposal.rate_poll,
+                member="widget.big")
         details.update(
             {'variant': variant,
              'display_title': cls.variant_display_title(variant),
