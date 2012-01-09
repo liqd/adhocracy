@@ -370,7 +370,7 @@ class User(meta.Indexable):
 
     @classmethod
     def create(cls, user_name, email, password=None, locale=None,
-               openid_identity=None, global_admin=False):
+               openid_identity=None, global_admin=False, display_name=None):
         from group import Group
         from membership import Membership
         from openid import OpenID
@@ -383,7 +383,8 @@ class User(meta.Indexable):
         if locale is None:
             locale = i18n.get_default_locale()
 
-        user = User(user_name, email, password, locale)
+        user = User(user_name, email, password, locale,
+                    display_name=display_name)
         meta.Session.add(user)
         default_group = Group.by_code(Group.CODE_DEFAULT)
         default_membership = Membership(user, None, default_group)

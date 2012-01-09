@@ -248,6 +248,10 @@ def make_map():
     # API
     map.connect('/api/{action}', controller='api')
     map.connect('/admin', controller='admin', action="index")
+    map.connect('/admin/users/import', controller='admin',
+                action="user_import", conditions=dict(method=['POST']))
+    map.connect('/admin/users/import', controller='admin',
+                action="user_import_form", conditions=dict(method=['GET']))
 
     map.connect('/static/{page_name}.{format}', controller='static',
                 action='serve')

@@ -1,9 +1,11 @@
+import csv
 from datetime import datetime
 import re
+from StringIO import StringIO
 
 import formencode
 from pylons.i18n import _
-
+from webhelpers.html import literal
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings",
                    "join", "leave", "control", "test", "support", "page",
@@ -36,7 +38,7 @@ class UniqueUsername(formencode.FancyValidator):
                 _('The username is invalid'),
                 value, state)
         if meta.Session.query(User.user_name).filter(User.user_name ==
-                                                     value).all():
+                                                     value).count():
             raise formencode.Invalid(
                 _('That username already exists'),
                 value, state)
@@ -327,3 +329,97 @@ class UnusedTitle(formencode.validators.String):
                 value, state)
         except:
             return value
+
+
+USER_NAME = 'user_name'
+DISPLAY_NAME = 'display_name'
+EMAIL = 'email'
+USERNAME_VALIDATOR = UniqueUsername()
+EMAIL_VALIDATOR = formencode.All(formencode.validators.Email(),
+                                 UniqueEmail())
+
+
+class UsersCSV(formencode.FancyValidator):
+
+    def to_python(self, value, state):
+        fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL]
+        errors = []
+        items = []
+        self.usernames = {}
+        self.emails = {}
+        self.duplicates = False
+        reader = csv.DictReader(StringIO(value), fieldnames=fieldnames)
+        try:
+            for item in reader:
+                error_list = self._check_item(item, reader.line_num)
+                if error_list:
+                    errors.append((reader.line_num, error_list))
+                if not errors:
+                    items.append(item)
+        except csv.Error, E:
+            line_content = value.split('\n')[reader.line_num]
+            msg = _('Error "%(error)s" while reading line '
+                    '<pre><i>%(line_content)s</i></pre>') % dict(
+                line_content=line_content,
+                error=str(E))
+            errors.append((reader.line_num + 1, [msg]))
+        if errors or self.duplicates:
+            error_msg = _('The following errors occured while reading '
+                          'the list of users: <br />%s')
+            line_error_messages = []
+            for (line, messages) in errors:
+                line_error_messages.append(
+                    _('Line %s: %s') % (line, ', '.join(messages)))
+
+            # Insert messages for duplicate emails and usernames
+            self._insert_duplicate_messages(
+                line_error_messages,
+                self.emails,
+                _('Email %s is used multiple times'))
+            self._insert_duplicate_messages(
+                line_error_messages,
+                self.usernames,
+                _('Username %s is used multiple times'))
+            error_msg = error_msg % ('<br />'.join(line_error_messages))
+            raise formencode.Invalid(literal(error_msg), value, state)
+        else:
+            return items
+
+    def _insert_duplicate_messages(self, line_error_messages, duplicate_dict,
+                                   msg_template):
+        for (value, lines) in duplicate_dict.items():
+            if len(lines) > 1:
+                lines = [str(line) for line in lines]
+                line_error_messages.append(
+                    _('Lines %s: %s') % (
+                        ', '.join(lines),
+                        msg_template % value))
+
+    def _check_item(self, item, line):
+        error_list = []
+        user_name = item.get(USER_NAME, '')
+        email = item.get(EMAIL, '')
+        for (validator, value) in ((USERNAME_VALIDATOR, user_name),
+                                   (EMAIL_VALIDATOR, email)):
+            try:
+                validator.to_python(value, None)
+            except formencode.Invalid, E:
+                error_list.append(u'%s (%s)' % (E.msg, value))
+        emails = self.emails.setdefault(email.strip(), [])
+        emails.append(line)
+        usernames = self.usernames.setdefault(user_name.strip(), [])
+        usernames.append(line)
+        if len(emails) > 1 or len(usernames) > 1:
+            self.duplicates = True
+        return error_list
+
+
+class ContainsUrlPlaceholder(formencode.FancyValidator):
+
+    def _to_python(self, value, state):
+        if not '{url}' in value:
+            raise formencode.Invalid(_('You need to insert "{url}" into the '
+                                       'email text so we can insert a url for '
+                                       'the user where he can set a password'),
+                                     value, state)
+        return value
