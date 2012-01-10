@@ -30,7 +30,7 @@ def tpl_vars():
 
 
 def render(template_name, extra_vars=None, cache_key=None,
-               cache_type=None, cache_expire=None, overlay=False):
+           cache_type=None, cache_expire=None, overlay=False):
     """
     Signature matches that of pylons actual render_mako. Except
     for the *overlay* parameter. If it is *True*, the template will
@@ -76,18 +76,18 @@ def _json_entity(o):
 
 
 def ret_success(message=None, category=None, entity=None, code=200,
-            format='html'):
+                format='html'):
     return ret_status('OK', message=message, category=category, entity=entity,
-            code=code, format=format)
+                      code=code, format=format)
 
 
 def ret_abort(message, category=None, entity=None, code=500, format='html'):
     return ret_status('ABORT', message=message, category=category,
-            entity=entity, code=code, format=format)
+                      entity=entity, code=code, format=format)
 
 
 def ret_status(type_, message, category=None, entity=None, code=200,
-            format='html'):
+               format='html'):
     import adhocracy.lib.helpers as h
     response.status_int = code
     if code != 200:
