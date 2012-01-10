@@ -6,7 +6,6 @@ from pylons import app_globals
 log = logging.getLogger(__name__)
 
 SEP = "|"
-cacheTags = {}
 
 
 class NoneResult(object):
