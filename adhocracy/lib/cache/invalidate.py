@@ -2,6 +2,10 @@ from adhocracy import model
 from adhocracy.lib.cache.util import clear_tag
 
 
+def invalidate_badge(badge):
+    clear_tag(badge)
+
+
 def invalidate_user(user):
     clear_tag(user)
 
