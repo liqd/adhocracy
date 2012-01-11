@@ -1,9 +1,23 @@
+import logging
 from adhocracy import model
 from adhocracy.lib.cache.util import clear_tag
 
+log = logging.getLogger(__name__)
+
 
 def invalidate_badge(badge):
+    log.debug('invalidate_badge %s' % badge)
     clear_tag(badge)
+
+
+def invalidate_userbadge(userbadge):
+    clear_tag(userbadge)
+    invalidate_user(userbadge.user)
+
+
+def invalidate_delegateablebadge(delegateablebadge):
+    clear_tag(delegateablebadge)
+    invalidate_delegateable(delegateablebadge.delegateable)
 
 
 def invalidate_user(user):
