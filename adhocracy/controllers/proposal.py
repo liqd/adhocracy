@@ -1,5 +1,4 @@
 import logging
-from operator import attrgetter
 
 import formencode
 from formencode import htmlfill, Invalid, validators
@@ -94,9 +93,7 @@ class ProposalController(BaseController):
             return render_json(c.proposals_pager)
 
         c.tile = tiles.instance.InstanceTile(c.instance)
-        c.badges = model.Badge.all()
-        c.badges = filter(lambda x: x.badge_delegateable, c.badges)
-        c.badges = sorted(c.badges, key=attrgetter('title'))
+        c.badges = model.Badge.all_delegateable()
         return render("/proposal/index.html")
 
     @RequireInstance
@@ -384,9 +381,7 @@ class ProposalController(BaseController):
 
     @ActionProtector(authorization.has_permission("global.admin"))
     def badges(self, id, errors=None):
-        c.badges = model.Badge.all()
-        c.badges = filter(lambda x: x.badge_delegateable, c.badges)
-        c.badges = sorted(c.badges, key=attrgetter('title'))
+        c.badges = model.Badge.all_delegateable()
         c.proposal = get_entity_or_abort(model.Proposal, id)
         defaults = {'badge': [str(badge.id) for badge in c.proposal.badges]}
         return formencode.htmlfill.render(

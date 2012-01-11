@@ -1,5 +1,4 @@
 import logging
-from operator import attrgetter
 
 import formencode
 from formencode import ForEach, htmlfill, validators
@@ -29,7 +28,6 @@ from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
 from adhocracy.lib.queue import post_update
 from adhocracy.lib.templating import render, render_json
 from adhocracy.lib.util import get_entity_or_abort, random_token
-
 
 log = logging.getLogger(__name__)
 
@@ -605,9 +603,7 @@ class UserController(BaseController):
 
     @ActionProtector(has_permission("global.admin"))
     def badges(self, id, errors=None):
-        c.badges = model.Badge.all()
-        c.badges = filter(lambda x: not x.badge_delegateable, c.badges)
-        c.badges = sorted(c.badges, key=attrgetter('title'))
+        c.badges = model.Badge.all_user()
         c.page_user = get_entity_or_abort(model.User, id)
         defaults = {'badge': [str(badge.id) for badge in c.page_user.badges]}
         return formencode.htmlfill.render(

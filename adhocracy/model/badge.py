@@ -73,9 +73,29 @@ class Badge(object):
         return q.first()
 
     @classmethod
+    def all_q(cls):
+        '''
+        A preconfigured query for all Badges ordered by title.
+        '''
+        return meta.Session.query(Badge).order_by(Badge.title)
+
+    @classmethod
     def all(cls):
-        q = meta.Session.query(Badge)
-        return q.all()
+        return cls.all_q().all()
+
+    @classmethod
+    def all_delegateable(cls):
+        '''
+        Return all delegateable badges, ordered by title.
+        '''
+        return cls.all_q().filter(Badge.badge_delegateable == True).all()
+
+    @classmethod
+    def all_user(cls):
+        '''
+        Return all user badges, ordered by title.
+        '''
+        return cls.all_q().filter(Badge.badge_delegateable == False).all()
 
     @classmethod
     def create(cls, title, color, description, group=None,
@@ -104,4 +124,3 @@ class Badge(object):
 
     def _index_id(self):
         return self.id
-                             
