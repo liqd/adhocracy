@@ -51,9 +51,10 @@ class ProposalTile(DelegateableTile):
 
 
 def row(proposal):
-    global_admin = authorization.has('global.admin')  
+    global_admin = authorization.has('global.admin')
     return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal),
-            proposal=proposal, cached=True, global_admin=global_admin)
+                       proposal=proposal, cached=True,
+                       badgesglobal_admin=global_admin)
 
 
 def header(proposal, tile=None, active='goal'):
@@ -76,6 +77,7 @@ def sidebar(proposal, tile=None):
 
 
 def badgesform(proposal, badges):
-    return render_tile('/proposal/tiles.html', 'badgesform', ProposalTile(proposal),
-                       proposal=proposal, badges=badges, cached=True)
+    return render_tile('/proposal/tiles.html', 'badgesform',
+                       ProposalTile(proposal), proposal=proposal,
+                       badges=badges, cached=False)
  
