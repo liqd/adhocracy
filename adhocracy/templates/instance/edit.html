@@ -163,17 +163,7 @@
         </div>
 
         <div style="clear: both;"></div>
-        <div class="sidebar">
-            <div class="infobox">
-                ${_("Use norm documents to structure the instance debate.")}
-            </div>
-        </div>
-        <div class="mainbar">
-            <label for="use_norms">${_("Use norms:")}</label>
-            <input type="checkbox" name="use_norms" />
-        </div>
 
-        <div style="clear: both;"></div>
         <div class="sidebar">
             <div class="infobox">
                 ${_("Use milestones to set deadlines for work in the instances.")}
@@ -185,6 +175,19 @@
         </div>
 
         <div style="clear: both;"></div>
+
+        <div class="sidebar">
+            <div class="infobox">
+                ${_("Use norm documents to structure the instance debate.")}
+            </div>
+        </div>
+        <div class="mainbar">
+            <label for="use_norms">${_("Use norms:")}</label>
+            <input type="checkbox" name="use_norms" />
+        </div>
+
+        <div style="clear: both;"></div>
+
         <div class="sidebar">
             <div class="infobox">
                 ${_("Users can propose new norms. These are created as empty stubs until filled upon proposal adoption.")}
@@ -196,6 +199,18 @@
         </div>
 
         <div style="clear: both;"></div>
+
+
+        <div class="checkbox_inline">
+        
+        <label>
+            <input type="checkbox" name="require_selection" /> 
+            ${_("Require to propose a variant")}
+        </label>
+        <p>${_("Users need to select a norm and propose a variant when they create a Proposal. This will only take effect if the instance uses norms.")}</p>
+        </div>
+        <div style="clear: both;"></div>
+
         <div class="sidebar">
             <div class="infobox">
                 ${_("Control whether content produced within this instance will be included in public search engines.")}

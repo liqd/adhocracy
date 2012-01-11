@@ -139,7 +139,6 @@ class PagerMixin(object):
             url_base = '%s://%s' % (protocol, url_base.split(', ')[1])
         else:
             url_base = '%s://%s' % (protocol, url_base.split('://')[1])
-        log.error(url_base)
         return url_base + "?" + urllib.urlencode(query_items)
 
     def to_dict(self):

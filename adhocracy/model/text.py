@@ -58,9 +58,7 @@ class Text(object):
             else:
                 variant = Text.HEAD
 
-        variant_is_new = False
-        if not variant in page.variants:
-            variant_is_new = True
+        variant_is_new = variant not in page.variants
         _text = Text(page, variant, user, title, text, wiki)
         if parent:
             _text.parent = parent
