@@ -33,15 +33,26 @@
     </div>
     </%doc>
     
-    %if can.proposal.create():
-    ## FIXME: Button for unauth users
     <div class="version_function">
+        <% auth = check.proposal.create() %>
+        %if auth:
         <a class="button highlight" 
            href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}">
             ${_('Propose new Variant')}
         </a>
+            <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+        %elif auth.propose_join():
+        <a class="button highlight" title="${_('Join instance to propose a new variant.')}"
+           href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}" rel="#overlay-join-button">
+            ${_('Propose new Variant')}
+        </a>
+        %elif auth.propose_login():
+        <a class="button highlight" title="${_('Login to propose a new variant.')}"
+           href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}" rel="#overlay-login-button">
+            ${_('Propose new Variant')}
+        </a>
+        %endif
     </div>
-    %endif
 
     %endif
 <%doc>
