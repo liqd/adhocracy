@@ -19,8 +19,13 @@
   </div>
   <br/>
   <div class="top_actions aside">
-  %if can.proposal.create():
-    <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+  <% auth = check.proposal.create() %>
+  %if auth:
+      <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+  %elif auth.propose_join():
+      <a class="button add ttip" title="${_('Join instance to create a new proposal.')}" href="/proposal/new" rel="#overlay-join-button">${_("new proposal")}</a>
+  %elif auth.propose_login():
+      <a class="button add ttip" title="${_('Login to create a new proposal.')}" href="/proposal/new" rel="#overlay-login-button">${_("new proposal")}</a>
   %endif
 
   <a href="/proposal" class="button edit ttip" title="${_('show a list of proposals')}">${_("more proposals")}</a>
