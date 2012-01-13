@@ -30,7 +30,7 @@ from adhocracy.lib.helpers import comment_helper as comment
 from adhocracy.lib.helpers import selection_helper as selection
 from adhocracy.lib.helpers import delegation_helper as delegation
 from adhocracy.lib.helpers import instance_helper as instance
-from adhocracy.lib.helpers import abuse_helper as abuse
+from adhocracy.lib.helpers import abuse_helper as abuse, tutorial
 from adhocracy.lib.helpers import milestone_helper as milestone
 from adhocracy.lib.helpers import recaptcha_helper as recaptcha
 from adhocracy.lib.helpers.url import build

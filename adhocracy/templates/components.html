@@ -275,3 +275,22 @@ text = "%s - %s: %s" % (h.site.name, c.instance.label, entity.title)
     
       ${tiles.badge.badge_styles()}
 </%def>
+
+<%def name="tutorial()">
+
+${h.tutorial.show()}
+%if h.tutorial.show():
+<%
+from js.jquery_joyride import joyride
+joyride.need()
+%>
+
+${caller.body()}
+
+<script type="text/javascript">
+    adhocracy.helpers.initializeTutorial();
+</script>
+
+%endif
+
+</%def>

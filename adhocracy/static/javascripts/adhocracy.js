@@ -599,6 +599,18 @@ var adhocracy = adhocracy || {};
         }
     };
 
+    adhocracy.helpers.initializeTutorial = function () {
+        $('#start-tutorial').click(function (event) {
+            $(this).joyride({inline: true});
+            event.preventDefault();
+        });
+        $('#disable-tutorials').click(function (event) {
+            $.get('/tutorials?disable=1');
+            $('#tutorial-banner').fadeOut();
+            event.preventDefault();
+                });
+    };
+
     adhocracy.helpers.initializeTagsAutocomplete = function (selector) {
 
         $("#tags").autocomplete('/tag/autocomplete', {

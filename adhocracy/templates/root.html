@@ -123,6 +123,20 @@ jquery.need()
       <div class="page_wrapper">
           <%block name="flashmessages"></%block>
           <%block name="infoboxes"></%block>
+
+          %if c.has_tutorial and h.tutorial.show():
+          <div class="only-js" id="tutorial-banner">
+              <%components:build_infobox>
+              <p>${_('tutorial_general_intro')}</p>
+              <a id="start-tutorial-button" href="#">
+                  ${_('start_tutorial')}
+              </a>
+              <a href="#" id="disable-tutorials">
+                  ${_('disable_tutorials')}
+              </a>
+              </%components:build_infobox>
+          </div>
+          %endif
       </div>
     </div>
   </div>

@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+
 <%def name="title()">${_("Home")}</%def>
 
 <%def name="breadcrumbs()">
@@ -18,9 +19,13 @@
         ${c.new_proposals_pager.here()}
   </div>
   <br/>
-  <div class="top_actions aside">
+  <div class="top_actions aside" id="proposal-actions">
   %if can.proposal.create():
-    <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+    <a class="button add ttip"
+       id="new-proposal-button"
+       title="${_('Introduce a new idea to debate.')}" href="/proposal/new">
+        ${_("new proposal")}
+    </a>
   %endif
 
   <a href="/proposal" class="button edit ttip" title="${_('show a list of proposals')}">${_("more proposals")}</a>
@@ -51,7 +56,7 @@
     <!--</div>-->
 </div>
 
-<div class="righthalf">
+<div id="numbers">
     <h3>${_("By the numbers")}</h3>
     <p>${_("%s has:") % c.page_instance.label}</p>
     <ul>
@@ -60,4 +65,27 @@
         <li>${_("<b>%s</b> comments") % c.stats.get('comments')|n}</li>
     </ul>
 </div>
+
+<%components:tutorial>
+        <ol id="joyRideTipContent">
+          <li data-id="subnav" data-next="Next"
+              data-tip-location="bottom left" class="custom">
+            <p>${_('tutorial_instance_show_subnav-overview')|n}</p>
+          </li>
+          <li data-id="new_proposals_table"
+              data-tip-location="top left">
+            <p>${_('tutorial_instance_show_new_proposals_table')|n}</p>
+          </li>
+          <li data-id="proposal-actions">
+            <p>${_('tutorial_instance_show_new_proposal_button')|n}</p>
+          </li>
+          <li data-id="numbers"
+              data-previous="Back"
+              data-tip-location="top left"
+              data-next="Close">
+            <p>${_('tutorial_instance_show_numbers')}</p>
+          </li>
+        </ol>
+</%components:tutorial>
+
 </%block>
