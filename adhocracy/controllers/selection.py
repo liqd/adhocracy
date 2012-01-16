@@ -125,8 +125,12 @@ class SelectionController(BaseController):
         if not variant_to_show:
             variant_to_show = model.Text.HEAD
 
-        c.variant_items = PageController.variant_items(
-            c.page, render_head_score=True, selection=selection)
+        variant_items = PageController.variant_items(c.page,
+                                                       selection=selection)
+        get_score = lambda item: \
+            selection.variant_poll(item['variant']).tally.score
+        c.variant_items = PageController.insert_variant_score_and_sort(
+            variant_items, get_score)
 
         c.variant_details = PageController.variant_details(
             c.page, variant_to_show)

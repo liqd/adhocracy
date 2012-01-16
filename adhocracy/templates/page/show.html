@@ -11,7 +11,7 @@
 
     %if c.page.has_variants:
 
-    ${components.vertical_tabs(c.variant_items, 'paper_selection')}
+    ${components.vertical_tabs(c.variant_items, 'paper_selection', current_variant=c.variant)}
 
     <div class="floatbox changes_switch"
          data-bind="css: {inactive: variants.current.is_head}">

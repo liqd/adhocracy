@@ -307,7 +307,7 @@ class PageController(BaseController):
         current = False
         if current_selection is not None:
             current = selection.id == current_selection.id
-        item = {'score': score,
+        return {'score': score,
                 'rendered_score': rendered_score,
                 'selection_id': selection.id,
                 'proposal_title': selection.proposal.title,
@@ -316,7 +316,6 @@ class PageController(BaseController):
                 'proposal_url': h.selection.url(selection),
                 'current': current,
                 }
-        return item
 
     @classmethod
     def variant_details(cls, page, variant):
@@ -368,53 +367,57 @@ class PageController(BaseController):
         return _(u'Variant: "%s"') % variant
 
     @classmethod
-    def variant_overview(cls, page, variant, current_variant=None,
-                         render_head_score=False, selection=None):
-        if selection is None:
-            score = page.variant_tally(variant).score
-        else:
-            score = selection.variant_poll(variant).tally.score
+    def variant_item(cls, page, variant):
+        '''
+        Return a `dict` with information about the variant.
+        '''
         is_head = (variant == model.Text.HEAD)
         title = _('Original Version') if is_head else variant
-        rendered_score = "%+d" % score
-        if score == 0:
-            rendered_score = '0'
-        if is_head and not render_head_score:
-            rendered_score = ''
-        details = {'href': h.page.page_variant_url(page, variant=variant),
-                   'title': title,
-                   'display_title': cls.variant_display_title(variant),
-                   'is_head': is_head,
-                   'selected': variant == current_variant,
-                   'score': score,
-                   'rendered_score': rendered_score,
-                   'variant': variant}
-        return details
+        return {'href': h.page.page_variant_url(page, variant=variant),
+                'title': title,
+                'display_title': title,  # bbb
+                'is_head': is_head,
+                'variant': variant}
 
     @classmethod
-    def variant_items(self, page, current_variant=None,
-                      render_head_score=False, selection=None):
-        head_item = None
-        variant_items = []
-        # FIXME: What to do if we get passed a selection that did not select
-        # the current variant? Warn? Redirect?
+    def variant_items(self, page, selection=None):
+        '''
+        Return a `list` of `dicts` with information about the variants.
+        '''
+        items = []
         for variant in page.variants:
-            if selection and variant not in selection.variants:
+            if selection and (variant not in selection.variants):
                 continue
-            details = self.variant_overview(
-                page, variant,
-                current_variant=current_variant,
-                render_head_score=render_head_score,
-                selection=selection)
-            if variant == model.Text.HEAD:
-                head_item = details
-            else:
-                variant_items.append(details)
+            item = self.variant_item(page, variant)
+            items.append(item)
 
-        variant_items = sorted(variant_items, key=itemgetter('score'),
-                               reverse=True)
-        variant_items.insert(0, head_item)
-        return variant_items
+        return items
+
+    @classmethod
+    def insert_variant_score_and_sort(self, items, score_func):
+        '''
+        Insert the score into the items and sort the variant items based
+        on their *score* with mode.Text.HEAD as the first item.
+
+        score_func is a method that receives the item as the only
+        argument.
+        '''
+        head_item = None
+        other_items = []
+        for item in items:
+            if item['variant'] == model.Text.HEAD:
+                item['score'] = None
+                item['rendered_score'] = ''
+                head_item = item
+            else:
+                score = score_func(item)
+                item['score'] = score
+                item['rendered_score'] = '%+d' % score
+                other_items.append(item)
+
+        items = sorted(other_items, key=itemgetter('score'), reverse=True)
+        items.insert(0, head_item)
+        return items
 
     @RequireInstance
     def show(self, id, variant=None, text=None, format='html'):
@@ -434,7 +437,29 @@ class PageController(BaseController):
         c.variant_details_json = json.dumps(c.variant_details, indent=4)
 
         # Make a list of variants to render the vertical tab navigation
-        c.variant_items = self.variant_items(c.page, current_variant=c.variant)
+        variant_items = self.variant_items(c.page)
+
+        def get_score(item):
+            selection = model.Selection.by_variant(c.page,
+                                                   item['variant'])[0]
+            return selection.proposal.rate_poll.tally.score
+
+        variant_items = self.insert_variant_score_and_sort(variant_items,
+                                                           get_score)
+
+        # filter out all but the highest rated variant from a proposal
+        c.variant_items = []
+        selections = []
+        for item in variant_items:
+            variant = item['variant']
+            if variant == model.Text.HEAD:
+                c.variant_items.append(item)
+                continue
+            selection = model.Selection.by_variant(c.page, variant)[0]
+            if selection not in selections:
+                selections.append(selection)
+                c.variant_items.append(item)
+
         # Metadata and subpages pager
         sorts = {_("oldest"): sorting.entity_oldest,
                  _("newest"): sorting.entity_newest,
