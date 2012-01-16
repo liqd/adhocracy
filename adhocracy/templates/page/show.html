@@ -156,12 +156,13 @@
             </div>
         </article>
         <div class="paper_comments">
-            <div class="paper" id="p1">
-                <h4>${_('Proposals')}
-                    (<span data-bind="text:variants.current.num_selections"
-                    >${c.variant_details['num_selections']}</span>)</h4>
+            <div class="paper ${'only-no-js' if c.variant_details else ''}" 
+                 id="p1"
+                 data-bind="css: {'only-no-js': variants.current.is_head}">
+                <h4>${_('Proposal')}</h4>
                 <div data-bind="template: {name: 'proposalTmpl', foreach: variants.current.selections}">
                 </div>
+                %if not c.variant_details['is_head']:
                 <div class="only-no-js">
                     %for selection in c.variant_details['selections']:
                     <h5>${selection['proposal_title']}</h5>
@@ -176,6 +177,7 @@
                     </div>
                     %endfor
                 </div>
+                %endif
             </div>
 
         </div>
