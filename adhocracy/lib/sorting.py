@@ -22,9 +22,14 @@ def _strip_accents(text):
 
 
 def _human_key(key):
-    key = key.lower()
-    parts = re.split(u'(\d+|\.+)', key, re.UNICODE)
-    keys = tuple((int(e) if e.isdigit() else e.swapcase()) for e in parts)
+    parts = re.split('([\d\.]+|.*)', key, maxsplit=1, flags=re.UNICODE)
+    keys = []
+    if len(parts)>1:
+        keys.append([int(e) if e.isdigit() else e.swapcase()
+            for e in re.split('(\d+|\.)', parts[1])])
+    if len(parts)>2:
+        keys.append(parts[2])
+
     keys = filter(lambda s: s not in PREFIXES, keys)
     keys = map(lambda s: isinstance(s, unicode) and
                _strip_accents(s) or s, keys)
