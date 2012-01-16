@@ -22,7 +22,7 @@ def _strip_accents(text):
 
 
 def _human_key(key):
-    parts = re.split('([\d\.]+|.*)', key, maxsplit=1, flags=re.UNICODE)
+    parts = re.split('([\d\.]+|.*)', key, maxsplit=1)
     keys = []
     if len(parts)>1:
         keys.append([int(e) if e.isdigit() else e.swapcase()
