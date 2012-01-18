@@ -440,9 +440,12 @@ class PageController(BaseController):
         variant_items = self.variant_items(c.page)
 
         def get_score(item):
-            selection = model.Selection.by_variant(c.page,
-                                                   item['variant'])[0]
-            return selection.proposal.rate_poll.tally.score
+            selections = model.Selection.by_variant(c.page,
+                                                    item['variant'])
+            if len(selections):
+                return selections[0].proposal.rate_poll.tally.score
+            else:
+                return 0
 
         variant_items = self.insert_variant_score_and_sort(variant_items,
                                                            get_score)
@@ -455,7 +458,11 @@ class PageController(BaseController):
             if variant == model.Text.HEAD:
                 c.variant_items.append(item)
                 continue
-            selection = model.Selection.by_variant(c.page, variant)[0]
+            selections_ = model.Selection.by_variant(c.page, variant)
+            if not selections_:
+                log.warning('continue - no selection: %s' % variant)
+                continue
+            selection = selections_[0]
             if selection not in selections:
                 selections.append(selection)
                 c.variant_items.append(item)
