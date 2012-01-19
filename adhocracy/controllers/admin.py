@@ -107,6 +107,7 @@ class AdminController(BaseController):
         c.errors = errors
         return render("/admin/import_success.html")
 
+    @ActionProtector(has_permission("global.admin"))
     def user_import_form(self, errors=None):
         return formencode.htmlfill.render(render("/admin/import_form.html"),
                                           defaults=dict(request.params),
