@@ -250,12 +250,6 @@ text = "%s - %s: %s" % (h.site.name, c.instance.label, entity.title)
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/modernizr.js')}"></script>
     <!--jquery 1.4.2 and jquery plugins-->
-    <!-- <script type="text/javascript"  -->
-    <!--       src="http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js"></script> -->
-    <!-- <script type="text/javascript"  -->
-    <!--     src="${h.base_url(None, path='/js/jquery.timeago.js')}"></script> -->
-    <!-- <script type="text/javascript"  -->
-    <!--     src="${h.base_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script> -->
 
     %if c.instance and c.instance.css:
         <link  rel="stylesheet" type="text/css" 
