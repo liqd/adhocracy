@@ -23,7 +23,9 @@ if came_from:
           ${_("Register new account")|n}</a>
     </div>
   </form>
-
+  <script>
+      $('input[name=login]').focus();
+  </script>
   <%
   c.openid_scenario = "login"
   %>
