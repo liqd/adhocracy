@@ -1,7 +1,28 @@
-<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"
+/><%inherit file="/template.html" />
+
+
 
 <%block name="headline">
 <h1>${_("Startpage")}</h1>
+</%block>
+
+<%block name="infoboxes">
+    %if c.logged_in:
+    <%components:build_infobox>
+        <p>${_("You have successfully logged in.")}</p>
+        <p>
+            ${_('This is your Dashboard. Here you can find the list of '
+                'instances your a member in, norms and proposals from '
+                'these instance and a list of the pages you follow.')}
+        </p>
+        %if c.came_from:
+        <p>
+            ${_('You can also return to the <a href="%s">Page you came '
+                'from</a>') % c.came_from | n}
+        %endif
+    </%components:build_infobox>
+    %endif
 </%block>
 
 <%block name="main_content">

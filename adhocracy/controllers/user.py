@@ -336,15 +336,9 @@ class UserController(BaseController):
 
     def post_login(self):
         if c.user:
-            url = h.base_url(c.instance)
-            if 'came_from' in session:
-                url = session.get('came_from')
-                del session['came_from']
-                session.save()
-            h.flash(_("You have successfully logged in."), 'success')
-            if isinstance(url, unicode):
-                url = url.encode('utf-8')
-            redirect(str(url))
+            session['logged_in'] = True
+            session.save()
+            redirect(h.entity_url(c.user, member='dashboard'))
         else:
             session.delete()
             return formencode.htmlfill.render(
@@ -360,6 +354,16 @@ class UserController(BaseController):
 
     def dashboard(self, id):
         '''Render a personalized dashboard for users'''
+
+        if 'logged_in' in session:
+            c.logged_in = True
+            del session['logged_in']
+            if 'came_from' in session:
+                c.came_from = session.get('came_from')
+                del session['came_from']
+                if isinstance(c.came_from, unicode):
+                    c.came_from = c.came_from.encode('utf-8')
+            session.save()
 
         #user object
         c.page_user = get_entity_or_abort(model.User, id,

@@ -575,6 +575,7 @@ body.logged_in #nav li a {
   border: 1px solid #d4d4d4;
   background: #fffde4;
   font-style: italic;
+  margin-top: 30px;
 }
 .info_box p {
   margin-bottom: 0;
