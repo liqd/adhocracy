@@ -360,7 +360,7 @@ class UserController(BaseController):
 
     def dashboard(self, id):
         '''Render a personalized dashboard for users'''
-        
+
         #user object
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
@@ -369,34 +369,35 @@ class UserController(BaseController):
         instances = c.page_user.instances
         #proposals
         proposals = [model.Proposal.all(instance=i) for i in instances]
-        proposals = proposals and reduce(lambda x,y: x + y, proposals)
+        proposals = proposals and reduce(lambda x, y: x + y, proposals)
         c.proposals = proposals
         c.proposals_pager = pager.proposals(proposals, size=3,
-                                                    enable_pages=False) 
+                                            enable_pages=False)
         #polls
         polls = [p.adopt_poll for p in proposals if p.is_adopt_polling()]
-        polls = filter(lambda p: p.has_ended() != True and 
+        polls = filter(lambda p: p.has_ended() != True and
                                  p.is_deleted() != True,
-                        polls)
+                       polls)
         c.polls = polls
-        c.polls_pager = pager.polls(polls, 
-                size=20, 
-                enable_pages=False, 
-                enable_sorts=False,)
+        c.polls_pager = pager.polls(polls,
+                                    size=20,
+                                    enable_pages=False,
+                                    enable_sorts=False,)
         #pages
         require.page.index()
-        pages = [model.Page.all(instance=i, functions=model.Page.LISTED ) \
-                                                        for i in instances]
-        pages = pages and reduce(lambda x,y: x + y, pages)
+        pages = [model.Page.all(instance=i, functions=model.Page.LISTED)
+                 for i in instances]
+        pages = pages and reduce(lambda x, y: x + y, pages)
         c.pages = pages
-        c.pages_pager = pager.pages(pages, size=3, enable_pages=False)  
+        c.pages_pager = pager.pages(pages, size=3, enable_pages=False)
         #watchlist
         require.watch.index()
         c.active_global_nav = 'watchlist'
         watches = model.Watch.all_by_user(c.page_user)
-        entities = [w.entity for w in watches if (w.entity is not None) \
-            and (not isinstance(w.entity, unicode))]
-        c.watchlist_pager = NamedPager('watches', entities, \
+        entities = [w.entity for w in watches if (w.entity is not None)
+                    and (not isinstance(w.entity, unicode))]
+        c.watchlist_pager = NamedPager(
+            'watches', entities,
             tiles.dispatch_row_with_comments,
             size=3,
             enable_pages=False,
@@ -415,8 +416,8 @@ class UserController(BaseController):
         instances = c.page_user.instances
         #proposals
         proposals = [model.Proposal.all(instance=i) for i in instances]
-        proposals = proposals and reduce(lambda x,y: x + y, proposals)
-        c.proposals_pager= pager.proposals(proposals)
+        proposals = proposals and reduce(lambda x, y: x + y, proposals)
+        c.proposals_pager = pager.proposals(proposals)
         #render result
         return render("/user/proposals.html")
 
@@ -430,12 +431,12 @@ class UserController(BaseController):
         instances = c.page_user.instances
         #pages
         require.page.index()
-        pages = [model.Page.all(instance=i, functions=model.Page.LISTED ) \
-                                                        for i in instances]
-        pages = pages and reduce(lambda x,y: x + y, pages)
-        c.pages_pager = pager.pages(pages)  
+        pages = [model.Page.all(instance=i, functions=model.Page.LISTED)
+                 for i in instances]
+        pages = pages and reduce(lambda x, y: x + y, pages)
+        c.pages_pager = pager.pages(pages)
         #render result
-        return render("/user/pages.html") 
+        return render("/user/pages.html")
 
     @ActionProtector(has_permission("user.view"))
     def complete(self):
@@ -631,7 +632,7 @@ class UserController(BaseController):
                 added.append(badge)
 
         model.meta.Session.flush()
-        model.meta.Session.commit() # FIXME: does not work without.
+        model.meta.Session.commit()  # FIXME: does not work without.
         post_update(user, model.update.UPDATE)
         redirect(h.entity_url(user))
 
