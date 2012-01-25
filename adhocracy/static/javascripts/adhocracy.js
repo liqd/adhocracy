@@ -484,19 +484,24 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.overlay.rebindCameFrom = function() {
+    adhocracy.overlay.rebindCameFrom = function () {
         var came_from = this.getTrigger().attr('href');
-        if (came_from==null) {came_from=window.location.pathname};
-        this.getOverlay().find(".patch_camefrom").attr('href', function(i, href) {
-            return href.split('?')[0]+'?came_from='+came_from;
-        });
+        if (came_from === undefined) {
+            came_from = window.location.pathname;
+        }
+        this.getOverlay().find(".patch_camefrom")
+            .attr('href', function (i, href) {
+                return href.split('?')[0] + '?came_from=' + came_from;
+            });
     };
-    adhocracy.overlay.rewriteDescription = function() {
+    adhocracy.overlay.rewriteDescription = function () {
         var description = this.getTrigger().data('description');
-        if (description==null) {description = this.getTrigger().data('title')};
-        if (description!=null) {
+        if (description === undefined) {
+            description = this.getTrigger().data('title');
+        }
+        if (description !== undefined) {
             this.getOverlay().find(".patch_description").html(description);
-        };
+        }
     };
 
     adhocracy.overlay.mask = {
@@ -534,7 +539,7 @@ var adhocracy = adhocracy || {};
             fixed: false,
             mask: adhocracy.overlay.mask,
             target: '#overlay-login',
-            onBeforeLoad: function(event) {
+            onBeforeLoad: function (event) {
                 adhocracy.overlay.rewriteDescription.call(this, event);
                 adhocracy.overlay.rebindCameFrom.call(this, event);
             }
@@ -648,7 +653,7 @@ var adhocracy = adhocracy || {};
                     i;
                 for (i = 0; i < data.length; i++) {
                     arr[i] = {data: data[i], value: data[i].display,
-                    result: data[i].tag};
+                              result: data[i].tag};
                 }
                 return arr;
             },
