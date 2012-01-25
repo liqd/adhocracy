@@ -31,16 +31,6 @@
 
 <%block name="sidebar">
 <section>
-  <h3>${_("Watchlist")}</h3>
-    ${c.watchlist_pager.here()}
-</section>
-% if c.polls:
-  <section>
-    <h3>${_("Current pollings")}</h3>
-      ${c.polls_pager.here()}
-  </section>
-% endif
-<section>
   <h3>${_("Organisations")}</h3>
     <ul>
     %for instance in c.page_user.instances:
@@ -52,5 +42,15 @@
     %endfor   
     </ul>
 </section>
+<section>
+  <h3>${_("Watchlist")}</h3>
+    ${c.watchlist_pager.here()}
+</section>
+% if c.polls:
+  <section>
+    <h3>${_("Current pollings")}</h3>
+      ${c.polls_pager.here()}
+  </section>
+% endif
 </%block>
     
