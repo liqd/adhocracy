@@ -8,14 +8,26 @@
 </%block>
 
 <%block name="infoboxes">
-    %if c.logged_in:
+    %if c.logged_in or not c.page_user.instances:
     <%components:build_infobox>
+    
+        %if c.logged_in:
         <p>${_("You have successfully logged in.")}</p>
         <p>
             ${_('This is your Dashboard. Here you can find the list of '
                 'instances your a member in, norms and proposals from '
                 'these instance and a list of the pages you follow.')}
         </p>
+        %endif
+        %if not c.page_user.instances:
+        <p>
+            ${_('Start by exploring the <b><a href="%s">Instances</a></b> '
+                'for topics you are interested in. If you join an '
+                'instance current content of the instance will be shown '
+                'on your dashboard.') % h.base_url(None, path='/instance') 
+                |n}
+        </p>
+        %endif
         %if c.came_from:
         <p>
             ${_('You can also return to the <a href="%s">Page you came '
