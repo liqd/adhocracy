@@ -338,7 +338,11 @@ class UserController(BaseController):
         if c.user:
             session['logged_in'] = True
             session.save()
-            redirect(h.entity_url(c.user, member='dashboard'))
+            # redirect to the dashboard inside the instance exceptionally
+            # to be able to link to proposals and norms in the welcome
+            # message.
+            redirect(h.base_url(c.instance, path='/user/%s/dashboard') %
+                     c.user.user_name)
         else:
             session.delete()
             return formencode.htmlfill.render(
@@ -356,7 +360,8 @@ class UserController(BaseController):
         '''Render a personalized dashboard for users'''
 
         if 'logged_in' in session:
-            c.logged_in = True
+            c.fresh_logged_in = True
+            c.suppress_attention_getter = True
             del session['logged_in']
             if 'came_from' in session:
                 c.came_from = session.get('came_from')
@@ -375,8 +380,10 @@ class UserController(BaseController):
         proposals = [model.Proposal.all(instance=i) for i in instances]
         proposals = proposals and reduce(lambda x, y: x + y, proposals)
         c.proposals = proposals
-        c.proposals_pager = pager.proposals(proposals, size=3,
-                                            enable_pages=False)
+        c.proposals_pager = pager.proposals(proposals, size=4,
+                                            default_sort=sorting.entity_newest,
+                                            enable_pages=False,
+                                            enable_sorts=False)
         #polls
         polls = [p.adopt_poll for p in proposals if p.is_adopt_polling()]
         polls = filter(lambda p: p.has_ended() != True and
@@ -385,6 +392,7 @@ class UserController(BaseController):
         c.polls = polls
         c.polls_pager = pager.polls(polls,
                                     size=20,
+                                    default_sort=sorting.entity_newest,
                                     enable_pages=False,
                                     enable_sorts=False,)
         #pages
@@ -393,7 +401,10 @@ class UserController(BaseController):
                  for i in instances]
         pages = pages and reduce(lambda x, y: x + y, pages)
         c.pages = pages
-        c.pages_pager = pager.pages(pages, size=3, enable_pages=False)
+        c.pages_pager = pager.pages(pages, size=3,
+                                    default_sort=sorting.entity_newest,
+                                    enable_pages=False,
+                                    enable_sorts=False)
         #watchlist
         require.watch.index()
         c.active_global_nav = 'watchlist'
@@ -407,6 +418,7 @@ class UserController(BaseController):
             enable_pages=False,
             enable_sorts=False,
             default_sort=sorting.entity_newest)
+        
         #render result
         return render('/user/dashboard.html')
 

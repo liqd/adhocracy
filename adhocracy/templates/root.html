@@ -77,7 +77,7 @@ jquery.need()
   </header>
 
   <%block name="attention_getter">
-  %if c.instance is not None and (c.user is None or can.instance.join(c.instance)):
+  %if c.instance is not None and (c.user is None or can.instance.join(c.instance)) and not c.suppress_attention_getter:
   <%doc>add an attention getter on instances</%doc>
     <div id="flash_message">
       <div class="page_margins">
