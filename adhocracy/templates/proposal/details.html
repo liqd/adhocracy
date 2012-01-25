@@ -40,9 +40,6 @@
            href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}">
             ${_('Propose new Variant')}
         </a>
-            <a class="button add ttip" 
-               title="${_('Introduce a new idea to debate.')}" 
-               href="/proposal/new">${_("new proposal")}</a>
         %elif auth.propose_join():
         <a class="button highlight" 
            title="${_('Join instance to propose a new variant.')}"
