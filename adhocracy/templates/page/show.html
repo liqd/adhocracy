@@ -31,7 +31,7 @@
     <%doc>
     ## FIXME: Needs new view: https://www.pivotaltracker.com/story/show/21036813    <div class="version_function">
         <a class="button" href="#">
-            Versionen vergleichen
+            ${_("Compare Versions")}
         </a>
     </div>
     </%doc>
@@ -41,14 +41,14 @@
     <div class="version_function">
         <a class="button highlight" 
            href="${h.entity_url(c.page, member='branch')}">
-            ${_('Propose new Variant')}
+            ${_("New Proposal")}
         </a>
     </div>
     %endif
 
     %endif
 
-    <h3>Information zum Papier</h3>
+    <h3>${_("Information about the norm")}</h3>
     <summary>
         ## Shortlink http://domain/d/1234
         ${sidebar_defs.shortlink(c.page)}
@@ -104,7 +104,7 @@
 </script>
 
 
-    <h2>${c.page.title}</h2>
+    <h2>${_("Norm: %s") % c.page.title}</h2>
 
 <section>
     <div id="paper_box">
