@@ -47,11 +47,11 @@ jquery.need()
       <a class="close"></a>
       <div class="contentWrap">
          <div class="register">
+             <p class="patch_description">
+                 ${_('Join this instance to start contributing.')}
+             </p>
              <a class="button" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
          </div>
-         <p class="patch_description">
-             ${_('Join this instance to start contributing.')}
-         </p>
       </div>
     </div>    
     %endif
