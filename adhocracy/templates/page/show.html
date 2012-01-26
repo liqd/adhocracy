@@ -130,7 +130,7 @@
                 <div data-bind="visible: variants.showPlain(),
                                 html: variants.current.text">
                 %if not c.variant_details['text']:
-                ${_(u'Kein Text')}
+                ${_("No text.")}
                 %else:
                 ${c.variant_details['text']|n}
                 %endif
@@ -150,7 +150,7 @@
                     <a rel="#overlay-ajax"
                        href="${c.variant_details['history_url']}"
                        data-bind="attr: {href: variants.current.history_url}">
-                        ${_('History')}
+                        ${_("History")}
                     </a>
                 </div>
             </div>
@@ -159,7 +159,7 @@
             <div class="paper ${'only-no-js' if c.variant_details else ''}" 
                  id="p1"
                  data-bind="css: {'only-no-js': variants.current.is_head}">
-                <h4>${_('Proposal')}</h4>
+                <h4>${_("Proposal")}</h4>
                 <div data-bind="template: {name: 'proposalTmpl', foreach: variants.current.selections}">
                 </div>
                 %if not c.variant_details['is_head']:
@@ -171,7 +171,9 @@
                         <div class="utility">
                             <span class="hover_active" style="display: none;">
                                 <!-- <a href="#">Link</a> ·  -->
-                                <a href="${selection['proposal_url']}">${_('View Proposal')}</a>
+                                <a href="${selection['proposal_url']}">
+                                    ${_("View Proposal")}
+                                </a>
                                 </span>&nbsp;
                         </div>
                     </div>
