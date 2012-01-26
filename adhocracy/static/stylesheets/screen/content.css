@@ -1116,9 +1116,6 @@ ul.comments_list > li {
 .paper_actions .meta {
   float: right;
 }
-.comment p {
-  display: inline;
-}
 
 .show_comments, .new_comment {
   padding: 0 6px;
