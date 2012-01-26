@@ -53,41 +53,29 @@
     %endif
 </%def>
 
-<%doc>
-## msgids used in the following def watch()
-## repeated here to have something babel can pick up
-_('Proposal')
-_('Norm')
-_('Instance')
-_('Milestone')
-_('User')
-_('Comment')
-_('Tag')
-</%doc>
 <%def name="watch(entity)">
     ## FIXME: turn into an ajax call
     %if c.user:
     <%
     if isinstance(entity, model.Page):
-        what = 'Norm'
+        follow_text = _("Follow Norm")
     elif isinstance(entity, model.Instance):
-        what = 'Instance'
+        follow_text = _("Follow Instance")
     elif isinstance(entity, model.Proposal):
-        what = 'Proposal'
+        follow_text = _("Follow Proposal")
     elif isinstance(entity, model.Milestone):
-        what = 'Milestone'
+        follow_text = _("Follow Milestone")
     elif isinstance(entity, model.User):
-        what = 'User'
+        follow_text = _("Follow User")
     elif isinstance(entity, model.Comment):
-        what = 'Comment'
+        follow_text = _("Follow Comment")
     elif isinstance(entity, model.Tag):
-        what = 'Tag'
+        follow_text = _("Follow Tag")
     else:
         log.error('Unknown entity for watch button: %s' % entity)
 
     skip = False
     watch = h.find_watch(entity)
-    what = _(what)
 
     if watch and can.watch.delete(watch):
         css_cls = "active"
@@ -96,7 +84,7 @@ _('Tag')
         href = "/watch/delete?watch=%s&%s" % (watch.id, h.url_token())
     elif not watch and can.watch.create():
         css_cls = ""
-        text = hover_text = _("Follow %s") % what
+        text = hover_text = follow_text
         href = "/watch/create?%s&%s" % (h.make_watch(entity),
                                         h.url_token())
     else:
