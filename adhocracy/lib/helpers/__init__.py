@@ -166,6 +166,23 @@ def login_redirect_url(entity=None, **kwargs):
     return login_url
 
 
+def register_redirect_url(entity=None, **kwargs):
+    '''
+    Builds an ".../login?came_from=http...." pointing to the /login
+    form in the current instance domain. If ``entity`` is set, this
+    will redirect to the given entity after successful login. If
+    ``entity`` is None, it will redirect to the current URL.
+    '''
+    if entity is None:
+        came_from_url = request.path_url
+    else:
+        came_from_url = entity_url(entity, **kwargs)
+
+    login_url = build(c.instance, '', 'register',
+                      query={'came_from': came_from_url})
+    return login_url
+
+
 def entity_url(entity, **kwargs):
     if isinstance(entity, model.User):
         return user.url(entity, **kwargs)

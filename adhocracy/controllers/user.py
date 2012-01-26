@@ -127,6 +127,9 @@ class UserController(BaseController):
         else:
             captacha_enabled = config.get('recaptcha.public_key', "")
             c.recaptcha = captacha_enabled and h.recaptcha.displayhtml()
+            session['came_from'] = request.params.get('came_from',
+                                                      h.base_url(c.instance))
+            session.save()
             return render("/user/register.html")
 
     @RequireInternalRequest(methods=['POST'])
@@ -170,16 +173,18 @@ class UserController(BaseController):
         # api. This is done here and not with an redirect to the login
         # to omit the generic welcome message
         who_api = get_api(request.environ)
+        login = self.form_result.get("user_name").encode('utf-8')
         credentials = {
-            'login': self.form_result.get("user_name").encode('utf-8'),
+            'login': login,
             'password': self.form_result.get("password").encode('utf-8')}
         authenticated, headers = who_api.login(credentials)
-        h.flash(_("You have successfully registered as user %s.") % user.name,
-                'success')
         if authenticated:
-            # redirect. FIXME: redirect to dashboard?
-            came_from = request.params.get('came_from', h.base_url(c.instance))
-            raise HTTPFound(location=came_from, headers=headers)
+            # redirect to dashboard with login message
+            session['logged_in'] = True
+            session.save()
+            location = h.base_url(c.instance,
+                                  path='/user/%s/dashboard' % login)
+            raise HTTPFound(location=location, headers=headers)
         else:
             raise Exception('We have added the user to the Database '
                             'but cannot authenticate him: '
@@ -420,7 +425,7 @@ class UserController(BaseController):
             enable_pages=False,
             enable_sorts=False,
             default_sort=sorting.entity_newest)
-        
+
         #render result
         return render('/user/dashboard.html')
 

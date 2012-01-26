@@ -85,11 +85,11 @@ jquery.need()
               <div class="message">
                   %if c.user is None:
                   <div class="register">
-                      <a href="${h.base_url(c.instance, path='/register')}" 
+                      <a href="${h.register_redirect_url()}" 
                          ## rel="#overlay-ajax" FIXME: reactivate when ready.
                          class="button">${_('Register')}</a> 
                       ${_("or")} 
-                      <a href="${h.base_url(c.instance, path='/login')}" 
+                      <a href="${h.login_redirect_url()}" 
                          ## rel="#overlay-ajax" FIXME: reactivate.
                          class="icon_link more_uppercase">${_('Login')}</a>
                   </div>
