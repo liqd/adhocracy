@@ -158,11 +158,13 @@ class UserController(BaseController):
         libmail.send_activation_link(user)
 
         if c.instance:
-            membership = model.Membership(user, c.instance,
-                                          c.instance.default_group)
-            model.meta.Session.expunge(membership)
-            model.meta.Session.add(membership)
-            model.meta.Session.commit()
+            membership = user.instance_membership(c.instance)
+            if membership is None:
+                membership = model.Membership(user, c.instance,
+                                              c.instance.default_group)
+                model.meta.Session.expunge(membership)
+                model.meta.Session.add(membership)
+                model.meta.Session.commit()
 
         # authenticate the new registered member using the repoze.who
         # api. This is done here and not with an redirect to the login
