@@ -20,7 +20,8 @@
 
 <%block name="sidebar">
     %if len(c.cloud_tags):
-        <h3 class="section">${_("Popular tags")}</h3>
+        <h3 class="section"
+            id="tag-cloud">${_("Popular tags")}</h3>
         ${tiles.tag.cloud(c.cloud_tags)}
     %endif
 </%block>
@@ -29,4 +30,19 @@
     <div id="pages_table" class="table">
         ${c.pages_pager.here()}
     </div>
+
+<%components:tutorial>
+<ol id="joyRideTipContent">
+    <li data-id="subnav-norms" data-next="${_('Filter Norms')}"
+        data-tip-location="bottom" class="custom">
+        <p>${_('tutorial_norms_overview_tab')}</p>
+    </li>
+
+    <li data-id="tag-cloud" data-next="${_('Close')}"
+        data-tip-location="top" class="custom">
+        <p>${_('tutorial_norms_overview_facets')}</p>
+    </li>
+</ol>
+</%components:tutorial>
+
 </%block>

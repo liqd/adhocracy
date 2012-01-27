@@ -4,7 +4,7 @@
 
 
 <%block name="headline">
-<h1>${_("Startpage")}</h1>
+<h1 id="title">${_("Startpage")}</h1>
 </%block>
 
 <%block name="infoboxes">
@@ -42,13 +42,15 @@
     <p>
     % if c.proposals:
       <a title="${_('List all proposals')}" class="icon_link more view_all"
-        href="${h.entity_url(c.page_user, member='dashboard_proposals')}">${_('list all')}
-      </a>        
+         id="proposals_show_all"
+         href="${h.entity_url(c.page_user, member='dashboard_proposals')}">
+      ${_('list all')}
+      </a>
     % endif
     </p>
 </section>
 <section>
-    <h2>${_("Norms in your instances")}</h2>
+    <h2 id="norms_listing">${_("Norms in your instances")}</h2>
     ${c.pages_pager.here()}
     <p>
     % if c.pages:
@@ -58,11 +60,48 @@
     % endif
     </p>
 </section>
+
+<%components:tutorial>
+<ol id="joyRideTipContent">
+
+    <li data-id="title" data-next="${_('Opening the dashboard')}"
+        data-tip-location="top" class="custom">
+        <p>${_('tutorial_dashboard_title')}</p>
+    </li>
+
+    <li data-id="user_menu" data-next="${_('Proposals')}"
+        data-tip-location="bottom right" class="custom">
+        <p>${_('tutorial_dashboard_username')}</p>
+    </li>
+
+    <li data-id="norms_listing" data-next="${_('Show all proposals')}"
+        data-tip-location="top" class="custom">
+        <p>${_('tutorial_dashboard_proposals')}</p>
+    </li>
+
+    <li data-id="proposals_show_all" data-next="${_('Your Instances')}"
+        data-tip-location="" class="custom">
+        <p>${_('tutorial_dashboard_show_all')}</p>
+    </li>
+
+    <li data-id="instance_list" data-next="${_('Your Watchlist')}"
+        data-tip-location="top right" class="custom">
+        <p>${_('tutorial_dashboard_instances')}</p>
+    </li>
+
+    <li data-id="watchlist" data-next="${_('Close')}"
+        data-tip-location="top right" class="custom">
+        <p>${_('tutorial_dashboard_watchlist')}</p>
+    </li>
+
+</ol>
+</%components:tutorial>
+
 </%block>
 
 <%block name="sidebar">
 <section>
-  <h3>${_("Your Instances")}</h3>
+  <h3 id="instance_list">${_("Your Instances")}</h3>
     <ul>
     %for instance in c.page_user.instances:
       <li>
@@ -74,7 +113,7 @@
     </ul>
 </section>
 <section>
-  <h3>${_("Your Watchlist")}</h3>
+  <h3 id="watchlist">${_("Your Watchlist")}</h3>
     ${c.watchlist_pager.here()}
 </section>
 % if c.polls:

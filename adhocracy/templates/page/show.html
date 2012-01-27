@@ -13,7 +13,7 @@
 
     ${components.vertical_tabs(c.variant_items, 'paper_selection', current_variant=c.variant)}
 
-    <div class="floatbox changes_switch"
+    <div class="floatbox changes_switch" id="norm-diff-switcher"
          data-bind="css: {inactive: variants.current.is_head}">
         <span>${_("Highlight Changes")}</span>
         <div class="switch_buttons">
@@ -39,7 +39,8 @@
     %if can.proposal.create():
     ## FIXME: Button for unauth users
     <div class="version_function">
-        <a class="button highlight" 
+        <a id="new-proposal-button"
+           class="button highlight" 
            href="${h.entity_url(c.page, member='branch')}">
             ${_("New Proposal")}
         </a>
@@ -111,7 +112,8 @@
         <article>
             <div class="paper_header">
                 <div class="utility">
-                     <div data-bind="html:voteWidget">
+                     <div id="norm-vote-widget"
+                         data-bind="html:voteWidget">
                          %if c.current_variant_poll:
                          ${tiles.poll.widget(c.current_variant_poll, cls="big")}
                          %endif
@@ -185,5 +187,32 @@
         </div>
     </div>
 </section>
+
+
+<%components:tutorial>
+<ol id="joyRideTipContent">
+
+    <li data-id="subnav-norms" data-next="${_('Vote')}"
+        data-tip-location="bottom" class="custom">
+        <p>${_('tutorial_norm_show_tab')}</p>
+    </li>
+
+    <li data-id="norm-vote-widget" data-next="${_('Show differences')}"
+        data-tip-location="top" class="custom">
+        <p>${_('tutorial_norm_show_vote')}</p>
+    </li>
+
+    <li data-id="norm-diff-switcher" data-next="${_('New Proposal')}"
+        data-tip-location="top" class="custom">
+        <p>${_('tutorial_norm_show_diff')}</p>
+    </li>
+
+    <li data-id="new-proposal-button" data-next="${_('Close')}"
+        data-tip-location="top" class="custom">
+        <p>${_('tutorial_norm_show_new')}</p>
+    </li>  
+
+</ol>
+</%components:tutorial>
 
 </%block>

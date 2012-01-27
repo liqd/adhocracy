@@ -427,6 +427,7 @@ class UserController(BaseController):
             default_sort=sorting.entity_newest)
 
         #render result
+        c.has_tutorial = True
         return render('/user/dashboard.html')
 
     def dashboard_proposals(self, id):

@@ -37,7 +37,7 @@
                 
                 ${tiles.page.inline(c.proposal.description, 
                         hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
-    
+
                 ${components.social_share_buttons(c.proposal)}
 
                 <div class="meta">
@@ -83,6 +83,7 @@
               </ul> 
               <div class="list_button">
               <% auth = check.selection.create(c.proposal) %>
+              <div id="propose-variant"></div>
               %if auth:
               <a class="button highlight" 
                  href="${h.entity_url(c.proposal, member='implementation/include')}">
@@ -103,7 +104,7 @@
                   ${_("Propose to change a norm")}
               </a>
               %endif          
-              
+              </div>
               <%doc> FIXME: Enable change existing norm option
               %if norm.can.create
               <a class="button" 
@@ -117,6 +118,67 @@
              
             %endif
 
+<%components:tutorial>
+<ol id="joyRideTipContent">
+
+    <li data-id="subnav-proposals" data-next="${_('Support')}"
+        data-tip-location="bottom left" class="custom">
+        <p>${_('tutorial_proposal_show_tab')}</p>
+    </li>
+
+    <li data-id="col1_content" data-next="${_('Follow Proposal')}"
+        data-tip-location="top left" class="custom">
+        <p>${_('tutorial_proposal_show_vote')}</p>
+    </li>
+
+    <li data-id="col3_content" data-next="${_('Information')}"
+        data-tip-location="top left" class="custom">
+        <p>${_('tutorial_proposal_show_follow')}</p>
+    </li>
+
+    <li data-id="information" data-next="${_('Tags')}"
+        data-tip-location="top" class="custom">
+        <p>${_('tutorial_proposal_show_information')}</p>
+    </li>
+
+    <li data-id="FIXME-only-auth" data-next="${_('Share')}"
+        data-tip-location="" class="custom">
+        <p>${_('tutorial_proposal_show_tags')}</p>
+    </li>
+
+    <li data-id="socialshareprivacy" data-next="${_('Next')}"
+        data-tip-location="" class="custom">
+        <p>${_('tutorial_proposal_show_share')}</p>
+    </li>
+
+    <li data-id="" data-next="${_('Next')}"
+        data-tip-location="" class="custom">
+        <p>${_('tutorial_proposal_show_vote_comment')}</p>
+    </li>
+
+    <li data-id="" data-next="${_('Next')}"
+        data-tip-location="" class="custom">
+        <p>${_('tutorial_proposal_show_answers')}</p>
+    </li>
+
+    <li data-id="" data-next="${_('Next')}"
+        data-tip-location="" class="custom">
+        <p>${_('tutorial_proposal_show_answer')}</p>
+    </li>
+
+    <li data-id="start-discussion-button" data-next="${_('Propose to change a norm')}"
+        data-tip-location="bottom" class="custom">
+        <p>${_('tutorial_proposal_show_new_discussion')}</p>
+    </li>
+
+    <li data-id="propose-variant" data-next="${_('close')}"
+        data-tip-location="bottom" class="custom">
+        <p>${_('tutorial_proposal_show_propose_variant')}</p>
+    </li>
+  
+</ol>
+</%components:tutorial>
+
 </%block>
 
 
@@ -124,7 +186,7 @@
 
 ${components.watch(c.proposal)}
 
-<h3>${_('Informations')}</h3>
+<h3 id="information">${_('Informations')}</h3>
 <summary>
 
     ${sidebar_defs.shortlink(c.proposal)}
