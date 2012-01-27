@@ -1906,3 +1906,20 @@ padding-right: 2em;
 list-style: none;
 margin-left: 0;
 }
+
+/* Joyride Tutorial popups */
+
+.joyride-next-tip,
+.joyride-prev-tip {
+  color: #fff !important;
+  background: url('/images/sprite_buttons.png') repeat-x 0 -200px !important;
+  border: none !important;
+  height: 35px !important;
+  line-height: 35px !important;
+  padding: 0 15px !important;
+}
+a.joyride-next-tip:hover,
+a.joyride-prev-tip:hover {
+  background-position: 0 -250px !important;
+  border: none !important;
+}
