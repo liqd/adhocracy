@@ -11,7 +11,7 @@
 
     %if c.page.has_variants:
 
-    ${components.vertical_tabs(c.variant_items, 'paper_selection')}
+    ${components.vertical_tabs(c.variant_items, 'paper_selection', current_variant=c.variant)}
 
     <div class="floatbox changes_switch"
          data-bind="css: {inactive: variants.current.is_head}">
@@ -31,7 +31,7 @@
     <%doc>
     ## FIXME: Needs new view: https://www.pivotaltracker.com/story/show/21036813    <div class="version_function">
         <a class="button" href="#">
-            Versionen vergleichen
+            ${_("Compare Versions")}
         </a>
     </div>
     </%doc>
@@ -41,14 +41,14 @@
     <div class="version_function">
         <a class="button highlight" 
            href="${h.entity_url(c.page, member='branch')}">
-            ${_('Propose new Variant')}
+            ${_("New Proposal")}
         </a>
     </div>
     %endif
 
     %endif
 
-    <h3>Information zum Papier</h3>
+    <h3>${_("Information about the norm")}</h3>
     <summary>
         ## Shortlink http://domain/d/1234
         ${sidebar_defs.shortlink(c.page)}
@@ -104,18 +104,24 @@
 </script>
 
 
-    <h2>${c.page.title}</h2>
+    <h2>${_("Norm: %s") % c.page.title}</h2>
 
 <section>
     <div id="paper_box">
         <article>
             <div class="paper_header">
                 <div class="utility">
+                     <div data-bind="html:voteWidget">
+                         %if c.current_variant_poll:
+                         ${tiles.poll.widget(c.current_variant_poll, cls="big")}
+                         %endif
+                     </div>
                 <h3 data-bind="text:variants.current.display_title">
                     ${c.variant_details['display_title']}
                 </h3>
                 <a href="${c.variant_details['edit_url']}"
-                   style="${'display: none' if not c.variant_details['can_edit'] else ''}">
+                   style="${'display: none' if not c.variant_details['can_edit'] else ''}"
+                   data-bind="attr: {href: variants.current.edit_url}">
                     ${_('edit')}
                 </a>
                 </div>
@@ -124,7 +130,7 @@
                 <div data-bind="visible: variants.showPlain(),
                                 html: variants.current.text">
                 %if not c.variant_details['text']:
-                ${_(u'Kein Text')}
+                ${_("No text.")}
                 %else:
                 ${c.variant_details['text']|n}
                 %endif
@@ -144,18 +150,19 @@
                     <a rel="#overlay-ajax"
                        href="${c.variant_details['history_url']}"
                        data-bind="attr: {href: variants.current.history_url}">
-                        ${_('History')}
+                        ${_("History")}
                     </a>
                 </div>
             </div>
         </article>
         <div class="paper_comments">
-            <div class="paper" id="p1">
-                <h4>${_('Proposals')}
-                    (<span data-bind="text:variants.current.num_selections"
-                    >${c.variant_details['num_selections']}</span>)</h4>
+            <div class="paper ${'only-no-js' if c.variant_details else ''}" 
+                 id="p1"
+                 data-bind="css: {'only-no-js': variants.current.is_head}">
+                <h4>${_("Proposal")}</h4>
                 <div data-bind="template: {name: 'proposalTmpl', foreach: variants.current.selections}">
                 </div>
+                %if not c.variant_details['is_head']:
                 <div class="only-no-js">
                     %for selection in c.variant_details['selections']:
                     <h5>${selection['proposal_title']}</h5>
@@ -164,12 +171,15 @@
                         <div class="utility">
                             <span class="hover_active" style="display: none;">
                                 <!-- <a href="#">Link</a> ·  -->
-                                <a href="${selection['proposal_url']}">${_('View Proposal')}</a>
+                                <a href="${selection['proposal_url']}">
+                                    ${_("View Proposal")}
+                                </a>
                                 </span>&nbsp;
                         </div>
                     </div>
                     %endfor
                 </div>
+                %endif
             </div>
 
         </div>

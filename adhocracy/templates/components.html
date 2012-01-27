@@ -53,41 +53,29 @@
     %endif
 </%def>
 
-<%doc>
-## msgids used in the following def watch()
-## repeated here to have something babel can pick up
-_('Proposal')
-_('Norm')
-_('Instance')
-_('Milestone')
-_('User')
-_('Comment')
-_('Tag')
-</%doc>
 <%def name="watch(entity)">
     ## FIXME: turn into an ajax call
     %if c.user:
     <%
     if isinstance(entity, model.Page):
-        what = 'Norm'
+        follow_text = _("Follow Norm")
     elif isinstance(entity, model.Instance):
-        what = 'Instance'
+        follow_text = _("Follow Instance")
     elif isinstance(entity, model.Proposal):
-        what = 'Proposal'
+        follow_text = _("Follow Proposal")
     elif isinstance(entity, model.Milestone):
-        what = 'Milestone'
+        follow_text = _("Follow Milestone")
     elif isinstance(entity, model.User):
-        what = 'User'
+        follow_text = _("Follow User")
     elif isinstance(entity, model.Comment):
-        what = 'Comment'
+        follow_text = _("Follow Comment")
     elif isinstance(entity, model.Tag):
-        what = 'Tag'
+        follow_text = _("Follow Tag")
     else:
         log.error('Unknown entity for watch button: %s' % entity)
 
     skip = False
     watch = h.find_watch(entity)
-    what = _(what)
 
     if watch and can.watch.delete(watch):
         css_cls = "active"
@@ -96,7 +84,7 @@ _('Tag')
         href = "/watch/delete?watch=%s&%s" % (watch.id, h.url_token())
     elif not watch and can.watch.create():
         css_cls = ""
-        text = hover_text = _("Follow %s") % what
+        text = hover_text = follow_text
         href = "/watch/create?%s&%s" % (h.make_watch(entity),
                                         h.url_token())
     else:
@@ -129,7 +117,7 @@ _('Tag')
 <%def name="title()"></%def>
 
 
-<%def name="vertical_tabs(items, css_class)">
+<%def name="vertical_tabs(items, css_class, current_variant=None)">
 <nav>
     <div id="sidebar_nav" class="${css_class}"><div>
         <ul>
@@ -138,7 +126,7 @@ _('Tag')
                 <a href="${item['href']}"
                    data-bind="click: function() {loadVariant('${item['variant']}', '${item['href']}')},
                               css: {current: variants.current.variant() === '${item['variant']}'}"
-                   class="${'current' if item['selected'] else ''}">
+                   class="${'current' if current_variant == item['variant'] else ''}">
                     <span class="truncate">${item['title']}</span>
                     <span class="count">${item['rendered_score']}</span>
                 </a>
@@ -250,12 +238,6 @@ text = "%s - %s: %s" % (h.site.name, c.instance.label, entity.title)
     <script type="text/javascript" 
         src="${h.base_url(None, path='/js/modernizr.js')}"></script>
     <!--jquery 1.4.2 and jquery plugins-->
-    <!-- <script type="text/javascript"  -->
-    <!--       src="http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js"></script> -->
-    <!-- <script type="text/javascript"  -->
-    <!--     src="${h.base_url(None, path='/js/jquery.timeago.js')}"></script> -->
-    <!-- <script type="text/javascript"  -->
-    <!--     src="${h.base_url(None, path='/js/jquery.timeago.%s.js') % c.locale.language}"></script> -->
 
     %if c.instance and c.instance.css:
         <link  rel="stylesheet" type="text/css" 
@@ -274,6 +256,10 @@ text = "%s - %s: %s" % (h.site.name, c.instance.label, entity.title)
     </style>
     
       ${tiles.badge.badge_styles()}
+
+    <link rel="stylesheet" type="text/css" media="all" 
+          href="${h.base_url(None, path='/stylesheets/site.css')}" />
+    
 </%def>
 
 <%def name="tutorial()">

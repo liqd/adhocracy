@@ -32,7 +32,7 @@ def manage(check, u):
 
 def message(check, u):
     check.perm('user.message')
-    check.other('user_not_self', u != c.user)
+    check.other('user_is_self', u == c.user)
     check.other('user_without_email', u.email is None)
 
 

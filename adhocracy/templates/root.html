@@ -31,15 +31,15 @@ jquery.need()
       <a class="close"></a>
       <div class="contentWrap">
          <div class="register">
+             <p class="patch_description">
+                 ${_('Get an account to participate in the discussion.')}
+             </p>
              <a href="${h.base_url(c.instance, path='/register')}" 
                 class="button patch_camefrom">${_('Register')}</a> 
              ${_("or")} 
              <a href="${h.base_url(c.instance, path='/login')}" 
                 class="icon_link more_uppercase patch_camefrom">${_('Log in')}</a>
          </div>
-         <p class="patch_description">
-             ${_('Get an account to participate in the discussion.')}
-         </p>
       </div>
     </div>    
     %elif c.instance and can.instance.join(c.instance):
@@ -47,11 +47,11 @@ jquery.need()
       <a class="close"></a>
       <div class="contentWrap">
          <div class="register">
+             <p class="patch_description">
+                 ${_('Join this instance to start contributing.')}
+             </p>
              <a class="button" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
          </div>
-         <p class="patch_description">
-             ${_('Join this instance to start contributing.')}
-         </p>
       </div>
     </div>    
     %endif
@@ -77,7 +77,7 @@ jquery.need()
   </header>
 
   <%block name="attention_getter">
-  %if c.instance is not None and (c.user is None or can.instance.join(c.instance)):
+  %if c.instance is not None and (c.user is None or can.instance.join(c.instance)) and not c.suppress_attention_getter:
   <%doc>add an attention getter on instances</%doc>
     <div id="flash_message">
       <div class="page_margins">
@@ -85,11 +85,11 @@ jquery.need()
               <div class="message">
                   %if c.user is None:
                   <div class="register">
-                      <a href="${h.base_url(c.instance, path='/register')}" 
+                      <a href="${h.register_redirect_url()}" 
                          ## rel="#overlay-ajax" FIXME: reactivate when ready.
                          class="button">${_('Register')}</a> 
                       ${_("or")} 
-                      <a href="${h.base_url(c.instance, path='/login')}" 
+                      <a href="${h.login_redirect_url()}" 
                          ## rel="#overlay-ajax" FIXME: reactivate.
                          class="icon_link more_uppercase">${_('Login')}</a>
                   </div>

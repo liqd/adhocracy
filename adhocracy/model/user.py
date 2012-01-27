@@ -3,15 +3,17 @@ import os
 import logging
 from datetime import datetime
 
+from babel import Locale
+
+from pylons import config
+
 from sqlalchemy import Table, Column, func, or_
 from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
 from sqlalchemy.orm import eagerload_all
 
-from babel import Locale
-
-import meta
-import instance_filter as ifilter
-
+from adhocracy.model import meta
+from adhocracy.model import instance_filter as ifilter
+from adhocracy.model.instance import Instance
 
 log = logging.getLogger(__name__)
 
@@ -386,9 +388,25 @@ class User(meta.Indexable):
         user = User(user_name, email, password, locale,
                     display_name=display_name)
         meta.Session.add(user)
+
+        # Add the global default group
         default_group = Group.by_code(Group.CODE_DEFAULT)
         default_membership = Membership(user, None, default_group)
         meta.Session.add(default_membership)
+
+        # Autojoin the user in instances
+        config_autojoin = config.get('adhocracy.instances.autojoin')
+        if config_autojoin:
+            instances = Instance.all()
+            if config_autojoin != 'ALL':
+                instance_keys = [key.strip() for key in
+                                 config_autojoin.split(",")]
+                instances = [instance for instance in instances
+                             if instance.key in instance_keys]
+            for instance in instances:
+                autojoin_membership = Membership(user, instance,
+                                                 instance.default_group)
+                meta.Session.add(autojoin_membership)
 
         if global_admin:
             admin_group = Group.by_code(Group.CODE_ADMIN)

@@ -65,7 +65,8 @@ var adhocracy = adhocracy || {};
         "variant": undefined,
         "can_edit": undefined,
         "edit_url": undefined,
-        "display_title": undefined
+        "display_title": undefined,
+        "votewidget_url": undefined
     };
 
     /**
@@ -73,6 +74,16 @@ var adhocracy = adhocracy || {};
      * @class PaperModel
      */
     adhocracy.ko.PaperModel = function () {
+
+        var viewModel = this;
+
+        /**
+         * Observable to store the vote widget for the current variant
+         *
+         * @method voteWidget
+         * @type ko.observable
+         */
+        this.voteWidget = ko.observable();
 
         this.variants = {
             /**
@@ -101,8 +112,12 @@ var adhocracy = adhocracy || {};
             current: ko.mapping.fromJS(adhocracy.ko.variantDummy),
             init: function (data) {
                 var variant = data.variant;
+
                 this.cache[variant] = data;
                 this.current = ko.mapping.fromJS(data, this.current);
+                this.current.variant.subscribe(
+                    function () { viewModel.updateVoteWidget(); }
+                );
                 this.load(variant);
             },
             /**
@@ -131,7 +146,9 @@ var adhocracy = adhocracy || {};
                         function (data) {
                             self.cache[data.variant] = data;
                             update_model();
-                            callback();
+                            if (callback !== undefined) {
+                                callback();
+                            }
                         });
                 }
             },
@@ -173,6 +190,30 @@ var adhocracy = adhocracy || {};
         this.init = function (variantData) {
             this.variants.init(variantData);
         };
+
+        /**
+         * Utility function to fetch the current vote widget (without caching
+         * it) and store it in the observable this.voteWidget().
+         */
+        this.updateVoteWidget = function () {
+            var variant = this.variants.current.variant(),
+                url = this.variants.current.votewidget_url(),
+                voteWidget = this.voteWidget,
+                clearVoteWidget = function () { voteWidget(''); };
+
+            if (url !== '') {
+                $.ajax({
+                    url: url,
+                    success: function (data) {
+                        // update the voteWidget observable
+                        voteWidget(data);
+                    },
+                    error: clearVoteWidget
+                });
+            } else {
+                clearVoteWidget();
+            }
+        };
     };
 
     /**
@@ -205,14 +246,6 @@ var adhocracy = adhocracy || {};
          * @type ko.observable
          */
         this.currentTab = ko.observable('text');
-
-        /**
-         * Observable to store the vote widget for the current variant
-         *
-         * @method voteWidget
-         * @type ko.observable
-         */
-        this.voteWidget = ko.observable();
 
         /**
          * Initialize the model
@@ -451,19 +484,24 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.overlay.rebindCameFrom = function() {
+    adhocracy.overlay.rebindCameFrom = function () {
         var came_from = this.getTrigger().attr('href');
-        if (came_from==null) {came_from=window.location.pathname};
-        this.getOverlay().find(".patch_camefrom").attr('href', function(i, href) {
-            return href.split('?')[0]+'?came_from='+came_from;
-        });
+        if (came_from === undefined) {
+            came_from = window.location.pathname;
+        }
+        this.getOverlay().find(".patch_camefrom")
+            .attr('href', function (i, href) {
+                return href.split('?')[0] + '?came_from=' + came_from;
+            });
     };
-    adhocracy.overlay.rewriteDescription = function() {
+    adhocracy.overlay.rewriteDescription = function () {
         var description = this.getTrigger().data('description');
-        if (description==null) {description = this.getTrigger().data('title')};
-        if (description!=null) {
+        if (description === undefined) {
+            description = this.getTrigger().data('title');
+        }
+        if (description !== undefined) {
             this.getOverlay().find(".patch_description").html(description);
-        };
+        }
     };
 
     adhocracy.overlay.mask = {
@@ -501,7 +539,7 @@ var adhocracy = adhocracy || {};
             fixed: false,
             mask: adhocracy.overlay.mask,
             target: '#overlay-login',
-            onBeforeLoad: function(event) {
+            onBeforeLoad: function (event) {
                 adhocracy.overlay.rewriteDescription.call(this, event);
                 adhocracy.overlay.rebindCameFrom.call(this, event);
             }
@@ -600,7 +638,7 @@ var adhocracy = adhocracy || {};
     };
 
     adhocracy.helpers.initializeTutorial = function () {
-        $('#start-tutorial').click(function (event) {
+        $('#start-tutorial-button').click(function (event) {
             $(this).joyride({inline: true});
             event.preventDefault();
         });
@@ -608,7 +646,7 @@ var adhocracy = adhocracy || {};
             $.get('/tutorials?disable=1');
             $('#tutorial-banner').fadeOut();
             event.preventDefault();
-                });
+        });
     };
 
     adhocracy.helpers.initializeTagsAutocomplete = function (selector) {
@@ -627,7 +665,7 @@ var adhocracy = adhocracy || {};
                     i;
                 for (i = 0; i < data.length; i++) {
                     arr[i] = {data: data[i], value: data[i].display,
-                    result: data[i].tag};
+                              result: data[i].tag};
                 }
                 return arr;
             },

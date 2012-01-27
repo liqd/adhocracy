@@ -59,7 +59,7 @@
 
                 <!-- FIXME: implemente personal drop down menu -->
                 %if c.user is None:
-                ${nav_link(href=h.site.base_url(c.instance, '/login'),
+                ${nav_link(href=h.login_redirect_url(),
                            a_rel='#overlay-default',
                            text=_("Login"),
                            li_class=_class('login'),

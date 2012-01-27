@@ -1,12 +1,43 @@
-<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"
+/><%inherit file="/template.html" />
+
+
 
 <%block name="headline">
 <h1>${_("Startpage")}</h1>
 </%block>
 
+<%block name="infoboxes">
+    %if c.fresh_logged_in or not c.page_user.instances:
+    <%components:build_infobox>
+    
+        <p>
+            ${_('Hi %s.<br />') % c.user.name | n}
+ 
+        %if not c.page_user.instances:
+            %if c.instance:
+            ${_('Start by reading some <b><a href="%s">proposals</a></b> or <b><a href="%s">norms</a></b>. Or take a look at some of the other <b><a href="%s">instances</a></b>.') % (h.base_url(c.instance, path="/proposals"), h.base_url(c.instance, path="/norms"), h.base_url(None, path='/instance'))|n}
+            %else:
+            ${_('Start by exploring the <b><a href="%s">instances</a></b> and read some of the proposals and norms in the instances.') % h.base_url(None, path='/instance') |n}
+            %endif
+            ${_('If you join an instance, norms and proposals of the instance will be shown on your dashboard.')}
+            ${_('You can reach you dashboar anytime by clicking on your user name on the top of the page.')}
+        %else:
+            ${_('This is your Dashboard. Here you can find the list of instances your a member in, norms and proposals from these instance and a list of the pages you follow.')}
+        %endif
+        </p>
+        %if c.came_from:
+        <p>
+            ${_('You can also return to the <a href="%s">Page you came from</a>.') % c.came_from | n}
+        </p>
+        %endif
+    </%components:build_infobox>
+    %endif
+</%block>
+
 <%block name="main_content">
 <section>
-    <h2>${_('Proposals')}</h2>
+    <h2>${_("Proposals in your instances")}</h2>
     ${c.proposals_pager.here()}
     <p>
     % if c.proposals:
@@ -17,7 +48,7 @@
     </p>
 </section>
 <section>
-    <h2>${_("Norms")}</h2>
+    <h2>${_("Norms in your instances")}</h2>
     ${c.pages_pager.here()}
     <p>
     % if c.pages:
@@ -31,17 +62,7 @@
 
 <%block name="sidebar">
 <section>
-  <h3>${_("Watchlist")}</h3>
-    ${c.watchlist_pager.here()}
-</section>
-% if c.polls:
-  <section>
-    <h3>${_("Current pollings")}</h3>
-      ${c.polls_pager.here()}
-  </section>
-% endif
-<section>
-  <h3>${_("Organisations")}</h3>
+  <h3>${_("Your Instances")}</h3>
     <ul>
     %for instance in c.page_user.instances:
       <li>
@@ -52,5 +73,15 @@
     %endfor   
     </ul>
 </section>
+<section>
+  <h3>${_("Your Watchlist")}</h3>
+    ${c.watchlist_pager.here()}
+</section>
+% if c.polls:
+  <section>
+    <h3>${_("Current polls in your instances")}</h3>
+      ${c.polls_pager.here()}
+  </section>
+% endif
 </%block>
     

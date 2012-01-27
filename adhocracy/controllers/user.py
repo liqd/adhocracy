@@ -127,6 +127,9 @@ class UserController(BaseController):
         else:
             captacha_enabled = config.get('recaptcha.public_key', "")
             c.recaptcha = captacha_enabled and h.recaptcha.displayhtml()
+            session['came_from'] = request.params.get('came_from',
+                                                      h.base_url(c.instance))
+            session.save()
             return render("/user/register.html")
 
     @RequireInternalRequest(methods=['POST'])
@@ -158,26 +161,30 @@ class UserController(BaseController):
         libmail.send_activation_link(user)
 
         if c.instance:
-            membership = model.Membership(user, c.instance,
-                                          c.instance.default_group)
-            model.meta.Session.expunge(membership)
-            model.meta.Session.add(membership)
-            model.meta.Session.commit()
+            membership = user.instance_membership(c.instance)
+            if membership is None:
+                membership = model.Membership(user, c.instance,
+                                              c.instance.default_group)
+                model.meta.Session.expunge(membership)
+                model.meta.Session.add(membership)
+                model.meta.Session.commit()
 
         # authenticate the new registered member using the repoze.who
         # api. This is done here and not with an redirect to the login
         # to omit the generic welcome message
         who_api = get_api(request.environ)
+        login = self.form_result.get("user_name").encode('utf-8')
         credentials = {
-            'login': self.form_result.get("user_name").encode('utf-8'),
+            'login': login,
             'password': self.form_result.get("password").encode('utf-8')}
         authenticated, headers = who_api.login(credentials)
-        h.flash(_("You have successfully registered as user %s.") % user.name,
-                'success')
         if authenticated:
-            # redirect. FIXME: redirect to dashboard?
-            came_from = request.params.get('came_from', h.base_url(c.instance))
-            raise HTTPFound(location=came_from, headers=headers)
+            # redirect to dashboard with login message
+            session['logged_in'] = True
+            session.save()
+            location = h.base_url(c.instance,
+                                  path='/user/%s/dashboard' % login)
+            raise HTTPFound(location=location, headers=headers)
         else:
             raise Exception('We have added the user to the Database '
                             'but cannot authenticate him: '
@@ -336,15 +343,13 @@ class UserController(BaseController):
 
     def post_login(self):
         if c.user:
-            url = h.base_url(c.instance)
-            if 'came_from' in session:
-                url = session.get('came_from')
-                del session['came_from']
-                session.save()
-            h.flash(_("You have successfully logged in."), 'success')
-            if isinstance(url, unicode):
-                url = url.encode('utf-8')
-            redirect(str(url))
+            session['logged_in'] = True
+            session.save()
+            # redirect to the dashboard inside the instance exceptionally
+            # to be able to link to proposals and norms in the welcome
+            # message.
+            redirect(h.base_url(c.instance, path='/user/%s/dashboard') %
+                     c.user.user_name)
         else:
             session.delete()
             return formencode.htmlfill.render(
@@ -360,7 +365,18 @@ class UserController(BaseController):
 
     def dashboard(self, id):
         '''Render a personalized dashboard for users'''
-        
+
+        if 'logged_in' in session:
+            c.fresh_logged_in = True
+            c.suppress_attention_getter = True
+            del session['logged_in']
+            if 'came_from' in session:
+                c.came_from = session.get('came_from')
+                del session['came_from']
+                if isinstance(c.came_from, unicode):
+                    c.came_from = c.came_from.encode('utf-8')
+            session.save()
+
         #user object
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
@@ -369,39 +385,47 @@ class UserController(BaseController):
         instances = c.page_user.instances
         #proposals
         proposals = [model.Proposal.all(instance=i) for i in instances]
-        proposals = proposals and reduce(lambda x,y: x + y, proposals)
+        proposals = proposals and reduce(lambda x, y: x + y, proposals)
         c.proposals = proposals
-        c.proposals_pager = pager.proposals(proposals, size=3,
-                                                    enable_pages=False) 
+        c.proposals_pager = pager.proposals(proposals, size=4,
+                                            default_sort=sorting.entity_newest,
+                                            enable_pages=False,
+                                            enable_sorts=False)
         #polls
         polls = [p.adopt_poll for p in proposals if p.is_adopt_polling()]
-        polls = filter(lambda p: p.has_ended() != True and 
+        polls = filter(lambda p: p.has_ended() != True and
                                  p.is_deleted() != True,
-                        polls)
+                       polls)
         c.polls = polls
-        c.polls_pager = pager.polls(polls, 
-                size=20, 
-                enable_pages=False, 
-                enable_sorts=False,)
+        c.polls_pager = pager.polls(polls,
+                                    size=20,
+                                    default_sort=sorting.entity_newest,
+                                    enable_pages=False,
+                                    enable_sorts=False,)
         #pages
         require.page.index()
-        pages = [model.Page.all(instance=i, functions=model.Page.LISTED ) \
-                                                        for i in instances]
-        pages = pages and reduce(lambda x,y: x + y, pages)
+        pages = [model.Page.all(instance=i, functions=model.Page.LISTED)
+                 for i in instances]
+        pages = pages and reduce(lambda x, y: x + y, pages)
         c.pages = pages
-        c.pages_pager = pager.pages(pages, size=3, enable_pages=False)  
+        c.pages_pager = pager.pages(pages, size=3,
+                                    default_sort=sorting.entity_newest,
+                                    enable_pages=False,
+                                    enable_sorts=False)
         #watchlist
         require.watch.index()
         c.active_global_nav = 'watchlist'
         watches = model.Watch.all_by_user(c.page_user)
-        entities = [w.entity for w in watches if (w.entity is not None) \
-            and (not isinstance(w.entity, unicode))]
-        c.watchlist_pager = NamedPager('watches', entities, \
+        entities = [w.entity for w in watches if (w.entity is not None)
+                    and (not isinstance(w.entity, unicode))]
+        c.watchlist_pager = NamedPager(
+            'watches', entities,
             tiles.dispatch_row_with_comments,
             size=3,
             enable_pages=False,
             enable_sorts=False,
             default_sort=sorting.entity_newest)
+
         #render result
         return render('/user/dashboard.html')
 
@@ -415,8 +439,8 @@ class UserController(BaseController):
         instances = c.page_user.instances
         #proposals
         proposals = [model.Proposal.all(instance=i) for i in instances]
-        proposals = proposals and reduce(lambda x,y: x + y, proposals)
-        c.proposals_pager= pager.proposals(proposals)
+        proposals = proposals and reduce(lambda x, y: x + y, proposals)
+        c.proposals_pager = pager.proposals(proposals)
         #render result
         return render("/user/proposals.html")
 
@@ -430,12 +454,12 @@ class UserController(BaseController):
         instances = c.page_user.instances
         #pages
         require.page.index()
-        pages = [model.Page.all(instance=i, functions=model.Page.LISTED ) \
-                                                        for i in instances]
-        pages = pages and reduce(lambda x,y: x + y, pages)
-        c.pages_pager = pager.pages(pages)  
+        pages = [model.Page.all(instance=i, functions=model.Page.LISTED)
+                 for i in instances]
+        pages = pages and reduce(lambda x, y: x + y, pages)
+        c.pages_pager = pager.pages(pages)
         #render result
-        return render("/user/pages.html") 
+        return render("/user/pages.html")
 
     @ActionProtector(has_permission("user.view"))
     def complete(self):
@@ -631,7 +655,7 @@ class UserController(BaseController):
                 added.append(badge)
 
         model.meta.Session.flush()
-        model.meta.Session.commit() # FIXME: does not work without.
+        model.meta.Session.commit()  # FIXME: does not work without.
         post_update(user, model.update.UPDATE)
         redirect(h.entity_url(user))
 

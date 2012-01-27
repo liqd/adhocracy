@@ -36,7 +36,8 @@ instance_table = Table('instance', meta.data,
     Column('css', UnicodeText(), nullable=True),
     Column('frozen', Boolean, default=False),
     Column('milestones', Boolean, default=False),
-    Column('use_norms', Boolean, nullable=True, default=True)
+    Column('use_norms', Boolean, nullable=True, default=True),
+    Column('require_selection', Boolean, nullable=True, default=False)
     )
 
 
@@ -62,6 +63,7 @@ class Instance(meta.Indexable):
         self.allow_index = True
         self.hidden = False
         self.frozen = False
+        self.require_selection = False
         self._required_participation = None
 
     @reconstructor

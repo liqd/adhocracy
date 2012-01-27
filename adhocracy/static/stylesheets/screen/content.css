@@ -235,7 +235,8 @@ a.button_small.off:active, a.button_small.off.active {
 .content_list li {
   margin-bottom: 10px;
 }
-.content_list h3 {
+.content_list h3,
+#col3 .content_list h3 {
   font-size: 18px;
 }
 li.content_box {
@@ -358,6 +359,7 @@ margin-bottom: 0;
   position: relative;
   padding: 0 23px;
   height: 90px;
+  overflow: visible; /*allow long popup menu */
 }
 body.logged_in #header .page_wrapper {
   height: 40px;
@@ -573,6 +575,7 @@ body.logged_in #nav li a {
   border: 1px solid #d4d4d4;
   background: #fffde4;
   font-style: italic;
+  margin-top: 30px;
 }
 .info_box p {
   margin-bottom: 0;
@@ -1113,9 +1116,6 @@ ul.comments_list > li {
 .paper_actions .meta {
   float: right;
 }
-.comment p {
-  display: inline;
-}
 
 .show_comments, .new_comment {
   padding: 0 6px;
@@ -1233,6 +1233,22 @@ textarea { min-height: 128px; }
 select { width: 100%; }
 
 input[type=checkbox], input[type=radio] { vertical-align: text-top; }
+
+.checkbox_inline label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+}
+
+.checkbox_inline input {
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    margin:0;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
 
 .submit input, .submit button {
   border: medium none;
