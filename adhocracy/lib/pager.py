@@ -261,7 +261,8 @@ def pages(pages, detail=True, default_sort=None, **kwargs):
              _("newest comment"): sorting.delegateable_latest_comment,
              _("newest"): sorting.entity_newest,
              _("proposals"): sorting.norm_selections,
-             _("alphabetically"): sorting.delegateable_title}
+             _("alphabetically"): sorting.delegateable_title,
+             _("hierarchical"): sorting.delegateable_title}
     return NamedPager('pages', pages, tiles.page.row, sorts=sorts,
                     default_sort=default_sort, **kwargs)
 

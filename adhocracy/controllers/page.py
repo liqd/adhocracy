@@ -94,6 +94,12 @@ class PageController(BaseController):
         require.page.index()
         pages = model.Page.all(instance=c.instance,
                                functions=model.Page.LISTED)
+        if request.params.get('pages_sort', '0') == '3':
+            # crude hack to get only top level pages cause the pager
+            # cannot handle this and we can not pass arguments to the tile
+            # WARNING: This will break if the index of the sort changes.
+            c.is_hierarchical = True
+            pages = [page for page in pages if page.parent == None]
         c.pages_pager = pager.pages(pages)
 
         if format == 'json':
