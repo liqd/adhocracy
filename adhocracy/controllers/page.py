@@ -94,7 +94,7 @@ class PageController(BaseController):
         require.page.index()
         pages = model.Page.all(instance=c.instance,
                                functions=model.Page.LISTED)
-        if request.params.get('pages_sort', '0') == '3':
+        if request.params.get('pages_sort', '0') == '4':
             # crude hack to get only top level pages cause the pager
             # cannot handle this and we can not pass arguments to the tile
             # WARNING: This will break if the index of the sort changes.
