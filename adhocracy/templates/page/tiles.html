@@ -13,8 +13,7 @@
     <li class="content_box">
         <div class="level-${str(level)}">
             %if c.is_hierarchical and level == 0 and len(page.subpages) > 0:
-            <div style="float: right; padding: 1em 1em 0 1em" 
-                 class="more only-js">
+            <div class="more only-js">
                 <a href="#" class="showhide_button more_arrow"
                    data-target="#${page.id}-sub"
                    data-toggle-class="less"

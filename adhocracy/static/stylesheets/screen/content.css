@@ -1928,10 +1928,14 @@ list-style: none;
 margin-left: 0;
 }
 
+.content_box .more {
+  float: right;
+  padding-top: 1em;
+}
 .more_arrow {
-  background: url("/images/arrow-right.png") right top no-repeat;
-  padding-right: 20px;
+  background: url("/images/sprite_icons.png") no-repeat right -1050px;
+  padding: 7px 40px 2px 10px;
 }
 .more_arrow.less {
-  background-image: url("/images/arrow-down.png");
+  background: url("/images/sprite_icons.png") no-repeat right -1100px;
 }
