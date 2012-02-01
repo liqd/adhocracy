@@ -57,6 +57,10 @@ def delegateable_title(entities):
     return sortable_text(entities, key=lambda e: e.title)
 
 
+def hierarchical_title(entities):
+        return delegateable_title(entities)
+
+
 def delegateable_full_title(entities):
     return sortable_text(entities, key=lambda e: e.full_title)
 

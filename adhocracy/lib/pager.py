@@ -256,13 +256,11 @@ def milestones(milestones, default_sort=None, **kwargs):
 
 def pages(pages, detail=True, default_sort=None, **kwargs):
     if default_sort is None:
-        default_sort = sorting.delegateable_title
-    sorts = {_("oldest"): sorting.entity_oldest,
-             _("newest comment"): sorting.delegateable_latest_comment,
-             _("newest"): sorting.entity_newest,
+        default_sort = sorting.hierarchical_title
+    sorts = {_("newest"): sorting.entity_newest,
              _("proposals"): sorting.norm_selections,
              _("alphabetically"): sorting.delegateable_title,
-             _("hierarchical"): sorting.delegateable_title}
+             _("hierarchical"): sorting.hierarchical_title}
     return NamedPager('pages', pages, tiles.page.row, sorts=sorts,
                     default_sort=default_sort, **kwargs)
 
