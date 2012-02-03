@@ -649,7 +649,7 @@ msgstr ""
 #, fuzzy, python-format
 #| msgid "Settings: %s"
 msgid "Line %s: %s"
-msgstr "Einstellungen: %s"
+msgstr "Zeile %s: %s"
 
 #: adhocracy/forms/common.py:378
 #, python-format
@@ -4191,3 +4191,22 @@ msgid "tutorial_dashboard_instances"
 msgstr "Hier finden Sie eine Liste der Projektgruppen, in denen Sie Mitglied sind. Durch einen Klick auf eine der Projektgruppen gelangen Sie zur Projektgruppe."
 msgid "tutorial_dashboard_watchlist"
 msgstr "In der Beobachtungsliste finden Sie Inhalte, denen sie folgen. Durch einen Klick auf "Zeige alle" erhalten Sie eine Übersicht über alle Inhalte denen Sie folgen."
+
+msgid "Next"
+msgstr "Weiter"
+
+msgid "Previous"
+msgstr "Zurück"
+
+msgid "Close"
+msgstr "Schließen"
+
+msgid "disable_this_tutorial"
+msgstr "Tutorial ausschalten"
+
+msgid "disable_all_tutorials"
+msgstr "Alle Tutorials ausschalten"
+
+msgid "start_this_tutorial"
+msgstr "Tutorial starten"
+
