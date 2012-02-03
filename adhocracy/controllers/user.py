@@ -114,7 +114,6 @@ class UserController(BaseController):
         ##    return render_json(c.users_pager)
 
         c.tutorial_intro = _('tutorial_user_index_intro')
-        c.tutorial_hide_start_button = True
         c.tutorial = 'user_index'
         return render("/user/index.html")
 
