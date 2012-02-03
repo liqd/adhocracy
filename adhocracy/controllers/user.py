@@ -113,6 +113,9 @@ class UserController(BaseController):
         #if format == 'json':
         ##    return render_json(c.users_pager)
 
+        c.tutorial_intro = _('tutorial_user_index_intro')
+        c.tutorial_hide_start_button = True
+        c.has_tutorial = True
         return render("/user/index.html")
 
     def all(self):
@@ -428,6 +431,7 @@ class UserController(BaseController):
 
         #render result
         c.has_tutorial = True
+        c.tutorial_intro = _('tutorial_dashboard_title')
         return render('/user/dashboard.html')
 
     def dashboard_proposals(self, id):

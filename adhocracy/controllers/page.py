@@ -102,6 +102,7 @@ class PageController(BaseController):
         tags = model.Tag.popular_tags(limit=30)
         c.cloud_tags = sorted(libtext.tag_cloud_normalize(tags),
                               key=lambda (k, c, v): k.name)
+        c.tutorial_intro = _('tutorial_norms_overview_tab')
         c.has_tutorial = True
         return render("/page/index.html")
 
@@ -476,6 +477,7 @@ class PageController(BaseController):
             'subpages', c.page.subpages, tiles.page.smallrow, sorts=sorts,
             default_sort=sorting.delegateable_title)
         self._common_metadata(c.page, c.text)
+        c.tutorial_intro = _('tutorial_norm_show_tab')
         c.has_tutorial = True
         return render("/page/show.html")
 

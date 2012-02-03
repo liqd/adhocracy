@@ -639,7 +639,9 @@ var adhocracy = adhocracy || {};
 
     adhocracy.helpers.initializeTutorial = function () {
         $('#start-tutorial-button').click(function (event) {
-            $(this).joyride({inline: true});
+            $(this).joyride({inline: true,
+                             nextButtonText: $(this).data('next'),
+                             prevButtonText: $(this).data('previous')});
             event.preventDefault();
         });
         $('#disable-tutorials').click(function (event) {

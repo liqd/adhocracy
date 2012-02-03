@@ -127,10 +127,16 @@ jquery.need()
           %if c.has_tutorial and h.tutorial.show():
           <div class="only-js" id="tutorial-banner">
               <%components:build_infobox>
-              <p>${_('tutorial_general_intro')}</p>
-              <a id="start-tutorial-button" href="#">
+              <div>
+                  ${c.tutorial_intro|n}
+              </div>
+              %if not c.tutorial_hide_start_button:
+              <a id="start-tutorial-button" href="#"
+                 data-next="${_('Next')}"
+                 data-prev="${_('Previous')}">
                   ${_('start_tutorial')}
               </a>
+              %endif
               <a href="#" id="disable-tutorials">
                   ${_('disable_tutorials')}
               </a>

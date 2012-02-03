@@ -21,9 +21,10 @@
             ${_('Start by exploring the <b><a href="%s">instances</a></b> and read some of the proposals and norms in the instances.') % h.base_url(None, path='/instance') |n}
             %endif
             ${_('If you join an instance, norms and proposals of the instance will be shown on your dashboard.')}
-            ${_('You can reach you dashboar anytime by clicking on your user name on the top of the page.')}
+            ${_('You can reach you dashboard anytime by clicking on your user name on the top of the page.')}
         %else:
             ${_('This is your Dashboard. Here you can find the list of instances your a member in, norms and proposals from these instance and a list of the pages you follow.')}
+            ${_('You can reach you dashboard anytime by clicking on your user name on the top of the page.')}
         %endif
         </p>
         %if c.came_from:
@@ -64,27 +65,22 @@
 <%components:tutorial>
 <ol id="joyRideTipContent">
 
-    <li data-id="title" data-next="${_('Opening the dashboard')}"
-        data-tip-location="top" class="custom">
-        <p>${_('tutorial_dashboard_title')}</p>
-    </li>
-
-    <li data-id="user_menu" data-next="${_('Proposals')}"
+    <li data-id="user_menu"
         data-tip-location="bottom right" class="custom">
         <p>${_('tutorial_dashboard_username')}</p>
     </li>
 
-    <li data-id="norms_listing" data-next="${_('Show all proposals')}"
+    <li data-id="norms_listing"
         data-tip-location="top" class="custom">
         <p>${_('tutorial_dashboard_proposals')}</p>
     </li>
 
-    <li data-id="proposals_show_all" data-next="${_('Your Instances')}"
+    <li data-id="proposals_show_all"
         data-tip-location="" class="custom">
         <p>${_('tutorial_dashboard_show_all')}</p>
     </li>
 
-    <li data-id="instance_list" data-next="${_('Your Watchlist')}"
+    <li data-id="instance_list"
         data-tip-location="top right" class="custom">
         <p>${_('tutorial_dashboard_instances')}</p>
     </li>
