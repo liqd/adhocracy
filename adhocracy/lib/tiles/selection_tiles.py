@@ -79,7 +79,7 @@ class SelectionTile(BaseTile):
 
 
 def row(selection):
-    if selection is None or selection.is_deleted():
+    if not selection or selection.is_deleted():
                 return ""
     tile = SelectionTile(selection)
     return render_tile('/selection/tiles.html', 'row', tile,
