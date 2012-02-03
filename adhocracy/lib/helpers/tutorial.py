@@ -1,19 +1,28 @@
 from pylons import session
 
-KEY = 'disable_tutorials'
+ALLKEY = 'disable_tutorials'
+ONEKEY = 'disable_tutorial_%s'
 
-def show():
-    if session.get(KEY, False):
+
+def show(name):
+    if session.get(ALLKEY, False):
+        return False
+    elif session.get(ONEKEY % name):
         return False
     else:
         return True
 
 
-def disable():
-    session[KEY] = True
+def disable(name):
+    if name is None:
+        session[ALLKEY] = True
+    else:
+        session[ONEKEY % name] = True
     session.save()
 
 
 def enable():
-    session[KEY] = False
+    for key in session:
+        if key.startswith('disable_tutorial'):
+            session[key] = False
     session.save()

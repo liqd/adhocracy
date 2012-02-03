@@ -68,8 +68,11 @@ class RootController(BaseController):
         return render("instance/robots.txt")
 
     def tutorials(self):
-        disable = int(request.params.get('disable', 0))
-        if disable:
-            h.tutorial.disable()
+        if 'disable' in request.params:
+            name = request.params.get('disable')
+            if name == 'ALL':
+                h.tutorial.disable(None)
+            else:
+                h.tutorial.disable(name)
         else:
             h.tutorial.enable()

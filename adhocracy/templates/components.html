@@ -264,8 +264,7 @@ text = "%s - %s: %s" % (h.site.name, c.instance.label, entity.title)
 
 <%def name="tutorial()">
 
-${h.tutorial.show()}
-%if h.tutorial.show():
+%if h.tutorial.show(c.tutorial):
 <%
 from js.jquery_joyride import joyride
 joyride.need()
@@ -274,7 +273,7 @@ joyride.need()
 ${caller.body()}
 
 <script type="text/javascript">
-    adhocracy.helpers.initializeTutorial();
+    adhocracy.helpers.initializeTutorial("${c.tutorial}");
 </script>
 
 %endif

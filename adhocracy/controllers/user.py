@@ -115,7 +115,7 @@ class UserController(BaseController):
 
         c.tutorial_intro = _('tutorial_user_index_intro')
         c.tutorial_hide_start_button = True
-        c.has_tutorial = True
+        c.tutorial = 'user_index'
         return render("/user/index.html")
 
     def all(self):
@@ -430,7 +430,7 @@ class UserController(BaseController):
             default_sort=sorting.entity_newest)
 
         #render result
-        c.has_tutorial = True
+        c.tutorial = 'user_dashboard'
         c.tutorial_intro = _('tutorial_dashboard_title')
         return render('/user/dashboard.html')
 

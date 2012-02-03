@@ -131,7 +131,7 @@ class InstanceController(BaseController):
             'members': model.Membership.all_q().count()
         }
         c.tutorial_intro = _('tutorial_instance_show_subnav-overview')
-        c.has_tutorial = True
+        c.tutorial = 'instance_show'
         return render("/instance/show.html")
 
     @RequireInstance

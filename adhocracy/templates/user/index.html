@@ -56,4 +56,23 @@
     <div id="users_table" class="table">
         ${c.users_pager.render_pager()}
     </div>
+
+<%components:tutorial>
+        <ol id="joyRideTipContent">
+          <li data-id="new_proposals_table"
+              data-tip-location="top left">
+            <p>${_('tutorial_user_index_filter')|n}</p>
+          </li>
+          <li data-id="proposal-actions"
+              data-tip-location="top right">
+            <p>${_('tutorial_instance_show_new_proposal_button')|n}</p>
+          </li>
+          <li data-id="numbers"
+              data-tip-location="top left"
+              data-next="_('Close')">
+            <p>${_('tutorial_instance_show_numbers')}</p>
+          </li>
+        </ol>
+</%components:tutorial>
+
 </%block>

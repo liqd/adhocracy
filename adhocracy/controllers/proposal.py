@@ -95,7 +95,7 @@ class ProposalController(BaseController):
         c.tile = tiles.instance.InstanceTile(c.instance)
         c.badges = model.Badge.all_delegateable()
         c.tutorial_intro = _('tutorial_proposal_overview_tab')
-        c.has_tutorial = True
+        c.tutorial = 'proposal_index'
         return render("/proposal/index.html")
 
     @RequireInstance
@@ -267,7 +267,7 @@ class ProposalController(BaseController):
                                      member='history')
         self._common_metadata(c.proposal)
         c.tutorial_intro = _('tutorial_proposal_show_tab')
-        c.has_tutorial = True
+        c.tutorial = 'proposal_show'
         return render("/proposal/show.html")
 
     @RequireInstance

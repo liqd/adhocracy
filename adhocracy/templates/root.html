@@ -124,7 +124,7 @@ jquery.need()
           <%block name="flashmessages"></%block>
           <%block name="infoboxes"></%block>
 
-          %if c.has_tutorial and h.tutorial.show():
+          %if c.tutorial and h.tutorial.show(c.tutorial):
           <div class="only-js" id="tutorial-banner">
               <%components:build_infobox>
               <div>
@@ -137,8 +137,11 @@ jquery.need()
                   ${_('start_tutorial')}
               </a>
               %endif
-              <a href="#" id="disable-tutorials">
-                  ${_('disable_tutorials')}
+              <a href="#" id="disable-this-tutorial">
+                  ${_('disable_this_tutorial')}
+              </a>
+              <a href="#" id="disable-all-tutorials">
+                  ${_('disable_all_tutorials')}
               </a>
               </%components:build_infobox>
           </div>

@@ -103,7 +103,7 @@ class PageController(BaseController):
         c.cloud_tags = sorted(libtext.tag_cloud_normalize(tags),
                               key=lambda (k, c, v): k.name)
         c.tutorial_intro = _('tutorial_norms_overview_tab')
-        c.has_tutorial = True
+        c.tutorial = 'page_index'
         return render("/page/index.html")
 
     @RequireInstance
@@ -478,7 +478,7 @@ class PageController(BaseController):
             default_sort=sorting.delegateable_title)
         self._common_metadata(c.page, c.text)
         c.tutorial_intro = _('tutorial_norm_show_tab')
-        c.has_tutorial = True
+        c.tutorial = 'page_show'
         return render("/page/show.html")
 
     @RequireInstance

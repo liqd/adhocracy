@@ -637,15 +637,20 @@ var adhocracy = adhocracy || {};
         }
     };
 
-    adhocracy.helpers.initializeTutorial = function () {
+    adhocracy.helpers.initializeTutorial = function (name) {
         $('#start-tutorial-button').click(function (event) {
             $(this).joyride({inline: true,
                              nextButtonText: $(this).data('next'),
                              prevButtonText: $(this).data('previous')});
             event.preventDefault();
         });
-        $('#disable-tutorials').click(function (event) {
-            $.get('/tutorials?disable=1');
+        $('#disable-all-tutorials').click(function (event) {
+            $.get('/tutorials?disable=ALL');
+            $('#tutorial-banner').fadeOut();
+            event.preventDefault();
+        });
+        $('#disable-this-tutorial').click(function (event) {
+            $.get('/tutorials?disable=' + name);
             $('#tutorial-banner').fadeOut();
             event.preventDefault();
         });

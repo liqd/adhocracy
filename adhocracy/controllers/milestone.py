@@ -59,7 +59,7 @@ class MilestoneController(BaseController):
             return render_json(c.milestones_pager)
 
         c.tile = tiles.instance.InstanceTile(c.instance)
-        c.has_tutorial = True
+        c.tutorial = 'milestone_index'
         c.tutorial_intro = _('tutorial_milestones_tab')
         return render("/milestone/index.html")
 
@@ -142,7 +142,7 @@ class MilestoneController(BaseController):
         c.pages_pager = pager.pages(pages_q.all(), size=10)
         self._common_metadata(c.milestone)
         c.tutorial_intro = _('tutorial_milestone_details_tab')
-        c.has_tutorial = True
+        c.tutorial = 'milestone_show'
         return render("/milestone/show.html")
 
     @RequireInstance
