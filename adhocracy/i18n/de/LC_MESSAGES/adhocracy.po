@@ -4116,6 +4116,15 @@ msgstr ""
 #~ msgid "Proposal"
 #~ msgstr "Vorschlag"
 
+msgid "tutorial_instance_show_intro"
+msgstr "Willkommen auf der Startseite der Projektgruppe."
+msgid "tutorial_instance_proposals_table"
+msgstr "Hier finden Sie eine Liste der neuesten Vorschläge."
+msgid "tutorial_instance_proposal_button"
+msgstr "Sie können hier direkt neue Vorschläge einbringen oder sich weitere anzeigen lassen."
+msgid "tutorial_instance_numbers"
+msgstr "Hier finden Sie noch eine kurze Information über die aktuelle Mitgliederzahl der Projektgruppe, der Anzahl der eingebrachten Vorschläge und der geschriebenen Kommentare."
+
 
 msgid "tutorial_milestones_tab"
 msgstr "Diese Seite bietet Ihnen eine Übersicht über die Termine der Projektgruppe."
