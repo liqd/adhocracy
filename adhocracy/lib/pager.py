@@ -523,7 +523,6 @@ class SolrFacet(SolrIndexer):
             item = item.copy()
             facet_value = item['value']
             item['current_count'] = self.current_counts[facet_value]
-
             if item['current_count'] == 0 and not (self.show_empty or
                                                    self.show_current_empty):
                 continue
@@ -691,6 +690,24 @@ class DelegateableAddedByBadgeFacet(SolrFacet):
         data[cls.solr_field] = [badge.id for badge in entity.creator.badges]
 
 
+class DelegateableTags(SolrFacet):
+
+    name = 'delegateabletags'
+    entity_type = model.Tag
+    title = u'Tags'  # FIXME: translate
+    solr_field = 'facet.delegateable.tags'
+    show_current_empty = False
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if not isinstance(entity, model.Delegateable):
+            return
+        tags = []
+        for tag, count in entity.tags:
+            tags.extend([tag.id] * count)
+        data[cls.solr_field] = tags
+
+
 class CommentOrderIndexer(SolrIndexer):
 
     solr_field = 'order.comment.order'
@@ -776,6 +793,7 @@ class UserActivityIndexer(SolrIndexer):
 INDEX_DATA_FINDERS = [UserBadgeFacet, InstanceFacet,
                       CommentOrderIndexer, CommentScoreIndexer,
                       DelegateableAddedByBadgeFacet, DelegateableBadgeFacet,
+                      DelegateableTags,
                       NormNumSelectionsIndexer, NormNumSelectionsIndexer,
                       ProposalSupportIndexer, ProposalMixedIndexer,
                       UserActivityIndexer]
@@ -826,7 +844,8 @@ class SolrPager(PagerMixin):
         # Add facets
         counts_query = query
         counts_query = counts_query.paginate(rows=0)
-
+        query.faceter.update(limit='65000')
+        counts_query.faceter.update(limit='65000')
         for facet in self.facets:
             query, counts_query = facet.add_to_queries(query, counts_query)
 
@@ -845,7 +864,6 @@ class SolrPager(PagerMixin):
         # query solr and calculate values from it
         self.response = query.execute()
         self.counts_response = counts_query.execute()
-
         # if we are out of the page range do a permanent redirect
         # to the last page
         if (self.pages > 0) and (self.page > self.pages):
@@ -952,6 +970,7 @@ def solr_proposal_pager(instance, wildcard_queries=None):
                       default_sort=support_sort_field,
                       extra_filter=extra_filter,
                       facets=[DelegateableBadgeFacet,
-                              DelegateableAddedByBadgeFacet],
+                              DelegateableAddedByBadgeFacet,
+                              DelegateableTags],
                       wildcard_queries=wildcard_queries)
     return pager
