@@ -38,12 +38,7 @@
         <h3 class="section"><img src="/img/icons/delegate_16.png" class="cd" /> ${_("Delegate voting")}</h3>
         
             %if not tile.has_delegated:
-                <div class="infobox">
-                    ${_("You have not delegated voting.")} 
-                    <div class="help">
-                        · ${h.help_link(_("help"), 'delegation_faq')|n}
-                    </div>
-                </div>
+            <p>${_("You have not delegated voting.")}</p>
             %else:
                 <p>${_("You have delegated voting to:")}</p>
             %endif

@@ -31,16 +31,6 @@
         <h3 class="section">${_("Similar tags")}</h3>
         ${tiles.tag.cloud(c.cloud_tags)}
     %endif
-    
-    <div class="help">
-        <h3>${_("Help")}</h3>
-        <ul>
-            <li>${h.help_link(_("What is a tag?"), 'tag_faq', anchor='whatis')|n}</li>
-            <li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
-            <li>${h.help_link(_("What is a page?"), 'page_faq', anchor='whatis')|n}</li>
-            <li>${h.help_link(_("More help..."), 'tag_faq')|n}</li>
-        </ul>
-    </div>
 </%block>
 
 

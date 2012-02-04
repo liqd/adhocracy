@@ -13,16 +13,6 @@
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
     
-    <div class="sidebar">
-        <div class="help">
-            <h3>${_("Help")}</h3>
-            <ul>
-                <li>${h.help_link(_("What is a milestone?"), 'milestone_faq', anchor='whatis')|n}</li>
-                <li>${h.help_link(_("More help..."), 'milestone_faq')|n}</li>
-            </ul>
-        </div>
-    </div>
-    
     <div class="mainbar">
         <h3>${_("Milestone title")}</h3>
         <div class="page_title">
@@ -47,11 +37,6 @@
     
     <div style="clear:both;"></div>
     
-    <div class="sidebar">
-        <div class="infobox">
-            ${h.help_link(_("More help..."), 'milestone_faq')|n}
-        </div>
-    </div>
     <div class="mainbar">
         ${components.savebox("/milestone/%s" % c.milestone.id)}
         ${components.form_watch(c.milestone)}

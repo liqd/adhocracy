@@ -11,21 +11,6 @@
 ${tiles.proposal.header(c.proposal, active='implementation')}
 </%block>
 
-<%block name="sidebar">
-
-    <div class="help">
-        <h3>${_("Help")}</h3>
-        <ul>
-            <li>${h.help_link(_("What is a norm?"), 'selection_faq', anchor='whatisnorm')|n}</li>
-            <li>${h.help_link(_("What is a variant?"), 'selection_faq', anchor='whatisvariant')|n}</li>
-            <li>${h.help_link(_("What does 'Status quo' mean?"), 'selection_faq', anchor='whatishead')|n}</li>
-            <li>${h.help_link(_("More help..."), 'selection_faq')|n}</li>
-        </ul>
-    </div>
-
-</%block>
-
-
 <%block name="main_content">
     <h2>${_("Propose a new norm")}</h2>
     <div class="infobox">
@@ -44,7 +29,6 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
         <label for="parent">${_("Parent page:")}</label>
         ${tiles.page.select_page(field_name="parent", functions=model.Page.PARENT_FUNCTIONS)}
         <span class="hint">${_("The new norm will be categorized under the specified parent page.")}
-            ${h.help_link(_("Help."), 'selection_faq', anchor='parent')|n}
         </span>
         
         ${components.savebox(None)}

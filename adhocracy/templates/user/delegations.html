@@ -52,11 +52,7 @@ ${tiles.user.header(c.page_user, active='delegations')}
      delegations -->
 
 %if dcount < 1:
-    <div class="infobox">${_("There are no delegations.")} 
-        <div class="help">
-                <a href="/static/delegation_faq.html">${_("Help")}</a>
-        </div>
-    </div>
+    <p>${_("There are no delegations.")} </p>
 %endif
 
 </%block>

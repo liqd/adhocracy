@@ -11,22 +11,6 @@
     <h3>${_("Create new proposal")}</h3>
 </%block>
 
-<%block name="sidebar">
-    <div class="sidebar">
-        <div class="help">
-            <h3>${_("Help")}</h3>
-            <ul>
-                <li>${h.help_link(_("What is a proposal?"), 'proposal_faq', anchor='whatis')|n}</li>
-                <li>${h.help_link(_("How can I support a proposal?"), 'proposal_faq', anchor='support')|n}</li>
-                <li>${h.help_link(_("Guide: Supporting proposals"), 'support_text')|n}</li>
-                <li>${h.help_link(_("Guide: Developing proposals"), 'proposal_text')|n}</li>
-                <li>${h.help_link(_("More help..."), 'proposal_faq')|n}</li>
-            </ul>
-        </div>
-    </div>
-
-</%block>
-
 <%block name="main_content">
 <div class="form_wrapper">
   <form name="create_proposal" class="inplace" method="POST" action="/proposal">
@@ -120,7 +104,7 @@
       <div class="input_wrapper">      
         <label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
         <input type="text" name="tags" id="tags" class="armlabel long" />
-        <p class="info">${_("Multiple tags can be separated by commas.")} ${h.help_link(_("Help."), 'tag_faq')|n}</p>      
+        <p class="info">${_("Multiple tags can be separated by commas.")}</p>
       </div>
         
       <div class="input_wrapper">
@@ -137,7 +121,6 @@
         </div>
       %endif
 
-      <p class="info">${h.help_link(_("More help..."), 'proposal_faq')|n}</p>
     </fieldset>
    
     <div class="input_wrapper">
