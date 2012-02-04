@@ -2,10 +2,11 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="sidebar_defs" file="/sidebar.html"/>
 <%namespace name="state" file="/poll/state.html"/>
-
+<% from adhocracy.lib import sorting %>
 <%def name="title()">${c.page.title}</%def>
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
+
 
 <%block name="sidebar">
 
@@ -62,6 +63,18 @@
             ${_("This norm relates to the milestone %s."
                ) % h.milestone.link(c.page.milestone)|n}
         </p>
+        %endif
+        %if len(c.page.subpages):
+        <h6>Sub-norms</h6>
+        <ul class="papers_list">
+            %for subpage in sorting.delegateable_title(c.page.subpages):
+            <li>
+                <a href="${h.entity_url(subpage)}">
+                    ${subpage.title}
+                </a>
+            </li>
+            %endfor
+        </ul>
         %endif
         ## Fixme: Info zur Version
         ## <h6>Angelegt</h6>
