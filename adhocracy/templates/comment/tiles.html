@@ -40,13 +40,12 @@
         %for comment, tile in _comments:
         %if tile.show:
         <li>
-            ${full(tile, comment, comments, recurse, ret_url=ret_url)}
+            ${tiles.comment.show(comment, recurse=recurse, ret_url=ret_url)}
         </li>
         %endif
         %endfor
     </ul>
     %endif
-
     <% auth = check.comment.create_on(topic) %>
     %if root is None:
         %if auth:
@@ -209,7 +208,8 @@
 
 
     %if recurse:
-    ${list(None, comments, comment.topic, variant=comment.variant, root=comment, recurse=recurse)}
+
+    ${tiles.comment.list(comment.topic, comment, comments,  variant=comment.variant, recurse=recurse, ret_url=ret_url)}
     %endif
 
 

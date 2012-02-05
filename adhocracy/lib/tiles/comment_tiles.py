@@ -1,3 +1,5 @@
+from pylons import tmpl_context as c
+
 from adhocracy.lib import text
 from adhocracy.lib.tiles.util import render_tile, BaseTile
 
@@ -57,12 +59,13 @@ def header(comment, tile=None, active='comment'):
 
 def list(topic, root=None, comments=None, variant=None, recurse=True,
          ret_url=''):
+    cached = True if c.user is None else False
     if comments is None:
         comments = topic.comments
     return render_tile('/comment/tiles.html', 'list', tile=None,
                        comments=comments, topic=topic,
                        variant=variant, root=root, recurse=recurse,
-                       cached=False, ret_url=ret_url)
+                       cached=cached, ret_url=ret_url)
 
 
 def show(comment, recurse=True, ret_url=''):
