@@ -69,6 +69,6 @@ def list(topic, root=None, comments=None, variant=None, recurse=True,
 
 
 def show(comment, recurse=True, ret_url=''):
-    return render_tile('/comment/tiles.html', 'full', CommentTile(comment),
+    return render_tile('/comment/tiles.html', 'show', CommentTile(comment),
                        comment=comment, comments=comment.topic.comments,
                        recurse=recurse, ret_url=ret_url)
