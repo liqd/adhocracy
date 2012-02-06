@@ -351,7 +351,6 @@ class UserController(BaseController):
             redirect(h.base_url(c.instance, path='/user/%s/dashboard') %
                      c.user.user_name)
         else:
-            session.delete()
             return formencode.htmlfill.render(
                 render("/user/login.html"),
                 errors={"login": _("Invalid user name or password")})
