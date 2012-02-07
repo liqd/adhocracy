@@ -77,10 +77,18 @@ This version requires Python 2.5 or later.
     ],
     # REFACT: could/should these become regular dependencies?
     setup_requires=["PasteScript>=1.6.3",
+
                     "setuptools>=0.6c6"],  # fix OS X 10.5.7
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
     test_suite='nose.collector',
+    extras_require={
+        'test': ['zope.testbrowser [wsgi]',
+                 'repoze.tm2',
+                 'nose',
+                 'nose-cov',
+                 'nose-exclude']
+    },
     package_data={'adhocracy': ['i18n/*/LC_MESSAGES/*.mo']},
     message_extractors={'adhocracy': [
             ('**.py', 'python', None),
