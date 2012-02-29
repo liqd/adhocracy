@@ -37,6 +37,11 @@
               cols="${model.Text.LINE_LENGTH}" 
               name="text">${c.text.text}</textarea>
 
+    %if can.page.manage(c.page):
+    <label for="parent">${_("Parent page:")}</label>
+    ${tiles.page.select_page(field_name="parent_page", select=c.page.parent, functions=model.Page.PARENT_FUNCTIONS)}
+    %endif
+
     %if c.instance.milestones and can.page.manage(c.page):
     <br/>
     <br/>
