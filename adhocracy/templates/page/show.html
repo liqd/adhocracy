@@ -123,6 +123,13 @@
 </script>
 
 
+        %if can.page.delete(c.page) and active != 'diff':
+        <a class="button title delete"  
+           href="${h.entity_url(c.page, member='ask_delete')}">
+            ${_("delete")}
+        </a>
+        %endif
+
     <h2>${_("Norm: %s") % c.page.title}</h2>
 
 <section>
