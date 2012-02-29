@@ -84,6 +84,12 @@
 
     ${tiles.tag.sidebar(c.page)}
 
+    <h6>Unterthemen</h6>
+    <ol>
+        %for page in sorting.delegateable_title(c.page.subpages):
+        <li><a href="${h.entity_url(page)}">${page.title}</a></li>
+        %endfor
+    </ol>
     </summary>
 
 </section>

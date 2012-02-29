@@ -823,6 +823,15 @@ body.logged_in #nav li a {
   color: #fff;
   font-weight: normal;
 }
+
+/* Sidebar content summary */
+
+#col3 summary ol {
+  list-style-type: none;
+  margin-left: 0;
+}
+
+
 /* follow button */
 a.follow_paper, div.skip_follow {
   height: 26px;
