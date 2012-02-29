@@ -26,6 +26,7 @@
             </h3>
             <div class="clearfix"></div>
             <div class="meta noclear">
+                %if not (c.is_hierarchical and len(page.subpages) > 0):
                 %if page.function == page.NORM:
                     ${ungettext("%s proposal", "%s proposals", len(page.selections)) % len(page.selections)}
                     ·
@@ -33,6 +34,7 @@
                 ${ungettext("%s comment", "%s comments", page.comment_count()) % page.comment_count()}
                 ·
                 ${_("latest <b>%s</b>") % h.relative_time(page.find_latest_comment_time())|n}&nbsp;
+                %endif
             </div>
         </div>
         <div class="hr"><hr /></div>
