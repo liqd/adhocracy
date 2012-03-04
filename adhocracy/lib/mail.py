@@ -39,7 +39,8 @@ def to_mail(to_name, to_email, subject, body, headers={}):
 
         #log.debug("MAIL\r\n" + msg.as_string())
 
-        server = smtplib.SMTP(config.get('smtp_server', 'localhost'))
+        server = smtplib.SMTP(config.get('smtp_server', 'localhost'),
+                              config.get('smtp_port', 25))
         #server.set_debuglevel(1)
         server.sendmail(email_from, [to_email], msg.as_string())
         server.quit()
