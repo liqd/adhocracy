@@ -1,6 +1,24 @@
+Adhocracy Liquid Democracy 
+===========================
+ 
+Adhocracy is a policy drafting tool for distributed groups.
+It allows members of organizations or the public to compose
+or vote documents that represent the policy of the group.
 
-Adhocracy Liquid Democracy Implementation
-=========================================
+In order to allow cooperation, Adhocracy uses LiquidDemocracy,
+a set of ideas that include delegating a user's voting rights
+to another to enable both active and passive participation in
+the process. We also implement ideas from  Direkter Parlamentarismus,
+a theory of mass participation in parliamentary processes.
+
+Installation instructions and further information can be found at
+http://trac.adhocracy.cc/wiki/InstallationInstructions
+
+This version requires Python 2.5 or later. 
+
+
+Implementation details
+======================
 
 Proposals -> Norms -> Comments
 
@@ -8,6 +26,7 @@ Delegation can happen for Proposals and Norms. Norms can be organized
 in a tree structure where Delegations and can inherit Delegations from 
 parent pages or Proposals that propose changes to a Norm. Comment voting 
 take the Delegations of the commented item into account.
+
 
 Infrastructure and installation
 ===============================
