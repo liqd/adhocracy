@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 1.2beta2dev\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-05 19:31+0100\n"
+"POT-Creation-Date: 2012-03-05 19:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3751,7 +3751,7 @@ msgid ""
 msgstr ""
 
 #: adhocracy/templates/user/reset_form.html:12
-msgid "In order to retrieve your login, you will have to enter your email adress."
+msgid "In order to retrieve your login, you will have to enter your email address."
 msgstr ""
 
 #: adhocracy/templates/user/reset_form.html:18
