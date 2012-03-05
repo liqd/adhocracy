@@ -7,6 +7,7 @@ from pylons import config, request, session, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
+from babel import Locale
 
 from webob.exc import HTTPFound
 
@@ -50,7 +51,7 @@ class UserUpdateForm(formencode.Schema):
     allow_extra_fields = True
     display_name = validators.String(not_empty=False)
     email = validators.Email(not_empty=True)
-    #locale = validators.String(not_empty=False)
+    locale = validators.String(not_empty=False)
     password_change = validators.String(not_empty=False)
     password_confirm = validators.String(not_empty=False)
     chained_validators = [validators.FieldsMatch(
@@ -220,9 +221,9 @@ class UserController(BaseController):
         #    c.page_user.twitter.priority = \
         #        self.form_result.get("twitter_priority")
         #    model.meta.Session.add(c.page_user.twitter)
-        #locale = Locale(self.form_result.get("locale"))
-        #if locale and locale in i18n.LOCALES:
-        #    c.page_user.locale = locale
+        locale = Locale(self.form_result.get("locale"))
+        if locale and locale in i18n.LOCALES:
+            c.page_user.locale = locale
         model.meta.Session.add(c.page_user)
         model.meta.Session.commit()
         if email_changed:
