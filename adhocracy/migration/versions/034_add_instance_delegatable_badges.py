@@ -19,7 +19,7 @@ badge_table = Table(
     #badges for delegateables
     Column('badge_delegateable', Boolean, default=False),
     #badges only for delegateables inside an instance (aka "category")
-    #Column('badge_instance_delegateable', Boolean, default=False),
+    #Column('badge_delegateable_category', Boolean, default=False),
     #Column('instance_id', Integer, ForeignKey('instance.id'), nullable=True))
     )
 
@@ -34,7 +34,7 @@ def upgrade(migrate_engine):
     intance_table = Table('instance', metadata, autoload=True)
 
     #add new columns to badge_table
-    badge_instance_delegateable = Column('badge_instance_delegateable', Boolean, default=False)
+    badge_instance_delegateable = Column('badge_delegateable_category', Boolean, default=False)
     badge_instance_delegateable.create(badge_table)
     badge_instance_id = Column('instance_id', Integer, ForeignKey('instance.id'), nullable=True)
     badge_instance_id.create(badge_table)
