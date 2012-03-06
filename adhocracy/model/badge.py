@@ -23,8 +23,9 @@ badge_table = Table(
     Column('display_group', Boolean, default=False),
     #badges for delegateables
     Column('badge_delegateable', Boolean, default=False),
-    #badges only for delegateables inside one instance (aka "category")
-    Column('badge_instance_delegateable', Boolean, default=False),
+    #badges to make categories for delegateables
+    Column('badge_delegateable_category', Boolean, default=False),
+    #badges only valid inside an specific instance
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=True))
 
 
@@ -32,14 +33,14 @@ class Badge(object):
 
     def __init__(self, title, color, description, group=None,
                  display_group=False, badge_delegateable=False,
-                 badge_instance_delegateable=False, instance=None):
+                 badge_delegateable_category=False, instance=None):
         self.title = title
         self.description = description
         self.color = color
         self.group = group
         self.display_group = display_group
         self.badge_delegateable = badge_delegateable
-        self.badge_instance_delegateable = badge_instance_delegateable
+        self.badge_delegateable_category = badge_delegateable_category
         self.instance = instance
 
     def __repr__(self):
@@ -90,45 +91,60 @@ class Badge(object):
         return meta.Session.query(Badge).order_by(Badge.title)
 
     @classmethod
-    def all(cls):
-        return cls.all_q().all()
+    def all(cls, instance=None):
+        """
+        Return all badges, orderd by title.
+        Without instance it only returns badges not bound to an instance.
+        With instance it only returns badges bound to that instance.
+        """
+        result = cls.all_q().all()
+        #TODO do this with SQLAlchemy, "Badge.instance_id == None" does not the job..
+        result = [b for b in result if b.instance == instance]
+        return result
 
     @classmethod
-    def all_delegateable(cls):
+    def all_delegateable(cls, instance=None):
         '''
         Return all delegateable badges, ordered by title.
+        Without instance it only returns badges not bound to an instance.
+        With instance it only returns badges bound to that instance.
         '''
-        return cls.all_q().filter(Badge.badge_delegateable == True).all()
+        result = cls.all_q().filter(Badge.badge_delegateable == True).all()
+        result = [b for b in result if b.instance == instance]
+        return result
 
     @classmethod
-    def all_instance_delegateable(cls):
+    def all_delegateable_categories(cls, instance=None):
         '''
-        Return all delegateable badges bound to one instance (aka categories),
+        Return all badges to make categories for delegateables,
         ordered by title.
+        Without instance it only return badges not bound to an instance.
+        With instance it only returns badges bound to that instance.
         '''
-        q = meta.Session.query(Badge)
-        instance = ifilter.get_instance()
-        if instance:
-            q = q.filter(Badge.instance_id == instance.id)
-        q = q.filter(Badge.badge_instance_delegateable == True)
-        return q.all()
-
+        result = cls.all_q().filter(Badge.badge_delegateable_category == True).all()
+        result = [b for b in result if b.instance == instance]
+        return result
 
     @classmethod
-    def all_user(cls):
+    def all_user(cls, instance=None):
         '''
         Return all user badges, ordered by title.
+        Without instance it only return badges not bound to an instance.
+        With instance it only returns badges bound to that instance.
         '''
-        return cls.all_q().filter(and_(\
-                Badge.badge_delegateable == False,
-                Badge.badge_instance_delegateable == False)).all()
+        result = cls.all_q().filter(and_(\
+                    Badge.badge_delegateable_category == False,
+                    Badge.badge_delegateable == False)).all()
+        result = [b for b in result if b.instance == instance]
+        return result
 
     @classmethod
     def create(cls, title, color, description, group=None,
                display_group=False, badge_delegateable=False,
-               badge_instance_delegateable=False, instance=None):
+               badge_delegateable_category=False, instance=None):
         badge = cls(title, color, description, group, display_group,
-                    badge_delegateable, badge_instance_delegateable, instance)
+                    badge_delegateable, badge_delegateable_category, instance)
+        import ipdb; ipdb.set_trace()
         meta.Session.add(badge)
         meta.Session.flush()
         return badge
@@ -148,7 +164,7 @@ class Badge(object):
                     display_group=self.display_group,
                     users=[user.name for user in self.users],
                     badge_delegateable=self.badge_delegateable,
-                    badge_instance_delegateable=self.badge_instance_delegateable,
+                    badge_delegateable_category=self.badge_delegateable_category,
                     instance=self.instance)
 
     def _index_id(self):
