@@ -10,6 +10,8 @@ class TestBadgeController(TestController):
         #add badge
         badge = Badge.create(u'badge ü', u'#ccc', u'description ü')
         self.assert_(str(badge) == '<Badge(1,badge ?)>')
+        badge = Badge.find(u'badge ü')
+        self.assert_(badge.instance == None)
         #we can set a flag if this badge is not for users (default)
         #but for delegateables
         self.assert_(badge.badge_delegateable == False)
@@ -19,46 +21,52 @@ class TestBadgeController(TestController):
         #(aka "category")
         instance = Instance.find('test')
         badge = Badge.create(u'badge ü', u'#ccc', u'description ü',
-                badge_instance_delegateable=True,  instance=instance,)
+                badge_delegateable_category=True,  instance=instance,)
         self.assert_(str(badge) == '<Badge(2,badge ?)>')
-        self.assert_(badge.badge_instance_delegateable == True)
+        self.assert_(badge.badge_delegateable_category == True)
         self.assert_(badge.instance != None)
 
     def test_to_dict(self):
         from adhocracy.model import Badge, Instance
         instance = Instance.find('test')
         badge = Badge.create(u'badge', u'#ccc', u'description',
-                badge_instance_delegateable=True, instance=instance)
+                badge_delegateable_category=True, instance=instance)
         result = badge.to_dict()
         self.assertEqual(result, {'color': u'#ccc', 'title': u'badge',
                                   'id': 1, 'users': [],
                                   'display_group': False, 'group': None,
                                   'instance': instance,
-                                  'badge_instance_delegateable': True,
+                                  'badge_delegateable_category': True,
                                   'badge_delegateable': False})
 
     def test_get_all_badgets(self):
         #setup
         from adhocracy.model import Badge, Instance
-        badge_user = Badge.create(u'badge ü', u'#ccc', u'description ü')
-        badge_delegateable = Badge.create(u'badge ü', u'#ccc', u'description ü',
-                               badge_delegateable=True)
         instance = Instance.find('test')
-        badge_instance_delegateable = Badge.create(u'badge ü', u'#ccc', u"desc",
-                               badge_instance_delegateable=True,  instance=instance,)
+        user = Badge.create(u'badge ü', u'#ccc', u'description ü')
+        user_instance = Badge.create(u'ü', u'#ccc', u'ü', instance=instance)
+        delegateable = Badge.create(u'badge ü', u'#ccc', u'description ü',
+                               badge_delegateable=True)
+        delegateable_instance = Badge.create(u'badge ü', u'#ccc', u'description ü',
+                                badge_delegateable=True, instance=instance)
+        category = Badge.create(u'badge ü', u'#ccc', u"desc",
+                               badge_delegateable_category=True)
+        category_instance = Badge.create(u'badge ü', u'#ccc', u"desc",
+                               badge_delegateable_category=True,  instance=instance,)
         #all delegateable badges
-        result = len(Badge.all_delegateable())
-        self.assert_(result == 1)
-        #def all_instance_delegateable(cls, instance):
-        #all delegateable badges bound to one instance (aka categories)
-        result = len(Badge.all_instance_delegateable())
-        self.assert_(result == 1)
+        self.assert_(len(Badge.all_delegateable()) == 1)
+        self.assert_(len(Badge.all_delegateable(instance=instance)) == 1)
+        #all delegateable category badges
+        self.assert_(len(Badge.all_delegateable_categories()) == 1)
+        self.assert_(len(Badge.all_delegateable_categories(instance=instance)) == 1)
         #all user badgets
-        result = len(Badge.all_user())
-        self.assert_(result == 1)
+        self.assert_(len(Badge.all_user()) == 1)
+        self.assert_(len(Badge.all_user(instance=instance)) == 1)
+        #all badgets
+        self.assert_(len(Badge.all()) == 3)
+        self.assert_(len(Badge.all(instance=instance)) == 3)
         #realy all badgets
-        result = len(Badge.all())
-        self.assert_(result == 3)
+        self.assert_(len(Badge.all_q().all()) == 6)
 
 
 class TestUserController(TestController):
