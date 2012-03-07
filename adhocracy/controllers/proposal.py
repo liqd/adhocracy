@@ -389,7 +389,8 @@ class ProposalController(BaseController):
 
     @ActionProtector(authorization.has_permission("global.admin"))
     def badges(self, id, errors=None):
-        c.badges = model.Badge.all_delegateable()
+        c.badges = model.Badge.all_delegateable() \
+                   + model.Badge.all_delegateable(c.instance)
         c.proposal = get_entity_or_abort(model.Proposal, id)
         defaults = {'badge': [str(badge.id) for badge in c.proposal.badges]}
         return formencode.htmlfill.render(
