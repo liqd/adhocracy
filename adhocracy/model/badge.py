@@ -5,7 +5,6 @@ from sqlalchemy import Table, Column, ForeignKey, and_
 from sqlalchemy import Boolean, Integer, DateTime, Unicode
 
 from adhocracy.model import meta
-from adhocracy.model import instance_filter as ifilter
 
 log = logging.getLogger(__name__)
 
@@ -26,7 +25,8 @@ badge_table = Table(
     #badges to make categories for delegateables
     Column('badge_delegateable_category', Boolean, default=False),
     #badges only valid inside an specific instance
-    Column('instance_id', Integer, ForeignKey('instance.id'), nullable=True))
+    Column('instance_id', Integer, ForeignKey('instance.id',
+                                        ondelete="CASCADE",), nullable=True))
 
 
 class Badge(object):
@@ -98,7 +98,6 @@ class Badge(object):
         With instance it only returns badges bound to that instance.
         """
         result = cls.all_q().all()
-        #TODO do this with SQLAlchemy, "Badge.instance_id == None" does not the job..
         result = [b for b in result if b.instance == instance]
         return result
 
@@ -144,9 +143,8 @@ class Badge(object):
                badge_delegateable_category=False, instance=None):
         badge = cls(title, color, description, group, display_group,
                     badge_delegateable, badge_delegateable_category, instance)
-        import ipdb; ipdb.set_trace()
         meta.Session.add(badge)
-        meta.Session.flush()
+        meta.Session.commit()
         return badge
 
     @classmethod

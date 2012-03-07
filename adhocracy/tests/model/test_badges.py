@@ -6,28 +6,31 @@ from adhocracy.tests.testtools import tt_make_user
 class TestBadgeController(TestController):
 
     def test_add_badge(self):
-        from adhocracy.model import Badge, Instance
+        from adhocracy.model import Badge, Instance, meta
         #add badge
         badge = Badge.create(u'badge ü', u'#ccc', u'description ü')
         self.assert_(str(badge) == '<Badge(1,badge ?)>')
         badge = Badge.find(u'badge ü')
         self.assert_(badge.instance == None)
+        meta.Session.delete(badge)
         #we can set a flag if this badge is not for users (default)
         #but for delegateables
         self.assert_(badge.badge_delegateable == False)
         badge.badge_delegateable = True
         self.assert_(badge.badge_delegateable == True)
-        #or we want the badge only for delegateables inside an instance
-        #(aka "category")
+        #or if the badge is a delegateable category
         instance = Instance.find('test')
         badge = Badge.create(u'badge ü', u'#ccc', u'description ü',
                 badge_delegateable_category=True,  instance=instance,)
-        self.assert_(str(badge) == '<Badge(2,badge ?)>')
+        self.assert_(str(badge) == '<Badge(1,badge ?)>')
         self.assert_(badge.badge_delegateable_category == True)
         self.assert_(badge.instance != None)
+        #cleanup
+        meta.Session.delete(badge)
+        meta.Session.commit()
 
     def test_to_dict(self):
-        from adhocracy.model import Badge, Instance
+        from adhocracy.model import Badge, Instance, meta
         instance = Instance.find('test')
         badge = Badge.create(u'badge', u'#ccc', u'description',
                 badge_delegateable_category=True, instance=instance)
@@ -38,11 +41,14 @@ class TestBadgeController(TestController):
                                   'instance': instance,
                                   'badge_delegateable_category': True,
                                   'badge_delegateable': False})
+        #cleanup
+        meta.Session.delete(badge)
+        meta.Session.commit()
 
     def test_get_all_badgets(self):
         #setup
-        from adhocracy.model import Badge, Instance
-        instance = Instance.find('test')
+        from adhocracy.model import Badge, Instance, meta
+        instance = Instance.find(u'test')
         user = Badge.create(u'badge ü', u'#ccc', u'description ü')
         user_instance = Badge.create(u'ü', u'#ccc', u'ü', instance=instance)
         delegateable = Badge.create(u'badge ü', u'#ccc', u'description ü',
@@ -67,6 +73,14 @@ class TestBadgeController(TestController):
         self.assert_(len(Badge.all(instance=instance)) == 3)
         #realy all badgets
         self.assert_(len(Badge.all_q().all()) == 6)
+        #cleanup
+        meta.Session.delete(user)
+        meta.Session.delete(user_instance)
+        meta.Session.delete(delegateable_instance)
+        meta.Session.delete(delegateable)
+        meta.Session.delete(category)
+        meta.Session.delete(category_instance)
+        meta.Session.commit()
 
 
 class TestUserController(TestController):
@@ -86,13 +100,15 @@ class TestUserController(TestController):
         from adhocracy.model import Badge, meta
         # the created badge
         creator, badged_user, badge = self._make_one()
-        self.assertEqual(meta.Session.query(Badge).count(), 1)
         queried_badge = meta.Session.query(Badge).first()
         self.assertTrue(badge is queried_badge)
         self.assertEqual(queried_badge.title, 'testbadge')
         # references on the badged user
         self.assertEqual(badged_user.badges, [badge])
         self.assertEqual(badged_user.badges[0].users, [badged_user])
+        meta.Session.delete(badge)
+        meta.Session.commit()
+
 
     def test_remove_badge_from_user(self):
         from adhocracy.model import meta, UserBadge
@@ -102,6 +118,8 @@ class TestUserController(TestController):
         self.assertEqual(badged_user.badges, [])
         self.assertEqual(badge.users, [])
         self.assertEqual(meta.Session.query(UserBadge).count(), 0)
+        meta.Session.delete(badge)
+        meta.Session.commit()
 
     def test_remove_user_from_badge(self):
         from adhocracy.model import meta, UserBadge
@@ -111,11 +129,16 @@ class TestUserController(TestController):
         self.assertEqual(badge.users, [])
         self.assertEqual(badged_user.badges, [])
         self.assertEqual(meta.Session.query(UserBadge).count(), 0)
+        meta.Session.delete(badge)
+        meta.Session.commit()
 
     def test_to_dict(self):
+        from adhocracy.model import meta
         creator, badged_user, badge = self._make_one()
         result = badge.to_dict()
         self.assert_(result['users'] == [u'badged_user'])
+        meta.Session.delete(badge)
+        meta.Session.commit()
 
 
 class TestDelegateableController(TestController):
@@ -133,7 +156,7 @@ class TestDelegateableController(TestController):
 
     def test_delegateablebadges_created(self):
         #setup
-        from adhocracy.model import DelegateableBadge
+        from adhocracy.model import DelegateableBadge, meta
         creator, delegateable, badge = self._make_content()
         # create the delegateable badge
         delegateablebadge = DelegateableBadge.create(delegateable, badge, creator)
@@ -146,6 +169,8 @@ class TestDelegateableController(TestController):
         self.assert_(delegateable.badges[0].delegateables \
                         == badge.delegateables \
                         == [delegateable])
+        meta.Session.delete(badge)
+        meta.Session.commit()
 
     def test_remove_badge_from_delegateable(self):
         #setup
@@ -157,6 +182,8 @@ class TestDelegateableController(TestController):
         self.assert_(delegateable.badges == [])
         self.assert_(badge.delegateables == [])
         self.assert_(meta.Session.query(DelegateableBadge).count() == 0)
+        meta.Session.delete(badge)
+        meta.Session.commit()
 
     def test_remove_delegateable_from_badge(self):
         #setup
@@ -168,3 +195,5 @@ class TestDelegateableController(TestController):
         self.assert_(badge.delegateables == [])
         self.assert_(delegateable.badges == [])
         self.assert_(meta.Session.query(DelegateableBadge).count() == 0)
+        meta.Session.delete(badge)
+        meta.Session.commit()

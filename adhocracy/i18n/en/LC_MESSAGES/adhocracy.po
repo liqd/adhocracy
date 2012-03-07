@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-02-26 20:34+0100\n"
+"POT-Creation-Date: 2012-03-07 00:41+0100\n"
 "PO-Revision-Date: 2011-12-01 14:19+0100\n"
 "Last-Translator: ac1 <sebe_schneider@web.de>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -21,20 +21,20 @@ msgstr ""
 msgid "Thank you for helping."
 msgstr ""
 
-#: adhocracy/controllers/badge.py:48
+#: adhocracy/controllers/badge.py:58
 #, python-format
 msgid "We cannot find the badge with the id %s"
 msgstr ""
 
-#: adhocracy/controllers/badge.py:54
+#: adhocracy/controllers/badge.py:64
 msgid "Add Badge"
 msgstr ""
 
-#: adhocracy/controllers/badge.py:78
+#: adhocracy/controllers/badge.py:90
 msgid "Edit Badge"
 msgstr ""
 
-#: adhocracy/controllers/badge.py:120
+#: adhocracy/controllers/badge.py:133
 msgid "Badge changed successfully"
 msgstr ""
 
@@ -745,13 +745,13 @@ msgstr ""
 msgid "%s <%s>"
 msgstr ""
 
-#: adhocracy/lib/mail.py:58
+#: adhocracy/lib/mail.py:59
 msgid ""
 "this email is to check the email address you have provided. In order to "
 "confirm this email address, please open the link below in your browser:"
 msgstr ""
 
-#: adhocracy/lib/mail.py:61
+#: adhocracy/lib/mail.py:62
 msgid "Confirm your email address"
 msgstr ""
 
@@ -1417,6 +1417,7 @@ msgstr ""
 #: adhocracy/templates/navigation.html:197
 #: adhocracy/templates/badge/index.html:42
 #: adhocracy/templates/badge/index.html:69
+#: adhocracy/templates/badge/index.html:97
 #: adhocracy/templates/milestone/edit.html:7
 #: adhocracy/templates/proposal/details.html:201
 #: adhocracy/templates/proposal/edit.html:7
@@ -1670,6 +1671,14 @@ msgstr ""
 msgid "Badge proposals instead of users"
 msgstr ""
 
+#: adhocracy/templates/badge/form.html:56
+msgid "Badge proposal category?"
+msgstr ""
+
+#: adhocracy/templates/badge/form.html:58
+msgid "Badge proposal instead of user and use it as a category."
+msgstr ""
+
 #: adhocracy/templates/badge/index.html:11
 msgid "All Badges"
 msgstr ""
@@ -1680,16 +1689,19 @@ msgstr ""
 
 #: adhocracy/templates/badge/index.html:17
 #: adhocracy/templates/badge/index.html:49
+#: adhocracy/templates/badge/index.html:77
 msgid "No badges added yet."
 msgstr ""
 
 #: adhocracy/templates/badge/index.html:23
 #: adhocracy/templates/badge/index.html:54
+#: adhocracy/templates/badge/index.html:82
 msgid "Title"
 msgstr ""
 
 #: adhocracy/templates/badge/index.html:24
 #: adhocracy/templates/badge/index.html:55
+#: adhocracy/templates/badge/index.html:83
 #: adhocracy/templates/instance/edit.html:34
 #: adhocracy/templates/instance/new.html:37
 msgid "Description"
@@ -1697,11 +1709,13 @@ msgstr ""
 
 #: adhocracy/templates/badge/index.html:25
 #: adhocracy/templates/badge/index.html:56
+#: adhocracy/templates/badge/index.html:84
 msgid "Color"
 msgstr ""
 
 #: adhocracy/templates/badge/index.html:26
 #: adhocracy/templates/badge/index.html:57
+#: adhocracy/templates/badge/index.html:85
 msgid "Preview"
 msgstr ""
 
@@ -1715,6 +1729,7 @@ msgstr ""
 
 #: adhocracy/templates/badge/index.html:29
 #: adhocracy/templates/badge/index.html:58
+#: adhocracy/templates/badge/index.html:86
 msgid "Actions"
 msgstr ""
 
@@ -1731,7 +1746,11 @@ msgstr ""
 msgid "Proposal Badges"
 msgstr ""
 
-#: adhocracy/templates/badge/index.html:76
+#: adhocracy/templates/badge/index.html:75
+msgid "Proposal Category Badges"
+msgstr ""
+
+#: adhocracy/templates/badge/index.html:104
 msgid "Add new badge..."
 msgstr ""
 
