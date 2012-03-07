@@ -75,7 +75,8 @@ class AdminController(BaseController):
                 email = user_info['email']
                 display_name = user_info['display_name']
                 names.append(name)
-                user = model.User.create(name, email, display_name)
+                user = model.User.create(name, email,
+                                         display_name=display_name)
                 user.reset_code = random_token()
                 model.meta.Session.add(user)
                 model.meta.Session.commit()
