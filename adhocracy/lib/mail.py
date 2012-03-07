@@ -14,14 +14,16 @@ log = logging.getLogger(__name__)
 ENCODING = 'utf-8'
 
 
-def to_mail(to_name, to_email, subject, body, headers={}):
+def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True):
     try:
         email_from = config.get('adhocracy.email.from')
 
-        body = (_(u"Hi %s,") % to_name +
-                u"\r\n\r\n%s\r\n\r\n" % body +
-                _(u"Cheers,\r\n\r\n"
-                  u"    the %s Team\r\n") % config.get('adhocracy.site.name'))
+        if decorate_body:
+            body = (_(u"Hi %s,") % to_name +
+                    u"\r\n\r\n%s\r\n\r\n" % body +
+                    _(u"Cheers,\r\n\r\n"
+                      u"    the %s Team\r\n") %
+                    config.get('adhocracy.site.name'))
 
         msg = MIMEText(body.encode(ENCODING), 'plain', ENCODING)
 
@@ -48,8 +50,9 @@ def to_mail(to_name, to_email, subject, body, headers={}):
         log.exception("Sending mail failed.")
 
 
-def to_user(to_user, subject, body, headers={}):
-    return to_mail(to_user.name, to_user.email, subject, body, headers)
+def to_user(to_user, subject, body, headers={}, decorate_body=True):
+    return to_mail(to_user.name, to_user.email, subject, body, headers,
+                   decorate_body=decorate_body)
 
 
 def send_activation_link(user):

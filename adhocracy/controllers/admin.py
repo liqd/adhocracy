@@ -88,7 +88,7 @@ class AdminController(BaseController):
                                                   user.reset_code))
                 user_info['url'] = url
                 body = form_result['email_template'].format(**user_info)
-                to_user(user, form_result['email_subject'], body)
+                to_user(user, form_result['email_subject'], body, decorate_body=False)
                 mailed.append(user.user_name)
                 if c.instance:
                     membership = model.Membership(user, c.instance,
