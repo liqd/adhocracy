@@ -348,6 +348,7 @@ class UsersCSV(formencode.FancyValidator):
         self.usernames = {}
         self.emails = {}
         self.duplicates = False
+        value = value.encode('utf-8')
         reader = csv.DictReader(StringIO(value), fieldnames=fieldnames)
         try:
             for item in reader:
