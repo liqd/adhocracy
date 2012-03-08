@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 1.2beta2dev\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-07 00:41+0100\n"
+"POT-Creation-Date: 2012-03-08 14:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,7 +40,7 @@ msgstr ""
 
 #: adhocracy/controllers/comment.py:66 adhocracy/controllers/comment.py:211
 #: adhocracy/controllers/delegation.py:118 adhocracy/controllers/page.py:471
-#: adhocracy/controllers/proposal.py:277 adhocracy/controllers/search.py:49
+#: adhocracy/controllers/proposal.py:281 adhocracy/controllers/search.py:49
 #: adhocracy/controllers/tag.py:80 adhocracy/controllers/user.py:544
 #: adhocracy/lib/pager.py:224 adhocracy/lib/pager.py:251 adhocracy/lib/pager.py:260
 #: adhocracy/lib/pager.py:271 adhocracy/lib/pager.py:282 adhocracy/lib/pager.py:289
@@ -51,7 +51,7 @@ msgstr ""
 
 #: adhocracy/controllers/comment.py:67 adhocracy/controllers/comment.py:212
 #: adhocracy/controllers/delegation.py:119 adhocracy/controllers/page.py:472
-#: adhocracy/controllers/proposal.py:278 adhocracy/controllers/search.py:50
+#: adhocracy/controllers/proposal.py:282 adhocracy/controllers/search.py:50
 #: adhocracy/controllers/tag.py:81 adhocracy/controllers/user.py:545
 #: adhocracy/lib/pager.py:225 adhocracy/lib/pager.py:236 adhocracy/lib/pager.py:250
 #: adhocracy/lib/pager.py:262 adhocracy/lib/pager.py:272 adhocracy/lib/pager.py:283
@@ -306,26 +306,26 @@ msgstr ""
 msgid "The proposal is not undergoing a poll."
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:140
+#: adhocracy/controllers/proposal.py:143
 msgid "Please select norm and propose a change to it."
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:309
+#: adhocracy/controllers/proposal.py:313
 #, python-format
 msgid "Proposal: %s"
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:311
+#: adhocracy/controllers/proposal.py:315
 #, python-format
 msgid "Activity on the %s proposal"
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:335
+#: adhocracy/controllers/proposal.py:339
 #, python-format
 msgid "The proposal %s has been deleted."
 msgstr ""
 
-#: adhocracy/controllers/proposal.py:380
+#: adhocracy/controllers/proposal.py:384
 #, python-format
 msgid "Proposal: %(proposal)s"
 msgstr ""
@@ -772,6 +772,19 @@ msgstr ""
 msgid "proposals"
 msgstr ""
 
+#: adhocracy/lib/pager.py:668
+msgid "Categories"
+msgstr ""
+
+#: adhocracy/lib/pager.py:683
+msgid "Created by"
+msgstr ""
+
+#: adhocracy/lib/pager.py:697 adhocracy/lib/helpers/tag_helper.py:63
+#: adhocracy/templates/tag/index.html:3
+msgid "Tags"
+msgstr ""
+
 #: adhocracy/lib/static.py:19
 #, python-format
 msgid "Missing page: %s"
@@ -1161,10 +1174,6 @@ msgstr ""
 msgid "Adhocracy"
 msgstr ""
 
-#: adhocracy/lib/helpers/tag_helper.py:63 adhocracy/templates/tag/index.html:3
-msgid "Tags"
-msgstr ""
-
 #: adhocracy/lib/helpers/user_helper.py:13
 #, python-format
 msgid "%s (deleted user)"
@@ -1403,6 +1412,11 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
+#: adhocracy/templates/navigation.html:202 adhocracy/templates/admin/tiles.html:11
+#: adhocracy/templates/badge/index.html:3
+msgid "Badges"
+msgstr ""
+
 #: adhocracy/templates/pager.html:8
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1570,10 +1584,6 @@ msgstr ""
 msgid ""
 "WARNING: This allows you to shut yourself out of your adhocracy. Handle with "
 "care!"
-msgstr ""
-
-#: adhocracy/templates/admin/tiles.html:11 adhocracy/templates/badge/index.html:3
-msgid "Badges"
 msgstr ""
 
 #: adhocracy/templates/admin/tiles.html:15
@@ -2711,7 +2721,7 @@ msgstr ""
 
 #: adhocracy/templates/page/edit.html:49 adhocracy/templates/page/new.html:51
 #: adhocracy/templates/proposal/edit.html:40
-#: adhocracy/templates/proposal/new.html:119
+#: adhocracy/templates/proposal/new.html:133
 msgid "Relates to a milestone"
 msgstr ""
 
@@ -2749,11 +2759,11 @@ msgstr ""
 msgid "Norm content"
 msgstr ""
 
-#: adhocracy/templates/page/new.html:38 adhocracy/templates/proposal/new.html:103
+#: adhocracy/templates/page/new.html:38 adhocracy/templates/proposal/new.html:117
 msgid "Tag and classify"
 msgstr ""
 
-#: adhocracy/templates/page/new.html:40 adhocracy/templates/proposal/new.html:105
+#: adhocracy/templates/page/new.html:40 adhocracy/templates/proposal/new.html:119
 msgid "Tags to describe the subject"
 msgstr ""
 
@@ -3026,7 +3036,7 @@ msgid "Proposal title"
 msgstr ""
 
 #: adhocracy/templates/proposal/edit.html:29
-#: adhocracy/templates/proposal/new.html:93
+#: adhocracy/templates/proposal/new.html:107
 msgid "Proposal goals"
 msgstr ""
 
@@ -3035,7 +3045,7 @@ msgid "A brief description of <b>the goals</b> of your proposal."
 msgstr ""
 
 #: adhocracy/templates/proposal/edit.html:32
-#: adhocracy/templates/proposal/new.html:96
+#: adhocracy/templates/proposal/new.html:110
 msgid "The proposal would..."
 msgstr ""
 
@@ -3044,7 +3054,7 @@ msgid "Collaboration and Notification"
 msgstr ""
 
 #: adhocracy/templates/proposal/edit.html:52
-#: adhocracy/templates/proposal/new.html:113
+#: adhocracy/templates/proposal/new.html:127
 msgid "Allow others to edit this proposal."
 msgstr ""
 
@@ -3064,11 +3074,23 @@ msgstr ""
 msgid "Create new proposal"
 msgstr ""
 
-#: adhocracy/templates/proposal/new.html:30
+#: adhocracy/templates/proposal/new.html:29
+msgid "Proposal Category"
+msgstr ""
+
+#: adhocracy/templates/proposal/new.html:31
+msgid "Proposal category hint"
+msgstr ""
+
+#: adhocracy/templates/proposal/new.html:33
+msgid "No Category"
+msgstr ""
+
+#: adhocracy/templates/proposal/new.html:44
 msgid "Change norms with this proposal"
 msgstr ""
 
-#: adhocracy/templates/proposal/new.html:63
+#: adhocracy/templates/proposal/new.html:77
 msgid ""
 "Proposals are implemented by including changes towards new or existing norm. "
 "Norms are fixed documents that represent the consensus of this instance and "
@@ -3076,15 +3098,15 @@ msgid ""
 "norm."
 msgstr ""
 
-#: adhocracy/templates/proposal/new.html:82
+#: adhocracy/templates/proposal/new.html:96
 msgid "Select a norm to change:"
 msgstr ""
 
-#: adhocracy/templates/proposal/new.html:94
+#: adhocracy/templates/proposal/new.html:108
 msgid "Give a brief description of <b>the goals</b> of your proposal."
 msgstr ""
 
-#: adhocracy/templates/proposal/new.html:107
+#: adhocracy/templates/proposal/new.html:121
 msgid "Multiple tags can be separated by commas."
 msgstr ""
 

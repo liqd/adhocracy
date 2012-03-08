@@ -665,7 +665,7 @@ class DelegateableBadgeFacet(SolrFacet):
 
     name = 'delegateablebadge'
     entity_type = model.Badge
-    title = u'Beteiligte'  # FIXME: translate
+    title = _(u'Categories')
     solr_field = 'facet.delegateable.badge'
 
     @classmethod
@@ -680,7 +680,7 @@ class DelegateableAddedByBadgeFacet(SolrFacet):
 
     name = 'added_by_badge'
     entity_type = model.Badge
-    title = u'Erstellt von'  # FIXME: translate
+    title = _(u'Created by')
     solr_field = 'facet.delegateable.added.by.badge'
 
     @classmethod
@@ -694,7 +694,7 @@ class DelegateableTags(SolrFacet):
 
     name = 'delegateabletags'
     entity_type = model.Tag
-    title = u'Tags'  # FIXME: translate
+    title = _(u'Tags')
     solr_field = 'facet.delegateable.tags'
     show_current_empty = False
 
