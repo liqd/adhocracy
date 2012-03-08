@@ -3,7 +3,7 @@ import logging
 import urllib
 
 from formencode import validators
-from pylons.i18n import _
+from pylons.i18n import _, lazy_ugettext
 from pylons import config, request, tmpl_context as c, url
 from pylons.controllers.util import redirect
 from webob.multidict import MultiDict
@@ -665,7 +665,7 @@ class DelegateableBadgeFacet(SolrFacet):
 
     name = 'delegateablebadge'
     entity_type = model.Badge
-    title = _(u'Categories')
+    title = lazy_ugettext(u'Categories')
     solr_field = 'facet.delegateable.badge'
 
     @classmethod
@@ -680,7 +680,7 @@ class DelegateableAddedByBadgeFacet(SolrFacet):
 
     name = 'added_by_badge'
     entity_type = model.Badge
-    title = _(u'Created by')
+    title = lazy_ugettext(u'Created by')
     solr_field = 'facet.delegateable.added.by.badge'
 
     @classmethod
@@ -694,7 +694,7 @@ class DelegateableTags(SolrFacet):
 
     name = 'delegateabletags'
     entity_type = model.Tag
-    title = _(u'Tags')
+    title = lazy_ugettext(u'Tags')
     solr_field = 'facet.delegateable.tags'
     show_current_empty = False
 
