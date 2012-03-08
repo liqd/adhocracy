@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-08 14:03+0100\n"
+"POT-Creation-Date: 2012-03-08 14:54+0100\n"
 "PO-Revision-Date: 2012-02-01 14:57+0100\n"
 "Last-Translator: Simon <simon@simon.de>\n"
 "Language-Team: de <team@adhocracy.de>\n"
@@ -626,38 +626,37 @@ msgstr "Kein Seitenname wurde angegeben."
 msgid "Invalid page name: %s"
 msgstr "Ungültiger Seitenname: %s"
 
-#: adhocracy/forms/common.py:361
+#: adhocracy/forms/common.py:362
 #, python-format
 msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
 msgstr ""
 
-#: adhocracy/forms/common.py:367
+#: adhocracy/forms/common.py:368
 #, python-format
 msgid "The following errors occured while reading the list of users: <br />%s"
 msgstr ""
 
-#: adhocracy/forms/common.py:372
+#: adhocracy/forms/common.py:373
 #, fuzzy, python-format
-#| msgid "Settings: %s"
 msgid "Line %s: %s"
 msgstr "Einstellungen: %s"
 
-#: adhocracy/forms/common.py:378
+#: adhocracy/forms/common.py:379
 #, python-format
 msgid "Email %s is used multiple times"
 msgstr ""
 
-#: adhocracy/forms/common.py:382
+#: adhocracy/forms/common.py:383
 #, python-format
 msgid "Username %s is used multiple times"
 msgstr ""
 
-#: adhocracy/forms/common.py:394
+#: adhocracy/forms/common.py:395
 #, python-format
 msgid "Lines %s: %s"
 msgstr ""
 
-#: adhocracy/forms/common.py:421
+#: adhocracy/forms/common.py:422
 msgid ""
 "You need to insert \"{url}\" into the email text so we can insert a url "
 "for the user where he can set a password"
@@ -753,12 +752,12 @@ msgstr ""
 "\r\n"
 "%(message)s"
 
-#: adhocracy/lib/mail.py:21
+#: adhocracy/lib/mail.py:22
 #, python-format
 msgid "Hi %s,"
 msgstr "Hallo %s,"
 
-#: adhocracy/lib/mail.py:23
+#: adhocracy/lib/mail.py:24
 #, python-format
 msgid ""
 "Cheers,\r\n"
@@ -769,12 +768,12 @@ msgstr ""
 "\r\n"
 "    Ihr %s-Team\r\n"
 
-#: adhocracy/lib/mail.py:33
+#: adhocracy/lib/mail.py:35
 #, python-format
 msgid "%s <%s>"
 msgstr "%s <%s>"
 
-#: adhocracy/lib/mail.py:59
+#: adhocracy/lib/mail.py:62
 msgid ""
 "this email is to check the email address you have provided. In order to "
 "confirm this email address, please open the link below in your browser:"
@@ -783,7 +782,7 @@ msgstr ""
 "überprüfen. Um diese E-Mail-Adresse zu bestätigen klicken Sie bitte auf "
 "den darunter genannten Link."
 
-#: adhocracy/lib/mail.py:62
+#: adhocracy/lib/mail.py:65
 msgid "Confirm your email address"
 msgstr "Bestätigen Sie Ihre E-Mail-Adresse."
 
@@ -817,7 +816,6 @@ msgid "Categories"
 msgstr "Bereiche"
 
 #: adhocracy/lib/pager.py:683
-#, python-format
 msgid "Created by"
 msgstr "Erstellt von"
 
@@ -1316,43 +1314,36 @@ msgstr "Ich möchte über Neuigkeiten informiert werden."
 
 #: adhocracy/templates/components.html:61
 #, fuzzy
-#| msgid "new norm"
 msgid "Follow Norm"
 msgstr "Neues Thema"
 
 #: adhocracy/templates/components.html:63
 #, fuzzy
-#| msgid "new instance"
 msgid "Follow Instance"
 msgstr "Neue Gruppe"
 
 #: adhocracy/templates/components.html:65
 #, fuzzy
-#| msgid "new proposal"
 msgid "Follow Proposal"
 msgstr "Neuer Vorschlag"
 
 #: adhocracy/templates/components.html:67
 #, fuzzy
-#| msgid "new milestone"
 msgid "Follow Milestone"
 msgstr "Neuer Termin"
 
 #: adhocracy/templates/components.html:69
-#, fuzzy, python-format
-#| msgid "Follow %s"
+#, fuzzy
 msgid "Follow User"
 msgstr "%s folgen"
 
 #: adhocracy/templates/components.html:71
 #, fuzzy
-#| msgid "New comment"
 msgid "Follow Comment"
 msgstr "Neuer Kommentar"
 
 #: adhocracy/templates/components.html:73
 #, fuzzy
-#| msgid "Unfollow"
 msgid "Follow Tag"
 msgstr "entfolgen"
 
@@ -1588,7 +1579,6 @@ msgstr ""
 #: adhocracy/templates/admin/import_form.html:6
 #: adhocracy/templates/admin/tiles.html:23
 #, fuzzy
-#| msgid "Report abuse"
 msgid "Import Users"
 msgstr "Mißbrauch melden"
 
@@ -1604,7 +1594,6 @@ msgstr ""
 
 #: adhocracy/templates/admin/import_form.html:20
 #, fuzzy
-#| msgid "Subject"
 msgid "Email Subject"
 msgstr "Inhalt"
 
@@ -1625,7 +1614,6 @@ msgstr ""
 
 #: adhocracy/templates/admin/import_success.html:6
 #, fuzzy
-#| msgid "Find users"
 msgid "Imported Users"
 msgstr "Benutzer suchen"
 
@@ -1634,8 +1622,7 @@ msgid "But some errors occured"
 msgstr ""
 
 #: adhocracy/templates/admin/import_success.html:15
-#, fuzzy, python-format
-#| msgid "You have successfully registered as user %s."
+#, fuzzy
 msgid "You successfully created the following users:"
 msgstr "Sie haben sich erfolgreich als BenutzerIn %s registriert."
 
@@ -1742,13 +1729,11 @@ msgstr "Markieren Sie Vorschläge anstatt Benutzer"
 
 #: adhocracy/templates/badge/form.html:56
 #, fuzzy
-#| msgid "Badge Proposals?"
 msgid "Badge proposal category?"
 msgstr "Badges für diesen Vorschlag?"
 
 #: adhocracy/templates/badge/form.html:58
 #, fuzzy
-#| msgid "Badge proposals instead of users"
 msgid "Badge proposal instead of user and use it as a category."
 msgstr "Markieren Sie Vorschläge anstatt Benutzer"
 
@@ -1820,23 +1805,12 @@ msgstr "Badges dieses Vorschlags"
 
 #: adhocracy/templates/badge/index.html:75
 #, fuzzy
-#| msgid "Proposal Badges"
 msgid "Proposal Category Badges"
 msgstr "Badges dieses Vorschlags"
 
 #: adhocracy/templates/badge/index.html:104
 msgid "Add new badge..."
 msgstr "Neuen Badge hinzufügen..."
-
-#: adhocracy/templates/badge/tiles.html:5
-#, python-format
-msgid "Marked as: %(badge)s (%(description)s)"
-msgstr "%(badge)s (%(description)s)"
-
-#: adhocracy/templates/badge/tiles.html:8
-#, python-format
-msgid "Marked as: %(badge)s"
-msgstr "%(badge)s"
 
 #: adhocracy/templates/comment/ask_delete.html:3
 #: adhocracy/templates/comment/ask_delete.html:6
@@ -2954,7 +2928,6 @@ msgstr "Änderungen hervorheben"
 
 #: adhocracy/templates/page/show.html:45
 #, fuzzy
-#| msgid "new proposal"
 msgid "New Proposal"
 msgstr "Neuer Vorschlag"
 
@@ -2975,7 +2948,6 @@ msgstr "Vorschlag anzeigen"
 
 #: adhocracy/templates/page/show.html:120
 #, fuzzy, python-format
-#| msgid "from %s"
 msgid "Norm: %s"
 msgstr "von %s"
 
@@ -2991,7 +2963,6 @@ msgstr "Der Text verglichen mit der Originalversion"
 
 #: adhocracy/templates/page/show.html:175
 #, fuzzy
-#| msgid "proposals"
 msgid "Proposal"
 msgstr "meiste Vorschläge"
 
@@ -3181,13 +3152,11 @@ msgstr "Neue Version anlegen"
 
 #: adhocracy/templates/proposal/details.html:45
 #, fuzzy
-#| msgid "Join instance to create a new proposal."
 msgid "Join instance to propose a new variant."
 msgstr "Gruppe beitreten, um einen neuen Vorschlag anzulegen."
 
 #: adhocracy/templates/proposal/details.html:52
 #, fuzzy
-#| msgid "Require to propose a variant"
 msgid "Login to propose a new variant."
 msgstr "Vorschläge müssen mindestens eine Änderung an einem Thema vorschlagen."
 
@@ -3268,13 +3237,11 @@ msgstr "Neuen Vorschlag anlegen"
 
 #: adhocracy/templates/proposal/new.html:29
 #, fuzzy
-#| msgid "Proposal title"
 msgid "Proposal Category"
 msgstr "Titel des Vorschlags"
 
 #: adhocracy/templates/proposal/new.html:31
 #, fuzzy
-#| msgid "Proposal title"
 msgid "Proposal category hint"
 msgstr "Titel des Vorschlags"
 
@@ -3764,7 +3731,6 @@ msgstr ""
 
 #: adhocracy/templates/user/dashboard.html:40
 #, fuzzy
-#| msgid "Display group in instances"
 msgid "Proposals in your instances"
 msgstr "Nutzerrollen in den Gruppen anzeigen"
 
@@ -3778,8 +3744,7 @@ msgid "list all"
 msgstr "zeige alle"
 
 #: adhocracy/templates/user/dashboard.html:51
-#, fuzzy, python-format
-#| msgid "joined %(instance)s"
+#, fuzzy
 msgid "Norms in your instances"
 msgstr "trat %(instance)s bei"
 
@@ -3789,13 +3754,11 @@ msgstr "Zeige alle Themen"
 
 #: adhocracy/templates/user/dashboard.html:65
 #, fuzzy
-#| msgid "Instances"
 msgid "Your Instances"
 msgstr "Gruppen"
 
 #: adhocracy/templates/user/dashboard.html:77
 #, fuzzy
-#| msgid "Watchlist"
 msgid "Your Watchlist"
 msgstr "Beobachtungsliste"
 
@@ -3830,7 +3793,6 @@ msgstr "Ihr Benutzerprofil"
 
 #: adhocracy/templates/user/edit.html:23
 #, fuzzy
-#| msgid "Language:"
 msgid "Language"
 msgstr "Sprache:"
 
@@ -4039,8 +4001,6 @@ msgstr ""
 
 #: adhocracy/templates/user/reset_form.html:12
 #, fuzzy
-#| msgid "In order to retrieve your login, you will have to enter your email
-#| adress."
 msgid ""
 "In order to retrieve your login, you will have to enter your email "
 "address."
@@ -4124,90 +4084,9 @@ msgstr ""
 "Dies ist Ihre Beobachtungsliste. Sie erhalten eine Benachrichtigung bei "
 "Ereignissen in diesen Gruppen."
 
-#~ msgid "You have successfully logged in."
-#~ msgstr "Sie haben sich erfolgreich angemeldet."
+#~ msgid "Marked as: %(badge)s (%(description)s)"
+#~ msgstr "%(badge)s (%(description)s)"
 
-#~ msgid "What is a delegation?"
-#~ msgstr "Was ist eine Delegation?"
-
-#~ msgid "Can delegations be revoked?"
-#~ msgstr "Kann eine Delegation aufgehoben werden?"
-
-#~ msgid "More help..."
-#~ msgstr "Weitere Hilfethemen..."
-
-#~ msgid "help"
-#~ msgstr "Hilfe"
-
-#~ msgid "Help topics:"
-#~ msgstr "Hilfethemen:"
-
-#~ msgid "(ideas for debate)"
-#~ msgstr "(Ideen für die Diskussion)"
-
-#~ msgid "(keywords)"
-#~ msgstr "(Schlagworte)"
-
-#~ msgid "of voting rights"
-#~ msgstr "der Abstimmungsrechte"
-
-#~ msgid "via E-Mail or Twitter"
-#~ msgstr "per E-Mail oder Twiter"
-
-#~ msgid "Guide: Signing up"
-#~ msgstr "Anleitung: Registrieren und Einsteigen"
-
-#~ msgid "Guide: Creating proposals"
-#~ msgstr "Anleitung: Vorschläge anlegen"
-
-#~ msgid "Guide: Developing proposals"
-#~ msgstr "Anleitung: Vorschläge anlegen"
-
-#~ msgid "Other help"
-#~ msgstr "Weitere Hilfe..."
-
-#~ msgid "What is a milestone?"
-#~ msgstr "Was ist ein Termin?"
-
-#~ msgid "Which page types are there?"
-#~ msgstr "Welche Seiten gibt es?"
-
-#~ msgid "What is a wiki page?"
-#~ msgstr "Was ist eine Wiki-Seite?"
-
-#~ msgid "What is a norm?"
-#~ msgstr "Was ist ein Thema?"
-
-#~ msgid "What is a proposal?"
-#~ msgstr "Was ist ein Vorschlag?"
-
-#~ msgid "How can I support a proposal?"
-#~ msgstr "Wie kann ich einen Vorschlag unterstützen?"
-
-#~ msgid "Guide: Supporting proposals"
-#~ msgstr "Anleitung: Vorschläge unterstützen"
-
-#~ msgid "What is a variant?"
-#~ msgstr "Was ist eine Version?"
-
-#~ msgid "What does 'Status quo' mean?"
-#~ msgstr "Was bedeutet 'Originalversion'?"
-
-#~ msgid "What is a tag?"
-#~ msgstr "Was ist ein Tag?"
-
-#~ msgid "What is a tag cloud?"
-#~ msgstr "Was ist eine Tag-Wolke?"
-
-#~ msgid "How can tags be added to proposals and pages?"
-#~ msgstr "Wie können Tags zu Vorschlägen und Themen hinzugefügt werden?"
-
-#~ msgid "What is a page?"
-#~ msgstr "Was ist eine Seite?"
-
-#~ msgid "Current pollings"
-#~ msgstr "Aktuelle Abstimmungen"
-
-#~ msgid "Organisations"
-#~ msgstr "Gruppen"
+#~ msgid "Marked as: %(badge)s"
+#~ msgstr "%(badge)s"
 

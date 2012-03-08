@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-08 14:03+0100\n"
+"POT-Creation-Date: 2012-03-08 14:54+0100\n"
 "PO-Revision-Date: 2012-03-04 18:48+0000\n"
 "Last-Translator: iliaryvkin <ryel33@gmail.com>\n"
 "Language-Team: Russian "
@@ -626,39 +626,39 @@ msgstr "Отсутствует название страницы. "
 msgid "Invalid page name: %s"
 msgstr "Недействительное название страницы: %s."
 
-#: adhocracy/forms/common.py:361
+#: adhocracy/forms/common.py:362
 #, python-format
 msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
 msgstr ""
 "Ошибка \"%(error)s\" во время чтения строки "
 "<pre><i>%(line_content)s</i></pre>"
 
-#: adhocracy/forms/common.py:367
+#: adhocracy/forms/common.py:368
 #, python-format
 msgid "The following errors occured while reading the list of users: <br />%s"
 msgstr "Следующие ошибки произошли во время чтения списка пользователей <br />%s"
 
-#: adhocracy/forms/common.py:372
+#: adhocracy/forms/common.py:373
 #, python-format
 msgid "Line %s: %s"
 msgstr "Строка %s: %s"
 
-#: adhocracy/forms/common.py:378
+#: adhocracy/forms/common.py:379
 #, python-format
 msgid "Email %s is used multiple times"
 msgstr "Адрес электронной почты %s использован многократно "
 
-#: adhocracy/forms/common.py:382
+#: adhocracy/forms/common.py:383
 #, python-format
 msgid "Username %s is used multiple times"
 msgstr "Имя пользователя %s использовано многократно"
 
-#: adhocracy/forms/common.py:394
+#: adhocracy/forms/common.py:395
 #, python-format
 msgid "Lines %s: %s"
 msgstr "Строка %s: %s"
 
-#: adhocracy/forms/common.py:421
+#: adhocracy/forms/common.py:422
 msgid ""
 "You need to insert \"{url}\" into the email text so we can insert a url "
 "for the user where he can set a password"
@@ -759,12 +759,12 @@ msgstr ""
 "⏎ \n"
 "%(message)s"
 
-#: adhocracy/lib/mail.py:21
+#: adhocracy/lib/mail.py:22
 #, python-format
 msgid "Hi %s,"
 msgstr "Здравствуйте: %s"
 
-#: adhocracy/lib/mail.py:23
+#: adhocracy/lib/mail.py:24
 #, python-format
 msgid ""
 "Cheers,\r\n"
@@ -776,12 +776,12 @@ msgstr ""
 "⏎ \n"
 "команда %s⏎\n"
 
-#: adhocracy/lib/mail.py:33
+#: adhocracy/lib/mail.py:35
 #, python-format
 msgid "%s <%s>"
 msgstr "%s <%s>"
 
-#: adhocracy/lib/mail.py:59
+#: adhocracy/lib/mail.py:62
 msgid ""
 "this email is to check the email address you have provided. In order to "
 "confirm this email address, please open the link below in your browser:"
@@ -790,7 +790,7 @@ msgstr ""
 "почты. Для подтверждения адреса электронной почты, откройте ссылку в "
 "браузере:"
 
-#: adhocracy/lib/mail.py:62
+#: adhocracy/lib/mail.py:65
 msgid "Confirm your email address"
 msgstr "Подтвердите Ваш адрес электронной почты. "
 
@@ -824,8 +824,7 @@ msgid "Categories"
 msgstr ""
 
 #: adhocracy/lib/pager.py:683
-#, fuzzy, python-format
-#| msgid "created %s"
+#, fuzzy
 msgid "Created by"
 msgstr "создано %s"
 
@@ -1735,13 +1734,11 @@ msgstr "Ярлыки предложений вместо пользовател�
 
 #: adhocracy/templates/badge/form.html:56
 #, fuzzy
-#| msgid "Badge Proposals?"
 msgid "Badge proposal category?"
 msgstr "Ярлык предложений?"
 
 #: adhocracy/templates/badge/form.html:58
 #, fuzzy
-#| msgid "Badge proposals instead of users"
 msgid "Badge proposal instead of user and use it as a category."
 msgstr "Ярлыки предложений вместо пользователей. "
 
@@ -1813,23 +1810,12 @@ msgstr "Ярлыки предложений"
 
 #: adhocracy/templates/badge/index.html:75
 #, fuzzy
-#| msgid "Proposal Badges"
 msgid "Proposal Category Badges"
 msgstr "Ярлыки предложений"
 
 #: adhocracy/templates/badge/index.html:104
 msgid "Add new badge..."
 msgstr "добавить ярлык"
-
-#: adhocracy/templates/badge/tiles.html:5
-#, python-format
-msgid "Marked as: %(badge)s (%(description)s)"
-msgstr "маркировано как: %(badge)s (%(description)s)"
-
-#: adhocracy/templates/badge/tiles.html:8
-#, python-format
-msgid "Marked as: %(badge)s"
-msgstr "маркировано как: %(badge)s"
 
 #: adhocracy/templates/comment/ask_delete.html:3
 #: adhocracy/templates/comment/ask_delete.html:6
@@ -3251,13 +3237,11 @@ msgstr "Создать новое предложение"
 
 #: adhocracy/templates/proposal/new.html:29
 #, fuzzy
-#| msgid "Proposal title"
 msgid "Proposal Category"
 msgstr "Название предложения"
 
 #: adhocracy/templates/proposal/new.html:31
 #, fuzzy
-#| msgid "Proposal title"
 msgid "Proposal category hint"
 msgstr "Название предложения"
 
@@ -3820,7 +3804,6 @@ msgstr "Ваши пользовательские данные"
 
 #: adhocracy/templates/user/edit.html:23
 #, fuzzy
-#| msgid "Language:"
 msgid "Language"
 msgstr "Язык:"
 
@@ -4021,8 +4004,6 @@ msgstr ""
 
 #: adhocracy/templates/user/reset_form.html:12
 #, fuzzy
-#| msgid "In order to retrieve your login, you will have to enter your email
-#| adress."
 msgid ""
 "In order to retrieve your login, you will have to enter your email "
 "address."
@@ -4107,4 +4088,10 @@ msgid ""
 msgstr ""
 "Это лист наблюдения. Вы будете извещены о событиях, связанных с каждым из"
 " этих пунктов. "
+
+#~ msgid "Marked as: %(badge)s (%(description)s)"
+#~ msgstr "маркировано как: %(badge)s (%(description)s)"
+
+#~ msgid "Marked as: %(badge)s"
+#~ msgstr "маркировано как: %(badge)s"
 

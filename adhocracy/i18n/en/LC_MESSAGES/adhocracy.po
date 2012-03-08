@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-08 14:03+0100\n"
+"POT-Creation-Date: 2012-03-08 14:54+0100\n"
 "PO-Revision-Date: 2012-02-27 08:33+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: English "
@@ -620,37 +620,37 @@ msgstr "No page name is given."
 msgid "Invalid page name: %s"
 msgstr "Invalid page name: %s"
 
-#: adhocracy/forms/common.py:361
+#: adhocracy/forms/common.py:362
 #, python-format
 msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
 msgstr "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
 
-#: adhocracy/forms/common.py:367
+#: adhocracy/forms/common.py:368
 #, python-format
 msgid "The following errors occured while reading the list of users: <br />%s"
 msgstr "The following errors occured while reading the list of users: <br />%s"
 
-#: adhocracy/forms/common.py:372
+#: adhocracy/forms/common.py:373
 #, python-format
 msgid "Line %s: %s"
 msgstr "Line %s: %s"
 
-#: adhocracy/forms/common.py:378
+#: adhocracy/forms/common.py:379
 #, python-format
 msgid "Email %s is used multiple times"
 msgstr "Email %s is used multiple times"
 
-#: adhocracy/forms/common.py:382
+#: adhocracy/forms/common.py:383
 #, python-format
 msgid "Username %s is used multiple times"
 msgstr "Username %s is used multiple times"
 
-#: adhocracy/forms/common.py:394
+#: adhocracy/forms/common.py:395
 #, python-format
 msgid "Lines %s: %s"
 msgstr "Lines %s: %s"
 
-#: adhocracy/forms/common.py:421
+#: adhocracy/forms/common.py:422
 msgid ""
 "You need to insert \"{url}\" into the email text so we can insert a url "
 "for the user where he can set a password"
@@ -749,12 +749,12 @@ msgstr ""
 "\r\n"
 "%(message)s"
 
-#: adhocracy/lib/mail.py:21
+#: adhocracy/lib/mail.py:22
 #, python-format
 msgid "Hi %s,"
 msgstr "Hi %s,"
 
-#: adhocracy/lib/mail.py:23
+#: adhocracy/lib/mail.py:24
 #, python-format
 msgid ""
 "Cheers,\r\n"
@@ -765,12 +765,12 @@ msgstr ""
 "\r\n"
 "    the %s Team\r\n"
 
-#: adhocracy/lib/mail.py:33
+#: adhocracy/lib/mail.py:35
 #, python-format
 msgid "%s <%s>"
 msgstr "%s <%s>"
 
-#: adhocracy/lib/mail.py:59
+#: adhocracy/lib/mail.py:62
 msgid ""
 "this email is to check the email address you have provided. In order to "
 "confirm this email address, please open the link below in your browser:"
@@ -778,7 +778,7 @@ msgstr ""
 "this email is to check the email address you have provided. In order to "
 "confirm this email address, please open the link below in your browser:"
 
-#: adhocracy/lib/mail.py:62
+#: adhocracy/lib/mail.py:65
 msgid "Confirm your email address"
 msgstr "Confirm your email address"
 
@@ -812,8 +812,7 @@ msgid "Categories"
 msgstr ""
 
 #: adhocracy/lib/pager.py:683
-#, fuzzy, python-format
-#| msgid "created %s"
+#, fuzzy
 msgid "Created by"
 msgstr "created %s"
 
@@ -1802,16 +1801,6 @@ msgstr ""
 #: adhocracy/templates/badge/index.html:104
 msgid "Add new badge..."
 msgstr "Add new badge..."
-
-#: adhocracy/templates/badge/tiles.html:5
-#, python-format
-msgid "Marked as: %(badge)s (%(description)s)"
-msgstr "Marked as: %(badge)s (%(description)s)"
-
-#: adhocracy/templates/badge/tiles.html:8
-#, python-format
-msgid "Marked as: %(badge)s"
-msgstr "Marked as: %(badge)s"
 
 #: adhocracy/templates/comment/ask_delete.html:3
 #: adhocracy/templates/comment/ask_delete.html:6
@@ -3222,13 +3211,11 @@ msgstr "Create new proposal"
 
 #: adhocracy/templates/proposal/new.html:29
 #, fuzzy
-#| msgid "Proposal title"
 msgid "Proposal Category"
 msgstr "Proposal title"
 
 #: adhocracy/templates/proposal/new.html:31
 #, fuzzy
-#| msgid "Proposal title"
 msgid "Proposal category hint"
 msgstr "Proposal title"
 
@@ -3786,7 +3773,6 @@ msgstr "Your User Details"
 
 #: adhocracy/templates/user/edit.html:23
 #, fuzzy
-#| msgid "Language:"
 msgid "Language"
 msgstr "Language:"
 
@@ -3989,8 +3975,6 @@ msgstr ""
 
 #: adhocracy/templates/user/reset_form.html:12
 #, fuzzy
-#| msgid "In order to retrieve your login, you will have to enter your email
-#| adress."
 msgid ""
 "In order to retrieve your login, you will have to enter your email "
 "address."
@@ -4073,4 +4057,10 @@ msgid ""
 msgstr ""
 "This is your watchlist. You will receive notifications for events "
 "concerning each of these items."
+
+#~ msgid "Marked as: %(badge)s (%(description)s)"
+#~ msgstr "Marked as: %(badge)s (%(description)s)"
+
+#~ msgid "Marked as: %(badge)s"
+#~ msgstr "Marked as: %(badge)s"
 
