@@ -7,8 +7,14 @@
 </%def>
 
 <%block name="headline">
+% if not c.instance: 
+  <h1 class="page_title">${_("All Badges")}</h1>
+% endif
+% if c.instance:
+  <h1 class="page_title">${_("Badges of this instance")}</h1>
+% endif
 
-<h1 class="page_title">${_("All Badges")}</h1>
+
 </%block>
 
 <%block name="main_content">
@@ -18,6 +24,7 @@
   % endif
 
   <div class="table">
+  % if c.badges_users:
     <table class="table_listing">
       <thead>
         <th>${_("Title")}</th>
@@ -43,12 +50,14 @@
       </tr>
       %endfor
     </table>
+  % endif
   </div>
   <h1>${_("Proposal Badges")}</h1>
   % if not c.badges_delegateables:
   <p>${_("No badges added yet.")}</p>
   % endif
   <div class="table">
+  % if c.badges_delegateables:
     <table class="table_listing">
       <thead>
         <th>${_("Title")}</th>
@@ -70,6 +79,7 @@
       </tr>
       %endfor
     </table>
+  % endif
   </div>    
 
   <h1>${_("Proposal Category Badges")}</h1>
@@ -77,6 +87,7 @@
   <p>${_("No badges added yet.")}</p>
   % endif
   <div class="table">
+  % if c.badges_delegateable_categories:
     <table class="table_listing">
       <thead>
         <th>${_("Title")}</th>
@@ -98,6 +109,7 @@
       </tr>
       %endfor
     </table>
+  % endif
   </div>    
 
   <div class="inline_input_wrapper">
