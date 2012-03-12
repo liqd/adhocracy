@@ -1,12 +1,11 @@
-from operator import attrgetter
-
 import formencode
 from formencode import Any, All, htmlfill, validators
+from formencode.schema import SimpleFormValidator
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
-from repoze.what.plugins.pylonshq import ActionProtector
+from repoze.what.plugins.pylonshq import ControllerProtector, ActionProtector
 
 from adhocracy.forms.common import ValidGroup, ValidHTMLColor, ContainsChar
 from adhocracy.model import Badge, Group, meta
@@ -14,10 +13,10 @@ from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has_permission
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.templating import render, render_json
-from adhocracy.lib.instance import RequireInstance
+from adhocracy.lib.templating import render
 
-from formencode.schema import SimpleFormValidator
+
+
 #FIX: Translations
 #FIX: HTML/CSS Error message ist wrong
 def badgeforminvariant(value_dict, state, validator):
@@ -40,13 +39,13 @@ class BadgeForm(formencode.Schema):
     badge_delegateable_category = validators.StringBoolean(if_missing=False)
 
 
-class BadgeController(BaseController):
+class BadgeBaseController(BaseController):
+    """Badge controller base class"""
 
     @property
     def base_url(self):
         return h.site.base_url(instance=c.instance, path='/badge')
 
-    @ActionProtector(has_permission("global.admin"))
     def index(self, format='html'):
         #require.user.manage()
         c.badges_users = Badge.all_user(c.instance)
@@ -59,7 +58,6 @@ class BadgeController(BaseController):
                 'error')
         redirect(self.base_url)
 
-    @ActionProtector(has_permission("global.admin"))
     def add(self, errors=None):
         c.form_title = c.save_button = _("Add Badge")
         c.action_url = self.base_url + '/add'
@@ -70,7 +68,6 @@ class BadgeController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=BadgeForm(), form='add')
-    @ActionProtector(has_permission("global.admin"))
     def create(self):
         title = self.form_result.get('title').strip()
         description = self.form_result.get('description').strip()
@@ -85,10 +82,10 @@ class BadgeController(BaseController):
                 badge_delegateable, badge_delegateable_category, c.instance )
         redirect(self.base_url)
 
-    @ActionProtector(has_permission("global.admin"))
     def edit(self, id, errors=None):
         c.form_title = c.save_button = _("Edit Badge")
         c.action_url = self.base_url + '/edit/%s' % id
+        import ipdb; ipdb.set_trace()
         c.groups = meta.Session.query(Group).order_by(Group.group_name).all()
         badge = Badge.by_id(id)
         if badge is None:
@@ -109,7 +106,6 @@ class BadgeController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=BadgeForm(), form='edit')
-    @ActionProtector(has_permission("global.admin"))
     def update(self, id):
         badge = Badge.by_id(id)
         if badge is None:
@@ -133,36 +129,8 @@ class BadgeController(BaseController):
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
 
-    #TODO: override permission here, the instance admin should do this
-    @RequireInstance
-    @ActionProtector(has_permission("global.admin"))
-    def instance_index(self, format='html'):
-        return self.index()
 
-    #TODO: override permission here, the instance admin should do this
-    @RequireInstance
-    @ActionProtector(has_permission("global.admin"))
-    def instance_add(self, errors=None):
-        return self.instance_add()
+@ControllerProtector(has_permission("global.admin"))
+class BadgeglobalController(BadgeBaseController):
+    """Badge controller with security checking"""
 
-    #TODO: override permission here, the instance admin should do this
-    @RequireInternalRequest()
-    @RequireInstance
-    @validate(schema=BadgeForm(), form='add')
-    @ActionProtector(has_permission("global.admin"))
-    def instance_create(self):
-        return self.create()
-
-    #TODO: override permission here, the instance admin should do this
-    @RequireInstance
-    @ActionProtector(has_permission("global.admin"))
-    def instance_edit(self, id, errors=None):
-        return self.edit(id, errors=None)
-
-    #TODO: override permission here, the instance admin should do this
-    @RequireInstance
-    @RequireInternalRequest()
-    @validate(schema=BadgeForm(), form='edit')
-    @ActionProtector(has_permission("global.admin"))
-    def instance_update(self, id):
-        return self.update(id)

@@ -200,31 +200,28 @@ def make_map():
                                          'ask_delete': 'GET',
                                          'widget': 'GET'})
 
-    map.connect('/badge', controller='badge', action='index',
+    map.connect('/badge', controller='badgeglobal', action='index',
                 conditions=dict(method=['GET']))
-    map.connect('/badge/add', controller='badge', action='add',
+    map.connect('/badge/add', controller='badgeglobal', action='add',
                 conditions=dict(method=['GET']))
-    map.connect('/badge/add', controller='badge', action='create',
+    map.connect('/badge/add', controller='badgeglobal', action='create',
                 conditions=dict(method=['POST']))
-    map.connect('/badge/edit/{id}', controller='badge', action="edit",
+    map.connect('/badge/edit/{id}', controller='badgeglobal', action="edit",
                 conditions=dict(method=['GET']))
-    map.connect('/badge/edit/{id}', controller='badge', action="update",
+    map.connect('/badge/edit/{id}', controller='badgeglobal', action="update",
                 conditions=dict(method=['POST']))
-    map.connect('/instance/{instance_key}/badge', controller='badge',
-                action='instance_index',
-                conditions=dict(method=['GET']))
-    map.connect('/instance/{instance_key}/badge/add', controller='badge',
-                action='instance_add',
-                conditions=dict(method=['GET']))
-    map.connect('/instance/{instance_key}/badge/add', controller='badge',
-                action='instance_create',
-                conditions=dict(method=['POST']))
-    map.connect('/instance/{instance_key}/badge/edit/{id}', controller='badge',
-                action="instance_edit",
-                conditions=dict(method=['GET']))
-    map.connect('/instance/{instance_key}/badge/edit/{id}', controller='badge',
-                action="instance_update",
-                conditions=dict(method=['POST']))
+    map.connect('/instance/{instance_key}/badge', controller='badgeinstance',
+                action='index', conditions=dict(method=['GET']))
+    map.connect('/instance/{instance_key}/badge/add', controller='badgeinstance',
+                action='add', conditions=dict(method=['GET']))
+    map.connect('/instance/{instance_key}/badge/add', controller='badgeinstance',
+                action='create', conditions=dict(method=['POST']))
+    map.connect('/instance/{instance_key}/badge/edit/{id}',
+            controller='badgeinstance',
+                action="edit", conditions=dict(method=['GET']))
+    map.connect('/instance/{instance_ky}/badge/edit/{id}',
+            controller='badgeinstance',
+                action="update", conditions=dict(method=['POST']))
 
     # not using REST since tags may contain dots, thus failing format
     # detection.
