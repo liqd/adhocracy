@@ -2,9 +2,10 @@
 
 <%def name="row(tile, user)">
     <li class="content_box vcard">
-        <h3><a class="link fn nickname" href="${h.entity_url(user, instance=c.instance)}">${user.name}</a> 
-        ${tiles.badge.badges(user.badges)}
-</h3>
+        <h3>
+            <a class="link fn nickname" href="${h.entity_url(user, instance=c.instance)}">${user.name}</a> 
+            ${tiles.badge.badges([b for b in user.badges if b.instance is None or b.instance is c.instance])}
+        </h3>
         <div class="meta">
             <%
             mem = user.instance_membership(c.instance)
