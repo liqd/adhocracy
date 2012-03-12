@@ -85,7 +85,6 @@ class BadgeBaseController(BaseController):
     def edit(self, id, errors=None):
         c.form_title = c.save_button = _("Edit Badge")
         c.action_url = self.base_url + '/edit/%s' % id
-        import ipdb; ipdb.set_trace()
         c.groups = meta.Session.query(Group).order_by(Group.group_name).all()
         badge = Badge.by_id(id)
         if badge is None:
