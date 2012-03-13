@@ -7,17 +7,20 @@
             %if tile.fresh:
                 ${_("(new)")}
             %endif
-            %if not lib.auth.authorization.has('global.admin'):
-              ${tiles.badge.badges([b for b in proposal.badges if b.instance is None])}
-            %endif
-            %if not lib.auth.authorization.has('instance.admin'):
-              ${tiles.badge.badges([b for b in proposal.badges if b.instance])}
+            %if not lib.auth.authorization.has('global.admin') and not lib.auth.authorization.has('instance.admin'):
+              <!--show global and instance badges-->
+              ${tiles.badge.badges([b for b in proposal.badges])}
             %endif
             %if lib.auth.authorization.has('global.admin'):
-                    ${tiles.proposal.badgesform(proposal, c.badges)}
+              <!--edit global and instance badges-->
+              ${tiles.badge.badges([b for b in proposal.badges if b.badge_delegateable_category])}
+              ${tiles.proposal.badgesform(proposal, c.badges + c.instance_badges)}
             %endif
-            %if lib.auth.authorization.has('instance.admin'):
-                    ${tiles.proposal.badgesform(proposal, c.instance_badges)}
+            %if lib.auth.authorization.has('instance.admin') and not lib.auth.authorization.has('global.admin'):
+              <!--edit instance badges-->
+              ${tiles.badge.badges([b for b in proposal.badges if b.badge_delegateable_category])}
+              ${tiles.badge.badges([b for b in proposal.badges if b.badge_delegateable and b.instance is None])}
+              ${tiles.proposal.badgesform(proposal, c.instance_badges)}
             %endif   
         </h3>
         <div class="meta">              
