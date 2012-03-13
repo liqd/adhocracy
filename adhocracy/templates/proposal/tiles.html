@@ -8,11 +8,17 @@
                 ${_("(new)")}
             %endif
             %if not lib.auth.authorization.has('global.admin'):
-                    ${tiles.badge.badges(proposal.badges)}
+              ${tiles.badge.badges([b for b in proposal.badges if b.instance is None])}
+            %endif
+            %if not lib.auth.authorization.has('instance.admin'):
+              ${tiles.badge.badges([b for b in proposal.badges if b.instance])}
             %endif
             %if lib.auth.authorization.has('global.admin'):
                     ${tiles.proposal.badgesform(proposal, c.badges)}
             %endif
+            %if lib.auth.authorization.has('instance.admin'):
+                    ${tiles.proposal.badgesform(proposal, c.instance_badges)}
+            %endif   
         </h3>
         <div class="meta">              
             %if proposal.is_adopt_polling():

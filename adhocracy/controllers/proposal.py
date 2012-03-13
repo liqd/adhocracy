@@ -95,6 +95,7 @@ class ProposalController(BaseController):
 
         c.tile = tiles.instance.InstanceTile(c.instance)
         c.badges = model.Badge.all_delegateable()
+        c.instance_badges = model.Badge.all_delegateable(instance=c.instance)
         return render("/proposal/index.html")
 
     @RequireInstance
