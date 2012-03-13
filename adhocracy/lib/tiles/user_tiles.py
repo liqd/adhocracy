@@ -70,6 +70,8 @@ class UserTile(BaseTile):
 
 
 def row(user):
+    if not user:
+        return ""
     return render_tile('/user/tiles.html', 'row', UserTile(user),
                        user=user, instance=c.instance, cached=True)
 

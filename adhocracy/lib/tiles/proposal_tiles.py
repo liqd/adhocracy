@@ -52,6 +52,8 @@ class ProposalTile(DelegateableTile):
 
 def row(proposal):
     global_admin = authorization.has('global.admin')
+    if not proposal:
+        return ""
     return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal),
                        proposal=proposal, cached=True,
                        badgesglobal_admin=global_admin)
@@ -80,4 +82,4 @@ def badgesform(proposal, badges):
     return render_tile('/proposal/tiles.html', 'badgesform',
                        ProposalTile(proposal), proposal=proposal,
                        badges=badges, cached=False)
- 
+
