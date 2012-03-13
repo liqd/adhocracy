@@ -661,7 +661,25 @@ class InstanceFacet(SolrFacet):
         index[cls.solr_field] = [instance.key for instance in user.instances]
 
 
+class DelegateableBadgeCategoryFacet(SolrFacet):
+    """Index all delegateable badge categories"""
+
+    name = 'delegateablebadgecategory'
+    entity_type = model.Badge
+    title = u'Kategorien'  # FIXME: translate
+    solr_field = 'facet.delegateable.badgecategory'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if not isinstance(entity, model.Delegateable):
+            return
+        badges = [badge for badge in entity.delegateablebadges if badge.badge.badge_delegateable_category]
+        data[cls.solr_field] = [badge.id for badge in badges]
+
+
+
 class DelegateableBadgeFacet(SolrFacet):
+    """Index all delegateable badges"""
 
     name = 'delegateablebadge'
     entity_type = model.Badge
@@ -672,8 +690,9 @@ class DelegateableBadgeFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        data[cls.solr_field] = [badge.id for badge in
-                                entity.delegateablebadges]
+        data[cls.solr_field] = [badge.id for badge in entity.delegateablebadges\
+                                if badge.badge.badge_delegateable
+                                or not badge.badge.badge_delegateable_category]
 
 
 class DelegateableAddedByBadgeFacet(SolrFacet):
@@ -687,7 +706,7 @@ class DelegateableAddedByBadgeFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        data[cls.solr_field] = [badge.id for badge in entity.creator.badges \
+        data[cls.solr_field] = [badge.id for badge in entity.creator.badges\
                                     if badge.instance is entity.instance\
                                        or badge.instance is None]
 
@@ -795,7 +814,7 @@ class UserActivityIndexer(SolrIndexer):
 INDEX_DATA_FINDERS = [UserBadgeFacet, InstanceFacet,
                       CommentOrderIndexer, CommentScoreIndexer,
                       DelegateableAddedByBadgeFacet, DelegateableBadgeFacet,
-                      DelegateableTags,
+                      DelegateableTags, DelegateableBadgeCategoryFacet,
                       NormNumSelectionsIndexer, NormNumSelectionsIndexer,
                       ProposalSupportIndexer, ProposalMixedIndexer,
                       UserActivityIndexer]
@@ -971,7 +990,8 @@ def solr_proposal_pager(instance, wildcard_queries=None):
                              (_("alphabetically"), 'order.title')),
                       default_sort=support_sort_field,
                       extra_filter=extra_filter,
-                      facets=[DelegateableBadgeFacet,
+                      facets=[DelegateableBadgeCategoryFacet,
+                              DelegateableBadgeFacet,
                               DelegateableAddedByBadgeFacet,
                               DelegateableTags],
                       wildcard_queries=wildcard_queries)
