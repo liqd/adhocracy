@@ -34,6 +34,7 @@ def upgrade(migrate_engine):
     group_table = Table('group', metadata, autoload=True)
     user_table = Table('user', metadata, autoload=True)
     proposal_table = Table('proposal', metadata, autoload=True)
+    delegateable_table = Table('delegateable', metadata, autoload=True)
 
     #add column badge_delegateable to badge_table
     badge_delegateable = Column('badge_delegateable', Boolean, default=False)
