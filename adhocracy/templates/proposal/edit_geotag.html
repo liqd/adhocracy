@@ -1,0 +1,24 @@
+<%inherit file="/template.html" />
+<%namespace name="tiles_html" file="/proposal/tiles.html"/>
+<%namespace name="components" file="/components.html"/>
+<%namespace name="map" file="/geo/map.html"/>
+<%def name="title()">${_("Edit geotag for proposal %s") % c.proposal.title}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit geotag")}
+</%def>
+
+<%block name="main_content">
+    <div class="form_wrapper">
+    <h2>${_(u'Edit geographical location for proposal &ldquo;%s&rdquo;') % c.proposal.title|n}</h2>
+    <div class="hr">
+        <hr />
+    </div>
+
+    ${map.show_map(cls='edit_map', show_controls=True, single_proposal_id=c.proposal.id, edit=True)}
+
+    </div>
+</%block>
+
+    
+

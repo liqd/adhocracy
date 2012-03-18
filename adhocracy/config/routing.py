@@ -96,7 +96,11 @@ def make_map():
                                                  'untag': 'GET',
                                                  'badges': 'GET',
                                                  'update_badges': 'POST',
-                                                 'history': 'GET'},
+                                                 'history': 'GET',
+                                                 'get_geotag': 'GET',
+                                                 'edit_geotag': 'GET',
+                                                 'update_geotag': 'POST',
+                                                 },
                                collection={'filter': 'GET'})
     map.connect('/proposal/{proposal_id}/{selection_id}/details{.format}',
                 controller='selection',
