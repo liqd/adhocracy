@@ -104,7 +104,7 @@ function add_add_geo_button() {
             setPointControl.activate();
         },
         // FIXME: Use Gettext
-        text: 'Add geolocation'
+        text: 'Add position'
     }).appendTo('#edit_map_buttons');
 }
 
@@ -118,7 +118,7 @@ function add_change_remove_geo_button() {
             setPointControl.activate();
         },
         // FIXME: Use Gettext
-        text: 'Change geolocation'
+        text: 'Set different position'
     }).appendTo('#edit_map_buttons');
 
     $('<a />', {
@@ -130,7 +130,7 @@ function add_change_remove_geo_button() {
             update_geo_buttons();
         },
         // FIXME: Use Gettext
-        text: 'Remove geolocation'
+        text: 'Remove position'
     }).appendTo('#edit_map_buttons');
 }
 
@@ -175,7 +175,57 @@ function addSingleProposalLayer(singleProposalId) {
             alert('No response from server, sorry. Error: '+err);
         }
     })
+    propsLayer.events.on({
+        'featureselected': function(feature) {
+            //$('counter').innerHTML = this.selectedFeatures.length;
+            popup = new OpenLayers.Popup.FramedCloud("chicken",
+                //feature.geometry.getBounds().getCenterLonLat(),
+                //feature.lonlat,
+                feature.feature.geometry.getBounds().getCenterLonLat(),
+                null,
+                buildProposalPopup(feature.feature.attributes),
+                //null,true,function(f) { 
+                //            console.log('popup close'); 
+                //	     propsLayer.events.triggerEvent("featureunselected", {feature: f})
+                //         }
+                null,false,null
+                );
+            //feature.popup = popup;
+            this.map.addPopup(popup);
+        },
+        'featureunselected': onPopupClose,
+        'featureadded': function(feature) {
+            map.setCenter(feature.feature.geometry.getBounds().getCenterLonLat(), 10);
+        }
+    });
+
     map.addLayer(propsLayer);
+    drawControls = {
+        select: new OpenLayers.Control.SelectFeature(
+                        propsLayer,
+                        {
+                            clickout: true, toggle: false,
+        multiple: false, hover: false,
+        toggleKey: "ctrlKey", // ctrl key removes from selection
+        multipleKey: "shiftKey", // shift key adds to selection
+        box: false
+                        }
+                        )/*,
+                           selecthover: new OpenLayers.Control.SelectFeature(
+                           propsLayer,
+                           {
+                           multiple: false, hover: false,
+                           toggleKey: "ctrlKey", // ctrl key removes from selection
+                           multipleKey: "shiftKey" // shift key adds to selection
+                           }
+                           )
+                           */            };
+
+        for(var key in drawControls) {
+            map.addControl(drawControls[key]);
+        }
+    var control = drawControls['select'];
+    control.activate();
 
 }
 

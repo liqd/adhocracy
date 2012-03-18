@@ -126,20 +126,32 @@
 ${components.watch(c.proposal)}
 
 
+%if h.asbool(config.get('adhocracy.proposal_geotags')):
 <h3>${_('Map')}</h3>
-%if config.get('adhocracy.proposal_geotags') and c.proposal.has_geotag() is True:
+%if c.proposal.has_geotag() is True:
 ${map.show_map(cls='small_map', show_controls=False, single_proposal_id=c.proposal.id)}
 %else:
 <div id="no_map_yet">${_("This proposal does currently not refer to a geographic location.")}</div>
 %endif
 
-<a href="${h.entity_url(c.proposal, member='edit_geotag')}" rel="#overlay-ajax-map" class="button_small">${_('Edit geographic location')}</a>
+<% auth = check.proposal.edit(c.proposal) %>
+
+%if auth:
+    <a href="${h.entity_url(c.proposal, member='edit_geotag')}" rel="#overlay-ajax-map" class="button_small">${_('Edit geographic location')}</a>
 
     <div class="overlay" id="overlay-geo">
       <a class="close"></a>
       <!-- the external content is loaded inside this tag -->
       <div class="contentWrap"></div>
     </div>
+
+%elif auth.propose_join():
+    <a class="button_small add ttip" title="${_('Join instance to edit geotag.')}" rel="#overlay-join-button">${_("Edit geographic location")}</a>
+%elif auth.propose_login():
+    <a class="button_small add ttip" title="${_('Login to edit geotag.')}" rel="#overlay-login-button">${_("Edit geographic location")}</a>
+%endif
+
+%endif
 
 
 <h3>${_('Informations')}</h3>

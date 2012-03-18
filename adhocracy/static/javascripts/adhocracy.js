@@ -552,6 +552,14 @@ var adhocracy = adhocracy || {};
             onBeforeLoad: adhocracy.overlay.rewriteDescription,
         });
 
+        /*wrapped.find("a[rel=#overlay-ajax-map]").overlay({
+            fixed: false,
+            target: '#overlay-geo',
+            mask: adhocracy.overlay.mask,
+            onBeforeLoad: adhocracy.overlay.ajaxLoadContent
+            //onLoad: adhocracy.overlay.ajaxRebindLinks
+        });*/
+
     };
 
     /***************************************************

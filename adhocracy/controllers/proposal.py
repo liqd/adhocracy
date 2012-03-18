@@ -454,16 +454,12 @@ class ProposalController(BaseController):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.edit(c.proposal)
         return htmlfill.render(render("/proposal/edit_geotag.html"), errors=errors)
-        #return htmlfill.render(render("/proposal/edit_geotag.html"),
-        #                       defaults=dict(request.params),
-        #                       errors=errors, force_defaults=force_defaults)
 
 
     def update_geotag(self, id):
 
         import geojson
         from geoalchemy.utils import to_wkt
-
 
         try:
             c.proposal = get_entity_or_abort(model.Proposal, id)
@@ -488,18 +484,9 @@ class ProposalController(BaseController):
 
         model.meta.Session.add(c.proposal)
 
-        if self._can_edit_wiki(c.proposal, c.user):
-            wiki = self.form_result.get('wiki')
-        else:
-            wiki = c.proposal.description.head.wiki
-        _text = model.Text.create(c.proposal.description, model.Text.HEAD,
-                                  c.user,
-                                  self.form_result.get('label'),
-                                  self.form_result.get('text'),
-                                  parent=c.proposal.description.head,
-                                  wiki=wiki)
         model.meta.Session.commit()
-        watchlist.check_watch(c.proposal)
-        event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
-                   topics=[c.proposal], proposal=c.proposal, rev=_text)
+
+        # watchlist.check_watch(c.proposal)
+        # event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
+        #           topics=[c.proposal], proposal=c.proposal, rev=_text)
         redirect(h.entity_url(c.proposal))
