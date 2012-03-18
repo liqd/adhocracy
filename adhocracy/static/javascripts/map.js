@@ -101,7 +101,7 @@ function add_add_geo_button() {
         class: 'button',
         click: function() {
             //propslayer. OpenLayers.Handler.Click({single:true, stopSingle:true});
-            setPointControl.activate();
+            pointControl.activate();
         },
         // FIXME: Use Gettext
         text: 'Add position'
@@ -115,7 +115,7 @@ function add_change_remove_geo_button() {
         click: function() {
             //propslayer. OpenLayers.Handler.Click({single:true, stopSingle:true});
             propsLayer.removeAllFeatures();
-            setPointControl.activate();
+            pointControl.activate();
         },
         // FIXME: Use Gettext
         text: 'Set different position'
@@ -134,23 +134,39 @@ function add_change_remove_geo_button() {
     }).appendTo('#edit_map_buttons');
 }
 
-function point_clicked() {
-    setPointControl.deactivate();
-    update_geo_buttons();
+function update_geotag_field() {
     transformed_feature = propsLayer.features[0].clone();
     transformed_feature.geometry.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
     $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(transformed_feature));
 }
 
-function addSingleProposalLayer(singleProposalId) {
+function point_clicked() {
+    pointControl.deactivate();
+    update_geo_buttons();
+    update_geotag_field();
+}
+
+function addSingleProposalLayer(singleProposalId, edit) {
 
     propsLayer = new OpenLayers.Layer.Vector("props", {
         displayInLayerSwitcher: true, 
         //projection: new OpenLayers.Projection("EPSG:900913"),
     });
 
-    setPointControl = new OpenLayers.Control.DrawFeature(propsLayer, OpenLayers.Handler.Point, {featureAdded: point_clicked});
-    map.addControl(setPointControl);
+    /* 
+    //layer for searching, proposals
+    propsLayer = new OpenLayers.Layer.Vector("props", {
+        displayInLayerSwitcher: false, 
+        strategies: [new OpenLayers.Strategy.Fixed()],
+        protocol: new OpenLayers.Protocol.HTTP({
+            url: ('/proposal/' + singleProposalId + '/get_geotag'),
+            format: new OpenLayers.Format.GeoJSON({
+                ignoreExtraDims: true
+            })
+        }),
+        projection: new OpenLayers.Projection("EPSG:4326")
+    });*/
+
 
     $.ajax({
         url: ('/proposal/' + singleProposalId + '/get_geotag'),
@@ -200,108 +216,41 @@ function addSingleProposalLayer(singleProposalId) {
     });
 
     map.addLayer(propsLayer);
-    drawControls = {
-        select: new OpenLayers.Control.SelectFeature(
-                        propsLayer,
-                        {
-                            clickout: true, toggle: false,
-        multiple: false, hover: false,
-        toggleKey: "ctrlKey", // ctrl key removes from selection
-        multipleKey: "shiftKey", // shift key adds to selection
-        box: false
-                        }
-                        )/*,
-                           selecthover: new OpenLayers.Control.SelectFeature(
-                           propsLayer,
-                           {
-                           multiple: false, hover: false,
-                           toggleKey: "ctrlKey", // ctrl key removes from selection
-                           multipleKey: "shiftKey" // shift key adds to selection
-                           }
-                           )
-                           */            };
 
-        for(var key in drawControls) {
-            map.addControl(drawControls[key]);
-        }
-    var control = drawControls['select'];
-    control.activate();
+    selectControl = new OpenLayers.Control.SelectFeature(propsLayer, {
+            clickout: true,
+            toggle: false,
+            multiple: false,
+            hover: false,
+            toggleKey: "ctrlKey", // ctrl key removes from selection
+            multipleKey: "shiftKey", // shift key adds to selection
+            box: false,
+        });
+
+    map.addControl(selectControl);
+    selectControl.activate();
+
+    if (edit) {
+
+        dragControl = new OpenLayers.Control.DragFeature(propsLayer, {
+                onComplete: function(feature, pixel) {update_geotag_field();}
+                //clickFeature: function(feature) {selectControl.clickFeature(feature)},
+            });
+
+        map.addControl(dragControl);
+        dragControl.activate();
+
+        pointControl = new OpenLayers.Control.DrawFeature(propsLayer, OpenLayers.Handler.Point, {
+                featureAdded: point_clicked
+            });
+
+        map.addControl(pointControl);
+    }
 
 }
 
 
 
-
-function addSingleProposalLayerOld(singleProposalId) {
-
-    //layer for searching, proposals
-    propsLayer = new OpenLayers.Layer.Vector("props", {
-        displayInLayerSwitcher: false, 
-        strategies: [new OpenLayers.Strategy.Fixed()],
-        protocol: new OpenLayers.Protocol.HTTP({
-            url: ('/proposal/' + singleProposalId + '/get_geotag'),
-            format: new OpenLayers.Format.GeoJSON({
-                ignoreExtraDims: true
-            })
-        }),
-        projection: new OpenLayers.Projection("EPSG:4326")
-        /* styleMap: new OpenLayers.StyleMap(styleProps)*/
-    });
-
-    propsLayer.events.on({
-        'featureselected': function(feature) {
-            //$('counter').innerHTML = this.selectedFeatures.length;
-            popup = new OpenLayers.Popup.FramedCloud("chicken",
-                //feature.geometry.getBounds().getCenterLonLat(),
-                //feature.lonlat,
-                feature.feature.geometry.getBounds().getCenterLonLat(),
-                null,
-                buildProposalPopup(feature.feature.attributes),
-                //null,true,function(f) { 
-                //            console.log('popup close'); 
-                //	     propsLayer.events.triggerEvent("featureunselected", {feature: f})
-                //         }
-                null,false,null
-                );
-            //feature.popup = popup;
-            this.map.addPopup(popup);
-        },
-        'featureunselected': onPopupClose,
-        'featureadded': function(feature) {
-            map.setCenter(feature.feature.geometry.getBounds().getCenterLonLat(), 10);
-        }
-    });
-
-    //console.log(propsLayer != null);
-    map.addLayer(propsLayer);
-    drawControls = {
-        select: new OpenLayers.Control.SelectFeature(
-                        propsLayer,
-                        {
-                            clickout: true, toggle: false,
-        multiple: false, hover: false,
-        toggleKey: "ctrlKey", // ctrl key removes from selection
-        multipleKey: "shiftKey", // shift key adds to selection
-        box: false
-                        }
-                        )/*,
-                           selecthover: new OpenLayers.Control.SelectFeature(
-                           propsLayer,
-                           {
-                           multiple: false, hover: false,
-                           toggleKey: "ctrlKey", // ctrl key removes from selection
-                           multipleKey: "shiftKey" // shift key adds to selection
-                           }
-                           )
-                           */            };
-
-        for(var key in drawControls) {
-            map.addControl(drawControls[key]);
-        }
-    var control = drawControls['select'];
-    control.activate();
-
-};
 
 function loadMap(mapConfig) {
     var lat=34.070;
@@ -443,7 +392,7 @@ function loadMap(mapConfig) {
 
 
     if (mapConfig.singleProposalId) {
-        center = addSingleProposalLayer(mapConfig.singleProposalId);
+        center = addSingleProposalLayer(mapConfig.singleProposalId, mapConfig.edit);
     }
     //map.setCenter (center, 9);
     //map.setCenter(new OpenLayers.LonLat(0, 0), 0);
