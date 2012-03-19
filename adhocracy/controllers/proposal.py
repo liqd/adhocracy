@@ -1,7 +1,7 @@
 import logging
 
 import formencode
-from formencode import htmlfill, Invalid, validators
+from formencode import Any, htmlfill, Invalid, validators
 
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
@@ -44,6 +44,7 @@ class ProposalCreateForm(ProposalNewForm):
     milestone = forms.MaybeMilestone(if_empty=None,
             if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
+    category = formencode.foreach.ForEach(forms.ValidBadge())
 
 
 class ProposalEditForm(formencode.Schema):
@@ -103,6 +104,7 @@ class ProposalController(BaseController):
         require.proposal.create()
         c.pages = []
         c.exclude_pages = []
+        c.categories = model.Badge.all_delegateable_categories(c.instance)
         if 'page' in request.params:
             page = model.Page.find(request.params.get('page'))
             if page and page.function == model.Page.NORM:
@@ -135,6 +137,7 @@ class ProposalController(BaseController):
             return self.new(errors=i.unpack_errors())
 
         pages = self.form_result.get('page', [])
+        badge = self.form_result.get('category')
         if c.instance.require_selection and len(pages) < 1:
             h.flash(
                 _('Please select norm and propose a change to it.'),
@@ -155,7 +158,8 @@ class ProposalController(BaseController):
         description.parents = [proposal]
         model.meta.Session.flush()
         proposal.description = description
-
+        if badge:
+            model.DelegateableBadge(proposal, badge[0], c.user)
         for page in pages:
             page_text = page.get('text', '')
             page = page.get('id')
@@ -389,7 +393,8 @@ class ProposalController(BaseController):
 
     @ActionProtector(authorization.has_permission("global.admin"))
     def badges(self, id, errors=None):
-        c.badges = model.Badge.all_delegateable()
+        c.badges = model.Badge.all_delegateable() \
+                   + model.Badge.all_delegateable(c.instance)
         c.proposal = get_entity_or_abort(model.Proposal, id)
         defaults = {'badge': [str(badge.id) for badge in c.proposal.badges]}
         return formencode.htmlfill.render(

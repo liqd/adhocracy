@@ -14,9 +14,6 @@ def make_map():
                  always_scan=config['debug'])
     map.minimization = False
 
-    # redirect wordpress pages to an existing page
-    map.redirect("/_pages/{url:.*}", "/static/about.htm")
-
     # The ErrorController route (handles 404/500 error pages); it should
     # likely stay at the top, ensuring it can always be resolved
     map.connect('/error/{action}', controller='error')
@@ -209,6 +206,21 @@ def make_map():
     map.connect('/badge/edit/{id}', controller='badge', action="edit",
                 conditions=dict(method=['GET']))
     map.connect('/badge/edit/{id}', controller='badge', action="update",
+                conditions=dict(method=['POST']))
+    map.connect('/instance/{instance_key}/badge', controller='badge',
+                action='instance_index',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{instance_key}/badge/add', controller='badge',
+                action='instance_add',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{instance_key}/badge/add', controller='badge',
+                action='instance_create',
+                conditions=dict(method=['POST']))
+    map.connect('/instance/{instance_key}/badge/edit/{id}', controller='badge',
+                action="instance_edit",
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{instance_key}/badge/edit/{id}', controller='badge',
+                action="instance_update",
                 conditions=dict(method=['POST']))
 
     # not using REST since tags may contain dots, thus failing format

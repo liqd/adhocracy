@@ -7,6 +7,7 @@
 debug = true
 email_to = you@yourdomain.com
 smtp_server = localhost
+smtp_port = 25
 error_email_from = paste@localhost
 
 [server:main]

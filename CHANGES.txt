@@ -1,9 +1,15 @@
 adhocracy Changelog
 ===================
 
+1.2beta2dev
+-----------
 
-1.2a4 (unreleased)
--------------------
+- delgateables can have category badgets [joka]
+- instances can have badgets, they are only valid inside that instance [joka]
+- added option to set the smtp port [joka]
+
+1.2a4
+-----
 
 - tooltips use jquery tools now [joka]
 - open helper link, login and register form with overlay [joka]

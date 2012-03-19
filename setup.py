@@ -5,9 +5,10 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
+
 setup(
     name='adhocracy',
-    version='1.2beta2',
+    version='1.2beta2dev',
     description='Policy drafting and decision-making web platform',
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
@@ -26,22 +27,9 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
-    long_description="""\
-Adhocracy is a policy drafting tool for distributed groups.
-It allows members of organizations or the public to compose
-or vote documents that represent the policy of the group.
-
-In order to allow cooperation, Adhocracy uses LiquidDemocracy,
-a set of ideas that include delegating a user's voting rights
-to another to enable both active and passive participation in
-the process. We also implement ideas from  Direkter Parlamentarismus,
-a theory of mass participation in parliamentary processes.
-
-Installation instructions and further information can be found at
-http://trac.adhocracy.cc/wiki/InstallationInstructions
-
-This version requires Python 2.5 or later.
-""",
+    long_description=open("README.txt").read() + "\n" +
+                     open("CHANGES.txt").read() + "\n" +
+                     open("AUTHORS.txt").read() + "\n",
     install_requires=[
         "Pylons==0.9.7",
         "WebOb==1.0.8",  # 1.1 removed an imported required by Pylons 0.9.7

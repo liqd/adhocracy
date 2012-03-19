@@ -75,7 +75,8 @@ class AdminController(BaseController):
                 email = user_info['email']
                 display_name = user_info['display_name']
                 names.append(name)
-                user = model.User.create(name, email, display_name)
+                user = model.User.create(name, email,
+                                         display_name=display_name)
                 user.reset_code = random_token()
                 model.meta.Session.add(user)
                 model.meta.Session.commit()
@@ -87,7 +88,7 @@ class AdminController(BaseController):
                                                   user.reset_code))
                 user_info['url'] = url
                 body = form_result['email_template'].format(**user_info)
-                to_user(user, form_result['email_subject'], body)
+                to_user(user, form_result['email_subject'], body, decorate_body=False)
                 mailed.append(user.user_name)
                 if c.instance:
                     membership = model.Membership(user, c.instance,

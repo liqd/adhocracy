@@ -198,6 +198,11 @@
              li_class=(_class('settings') + ' settings'),
              condition=can.instance.edit(c.instance))}
 
+  ${nav_link(href=h.entity_url(c.instance, member='badge'),
+             text=_("Badges"),
+             li_class=(_class('settings') + ' settings'),
+             condition=h.has_permission("global.admin"))} 
+
 </%call>
 </%def>
 

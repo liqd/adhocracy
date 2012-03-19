@@ -18,6 +18,19 @@
   <form name="settings" class="inplace" method="POST" action="/user/${c.page_user.user_name}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
+
+    <fieldset>
+        <legend>${_("Language")}</legend>
+        <ul>
+            %for locale in c.locales:
+            <li style="list-style-type: none;"><input type="radio" name="locale" value="${str(locale)}" 
+            %if locale == c.page_user.locale:
+            checked="checked"
+            %endif
+            /> ${locale.display_name}</li>
+            %endfor
+        </ul>
+    </fieldset>
     <fieldset>
       <legend>${_("Display name for")} ${c.page_user.user_name}</legend>
       <p class="info">${_("You can chose which name other users see.")}</p>   
@@ -25,6 +38,7 @@
         <label for="display_name" class="armhint">${c.page_user.name}</label>
         <input type="text" tabindex="1" class="title armlabel" name="display_name" value="${c.page_user.display_name}"/>
       </div>
+    </fieldset>
     
     <fieldset>
       <legend>${_("Password")}</legend>

@@ -9,7 +9,10 @@ from pylons.i18n import _, add_fallback, set_lang
 from pylons import config, tmpl_context as c
 
 
-LOCALES = [babel.Locale('de', 'DE')]
+LOCALES = [babel.Locale('de', 'DE'), 
+           babel.Locale('en', 'US'),
+           babel.Locale('fr', 'FR'),
+           babel.Locale('ru', 'RU')]
 
 
 def get_default_locale():
