@@ -1,8 +1,5 @@
 <%namespace name="components" file="/components.html"/>
 <%def name="show_map(show_controls=True, single_proposal_id=None, cls='default_map', edit=False)">
-<ul>
-  <li id="zoom"></li>   
-</ul>
 <div id="map" class="${cls}"></div>
 %if edit:
 <div id="edit_map_buttons" />

@@ -26,7 +26,7 @@
  vorhandene Features. 
  * ( ) NOTE: extra layer für areas (simple/full x admin_levels)
  * ( ) NOTE: löschen der Features und neues fetchen der Daten
- * (x) NOTE: manuelles neuzeichnen mit 'drawFeature', 'cp,del,mod.add'
+ * (x) NOTE: manuelles neuzeichnen mit 'drawFeature'
  --
 
  * TODO: config
@@ -36,10 +36,7 @@
  * TODO: list of search matches/proposals
  * TODO: hover (see cluster strategy example)
 
- * TODO: convert LineString features to Polygon features by using the 
- LineString for the coordinates of the polygon.
  * TODO: list of all open popups
- * TODO: query popup content from JSON
  * TODO: adjust proposal size
  */
 
@@ -48,7 +45,7 @@ var adminLevels = [2,3,4,5,7];
 var map;
 var layers = new Array();
 var propsLayer;
-var styleBorder,styleArea,styleProps;
+var styleBorder,styleArea,styleProps,styleSelect;
 
 styleProps = {
     pointRadius: 5,
@@ -168,6 +165,8 @@ function update_geotag_field() {
     transformed_feature = propsLayer.features[0].clone();
     transformed_feature.geometry.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
     $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(transformed_feature));
+    map.setCenter(propsLayer.features[0].geometry.getBounds().getCenterLonLat(), 
+                  map.getZoom());
 }
 
 function point_clicked() {
@@ -181,7 +180,7 @@ function addSingleProposalLayer(singleProposalId, edit) {
     propsLayer = new OpenLayers.Layer.Vector("props", {
         displayInLayerSwitcher: true,
 	styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
-					   'select': new OpenLayers.Style(styleSelect)}) 
+                					   'select': new OpenLayers.Style(styleSelect)}) 
         //projection: new OpenLayers.Projection("EPSG:900913"),
     });
 
@@ -225,26 +224,15 @@ function addSingleProposalLayer(singleProposalId, edit) {
     })
     propsLayer.events.on({
         'featureselected': function(feature) {
-            //$('counter').innerHTML = this.selectedFeatures.length;
-            popup = new OpenLayers.Popup.FramedCloud("chicken",
-                //feature.geometry.getBounds().getCenterLonLat(),
-                //feature.lonlat,
+            popup = new OpenLayers.Popup.FramedCloud("singlepopup",
                 feature.feature.geometry.getBounds().getCenterLonLat(),
                 null,
                 buildProposalPopup(feature.feature.attributes),
-                //null,true,function(f) { 
-                //            console.log('popup close'); 
-                //	     propsLayer.events.triggerEvent("featureunselected", {feature: f})
-                //         }
                 null,false,null
                 );
-            //feature.popup = popup;
             this.map.addPopup(popup);
         },
-        'featureunselected': onPopupClose,
-        'featureadded': function(feature) {
-            map.setCenter(feature.feature.geometry.getBounds().getCenterLonLat(), 10);
-        }
+        'featureunselected': onPopupClose        
     });
 
     map.addLayer(propsLayer);
@@ -266,7 +254,6 @@ function addSingleProposalLayer(singleProposalId, edit) {
 
         dragControl = new OpenLayers.Control.DragFeature(propsLayer, {
                 onComplete: function(feature, pixel) {update_geotag_field();}
-                //clickFeature: function(feature) {selectControl.clickFeature(feature)},
             });
 
         map.addControl(dragControl);
@@ -301,10 +288,10 @@ function loadMap(mapConfig) {
     }
 
     map = new OpenLayers.Map('map', {
-        //                    restrictedExtent: new OpenLayers.Bounds(-180, -90, 180, 90),
+        //restrictedExtent: new OpenLayers.Bounds(-180, -90, 180, 90),
         controls: mapControls, 
-        //numZoomLevels: displayMap.length,
-        maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
+        maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,
+                                         20037508.34,20037508.34),
         maxResolution: 156543.0399,
         numZoomLevels: displayMap.length,
         units: 'm',
@@ -398,10 +385,7 @@ function loadMap(mapConfig) {
         layersIdx++;
     }
 
-
-    //		map.addLayer(new OpenLayers.Layer.Text("Incidents", {location: "incidents.txt"} ));
-
-
+    var center;
     if (mapConfig.singleProposalId) {
         center = addSingleProposalLayer(mapConfig.singleProposalId, mapConfig.edit);
     }
@@ -412,27 +396,12 @@ function loadMap(mapConfig) {
 
 var moveTo = function(bounds, zoomChanged, dragging) {
     var zoom = map.getZoom();
-    //console.log('zoom: ' + zoom)
-    //console.log('zoomChanged: ' + zoomChanged)
-
     if (zoomChanged != null) {
-        //use jquery for this
-        var list = document.getElementById('zoom'); 
-        if (list.hasChildNodes() == true) {
-            var litext2 = list.firstChild;
-            litext2.data = 'zoom: ' + zoomChanged; 
-        } else {
-            var litext = document.createTextNode('zoom: ' + zoomChanged);	
-            list.appendChild(litext);
-        }
         var i=0;
         while (i<adminLevels.length) {
             var styleChanged = displayMap[zoomChanged]['styles'][i];
             var style = displayMap[zoom]['styles'][i];
-            //console.log('style: ' + style);
-            //console.log('styleChanged: ' + styleChanged);
             if (styleChanged == 0) {
-                //     console.log('not visible');
                 layers[i][0].setVisibility(false);
                 layers[i][1].setVisibility(false);
             } else {
@@ -445,31 +414,22 @@ var moveTo = function(bounds, zoomChanged, dragging) {
                 }
                 if (style != styleChanged) {
                     if (styleChanged < 2) {
-                        layers[i][0].styleMap['default'] = new OpenLayers.Style(styleBorder);
-                        //	  layers[i][0].removeAllFeatures();
-                        //layers[i][0].refresh();	layers[i][0].redraw();
-                        layers[i][1].styleMap['default'] = new OpenLayers.Style(styleBorder);	
-                        //	  layers[i][1].removeAllFeatures();
-                        //layers[i][1].refresh(); layers[i][1].redraw();
-
+                        layers[i][0].styleMap['default'] 
+                            = new OpenLayers.Style(styleBorder);
+                        layers[i][1].styleMap['default'] 
+                            = new OpenLayers.Style(styleBorder);	
                         redrawFeatures(layers[i][0],styleBorder);
                         redrawFeatures(layers[i][1],styleBorder);
 
                     } else {
-                        layers[i][0].styleMap['default'] = new OpenLayers.Style(styleArea);	
-                        //	  layers[i][0].removeAllFeatures();
-                        //layers[i][0].refresh();	layers[i][0].redraw();
-
-                        layers[i][1].styleMap['default'] = new OpenLayers.Style(styleArea);	
-                        //	  layers[i][1].removeAllFeatures();
-                        //layers[i][1].refresh();	layers[i][1].redraw();
-
-
+                        layers[i][0].styleMap['default'] 
+                            = new OpenLayers.Style(styleArea);	
+                        layers[i][1].styleMap['default'] 
+                            = new OpenLayers.Style(styleArea);	
                         redrawFeatures(layers[i][0],styleArea);
                         redrawFeatures(layers[i][1],styleArea);
                     }
                 }
-
             }
             i++;
         }
@@ -480,31 +440,13 @@ var moveTo = function(bounds, zoomChanged, dragging) {
 
 function redrawFeatures(thelayer,thestyle) {
     var i=0;
-
-    //console.log('#features: ' + thelayer.features.length);
     for (i=0; i<thelayer.features.length;i++) {
-        //console.log('draw feature ' + i
-        //             + ' style: ' + thestyle.fillColor);
-        if (false) {
-            //thelayer.events.triggerEvent("afterfeaturemodified", {feature: thelayer.features[i]});
-            thelayer.drawFeature(thelayer.features[i],thestyle);
-        } else {
-            var oldfeature = thelayer.features[i];
-            var feature = oldfeature.clone();
-            feature.style = thestyle;
-            oldfeature.state = OpenLayers.State.DELETE;
-            thelayer.removeFeatures([oldfeature]);
-            thelayer.addFeatures([feature],{style: thestyle});
-        }
+       thelayer.features[i].style = thestyle;
+       var drawn = thelayer.drawFeature(thelayer.features[i],thestyle);
     } 
 }
 
 function onPopupClose(feature) {
-    console.log('unselect');    
-    //$('counter').innerHTML = this.selectedFeatures.length;
     this.map.removePopup(popup);
-    //feature.popup.destroy();
-    //feature.popup = null;
 }
 
-//jQuery(window).load(loadMap(true));
