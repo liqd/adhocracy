@@ -50,6 +50,36 @@ var layers = new Array();
 var propsLayer;
 var styleBorder,styleArea,styleProps;
 
+styleProps = {
+    pointRadius: 5,
+    fillColor: "yellow",
+    fillOpacity: 0.8,
+    strokeColor: "green",
+    strokeWidth: 2,
+    strokeOpacity: 0.8
+};
+
+styleSelect = { 
+    pointRadius: 5,
+    fillColor: "green",
+    fillOpacity: 0.8,
+    strokeColor: "yellow",
+    strokeWidth: 2,
+    strokeOpacity: 0.8
+};
+
+styleBorder = {
+    fillColor: "#ffcc66",
+    fillOpacity: 0.5,
+    strokeColor: "#ff9933"
+};
+
+styleArea = {
+    fillColor: "#66ccff",
+    fillOpacity: 0.5,
+    strokeColor: "#3399ff"
+};
+
 //Zoom 0 ... 15 -> 0=hidden,1=visibleByBorder,2=visibleByArea,3=both
 var displayMap = [
     {styles: [1,0,0,0,2]},
@@ -149,7 +179,9 @@ function point_clicked() {
 function addSingleProposalLayer(singleProposalId, edit) {
 
     propsLayer = new OpenLayers.Layer.Vector("props", {
-        displayInLayerSwitcher: true, 
+        displayInLayerSwitcher: true,
+	styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
+					   'select': new OpenLayers.Style(styleSelect)}) 
         //projection: new OpenLayers.Projection("EPSG:900913"),
     });
 
@@ -253,6 +285,7 @@ function addSingleProposalLayer(singleProposalId, edit) {
 
 
 function loadMap(mapConfig) {
+
     var lat=34.070;
     var lon=-118.73;
     var mapControls = [
@@ -326,28 +359,6 @@ function loadMap(mapConfig) {
        map.addLayer(wmslayer);
        */
 
-
-    styleProps = new OpenLayers.Style({
-        pointRadius: 2,
-               fillColor: "#ffcc66",
-               fillOpacity: 0.8,
-               strokeColor: "#cc6633",
-               strokeWidth: 2,
-               strokeOpacity: 0.8
-    });
-
-    styleBorder = new OpenLayers.Style({
-        fillColor: "#ffcc66",
-                fillOpacity: 0.5,
-                strokeColor: "#ff9933"
-    });
-
-    styleArea = new OpenLayers.Style({
-        fillColor: "#66ccff",
-              fillOpacity: 0.5,
-              strokeColor: "#3399ff"
-    });
-
     var layersIdx = 0;
     while (layersIdx < adminLevels.length) {
         var style = displayMap[map.getZoom()]['styles'][layersIdx];
@@ -379,7 +390,7 @@ function loadMap(mapConfig) {
                     })
                     }),
                     projection: new OpenLayers.Projection("EPSG:4326"),
-                    styleMap: new OpenLayers.StyleMap({'default':(style < 2 ? styleBorder : styleArea)})
+                    styleMap: new OpenLayers.StyleMap({'default':(style < 2 ? new OpenLayers.Style(styleBorder) : new OpenLayers.Style(styleArea))})
                 });
             //console.log(layers[layersIdx][complexity] != null);
             map.addLayer(layers[layersIdx][complexity]);
@@ -434,42 +445,28 @@ var moveTo = function(bounds, zoomChanged, dragging) {
                 }
                 if (style != styleChanged) {
                     if (styleChanged < 2) {
-                        //  console.log('border');
-                        layers[i][0].styleMap['default'] = styleBorder//;
+                        layers[i][0].styleMap['default'] = new OpenLayers.Style(styleBorder);
                         //	  layers[i][0].removeAllFeatures();
                         //layers[i][0].refresh();	layers[i][0].redraw();
-                        layers[i][1].styleMap['default'] = styleBorder;	
+                        layers[i][1].styleMap['default'] = new OpenLayers.Style(styleBorder);	
                         //	  layers[i][1].removeAllFeatures();
                         //layers[i][1].refresh(); layers[i][1].redraw();
 
-                        redrawFeatures(layers[i][0],{fillColor: "#ffcc66",
-                            fillOpacity: 0.5,
-                            strokeColor: "#ff9933"});
-                        redrawFeatures(layers[i][1],{fillColor: "#ffcc66",
-                            fillOpacity: 0.5,
-                            strokeColor: "#ff9933"});
-                        //redrawFeatures(layers[i][0],{fillColor:"yellow"});
-                        //redrawFeatures(layers[i][1],{fillColor:"yellow"});
+                        redrawFeatures(layers[i][0],styleBorder);
+                        redrawFeatures(layers[i][1],styleBorder);
 
                     } else {
-                        //	  console.log('area');
-                        layers[i][0].styleMap['default'] = styleArea;	
+                        layers[i][0].styleMap['default'] = new OpenLayers.Style(styleArea);	
                         //	  layers[i][0].removeAllFeatures();
                         //layers[i][0].refresh();	layers[i][0].redraw();
 
-                        layers[i][1].styleMap['default'] = styleArea;	
+                        layers[i][1].styleMap['default'] = new OpenLayers.Style(styleArea);	
                         //	  layers[i][1].removeAllFeatures();
                         //layers[i][1].refresh();	layers[i][1].redraw();
 
 
-                        redrawFeatures(layers[i][0],{fillColor: "#66ccff",
-                            fillOpacity: 0.5,
-                            strokeColor: "#3399ff"});
-                        redrawFeatures(layers[i][1],{fillColor: "#66ccff",
-                            fillOpacity: 0.5,
-                            strokeColor: "#3399ff"});
-                        //redrawFeatures(layers[i][0],{fillColor:'purple'});
-                        //redrawFeatures(layers[i][1],{fillColor:'purple'});
+                        redrawFeatures(layers[i][0],styleArea);
+                        redrawFeatures(layers[i][1],styleArea);
                     }
                 }
 
