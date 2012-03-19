@@ -31,7 +31,7 @@
         ${components.formatting()}
         <br/><br/>
         <label for="time" class="armhint">${_("Date of the milestone")}</label>
-        <input name="time" id="time" class="armlabel long" value="${c.milestone.time.strftime("%d.%m.%Y")}" />
+        <input name="time" id="time" class="armlabel long" value="${c.milestone.time and c.milestone.time.strftime("%d.%m.%Y") or 'Undefined'}" />
         <span class="hint">${_("Please use the DD.MM.YYYY format.")}</span>
         </div>
     

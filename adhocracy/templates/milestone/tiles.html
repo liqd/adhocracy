@@ -13,7 +13,7 @@
               %endif
             </h3>
             <div class="meta noclear">
-                ${_("ends: <b>%s</b>") % milestone.time.strftime("%d.%m.%Y")|n} 
+                ${_("ends: <b>%s</b>") % milestone.time and milestone.time.strftime("%d.%m.%Y") or 'Undefined'|n} 
             </div>
         </div>
         <div class="hr"><hr /></div>    
@@ -33,7 +33,7 @@
     </div>
     
     <div style="clear: both;"></div>
-    <h1>${milestone.title} (${milestone.time.strftime("%d.%m.%Y")})</h1>
+    <h1>${milestone.title} (${milestone.time and milestone.time.strftime("%d.%m.%Y") or 'Undefined'})</h1>
 </%def>
 
 <%def name="select(tile, options, name)">
@@ -85,12 +85,14 @@
           'dateTimeFormat': 'iso8601',
           'events': [
             %for milestone in milestones:
+              %if milestone.time is not None:
               {
                 'start': "${milestone.time.isoformat()}Z",
                 'icon': "/img/icons/milestone_12.png",
                 'title': "${milestone.title}",
                 'link': "${h.entity_url(milestone)}"
               },
+              %endif
             %endfor
           ]
           }, '.');

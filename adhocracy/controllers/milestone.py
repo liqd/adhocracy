@@ -53,6 +53,10 @@ class MilestoneController(BaseController):
         require.milestone.index()
 
         c.milestones = model.Milestone.all(instance=c.instance)
+        broken = [m for m in c.milestones if m.time is None]
+        for milestone in broken:
+            log.warning('Time of Milestone is None: %s' % h.entity_url(milestone))
+        c.milestones = [m for m in c.milestones if m.time is not None]
         c.milestones_pager = pager.milestones(c.milestones)
 
         if format == 'json':
@@ -168,7 +172,7 @@ class MilestoneController(BaseController):
         h.add_meta("dc.title",
                    text.meta_escape(milestone.title, markdown=False))
         h.add_meta("dc.date",
-                   milestone.time.strftime("%Y-%m-%d"))
+                   milestone.time and milestone.time.strftime("%Y-%m-%d") or '')
         h.add_meta("dc.author",
                    text.meta_escape(milestone.creator.name, markdown=False))
 
