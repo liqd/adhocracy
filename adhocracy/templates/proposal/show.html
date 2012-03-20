@@ -127,11 +127,11 @@ ${components.watch(c.proposal)}
 
 
 %if h.asbool(config.get('adhocracy.proposal_geotags')):
-<h3>${_('Map')}</h3>
+    <h3>${_('Map')}</h3>
 %if c.proposal.has_geotag() is True:
-${map.show_map(cls='small_map', show_controls=False, single_proposal_id=c.proposal.id)}
+    ${map.show_single_proposal_map(c.proposal.id)}
 %else:
-<div id="no_map_yet">${_("This proposal does currently not refer to a geographic location.")}</div>
+    <div id="no_map_yet">${_("This proposal does currently not refer to a geographic location.")}</div>
 %endif
 
 <% auth = check.proposal.edit(c.proposal) %>

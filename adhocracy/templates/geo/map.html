@@ -1,20 +1,28 @@
 <%namespace name="components" file="/components.html"/>
-<%def name="show_map(show_controls=True, single_proposal_id=None, cls='default_map', edit=False)">
-<div id="map" class="${cls}"></div>
-%if edit:
+
+
+<%def name="show_single_proposal_map(proposal_id)">
+
+<div id="map" class="small_map"></div>
+<script src="/OpenLayers-2.11/lib/OpenLayers.js"></script>
+<script src="/javascripts/map.js"></script>
+<script type="text/javascript"> window.onload=loadSingleProposalMap('${c.instance.key}', ${proposal_id}, false); </script>
+</%def>
+
+
+<%def name="show_single_proposal_edit_map(proposal_id)">
+<div id="map" class="edit_map"></div>
 <div id="edit_map_buttons" />
-    <form method='post' action='${h.entity_url(c.proposal, member="update_geotag")}'>
+<form method='post' action='${h.entity_url(c.proposal, member="update_geotag")}'>
     <input id='proposal_geotag_field' name='geotag' type='hidden' />
     <div>
       <div class="input_wrapper submit">
         ${components.savebox("/proposal/%s" % c.proposal.id)}
       </div>
     </div>
-
 </form>
 
-%endif
 <script src="/OpenLayers-2.11/lib/OpenLayers.js"></script>
 <script src="/javascripts/map.js"></script>
-<script type="text/javascript"> window.onload=loadMap({showControls:${'true' if show_controls else 'false'}, singleProposalId:${single_proposal_id or 'null'}, edit:${'true' if edit else 'false'}, instanceKey:'${c.instance.key}'}); </script>
+<script type="text/javascript"> window.onload=loadSingleProposalMap('${c.instance.key}', ${proposal_id}, true); </script>
 </%def>

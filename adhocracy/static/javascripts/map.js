@@ -29,10 +29,7 @@
  * (x) NOTE: manuelles neuzeichnen mit 'drawFeature'
  --
 
- * TODO: config
- * TODO: capitols/proposals with popups, 
- click on capitol/proposal-polygon/marker opens 
- popup, link to capitol
+ * TODO: capitol markers with popup -> link to instance
  * TODO: list of search matches/proposals
  * TODO: hover (see cluster strategy example)
 
@@ -40,11 +37,6 @@
  * TODO: adjust proposal size
  */
 
-var baseUrl = "/blub";
-var adminLevels = [2,3,4,5,7];
-var map;
-var layers = new Array();
-var propsLayer;
 var styleBorder,styleArea,styleProps,styleSelect;
 
 styleProps = {
@@ -77,128 +69,20 @@ styleArea = {
     strokeColor: "#3399ff"
 };
 
-//Zoom 0 ... 15 -> 0=hidden,1=visibleByBorder,2=visibleByArea,3=both
-var displayMap = [
-    {styles: [1,0,0,0,2]},
-    {styles: [1,0,0,0,2]},
-    {styles: [1,0,0,0,2]},
-    {styles: [1,0,0,0,2]},
-    {styles: [1,1,0,0,2]},
-    {styles: [1,1,0,0,2]},
-    {styles: [1,1,1,0,2]},
-    {styles: [1,1,1,0,2]},
-    {styles: [1,1,1,0,2]},
-    {styles: [1,1,1,1,2]},
-    {styles: [1,1,1,1,2]},
-    {styles: [1,1,1,1,1]},
-    {styles: [1,1,1,1,1]},
-    {styles: [1,1,1,1,1]},
-    {styles: [1,1,1,1,1]},
-    {styles: [1,1,1,1,1]},
-    {styles: [1,1,1,1,1]},
-    {styles: [1,1,1,1,1]},
-    {styles: [1,1,1,1,1]}
-];
 
-function buildProposalPopup(attributes) {
-    return "<div class='proposal_popup_title'>"+attributes.title+"</div>";
-}
 
-function update_geo_buttons() {
+function createSingleProposalLayer() {
 
-    var new_state = propsLayer.features.length;
-
-    if (button_state != new_state) {
-        
-        if (button_state == 0) {
-            add_change_remove_geo_button();
-            $('#add_geo_button').remove();
-        } else {
-            add_add_geo_button();
-            $('#change_geo_button').remove();
-            $('#remove_geo_button').remove();
-        }
-        button_state = new_state;
-    }
-}
-
-function add_add_geo_button() {
-    $('<a />', {
-        id: 'add_geo_button',
-        class: 'button',
-        click: function() {
-            //propslayer. OpenLayers.Handler.Click({single:true, stopSingle:true});
-            pointControl.activate();
-        },
-        // FIXME: Use Gettext
-        text: 'Add position'
-    }).appendTo('#edit_map_buttons');
-}
-
-function add_change_remove_geo_button() {
-    $('<a />', {
-        id: 'change_geo_button',
-        class: 'button',
-        click: function() {
-            //propslayer. OpenLayers.Handler.Click({single:true, stopSingle:true});
-            propsLayer.removeAllFeatures();
-            pointControl.activate();
-        },
-        // FIXME: Use Gettext
-        text: 'Set different position'
-    }).appendTo('#edit_map_buttons');
-
-    $('<a />', {
-        id: 'remove_geo_button',
-        class: 'button',
-        click: function() {
-            propsLayer.removeAllFeatures();
-            $('#proposal_geotag_field').val('');
-            update_geo_buttons();
-        },
-        // FIXME: Use Gettext
-        text: 'Remove position'
-    }).appendTo('#edit_map_buttons');
-}
-
-function update_geotag_field() {
-    transformed_feature = propsLayer.features[0].clone();
-    transformed_feature.geometry.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
-    $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(transformed_feature));
-    map.setCenter(propsLayer.features[0].geometry.getBounds().getCenterLonLat(), 
-                  map.getZoom());
-}
-
-function point_clicked() {
-    pointControl.deactivate();
-    update_geo_buttons();
-    update_geotag_field();
-}
-
-function addSingleProposalLayer(singleProposalId, edit) {
-
-    propsLayer = new OpenLayers.Layer.Vector("props", {
-        displayInLayerSwitcher: true,
+    return new OpenLayers.Layer.Vector("proposal", {
+        displayInLayerSwitcher: false, 
 	styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
                 					   'select': new OpenLayers.Style(styleSelect)}) 
         //projection: new OpenLayers.Projection("EPSG:900913"),
     });
 
-    /* 
-    //layer for searching, proposals
-    propsLayer = new OpenLayers.Layer.Vector("props", {
-        displayInLayerSwitcher: false, 
-        strategies: [new OpenLayers.Strategy.Fixed()],
-        protocol: new OpenLayers.Protocol.HTTP({
-            url: ('/proposal/' + singleProposalId + '/get_geotag'),
-            format: new OpenLayers.Format.GeoJSON({
-                ignoreExtraDims: true
-            })
-        }),
-        projection: new OpenLayers.Projection("EPSG:4326")
-    });*/
+}
 
-
+function fetchSingleProposal(singleProposalId, layer, callback) {
     $.ajax({
         url: ('/proposal/' + singleProposalId + '/get_geotag'),
         success: function(data) {
@@ -208,21 +92,27 @@ function addSingleProposalLayer(singleProposalId, edit) {
                 feature = features[0];
                 $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(feature));
                 feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-                propsLayer.addFeatures([feature]);
-                map.setCenter(feature.geometry.getBounds().getCenterLonLat(), 10);
-                add_change_remove_geo_button();
-                button_state = 1;
+                layer.addFeatures([feature]);
+                callback(feature);
             } else {
-                // FIXME: use gettext
-                add_add_geo_button();
-                button_state = 0;
+                callback(null);
             }
         },
         error: function(xhr,err){
             alert('No response from server, sorry. Error: '+err);
         }
     })
-    propsLayer.events.on({
+}
+
+
+
+function createPopupControl(layer) {
+
+    function buildProposalPopup(attributes) {
+        return "<div class='proposal_popup_title'>"+attributes.title+"</div>";
+    }
+
+    layer.events.on({
         'featureselected': function(feature) {
             popup = new OpenLayers.Popup.FramedCloud("singlepopup",
                 feature.feature.geometry.getBounds().getCenterLonLat(),
@@ -232,12 +122,12 @@ function addSingleProposalLayer(singleProposalId, edit) {
                 );
             this.map.addPopup(popup);
         },
-        'featureunselected': onPopupClose        
+        'featureunselected': function(feature) {
+            this.map.removePopup(popup);
+        }
     });
 
-    map.addLayer(propsLayer);
-
-    selectControl = new OpenLayers.Control.SelectFeature(propsLayer, {
+    selectControl = new OpenLayers.Control.SelectFeature(layer, {
             clickout: true,
             toggle: false,
             multiple: false,
@@ -245,117 +135,225 @@ function addSingleProposalLayer(singleProposalId, edit) {
             toggleKey: "ctrlKey", // ctrl key removes from selection
             multipleKey: "shiftKey", // shift key adds to selection
             box: false,
+            autoActivate: true,
         });
 
-    map.addControl(selectControl);
-    selectControl.activate();
+    return selectControl;
+}
 
-    if (edit) {
+function addEditControls(map, layer) {
 
-        dragControl = new OpenLayers.Control.DragFeature(propsLayer, {
-                onComplete: function(feature, pixel) {update_geotag_field();}
-            });
+    var buttonState;
 
-        map.addControl(dragControl);
-        dragControl.activate();
+    var pointControl = new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Point, {
+        featureAdded: function(feature) {pointClicked()}
+    });
+    
+    function updateEditButtons() {
 
-        pointControl = new OpenLayers.Control.DrawFeature(propsLayer, OpenLayers.Handler.Point, {
-                featureAdded: point_clicked
-            });
+        var new_state = layer.features.length;
 
-        map.addControl(pointControl);
+        if (buttonState != new_state) {
+            
+            if (buttonState == 0) {
+                addChangeRemoveGeoButton(layer, pointControl);
+                $('#add_geo_button').remove();
+            } else {
+                addAddGeoButton();
+                $('#change_geo_button').remove();
+                $('#remove_geo_button').remove();
+            }
+            buttonState = new_state;
+        }
     }
 
+    function addAddGeoButton() {
+        $('<a />', {
+            id: 'add_geo_button',
+            class: 'button',
+            click: function() {
+                //propslayer. OpenLayers.Handler.Click({single:true, stopSingle:true});
+                pointControl.activate();
+            },
+            // FIXME: Use Gettext
+            text: 'Add position'
+        }).appendTo('#edit_map_buttons');
+    }
+
+    function addChangeRemoveGeoButton() {
+        $('<a />', {
+            id: 'change_geo_button',
+            class: 'button',
+            click: function() {
+                //propslayer. OpenLayers.Handler.Click({single:true, stopSingle:true});
+                layer.removeAllFeatures();
+                pointControl.activate();
+            },
+            // FIXME: Use Gettext
+            text: 'Set different position'
+        }).appendTo('#edit_map_buttons');
+
+        $('<a />', {
+            id: 'remove_geo_button',
+            class: 'button',
+            click: function() {
+                layer.removeAllFeatures();
+                $('#proposal_geotag_field').val('');
+                updateEditButtons();
+            },
+            // FIXME: Use Gettext
+            text: 'Remove position'
+        }).appendTo('#edit_map_buttons');
+    }
+
+    function updateGeotagField() {
+        transformed_feature = layer.features[0].clone();
+        transformed_feature.geometry.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
+        $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(transformed_feature));
+        map.setCenter(layer.features[0].geometry.getBounds().getCenterLonLat(), 
+                      map.getZoom());
+    }
+
+    function pointClicked() {
+        pointControl.deactivate();
+        updateEditButtons();
+        updateGeotagField();
+    }
+
+    function singleProposalFetched(feature) {
+        if (feature) {
+            addChangeRemoveGeoButton(layer, pointControl);
+            buttonState = 1;
+        } else {
+            addAddGeoButton(pointControl);
+            buttonState = 0;
+        }
+    }
+
+    map.addControls([
+        new OpenLayers.Control.DragFeature(layer, {
+            onComplete: function(feature, pixel) {
+                updateGeotagField();
+            },
+            autoActivate: true
+        }),
+        pointControl
+    ]);
+
+    return singleProposalFetched;
 }
 
 
+function createRegionBoundaryLayer(instanceKey, callback) {
 
-
-function loadMap(mapConfig) {
-
-    var lat=34.070;
-    var lon=-118.73;
-    var mapControls = [
-        new OpenLayers.Control.Navigation(),
-            new OpenLayers.Control.Scale(),
-            new OpenLayers.Control.ScaleLine(),
-            ];
-    if (mapConfig.showControls) {
-        mapControls.push(new OpenLayers.Control.PanZoomBar());
-        mapControls.push(new OpenLayers.Control.LayerSwitcher({'ascending':false}));
-        mapControls.push(new OpenLayers.Control.MousePosition());
-        mapControls.push(new OpenLayers.Control.KeyboardDefaults());
-    }
-
-    map = new OpenLayers.Map('map', {
-        //restrictedExtent: new OpenLayers.Bounds(-180, -90, 180, 90),
-        controls: mapControls, 
-        maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,
-                                         20037508.34,20037508.34),
-        maxResolution: 156543.0399,
-        numZoomLevels: displayMap.length,
-        units: 'm',
-        //projection: new OpenLayers.Projection("EPSG:900913"),
-        //displayProjection: new OpenLayers.Projection("EPSG:4326"),
-        projection: new OpenLayers.Projection("EPSG:4326"),
-        moveTo: moveTo
-    });
-
-
-    map.addLayer(new OpenLayers.Layer.OSM("Public Transport",
-                "http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png"));
-    map.addLayer(new OpenLayers.Layer.OSM("Transport Map",
-                "http://otile1.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png"));
-    //default Openstreetmap Baselayer
-    map.addLayer(new OpenLayers.Layer.OSM("Open Street Map"));
-    map.addLayer(new OpenLayers.Layer.OSM("&Ouml;pnv Deutschland", 
-                "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png"));
-
-    var lonLat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), 
-            new OpenLayers.Projection("EPSG:900913"));
-
-    // Blank Baselayer
-    var base = new OpenLayers.Layer("Blank",{isBaseLayer: true});
-    map.addLayer(base);
-    //some Google Baselayers
-    //		map.addLayer(new OpenLayers.Layer.Google("Google", {"sphericalMercator": true})); 
-    /*	
-        map.addLayer(new OpenLayers.Layer.Google(
-        "Google Physical",
-        {type: G_PHYSICAL_MAP}
-        ));
-        var gmap = new OpenLayers.Layer.Google(
-        "Google Streets", // the default
-        {numZoomLevels: 20}
-        );
-        var ghyb = new OpenLayers.Layer.Google(
-        "Google Hybrid",
-        {type: G_HYBRID_MAP, numZoomLevels: 20}
-        );
-        var gsat = new OpenLayers.Layer.Google(
-        "Google Satellite",
-        {type: G_SATELLITE_MAP, numZoomLevels: 22}
-        );
-        */
-    /*
-       var wmsLayer = new OpenLayers.Layer.WMS(
-       "OpenLayers WMS", 
-       "http://vmap0.tiles.osgeo.org/wms/vmap0",
-       {layers: 'basic'}
-       ); 
-       map.addLayer(wmslayer);
-       */
-
-    map.addLayer(new OpenLayers.Layer.Vector('instance_boundary', {
-        strategies: [new OpenLayers.Strategy.Fixed()],
-        protocol: new OpenLayers.Protocol.HTTP({
-            url: '/instance/' + mapConfig.instanceKey + '/get_region',
-            format: new OpenLayers.Format.GeoJSON()
-        }),
+    var layer = new OpenLayers.Layer.Vector('instance_boundary', {
+        displayInLayerSwitcher: false, 
         projection: new OpenLayers.Projection("EPSG:4326"),
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleBorder)}),
-    }))
+    })
 
+    $.ajax({
+        url: ('/instance/' + instanceKey + '/get_region'),
+        success: function(data) {
+            features = new OpenLayers.Format.GeoJSON({}).read(data);
+            if (features) {
+                // assert(features.length==1);
+                feature = features[0];
+                feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+                layer.addFeatures([feature]);
+                callback(feature);
+            } else {
+                callback(null);
+            }
+        },
+        error: function(xhr,err){
+            alert('No response from server, sorry. Error: '+err);
+        }
+    });
+
+    return layer;
+}
+
+function addMultiBoundaryLayer() {
+
+    var baseUrl = "/blub";
+    var adminLevels = [2,3,4,5,7];
+    var layers = new Array();
+
+    //Zoom 0 ... 15 -> 0=hidden,1=visibleByBorder,2=visibleByArea,3=both
+    var displayMap = [
+        {styles: [1,0,0,0,2]},
+        {styles: [1,0,0,0,2]},
+        {styles: [1,0,0,0,2]},
+        {styles: [1,0,0,0,2]},
+        {styles: [1,1,0,0,2]},
+        {styles: [1,1,0,0,2]},
+        {styles: [1,1,1,0,2]},
+        {styles: [1,1,1,0,2]},
+        {styles: [1,1,1,0,2]},
+        {styles: [1,1,1,1,2]},
+        {styles: [1,1,1,1,2]},
+        {styles: [1,1,1,1,1]},
+        {styles: [1,1,1,1,1]},
+        {styles: [1,1,1,1,1]},
+        {styles: [1,1,1,1,1]},
+        {styles: [1,1,1,1,1]},
+        {styles: [1,1,1,1,1]},
+        {styles: [1,1,1,1,1]},
+        {styles: [1,1,1,1,1]}
+    ];
+
+    var moveTo = function(bounds, zoomChanged, dragging) {
+        var zoom = map.getZoom();
+        if (zoomChanged != null) {
+            var i=0;
+            while (i<adminLevels.length) {
+                var styleChanged = displayMap[zoomChanged]['styles'][i];
+                var style = displayMap[zoom]['styles'][i];
+                if (styleChanged == 0) {
+                    layers[i][0].setVisibility(false);
+                    layers[i][1].setVisibility(false);
+                } else {
+                    if (zoomChanged < 8) {
+                        layers[i][0].setVisibility(true);
+                        layers[i][1].setVisibility(false);
+                    } else {
+                        layers[i][0].setVisibility(false);
+                        layers[i][1].setVisibility(true);
+                    }
+                    if (style != styleChanged) {
+                        if (styleChanged < 2) {
+                            layers[i][0].styleMap['default'] 
+                                = new OpenLayers.Style(styleBorder);
+                            layers[i][1].styleMap['default'] 
+                                = new OpenLayers.Style(styleBorder);	
+                            redrawFeatures(layers[i][0],styleBorder);
+                            redrawFeatures(layers[i][1],styleBorder);
+
+                        } else {
+                            layers[i][0].styleMap['default'] 
+                                = new OpenLayers.Style(styleArea);	
+                            layers[i][1].styleMap['default'] 
+                                = new OpenLayers.Style(styleArea);	
+                            redrawFeatures(layers[i][0],styleArea);
+                            redrawFeatures(layers[i][1],styleArea);
+                        }
+                    }
+                }
+                i++;
+            }
+        }
+
+        OpenLayers.Map.prototype.moveTo.apply(this, arguments);
+    }
+
+    function redrawFeatures(thelayer,thestyle) {
+        var i=0;
+        for (i=0; i<thelayer.features.length;i++) {
+           thelayer.features[i].style = thestyle;
+           var drawn = thelayer.drawFeature(thelayer.features[i],thestyle);
+        } 
+    }
 
     var layersIdx = 0;
     while (layersIdx < adminLevels.length) {
@@ -395,68 +393,173 @@ function loadMap(mapConfig) {
         }
         layersIdx++;
     }
-
-    if (mapConfig.singleProposalId) {
-        addSingleProposalLayer(mapConfig.singleProposalId, mapConfig.edit);
-    }
-    //map.setCenter (center, 9);
-    //map.setCenter(new OpenLayers.LonLat(0, 0), 0);
+    map.moveTo = moveTo;
 }
 
 
-var moveTo = function(bounds, zoomChanged, dragging) {
-    var zoom = map.getZoom();
-    if (zoomChanged != null) {
-        var i=0;
-        while (i<adminLevels.length) {
-            var styleChanged = displayMap[zoomChanged]['styles'][i];
-            var style = displayMap[zoom]['styles'][i];
-            if (styleChanged == 0) {
-                layers[i][0].setVisibility(false);
-                layers[i][1].setVisibility(false);
-            } else {
-                if (zoomChanged < 8) {
-                    layers[i][0].setVisibility(true);
-                    layers[i][1].setVisibility(false);
-                } else {
-                    layers[i][0].setVisibility(false);
-                    layers[i][1].setVisibility(true);
-                }
-                if (style != styleChanged) {
-                    if (styleChanged < 2) {
-                        layers[i][0].styleMap['default'] 
-                            = new OpenLayers.Style(styleBorder);
-                        layers[i][1].styleMap['default'] 
-                            = new OpenLayers.Style(styleBorder);	
-                        redrawFeatures(layers[i][0],styleBorder);
-                        redrawFeatures(layers[i][1],styleBorder);
+function createBaseLayers(blank) {
 
-                    } else {
-                        layers[i][0].styleMap['default'] 
-                            = new OpenLayers.Style(styleArea);	
-                        layers[i][1].styleMap['default'] 
-                            = new OpenLayers.Style(styleArea);	
-                        redrawFeatures(layers[i][0],styleArea);
-                        redrawFeatures(layers[i][1],styleArea);
-                    }
-                }
-            }
-            i++;
+    var baseLayers = [
+        new OpenLayers.Layer.OSM("Public Transport",
+                    "http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png"),
+        new OpenLayers.Layer.OSM("Transport Map",
+                    "http://otile1.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png"),
+        //default Openstreetmap Baselayer
+        new OpenLayers.Layer.OSM("Open Street Map"),
+        new OpenLayers.Layer.OSM("&Ouml;pnv Deutschland", 
+                    "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png")
+            ];
+
+    // Blank Baselayer
+    if (blank) {
+        baseLayers.push(new OpenLayers.Layer("Blank",{isBaseLayer: true}));
+    }
+
+    //some Google Baselayers
+    //		map.addLayer(new OpenLayers.Layer.Google("Google", {"sphericalMercator": true})); 
+    /*	
+        map.addLayer(new OpenLayers.Layer.Google(
+        "Google Physical",
+        {type: G_PHYSICAL_MAP}
+        ));
+        var gmap = new OpenLayers.Layer.Google(
+        "Google Streets", // the default
+        {numZoomLevels: 20}
+        );
+        var ghyb = new OpenLayers.Layer.Google(
+        "Google Hybrid",
+        {type: G_HYBRID_MAP, numZoomLevels: 20}
+        );
+        var gsat = new OpenLayers.Layer.Google(
+        "Google Satellite",
+        {type: G_SATELLITE_MAP, numZoomLevels: 22}
+        );
+        */
+    /*
+       var wmsLayer = new OpenLayers.Layer.WMS(
+       "OpenLayers WMS", 
+       "http://vmap0.tiles.osgeo.org/wms/vmap0",
+       {layers: 'basic'}
+       ); 
+       map.addLayer(wmslayer);
+       */
+
+    return baseLayers;
+}
+
+
+function createMap(numZoomLevels) {
+
+    return new OpenLayers.Map('map', {
+        //restrictedExtent: new OpenLayers.Bounds(-180, -90, 180, 90),
+        maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,
+                                         20037508.34,20037508.34),
+        maxResolution: 156543.0399,
+        numZoomLevels: numZoomLevels,
+        units: 'm',
+        //projection: new OpenLayers.Projection("EPSG:900913"),
+        //displayProjection: new OpenLayers.Projection("EPSG:4326"),
+        projection: new OpenLayers.Projection("EPSG:4326"),
+        controls: []
+    });
+}
+
+
+function createControls(fullControls) {
+    // add map controls
+
+    var mapControls = [
+        new OpenLayers.Control.Navigation(),
+        new OpenLayers.Control.ScaleLine(),
+    ];
+
+    if (fullControls) {
+        mapControls.push(new OpenLayers.Control.PanZoomBar());
+        mapControls.push(new OpenLayers.Control.LayerSwitcher({'ascending':false}));
+        // MousePosition currently displays 900913 instead of 4236
+        // mapControls.push(new OpenLayers.Control.MousePosition());
+        // use KeyboardDefault only when map is the central element
+        mapControls.push(new OpenLayers.Control.KeyboardDefaults());
+        mapControls.push(new OpenLayers.Control.Scale());
+    }
+
+    return mapControls;
+}
+
+
+
+function centerMap(map, feature, boundary) {
+    if (feature) {
+        map.setCenter(feature.geometry.getBounds().getCenterLonLat(), 10);
+        // x boundary
+    } else {
+        map.setCenter(feature.geometry.getBounds().getCenterLonLat(), 10);
+        // nur boundary
+    }
+}
+
+
+function createWaiter(number, callback) {
+
+    // waits for number of addGeometry calls and finally calls callback
+
+    var countdown = number;
+    var bounds = new OpenLayers.Bounds();
+
+    function addGeometry(geometry) {
+        countdown--;
+
+        if (geometry) {
+            bounds.extend(geometry.getBounds());
+        }
+
+        if (countdown == 0) {
+            callback(bounds);
         }
     }
 
-    OpenLayers.Map.prototype.moveTo.apply(this, arguments);
+    return addGeometry;
 }
 
-function redrawFeatures(thelayer,thestyle) {
-    var i=0;
-    for (i=0; i<thelayer.features.length;i++) {
-       thelayer.features[i].style = thestyle;
-       var drawn = thelayer.drawFeature(thelayer.features[i],thestyle);
-    } 
+
+NUM_ZOOM_LEVELS = 19
+
+
+
+
+function loadSingleProposalMap(instanceKey, proposalId, edit) {
+
+    var map = createMap(NUM_ZOOM_LEVELS);
+
+    waiter = createWaiter(2, function(bounds) {
+        map.zoomToExtent(bounds)
+    });
+
+    map.addControls(createControls(edit));
+    map.addLayers(createBaseLayers());
+    map.addLayer(createRegionBoundaryLayer(instanceKey, function(feature) {
+        waiter(feature.geometry);
+    }));
+
+    var proposalLayer = createSingleProposalLayer();
+    map.addLayer(proposalLayer);
+    map.addControl(createPopupControl(proposalLayer));
+
+    if (edit) {
+        var singleProposalFetchedCallback = addEditControls(map, proposalLayer);
+    }
+
+    fetchSingleProposal(proposalId, proposalLayer, function(feature) {
+        if (edit) {
+            singleProposalFetchedCallback(feature);
+        }
+
+        waiter(feature.geometry);
+    });
 }
 
-function onPopupClose(feature) {
-    this.map.removePopup(popup);
-}
+function loadRegionMap() {}
 
+function loadOverviewMap() {
+    addMultiBoundaryLayer();
+}
