@@ -10,13 +10,14 @@
 
 
 <%block name="main_content">
+<% delegate_url = h.proposal.url(c.proposal, member='delegations') %>
 
     %if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
-    ${tiles.poll.widget(c.proposal.rate_poll, cls='big')}
+    ${tiles.poll.widget(c.proposal.rate_poll, cls='big', delegate_url=delegate_url)}
     %endif
 
     %if c.proposal.is_adopt_polling():
-    ${tiles.poll.widget(c.proposal.adopt_poll, cls='big')}
+    ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)}
     %endif
 
             <section>
