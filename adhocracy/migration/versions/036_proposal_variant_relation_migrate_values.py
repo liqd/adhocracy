@@ -124,6 +124,7 @@ def collect_poll_data(migrate_engine, polls, selection_to_proposal):
             proposal_ids.append(selection_to_proposal[selection_id])
         except Exception, E:
             pass
+    return proposal_ids, variant_to_selection
 
 
 def handle_page(migrate_engine, page_id, selections_, polls):
