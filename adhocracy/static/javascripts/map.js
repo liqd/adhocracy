@@ -477,7 +477,7 @@ function createControls(fullControls) {
         mapControls.push(new OpenLayers.Control.PanZoomBar());
         mapControls.push(new OpenLayers.Control.LayerSwitcher({'ascending':false}));
         // MousePosition currently displays 900913 instead of 4236
-        // mapControls.push(new OpenLayers.Control.MousePosition());
+        mapControls.push(new OpenLayers.Control.MousePosition());
         // use KeyboardDefault only when map is the central element
         mapControls.push(new OpenLayers.Control.KeyboardDefaults());
         mapControls.push(new OpenLayers.Control.Scale());
@@ -505,26 +505,31 @@ function createWaiter(number, callback) {
 
     var countdown = number;
     var bounds = new OpenLayers.Bounds();
+    var is_empty = true;
 
-    function addGeometry(geometry) {
+    function addFeature(feature) {
         countdown--;
 
-        if (geometry) {
-            bounds.extend(geometry.getBounds());
+        if (feature) {
+            bounds.extend(feature.geometry.getBounds());
+            is_empty = false;
         }
 
         if (countdown == 0) {
+            if (is_empty) {
+                bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+            }
             callback(bounds);
         }
     }
 
-    return addGeometry;
+    return addFeature;
 }
 
 
 NUM_ZOOM_LEVELS = 19
 
-
+FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402]
 
 
 function loadSingleProposalMap(instanceKey, proposalId, edit) {
@@ -538,7 +543,7 @@ function loadSingleProposalMap(instanceKey, proposalId, edit) {
     map.addControls(createControls(edit));
     map.addLayers(createBaseLayers());
     map.addLayer(createRegionBoundaryLayer(instanceKey, function(feature) {
-        waiter(feature.geometry);
+        waiter(feature);
     }));
 
     var proposalLayer = createSingleProposalLayer();
@@ -554,7 +559,7 @@ function loadSingleProposalMap(instanceKey, proposalId, edit) {
             singleProposalFetchedCallback(feature);
         }
 
-        waiter(feature.geometry);
+        waiter(feature);
     });
 }
 
