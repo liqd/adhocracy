@@ -346,6 +346,17 @@ function loadMap(mapConfig) {
        map.addLayer(wmslayer);
        */
 
+    map.addLayer(new OpenLayers.Layer.Vector('instance_boundary', {
+        strategies: [new OpenLayers.Strategy.Fixed()],
+        protocol: new OpenLayers.Protocol.HTTP({
+            url: '/instance/' + mapConfig.instanceKey + '/get_region',
+            format: new OpenLayers.Format.GeoJSON()
+        }),
+        projection: new OpenLayers.Projection("EPSG:4326"),
+        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleBorder)}),
+    }))
+
+
     var layersIdx = 0;
     while (layersIdx < adminLevels.length) {
         var style = displayMap[map.getZoom()]['styles'][layersIdx];
@@ -369,12 +380,12 @@ function loadMap(mapConfig) {
                     strategies: [new OpenLayers.Strategy.BBOX()],
                     protocol: new OpenLayers.Protocol.HTTP({
                         url: featureUrl,
-                    params: {
-                        admin_level: adminLevels[layersIdx]
-                    },
-                    format: new OpenLayers.Format.GeoJSON({
-                        ignoreExtraDims: true
-                    })
+                        params: {
+                            admin_level: adminLevels[layersIdx]
+                        },
+                        format: new OpenLayers.Format.GeoJSON({
+                            ignoreExtraDims: true
+                        })
                     }),
                     projection: new OpenLayers.Projection("EPSG:4326"),
                     styleMap: new OpenLayers.StyleMap({'default':(style < 2 ? new OpenLayers.Style(styleBorder) : new OpenLayers.Style(styleArea))})
@@ -385,9 +396,8 @@ function loadMap(mapConfig) {
         layersIdx++;
     }
 
-    var center;
     if (mapConfig.singleProposalId) {
-        center = addSingleProposalLayer(mapConfig.singleProposalId, mapConfig.edit);
+        addSingleProposalLayer(mapConfig.singleProposalId, mapConfig.edit);
     }
     //map.setCenter (center, 9);
     //map.setCenter(new OpenLayers.LonLat(0, 0), 0);

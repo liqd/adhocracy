@@ -19,7 +19,7 @@ from adhocracy.lib.auth import csrf, require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.event.stats import instance_activity
 from adhocracy.lib.templating import (render, render_json, render_png,
-                                      ret_abort, ret_success)
+                                      ret_abort, ret_success, render_geojson)
 from adhocracy.lib.util import get_entity_or_abort
 
 
@@ -332,3 +332,22 @@ class InstanceController(BaseController):
             abort(403, _("You cannot manipulate one instance from within "
                          "another instance."))
         return c.instance
+
+
+    def get_region(self, id):
+
+        c.instance = self._get_current_instance(id)
+
+        import geojson
+        from shapely.wkb import loads
+
+        if c.instance.region is None:
+            data = {}
+        else:
+            data = geojson.Feature(geometry=loads(str(c.instance.region.boundary.geom_wkb)), properties={
+                'name':c.instance.region.name,
+                'admin_level':c.instance.region.admin_level,
+                'admin_type':c.instance.region.admin_type,
+                'id':c.instance.region.id,
+                })
+        return render_geojson(data)

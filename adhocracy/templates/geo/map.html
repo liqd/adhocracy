@@ -16,5 +16,5 @@
 %endif
 <script src="/OpenLayers-2.11/lib/OpenLayers.js"></script>
 <script src="/javascripts/map.js"></script>
-<script type="text/javascript"> window.onload=loadMap({showControls:${'true' if show_controls else 'false'}, singleProposalId:${single_proposal_id or 'null'}, edit:${'true' if edit else 'false'}}); </script>
+<script type="text/javascript"> window.onload=loadMap({showControls:${'true' if show_controls else 'false'}, singleProposalId:${single_proposal_id or 'null'}, edit:${'true' if edit else 'false'}, instanceKey:'${c.instance.key}'}); </script>
 </%def>
