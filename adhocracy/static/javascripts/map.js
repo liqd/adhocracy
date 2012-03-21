@@ -120,7 +120,27 @@ function createOverviewLayer() {
 
 function createRegionProposalsLayer(instanceKey, initialProposals, featuresAddedCallback) {
 
-    return new OpenLayers.Layer.Vector('region_proposals', {
+    var rule = new OpenLayers.Rule({
+        symbolizer: {
+            graphicHeight: 31,
+            graphicWidth: 24,
+            graphicYOffset: -31
+        }
+    })
+
+    rule.evaluate = function (feature) {
+        var index = initialProposals.indexOf(feature.fid);
+
+        if (index >= 0) {
+            var letter = String.fromCharCode(index+97);
+            this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    layer = new OpenLayers.Layer.Vector('region_proposals', {
         strategies: [new OpenLayers.Strategy.Fixed()],
         protocol: new OpenLayers.Protocol.HTTP({
             url: '/instance/' + instanceKey + '/get_proposal_geotags',
@@ -129,16 +149,7 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
         projection: new OpenLayers.Projection("EPSG:4326"),
         styleMap: new OpenLayers.StyleMap({
             'default': new OpenLayers.Style(styleProps, {rules: [
-                new OpenLayers.Rule({
-                    filter: new OpenLayers.Filter.FeatureId({fids: initialProposals}),
-                    symbolizer: {
-                        externalGraphic: '/images/marker.png',
-                        graphicHeight: 31,
-                        graphicWidth: 24,
-                        graphicYOffset: -31
-
-                    }
-                }),
+                rule,
                 new OpenLayers.Rule({elseFilter: true})
             ]}),
             'select': new OpenLayers.Style(styleSelect)
