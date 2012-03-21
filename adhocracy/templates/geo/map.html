@@ -1,9 +1,9 @@
 <%namespace name="components" file="/components.html"/>
 
-
 <%def name="show_single_proposal_map(proposal_id)">
 
 <div id="map" class="small_map"></div>
+    <div class="note_map">© <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">lizenz</a>)</div>
 <script src="/OpenLayers-2.11/lib/OpenLayers.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript"> window.onload=loadSingleProposalMap('${c.instance.key}', ${proposal_id}, false); </script>
@@ -12,6 +12,7 @@
 
 <%def name="show_single_proposal_edit_map(proposal_id)">
 <div id="map" class="edit_map"></div>
+    <div class="note_map">© <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">lizenz</a>)</div>
 <div id="edit_map_buttons" />
 <form method='post' action='${h.entity_url(c.proposal, member="update_geotag")}'>
     <input id='proposal_geotag_field' name='geotag' type='hidden' />
@@ -30,6 +31,7 @@
 <%def name="show_region_map(initial_proposals=None)">
 
 <div id="map" class="small_map"></div>
+    <div class="note_map">© <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">lizenz</a>)</div>
 <script src="/OpenLayers-2.11/lib/OpenLayers.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript"> window.onload=loadRegionMap('${c.instance.key}', ${initial_proposals if initial_proposals else 'null'}); </script>
@@ -38,6 +40,7 @@
 <%def name="show_overview_map(initial_instances=None)">
 
 <div id="map" class="small_map"></div>
+    <div class="note_map">© <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">lizenz</a>)</div>
 <script src="/OpenLayers-2.11/lib/OpenLayers.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript"> window.onload=loadOverviewMap(${initial_instances if initial_instances else 'null'}); </script>
