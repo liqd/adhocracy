@@ -364,3 +364,15 @@ class InstanceController(BaseController):
 
         return render_geojson(features)
 
+
+    def get_instance_regions(self):
+
+        require.instance.index()
+        instances = model.Instance.all()
+
+        features = geojson.FeatureCollection([geojson.Feature(geometry=loads(str(i.region.boundary.geom_wkb)), properties={
+            'url':h.base_url(i),
+            'label':i.label,
+            }) for i in instances if i.region is not None])
+        return render_geojson(features)
+

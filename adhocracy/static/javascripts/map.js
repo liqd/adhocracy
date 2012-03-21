@@ -103,6 +103,21 @@ function fetchSingleProposal(singleProposalId, layer, callback) {
 }
 
 
+function createOverviewLayer() {
+
+    return new OpenLayers.Layer.Vector('overview', {
+        strategies: [new OpenLayers.Strategy.Fixed()],
+        protocol: new OpenLayers.Protocol.HTTP({
+            url: '/instance/get_instance_regions',
+            format: new OpenLayers.Format.GeoJSON()
+        }),
+        projection: new OpenLayers.Projection("EPSG:4326"),
+        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleBorder)})
+    })
+
+}
+
+
 function createRegionProposalsLayer(instanceKey, initialProposals, featuresAddedCallback) {
 
     return new OpenLayers.Layer.Vector('region_proposals', {
@@ -126,7 +141,7 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
                 }),
                 new OpenLayers.Rule({elseFilter: true})
             ]}),
-            'select': new OpenLayers.Style(styleSelect) 
+            'select': new OpenLayers.Style(styleSelect)
         }),
     })
 
@@ -138,18 +153,14 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
 }
 
 
-function createPopupControl(layer) {
-
-    function buildProposalPopup(attributes) {
-        return "<div class='proposal_popup_title'><a href='/proposal/"+attributes.id+"'>"+attributes.title+"</a></div>";
-    }
+function createPopupControl(layer, buildPopupContent) {
 
     layer.events.on({
         'featureselected': function(feature) {
             popup = new OpenLayers.Popup.FramedCloud("singlepopup",
                 feature.feature.geometry.getBounds().getCenterLonLat(),
                 null,
-                buildProposalPopup(feature.feature.attributes),
+                buildPopupContent(feature.feature.attributes),
                 null,false,null
                 );
             this.map.addPopup(popup);
@@ -306,16 +317,16 @@ function createRegionBoundaryLayer(instanceKey, callback) {
     return layer;
 }
 
-function addMultiBoundaryLayer() {
+function addMultiBoundaryLayer(map) {
 
     var baseUrl = "/blub";
-    var adminLevels = [2,3,4,5,7];
+    var adminLevels = [2,4,5,6,8];
     var layers = new Array();
 
     //Zoom 0 ... 15 -> 0=hidden,1=visibleByBorder,2=visibleByArea,3=both
     var displayMap = [
-        {styles: [1,0,0,0,2]},
-        {styles: [1,0,0,0,2]},
+        {styles: [0,0,0,0,2]},
+        {styles: [0,0,0,0,2]},
         {styles: [1,0,0,0,2]},
         {styles: [1,0,0,0,2]},
         {styles: [1,1,0,0,2]},
@@ -558,10 +569,18 @@ function createWaiter(number, callback) {
     return addFeature;
 }
 
+function buildProposalPopup(attributes) {
+    return "<div class='proposal_popup_title'><a href='/proposal/"+attributes.id+"'>"+attributes.title+"</a></div>";
+}
 
-NUM_ZOOM_LEVELS = 19
+function buildInstancePopup(attributes) {
+    return "<div class='instance_popup_title'><a href='"+attributes.url+"'>"+attributes.label+"</a></div>";
+}
 
-FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402]
+
+NUM_ZOOM_LEVELS = 19;
+
+FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
 
 
 function loadSingleProposalMap(instanceKey, proposalId, edit) {
@@ -580,7 +599,7 @@ function loadSingleProposalMap(instanceKey, proposalId, edit) {
 
     var proposalLayer = createProposalLayer();
     map.addLayer(proposalLayer);
-    map.addControl(createPopupControl(proposalLayer));
+    map.addControl(createPopupControl(proposalLayer, buildProposalPopup));
 
     if (edit) {
         var singleProposalFetchedCallback = addEditControls(map, proposalLayer);
@@ -620,6 +639,29 @@ function loadRegionMap(instanceKey, initialProposals) {
 
 }
 
-function loadOverviewMap() {
-    addMultiBoundaryLayer();
+function loadOverviewMap(initialInstances) {
+    var map = createMap(NUM_ZOOM_LEVELS);
+
+    bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+
+    map.addControls(createControls(false));
+    map.addLayers(createBaseLayers());
+
+    //var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals);
+    //map.addLayer(proposalLayer);
+    //var popupControl = createPopupControl(proposalLayer, buildInstancePopup);
+    //map.addControl(popupControl);
+
+    //$('.result_list_marker').click(function(elem) {
+    //    feature = proposalLayer.getFeaturesByAttribute('id', parseInt(elem.srcElement.id.substring('result_list_marker_'.length)))[0];
+    //    popupControl.clickFeature(feature);
+    //});
+
+    overviewLayer = createOverviewLayer();
+    map.addLayer(overviewLayer);
+    var popupControl = createPopupControl(overviewLayer, buildInstancePopup);
+    map.addControl(popupControl);
+
+    map.zoomToExtent(bounds);
+    // addMultiBoundaryLayer(map);
 }
