@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="map" file="/geo/map.html"/>
 <%def name="title()">${_("Home")}</%def>
 
 <%def name="breadcrumbs()">
@@ -44,4 +45,15 @@
         <li>${_("<b>%s</b> comments") % c.stats.get('comments')|n}</li>
     </ul>
 </div>
+</%block>
+
+
+<%block name="sidebar">
+
+%if h.asbool(config.get('adhocracy.proposal_geotags')):
+    <h3>${_('Newest geotagged proposals')}</h3>
+    <%doc>filter if p is not None in list comprehension is just a workaround, as SolrPager seems to return None proposals accidently</%doc>
+    ${map.show_region_map([p.id for p in c.new_proposals_pager.items if p is not None])}
+%endif
+
 </%block>
