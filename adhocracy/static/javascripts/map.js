@@ -41,19 +41,19 @@ var styleBorder,styleArea,styleProps,styleSelect;
 
 styleProps = {
     pointRadius: 5,
-    fillColor: "yellow",
+    fillColor: "#f28686",
     fillOpacity: 0.8,
-    strokeColor: "green",
-    strokeWidth: 2,
+    strokeColor: "#be413f",
+    strokeWidth: 1,
     strokeOpacity: 0.8
 };
 
 styleSelect = { 
     pointRadius: 5,
-    fillColor: "green",
+    fillColor: "#e82b2b",
     fillOpacity: 0.8,
-    strokeColor: "yellow",
-    strokeWidth: 2,
+    strokeColor: "#be413f",
+    strokeWidth: 1,
     strokeOpacity: 0.8
 };
 
