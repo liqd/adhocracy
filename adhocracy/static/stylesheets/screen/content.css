@@ -823,6 +823,15 @@ body.logged_in #nav li a {
   color: #fff;
   font-weight: normal;
 }
+
+/* Sidebar content summary */
+
+#col3 summary ol {
+  list-style-type: none;
+  margin-left: 0;
+}
+
+
 /* follow button */
 a.follow_paper, div.skip_follow {
   height: 26px;
@@ -851,6 +860,31 @@ a.follow_paper.active {
 a.follow_paper.active:hover {
   background-position: 0 -152px;
 }
+
+/* delegate button */
+
+a.button.delegate {
+  height: 26px;
+  line-height: 26px;
+  border-radius: 13px;
+  overflow: hidden;
+  display: inline-block;
+  margin: 0 0 20px;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0 20px;
+}
+
+a.button.delegate {
+  background: url('/images/sprite_buttons.png') no-repeat -35px -1px;
+  color: #2D3441;
+}
+
+a.button.delegate:hover {
+  background-position: -35px -52px;
+  text-decoration: none;
+}
+
 /* vote */
 .vote {
   background: url('/images/sprite_buttons_small.png') repeat-x 0 -300px;

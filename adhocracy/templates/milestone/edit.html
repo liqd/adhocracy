@@ -13,16 +13,6 @@
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
     
-    <div class="sidebar">
-        <div class="help">
-            <h3>${_("Help")}</h3>
-            <ul>
-                <li>${h.help_link(_("What is a milestone?"), 'milestone_faq', anchor='whatis')|n}</li>
-                <li>${h.help_link(_("More help..."), 'milestone_faq')|n}</li>
-            </ul>
-        </div>
-    </div>
-    
     <div class="mainbar">
         <h3>${_("Milestone title")}</h3>
         <div class="page_title">
@@ -41,17 +31,12 @@
         ${components.formatting()}
         <br/><br/>
         <label for="time" class="armhint">${_("Date of the milestone")}</label>
-        <input name="time" id="time" class="armlabel long" value="${c.milestone.time.strftime("%d.%m.%Y")}" />
+        <input name="time" id="time" class="armlabel long" value="${c.milestone.time and c.milestone.time.strftime("%d.%m.%Y") or 'Undefined'}" />
         <span class="hint">${_("Please use the DD.MM.YYYY format.")}</span>
         </div>
     
     <div style="clear:both;"></div>
     
-    <div class="sidebar">
-        <div class="infobox">
-            ${h.help_link(_("More help..."), 'milestone_faq')|n}
-        </div>
-    </div>
     <div class="mainbar">
         ${components.savebox("/milestone/%s" % c.milestone.id)}
         ${components.form_watch(c.milestone)}

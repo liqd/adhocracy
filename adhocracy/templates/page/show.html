@@ -2,10 +2,11 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="sidebar_defs" file="/sidebar.html"/>
 <%namespace name="state" file="/poll/state.html"/>
-
+<% from adhocracy.lib import sorting %>
 <%def name="title()">${c.page.title}</%def>
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
+
 
 <%block name="sidebar">
 
@@ -64,6 +65,18 @@
                ) % h.milestone.link(c.page.milestone)|n}
         </p>
         %endif
+        %if len(c.page.subpages):
+        <h6>Sub-norms</h6>
+        <ul class="papers_list">
+            %for subpage in sorting.delegateable_title(c.page.subpages):
+            <li>
+                <a href="${h.entity_url(subpage)}">
+                    ${subpage.title}
+                </a>
+            </li>
+            %endfor
+        </ul>
+        %endif
         ## Fixme: Info zur Version
         ## <h6>Angelegt</h6>
         ## <p>von <a href="#">Timoteus</a> am 
@@ -72,6 +85,12 @@
 
     ${tiles.tag.sidebar(c.page)}
 
+    <h6>Unterthemen</h6>
+    <ol>
+        %for page in sorting.delegateable_title(c.page.subpages):
+        <li><a href="${h.entity_url(page)}">${page.title}</a></li>
+        %endfor
+    </ol>
     </summary>
 
 </section>
@@ -104,6 +123,13 @@
     </div>
 </script>
 
+
+        %if can.page.delete(c.page) and active != 'diff':
+        <a class="button title delete"  
+           href="${h.entity_url(c.page, member='ask_delete')}">
+            ${_("delete")}
+        </a>
+        %endif
 
     <h2>${_("Norm: %s") % c.page.title}</h2>
 

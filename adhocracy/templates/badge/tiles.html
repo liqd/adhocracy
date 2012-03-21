@@ -1,14 +1,9 @@
 <%def name="badge(badge)">
 <%
-description = badge.description.strip() if badge.description else ''
-if description:
-    title = _('Marked as: %(badge)s (%(description)s)') % {
-        'badge': badge.title, 'description': badge.description}
-else:
-    title = _('Marked as: %(badge)s') % {'badge': badge.title}
+description = badge.description.strip() if badge.description.strip() else ''
 %>
     <span class="badge badge_${badge.id}">
-        <a class="ttip" title="${title}">${badge.title}</a>
+        <a class="${description and 'ttip' or ''}" title="${description}">${badge.title}</a>
     </span>
 </%def>
 

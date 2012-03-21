@@ -40,13 +40,17 @@
         %for comment, tile in _comments:
         %if tile.show:
         <li>
-            ${full(tile, comment, comments, recurse, ret_url=ret_url)}
+            ${tiles.comment.show(comment, recurse=recurse, ret_url=ret_url)}
+  
+            %if recurse:
+            ${tiles.comment.list(comment.topic, comment, comment.topic.comments,  variant=variant, recurse=recurse, ret_url=ret_url)}
+            %endif
+
         </li>
         %endif
         %endfor
     </ul>
     %endif
-
     <% auth = check.comment.create_on(topic) %>
     %if root is None:
         %if auth:
@@ -86,7 +90,7 @@
 </%def>
 
 
-<%def name="full(tile, comment, comments, recurse, ret_url='')">
+<%def name="show(tile, comment, ret_url='')">
     <%  
     if not tile.show:
         return
@@ -97,8 +101,6 @@
     elif comment.latest.sentiment == model.Comment.SENT_CON:
         sentiment = {'css': 'con', 'msg': _(u'is con')}
     %>
-
-    ## new code:
 
     <div id="c${comment.id}" class="comment">
 
@@ -208,124 +210,6 @@
 
     </div>
 
-
-    %if recurse:
-    ${list(None, comments, comment.topic, variant=comment.variant, root=comment, recurse=recurse)}
-    %endif
-
-
-    ## /end new code
-
-    <%doc>
-    ## old code:
-
-    <div class="comment ${'hidden' if tile.is_low else ''}" id="c${comment.id}">
-        <div class="tile 
-                        ${'pro' if comment.latest.sentiment == model.Comment.SENT_PRO else ''} 
-                      ${'con' if comment.latest.sentiment == model.Comment.SENT_CON else ''} 
-                        ${h.poll_position_css(comment.poll)}" id="tile_c${comment.id}">
-            <div class="logo rate">
-                %if can.comment.rate(comment):
-                    <a class="up icon ttip" title="${_("Support this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=1&${h.url_token()}" 
-                        onclick="return adhocracy.rate('#tile_c${comment.id}', ${comment.poll.id}, 1);">
-                        &nbsp;
-                    </a>
-                    <a href="${h.entity_url(comment.poll, member='votes')}" 
-                        class="score">${tile.score}</a>
-                    <a class="down icon ttip" title="${_("Oppose this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=-1&${h.url_token()}" 
-                        onclick="return adhocracy.rate('#tile_c${comment.id}', ${comment.poll.id}, -1);">
-                        &nbsp;
-                    </a>
-                %else:
-                    <a class="up icon inactive">&nbsp;</a>
-                    <a href="${h.entity_url(comment.poll, member='votes')}" 
-                        class="score">${tile.score}</a>
-                    <a class="down icon inactive">&nbsp;</a>
-                %endif
-            </div>
-            
-            <div class="base">
-            <div class="sentiment">
-            %if not comment.is_deleted():
-                <b>${h.user.link(comment.creator, scope=comment.topic)|n}</b>
-            %endif
-            <div class="top_actions comment">               
-                %if can.comment.edit(comment):
-                    <a class="button edit" 
-                       href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
-                %endif
-
-                %if can.comment.delete(comment):
-                    <a class="button delete" href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a> 
-                %endif
-
-                %if can.comment.reply(comment) and recurse:
-                    <a class="button add reply" onClick="return adhocracy.comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1&ret_url=${ret_url}">${_("reply")}</a>
-                %endif 
-
-                <a class="button delete showjs" 
-                   onClick="return adhocracy.toggle_comment(${comment.id})">${_("hide")}</a>
-            </div>
-                
-            <div class="title">
-                %if comment.is_deleted():
-                    ${_("(deleted)")}
-                %endif
-            </div>
-            
-            <div class="text hide_edit">
-                %if not comment.is_deleted():
-                    ${tile.text|n}
-                %else:
-                    <span class="hint">${_("This comment has been deleted.")}</span>
-                %endif
-            </div>
-
-            <div class="pre">
-                %if comment.is_deleted():
-                    ${_("deleted %s") % h.relative_time(comment.delete_time)|n}
-                %else:
-                    %if not comment.is_edited(): 
-                        ${h.relative_time(comment.create_time)|n}
-                    %else:
-                        %if comment.latest.user == comment.creator:
-                            ${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
-                        %else:
-                            ${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
-                                                           h.user.link(comment.latest.user, scope=comment.topic))|n}
-                        %endif  
-                    %endif
-                    %if comment.wiki:
-                        · ${_("editable") if comment.wiki else ''}
-                    %endif
-                    %if len(comment.revisions) > 1:
-                        ·
-                        <a href="${h.entity_url(comment, member='history')}">${_("history")}</a>
-                    %endif
-                    ·
-                    <a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
-                    ·
-                    <a href="${h.entity_url(comment, comment_page=True)}">${_("link")}</a>                    <a href="#" class="thread">Show subthread</a>
-                %endif
-                <a name="c${comment.id}">&nbsp;</a>
-            </div>
-            </div>
-
-            <div class="edit_form">
-                ${self.edit_form(comment, ret_url=ret_url)}
-            </div>
-            <div class="reply_form sub ${'base_reply' if reply_here else ''}">
-                ${self.create_form(comment, comment.topic, variant=comment.variant, ret_url=ret_url)}
-            </div>
-            </div>
-        </div>
-        %if recurse:
-            <div class="sub">
-                ${list(None, comments, comment.topic, variant=comment.variant, root=comment, recurse=recurse)}
-            </div>
-        %endif
-    </div>
-    </%doc>
 </%def>
 
 <%def name="edit_form(comment, ret_url='')">

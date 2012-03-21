@@ -10,17 +10,7 @@
 <%block name="headline">
 <form name="create_milestone" class="inplace" method="POST" action="/milestone">
     ${h.field_token()|n}
-    
-    <div class="sidebar">
-        <div class="help">
-            <h3>${_("Help")}</h3>
-            <ul>
-                <li>${h.help_link(_("What is a milestone?"), 'milestone_faq', anchor='whatis')|n}</li>
-                <li>${h.help_link(_("More help..."), 'milestone_faq')|n}</li>
-            </ul>
-        </div>
-    </div>
-    
+        
     <div class="mainbar">
         <h3>${_("Milestone title")}</h3>
         <div class="page_title">
@@ -43,11 +33,6 @@
     </div>
     
     <div style="clear:both;"></div>
-    <div class="sidebar">
-        <div class="infobox">
-            ${h.help_link(_("More help..."), 'milestone_faq')|n}
-        </div>
-    </div>
     <div class="mainbar">
         ${components.savebox("/milestone")}
         ${components.form_watch(None, checked=True)}

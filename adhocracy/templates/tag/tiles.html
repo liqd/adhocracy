@@ -21,9 +21,7 @@
     %endfor
     </p>
     %if link_more:
-    <div align="right">
-        <div class="help">${h.help_link(_("help"), 'tag_faq')|n} ·</div> <a href="/tag">${_("more tags...")}</a>
-    </div>
+    <p><a href="/tag">${_("more tags...")}</a></p>
     %endif
 </%def>
 
@@ -73,8 +71,9 @@
             class="chzn-select">
     </select>
     <input name="tags" type="tags" id="tags" autocomplete="off" />
-    <span class="hint">${_("Multiple tags can be separated by commas or spaces.")}
-    ${h.help_link(_("Help."), 'tag_faq')|n}</span>
+    <span class="hint">
+        ${_("Multiple tags can be separated by commas or spaces.")}
+    </span>
     <input type="submit" value="${_("Add tags")}" />
 </form>
 

@@ -1,4 +1,4 @@
-<%def name="widget(tile, poll, cls='', deactivated=False, need_auth=False)">
+<%def name="widget(tile, poll, cls='', deactivated=False, delegate_url=None, need_auth=False)">
 ## cls='' -> normal (small) vote widget.
 ## cls='big' -> big vote widget
 ## styles: /static/stylesheets/screen/content.css
@@ -11,7 +11,7 @@
 pro = tile.widget_action_attrs(model.Vote.YES)
 con = tile.widget_action_attrs(model.Vote.NO)
 %>
-<div class='vote_wrapper'>
+<div class='vote_wrapper' style="align: top">
 <div id="${tile.html_id}" class="${tile.widget_class}">
     <a href="${tile.votes_listing_url}"
        rel="#overlay-ajax"
@@ -26,6 +26,13 @@ con = tile.widget_action_attrs(model.Vote.NO)
         title="${con['title']}"
         ><span>&nbsp;</span></a>
 </div>
+
+%if delegate_url:
+<span>${_('or:')}</span>
+<a href="${delegate_url}" 
+   class="button delegate">${_('delegate')}</a>
+%endif
+
 </div>
 </%def>
 

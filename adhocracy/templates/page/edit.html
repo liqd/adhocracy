@@ -39,6 +39,11 @@
         %endif
     </div>
 
+    %if can.page.manage(c.page):
+    <label for="parent">${_("Parent page:")}</label>
+    ${tiles.page.select_page(field_name="parent_page", select=c.page.parent, functions=model.Page.PARENT_FUNCTIONS)}
+    %endif
+
     <div class="righthalf double">
         <textarea tabindex="2" class="armlabel normedit" rows="${c.text_rows}" cols="${model.Text.LINE_LENGTH}" 
           name="text">${c.text.text}</textarea>

@@ -51,6 +51,11 @@
            class="">${_("Badge Proposals?")}</label>
     <input type="checkbox"  name="badge_delegateable" id="badge_delegateable" />
     <span class="hint">${_("Badge proposals instead of users")}</span>
+    
+    <label for="badge_delegateable_category" 
+           class="">${_("Badge proposal category?")}</label>
+    <input type="checkbox"  name="badge_delegateable_category" id="badge_delegateable_category" />
+    <span class="hint">${_("Badge proposal instead of user and use it as a category.")}</span> 
                                   
     <div class="mainbar">
       ${components.savebox("/badge", c.save_button)}
