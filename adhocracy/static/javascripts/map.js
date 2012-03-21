@@ -632,8 +632,9 @@ function loadRegionMap(instanceKey, initialProposals) {
     var popupControl = createPopupControl(proposalLayer, buildProposalPopup);
     map.addControl(popupControl);
 
-    $('.result_list_marker').click(function(elem) {
-        feature = proposalLayer.getFeaturesByAttribute('id', parseInt(elem.srcElement.id.substring('result_list_marker_'.length)))[0];
+    $('.result_list_marker').click(function(event) {
+        var target = event.target || event.srcElement;
+        feature = proposalLayer.getFeaturesByAttribute('id', parseInt(target.id.substring('result_list_marker_'.length)))[0];
         popupControl.clickFeature(feature);
     });
 
@@ -652,8 +653,9 @@ function loadOverviewMap(initialInstances) {
     //var popupControl = createPopupControl(proposalLayer, buildInstancePopup);
     //map.addControl(popupControl);
 
-    //$('.result_list_marker').click(function(elem) {
-    //    feature = proposalLayer.getFeaturesByAttribute('id', parseInt(elem.srcElement.id.substring('result_list_marker_'.length)))[0];
+    //$('.result_list_marker').click(function(event) {
+    //    var target = event.target || event.srcElement;
+    //    feature = proposalLayer.getFeaturesByAttribute('id', parseInt(target.id.substring('result_list_marker_'.length)))[0];
     //    popupControl.clickFeature(feature);
     //});
 
