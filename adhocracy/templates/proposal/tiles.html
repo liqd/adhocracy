@@ -3,7 +3,7 @@
 
 <%def name="row(tile, proposal)">
     <li class="content_box ${'fresh' if tile.fresh else ''}">
-        <div>
+        <div class="marker">
             %if proposal.has_geotag():
                 ${h.counter.next('proposal_list')}
                 <img alt="${h.counter.get_letter('proposal_list')}" class="result_list_marker marker_${h.counter.get_letter('proposal_list')}" id="result_list_marker_${proposal.id}" src="/images/transparent.png" />
