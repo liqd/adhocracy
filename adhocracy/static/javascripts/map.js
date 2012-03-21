@@ -116,7 +116,13 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
             'default': new OpenLayers.Style(styleProps, {rules: [
                 new OpenLayers.Rule({
                     filter: new OpenLayers.Filter.FeatureId({fids: initialProposals}),
-                    symbolizer: {fillColor: "red", pointRadius:5}
+                    symbolizer: {
+                        externalGraphic: '/images/marker.png',
+                        graphicHeight: 31,
+                        graphicWidth: 24,
+                        graphicYOffset: -31
+
+                    }
                 }),
                 new OpenLayers.Rule({elseFilter: true})
             ]}),
@@ -604,7 +610,13 @@ function loadRegionMap(instanceKey, initialProposals) {
 
     var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals);
     map.addLayer(proposalLayer);
-    map.addControl(createPopupControl(proposalLayer));
+    var popupControl = createPopupControl(proposalLayer);
+    map.addControl(popupControl);
+
+    $('.result_list_marker').click(function(elem) {
+        feature = proposalLayer.getFeaturesByAttribute('id', parseInt(elem.srcElement.id.substring('result_list_marker_'.length)))[0];
+        popupControl.clickFeature(feature);
+    });
 
 }
 
