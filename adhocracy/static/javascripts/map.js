@@ -134,6 +134,8 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
         if (index >= 0) {
             var letter = String.fromCharCode(index+97);
             this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
+            $('#result_list_marker_'+feature.fid).attr('alt', letter).addClass('marker_'+letter);
+            
             return true;
         } else {
             return false;
