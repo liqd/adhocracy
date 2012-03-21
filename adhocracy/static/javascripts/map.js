@@ -629,7 +629,7 @@ function loadRegionMap(instanceKey, initialProposals) {
 
     var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals);
     map.addLayer(proposalLayer);
-    var popupControl = createPopupControl(proposalLayer);
+    var popupControl = createPopupControl(proposalLayer, buildProposalPopup);
     map.addControl(popupControl);
 
     $('.result_list_marker').click(function(elem) {
