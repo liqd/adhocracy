@@ -15,6 +15,7 @@
 <div class="righthalf">
     <h3 class="section">${_("Newest Proposals")}</h3>
     <div id="new_proposals_table" class="table">
+        ${h.counter.reset_counter('proposal_list')}
         ${c.new_proposals_pager.here()}
   </div>
   <br/>

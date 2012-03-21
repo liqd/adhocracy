@@ -103,7 +103,7 @@ function fetchSingleProposal(singleProposalId, layer, callback) {
 }
 
 
-function createRegionProposalsLayer(instanceKey, initialProposals) {
+function createRegionProposalsLayer(instanceKey, initialProposals, featuresAddedCallback) {
 
     return new OpenLayers.Layer.Vector('region_proposals', {
         strategies: [new OpenLayers.Strategy.Fixed()],
@@ -123,6 +123,12 @@ function createRegionProposalsLayer(instanceKey, initialProposals) {
             'select': new OpenLayers.Style(styleSelect) 
         }),
     })
+
+    layer.events.on({
+        'featuresadded': featuresAddedCallback
+    })
+
+    return layer
 }
 
 
