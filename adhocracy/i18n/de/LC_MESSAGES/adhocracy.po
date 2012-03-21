@@ -121,7 +121,7 @@ msgid ""
 "An index of instances run at this site. Select which ones you would like "
 "to join and participate!"
 msgstr ""
-"Eine Liste aller Projektgruppen, die auf dieser Seite existieren. Wählen "
+"Eine Liste aller Kommunen, die auf dieser Seite existieren. Wählen "
 "Sie einige aus und nehmen Sie teil!"
 
 #: adhocracy/controllers/instance.py:147
@@ -137,7 +137,7 @@ msgstr "Neuigkeiten von %s"
 #: adhocracy/controllers/instance.py:269
 #, python-format
 msgid "The instance %s has been deleted."
-msgstr "Die Projektgruppe %s wurde gelöscht."
+msgstr "Die Kommune %s wurde gelöscht."
 
 #: adhocracy/controllers/instance.py:288
 #, python-format
@@ -152,7 +152,7 @@ msgstr "Sie sind kein Mitglied von %(instance)s."
 #: adhocracy/controllers/instance.py:310
 #, python-format
 msgid "You're the founder of %s, cannot leave."
-msgstr "Als Gründer von %s können Sie die Projektgruppe nicht verlassen."
+msgstr "Als Gründer von %s können Sie die Kommune nicht verlassen."
 
 #: adhocracy/controllers/instance.py:327
 #, python-format
@@ -162,7 +162,7 @@ msgstr "Sie haben %(instance)s verlassen."
 #: adhocracy/controllers/instance.py:332
 msgid "You cannot manipulate one instance from within another instance."
 msgstr ""
-"Sie können eine Projektgruppe nicht von einer anderen Projektgruppe aus "
+"Sie können eine Kommune nicht von einer anderen Kommune aus "
 "bearbeiten."
 
 #: adhocracy/controllers/message.py:53
@@ -524,15 +524,15 @@ msgstr ""
 
 #: adhocracy/forms/common.py:93
 msgid "No instance key is given"
-msgstr "Keine Projektgruppen-Kennung angegeben."
+msgstr "Keine Kommunen-Kennung angegeben."
 
 #: adhocracy/forms/common.py:97
 msgid "The instance key is invalid"
-msgstr "Diese Projektgruppen-Kennung ist ungültig."
+msgstr "Diese Kommunen-Kennung ist ungültig."
 
 #: adhocracy/forms/common.py:101
 msgid "An instance with that key already exists"
-msgstr "Eine Projektgruppe mit dieser Kennung existiert bereits."
+msgstr "Eine Kommune mit dieser Kennung existiert bereits."
 
 #: adhocracy/forms/common.py:112
 #, python-format
@@ -893,22 +893,22 @@ msgstr "Profil wurde von %(admin)s geändert"
 #: adhocracy/lib/event/types.py:56
 #, python-format
 msgid "New instance: %(instance)s"
-msgstr "Neue Projektgruppe: %(instance)s"
+msgstr "Neue Kommune: %(instance)s"
 
 #: adhocracy/lib/event/types.py:58
 #, python-format
 msgid "founded the %(instance)s instance"
-msgstr "gründete die Projektgruppe %(instance)s"
+msgstr "gründete die Kommune %(instance)s"
 
 #: adhocracy/lib/event/types.py:63
 #, python-format
 msgid "%(instance)s: instance was updated"
-msgstr "%(instance)s: Projektgruppe wurde aktualisiert"
+msgstr "%(instance)s: Kommune wurde aktualisiert"
 
 #: adhocracy/lib/event/types.py:65
 #, python-format
 msgid "updated the %(instance)s instance"
-msgstr "änderte die Projektgruppe %(instance)s"
+msgstr "änderte die Kommune %(instance)s"
 
 #: adhocracy/lib/event/types.py:70
 #, python-format
@@ -918,7 +918,7 @@ msgstr "Adhocracy gelöscht: %(instance)s"
 #: adhocracy/lib/event/types.py:72
 #, python-format
 msgid "deleted the %(instance)s instance"
-msgstr "löschte die Projektgruppe %(instance)s"
+msgstr "löschte die Kommune %(instance)s"
 
 #: adhocracy/lib/event/types.py:76
 #, python-format
@@ -1233,7 +1233,7 @@ msgstr "Benutzer"
 
 #: adhocracy/lib/instance/__init__.py:13
 msgid "This action is only available in an instance context."
-msgstr "Die Handlung ist nur innerhalb einer Projektgruppe verfügbar."
+msgstr "Die Handlung ist nur innerhalb einer Kommune verfügbar."
 
 #: adhocracy/lib/tiles/milestone_tiles.py:34
 msgid "(no milestone)"
@@ -1268,7 +1268,7 @@ msgstr "Bitte melden Sie sich an oder registrieren Sie sich, um abzustimmen"
 #: adhocracy/lib/tiles/poll_tiles.py:96
 #, python-format
 msgid "Please join the instance \"%s\" to vote."
-msgstr "Bitte treten Sie der Projektgruppe \"%s\" bei, um abzustimmen."
+msgstr "Bitte treten Sie der Kommune \"%s\" bei, um abzustimmen."
 
 #: adhocracy/lib/tiles/poll_tiles.py:100
 msgid "Click to see the list of votes"
@@ -1392,7 +1392,7 @@ msgstr "Start"
 #: adhocracy/templates/instance/index.html:6
 #: adhocracy/templates/instance/index.html:17
 msgid "Instances"
-msgstr "Projektgruppen"
+msgstr "Kommunen"
 
 #: adhocracy/templates/navigation.html:44
 #: adhocracy/templates/user/watchlist.html:7
@@ -1516,7 +1516,7 @@ msgstr "Anmelden"
 #: adhocracy/templates/user/index.html:13
 #: adhocracy/templates/user/index.html:17
 msgid "Join this instance to start contributing."
-msgstr "Treten Sie dieser Projektgruppe bei, um beizutragen."
+msgstr "Treten Sie dieser Kommune bei, um beizutragen."
 
 #: adhocracy/templates/root.html:54 adhocracy/templates/root.html:102
 #: adhocracy/templates/user/index.html:14
@@ -1650,7 +1650,7 @@ msgid ""
 "WARNING: This allows you to shut yourself out of your adhocracy. Handle "
 "with care!"
 msgstr ""
-"ACHTUNG: Hiermit können Sie sich aus ihrer eigenen Projektgruppe "
+"ACHTUNG: Hiermit können Sie sich aus ihrer eigenen Kommune "
 "ausschließen. Seien Sie vorsichtig!"
 
 #: adhocracy/templates/admin/tiles.html:15
@@ -1695,17 +1695,17 @@ msgstr "Keine Benutzerrolle"
 
 #: adhocracy/templates/badge/form.html:43
 msgid "Assign the user to this group for all instances in the adhocracy site."
-msgstr "Dem Beutzer diese Benutzerrolle für alle Projektgruppe zuschreiben."
+msgstr "Dem Beutzer diese Benutzerrolle für alle Kommune zuschreiben."
 
 #: adhocracy/templates/badge/form.html:46
 msgid "Display group in instances"
-msgstr "Nutzerrollen in den Projektgruppen anzeigen"
+msgstr "Nutzerrollen in den Kommunen anzeigen"
 
 #: adhocracy/templates/badge/form.html:48
 msgid ""
 "Display this group in instances instead of the normal group the user is "
 "in there."
-msgstr "Zeige diese Nutzerrolle nach Projektgruppen sortiert. "
+msgstr "Zeige diese Nutzerrolle nach Kommunen sortiert. "
 
 #: adhocracy/templates/badge/form.html:51
 msgid "Badge Proposals?"
@@ -1731,7 +1731,7 @@ msgstr "Alle Badges"
 
 #: adhocracy/templates/badge/index.html:14
 msgid "Badges of this instance"
-msgstr "Badges dieser Projektgruppe"
+msgstr "Badges dieser Kommune"
 
 #: adhocracy/templates/badge/index.html:21
 msgid "User Badges"
@@ -1899,7 +1899,7 @@ msgstr "Neue Diskussion starten"
 
 #: adhocracy/templates/comment/tiles.html:83
 msgid "Join instance to comment."
-msgstr "Treten Sie dieser Projektgruppe bei, um beizutragen."
+msgstr "Treten Sie dieser Kommune bei, um beizutragen."
 
 #: adhocracy/templates/comment/tiles.html:83
 #: adhocracy/templates/comment/tiles.html:85
@@ -1966,7 +1966,7 @@ msgstr "antworten"
 
 #: adhocracy/templates/comment/tiles.html:165
 msgid "Join instance to reply"
-msgstr "Projektgruppe zum Antworten beitreten"
+msgstr "Kommune zum Antworten beitreten"
 
 #: adhocracy/templates/comment/tiles.html:167
 msgid "Login to reply"
@@ -2252,7 +2252,7 @@ msgstr "Verlauf"
 #: adhocracy/templates/instance/activity.html:13
 #: adhocracy/templates/proposal/activity.html:11
 msgid "This is a record of all recent actions within this instance."
-msgstr "Dies ist eine Übersicht aller Aktivitäten in dieser Projektgruppe."
+msgstr "Dies ist eine Übersicht aller Aktivitäten in dieser Kommune."
 
 #: adhocracy/templates/instance/activity.html:14
 #: adhocracy/templates/proposal/activity.html:12
@@ -2281,11 +2281,11 @@ msgstr "Löschen"
 #: adhocracy/templates/instance/ask_delete.html:10
 #: adhocracy/templates/instance/edit.html:14
 msgid "Delete instance"
-msgstr "Projektgruppe löschen"
+msgstr "Kommune löschen"
 
 #: adhocracy/templates/instance/ask_delete.html:21
 msgid "Are you sure you want to delete this instance?"
-msgstr "Sind Sie sicher, dass Sie diese Projektgruppe entfernen möchten?"
+msgstr "Sind Sie sicher, dass Sie diese Kommune entfernen möchten?"
 
 #: adhocracy/templates/instance/ask_leave.html:3
 #: adhocracy/templates/instance/ask_leave.html:6
@@ -2297,7 +2297,7 @@ msgid ""
 "Are you sure you want to leave this instance? You will no longer be able "
 "to write contributions or to vote."
 msgstr ""
-"Sind Sie sicher, dass Sie diese Projektgruppe verlassen wollen? Sie "
+"Sind Sie sicher, dass Sie diese Kommune verlassen wollen? Sie "
 "werden keine Beiträge und Stimmen mehr abgeben können."
 
 #: adhocracy/templates/instance/edit.html:3
@@ -2311,19 +2311,19 @@ msgstr "Verwalten"
 
 #: adhocracy/templates/instance/edit.html:10
 msgid "Edit instance"
-msgstr "Projektgruppe bearbeiten"
+msgstr "Kommune bearbeiten"
 
 #: adhocracy/templates/instance/edit.html:26
 #: adhocracy/templates/instance/new.html:19
 msgid "Instance name"
-msgstr "Name der Projektgruppe"
+msgstr "Name der Kommune"
 
 #: adhocracy/templates/instance/edit.html:28
 #: adhocracy/templates/instance/new.html:3
 #: adhocracy/templates/instance/new.html:6
 #: adhocracy/templates/instance/new.html:21
 msgid "New Instance"
-msgstr "Neue Projektgruppe"
+msgstr "Neue Kommune"
 
 #: adhocracy/templates/instance/edit.html:36
 #: adhocracy/templates/instance/new.html:39
@@ -2331,7 +2331,7 @@ msgid ""
 "Describe what the goals of this instance are and who constitutes its "
 "community. (Both Markdown and HTML are allowed here.)"
 msgstr ""
-"Beschreiben Sie die Ziele dieser Projektgruppe und wer ihre Mitglieder "
+"Beschreiben Sie die Ziele dieser Kommune und wer ihre Mitglieder "
 "sind. (Markdown und HTML sind hier erlaubt.)"
 
 #: adhocracy/templates/instance/edit.html:44
@@ -2436,7 +2436,7 @@ msgstr "Logo"
 
 #: adhocracy/templates/instance/edit.html:131
 msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Wählen Sie ein Logo für diese Projektgruppe."
+msgstr "Wählen Sie ein Logo für diese Kommune."
 
 #: adhocracy/templates/instance/edit.html:135
 msgid "File upload:"
@@ -2449,28 +2449,28 @@ msgstr "Einstellungen"
 #: adhocracy/templates/instance/edit.html:146
 msgid "Select whether this instance will be shown in public listings."
 msgstr ""
-"Bitte wählen Sie aus, ob diese Projektgruppe öffentlich gemacht werden "
+"Bitte wählen Sie aus, ob diese Kommune öffentlich gemacht werden "
 "soll."
 
 #: adhocracy/templates/instance/edit.html:150
 msgid "Hide this instance:"
-msgstr "Diese Projektgruppe verbergen:"
+msgstr "Diese Kommune verbergen:"
 
 #: adhocracy/templates/instance/edit.html:157
 msgid ""
 "Freeze all substantive work in this instance, only voting and commenting "
 "will proceed."
 msgstr ""
-"Deaktiviert alle Bearbeitungsmöglichkeiten in dieser Projektgruppe, "
+"Deaktiviert alle Bearbeitungsmöglichkeiten in dieser Kommune, "
 "sodass es nur noch möglich ist, abzustimmen und zu kommentieren."
 
 #: adhocracy/templates/instance/edit.html:161
 msgid "Freeze this instance:"
-msgstr "Die Arbeit in dieser Projektgruppe einfrieren:"
+msgstr "Die Arbeit in dieser Kommune einfrieren:"
 
 #: adhocracy/templates/instance/edit.html:169
 msgid "Use milestones to set deadlines for work in the instances."
-msgstr "Termine nutzen, um Fristen in dieser Projektgruppe zu setzen."
+msgstr "Termine nutzen, um Fristen in dieser Kommune zu setzen."
 
 #: adhocracy/templates/instance/edit.html:173
 msgid "Use milestones:"
@@ -2479,7 +2479,7 @@ msgstr "Termine nutzen:"
 #: adhocracy/templates/instance/edit.html:181
 msgid "Use norm documents to structure the instance debate."
 msgstr ""
-"Nutzen Sie Papiere um die Diskussion in dieser Projektgruppe zu "
+"Nutzen Sie Papiere um die Diskussion in dieser Kommune zu "
 "strukturieren."
 
 #: adhocracy/templates/instance/edit.html:185
@@ -2515,7 +2515,7 @@ msgid ""
 "Control whether content produced within this instance will be included in"
 " public search engines."
 msgstr ""
-"Stellen Sie ein, ob Inhalte aus dieser Projektgruppe in öffentlichen "
+"Stellen Sie ein, ob Inhalte aus dieser Kommune in öffentlichen "
 "Suchmaschinen erscheinen sollen."
 
 #: adhocracy/templates/instance/edit.html:220
@@ -2544,7 +2544,7 @@ msgid ""
 " menu link destinations."
 msgstr ""
 "Diese Einstellungen erlauben ihnen, das Layout und die Menüs ihrer "
-"Projektgruppe mithilfe von CSS Ihren Bedürfnissen anzupassen."
+"Kommune mithilfe von CSS Ihren Bedürfnissen anzupassen."
 
 #: adhocracy/templates/instance/edit.html:254
 msgid "Extra CSS:"
@@ -2552,21 +2552,21 @@ msgstr "Extra CSS:"
 
 #: adhocracy/templates/instance/index.html:13
 msgid "new instance"
-msgstr "Neue Projektgruppe"
+msgstr "Neue Kommune"
 
 #: adhocracy/templates/instance/index.html:19
 msgid "Instances are little democracies that are ran by their community."
 msgstr ""
 "Die Enquetekommission für Internet und Digitale Gesellschaft hat für ihre"
-" Arbeit verschiedene Themen in Projektgruppen zusammengefasst."
+" Arbeit verschiedene Themen in Kommunen zusammengefasst."
 
 #: adhocracy/templates/instance/new.html:10
 msgid "Create new instance"
-msgstr "Neue Projektgruppe erstellen"
+msgstr "Neue Kommune erstellen"
 
 #: adhocracy/templates/instance/new.html:27
 msgid "Instance URL"
-msgstr "URL der Projektgruppe"
+msgstr "URL der Kommune"
 
 #: adhocracy/templates/instance/new.html:29
 msgid ""
@@ -2575,12 +2575,12 @@ msgid ""
 msgstr ""
 "Die Adresse darf nur alphanumerische Zeichen enthalten. Bitte beachten "
 "Sie, dass die Adresse nicht mehr geändert werden kann, nachdem die "
-"Projektgruppe erstellt wurde."
+"Kommune erstellt wurde."
 
 #: adhocracy/templates/instance/show.html:3
 #: adhocracy/templates/instance/show.html:6
 msgid "Home"
-msgstr "Projektgruppe"
+msgstr "Kommune"
 
 #: adhocracy/templates/instance/show.html:16
 msgid "Newest Proposals"
@@ -2605,7 +2605,7 @@ msgstr "Neuer Vorschlag"
 #: adhocracy/templates/instance/show.html:26
 #: adhocracy/templates/proposal/index.html:38
 msgid "Join instance to create a new proposal."
-msgstr "Projektgruppe beitreten, um einen neuen Vorschlag anzulegen."
+msgstr "Kommune beitreten, um einen neuen Vorschlag anzulegen."
 
 #: adhocracy/templates/instance/show.html:28
 #: adhocracy/templates/proposal/index.html:40
@@ -3264,7 +3264,7 @@ msgid ""
 msgstr ""
 "Vorschläge enthalten Änderungen, die sich auf neue oder bereits "
 "existierende Papiere beziehen. Papiere sind Dokumente, welche die "
-"beschlossene und derzeitige Arbeitsgrundlage der Projektgruppe "
+"beschlossene und derzeitige Arbeitsgrundlage der Kommune "
 "beschreiben und die durch eine Abstimmung verändert werden können. Ändern"
 " Sie den Vorschlag ab, um ein Papier zu bearbeiten oder zu erstellen."
 
@@ -3314,7 +3314,7 @@ msgstr "Anmelden, um eine Änderung eines Papiers vorzuschlagen."
 
 #: adhocracy/templates/proposal/show.html:102
 msgid "Join instance to propose to change a norm"
-msgstr "Projektgruppe beitreten, um die Änderung eines Papiers vorzuschlagen."
+msgstr "Kommune beitreten, um die Änderung eines Papiers vorzuschlagen."
 
 #: adhocracy/templates/proposal/show.html:127
 msgid "Informations"
@@ -3625,7 +3625,7 @@ msgstr "Dieses Version hat keinen Text."
 msgid ""
 "This norm has not yet been decided and is thus no official position of "
 "this group."
-msgstr "Ihre Projektgruppe hat zu diesem Papier noch keine Regelung getroffen. "
+msgstr "Ihre Kommune hat zu diesem Papier noch keine Regelung getroffen. "
 
 #: adhocracy/templates/text/tiles.html:65
 #, python-format
@@ -3665,7 +3665,7 @@ msgstr "Alle Benutzer auf diesem Adhocracy-Server"
 #: adhocracy/templates/user/all.html:14
 msgid "A listing of all users in all instance an this adhocracy server."
 msgstr ""
-"Eine Liste aller Benutzer in dieser Projektgruppe und auf diesem "
+"Eine Liste aller Benutzer in dieser Kommune und auf diesem "
 "Adhocracy-Server."
 
 #: adhocracy/templates/user/ask_delete.html:18
@@ -3689,7 +3689,7 @@ msgstr "Badges für %s"
 #: adhocracy/templates/user/badges.html:25
 #, fuzzy
 msgid "all instances"
-msgstr "alle Projektgruppen"
+msgstr "alle Kommunen"
 
 #: adhocracy/templates/user/badges.html:34
 #: adhocracy/templates/user/badges.html:55
@@ -3919,7 +3919,7 @@ msgstr "Nach Gruppen sortieren"
 
 #: adhocracy/templates/user/index.html:39
 msgid "A listing of all users that have joined this instance."
-msgstr "Eine Liste aller Benutzer, die Mitglied dieser Projektgruppe sind."
+msgstr "Eine Liste aller Benutzer, die Mitglied dieser Kommune sind."
 
 #: adhocracy/templates/user/index.html:49
 msgid "Find users"
@@ -3937,7 +3937,7 @@ msgstr "Adhocracies"
 #: adhocracy/templates/user/instances.html:13
 #, python-format
 msgid "%s is a member in these Adhocracies"
-msgstr "%s ist Mitglied in den folgenden Projektgruppen"
+msgstr "%s ist Mitglied in den folgenden Kommunen"
 
 #: adhocracy/templates/user/login.html:2
 #: adhocracy/templates/user/register.html:2
@@ -4064,11 +4064,11 @@ msgstr "Zu einem %s machen"
 
 #: adhocracy/templates/user/tiles.html:48
 msgid "Resign from this instance."
-msgstr "Die Projektgruppe verlassen."
+msgstr "Die Kommune verlassen."
 
 #: adhocracy/templates/user/tiles.html:49
 msgid "leave instance"
-msgstr "Projektgruppe verlassen"
+msgstr "Kommune verlassen"
 
 #: adhocracy/templates/user/tiles.html:55
 msgid "un-ban"
@@ -4093,5 +4093,5 @@ msgid ""
 "concerning each of these items."
 msgstr ""
 "Dies ist Ihre Beobachtungsliste. Sie erhalten eine Benachrichtigung bei "
-"Ereignissen in diesen Projektgruppen."
+"Ereignissen in diesen Kommunen."
 
