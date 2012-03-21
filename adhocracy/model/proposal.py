@@ -238,5 +238,15 @@ class Proposal(Delegateable):
         assert config.get('adhocracy.proposal_geotags')
         return self.geotag is not None
 
+    def get_geojson_feature(self):
 
+        import geojson
+        from shapely.wkb import loads
 
+        if self.geotag is None:
+            return {}
+        else:
+            return geojson.Feature(geometry=loads(str(self.geotag.geom_wkb)), properties={
+                'title':self.title,
+                'id':self.id,
+                },id=self.id)

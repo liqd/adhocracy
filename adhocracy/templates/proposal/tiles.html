@@ -3,42 +3,49 @@
 
 <%def name="row(tile, proposal)">
     <li class="content_box ${'fresh' if tile.fresh else ''}">
-        <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
-            %if tile.fresh:
-                ${_("(new)")}
+        <div>
+            %if proposal.has_geotag():
+                ${h.counter.next('proposal_list')}
+                <img alt="${h.counter.get_letter('proposal_list')}" class="result_list_marker marker_${h.counter.get_letter('proposal_list')}" id="result_list_marker_${proposal.id}" src="/images/transparent.png" />
             %endif
-            %if not lib.auth.authorization.has('global.admin') and not lib.auth.authorization.has('instance.admin'):
-              <!--show global and instance badges-->
-              ${tiles.badge.badges([b for b in proposal.badges])}
-            %endif
-            %if lib.auth.authorization.has('global.admin'):
-              <!--edit global and instance badges-->
-              ${tiles.badge.badges([b for b in proposal.badges if b.badge_delegateable_category])}
-              ${tiles.proposal.badgesform(proposal, c.badges + c.instance_badges)}
-            %endif
-            %if lib.auth.authorization.has('instance.admin') and not lib.auth.authorization.has('global.admin'):
-              <!--edit instance badges-->
-              ${tiles.badge.badges([b for b in proposal.badges if b.badge_delegateable_category])}
-              ${tiles.badge.badges([b for b in proposal.badges if b.badge_delegateable and b.instance is None])}
-              ${tiles.proposal.badgesform(proposal, c.instance_badges)}
-            %endif   
-        </h3>
-        <div class="meta">              
-            %if proposal.is_adopt_polling():
-                ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
-                ·
-            %elif proposal.rate_poll: 
-                ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} 
-                ·
-    %endif
-            %if proposal.instance.use_norms:
-                ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
-                ·
-            %endif
-            ##${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
-            ${_("latest: <b>%s</b>") % h.relative_time(proposal.find_latest_comment_time())|n} 
         </div>
-        <div class="hr"><hr /></div>
+        <div>
+            <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
+                %if tile.fresh:
+                    ${_("(new)")}
+                %endif
+                %if not lib.auth.authorization.has('global.admin') and not lib.auth.authorization.has('instance.admin'):
+                  <!--show global and instance badges-->
+                  ${tiles.badge.badges([b for b in proposal.badges])}
+                %endif
+                %if lib.auth.authorization.has('global.admin'):
+                  <!--edit global and instance badges-->
+                  ${tiles.badge.badges([b for b in proposal.badges if b.badge_delegateable_category])}
+                  ${tiles.proposal.badgesform(proposal, c.badges + c.instance_badges)}
+                %endif
+                %if lib.auth.authorization.has('instance.admin') and not lib.auth.authorization.has('global.admin'):
+                  <!--edit instance badges-->
+                  ${tiles.badge.badges([b for b in proposal.badges if b.badge_delegateable_category])}
+                  ${tiles.badge.badges([b for b in proposal.badges if b.badge_delegateable and b.instance is None])}
+                  ${tiles.proposal.badgesform(proposal, c.instance_badges)}
+                %endif   
+            </h3>
+            <div class="meta">              
+                %if proposal.is_adopt_polling():
+                    ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
+                    ·
+                %elif proposal.rate_poll: 
+                    ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} 
+                    ·
+        %endif
+                %if proposal.instance.use_norms:
+                    ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
+                    ·
+                %endif
+                ##${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
+                ${_("latest: <b>%s</b>") % h.relative_time(proposal.find_latest_comment_time())|n} 
+            </div>
+        </div>
     </li>
 </%def>
 

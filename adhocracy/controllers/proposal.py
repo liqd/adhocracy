@@ -435,18 +435,7 @@ class ProposalController(BaseController):
     def get_geotag(self, id):
 
         proposal = get_entity_or_abort(model.Proposal, id)
-
-        import geojson
-        from shapely.wkb import loads
-
-        if proposal.geotag is None:
-            data = {}
-        else:
-            data = geojson.Feature(geometry=loads(str(proposal.geotag.geom_wkb)), properties={
-                'title':proposal.title,
-                })
-
-        return render_geojson(data)
+        return render_geojson(proposal.get_geojson_feature())
 
 
     def edit_geotag(self, id, errors={}):

@@ -71,15 +71,13 @@ styleArea = {
 
 
 
-function createSingleProposalLayer() {
+function createProposalLayer() {
 
     return new OpenLayers.Layer.Vector("proposal", {
         displayInLayerSwitcher: false, 
-	styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
+        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
                 					   'select': new OpenLayers.Style(styleSelect)}) 
-        //projection: new OpenLayers.Projection("EPSG:900913"),
     });
-
 }
 
 function fetchSingleProposal(singleProposalId, layer, callback) {
@@ -105,11 +103,33 @@ function fetchSingleProposal(singleProposalId, layer, callback) {
 }
 
 
+function createRegionProposalsLayer(instanceKey, initialProposals) {
+
+    return new OpenLayers.Layer.Vector('region_proposals', {
+        strategies: [new OpenLayers.Strategy.Fixed()],
+        protocol: new OpenLayers.Protocol.HTTP({
+            url: '/instance/' + instanceKey + '/get_proposal_geotags',
+            format: new OpenLayers.Format.GeoJSON()
+        }),
+        projection: new OpenLayers.Projection("EPSG:4326"),
+        styleMap: new OpenLayers.StyleMap({
+            'default': new OpenLayers.Style(styleProps, {rules: [
+                new OpenLayers.Rule({
+                    filter: new OpenLayers.Filter.FeatureId({fids: initialProposals}),
+                    symbolizer: {fillColor: "red", pointRadius:5}
+                }),
+                new OpenLayers.Rule({elseFilter: true})
+            ]}),
+            'select': new OpenLayers.Style(styleSelect) 
+        }),
+    })
+}
+
 
 function createPopupControl(layer) {
 
     function buildProposalPopup(attributes) {
-        return "<div class='proposal_popup_title'>"+attributes.title+"</div>";
+        return "<div class='proposal_popup_title'><a href='/proposal/"+attributes.id+"'>"+attributes.title+"</a></div>";
     }
 
     layer.events.on({
@@ -537,7 +557,7 @@ function loadSingleProposalMap(instanceKey, proposalId, edit) {
     var map = createMap(NUM_ZOOM_LEVELS);
 
     waiter = createWaiter(2, function(bounds) {
-        map.zoomToExtent(bounds)
+        map.zoomToExtent(bounds);
     });
 
     map.addControls(createControls(edit));
@@ -546,7 +566,7 @@ function loadSingleProposalMap(instanceKey, proposalId, edit) {
         waiter(feature);
     }));
 
-    var proposalLayer = createSingleProposalLayer();
+    var proposalLayer = createProposalLayer();
     map.addLayer(proposalLayer);
     map.addControl(createPopupControl(proposalLayer));
 
@@ -563,7 +583,24 @@ function loadSingleProposalMap(instanceKey, proposalId, edit) {
     });
 }
 
-function loadRegionMap() {}
+function loadRegionMap(instanceKey, initialProposals) {
+    var map = createMap(NUM_ZOOM_LEVELS);
+
+    waiter = createWaiter(1, function(bounds) {
+        map.zoomToExtent(bounds);
+    });
+
+    map.addControls(createControls(false));
+    map.addLayers(createBaseLayers());
+    map.addLayer(createRegionBoundaryLayer(instanceKey, function(feature) {
+        waiter(feature);
+    }));
+
+    var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals);
+    map.addLayer(proposalLayer);
+    map.addControl(createPopupControl(proposalLayer));
+
+}
 
 function loadOverviewMap() {
     addMultiBoundaryLayer();

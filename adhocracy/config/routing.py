@@ -263,7 +263,9 @@ def make_map():
                                                  'ask_delete': 'GET',
                                                  'style': 'GET',
                                                  'activity': 'GET',
-                                                 'get_region': 'GET'})
+                                                 'get_region': 'GET',
+                                                 'get_proposal_geotags': 'GET',
+                                                 })
 
     # API
     map.connect('/api/{action}', controller='api')

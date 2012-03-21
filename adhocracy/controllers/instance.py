@@ -12,6 +12,9 @@ from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
+import geojson
+from shapely.wkb import loads
+
 from adhocracy import forms, i18n, model
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
@@ -338,9 +341,6 @@ class InstanceController(BaseController):
 
         c.instance = self._get_current_instance(id)
 
-        import geojson
-        from shapely.wkb import loads
-
         if c.instance.region is None:
             data = {}
         else:
@@ -351,3 +351,16 @@ class InstanceController(BaseController):
                 'id':c.instance.region.id,
                 })
         return render_geojson(data)
+
+    #@RequireInstance
+    def get_proposal_geotags(self, id):
+
+        c.instance = get_entity_or_abort(model.Instance, id)
+        require.instance.show(c.instance)
+
+        proposals = model.Proposal.all(instance=c.instance)
+
+        features = geojson.FeatureCollection([p.get_geojson_feature() for p in proposals])
+
+        return render_geojson(features)
+
