@@ -521,7 +521,9 @@ body.logged_in #nav li a {
   text-align: left;
   padding:  20px;
   right: 0px;
-  z-index: 100;
+  /* raised, so map is below */
+  /* z-index: 100; */
+  z-index: 1000;
   font-size: 14px;
 }
 #nav ul.children li {
