@@ -22,3 +22,30 @@
     color: green;
 }
 
+/* Map markers */
+
+div.marker {
+  width: 24px;
+  height: 31px;
+  margin: 4px 11px 0 21px;
+  float: left;
+}
+
+.marker img {
+  background-image: url('/images/map_markers_pink_a_j.png');
+  background-position: 0 -310px;
+  float: left;
+  width: 24px;
+  height: 31px;
+}
+  /* important as dirty hack */
+.marker_a {background-position: 0 0 !important;}
+.marker_b {background-position: 0 -31px !important;}
+.marker_c {background-position: 0 -62px !important;}
+.marker_d {background-position: 0 -93px !important;}
+.marker_e {background-position: 0 -124px !important;}
+.marker_f {background-position: 0 -155px !important;}
+.marker_g {background-position: 0 -186px !important;}
+.marker_h {background-position: 0 -217px !important;}
+.marker_i {background-position: 0 -248px !important;}
+.marker_j {background-position: 0 -279px !important;}
