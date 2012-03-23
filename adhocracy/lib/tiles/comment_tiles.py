@@ -74,4 +74,4 @@ def show(comment, recurse=True, ret_url=''):
     groups = sorted(c.user.groups if c.user else [])
     return render_tile('/comment/tiles.html', 'show', CommentTile(comment),
                        comment=comment, cached=True, can_edit=can_edit,
-                       groups=groups, ret_url=ret_url)
+                       groups=groups, ret_url=ret_url, recurse=recurse)
