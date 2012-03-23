@@ -658,7 +658,7 @@ var adhocracy = adhocracy || {};
 
     adhocracy.helpers.initializeTagsAutocomplete = function (selector) {
 
-        $("#tags").autocomplete('/tag/autocomplete', {
+        $(selector).autocomplete('/tag/autocomplete', {
             autoFill: false,
             dataType: 'json',
             formatItem: function (data, i, max, val) {
