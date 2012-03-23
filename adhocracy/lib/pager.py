@@ -672,7 +672,7 @@ class DelegateableBadgeFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        data[cls.solr_field] = [badge.id for badge in
+        data[cls.solr_field] = [relation.badge.id for relation in
                                 entity.delegateablebadges]
 
 
