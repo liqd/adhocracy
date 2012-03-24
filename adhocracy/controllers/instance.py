@@ -130,6 +130,8 @@ class InstanceController(BaseController):
                 instance=c.page_instance).count(),
             'members': model.Membership.all_q().count()
         }
+        c.tutorial_intro = _('tutorial_instance_show_intro')
+        c.tutorial = 'instance_show'
         return render("/instance/show.html")
 
     @RequireInstance

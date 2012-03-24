@@ -18,12 +18,13 @@ ${tiles.milestone.header(c.milestone, c.tile)}
                 href="${h.entity_url(c.milestone, member='edit')}">${_("edit")}</a>
         %endif
     </div>
-    <h2>${_("Milestone description")}</h2>
+    <h2 id="milestone-description">${_("Milestone description")}</h2>
     ${c.tile.text|n}
 
 <div class="mainbar">
   %if c.instance.use_norms:
-     <h3 class="section">${_("Related Norms")}</h3>
+     <h3 class="section"
+         id="related-norms">${_("Related Norms")}</h3>
      <div id="pages_table" class="table">
          ${c.pages_pager.here()}
      </div>
@@ -37,4 +38,22 @@ ${tiles.milestone.header(c.milestone, c.tile)}
     </div>
 </div>
 
+<%components:tutorial>
+<ol id="joyRideTipContent">
+    <li data-id="FIXME: no id"
+        data-tip-location="bottom left" class="custom">
+        <p>${_('tutorial_milestone_details_follow')}</p>
+    </li>
+
+    <li data-id="milestone-description"
+        data-tip-location="bottom left" class="custom">
+        <p>${_('tutorial_milestone_details_description')}</p>
+    </li>
+
+    <li data-id="related-norms"
+        data-tip-location="top left" class="custom">
+        <p>${_('tutorial_milestone_details_listing')}</p>
+    </li>
+</ol>
+</%components:tutorial>
 </%block>

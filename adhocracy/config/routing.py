@@ -14,9 +14,6 @@ def make_map():
                  always_scan=config['debug'])
     map.minimization = False
 
-    # redirect wordpress pages to an existing page
-    map.redirect("/_pages/{url:.*}", "/static/about.htm")
-
     # The ErrorController route (handles 404/500 error pages); it should
     # likely stay at the top, ensuring it can always be resolved
     map.connect('/error/{action}', controller='error')
@@ -241,6 +238,7 @@ def make_map():
     map.connect('/sitemap.xml', controller='root', action='sitemap_xml')
     map.connect('/robots.txt', controller='root', action='robots_txt')
     map.connect('/feed.rss', controller='root', action='index', format='rss')
+    map.connect('/tutorials', controller='root', action='tutorials')
 
     map.connect('/search/filter', controller='search', action='filter')
     map.connect('/search', controller='search', action='query')

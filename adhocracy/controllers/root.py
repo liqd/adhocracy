@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 
-from pylons import response, tmpl_context as c
+from pylons import request, response, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 
@@ -66,3 +66,13 @@ class RootController(BaseController):
         if not c.instance:
             return render("robots.txt")
         return render("instance/robots.txt")
+
+    def tutorials(self):
+        if 'disable' in request.params:
+            name = request.params.get('disable')
+            if name == 'ALL':
+                h.tutorial.disable(None)
+            else:
+                h.tutorial.disable(name)
+        else:
+            h.tutorial.enable()

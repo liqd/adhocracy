@@ -79,7 +79,7 @@ class Page(Delegateable):
             return None
 
     @classmethod
-    def _all_q(cls, instance=None, functions=[], exclude=[],
+    def all_q(cls, instance=None, functions=[], exclude=[],
                    include_deleted=False, include_unlisted=False):
         q = meta.Session.query(Page)
         if not include_deleted:
@@ -94,11 +94,11 @@ class Page(Delegateable):
 
     @classmethod
     def all(cls, **kwargs):
-        return cls._all_q(**kwargs).all()
+        return cls.all_q(**kwargs).all()
 
     @classmethod
     def count(cls, **kwargs):
-        return cls._all_q(**kwargs).count()
+        return cls.all_q(**kwargs).count()
 
     @classmethod
     def create(cls, instance, title, text, creator, function=NORM, tags=None,

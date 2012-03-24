@@ -186,7 +186,7 @@ def row(poll):
                         PollTile(poll), poll=poll, user=c.user, cached=True)
 
 
-def widget(poll, cls='', deactivated=False):
+def widget(poll, cls='', deactivated=False, delegate_url=None):
     '''
     FIXME: fix caching. Poll objects don't change. Tallies are
     generated for every vote. Ask @pudo about this.
@@ -204,11 +204,14 @@ def widget(poll, cls='', deactivated=False):
     *deactivated*
         Render the widget deactivated which does not show vote buttons
         or the current position of the user, but still the vote count.
+    *delegate_url* (unicode or None)
+        An URL if a delegate button should be shown beside the vote
+        widget. If *None* (default) no button will be shown.
     '''
     t = PollTile(poll, deactivated, widget_class=cls)
     return render_tile('/poll/tiles.html', 'widget',
                        t, poll=poll, user=c.user, widget_class=cls,
-                       deactivated=deactivated,
+                       delegate_url=delegate_url, deactivated=deactivated,
                        cached=True)
 
 

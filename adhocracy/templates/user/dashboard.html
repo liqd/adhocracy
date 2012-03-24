@@ -4,7 +4,7 @@
 
 
 <%block name="headline">
-<h1>${_("Startpage")}</h1>
+<h1 id="title">${_("Startpage")}</h1>
 </%block>
 
 <%block name="infoboxes">
@@ -21,9 +21,10 @@
             ${_('Start by exploring the <b><a href="%s">instances</a></b> and read some of the proposals and norms in the instances.') % h.base_url(None, path='/instance') |n}
             %endif
             ${_('If you join an instance, norms and proposals of the instance will be shown on your dashboard.')}
-            ${_('You can reach you dashboar anytime by clicking on your user name on the top of the page.')}
+            ${_('You can reach you dashboard anytime by clicking on your user name on the top of the page.')}
         %else:
             ${_('This is your Dashboard. Here you can find the list of instances your a member in, norms and proposals from these instance and a list of the pages you follow.')}
+            ${_('You can reach you dashboard anytime by clicking on your user name on the top of the page.')}
         %endif
         </p>
         %if c.came_from:
@@ -42,13 +43,15 @@
     <p>
     % if c.proposals:
       <a title="${_('List all proposals')}" class="icon_link more view_all"
-        href="${h.entity_url(c.page_user, member='dashboard_proposals')}">${_('list all')}
-      </a>        
+         id="proposals_show_all"
+         href="${h.entity_url(c.page_user, member='dashboard_proposals')}">
+      ${_('list all')}
+      </a>
     % endif
     </p>
 </section>
 <section>
-    <h2>${_("Norms in your instances")}</h2>
+    <h2 id="norms_listing">${_("Norms in your instances")}</h2>
     ${c.pages_pager.here()}
     <p>
     % if c.pages:
@@ -58,11 +61,43 @@
     % endif
     </p>
 </section>
+
+<%components:tutorial>
+<ol id="joyRideTipContent">
+
+    <li data-id="user_menu"
+        data-tip-location="bottom right" class="custom">
+        <p>${_('tutorial_dashboard_username')}</p>
+    </li>
+
+    <li data-id="norms_listing"
+        data-tip-location="top" class="custom">
+        <p>${_('tutorial_dashboard_proposals')}</p>
+    </li>
+
+    <li data-id="proposals_show_all"
+        data-tip-location="" class="custom">
+        <p>${_('tutorial_dashboard_show_all')}</p>
+    </li>
+
+    <li data-id="instance_list"
+        data-tip-location="top right" class="custom">
+        <p>${_('tutorial_dashboard_instances')}</p>
+    </li>
+
+    <li data-id="watchlist" data-next="${_('Close')}"
+        data-tip-location="top right" class="custom">
+        <p>${_('tutorial_dashboard_watchlist')}</p>
+    </li>
+
+</ol>
+</%components:tutorial>
+
 </%block>
 
 <%block name="sidebar">
 <section>
-  <h3>${_("Your Instances")}</h3>
+  <h3 id="instance_list">${_("Your Instances")}</h3>
     <ul>
     %for instance in c.page_user.instances:
       <li>
@@ -74,7 +109,7 @@
     </ul>
 </section>
 <section>
-  <h3>${_("Your Watchlist")}</h3>
+  <h3 id="watchlist">${_("Your Watchlist")}</h3>
     ${c.watchlist_pager.here()}
 </section>
 % if c.polls:

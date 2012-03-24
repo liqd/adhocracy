@@ -7,15 +7,17 @@
     ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Delegations")}
 </%def>
 
-<%block name="headline">
-${tiles.proposal.header(c.proposal, c.tile, active='delegations')}
-</%block>
-
 <%block name="sidebar">
-    ${tiles.proposal.sidebar(c.proposal, c.tile)}
+<% tile = tiles.proposal.ProposalTile(c.proposal) %>
+    ${tiles.delegation.sidebar(c.proposal, tile)}
 </%block>
 
 <%block name="main_content">
+<h2>
+    ${h.delegateable.link(c.proposal, link=True)|n}
+</h2>
+<div class="hr"><hr /></div>
+
     <div class="table">
         ${c.delegations_pager.here()}
     </div>

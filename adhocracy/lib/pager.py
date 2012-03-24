@@ -3,7 +3,7 @@ import logging
 import urllib
 
 from formencode import validators
-from pylons.i18n import _
+from pylons.i18n import _, lazy_ugettext
 from pylons import config, request, tmpl_context as c, url
 from pylons.controllers.util import redirect
 from webob.multidict import MultiDict
@@ -683,15 +683,15 @@ class DelegateableBadgeFacet(SolrFacet):
 
     name = 'delegateablebadge'
     entity_type = model.Badge
-    title = u'Beteiligte'  # FIXME: translate
+    title = lazy_ugettext(u'Categories')
     solr_field = 'facet.delegateable.badge'
 
     @classmethod
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        data[cls.solr_field] = [badge.id for badge in entity.delegateablebadges\
-                                if badge.badge.badge_delegateable
+        data[cls.solr_field] = [relation.badge.id for relation in entity.delegateablebadges\
+                                if relation.badge.badge.badge_delegateable
                                 or not badge.badge.badge_delegateable_category]
 
 
@@ -699,7 +699,7 @@ class DelegateableAddedByBadgeFacet(SolrFacet):
 
     name = 'added_by_badge'
     entity_type = model.Badge
-    title = u'Erstellt von'  # FIXME: translate
+    title = lazy_ugettext(u'Created by')
     solr_field = 'facet.delegateable.added.by.badge'
 
     @classmethod
@@ -715,7 +715,7 @@ class DelegateableTags(SolrFacet):
 
     name = 'delegateabletags'
     entity_type = model.Tag
-    title = u'Tags'  # FIXME: translate
+    title = lazy_ugettext(u'Tags')
     solr_field = 'facet.delegateable.tags'
     show_current_empty = False
 
