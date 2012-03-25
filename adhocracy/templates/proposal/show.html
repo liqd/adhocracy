@@ -11,13 +11,13 @@
 
 
 <%block name="main_content">
-
+<% delegate_url = '/delegation/new?scope=' + str(c.proposal.id) %>
     %if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
-    ${tiles.poll.widget(c.proposal.rate_poll, cls='big')}
+    ${tiles.poll.widget(c.proposal.rate_poll, cls='big', delegate_url=delegate_url)}
     %endif
 
     %if c.proposal.is_adopt_polling():
-    ${tiles.poll.widget(c.proposal.adopt_poll, cls='big')}
+    ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)}
     %endif
 
             <section>
@@ -38,7 +38,7 @@
                 
                 ${tiles.page.inline(c.proposal.description, 
                         hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
-    
+
                 ${components.social_share_buttons(c.proposal)}
 
                 <div class="meta">
@@ -84,6 +84,7 @@
               </ul> 
               <div class="list_button">
               <% auth = check.selection.create(c.proposal) %>
+              <div id="propose-variant"></div>
               %if auth:
               <a class="button highlight" 
                  href="${h.entity_url(c.proposal, member='implementation/include')}">
@@ -104,7 +105,7 @@
                   ${_("Propose to change a norm")}
               </a>
               %endif          
-              
+              </div>
               <%doc> FIXME: Enable change existing norm option
               %if norm.can.create
               <a class="button" 
@@ -117,6 +118,62 @@
             </section>
              
             %endif
+
+<%components:tutorial>
+<ol id="joyRideTipContent">
+
+    <li data-id="col1_content"
+        data-tip-location="top left" class="custom">
+        <p>${_('tutorial_proposal_show_vote')}</p>
+    </li>
+
+    <li data-id="col3_content"
+        data-tip-location="top left" class="custom">
+        <p>${_('tutorial_proposal_show_follow')}</p>
+    </li>
+
+    <li data-id="information"
+        data-tip-location="top" class="custom">
+        <p>${_('tutorial_proposal_show_information')}</p>
+    </li>
+
+    <li data-id="FIXME-only-auth"
+        data-tip-location="" class="custom">
+        <p>${_('tutorial_proposal_show_tags')}</p>
+    </li>
+
+    <li data-id="socialshareprivacy"
+        data-tip-location="" class="custom">
+        <p>${_('tutorial_proposal_show_share')}</p>
+    </li>
+
+    <li data-id="FIXME: no id"
+        data-tip-location="" class="custom">
+        <p>${_('tutorial_proposal_show_vote_comment')}</p>
+    </li>
+
+    <li data-id="FIXME: no id"
+        data-tip-location="" class="custom">
+        <p>${_('tutorial_proposal_show_answers')}</p>
+    </li>
+
+    <li data-id="FIXME: no id"
+        data-tip-location="" class="custom">
+        <p>${_('tutorial_proposal_show_answer')}</p>
+    </li>
+
+    <li data-id="start-discussion-button"
+        data-tip-location="bottom" class="custom">
+        <p>${_('tutorial_proposal_show_new_discussion')}</p>
+    </li>
+
+    <li data-id="propose-variant" data-next="${_('Close')}"
+        data-tip-location="bottom" class="custom">
+        <p>${_('tutorial_proposal_show_propose_variant')}</p>
+    </li>
+  
+</ol>
+</%components:tutorial>
 
 </%block>
 
@@ -154,7 +211,7 @@ ${components.watch(c.proposal)}
 %endif
 
 
-<h3>${_('Informations')}</h3>
+<h3 id="information">${_('Informations')}</h3>
 <summary>
 
     ${sidebar_defs.shortlink(c.proposal)}

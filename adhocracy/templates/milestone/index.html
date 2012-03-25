@@ -28,4 +28,19 @@ ${tiles.milestone.timeline(c.milestones)}
     </div>
     <div style="clear:both;"></div>
 
+
+<%components:tutorial>
+<ol id="joyRideTipContent">
+    <li data-id="timeline_wrapper"
+        data-tip-location="top left" class="custom">
+        <p>${_('tutorial_milestones_timeline')}</p>
+    </li>
+
+    <li data-id="milestones_table"
+        data-tip-location="top right" class="custom">
+        <p>${_('tutorial_milestones_listing')}</p>
+    </li>
+</ol>
+</%components:tutorial>
+
 </%block>

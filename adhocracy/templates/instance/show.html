@@ -19,7 +19,7 @@
         ${c.new_proposals_pager.here()}
   </div>
   <br/>
-  <div class="top_actions aside">
+  <div class="top_actions aside" id="proposal-actions">
   <% auth = check.proposal.create() %>
   %if auth:
       <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
@@ -33,9 +33,7 @@
   </div>
 </div>
 
-<div class="clearFix"></div>
-
-<div class="righthalf">
+<div class="clearFix" id="numbers"></div>
     <h3>${_("By the numbers")}</h3>
     <p>${_("%s has:") % c.page_instance.label}</p>
     <ul>
@@ -44,8 +42,26 @@
         <li>${_("<b>%s</b> comments") % c.stats.get('comments')|n}</li>
     </ul>
 </div>
-</%block>
 
+<%components:tutorial>
+        <ol id="joyRideTipContent">
+          <li data-id="new_proposals_table"
+              data-tip-location="top left">
+            <p>${_('tutorial_instance_proposals_table')|n}</p>
+          </li>
+          <li data-id="proposal-actions"
+              data-tip-location="top left">
+            <p>${_('tutorial_instance_proposal_button')|n}</p>
+          </li>
+          <li data-id="numbers"
+              data-tip-location="top left"
+              data-next="${_('Close')}">
+            <p>${_('tutorial_instance_numbers')}</p>
+          </li>
+        </ol>
+</%components:tutorial>
+
+</%block>
 
 <%block name="sidebar">
 

@@ -124,6 +124,33 @@ jquery.need()
       <div class="page_wrapper">
           <%block name="flashmessages"></%block>
           <%block name="infoboxes"></%block>
+
+          %if c.tutorial and h.tutorial.show(c.tutorial):
+          <div class="only-js" id="tutorial-banner">
+              <%components:build_infobox>
+              <div id="tutorial-intro">
+                  ${c.tutorial_intro|n}
+              </div>
+              %if not c.tutorial_hide_start_button:
+              <a id="start-tutorial-button" 
+                 href="#"
+                 class="button"
+                 data-next="${_('Next')}"
+                 data-previous="${_('Previous')}">
+                  ${_('start_this_tutorial')}
+              </a>
+              %endif
+              <a href="#" id="disable-this-tutorial"
+                 class="disable-link">
+                  ${_('disable_this_tutorial')}
+              </a>
+              <a href="#" id="disable-all-tutorials"
+                 class="disable-link">
+                  ${_('disable_all_tutorials')}
+              </a>
+              </%components:build_infobox>
+          </div>
+          %endif
       </div>
     </div>
   </div>

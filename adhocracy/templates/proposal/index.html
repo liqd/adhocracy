@@ -15,7 +15,7 @@
 <%block name="main_content">
 <h2>${_("Proposals")}</h2>
 <div class="hr"><hr /></div>
-<div class="list_filter">
+<div class="list_filter" id="proposals-search">
 <form class="list_form" action="?" method="GET" autocomplete="off">
     <label class="floating" for="proposals_q">${_("Find proposals")}</label>
     <input class="q" 
@@ -31,7 +31,7 @@
         ${c.proposals_pager.render_pager()}
     </div>
     <br/>
-    <div class="top_actions aside">
+    <div class="top_actions aside" id="new-proposal">
         <% auth = check.proposal.create() %>
         %if auth:
             <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
@@ -42,6 +42,28 @@
         %endif
 
     </div>
+
+
+<%components:tutorial>
+<ol id="joyRideTipContent">
+
+    <li data-id="proposals_table"
+        data-tip-location="top left" class="custom">
+        ${_('tutorial_proposal_overview_table')}
+    </li>
+
+    <li data-id="proposals-search"
+        data-tip-location="top right" class="custom">
+        <p>${_('tutorial_proposal_overview_facets')}</p>
+    </li>
+
+    <li data-id="new-proposal" data-next="${_('Close')}"
+        data-tip-location="top-left" class="custom">
+        <p>${_('tutorial_proposal_overview_new')}</p>
+    </li>
+</ol>
+</%components:tutorial>
+
 </%block>
 
 <%block name="sidebar">

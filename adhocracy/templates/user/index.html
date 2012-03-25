@@ -35,10 +35,6 @@
         </ul>
     %endif
     
-    <div class="infobox">
-        ${_("A listing of all users that have joined this instance.")}
-                ${c.users_pager.render_facets()}
-    </div>
 </div>
 
 </%block>
@@ -56,4 +52,19 @@
     <div id="users_table" class="table">
         ${c.users_pager.render_pager()}
     </div>
+
+<%components:tutorial>
+        <ol id="joyRideTipContent">
+          <li data-id="users_table"
+              data-tip-location="top right">
+            <p>${_('tutorial_user_index_table')|n}</p>
+          </li>
+          <li data-id="facets-heading"
+              data-tip-location="top left"
+              data-next="${_('Close')}">
+            <p>${_('tutorial_user_index_facets')|n}</p>
+          </li>
+        </ol>
+</%components:tutorial>
+
 </%block>

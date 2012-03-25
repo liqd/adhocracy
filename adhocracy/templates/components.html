@@ -264,3 +264,21 @@ text = "%s - %s: %s" % (h.site.name, c.instance.label, entity.title)
           href="${h.base_url(None, path='/stylesheets/site.css')}" />
     
 </%def>
+
+<%def name="tutorial()">
+
+%if h.tutorial.show(c.tutorial):
+<%
+from js.jquery_joyride import joyride
+joyride.need()
+%>
+
+${caller.body()}
+
+<script type="text/javascript">
+    adhocracy.helpers.initializeTutorial("${c.tutorial}");
+</script>
+
+%endif
+
+</%def>

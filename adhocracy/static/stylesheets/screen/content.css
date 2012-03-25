@@ -825,6 +825,15 @@ body.logged_in #nav li a {
   color: #fff;
   font-weight: normal;
 }
+
+/* Sidebar content summary */
+
+#col3 summary ol {
+  list-style-type: none;
+  margin-left: 0;
+}
+
+
 /* follow button */
 a.follow_paper, div.skip_follow {
   height: 26px;
@@ -853,6 +862,31 @@ a.follow_paper.active {
 a.follow_paper.active:hover {
   background-position: 0 -152px;
 }
+
+/* delegate button */
+
+a.button.delegate {
+  height: 26px;
+  line-height: 26px;
+  border-radius: 13px;
+  overflow: hidden;
+  display: inline-block;
+  margin: 0 0 20px;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0 20px;
+}
+
+a.button.delegate {
+  background: url('/images/sprite_buttons.png') no-repeat -35px -1px;
+  color: #2D3441;
+}
+
+a.button.delegate:hover {
+  background-position: -35px -52px;
+  text-decoration: none;
+}
+
 /* vote */
 .vote {
   background: url('/images/sprite_buttons_small.png') repeat-x 0 -300px;
@@ -1907,4 +1941,34 @@ padding-right: 2em;
 .facet ul {
 list-style: none;
 margin-left: 0;
+}
+
+/* Tutorials */
+
+.joyride-next-tip,
+.joyride-prev-tip {
+  color: #fff !important;
+  background: url('/images/sprite_buttons.png') repeat-x 0 -200px !important;
+  border: none !important;
+  height: 35px !important;
+  line-height: 35px !important;
+  padding: 0 15px !important;
+}
+a.joyride-next-tip:hover,
+a.joyride-prev-tip:hover {
+  background-position: 0 -250px !important;
+  border: none !important;
+}
+
+#tutorial-intro {
+  padding-bottom: 1em;
+}
+
+#start-tutorial-button {
+  margin-bottom: -15px;
+  margin-right: 2em;
+}
+
+#tutorial-banner a.disable-link {
+  padding-left: 1em;
 }

@@ -645,9 +645,28 @@ var adhocracy = adhocracy || {};
         }
     };
 
+    adhocracy.helpers.initializeTutorial = function (name) {
+        $('#start-tutorial-button').click(function (event) {
+            $(this).joyride({inline: true,
+                             nextButtonText: $(this).data('next'),
+                             prevButtonText: $(this).data('previous')});
+            event.preventDefault();
+        });
+        $('#disable-all-tutorials').click(function (event) {
+            $.get('/tutorials?disable=ALL');
+            $('#tutorial-banner').fadeOut();
+            event.preventDefault();
+        });
+        $('#disable-this-tutorial').click(function (event) {
+            $.get('/tutorials?disable=' + name);
+            $('#tutorial-banner').fadeOut();
+            event.preventDefault();
+        });
+    };
+
     adhocracy.helpers.initializeTagsAutocomplete = function (selector) {
 
-        $("#tags").autocomplete('/tag/autocomplete', {
+        $(selector).autocomplete('/tag/autocomplete', {
             autoFill: false,
             dataType: 'json',
             formatItem: function (data, i, max, val) {
@@ -659,9 +678,33 @@ var adhocracy = adhocracy || {};
             parse: function (data) {
                 var arr = [],
                     i;
-                for (i = 0; i < data.length; i++) {
+                for (i = 0; i < data.length; i += 1) {
                     arr[i] = {data: data[i], value: data[i].display,
                               result: data[i].tag};
+                }
+                return arr;
+            },
+            delay: 10
+        });
+    };
+
+    adhocracy.helpers.initializeUserAutocomplete = function (selector) {
+
+        $(selector).autocomplete('/user/complete', {
+            autoFill: false,
+            dataType: 'json',
+            formatItem: function (data, i, max, val) {
+                return data.display;
+            },
+            formatResult: function (data, i, max, val) {
+                return data.user;
+            },
+            parse: function (data) {
+                var arr = [],
+                    i;
+                for (i = 0; i < data.length; i += 1) {
+                    arr[i] = {data: data[i], value: data[i].display,
+                        result: data[i].user};
                 }
                 return arr;
             },
@@ -692,6 +735,7 @@ $(document).ready(function () {
     adhocracy.tooltips.initialize();
     adhocracy.helpers.initializeFlashMessageDelegates();
     adhocracy.helpers.initializeTagsAutocomplete('#tags');
+    adhocracy.helpers.initializeUserAutocomplete(".userCompleted");
     adhocracy.overlay.bindOverlays('body');
 
     // initial jquery label_over

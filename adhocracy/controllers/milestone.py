@@ -53,12 +53,18 @@ class MilestoneController(BaseController):
         require.milestone.index()
 
         c.milestones = model.Milestone.all(instance=c.instance)
+        broken = [m for m in c.milestones if m.time is None]
+        for milestone in broken:
+            log.warning('Time of Milestone is None: %s' % h.entity_url(milestone))
+        c.milestones = [m for m in c.milestones if m.time is not None]
         c.milestones_pager = pager.milestones(c.milestones)
 
         if format == 'json':
             return render_json(c.milestones_pager)
 
         c.tile = tiles.instance.InstanceTile(c.instance)
+        c.tutorial = 'milestone_index'
+        c.tutorial_intro = _('tutorial_milestones_tab')
         return render("/milestone/index.html")
 
     @RequireInstance
@@ -139,6 +145,8 @@ class MilestoneController(BaseController):
         pages_q = pages_q.filter(model.Page.milestone==c.milestone)
         c.pages_pager = pager.pages(pages_q.all(), size=10)
         self._common_metadata(c.milestone)
+        c.tutorial_intro = _('tutorial_milestone_details_tab')
+        c.tutorial = 'milestone_show'
         return render("/milestone/show.html")
 
     @RequireInstance
@@ -168,7 +176,7 @@ class MilestoneController(BaseController):
         h.add_meta("dc.title",
                    text.meta_escape(milestone.title, markdown=False))
         h.add_meta("dc.date",
-                   milestone.time.strftime("%Y-%m-%d"))
+                   milestone.time and milestone.time.strftime("%Y-%m-%d") or '')
         h.add_meta("dc.author",
                    text.meta_escape(milestone.creator.name, markdown=False))
 
