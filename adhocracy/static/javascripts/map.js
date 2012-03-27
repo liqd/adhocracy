@@ -601,6 +601,7 @@ FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175
 
 
 function loadSingleProposalMap(instanceKey, proposalId, edit) {
+ $.getScript('/OpenLayers-2.11/build/OpenLayers-closure-img.js', function() {
 
     var map = createMap(NUM_ZOOM_LEVELS);
 
@@ -629,9 +630,11 @@ function loadSingleProposalMap(instanceKey, proposalId, edit) {
 
         waiter(feature);
     });
+ });
 }
 
 function loadRegionMap(instanceKey, initialProposals) {
+ $.getScript('/OpenLayers-2.11/build/OpenLayers-closure-img.js', function() {
     var map = createMap(NUM_ZOOM_LEVELS);
 
     waiter = createWaiter(1, function(bounds) {
@@ -654,10 +657,11 @@ function loadRegionMap(instanceKey, initialProposals) {
         feature = proposalLayer.getFeaturesByAttribute('id', parseInt(target.id.substring('result_list_marker_'.length)))[0];
         popupControl.clickFeature(feature);
     });
-
+ });
 }
 
 function loadOverviewMap(initialInstances) {
+ $.getScript('/OpenLayers-2.11/build/OpenLayers-closure-img.js', function() {
     var map = createMap(NUM_ZOOM_LEVELS);
 
     bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
@@ -683,4 +687,5 @@ function loadOverviewMap(initialInstances) {
 
     map.zoomToExtent(bounds);
     // addMultiBoundaryLayer(map);
+ });
 }
