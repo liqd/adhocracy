@@ -4,7 +4,8 @@
 
 <div id="map" class="small_map"></div>
     <div class="note_map">© <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">lizenz</a>)</div>
-<script src="/OpenLayers-2.11/lib/OpenLayers.js"></script>
+<!-- <script src="/OpenLayers-2.11/lib/OpenLayers.js"></script> -->
+<script src="/OpenLayers-2.11/build/OpenLayers-closure-img.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript"> window.onload=loadSingleProposalMap('${c.instance.key}', ${proposal_id}, false); </script>
 </%def>
@@ -23,7 +24,8 @@
     </div>
 </form>
 
-<script src="/OpenLayers-2.11/lib/OpenLayers.js"></script>
+<!-- <script src="/OpenLayers-2.11/lib/OpenLayers.js"></script> -->
+<script src="/OpenLayers-2.11/build/OpenLayers-closure-img.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript"> window.onload=loadSingleProposalMap('${c.instance.key}', ${proposal_id}, true); </script>
 </%def>
@@ -32,7 +34,8 @@
 
 <div id="map" class="small_map"></div>
     <div class="note_map">© <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">lizenz</a>)</div>
-<script src="/OpenLayers-2.11/lib/OpenLayers.js"></script>
+<!-- <script src="/OpenLayers-2.11/lib/OpenLayers.js"></script> -->
+<script src="/OpenLayers-2.11/build/OpenLayers-closure-img.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript"> window.onload=loadRegionMap('${c.instance.key}', ${initial_proposals if initial_proposals else 'null'}); </script>
 </%def>
@@ -41,7 +44,8 @@
 
 <div id="map" class="small_map"></div>
     <div class="note_map">© <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">lizenz</a>)</div>
-<script src="/OpenLayers-2.11/lib/OpenLayers.js"></script>
+<!-- <script src="/OpenLayers-2.11/lib/OpenLayers.js"></script> -->
+<script src="/OpenLayers-2.11/build/OpenLayers-closure-img.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript"> window.onload=loadOverviewMap(${initial_instances if initial_instances else 'null'}); </script>
 </%def>
