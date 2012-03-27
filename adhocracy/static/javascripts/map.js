@@ -81,8 +81,9 @@ function createProposalLayer() {
 }
 
 function fetchSingleProposal(singleProposalId, layer, callback) {
+    var url = '/proposal/' + singleProposalId + '/get_geotag';
     $.ajax({
-        url: ('/proposal/' + singleProposalId + '/get_geotag'),
+        url: url,
         success: function(data) {
             features = new OpenLayers.Format.GeoJSON({}).read(data);
             if (features) {
@@ -97,7 +98,8 @@ function fetchSingleProposal(singleProposalId, layer, callback) {
             }
         },
         error: function(xhr,err){
-            alert('No response from server, sorry. Error: '+err);
+	    //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
+            //alert('No response from server, sorry. Error: '+err);
         }
     })
 }
@@ -308,8 +310,9 @@ function createRegionBoundaryLayer(instanceKey, callback) {
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleBorder)}),
     })
 
+    var url = '/instance/' + instanceKey + '/get_region'; 
     $.ajax({
-        url: ('/instance/' + instanceKey + '/get_region'),
+        url: url,
         success: function(data) {
             features = new OpenLayers.Format.GeoJSON({}).read(data);
             if (features) {
@@ -323,7 +326,8 @@ function createRegionBoundaryLayer(instanceKey, callback) {
             }
         },
         error: function(xhr,err){
-            alert('No response from server, sorry. Error: '+err);
+	    //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
+            //alert('No response from server, sorry. Error: '+err);
         }
     });
 
