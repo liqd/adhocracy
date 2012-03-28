@@ -51,6 +51,3 @@ class UserBadge(object):
         meta.Session.add(userbadge)
         meta.Session.flush()
         return userbadge
-
-    def _index_id(self):
-        return self.id

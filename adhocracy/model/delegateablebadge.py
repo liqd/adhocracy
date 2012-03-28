@@ -55,6 +55,3 @@ class DelegateableBadge(object):
         meta.Session.add(delegateablebadge)
         meta.Session.flush()
         return delegateablebadge
-
-    def _index_id(self):
-        return self.id

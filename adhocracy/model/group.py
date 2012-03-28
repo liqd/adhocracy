@@ -54,8 +54,7 @@ class Group(object):
             log.warn("find(%s): %s" % (id, e))
             return None
 
-    def _index_id(self):
-        return self.group_name
+    _index_id_attr = 'group_name'
 
     @classmethod
     #@meta.session_cached

@@ -164,6 +164,3 @@ class Badge(object):
                     badge_delegateable=self.badge_delegateable,
                     badge_delegateable_category=self.badge_delegateable_category,
                     instance=self.instance)
-
-    def _index_id(self):
-        return self.id

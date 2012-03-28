@@ -214,9 +214,6 @@ class Poll(object):
                     scope=self.scope,
                     subject=self.subject)
 
-    def _index_id(self):
-        return self.id
-
     def __repr__(self):
         return u"<Poll(%s,%s,%s,%s)>" % (self.id,
                                          self.scope_id,

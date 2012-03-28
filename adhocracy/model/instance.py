@@ -173,11 +173,15 @@ class Instance(meta.Indexable):
             at_time = datetime.utcnow()
         return not (self.is_deleted(at_time) or self.hidden)
 
-    def _index_id(self):
-        return self.key
+    _index_id_attr = 'key'
+
+    @classmethod
+    def all_q(cls):
+        return meta.Session.query(Instance)
 
     @classmethod
     def all(cls, limit=None, include_deleted=False, include_hidden=False):
+        q = cls.all_q()
         q = meta.Session.query(Instance)
         if not include_deleted:
             q = q.filter(or_(Instance.delete_time == None,

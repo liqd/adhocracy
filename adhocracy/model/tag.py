@@ -82,8 +82,11 @@ class Tag(object):
 
     @classmethod
     def all(cls):
-        q = meta.Session.query(Tag)
-        return q.all()
+        return cls.all_q().all()
+
+    @classmethod
+    def all_q(cls):
+        return meta.Session.query(Tag)
 
     @classmethod
     def popular_tags(cls, limit=None):
@@ -171,6 +174,3 @@ class Tag(object):
                     name=self.name,
                     count=self.count,
                     url=h.entity_url(self))
-
-    def _index_id(self):
-        return self.id

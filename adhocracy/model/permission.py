@@ -36,8 +36,7 @@ class Permission(object):
             log.warn("find(%s): %s" % (permission_name, e))
             return None
 
-    def _index_id(self):
-        return self.permission_name
+    _index_id = 'permission_name'
 
     @classmethod
     def all(cls):

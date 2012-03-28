@@ -74,6 +74,3 @@ class Tagging(object):
         import adhocracy.lib.text as text
         return [Tagging.create(delegateable, t, creator) \
             for t in text.tag_split(tags)]
-
-    def _index_id(self):
-        return self.id

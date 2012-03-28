@@ -65,9 +65,6 @@ class Vote(object):
                     create_time=self.create_time,
                     delegation=self.delegation_id)
 
-    def _index_id(self):
-        return self.id
-
     def __repr__(self):
         return "<Vote(%s,%s,%s,%s,%s)>" % (self.id,
             self.user.user_name,

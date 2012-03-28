@@ -279,8 +279,7 @@ class User(meta.Indexable):
         #log.debug("LEN: %s" % len(q.all()))
         return q.all()
 
-    def _index_id(self):
-        return self.user_name
+    _index_id_attr = 'user_name'
 
     @classmethod
     def all_q(cls, instance=None, include_deleted=False):

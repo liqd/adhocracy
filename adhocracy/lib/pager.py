@@ -13,12 +13,22 @@ from adhocracy.lib import sorting, tiles
 from adhocracy.lib.event.stats import user_activity
 from adhocracy.lib.search.query import sunburnt_query, add_wildcard_query
 from adhocracy.lib.templating import render_def
-
+from adhocracy.model.refs import ref_attr_value
 
 log = logging.getLogger(__name__)
 
 PAGE_VALIDATOR = validators.Int(min=1, not_empty=True)
 SIZE_VALIDATOR = validators.Int(min=1, max=250, not_empty=True)
+
+
+def sort_key_getter(item):
+    entity = item.get('entity', None)
+    if entity:
+        for attribute in ['title', 'name', 'id']:
+            value = getattr(entity, attribute, marker)
+            if value is not marker:
+                return value
+    return item['facet_count'] * -1  # reverse sorting
 
 
 def visible_pages(selected_page, pages):
@@ -457,7 +467,6 @@ class SolrFacet(SolrIndexer):
                                           reverse=True)
         self.facet_counts = dict(self.sorted_facet_counts)
 
-        self.facet_items = self._facet_items(self.sorted_facet_counts)
         self.current_items = self._current_items()
 
     # fixme: memoize
@@ -490,14 +499,6 @@ class SolrFacet(SolrIndexer):
         name or id, or by facet_count. It is only sensible if all
         entities have the same attributes.
         '''
-        def sort_key_getter(item):
-            entity = item.get('entity', None)
-            if entity:
-                for attribute in ['title', 'name', 'id']:
-                    value = getattr(entity, attribute, marker)
-                    if value is not marker:
-                        return value
-            return item['facet_count'] * -1  # reverse sorting
 
         return sorted(items, key=sort_key_getter)
 
@@ -518,66 +519,66 @@ class SolrFacet(SolrIndexer):
         '''
         Return a list of facets to display.
         '''
-        display_facet_items = []
-        for item in self.facet_items:
-            item = item.copy()
-            facet_value = item['value']
-            item['current_count'] = self.current_counts[facet_value]
-            if item['current_count'] == 0 and not (self.show_empty or
-                                                   self.show_current_empty):
-                continue
-            if item['facet_count'] == 0 and not self.show_empty:
-                continue
 
+        def show_facet(current_count, facet_count, show_empty,
+                       show_current_empty):
+            if show_empty:
+                return True
+
+            if current_count > 0 or show_current_empty:
+                return True
+
+            if facet_count > 0 or show_empty:
+                return True
+
+            return False
+
+        ids = []
+        facet_items = {}
+        for (value, facet_count) in self.sorted_facet_counts:
+            current_count = self.current_counts[value]
+
+            if show_facet(current_count, facet_count,
+                          self.show_empty, self.show_current_empty):
+                id_ = value
+                ids.append(id_)
+                facet_items[id_] = {'current_count': current_count,
+                                    'value': value}
+
+        result = []
+
+        entities = model.refs.get_entities(self.entity_type, ids)
+
+        for entity in entities:
+            item = facet_items[ref_attr_value(entity)]
+            item['link_text'] = self.get_item_label(entity)
             item['disabled'] = (item['current_count'] == 0)
-            # filter out by configuration:
-            if item['current_count'] == 0 and not self.show_current_empty:
-                # facets that are now empty, but may return results
-                # if another facet value combination is selected
-                continue
-            if item['facet_count'] == 0 and not self.show_empty:
-                # facets that are 0 in all possible result sets.
-                continue
+            item['selected'] = item['value'] in self.used
+            item['url'] = self.get_item_url(item)
 
-            values = self.used[:]
-            selected = facet_value in self.used
-            item['selected'] = selected
-            if selected:
-                values.remove(facet_value)
-            else:
-                values.append(facet_value)
-            item['url'] = self.build_url(self.request, values)
+            result.append(item)
 
-            display_facet_items.append(item)
+        return result
 
-        return display_facet_items
-
-    def get_item_data(self, value):
-        '''
-        hook to get the entity (or other relevant data) for a facet.
-        *value* is the facet_value, item the item dict that will be
-        stored and passed to the templates.
-
-        This is a generic version that works with entity types that
-        have a generic method "find", and a displayable title
-        stored in the attribute label, title or name.
-
-        Raises ValueError if the displayable title cannot be found.
-
-        Returns: An item dict or None if no data can be found for
-        the *value*
-        '''
-        entity = self.entity_type.find(value)
-        if entity is None:
-            return None
-        item = {}
-        item['entity'] = entity
-        # find an link_text
+    def get_item_label(self, entity):
         for attribute in ['label', 'title', 'name']:
             if hasattr(entity, attribute):
-                item['link_text'] = getattr(entity, attribute)
-                return item
-        raise ValueError('Could not find a link_text for %s' % entity)
+                return getattr(entity, attribute)
+
+        raise ValueError(('Could not find a label for facet '
+                          '%s from entity %s') % (self.name, entity))
+
+    def get_item_url(self, item):
+        '''
+        build a new url for the action when you click on it to
+        select or unselect the item.
+        '''
+        values = self.used[:]
+        if item['selected']:
+            values.remove(item['value'])
+        else:
+            values.append(item['value'])
+        return self.build_url(self.request, values)
 
     def unselect_all_link(self):
         '''
@@ -644,7 +645,8 @@ class UserBadgeFacet(SolrFacet):
     def add_data_to_index(cls, user, index):
         if not isinstance(user, model.User):
             return
-        index[cls.solr_field] = [badge.id for badge in user.badges]
+        index[cls.solr_field] = [ref_attr_value(badge) for
+                                 badge in user.badges]
 
 
 class InstanceFacet(SolrFacet):
@@ -658,7 +660,8 @@ class InstanceFacet(SolrFacet):
     def add_data_to_index(cls, user, index):
         if not isinstance(user, model.User):
             return
-        index[cls.solr_field] = [instance.key for instance in user.instances]
+        index[cls.solr_field] = [ref_attr_value(instance) for
+                                 instance in user.instances]
 
 
 class DelegateableBadgeCategoryFacet(SolrFacet):
@@ -668,14 +671,17 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
     entity_type = model.Badge
     title = u'Kategorien'  # FIXME: translate
     solr_field = 'facet.delegateable.badgecategory'
+    show_current_empty = False
 
     @classmethod
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        badges = [badge for badge in entity.delegateablebadges if badge.badge.badge_delegateable_category]
-        data[cls.solr_field] = [badge.id for badge in badges]
-
+        badges = [relation.badge for relation in
+                  entity.delegateablebadges if
+                  relation.badge.badge_delegateable_category]
+        data[cls.solr_field] = [ref_attr_value(badge) for
+                                badge in badges]
 
 
 class DelegateableBadgeFacet(SolrFacet):
@@ -685,14 +691,17 @@ class DelegateableBadgeFacet(SolrFacet):
     entity_type = model.Badge
     title = lazy_ugettext(u'Categories')
     solr_field = 'facet.delegateable.badge'
+    show_current_empty = False
 
     @classmethod
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        data[cls.solr_field] = [relation.badge.id for relation in entity.delegateablebadges\
-                                if relation.badge.badge.badge_delegateable
-                                or not badge.badge.badge_delegateable_category]
+        d = [ref_attr_value(relation.badge) for relation in
+             entity.delegateablebadges if
+             (relation.badge.badge_delegateable or not
+              relation.badge.badge_delegateable_category)]
+        data[cls.solr_field] = d
 
 
 class DelegateableAddedByBadgeFacet(SolrFacet):
@@ -701,14 +710,16 @@ class DelegateableAddedByBadgeFacet(SolrFacet):
     entity_type = model.Badge
     title = lazy_ugettext(u'Created by')
     solr_field = 'facet.delegateable.added.by.badge'
+    show_current_empty = False
 
     @classmethod
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        data[cls.solr_field] = [badge.id for badge in entity.creator.badges\
-                                    if badge.instance is entity.instance\
-                                       or badge.instance is None]
+        data[cls.solr_field] = [ref_attr_value(badge) for
+                                badge in entity.creator.badges if
+                                (badge.instance is entity.instance or
+                                 badge.instance is None)]
 
 
 class DelegateableTags(SolrFacet):
@@ -725,7 +736,7 @@ class DelegateableTags(SolrFacet):
             return
         tags = []
         for tag, count in entity.tags:
-            tags.extend([tag.id] * count)
+            tags.extend([ref_attr_value(tag)] * count)
         data[cls.solr_field] = tags
 
 
@@ -912,11 +923,8 @@ class SolrPager(PagerMixin):
 
         # Don't use entity_type.find_all() cause
         # it won't preserve the order of items.
-        entities = []
-        for doc in response.result.docs:
-            ref = doc.get('ref')
-            entity = model.refs.to_entity(ref)
-            entities.append(entity)
+        refs = [doc['ref'] for doc in response.result.docs]
+        entities = model.refs.to_entities(refs)
         return entities
 
     def _get_page(self):

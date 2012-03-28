@@ -132,9 +132,6 @@ class Delegation(object):
 
     is_deleted = is_revoked
 
-    def _index_id(self):
-        return self.id
-
     def to_dict(self):
         from adhocracy.lib import helpers as h
         return dict(id=self.id,

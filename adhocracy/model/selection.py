@@ -215,9 +215,6 @@ class Selection(object):
                  proposal=self.proposal.id)
         return d
 
-    def _index_id(self):
-        return self.id
-
     def __repr__(self):
         id_ = self.proposal.id if self.proposal else "-"
         return u"<Selection(%d,%s,%s)>" % (self.id, self.page.id, id_)

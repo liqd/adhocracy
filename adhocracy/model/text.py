@@ -133,9 +133,6 @@ class Text(object):
     def is_head(self):
         return self.variant == self.HEAD
 
-    def _index_id(self):
-        return self.id
-
     def to_dict(self):
         from adhocracy.lib import helpers as h
         d = dict(id=self.id,

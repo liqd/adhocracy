@@ -90,9 +90,6 @@ class Milestone(object):
         return ((self.delete_time is not None) and
                 self.delete_time <= at_time)
 
-    def _index_id(self):
-        return self.id
-
     def to_dict(self):
         from adhocracy.lib import helpers as h
         d = dict(id=self.id,

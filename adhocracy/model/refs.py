@@ -12,6 +12,7 @@ The module also provides helpers to work with url encoded
 references and lists or dicts of references or model objects.
 '''
 
+from inspect import isclass
 import logging
 import re
 import base64
@@ -35,7 +36,9 @@ from user import User
 from vote import Vote
 from milestone import Milestone
 
+
 log = logging.getLogger(__name__)
+undef_marker = object()
 
 FORMAT = re.compile("@\[(.*):(.*)\]")
 
@@ -65,6 +68,33 @@ def cls_type(cls):
     return unicode(cls.__name__.lower())
 
 
+TYPES_MAP = dict((cls_type(t), t) for t in TYPES)
+
+
+def entity_ref_attr_name(entity):
+    '''
+    Return the name of the attribute to use in references
+    '''
+    return getattr(entity, '_index_id_attr', 'id')
+
+
+def ref_attr_value(entity_or_cls):
+    '''
+    Return the value (unicode) of the reference attribute (for model
+    objects) or the :class:`sqlalchemy.orm.attributes.InstrumenteAttribute`
+    object (for model classes)
+    '''
+    id_attr = entity_ref_attr_name(entity_or_cls)
+    attr_value = getattr(entity_or_cls, id_attr, undef_marker)
+    if attr_value is undef_marker:
+            raise KeyError('Wrong index id attribute for object/class "%s": %s'
+                           % (entity_or_cls, id_attr))
+    if isclass(entity_or_cls):
+        return attr_value
+    else:
+        return unicode(attr_value)
+
+
 def to_ref(entity):
     '''Generate a string reference to a model object.
     The reference has the format `@[<entity_type>:<id>]`.
@@ -80,7 +110,7 @@ def to_ref(entity):
     for cls in TYPES:
         if isinstance(entity, cls):
             return u"@[%s:%s]" % (entity_type(entity),
-                                  unicode(entity._index_id()))
+                                  ref_attr_value(entity))
     return None
 
 
@@ -116,6 +146,66 @@ def to_entity(ref, instance_filter=False, include_deleted=True):
             return entity
     log.warn("No typeformatter for: %s" % ref)
     return ref
+
+
+def to_entities(refs):
+    '''
+    Return the entities referenced by refs (see :func:`to_ref`).
+    It only works if if all refs reference the same entity type.
+    The entities are returned in the same order as refs
+
+    *refs' (list of strings)
+        A List of references
+
+    Returns
+        A list of Entities
+
+    Raises
+        :exc:`ValueError` if the refs do not reference the same entity
+        type
+    '''
+    cls = None
+    ids = []
+    for ref in refs:
+        match = FORMAT.match(unicode(ref))
+        if not match:
+            continue
+        refcls = match.group(1)
+        refid = match.group(2)
+        if cls is not None and refcls != cls:
+            raise ValueError('all refs have to be refs to the same '
+                             'cls/entity type')
+        cls = refcls
+        ids.append(refid)
+
+    entity_class = TYPES_MAP[cls]
+    return get_entities(entity_class, ids)
+
+
+def get_entities(entity_class, ids):
+    '''
+    Return all entities of the type *entity_class* where id is
+    in *ids* in the order as in *ids*.
+
+    *entity_class*
+       An slqalchemy model class.
+    *ids* (list of int)
+       A list of ids.
+
+    Returns
+       A list of model objects
+    '''
+    from meta import Session
+    db_mapper_attr = ref_attr_value(entity_class)
+    q = Session.query(entity_class).filter(db_mapper_attr.in_(ids))
+    all_map = dict((str(ref_attr_value(entity)), entity) for entity in q.all())
+
+    ordered_results = []
+    for id_ in ids:
+        entity = all_map.get(str(id_))
+        if entity is not None:
+            ordered_results.append(entity)
+    return ordered_results
 
 
 def to_url(entity):

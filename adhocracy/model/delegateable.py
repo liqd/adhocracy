@@ -187,9 +187,6 @@ class Delegateable(meta.Indexable):
     def user_position(self, user):
         return 0
 
-    def _index_id(self):
-        return self.id
-
     def to_dict(self):
         from adhocracy.lib import helpers as h
         return dict(id=self.id,
