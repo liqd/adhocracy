@@ -141,7 +141,7 @@
     %if proposal.adopted:
         <div class="panel">
             <div class="info adoption adopted">
-                ${_("%s has been adopted %s.") % (h.delegateable.link(proposal, link=False, icon=False),
+                ${_("%s has been adopted %s.") % (h.delegateable.link(proposal, link=False),
                                                   h.relative_time(proposal.adopt_poll.end_time))|n}
             </div>
         </div>
