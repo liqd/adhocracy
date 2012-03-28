@@ -989,14 +989,14 @@ def solr_global_users_pager():
 
 def solr_proposal_pager(instance, wildcard_queries=None):
     extra_filter = {'instance': instance.key}
-    support_sort_field = '-order.proposal.support'
+    mixed_sort = '-order.proposal.mixed'
     pager = SolrPager('proposals', tiles.proposal.row,
                       entity_type=model.Proposal,
                       sorts=((_("newest"), '-create_time'),
-                             (_("support"), support_sort_field),
-                             (_("mixed"), '-order.proposal.mixed'),
+                             (_("support"), '-order.proposal.support'),
+                             (_("mixed"), mixed_sort),
                              (_("alphabetically"), 'order.title')),
-                      default_sort=support_sort_field,
+                      default_sort=mixed_sort,
                       extra_filter=extra_filter,
                       facets=[DelegateableBadgeCategoryFacet,
                               DelegateableBadgeFacet,
