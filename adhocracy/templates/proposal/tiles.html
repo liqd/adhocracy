@@ -35,8 +35,7 @@
                 ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
                 ·
             %endif
-            ##${ungettext("%s comment", "%s comments", proposal.comment_count()) % proposal.comment_count()},
-            ${_("latest: <b>%s</b>") % h.relative_time(proposal.find_latest_comment_time())|n} 
+            
         </div>
         <div class="hr"><hr /></div>
     </li>
