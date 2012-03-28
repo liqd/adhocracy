@@ -6,12 +6,14 @@
     ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Delete")}
 </%def>
 
-${tiles.proposal.header(c.proposal, c.tile, active='')}
 
-<div class="sidebar">
-    ${tiles.proposal.sidebar(c.proposal, c.tile)}
-</div>
+
+<%block name="main_content">
+
 <div class="mainbar">
+    <h2>
+        ${h.delegateable.link(c.proposal, link=False)|n}
+    </h2>
     <form name="ask_delete" class="inplace" method="POST" 
         action="${h.entity_url(c.proposal)}">
         ${h.field_token()|n}
@@ -25,3 +27,4 @@ ${tiles.proposal.header(c.proposal, c.tile, active='')}
     </form>
 </div>
 
+</%block>
