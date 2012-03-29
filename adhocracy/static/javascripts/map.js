@@ -131,17 +131,20 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
     })
 
     rule.evaluate = function (feature) {
-        var index = initialProposals.indexOf(feature.fid);
+        if (initialProposals) {
+            var index = initialProposals.indexOf(feature.fid);
 
-        if (index >= 0) {
-            var letter = String.fromCharCode(index+97);
-            this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
-            $('#result_list_marker_'+feature.fid).attr('alt', letter).addClass('marker_'+letter);
+            if (index >= 0) {
+                var letter = String.fromCharCode(index+97);
+                this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
+                $('#result_list_marker_'+feature.fid).attr('alt', letter).addClass('marker_'+letter);
             
-            return true;
-        } else {
-            return false;
+                return true;
+            } else {
+                return false;
+            }
         }
+        return false;
     }
 
     layer = new OpenLayers.Layer.Vector('region_proposals', {
