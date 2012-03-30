@@ -75,6 +75,7 @@ function createProposalLayer() {
 
     return new OpenLayers.Layer.Vector("proposal", {
         displayInLayerSwitcher: false, 
+	projection: new OpenLayers.Projection("EPSG:4326"),
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
                 					   'select': new OpenLayers.Style(styleSelect)}) 
     });
@@ -601,7 +602,6 @@ function buildInstancePopup(attributes) {
 NUM_ZOOM_LEVELS = 19;
 
 FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
-
 
 function loadSingleProposalMap(instanceKey, proposalId, edit) {
  $.getScript('/OpenLayers-2.11/build/OpenLayers-closure-img.js', function() {

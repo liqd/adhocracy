@@ -1,5 +1,6 @@
 #/bin/bash
 
+# python build.py -c jsmin liqd OpenLayers-closure.js
 python build.py -c closure liqd OpenLayers-closure.js
 # python build.py -c none liqd OpenLayers-closure.js
 
