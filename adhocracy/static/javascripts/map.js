@@ -37,9 +37,8 @@
  * TODO: adjust proposal size
  */
 
-var styleBorder,styleArea,styleProps,styleSelect;
 
-styleProps = {
+var styleProps = {
     pointRadius: 5,
     fillColor: "#f28686",
     fillOpacity: 0.8,
@@ -48,7 +47,7 @@ styleProps = {
     strokeOpacity: 0.8
 };
 
-styleSelect = { 
+var styleSelect = { 
     pointRadius: 5,
     fillColor: "#e82b2b",
     fillOpacity: 0.8,
@@ -57,13 +56,13 @@ styleSelect = {
     strokeOpacity: 0.8
 };
 
-styleBorder = {
+var styleBorder = {
     fillColor: "#ffcc66",
     fillOpacity: 0.5,
     strokeColor: "#ff9933"
 };
 
-styleArea = {
+var styleArea = {
     fillColor: "#66ccff",
     fillOpacity: 0.5,
     strokeColor: "#3399ff"
@@ -86,10 +85,10 @@ function fetchSingleProposal(singleProposalId, layer, callback) {
     $.ajax({
         url: url,
         success: function(data) {
-            features = new OpenLayers.Format.GeoJSON({}).read(data);
+            var features = new OpenLayers.Format.GeoJSON({}).read(data);
             if (features) {
                 // assert(features.length==1);
-                feature = features[0];
+                var feature = features[0];
                 $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(feature));
                 feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
                 layer.addFeatures([feature]);
@@ -148,7 +147,7 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
         return false;
     }
 
-    layer = new OpenLayers.Layer.Vector('region_proposals', {
+    var layer = new OpenLayers.Layer.Vector('region_proposals', {
         strategies: [new OpenLayers.Strategy.Fixed()],
         protocol: new OpenLayers.Protocol.HTTP({
             url: '/instance/' + instanceKey + '/get_proposal_geotags',
@@ -189,7 +188,7 @@ function createPopupControl(layer, buildPopupContent) {
         }
     });
 
-    selectControl = new OpenLayers.Control.SelectFeature(layer, {
+    var selectControl = new OpenLayers.Control.SelectFeature(layer, {
             clickout: true,
             toggle: false,
             multiple: false,
@@ -269,7 +268,7 @@ function addEditControls(map, layer) {
     }
 
     function updateGeotagField() {
-        transformed_feature = layer.features[0].clone();
+        var transformed_feature = layer.features[0].clone();
         transformed_feature.geometry.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
         $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(transformed_feature));
         map.setCenter(layer.features[0].geometry.getBounds().getCenterLonLat(), 
@@ -318,10 +317,10 @@ function createRegionBoundaryLayer(instanceKey, callback) {
     $.ajax({
         url: url,
         success: function(data) {
-            features = new OpenLayers.Format.GeoJSON({}).read(data);
+            var features = new OpenLayers.Format.GeoJSON({}).read(data);
             if (features) {
                 // assert(features.length==1);
-                feature = features[0];
+                var feature = features[0];
                 feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
                 layer.addFeatures([feature]);
                 callback(feature);
@@ -599,16 +598,16 @@ function buildInstancePopup(attributes) {
 }
 
 
-NUM_ZOOM_LEVELS = 19;
+var NUM_ZOOM_LEVELS = 19;
 
-FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
+var FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
 
 function loadSingleProposalMap(instanceKey, proposalId, edit) {
  $.getScript('/OpenLayers-2.11/build/OpenLayers-closure-img.js', function() {
 
     var map = createMap(NUM_ZOOM_LEVELS);
 
-    waiter = createWaiter(2, function(bounds) {
+    var waiter = createWaiter(2, function(bounds) {
         map.zoomToExtent(bounds);
     });
 
@@ -640,7 +639,7 @@ function loadRegionMap(instanceKey, initialProposals) {
  $.getScript('/OpenLayers-2.11/build/OpenLayers-closure-img.js', function() {
     var map = createMap(NUM_ZOOM_LEVELS);
 
-    waiter = createWaiter(1, function(bounds) {
+    var waiter = createWaiter(1, function(bounds) {
         map.zoomToExtent(bounds);
     });
 
@@ -657,7 +656,7 @@ function loadRegionMap(instanceKey, initialProposals) {
 
     $('.result_list_marker').click(function(event) {
         var target = event.target || event.srcElement;
-        feature = proposalLayer.getFeaturesByAttribute('id', parseInt(target.id.substring('result_list_marker_'.length)))[0];
+        var feature = proposalLayer.getFeaturesByAttribute('id', parseInt(target.id.substring('result_list_marker_'.length)))[0];
         popupControl.clickFeature(feature);
     });
  });
@@ -667,7 +666,7 @@ function loadOverviewMap(initialInstances) {
  $.getScript('/OpenLayers-2.11/build/OpenLayers-closure-img.js', function() {
     var map = createMap(NUM_ZOOM_LEVELS);
 
-    bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+    var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
 
     map.addControls(createControls(false));
     map.addLayers(createBaseLayers());
@@ -683,7 +682,7 @@ function loadOverviewMap(initialInstances) {
     //    popupControl.clickFeature(feature);
     //});
 
-    overviewLayer = createOverviewLayer();
+    var overviewLayer = createOverviewLayer();
     map.addLayer(overviewLayer);
     var popupControl = createPopupControl(overviewLayer, buildInstancePopup);
     map.addControl(popupControl);
