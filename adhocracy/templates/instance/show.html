@@ -9,14 +9,12 @@
 
 
 <%block name="headline">
-<div class="lefthalf">
-    ${c.tile.description|n}
-</div>
 
-<div class="righthalf">
-    <h3 class="section">${_("Newest Proposals")}</h3>
-    <div id="new_proposals_table" class="table">
-        ${c.new_proposals_pager.here()}
+  ${c.tile.description|n}
+
+  <div id="new_proposals_table" class="table">
+      <h3 class="section">${_("Newest Proposals")}</h3>
+      ${c.new_proposals_pager.here()}
   </div>
   <br/>
   <div class="top_actions aside" id="proposal-actions">
@@ -31,7 +29,6 @@
 
   <a href="/proposal" class="button edit ttip" title="${_('show a list of proposals')}">${_("more proposals")}</a>
   </div>
-</div>
 
 <div class="clearFix" id="numbers"></div>
     <h3>${_("By the numbers")}</h3>
