@@ -727,15 +727,6 @@ $(document).ready(function () {
     // initial jquery label_over
     $('.label_over label').labelOver('over-apply');
 
-
-    $('#blog_select_button').click(function () {
-        $('#blog_select').toggleClass('open');
-        return false;
-    });
-    $('body').click(function () {
-        $('#blog_select.open').removeClass('open');
-    });
-
     // comments
     $('.comment, .paper').hover(
         function () {
