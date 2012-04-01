@@ -710,11 +710,6 @@ $(document).ready(function () {
 
     'use strict';
 
-    // initial jquery elements circle
-    $("#projects_slides").multipleElementsCycle({
-        start: 0
-    });
-
     // initial jquery elastic
     $('textarea').elastic();
 
