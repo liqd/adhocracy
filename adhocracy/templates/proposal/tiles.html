@@ -82,6 +82,9 @@
     ${tiles.delegation.sidebar(proposal, tile)}
 </%def>
 
+
+<%def name="header(tile, proposal, active)">
+    
     <div style="clear: both;"></div>
     %if proposal.rate_poll:
     <span class="${h.poll_position_css(proposal.rate_poll)}"  id="tile_p${proposal.id}">
