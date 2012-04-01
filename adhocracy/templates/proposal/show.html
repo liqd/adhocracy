@@ -8,9 +8,31 @@
 
 <%def name="breadcrumbs()">${h.proposal.breadcrumbs(c.proposal)|n}</%def>
 
+<%block name="admin_controls">
+
+<%components:admin_controls>
+
+## FIXME: Reenable for adopt poll
+##%if can.proposal.adopt(proposal):
+##<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
+##   href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
+##%endif
+
+%if lib.auth.authorization.has('global.admin'):
+<a class="button edit" href="${h.entity_url(c.proposal, member='badges')}">${_("Edit Badges")}</a>
+%endif
+                                
+%if can.proposal.delete(c.proposal):
+<a class="button title delete ttip" title="${_('Delete this proposal.')}"   
+   href="${h.entity_url(c.proposal, member='ask_delete')}">${_("delete")}</a>
+%endif
+</%components:admin_controls>
+
+</%block>
 
 <%block name="main_content">
 <% delegate_url = '/delegation/new?scope=' + str(c.proposal.id) %>
+
     %if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
     ${tiles.poll.widget(c.proposal.rate_poll, cls='big', delegate_url=delegate_url)}
     %endif

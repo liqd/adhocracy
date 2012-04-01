@@ -82,28 +82,6 @@
     ${tiles.delegation.sidebar(proposal, tile)}
 </%def>
 
-
-<%def name="header(tile, proposal, active)">
-    <div class="top_actions title">
-        &nbsp; 
-                
-        %if can.proposal.adopt(proposal):
-            <a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
-                href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
-        %endif
-
-        %if lib.auth.authorization.has('global.admin'):
-        <a class="button edit" href="${h.entity_url(proposal, member='badges')}">${_("Edit Badges")}</a>
-        %endif
-                                
-        %if can.proposal.delete(proposal):
-            <a class="button title delete ttip" title="${_('Delete this proposal.')}"   
-                href="${h.entity_url(proposal, member='ask_delete')}">${_("delete")}</a>
-        %endif
-        
-        ${components.watch(proposal)}
-    </div>
-    
     <div style="clear: both;"></div>
     %if proposal.rate_poll:
     <span class="${h.poll_position_css(proposal.rate_poll)}"  id="tile_p${proposal.id}">
