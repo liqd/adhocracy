@@ -710,12 +710,6 @@ $(document).ready(function () {
 
     'use strict';
 
-  // initial jquery slide
-    $("#slides").slides({
-        generatePagination: false,
-        effect: 'fade'
-    });
-
     // initial jquery elements circle
     $("#projects_slides").multipleElementsCycle({
         start: 0
