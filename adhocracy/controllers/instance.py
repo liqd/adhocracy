@@ -12,6 +12,9 @@ from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
+import geojson
+from shapely.wkb import loads
+
 from adhocracy import forms, i18n, model
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
@@ -19,7 +22,7 @@ from adhocracy.lib.auth import csrf, require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.event.stats import instance_activity
 from adhocracy.lib.templating import (render, render_json, render_png,
-                                      ret_abort, ret_success)
+                                      ret_abort, ret_success, render_geojson)
 from adhocracy.lib.util import get_entity_or_abort
 
 
@@ -334,3 +337,44 @@ class InstanceController(BaseController):
             abort(403, _("You cannot manipulate one instance from within "
                          "another instance."))
         return c.instance
+
+
+    def get_region(self, id):
+
+        c.instance = self._get_current_instance(id)
+
+        if c.instance.region is None:
+            data = {}
+        else:
+            data = geojson.Feature(geometry=loads(str(c.instance.region.boundary.geom_wkb)), properties={
+                'name':c.instance.region.name,
+                'admin_level':c.instance.region.admin_level,
+                'admin_type':c.instance.region.admin_type,
+                'id':c.instance.region.id,
+                })
+        return render_geojson(data)
+
+    #@RequireInstance
+    def get_proposal_geotags(self, id):
+
+        c.instance = get_entity_or_abort(model.Instance, id)
+        require.instance.show(c.instance)
+
+        proposals = model.Proposal.all(instance=c.instance)
+
+        features = geojson.FeatureCollection([p.get_geojson_feature() for p in proposals])
+
+        return render_geojson(features)
+
+
+    def get_instance_regions(self):
+
+        require.instance.index()
+        instances = model.Instance.all()
+
+        features = geojson.FeatureCollection([geojson.Feature(geometry=loads(str(i.region.boundary.geom_wkb)), properties={
+            'url':h.base_url(i),
+            'label':i.label,
+            }) for i in instances if i.region is not None])
+        return render_geojson(features)
+
