@@ -1708,3 +1708,7 @@ a.joyride-prev-tip:hover {
 #tutorial-banner a.disable-link {
   padding-left: 1em;
 }
+
+#milestone_title .date {
+  font-size: 0.7em;
+}

@@ -21,9 +21,15 @@
 </%def>
 
 <%def name="header(tile, milestone)">
-    <h2>
+<%
+if milestone.time:
+    display_time = milestone.time.strftime("%d.%m.%Y")
+else:
+    display_time = _('(unknown)')
+%>
+    <h2 id="milestone_title">
+        <span class="date">${display_time}<br /></span>
         ${milestone.title} 
-        (${milestone.time and milestone.time.strftime("%d.%m.%Y") or 'Undefined'})
     </h2>
     <div style="clear: both;"></div>
 </%def>
