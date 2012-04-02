@@ -80,7 +80,7 @@ class Page(Delegateable):
 
     @classmethod
     def all_q(cls, instance=None, functions=[], exclude=[],
-                   include_deleted=False, include_unlisted=False):
+              include_deleted=False):
         q = meta.Session.query(Page)
         if not include_deleted:
             q = q.filter(or_(Page.delete_time == None,
