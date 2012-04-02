@@ -152,6 +152,11 @@ a.button.highlight {
 a.button.highlight:hover {
   background-position: 0 -350px;
 }
+
+.top_actions {
+  padding-bottom: 1em;
+}
+
 .register {
   height: 27px;
   line-height: 27px;

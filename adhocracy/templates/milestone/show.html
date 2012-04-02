@@ -5,20 +5,30 @@
 
 <%def name="breadcrumbs()">${h.milestone.breadcrumbs(c.milestone)|n}</%def>
 
-<%block name="headline">
-${tiles.milestone.header(c.milestone, c.tile)}
+<%block name="sidebar">
+${components.watch(c.milestone)}
 </%block>
 
 <%block name="main_content">
-
-    <div class="top_actions aside">
-        &nbsp;      
+    <div class="top_actions">
         %if can.milestone.edit(c.milestone):
-            <a class="button title edit ttip" title="${_('Edit this milestone.')}"
-                href="${h.entity_url(c.milestone, member='edit')}">${_("edit")}</a>
+            <a class="button title edit ttip"
+               title="${_('Edit this milestone.')}"
+               href="${h.entity_url(c.milestone, member='edit')}">
+                ${_("edit")}
+            </a>
         %endif
+        %if can.milestone.delete(c.milestone):
+            <a class="button title delete ttip" 
+               title="${_('Delete this milestone.')}"  
+               href="${h.entity_url(c.milestone, member='ask_delete')}">
+                ${_("delete")}
+            </a>
+        %endif
+        
     </div>
-    <h2 id="milestone-description">${_("Milestone description")}</h2>
+    ${tiles.milestone.header(c.milestone)}
+    <h3 id="milestone-description">${_("Milestone description")}</h3>
     ${c.tile.text|n}
 
 <div class="mainbar">

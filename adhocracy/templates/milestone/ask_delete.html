@@ -6,11 +6,9 @@
     ${h.milestone.breadcrumbs(c.milestone)|n} &raquo; ${_("Delete")}
 </%def>
 
-<%block name="headline">
-${tiles.milestone.header(c.milestone, c.tile)}
-</%block>
-
 <%block name="main_content">
+${tiles.milestone.header(c.milestone, c.tile)}
+
 <div class="mainbar">
     <form name="ask_delete" class="inplace" method="POST" 
         action="${h.entity_url(c.milestone)}">

@@ -21,19 +21,11 @@
 </%def>
 
 <%def name="header(tile, milestone)">
-    <div class="top_actions title">
-        &nbsp; 
-                
-        %if can.milestone.delete(milestone):
-            <a class="button title delete ttip" title="${_('Delete this milestone.')}"  
-                href="${h.entity_url(milestone, member='ask_delete')}">${_("delete")}</a>
-        %endif
-        
-        ${components.watch(milestone)}
-    </div>
-    
+    <h2>
+        ${milestone.title} 
+        (${milestone.time and milestone.time.strftime("%d.%m.%Y") or 'Undefined'})
+    </h2>
     <div style="clear: both;"></div>
-    <h1>${milestone.title} (${milestone.time and milestone.time.strftime("%d.%m.%Y") or 'Undefined'})</h1>
 </%def>
 
 <%def name="select(tile, options, name)">
