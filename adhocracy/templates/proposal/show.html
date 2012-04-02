@@ -214,8 +214,9 @@ ${components.watch(c.proposal)}
     ${map.show_single_proposal_map(c.proposal.id)}
 %else:
     <%doc>FIXME: use English translation base string when merging into default
-    <div id="no_map_yet">${_("Dieser Vorschlag ist zur Zeit nicht geographische verortet.")}</div>
+    <div id="no_map_yet">${_("This proposal does currently not refer to a geographic location.")}</div>
     </%doc>
+    <div id="no_map_yet">${_("Dieser Vorschlag ist zur Zeit nicht geographische verortet.")}</div>
 %endif
 
 <% auth = check.proposal.edit(c.proposal) %>
