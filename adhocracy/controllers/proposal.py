@@ -58,6 +58,7 @@ class ProposalUpdateForm(ProposalEditForm):
                                  if_missing=False)
     milestone = forms.MaybeMilestone(if_empty=None,
             if_missing=None)
+    category = formencode.foreach.ForEach(forms.ValidBadge())
 
 
 class ProposalFilterForm(formencode.Schema):
@@ -200,6 +201,13 @@ class ProposalController(BaseController):
 
         c.text_rows = text.text_rows(c.proposal.description.head)
 
+        # all available categories
+        c.categories = model.Badge.all_delegateable_categories(c.instance)
+
+        # categories for this proposal (single category not assured in db model)
+        categories = [b for b in c.proposal.badges if b.badge_delegateable_category]
+        c.category = categories[0] if len(categories)==1 else None
+
         force_defaults = False
         if errors:
             force_defaults = True
@@ -226,6 +234,12 @@ class ProposalController(BaseController):
         c.proposal.label = self.form_result.get('label')
         c.proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.add(c.proposal)
+
+        [c.proposal.badges.remove(b) for b in c.proposal.badges if b.badge_delegateable_category]
+
+        badge = self.form_result.get('category')
+        if len(badge)==1:
+            model.DelegateableBadge(c.proposal, badge[0], c.user)
 
         if self._can_edit_wiki(c.proposal, c.user):
             wiki = self.form_result.get('wiki')
