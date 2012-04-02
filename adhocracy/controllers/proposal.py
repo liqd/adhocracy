@@ -17,7 +17,7 @@ from adhocracy.lib.auth import authorization, can, csrf, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, render_def, render_json
+from adhocracy.lib.templating import render, render_def, render_json, render_geojson
 from adhocracy.lib.queue import post_update
 from adhocracy.lib.util import get_entity_or_abort
 
@@ -60,6 +60,8 @@ class ProposalUpdateForm(ProposalEditForm):
             if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidBadge())
 
+class ProposalGeotagUpdateForm(formencode.Schema):
+    geotag = validators.String(not_empty=False)
 
 class ProposalFilterForm(formencode.Schema):
     allow_extra_fields = True
@@ -446,3 +448,52 @@ class ProposalController(BaseController):
         if redirect_to_proposals:
             redirect("/proposal")
         redirect(h.entity_url(proposal))
+
+
+    def get_geotag(self, id):
+
+        proposal = get_entity_or_abort(model.Proposal, id)
+        return render_geojson(proposal.get_geojson_feature())
+
+
+    def edit_geotag(self, id, errors={}):
+
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.edit(c.proposal)
+        return htmlfill.render(render("/proposal/edit_geotag.html"), errors=errors)
+
+
+    def update_geotag(self, id):
+
+        import geojson
+        from geoalchemy.utils import to_wkt
+
+        try:
+            c.proposal = get_entity_or_abort(model.Proposal, id)
+
+            class state_(object):
+                page = c.proposal.description
+
+            self.form_result = ProposalGeotagUpdateForm().to_python(request.params,
+                                                              state=state_())
+        except Invalid, i:
+            return self.edit_geotag(id, errors=i.unpack_errors())
+
+        require.proposal.edit(c.proposal)
+
+        geotag = self.form_result.get('geotag')
+
+        if geotag == '':
+            c.proposal.geotag = None
+
+        else:
+            c.proposal.geotag = to_wkt(geojson.loads(geotag)['geometry'])
+
+        model.meta.Session.add(c.proposal)
+
+        model.meta.Session.commit()
+
+        # watchlist.check_watch(c.proposal)
+        # event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
+        #           topics=[c.proposal], proposal=c.proposal, rev=_text)
+        redirect(h.entity_url(c.proposal))

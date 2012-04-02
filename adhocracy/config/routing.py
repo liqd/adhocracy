@@ -93,7 +93,11 @@ def make_map():
                                                  'untag': 'GET',
                                                  'badges': 'GET',
                                                  'update_badges': 'POST',
-                                                 'history': 'GET'},
+                                                 'history': 'GET',
+                                                 'get_geotag': 'GET',
+                                                 'edit_geotag': 'GET',
+                                                 'update_geotag': 'POST',
+                                                 },
                                collection={'filter': 'GET'})
     map.connect('/proposal/{proposal_id}/{selection_id}/details{.format}',
                 controller='selection',
@@ -216,7 +220,7 @@ def make_map():
     map.connect('/instance/{instance_key}/badge/edit/{id}',
             controller='badgeinstance',
                 action="edit", conditions=dict(method=['GET']))
-    map.connect('/instance/{instance_ky}/badge/edit/{id}',
+    map.connect('/instance/{instance_key}/badge/edit/{id}',
             controller='badgeinstance',
                 action="update", conditions=dict(method=['POST']))
 
@@ -246,6 +250,7 @@ def make_map():
     map.connect('/abuse/report', controller='abuse', action='report')
     map.connect('/abuse/new', controller='abuse', action='new')
 
+    map.connect('/instance/get_instance_regions', controller='instance', action='get_instance_regions')
     map.connect('/instance/{id}_{x}x{y}.png',
                 controller='instance', action='icon')
     map.connect('/instance/{id}_{y}.png',
@@ -256,7 +261,10 @@ def make_map():
                                                  'ask_leave': 'GET',
                                                  'ask_delete': 'GET',
                                                  'style': 'GET',
-                                                 'activity': 'GET'})
+                                                 'activity': 'GET',
+                                                 'get_region': 'GET',
+                                                 'get_proposal_geotags': 'GET',
+                                                 })
 
     # API
     map.connect('/api/{action}', controller='api')

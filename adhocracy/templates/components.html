@@ -184,7 +184,10 @@ text = "%s - %s: %s" % (h.site.name(), c.instance.label, entity.title)
   <link href="/stylesheets/patches/patch.css" rel="stylesheet" type="text/css" />
   <![endif]-->
 
-  <link rel="icon" href="${h.base_url(None, path='/favicon.ico')}" type="image/png" />
+  <link rel="stylesheet" href="/OpenLayers-2.11/theme/default/style.css" type="text/css">
+  <link rel="stylesheet" href="/stylesheets/map.css" type="text/css">
+
+  <link rel="shortcut icon" href="${h.base_url(None, path='/favicon.ico')}" />
 
   <script type="text/javascript"
           src="${h.base_url(None, path='/javascripts/jquery.tools.min.js')}" 
