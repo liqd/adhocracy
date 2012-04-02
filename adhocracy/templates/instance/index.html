@@ -27,8 +27,10 @@
 <%block name="sidebar">
 
 %if h.asbool(config.get('adhocracy.proposal_geotags')):
+    <%doc>FIXME: use English translation base string when merging into default
     <h3>${_('Map')}</h3>
-    <%doc>filter if p is not None in list comprehension is just a workaround, as SolrPager seems to return None proposals accidently</%doc>
+    </%doc>
+    <h3>${_('Karte')}</h3>
     ${map.show_overview_map([i.id for i in c.instances_pager.items])}
 %endif
 

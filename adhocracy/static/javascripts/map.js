@@ -237,7 +237,8 @@ function addEditControls(map, layer) {
                 pointControl.activate();
             },
             // FIXME: Use Gettext
-            text: 'Add position'
+            // text: 'Add position'
+            text: 'Setze Position'
         }).appendTo('#edit_map_buttons');
     }
 
@@ -251,7 +252,8 @@ function addEditControls(map, layer) {
                 pointControl.activate();
             },
             // FIXME: Use Gettext
-            text: 'Set different position'
+            // text: 'Set different position'
+            text: 'Setze andere Position'
         }).appendTo('#edit_map_buttons');
 
         $('<a />', {
@@ -263,7 +265,8 @@ function addEditControls(map, layer) {
                 updateEditButtons();
             },
             // FIXME: Use Gettext
-            text: 'Remove position'
+            // text: 'Remove position'
+            text: 'Entferne Position'
         }).appendTo('#edit_map_buttons');
     }
 

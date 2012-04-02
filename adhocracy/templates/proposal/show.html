@@ -206,17 +206,25 @@ ${components.watch(c.proposal)}
 
 
 %if h.asbool(config.get('adhocracy.proposal_geotags')):
+    <%doc>FIXME: use English translation base string when merging into default
     <h3>${_('Map')}</h3>
+    </%doc>
+    <h3>${_('Karte')}</h3>
 %if c.proposal.has_geotag() is True:
     ${map.show_single_proposal_map(c.proposal.id)}
 %else:
-    <div id="no_map_yet">${_("This proposal does currently not refer to a geographic location.")}</div>
+    <%doc>FIXME: use English translation base string when merging into default
+    <div id="no_map_yet">${_("Dieser Vorschlag ist zur Zeit nicht geographische verortet.")}</div>
+    </%doc>
 %endif
 
 <% auth = check.proposal.edit(c.proposal) %>
 
 %if auth:
+    <%doc>FIXME: use English translation base string when merging into default
     <a href="${h.entity_url(c.proposal, member='edit_geotag')}" rel="#overlay-ajax-map" class="button_small">${_('Edit geographic location')}</a>
+    </%doc>
+    <a href="${h.entity_url(c.proposal, member='edit_geotag')}" rel="#overlay-ajax-map" class="button_small">${_(u'Ändere geographische Verortung')}</a>
 
     <div class="overlay" id="overlay-geo">
       <a class="close"></a>
@@ -225,9 +233,15 @@ ${components.watch(c.proposal)}
     </div>
 
 %elif auth.propose_join():
+    <%doc>FIXME: use English translation base string when merging into default
     <a class="button_small add ttip" title="${_('Join instance to edit geotag.')}" rel="#overlay-join-button">${_("Edit geographic location")}</a>
+    </%doc>
+    <a class="button_small add ttip" title="${_('Treten Sie der Gruppe bei, um den Geotag zu bearbeiten.')}" rel="#overlay-join-button">${_(u"Ändere geographische Verortung")}</a>
 %elif auth.propose_login():
+    <%doc>FIXME: use English translation base string when merging into default
     <a class="button_small add ttip" title="${_('Login to edit geotag.')}" rel="#overlay-login-button">${_("Edit geographic location")}</a>
+    </%doc>
+    <a class="button_small add ttip" title="${_('Melden Sie sich an, um den Geotag zu bearbeiten.')}" rel="#overlay-login-button">${_(u"Ändere geographische Verortung")}</a>
 %endif
 
 %endif
