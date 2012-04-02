@@ -1,9 +1,8 @@
 from datetime import datetime
 import logging
 
-from pylons.i18n import _
 from sqlalchemy import Column, ForeignKey, Table, or_
-from sqlalchemy import Boolean, Integer, Unicode, UnicodeText, DateTime
+from sqlalchemy import Integer, Unicode, UnicodeText, DateTime
 
 import meta
 
@@ -35,7 +34,7 @@ class Milestone(object):
         q = meta.Session.query(Milestone)
         try:
             id = int(id)
-        except ValueError, ve:
+        except ValueError:
             return None
         q = q.filter(Milestone.id == id)
         if not include_deleted:
@@ -114,6 +113,5 @@ class Milestone(object):
 
     def __repr__(self):
         title = self.title.encode('ascii', 'replace')
-        return u"<Milestone(%s, %s, %s)>" % (self.id, title, 
-                self.time.isoformat())
-
+        return u"<Milestone(%s, %s, %s)>" % (self.id, title,
+                                             self.time.isoformat())
