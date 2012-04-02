@@ -1,3 +1,4 @@
+from pylons import tmpl_context as c
 from pylons.i18n import _
 
 from adhocracy import model
@@ -32,7 +33,7 @@ def header(milestone, tile=None):
 
 def select(selected, name='milestone'):
     options = [('--', _('(no milestone)'), selected is None)]
-    all_future = model.Milestone.all_future()
+    all_future = model.Milestone.all_future(instance=c.instance)
 
     # Add the currently selected milestone if it is in the past
     # so it will be shown and won't be overwritten on save
