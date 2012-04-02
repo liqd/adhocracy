@@ -9,7 +9,6 @@
 <%block name="main_content">
 ${tiles.milestone.header(c.milestone, c.tile)}
 
-<div class="mainbar">
     <form name="ask_delete" class="inplace" method="POST" 
         action="${h.entity_url(c.milestone)}">
         ${h.field_token()|n}
@@ -21,5 +20,5 @@ ${tiles.milestone.header(c.milestone, c.tile)}
             <input type="submit" class="delete" value="${_('Confirm')}" />
         </center>
     </form>
-</div>
+
 </%block>
