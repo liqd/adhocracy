@@ -55,7 +55,8 @@ class MilestoneController(BaseController):
         c.milestones = model.Milestone.all(instance=c.instance)
         broken = [m for m in c.milestones if m.time is None]
         for milestone in broken:
-            log.warning('Time of Milestone is None: %s' % h.entity_url(milestone))
+            log.warning('Time of Milestone is None: %s' %
+                        h.entity_url(milestone))
         c.milestones = [m for m in c.milestones if m.time is not None]
         c.milestones_pager = pager.milestones(c.milestones)
 
@@ -140,9 +141,9 @@ class MilestoneController(BaseController):
                 instance=c.instance)
         c.proposals_pager = pager.proposals(proposals, size=10)
         pages_q = model.meta.Session.query(model.Page)
-        pages_q = pages_q.filter(model.Page.instance==c.instance)
-        pages_q = pages_q.filter(model.Page.function==model.Page.NORM)
-        pages_q = pages_q.filter(model.Page.milestone==c.milestone)
+        pages_q = pages_q.filter(model.Page.instance == c.instance)
+        pages_q = pages_q.filter(model.Page.function == model.Page.NORM)
+        pages_q = pages_q.filter(model.Page.milestone == c.milestone)
         c.pages_pager = pager.pages(pages_q.all(), size=10)
         self._common_metadata(c.milestone)
         c.tutorial_intro = _('tutorial_milestone_details_tab')
@@ -176,7 +177,7 @@ class MilestoneController(BaseController):
         h.add_meta("dc.title",
                    text.meta_escape(milestone.title, markdown=False))
         h.add_meta("dc.date",
-                   milestone.time and milestone.time.strftime("%Y-%m-%d") or '')
+                   (milestone.time and milestone.time.strftime("%Y-%m-%d") or
+                    ''))
         h.add_meta("dc.author",
                    text.meta_escape(milestone.creator.name, markdown=False))
-
