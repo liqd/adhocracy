@@ -28,25 +28,23 @@ ${components.watch(c.milestone)}
         
     </div>
     ${tiles.milestone.header(c.milestone)}
-    <h3 id="milestone-description">${_("Milestone description")}</h3>
+
     ${c.tile.text|n}
+    <br />
 
-<div class="mainbar">
-  %if c.instance.use_norms:
-     <h3 class="section"
-         id="related-norms">${_("Related Norms")}</h3>
-     <div id="pages_table" class="table">
-         ${c.pages_pager.here()}
-     </div>
-  %endif
-</div>
+    %if c.show_pages_pager:
+    <h3 class="section" id="related-norms">${_("Related Norms")}</h3>
+    <div id="pages_table" class="table" style="padding-bottom: 1em;">
+        ${c.pages_pager.here()}
+    </div>
+    %endif
 
-<div class="mainbar">
+    %if c.show_pages_pager:
     <h3 class="section">${_("Related Proposals")}</h3>
     <div id="proposals_table" class="table">
         ${c.proposals_pager.here()}
     </div>
-</div>
+    %endif
 
 <%components:tutorial>
 <ol id="joyRideTipContent">

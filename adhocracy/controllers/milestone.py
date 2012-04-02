@@ -137,14 +137,22 @@ class MilestoneController(BaseController):
             return render_json(c.milestone)
 
         c.tile = tiles.milestone.MilestoneTile(c.milestone)
+
+        # proposals
         proposals = model.Proposal.by_milestone(c.milestone,
                                                 instance=c.instance)
-        c.proposals_pager = pager.proposals(proposals, size=10)
+        c.proposals_pager = pager.proposals(proposals, size=20,
+                                            enable_sorts=False)
+        c.show_proposals_pager = len(proposals)
+
+        # pages
         pages = model.Page.by_milestone(c.milestone,
                                         instance=c.instance,
                                         include_deleted=False,
                                         functions=[model.Page.NORM])
-        c.pages_pager = pager.pages(pages, size=10)
+        c.pages_pager = pager.pages(pages, size=20, enable_sorts=False)
+        c.show_pages_pager = len(pages) and c.instance.use_norms
+
         self._common_metadata(c.milestone)
         c.tutorial_intro = _('tutorial_milestone_details_tab')
         c.tutorial = 'milestone_show'
