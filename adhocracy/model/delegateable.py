@@ -108,9 +108,22 @@ class Delegateable(meta.Indexable):
                 include_deleted=include_deleted).all()
 
     @classmethod
-    def by_milestone(cls, milestone, instance=None, include_deleted=False):
-        q = cls.all_q(instance=instance,
-                include_deleted=include_deleted)
+    def by_milestone(cls, milestone, instance=None, include_deleted=False,
+                     functions=[]):
+        '''
+        Get delegateables related to *milestone*. The kwargs are analogue
+        to the models .all_q methods. *functions* is related to Pages only.
+
+        Returns: A list of model instances.
+        '''
+        # special case pages cause they have an extra kwarg functions
+        from adhocracy import model
+        all_q_kwargs = dict(instance=instance,
+                            include_deleted=include_deleted)
+        if cls is model.Page:
+            all_q_kwargs['functions'] = functions
+
+        q = cls.all_q(**all_q_kwargs)
         q = q.filter(Delegateable.milestone == milestone)
         return q.all()
 
