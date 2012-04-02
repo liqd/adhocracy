@@ -84,7 +84,8 @@ class Proposal(Delegateable):
             dest_text = Text.create(selection.page,
                                     Text.HEAD,
                                     source_text.user,
-                                    source_text.title, source_text.text,
+                                    selection.page.head.title,
+                                    source_text.text,
                                     parent=source_text,
                                     wiki=source_text.wiki)
             dest_text.create_time = at_time
