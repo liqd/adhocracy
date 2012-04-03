@@ -375,8 +375,8 @@ class UserController(BaseController):
             if 'came_from' in session:
                 c.came_from = session.get('came_from')
                 del session['came_from']
-                if isinstance(c.came_from, unicode):
-                    c.came_from = c.came_from.encode('utf-8')
+                if isinstance(c.came_from, str):
+                    c.came_from = unicode(c.came_from, 'utf-8')
             session.save()
 
         #user object
