@@ -1,3 +1,6 @@
+/*jslint vars:true, browser:true, nomen:true */
+/*global popup:true, $:true*/
+
 /*
  * Two VectorLayers for each admin_level, one for simplified polygons
  and one for polygons in full complexity
@@ -16,19 +19,6 @@
 
  * requires openlayers/lib/OpenLayers.js at baseurl
 
- --
- * Die vom Server abgefragten Polygone können nur gefüllt werden, falls
- Geometrien mit Typ Polygon gesendet werden. LineStrings-Listen sind
- nicht in OpenLayers füllbar.
-
- * Den Features wird der Style bereits beim Laden gesetzt. Eine spätere
- Änderung in der StyleMap des Layers hat keine Auswirkungen auf bereits
- vorhandene Features. 
- * ( ) NOTE: extra layer für areas (simple/full x admin_levels)
- * ( ) NOTE: löschen der Features und neues fetchen der Daten
- * (x) NOTE: manuelles neuzeichnen mit 'drawFeature'
- --
-
  * TODO: capitol markers with popup -> link to instance
  * TODO: list of search matches/proposals
  * TODO: hover (see cluster strategy example)
@@ -37,6 +27,7 @@
  * TODO: adjust proposal size
  */
 
+var popup;
 
 var styleProps = {
     pointRadius: 5,
@@ -610,7 +601,11 @@ function loadSingleProposalMap(instanceKey, proposalId, edit) {
 
     var map = createMap(NUM_ZOOM_LEVELS);
 
-    var waiter = createWaiter(2, function(bounds) {
+    var numFetches = 1;
+    if (proposalId) {
+       numFethes = 2;
+    }
+    var waiter = createWaiter(numFetches, function(bounds) {
         map.zoomToExtent(bounds);
     });
 
@@ -628,13 +623,18 @@ function loadSingleProposalMap(instanceKey, proposalId, edit) {
         var singleProposalFetchedCallback = addEditControls(map, proposalLayer);
     }
 
-    fetchSingleProposal(proposalId, proposalLayer, function(feature) {
-        if (edit) {
-            singleProposalFetchedCallback(feature);
-        }
+    //don't try to fetch proposals geotags when there's no proposal (i.e. if proposal is created)
+    if (proposalId) {
+        fetchSingleProposal(proposalId, proposalLayer, function(feature) {
+            if (edit) {
+                singleProposalFetchedCallback(feature);
+            }
 
-        waiter(feature);
-    });
+            waiter(feature);
+        });
+    } else {
+        singleProposalFetchedCallback(null);
+    }
  });
 }
 
@@ -694,3 +694,71 @@ function loadOverviewMap(initialInstances) {
     // addMultiBoundaryLayer(map);
  });
 }
+
+function noPositionClicked(instanceKey) {
+    $('<a>', {
+        id: 'create_geo_button', 
+        class: 'button_small',
+        click: addGeoTagHandler 
+    }).append(document.createTextNode("Add geographic location")).appendTo('#map_div');
+    $('<a/>').appendTo('#map_div');
+
+    $('#map').remove();
+    $('#attribution_div').remove();
+    $('#no_geo_button').remove();
+    $('#proposal_geotag_field').remove();
+    $('#remove_geo_button').remove();
+    $('#change_geo_button').remove();
+    $('#add_geo_button').remove();
+}
+
+function addPositionClicked(instanceKey) {
+
+    $('<a>', {
+        id: 'no_geo_button', 
+        class: 'button_small',
+        click: noGeoTagHandler 
+    }).append(document.createTextNode("No geographic location")).appendTo('#map_div');
+    $('<a/>').appendTo('#map_div');
+
+    $('<div />', {
+       id: 'map',
+       class: 'edit_map'
+    }).appendTo('#map_div');
+
+    loadSingleProposalMap(instanceKey, null, true);
+
+    $('#create_geo_button').remove(); 
+
+    $('<div />', { 
+        id: 'attribution_div',
+        class: 'note_map'
+    }).appendTo('#map_div');
+
+    $('#attribution_div').append(document.createTextNode('© '));
+    $('<a>', {
+        href: 'http://www.openstreetmap.org/'
+    }).appendTo('#attribution_div');
+    $('#attribution_div').append(document.createTextNode('OpenStreetMap'));
+    $('</a>').appendTo('#attribution_div');
+    $('#attribution_div').append(document.createTextNode('-KartografInnen('));
+    $('<a>', {
+        href: 'http://creativecommons.org/licenses/by-sa/2.0/'
+    }).appendTo('#attribution_div');
+    $('#attribution_div').append(document.createTextNode('lizenz'));
+    $('</a>').appendTo('#attribution_div');
+    $('#attribution_div').append(document.createTextNode(')'));
+    
+}
+
+function addGeoTagHandler(event) {
+  event.preventDefault(); 
+  addPositionClicked($('#instance_key_field').val()); 
+}
+
+function noGeoTagHandler(event) {
+  event.preventDefault();
+  noPositionClicked($('#instance_key_field').val());
+}
+
+$('#create_geo_button').click(addGeoTagHandler); 

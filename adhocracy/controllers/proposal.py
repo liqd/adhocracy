@@ -20,6 +20,7 @@ from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_def, render_json, render_geojson
 from adhocracy.lib.queue import post_update
 from adhocracy.lib.util import get_entity_or_abort
+from adhocracy.lib.geo import format_json_to_geotag
 
 import adhocracy.lib.text as text
 
@@ -45,6 +46,7 @@ class ProposalCreateForm(ProposalNewForm):
             if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
     category = formencode.foreach.ForEach(forms.ValidBadge())
+    geotag = validators.String(not_empty=False)
 
 
 class ProposalEditForm(formencode.Schema):
@@ -186,6 +188,9 @@ class ProposalController(BaseController):
                 decision = democracy.Decision(c.user, poll)
                 decision.make(model.Vote.YES)
                 model.Tally.create_from_poll(poll)
+
+        geotag = self.form_result.get('geotag')
+        proposal.geotag = format_json_to_geotag(geotag)
 
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
@@ -465,9 +470,6 @@ class ProposalController(BaseController):
 
     def update_geotag(self, id):
 
-        import geojson
-        from geoalchemy.utils import to_wkt
-
         try:
             c.proposal = get_entity_or_abort(model.Proposal, id)
 
@@ -482,12 +484,7 @@ class ProposalController(BaseController):
         require.proposal.edit(c.proposal)
 
         geotag = self.form_result.get('geotag')
-
-        if geotag == '':
-            c.proposal.geotag = None
-
-        else:
-            c.proposal.geotag = to_wkt(geojson.loads(geotag)['geometry'])
+        c.proposal.geotag = format_json_to_geotag(geotag)
 
         model.meta.Session.add(c.proposal)
 

@@ -113,6 +113,13 @@
       </div>
     </fieldset>
         
+      %if c.instance.milestones:
+        <div class="input_wrapper">
+          <label for="milestone">${_("Relates to a milestone")}</label>
+          ${tiles.milestone.select(None)}
+        </div>
+      %endif
+
     <fieldset>
       <legend>${_("Tag and classify")}</legend>
       <div class="input_wrapper">      
@@ -120,20 +127,29 @@
         <input type="text" name="tags" id="tags" class="armlabel long" />
         <p class="info">${_("Multiple tags can be separated by commas.")}</p>
       </div>
+
+      %if h.asbool(config.get('adhocracy.proposal_geotags')):
+        <legend>${_('Map')}</legend>
+        <div class="input_wrapper">
+          <input id='proposal_geotag_field' name='geotag' type='hidden' value='' />
+          <input type="hidden" id="instance_key_field" value=${c.instance.key} />
+          <div id='map_div' />
+          <div class="map_buttons">
+            <a id='create_geo_button' class="button_small">${_('Add geographic location')}</a>
+          <div>
+          <div id="edit_map_buttons" />
+        </div>
+        <script src="/javascripts/map.js"></script>
+      %endif
+    </fieldset>
         
+    <fieldset>
       <div class="input_wrapper">
         <label for="wiki">
           <input type="checkbox" checked="" name="wiki" id="wiki" value="1" checked="checked" />
           ${_("Allow others to edit this proposal.")}
         </label>
       </div>
-
-      %if c.instance.milestones:
-        <div class="input_wrapper">
-          <label for="milestone">${_("Relates to a milestone")}</label>
-          ${tiles.milestone.select(None)}
-        </div>
-      %endif
 
     </fieldset>
    
@@ -145,4 +161,6 @@
     </div>
   </form> 
 </div>
+
+
 </%block>
