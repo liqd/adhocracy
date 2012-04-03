@@ -596,7 +596,7 @@ var NUM_ZOOM_LEVELS = 19;
 
 var FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
 
-function loadSingleProposalMap(instanceKey, proposalId, edit) {
+function loadSingleProposalMap(instanceKey, proposalId, edit, position) {
  $.getScript('/OpenLayers-2.11/build/OpenLayers-closure-img.js', function() {
 
     var map = createMap(NUM_ZOOM_LEVELS);
@@ -633,6 +633,14 @@ function loadSingleProposalMap(instanceKey, proposalId, edit) {
             waiter(feature);
         });
     } else {
+        if (position) {
+            var features = new OpenLayers.Format.GeoJSON({}).read(position);
+            if (features) {
+                var feature = features[0];
+                feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+                proposalLayer.addFeatures([feature]); 
+            }
+        }
         singleProposalFetchedCallback(null);
     }
  });
@@ -712,7 +720,7 @@ function noPositionClicked(instanceKey) {
     $('#add_geo_button').remove();
 }
 
-function addPositionClicked(instanceKey) {
+function addPositionClicked(instanceKey, position) {
 
     $('<a>', {
         id: 'no_geo_button', 
@@ -726,7 +734,7 @@ function addPositionClicked(instanceKey) {
        class: 'edit_map'
     }).appendTo('#map_div');
 
-    loadSingleProposalMap(instanceKey, null, true);
+    loadSingleProposalMap(instanceKey, null, true, position);
 
     $('#create_geo_button').remove(); 
 
@@ -753,7 +761,7 @@ function addPositionClicked(instanceKey) {
 
 function addGeoTagHandler(event) {
   event.preventDefault(); 
-  addPositionClicked($('#instance_key_field').val()); 
+  addPositionClicked($('#instance_key_field').val(), null); 
 }
 
 function noGeoTagHandler(event) {
@@ -761,4 +769,12 @@ function noGeoTagHandler(event) {
   noPositionClicked($('#instance_key_field').val());
 }
 
-$('#create_geo_button').click(addGeoTagHandler); 
+function reloadNewProposalForm() {
+     var position = $('#proposal_geotag_field').val(); 
+     if (position != '') {
+        addPositionClicked($('#instance_key_field').val(), position);
+     }
+}
+
+$('#create_geo_button').click(addGeoTagHandler);
+$('#create_geo_button').ready(reloadNewProposalForm); 

@@ -5,7 +5,7 @@
 <div id="map" class="small_map"></div>
     <div class="note_map">© <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script src="/javascripts/map.js"></script>
-<script type="text/javascript"> window.onload=loadSingleProposalMap('${c.instance.key}', ${proposal_id}, false); </script>
+<script type="text/javascript"> window.onload=loadSingleProposalMap('${c.instance.key}', ${proposal_id}, false, null); </script>
 </%def>
 
 
@@ -23,7 +23,7 @@
 </form>
 
 <script src="/javascripts/map.js"></script>
-<script type="text/javascript"> window.onload=loadSingleProposalMap('${c.instance.key}', ${proposal_id}, true); </script>
+<script type="text/javascript"> window.onload=loadSingleProposalMap('${c.instance.key}', ${proposal_id}, true, null); </script>
 </%def>
 
 <%def name="show_region_map(initial_proposals=None)">
