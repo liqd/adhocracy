@@ -633,19 +633,16 @@ function loadSingleProposalMap(instanceKey, proposalId, edit, position) {
             waiter(feature);
         });
     } else {
+    	var feature = null;
         if (position) {
             var features = new OpenLayers.Format.GeoJSON({}).read(position);
             if (features) {
-                var feature = features[0];
+                feature = features[0];
                 feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
                 proposalLayer.addFeatures([feature]); 
-		singleProposalFetchedCallback(feature);
-            } else {
-	    	singleProposalFetchedCallback(null);
 	    }
-        } else {
-            singleProposalFetchedCallback(null);
 	}
+        singleProposalFetchedCallback(feature);
     }
  });
 }
