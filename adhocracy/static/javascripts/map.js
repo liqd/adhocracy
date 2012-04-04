@@ -603,7 +603,7 @@ function loadSingleProposalMap(instanceKey, proposalId, edit, position) {
 
     var numFetches = 1;
     if (proposalId) {
-       numFethes = 2;
+       numFetches = 2;
     }
     var waiter = createWaiter(numFetches, function(bounds) {
         map.zoomToExtent(bounds);
