@@ -639,9 +639,13 @@ function loadSingleProposalMap(instanceKey, proposalId, edit, position) {
                 var feature = features[0];
                 feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
                 proposalLayer.addFeatures([feature]); 
-            }
-        }
-        singleProposalFetchedCallback(null);
+		singleProposalFetchedCallback(feature);
+            } else {
+	    	singleProposalFetchedCallback(null);
+	    }
+        } else {
+            singleProposalFetchedCallback(null);
+	}
     }
  });
 }
