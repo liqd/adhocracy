@@ -771,7 +771,7 @@ function noGeoTagHandler(event) {
 
 function reloadNewProposalForm() {
      var position = $('#proposal_geotag_field').val(); 
-     if (position != '') {
+     if (position != null && position != '') {
         addPositionClicked($('#instance_key_field').val(), position);
      }
 }
