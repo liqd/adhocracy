@@ -29,6 +29,8 @@
 
 var popup;
 
+var layersWithPopup = [];
+
 var styleProps = {
     pointRadius: 5,
     fillColor: "#f28686",
@@ -62,8 +64,8 @@ var styleArea = {
 var easteregg = true;
 var styleTransparent = {
     fillColor: "#86f286",
-    fillOpacity: 0.0,
-    strokeOpacity: 0.0
+    fillOpacity: 0.3,
+    strokeOpacity: 0.3
 }
 
 function createProposalLayer() {
@@ -184,18 +186,8 @@ function createPopupControl(layer, buildPopupContent) {
         }
     });
 
-    var selectControl = new OpenLayers.Control.SelectFeature(layer, {
-            clickout: true,
-            toggle: false,
-            multiple: false,
-            hover: false,
-            toggleKey: "ctrlKey", // ctrl key removes from selection
-            multipleKey: "shiftKey", // shift key adds to selection
-            box: false,
-            autoActivate: true,
-        });
+    layersWithPopup.push(layer);
 
-    return selectControl;
 }
 
 function addEditControls(map, layer) {
@@ -337,7 +329,7 @@ function createRegionBoundaryLayer(instanceKey, callback) {
 }
 
 function createEastereggLayer() {
-    var url = 'get_easteregg';
+    var url = '/get_easteregg';
     var layer = new OpenLayers.Layer.Vector('easteregg', {
                     displayInLayerSwitcher: false, 
                     strategies: [new OpenLayers.Strategy.Fixed()],
@@ -623,6 +615,22 @@ function buildEastereggPopup(attributes) {
 }
 
 
+function createSelectControl() {
+
+    var selectControl = new OpenLayers.Control.SelectFeature(layersWithPopup, {
+            clickout: true,
+            toggle: false,
+            multiple: false,
+            hover: false,
+            toggleKey: "ctrlKey", // ctrl key removes from selection
+            multipleKey: "shiftKey", // shift key adds to selection
+            box: false,
+            autoActivate: true,
+        });
+
+    return selectControl;
+}
+
 var NUM_ZOOM_LEVELS = 19;
 
 var FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
@@ -648,7 +656,7 @@ function loadSingleProposalMap(instanceKey, proposalId, edit, position) {
 
     var proposalLayer = createProposalLayer();
     map.addLayer(proposalLayer);
-    map.addControl(createPopupControl(proposalLayer, buildProposalPopup));
+    createPopupControl(proposalLayer, buildProposalPopup);
 
     if (edit) {
         var singleProposalFetchedCallback = addEditControls(map, proposalLayer);
@@ -675,6 +683,12 @@ function loadSingleProposalMap(instanceKey, proposalId, edit, position) {
 	}
         singleProposalFetchedCallback(feature);
     }
+    if (easteregg) {
+    	var easterLayer = createEastereggLayer();
+    	map.addLayer(easterLayer);
+    	createPopupControl(easterLayer, buildEastereggPopup);
+    }
+    map.addControl(createSelectControl());
  });
 }
 
@@ -695,13 +709,20 @@ function loadRegionMap(instanceKey, initialProposals) {
     var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals);
     map.addLayer(proposalLayer);
     var popupControl = createPopupControl(proposalLayer, buildProposalPopup);
-    map.addControl(popupControl);
+
+    if (easteregg) {
+    	var easterLayer = createEastereggLayer();
+    	map.addLayer(easterLayer);
+    	createPopupControl(easterLayer, buildEastereggPopup);
+    }
+    var selectControl = createSelectControl();
 
     $('.result_list_marker').click(function(event) {
         var target = event.target || event.srcElement;
         var feature = proposalLayer.getFeaturesByAttribute('id', parseInt(target.id.substring('result_list_marker_'.length)))[0];
-        popupControl.clickFeature(feature);
+        selectControl.clickFeature(feature);
     });
+    map.addControl(selectControl);
  });
 }
 
@@ -727,17 +748,18 @@ function loadOverviewMap(initialInstances) {
 
     var overviewLayer = createOverviewLayer();
     map.addLayer(overviewLayer);
-    var popupControl = createPopupControl(overviewLayer, buildInstancePopup);
-    map.addControl(popupControl);
+    createPopupControl(overviewLayer, buildInstancePopup);
 
     if (easteregg) {
     	var easterLayer = createEastereggLayer();
     	map.addLayer(easterLayer);
-	map.addControl(createPopupControl(easterLayer, buildEastereggPopup));
+    	createPopupControl(easterLayer, buildEastereggPopup);
     }
 
     map.zoomToExtent(bounds);
     // addMultiBoundaryLayer(map);
+    
+    map.addControl(createSelectControl());
 
  });
 }
