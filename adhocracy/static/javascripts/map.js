@@ -59,7 +59,12 @@ var styleArea = {
     strokeColor: "#3399ff"
 };
 
-
+var easteregg = true;
+var styleTransparent = {
+    fillColor: "#86f286",
+    fillOpacity: 0.0,
+    strokeOpacity: 0.0
+}
 
 function createProposalLayer() {
 
@@ -92,7 +97,7 @@ function fetchSingleProposal(singleProposalId, layer, callback) {
 	    //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
             //alert('No response from server, sorry. Error: '+err);
         }
-    })
+    });
 }
 
 
@@ -106,7 +111,7 @@ function createOverviewLayer() {
         }),
         projection: new OpenLayers.Projection("EPSG:4326"),
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleBorder)})
-    })
+    });
 
 }
 
@@ -119,7 +124,7 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
             graphicWidth: 24,
             graphicYOffset: -31
         }
-    })
+    });
 
     rule.evaluate = function (feature) {
         if (initialProposals) {
@@ -158,23 +163,23 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
         'featuresadded': featuresAddedCallback
     })
 
-    return layer
+    return layer;
 }
 
 
 function createPopupControl(layer, buildPopupContent) {
 
     layer.events.on({
-        'featureselected': function(feature) {
+        'featureselected': function(event) {
             popup = new OpenLayers.Popup.FramedCloud("singlepopup",
-                feature.feature.geometry.getBounds().getCenterLonLat(),
+                event.feature.geometry.getBounds().getCenterLonLat(),
                 null,
-                buildPopupContent(feature.feature.attributes),
+                buildPopupContent(event.feature.attributes),
                 null,false,null
                 );
             this.map.addPopup(popup);
         },
-        'featureunselected': function(feature) {
+        'featureunselected': function(event) {
             this.map.removePopup(popup);
         }
     });
@@ -327,6 +332,27 @@ function createRegionBoundaryLayer(instanceKey, callback) {
             //alert('No response from server, sorry. Error: '+err);
         }
     });
+
+    return layer;
+}
+
+function createEastereggLayer() {
+    var url = 'get_easteregg';
+    var layer = new OpenLayers.Layer.Vector('easteregg', {
+                    displayInLayerSwitcher: false, 
+                    strategies: [new OpenLayers.Strategy.Fixed()],
+                    protocol: new OpenLayers.Protocol.HTTP({
+                        url: url,
+                        params: {
+                            year: 2012
+                        },
+                        format: new OpenLayers.Format.GeoJSON({
+                            ignoreExtraDims: true
+                        })
+                    }),
+                    projection: new OpenLayers.Projection("EPSG:4326"),
+                    styleMap: new OpenLayers.StyleMap({'default': styleTransparent})
+                });
 
     return layer;
 }
@@ -592,6 +618,11 @@ function buildInstancePopup(attributes) {
 }
 
 
+function buildEastereggPopup(attributes) {
+    return "<div class='easteregg_popup_title'><img src='"+attributes.img+"'><br>"+attributes.text+"</div>";
+}
+
+
 var NUM_ZOOM_LEVELS = 19;
 
 var FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
@@ -699,8 +730,15 @@ function loadOverviewMap(initialInstances) {
     var popupControl = createPopupControl(overviewLayer, buildInstancePopup);
     map.addControl(popupControl);
 
+    if (easteregg) {
+    	var easterLayer = createEastereggLayer();
+    	map.addLayer(easterLayer);
+	map.addControl(createPopupControl(easterLayer, buildEastereggPopup));
+    }
+
     map.zoomToExtent(bounds);
     // addMultiBoundaryLayer(map);
+
  });
 }
 
