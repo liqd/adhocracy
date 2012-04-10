@@ -7,12 +7,25 @@
     </div>
 </%def>
 
+<%! from adhocracy.lib import sorting %>
 
-<%def name="row(tile, page)">
+<%def name="row(tile, page, level=0)">
     <li class="content_box">
-        <div>
-            <h3><a class="link" href="${h.entity_url(page)}">${page.title}</a></h3>
-            <div class="meta noclear">              
+        <div class="level-${str(level)}">
+            %if c.is_hierarchical and level == 0 and len(page.subpages) > 0:
+            <div class="more only-js">
+                <a href="#" class="showhide_button more_arrow"
+                   data-target="#${page.id}-sub"
+                   data-toggle-class="less"
+                   data-toggle-text="${_('hide sub-topics')}">
+                ${_('show sub-topics')}</a>
+            </div>
+            %endif
+            <h3>
+                <a class="link" href="${h.entity_url(page)}">${page.title}</a>
+            </h3>
+            <div class="clearfix"></div>
+            <div class="meta noclear">
                 %if page.function == page.NORM:
                     ${ungettext("%s proposal", "%s proposals", len(page.selections)) % len(page.selections)}
                     ·
@@ -23,9 +36,19 @@
             </div>
         </div>
         <div class="hr"><hr /></div>
-    </li>
-</%def>
 
+        %if c.is_hierarchical and len(page.subpages) > 0:
+        <ul id="${'%s-sub' % page.id if level == 0 else ''}"
+            class="content_list ${'only-no-js' if level == 0 else ''}">
+            %for page in sorting.delegateable_title(page.subpages):
+            ${row(None, page, level=level + 1)}
+            %endfor
+        </ul>
+        %endif
+    </li>
+    
+                
+</%def>
 
 <%def name="select_page(tile, field_name, select, exclude, functions,
 list_limit, initial_option=None, allow_empty=True)">

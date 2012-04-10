@@ -886,8 +886,16 @@ $(document).ready(function () {
     /* Generic buttons that show/hide an element with a specific id.
      * Requriements:
      * * The button needs the class showhide_button
-     * * and an attribute 'data-target' with a selector string to find
-     *   the target.
+     * * The button needs an attribute 'data-target' with a selector
+     *   string to find the target.
+     * * The button can optionally provide a classname in the attribute
+     *   data-toggle-class. This class will be assigned to the button if
+     *   it is pressed and the target is shown. If not class name is
+     *   given, the class 'hidden' will be used.
+     * * The button can optionally provide a text in the attribute
+     *   data-toggle-text. This button will display this text if the target
+     *   is button was pressed and the target is visible. If no text
+     *   is given, the text of the button won't change.
      * * The targed element needs to have an attribute 'data-cancel'
      *   containing a selector string. The click event of the matching
      *   elements *inside the target* will hide the target an unhide
@@ -899,15 +907,27 @@ $(document).ready(function () {
             target_selector = self.data('target'),
             target = $(target_selector),
             cancel_selector = target.data('cancel'),
-            cancel = target.find(cancel_selector);
+            cancel = target.find(cancel_selector),
+            toggle_class = self.data('toggle-class') || "hidden",
+            toggle_text = self.data('toggle-text'),
+            old_text = self.text();
 
-        target.show();
-        self.hide();
+        if (self.hasClass(toggle_class)) {
+            self.removeClass(toggle_class);
+            target.hide();
+        } else {
+            target.show();
+            self.addClass(toggle_class);
+        }
+        if (toggle_text !== undefined) {
+            self.text(toggle_text);
+            self.data('toggle-text', old_text);
+        }
 
         // bind a possible cancel action to show the button and hide the target
         cancel.bind('click', function (event) {
             event.preventDefault();
-            self.show();
+            self.removeClass(toggle_class);
             target.hide();
         });
     });
