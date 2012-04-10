@@ -27,11 +27,22 @@
 
     <div class="top_actions title vcard">
         %if can.user.message(user):
-            <a class="button add" href="${h.entity_url(user, member='message/new')}">${_("send a message")}</a>
+        <a class="button add" 
+           href="${h.entity_url(user, member='message/new')}">
+            ${_("send a message")}
+        </a>
         %endif
     
         %if lib.auth.authorization.has('global.admin'):
-            <a class="button edit" href="${h.entity_url(user, member='badges')}">${_("Edit Badges")}</a>
+        <a class="button edit" 
+           href="${h.entity_url(user, instance=c.instance, member='edit')}">
+            ${_('Edit Profile')}
+        </a>
+
+        <a class="button edit" 
+           href="${h.entity_url(user, member='badges')}">
+            ${_("Edit Badges")}
+        </a>
         %endif
         
         %if can.user.supervise(user):
