@@ -540,7 +540,7 @@ function createMap(numZoomLevels) {
 }
 
 
-function createControls(fullControls) {
+function createControls(fullControls, keyboardControls) {
     // add map controls
 
     var mapControls = [
@@ -553,9 +553,11 @@ function createControls(fullControls) {
         mapControls.push(new OpenLayers.Control.LayerSwitcher({'ascending':false}));
         // MousePosition currently displays 900913 instead of 4236
         mapControls.push(new OpenLayers.Control.MousePosition());
+        mapControls.push(new OpenLayers.Control.Scale());
+    }
+    if (keyboardControls) {
         // use KeyboardDefault only when map is the central element
         mapControls.push(new OpenLayers.Control.KeyboardDefaults());
-        mapControls.push(new OpenLayers.Control.Scale());
     }
 
     return mapControls;
@@ -648,7 +650,7 @@ function loadSingleProposalMap(instanceKey, proposalId, edit, position) {
         map.zoomToExtent(bounds);
     });
 
-    map.addControls(createControls(edit));
+    map.addControls(createControls(edit, false));
     map.addLayers(createBaseLayers());
     map.addLayer(createRegionBoundaryLayer(instanceKey, function(feature) {
         waiter(feature);
@@ -700,7 +702,7 @@ function loadRegionMap(instanceKey, initialProposals) {
         map.zoomToExtent(bounds);
     });
 
-    map.addControls(createControls(false));
+    map.addControls(createControls(false, false));
     map.addLayers(createBaseLayers());
     map.addLayer(createRegionBoundaryLayer(instanceKey, function(feature) {
         waiter(feature);
@@ -732,7 +734,7 @@ function loadOverviewMap(initialInstances) {
 
     var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
 
-    map.addControls(createControls(false));
+    map.addControls(createControls(false, false));
     map.addLayers(createBaseLayers());
 
     //var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals);
