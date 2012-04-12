@@ -27,6 +27,10 @@
  * TODO: adjust proposal size
  */
 
+$.ajaxSetup({
+  cache: true
+});
+
 var popup;
 
 var layersWithPopup = [];
