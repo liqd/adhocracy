@@ -30,8 +30,12 @@
 
 </%block>
 
+
 <%block name="main_content">
-<% delegate_url = '/delegation/new?scope=' + str(c.proposal.id) %>
+<% 
+url = '/delegation/new?scope=' + str(c.proposal.id)
+delegate_url = url if can.delegation.create() else None
+%>
 
     %if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
     ${tiles.poll.widget(c.proposal.rate_poll, cls='big', delegate_url=delegate_url)}
