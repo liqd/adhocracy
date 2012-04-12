@@ -1,6 +1,8 @@
 """The application's model objects"""
 from sqlalchemy import orm
 from sqlalchemy.orm import mapper, relation, backref, synonym
+from geoalchemy.postgis import PGComparator
+from geoalchemy import GeometryColumn
 
 import meta
 from adhocracy.model.update import SessionModificationExtension
@@ -350,7 +352,9 @@ mapper(Selection, selection_table, properties={
             primaryjoin=selection_table.c.page_id == page_table.c.id)
     })
 
-mapper(Region, region_table)
+mapper(Region, region_table, properties = {
+        'boundary': GeometryColumn(region_table.c.boundary, comparator=PGComparator)
+    })
 
 
 def init_model(engine):

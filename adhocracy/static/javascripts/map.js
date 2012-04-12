@@ -31,6 +31,8 @@ var popup;
 
 var layersWithPopup = [];
 
+var numberComplexities = 5;
+
 var styleProps = {
     pointRadius: 5,
     fillColor: "#f28686",
@@ -351,32 +353,41 @@ function createEastereggLayer() {
 
 function addMultiBoundaryLayer(map) {
 
-    var baseUrl = "/blub";
     var adminLevels = [2,4,5,6,8];
     var layers = new Array();
 
-    //Zoom 0 ... 15 -> 0=hidden,1=visibleByBorder,2=visibleByArea,3=both
+    //Zoom 0 ... 15 -> 0=hidden,1=visibleByBorder,2=visibleByArea[,3=both (NYI)]
     var displayMap = [
-        {styles: [0,0,0,0,2]},
-        {styles: [0,0,0,0,2]},
-        {styles: [1,0,0,0,2]},
-        {styles: [1,0,0,0,2]},
-        {styles: [1,1,0,0,2]},
-        {styles: [1,1,0,0,2]},
-        {styles: [1,1,1,0,2]},
-        {styles: [1,1,1,0,2]},
-        {styles: [1,1,1,0,2]},
-        {styles: [1,1,1,1,2]},
-        {styles: [1,1,1,1,2]},
-        {styles: [1,1,1,1,1]},
-        {styles: [1,1,1,1,1]},
-        {styles: [1,1,1,1,1]},
-        {styles: [1,1,1,1,1]},
-        {styles: [1,1,1,1,1]},
-        {styles: [1,1,1,1,1]},
-        {styles: [1,1,1,1,1]},
-        {styles: [1,1,1,1,1]}
+        {styles: [1,0,0,0,0]},
+        {styles: [1,0,0,0,0]},
+        {styles: [1,0,0,0,0]},
+        {styles: [1,0,0,0,0]},
+        {styles: [0,1,0,0,0]},
+        {styles: [0,1,0,0,0]},
+        {styles: [0,1,0,0,0]},
+        {styles: [0,1,0,0,0]},
+        {styles: [0,1,0,0,1]},
+        {styles: [0,1,0,0,1]},
+        {styles: [0,0,0,0,1]},
+        {styles: [0,0,0,0,1]},
+        {styles: [0,0,0,0,1]},
+        {styles: [0,0,0,0,1]},
+        {styles: [0,0,0,0,1]},
+        {styles: [0,0,0,0,1]},
+        {styles: [0,0,0,0,1]},
+        {styles: [0,0,0,0,1]},
+        {styles: [0,0,0,0,1]}
     ];
+    
+    function getLayerIndex(zoomlevel) {
+        switch(zoomlevel) {
+	    case 0: case 1: case 2: case 3: return 0;
+	    case 4: case 5: case 6: case 7: return 1;
+	    case 8: case 9: case 10: case 11: return 2;
+	    case 12: case 13: case 14: case 15: return 3;
+	    default: case 16: case 17: case 18: case 19: return 4;
+	}
+    }
 
     var moveTo = function(bounds, zoomChanged, dragging) {
         var zoom = map.getZoom();
@@ -385,33 +396,35 @@ function addMultiBoundaryLayer(map) {
             while (i<adminLevels.length) {
                 var styleChanged = displayMap[zoomChanged]['styles'][i];
                 var style = displayMap[zoom]['styles'][i];
+                var j=0;
+		for (j=0; j<numberComplexities; j++) {
+                    layers[i][j].setVisibility(false);
+		}
                 if (styleChanged == 0) {
-                    layers[i][0].setVisibility(false);
-                    layers[i][1].setVisibility(false);
+		   //nop
                 } else {
-                    if (zoomChanged < 8) {
-                        layers[i][0].setVisibility(true);
-                        layers[i][1].setVisibility(false);
-                    } else {
-                        layers[i][0].setVisibility(false);
-                        layers[i][1].setVisibility(true);
-                    }
+		    console.log('zoom: ' + zoomChanged);
+		    layers[i][getLayerIndex(zoomChanged)].setVisibility(true);
                     if (style != styleChanged) {
+		        var k=0;
                         if (styleChanged < 2) {
-                            layers[i][0].styleMap['default'] 
-                                = new OpenLayers.Style(styleBorder);
-                            layers[i][1].styleMap['default'] 
-                                = new OpenLayers.Style(styleBorder);	
-                            redrawFeatures(layers[i][0],styleBorder);
-                            redrawFeatures(layers[i][1],styleBorder);
-
+			    for (k=0; k<numberComplexities;k++) {
+                                layers[i][k].styleMap['default'] 
+                                    = new OpenLayers.Style(styleBorder);
+                                layers[i][k].styleMap['default'] 
+                                    = new OpenLayers.Style(styleBorder);	
+                                redrawFeatures(layers[i][k],styleBorder);
+                                redrawFeatures(layers[i][k],styleBorder);
+                            }
                         } else {
-                            layers[i][0].styleMap['default'] 
-                                = new OpenLayers.Style(styleArea);	
-                            layers[i][1].styleMap['default'] 
-                                = new OpenLayers.Style(styleArea);	
-                            redrawFeatures(layers[i][0],styleArea);
-                            redrawFeatures(layers[i][1],styleArea);
+			    for (k=0; k<numberComplexities;k++) {
+                                layers[i][k].styleMap['default'] 
+                                     = new OpenLayers.Style(styleArea);	
+                                layers[i][k].styleMap['default'] 
+                                    = new OpenLayers.Style(styleArea);	
+                                redrawFeatures(layers[i][k],styleArea);
+                                redrawFeatures(layers[i][k],styleArea);
+			    }
                         }
                     }
                 }
@@ -434,18 +447,13 @@ function addMultiBoundaryLayer(map) {
     while (layersIdx < adminLevels.length) {
         var style = displayMap[map.getZoom()]['styles'][layersIdx];
 
-        layers[layersIdx] = new Array(2);
+        layers[layersIdx] = new Array(numberComplexities);
         var complexity;
-        for (complexity = 0; complexity < 2; complexity++) {
+        for (complexity = 0; complexity < numberComplexities; complexity++) {
             var layername = "layer" + adminLevels[layersIdx] //or aname from config
-                + (complexity == 0 ? 's' : 'c');
-            //			var featureUrl = baseUrl + '/'
-            //			          + (complexity == 0 ? 'simple' : 'full')
-            //                                  + '.json';
+                + complexity;
 
-            var featureUrl = baseUrl + '/' + adminLevels[layersIdx] + '/'
-                + (complexity == 0 ? 'simple' : 'full')
-                + '.json';
+            var featureUrl = '/get_boundaries.json';
 
             layers[layersIdx][complexity] 
                 = new OpenLayers.Layer.Vector(layername, {
@@ -454,7 +462,8 @@ function addMultiBoundaryLayer(map) {
                     protocol: new OpenLayers.Protocol.HTTP({
                         url: featureUrl,
                         params: {
-                            admin_level: adminLevels[layersIdx]
+                            admin_level: adminLevels[layersIdx],
+			    complexity: complexity
                         },
                         format: new OpenLayers.Format.GeoJSON({
                             ignoreExtraDims: true
@@ -463,12 +472,69 @@ function addMultiBoundaryLayer(map) {
                     projection: new OpenLayers.Projection("EPSG:4326"),
                     styleMap: new OpenLayers.StyleMap({'default':(style < 2 ? new OpenLayers.Style(styleBorder) : new OpenLayers.Style(styleArea))})
                 });
-            //console.log(layers[layersIdx][complexity] != null);
             map.addLayer(layers[layersIdx][complexity]);
         }
         layersIdx++;
     }
     map.moveTo = moveTo;
+}
+
+function addRegionSelectControl(map) {
+
+    var foldLayers = new Array();
+    var i=0; var j=0;
+    for (i=0; i<layers.length; i++) {
+    	for (j=0; j<layers[i].length; j++) {
+            foldLayers = foldLayers.concat(layers[i][j]);
+	}
+    }
+
+    var selectHoverControl = new OpenLayers.Control.SelectFeature(foldLayers, {
+            clickout: false,
+            toggle: false,
+            multiple: false,
+            hover: true,
+	    highlightOnly: true,
+            box: false,
+            autoActivate: true,
+        });
+    map.addControl(selectHoverControl);
+
+    var selectControl = new OpenLayers.Control.SelectFeature(foldLayers, {
+            clickout: true,
+            toggle: false,
+            multiple: false,
+            hover: false,
+            box: false,
+            autoActivate: true,
+        });
+    map.addControl(selectControl);
+
+    for (i=0; i<foldLayers.length;i++) {
+        foldLayers[i].events.on({
+            'featureselected': function(event) {
+	        console.log('name: '+event.feature.attributes.label);
+	        console.log('url: '+event.feature.attributes.url);
+	        console.log('admin_level: '+event.feature.attributes.admin_level);
+		if (event.feature.attributes.admin_level < 8) {
+	            map.zoomToExtent(event.feature.geometry.getBounds());
+		}
+		if (event.feature.attributes.admin_level == 8) {
+                    if (popup) map.removePopup(popup);
+                    popup = new OpenLayers.Popup.FramedCloud("singlepopup",
+                                                             event.feature.geometry.getBounds().getCenterLonLat(),
+                                                             null,
+                                                             buildInstancePopup(event.feature.attributes),
+                                                             null,false,null
+                                                            );
+                    map.addPopup(popup);
+		}
+            },
+            'featureunselected': function(event) {
+                if (popup) map.removePopup(popup);
+            }
+        });
+    }
 }
 
 
@@ -766,6 +832,23 @@ function loadOverviewMap(initialInstances) {
  });
 }
 
+function loadSelectInstanceMap() {
+  $.getScript('/OpenLayers-2.11/build/OpenLayers-closure-img.js', function() {
+    var map = createMap(NUM_ZOOM_LEVELS);
+
+    var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+
+    map.addControls(createControls(true, false));
+    map.addLayers(createBaseLayers());
+
+    addMultiBoundaryLayer(map);
+
+    map.zoomToExtent(bounds);
+    
+    //map.addControl(createSelectControl());
+  });
+}
+
 function noPositionClicked(instanceKey) {
     $('<a>', {
         id: 'create_geo_button', 
@@ -806,7 +889,7 @@ function addPositionClicked(instanceKey, position) {
         class: 'note_map'
     }).appendTo('#map_div');
 
-    $('#attribution_div').append(document.createTextNode('© '));
+    $('#attribution_div').append(document.createTextNode('&copy; '));
     $('<a>', {
         href: 'http://www.openstreetmap.org/'
     }).appendTo('#attribution_div');

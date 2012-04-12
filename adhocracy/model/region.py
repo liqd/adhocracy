@@ -27,4 +27,3 @@ class Region(object):
         self.admin_level = admin_level
         self.admin_type = admin_type
         self.boundary = boundary
-

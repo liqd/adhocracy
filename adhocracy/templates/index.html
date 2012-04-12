@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="map" file="/geo/map.html"/>
 <%def name="title()">${c.page.title}</%def>
 
 <%def name="breadcrumbs()"></%def>
@@ -25,6 +26,9 @@ the transition
       ${_("<b>%s</b> comments") % c.stats_global.get('comments')|n} ·
       ${_("<b>%s</b> votes") % c.stats_global.get('votes')|n}
   </div>  
+
+  <h3>${_(u'Find your instance')}</h3>
+      ${map.show_select_instance_map()}
 
   ## FIXME: Add line that scrolls through last events
 </div>
