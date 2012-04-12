@@ -1007,6 +1007,12 @@ a.button.delegate:hover {
 background-image: none !important;
 }
 
+.vote_wrapper .or {
+  display: inline-block; 
+  vertical-align: top; 
+  padding-top: 6px
+}
+
 /* papers */
 ul.papers_list {
   margin: 0;
