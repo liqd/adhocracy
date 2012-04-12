@@ -544,7 +544,7 @@ function createControls(fullControls) {
     // add map controls
 
     var mapControls = [
-        new OpenLayers.Control.Navigation(),
+        new OpenLayers.Control.Navigation({'handleRightClicks':true}),
         new OpenLayers.Control.ScaleLine(),
     ];
 
