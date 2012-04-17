@@ -364,7 +364,10 @@ class InstanceController(BaseController):
                 })
 
             if CENTROID_TYPE == USE_SHAPELY:
-                data.properties['admin_center'] = geojson.Feature(geometry=geom.centroid, properties={})
+                data.properties['admin_center'] = geojson.Feature(geometry=geom.centroid, 
+                                                                  properties={'url': h.base_url(c.instance),
+                                                                              'label': c.instance.label
+                                                                              })
 
         return render_geojson(data)
 
@@ -390,20 +393,24 @@ class InstanceController(BaseController):
         require.instance.index()
         instances = model.Instance.all()
 
-        def make_feature(region):
+        def make_feature(i):
             geom = loads(str(i.region.boundary.geom_wkb))
             feature = geojson.Feature(geometry=geom, 
                                       properties={
                                                   'url':h.base_url(i),
                                                   'label':i.label,
                                                   'admin_center': None
-                                                 });
+                                                 })
             if CENTROID_TYPE == USE_SHAPELY:
-                feature.properties['admin_center'] = geojson.Feature(geometry=geom.centroid, properties={})
+                feature.properties['admin_center'] = geojson.Feature(geometry=geom.centroid, 
+                                                                     properties={
+                                                                        'url':h.base_url(i),
+                                                                        'label':i.label
+                                                                    })
 
             return feature
 
-        features = geojson.FeatureCollection([make_feature(i.region) for i in instances if i.region is not None])
+        features = geojson.FeatureCollection([make_feature(i) for i in instances if i.region is not None])
 
         return render_geojson(features)
 

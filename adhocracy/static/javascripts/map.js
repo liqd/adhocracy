@@ -109,17 +109,50 @@ function fetchSingleProposal(singleProposalId, layer, callback) {
 }
 
 
-function createOverviewLayer() {
+function createOverviewLayers() {
 
-    return new OpenLayers.Layer.Vector('overview', {
-        strategies: [new OpenLayers.Strategy.Fixed()],
-        protocol: new OpenLayers.Protocol.HTTP({
-            url: '/instance/get_instance_regions',
-            format: new OpenLayers.Format.GeoJSON()
-        }),
+    var layer =  new OpenLayers.Layer.Vector('overview', {
+        displayInLayerSwitcher: false,
         projection: new OpenLayers.Projection("EPSG:4326"),
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleBorder)})
     });
+
+    var url = '/instance/get_instance_regions'; 
+    $.ajax({
+        url: url,
+        success: function(data) {
+            var features = new OpenLayers.Format.GeoJSON({}).read(data);
+            for (i=0; i<features.length; i++) {
+                // assert(features.length==1);
+                var feature = features[0];
+                feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+                layer.addFeatures([feature]);
+                //callback(feature);
+                if (feature.attributes.admin_center) {
+                    var features2 = new OpenLayers.Format.GeoJSON({}).read(feature.attributes.admin_center);
+                    var feature2 = features2[0];
+                    feature2.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+                    townHallLayer.addFeatures([feature2]);                    
+                }
+            } 
+//            if (features.length == 0) {
+//                callback(null);
+//            }
+        },
+        error: function(xhr,err){
+            //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
+            //alert('No response from server, sorry. Error: '+err);
+        }
+    });
+
+    var townHallLayer = new OpenLayers.Layer.Vector('instance_town_hall', {
+        displayInLayerSwitcher: false, 
+        projection: new OpenLayers.Projection("EPSG:4326"),
+        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
+                                           'select': new OpenLayers.Style(styleSelect)})
+    });
+
+    return [layer,townHallLayer];
 
 }
 
@@ -310,6 +343,13 @@ function createRegionBoundaryLayer(instanceKey, callback) {
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleBorder)}),
     })
 
+    var townHallLayer = new OpenLayers.Layer.Vector('instance_town_hall', {
+        displayInLayerSwitcher: false, 
+        projection: new OpenLayers.Projection("EPSG:4326"),
+        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
+                                           'select': new OpenLayers.Style(styleSelect)})
+    })
+
     var url = '/instance/' + instanceKey + '/get_region'; 
     $.ajax({
         url: url,
@@ -321,6 +361,12 @@ function createRegionBoundaryLayer(instanceKey, callback) {
                 feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
                 layer.addFeatures([feature]);
                 callback(feature);
+                if (feature.attributes.admin_center) {
+                    var features2 = new OpenLayers.Format.GeoJSON({}).read(feature.attributes.admin_center);
+                    var feature2 = features2[0];
+                    feature2.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+                    townHallLayer.addFeatures([feature2]);                    
+                }
             } else {
                 callback(null);
             }
@@ -331,7 +377,7 @@ function createRegionBoundaryLayer(instanceKey, callback) {
         }
     });
 
-    return layer;
+    return [layer,townHallLayer];
 }
 
 function createEastereggLayer() {
@@ -718,9 +764,11 @@ function loadSingleProposalMap(openlayers_url, instanceKey, proposalId, edit, po
 
     map.addControls(createControls(edit, false));
     map.addLayers(createBaseLayers());
-    map.addLayer(createRegionBoundaryLayer(instanceKey, function(feature) {
-        waiter(feature);
-    }));
+    var regionBoundaryLayers = createRegionBoundaryLayer(instanceKey, function(feature) {
+                                    waiter(feature);
+                                });
+    map.addLayers(regionBoundaryLayers);
+    createPopupControl(regionBoundaryLayers[1], buildInstancePopup);
 
     var proposalLayer = createProposalLayer();
     map.addLayer(proposalLayer);
@@ -770,9 +818,11 @@ function loadRegionMap(openlayers_url, instanceKey, initialProposals) {
 
     map.addControls(createControls(false, false));
     map.addLayers(createBaseLayers());
-    map.addLayer(createRegionBoundaryLayer(instanceKey, function(feature) {
+    var regionBoundaryLayers = createRegionBoundaryLayer(instanceKey, function(feature) {
         waiter(feature);
-    }));
+    });
+    map.addLayers(regionBoundaryLayers);
+    createPopupControl(regionBoundaryLayers[1], buildInstancePopup);
 
     var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals);
     map.addLayer(proposalLayer);
@@ -814,9 +864,9 @@ function loadOverviewMap(openlayers_url, initialInstances) {
     //    popupControl.clickFeature(feature);
     //});
 
-    var overviewLayer = createOverviewLayer();
-    map.addLayer(overviewLayer);
-    createPopupControl(overviewLayer, buildInstancePopup);
+    var overviewLayers = createOverviewLayers();
+    map.addLayers(overviewLayers);
+    createPopupControl(overviewLayers[1], buildInstancePopup);
 
     if (easteregg) {
         var easterLayer = createEastereggLayer();
