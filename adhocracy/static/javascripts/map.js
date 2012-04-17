@@ -976,7 +976,7 @@ function instanceSearch(openlayers_url) {
         }
         if(count > max_rows) {
             if (offset + max_rows > max_rows) {
-                var prevButton = $( '<div />', { class: 'small_button', id: 'search_prev' });
+                var prevButton = $( '<div />', { class: 'button_small', id: 'search_prev' });
                 var prevText = document.createTextNode('prev');
                 prevButton.append(prevText);
                 prevButton.appendTo('#search_buttons');
@@ -985,7 +985,7 @@ function instanceSearch(openlayers_url) {
             var pageText = document.createTextNode(offset + ' to ' + (offset+max_rows));
             $('#search_buttons').append(pageText);
             if (offset + max_rows < count) {
-                var nextButton = $( '<div />', { class: 'small_button', id: 'search_next' });
+                var nextButton = $( '<div />', { class: 'button_small', id: 'search_next' });
                 var nextText = document.createTextNode('next');
                 nextButton.append(nextText);
                 nextButton.appendTo('#search_buttons');
