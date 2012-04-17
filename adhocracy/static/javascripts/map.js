@@ -925,7 +925,8 @@ function reloadNewProposalForm() {
 $('#create_geo_button').click(addGeoTagHandler);
 $('#create_geo_button').ready(reloadNewProposalForm); 
 
-function instanceSearch(jqueryui_url) {
+function instanceSearch(openlayers_url) {
+  $.getScript(openlayers_url, function() {
 
     var resultList = new Array();
     
@@ -981,6 +982,11 @@ function instanceSearch(jqueryui_url) {
             },
             success: function( data ) {
                 resultList[request.term] = $.map( data.search_result, function( item ) {
+//                    var admin_center;
+//                    var features = new OpenLayers.Format.GeoJSON({}).read(item.admin_center);
+//                    if (features != null && features.length > 0) {
+//                        admin_center = OpenLayers.Projection.transform(features[0].geometry,new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+//                    }
                     return {
                         id: item.id,
                         label: item.name,
@@ -989,7 +995,8 @@ function instanceSearch(jqueryui_url) {
                         num_proposals: item.num_proposals,
                         num_papers: item.num_papers,
                         num_members: item.num_members,
-                        create_date: item.create_date
+                        create_date: item.create_date,
+//                        admin_center: admin_center
                     }
                 }) 
                 response( resultList[request.term] );
@@ -1013,4 +1020,5 @@ function instanceSearch(jqueryui_url) {
        $( "#instances" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
     }
   });
+ });
 }

@@ -24,9 +24,13 @@ from adhocracy.lib.event.stats import instance_activity
 from adhocracy.lib.templating import (render, render_json, render_png,
                                       ret_abort, ret_success, render_geojson)
 from adhocracy.lib.util import get_entity_or_abort
+from adhocracy.lib.geo import USE_POSTGIS 
+from adhocracy.lib.geo import USE_SHAPELY
 
 
 log = logging.getLogger(__name__)
+
+CENTROID_TYPE = USE_SHAPELY
 
 
 class InstanceCreateForm(formencode.Schema):
@@ -341,17 +345,27 @@ class InstanceController(BaseController):
 
     def get_region(self, id):
 
+        if CENTROID_TYPE == USE_POSTGIS:
+            #NYI
+            pass
+
         c.instance = self._get_current_instance(id)
 
         if c.instance.region is None:
             data = {}
         else:
-            data = geojson.Feature(geometry=loads(str(c.instance.region.boundary.geom_wkb)), properties={
+            geom = loads(str(c.instance.region.boundary.geom_wkb))
+            data = geojson.Feature(geometry=geom, properties={
                 'name':c.instance.region.name,
                 'admin_level':c.instance.region.admin_level,
                 'admin_type':c.instance.region.admin_type,
                 'id':c.instance.region.id,
+                'admin_center': None
                 })
+
+            if CENTROID_TYPE == USE_SHAPELY:
+                data.properties['admin_center'] = geojson.Feature(geometry=geom.centroid, properties={})
+
         return render_geojson(data)
 
     #@RequireInstance
@@ -369,12 +383,27 @@ class InstanceController(BaseController):
 
     def get_instance_regions(self):
 
+        if CENTROID_TYPE == USE_POSTGIS:
+            #NYI
+            pass
+
         require.instance.index()
         instances = model.Instance.all()
 
-        features = geojson.FeatureCollection([geojson.Feature(geometry=loads(str(i.region.boundary.geom_wkb)), properties={
-            'url':h.base_url(i),
-            'label':i.label,
-            }) for i in instances if i.region is not None])
+        def make_feature(region):
+            geom = loads(str(i.region.boundary.geom_wkb))
+            feature = geojson.Feature(geometry=geom, 
+                                      properties={
+                                                  'url':h.base_url(i),
+                                                  'label':i.label,
+                                                  'admin_center': None
+                                                 });
+            if CENTROID_TYPE == USE_SHAPELY:
+                feature.properties['admin_center'] = geojson.Feature(geometry=geom.centroid, properties={})
+
+            return feature
+
+        features = geojson.FeatureCollection([make_feature(i.region) for i in instances if i.region is not None])
+
         return render_geojson(features)
 

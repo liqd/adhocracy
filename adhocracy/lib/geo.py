@@ -1,3 +1,6 @@
+USE_POSTGIS = 'USE_POSTGIS'
+USE_SHAPELY = 'USE_SHAPELY'
+
 def format_json_to_geotag(geotag):
 
     import geojson
