@@ -78,9 +78,9 @@ function createProposalLayer() {
 
     return new OpenLayers.Layer.Vector("proposal", {
         displayInLayerSwitcher: false, 
-	projection: new OpenLayers.Projection("EPSG:4326"),
+        projection: new OpenLayers.Projection("EPSG:4326"),
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
-                					   'select': new OpenLayers.Style(styleSelect)}) 
+                                           'select': new OpenLayers.Style(styleSelect)}) 
     });
 }
 
@@ -102,7 +102,7 @@ function fetchSingleProposal(singleProposalId, layer, callback) {
             }
         },
         error: function(xhr,err){
-	    //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
+        //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
             //alert('No response from server, sorry. Error: '+err);
         }
     });
@@ -326,7 +326,7 @@ function createRegionBoundaryLayer(instanceKey, callback) {
             }
         },
         error: function(xhr,err){
-	    //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
+            //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
             //alert('No response from server, sorry. Error: '+err);
         }
     });
@@ -385,12 +385,12 @@ function addMultiBoundaryLayer(map) {
     
     function getLayerIndex(zoomlevel) {
         switch(zoomlevel) {
-	    case 0: case 1: case 2: case 3: return 0;
-	    case 4: case 5: case 6: case 7: return 1;
-	    case 8: case 9: case 10: case 11: return 2;
-	    case 12: case 13: case 14: case 15: return 3;
-	    default: case 16: case 17: case 18: case 19: return 4;
-	}
+            case 0: case 1: case 2: case 3: return 0;
+            case 4: case 5: case 6: case 7: return 1;
+            case 8: case 9: case 10: case 11: return 2;
+            case 12: case 13: case 14: case 15: return 3;
+            default: case 16: case 17: case 18: case 19: return 4;
+        }
     }
 
     var moveTo = function(bounds, zoomChanged, dragging) {
@@ -401,34 +401,33 @@ function addMultiBoundaryLayer(map) {
                 var styleChanged = displayMap[zoomChanged]['styles'][i];
                 var style = displayMap[zoom]['styles'][i];
                 var j=0;
-		for (j=0; j<numberComplexities; j++) {
+                for (j=0; j<numberComplexities; j++) {
                     layers[i][j].setVisibility(false);
-		}
+                }
                 if (styleChanged == 0) {
-		   //nop
+                    //nop
                 } else {
-		    console.log('zoom: ' + zoomChanged);
-		    layers[i][getLayerIndex(zoomChanged)].setVisibility(true);
+                    layers[i][getLayerIndex(zoomChanged)].setVisibility(true);
                     if (style != styleChanged) {
-		        var k=0;
+                        var k=0;
                         if (styleChanged < 2) {
-			    for (k=0; k<numberComplexities;k++) {
+                            for (k=0; k<numberComplexities;k++) {
                                 layers[i][k].styleMap['default'] 
                                     = new OpenLayers.Style(styleBorder);
                                 layers[i][k].styleMap['default'] 
-                                    = new OpenLayers.Style(styleBorder);	
+                                    = new OpenLayers.Style(styleBorder);    
                                 redrawFeatures(layers[i][k],styleBorder);
                                 redrawFeatures(layers[i][k],styleBorder);
                             }
                         } else {
-			    for (k=0; k<numberComplexities;k++) {
+                            for (k=0; k<numberComplexities;k++) {
                                 layers[i][k].styleMap['default'] 
-                                     = new OpenLayers.Style(styleArea);	
+                                    = new OpenLayers.Style(styleArea);    
                                 layers[i][k].styleMap['default'] 
-                                    = new OpenLayers.Style(styleArea);	
+                                    = new OpenLayers.Style(styleArea);    
                                 redrawFeatures(layers[i][k],styleArea);
                                 redrawFeatures(layers[i][k],styleArea);
-			    }
+                            }
                         }
                     }
                 }
@@ -467,7 +466,7 @@ function addMultiBoundaryLayer(map) {
                         url: featureUrl,
                         params: {
                             admin_level: adminLevels[layersIdx],
-			    complexity: complexity
+                            complexity: complexity
                         },
                         format: new OpenLayers.Format.GeoJSON({
                             ignoreExtraDims: true
@@ -488,9 +487,9 @@ function addRegionSelectControl(map) {
     var foldLayers = new Array();
     var i=0; var j=0;
     for (i=0; i<layers.length; i++) {
-    	for (j=0; j<layers[i].length; j++) {
+        for (j=0; j<layers[i].length; j++) {
             foldLayers = foldLayers.concat(layers[i][j]);
-	}
+        }
     }
 
     var selectHoverControl = new OpenLayers.Control.SelectFeature(foldLayers, {
@@ -498,7 +497,7 @@ function addRegionSelectControl(map) {
             toggle: false,
             multiple: false,
             hover: true,
-	    highlightOnly: true,
+            highlightOnly: true,
             box: false,
             autoActivate: true,
         });
@@ -517,13 +516,10 @@ function addRegionSelectControl(map) {
     for (i=0; i<foldLayers.length;i++) {
         foldLayers[i].events.on({
             'featureselected': function(event) {
-	        console.log('name: '+event.feature.attributes.label);
-	        console.log('url: '+event.feature.attributes.url);
-	        console.log('admin_level: '+event.feature.attributes.admin_level);
-		if (event.feature.attributes.admin_level < 8) {
-	            map.zoomToExtent(event.feature.geometry.getBounds());
-		}
-		if (event.feature.attributes.admin_level == 8) {
+                if (event.feature.attributes.admin_level < 8) {
+                    map.zoomToExtent(event.feature.geometry.getBounds());
+                }
+                if (event.feature.attributes.admin_level == 8) {
                     if (popup) map.removePopup(popup);
                     popup = new OpenLayers.Popup.FramedCloud("singlepopup",
                                                              event.feature.geometry.getBounds().getCenterLonLat(),
@@ -532,7 +528,7 @@ function addRegionSelectControl(map) {
                                                              null,false,null
                                                             );
                     map.addPopup(popup);
-		}
+                }
             },
             'featureunselected': function(event) {
                 if (popup) map.removePopup(popup);
@@ -561,8 +557,8 @@ function createBaseLayers(blank) {
     }
 
     //some Google Baselayers
-    //		map.addLayer(new OpenLayers.Layer.Google("Google", {"sphericalMercator": true})); 
-    /*	
+    //        map.addLayer(new OpenLayers.Layer.Google("Google", {"sphericalMercator": true})); 
+    /*    
         map.addLayer(new OpenLayers.Layer.Google(
         "Google Physical",
         {type: G_PHYSICAL_MAP}
@@ -744,21 +740,21 @@ function loadSingleProposalMap(openlayers_url, instanceKey, proposalId, edit, po
             waiter(feature);
         });
     } else {
-    	var feature = null;
+        var feature = null;
         if (position) {
             var features = new OpenLayers.Format.GeoJSON({}).read(position);
             if (features) {
                 feature = features[0];
                 feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
                 proposalLayer.addFeatures([feature]); 
-	    }
-	}
+        }
+    }
         singleProposalFetchedCallback(feature);
     }
     if (easteregg) {
-    	var easterLayer = createEastereggLayer();
-    	map.addLayer(easterLayer);
-    	createPopupControl(easterLayer, buildEastereggPopup);
+        var easterLayer = createEastereggLayer();
+        map.addLayer(easterLayer);
+        createPopupControl(easterLayer, buildEastereggPopup);
     }
     map.addControl(createSelectControl());
  });
@@ -783,9 +779,9 @@ function loadRegionMap(openlayers_url, instanceKey, initialProposals) {
     var popupControl = createPopupControl(proposalLayer, buildProposalPopup);
 
     if (easteregg) {
-    	var easterLayer = createEastereggLayer();
-    	map.addLayer(easterLayer);
-    	createPopupControl(easterLayer, buildEastereggPopup);
+        var easterLayer = createEastereggLayer();
+        map.addLayer(easterLayer);
+        createPopupControl(easterLayer, buildEastereggPopup);
     }
     var selectControl = createSelectControl();
 
@@ -823,9 +819,9 @@ function loadOverviewMap(openlayers_url, initialInstances) {
     createPopupControl(overviewLayer, buildInstancePopup);
 
     if (easteregg) {
-    	var easterLayer = createEastereggLayer();
-    	map.addLayer(easterLayer);
-    	createPopupControl(easterLayer, buildEastereggPopup);
+        var easterLayer = createEastereggLayer();
+        map.addLayer(easterLayer);
+        createPopupControl(easterLayer, buildEastereggPopup);
     }
 
     map.zoomToExtent(bounds);
@@ -938,14 +934,17 @@ function instanceSearch(jqueryui_url) {
        $( "#log" ).scrollTop( 0 );
    }
 
-    function instanceEntry( id, label ) {
-        $( "<div/>" ).link( "www.google.de" ).text( label ).prependTo( "#log" );
+    function instanceEntry( id, label, url ) {
+        $('<a/>').prependTo('#log');
+        $('<a>', {
+           href : url 
+        }).append(document.createTextNode(label)).prependTo('#log');
         $( "#log" ).scrollTop( 0 );
     }
 
    function addResult( item ) {
        if (item.id != "") {
-           instanceEntry(item.id, item.label);
+           instanceEntry(item.id, item.label, item.url);
        } else {
            regionEntry(item.label);
        }
@@ -955,38 +954,47 @@ function instanceSearch(jqueryui_url) {
       if ( event.which == 13 || event.which == 10) {
          var inputValue = $( "#instances" ).val();
          $( "#instances" ).autocomplete("close");
-	 if (resultList[inputValue]) {
-	     //insert result into list
-	     $.map(resultList[inputValue], addResult );
-	 }
+     if (resultList[inputValue]) {
+         //insert result into list
+         $.map(resultList[inputValue], addResult );
+     }
       }
    });
    $( "#instances" ).autocomplete({
      source: function( request, response ) {
        $.ajax({
-       	url: "/find_instances.json",
-	dataType: "jsonp",
-	data: {
-		max_rows: 12,
-		name_starts_with: request.term
-	},
-	success: function( data ) {
+           url: "/find_instances.json",
+    dataType: "jsonp",
+    data: {
+        max_rows: 12,
+        name_starts_with: request.term
+    },
+    success: function( data ) {
         console.log('num hits: ' + data.count);
-		   resultList[request.term] = $.map( data.search_result, function( item ) {
-			return {
-				id: item.id,
-				label: item.name + ", " + item.bundesland,
-				value: item.name
-			}
-		   }) 
-		   response( resultList[request.term] );
-		 }
+           resultList[request.term] = $.map( data.search_result, function( item ) {
+            return {
+                id: item.id,
+                label: item.name + ", " + item.bundesland,
+                url: item.url,
+                value: item.name
+            }
+           }) 
+           response( resultList[request.term] );
+         }
        });
      },
      minLength: 2,
-     select: function(event, ui) { if (ui.item) { addResult(ui.item); } },
+     select: function(event, ui) { if (ui.item) {
+                                    if (ui.item.url) { 
+                                        //window.location.replace(ui.item.url);
+                                        $(location).attr('href',ui.item.url);
+                                    } else {
+                                        addResult(ui.item);
+                                    }
+                                  }
+                                },
      open: function() {
-  	$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+      $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
      },
      close: function() {
        $( "#instances" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );

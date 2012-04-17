@@ -1,5 +1,6 @@
 from pylons import request
 
+from adhocracy.lib import helpers as h
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render_json, render_geojson
 from adhocracy.model import meta, Region
@@ -97,7 +98,8 @@ class GeoController(BaseController):
             instances = getattr(region,"get_instances")
             entry = dict()
             if instances != []: 
-                entry['id'] = instances[0]
+                entry['id'] = instances[0].id
+                entry['url'] = h.entity_url(instances[0])
             else: entry['id'] = ""
             entry['name'] = region.name
             entry['bundesland'] = ""
