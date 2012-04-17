@@ -929,7 +929,9 @@ function instanceSearch(openlayers_url) {
   $.getScript(openlayers_url, function() {
 
     var resultList = new Array();
-    
+    var max_rows = 5;
+    var offset = 0;
+
     function instanceEntry( item ) {
         var li = $('<li>',{ class: "content_box" });
         var marker = $('<div>', { class: "marker" });
@@ -960,24 +962,64 @@ function instanceSearch(openlayers_url) {
         $( "#log" ).scrollTop( 0 );
     }
 
+    function fillSearchField(inputValue) {
+        //insert result into list
+        $('#log').empty();
+        $('#search_buttons').empty()
+        var count = resultList[inputValue].length;
+        $('#num_search_result').empty();
+        var resultText = document.createTextNode('Your search for \"' + inputValue + '\" results in ' + count + ' hits.');
+        $('#num_search_result').append(resultText);
+//      $.map(resultList[inputValue], instanceEntry );
+        for (var i = offset; i < offset+max_rows && i < count; ++i) {
+            instanceEntry(resultList[inputValue][i]);
+        }
+        if(count > max_rows) {
+            if (offset + max_rows > max_rows) {
+                var prevButton = $( '<div />', { class: 'small_button', id: 'search_prev' });
+                var prevText = document.createTextNode('prev');
+                prevButton.append(prevText);
+                prevButton.appendTo('#search_buttons');
+                prevButton.click(function(event) { offset = offset-max_rows; fillSearchField(inputValue) });
+            }
+            var pageText = document.createTextNode(offset + ' to ' + (offset+max_rows));
+            $('#search_buttons').append(pageText);
+            if (offset + max_rows < count) {
+                var nextButton = $( '<div />', { class: 'small_button', id: 'search_next' });
+                var nextText = document.createTextNode('next');
+                nextButton.append(nextText);
+                nextButton.appendTo('#search_buttons');
+                nextButton.click(function(event) { offset = offset+max_rows; fillSearchField(inputValue) });
+            }
+        } else {
+            $('#search_next').remove();
+            $('#search_prev').remove();
+        }
+    }
+
     $( "#instances" ).keypress(function(event) {
         if ( event.which == 13 || event.which == 10) {
             var inputValue = $( "#instances" ).val();
             $( "#instances" ).autocomplete("close");
             if (resultList[inputValue]) {
-                //insert result into list
-                $('#log').empty();
-                $.map(resultList[inputValue], instanceEntry );
+                fillSearchField(inputValue);
             }
         }
     });
+
+//    var offset = $('#search_offset_field').val();
+//    if (offset == "") {
+//        offset = 0;
+//    }
+
     $( "#instances" ).autocomplete({
         source: function( request, response ) {
         $.ajax({
             url: "/find_instances.json",
             dataType: "jsonp",
             data: {
-                max_rows: 12,
+//                max_rows: 5,
+//                offset: offset,
                 name_contains: request.term
             },
             success: function( data ) {
@@ -998,7 +1040,8 @@ function instanceSearch(openlayers_url) {
                         create_date: item.create_date,
 //                        admin_center: admin_center
                     }
-                }) 
+                })
+                //fill into autocompletion drop down
                 response( resultList[request.term] );
             }
         });

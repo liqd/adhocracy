@@ -93,19 +93,20 @@ class GeoController(BaseController):
         return render_geojson(geojson.FeatureCollection([geojson.Feature(**r) for r in regions]))
 
     def find_instances_json(self):
-        max_rows = request.params.get('max_rows')
+#        max_rows = request.params.get('max_rows')
         name_contains = request.params.get('name_contains')
         callback = request.params.get('callback')
+#        search_offset = request.params.get('offset')
 
         q = meta.Session.query(Region).order_by(Region.name)
         q = q.filter(or_(or_(Region.admin_level == 6, Region.admin_level == 7),Region.admin_level == 8))
 #        q = q.filter(Region.name.in_(name_contains))
         q = q.filter(Region.name.like('%' + name_contains + '%'))
-#        q = q.offset(search_offset).limit(search_count-search_offset)
+#        q = q.offset(search_offset).limit(max_rows)
         regions = q.all()
 
         response = dict()
-        num_hits = len(regions)
+#        num_hits = len(regions)
 
         def create_entry(region):
             instances = getattr(region,"get_instances")
@@ -125,6 +126,6 @@ class GeoController(BaseController):
             return entry
 
         search_result = map(create_entry, regions)
-        response['count'] = num_hits
+#        response['count'] = num_hits
         response['search_result'] = search_result
         return callback + '(' + render_json(response) + ');'
