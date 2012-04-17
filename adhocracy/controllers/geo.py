@@ -3,7 +3,10 @@ from pylons import request
 from adhocracy.lib import helpers as h
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render_json, render_geojson
-from adhocracy.model import meta, Region
+from adhocracy.lib.util import get_entity_or_abort
+from adhocracy.model import meta
+from adhocracy.model import Region
+from adhocracy.model import Instance
 
 from sqlalchemy import func
 from sqlalchemy import or_
@@ -81,13 +84,14 @@ class GeoController(BaseController):
 
     def find_instances_json(self):
         max_rows = request.params.get('max_rows')
-        name_starts_with = request.params.get('name_starts_with')
+        name_contains = request.params.get('name_contains')
         callback = request.params.get('callback')
 
+#        q = meta.Session.query(Region.name,Region.admin_level).add_column(Region.get_instances).order_by(Region.name)
         q = meta.Session.query(Region).order_by(Region.name)
         q = q.filter(or_(or_(Region.admin_level == 6, Region.admin_level == 7),Region.admin_level == 8))
-#        q = q.filter(Region.name.in_(name_starts_with))
-        q = q.filter(Region.name.like('%' + name_starts_with + '%'))
+#        q = q.filter(Region.name.in_(name_contains))
+        q = q.filter(Region.name.like('%' + name_contains + '%'))
 #        q = q.offset(search_offset).limit(search_count-search_offset)
         regions = q.all()
 
@@ -98,11 +102,16 @@ class GeoController(BaseController):
             instances = getattr(region,"get_instances")
             entry = dict()
             if instances != []: 
-                entry['id'] = instances[0].id
+                instance = get_entity_or_abort(Instance, instances[0].id)
+                entry['id'] = instance.id
                 entry['url'] = h.entity_url(instances[0])
+                entry['admin_level'] = region.admin_level
+                entry['num_proposals'] = instance.num_proposals
+                entry['num_papers'] = 'nyi'
+                entry['num_members'] = instance.num_members
+                entry['create_date'] = str(instance.create_time.date())
             else: entry['id'] = ""
             entry['name'] = region.name
-            entry['bundesland'] = ""
             return entry
 
         search_result = map(create_entry, regions)

@@ -927,77 +927,90 @@ $('#create_geo_button').ready(reloadNewProposalForm);
 
 function instanceSearch(jqueryui_url) {
 
-   var resultList = new Array();
+    var resultList = new Array();
+    
+    function instanceEntry( item ) {
+        var li = $('<li>',{ class: "content_box" });
+        var marker = $('<div>', { class: "marker" });
+        var h4 = $('<h4>');
+        var text;
+        var details;
+        if (item.id != "") {
+            text = $('<a>', {
+               class: "link",
+               href: item.url 
+            }).append(document.createTextNode(item.label));
+               details = document.createTextNode(item.num_proposals + ' proposals \u00B7 '
+                                                 + item.num_papers + ' papers \u00B7 '
+                                                 + item.num_members + ' members \u00B7 '
+                                                 + 'creation date: ' + item.create_date);
+        } else {
+            text = document.createTextNode( item.label );
+        }
+    
+        li.append(marker);
+        li.append(h4);
+        h4.append(text);
+        if (item.id != "") {
+            li.append(details);
+        }
+        li.appendTo('#log');
 
-   function regionEntry( label ) {
-       $( "<div/>" ).text( label ).prependTo( "#log" );
-       $( "#log" ).scrollTop( 0 );
-   }
-
-    function instanceEntry( id, label, url ) {
-        $('<a/>').prependTo('#log');
-        $('<a>', {
-           href : url 
-        }).append(document.createTextNode(label)).prependTo('#log');
         $( "#log" ).scrollTop( 0 );
     }
 
-   function addResult( item ) {
-       if (item.id != "") {
-           instanceEntry(item.id, item.label, item.url);
-       } else {
-           regionEntry(item.label);
-       }
-   }
-
-   $( "#instances" ).keypress(function(event) {
-      if ( event.which == 13 || event.which == 10) {
-         var inputValue = $( "#instances" ).val();
-         $( "#instances" ).autocomplete("close");
-     if (resultList[inputValue]) {
-         //insert result into list
-         $.map(resultList[inputValue], addResult );
-     }
-      }
-   });
-   $( "#instances" ).autocomplete({
-     source: function( request, response ) {
-       $.ajax({
-           url: "/find_instances.json",
-    dataType: "jsonp",
-    data: {
-        max_rows: 12,
-        name_starts_with: request.term
-    },
-    success: function( data ) {
-        console.log('num hits: ' + data.count);
-           resultList[request.term] = $.map( data.search_result, function( item ) {
-            return {
-                id: item.id,
-                label: item.name + ", " + item.bundesland,
-                url: item.url,
-                value: item.name
+    $( "#instances" ).keypress(function(event) {
+        if ( event.which == 13 || event.which == 10) {
+            var inputValue = $( "#instances" ).val();
+            $( "#instances" ).autocomplete("close");
+            if (resultList[inputValue]) {
+                //insert result into list
+                $('#log').empty();
+                $.map(resultList[inputValue], instanceEntry );
             }
-           }) 
-           response( resultList[request.term] );
-         }
-       });
-     },
-     minLength: 2,
-     select: function(event, ui) { if (ui.item) {
+        }
+    });
+    $( "#instances" ).autocomplete({
+        source: function( request, response ) {
+        $.ajax({
+            url: "/find_instances.json",
+            dataType: "jsonp",
+            data: {
+                max_rows: 12,
+                name_contains: request.term
+            },
+            success: function( data ) {
+                resultList[request.term] = $.map( data.search_result, function( item ) {
+                    return {
+                        id: item.id,
+                        label: item.name,
+                        url: item.url,
+                        value: item.name,
+                        num_proposals: item.num_proposals,
+                        num_papers: item.num_papers,
+                        num_members: item.num_members,
+                        create_date: item.create_date
+                    }
+                }) 
+                response( resultList[request.term] );
+            }
+        });
+    },
+    minLength: 2,
+    select: function(event, ui) { if (ui.item) {
                                     if (ui.item.url) { 
                                         //window.location.replace(ui.item.url);
                                         $(location).attr('href',ui.item.url);
                                     } else {
-                                        addResult(ui.item);
+                                        instanceEntry(ui.item);
                                     }
                                   }
                                 },
-     open: function() {
-      $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-     },
-     close: function() {
+    open: function() {
+        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+    },
+    close: function() {
        $( "#instances" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-     }
-   });
+    }
+  });
 }
