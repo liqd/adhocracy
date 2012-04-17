@@ -49,3 +49,17 @@
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript"> window.onload=loadSelectInstanceMap('${h.base_url(None, path="/OpenLayers-2.11/build/OpenLayers-closure-img.js")}'); </script>
 </%def>
+
+<%def name="instance_search_field()">
+
+<link type="text/css" href="/stylesheets/ui-lightness/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+<link type="text/css" href="/javascripts/jquery.autocomplete.css" rel="Stylesheet" />
+<script src="/javascripts/jquery-1.7.1.min.js"></script>
+<script src="/javascripts/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="/javascripts/jquery.elastic.js"></script>
+<script src="/javascripts/jquery.label_over.js"></script>
+<script src="/javascripts/jquery.multipleelements.cycle.min.js"></script>
+<script src="/javascripts/jquery.tools.min.js"></script>
+<script src="/javascripts/map.js"></script>
+<script type="text/javascript"> window.onload=$(function() {instanceSearch('${h.base_url(None, path="/javascripts/jquery.autocomplete.min.js")}'); });</script>
+</%def>

@@ -928,3 +928,68 @@ function reloadNewProposalForm() {
 
 $('#create_geo_button').click(addGeoTagHandler);
 $('#create_geo_button').ready(reloadNewProposalForm); 
+
+function instanceSearch(jqueryui_url) {
+
+   var resultList = new Array();
+
+   function regionEntry( label ) {
+       $( "<div/>" ).text( label ).prependTo( "#log" );
+       $( "#log" ).scrollTop( 0 );
+   }
+
+    function instanceEntry( id, label ) {
+        $( "<div/>" ).link( "www.google.de" ).text( label ).prependTo( "#log" );
+        $( "#log" ).scrollTop( 0 );
+    }
+
+   function addResult( item ) {
+       if (item.id != "") {
+           instanceEntry(item.id, item.label);
+       } else {
+           regionEntry(item.label);
+       }
+   }
+
+   $( "#instances" ).keypress(function(event) {
+      if ( event.which == 13 || event.which == 10) {
+         var inputValue = $( "#instances" ).val();
+         $( "#instances" ).autocomplete("close");
+	 if (resultList[inputValue]) {
+	     //insert result into list
+	     $.map(resultList[inputValue], addResult );
+	 }
+      }
+   });
+   $( "#instances" ).autocomplete({
+     source: function( request, response ) {
+       $.ajax({
+       	url: "/find_instances.json",
+	dataType: "jsonp",
+	data: {
+		max_rows: 12,
+		name_starts_with: request.term
+	},
+	success: function( data ) {
+        console.log('num hits: ' + data.count);
+		   resultList[request.term] = $.map( data.search_result, function( item ) {
+			return {
+				id: item.id,
+				label: item.name + ", " + item.bundesland,
+				value: item.name
+			}
+		   }) 
+		   response( resultList[request.term] );
+		 }
+       });
+     },
+     minLength: 2,
+     select: function(event, ui) { if (ui.item) { addResult(ui.item); } },
+     open: function() {
+  	$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+     },
+     close: function() {
+       $( "#instances" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+     }
+   });
+}

@@ -27,8 +27,23 @@ the transition
       ${_("<b>%s</b> votes") % c.stats_global.get('votes')|n}
   </div>  
 
-  <h3>${_(u'Find your instance')}</h3>
-      ${map.show_select_instance_map()}
+    ${map.instance_search_field()}
+
+<div class="demo">
+
+    <div class="ui-widget">
+        <h3>${_(u'Find your instance')}</h3>
+	<input id="instances" />
+            <a id='search_button' class="button">${_('Start')}</a>
+    </div>
+
+    <div class="ui-widget" style="margin-top:2em; font-family:Arial">
+        <h3>${_(u'Search Result')}</h3>
+	<div id="num_search_result">
+    <div id="log" style="height: 200px; width: 300px; overflow: auto;" class="ac_results"></div>
+    </div>
+</div>
+   ${map.show_select_instance_map()}
 
   ## FIXME: Add line that scrolls through last events
 </div>

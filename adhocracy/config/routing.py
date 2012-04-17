@@ -245,6 +245,7 @@ def make_map():
     map.connect('/tutorials', controller='root', action='tutorials')
 
     map.connect('/get_boundaries.json', controller='geo', action='get_boundaries_json')
+    map.connect('/find_instances.json', controller='geo', action='find_instances_json')
 
     map.connect('/search/filter', controller='search', action='filter')
     map.connect('/search', controller='search', action='query')

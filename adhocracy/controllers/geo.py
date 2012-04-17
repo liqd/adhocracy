@@ -5,6 +5,7 @@ from adhocracy.lib.templating import render_json, render_geojson
 from adhocracy.model import meta, Region
 
 from sqlalchemy import func
+from sqlalchemy import or_
 
 import geojson
 from shapely.wkb import loads
@@ -76,3 +77,33 @@ class GeoController(BaseController):
             regions = map(simplify_region, regions)
 
         return render_geojson(geojson.FeatureCollection([geojson.Feature(**r) for r in regions]))
+
+    def find_instances_json(self):
+        max_rows = request.params.get('max_rows')
+        name_starts_with = request.params.get('name_starts_with')
+        callback = request.params.get('callback')
+
+        q = meta.Session.query(Region).order_by(Region.name)
+        q = q.filter(or_(or_(Region.admin_level == 6, Region.admin_level == 7),Region.admin_level == 8))
+#        q = q.filter(Region.name.in_(name_starts_with))
+        q = q.filter(Region.name.like('%' + name_starts_with + '%'))
+#        q = q.offset(search_offset).limit(search_count-search_offset)
+        regions = q.all()
+
+        response = dict()
+        num_hits = len(regions)
+
+        def create_entry(region):
+            instances = getattr(region,"get_instances")
+            entry = dict()
+            if instances != []: 
+                entry['id'] = instances[0]
+            else: entry['id'] = ""
+            entry['name'] = region.name
+            entry['bundesland'] = ""
+            return entry
+
+        search_result = map(create_entry, regions)
+        response['count'] = num_hits
+        response['search_result'] = search_result
+        return callback + '(' + render_json(response) + ');'
