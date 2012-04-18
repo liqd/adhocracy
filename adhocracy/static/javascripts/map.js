@@ -19,12 +19,6 @@
 
  * requires openlayers/lib/OpenLayers.js at baseurl
 
- * TODO: capitol markers with popup -> link to instance
- * TODO: list of search matches/proposals
- * TODO: hover (see cluster strategy example)
-
- * TODO: list of all open popups
- * TODO: adjust proposal size
  */
 
 $.ajaxSetup({
