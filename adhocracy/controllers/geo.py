@@ -25,11 +25,11 @@ SIMPLIFY_TYPE = USE_SHAPELY
 CENTROID_TYPE = USE_SHAPELY
 
 COMPLEXITY_TOLERANCE = {
-    '0': 0.5,
-    '1': 0.1,
-    '2': 0.02,
-    '3': 0.005,
-    '4': 0.001
+    '0': 0.01,
+    '1': 0.005,
+    '2': 0.001,
+    '3': 0.0005,
+    '4': 0.0001
     }
 
 class GeoController(BaseController):
