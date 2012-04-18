@@ -123,7 +123,8 @@ class GeoController(BaseController):
             entry = dict()
             if instances != []: 
                 instance = get_entity_or_abort(Instance, instances[0].id)
-                entry['id'] = instance.id
+                entry['instance_id'] = instance.id
+                entry['region_id'] = region.id
                 entry['url'] = h.entity_url(instances[0])
                 entry['admin_level'] = region.admin_level
                 entry['num_proposals'] = instance.num_proposals
@@ -131,7 +132,7 @@ class GeoController(BaseController):
                 entry['num_members'] = instance.num_members
                 entry['create_date'] = str(instance.create_time.date())
 #                entry['admin_center'] = geojson.Feature(geometry=loads(str(region.boundary.geom_wkb)).centroid, properties={})
-            else: entry['id'] = ""
+            else: entry['instance_id'] = ""
             entry['name'] = region.name
             return entry
 

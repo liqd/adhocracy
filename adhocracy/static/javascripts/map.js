@@ -150,17 +150,19 @@ function createOverviewLayers() {
 
 }
 
-
-function createRegionProposalsLayer(instanceKey, initialProposals, featuresAddedCallback) {
-
-    var rule = new OpenLayers.Rule({
+function makeFilterRule() {
+return new OpenLayers.Rule({
         symbolizer: {
             graphicHeight: 31,
             graphicWidth: 24,
             graphicYOffset: -31
         }
     });
+}
 
+function createRegionProposalsLayer(instanceKey, initialProposals, featuresAddedCallback) {
+
+    var rule = makeFilterRule(); 
     rule.evaluate = function (feature) {
         if (initialProposals) {
             var index = initialProposals.indexOf(feature.fid);
@@ -905,8 +907,15 @@ function loadOverviewMap(openlayers_url, initialInstances) {
  });
 }
 
-function loadSelectInstanceMap(openlayers_url) {
+function loadSelectInstance(openlayers_url) {
   $.getScript(openlayers_url, function() {
+    map = loadSelectInstanceMap();
+
+    instanceSearch(map);
+  });
+}
+
+function loadSelectInstanceMap() {
     var map = createMap(NUM_ZOOM_LEVELS);
 
     var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
@@ -919,6 +928,171 @@ function loadSelectInstanceMap(openlayers_url) {
     map.zoomToExtent(bounds);
     
     map.addControl(createSelectControl());
+
+    return map;
+}
+
+function instanceSearch(map) {
+
+    var resultList = new Array();
+    var max_rows = 5;
+    var offset = 0;
+
+    function makeRegionNameElements(item) {
+        if (item.instance_id != "") {
+            return $('<a>', {
+               class: "link",
+               href: item.url 
+            }).append(document.createTextNode(item.label));
+        } else {
+            return document.createTextNode( item.label );
+        }
+    }
+
+    function makeRegionDetailsElements(item) {
+        if (item.instance_id != "") {
+            return document.createTextNode(item.num_proposals + ' proposals \u00B7 '
+                                                 + item.num_papers + ' papers \u00B7 '
+                                                 + item.num_members + ' members \u00B7 '
+                                                 + 'creation date: ' + item.create_date);
+        }
+    }
+
+    function instanceEntry( item ) {
+        var li = $('<li>',{ class: "content_box" });
+        var marker = $('<div>', { class: "marker" });
+        var h4 = $('<h4>');
+        var text;
+        var details;
+
+        text = makeRegionNameElements(item);
+        details = makeRegionDetailsElements(item);
+    
+        li.append(marker);
+        li.append(h4);
+        h4.append(text);
+        if (item.instance_id != "") {
+            li.append(details);
+        }
+        li.appendTo('#log');
+
+        $( "#log" ).scrollTop( 0 );
+    }
+
+    function resetSearchField(inputValue, count) {
+        $('#log').empty();
+        $('#search_buttons').empty()
+        $('#num_search_result').empty();
+        var resultText = document.createTextNode('Your search for \"' + inputValue + '\" results in ' + count + ' hits.');
+        $('#num_search_result').append(resultText);
+    }
+
+    function fillSearchField(inputValue) {
+        //insert result into list
+        var count = resultList[inputValue].length;
+        resetSearchField(inputValue, count);
+
+        for (var i = offset; i < offset+max_rows && i < count; ++i) {
+            instanceEntry(resultList[inputValue][i]);
+        }
+        if(count > max_rows) {
+            if (offset + max_rows > max_rows) {
+                var prevButton = $( '<div />', { class: 'button_small', id: 'search_prev' });
+                var prevText = document.createTextNode('prev');
+                prevButton.append(prevText);
+                prevButton.appendTo('#search_buttons');
+                prevButton.click(function(event) { offset = offset-max_rows; fillSearchField(inputValue) });
+            }
+            var pageText = document.createTextNode(offset + ' to ' + (offset+max_rows));
+            $('#search_buttons').append(pageText);
+            if (offset + max_rows < count) {
+                var nextButton = $( '<div />', { class: 'button_small', id: 'search_next' });
+                var nextText = document.createTextNode('next');
+                nextButton.append(nextText);
+                nextButton.appendTo('#search_buttons');
+                nextButton.click(function(event) { offset = offset+max_rows; fillSearchField(inputValue) });
+            }
+        } else {
+            $('#search_next').remove();
+            $('#search_prev').remove();
+        }
+    }
+
+    function showSearchResult() {
+        var inputValue = $( "#instances" ).val();
+        $( "#instances" ).autocomplete("close");
+        if (resultList[inputValue]) {
+            fillSearchField(inputValue);
+            //get region eof search result
+            //zoom to region
+        }
+    }
+
+    $( "#instances" ).keypress(function(event) {
+        if ( event.which == 13 || event.which == 10) {
+            showSearchResult();
+        }
+    });
+
+    $('#search_button').click(showSearchResult);
+
+//    var offset = $('#search_offset_field').val();
+//    if (offset == "") {
+//        offset = 0;
+//    }
+
+    $( "#instances" ).autocomplete({
+        source: function( request, response ) {
+        $.ajax({
+            url: "/find_instances.json",
+            dataType: "jsonp",
+            data: {
+//                max_rows: 5,
+//                offset: offset,
+                name_contains: request.term
+            },
+            success: function( data ) {
+                resultList[request.term] = $.map( data.search_result, function( item ) {
+//                    var admin_center;
+//                    var features = new OpenLayers.Format.GeoJSON({}).read(item.admin_center);
+//                    if (features != null && features.length > 0) {
+//                        admin_center = OpenLayers.Projection.transform(features[0].geometry,new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+//                    }
+                    return {
+                        instance_id: item.instance_id,
+                        region_id: item.region_id,
+                        label: item.name,
+                        url: item.url,
+                        value: item.name,
+                        num_proposals: item.num_proposals,
+                        num_papers: item.num_papers,
+                        num_members: item.num_members,
+                        create_date: item.create_date,
+//                        admin_center: admin_center
+                    }
+                })
+                //fill into autocompletion drop down
+                response( resultList[request.term] );
+            }
+        });
+    },
+    minLength: 2,
+    select: function(event, ui) { if (ui.item) {
+                                    if (ui.item.url) { 
+                                        //window.location.replace(ui.item.url);
+                                        $(location).attr('href',ui.item.url);
+                                    } else {
+                                        resetSearchField(ui.item.label, 1);
+                                        instanceEntry(ui.item);
+                                    }
+                                  }
+                                },
+    open: function() {
+        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+    },
+    close: function() {
+       $( "#instances" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+    }
   });
 }
 
@@ -997,166 +1171,3 @@ function reloadNewProposalForm() {
 
 $('#create_geo_button').click(addGeoTagHandler);
 $('#create_geo_button').ready(reloadNewProposalForm); 
-
-function instanceSearch(openlayers_url) {
-  $.getScript(openlayers_url, function() {
-
-    var resultList = new Array();
-    var max_rows = 5;
-    var offset = 0;
-
-    function makeRegionNameElements(item) {
-        if (item.id != "") {
-            return $('<a>', {
-               class: "link",
-               href: item.url 
-            }).append(document.createTextNode(item.label));
-        } else {
-            return document.createTextNode( item.label );
-        }
-    }
-
-    function makeRegionDetailsElements(item) {
-        if (item.id != "") {
-            return document.createTextNode(item.num_proposals + ' proposals \u00B7 '
-                                                 + item.num_papers + ' papers \u00B7 '
-                                                 + item.num_members + ' members \u00B7 '
-                                                 + 'creation date: ' + item.create_date);
-        }
-    }
-
-    function instanceEntry( item ) {
-        var li = $('<li>',{ class: "content_box" });
-        var marker = $('<div>', { class: "marker" });
-        var h4 = $('<h4>');
-        var text;
-        var details;
-
-        text = makeRegionNameElements(item);
-        details = makeRegionDetailsElements(item);
-    
-        li.append(marker);
-        li.append(h4);
-        h4.append(text);
-        if (item.id != "") {
-            li.append(details);
-        }
-        li.appendTo('#log');
-
-        $( "#log" ).scrollTop( 0 );
-    }
-
-    function resetSearchField(inputValue, count) {
-        $('#log').empty();
-        $('#search_buttons').empty()
-        $('#num_search_result').empty();
-        var resultText = document.createTextNode('Your search for \"' + inputValue + '\" results in ' + count + ' hits.');
-        $('#num_search_result').append(resultText);
-    }
-
-    function fillSearchField(inputValue) {
-        //insert result into list
-        var count = resultList[inputValue].length;
-        resetSearchField(inputValue, count);
-
-        for (var i = offset; i < offset+max_rows && i < count; ++i) {
-            instanceEntry(resultList[inputValue][i]);
-        }
-        if(count > max_rows) {
-            if (offset + max_rows > max_rows) {
-                var prevButton = $( '<div />', { class: 'button_small', id: 'search_prev' });
-                var prevText = document.createTextNode('prev');
-                prevButton.append(prevText);
-                prevButton.appendTo('#search_buttons');
-                prevButton.click(function(event) { offset = offset-max_rows; fillSearchField(inputValue) });
-            }
-            var pageText = document.createTextNode(offset + ' to ' + (offset+max_rows));
-            $('#search_buttons').append(pageText);
-            if (offset + max_rows < count) {
-                var nextButton = $( '<div />', { class: 'button_small', id: 'search_next' });
-                var nextText = document.createTextNode('next');
-                nextButton.append(nextText);
-                nextButton.appendTo('#search_buttons');
-                nextButton.click(function(event) { offset = offset+max_rows; fillSearchField(inputValue) });
-            }
-        } else {
-            $('#search_next').remove();
-            $('#search_prev').remove();
-        }
-    }
-
-    function showSearchResult() {
-        var inputValue = $( "#instances" ).val();
-        $( "#instances" ).autocomplete("close");
-        if (resultList[inputValue]) {
-            fillSearchField(inputValue);
-        }
-    }
-
-    $( "#instances" ).keypress(function(event) {
-        if ( event.which == 13 || event.which == 10) {
-            showSearchResult();
-        }
-    });
-
-    $('#search_button').click(showSearchResult);
-
-//    var offset = $('#search_offset_field').val();
-//    if (offset == "") {
-//        offset = 0;
-//    }
-
-    $( "#instances" ).autocomplete({
-        source: function( request, response ) {
-        $.ajax({
-            url: "/find_instances.json",
-            dataType: "jsonp",
-            data: {
-//                max_rows: 5,
-//                offset: offset,
-                name_contains: request.term
-            },
-            success: function( data ) {
-                resultList[request.term] = $.map( data.search_result, function( item ) {
-//                    var admin_center;
-//                    var features = new OpenLayers.Format.GeoJSON({}).read(item.admin_center);
-//                    if (features != null && features.length > 0) {
-//                        admin_center = OpenLayers.Projection.transform(features[0].geometry,new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-//                    }
-                    return {
-                        id: item.id,
-                        label: item.name,
-                        url: item.url,
-                        value: item.name,
-                        num_proposals: item.num_proposals,
-                        num_papers: item.num_papers,
-                        num_members: item.num_members,
-                        create_date: item.create_date,
-//                        admin_center: admin_center
-                    }
-                })
-                //fill into autocompletion drop down
-                response( resultList[request.term] );
-            }
-        });
-    },
-    minLength: 2,
-    select: function(event, ui) { if (ui.item) {
-                                    if (ui.item.url) { 
-                                        //window.location.replace(ui.item.url);
-                                        $(location).attr('href',ui.item.url);
-                                    } else {
-                                        resetSearchField(ui.item.label, 1);
-                                        instanceEntry(ui.item);
-                                    }
-                                  }
-                                },
-    open: function() {
-        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-    },
-    close: function() {
-       $( "#instances" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-    }
-  });
- });
-}

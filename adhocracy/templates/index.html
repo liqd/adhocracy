@@ -27,7 +27,7 @@ the transition
       ${_("<b>%s</b> votes") % c.stats_global.get('votes')|n}
   </div>  
 
-    ${map.instance_search_field()}
+    ${map.show_select_instance()}
 
 <div class="demo" id="instance_search">
 
@@ -45,7 +45,6 @@ the transition
         <div id="search_buttons" />
     </div>
 </div>
-    ${map.show_select_instance_map()} 
 
   ## FIXME: Add line that scrolls through last events
 </div>
