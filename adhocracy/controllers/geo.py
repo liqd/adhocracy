@@ -54,10 +54,10 @@ class GeoController(BaseController):
             pass
 
         def make_feature(region):
-            return dict(geometry = loads(str(region.boundary.geom_wkb)), properties = {'label': region.name, 'admin_level': region.admin_level, 'region': region.id})
+            return dict(geometry = loads(str(region.boundary.geom_wkb)), properties = {'label': region.name, 'admin_level': region.admin_level, 'region_id': region.id})
 
         def add_admin_center(region):
-            regionColumns = filter(lambda r: region['properties']['region'] == r.id, regionsResultSet)
+            regionColumns = filter(lambda r: region['properties']['region_id'] == r.id, regionsResultSet)
             properties = {}
             if regionColumns != []:
                 instances = getattr(regionColumns[0],"get_instances")
@@ -121,6 +121,9 @@ class GeoController(BaseController):
         def create_entry(region):
             instances = getattr(region,"get_instances")
             entry = dict()
+            entry['name'] = region.name
+            bbox = loads(str(region.boundary.geom_wkb)).bounds
+            entry['bbox'] = '[' + str(bbox[0]) + ',' + str(bbox[1]) + ',' + str(bbox[2]) + ',' + str(bbox[3]) + ']'
             if instances != []: 
                 instance = get_entity_or_abort(Instance, instances[0].id)
                 entry['instance_id'] = instance.id
@@ -132,8 +135,8 @@ class GeoController(BaseController):
                 entry['num_members'] = instance.num_members
                 entry['create_date'] = str(instance.create_time.date())
 #                entry['admin_center'] = geojson.Feature(geometry=loads(str(region.boundary.geom_wkb)).centroid, properties={})
-            else: entry['instance_id'] = ""
-            entry['name'] = region.name
+            else: 
+                entry['instance_id'] = ""
             return entry
 
         search_result = map(create_entry, regions)

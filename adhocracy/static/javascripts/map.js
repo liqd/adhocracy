@@ -397,10 +397,9 @@ function createEastereggLayer() {
     return layer;
 }
 
-function addMultiBoundaryLayer(map) {
+function addMultiBoundaryLayer(map, layers) {
 
     var adminLevels = [2,4,5,6,7,8];
-    var layers = new Array();
 
     //Zoom 0 ... 15 -> 0=hidden,1=visibleByBorder,2=visibleByArea[,3=both (NYI)]
     var displayMap = [
@@ -546,6 +545,7 @@ function addMultiBoundaryLayer(map) {
             }
         })
     }
+    return foldLayers;
 }
 
 function foldLayerMatrix(layers) {
@@ -909,13 +909,14 @@ function loadOverviewMap(openlayers_url, initialInstances) {
 
 function loadSelectInstance(openlayers_url) {
   $.getScript(openlayers_url, function() {
-    map = loadSelectInstanceMap();
+    var layers = new Array();
+    state = loadSelectInstanceMap(layers);
 
-    instanceSearch(map);
+    instanceSearch(state);
   });
 }
 
-function loadSelectInstanceMap() {
+function loadSelectInstanceMap(layers) {
     var map = createMap(NUM_ZOOM_LEVELS);
 
     var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
@@ -923,16 +924,21 @@ function loadSelectInstanceMap() {
     map.addControls(createControls(true, false));
     map.addLayers(createBaseLayers());
 
-    addMultiBoundaryLayer(map);
+    foldLayers = addMultiBoundaryLayer(map,layers);
 
     map.zoomToExtent(bounds);
     
     map.addControl(createSelectControl());
 
+//    var result = {map: map, foldLayers: foldLayers}
+
     return map;
 }
 
 function instanceSearch(map) {
+
+//    var map = state.map;
+//    var foldLayers = state.foldLayers;
 
     var resultList = new Array();
     var max_rows = 5;
@@ -1023,8 +1029,20 @@ function instanceSearch(map) {
         $( "#instances" ).autocomplete("close");
         if (resultList[inputValue]) {
             fillSearchField(inputValue);
-            //get region eof search result
-            //zoom to region
+            var bounds = new OpenLayers.Bounds();
+            var found = false;
+            for (i=0; i<resultList[inputValue].length; i++) {
+                var hit = resultList[inputValue][i];
+                //if (hit.instance_id != "") {
+                    var bbox = JSON.parse( hit.bbox );
+                    var hitBounds = new OpenLayers.Bounds.fromArray(bbox).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+                    bounds.extend(hitBounds);
+                    found = true;
+                //}
+            }
+            if (found) {
+                map.zoomToExtent(bounds)
+            }
         }
     }
 
@@ -1068,6 +1086,7 @@ function instanceSearch(map) {
                         num_papers: item.num_papers,
                         num_members: item.num_members,
                         create_date: item.create_date,
+                        bbox: item.bbox
 //                        admin_center: admin_center
                     }
                 })
@@ -1171,3 +1190,15 @@ function reloadNewProposalForm() {
 
 $('#create_geo_button').click(addGeoTagHandler);
 $('#create_geo_button').ready(reloadNewProposalForm); 
+/*              
+                if (hit.instance_id != "") {
+                    for (j=0; j<foldLayers.length;j++) {
+                        for (k=0; k<foldLayers[j].features.length; k++) {
+                            var feature = foldLayers[j].features[k];
+                            if (hit.region_id == feature.attributes.region_id) {
+                                bounds.extend(feature.geometry.getBounds());
+                            }
+                        }
+                    }
+                }
+*/
