@@ -1011,24 +1011,35 @@ function instanceSearch(openlayers_url) {
     var max_rows = 5;
     var offset = 0;
 
+    function makeRegionNameElements(item) {
+        if (item.id != "") {
+            return $('<a>', {
+               class: "link",
+               href: item.url 
+            }).append(document.createTextNode(item.label));
+        } else {
+            return document.createTextNode( item.label );
+        }
+    }
+
+    function makeRegionDetailsElements(item) {
+        if (item.id != "") {
+            return document.createTextNode(item.num_proposals + ' proposals \u00B7 '
+                                                 + item.num_papers + ' papers \u00B7 '
+                                                 + item.num_members + ' members \u00B7 '
+                                                 + 'creation date: ' + item.create_date);
+        }
+    }
+
     function instanceEntry( item ) {
         var li = $('<li>',{ class: "content_box" });
         var marker = $('<div>', { class: "marker" });
         var h4 = $('<h4>');
         var text;
         var details;
-        if (item.id != "") {
-            text = $('<a>', {
-               class: "link",
-               href: item.url 
-            }).append(document.createTextNode(item.label));
-               details = document.createTextNode(item.num_proposals + ' proposals \u00B7 '
-                                                 + item.num_papers + ' papers \u00B7 '
-                                                 + item.num_members + ' members \u00B7 '
-                                                 + 'creation date: ' + item.create_date);
-        } else {
-            text = document.createTextNode( item.label );
-        }
+
+        text = makeRegionNameElements(item);
+        details = makeRegionDetailsElements(item);
     
         li.append(marker);
         li.append(h4);
@@ -1041,15 +1052,19 @@ function instanceSearch(openlayers_url) {
         $( "#log" ).scrollTop( 0 );
     }
 
-    function fillSearchField(inputValue) {
-        //insert result into list
+    function resetSearchField(inputValue, count) {
         $('#log').empty();
         $('#search_buttons').empty()
-        var count = resultList[inputValue].length;
         $('#num_search_result').empty();
         var resultText = document.createTextNode('Your search for \"' + inputValue + '\" results in ' + count + ' hits.');
         $('#num_search_result').append(resultText);
-//      $.map(resultList[inputValue], instanceEntry );
+    }
+
+    function fillSearchField(inputValue) {
+        //insert result into list
+        var count = resultList[inputValue].length;
+        resetSearchField(inputValue, count);
+
         for (var i = offset; i < offset+max_rows && i < count; ++i) {
             instanceEntry(resultList[inputValue][i]);
         }
@@ -1076,15 +1091,21 @@ function instanceSearch(openlayers_url) {
         }
     }
 
+    function showSearchResult() {
+        var inputValue = $( "#instances" ).val();
+        $( "#instances" ).autocomplete("close");
+        if (resultList[inputValue]) {
+            fillSearchField(inputValue);
+        }
+    }
+
     $( "#instances" ).keypress(function(event) {
         if ( event.which == 13 || event.which == 10) {
-            var inputValue = $( "#instances" ).val();
-            $( "#instances" ).autocomplete("close");
-            if (resultList[inputValue]) {
-                fillSearchField(inputValue);
-            }
+            showSearchResult();
         }
     });
+
+    $('#search_button').click(showSearchResult);
 
 //    var offset = $('#search_offset_field').val();
 //    if (offset == "") {
@@ -1131,6 +1152,7 @@ function instanceSearch(openlayers_url) {
                                         //window.location.replace(ui.item.url);
                                         $(location).attr('href',ui.item.url);
                                     } else {
+                                        resetSearchField(ui.item.label, 1);
                                         instanceEntry(ui.item);
                                     }
                                   }
