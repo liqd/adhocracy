@@ -403,30 +403,31 @@ function createEastereggLayer() {
 
 function addMultiBoundaryLayer(map) {
 
-    var adminLevels = [2,4,5,6,8];
+    var adminLevels = [2,4,5,6,7,8];
     var layers = new Array();
 
     //Zoom 0 ... 15 -> 0=hidden,1=visibleByBorder,2=visibleByArea[,3=both (NYI)]
     var displayMap = [
-        {styles: [1,0,0,0,0]},
-        {styles: [1,0,0,0,0]},
-        {styles: [1,0,0,0,0]},
-        {styles: [1,0,0,0,0]},
-        {styles: [0,1,0,0,0]},
-        {styles: [0,1,0,0,0]},
-        {styles: [0,1,0,0,0]},
-        {styles: [0,1,0,0,0]},
-        {styles: [0,1,0,0,1]},
-        {styles: [0,1,0,0,1]},
-        {styles: [0,0,0,0,1]},
-        {styles: [0,0,0,0,1]},
-        {styles: [0,0,0,0,1]},
-        {styles: [0,0,0,0,1]},
-        {styles: [0,0,0,0,1]},
-        {styles: [0,0,0,0,1]},
-        {styles: [0,0,0,0,1]},
-        {styles: [0,0,0,0,1]},
-        {styles: [0,0,0,0,1]}
+        {styles: [1,0,0,0,0,0]}, //0
+        {styles: [1,0,0,0,0,0]}, 
+        {styles: [1,0,0,0,0,0]}, 
+        {styles: [1,0,0,0,0,0]},
+        {styles: [0,1,0,0,0,0]}, //4
+        {styles: [0,1,0,0,0,0]},
+        {styles: [0,1,0,0,0,0]},
+        {styles: [0,1,0,0,0,0]},
+        {styles: [0,1,0,1,1,0]}, //8
+        {styles: [0,1,0,1,1,0]},
+        {styles: [0,0,0,1,1,1]},
+        {styles: [0,0,0,1,1,1]},
+        {styles: [0,0,0,1,1,1]}, //12
+        {styles: [0,0,0,1,1,1]},
+        {styles: [0,0,0,1,1,1]},
+        {styles: [0,0,0,1,1,1]},
+        {styles: [0,0,0,1,1,1]}, //16
+        {styles: [0,0,0,1,1,1]},
+        {styles: [0,0,0,1,1,1]},
+        {styles: [0,0,0,1,1,1]}
     ];
     
     function getLayerIndex(zoomlevel) {
@@ -483,7 +484,7 @@ function addMultiBoundaryLayer(map) {
 
         OpenLayers.Map.prototype.moveTo.apply(this, arguments);
     }
-
+  
     function redrawFeatures(thelayer,thestyle) {
         var i=0;
         for (i=0; i<thelayer.features.length;i++) {
@@ -526,10 +527,32 @@ function addMultiBoundaryLayer(map) {
         layersIdx++;
     }
     map.moveTo = moveTo;
+
+    var townHallLayer = new OpenLayers.Layer.Vector('instance_town_hall', {
+        displayInLayerSwitcher: false, 
+        projection: new OpenLayers.Projection("EPSG:4326"),
+        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
+                                           'select': new OpenLayers.Style(styleSelect)})
+    });
+    map.addLayer(townHallLayer);
+    createPopupControl(townHallLayer, buildInstancePopup);
+
+    foldLayers = foldLayerMatrix(layers);
+    for (i=0; i<foldLayers.length;i++) {
+        foldLayers[i].events.on({
+            'featureadded': function(event) {
+               if (event.feature.attributes.admin_center) {
+                    var features = new OpenLayers.Format.GeoJSON({}).read(event.feature.attributes.admin_center);
+                    var feature = features[0];
+                    feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+                    townHallLayer.addFeatures([feature]);                    
+               }
+            }
+        })
+    }
 }
 
-function addRegionSelectControl(map) {
-
+function foldLayerMatrix(layers) {
     var foldLayers = new Array();
     var i=0; var j=0;
     for (i=0; i<layers.length; i++) {
@@ -537,6 +560,12 @@ function addRegionSelectControl(map) {
             foldLayers = foldLayers.concat(layers[i][j]);
         }
     }
+    return foldLayers;
+}
+
+function addRegionSelectControl(map) {
+
+    foldLayers = foldLayerMatrix(layers);
 
     var selectHoverControl = new OpenLayers.Control.SelectFeature(foldLayers, {
             clickout: false,
@@ -895,7 +924,7 @@ function loadSelectInstanceMap(openlayers_url) {
 
     map.zoomToExtent(bounds);
     
-    //map.addControl(createSelectControl());
+    map.addControl(createSelectControl());
   });
 }
 

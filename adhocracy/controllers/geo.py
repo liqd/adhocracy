@@ -54,19 +54,29 @@ class GeoController(BaseController):
             pass
 
         def make_feature(region):
-            return dict(geometry = loads(str(region.boundary.geom_wkb)), properties = {'label': region.name, 'admin_level': region.admin_level})
+            return dict(geometry = loads(str(region.boundary.geom_wkb)), properties = {'label': region.name, 'admin_level': region.admin_level, 'region': region.id})
 
         def add_admin_center(region):
-            region['properties']['admin_center'] = geojson.Feature(geometry=region['geometry'].centroid, properties={})
+            regionColumns = filter(lambda r: region['properties']['region'] == r.id, regionsResultSet)
+            properties = {}
+            if regionColumns != []:
+                instances = getattr(regionColumns[0],"get_instances")
+                if instances != []:
+                    properties = {'url': h.base_url(instances[0]),
+                                 'label':instances[0].label 
+                                 }
+            region['properties']['admin_center'] = geojson.Feature(geometry=region['geometry'].centroid, properties=properties)
             return region
+
+        regionsResultSet = q.all()
 
         if BBOX_FILTER_TYPE == USE_SHAPELY:
             sbox = box(*bbox)
-            regions = filter(lambda region: sbox.intersection(region['geometry']), map(make_feature, q.all()))
+            regions = filter(lambda region: sbox.intersection(region['geometry']), map(make_feature, regionsResultSet))
 
         elif BBOX_FILTER_TYPE == USE_POSTGIS:
 
-            regions = map(make_feature, q.all())
+            regions = map(make_feature, regionsResultSet)
 
         if SIMPLIFY_TYPE == USE_SHAPELY:
 
