@@ -1,0 +1,51 @@
+<%namespace name="debug" file="/debug/tiles.html"
+/><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Explain query</title>
+
+    ${debug.styles()}
+
+</head>
+<body>
+    <div class="debug">
+        <h3>SQL Explained</h3>
+        <dl>
+	    <dt>Time</dt>
+	    <dd>${'%.4f' % (c.duration)} s</dd>
+	    <dt>Executed SQL</dt>
+	    <dd>${c.statement|n}</dd>
+            <dt>Parameters</dt>
+            <dd>
+                <dl>
+                    %for key, value in c.parameters.items():
+                    <dt>${key}</dt>
+                    <dd>${value}</dd>
+                    %endfor
+                </dl>
+            </dd>
+        </dl>
+
+        %for result in c.results:
+        <h4>${result['title']}</h4>
+        <table>
+	    <thead>
+	        <tr>
+		    % for header in result['headers']:
+		    <th>${header.upper()}</th>
+		    % endfor
+	        </tr>
+	    </thead>
+	    <tbody>
+	        % for i, row in enumerate(result['result']):
+	        <tr class="${'even' if (i % 2 == 0) else 'odd'}">
+		    % for column in row:
+		    <td><pre>${unicode(column)}</pre></td>
+		    % endfor
+	        </tr>
+	        % endfor
+	    </tbody>
+        </table>
+        %endfor
+    </div>
+</body>
+</html>

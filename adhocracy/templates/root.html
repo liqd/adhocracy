@@ -1,6 +1,7 @@
 <%namespace name="model" module="adhocracy.model"
 /><%namespace name="components" file="/components.html"
 /><%namespace name="navigation" file="/navigation.html"
+/><%namespace name="debug" file="/debug/tiles.html"
 /><%def name="breadcrumbs()">&nbsp</%def><%
 
 from js.jquery import jquery
@@ -13,6 +14,10 @@ jquery.need()
       <%block name="head">
       ${components.head()}
       </%block>
+
+      %if h.config.get('adhocracy.debug.sql'):
+      ${debug.styles()}
+      %endif
   </head>
 
 
@@ -177,6 +182,10 @@ jquery.need()
     
     <!-- Dummy tag to merge in wordpress scripts -->
     <div id="external_scripts" />
+    
+    %if h.config.get('adhocracy.debug.sql'):
+    ${debug.queries()}
+    %endif
 
   </body>
 </html>
