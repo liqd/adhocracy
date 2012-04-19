@@ -964,16 +964,34 @@ function instanceSearch(map) {
         }
     }
 
-    function instanceEntry( item ) {
-        var li = $('<li>',{ class: "content_box" });
-        var marker = $('<div>', { class: "marker" });
+    function instanceEntry( item, position, num ) {
+        var letter = String.fromCharCode(num + 97);
+        var li = $('<li>',{ class: 'content_box' });
+        var marker;
+        var img;
+        if (item.instance_id != "") {
+            marker = $('<div>', { class: 'marker' });
+            img = $('<img>', { class: 'marker_' + letter,
+                               src: '/images/map_marker_pink_'+letter+'.png',
+                               id: 'search_result_list_marker_' + position,
+                               alt: position
+                             });
+        } else {
+            marker = $('<div>', { class: 'bullet_marker' });
+            img = $('<img>', { class: 'bullet_marker',
+                               src: '/images/bullet.png',
+                               id: 'search_result_list_marker_' + position,
+                               alt: position
+                             });
+        }
         var h4 = $('<h4>');
         var text;
         var details;
 
         text = makeRegionNameElements(item);
         details = makeRegionDetailsElements(item);
-    
+
+        marker.append(img);
         li.append(marker);
         li.append(h4);
         h4.append(text);
@@ -989,7 +1007,11 @@ function instanceSearch(map) {
         $('#log').empty();
         $('#search_buttons').empty()
         $('#num_search_result').empty();
-        var resultText = document.createTextNode('Your search for \"' + inputValue + '\" results in ' + count + ' hits.');
+        var text = 'Your search for \"' + inputValue + '\" results in ' + count + ' ';
+        if (count == 1) text = text + 'hit';
+        else text = text + 'hits';
+        text = text + '.';
+        var resultText = document.createTextNode(text);
         $('#num_search_result').append(resultText);
     }
 
@@ -998,8 +1020,12 @@ function instanceSearch(map) {
         var count = resultList[inputValue].length;
         resetSearchField(inputValue, count);
 
+        var numInstance = 0;
         for (var i = offset; i < offset+max_rows && i < count; ++i) {
-            instanceEntry(resultList[inputValue][i]);
+            instanceEntry(resultList[inputValue][i], i, numInstance);
+            if (resultList[inputValue][i].instance_id != "") {
+                numInstance = numInstance + 1;
+            }
         }
         if(count > max_rows) {
             if (offset + max_rows > max_rows) {
@@ -1102,7 +1128,7 @@ function instanceSearch(map) {
                                         $(location).attr('href',ui.item.url);
                                     } else {
                                         resetSearchField(ui.item.label, 1);
-                                        instanceEntry(ui.item);
+                                        instanceEntry(ui.item, 0, 0);
                                     }
                                   }
                                 },
