@@ -75,12 +75,14 @@
 
     ${tiles.tag.sidebar(c.page)}
 
+    %if len(c.page.subpages):
     <h6>${_('subnorms')}</h6>
     <ol>
         %for page in sorting.delegateable_title(c.page.subpages):
         <li><a href="${h.entity_url(page)}">${page.title}</a></li>
         %endfor
     </ol>
+    %endif
     </summary>
 
 </section>
