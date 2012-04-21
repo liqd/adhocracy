@@ -884,19 +884,29 @@ $(document).ready(function () {
     $(".hidejs").hide();
 
     /* Generic buttons that show/hide an element with a specific id.
-     * Requriements:
-     * * The button needs the class showhide_button
-     * * The button needs an attribute 'data-target' with a selector
+     * Possible classes and attributes:
+     * * 'showhide_button' (class)
+     *   The button needs the class showhide_button
+     * * 'data-target' (attr)
+     *   The button needs an attribute 'data-target' with a selector
      *   string to find the target.
-     * * The button can optionally provide a classname in the attribute
+     * * 'data-toggle-class', 'data-toggle-element' (attr)
+     *   The button can optionally provide a classname in the attribute
      *   data-toggle-class. This class will be assigned to the button if
      *   it is pressed and the target is shown. If not class name is
+     *   given, the class 'hidden' will be used. If the button provides an
+     *   element selector in the attribute data-toggle-element
+     *   the class will be assigned to this
+     *   element.
+     *   it is pressed and the target is shown. If not class name is
      *   given, the class 'hidden' will be used.
-     * * The button can optionally provide a text in the attribute
+     * * 'data-toggle-text' (attr)
+     *   The button can optionally provide a text in the attribute
      *   data-toggle-text. This button will display this text if the target
      *   is button was pressed and the target is visible. If no text
      *   is given, the text of the button won't change.
-     * * The targed element needs to have an attribute 'data-cancel'
+     * * 'data-cancel' (attr)
+     *   The *targed element* needs to have an attribute 'data-cancel'
      *   containing a selector string. The click event of the matching
      *   elements *inside the target* will hide the target an unhide
      *   the button.
@@ -909,15 +919,24 @@ $(document).ready(function () {
             cancel_selector = target.data('cancel'),
             cancel = target.find(cancel_selector),
             toggle_class = self.data('toggle-class') || "hidden",
+            toggle_element_selector = self.data('toggle-element'),
+            toggle_element,
             toggle_text = self.data('toggle-text'),
             old_text = self.text();
 
-        if (self.hasClass(toggle_class)) {
-            self.removeClass(toggle_class);
+            //debugger;
+        if (toggle_element_selector) {
+            toggle_element = $(toggle_element_selector);
+        } else {
+            toggle_element = self;
+        }
+
+        if (toggle_element.hasClass(toggle_class)) {
+            toggle_element.removeClass(toggle_class);
             target.hide();
         } else {
             target.show();
-            self.addClass(toggle_class);
+            toggle_element.addClass(toggle_class);
         }
         if (toggle_text !== undefined) {
             self.text(toggle_text);
@@ -927,7 +946,7 @@ $(document).ready(function () {
         // bind a possible cancel action to show the button and hide the target
         cancel.bind('click', function (event) {
             event.preventDefault();
-            self.removeClass(toggle_class);
+            toggle_element.removeClass(toggle_class);
             target.hide();
         });
     });
