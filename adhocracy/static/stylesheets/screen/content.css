@@ -233,6 +233,10 @@ a.button_small.off:active, a.button_small.off.active {
 .hlist li {
   display: inline-block;
 }
+.nobullet {
+  list-style: none; 
+  margin-left: 0
+}
 .content_list {
   list-style: none;
   margin: 0;
@@ -338,6 +342,11 @@ section { margin-bottom: 40px; }
 
 .pager_wrapper .filter_box {
 margin: 0;
+}
+
+.pager_wrapper .sort_group {
+  float: left; 
+  padding: 0 2em 0 1em;
 }
 
 .pager_wrapper .hr {

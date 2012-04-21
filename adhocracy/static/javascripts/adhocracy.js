@@ -956,6 +956,12 @@ $(document).ready(function () {
         });
     });
 
+    $('body').delegate('select.sort_options', 'change', function (event) {
+        event.preventDefault();
+        var url = $(this).find('option:selected').data('url');
+        window.location.href = url;
+    });
+
     $('body').delegate('a.do_vote', 'click', function (event) {
         event.preventDefault();
         var self = $(this),

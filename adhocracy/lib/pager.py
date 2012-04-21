@@ -3,7 +3,7 @@ import logging
 import urllib
 
 from formencode import validators
-from pylons.i18n import _, lazy_ugettext
+from pylons.i18n import _, lazy_ugettext, lazy_ugettext as L_
 from pylons import config, request, tmpl_context as c, url
 from pylons.controllers.util import redirect
 from webob.multidict import MultiDict
@@ -340,6 +340,111 @@ class Sorts(object):
 
     def values(self):
         return self._values
+
+
+class SortOption(object):
+
+    def __init__(self, value, label, old=None, func=None):
+        self.value = value
+        self.label = label
+        self.old = old
+        self.func = func
+
+    def __call__(self, **kwargs):
+        '''
+        Factory to return a modified copy of self.
+        '''
+        value = kwargs.get('value', self.value)
+        label = kwargs.get('label', self.label)
+        old = kwargs.get('old', self.old)
+        func = kwargs.get('func', self.func)
+        return SortOption(value, label, old=old, func=func)
+
+    def __eq__(self, other):
+        return self.value == other.value
+
+
+
+class NamedSort(object):
+
+    pager = None
+
+    def __init__(self, sortoptions=tuple(), default=None,
+                 template='/pager.html', mako_def="sort_dropdown"):
+        '''
+        *sortsoptions* (iterable)
+            An list of (<groupname>, <optionslist>) tuples where
+            <optionslist> itself is a list of :class:`SortOption` s.
+        *default* (:class:`SortOption`)
+            A :class:`SortOption` object for the default sort.
+        *template* (str)
+            The (mako) Template used to render the sort options.
+        *mako_def* (str)
+            The name of the make def to use. 
+        '''
+        self.by_value = {}
+        self.by_old = {}
+        self.by_group = {}
+        self.groups = []
+        for (group_label, optionslist) in sortoptions:
+            self.add_group(group_label, optionslist)
+
+        # set the default
+        if default is not None:
+            assert default.value in self.by_value
+        self._default = default.value
+
+        self.template = template
+        self.mako_def = mako_def
+        
+    @property
+    def default(self):
+        if self._default in self.by_value:
+            return self.by_value[self._default]
+        else:
+            return self.by_group[self.groups[0]][0]
+
+    def current_value(self):
+        return request.params.get(self.pager.sort_param)
+
+    def selected(self):
+        value = self.current_value()
+
+        if value is None:
+            return self.default
+
+        try:
+            return self.by_value[value]
+        except KeyError:
+            try:
+                new_value = self.by_old[value].value
+                redirect(self.pager.build_url(sort=new_value), code=301)
+            except KeyError:
+                redirect(self.pager.build_url(sort=self.default, code=301))
+
+    def add_group(self, label, options):
+        assert (label not in self.groups), 'We do not support changing groups'
+        self.groups.append(label)
+        self.by_group[label] = options
+        for option in options:
+            assert isinstance(option, SortOption)
+            assert option.value not in self.by_value
+            self.by_value[option.value] = option
+            if option.old is not None:
+                assert option.old not in self.by_old
+                self.by_old[option.old] = option
+
+    def set_pager(self, pager):
+        self.pager = pager
+
+    def render(self):
+        return render_def(self.template, self.mako_def, sorts=self)
+
+    def grouped_options(self):
+        return [(group, self.by_group[group]) for group in self.groups]
+
+    def __len__(self):
+        return len(self.by_value.keys())
 
 
 # --[ solr pager ]----------------------------------------------------------
@@ -836,13 +941,12 @@ class SolrPager(PagerMixin):
     '''
 
     def __init__(self, name, itemfunc, entity_type=None, extra_filter=None,
-                 initial_size=20, size=None, sorts=tuple(), default_sort=None,
+                 initial_size=20, size=None, sorts=None,
                  enable_sorts=True, enable_pages=True, facets=tuple(),
                  wildcard_queries=None):
         self.name = name
         self.itemfunc = itemfunc
         self.enable_pages = enable_pages
-        self.enable_sorts = enable_sorts
         self.extra_filter = extra_filter
         self.facets = [Facet(self.name, request) for Facet in facets]
         self.wildcard_queries = wildcard_queries or {}
@@ -855,13 +959,12 @@ class SolrPager(PagerMixin):
             self.size = initial_size
         self.size = self._get_size()
 
-        self.sorts = Sorts(sorts)
-        self.default_sort = default_sort
-        if len(self.sorts.values()) and self.default_sort:
-            self.selected_sort = self.sorts.values().index(default_sort) + 1
-        else:
-            self.selected_sort = 1
-        self.selected_sort = self._get_sort()
+        self.enable_sorts = enable_sorts
+        self.sorts = sorts
+        self.sorts.set_pager(pager=self)
+        self.selected_sort = None
+        if self.sorts:
+            self.selected_sort = self.sorts.selected().value
 
         self.page = self._get_page()
 
@@ -883,14 +986,9 @@ class SolrPager(PagerMixin):
         # Add pagination and sorting
         if enable_pages:
             query = query.paginate(start=self.offset, rows=self.size)
-        if self.sorts.keys():
-            try:
-                sort_by = self.sorts.values()[self.selected_sort - 1]
-            except IndexError:
-                # if the number of sort options changes, search engine
-                # bots will still try to index the old page.
-                redirect(self.build_url(sort=1), code=301)
-            query = query.sort_by(sort_by)
+
+        if self.selected_sort is not None:
+            query = query.sort_by(self.selected_sort)
 
         # query solr and calculate values from it
         self.response = query.execute()
@@ -904,6 +1002,10 @@ class SolrPager(PagerMixin):
         for facet in self.facets:
             facet.update(self.response, self.counts_response)
         self.items = self._items_from_response(self.response)
+
+    @property
+    def sort_param(self):
+        return "%s_sort" % self.name
 
     def total_num_items(self):
         '''
@@ -943,13 +1045,6 @@ class SolrPager(PagerMixin):
         finally:
             return size
 
-    def _get_sort(self):
-        sort = request.params.get("%s_sort" % self.name)
-        if sort is None:
-            return self.selected_sort
-        else:
-            return int(sort)
-
     def render_facets(self):
         '''
         render all facets
@@ -957,30 +1052,44 @@ class SolrPager(PagerMixin):
         return render_def('/pager.html', 'facets', pager=self)
 
 
+
+OLDEST = SortOption('+create_time', L_("oldest"))
+NEWEST = SortOption('-create_time', L_("newest"))
+ACTIVITY = SortOption('-activity', L_("activity"))
+ALPHA = SortOption('order.title', L_("alphabetically"))
+PROPOSAL_SUPPORT = SortOption('-order.proposal.support', L_("support"))
+PROPOSAL_MIXED = SortOption('-order.proposal.mixed', L_('mixed'))
+
+USER_SORTS = NamedSort([[None, (OLDEST(old=1),
+                                NEWEST(old=2),
+                                ACTIVITY(old=3),
+                                ALPHA(old=4))]],
+                       default=ACTIVITY,
+                       mako_def="sort_dropdown")
+
+PROPOSAL_SORTS = NamedSort([[None, (NEWEST(old=1),
+                                    ALPHA(old=4),
+                                    PROPOSAL_MIXED(old=3))],
+                            [L_('Support'), (PROPOSAL_SUPPORT(old=2),)]],
+                           default=PROPOSAL_MIXED,
+                           mako_def="sort_slidedown")
+
+
 def solr_instance_users_pager(instance):
     extra_filter = {'facet.instances': instance.key}
     activity_sort_field = '-activity.%s' % instance.key
     pager = SolrPager('users', tiles.user.row,
                       entity_type=model.User,
-                      sorts=((_("oldest"), '+create_time'),
-                             (_("newest"), '-create_time'),
-                             (_("activity"), activity_sort_field),
-                             (_("alphabetically"), 'order.title')),
+                      sorts=USER_SORTS,
                       extra_filter=extra_filter,
-                      default_sort=activity_sort_field,
                       facets=[UserBadgeFacet])
     return pager
 
 
 def solr_global_users_pager():
-    activity_sort_field = '-activity'
     pager = SolrPager('users', tiles.user.row,
                       entity_type=model.User,
-                      sorts=((_("oldest"), '+create_time'),
-                             (_("newest"), '-create_time'),
-                             (_("activity"), activity_sort_field),
-                             (_("alphabetically"), 'order.title')),
-                      default_sort=activity_sort_field,
+                      sorts=USER_SORTS,
                       facets=[UserBadgeFacet, InstanceFacet]
                       )
     return pager
@@ -988,14 +1097,9 @@ def solr_global_users_pager():
 
 def solr_proposal_pager(instance, wildcard_queries=None):
     extra_filter = {'instance': instance.key}
-    mixed_sort = '-order.proposal.mixed'
     pager = SolrPager('proposals', tiles.proposal.row,
                       entity_type=model.Proposal,
-                      sorts=((_("newest"), '-create_time'),
-                             (_("support"), '-order.proposal.support'),
-                             (_("mixed"), mixed_sort),
-                             (_("alphabetically"), 'order.title')),
-                      default_sort=mixed_sort,
+                      sorts=PROPOSAL_SORTS,
                       extra_filter=extra_filter,
                       facets=[DelegateableBadgeCategoryFacet,
                               DelegateableBadgeFacet,
