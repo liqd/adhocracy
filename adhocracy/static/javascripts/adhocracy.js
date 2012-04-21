@@ -890,6 +890,10 @@ $(document).ready(function () {
      * * 'data-target' (attr)
      *   The button needs an attribute 'data-target' with a selector
      *   string to find the target.
+     * * 'data-target-speed' (attr)
+     *   Optionally provide a speed for jquery's show()/hide() animations.
+     *   Both strings ('slow'/'fast') and milliseconds (e.g. '400') will
+     *   work.
      * * 'data-toggle-class', 'data-toggle-element' (attr)
      *   The button can optionally provide a classname in the attribute
      *   data-toggle-class. This class will be assigned to the button if
@@ -916,6 +920,7 @@ $(document).ready(function () {
         var self = $(this),
             target_selector = self.data('target'),
             target = $(target_selector),
+            target_speed = self.data('target-speed'),
             cancel_selector = target.data('cancel'),
             cancel = target.find(cancel_selector),
             toggle_class = self.data('toggle-class') || "hidden",
@@ -933,9 +938,9 @@ $(document).ready(function () {
 
         if (toggle_element.hasClass(toggle_class)) {
             toggle_element.removeClass(toggle_class);
-            target.hide();
+            target.hide(target_speed);
         } else {
-            target.show();
+            target.show(target_speed);
             toggle_element.addClass(toggle_class);
         }
         if (toggle_text !== undefined) {
