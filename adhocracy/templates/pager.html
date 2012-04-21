@@ -227,7 +227,9 @@ print "selected:", selected
                 %if sort is selected:
                 <em>${sort.label}</em>
                 %else:
-                <a href="${sorts.pager.build_url(sort=sort.value)}">
+                <a href="${sorts.pager.build_url(sort=sort.value)}"
+                   title="${sort.description or ''}"
+                   class="${sort.description and 'ttip' or ''}">
                 ${sort.label}
                 </a>
                 %endif

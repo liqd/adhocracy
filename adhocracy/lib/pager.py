@@ -1,5 +1,7 @@
+from inspect import isclass
 import math
 import logging
+import time
 import urllib
 
 from formencode import validators
@@ -324,127 +326,6 @@ def polls(polls, default_sort=None, **kwargs):
     return NamedPager('polls', polls, tiles.poll.row,
                     default_sort=default_sort, **kwargs)
 
-
-class Sorts(object):
-    '''
-    Class to store sorting options in :class:`SolrPager`
-    '''
-
-    def __init__(self, sorts):
-        self._sorts = sorts
-        self._keys = [sort[0] for sort in sorts]
-        self._values = [sort[1] for sort in sorts]
-
-    def keys(self):
-        return self._keys
-
-    def values(self):
-        return self._values
-
-
-class SortOption(object):
-
-    def __init__(self, value, label, old=None, func=None):
-        self.value = value
-        self.label = label
-        self.old = old
-        self.func = func
-
-    def __call__(self, **kwargs):
-        '''
-        Factory to return a modified copy of self.
-        '''
-        value = kwargs.get('value', self.value)
-        label = kwargs.get('label', self.label)
-        old = kwargs.get('old', self.old)
-        func = kwargs.get('func', self.func)
-        return SortOption(value, label, old=old, func=func)
-
-    def __eq__(self, other):
-        return self.value == other.value
-
-
-
-class NamedSort(object):
-
-    pager = None
-
-    def __init__(self, sortoptions=tuple(), default=None,
-                 template='/pager.html', mako_def="sort_dropdown"):
-        '''
-        *sortsoptions* (iterable)
-            An list of (<groupname>, <optionslist>) tuples where
-            <optionslist> itself is a list of :class:`SortOption` s.
-        *default* (:class:`SortOption`)
-            A :class:`SortOption` object for the default sort.
-        *template* (str)
-            The (mako) Template used to render the sort options.
-        *mako_def* (str)
-            The name of the make def to use. 
-        '''
-        self.by_value = {}
-        self.by_old = {}
-        self.by_group = {}
-        self.groups = []
-        for (group_label, optionslist) in sortoptions:
-            self.add_group(group_label, optionslist)
-
-        # set the default
-        if default is not None:
-            assert default.value in self.by_value
-        self._default = default.value
-
-        self.template = template
-        self.mako_def = mako_def
-        
-    @property
-    def default(self):
-        if self._default in self.by_value:
-            return self.by_value[self._default]
-        else:
-            return self.by_group[self.groups[0]][0]
-
-    def current_value(self):
-        return request.params.get(self.pager.sort_param)
-
-    def selected(self):
-        value = self.current_value()
-
-        if value is None:
-            return self.default
-
-        try:
-            return self.by_value[value]
-        except KeyError:
-            try:
-                new_value = self.by_old[value].value
-                redirect(self.pager.build_url(sort=new_value), code=301)
-            except KeyError:
-                redirect(self.pager.build_url(sort=self.default, code=301))
-
-    def add_group(self, label, options):
-        assert (label not in self.groups), 'We do not support changing groups'
-        self.groups.append(label)
-        self.by_group[label] = options
-        for option in options:
-            assert isinstance(option, SortOption)
-            assert option.value not in self.by_value
-            self.by_value[option.value] = option
-            if option.old is not None:
-                assert option.old not in self.by_old
-                self.by_old[option.old] = option
-
-    def set_pager(self, pager):
-        self.pager = pager
-
-    def render(self):
-        return render_def(self.template, self.mako_def, sorts=self)
-
-    def grouped_options(self):
-        return [(group, self.by_group[group]) for group in self.groups]
-
-    def __len__(self):
-        return len(self.by_value.keys())
 
 
 # --[ solr pager ]----------------------------------------------------------
@@ -864,6 +745,16 @@ class CommentScoreIndexer(SolrIndexer):
             data[cls.solr_field] = entity.poll.tally.score
 
 
+class CommentScoreIndexer(SolrIndexer):
+
+    solr_field = 'order.comment.score'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Comment):
+            data[cls.solr_field] = entity.poll.tally.score
+
+
 class NormNumSelectionsIndexer(SolrIndexer):
 
     solr_field = 'order.norm.num_selections'
@@ -886,6 +777,28 @@ class NormNumVariantsIndexer(SolrIndexer):
             data[cls.solr_field] = len(entity.selections)
 
 
+class ProposalNumCommentsIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.comments'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Delegateable):
+            data[cls.solr_field] = len(entity.comments)
+
+
+class ProposalNewestCommentsIndexer(SolrIndexer):
+
+    solr_field = 'order.newestcomment'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            if entity.comment_count() > 0:
+                commenttime = entity.find_latest_comment_time()
+                value = time.mktime(commenttime.timetuple())
+                data[cls.solr_field] = value
+
 class ProposalSupportIndexer(SolrIndexer):
 
     solr_field = 'order.proposal.support'
@@ -893,8 +806,42 @@ class ProposalSupportIndexer(SolrIndexer):
     @classmethod
     def add_data_to_index(cls, entity, data):
         if isinstance(entity, model.Proposal):
-            data[cls.solr_field] = entity.rate_poll.tally.num_for
+            data[cls.solr_field] = entity.rate_poll.tally.score
 
+
+class ProposalVotesIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.votes'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            tally = entity.rate_poll.tally
+            data[cls.solr_field] = tally.num_for + tally.num_against
+
+
+class ProposalVotesYesIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.yesvotes'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            tally = entity.rate_poll.tally
+            data[cls.solr_field] = tally.num_for
+    
+
+
+class ProposalVotesNoIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.novotes'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            tally = entity.rate_poll.tally
+            data[cls.solr_field] = tally.num_against
+    
 
 class ProposalMixedIndexer(SolrIndexer):
 
@@ -906,7 +853,7 @@ class ProposalMixedIndexer(SolrIndexer):
             data[cls.solr_field] = sorting.proposal_mixed_key(entity)
 
 
-class UserActivityIndexer(SolrIndexer):
+class InstanceUserActivityIndexer(SolrIndexer):
 
     @classmethod
     def solr_field(cls, instance=None):
@@ -924,15 +871,6 @@ class UserActivityIndexer(SolrIndexer):
                 data[cls.solr_field(instance)] = activity
                 activity_sum = activity_sum + activity
             data[cls.solr_field()] = activity_sum
-
-
-INDEX_DATA_FINDERS = [UserBadgeFacet, InstanceFacet,
-                      CommentOrderIndexer, CommentScoreIndexer,
-                      DelegateableAddedByBadgeFacet, DelegateableBadgeFacet,
-                      DelegateableTags, DelegateableBadgeCategoryFacet,
-                      NormNumSelectionsIndexer, NormNumSelectionsIndexer,
-                      ProposalSupportIndexer, ProposalMixedIndexer,
-                      UserActivityIndexer]
 
 
 class SolrPager(PagerMixin):
@@ -1052,13 +990,127 @@ class SolrPager(PagerMixin):
         return render_def('/pager.html', 'facets', pager=self)
 
 
+class SortOption(object):
 
-OLDEST = SortOption('+create_time', L_("oldest"))
-NEWEST = SortOption('-create_time', L_("newest"))
-ACTIVITY = SortOption('-activity', L_("activity"))
-ALPHA = SortOption('order.title', L_("alphabetically"))
-PROPOSAL_SUPPORT = SortOption('-order.proposal.support', L_("support"))
-PROPOSAL_MIXED = SortOption('-order.proposal.mixed', L_('mixed'))
+    def __init__(self, value, label, old=None, func=None, description=None):
+        self.value = value
+        self.label = label
+        self.old = old
+        self.func = func
+        self.description = description
+
+    def __call__(self, **kwargs):
+        '''
+        Factory to return a modified copy of self.
+        '''
+        value = kwargs.get('value', self.value)
+        label = kwargs.get('label', self.label)
+        old = kwargs.get('old', self.old)
+        func = kwargs.get('func', self.func)
+        description = kwargs.get('description', self.description)
+        return SortOption(value, label, old=old, func=func,
+                          description=description)
+
+    def __eq__(self, other):
+        return self.value == other.value
+
+
+
+class NamedSort(object):
+
+    pager = None
+
+    def __init__(self, sortoptions=tuple(), default=None,
+                 template='/pager.html', mako_def="sort_dropdown"):
+        '''
+        *sortsoptions* (iterable)
+        An list of (<groupname>, <optionslist>) tuples where
+        <optionslist> itself is a list of :class:`SortOption` s.
+        *default* (:class:`SortOption`)
+        A :class:`SortOption` object for the default sort.
+        *template* (str)
+        The (mako) Template used to render the sort options.
+        *mako_def* (str)
+        The name of the make def to use. 
+        '''
+        self.by_value = {}
+        self.by_old = {}
+        self.by_group = {}
+        self.groups = []
+        for (group_label, optionslist) in sortoptions:
+            self.add_group(group_label, optionslist)
+
+        # set the default
+        if default is not None:
+            assert default.value in self.by_value
+            self._default = default.value
+
+        self.template = template
+        self.mako_def = mako_def
+        
+    @property
+    def default(self):
+        if self._default in self.by_value:
+            return self.by_value[self._default]
+        else:
+            return self.by_group[self.groups[0]][0]
+
+    def current_value(self):
+        return request.params.get(self.pager.sort_param)
+
+    def selected(self):
+        value = self.current_value()
+
+        if value is None:
+            return self.default
+
+        try:
+            return self.by_value[value]
+        except KeyError:
+            try:
+                new_value = self.by_old[value].value
+                redirect(self.pager.build_url(sort=new_value), code=301)
+            except KeyError:
+                redirect(self.pager.build_url(sort=self.default, code=301))
+
+    def add_group(self, label, options):
+        assert (label not in self.groups), 'We do not support changing groups'
+        self.groups.append(label)
+        self.by_group[label] = options
+        for option in options:
+            assert isinstance(option, SortOption)
+            assert option.value not in self.by_value
+            self.by_value[option.value] = option
+            if option.old is not None:
+                assert option.old not in self.by_old
+                self.by_old[option.old] = option
+
+    def set_pager(self, pager):
+        self.pager = pager
+
+    def render(self):
+        return render_def(self.template, self.mako_def, sorts=self)
+
+    def grouped_options(self):
+        return [(group, self.by_group[group]) for group in self.groups]
+
+    def __len__(self):
+        return len(self.by_value.keys())
+
+
+OLDEST = SortOption('+create_time', L_("Oldest"))
+NEWEST = SortOption('-create_time', L_("Newest"))
+NEWEST_COMMENT = SortOption('-order.newestcomment', L_("Newest Comment"))
+ACTIVITY = SortOption('-activity', L_("Activity"))
+ALPHA = SortOption('order.title', L_("Alphabetically"))
+PROPOSAL_SUPPORT = SortOption('-order.proposal.support', L_("Most Support"),
+                              description=L_('Yays - nays'))
+PROPOSAL_VOTES = SortOption('-order.proposal.votes', L_("Most Votes"),
+                              description=L_('Yays + nays'))
+PROPOSAL_YES_VOTES = SortOption('-order.proposal.yesvotes', L_("Most Ayes"))
+PROPOSAL_NO_VOTES = SortOption('-order.proposal.novotes', L_("Most Nays"))
+PROPOSAL_MIXED = SortOption('-order.proposal.mixed', L_('Mixed'),
+                              description=L_('Age and Support'))
 
 USER_SORTS = NamedSort([[None, (OLDEST(old=1),
                                 NEWEST(old=2),
@@ -1067,10 +1119,14 @@ USER_SORTS = NamedSort([[None, (OLDEST(old=1),
                        default=ACTIVITY,
                        mako_def="sort_dropdown")
 
-PROPOSAL_SORTS = NamedSort([[None, (NEWEST(old=1),
-                                    ALPHA(old=4),
-                                    PROPOSAL_MIXED(old=3))],
-                            [L_('Support'), (PROPOSAL_SUPPORT(old=2),)]],
+PROPOSAL_SORTS = NamedSort([[L_('Date'), (NEWEST(old=1, label=L_('Newest Proposals')),
+                                          NEWEST_COMMENT)],
+                            [L_('Support'), (PROPOSAL_SUPPORT(old=2),
+                                             PROPOSAL_VOTES,
+                                             PROPOSAL_YES_VOTES,
+                                             PROPOSAL_NO_VOTES)],
+                            [L_('Other'), (ALPHA(old=4),
+                                           PROPOSAL_MIXED(old=3))]],
                            default=PROPOSAL_MIXED,
                            mako_def="sort_slidedown")
 
@@ -1107,3 +1163,9 @@ def solr_proposal_pager(instance, wildcard_queries=None):
                               DelegateableTags],
                       wildcard_queries=wildcard_queries)
     return pager
+
+
+INDEX_DATA_FINDERS = [v for v in globals().values() if
+                      (isclass(v) and issubclass(v, SolrIndexer) and
+                      ((v is not SolrFacet) and (v is not SolrIndexer)))]
+
