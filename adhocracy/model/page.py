@@ -335,6 +335,9 @@ class Page(Delegateable):
 
     def to_index(self):
         index = super(Page, self).to_index()
+        if self.function == self.DESCRIPTION:
+            index['skip'] = True
+            return index
         if self.head is not None:
             index.update(dict(
                 body=self.head.text,
