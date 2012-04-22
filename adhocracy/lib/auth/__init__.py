@@ -29,6 +29,7 @@ class AuthModuleWrapper(object):
     import selection
     import variant
     import milestone
+    import badge
 
 
 class RecursiveAuthWrapper(object):
