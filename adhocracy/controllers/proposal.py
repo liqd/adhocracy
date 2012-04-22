@@ -410,21 +410,46 @@ class ProposalController(BaseController):
             return True
         return False
 
-    @ActionProtector(authorization.has_permission("global.admin"))
-    def badges(self, id, errors=None):
-        c.badges = model.Badge.all_delegateable() \
-                   + model.Badge.all_delegateable(c.instance)
+    @classmethod
+    def _editable_badges(cls, proposal):
+        '''
+        Return the badges editable that can be assigned by the current
+        user.
+        '''
+        badges = []
+        if can.badge.edit_instance():
+            badges.extend(model.Badge.all_delegateable(instance=c.instance))
+        if can.badge.edit_global():
+            badges.extend(model.Badge.all_delegateable(instance=None))
+        badges = sorted(badges, key=lambda badge: badge.title)
+        return badges
+
+    @ActionProtector(authorization.has_permission("instance.admin"))
+    def badges(self, id, errors=None, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        c.badges = self._editable_badges(c.proposal)
         defaults = {'badge': [str(badge.id) for badge in c.proposal.badges]}
+        if format == 'ajax':
+            checked = [badge.id for badge in c.proposal.badges]
+            json = {'title': c.proposal.title,
+                    'badges': [{
+                        'id': badge.id,
+                        'description': badge.description,
+                        'title': badge.title,
+                        'checked': badge.id in checked} for badge in c.badges]}
+            return render_json(json)
+
         return formencode.htmlfill.render(
             render("/proposal/badges.html"),
             defaults=defaults)
 
     @RequireInternalRequest()
     @validate(schema=DelegateableBadgesForm(), form='badges')
-    @ActionProtector(authorization.has_permission("global.admin"))
-    def update_badges(self, id):
+    @ActionProtector(authorization.has_permission("instance.admin"))
+    @csrf.RequireInternalRequest(methods=['POST'])
+    def update_badges(self, id, format='html'):
         proposal = get_entity_or_abort(model.Proposal, id)
+        editable_badges = self._editable_badges(proposal)
         badges = self.form_result.get('badge')
         redirect_to_proposals = self.form_result.get('redirect_to_proposals')
         creator = c.user
@@ -432,6 +457,9 @@ class ProposalController(BaseController):
         added = []
         removed = []
         for badge in proposal.badges:
+            if badge not in editable_badges:
+                # the user can not edit the badge, so we don't remove it
+                continue
             if badge not in badges:
                 removed.append(badge)
                 proposal.badges.remove(badge)
@@ -443,6 +471,10 @@ class ProposalController(BaseController):
 
         model.meta.Session.commit()
         post_update(proposal, model.update.UPDATE)
+        if format == 'ajax':
+            obj = {'html': render_def('/badge/tiles.html', 'badges',
+                                      badges=proposal.badges)}
+            return render_json(obj)
         if redirect_to_proposals:
             redirect("/proposal")
         redirect(h.entity_url(proposal))

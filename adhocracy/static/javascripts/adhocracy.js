@@ -10,6 +10,8 @@
  *
  */
 
+var alert = window.alert;
+
 // Make sure we have an "adhocracy" and namespace.
 var adhocracy = adhocracy || {};
 
@@ -48,6 +50,85 @@ var adhocracy = adhocracy || {};
      ***************************************************/
 
     adhocracy.namespace('adhocracy.ko');
+
+    adhocracy.ko.Badge = function (data) {
+        var self = this;
+        this.id = ko.observable(data.id);
+        this.title = ko.observable(data.title);
+        this.description = ko.observable(data.description);
+        this.checked = ko.observable(data.checked);
+        this.css_class = ko.computed(function () {
+            return 'badge badge_' + self.id();
+        });
+    };
+
+    adhocracy.ko.Badges = function () {
+        var self = this;
+        this.id = ko.observable();
+        this.title = ko.observable();
+        this.badges = ko.observableArray();
+        this.clear = function () {
+            self.id(undefined);
+            self.title(undefined);
+            self.badges([]);
+        };
+        this.load = function (id, callback) {
+            self.id(id);
+            var url = '/proposal/' + id + '/badges.ajax';
+            $.get(url, function (data) {
+                ko.mapping.fromJS(data, self.mapping, self);
+                callback();
+            }, 'json').error(
+                function (_, textStatus) {
+                    alert('Could not get the badges: ' + textStatus);
+                }
+            );
+        };
+        this.save = function (callback) {
+            var url = '/proposal/' + self.id() + '/update_badges.ajax?',
+                parameters = $('#edit_badges').serialize();
+            $.post(url, parameters, function (data) {
+                $('#badges_' + self.id()).html(data.html);
+                callback();
+            }, 'json').error(function (_, txt) {
+                alert(txt);
+            });
+        };
+        this.mapping = {
+            badges: {
+                create: function (options) {
+                    return new adhocracy.ko.Badge(options.data);
+                }
+            }
+        };
+    };
+
+    adhocracy.ko.editBadges = function () {
+        var self = this,
+            overlay_container;
+        this.selected = new adhocracy.ko.Badges();
+        this.cancel = function () {
+            self.selected.clear();
+            self.overlay_container.overlay().close();
+        };
+        this.edit = function (event) {
+            var id = $(event.target).parent().find('.badges').data('id');
+            self.selected.load(id, function () {
+                self.overlay_container.overlay().load();
+            });
+        };
+        this.save = function () {
+            self.selected.save(self.cancel);
+        };
+        this.applyToPager = function (selector) {
+            var containers = $(selector).find('.badges').parent();
+            containers.append('<a href="#" class="btn btn-mini edit" ' +
+                              'data-bind="click: edit">Edit Badges</a>');
+            self.overlay_container = $('#edit_badges_container');
+            self.overlay_container.overlay();
+            ko.applyBindings(self, $(selector)[0]);
+        };
+    };
 
     /**
      * Example for an json object returned for variants.
