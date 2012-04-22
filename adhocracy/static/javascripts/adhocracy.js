@@ -183,7 +183,7 @@ var adhocracy = adhocracy || {};
              * @type bool (observable)
              * @default
              */
-            switchDiff: ko.observable(true),
+            switchDiff: ko.observable(false),
             /**
              * The current
              * @property switchDiff
