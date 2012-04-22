@@ -108,9 +108,9 @@ class Badge(object):
         Without instance it only returns badges not bound to an instance.
         With instance it only returns badges bound to that instance.
         '''
-        result = cls.all_q().filter(Badge.badge_delegateable == True).all()
-        result = [b for b in result if b.instance == instance]
-        return result
+        q = cls.all_q().filter(Badge.badge_delegateable == True)
+        q = q.filter(Badge.instance == instance)
+        return q.all()
 
     @classmethod
     def all_delegateable_categories(cls, instance=None):
