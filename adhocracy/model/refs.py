@@ -151,7 +151,6 @@ def to_entity(ref, instance_filter=False, include_deleted=True):
 def to_entities(refs):
     '''
     Return the entities referenced by refs (see :func:`to_ref`).
-    It only works if if all refs reference the same entity type.
     The entities are returned in the same order as refs
 
     *refs' (list of strings)
@@ -164,42 +163,48 @@ def to_entities(refs):
         :exc:`ValueError` if the refs do not reference the same entity
         type
     '''
-    cls = None
-    ids = []
+    ids = {}
     for ref in refs:
         match = FORMAT.match(unicode(ref))
         if not match:
             continue
         refcls = match.group(1)
         refid = match.group(2)
-        if cls is not None and refcls != cls:
-            raise ValueError('all refs have to be refs to the same '
-                             'cls/entity type')
-        cls = refcls
-        ids.append(refid)
+        ids.setdefault(refcls, []).append(refid)
 
-    entity_class = TYPES_MAP[cls]
-    return get_entities(entity_class, ids)
+    all = {}
+    for cls in ids:
+        entity_class = TYPES_MAP[cls]
+        entities = get_entities(entity_class, ids[cls], order=False)
+        for entity in entities:
+            all[to_ref(entity)] = entity
+
+    return [all[ref] for ref in refs]
 
 
-def get_entities(entity_class, ids):
+def get_entities(entity_class, ids, order=True):
     '''
     Return all entities of the type *entity_class* where id is
-    in *ids* in the order as in *ids*.
+    in *ids*.
 
     *entity_class*
        An slqalchemy model class.
     *ids* (list of int)
        A list of ids.
-
+    *order* (boolean)
+       Return the entities in the same order as *ids* (default: True)
     Returns
        A list of model objects
     '''
     from meta import Session
     db_mapper_attr = ref_attr_value(entity_class)
     q = Session.query(entity_class).filter(db_mapper_attr.in_(ids))
-    all_map = dict((str(ref_attr_value(entity)), entity) for entity in q.all())
 
+    if not order:
+        return q.all()
+
+    # order == True: get and order the results
+    all_map = dict((str(ref_attr_value(entity)), entity) for entity in q.all())
     ordered_results = []
     for id_ in ids:
         entity = all_map.get(str(id_))
