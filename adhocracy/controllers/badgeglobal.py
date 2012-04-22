@@ -5,7 +5,7 @@ from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
-from repoze.what.plugins.pylonshq import ControllerProtector, ActionProtector
+from repoze.what.plugins.pylonshq import ControllerProtector
 
 from adhocracy.forms.common import ValidGroup, ValidHTMLColor, ContainsChar
 from adhocracy.model import Badge, Group, meta
@@ -16,19 +16,20 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render
 
 
-
 #FIX: Translations
 #FIX: HTML/CSS Error message ist wrong
 def badgeforminvariant(value_dict, state, validator):
     is_delegateable = value_dict.get('badge_delegateable', "off")
     is_category = value_dict.get('badge_delegateable_category', "off")
     if is_category == is_delegateable == "on":
-        return {'state': 'You must not select both "Badge proposal category" and "Badge proposal"'}
+        return {'state': ('You must not select both "Badge '
+                          'proposal category" and "Badge proposal"')}
 BadgeFormInvariant = SimpleFormValidator(badgeforminvariant)
+
 
 class BadgeForm(formencode.Schema):
     allow_extra_fields = True
-    pre_validators = [BadgeFormInvariant,]
+    pre_validators = [BadgeFormInvariant]
     title = All(validators.String(max=40, not_empty=True),
                 ContainsChar())
     description = validators.String(max=255)
@@ -50,7 +51,8 @@ class BadgeBaseController(BaseController):
         #require.user.manage()
         c.badges_users = Badge.all_user(c.instance)
         c.badges_delegateables = Badge.all_delegateable(c.instance)
-        c.badges_delegateable_categories = Badge.all_delegateable_categories(c.instance)
+        c.badges_delegateable_categories = Badge.all_delegateable_categories(
+            c.instance)
         return render("/badge/index.html")
 
     def _redirect_not_found(self, id):
@@ -74,12 +76,13 @@ class BadgeBaseController(BaseController):
         color = self.form_result.get('color').strip()
         group = self.form_result.get('group')
         display_group = self.form_result.get('display_group')
-        badge_delegateable = \
-                bool(self.form_result.get('badge_delegateable', ''))
-        badge_delegateable_category = \
-                bool(self.form_result.get('badge_delegateable_category', ''))
-        badge = Badge.create(title, color, description, group, display_group,
-                badge_delegateable, badge_delegateable_category, c.instance )
+        badge_delegateable = bool(self.form_result.get('badge_delegateable',
+                                                       ''))
+        badge_delegateable_category = bool(self.form_result.get(
+            'badge_delegateable_category', ''))
+        Badge.create(title, color, description, group, display_group,
+                     badge_delegateable, badge_delegateable_category,
+                     c.instance)
         redirect(self.base_url)
 
     def edit(self, id, errors=None):
@@ -90,13 +93,14 @@ class BadgeBaseController(BaseController):
         if badge is None:
             self._redirect_not_found(id)
         group_default = badge.group and badge.group.code or ''
+        category = badge.badge_delegateable_category
         defaults = dict(title=badge.title,
                         description=badge.description,
                         color=badge.color,
                         group=group_default,
                         display_group=badge.display_group,
                         badge_delegateable=badge.badge_delegateable,
-                        badge_delegateable_category=badge.badge_delegateable_category,
+                        badge_delegateable_category=category
                         )
 
         return htmlfill.render(render("/badge/form.html"),
@@ -132,4 +136,3 @@ class BadgeBaseController(BaseController):
 @ControllerProtector(has_permission("global.admin"))
 class BadgeglobalController(BadgeBaseController):
     """Badge controller with security checking"""
-

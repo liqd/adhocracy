@@ -2,7 +2,6 @@ import logging
 
 import formencode
 from pylons import request, tmpl_context as c
-from pylons.i18n import _
 
 from repoze.what.plugins.pylonshq import ActionProtector
 
@@ -88,7 +87,8 @@ class AdminController(BaseController):
                                                   user.reset_code))
                 user_info['url'] = url
                 body = form_result['email_template'].format(**user_info)
-                to_user(user, form_result['email_subject'], body, decorate_body=False)
+                to_user(user, form_result['email_subject'], body,
+                        decorate_body=False)
                 mailed.append(user.user_name)
                 if c.instance:
                     membership = model.Membership(user, c.instance,

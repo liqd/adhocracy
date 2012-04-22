@@ -60,7 +60,7 @@ class Notification(object):
         tpl_vars = {'n': self, 'e': self.event, 'u': self.user, 't': self.type}
 
         tpl_name = self.TPL_NAME % (str(self.type), locale.language[0:2])
-        tpl_path = os.path.join(templates.__path__[0], tpl_name) 
+        tpl_path = os.path.join(templates.__path__[0], tpl_name)
 
         if not os.path.exists(tpl_path):
             log.warn("Notification body needs to be localized to "

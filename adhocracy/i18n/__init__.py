@@ -9,7 +9,7 @@ from pylons.i18n import _, add_fallback, set_lang
 from pylons import config, tmpl_context as c
 
 
-LOCALES = [babel.Locale('de', 'DE'), 
+LOCALES = [babel.Locale('de', 'DE'),
            babel.Locale('en', 'US'),
            babel.Locale('fr', 'FR'),
            babel.Locale('ru', 'RU')]
@@ -114,4 +114,3 @@ def relative_time(dt):
     fmt = "<time class='ts' datetime='%(iso)sZ'>%(formatted)s</time>"
     formatted = "%s %s" % (format_date(dt), format_time(dt))
     return fmt % dict(iso=dt.isoformat(), formatted=formatted)
-

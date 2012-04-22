@@ -1,7 +1,7 @@
 import logging
 
 import formencode
-from formencode import Any, htmlfill, Invalid, validators
+from formencode import htmlfill, Invalid, validators
 
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
@@ -204,9 +204,11 @@ class ProposalController(BaseController):
         # all available categories
         c.categories = model.Badge.all_delegateable_categories(c.instance)
 
-        # categories for this proposal (single category not assured in db model)
-        categories = [b for b in c.proposal.badges if b.badge_delegateable_category]
-        c.category = categories[0] if len(categories)==1 else None
+        # categories for this proposal
+        # (single category not assured in db model)
+        categories = [b for b in c.proposal.badges if
+                      b.badge_delegateable_category]
+        c.category = categories[0] if len(categories) == 1 else None
 
         force_defaults = False
         if errors:
@@ -235,10 +237,11 @@ class ProposalController(BaseController):
         c.proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.add(c.proposal)
 
-        [c.proposal.badges.remove(b) for b in c.proposal.badges if b.badge_delegateable_category]
+        [c.proposal.badges.remove(b) for b in c.proposal.badges if
+         b.badge_delegateable_category]
 
         badge = self.form_result.get('category')
-        if len(badge)==1:
+        if len(badge) == 1:
             model.DelegateableBadge(c.proposal, badge[0], c.user)
 
         if self._can_edit_wiki(c.proposal, c.user):

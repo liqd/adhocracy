@@ -14,4 +14,3 @@ class BadgeinstanceController(BadgeBaseController):
     @property
     def base_url(self):
         return h.entity_url(c.instance) + "/badge"
-

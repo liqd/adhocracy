@@ -1,6 +1,5 @@
 """Helper classes to allow function testing with a testbrowser"""
 import os.path
-import unittest
 from paste.deploy import loadapp
 import zope.testbrowser.wsgi
 from repoze.tm import TM
@@ -25,9 +24,11 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
         return app
 
     def setUp(test, *args, **kwargs):
-        print("\n-----------------------------------------------------------------"
-              "\n---    Setting up database test environment, please stand by. ---"
-              "\n-----------------------------------------------------------------\n")
+        print(
+            "\n--------------------------------------------------------------"
+            "\n--- Setting up database test environment, please stand by. ---"
+            "\n--------------------------------------------------------------"
+            "\n")
         #TODO start solr and co
 
     def tearDown(self, test):

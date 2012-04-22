@@ -16,7 +16,6 @@ Session = None
 data = MetaData()
 
 
-
 class Indexable(object):
 
     def to_index(self):
@@ -30,6 +29,7 @@ class Indexable(object):
         if hasattr(self, 'create_time'):
             index['create_time'] = self.create_time.strftime("%s")
         for indexer in INDEX_DATA_FINDERS:
+            print indexer
             indexer.add_data_to_index(self, index)
 
         return index

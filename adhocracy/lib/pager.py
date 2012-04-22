@@ -23,6 +23,9 @@ PAGE_VALIDATOR = validators.Int(min=1, not_empty=True)
 SIZE_VALIDATOR = validators.Int(min=1, max=250, not_empty=True)
 
 
+marker = object()
+
+
 def sort_key_getter(item):
     entity = item.get('entity', None)
     if entity:
@@ -327,7 +330,6 @@ def polls(polls, default_sort=None, **kwargs):
                     default_sort=default_sort, **kwargs)
 
 
-
 # --[ solr pager ]----------------------------------------------------------
 
 class SolrIndexer(object):
@@ -338,7 +340,7 @@ class SolrIndexer(object):
 
     @classmethod
     def add_data_to_index(cls, entity, data):
-        '''
+        """
         Add data from/based on *entity* to *data* which will be
         indexed in solr. Add information to it *data* or modify
         it. You don't need to return it.
@@ -349,11 +351,8 @@ class SolrIndexer(object):
            The data that will be send to solr.
 
         Return *None*
-        '''
+        """
         raise NotImplemented('has to be implemented in subclass')
-
-
-marker = object()
 
 
 class SolrFacet(SolrIndexer):
@@ -799,6 +798,7 @@ class ProposalNewestCommentsIndexer(SolrIndexer):
                 value = time.mktime(commenttime.timetuple())
                 data[cls.solr_field] = value
 
+
 class ProposalSupportIndexer(SolrIndexer):
 
     solr_field = 'order.proposal.support'
@@ -829,7 +829,6 @@ class ProposalVotesYesIndexer(SolrIndexer):
         if isinstance(entity, model.Proposal):
             tally = entity.rate_poll.tally
             data[cls.solr_field] = tally.num_for
-    
 
 
 class ProposalVotesNoIndexer(SolrIndexer):
@@ -841,7 +840,7 @@ class ProposalVotesNoIndexer(SolrIndexer):
         if isinstance(entity, model.Proposal):
             tally = entity.rate_poll.tally
             data[cls.solr_field] = tally.num_against
-    
+
 
 class ProposalMixedIndexer(SolrIndexer):
 
@@ -1015,7 +1014,6 @@ class SortOption(object):
         return self.value == other.value
 
 
-
 class NamedSort(object):
 
     pager = None
@@ -1024,14 +1022,14 @@ class NamedSort(object):
                  template='/pager.html', mako_def="sort_dropdown"):
         '''
         *sortsoptions* (iterable)
-        An list of (<groupname>, <optionslist>) tuples where
-        <optionslist> itself is a list of :class:`SortOption` s.
+            An list of (<groupname>, <optionslist>) tuples where
+            <optionslist> itself is a list of :class:`SortOption` s.
         *default* (:class:`SortOption`)
-        A :class:`SortOption` object for the default sort.
+            A :class:`SortOption` object for the default sort.
         *template* (str)
-        The (mako) Template used to render the sort options.
+            The (mako) Template used to render the sort options.
         *mako_def* (str)
-        The name of the make def to use. 
+            The name of the make def to use.
         '''
         self.by_value = {}
         self.by_old = {}
@@ -1047,7 +1045,7 @@ class NamedSort(object):
 
         self.template = template
         self.mako_def = mako_def
-        
+
     @property
     def default(self):
         if self._default in self.by_value:
@@ -1119,7 +1117,8 @@ USER_SORTS = NamedSort([[None, (OLDEST(old=1),
                        default=ACTIVITY,
                        mako_def="sort_dropdown")
 
-PROPOSAL_SORTS = NamedSort([[L_('Date'), (NEWEST(old=1, label=L_('Newest Proposals')),
+PROPOSAL_SORTS = NamedSort([[L_('Date'), (NEWEST(old=1,
+                                                 label=L_('Newest Proposals')),
                                           NEWEST_COMMENT)],
                             [L_('Support'), (PROPOSAL_SUPPORT(old=2),
                                              PROPOSAL_VOTES,
@@ -1133,7 +1132,6 @@ PROPOSAL_SORTS = NamedSort([[L_('Date'), (NEWEST(old=1, label=L_('Newest Proposa
 
 def solr_instance_users_pager(instance):
     extra_filter = {'facet.instances': instance.key}
-    activity_sort_field = '-activity.%s' % instance.key
     pager = SolrPager('users', tiles.user.row,
                       entity_type=model.User,
                       sorts=USER_SORTS,
@@ -1168,4 +1166,3 @@ def solr_proposal_pager(instance, wildcard_queries=None):
 INDEX_DATA_FINDERS = [v for v in globals().values() if
                       (isclass(v) and issubclass(v, SolrIndexer) and
                       ((v is not SolrFacet) and (v is not SolrIndexer)))]
-

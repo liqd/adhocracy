@@ -97,9 +97,8 @@ class Badge(object):
         Without instance it only returns badges not bound to an instance.
         With instance it only returns badges bound to that instance.
         """
-        result = cls.all_q().all()
-        result = [b for b in result if b.instance == instance]
-        return result
+        q = cls.all_q().filter(Badge.instance == instance)
+        return q.all()
 
     @classmethod
     def all_delegateable(cls, instance=None):
@@ -120,9 +119,9 @@ class Badge(object):
         Without instance it only return badges not bound to an instance.
         With instance it only returns badges bound to that instance.
         '''
-        result = cls.all_q().filter(Badge.badge_delegateable_category == True).all()
-        result = [b for b in result if b.instance == instance]
-        return result
+        q = cls.all_q().filter(Badge.badge_delegateable_category == True)
+        q = q.filter(Badge.instance == instance)
+        return q.all()
 
     @classmethod
     def all_user(cls, instance=None):
@@ -131,11 +130,11 @@ class Badge(object):
         Without instance it only return badges not bound to an instance.
         With instance it only returns badges bound to that instance.
         '''
-        result = cls.all_q().filter(and_(\
-                    Badge.badge_delegateable_category == False,
-                    Badge.badge_delegateable == False)).all()
-        result = [b for b in result if b.instance == instance]
-        return result
+        q = cls.all_q().filter(
+            and_(Badge.badge_delegateable_category == False,
+                 Badge.badge_delegateable == False))
+        q = q.filter(Badge.instance == instance)
+        return q.all()
 
     @classmethod
     def create(cls, title, color, description, group=None,
@@ -155,6 +154,7 @@ class Badge(object):
         return badge
 
     def to_dict(self):
+        badge_delegateable_category = self.badge_delegateable_category
         return dict(id=self.id,
                     title=self.title,
                     color=self.color,
@@ -162,5 +162,5 @@ class Badge(object):
                     display_group=self.display_group,
                     users=[user.name for user in self.users],
                     badge_delegateable=self.badge_delegateable,
-                    badge_delegateable_category=self.badge_delegateable_category,
+                    badge_delegateable_category=badge_delegateable_category,
                     instance=self.instance)

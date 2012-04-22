@@ -20,7 +20,7 @@ class InstanceDiscriminatorMiddleware(object):
         if instance_key is None:
             host = host.replace(self.domain, "")
             host = host.split(':', 1)[0]
-            host = host.strip('.').strip() 
+            host = host.strip('.').strip()
             instance_key = host
 
         if len(instance_key):

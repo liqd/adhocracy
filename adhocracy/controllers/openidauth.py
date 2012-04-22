@@ -236,5 +236,6 @@ class OpenidauthController(BaseController):
             redirect('/register')
 
     def xrds(self):
-        response.headers['Content-Type'] = "application/xrds+xml; charset=utf-8"
+        response.headers['Content-Type'] = ("application/xrds+xml; "
+                                            "charset=utf-8")
         return render('/openid/xrds.xml')

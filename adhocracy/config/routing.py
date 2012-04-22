@@ -209,9 +209,11 @@ def make_map():
                 conditions=dict(method=['POST']))
     map.connect('/instance/{instance_key}/badge', controller='badgeinstance',
                 action='index', conditions=dict(method=['GET']))
-    map.connect('/instance/{instance_key}/badge/add', controller='badgeinstance',
+    map.connect('/instance/{instance_key}/badge/add',
+                controller='badgeinstance',
                 action='add', conditions=dict(method=['GET']))
-    map.connect('/instance/{instance_key}/badge/add', controller='badgeinstance',
+    map.connect('/instance/{instance_key}/badge/add',
+                controller='badgeinstance',
                 action='create', conditions=dict(method=['POST']))
     map.connect('/instance/{instance_key}/badge/edit/{id}',
             controller='badgeinstance',

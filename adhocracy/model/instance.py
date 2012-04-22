@@ -227,7 +227,7 @@ class Instance(meta.Indexable):
                  allow_index=self.allow_index,
                  hidden=self.hidden,
                  url=h.entity_url(self),
-                 instance_url=url.instance_url(self),
+                 instance_url=h.instance.url(self),
                  default_group=self.default_group.code,
                  create_time=self.create_time)
         if self.description:

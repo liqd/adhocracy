@@ -303,7 +303,7 @@ class User(meta.Indexable):
 
     def delete(self, delete_time=None):
         from watch import Watch
-        
+
         if delete_time is None:
             delete_time = datetime.utcnow()
         self.revoke_delegations()

@@ -632,7 +632,7 @@ class UserController(BaseController):
     @ActionProtector(has_permission("global.admin"))
     def badges(self, id, errors=None):
         c.badges = model.Badge.all_user()
-        c.page_user =  get_entity_or_abort(model.User, id)
+        c.page_user = get_entity_or_abort(model.User, id)
         instances = c.page_user and c.page_user.instances or []
         c.instance_badges = [{"label":i.label,
                               "badges":model.Badge.all_user(instance=i)}\
