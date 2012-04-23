@@ -40,6 +40,15 @@ var styleProps = {
     strokeOpacity: 0.8
 };
 
+var styleTransparentProps = {
+    pointRadius: 5,
+    fillColor: "#ffffff",
+    fillOpacity: 0.0,
+    strokeColor: "#ffffff",
+    strokeWidth: 1,
+    strokeOpacity: 0.0
+}
+
 var styleSelect = { 
     pointRadius: 5,
     fillColor: "#e82b2b",
@@ -62,7 +71,7 @@ var styleArea = {
 };
 
 var easteregg = true;
-var styleTransparent = {
+var styleEasteregg = {
     fillColor: "#86f286",
     fillOpacity: 0.3,
     strokeOpacity: 0.3
@@ -391,7 +400,7 @@ function createEastereggLayer() {
                         })
                     }),
                     projection: new OpenLayers.Projection("EPSG:4326"),
-                    styleMap: new OpenLayers.StyleMap({'default': styleTransparent})
+                    styleMap: new OpenLayers.StyleMap({'default': styleEasteregg})
                 });
 
     return layer;
@@ -438,10 +447,30 @@ function addMultiBoundaryLayer(map, layers) {
     var moveTo = function(bounds, zoomChanged, dragging) {
         var zoom = map.getZoom();
         if (zoomChanged != null) {
-            var i=0;
+            var i=0;k=0;
             while (i<adminLevels.length) {
                 var styleChanged = displayMap[zoomChanged]['styles'][i];
                 var style = displayMap[zoom]['styles'][i];
+                if (style != styleChanged && styleChanged == 0) {
+                    //make townHalls invisible
+                    for (k=0; k<townHallLayer.features.length; k++) {
+                        var feature = townHallLayer.features[k];
+                        if (feature.attributes.admin_level == adminLevels[i]) {
+                            feature.style = styleTransparentProps;
+                            townHallLayer.drawFeature(feature,styleTransparentProps);
+                        }
+                    }
+                } else if (style != styleChanged && (styleChanged == 1 || styleChanged == 2)) {
+                    //make townHalls visible
+                    for (k=0; k<townHallLayer.features.length; k++) {
+                        var feature = townHallLayer.features[k];
+                        if (feature.attributes.admin_level == adminLevels[i]) {
+                            feature.style = styleProps;
+                            townHallLayer.drawFeature(feature,styleProps);
+                        }
+                    }
+                }
+
                 var j=0;
                 for (j=0; j<numberComplexities; j++) {
                     layers[i][j].setVisibility(false);
@@ -459,7 +488,6 @@ function addMultiBoundaryLayer(map, layers) {
                                 layers[i][k].styleMap['default'] 
                                     = new OpenLayers.Style(styleBorder);    
                                 redrawFeatures(layers[i][k],styleBorder);
-                                redrawFeatures(layers[i][k],styleBorder);
                             }
                         } else {
                             for (k=0; k<numberComplexities;k++) {
@@ -467,7 +495,6 @@ function addMultiBoundaryLayer(map, layers) {
                                     = new OpenLayers.Style(styleArea);    
                                 layers[i][k].styleMap['default'] 
                                     = new OpenLayers.Style(styleArea);    
-                                redrawFeatures(layers[i][k],styleArea);
                                 redrawFeatures(layers[i][k],styleArea);
                             }
                         }
@@ -745,7 +772,12 @@ function buildProposalPopup(attributes) {
 }
 
 function buildInstancePopup(attributes) {
-    return "<div class='instance_popup_title'><a href='"+attributes.url+"'>"+attributes.label+"</a></div>";
+    var result = "<div class='instance_popup_title'>";
+    if (attributes.url) {
+        result = result + "<a href='"+attributes.url+"'>";
+    }
+    result = result + attributes.label+"</a></div>";
+    return result;
 }
 
 
