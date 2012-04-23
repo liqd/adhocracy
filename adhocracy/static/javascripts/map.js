@@ -964,7 +964,7 @@ function instanceSearch(map) {
         }
     }
 
-    function instanceEntry( item, position, num ) {
+    function instanceEntry( item, num ) {
         var letter = String.fromCharCode(num + 97);
         var li = $('<li>',{ class: 'content_box' });
         var marker;
@@ -973,15 +973,15 @@ function instanceSearch(map) {
             marker = $('<div>', { class: 'marker' });
             img = $('<img>', { class: 'marker_' + letter,
                                src: '/images/map_marker_pink_'+letter+'.png',
-                               id: 'search_result_list_marker_' + position,
-                               alt: position
+                               id: 'search_result_list_marker_' + item.region_id,
+                               alt: item.region_id
                              });
         } else {
             marker = $('<div>', { class: 'bullet_marker' });
             img = $('<img>', { class: 'bullet_marker',
                                src: '/images/bullet.png',
-                               id: 'search_result_list_marker_' + position,
-                               alt: position
+                               id: 'search_result_list_marker_' + item.region_id,
+                               alt: item.region_id
                              });
         }
         var h4 = $('<h4>');
@@ -1022,7 +1022,8 @@ function instanceSearch(map) {
 
         var numInstance = 0;
         for (var i = offset; i < offset+max_rows && i < count; ++i) {
-            instanceEntry(resultList[inputValue][i], i, numInstance);
+            resultList[inputValue][i]    
+            instanceEntry(resultList[inputValue][i], numInstance);
             if (resultList[inputValue][i].instance_id != "") {
                 numInstance = numInstance + 1;
             }
@@ -1050,6 +1051,7 @@ function instanceSearch(map) {
         }
     }
 
+    var useAutocompletionResultForSearchResult = false;
     function showSearchResult() {
         var inputValue = $( "#instances" ).val();
         $( "#instances" ).autocomplete("close");
@@ -1068,6 +1070,28 @@ function instanceSearch(map) {
             }
             if (found) {
                 map.zoomToExtent(bounds)
+                //replace markers in map - wait for markers first
+                //neue features mit rule einfuegen (searchresult bereits vorhanden, da nach zoomTo)
+                //alte feature hier ersetzen
+/*              
+                if (hit.instance_id != "") {
+                    for (j=0; j<foldLayers.length;j++) {
+                        for (k=0; k<foldLayers[j].features.length; k++) {
+                            var feature = foldLayers[j].features[k];
+                            if (hit.region_id == feature.attributes.region_id) {
+                                bounds.extend(feature.geometry.getBounds());
+                            }
+                        }
+                    }
+                }
+*/
+            }
+            delete resultList[inputValue];
+        } else {
+            //maybe we have to wait for the result
+            if (inputValue) {
+                //we have to wait
+                useAutocompletionResultForSearchResult = true;
             }
         }
     }
@@ -1116,8 +1140,13 @@ function instanceSearch(map) {
 //                        admin_center: admin_center
                     }
                 })
-                //fill into autocompletion drop down
-                response( resultList[request.term] );
+                if (useAutocompletionResultForSearchResult == true) {
+                    useAutocompletionResultForSearchResult = false;
+                    showSearchResult();
+                } else {
+                    //fill into autocompletion drop down
+                    response( resultList[request.term] );
+                }
             }
         });
     },
@@ -1128,7 +1157,7 @@ function instanceSearch(map) {
                                         $(location).attr('href',ui.item.url);
                                     } else {
                                         resetSearchField(ui.item.label, 1);
-                                        instanceEntry(ui.item, 0, 0);
+                                        instanceEntry(ui.item, 0);
                                     }
                                   }
                                 },
@@ -1216,15 +1245,3 @@ function reloadNewProposalForm() {
 
 $('#create_geo_button').click(addGeoTagHandler);
 $('#create_geo_button').ready(reloadNewProposalForm); 
-/*              
-                if (hit.instance_id != "") {
-                    for (j=0; j<foldLayers.length;j++) {
-                        for (k=0; k<foldLayers[j].features.length; k++) {
-                            var feature = foldLayers[j].features[k];
-                            if (hit.region_id == feature.attributes.region_id) {
-                                bounds.extend(feature.geometry.getBounds());
-                            }
-                        }
-                    }
-                }
-*/
