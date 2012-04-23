@@ -140,9 +140,9 @@ class PagerMixin(object):
         '''
         query = MultiDict(request.params.items())
         query.update(kwargs)
-        query["%s_page" % self.name] = page if page else 1
-        query["%s_size" % self.name] = size if size else self.size
-        query["%s_sort" % self.name] = sort if sort else self.selected_sort
+        query[self.page_param] = page if page else 1
+        query[self.size_param] = size if size else self.size
+        query[self.sort_param] = sort if sort else self.selected_sort
 
         # sanitize the the query arguments
         query_items = ([(str(key), unicode(value).encode('utf-8')) for
@@ -164,6 +164,18 @@ class PagerMixin(object):
         render the template for the pager (without facets)
         '''
         return render_def('/pager.html', 'namedpager', pager=self)
+
+    @property
+    def sort_param(self):
+        return "%s_sort" % self.name
+
+    @property
+    def size_param(self):
+        return "%s_size" % self.name
+
+    @property
+    def page_param(self):
+        return "%s_page" % self.name
 
     def __len__(self):
         return self.total_num_items()
@@ -203,13 +215,13 @@ class NamedPager(PagerMixin):
 
     def _parse_request(self):
         try:
-            page_value = request.params.get("%s_page" % self.name)
+            page_value = request.params.get(self.page_param)
             self.page = PAGE_VALIDATOR.to_python(page_value)
         except:
             self.page = 1
 
         try:
-            size_value = request.params.get("%s_size" % self.name)
+            size_value = request.params.get(self.size_param)
             self.size = SIZE_VALIDATOR.to_python(size_value)
         except:
             pass
@@ -217,7 +229,7 @@ class NamedPager(PagerMixin):
         try:
             sort_validator = validators.Int(min=1, max=len(self.sorts.keys()),
                                             not_empty=True)
-            sort_value = request.params.get("%s_sort" % self.name)
+            sort_value = request.params.get(self.sort_param)
             self.selected_sort = sort_validator.to_python(sort_value)
         except:
             pass
@@ -940,10 +952,6 @@ class SolrPager(PagerMixin):
             facet.update(self.response, self.counts_response)
         self.items = self._items_from_response(self.response)
 
-    @property
-    def sort_param(self):
-        return "%s_sort" % self.name
-
     def total_num_items(self):
         '''
         return the total numbers of results
@@ -968,7 +976,7 @@ class SolrPager(PagerMixin):
     def _get_page(self):
         page = 1
         try:
-            page_value = request.params.get("%s_page" % self.name)
+            page_value = request.params.get(self.page_param)
             page = PAGE_VALIDATOR.to_python(page_value)
         finally:
             return page
@@ -977,7 +985,7 @@ class SolrPager(PagerMixin):
 
         size = self.size
         try:
-            size_value = request.params.get("%s_size" % self.name)
+            size_value = request.params.get(self.size_param)
             size = SIZE_VALIDATOR.to_python(size_value)
         finally:
             return size
