@@ -57,14 +57,12 @@
                            li_class=_class('help'),
                            id_="nav_help")}
 
-                <!-- FIXME: implemente personal drop down menu -->
                 %if c.user is None:
                 ${nav_link(href=h.login_redirect_url(),
                            a_rel='#overlay-default',
                            text=_("Login"),
                            li_class=_class('login'),
                            id_="nav_login")}
-                <!-- FIXME: <a href="/register">${_("Register")}</a> -->
                 %else:
                 <div id="user_menu">
                     <ul>
