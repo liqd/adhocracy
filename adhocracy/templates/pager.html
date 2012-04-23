@@ -9,21 +9,11 @@
                 </span>
             %endif
             %if hasattr(pager.sorts, 'render'):
+            ## New style NamedSorts-object
             ${pager.sorts.render()}
             %elif len(pager.sorts.keys()) > 1 and pager.enable_sorts:
-            <div class="filter_box">
-                Sorting
-            </div>
-            <div class="filter_options">
-                %for sort, i in zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)):
-                <a class="${'selected' if i == pager.selected_sort else ''}" 
-                   href="${pager.build_url(sort=i)|n}"
-		   rel="nofollow">${sort}</a>
-                %if i < len(pager.sorts.keys()):
-                |
-                %endif
-                %endfor
-            </div>
+            ## Old style index based sort
+            ${index_based_sort_dropdown(pager.sorts, pager)}
             %endif
         </div>
     %endif
@@ -153,10 +143,39 @@
 </%def>
 
 
+<%def name="index_based_sort_dropdown(sorts, pager)">
+
+%if len(sorts.keys()):
+
+<% zipped = zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)) %>
+
+<div class="filter_box">
+    <div class="only-js">
+        ${_('Sort:')}
+        <select class="sort_options"
+                name="${pager.sort_param}">
+            %for sort, i in zipped:
+            <% selected = i == pager.selected_sort %>
+            <option value="i"
+                    %if selected:
+                    selected="selected"
+                    %endif
+                    data-url="${pager.build_url(sort=i)|n}">
+                ${sort}
+            </option>
+            %endfor
+        </select>
+    </div>
+</div>
+%endif
+
+</%def>
+
 <%def name="sort_dropdown(sorts)">
 %if len(sorts):
 <div class="filter_box">
     <div class="only-js">
+        ${_('Sort:')}
         <% selected = sorts.selected() %>
         <select class="sort_options"
                 name="${sorts.pager.sort_param}">
@@ -182,8 +201,6 @@
             %endfor
         </select>
     </div>
-    <script>
-    </script>
 </div>
 %endif
 </%def>
@@ -194,12 +211,11 @@
 <% 
 selected = sorts.selected()
 param = sorts.pager.sort_param
-print "selected:", selected
 %>
 <div class="filter_box">
     <div class="only-js">
-
-        <div class="btn-group"
+        ${_('Sort:')}
+        <span class="btn-group"
              id="${param}_btn_group">
             <a id="${param}_btn" 
                class="btn showhide_button" 
@@ -208,9 +224,9 @@ print "selected:", selected
                data-toggle-class="open"
                data-toggle-element="#${param}_btn_group"
                href="#">
-                Sort
+                ${selected.label}
             </a>
-        </div>
+        </span>
     </div>
 </div>
 <div id="${param}_options" style="display: none">

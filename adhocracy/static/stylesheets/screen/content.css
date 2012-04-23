@@ -334,6 +334,9 @@ section { margin-bottom: 40px; }
 .filter_box a.selected {
   color: #666;
 }
+.filter_box select {
+  width: auto;
+}
 
 .pager_wrapper .floatbox {
   padding: 5px 10px;
