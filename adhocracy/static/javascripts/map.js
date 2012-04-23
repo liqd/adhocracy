@@ -31,6 +31,8 @@ var layersWithPopup = [];
 
 var numberComplexities = 5;
 
+var inputValue = new String();
+
 var styleProps = {
     pointRadius: 5,
     fillColor: "#f28686",
@@ -406,7 +408,7 @@ function createEastereggLayer() {
     return layer;
 }
 
-function addMultiBoundaryLayer(map, layers) {
+function addMultiBoundaryLayer(map, layers, resultList) {
 
     var adminLevels = [2,4,5,6,7,8];
 
@@ -550,11 +552,28 @@ function addMultiBoundaryLayer(map, layers) {
     }
     map.moveTo = moveTo;
 
+    var rule = makeFilterRule(); 
+    rule.evaluate = function (feature) {
+        if (resultList) {
+            if (resultList[inputValue]) {
+                var letter = String.fromCharCode(97);
+                this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
     var townHallLayer = new OpenLayers.Layer.Vector('instance_town_hall', {
         displayInLayerSwitcher: false, 
         projection: new OpenLayers.Projection("EPSG:4326"),
-        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
-                                           'select': new OpenLayers.Style(styleSelect)})
+        styleMap: new OpenLayers.StyleMap({
+            'default': new OpenLayers.Style(styleProps, {rules: [
+                rule,
+                new OpenLayers.Rule({elseFilter: true})
+            ]}),
+            'select': new OpenLayers.Style(styleSelect)
+        }),
     });
     map.addLayer(townHallLayer);
     createPopupControl(townHallLayer, buildInstancePopup);
@@ -942,13 +961,14 @@ function loadOverviewMap(openlayers_url, initialInstances) {
 function loadSelectInstance(openlayers_url) {
   $.getScript(openlayers_url, function() {
     var layers = new Array();
-    state = loadSelectInstanceMap(layers);
+    var resultList = new Array();
+    state = loadSelectInstanceMap(layers, resultList);
 
-    instanceSearch(state);
+    instanceSearch(state, resultList);
   });
 }
 
-function loadSelectInstanceMap(layers) {
+function loadSelectInstanceMap(layers, resultList) {
     var map = createMap(NUM_ZOOM_LEVELS);
 
     var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
@@ -956,8 +976,8 @@ function loadSelectInstanceMap(layers) {
     map.addControls(createControls(true, false));
     map.addLayers(createBaseLayers());
 
-    foldLayers = addMultiBoundaryLayer(map,layers);
-
+    foldLayers = addMultiBoundaryLayer(map, layers, resultList);
+ 
     map.zoomToExtent(bounds);
     
     map.addControl(createSelectControl());
@@ -967,12 +987,11 @@ function loadSelectInstanceMap(layers) {
     return map;
 }
 
-function instanceSearch(map) {
+function instanceSearch(map, resultList) {
 
 //    var map = state.map;
 //    var foldLayers = state.foldLayers;
 
-    var resultList = new Array();
     var max_rows = 5;
     var offset = 0;
 
@@ -1054,7 +1073,6 @@ function instanceSearch(map) {
 
         var numInstance = 0;
         for (var i = offset; i < offset+max_rows && i < count; ++i) {
-            resultList[inputValue][i]    
             instanceEntry(resultList[inputValue][i], numInstance);
             if (resultList[inputValue][i].instance_id != "") {
                 numInstance = numInstance + 1;
@@ -1085,7 +1103,7 @@ function instanceSearch(map) {
 
     var useAutocompletionResultForSearchResult = false;
     function showSearchResult() {
-        var inputValue = $( "#instances" ).val();
+        inputValue = new String($( "#instances" ).val());
         $( "#instances" ).autocomplete("close");
         if (resultList[inputValue]) {
             fillSearchField(inputValue);
@@ -1102,23 +1120,24 @@ function instanceSearch(map) {
             }
             if (found) {
                 map.zoomToExtent(bounds)
-                //replace markers in map - wait for markers first
-                //neue features mit rule einfuegen (searchresult bereits vorhanden, da nach zoomTo)
-                //alte feature hier ersetzen
-/*              
-                if (hit.instance_id != "") {
+                /*
+                var i=0; var j=0; var k=0;
+                for (i=0; i<resultList[inputValue].length; i++) {
+                    var hit = resultList[inputValue][i];
                     for (j=0; j<foldLayers.length;j++) {
                         for (k=0; k<foldLayers[j].features.length; k++) {
                             var feature = foldLayers[j].features[k];
                             if (hit.region_id == feature.attributes.region_id) {
-                                bounds.extend(feature.geometry.getBounds());
+                                if (hit.instance_id != "") {
+                                    //replace circle with marker
+                                }
                             }
                         }
                     }
                 }
-*/
+                */
             }
-            delete resultList[inputValue];
+            //delete resultList[inputValue];
         } else {
             //maybe we have to wait for the result
             if (inputValue) {
