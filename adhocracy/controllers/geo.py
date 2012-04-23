@@ -59,12 +59,15 @@ class GeoController(BaseController):
         def add_admin_center(region):
             regionColumns = filter(lambda r: region['properties']['region_id'] == r.id, regionsResultSet)
             properties = {'admin_level': region['properties']['admin_level'],
-                          'label': region['properties']['label']}
+                          'label': region['properties']['label'],
+                          'region_id': region['properties']['region_id'],
+                          'instance_id': ''}
             if regionColumns != []:
                 instances = getattr(regionColumns[0],"get_instances")
                 if instances != []:
                     properties['url'] = h.base_url(instances[0])
                     properties['label'] = instances[0].label
+                    properties['instance_id'] = instances[0].id
             region['properties']['admin_center'] = geojson.Feature(geometry=region['geometry'].centroid, properties=properties)
             return region
 

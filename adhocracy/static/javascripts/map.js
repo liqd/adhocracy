@@ -556,10 +556,20 @@ function addMultiBoundaryLayer(map, layers, resultList) {
     rule.evaluate = function (feature) {
         if (resultList) {
             if (resultList[inputValue]) {
-                var letter = String.fromCharCode(97);
-                this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
-                return true;
+                var result = resultList[inputValue];
+                var i=0;
+                var numInstance = 0;
+                for (i=0; i<result.length; i++) {
+                    if (result[i].region_id == feature.attributes.region_id
+                        && result[i].instance_id != "") {
+                        var letter = String.fromCharCode(numInstance+97);
+                        this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
+                        return true;
+                    }
+                    if (result[i].instance_id != "") numInstance = numInstance + 1;
+                }
             }
+            return false;
         } else {
             return false;
         }
