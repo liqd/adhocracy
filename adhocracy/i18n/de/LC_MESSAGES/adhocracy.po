@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-04-02 13:50+0200\n"
+"POT-Creation-Date: 2012-04-02 14:30+0200\n"
 "PO-Revision-Date: 2012-04-02 12:37+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/adhocracy/language/de/)\n"
@@ -66,7 +66,7 @@ msgstr "Älteste"
 #: adhocracy/lib/pager.py:314 adhocracy/lib/pager.py:967
 #: adhocracy/lib/pager.py:981 adhocracy/lib/pager.py:995
 msgid "newest"
-msgstr "neueste"
+msgstr "Neueste"
 
 #: adhocracy/controllers/comment.py:113 adhocracy/controllers/comment.py:250
 #, python-format
@@ -818,7 +818,7 @@ msgstr "Früheste"
 
 #: adhocracy/lib/pager.py:273
 msgid "proposals"
-msgstr "meiste vorschläge"
+msgstr "meiste Vorschläge"
 
 #: adhocracy/lib/pager.py:692
 msgid "Categories"
@@ -4123,12 +4123,3 @@ msgid ""
 "This is your watchlist. You will receive notifications for events concerning"
 " each of these items."
 msgstr "Dies ist Ihre Beobachtungsliste. Sie erhalten eine Benachrichtigung bei Ereignissen in diesen Gruppen."
-
-msgid "hierarchical"
-msgstr "hierarchisch"
-
-msgid "show sub-topics"
-msgstr "Unterthemen anzeigen"
-
-msgid "hide sub-topics"
-msgstr "Unterthemen verstecken"
