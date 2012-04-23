@@ -73,8 +73,19 @@
                                href="${h.entity_url(c.user, member='dashboard')}">${c.user.name}</a>
                             <ul class="children">
                                 <li>
+                                    <a href="${h.entity_url(c.user, member='dashboard')}">
+                                        ${_('Dashboard')}
+                                    </a>
+                                </li>
+
+                                <li>
                                     <a href="${h.entity_url(c.user, instance=c.instance, member='edit')}">
                                         ${_('Edit Profile')}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="${h.entity_url(c.user, instance=c.instance)}">
+                                        ${_('View Profile')}
                                     </a>
                                 </li>
                                	%if h.has_permission("global.admin"):
