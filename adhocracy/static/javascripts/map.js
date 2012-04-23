@@ -601,7 +601,7 @@ function addMultiBoundaryLayer(map, layers, resultList) {
             }
         })
     }
-    return foldLayers;
+    return [townHallLayer,foldLayers];
 }
 
 function foldLayerMatrix(layers) {
@@ -894,6 +894,14 @@ function loadSingleProposalMap(openlayers_url, instanceKey, proposalId, edit, po
  });
 }
 
+function enableMarker(id, layer, selectControl) {
+    $('.'+id).click(function(event) {
+        var target = event.target || event.srcElement;
+        var feature = layer.getFeaturesByAttribute('id', parseInt(target.id.substring((id+'_').length)))[0];
+        selectControl.clickFeature(feature);
+    });
+}
+
 function loadRegionMap(openlayers_url, instanceKey, initialProposals) {
  $.getScript(openlayers_url, function() {
     var map = createMap(NUM_ZOOM_LEVELS);
@@ -919,13 +927,8 @@ function loadRegionMap(openlayers_url, instanceKey, initialProposals) {
         map.addLayer(easterLayer);
         createPopupControl(easterLayer, buildEastereggPopup);
     }
-    var selectControl = createSelectControl();
-
-    $('.result_list_marker').click(function(event) {
-        var target = event.target || event.srcElement;
-        var feature = proposalLayer.getFeaturesByAttribute('id', parseInt(target.id.substring('result_list_marker_'.length)))[0];
-        selectControl.clickFeature(feature);
-    });
+    var selectControl = createSelectControl(); 
+    enableMarker('result_list_marker', proposalLayer, selectControl);
     map.addControl(selectControl);
  });
 }
@@ -986,21 +989,27 @@ function loadSelectInstanceMap(layers, resultList) {
     map.addControls(createControls(true, false));
     map.addLayers(createBaseLayers());
 
-    foldLayers = addMultiBoundaryLayer(map, layers, resultList);
+    var layers = addMultiBoundaryLayer(map, layers, resultList);
+    var townHallLayer = layers[0];
+    var foldLayers = layers[1];
  
+    var selectControl = createSelectControl();
+    map.addControl(selectControl);
+
     map.zoomToExtent(bounds);
     
-    map.addControl(createSelectControl());
+    var result = {map: map, foldLayers: foldLayers,
+                  townHallLayer: townHallLayer, selectControl: selectControl};
 
-//    var result = {map: map, foldLayers: foldLayers}
-
-    return map;
+    return result;
 }
 
-function instanceSearch(map, resultList) {
+function instanceSearch(state, resultList) {
 
-//    var map = state.map;
+    var map = state.map;
 //    var foldLayers = state.foldLayers;
+    var townHallLayer = state.townHallLayer;
+    var selectControl = state.selectControl;
 
     var max_rows = 5;
     var offset = 0;
@@ -1026,6 +1035,7 @@ function instanceSearch(map, resultList) {
     }
 
     function instanceEntry( item, num ) {
+        var idBase = 'search_result_list_marker'
         var letter = String.fromCharCode(num + 97);
         var li = $('<li>',{ class: 'content_box' });
         var marker;
@@ -1034,20 +1044,26 @@ function instanceSearch(map, resultList) {
             marker = $('<div>', { class: 'marker' });
             img = $('<img>', { class: 'marker_' + letter,
                                src: '/images/map_marker_pink_'+letter+'.png',
-                               id: 'search_result_list_marker_' + item.region_id,
+                               id: idBase + '_' + item.region_id,
                                alt: item.region_id
                              });
         } else {
             marker = $('<div>', { class: 'bullet_marker' });
             img = $('<img>', { class: 'bullet_marker',
                                src: '/images/bullet.png',
-                               id: 'search_result_list_marker_' + item.region_id,
+                               id: idBase + '_' + item.region_id,
                                alt: item.region_id
                              });
         }
         var h4 = $('<h4>');
         var text;
         var details;
+
+        img.click(function(event) {
+            var target = event.target || event.srcElement;
+            var feature = townHallLayer.getFeaturesByAttribute('region_id', parseInt(target.id.substring((idBase+'_').length)))[0];
+            selectControl.clickFeature(feature);
+        });
 
         text = makeRegionNameElements(item);
         details = makeRegionDetailsElements(item);
@@ -1088,6 +1104,8 @@ function instanceSearch(map, resultList) {
                 numInstance = numInstance + 1;
             }
         }
+        //enableMarker('search_result_list_marker', townHallLayer, selectControl); 
+        
         if(count > max_rows) {
             if (offset + max_rows > max_rows) {
                 var prevButton = $( '<div />', { class: 'button_small', id: 'search_prev' });
