@@ -975,7 +975,7 @@ function loadOverviewMap(openlayers_url, initialInstances) {
 function loadSelectInstance(openlayers_url) {
   $.getScript(openlayers_url, function() {
     var layers = new Array();
-    var resultList = [];//new Array();
+    var resultList = new Array();
     state = loadSelectInstanceMap(layers, resultList);
 
     instanceSearch(state, resultList);
@@ -1141,11 +1141,10 @@ function instanceSearch(state, resultList) {
     }
 
     function removePreviosMarkers() {
-        console.log(resultList.length);
         function remove(entry) {
             var feature = entry.admin_center;
             if (feature) {
-                townHallLayer.removeFeatures([feature]);
+                townHallLayer.destroyFeatures([feature]);
             }
         }
         var old = resultList[prevInputValue];
@@ -1227,8 +1226,7 @@ function instanceSearch(state, resultList) {
             success: function( data ) {
                 console.log(resultList.length);
                 removePreviosMarkers();
-//                resultList.length = 0;
-                resultList = [];//new Array();
+                //resultList = new Array();
                 resultList[request.term] = $.map( data.search_result, function( item ) {
                     var feature = getFeature(item.admin_center);
                     if (feature) townHallLayer.addFeatures([feature]);
