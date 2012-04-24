@@ -359,7 +359,7 @@ class InstanceController(BaseController):
                 'name':c.instance.region.name,
                 'admin_level':c.instance.region.admin_level,
                 'admin_type':c.instance.region.admin_type,
-                'id':c.instance.region.id,
+                'region_id':c.instance.region.id,
                 'admin_center': None
                 })
 

@@ -797,7 +797,7 @@ function createWaiter(number, callback) {
 }
 
 function buildProposalPopup(attributes) {
-    return "<div class='proposal_popup_title'><a href='/proposal/"+attributes.id+"'>"+attributes.title+"</a></div>";
+    return "<div class='proposal_popup_title'><a href='/proposal/"+attributes.region_id+"'>"+attributes.title+"</a></div>";
 }
 
 function buildInstancePopup(attributes) {
@@ -897,7 +897,7 @@ function loadSingleProposalMap(openlayers_url, instanceKey, proposalId, edit, po
 function enableMarker(id, layer, selectControl) {
     $('.'+id).click(function(event) {
         var target = event.target || event.srcElement;
-        var feature = layer.getFeaturesByAttribute('id', parseInt(target.id.substring((id+'_').length)))[0];
+        var feature = layer.getFeaturesByAttribute('region_id', parseInt(target.id.substring((id+'_').length)))[0];
         selectControl.clickFeature(feature);
     });
 }
@@ -949,7 +949,7 @@ function loadOverviewMap(openlayers_url, initialInstances) {
 
     //$('.result_list_marker').click(function(event) {
     //    var target = event.target || event.srcElement;
-    //    feature = proposalLayer.getFeaturesByAttribute('id', parseInt(target.id.substring('result_list_marker_'.length)))[0];
+    //    feature = proposalLayer.getFeaturesByAttribute('region_id', parseInt(target.id.substring('result_list_marker_'.length)))[0];
     //    popupControl.clickFeature(feature);
     //});
 

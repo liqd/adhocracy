@@ -249,5 +249,5 @@ class Proposal(Delegateable):
         else:
             return geojson.Feature(geometry=loads(str(self.geotag.geom_wkb)), properties={
                 'title':self.title,
-                'id':self.id,
+                'region_id':self.id,
                 },id=self.id)
