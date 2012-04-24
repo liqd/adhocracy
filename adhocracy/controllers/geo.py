@@ -125,12 +125,12 @@ class GeoController(BaseController):
             instances = getattr(region,"get_instances")
             entry = dict()
             entry['name'] = region.name
+            entry['region_id'] = region.id
             bbox = loads(str(region.boundary.geom_wkb)).bounds
             entry['bbox'] = '[' + str(bbox[0]) + ',' + str(bbox[1]) + ',' + str(bbox[2]) + ',' + str(bbox[3]) + ']'
             if instances != []: 
                 instance = get_entity_or_abort(Instance, instances[0].id)
                 entry['instance_id'] = instance.id
-                entry['region_id'] = region.id
                 entry['url'] = h.entity_url(instances[0])
                 entry['admin_level'] = region.admin_level
                 entry['num_proposals'] = instance.num_proposals
