@@ -229,7 +229,10 @@ function createPopupControl(layer, buildPopupContent) {
             this.map.addPopup(popup);
         },
         'featureunselected': function(event) {
-            this.map.removePopup(popup);
+            if (popup) {
+                this.map.removePopup(popup);
+                popup = null;
+            }
         }
     });
 
@@ -659,7 +662,10 @@ function addRegionSelectControl(map) {
                 }
             },
             'featureunselected': function(event) {
-                if (popup) map.removePopup(popup);
+                if (popup) { 
+                    map.removePopup(popup);
+                    popup = null;
+                }
             }
         });
     }
@@ -899,7 +905,11 @@ function enableMarker(id, layer, selectControl) {
     $('.'+id).click(function(event) {
         var target = event.target || event.srcElement;
         var feature = layer.getFeaturesByAttribute('region_id', parseInt(target.id.substring((id+'_').length)))[0];
-        selectControl.clickFeature(feature);
+        if (popup) {
+            selectControl.clickoutFeature(feature);
+        } else {
+            selectControl.clickFeature(feature);
+        }
     });
 }
 
@@ -948,11 +958,7 @@ function loadOverviewMap(openlayers_url, initialInstances) {
     //var popupControl = createPopupControl(proposalLayer, buildInstancePopup);
     //map.addControl(popupControl);
 
-    //$('.result_list_marker').click(function(event) {
-    //    var target = event.target || event.srcElement;
-    //    feature = proposalLayer.getFeaturesByAttribute('region_id', parseInt(target.id.substring('result_list_marker_'.length)))[0];
-    //    popupControl.clickFeature(feature);
-    //});
+    //enableMarker('result_list_marker', proposalLayer, popupControl);
 
     var overviewLayers = createOverviewLayers();
     map.addLayers(overviewLayers);
@@ -1063,7 +1069,11 @@ function instanceSearch(state, resultList) {
         img.click(function(event) {
             var target = event.target || event.srcElement;
             var feature = townHallLayer.getFeaturesByAttribute('region_id', parseInt(target.id.substring((idBase+'_').length)))[0];
-            selectControl.clickFeature(feature);
+            if (popup) {
+                selectControl.clickoutFeature(feature);
+            } else {
+                selectControl.clickFeature(feature);
+            }
         });
 
         text = makeRegionNameElements(item);
