@@ -1049,14 +1049,14 @@ function instanceSearch(state, resultList) {
         var img;
         if (item.instance_id != "") {
             marker = $('<div>', { class: 'marker' });
-            img = $('<img>', { class: 'marker_' + letter,
+            img = $('<img>', { class: 'search_result_list_marker marker_' + letter,
                                src: '/images/map_marker_pink_'+letter+'.png',
                                id: idBase + '_' + item.region_id,
                                alt: item.region_id
                              });
         } else {
             marker = $('<div>', { class: 'bullet_marker' });
-            img = $('<img>', { class: 'bullet_marker',
+            img = $('<img>', { class: 'search_result_list_marker ullet_marker',
                                src: '/images/bullet.png',
                                id: idBase + '_' + item.region_id,
                                alt: item.region_id
@@ -1065,16 +1065,6 @@ function instanceSearch(state, resultList) {
         var h4 = $('<h4>');
         var text;
         var details;
-
-        img.click(function(event) {
-            var target = event.target || event.srcElement;
-            var feature = townHallLayer.getFeaturesByAttribute('region_id', parseInt(target.id.substring((idBase+'_').length)))[0];
-            if (popup) {
-                selectControl.clickoutFeature(feature);
-            } else {
-                selectControl.clickFeature(feature);
-            }
-        });
 
         text = makeRegionNameElements(item);
         details = makeRegionDetailsElements(item);
@@ -1115,7 +1105,7 @@ function instanceSearch(state, resultList) {
                 numInstance = numInstance + 1;
             }
         }
-        //enableMarker('search_result_list_marker', townHallLayer, selectControl); 
+        enableMarker('search_result_list_marker', townHallLayer, selectControl); 
         
         if(count > max_rows) {
             if (offset + max_rows > max_rows) {
