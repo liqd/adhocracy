@@ -32,6 +32,7 @@ var layersWithPopup = [];
 var numberComplexities = 5;
 
 var inputValue = new String();
+var prevInputValue = new String();
 
 var styleProps = {
     pointRadius: 5,
@@ -974,7 +975,7 @@ function loadOverviewMap(openlayers_url, initialInstances) {
 function loadSelectInstance(openlayers_url) {
   $.getScript(openlayers_url, function() {
     var layers = new Array();
-    var resultList = new Array();
+    var resultList = [];//new Array();
     state = loadSelectInstanceMap(layers, resultList);
 
     instanceSearch(state, resultList);
@@ -1129,8 +1130,33 @@ function instanceSearch(state, resultList) {
         }
     }
 
+    function getFeature(geojsonStr) {
+        var feature;
+        var features = new OpenLayers.Format.GeoJSON({}).read(geojsonStr);
+        if (features != null && features.length > 0) {
+            feature = features[0];
+            feature.geometry = OpenLayers.Projection.transform(feature.geometry,new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+        }
+        return feature;
+    }
+
+    function removePreviosMarkers() {
+        console.log(resultList.length);
+        function remove(entry) {
+            var feature = entry.admin_center;
+            if (feature) {
+                townHallLayer.removeFeatures([feature]);
+            }
+        }
+        var old = resultList[prevInputValue];
+        if (old) {
+            $.map(old,remove);
+        }
+    }
+
     var useAutocompletionResultForSearchResult = false;
     function showSearchResult() {
+        prevInputValue = new String(inputValue);
         inputValue = new String($( "#instances" ).val());
         $( "#instances" ).autocomplete("close");
         if (resultList[inputValue]) {
@@ -1199,12 +1225,13 @@ function instanceSearch(state, resultList) {
                 name_contains: request.term
             },
             success: function( data ) {
+                console.log(resultList.length);
+                removePreviosMarkers();
+//                resultList.length = 0;
+                resultList = [];//new Array();
                 resultList[request.term] = $.map( data.search_result, function( item ) {
-//                    var admin_center;
-//                    var features = new OpenLayers.Format.GeoJSON({}).read(item.admin_center);
-//                    if (features != null && features.length > 0) {
-//                        admin_center = OpenLayers.Projection.transform(features[0].geometry,new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-//                    }
+                    var feature = getFeature(item.admin_center);
+                    if (feature) townHallLayer.addFeatures([feature]);
                     return {
                         instance_id: item.instance_id,
                         region_id: item.region_id,
@@ -1215,8 +1242,8 @@ function instanceSearch(state, resultList) {
                         num_papers: item.num_papers,
                         num_members: item.num_members,
                         create_date: item.create_date,
-                        bbox: item.bbox
-//                        admin_center: admin_center
+                        bbox: item.bbox,
+                        admin_center: feature
                     }
                 })
                 if (useAutocompletionResultForSearchResult == true) {

@@ -127,6 +127,12 @@ class GeoController(BaseController):
             entry['name'] = region.name
             entry['region_id'] = region.id
             bbox = loads(str(region.boundary.geom_wkb)).bounds
+            admin_center_props = {
+                'instance_id': "",
+                'admin_level': region.admin_level,
+                'region_id': region.id,
+                'label': region.name
+            }
             entry['bbox'] = '[' + str(bbox[0]) + ',' + str(bbox[1]) + ',' + str(bbox[2]) + ',' + str(bbox[3]) + ']'
             if instances != []: 
                 instance = get_entity_or_abort(Instance, instances[0].id)
@@ -137,9 +143,12 @@ class GeoController(BaseController):
                 entry['num_papers'] = 'nyi'
                 entry['num_members'] = instance.num_members
                 entry['create_date'] = str(instance.create_time.date())
-#                entry['admin_center'] = geojson.Feature(geometry=loads(str(region.boundary.geom_wkb)).centroid, properties={})
+                admin_center_props['instance_id'] = instance.id
+                admin_center_props['url'] = h.entity_url(instances[0])
+                admin_center_props['label'] = instance.label
             else: 
                 entry['instance_id'] = ""
+            entry['admin_center'] = render_geojson((geojson.Feature(geometry=loads(str(region.boundary.geom_wkb)).centroid, properties=admin_center_props)))
             return entry
 
         search_result = map(create_entry, regions)
