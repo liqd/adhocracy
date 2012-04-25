@@ -6,28 +6,38 @@ or
 * src/adhocracy/scripts/create-imposm-db.sh, 
 * etc/my_mapping.py
 
+# export username=osm
+# export dbname=imposm
+
 The db has to be initialized with UTF8 character encoding.
-# sudo -u postgres initdb -E UTF8 /var/lib/postgresql/9.1/data (gentoo-path)
-# sudo -u postgres createuser osm
+# sudo -u postgres createdb -E UTF8 -O ${username} ${dbname}
+# sudo -u postgres createuser ${username}
 
 Copy the files to a playe where postgres user can read (i.e. /tmp)
 # cp create-imposm-db.sh /tmp
 # imposm --read /tmp/germany.osm.pbf
 # sudo -u postgres bash src/adhocracy/scripts/create-imposm-db.sh
-# imposm --write -d imposm -m etc/my_mapping.py
+# imposm --write -d ${dbname} -m etc/my_mapping.py
 
 The boundaries are stored in 'geometry' column of table 'osm_admin' together
 with 'name' and 'admin_level'. Newer versions of imposm create an extra 'id'
 column to refer osm entities multiple times.
 
 To insert boundaries into adhocracy db use dblink.
+
+A postgres superuser has to create the dblink extension via
+# create extension dblink;
+
+The normal user can then create a dblink connection
+# select dblink_connect('dbname=${imposm}');
+
 # insert into region (select id, name, admin_level, 'Bundesland', boundary from
-dblink('dbname=imposm', 'select osm_id,name,admin_level,geometry from
+dblink('dbname=${imposm}', 'select osm_id,name,admin_level,geometry from
 osm_admin where admin_level=4 and name is not null') as t1(id int, name
 text,admin_level int, boundary geometry));
 
 # insert into region (select id, name, admin_level, 'Stadt', boundary from
-dblink('dbname=imposm', 'select osm_id,name,admin_level,geometry from
+dblink('dbname=${imposm}', 'select osm_id,name,admin_level,geometry from
 osm_admin where name=''Regensburg''') as t1(id int, name text,
 admin_level int, boundary geometry));
 
@@ -38,7 +48,7 @@ To exclude regions outside another region from inserting into adhocracy db use
 the following statement.
 
 # insert into region (select id, name, admin_level, 'Gemeinde', boundary from
-dblink('dbname=imposm', 'select b.osm_id,b.name,b.admin_level,b.geometry from
+dblink('dbname=${imposm}', 'select b.osm_id,b.name,b.admin_level,b.geometry from
 osm_admin a, osm_admin b where a.osm_id != b.osm_id AND a.osm_id=62467 AND a.geometry &&
 b.geometry AND ST_Contains(a.geometry, b.geometry) AND b.admin_level=8 AND
 b.name IS NOT NULL') as t1(id int, name text,admin_level int, boundary
