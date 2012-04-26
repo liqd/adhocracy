@@ -1,5 +1,8 @@
+from datetime import datetime
 import logging
+
 from pylons.i18n import _
+from repoze.who.api import get_api
 
 import authentication
 import authorization
@@ -11,6 +14,27 @@ log = logging.getLogger(__name__)
 RETURN_TEMPLATE = 'return_template'
 RETURN_AUTH_CHECK = 'return_auth_check'
 RETURN_BOOL = 'return_bool'
+
+
+def login_user(user, request):
+    '''
+    log an user in.
+
+    *user* (:class:`adhocracy.model.User`)
+         The user as whom to login
+    *request* (:class:`webob.request.Request`)
+         The current request object to return to the user
+    '''
+    identity = {'repoze.who.userid': str(user.user_name),
+                'timestamp': int(datetime.utcnow().strftime("%s")),
+                'user': user}
+
+    api = get_api(request.environ)
+    for name, identifier in api.identifiers:
+        if identity is not None:
+            headers = identifier.remember(request.environ, identity)
+            if headers is not None:
+                request.response.headerlist.extend(headers)
 
 
 class AuthModuleWrapper(object):
