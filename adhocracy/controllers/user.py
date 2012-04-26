@@ -286,6 +286,9 @@ class UserController(BaseController):
     def activate(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
+        if c.page_user.activation_code is None:
+            h.flash(_(u'Thank you, The address is already activated.'))
+            redirect(h.entity_url(c.page_user))
         try:
             code = self.form_result.get('c')
             if c.page_user.activation_code != code:
