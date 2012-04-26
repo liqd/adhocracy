@@ -252,9 +252,14 @@ class UserController(BaseController):
         url = h.base_url(c.instance,
                          path="/user/%s/reset?c=%s" % (c.page_user.user_name,
                                                        c.page_user.reset_code))
-        body = _("you have requested that your password be reset. In order "
-                 "to confirm the validity of your claim, please open the "
-                 "link below in your browser:") + "\r\n\r\n  " + url
+        body = _("Dear %s,\n\n") % c.page_user.name
+        body += _("you have requested that your password be reset. In order "
+                  "to confirm the validity of your claim, please open the "
+                  "link below in your browser:") + "\r\n\r\n  " + url
+        if c.page_user.name != c.page_user.name:
+            body += "\n\n"
+            body += _("Your user name to login is: %s") % c.page_user.user_name
+
         libmail.to_user(c.page_user, _("Reset your password"), body)
         return render("/user/reset_pending.html")
 
