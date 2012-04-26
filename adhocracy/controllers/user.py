@@ -18,7 +18,7 @@ from adhocracy import forms, model
 from adhocracy import i18n
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import  sorting, search as libsearch, tiles, text
-from adhocracy.lib.auth import require
+from adhocracy.lib.auth import require, login_user
 from adhocracy.lib.auth.authorization import has_permission
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
@@ -286,13 +286,22 @@ class UserController(BaseController):
     def activate(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
-        #require.user.edit(c.page_user)
         try:
-            if c.page_user.activation_code != self.form_result.get('c'):
+            code = self.form_result.get('c')
+            if c.page_user.activation_code != code:
                 raise ValueError()
             c.page_user.activation_code = None
             model.meta.Session.commit()
-            h.flash(_("Your email has been confirmed."), 'success')
+            if code.startswith(model.User.IMPORT_MARKER):
+                login_user(c.page_user, request)
+                h.flash(_("Welcome to %s") % h.site_name())
+                if c.instance:
+                    redirect(h.entity_url(c.instance))
+                else:
+                    redirect(h.base_url(None, path='/instances'))
+            else:
+                redirect(h.entity_url(c.page_user))
+                h.flash(_("Your email has been confirmed."), 'success')
         except Exception:
             log.exception("Invalid activation code")
             h.flash(_("The activation code is invalid. Please have it "
