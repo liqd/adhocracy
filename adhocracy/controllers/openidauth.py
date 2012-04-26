@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime
 
 import formencode
 from formencode import validators
@@ -16,7 +15,7 @@ from openid.extensions import sreg, ax
 
 from adhocracy import forms, model
 from adhocracy.lib import event, helpers as h
-from adhocracy.lib.auth import require
+from adhocracy.lib.auth import login_user, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.openidstore import create_consumer
@@ -56,22 +55,9 @@ class OpenidauthController(BaseController):
 
     def _login(self, user):
         """
-        Raw login giving severe headaches to repoze.who, repoze.what and any
-        bystanding squirrels.
+        log the user in and redirect him to a sane place.
         """
-        identity = {
-            'userdata': '',
-            'repoze.who.userid': str(user.user_name),
-            'timestamp': int(datetime.utcnow().strftime("%s")),
-            'user': user,
-                    }
-        # set up repoze.what
-        who_plugins = request.environ['repoze.who.plugins']
-        authorization_md = who_plugins['authorization_md']
-        authorization_md.add_metadata(request.environ, identity)
-        auth_tkt = request.environ['repoze.who.plugins']['auth_tkt']
-        header = auth_tkt.remember(request.environ, identity)
-        response.headerlist.extend(header)
+        login_user(user, request)
         if c.instance and not user.is_member(c.instance):
             redirect(h.base_url(c.instance,
                      path="/instance/join/%s?%s" % (c.instance.key,
