@@ -352,11 +352,12 @@ class UsersCSV(formencode.FancyValidator):
         reader = csv.DictReader(StringIO(value), fieldnames=fieldnames)
         try:
             for item in reader:
-                error_list = self._check_item(item, reader.line_num)
+                error_list, cleaned_item = self._check_item(item,
+                                                            reader.line_num)
                 if error_list:
                     errors.append((reader.line_num, error_list))
                 if not errors:
-                    items.append(item)
+                    items.append(cleaned_item)
         except csv.Error, E:
             line_content = value.split('\n')[reader.line_num]
             msg = _('Error "%(error)s" while reading line '
@@ -398,8 +399,8 @@ class UsersCSV(formencode.FancyValidator):
 
     def _check_item(self, item, line):
         error_list = []
-        user_name = item.get(USER_NAME, '')
-        email = item.get(EMAIL, '')
+        user_name = item.get(USER_NAME, '').strip()
+        email = item.get(EMAIL, '').strip()
         for (validator, value) in ((USERNAME_VALIDATOR, user_name),
                                    (EMAIL_VALIDATOR, email)):
             try:
@@ -412,7 +413,10 @@ class UsersCSV(formencode.FancyValidator):
         usernames.append(line)
         if len(emails) > 1 or len(usernames) > 1:
             self.duplicates = True
-        return error_list
+        cleaned_item = item.copy()
+        cleaned_item.update({USER_NAME: user_name,
+                             EMAIL: email})
+        return error_list, cleaned_item
 
 
 class ContainsUrlPlaceholder(formencode.FancyValidator):
