@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 1.2beta2dev\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-04-26 18:48+0200\n"
+"POT-Creation-Date: 2012-04-27 01:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,21 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 
 msgid "Thank you for helping."
+msgstr ""
+
+msgid "The name with which the user can log in."
+msgstr ""
+
+msgid "The initial password for the user."
+msgstr ""
+
+msgid "An URL for the user to activate his account."
+msgstr ""
+
+msgid "The name that will be displayed to other users."
+msgstr ""
+
+msgid "The email address of the user."
 msgstr ""
 
 #, python-format
@@ -291,7 +306,17 @@ msgstr ""
 msgid "There is no user registered with that email address."
 msgstr ""
 
+#, python-format
+msgid ""
+"Dear %s,\n"
+"\n"
+msgstr ""
+
 msgid "you have requested that your password be reset. In order to confirm the validity of your claim, please open the link below in your browser:"
+msgstr ""
+
+#, python-format
+msgid "Your user name to login is: %s"
 msgstr ""
 
 msgid "Reset your password"
@@ -310,6 +335,13 @@ msgid "Success. You have been sent an email with your new password."
 msgstr ""
 
 msgid "The reset code is invalid. Please repeat the password recovery procedure."
+msgstr ""
+
+msgid "Thank you, The address is already activated."
+msgstr ""
+
+#, python-format
+msgid "Welcome to %s"
 msgstr ""
 
 msgid "Your email has been confirmed."
@@ -496,7 +528,8 @@ msgstr ""
 msgid "Lines %s: %s"
 msgstr ""
 
-msgid "You need to insert \"{url}\" into the email text so we can insert a url for the user where he can set a password"
+#, python-format
+msgid "You need to insert the following placeholders into the email text so we can insert enough information for the user: %s"
 msgstr ""
 
 msgid "Today"
@@ -1225,7 +1258,13 @@ msgstr ""
 msgid "Email Template"
 msgstr ""
 
-msgid "The template for the mail to the users. It is required that you insert \"{url}\" into the mailtext so we can insert a link for the user to set his password. You can also insert the following placeholders: \"{user_name}\" (The username with which the user can log in), \"{display_name}\" (the full name of the user. If the data does not contain a full name, the user name is inserted) and \"{email}\" (The email address of the user)"
+msgid "The template for the mail to the users. You need to insert some placeholders into the email text."
+msgstr ""
+
+msgid "Required"
+msgstr ""
+
+msgid "Optional"
 msgstr ""
 
 msgid "Imported Users"

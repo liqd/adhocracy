@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-04-23 22:07+0200\n"
+"POT-Creation-Date: 2012-04-27 01:02+0200\n"
 "PO-Revision-Date: 2012-04-02 12:37+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German "
@@ -24,6 +24,21 @@ msgstr ""
 
 msgid "Thank you for helping."
 msgstr "Danke für Ihre Hilfe."
+
+msgid "The name with which the user can log in."
+msgstr ""
+
+msgid "The initial password for the user."
+msgstr ""
+
+msgid "An URL for the user to activate his account."
+msgstr ""
+
+msgid "The name that will be displayed to other users."
+msgstr ""
+
+msgid "The email address of the user."
+msgstr ""
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
@@ -327,12 +342,22 @@ msgstr "Mitgliederliste der Projektgruppe."
 msgid "There is no user registered with that email address."
 msgstr "Unter dieser E-Mail-Adresse ist kein/e BenutzerIn angemeldet."
 
+#, python-format
+msgid ""
+"Dear %s,\n"
+"\n"
+msgstr ""
+
 msgid ""
 "you have requested that your password be reset. In order to confirm the "
 "validity of your claim, please open the link below in your browser:"
 msgstr ""
 "Sie haben ein neues Passwort für Adhocracy angefordert. Um den Prozess "
 "abzuschließen, muss der folgende Link in Ihrem Browser geöffnet werden."
+
+#, python-format
+msgid "Your user name to login is: %s"
+msgstr ""
 
 msgid "Reset your password"
 msgstr "Passwort zurücksetzen."
@@ -355,6 +380,13 @@ msgid "The reset code is invalid. Please repeat the password recovery procedure.
 msgstr ""
 "Der Code zum Zurücksetzen des Passworts ist ungültig. Bitte wiederholen "
 "Sie die Prozedur zur Wiederherstellung Ihres Passworts."
+
+msgid "Thank you, The address is already activated."
+msgstr ""
+
+#, python-format
+msgid "Welcome to %s"
+msgstr ""
 
 msgid "Your email has been confirmed."
 msgstr "Ihre E-Mail wurde verifiziert."
@@ -551,12 +583,11 @@ msgstr "Der Nutzername %s wird bereits benutzt"
 msgid "Lines %s: %s"
 msgstr "Zeilen %s: %s"
 
+#, python-format
 msgid ""
-"You need to insert \"{url}\" into the email text so we can insert a url "
-"for the user where he can set a password"
+"You need to insert the following placeholders into the email text so we "
+"can insert enough information for the user: %s"
 msgstr ""
-"Sie müssen \"{url}\" in den E-Mail-Text einfügen, damit wir eine URL für "
-"den Benutzer einfügen können, wo er ein Passwort festlegen kann"
 
 msgid "Today"
 msgstr "Heute"
@@ -728,14 +759,14 @@ msgstr "gemischt"
 msgid "Age and Support"
 msgstr "Alter und Unterstützung"
 
+msgid "Support"
+msgstr "Unterstützung"
+
 msgid "Date"
 msgstr "Datum"
 
 msgid "Newest Proposals"
 msgstr "Neuester Vorschlag"
-
-msgid "Support"
-msgstr "Unterstützung"
 
 msgid "Other"
 msgstr "Sonstige"
@@ -1240,6 +1271,9 @@ msgstr "Alle entfernen"
 msgid "remove"
 msgstr "entfernen"
 
+msgid "Sort:"
+msgstr ""
+
 msgid "Get an account to participate in the discussion."
 msgstr "Registrieren Sie sich, um an dieser Diskussion teilzunehmen."
 
@@ -1319,21 +1353,15 @@ msgid "Email Template"
 msgstr "Vorlage für die E-Mail"
 
 msgid ""
-"The template for the mail to the users. It is required that you insert "
-"\"{url}\" into the mailtext so we can insert a link for the user to set "
-"his password. You can also insert the following placeholders: "
-"\"{user_name}\" (The username with which the user can log in), "
-"\"{display_name}\" (the full name of the user. If the data does not "
-"contain a full name, the user name is inserted) and \"{user_email}\" (The"
-" email address of the user)"
+"The template for the mail to the users. You need to insert some "
+"placeholders into the email text."
 msgstr ""
-"Die E-Mail Vorlage für die Benutzer. Sie müssen \"{url}\" in den E-Mail-"
-"Text einfügen, um einen Link für den Benutzer einfügen zu können, damit "
-"er ein Passwort festlegen kann. Sie können auch die folgenden Platzhalter"
-" einfügen: \"{user_name}\" (Der Name mit dem sich der Benutzer einloggen "
-"kann), \"{display_name}\" (Der volle Name des Benutzers. Wenn die Daten "
-"keinen vollen Namen beinhalten, wird der Benutzername eingefügt) und "
-"\"{user_email}\" (Die E-Mail-Adresse des Nutzers)"
+
+msgid "Required"
+msgstr ""
+
+msgid "Optional"
+msgstr ""
 
 msgid "Imported Users"
 msgstr "Importierte Benutzer"
@@ -2971,8 +2999,8 @@ msgid ""
 "You can reach your dashboard anytime by clicking on your user name on the"
 " top of the page."
 msgstr ""
-"Sie können Ihr Dashboard jederzeit erreichen, indem Sie in oben rechts auf"
-" Ihren Benutzernamen klicken."
+"Sie können Ihr Dashboard jederzeit erreichen, indem Sie in oben rechts "
+"auf Ihren Benutzernamen klicken."
 
 msgid ""
 "This is your Dashboard. Here you can find the list of instances your a "
@@ -3283,4 +3311,9 @@ msgstr ""
 "Dies ist Ihre Beobachtungsliste. Sie erhalten eine Benachrichtigung bei "
 "Ereignissen in diesen Gruppen."
 
+#~ msgid "The initial password for the user"
+#~ msgstr ""
+
+#~ msgid "The name that will be displayed to other users"
+#~ msgstr ""
 
