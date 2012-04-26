@@ -41,6 +41,8 @@ user_table = Table('user', meta.data,
 
 class User(meta.Indexable):
 
+    IMPORT_MARKER = 'i__'
+
     def __init__(self, user_name, email, password, locale, display_name=None,
                  bio=None):
         self.user_name = user_name

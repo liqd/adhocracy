@@ -422,9 +422,15 @@ class UsersCSV(formencode.FancyValidator):
 class ContainsUrlPlaceholder(formencode.FancyValidator):
 
     def _to_python(self, value, state):
-        if not '{url}' in value:
-            raise formencode.Invalid(_('You need to insert "{url}" into the '
-                                       'email text so we can insert a url for '
-                                       'the user where he can set a password'),
-                                     value, state)
+        required = ['{url}', '{user_name}', '{password}']
+        missing = []
+        for s in required:
+            if s not in value:
+                missing.append(s)
+        if missing != []:
+            raise formencode.Invalid(
+                _('You need to insert the following placeholders into '
+                  'the email text so we can insert enough information '
+                  'for the user: %s') % ', '.join(missing),
+                value, state)
         return value
