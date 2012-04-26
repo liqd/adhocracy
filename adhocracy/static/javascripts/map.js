@@ -73,7 +73,7 @@ var styleArea = {
     strokeColor: "#3399ff"
 };
 
-var easteregg = true;
+var easteregg = false;
 var styleEasteregg = {
     fillColor: "#86f286",
     fillOpacity: 0.3,
