@@ -193,7 +193,6 @@ class UserController(BaseController):
                             'but cannot authenticate him: '
                             '%s (%s)' % (credentials['login'], user))
 
-    @ActionProtector(has_permission("user.edit"))
     def edit(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
@@ -203,7 +202,6 @@ class UserController(BaseController):
         return render("/user/edit.html")
 
     @RequireInternalRequest(methods=['POST'])
-    @ActionProtector(has_permission("user.edit"))
     @validate(schema=UserUpdateForm(), form="edit", post_only=True)
     def update(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
