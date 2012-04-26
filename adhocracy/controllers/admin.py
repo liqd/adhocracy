@@ -123,14 +123,14 @@ class AdminController(BaseController):
              'description': _('The name with which the user can log in.')})
         c.placeholders['required'].append(
             {'name': '{password}',
-             'description': _('The initial password for the user')})
+             'description': _('The initial password for the user.')})
         c.placeholders['required'].append(
             {'name': '{url}',
              'description': _('An URL for the user to activate his account.')})
         c.placeholders['optional'].append(
             {'name': '{display_name}',
              'description': _('The name that will be displayed to other '
-                              'users')})
+                              'users.')})
         c.placeholders['optional'].append(
             {'name': '{email}',
              'description': _('The email address of the user.')})
