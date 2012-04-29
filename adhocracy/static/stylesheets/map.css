@@ -18,6 +18,30 @@
     border: 1px solid #ccc;
 }
 
+.wrapper {
+    width: 800px;
+    height: 600px;
+    position: relative;
+}
+
+.map {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ccc;
+    top: 0px;
+    left: 0px;
+}
+
+.instance_search {
+    position: absolute;
+    z-index: 1;
+    top: 5px;
+    right: 5px;
+    background-color:  #ffffff;
+}
+
 .proposal_popup_title {
     color: green;
 }
