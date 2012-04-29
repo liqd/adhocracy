@@ -592,7 +592,7 @@ function addMultiBoundaryLayer(map, layers, resultList) {
     map.addLayer(townHallLayer);
     createPopupControl(townHallLayer, buildInstancePopup);
 
-    foldLayers = foldLayerMatrix(layers);
+    var foldLayers = foldLayerMatrix(layers);
     for (i=0; i<foldLayers.length;i++) {
         foldLayers[i].events.on({
             'featureadded': function(event) {
@@ -621,7 +621,7 @@ function foldLayerMatrix(layers) {
 
 function addRegionSelectControl(map) {
 
-    foldLayers = foldLayerMatrix(layers);
+    var foldLayers = foldLayerMatrix(layers);
 
     var selectHoverControl = new OpenLayers.Control.SelectFeature(foldLayers, {
             clickout: false,
@@ -1229,7 +1229,6 @@ function instanceSearch(state, resultList) {
                 //resultList = new Array();
                 resultList[request.term] = $.map( data.search_result, function( item ) {
                     var feature = getFeature(item.admin_center);
-                    if (feature) townHallLayer.addFeatures([feature]);
                     return {
                         instance_id: item.instance_id,
                         region_id: item.region_id,
@@ -1243,7 +1242,12 @@ function instanceSearch(state, resultList) {
                         bbox: item.bbox,
                         admin_center: feature
                     }
-                })
+                });
+                var i=0;
+                for (i=0; i<resultList[request.term].length;i++) {
+                    var admin_center = resultList[request.term][i].admin_center;
+                    if (admin_center) townHallLayer.addFeatures([admin_center]);
+                } 
                 if (useAutocompletionResultForSearchResult == true) {
                     useAutocompletionResultForSearchResult = false;
                     showSearchResult();
