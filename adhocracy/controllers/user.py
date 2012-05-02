@@ -250,13 +250,12 @@ class UserController(BaseController):
         url = h.base_url(c.instance,
                          path="/user/%s/reset?c=%s" % (c.page_user.user_name,
                                                        c.page_user.reset_code))
-        body = _("Dear %s,\n\n") % c.page_user.name
-        body += _("you have requested that your password be reset. In order "
-                  "to confirm the validity of your claim, please open the "
-                  "link below in your browser:") + "\r\n\r\n  " + url
-        if c.page_user.name != c.page_user.name:
-            body += "\n\n"
-            body += _("Your user name to login is: %s") % c.page_user.user_name
+        body = (
+            _("you have requested that your password be reset. In order "
+              "to confirm the validity of your claim, please open the "
+              "link below in your browser:") +
+            "\r\n\r\n  " + url + "\n\n" +
+            _("Your user name to login is: %s") % c.page_user.user_name)
 
         libmail.to_user(c.page_user, _("Reset your password"), body)
         return render("/user/reset_pending.html")
@@ -273,10 +272,13 @@ class UserController(BaseController):
             c.page_user.password = new_password
             model.meta.Session.add(c.page_user)
             model.meta.Session.commit()
-            body = (_("your password has been reset. It is now:") +
-                    "\r\n\r\n  " + new_password + "\r\n\r\n" +
-                    _("Please login and change the password in your user "
-                      "settings."))
+            body = (
+                _("your password has been reset. It is now:") +
+                "\r\n\r\n  " + new_password + "\r\n\r\n" +
+                _("Please login and change the password in your user "
+                  "settings.") +
+                _("Your user name to login is: %s") % c.page_user.user_name
+            )
             libmail.to_user(c.page_user, _("Your new password"), body)
             h.flash(_("Success. You have been sent an email with your new "
                       "password."), 'success')
