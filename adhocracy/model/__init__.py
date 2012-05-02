@@ -19,7 +19,8 @@ from adhocracy.model.delegateable import (Delegateable, delegateable_table,
                                           category_graph)
 from adhocracy.model.delegation import Delegation, delegation_table
 from adhocracy.model.proposal import Proposal, proposal_table
-from adhocracy.model.poll import Poll, poll_table
+from adhocracy.model.poll import BasePoll, basepoll_table, Poll, poll_table
+from adhocracy.model.poll import DescriptionPoll, variantpoll_table
 from adhocracy.model.vote import Vote, vote_table
 from adhocracy.model.revision import Revision, revision_table
 from adhocracy.model.comment import Comment, comment_table
@@ -31,6 +32,7 @@ from adhocracy.model.tally import Tally, tally_table
 from adhocracy.model.tag import Tag, tag_table
 from adhocracy.model.tagging import Tagging, tagging_table
 from adhocracy.model.page import Page, page_table
+from adhocracy.model.page import Description, description_table
 from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
@@ -159,11 +161,17 @@ mapper(Page, page_table, inherits=Delegateable, polymorphic_identity='page',
        properties={})
 
 
+mapper(Description, description_table,
+       inherits=Page, polymorphic_identity='description',
+       properties={})
+
+
 mapper(Proposal, proposal_table, inherits=Delegateable,
        polymorphic_identity='proposal', properties={
     'description': relation(
-            Page,
-            primaryjoin=proposal_table.c.description_id == page_table.c.id,
+            Description,
+            primaryjoin=(proposal_table.c.description_id ==
+                         page_table.c.id),
             uselist=False, lazy=True, backref=backref('_proposal')),
     'rate_poll': relation(
             Poll, primaryjoin=proposal_table.c.rate_poll_id == poll_table.c.id,
@@ -222,19 +230,34 @@ mapper(Delegation, delegation_table, properties={
     })
 
 
-mapper(Poll, poll_table, properties={
+mapper(BasePoll, basepoll_table,
+       polymorphic_on=basepoll_table.c.type,
+       properties={
     'user': relation(
             User,
-            primaryjoin=poll_table.c.user_id == user_table.c.id,
+            primaryjoin=basepoll_table.c.user_id == user_table.c.id,
             lazy=True),
-    'subject': synonym('_subject', map_column=True),
     'scope': relation(
             Delegateable,
-            primaryjoin=poll_table.c.scope_id == delegateable_table.c.id,
+            primaryjoin=basepoll_table.c.scope_id == delegateable_table.c.id,
             lazy=True,
             backref=backref('polls', cascade='all', lazy=True,
-                            order_by=poll_table.c.begin_time.desc()))
+                            order_by=basepoll_table.c.begin_time.desc()))
     })
+
+
+mapper(Poll, poll_table,
+       inherits=BasePoll,
+       polymorphic_identity='poll',
+       properties={
+           '_subject': poll_table.c.subject,
+           'subject': synonym('_subject'),
+       })
+
+mapper(DescriptionPoll, variantpoll_table,
+       inherits=BasePoll,
+       polymorphic_identity='descriptionpoll',
+       properties={})
 
 
 mapper(Vote, vote_table, properties={

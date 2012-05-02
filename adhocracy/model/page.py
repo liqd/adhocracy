@@ -17,6 +17,10 @@ page_table = Table('page', meta.data,
     Column('function', Unicode(20))
     )
 
+description_table = Table('description', meta.data,
+    Column('id', Integer, ForeignKey('page.id'), primary_key=True),
+    )
+
 
 class Page(Delegateable):
 
@@ -135,12 +139,6 @@ class Page(Delegateable):
 
     def variant_tallies(self):
         return [self.variant_tally(v) for v in self.variants]
-
-    @property
-    def proposal(self):
-        if self.function == Page.DESCRIPTION:
-            return self._proposal[-1]
-        return None
 
     @property
     def parent(self):
@@ -292,8 +290,6 @@ class Page(Delegateable):
             poll.end()
 
     def is_mutable(self):
-        if self.function == self.DESCRIPTION and self.proposal:
-            return self.proposal.is_mutable()
         return not self.instance.frozen
 
     def user_position(self, user):
@@ -346,3 +342,20 @@ class Page(Delegateable):
 
     def __repr__(self):
         return u"<Page(%s)>" % (self.id)
+
+
+class Description(Page):
+
+    def proposal(self):
+        # FIXME: this should be covered by 'userlist=False' in the mapper
+        # configuration for Proposal. But it isn't. Maybe cause
+        # _proposal is the backref.
+        return self._proposal[-1]
+
+    def is_mutable(self):
+        return self.proposal.is_mutable()
+
+    @property
+    def polls(self):
+        from poll import DescriptionVariantPoll
+        return DescriptionVariantPoll.find_by_scope(self)

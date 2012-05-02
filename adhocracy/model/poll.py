@@ -11,14 +11,23 @@ import instance_filter as ifilter
 log = logging.getLogger(__name__)
 
 
-poll_table = Table('poll', meta.data,
+basepoll_table = Table('basepoll', meta.data,
     Column('id', Integer, primary_key=True),
+    Column('type', Unicode(255), nullable=False),
     Column('begin_time', DateTime, default=datetime.utcnow),
     Column('end_time', DateTime, nullable=True),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False))
+
+poll_table = Table('poll', meta.data,
+    Column('id', Integer, ForeignKey('basepoll.id'), primary_key=True),
     Column('action', Unicode(50), nullable=False),
-    Column('subject', Unicode(254), nullable=False),
-    Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False)
+    Column('subject', Unicode(254), nullable=False)
+)
+
+variantpoll_table = Table('variantpoll', meta.data,
+    Column('id', Integer, ForeignKey('basepoll.id'), primary_key=True),
+    Column('variant', Unicode(255), nullable=True),
     )
 
 
@@ -26,13 +35,53 @@ class NoPollException(Exception):
     pass
 
 
-class Poll(object):
+class BasePoll(object):
+    @property
+    def tally(self):
+        if self._tally is None:
+            if len(self.tallies):
+                self._tally = self.tallies[0]
+            else:
+                from tally import Tally
+                self._tally = Tally.create_from_poll(self)
+        return self._tally
 
+    def can_end(self):
+        if self.has_ended():
+            return False
+        if self.action == self.RATE:
+            return False
+        if self.tally.has_majority() and self.tally.has_participation():
+            return False
+        return True
+
+    def end(self, end_time=None):
+        if end_time is None:
+            end_time = datetime.utcnow()
+        if not self.has_ended(at_time=end_time):
+            self.end_time = end_time
+
+    def has_ended(self, at_time=None):
+        if at_time is None:
+            at_time = datetime.utcnow()
+        return (self.end_time is not None) \
+               and self.end_time <= at_time
+
+    def delete(self, delete_time=None):
+        return self.end(end_time=delete_time)
+
+    def is_deleted(self, at_time=None):
+        return self.has_ended(at_time=at_time)
+
+
+class Poll(BasePoll):
+
+    DESCRIPTION = u'description'
     ADOPT = u'adopt'
     RATE = u'rate'
     SELECT = u'select'
 
-    ACTIONS = [ADOPT, RATE, SELECT]
+    ACTIONS = [ADOPT, RATE, SELECT, DESCRIPTION]
 
     def __init__(self, scope, user, action, subject=None):
         self.scope = scope
@@ -219,3 +268,42 @@ class Poll(object):
                                          self.scope_id,
                                          self.begin_time,
                                          self.end_time)
+
+
+class VariantPoll(BasePoll):
+
+    def __init__(self, scope, user, variant):
+        self.scope = scope
+        self.user = user
+        self.variant = variant
+
+    @classmethod
+    def find_by_scope(cls, scope, variant=None):
+        q = meta.Session.query(VariantPoll)
+        q = q.filter(VariantPoll.scope == scope)
+        if variant is not None:
+            q = q.filter(VariantPoll.variant == variant)
+        return q.all()
+
+    @classmethod
+    def create(cls, scope, user, variant):
+        from tally import Tally
+        polls = cls.find_by_scope(scope, variant)
+        if polls:
+            return polls[0]
+        else:
+            poll = VariantPoll(scope, user, variant)
+            meta.Session.add(poll)
+            meta.Session.flush()
+            Tally.create_from_poll(poll)
+            return poll
+
+    @classmethod
+    def update_variant_polls(cls, scope, user):
+        for variant in scope.variants:
+            cls.create(scope, user, variant)
+
+
+class DescriptionPoll(VariantPoll):
+
+    pass
