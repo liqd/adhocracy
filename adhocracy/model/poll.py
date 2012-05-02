@@ -264,10 +264,12 @@ class Poll(BasePoll):
                     subject=self.subject)
 
     def __repr__(self):
-        return u"<Poll(%s,%s,%s,%s)>" % (self.id,
-                                         self.scope_id,
-                                         self.begin_time,
-                                         self.end_time)
+        clsname = self.__class__.__name__
+        return u"<%s(%s,%s,%s,%s)>" % (clsname,
+                                       self.id,
+                                       self.scope_id,
+                                       self.begin_time,
+                                       self.end_time)
 
 
 class VariantPoll(BasePoll):

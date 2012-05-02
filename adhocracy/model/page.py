@@ -359,3 +359,6 @@ class Description(Page):
     def polls(self):
         from poll import DescriptionVariantPoll
         return DescriptionVariantPoll.find_by_scope(self)
+
+    def __repr__(self):
+        return u"<Description(%s)>" % self.id
