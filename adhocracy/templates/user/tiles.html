@@ -28,7 +28,7 @@
     <div class="top_actions title vcard">
         %if can.user.message(user):
         <a class="button add" 
-           href="${h.entity_url(user, member='message/new')}">
+           href="${h.entity_url(user, instance=c.instance, member='message/new')}">
             ${_("send a message")}
         </a>
         %endif
