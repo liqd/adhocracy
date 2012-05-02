@@ -31,10 +31,6 @@ variantpoll_table = Table('variantpoll', meta.data,
     )
 
 
-class NoPollException(Exception):
-    pass
-
-
 class BasePoll(object):
     @property
     def tally(self):
