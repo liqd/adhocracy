@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 1.2beta2dev\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-04-27 01:02+0200\n"
+"POT-Creation-Date: 2012-05-02 08:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -304,12 +304,6 @@ msgid "tutorial_user_index_intro"
 msgstr ""
 
 msgid "There is no user registered with that email address."
-msgstr ""
-
-#, python-format
-msgid ""
-"Dear %s,\n"
-"\n"
 msgstr ""
 
 msgid "you have requested that your password be reset. In order to confirm the validity of your claim, please open the link below in your browser:"

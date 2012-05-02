@@ -276,7 +276,7 @@ class UserController(BaseController):
                 _("your password has been reset. It is now:") +
                 "\r\n\r\n  " + new_password + "\r\n\r\n" +
                 _("Please login and change the password in your user "
-                  "settings.") +
+                  "settings.") + "\n\n" +
                 _("Your user name to login is: %s") % c.page_user.user_name
             )
             libmail.to_user(c.page_user, _("Your new password"), body)

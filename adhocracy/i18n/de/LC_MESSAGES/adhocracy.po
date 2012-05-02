@@ -322,7 +322,7 @@ msgstr "Sie haben ein neues Passwort für Adhocracy angefordert. Um den Prozess 
 
 #, python-format
 msgid "Your user name to login is: %s"
-msgstr "Ihr Benutzername zum Anmelden ist: %s"
+msgstr "Ihr Benutzername zum Anmelden lautet: %s"
 
 msgid "Reset your password"
 msgstr "Passwort zurücksetzen."
