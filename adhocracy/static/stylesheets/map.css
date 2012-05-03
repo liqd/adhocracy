@@ -34,6 +34,9 @@
     left: 0px;
 }
 
+.ui-autocomplete-loading { 
+    background:url('/images/ui-anim_basic_16x16.gif') no-repeat right center;
+}
 .instance_search {
     position: absolute;
     z-index: 1;
