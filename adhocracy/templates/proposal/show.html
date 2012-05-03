@@ -13,10 +13,10 @@
 <%components:admin_controls>
 
 ## FIXME: Reenable for adopt poll
-##%if can.proposal.adopt(proposal):
-##<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
-##   href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
-##%endif
+%if can.proposal.adopt(proposal):
+<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
+   href="${h.entity_url(c.proposal, member='ask_adopt')}">${_("call a vote")}</a>
+%endif
 
 %if lib.auth.authorization.has('global.admin'):
 <a class="button edit" href="${h.entity_url(c.proposal, member='badges')}">${_("Edit Badges")}</a>

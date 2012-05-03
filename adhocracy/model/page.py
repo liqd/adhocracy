@@ -22,7 +22,56 @@ description_table = Table('description', meta.data,
     )
 
 
-class Page(Delegateable):
+class BasePage(Delegateable):
+
+    @property
+    def texts(self):
+        return [t for t in self._texts if not t.is_deleted()]
+
+    @classmethod
+    def find(cls, id, instance_filter=True, include_deleted=False):
+        try:
+            q = meta.Session.query(cls)
+            try:
+                id = int(id)
+                q = q.filter(cls.id == id)
+            except ValueError:
+                #from adhocracy.lib.text import title2alias
+                q = q.filter(cls.label == id)
+            if not include_deleted:
+                q = q.filter(or_(cls.delete_time == None,
+                                 cls.delete_time > datetime.utcnow()))
+            if ifilter.has_instance() and instance_filter:
+                q = q.filter(cls.instance == ifilter.get_instance())
+            return q.limit(1).first()
+        except Exception, e:
+            log.warn("find(%s): %s" % (id, e))
+            return None
+
+    @classmethod
+    def all_q(cls, instance=None, functions=[], exclude=[],
+              include_deleted=False):
+        q = meta.Session.query(cls)
+        if not include_deleted:
+            q = q.filter(or_(cls.delete_time == None,
+                             cls.delete_time > datetime.utcnow()))
+        if functions is not None:
+            q = q.filter(cls.function.in_(functions))
+        if instance is not None:
+            q = q.filter(cls.instance == instance)
+        q = q.filter(not_(cls.id.in_([p.id for p in exclude])))
+        return q
+
+    @classmethod
+    def all(cls, **kwargs):
+        return cls.all_q(**kwargs).all()
+
+    @classmethod
+    def count(cls, **kwargs):
+        return cls.all_q(**kwargs).count()
+
+
+class Page(BasePage):
 
     DESCRIPTION = u"description"
     NORM = u"norm"
@@ -39,10 +88,6 @@ class Page(Delegateable):
     @property
     def selections(self):
         return [s for s in self._selections if not s.is_deleted()]
-
-    @property
-    def texts(self):
-        return [t for t in self._texts if not t.is_deleted()]
 
     @classmethod
     def find_fuzzy(cls, id, instance_filter=True, include_deleted=False):
@@ -61,48 +106,6 @@ class Page(Delegateable):
             q = q.order_by(Text.create_time.asc())
             page = q.limit(1).first()
         return page
-
-    @classmethod
-    def find(cls, id, instance_filter=True, include_deleted=False):
-        try:
-            q = meta.Session.query(Page)
-            try:
-                id = int(id)
-                q = q.filter(Page.id == id)
-            except ValueError:
-                #from adhocracy.lib.text import title2alias
-                q = q.filter(Page.label == id)
-            if not include_deleted:
-                q = q.filter(or_(Page.delete_time == None,
-                                 Page.delete_time > datetime.utcnow()))
-            if ifilter.has_instance() and instance_filter:
-                q = q.filter(Page.instance == ifilter.get_instance())
-            return q.limit(1).first()
-        except Exception, e:
-            log.warn("find(%s): %s" % (id, e))
-            return None
-
-    @classmethod
-    def all_q(cls, instance=None, functions=[], exclude=[],
-              include_deleted=False):
-        q = meta.Session.query(Page)
-        if not include_deleted:
-            q = q.filter(or_(Page.delete_time == None,
-                             Page.delete_time > datetime.utcnow()))
-        if functions is not None:
-            q = q.filter(Page.function.in_(functions))
-        if instance is not None:
-            q = q.filter(Page.instance == instance)
-        q = q.filter(not_(Page.id.in_([p.id for p in exclude])))
-        return q
-
-    @classmethod
-    def all(cls, **kwargs):
-        return cls.all_q(**kwargs).all()
-
-    @classmethod
-    def count(cls, **kwargs):
-        return cls.all_q(**kwargs).count()
 
     @classmethod
     def create(cls, instance, title, text, creator, function=NORM, tags=None,
@@ -346,6 +349,9 @@ class Page(Delegateable):
 
 class Description(Page):
 
+    def __init__(self, instance, alias, creator):
+        self.init_child(instance, alias, creator)
+
     def proposal(self):
         # FIXME: this should be covered by 'userlist=False' in the mapper
         # configuration for Proposal. But it isn't. Maybe cause
@@ -359,6 +365,17 @@ class Description(Page):
     def polls(self):
         from poll import DescriptionVariantPoll
         return DescriptionVariantPoll.find_by_scope(self)
+
+    @classmethod
+    def create(cls, instance, title, text, creator, wiki=False):
+        from adhocracy.lib.text import title2alias
+        from text import Text
+        label = title2alias(title)
+        description_obj = cls(instance, label, creator)
+        meta.Session.add(description_obj)
+        meta.Session.flush()
+        Text(description_obj, Text.HEAD, creator, title, text, wiki)
+        return description_obj
 
     def __repr__(self):
         return u"<Description(%s)>" % self.id

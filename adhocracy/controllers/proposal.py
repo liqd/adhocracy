@@ -147,21 +147,19 @@ class ProposalController(BaseController):
                 _('Please select norm and propose a change to it.'),
                 'error')
             return self.new()
+
+        label = self.form_result.get("label"),
+        description = self.form_result.get('text')
+        wiki = self.form_result.get('wiki')
+        milestone = self.form_result.get('milestone')
         proposal = model.Proposal.create(c.instance,
-                                         self.form_result.get("label"),
-                                         c.user, with_vote=can.user.vote(),
-                                         tags=self.form_result.get("tags"))
-        proposal.milestone = self.form_result.get('milestone')
-        model.meta.Session.flush()
-        description = model.Page.create(c.instance,
-                                        self.form_result.get("label"),
-                                        self.form_result.get('text'),
-                                        c.user,
-                                        function=model.Page.DESCRIPTION,
-                                        wiki=self.form_result.get('wiki'))
-        description.parents = [proposal]
-        model.meta.Session.flush()
-        proposal.description = description
+                                         label,
+                                         c.user,
+                                         description,
+                                         with_vote=can.user.vote(),
+                                         tags=self.form_result.get("tags"),
+                                         wiki=wiki,
+                                         milestone=milestone)
         if badge:
             model.DelegateableBadge(proposal, badge[0], c.user)
         for page in pages:

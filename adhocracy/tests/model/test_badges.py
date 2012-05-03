@@ -152,7 +152,8 @@ class TestDelegateableController(TestController):
         from adhocracy.model import Badge, Proposal, Instance
         instance = Instance.find('test')
         creator = tt_make_user('creator')
-        delegateable = Proposal.create(instance, u"labeld", creator)
+        delegateable = Proposal.create(instance, u"labeld", creator,
+                                       u'proposal description')
         badge = Badge.create(u'testbadge', u'#ccc', 'description')
 
         return creator, delegateable, badge

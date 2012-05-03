@@ -45,7 +45,7 @@ class TestProposals(TestController):
         (proposal, creator) = self._make_proposal()
         norm = self._make_norm(proposal, creator)
         selection = proposal.selections[0]
-        self.assertEqual(proposal.children[0], norm)
+        self.assertTrue(norm in proposal.children)
         proposal.delete()
         self.assertTrue(proposal.is_deleted())
         self.assertTrue(selection.is_deleted())
@@ -58,9 +58,12 @@ class TestProposals(TestController):
         of the way relationship()/backref() automatically
         populates the other side.
         '''
+        from adhocracy.model import Poll
         (proposal, _) = self._make_proposal(voting=True)
-        self.assertEqual(len(proposal.polls), 2)
-        self.assertTrue(proposal.polls[0] is proposal.polls[1])
+        adopt_polls = [poll for poll in proposal.polls if
+                       poll.action == Poll.ADOPT]
+        self.assertEqual(len(adopt_polls), 2)
+        self.assertTrue(adopt_polls[0] is adopt_polls[1])
 
     def test_delete_deletes_polls(self):
         (proposal, _) = self._make_proposal(voting=True)
@@ -68,3 +71,13 @@ class TestProposals(TestController):
         self.assertTrue(len(proposal.polls) > 0)
         for poll in proposal.polls:
             self.assertTrue(poll.is_deleted())
+
+    def test_proposal_description(self):
+        '''
+        When we create an Proposal, we create a Description object.
+        '''
+        from adhocracy.model import Description
+        (proposal, _) = self._make_proposal()
+        self.assertTrue(isinstance(proposal.description, Description))
+        self.assertTrue(proposal.creator is proposal.description.creator)
+        self.assertTrue(proposal.description in proposal.children)

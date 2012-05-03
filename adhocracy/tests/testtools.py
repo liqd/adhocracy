@@ -31,11 +31,14 @@ def tt_make_str(length=20):
     return u''.join([random.choice(string.letters) for i in range(length)])
 
 
-def tt_make_proposal(creator=None, voting=False, title=None):
+def tt_make_proposal(creator=None, voting=False, title=None, description=None,
+                     wiki=False):
     instance = tt_get_instance()
     creator = creator if creator is not None else tt_make_user()
     title = title if title is not None else tt_make_str()
-    proposal = model.Proposal(instance, title, creator)
+    description = description if description else tt_make_str()
+    proposal = model.Proposal.create(instance, title, creator, description,
+                                     wiki=wiki)
     model.meta.Session.add(proposal)
     model.meta.Session.flush()
 

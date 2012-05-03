@@ -171,7 +171,7 @@ mapper(Proposal, proposal_table, inherits=Delegateable,
     'description': relation(
             Description,
             primaryjoin=(proposal_table.c.description_id ==
-                         page_table.c.id),
+                         description_table.c.id),
             uselist=False, lazy=True, backref=backref('_proposal')),
     'rate_poll': relation(
             Poll, primaryjoin=proposal_table.c.rate_poll_id == poll_table.c.id,

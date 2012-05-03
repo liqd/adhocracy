@@ -286,7 +286,7 @@ class VariantPoll(BasePoll):
     @classmethod
     def create(cls, scope, user, variant):
         from tally import Tally
-        polls = cls.find_by_scope(scope, variant)
+        polls = cls.find_by_scope(scope, variant=variant)
         if polls:
             return polls[0]
         else:

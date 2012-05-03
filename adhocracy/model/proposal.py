@@ -14,7 +14,8 @@ log = logging.getLogger(__name__)
 
 proposal_table = Table('proposal', meta.data,
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
-    Column('description_id', Integer, ForeignKey('page.id'), nullable=True),
+    Column('description_id', Integer, ForeignKey('description.id'),
+           nullable=True),
     Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('adopted', Boolean, default=False)
@@ -153,10 +154,19 @@ class Proposal(Delegateable):
                          include_deleted=include_deleted).all()
 
     @classmethod
-    def create(cls, instance, label, user, with_vote=False, tags=None):
+    def create(cls, instance, label, user, description_text, with_vote=False,
+               tags=None, wiki=False, milstone=None):
         from poll import Poll
         from tagging import Tagging
+        from page import Description
         proposal = Proposal(instance, label, user)
+        description = Description.create(instance,
+                                         label,
+                                         description_text,
+                                         user,
+                                         wiki=wiki)
+        description.parents = [proposal]
+        proposal.description = description
         meta.Session.add(proposal)
         meta.Session.flush()
         poll = Poll.create(proposal, user, Poll.RATE,
