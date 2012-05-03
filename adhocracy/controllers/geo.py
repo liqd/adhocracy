@@ -140,7 +140,7 @@ class GeoController(BaseController):
                 entry['url'] = h.entity_url(instances[0])
                 entry['admin_level'] = region.admin_level
                 entry['num_proposals'] = instance.num_proposals
-                entry['num_papers'] = 'nyi'
+                entry['num_papers'] = num_pages(instance)
                 entry['num_members'] = instance.num_members
                 entry['create_date'] = str(instance.create_time.date())
                 admin_center_props['instance_id'] = instance.id
@@ -150,6 +150,12 @@ class GeoController(BaseController):
                 entry['instance_id'] = ""
             entry['admin_center'] = render_geojson((geojson.Feature(geometry=loads(str(region.boundary.geom_wkb)).centroid, properties=admin_center_props)))
             return entry
+        
+        def num_pages(instance):
+            from adhocracy.model import Page
+            pageq = meta.Session.query(Page)
+            pageq = pageq.filter(Page.instance == instance)
+            return pageq.count()
 
         search_result = map(create_entry, regions)
 #        response['count'] = num_hits
