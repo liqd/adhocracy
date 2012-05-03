@@ -1192,7 +1192,8 @@ function instanceSearch(state, resultList) {
                 prevButton.appendTo('#search_buttons');
                 prevButton.click(function(event) { removePreviousMarkers(inputValue); offset = offset-max_rows; fillSearchField(inputValue) });
             }
-            var pageText = document.createTextNode(offset + ' to ' + (offset+max_rows));
+            var lastPage = Math.min(offset+max_rows,count);
+            var pageText = document.createTextNode((offset+1) + ' to ' + lastPage);
             $('#search_buttons').append(pageText);
             if (offset + max_rows < count) {
                 var nextButton = $( '<div />', { class: 'button_small', id: 'search_next' });
