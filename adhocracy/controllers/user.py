@@ -309,7 +309,7 @@ class UserController(BaseController):
             if c.instance:
                 redirect(h.entity_url(c.instance))
             else:
-                redirect(h.base_url(None, path='/instances'))
+                redirect(h.base_url(None, path='/instance'))
         else:
             redirect(h.entity_url(c.page_user))
             h.flash(_("Your email has been confirmed."), 'success')

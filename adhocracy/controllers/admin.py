@@ -86,7 +86,7 @@ class AdminController(BaseController):
                 model.meta.Session.commit()
                 users.append(user)
                 created.append(user.user_name)
-                url = base_url(None,
+                url = base_url(c.instance,
                                path="/user/%s/activate?c=%s" % (
                                    user.user_name,
                                    user.activation_code))
