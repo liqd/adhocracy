@@ -1275,12 +1275,17 @@ function instanceSearch(state, resultList) {
         $( "#instances" ).autocomplete("close");
         var request_term = $( "#instances" ).val();
         $.ajax({
+            beforeSend: function(jqXHR, settings) {
+                $('#instances').addClass('ui-autocomplete-loading');
+                return true;
+            },
             url: 'find_instances.json',
             dataType: "jsonp",
             data: {
                 name_contains: request_term
             },
             success: function(data) {
+                $('#instances').removeClass('ui-autocomplete-loading');
                 resultList[request_term] = $.map( data.search_result, function( item ) {
                     var feature = getFeature(item.admin_center);
                     return {
@@ -1302,6 +1307,7 @@ function instanceSearch(state, resultList) {
                 stopAutocompletion = false;
             },
             error: function(xhr,err){
+                $('#instances').removeClass('ui-autocomplete-loading');
                 stopAutocompletion = false;
                 //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
                 //alert('No response from server, sorry. Error: '+err);
