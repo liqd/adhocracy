@@ -70,6 +70,57 @@ class BasePage(Delegateable):
     def count(cls, **kwargs):
         return cls.all_q(**kwargs).count()
 
+    @property
+    def variants(self):
+        return list(set([t.variant for t in self.texts]))
+
+    def rename_variant(self, old_name, new_name):
+        from text import Text
+        if old_name == Text.HEAD or new_name in self.variants:
+            return
+        for text in self._texts:
+            if text.variant == old_name:
+                text.variant = new_name
+
+    def variant_head(self, variant):
+        for text in self.texts:
+            if text.variant == variant:
+                return text
+        return None
+
+    def variant_at(self, variant, at_time):
+        for text in self.variant_history(variant):
+            if text.create_time <= at_time:
+                return text
+        return None
+
+    def variant_history(self, variant):
+        head = self.variant_head(variant)
+        if head:
+            return head.history
+        return []
+
+    def variant_comments(self, variant):
+        return [c for c in self.comments if
+                ((not c.is_deleted()) and c.variant == variant)]
+
+    def variant_tally(self, variant):
+        from tally import Tally
+        polls = self.variant_polls(variant)
+        return Tally.combine_polls(polls)
+
+    def variant_tallies(self):
+        return [self.variant_tally(v) for v in self.variants]
+
+    @property
+    def heads(self):
+        return [self.variant_head(h) for h in self.variants]
+
+    @property
+    def head(self):
+        from text import Text
+        return self.variant_head(Text.HEAD)
+
 
 class Page(BasePage):
 
@@ -135,13 +186,11 @@ class Page(BasePage):
         polls = [p for p in polls if p is not None]
         return polls
 
-    def variant_tally(self, variant):
-        from tally import Tally
-        polls = self.variant_polls(variant)
-        return Tally.combine_polls(polls)
-
-    def variant_tallies(self):
-        return [self.variant_tally(v) for v in self.variants]
+    def rename_variant(self, old_name, new_name):
+        super(Page, self).rename_variant(old_name, new_name)
+        for selection in self._selections:
+            poll = selection.variant_poll(old_name)
+            poll.subject = selection.variant_key(new_name)
 
     @property
     def parent(self):
@@ -154,62 +203,6 @@ class Page(BasePage):
     def subpages(self):
         return [c for c in self.children if isinstance(c, Page) and \
                 c.function in self.LISTED and not c.is_deleted()]
-
-    @property
-    def has_variants(self):
-        return self.function in Page.WITH_VARIANTS
-
-    @property
-    def variants(self):
-        from text import Text
-        if not self.has_variants:
-            return [Text.HEAD]
-        return list(set([t.variant for t in self.texts]))
-
-    def variant_head(self, variant):
-        for text in self.texts:
-            if text.variant == variant:
-                return text
-        return None
-
-    def variant_at(self, variant, at_time):
-        for text in self.variant_history(variant):
-            if text.create_time <= at_time:
-                return text
-        return None
-
-    def variant_history(self, variant):
-        head = self.variant_head(variant)
-        if head:
-            return head.history
-        return []
-
-    def variant_comments(self, variant):
-        return [c for c in self.comments if
-                ((not c.is_deleted()) and c.variant == variant)]
-
-    def rename_variant(self, old_name, new_name):
-        from text import Text
-        if old_name == Text.HEAD or new_name in self.variants:
-            return
-        for text in self._texts:
-            if text.variant == old_name:
-                text.variant = new_name
-        for selection in self._selections:
-            poll = selection.variant_poll(old_name)
-            poll.subject = selection.variant_key(new_name)
-
-    @property
-    def heads(self):
-        from text import Text
-        if not self.has_variants:
-            return [self.variant_head(Text.HEAD)]
-        return [self.variant_head(h) for h in self.variants]
-
-    @property
-    def head(self):
-        from text import Text
-        return self.variant_head(Text.HEAD)
 
     @property
     def title(self):
@@ -363,8 +356,8 @@ class Description(Page):
 
     @property
     def polls(self):
-        from poll import DescriptionVariantPoll
-        return DescriptionVariantPoll.find_by_scope(self)
+        from poll import DescriptionPoll
+        return DescriptionPoll.find_by_scope(self)
 
     @classmethod
     def create(cls, instance, title, text, creator, wiki=False):
@@ -376,6 +369,24 @@ class Description(Page):
         meta.Session.flush()
         Text(description_obj, Text.HEAD, creator, title, text, wiki)
         return description_obj
+
+    def establish_variant(self, variant, user):
+        '''
+        Be compatible for model.Text
+        '''
+        from poll import DescriptionPoll
+        DescriptionPoll.update_variants(self, user)
+
+    def rename_variant(self, old_name, new_name):
+        super(Page, self).rename_variant(old_name, new_name)
+        from poll import DescriptionPoll
+        poll = DescriptionPoll.find_by_variant(self, old_name)
+        poll.variant = new_name
+
+    def variant_polls(self, variant):
+        from poll import DescriptionPoll
+        poll = DescriptionPoll.find_by_variant(self, variant)
+        return [poll]
 
     def __repr__(self):
         return u"<Description(%s)>" % self.id

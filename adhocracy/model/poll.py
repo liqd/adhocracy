@@ -276,19 +276,27 @@ class VariantPoll(BasePoll):
         self.variant = variant
 
     @classmethod
-    def find_by_scope(cls, scope, variant=None):
+    def find_by_scope(cls, scope):
+        return cls.scope_q().all()
+
+    @classmethod
+    def find_by_variant(cls, scope, variant):
+        q = cls.scope_q()
+        q = q.filter(VariantPoll.variant == variant)
+        return q.all()
+
+    @classmethod
+    def scope_q(cls, scope):
         q = meta.Session.query(VariantPoll)
         q = q.filter(VariantPoll.scope == scope)
-        if variant is not None:
-            q = q.filter(VariantPoll.variant == variant)
-        return q.all()
+        return q
 
     @classmethod
     def create(cls, scope, user, variant):
         from tally import Tally
-        polls = cls.find_by_scope(scope, variant=variant)
-        if polls:
-            return polls[0]
+        poll = cls.find_by_variant(scope, variant)
+        if poll:
+            return poll
         else:
             poll = VariantPoll(scope, user, variant)
             meta.Session.add(poll)
@@ -297,7 +305,7 @@ class VariantPoll(BasePoll):
             return poll
 
     @classmethod
-    def update_variant_polls(cls, scope, user):
+    def update_variants(cls, scope, user):
         for variant in scope.variants:
             cls.create(scope, user, variant)
 
