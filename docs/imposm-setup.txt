@@ -61,7 +61,9 @@ Region Hierarchy
 
 The hierarchy of region is stored in a table 'region_hierarchy'.
 
-# create table region_hierarchy (inner_id integer, outer_id integer);
+# create table region_hierarchy (id SERIAL PRIMARY KEY, 
+                                 inner_id integer, 
+                                 outer_id integer);
 # alter table region_hierarchy owner to ${username};
 
 For all regions the hierarchy table is initialized once.
