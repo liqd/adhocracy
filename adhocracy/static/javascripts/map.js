@@ -1211,42 +1211,52 @@ function instanceSearch(state, resultList) {
         }
     }
 
+    function buildResultList() {
+        var frame = $('<div/>', {
+                        class: 'ui-widget',
+                        id: 'search_result_content'
+                    });
+
+        var heading = $('<h3>');
+        var text = document.createTextNode('Search Result');
+        heading.append(text);
+
+        var infoText = $('<div/>', {
+                                 id: 'num_search_result' 
+                         });
+        var list = $('<div/>', {
+                        id: 'log',
+                        class: 'ac_results'
+                    });
+        var buttons = $('<div>', {
+                           id: 'search_buttons'
+                       });
+
+        $('#instance_search').append(frame);
+        frame.append(heading);
+        frame.append(infoText);
+        frame.append(list);
+        frame.append(buttons);
+    }
+
     var useAutocompletionResultForSearchResult = false;
     function showSearchResult() {
-
-        if ($('#instance_search').children().size() == 1) {
-            
-            var frame = $('<div/>', {
-                            class: 'ui-widget',
-                            id: 'search_result_content'
-                        });
-
-            var heading = $('<h3>');
-            var text = document.createTextNode('Search Result');
-            heading.append(text);
-
-            var infoText = $('<div/>', {
-                                      id: 'num_search_result' 
-                              });
-            var list = $('<div/>', {
-                            id: 'log',
-                            class: 'ac_results'
-                        });
-            var buttons = $('<div>', {
-                                id: 'search_buttons'
-                            });
-
-            $('#instance_search').append(frame);
-            frame.append(heading);
-            frame.append(infoText);
-            frame.append(list);
-            frame.append(buttons);
-        }
 
         prevInputValue = new String(inputValue);
         inputValue = new String($( "#instances" ).val());
         $( "#instances" ).autocomplete("close");
+        if (resultList[inputValue] 
+            && resultList[inputValue].length == 1 
+            && resultList[inputValue][0].instance_id != "") {
+            $(location).attr('href',resultList[inputValue][0].url);
+            return;
+        }
+
         if (resultList[inputValue]) {
+            if ($('#instance_search').children().size() == 1) {
+                buildResultList();    
+            }
+
             fillSearchField(inputValue);
             var bounds = new OpenLayers.Bounds();
             var found = false;
