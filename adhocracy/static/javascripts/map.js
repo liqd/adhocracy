@@ -412,6 +412,26 @@ function createEastereggLayer() {
     return layer;
 }
 
+function layerHasFeature(layer, feature) {
+    var i=0;
+    for (i=0; i<layer.features.length; i++) {
+        if (layer.features[i].attributes.region_id == feature.attributes.region_id) {
+           return true;
+        }
+    }
+    return false;
+}
+
+function listHasFeature(list, feature) {
+    var i=0;
+    for (i=0; i<list.length; i++) {
+        if (list[i].region_id == feature.attributes.region_id) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function addMultiBoundaryLayer(map, layers, resultList) {
 
     var adminLevels = [2,4,5,6,7,8];
@@ -449,7 +469,7 @@ function addMultiBoundaryLayer(map, layers, resultList) {
             default: case 16: case 17: case 18: case 19: return 4;
         }
     }
-
+    
     var moveTo = function(bounds, zoomChanged, dragging) {
         var zoom = map.getZoom();
         if (zoomChanged != null) {
@@ -461,9 +481,11 @@ function addMultiBoundaryLayer(map, layers, resultList) {
                     //make townHalls invisible
                     for (k=0; k<townHallLayer.features.length; k++) {
                         var feature = townHallLayer.features[k];
-                        if (feature.attributes.admin_level == adminLevels[i]) {
-                            feature.style = styleTransparentProps;
-                            townHallLayer.drawFeature(feature,styleTransparentProps);
+                        if (!listHasFeature(resultList[inputValue],feature)) {
+                            if (feature.attributes.admin_level == adminLevels[i]) {
+                                feature.style = styleTransparentProps;
+                                townHallLayer.drawFeature(feature,styleTransparentProps);
+                            }
                         }
                     }
                 } else if (style != styleChanged && (styleChanged == 1 || styleChanged == 2)) {
@@ -600,7 +622,9 @@ function addMultiBoundaryLayer(map, layers, resultList) {
                     var features = new OpenLayers.Format.GeoJSON({}).read(event.feature.attributes.admin_center);
                     var feature = features[0];
                     feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-                    townHallLayer.addFeatures([feature]);                    
+                    if (!layerHasFeature(townHallLayer,feature)) {
+                        townHallLayer.addFeatures([feature]);
+                    }
                }
             }
         })
