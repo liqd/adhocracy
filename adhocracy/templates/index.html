@@ -33,19 +33,12 @@ the transition
 
     <div class="instance_search" id="instance_search">
 
-      <div class="ui-widget">
+      <div class="ui-widget" id="search_field">
         <h3>${_(u'Find your instance')}</h3>
-        <input id="instances" />
+        <input id="instances" value="Enter zip code or region"/>
         <a id='search_button' class="button">${_('Start')}</a>
-        <div id="num_search_result" >${_(u'Enter zip code or region')}</div>
       </div>
 
-      <div class="ui-widget" style="margin-top:2em; font-family:Arial">
-        <h3>${_(u'Search Result')}</h3>
-        <div id="log" style="height: 200px; width: 300px; overflow: auto;" class="ac_results"></div>
-  <!--    <input id="search_offset_field" type="hidden" /> -->
-        <div id="search_buttons" />
-      </div>
     </div>
 
     <div class="arrow"></div>

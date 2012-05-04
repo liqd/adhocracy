@@ -37,9 +37,20 @@
 .instance_search {
     position: absolute;
     z-index: 1;
+    width: 300px;
     top: 5px;
     right: 5px;
     background-color:  #ffffff;
+}
+
+#search_result_content {
+    margin-top:2em;
+}
+
+.ac_results {
+    height: 200px; 
+    width: 300px; 
+    overflow: auto;
 }
 
 .arrow {
