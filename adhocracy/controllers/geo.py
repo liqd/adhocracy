@@ -114,7 +114,7 @@ class GeoController(BaseController):
         q = meta.Session.query(Region).order_by(Region.name)
         q = q.filter(or_(or_(Region.admin_level == 6, Region.admin_level == 7),Region.admin_level == 8))
 #        q = q.filter(Region.name.in_(name_contains))
-        q = q.filter(Region.name.like('%' + name_contains + '%'))
+        q = q.filter(Region.name.ilike('%' + name_contains + '%'))
 #        q = q.offset(search_offset).limit(max_rows)
         regions = q.all()
 
