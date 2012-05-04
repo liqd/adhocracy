@@ -19,8 +19,8 @@
 }
 
 .wrapper {
-    width: 800px;
-    height: 600px;
+    width: 600px;
+    height: 400px;
     position: relative;
 }
 
@@ -40,6 +40,13 @@
     top: 5px;
     right: 5px;
     background-color:  #ffffff;
+}
+
+.arrow {
+    position: absolute;
+    z-index: 1;
+    left: 0px;
+    bottom: 0px;
 }
 
 .proposal_popup_title {

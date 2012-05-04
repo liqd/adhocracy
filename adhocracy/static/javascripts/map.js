@@ -1014,6 +1014,32 @@ function loadSelectInstance(openlayers_url) {
   });
 }
 
+function addArrow(plus) {
+    var src = '/images/map_resize_rec_plus.png';
+    if (!plus) {
+        src = '/images/map_resize_rec_minus.png';
+    }
+    var img = $('<img>', { src: src,
+                           alt: 'toggle size'
+                         });
+    $('.arrow').empty();
+    $('.arrow').append(img);
+}
+
+function enlargeMap(event) {
+   addArrow(false); 
+   $('.arrow').click(shrankMap);
+   $('.wrapper').width(800);
+   $('.wrapper').height(600);
+}
+
+function shrankMap(event) {
+   addArrow(true);
+   $('.arrow').click(enlargeMap);
+   $('.wrapper').width(600);
+   $('.wrapper').height(400);
+}
+
 function loadSelectInstanceMap(layers, resultList) {
     var map = createMap(NUM_ZOOM_LEVELS);
 
@@ -1030,7 +1056,10 @@ function loadSelectInstanceMap(layers, resultList) {
     map.addControl(selectControl);
 
     map.zoomToExtent(bounds);
-    
+  
+    addArrow(true);
+    $('.arrow').click(enlargeMap);
+
     var result = {map: map, foldLayers: foldLayers,
                   townHallLayer: townHallLayer, selectControl: selectControl};
 
