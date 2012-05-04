@@ -492,9 +492,11 @@ function addMultiBoundaryLayer(map, layers, resultList) {
                     //make townHalls visible
                     for (k=0; k<townHallLayer.features.length; k++) {
                         var feature = townHallLayer.features[k];
-                        if (feature.attributes.admin_level == adminLevels[i]) {
-                            feature.style = styleProps;
-                            townHallLayer.drawFeature(feature,styleProps);
+                        if (!listHasFeature(resultList[inputValue],feature)) {
+                            if (feature.attributes.admin_level == adminLevels[i]) {
+                                feature.style = styleProps;
+                                townHallLayer.drawFeature(feature,styleProps);
+                            }
                         }
                     }
                 }
