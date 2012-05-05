@@ -16,6 +16,7 @@ from adhocracy.config.routing import make_map
 from adhocracy.model import init_model
 from adhocracy.lib.search import init_search
 from adhocracy.lib.democracy import init_democracy
+from adhocracy.lib.util import create_site_subdirectory
 from adhocracy.lib import init_site
 
 
@@ -24,11 +25,15 @@ def load_environment(global_conf, app_conf, with_db=True):
     object
     """
     # Pylons paths
+    conf_copy = global_conf.copy()
+    conf_copy.update(app_conf)
+    site_templates = create_site_subdirectory('templates', app_conf=conf_copy)
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     paths = dict(root=root,
                  controllers=os.path.join(root, 'controllers'),
                  static_files=os.path.join(root, 'static'),
-                 templates=[os.path.join(root, 'templates')])
+                 templates=[site_templates,
+                            os.path.join(root, 'templates')])
 
     # Initialize config with the basic options
     config.init_app(global_conf, app_conf, package='adhocracy', paths=paths)
