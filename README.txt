@@ -37,10 +37,16 @@ uncomment the memcache config line in your .ini file and point it
 to a running instance of memcache.
 
 If no memcache is configured or available, Adhocracy should still 
-function, but displaying proposals that have a lot of votes can take 
-a long time. 
+function, but displaying proposals that have a lot of votes or comments
+can take a long time.
 
 It also uses solr for searches and rabbitmq to schedule asyncron 
 tasks. Both are mandatory.
 
-Please consult INSTALL.txt for details.
+
+Installing Adhocracy is a somewhat complicated process. To have a reproducable 
+and fast way to set up development and production environments we use 
+`zc.buildout`_. You can download our buildout configuration
+at https://bitbucket.org/liqd/adhocracy.buildout
+The README of adhocray.buildout has extensive information about the setup process.
+
