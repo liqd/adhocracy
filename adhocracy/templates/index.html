@@ -27,6 +27,7 @@ the transition
       ${_("<b>%s</b> votes") % c.stats_global.get('votes')|n}
   </div>  
 
+  %if h.asbool(config.get('adhocracy.show_overview_map_on_index')):
   <div class="wrapper">
     <div id="map" class="map"></div>
     ${map.show_select_instance()}
@@ -44,6 +45,7 @@ the transition
     <div class="arrow"></div>
 
   </div>
+  %endif
 
   ## FIXME: Add line that scrolls through last events
 </div>
