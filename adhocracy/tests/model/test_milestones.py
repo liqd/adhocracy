@@ -2,7 +2,7 @@
 from datetime import datetime
 
 from adhocracy.tests import TestController
-from adhocracy.tests.testtools import tt_make_user
+from adhocracy.tests.testtools import tt_make_instance, tt_make_user
 
 
 def _make_one(title, text, creator=None, time=None):
@@ -38,7 +38,7 @@ class TestMilestoneController(TestController):
         self.assertEqual(category.milestones, [milestone])
 
     def test_create_milestone_with_category_that_changes_instance(self):
-        from adhocracy.model import CategoryBadge, meta, Instance
+        from adhocracy.model import CategoryBadge, meta
         milestone, creator = _make_one(u'title', u'text')
         category = CategoryBadge.create(u'Category', u'#ccc',
                                         u'descripiton', milestone.instance)
@@ -48,8 +48,7 @@ class TestMilestoneController(TestController):
 
         # after we set another instance for the category (and refreshed
         # the objects in the Session), the milestone no longer has a category.
-        other_instance = Instance(u'other', u'Other Label', tt_make_user())
-        meta.Session.add(other_instance)
+        other_instance = tt_make_instance(u'other', u'Other Label')
         category.instance = other_instance
         meta.Session.flush()
         meta.Session.refresh(milestone)
