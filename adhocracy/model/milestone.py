@@ -8,10 +8,12 @@ import meta
 
 log = logging.getLogger(__name__)
 
-milestone_table = Table('milestone', meta.data,
+milestone_table = Table(
+    'milestone', meta.data,
     Column('id', Integer, primary_key=True),
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('category_id', Integer, ForeignKey('badge.id'), nullable=True),
     Column('title', Unicode(255), nullable=True),
     Column('text', UnicodeText(), nullable=True),
     Column('time', DateTime),
@@ -27,7 +29,8 @@ class Milestone(object):
         self.creator = creator
         self.title = title
         self.text = text
-        self.time = time
+        if time is not None:
+            self.time = time
 
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):

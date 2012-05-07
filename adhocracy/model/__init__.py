@@ -1,5 +1,5 @@
 """The application's model objects"""
-from sqlalchemy import orm
+from sqlalchemy import orm, and_
 from sqlalchemy.orm import mapper, relation, backref, synonym
 
 import meta
@@ -207,10 +207,16 @@ mapper(Proposal, proposal_table, inherits=Delegateable,
 
 mapper(Milestone, milestone_table, properties={
     'creator': relation(
-            User, lazy=False, backref=backref('milestones', lazy=True)),
+        User, lazy=False, backref=backref('milestones', lazy=True)),
     'instance': relation(
-            Instance, lazy=False,
-            primaryjoin=milestone_table.c.instance_id == instance_table.c.id)
+        Instance, lazy=False,
+        primaryjoin=milestone_table.c.instance_id == instance_table.c.id),
+    'category': relation(
+        CategoryBadge, lazy=False,
+        primaryjoin=and_(
+            milestone_table.c.category_id == badge_table.c.id,
+            milestone_table.c.instance_id == badge_table.c.instance_id),
+        backref=backref('milestones', lazy=True))
     })
 
 mapper(Comment, comment_table, properties={
