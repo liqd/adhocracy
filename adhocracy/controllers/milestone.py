@@ -29,6 +29,7 @@ class MilestoneNewForm(formencode.Schema):
 class MilestoneCreateForm(MilestoneNewForm):
     title = validators.String(max=2000, min=4, not_empty=True)
     text = validators.String(max=60000, min=4, not_empty=True)
+    category = forms.ValidCategoryBadge(if_missing=None, if_empty=None)
     time = forms.ValidDate()
 
 
@@ -39,6 +40,7 @@ class MilestoneEditForm(formencode.Schema):
 class MilestoneUpdateForm(MilestoneEditForm):
     title = validators.String(max=2000, min=4, not_empty=True)
     text = validators.String(max=60000, min=4, not_empty=True)
+    category = forms.ValidCategoryBadge(if_missing=None, if_empty=None)
     time = forms.ValidDate()
 
 
@@ -73,6 +75,7 @@ class MilestoneController(BaseController):
               post_only=False, on_get=True)
     def new(self, errors=None):
         require.milestone.create()
+        c.categories = model.CategoryBadge.all(instance=c.instance)
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
         return htmlfill.render(render("/milestone/new.html"),
@@ -83,6 +86,7 @@ class MilestoneController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     def create(self, format='html'):
         require.milestone.create()
+        c.categories = model.CategoryBadge.all(instance=c.instance)
         try:
             self.form_result = MilestoneCreateForm().to_python(request.params)
         except Invalid, i:
@@ -101,6 +105,7 @@ class MilestoneController(BaseController):
     @validate(schema=MilestoneEditForm(), form="bad_request",
               post_only=False, on_get=True)
     def edit(self, id, errors={}):
+        c.categories = model.CategoryBadge.all(instance=c.instance)
         c.milestone = get_entity_or_abort(model.Milestone, id)
         require.milestone.edit(c.milestone)
         return htmlfill.render(render("/milestone/edit.html"),
@@ -120,6 +125,7 @@ class MilestoneController(BaseController):
 
         c.milestone.title = self.form_result.get('title')
         c.milestone.text = self.form_result.get('text')
+        c.milestone.category = self.form_result.get('category')
         c.milestone.time = self.form_result.get('time')
         model.meta.Session.add(c.milestone)
         model.meta.Session.commit()

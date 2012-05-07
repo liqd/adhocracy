@@ -30,9 +30,25 @@
           name="text">${c.milestone.text}</textarea>
         ${components.formatting()}
         <br/><br/>
+
         <label for="time" class="armhint">${_("Date of the milestone")}</label>
         <input name="time" id="time" class="armlabel long" value="${c.milestone.time and c.milestone.time.strftime("%d.%m.%Y") or 'Undefined'}" />
         <span class="hint">${_("Please use the DD.MM.YYYY format.")}</span>
+        <lable for="category" class="">
+            ${_('Category')}
+        </lable>
+        %if c.categories:
+        <select id="category" name="category">
+            <option value="">
+                ${_('No Category')}
+            </option>
+            %for category in c.categories:
+            <option class="ttip" title="${category.description}" value="${category.id}">
+                ${category.title}
+            </option>
+            %endfor
+        </select>
+        %endif
         </div>
     
     <div style="clear:both;"></div>
