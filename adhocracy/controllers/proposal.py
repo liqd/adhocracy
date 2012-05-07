@@ -95,8 +95,6 @@ class ProposalController(BaseController):
             return render_json(c.proposals_pager)
 
         c.tile = tiles.instance.InstanceTile(c.instance)
-        c.badges = model.Badge.all_delegateable()
-        c.instance_badges = model.Badge.all_delegateable(instance=c.instance)
         c.tutorial_intro = _('tutorial_proposal_overview_tab')
         c.tutorial = 'proposal_index'
         return render("/proposal/index.html")
