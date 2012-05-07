@@ -95,7 +95,7 @@ class UserFilterForm(formencode.Schema):
 
 class UserBadgesForm(formencode.Schema):
     allow_extra_fields = True
-    badge = ForEach(forms.ValidBadge())
+    badge = ForEach(forms.ValidUserBadge())
 
 
 class UserController(BaseController):
@@ -648,12 +648,13 @@ class UserController(BaseController):
 
     @ActionProtector(has_permission("global.admin"))
     def badges(self, id, errors=None):
-        c.badges = model.Badge.all_user()
+        c.badges = model.UserBadge.all(instance=None)
         c.page_user = get_entity_or_abort(model.User, id)
         instances = c.page_user and c.page_user.instances or []
-        c.instance_badges = [{"label":i.label,
-                              "badges":model.Badge.all_user(instance=i)}\
-                                      for i in instances]
+        c.instance_badges = [
+            {"label": instance.label,
+             "badges": model.UserBadge.all(instance=instance)} for
+            instance in instances]
         defaults = {'badge': [str(badge.id) for badge in c.page_user.badges]}
         return formencode.htmlfill.render(
             render("/user/badges.html"),
@@ -676,11 +677,13 @@ class UserController(BaseController):
 
         for badge in badges:
             if badge not in user.badges:
-                model.UserBadge(user, badge, creator)
+                badge.assign(user, creator)
                 added.append(badge)
 
         model.meta.Session.flush()
-        model.meta.Session.commit()  # FIXME: does not work without.
+        # FIXME: needs commit() cause we do an redirect() which raises
+        # an Exception.
+        model.meta.Session.commit()
         post_update(user, model.update.UPDATE)
         redirect(h.entity_url(user))
 

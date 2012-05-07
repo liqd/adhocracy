@@ -44,7 +44,7 @@ class ProposalCreateForm(ProposalNewForm):
     milestone = forms.MaybeMilestone(if_empty=None,
             if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
-    category = formencode.foreach.ForEach(forms.ValidBadge())
+    category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
 
 
 class ProposalEditForm(formencode.Schema):
@@ -58,7 +58,7 @@ class ProposalUpdateForm(ProposalEditForm):
                                  if_missing=False)
     milestone = forms.MaybeMilestone(if_empty=None,
             if_missing=None)
-    category = formencode.foreach.ForEach(forms.ValidBadge())
+    category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
 
 
 class ProposalFilterForm(formencode.Schema):
@@ -71,7 +71,7 @@ class ProposalFilterForm(formencode.Schema):
 
 class DelegateableBadgesForm(formencode.Schema):
     allow_extra_fields = True
-    badge = formencode.foreach.ForEach(forms.ValidBadge())
+    badge = formencode.foreach.ForEach(forms.ValidDelegateableBadge())
 
 
 class ProposalController(BaseController):
@@ -106,7 +106,7 @@ class ProposalController(BaseController):
         require.proposal.create()
         c.pages = []
         c.exclude_pages = []
-        c.categories = model.Badge.all_delegateable_categories(c.instance)
+        c.categories = model.CategoryBadge.all(instance=c.instance)
         if 'page' in request.params:
             page = model.Page.find(request.params.get('page'))
             if page and page.function == model.Page.NORM:
@@ -200,7 +200,7 @@ class ProposalController(BaseController):
         c.text_rows = text.text_rows(c.proposal.description.head)
 
         # all available categories
-        c.categories = model.Badge.all_delegateable_categories(c.instance)
+        c.categories = model.CategoryBadge.all(instance=c.instance)
 
         # categories for this proposal
         # (single category not assured in db model)
@@ -419,9 +419,9 @@ class ProposalController(BaseController):
         '''
         badges = []
         if can.badge.edit_instance():
-            badges.extend(model.Badge.all_delegateable(instance=c.instance))
+            badges.extend(model.DelegateableBadge.all(instance=c.instance))
         if can.badge.edit_global():
-            badges.extend(model.Badge.all_delegateable(instance=None))
+            badges.extend(model.DelegateableBadge.all(instance=None))
         badges = sorted(badges, key=lambda badge: badge.title)
         return badges
 
@@ -453,10 +453,10 @@ class ProposalController(BaseController):
         editable_badges = self._editable_badges(proposal)
         badges = self.form_result.get('badge')
         redirect_to_proposals = self.form_result.get('redirect_to_proposals')
-        creator = c.user
 
         added = []
         removed = []
+
         for badge in proposal.badges:
             if badge not in editable_badges:
                 # the user can not edit the badge, so we don't remove it
@@ -467,9 +467,11 @@ class ProposalController(BaseController):
 
         for badge in badges:
             if badge not in proposal.badges:
-                model.DelegateableBadge(proposal, badge, creator)
+                badge.assign(proposal, c.user)
                 added.append(badge)
 
+        # FIXME: needs commit() cause we do an redirect() which raises
+        # an Exception.
         model.meta.Session.commit()
         post_update(proposal, model.update.UPDATE)
         if format == 'ajax':

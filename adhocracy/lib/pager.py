@@ -673,11 +673,8 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        badges = [relation.badge for relation in
-                  entity.delegateablebadges if
-                  relation.badge.badge_delegateable_category]
         data[cls.solr_field] = [ref_attr_value(badge) for
-                                badge in badges]
+                                badge in entity.categories]
 
 
 class DelegateableBadgeFacet(SolrFacet):
@@ -693,10 +690,7 @@ class DelegateableBadgeFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        d = [ref_attr_value(relation.badge) for relation in
-             entity.delegateablebadges if
-             (relation.badge.badge_delegateable or not
-              relation.badge.badge_delegateable_category)]
+        d = [ref_attr_value(badge) for badge in entity.badges]
         data[cls.solr_field] = d
 
 

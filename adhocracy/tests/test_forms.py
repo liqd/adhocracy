@@ -4,27 +4,21 @@ from adhocracy.tests.testtools import tt_make_user
 
 class TestValidators(TestController):
 
-    def test_valid_badge(self):
-        from adhocracy.forms import ValidBadge
-        from adhocracy.model import Badge, UserBadge
+    def test_valid_user_badge(self):
+        from adhocracy.forms import ValidUserBadge
+        from adhocracy.model import UserBadge
 
-        creator = tt_make_user('creator')
-        badged_user = tt_make_user('badged_user')
-        badge = Badge.create('testbadge', '#ccc', 'description')
-        UserBadge.create(badged_user, badge, creator)
-        value = ValidBadge.to_python(badge.id, None)
+        badge = UserBadge.create('testbadge', '#ccc', 'description')
+        value = ValidUserBadge.to_python(badge.id, None)
         self.assertEqual(value, badge)
 
-    def test_invalid_badge(self):
+    def test_invalid_user_badge(self):
         from formencode import Invalid
-        from adhocracy.forms import ValidBadge
-        from adhocracy.model import Badge, UserBadge
+        from adhocracy.forms import ValidUserBadge
+        from adhocracy.model import UserBadge
 
-        creator = tt_make_user('creator')
-        badged_user = tt_make_user('badged_user')
-        badge = Badge.create('testbadge', '#ccc', 'description')
-        UserBadge.create(badged_user, badge, creator)
-        self.assertRaises(Invalid, ValidBadge.to_python,
+        badge = UserBadge.create('testbadge', '#ccc', 'description')
+        self.assertRaises(Invalid, ValidUserBadge.to_python,
                           badge.id + 1, state=None)
 
     def test_username_contains_char(self):

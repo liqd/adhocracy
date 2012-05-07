@@ -4,8 +4,12 @@ import re
 from StringIO import StringIO
 
 import formencode
+from pylons import tmpl_context as c
 from pylons.i18n import _
 from webhelpers.html import literal
+
+from adhocracy.lib.auth.authorization import has
+
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings",
                    "join", "leave", "control", "test", "support", "page",
@@ -149,11 +153,53 @@ class ContainsChar(formencode.validators.Regex):
         return value
 
 
-class ValidBadge(formencode.FancyValidator):
+class ValidBadgeInstance(formencode.FancyValidator):
 
     def _to_python(self, value, state):
-        from adhocracy.model import Badge
-        badge = Badge.by_id(value)
+        from adhocracy.model import Instance
+        if has('global.admin'):
+            if value:
+                instance = Instance.find(value)
+                if instance is None:
+                    raise AssertionError("Could not find instance %s" % value)
+                return instance
+            return None
+        elif has('instance.admin') and c.instance:
+            return c.instance
+        raise formencode.Invalid(
+            _("You're not allowed to edit global badges"),
+            value, state)
+
+
+class ValidUserBadge(formencode.FancyValidator):
+
+    def _to_python(self, value, state):
+        from adhocracy.model import UserBadge
+        badge = UserBadge.by_id(value)
+        if not badge:
+            raise formencode.Invalid(
+                _("No Badge ID '%s' exists") % value,
+                value, state)
+        return badge
+
+
+class ValidDelegateableBadge(formencode.FancyValidator):
+
+    def _to_python(self, value, state):
+        from adhocracy.model import DelegateableBadge
+        badge = DelegateableBadge.by_id(value)
+        if not badge:
+            raise formencode.Invalid(
+                _("No Badge ID '%s' exists") % value,
+                value, state)
+        return badge
+
+
+class ValidCategoryBadge(formencode.FancyValidator):
+
+    def _to_python(self, value, state):
+        from adhocracy.model import CategoryBadge
+        badge = CategoryBadge.by_id(value)
         if not badge:
             raise formencode.Invalid(
                 _("No Badge ID '%s' exists") % value,

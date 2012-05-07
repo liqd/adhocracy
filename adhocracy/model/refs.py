@@ -179,7 +179,7 @@ def to_entities(refs):
         for entity in entities:
             all[to_ref(entity)] = entity
 
-    return [all[ref] for ref in refs]
+    return [all[ref] for ref in refs if ref in all]
 
 
 def get_entities(entity_class, ids, order=True):

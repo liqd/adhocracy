@@ -9,7 +9,7 @@
             %endif
             <span id="badges_${proposal.id}" class="badges"
                   data-id="${proposal.id}">
-                ${tiles.badge.badges([b for b in proposal.badges])}
+                ${tiles.badge.badges(proposal.badges + proposal.categories)}
             </span>
         </h3>
         <div class="meta">              

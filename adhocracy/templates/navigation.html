@@ -211,7 +211,7 @@
              li_class=(_class('settings') + ' settings'),
              condition=can.instance.edit(c.instance))}
 
-  ${nav_link(href=h.entity_url(c.instance, member='badge'),
+  ${nav_link(href=h.site.base_url(c.instance, path='/badge'),
              text=_("Badges"),
              li_class=(_class('settings') + ' settings'),
              condition=can.instance.edit(c.instance))}

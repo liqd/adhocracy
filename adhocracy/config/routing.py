@@ -197,30 +197,17 @@ def make_map():
                                          'ask_delete': 'GET',
                                          'widget': 'GET'})
 
-    map.connect('/badge', controller='badgeglobal', action='index',
+    map.connect('/badge', controller='badge', action='index',
                 conditions=dict(method=['GET']))
-    map.connect('/badge/add', controller='badgeglobal', action='add',
-                conditions=dict(method=['GET']))
-    map.connect('/badge/add', controller='badgeglobal', action='create',
-                conditions=dict(method=['POST']))
-    map.connect('/badge/edit/{id}', controller='badgeglobal', action="edit",
-                conditions=dict(method=['GET']))
-    map.connect('/badge/edit/{id}', controller='badgeglobal', action="update",
-                conditions=dict(method=['POST']))
-    map.connect('/instance/{instance_key}/badge', controller='badgeinstance',
-                action='index', conditions=dict(method=['GET']))
-    map.connect('/instance/{instance_key}/badge/add',
-                controller='badgeinstance',
+    map.connect('/badge/{badge_type}/add', controller='badge',
                 action='add', conditions=dict(method=['GET']))
-    map.connect('/instance/{instance_key}/badge/add',
-                controller='badgeinstance',
+    map.connect('/badge/{badge_type}/add', controller='badge',
                 action='create', conditions=dict(method=['POST']))
-    map.connect('/instance/{instance_key}/badge/edit/{id}',
-            controller='badgeinstance',
+    map.connect('/badge/edit/{id}', controller='badge',
                 action="edit", conditions=dict(method=['GET']))
-    map.connect('/instance/{instance_ky}/badge/edit/{id}',
-            controller='badgeinstance',
-                action="update", conditions=dict(method=['POST']))
+    map.connect('/badge/edit/{id}',
+                controller='badge', action="update",
+                conditions=dict(method=['POST']))
 
     # not using REST since tags may contain dots, thus failing format
     # detection.
