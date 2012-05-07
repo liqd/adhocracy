@@ -9,7 +9,7 @@ import logging
 from sqlalchemy import Table, Column, ForeignKey
 from sqlalchemy import Boolean, Integer, DateTime, String, Unicode
 
-from adhocracy.model import meta
+from adhocracy.model import meta, instance_filter as ifilter
 
 log = logging.getLogger(__name__)
 MARKER = object()
@@ -91,10 +91,13 @@ class Badge(object):
         return self.title > other.title
 
     @classmethod
-    def by_id(cls, id, instance_filter=True, include_deleted=False):
+    def by_id(cls, id, instance_filter=True):
         try:
             q = meta.Session.query(cls)
             q = q.filter(cls.id == id)
+            if ifilter.has_instance() and instance_filter:
+                q = q.filter((cls.instance_id ==
+                              ifilter.get_instance().id))
             return q.limit(1).first()
         except Exception, e:
             log.warn("by_id(%s): %s" % (id, e))

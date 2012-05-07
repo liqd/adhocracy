@@ -1,5 +1,5 @@
 from adhocracy.tests import TestController
-from adhocracy.tests.testtools import tt_make_user
+from adhocracy.tests.testtools import tt_get_instance, tt_make_instance
 
 
 class TestValidators(TestController):
@@ -31,3 +31,30 @@ class TestValidators(TestController):
         from formencode import Invalid
         from adhocracy.forms import ContainsChar
         self.assertRaises(Invalid, ContainsChar.to_python, '1234', None)
+
+    def test_valid_category_badge(self):
+        from formencode import Invalid
+        from adhocracy.forms import ValidCategoryBadge
+        from adhocracy.model import CategoryBadge, instance_filter
+
+        # the currently set instance ist the test instance. CategoryBadges from
+        # the current instance are valid.
+        test_instance = tt_get_instance()
+        self.assertEqual(test_instance, instance_filter.get_instance())
+        test_category = CategoryBadge.create('test_category', '#ccc',
+                                             'description', test_instance)
+        value = ValidCategoryBadge.to_python(str(test_category.id))
+        self.assertEqual(value, test_category)
+
+        # from other instances they are not valid
+        other_instance = tt_make_instance('other', 'Other Instance')
+        other_category = CategoryBadge.create('other_category', '#ccc',
+                                              'description', other_instance)
+        self.assertRaises(Invalid, ValidCategoryBadge.to_python,
+                          str(other_category.id))
+
+    def test_valid_category_badge_if_empty(self):
+        from adhocracy.forms import ValidCategoryBadge
+        validator = ValidCategoryBadge(if_empty=None)
+        value = validator.to_python('')
+        self.assertEqual(value, None)
