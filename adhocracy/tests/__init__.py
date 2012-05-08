@@ -177,7 +177,7 @@ class TestController(TestControllerBase):
 
     # will be registered in setUp()
     request = {'environ': {'adhocracy.domain': 'test.lan',
-                           'SERVER_PORT': '5000'}}
+                           'SERVER_PORT': '80'}}
 
     @classmethod
     def setup_class(cls):
