@@ -31,6 +31,10 @@ class Browser(zope.testbrowser.wsgi.Browser):
                                         self.mech_browser.addheaders if
                                         header[0] != self.REMOTE_USER_HEADER]
 
+    @property
+    def status(self):
+        return self.headers['Status']
+
 
 class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
     """Layer to setup the WSGI app"""

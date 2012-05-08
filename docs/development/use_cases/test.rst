@@ -8,7 +8,7 @@ site::
 
     >>> browser.open(app_url + "/login")
     >>> browser.dc()
-    >>> browser.headers['Status']
+    >>> browser.status
     '200 OK'
     >>> '<html class="no-js">' in browser.contents
     True
