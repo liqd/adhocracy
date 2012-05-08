@@ -37,7 +37,7 @@ class InstanceDiscriminatorMiddleware(object):
 
 def setup_discriminator(app, config):
     # warn if abdoned adhocracy.domains is used
-    if config.get('adhocracy.domains') is None:
+    if config.get('adhocracy.domains') is not None:
         raise AssertionError('adhocracy.domains is not supported anymore. '
                              'use adhocracy.domain (without the s) with only '
                              'one domain')
