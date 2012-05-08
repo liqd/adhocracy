@@ -21,6 +21,8 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
         app = loadapp('config:' + config_path)
         app = zope.testbrowser.wsgi.AuthorizationMiddleware(app)
         app = TM(app)
+        zope.testbrowser.wsgi._allowed.add('adhocracy.lan')
+        zope.testbrowser.wsgi._allowed_2nd_level.add('adhocracy.lan')
         return app
 
     def setUp(test, *args, **kwargs):
