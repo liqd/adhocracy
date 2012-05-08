@@ -1,4 +1,4 @@
-'''
+"""
 Utility code to use in command line scripts.
 You need some boilerplate code to import from this module
 Cause it's probably not in the python path::
@@ -19,7 +19,7 @@ Cause it's probably not in the python path::
     # args will contain all command line args
     load_from_args(args)
     instances = get_instances(args)  # returns instance objects
-'''
+"""
 
 try:
     from argparse import ArgumentParser
