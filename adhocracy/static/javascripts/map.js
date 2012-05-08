@@ -436,7 +436,7 @@ function addMultiBoundaryLayer(map, layers, resultList) {
 
     var adminLevels = [2,4,5,6,7,8];
 
-    //Zoom 0 ... 15 -> 0=hidden,1=visibleByBorder,2=visibleByArea[,3=both (NYI)]
+    //Zoom 0 ... 19 -> 0=hidden,1=borderColor1,2=borderColor2,3=borderColor3,...]
     var displayMap = [
         {styles: [1,0,0,0,0,0]}, //0
         {styles: [1,0,0,0,0,0]}, 
@@ -1239,18 +1239,55 @@ function instanceSearch(state, resultList) {
         frame.append(buttons);
     }
 
-    var useAutocompletionResultForSearchResult = false;
-    function showSearchResult() {
+    var stopAutocompletion = false;
+    function querySearchResult() {
+        stopAutocompletion = true;
+        $( "#instances" ).autocomplete("close");
+        var request_term = $( "#instances" ).val();
+        $.ajax({
+            url: 'find_instances.json',
+            dataType: "jsonp",
+            data: {
+                name_contains: request_term
+            },
+            success: function(data) {
+                removePreviosMarkers();
+                //resultList = new Array();
+                resultList[request_term] = $.map( data.search_result, function( item ) {
+                    var feature = getFeature(item.admin_center);
+                    return {
+                        instance_id: item.instance_id,
+                        region_id: item.region_id,
+                        label: item.name,
+                        url: item.url,
+                        value: item.name,
+                        num_proposals: item.num_proposals,
+                        num_papers: item.num_papers,
+                        num_members: item.num_members,
+                        create_date: item.create_date,
+                        bbox: item.bbox,
+                        admin_center: feature
+                    }
+                });
+                var i=0;
+                for (i=0; i<resultList[request_term].length;i++) {
+                    var admin_center = resultList[request_term][i].admin_center;
+                    if (admin_center) townHallLayer.addFeatures([admin_center]);
+                }
+                showSearchResult();
+                stopAutocompletion = false;
+            },
+            error: function(xhr,err){
+                stopAutocompletion = false;
+                //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
+                //alert('No response from server, sorry. Error: '+err);
+            }
+        });
+    }
 
+    function showSearchResult() {
         prevInputValue = new String(inputValue);
         inputValue = new String($( "#instances" ).val());
-        $( "#instances" ).autocomplete("close");
-        if (resultList[inputValue] 
-            && resultList[inputValue].length == 1 
-            && resultList[inputValue][0].instance_id != "") {
-            $(location).attr('href',resultList[inputValue][0].url);
-            return;
-        }
 
         if (resultList[inputValue]) {
             if ($('#instance_search').children().size() == 1) {
@@ -1289,22 +1326,16 @@ function instanceSearch(state, resultList) {
                 */
             }
             //delete resultList[inputValue];
-        } else {
-            //maybe we have to wait for the result
-            if (inputValue) {
-                //we have to wait
-                useAutocompletionResultForSearchResult = true;
-            }
         }
     }
 
     $( "#instances" ).keypress(function(event) {
         if ( event.which == 13 || event.which == 10) {
-            showSearchResult();
+            querySearchResult();
         }
     });
 
-    $('#search_button').click(showSearchResult);
+    $('#search_button').click(querySearchResult);
 
 //    var offset = $('#search_offset_field').val();
 //    if (offset == "") {
@@ -1314,7 +1345,7 @@ function instanceSearch(state, resultList) {
     $( "#instances" ).autocomplete({
         source: function( request, response ) {
         $.ajax({
-            url: "/find_instances.json",
+            url: "/autocomplete_instances.json",
             dataType: "jsonp",
             data: {
 //                max_rows: 5,
@@ -1322,35 +1353,13 @@ function instanceSearch(state, resultList) {
                 name_contains: request.term
             },
             success: function( data ) {
-                removePreviosMarkers();
-                //resultList = new Array();
-                resultList[request.term] = $.map( data.search_result, function( item ) {
-                    var feature = getFeature(item.admin_center);
-                    return {
-                        instance_id: item.instance_id,
-                        region_id: item.region_id,
-                        label: item.name,
-                        url: item.url,
-                        value: item.name,
-                        num_proposals: item.num_proposals,
-                        num_papers: item.num_papers,
-                        num_members: item.num_members,
-                        create_date: item.create_date,
-                        bbox: item.bbox,
-                        admin_center: feature
-                    }
-                });
-                var i=0;
-                for (i=0; i<resultList[request.term].length;i++) {
-                    var admin_center = resultList[request.term][i].admin_center;
-                    if (admin_center) townHallLayer.addFeatures([admin_center]);
-                } 
-                if (useAutocompletionResultForSearchResult == true) {
-                    useAutocompletionResultForSearchResult = false;
-                    showSearchResult();
-                } else {
-                    //fill into autocompletion drop down
-                    response( resultList[request.term] );
+                if (!stopAutocompletion) {
+                    response( $.map(data.search_result, function ( item ) {
+                        return {
+                            label: item.name,
+                            value: item.name
+                        }
+                    }));
                 }
             }
         });

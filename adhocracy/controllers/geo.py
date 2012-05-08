@@ -105,6 +105,24 @@ class GeoController(BaseController):
 
         return render_geojson(geojson.FeatureCollection([geojson.Feature(**r) for r in regions]))
 
+    def autocomplete_instances_json(self):
+        name_contains = request.params.get('name_contains')
+        callback = request.params.get('callback')
+        q = meta.Session.query(Region).order_by(Region.name)
+        q = q.filter(or_(or_(Region.admin_level == 6, Region.admin_level == 7),Region.admin_level == 8))
+        q = q.filter(Region.name.ilike('%' + name_contains + '%'))
+        regions = q.all()
+
+        def create_entry(region):
+            entry = dict()
+            entry['name'] = region.name
+            return entry
+
+        response = dict()
+        search_result = map(create_entry, regions)
+        response['search_result'] = search_result
+        return callback + '(' + render_json(response) + ');'
+
     def find_instances_json(self):
 #        max_rows = request.params.get('max_rows')
         name_contains = request.params.get('name_contains')
