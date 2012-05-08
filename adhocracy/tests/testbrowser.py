@@ -1,28 +1,46 @@
 """Helper classes to allow function testing with a testbrowser"""
-import os.path
-from paste.deploy import loadapp
-import zope.testbrowser.wsgi
+
+from pylons import config
+from pylons.test import pylonsapp
 from repoze.tm import TM
-import adhocracy
+import zope.testbrowser.wsgi
+
+adhocracy_domain = config.get('adhocracy.domain').strip()
+app_url = "http://%s" % adhocracy_domain
+instance_url = "http://test.%s" % adhocracy_domain
 
 
 class Browser(zope.testbrowser.wsgi.Browser):
     """Simplify zope.testbrowser sessions"""
 
+    REMOTE_USER_HEADER = 'REMOTE_USER'
+
+    app_url = app_url
+    instance_url = instance_url
+
     def dc(self, filename="/tmp/test-output.html"):
         open(filename, 'w').write(self.contents)
+
+    def login(self, username):
+        self.logout()
+        # 'REMOTE_USER' will turn into HTTP_REMOTE_USER in the wsgi environ.
+        self.addHeader(self.REMOTE_USER_HEADER, username)
+
+    def logout(self):
+        self.mech_browser.addheaders = [header for header in
+                                        self.mech_browser.addheaders if
+                                        header[0] != self.REMOTE_USER_HEADER]
 
 
 class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
     """Layer to setup the WSGI app"""
 
     def make_wsgi_app(self):
-        config_path = os.path.join(adhocracy.__path__[0] + '/..' + '/test.ini')
-        app = loadapp('config:' + config_path)
+        app = pylonsapp
         app = zope.testbrowser.wsgi.AuthorizationMiddleware(app)
         app = TM(app)
-        zope.testbrowser.wsgi._allowed.add('adhocracy.lan')
-        zope.testbrowser.wsgi._allowed_2nd_level.add('adhocracy.lan')
+        zope.testbrowser.wsgi._allowed.add(adhocracy_domain)
+        zope.testbrowser.wsgi._allowed_2nd_level.add(adhocracy_domain)
         return app
 
     def setUp(test, *args, **kwargs):
