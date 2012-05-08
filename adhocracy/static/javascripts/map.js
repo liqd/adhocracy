@@ -1329,10 +1329,13 @@ function instanceSearch(state, resultList) {
         }
     }
 
+    var config_waitForMoreInput = false;
+    var stopQuery = false;
     $( "#instances" ).keypress(function(event) {
-        if ( event.which == 13 || event.which == 10) {
+        if ( !stopQuery && (event.which == 13 || event.which == 10)) {
             querySearchResult();
         }
+        stopQuery = false;
     });
 
     $('#search_button').click(querySearchResult);
@@ -1365,15 +1368,8 @@ function instanceSearch(state, resultList) {
         });
     },
     minLength: 2,
-    select: function(event, ui) { if (ui.item) {
-                                    if (ui.item.url) { 
-                                        //window.location.replace(ui.item.url);
-                                        $(location).attr('href',ui.item.url);
-                                    } else {
-                                        resetSearchField(ui.item.label, 1);
-                                        instanceEntry(ui.item, 0);
-                                    }
-                                  }
+    select: function(event, ui) {
+        if (config_waitForMoreInput) stopQuery = true;
                                 },
     open: function() {
         $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
