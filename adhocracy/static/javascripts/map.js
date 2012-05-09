@@ -472,7 +472,7 @@ function addMultiBoundaryLayer(map, layers, resultList) {
     
     var moveTo = function(bounds, zoomChanged, dragging) {
         var zoom = map.getZoom();
-        if (zoomChanged != null) {
+        if (zoom != null && zoomChanged != null) {
             var i=0;k=0;
             while (i<adminLevels.length) {
                 var styleChanged = displayMap[zoomChanged]['styles'][i];
