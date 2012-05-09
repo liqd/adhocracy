@@ -1263,6 +1263,7 @@ function instanceSearch(state, resultList) {
             success: function(data) {
                 removePreviosMarkers();
                 //resultList = new Array();
+                offset = 0;
                 resultList[request_term] = $.map( data.search_result, function( item ) {
                     var feature = getFeature(item.admin_center);
                     return {
