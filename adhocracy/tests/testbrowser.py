@@ -1,9 +1,14 @@
 """Helper classes to allow function testing with a testbrowser"""
 
+import os.path
+from paste.deploy import loadapp
+
 from pylons import config
 from pylons.test import pylonsapp
 from repoze.tm import TM
 import zope.testbrowser.wsgi
+
+import adhocracy
 
 adhocracy_domain = config.get('adhocracy.domain').strip()
 app_url = "http://%s" % adhocracy_domain
@@ -40,7 +45,9 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
     """Layer to setup the WSGI app"""
 
     def make_wsgi_app(self):
-        app = pylonsapp
+        config_path = os.path.join(adhocracy.__path__[0] + '/..' + '/test.ini')
+        app = loadapp('config:' + config_path)
+        # app = pylonsapp
         app = zope.testbrowser.wsgi.AuthorizationMiddleware(app)
         app = TM(app)
         zope.testbrowser.wsgi._allowed.add(adhocracy_domain)
