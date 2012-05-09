@@ -1073,7 +1073,7 @@ function instanceSearch(state, resultList) {
     var townHallLayer = state.townHallLayer;
     var selectControl = state.selectControl;
 
-    var max_rows = 5;
+    var max_rows = 3;
     var offset = 0;
 
     $('#instances').click(function(event) { $('#instances').val('');
