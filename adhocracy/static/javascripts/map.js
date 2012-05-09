@@ -1165,6 +1165,7 @@ function instanceSearch(state, resultList) {
         //insert result into list
         var count = resultList[inputValue].length;
         resetSearchField(inputValue, count);
+        addMarkers(inputValue);
 
         var numInstance = 0;
         for (var i = offset; i < offset+max_rows && i < count; ++i) {
@@ -1181,7 +1182,7 @@ function instanceSearch(state, resultList) {
                 var prevText = document.createTextNode('prev');
                 prevButton.append(prevText);
                 prevButton.appendTo('#search_buttons');
-                prevButton.click(function(event) { offset = offset-max_rows; fillSearchField(inputValue) });
+                prevButton.click(function(event) { removePreviousMarkers(inputValue); offset = offset-max_rows; fillSearchField(inputValue) });
             }
             var pageText = document.createTextNode(offset + ' to ' + (offset+max_rows));
             $('#search_buttons').append(pageText);
@@ -1190,7 +1191,7 @@ function instanceSearch(state, resultList) {
                 var nextText = document.createTextNode('next');
                 nextButton.append(nextText);
                 nextButton.appendTo('#search_buttons');
-                nextButton.click(function(event) { offset = offset+max_rows; fillSearchField(inputValue) });
+                nextButton.click(function(event) { removePreviousMarkers(inputValue); offset = offset+max_rows; fillSearchField(inputValue) });
             }
         } else {
             $('#search_next').remove();
@@ -1208,16 +1209,26 @@ function instanceSearch(state, resultList) {
         return feature;
     }
 
-    function removePreviosMarkers() {
+    function removePreviousMarkers(key) {
         function remove(entry) {
             var feature = entry.admin_center;
             if (feature) {
-                townHallLayer.destroyFeatures([feature]);
+                townHallLayer.removeFeatures([feature]);
             }
         }
-        var old = resultList[prevInputValue];
+        var old = resultList[key];
         if (old) {
             $.map(old,remove);
+        }
+    }
+
+    function addMarkers(request_term) {
+        var i=offset;
+        var len = resultList[request_term].length;
+        var num = (offset + max_rows) > len ? len : offset + max_rows
+        for (; i<num;i++) {
+            var admin_center = resultList[request_term][i].admin_center;
+            if (admin_center) townHallLayer.addFeatures([admin_center]);
         }
     }
 
@@ -1261,9 +1272,6 @@ function instanceSearch(state, resultList) {
                 name_contains: request_term
             },
             success: function(data) {
-                removePreviosMarkers();
-                //resultList = new Array();
-                offset = 0;
                 resultList[request_term] = $.map( data.search_result, function( item ) {
                     var feature = getFeature(item.admin_center);
                     return {
@@ -1281,11 +1289,6 @@ function instanceSearch(state, resultList) {
                         is_in: item.is_in
                     }
                 });
-                var i=0;
-                for (i=0; i<resultList[request_term].length;i++) {
-                    var admin_center = resultList[request_term][i].admin_center;
-                    if (admin_center) townHallLayer.addFeatures([admin_center]);
-                }
                 showSearchResult();
                 stopAutocompletion = false;
             },
@@ -1298,10 +1301,13 @@ function instanceSearch(state, resultList) {
     }
 
     function showSearchResult() {
+        removePreviousMarkers(prevInputValue);
+        offset = 0;
         prevInputValue = new String(inputValue);
         inputValue = new String($( "#instances" ).val());
 
         if (resultList[inputValue]) {
+
             if ($('#instance_search').children().size() == 1) {
                 buildResultList();    
             }
