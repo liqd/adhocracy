@@ -2,6 +2,10 @@
 testbrowser example
 ===================
 
+This will be broken by the tests in root.rst::
+
+    >>> model.User.all()
+    [<User(1,admin)>]
 
 We have a testbrowser `browser` set up that we can use to browse throug the 
 site::
