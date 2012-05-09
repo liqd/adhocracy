@@ -1761,6 +1761,14 @@ a.joyride-prev-tip:hover {
   padding-left: 1em;
 }
 
+#milestone_title {
+  padding-top: 0.3em;
+}
+
 #milestone_title .date {
   font-size: 0.7em;
+}
+
+#milestone #associated-norms {
+  padding-top: 2em;
 }

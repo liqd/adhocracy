@@ -34,6 +34,7 @@ created_msg = _("by %s on %s") % (
 </%block>
 
 <%block name="main_content">
+<div id="milestone">
     <div class="top_actions">
         %if can.milestone.edit(c.milestone):
             <a class="button title edit ttip"
@@ -56,19 +57,28 @@ created_msg = _("by %s on %s") % (
     ${c.tile.text|n}
     <br />
 
-    %if c.show_pages_pager:
-    <h3 class="section" id="related-norms">${_("Related Norms")}</h3>
-    <div id="pages_table" class="table" style="padding-bottom: 1em;">
-        ${c.pages_pager.here()}
-    </div>
-    %endif
 
-    %if c.show_pages_pager:
-    <h3 class="section">${_("Related Proposals")}</h3>
+    <h4>${_("Associated Proposals")}</h4>
+    %if c.show_proposal_pager:
     <div id="proposals_table" class="table">
         ${c.proposals_pager.here()}
     </div>
+    %else:
+    ${_('No proposals are connected to this milestone')}
     %endif
+
+    <div id="associated-norms">
+        %if c.instance.use_norms:
+        <h4>${_("Associated Norms")}</h4>
+        %if c.show_pages_pager:
+        <div id="pages_table" class="table" style="padding-bottom: 1em;">
+            ${c.pages_pager.here()}
+        </div>
+        %else:
+        ${_('No norms are connected to this milestone')}
+        %endif
+        %endif
+    </div>
 
 <%components:tutorial>
 <ol id="joyRideTipContent">
@@ -88,4 +98,5 @@ created_msg = _("by %s on %s") % (
     </li>
 </ol>
 </%components:tutorial>
+</div>
 </%block>
