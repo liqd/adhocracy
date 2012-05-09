@@ -215,25 +215,28 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
     return layer;
 }
 
-
 function createPopupControl(layer, buildPopupContent) {
 
-    layer.events.on({
-        'featureselected': function(event) {
-            popup = new OpenLayers.Popup.FramedCloud("singlepopup",
-                event.feature.geometry.getBounds().getCenterLonLat(),
-                null,
-                buildPopupContent(event.feature.attributes),
-                null,false,null
-                );
-            this.map.addPopup(popup);
-        },
-        'featureunselected': function(event) {
-            if (popup) {
-                this.map.removePopup(popup);
-                popup = null;
-            }
+    function openPopup(event) {
+        popup = new OpenLayers.Popup.FramedCloud("singlepopup",
+                        event.feature.geometry.getBounds().getCenterLonLat(),
+                        null,
+                        buildPopupContent(event.feature.attributes),
+                        null,false,null
+                        );
+        this.map.addPopup(popup);
+    }
+
+    function closePopup(event) {
+        if (popup) {
+            this.map.removePopup(popup);
+            popup = null;
         }
+    }
+
+    layer.events.on({
+        'featureselected': openPopup,
+        'featureunselected': closePopup
     });
 
     layersWithPopup.push(layer);
@@ -932,7 +935,12 @@ function enableMarker(id, layer, selectControl) {
         var target = event.target || event.srcElement;
         var feature = layer.getFeaturesByAttribute('region_id', parseInt(target.id.substring((id+'_').length)))[0];
         if (popup) {
+            var flonlat = feature.geometry.getBounds().getCenterLonLat();
+            var plonlat = popup.lonlat;
             selectControl.clickoutFeature(feature);
+            if (plonlat != flonlat) {
+                selectControl.clickFeature(feature);
+            }
         } else {
             selectControl.clickFeature(feature);
         }
