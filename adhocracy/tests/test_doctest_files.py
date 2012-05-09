@@ -4,6 +4,8 @@ from doctest import DocFileSuite
 from os.path import dirname
 import unittest
 
+from adhocracy import model
+from adhocracy.tests import testtools
 from adhocracy.tests.testbrowser import ADHOCRACY_LAYER, ADHOCRACY_LAYER_APP
 from adhocracy.tests.testbrowser import app_url, instance_url
 from adhocracy.tests.testbrowser import Browser
@@ -21,14 +23,16 @@ def make_browser():
     return Browser(wsgi_app=ADHOCRACY_LAYER_APP)
 
 
+use_cases = find_use_cases()
 flags = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE)
 globs = {"browser": make_browser(),
          'make_browser': make_browser,
          "app":  ADHOCRACY_LAYER_APP,
          "app_url": app_url,
-         "instance_url": instance_url
+         "instance_url": instance_url,
+         'testtools': testtools,
+         'model': model
         }
-use_cases = find_use_cases()
 
 
 class DoctestTestCase(unittest.TestCase):
