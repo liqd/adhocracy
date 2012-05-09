@@ -55,3 +55,29 @@ b.name IS NOT NULL') as t1(id int, name text,admin_level int, boundary
 geometry));
 
 This copies all admin_level=8 regions from Saxony.
+
+Region Hierarchy
+----------------
+
+The hierarchy of region is stored in a table 'region_hierarchy'.
+
+# create table region_hierarchy (inner_id integer, outer_id integer);
+
+For all regions the hierarchy table is initialized once.
+
+# insert into region_hierarchy 
+    select b.id, a.id from region a, region b where
+        ST_Contains(a.boundary, b.boundary)
+        AND a.id != b.id
+        AND ( a.admin_level=4 
+              OR a.admin_level=5 
+              OR a.admin_level=6
+              OR a.admin_level=7
+              OR a.admin_level=8);
+
+To request the outer regions (of i.e. Guttau) use a inner join.
+
+# select name,id 
+    from region inner join region_hierarchy 
+        on (region.id = region_hierarchy.outer_id) 
+        where region_hierarchy.inner_id=1309635;
