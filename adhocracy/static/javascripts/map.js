@@ -704,12 +704,12 @@ function addRegionSelectControl(map) {
 function createBaseLayers(blank) {
 
     var baseLayers = [
+        //default Openstreetmap Baselayer
+        new OpenLayers.Layer.OSM("Open Street Map"),
         new OpenLayers.Layer.OSM("Public Transport",
                     "http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png"),
         new OpenLayers.Layer.OSM("Transport Map",
                     "http://otile1.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png"),
-        //default Openstreetmap Baselayer
-        new OpenLayers.Layer.OSM("Open Street Map"),
         new OpenLayers.Layer.OSM("&Ouml;pnv Deutschland", 
                     "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png")
             ];
