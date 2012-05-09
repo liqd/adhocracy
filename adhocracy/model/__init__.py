@@ -37,6 +37,7 @@ from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
 from adhocracy.model.region import Region, region_table
+from adhocracy.model.region_hierarchy import RegionHierarchy, region_hierarchy_table
 
 
 mapper(User, user_table, properties={
@@ -356,6 +357,7 @@ mapper(Region, region_table, properties = {
         'boundary': GeometryColumn(region_table.c.boundary, comparator=PGComparator)
     })
 
+mapper(RegionHierarchy, region_hierarchy_table)
 
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""

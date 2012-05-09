@@ -1080,13 +1080,23 @@ function instanceSearch(state, resultList) {
                                             $('#instances').unbind('click'); });
 
     function makeRegionNameElements(item) {
+        var text = item.label;
+        var text2 = "";
+        var is_in = item.is_in;
+        while (is_in !== undefined) {
+            text2 = is_in.name;
+            is_in = is_in.is_in;
+        };
+        if (text2 != "") {
+            text = text + ", " + text2;
+        }
         if (item.instance_id != "") {
             return $('<a>', {
                class: "link",
                href: item.url 
-            }).append(document.createTextNode(item.label));
+            }).append(document.createTextNode(text));
         } else {
-            return document.createTextNode( item.label );
+            return document.createTextNode(text);
         }
     }
 
@@ -1266,7 +1276,8 @@ function instanceSearch(state, resultList) {
                         num_members: item.num_members,
                         create_date: item.create_date,
                         bbox: item.bbox,
-                        admin_center: feature
+                        admin_center: feature,
+                        is_in: item.is_in
                     }
                 });
                 var i=0;
