@@ -18,6 +18,7 @@ milestone_table = Table(
     Column('text', UnicodeText(), nullable=True),
     Column('time', DateTime),
     Column('create_time', DateTime, default=datetime.utcnow),
+    Column('modify_time', DateTime, nullable=True, onupdate=datetime.utcnow),
     Column('delete_time', DateTime)
     )
 

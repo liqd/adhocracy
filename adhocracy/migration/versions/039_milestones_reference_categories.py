@@ -27,6 +27,9 @@ def upgrade(migrate_engine):
     category_column = Column('category_id', Integer, ForeignKey('badge.id'),
                              nullable=True)
     category_column.create(milestone_table)
+    modify_time_column = Column('modify_time', DateTime, nullable=True,
+                           onupdate=datetime.utcnow)
+    modify_time_column.create(milestone_table)
 
 
 def downgrade(migrate_engine):
