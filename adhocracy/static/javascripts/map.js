@@ -279,7 +279,7 @@ function addEditControls(map, layer) {
             },
             // FIXME: Use Gettext
             // text: 'Add position'
-            text: 'Setze Position'
+            text: LANG.set_position_text
         }).appendTo('#edit_map_buttons');
     }
 
@@ -292,9 +292,7 @@ function addEditControls(map, layer) {
                 layer.removeAllFeatures();
                 pointControl.activate();
             },
-            // FIXME: Use Gettext
-            // text: 'Set different position'
-            text: 'Setze andere Position'
+            text: LANG.set_different_position_text
         }).appendTo('#edit_map_buttons');
 
         $('<a />', {
@@ -305,9 +303,7 @@ function addEditControls(map, layer) {
                 $('#proposal_geotag_field').val('');
                 updateEditButtons();
             },
-            // FIXME: Use Gettext
-            // text: 'Remove position'
-            text: 'Entferne Position'
+            text: remove_position_text 
         }).appendTo('#edit_map_buttons');
     }
 
@@ -1110,10 +1106,15 @@ function instanceSearch(state, resultList) {
 
     function makeRegionDetailsElements(item) {
         if (item.instance_id != "") {
-            return document.createTextNode(item.num_proposals + ' proposals \u00B7 '
-                                                 + item.num_papers + ' papers \u00B7 '
-                                                 + item.num_members + ' members \u00B7 '
-                                                 + 'creation date: ' + item.create_date);
+            return document.createTextNode(
+                item.num_proposals + ' '
+                + LANG.proposals_text +' \u00B7 '
+                + item.num_papers + ' '
+                + LANG.papers_text +' \u00B7 '
+                + item.num_members + ' '
+                + LANG.members_text + ' \u00B7 '
+                + LANG.creation_date_text + ' ' 
+                + item.create_date);
         }
     }
 
@@ -1161,9 +1162,12 @@ function instanceSearch(state, resultList) {
         $('#log').empty();
         $('#search_buttons').empty()
         $('#num_search_result').empty();
-        var text = 'Your search for \"' + inputValue + '\" results in ' + count + ' ';
-        if (count == 1) text = text + 'hit';
-        else text = text + 'hits';
+        var text = LANG.num_search_result_start_text 
+                    + ' \"' + inputValue + '\" '
+                    + LANG.num_search_result_end_text 
+                    + ' ' + count + ' ';
+        if (count == 1) text = text + LANG.hit_text;
+        else text = text + LANG.hits_text;
         text = text + '.';
         var resultText = document.createTextNode(text);
         $('#num_search_result').append(resultText);
@@ -1187,17 +1191,18 @@ function instanceSearch(state, resultList) {
         if(count > max_rows) {
             if (offset + max_rows > max_rows) {
                 var prevButton = $( '<div />', { class: 'button_small', id: 'search_prev' });
-                var prevText = document.createTextNode('prev');
+                var prevText = document.createTextNode(LANG.prev_text);
                 prevButton.append(prevText);
                 prevButton.appendTo('#search_buttons');
                 prevButton.click(function(event) { removePreviousMarkers(inputValue); offset = offset-max_rows; fillSearchField(inputValue) });
             }
             var lastPage = Math.min(offset+max_rows,count);
-            var pageText = document.createTextNode((offset+1) + ' to ' + lastPage);
+            var pageText = document.createTextNode((offset+1) + ' '
+                            + LANG.to_text + ' ' + lastPage);
             $('#search_buttons').append(pageText);
             if (offset + max_rows < count) {
                 var nextButton = $( '<div />', { class: 'button_small', id: 'search_next' });
-                var nextText = document.createTextNode('next');
+                var nextText = document.createTextNode(LANG.next_text);
                 nextButton.append(nextText);
                 nextButton.appendTo('#search_buttons');
                 nextButton.click(function(event) { removePreviousMarkers(inputValue); offset = offset+max_rows; fillSearchField(inputValue) });
@@ -1248,7 +1253,7 @@ function instanceSearch(state, resultList) {
                     });
 
         var heading = $('<h3>');
-        var text = document.createTextNode('Search Result');
+        var text = document.createTextNode(LANG.search_result_text);
         heading.append(text);
 
         var infoText = $('<div/>', {
@@ -1418,7 +1423,7 @@ function noPositionClicked(instanceKey) {
         id: 'create_geo_button', 
         class: 'button_small',
         click: addGeoTagHandler 
-    }).append(document.createTextNode("Add geographic location")).appendTo('#map_div');
+    }).append(document.createTextNode(LANG.add_position_text)).appendTo('#map_div');
     $('<a/>').appendTo('#map_div');
 
     $('#map').remove();
@@ -1436,7 +1441,7 @@ function addPositionClicked(instanceKey, position) {
         id: 'no_geo_button', 
         class: 'button_small',
         click: noGeoTagHandler 
-    }).append(document.createTextNode("No geographic location")).appendTo('#map_div');
+    }).append(document.createTextNode(LANG.no_position_text)).appendTo('#map_div');
     $('<a/>').appendTo('#map_div');
 
     $('<div />', {
@@ -1459,11 +1464,11 @@ function addPositionClicked(instanceKey, position) {
     }).appendTo('#attribution_div');
     $('#attribution_div').append(document.createTextNode('OpenStreetMap'));
     $('</a>').appendTo('#attribution_div');
-    $('#attribution_div').append(document.createTextNode('-KartografInnen('));
+    $('#attribution_div').append(document.createTextNode('-' + LANG.osm_cartegrapher_text + '('));
     $('<a>', {
         href: 'http://creativecommons.org/licenses/by-sa/2.0/'
     }).appendTo('#attribution_div');
-    $('#attribution_div').append(document.createTextNode('lizenz'));
+    $('#attribution_div').append(document.createTextNode(LANG.license_text));
     $('</a>').appendTo('#attribution_div');
     $('#attribution_div').append(document.createTextNode(')'));
     
