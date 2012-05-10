@@ -1,3 +1,4 @@
+from datetime import date, datetime, time
 import logging
 
 import formencode
@@ -54,13 +55,21 @@ class MilestoneController(BaseController):
     def index(self, format="html"):
         require.milestone.index()
 
-        c.milestones = model.Milestone.all(instance=c.instance)
-        broken = [m for m in c.milestones if m.time is None]
+        milestones = model.Milestone.all(instance=c.instance)
+        broken = [m for m in milestones if m.time is None]
         for milestone in broken:
             log.warning('Time of Milestone is None: %s' %
                         h.entity_url(milestone))
-        c.milestones = [m for m in c.milestones if m.time is not None]
-        c.milestones_pager = pager.milestones(c.milestones)
+        milestones = [m for m in milestones if m.time is not None]
+        today = datetime.combine(date.today(), time(0, 0))
+        past_milestones = [m for m in milestones if m.time < today]
+        c.show_past_milestones = len(past_milestones)
+        c.past_milestones_pager = pager.milestones(past_milestones)
+
+        current_milestones = [m for m in milestones if m not in
+                              past_milestones]
+        c.show_current_milestones = len(current_milestones)
+        c.current_milestones_pager = pager.milestones(current_milestones)
 
         if format == 'json':
             return render_json(c.milestones_pager)
