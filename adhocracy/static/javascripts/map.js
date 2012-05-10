@@ -1037,15 +1037,15 @@ function addArrow(plus) {
 function enlargeMap(event) {
    addArrow(false); 
    $('.arrow').click(shrankMap);
-   $('.wrapper').width(800);
-   $('.wrapper').height(600);
+   $('.map_wrapper').width(1000);
+   $('.map_wrapper').height(656);
 }
 
 function shrankMap(event) {
    addArrow(true);
    $('.arrow').click(enlargeMap);
-   $('.wrapper').width(600);
-   $('.wrapper').height(400);
+   $('.map_wrapper').width(640);
+   $('.map_wrapper').height(440);
 }
 
 function loadSelectInstanceMap(layers, resultList) {
