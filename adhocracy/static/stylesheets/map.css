@@ -15,13 +15,7 @@
 }
 
 .map_wrapper {
-    width: 640px;
-    height: 440px;
     position: relative;
-}
-
-#map_startpage_wrapper {
-
 }
 
 .map {
@@ -34,20 +28,36 @@
 }
 
 /* Startpage */
+#map_startpage_wrapper.map_size_large .map_wrapper {
+    margin-left: 0px;
+    width: 1000px;
+    height: 656px;
+}
+
+#map_startpage_wrapper.map_size_normal .map_wrapper {
+    margin-left: 320px;
+    height: 440px;
+    width: 640px;
+}
+
 #map_startpage_wrapper .map_wrapper {
     margin-left: 320px;
 }
 
-#content-startpage img {
-  display: none; /* dirty hack so don't have to edit wp now */
-}
-
-#content-startpage {
+.map_size_normal #content-startpage {
     background-color: #f5f4f0;
     float: left;
     height: 440px;
     padding: 0 20px;
     width: 268px;
+}
+
+.map_size_large #content-startpage {
+    display: none;
+}
+
+#content-startpage img {
+    display: none; /* dirty hack so don't have to edit wp now */
 }
 
 .ui-autocomplete-loading { 
