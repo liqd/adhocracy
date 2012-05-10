@@ -19,5 +19,5 @@ We have a login link on the start page
 
 Break the following tests::
 
-   >>> testtools.tt_make_user('voter')
-   <User(2,voter)>
+#   >>> testtools.tt_make_user('voter')
+#   <User(2,voter)>
