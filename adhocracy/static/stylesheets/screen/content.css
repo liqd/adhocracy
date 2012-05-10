@@ -247,7 +247,7 @@ a.button_small.off:active, a.button_small.off.active {
 }
 .content_list h3,
 #col3 .content_list h3 {
-  font-size: 18px;
+    font-size: 16px;
 }
  
 .content_list .level-0 {
