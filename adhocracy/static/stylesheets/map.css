@@ -4,9 +4,7 @@
  * http://blueprintcss.googlecode.com
  */
 
-/**
- * Map Examples Specific
- */
+/* Map Examples Specific */
 .small_map {
     width: 300px;
     height: 300px;
@@ -22,6 +20,10 @@
     position: relative;
 }
 
+#map_startpage_wrapper {
+
+}
+
 .map {
     position: absolute;
     z-index: -1;
@@ -29,6 +31,23 @@
     height: 100%;
     top: 0px;
     left: 0px;
+}
+
+/* Startpage */
+#map_startpage_wrapper .map_wrapper {
+    margin-left: 320px;
+}
+
+#content-startpage img {
+  display: none; /* dirty hack so don't have to edit wp now */
+}
+
+#content-startpage {
+    background-color: #f5f4f0;
+    float: left;
+    height: 440px;
+    padding: 0 20px;
+    width: 268px;
 }
 
 .ui-autocomplete-loading { 
