@@ -28,6 +28,10 @@ created_msg = _("by %s on %s") % (
     </time></p>
     %endif
 
+    %if c.milestone.category:
+    <h6>${_('Category')}</h6>
+    <p>${c.milestone.category.title}</p>
+    %endif
 
 </summary>
 
@@ -59,7 +63,7 @@ created_msg = _("by %s on %s") % (
 
 
     <h4>${_("Associated Proposals")}</h4>
-    %if c.show_proposal_pager:
+    %if c.show_proposals_pager:
     <div id="proposals_table" class="table">
         ${c.proposals_pager.here()}
     </div>
