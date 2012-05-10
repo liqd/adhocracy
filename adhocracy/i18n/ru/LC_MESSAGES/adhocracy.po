@@ -1290,7 +1290,7 @@ msgid ""
 "A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes "
 "and %(against)s nays"
 msgstr ""
-"Сумма <a href=\"%(url)s\">%(votes)s голосований </a>, из них %(for)s За "
+"Сумма <a href=\"%(url)s\">%(votes)s голосований</a>, из них %(for)s За "
 "and %(against)s Против"
 
 msgid "Votes"
