@@ -139,7 +139,6 @@ class ProposalController(BaseController):
             return self.new(errors=i.unpack_errors())
 
         pages = self.form_result.get('page', [])
-        badge = self.form_result.get('category')
         if c.instance.require_selection and len(pages) < 1:
             h.flash(
                 _('Please select norm and propose a change to it.'),
@@ -160,8 +159,11 @@ class ProposalController(BaseController):
         description.parents = [proposal]
         model.meta.Session.flush()
         proposal.description = description
-        if badge:
-            model.DelegateableBadge(proposal, badge[0], c.user)
+
+        categories = self.form_result.get('category')
+        category = categories[0] if categories else None
+        proposal.set_category(category, c.user)
+
         for page in pages:
             page_text = page.get('text', '')
             page = page.get('id')
@@ -204,9 +206,7 @@ class ProposalController(BaseController):
 
         # categories for this proposal
         # (single category not assured in db model)
-        categories = [b for b in c.proposal.badges if
-                      b.badge_delegateable_category]
-        c.category = categories[0] if len(categories) == 1 else None
+        c.category = c.proposal.category
 
         force_defaults = False
         if errors:
@@ -235,12 +235,10 @@ class ProposalController(BaseController):
         c.proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.add(c.proposal)
 
-        [c.proposal.badges.remove(b) for b in c.proposal.badges if
-         b.badge_delegateable_category]
-
-        badge = self.form_result.get('category')
-        if len(badge) == 1:
-            model.DelegateableBadge(c.proposal, badge[0], c.user)
+        # change the category
+        categories = self.form_result.get('category')
+        category = categories[0] if categories else None
+        c.proposal.set_category(category, c.user)
 
         if self._can_edit_wiki(c.proposal, c.user):
             wiki = self.form_result.get('wiki')

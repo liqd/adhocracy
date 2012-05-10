@@ -197,6 +197,26 @@ class Delegateable(meta.Indexable):
     def current_delegations(self):
         return filter(lambda d: not d.is_revoked(), self.delegations)
 
+    @property
+    def category(self):
+        '''
+        Getter for the category which is a many-to-many relation
+        that we use it as a many-to-one relation.
+        '''
+        if len(self.categories) > 1:
+            log.error('More than 1 category on delegateable %s' % self.id)
+        return self.categories[0] if self.categories else None
+
+    def set_category(self, category, user):
+        '''
+        Setter for the category which is a many-to-many relation that
+        we use it as a many-to-one relation.
+        '''
+        if not self.categories or self.categories[0] != category:
+            self.categories = []
+            if category:
+                category.assign(self, user)
+
     def user_position(self, user):
         return 0
 
