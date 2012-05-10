@@ -79,7 +79,7 @@ mapper(DelegateableBadges, delegateable_badges_table,
                primaryjoin=(delegateable_badges_table.c.delegateable_id ==
                          delegateable_table.c.id),
                backref=backref('delegateablebadges')),
-           'badge': relation(DelegateableBadge)})
+           'badge': relation(Badge)})
 
 
 # We map Badge to establish the base properties, but you cannot
