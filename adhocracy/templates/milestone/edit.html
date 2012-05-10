@@ -26,9 +26,7 @@
             ${_("Give a brief description of the milestone.")|n}
         </div>
     
-        <textarea tabindex="2" class="description" name="text">
-        ${c.milestone.text}
-        </textarea>
+        <textarea tabindex="2" class="description" name="text">${c.milestone.text}</textarea>
         ${components.formatting()}
         <br/>
         <label for="time">${_("Date of the milestone")}</label>
@@ -46,7 +44,8 @@
                 ${_('No Category')}
             </option>
             %for category in c.categories:
-            <option class="ttip" title="${category.description}" value="${category.id}">
+            <option class="ttip" title="${category.description}" value="${category.id}"
+                    ${'selected="selected"' if c.milestone.category == category else ''}>
                 ${category.title}
             </option>
             %endfor

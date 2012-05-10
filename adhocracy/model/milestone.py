@@ -25,11 +25,12 @@ milestone_table = Table(
 
 class Milestone(object):
 
-    def __init__(self, instance, creator, title, text, time):
+    def __init__(self, instance, creator, title, text, time, category=None):
         self.instance = instance
         self.creator = creator
         self.title = title
         self.text = text
+        self.category = category
         if time is not None:
             self.time = time
 
@@ -47,8 +48,9 @@ class Milestone(object):
         return q.first()
 
     @classmethod
-    def create(cls, instance, creator, title, text, time):
-        milestone = Milestone(instance, creator, title, text, time)
+    def create(cls, instance, creator, title, text, time, category=None):
+        milestone = Milestone(instance, creator, title, text, time,
+                              category=category)
         meta.Session.add(milestone)
         meta.Session.flush()
         return milestone

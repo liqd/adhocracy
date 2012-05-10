@@ -91,10 +91,14 @@ class MilestoneController(BaseController):
             self.form_result = MilestoneCreateForm().to_python(request.params)
         except Invalid, i:
             return self.new(errors=i.unpack_errors())
+
+        category = self.form_result.get('category')
         milestone = model.Milestone.create(c.instance, c.user,
-                                         self.form_result.get("title"),
-                                         self.form_result.get('text'),
-                                         self.form_result.get('time'))
+                                           self.form_result.get("title"),
+                                           self.form_result.get('text'),
+                                           self.form_result.get('time'),
+                                           category=category)
+
         model.meta.Session.commit()
         watchlist.check_watch(milestone)
         #event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
@@ -108,8 +112,11 @@ class MilestoneController(BaseController):
         c.categories = model.CategoryBadge.all(instance=c.instance)
         c.milestone = get_entity_or_abort(model.Milestone, id)
         require.milestone.edit(c.milestone)
+        defaults = {'category': (str(c.milestone.category.id) if
+                                 c.milestone.category else None)}
+        defaults.update(dict(request.params))
         return htmlfill.render(render("/milestone/edit.html"),
-                               defaults=dict(request.params),
+                               defaults=defaults,
                                errors=errors, force_defaults=False)
 
     @RequireInstance
@@ -127,7 +134,6 @@ class MilestoneController(BaseController):
         c.milestone.text = self.form_result.get('text')
         c.milestone.category = self.form_result.get('category')
         c.milestone.time = self.form_result.get('time')
-        model.meta.Session.add(c.milestone)
         model.meta.Session.commit()
         watchlist.check_watch(c.milestone)
         #event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
@@ -144,9 +150,15 @@ class MilestoneController(BaseController):
 
         c.tile = tiles.milestone.MilestoneTile(c.milestone)
 
-        # proposals
-        proposals = model.Proposal.by_milestone(c.milestone,
-                                                instance=c.instance)
+        # proposals .. directly assigned
+        by_milestone = model.Proposal.by_milestone(c.milestone,
+                                                   instance=c.instance)
+        # proposals .. with the same category
+        by_category = []
+        if c.milestone.category:
+            by_category = [d for d in c.milestone.category.delegateables
+                           if isinstance(d, model.Proposal)]
+        proposals = list(set(by_milestone + by_category))
         c.proposals_pager = pager.proposals(proposals, size=20,
                                             enable_sorts=False)
         c.show_proposals_pager = len(proposals)
