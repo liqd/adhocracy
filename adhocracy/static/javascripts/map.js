@@ -1033,17 +1033,15 @@ function addArrow(plus) {
 function enlargeMap(event) {
    addArrow(false); 
    $('.arrow').click(shrankMap);
-   $('.map_wrapper').width(1000);
-   $('.map_wrapper').height(656);
-// TODO: instead to #map_startpage_wrapper rm .map_size_normal add .map_size_large
+   $('#map_startpage_wrapper').removeClass('map_size_normal');
+   $('#map_startpage_wrapper').addClass('map_size_large');
 }
 
 function shrankMap(event) {
    addArrow(true);
    $('.arrow').click(enlargeMap);
-   $('.map_wrapper').width(640);
-   $('.map_wrapper').height(440);
-// TODO: instead to #map_startpage_wrapper rm .map_size_large add .map_size_normal
+   $('#map_startpage_wrapper').addClass('map_size_normal');
+   $('#map_startpage_wrapper').removeClass('map_size_large');
 }
 
 function loadSelectInstanceMap(layers, resultList) {
