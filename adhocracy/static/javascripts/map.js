@@ -1424,13 +1424,16 @@ function instanceSearch(state, resultList) {
   });
 }
 
-function noPositionClicked(instanceKey) {
-    $('<a>', {
-        id: 'create_geo_button', 
-        class: 'button_small',
-        click: addGeoTagHandler 
-    }).append(document.createTextNode(LANG.add_position_text)).appendTo('#map_div');
-    $('<a/>').appendTo('#map_div');
+var openlayers_url = $('#openlayers_url_field').val()
+if (openlayers_url != "") {
+    $.getScript(openlayers_url, function() {
+        function noPositionClicked(instanceKey) {
+            $('<a>', {
+                id: 'create_geo_button', 
+                class: 'button_small',
+                click: addGeoTagHandler 
+            }).append(document.createTextNode(LANG.add_position_text)).appendTo('#map_div');
+            $('<a/>').appendTo('#map_div');
 
     $('#map').remove();
     $('#attribution_div').remove();
