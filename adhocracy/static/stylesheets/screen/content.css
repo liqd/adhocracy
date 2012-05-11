@@ -152,6 +152,11 @@ a.button.highlight {
 a.button.highlight:hover {
   background-position: 0 -350px;
 }
+
+.top_actions {
+  padding-bottom: 1em;
+}
+
 .register {
   height: 27px;
   line-height: 27px;
@@ -228,17 +233,39 @@ a.button_small.off:active, a.button_small.off.active {
 .hlist li {
   display: inline-block;
 }
+.nobullet {
+  list-style: none; 
+  margin-left: 0
+}
 .content_list {
   list-style: none;
   margin: 0;
 }
+
 .content_list li {
   margin-bottom: 10px;
 }
 .content_list h3,
 #col3 .content_list h3 {
-  font-size: 18px;
+    font-size: 16px;
 }
+ 
+.content_list .level-1 {
+  padding-left: 1.5em;
+}
+.content_list .level-2 {
+  padding-left: 3em;
+}
+.content_list .level-3 {
+  padding-left: 4em;
+}
+.content_list .level-4 {
+  padding-left: 5.5em;
+}
+.content_list .level-5 {
+  padding-left: 7em;
+}
+
 li.content_box {
   padding: 10px 0 0 0;
   margin-bottom: 0;
@@ -304,6 +331,9 @@ section { margin-bottom: 40px; }
 .filter_box a.selected {
   color: #666;
 }
+.filter_box select {
+  width: auto;
+}
 
 .pager_wrapper .floatbox {
   padding: 5px 10px;
@@ -312,6 +342,11 @@ section { margin-bottom: 40px; }
 
 .pager_wrapper .filter_box {
 margin: 0;
+}
+
+.pager_wrapper .sort_group {
+  float: left; 
+  padding: 0 2em 0 1em;
 }
 
 .pager_wrapper .hr {
@@ -981,6 +1016,12 @@ a.button.delegate:hover {
 .vote.deactivated .vote_up span,
 .vote.deactivated .vote_down span {
 background-image: none !important;
+}
+
+.vote_wrapper .or {
+  display: inline-block; 
+  vertical-align: top; 
+  padding-top: 6px
 }
 
 /* papers */
@@ -1676,6 +1717,19 @@ list-style: none;
 margin-left: 0;
 }
 
+.content_box .more {
+  float: right;
+  padding-top: 1em;
+}
+.more_arrow {
+  background: url("/images/sprite_icons.png") no-repeat right -1050px;
+  padding: 7px 40px 2px 10px;
+}
+.more_arrow.less {
+  background: url("/images/sprite_icons.png") no-repeat right -1100px;
+}
+
+
 /* Tutorials */
 
 .joyride-next-tip,
@@ -1704,4 +1758,16 @@ a.joyride-prev-tip:hover {
 
 #tutorial-banner a.disable-link {
   padding-left: 1em;
+}
+
+#milestone_title {
+  padding-top: 0.3em;
+}
+
+#milestone_title .date {
+  font-size: 0.7em;
+}
+
+#milestone #associated-norms {
+  padding-top: 2em;
 }

@@ -28,7 +28,7 @@ con = tile.widget_action_attrs(model.Vote.NO)
 </div>
 
 %if delegate_url:
-<span>${_('or:')}</span>
+<span class="or">${_('or:')}</span>
 <a href="${delegate_url}" 
    class="button delegate">${_('delegate')}</a>
 %endif

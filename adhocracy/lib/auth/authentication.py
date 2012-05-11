@@ -61,4 +61,6 @@ def setup_auth(app, config):
                       mdproviders=mdproviders,
                       log_stream=log_stream,
                       log_level=logging.DEBUG,
-                      skip_authentication=config.get('skip_authentication'))
+                      # kwargs passed to repoze.who.plugins.testutils:
+                      skip_authentication=config.get('skip_authentication'),
+                      remote_user_key='HTTP_REMOTE_USER')

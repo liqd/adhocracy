@@ -16,7 +16,6 @@ Session = None
 data = MetaData()
 
 
-
 class Indexable(object):
 
     def to_index(self):

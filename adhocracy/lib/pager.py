@@ -1,9 +1,11 @@
+from inspect import isclass
 import math
 import logging
+import time
 import urllib
 
 from formencode import validators
-from pylons.i18n import _, lazy_ugettext
+from pylons.i18n import _, lazy_ugettext, lazy_ugettext as L_
 from pylons import config, request, tmpl_context as c, url
 from pylons.controllers.util import redirect
 from webob.multidict import MultiDict
@@ -19,6 +21,9 @@ log = logging.getLogger(__name__)
 
 PAGE_VALIDATOR = validators.Int(min=1, not_empty=True)
 SIZE_VALIDATOR = validators.Int(min=1, max=250, not_empty=True)
+
+
+marker = object()
 
 
 def sort_key_getter(item):
@@ -135,9 +140,9 @@ class PagerMixin(object):
         '''
         query = MultiDict(request.params.items())
         query.update(kwargs)
-        query["%s_page" % self.name] = page if page else 1
-        query["%s_size" % self.name] = size if size else self.size
-        query["%s_sort" % self.name] = sort if sort else self.selected_sort
+        query[self.page_param] = page if page else 1
+        query[self.size_param] = size if size else self.size
+        query[self.sort_param] = sort if sort else self.selected_sort
 
         # sanitize the the query arguments
         query_items = ([(str(key), unicode(value).encode('utf-8')) for
@@ -159,6 +164,18 @@ class PagerMixin(object):
         render the template for the pager (without facets)
         '''
         return render_def('/pager.html', 'namedpager', pager=self)
+
+    @property
+    def sort_param(self):
+        return "%s_sort" % self.name
+
+    @property
+    def size_param(self):
+        return "%s_size" % self.name
+
+    @property
+    def page_param(self):
+        return "%s_page" % self.name
 
     def __len__(self):
         return self.total_num_items()
@@ -198,13 +215,13 @@ class NamedPager(PagerMixin):
 
     def _parse_request(self):
         try:
-            page_value = request.params.get("%s_page" % self.name)
+            page_value = request.params.get(self.page_param)
             self.page = PAGE_VALIDATOR.to_python(page_value)
         except:
             self.page = 1
 
         try:
-            size_value = request.params.get("%s_size" % self.name)
+            size_value = request.params.get(self.size_param)
             self.size = SIZE_VALIDATOR.to_python(size_value)
         except:
             pass
@@ -212,7 +229,7 @@ class NamedPager(PagerMixin):
         try:
             sort_validator = validators.Int(min=1, max=len(self.sorts.keys()),
                                             not_empty=True)
-            sort_value = request.params.get("%s_sort" % self.name)
+            sort_value = request.params.get(self.sort_param)
             self.selected_sort = sort_validator.to_python(sort_value)
         except:
             pass
@@ -266,12 +283,11 @@ def milestones(milestones, default_sort=None, **kwargs):
 
 def pages(pages, detail=True, default_sort=None, **kwargs):
     if default_sort is None:
-        default_sort = sorting.delegateable_title
-    sorts = {_("oldest"): sorting.entity_oldest,
-             _("newest comment"): sorting.delegateable_latest_comment,
-             _("newest"): sorting.entity_newest,
+        default_sort = sorting.hierarchical_title
+    sorts = {_("newest"): sorting.entity_newest,
              _("proposals"): sorting.norm_selections,
-             _("alphabetically"): sorting.delegateable_title}
+             _("alphabetically"): sorting.delegateable_title,
+             _("hierarchical"): sorting.hierarchical_title}
     return NamedPager('pages', pages, tiles.page.row, sorts=sorts,
                     default_sort=default_sort, **kwargs)
 
@@ -326,23 +342,6 @@ def polls(polls, default_sort=None, **kwargs):
                     default_sort=default_sort, **kwargs)
 
 
-class Sorts(object):
-    '''
-    Class to store sorting options in :class:`SolrPager`
-    '''
-
-    def __init__(self, sorts):
-        self._sorts = sorts
-        self._keys = [sort[0] for sort in sorts]
-        self._values = [sort[1] for sort in sorts]
-
-    def keys(self):
-        return self._keys
-
-    def values(self):
-        return self._values
-
-
 # --[ solr pager ]----------------------------------------------------------
 
 class SolrIndexer(object):
@@ -353,7 +352,7 @@ class SolrIndexer(object):
 
     @classmethod
     def add_data_to_index(cls, entity, data):
-        '''
+        """
         Add data from/based on *entity* to *data* which will be
         indexed in solr. Add information to it *data* or modify
         it. You don't need to return it.
@@ -364,11 +363,8 @@ class SolrIndexer(object):
            The data that will be send to solr.
 
         Return *None*
-        '''
+        """
         raise NotImplemented('has to be implemented in subclass')
-
-
-marker = object()
 
 
 class SolrFacet(SolrIndexer):
@@ -677,11 +673,8 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        badges = [relation.badge for relation in
-                  entity.delegateablebadges if
-                  relation.badge.badge_delegateable_category]
         data[cls.solr_field] = [ref_attr_value(badge) for
-                                badge in badges]
+                                badge in entity.categories]
 
 
 class DelegateableBadgeFacet(SolrFacet):
@@ -697,10 +690,7 @@ class DelegateableBadgeFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        d = [ref_attr_value(relation.badge) for relation in
-             entity.delegateablebadges if
-             (relation.badge.badge_delegateable or not
-              relation.badge.badge_delegateable_category)]
+        d = [ref_attr_value(badge) for badge in entity.badges]
         data[cls.solr_field] = d
 
 
@@ -760,6 +750,16 @@ class CommentScoreIndexer(SolrIndexer):
             data[cls.solr_field] = entity.poll.tally.score
 
 
+class CommentScoreIndexer(SolrIndexer):
+
+    solr_field = 'order.comment.score'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Comment):
+            data[cls.solr_field] = entity.poll.tally.score
+
+
 class NormNumSelectionsIndexer(SolrIndexer):
 
     solr_field = 'order.norm.num_selections'
@@ -782,6 +782,29 @@ class NormNumVariantsIndexer(SolrIndexer):
             data[cls.solr_field] = len(entity.selections)
 
 
+class ProposalNumCommentsIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.comments'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Delegateable):
+            data[cls.solr_field] = len(entity.comments)
+
+
+class ProposalNewestCommentsIndexer(SolrIndexer):
+
+    solr_field = 'order.newestcomment'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            if entity.comment_count() > 0:
+                commenttime = entity.find_latest_comment_time()
+                value = time.mktime(commenttime.timetuple())
+                data[cls.solr_field] = value
+
+
 class ProposalSupportIndexer(SolrIndexer):
 
     solr_field = 'order.proposal.support'
@@ -789,7 +812,40 @@ class ProposalSupportIndexer(SolrIndexer):
     @classmethod
     def add_data_to_index(cls, entity, data):
         if isinstance(entity, model.Proposal):
-            data[cls.solr_field] = entity.rate_poll.tally.num_for
+            data[cls.solr_field] = entity.rate_poll.tally.score
+
+
+class ProposalVotesIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.votes'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            tally = entity.rate_poll.tally
+            data[cls.solr_field] = tally.num_for + tally.num_against
+
+
+class ProposalVotesYesIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.yesvotes'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            tally = entity.rate_poll.tally
+            data[cls.solr_field] = tally.num_for
+
+
+class ProposalVotesNoIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.novotes'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            tally = entity.rate_poll.tally
+            data[cls.solr_field] = tally.num_against
 
 
 class ProposalMixedIndexer(SolrIndexer):
@@ -802,7 +858,7 @@ class ProposalMixedIndexer(SolrIndexer):
             data[cls.solr_field] = sorting.proposal_mixed_key(entity)
 
 
-class UserActivityIndexer(SolrIndexer):
+class InstanceUserActivityIndexer(SolrIndexer):
 
     @classmethod
     def solr_field(cls, instance=None):
@@ -822,28 +878,18 @@ class UserActivityIndexer(SolrIndexer):
             data[cls.solr_field()] = activity_sum
 
 
-INDEX_DATA_FINDERS = [UserBadgeFacet, InstanceFacet,
-                      CommentOrderIndexer, CommentScoreIndexer,
-                      DelegateableAddedByBadgeFacet, DelegateableBadgeFacet,
-                      DelegateableTags, DelegateableBadgeCategoryFacet,
-                      NormNumSelectionsIndexer, NormNumSelectionsIndexer,
-                      ProposalSupportIndexer, ProposalMixedIndexer,
-                      UserActivityIndexer]
-
-
 class SolrPager(PagerMixin):
     '''
     An pager currently compatible to :class:`adhocracy.lib.pager.NamedPager`.
     '''
 
     def __init__(self, name, itemfunc, entity_type=None, extra_filter=None,
-                 initial_size=20, size=None, sorts=tuple(), default_sort=None,
+                 initial_size=20, size=None, sorts=None,
                  enable_sorts=True, enable_pages=True, facets=tuple(),
                  wildcard_queries=None):
         self.name = name
         self.itemfunc = itemfunc
         self.enable_pages = enable_pages
-        self.enable_sorts = enable_sorts
         self.extra_filter = extra_filter
         self.facets = [Facet(self.name, request) for Facet in facets]
         self.wildcard_queries = wildcard_queries or {}
@@ -856,13 +902,12 @@ class SolrPager(PagerMixin):
             self.size = initial_size
         self.size = self._get_size()
 
-        self.sorts = Sorts(sorts)
-        self.default_sort = default_sort
-        if len(self.sorts.values()) and self.default_sort:
-            self.selected_sort = self.sorts.values().index(default_sort) + 1
-        else:
-            self.selected_sort = 1
-        self.selected_sort = self._get_sort()
+        self.enable_sorts = enable_sorts
+        self.sorts = sorts
+        self.sorts.set_pager(pager=self)
+        self.selected_sort = None
+        if self.sorts:
+            self.selected_sort = self.sorts.selected().value
 
         self.page = self._get_page()
 
@@ -884,14 +929,9 @@ class SolrPager(PagerMixin):
         # Add pagination and sorting
         if enable_pages:
             query = query.paginate(start=self.offset, rows=self.size)
-        if self.sorts.keys():
-            try:
-                sort_by = self.sorts.values()[self.selected_sort - 1]
-            except IndexError:
-                # if the number of sort options changes, search engine
-                # bots will still try to index the old page.
-                redirect(self.build_url(sort=1), code=301)
-            query = query.sort_by(sort_by)
+
+        if self.selected_sort is not None:
+            query = query.sort_by(self.selected_sort)
 
         # query solr and calculate values from it
         self.response = query.execute()
@@ -930,7 +970,7 @@ class SolrPager(PagerMixin):
     def _get_page(self):
         page = 1
         try:
-            page_value = request.params.get("%s_page" % self.name)
+            page_value = request.params.get(self.page_param)
             page = PAGE_VALIDATOR.to_python(page_value)
         finally:
             return page
@@ -939,17 +979,10 @@ class SolrPager(PagerMixin):
 
         size = self.size
         try:
-            size_value = request.params.get("%s_size" % self.name)
+            size_value = request.params.get(self.size_param)
             size = SIZE_VALIDATOR.to_python(size_value)
         finally:
             return size
-
-    def _get_sort(self):
-        sort = request.params.get("%s_sort" % self.name)
-        if sort is None:
-            return self.selected_sort
-        else:
-            return int(sort)
 
     def render_facets(self):
         '''
@@ -958,30 +991,161 @@ class SolrPager(PagerMixin):
         return render_def('/pager.html', 'facets', pager=self)
 
 
+class SortOption(object):
+
+    def __init__(self, value, label, old=None, func=None, description=None):
+        self.value = value
+        self.label = label
+        self.old = old
+        self.func = func
+        self.description = description
+
+    def __call__(self, **kwargs):
+        '''
+        Factory to return a modified copy of self.
+        '''
+        value = kwargs.get('value', self.value)
+        label = kwargs.get('label', self.label)
+        old = kwargs.get('old', self.old)
+        func = kwargs.get('func', self.func)
+        description = kwargs.get('description', self.description)
+        return SortOption(value, label, old=old, func=func,
+                          description=description)
+
+    def __eq__(self, other):
+        return self.value == other.value
+
+
+class NamedSort(object):
+
+    pager = None
+
+    def __init__(self, sortoptions=tuple(), default=None,
+                 template='/pager.html', mako_def="sort_dropdown"):
+        '''
+        *sortsoptions* (iterable)
+            An list of (<groupname>, <optionslist>) tuples where
+            <optionslist> itself is a list of :class:`SortOption` s.
+        *default* (:class:`SortOption`)
+            A :class:`SortOption` object for the default sort.
+        *template* (str)
+            The (mako) Template used to render the sort options.
+        *mako_def* (str)
+            The name of the make def to use.
+        '''
+        self.by_value = {}
+        self.by_old = {}
+        self.by_group = {}
+        self.groups = []
+        for (group_label, optionslist) in sortoptions:
+            self.add_group(group_label, optionslist)
+
+        # set the default
+        if default is not None:
+            assert default.value in self.by_value
+            self._default = default.value
+
+        self.template = template
+        self.mako_def = mako_def
+
+    @property
+    def default(self):
+        if self._default in self.by_value:
+            return self.by_value[self._default]
+        else:
+            return self.by_group[self.groups[0]][0]
+
+    def current_value(self):
+        return request.params.get(self.pager.sort_param)
+
+    def selected(self):
+        value = self.current_value()
+
+        if value is None:
+            return self.default
+
+        try:
+            return self.by_value[value]
+        except KeyError:
+            try:
+                new_value = self.by_old[value].value
+                redirect(self.pager.build_url(sort=new_value), code=301)
+            except KeyError:
+                redirect(self.pager.build_url(sort=self.default, code=301))
+
+    def add_group(self, label, options):
+        assert (label not in self.groups), 'We do not support changing groups'
+        self.groups.append(label)
+        self.by_group[label] = options
+        for option in options:
+            assert isinstance(option, SortOption)
+            assert option.value not in self.by_value
+            self.by_value[option.value] = option
+            if option.old is not None:
+                assert option.old not in self.by_old
+                self.by_old[option.old] = option
+
+    def set_pager(self, pager):
+        self.pager = pager
+
+    def render(self):
+        return render_def(self.template, self.mako_def, sorts=self)
+
+    def grouped_options(self):
+        return [(group, self.by_group[group]) for group in self.groups]
+
+    def __len__(self):
+        return len(self.by_value.keys())
+
+
+OLDEST = SortOption('+create_time', L_("Oldest"))
+NEWEST = SortOption('-create_time', L_("Newest"))
+NEWEST_COMMENT = SortOption('-order.newestcomment', L_("Newest Comment"))
+ACTIVITY = SortOption('-activity', L_("Activity"))
+ALPHA = SortOption('order.title', L_("Alphabetically"))
+PROPOSAL_SUPPORT = SortOption('-order.proposal.support', L_("Most Support"),
+                              description=L_('Yays - nays'))
+PROPOSAL_VOTES = SortOption('-order.proposal.votes', L_("Most Votes"),
+                              description=L_('Yays + nays'))
+PROPOSAL_YES_VOTES = SortOption('-order.proposal.yesvotes', L_("Most Ayes"))
+PROPOSAL_NO_VOTES = SortOption('-order.proposal.novotes', L_("Most Nays"))
+PROPOSAL_MIXED = SortOption('-order.proposal.mixed', L_('Mixed'),
+                              description=L_('Age and Support'))
+
+USER_SORTS = NamedSort([[None, (OLDEST(old=1),
+                                NEWEST(old=2),
+                                ACTIVITY(old=3),
+                                ALPHA(old=4))]],
+                       default=ACTIVITY,
+                       mako_def="sort_dropdown")
+
+PROPOSAL_SORTS = NamedSort([[L_('Support'), (PROPOSAL_SUPPORT(old=2),
+                                             PROPOSAL_VOTES,
+                                             PROPOSAL_YES_VOTES,
+                                             PROPOSAL_NO_VOTES)],
+                            [L_('Date'), (NEWEST(old=1,
+                                                 label=L_('Newest Proposals')),
+                                          NEWEST_COMMENT)],
+                            [L_('Other'), (ALPHA(old=4),
+                                           PROPOSAL_MIXED(old=3))]],
+                           default=PROPOSAL_MIXED,
+                           mako_def="sort_slidedown")
+
+
 def solr_instance_users_pager(instance):
     extra_filter = {'facet.instances': instance.key}
-    activity_sort_field = '-activity.%s' % instance.key
     pager = SolrPager('users', tiles.user.row,
                       entity_type=model.User,
-                      sorts=((_("oldest"), '+create_time'),
-                             (_("newest"), '-create_time'),
-                             (_("activity"), activity_sort_field),
-                             (_("alphabetically"), 'order.title')),
+                      sorts=USER_SORTS,
                       extra_filter=extra_filter,
-                      default_sort=activity_sort_field,
                       facets=[UserBadgeFacet])
     return pager
 
 
 def solr_global_users_pager():
-    activity_sort_field = '-activity'
     pager = SolrPager('users', tiles.user.row,
                       entity_type=model.User,
-                      sorts=((_("oldest"), '+create_time'),
-                             (_("newest"), '-create_time'),
-                             (_("activity"), activity_sort_field),
-                             (_("alphabetically"), 'order.title')),
-                      default_sort=activity_sort_field,
+                      sorts=USER_SORTS,
                       facets=[UserBadgeFacet, InstanceFacet]
                       )
     return pager
@@ -989,14 +1153,9 @@ def solr_global_users_pager():
 
 def solr_proposal_pager(instance, wildcard_queries=None):
     extra_filter = {'instance': instance.key}
-    mixed_sort = '-order.proposal.mixed'
     pager = SolrPager('proposals', tiles.proposal.row,
                       entity_type=model.Proposal,
-                      sorts=((_("newest"), '-create_time'),
-                             (_("support"), '-order.proposal.support'),
-                             (_("mixed"), mixed_sort),
-                             (_("alphabetically"), 'order.title')),
-                      default_sort=mixed_sort,
+                      sorts=PROPOSAL_SORTS,
                       extra_filter=extra_filter,
                       facets=[DelegateableBadgeCategoryFacet,
                               DelegateableBadgeFacet,
@@ -1004,3 +1163,8 @@ def solr_proposal_pager(instance, wildcard_queries=None):
                               DelegateableTags],
                       wildcard_queries=wildcard_queries)
     return pager
+
+
+INDEX_DATA_FINDERS = [v for v in globals().values() if
+                      (isclass(v) and issubclass(v, SolrIndexer) and
+                      ((v is not SolrFacet) and (v is not SolrIndexer)))]

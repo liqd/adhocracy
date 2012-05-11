@@ -48,7 +48,7 @@ class GeoController(BaseController):
         q = q.filter(Region.admin_level == admin_level)
 
         if BBOX_FILTER_TYPE == USE_POSTGIS:
-            q = q.filter(Region.boundary.intersects(func.setsrid(func.box2d('BOX(%f %f, %f %f)'%(tuple(bbox))), 4326)))
+            q = q.filter(Region.boundary.intersects(func.ST_setsrid(func.box2d('BOX(%f %f, %f %f)'%(tuple(bbox))), 4326)))
 
         if SIMPLIFY_TYPE == USE_POSTGIS:
             # NYI

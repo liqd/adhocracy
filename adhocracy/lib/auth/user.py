@@ -21,7 +21,6 @@ def create(check):
 def edit(check, u):
     if has('user.manage'):
         return
-    check.perm('user.edit')
     show(check, u)
     check.other('user_not_self', u != c.user)
 

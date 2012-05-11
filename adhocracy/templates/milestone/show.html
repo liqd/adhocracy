@@ -5,38 +5,84 @@
 
 <%def name="breadcrumbs()">${h.milestone.breadcrumbs(c.milestone)|n}</%def>
 
-<%block name="headline">
-${tiles.milestone.header(c.milestone, c.tile)}
+<%block name="sidebar">
+${components.watch(c.milestone)}
+
+<h3 id="information">${_('Informations')}</h3>
+<summary>
+
+    <h6>${_('Created')}</h6>
+    <p>
+<%
+created_msg = _("by %s on %s") % (
+    h.user.link(c.milestone.creator), 
+    h.format_date(c.milestone.create_time))
+%>
+    ${created_msg|n}
+    </p>
+
+    %if c.milestone.modify_time is not None:
+    <h6>${_('Last Change')}</h6>
+    <p><time>
+        ${h.relative_time(c.milestone.modify_time)|n}
+    </time></p>
+    %endif
+
+    %if c.milestone.category:
+    <h6>${_('Category')}</h6>
+    <p>${c.milestone.category.title}</p>
+    %endif
+
+</summary>
+
 </%block>
 
 <%block name="main_content">
-
-    <div class="top_actions aside">
-        &nbsp;      
+<div id="milestone">
+    <div class="top_actions">
         %if can.milestone.edit(c.milestone):
-            <a class="button title edit ttip" title="${_('Edit this milestone.')}"
-                href="${h.entity_url(c.milestone, member='edit')}">${_("edit")}</a>
+            <a class="button title edit ttip"
+               title="${_('Edit this milestone.')}"
+               href="${h.entity_url(c.milestone, member='edit')}">
+                ${_("edit")}
+            </a>
         %endif
+        %if can.milestone.delete(c.milestone):
+            <a class="button title delete ttip" 
+               title="${_('Delete this milestone.')}"  
+               href="${h.entity_url(c.milestone, member='ask_delete')}">
+                ${_("delete")}
+            </a>
+        %endif
+        
     </div>
-    <h2 id="milestone-description">${_("Milestone description")}</h2>
+    ${tiles.milestone.header(c.milestone)}
+
     ${c.tile.text|n}
+    <br />
 
-<div class="mainbar">
-  %if c.instance.use_norms:
-     <h3 class="section"
-         id="related-norms">${_("Related Norms")}</h3>
-     <div id="pages_table" class="table">
-         ${c.pages_pager.here()}
-     </div>
-  %endif
-</div>
 
-<div class="mainbar">
-    <h3 class="section">${_("Related Proposals")}</h3>
+    <h4>${_("Associated Proposals")}</h4>
+    %if c.show_proposals_pager:
     <div id="proposals_table" class="table">
         ${c.proposals_pager.here()}
     </div>
-</div>
+    %else:
+    ${_('No proposals are connected to this milestone')}
+    %endif
+
+    <div id="associated-norms">
+        %if c.instance.use_norms:
+        <h4>${_("Associated Norms")}</h4>
+        %if c.show_pages_pager:
+        <div id="pages_table" class="table" style="padding-bottom: 1em;">
+            ${c.pages_pager.here()}
+        </div>
+        %else:
+        ${_('No norms are connected to this milestone')}
+        %endif
+        %endif
+    </div>
 
 <%components:tutorial>
 <ol id="joyRideTipContent">
@@ -56,4 +102,5 @@ ${tiles.milestone.header(c.milestone, c.tile)}
     </li>
 </ol>
 </%components:tutorial>
+</div>
 </%block>

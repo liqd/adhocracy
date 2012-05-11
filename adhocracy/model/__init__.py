@@ -1,5 +1,5 @@
 """The application's model objects"""
-from sqlalchemy import orm
+from sqlalchemy import orm, and_
 from sqlalchemy.orm import mapper, relation, backref, synonym
 from geoalchemy.postgis import PGComparator
 from geoalchemy import GeometryColumn
@@ -10,10 +10,11 @@ from adhocracy.model.update import SessionModificationExtension
 from adhocracy.model.user import User, user_table
 from adhocracy.model.openid import OpenID, openid_table
 from adhocracy.model.twitter import Twitter, twitter_table
-from adhocracy.model.badge import Badge, badge_table
-from adhocracy.model.userbadges import UserBadge, user_badges_table
-from adhocracy.model.delegateablebadge import (DelegateableBadge,
-                                               delegateable_badge_table)
+from adhocracy.model.badge import (badge_table, delegateable_badges_table,
+                                   user_badges_table,
+                                   Badge, CategoryBadge,
+                                   DelegateableBadge, DelegateableBadges,
+                                   UserBadge, UserBadges)
 from adhocracy.model.group import Group, group_table
 from adhocracy.model.permission import (Permission, group_permission_table,
                                         permission_table)
@@ -54,7 +55,9 @@ mapper(Twitter, twitter_table, properties={
     })
 
 
-mapper(UserBadge, user_badges_table,
+# --[ /start Badges ]-------------------------------------------------------
+
+mapper(UserBadges, user_badges_table,
        properties={
            'creator': relation(
                User, lazy=True,
@@ -65,26 +68,70 @@ mapper(UserBadge, user_badges_table,
                primaryjoin=(user_badges_table.c.user_id ==
                             user_table.c.id),
                backref=backref('userbadges')),
-           'badge': relation(Badge)})
+           'badge': relation(UserBadge)})
 
 
-mapper(DelegateableBadge, delegateable_badge_table,
+mapper(DelegateableBadges, delegateable_badges_table,
        properties={
            'creator': relation(
                User, lazy=True,
-               primaryjoin=(delegateable_badge_table.c.creator_id ==
+               primaryjoin=(delegateable_badges_table.c.creator_id ==
                             user_table.c.id),
                backref=backref('delegateablebadges_created')),
            'delegateable': relation(
                Delegateable, lazy=True,
-               primaryjoin=(delegateable_badge_table.c.delegateable_id ==
+               primaryjoin=(delegateable_badges_table.c.delegateable_id ==
                          delegateable_table.c.id),
                backref=backref('delegateablebadges')),
            'badge': relation(Badge)})
 
 
-mapper(Badge, badge_table,
+# We map Badge to establish the base properties, but you cannot
+# create Badges. They have no polymorpic_identity.
+badge_mapper = mapper(
+    Badge, badge_table, polymorphic_on=badge_table.c.type,
+    properties={
+        'instance': relation(
+            Instance,
+            primaryjoin=(instance_table.c.id == badge_table.c.instance_id),
+            lazy=True)})
+
+
+mapper(CategoryBadge, inherits=badge_mapper,
+       polymorphic_identity=CategoryBadge.polymorphic_identity,
        properties={
+           'delegateables': relation(
+               Delegateable,
+               secondary=delegateable_badges_table,
+               primaryjoin=(badge_table.c.id ==
+                            delegateable_badges_table.c.badge_id),
+               secondaryjoin=(delegateable_badges_table.c.delegateable_id ==
+                              delegateable_table.c.id),
+               backref=backref('categories', lazy='joined'),
+               lazy=False)})
+
+
+mapper(DelegateableBadge, inherits=badge_mapper,
+       polymorphic_identity=DelegateableBadge.polymorphic_identity,
+       properties={
+           'delegateables': relation(
+               Delegateable,
+               secondary=delegateable_badges_table,
+               primaryjoin=(badge_table.c.id ==
+                            delegateable_badges_table.c.badge_id),
+               secondaryjoin=(delegateable_badges_table.c.delegateable_id ==
+                              delegateable_table.c.id),
+               backref=backref('badges', lazy='joined'),
+               lazy=False)})
+
+
+mapper(UserBadge, inherits=badge_mapper,
+       polymorphic_identity=UserBadge.polymorphic_identity,
+       properties={
+           'group': relation(
+               Group, primaryjoin=(group_table.c.id ==
+                                   badge_table.c.group_id),
+               lazy=False),
            'users': relation(
                User, secondary=user_badges_table,
                primaryjoin=(badge_table.c.id ==
@@ -92,26 +139,10 @@ mapper(Badge, badge_table,
                secondaryjoin=(user_badges_table.c.user_id ==
                               user_table.c.id),
                backref=backref('badges', lazy='joined'),
-               lazy=False),
-           'delegateables': relation(
-               Delegateable,
-               secondary=delegateable_badge_table,
-               primaryjoin=(badge_table.c.id ==
-                            delegateable_badge_table.c.badge_id),
-               secondaryjoin=(delegateable_badge_table.c.delegateable_id ==
-                              delegateable_table.c.id),
-               backref=backref('badges', lazy='joined'),
-               lazy=False),
-           'group': relation(
-               Group, primaryjoin=(group_table.c.id ==
-                                   badge_table.c.group_id),
-               lazy=False),
-           'instance': relation(
-               Instance,
-               primaryjoin=(instance_table.c.id == badge_table.c.instance_id),
-               lazy=True)
-           })
+               lazy=False)})
 
+
+# --[ /end Badges ]---------------------------------------------------------
 
 mapper(OpenID, openid_table, properties={
     'user': relation(User, lazy=False,
@@ -180,10 +211,16 @@ mapper(Proposal, proposal_table, inherits=Delegateable,
 
 mapper(Milestone, milestone_table, properties={
     'creator': relation(
-            User, lazy=False, backref=backref('milestones', lazy=True)),
+        User, lazy=False, backref=backref('milestones', lazy=True)),
     'instance': relation(
-            Instance, lazy=False,
-            primaryjoin=milestone_table.c.instance_id == instance_table.c.id)
+        Instance, lazy=False,
+        primaryjoin=milestone_table.c.instance_id == instance_table.c.id),
+    'category': relation(
+        CategoryBadge, lazy=False,
+        primaryjoin=and_(
+            milestone_table.c.category_id == badge_table.c.id,
+            milestone_table.c.instance_id == badge_table.c.instance_id),
+        backref=backref('milestones', lazy=True))
     })
 
 mapper(Comment, comment_table, properties={

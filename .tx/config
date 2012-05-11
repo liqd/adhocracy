@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.net
+
+[adhocracy.adhocracy]
+file_filter = adhocracy/i18n/<lang>/LC_MESSAGES/adhocracy.po
+source_lang = en
+source_file = adhocracy/i18n/adhocracy.pot
+
+

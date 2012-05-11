@@ -99,7 +99,7 @@ class Delegateable(meta.Indexable):
             q = q.filter(or_(Delegateable.delete_time == None,
                              Delegateable.delete_time > datetime.utcnow()))
         if instance is not None:
-            q = q.filter(Delegateable.instance==instance)
+            q = q.filter(Delegateable.instance == instance)
         return q
 
     @classmethod
@@ -108,10 +108,23 @@ class Delegateable(meta.Indexable):
                 include_deleted=include_deleted).all()
 
     @classmethod
-    def by_milestone(cls, milestone, instance=None, include_deleted=False):
-        q = cls.all_q(instance=instance, 
-                include_deleted=include_deleted)
-        q = q.filter(Delegateable.milestone==milestone)
+    def by_milestone(cls, milestone, instance=None, include_deleted=False,
+                     functions=[]):
+        '''
+        Get delegateables related to *milestone*. The kwargs are analogue
+        to the models .all_q methods. *functions* is related to Pages only.
+
+        Returns: A list of model instances.
+        '''
+        # special case pages cause they have an extra kwarg functions
+        from adhocracy import model
+        all_q_kwargs = dict(instance=instance,
+                            include_deleted=include_deleted)
+        if cls is model.Page:
+            all_q_kwargs['functions'] = functions
+
+        q = cls.all_q(**all_q_kwargs)
+        q = q.filter(Delegateable.milestone == milestone)
         return q.all()
 
     def delete(self, delete_time=None, delete_children=True):
@@ -183,6 +196,26 @@ class Delegateable(meta.Indexable):
 
     def current_delegations(self):
         return filter(lambda d: not d.is_revoked(), self.delegations)
+
+    @property
+    def category(self):
+        '''
+        Getter for the category which is a many-to-many relation
+        that we use it as a many-to-one relation.
+        '''
+        if len(self.categories) > 1:
+            log.error('More than 1 category on delegateable %s' % self.id)
+        return self.categories[0] if self.categories else None
+
+    def set_category(self, category, user):
+        '''
+        Setter for the category which is a many-to-many relation that
+        we use it as a many-to-one relation.
+        '''
+        if not self.categories or self.categories[0] != category:
+            self.categories = []
+            if category:
+                category.assign(self, user)
 
     def user_position(self, user):
         return 0

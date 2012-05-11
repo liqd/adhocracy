@@ -21,7 +21,19 @@
         <input type="text" name="email_subject" value="" />
 
         <label for="email_template">${_("Email Template")}</label>
-        <p>${_('The template for the mail to the users. It is required that you insert "{url}" into the mailtext so we can insert a link for the user to set his password. You can also insert the following placeholders: "{user_name}" (The username with which the user can log in), "{display_name}" (the full name of the user. If the data does not contain a full name, the user name is inserted) and "{user_email}" (The email address of the user)')}</p>
+        <p>${_('The template for the mail to the users. You need to insert some placeholders into the email text.')}</p>
+        <h6>${_('Required')}</h6>
+        <ul class="nobullet">
+            %for item in c.placeholders['required']:
+            <li><em>${item['name']}</em>: ${item['description']}</li>
+            %endfor
+        </ul>
+        <h6>${_('Optional')}</h6>
+        <ul class="nobullet">
+            %for item in c.placeholders['optional']:
+            <li><em>${item['name']}</em>: ${item['description']}</li>
+            %endfor
+        </ul>
         <textarea tabindex="2" name="email_template"></textarea>
     </div>
     <div class="input_wrapper submit">

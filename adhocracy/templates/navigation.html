@@ -57,14 +57,12 @@
                            li_class=_class('help'),
                            id_="nav_help")}
 
-                <!-- FIXME: implemente personal drop down menu -->
                 %if c.user is None:
                 ${nav_link(href=h.login_redirect_url(),
                            a_rel='#overlay-default',
                            text=_("Login"),
                            li_class=_class('login'),
                            id_="nav_login")}
-                <!-- FIXME: <a href="/register">${_("Register")}</a> -->
                 %else:
                 <div id="user_menu">
                     <ul>
@@ -73,8 +71,19 @@
                                href="${h.entity_url(c.user, member='dashboard')}">${c.user.name}</a>
                             <ul class="children">
                                 <li>
+                                    <a href="${h.entity_url(c.user, member='dashboard')}">
+                                        ${_('Dashboard')}
+                                    </a>
+                                </li>
+
+                                <li>
                                     <a href="${h.entity_url(c.user, instance=c.instance, member='edit')}">
                                         ${_('Edit Profile')}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="${h.entity_url(c.user, instance=c.instance)}">
+                                        ${_('View Profile')}
                                     </a>
                                 </li>
                                	%if h.has_permission("global.admin"):
@@ -202,7 +211,7 @@
              li_class=(_class('settings') + ' settings'),
              condition=can.instance.edit(c.instance))}
 
-  ${nav_link(href=h.entity_url(c.instance, member='badge'),
+  ${nav_link(href=h.site.base_url(c.instance, path='/badge'),
              text=_("Badges"),
              li_class=(_class('settings') + ' settings'),
              condition=can.instance.edit(c.instance))}

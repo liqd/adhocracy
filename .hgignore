@@ -20,3 +20,4 @@ docs/_build/*
 test-data/index
 site/*
 test-site/*
+adhocracy/*_theme

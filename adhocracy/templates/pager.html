@@ -8,19 +8,12 @@
                     ${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=pager.total_num_items())}
                 </span>
             %endif
-            %if len(pager.sorts.keys()) > 1 and pager.enable_sorts:
-                <div class="filter_box">        
-                    <span class="pager_sorts">
-                    %for sort, i in zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)):
-                        <a class="${'selected' if i == pager.selected_sort else ''}" 
-                           href="${pager.build_url(sort=i)|n}"
-			   rel="nofollow">${sort}</a>
-                        %if i < len(pager.sorts.keys()):
-                            |
-                        %endif
-                    %endfor
-                    </span>
-                </div>
+            %if hasattr(pager.sorts, 'render'):
+            ## New style NamedSorts-object
+            ${pager.sorts.render()}
+            %elif len(pager.sorts.keys()) > 1 and pager.enable_sorts:
+            ## Old style index based sort
+            ${index_based_sort_dropdown(pager.sorts, pager)}
             %endif
         </div>
     %endif
@@ -141,7 +134,7 @@
 <br />
 </%def>
 
-<%def name="overlay_pager(pager, render_facets=True)">
+<%def name="overlay_pager(render_facets=True)">
 
 <div>${pager.render_pager()}</div>
 %if render_facets:
@@ -149,4 +142,120 @@
 %endif
 </%def>
 
+
+<%def name="index_based_sort_dropdown(sorts, pager)">
+
+%if len(sorts.keys()):
+
+<% zipped = zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)) %>
+
+<div class="filter_box">
+    <div class="only-js">
+        ${_('Sort:')}
+        <select class="sort_options"
+                name="${pager.sort_param}">
+            %for sort, i in zipped:
+            <% selected = i == pager.selected_sort %>
+            <option value="i"
+                    %if selected:
+                    selected="selected"
+                    %endif
+                    data-url="${pager.build_url(sort=i)|n}">
+                ${sort}
+            </option>
+            %endfor
+        </select>
+    </div>
+</div>
+%endif
+
+</%def>
+
+<%def name="sort_dropdown(sorts)">
+%if len(sorts):
+<div class="filter_box">
+    <div class="only-js">
+        ${_('Sort:')}
+        <% selected = sorts.selected() %>
+        <select class="sort_options"
+                name="${sorts.pager.sort_param}">
+            %for (group, options) in sorts.grouped_options():
+            %if group is not None:
+            <optgroup label="${group}">
+            %endif
+                %for sort in options:
+                <%
+                selected_attr = ''
+                if (sort == selected):
+                    selected_attr = 'selected="selected"'
+                %>
+                <option value="${sort.value}"
+                        ${selected_attr|n}
+                        data-url="${sorts.pager.build_url(sort=sort.value)}">
+                    ${sort.label}
+                </option>
+                %endfor
+            %if group is not None:
+            </optgroup>
+            %endif
+            %endfor
+        </select>
+    </div>
+</div>
+%endif
+</%def>
+
+
+<%def name="sort_slidedown(sorts)">
+%if len(sorts):
+<% 
+selected = sorts.selected()
+param = sorts.pager.sort_param
+%>
+<div class="filter_box">
+    <div class="only-js">
+        ${_('Sort:')}
+        <span class="btn-group"
+             id="${param}_btn_group">
+            <a id="${param}_btn" 
+               class="btn showhide_button" 
+               data-target="#${param}_options"
+               data-target-speed="fast"
+               data-toggle-class="open"
+               data-toggle-element="#${param}_btn_group"
+               href="#">
+                ${selected.label} <span class="caret"></span>
+            </a>
+        </span>
+    </div>
+</div>
+<div id="${param}_options" style="display: none">
+    %for (group, options) in sorts.grouped_options():
+    <div class="sort_group">
+        %if group is not None:
+        <h6><em>${group}</em></h6>
+        %else:
+        <h6>&nbsp;</h6>
+        %endif
+        <ul class="nobullet">
+            %for sort in options:
+            <li>
+                %if sort is selected:
+                <em>${sort.label}</em>
+                %else:
+                <a href="${sorts.pager.build_url(sort=sort.value)}"
+                   title="${sort.description or ''}"
+                   class="${sort.description and 'ttip' or ''}">
+                ${sort.label}
+                </a>
+                %endif
+            </li>
+        %endfor
+        </ul>
+    </div>
+    %endfor
+</div>
+
+%endif
+</%def>
 

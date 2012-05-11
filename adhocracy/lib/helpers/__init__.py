@@ -4,7 +4,9 @@ Consists of functions to typically be used within templates, but also
 available to Controllers. This module is available to templates as 'h'.
 """
 import cgi
+from datetime import datetime
 import hashlib
+import json
 import urllib
 
 from paste.deploy.converters import asbool
@@ -36,6 +38,7 @@ from adhocracy.lib.helpers import milestone_helper as milestone
 from adhocracy.lib.helpers import recaptcha_helper as recaptcha
 from adhocracy.lib.helpers.url import build
 from adhocracy.lib.helpers.site_helper import base_url
+#from adhocracy.lib.templating import json_dumps, json_loads
 from adhocracy.lib.watchlist import make_watch, find_watch
 from adhocracy.lib.helpers.counter import counter
 from adhocracy import model
@@ -212,3 +215,48 @@ def entity_url(entity, **kwargs):
     elif isinstance(entity, model.Tag):
         return tag.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
+
+
+def json_dumps(data, encoding='utf-8'):
+    return json.dumps(data, default=_json_entity,
+                      encoding=encoding, indent=4)
+
+
+def json_loads(s, encoding='utf-8'):
+    return json.loads(s, object_hook=_json_entity_decoder)
+
+
+def _json_entity(o):
+    if isinstance(o, datetime):
+        return o.isoformat() + "Z"
+    if hasattr(o, 'to_dict'):
+        return o.to_dict()
+    raise TypeError("This is not serializable: " + repr(o))
+
+
+def _json_entity_decoder(d):
+    if isinstance(d, list):
+        pairs = enumerate(d)
+    elif isinstance(d, dict):
+        pairs = d.items()
+    result = []
+    for k, v in pairs:
+        if isinstance(v, basestring):
+            for (format, getter) in (('%Y-%m-%dT%H:%M:%S.%f', lambda x: x),
+                                     ('%Y-%m-%dT%H:%M:%S.%fZ', lambda x: x),
+                                     ('%Y-%m-%d', lambda x: x.date())):
+                try:
+                    dateobj = datetime.strptime(v, format)
+                    v = getter(dateobj)
+                    break
+                except ValueError:
+                    pass
+
+        elif isinstance(v, (dict, list)):
+            v = _json_entity_decoder(v)
+
+        result.append((k, v))
+    if isinstance(d, list):
+        return [x[1] for x in result]
+    elif isinstance(d, dict):
+        return dict(result)

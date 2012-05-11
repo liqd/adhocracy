@@ -177,7 +177,7 @@ class TestController(TestControllerBase):
 
     # will be registered in setUp()
     request = {'environ': {'adhocracy.domain': 'test.lan',
-                           'SERVER_PORT': '5000'}}
+                           'SERVER_PORT': '80'}}
 
     @classmethod
     def setup_class(cls):
@@ -196,31 +196,3 @@ class TestController(TestControllerBase):
         _teardown_context(pylons.request)
         _unregister_instance()
         super(TestController, self).tearDown()
-
-
-class WebTestController(TestControllerBase):
-
-    DEFAULT = Group.CODE_DEFAULT
-    OBSERVER = Group.CODE_OBSERVER
-    VOTER = Group.CODE_VOTER
-    SUPERVISOR = Group.CODE_SUPERVISOR
-
-    def setUp(self):
-        super(WebTestController, self).setUp()
-
-    def tearDown(self):
-        super(WebTestController, self).tearDown()
-
-    def prepare_app(self, anonymous=False, group_code=None, instance=True):
-        self.app.extra_environ = dict()
-        self.user = None
-        if not anonymous:
-            group = None
-            if group_code:
-                group = Group.by_code(group_code)
-            self.user = tt_make_user(instance_group=group)
-            self.app.extra_environ['REMOTE_USER'] = str(self.user.user_name)
-        if instance:
-            self.app.extra_environ['HTTP_HOST'] = "test.test.lan"
-        else:
-            self.app.extra_environ['HTTP_HOST'] = "test.lan"

@@ -27,9 +27,38 @@
 
 </form>
 </div>
-    <div id="proposals_table" class="table">
-        ${c.proposals_pager.render_pager()}
+<div id="proposals_table" class="table">
+    ${c.proposals_pager.render_pager()}    
+
+%if can.badge.edit_instance():
+    <div class="simple_overlay" id="edit_badges_container">
+        <form id="edit_badges">
+            <h5 data-bind="text: selected.title">Title</h5>
+            <ul data-bind="foreach: selected.badges">
+                <li class="nobullet">
+                    <input class="badgetsform_input" type="checkbox" name="badge" 
+                           data-bind="value: id, checked: checked">
+                        <span data-bind="attr: {class: css_class()}">
+                            <a data-bind="text: title">Abgelehnt</a>
+                        </span>
+                    </input>
+                </li>
+            </ul>
+            <a href="#" class="btn" data-bind="click: save">Save</a> 
+            or 
+            <a href="" data-bind="click: cancel">Cancel</a>
+        </form>
     </div>
+%endif
+</div>
+
+%if can.badge.edit_instance():
+    <script>
+        var editModel = new adhocracy.ko.editBadges();
+        editModel.applyToPager('#proposals_table');
+    </script>
+%endif
+
     <br/>
     <div class="top_actions aside" id="new-proposal">
         <% auth = check.proposal.create() %>

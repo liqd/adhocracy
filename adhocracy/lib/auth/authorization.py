@@ -83,7 +83,8 @@ class has_default_permission(what_has_permission):
             if c.instance is not None:
                 default_group = c.instance.default_group
             else:
-                default_group = model.Group.by_code(model.Group.INSTANCE_DEFAULT)
+                default = model.Group.INSTANCE_DEFAULT
+                default_group = model.Group.by_code(default)
             environ['default_permissions'] = [p.permission_name for p in
                     default_group.permissions]
         if not self.permission_name in environ['default_permissions']:
@@ -149,7 +150,8 @@ class AuthCheck(object):
             return False
         else:
             return all(map(
-                lambda perm: has_default_permission(perm).is_met(request.environ),
+                lambda perm: has_default_permission(perm).is_met(
+                    request.environ),
                 self.permission_refusals))
 
     def propose_login(self):
@@ -165,4 +167,6 @@ class AuthCheck(object):
         Login is proposed if the user is logged in, but not member of the
         instance and can therefore not perform the requested action.
         """
-        return c.user is not None and not c.user.is_member(c.instance) and self._propose_join_or_login()
+        return (c.user is not None and not
+                c.user.is_member(c.instance) and
+                self._propose_join_or_login())

@@ -1,7 +1,7 @@
 import logging
 
 import formencode
-from formencode import Any, htmlfill, Invalid, validators
+from formencode import htmlfill, Invalid, validators
 
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
@@ -45,7 +45,7 @@ class ProposalCreateForm(ProposalNewForm):
     milestone = forms.MaybeMilestone(if_empty=None,
             if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
-    category = formencode.foreach.ForEach(forms.ValidBadge())
+    category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     geotag = validators.String(not_empty=False)
 
 
@@ -60,7 +60,7 @@ class ProposalUpdateForm(ProposalEditForm):
                                  if_missing=False)
     milestone = forms.MaybeMilestone(if_empty=None,
             if_missing=None)
-    category = formencode.foreach.ForEach(forms.ValidBadge())
+    category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
 
 class ProposalGeotagUpdateForm(formencode.Schema):
     geotag = validators.String(not_empty=False)
@@ -75,7 +75,7 @@ class ProposalFilterForm(formencode.Schema):
 
 class DelegateableBadgesForm(formencode.Schema):
     allow_extra_fields = True
-    badge = formencode.foreach.ForEach(forms.ValidBadge())
+    badge = formencode.foreach.ForEach(forms.ValidDelegateableBadge())
 
 
 class ProposalController(BaseController):
@@ -99,8 +99,6 @@ class ProposalController(BaseController):
             return render_json(c.proposals_pager)
 
         c.tile = tiles.instance.InstanceTile(c.instance)
-        c.badges = model.Badge.all_delegateable()
-        c.instance_badges = model.Badge.all_delegateable(instance=c.instance)
         c.tutorial_intro = _('tutorial_proposal_overview_tab')
         c.tutorial = 'proposal_index'
         return render("/proposal/index.html")
@@ -112,7 +110,7 @@ class ProposalController(BaseController):
         require.proposal.create()
         c.pages = []
         c.exclude_pages = []
-        c.categories = model.Badge.all_delegateable_categories(c.instance)
+        c.categories = model.CategoryBadge.all(instance=c.instance)
         if 'page' in request.params:
             page = model.Page.find(request.params.get('page'))
             if page and page.function == model.Page.NORM:
@@ -145,7 +143,6 @@ class ProposalController(BaseController):
             return self.new(errors=i.unpack_errors())
 
         pages = self.form_result.get('page', [])
-        badge = self.form_result.get('category')
         if c.instance.require_selection and len(pages) < 1:
             h.flash(
                 _('Please select norm and propose a change to it.'),
@@ -166,8 +163,11 @@ class ProposalController(BaseController):
         description.parents = [proposal]
         model.meta.Session.flush()
         proposal.description = description
-        if badge:
-            model.DelegateableBadge(proposal, badge[0], c.user)
+
+        categories = self.form_result.get('category')
+        category = categories[0] if categories else None
+        proposal.set_category(category, c.user)
+
         for page in pages:
             page_text = page.get('text', '')
             page = page.get('id')
@@ -209,11 +209,11 @@ class ProposalController(BaseController):
         c.text_rows = text.text_rows(c.proposal.description.head)
 
         # all available categories
-        c.categories = model.Badge.all_delegateable_categories(c.instance)
+        c.categories = model.CategoryBadge.all(instance=c.instance)
 
-        # categories for this proposal (single category not assured in db model)
-        categories = [b for b in c.proposal.badges if b.badge_delegateable_category]
-        c.category = categories[0] if len(categories)==1 else None
+        # categories for this proposal
+        # (single category not assured in db model)
+        c.category = c.proposal.category
 
         force_defaults = False
         if errors:
@@ -242,11 +242,10 @@ class ProposalController(BaseController):
         c.proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.add(c.proposal)
 
-        [c.proposal.badges.remove(b) for b in c.proposal.badges if b.badge_delegateable_category]
-
-        badge = self.form_result.get('category')
-        if len(badge)==1:
-            model.DelegateableBadge(c.proposal, badge[0], c.user)
+        # change the category
+        categories = self.form_result.get('category')
+        category = categories[0] if categories else None
+        c.proposal.set_category(category, c.user)
 
         if self._can_edit_wiki(c.proposal, c.user):
             wiki = self.form_result.get('wiki')
@@ -417,39 +416,73 @@ class ProposalController(BaseController):
             return True
         return False
 
-    @ActionProtector(authorization.has_permission("global.admin"))
-    def badges(self, id, errors=None):
-        c.badges = model.Badge.all_delegateable() \
-                   + model.Badge.all_delegateable(c.instance)
+    @classmethod
+    def _editable_badges(cls, proposal):
+        '''
+        Return the badges editable that can be assigned by the current
+        user.
+        '''
+        badges = []
+        if can.badge.edit_instance():
+            badges.extend(model.DelegateableBadge.all(instance=c.instance))
+        if can.badge.edit_global():
+            badges.extend(model.DelegateableBadge.all(instance=None))
+        badges = sorted(badges, key=lambda badge: badge.title)
+        return badges
+
+    @ActionProtector(authorization.has_permission("instance.admin"))
+    def badges(self, id, errors=None, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        c.badges = self._editable_badges(c.proposal)
         defaults = {'badge': [str(badge.id) for badge in c.proposal.badges]}
+        if format == 'ajax':
+            checked = [badge.id for badge in c.proposal.badges]
+            json = {'title': c.proposal.title,
+                    'badges': [{
+                        'id': badge.id,
+                        'description': badge.description,
+                        'title': badge.title,
+                        'checked': badge.id in checked} for badge in c.badges]}
+            return render_json(json)
+
         return formencode.htmlfill.render(
             render("/proposal/badges.html"),
             defaults=defaults)
 
     @RequireInternalRequest()
     @validate(schema=DelegateableBadgesForm(), form='badges')
-    @ActionProtector(authorization.has_permission("global.admin"))
-    def update_badges(self, id):
+    @ActionProtector(authorization.has_permission("instance.admin"))
+    @csrf.RequireInternalRequest(methods=['POST'])
+    def update_badges(self, id, format='html'):
         proposal = get_entity_or_abort(model.Proposal, id)
+        editable_badges = self._editable_badges(proposal)
         badges = self.form_result.get('badge')
         redirect_to_proposals = self.form_result.get('redirect_to_proposals')
-        creator = c.user
 
         added = []
         removed = []
+
         for badge in proposal.badges:
+            if badge not in editable_badges:
+                # the user can not edit the badge, so we don't remove it
+                continue
             if badge not in badges:
                 removed.append(badge)
                 proposal.badges.remove(badge)
 
         for badge in badges:
             if badge not in proposal.badges:
-                model.DelegateableBadge(proposal, badge, creator)
+                badge.assign(proposal, c.user)
                 added.append(badge)
 
+        # FIXME: needs commit() cause we do an redirect() which raises
+        # an Exception.
         model.meta.Session.commit()
         post_update(proposal, model.update.UPDATE)
+        if format == 'ajax':
+            obj = {'html': render_def('/badge/tiles.html', 'badges',
+                                      badges=proposal.badges)}
+            return render_json(obj)
         if redirect_to_proposals:
             redirect("/proposal")
         redirect(h.entity_url(proposal))

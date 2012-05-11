@@ -24,10 +24,10 @@ def _strip_accents(text):
 def _human_key(key):
     parts = re.split('([\d\.]+|.*)', key, maxsplit=1)
     keys = []
-    if len(parts)>1:
+    if len(parts) > 1:
         keys.append([int(e) if e.isdigit() else e.swapcase()
             for e in re.split('(\d+|\.)', parts[1])])
-    if len(parts)>2:
+    if len(parts) > 2:
         keys.append(parts[2])
 
     keys = filter(lambda s: s not in PREFIXES, keys)
@@ -55,6 +55,10 @@ def instance_label(entities):
 
 def delegateable_title(entities):
     return sortable_text(entities, key=lambda e: e.title)
+
+
+def hierarchical_title(entities):
+        return delegateable_title(entities)
 
 
 def delegateable_full_title(entities):
@@ -139,11 +143,14 @@ def comment_order(comments):
 def user_name(entities):
     return sorted(entities, key=lambda e: e.name.lower())
 
+
 def milestone_time(entities):
     return sorted(entities, key=lambda e: e.time)
 
+
 def polls_time(entities):
     return sorted(entities, key=lambda e: e.end_time)
+
 
 def entity_newest(entities):
     return sorted(entities, key=lambda e: e.create_time, reverse=True)

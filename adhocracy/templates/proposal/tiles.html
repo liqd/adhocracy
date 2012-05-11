@@ -13,21 +13,10 @@
                 %if tile.fresh:
                     ${_("(new)")}
                 %endif
-                %if not lib.auth.authorization.has('global.admin') and not lib.auth.authorization.has('instance.admin'):
-                  <!--show global and instance badges-->
-                  ${tiles.badge.badges([b for b in proposal.badges])}
-                %endif
-                %if lib.auth.authorization.has('global.admin'):
-                  <!--edit global and instance badges-->
-                  ${tiles.badge.badges([b for b in proposal.badges if b.badge_delegateable_category])}
-                  ${tiles.proposal.badgesform(proposal, c.badges + c.instance_badges)}
-                %endif
-                %if lib.auth.authorization.has('instance.admin') and not lib.auth.authorization.has('global.admin'):
-                  <!--edit instance badges-->
-                  ${tiles.badge.badges([b for b in proposal.badges if b.badge_delegateable_category])}
-                  ${tiles.badge.badges([b for b in proposal.badges if b.badge_delegateable and b.instance is None])}
-                  ${tiles.proposal.badgesform(proposal, c.instance_badges)}
-                %endif   
+                <span id="badges_${proposal.id}" class="badges"
+                      data-id="${proposal.id}">
+                    ${tiles.badge.badges(proposal.badges + proposal.categories)}
+                </span>
             </h3>
             <div class="meta">              
                 %if proposal.is_adopt_polling():

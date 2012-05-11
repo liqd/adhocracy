@@ -10,14 +10,14 @@ def invalidate_badge(badge):
     clear_tag(badge)
 
 
-def invalidate_userbadge(userbadge):
-    clear_tag(userbadge)
-    invalidate_user(userbadge.user)
+def invalidate_userbadges(userbadges):
+    clear_tag(userbadges)
+    invalidate_user(userbadges.user)
 
 
-def invalidate_delegateablebadge(delegateablebadge):
-    clear_tag(delegateablebadge)
-    invalidate_delegateable(delegateablebadge.delegateable)
+def invalidate_delegateablebadges(delegateablebadges):
+    clear_tag(delegateablebadges)
+    invalidate_delegateable(delegateablebadges.delegateable)
 
 
 def invalidate_user(user):

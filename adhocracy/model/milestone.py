@@ -1,41 +1,45 @@
 from datetime import datetime
 import logging
 
-from pylons.i18n import _
 from sqlalchemy import Column, ForeignKey, Table, or_
-from sqlalchemy import Boolean, Integer, Unicode, UnicodeText, DateTime
+from sqlalchemy import Integer, Unicode, UnicodeText, DateTime
 
 import meta
 
 log = logging.getLogger(__name__)
 
-milestone_table = Table('milestone', meta.data,
+milestone_table = Table(
+    'milestone', meta.data,
     Column('id', Integer, primary_key=True),
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('category_id', Integer, ForeignKey('badge.id'), nullable=True),
     Column('title', Unicode(255), nullable=True),
     Column('text', UnicodeText(), nullable=True),
     Column('time', DateTime),
     Column('create_time', DateTime, default=datetime.utcnow),
+    Column('modify_time', DateTime, nullable=True, onupdate=datetime.utcnow),
     Column('delete_time', DateTime)
     )
 
 
 class Milestone(object):
 
-    def __init__(self, instance, creator, title, text, time):
+    def __init__(self, instance, creator, title, text, time, category=None):
         self.instance = instance
         self.creator = creator
         self.title = title
         self.text = text
-        self.time = time
+        self.category = category
+        if time is not None:
+            self.time = time
 
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False):
         q = meta.Session.query(Milestone)
         try:
             id = int(id)
-        except ValueError, ve:
+        except ValueError:
             return None
         q = q.filter(Milestone.id == id)
         if not include_deleted:
@@ -44,8 +48,9 @@ class Milestone(object):
         return q.first()
 
     @classmethod
-    def create(cls, instance, creator, title, text, time):
-        milestone = Milestone(instance, creator, title, text, time)
+    def create(cls, instance, creator, title, text, time, category=None):
+        milestone = Milestone(instance, creator, title, text, time,
+                              category=category)
         meta.Session.add(milestone)
         meta.Session.flush()
         return milestone
@@ -114,6 +119,5 @@ class Milestone(object):
 
     def __repr__(self):
         title = self.title.encode('ascii', 'replace')
-        return u"<Milestone(%s, %s, %s)>" % (self.id, title, 
-                self.time.isoformat())
-
+        return u"<Milestone(%s, %s, %s)>" % (self.id, title,
+                                             self.time.isoformat())

@@ -18,7 +18,7 @@ from adhocracy import forms, model
 from adhocracy import i18n
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import  sorting, search as libsearch, tiles, text
-from adhocracy.lib.auth import require
+from adhocracy.lib.auth import require, login_user
 from adhocracy.lib.auth.authorization import has_permission
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
@@ -95,7 +95,7 @@ class UserFilterForm(formencode.Schema):
 
 class UserBadgesForm(formencode.Schema):
     allow_extra_fields = True
-    badge = ForEach(forms.ValidBadge())
+    badge = ForEach(forms.ValidUserBadge())
 
 
 class UserController(BaseController):
@@ -193,7 +193,6 @@ class UserController(BaseController):
                             'but cannot authenticate him: '
                             '%s (%s)' % (credentials['login'], user))
 
-    @ActionProtector(has_permission("user.edit"))
     def edit(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
@@ -203,7 +202,6 @@ class UserController(BaseController):
         return render("/user/edit.html")
 
     @RequireInternalRequest(methods=['POST'])
-    @ActionProtector(has_permission("user.edit"))
     @validate(schema=UserUpdateForm(), form="edit", post_only=True)
     def update(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
@@ -252,9 +250,13 @@ class UserController(BaseController):
         url = h.base_url(c.instance,
                          path="/user/%s/reset?c=%s" % (c.page_user.user_name,
                                                        c.page_user.reset_code))
-        body = _("you have requested that your password be reset. In order "
-                 "to confirm the validity of your claim, please open the "
-                 "link below in your browser:") + "\r\n\r\n  " + url
+        body = (
+            _("you have requested that your password be reset. In order "
+              "to confirm the validity of your claim, please open the "
+              "link below in your browser:") +
+            "\r\n\r\n  " + url + "\n\n" +
+            _("Your user name to login is: %s") % c.page_user.user_name)
+
         libmail.to_user(c.page_user, _("Reset your password"), body)
         return render("/user/reset_pending.html")
 
@@ -270,10 +272,13 @@ class UserController(BaseController):
             c.page_user.password = new_password
             model.meta.Session.add(c.page_user)
             model.meta.Session.commit()
-            body = (_("your password has been reset. It is now:") +
-                    "\r\n\r\n  " + new_password + "\r\n\r\n" +
-                    _("Please login and change the password in your user "
-                      "settings."))
+            body = (
+                _("your password has been reset. It is now:") +
+                "\r\n\r\n  " + new_password + "\r\n\r\n" +
+                _("Please login and change the password in your user "
+                  "settings.") + "\n\n" +
+                _("Your user name to login is: %s") % c.page_user.user_name
+            )
             libmail.to_user(c.page_user, _("Your new password"), body)
             h.flash(_("Success. You have been sent an email with your new "
                       "password."), 'success')
@@ -286,17 +291,29 @@ class UserController(BaseController):
     def activate(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
-        #require.user.edit(c.page_user)
-        try:
-            if c.page_user.activation_code != self.form_result.get('c'):
-                raise ValueError()
-            c.page_user.activation_code = None
-            model.meta.Session.commit()
-            h.flash(_("Your email has been confirmed."), 'success')
-        except Exception:
-            log.exception("Invalid activation code")
+        code = self.form_result.get('c')
+
+        if c.page_user.activation_code is None:
+            h.flash(_(u'Thank you, The address is already activated.'))
+            redirect(h.entity_url(c.page_user))
+        elif c.page_user.activation_code != code:
             h.flash(_("The activation code is invalid. Please have it "
                       "resent."), 'error')
+            redirect(h.entity_url(c.page_user))
+
+        c.page_user.activation_code = None
+        if code.startswith(model.User.IMPORT_MARKER):
+            # Users imported by admins
+            login_user(c.page_user, request)
+            h.flash(_("Welcome to %s") % h.site.name(), 'success')
+            if c.instance:
+                redirect(h.entity_url(c.instance))
+            else:
+                redirect(h.base_url(None, path='/instance'))
+        else:
+            redirect(h.entity_url(c.page_user))
+            h.flash(_("Your email has been confirmed."), 'success')
+
         redirect(h.entity_url(c.page_user))
 
     @RequireInternalRequest()
@@ -375,8 +392,8 @@ class UserController(BaseController):
             if 'came_from' in session:
                 c.came_from = session.get('came_from')
                 del session['came_from']
-                if isinstance(c.came_from, unicode):
-                    c.came_from = c.came_from.encode('utf-8')
+                if isinstance(c.came_from, str):
+                    c.came_from = unicode(c.came_from, 'utf-8')
             session.save()
 
         #user object
@@ -631,12 +648,13 @@ class UserController(BaseController):
 
     @ActionProtector(has_permission("global.admin"))
     def badges(self, id, errors=None):
-        c.badges = model.Badge.all_user()
-        c.page_user =  get_entity_or_abort(model.User, id)
+        c.badges = model.UserBadge.all(instance=None)
+        c.page_user = get_entity_or_abort(model.User, id)
         instances = c.page_user and c.page_user.instances or []
-        c.instance_badges = [{"label":i.label,
-                              "badges":model.Badge.all_user(instance=i)}\
-                                      for i in instances]
+        c.instance_badges = [
+            {"label": instance.label,
+             "badges": model.UserBadge.all(instance=instance)} for
+            instance in instances]
         defaults = {'badge': [str(badge.id) for badge in c.page_user.badges]}
         return formencode.htmlfill.render(
             render("/user/badges.html"),
@@ -659,11 +677,13 @@ class UserController(BaseController):
 
         for badge in badges:
             if badge not in user.badges:
-                model.UserBadge(user, badge, creator)
+                badge.assign(user, creator)
                 added.append(badge)
 
         model.meta.Session.flush()
-        model.meta.Session.commit()  # FIXME: does not work without.
+        # FIXME: needs commit() cause we do an redirect() which raises
+        # an Exception.
+        model.meta.Session.commit()
         post_update(user, model.update.UPDATE)
         redirect(h.entity_url(user))
 
