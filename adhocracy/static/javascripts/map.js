@@ -777,7 +777,7 @@ function createControls(fullControls, keyboardControls) {
         mapControls.push(new OpenLayers.Control.PanZoomBar());
         mapControls.push(new OpenLayers.Control.LayerSwitcher({'ascending':false}));
         // MousePosition currently displays 900913 instead of 4236
-        mapControls.push(new OpenLayers.Control.MousePosition());
+        // mapControls.push(new OpenLayers.Control.MousePosition());
         mapControls.push(new OpenLayers.Control.Scale());
     }
     if (keyboardControls) {
