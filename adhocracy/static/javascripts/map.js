@@ -1236,6 +1236,10 @@ function instanceSearch(state, resultList) {
         if (old) {
             $.map(old,remove);
         }
+        if (popup) {
+            map.removePopup(popup);
+            popup = null;
+        }
     }
 
     function addMarkers(request_term) {
