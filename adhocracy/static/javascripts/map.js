@@ -180,11 +180,15 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
             var index = initialProposals.indexOf(feature.fid);
 
             if (index >= 0) {
-                var letter = String.fromCharCode(index+97);
-                this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
-                $('#result_list_marker_'+feature.fid).attr('alt', letter).addClass('marker_'+letter);
-            
-                return true;
+                if (index < 10) {
+                    var letter = String.fromCharCode(index+97);
+                    this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
+                    $('#result_list_marker_'+feature.fid).attr('alt', letter).addClass('marker_'+letter);
+                    return true;
+                } else {
+                    $('#result_list_marker_'+feature.fid).attr('alt', index).addClass('bullet_marker');
+                    return false;
+                }
             } else {
                 return false;
             }
@@ -1135,7 +1139,7 @@ function instanceSearch(state, resultList) {
                              });
         } else {
             marker = $('<div>', { class: 'bullet_marker' });
-            img = $('<img>', { class: 'search_result_list_marker ullet_marker',
+            img = $('<img>', { class: 'search_result_list_marker bullet_marker',
                                src: '/images/bullet.png',
                                id: idBase + '_' + item.region_id,
                                alt: item.region_id
