@@ -1426,81 +1426,78 @@ function instanceSearch(state, resultList) {
 
 var openlayers_url = $('#openlayers_url_field').val()
 if (openlayers_url != "") {
-    $.getScript(openlayers_url, function() {
-        function noPositionClicked(instanceKey) {
-            $('<a>', {
-                id: 'create_geo_button', 
-                class: 'button_small',
-                click: addGeoTagHandler 
-            }).append(document.createTextNode(LANG.add_position_text)).appendTo('#map_div');
-            $('<a/>').appendTo('#map_div');
+    function noPositionClicked(instanceKey) {
+        $('<a>', {
+            id: 'create_geo_button', 
+            class: 'button_small',
+            click: addGeoTagHandler 
+        }).append(document.createTextNode(LANG.add_position_text)).appendTo('#map_div');
+        $('<a/>').appendTo('#map_div');
 
-            $('#map').remove();
-            $('#attribution_div').remove();
-            $('#no_geo_button').remove();
-            $('#proposal_geotag_field').remove();
-            $('#remove_geo_button').remove();
-            $('#change_geo_button').remove();
-            $('#add_geo_button').remove();
-        }
+        $('#map').remove();
+        $('#attribution_div').remove();
+        $('#no_geo_button').remove();
+        $('#proposal_geotag_field').remove();
+        $('#remove_geo_button').remove();
+        $('#change_geo_button').remove();
+        $('#add_geo_button').remove();
+    }
+    
+    function addPositionClicked(instanceKey, position) {
 
-        function addPositionClicked(instanceKey, position) {
+        $('<a>', {
+            id: 'no_geo_button', 
+            class: 'button_small',
+            click: noGeoTagHandler 
+        }).append(document.createTextNode(LANG.no_position_text)).appendTo('#map_div');
+        $('<a/>').appendTo('#map_div');
 
-            $('<a>', {
-                id: 'no_geo_button', 
-                class: 'button_small',
-                click: noGeoTagHandler 
-            }).append(document.createTextNode(LANG.no_position_text)).appendTo('#map_div');
-            $('<a/>').appendTo('#map_div');
+        $('<div />', {
+           id: 'map',
+           class: 'edit_map'
+        }).appendTo('#map_div');
 
-            $('<div />', {
-               id: 'map',
-               class: 'edit_map'
-            }).appendTo('#map_div');
+        loadSingleProposalMap(openlayers_url, instanceKey, null, true, position);
 
-            loadSingleProposalMap(openlayers_url, instanceKey, null, true, position);
+        $('#create_geo_button').remove(); 
 
-            $('#create_geo_button').remove(); 
+        $('<div />', { 
+            id: 'attribution_div',
+            class: 'note_map'
+        }).appendTo('#map_div');
 
-            $('<div />', { 
-                id: 'attribution_div',
-                class: 'note_map'
-            }).appendTo('#map_div');
+        $('#attribution_div').append('&copy; ');
+        var osm_link = $('<a>', {
+            href: 'http://www.openstreetmap.org/'
+        });
+        osm_link.appendTo('#attribution_div');
+        osm_link.append(document.createTextNode('OpenStreetMap'));
+        $('#attribution_div').append(document.createTextNode('-' + LANG.osm_cartographer_text + '('));
+        var license_link = $('<a>', {
+            href: 'http://creativecommons.org/licenses/by-sa/2.0/'
+        });
+        license_link.appendTo('#attribution_div');
+        license_link.append(document.createTextNode(LANG.license_text));
+        $('#attribution_div').append(document.createTextNode(')'));
+    }
 
-            $('#attribution_div').append('&copy; ');
-            var osm_link = $('<a>', {
-                href: 'http://www.openstreetmap.org/'
-            });
-            osm_link.appendTo('#attribution_div');
-            osm_link.append(document.createTextNode('OpenStreetMap'));
-            $('#attribution_div').append(document.createTextNode('-' + LANG.osm_cartographer_text + '('));
-            var license_link = $('<a>', {
-                href: 'http://creativecommons.org/licenses/by-sa/2.0/'
-            });
-            license_link.appendTo('#attribution_div');
-            license_link.append(document.createTextNode(LANG.license_text));
-            $('#attribution_div').append(document.createTextNode(')'));
-            
-        }
+    function addGeoTagHandler(event) {
+      event.preventDefault(); 
+      addPositionClicked($('#instance_key_field').val(), null); 
+    }
 
-        function addGeoTagHandler(event) {
-          event.preventDefault(); 
-          addPositionClicked($('#instance_key_field').val(), null); 
-        }
+    function noGeoTagHandler(event) {
+      event.preventDefault();
+      noPositionClicked($('#instance_key_field').val());
+    }
 
-        function noGeoTagHandler(event) {
-          event.preventDefault();
-          noPositionClicked($('#instance_key_field').val());
-        }
+    function reloadNewProposalForm() {
+         var position = $('#proposal_geotag_field').val(); 
+         if (position != null && position != '') {
+            addPositionClicked($('#instance_key_field').val(), position);
+         }
+    }
 
-        function reloadNewProposalForm() {
-             var position = $('#proposal_geotag_field').val(); 
-             if (position != null && position != '') {
-                addPositionClicked($('#instance_key_field').val(), position);
-             }
-        }
-
-        $('#create_geo_button').click(addGeoTagHandler);
-        $('#create_geo_button').ready(reloadNewProposalForm); 
-    });
+    $('#create_geo_button').click(addGeoTagHandler);
+    $('#create_geo_button').ready(reloadNewProposalForm); 
 }
