@@ -95,7 +95,7 @@ class Event(object):
             return None
 
     @classmethod
-    def find_by_topics(cls, topics):
+    def find_by_topics(cls, topics, limit=None):
         from delegateable import Delegateable
         topics = map(lambda d: d.id, topics)
         q = meta.Session.query(Event)
@@ -104,18 +104,20 @@ class Event(object):
         q = q.order_by(Event.time.desc())
         if ifilter.has_instance():
             q = q.filter(Event.instance_id == ifilter.get_instance().id)
+        if limit is not None:
+            q = q.limit(limit)
         return q.all()
 
     @classmethod
-    def find_by_topic(cls, topic):
-        return Event.find_by_topics([topic])
+    def find_by_topic(cls, topic, limit=None):
+        return Event.find_by_topics([topic], limit=limit)
 
     @classmethod
-    def find_by_instance(cls, instance, limit=100):
+    def find_by_instance(cls, instance, limit=50):
         q = meta.Session.query(Event)
         q = q.filter(Event.instance == instance)
         q = q.order_by(Event.time.desc())
-        q = q.limit(100)
+        q = q.limit(limit)
         return q.all()
 
     def text(self):

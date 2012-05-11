@@ -141,7 +141,7 @@ class InstanceController(BaseController):
         if format == 'sline':
             ret_abort(u'Sparkline data is not available anymore.', code=410)
 
-        events = model.Event.find_by_instance(c.page_instance)
+        events = model.Event.find_by_instance(c.page_instance, limit=50)
 
         if format == 'rss':
             return event.rss_feed(events,

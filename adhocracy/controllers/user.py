@@ -339,6 +339,7 @@ class UserController(BaseController):
         query = query.order_by(model.Event.time.desc())
         query = query.limit(10)
         if format == 'rss':
+            query = query.limit(50)
             return event.rss_feed(
                 query.all(), "%s Latest Actions" % c.page_user.name,
                 h.base_url(None, path='/user/%s' % c.page_user.user_name),
