@@ -1030,23 +1030,25 @@ function addArrow(plus) {
     $('.arrow').append(img);
 }
 
-function enlargeMap(event) {
-   addArrow(false); 
-   $('.arrow').click(shrankMap);
-   $('#map_startpage_wrapper').removeClass('map_size_normal');
-   $('#map_startpage_wrapper').addClass('map_size_large');
-}
-
-function shrankMap(event) {
-   addArrow(true);
-   $('.arrow').click(enlargeMap);
-   $('#map_startpage_wrapper').addClass('map_size_normal');
-   $('#map_startpage_wrapper').removeClass('map_size_large');
-}
-
 function loadSelectInstanceMap(layers, resultList) {
-    var map = createMap(NUM_ZOOM_LEVELS);
 
+    function enlargeMap(event) {
+       addArrow(false); 
+       $('.arrow').click(shrankMap);
+       $('#map_startpage_wrapper').removeClass('map_size_normal');
+       $('#map_startpage_wrapper').addClass('map_size_large');
+       map.updateSize();
+    }
+
+    function shrankMap(event) {
+       addArrow(true);
+       $('.arrow').click(enlargeMap);
+       $('#map_startpage_wrapper').addClass('map_size_normal');
+       $('#map_startpage_wrapper').removeClass('map_size_large');
+       map.updateSize();
+    }
+
+    var map = createMap(NUM_ZOOM_LEVELS);
     var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
 
     map.addControls(createControls(true, false));
