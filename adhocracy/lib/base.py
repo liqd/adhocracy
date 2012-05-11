@@ -42,6 +42,8 @@ class BaseController(WSGIController):
         c.debug = asbool(config.get('debug'))
         i18n.handle_request()
 
+        h.add_rss("%s News" % h.site.name(),
+                  h.base_url(None, path='/feed.rss'))
         if c.instance:
             h.add_rss("%s News" % c.instance.label,
                       h.base_url(c.instance,
