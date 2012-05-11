@@ -18,8 +18,4 @@ LANG = {
     creation_date_text: 'Gr?ndungsdatum:',
     osm_cartographer_text: 'KartographInnen',
     license_text: 'Lizenz'
-
-
-
-
 };

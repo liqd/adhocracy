@@ -303,7 +303,7 @@ function addEditControls(map, layer) {
                 $('#proposal_geotag_field').val('');
                 updateEditButtons();
             },
-            text: remove_position_text 
+            text: LANG.remove_position_text 
         }).appendTo('#edit_map_buttons');
     }
 
