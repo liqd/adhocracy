@@ -27,6 +27,12 @@
     left: 0px;
 }
 
+.map_attribution {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
 /* Startpage */
 #map_startpage_wrapper.map_size_large .map_wrapper {
     margin-left: 0px;

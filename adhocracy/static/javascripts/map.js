@@ -1018,19 +1018,19 @@ function loadSelectInstance(openlayers_url) {
   });
 }
 
-function addArrow(plus) {
-    var src = '/images/map_resize_rec_plus.png';
-    if (!plus) {
-        src = '/images/map_resize_rec_minus.png';
-    }
-    var img = $('<img>', { src: src,
-                           alt: 'toggle size'
-                         });
-    $('.arrow').empty();
-    $('.arrow').append(img);
-}
-
 function loadSelectInstanceMap(layers, resultList) {
+
+    function addArrow(plus) {
+        var src = '/images/map_resize_rec_plus.png';
+        if (!plus) {
+            src = '/images/map_resize_rec_minus.png';
+        }
+        var img = $('<img>', { src: src,
+                               alt: 'toggle size'
+                             });
+        $('.arrow').empty();
+        $('.arrow').append(img);
+    }
 
     function enlargeMap(event) {
        addArrow(false); 
