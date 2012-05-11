@@ -7,22 +7,37 @@
 </%def>
 
 <%block name="main_content">
-  <h1>${c.form_title}</h1>
-  <form name="update_batch" class="inplace" method="POST"
-        action="${c.action_url}">
+  <h1>
+        %if c.form_type == 'create':
+          %if c.badge_type == 'user':
+          ${_('Add user badge')}
+          %elif c.badge_type == 'delegateable':
+          ${_('Add delegateable badge')}
+          %elif c.badge_type == 'category':
+          ${_('Add category badge')}
+          %endif
+        %elif c.form_type == 'update':
+          %if c.badge_type == 'user':
+          ${_('Edit user badge')}
+          %elif c.badge_type == 'delegateable':
+          ${_('Edit delegateable badge')}
+          %elif c.badge_type == 'category':
+          ${_('Edit category badge')}
+          %endif
+        %endif
+  </h1>
+  <form name="update_badge" class="inplace" method="POST">
 
     ${h.field_token()|n}
 
     <label for="title" class="">${_("Badge title")}</label>
     <input name="title" id="title" class="" style="width:20em"
            value="" />
-    <span class="hint">${_("The title of the badge.")}</span>
 
     <label for="description" class="">${_("Badge description")}</label>
     <textarea name="description" id="description" 
               style="width:90%; height: 10em" value="" >
     </textarea>
-    <span class="hint">${_("A description for the badge.")}</span>
 
     <label for="color" 
            class="">${_("The color that is used to show the badge")}</label>
@@ -30,6 +45,7 @@
            value="" />
     <span class="hint">${_("Like '#a4a4a4'")}</span>
 
+    %if c.badge_type == 'user':
     <label for="group" class="">
         ${_("Group")}
     </label>
@@ -46,19 +62,24 @@
            class="">${_("Display group in instances")}</label>
     <input type="checkbox"  name="display_group" id="display_group" />
     <span class="hint">${_("Display this group in instances instead of the normal group the user is in there.")}</span>
+    %endif
 
-    <label for="badge_delegateable" 
-           class="">${_("Badge Proposals?")}</label>
-    <input type="checkbox"  name="badge_delegateable" id="badge_delegateable" />
-    <span class="hint">${_("Badge proposals instead of users")}</span>
-    
-    <label for="badge_delegateable_category" 
-           class="">${_("Badge proposal category?")}</label>
-    <input type="checkbox"  name="badge_delegateable_category" id="badge_delegateable_category" />
-    <span class="hint">${_("Badge proposal instead of user and use it as a category.")}</span> 
-                                  
+    %if h.has_permission('global.admin'):
+    <label for="instance" class="">
+        Instance
+    </label>
+    <select name="instance">
+        <option value="">${_('Global')}</option>
+        %for i in c.instances:
+        <option value="${i.key}">${i.label}</option>
+        %endfor
+    </select>
+    %else:
+    <input type="hidden" name="instance" value="${c.instance.key}" />
+    %endif
+
     <div class="mainbar">
-      ${components.savebox("../../badge", c.save_button)}
+      ${components.savebox(c.base_url, _('Save Badge'))}
     </div>
   </form>
 

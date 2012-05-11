@@ -27,4 +27,3 @@ class TestUserController(TestController):
         self.assertFalse(watch.is_deleted())
         user.delete()
         self.assertTrue(watch.is_deleted())
-        

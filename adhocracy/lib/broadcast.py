@@ -1,8 +1,5 @@
 from datetime import datetime
-try:
-    import json
-except ImportError:
-    import simplejson as json
+import json
 
 from pylons.i18n import _
 from sqlalchemy import or_

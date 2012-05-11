@@ -4,8 +4,12 @@ import re
 from StringIO import StringIO
 
 import formencode
+from pylons import tmpl_context as c
 from pylons.i18n import _
 from webhelpers.html import literal
+
+from adhocracy.lib.auth.authorization import has
+
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings",
                    "join", "leave", "control", "test", "support", "page",
@@ -14,7 +18,7 @@ FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings",
                    "hg", "git", "adhocracy", "user", "openid", "auth", "watch",
                    "poll", "delegation", "event", "comment", "root", "search",
                    "tag", "svn", "trac", "lists", "list", "new", "update",
-                   "variant", "provision", "untag"]
+                   "variant", "provision", "untag", "code"]
 
 
 VALIDUSER = re.compile(r"^[a-zA-Z0-9_\-]{3,255}$")
@@ -149,11 +153,53 @@ class ContainsChar(formencode.validators.Regex):
         return value
 
 
-class ValidBadge(formencode.FancyValidator):
+class ValidBadgeInstance(formencode.FancyValidator):
 
     def _to_python(self, value, state):
-        from adhocracy.model import Badge
-        badge = Badge.by_id(value)
+        from adhocracy.model import Instance
+        if has('global.admin'):
+            if value:
+                instance = Instance.find(value)
+                if instance is None:
+                    raise AssertionError("Could not find instance %s" % value)
+                return instance
+            return None
+        elif has('instance.admin') and c.instance:
+            return c.instance
+        raise formencode.Invalid(
+            _("You're not allowed to edit global badges"),
+            value, state)
+
+
+class ValidUserBadge(formencode.FancyValidator):
+
+    def _to_python(self, value, state):
+        from adhocracy.model import UserBadge
+        badge = UserBadge.by_id(value)
+        if not badge:
+            raise formencode.Invalid(
+                _("No Badge ID '%s' exists") % value,
+                value, state)
+        return badge
+
+
+class ValidDelegateableBadge(formencode.FancyValidator):
+
+    def _to_python(self, value, state):
+        from adhocracy.model import DelegateableBadge
+        badge = DelegateableBadge.by_id(value)
+        if not badge:
+            raise formencode.Invalid(
+                _("No Badge ID '%s' exists") % value,
+                value, state)
+        return badge
+
+
+class ValidCategoryBadge(formencode.FancyValidator):
+
+    def _to_python(self, value, state):
+        from adhocracy.model import CategoryBadge
+        badge = CategoryBadge.by_id(value)
         if not badge:
             raise formencode.Invalid(
                 _("No Badge ID '%s' exists") % value,
@@ -352,11 +398,12 @@ class UsersCSV(formencode.FancyValidator):
         reader = csv.DictReader(StringIO(value), fieldnames=fieldnames)
         try:
             for item in reader:
-                error_list = self._check_item(item, reader.line_num)
+                error_list, cleaned_item = self._check_item(item,
+                                                            reader.line_num)
                 if error_list:
                     errors.append((reader.line_num, error_list))
                 if not errors:
-                    items.append(item)
+                    items.append(cleaned_item)
         except csv.Error, E:
             line_content = value.split('\n')[reader.line_num]
             msg = _('Error "%(error)s" while reading line '
@@ -398,8 +445,8 @@ class UsersCSV(formencode.FancyValidator):
 
     def _check_item(self, item, line):
         error_list = []
-        user_name = item.get(USER_NAME, '')
-        email = item.get(EMAIL, '')
+        user_name = item.get(USER_NAME, '').strip()
+        email = item.get(EMAIL, '').strip()
         for (validator, value) in ((USERNAME_VALIDATOR, user_name),
                                    (EMAIL_VALIDATOR, email)):
             try:
@@ -412,15 +459,24 @@ class UsersCSV(formencode.FancyValidator):
         usernames.append(line)
         if len(emails) > 1 or len(usernames) > 1:
             self.duplicates = True
-        return error_list
+        cleaned_item = item.copy()
+        cleaned_item.update({USER_NAME: user_name,
+                             EMAIL: email})
+        return error_list, cleaned_item
 
 
 class ContainsUrlPlaceholder(formencode.FancyValidator):
 
     def _to_python(self, value, state):
-        if not '{url}' in value:
-            raise formencode.Invalid(_('You need to insert "{url}" into the '
-                                       'email text so we can insert a url for '
-                                       'the user where he can set a password'),
-                                     value, state)
+        required = ['{url}', '{user_name}', '{password}']
+        missing = []
+        for s in required:
+            if s not in value:
+                missing.append(s)
+        if missing != []:
+            raise formencode.Invalid(
+                _('You need to insert the following placeholders into '
+                  'the email text so we can insert enough information '
+                  'for the user: %s') % ', '.join(missing),
+                value, state)
         return value

@@ -20,7 +20,7 @@ class InstanceDiscriminatorMiddleware(object):
         if instance_key is None:
             host = host.replace(self.domain, "")
             host = host.split(':', 1)[0]
-            host = host.strip('.').strip() 
+            host = host.strip('.').strip()
             instance_key = host
 
         if len(instance_key):
@@ -36,7 +36,10 @@ class InstanceDiscriminatorMiddleware(object):
 
 
 def setup_discriminator(app, config):
-    domains = config.get('adhocracy.domain',
-                         config.get('adhocracy.domains', ''))
-    domains = [d.strip() for d in domains.split(',')]
-    return InstanceDiscriminatorMiddleware(app, domains[0])
+    # warn if abdoned adhocracy.domains is used
+    if config.get('adhocracy.domains') is not None:
+        raise AssertionError('adhocracy.domains is not supported anymore. '
+                             'use adhocracy.domain (without the s) with only '
+                             'one domain')
+    domain = config.get('adhocracy.domain').strip()
+    return InstanceDiscriminatorMiddleware(app, domain)

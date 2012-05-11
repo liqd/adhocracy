@@ -55,4 +55,4 @@ class MessageController(BaseController):
         to_user(c.page_user, subject, message, headers=headers)
 
         h.flash(_("Your message has been sent. Thanks."), 'success')
-        redirect(h.entity_url(c.page_user))
+        redirect(h.entity_url(c.page_user, instance=c.instance))

@@ -66,16 +66,6 @@
         </p>
         %endif
         %if len(c.page.subpages):
-        <h6>Sub-norms</h6>
-        <ul class="papers_list">
-            %for subpage in sorting.delegateable_title(c.page.subpages):
-            <li>
-                <a href="${h.entity_url(subpage)}">
-                    ${subpage.title}
-                </a>
-            </li>
-            %endfor
-        </ul>
         %endif
         ## Fixme: Info zur Version
         ## <h6>Angelegt</h6>
@@ -85,12 +75,14 @@
 
     ${tiles.tag.sidebar(c.page)}
 
-    <h6>Unterthemen</h6>
+    %if len(c.page.subpages):
+    <h6>${_('subnorms')}</h6>
     <ol>
         %for page in sorting.delegateable_title(c.page.subpages):
         <li><a href="${h.entity_url(page)}">${page.title}</a></li>
         %endfor
     </ol>
+    %endif
     </summary>
 
 </section>

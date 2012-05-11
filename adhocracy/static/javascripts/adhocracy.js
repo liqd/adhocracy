@@ -10,6 +10,8 @@
  *
  */
 
+var alert = window.alert;
+
 // Make sure we have an "adhocracy" and namespace.
 var adhocracy = adhocracy || {};
 
@@ -48,6 +50,85 @@ var adhocracy = adhocracy || {};
      ***************************************************/
 
     adhocracy.namespace('adhocracy.ko');
+
+    adhocracy.ko.Badge = function (data) {
+        var self = this;
+        this.id = ko.observable(data.id);
+        this.title = ko.observable(data.title);
+        this.description = ko.observable(data.description);
+        this.checked = ko.observable(data.checked);
+        this.css_class = ko.computed(function () {
+            return 'badge badge_' + self.id();
+        });
+    };
+
+    adhocracy.ko.Badges = function () {
+        var self = this;
+        this.id = ko.observable();
+        this.title = ko.observable();
+        this.badges = ko.observableArray();
+        this.clear = function () {
+            self.id(undefined);
+            self.title(undefined);
+            self.badges([]);
+        };
+        this.load = function (id, callback) {
+            self.id(id);
+            var url = '/proposal/' + id + '/badges.ajax';
+            $.get(url, function (data) {
+                ko.mapping.fromJS(data, self.mapping, self);
+                callback();
+            }, 'json').error(
+                function (_, textStatus) {
+                    alert('Could not get the badges: ' + textStatus);
+                }
+            );
+        };
+        this.save = function (callback) {
+            var url = '/proposal/' + self.id() + '/update_badges.ajax?',
+                parameters = $('#edit_badges').serialize();
+            $.post(url, parameters, function (data) {
+                $('#badges_' + self.id()).html(data.html);
+                callback();
+            }, 'json').error(function (_, txt) {
+                alert(txt);
+            });
+        };
+        this.mapping = {
+            badges: {
+                create: function (options) {
+                    return new adhocracy.ko.Badge(options.data);
+                }
+            }
+        };
+    };
+
+    adhocracy.ko.editBadges = function () {
+        var self = this,
+            overlay_container;
+        this.selected = new adhocracy.ko.Badges();
+        this.cancel = function () {
+            self.selected.clear();
+            self.overlay_container.overlay().close();
+        };
+        this.edit = function (event) {
+            var id = $(event.target).parent().find('.badges').data('id');
+            self.selected.load(id, function () {
+                self.overlay_container.overlay().load();
+            });
+        };
+        this.save = function () {
+            self.selected.save(self.cancel);
+        };
+        this.applyToPager = function (selector) {
+            var containers = $(selector).find('.badges').parent();
+            containers.append('<a href="#" class="btn btn-mini edit" ' +
+                              'data-bind="click: edit">Edit Badges</a>');
+            self.overlay_container = $('#edit_badges_container');
+            self.overlay_container.overlay();
+            ko.applyBindings(self, $(selector)[0]);
+        };
+    };
 
     /**
      * Example for an json object returned for variants.
@@ -102,7 +183,7 @@ var adhocracy = adhocracy || {};
              * @type bool (observable)
              * @default
              */
-            switchDiff: ko.observable(true),
+            switchDiff: ko.observable(false),
             /**
              * The current
              * @property switchDiff
@@ -892,11 +973,33 @@ $(document).ready(function () {
     $(".hidejs").hide();
 
     /* Generic buttons that show/hide an element with a specific id.
-     * Requriements:
-     * * The button needs the class showhide_button
-     * * and an attribute 'data-target' with a selector string to find
-     *   the target.
-     * * The targed element needs to have an attribute 'data-cancel'
+     * Possible classes and attributes:
+     * * 'showhide_button' (class)
+     *   The button needs the class showhide_button
+     * * 'data-target' (attr)
+     *   The button needs an attribute 'data-target' with a selector
+     *   string to find the target.
+     * * 'data-target-speed' (attr)
+     *   Optionally provide a speed for jquery's show()/hide() animations.
+     *   Both strings ('slow'/'fast') and milliseconds (e.g. '400') will
+     *   work.
+     * * 'data-toggle-class', 'data-toggle-element' (attr)
+     *   The button can optionally provide a classname in the attribute
+     *   data-toggle-class. This class will be assigned to the button if
+     *   it is pressed and the target is shown. If not class name is
+     *   given, the class 'hidden' will be used. If the button provides an
+     *   element selector in the attribute data-toggle-element
+     *   the class will be assigned to this
+     *   element.
+     *   it is pressed and the target is shown. If not class name is
+     *   given, the class 'hidden' will be used.
+     * * 'data-toggle-text' (attr)
+     *   The button can optionally provide a text in the attribute
+     *   data-toggle-text. This button will display this text if the target
+     *   is button was pressed and the target is visible. If no text
+     *   is given, the text of the button won't change.
+     * * 'data-cancel' (attr)
+     *   The *targed element* needs to have an attribute 'data-cancel'
      *   containing a selector string. The click event of the matching
      *   elements *inside the target* will hide the target an unhide
      *   the button.
@@ -906,18 +1009,46 @@ $(document).ready(function () {
         var self = $(this),
             target_selector = self.data('target'),
             target = $(target_selector),
+            target_speed = self.data('target-speed'),
             cancel_selector = target.data('cancel'),
-            cancel = target.find(cancel_selector);
+            cancel = target.find(cancel_selector),
+            toggle_class = self.data('toggle-class') || "hidden",
+            toggle_element_selector = self.data('toggle-element'),
+            toggle_element,
+            toggle_text = self.data('toggle-text'),
+            old_text = self.text();
 
-        target.show();
-        self.hide();
+            //debugger;
+        if (toggle_element_selector) {
+            toggle_element = $(toggle_element_selector);
+        } else {
+            toggle_element = self;
+        }
+
+        if (toggle_element.hasClass(toggle_class)) {
+            toggle_element.removeClass(toggle_class);
+            target.hide(target_speed);
+        } else {
+            target.show(target_speed);
+            toggle_element.addClass(toggle_class);
+        }
+        if (toggle_text !== undefined) {
+            self.text(toggle_text);
+            self.data('toggle-text', old_text);
+        }
 
         // bind a possible cancel action to show the button and hide the target
         cancel.bind('click', function (event) {
             event.preventDefault();
-            self.show();
+            toggle_element.removeClass(toggle_class);
             target.hide();
         });
+    });
+
+    $('body').delegate('select.sort_options', 'change', function (event) {
+        event.preventDefault();
+        var url = $(this).find('option:selected').data('url');
+        window.location.href = url;
     });
 
     $('body').delegate('a.do_vote', 'click', function (event) {

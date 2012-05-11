@@ -73,4 +73,3 @@ class TwitteroauthController(BaseController):
         c.user.twitter.delete()
         model.meta.Session.commit()
         redirect(h.entity_url(c.user, member='edit'))
-

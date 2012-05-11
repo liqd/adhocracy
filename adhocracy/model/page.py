@@ -80,7 +80,7 @@ class Page(Delegateable):
 
     @classmethod
     def all_q(cls, instance=None, functions=[], exclude=[],
-                   include_deleted=False, include_unlisted=False):
+              include_deleted=False):
         q = meta.Session.query(Page)
         if not include_deleted:
             q = q.filter(or_(Page.delete_time == None,
@@ -335,6 +335,9 @@ class Page(Delegateable):
 
     def to_index(self):
         index = super(Page, self).to_index()
+        if self.function == self.DESCRIPTION:
+            index['skip'] = True
+            return index
         if self.head is not None:
             index.update(dict(
                 body=self.head.text,

@@ -51,7 +51,6 @@ setup(
         "beautifulsoup>=3.0.7",
         "python-openid>=2.2.4",
         "python-memcached>=1.45",
-        "solrpy==0.9.3",
         "sunburnt==0.5",
         "PIL>=1.1.6",
         "markdown2>=1.0.1",

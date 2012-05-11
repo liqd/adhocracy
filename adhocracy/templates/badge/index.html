@@ -7,24 +7,36 @@
 </%def>
 
 <%block name="headline">
-% if not c.instance: 
-  <h1 class="page_title">${_("All Badges")}</h1>
-% endif
-% if c.instance:
-  <h1 class="page_title">${_("Badges of this instance")}</h1>
-% endif
-
-
+<h1 class="page_title">${_("Badges")}</h1>
 </%block>
 
-<%block name="main_content">
-  <h1>${_("User Badges")}</h1>
-  % if not c.badges_users:
-  <p>${_("No badges added yet.")}</p>
-  % endif
+<%def name="edit_button(badge_id)">
+<a href="${c.base_url}badge/edit/${badge_id}">${_('Edit')}</a>
+</%def>
+
+<%def name="render_tables(badges, type_, groups, table_def)">
+%for group in groups:
+<%
+permission = group['permission']
+label = group['label']
+group_exists = permission in badges
+badge_items = badges.get(permission, {}).get(type_, None)
+%>
+    %if h.has_permission(permission) and group_exists:
+    <h4>${group['label']}</h4>
+    %if badge_items:
+    ${table_def(badge_items)}
+    %else:
+    <p>${_("No badges added yet.")}</p>
+    %endif
+    %endif
+%endfor
+</%def>
+
+
+<%def name="user_badges_table(badge_items)">
 
   <div class="table">
-  % if c.badges_users:
     <table class="table_listing">
       <thead>
         <th>${_("Title")}</th>
@@ -35,7 +47,7 @@
         <th>${_("Display")}</th>
         <th>${_("Actions")}</th>
       </thead>
-      %for badge in c.badges_users:
+      %for badge in badge_items:
       <tr class="tile">
         <td>${badge.title}</td>
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
@@ -44,20 +56,42 @@
         <td>${badge.group and badge.group.group_name or ""}</td>
         <td>${badge.display_group and _("yes") or _("no")}</td>
         
-        <td>
-          <a class="button edit ttip"
-             href="${c.base_url}badge/edit/${badge.id}">${_('Edit')}</a></td>
+        <td>${edit_button(badge.id)}</td>
       </tr>
       %endfor
     </table>
-  % endif
   </div>
-  <h1>${_("Proposal Badges")}</h1>
-  % if not c.badges_delegateables:
-  <p>${_("No badges added yet.")}</p>
-  % endif
+
+</%def>
+
+
+<%def name="delegateable_badges_table(badge_items)">
   <div class="table">
-  % if c.badges_delegateables:
+      <table class="table_listing">
+      <thead>
+        <th>${_("Title")}</th>
+        <th>${_("Description")}</th>
+        <th>${_("Color")}</th>
+        <th>${_("Preview")}</th>
+        <th>${_("Actions")}</th>
+      </thead>
+      %for badge in badge_items:
+      <tr class="tile">
+        <td>${badge.title}</td>
+        <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
+        <td>${badge.color}</td>
+        <td>${tiles.badge(badge)}</td>
+        
+        <td>${edit_button(badge.id)}</td>
+      </tr>
+      %endfor
+    </table>
+  </div>    
+</%def>
+
+
+<%def name="category_badges_table(badge_items)">
+  <div class="table">
     <table class="table_listing">
       <thead>
         <th>${_("Title")}</th>
@@ -66,54 +100,43 @@
         <th>${_("Preview")}</th>
         <th>${_("Actions")}</th>
       </thead>
-      %for badge in c.badges_delegateables:
+      %for badge in badge_items:
       <tr class="tile">
         <td>${badge.title}</td>
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${badge.color}</td>
         <td>${tiles.badge(badge)}</td>
         
-        <td>
-          <a class="button edit ttip"
-             href="${c.base_url}badge/edit/${badge.id}">${_('Edit')}</a></td>
+        <td>${edit_button(badge.id)}</td>
       </tr>
       %endfor
     </table>
-  % endif
   </div>    
+</%def>
 
-  <h1>${_("Proposal Category Badges")}</h1>
-  % if not c.badges_delegateable_categories:
-  <p>${_("No badges added yet.")}</p>
-  % endif
-  <div class="table">
-  % if c.badges_delegateable_categories:
-    <table class="table_listing">
-      <thead>
-        <th>${_("Title")}</th>
-        <th>${_("Description")}</th>
-        <th>${_("Color")}</th>
-        <th>${_("Preview")}</th>
-        <th>${_("Actions")}</th>
-      </thead>
-      %for badge in c.badges_delegateable_categories:
-      <tr class="tile">
-        <td>${badge.title}</td>
-        <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
-        <td>${badge.color}</td>
-        <td>${tiles.badge(badge)}</td>
-        
-        <td>
-          <a class="button edit ttip"
-             href="${c.base_url}badge/edit/${badge.id}">${_('Edit')}</a></td>
-      </tr>
-      %endfor
-    </table>
-  % endif
-  </div>    
 
-  <div class="inline_input_wrapper">
-      <a class="button add" href="${c.base_url}badge/add">${_("Add new badge...")}</a>
-  </div>
+<%block name="main_content">
+  <h2>${_("User Badges")}   
+  <a style="margin-bottom: 0.3em" class="button_small add" 
+     href="${c.base_url}badge/user/add">${_("Add new user badge...")}</a>
+  </span>
+  </h2>
+  ${render_tables(c.badges, 'user', c.groups, user_badges_table)}
+
+
+  <h2>${_("Proposal Badges")}
+  <a style="margin-bottom: 0.3em" class="button_small add" 
+     href="${c.base_url}badge/delegateable/add">${_("Add new Proposal badge...")}</a>
+  </h2>
+  ${render_tables(c.badges, 'delegateable', c.groups, delegateable_badges_table)}
+
+
+  <h2>${_("Proposal Category Badges")}
+  <a style="margin-bottom: 0.3em" class="button_small add" 
+     href="${c.base_url}badge/category/add">${_("Add new Category...")}</a>
+  </h2>
+  ${render_tables(c.badges, 'category', c.groups, category_badges_table)}
+
+
 </%block>
 

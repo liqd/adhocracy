@@ -1,7 +1,4 @@
-try:
-    import json
-except ImportError:
-    import simplejson as json
+import json
 from urllib2 import urlopen
 from urllib import urlencode
 

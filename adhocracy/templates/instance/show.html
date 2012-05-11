@@ -15,9 +15,8 @@
   <div id="new_proposals_table" class="table">
       <h3 class="section">${_("Newest Proposals")}</h3>
       ${c.new_proposals_pager.here()}
-  </div>
-  <br/>
-  <div class="top_actions aside" id="proposal-actions">
+
+  <div id="proposal-actions">
   <% auth = check.proposal.create() %>
   %if auth:
       <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
@@ -29,6 +28,9 @@
 
   <a href="/proposal" class="button edit ttip" title="${_('show a list of proposals')}">${_("more proposals")}</a>
   </div>
+
+  </div>
+  <br/>
 
 <div class="clearFix" id="numbers"></div>
     <h3>${_("By the numbers")}</h3>

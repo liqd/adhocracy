@@ -1,0 +1,56 @@
+<%def name="queries()">
+    %if h.config.get('adhocracy.debug.sql'):
+    <% 
+    queries = c.pdtb_sqla_queries 
+    times = [query['duration'] for query in queries]
+    total_time = '%0.4fs' % sum(times) 
+    %>
+    <div class="debug">
+        <h3>Queries</h3>
+        <p><b>${len(queries)} queries in ${total_time}</b></p>
+        <table>
+        <tr>
+            <th>#</th>
+            <th>time (s)</th>
+            <th>actions</th>
+            <th>caller</th>
+            <th>parameters</th>
+        </tr>
+        <tr>
+            <th colspan="5">statement</th>
+        </tr>
+        %for num, query in enumerate(c.pdtb_sqla_queries):
+        <%
+        is_select = query['statement'].lower().startswith('select')
+        quoted_params = h.urllib.quote(h.json_dumps(query['parameters']))
+        rowcls = 'even' if (num % 2 == 0) else 'odd'
+        %>
+        <tr class="${rowcls}">
+            <td>${num}</td>
+            <td>${'%0.4f' % query['duration']}</td>
+            <td>
+                %if is_select:
+                <a href="/debug/explain?statement=${query['statement']}&parameters=${quoted_params}&duration=${query['duration']}">EXPLAIN</a>
+                %endif
+            </td>
+            <td>${query['caller']}</td>
+            <td>${unicode(query['parameters'])}</td>
+        </tr>
+        <tr class="${rowcls}">
+            <td colspan="5">${query['statement']}</td>
+        </tr>
+        %endfor
+    </table></div>
+    %endif
+</%def>
+
+<%def name="styles()">
+      <style type="text/css">
+          .debug th, .debug td { vertical-align: top; padding: 5px; }
+          .debug td { border: none, background-color: #ddd }
+          .debug th { font-weight: bold; background-color: #aaa }
+          .debug tr.odd td { background-color: #fff; }
+          .debug tr.even td { background-color: #f6f6f6; }
+          .debug table { border-spacing: 0; }
+      </style>
+</%def>

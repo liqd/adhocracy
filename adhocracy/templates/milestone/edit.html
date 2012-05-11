@@ -8,38 +8,59 @@
 </%def>
 
 <%block name="main_content">
+
+    <h3>${_("Edit milestone")}</h3>
+<div class="form_wrapper">
 <form name="edit_milestone" class="inplace" method="POST"
   action="/milestone/${c.milestone.id}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
     
-    <div class="mainbar">
-        <h3>${_("Milestone title")}</h3>
-        <div class="page_title">
-            <label for="title" class="armhint">${_("New milestone")}</label>
-            <input tabindex="1" class="title armlabel" name="title" value="${c.milestone.title}" />
-        </div>
+    <div>
+        <label for="title" class="">${_("Milestone title")}</label>
+        <input tabindex="1" name="title" value="${c.milestone.title}" />
+    </div>
 
-        <h3>${_("Milestone description")}</h3>
+        <label for="text">${_("Milestone description")}</label>
         <div class="infobox">
             ${_("Give a brief description of the milestone.")|n}
         </div>
     
-        <label for="text" class="armhint">${_("In this milestone we will...")}</label>
-        <textarea tabindex="2" class="description armlabel"
-          name="text">${c.milestone.text}</textarea>
+        <textarea tabindex="2" class="description" name="text">${c.milestone.text}</textarea>
         ${components.formatting()}
-        <br/><br/>
-        <label for="time" class="armhint">${_("Date of the milestone")}</label>
-        <input name="time" id="time" class="armlabel long" value="${c.milestone.time and c.milestone.time.strftime("%d.%m.%Y") or 'Undefined'}" />
+        <br/>
+        <label for="time">${_("Date of the milestone")}</label>
+        <input name="time" id="time" 
+               value="${c.milestone.time and c.milestone.time.strftime('%d.%m.%Y') or 'Undefined'}" />
         <span class="hint">${_("Please use the DD.MM.YYYY format.")}</span>
-        </div>
-    
-    <div style="clear:both;"></div>
-    
-    <div class="mainbar">
-        ${components.savebox("/milestone/%s" % c.milestone.id)}
+        <br/>
+        <br/>
+        <lable for="category" class="">
+            ${_('Category')}
+        </lable>
+        %if c.categories:
+        <select id="category" name="category">
+            <option value="">
+                ${_('No Category')}
+            </option>
+            %for category in c.categories:
+            <option class="ttip" title="${category.description}" value="${category.id}"
+                    ${'selected="selected"' if c.milestone.category == category else ''}>
+                ${category.title}
+            </option>
+            %endfor
+        </select>
+        %endif
+        <br/>
+        <br/>
+
+    <div class="input_wrapper">
         ${components.form_watch(c.milestone)}
     </div>
+    
+    <div class="input_wrapper submit">
+        ${components.savebox("/milestone/%s" % c.milestone.id)}
+    </div>
 </form>
+</div>
 </%block>

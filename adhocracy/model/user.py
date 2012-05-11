@@ -41,6 +41,8 @@ user_table = Table('user', meta.data,
 
 class User(meta.Indexable):
 
+    IMPORT_MARKER = 'i__'
+
     def __init__(self, user_name, email, password, locale, display_name=None,
                  bio=None):
         self.user_name = user_name
@@ -303,7 +305,7 @@ class User(meta.Indexable):
 
     def delete(self, delete_time=None):
         from watch import Watch
-        
+
         if delete_time is None:
             delete_time = datetime.utcnow()
         self.revoke_delegations()

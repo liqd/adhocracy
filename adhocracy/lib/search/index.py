@@ -1,19 +1,32 @@
 import hashlib
 import logging
 
-from solr import SolrConnection  # == solrpy
+from httplib2 import Http
+from sunburnt import SolrInterface
 
 from adhocracy import model
 from adhocracy.model import refs
 
 log = logging.getLogger(__name__)
+SKIP = 'skip'
+ADD = 'add'
+DELETE = 'delete'
+IGNORE = 'ignore'
 
 
-def get_connection():
+def get_sunburnt_connection():
     from pylons import config
-    solr_url = config.get('adhocracy.solr.url', 'http://localhost:8983/solr')
-    #log.debug('Connecting to Solr at %s...' % solr_url)
-    return SolrConnection(solr_url)
+    from pylons import tmpl_context as c
+    if not c.sunburnt_connection:
+        solr_url = config.get('adhocracy.solr.url',
+                              'http://localhost:8983/solr/')
+        solr_url = solr_url.strip()
+        if not solr_url.endswith('/'):
+            solr_url = solr_url + '/'
+        http_connection = Http()
+        c.sunburnt_connection = SolrInterface(solr_url,
+                                              http_connection=http_connection)
+    return c.sunburnt_connection
 
 
 def gen_id(entity):
@@ -21,49 +34,46 @@ def gen_id(entity):
     return hashlib.sha1(ref).hexdigest()
 
 
-def update(entity, connection=None, commit=True):
-    if not isinstance(entity, model.meta.Indexable):
+def update(entity):
+    (action, data) = get_update_information(entity)
+    if action == IGNORE:
         return
-    if hasattr(entity, 'is_deleted') and entity.is_deleted():
-        delete(entity)
-        return
-    index = entity.to_index()
-    index['id'] = gen_id(entity)
-    if index.get('skip', False):
-        return
-    else:
-        del index['skip']
-    if connection:
-        conn = connection
-    else:
-        conn = get_connection()
+
+    connection = get_sunburnt_connection()
     try:
-        conn.add(**index)
-        if commit:
-            conn.commit()
+        if action == ADD:
+            connection.add(data)
+        elif action in (DELETE, SKIP):
+            connection.delete(data)
+        connection.commit()
     except Exception, e:
         log.exception(e)
-    finally:
-        if not connection:
-            conn.close()
+
+
+def get_update_information(entity):
+    if not isinstance(entity, model.meta.Indexable):
+        return (IGNORE, None)
+    if hasattr(entity, 'is_deleted') and entity.is_deleted():
+        return (DELETE, gen_id(entity))
+    data = entity.to_index()
+    data['id'] = gen_id(entity)
+    if data.pop('skip', False):
+        return (SKIP, data['id'])
+    return (ADD, data)
 
 
 def delete(entity):
-    conn = get_connection()
+    connection = get_sunburnt_connection()
     try:
         index_id = gen_id(entity)
-        conn.delete_query('+id:%s' % index_id)
-        conn.commit()
+        connection.delete(index_id)
+        connection.commit()
     except Exception, e:
         log.exception(e)
-    finally:
-        conn.close()
 
 
 def clear():
-    conn = get_connection()
-    try:
-        conn.delete_query('*:*')
-        conn.commit()
-    finally:
-        conn.close()
+    connection = get_sunburnt_connection()
+    connection.delete_all()
+    connection.commit()
+    connection.close()

@@ -46,9 +46,11 @@ def get_entity_or_abort(cls, id, instance_filter=True, **kwargs):
 
 # File system related functions:
 
-def get_site_directory():
-    rel = config.get('adhocracy.site.dir',
-                     os.path.join(config.get('here'), 'site'))
+def get_site_directory(app_conf=None):
+    if app_conf is None:
+        app_conf = config
+    rel = app_conf.get('adhocracy.site.dir',
+                     os.path.join(app_conf.get('here'), 'site'))
     site_directory = os.path.abspath(rel)
     if not os.path.exists(site_directory):
         os.makedirs(site_directory)
@@ -70,8 +72,9 @@ def compose_path(basedir, *a):
     return path
 
 
-def get_site_path(*a):
-    return compose_path(get_site_directory(), *a)
+def get_site_path(*a, **kwargs):
+    app_conf = kwargs.get('app_conf')
+    return compose_path(get_site_directory(app_conf=app_conf), *a)
 
 
 def get_path(*a):
@@ -83,8 +86,9 @@ def get_path(*a):
     return path
 
 
-def create_site_subdirectory(*a):
-    path = get_site_path(*a)
+def create_site_subdirectory(*a, **kwargs):
+    app_conf = kwargs.get('app_conf')
+    path = get_site_path(*a, app_conf=app_conf)
     if not os.path.exists(path):
         os.makedirs(path)
     return path

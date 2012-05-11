@@ -17,13 +17,24 @@ def tt_get_admin():
 
 
 def tt_get_instance():
+    '''
+    Return the "default" instance and set it as the current thread
+    local instance for ifilter/c.instance
+    '''
     instance = model.Instance.find(u"test")
     if not instance:
-        instance = model.Instance(u"test", u"foo schnasel", tt_make_user())
-        model.meta.Session.add(instance)
-        model.meta.Session.flush()
-    # shouldn't setup_threads instance be returned if available?
+        tt_make_instance(u"test", u"foo schnasel")
     model.instance_filter.setup_thread(instance)
+    return instance
+
+
+def tt_make_instance(key, label, creator=None):
+    if creator == None:
+        creator = tt_make_user()
+    instance = model.Instance(key, label, creator)
+    model.meta.Session.add(instance)
+    model.meta.Session.flush()
+    # shouldn't setup_threads instance be returned if available?
     return instance
 
 

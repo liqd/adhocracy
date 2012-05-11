@@ -7,6 +7,7 @@ __description__ = 'The Adhocracy client python package.'
 __license__ = 'BSD'
 
 import base64
+import json
 import logging
 import urllib
 import urllib2
@@ -200,7 +201,7 @@ class AdhocracyClient(object):
         self.reset()
         url = self.get_location('page', entity_id=page.get('id'),
                                 variant=variant, format=None)
-        self.open_url(url, method='PUT', data=proposal)
+        self.open_url(url, method='PUT', data=page)
         return self.last_message
 
     def page_delete(self, id):
@@ -234,17 +235,9 @@ class AdhocracyClient(object):
     #    return self.last_message
 
     def __dumpstr(self, data):
-        try:  # since python 2.6
-            import json
-        except ImportError:
-            import simplejson as json
         return json.dumps(data)
 
     def __loadstr(self, string):
-        try:  # since python 2.6
-            import json
-        except ImportError:
-            import simplejson as json
         return json.loads(string)
 
 

@@ -1,5 +1,3 @@
-import simplejson
-from datetime import datetime
 import rfc822
 import hashlib
 
@@ -10,6 +8,7 @@ from pylons.controllers.util import abort, redirect
 import geojson
 
 from adhocracy import model
+from adhocracy.lib.helpers import json_dumps
 
 import tiles
 import text
@@ -68,14 +67,6 @@ def render_def(template_name, def_name, extra_vars=None, cache_key=None,
                            cache_expire=cache_expire, **extra_vars)
 
 
-def _json_entity(o):
-    if isinstance(o, datetime):
-        return o.isoformat() + "Z"
-    if hasattr(o, 'to_dict'):
-        return o.to_dict()
-    raise TypeError("This is not serializable: " + repr(o))
-
-
 def ret_success(message=None, category=None, entity=None, code=200,
                 format='html'):
     return ret_status('OK', message=message, category=category, entity=entity,
@@ -114,8 +105,7 @@ def ret_json_status(type_, message, code=200):
 def render_json(data, encoding='utf-8'):
     response.content_type = 'text/javascript'
     response.content_encoding = encoding
-    return simplejson.dumps(data, default=_json_entity,
-                            encoding=encoding, indent=4)
+    return json_dumps(data, encoding=encoding)
 
 def render_geojson(data, encoding='utf-8'):
     response.content_type = 'application/json'

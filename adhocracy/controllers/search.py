@@ -6,7 +6,6 @@ from pylons import tmpl_context as c
 from pylons.decorators import validate
 from pylons.i18n import _
 
-from adhocracy.forms.search import SearchQueryForm
 from adhocracy.lib import search as libsearch, sorting, tiles
 from adhocracy.lib.auth import require
 from adhocracy.lib.base import BaseController
@@ -15,6 +14,12 @@ from adhocracy.lib.templating import render
 from adhocracy.model import Comment
 
 log = logging.getLogger(__name__)
+
+
+class SearchQueryForm(formencode.Schema):
+    allow_extra_fields = True
+    serp_q = formencode.validators.String(max=255, min=1, if_empty="",
+                                          if_missing="", not_empty=False)
 
 
 class SearchController(BaseController):
