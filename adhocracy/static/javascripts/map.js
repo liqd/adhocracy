@@ -445,10 +445,10 @@ function addMultiBoundaryLayer(map, layers, resultList) {
         {styles: [0,1,0,0,0,0]},
         {styles: [0,1,0,0,0,0]},
         {styles: [0,1,0,0,0,0]},
-        {styles: [0,1,0,1,1,0]}, //8
-        {styles: [0,1,0,1,1,0]},
-        {styles: [0,0,0,1,1,1]},
-        {styles: [0,0,0,1,1,1]},
+        {styles: [0,1,0,1,0,0]}, //8
+        {styles: [0,1,0,1,0,0]},
+        {styles: [0,0,0,1,1,0]},
+        {styles: [0,0,0,1,1,0]},
         {styles: [0,0,0,1,1,1]}, //12
         {styles: [0,0,0,1,1,1]},
         {styles: [0,0,0,1,1,1]},
@@ -480,7 +480,7 @@ function addMultiBoundaryLayer(map, layers, resultList) {
                     //make townHalls invisible
                     for (k=0; k<townHallLayer.features.length; k++) {
                         var feature = townHallLayer.features[k];
-                        if (!listHasFeature(resultList[inputValue],feature)) {
+                        if (resultList[inputValue] && !listHasFeature(resultList[inputValue],feature)) {
                             if (feature.attributes.admin_level == adminLevels[i]) {
                                 feature.style = styleTransparentProps;
                                 townHallLayer.drawFeature(feature,styleTransparentProps);
@@ -491,7 +491,7 @@ function addMultiBoundaryLayer(map, layers, resultList) {
                     //make townHalls visible
                     for (k=0; k<townHallLayer.features.length; k++) {
                         var feature = townHallLayer.features[k];
-                        if (!listHasFeature(resultList[inputValue],feature)) {
+                        if (resultList[inputValue] && !!listHasFeature(resultList[inputValue],feature)) {
                             if (feature.attributes.admin_level == adminLevels[i]) {
                                 feature.style = styleProps;
                                 townHallLayer.drawFeature(feature,styleProps);
