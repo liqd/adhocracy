@@ -18,7 +18,7 @@ class TestBadgeController(TestController):
                           u'#ccc', u'description ü')
 
     def test_to_dict(self):
-        from adhocracy.model import CategoryBadge, Instance, meta
+        from adhocracy.model import CategoryBadge, Instance
         instance = Instance.find('test')
         badge = CategoryBadge.create(u'badge', u'#ccc', u'description',
                                      instance=instance)
@@ -31,9 +31,6 @@ class TestBadgeController(TestController):
                     'instance': instance.id}
         expected = sorted(expected.items())
         self.assertEqual(result, expected)
-        #cleanup
-        meta.Session.delete(badge)
-        meta.Session.commit()
 
     def test_get_all_badgets(self):
         #setup
@@ -87,8 +84,6 @@ class TestUserController(TestController):
         # references on the badged user
         self.assertEqual(badged_user.badges, [badge])
         self.assertEqual(badged_user.badges[0].users, [badged_user])
-        meta.Session.delete(badge)
-        meta.Session.commit()
 
     def test_remove_badge_from_user(self):
         from adhocracy.model import meta, UserBadges
@@ -98,8 +93,6 @@ class TestUserController(TestController):
         self.assertEqual(badged_user.badges, [])
         self.assertEqual(badge.users, [])
         self.assertEqual(meta.Session.query(UserBadges).count(), 0)
-        meta.Session.delete(badge)
-        meta.Session.commit()
 
     def test_remove_user_from_badge(self):
         from adhocracy.model import meta, UserBadges
@@ -109,16 +102,11 @@ class TestUserController(TestController):
         self.assertEqual(badge.users, [])
         self.assertEqual(badged_user.badges, [])
         self.assertEqual(meta.Session.query(UserBadges).count(), 0)
-        meta.Session.delete(badge)
-        meta.Session.commit()
 
     def test_to_dict(self):
-        from adhocracy.model import meta
         creator, badged_user, badge = self._make_one()
         result = badge.to_dict()
         self.assert_(result['users'] == [u'badged_user'])
-        meta.Session.delete(badge)
-        meta.Session.commit()
 
 
 class TestDelegateableController(TestController):
@@ -150,8 +138,6 @@ class TestDelegateableController(TestController):
         self.assert_(delegateable.badges[0].delegateables \
                         == badge.delegateables \
                         == [delegateable])
-        meta.Session.delete(badge)
-        meta.Session.commit()
 
     def test_remove_badge_from_delegateable(self):
         #setup
@@ -163,8 +149,6 @@ class TestDelegateableController(TestController):
         self.assert_(delegateable.badges == [])
         self.assert_(badge.delegateables == [])
         self.assert_(meta.Session.query(DelegateableBadges).count() == 0)
-        meta.Session.delete(badge)
-        meta.Session.commit()
 
     def test_remove_delegateable_from_badge(self):
         #setup
@@ -176,5 +160,3 @@ class TestDelegateableController(TestController):
         self.assert_(badge.delegateables == [])
         self.assert_(delegateable.badges == [])
         self.assert_(meta.Session.query(DelegateableBadges).count() == 0)
-        meta.Session.delete(badge)
-        meta.Session.commit()
