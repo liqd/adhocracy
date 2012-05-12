@@ -26,7 +26,7 @@ from webtest import TestApp
 from adhocracy.lib.app_globals import Globals
 from adhocracy.model import Group, Instance, meta
 from adhocracy.tests.testtools import tt_make_user
-
+from adhocracy.websetup import _setup
 
 # --[ load default database and create a root transaction to roll back to ]-
 
@@ -52,7 +52,8 @@ def create_simple_session():
 connection = create_simple_session()
 
 # Invoke websetup with the current config file
-SetupCommand('setup-app').run([config['__file__']])
+
+_setup(config)
 
 # create a root transaction we can use to roll back the commits
 # done during the tests.
