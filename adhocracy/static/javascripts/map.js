@@ -1287,11 +1287,11 @@ function instanceSearch(state, resultList) {
     var stopAutocompletion = false;
     var currentSearch;
     function querySearchResult() {
+        stopAutocompletion = true;
         var request_term = $( "#instances" ).val();
         if (!currentSearch || currentSearch != request_term) {
             currentSearch = request_term;
             if (request_term.length > 2 && request_term != "Enter zip code or region") {
-                stopAutocompletion = true;
                 $( "#instances" ).autocomplete("close");
                 $.ajax({
                     beforeSend: function(jqXHR, settings) {
@@ -1324,12 +1324,10 @@ function instanceSearch(state, resultList) {
                         });
                         currentSearch = undefined;
                         showSearchResult();
-                        stopAutocompletion = false;
                     },
                     error: function(xhr,err) {
                         currentSearch = undefined;
                         $('#instances').removeClass('ui-autocomplete-loading');
-                        stopAutocompletion = false;
                         //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
                         //alert('No response from server, sorry. Error: '+err);
                     }
@@ -1385,13 +1383,10 @@ function instanceSearch(state, resultList) {
         }
     }
 
-    var config_waitForMoreInput = false;
-    var stopQuery = false;
     $( "#instances" ).keypress(function(event) {
-        if ( !stopQuery && (event.which == 13 || event.which == 10)) {
+        if ( event.which == 13 || event.which == 10 ) {
             querySearchResult();
         }
-        stopQuery = false;
     });
 
     $('#search_button').click(querySearchResult);
@@ -1402,37 +1397,38 @@ function instanceSearch(state, resultList) {
 //    }
 
     $( "#instances" ).autocomplete({
+        search: function(event, ui) {
+            stopAutocompletion = false;
+        },
         source: function( request, response ) {
-        $.ajax({
-            url: "/autocomplete_instances.json",
-            dataType: "jsonp",
-            data: {
-//                max_rows: 5,
-//                offset: offset,
-                name_contains: request.term
-            },
-            success: function( data ) {
-                if (!stopAutocompletion) {
-                    response( $.map(data.search_result, function ( item ) {
-                        return {
-                            label: item.name,
-                            value: item.name
-                        }
-                    }));
+            $.ajax({
+                url: "/autocomplete_instances.json",
+                dataType: "jsonp",
+                data: {
+//                    max_rows: 5,
+//                    offset: offset,
+                    name_contains: request.term
+                },
+                success: function( data ) {
+                    if (!stopAutocompletion) {
+                        response( $.map(data.search_result, function ( item ) {
+                            return {
+                                label: item.name,
+                                value: item.name
+                            }
+                        }));
+                    }
                 }
-            }
-        });
-    },
-    minLength: 2,
-    select: function(event, ui) {
-        if (config_waitForMoreInput) stopQuery = true;
-                                },
-    open: function() {
-        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-    },
-    close: function() {
-       $( "#instances" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-    }
+            });
+        },
+        minLength: 2,
+        open: function() {
+            $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+        },
+        close: function() {
+           $( "#instances" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+        }
+
   });
 }
 
