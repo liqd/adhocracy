@@ -1,6 +1,11 @@
 Test basic functionality in the page root
 =========================================
 
+Make (reasonably) sure that we have a clean environment::
+
+    >>> model.User.all()
+    [<User(1,admin)>]
+
 Call the root
 
    >>> browser.open(app_url)
@@ -16,8 +21,3 @@ We have a login link on the start page
     <Control name='login' type='text'>
     >>> browser.getControl(name='password')
     <Control name='password' type='password'>
-
-Break the following tests::
-
-#   >>> testtools.tt_make_user('voter')
-#   <User(2,voter)>

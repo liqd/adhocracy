@@ -1,14 +1,12 @@
 """Helper classes to allow function testing with a testbrowser"""
 
-import os.path
-from paste.deploy import loadapp
-
 from pylons import config
 from pylons.test import pylonsapp
 from repoze.tm import TM
 import zope.testbrowser.wsgi
 
-import adhocracy
+from adhocracy.model import meta
+from adhocracy import tests
 
 adhocracy_domain = config.get('adhocracy.domain').strip()
 app_url = "http://%s" % adhocracy_domain
@@ -45,13 +43,12 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
     """Layer to setup the WSGI app"""
 
     def make_wsgi_app(self):
-        config_path = os.path.join(adhocracy.__path__[0] + '/..' + '/test.ini')
-        app = loadapp('config:' + config_path)
-        # app = pylonsapp
+        app = pylonsapp
         app = zope.testbrowser.wsgi.AuthorizationMiddleware(app)
         app = TM(app)
         zope.testbrowser.wsgi._allowed.add(adhocracy_domain)
         zope.testbrowser.wsgi._allowed_2nd_level.add(adhocracy_domain)
+
         return app
 
     def setUp(test, *args, **kwargs):
@@ -60,10 +57,14 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
             "\n--- Setting up database test environment, please stand by. ---"
             "\n--------------------------------------------------------------"
             "\n")
+        meta.Session.rollback()
+        tests.root_transaction.rollback()
+
         #TODO start solr and co
 
     def tearDown(self, test):
-        pass
+        meta.Session.rollback()
+        tests.root_transaction.rollback()
 
 
 ADHOCRACY_LAYER = AdhocracyAppLayer()
