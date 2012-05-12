@@ -71,18 +71,23 @@ def memoize(iden, time=0):
         from adhocracy.lib.cache.util import NoneResult
 
         def new_fn(*a, **kw):
-            if not app_globals.cache:
+            try:
+                cache = app_globals.cache
+            except TypeError:
+                # Probably in tests
+                cache = None
+            if not cache:
                 res = fn(*a, **kw)
             else:
                 key = make_key(iden, a, kw)
-                res = app_globals.cache.get(key)
+                res = cache.get(key)
                 if res is None:
                     res = fn(*a, **kw)
                     #print "Cache miss", key + iden
                     if res is None:
                         res = NoneResult
                     #print "Cache set:", key + iden
-                    app_globals.cache.set(key, res, time=time)
+                    cache.set(key, res, time=time)
                     tag_fn(key, a, kw)
                 #else:
                     #print "Cache hit", key + iden
