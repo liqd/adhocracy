@@ -1030,7 +1030,7 @@ function loadSelectInstanceMap(layers, resultList) {
             src = '/images/map_resize_rec_minus.png';
         }
         var img = $('<img>', { src: src,
-                               alt: 'toggle size'
+                               alt: '+'
                              });
         $('.arrow').empty();
         $('.arrow').append(img);
