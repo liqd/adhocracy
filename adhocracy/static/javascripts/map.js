@@ -1285,50 +1285,56 @@ function instanceSearch(state, resultList) {
     }
 
     var stopAutocompletion = false;
+    var currentSearch;
     function querySearchResult() {
         var request_term = $( "#instances" ).val();
-        if (request_term.length > 2 && request_term != "Enter zip code or region") {
-            stopAutocompletion = true;
-            $( "#instances" ).autocomplete("close");
-            $.ajax({
-                beforeSend: function(jqXHR, settings) {
-                    $('#instances').addClass('ui-autocomplete-loading');
-                    return true;
-                },
-                url: 'find_instances.json',
-                dataType: "jsonp",
-                data: {
-                    name_contains: request_term
-                },
-                success: function(data) {
-                    $('#instances').removeClass('ui-autocomplete-loading');
-                    resultList[request_term] = $.map( data.search_result, function( item ) {
-                        var feature = getFeature(item.admin_center);
-                        return {
-                            instance_id: item.instance_id,
-                            region_id: item.region_id,
-                            label: item.name,
-                            url: item.url,
-                            value: item.name,
-                            num_proposals: item.num_proposals,
-                            num_papers: item.num_papers,
-                            num_members: item.num_members,
-                            create_date: item.create_date,
-                            bbox: item.bbox,
-                            admin_center: feature,
-                            is_in: item.is_in
-                        }
-                    });
-                    showSearchResult();
-                    stopAutocompletion = false;
-                },
-                error: function(xhr,err){
-                    $('#instances').removeClass('ui-autocomplete-loading');
-                    stopAutocompletion = false;
-                    //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
-                    //alert('No response from server, sorry. Error: '+err);
-                }
-            });
+        if (!currentSearch || currentSearch != request_term) {
+            currentSearch = request_term;
+            if (request_term.length > 2 && request_term != "Enter zip code or region") {
+                stopAutocompletion = true;
+                $( "#instances" ).autocomplete("close");
+                $.ajax({
+                    beforeSend: function(jqXHR, settings) {
+                        $('#instances').addClass('ui-autocomplete-loading');
+                        return true;
+                    },
+                    url: 'find_instances.json',
+                    dataType: "jsonp",
+                    data: {
+                        name_contains: request_term
+                    },
+                    success: function(data) {
+                        $('#instances').removeClass('ui-autocomplete-loading');
+                        resultList[request_term] = $.map( data.search_result, function( item ) {
+                            var feature = getFeature(item.admin_center);
+                            return {
+                                instance_id: item.instance_id,
+                                region_id: item.region_id,
+                                label: item.name,
+                                url: item.url,
+                                value: item.name,
+                                num_proposals: item.num_proposals,
+                                num_papers: item.num_papers,
+                                num_members: item.num_members,
+                                create_date: item.create_date,
+                                bbox: item.bbox,
+                                admin_center: feature,
+                                is_in: item.is_in
+                            }
+                        });
+                        currentSearch = undefined;
+                        showSearchResult();
+                        stopAutocompletion = false;
+                    },
+                    error: function(xhr,err) {
+                        currentSearch = undefined;
+                        $('#instances').removeClass('ui-autocomplete-loading');
+                        stopAutocompletion = false;
+                        //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
+                        //alert('No response from server, sorry. Error: '+err);
+                    }
+                });
+            }
         }
     }
 
