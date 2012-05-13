@@ -13,7 +13,7 @@ The db has to be initialized with UTF8 character encoding.
 # sudo -u postgres createdb -E UTF8 -O ${username} ${dbname}
 # sudo -u postgres createuser ${username}
 
-Copy the files to a playe where postgres user can read (i.e. /tmp)
+Copy the files to a place where postgres user can read (i.e. /tmp)
 # cp create-imposm-db.sh /tmp
 # imposm --read /tmp/germany.osm.pbf
 # sudo -u postgres bash src/adhocracy/scripts/create-imposm-db.sh
