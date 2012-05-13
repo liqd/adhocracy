@@ -1,5 +1,8 @@
 """Helper classes to allow function testing with a testbrowser"""
 
+from lxml import etree
+from lxml.cssselect import CSSSelector
+
 from pylons import config
 from pylons.test import pylonsapp
 from repoze.tm import TM
@@ -38,6 +41,19 @@ class Browser(zope.testbrowser.wsgi.Browser):
     @property
     def status(self):
         return self.headers['Status']
+
+    def etree(self):
+        '''
+        return an lxml.etree from the contents.
+        '''
+        return etree.fromstring(self.contents)
+
+    def cssselect(self, selector):
+        cssselector = CSSSelector(selector)
+        return cssselector(self.etree())
+
+    def xpath(self, selector):
+        return self.etree().xpath(selector)
 
 
 class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
