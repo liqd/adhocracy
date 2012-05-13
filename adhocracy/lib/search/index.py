@@ -15,7 +15,6 @@ ADD = 'add'
 DELETE = 'delete'
 IGNORE = 'ignore'
 
-MARKER = object()
 
 def get_sunburnt_connection():
     try:
@@ -27,7 +26,7 @@ def get_sunburnt_connection():
         c.sunburnt_connection = make_connection()
     return c.sunburnt_connection
 
-    
+
 def make_connection():
     solr_url = config.get('adhocracy.solr.url',
                           'http://localhost:8983/solr/')
