@@ -21,3 +21,9 @@ We have a login link on the start page
     <Control name='login' type='text'>
     >>> browser.getControl(name='password')
     <Control name='password' type='password'>
+
+And an rss link
+
+    >>> browser.open(app_url)
+    >>> browser.xpath("//link[@href='http://test.lan/feed.rss']")
+    [<Element link at ...>]
