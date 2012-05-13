@@ -75,7 +75,8 @@ setup(
                  'repoze.tm2',
                  'nose',
                  'nose-cov',
-                 'nose-exclude']
+                 'nose-exclude',
+                 'decorator']
     },
     package_data={'adhocracy': ['i18n/*/LC_MESSAGES/*.mo']},
     message_extractors={'adhocracy': [

@@ -12,8 +12,10 @@ To guarantee test isolation make sure to use TestCaseBase.setUp() and
 """
 from unittest import TestCase
 
+from decorator import decorator
+from nose.plugins.skip import SkipTest
 from paste.deploy import loadapp
-from paste.script.appinstall import SetupCommand
+from paste.deploy.converters import asbool
 
 import pylons
 from pylons import config, url
@@ -24,11 +26,11 @@ from webtest import TestApp
 
 
 from adhocracy.lib.app_globals import Globals
-from adhocracy.model import Group, Instance, meta
-from adhocracy.tests.testtools import tt_make_user
+from adhocracy.model import Instance, meta
 from adhocracy.websetup import _setup
 
 # --[ load default database and create a root transaction to roll back to ]-
+
 
 def create_simple_session():
     '''
@@ -136,6 +138,28 @@ def _unregister_instance():
     """
     from adhocracy.model import instance_filter
     instance_filter.teardown_thread()
+
+
+def is_integrationtest():
+    '''
+    Raise SkipTest if external services required by adhocracy
+    are not present.
+    '''
+    if not asbool(config.get('run_integrationtests', 'false')):
+        raise SkipTest('This Test needs all services adhocracy depends on. '
+                       'If they are running and configured in test.ini '
+                       'enable the tests there with '
+                       '"run_integrationtests = true".')
+
+
+@decorator
+def integrationtest(func, *args, **kwargs):
+    '''
+    Decorator for tests that require external services like
+    solr or rabbitmq.
+    '''
+    is_integrationtest()
+    return func(*args, **kwargs)
 
 
 environ = {}
