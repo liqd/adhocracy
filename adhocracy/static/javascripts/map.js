@@ -187,11 +187,15 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
             var index = initialProposals.indexOf(feature.fid);
 
             if (index >= 0) {
-                var letter = String.fromCharCode(index+97);
-                this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
-                $('#result_list_marker_'+feature.fid).attr('alt', letter).addClass('marker_'+letter);
-            
-                return true;
+                if (index < 10) {
+                    var letter = String.fromCharCode(index+97);
+                    this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
+                    $('#result_list_marker_'+feature.fid).attr('alt', letter).addClass('marker_'+letter);
+                    return true;
+                } else {
+                    $('#result_list_marker_'+feature.fid).attr('alt', index).addClass('bullet_marker');
+                    return false;
+                }
             } else {
                 return false;
             }
@@ -452,10 +456,10 @@ function addMultiBoundaryLayer(map, layers, resultList) {
         {styles: [0,1,0,0,0,0]},
         {styles: [0,1,0,0,0,0]},
         {styles: [0,1,0,0,0,0]},
-        {styles: [0,1,0,1,1,0]}, //8
-        {styles: [0,1,0,1,1,0]},
-        {styles: [0,0,0,1,1,1]},
-        {styles: [0,0,0,1,1,1]},
+        {styles: [0,1,0,1,0,0]}, //8
+        {styles: [0,1,0,1,0,0]},
+        {styles: [0,0,0,1,1,0]},
+        {styles: [0,0,0,1,1,0]},
         {styles: [0,0,0,1,1,1]}, //12
         {styles: [0,0,0,1,1,1]},
         {styles: [0,0,0,1,1,1]},
@@ -487,7 +491,7 @@ function addMultiBoundaryLayer(map, layers, resultList) {
                     //make townHalls invisible
                     for (k=0; k<townHallLayer.features.length; k++) {
                         var feature = townHallLayer.features[k];
-                        if (!listHasFeature(resultList[inputValue],feature)) {
+                        if (!resultList[inputValue] || !listHasFeature(resultList[inputValue],feature)) {
                             if (feature.attributes.admin_level == adminLevels[i]) {
                                 feature.style = styleTransparentProps;
                                 townHallLayer.drawFeature(feature,styleTransparentProps);
@@ -498,7 +502,7 @@ function addMultiBoundaryLayer(map, layers, resultList) {
                     //make townHalls visible
                     for (k=0; k<townHallLayer.features.length; k++) {
                         var feature = townHallLayer.features[k];
-                        if (!listHasFeature(resultList[inputValue],feature)) {
+                        if (!resultList[inputValue] || !listHasFeature(resultList[inputValue],feature)) {
                             if (feature.attributes.admin_level == adminLevels[i]) {
                                 feature.style = styleProps;
                                 townHallLayer.drawFeature(feature,styleProps);
@@ -758,7 +762,7 @@ function createControls(fullControls, keyboardControls) {
         mapControls.push(new OpenLayers.Control.PanZoomBar());
         mapControls.push(new OpenLayers.Control.LayerSwitcher({'ascending':false}));
         // MousePosition currently displays 900913 instead of 4236
-        mapControls.push(new OpenLayers.Control.MousePosition());
+        // mapControls.push(new OpenLayers.Control.MousePosition());
         mapControls.push(new OpenLayers.Control.Scale());
     }
     if (keyboardControls) {
@@ -999,37 +1003,37 @@ function loadSelectInstance(openlayers_url) {
   });
 }
 
-function addArrow(plus) {
-    var src = '/images/map_resize_rec_plus.png';
-    if (!plus) {
-        src = '/images/map_resize_rec_minus.png';
-    }
-    var img = $('<img>', { src: src,
-                           alt: 'toggle size'
-                         });
-    $('.arrow').empty();
-    $('.arrow').append(img);
-}
-
-function enlargeMap(event) {
-   addArrow(false); 
-   $('.arrow').click(shrankMap);
-   $('.map_wrapper').width(1000);
-   $('.map_wrapper').height(656);
-// TODO: instead to #map_startpage_wrapper rm .map_size_normal add .map_size_large
-}
-
-function shrankMap(event) {
-   addArrow(true);
-   $('.arrow').click(enlargeMap);
-   $('.map_wrapper').width(640);
-   $('.map_wrapper').height(440);
-// TODO: instead to #map_startpage_wrapper rm .map_size_large add .map_size_normal
-}
-
 function loadSelectInstanceMap(layers, resultList) {
-    var map = createMap(NUM_ZOOM_LEVELS);
 
+    function addArrow(plus) {
+        var src = '/images/map_resize_rec_plus.png';
+        if (!plus) {
+            src = '/images/map_resize_rec_minus.png';
+        }
+        var img = $('<img>', { src: src,
+                               alt: '+'
+                             });
+        $('.arrow').empty();
+        $('.arrow').append(img);
+    }
+
+    function enlargeMap(event) {
+       addArrow(false); 
+       $('.arrow').click(shrankMap);
+       $('#map_startpage_wrapper').removeClass('map_size_normal');
+       $('#map_startpage_wrapper').addClass('map_size_large');
+       map.updateSize();
+    }
+
+    function shrankMap(event) {
+       addArrow(true);
+       $('.arrow').click(enlargeMap);
+       $('#map_startpage_wrapper').addClass('map_size_normal');
+       $('#map_startpage_wrapper').removeClass('map_size_large');
+       map.updateSize();
+    }
+
+    var map = createMap(NUM_ZOOM_LEVELS);
     var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(geographic, mercator);
 
     map.addControls(createControls(true, false));
@@ -1116,7 +1120,7 @@ function instanceSearch(state, resultList) {
                              });
         } else {
             marker = $('<div>', { class: 'bullet_marker' });
-            img = $('<img>', { class: 'search_result_list_marker ullet_marker',
+            img = $('<img>', { class: 'search_result_list_marker bullet_marker',
                                src: '/images/bullet.png',
                                id: idBase + '_' + item.region_id,
                                alt: item.region_id
@@ -1262,49 +1266,55 @@ function instanceSearch(state, resultList) {
     }
 
     var stopAutocompletion = false;
+    var currentSearch;
     function querySearchResult() {
         stopAutocompletion = true;
-        $( "#instances" ).autocomplete("close");
         var request_term = $( "#instances" ).val();
-        $.ajax({
-            beforeSend: function(jqXHR, settings) {
-                $('#instances').addClass('ui-autocomplete-loading');
-                return true;
-            },
-            url: 'find_instances.json',
-            dataType: "jsonp",
-            data: {
-                name_contains: request_term
-            },
-            success: function(data) {
-                $('#instances').removeClass('ui-autocomplete-loading');
-                resultList[request_term] = $.map( data.search_result, function( item ) {
-                    var feature = getFeature(item.admin_center);
-                    return {
-                        instance_id: item.instance_id,
-                        region_id: item.region_id,
-                        label: item.name,
-                        url: item.url,
-                        value: item.name,
-                        num_proposals: item.num_proposals,
-                        num_papers: item.num_papers,
-                        num_members: item.num_members,
-                        create_date: item.create_date,
-                        bbox: item.bbox,
-                        admin_center: feature,
-                        is_in: item.is_in
+        if (!currentSearch || currentSearch != request_term) {
+            currentSearch = request_term;
+            if (request_term.length > 2 && request_term != "Enter zip code or region") {
+                $( "#instances" ).autocomplete("close");
+                $.ajax({
+                    beforeSend: function(jqXHR, settings) {
+                        $('#instances').addClass('ui-autocomplete-loading');
+                        return true;
+                    },
+                    url: 'find_instances.json',
+                    dataType: "jsonp",
+                    data: {
+                        name_contains: request_term
+                    },
+                    success: function(data) {
+                        $('#instances').removeClass('ui-autocomplete-loading');
+                        resultList[request_term] = $.map( data.search_result, function( item ) {
+                            var feature = getFeature(item.admin_center);
+                            return {
+                                instance_id: item.instance_id,
+                                region_id: item.region_id,
+                                label: item.name,
+                                url: item.url,
+                                value: item.name,
+                                num_proposals: item.num_proposals,
+                                num_papers: item.num_papers,
+                                num_members: item.num_members,
+                                create_date: item.create_date,
+                                bbox: item.bbox,
+                                admin_center: feature,
+                                is_in: item.is_in
+                            }
+                        });
+                        currentSearch = undefined;
+                        showSearchResult();
+                    },
+                    error: function(xhr,err) {
+                        currentSearch = undefined;
+                        $('#instances').removeClass('ui-autocomplete-loading');
+                        //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
+                        //alert('No response from server, sorry. Error: '+err);
                     }
                 });
-                showSearchResult();
-                stopAutocompletion = false;
-            },
-            error: function(xhr,err){
-                $('#instances').removeClass('ui-autocomplete-loading');
-                stopAutocompletion = false;
-                //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
-                //alert('No response from server, sorry. Error: '+err);
             }
-        });
+        }
     }
 
     function showSearchResult() {
@@ -1354,13 +1364,10 @@ function instanceSearch(state, resultList) {
         }
     }
 
-    var config_waitForMoreInput = false;
-    var stopQuery = false;
     $( "#instances" ).keypress(function(event) {
-        if ( !stopQuery && (event.which == 13 || event.which == 10)) {
+        if ( event.which == 13 || event.which == 10 ) {
             querySearchResult();
         }
-        stopQuery = false;
     });
 
     $('#search_button').click(querySearchResult);
@@ -1371,117 +1378,115 @@ function instanceSearch(state, resultList) {
 //    }
 
     $( "#instances" ).autocomplete({
+        search: function(event, ui) {
+            stopAutocompletion = false;
+        },
         source: function( request, response ) {
-        $.ajax({
-            url: "/autocomplete_instances.json",
-            dataType: "jsonp",
-            data: {
-//                max_rows: 5,
-//                offset: offset,
-                name_contains: request.term
-            },
-            success: function( data ) {
-                if (!stopAutocompletion) {
-                    response( $.map(data.search_result, function ( item ) {
-                        return {
-                            label: item.name,
-                            value: item.name
-                        }
-                    }));
+            $.ajax({
+                url: "/autocomplete_instances.json",
+                dataType: "jsonp",
+                data: {
+//                    max_rows: 5,
+//                    offset: offset,
+                    name_contains: request.term
+                },
+                success: function( data ) {
+                    if (!stopAutocompletion) {
+                        response( $.map(data.search_result, function ( item ) {
+                            return {
+                                label: item.name,
+                                value: item.name
+                            }
+                        }));
+                    }
                 }
-            }
-        });
-    },
-    minLength: 2,
-    select: function(event, ui) {
-        if (config_waitForMoreInput) stopQuery = true;
-                                },
-    open: function() {
-        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-    },
-    close: function() {
-       $( "#instances" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-    }
+            });
+        },
+        minLength: 2,
+        open: function() {
+            $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+        },
+        close: function() {
+           $( "#instances" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+        }
+
   });
 }
 
 var openlayers_url = $('#openlayers_url_field').val()
 if (openlayers_url != "") {
-    $.getScript(openlayers_url, function() {
-        function noPositionClicked(instanceKey) {
-            $('<a>', {
-                id: 'create_geo_button', 
-                class: 'button_small',
-                click: addGeoTagHandler 
-            }).append(document.createTextNode(LANG.add_position_text)).appendTo('#map_div');
-            $('<a/>').appendTo('#map_div');
+    function noPositionClicked(instanceKey) {
+        $('<a>', {
+            id: 'create_geo_button', 
+            class: 'button_small',
+            click: addGeoTagHandler 
+        }).append(document.createTextNode(LANG.add_position_text)).appendTo('#map_div');
+        $('<a/>').appendTo('#map_div');
 
-            $('#map').remove();
-            $('#attribution_div').remove();
-            $('#no_geo_button').remove();
-            $('#proposal_geotag_field').remove();
-            $('#remove_geo_button').remove();
-            $('#change_geo_button').remove();
-            $('#add_geo_button').remove();
-        }
+        $('#map').remove();
+        $('#attribution_div').remove();
+        $('#no_geo_button').remove();
+        $('#proposal_geotag_field').remove();
+        $('#remove_geo_button').remove();
+        $('#change_geo_button').remove();
+        $('#add_geo_button').remove();
+    }
+    
+    function addPositionClicked(instanceKey, position) {
 
-        function addPositionClicked(instanceKey, position) {
+        $('<a>', {
+            id: 'no_geo_button', 
+            class: 'button_small',
+            click: noGeoTagHandler 
+        }).append(document.createTextNode(LANG.no_position_text)).appendTo('#map_div');
+        $('<a/>').appendTo('#map_div');
 
-            $('<a>', {
-                id: 'no_geo_button', 
-                class: 'button_small',
-                click: noGeoTagHandler 
-            }).append(document.createTextNode(LANG.no_position_text)).appendTo('#map_div');
-            $('<a/>').appendTo('#map_div');
+        $('<div />', {
+           id: 'map',
+           class: 'edit_map'
+        }).appendTo('#map_div');
 
-            $('<div />', {
-               id: 'map',
-               class: 'edit_map'
-            }).appendTo('#map_div');
+        loadSingleProposalMap(openlayers_url, instanceKey, null, true, position);
 
-            loadSingleProposalMap(openlayers_url, instanceKey, null, true, position);
+        $('#create_geo_button').remove(); 
 
-            $('#create_geo_button').remove(); 
+        $('<div />', { 
+            id: 'attribution_div',
+            class: 'note_map'
+        }).appendTo('#map_div');
 
-            $('<div />', { 
-                id: 'attribution_div',
-                class: 'note_map'
-            }).appendTo('#map_div');
+        $('#attribution_div').append('&copy; ');
+        var osm_link = $('<a>', {
+            href: 'http://www.openstreetmap.org/'
+        });
+        osm_link.appendTo('#attribution_div');
+        osm_link.append(document.createTextNode('OpenStreetMap'));
+        $('#attribution_div').append(document.createTextNode('-' + LANG.osm_cartographer_text + '('));
+        var license_link = $('<a>', {
+            href: 'http://creativecommons.org/licenses/by-sa/2.0/'
+        });
+        license_link.appendTo('#attribution_div');
+        license_link.append(document.createTextNode(LANG.license_text));
+        $('#attribution_div').append(document.createTextNode(')'));
+    }
 
-            $('#attribution_div').append('&copy; ');
-            var osm_link = $('<a>', {
-                href: 'http://www.openstreetmap.org/'
-            });
-            osm_link.appendTo('#attribution_div');
-            osm_link.append(document.createTextNode('OpenStreetMap'));
-            $('#attribution_div').append(document.createTextNode('-' + LANG.osm_cartographer_text + '('));
-            var license_link = $('<a>', {
-                href: 'http://creativecommons.org/licenses/by-sa/2.0/'
-            });
-            license_link.appendTo('#attribution_div');
-            license_link.append(document.createTextNode(LANG.license_text));
-            $('#attribution_div').append(document.createTextNode(')'));
-            
-        }
+    function addGeoTagHandler(event) {
+      event.preventDefault(); 
+      addPositionClicked($('#instance_key_field').val(), null); 
+    }
 
-        function addGeoTagHandler(event) {
-          event.preventDefault(); 
-          addPositionClicked($('#instance_key_field').val(), null); 
-        }
+    function noGeoTagHandler(event) {
+      event.preventDefault();
+      noPositionClicked($('#instance_key_field').val());
+    }
 
-        function noGeoTagHandler(event) {
-          event.preventDefault();
-          noPositionClicked($('#instance_key_field').val());
-        }
+    function reloadNewProposalForm() {
+         var position = $('#proposal_geotag_field').val(); 
+         if (position != null && position != '') {
+            addPositionClicked($('#instance_key_field').val(), position);
+         }
+    }
 
-        function reloadNewProposalForm() {
-             var position = $('#proposal_geotag_field').val(); 
-             if (position != null && position != '') {
-                addPositionClicked($('#instance_key_field').val(), position);
-             }
-        }
-
-        $('#create_geo_button').click(addGeoTagHandler);
-        $('#create_geo_button').ready(reloadNewProposalForm); 
-    });
+    $('#create_geo_button').click(addGeoTagHandler);
+    $('#create_geo_button').ready(reloadNewProposalForm); 
 }
