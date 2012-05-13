@@ -6,6 +6,7 @@ from repoze.tm import TM
 import zope.testbrowser.wsgi
 
 from adhocracy.model import meta
+from adhocracy.lib.search import drop_all, rebuild_all
 from adhocracy import tests
 
 adhocracy_domain = config.get('adhocracy.domain').strip()
@@ -48,17 +49,16 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
         app = TM(app)
         zope.testbrowser.wsgi._allowed.add(adhocracy_domain)
         zope.testbrowser.wsgi._allowed_2nd_level.add(adhocracy_domain)
-
         return app
 
     def setUp(test, *args, **kwargs):
-        print(
-            "\n--------------------------------------------------------------"
-            "\n--- Setting up database test environment, please stand by. ---"
-            "\n--------------------------------------------------------------"
-            "\n")
+        # we skip this test if we don't have a full stack
+        # test environment
+        tests.is_integrationtest()
         meta.Session.rollback()
         tests.root_transaction.rollback()
+        drop_all()
+        rebuild_all()
 
         #TODO start solr and co
 
