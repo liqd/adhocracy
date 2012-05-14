@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 1.2beta2dev\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-05-02 08:48+0200\n"
+"POT-Creation-Date: 2012-05-14 13:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,14 +34,15 @@ msgstr ""
 msgid "The email address of the user."
 msgstr ""
 
+msgid "In all instances"
+msgstr ""
+
+#, python-format
+msgid "In instance \"%s\""
+msgstr ""
+
 #, python-format
 msgid "We cannot find the badge with the id %s"
-msgstr ""
-
-msgid "Add Badge"
-msgstr ""
-
-msgid "Edit Badge"
 msgstr ""
 
 msgid "Badge changed successfully"
@@ -87,18 +88,18 @@ msgstr ""
 msgid "Error %s"
 msgstr ""
 
-msgid "An index of instances run at this site. Select which ones you would like to join and participate!"
-msgstr ""
-
-msgid "tutorial_instance_show_intro"
-msgstr ""
-
 #, python-format
 msgid "%s News"
 msgstr ""
 
 #, python-format
 msgid "News from %s"
+msgstr ""
+
+msgid "An index of instances run at this site. Select which ones you would like to join and participate!"
+msgstr ""
+
+msgid "tutorial_instance_show_intro"
 msgstr ""
 
 #, python-format
@@ -334,14 +335,14 @@ msgstr ""
 msgid "Thank you, The address is already activated."
 msgstr ""
 
+msgid "The activation code is invalid. Please have it resent."
+msgstr ""
+
 #, python-format
 msgid "Welcome to %s"
 msgstr ""
 
 msgid "Your email has been confirmed."
-msgstr ""
-
-msgid "The activation code is invalid. Please have it resent."
 msgstr ""
 
 msgid "The activation link has been re-sent to your email address."
@@ -432,6 +433,9 @@ msgid "No group with ID '%s' exists"
 msgstr ""
 
 msgid "At least on character is required"
+msgstr ""
+
+msgid "You're not allowed to edit global badges"
 msgstr ""
 
 #, python-format
@@ -1304,16 +1308,28 @@ msgstr ""
 msgid "Site administration"
 msgstr ""
 
+msgid "Add user badge"
+msgstr ""
+
+msgid "Add delegateable badge"
+msgstr ""
+
+msgid "Add category badge"
+msgstr ""
+
+msgid "Edit user badge"
+msgstr ""
+
+msgid "Edit delegateable badge"
+msgstr ""
+
+msgid "Edit category badge"
+msgstr ""
+
 msgid "Badge title"
 msgstr ""
 
-msgid "The title of the badge."
-msgstr ""
-
 msgid "Badge description"
-msgstr ""
-
-msgid "A description for the badge."
 msgstr ""
 
 msgid "The color that is used to show the badge"
@@ -1337,25 +1353,10 @@ msgstr ""
 msgid "Display this group in instances instead of the normal group the user is in there."
 msgstr ""
 
-msgid "Badge Proposals?"
+msgid "Global"
 msgstr ""
 
-msgid "Badge proposals instead of users"
-msgstr ""
-
-msgid "Badge proposal category?"
-msgstr ""
-
-msgid "Badge proposal instead of user and use it as a category."
-msgstr ""
-
-msgid "All Badges"
-msgstr ""
-
-msgid "Badges of this instance"
-msgstr ""
-
-msgid "User Badges"
+msgid "Save Badge"
 msgstr ""
 
 msgid "No badges added yet."
@@ -1388,13 +1389,22 @@ msgstr ""
 msgid "no"
 msgstr ""
 
+msgid "User Badges"
+msgstr ""
+
+msgid "Add new user badge..."
+msgstr ""
+
 msgid "Proposal Badges"
+msgstr ""
+
+msgid "Add new Proposal badge..."
 msgstr ""
 
 msgid "Proposal Category Badges"
 msgstr ""
 
-msgid "Add new badge..."
+msgid "Add new Category..."
 msgstr ""
 
 msgid "Comment"
@@ -1927,10 +1937,10 @@ msgstr ""
 msgid "Edit %s"
 msgstr ""
 
-msgid "Milestone title"
+msgid "Edit milestone"
 msgstr ""
 
-msgid "New milestone"
+msgid "Milestone title"
 msgstr ""
 
 msgid "Milestone description"
@@ -1939,13 +1949,16 @@ msgstr ""
 msgid "Give a brief description of the milestone."
 msgstr ""
 
-msgid "In this milestone we will..."
-msgstr ""
-
 msgid "Date of the milestone"
 msgstr ""
 
 msgid "Please use the DD.MM.YYYY format."
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "No Category"
 msgstr ""
 
 msgid "Create a new milestone."
@@ -1954,10 +1967,29 @@ msgstr ""
 msgid "new milestone"
 msgstr ""
 
+msgid "Past Milestones"
+msgstr ""
+
 msgid "tutorial_milestones_timeline"
 msgstr ""
 
 msgid "tutorial_milestones_listing"
+msgstr ""
+
+msgid "New milestone"
+msgstr ""
+
+msgid "Informations"
+msgstr ""
+
+msgid "Created"
+msgstr ""
+
+#, python-format
+msgid "by %s on %s"
+msgstr ""
+
+msgid "Last Change"
 msgstr ""
 
 msgid "Edit this milestone."
@@ -1966,10 +1998,16 @@ msgstr ""
 msgid "Delete this milestone."
 msgstr ""
 
-msgid "Related Norms"
+msgid "Associated Proposals"
 msgstr ""
 
-msgid "Related Proposals"
+msgid "No proposals are connected to this milestone"
+msgstr ""
+
+msgid "Associated Norms"
+msgstr ""
+
+msgid "No norms are connected to this milestone"
 msgstr ""
 
 msgid "tutorial_milestone_details_follow"
@@ -2039,6 +2077,9 @@ msgid "Variant: %s"
 msgstr ""
 
 msgid "This variant has no text."
+msgstr ""
+
+msgid "Related Proposals"
 msgstr ""
 
 msgid "(supports this variant)"
@@ -2314,9 +2355,6 @@ msgstr ""
 msgid "Proposal category hint"
 msgstr ""
 
-msgid "No Category"
-msgstr ""
-
 msgid "Collaboration and Notification"
 msgstr ""
 
@@ -2418,9 +2456,6 @@ msgstr ""
 msgid "tutorial_proposal_show_propose_variant"
 msgstr ""
 
-msgid "Informations"
-msgstr ""
-
 msgid "Last Activity"
 msgstr ""
 
@@ -2433,9 +2468,6 @@ msgid "This proposal relates to the milestone %s."
 msgstr ""
 
 msgid "This proposal is not related to a milestone"
-msgstr ""
-
-msgid "Created"
 msgstr ""
 
 #, python-format
