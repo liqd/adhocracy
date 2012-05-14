@@ -71,16 +71,19 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
         # we skip this test if we don't have a full stack
         # test environment
         tests.is_integrationtest()
+
+        # roll back the db
         meta.Session.rollback()
-        tests.root_transaction.rollback()
+        meta.Session.remove()
+
+        # delete and reindex solr
         drop_all()
         rebuild_all()
 
         #TODO start solr and co
 
     def tearDown(self, test):
-        meta.Session.rollback()
-        tests.root_transaction.rollback()
+        pass
 
 
 ADHOCRACY_LAYER = AdhocracyAppLayer()

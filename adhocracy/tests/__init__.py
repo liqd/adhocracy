@@ -29,37 +29,7 @@ from adhocracy.lib.app_globals import Globals
 from adhocracy.model import Instance, meta
 from adhocracy.websetup import _setup
 
-# --[ load default database and create a root transaction to roll back to ]-
-
-
-def create_simple_session():
-    '''
-    Create a new, not scoped  global sqlalchemy session
-    and rebind it to a new root transaction to which we can roll
-    back. Otherwise :func:`adhocracy.model.init_model`
-    will create as scoped session and invalidates
-    the connection we need to begin a new root transaction.
-
-    Return: The new root `connection`
-    '''
-    from sqlalchemy import engine_from_config
-    from sqlalchemy.orm.session import Session
-
-    engine = engine_from_config(config, 'sqlalchemy.')
-    meta.engine = engine
-    connection = engine.connect()
-    meta.Session = Session(autoflush=True, bind=connection)
-    return connection
-
-connection = create_simple_session()
-
-# Invoke websetup with the current config file
-
 _setup(config)
-
-# create a root transaction we can use to roll back the commits
-# done during the tests.
-root_transaction = connection.begin()
 
 
 # --[ Mock and configure context variables used by adhocracy       ]----
@@ -176,6 +146,9 @@ class TestControllerBase(TestCase):
         cls._rollback_session()
         _unregister_instance()
 
+    def setUp(self):
+        meta.Session.remove()
+
     def tearDown(self):
         self._rollback_session()
 
@@ -195,7 +168,6 @@ class TestControllerBase(TestCase):
     @classmethod
     def _rollback_session(cls):
         meta.Session.rollback()
-        root_transaction.rollback()
 
 
 class TestController(TestControllerBase):
