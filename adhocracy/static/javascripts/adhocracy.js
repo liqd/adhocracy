@@ -694,26 +694,24 @@ var adhocracy = adhocracy || {};
      * folder is served. if not given it will be relative to the current
      * page.
      */
-    adhocracy.helpers.createSocialButtons = function (selector, tweetText, baseUrl) {
+    adhocracy.helpers.createSocialButtons = function (selector, tweetText, baseUrl, cookieDomain) {
         var elements = $(selector);
         if (elements.length > 0) {
             elements.socialSharePrivacy({
                 services : {
                     facebook: {
-                        'dummy_img': baseUrl + '/images/dummy_facebook.png',
-                        'perma_option': 'off'
+                        'dummy_img': baseUrl + '/images/dummy_facebook.png'
                     },
                     twitter : {
                         'dummy_img': baseUrl + '/images/dummy_twitter.png',
-                        'perma_option': 'off',
                         'tweet_text': tweetText
                     },
                     gplus : {
-                        'dummy_img': baseUrl + '/images/dummy_gplus.png',
-                        'perma_option': 'off'
+                        'dummy_img': baseUrl + '/images/dummy_gplus.png'
                     }
                 },
-                'css_path': ''
+                'css_path': '',
+                'cookie_domain': cookieDomain
             });
         }
     };
