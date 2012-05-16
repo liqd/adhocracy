@@ -4,9 +4,11 @@
     </div>
 </%def>
 
+
 <%def name="headline()">
 
 </%def>
+
 
 <%def name="admin_controls()">
 <div class="admin_controls">
@@ -14,12 +16,14 @@
 </div>
 </%def>
 
+
 <%def name="build_infobox()">
 <div class="info_box to_hide">
     <a class="close_button only-js">close</a>
     ${caller.body()}
 </div>
 </%def>
+
 
 <%def name="flashmessages()">
 <% messages = h.sorted_flash_messages() %>
@@ -31,6 +35,7 @@
     %endfor
 %endif
 </%def>
+
 
 <%def name="savebox(cancel_url, save_text=None, tabindex=99)">
     <div class="savebox">
@@ -57,6 +62,7 @@
         </label>
     %endif
 </%def>
+
 
 <%def name="watch(entity)">
     ## FIXME: turn into an ajax call
@@ -142,24 +148,23 @@
 </nav>
 </%def>
 
+
 <%def name="social_share_buttons(entity)">
 <%
-# need() the lib and get it's url
-from fanstatic import get_needed
-from js.socialshareprivacy import library, socialshareprivacy
-socialshareprivacy.need()
-base_url = get_needed().library_url(library)
-
-# create the tweet text
+h.need.socialshareprivacy
+base_url = h.get_socialshareprivacy_url()
 text = "%s - %s: %s" % (h.site.name(), c.instance.label, entity.title)
 %>
 <div id="socialshareprivacy"></div>
 <script type="text/javascript">
+$(document).ready(function () {
     adhocracy.helpers.createSocialButtons('#socialshareprivacy', '${text}',
     '${base_url}');
+});
 </script>
 
 </%def>
+
 
 <%def name="head()">
   <meta charset="utf-8" />
@@ -179,32 +184,20 @@ text = "%s - %s: %s" % (h.site.name(), c.instance.label, entity.title)
 
     <!-- template -->
 
-  <link rel="stylesheet" type="text/css" media="all" href="${h.base_url(None, path='/stylesheets/style.css')}" />
+    ${h.need.stylesheets}
+    ${h.need.modernizr}
+    ${h.need.jquery}
+    ${h.need.jquerytools}
+    ${h.need.label_over}
+    ${h.need.elastic}
+    ${h.need.adhocracy}
+
   <!--[if lte IE 7]>
   <link href="/stylesheets/patches/patch.css" rel="stylesheet" type="text/css" />
+  ##FIXME: convert to a fanstatic call
   <![endif]-->
 
   <link rel="icon" href="${h.base_url(None, path='/favicon.ico')}" type="image/png" />
-
-  <script type="text/javascript"
-          src="${h.base_url(None, path='/javascripts/jquery.tools.min.js')}" 
-          charset="utf-8"></script>
-  <script type="text/javascript"
-          src="${h.base_url(None, path='/javascripts/jquery.label_over.js')}" 
-          charset="utf-8"></script>
-  <script type="text/javascript"
-          src="${h.base_url(None, path='/javascripts/jquery.elastic.js')}" 
-          charset="utf-8"></script>
-  <script type="text/javascript" 
-          src="${h.base_url(None, path='/javascripts/knockout-latest.debug.js')}"></script>
-  <script type="text/javascript" 
-          src="${h.base_url(None, path='/javascripts/knockout-mapping.js')}"></script>
-    <script type="text/javascript" src="${h.base_url(None, path='/javascripts/adhocracy.js')}" charset="utf-8"></script>
-
-    <script type="text/javascript" 
-            src="${h.base_url(None, path='/javascripts/jquery.autocomplete.min.js')}"></script>
-    <link rel="stylesheet" type="text/css" media="all" 
-          href="${h.base_url(None, path='/javascripts/jquery.autocomplete.css')}" />
 
   <!-- HTML5 elements for IE -->
   <script>
@@ -233,11 +226,6 @@ text = "%s - %s: %s" % (h.site.name(), c.instance.label, entity.title)
 
     <!-- /template -->
 
-    <!--html5 support-->
-    <script type="text/javascript" 
-        src="${h.base_url(None, path='/js/modernizr.js')}"></script>
-    <!--jquery 1.4.2 and jquery plugins-->
-
     %if c.instance and c.instance.css:
         <link  rel="stylesheet" type="text/css" 
             href="${h.base_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
@@ -261,13 +249,12 @@ text = "%s - %s: %s" % (h.site.name(), c.instance.label, entity.title)
     
 </%def>
 
+
 <%def name="tutorial()">
 
 %if h.tutorial.show(c.tutorial):
-<%
-from js.jquery_joyride import joyride
-joyride.need()
-%>
+
+${h.need.joyride}
 
 ${caller.body()}
 

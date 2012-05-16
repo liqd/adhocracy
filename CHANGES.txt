@@ -8,6 +8,7 @@ adhocracy Changelog
   directory (like it's possible for static resources and static pages already.
   New templates there need a server restart to be picked up.
   [csenger]
+- Deliver (almost) all resources with fanstatic [csenger] 
 - delgateables can have category badgets [joka]
 - instances can have badgets, they are only valid inside that instance [joka]
 - added option to set the smtp port [joka]

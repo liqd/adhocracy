@@ -85,15 +85,26 @@ setup(
             ('static/**', 'ignore', None)]},
     zip_safe=False,
     paster_plugins=['PasteScript', 'Pylons'],
-    entry_points="""
-    [paste.app_factory]
-    main = adhocracy.config.middleware:make_app
-
-    [paste.paster_command]
-    background = adhocracy.lib.cli:Background
-    index = adhocracy.lib.cli:Index
-
-    [paste.app_install]
-    main = pylons.util:PylonsInstaller
-    """,
+    entry_points={
+        'paste.app_factory': [
+            'main = adhocracy.config.middleware:make_app'
+        ],
+        'paste.paster_command': [
+            'background = adhocracy.lib.cli:Background',
+            'index = adhocracy.lib.cli:Index'
+        ],
+        'paste.app_install': [
+            'main = pylons.util:PylonsInstaller'
+        ],
+        'fanstatic.libraries': [
+            'stylesheets = adhocracy.static:stylesheets_library',
+            'yaml = adhocracy.static:yaml_library',
+            'autocomplete = adhocracy.static:autocomplete_library',
+            'knockout = adhocracy.static:knockout_library',
+            'jquerytools = adhocracy.static:jquerytools_library',
+            'misc = adhocracy.static:misc_library',
+            'adhocracy = adhocracy.static:adhocracy_library',
+            'adhocracy_ko = adhocracy.static:adhocracy_ko_library'
+        ]
+    }
 )

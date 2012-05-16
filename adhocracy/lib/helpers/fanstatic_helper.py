@@ -2,7 +2,16 @@
 helper functions to work with fanstatic
 '''
 
+from js.socialshareprivacy import library
 import fanstatic
+
+
+def get_socialshareprivacy_url():
+    '''
+    call this after you need()ed socialshareprivacy!
+    Returns the url from which socialshareprivacy will be shipped.
+    '''
+    return fanstatic.get_needed().library_url(library)
 
 
 class FanstaticNeedHelper(object):
