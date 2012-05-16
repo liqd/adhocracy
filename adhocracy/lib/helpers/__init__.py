@@ -36,8 +36,7 @@ from adhocracy.lib.helpers import abuse_helper as abuse, tutorial
 from adhocracy.lib.helpers import milestone_helper as milestone
 from adhocracy.lib.helpers import recaptcha_helper as recaptcha
 from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
-                                                    get_socialshareprivacy_url,
-                                                    init_fanstatic)
+                                                    get_socialshareprivacy_url)
 from adhocracy.lib.helpers.url import build
 from adhocracy.lib.helpers.site_helper import base_url
 #from adhocracy.lib.templating import json_dumps, json_loads
