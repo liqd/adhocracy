@@ -104,6 +104,7 @@ setup(
             'jquerytools = adhocracy.static:jquerytools_library',
             'misc = adhocracy.static:misc_library',
             'adhocracy = adhocracy.static:adhocracy_library',
+            'bootstrap = adhocracy.static:bootstrap_library',
         ]
     }
 )
