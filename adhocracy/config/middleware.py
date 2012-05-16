@@ -90,5 +90,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     app = Fanstatic(app,
                     minified=not(debug),
                     versioning=True,
-                    recompute_hashes=debug)
+                    recompute_hashes=debug,
+                    bundle=not(debug)
+    )
     return app
