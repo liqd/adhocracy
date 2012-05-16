@@ -35,16 +35,6 @@ autocomplete_css = Resource(autocomplete_library, 'jquery.autocomplete.css')
 autocomplete = Group([autocomplete_js, autocomplete_css])
 
 
-# --[ knockout.js ]---------------------------------------------------------
-
-knockout_library = Library('knockoutjs', 'javascripts')
-knockout_js = Resource(knockout_library, 'knockout-latest.js',
-                       depends=[jquery])
-knockout_mapping_js = Resource(knockout_library, 'knockout-mapping.js',
-                               depends=[knockout_js])
-knockout = Group([knockout_js, knockout_mapping_js])
-
-
 # --[ jquerytools ]---------------------------------------------------------
 
 jquerytools_library = Library('jquerytools', 'javascripts')
@@ -72,8 +62,13 @@ adhocracy = Resource(adhocracy_library, 'adhocracy.js',
                      depends=[jquery])
 
 
-# --[ adhocracy.ko ]--------------------------------------------------------
+# --[ knockout ]------------------------------------------------------------
 
-adhocracy_ko_library = Library('adhocracy_ko', 'javascripts')
-adhocracy_ko = Resource(adhocracy_library, 'adhocracy.ko.js',
+knockout_library = Library('knockoutjs', 'javascripts')
+knockout_js = Resource(knockout_library, 'knockout-latest.js',
+                       depends=[jquery])
+knockout_mapping_js = Resource(knockout_library, 'knockout-mapping.js',
+                               depends=[knockout_js])
+knockout = Group([knockout_js, knockout_mapping_js])
+adhocracy_ko = Resource(knockout_library, 'adhocracy.ko.js',
                         depends=[adhocracy, knockout])
