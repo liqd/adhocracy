@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
-Extract email adresses from adhocracy. Emails from deleted users won't be
-exported.
+Import a dump file from pg_dump into the database specified
+in the <config file>.
 """
 
 # boilerplate code. copy that

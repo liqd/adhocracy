@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 """
-Extract email adresses from adhocracy. Emails from deleted users won't be
-exported.
+Drop all tables from the database specified in the <config file>
 """
 
 # boilerplate code. copy that
