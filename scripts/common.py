@@ -22,6 +22,7 @@ Cause it's probably not in the python path::
 """
 
 try:
+    import argparse
     from argparse import ArgumentParser
 except ImportError:
     print ('This script uses argparse. It is part of python 2.7/3.2\n'
@@ -30,6 +31,7 @@ except ImportError:
     exit(1)
 import os
 
+from sqlalchemy import engine_from_config
 from paste.deploy import appconfig
 
 from adhocracy.config.environment import load_environment
@@ -38,13 +40,19 @@ from adhocracy.model import Instance
 section = 'content'
 
 
-def load_config(filename, section):
-    conf = appconfig('config:%s#%s' % (os.path.abspath(filename), section))
-    load_environment(conf.global_conf, conf.local_conf)
+def config_from_args(args):
+    filename = args.file
+    section = args.section
+    return appconfig('config:%s#%s' % (os.path.abspath(filename), section))
+
+
+def load_config(config):
+    return load_environment(config.global_conf, config.local_conf)
 
 
 def load_from_args(args):
-    load_config(args.file, args.section)
+    config = config_from_args(args)
+    return load_config(config)
 
 
 def create_parser(description, use_instance=True,
@@ -78,3 +86,7 @@ def get_instances(args):
             instances.append(obj)
         return instances
     return None
+
+
+def get_engine(conf):
+    return engine_from_config(conf.local_conf)
