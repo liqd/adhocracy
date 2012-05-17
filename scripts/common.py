@@ -87,5 +87,5 @@ def get_instances(args):
     return None
 
 
-def get_engine(conf):
-    return engine_from_config(conf.local_conf)
+def get_engine(conf, echo=True):
+    return engine_from_config(conf.local_conf, echo=echo)
