@@ -25,12 +25,17 @@ def main():
     if not os.path.exists(script_path):
         parser.error('sql script "%s" does not exist.' % args.script)
 
-    # get a connection and execute the script
+    # get an engine to get the driver type and connection details.
     engine = get_engine(config_from_args(args))
     drivername = engine.url.drivername
 
     error = False
     if drivername == 'postgresql':
+        # use the psql command line script for imports.
+        # pg_dump by default emits COPY ... FROM STDIN statements
+        # which the psycopg2 driver can't handle.
+        # pg_dump can emit inserts (--inserts), but that's
+        # dead slow to import.
         vars = engine.url.__dict__.copy()
         vars['script_path'] = script_path
         command = ('psql -U {username} -h {host} -p {port} -'
