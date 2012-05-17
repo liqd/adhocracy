@@ -22,7 +22,6 @@ Cause it's probably not in the python path::
 """
 
 try:
-    import argparse
     from argparse import ArgumentParser
 except ImportError:
     print ('This script uses argparse. It is part of python 2.7/3.2\n'
@@ -57,7 +56,7 @@ def load_from_args(args):
 
 def create_parser(description, use_instance=True,
                   instance_help='Instances to consider'):
-    parser = ArgumentParser(description=__doc__)
+    parser = ArgumentParser(description=description)
     parser.add_argument("file", help="configuration file to use",
                         metavar="<config file>")
     parser.add_argument("-n", default=section, dest="section",
