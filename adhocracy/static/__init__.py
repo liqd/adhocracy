@@ -7,11 +7,12 @@ from js.socialshareprivacy import socialshareprivacy
 
 # --[ yaml ]----------------------------------------------------------------
 
-yaml_library = Library('yaml', 'yaml')
+yaml_library = Library('yaml', 'yaml', version="3.2.1")
 yaml_base = Resource(yaml_library, 'core/base.css')
 yaml_print = Resource(yaml_library, 'print/print_draft.css',
                       depends=[yaml_base])
 yaml = Group([yaml_base, yaml_print])
+
 
 # --[ twitter bootstrap ]---------------------------------------------------
 
@@ -41,18 +42,11 @@ stylesheets = Group([yaml, fonts, basemod, content, style])
 
 # --[ jquery.autocomplete ]-------------------------------------------------
 
-autocomplete_library = Library('autocomplete', 'javascripts')
+autocomplete_library = Library('autocomplete', 'javascripts', version="1.2.2")
 autocomplete_js = Resource(autocomplete_library, 'jquery.autocomplete.min.js',
                            depends=[jquery])
 autocomplete_css = Resource(autocomplete_library, 'jquery.autocomplete.css')
 autocomplete = Group([autocomplete_js, autocomplete_css])
-
-
-# --[ jquerytools ]---------------------------------------------------------
-
-jquerytools_library = Library('jquerytools', 'javascripts')
-jquerytools = Resource(jquerytools_library, 'jquery.tools.min.js',
-                       depends=[jquery])
 
 
 # --[ misc javascripts ]----------------------------------------------------
@@ -66,6 +60,8 @@ cycle = Resource(misc_library, 'jquery.multipleelements.cycle.min.js',
                  depends=[jquery])
 modernizr = Resource(misc_library, 'modernizr.js',
                      depends=[jquery])
+jquerytools = Resource(misc_library, 'jquery.tools.min.js',
+                       depends=[jquery])
 
 
 # --[ adhocracy ]-----------------------------------------------------------
@@ -73,7 +69,7 @@ modernizr = Resource(misc_library, 'modernizr.js',
 adhocracy_library = Library('adhocracy', 'javascripts')
 adhocracy = Resource(adhocracy_library, 'adhocracy.js',
                      depends=[jquery, bootstrap_js, elastic,
-                              label_over, modernizr])
+                              label_over, modernizr, jquerytools])
 
 
 # --[ knockout ]------------------------------------------------------------
