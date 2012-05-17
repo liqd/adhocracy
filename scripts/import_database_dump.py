@@ -16,14 +16,14 @@ import subprocess
 
 def main():
     parser = create_parser(description=__doc__, use_instance=False)
-    parser.add_argument('--script', default=None, required=True,
-                        help="path to the input sql script")
+    parser.add_argument('--dump', default=None, required=True,
+                        help="Path to the SQL dump file.")
     args = parser.parse_args()
 
-    # check and cleanup script
-    script_path = os.path.join(os.getcwd(), args.script)
-    if not os.path.exists(script_path):
-        parser.error('sql script "%s" does not exist.' % args.script)
+    # check and cleanup dump file
+    dump_path = os.path.join(os.getcwd(), args.dump)
+    if not os.path.exists(dump_path):
+        parser.error('SQL dump file "%s" does not exist.' % args.dump)
 
     # get an engine to get the driver type and connection details.
     engine = get_engine(config_from_args(args))
@@ -37,9 +37,9 @@ def main():
         # pg_dump can emit inserts (--inserts), but that's
         # dead slow to import.
         vars = engine.url.__dict__.copy()
-        vars['script_path'] = script_path
+        vars['dump_path'] = dump_path
         command = ('psql -U {username} -h {host} -p {port} -'
-                   'd {database} -f {script_path}').format(**vars)
+                   'd {database} -f {dump_path}').format(**vars)
         print 'Executing command: %s' % command
         if engine.url.password is not None:
             print 'Prefixing it with PGPASSWORD="<password>"'
