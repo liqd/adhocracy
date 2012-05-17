@@ -16,7 +16,7 @@ import subprocess
 
 def main():
     parser = create_parser(description=__doc__, use_instance=False)
-    parser.add_argument('--script', default=None,
+    parser.add_argument('--script', default=None, required=True,
                         help="path to the input sql script")
     args = parser.parse_args()
 
