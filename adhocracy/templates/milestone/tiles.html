@@ -8,9 +8,6 @@
                 <a class="link" href="${h.entity_url(milestone)}">
                     ${milestone.title}
                 </a>
-              %if milestone.over:
-                <span class="over">${_("(over)")}</span>
-              %endif
             </h3>
             <div class="meta noclear">
                 ${_("ends: <b>%s</b>") % milestone.time and milestone.time.strftime("%d.%m.%Y") or 'Undefined'|n} 
