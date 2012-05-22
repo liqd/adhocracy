@@ -83,8 +83,8 @@ var styleEasteregg = {
 
 /* projections */
 
-var geographic
-var mercator
+var geographic;
+var mercator;
 
 
 function createProposalLayer() {
@@ -478,8 +478,20 @@ function addMultiBoundaryLayer(map, layers, resultList) {
             case 12: case 13: case 14: case 15: return 3;
             default: case 16: case 17: case 18: case 19: return 4;
         }
+    }    
+
+    function showTownHall(style, admin_level) {
+        for (k=0; k<townHallLayer.features.length; k++) {
+            var feature = townHallLayer.features[k];
+            if (!resultList[inputValue] || !listHasFeature(resultList[inputValue],feature)) {
+                if (feature.attributes.admin_level == admin_level) {
+                    feature.style = style;
+                    townHallLayer.drawFeature(feature,style);
+                }
+            }
+        }
     }
-    
+
     var moveTo = function(bounds, zoomChanged, dragging) {
         var zoom = map.getZoom();
         if (zoom != null && zoomChanged != null) {
@@ -487,28 +499,12 @@ function addMultiBoundaryLayer(map, layers, resultList) {
             while (i<adminLevels.length) {
                 var styleChanged = displayMap[zoomChanged]['styles'][i];
                 var style = displayMap[zoom]['styles'][i];
-                if (style != styleChanged && styleChanged == 0) {
+                if ( /* style != styleChanged && */ styleChanged == 0) {
                     //make townHalls invisible
-                    for (k=0; k<townHallLayer.features.length; k++) {
-                        var feature = townHallLayer.features[k];
-                        if (!resultList[inputValue] || !listHasFeature(resultList[inputValue],feature)) {
-                            if (feature.attributes.admin_level == adminLevels[i]) {
-                                feature.style = styleTransparentProps;
-                                townHallLayer.drawFeature(feature,styleTransparentProps);
-                            }
-                        }
-                    }
-                } else if (style != styleChanged && (styleChanged == 1 || styleChanged == 2)) {
+                    showTownHall(styleTransparentProps, adminLevels[i]);
+                } else if ( /* style != styleChanged && */ (styleChanged == 1 || styleChanged == 2)) {
                     //make townHalls visible
-                    for (k=0; k<townHallLayer.features.length; k++) {
-                        var feature = townHallLayer.features[k];
-                        if (!resultList[inputValue] || !listHasFeature(resultList[inputValue],feature)) {
-                            if (feature.attributes.admin_level == adminLevels[i]) {
-                                feature.style = styleProps;
-                                townHallLayer.drawFeature(feature,styleProps);
-                            }
-                        }
-                    }
+                    showTownHall(styleProps, adminLevels[i]);
                 }
 
                 var j=0;
