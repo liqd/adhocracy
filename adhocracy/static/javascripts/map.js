@@ -25,6 +25,17 @@ $.ajaxSetup({
   cache: true
 });
 
+
+/* default map configuration */
+
+var NUM_ZOOM_LEVELS = 15;
+var RESOLUTIONS = [
+    // 156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625,
+    4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135
+    // 0.29858214169740677, 0.14929107084870338, 0.07464553542435169
+    ]
+var FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
+
 var popup;
 
 var layersWithPopup = [];
@@ -448,11 +459,11 @@ function addMultiBoundaryLayer(map, layers, resultList) {
 
     //Zoom 0 ... 19 -> 0=hidden,1=borderColor1,2=borderColor2,3=borderColor3,...]
     var displayMap = [
-        {styles: [1,0,0,0,0,0]}, //0
-        {styles: [1,0,0,0,0,0]}, 
-        {styles: [1,0,0,0,0,0]}, 
-        {styles: [1,0,0,0,0,0]},
-        {styles: [0,1,0,0,0,0]}, //4
+        //{styles: [1,0,0,0,0,0]}, //0
+        //{styles: [1,0,0,0,0,0]}, 
+        //{styles: [1,0,0,0,0,0]}, 
+        //{styles: [1,0,0,0,0,0]},
+        //{styles: [0,1,0,0,0,0]}, //4
         {styles: [0,1,0,0,0,0]},
         {styles: [0,1,0,0,0,0]},
         {styles: [0,1,0,0,0,0]},
@@ -706,15 +717,26 @@ function addRegionSelectControl(map) {
 
 function createBaseLayers(blank) {
 
+    // workaround allowing to limit zoom levels
+    // http://lists.osgeo.org/pipermail/openlayers-users//2012-January/023746.html
+    
+    var osmOptions = {
+        isBaseLayer:true,
+        displayInLayerSwitcher:true,
+        zoomOffset:5,
+        resolutions: RESOLUTIONS
+    };
+
+
     var baseLayers = [
         //default Openstreetmap Baselayer
-        new OpenLayers.Layer.OSM("Open Street Map"),
+        new OpenLayers.Layer.OSM("Open Street Map", "", osmOptions),
         new OpenLayers.Layer.OSM("Public Transport",
-                    "http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png"),
+                    "http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png", osmOptions),
         new OpenLayers.Layer.OSM("Transport Map",
-                    "http://otile1.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png"),
+                    "http://otile1.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png", osmOptions),
         new OpenLayers.Layer.OSM("&Ouml;pnv Deutschland", 
-                    "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png")
+                    "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png", osmOptions)
             ];
 
     // Blank Baselayer
@@ -726,18 +748,18 @@ function createBaseLayers(blank) {
 }
 
 
-function createMap(numZoomLevels) {
+function createMap() {
 
     geographic = new OpenLayers.Projection("EPSG:4326");
     mercator = new OpenLayers.Projection("EPSG:900913");
 
-    RESTRICTED_BOUNDS = new OpenLayers.Bounds(5, 40, 30, 60)
+    RESTRICTED_BOUNDS = new OpenLayers.Bounds(0, 40, 30, 60)
 
     return new OpenLayers.Map('map', {
         // maxExtent: new OpenLayers.Bounds(-180, -90, 180, 90),
         restrictedExtent: RESTRICTED_BOUNDS.transform(geographic, mercator),
         // maxResolution: 156543.0399,
-        numZoomLevels: numZoomLevels,
+        numZoomLevels: NUM_ZOOM_LEVELS,
         units: 'm',
         //projection: mercator,
         //displayProjection: geographic,
@@ -844,14 +866,11 @@ function createSelectControl() {
     return selectControl;
 }
 
-var NUM_ZOOM_LEVELS = 19;
-
-var FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
 
 function loadSingleProposalMap(openlayers_url, instanceKey, proposalId, edit, position) {
  $.getScript(openlayers_url, function() {
 
-    var map = createMap(NUM_ZOOM_LEVELS);
+    var map = createMap();
 
     var numFetches = 1;
     if (proposalId) {
@@ -926,7 +945,7 @@ function enableMarker(id, layer, selectControl) {
 
 function loadRegionMap(openlayers_url, instanceKey, initialProposals) {
  $.getScript(openlayers_url, function() {
-    var map = createMap(NUM_ZOOM_LEVELS);
+    var map = createMap();
 
     var waiter = createWaiter(1, function(bounds) {
         map.zoomToExtent(bounds);
@@ -957,7 +976,7 @@ function loadRegionMap(openlayers_url, instanceKey, initialProposals) {
 
 function loadOverviewMap(openlayers_url, initialInstances) {
  $.getScript(openlayers_url, function() {
-    var map = createMap(NUM_ZOOM_LEVELS);
+    var map = createMap();
 
     var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(geographic, mercator);
 
@@ -1029,7 +1048,7 @@ function loadSelectInstanceMap(layers, resultList) {
        map.updateSize();
     }
 
-    var map = createMap(NUM_ZOOM_LEVELS);
+    var map = createMap();
     var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(geographic, mercator);
 
     map.addControls(createControls(true, false));
