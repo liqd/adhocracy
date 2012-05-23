@@ -68,7 +68,7 @@ The hierarchy of region is stored in a table 'region_hierarchy'.
 
 For all regions the hierarchy table is initialized once.
 
-# insert into region_hierarchy 
+# insert into region_hierarchy (inner_id, outer_id) 
     select b.id, a.id from region a, region b where
         ST_Contains(a.boundary, b.boundary)
         AND a.id != b.id
