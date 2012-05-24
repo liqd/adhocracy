@@ -102,7 +102,7 @@ function createProposalLayer() {
 
     return new OpenLayers.Layer.Vector("proposal", {
         displayInLayerSwitcher: false, 
-        projection: geographic,
+        projection: mercator,
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
                                            'select': new OpenLayers.Style(styleSelect)}) 
     });
@@ -118,7 +118,7 @@ function fetchSingleProposal(singleProposalId, layer, callback) {
                 // assert(features.length==1);
                 var feature = features[0];
                 $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(feature));
-                feature.geometry.transform(geographic, mercator);
+//                feature.geometry.transform(geographic, mercator);
                 layer.addFeatures([feature]);
                 callback(feature);
             } else {
@@ -137,7 +137,7 @@ function createOverviewLayers() {
 
     var layer =  new OpenLayers.Layer.Vector('overview', {
         displayInLayerSwitcher: false,
-        projection: geographic,
+        projection: mercator,
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleBorder)})
     });
 
@@ -149,13 +149,13 @@ function createOverviewLayers() {
             for (i=0; i<features.length; i++) {
                 // assert(features.length==1);
                 var feature = features[0];
-                feature.geometry.transform(geographic, mercator);
+//                feature.geometry.transform(geographic, mercator);
                 layer.addFeatures([feature]);
                 //callback(feature);
                 if (feature.attributes.admin_center) {
                     var features2 = new OpenLayers.Format.GeoJSON({}).read(feature.attributes.admin_center);
                     var feature2 = features2[0];
-                    feature2.geometry.transform(geographic, mercator);
+//                    feature2.geometry.transform(geographic, mercator);
                     townHallLayer.addFeatures([feature2]);                    
                 }
             } 
@@ -171,7 +171,7 @@ function createOverviewLayers() {
 
     var townHallLayer = new OpenLayers.Layer.Vector('instance_town_hall', {
         displayInLayerSwitcher: false, 
-        projection: geographic,
+        projection: mercator,
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
                                            'select': new OpenLayers.Style(styleSelect)})
     });
@@ -220,7 +220,7 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
             url: '/instance/' + instanceKey + '/get_proposal_geotags',
             format: new OpenLayers.Format.GeoJSON()
         }),
-        projection: geographic,
+        projection: mercator,
         styleMap: new OpenLayers.StyleMap({
             'default': new OpenLayers.Style(styleProps, {rules: [
                 rule,
@@ -331,7 +331,7 @@ function addEditControls(map, layer) {
 
     function updateGeotagField() {
         var transformed_feature = layer.features[0].clone();
-        transformed_feature.geometry.transform(mercator, geographic);
+//        transformed_feature.geometry.transform(mercator, geographic);
         $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(transformed_feature));
         map.setCenter(layer.features[0].geometry.getBounds().getCenterLonLat(), 
                       map.getZoom());
@@ -371,13 +371,13 @@ function createRegionBoundaryLayer(instanceKey, callback) {
 
     var layer = new OpenLayers.Layer.Vector('instance_boundary', {
         displayInLayerSwitcher: false, 
-        projection: geographic,
+        projection: mercator,
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleBorder)}),
     })
 
     var townHallLayer = new OpenLayers.Layer.Vector('instance_town_hall', {
         displayInLayerSwitcher: false, 
-        projection: geographic,
+        projection: mercator,
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
                                            'select': new OpenLayers.Style(styleSelect)})
     })
@@ -390,13 +390,13 @@ function createRegionBoundaryLayer(instanceKey, callback) {
             if (features) {
                 // assert(features.length==1);
                 var feature = features[0];
-                feature.geometry.transform(geographic, mercator);
+//                feature.geometry.transform(geographic, mercator);
                 layer.addFeatures([feature]);
                 callback(feature);
                 if (feature.attributes.admin_center) {
                     var features2 = new OpenLayers.Format.GeoJSON({}).read(feature.attributes.admin_center);
                     var feature2 = features2[0];
-                    feature2.geometry.transform(geographic, mercator);
+//                    feature2.geometry.transform(geographic, mercator);
                     townHallLayer.addFeatures([feature2]);                    
                 }
             } else {
@@ -426,7 +426,7 @@ function createEastereggLayer() {
                             ignoreExtraDims: true
                         })
                     }),
-                    projection: geographic,
+                    projection: mercator,
                     styleMap: new OpenLayers.StyleMap({'default': styleEasteregg})
                 });
 
@@ -453,83 +453,147 @@ function listHasFeature(list, feature) {
     return false;
 }
 
-function addMultiBoundaryLayer(map, layers, resultList) {
+function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
 
     var adminLevels = [2,4,5,6,7,8];
+    var townHallTiles = new Array(adminLevels.length);
+    var i=0;
+    for (i=0;i<adminLevels.length;i++) {
+        townHallTiles[i] = new Array();
+    }
 
     //Zoom 0 ... 19 -> 0=hidden,1=borderColor1,2=borderColor2,3=borderColor3,...]
     var displayMap = [
-        //{styles: [1,0,0,0,0,0]}, //0
-        //{styles: [1,0,0,0,0,0]}, 
-        //{styles: [1,0,0,0,0,0]}, 
-        //{styles: [1,0,0,0,0,0]},
-        //{styles: [0,1,0,0,0,0]}, //4
         {styles: [0,1,0,0,0,0]},
         {styles: [0,1,0,0,0,0]},
         {styles: [0,1,0,0,0,0]},
-        {styles: [0,1,0,1,0,0]}, //8
         {styles: [0,1,0,1,0,0]},
+        {styles: [0,1,0,1,0,0]}, //4
         {styles: [0,0,0,1,1,0]},
         {styles: [0,0,0,1,1,0]},
+        {styles: [0,0,0,1,1,1]},
+        {styles: [0,0,0,1,1,1]}, //8
+        {styles: [0,0,0,1,1,1]},
+        {styles: [0,0,0,1,1,1]},
+        {styles: [0,0,0,1,1,1]},
         {styles: [0,0,0,1,1,1]}, //12
-        {styles: [0,0,0,1,1,1]},
-        {styles: [0,0,0,1,1,1]},
-        {styles: [0,0,0,1,1,1]},
-        {styles: [0,0,0,1,1,1]}, //16
-        {styles: [0,0,0,1,1,1]},
         {styles: [0,0,0,1,1,1]},
         {styles: [0,0,0,1,1,1]}
     ];
     
-    function getLayerIndex(zoomlevel) {
-        switch(zoomlevel) {
-            case 0: case 1: case 2: case 3: return 0;
-            case 4: case 5: case 6: case 7: return 1;
-            case 8: case 9: case 10: case 11: return 2;
-            case 12: case 13: case 14: case 15: return 3;
-            default: case 16: case 17: case 18: case 19: return 4;
+    function makeTiles(size, sizeLL, bounds) {
+        var xStart = Math.floor(bounds.left / sizeLL);
+        var yStart = Math.floor(bounds.bottom / sizeLL);
+        var tiles = new Array();
+        var x = xStart;
+        do {
+             var y = yStart;
+             do {
+                  tiles.push({x: x, y: y});
+                  y += 1;
+             } while ((y * sizeLL) < bounds.top);
+             x += 1;
+        } while ((x * sizeLL) < bounds.right);
+        return tiles;
+    }
+    
+    function alreadyFetched(tiles, tile) {
+        var fetch = true;
+        var i=0;
+        for (i=0; i<tiles.length; i++) {
+            if (tile.x == tiles[i].x
+                && tile.y == tiles[i].y) {
+                    fetch = false;
+            }
         }
-    }    
+        return !fetch;
+    }
 
     function showTownHall(style, admin_level) {
         for (k=0; k<townHallLayer.features.length; k++) {
             var feature = townHallLayer.features[k];
-            if (!resultList[inputValue] || !listHasFeature(resultList[inputValue],feature)) {
+//            if (!resultList[inputValue] || !listHasFeature(resultList[inputValue],feature)) {
                 if (feature.attributes.admin_level == admin_level) {
                     feature.style = style;
                     townHallLayer.drawFeature(feature,style);
                 }
-            }
+//            }
         }
     }
 
-    var moveTo = function(bounds, zoomChanged, dragging) {
+    var moveTownHallTo 
+        = function(bounds, zoomChanged, dragging ) {
+            var zoom = map.getZoom();
+            var i=0;
+            while (i<adminLevels.length) {
+                var style = displayMap[zoom]['styles'][i];
+                if (style == 0) {
+                    //make townHalls invisible
+                    showTownHall(styleTransparentProps, adminLevels[i]);
+                } else if (style == 1 || style == 2) {
+                    //fetch townHalls
+                    var tileSize = 256;
+                    var tileSizeLL = tileSize * map.getResolution();
+                    var newTiles = makeTiles(tileSize, tileSizeLL, bounds);
+                    var j=0;
+                    for (j=0; j < newTiles.length; j++) {
+                        var fetch = !alreadyFetched(townHallTiles[i], newTiles[j]);
+                        if (fetch) {
+                            townHallTiles[i].push(newTiles[j]);
+                            box = new OpenLayers.Bounds(newTiles[j].x*tileSizeLL,newTiles[j].y*tileSizeLL,
+                                                        (newTiles[j].x+1)*tileSizeLL,(newTiles[j].y+1)*tileSizeLL);
+                            //townHallLayer.addFeatures([new OpenLayers.Feature.Vector(box.toGeometry(),{})]);
+
+                            var url = '/get_admin_centers.json'
+                                                    + '?x=' + newTiles[j].x
+                                                    + '&y=' + newTiles[j].y
+                                                    + '&tileSize=' + tileSize
+                                                    + '&res=' + map.getResolution()
+                                                    + '&admin_level=' + adminLevels[i];
+                            $.ajax({
+                                url: url,
+                                success: function(data) {
+                                    var features = new OpenLayers.Format.GeoJSON({}).read(data);
+                                    var k=0;
+                                    for (k=0; k<features.length; k++) {
+                                        var feature = features[k];
+                                        if (feature.geometry !== null) {
+                                            townHallLayer.addFeatures([feature]);
+                                        }
+                                    }
+                                },
+                                error: function(xhr,err) {
+                                    // console.log("error: " + err);
+                                }
+                            });
+                        }
+                    }
+                    //make townHalls visible
+                    showTownHall(styleProps, adminLevels[i]);
+                }
+                i++;
+            }
+        }
+
+    var moveMapTo = function(bounds, zoomChanged, dragging) {
         var zoom = map.getZoom();
         if (zoom != null && zoomChanged != null) {
             var i=0;k=0;
             while (i<adminLevels.length) {
                 var styleChanged = displayMap[zoomChanged]['styles'][i];
                 var style = displayMap[zoom]['styles'][i];
-                if ( /* style != styleChanged && */ styleChanged == 0) {
-                    //make townHalls invisible
-                    showTownHall(styleTransparentProps, adminLevels[i]);
-                } else if ( /* style != styleChanged && */ (styleChanged == 1 || styleChanged == 2)) {
-                    //make townHalls visible
-                    showTownHall(styleProps, adminLevels[i]);
-                }
-
                 var j=0;
-                for (j=0; j<numberComplexities; j++) {
+                for (j=0; j<displayMap.length; j++) {
                     layers[i][j].setVisibility(false);
                 }
                 if (styleChanged == 0) {
                     //nop
                 } else {
-                    layers[i][getLayerIndex(zoomChanged)].setVisibility(true);
+                    layers[i][zoomChanged].setVisibility(true);
                     if (style != styleChanged) {
                         var k=0;
                         if (styleChanged < 2) {
-                            for (k=0; k<numberComplexities;k++) {
+                            for (k=0; k<displayMap.length;k++) {
                                 layers[i][k].styleMap['default'] 
                                     = new OpenLayers.Style(styleBorder);
                                 layers[i][k].styleMap['default'] 
@@ -537,7 +601,7 @@ function addMultiBoundaryLayer(map, layers, resultList) {
                                 redrawFeatures(layers[i][k],styleBorder);
                             }
                         } else {
-                            for (k=0; k<numberComplexities;k++) {
+                            for (k=0; k<displayMap.length;k++) {
                                 layers[i][k].styleMap['default'] 
                                     = new OpenLayers.Style(styleArea);    
                                 layers[i][k].styleMap['default'] 
@@ -566,36 +630,76 @@ function addMultiBoundaryLayer(map, layers, resultList) {
     while (layersIdx < adminLevels.length) {
         var style = displayMap[map.getZoom()]['styles'][layersIdx];
 
-        layers[layersIdx] = new Array(numberComplexities);
-        var complexity;
-        for (complexity = 0; complexity < numberComplexities; complexity++) {
-            var layername = "layer" + adminLevels[layersIdx] //or aname from config
-                + complexity;
+        layers[layersIdx] = new Array(displayMap.length);
+        tiles[layersIdx] = new Array();
+        var z;
+        for (z=0; z < displayMap.length; z++) {
+            var layername = "layer" + adminLevels[layersIdx] + z;
 
-            var featureUrl = '/get_boundaries.json';
-
-            layers[layersIdx][complexity] 
+            layers[layersIdx][z] 
                 = new OpenLayers.Layer.Vector(layername, {
                     displayInLayerSwitcher: false, 
-                    strategies: [new OpenLayers.Strategy.BBOX()],
-                    protocol: new OpenLayers.Protocol.HTTP({
-                        url: featureUrl,
-                        params: {
-                            admin_level: adminLevels[layersIdx],
-                            complexity: complexity
-                        },
-                        format: new OpenLayers.Format.GeoJSON({
-                            ignoreExtraDims: true
-                        })
-                    }),
-                    projection: geographic,
-                    styleMap: new OpenLayers.StyleMap({'default':(style < 2 ? new OpenLayers.Style(styleBorder) : new OpenLayers.Style(styleArea))})
+                    projection: mercator,
+                    styleMap: new OpenLayers.StyleMap({'default':(style < 2 ? new OpenLayers.Style(styleBorder) : new OpenLayers.Style(styleArea))}),
+                    layersIdx: layersIdx,
+                    zoom: z
                 });
-            map.addLayer(layers[layersIdx][complexity]);
+                layers[layersIdx][z].moveTo 
+                    = function(bounds, zoomChanged, dragging ) {
+
+                        if (this.getVisibility()) {
+                            var tileSize = 256;
+                            var tileSizeLL = tileSize * map.getResolution();
+                            var newTiles = makeTiles(tileSize, tileSizeLL, bounds);
+                            var i=0;
+                            for (i=0; i < newTiles.length; i++) {
+                                var fetch = !alreadyFetched(tiles[this.layersIdx], newTiles[i]);
+                                if (fetch) {
+                                    tiles[this.layersIdx].push(newTiles[i]);
+                                    box = new OpenLayers.Bounds(newTiles[i].x*tileSizeLL,newTiles[i].y*tileSizeLL,
+                                                                (newTiles[i].x+1)*tileSizeLL,(newTiles[i].y+1)*tileSizeLL);
+                                    layers[this.layersIdx][this.zoom].addFeatures([new OpenLayers.Feature.Vector(box.toGeometry(),
+                                                                                                                        {})]);
+
+                                    //transform bbox with shapely
+                                    var url = '/get_intersection_boundaries.json'
+                                                    + '?x=' + newTiles[i].x
+                                                    + '&y=' + newTiles[i].y
+                                                    + '&tileSize=' + tileSize
+                                                    + '&res=' + map.getResolution()
+                                                    + '&layersIdx=' + this.layersIdx
+                                                    + '&admin_level=' + adminLevels[this.layersIdx]
+                                                    + '&zoom=' + this.zoom; 
+                                    $.ajax({
+                                        url: url,
+                                        success: function(data) {
+                                            var features = new OpenLayers.Format.GeoJSON({}).read(data);
+                                            if (features) {
+                                                var k=0;
+                                                for (k=0; k<features.length; k++) {
+                                                    var feature = features[k];
+                                                    if (feature.geometry !== null) {
+                                                        var reqLayersIdx = parseInt(feature.attributes.layersIdx);
+                                                        var reqZoom = parseInt(feature.attributes.zoom);
+                                                        layers[reqLayersIdx][reqZoom].addFeatures([feature]);
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        error: function(xhr,err) {
+                                            // console.log("error: " + err);
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                        OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
+                      }
+            map.addLayer(layers[layersIdx][z]);
         }
         layersIdx++;
     }
-    map.moveTo = moveTo;
+    map.moveTo = moveMapTo;
 
     var rule = makeFilterRule(); 
     rule.evaluate = function (feature) {
@@ -619,9 +723,10 @@ function addMultiBoundaryLayer(map, layers, resultList) {
             return false;
         }
     }
+
     var townHallLayer = new OpenLayers.Layer.Vector('instance_town_hall', {
         displayInLayerSwitcher: false, 
-        projection: geographic,
+        projection: mercator,
         styleMap: new OpenLayers.StyleMap({
             'default': new OpenLayers.Style(styleProps, {rules: [
                 rule,
@@ -630,24 +735,11 @@ function addMultiBoundaryLayer(map, layers, resultList) {
             'select': new OpenLayers.Style(styleSelect)
         }),
     });
+    townHallLayer.moveTo = moveTownHallTo; 
     map.addLayer(townHallLayer);
     createPopupControl(townHallLayer, buildInstancePopup);
 
     var foldLayers = foldLayerMatrix(layers);
-    for (i=0; i<foldLayers.length;i++) {
-        foldLayers[i].events.on({
-            'featureadded': function(event) {
-               if (event.feature.attributes.admin_center) {
-                    var features = new OpenLayers.Format.GeoJSON({}).read(event.feature.attributes.admin_center);
-                    var feature = features[0];
-                    feature.geometry.transform(geographic, mercator);
-                    if (!layerHasFeature(townHallLayer,feature)) {
-                        townHallLayer.addFeatures([feature]);
-                    }
-               }
-            }
-        })
-    }
     return [townHallLayer,foldLayers];
 }
 
@@ -727,7 +819,6 @@ function createBaseLayers(blank) {
         resolutions: RESOLUTIONS
     };
 
-
     var baseLayers = [
         //default Openstreetmap Baselayer
         new OpenLayers.Layer.OSM("Open Street Map", "", osmOptions),
@@ -761,7 +852,7 @@ function createMap() {
         // maxResolution: 156543.0399,
         numZoomLevels: NUM_ZOOM_LEVELS,
         units: 'm',
-        //projection: mercator,
+        projection: mercator,
         //displayProjection: geographic,
         controls: []
     });
@@ -782,6 +873,7 @@ function createControls(fullControls, keyboardControls) {
         // MousePosition currently displays 900913 instead of 4236
         // mapControls.push(new OpenLayers.Control.MousePosition());
         mapControls.push(new OpenLayers.Control.Scale());
+        // mapControls.push(new OpenLayers.Control.Graticule());
     }
     if (keyboardControls) {
         // use KeyboardDefault only when map is the central element
@@ -840,7 +932,11 @@ function buildInstancePopup(attributes) {
     if (attributes.url) {
         result = result + "<a href='"+attributes.url+"'>";
     }
-    result = result + attributes.label+"</a></div>";
+    var label = attributes.label;
+    if (attributes.admin_type) {
+        label += " (" + attributes.admin_type + ")"
+    }
+    result = result + label+"</a></div>";
     return result;
 }
 
@@ -866,6 +962,7 @@ function createSelectControl() {
     return selectControl;
 }
 
+//var FALLBACK_BOUNDS = [10, 51, 10.1, 51.1];
 
 function loadSingleProposalMap(openlayers_url, instanceKey, proposalId, edit, position) {
  $.getScript(openlayers_url, function() {
@@ -911,7 +1008,7 @@ function loadSingleProposalMap(openlayers_url, instanceKey, proposalId, edit, po
             var features = new OpenLayers.Format.GeoJSON({}).read(position);
             if (features) {
                 feature = features[0];
-                feature.geometry.transform(geographic, mercator);
+//                feature.geometry.transform(geographic, mercator);
                 proposalLayer.addFeatures([feature]); 
         }
     }
@@ -1001,7 +1098,6 @@ function loadOverviewMap(openlayers_url, initialInstances) {
     }
 
     map.zoomToExtent(bounds);
-    // addMultiBoundaryLayer(map);
     
     map.addControl(createSelectControl());
 
@@ -1011,14 +1107,14 @@ function loadOverviewMap(openlayers_url, initialInstances) {
 function loadSelectInstance(openlayers_url) {
   $.getScript(openlayers_url, function() {
     var layers = new Array();
+    var tiles = new Array();
     var resultList = new Array();
-    state = loadSelectInstanceMap(layers, resultList);
-
+    var state = loadSelectInstanceMap(layers, tiles, resultList);
     instanceSearch(state, resultList);
   });
 }
 
-function loadSelectInstanceMap(layers, resultList) {
+function loadSelectInstanceMap(layers, tiles, resultList) {
 
     function addArrow(plus) {
         var src = '/images/map_resize_rec_plus.png';
@@ -1054,9 +1150,9 @@ function loadSelectInstanceMap(layers, resultList) {
     map.addControls(createControls(true, false));
     map.addLayers(createBaseLayers());
 
-    var layers = addMultiBoundaryLayer(map, layers, resultList);
-    var townHallLayer = layers[0];
-    var foldLayers = layers[1];
+    var layers2 = addMultiBoundaryLayer(map, layers, tiles, resultList);
+    var townHallLayer = layers2[0];
+    var foldLayers = layers2[1];
  
     var selectControl = createSelectControl();
     map.addControl(selectControl);
@@ -1066,8 +1162,10 @@ function loadSelectInstanceMap(layers, resultList) {
     addArrow(true);
     $('.arrow').click(enlargeMap);
 
-    var result = {map: map, foldLayers: foldLayers,
-                  townHallLayer: townHallLayer, selectControl: selectControl};
+    var result = {map: map, 
+                  foldLayers: foldLayers,
+                  townHallLayer: townHallLayer, 
+                  selectControl: selectControl};
 
     return result;
 }
@@ -1220,7 +1318,7 @@ function instanceSearch(state, resultList) {
         var features = new OpenLayers.Format.GeoJSON({}).read(geojsonStr);
         if (features != null && features.length > 0) {
             feature = features[0];
-            feature.geometry = OpenLayers.Projection.transform(feature.geometry,geographic, mercator);
+//            feature.geometry = OpenLayers.Projection.transform(feature.geometry,geographic, mercator);
         }
         return feature;
     }
@@ -1315,6 +1413,7 @@ function instanceSearch(state, resultList) {
                                 create_date: item.create_date,
                                 bbox: item.bbox,
                                 admin_center: feature,
+                                admin_type: item.admin_type,
                                 is_in: item.is_in
                             }
                         });
@@ -1351,29 +1450,13 @@ function instanceSearch(state, resultList) {
                 var hit = resultList[inputValue][i];
                 //if (hit.instance_id != "") {
                     var bbox = JSON.parse( hit.bbox );
-                    var hitBounds = new OpenLayers.Bounds.fromArray(bbox).transform(geographic, mercator);
+                    var hitBounds = new OpenLayers.Bounds.fromArray(bbox);//.transform(geographic, mercator);
                     bounds.extend(hitBounds);
                     found = true;
                 //}
             }
             if (found) {
                 map.zoomToExtent(bounds)
-                /*
-                var i=0; var j=0; var k=0;
-                for (i=0; i<resultList[inputValue].length; i++) {
-                    var hit = resultList[inputValue][i];
-                    for (j=0; j<foldLayers.length;j++) {
-                        for (k=0; k<foldLayers[j].features.length; k++) {
-                            var feature = foldLayers[j].features[k];
-                            if (hit.region_id == feature.attributes.region_id) {
-                                if (hit.instance_id != "") {
-                                    //replace circle with marker
-                                }
-                            }
-                        }
-                    }
-                }
-                */
             }
             //delete resultList[inputValue];
         }
@@ -1386,11 +1469,6 @@ function instanceSearch(state, resultList) {
     });
 
     $('#search_button').click(querySearchResult);
-
-//    var offset = $('#search_offset_field').val();
-//    if (offset == "") {
-//        offset = 0;
-//    }
 
     $( "#instances" ).autocomplete({
         search: function(event, ui) {

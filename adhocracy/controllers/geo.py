@@ -25,7 +25,7 @@ BBOX_FILTER_TYPE = USE_POSTGIS
 SIMPLIFY_TYPE = USE_SHAPELY
 CENTROID_TYPE = USE_SHAPELY
 
-COMPLEXITY_TOLERANCE = {
+COMPLEXITY_TOLERANCE_4326 = {
     '0': 0.01,
     '1': 0.005,
     '2': 0.001,
@@ -33,44 +33,118 @@ COMPLEXITY_TOLERANCE = {
     '4': 0.0001
     }
 
+COMPLEXITY_TOLERANCE_900913 = {
+    '0': 125,
+    '1': 62.5,
+    '2': 31.25,
+    '3': 15.625,
+    '4': 7.8125,
+    '5': 3.90625,
+    '6': 1.953125,
+    '7': 0.9765625,
+    '8': 0.48828125,
+    '9': 0.244140625,
+    '10': 0.1220703125,
+    '11': 0.06103515625,
+    '12': 0.030517578125,
+    '13': 0.0152587890625,
+    '14': 0.00762939453125
+    }
+
 class GeoController(BaseController):
 
-    def get_boundaries_json(self):
-        admin_level = request.params.get('admin_level')
-        
-        complexity = request.params.get('complexity')
-        tolerance = COMPLEXITY_TOLERANCE[complexity]
+    def get_intersection_boundaries_json(self):
 
-        bbox = map(float, request.params.get('bbox').split(','))
+        admin_level = request.params.get('admin_level')
+        x = int(request.params.get('x'))
+        y = int(request.params.get('y'))
+        tileSize = int(request.params.get('tileSize'))
+        res = float(request.params.get('res'))
+        zoom = request.params.get('zoom')
+        tolerance = COMPLEXITY_TOLERANCE_900913[zoom]
+        layersIdx = request.params.get('layersIdx')
+        bbox = [ x * res * tileSize, y * res * tileSize, 
+                (x+1) * res * tileSize, (y+1) * res * tileSize]
+        assert(len(bbox)==4)
+
+        q = meta.Session.query(func.ST_AsBinary(func.ST_intersection(func.st_boundary(Region.boundary.RAW),
+                                                func.ST_setsrid(func.box2d('BOX(%f %f, %f %f)'%(tuple(bbox))),900913))))
+        q = q.filter(Region.admin_level == admin_level)
+
+        if SIMPLIFY_TYPE == USE_POSTGIS:
+            # NYI
+            pass
+
+        boundariesRS = q.all()
+
+        def make_feature(boundary):
+            geom = loads(str(boundary[0]))
+            return dict(geometry = geom, properties = {'zoom': zoom, 
+                                                       'layersIdx': layersIdx,
+                                                       'label': ''})
+
+        boundaries = map(make_feature, boundariesRS)
+        def not_empty(boundary):
+            return (boundary['geometry'].geom_type != "GeometryCollection"
+                    or not boundary['geometry'].is_empty)
+        boundaries = filter (not_empty, boundaries)
+
+        if SIMPLIFY_TYPE == USE_SHAPELY:
+
+            def simplify_region(region):
+                if region['geometry'].is_valid:
+                    geom_simple = region['geometry'].simplify(tolerance, True)
+                    # import ipdb; ipdb.set_trace()
+                    if geom_simple.is_valid and geom_simple.length > 0:
+                        region['geometry'] = geom_simple
+                    else:
+                        log.warn('invalid simplified geometry for %s'%region['properties']['label'])
+                else:
+                    log.warn('invalid geometry for %s'%region['properties']['label'])
+                return region
+
+            boundaries = map(simplify_region, boundaries)
+
+        return render_geojson(geojson.FeatureCollection([geojson.Feature(**r) for r in boundaries]))
+
+    def get_admin_centers_json(self):
+        admin_level = request.params.get('admin_level')
+        x = int(request.params.get('x'))
+        y = int(request.params.get('y'))
+        res = float(request.params.get('res'))
+        tileSize = int(request.params.get('tileSize'))
+        bbox = [ x * res * tileSize, y * res * tileSize, 
+                (x+1) * res * tileSize, (y+1) * res * tileSize]
         assert(len(bbox)==4)
 
         q = meta.Session.query(Region)
         q = q.filter(Region.admin_level == admin_level)
 
         if BBOX_FILTER_TYPE == USE_POSTGIS:
-            q = q.filter(Region.boundary.intersects(func.ST_setsrid(func.box2d('BOX(%f %f, %f %f)'%(tuple(bbox))), 4326)))
-
-        if SIMPLIFY_TYPE == USE_POSTGIS:
-            # NYI
-            pass
+            q = q.filter(Region.boundary.intersects(func.ST_setsrid(func.box2d('BOX(%f %f, %f %f)'%(tuple(bbox))), 900913)))
 
         def make_feature(region):
-            return dict(geometry = loads(str(region.boundary.geom_wkb)), properties = {'label': region.name, 'admin_level': region.admin_level, 'region_id': region.id})
 
-        def add_admin_center(region):
-            regionColumns = filter(lambda r: region['properties']['region_id'] == r.id, regionsResultSet)
-            properties = {'admin_level': region['properties']['admin_level'],
-                          'label': region['properties']['label'],
-                          'region_id': region['properties']['region_id'],
-                          'instance_id': ''}
-            if regionColumns != []:
-                instances = getattr(regionColumns[0],"get_instances")
-                if instances != []:
-                    properties['url'] = h.base_url(instances[0])
-                    properties['label'] = instances[0].label
-                    properties['instance_id'] = instances[0].id
-            region['properties']['admin_center'] = geojson.Feature(geometry=region['geometry'].centroid, properties=properties)
-            return region
+            if CENTROID_TYPE == USE_POSTGIS:
+                #NYI
+                pass
+
+            if CENTROID_TYPE == USE_SHAPELY:
+                geom = loads(str(region.boundary.geom_wkb)).centroid
+
+            feature = dict(geometry = geom, 
+                           properties = {'label': region.name, 
+                                      'admin_level': region.admin_level, 
+                                      'region_id': region.id,
+                                      'admin_type': region.admin_type,
+                                      'instance_id': ''
+                                     })
+            instances = getattr(region,"get_instances")
+            if instances != []:
+                feature['properties']['url'] = h.base_url(instances[0])
+                feature['properties']['label'] = instances[0].label
+                feature['properties']['instance_id'] = instances[0].id
+            return feature
 
         regionsResultSet = q.all()
 
@@ -79,30 +153,7 @@ class GeoController(BaseController):
             regions = filter(lambda region: sbox.intersection(region['geometry']), map(make_feature, regionsResultSet))
 
         elif BBOX_FILTER_TYPE == USE_POSTGIS:
-
             regions = map(make_feature, regionsResultSet)
-
-        if SIMPLIFY_TYPE == USE_SHAPELY:
-
-            def simplify_region(region):
-                if region['geometry'].is_valid:
-                    geom_simple = region['geometry'].simplify(tolerance, True)
-                    if geom_simple.is_valid and geom_simple.area != 0:
-                        region['geometry'] = geom_simple
-                    else:
-                        log.warn('invalid simplified geometry for %s'%region['properties']['label'])
-                else:
-                    log.warn('invalid geometry for %s'%region['properties']['label'])
-                return region
-
-            regions = map(simplify_region, regions)
-
-        if CENTROID_TYPE == USE_POSTGIS:
-            #NYI
-            pass
-
-        if CENTROID_TYPE == USE_SHAPELY:
-            regions = map(add_admin_center, regions)
 
         return render_geojson(geojson.FeatureCollection([geojson.Feature(**r) for r in regions]))
 
@@ -164,12 +215,14 @@ class GeoController(BaseController):
                 entry['name'] = region.name
                 entry['region_id'] = region.id
                 entry['admin_level'] = region.admin_level
+                entry['admin_type'] = region.admin_type
                 bbox = loads(str(region.boundary.geom_wkb)).bounds
                 admin_center_props = {
                     'instance_id': "",
                     'admin_level': region.admin_level,
                     'region_id': region.id,
-                    'label': region.name
+                    'label': region.name,
+                    'admin_type': region.admin_type
                 }
                 entry['bbox'] = '[' + str(bbox[0]) + ',' + str(bbox[1]) + ',' + str(bbox[2]) + ',' + str(bbox[3]) + ']'
                 if (outer != None):
