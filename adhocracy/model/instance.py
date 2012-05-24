@@ -37,7 +37,8 @@ instance_table = Table('instance', meta.data,
     Column('frozen', Boolean, default=False),
     Column('milestones', Boolean, default=False),
     Column('use_norms', Boolean, nullable=True, default=True),
-    Column('require_selection', Boolean, nullable=True, default=False)
+    Column('require_selection', Boolean, nullable=True, default=False),
+    Column('is_authenticated', Boolean, nullable=True, default=False)
     )
 
 
