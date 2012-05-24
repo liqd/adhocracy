@@ -49,8 +49,8 @@ the following statement.
 
 # insert into region (select id, name, admin_level, 'Gemeinde', boundary from
 dblink('dbname=${dbname}', 'select b.osm_id,b.name,b.admin_level,b.geometry from
-osm_admin a, osm_admin b where a.osm_id != b.osm_id AND a.osm_id=62467 AND a.geometry &&
-b.geometry AND ST_Contains(a.geometry, b.geometry) AND b.admin_level=8 AND
+osm_admin a, osm_admin b where a.osm_id != b.osm_id AND a.osm_id=62467 AND a.geometry is not null &&
+b.geometry is not null AND ST_Contains(a.geometry, b.geometry) AND b.admin_level=8 AND
 b.name IS NOT NULL') as t1(id int, name text,admin_level int, boundary
 geometry));
 
