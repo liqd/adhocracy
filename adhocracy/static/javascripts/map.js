@@ -455,7 +455,7 @@ function listHasFeature(list, feature) {
 
 function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
 
-    var adminLevels = [2,4,5,6,7,8];
+    var adminLevels = [4,5,6,7,8];
     var townHallTiles = new Array(adminLevels.length);
     var i=0;
     for (i=0;i<adminLevels.length;i++) {
@@ -464,21 +464,21 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
 
     //Zoom 0 ... 19 -> 0=hidden,1=borderColor1,2=borderColor2,3=borderColor3,...]
     var displayMap = [
-        {styles: [0,1,0,0,0,0]},
-        {styles: [0,1,0,0,0,0]},
-        {styles: [0,1,0,0,0,0]},
-        {styles: [0,1,0,1,0,0]},
-        {styles: [0,1,0,1,0,0]}, //4
-        {styles: [0,0,0,1,1,0]},
-        {styles: [0,0,0,1,1,0]},
-        {styles: [0,0,0,1,1,1]},
-        {styles: [0,0,0,1,1,1]}, //8
-        {styles: [0,0,0,1,1,1]},
-        {styles: [0,0,0,1,1,1]},
-        {styles: [0,0,0,1,1,1]},
-        {styles: [0,0,0,1,1,1]}, //12
-        {styles: [0,0,0,1,1,1]},
-        {styles: [0,0,0,1,1,1]}
+        {styles: [1,0,0,0,0]},
+        {styles: [1,0,0,0,0]},
+        {styles: [1,0,0,0,0]},
+        {styles: [1,0,1,0,0]},
+        {styles: [1,0,1,0,0]}, //4
+        {styles: [0,0,1,1,0]},
+        {styles: [0,0,1,1,0]},
+        {styles: [0,0,1,1,1]},
+        {styles: [0,0,1,1,1]}, //8
+        {styles: [0,0,1,1,1]},
+        {styles: [0,0,1,1,1]},
+        {styles: [0,0,1,1,1]},
+        {styles: [0,0,1,1,1]}, //12
+        {styles: [0,0,1,1,1]},
+        {styles: [0,0,1,1,1]}
     ];
     
     function makeTiles(size, sizeLL, bounds) {
