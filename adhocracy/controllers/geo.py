@@ -80,7 +80,7 @@ class GeoController(BaseController):
         def make_feature(boundary):
             geom = loads(str(boundary[0]))
             return dict(geometry = geom, properties = {'zoom': zoom, 
-                                                       'layersIdx': layersIdx,
+                                                       'admin_level': admin_level,
                                                        'label': ''})
 
         boundaries = map(make_feature, boundariesRS)
