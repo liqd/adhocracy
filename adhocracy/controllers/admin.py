@@ -29,6 +29,7 @@ class UserImportForm(formencode.Schema):
 
 class AdminController(BaseController):
 
+    @ActionProtector(has_permission("global.admin"))
     def index(self):
         return render("/admin/index.html")
 
