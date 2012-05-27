@@ -72,10 +72,9 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
         # test environment
         tests.is_integrationtest()
 
-        # roll back the db
-        meta.Session.rollback()
-        meta.Session.remove()
-
+        connection = meta.engine.connect()
+        test.trans = connection.begin()
+        meta.Session.configure(bind=connection)
         # delete and reindex solr
         drop_all()
         rebuild_all()
@@ -83,7 +82,8 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
         #TODO start solr and co
 
     def tearDown(self, test):
-        pass
+        self.trans.rollback()
+        meta.Session.close()
 
 
 ADHOCRACY_LAYER = AdhocracyAppLayer()
