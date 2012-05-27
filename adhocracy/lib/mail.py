@@ -14,6 +14,14 @@ log = logging.getLogger(__name__)
 ENCODING = 'utf-8'
 
 
+def send(email_from, to_email, message):
+    server = smtplib.SMTP(config.get('smtp_server', 'localhost'),
+                          config.get('smtp_port', 25))
+    #server.set_debuglevel(1)
+    server.sendmail(email_from, [to_email], message)
+    server.quit()
+
+
 def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True):
     try:
         email_from = config.get('adhocracy.email.from')
@@ -38,14 +46,8 @@ def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True):
         msg['To'] = to
         msg['Date'] = email.Utils.formatdate(time())
         msg['X-Mailer'] = "Adhocracy SMTP %s" % version.get_version()
-
         #log.debug("MAIL\r\n" + msg.as_string())
-
-        server = smtplib.SMTP(config.get('smtp_server', 'localhost'),
-                              config.get('smtp_port', 25))
-        #server.set_debuglevel(1)
-        server.sendmail(email_from, [to_email], msg.as_string())
-        server.quit()
+        send(email_from, to_email, msg.as_string())
     except Exception:
         log.exception("Sending mail failed.")
 
