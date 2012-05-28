@@ -58,7 +58,7 @@ setup(
         "Mako>=0.4.2",
         "recaptcha-client>=1.0.6",
         "fanstatic >=0.11.2, <=0.11.99",
-        "js.jquery >= 1.6.1,<=1.6.99",
+        "js.jquery >= 1.7.1,<=1.7.99",
         "js.jquery_qtip >= 1.0.0,<= 1.0.99",
         'js.socialshareprivacy >= 1.3dev',
         'js.jquery_joyride',
