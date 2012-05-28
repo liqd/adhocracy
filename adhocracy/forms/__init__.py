@@ -1,5 +1,5 @@
 from common import UniqueUsername, UniqueEmail, UniqueInstanceKey
-from common import ContainsChar, ContainsUrlPlaceholder, UsersCSV
+from common import ContainsChar, ContainsEMailPlaceholders, UsersCSV
 from common import ValidDelegateable, ValidProposal, MaybeMilestone
 from common import ValidGroup, ValidRevision, ValidComment
 from common import ValidUserBadge, ValidCategoryBadge, ValidDelegateableBadge

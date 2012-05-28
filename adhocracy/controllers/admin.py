@@ -2,7 +2,7 @@ import logging
 
 import formencode
 from pylons import request, tmpl_context as c
-from pylons.i18n import _
+from pylons.i18n import _, lazy_ugettext as L_
 
 from repoze.what.plugins.pylonshq import ActionProtector
 
@@ -23,8 +23,12 @@ class UserImportForm(formencode.Schema):
     users_csv = forms.UsersCSV()
     email_subject = formencode.validators.String(
         not_empty=True,
-        messages={'empty': 'Please insert a subject.'})
-    email_template = forms.ContainsUrlPlaceholder()
+        messages={'empty': L_('Please insert a subject for the '
+                              'mail we will send to the users.')})
+    email_template = forms.ContainsEMailPlaceholders(
+        not_empty=True,
+        messages={'empty': L_('Please insert a template for the '
+                              'mail we will send to the users.')})
 
 
 class AdminController(BaseController):
