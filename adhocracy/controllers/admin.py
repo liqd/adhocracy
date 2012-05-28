@@ -55,24 +55,26 @@ class AdminController(BaseController):
             model.meta.Session.commit()
         return render("/admin/permissions.html")
 
+    @ActionProtector(has_permission("global.admin"))
+    def user_import_form(self, errors=None):
+        return formencode.htmlfill.render(render("/admin/import_form.html"),
+                                          defaults=dict(request.params),
+                                          errors=errors,
+                                          force_defaults=False)
+
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("global.admin"))
     def user_import(self):
 
-        errors = None
         if request.method == "POST":
             try:
                 self.form_result = UserImportForm().to_python(request.params)
                 # a proposal that this norm should be integrated with
                 return self._create_users(self.form_result)
             except formencode.Invalid, i:
-                errors = i.unpack_errors()
+                return self.user_import_form(errors=i.unpack_errors())
         else:
             return self.user_import_form()
-        return formencode.htmlfill.render(render("/admin/import_form.html"),
-                                          defaults=dict(request.params),
-                                          errors=errors,
-                                          force_defaults=False)
 
     def _create_users(self, form_result):
         names = []
