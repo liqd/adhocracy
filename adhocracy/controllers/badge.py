@@ -164,7 +164,7 @@ class BadgeController(BaseController):
 
     @ActionProtector(AnyAdmin)
     def edit(self, id, errors=None):
-        badge = Badge.by_id(id)
+        badge = Badge.by_id(id, instance_filter=False)
         if badge is None:
             self._redirect_not_found(id)
         if badge.instance != c.instance and not has('global.admin'):
@@ -187,7 +187,7 @@ class BadgeController(BaseController):
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
     def update(self, id):
-        badge = Badge.by_id(id)
+        badge = Badge.by_id(id, instance_filter=False)
         if badge is None:
             self._redirect_not_found(id)
         if badge.instance != c.instance and not has('global.admin'):
