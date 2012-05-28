@@ -2,14 +2,15 @@
 <%namespace name="components" file="/components.html"/>
 <%def name="title()">${_("Admin: Import Users")}</%def>
 
-<%block name="headline">
-    <h1>${_("Imported Users")}</h1>
-    %if c.errors:
-    <h2 style="color: red">(${_('But some errors occured')})</h2>
-    %endif
+<%block name="full_teaser">
+${self.success()}
 </%block>
 
-<%block name="main_content">
+<%def name="success()">
+<h1>${_("Imported Users")}</h1>
+%if c.errors:
+<h2 style="color: red">(${_('But some errors occured')})</h2>
+%endif
 
 %if c.instance is None:
 <p>${_(u'You successfully created the following users:')}</p>
@@ -36,4 +37,5 @@
 </p>
   %endif
 %endif
-</%block>
+
+</%def>

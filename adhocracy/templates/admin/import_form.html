@@ -8,6 +8,11 @@
 </%block>
 
 <%block name="main_content">
+${self.form()}
+</%block>
+
+<%def name="form()">
+
 <form name="import_users" class="well" method="POST">
 
     ${h.field_token()|n}
@@ -65,5 +70,4 @@
     </div>
     ${components.savebox("")}
 </form>
-
-</%block>
+</%def>
