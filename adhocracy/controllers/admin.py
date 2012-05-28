@@ -51,7 +51,7 @@ class AdminController(BaseController):
             model.meta.Session.commit()
         return render("/admin/permissions.html")
 
-    @RequireInternalRequest()
+    @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("global.admin"))
     def user_import(self):
 
