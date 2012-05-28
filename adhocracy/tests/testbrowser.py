@@ -3,6 +3,8 @@
 from lxml import etree
 from lxml.cssselect import CSSSelector
 
+from mock import patch
+
 from pylons import config
 from pylons.test import pylonsapp
 from repoze.tm import TM
@@ -79,10 +81,15 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
         drop_all()
         rebuild_all()
 
+        # mock the mail.send() function. Make sure to stop()
+        # the patcher in tearDown.
+        test.patcher = patch('adhocracy.lib.mail.send')
+        test.mocked_mail_send = test.patcher.start()
         #TODO start solr and co
 
     def tearDown(self, test):
         self.trans.rollback()
+        self.patcher.stop()
         meta.Session.close()
 
 

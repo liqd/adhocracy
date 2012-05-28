@@ -73,6 +73,7 @@ setup(
     extras_require={
         'test': ['zope.testbrowser [wsgi]',
                  'repoze.tm2',
+                 'mock >=0.8.0, <=0.8.99',
                  'nose',
                  'nose-cov',
                  'nose-exclude',

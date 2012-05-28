@@ -13,6 +13,8 @@ To guarantee test isolation make sure to use TestCaseBase.setUp() and
 from unittest import TestCase
 
 from decorator import decorator
+
+from mock import patch
 from nose.plugins.skip import SkipTest
 from paste.deploy import loadapp
 from paste.deploy.converters import asbool
@@ -147,10 +149,15 @@ class TestControllerBase(TestCase):
         _unregister_instance()
 
     def setUp(self):
-        meta.Session.remove()
+        # mock the mail.send() function. Make sure to stop()
+        # the patcher in tearDown.
+        self.patcher = patch('adhocracy.lib.mail.send')
+        self.mocked_mail_send = self.patcher.start()
 
     def tearDown(self):
+        self.patcher.stop()
         self._rollback_session()
+        meta.Session.remove()
 
     def __init__(self, *args, **kwargs):
         if pylons.test.pylonsapp:
