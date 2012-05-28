@@ -30,17 +30,32 @@
                          value=""
                          tabindex="3">
            <%def name="before()">
+           <%
+           required = [
+               {'name': '{user_name}',
+                'description': _('The name with which the user can log in.')},
+               {'name': '{password}',
+                'description': _('The initial password for the user.')},
+               {'name': '{url}',
+                'description': _('An URL for the user to activate his account.')}]
+           optional = [
+               {'name': '{display_name}',
+                'description': _('The name that will be displayed to other users.')},
+               {'name': '{email}',
+                'description': _('The email address of the user.')}]
+           %>
+
            <div class="help-block">
                <p>${_('The template for the mail to the users. You need to insert some placeholders into the email text.')}</p>
                <h6>${_('Required')}</h6>
                <ul class="nobullet">
-                   %for item in c.placeholders['required']:
+                   %for item in required:
                    <li><em>${item['name']}</em>: ${item['description']}</li>
                    %endfor
                </ul>
                <h6>${_('Optional')}</h6>
                <ul class="nobullet">
-                   %for item in c.placeholders['optional']:
+                   %for item in optional:
                    <li><em>${item['name']}</em>: ${item['description']}</li>
                    %endfor
                </ul>

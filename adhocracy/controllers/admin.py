@@ -59,15 +59,20 @@ class AdminController(BaseController):
     @ActionProtector(has_permission("global.admin"))
     def user_import(self):
 
+        errors = None
         if request.method == "POST":
             try:
                 self.form_result = UserImportForm().to_python(request.params)
                 # a proposal that this norm should be integrated with
                 return self._create_users(self.form_result)
             except formencode.Invalid, i:
-                return self.user_import_form(errors=i.unpack_errors())
+                errors = i.unpack_errors()
         else:
             return self.user_import_form()
+        return formencode.htmlfill.render(render("/admin/import_form.html"),
+                                          defaults=dict(request.params),
+                                          errors=errors,
+                                          force_defaults=False)
 
     def _create_users(self, form_result):
         names = []
@@ -118,28 +123,3 @@ class AdminController(BaseController):
         c.not_mailed = set(created) - set(mailed)
         c.errors = errors
         return render("/admin/import_success.html")
-
-    @ActionProtector(has_permission("global.admin"))
-    def user_import_form(self, errors=None):
-        c.placeholders = {'required': [],
-                          'optional': []}
-        c.placeholders['required'].append(
-            {'name': '{user_name}',
-             'description': _('The name with which the user can log in.')})
-        c.placeholders['required'].append(
-            {'name': '{password}',
-             'description': _('The initial password for the user.')})
-        c.placeholders['required'].append(
-            {'name': '{url}',
-             'description': _('An URL for the user to activate his account.')})
-        c.placeholders['optional'].append(
-            {'name': '{display_name}',
-             'description': _('The name that will be displayed to other '
-                              'users.')})
-        c.placeholders['optional'].append(
-            {'name': '{email}',
-             'description': _('The email address of the user.')})
-        return formencode.htmlfill.render(render("/admin/import_form.html"),
-                                          defaults=dict(request.params),
-                                          errors=errors,
-                                          force_defaults=False)
