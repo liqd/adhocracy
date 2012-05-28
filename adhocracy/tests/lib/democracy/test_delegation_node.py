@@ -10,6 +10,7 @@ from adhocracy.tests.testtools import tt_make_proposal, tt_make_user
 class TestDelegationNode(TestController):
 
     def setUp(self):
+        super(TestDelegationNode, self).setUp()
         self.me = tt_make_user()
         self.first = tt_make_user()
         self.second = tt_make_user()
@@ -109,6 +110,7 @@ class TestDelegationNode(TestController):
 class TestInteractionOfDelegationOnDifferentLevels(TestController):
 
     def setUp(self):
+        super(TestInteractionOfDelegationOnDifferentLevels, self).setUp()
         voter_group = Group.by_code(Group.CODE_VOTER)
         self.me = tt_make_user(instance_group=voter_group)
         self.first = tt_make_user(instance_group=voter_group)
