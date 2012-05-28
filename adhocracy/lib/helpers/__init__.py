@@ -11,6 +11,7 @@ import urllib
 
 from pylons import tmpl_context as c, config, request
 from pylons.i18n import _
+from webhelpers.html import literal
 from webhelpers.pylonslib import Flash as _Flash
 from webhelpers.text import truncate
 

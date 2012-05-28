@@ -23,6 +23,14 @@ def edit(check, i):
 admin = edit
 
 
+def authenticated_edit(check, instance):
+    '''
+    Edit allowed only in authenticated instances
+    '''
+    check.other('is_not_authenticated', not instance.is_authenticated)
+    edit(check, instance)
+
+
 def delete(check, i):
     check.other('is_single_instance', g.single_instance)
     check.perm('global.admin')
