@@ -1,0 +1,12 @@
+<%inherit file="/instance/settings.html" />
+<%namespace name="import_form" file="/admin/import_form.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Manage: %s") % c.page_instance.label}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Manage")}
+</%def>
+
+<%block name="settings_content">
+${import_form.form()}
+</%block>

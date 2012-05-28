@@ -239,6 +239,67 @@ def make_map():
                 controller='instance', action='icon')
     map.connect('/instance/{id}_{y}.png',
                 controller='instance', action='icon')
+    map.connect('/instance/{id}/settings',
+                controller='instance', action='settings')
+    map.connect('/instance/{id}/settings/general',
+                controller='instance', action='settings_general',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/general',
+                controller='instance', action='settings_general_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/instance/{id}/settings/appearance',
+                controller='instance', action='settings_appearance',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/appearance',
+                controller='instance', action='settings_appearance_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/instance/{id}/settings/contents',
+                controller='instance', action='settings_contents',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/contents',
+                controller='instance', action='settings_contents_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/instance/{id}/settings/voting',
+                controller='instance', action='settings_voting',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/voting',
+                controller='instance', action='settings_voting_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/instance/{id}/settings/badges',
+                controller='instance', action='settings_badges',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/badges',
+                controller='instance', action='settings_badges_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/instance/{id}/settings/badges/{badge_type}/add',
+                controller='instance',
+                action='settings_badges_add', conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/badges/{badge_type}/add',
+                controller='instance',
+                action='settings_badges_create',
+                conditions=dict(method=['POST']))
+    map.connect('/instance/{id}/settings/badges/edit/{badge_id}',
+                controller='instance',
+                action="settings_badges_edit", conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/badges/edit/{badge_id}',
+                controller='instance', action="settings_badges_update",
+                conditions=dict(method=['POST']))
+    map.connect('/instance/{id}/settings/members',
+                controller='instance', action='settings_members',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/members',
+                controller='instance', action='settings_members_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/instance/{id}/settings/members_import',
+                controller='instance', action='settings_members_import',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/members_import',
+                controller='instance', action='settings_members_import_save',
+                conditions=dict(method=['PUT', 'POST']))
+    #map.connect('/instance/{id}/settings/',
+    #            controller='instance', action='settings')
+
+
     map.resource('instance', 'instance', member={'join': 'GET',
                                                  'leave': 'POST',
                                                  'filter': 'GET',

@@ -1,0 +1,46 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Settings")}</%def>
+
+<%def name="breadcrumbs()">
+</%def>
+<%block name="flashmessages">
+
+</%block>
+<%block name="content_wrapper">
+<div id="settings">
+    <div id="col1">
+        <div id="col1_content" class="clearfix">
+         <%block name="settings_content">
+         <span style="float:right"></span>
+         <h2>${c.page_instance.label}</h2>
+         <div class="clearfix">
+             blub
+         </div>
+         </%block>
+        </div>  
+    </div>
+
+    <aside>
+        <div id="col3">
+            <div id="col3_content" class="clearfix">
+                <div class="well">
+                <%block name="settings_menu">
+                <ul class="nav nav-list" style="padding: 8px 0;">
+                    %for item in c.settings_menu:
+                    %if item['allowed']:
+                    <li class="${item['class']}">
+                        <a href="${item['url']}">${item['label']}</a>
+                    </li>
+                    %endif
+                    %endfor
+                </ul>
+                </%block>
+                </div>
+            </div>
+            <!-- IE Column Clearing -->
+            <div id="ie_clearing"> &#160; </div>
+        </div>
+    </aside>
+</div>
+</%block>
