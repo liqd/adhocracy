@@ -37,10 +37,15 @@
 </%def>
 
 
-<%def name="savebox(cancel_url, save_text=None, tabindex=99)">
+<%def name="savebox(cancel_url, save_text=None, save_value='save', tabindex=99)">
+    <%
+    save_text = save_text if save_text is not None else _("Save")
+    %>
     <div class="savebox">
-        <button type="submit" tabindex="${tabindex}">
-            ${save_text if save_text is not None else _("Save")}</button>
+        <button type="submit" class="btn btn-primary" 
+                tabindex="${tabindex}" value="${save_value}">
+            ${save_text}
+        </button>
         %if cancel_url is not None:
             <span class="cancel">
                 ${_("or")} <a href="${cancel_url}">${_("cancel")}</a>
