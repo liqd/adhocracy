@@ -206,8 +206,8 @@
              text=_("Members"),
              li_class=_class('members'))}
 
-  ${nav_link(href=h.entity_url(c.instance, member='edit'),
-             text=_("Edit"),
+  ${nav_link(href=h.entity_url(c.instance, member='settings'),
+             text=_("Settings"),
              li_class=(_class('settings') + ' settings'),
              condition=can.instance.edit(c.instance))}
 
