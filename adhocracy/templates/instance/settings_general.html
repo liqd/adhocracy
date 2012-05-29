@@ -17,6 +17,8 @@
     
     ${components.flashmessages()}
     
+    <h2>${c.settings_menu.current['label']}</h2>
+
     ${forms.input(_("Name"), 'label', 1)}
     
     <%forms:textarea label="${_('Description')}" name="description" value="" tabindex="2"

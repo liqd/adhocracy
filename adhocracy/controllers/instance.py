@@ -338,13 +338,17 @@ class InstanceController(BaseController):
     @classmethod
     def settings_menu(cls, instance, current):
 
+        class Menu(list):
+            '''Subclass so we can attach attributes'''
+            pass
+
         def setting(name, label, allowed=True):
             return {'name': name,
                     'url': settings_url(instance, name),
                     'label': label,
                     'allowed': allowed}
 
-        settings = (
+        settings = Menu([
             {'name': 'index',
              'url': h.instance.url(instance, member='settings'),
              'label': L_('Overview')},
@@ -356,7 +360,8 @@ class InstanceController(BaseController):
             setting('members', L_('Members')),
             setting('members_import', L_('Members import'),
                     allowed=(h.has_permission('global.admin') or
-                             can.instance.authenticated_edit(instance))))
+                             can.instance.authenticated_edit(instance)))])
+
         if current not in [i['name'] for i in settings]:
             raise ValueError('current ("%s") is no menu item' % current)
 
@@ -367,6 +372,7 @@ class InstanceController(BaseController):
             if current == item['name']:
                 item['active'] = True
                 item['class'] = 'active'
+                settings.current = item
 
         return settings
 

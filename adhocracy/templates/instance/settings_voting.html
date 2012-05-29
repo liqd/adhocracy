@@ -13,6 +13,8 @@
     
     ${components.flashmessages()}
 
+    <h2>${c.settings_menu.current['label']}</h2>
+
     <input type="hidden" name="_method" value="PUT" />
 
     ${h.field_token()|n}
