@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2012-05-29 11:01+0200\n"
-"PO-Revision-Date: 2012-05-29 10:46+0000\n"
+"PO-Revision-Date: 2012-05-29 11:16+0000\n"
 "Last-Translator: csenger <senger@rehfisch.de>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -27,17 +27,17 @@ msgid "Thank you for helping."
 msgstr "Danke für Ihre Hilfe."
 
 msgid "Please insert a subject for the mail we will send to the users."
-msgstr ""
+msgstr "Bitte geben Sie einen Betreff für die E-Mail ein, die wir an die importierten Benutzer senden werden."
 
 msgid "Please insert a template for the mail we will send to the users."
-msgstr ""
+msgstr "Bitte geben Sie eine Vorlage für die E-Mail ein, die wir an die importierten Benutzer senden werden."
 
 msgid "In all instances"
-msgstr ""
+msgstr "In allen Gruppen"
 
 #, python-format
 msgid "In instance \"%s\""
-msgstr ""
+msgstr "In Gruppe „%s“"
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
@@ -97,10 +97,10 @@ msgid "News from %s"
 msgstr "Neuigkeiten von %s"
 
 msgid "The changes where saved."
-msgstr ""
+msgstr "Die Änderungen wurden gespeichert."
 
 msgid "No update required."
-msgstr ""
+msgstr "Es wurden keine Änderungen vorgenommen."
 
 msgid ""
 "An index of instances run at this site. Select which ones you would like to "
@@ -114,16 +114,16 @@ msgid "Overview"
 msgstr "Übersicht"
 
 msgid "General"
-msgstr ""
+msgstr "Allgemein"
 
 msgid "Appearance"
-msgstr ""
+msgstr "Darstellung"
 
 msgid "Contents"
-msgstr ""
+msgstr "Inhalte"
 
 msgid "Voting"
-msgstr ""
+msgstr "Wahlen"
 
 msgid "Badges"
 msgstr "Badges"
@@ -132,7 +132,7 @@ msgid "Members"
 msgstr "Mitglieder"
 
 msgid "Members import"
-msgstr ""
+msgstr "Mitglieder importieren"
 
 msgid "No delay"
 msgstr "Keine Verzögerung"
@@ -501,7 +501,7 @@ msgid "At least on character is required"
 msgstr "Mindestens ein Buchstabe muss enthalten sein. "
 
 msgid "You're not allowed to edit global badges"
-msgstr ""
+msgstr "Sie haben nicht die Rechte, um Installationsweite Badges zu bearbeiten"
 
 #, python-format
 msgid "No Badge ID '%s' exists"
@@ -1225,7 +1225,7 @@ msgid "Norms"
 msgstr "Themen"
 
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1400,22 +1400,22 @@ msgid "Site administration"
 msgstr "Seiteneinstellungen"
 
 msgid "Add user badge"
-msgstr ""
+msgstr "Badge für Benutzer hinzufügen"
 
 msgid "Add delegateable badge"
-msgstr ""
+msgstr "Badge für Vorschläge hinzufügen"
 
 msgid "Add category badge"
-msgstr ""
+msgstr "Kategorie hinzufügen"
 
 msgid "Edit user badge"
-msgstr ""
+msgstr "Badge für Benutzer bearbeiten"
 
 msgid "Edit delegateable badge"
-msgstr ""
+msgstr "Badge für Vorschlag bearbeiten"
 
 msgid "Edit category badge"
-msgstr ""
+msgstr "Kategorie bearbeiten"
 
 msgid "Badge title"
 msgstr "Titel des Badges"
@@ -1447,10 +1447,10 @@ msgid ""
 msgstr "Zeige diese Nutzerrolle nach Gruppen sortiert an. "
 
 msgid "Global"
-msgstr ""
+msgstr "Global"
 
 msgid "Save Badge"
-msgstr ""
+msgstr "Badge speichern"
 
 msgid "Edit"
 msgstr "Bearbeiten"
@@ -1963,25 +1963,25 @@ msgid ""
 msgstr "Die Adresse darf nur alphanumerische Zeichen enthalten. Bitte beachten Sie, dass die Adresse nicht mehr geändert werden kann, nachdem die Gruppe erstellt wurde."
 
 msgid "You can add css that will be used to style the instance."
-msgstr ""
+msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
 
 msgid "Use Norms"
-msgstr ""
+msgstr "Themen verwenden"
 
 msgid "Allow users to propose norms"
-msgstr ""
+msgstr "Mitgliedern erlauben, neue Themen vorzuschlagen"
 
 msgid "Use milestones"
-msgstr ""
+msgstr "Termine verwenden"
 
 msgid "Freeze this instance"
-msgstr ""
+msgstr "Diese Gruppe einfrieren"
 
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 msgid "This instance is authenticated"
-msgstr ""
+msgstr "Diese Gruppe ist „authentifiziert“"
 
 msgid "Home"
 msgstr "Gruppe"
@@ -2067,7 +2067,7 @@ msgid "Edit %s"
 msgstr "%s bearbeiten"
 
 msgid "Edit milestone"
-msgstr ""
+msgstr "Termin bearbeiten"
 
 msgid "Milestone title"
 msgstr "Titel des Termins"
@@ -2085,7 +2085,7 @@ msgid "Please use the DD.MM.YYYY format."
 msgstr "Bitte nutzen Sie folgendes Datumsformat: DD.MM.YYYY"
 
 msgid "Category"
-msgstr ""
+msgstr "Kategorie"
 
 msgid "No Category"
 msgstr "Kein Bereich"
@@ -2097,7 +2097,7 @@ msgid "new milestone"
 msgstr "Neuer Termin"
 
 msgid "Past Milestones"
-msgstr ""
+msgstr "Vergangene Termine"
 
 msgid "tutorial_milestones_timeline"
 msgstr "Neben dem interaktiven Kalender, in welchem die Termine in zeitlicher Anordnung zueinander stehen..."
@@ -2116,10 +2116,10 @@ msgstr "angelegt"
 
 #, python-format
 msgid "by %s on %s"
-msgstr ""
+msgstr "von „%s“ am „%s“"
 
 msgid "Last Change"
-msgstr ""
+msgstr "Letzte Änderung"
 
 msgid "Edit this milestone."
 msgstr "Diesen Termin bearbeiten."
@@ -2128,16 +2128,16 @@ msgid "Delete this milestone."
 msgstr "Diesen Termin entfernen."
 
 msgid "Associated Proposals"
-msgstr ""
+msgstr "Verknüpfte Vorschläge"
 
 msgid "No proposals are connected to this milestone"
-msgstr ""
+msgstr "Mit diesem Termin sind keine Vorschläge verknüpft"
 
 msgid "Associated Norms"
-msgstr ""
+msgstr "Verknüpfte Themen"
 
 msgid "No norms are connected to this milestone"
-msgstr ""
+msgstr "Mit diesem Termin sind keie Themen verknüpft"
 
 msgid "tutorial_milestone_details_follow"
 msgstr "Ist der Termin wichtig für Sie, können Sie ihn auch Ihrer Beobachtungsliste hinzufügen."
