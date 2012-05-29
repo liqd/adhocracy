@@ -123,23 +123,23 @@ ${self.badges_listing()}
 
 <%def name="badges_listing()">
   <h2>${_("User Badges")}   
-  <a style="margin-bottom: 0.3em" class="btn btn-mini" 
-     href="${c.badge_base_url}/user/add">${_("Add new user badge...")}</a>
+  <a style="margin-bottom: 0.3em" class="btn btn-mini plus" 
+     href="${c.badge_base_url}/user/add">${_("New")}</a>
   </span>
   </h2>
   ${render_tables(c.badges, 'user', c.groups, user_badges_table)}
 
 
   <h2>${_("Proposal Badges")}
-  <a style="margin-bottom: 0.3em" class="btn btn-mini" 
-     href="${c.badge_base_url}/delegateable/add">${_("Add new Proposal badge...")}</a>
+  <a style="margin-bottom: 0.3em" class="btn btn-mini plus" 
+     href="${c.badge_base_url}/delegateable/add">${_("New")}</a>
   </h2>
   ${render_tables(c.badges, 'delegateable', c.groups, delegateable_badges_table)}
 
 
   <h2>${_("Proposal Category Badges")}
-  <a style="margin-bottom: 0.3em" class="btn btn-mini" 
-     href="${c.badge_base_url}/category/add">${_("Add new Category...")}</a>
+  <a style="margin-bottom: 0.3em" class="btn btn-mini plus" 
+     href="${c.badge_base_url}/category/add">${_("New")}</a>
   </h2>
   ${render_tables(c.badges, 'category', c.groups, category_badges_table)}
 </%def>

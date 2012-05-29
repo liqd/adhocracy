@@ -57,6 +57,11 @@ table td.line_text {
   color: #000;
 }
 
+.plus:before {
+font-weight: bold;
+content: "+ ";
+}
+
 /* images - make wordpress styles work */
 .alignleft {
   float: left;
