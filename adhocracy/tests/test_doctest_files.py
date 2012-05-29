@@ -4,6 +4,8 @@ from doctest import DocFileSuite
 from os.path import dirname
 import unittest
 
+import mock
+
 from adhocracy import model
 from adhocracy.tests import testtools
 from adhocracy.tests.testbrowser import ADHOCRACY_LAYER, ADHOCRACY_LAYER_APP
@@ -28,10 +30,13 @@ flags = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE)
 globs = {"browser": make_browser(),
          'make_browser': make_browser,
          "app":  ADHOCRACY_LAYER_APP,
+         'self': ADHOCRACY_LAYER,
          "app_url": app_url,
          "instance_url": instance_url,
+         # imports
+         'mock': mock,
          'testtools': testtools,
-         'model': model
+         'model': model,
         }
 
 

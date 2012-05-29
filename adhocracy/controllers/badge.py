@@ -39,16 +39,22 @@ AnyAdmin = WhatAnyPredicate(has_permission('global.admin'),
 class BadgeController(BaseController):
     """Badge controller base class"""
 
+    form_template = "/badge/form.html"
+    index_template = "/badge/index.html"
+    base_url_ = None
+
     def _available_badges(self):
         '''
         Return the badges that are editable by a user.
         '''
         c.groups = [{'permission': 'global.admin',
-                     'label': _('In all instances')}]
+                     'label': _('In all instances'),
+                     'show_label': True}]
         if c.instance:
             c.groups.append(
                 {'permission': 'instance.admin',
-                 'label': _('In instance "%s"') % c.instance.label})
+                 'label': _('In instance "%s"') % c.instance.label,
+                 'show_label': h.has_permission('global.admin')})
         badges = {}
         if has('global.admin'):
             badges['global.admin'] = {
@@ -64,11 +70,15 @@ class BadgeController(BaseController):
 
     @property
     def base_url(self):
-        return h.site.base_url(instance=c.instance, path='/badge')
+        if self.base_url_ is None:
+            self.base_url_ = h.site.base_url(instance=c.instance,
+                                             path='/badge')
+        return self.base_url_
 
     def index(self, format='html'):
         c.badges = self._available_badges()
-        return render("/badge/index.html")
+        c.badge_base_url = self.base_url
+        return render(self.index_template)
 
     def _redirect_not_found(self, id):
         h.flash(_("We cannot find the badge with the id %s") % str(id),
@@ -77,7 +87,7 @@ class BadgeController(BaseController):
 
     def render_form(self):
         c.instances = Instance.all()
-        return render("/badge/form.html")
+        return render(self.form_template)
 
     def add(self, badge_type=None, errors=None):
         if badge_type is not None:
@@ -100,6 +110,7 @@ class BadgeController(BaseController):
 
         c.badge_type = badge_type
         c.form_type = action
+        c.badge_base_url = self.base_url
 
         methodname = "%s_%s_badge" % (action, badge_type)
         method = getattr(self, methodname, None)
@@ -164,7 +175,7 @@ class BadgeController(BaseController):
 
     @ActionProtector(AnyAdmin)
     def edit(self, id, errors=None):
-        badge = Badge.by_id(id)
+        badge = Badge.by_id(id, instance_filter=False)
         if badge is None:
             self._redirect_not_found(id)
         if badge.instance != c.instance and not has('global.admin'):
@@ -187,7 +198,7 @@ class BadgeController(BaseController):
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
     def update(self, id):
-        badge = Badge.by_id(id)
+        badge = Badge.by_id(id, instance_filter=False)
         if badge is None:
             self._redirect_not_found(id)
         if badge.instance != c.instance and not has('global.admin'):

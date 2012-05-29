@@ -1,0 +1,36 @@
+<%inherit file="/instance/settings.html" />
+<%namespace name="forms" file="/forms.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Manage: %s") % c.page_instance.label}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Manage")}
+</%def>
+
+<%block name="settings_content">
+<form name="voting" class="well" method="POST"
+      enctype="multipart/form-data">
+    
+    ${components.flashmessages()}
+
+    <h2>${c.settings_menu.current['label']}</h2>
+
+    <input type="hidden" name="_method" value="PUT" />
+
+    ${h.field_token()|n}
+    
+    ${forms.checkbox(_("Enable (final) adoption voting:"), 'allow_adopt', 1)}
+    <div style="padding-left: 2em;">
+        <%
+        delay_help = _("Before activating, the defined majority must be continuously held " + 
+                       "by the proposal for the specified interval.")
+        %>
+        ${forms.select(_("Majority:"), 'required_majority', c.majority_options, 5, help=delay_help)}
+        ${forms.select(_("Delay:"), 'activation_delay', c.delay_options, 10, help=delay_help)}
+    </div>
+
+    ${forms.checkbox(_("Enable vote delegation:"), 'allow_delegate', 15)}
+    ${components.savebox("/instance/%s" % c.page_instance.key)}
+
+</form> 
+</%block>

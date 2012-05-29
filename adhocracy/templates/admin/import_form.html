@@ -1,4 +1,5 @@
 <%inherit file="/template.html" />
+<%namespace name="forms" file="/forms.html"/>
 <%namespace name="components" file="/components.html"/>
 <%def name="title()">${_("Admin: Import Users")}</%def>
 
@@ -7,38 +8,66 @@
 </%block>
 
 <%block name="main_content">
-<form name="edit_proposal" class="inplace" method="POST">
+${self.form()}
+</%block>
+
+<%def name="form()">
+
+<form name="import_users" class="well" method="POST">
 
     ${h.field_token()|n}
 
     <div class="input_wrapper">
-        <label for="users_csv">${_("Users CSV")}</label>
-        <p>${_("Paste the content of a CSV file, e.g. exported from Excel, with the 3 columns username, display name and email")}</p>
+        <%forms:textarea 
+            label="${_('Users CSV')}"
+            name="users_csv"
+            value=""
+            tabindex="1"
+            help="${_('Paste the content of a CSV file, e.g. exported from Excel, with the 3 columns username, display name and email')}">
 
-        <textarea tabindex="1" name="users_csv"></textarea>
+        </%forms:textarea>
 
-        <label for="email_subject">${_("Email Subject")}</label>
-        <input type="text" name="email_subject" value="" />
 
-        <label for="email_template">${_("Email Template")}</label>
-        <p>${_('The template for the mail to the users. You need to insert some placeholders into the email text.')}</p>
-        <h6>${_('Required')}</h6>
-        <ul class="nobullet">
-            %for item in c.placeholders['required']:
-            <li><em>${item['name']}</em>: ${item['description']}</li>
-            %endfor
-        </ul>
-        <h6>${_('Optional')}</h6>
-        <ul class="nobullet">
-            %for item in c.placeholders['optional']:
-            <li><em>${item['name']}</em>: ${item['description']}</li>
-            %endfor
-        </ul>
-        <textarea tabindex="2" name="email_template"></textarea>
+        ${forms.input(_("Email Subject"), "email_subject", 2)}
+
+        <%forms:textarea label="${_('Email Template')}" 
+                         name="email_template"
+                         value=""
+                         tabindex="3">
+           <%def name="before()">
+           <%
+           required = [
+               {'name': '{user_name}',
+                'description': _('The name with which the user can log in.')},
+               {'name': '{password}',
+                'description': _('The initial password for the user.')},
+               {'name': '{url}',
+                'description': _('An URL for the user to activate his account.')}]
+           optional = [
+               {'name': '{display_name}',
+                'description': _('The name that will be displayed to other users.')},
+               {'name': '{email}',
+                'description': _('The email address of the user.')}]
+           %>
+
+           <div class="help-block">
+               <p>${_('The template for the mail to the users. You need to insert some placeholders into the email text.')}</p>
+               <h6>${_('Required')}</h6>
+               <ul class="nobullet">
+                   %for item in required:
+                   <li><em>${item['name']}</em>: ${item['description']}</li>
+                   %endfor
+               </ul>
+               <h6>${_('Optional')}</h6>
+               <ul class="nobullet">
+                   %for item in optional:
+                   <li><em>${item['name']}</em>: ${item['description']}</li>
+                   %endfor
+               </ul>
+           </div>
+           </%def>
+        </%forms:textarea>
     </div>
-    <div class="input_wrapper submit">
-        ${components.savebox("")}
-    </div>
-
-
-</%block>
+    ${components.savebox("")}
+</form>
+</%def>
