@@ -116,6 +116,8 @@ class InstanceGeneralEditForm(formencode.Schema):
     locale = validators.String(not_empty=False)
     hidden = validators.StringBool(not_empty=False, if_empty=False,
                                    if_missing=False)
+    is_authenticated = validators.StringBool(not_empty=False, if_empty=False,
+                                          if_missing=False)
 
 
 class InstanceAppearanceEditForm(formencode.Schema):
@@ -430,6 +432,7 @@ class InstanceController(BaseController):
                 'description': c.page_instance.description,
                 'hidden': c.page_instance.hidden,
                 'locale': c.page_instance.locale,
+                'is_authenticated': c.page_instance.is_authenticated,
                 '_tok': csrf.token_id()})
 
     @RequireInstance
@@ -442,6 +445,10 @@ class InstanceController(BaseController):
 
         updated = update_attributes(c.page_instance, self.form_result,
                                     ['description', 'label', 'hidden'])
+        if h.has_permission('global.admin'):
+            auth_updated = update_attributes(c.page_instance, self.form_result,
+                                             ['is_authenticated'])
+            updated = updated or auth_updated
         locale = Locale(self.form_result.get("locale"))
         if locale and locale in i18n.LOCALES:
             if c.page_instance.locale != locale:

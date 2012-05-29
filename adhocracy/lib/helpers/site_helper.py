@@ -2,6 +2,10 @@ from pylons import config, g
 from pylons.i18n import _
 
 
+def domain():
+    return config.get('adhocracy.domain').split(':')[0]
+
+
 def name():
     return config.get('adhocracy.site.name', _("Adhocracy"))
 

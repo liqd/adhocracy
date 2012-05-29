@@ -164,7 +164,7 @@ text = "%s - %s: %s" % (h.site.name(), c.instance.label, entity.title)
 <script type="text/javascript">
 $(document).ready(function () {
     adhocracy.helpers.createSocialButtons('#socialshareprivacy', '${text}',
-    '${base_url}');
+    '${base_url}', '.${h.site.domain()}');
 });
 </script>
 

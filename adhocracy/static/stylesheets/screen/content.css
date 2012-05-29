@@ -1769,3 +1769,9 @@ a.joyride-prev-tip:hover {
 #milestone #associated-norms {
   padding-top: 2em;
 }
+
+/* Fixes for js.socialshareprivace */
+
+#socialshareprivacy form {
+  padding: 0;
+}

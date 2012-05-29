@@ -3,7 +3,12 @@ adhocracy Changelog
 
 1.2beta2dev
 -----------
+- Give the users the option to permanently activate the twitter, 
+  facebook or google+ buttons. Save the setting in a wildcard 
+  subdomain cookie so it is valid across all instances.
 
+  This requires a updated js.socialshareprivacy to work with
+  our auth cookie. [csenger]
 - Add the possibility to overwrite templates in <adhocracy.site>/templates 
   directory (like it's possible for static resources and static pages already.
   New templates there need a server restart to be picked up.
