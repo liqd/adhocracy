@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 1.2beta2dev\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-05-14 13:27+0200\n"
+"POT-Creation-Date: 2012-05-29 11:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,19 +19,10 @@ msgstr ""
 msgid "Thank you for helping."
 msgstr ""
 
-msgid "The name with which the user can log in."
+msgid "Please insert a subject for the mail we will send to the users."
 msgstr ""
 
-msgid "The initial password for the user."
-msgstr ""
-
-msgid "An URL for the user to activate his account."
-msgstr ""
-
-msgid "The name that will be displayed to other users."
-msgstr ""
-
-msgid "The email address of the user."
+msgid "Please insert a template for the mail we will send to the users."
 msgstr ""
 
 msgid "In all instances"
@@ -96,10 +87,64 @@ msgstr ""
 msgid "News from %s"
 msgstr ""
 
+msgid "The changes where saved."
+msgstr ""
+
+msgid "No update required."
+msgstr ""
+
 msgid "An index of instances run at this site. Select which ones you would like to join and participate!"
 msgstr ""
 
 msgid "tutorial_instance_show_intro"
+msgstr ""
+
+msgid "Overview"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Appearance"
+msgstr ""
+
+msgid "Contents"
+msgstr ""
+
+msgid "Voting"
+msgstr ""
+
+msgid "Badges"
+msgstr ""
+
+msgid "Members"
+msgstr ""
+
+msgid "Members import"
+msgstr ""
+
+msgid "No delay"
+msgstr ""
+
+msgid "1 Day"
+msgstr ""
+
+msgid "2 Days"
+msgstr ""
+
+msgid "One Week"
+msgstr ""
+
+msgid "Two Weeks"
+msgstr ""
+
+msgid "Four Weeks"
+msgstr ""
+
+msgid "A simple majority (&frac12; of vote)"
+msgstr ""
+
+msgid "A two-thirds majority"
 msgstr ""
 
 #, python-format
@@ -1146,19 +1191,10 @@ msgstr ""
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr ""
 
-msgid "Overview"
-msgstr ""
-
 msgid "Norms"
 msgstr ""
 
-msgid "Members"
-msgstr ""
-
-msgid "Edit"
-msgstr ""
-
-msgid "Badges"
+msgid "Settings"
 msgstr ""
 
 #, python-format
@@ -1244,16 +1280,31 @@ msgstr ""
 msgid "Import Users"
 msgstr ""
 
-msgid "Users CSV"
+msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 3 columns username, display name and email"
 msgstr ""
 
-msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 3 columns username, display name and email"
+msgid "Users CSV"
 msgstr ""
 
 msgid "Email Subject"
 msgstr ""
 
 msgid "Email Template"
+msgstr ""
+
+msgid "The name with which the user can log in."
+msgstr ""
+
+msgid "The initial password for the user."
+msgstr ""
+
+msgid "An URL for the user to activate his account."
+msgstr ""
+
+msgid "The name that will be displayed to other users."
+msgstr ""
+
+msgid "The email address of the user."
 msgstr ""
 
 msgid "The template for the mail to the users. You need to insert some placeholders into the email text."
@@ -1357,6 +1408,9 @@ msgid "Global"
 msgstr ""
 
 msgid "Save Badge"
+msgstr ""
+
+msgid "Edit"
 msgstr ""
 
 msgid "No badges added yet."
@@ -1730,12 +1784,6 @@ msgstr ""
 msgid "Majority:"
 msgstr ""
 
-msgid "A simple majority (&frac12; of vote)"
-msgstr ""
-
-msgid "A two-thirds majority"
-msgstr ""
-
 msgid "In Soviet Russia, proposal votes you."
 msgstr ""
 
@@ -1743,24 +1791,6 @@ msgid "Before activating, the defined majority must be continuously held by the 
 msgstr ""
 
 msgid "Delay:"
-msgstr ""
-
-msgid "No delay"
-msgstr ""
-
-msgid "1 Day"
-msgstr ""
-
-msgid "2 Days"
-msgstr ""
-
-msgid "One Week"
-msgstr ""
-
-msgid "Two Weeks"
-msgstr ""
-
-msgid "Four Weeks"
 msgstr ""
 
 msgid "Membership Options"
@@ -1854,6 +1884,27 @@ msgid "Instance URL"
 msgstr ""
 
 msgid "The address may only contain alpha-numeric characters. Please note that this key cannot be changed after the instance has been created."
+msgstr ""
+
+msgid "You can add css that will be used to style the instance."
+msgstr ""
+
+msgid "Use Norms"
+msgstr ""
+
+msgid "Allow users to propose norms"
+msgstr ""
+
+msgid "Use milestones"
+msgstr ""
+
+msgid "Freeze this instance"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "This instance is authenticated"
 msgstr ""
 
 msgid "Home"
@@ -2017,9 +2068,6 @@ msgid "tutorial_milestone_details_description"
 msgstr ""
 
 msgid "tutorial_milestone_details_listing"
-msgstr ""
-
-msgid "(over)"
 msgstr ""
 
 #, python-format
