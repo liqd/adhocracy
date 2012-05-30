@@ -1,4 +1,3 @@
-
 Internal API Documentation
 ==========================
 
@@ -27,7 +26,7 @@ Database models and helper classes
 
 
 Badge
-'''''''''
+'''''
 
 .. automodule:: adhocracy.model.badge
 		:members: 
@@ -49,14 +48,6 @@ Delegateable
 		:members:
 		:undoc-members:
     
-
-
-Delegateablebadge
-'''''''''''''''''
-
-.. automodule:: adhocracy.model.delegateablebadge
-		:members: 
-		:undoc-members:
 
 
 Delegation
