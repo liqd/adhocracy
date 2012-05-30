@@ -1,3 +1,7 @@
+.. WARNING::
+  This is the documentation for the REST interface. Unfortunately 
+  it is outdated and parts of the interface may not work anymore.
+
 
 REST Resources 
 ==============
