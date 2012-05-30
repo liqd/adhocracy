@@ -29,6 +29,7 @@ Run one test file
 ------------------
 
 ::
+
   (adhocracy)/src/adhocracy/$ ../../bin/nosetest -s adhocracy.tests.test_module
 
 The -s option enables stdout, so you can use pdb/ipdb statements in your code.
