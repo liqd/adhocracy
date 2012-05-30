@@ -20,7 +20,7 @@ to set up a new language on transifex.
 Translations for developers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Adhocracy uses Babel_ together with Transifex_ to manage translations.
+Adhocracy uses Babel_ together with Transifex to manage translations.
 Both are preconfigured in setup.cfg and .tx/config.
 
 
