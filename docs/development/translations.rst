@@ -1,55 +1,160 @@
 Update translations
 ===================
 
-Adhocracy uses Babel_ to manage translations with gettext message catalogs.
-It has some babel commands preconfigured in setup.cfg. 
+Translations for contributors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. CAUTION:: If you use the 
-   `adhocracy.buildout`_ you
-   need to use the ``--distribute`` option to ``bootstrap.py``.
+We manage our translations in a `Transifex project`_. If you want to
+change a translation you can go to the project page, choose your
+language and click on the resource "Adhocracy". You will get a menu
+where you can download the .po file do edit it on your computer with
+an application like `poedit`_ ("Download for use"). After you
+translated the file you can go to the menu and upload the file. From
+the menu you can also use the transifex online editor (Button: "✔
+Translate now")
+
+It would be nice to drop us a note before you start to translate it to
+adhocracy-dev@lists.liqd.net or info@liqd.net. You can also contact us
+to set up a new language on transifex.
+
+Translations for developers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Adhocracy uses Babel_ together with Transifex_ to manage translations.
+Both are preconfigured in setup.cfg and .tx/config.
+
+
+Preperations
+------------
+
+CAUTION:: If you're using the `adhocracy.buildout`_ (highly
+recommended) you need to use the ``--distribute`` option to
+``bootstrap.py`` to work with the preconfigured babel commands.
+This document assumes that you installed the buildout in a virtualenv
+"adhocracy".
+
+Install the `transifex client`_ on your system.  Than add your
+username and password for transifex.net to `~.transifexrc`::
+
+    [https://www.transifex.net]
+    hostname = https://www.transifex.net
+    username = <your transifex username>
+    password = <your transifex password>
+    token = 
+
+Translation workflow
+--------------------
+
+All .po and .pot files should go through transifex before they are
+committed. This might be annoying but unifies the formatting and 
+makes it easier to review commits.
+
+Extract new messages
+''''''''''''''''''''
+1. Extract new messages with ``extract_messages``. This will update
+   ``adhocracy/i18n/adhocracy.pot``::
+
+     (adhocracy)/src/adhocracy$ ../../bin/adhocpy setup.py extract_messages
+
+2. Push that to transifex::
+
+     (adhocracy)/src/adhocracy$ tx push --source
+
+3. Pull all files from transifex::
+
+     (adhocracy)/src/adhocracy$ tx pull
+
+   If it skips languages the files on transifex are older than the
+   files on your system. See Troubleshooting.
+
+4. Commit adhocracy.pot::
+
+     (adhocracy)/src/adhocracy$ hg ci adhocracy/i18n/adhocracy.pot \
+     > -m 'i18n: extract new messages'
+
+Update the translations
+'''''''''''''''''''''''
+1. Go to the transifex project and use the the online translation
+   editor to translate and continue with 4.
+
+   Or translate it locally. To do that make sure you have pulled the
+   most recent translations from transifex::
+
+     $ (adhocracy)/src/adhocracy$ tx pull  # pulls all languages or
+     $ (adhocracy)/src/adhocracy$ tx pull -l <language>
+
+2. edit the ``.po`` files for your language(s). 
+
+   INFO:: The prefered way to edit ``.po`` files is to use an
+   application like poedit_. It will highlight untranslated messages
+   and messages that where created with fuzzy matching and will
+   automatically update or remove markers like ``, fuzzy`` and update
+   the header of the ``.po`` file.
+
+3. push the translation to transifex::
+  
+     (adhocracy)/src/adhocracy$ tx push -l <language> 
+
+4. Pull the translation back::
+
+     (adhocracy)/src/adhocracy$ tx pull -l <language>
+
+5. compile the catalogs with ``compile_catalog``::
+
+     (adhocracy)/src/adhocracy$ ../../bin/adhocpy setup.py extract_messages   
+
+   This will also show you errors in the ``.po`` files and statistics
+   about the translation.
+
+6. Commit the .po and .mo files of the language(s) you translated, e.g.::
+
+     (adhocracy)/src/adhocracy$ hg ci adhocracy/i18n/de' -m 'i18n: ...'
+
+
+Troubleshooting
+'''''''''''''''
+
+If tx skips the languages you want to pull from the server, the local
+file is most likely newer than the file on transifex.net. You can add
+`-d` to the command to get debug output, e.g.::
+
+  tx -d pull -l de
+
+Than you have to check which of the files to use. Copy the local file
+and pull the language (with `-f`/`--force`) from transifex...::
+
+  (adhocracy)/src/adhocracy$ cd adhocracy/i18n/de/LC_MESSAGES
+  (adhocracy) .../de/LC_MESSAGES$ cp adhocracy.po local.po
+  (adhocracy) .../de/LC_MESSAGES$ tx  pull -f -l de
+
+..and compare them. A good tool to compare is podiff from the `Python
+GetText Translation Toolkit`_ (which you can install from source of
+from their ubuntu ppa). It contains several other tools to work with
+po-files. You might have to give the `-r` (relax) option to podiff.
+::
+
+  (adhocracy) .../de/LC_MESSAGES$ podiff local.po adhocracy.po
+  
+(There is also another `podiff package`_ on pypi.)
 
 Babel command
--------------
+'''''''''''''
 
 ``(adhocracy)/src/adhocracy$ ../../bin/adhocpy setup.py extract_messages``
    Extract the messages from the python files and templates into 
    ``adhocracy/i18n/adhocracy.pot``
 
-``(adhocracy)/src/adhocracy$ ../../bin/adhocpy setup.py update_catalog``
-   Use the ``adhocray.pot``file to update the ``.po`` files for all
-   languages in ``adhocracy/i18n/{LANG}/LC_MESSAGES/adhocracy.po``.
-   For new msgids babel will try to find a similar msgid and
-   automatically insert a msgstr. This is only a helper and
-   those msgstrs (marked with ``, fulzzy`` in the ``.po`` file
-   will not be included into the compiled ``.mo`` files.
-
 ``(adhocracy)/src/adhocracy$ ../../adhocpy setup.py compile_catalog``
   Compile the ``.po`` files for all languages to ``.mo`` files.
 
-Translation workflow
---------------------
+The babel command `update_catalog` should not be used anymore. Use the
+tx client instead.
 
-
-1. extract new messages to the ``.pot`` file with ``extract_messages``.
-2. update the ``.po`` files with ``update_catalog``
-3. edit the ``.po`` files for your language(s). 
-
-   The prefered way to edit ``.po`` files is to use an application like 
-   poedit_. It will highlight untranslated messages and messages that
-   where created with fuzzy matching and will automatically
-   update or remove markers like ``, fuzzy`` and update the header of the
-   ``.po`` file.
-
-4. compile the catalogs with ``compile_catalog``
-
-   This will also show you errors in the ``.po`` files and statistics
-   about translation
-
-Now you can commit the translations or send the files or a patch to
-the `adhocracy mailing list`_.
 
 .. _Babel: http://babel.edgewall.org/
+.. _Transifex project: https://www.transifex.net/projects/p/adhocracy/
+.. _transifex client: http://pypi.python.org/pypi/transifex-client
 .. _adhocracy.buildout: https://bitbucket.org/liqd/adhocracy.buildout
 .. _poedit: http://www.poedit.net/
-.. _adhocracy mailing list: 
-  http://lists.liqd.net/cgi-bin/mailman/listinfo/adhocracy-dev
+.. _Python GetText Translation Toolkit: https://launchpad.net/pyg3t
+.. _podiff package: http://pypi.python.org/pypi/podiff
