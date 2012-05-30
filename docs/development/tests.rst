@@ -15,21 +15,22 @@ Add a new test
 ``Go to (adhocracy)/src/adhocracy/adhocracy/tests and add you test
   (http://pylonsbook.com/en/1.1/testing.html).
 
-``(adhocracy)/src/adhocracy$ adhocpy setup.py compile_catalog``
-  Compile the ``.po`` files for all languages to ``.mo`` files.
-
 
 Run all tests
 --------------
  
-``(adhocracy)/src/adhocracy/$ ../../bin/nosetests .
-  If you do not use the buildout, take care that every dependency is in 
-  your pyton path.
+In an `adhocracy.buildout`_ you have ``bin/test``. Alternatively you can call::
+
+  (adhocracy)$ bin/nosetests --with-pylons=src/adhocracy/test.ini src/adhocracy/adhocracy/tests``
+
 
 
 Run one test file 
 ------------------
 
-``(adhocracy)/src/adhocracy/$ ../../bin/nosetest -s adhocracy.tests.test_module
-   The -s option enables stdrout, so you can use pdb/ipdb statements in your code.
+::
+  (adhocracy)/src/adhocracy/$ ../../bin/nosetest -s adhocracy.tests.test_module
 
+The -s option enables stdout, so you can use pdb/ipdb statements in your code.
+
+.. _adhocracy.buildout: https://bitbucket.org/liqd/adhocracy.buildout
