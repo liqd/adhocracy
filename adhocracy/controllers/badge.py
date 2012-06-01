@@ -165,10 +165,19 @@ class BadgeController(BaseController):
         redirect(self.base_url)
 
     def _get_common_fields(self, form_result):
+        '''
+        return a tuple of (title, color, description, instance).
+        '''
+        if h.has_permission('global.admin'):
+            instance = form_result.get('instance')
+        else:
+            # instance only admins can only create/edit
+            # badges inside the current instance
+            instance = c.instance
         return (form_result.get('title').strip(),
                 form_result.get('color').strip(),
                 form_result.get('description').strip(),
-                form_result.get('instance'))
+                instance)
 
     def get_badge_type(self, badge):
         return badge.polymorphic_identity
