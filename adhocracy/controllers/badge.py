@@ -182,15 +182,26 @@ class BadgeController(BaseController):
     def get_badge_type(self, badge):
         return badge.polymorphic_identity
 
-    @ActionProtector(AnyAdmin)
-    def edit(self, id, errors=None):
+    def get_badge_or_redirect(self, id):
+        '''
+        Get a badge. Redirect if it does not exist. Redirect if it
+        if the badge is not from the current instance, but the user is
+        only an instance admin, not a global admin
+        '''
         badge = Badge.by_id(id, instance_filter=False)
         if badge is None:
             self._redirect_not_found(id)
         if badge.instance != c.instance and not has('global.admin'):
             self._redirect_not_found(id)
+        return badge
+
+    @ActionProtector(AnyAdmin)
+    def edit(self, id, errors=None):
+        badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
         c.form_type = 'update'
+
+        # form defaults
         instance_default = badge.instance.key if badge.instance else ''
         defaults = dict(title=badge.title,
                         description=badge.description,
@@ -200,6 +211,7 @@ class BadgeController(BaseController):
         if isinstance(badge, UserBadge):
             c.groups = meta.Session.query(Group).order_by(Group.group_name)
             defaults['group'] = badge.group and badge.group.code or ''
+
         return htmlfill.render(self.render_form(),
                                errors=errors,
                                defaults=defaults)
@@ -207,11 +219,7 @@ class BadgeController(BaseController):
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
     def update(self, id):
-        badge = Badge.by_id(id, instance_filter=False)
-        if badge is None:
-            self._redirect_not_found(id)
-        if badge.instance != c.instance and not has('global.admin'):
-            self._redirect_not_found(id)
+        badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
         return self.dispatch('update', c.badge_type, id=id)
 
