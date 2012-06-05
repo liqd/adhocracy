@@ -126,7 +126,7 @@ def is_integrationtest():
 def integrationtest(func, *args, **kwargs):
     '''
     Decorator for tests that require external services like
-    solr or rabbitmq.
+    solr or redis/rq.
     '''
     is_integrationtest()
     return func(*args, **kwargs)

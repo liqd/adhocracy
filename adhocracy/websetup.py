@@ -28,10 +28,12 @@ def setup_app(command, conf, vars):
     load_environment(conf.global_conf, conf.local_conf, with_db=False)
     _setup(conf)
 
-    
+
 def _setup(config):
     # disable delayed execution
-    config['adhocracy.amqp.host'] = None
+    # config['adhocracy.amqp.host'] = None
+    # FIXME: still do this with rq instead of rabbitmq
+    # NOTE: this is called from tests so it may have side effects
 
     # Create the tables if they don't already exist
     url = config.get('sqlalchemy.url')
