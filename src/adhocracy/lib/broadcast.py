@@ -6,10 +6,8 @@ from sqlalchemy import or_
 
 import adhocracy.model as model
 import adhocracy.i18n as i18n
-import queue
+from adhocracy.lib.queue import async
 import mail
-
-REPORT_SERVICE = 'report_abuse'
 
 
 def notify_abuse(instance, user, url, message):
@@ -20,10 +18,7 @@ def notify_abuse(instance, user, url, message):
         'message': message
     }
     message = json.dumps(message)
-    if queue.has_queue():
-        queue.post_message(REPORT_SERVICE, message)
-    else:
-        handle_abuse_message(message)
+    handle_abuse_message.enqueue(message)
 
 
 def get_instance_admins(instance):
@@ -50,6 +45,7 @@ def get_global_admins():
     return q.all()
 
 
+@async
 def handle_abuse_message(message):
     message = json.loads(message)
     admins = []
