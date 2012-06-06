@@ -74,7 +74,7 @@ ${caller.body()}
 <select name="${name}" tabindex="${tabindex}">
     %for option in values:
     <option value="${option['value']}"
-            ${'selected="selected"' if option.get('selected') else ''}>
+            ${h.literal('selected="selected"') if option.get('selected') else ''}>
         ${option['label']}
     </option>
     %endfor
