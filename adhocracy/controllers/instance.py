@@ -114,6 +114,7 @@ class InstanceGeneralEditForm(formencode.Schema):
     label = validators.String(min=4, max=254, not_empty=True)
     description = validators.String(max=100000, if_empty=None, not_empty=False)
     locale = validators.String(not_empty=False)
+    default_group = forms.ValidGroup(not_empty=True)
     hidden = validators.StringBool(not_empty=False, if_empty=False,
                                    if_missing=False)
     is_authenticated = validators.StringBool(not_empty=False, if_empty=False,
@@ -156,7 +157,6 @@ class InstanceBadgesEditForm(formencode.Schema):
 
 
 class InstanceMembersEditForm(formencode.Schema):
-    default_group = forms.ValidGroup(not_empty=True)
     allow_extra_fields = True
     pass
 
@@ -351,15 +351,13 @@ class InstanceController(BaseController):
                     'allowed': allowed}
 
         settings = Menu([
-            {'name': 'index',
+            {'name': 'general',
              'url': h.instance.url(instance, member='settings'),
-             'label': L_('Overview')},
-            setting('general', L_('General')),
+             'label': L_('General')},
             setting('appearance', L_('Appearance')),
             setting('contents', L_('Contents')),
             setting('voting', L_('Voting')),
             setting('badges', L_('Badges')),
-            setting('members', L_('Members')),
             setting('members_import', L_('Members import'),
                     allowed=(h.has_permission('global.admin') or
                              can.instance.authenticated_edit(instance)))])
@@ -391,12 +389,6 @@ class InstanceController(BaseController):
         response.headers['location'] = settings_url(instance, setting_name)
         return unicode(message)
 
-    def settings(self, id):
-        c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self.settings_menu(c.page_instance, 'index')
-        require.instance.edit(c.page_instance)
-        return render("/instance/settings.html")
-
     def icon(self, id, y=24, x=None):
         try:
             y = int(y)
@@ -418,18 +410,34 @@ class InstanceController(BaseController):
             c.locales.append({'value': str(locale),
                               'label': locale.display_name,
                               'selected': locale == c.page_instance.locale})
-        return render("/instance/settings_general.html")
+
+        c.default_group_options = []
+        c.default_group = (c.page_instance.default_group.code if
+                           c.page_instance.default_group else
+                           model.Group.INSTANCE_DEFAULT)
+
+        for groupname in model.Group.INSTANCE_GROUPS:
+            group = model.Group.by_code(groupname)
+            c.default_group_options.append(
+                {'value': group.code,
+                 'label': h.literal(_(group.group_name)),
+                 'selected': group.code == c.default_group})
+
+        rendered = render("/instance/settings_general.html")
+        return rendered
 
     @RequireInstance
     def settings_general(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
+        form_content = self.settings_general_form(id)
         return htmlfill.render(
-            self.settings_general_form(id),
+            form_content,
             defaults={
                 '_method': 'PUT',
                 'label': c.page_instance.label,
                 'description': c.page_instance.description,
+                'default_group': c.default_group,
                 'hidden': c.page_instance.hidden,
                 'locale': c.page_instance.locale,
                 'is_authenticated': c.page_instance.is_authenticated,
@@ -449,6 +457,12 @@ class InstanceController(BaseController):
             auth_updated = update_attributes(c.page_instance, self.form_result,
                                              ['is_authenticated'])
             updated = updated or auth_updated
+
+        if (self.form_result.get('default_group').code in
+            model.Group.INSTANCE_GROUPS):
+            updated = updated or update_attributes(c.page_instance,
+                                                   self.form_result,
+                                                   ['default_group'])
         locale = Locale(self.form_result.get("locale"))
         if locale and locale in i18n.LOCALES:
             if c.page_instance.locale != locale:
@@ -631,44 +645,6 @@ class InstanceController(BaseController):
         c.settings_menu = self.settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
         return controller.add(badge_id)
-
-    def settings_members_form(self, id):
-        c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self.settings_menu(c.page_instance, 'members')
-        c.default_group_options = []
-        default_group = (c.page_instance.default_group.code if
-                         c.page_instance.default_group else
-                         model.Group.INSTANCE_DEFAULT)
-
-        for groupname in model.Group.INSTANCE_GROUPS:
-            group = model.Group.by_code(groupname)
-            c.default_group_options.append(
-                {'value': group.code,
-                 'label': h.literal(_(group.group_name)),
-                 'selected': group.code == default_group})
-        return render("/instance/settings_members.html")
-
-    @RequireInstance
-    def settings_members(self, id):
-        c.page_instance = self._get_current_instance(id)
-        require.instance.edit(c.page_instance)
-        return htmlfill.render(
-            self.settings_members_form(id),
-            defaults={
-                '_method': 'PUT',
-                '_tok': csrf.token_id()})
-
-    @RequireInstance
-    @csrf.RequireInternalRequest(methods=['POST'])
-    @validate(schema=InstanceMembersEditForm(),
-              form="settings_members_form",
-              post_only=True, auto_error_formatter=formatter)
-    def settings_members_update(self, id, format='html'):
-        c.page_instance = self._get_current_instance(id)
-        require.instance.edit(c.page_instance)
-
-        updated = update_attributes(c.page_instance, self.form_result, [])
-        return self.settings_result(updated, c.page_instance, 'members')
 
     def settings_members_import_form(self, id):
         c.page_instance = self._get_current_instance(id)

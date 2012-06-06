@@ -240,11 +240,9 @@ def make_map():
     map.connect('/instance/{id}_{y}.png',
                 controller='instance', action='icon')
     map.connect('/instance/{id}/settings',
-                controller='instance', action='settings')
-    map.connect('/instance/{id}/settings/general',
                 controller='instance', action='settings_general',
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/general',
+    map.connect('/instance/{id}/settings',
                 controller='instance', action='settings_general_update',
                 conditions=dict(method=['PUT']))
     map.connect('/instance/{id}/settings/appearance',
@@ -284,12 +282,6 @@ def make_map():
     map.connect('/instance/{id}/settings/badges/edit/{badge_id}',
                 controller='instance', action="settings_badges_update",
                 conditions=dict(method=['POST']))
-    map.connect('/instance/{id}/settings/members',
-                controller='instance', action='settings_members',
-                conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/members',
-                controller='instance', action='settings_members_update',
-                conditions=dict(method=['PUT']))
     map.connect('/instance/{id}/settings/members_import',
                 controller='instance', action='settings_members_import',
                 conditions=dict(method=['GET']))
@@ -298,7 +290,6 @@ def make_map():
                 conditions=dict(method=['PUT', 'POST']))
     #map.connect('/instance/{id}/settings/',
     #            controller='instance', action='settings')
-
 
     map.resource('instance', 'instance', member={'join': 'GET',
                                                  'leave': 'POST',
