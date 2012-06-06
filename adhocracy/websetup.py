@@ -28,7 +28,7 @@ def setup_app(command, conf, vars):
     load_environment(conf.global_conf, conf.local_conf, with_db=False)
     _setup(conf)
 
-    
+
 def _setup(config):
     # disable delayed execution
     config['adhocracy.amqp.host'] = None
