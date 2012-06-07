@@ -8,7 +8,7 @@
 </%def>
 
 
-<%block name="headline">
+<%block name="main_content">
 
   ${c.tile.description|n}
 
@@ -30,17 +30,30 @@
   </div>
 
   </div>
-  <br/>
 
-<div class="clearFix" id="numbers"></div>
-    <h3>${_("By the numbers")}</h3>
-    <p>${_("%s has:") % c.page_instance.label}</p>
-    <ul>
+</div>
+</%block>
+
+<%block name="sidebar">
+
+<h3 id="information">${_('Informations')}</h3>
+<summary>
+    <h6>${_('Created')}</h6>
+    <p>${_("by %s on %s") % (h.user.link(c.instance.creator), h.format_date(c.instance.create_time))|n}</p>
+
+    <h6>${_('Votings')}</h6>
+    <p>${c.sidebar_delegations}</p>
+
+    <h6>${_('By the numbers')}</h6>
+    <ul class="nobullet">
         <li>${_("<b>%s</b> community members") % c.stats.get('members')|n}</li>
         <li>${_("<b>%s</b> proposals") % c.stats.get('proposals')|n}</li>
         <li>${_("<b>%s</b> comments") % c.stats.get('comments')|n}</li>
     </ul>
-</div>
+    
+</summary>
+
+</%block>
 
 <%components:tutorial>
         <ol id="joyRideTipContent">
@@ -60,4 +73,3 @@
         </ol>
 </%components:tutorial>
 
-</%block>

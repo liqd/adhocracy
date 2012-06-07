@@ -220,6 +220,11 @@ class InstanceController(BaseController):
         c.new_proposals_pager = pager.proposals(
             proposals, size=7, enable_sorts=False,
             enable_pages=False, default_sort=sorting.entity_newest)
+
+        c.sidebar_delegations = (_('Delegations are enabled.') if
+                                 c.page_instance.allow_delegate else
+                                 _('Delegations are disabled.'))
+        
         #pages = model.Page.all(instance=c.page_instance,
         #        functions=[model.Page.NORM])
         #c.top_pages_pager = pager.pages(
