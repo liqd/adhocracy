@@ -1451,6 +1451,21 @@ font-weight: bold;
 margin-bottom: 0;
 }
 
+/* Permissions table */
+
+#permissions th.group { vertical-align: bottom; 
+    padding-bottom: 15px;
+    vertical-align: bottom;
+}
+
+#permissions th.group p {
+    -moz-transform: rotate(-75deg);
+    -webkit-transform: rotate(-75deg);
+    -o-transform: rotate(-75deg);
+    -ms-transform: rotate(-75deg);
+    transform: rotate(-75deg);
+}
+
 /* Button below lists that should left-align with the text inside
  * the list.
  */
