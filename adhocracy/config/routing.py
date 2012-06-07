@@ -236,7 +236,7 @@ def make_map():
     map.connect('/get_admin_centers.json', controller='geo', action='get_admin_centers_json')
     map.connect('/find_instances.json', controller='geo', action='find_instances_json')
     map.connect('/autocomplete_instances.json', controller='geo', action='autocomplete_instances_json')
-    map.connect('/get_intersection_boundaries.json', controller='geo', action='get_intersection_boundaries_json')
+    map.connect('/get_tiled_boundaries.json', controller='geo', action='get_tiled_boundaries_json')
 
     map.connect('/search/filter', controller='search', action='filter')
     map.connect('/search', controller='search', action='query')
