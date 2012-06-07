@@ -1893,9 +1893,6 @@ msgstr "Die Arbeit in dieser Gruppe einfrieren"
 msgid "Use milestones to set deadlines for work in the instances."
 msgstr "Termine nutzen, um Fristen in dieser Gruppe zu setzen."
 
-msgid "Use milestones"
-msgstr "Termine nutzen"
-
 msgid "Use norm documents to structure the instance debate."
 msgstr "Nutzen Sie Themen um die Diskussion in dieser Gruppe zu strukturieren."
 
@@ -1906,9 +1903,6 @@ msgid ""
 "Users can propose new norms. These are created as empty stubs until filled "
 "upon proposal adoption."
 msgstr "Benutzer können neue Themen erstellen. Diese existieren zunächst als Platzhalter, bis sie durch einen Vorschlag angenommen werden."
-
-msgid "Allow users to propose norms"
-msgstr "Benutzern erlauben, Themen einzubringen"
 
 msgid "Require to propose a variant"
 msgstr "Vorschläge müssen mindestens eine Änderung an einem Thema einbringen"
@@ -1973,9 +1967,6 @@ msgstr "Mitgliedern erlauben, neue Themen anzulegen"
 
 msgid "Use milestones"
 msgstr "Termine verwenden"
-
-msgid "Freeze this instance"
-msgstr "Diese Gruppe einfrieren"
 
 msgid "Name"
 msgstr "Name"
@@ -2948,9 +2939,6 @@ msgstr "Einstellungen: %s"
 
 msgid "Your User Details"
 msgstr "Ihr Benutzerprofil"
-
-msgid "Language"
-msgstr "Sprache"
 
 msgid "Display name for"
 msgstr "Name anzeigen für"
