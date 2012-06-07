@@ -1223,6 +1223,10 @@ form.list_filter label {
   font-size: 16px;
 }
 
+form .savebox {
+  padding-top: 0.5em;
+}
+
 #openid_form {
   width: auto !important; /*do not know why there was a fixed value here [joka] */
 }
