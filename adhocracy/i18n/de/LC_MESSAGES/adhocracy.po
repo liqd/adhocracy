@@ -1321,10 +1321,10 @@ msgid "Users CSV"
 msgstr "Benutzer CSV"
 
 msgid "Email Subject"
-msgstr "Betreff E-Mail"
+msgstr "E-Mail-Betreff"
 
 msgid "Email Template"
-msgstr "Vorlage für die E-Mail"
+msgstr "E-Mail-Vorlage"
 
 msgid "The name with which the user can log in."
 msgstr "Der Name, mit dem sich der Benutzer anmelden kann (Benutzername)."
@@ -1862,7 +1862,7 @@ msgid ""
 msgstr "Wenn ein neues Mitglied beitritt, wird es Mitglied dieser Benutzergruppe."
 
 msgid "Default group"
-msgstr "Benutzergruppe Standard"
+msgstr "Nutzerrolle für neue Mitglieder"
 
 msgid "Logo"
 msgstr "Logo"
@@ -1911,7 +1911,7 @@ msgid "Allow users to propose norms"
 msgstr "Benutzern erlauben, Themen einzubringen"
 
 msgid "Require to propose a variant"
-msgstr "Vorschläge müssen mindestens eine Änderung an einem Thema vorschlagen."
+msgstr "Vorschläge müssen mindestens eine Änderung an einem Thema einbringen"
 
 msgid ""
 "Users need to select a norm and propose a variant when they create a "
@@ -1969,7 +1969,7 @@ msgid "Use Norms"
 msgstr "Themen verwenden"
 
 msgid "Allow users to propose norms"
-msgstr "Mitgliedern erlauben, neue Themen vorzuschlagen"
+msgstr "Mitgliedern erlauben, neue Themen anzulegen"
 
 msgid "Use milestones"
 msgstr "Termine verwenden"
@@ -2454,7 +2454,7 @@ msgid "Join instance to propose a new variant."
 msgstr "Gruppe beitreten, um einen neuen Vorschlag anzulegen."
 
 msgid "Login to propose a new variant."
-msgstr "Vorschläge müssen mindestens eine Änderung an einem Thema vorschlagen."
+msgstr "Anmelden, um eine Änderung einzubringen."
 
 msgid "Get Involved"
 msgstr "Mitmachen"
