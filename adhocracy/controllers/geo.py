@@ -6,8 +6,7 @@ from adhocracy.lib.templating import render_json, render_geojson
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.geo import USE_POSTGIS 
 from adhocracy.lib.geo import USE_SHAPELY
-from adhocracy.lib.geo import TILE_SIZE_PX
-from adhocracy.lib.geo import RESOLUTIONS
+from adhocracy.lib.geo import calculate_tiled_boundaries_json
 from adhocracy.model import meta
 from adhocracy.model import Region
 from adhocracy.model import Instance
@@ -24,26 +23,7 @@ import logging
 log = logging.getLogger(__name__)
 
 BBOX_FILTER_TYPE = USE_POSTGIS
-SIMPLIFY_TYPE = USE_SHAPELY
 CENTROID_TYPE = USE_SHAPELY
-
-COMPLEXITY_TOLERANCE_900913 = {
-    0: 125,
-    1: 62.5,
-    2: 31.25,
-    3: 15.625,
-    4: 7.8125,
-    5: 3.90625,
-    6: 1.953125,
-    7: 0.9765625,
-    8: 0.48828125,
-    9: 0.244140625,
-    10: 0.1220703125,
-    11: 0.06103515625,
-    12: 0.030517578125,
-    13: 0.0152587890625,
-    14: 0.00762939453125
-    }
 
 class GeoController(BaseController):
 
@@ -55,55 +35,13 @@ class GeoController(BaseController):
          * zoom - zoom level (index in RESOLUTIONS)
         """
 
-        admin_level = request.params.get('admin_level')
+        admin_level = int(request.params.get('admin_level'))
         x = int(request.params.get('x'))
         y = int(request.params.get('y'))
         zoom = int(request.params.get('zoom'))
 
-        tolerance = COMPLEXITY_TOLERANCE_900913[zoom]
-        tile_size = TILE_SIZE_PX * RESOLUTIONS[zoom]
-        bbox = [ x * tile_size, y * tile_size, 
-                (x+1) * tile_size, (y+1) * tile_size]
+        return render_geojson(calculate_tiled_boundaries_json(x, y, zoom, admin_level))
 
-        q = meta.Session.query(func.ST_AsBinary(func.ST_intersection(func.st_boundary(Region.boundary.RAW),
-                                                func.ST_setsrid(func.box2d('BOX(%f %f, %f %f)'%(tuple(bbox))),900913))))
-        q = q.filter(Region.admin_level == admin_level)
-
-        if SIMPLIFY_TYPE == USE_POSTGIS:
-            # NYI
-            pass
-
-        boundariesRS = q.all()
-
-        def make_feature(boundary):
-            geom = loads(str(boundary[0]))
-            return dict(geometry = geom, properties = {'zoom': zoom, 
-                                                       'admin_level': admin_level,
-                                                       'label': ''})
-
-        boundaries = map(make_feature, boundariesRS)
-        def not_empty(boundary):
-            return (boundary['geometry'].geom_type != "GeometryCollection"
-                    or not boundary['geometry'].is_empty)
-        boundaries = filter (not_empty, boundaries)
-
-        if SIMPLIFY_TYPE == USE_SHAPELY:
-
-            def simplify_region(region):
-                if region['geometry'].is_valid:
-                    geom_simple = region['geometry'].simplify(tolerance, True)
-                    # import ipdb; ipdb.set_trace()
-                    if geom_simple.is_valid and geom_simple.length > 0:
-                        region['geometry'] = geom_simple
-                    else:
-                        log.warn('invalid simplified geometry for %s'%region['properties']['label'])
-                else:
-                    log.warn('invalid geometry for %s'%region['properties']['label'])
-                return region
-
-            boundaries = map(simplify_region, boundaries)
-
-        return render_geojson(geojson.FeatureCollection([geojson.Feature(**r) for r in boundaries]))
 
     def get_admin_centers_json(self):
         admin_level = request.params.get('admin_level')

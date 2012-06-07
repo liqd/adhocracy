@@ -33,7 +33,7 @@ def tag_fn(key, args, kwargs):
 
 
 def make_tag(obj):
-    """ Collisisons here don't matter much. """
+    """ Collisions here don't matter much. """
     rep = "catch_all"
     try:
         rep = repr(obj).encode('ascii', 'ignore')
