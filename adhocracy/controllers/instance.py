@@ -356,7 +356,7 @@ class InstanceController(BaseController):
              'label': L_('General')},
             setting('appearance', L_('Appearance')),
             setting('contents', L_('Contents')),
-            setting('voting', L_('Voting')),
+            setting('voting', L_('Votings')),
             setting('badges', L_('Badges')),
             setting('members_import', L_('Members import'),
                     allowed=(h.has_permission('global.admin') or
