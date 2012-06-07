@@ -27,11 +27,11 @@
     </%forms:textarea>
 
    
-    ${forms.select(_("Language:"), 'locale', c.locales, 10, help=_("The language setting will be overridden by the user's personal setting."))}
+    ${forms.select(_("Language"), 'locale', c.locales, 10, help=_("The language setting will be overridden by the user's personal setting."))}
 
-    ${forms.select(_("Default group:"), 'default_group', c.default_group_options, 15)}
+    ${forms.select(_("Default group"), 'default_group', c.default_group_options, 15)}
 
-    ${forms.checkbox(_("Hide this instance:"), 'hidden', 20, 4, help=_("Select whether this instance will be shown in public listings."))}
+    ${forms.checkbox(_("Hide this instance"), 'hidden', 20, 4, help=_("Select whether this instance will be shown in public listings."))}
 
 
     %if h.has_permission('global.admin'):

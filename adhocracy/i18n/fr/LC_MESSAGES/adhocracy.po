@@ -1822,13 +1822,13 @@ msgstr ""
 msgid "You can disable adoption votes, leaving only rating polls enabled."
 msgstr ""
 
-msgid "Enable (final) adoption voting:"
+msgid "Enable (final) adoption voting"
 msgstr ""
 
 msgid "You can disable vote delegation, allowing only direct vote casting."
 msgstr ""
 
-msgid "Enable vote delegation:"
+msgid "Enable vote delegation"
 msgstr ""
 
 msgid ""
@@ -1836,7 +1836,7 @@ msgid ""
 "approval."
 msgstr ""
 
-msgid "Majority:"
+msgid "Majority"
 msgstr ""
 
 msgid "In Soviet Russia, proposal votes you."
@@ -1847,7 +1847,7 @@ msgid ""
 "proposal for the specified interval."
 msgstr ""
 
-msgid "Delay:"
+msgid "Delay"
 msgstr ""
 
 msgid "Membership Options"
@@ -1857,7 +1857,7 @@ msgid ""
 "When a new member joins, he or she will be a member of this user group."
 msgstr ""
 
-msgid "Default group:"
+msgid "Default group"
 msgstr ""
 
 msgid "Logo"
@@ -1875,7 +1875,7 @@ msgstr ""
 msgid "Select whether this instance will be shown in public listings."
 msgstr ""
 
-msgid "Hide this instance:"
+msgid "Hide this instance"
 msgstr ""
 
 msgid ""
@@ -1883,19 +1883,19 @@ msgid ""
 "will proceed."
 msgstr ""
 
-msgid "Freeze this instance:"
+msgid "Freeze this instance"
 msgstr ""
 
 msgid "Use milestones to set deadlines for work in the instances."
 msgstr ""
 
-msgid "Use milestones:"
+msgid "Use milestones"
 msgstr ""
 
 msgid "Use norm documents to structure the instance debate."
 msgstr ""
 
-msgid "Use norms:"
+msgid "Use norms"
 msgstr ""
 
 msgid ""
@@ -1903,7 +1903,7 @@ msgid ""
 "upon proposal adoption."
 msgstr ""
 
-msgid "Allow users to propose norms:"
+msgid "Allow users to propose norms"
 msgstr ""
 
 msgid "Require to propose a variant"
@@ -1919,7 +1919,7 @@ msgid ""
 "public search engines."
 msgstr ""
 
-msgid "Allow search engine access:"
+msgid "Allow search engine access"
 msgstr ""
 
 msgid ""
@@ -1938,7 +1938,7 @@ msgid ""
 "link destinations."
 msgstr ""
 
-msgid "Extra CSS:"
+msgid "Extra CSS"
 msgstr ""
 
 msgid "new instance"

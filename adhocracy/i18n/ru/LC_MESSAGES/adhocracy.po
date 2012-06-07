@@ -134,7 +134,7 @@ msgid "Members import"
 msgstr ""
 
 msgid "No delay"
-msgstr "Нет задержки:"
+msgstr "Нет задержки"
 
 msgid "1 Day"
 msgstr "1 День"
@@ -1291,7 +1291,7 @@ msgid "Votes"
 msgstr "Голоса"
 
 msgid "Shortlink"
-msgstr "Короткая ссылка:"
+msgstr "Короткая ссылка"
 
 msgid "Report abuse"
 msgstr "Сообщить о злоупотреблении. "
@@ -1825,22 +1825,22 @@ msgstr "Правила голосования"
 msgid "You can disable adoption votes, leaving only rating polls enabled."
 msgstr "Вы можете деактивировать голосования по принятию решений и оставить только рейтирговые голосования"
 
-msgid "Enable (final) adoption voting:"
-msgstr "Активировать (финальные) голосования по принятию решений:"
+msgid "Enable (final) adoption voting"
+msgstr "Активировать (финальные) голосования по принятию решений"
 
 msgid "You can disable vote delegation, allowing only direct vote casting."
 msgstr "Вы можете дективировать делегирование голосов и оставить только прямое голосование. "
 
-msgid "Enable vote delegation:"
-msgstr "Активировать делегирование голосов:"
+msgid "Enable vote delegation"
+msgstr "Активировать делегирование голосов"
 
 msgid ""
 "In order to become active, a proposal must reach the given proportion of "
 "approval."
 msgstr "Для того, чтобы быть активированным предложение должно получить положенное число голосов поддержки"
 
-msgid "Majority:"
-msgstr "Большинство:"
+msgid "Majority"
+msgstr "Большинство"
 
 msgid "In Soviet Russia, proposal votes you."
 msgstr "В Советской России, законопроект голосует за тебя."
@@ -1850,8 +1850,8 @@ msgid ""
 "proposal for the specified interval."
 msgstr "До активации определенное большинство должно непрерывно поддерживаться определенное время. "
 
-msgid "Delay:"
-msgstr "Задержка:"
+msgid "Delay"
+msgstr "Задержка"
 
 msgid "Membership Options"
 msgstr "Возможности участия"
@@ -1860,8 +1860,8 @@ msgid ""
 "When a new member joins, he or she will be a member of this user group."
 msgstr "Когда присоединиться новичок, он или она станет участником этой группы"
 
-msgid "Default group:"
-msgstr "Основная группа:"
+msgid "Default group"
+msgstr "Основная группа"
 
 msgid "Logo"
 msgstr "Лого"
@@ -1878,39 +1878,39 @@ msgstr "Общие настройки"
 msgid "Select whether this instance will be shown in public listings."
 msgstr "Выберите, будет ли эта организация показана в общественных списках. "
 
-msgid "Hide this instance:"
-msgstr "Скрыть эту организацию:"
+msgid "Hide this instance"
+msgstr "Скрыть эту организацию"
 
 msgid ""
 "Freeze all substantive work in this instance, only voting and commenting "
 "will proceed."
 msgstr "Заморозить всю основную деятельность организации, оставить только голосования и коментарии."
 
-msgid "Freeze this instance:"
-msgstr "Заморозить эту организацию:"
+msgid "Freeze this instance"
+msgstr "Заморозить эту организацию"
 
 msgid "Use milestones to set deadlines for work in the instances."
 msgstr "Использовать указтели для определения крайних сроков принятия решений для организации. "
 
-msgid "Use milestones:"
-msgstr "Использовать сроки:"
+msgid "Use milestones"
+msgstr "Использовать сроки"
 
 msgid "Use norm documents to structure the instance debate."
 msgstr "Использовать документы для структурирования дебатов в организации."
 
-msgid "Use norms:"
-msgstr "Использовать документы: "
+msgid "Use norms"
+msgstr "Использовать документы"
 
 msgid ""
 "Users can propose new norms. These are created as empty stubs until filled "
 "upon proposal adoption."
 msgstr "Участники могут предлагать новые документы. Они создаются как пустые "
 
-msgid "Allow users to propose norms:"
-msgstr "Разрешить пользователям предлагать документы: "
+msgid "Allow users to propose norms"
+msgstr "Разрешить пользователям предлагать документы"
 
 msgid "Require to propose a variant"
-msgstr "Требовать предложения варианта. "
+msgstr "Требовать предложения варианта."
 
 msgid ""
 "Users need to select a norm and propose a variant when they create a "
@@ -1922,18 +1922,18 @@ msgid ""
 "public search engines."
 msgstr "Определите, должно ли произведенное в организации содержание быть включено в индексацию поисковыми машинами. "
 
-msgid "Allow search engine access:"
-msgstr "Допустить доступ поисковых машин. "
+msgid "Allow search engine access"
+msgstr "Допустить доступ поисковых машин"
 
 msgid ""
 "The language setting will be overridden by the user's personal setting."
 msgstr "Языковые настройки могут быть переписаны в личных настройках. "
 
-msgid "Language:"
-msgstr "Язык:"
+msgid "Language"
+msgstr "Язык"
 
 msgid "Advanced Settings"
-msgstr "Дополнительные настройки:"
+msgstr "Дополнительные настройки"
 
 msgid ""
 "These settings allow you to further customize your instance by adding custom"
@@ -1941,8 +1941,8 @@ msgid ""
 "link destinations."
 msgstr "Эти настройки позволяют детально привести внешний вид приложения в согласие с потребностями пользователя например, путем добавления пользовательских CSS изменить макет или установить пользовтельские ссылка меню."
 
-msgid "Extra CSS:"
-msgstr "Дополнительные CSS:"
+msgid "Extra CSS"
+msgstr "Дополнительные CSS"
 
 msgid "new instance"
 msgstr "новая организация"
@@ -2004,7 +2004,7 @@ msgid "more proposals"
 msgstr "Дальнейшие предложения"
 
 msgid "By the numbers"
-msgstr "По порядку:"
+msgstr "По порядку"
 
 #, python-format
 msgid "%s has:"

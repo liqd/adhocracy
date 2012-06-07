@@ -1821,22 +1821,22 @@ msgstr "Voting Rules"
 msgid "You can disable adoption votes, leaving only rating polls enabled."
 msgstr "You can disable adoption votes, leaving only rating polls enabled."
 
-msgid "Enable (final) adoption voting:"
-msgstr "Enable (final) adoption voting:"
+msgid "Enable (final) adoption voting"
+msgstr "Enable (final) adoption voting"
 
 msgid "You can disable vote delegation, allowing only direct vote casting."
 msgstr "You can disable vote delegation, allowing only direct vote casting."
 
-msgid "Enable vote delegation:"
-msgstr "Enable vote delegation:"
+msgid "Enable vote delegation"
+msgstr "Enable vote delegation"
 
 msgid ""
 "In order to become active, a proposal must reach the given proportion of "
 "approval."
 msgstr "In order to become active, a proposal must reach the given proportion of approval."
 
-msgid "Majority:"
-msgstr "Majority:"
+msgid "Majority"
+msgstr "Majority"
 
 msgid "In Soviet Russia, proposal votes you."
 msgstr "In Soviet Russia, proposal votes you."
@@ -1846,8 +1846,8 @@ msgid ""
 "proposal for the specified interval."
 msgstr "Before activating, the defined majority must be continuously held by the proposal for the specified interval."
 
-msgid "Delay:"
-msgstr "Delay:"
+msgid "Delay"
+msgstr "Delay"
 
 msgid "Membership Options"
 msgstr "Membership Options"
@@ -1856,8 +1856,8 @@ msgid ""
 "When a new member joins, he or she will be a member of this user group."
 msgstr "When a new member joins, he or she will be a member of this user group."
 
-msgid "Default group:"
-msgstr "Default group:"
+msgid "Default group"
+msgstr "Default group"
 
 msgid "Logo"
 msgstr "Logo"
@@ -1874,36 +1874,36 @@ msgstr "General Settings"
 msgid "Select whether this instance will be shown in public listings."
 msgstr "Select whether this instance will be shown in public listings."
 
-msgid "Hide this instance:"
-msgstr "Hide this instance:"
+msgid "Hide this instance"
+msgstr "Hide this instance"
 
 msgid ""
 "Freeze all substantive work in this instance, only voting and commenting "
 "will proceed."
 msgstr "Freeze all substantive work in this instance, only voting and commenting will proceed."
 
-msgid "Freeze this instance:"
-msgstr "Freeze this instance:"
+msgid "Freeze this instance"
+msgstr "Freeze this instance"
 
 msgid "Use milestones to set deadlines for work in the instances."
 msgstr "Use milestones to set deadlines for work in the instances."
 
-msgid "Use milestones:"
-msgstr "Use milestones:"
+msgid "Use milestones"
+msgstr "Use milestones"
 
 msgid "Use norm documents to structure the instance debate."
 msgstr "Use norm documents to structure the instance debate."
 
-msgid "Use norms:"
-msgstr "Use norms:"
+msgid "Use norms"
+msgstr "Use norms"
 
 msgid ""
 "Users can propose new norms. These are created as empty stubs until filled "
 "upon proposal adoption."
 msgstr "Users can propose new norms. These are created as empty stubs until filled upon proposal adoption."
 
-msgid "Allow users to propose norms:"
-msgstr "Allow users to propose norms:"
+msgid "Allow users to propose norms"
+msgstr "Allow users to propose norms"
 
 msgid "Require to propose a variant"
 msgstr "Require to propose a variant"
@@ -1918,15 +1918,15 @@ msgid ""
 "public search engines."
 msgstr "Control whether content produced within this instance will be included in public search engines."
 
-msgid "Allow search engine access:"
-msgstr "Allow search engine access:"
+msgid "Allow search engine access"
+msgstr "Allow search engine access"
 
 msgid ""
 "The language setting will be overridden by the user's personal setting."
 msgstr "The language setting will be overridden by the user's personal setting."
 
-msgid "Language:"
-msgstr "Language:"
+msgid "Language"
+msgstr "Language"
 
 msgid "Advanced Settings"
 msgstr "Advanced Settings"
@@ -1937,8 +1937,8 @@ msgid ""
 "link destinations."
 msgstr "These settings allow you to further customize your instance by adding custom CSS to change the layout of your instance, and by setting the main menu link destinations."
 
-msgid "Extra CSS:"
-msgstr "Extra CSS:"
+msgid "Extra CSS"
+msgstr "Extra CSS"
 
 msgid "new instance"
 msgstr "new instance"

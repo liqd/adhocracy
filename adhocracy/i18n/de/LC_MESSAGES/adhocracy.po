@@ -1826,13 +1826,13 @@ msgstr "Abstimmungsregeln"
 msgid "You can disable adoption votes, leaving only rating polls enabled."
 msgstr "Sie können Abstimmungen über Verabschiedungen abstellen und nur Bewertungen zulassen."
 
-msgid "Enable (final) adoption voting:"
-msgstr "Endgültige Verabschiedung zulassen:"
+msgid "Enable (final) adoption voting"
+msgstr "Endgültige Verabschiedung zulassen"
 
 msgid "You can disable vote delegation, allowing only direct vote casting."
 msgstr "Sie können die Delegation abstellen und nur die direkte Abstimmung erlauben."
 
-msgid "Enable vote delegation:"
+msgid "Enable vote delegation"
 msgstr "Delegation erlauben"
 
 msgid ""
@@ -1840,8 +1840,8 @@ msgid ""
 "approval."
 msgstr "Um aktiviert zu werden, muss ein Vorschlag eine bestimmte Zustimmungsrate erreichen."
 
-msgid "Majority:"
-msgstr "Mehrheit:"
+msgid "Majority"
+msgstr "Mehrheit"
 
 msgid "In Soviet Russia, proposal votes you."
 msgstr "In Soviet Russia, proposal votes you."
@@ -1851,8 +1851,8 @@ msgid ""
 "proposal for the specified interval."
 msgstr "Bevor ein Vorschlag aktiviert wird, muss dieser eine bestimmte Zustimmungsrate über einen bestimmten Zeitraum erreichen."
 
-msgid "Delay:"
-msgstr "Verzögerung:"
+msgid "Delay"
+msgstr "Verzögerung"
 
 msgid "Membership Options"
 msgstr "Mitgliedschaftsoptionen"
@@ -1861,7 +1861,7 @@ msgid ""
 "When a new member joins, he or she will be a member of this user group."
 msgstr "Wenn ein neues Mitglied beitritt, wird es Mitglied dieser Benutzergruppe."
 
-msgid "Default group:"
+msgid "Default group"
 msgstr "Benutzergruppe Standard"
 
 msgid "Logo"
@@ -1879,36 +1879,36 @@ msgstr "Einstellungen"
 msgid "Select whether this instance will be shown in public listings."
 msgstr "Bitte wählen Sie aus, ob diese Gruppe öffentlich gemacht werden soll."
 
-msgid "Hide this instance:"
-msgstr "Diese Gruppe verbergen:"
+msgid "Hide this instance"
+msgstr "Diese Gruppe verbergen"
 
 msgid ""
 "Freeze all substantive work in this instance, only voting and commenting "
 "will proceed."
 msgstr "Deaktiviert alle Bearbeitungsmöglichkeiten in dieser Gruppe, sodass es nur noch möglich ist, abzustimmen und zu kommentieren."
 
-msgid "Freeze this instance:"
-msgstr "Die Arbeit in dieser Gruppe einfrieren:"
+msgid "Freeze this instance"
+msgstr "Die Arbeit in dieser Gruppe einfrieren"
 
 msgid "Use milestones to set deadlines for work in the instances."
 msgstr "Termine nutzen, um Fristen in dieser Gruppe zu setzen."
 
-msgid "Use milestones:"
-msgstr "Termine nutzen:"
+msgid "Use milestones"
+msgstr "Termine nutzen"
 
 msgid "Use norm documents to structure the instance debate."
 msgstr "Nutzen Sie Themen um die Diskussion in dieser Gruppe zu strukturieren."
 
-msgid "Use norms:"
-msgstr "Themen nutzen:"
+msgid "Use norms"
+msgstr "Themen nutzen"
 
 msgid ""
 "Users can propose new norms. These are created as empty stubs until filled "
 "upon proposal adoption."
 msgstr "Benutzer können neue Themen erstellen. Diese existieren zunächst als Platzhalter, bis sie durch einen Vorschlag angenommen werden."
 
-msgid "Allow users to propose norms:"
-msgstr "Benutzern erlauben, Themen einzubringen:"
+msgid "Allow users to propose norms"
+msgstr "Benutzern erlauben, Themen einzubringen"
 
 msgid "Require to propose a variant"
 msgstr "Vorschläge müssen mindestens eine Änderung an einem Thema vorschlagen."
@@ -1923,15 +1923,15 @@ msgid ""
 "public search engines."
 msgstr "Stellen Sie ein, ob Inhalte aus dieser Gruppe in öffentlichen Suchmaschinen erscheinen sollen."
 
-msgid "Allow search engine access:"
+msgid "Allow search engine access"
 msgstr "Suchmaschinenzugriff erlauben"
 
 msgid ""
 "The language setting will be overridden by the user's personal setting."
 msgstr "Die Spracheinstellungen des jeweiligen Benutzers heben diese allgemeinen Spracheinstellungen auf."
 
-msgid "Language:"
-msgstr "Sprache:"
+msgid "Language"
+msgstr "Sprache"
 
 msgid "Advanced Settings"
 msgstr "Erweiterte Einstellungen"
@@ -1942,8 +1942,8 @@ msgid ""
 "link destinations."
 msgstr "Diese Einstellungen erlauben Ihnen, das Layout und die Menüs ihrer Gruppe mithilfe von CSS Ihren Bedürfnissen anzupassen."
 
-msgid "Extra CSS:"
-msgstr "Extra CSS:"
+msgid "Extra CSS"
+msgstr "Extra CSS"
 
 msgid "new instance"
 msgstr "Neue Gruppe"
