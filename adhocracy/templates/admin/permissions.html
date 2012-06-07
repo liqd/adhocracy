@@ -21,14 +21,19 @@
     <%
     groups = model.Group.all()
     %>
-    <table border="0">
+    <table border="0" id="permissions">
+        <thead>
         <tr>
             <th></th>
             %for group in groups:
-                <th>${_(group.group_name)}</th>
+                <th class="group">
+                    <p>${_(group.group_name)}</p>
+                <div class="clearfix"></div>
+                </th>
             %endfor
         </tr>
-        %for permission in model.Permission.all():
+    </thead>
+        %for permission in sorted(model.Permission.all(), key=lambda x: x.permission_name):
         <tr>
             <td>${permission.permission_name}</td>
             %for group in groups:
