@@ -1207,11 +1207,12 @@ label.over-apply {
   padding-bottom: 18px;
 }
 
+.form_wrapper form, #searchbox form {
+  margin: 0px;
+}
+
 form {
-  background: url("/images/gradient_form.jpg") repeat-y scroll left top #f3f3f3;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 30px;
+  background: url("/images/gradient_form.jpg") repeat-y scroll left top #f3f3f3;  padding: 30px;
 }
 
 form.list_filter {
@@ -1227,7 +1228,6 @@ form.list_filter label {
 }
 form div.prototype { display: none; }
 
-fieldset { margin: 20px 0; }
 
 form p.info { margin-bottom: 10px; color: #666; }
 
@@ -1236,27 +1236,16 @@ form p.info { margin-bottom: 10px; color: #666; }
   margin-bottom: 10px;
   clear: both;
 }
+
 .input_wrapper.submit {
   font-size: 11px;
   line-height: 24px;
 }
 
-label {
-  display: block;
-  font-size: 12px;
-  font-weight: bold;
-  margin-bottom: 2px;
-}
-
-input[type=text], input[type=password], textarea {
-  border: 1px solid #C1C1C1;
-  box-shadow: 2px 2px 4px 0 #DDDDDD inset;
-  font-family: Verdana,Arial,san-serif;
-  height: 19px;
-  padding: 4px 4px 3px;
+textarea {
   width: 100%;
+  min-height: 128px; 
 }
-textarea { min-height: 128px; }
 
 select { width: 100%; }
 
