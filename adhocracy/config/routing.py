@@ -288,8 +288,6 @@ def make_map():
     map.connect('/instance/{id}/settings/members_import',
                 controller='instance', action='settings_members_import_save',
                 conditions=dict(method=['PUT', 'POST']))
-    #map.connect('/instance/{id}/settings/',
-    #            controller='instance', action='settings')
 
     map.resource('instance', 'instance', member={'join': 'GET',
                                                  'leave': 'POST',

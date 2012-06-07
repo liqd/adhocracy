@@ -267,81 +267,16 @@ class InstanceController(BaseController):
 
     @RequireInstance
     def edit(self, id):
+        # This is deprecated, but the route is still created as
+        # by routes' .resource()
         c.page_instance = self._get_current_instance(id)
-        require.instance.edit(c.page_instance)
+        redirect(h.instance.url(c.page_instance, member='settings'))
 
-        c._Group = model.Group
-        c.locales = i18n.LOCALES
-        default_group = c.page_instance.default_group.code if \
-                        c.page_instance.default_group else \
-                        model.Group.INSTANCE_DEFAULT
-        return htmlfill.render(
-            render("/instance/edit.html"),
-            defaults={
-                '_method': 'PUT',
-                'label': c.page_instance.label,
-                'description': c.page_instance.description,
-                'css': c.page_instance.css,
-                'required_majority': c.page_instance.required_majority,
-                'activation_delay': c.page_instance.activation_delay,
-                'allow_adopt': c.page_instance.allow_adopt,
-                'allow_delegate': c.page_instance.allow_delegate,
-                'allow_propose': c.page_instance.allow_propose,
-                'allow_index': c.page_instance.allow_index,
-                'hidden': c.page_instance.hidden,
-                'milestones': c.page_instance.milestones,
-                'frozen': c.page_instance.frozen,
-                'locale': c.page_instance.locale,
-                'use_norms': c.page_instance.use_norms,
-                'require_selection': c.page_instance.require_selection,
-                '_tok': csrf.token_id(),
-                'default_group': default_group})
-
-    @RequireInstance
-    @csrf.RequireInternalRequest(methods=['POST'])
-    @validate(schema=InstanceEditForm(), form="edit", post_only=True)
     def update(self, id, format='html'):
-        c.page_instance = self._get_current_instance(id)
-        require.instance.edit(c.page_instance)
-        c.page_instance.description = self.form_result.get('description')
-        c.page_instance.label = self.form_result.get('label')
-        c.page_instance.required_majority = self.form_result.get(
-            'required_majority')
-        c.page_instance.activation_delay = self.form_result.get(
-            'activation_delay')
-        c.page_instance.allow_adopt = self.form_result.get('allow_adopt')
-        c.page_instance.allow_delegate = self.form_result.get('allow_delegate')
-        c.page_instance.allow_propose = self.form_result.get('allow_propose')
-        c.page_instance.allow_index = self.form_result.get('allow_index')
-        c.page_instance.hidden = self.form_result.get('hidden')
-        c.page_instance.frozen = self.form_result.get('frozen')
-        c.page_instance.milestones = self.form_result.get('milestones')
-        c.page_instance.css = self.form_result.get('css')
-        c.page_instance.use_norms = self.form_result.get('use_norms')
-        c.page_instance.require_selection = self.form_result.get(
-            'require_selection')
-
-        locale = Locale(self.form_result.get("locale"))
-        if locale and locale in i18n.LOCALES:
-            c.page_instance.locale = locale
-
-        if (self.form_result.get('default_group').code in
-            model.Group.INSTANCE_GROUPS):
-            c.page_instance.default_group = self.form_result.get(
-                'default_group')
-
-        try:
-            if ('logo' in request.POST and
-                hasattr(request.POST.get('logo'), 'file') and
-                request.POST.get('logo').file):
-                logo.store(c.page_instance, request.POST.get('logo').file)
-        except Exception, e:
-            h.flash(unicode(e), 'error')
-            log.debug(e)
-        model.meta.Session.commit()
-        event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)
-        return ret_success(entity=c.page_instance, format=format)
-
+        # This is deprecated, but the route is still created as
+        # by routes' .resource()
+        return self.edit(id)
+        
     @classmethod
     def settings_menu(cls, instance, current):
 
