@@ -462,7 +462,7 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
         townHallTiles[i] = new Array();
     }
 
-    //Zoom 0 ... 19 -> 0=hidden,1=borderColor1,2=borderColor2,3=borderColor3,...]
+    //Zoom 0 ... 14 -> 0=hidden,1=borderColor1,2=borderColor2,3=borderColor3,...]
     var displayMap = [
         {styles: [1,0,0,0,0]},
         {styles: [1,0,0,0,0]},
@@ -510,8 +510,9 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
     }
 
     function showTownHall(visible, admin_level) {
-        for (k=0; k<townHallLayer.features.length; k++) {
-            var feature = townHallLayer.features[k];
+        var i=0;
+        for (i=0; i<townHallLayer.features.length; i++) {
+            var feature = townHallLayer.features[i];
             var style = styleProps;
             //features in search result are always visible
             if (!visible || (!resultList || !resultList[inputValue] || !listHasFeature(resultList[inputValue],feature))) {
@@ -524,6 +525,47 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
         }
     }
 
+    function fetchTownHalls(bounds, adminLevel, townHallTiles) {
+        //fetch townHalls
+        var tileSize = 256;
+        var tileSizeLL = tileSize * map.getResolution();
+        var newTiles = makeTiles(tileSizeLL, bounds);
+        var i=0;
+        for (i=0; i < newTiles.length; i++) {
+            var fetch = !alreadyFetched(townHallTiles, newTiles[i]);
+            if (fetch) {
+                townHallTiles.push(newTiles[i]);
+                var url = '/get_admin_centers.json'
+                                    + '?x=' + newTiles[i].x
+                                    + '&y=' + newTiles[i].y
+                                    + '&tileSize=' + tileSize
+                                    + '&res=' + map.getResolution()
+                                    + '&admin_level=' + adminLevel;
+                $.ajax({
+                    url: url,
+                    success: function(data) {
+                        addTownHalls(data,adminLevel);
+                    },
+                    error: function(xhr,err) {
+                        // console.log("error: " + err);
+                    }
+                });
+            }
+        }
+    } 
+
+    function addTownHalls(data, adminLevel) {
+        var features = new OpenLayers.Format.GeoJSON({}).read(data);
+        var i=0;
+        for (i=0; i<features.length; i++) {
+            var feature = features[i];
+            if (feature.geometry !== null) {
+                townHallLayer.addFeatures([feature]);
+            }
+        }
+        showTownHall(true, adminLevel);
+    }
+
     var moveTownHallTo 
         = function(bounds, zoomChanged, dragging ) {
             var zoom = map.getZoom();
@@ -531,48 +573,9 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
             while (i<adminLevels.length) {
                 var style = displayMap[zoom]['styles'][i];
                 if (style == 0) {
-                    //make townHalls invisible
                     showTownHall(false, adminLevels[i]);
                 } else if (style == 1 || style == 2) {
-                    //fetch townHalls
-                    var tileSize = 256;
-                    var tileSizeLL = tileSize * map.getResolution();
-                    var newTiles = makeTiles(tileSizeLL, bounds);
-                    var j=0;
-                    for (j=0; j < newTiles.length; j++) {
-                        var fetch = !alreadyFetched(townHallTiles[i], newTiles[j]);
-                        if (fetch) {
-                            townHallTiles[i].push(newTiles[j]);
-                            //box = new OpenLayers.Bounds(newTiles[j].x*tileSizeLL,newTiles[j].y*tileSizeLL,
-                            //                            (newTiles[j].x+1)*tileSizeLL,(newTiles[j].y+1)*tileSizeLL);
-                            //townHallLayer.addFeatures([new OpenLayers.Feature.Vector(box.toGeometry(),{})]);
-
-                            var url = '/get_admin_centers.json'
-                                                    + '?x=' + newTiles[j].x
-                                                    + '&y=' + newTiles[j].y
-                                                    + '&tileSize=' + tileSize
-                                                    + '&res=' + map.getResolution()
-                                                    + '&admin_level=' + adminLevels[i];
-                            $.ajax({
-                                url: url,
-                                success: function(data) {
-                                    var features = new OpenLayers.Format.GeoJSON({}).read(data);
-                                    var k=0;
-                                    for (k=0; k<features.length; k++) {
-                                        var feature = features[k];
-                                        if (feature.geometry !== null) {
-                                            townHallLayer.addFeatures([feature]);
-                                        }
-                                    }
-                                    showTownHall(true, adminLevels[i]);
-                                },
-                                error: function(xhr,err) {
-                                    // console.log("error: " + err);
-                                }
-                            });
-                        }
-                    }
-                    //make townHalls visible
+                    fetchTownHalls(bounds, adminLevels[i], townHallTiles[i]);
                     showTownHall(true, adminLevels[i]);
                 }
                 i++;
