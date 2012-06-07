@@ -22,6 +22,7 @@ class Group(object):
     CODE_ADVISOR = u"advisor"
     CODE_VOTER = u"voter"
     CODE_SUPERVISOR = u"supervisor"
+    CODE_MODERATOR = u"moderator"
     CODE_ADMIN = u"admin"
     CODE_DEFAULT = u"default"
 
