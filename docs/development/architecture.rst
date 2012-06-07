@@ -110,14 +110,14 @@ Diagrams
 
 Tables
 
-.. figure:: adhocracy-tables.gif
-   :target: _images/adhocracy-tables.gif
+.. figure:: adhocracy-tables.png
+   :target: _images/adhocracy-tables.png
    :width: 100%
 
    Diagram of the mapped tables
 
-.. figure:: adhocracy-classes.gif
-   :target: _images/adhocracy-classes.gif
+.. figure:: adhocracy-classes.png
+   :target: _images/adhocracy-classes.png
    :width: 100%
    
    Diagramm of all model classes
