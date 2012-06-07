@@ -1924,7 +1924,6 @@ msgstr "Allow search engine access"
 msgid ""
 "The language setting will be overridden by the user's personal setting."
 msgstr "The language setting will be overridden by the user's personal setting."
-
 msgid "Language"
 msgstr "Language"
 
@@ -1962,15 +1961,6 @@ msgstr "You can add css that will be used to style the instance."
 
 msgid "Use Norms"
 msgstr "Use Norms"
-
-msgid "Allow users to propose norms"
-msgstr "Allow users to propose norms"
-
-msgid "Use milestones"
-msgstr "Use milestones"
-
-msgid "Freeze this instance"
-msgstr "Freeze this instance"
 
 msgid "Name"
 msgstr "Name"
@@ -2943,9 +2933,6 @@ msgstr "Settings: %s"
 
 msgid "Your User Details"
 msgstr "Your User Details"
-
-msgid "Language"
-msgstr "Language"
 
 msgid "Display name for"
 msgstr "Display name for"

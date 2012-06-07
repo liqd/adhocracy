@@ -2,6 +2,7 @@
 # Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
+# Translators:
 # Benjamin Claverie <ben@skl8em.com>, 2010.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009, 2012.
 # Iwan Gabovitch <qubodup@gmail.com>, 2012.
@@ -12,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2012-05-29 11:01+0200\n"
-"PO-Revision-Date: 2012-05-29 09:29+0000\n"
+"PO-Revision-Date: 2012-06-07 14:04+0000\n"
 "Last-Translator: csenger <senger@rehfisch.de>\n"
 "Language-Team: Russian (http://www.transifex.net/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -1967,15 +1968,6 @@ msgstr ""
 msgid "Use Norms"
 msgstr ""
 
-msgid "Allow users to propose norms"
-msgstr ""
-
-msgid "Use milestones"
-msgstr ""
-
-msgid "Freeze this instance"
-msgstr ""
-
 msgid "Name"
 msgstr ""
 
@@ -2950,9 +2942,6 @@ msgstr "Параметры : %s"
 
 msgid "Your User Details"
 msgstr "Ваши пользовательские данные"
-
-msgid "Language"
-msgstr "язык"
 
 msgid "Display name for"
 msgstr "Показать имя для"

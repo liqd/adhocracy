@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-05-29 11:01+0200\n"
-"PO-Revision-Date: 2012-06-07 12:16+0000\n"
+"POT-Creation-Date: 2012-06-07 15:26+0200\n"
+"PO-Revision-Date: 2012-06-07 13:29+0000\n"
 "Last-Translator: csenger <senger@rehfisch.de>\n"
 "Language-Team: English (http://www.transifex.net/projects/p/adhocracy/language/en/)\n"
 "MIME-Version: 1.0\n"
@@ -102,11 +102,14 @@ msgid ""
 "join and participate!"
 msgstr "An index of instances run at this site. Select which ones you would like to join and participate!"
 
+msgid "Delegations are enabled."
+msgstr "Delegations are enabled."
+
+msgid "Delegations are disabled."
+msgstr "Delegations are disabled."
+
 msgid "tutorial_instance_show_intro"
 msgstr "tutorial_instance_show_intro"
-
-msgid "Overview"
-msgstr "Overview"
 
 msgid "General"
 msgstr "General"
@@ -117,14 +120,11 @@ msgstr "Appearance"
 msgid "Contents"
 msgstr "Contents"
 
-msgid "Voting"
-msgstr "Voting"
+msgid "Votings"
+msgstr "Votings"
 
 msgid "Badges"
 msgstr "Badges"
-
-msgid "Members"
-msgstr "Members"
 
 msgid "Members import"
 msgstr "Members import"
@@ -1216,8 +1216,14 @@ msgstr "Search"
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Search in &ldquo;%s&rdquo;&hellip;"
 
+msgid "Overview"
+msgstr "Overview"
+
 msgid "Norms"
 msgstr "Norms"
+
+msgid "Members"
+msgstr "Members"
 
 msgid "Settings"
 msgstr "Settings"
@@ -1483,20 +1489,14 @@ msgstr "no"
 msgid "User Badges"
 msgstr "User Badges"
 
-msgid "Add new user badge..."
-msgstr "Add new user badge..."
+msgid "New"
+msgstr "New"
 
 msgid "Proposal Badges"
 msgstr "Proposal Badges"
 
-msgid "Add new Proposal badge..."
-msgstr "Add new Proposal badge..."
-
 msgid "Proposal Category Badges"
 msgstr "Proposal Category Badges"
-
-msgid "Add new Category..."
-msgstr "Add new Category..."
 
 msgid "Comment"
 msgstr "Comment"
@@ -1794,160 +1794,20 @@ msgid ""
 "write contributions or to vote."
 msgstr "Are you sure you want to leave this instance? You will no longer be able to write contributions or to vote."
 
-#, python-format
-msgid "Manage: %s"
-msgstr "Manage: %s"
-
-msgid "Manage"
-msgstr "Manage"
-
-msgid "Edit instance"
-msgstr "Edit instance"
-
-msgid "Instance name"
-msgstr "Instance name"
-
-msgid "New Instance"
-msgstr "New Instance"
-
-msgid ""
-"Describe what the goals of this instance are and who constitutes its "
-"community. (Both Markdown and HTML are allowed here.)"
-msgstr "Describe what the goals of this instance are and who constitutes its community. (Both Markdown and HTML are allowed here.)"
-
-msgid "Voting Rules"
-msgstr "Voting Rules"
-
-msgid "You can disable adoption votes, leaving only rating polls enabled."
-msgstr "You can disable adoption votes, leaving only rating polls enabled."
-
-msgid "Enable (final) adoption voting"
-msgstr "Enable (final) adoption voting"
-
-msgid "You can disable vote delegation, allowing only direct vote casting."
-msgstr "You can disable vote delegation, allowing only direct vote casting."
-
-msgid "Enable vote delegation"
-msgstr "Enable vote delegation"
-
-msgid ""
-"In order to become active, a proposal must reach the given proportion of "
-"approval."
-msgstr "In order to become active, a proposal must reach the given proportion of approval."
-
-msgid "Majority"
-msgstr "Majority"
-
-msgid "In Soviet Russia, proposal votes you."
-msgstr "In Soviet Russia, proposal votes you."
-
-msgid ""
-"Before activating, the defined majority must be continuously held by the "
-"proposal for the specified interval."
-msgstr "Before activating, the defined majority must be continuously held by the proposal for the specified interval."
-
-msgid "Delay"
-msgstr "Delay"
-
-msgid "Membership Options"
-msgstr "Membership Options"
-
-msgid ""
-"When a new member joins, he or she will be a member of this user group."
-msgstr "When a new member joins, he or she will be a member of this user group."
-
-msgid "Default group"
-msgstr "Default group"
-
-msgid "Logo"
-msgstr "Logo"
-
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Select a logo file to appear in the header area of this Instance."
-
-msgid "File upload:"
-msgstr "File upload:"
-
-msgid "General Settings"
-msgstr "General Settings"
-
-msgid "Select whether this instance will be shown in public listings."
-msgstr "Select whether this instance will be shown in public listings."
-
-msgid "Hide this instance"
-msgstr "Hide this instance"
-
-msgid ""
-"Freeze all substantive work in this instance, only voting and commenting "
-"will proceed."
-msgstr "Freeze all substantive work in this instance, only voting and commenting will proceed."
-
-msgid "Freeze this instance"
-msgstr "Freeze this instance"
-
-msgid "Use milestones to set deadlines for work in the instances."
-msgstr "Use milestones to set deadlines for work in the instances."
-
-msgid "Use milestones"
-msgstr "Use milestones"
-
-msgid "Use norm documents to structure the instance debate."
-msgstr "Use norm documents to structure the instance debate."
-
-msgid "Use norms"
-msgstr "Use norms"
-
-msgid ""
-"Users can propose new norms. These are created as empty stubs until filled "
-"upon proposal adoption."
-msgstr "Users can propose new norms. These are created as empty stubs until filled upon proposal adoption."
-
-msgid "Allow users to propose norms"
-msgstr "Allow users to propose norms"
-
-msgid "Require to propose a variant"
-msgstr "Require to propose a variant"
-
-msgid ""
-"Users need to select a norm and propose a variant when they create a "
-"Proposal. This will only take effect if the instance uses norms."
-msgstr "Users need to select a norm and propose a variant when they create a Proposal. This will only take effect if the instance uses norms."
-
-msgid ""
-"Control whether content produced within this instance will be included in "
-"public search engines."
-msgstr "Control whether content produced within this instance will be included in public search engines."
-
-msgid "Allow search engine access"
-msgstr "Allow search engine access"
-
-msgid ""
-"The language setting will be overridden by the user's personal setting."
-msgstr "The language setting will be overridden by the user's personal setting."
-
-msgid "Language"
-msgstr "Language"
-
-msgid "Advanced Settings"
-msgstr "Advanced Settings"
-
-msgid ""
-"These settings allow you to further customize your instance by adding custom"
-" CSS to change the layout of your instance, and by setting the main menu "
-"link destinations."
-msgstr "These settings allow you to further customize your instance by adding custom CSS to change the layout of your instance, and by setting the main menu link destinations."
-
-msgid "Extra CSS"
-msgstr "Extra CSS"
-
 msgid "new instance"
 msgstr "new instance"
 
 msgid "Instances are little democracies that are ran by their community."
 msgstr "Instances are little democracies that are ran by their community."
 
+msgid "New Instance"
+msgstr "New Instance"
+
 msgid "Create new instance"
 msgstr "Create new instance"
+
+msgid "Instance name"
+msgstr "Instance name"
 
 msgid "Instance URL"
 msgstr "Instance URL"
@@ -1957,14 +1817,38 @@ msgid ""
 " key cannot be changed after the instance has been created."
 msgstr "The address may only contain alpha-numeric characters. Please note that this key cannot be changed after the instance has been created."
 
+msgid ""
+"Describe what the goals of this instance are and who constitutes its "
+"community. (Both Markdown and HTML are allowed here.)"
+msgstr "Describe what the goals of this instance are and who constitutes its community. (Both Markdown and HTML are allowed here.)"
+
+#, python-format
+msgid "Manage: %s"
+msgstr "Manage: %s"
+
+msgid "Manage"
+msgstr "Manage"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Select a logo file to appear in the header area of this Instance."
+msgstr "Select a logo file to appear in the header area of this Instance."
+
 msgid "You can add css that will be used to style the instance."
 msgstr "You can add css that will be used to style the instance."
+
+msgid "Extra CSS"
+msgstr "Extra CSS"
 
 msgid "Use Norms"
 msgstr "Use Norms"
 
 msgid "Allow users to propose norms"
 msgstr "Allow users to propose norms"
+
+msgid "Require to propose a variant"
+msgstr "Require to propose a variant"
 
 msgid "Use milestones"
 msgstr "Use milestones"
@@ -1975,8 +1859,41 @@ msgstr "Freeze this instance"
 msgid "Name"
 msgstr "Name"
 
+msgid "Language"
+msgstr "Language"
+
+msgid ""
+"The language setting will be overridden by the user's personal setting."
+msgstr "The language setting will be overridden by the user's personal setting."
+
+msgid "Default group"
+msgstr "Default group"
+
+msgid "Hide this instance"
+msgstr "Hide this instance"
+
+msgid "Select whether this instance will be shown in public listings."
+msgstr "Select whether this instance will be shown in public listings."
+
 msgid "This instance is authenticated"
 msgstr "This instance is authenticated"
+
+msgid "Enable (final) adoption voting"
+msgstr "Enable (final) adoption voting"
+
+msgid ""
+"Before activating, the defined majority must be continuously held by the "
+"proposal for the specified interval."
+msgstr "Before activating, the defined majority must be continuously held by the proposal for the specified interval."
+
+msgid "Majority"
+msgstr "Majority"
+
+msgid "Delay"
+msgstr "Delay"
+
+msgid "Enable vote delegation"
+msgstr "Enable vote delegation"
 
 msgid "Home"
 msgstr "Home"
@@ -1999,12 +1916,18 @@ msgstr "show a list of proposals"
 msgid "more proposals"
 msgstr "more proposals"
 
-msgid "By the numbers"
-msgstr "By the numbers"
+msgid "Informations"
+msgstr "Informations"
+
+msgid "Created"
+msgstr "Created"
 
 #, python-format
-msgid "%s has:"
-msgstr "%s has:"
+msgid "by %s on %s"
+msgstr "by %s on %s"
+
+msgid "By the numbers"
+msgstr "By the numbers"
 
 #, python-format
 msgid "<b>%s</b> community members"
@@ -2102,16 +2025,6 @@ msgstr "tutorial_milestones_listing"
 
 msgid "New milestone"
 msgstr "New milestone"
-
-msgid "Informations"
-msgstr "Informations"
-
-msgid "Created"
-msgstr "Created"
-
-#, python-format
-msgid "by %s on %s"
-msgstr "by %s on %s"
 
 msgid "Last Change"
 msgstr "Last Change"
@@ -2944,9 +2857,6 @@ msgstr "Settings: %s"
 msgid "Your User Details"
 msgstr "Your User Details"
 
-msgid "Language"
-msgstr "Language"
-
 msgid "Display name for"
 msgstr "Display name for"
 
@@ -3005,6 +2915,9 @@ msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "A bio will allow others to learn about you and perhaps even get you a few delegations."
+
+msgid "Advanced Settings"
+msgstr "Advanced Settings"
 
 msgid "The pre-set number of entries in listing pages."
 msgstr "The pre-set number of entries in listing pages."
