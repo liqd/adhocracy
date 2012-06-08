@@ -29,9 +29,10 @@
 <% messages = h.sorted_flash_messages() %>
 %if messages:
     %for message in messages:
-    <div class="alert-message ${message.category}">
-        <a class="close_button only-js" href="#">x</a>
-    ${message}</div>
+    <div class="alert alert-${message.category}">
+        <a class="close only-js" data-dismiss="alert" href="#">x</a>
+        ${message}
+    </div>
     %endfor
 %endif
 </%def>

@@ -1305,6 +1305,8 @@ form.new_comment {
   margin-bottom: 10px;
 }
 
+html.js .alert .close { display: block }
+
 /* searchform */
 #searchbox,
 .list_filter {
