@@ -609,19 +609,19 @@ msgid "%d days"
 msgstr "%d Tage"
 
 msgid "Voter"
-msgstr "Bürger/in"
+msgstr "Mitglied"
 
 msgid "Observer"
 msgstr "BeobachterIn"
 
 msgid "Supervisor"
-msgstr "VerwalterIn"
+msgstr "Administrator"
 
 msgid "Administrator"
-msgstr "AdministratorIn"
+msgstr "Sysadmin"
 
 msgid "Default"
-msgstr "Standard"
+msgstr "Angemeldet"
 
 msgid "Advisor"
 msgstr "BeraterIn"
