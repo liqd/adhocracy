@@ -1,4 +1,5 @@
 import itertools
+from logging import getLogger
 import os
 
 import paste.script
@@ -7,9 +8,14 @@ import paste.registry
 import paste.deploy.config
 from paste.deploy import loadapp
 from paste.script.command import Command
+import rq
 
 from adhocracy import model
 from adhocracy.lib import search
+from adhocracy.lib import queue
+
+
+log = getLogger(__name__)
 
 
 class AdhocracyCommand(Command):
@@ -45,26 +51,38 @@ class AdhocracyCommand(Command):
         cmd.run([self.filename])
 
 
-class Background(AdhocracyCommand):
+class Worker(AdhocracyCommand):
     '''Run Adhocracy background jobs.'''
     summary = __doc__.split('\n')[0]
     usage = __doc__
     max_args = None
     min_args = None
 
+    timer_lock = None
+
+    def command(self):
+        self._load_config()
+        queue.in_worker(value=True)
+        queue_ = queue.get_queue()
+        if queue_ is None:
+            log.error('Error: No queue. exit now.')
+            exit(1)
+        self.minute()
+        self.hourly()
+        self.daily()
+        worker = rq.Worker([queue_], connection=queue.connection)
+        worker.work()
+
     def minute(self):
-        import adhocracy.lib.queue as queue
-        queue.minute()
+        queue.minutely.enqueue()
         self.setup_timer(60.0, self.minute)
 
     def hourly(self):
-        import adhocracy.lib.queue as queue
-        queue.hourly()
+        queue.hourly.enqueue()
         self.setup_timer(3600.0, self.hourly)
 
     def daily(self):
-        import adhocracy.lib.queue as queue
-        queue.daily()
+        queue.daily.enqueue()
         self.setup_timer(84600.0, self.daily)
 
     def setup_timer(self, interval, func):
@@ -72,14 +90,6 @@ class Background(AdhocracyCommand):
         timer = threading.Timer(interval, func)
         timer.daemon = True
         timer.start()
-
-    def command(self):
-        self._load_config()
-        self.minute()
-        self.hourly()
-        self.daily()
-        import queue
-        queue.dispatch()
 
 
 class Index(AdhocracyCommand):
