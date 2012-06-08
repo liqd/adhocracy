@@ -1,24 +1,33 @@
-jQuery.fn.labelOver = function(overClass) {
-	return this.each(function(){
-		var label = jQuery(this);
-		var f = label.attr('for');
-		if (f) {
-			var input = jQuery('#' + f);
+/*jslint vars:true, browser:true, nomen:true */
+/*global document:true, jQuery:true, $:true, ko:true */
 
-			this.hide = function() {
-			  label.css({ textIndent: -10000 })
-			}
+jQuery.fn.labelOver = function (overClass) {
+    "use strict";
+    return this.each(function () {
+        var label = jQuery(this),
+            f = label.attr('for');
 
-			this.show = function() {
-			  if (input.val() == '') label.css({ textIndent: 0 })
-			}
+        if (f !== undefined) {
+            var input = jQuery('#' + f);
+            this.hide = function () {
 
-			// handlers
-			input.focus(this.hide);
-			input.blur(this.show);
-		  label.addClass(overClass).click(function(){ input.focus() });
+                label.css({textIndent: -10000});
+            };
 
-			if (input.val() != '') this.hide();
-		}
-	})
-}
+            this.show = function () {
+                if (input.val() === '') {
+                    label.css({textIndent: 0});
+                }
+            };
+
+            // handlers
+            input.focus(this.hide);
+            input.blur(this.show);
+            label.addClass(overClass).click(function () { input.focus(); });
+
+            if (input.val() !== '') {
+                this.hide();
+            }
+        }
+    });
+};
