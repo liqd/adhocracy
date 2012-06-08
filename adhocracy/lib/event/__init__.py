@@ -33,7 +33,7 @@ def emit(event, user, instance=None, topics=[], **kwargs):
     model.meta.Session.add(event)
     model.meta.Session.commit()
 
-    handle_queue_message.enqueue(str(event.id))
+    handle_queue_message(str(event.id))
     log.debug("Event: %s %s, data: %r" % (user.user_name, event, event.data))
     return event
 

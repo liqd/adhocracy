@@ -18,7 +18,7 @@ def notify_abuse(instance, user, url, message):
         'message': message
         }
     message = json.dumps(message)
-    handle_abuse_message.enqueue(message)
+    handle_abuse_message(message)
 
 
 def get_instance_admins(instance):
