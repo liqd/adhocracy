@@ -276,13 +276,19 @@ class InstanceController(BaseController):
         # This is deprecated, but the route is still created as
         # by routes' .resource()
         return self.edit(id)
-        
+
     @classmethod
     def settings_menu(cls, instance, current):
 
         class Menu(list):
             '''Subclass so we can attach attributes'''
-            pass
+
+            def url_for(self, value):
+                current = [i for i in self if i['name'] == value]
+                if not current:
+                    return ValueError('No Menu item named "%s"' % value)
+                else:
+                    return current[0]['url']
 
         def setting(name, label, allowed=True):
             return {'name': name,
@@ -326,7 +332,8 @@ class InstanceController(BaseController):
             category = 'notice'
         h.flash(message, category=category)
         response.status_int = 303
-        response.headers['location'] = settings_url(instance, setting_name)
+        url = self.settings_menu(instance, setting_name).url_for(setting_name)
+        response.headers['location'] = url
         return unicode(message)
 
     def icon(self, id, y=24, x=None):
