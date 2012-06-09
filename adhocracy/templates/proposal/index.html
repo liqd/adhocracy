@@ -53,6 +53,9 @@
 </div>
 
 %if can.badge.edit_instance():
+
+    ${h.need.adhocracy_ko}
+
     <script>
         var editModel = new adhocracy.ko.editBadges();
         editModel.applyToPager('#proposals_table');

@@ -2,6 +2,8 @@ import hashlib
 import logging
 
 from httplib2 import Http
+from pylons import tmpl_context as c
+from pylons import config
 from sunburnt import SolrInterface
 
 from adhocracy import model
@@ -15,18 +17,25 @@ IGNORE = 'ignore'
 
 
 def get_sunburnt_connection():
-    from pylons import config
-    from pylons import tmpl_context as c
-    if not c.sunburnt_connection:
-        solr_url = config.get('adhocracy.solr.url',
-                              'http://localhost:8983/solr/')
-        solr_url = solr_url.strip()
-        if not solr_url.endswith('/'):
-            solr_url = solr_url + '/'
-        http_connection = Http()
-        c.sunburnt_connection = SolrInterface(solr_url,
-                                              http_connection=http_connection)
+    try:
+        connection = c.sunburnt_connection
+    except TypeError:
+        # no tmpl_context. probably running in tests
+        return make_connection()
+    if not connection:
+        c.sunburnt_connection = make_connection()
     return c.sunburnt_connection
+
+
+def make_connection():
+    solr_url = config.get('adhocracy.solr.url',
+                          'http://localhost:8983/solr/')
+    solr_url = solr_url.strip()
+    if not solr_url.endswith('/'):
+        solr_url = solr_url + '/'
+    http_connection = Http()
+    return SolrInterface(solr_url,
+                         http_connection=http_connection)
 
 
 def gen_id(entity):

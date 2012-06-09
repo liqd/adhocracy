@@ -12,8 +12,12 @@ To guarantee test isolation make sure to use TestCaseBase.setUp() and
 """
 from unittest import TestCase
 
+from decorator import decorator
+
+from mock import patch
+from nose.plugins.skip import SkipTest
 from paste.deploy import loadapp
-from paste.script.appinstall import SetupCommand
+from paste.deploy.converters import asbool
 
 import pylons
 from pylons import config, url
@@ -24,39 +28,10 @@ from webtest import TestApp
 
 
 from adhocracy.lib.app_globals import Globals
-from adhocracy.model import Group, Instance, meta
-from adhocracy.tests.testtools import tt_make_user
+from adhocracy.model import Instance, meta
+from adhocracy.websetup import _setup
 
-
-# --[ load default database and create a root transaction to roll back to ]-
-
-def create_simple_session():
-    '''
-    Create a new, not scoped  global sqlalchemy session
-    and rebind it to a new root transaction to which we can roll
-    back. Otherwise :func:`adhocracy.model.init_model`
-    will create as scoped session and invalidates
-    the connection we need to begin a new root transaction.
-
-    Return: The new root `connection`
-    '''
-    from sqlalchemy import engine_from_config
-    from sqlalchemy.orm.session import Session
-
-    engine = engine_from_config(config, 'sqlalchemy.')
-    meta.engine = engine
-    connection = engine.connect()
-    meta.Session = Session(autoflush=True, bind=connection)
-    return connection
-
-connection = create_simple_session()
-
-# Invoke websetup with the current config file
-SetupCommand('setup-app').run([config['__file__']])
-
-# create a root transaction we can use to roll back the commits
-# done during the tests.
-root_transaction = connection.begin()
+_setup(config)
 
 
 # --[ Mock and configure context variables used by adhocracy       ]----
@@ -137,6 +112,28 @@ def _unregister_instance():
     instance_filter.teardown_thread()
 
 
+def is_integrationtest():
+    '''
+    Raise SkipTest if external services required by adhocracy
+    are not present.
+    '''
+    if not asbool(config.get('run_integrationtests', 'false')):
+        raise SkipTest('This Test needs all services adhocracy depends on. '
+                       'If they are running and configured in test.ini '
+                       'enable the tests there with '
+                       '"run_integrationtests = true".')
+
+
+@decorator
+def integrationtest(func, *args, **kwargs):
+    '''
+    Decorator for tests that require external services like
+    solr or rabbitmq.
+    '''
+    is_integrationtest()
+    return func(*args, **kwargs)
+
+
 environ = {}
 
 
@@ -151,8 +148,16 @@ class TestControllerBase(TestCase):
         cls._rollback_session()
         _unregister_instance()
 
+    def setUp(self):
+        # mock the mail.send() function. Make sure to stop()
+        # the patcher in tearDown.
+        self.patcher = patch('adhocracy.lib.mail.send')
+        self.mocked_mail_send = self.patcher.start()
+
     def tearDown(self):
+        self.patcher.stop()
         self._rollback_session()
+        meta.Session.remove()
 
     def __init__(self, *args, **kwargs):
         if pylons.test.pylonsapp:
@@ -170,7 +175,6 @@ class TestControllerBase(TestCase):
     @classmethod
     def _rollback_session(cls):
         meta.Session.rollback()
-        root_transaction.rollback()
 
 
 class TestController(TestControllerBase):

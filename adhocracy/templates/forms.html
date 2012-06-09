@@ -1,0 +1,90 @@
+<%def name="input(label, name, tabindex, type='text', cls='', placeholder='', help=None)">
+<%self:group name="${name}">
+    <label for="${name}">${label}</label>
+    %if help:
+    <div class="help-block">${help}</div>
+    %endif
+    %if hasattr(caller, 'body'):
+    ${caller.body()}
+    %endif
+    <input type="${type}" class="${cls}"
+           name="${name}" tabindex="${tabindex}"
+           ${'placeholder="%s"' % placeholder if placeholder else ''} />
+</%self:group>
+</%def>
+
+<%def name="radio(label, name, value, tabindex, cls='', help=None, checked=False)">
+<%self:group name="${name}">
+<label class="radio ${cls}">
+    <form:error name="field_name" />
+    <input name="${name}" value="${value}" type="radio" 
+           tabindex="${tabindex}" ${'checked="checked"' if checked else ''} /> 
+    ${label}
+</label>
+</%self:group>
+</%def>
+
+<%def name="checkbox(label, name, tabindex, cls='', help=None, checked=False)">
+<%self:group name="${name}">
+<label class="checkbox ${cls}">
+    <form:error name="field_name" />
+    <input name="${name}"  type="checkbox"
+           tabindex="${tabindex}" 
+           ${'checked="checked"' if checked else ''} /> ${label}
+</label>
+</%self:group>
+
+</%def>
+
+<%def name="checkboxes(label, name, checkboxes, tabindex, cls='', placeholder='', help=None)">
+<label for="checkbox">
+    <input value="${value}" name="${name}" type="checkbox" tabindex="${tabindex}"/> ${label}
+</label>
+</%def>
+ 
+<%def name="textarea(label, name, value, tabindex, rows=3, cls='', help=None)">
+## This renders a textarea like this:
+## 
+## <label />
+## [help] (wrapped into a div.help-block)
+## [def:before]
+## <textarea>
+## [def:after]
+##
+<%self:group name="${name}">
+<label for="${name}">${label}</label>
+%if help:
+<div class="help-block">${help}</div>
+%endif
+%if hasattr(caller, 'before'):
+${caller.before()}
+%endif
+<textarea class="${cls}" name="${name}" rows="${rows}" 
+          tabindex="${tabindex}">${value}</textarea>
+%if hasattr(caller, 'after'):
+${caller.after()}
+%endif
+${caller.body()}
+</%self:group>
+</%def>
+
+<%def name="select(label, name, values, tabindex, cls='', help=None)">
+<%self:group name="${name}">
+<label for="${name}">${label}</lable>
+<select name="${name}" tabindex="${tabindex}">
+    %for option in values:
+    <option value="${option['value']}"
+            ${h.literal('selected="selected"') if option.get('selected') else ''}>
+        ${option['label']}
+    </option>
+    %endfor
+</select>
+</%self:group>
+</%def>
+
+<%def name="group(name)">
+<form:iferror name="${name}"><div class="control-group error"></form:iferror>
+<form:iferror name="not ${name}"><div class="control-group"></form:iferror>
+${caller.body()}
+</div>
+</%def>

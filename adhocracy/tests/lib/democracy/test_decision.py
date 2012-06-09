@@ -9,6 +9,7 @@ from adhocracy.tests.testtools import tt_make_proposal, tt_make_user
 class TestDecisionWithoutDelegation(TestController):
 
     def setUp(self):
+        super(TestDecisionWithoutDelegation, self).setUp()
         self.proposal = tt_make_proposal(voting=True)
         self.poll = Poll.create(self.proposal, self.proposal.creator,
                                 Poll.ADOPT)
@@ -68,6 +69,7 @@ class TestDecisionWithoutDelegation(TestController):
 class TestDecisionWithDelegation(TestController):
 
     def setUp(self):
+        super(TestDecisionWithDelegation, self).setUp()
         self.me = tt_make_user(name='me')
         self.high_delegate = tt_make_user(name='high_delegate')
         self.low_delegate = tt_make_user(name='low_delegate')

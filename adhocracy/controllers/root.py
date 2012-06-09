@@ -6,6 +6,7 @@ from pylons.controllers.util import redirect
 from pylons.decorators import validate
 
 from adhocracy import model
+from adhocracy.controllers.event import EventController
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth import require
 from adhocracy.lib.base import BaseController
@@ -43,8 +44,9 @@ class RootController(BaseController):
                 "votes": model.Vote.all_q().count(),
             }
 
-        #if format == 'json':
-        #    return render_json(c.proposals_pager)
+        if format == 'rss':
+            return EventController().all(format='rss')
+
         return render('index.html')
 
     #@RequireInstance

@@ -26,6 +26,10 @@ log = logging.getLogger(__name__)
 def setup_app(command, conf, vars):
     """Place any commands to setup adhocracy here"""
     load_environment(conf.global_conf, conf.local_conf, with_db=False)
+    _setup(conf)
+
+
+def _setup(config):
     # disable delayed execution
     config['adhocracy.amqp.host'] = None
 

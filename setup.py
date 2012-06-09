@@ -58,7 +58,7 @@ setup(
         "Mako>=0.4.2",
         "recaptcha-client>=1.0.6",
         "fanstatic >=0.11.2, <=0.11.99",
-        "js.jquery >= 1.6.1,<=1.6.99",
+        "js.jquery >= 1.7.1,<=1.7.99",
         "js.jquery_qtip >= 1.0.0,<= 1.0.99",
         'js.socialshareprivacy >= 1.3dev',
         'js.jquery_joyride',
@@ -73,9 +73,11 @@ setup(
     extras_require={
         'test': ['zope.testbrowser [wsgi]',
                  'repoze.tm2',
+                 'mock >=0.8.0, <=0.8.99',
                  'nose',
                  'nose-cov',
-                 'nose-exclude']
+                 'nose-exclude',
+                 'decorator']
     },
     package_data={'adhocracy': ['i18n/*/LC_MESSAGES/*.mo']},
     message_extractors={'adhocracy': [
@@ -84,15 +86,25 @@ setup(
             ('static/**', 'ignore', None)]},
     zip_safe=False,
     paster_plugins=['PasteScript', 'Pylons'],
-    entry_points="""
-    [paste.app_factory]
-    main = adhocracy.config.middleware:make_app
-
-    [paste.paster_command]
-    background = adhocracy.lib.cli:Background
-    index = adhocracy.lib.cli:Index
-
-    [paste.app_install]
-    main = pylons.util:PylonsInstaller
-    """,
+    entry_points={
+        'paste.app_factory': [
+            'main = adhocracy.config.middleware:make_app'
+        ],
+        'paste.paster_command': [
+            'background = adhocracy.lib.cli:Background',
+            'index = adhocracy.lib.cli:Index'
+        ],
+        'paste.app_install': [
+            'main = pylons.util:PylonsInstaller'
+        ],
+        'fanstatic.libraries': [
+            'stylesheets = adhocracy.static:stylesheets_library',
+            'yaml = adhocracy.static:yaml_library',
+            'autocomplete = adhocracy.static:autocomplete_library',
+            'knockout = adhocracy.static:knockout_library',
+            'misc = adhocracy.static:misc_library',
+            'adhocracy = adhocracy.static:adhocracy_library',
+            'bootstrap = adhocracy.static:bootstrap_library',
+        ]
+    }
 )

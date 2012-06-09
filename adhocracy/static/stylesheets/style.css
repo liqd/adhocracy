@@ -12,17 +12,18 @@
  *
  */
 
-/* import core styles | Basis-Stylesheets einbinden */
-@import url(../yaml/core/base.css);
+/* import core styles | Basis-Stylesheets einbinden | via fanstatic */
+/* @import url(yaml/core/base.css); */
 
-/* import screen layout | Screen-Layout einbinden */
+/* import screen layout | Screen-Layout einbinden | via fanstatic */
+/* 
 @import url(screen/fonts.css);
 @import url(screen/basemod.css);
 @import url(screen/content.css);
+*/
 
-/* import print layout | Druck-Layout einbinden */
-@import url(../yaml/print/print_draft.css);
-
+/* import print layout | Druck-Layout einbinden | via yaml */
+/* @import url(../yaml/print/print_draft.css); */
 
 
 body { color: #2d3441; }

@@ -30,6 +30,7 @@ except ImportError:
     exit(1)
 import os
 
+from sqlalchemy import engine_from_config
 from paste.deploy import appconfig
 
 from adhocracy.config.environment import load_environment
@@ -38,18 +39,24 @@ from adhocracy.model import Instance
 section = 'content'
 
 
-def load_config(filename, section):
-    conf = appconfig('config:%s#%s' % (os.path.abspath(filename), section))
-    load_environment(conf.global_conf, conf.local_conf)
+def config_from_args(args):
+    filename = args.file
+    section = args.section
+    return appconfig('config:%s#%s' % (os.path.abspath(filename), section))
+
+
+def load_config(config):
+    return load_environment(config.global_conf, config.local_conf)
 
 
 def load_from_args(args):
-    load_config(args.file, args.section)
+    config = config_from_args(args)
+    return load_config(config)
 
 
 def create_parser(description, use_instance=True,
                   instance_help='Instances to consider'):
-    parser = ArgumentParser(description=__doc__)
+    parser = ArgumentParser(description=description)
     parser.add_argument("file", help="configuration file to use",
                         metavar="<config file>")
     parser.add_argument("-n", default=section, dest="section",
@@ -78,3 +85,7 @@ def get_instances(args):
             instances.append(obj)
         return instances
     return None
+
+
+def get_engine(conf, echo=True):
+    return engine_from_config(conf.local_conf, echo=echo)

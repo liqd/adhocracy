@@ -2,7 +2,7 @@ import logging
 
 import formencode
 from pylons import request, tmpl_context as c
-from pylons.i18n import _
+from pylons.i18n import _, lazy_ugettext as L_
 
 from repoze.what.plugins.pylonshq import ActionProtector
 
@@ -23,12 +23,17 @@ class UserImportForm(formencode.Schema):
     users_csv = forms.UsersCSV()
     email_subject = formencode.validators.String(
         not_empty=True,
-        messages={'empty': 'Please insert a subject.'})
-    email_template = forms.ContainsUrlPlaceholder()
+        messages={'empty': L_('Please insert a subject for the '
+                              'mail we will send to the users.')})
+    email_template = forms.ContainsEMailPlaceholders(
+        not_empty=True,
+        messages={'empty': L_('Please insert a template for the '
+                              'mail we will send to the users.')})
 
 
 class AdminController(BaseController):
 
+    @ActionProtector(has_permission("global.admin"))
     def index(self):
         return render("/admin/index.html")
 
@@ -50,7 +55,14 @@ class AdminController(BaseController):
             model.meta.Session.commit()
         return render("/admin/permissions.html")
 
-    @RequireInternalRequest()
+    @ActionProtector(has_permission("global.admin"))
+    def user_import_form(self, errors=None):
+        return formencode.htmlfill.render(render("/admin/import_form.html"),
+                                          defaults=dict(request.params),
+                                          errors=errors,
+                                          force_defaults=False)
+
+    @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("global.admin"))
     def user_import(self):
 
@@ -113,28 +125,3 @@ class AdminController(BaseController):
         c.not_mailed = set(created) - set(mailed)
         c.errors = errors
         return render("/admin/import_success.html")
-
-    @ActionProtector(has_permission("global.admin"))
-    def user_import_form(self, errors=None):
-        c.placeholders = {'required': [],
-                          'optional': []}
-        c.placeholders['required'].append(
-            {'name': '{user_name}',
-             'description': _('The name with which the user can log in.')})
-        c.placeholders['required'].append(
-            {'name': '{password}',
-             'description': _('The initial password for the user.')})
-        c.placeholders['required'].append(
-            {'name': '{url}',
-             'description': _('An URL for the user to activate his account.')})
-        c.placeholders['optional'].append(
-            {'name': '{display_name}',
-             'description': _('The name that will be displayed to other '
-                              'users.')})
-        c.placeholders['optional'].append(
-            {'name': '{email}',
-             'description': _('The email address of the user.')})
-        return formencode.htmlfill.render(render("/admin/import_form.html"),
-                                          defaults=dict(request.params),
-                                          errors=errors,
-                                          force_defaults=False)

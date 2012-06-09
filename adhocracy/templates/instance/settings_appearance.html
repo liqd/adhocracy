@@ -1,0 +1,32 @@
+<%inherit file="/instance/settings.html" />
+<%namespace name="forms" file="/forms.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Manage: %s") % c.page_instance.label}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Manage")}
+</%def>
+
+<%block name="settings_content">
+<form name="appearance" class="well" method="POST"
+      enctype="multipart/form-data">
+
+    ${components.flashmessages()}
+
+    <h2>${c.settings_menu.current['label']}</h2>
+
+    <input type="hidden" name="_method" value="PUT" />
+    ${h.field_token()|n}
+        
+    ${forms.input(_("Logo"), 'logo', 1, type='file', help=_("Select a logo file to appear in the header area of this Instance."))}
+    
+    <%forms:textarea label="${_('Extra CSS')}" name="css" value="" 
+    tabindex="2" help="${_('You can add css that will be used to style the instance.')}">
+    ${components.formatting()}    
+    </%forms:textarea>
+
+    
+    ${components.savebox("/instance/%s" % c.page_instance.key)}
+
+</form> 
+</%block>

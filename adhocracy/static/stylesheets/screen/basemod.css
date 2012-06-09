@@ -53,6 +53,12 @@
   #col1_content { padding: 0 10px 0 23px }
   #col3_content { padding: 0 23px 0 31px }
 
+  #settings #col1 { float: right; width: 800px}
+  #settings #col2 { display:none}
+  #settings #col3 { width: auto; margin: 0 800px 0 0 }
+  #settings #col1_content { padding: 0 15px 0 10px }
+  #settings #col3_content { padding: 0 15px 0 23px }
+
   .subcl { padding: 0 20px 0 0; }
   .subc { padding: 0 10px; }
   .subcr { padding: 0 0 0 20px; }

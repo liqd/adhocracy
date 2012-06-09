@@ -39,6 +39,7 @@ instance_table = Table('instance', meta.data,
     Column('use_norms', Boolean, nullable=True, default=True),
     Column('require_selection', Boolean, nullable=True, default=False),
     Column('region_id', Integer, ForeignKey('region.id'), nullable=True),
+    Column('is_authenticated', Boolean, nullable=True, default=False)
     )
 
 

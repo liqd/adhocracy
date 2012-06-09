@@ -7,6 +7,12 @@
 </%def>
 
 <%block name="main_content">
+
+${self.form()}
+</%block>
+
+<%def name="form()">
+
   <h1>
         %if c.form_type == 'create':
           %if c.badge_type == 'user':
@@ -83,5 +89,4 @@
     </div>
   </form>
 
-</%block>
-
+</%def>

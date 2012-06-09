@@ -465,7 +465,7 @@ class UsersCSV(formencode.FancyValidator):
         return error_list, cleaned_item
 
 
-class ContainsUrlPlaceholder(formencode.FancyValidator):
+class ContainsEMailPlaceholders(formencode.FancyValidator):
 
     def _to_python(self, value, state):
         required = ['{url}', '{user_name}', '{password}']

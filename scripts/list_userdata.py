@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
-Extract email adresses from adhocracy. Emails from deleted users won't be
-exported.
+List data of existing users. The default template lists the username
+and email address.
 """
 from datetime import datetime
 

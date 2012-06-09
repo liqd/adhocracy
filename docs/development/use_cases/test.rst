@@ -1,11 +1,11 @@
-
 testbrowser example
 ===================
 
-This will be broken by the tests in root.rst::
 
-#    >>> model.User.all()
-#    [<User(1,admin)>]
+Make (reasonably) sure that we have a clean environment::
+
+    >>> model.User.all()
+    [<User(1,admin)>]
 
 We have a testbrowser `browser` set up that we can use to browse throug the 
 site::
@@ -36,8 +36,6 @@ And we can log out.
     >>> admin_browser.open(app_url)
     >>> 'http://test.lan/user/admin/dashboard' in admin_browser.contents
     False
-
-    
 
 This won't affect our first browser::
 

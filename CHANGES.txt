@@ -3,22 +3,28 @@ adhocracy Changelog
 
 1.2beta2dev
 -----------
+- Give the users the option to permanently activate the twitter, 
+  facebook or google+ buttons. Save the setting in a wildcard 
+  subdomain cookie so it is valid across all instances.
 
-- add the possibility to overwrite templates in <adhocracy.site>/templates 
+  This requires a updated js.socialshareprivacy to work with
+  our auth cookie. [csenger]
+- Add the possibility to overwrite templates in <adhocracy.site>/templates 
   directory (like it's possible for static resources and static pages already.
   New templates there need a server restart to be picked up.
   [csenger]
-- delgateables can have category badgets [joka]
-- instances can have badgets, they are only valid inside that instance [joka]
-- added option to set the smtp port [joka]
+- Deliver (almost) all resources with fanstatic. [csenger] 
+- Delgateables can have category badgets. [joka]
+- Instances can have badgets, they are only valid inside that instance. [joka]
+- Added option to set the smtp port. [joka]
 
 1.2a4
 -----
 
-- tooltips use jquery tools now [joka]
-- open helper link, login and register form with overlay [joka]
-- recaptcha support (disabled by default) [joka]
-- proposals can have badgets #263 [joka]
+- Tooltips use jquery tools now. [joka]
+- Open helper link, login and register form with overlay. [joka]
+- Recaptcha support (disabled by default). [joka]
+- Proposals can have badgets #263. [joka]
 
 
 1.2a3 
@@ -30,8 +36,8 @@ adhocracy Changelog
 1.2a1
 -----
 
-- users can have badgets #214 [carsten]
-- proposal listing with natural sort #212 [joka]
+- Users can have badgets #214. [carsten]
+- Proposal listing with natural sort #212. [joka]
 
 1.1 (2010-12-05)
 ----------------
@@ -41,12 +47,12 @@ adhocracy Changelog
 - Allow single-instance mode of operation.
 - Allow per-instance deactivation of norms. 
 - Remove wiki from system.
-- Change from cron-initiated regular background processing 
+- Change from cron-initiated regular background processing.
   to continuous background queue polling process.
 - Add INSTALL.txt and CHANGES.txt.
 - Change from BSD license to AGPL-3.
-- Update to SQLAlchemy 0.6
-- Many smaller bug fixes. 
+- Update to SQLAlchemy 0.6.
+- Many smaller bug fixes.
 
 1.0 (2010-07-24)
 ----------------

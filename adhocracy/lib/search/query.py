@@ -9,14 +9,26 @@ from pylons import tmpl_context as c
 log = logging.getLogger(__name__)
 
 
-def sunburnt_query(entity_type=None, instance=None):
+def sunburnt_query(entity_type=None, instance=None, connection=None):
     '''
-    return a sunburnt query object. If *entity_type* is given,
-    return a query object preconfigured to only fetch documents
-    from solr with a matching doc_type
+    return a pre configured sunburnt query object. If *entity_type*
+    is given, return a query object preconfigured to only fetch
+    documents from solr with a matching doc_type. if instance is
+    given, only documents are returned that contain the index
+    key.
+
+    *entity_type*
+        An indexed model class. Indexed classes are listed
+        in :data:`adhocracy.lib.search.INDEXED_CLASSES`.
+    *instance*
+        A :class:`adhocracy.model.Instance` object
+    *connection*
+        An existing sunburnt connection. Mostly useful
+        in tests.
     '''
-    si = get_sunburnt_connection()
-    q = si.query()
+    if connection == None:
+        connection = get_sunburnt_connection()
+    q = connection.query()
     if entity_type:
         q = q.filter(doc_type=refs.cls_type(entity_type))
     if instance and c.instance:

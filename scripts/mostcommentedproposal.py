@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 """
-Extract email adresses from adhocracy. Emails from deleted users won't be
-exported.
+List the Proposals in an instance sorted by the number of comments.
 """
 
 from adhocracy.model import Proposal

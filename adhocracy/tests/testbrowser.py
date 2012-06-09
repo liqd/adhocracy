@@ -1,14 +1,18 @@
 """Helper classes to allow function testing with a testbrowser"""
 
-import os.path
-from paste.deploy import loadapp
+from lxml import etree
+from lxml.cssselect import CSSSelector
+
+from mock import patch
 
 from pylons import config
 from pylons.test import pylonsapp
 from repoze.tm import TM
 import zope.testbrowser.wsgi
 
-import adhocracy
+from adhocracy.model import meta
+from adhocracy.lib.search import drop_all, rebuild_all
+from adhocracy import tests
 
 adhocracy_domain = config.get('adhocracy.domain').strip()
 app_url = "http://%s" % adhocracy_domain
@@ -40,14 +44,25 @@ class Browser(zope.testbrowser.wsgi.Browser):
     def status(self):
         return self.headers['Status']
 
+    def etree(self):
+        '''
+        return an lxml.etree from the contents.
+        '''
+        return etree.fromstring(self.contents)
+
+    def cssselect(self, selector):
+        cssselector = CSSSelector(selector)
+        return cssselector(self.etree())
+
+    def xpath(self, selector):
+        return self.etree().xpath(selector)
+
 
 class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
     """Layer to setup the WSGI app"""
 
     def make_wsgi_app(self):
-        config_path = os.path.join(adhocracy.__path__[0] + '/..' + '/test.ini')
-        app = loadapp('config:' + config_path)
-        # app = pylonsapp
+        app = pylonsapp
         app = zope.testbrowser.wsgi.AuthorizationMiddleware(app)
         app = TM(app)
         zope.testbrowser.wsgi._allowed.add(adhocracy_domain)
@@ -55,15 +70,27 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
         return app
 
     def setUp(test, *args, **kwargs):
-        print(
-            "\n--------------------------------------------------------------"
-            "\n--- Setting up database test environment, please stand by. ---"
-            "\n--------------------------------------------------------------"
-            "\n")
+        # we skip this test if we don't have a full stack
+        # test environment
+        tests.is_integrationtest()
+
+        connection = meta.engine.connect()
+        test.trans = connection.begin()
+        meta.Session.configure(bind=connection)
+        # delete and reindex solr
+        drop_all()
+        rebuild_all()
+
+        # mock the mail.send() function. Make sure to stop()
+        # the patcher in tearDown.
+        test.patcher = patch('adhocracy.lib.mail.send')
+        test.mocked_mail_send = test.patcher.start()
         #TODO start solr and co
 
     def tearDown(self, test):
-        pass
+        self.trans.rollback()
+        self.patcher.stop()
+        meta.Session.close()
 
 
 ADHOCRACY_LAYER = AdhocracyAppLayer()

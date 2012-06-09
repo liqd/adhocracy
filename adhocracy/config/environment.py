@@ -7,6 +7,7 @@ from mako.lookup import TemplateLookup
 from paste.deploy.converters import asbool
 from pylons import config, tmpl_context as c
 from pylons.error import handle_mako_error
+import sqlalchemy
 from sqlalchemy import engine_from_config
 from sqlalchemy.interfaces import ConnectionProxy
 
@@ -51,10 +52,16 @@ def load_environment(global_conf, app_conf, with_db=True):
         imports=['from webhelpers.html import escape'])
 
     # Setup the SQLAlchemy database engine
-    connectionproxy = None
+    engineOpts = {}
     if asbool(config.get('adhocracy.debug.sql', False)):
-        connectionproxy = TimerProxy()
-    engine = engine_from_config(config, 'sqlalchemy.', proxy=connectionproxy)
+        engineOpts['connectionproxy'] = TimerProxy()
+
+    # Work around a bug in sqlite and sqlalchemy<0.7
+    # See https://github.com/Pylons/pyramid/issues/174
+    if tuple(map(int, sqlalchemy.__version__.split('.'))) < (0,7,0) and config['sqlalchemy.url'].startswith('sqlite:'):
+        engineOpts['poolclass'] = sqlalchemy.pool.NullPool
+
+    engine = engine_from_config(config, 'sqlalchemy.', **engineOpts)
     init_model(engine)
 
     # CONFIGURATION OPTIONS HERE (note: all config options will override

@@ -30,17 +30,39 @@
   </div>
 
   </div>
-  <br/>
 
-<div class="clearFix" id="numbers"></div>
-    <h3>${_("By the numbers")}</h3>
-    <p>${_("%s has:") % c.page_instance.label}</p>
-    <ul>
+</div>
+</%block>
+
+<%block name="sidebar">
+
+<h3 id="information">${_('Informations')}</h3>
+<summary>
+    <h6>${_('Created')}</h6>
+    <p>${_("by %s on %s") % (h.user.link(c.instance.creator), h.format_date(c.instance.create_time))|n}</p>
+
+    <h6>${_('Votings')}</h6>
+    <p>${c.sidebar_delegations}</p>
+
+    <h6>${_('By the numbers')}</h6>
+    <ul class="nobullet">
         <li>${_("<b>%s</b> community members") % c.stats.get('members')|n}</li>
         <li>${_("<b>%s</b> proposals") % c.stats.get('proposals')|n}</li>
         <li>${_("<b>%s</b> comments") % c.stats.get('comments')|n}</li>
     </ul>
-</div>
+    
+</summary>
+
+%if h.asbool(config.get('adhocracy.proposal_geotags')):
+    <%doc>FIXME: use English translation base string when merging into default
+    <h3>${_('Newest geotagged proposals')}</h3>
+    </%doc>
+    <h3>${_(u'Neueste Vorschläge mit Geotag')}</h3>
+    <%doc>filter if p is not None in list comprehension is just a workaround, as SolrPager seems to return None proposals accidently</%doc>
+    ${map.show_region_map([p.id for p in c.new_proposals_pager.items if p is not None and p.geotag is not None])}
+%endif
+
+</%block>
 
 <%components:tutorial>
         <ol id="joyRideTipContent">
@@ -59,18 +81,5 @@
           </li>
         </ol>
 </%components:tutorial>
-
-</%block>
-
-<%block name="sidebar">
-
-%if h.asbool(config.get('adhocracy.proposal_geotags')):
-    <%doc>FIXME: use English translation base string when merging into default
-    <h3>${_('Newest geotagged proposals')}</h3>
-    </%doc>
-    <h3>${_(u'Neueste Vorschläge mit Geotag')}</h3>
-    <%doc>filter if p is not None in list comprehension is just a workaround, as SolrPager seems to return None proposals accidently</%doc>
-    ${map.show_region_map([p.id for p in c.new_proposals_pager.items if p is not None and p.geotag is not None])}
-%endif
 
 </%block>

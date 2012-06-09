@@ -12,15 +12,6 @@ group's opinions and eventually its decisions regarding a given subject.
 
 Contents:
 
-REST interface
---------------
-
-.. toctree::
-   :maxdepth: 2
-
-   rest/intro
-   rest/resources
-
 Development documentation
 -------------------------
 
@@ -31,6 +22,20 @@ Development documentation
    development/api
    development/translations
    development/tests
+
+
+REST interface (outdated)
+-------------------------
+
+.. WARNING::
+  This is the documentation for the REST interface. Unfortunately 
+  it is outdated and parts of the interface may not work anymore.
+
+.. toctree::
+   :maxdepth: 2
+
+   rest/intro
+   rest/resources
 
 
 Indices and tables

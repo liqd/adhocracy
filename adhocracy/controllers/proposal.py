@@ -331,15 +331,16 @@ class ProposalController(BaseController):
     def activity(self, id, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.show(c.proposal)
-        events = model.Event.find_by_topic(c.proposal)
 
         if format == 'rss':
+            events = model.Event.find_by_topic(c.proposal, limit=50)
             return event.rss_feed(
                 events, _("Proposal: %s") % c.proposal.title,
                 h.entity_url(c.proposal),
                 description=_("Activity on the %s proposal") % c.proposal.title
                 )
 
+        events = model.Event.find_by_topic(c.proposal)
         c.tile = tiles.proposal.ProposalTile(c.proposal)
         c.events_pager = pager.events(events)
         self._common_metadata(c.proposal)

@@ -10,7 +10,7 @@ import uuid
 import logging
 from decorator import decorator
 
-from pylons import session, request, config
+from pylons import session, request
 from pylons.i18n import _
 
 from repoze.who.plugins.basicauth import BasicAuthPlugin
@@ -30,8 +30,6 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
     """
     def _decorate(f, *a, **kw):
         def check():
-            if config.get('skip_authentication'):
-                return True
 
             method = request.environ.get('REQUEST_METHOD').upper()
             if not method in methods:

@@ -1,0 +1,4 @@
+# This is a little requirements file for building the docs
+# on Read The Docs.
+-e hg+http://bitbucket.org/csenger/js.jquery_joyride#egg=js.jquery_joyride
+-e hg+https://bitbucket.org/csenger/js.socialshareprivacy#egg=js.socialshareprivacy
