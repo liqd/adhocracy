@@ -19,9 +19,6 @@ import geojson
 from shapely.wkb import loads
 from shapely.geometry import Polygon, MultiPolygon, box
 
-import logging
-log = logging.getLogger(__name__)
-
 BBOX_FILTER_TYPE = USE_POSTGIS
 CENTROID_TYPE = USE_SHAPELY
 

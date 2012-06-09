@@ -7,6 +7,8 @@ from adhocracy.lib import cache
 from adhocracy.model import meta
 from adhocracy.model import Region
 
+import logging
+log = logging.getLogger(__name__)
 
 USE_POSTGIS = 'USE_POSTGIS'
 USE_SHAPELY = 'USE_SHAPELY'
