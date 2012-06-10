@@ -16,7 +16,7 @@ from sqlalchemy import func
 from sqlalchemy import or_
 
 import geojson
-from shapely.wkb import loads
+from shapely import wkb
 from shapely.geometry import Polygon, MultiPolygon, box
 
 BBOX_FILTER_TYPE = USE_POSTGIS
@@ -63,7 +63,7 @@ class GeoController(BaseController):
                 pass
 
             if CENTROID_TYPE == USE_SHAPELY:
-                geom = loads(str(region.boundary.geom_wkb)).centroid
+                geom = wkb.loads(str(region.boundary.geom_wkb)).centroid
 
             feature = dict(geometry = geom, 
                            properties = {'label': region.name, 
@@ -149,7 +149,7 @@ class GeoController(BaseController):
                 entry['region_id'] = region.id
                 entry['admin_level'] = region.admin_level
                 entry['admin_type'] = region.admin_type
-                bbox = loads(str(region.boundary.geom_wkb)).bounds
+                bbox = wkb.loads(str(region.boundary.geom_wkb)).bounds
                 admin_center_props = {
                     'instance_id': "",
                     'admin_level': region.admin_level,
@@ -174,7 +174,7 @@ class GeoController(BaseController):
                     admin_center_props['label'] = instance.label
                 else: 
                     entry['instance_id'] = ""
-                entry['admin_center'] = render_geojson((geojson.Feature(geometry=loads(str(region.boundary.geom_wkb)).centroid, properties=admin_center_props)))
+                entry['admin_center'] = render_geojson((geojson.Feature(geometry=wkb.loads(str(region.boundary.geom_wkb)).centroid, properties=admin_center_props)))
             return entry
     
         def num_pages(instance):

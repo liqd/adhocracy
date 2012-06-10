@@ -1474,6 +1474,7 @@ function instanceSearch(state, resultList) {
     }
 
     function showSearchResult() {
+        $( "#instances" ).autocomplete("close");
         removePreviousMarkers(prevInputValue);
         offset = 0;
         prevInputValue = new String(inputValue);
