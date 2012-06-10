@@ -6,8 +6,8 @@ from adhocracy.model import meta
 
 region_hierarchy_table = Table('region_hierarchy', meta.data,
     Column('id', Integer, primary_key = True),
-    Column('inner_id', Integer, ForeignKey('region.id'), nullable=True),
-    Column('outer_id', Integer, ForeignKey('region.id'), nullable=True),
+    Column('inner_id', Integer, ForeignKey('region.id'), nullable=False),
+    Column('outer_id', Integer, ForeignKey('region.id'), nullable=False),
     )
 
 
