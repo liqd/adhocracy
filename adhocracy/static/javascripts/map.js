@@ -538,7 +538,6 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
         }
 
         if (drawFeature) {
-            feature.style = new OpenLayers.Style(style);
             townHallLayer.drawFeature(feature, style);
         }
     }
