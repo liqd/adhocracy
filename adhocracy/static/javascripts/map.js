@@ -509,19 +509,36 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
         return !fetch;
     }
 
-    function showTownHall(visible, admin_level) {
+    function showTownHalls(visible, admin_level) {
         var i=0;
         for (i=0; i<townHallLayer.features.length; i++) {
             var feature = townHallLayer.features[i];
-            var style = styleProps;
-            //features in search result are always visible
-            if (!visible || (!resultList || !resultList[inputValue] || !listHasFeature(resultList[inputValue],feature))) {
-                style = styleTransparentProps;
-            }
-            if (feature.attributes.admin_level == admin_level) {
-                feature.style = new OpenLayers.Style(style);
-                townHallLayer.drawFeature(feature,style);
-            }
+            showTownHall(visible, admin_level, feature);
+        }
+    }
+
+    function showTownHall(visible, admin_level, feature) {
+
+        //redraw feature once
+        if (feature.attributes.admin_level != admin_level) {
+            return;
+        }
+
+        var drawFeature = false;
+        if (resultList && resultList[inputValue] && listHasFeature(resultList[inputValue],feature)) {
+            drawFeature = true;
+        } else {
+            drawFeature = visible;
+        }
+
+        var style = styleTransparentProps;
+        if (drawFeature) {
+            style = styleProps;
+        }
+
+        if (drawFeature) {
+            feature.style = new OpenLayers.Style(style);
+            townHallLayer.drawFeature(feature, style);
         }
     }
 
@@ -559,11 +576,11 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
         var i=0;
         for (i=0; i<features.length; i++) {
             var feature = features[i];
-            if (feature.geometry !== null) {
+            if (feature.geometry !== null && !layerHasFeature(townHallLayer, feature)) {
                 townHallLayer.addFeatures([feature]);
+                showTownHall(true, adminLevel, feature);
             }
         }
-        showTownHall(true, adminLevel);
     }
 
     var moveTownHallTo 
@@ -573,13 +590,14 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
             while (i<adminLevels.length) {
                 var style = displayMap[zoom]['styles'][i];
                 if (style == 0) {
-                    showTownHall(false, adminLevels[i]);
+                    showTownHalls(false, adminLevels[i]);
                 } else if (style == 1 || style == 2) {
                     fetchTownHalls(bounds, adminLevels[i], townHallTiles[i]);
-                    showTownHall(true, adminLevels[i]);
+                    showTownHalls(true, adminLevels[i]);
                 }
                 i++;
             }
+            OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
         }
 
     var moveMapTo = function(bounds, zoomChanged, dragging) {
@@ -644,37 +662,40 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
   
     var moveLayersTo
         = function(bounds, zoomChanged, dragging ) {
-              if (this.getVisibility()) {
-                  var tileSize = 256;
-                  var tileSizeLL = tileSize * map.getResolution();
-                  var newTiles = makeTiles(tileSizeLL, bounds);
-                  var i=0;
-                  for (i=0; i < newTiles.length; i++) {
-                      var fetch = !alreadyFetched(tiles[this.layersIdx], newTiles[i]);
-                      if (fetch) {
-                          tiles[this.layersIdx].push(newTiles[i]);
-                          box = new OpenLayers.Bounds(newTiles[i].x*tileSizeLL,newTiles[i].y*tileSizeLL,
-                                                      (newTiles[i].x+1)*tileSizeLL,(newTiles[i].y+1)*tileSizeLL);
-                          layers[this.layersIdx][this.zoom].addFeatures([new OpenLayers.Feature.Vector(box.toGeometry(),
-                                                                                                              {})]);
-                                  //transform bbox with shapely
-                          var url = '/get_tiled_boundaries.json'
-                                          + '?x=' + newTiles[i].x
-                                          + '&y=' + newTiles[i].y
-                                          + '&zoom=' + this.zoom
-                                          + '&admin_level=' + adminLevels[this.layersIdx];
-                          $.ajax({
-                              url: url,
-                              success: function(data) {addBoundaryPaths(this.zoom, data);},
-                              error: function(xhr,err) {
-                                  // console.log("error: " + err);
-                              }
-                          });
-                      }
-                  }
-              }
-              OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
+            var showGrid = false;
+            if (this.getVisibility()) {
+                var tileSize = 256;
+                var tileSizeLL = tileSize * map.getResolution();
+                var newTiles = makeTiles(tileSizeLL, bounds);
+                var i=0;
+                for (i=0; i < newTiles.length; i++) {
+                    var fetch = !alreadyFetched(tiles[this.layersIdx], newTiles[i]);
+                    if (fetch) {
+                        tiles[this.layersIdx].push(newTiles[i]);
+                        if (showGrid) {
+                            box = new OpenLayers.Bounds(newTiles[i].x*tileSizeLL,newTiles[i].y*tileSizeLL,
+                                                        (newTiles[i].x+1)*tileSizeLL,(newTiles[i].y+1)*tileSizeLL);
+                            layers[this.layersIdx][this.zoom].addFeatures([new OpenLayers.Feature.Vector(box.toGeometry(),
+                                                                                                            {})]);
+                        }
+                                //transform bbox with shapely
+                        var url = '/get_tiled_boundaries.json'
+                                        + '?x=' + newTiles[i].x
+                                        + '&y=' + newTiles[i].y
+                                        + '&zoom=' + this.zoom
+                                        + '&admin_level=' + adminLevels[this.layersIdx];
+                        $.ajax({
+                            url: url,
+                            success: function(data) {addBoundaryPaths(this.zoom, data);},
+                            error: function(xhr,err) {
+                                // console.log("error: " + err);
+                                   }
+                        });
+                    }
+                }
             }
+            OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
+          }
 
     function redrawFeatures(thelayer,thestyle) {
         var i=0;
@@ -761,8 +782,9 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
     map.addLayer(townHallLayer);
     createPopupControl(townHallLayer, buildInstancePopup);
 
-    var foldLayers = foldLayerMatrix(layers);
-    return [townHallLayer,foldLayers];
+    //var foldLayers = foldLayerMatrix(layers);
+    //return [townHallLayer,foldLayers];
+    return [townHallLayer, undefined];
 }
 
 function foldLayerMatrix(layers) {
