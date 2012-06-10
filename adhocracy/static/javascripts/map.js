@@ -537,9 +537,7 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
             style = styleProps;
         }
 
-        if (drawFeature) {
-            townHallLayer.drawFeature(feature, style);
-        }
+        townHallLayer.drawFeature(feature, style);
     }
 
     function fetchTownHalls(bounds, adminLevel, townHallTiles) {
