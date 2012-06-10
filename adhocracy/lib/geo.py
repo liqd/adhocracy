@@ -23,26 +23,15 @@ MAX_ZOOM_LEVEL = 18
 
 RESOLUTIONS = AVAILABLE_RESOLUTIONS[MIN_ZOOM_LEVEL:MAX_ZOOM_LEVEL+1]
 
+NUMBER_ZOOM_LEVELS = MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL + 1
+
 # arbitrary, corresponds to OpenLayers tile sizes
 TILE_SIZE_PX = 256
 
-COMPLEXITY_TOLERANCE_900913 = {
-    0: 125,
-    1: 62.5,
-    2: 31.25,
-    3: 15.625,
-    4: 7.8125,
-    5: 3.90625,
-    6: 1.953125,
-    7: 0.9765625,
-    8: 0.48828125,
-    9: 0.244140625,
-    10: 0.1220703125,
-    11: 0.06103515625,
-    12: 0.030517578125,
-    13: 0.0152587890625,
-    14: 0.00762939453125
-    }
+# tolerance resolution in lowest zoom level
+MIN_ZOOM_TOLERANCE = 4096.
+
+ZOOM_TOLERANCE = map(lambda e:MIN_ZOOM_TOLERANCE/2**e, range(0,NUMBER_ZOOM_LEVELS))
 
 
 def format_json_to_geotag(geotag):
@@ -60,7 +49,7 @@ def format_json_to_geotag(geotag):
 @cache.memoize('geo_tiled_boundaries')
 def calculate_tiled_boundaries_json(x, y, zoom, admin_level):
 
-    tolerance = COMPLEXITY_TOLERANCE_900913[zoom]
+    tolerance = ZOOM_TOLERANCE[zoom]
     tile_size = TILE_SIZE_PX * RESOLUTIONS[zoom]
     bbox = [ x * tile_size, y * tile_size, 
             (x+1) * tile_size, (y+1) * tile_size]
