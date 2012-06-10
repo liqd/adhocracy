@@ -54,7 +54,7 @@ def calculate_tiled_boundaries_json(x, y, zoom, admin_level):
     bbox = [ x * tile_size, y * tile_size, 
             (x+1) * tile_size, (y+1) * tile_size]
 
-    q = meta.Session.query(func.ST_AsBinary(func.ST_intersection(func.st_boundary(Region.boundary.RAW),
+    q = meta.Session.query('id', 'name', 'admin_level', func.ST_AsBinary(func.ST_intersection(func.st_boundary(Region.boundary.RAW),
                                             func.ST_setsrid(func.box2d('BOX(%f %f, %f %f)'%(tuple(bbox))),900913))))
     q = q.filter(Region.admin_level == admin_level)
 
@@ -64,11 +64,13 @@ def calculate_tiled_boundaries_json(x, y, zoom, admin_level):
 
     boundariesRS = q.all()
 
-    def make_feature(boundary):
-        geom = loads(str(boundary[0]))
-        return dict(geometry = geom, properties = {'zoom': zoom, 
-                                                   'admin_level': admin_level,
-                                                   'label': ''})
+    def make_feature(region):
+        (osm_id, name, admin_level, geom) = region
+        return dict(geometry = loads(str(geom)), 
+                    properties = {'zoom': zoom, 
+                                  'admin_level': admin_level,
+                                  'region_id': osm_id,
+                                  'label': name})
 
     boundaries = map(make_feature, boundariesRS)
     def not_empty(boundary):
