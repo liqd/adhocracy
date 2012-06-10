@@ -38,6 +38,7 @@ from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
 from adhocracy.model.region import Region, region_table
+from adhocracy.model.region import RegionSimplified, region_simplified_table
 from adhocracy.model.region_hierarchy import RegionHierarchy, region_hierarchy_table
 
 
@@ -398,6 +399,15 @@ mapper(Region, region_table, properties = {
         primaryjoin=region_table.c.id==region_hierarchy_table.c.outer_id,
         secondaryjoin=region_table.c.id==region_hierarchy_table.c.inner_id,
         backref=backref('outer_regions')
+        )
+    })
+
+mapper(RegionSimplified, region_simplified_table, properties = {
+    'boundary': GeometryColumn(region_simplified_table.c.boundary, comparator=PGComparator),
+    'region': relation(
+        Region,
+        primaryjoin=region_simplified_table.c.region_id == region_table.c.id,
+        backref=backref('get_simplifed_regions')
         )
     })
 
