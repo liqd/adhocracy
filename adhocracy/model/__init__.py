@@ -391,7 +391,14 @@ mapper(Selection, selection_table, properties={
     })
 
 mapper(Region, region_table, properties = {
-        'boundary': GeometryColumn(region_table.c.boundary, comparator=PGComparator)
+    'boundary': GeometryColumn(region_table.c.boundary, comparator=PGComparator),
+    'inner_regions': relation(
+        Region,
+        secondary=region_hierarchy_table,
+        primaryjoin=region_table.c.id==region_hierarchy_table.c.outer_id,
+        secondaryjoin=region_table.c.id==region_hierarchy_table.c.inner_id,
+        backref=backref('outer_regions')
+        )
     })
 
 mapper(RegionHierarchy, region_hierarchy_table)
