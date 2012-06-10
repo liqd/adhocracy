@@ -586,6 +586,7 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
 
     var moveTownHallTo 
         = function(bounds, zoomChanged, dragging ) {
+            OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
             var zoom = map.getZoom();
             var i=0;
             while (i<adminLevels.length) {
@@ -598,7 +599,6 @@ function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
                 }
                 i++;
             }
-            OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
         }
 
     var moveMapTo = function(bounds, zoomChanged, dragging) {
