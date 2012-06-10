@@ -13,7 +13,7 @@ from pylons.decorators import validate
 from pylons.i18n import _, lazy_ugettext as L_
 
 import geojson
-from shapely.wkb import loads
+from shapely import wkb
 
 from adhocracy import forms, i18n, model
 from adhocracy.controllers.admin import AdminController, UserImportForm
@@ -759,7 +759,7 @@ class InstanceController(BaseController):
         if c.instance.region is None:
             data = {}
         else:
-            geom = loads(str(c.instance.region.boundary.geom_wkb))
+            geom = wkb.loads(str(c.instance.region.boundary.geom_wkb))
             data = geojson.Feature(geometry=geom, properties={
                 'name':c.instance.region.name,
                 'admin_level':c.instance.region.admin_level,
@@ -799,7 +799,7 @@ class InstanceController(BaseController):
         instances = model.Instance.all()
 
         def make_feature(i):
-            geom = loads(str(i.region.boundary.geom_wkb))
+            geom = wkb.loads(str(i.region.boundary.geom_wkb))
             feature = geojson.Feature(geometry=geom, 
                                       properties={
                                                   'url':h.base_url(i),

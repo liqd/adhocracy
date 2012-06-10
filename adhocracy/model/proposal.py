@@ -242,12 +242,12 @@ class Proposal(Delegateable):
     def get_geojson_feature(self):
 
         import geojson
-        from shapely.wkb import loads
+        from shapely import wkb
 
         if self.geotag is None:
             return {}
         else:
-            return geojson.Feature(geometry=loads(str(self.geotag.geom_wkb)), properties={
+            return geojson.Feature(geometry=wkb.loads(str(self.geotag.geom_wkb)), properties={
                 'title':self.title,
                 'region_id':self.id,
                 },id=self.id)

@@ -1,7 +1,7 @@
 from sqlalchemy import func
 
 import geojson
-from shapely.wkb import loads
+from shapely import wkb
 
 from adhocracy.lib import cache
 from adhocracy.model import meta
@@ -66,7 +66,7 @@ def calculate_tiled_boundaries_json(x, y, zoom, admin_level):
 
     def make_feature(region):
         (osm_id, name, admin_level, geom) = region
-        return dict(geometry = loads(str(geom)), 
+        return dict(geometry = wkb.loads(str(geom)), 
                     properties = {'zoom': zoom, 
                                   'admin_level': admin_level,
                                   'region_id': osm_id,
