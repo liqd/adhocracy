@@ -29,7 +29,7 @@ NUMBER_ZOOM_LEVELS = MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL + 1
 TILE_SIZE_PX = 256
 
 # tolerance resolution in lowest zoom level
-MIN_ZOOM_TOLERANCE = 4096.
+MIN_ZOOM_TOLERANCE = 1000.
 
 ZOOM_TOLERANCE = map(lambda e:MIN_ZOOM_TOLERANCE/2**e, range(0,NUMBER_ZOOM_LEVELS))
 
@@ -83,11 +83,11 @@ def calculate_tiled_boundaries_json(x, y, zoom, admin_level):
         def simplify_region(region):
             if region['geometry'].is_valid:
                 geom_simple = region['geometry'].simplify(tolerance, True)
-                # import ipdb; ipdb.set_trace()
-                if geom_simple.is_valid and geom_simple.length > 0:
-                    region['geometry'] = geom_simple
-                else:
+                region['geometry'] = geom_simple
+                if not (geom_simple.is_valid and geom_simple.length > 0):
+                    # just send the invalid polygon anyway.
                     log.warn('invalid simplified geometry for %s'%region['properties']['label'])
+                    #import ipdb; ipdb.set_trace()
             else:
                 log.warn('invalid geometry for %s'%region['properties']['label'])
             return region
