@@ -75,6 +75,7 @@ var styleSelect = {
 var styleBorder = {
     fillColor: "#ffcc66",
     fillOpacity: 0.0,
+    strokeWidth: 1,
     strokeColor: "#444444"
 };
 
