@@ -95,3 +95,17 @@ def calculate_tiled_boundaries_json(x, y, zoom, admin_level):
         boundaries = map(simplify_region, boundaries)
 
     return geojson.FeatureCollection([geojson.Feature(**r) for r in boundaries])
+
+def add_instance_props(instance, properties):
+
+    def num_pages(instance):
+        from adhocracy.model import Page
+        pageq = meta.Session.query(Page)
+        pageq = pageq.filter(Page.instance == instance)
+        return pageq.count()
+
+    properties['num_proposals'] = instance.num_proposals
+    properties['num_papers'] = num_pages(instance)
+    properties['num_members'] = instance.num_members
+    properties['create_date'] = str(instance.create_time.date())
+        

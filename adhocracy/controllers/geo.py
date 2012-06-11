@@ -7,6 +7,7 @@ from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.geo import USE_POSTGIS 
 from adhocracy.lib.geo import USE_SHAPELY
 from adhocracy.lib.geo import calculate_tiled_boundaries_json
+from adhocracy.lib.geo import add_instance_props
 from adhocracy.model import meta
 from adhocracy.model import Region
 from adhocracy.model import Instance
@@ -129,21 +130,6 @@ class GeoController(BaseController):
         response['search_result'] = search_result
         return callback + '(' + render_json(response) + ');'
 
-    @staticmethod
-    def add_instance_props(instance, properties):
-
-        def num_pages(instance):
-            from adhocracy.model import Page
-            pageq = meta.Session.query(Page)
-            pageq = pageq.filter(Page.instance == instance)
-            return pageq.count()
-
-        properties['num_proposals'] = instance.num_proposals
-        properties['num_papers'] = num_pages(instance)
-        properties['num_members'] = instance.num_members
-        properties['create_date'] = str(instance.create_time.date())
-        
-
     def find_instances_json(self):
         
         def query_region(item):
@@ -180,11 +166,11 @@ class GeoController(BaseController):
                     instance = get_entity_or_abort(Instance, instances[0].id)
                     entry['instance_id'] = instance.id
                     entry['url'] = h.entity_url(instances[0])
-                    self.add_instance_props(instance,entry)
+                    add_instance_props(instance,entry)
                     admin_center_props['instance_id'] = instance.id
                     admin_center_props['url'] = h.entity_url(instances[0])
                     admin_center_props['label'] = instance.label
-                    self.add_instance_props(instance, admin_center_props)
+                    add_instance_props(instance, admin_center_props)
                 else: 
                     entry['instance_id'] = ""
                 entry['admin_center'] = render_geojson((geojson.Feature(geometry=wkb.loads(str(region.boundary.geom_wkb)).centroid, properties=admin_center_props)))

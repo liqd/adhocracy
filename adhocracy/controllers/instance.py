@@ -27,7 +27,7 @@ from adhocracy.lib.templating import (render, render_json, render_png,
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.geo import USE_POSTGIS 
 from adhocracy.lib.geo import USE_SHAPELY
-
+from adhocracy.lib.geo import add_instance_props
 
 log = logging.getLogger(__name__)
 INSTANCE_UPDATED_MSG = L_('The changes where saved.')
@@ -760,19 +760,23 @@ class InstanceController(BaseController):
             data = {}
         else:
             geom = wkb.loads(str(c.instance.region.boundary.geom_wkb))
-            data = geojson.Feature(geometry=geom, properties={
+            props = {
                 'name':c.instance.region.name,
                 'admin_level':c.instance.region.admin_level,
                 'admin_type':c.instance.region.admin_type,
                 'region_id':c.instance.region.id,
                 'admin_center': None
-                })
+                }
+            add_instance_props(c.instance, props)
+            data = geojson.Feature(geometry=geom, properties=props) 
 
             if CENTROID_TYPE == USE_SHAPELY:
+                props = {'url': h.base_url(c.instance),
+                        'label': c.instance.label
+                        }
+                add_instance_props(c.instance, props)
                 data.properties['admin_center'] = geojson.Feature(geometry=geom.centroid, 
-                                                                  properties={'url': h.base_url(c.instance),
-                                                                              'label': c.instance.label
-                                                                              })
+                                                                  properties=props)
 
         return render_geojson(data)
 
