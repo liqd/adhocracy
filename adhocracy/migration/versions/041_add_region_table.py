@@ -3,15 +3,15 @@ from sqlalchemy import Column, ForeignKey, MetaData, Table
 from sqlalchemy import Integer, Unicode
 from geoalchemy import GeometryExtensionColumn, Geometry
 
-metadata = MetaData()
+meta = MetaData()
 
 
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
 
-    instance_table = Table('instance', metadata, autoload=True)
+    instance_table = Table('instance', meta, autoload=True)
 
-    region_table = Table('region', meta.data,
+    region_table = Table('region', meta,
         Column('id', Integer, primary_key = True),
         Column('name', Unicode(255), nullable=False),
         Column('admin_level', Integer, nullable=False),
