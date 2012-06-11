@@ -194,11 +194,22 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
         return false;
     }
 
+    var format = new OpenLayers.Format.GeoJSON();
+    format.read = function() {
+        var result = OpenLayers.Format.GeoJSON.prototype.read.apply(this,arguments);
+        if (result.length == 0) {
+            var features = new Object();
+            features.features = new Array();
+            featuresAddedCallback(features);
+        }
+        return result;
+    }
+
     var layer = new OpenLayers.Layer.Vector('region_proposals', {
         strategies: [new OpenLayers.Strategy.Fixed()],
         protocol: new OpenLayers.Protocol.HTTP({
             url: '/instance/' + instanceKey + '/get_proposal_geotags',
-            format: new OpenLayers.Format.GeoJSON()
+            format: format 
         }),
         projection: mercator,
         styleMap: new OpenLayers.StyleMap({
@@ -922,19 +933,66 @@ function createWaiter(number, callback) {
     // waits for number of addGeometry calls and finally calls callback
 
     var countdown = number;
-    var bounds = new OpenLayers.Bounds();
-    var is_empty = true;
+    var bounds;
 
-    function addFeature(feature) {
+    var primaryBounds = new OpenLayers.Bounds();
+    var secondaryBounds = new OpenLayers.Bounds();
+    var primary_is_empty = true;
+    var secondary_is_empty = true;
+
+    function addFeature(feature, primary) {
+        if(typeof(primary)==='undefined') primary = true;
         countdown--;
 
         if (feature) {
-            bounds.extend(feature.geometry.getBounds());
-            is_empty = false;
+            if (feature.features && feature.features instanceof Array) {
+                var i=0;
+                for ( ; i < feature.features.length; i++ ) {
+                    if (primary) {
+                        primaryBounds.extend(feature.features[i].geometry.getBounds());
+                    } else {
+                        secondaryBounds.extend(feature.features[i].geometry.getBounds());
+                    }
+                }
+                if (feature.features.length > 0) {
+                    if (primary) {
+                        primary_is_empty = false;
+                    } else {
+                        secondary_is_empty = false;
+                    }
+                }
+            } else {
+                if (primary) {
+                    primaryBounds.extend(feature.geometry.getBounds());
+                    primary_is_empty = false;
+                } else {
+                    secondaryBounds.extend(feature.geometry.getBounds());
+                    secondary_is_empty = false;
+                }
+            }
         }
 
         if (countdown == 0) {
-            if (is_empty) {
+            if (!primary_is_empty) {
+                var sz = primaryBounds.getSize();
+                if (sz.h == 0 && sz.w == 0 && !secondary_is_empty) {
+                    var halfSz = secondaryBounds.getSize();
+                    halfSz.w /= 4;
+                    halfSz.h /= 4;
+                    var center = primaryBounds.getCenterLonLat();
+                    var left = center.lon - halfSz.w;
+                    var bottom = center.lat - halfSz.h;
+                    var right = center.lon + halfSz.w;
+                    var top = center.lat + halfSz.h;
+                    primaryBounds = new OpenLayers.Bounds(left,
+                                                          bottom,
+                                                          right,
+                                                          top);
+                }
+                bounds = primaryBounds;
+            } else if (!secondary_is_empty) {
+                bounds = secondaryBounds;
+            } else {
                 bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(geographic, mercator);
             }
             callback(bounds);
@@ -1085,19 +1143,21 @@ function loadRegionMap(openlayers_url, instanceKey, initialProposals) {
  $.getScript(openlayers_url, function() {
     var map = createMap();
 
-    var waiter = createWaiter(1, function(bounds) {
+    var waiter = createWaiter(2, function(bounds) {
         map.zoomToExtent(bounds);
     });
 
     map.addControls(createControls(false, false));
     map.addLayers(createBaseLayers());
     var regionBoundaryLayers = createRegionBoundaryLayer(instanceKey, function(feature) {
-        waiter(feature);
+        waiter(feature,false);
     });
     map.addLayers(regionBoundaryLayers);
     createPopupControl(regionBoundaryLayers[1], buildInstancePopup);
 
-    var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals);
+    var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals, function(features) {
+        waiter(features,true);
+    });
     map.addLayer(proposalLayer);
     var popupControl = createPopupControl(proposalLayer, buildProposalPopup);
 
