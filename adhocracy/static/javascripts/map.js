@@ -1,26 +1,6 @@
 /*jslint vars:true, browser:true, nomen:true */
 /*global popup:true, $:true*/
 
-/*
- * Two VectorLayers for each admin_level, one for simplified polygons
- and one for polygons in full complexity
-
- * BBox Strategy to fetch features dynamically by bounding box
-
- * Cluster-Strategy to simplify polygons on client additionally. The 
- Strategy replaces all features within a certain number of pixels with
- a new one.
- NOTE: check polygon support
- NOTE: tries to fetch "http://${base_url}/undefined"
-
- * configure admin_levels and different styles for each admin_level 
- on every zoom level. styles are 0 for hidden, 1 for borders and 
- 2 for areas. configure baseurl.
-
- * requires openlayers/lib/OpenLayers.js at baseurl
-
- */
-
 $.ajaxSetup({
   cache: true
 });
