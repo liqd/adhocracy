@@ -129,6 +129,21 @@ class GeoController(BaseController):
         response['search_result'] = search_result
         return callback + '(' + render_json(response) + ');'
 
+    @staticmethod
+    def add_instance_props(instance, properties):
+
+        def num_pages(instance):
+            from adhocracy.model import Page
+            pageq = meta.Session.query(Page)
+            pageq = pageq.filter(Page.instance == instance)
+            return pageq.count()
+
+        properties['num_proposals'] = instance.num_proposals
+        properties['num_papers'] = num_pages(instance)
+        properties['num_members'] = instance.num_members
+        properties['create_date'] = str(instance.create_time.date())
+        
+
     def find_instances_json(self):
         
         def query_region(item):
@@ -165,24 +180,16 @@ class GeoController(BaseController):
                     instance = get_entity_or_abort(Instance, instances[0].id)
                     entry['instance_id'] = instance.id
                     entry['url'] = h.entity_url(instances[0])
-                    entry['num_proposals'] = instance.num_proposals
-                    entry['num_papers'] = num_pages(instance)
-                    entry['num_members'] = instance.num_members
-                    entry['create_date'] = str(instance.create_time.date())
+                    self.add_instance_props(instance,entry)
                     admin_center_props['instance_id'] = instance.id
                     admin_center_props['url'] = h.entity_url(instances[0])
                     admin_center_props['label'] = instance.label
+                    self.add_instance_props(instance, admin_center_props)
                 else: 
                     entry['instance_id'] = ""
                 entry['admin_center'] = render_geojson((geojson.Feature(geometry=wkb.loads(str(region.boundary.geom_wkb)).centroid, properties=admin_center_props)))
             return entry
     
-        def num_pages(instance):
-            from adhocracy.model import Page
-            pageq = meta.Session.query(Page)
-            pageq = pageq.filter(Page.instance == instance)
-            return pageq.count()
-
         # r1 is_outer region of r2
         def is_outer(name, region):
             outer_region = self.get_outer_region(region)

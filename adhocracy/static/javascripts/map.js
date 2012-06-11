@@ -25,7 +25,6 @@ $.ajaxSetup({
   cache: true
 });
 
-
 /* default map configuration */
 
 var RESOLUTIONS = [
@@ -965,20 +964,40 @@ function createWaiter(number, callback) {
     return addFeature;
 }
 
+function createInstanceDesc(item) {
+    return item.num_proposals + ' '
+            + LANG.proposals_text +' \u00B7 '
+            + item.num_papers + ' '
+            + LANG.papers_text +' \u00B7 '
+            + item.num_members + ' '
+            + LANG.members_text + ' \u00B7 '
+            + LANG.creation_date_text + ' ' 
+            + item.create_date;
+}
+
 function buildProposalPopup(attributes) {
     return "<div class='proposal_popup_title'><a href='/proposal/"+attributes.region_id+"'>"+attributes.title+"</a></div>";
 }
 
 function buildInstancePopup(attributes) {
+
     var result = "<div class='instance_popup_title'>";
     if (attributes.url) {
         result = result + "<a href='"+attributes.url+"'>";
     }
     var label = attributes.label;
     if (attributes.admin_type) {
-        label += " (" + attributes.admin_type + ")"
+        label = label + " (" + attributes.admin_type + ")"
     }
-    result = result + label+"</a></div>";
+    result = result + label;
+    if (attributes.url) {
+        result = result + "</a>"
+    }
+    if (attributes.instance_id != "") {
+        var desc = createInstanceDesc(attributes);
+         result = result + "<p>" + desc + "</p>";
+    }
+    result = result + "</div>";
     return result;
 }
 
@@ -1248,15 +1267,7 @@ function instanceSearch(state, resultList) {
 
     function makeRegionDetailsElements(item) {
         if (item.instance_id != "") {
-            return document.createTextNode(
-                item.num_proposals + ' '
-                + LANG.proposals_text +' \u00B7 '
-                + item.num_papers + ' '
-                + LANG.papers_text +' \u00B7 '
-                + item.num_members + ' '
-                + LANG.members_text + ' \u00B7 '
-                + LANG.creation_date_text + ' ' 
-                + item.create_date);
+            return document.createTextNode(createInstanceDesc(item));
         }
     }
 
