@@ -925,6 +925,9 @@ function createControls(fullControls, keyboardControls) {
         // mapControls.push(new OpenLayers.Control.MousePosition());
         mapControls.push(new OpenLayers.Control.Scale());
         // mapControls.push(new OpenLayers.Control.Graticule());
+    } else {
+        mapControls.push(new OpenLayers.Control.ZoomPanel());
+//        mapControls.push(new OpenLayers.Control.ZoomOut());
     }
     if (keyboardControls) {
         // use KeyboardDefault only when map is the central element
