@@ -1014,7 +1014,13 @@ function createInstanceDesc(item) {
 }
 
 function buildProposalPopup(attributes) {
-    return "<div class='proposal_popup_title'><a href='/proposal/"+attributes.region_id+"'>"+attributes.title+"</a></div>";
+    var maxPopupTitleLength = 30;
+    var title = attributes.title;
+    if (title.length > maxPopupTitleLength) {
+        title = title.substring(0,maxPopupTitleLength) + " ...";
+    }
+
+    return "<div class='proposal_popup_title'><a href='/proposal/"+attributes.region_id+"'>"+title+"</a></div>";
 }
 
 function buildInstancePopup(attributes) {
