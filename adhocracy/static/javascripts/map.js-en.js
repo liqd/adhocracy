@@ -17,5 +17,7 @@ LANG = {
     members_text: 'members',
     creation_date_text: 'creation date:',
     osm_cartographer_text: 'cartographers',
-    license_text: 'license'
+    license_text: 'license',
+    votes_text: 'votes',
+    norms_text: 'norms'
 };

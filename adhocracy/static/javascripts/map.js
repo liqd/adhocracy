@@ -1020,7 +1020,15 @@ function buildProposalPopup(attributes) {
         title = title.substring(0,maxPopupTitleLength) + " ...";
     }
 
-    return "<div class='proposal_popup_title'><a href='/proposal/"+attributes.region_id+"'>"+title+"</a></div>";
+    var result = "<div class='proposal_popup_title'>";
+    result = result + "<a href='/proposal/" + attributes.region_id + "'>" + title + "</a>";
+    result = result + "<div class='meta'>";
+    result = result + attributes.num_for + ":" + attributes.num_against + " " + LANG.votes_text;
+    result = result + ' \u00B7 ';
+    result = result + attributes.num_norms + " " + LANG.norms_text;
+    result = result + "</div>";
+    result = result + "</div>";
+    return result;
 }
 
 function buildInstancePopup(attributes) {

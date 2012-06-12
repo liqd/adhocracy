@@ -250,4 +250,7 @@ class Proposal(Delegateable):
             return geojson.Feature(geometry=wkb.loads(str(self.geotag.geom_wkb)), properties={
                 'title':self.title,
                 'region_id':self.id,
+                'num_for':self.rate_poll.tally.num_for,
+                'num_against':self.rate_poll.tally.num_against,
+                'num_norms':len(self.selections)
                 },id=self.id)
