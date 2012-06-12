@@ -1048,7 +1048,7 @@ function buildInstancePopup(attributes) {
     }
     if (attributes.instance_id != "") {
         var desc = createInstanceDesc(attributes);
-         result = result + "<p>" + desc + "</p>";
+         result = result + "<div class='meta'>" + desc + "</div>";
     }
     result = result + "</div>";
     return result;
