@@ -707,6 +707,28 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
         return adminLevels.indexOf(admin_level);
     }
 
+    function filterInstances(feature) {
+        if (resultList) {
+            if (resultList[inputValue]) {
+                var result = resultList[inputValue];
+                var i=0;
+                var numInstance = 0;
+                for (i=0; i<result.length; i++) {
+                    if (result[i].region_id == feature.attributes.region_id
+                        && result[i].instance_id != "") {
+                        var letter = String.fromCharCode(numInstance+97);
+                        this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
+                        return true;
+                    }
+                    if (result[i].instance_id != "") numInstance = numInstance + 1;
+                }
+            }
+            return false;
+        } else {
+            return false;
+        }
+    }
+
     var layersIdx = 0;
     while (layersIdx < adminLevels.length) {
         var style = displayMap[map.getZoom()]['styles'][layersIdx];
@@ -733,28 +755,7 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
     map.moveTo = moveMapTo;
 
     var rule = makeFilterRule(); 
-    rule.evaluate = function (feature) {
-        if (resultList) {
-            if (resultList[inputValue]) {
-                var result = resultList[inputValue];
-                var i=0;
-                var numInstance = 0;
-                for (i=0; i<result.length; i++) {
-                    if (result[i].region_id == feature.attributes.region_id
-                        && result[i].instance_id != "") {
-                        var letter = String.fromCharCode(numInstance+97);
-                        this.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
-                        return true;
-                    }
-                    if (result[i].instance_id != "") numInstance = numInstance + 1;
-                }
-            }
-            return false;
-        } else {
-            return false;
-        }
-    }
-
+    rule.evaluate = filterInstances; 
     var townHallLayer = new OpenLayers.Layer.Vector('instance_town_hall', {
         displayInLayerSwitcher: false, 
         projection: mercator,
@@ -1488,8 +1489,43 @@ function instanceSearch(state, resultList) {
     var stopAutocompletion = false;
     var currentSearch;
     function querySearchResult() {
+
         stopAutocompletion = true;
         var request_term = $( "#instances" ).val();
+
+        function errorResponse(xhr,err) {
+            currentSearch = undefined;
+            $('#instances').removeClass('ui-autocomplete-loading');
+            //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
+            //alert('No response from server, sorry. Error: '+err);
+        }
+
+        function successResponse(data) {
+            $('#instances').removeClass('ui-autocomplete-loading');
+            resultList[request_term] = $.map( data.search_result, makeResponse);
+            currentSearch = undefined;
+            showSearchResult();
+        }
+
+        function makeResponse( item ) {
+            var feature = getFeature(item.admin_center);
+            return {
+                instance_id: item.instance_id,
+                region_id: item.region_id,
+                label: item.name,
+                url: item.url,
+                value: item.name,
+                num_proposals: item.num_proposals,
+                num_papers: item.num_papers,
+                num_members: item.num_members,
+                create_date: item.create_date,
+                bbox: item.bbox,
+                admin_center: feature,
+                admin_type: item.admin_type,
+                is_in: item.is_in
+            }
+        }
+
         if (!currentSearch || currentSearch != request_term) {
             currentSearch = request_term;
             if (request_term.length > 2 && request_term != "Enter zip code or region") {
@@ -1504,35 +1540,8 @@ function instanceSearch(state, resultList) {
                     data: {
                         name_contains: request_term
                     },
-                    success: function(data) {
-                        $('#instances').removeClass('ui-autocomplete-loading');
-                        resultList[request_term] = $.map( data.search_result, function( item ) {
-                            var feature = getFeature(item.admin_center);
-                            return {
-                                instance_id: item.instance_id,
-                                region_id: item.region_id,
-                                label: item.name,
-                                url: item.url,
-                                value: item.name,
-                                num_proposals: item.num_proposals,
-                                num_papers: item.num_papers,
-                                num_members: item.num_members,
-                                create_date: item.create_date,
-                                bbox: item.bbox,
-                                admin_center: feature,
-                                admin_type: item.admin_type,
-                                is_in: item.is_in
-                            }
-                        });
-                        currentSearch = undefined;
-                        showSearchResult();
-                    },
-                    error: function(xhr,err) {
-                        currentSearch = undefined;
-                        $('#instances').removeClass('ui-autocomplete-loading');
-                        //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
-                        //alert('No response from server, sorry. Error: '+err);
-                    }
+                    success: successResponse,
+                    error: errorResponse
                 });
             }
         }
