@@ -444,7 +444,7 @@ function listHasFeature(list, feature) {
     return false;
 }
 
-function addMultiBoundaryLayer(map, layers, tiles, townHallTiles, resultList) {
+function addMultiBoundaryLayer(map, layers, tiles, resultList) {
 
     var adminLevels = [4,5,6,7,8];
     var townHallTiles = new Array(adminLevels.length);
