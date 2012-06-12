@@ -16,6 +16,7 @@ import geojson
 from shapely import wkb
 
 from adhocracy import forms, i18n, model
+from adhocracy.model import Proposal
 from adhocracy.controllers.admin import AdminController, UserImportForm
 from adhocracy.controllers.badge import BadgeController
 from adhocracy.lib.instance import RequireInstance
@@ -786,7 +787,10 @@ class InstanceController(BaseController):
         c.instance = get_entity_or_abort(model.Instance, id)
         require.instance.show(c.instance)
 
-        proposals = model.Proposal.all(instance=c.instance)
+        proposals = model.Proposal.\
+                            all_q(instance=c.instance).\
+                            filter(Proposal.geotag!=None).\
+                            all()
 
         features = geojson.FeatureCollection([p.get_geojson_feature() for p in proposals])
 
