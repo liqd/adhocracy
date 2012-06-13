@@ -27,7 +27,7 @@ class Group(object):
     CODE_DEFAULT = u"default"
 
     INSTANCE_GROUPS = [CODE_OBSERVER, CODE_VOTER, CODE_SUPERVISOR,
-                       CODE_ADVISOR]
+                       CODE_ADVISOR, CODE_MODERATOR]
     INSTANCE_DEFAULT = CODE_VOTER
 
     def __init__(self, group_name, code, description=None):
