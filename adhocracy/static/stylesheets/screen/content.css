@@ -1251,8 +1251,6 @@ textarea {
   min-height: 128px; 
 }
 
-select { width: 100%; }
-
 input[type=checkbox], input[type=radio] { vertical-align: text-top; }
 
 .checkbox_inline label {
