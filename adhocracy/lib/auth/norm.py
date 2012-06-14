@@ -9,7 +9,6 @@ show = page.show
 
 
 def create(check, variant=Text.HEAD):
-    check.perm('instance.admin')
     page.create(check)
     check.other('instance_without_norms', not c.instance.use_norms)
     check.other('instance_frozen', c.instance.frozen)

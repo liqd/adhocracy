@@ -3,6 +3,13 @@ adhocracy Changelog
 
 1.2beta2dev
 -----------
+- Permission change: When we test the 'norm.create' permission 
+  (permission to create Norms/Topics/Themen we do no longer
+  restrict it to users who also have 'instance.admin'. The main
+  permission we check now is 'page.create'.
+
+  Please check the permission 'page.create' in your permission 
+  settings (<base_url>/admin -> Permissions). [csenger]
 - Give the users the option to permanently activate the twitter, 
   facebook or google+ buttons. Save the setting in a wildcard 
   subdomain cookie so it is valid across all instances.
