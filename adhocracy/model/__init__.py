@@ -305,7 +305,7 @@ mapper(Instance, instance_table, properties={
     'region': relation(
             Region,
             primaryjoin=instance_table.c.region_id == region_table.c.id,
-                        backref=backref('get_instances'))
+                        backref=backref('get_instances'), lazy=True)
     })
 
 
