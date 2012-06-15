@@ -871,6 +871,8 @@ function createBaseLayers(blank) {
     };
 
     var baseLayers = [
+        new OpenLayers.Layer.OSM("OSM Admin Boundaries",
+                    "http://129.206.74.245:8007/tms_b.ashx?x=${x}&y=${y}&z=${z}", osmOptions),
         //default Openstreetmap Baselayer
         new OpenLayers.Layer.OSM("Open Street Map", "", osmOptions),
         new OpenLayers.Layer.OSM("Public Transport",
