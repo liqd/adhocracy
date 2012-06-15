@@ -103,6 +103,10 @@ def make_map():
                 controller='selection',
                 action='details')
 
+    map.connect('/map',
+                controller='proposal',
+                action='index_map')
+
     map.resource('implementation', 'implementation', controller='selection',
                  member={'ask_delete': 'GET'},
                  collection={'include': 'GET',

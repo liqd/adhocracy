@@ -165,7 +165,10 @@
   ${self.body()}
 
   <%include file="piwik.html"/>
-  <%include file="footer.html"/>
+
+  <%block name="footer">
+    <%include file="footer.html"/>
+  </%block>
 
   <!-- overlayed element -->
   <div class="overlay" id="overlay-default">

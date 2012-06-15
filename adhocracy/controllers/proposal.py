@@ -103,6 +103,23 @@ class ProposalController(BaseController):
         c.tutorial = 'proposal_index'
         return render("/proposal/index.html")
 
+
+    @RequireInstance
+    @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
+    def index_map(self, format="html"):
+        require.proposal.index()
+
+        c.active_subheader_nav = 'map'
+        query = self.form_result.get('proposals_q')
+
+        # FIXME: Add tag filtering again (now solr based)
+        # FIXME: Live filtering ignores selected facets.
+        c.proposals_pager = pager.solr_proposal_pager(c.instance,
+                                                      {'text': query})
+
+        c.tile = tiles.instance.InstanceTile(c.instance)
+        return render("/proposal/index_map.html")
+
     @RequireInstance
     @validate(schema=ProposalNewForm(), form='bad_request',
               post_only=False, on_get=True)
