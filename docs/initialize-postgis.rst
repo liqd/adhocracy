@@ -13,6 +13,14 @@ After installing postgres, a local database cluster has to be initialized.
     bin/pg_ctl -D var/postgresql/data init
 
 
+Start postgres
+--------------
+
+After initializing postgres, it needs to be started.
+
+    bin/supervisorctl start postgresql
+
+
 Create postgres user
 --------------------
 
@@ -68,7 +76,4 @@ Don't know if this is really needed.
 
     psql -d adhocracy
 
-    adhocracy=# grant all privileges on database adhocracy to adhocracy;
-    adhocracy=# grant all on table spatial_ref_sys to adhocracy;
-    adhocracy=# grant all on table geometry_columns to adhocracy;
-    adhocracy=# grant all on table geography_columns to adhocracy;
+    adhocracy=# grant all privileges on database adhocracy to adhocracy; grant all on table spatial_ref_sys to adhocracy; grant all on table geometry_columns to adhocracy; grant all on table geography_columns to adhocracy;
