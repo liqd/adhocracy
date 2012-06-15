@@ -16,7 +16,7 @@
   </head>
 
 
-<body lang="${c.locale.language}" class="${'logged_in' if c.user else ''}">
+<body lang="${c.locale.language}" class="${'compact' if c.user or c.instance else ''}">
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
       <!-- the external content is loaded inside this tag -->
