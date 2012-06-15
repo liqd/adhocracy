@@ -34,17 +34,31 @@ Create postgis extension
 
 A postgres superuser has to install the postgis extension.
 
-This usually works like
 
-    psql -d adhocracy
-
-    adhocracy=# create extension postgis;
-
-
-But currently not, because postgis is not completely installed via buildout (to
-be fixed), so we simply do:
+We do this with the following command:
 
     psql -d adhocracy -f parts/postgresql/share/contrib/postgis-2.0/postgis.sql
+
+
+Because geoalchemy doesn't fully work with PostGIS 2.x yet, we remove PostGIS
+functions which we don't need, which would otherwise result in an error because
+of lack of explicit type casts by geoalchemy (see
+https://trac.osgeo.org/postgis/ticket/1869):
+
+    psql -d adhocracy -c "drop function st_asbinary (geography);"
+    psql -d adhocracy -c "drop function st_asbinary (geography, text);"
+
+
+.. note::
+
+    Normally, the PostGIS extension can be installed with:
+
+        psql -d adhocracy -c "create extension postgis;"
+
+    But currently not, because
+    
+    - postgis is not completely installed via buildout (to be fixed)
+    - of the geoalchemy incompatibility issue explained above.
 
 
 Change ownership of tables to adhocracy user
