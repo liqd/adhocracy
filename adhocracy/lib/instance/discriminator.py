@@ -2,6 +2,7 @@ import logging
 
 from adhocracy import model
 from pylons import config
+from paste.deploy.converters import asbool
 
 log = logging.getLogger(__name__)
 
@@ -17,10 +18,11 @@ class InstanceDiscriminatorMiddleware(object):
         environ['adhocracy.domain'] = self.domain
         instance_key = config.get('adhocracy.instance')
         if instance_key is None:
-            path = environ.get('PATH_INFO', '')
-            if path.startswith('/i/'):
-                instance_key = path.split('/')[2]
-                environ['PATH_INFO'] = path[len('/i/' + instance_key):]
+            if asbool(config.get('adhocracy.urls_without_hostname', 'false')):
+                path = environ.get('PATH_INFO', '')
+                if path.startswith('/i/'):
+                    instance_key = path.split('/')[2]
+                    environ['PATH_INFO'] = path[len('/i/' + instance_key):]
             else:
                 host = environ.get('HTTP_HOST', "")
                 host = host.replace(self.domain, "")
