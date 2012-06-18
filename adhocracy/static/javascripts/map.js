@@ -1055,14 +1055,10 @@ function createWaiter(number, callback) {
                     halfSz.w /= 4;
                     halfSz.h /= 4;
                     var center = primaryBounds.getCenterLonLat();
-                    var left = center.lon - halfSz.w;
-                    var bottom = center.lat - halfSz.h;
-                    var right = center.lon + halfSz.w;
-                    var top = center.lat + halfSz.h;
-                    primaryBounds = new OpenLayers.Bounds(left,
-                                                          bottom,
-                                                          right,
-                                                          top);
+                    primaryBounds = new OpenLayers.Bounds(center.lon - halfSz.w,
+                                                          center.lat - halfSz.h,
+                                                          center.lon + halfSz.w,
+                                                          center.lat + halfSz.h);
                 }
                 bounds = primaryBounds;
             } else if (!secondary_is_empty) {
