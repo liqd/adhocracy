@@ -787,7 +787,7 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
 
 
     function filterInstancesInVisible(feature) {
-        if (isInstanceInSearch(feature)) {
+        if (isInstanceInSearch(feature) || isRegionInSearch(feature)) {
             return false;
         }
         var zoom = map.getZoom();
