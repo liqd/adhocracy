@@ -1,7 +1,7 @@
 from sqlalchemy import Table, Column, ForeignKey
 from sqlalchemy import Float, Integer, Unicode
 from geoalchemy.geometry import MultiPolygon
-from geoalchemy import GeometryExtensionColumn, Geometry, GeometryDDL
+from geoalchemy import GeometryExtensionColumn, Geometry
 
 from adhocracy.model import meta
 

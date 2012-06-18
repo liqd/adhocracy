@@ -4,30 +4,56 @@ from adhocracy.lib import helpers as h
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render_json, render_geojson
 from adhocracy.lib.util import get_entity_or_abort
-from adhocracy.lib.geo import USE_POSTGIS 
-from adhocracy.lib.geo import USE_SHAPELY
 from adhocracy.lib.geo import calculate_tiled_boundaries_json
+from adhocracy.lib.geo import calculate_tiled_admin_centres_json
 from adhocracy.lib.geo import add_instance_props
 from adhocracy.model import meta
 from adhocracy.model import Region
 from adhocracy.model import Instance
 from adhocracy.model import RegionHierarchy
 
-from sqlalchemy import func
 from sqlalchemy import or_
 
 import geojson
-from shapely import wkb
-from shapely.geometry import Polygon, MultiPolygon, box
+from shapely import wkb, wkt
 
-BBOX_FILTER_TYPE = USE_POSTGIS
-CENTROID_TYPE = USE_SHAPELY
+import logging
+log = logging.getLogger(__name__)
+
 
 class GeoController(BaseController):
+    
+    def get_instances_json(self):
+        """
+        returns all instances 
+        """
+
+        def make_feature(instance):
+
+            if instance.geo_centre is not None:
+                geom = wkb.loads(str(instance.geo_centre.geom_wkb))
+            else:
+                log.info('setting geo_centre to region centroid for instance %s'%instance.name)
+                geom = wkb.loads(str(instance.region.boundary.geom_wkb)).centroid
+                instance.geo_centre=wkt.dumps(geom)
+
+            return dict(geometry = geom, 
+                           properties = {
+                               'key': instance.key, 
+                               'label': instance.name, 
+                               'admin_level': instance.region.admin_level, 
+                               'region_id': instance.region.id,
+                               })
+
+        instances = meta.Session.query(Instance).filter(Instance.region!=None).all()
+        instance_features = map(make_feature, instances)
+        return render_geojson(geojson.FeatureCollection([geojson.Feature(**i) for i in instance_features]))
+
 
     def get_tiled_boundaries_json(self):
         """
-        returns a collection of GeoJSON paths for a given URL which encodes
+        returns a collection of GeoJSON paths for a given tile, encoded in an
+        URL with the following parameters:
          * admin_level
          * x,y - position of the requested tile in the tile grid
          * zoom - zoom level (index in RESOLUTIONS)
@@ -41,55 +67,22 @@ class GeoController(BaseController):
         return render_geojson(calculate_tiled_boundaries_json(x, y, zoom, admin_level))
 
 
-    def get_admin_centers_json(self):
+    def get_admin_centres_json(self):
+        """
+        returns a collection of GeoJSON points for a given tile, encoded in an
+        URL with the following parameters:
+         * admin_level
+         * x,y - position of the requested tile in the tile grid
+         * zoom - zoom level (index in RESOLUTIONS)
+        """
+
         admin_level = request.params.get('admin_level')
         x = int(request.params.get('x'))
         y = int(request.params.get('y'))
-        res = float(request.params.get('res'))
-        tileSize = int(request.params.get('tileSize'))
-        bbox = [ x * res * tileSize, y * res * tileSize, 
-                (x+1) * res * tileSize, (y+1) * res * tileSize]
-        assert(len(bbox)==4)
+        zoom = int(request.params.get('zoom'))
 
-        q = meta.Session.query(Region)
-        q = q.filter(Region.admin_level == admin_level)
+        return render_geojson(calculate_tiled_admin_centres_json(x, y, zoom, admin_level))
 
-        if BBOX_FILTER_TYPE == USE_POSTGIS:
-            q = q.filter(Region.boundary.intersects(func.ST_setsrid(func.box2d('BOX(%f %f, %f %f)'%(tuple(bbox))), 900913)))
-
-        def make_feature(region):
-
-            if CENTROID_TYPE == USE_POSTGIS:
-                #NYI
-                pass
-
-            if CENTROID_TYPE == USE_SHAPELY:
-                geom = wkb.loads(str(region.boundary.geom_wkb)).centroid
-
-            feature = dict(geometry = geom, 
-                           properties = {'label': region.name, 
-                                      'admin_level': region.admin_level, 
-                                      'region_id': region.id,
-                                      'admin_type': region.admin_type,
-                                      'instance_id': ''
-                                     })
-            instances = getattr(region,"get_instances")
-            if instances != []:
-                feature['properties']['url'] = h.base_url(instances[0])
-                feature['properties']['label'] = instances[0].label
-                feature['properties']['instance_id'] = instances[0].id
-            return feature
-
-        regionsResultSet = q.all()
-
-        if BBOX_FILTER_TYPE == USE_SHAPELY:
-            sbox = box(*bbox)
-            regions = filter(lambda region: sbox.intersection(region['geometry']), map(make_feature, regionsResultSet))
-
-        elif BBOX_FILTER_TYPE == USE_POSTGIS:
-            regions = map(make_feature, regionsResultSet)
-
-        return render_geojson(geojson.FeatureCollection([geojson.Feature(**r) for r in regions]))
 
     @staticmethod
     def get_outer_region(region):
