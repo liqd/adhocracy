@@ -149,13 +149,7 @@ function createOverviewLayers() {
         }
     });
 
-    var townHallLayer = new OpenLayers.Layer.Vector('instance_town_hall', {
-        displayInLayerSwitcher: false, 
-        projection: mercator,
-        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
-                                           'select': new OpenLayers.Style(styleSelect)})
-    });
-
+    var townHallLayer = createTownHallLayer();
     return [layer,townHallLayer];
 
 }
@@ -167,6 +161,7 @@ var balloonSymbolizer = {
             };
 
 var townHallSymbolizer = {
+                externalGraphic: '/images/map_hall_pink.png',
                 graphicHeight: 12,
                 graphicWidth: 16,
                 graphicYOffset: -12
@@ -185,10 +180,7 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
                     $('#result_list_marker_'+feature.fid).attr('alt', letter).addClass('marker_'+letter);
                     return true;
                 } else {
-                    setTownHallSymbolizer(this,undefined);
                     $('#result_list_marker_'+feature.fid).attr('alt', index).addClass('bullet_marker');
-                    //var letter = setTownHallSymbolizer(this,index);
-                    //$('#result_list_marker_'+feature.fid).attr('alt', letter).addClass('map_hall_pink_'+letter);
                     return false;
                 }
             } else {
@@ -361,6 +353,14 @@ function addEditControls(map, layer) {
     return singleProposalFetched;
 }
 
+function createTownHallLayer() {
+    return new OpenLayers.Layer.Vector('instance_town_hall', {
+        displayInLayerSwitcher: false, 
+        projection: mercator,
+        styleMap: new OpenLayers.StyleMap({'default': townHallSymbolizer, //new OpenLayers.Style(styleProps),
+                                           'select': townHallSymbolizer}) //new OpenLayers.Style(styleSelect)})
+    });
+}
 
 function createRegionBoundaryLayer(instanceKey, callback) {
 
@@ -370,12 +370,7 @@ function createRegionBoundaryLayer(instanceKey, callback) {
         styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleBorder)}),
     })
 
-    var townHallLayer = new OpenLayers.Layer.Vector('instance_town_hall', {
-        displayInLayerSwitcher: false, 
-        projection: mercator,
-        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
-                                           'select': new OpenLayers.Style(styleSelect)})
-    })
+    var townHallLayer = createTownHallLayer();
 
     var url = '/instance/' + instanceKey + '/get_region'; 
     $.ajax({
@@ -838,18 +833,9 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
     var rule3 = new OpenLayers.Rule({elseFilter: true,symbolizer: townHallSymbolizer});
     rule3.evaluate = filterElse;
 
-    var townHallLayer = new OpenLayers.Layer.Vector('instance_town_hall', {
-        displayInLayerSwitcher: false, 
-        projection: mercator,
-        styleMap: new OpenLayers.StyleMap({
-            'default': new OpenLayers.Style(styleProps, {rules: [
-                rule,
-                rule2,
-                rule3
-            ]}),
-            'select': new OpenLayers.Style(styleSelect)
-        }),
-    });
+    var townHallLayer = createTownHallLayer();
+
+    townHallLayer.styleMap = new OpenLayers.Style(styleProps, {rules: [rule,rule2,rule3]});
     townHallLayer.moveTo = moveTownHallTo; 
     map.addLayer(townHallLayer);
     createPopupControl(townHallLayer, buildInstancePopup);
