@@ -160,34 +160,35 @@ function createOverviewLayers() {
 
 }
 
-function makeFilterRuleBalloon() {
-    return new OpenLayers.Rule({
-            symbolizer: {
+var balloonSymbolizer = {
                 graphicHeight: 31,
                 graphicWidth: 24,
                 graphicYOffset: -31
-            }
-        });
-}
+            };
 
-function makeFilterRuleInVisible() {
-    return new OpenLayers.Rule({ symbolizer: styleTransparentProps });
-}
+var townHallSymbolizer = {
+                graphicHeight: 12,
+                graphicWidth: 16,
+                graphicYOffset: -12
+            }
 
 function createRegionProposalsLayer(instanceKey, initialProposals, featuresAddedCallback) {
 
-    var rule = makeFilterRuleBalloon(); 
+    var rule = new OpenLayers.Rule({symbolizer: balloonSymbolizer}); 
     rule.evaluate = function (feature) {
         if (initialProposals) {
             var index = initialProposals.indexOf(feature.fid);
 
             if (index >= 0) {
                 if (index < 10) {
-                    var letter = setSymbolizer(this,index);
+                    var letter = setBalloonSymbolizer(this,index);
                     $('#result_list_marker_'+feature.fid).attr('alt', letter).addClass('marker_'+letter);
                     return true;
                 } else {
+                    setTownHallSymbolizer(this,undefined);
                     $('#result_list_marker_'+feature.fid).attr('alt', index).addClass('bullet_marker');
+                    //var letter = setTownHallSymbolizer(this,index);
+                    //$('#result_list_marker_'+feature.fid).attr('alt', letter).addClass('map_hall_pink_'+letter);
                     return false;
                 }
             } else {
@@ -447,10 +448,23 @@ function listHasFeature(list, feature) {
     return false;
 }
 
-function setSymbolizer(scope,idx) {
+function setBalloonSymbolizer(scope,idx) {
     var letter = String.fromCharCode(idx+97);
+    scope.symbolizer = balloonSymbolizer;
     scope.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
     return letter;
+}
+
+function setTownHallSymbolizer(scope,idx) {
+    scope.symbolizer = townHallSymbolizer;
+    if (idx === undefined) {
+        scope.symbolizer.externalGraphic = '/images/map_hall_pink.png';
+        return undefined;
+    } else {
+        var letter = String.fromCharCode(idx+97);
+        scope.symbolizer.externalGraphic = '/images/map_hall_pink_'+letter+'.png';
+        return letter;
+    }
 }
 
 function addMultiBoundaryLayer(map, layers, tiles, resultList) {
@@ -681,6 +695,23 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
     function getLayerIndex(admin_level) {
         return adminLevels.indexOf(admin_level);
     }
+    
+   function getRegionNum(feature) {
+        if (resultList) {
+            if (resultList[inputValue]) {
+                var result = resultList[inputValue];
+                var i=0;
+                var numRegion = 0;
+                for (i=0; i<result.length; i++) {
+                    if (isRegion(feature,result[i])) {
+                        return numRegion;
+                    }
+                    if (result[i].instance_id == "") numRegion = numRegion + 1;
+                }
+            }
+        }
+        throw "feature not found in search result";
+    }
 
     //pre: feature is in search result list
     function getInstanceNum(feature) {
@@ -690,7 +721,7 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
                 var i=0;
                 var numInstance = 0;
                 for (i=0; i<result.length; i++) {
-                    if (isInstanceInSearch(feature,result[i])) {
+                    if (isInstance(feature,result[i])) {
                         return numInstance;
                     }
                     if (result[i].instance_id != "") numInstance = numInstance + 1;
@@ -701,17 +732,12 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
     }
 
     function isInstanceInSearch(feature) {
-        function rule(feature, searchEntry) {
-            return (searchEntry.region_id == feature.attributes.region_id
-                && searchEntry.instance_id != "");
-        }
-   
         if (resultList) {
             if (resultList[inputValue]) {
                 var result = resultList[inputValue];
                 var i=0;
                 for (i=0; i<result.length; i++) {
-                    if (rule(feature,result[i])) {
+                    if (isInstance(feature,result[i])) {
                         return true;
                     }
                 }
@@ -720,14 +746,50 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
         return false;
     }
 
+    function isRegionInSearch(feature) {
+        if (resultList) {
+            if (resultList[inputValue]) {
+                var result = resultList[inputValue];
+                var i=0;
+                for (i=0; i<result.length; i++) {
+                    if (isRegion(feature,result[i])) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
+    function isInstance(feature, searchEntry) {
+        return (searchEntry.region_id == feature.attributes.region_id
+                && searchEntry.instance_id != "");
+    }
+
+    function isRegion(feature, searchEntry) {
+        return (searchEntry.region_id == feature.attributes.region_id
+                && searchEntry.instance_id == "");
+    }
+
     function filterInstancesBalloon(feature) {
         if (isInstanceInSearch(feature)) {
             var idx = getInstanceNum(feature);
-            setSymbolizer(this,idx);
+            setBalloonSymbolizer(this,idx);
+            return true;
+        } else if (isRegionInSearch(feature)) {
+            var idx = getRegionNum(feature);
+            setTownHallSymbolizer(this,idx);
             return true;
         }
         return false;
     }
+
+    function filterElse(feature) {
+        setTownHallSymbolizer(this,undefined);
+        return true;
+    }
+
 
     function filterInstancesInVisible(feature) {
         if (isInstanceInSearch(feature)) {
@@ -769,10 +831,13 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
     }
     map.moveTo = moveMapTo;
 
-    var rule = makeFilterRuleBalloon(); 
+    var rule = new OpenLayers.Rule({symbolizer: balloonSymbolizer});
     rule.evaluate = filterInstancesBalloon; 
-    var rule2 = makeFilterRuleInVisible();
+    var rule2 = new OpenLayers.Rule({ symbolizer: styleTransparentProps });
     rule2.evaluate = filterInstancesInVisible; 
+    var rule3 = new OpenLayers.Rule({elseFilter: true,symbolizer: townHallSymbolizer});
+    rule3.evaluate = filterElse;
+
     var townHallLayer = new OpenLayers.Layer.Vector('instance_town_hall', {
         displayInLayerSwitcher: false, 
         projection: mercator,
@@ -780,7 +845,7 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
             'default': new OpenLayers.Style(styleProps, {rules: [
                 rule,
                 rule2,
-                new OpenLayers.Rule({elseFilter: true})
+                rule3
             ]}),
             'select': new OpenLayers.Style(styleSelect)
         }),
@@ -1349,23 +1414,24 @@ function instanceSearch(state, resultList) {
         }
     }
 
-    function instanceEntry( item, num ) {
+    function instanceEntry( item, numInstance, numRegion ) {
         var idBase = 'search_result_list_marker'
-        var letter = String.fromCharCode(num + 97);
+        var letterInstance = String.fromCharCode(numInstance + 97);
+        var letterRegion = String.fromCharCode(numRegion + 97);
         var li = $('<li>',{ class: 'content_box' });
         var marker;
         var img;
         if (item.instance_id != "") {
             marker = $('<div>', { class: 'marker' });
-            img = $('<img>', { class: 'search_result_list_marker marker_' + letter,
-                               src: '/images/map_marker_pink_'+letter+'.png',
+            img = $('<img>', { class: 'search_result_list_marker marker_' + letterInstance,
+                               src: '/images/map_marker_pink_' + letterInstance + '.png',
                                id: idBase + '_' + item.region_id,
                                alt: item.region_id
                              });
         } else {
-            marker = $('<div>', { class: 'bullet_marker' });
-            img = $('<img>', { class: 'search_result_list_marker bullet_marker',
-                               src: '/images/bullet.png',
+            marker = $('<div>', { class: 'marker_hall' });
+            img = $('<img>', { class: 'search_result_list_marker marker_' + letterRegion,
+                               src: '/images/map_hall_pink_' + letterRegion + '.png',
                                id: idBase + '_' + item.region_id,
                                alt: item.region_id
                              });
@@ -1410,11 +1476,13 @@ function instanceSearch(state, resultList) {
         resetSearchField(inputValue, count);
         addMarkers(inputValue);
 
-        var numInstance = 0;
+        var numInstance = 0; var numRegion = 0;
         for (var i = offset; i < offset+max_rows && i < count; ++i) {
-            instanceEntry(resultList[inputValue][i], numInstance);
+            instanceEntry(resultList[inputValue][i], numInstance, numRegion);
             if (resultList[inputValue][i].instance_id != "") {
                 numInstance = numInstance + 1;
+            } else {
+                numRegion = numRegion + 1;
             }
         }
         enableMarker('search_result_list_marker', townHallLayer, selectControl); 
