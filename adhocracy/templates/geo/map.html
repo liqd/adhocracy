@@ -7,7 +7,7 @@
 <script src="/javascripts/jquery.localisation.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript">$.localise('/javascripts/map.js');</script>
-<script type="text/javascript"> window.onload=loadSingleProposalMap('${h.base_url(None, path="/OpenLayers-2.11/build/OpenLayers-closure-img.js")}', '${c.instance.key}', ${proposal_id}, false, null); </script>
+<script type="text/javascript"> window.onload=loadSingleProposalMap('${h.openlayers_url()}', '${c.instance.key}', ${proposal_id}, false, null); </script>
 </%def>
 
 
@@ -27,7 +27,7 @@
 <script src="/javascripts/jquery.localisation.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript">$.localise('/javascripts/map.js');</script>
-<script type="text/javascript"> window.onload=loadSingleProposalMap('${h.base_url(None, path="/OpenLayers-2.11/build/OpenLayers-closure-img.js")}', '${c.instance.key}', ${proposal_id}, true, null); </script>
+<script type="text/javascript"> window.onload=loadSingleProposalMap('${h.openlayers_url()}', '${c.instance.key}', ${proposal_id}, true, null); </script>
 </%def>
 
 <%def name="show_region_map(initial_proposals=None)">
@@ -37,7 +37,7 @@
 <script src="/javascripts/jquery.localisation.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript">$.localise('/javascripts/map.js');</script>
-<script type="text/javascript"> window.onload=loadRegionMap('${h.base_url(None, path="/OpenLayers-2.11/build/OpenLayers-closure-img.js")}', '${c.instance.key}', ${initial_proposals if initial_proposals else []}); </script>
+<script type="text/javascript"> window.onload=loadRegionMap('${h.openlayers_url()}', '${c.instance.key}', ${initial_proposals if initial_proposals else []}); </script>
 </%def>
 
 <%def name="show_overview_map(initial_instances=None)">
@@ -47,7 +47,7 @@
 <script src="/javascripts/jquery.localisation.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript">$.localise('/javascripts/map.js');</script>
-<script type="text/javascript"> window.onload=loadOverviewMap('${h.base_url(None, path="/OpenLayers-2.11/build/OpenLayers-closure-img.js")}', ${initial_instances if initial_instances else []}); </script>
+<script type="text/javascript"> window.onload=loadOverviewMap('${h.openlayers_url()}', ${initial_instances if initial_instances else []}); </script>
 </%def>
 
 <%def name="show_select_instance()">
@@ -63,5 +63,5 @@
 <script src="/javascripts/jquery.localisation.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript">$.localise('/javascripts/map.js');</script>
-<script type="text/javascript"> window.onload=loadSelectInstance('${h.base_url(None, path="/OpenLayers-2.11/build/OpenLayers-closure-img.js")}'); </script>
+<script type="text/javascript"> window.onload=loadSelectInstance('${h.openlayers_url()}'); </script>
 </%def>

@@ -264,3 +264,7 @@ def _json_entity_decoder(d):
         return [x[1] for x in result]
     elif isinstance(d, dict):
         return dict(result)
+
+def openlayers_url():
+    return base_url(None, path="/OpenLayers-2.11/build/OpenLayers-closure-img.js")
+#    return "/OpenLayers-2.11/lib/OpenLayers.js"
