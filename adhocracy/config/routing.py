@@ -237,7 +237,7 @@ def make_map():
     map.connect('/feed.rss', controller='root', action='index', format='rss')
     map.connect('/tutorials', controller='root', action='tutorials')
 
-    map.connect('/get_admin_centers.json', controller='geo', action='get_admin_centers_json')
+    map.connect('/get_admin_centres.json', controller='geo', action='get_admin_centres_json')
     map.connect('/get_all_instances.json', controller='geo', action='get_all_instances_json')
     map.connect('/find_instances.json', controller='geo', action='find_instances_json')
     map.connect('/autocomplete_instances.json', controller='geo', action='autocomplete_instances_json')

@@ -519,12 +519,11 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
             var fetch = !alreadyFetched(townHallTiles, newTiles[i]);
             if (fetch) {
                 townHallTiles.push(newTiles[i]);
-                var url = '/get_admin_centers.json'
-                                    + '?x=' + newTiles[i].x
-                                    + '&y=' + newTiles[i].y
-                                    + '&tileSize=' + tileSize
-                                    + '&res=' + map.getResolution()
-                                    + '&admin_level=' + adminLevel;
+                var url = '/get_admin_centres.json'
+                                + '?x=' + newTiles[i].x
+                                + '&y=' + newTiles[i].y
+                                + '&zoom=' + map.getZoom()
+                                + '&admin_level=' + adminLevel;
                 $.ajax({
                     url: url,
                     success: function(data) {
