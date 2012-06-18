@@ -17,13 +17,44 @@ from sqlalchemy import func
 from sqlalchemy import or_
 
 import geojson
-from shapely import wkb
+from shapely import wkb, wkt
 from shapely.geometry import Polygon, MultiPolygon, box
+
+import logging
+log = logging.getLogger(__name__)
 
 BBOX_FILTER_TYPE = USE_POSTGIS
 CENTROID_TYPE = USE_SHAPELY
 
+
 class GeoController(BaseController):
+    
+    def get_all_instances_json(self):
+        """
+        returns all instances 
+        """
+
+        def make_feature(instance):
+
+            if instance.geo_centre is not None:
+                geom = wkb.loads(str(instance.geo_centre.geom_wkb))
+            else:
+                log.info('setting geo_centre to region centroid for instance %s'%instance.name)
+                geom = wkb.loads(str(instance.region.boundary.geom_wkb)).centroid
+                instance.geo_centre=wkt.dumps(geom)
+
+            return dict(geometry = geom, 
+                           properties = {
+                               'key': instance.key, 
+                               'label': instance.name, 
+                               'admin_level': instance.region.admin_level, 
+                               'region_id': instance.region.id,
+                               })
+
+        instances = meta.Session.query(Instance).filter(Instance.region!=None).all()
+        instance_features = map(make_feature, instances)
+        return render_geojson(geojson.FeatureCollection([geojson.Feature(**i) for i in instance_features]))
+
 
     def get_tiled_boundaries_json(self):
         """
@@ -49,7 +80,6 @@ class GeoController(BaseController):
         tileSize = int(request.params.get('tileSize'))
         bbox = [ x * res * tileSize, y * res * tileSize, 
                 (x+1) * res * tileSize, (y+1) * res * tileSize]
-        assert(len(bbox)==4)
 
         q = meta.Session.query(Region)
         q = q.filter(Region.admin_level == admin_level)
