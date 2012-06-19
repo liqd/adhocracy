@@ -43,9 +43,10 @@ Create postgis extension
 A postgres superuser has to install the postgis extension.
 
 
-We do this with the following command:
+We do this with the following commands:
 
     psql -d adhocracy -f parts/postgresql/share/contrib/postgis-2.0/postgis.sql
+    psql -d adhocracy -f parts/postgresql/share/contrib/postgis-2.0/spatial_ref_sys.sql
 
 
 Because geoalchemy doesn't fully work with PostGIS 2.x yet, we remove PostGIS
@@ -76,4 +77,4 @@ Don't know if this is really needed.
 
     psql -d adhocracy
 
-    adhocracy=# grant all privileges on database adhocracy to adhocracy; grant all on table spatial_ref_sys to adhocracy; grant all on table geometry_columns to adhocracy; grant all on table geography_columns to adhocracy;
+    adhocracy=# grant all privileges on database adhocracy to adhocracy; grant all on table spatial_ref_sys to adhocracy; grant all on table geometry_columns to adhocracy;
