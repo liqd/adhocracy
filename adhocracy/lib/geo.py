@@ -52,8 +52,9 @@ def format_json_to_geotag(geotag):
 
 def get_bbox(x, y, zoom):
     tile_size = TILE_SIZE_PX * RESOLUTIONS[zoom]
-    return [ x * tile_size, y * tile_size, 
-            (x+1) * tile_size, (y+1) * tile_size]
+    bbox = (x * tile_size, y * tile_size,
+            (x+1) * tile_size, (y+1) * tile_size)
+    return func.ST_setsrid(func.box2d('BOX(%f %f, %f %f)'%bbox), 900913)
 
 
 @cache.memoize('geo_tiled_boundaries')
@@ -62,8 +63,8 @@ def calculate_tiled_boundaries_json(x, y, zoom, admin_level):
     tolerance = ZOOM_TOLERANCE[zoom]
     bbox = get_bbox(x, y, zoom)
 
-    q = meta.Session.query('id', 'name', 'admin_level', func.ST_AsBinary(func.ST_intersection(func.st_boundary(Region.boundary.RAW),
-                                            func.ST_setsrid(func.box2d('BOX(%f %f, %f %f)'%(tuple(bbox))),900913))))
+    q = meta.Session.query('id', 'name', 'admin_level',
+            func.ST_AsBinary(func.ST_intersection(func.st_boundary(Region.boundary.RAW), bbox)))
     q = q.filter(Region.admin_level == admin_level)
 
     if SIMPLIFY_TYPE == USE_POSTGIS:
@@ -114,7 +115,7 @@ def calculate_tiled_admin_centres_json(x, y, zoom, admin_level):
     q = q.filter(Instance.geo_centre != None).join(Region).filter(Region.admin_level == admin_level)
 
     if BBOX_FILTER_TYPE == USE_POSTGIS:
-        q = q.filter(func.ST_Contains(func.ST_setsrid(func.box2d('BOX(%f %f, %f %f)'%(tuple(bbox))), 900913), func.ST_setsrid(Instance.geo_centre, 900913)))
+        q = q.filter(func.ST_Contains(bbox, func.ST_setsrid(Instance.geo_centre, 900913)))
 
     def make_feature(instance):
 
