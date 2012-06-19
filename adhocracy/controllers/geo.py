@@ -12,8 +12,6 @@ from adhocracy.model import Region
 from adhocracy.model import Instance
 from adhocracy.model import RegionHierarchy
 
-from sqlalchemy import or_
-
 import geojson
 from shapely import wkb, wkt
 
@@ -100,7 +98,7 @@ class GeoController(BaseController):
         name_contains = request.params.get('name_contains')
         callback = request.params.get('callback')
         q = meta.Session.query(Region).order_by(Region.name)
-        q = q.filter(or_(or_(Region.admin_level == 6, Region.admin_level == 7),Region.admin_level == 8))
+        q = q.filter(Region.admin_level.in_([6, 7, 8]))
         q = q.filter(Region.name.ilike('%' + name_contains + '%'))
         regions = q.all()
 
@@ -127,7 +125,7 @@ class GeoController(BaseController):
         
         def query_region(item):
             q = meta.Session.query(Region).order_by(Region.name)
-            q = q.filter(or_(or_(or_(Region.admin_level == 4,Region.admin_level == 6, Region.admin_level == 7),Region.admin_level == 8)))
+            q = q.filter(Region.admin_level.in_([4, 6, 7, 8]))
 #            q = q.filter(Region.name.in_(name_contains))
             q = q.filter(Region.name.ilike('%' + item + '%'))
 #            q = q.offset(search_offset).limit(max_rows)
