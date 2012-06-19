@@ -40,6 +40,9 @@ def upgrade(migrate_engine):
     geo_centre_column = GeometryExtensionColumn('geo_centre', Geometry, nullable=True)
     geo_centre_column.create(instance_table)
 
+    geo_centre_idx = Index('geo_centre_idx', instance_table.c.geo_centre, postgresql_using='gist')
+    geo_centre_idx.create()
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()
