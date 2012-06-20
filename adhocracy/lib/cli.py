@@ -98,6 +98,7 @@ class Index(AdhocracyCommand):
 
         names = []
         INSTANCES_KEYWORD = '-I'
+        remaining_args = args[:]
         if INSTANCES_KEYWORD in args:
             index = args.index(INSTANCES_KEYWORD)
             names = self.args[index + 1:]
