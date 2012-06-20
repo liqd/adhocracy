@@ -477,6 +477,7 @@ class InstanceController(BaseController):
                 'milestones': instance.milestones,
                 'use_norms': instance.use_norms,
                 'require_selection': instance.require_selection,
+                'frozen': instance.frozen,
                 '_tok': csrf.token_id()})
 
     @RequireInstance
@@ -490,7 +491,7 @@ class InstanceController(BaseController):
 
         updated = update_attributes(
             c.page_instance, self.form_result,
-            ['allow_propose', 'allow_index',
+            ['allow_propose', 'allow_index', 'frozen',
              'milestones', 'use_norms', 'require_selection'])
         return self.settings_result(updated, c.page_instance, 'contents')
 
