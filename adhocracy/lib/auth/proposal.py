@@ -27,11 +27,18 @@ def create(check):
 
 
 def edit(check, p):
-    check.other('proposal_not_mutable', not p.is_mutable())
-    if has('instance.admin'):
+    if has('instance.admin') or has('global.admin'):
+        # Admins can always edit proposals.
         return
-    check.perm('proposal.edit')
+
     show(check, p)
+    check.other('proposal_not_mutable', not p.is_mutable())
+    if has('proposal.edit'):
+        # having proposal.edit is enough
+        return
+
+    check.other('user_is_no_member', not c.user or
+                not c.user.is_member(c.instance))
     check.other('proposal_head_not_wiki_or_own',
         not is_own(p) and not p.description.head.wiki)
 
