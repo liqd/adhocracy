@@ -187,8 +187,12 @@ class ValidDelegateableBadge(formencode.FancyValidator):
 
     def _to_python(self, value, state):
         from adhocracy.model import DelegateableBadge
-        badge = DelegateableBadge.by_id(value)
-        if not badge:
+        try:
+            value = int(value)
+        except:
+            pass
+        badge = DelegateableBadge.by_id(value, instance_filter=False)
+        if badge is None or badge.instance not in [None, c.instance]:
             raise formencode.Invalid(
                 _("No Badge ID '%s' exists") % value,
                 value, state)
