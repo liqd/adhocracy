@@ -10,14 +10,13 @@
  *
  */
 
+"use strict";
 var alert = window.alert;
 
 // Make sure we have an "adhocracy" and namespace.
 var adhocracy = adhocracy || {};
 
 (function () {
-
-    "use strict";
 
     /**
      * General purpose namespace creation and retrivel, taken
@@ -297,8 +296,6 @@ var adhocracy = adhocracy || {};
 }());
 
 $(document).ready(function () {
-
-    'use strict';
 
     // initial jquery elastic
     $('textarea').elastic();
