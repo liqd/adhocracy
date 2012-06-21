@@ -65,7 +65,7 @@ var adhocracy = adhocracy || {};
                 $('#badges_' + self.id()).html(data.html);
                 callback();
             }, 'json').error(function (_, txt) {
-                alert(txt);
+                console.log('Error saving the badge: ' + txt);
             });
         };
         this.mapping = {
