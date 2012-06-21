@@ -11,7 +11,9 @@
  */
 
 "use strict";
-var alert = window.alert;
+
+window.console = window.console || {};
+window.console.log = window.console.log || function () {};
 
 // Make sure we have an "adhocracy" and namespace.
 var adhocracy = adhocracy || {};
