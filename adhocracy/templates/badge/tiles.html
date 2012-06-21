@@ -2,8 +2,9 @@
 <%
 description = badge.description.strip() if badge.description.strip() else ''
 %>
-    <span class="badge badge_${badge.id}">
-        <a class="${description and 'ttip' or ''}" title="${description}">${badge.title}</a>
+    <span class="abadge badge_${badge.id}">
+        <a class="${description and 'ttip' or ''}" 
+           title="${description}">${badge.title}</a>
     </span>
 </%def>
 

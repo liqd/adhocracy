@@ -1486,7 +1486,7 @@ body.logged_in .only-anon {
  * Badges
  */
 
-.badge {
+.abadge {
     font-family: Arial,san-serif;
   font-size: 10px;
   line-height: 14px;
@@ -1501,7 +1501,7 @@ body.logged_in .only-anon {
   position: relative;
   background: url('/images/badge_bg.png') right top no-repeat;
 }
-.badge:before {
+.abadge:before {
   content: '\25E4';
   width: 12px;
   height: 12px;
@@ -1513,18 +1513,22 @@ body.logged_in .only-anon {
   line-height: 10px;
   color: #bdbdbd;
 }
-.badge:hover {
+.abadge:hover {
   color: #2D3441;
   cursor: pointer;
 }
-.badge.admin:before {
+.abadge.admin:before {
   color: #f98c8c
 }
-.badge.author:before {
+.abadge.author:before {
   color: #ebd973
 }
-.badge.user:before {
+.abadge.user:before {
   color: #a8d37e
+}
+
+.abadge a:hover {
+  text-decoration: none;
 }
 
 #add_tags {
