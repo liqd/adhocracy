@@ -1,10 +1,17 @@
 <%def name="badge(badge)">
 <%
-description = badge.description.strip() if badge.description.strip() else ''
+if badge == 'dummy':
+    description = ''
+    badge_id = 'dummy'
+    badge_title = 'badge'
+else:
+    description = badge.description.strip()
+    badge_id = badge.id
+    badge_titel = badge.title
 %>
-    <span class="abadge badge_${badge.id}">
+    <span class="abadge badge_${badge_id}">
         <a class="${description and 'ttip' or ''}" 
-           title="${description}">${badge.title}</a>
+           title="${description}">${badge_title}</a>
     </span>
 </%def>
 

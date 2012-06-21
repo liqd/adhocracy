@@ -295,6 +295,36 @@ var adhocracy = adhocracy || {};
         });
     };
 
+    adhocracy.helpers.updateBadgePreview = function (selector, color) {
+        var wrapper = $(selector),
+            stylerule,
+            styleelement;
+        if (color !== undefined) {
+            if (!wrapper.is(":visible")) {
+                wrapper.removeClass('hidden');
+            }
+            stylerule = '.badge_dummy.abadge:before { color: ' + color + ';';
+            if ($('#dummystyle').length === 0) {
+                $('head').append(
+                    '<style id="dummystyle" type="text/css"></style>'
+                );
+            }
+            $('#dummystyle').text(stylerule);
+        }
+    };
+    adhocracy.helpers.initializeBadgeColorPicker = function (selector) {
+        var current_color = $(selector).val(),
+            updatePreview = adhocracy.helpers.updateBadgePreview;
+        $(selector).spectrum({
+            change: function (color) {
+                updatePreview('#badge-preview', color.toHexString());
+            }
+        });
+        if (current_color) {
+            updatePreview('#badge-preview', current_color);
+        }
+    };
+
 }());
 
 $(document).ready(function () {

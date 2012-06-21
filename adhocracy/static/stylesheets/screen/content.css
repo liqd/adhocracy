@@ -1531,6 +1531,17 @@ body.logged_in .only-anon {
   text-decoration: none;
 }
 
+#badge-preview {
+  padding: 0 1em;
+  margin-left: 1em;
+  border-left: 1px dotted #ccc;
+  height: 28px;
+}
+
+.sp-replacer {
+  margin-bottom: 0.5em;
+}
+
 #add_tags {
 float: right;
 padding-right: 2em;

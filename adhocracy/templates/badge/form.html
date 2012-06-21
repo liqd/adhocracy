@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
-<%namespace name="components" file="/components.html"/>
+<%namespace name="components" file="/components.html" />
+<%namespace name="badge_tiles" file="/badge/tiles.html" />
 <%def name="title()">${c.form_title}</%def>
 
 <%def name="breadcrumbs()">
@@ -12,7 +13,7 @@ ${self.form()}
 </%block>
 
 <%def name="form()">
-
+  <% h.need.spectrum %>
   <h1>
         %if c.form_type == 'create':
           %if c.badge_type == 'user':
@@ -48,9 +49,14 @@ ${self.form()}
     <label for="color" 
            class="">${_("The color that is used to show the badge")}</label>
     <input name="color" style="width: 8em" id="color" class=""
-           value="" />
-    <span class="hint">${_("Like '#a4a4a4'")}</span>
-
+           value=""/>
+    <span class="hint only-no-js">${_("Like '#a4a4a4'")}</span>
+    <span id="badge-preview" class="hidden">
+        ${_('Preview:')} &nbsp;&nbsp; ${badge_tiles.badge('dummy')}
+    </span>
+    <script>
+        $(document).ready(function() {adhocracy.helpers.initializeBadgeColorPicker('#color')})
+    </script>
     %if c.badge_type == 'user':
     <label for="group" class="">
         ${_("Group")}
