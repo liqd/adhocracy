@@ -35,7 +35,8 @@
             <h5 data-bind="text: selected.title">Title</h5>
             <ul data-bind="foreach: selected.badges">
                 <li class="nobullet">
-                    <input class="badgetsform_input" type="checkbox" name="badge" 
+                    <input class="badgetsform_input" type="checkbox" 
+                           name="badge" 
                            data-bind="value: id, checked: checked">
                         <span data-bind="attr: {class: css_class()}">
                             <a data-bind="text: title">Abgelehnt</a>
@@ -65,11 +66,19 @@
     <div class="top_actions aside" id="new-proposal">
         <% auth = check.proposal.create() %>
         %if auth:
-            <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+            <a class="button add ttip" 
+               title="${_('Introduce a new idea to debate.')}" 
+               href="/proposal/new">${_("new proposal")}</a>
         %elif auth.propose_join():
-            <a class="button add ttip" title="${_('Join instance to create a new proposal.')}" href="/proposal/new" rel="#overlay-join-button">${_("new proposal")}</a>
+            <a class="button add ttip" 
+               title="${_('Join instance to create a new proposal.')}" 
+               href="/proposal/new" 
+               rel="#overlay-join-button">${_("new proposal")}</a>
         %elif auth.propose_login():
-            <a class="button add ttip" title="${_('Login to create a new proposal.')}" href="/proposal/new" rel="#overlay-login-button">${_("new proposal")}</a>
+            <a class="button add ttip" 
+               title="${_('Login to create a new proposal.')}" 
+               href="/proposal/new" 
+               rel="#overlay-login-button">${_("new proposal")}</a>
         %endif
 
     </div>
