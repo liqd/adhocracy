@@ -227,7 +227,7 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     @validate(schema=UserBadgeForm(), form='edit')
     def update_user_badge(self, id):
-        badge = Badge.by_id(id)
+        badge = self.get_badge_or_redirect(id)
         title, color, description, instance = self._get_common_fields(
             self.form_result)
         group = self.form_result.get('group')
@@ -247,7 +247,7 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     @validate(schema=BadgeForm(), form='edit')
     def update_delegateable_badge(self, id):
-        badge = Badge.by_id(id)
+        badge = self.get_badge_or_redirect(id)
         title, color, description, instance = self._get_common_fields(
             self.form_result)
 
@@ -263,7 +263,7 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     @validate(schema=BadgeForm(), form='edit')
     def update_category_badge(self, id):
-        badge = Badge.by_id(id)
+        badge = self.get_badge_or_redirect(id)
         title, color, description, instance = self._get_common_fields(
             self.form_result)
 
