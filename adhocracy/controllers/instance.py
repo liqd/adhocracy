@@ -592,7 +592,7 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         c.settings_menu = self.settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
-        return controller.add(badge_id)
+        return controller.update(badge_id)
 
     def settings_members_import_form(self, id):
         c.page_instance = self._get_current_instance(id)
