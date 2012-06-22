@@ -14,26 +14,27 @@ ${self.form()}
 
 <%def name="form()">
   <% h.need.spectrum %>
-  <h1>
-        %if c.form_type == 'create':
-          %if c.badge_type == 'user':
-          ${_('Add user badge')}
-          %elif c.badge_type == 'delegateable':
-          ${_('Add delegateable badge')}
-          %elif c.badge_type == 'category':
-          ${_('Add category badge')}
-          %endif
-        %elif c.form_type == 'update':
-          %if c.badge_type == 'user':
-          ${_('Edit user badge')}
-          %elif c.badge_type == 'delegateable':
-          ${_('Edit delegateable badge')}
-          %elif c.badge_type == 'category':
-          ${_('Edit category badge')}
-          %endif
-        %endif
-  </h1>
   <form name="update_badge" class="inplace" method="POST">
+
+      <h2>
+          %if c.form_type == 'create':
+              %if c.badge_type == 'user':
+              ${_('Add user badge')}
+              %elif c.badge_type == 'delegateable':
+              ${_('Add delegateable badge')}
+              %elif c.badge_type == 'category':
+              ${_('Add category badge')}
+              %endif
+              %elif c.form_type == 'update':
+          %if c.badge_type == 'user':
+              ${_('Edit user badge')}
+              %elif c.badge_type == 'delegateable':
+              ${_('Edit delegateable badge')}
+              %elif c.badge_type == 'category':
+              ${_('Edit category badge')}
+              %endif
+          %endif
+      </h2>
 
     ${h.field_token()|n}
 
