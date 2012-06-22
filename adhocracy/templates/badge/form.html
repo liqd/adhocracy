@@ -16,6 +16,8 @@ ${self.form()}
   <% h.need.spectrum %>
   <form name="update_badge" class="inplace" method="POST">
 
+      ${components.flashmessages()}
+
       <h2>
           %if c.form_type == 'create':
               %if c.badge_type == 'user':

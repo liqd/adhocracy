@@ -1,14 +1,12 @@
 <%inherit file="/template.html" />
 <%namespace name="tiles" file="/badge/tiles.html"/>
+<%namespace name="components" file="/components.html"/>
 <%def name="title()">${_("Badges")}</%def>
 
 <%def name="breadcrumbs()">
     ${h.tag.breadcrumbs(None)|n}
 </%def>
 
-<%block name="headline">
-<h1 class="page_title">${_("Badges")}</h1>
-</%block>
 
 <%def name="edit_button(badge_id)">
 <a href="${c.badge_base_url}/edit/${badge_id}">${_('Edit')}</a>
@@ -118,7 +116,11 @@ badge_items = badges.get(permission, {}).get(type_, None)
 
 
 <%block name="main_content">
+
+${components.flashmessages()}
+
 ${self.badges_listing()}
+
 </%block>
 
 <%def name="badges_listing()">
