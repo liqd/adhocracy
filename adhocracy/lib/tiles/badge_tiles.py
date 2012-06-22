@@ -16,6 +16,6 @@ def badge_styles():
     '''
     from adhocracy.lib.templating import render_def
     from adhocracy.model import Badge
-    badges = Badge.all()
+    badges = Badge.all_q().all()
     return render_def('/badge/tiles.html', 'badge_styles', badges=badges,
                       cached=True)
