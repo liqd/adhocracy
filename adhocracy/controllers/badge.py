@@ -1,5 +1,5 @@
 import formencode
-from formencode import Any, All, htmlfill, validators
+from formencode import Any, All, htmlfill, Invalid, validators
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
@@ -131,8 +131,12 @@ class BadgeController(BaseController):
 
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
-    @validate(schema=UserBadgeForm(), form='add')
     def create_user_badge(self):
+        try:
+            self.form_result = UserBadgeForm().to_python(request.params)
+        except Invalid, i:
+            return self.add('user', i.unpack_errors())
+
         title, color, description, instance = self._get_common_fields(
             self.form_result)
         group = self.form_result.get('group')
@@ -145,8 +149,11 @@ class BadgeController(BaseController):
 
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
-    @validate(schema=BadgeForm(), form='add')
     def create_delegateable_badge(self):
+        try:
+            self.form_result = BadgeForm().to_python(request.params)
+        except Invalid, i:
+            return self.add('delegateable', i.unpack_errors())
         title, color, description, instance = self._get_common_fields(
             self.form_result)
         DelegateableBadge.create(title, color, description, instance)
@@ -156,8 +163,11 @@ class BadgeController(BaseController):
 
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
-    @validate(schema=BadgeForm(), form='add')
     def create_category_badge(self):
+        try:
+            self.form_result = BadgeForm().to_python(request.params)
+        except Invalid, i:
+            return self.add('category', i.unpack_errors())
         title, color, description, instance = self._get_common_fields(
             self.form_result)
         CategoryBadge.create(title, color, description, instance)
@@ -226,8 +236,12 @@ class BadgeController(BaseController):
 
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
-    @validate(schema=UserBadgeForm(), form='edit')
     def update_user_badge(self, id):
+        try:
+            self.form_result = UserBadgeForm().to_python(request.params)
+        except Invalid, i:
+            return self.edit(id, i.unpack_errors())
+
         badge = self.get_badge_or_redirect(id)
         title, color, description, instance = self._get_common_fields(
             self.form_result)
@@ -246,8 +260,11 @@ class BadgeController(BaseController):
 
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
-    @validate(schema=BadgeForm(), form='edit')
     def update_delegateable_badge(self, id):
+        try:
+            self.form_result = BadgeForm().to_python(request.params)
+        except Invalid, i:
+            return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
         title, color, description, instance = self._get_common_fields(
             self.form_result)
@@ -262,8 +279,11 @@ class BadgeController(BaseController):
 
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
-    @validate(schema=BadgeForm(), form='edit')
     def update_category_badge(self, id):
+        try:
+            self.form_result = BadgeForm().to_python(request.params)
+        except Invalid, i:
+            return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
         title, color, description, instance = self._get_common_fields(
             self.form_result)
