@@ -86,7 +86,8 @@ class BadgeController(BaseController):
         redirect(self.base_url)
 
     def render_form(self):
-        c.instances = Instance.all()
+        q = Instance.all_q().order_by(Instance.label)
+        c.other_instances = q.filter(Instance.id != c.instance.id).all()
         return render(self.form_template)
 
     def add(self, badge_type=None, errors=None):
