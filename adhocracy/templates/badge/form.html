@@ -55,7 +55,8 @@ ${self.form()}
         ${_('Preview:')} &nbsp;&nbsp; ${badge_tiles.badge('dummy')}
     </span>
     <script>
-        $(document).ready(function() {adhocracy.helpers.initializeBadgeColorPicker('#color')})
+        $(document).ready(function() {
+            adhocracy.helpers.initializeBadgeColorPicker('#color', '${h.site.domain()}.colors.badge')})
     </script>
     %if c.badge_type == 'user':
     <label for="group" class="">

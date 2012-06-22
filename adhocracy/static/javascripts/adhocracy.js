@@ -312,11 +312,14 @@ var adhocracy = adhocracy || {};
             $('#dummystyle').text(stylerule);
         }
     };
-    adhocracy.helpers.initializeBadgeColorPicker = function (selector) {
+    adhocracy.helpers.initializeBadgeColorPicker = function (selector, storagekey) {
         var current_color = $(selector).val(),
             updatePreview = adhocracy.helpers.updateBadgePreview;
         $(selector).spectrum({
             preferredFormat: "hex",
+            showPalette: true,
+            showSelectionPalette: true,
+            localStorageKey: storagekey,
             change: function (color) {
                 updatePreview('#badge-preview', color.toHexString());
             }
