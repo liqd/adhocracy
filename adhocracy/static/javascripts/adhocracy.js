@@ -316,6 +316,7 @@ var adhocracy = adhocracy || {};
         var current_color = $(selector).val(),
             updatePreview = adhocracy.helpers.updateBadgePreview;
         $(selector).spectrum({
+            preferredFormat: "hex",
             change: function (color) {
                 updatePreview('#badge-preview', color.toHexString());
             }
