@@ -556,6 +556,7 @@ class InstanceController(BaseController):
         controller.form_template = 'instance/settings_badges_form.html'
         controller.base_url_ = settings_url(instance, 'badges')
         controller._py_object = self._py_object
+        controller.start_response = self.start_response
         return controller
 
     @RequireInstance
