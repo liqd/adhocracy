@@ -18,7 +18,21 @@
     <input type="hidden" name="_method" value="PUT" />
     ${h.field_token()|n}
         
-    ${forms.input(_("Logo"), 'logo', 1, type='file', help=_("Select a logo file to appear in the header area of this Instance."))}
+    <% 
+    help_text = _("Select a logo file to appear in the header "
+                  "area of this Instance.")
+    %>
+    <%forms:input label="${_('Logo')}" name="logo" tabindex="1" type="file"
+                  help="${help_text}">
+    %if c.current_logo:
+    <div>
+        <img src="${c.current_logo}" alt="${_('Current logo')}" />
+        <button name="delete_logo" value="1">
+            <i class="icon-remove"></i>${_('Delete current logo')}
+        </button>
+    </div>
+    %endif
+    </%forms:input>
     
     <%forms:textarea label="${_('Extra CSS')}" name="css" value="" 
     tabindex="2" help="${_('You can add css that will be used to style the instance.')}">

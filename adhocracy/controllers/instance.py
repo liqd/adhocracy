@@ -224,7 +224,7 @@ class InstanceController(BaseController):
         c.sidebar_delegations = (_('Delegations are enabled.') if
                                  c.page_instance.allow_delegate else
                                  _('Delegations are disabled.'))
-        
+
         #pages = model.Page.all(instance=c.page_instance,
         #        functions=[model.Page.NORM])
         #c.top_pages_pager = pager.pages(
@@ -322,13 +322,36 @@ class InstanceController(BaseController):
 
         return settings
 
-    def settings_result(self, updated, instance, setting_name):
+    def settings_result(self, updated, instance, setting_name, message=None):
+        '''
+        Sets a redirect code and location header, stores a flash
+        message and returns the message. If *message* is not None, a
+        message is choosen depending on the boolean value of
+        *updated*. The redirect *location* URL is choosen based on the
+        instance and *setting_name*.
+
+        This method will *not raise an redirect exception* but set the
+        headers and return the message string.
+
+        *updated* (bool)
+           Indicate that a value was updated. Used to choose a generic
+           message if *message* is not given explicitly.
+        *instance* (:class:`adhocracy.model.Instance`)
+           The instance to generate the redirct URL for.
+        *setting_name* (str)
+           The setting name for which the URL will be build.
+        *message* (unicode)
+           An explicit message to use instead of the generic message.
+
+        Returns
+           The message generated or given.
+        '''
         if updated:
             event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)
-            message = INSTANCE_UPDATED_MSG
+            message = message if message else INSTANCE_UPDATED_MSG
             category = 'success'
         else:
-            message = NO_UPDATE_REQUIRED
+            message = message if message else NO_UPDATE_REQUIRED
             category = 'notice'
         h.flash(message, category=category)
         response.status_int = 303
@@ -420,6 +443,10 @@ class InstanceController(BaseController):
 
     def settings_appearance_form(self, id):
         c.page_instance = self._get_current_instance(id)
+        c.current_logo = None
+        if tiles.instance.InstanceTile(c.page_instance).show_icon():
+            c.current_logo = "/instance/%s_48.png" % c.instance.key
+
         c.settings_menu = self.settings_menu(c.page_instance, 'appearance')
         return render("/instance/settings_appearance.html")
 
@@ -443,6 +470,14 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
 
+        # delete the logo if the button was pressed and exit
+        if 'delete_logo' in self.form_result:
+            logo.delete(c.page_instance)
+            return self.settings_result(
+                True, c.page_instance, 'appearance',
+                message=_(u'The logo has been deleted.'))
+
+        # process the normal form
         updated = update_attributes(c.page_instance, self.form_result, ['css'])
         try:
             # fixme: show logo errors in the form

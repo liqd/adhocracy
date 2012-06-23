@@ -29,6 +29,12 @@ def store(instance, file):
     logo_image.save(_instance_logo_path(instance.key))
 
 
+def delete(instance):
+    if exists(instance.key):
+        path = _instance_logo_path(instance.key)
+        os.remove(path)
+
+
 def exists(key):
     instance_path = _instance_logo_path(key)
     return os.path.exists(instance_path)
