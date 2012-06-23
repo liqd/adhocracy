@@ -369,8 +369,12 @@ class InstanceController(BaseController):
             x = int(x)
         except:
             x = None
-        (path, io) = logo.load(id, size=(x, y))
-        return render_png(io, os.path.getmtime(path))
+        (path, mtime, io) = logo.load(id, size=(x, y))
+        request_mtime = int(request.params.get('t', 0))
+        if request_mtime != mtime:
+            instance = self._get_current_instance(id)
+            redirect(h.instance.icon_url(instance, y, x=x))
+        return render_png(io, mtime)
 
     def settings_general_form(self, id):
         c.page_instance = self._get_current_instance(id)

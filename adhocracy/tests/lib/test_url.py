@@ -1,3 +1,5 @@
+import mock
+
 from adhocracy.tests import TestController
 from adhocracy.tests.testtools import tt_make_proposal
 
@@ -84,3 +86,16 @@ class TestUrls(TestController):
         expected = (u'http://test.test.lan/login?came_from='
                     u'http%3A%2F%2Ftest.test.lan%2Fproposal%2F2-testproposal')
         self.assertEqual(url, expected)
+
+
+class TestInstanceUrls(TestController):
+
+    def test_icon_url_contains_mtime_as_int(self):
+        with mock.patch('adhocracy.lib.logo.path_and_mtime') as mocked:
+            mocked.return_value = ('/dummy/path', 1234)
+            from adhocracy.lib import helpers as h
+            from adhocracy.tests.testtools import tt_get_instance
+            test_instance = tt_get_instance()
+            url = h.instance.icon_url(test_instance)
+            self.assertEqual(
+                url, 'http://test.test.lan/instance/test_48.png?t=1234')

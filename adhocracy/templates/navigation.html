@@ -168,7 +168,7 @@
    url = None
    if c.instance:
        if InstanceTile(c.instance).show_icon():
-           logo = "/instance/%s_48.png" % c.instance.key
+           logo = h.instance.icon_url(c.instance, 48)
            url = h.entity_url(c.instance)
    
    def _class(identifier):
