@@ -107,12 +107,15 @@ def render_json(data, encoding='utf-8'):
     return json_dumps(data, encoding=encoding)
 
 
-def render_png(io, mtime, content_type="image/png"):
+def render_png(io, mtime, content_type="image/png", cache_forever=False):
     response.content_type = content_type
-    etag_cache(key=hashlib.sha1(io).hexdigest())
+    if not cache_forever:
+        etag_cache(key=hashlib.sha1(io).hexdigest())
+        del response.headers['Cache-Control']
+    else:
+        response.headers['Cache-Control'] = 'max-age=31556926'
     response.charset = None
     response.last_modified = rfc822.formatdate(timeval=mtime)
-    del response.headers['Cache-Control']
     response.content_length = len(io)
     response.pragma = None
     return io

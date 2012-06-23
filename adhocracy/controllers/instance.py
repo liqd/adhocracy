@@ -374,7 +374,7 @@ class InstanceController(BaseController):
         if request_mtime != mtime:
             instance = self._get_current_instance(id)
             redirect(h.instance.icon_url(instance, y, x=x))
-        return render_png(io, mtime)
+        return render_png(io, mtime, cache_forever=True)
 
     def settings_general_form(self, id):
         c.page_instance = self._get_current_instance(id)
