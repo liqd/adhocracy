@@ -449,7 +449,7 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         c.current_logo = None
         if tiles.instance.InstanceTile(c.page_instance).show_icon():
-            c.current_logo = "/instance/%s_48.png" % c.instance.key
+            c.current_logo = h.instance.icon_url(c.page_instance, 48)
 
         c.settings_menu = self.settings_menu(c.page_instance, 'appearance')
         return render("/instance/settings_appearance.html")
