@@ -90,12 +90,12 @@ class TestUrls(TestController):
 
 class TestInstanceUrls(TestController):
 
-    def test_icon_url_contains_mtime_as_int(self):
+    def test_icon_url_contains_mtime(self):
         with mock.patch('adhocracy.lib.logo.path_and_mtime') as mocked:
             mocked.return_value = ('/dummy/path', 1234)
             from adhocracy.lib import helpers as h
             from adhocracy.tests.testtools import tt_get_instance
             test_instance = tt_get_instance()
-            url = h.instance.icon_url(test_instance)
+            url = h.instance.icon_url(test_instance, 48)
             self.assertEqual(
                 url, 'http://test.test.lan/instance/test_48.png?t=1234')
