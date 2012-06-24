@@ -266,6 +266,5 @@ def _json_entity_decoder(d):
         return dict(result)
 
 def openlayers_url():
-#    return "http://openlayers.org/api/2.12-rc7/OpenLayers.js"
-    return base_url(None, path="/OpenLayers-2.11/build/OpenLayers-closure-img.js")
-#    return "/OpenLayers-2.11/lib/OpenLayers.js"
+    return "http://openlayers.org/api/2.12-rc7/OpenLayers.js"
+#    return base_url(None, path="/openlayers-2.12-rc7/openlayers.js")

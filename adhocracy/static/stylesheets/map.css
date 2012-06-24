@@ -33,6 +33,14 @@
     right: 0px;
 }
 
+
+/* bootstrap.css sets wax-width to 100% which does not work with OpenLayers.
+ * Since bootstrap.css 2.0.4, the map id could be named #map_canvas to avoid
+ * that problem. */
+.large_map img, .map img, .small_map img {
+    max-width: none;
+}
+
 /* Startpage */
 #map_startpage_wrapper.map_size_large .map_wrapper {
     margin-left: 0px;

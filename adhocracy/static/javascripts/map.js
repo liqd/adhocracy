@@ -7,12 +7,7 @@ $.ajaxSetup({
 
 /* default map configuration */
 
-var RESOLUTIONS = [
-    // 156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625,
-    4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135
-    // 0.29858214169740677, 0.14929107084870338, 0.07464553542435169
-    ]
-var NUM_ZOOM_LEVELS = RESOLUTIONS.length;
+var NUM_ZOOM_LEVELS = 14;
 var FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
 
 var popup;
@@ -910,20 +905,19 @@ function addRegionSelectControl(map) {
 
 function createBaseLayers(blank) {
 
-    // workaround allowing to limit zoom levels
-    // http://lists.osgeo.org/pipermail/openlayers-users//2012-January/023746.html
-    
     var osmOptions = {
-        isBaseLayer:true,
-        displayInLayerSwitcher:true,
-        zoomOffset:5,
-        resolutions: RESOLUTIONS
+        displayInLayerSwitcher: true,
+        zoomOffset: 5,
+        numZoomLevels: NUM_ZOOM_LEVELS,
+        maxResolution: 4891.9698095703125,
+        tileOptions: {crossOriginKeyword: null}
     };
 
     var baseLayers = [
+        // top definition is selected by default
         new OpenLayers.Layer.OSM("OSM Admin Boundaries",
                     "http://129.206.74.245:8007/tms_b.ashx?x=${x}&y=${y}&z=${z}", osmOptions),
-        //default Openstreetmap Baselayer
+        // default Openstreetmap Baselayer
         new OpenLayers.Layer.OSM("Open Street Map", "", osmOptions),
         new OpenLayers.Layer.OSM("Public Transport",
                     "http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png", osmOptions),
@@ -931,7 +925,7 @@ function createBaseLayers(blank) {
                     "http://otile1.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png", osmOptions),
         new OpenLayers.Layer.OSM("&Ouml;pnv Deutschland", 
                     "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png", osmOptions)
-            ];
+    ];
 
     // Blank Baselayer
     if (blank) {
@@ -944,19 +938,17 @@ function createBaseLayers(blank) {
 
 function createMap() {
 
+    // needs to be done in custom OpenLayers builds
+    // OpenLayers.ImgPath = "openlayers-2.12-rc7/img/";
+
     geographic = new OpenLayers.Projection("EPSG:4326");
     mercator = new OpenLayers.Projection("EPSG:900913");
 
     RESTRICTED_BOUNDS = new OpenLayers.Bounds(0, 40, 30, 60)
 
     return new OpenLayers.Map('map', {
-        // maxExtent: new OpenLayers.Bounds(-180, -90, 180, 90),
         restrictedExtent: RESTRICTED_BOUNDS.transform(geographic, mercator),
-        // maxResolution: 156543.0399,
-        numZoomLevels: NUM_ZOOM_LEVELS,
-        units: 'm',
-        projection: mercator,
-        //displayProjection: geographic,
+        projection: "EPSG:900913",
         controls: []
     });
 }
@@ -1144,8 +1136,6 @@ function createSelectControl() {
 
     return selectControl;
 }
-
-//var FALLBACK_BOUNDS = [10, 51, 10.1, 51.1];
 
 function loadSingleProposalMap(openlayers_url, instanceKey, proposalId, edit, position) {
  $.getScript(openlayers_url, function() {
