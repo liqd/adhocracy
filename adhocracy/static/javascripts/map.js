@@ -1213,15 +1213,44 @@ function enableMarker(id, layer, selectControl) {
     });
 }
 
-function loadRegionMap(openlayers_url, instanceKey, initialProposals) {
+function loadRegionMap(openlayers_url, instanceKey, initialProposals, largeMap) {
  $.getScript(openlayers_url, function() {
+
+    if (largeMap) {
+        var top = $('#header').outerHeight()+$('#subheader').outerHeight()+$('#flash_message').outerHeight();
+        $('#fullscreen_map').css('position', 'absolute').css('top', top+'px').css('bottom', 0).css('width', '100%');
+        $('#hide_list_icon').show();
+        $('#hide_list_icon').click(function() {
+            $('#hide_list_icon').hide();
+            $('#left_block').fadeOut('normal', function() {
+                $('#central_block').css('width', '100%');
+                map.updateSize();
+            });
+            $('#show_list_icon').show();
+        });
+        $('#show_list_icon').click(function() {
+            $('#show_list_icon').hide();
+            $('#left_block').fadeIn('normal', function() {
+                $('#central_block').css('width', '70%');
+                map.updateSize();
+            });
+            $('#hide_list_icon').show();
+        });
+    }
+
     var map = createMap();
 
     var waiter = createWaiter(2, function(bounds) {
         map.zoomToExtent(bounds);
+
+        if (largeMap) {
+            var controls = createControls(true, true);
+        } else {
+            var controls = createControls(false, false);
+        }
+        map.addControls(controls);
     });
 
-    map.addControls(createControls(false, false));
     map.addLayers(createBaseLayers());
     var regionBoundaryLayers = createRegionBoundaryLayer(instanceKey, function(feature) {
         waiter(feature,false);

@@ -34,7 +34,7 @@
 }
 
 
-/* bootstrap.css sets wax-width to 100% which does not work with OpenLayers.
+/* bootstrap.css sets max-width to 100% which does not work with OpenLayers.
  * Since bootstrap.css 2.0.4, the map id could be named #map_canvas to avoid
  * that problem. */
 .large_map img, .map img, .small_map img {
@@ -158,4 +158,56 @@ div.marker {
   color: #888;
   font-size: x-small;
   text-align: right;
+}
+
+
+/* is now done with javascript in map.js, as top position depends on
+ * availability of other elements
+#fullscreen_map {
+    position: absolute;
+    top: 150px;
+    bottom: 0;
+    width: 100%;
+}
+*/
+
+#left_block {
+    height: 100%;
+    width: 30%;
+    float: left;
+    position: relative;
+}
+
+#central_block {
+    height: 100%;
+    width: 70%;
+    float: left;
+    z-index: 0;
+}
+
+.large_map {
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+#hide_list_icon {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 16px;
+    width: 16px;
+    background-color: red;
+    z-index: 1;
+    display: none;
+}
+#show_list_icon {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 16px;
+    width: 16px;
+    background-color: green;
+    z-index: 1000;
+    display: none;
 }
