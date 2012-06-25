@@ -1,6 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-
+<%namespace name="map" file="/geo/map.html"/>
 <%def name="title()">${_("Home")}</%def>
 
 <%def name="breadcrumbs()">
@@ -52,6 +52,15 @@
     </ul>
     
 </summary>
+
+%if h.asbool(config.get('adhocracy.proposal_geotags')):
+    <%doc>FIXME: use English translation base string when merging into default
+    <h3>${_('Newest geotagged proposals')}</h3>
+    </%doc>
+    <h3>${_(u'Neueste Vorschläge mit Geotag')}</h3>
+    <%doc>filter if p is not None in list comprehension is just a workaround, as SolrPager seems to return None proposals accidently</%doc>
+    ${map.show_region_map([p.id for p in c.new_proposals_pager.items if p is not None and p.geotag is not None])}
+%endif
 
 </%block>
 

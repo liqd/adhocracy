@@ -5,6 +5,7 @@ from pylons import response, tmpl_context as c
 from pylons.templating import render_mako, render_mako_def
 from pylons.controllers.util import etag_cache
 from pylons.controllers.util import abort, redirect
+import geojson
 
 from adhocracy import model
 from adhocracy.lib.helpers import json_dumps
@@ -105,6 +106,12 @@ def render_json(data, encoding='utf-8'):
     response.content_type = 'text/javascript'
     response.content_encoding = encoding
     return json_dumps(data, encoding=encoding)
+
+def render_geojson(data, encoding='utf-8'):
+    response.content_type = 'application/json'
+    response.content_encoding = encoding
+    return geojson.dumps(data, 
+            encoding=encoding, indent=4)
 
 
 def render_png(io, mtime, content_type="image/png", cache_forever=False):

@@ -1,0 +1,30 @@
+<%inherit file="/template.html" />
+<%namespace name="tiles_html" file="/proposal/tiles.html"/>
+<%namespace name="components" file="/components.html"/>
+<%namespace name="map" file="/geo/map.html"/>
+<%doc>FIXME: use English translation base string when merging into default
+<%def name="title()">${_("Edit geotag for proposal %s") % c.proposal.title}</%def>
+</%doc>
+<%def name="title()">${_(u"Ändere Geotag für Vorschlag %s") % c.proposal.title}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit geotag")}
+</%def>
+
+<%block name="main_content">
+    <div class="form_wrapper">
+    <%doc>FIXME: use English translation base string when merging into default
+    <h2>${_(u'Edit geographical location for proposal &ldquo;%s&rdquo;') % c.proposal.title|n}</h2>
+    </%doc>
+    <h2>${_(u'Ändere geographische Verortung für Vorschlag &ldquo;%s&rdquo;') % c.proposal.title|n}</h2>
+    <div class="hr">
+        <hr />
+    </div>
+
+    ${map.show_single_proposal_edit_map(c.proposal.id)}
+
+    </div>
+</%block>
+
+    
+

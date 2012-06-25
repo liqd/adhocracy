@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="map" file="/geo/map.html"/>
 <%def name="title()">${_("Instances")}</%def>
 
 <%def name="breadcrumbs()">
@@ -7,7 +8,7 @@
 </%def>
 
 
-<%block name="headline">
+<%block name="main_content">
 <div class="top_actions title">
     %if can.instance.create():
         <a class="button title add" href="/instance/new">${_("new instance")}</a>
@@ -21,4 +22,16 @@
     <div class="table">
         ${c.instances_pager.here()}
     </div>
+</%block>
+
+<%block name="sidebar">
+
+%if h.asbool(config.get('adhocracy.proposal_geotags')):
+    <%doc>FIXME: use English translation base string when merging into default
+    <h3>${_('Map')}</h3>
+    </%doc>
+    <h3>${_('Karte')}</h3>
+    ${map.show_overview_map([i.id for i in c.instances_pager.items])}
+%endif
+
 </%block>

@@ -196,6 +196,13 @@
              li_class=_class('proposals'),
              id_='subnav-proposals')}
 
+%if h.asbool(config.get('adhocracy.proposal_geotags')):
+  ${nav_link(href="/map",
+             text=_("Map"),
+             li_class=_class('map'),
+             id_='subnav-map')}
+%endif
+
   ${nav_link(href="/milestone",
              text=_("Milestones"),
              li_class=_class('milestones'),

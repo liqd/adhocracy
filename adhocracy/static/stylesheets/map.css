@@ -1,0 +1,213 @@
+/**
+ * CSS Reset
+ * From Blueprint reset.css
+ * http://blueprintcss.googlecode.com
+ */
+
+/* Map Examples Specific */
+.small_map {
+    width: 300px;
+    height: 300px;
+}
+.edit_map {
+    width: 640px;
+    height: 440px;
+}
+
+.map_wrapper {
+    position: relative;
+}
+
+.map {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+.map_attribution {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+
+/* bootstrap.css sets max-width to 100% which does not work with OpenLayers.
+ * Since bootstrap.css 2.0.4, the map id could be named #map_canvas to avoid
+ * that problem. */
+.large_map img, .map img, .small_map img {
+    max-width: none;
+}
+
+/* Startpage */
+#map_startpage_wrapper.map_size_large .map_wrapper {
+    margin-left: 0px;
+    width: 1000px;
+    height: 656px;
+}
+
+#map_startpage_wrapper.map_size_normal .map_wrapper {
+    margin-left: 320px;
+    height: 440px;
+    width: 640px;
+}
+
+#map_startpage_wrapper .map_wrapper {
+    margin-left: 320px;
+}
+
+.map_size_normal #content-startpage {
+    background-color: #f5f4f0;
+    float: left;
+    height: 440px;
+    padding: 0 20px;
+    width: 268px;
+}
+
+.map_size_large #content-startpage {
+    display: none;
+}
+
+#content-startpage img {
+    display: none; /* dirty hack so don't have to edit wp now */
+}
+
+.ui-autocomplete-loading { 
+    background:url('/images/ui-anim_basic_16x16.gif') no-repeat right center;
+}
+
+.ui-autocomplete {
+    width: 150px;
+	max-height: 200px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+	/* add padding to account for vertical scrollbar */
+	padding-right: 20px;
+}
+
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+* html .ui-autocomplete {
+	height: 100px;
+}
+
+.instance_search {
+    position: absolute;
+    z-index: 1;
+    width: 300px;
+    top: 5px;
+    right: 5px;
+    background-color:  #ffffff;
+}
+
+#search_result_content {
+    margin-top:2em;
+}
+
+.ac_results {
+    height: 200px; 
+    width: 300px; 
+    overflow: auto;
+}
+
+.arrow {
+    position: absolute;
+    z-index: 1;
+    left: 0px;
+    bottom: 0px;
+}
+
+.proposal_popup_title {
+    color: green;
+}
+
+/* Map markers */
+
+div.marker {
+  width: 24px;
+  height: 31px;
+  margin: 4px 11px 0 21px;
+  float: left;
+}
+
+.marker img {
+  background-image: url('/images/map_markers_pink_a_j.png');
+  background-position: 0 -310px;
+  float: left;
+  width: 24px;
+  height: 31px;
+}
+  /* !important used as dirty hack */
+.marker_a {background-position: 0 0 !important;}
+.marker_b {background-position: 0 -31px !important;}
+.marker_c {background-position: 0 -62px !important;}
+.marker_d {background-position: 0 -93px !important;}
+.marker_e {background-position: 0 -124px !important;}
+.marker_f {background-position: 0 -155px !important;}
+.marker_g {background-position: 0 -186px !important;}
+.marker_h {background-position: 0 -217px !important;}
+.marker_i {background-position: 0 -248px !important;}
+.marker_j {background-position: 0 -279px !important;}
+
+  /* License note below map */
+.note_map, .note_map a {
+  color: #888;
+  font-size: x-small;
+  text-align: right;
+}
+
+
+/* is now done with javascript in map.js, as top position depends on
+ * availability of other elements
+#fullscreen_map {
+    position: absolute;
+    top: 150px;
+    bottom: 0;
+    width: 100%;
+}
+*/
+
+#left_block {
+    height: 100%;
+    width: 30%;
+    float: left;
+    position: relative;
+}
+
+#central_block {
+    height: 100%;
+    width: 70%;
+    float: left;
+    z-index: 0;
+}
+
+.large_map {
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+#hide_list_icon {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 16px;
+    width: 16px;
+    background-color: red;
+    z-index: 1;
+    display: none;
+}
+#show_list_icon {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 16px;
+    width: 16px;
+    background-color: green;
+    z-index: 1000;
+    display: none;
+}

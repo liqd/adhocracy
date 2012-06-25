@@ -1,0 +1,76 @@
+<%namespace name="components" file="/components.html"/>
+
+<%def name="show_single_proposal_map(proposal_id)">
+
+<div id="map" class="small_map"></div>
+    <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
+<script src="/javascripts/jquery.localisation.js"></script>
+<script src="/javascripts/map.js"></script>
+<script type="text/javascript">$.localise('/javascripts/map.js');</script>
+<script type="text/javascript"> window.onload=loadSingleProposalMap('${h.openlayers_url()}', '${c.instance.key}', ${proposal_id}, false, null); </script>
+</%def>
+
+
+<%def name="show_single_proposal_edit_map(proposal_id)">
+<div id="map" class="edit_map"></div>
+    <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
+<div id="edit_map_buttons" />
+<form method='post' action='${h.entity_url(c.proposal, member="update_geotag")}'>
+    <input id='proposal_geotag_field' name='geotag' type='hidden' />
+    <div>
+      <div class="input_wrapper submit">
+        ${components.savebox("/proposal/%s" % c.proposal.id)}
+      </div>
+    </div>
+</form>
+
+<script src="/javascripts/jquery.localisation.js"></script>
+<script src="/javascripts/map.js"></script>
+<script type="text/javascript">$.localise('/javascripts/map.js');</script>
+<script type="text/javascript"> window.onload=loadSingleProposalMap('${h.openlayers_url()}', '${c.instance.key}', ${proposal_id}, true, null); </script>
+</%def>
+
+<%def name="show_region_map(initial_proposals=None)">
+
+<div id="map" class="small_map"></div>
+    <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
+<script src="/javascripts/jquery.localisation.js"></script>
+<script src="/javascripts/map.js"></script>
+<script type="text/javascript">$.localise('/javascripts/map.js');</script>
+<script type="text/javascript"> window.onload=loadRegionMap('${h.openlayers_url()}', '${c.instance.key}', ${initial_proposals if initial_proposals else []}, false); </script>
+</%def>
+
+<%def name="show_region_map_large(initial_proposals=None)">
+
+<div id="map" class="large_map"></div>
+<script src="/javascripts/jquery.localisation.js"></script>
+<script src="/javascripts/map.js"></script>
+<script type="text/javascript">$.localise('/javascripts/map.js');</script>
+<script type="text/javascript"> window.onload=loadRegionMap('${h.openlayers_url()}', '${c.instance.key}', ${initial_proposals if initial_proposals else []}, true); </script>
+</%def>
+
+<%def name="show_overview_map(initial_instances=None)">
+
+<div id="map" class="small_map"></div>
+    <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
+<script src="/javascripts/jquery.localisation.js"></script>
+<script src="/javascripts/map.js"></script>
+<script type="text/javascript">$.localise('/javascripts/map.js');</script>
+<script type="text/javascript"> window.onload=loadOverviewMap('${h.openlayers_url()}', ${initial_instances if initial_instances else []}); </script>
+</%def>
+
+<%def name="show_select_instance()">
+
+<link type="text/css" href="/stylesheets/ui-lightness/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+<link type="text/css" href="/javascripts/jquery.autocomplete.css" rel="Stylesheet" />
+<script src="/javascripts/jquery-1.7.1.min.js"></script>
+<script src="/javascripts/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="/javascripts/jquery.elastic.js"></script>
+<script src="/javascripts/jquery.label_over.js"></script>
+<script src="/javascripts/jquery.multipleelements.cycle.min.js"></script>
+<script src="/javascripts/jquery.tools.min.js"></script>
+<script src="/javascripts/jquery.localisation.js"></script>
+<script src="/javascripts/map.js"></script>
+<script type="text/javascript">$.localise('/javascripts/map.js');</script>
+<script type="text/javascript"> window.onload=loadSelectInstance('${h.openlayers_url()}'); </script>
+</%def>

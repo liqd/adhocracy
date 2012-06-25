@@ -93,11 +93,19 @@ def make_map():
                                                  'untag': 'GET',
                                                  'badges': 'GET',
                                                  'update_badges': 'POST',
-                                                 'history': 'GET'},
+                                                 'history': 'GET',
+                                                 'get_geotag': 'GET',
+                                                 'edit_geotag': 'GET',
+                                                 'update_geotag': 'POST',
+                                                 },
                                collection={'filter': 'GET'})
     map.connect('/proposal/{proposal_id}/{selection_id}/details{.format}',
                 controller='selection',
                 action='details')
+
+    map.connect('/map',
+                controller='proposal',
+                action='index_map')
 
     map.resource('implementation', 'implementation', controller='selection',
                  member={'ask_delete': 'GET'},
@@ -229,12 +237,20 @@ def make_map():
     map.connect('/feed.rss', controller='root', action='index', format='rss')
     map.connect('/tutorials', controller='root', action='tutorials')
 
+    map.connect('/get_admin_centres.json', controller='geo', action='get_admin_centres_json')
+    map.connect('/get_all_instances.json', controller='geo', action='get_all_instances_json')
+    map.connect('/find_instances.json', controller='geo', action='find_instances_json')
+    map.connect('/autocomplete_instances.json', controller='geo', action='autocomplete_instances_json')
+    map.connect('/get_tiled_boundaries.json', controller='geo', action='get_tiled_boundaries_json')
+
     map.connect('/search/filter', controller='search', action='filter')
     map.connect('/search', controller='search', action='query')
 
     map.connect('/abuse/report', controller='abuse', action='report')
     map.connect('/abuse/new', controller='abuse', action='new')
 
+    map.connect('/instance/get_instance_regions', controller='instance', action='get_instance_regions')
+    map.connect('/get_easteregg', controller='easteregg', action='get_easteregg')
     map.connect('/instance/{id}_{x}x{y}.png',
                 controller='instance', action='icon')
     map.connect('/instance/{id}_{y}.png',
@@ -295,7 +311,10 @@ def make_map():
                                                  'ask_leave': 'GET',
                                                  'ask_delete': 'GET',
                                                  'style': 'GET',
-                                                 'activity': 'GET'})
+                                                 'activity': 'GET',
+                                                 'get_region': 'GET',
+                                                 'get_proposal_geotags': 'GET',
+                                                 })
 
     # API
     map.connect('/api/{action}', controller='api')
