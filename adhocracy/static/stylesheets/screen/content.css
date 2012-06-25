@@ -50,15 +50,19 @@ li {
 table {
   margin-bottom: 20px;
 }
+
 table td.line_number {
   width: 20px;
   padding-right: 10px;
   text-align: right;
   color: #666;
+  line-height: 1.5em;
 }
+
 table td.line_text {
- font-family: Courier;
   color: #000;
+  text-align: bottom;
+  font-family: Menlo, Monaco, 'Courier New', monospace;
 }
 
 .plus:before {

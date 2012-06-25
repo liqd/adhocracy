@@ -62,7 +62,7 @@ def _line_table(lines):
     for num, line in enumerate(lines):
         _out += """\t<tr>
                         <td class='line_number'>%s</td>
-                        <td class='line_text'><pre>%s</pre></td>
+                        <td class='line_text'>%s</td>
                      </tr>\n""" % (num + 1, line)
     _out += "</table>\n"
     return _out
