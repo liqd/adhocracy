@@ -1053,6 +1053,12 @@ ul.papers_list li {
 .paper_selection {
   padding-top: 35px;
 }
+
+#sidebar_nav.paper_selection ul {
+ padding: 0;
+ margin-top: 10px;
+}
+
 #main-overlay .paper_selection {
   padding-top: 85px;
 }
