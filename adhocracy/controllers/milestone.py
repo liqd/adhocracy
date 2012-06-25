@@ -70,7 +70,7 @@ class MilestoneController(BaseController):
                               past_milestones]
         c.show_current_milestones = len(current_milestones)
         c.current_milestones_pager = pager.milestones(current_milestones)
-
+        c.milestones = past_milestones + current_milestones  # for the timeline
         if format == 'json':
             return render_json(c.milestones_pager)
 
