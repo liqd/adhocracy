@@ -1384,8 +1384,8 @@ function instanceSearch(state, resultList) {
     var max_rows = 3;
     var offset = 0;
 
-    $('#instances').click(function(event) { $('#instances').val('');
-                                            $('#instances').unbind('click'); });
+    $('#overview_search_field').click(function(event) { $('#overview_search_field').val('');
+                                            $('#overview_search_field').unbind('click'); });
 
     function makeRegionNameElements(item) {
         var text = item.label;
@@ -1418,7 +1418,7 @@ function instanceSearch(state, resultList) {
         var idBase = 'search_result_list_marker'
         var letterInstance = String.fromCharCode(numInstance + 97);
         var letterRegion = String.fromCharCode(numRegion + 97);
-        var li = $('<li>',{ class: 'content_box' });
+        var li = $('<div/>',{ class: 'search_result' });
         var marker;
         var img;
         if (item.instance_id != "") {
@@ -1428,6 +1428,9 @@ function instanceSearch(state, resultList) {
                                id: idBase + '_' + item.region_id,
                                alt: item.region_id
                              });
+            if (item.authenticated) {
+                marker.addClass('authenticated');
+            }
         } else {
             marker = $('<div>', { class: 'marker_hall' });
             img = $('<img>', { class: 'search_result_list_marker marker_' + letterRegion,
@@ -1436,7 +1439,7 @@ function instanceSearch(state, resultList) {
                                alt: item.region_id
                              });
         }
-        var h4 = $('<h4>');
+        var div = $('<div>', {class: 'search_result_title'});
         var text;
         var details;
 
@@ -1445,8 +1448,8 @@ function instanceSearch(state, resultList) {
 
         marker.append(img);
         li.append(marker);
-        li.append(h4);
-        h4.append(text);
+        li.append(div);
+        div.append(text);
         if (item.instance_id != "") {
             li.append(details);
         }
@@ -1555,7 +1558,7 @@ function instanceSearch(state, resultList) {
                         id: 'search_result_content'
                     });
 
-        var heading = $('<h3>');
+        var heading = $('<h4>');
         var text = document.createTextNode(LANG.search_result_text);
         heading.append(text);
 
@@ -1564,7 +1567,6 @@ function instanceSearch(state, resultList) {
                          });
         var list = $('<div/>', {
                         id: 'log',
-                        class: 'ac_results'
                     });
         var buttons = $('<div>', {
                            id: 'search_buttons'
@@ -1582,17 +1584,17 @@ function instanceSearch(state, resultList) {
     function querySearchResult() {
 
         stopAutocompletion = true;
-        var request_term = $( "#instances" ).val();
+        var request_term = $("#overview_search_field").val();
 
         function errorResponse(xhr,err) {
             currentSearch = undefined;
-            $('#instances').removeClass('ui-autocomplete-loading');
+            $('#overview_search_field').removeClass('ui-autocomplete-loading');
             //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
             //alert('No response from server, sorry. Error: '+err);
         }
 
         function successResponse(data) {
-            $('#instances').removeClass('ui-autocomplete-loading');
+            $('#overview_search_field').removeClass('ui-autocomplete-loading');
             resultList[request_term] = $.map( data.search_result, makeResponse);
             currentSearch = undefined;
             showSearchResult();
@@ -1620,10 +1622,10 @@ function instanceSearch(state, resultList) {
         if (!currentSearch || currentSearch != request_term) {
             currentSearch = request_term;
             if (request_term.length > 2 && request_term != "Enter zip code or region") {
-                $( "#instances" ).autocomplete("close");
+                $("#overview_search_field").autocomplete("close");
                 $.ajax({
                     beforeSend: function(jqXHR, settings) {
-                        $('#instances').addClass('ui-autocomplete-loading');
+                        $('#overview_search_field').addClass('ui-autocomplete-loading');
                         return true;
                     },
                     url: 'find_instances.json',
@@ -1639,11 +1641,11 @@ function instanceSearch(state, resultList) {
     }
 
     function showSearchResult() {
-        $( "#instances" ).autocomplete("close");
+        $("#overview_search_field").autocomplete("close");
         removePreviousMarkers(prevInputValue);
         offset = 0;
         prevInputValue = new String(inputValue);
-        inputValue = new String($( "#instances" ).val());
+        inputValue = new String($("#overview_search_field").val());
 
         if (resultList[inputValue]) {
 
@@ -1670,15 +1672,15 @@ function instanceSearch(state, resultList) {
         }
     }
 
-    $( "#instances" ).keypress(function(event) {
+    $("#overview_search_field").keypress(function(event) {
         if ( event.which == 13 || event.which == 10 ) {
             querySearchResult();
         }
     });
 
-    $('#search_button').click(querySearchResult);
+    $('#overview_search_button').click(querySearchResult);
 
-    $( "#instances" ).autocomplete({
+    $("#overview_search_field").autocomplete({
         search: function(event, ui) {
             stopAutocompletion = false;
         },
@@ -1705,10 +1707,10 @@ function instanceSearch(state, resultList) {
         },
         minLength: 2,
         open: function() {
-            $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+            $( this ).removeClass("ui-corner-all").addClass("ui-corner-top");
         },
         close: function() {
-           $( "#instances" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+           $("#overview_search_field").removeClass("ui-corner-top").addClass("ui-corner-all");
         }
 
   });

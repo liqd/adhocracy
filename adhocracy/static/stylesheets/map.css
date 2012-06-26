@@ -98,20 +98,29 @@
 .instance_search {
     position: absolute;
     z-index: 1;
-    width: 300px;
-    top: 5px;
-    right: 5px;
+    width: 212px;
+    max-height: 392px; 
+    top: 8px;
+    right: 24px;
     background-color:  #ffffff;
+    border: 1px solid black;
+    padding: 16px;
+}
+
+#overview_search_field {
+    width: 144px;
+    height: 24px;
+    padding: 0px;
+}
+
+#overview_search_button {
+    width: 60px;
+    height: 24px;
+    padding: 0px;
 }
 
 #search_result_content {
     margin-top:2em;
-}
-
-.ac_results {
-    height: 200px; 
-    width: 300px; 
-    overflow: auto;
 }
 
 .arrow {
@@ -127,19 +136,34 @@
 
 /* Map markers */
 
-div.marker {
-  width: 24px;
-  height: 31px;
-  margin: 4px 11px 0 21px;
-  float: left;
+div.search_result {
+    border-top: 1px dotted #446191;
+    padding: 8px 0px;
+    position: relative;
 }
 
-.marker img {
+div.search_result_title {
+    color: #446191;
+}
+
+div.marker, div.marker_hall {
+    margin: 0px 10px 0 0px;
+    float: left;
+}
+
+div.marker.authenticated {
+    background-color: green;
+}
+
+div.marker img {
   background-image: url('/images/map_markers_pink_a_j.png');
-  background-position: 0 -310px;
-  float: left;
   width: 24px;
   height: 31px;
+  margin: 0 !important;
+}
+
+div.marker_hall img {
+  margin: 0 !important;
 }
   /* !important used as dirty hack */
 .marker_a {background-position: 0 0 !important;}
