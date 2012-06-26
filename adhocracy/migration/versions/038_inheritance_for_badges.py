@@ -55,14 +55,14 @@ def upgrade(migrate_engine):
 
     # fill column with the right values
     select = badge_table.select().with_only_columns(
-        ['id', 'badge_delegateable', 'badge_delegateable_category'])
-    badges = migrate_engine.execute(select)
-    for (id_, delegateable, category) in badges:
-        if delegateable:
-            if category:
-                type_ = CATEGORY_BADGE
-            else:
-                type_ = DELEGATEABLE_BADGE
+        ['id', 'title', 'badge_delegateable', 'badge_delegateable_category'])
+    badges_query_result = migrate_engine.execute(select)
+    for values in badges_query_result:
+        (id_, title, delegateable, category) = values
+        if category:
+            type_ = CATEGORY_BADGE
+        elif delegateable:
+            type_ = DELEGATEABLE_BADGE
         else:
             type_ = USER_BADGE
         update = badge_table.update().values(type=type_).where(
