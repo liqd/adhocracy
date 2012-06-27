@@ -3,6 +3,11 @@ adhocracy Changelog
 
 1.2beta2dev
 -----------
+
+- New config option "adhocracy.listings.instance.sorting" that makes
+  the sort options for the instance listing configurable. This
+  possible values are: OLDEST, NEWEST, ACTIVITY and ALPHA. [csenger]
+
 - Permission change: When we test the 'norm.create' permission 
   (permission to create Norms/Topics/Themen we do no longer
   restrict it to users who also have 'instance.admin'. The main

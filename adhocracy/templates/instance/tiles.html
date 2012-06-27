@@ -4,7 +4,7 @@
     <li class="content_box">
         %if tile.show_icon():
         <img class="logo" 
-             src="${h.instance.icon_url(instance.key, size_x=32, size_y=32)}" />
+             src="${h.instance.icon_url(instance, 32, x=32)}" />
         %endif
         <h3><a class="link" href="${h.entity_url(instance)}">${instance.label}</a></h3>
         <div class="meta">

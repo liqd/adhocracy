@@ -86,4 +86,3 @@ knockout_mapping_js = Resource(knockout_library, 'knockout-mapping.js',
 knockout = Group([knockout_js, knockout_mapping_js])
 adhocracy_ko = Resource(knockout_library, 'adhocracy.ko.js',
                         depends=[adhocracy, knockout])
-

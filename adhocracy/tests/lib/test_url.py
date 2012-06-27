@@ -109,7 +109,7 @@ class TestInstanceUrls(TestController):
             test_instance = tt_get_instance()
             url = h.instance.icon_url(test_instance, 48, x=11)
             self.assertEqual(
-                url, 'http://test.test.lan/instance/test_11_48.png?t=1234')
+                url, 'http://test.test.lan/instance/test_11x48.png?t=1234')
 
     def test_icon_url_contains_mtime(self):
         with self.mocked_path_func:

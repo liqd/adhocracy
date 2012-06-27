@@ -7,14 +7,15 @@
 </%def>
 
 <%block name="headline">
-    <h1>${_("Group Permissions")}</h1>
 
+<div class="well">
+    <h2>${_("Group Permissions")}</h2>
+    
+    <p>
     <strong>
         ${_("WARNING: This allows you to shut yourself out of your adhocracy. Handle with care!")}
     </strong>
-</%block>
-
-<%block name="main_content">
+    </p>
 <form name="settings" class="inplace" method="POST" action="/admin/permissions">
     ${h.field_token()|n}
 
@@ -51,5 +52,5 @@
     </table>
     ${components.savebox("/")}
 </form>
-
+</div>
 </%block>

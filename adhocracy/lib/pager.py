@@ -247,12 +247,26 @@ class NamedPager(PagerMixin):
 
 
 def instances(instances):
+    OLDEST = 'OLDEST'
+    NEWEST = 'NEWEST'
+    ACTIVITY = 'ACTIVITY'
+    ALPHA = 'ALPHA'
+    sorts = {
+        OLDEST: sorting.entity_oldest,
+        NEWEST: sorting.entity_newest,
+        ACTIVITY: sorting.instance_activity,
+        ALPHA: sorting.delegateable_label
+    }
+    CONFIG_KEY = 'adhocracy.listings.instance.sorting'
+    configured_sort = config.get(CONFIG_KEY, ACTIVITY)
+    if configured_sort not in sorts:
+        configured_sort = ACTIVITY
     return NamedPager('instances', instances, tiles.instance.row,
-                      sorts={_("oldest"): sorting.entity_oldest,
-                             _("newest"): sorting.entity_newest,
-                             _("activity"): sorting.instance_activity,
-                             _("alphabetically"): sorting.delegateable_label},
-                      default_sort=sorting.instance_activity,
+                      sorts={_("oldest"): sorts[OLDEST],
+                             _("newest"): sorts[NEWEST],
+                             _("activity"): sorts[ACTIVITY],
+                             _("alphabetically"): sorts[ALPHA]},
+                      default_sort=sorts[configured_sort],
                       size=20)  # FIXME: hardcoded for enquetebeteiligung
 
 
