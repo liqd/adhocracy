@@ -67,7 +67,9 @@
             <a class="skip" title="skip link" href="#navigation">Skip to the navigation</a><span class="hideme">.</span>
             <a class="skip" title="skip link" href="#content">Skip to the content</a><span class="hideme">.</span>
             <!-- end: skip link navigation -->
-            <a href="#" class="icon_link follow">Follow us!</a>
+            %if h.config.get('adhocracy.twitter.profile_url'):
+            <a href="${h.config.get('adhocracy.twitter.profile_url')}" class="icon_link follow">Follow us!</a>
+            %endif
           </div>
 
           <%include file="logo.html" />
