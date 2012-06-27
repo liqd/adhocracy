@@ -409,7 +409,7 @@ margin-bottom: 0;
   height: 90px;
   overflow: visible; /*allow long popup menu */
 }
-body.logged_in #header .page_wrapper {
+body.compact #header .page_wrapper {
   height: 40px;
 }
 #logo {
@@ -418,10 +418,10 @@ body.logged_in #header .page_wrapper {
   display: inline-block;
   float: left;
 }
-body.logged_in #logo {
+body.compact #logo {
   height: 40px;
 }
-body.logged_in #logo h1 {
+body.compact #logo h1 {
   text-indent: -900em;
 }
 
@@ -454,7 +454,7 @@ top: 0px;
   font-size: 15px;
   color: #fff;
 }
-body.logged_in #nav {
+body.compact #nav {
   height: 40px;
   padding-top: 0px;
   font-weight: normal;
@@ -476,7 +476,7 @@ body.logged_in #nav {
   margin:  0 0 0 1px;
   position: relative;
 }
-body.logged_in #nav li {
+body.compact #nav li {
   height: 32px;
   padding-top: 8px;
 }
@@ -488,7 +488,7 @@ body.logged_in #nav li {
   height: 52px;
   display: block;
 }
-body.logged_in #nav li a {
+body.compact #nav li a {
   height: 32px;
 }
 #nav li.current a {
@@ -517,7 +517,9 @@ body.logged_in #nav li a {
   text-align: left;
   padding:  20px;
   right: 0px;
-  z-index: 100;
+  /* raised, so map is below */
+  /* z-index: 100; */
+  z-index: 1000;
   font-size: 14px;
 }
 #nav ul.children li {
@@ -1489,7 +1491,7 @@ margin-bottom: 0;
   padding: 10px 10px;
 }
 
-body.logged_in .only-anon {
+body.compact .only-anon {
   display: none;
 }
 

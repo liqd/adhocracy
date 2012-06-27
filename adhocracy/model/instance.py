@@ -5,9 +5,10 @@ import re
 
 from babel import Locale
 
-from sqlalchemy import Table, Column, ForeignKey, func, or_
+from sqlalchemy import Table, Column, ForeignKey, Index, func, or_
 from sqlalchemy import DateTime, Integer, Float, Boolean, Unicode, UnicodeText
 from sqlalchemy.orm import reconstructor
+from geoalchemy import GeometryExtensionColumn, Geometry
 
 import meta
 
@@ -38,8 +39,12 @@ instance_table = Table('instance', meta.data,
     Column('milestones', Boolean, default=False),
     Column('use_norms', Boolean, nullable=True, default=True),
     Column('require_selection', Boolean, nullable=True, default=False),
-    Column('is_authenticated', Boolean, nullable=True, default=False)
+    Column('region_id', Integer, ForeignKey('region.id'), nullable=True),
+    Column('is_authenticated', Boolean, nullable=True, default=False),
+    GeometryExtensionColumn('geo_centre', Geometry(dimension=2, srid=900913), nullable=True)
     )
+
+Index('geo_centre_idx', instance_table.c.geo_centre, postgresql_using='gist')
 
 
 # Instance is not a delegateable - but it should - or you cannot do
@@ -248,3 +253,4 @@ class Instance(meta.Indexable):
 
     def __repr__(self):
         return u"<Instance(%d,%s)>" % (self.id, self.key)
+

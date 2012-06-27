@@ -1,0 +1,86 @@
+needed files: 
+* germany.osm.pbf (doesn't contain level 2 boundaries (i.e. german
+  border)
+or 
+* europe.osm.pbf, 
+* src/adhocracy/scripts/create-imposm-db.sh, 
+* etc/my_mapping.py
+
+# export username=osm
+# export dbname=imposm
+
+The db has to be initialized with UTF8 character encoding.
+# sudo -u postgres createdb -E UTF8 -O ${username} ${dbname}
+# sudo -u postgres createuser ${username}
+
+Copy the files to a place where postgres user can read (i.e. /tmp)
+# cp create-imposm-db.sh /tmp
+# imposm --read /tmp/germany.osm.pbf
+# sudo -u postgres bash src/adhocracy/scripts/create-imposm-db.sh
+# imposm --write -d ${dbname} -m etc/my_mapping.py
+
+The boundaries are stored in 'geometry' column of table 'osm_admin' together
+with 'name' and 'admin_level'. Newer versions of imposm create an extra 'id'
+column to refer osm entities multiple times.
+
+To insert boundaries into adhocracy db use dblink.
+
+A postgres superuser has to create the dblink extension via
+# create extension dblink;
+
+The normal user can then create a dblink connection
+# select dblink_connect('dbname=${dbname}');
+
+# insert into region (select id, name, admin_level, 'Bundesland', boundary from
+dblink('dbname=${dbname}', 'select osm_id,name,admin_level,geometry from
+osm_admin where admin_level=4 and name is not null') as t1(id int, name
+text,admin_level int, boundary geometry));
+
+# insert into region (select id, name, admin_level, 'Stadt', boundary from
+dblink('dbname=${dbname}', 'select osm_id,name,admin_level,geometry from
+osm_admin where name=''Regensburg''') as t1(id int, name text,
+admin_level int, boundary geometry));
+
+The value for column 4 is one of 'Stadt', 'Gemeinde', 'Bundesland', ...
+
+When using europe.osm.pbf maybe you don't want to insert all european regions.
+To exclude regions outside another region from inserting into adhocracy db use
+the following statement.
+
+# insert into region (select id, name, admin_level, 'Gemeinde', boundary from
+dblink('dbname=${dbname}', 'select b.osm_id,b.name,b.admin_level,b.geometry from
+osm_admin a, osm_admin b where a.osm_id != b.osm_id AND a.osm_id=62467 AND a.geometry is not null &&
+b.geometry is not null AND ST_Contains(a.geometry, b.geometry) AND b.admin_level=8 AND
+b.name IS NOT NULL') as t1(id int, name text,admin_level int, boundary
+geometry));
+
+This copies all admin_level=8 regions from Saxony.
+
+Region Hierarchy
+----------------
+
+The hierarchy of region is stored in a table 'region_hierarchy'.
+
+# create table region_hierarchy (id SERIAL PRIMARY KEY, 
+                                 inner_id integer, 
+                                 outer_id integer);
+# alter table region_hierarchy owner to ${username};
+
+For all regions the hierarchy table is initialized once.
+
+# insert into region_hierarchy (inner_id, outer_id) 
+    select b.id, a.id from region a, region b where
+        ST_Contains(a.boundary, b.boundary)
+        AND a.id != b.id
+        AND ( a.admin_level=4 
+              OR a.admin_level=5 
+              OR a.admin_level=6
+              OR a.admin_level=7
+              OR a.admin_level=8);
+
+To request the outer regions (of i.e. Guttau) use a inner join.
+
+# select name,id 
+    from region inner join region_hierarchy 
+        on (region.id = region_hierarchy.outer_id) 
+        where region_hierarchy.inner_id=1309635;

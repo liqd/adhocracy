@@ -13,7 +13,7 @@ REGISTRY = {}
 class SessionModificationExtension(SessionExtension):
     '''
     A sqlalchemy SessionExtension to do work before commit, like
-    invalidating caches and adding asyncronous tasks.
+    invalidating caches and adding asynchronous tasks.
     '''
 
     def before_flush(self, session, flush_context, instances):

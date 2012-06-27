@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="map" file="/geo/map.html"/>
 <%def name="title()">${c.page.title}</%def>
 
 <%def name="breadcrumbs()"></%def>
@@ -11,9 +12,31 @@ FIXME: AFAIK id=content is used as a marker for diazo theming
 and not part of our common markup anymor. Drop it at the end of
 the transition
 </%doc>
-
+<div id="map_startpage_wrapper" class="map_size_normal">
 <div id="content-startpage" class="full_teaser">
   <!--This is dummy tag and only usefull to merge in wordpress content-->
+</div>
+
+  %if h.asbool(config.get('adhocracy.show_overview_map_on_index')):
+  <div class="map_wrapper">
+    <div id="map" class="map"></div>
+    ${map.show_select_instance()}
+
+    <div class="instance_search" id="instance_search">
+
+      <div class="ui-widget" id="search_field">
+        <h4>${_(u'Find your instance')}</h4>
+        <input id="overview_search_field" type="text" value="Enter zip code or region"/>
+        <a id="overview_search_button" class="button">${_('Start')}</a>
+      </div>
+
+    </div>
+
+    <div class="arrow"></div>
+    <div class="note_map map_attribution">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
+
+  </div>
+  %endif
 </div>
 
 <div class="full_teaser">
