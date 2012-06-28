@@ -12,5 +12,5 @@ from recommendations import recommend
 
 
 def init_site():
-    util.replicate_fallback('static', 'style', 'site.css')
+    util.replicate_fallback('static', 'stylesheets', 'site.css')
     util.replicate_fallback('site.wsgi')
