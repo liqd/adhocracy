@@ -187,11 +187,9 @@ class PageController(BaseController):
 
         require.norm.edit(c.page, c.variant)
 
-        if branch and c.proposal:
-            proposal = model.Proposal.find(c.proposal)
-            if proposal:
-                c.variant = libtext.variant_normalize(proposal.title)[:199]
         defaults = dict(request.params)
+        if branch and c.text is None:
+            c.text = c.page.head.text
         c.text_rows = libtext.text_rows(c.text)
         c.left = c.page.head
         html = render('/page/edit.html')
