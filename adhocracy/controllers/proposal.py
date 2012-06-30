@@ -88,12 +88,12 @@ class ProposalController(BaseController):
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
         require.proposal.index()
-        query = self.form_result.get('proposals_q')
+        c.query = self.form_result.get('proposals_q')
 
         # FIXME: Add tag filtering again (now solr based)
         # FIXME: Live filtering ignores selected facets.
         c.proposals_pager = pager.solr_proposal_pager(c.instance,
-                                                      {'text': query})
+                                                      {'text': c.query})
 
         if format == 'json':
             return render_json(c.proposals_pager)
@@ -110,12 +110,12 @@ class ProposalController(BaseController):
         require.proposal.index()
 
         c.active_subheader_nav = 'map'
-        query = self.form_result.get('proposals_q')
+        c.query = self.form_result.get('proposals_q')
 
         # FIXME: Add tag filtering again (now solr based)
         # FIXME: Live filtering ignores selected facets.
         c.proposals_pager = pager.solr_proposal_pager(c.instance,
-                                                      {'text': query})
+                                                      {'text': c.query})
 
         c.tile = tiles.instance.InstanceTile(c.instance)
         return render("/proposal/index_map.html")

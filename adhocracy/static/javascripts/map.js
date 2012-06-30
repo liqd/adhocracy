@@ -1003,7 +1003,7 @@ function centerMap(map, feature, boundary) {
 
 function createWaiter(number, callback) {
 
-    // waits for number of addGeometry calls and finally calls callback
+    // waits for number of addFeature calls and finally calls callback
 
     var countdown = number;
     var bounds;
@@ -1220,7 +1220,7 @@ function enableMarker(id, layer, selectControl) {
     });
 }
 
-function loadRegionMap(openlayers_url, instanceKey, initialProposals, largeMap) {
+function loadRegionMap(openlayers_url, instanceKey, initialProposals, largeMap, fullRegion) {
  $.getScript(openlayers_url, function() {
 
     if (largeMap) {
@@ -1247,7 +1247,7 @@ function loadRegionMap(openlayers_url, instanceKey, initialProposals, largeMap) 
 
     var map = createMap();
 
-    var waiter = createWaiter(2, function(bounds) {
+    var waiter = createWaiter(fullRegion?1:2, function(bounds) {
         map.zoomToExtent(bounds);
 
         if (largeMap) {
@@ -1266,7 +1266,7 @@ function loadRegionMap(openlayers_url, instanceKey, initialProposals, largeMap) 
     createPopupControl(regionBoundaryLayers[1], buildInstancePopup);
 
     var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals, function(features) {
-        waiter(features,true);
+        if (!(fullRegion)) {waiter(features,true)};
     });
     map.addLayer(proposalLayer);
     var popupControl = createPopupControl(proposalLayer, buildProposalPopup);

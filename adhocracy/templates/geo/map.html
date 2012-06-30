@@ -31,23 +31,23 @@ ${h.need.openlayers_css}
 <script type="text/javascript"> window.onload=loadSingleProposalMap('${h.openlayers_url()}', '${c.instance.key}', ${proposal_id}, true, null); </script>
 </%def>
 
-<%def name="show_region_map(initial_proposals=None)">
+<%def name="show_region_map(initial_proposals=None, full_region=True)">
 ${h.need.openlayers_css}
 <div id="map" class="small_map"></div>
     <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script src="/javascripts/jquery.localisation.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript">$.localise('/javascripts/map.js');</script>
-<script type="text/javascript"> window.onload=loadRegionMap('${h.openlayers_url()}', '${c.instance.key}', ${initial_proposals if initial_proposals else []}, false); </script>
+<script type="text/javascript"> window.onload=loadRegionMap('${h.openlayers_url()}', '${c.instance.key}', ${initial_proposals if initial_proposals else []}, false, ${'true' if full_region else 'false'}); </script>
 </%def>
 
-<%def name="show_region_map_large(initial_proposals=None)">
+<%def name="show_region_map_large(initial_proposals=None, full_region=True)">
 ${h.need.openlayers_css}
 <div id="map" class="large_map"></div>
 <script src="/javascripts/jquery.localisation.js"></script>
 <script src="/javascripts/map.js"></script>
 <script type="text/javascript">$.localise('/javascripts/map.js');</script>
-<script type="text/javascript"> window.onload=loadRegionMap('${h.openlayers_url()}', '${c.instance.key}', ${initial_proposals if initial_proposals else []}, true); </script>
+<script type="text/javascript"> window.onload=loadRegionMap('${h.openlayers_url()}', '${c.instance.key}', ${initial_proposals if initial_proposals else []}, true, ${'true' if full_region else 'false'}); </script>
 </%def>
 
 <%def name="show_overview_map(initial_instances=None)">
