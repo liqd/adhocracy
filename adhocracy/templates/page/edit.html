@@ -8,15 +8,17 @@
 <%block name="main_content">
 
 <form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
+
+    <h2>${_("Norm: %s") % c.page.title}</h2>
     ${h.field_token()|n}
     <input type="hidden" name="parent_text" value="${c.text.id}" />
     <input type="hidden" name="branch" value="${c.branch}" />
 
-    %if c.text.is_head:
+    %if c.text.is_head and not c.branch:
     <input type="hidden" name="variant" value="${c.variant}"/>
     %else:
-    <label for="variant">${_("Variant")}</label>
-    <input type="text" name="variant" value="${c.variant}"/>
+    <label for="variant">${_("Variant Name")}</label>
+    <input type="text" name="variant" value="${c.variant}" ${'disabled="disabled"' if not c.branch else ''}/>
     %endif
 
     %if c.text.is_head and h.has_permission('instance.admin'):
@@ -32,7 +34,7 @@
 
     <input type="hidden" name="_method" value="PUT" /> 
     
-    <label for="text">${_("Title")}</label>
+    <label for="text">${_("Text")}</label>
     <textarea tabindex="2" rows="${c.text_rows}" 
               cols="${model.Text.LINE_LENGTH}" 
               name="text">${c.text.text}</textarea>
