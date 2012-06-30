@@ -39,6 +39,7 @@ from adhocracy.lib.helpers import milestone_helper as milestone
 from adhocracy.lib.helpers import recaptcha_helper as recaptcha
 from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
                                                     get_socialshareprivacy_url)
+from adhocracy.lib.helpers.geo import openlayers_url
 from adhocracy.lib.helpers.url import build
 from adhocracy.lib.helpers.site_helper import base_url
 #from adhocracy.lib.templating import json_dumps, json_loads
@@ -264,7 +265,3 @@ def _json_entity_decoder(d):
         return [x[1] for x in result]
     elif isinstance(d, dict):
         return dict(result)
-
-def openlayers_url():
-    return "http://openlayers.org/api/2.12-rc7/OpenLayers.js"
-#    return base_url(None, path="/openlayers-2.12-rc7/openlayers.js")

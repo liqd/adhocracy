@@ -1,7 +1,7 @@
 <%namespace name="components" file="/components.html"/>
 
 <%def name="show_single_proposal_map(proposal_id)">
-
+${h.need.openlayers_css}
 <div id="map" class="small_map"></div>
     <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script src="/javascripts/jquery.localisation.js"></script>
@@ -12,6 +12,7 @@
 
 
 <%def name="show_single_proposal_edit_map(proposal_id)">
+${h.need.openlayers_css}
 <div id="map" class="edit_map"></div>
     <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <div id="edit_map_buttons" />
@@ -31,7 +32,7 @@
 </%def>
 
 <%def name="show_region_map(initial_proposals=None)">
-
+${h.need.openlayers_css}
 <div id="map" class="small_map"></div>
     <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script src="/javascripts/jquery.localisation.js"></script>
@@ -41,7 +42,7 @@
 </%def>
 
 <%def name="show_region_map_large(initial_proposals=None)">
-
+${h.need.openlayers_css}
 <div id="map" class="large_map"></div>
 <script src="/javascripts/jquery.localisation.js"></script>
 <script src="/javascripts/map.js"></script>
@@ -50,7 +51,7 @@
 </%def>
 
 <%def name="show_overview_map(initial_instances=None)">
-
+${h.need.openlayers_css}
 <div id="map" class="small_map"></div>
     <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script src="/javascripts/jquery.localisation.js"></script>
@@ -60,7 +61,7 @@
 </%def>
 
 <%def name="show_select_instance()">
-
+${h.need.openlayers_css}
 <link type="text/css" href="/stylesheets/ui-lightness/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
 <link type="text/css" href="/javascripts/jquery.autocomplete.css" rel="Stylesheet" />
 <script src="/javascripts/jquery-1.7.1.min.js"></script>

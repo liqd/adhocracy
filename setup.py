@@ -105,6 +105,7 @@ setup(
             'misc = adhocracy.static:misc_library',
             'adhocracy = adhocracy.static:adhocracy_library',
             'bootstrap = adhocracy.static:bootstrap_library',
+            'openlayers = adhocracy.static:openlayers_library',
         ]
     }
 )
