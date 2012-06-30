@@ -53,6 +53,13 @@ var styleBorder = {
     strokeColor: "#444444"
 };
 
+var styleRegionBorder = {
+    fillColor: "#ffcc66",
+    fillOpacity: 0.0,
+    strokeWidth: 2,
+    strokeColor: "#444444"
+};
+
 var styleArea = {
     fillColor: "#66ccff",
     fillOpacity: 0.5,
@@ -362,7 +369,7 @@ function createRegionBoundaryLayer(instanceKey, callback) {
     var layer = new OpenLayers.Layer.Vector('instance_boundary', {
         displayInLayerSwitcher: false, 
         projection: mercator,
-        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleBorder)}),
+        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleRegionBorder)}),
     })
 
     var townHallLayer = createTownHallLayer();
