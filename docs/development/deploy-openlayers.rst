@@ -53,7 +53,7 @@ Build::
 
 
 Manipulate Openlayers theme path, because `_getScriptLocation` doesn't work
-when OpenLayers is loaded asynchroneously; save to OpenLayers-closure-img.js"::
+when OpenLayers is loaded asynchroneously, see `OpenLayers Issue 2470`_::
 
     sed -i openlayers.min.js openlayers.js -e "s|OpenLayers._getScriptLocation()|\"/fanstatic/openlayers/:version:2.12.0/\"|g"
 
@@ -72,3 +72,4 @@ fanstatic resource in `adhocracy/static/__init__.py` if needed.
 
 
 .. _OpenLayers Issue 564: https://github.com/openlayers/openlayers/issues/564
+.. _OpenLayers Issue 2470: http://trac.osgeo.org/openlayers/ticket/2470
