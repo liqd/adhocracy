@@ -87,7 +87,9 @@ class BadgeController(BaseController):
 
     def render_form(self):
         q = Instance.all_q().order_by(Instance.label)
-        c.other_instances = q.filter(Instance.id != c.instance.id).all()
+        if c.instance:
+            q = q.filter(Instance.id != c.instance.id)
+        c.other_instances = q.all()
         return render(self.form_template)
 
     def add(self, badge_type=None, errors=None):
