@@ -27,7 +27,7 @@ import adhocracy.lib.mail as libmail
 from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
                                  solr_instance_users_pager)
 from adhocracy.lib.queue import post_update
-from adhocracy.lib.templating import render, render_json
+from adhocracy.lib.templating import render, render_json, ret_abort
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
 log = logging.getLogger(__name__)
@@ -139,6 +139,11 @@ class UserController(BaseController):
     @validate(schema=UserCreateForm(), form="new", post_only=True)
     def create(self):
         require.user.create()
+        if self.email_is_blacklisted(self.form_result['email']):
+            return ret_abort(_("Sorry, but we don't accept registrations with "
+                               "this email address."), category='error',
+                             code=403)
+
         # SPAM protection recaptcha
         captacha_enabled = config.get('recaptcha.public_key', "")
         if captacha_enabled:
@@ -707,3 +712,13 @@ class UserController(BaseController):
                     'notice')
         if user.banned:
             h.flash(_("%s is banned from the system.") % user.name, 'notice')
+
+    @classmethod
+    def email_is_blacklisted(self, email):
+        listed = config.get('adhocracy.registration.email.blacklist', '')
+        listed = listed.replace(',', ' ').replace('.', '').split()
+        email = email.replace('.', '')
+        if email in listed:
+            return True
+        else:
+            return False
