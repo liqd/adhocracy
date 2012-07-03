@@ -40,12 +40,6 @@ modules are to be included in the build::
     cd build
 
 
-Add missing `Externs.js` file, see `OpenLayers Issue 564`_::
-
-    mkdir closure-compiler
-    wget https://raw.github.com/openlayers/openlayers/acb489ad79e0e100a69c77b97579bee469526299/build/closure-compiler/Externs.js -P closure-compiler
-
-
 Build::
 
     python build.py -c closure openlayers-adhocracy openlayers.min.js
