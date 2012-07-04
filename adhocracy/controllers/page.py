@@ -295,7 +295,10 @@ class PageController(BaseController):
 
     @classmethod
     def selections_details(cls, page, variant, current_selection=None):
-        selections = model.Selection.by_variant(page, variant)
+        try:
+            selections = model.Selection.by_variant(page, variant)
+        except IndexError:
+            selections = []
         return [cls.selection_details(selection, variant,
                                       current_selection=current_selection)
                 for selection in selections]
