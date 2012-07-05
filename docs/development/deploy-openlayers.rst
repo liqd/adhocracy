@@ -35,8 +35,7 @@ Download closure compiler and put stuff into place (as described in
 Put the Adhocracy OpenLayers config into place. This defines which OpenLayers
 modules are to be included in the build::
 
-    # FIXME: Check final location of the config file
-    cp .../openlayers-adhocracy.cfg build
+    cp .../adhocracy/static_src/openlayers-adhocracy.cfg build
     cd build
 
 
