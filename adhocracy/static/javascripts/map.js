@@ -1224,6 +1224,7 @@ function loadRegionMap(openlayers_url, instanceKey, initialProposals, largeMap, 
  $.getScript(openlayers_url, function() {
 
     if (largeMap) {
+        $('body').css('overflow', 'hidden');
         var top = $('#header').outerHeight()+$('#subheader').outerHeight()+$('#flash_message').outerHeight();
         $('#fullscreen_map').css('position', 'absolute').css('top', top+'px').css('bottom', 0).css('width', '100%');
         $('#hide_list_icon').show();
