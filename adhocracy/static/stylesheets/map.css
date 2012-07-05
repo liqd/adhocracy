@@ -235,3 +235,9 @@ div.marker_hall img {
     z-index: 1000;
     display: none;
 }
+
+/* overwrite bootstrap.css stuff */
+.layersDiv label {
+    display: inline;
+    margin-bottom: none;
+}
