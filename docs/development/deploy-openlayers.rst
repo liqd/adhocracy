@@ -57,6 +57,13 @@ Create static directory with files to be served::
     mkdir openlayers
     mv build/openlayers.min.js build/openlayers.js openlayers
     cp -a img theme openlayers
+
+
+Overwrite image files with `dark theme`_ images::
+
+    git clone https://github.com/developmentseed/openlayers_themes.git
+    cp openlayers_themes/dark/* openlayers/img
+    mv openlayers/img/zoom-panel.png openlayers/theme/default/img
     
 
 You can now replace the `openlayers` directory in the Adhocracy `static`
@@ -64,5 +71,5 @@ directory with the newly created `openlayers` directory and update the
 fanstatic resource in `adhocracy/static/__init__.py` if needed.
 
 
-.. _OpenLayers Issue 564: https://github.com/openlayers/openlayers/issues/564
 .. _OpenLayers Issue 2470: http://trac.osgeo.org/openlayers/ticket/2470
+.. _dark theme: https://github.com/developmentseed/openlayers_themes

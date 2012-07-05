@@ -236,6 +236,19 @@ div.marker_hall img {
     display: none;
 }
 
+.olControlLayerSwitcher {
+    position: absolute;
+    top: 280px;
+    /* positioning from the bottom needs some more work, but starts with
+    top: auto;
+    bottom: 100px;*/
+}
+
+.olControlLayerSwitcher .layersDiv {
+    background-color: black;
+    opacity: 0.8;
+}
+
 /* overwrite bootstrap.css stuff */
 .layersDiv label {
     display: inline;
