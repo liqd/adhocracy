@@ -37,7 +37,7 @@ globs = {"browser": make_browser(),
          'mock': mock,
          'testtools': testtools,
          'model': model,
-        }
+         }
 
 
 class DoctestTestCase(unittest.TestCase):

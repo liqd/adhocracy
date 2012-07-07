@@ -25,7 +25,8 @@ badge_table = Table(
     Column('color', Unicode(7), nullable=False),
     Column('description', Unicode(255), default=u'', nullable=False),
     Column('instance_id', Integer, ForeignKey('instance.id',
-                                        ondelete="CASCADE",), nullable=True),
+                                              ondelete="CASCADE",),
+           nullable=True),
     # attributes for UserBadges
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
     Column('display_group', Boolean, default=False))
@@ -75,7 +76,7 @@ class Badge(object):
 
     def __repr__(self):
         return "<%s(%s,%s)>" % (self.__class__.__name__, self.id,
-                                   self.title.encode('ascii', 'replace'))
+                                self.title.encode('ascii', 'replace'))
 
     def __unicode__(self):
         return self.title

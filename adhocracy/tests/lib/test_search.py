@@ -7,16 +7,17 @@ from sunburnt.search import SolrSearch
 
 # borrowed from sunburnt.test_search
 schema_string = \
-"""<schema name="timetric" version="1.1">
-  <types>
-    <fieldType name="string" class="solr.StrField" sortMissingLast="true"
-               omitNorms="true"/>
-  </types>
-  <fields>
-    <field name="text" required="true" type="string" multiValued="true"/>
-  </fields>
-  <defaultSearchField>text</defaultSearchField>
-</schema>"""
+    """<schema name="timetric" version="1.1">
+      <types>
+        <fieldType name="string" class="solr.StrField" sortMissingLast="true"
+                   omitNorms="true"/>
+      </types>
+      <fields>
+        <field name="text" required="true" type="string" multiValued="true"/>
+      </fields>
+      <defaultSearchField>text</defaultSearchField>
+    </schema>
+    """
 
 schema = SolrSchema(StringIO(schema_string))
 

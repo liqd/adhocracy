@@ -29,7 +29,7 @@ def tt_get_instance():
 
 
 def tt_make_instance(key, label, creator=None):
-    if creator == None:
+    if creator is None:
         creator = tt_make_user()
     instance = model.Instance(key, label, creator)
     model.meta.Session.add(instance)

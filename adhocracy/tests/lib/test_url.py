@@ -91,7 +91,7 @@ class TestUrls(TestController):
 class TestInstanceUrls(TestController):
 
     mocked_path_func = mock.patch('adhocracy.lib.logo.path_and_mtime',
-                        return_value=('/dummy/path', 1234))
+                                  return_value=('/dummy/path', 1234))
 
     def test_icon_url_with_y(self):
         with self.mocked_path_func:
@@ -119,5 +119,3 @@ class TestInstanceUrls(TestController):
             url = h.instance.icon_url(test_instance, 48)
             self.assertEqual(
                 url, 'http://test.test.lan/instance/test_48.png?t=1234')
-
- 

@@ -135,9 +135,9 @@ class TestDelegateableController(TestController):
         # test the references on the badged delegateable
         self.assert_(delegateable.badges == [badge])
         # test the references on the badge
-        self.assert_(delegateable.badges[0].delegateables \
-                        == badge.delegateables \
-                        == [delegateable])
+        self.assert_(delegateable.badges[0].delegateables
+                     == badge.delegateables
+                     == [delegateable])
 
     def test_remove_badge_from_delegateable(self):
         #setup

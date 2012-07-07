@@ -28,4 +28,3 @@ class TestFanstaticHelpers(TestCase):
         import fanstatic_dummy_module
         need = FanstaticNeedHelper(fanstatic_dummy_module)
         self.assertRaises(AttributeError, getattr, need, 'nonexistant')
-    

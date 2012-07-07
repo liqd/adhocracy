@@ -62,23 +62,23 @@ class TestDelegationNode(TestController):
         Decision(self.first, self.poll).make(Vote.YES)
 
         self.assertEqual(Decision(self.second, self.poll).is_self_decided(),
-                True)
+                         True)
         self.assertEqual(Decision(self.second, self.poll).result,
-                Vote.NO)
+                         Vote.NO)
 
     def test_delegation_node_with_no_delegations_has_no_delegations(self):
         node = DelegationNode(self.me, self.proposal)
         self.assertEqual(node.number_of_delegations(), 0)
 
     def test_delegation_node_adds_direct_delegations_to_number_of_delegations(
-        self):
+            self):
         self._do_delegate(self.first, self.me, self.proposal)
         self._do_delegate(self.second, self.me, self.proposal)
         node = DelegationNode(self.me, self.proposal)
         self.assertEqual(node.number_of_delegations(), 2)
 
     def test_delegation_node_ads_indirect_delegation_to_number_of_delegations(
-        self):
+            self):
         self._do_delegate(self.first, self.me, self.proposal)
         self._do_delegate(self.second, self.first, self.proposal)
         node = DelegationNode(self.me, self.proposal)
@@ -102,7 +102,7 @@ class TestDelegationNode(TestController):
     def test_if_proposal_has_no_poll_no_direct_vote_overides_delegations(self):
         proposal_without_poll = tt_make_proposal()
         self._do_delegate(self.first, self.second,
-                                             proposal_without_poll)
+                          proposal_without_poll)
         node = DelegationNode(self.second, proposal_without_poll)
         self.assertEqual(node.number_of_delegations(), 1)
 
@@ -122,7 +122,7 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
         return delegation
 
     def test_direct_delegations_on_different_levels_can_overide_each_other(
-        self):
+            self):
         # FIXME: refactor this test. we don't have issues anymore
         #        Doe we have this case anymore?
         return
