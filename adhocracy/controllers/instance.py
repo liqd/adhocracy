@@ -29,6 +29,7 @@ from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.geo import USE_POSTGIS 
 from adhocracy.lib.geo import USE_SHAPELY
 from adhocracy.lib.geo import add_instance_props
+from adhocracy.lib.geo import get_instance_geo_centre
 
 log = logging.getLogger(__name__)
 INSTANCE_UPDATED_MSG = L_('The changes where saved.')
@@ -77,8 +78,6 @@ def update_attributes(instance, form_result, attributes):
             setattr(instance, attribute, new_value)
             updated = True
     return updated
-
-CENTROID_TYPE = USE_SHAPELY
 
 
 class InstanceCreateForm(formencode.Schema):
@@ -792,35 +791,37 @@ class InstanceController(BaseController):
 
     def get_region(self, id):
 
-        if CENTROID_TYPE == USE_POSTGIS:
-            #NYI
-            pass
-
         c.instance = self._get_current_instance(id)
 
         if c.instance.region is None:
-            data = {}
+            feature = {}
         else:
             geom = wkb.loads(str(c.instance.region.boundary.geom_wkb))
-            props = {
+            instance_props = {
                 'name':c.instance.region.name,
                 'admin_level':c.instance.region.admin_level,
                 'admin_type':c.instance.region.admin_type,
                 'region_id':c.instance.region.id,
                 'admin_center': None
                 }
-            add_instance_props(c.instance, props)
-            data = geojson.Feature(geometry=geom, properties=props) 
+            add_instance_props(c.instance, instance_props)
 
-            if CENTROID_TYPE == USE_SHAPELY:
-                props = {'url': h.base_url(c.instance),
-                        'label': c.instance.label
-                        }
-                add_instance_props(c.instance, props)
-                data.properties['admin_center'] = geojson.Feature(geometry=geom.centroid, 
-                                                                  properties=props)
+            feature = geojson.Feature(
+                geometry = geom, 
+                properties = instance_props
+                )
 
-        return render_geojson(data)
+            admin_center_props = {
+                'url': h.base_url(c.instance),
+                'label': c.instance.label
+            }
+            add_instance_props(c.instance, admin_center_props)
+            feature.properties['admin_center'] = geojson.Feature(
+                geometry = get_instance_geo_centre(c.instance),
+                properties = admin_center_props
+                )
+
+        return render_geojson(feature)
 
     #@RequireInstance
     def get_proposal_geotags(self, id):
@@ -840,27 +841,25 @@ class InstanceController(BaseController):
 
     def get_instance_regions(self):
 
-        if CENTROID_TYPE == USE_POSTGIS:
-            #NYI
-            pass
-
         require.instance.index()
         instances = model.Instance.all()
 
-        def make_feature(i):
-            geom = wkb.loads(str(i.region.boundary.geom_wkb))
-            feature = geojson.Feature(geometry=geom, 
-                                      properties={
-                                                  'url':h.base_url(i),
-                                                  'label':i.label,
-                                                  'admin_center': None
+        def make_feature(instance):
+            geom = wkb.loads(str(instance.region.boundary.geom_wkb))
+            
+            geo_centre = get_instance_geo_centre(instance)
+
+            admin_centre_feature = geojson.Feature(geometry = geo_centre,
+                                                   properties = {
+                                                       'url': h.base_url(instance),
+                                                       'label':instance.label
+                                                       })
+            feature = geojson.Feature(geometry = geom, 
+                                      properties = {
+                                                  'url': h.base_url(instance),
+                                                  'label':instance.label,
+                                                  'admin_center': admin_centre_feature
                                                  })
-            if CENTROID_TYPE == USE_SHAPELY:
-                feature.properties['admin_center'] = geojson.Feature(geometry=geom.centroid, 
-                                                                     properties={
-                                                                        'url':h.base_url(i),
-                                                                        'label':i.label
-                                                                    })
 
             return feature
 

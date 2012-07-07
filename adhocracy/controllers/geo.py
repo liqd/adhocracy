@@ -7,6 +7,7 @@ from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.geo import calculate_tiled_boundaries_json
 from adhocracy.lib.geo import calculate_tiled_admin_centres_json
 from adhocracy.lib.geo import add_instance_props
+from adhocracy.lib.geo import get_instance_geo_centre
 from adhocracy.model import meta
 from adhocracy.model import Region
 from adhocracy.model import Instance
@@ -28,20 +29,15 @@ class GeoController(BaseController):
 
         def make_feature(instance):
 
-            if instance.geo_centre is not None:
-                geom = wkb.loads(str(instance.geo_centre.geom_wkb))
-            else:
-                log.info('setting geo_centre to region centroid for instance %s'%instance.name)
-                geom = wkb.loads(str(instance.region.boundary.geom_wkb)).centroid
-                instance.geo_centre=wkt.dumps(geom)
+            geom = get_instance_geo_centre(instance)
 
             return dict(geometry = geom, 
-                           properties = {
-                               'key': instance.key, 
-                               'label': instance.name, 
-                               'admin_level': instance.region.admin_level, 
-                               'region_id': instance.region.id,
-                               })
+                        properties = {
+                            'key': instance.key, 
+                            'label': instance.name, 
+                            'admin_level': instance.region.admin_level, 
+                            'region_id': instance.region.id,
+                            })
 
         instances = meta.Session.query(Instance).filter(Instance.region!=None).all()
         instance_features = map(make_feature, instances)
@@ -157,14 +153,18 @@ class GeoController(BaseController):
                     instance = get_entity_or_abort(Instance, instances[0].id)
                     entry['instance_id'] = instance.id
                     entry['url'] = h.entity_url(instances[0])
-                    add_instance_props(instance,entry)
+                    add_instance_props(instance, entry)
                     admin_center_props['instance_id'] = instance.id
                     admin_center_props['url'] = h.entity_url(instances[0])
                     admin_center_props['label'] = instance.label
                     add_instance_props(instance, admin_center_props)
                 else: 
                     entry['instance_id'] = ""
-                entry['admin_center'] = render_geojson((geojson.Feature(geometry=wkb.loads(str(region.boundary.geom_wkb)).centroid, properties=admin_center_props)))
+                feature = geojson.Feature(
+                    geometry = get_instance_geo_centre(instance),
+                    properties = admin_center_props
+                    )
+                entry['admin_center'] = render_geojson(feature)
             return entry
     
         # r1 is_outer region of r2
@@ -172,7 +172,7 @@ class GeoController(BaseController):
             outer_region = self.get_outer_region(region)
             if outer_region == None: return False
             elif outer_region.name == name: return True
-            else: return is_outer(name,outer_region)
+            else: return is_outer(name, outer_region)
 
         def merge_lists(a,b):
             a.extend(b)

@@ -57,6 +57,17 @@ def get_bbox(x, y, zoom):
     return func.ST_setsrid(func.box2d('BOX(%f %f, %f %f)'%bbox), 900913)
 
 
+def get_instance_geo_centre(instance):
+    if instance.geo_centre is not None:
+        geom = wkb.loads(str(instance.geo_centre.geom_wkb))
+    else:
+        log.info('setting geo_centre to region centroid for instance %s'%instance.name)
+        geom = wkb.loads(str(instance.region.boundary.geom_wkb)).centroid
+        instance.geo_centre=wkt.dumps(geom)
+
+    return geom
+
+
 @cache.memoize('geo_tiled_boundaries')
 def calculate_tiled_boundaries_json(x, y, zoom, admin_level):
 
