@@ -37,6 +37,7 @@ from adhocracy.model.page import Page, page_table
 from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
+from adhocracy.model.region import Boundary, boundary_table
 from adhocracy.model.region import Region, region_table
 from adhocracy.model.region import RegionSimplified, region_simplified_table
 from adhocracy.model.region_hierarchy import RegionHierarchy, region_hierarchy_table
@@ -389,6 +390,10 @@ mapper(Selection, selection_table, properties={
     'page': relation(
             Page, lazy=True, backref=backref('_selections'),
             primaryjoin=selection_table.c.page_id == page_table.c.id)
+    })
+
+mapper(Boundary, boundary_table, properties = {
+    'geometry': GeometryColumn(boundary_table.c.geometry, comparator=PGComparator),
     })
 
 mapper(Region, region_table, properties = {
