@@ -438,7 +438,7 @@ function createRegionBoundaryLayer(instanceKey, callback) {
 }
 
 function createEastereggLayer() {
-    var url = '/get_easteregg';
+    var url = '/javascripts/easteregg.json';
     var layer = new OpenLayers.Layer.Vector('easteregg', {
         displayInLayerSwitcher: false,
         strategies: [new OpenLayers.Strategy.Fixed()],

@@ -4,7 +4,6 @@ from datetime import datetime
 from sqlalchemy import Table, Column, ForeignKey, Integer, Boolean, or_
 from sqlalchemy.orm import reconstructor, eagerload
 
-from geoalchemy.geometry import MultiPolygon
 from geoalchemy import GeometryExtensionColumn, Geometry
 
 from pylons import config
@@ -234,7 +233,6 @@ class Proposal(Delegateable):
     def __repr__(self):
         return u"<Proposal(%s)>" % self.id
 
-
     def has_geotag(self):
         assert config.get('adhocracy.proposal_geotags')
         return self.geotag is not None
@@ -247,10 +245,14 @@ class Proposal(Delegateable):
         if self.geotag is None:
             return {}
         else:
-            return geojson.Feature(geometry=wkb.loads(str(self.geotag.geom_wkb)), properties={
-                'title':self.title,
-                'region_id':self.id,
-                'num_for':self.rate_poll.tally.num_for,
-                'num_against':self.rate_poll.tally.num_against,
-                'num_norms':len(self.selections)
-                },id=self.id)
+            return geojson.Feature(
+                geometry=wkb.loads(str(self.geotag.geom_wkb)),
+                properties={
+                    'title': self.title,
+                    'region_id': self.id,
+                    'num_for': self.rate_poll.tally.num_for,
+                    'num_against': self.rate_poll.tally.num_against,
+                    'num_norms': len(self.selections)
+                },
+                id=self.id
+                )

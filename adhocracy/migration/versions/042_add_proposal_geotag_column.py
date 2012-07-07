@@ -1,5 +1,5 @@
-from sqlalchemy import (MetaData, Column, ForeignKey, Boolean, DateTime,
-                        Integer, PickleType, Table)
+from sqlalchemy import (MetaData, Column, ForeignKey, Boolean,
+                        Integer, Table)
 from geoalchemy import GeometryExtensionColumn, Geometry
 
 meta = MetaData()
@@ -11,7 +11,7 @@ proposal_table = Table('proposal', meta,
     Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('adopted', Boolean, default=False),
-    )
+)
 
 
 def upgrade(migrate_engine):

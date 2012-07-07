@@ -1,5 +1,4 @@
 import logging
-import os.path
 
 from babel import Locale
 
@@ -26,8 +25,6 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import (render, render_json, render_png,
                                       ret_abort, ret_success, render_geojson)
 from adhocracy.lib.util import get_entity_or_abort
-from adhocracy.lib.geo import USE_POSTGIS 
-from adhocracy.lib.geo import USE_SHAPELY
 from adhocracy.lib.geo import add_instance_props
 from adhocracy.lib.geo import get_instance_geo_centre
 
@@ -788,9 +785,7 @@ class InstanceController(BaseController):
                          "another instance."))
         return c.instance
 
-
     def get_region(self, id):
-
         c.instance = self._get_current_instance(id)
 
         if c.instance.region is None:
@@ -798,18 +793,18 @@ class InstanceController(BaseController):
         else:
             geom = wkb.loads(str(c.instance.region.boundary.geom_wkb))
             instance_props = {
-                'name':c.instance.region.name,
-                'admin_level':c.instance.region.admin_level,
-                'admin_type':c.instance.region.admin_type,
-                'region_id':c.instance.region.id,
+                'name': c.instance.region.name,
+                'admin_level': c.instance.region.admin_level,
+                'admin_type': c.instance.region.admin_type,
+                'region_id': c.instance.region.id,
                 'admin_center': None
-                }
+            }
             add_instance_props(c.instance, instance_props)
 
             feature = geojson.Feature(
-                geometry = geom, 
-                properties = instance_props
-                )
+                geometry=geom,
+                properties=instance_props
+            )
 
             admin_center_props = {
                 'url': h.base_url(c.instance),
@@ -817,53 +812,49 @@ class InstanceController(BaseController):
             }
             add_instance_props(c.instance, admin_center_props)
             feature.properties['admin_center'] = geojson.Feature(
-                geometry = get_instance_geo_centre(c.instance),
-                properties = admin_center_props
-                )
+                geometry=get_instance_geo_centre(c.instance),
+                properties=admin_center_props
+            )
 
         return render_geojson(feature)
 
     #@RequireInstance
     def get_proposal_geotags(self, id):
-
         c.instance = get_entity_or_abort(model.Instance, id)
         require.instance.show(c.instance)
 
         proposals = model.Proposal.\
-                            all_q(instance=c.instance).\
-                            filter(Proposal.geotag!=None).\
-                            all()
+            all_q(instance=c.instance).\
+            filter(Proposal.geotag != None).\
+            all()
 
-        features = geojson.FeatureCollection([p.get_geojson_feature() for p in proposals])
+        features = geojson.FeatureCollection(
+            [p.get_geojson_feature() for p in proposals])
 
         return render_geojson(features)
 
-
     def get_instance_regions(self):
-
         require.instance.index()
         instances = model.Instance.all()
 
         def make_feature(instance):
             geom = wkb.loads(str(instance.region.boundary.geom_wkb))
-            
             geo_centre = get_instance_geo_centre(instance)
-
-            admin_centre_feature = geojson.Feature(geometry = geo_centre,
-                                                   properties = {
-                                                       'url': h.base_url(instance),
-                                                       'label':instance.label
-                                                       })
-            feature = geojson.Feature(geometry = geom, 
-                                      properties = {
-                                                  'url': h.base_url(instance),
-                                                  'label':instance.label,
-                                                  'admin_center': admin_centre_feature
-                                                 })
-
+            admin_centre_feature = geojson.Feature(
+                geometry=geo_centre,
+                properties={
+                    'url': h.base_url(instance),
+                    'label': instance.label
+                })
+            feature = geojson.Feature(
+                geometry=geom,
+                properties={
+                    'url': h.base_url(instance),
+                    'label': instance.label,
+                    'admin_center': admin_centre_feature
+                })
             return feature
 
-        features = geojson.FeatureCollection([make_feature(i) for i in instances if i.region is not None])
-
+        features = geojson.FeatureCollection(
+            [make_feature(i) for i in instances if i.region is not None])
         return render_geojson(features)
-

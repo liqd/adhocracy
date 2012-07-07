@@ -107,11 +107,11 @@ def render_json(data, encoding='utf-8'):
     response.content_encoding = encoding
     return json_dumps(data, encoding=encoding)
 
+
 def render_geojson(data, encoding='utf-8'):
     response.content_type = 'application/json'
     response.content_encoding = encoding
-    return geojson.dumps(data, 
-            encoding=encoding, indent=4)
+    return geojson.dumps(data, encoding=encoding, indent=4)
 
 
 def render_png(io, mtime, content_type="image/png", cache_forever=False):

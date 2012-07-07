@@ -17,7 +17,8 @@ from adhocracy.lib.auth import authorization, can, csrf, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, render_def, render_json, render_geojson
+from adhocracy.lib.templating import render, render_def, render_json
+from adhocracy.lib.templating import render_geojson
 from adhocracy.lib.queue import post_update
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.geo import format_json_to_geotag
@@ -43,7 +44,7 @@ class ProposalCreateForm(ProposalNewForm):
     text = validators.String(max=20000, min=4, not_empty=True)
     tags = validators.String(max=20000, not_empty=False)
     milestone = forms.MaybeMilestone(if_empty=None,
-            if_missing=None)
+                                     if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     geotag = validators.String(not_empty=False)
@@ -59,11 +60,13 @@ class ProposalUpdateForm(ProposalEditForm):
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
     milestone = forms.MaybeMilestone(if_empty=None,
-            if_missing=None)
+                                     if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+
 
 class ProposalGeotagUpdateForm(formencode.Schema):
     geotag = validators.String(not_empty=False)
+
 
 class ProposalFilterForm(formencode.Schema):
     allow_extra_fields = True
@@ -102,7 +105,6 @@ class ProposalController(BaseController):
         c.tutorial_intro = _('tutorial_proposal_overview_tab')
         c.tutorial = 'proposal_index'
         return render("/proposal/index.html")
-
 
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
@@ -193,7 +195,7 @@ class ProposalController(BaseController):
             var_val = forms.VariantName()
             variant = var_val.to_python(self.form_result.get('label'))
             if not can.norm.edit(page, variant) or \
-                not can.selection.create(proposal):
+                    not can.selection.create(proposal):
                 continue
             model.Text.create(page, variant, c.user,
                               page.head.title,
@@ -355,7 +357,7 @@ class ProposalController(BaseController):
                 events, _("Proposal: %s") % c.proposal.title,
                 h.entity_url(c.proposal),
                 description=_("Activity on the %s proposal") % c.proposal.title
-                )
+            )
 
         events = model.Event.find_by_topic(c.proposal)
         c.tile = tiles.proposal.ProposalTile(c.proposal)
@@ -505,19 +507,17 @@ class ProposalController(BaseController):
             redirect("/proposal")
         redirect(h.entity_url(proposal))
 
-
     def get_geotag(self, id):
 
         proposal = get_entity_or_abort(model.Proposal, id)
         return render_geojson(proposal.get_geojson_feature())
 
-
     def edit_geotag(self, id, errors={}):
 
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.edit(c.proposal)
-        return htmlfill.render(render("/proposal/edit_geotag.html"), errors=errors)
-
+        return htmlfill.render(
+            render("/proposal/edit_geotag.html"), errors=errors)
 
     def update_geotag(self, id):
 
@@ -527,8 +527,9 @@ class ProposalController(BaseController):
             class state_(object):
                 page = c.proposal.description
 
-            self.form_result = ProposalGeotagUpdateForm().to_python(request.params,
-                                                              state=state_())
+            self.form_result = ProposalGeotagUpdateForm().to_python(
+                request.params, state=state_())
+
         except Invalid, i:
             return self.edit_geotag(id, errors=i.unpack_errors())
 

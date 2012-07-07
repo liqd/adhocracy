@@ -220,9 +220,9 @@ def make_map():
     # not using REST since tags may contain dots, thus failing format
     # detection.
     map.connect('/tag', controller='tag', action='index',
-                        conditions=dict(method=['GET']))
+                conditions=dict(method=['GET']))
     map.connect('/tag', controller='tag', action='create',
-                        conditions=dict(method=['POST']))
+                conditions=dict(method=['POST']))
     map.connect('/tag/autocomplete', controller='tag', action='autocomplete')
     map.connect('/untag', controller='tag', action='untag')
     map.connect('/untag_all', controller='tag', action='untag_all')
@@ -237,10 +237,14 @@ def make_map():
     map.connect('/feed.rss', controller='root', action='index', format='rss')
     map.connect('/tutorials', controller='root', action='tutorials')
 
-    map.connect('/get_admin_centres.json', controller='geo', action='get_admin_centres_json')
-    map.connect('/find_instances.json', controller='geo', action='find_instances_json')
-    map.connect('/autocomplete_instances.json', controller='geo', action='autocomplete_instances_json')
-    map.connect('/get_tiled_boundaries.json', controller='geo', action='get_tiled_boundaries_json')
+    map.connect('/get_admin_centres.json',
+                controller='geo', action='get_admin_centres_json')
+    map.connect('/find_instances.json',
+                controller='geo', action='find_instances_json')
+    map.connect('/autocomplete_instances.json',
+                controller='geo', action='autocomplete_instances_json')
+    map.connect('/get_tiled_boundaries.json',
+                controller='geo', action='get_tiled_boundaries_json')
 
     map.connect('/search/filter', controller='search', action='filter')
     map.connect('/search', controller='search', action='query')
@@ -248,8 +252,8 @@ def make_map():
     map.connect('/abuse/report', controller='abuse', action='report')
     map.connect('/abuse/new', controller='abuse', action='new')
 
-    map.connect('/instance/get_instance_regions', controller='instance', action='get_instance_regions')
-    map.connect('/get_easteregg', controller='easteregg', action='get_easteregg')
+    map.connect('/instance/get_instance_regions',
+                controller='instance', action='get_instance_regions')
     map.connect('/instance/{id}_{x}x{y}.png',
                 controller='instance', action='icon')
     map.connect('/instance/{id}_{y}.png',

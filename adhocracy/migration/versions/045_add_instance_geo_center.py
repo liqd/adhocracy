@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, ForeignKey, func, or_, MetaData
+from sqlalchemy import Table, Column, ForeignKey, func, MetaData, Index
 from sqlalchemy import DateTime, Integer, Float, Boolean, Unicode, UnicodeText
 from geoalchemy import GeometryExtensionColumn, Geometry
 
@@ -31,16 +31,18 @@ instance_table = Table('instance', meta,
     Column('region_id', Integer, ForeignKey('region.id'), nullable=True),
     Column('is_authenticated', Boolean, nullable=True, default=False),
     GeometryExtensionColumn('geo_centre', Geometry, nullable=True)
-    )
+)
 
 
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
 
-    geo_centre_column = GeometryExtensionColumn('geo_centre', Geometry, nullable=True)
+    geo_centre_column = GeometryExtensionColumn(
+        'geo_centre', Geometry, nullable=True)
     geo_centre_column.create(instance_table)
 
-    geo_centre_idx = Index('geo_centre_idx', instance_table.c.geo_centre, postgresql_using='gist')
+    geo_centre_idx = Index('geo_centre_idx', instance_table.c.geo_centre,
+                           postgresql_using='gist')
     geo_centre_idx.create()
 
 
