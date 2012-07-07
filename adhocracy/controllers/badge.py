@@ -9,7 +9,8 @@ from repoze.what.predicates import Any as WhatAnyPredicate
 
 from adhocracy.forms.common import ValidGroup, ValidHTMLColor, ContainsChar
 from adhocracy.forms.common import ValidBadgeInstance
-from adhocracy.model import Badge, CategoryBadge, DelegateableBadge, UserBadge
+from adhocracy.model import Badge, CategoryBadge, DelegateableBadge, UserBadge,\
+    InstanceBadge
 from adhocracy.model import Group, Instance, meta
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has, has_permission
@@ -58,11 +59,13 @@ class BadgeController(BaseController):
         badges = {}
         if has('global.admin'):
             badges['global.admin'] = {
+                'instance': InstanceBadge.all(instance=None),
                 'user': UserBadge.all(instance=None),
                 'delegateable': DelegateableBadge.all(instance=None),
                 'category': CategoryBadge.all(instance=None)}
         if has('instance.admin') and c.instance is not None:
             badges['instance.admin'] = {
+                'instance': InstanceBadge.all(instance=c.instance),
                 'user': UserBadge.all(instance=c.instance),
                 'delegateable': DelegateableBadge.all(instance=c.instance),
                 'category': CategoryBadge.all(instance=c.instance)}
@@ -108,7 +111,7 @@ class BadgeController(BaseController):
         Methods are named <action>_<badge_type>_badge().
         '''
         assert action in ['create', 'update']
-        if badge_type not in ['user', 'delegateable', 'category']:
+        if badge_type not in ['user', 'delegateable', 'category', 'instance']:
             raise AssertionError('Unknown badge_type: %s' % badge_type)
 
         c.badge_type = badge_type
@@ -130,6 +133,20 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     def create(self, badge_type):
         return self.dispatch('create', badge_type)
+
+    @ActionProtector(AnyAdmin)
+    @RequireInternalRequest()
+    def create_instance_badge(self):
+        try:
+            self.form_result = BadgeForm().to_python(request.params)
+        except Invalid, i:
+            return self.add('instance', i.unpack_errors())
+        title, color, description, instance = self._get_common_fields(
+            self.form_result)
+        InstanceBadge.create(title, color, description, instance)
+        # commit cause redirect() raises an exception
+        meta.Session.commit()
+        redirect(self.base_url)
 
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
@@ -263,6 +280,25 @@ class BadgeController(BaseController):
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
     def update_delegateable_badge(self, id):
+        try:
+            self.form_result = BadgeForm().to_python(request.params)
+        except Invalid, i:
+            return self.edit(id, i.unpack_errors())
+        badge = self.get_badge_or_redirect(id)
+        title, color, description, instance = self._get_common_fields(
+            self.form_result)
+
+        badge.title = title
+        badge.color = color
+        badge.description = description
+        badge.instance = instance
+        meta.Session.commit()
+        h.flash(_("Badge changed successfully"), 'success')
+        redirect(self.base_url)
+
+    @ActionProtector(AnyAdmin)
+    @RequireInternalRequest()
+    def update_instance_badge(self, id):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid, i:

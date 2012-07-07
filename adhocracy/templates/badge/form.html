@@ -20,7 +20,9 @@ ${self.form()}
 
       <h2>
           %if c.form_type == 'create':
-              %if c.badge_type == 'user':
+              %if c.badge_type == 'instance':
+              ${_('Add instance badge')} 
+              %elif c.badge_type == 'user':
               ${_('Add user badge')}
               %elif c.badge_type == 'delegateable':
               ${_('Add delegateable badge')}
