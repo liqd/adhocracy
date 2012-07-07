@@ -34,6 +34,17 @@ badge_table = Table(
 
 # --[ relation tables ]-----------------------------------------------------
 
+instance_badges_table = Table(
+    'instance_badges', meta.data,
+    Column('id', Integer, primary_key=True),
+    Column('badge_id', Integer, ForeignKey('badge.id'),
+           nullable=False),
+    Column('instance_id', Integer, ForeignKey('instance.id'),
+           nullable=False),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('creator_id', Integer, ForeignKey('user.id'), nullable=False))
+
+
 delegateable_badges_table = Table(
     'delegateable_badges', meta.data,
     Column('id', Integer, primary_key=True),
@@ -206,6 +217,38 @@ class UserBadges(Badges):
         meta.Session.add(userbadge)
         meta.Session.flush()
         return userbadge
+
+
+# --[ Instance Badges ]-------------------------------------------------
+
+class InstanceBadge(Badge):
+
+    polymorphic_identity = 'instance'
+
+    def assign(self, instance, creator):
+        InstanceBadges.create(instance, self, creator)
+        meta.Session.refresh(instance)
+        meta.Session.refresh(self)
+
+
+class InstanceBadges(Badges):
+
+    def __init__(self, instance, badge, creator):
+        self.instance = instance
+        self.badge = badge
+        self.creator = creator
+
+    def __repr__(self):
+        title = self.badge.title.encode('ascii', 'replace')
+        return "<instancebadges(%s, badge %s/%s for instance%s)>" % (
+            self.id, self.badge.id, title, self.instance.id)
+
+    @classmethod
+    def create(cls, instance, badge, creator):
+        instancebadge = cls(instance, badge, creator)
+        meta.Session.add(instancebadge)
+        meta.Session.flush()
+        return instancebadge
 
 
 # --[ Delegateable Badges ]-------------------------------------------------
