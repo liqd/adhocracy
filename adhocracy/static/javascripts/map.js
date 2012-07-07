@@ -1,8 +1,10 @@
-/*jslint vars:true, browser:true, nomen:true */
-/*global popup:true, $:true*/
+/*jslint browser: true, vars: true, plusplus: true */
+/*global $: true, OpenLayers: true, LANG: true */
+
+/*"use strict";*/
 
 $.ajaxSetup({
-  cache: true
+    cache: true
 });
 
 /* default map configuration */
@@ -16,8 +18,8 @@ var layersWithPopup = [];
 
 var numberComplexities = 5;
 
-var inputValue = new String();
-var prevInputValue = new String();
+var inputValue = "";
+var prevInputValue = "";
 
 var styleProps = {
     pointRadius: 5,
@@ -35,9 +37,9 @@ var styleTransparentProps = {
     strokeColor: "#ffffff",
     strokeWidth: 1,
     strokeOpacity: 0.0
-}
+};
 
-var styleSelect = { 
+var styleSelect = {
     pointRadius: 5,
     fillColor: "#e82b2b",
     fillOpacity: 0.8,
@@ -71,7 +73,7 @@ var styleEasteregg = {
     fillColor: "#86f286",
     fillOpacity: 0.3,
     strokeOpacity: 0.3
-}
+};
 
 
 /* projections */
@@ -83,10 +85,12 @@ var mercator;
 function createProposalLayer() {
 
     return new OpenLayers.Layer.Vector("proposal", {
-        displayInLayerSwitcher: false, 
+        displayInLayerSwitcher: false,
         projection: mercator,
-        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleProps),
-                                           'select': new OpenLayers.Style(styleSelect)}) 
+        styleMap: new OpenLayers.StyleMap({
+            'default': new OpenLayers.Style(styleProps),
+            'select': new OpenLayers.Style(styleSelect)
+        })
     });
 }
 
@@ -94,7 +98,7 @@ function fetchSingleProposal(singleProposalId, layer, callback) {
     var url = '/proposal/' + singleProposalId + '/get_geotag';
     $.ajax({
         url: url,
-        success: function(data) {
+        success: function (data) {
             var features = new OpenLayers.Format.GeoJSON({}).read(data);
             if (features) {
                 // assert(features.length==1);
@@ -107,28 +111,74 @@ function fetchSingleProposal(singleProposalId, layer, callback) {
                 callback(null);
             }
         },
-        error: function(xhr,err){
+        error: function (xhr, err) {
         //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
             //alert('No response from server, sorry. Error: '+err);
         }
     });
 }
 
+var balloonSymbolizer = {
+    graphicHeight: 31,
+    graphicWidth: 24,
+    graphicYOffset: -31
+};
+
+var townHallSymbolizer = {
+    externalGraphic: '/images/map_hall_pink.png',
+    graphicHeight: 12,
+    graphicWidth: 16,
+    graphicYOffset: -12
+};
+
+function setBalloonSymbolizer(scope, idx) {
+    var letter = String.fromCharCode(idx + 97);
+    scope.symbolizer = balloonSymbolizer;
+    scope.symbolizer.externalGraphic = '/images/map_marker_pink_' + letter + '.png';
+    return letter;
+}
+
+function setTownHallSymbolizer(scope, idx) {
+    scope.symbolizer = townHallSymbolizer;
+    if (idx === undefined) {
+        scope.symbolizer.externalGraphic = '/images/map_hall_pink.png';
+        return undefined;
+    }
+    var letter = String.fromCharCode(idx + 97);
+    scope.symbolizer.externalGraphic = '/images/map_hall_pink_' + letter + '.png';
+    return letter;
+}
+
+
+function createTownHallLayer() {
+    return new OpenLayers.Layer.Vector('instance_town_hall', {
+        displayInLayerSwitcher: false,
+        projection: mercator,
+        styleMap: new OpenLayers.StyleMap({
+            'default': townHallSymbolizer, //new OpenLayers.Style(styleProps),
+            'select': townHallSymbolizer //new OpenLayers.Style(styleSelect)
+        })
+    });
+}
 
 function createOverviewLayers() {
 
-    var layer =  new OpenLayers.Layer.Vector('overview', {
+    var layer = new OpenLayers.Layer.Vector('overview', {
         displayInLayerSwitcher: false,
         projection: mercator,
-        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleBorder)})
+        styleMap: new OpenLayers.StyleMap({
+            'default': new OpenLayers.Style(styleBorder)
+        })
     });
 
-    var url = '/instance/get_instance_regions'; 
+    var townHallLayer = createTownHallLayer();
+    var url = '/instance/get_instance_regions';
     $.ajax({
         url: url,
-        success: function(data) {
+        success: function (data) {
+            var i = 0;
             var features = new OpenLayers.Format.GeoJSON({}).read(data);
-            for (i=0; i<features.length; i++) {
+            for (i = 0; i < features.length; i++) {
                 // assert(features.length==1);
                 var feature = features[0];
 //                feature.geometry.transform(geographic, mercator);
@@ -138,109 +188,96 @@ function createOverviewLayers() {
                     var features2 = new OpenLayers.Format.GeoJSON({}).read(feature.attributes.admin_center);
                     var feature2 = features2[0];
 //                    feature2.geometry.transform(geographic, mercator);
-                    townHallLayer.addFeatures([feature2]);                    
+                    townHallLayer.addFeatures([feature2]);
                 }
-            } 
+            }
 //            if (features.length == 0) {
 //                callback(null);
 //            }
         },
-        error: function(xhr,err){
+        error: function (xhr, err) {
             //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
             //alert('No response from server, sorry. Error: '+err);
         }
     });
 
-    var townHallLayer = createTownHallLayer();
-    return [layer,townHallLayer];
+    return [layer, townHallLayer];
 
 }
 
-var balloonSymbolizer = {
-                graphicHeight: 31,
-                graphicWidth: 24,
-                graphicYOffset: -31
-            };
-
-var townHallSymbolizer = {
-                externalGraphic: '/images/map_hall_pink.png',
-                graphicHeight: 12,
-                graphicWidth: 16,
-                graphicYOffset: -12
-            }
-
 function createRegionProposalsLayer(instanceKey, initialProposals, featuresAddedCallback) {
 
-    var rule = new OpenLayers.Rule({symbolizer: balloonSymbolizer}); 
+    var rule = new OpenLayers.Rule({
+        symbolizer: balloonSymbolizer
+    });
     rule.evaluate = function (feature) {
         if (initialProposals) {
             var index = initialProposals.indexOf(feature.fid);
 
             if (index >= 0) {
                 if (index < 10) {
-                    var letter = setBalloonSymbolizer(this,index);
-                    $('#result_list_marker_'+feature.fid).attr('alt', letter).addClass('marker_'+letter);
+                    var letter = setBalloonSymbolizer(this, index);
+                    $('#result_list_marker_' + feature.fid).attr('alt', letter).addClass('marker_' + letter);
                     return true;
-                } else {
-                    $('#result_list_marker_'+feature.fid).attr('alt', index).addClass('bullet_marker');
-                    return false;
                 }
-            } else {
-                return false;
+                $('#result_list_marker_' + feature.fid).attr('alt', index).addClass('bullet_marker');
             }
         }
         return false;
-    }
+    };
 
     var format = new OpenLayers.Format.GeoJSON();
-    format.read = function() {
-        var result = OpenLayers.Format.GeoJSON.prototype.read.apply(this,arguments);
-        if (result.length == 0) {
-            var features = new Object();
-            features.features = new Array();
+    format.read = function () {
+        var result = OpenLayers.Format.GeoJSON.prototype.read.apply(this, arguments);
+        if (result.length === 0) {
+            var features = {};
+            features.features = [];
             featuresAddedCallback(features);
         }
         return result;
-    }
+    };
 
     var layer = new OpenLayers.Layer.Vector('region_proposals', {
         strategies: [new OpenLayers.Strategy.Fixed()],
         protocol: new OpenLayers.Protocol.HTTP({
             url: '/instance/' + instanceKey + '/get_proposal_geotags',
-            format: format 
+            format: format
         }),
         projection: mercator,
         styleMap: new OpenLayers.StyleMap({
-            'default': new OpenLayers.Style(styleProps, {rules: [
-                rule,
-                new OpenLayers.Rule({elseFilter: true})
-            ]}),
+            'default': new OpenLayers.Style(styleProps, {
+                rules: [
+                    rule,
+                    new OpenLayers.Rule({
+                        elseFilter: true
+                    })
+                ]
+            }),
             'select': new OpenLayers.Style(styleSelect)
-        }),
-    })
+        })
+    });
 
     layer.events.on({
         'featuresadded': featuresAddedCallback
-    })
+    });
 
     return layer;
 }
 
-function createPopupControl(layer, buildPopupContent) {
+function createPopupControl(map, layer, buildPopupContent) {
 
     function openPopup(event) {
         popup = new OpenLayers.Popup.FramedCloud("singlepopup",
-                        event.feature.geometry.getBounds().getCenterLonLat(),
-                        null,
-                        buildPopupContent(event.feature.attributes),
-                        null,false,null
-                        );
-        this.map.addPopup(popup);
+            event.feature.geometry.getBounds().getCenterLonLat(),
+            null,
+            buildPopupContent(event.feature.attributes),
+            null, false, null);
+        map.addPopup(popup);
     }
 
     function closePopup(event) {
         if (popup) {
-            this.map.removePopup(popup);
+            map.removePopup(popup);
             popup = null;
         }
     }
@@ -257,18 +294,21 @@ function createPopupControl(layer, buildPopupContent) {
 function addEditControls(map, layer) {
 
     var buttonState;
+    var pointClicked, addChangeRemoveGeoButton, addAddGeoButton;
 
     var pointControl = new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Point, {
-        featureAdded: function(feature) {pointClicked()}
+        featureAdded: function (feature) {
+            pointClicked();
+        }
     });
-    
+
     function updateEditButtons() {
 
         var new_state = layer.features.length;
 
-        if (buttonState != new_state) {
-            
-            if (buttonState == 0) {
+        if (buttonState !== new_state) {
+
+            if (buttonState === 0) {
                 addChangeRemoveGeoButton(layer, pointControl);
                 $('#add_geo_button').remove();
             } else {
@@ -280,11 +320,11 @@ function addEditControls(map, layer) {
         }
     }
 
-    function addAddGeoButton() {
+    addAddGeoButton = function () {
         $('<a />', {
             id: 'add_geo_button',
-            class: 'button',
-            click: function() {
+            'class': 'button',
+            click: function () {
                 //propslayer. OpenLayers.Handler.Click({single:true, stopSingle:true});
                 pointControl.activate();
             },
@@ -292,13 +332,13 @@ function addEditControls(map, layer) {
             // text: 'Add position'
             text: LANG.set_position_text
         }).appendTo('#edit_map_buttons');
-    }
+    };
 
-    function addChangeRemoveGeoButton() {
+    addChangeRemoveGeoButton = function () {
         $('<a />', {
             id: 'change_geo_button',
-            class: 'button',
-            click: function() {
+            'class': 'button',
+            click: function () {
                 //propslayer. OpenLayers.Handler.Click({single:true, stopSingle:true});
                 layer.removeAllFeatures();
                 pointControl.activate();
@@ -308,29 +348,29 @@ function addEditControls(map, layer) {
 
         $('<a />', {
             id: 'remove_geo_button',
-            class: 'button',
-            click: function() {
+            'class': 'button',
+            click: function () {
                 layer.removeAllFeatures();
                 $('#proposal_geotag_field').val('');
                 updateEditButtons();
             },
-            text: LANG.remove_position_text 
+            text: LANG.remove_position_text
         }).appendTo('#edit_map_buttons');
-    }
+    };
 
     function updateGeotagField() {
         var transformed_feature = layer.features[0].clone();
 //        transformed_feature.geometry.transform(mercator, geographic);
         $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(transformed_feature));
-        map.setCenter(layer.features[0].geometry.getBounds().getCenterLonLat(), 
-                      map.getZoom());
+        map.setCenter(layer.features[0].geometry.getBounds().getCenterLonLat(),
+            map.getZoom());
     }
 
-    function pointClicked() {
+    pointClicked = function () {
         pointControl.deactivate();
         updateEditButtons();
         updateGeotagField();
-    }
+    };
 
     function singleProposalFetched(feature) {
         if (feature) {
@@ -344,7 +384,7 @@ function addEditControls(map, layer) {
 
     map.addControls([
         new OpenLayers.Control.DragFeature(layer, {
-            onComplete: function(feature, pixel) {
+            onComplete: function (feature, pixel) {
                 updateGeotagField();
             },
             autoActivate: true
@@ -355,29 +395,22 @@ function addEditControls(map, layer) {
     return singleProposalFetched;
 }
 
-function createTownHallLayer() {
-    return new OpenLayers.Layer.Vector('instance_town_hall', {
-        displayInLayerSwitcher: false, 
-        projection: mercator,
-        styleMap: new OpenLayers.StyleMap({'default': townHallSymbolizer, //new OpenLayers.Style(styleProps),
-                                           'select': townHallSymbolizer}) //new OpenLayers.Style(styleSelect)})
-    });
-}
-
 function createRegionBoundaryLayer(instanceKey, callback) {
 
     var layer = new OpenLayers.Layer.Vector('instance_boundary', {
-        displayInLayerSwitcher: false, 
+        displayInLayerSwitcher: false,
         projection: mercator,
-        styleMap: new OpenLayers.StyleMap({'default': new OpenLayers.Style(styleRegionBorder)}),
-    })
+        styleMap: new OpenLayers.StyleMap({
+            'default': new OpenLayers.Style(styleRegionBorder)
+        })
+    });
 
     var townHallLayer = createTownHallLayer();
 
-    var url = '/instance/' + instanceKey + '/get_region'; 
+    var url = '/instance/' + instanceKey + '/get_region';
     $.ajax({
         url: url,
-        success: function(data) {
+        success: function (data) {
             var features = new OpenLayers.Format.GeoJSON({}).read(data);
             if (features) {
                 // assert(features.length==1);
@@ -389,132 +422,166 @@ function createRegionBoundaryLayer(instanceKey, callback) {
                     var features2 = new OpenLayers.Format.GeoJSON({}).read(feature.attributes.admin_center);
                     var feature2 = features2[0];
 //                    feature2.geometry.transform(geographic, mercator);
-                    townHallLayer.addFeatures([feature2]);                    
+                    townHallLayer.addFeatures([feature2]);
                 }
             } else {
                 callback(null);
             }
         },
-        error: function(xhr,err){
+        error: function (xhr, err) {
             //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
             //alert('No response from server, sorry. Error: '+err);
         }
     });
 
-    return [layer,townHallLayer];
+    return [layer, townHallLayer];
 }
 
 function createEastereggLayer() {
     var url = '/get_easteregg';
     var layer = new OpenLayers.Layer.Vector('easteregg', {
-                    displayInLayerSwitcher: false, 
-                    strategies: [new OpenLayers.Strategy.Fixed()],
-                    protocol: new OpenLayers.Protocol.HTTP({
-                        url: url,
-                        params: {
-                            year: 2012
-                        },
-                        format: new OpenLayers.Format.GeoJSON({
-                            ignoreExtraDims: true
-                        })
-                    }),
-                    projection: mercator,
-                    styleMap: new OpenLayers.StyleMap({'default': styleEasteregg})
-                });
+        displayInLayerSwitcher: false,
+        strategies: [new OpenLayers.Strategy.Fixed()],
+        protocol: new OpenLayers.Protocol.HTTP({
+            url: url,
+            params: {
+                year: 2012
+            },
+            format: new OpenLayers.Format.GeoJSON({
+                ignoreExtraDims: true
+            })
+        }),
+        projection: mercator,
+        styleMap: new OpenLayers.StyleMap({
+            'default': styleEasteregg
+        })
+    });
 
     return layer;
 }
 
 function layerHasFeature(layer, feature) {
-    var i=0;
-    for (i=0; i<layer.features.length; i++) {
-        if (layer.features[i].attributes.region_id == feature.attributes.region_id) {
-           return true;
-        }
-    }
-    return false;
-}
-
-function listHasFeature(list, feature) {
-    var i=0;
-    for (i=0; i<list.length; i++) {
-        if (list[i].region_id == feature.attributes.region_id) {
+    var i = 0;
+    for (i = 0; i < layer.features.length; i++) {
+        if (layer.features[i].attributes.region_id === feature.attributes.region_id) {
             return true;
         }
     }
     return false;
 }
 
-function setBalloonSymbolizer(scope,idx) {
-    var letter = String.fromCharCode(idx+97);
-    scope.symbolizer = balloonSymbolizer;
-    scope.symbolizer.externalGraphic = '/images/map_marker_pink_'+letter+'.png';
-    return letter;
+function listHasFeature(list, feature) {
+    var i = 0;
+    for (i = 0; i < list.length; i++) {
+        if (list[i].region_id === feature.attributes.region_id) {
+            return true;
+        }
+    }
+    return false;
 }
 
-function setTownHallSymbolizer(scope,idx) {
-    scope.symbolizer = townHallSymbolizer;
-    if (idx === undefined) {
-        scope.symbolizer.externalGraphic = '/images/map_hall_pink.png';
-        return undefined;
-    } else {
-        var letter = String.fromCharCode(idx+97);
-        scope.symbolizer.externalGraphic = '/images/map_hall_pink_'+letter+'.png';
-        return letter;
+function createInstanceDesc(item) {
+    return item.num_proposals + ' '
+            + LANG.proposals_text + ' \u00B7 '
+            + item.num_papers + ' '
+            + LANG.papers_text + ' \u00B7 '
+            + item.num_members + ' '
+            + LANG.members_text + ' \u00B7 '
+            + LANG.creation_date_text + ' '
+            + item.create_date;
+}
+
+function buildInstancePopup(attributes) {
+
+    var result = "<div class='instance_popup_title'>";
+    if (attributes.url) {
+        result = result + "<a href='" + attributes.url + "'>";
     }
+    var label = attributes.label;
+    if (attributes.admin_type) {
+        label = label + " (" + attributes.admin_type + ")";
+    }
+    result = result + label;
+    if (attributes.url) {
+        result = result + "</a>";
+    }
+    if (attributes.instance_id != "") {
+        var desc = createInstanceDesc(attributes);
+        result = result + "<div class='meta'>" + desc + "</div>";
+    }
+    result = result + "</div>";
+    return result;
 }
 
 function addMultiBoundaryLayer(map, layers, tiles, resultList) {
 
-    var adminLevels = [4,5,6,7,8];
+    var addTownHalls;
+    var adminLevels = [4, 5, 6, 7, 8];
     var townHallTiles = new Array(adminLevels.length);
-    var i=0;
-    for (i=0;i<adminLevels.length;i++) {
-        townHallTiles[i] = new Array();
+    var i = 0;
+    for (i = 0; i < adminLevels.length; i++) {
+        townHallTiles[i] = [];
+    }
+    var townHallLayer = createTownHallLayer();
+
+    //Zoom 0 ... 14 -> 0=hidden, 1=borderColor1, 2=borderColor2, 3=borderColor3, ...]
+    var displayMap = [
+        {styles: [1, 0, 0, 0, 0]},
+        {styles: [1, 0, 0, 0, 0]},
+        {styles: [1, 0, 0, 0, 0]},
+        {styles: [1, 0, 1, 0, 0]},
+        {styles: [1, 0, 1, 0, 0]},  //4
+        {styles: [0, 0, 1, 1, 0]},
+        {styles: [0, 0, 1, 1, 0]},
+        {styles: [0, 0, 1, 1, 1]},
+        {styles: [0, 0, 1, 1, 1]},  //8
+        {styles: [0, 0, 1, 1, 1]},
+        {styles: [0, 0, 1, 1, 1]},
+        {styles: [0, 0, 1, 1, 1]},
+        {styles: [0, 0, 1, 1, 1]},  //12
+        {styles: [0, 0, 1, 1, 1]},
+        {styles: [0, 0, 1, 1, 1]}
+    ];
+
+    function isValidAdminLevel(admin_level) {
+        var i = 0;
+        for (i = 0; i < adminLevels.length; i++) {
+            if (adminLevels[i] === admin_level) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    //Zoom 0 ... 14 -> 0=hidden,1=borderColor1,2=borderColor2,3=borderColor3,...]
-    var displayMap = [
-        {styles: [1,0,0,0,0]},
-        {styles: [1,0,0,0,0]},
-        {styles: [1,0,0,0,0]},
-        {styles: [1,0,1,0,0]},
-        {styles: [1,0,1,0,0]}, //4
-        {styles: [0,0,1,1,0]},
-        {styles: [0,0,1,1,0]},
-        {styles: [0,0,1,1,1]},
-        {styles: [0,0,1,1,1]}, //8
-        {styles: [0,0,1,1,1]},
-        {styles: [0,0,1,1,1]},
-        {styles: [0,0,1,1,1]},
-        {styles: [0,0,1,1,1]}, //12
-        {styles: [0,0,1,1,1]},
-        {styles: [0,0,1,1,1]}
-    ];
-    
+    function getLayerIndex(admin_level) {
+        return adminLevels.indexOf(admin_level);
+    }
+
     function makeTiles(sizeLL, bounds) {
         var xStart = Math.floor(bounds.left / sizeLL);
         var yStart = Math.floor(bounds.bottom / sizeLL);
-        var tiles = new Array();
+        var tiles = [];
         var x = xStart;
         do {
-             var y = yStart;
-             do {
-                  tiles.push({x: x, y: y});
-                  y += 1;
-             } while ((y * sizeLL) < bounds.top);
-             x += 1;
+            var y = yStart;
+            do {
+                tiles.push({
+                    x: x,
+                    y: y
+                });
+                y += 1;
+            } while ((y * sizeLL) < bounds.top);
+            x += 1;
         } while ((x * sizeLL) < bounds.right);
         return tiles;
     }
-    
+
     function alreadyFetched(tiles, tile) {
         var fetch = true;
-        var i=0;
-        for (i=0; i<tiles.length; i++) {
-            if (tile.x == tiles[i].x
-                && tile.y == tiles[i].y) {
-                    fetch = false;
+        var i = 0;
+        for (i = 0; i < tiles.length; i++) {
+            if (tile.x === tiles[i].x && tile.y === tiles[i].y) {
+                fetch = false;
             }
         }
         return !fetch;
@@ -525,8 +592,16 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
         var tileSize = 256;
         var tileSizeLL = tileSize * map.getResolution();
         var newTiles = makeTiles(tileSizeLL, bounds);
-        var i=0;
-        for (i=0; i < newTiles.length; i++) {
+        var i = 0;
+
+        function success(data) {
+            addTownHalls(data, adminLevel);
+        }
+        function error(data) {
+            // console.log("error: " +err);
+        }
+
+        for (i = 0; i < newTiles.length; i++) {
             var fetch = !alreadyFetched(townHallTiles, newTiles[i]);
             if (fetch) {
                 townHallTiles.push(newTiles[i]);
@@ -537,74 +612,75 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
                                 + '&admin_level=' + adminLevel;
                 $.ajax({
                     url: url,
-                    success: function(data) {
-                        addTownHalls(data,adminLevel);
-                    },
-                    error: function(xhr,err) {
-                        // console.log("error: " + err);
-                    }
+                    success: success,
+                    error: error
                 });
             }
         }
-    } 
+    }
 
-    function addTownHalls(data, adminLevel) {
+    addTownHalls = function (data, adminLevel) {
         var features = new OpenLayers.Format.GeoJSON({}).read(data);
-        var i=0;
-        for (i=0; i<features.length; i++) {
+        var i = 0;
+        for (i = 0; i < features.length; i++) {
             var feature = features[i];
             if (feature.geometry !== null && !layerHasFeature(townHallLayer, feature)) {
                 townHallLayer.addFeatures([feature]);
             }
         }
+    };
+
+    var moveTownHallTo = function (bounds, zoomChanged, dragging) {
+        OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
+        var zoom = map.getZoom();
+        var i = 0;
+        while (i < adminLevels.length) {
+            var style = displayMap[zoom]['styles'][i];
+            if (style === 1 || style === 2) {
+                fetchTownHalls(bounds, adminLevels[i], townHallTiles[i]);
+            }
+            i++;
+        }
+    };
+
+    function redrawFeatures(thelayer, thestyle) {
+        var i = 0;
+        for (i = 0; i < thelayer.features.length; i++) {
+            thelayer.features[i].style = thestyle;
+            thelayer.drawFeature(thelayer.features[i], thestyle);
+        }
     }
 
-    var moveTownHallTo 
-        = function(bounds, zoomChanged, dragging ) {
-            OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
-            var zoom = map.getZoom();
-            var i=0;
-            while (i<adminLevels.length) {
-                var style = displayMap[zoom]['styles'][i];
-                if (style == 1 || style == 2) {
-                    fetchTownHalls(bounds, adminLevels[i], townHallTiles[i]);
-                }
-                i++;
-            }
-        }
-
-    var moveMapTo = function(bounds, zoomChanged, dragging) {
+    var moveMapTo = function (bounds, zoomChanged, dragging) {
         var zoom = map.getZoom();
         if (zoom != null && zoomChanged != null) {
-            var i=0;k=0;
-            while (i<adminLevels.length) {
+            var i = 0;
+            while (i < adminLevels.length) {
                 var styleChanged = displayMap[zoomChanged]['styles'][i];
                 var style = displayMap[zoom]['styles'][i];
-                var j=0;
-                for (j=0; j<displayMap.length; j++) {
+                var j = 0;
+                for (j = 0; j < displayMap.length; j++) {
                     layers[i][j].setVisibility(false);
                 }
-                if (styleChanged == 0) {
-                    //nop
-                } else {
+                if (styleChanged !== 0) {
                     layers[i][zoomChanged].setVisibility(true);
-                    if (style != styleChanged) {
-                        var k=0;
+                    if (style !== styleChanged) {
+                        var k = 0;
                         if (styleChanged < 2) {
-                            for (k=0; k<displayMap.length;k++) {
-                                layers[i][k].styleMap['default'] 
+                            for (k = 0; k < displayMap.length; k++) {
+                                layers[i][k].styleMap['default']
                                     = new OpenLayers.Style(styleBorder);
-                                layers[i][k].styleMap['default'] 
-                                    = new OpenLayers.Style(styleBorder);    
-                                redrawFeatures(layers[i][k],styleBorder);
+                                layers[i][k].styleMap['default']
+                                    = new OpenLayers.Style(styleBorder);
+                                redrawFeatures(layers[i][k], styleBorder);
                             }
                         } else {
-                            for (k=0; k<displayMap.length;k++) {
-                                layers[i][k].styleMap['default'] 
-                                    = new OpenLayers.Style(styleArea);    
-                                layers[i][k].styleMap['default'] 
-                                    = new OpenLayers.Style(styleArea);    
-                                redrawFeatures(layers[i][k],styleArea);
+                            for (k = 0; k < displayMap.length; k++) {
+                                layers[i][k].styleMap['default']
+                                    = new OpenLayers.Style(styleArea);
+                                layers[i][k].styleMap['default']
+                                    = new OpenLayers.Style(styleArea);
+                                redrawFeatures(layers[i][k], styleArea);
                             }
                         }
                     }
@@ -614,95 +690,89 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
         }
 
         OpenLayers.Map.prototype.moveTo.apply(this, arguments);
-    }
+    };
 
     function addBoundaryPaths(zoom, data) {
         var features = new OpenLayers.Format.GeoJSON({}).read(data);
         if (features) {
-            var k=0;
-            for (k=0; k<features.length; k++) {
+            var k = 0;
+            for (k = 0; k < features.length; k++) {
                 var feature = features[k];
                 if (feature.geometry !== null) {
-                    var admin_level = parseInt(feature.attributes.admin_level);
-                    var zoom = parseInt(feature.attributes.zoom);
-                    if (zoom >= 0 && zoom < 15 && isValidAdminLevel(admin_level)) {
-                        layers[getLayerIndex(admin_level)][zoom].addFeatures([feature]);
+                    var admin_level = parseInt(feature.attributes.admin_level, 10);
+                    var zoom2 = parseInt(feature.attributes.zoom, 10);
+                    if (zoom2 >= 0 && zoom2 < 15 && isValidAdminLevel(admin_level)) {
+                        layers[getLayerIndex(admin_level)][zoom2].addFeatures([feature]);
                     }
                 }
             }
         }
     }
-  
-    var moveLayersTo
-        = function(bounds, zoomChanged, dragging ) {
-            var showGrid = false;
-            if (this.getVisibility()) {
-                var tileSize = 256;
-                var tileSizeLL = tileSize * map.getResolution();
-                var newTiles = makeTiles(tileSizeLL, bounds);
-                var i=0;
-                for (i=0; i < newTiles.length; i++) {
-                    var fetch = !alreadyFetched(tiles[this.layersIdx], newTiles[i]);
-                    if (fetch) {
-                        tiles[this.layersIdx].push(newTiles[i]);
-                        if (showGrid) {
-                            box = new OpenLayers.Bounds(newTiles[i].x*tileSizeLL,newTiles[i].y*tileSizeLL,
-                                                        (newTiles[i].x+1)*tileSizeLL,(newTiles[i].y+1)*tileSizeLL);
-                            layers[this.layersIdx][this.zoom].addFeatures([new OpenLayers.Feature.Vector(box.toGeometry(),
-                                                                                                            {})]);
-                        }
-                                //transform bbox with shapely
-                        var url = '/get_tiled_boundaries.json'
-                                        + '?x=' + newTiles[i].x
-                                        + '&y=' + newTiles[i].y
-                                        + '&zoom=' + this.zoom
-                                        + '&admin_level=' + adminLevels[this.layersIdx];
-                        $.ajax({
-                            url: url,
-                            success: function(data) {addBoundaryPaths(this.zoom, data);},
-                            error: function(xhr,err) {
-                                // console.log("error: " + err);
-                                   }
-                        });
+ 
+    var moveLayersTo = function (bounds, zoomChanged, dragging) {
+        var showGrid = false;
+        var zoom = this.zoom;
+
+        function success(data) {
+            addBoundaryPaths(zoom, data);
+        }
+        function error(xhr, err) {
+            // console.log("error: " + err);
+        }
+        if (this.getVisibility()) {
+            var tileSize = 256;
+            var tileSizeLL = tileSize * map.getResolution();
+            var newTiles = makeTiles(tileSizeLL, bounds);
+            var i = 0;
+            for (i = 0; i < newTiles.length; i++) {
+                if (!alreadyFetched(tiles[this.layersIdx], newTiles[i])) {
+                    tiles[this.layersIdx].push(newTiles[i]);
+                    if (showGrid) {
+                        var box = new OpenLayers.Bounds(newTiles[i].x * tileSizeLL, newTiles[i].y * tileSizeLL,
+                                                    (newTiles[i].x + 1) * tileSizeLL, (newTiles[i].y + 1) * tileSizeLL);
+                        layers[this.layersIdx][zoom].addFeatures([new OpenLayers.Feature.Vector(box.toGeometry(),
+                                                                                                        {})]);
                     }
+                            //transform bbox with shapely
+                    var url = '/get_tiled_boundaries.json'
+                                    + '?x=' + newTiles[i].x
+                                    + '&y=' + newTiles[i].y
+                                    + '&zoom=' + zoom
+                                    + '&admin_level=' + adminLevels[this.layersIdx];
+                    $.ajax({
+                        url: url,
+                        success: success,
+                        error: error
+                    });
                 }
             }
-            OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
-          }
-
-    function redrawFeatures(thelayer,thestyle) {
-        var i=0;
-        for (i=0; i<thelayer.features.length;i++) {
-            thelayer.features[i].style = thestyle;
-            thelayer.drawFeature(thelayer.features[i],thestyle);
-        } 
-    }
-
-    function isValidAdminLevel(admin_level) {
-        var i=0;
-        for (i=0; i<adminLevels.length; i++) {
-            if (adminLevels[i] == admin_level) {
-                return true;
-            }
         }
-        return false;
+        OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
+    };
+
+    function isInstance(feature, searchEntry) {
+        return (searchEntry.region_id === feature.attributes.region_id
+                && searchEntry.instance_id != "");
     }
 
-    function getLayerIndex(admin_level) {
-        return adminLevels.indexOf(admin_level);
+    function isRegion(feature, searchEntry) {
+        return (searchEntry.region_id === feature.attributes.region_id
+                && searchEntry.instance_id == "");
     }
-    
-   function getRegionNum(feature) {
+
+    function getRegionNum(feature) {
         if (resultList) {
             if (resultList[inputValue]) {
                 var result = resultList[inputValue];
-                var i=0;
+                var i = 0;
                 var numRegion = 0;
-                for (i=0; i<result.length; i++) {
-                    if (isRegion(feature,result[i])) {
+                for (i = 0; i < result.length; i++) {
+                    if (isRegion(feature, result[i])) {
                         return numRegion;
                     }
-                    if (result[i].instance_id == "") numRegion = numRegion + 1;
+                    if (result[i].instance_id == "") {
+                        numRegion = numRegion + 1;
+                    }
                 }
             }
         }
@@ -714,13 +784,15 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
         if (resultList) {
             if (resultList[inputValue]) {
                 var result = resultList[inputValue];
-                var i=0;
+                var i = 0;
                 var numInstance = 0;
-                for (i=0; i<result.length; i++) {
-                    if (isInstance(feature,result[i])) {
+                for (i = 0; i < result.length; i++) {
+                    if (isInstance(feature, result[i])) {
                         return numInstance;
                     }
-                    if (result[i].instance_id != "") numInstance = numInstance + 1;
+                    if (result[i].instance_id != "") {
+                        numInstance = numInstance + 1;
+                    }
                 }
             }
         }
@@ -731,9 +803,9 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
         if (resultList) {
             if (resultList[inputValue]) {
                 var result = resultList[inputValue];
-                var i=0;
-                for (i=0; i<result.length; i++) {
-                    if (isInstance(feature,result[i])) {
+                var i = 0;
+                for (i = 0; i < result.length; i++) {
+                    if (isInstance(feature, result[i])) {
                         return true;
                     }
                 }
@@ -746,9 +818,9 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
         if (resultList) {
             if (resultList[inputValue]) {
                 var result = resultList[inputValue];
-                var i=0;
-                for (i=0; i<result.length; i++) {
-                    if (isRegion(feature,result[i])) {
+                var i = 0;
+                for (i = 0; i < result.length; i++) {
+                    if (isRegion(feature, result[i])) {
                         return true;
                     }
                 }
@@ -757,35 +829,25 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
         return false;
     }
 
-
-    function isInstance(feature, searchEntry) {
-        return (searchEntry.region_id == feature.attributes.region_id
-                && searchEntry.instance_id != "");
-    }
-
-    function isRegion(feature, searchEntry) {
-        return (searchEntry.region_id == feature.attributes.region_id
-                && searchEntry.instance_id == "");
-    }
-
     function filterInstancesBalloon(feature) {
+        var idx;
         if (isInstanceInSearch(feature)) {
-            var idx = getInstanceNum(feature);
-            setBalloonSymbolizer(this,idx);
+            idx = getInstanceNum(feature);
+            setBalloonSymbolizer(this, idx);
             return true;
-        } else if (isRegionInSearch(feature)) {
-            var idx = getRegionNum(feature);
-            setTownHallSymbolizer(this,idx);
+        }
+        if (isRegionInSearch(feature)) {
+            idx = getRegionNum(feature);
+            setTownHallSymbolizer(this, idx);
             return true;
         }
         return false;
     }
 
     function filterElse(feature) {
-        setTownHallSymbolizer(this,undefined);
+        setTownHallSymbolizer(this, undefined);
         return true;
     }
-
 
     function filterInstancesInVisible(feature) {
         if (isInstanceInSearch(feature) || isRegionInSearch(feature)) {
@@ -795,11 +857,7 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
         var adminLevel = feature.attributes.admin_level;
         var layerIdx = getLayerIndex(adminLevel);
         var style = displayMap[zoom]['styles'][layerIdx];
-        if (style == 0) {
-            return true;
-        } else {
-           return false;
-        }
+        return (style === 0);
     }
 
     var layersIdx = 0;
@@ -807,20 +865,20 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
         var style = displayMap[map.getZoom()]['styles'][layersIdx];
 
         layers[layersIdx] = new Array(displayMap.length);
-        tiles[layersIdx] = new Array();
+        tiles[layersIdx] = [];
         var z;
-        for (z=0; z < displayMap.length; z++) {
+        for (z = 0; z < displayMap.length; z++) {
             var layername = "layer" + adminLevels[layersIdx] + z;
 
-            layers[layersIdx][z] 
+            layers[layersIdx][z]
                 = new OpenLayers.Layer.Vector(layername, {
-                    displayInLayerSwitcher: false, 
+                    displayInLayerSwitcher: false,
                     projection: mercator,
-                    styleMap: new OpenLayers.StyleMap({'default':(style < 2 ? new OpenLayers.Style(styleBorder) : new OpenLayers.Style(styleArea))}),
+                    styleMap: new OpenLayers.StyleMap({'default': (style < 2 ? new OpenLayers.Style(styleBorder) : new OpenLayers.Style(styleArea))}),
                     layersIdx: layersIdx,
                     zoom: z
                 });
-                layers[layersIdx][z].moveTo = moveLayersTo; 
+            layers[layersIdx][z].moveTo = moveLayersTo;
             map.addLayer(layers[layersIdx][z]);
         }
         layersIdx++;
@@ -828,29 +886,27 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
     map.moveTo = moveMapTo;
 
     var rule = new OpenLayers.Rule({symbolizer: balloonSymbolizer});
-    rule.evaluate = filterInstancesBalloon; 
+    rule.evaluate = filterInstancesBalloon;
     var rule2 = new OpenLayers.Rule({ symbolizer: styleTransparentProps });
-    rule2.evaluate = filterInstancesInVisible; 
-    var rule3 = new OpenLayers.Rule({elseFilter: true,symbolizer: townHallSymbolizer});
+    rule2.evaluate = filterInstancesInVisible;
+    var rule3 = new OpenLayers.Rule({elseFilter: true, symbolizer: townHallSymbolizer});
     rule3.evaluate = filterElse;
 
-    var townHallLayer = createTownHallLayer();
-
-    townHallLayer.styleMap = new OpenLayers.Style(styleProps, {rules: [rule,rule2,rule3]});
-    townHallLayer.moveTo = moveTownHallTo; 
+    townHallLayer.styleMap = new OpenLayers.Style(styleProps, {rules: [rule, rule2, rule3]});
+    townHallLayer.moveTo = moveTownHallTo;
     map.addLayer(townHallLayer);
-    createPopupControl(townHallLayer, buildInstancePopup);
+    createPopupControl(map, townHallLayer, buildInstancePopup);
 
     //var foldLayers = foldLayerMatrix(layers);
-    //return [townHallLayer,foldLayers];
+    //return [townHallLayer, foldLayers];
     return [townHallLayer, undefined];
 }
 
 function foldLayerMatrix(layers) {
-    var foldLayers = new Array();
-    var i=0; var j=0;
-    for (i=0; i<layers.length; i++) {
-        for (j=0; j<layers[i].length; j++) {
+    var foldLayers = [];
+    var i = 0, j = 0;
+    for (i = 0; i < layers.length; i++) {
+        for (j = 0; j < layers[i].length; j++) {
             foldLayers = foldLayers.concat(layers[i][j]);
         }
     }
@@ -859,6 +915,7 @@ function foldLayerMatrix(layers) {
 
 function addRegionSelectControl(map) {
 
+    var i;
     var foldLayers = foldLayerMatrix(layers);
 
     var selectHoverControl = new OpenLayers.Control.SelectFeature(foldLayers, {
@@ -868,7 +925,7 @@ function addRegionSelectControl(map) {
             hover: true,
             highlightOnly: true,
             box: false,
-            autoActivate: true,
+            autoActivate: true
         });
     map.addControl(selectHoverControl);
 
@@ -878,34 +935,41 @@ function addRegionSelectControl(map) {
             multiple: false,
             hover: false,
             box: false,
-            autoActivate: true,
+            autoActivate: true
         });
     map.addControl(selectControl);
-
-    for (i=0; i<foldLayers.length;i++) {
-        foldLayers[i].events.on({
-            'featureselected': function(event) {
-                if (event.feature.attributes.admin_level < 8) {
-                    map.zoomToExtent(event.feature.geometry.getBounds());
-                }
-                if (event.feature.attributes.admin_level == 8) {
-                    if (popup) map.removePopup(popup);
-                    popup = new OpenLayers.Popup.FramedCloud("singlepopup",
-                                                             event.feature.geometry.getBounds().getCenterLonLat(),
-                                                             null,
-                                                             buildInstancePopup(event.feature.attributes),
-                                                             null,false,null
-                                                            );
-                    map.addPopup(popup);
-                }
-            },
-            'featureunselected': function(event) {
-                if (popup) { 
-                    map.removePopup(popup);
-                    popup = null;
-                }
+    
+    function featureSelected(event) {
+        if (event.feature.attributes.admin_level < 8) {
+            map.zoomToExtent(event.feature.geometry.getBounds());
+        }
+        if (event.feature.attributes.admin_level === 8) {
+            if (popup) {
+                map.removePopup(popup);
             }
-        });
+            popup = new OpenLayers.Popup.FramedCloud("singlepopup",
+                    event.feature.geometry.getBounds().getCenterLonLat(),
+                    null,
+                    buildInstancePopup(event.feature.attributes),
+                    null, false, null
+                );
+            map.addPopup(popup);
+        }
+    }
+    function featureUnselected(event) {
+        if (popup) {
+            map.removePopup(popup);
+            popup = null;
+        }
+    }
+
+    for (i = 0; i < foldLayers.length; i++) {
+        foldLayers[i].events.on(
+            {
+                'featureselected': featureSelected,
+                'featureunselected': featureUnselected
+            }
+        );
     }
 }
 
@@ -930,13 +994,13 @@ function createBaseLayers(blank) {
                     "http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png", osmOptions),
         new OpenLayers.Layer.OSM("Transport Map",
                     "http://otile1.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png", osmOptions),
-        new OpenLayers.Layer.OSM("&Ouml;pnv Deutschland", 
+        new OpenLayers.Layer.OSM("&Ouml;pnv Deutschland",
                     "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png", osmOptions)
     ];
 
     // Blank Baselayer
     if (blank) {
-        baseLayers.push(new OpenLayers.Layer("Blank",{isBaseLayer: true}));
+        baseLayers.push(new OpenLayers.Layer("Blank", {isBaseLayer: true}));
     }
 
     return baseLayers;
@@ -951,7 +1015,7 @@ function createMap() {
     geographic = new OpenLayers.Projection("EPSG:4326");
     mercator = new OpenLayers.Projection("EPSG:900913");
 
-    RESTRICTED_BOUNDS = new OpenLayers.Bounds(0, 40, 30, 60)
+    var RESTRICTED_BOUNDS = new OpenLayers.Bounds(0, 40, 30, 60);
 
     return new OpenLayers.Map('map', {
         restrictedExtent: RESTRICTED_BOUNDS.transform(geographic, mercator),
@@ -965,8 +1029,8 @@ function createControls(fullControls, keyboardControls) {
     // add map controls
 
     var mapControls = [
-        new OpenLayers.Control.Navigation({'handleRightClicks':true}),
-        new OpenLayers.Control.ScaleLine(),
+        new OpenLayers.Control.Navigation({'handleRightClicks': true}),
+        new OpenLayers.Control.ScaleLine()
     ];
 
     if (fullControls) {
@@ -1014,13 +1078,15 @@ function createWaiter(number, callback) {
     var secondary_is_empty = true;
 
     function addFeature(feature, primary) {
-        if(typeof(primary)==='undefined') primary = true;
+        if (typeof primary === 'undefined') {
+            primary = true;
+        }
         countdown--;
 
         if (feature) {
             if (feature.features && feature.features instanceof Array) {
-                var i=0;
-                for ( ; i < feature.features.length; i++ ) {
+                var i;
+                for (i = 0; i < feature.features.length; i++) {
                     if (primary) {
                         primaryBounds.extend(feature.features[i].geometry.getBounds());
                     } else {
@@ -1045,10 +1111,10 @@ function createWaiter(number, callback) {
             }
         }
 
-        if (countdown == 0) {
+        if (countdown === 0) {
             if (!primary_is_empty) {
                 var sz = primaryBounds.getSize();
-                if (sz.h == 0 && sz.w == 0 && !secondary_is_empty) {
+                if (sz.h === 0 && sz.w === 0 && !secondary_is_empty) {
                     var halfSz = secondaryBounds.getSize();
                     halfSz.w /= 4;
                     halfSz.h /= 4;
@@ -1071,22 +1137,11 @@ function createWaiter(number, callback) {
     return addFeature;
 }
 
-function createInstanceDesc(item) {
-    return item.num_proposals + ' '
-            + LANG.proposals_text +' \u00B7 '
-            + item.num_papers + ' '
-            + LANG.papers_text +' \u00B7 '
-            + item.num_members + ' '
-            + LANG.members_text + ' \u00B7 '
-            + LANG.creation_date_text + ' ' 
-            + item.create_date;
-}
-
 function buildProposalPopup(attributes) {
     var maxPopupTitleLength = 30;
     var title = attributes.title;
     if (title.length > maxPopupTitleLength) {
-        title = title.substring(0,maxPopupTitleLength) + " ...";
+        title = title.substring(0, maxPopupTitleLength) + " ...";
     }
 
     var result = "<div class='proposal_popup_title'>";
@@ -1100,31 +1155,9 @@ function buildProposalPopup(attributes) {
     return result;
 }
 
-function buildInstancePopup(attributes) {
-
-    var result = "<div class='instance_popup_title'>";
-    if (attributes.url) {
-        result = result + "<a href='"+attributes.url+"'>";
-    }
-    var label = attributes.label;
-    if (attributes.admin_type) {
-        label = label + " (" + attributes.admin_type + ")"
-    }
-    result = result + label;
-    if (attributes.url) {
-        result = result + "</a>"
-    }
-    if (attributes.instance_id != "") {
-        var desc = createInstanceDesc(attributes);
-         result = result + "<div class='meta'>" + desc + "</div>";
-    }
-    result = result + "</div>";
-    return result;
-}
-
 
 function buildEastereggPopup(attributes) {
-    return "<div class='easteregg_popup_title'><img src='"+attributes.img+"'><br>"+attributes.text+"</div>";
+    return "<div class='easteregg_popup_title'><img src='" + attributes.img + "'><br>" + attributes.text + "</div>";
 }
 
 
@@ -1138,80 +1171,81 @@ function createSelectControl() {
             toggleKey: "ctrlKey", // ctrl key removes from selection
             multipleKey: "shiftKey", // shift key adds to selection
             box: false,
-            autoActivate: true,
+            autoActivate: true
         });
 
     return selectControl;
 }
 
 function loadSingleProposalMap(openlayers_url, instanceKey, proposalId, edit, position) {
- $.getScript(openlayers_url, function() {
+    $.getScript(openlayers_url, function () {
 
-    var map = createMap();
+        var map = createMap();
 
-    var numFetches = 1;
-    if (proposalId) {
-       numFetches = 2;
-    }
-    var waiter = createWaiter(numFetches, function(bounds) {
-        map.zoomToExtent(bounds);
-    });
+        var numFetches = 1;
+        if (proposalId) {
+            numFetches = 2;
+        }
+        var waiter = createWaiter(numFetches, function (bounds) {
+            map.zoomToExtent(bounds);
+        });
 
-    map.addControls(createControls(edit, false));
-    map.addLayers(createBaseLayers());
-    var regionBoundaryLayers = createRegionBoundaryLayer(instanceKey, function(feature) {
-                                    waiter(feature);
-                                });
-    map.addLayers(regionBoundaryLayers);
-    createPopupControl(regionBoundaryLayers[1], buildInstancePopup);
-
-    var proposalLayer = createProposalLayer();
-    map.addLayer(proposalLayer);
-    createPopupControl(proposalLayer, buildProposalPopup);
-
-    if (edit) {
-        var singleProposalFetchedCallback = addEditControls(map, proposalLayer);
-    }
-
-    //don't try to fetch proposals geotags when there's no proposal (i.e. if proposal is created)
-    if (proposalId) {
-        fetchSingleProposal(proposalId, proposalLayer, function(feature) {
-            if (edit) {
-                singleProposalFetchedCallback(feature);
-            }
-
+        map.addControls(createControls(edit, false));
+        map.addLayers(createBaseLayers());
+        var regionBoundaryLayers = createRegionBoundaryLayer(instanceKey, function (feature) {
             waiter(feature);
         });
-    } else {
-        var feature = null;
-        if (position) {
-            var features = new OpenLayers.Format.GeoJSON({}).read(position);
-            if (features) {
-                feature = features[0];
-//                feature.geometry.transform(geographic, mercator);
-                proposalLayer.addFeatures([feature]); 
+        map.addLayers(regionBoundaryLayers);
+        createPopupControl(map, regionBoundaryLayers[1], buildInstancePopup);
+
+        var proposalLayer = createProposalLayer();
+        map.addLayer(proposalLayer);
+        createPopupControl(map, proposalLayer, buildProposalPopup);
+
+        var singleProposalFetchedCallback;
+        if (edit) {
+            singleProposalFetchedCallback = addEditControls(map, proposalLayer);
         }
-    }
-        singleProposalFetchedCallback(feature);
-    }
-    if (easteregg) {
-        var easterLayer = createEastereggLayer();
-        map.addLayer(easterLayer);
-        createPopupControl(easterLayer, buildEastereggPopup);
-    }
-    map.addControl(createSelectControl());
- });
+
+        //don't try to fetch proposals geotags when there's no proposal (i.e. if proposal is created)
+        if (proposalId) {
+            fetchSingleProposal(proposalId, proposalLayer, function (feature) {
+                if (edit) {
+                    singleProposalFetchedCallback(feature);
+                }
+
+                waiter(feature);
+            });
+        } else {
+            var feature = null;
+            if (position) {
+                var features = new OpenLayers.Format.GeoJSON({}).read(position);
+                if (features) {
+                    feature = features[0];
+    //                feature.geometry.transform(geographic, mercator);
+                    proposalLayer.addFeatures([feature]);
+                }
+            }
+            singleProposalFetchedCallback(feature);
+        }
+        if (easteregg) {
+            var easterLayer = createEastereggLayer();
+            map.addLayer(easterLayer);
+            createPopupControl(map, easterLayer, buildEastereggPopup);
+        }
+        map.addControl(createSelectControl());
+    });
 }
 
 function enableMarker(id, layer, selectControl) {
-    $('.'+id).click(function(event) {
+    $('.' + id).click(function (event) {
         var target = event.target || event.srcElement;
-        var feature = layer.getFeaturesByAttribute('region_id', parseInt(target.id.substring((id+'_').length)))[0];
+        var feature = layer.getFeaturesByAttribute('region_id', parseInt(target.id.substring((id + '_').length), 10))[0];
         if (popup) {
             var flonlat = feature.geometry.getBounds().getCenterLonLat();
             var plonlat = popup.lonlat;
             selectControl.clickoutFeature(feature);
-            if (plonlat != flonlat) {
+            if (plonlat !== flonlat) {
                 selectControl.clickFeature(feature);
             }
         } else {
@@ -1221,109 +1255,100 @@ function enableMarker(id, layer, selectControl) {
 }
 
 function loadRegionMap(openlayers_url, instanceKey, initialProposals, largeMap, fullRegion) {
- $.getScript(openlayers_url, function() {
+    $.getScript(openlayers_url, function () {
 
-    if (largeMap) {
-        $('body').css('overflow', 'hidden');
-        var top = $('#header').outerHeight()+$('#subheader').outerHeight()+$('#flash_message').outerHeight();
-        $('#fullscreen_map').css('position', 'absolute').css('top', top+'px').css('bottom', 0).css('width', '100%');
-        $('#hide_list_icon').show();
-        $('#hide_list_icon').click(function() {
-            $('#hide_list_icon').hide();
-            $('#left_block').fadeOut('normal', function() {
-                $('#central_block').css('width', '100%');
-                map.updateSize();
-            });
-            $('#show_list_icon').show();
-        });
-        $('#show_list_icon').click(function() {
-            $('#show_list_icon').hide();
-            $('#left_block').fadeIn('normal', function() {
-                $('#central_block').css('width', '70%');
-                map.updateSize();
-            });
-            $('#hide_list_icon').show();
-        });
-    }
-
-    var map = createMap();
-
-    var waiter = createWaiter(fullRegion?1:2, function(bounds) {
-        map.zoomToExtent(bounds);
+        var map = createMap();
 
         if (largeMap) {
-            var controls = createControls(true, true);
-        } else {
-            var controls = createControls(false, false);
+            $('body').css('overflow', 'hidden');
+            var top = $('#header').outerHeight() + $('#subheader').outerHeight() + $('#flash_message').outerHeight();
+            $('#fullscreen_map').css('position', 'absolute').css('top', top + 'px').css('bottom', 0).css('width', '100%');
+            $('#hide_list_icon').show();
+            $('#hide_list_icon').click(function () {
+                $('#hide_list_icon').hide();
+                $('#left_block').fadeOut('normal', function () {
+                    $('#central_block').css('width', '100%');
+                    map.updateSize();
+                });
+                $('#show_list_icon').show();
+            });
+            $('#show_list_icon').click(function () {
+                $('#show_list_icon').hide();
+                $('#left_block').fadeIn('normal', function () {
+                    $('#central_block').css('width', '70%');
+                    map.updateSize();
+                });
+                $('#hide_list_icon').show();
+            });
         }
-        map.addControls(controls);
-    });
 
-    map.addLayers(createBaseLayers());
-    var regionBoundaryLayers = createRegionBoundaryLayer(instanceKey, function(feature) {
-        waiter(feature,false);
-    });
-    map.addLayers(regionBoundaryLayers);
-    createPopupControl(regionBoundaryLayers[1], buildInstancePopup);
+        var waiter = createWaiter(fullRegion ? 1 : 2, function (bounds) {
+            map.zoomToExtent(bounds);
 
-    var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals, function(features) {
-        if (!(fullRegion)) {waiter(features,true)};
-    });
-    map.addLayer(proposalLayer);
-    var popupControl = createPopupControl(proposalLayer, buildProposalPopup);
+            var controls;
+            if (largeMap) {
+                controls = createControls(true, true);
+            } else {
+                controls = createControls(false, false);
+            }
+            map.addControls(controls);
+        });
 
-    if (easteregg) {
-        var easterLayer = createEastereggLayer();
-        map.addLayer(easterLayer);
-        createPopupControl(easterLayer, buildEastereggPopup);
-    }
-    var selectControl = createSelectControl(); 
-    enableMarker('result_list_marker', proposalLayer, selectControl);
-    map.addControl(selectControl);
- });
+        map.addLayers(createBaseLayers());
+        var regionBoundaryLayers = createRegionBoundaryLayer(instanceKey, function (feature) {
+            waiter(feature, false);
+        });
+        map.addLayers(regionBoundaryLayers);
+        createPopupControl(map, regionBoundaryLayers[1], buildInstancePopup);
+
+        var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals, function (features) {
+            if (!(fullRegion)) {waiter(features, true)};
+        });
+        map.addLayer(proposalLayer);
+        var popupControl = createPopupControl(map, proposalLayer, buildProposalPopup);
+
+        if (easteregg) {
+            var easterLayer = createEastereggLayer();
+            map.addLayer(easterLayer);
+            createPopupControl(map, easterLayer, buildEastereggPopup);
+        }
+        var selectControl = createSelectControl();
+        enableMarker('result_list_marker', proposalLayer, selectControl);
+        map.addControl(selectControl);
+     });
 }
 
 function loadOverviewMap(openlayers_url, initialInstances) {
- $.getScript(openlayers_url, function() {
-    var map = createMap();
+    $.getScript(openlayers_url, function () {
+        var map = createMap();
 
-    var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(geographic, mercator);
+        var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(geographic, mercator);
 
-    map.addControls(createControls(false, false));
-    map.addLayers(createBaseLayers());
+        map.addControls(createControls(false, false));
+        map.addLayers(createBaseLayers());
 
-    //var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals);
-    //map.addLayer(proposalLayer);
-    //var popupControl = createPopupControl(proposalLayer, buildInstancePopup);
-    //map.addControl(popupControl);
+        //var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals);
+        //map.addLayer(proposalLayer);
+        //var popupControl = createPopupControl(map, proposalLayer, buildInstancePopup);
+        //map.addControl(popupControl);
 
-    //enableMarker('result_list_marker', proposalLayer, popupControl);
+        //enableMarker('result_list_marker', proposalLayer, popupControl);
 
-    var overviewLayers = createOverviewLayers();
-    map.addLayers(overviewLayers);
-    createPopupControl(overviewLayers[1], buildInstancePopup);
+        var overviewLayers = createOverviewLayers();
+        map.addLayers(overviewLayers);
+        createPopupControl(map, overviewLayers[1], buildInstancePopup);
 
-    if (easteregg) {
-        var easterLayer = createEastereggLayer();
-        map.addLayer(easterLayer);
-        createPopupControl(easterLayer, buildEastereggPopup);
-    }
+        if (easteregg) {
+            var easterLayer = createEastereggLayer();
+            map.addLayer(easterLayer);
+            createPopupControl(map, easterLayer, buildEastereggPopup);
+        }
 
-    map.zoomToExtent(bounds);
-    
-    map.addControl(createSelectControl());
+        map.zoomToExtent(bounds);
 
- });
-}
+        map.addControl(createSelectControl());
 
-function loadSelectInstance(openlayers_url) {
-  $.getScript(openlayers_url, function() {
-    var layers = new Array();
-    var tiles = new Array();
-    var resultList = new Array();
-    var state = loadSelectInstanceMap(layers, tiles, resultList);
-    instanceSearch(state, resultList);
-  });
+    });
 }
 
 function loadSelectInstanceMap(layers, tiles, resultList) {
@@ -1340,21 +1365,23 @@ function loadSelectInstanceMap(layers, tiles, resultList) {
         $('.arrow').append(img);
     }
 
-    function enlargeMap(event) {
-       addArrow(false); 
-       $('.arrow').click(shrankMap);
-       $('#map_startpage_wrapper').removeClass('map_size_normal');
-       $('#map_startpage_wrapper').addClass('map_size_large');
-       map.updateSize();
-    }
+    var enlargeMap, shrinkMap;
 
-    function shrankMap(event) {
-       addArrow(true);
-       $('.arrow').click(enlargeMap);
-       $('#map_startpage_wrapper').addClass('map_size_normal');
-       $('#map_startpage_wrapper').removeClass('map_size_large');
-       map.updateSize();
-    }
+    enlargeMap = function (event) {
+        addArrow(false);
+        $('.arrow').click(shrinkMap);
+        $('#map_startpage_wrapper').removeClass('map_size_normal');
+        $('#map_startpage_wrapper').addClass('map_size_large');
+        map.updateSize();
+    };
+
+    shrinkMap = function (event) {
+        addArrow(true);
+        $('.arrow').click(enlargeMap);
+        $('#map_startpage_wrapper').addClass('map_size_normal');
+        $('#map_startpage_wrapper').removeClass('map_size_large');
+        map.updateSize();
+    };
 
     var map = createMap();
     var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(geographic, mercator);
@@ -1365,18 +1392,18 @@ function loadSelectInstanceMap(layers, tiles, resultList) {
     var layers2 = addMultiBoundaryLayer(map, layers, tiles, resultList);
     var townHallLayer = layers2[0];
     var foldLayers = layers2[1];
- 
+
     var selectControl = createSelectControl();
     map.addControl(selectControl);
 
     map.zoomToExtent(bounds);
-  
+
     addArrow(true);
     $('.arrow').click(enlargeMap);
 
-    var result = {map: map, 
+    var result = {map: map,
                   foldLayers: foldLayers,
-                  townHallLayer: townHallLayer, 
+                  townHallLayer: townHallLayer,
                   selectControl: selectControl};
 
     return result;
@@ -1392,7 +1419,7 @@ function instanceSearch(state, resultList) {
     var max_rows = 3;
     var offset = 0;
 
-    $('#overview_search_field').click(function(event) { $('#overview_search_field').val('');
+    $('#overview_search_field').click(function (event) { $('#overview_search_field').val('');
                                             $('#overview_search_field').unbind('click'); });
 
     function makeRegionNameElements(item) {
@@ -1402,18 +1429,17 @@ function instanceSearch(state, resultList) {
         while (is_in !== undefined) {
             text2 = is_in.name;
             is_in = is_in.is_in;
-        };
+        }
         if (text2 != "") {
             text = text + ", " + text2;
         }
         if (item.instance_id != "") {
             return $('<a>', {
-               class: "link",
-               href: item.url 
+                'class': "link",
+                href: item.url
             }).append(document.createTextNode(text));
-        } else {
-            return document.createTextNode(text);
         }
+        return document.createTextNode(text);
     }
 
     function makeRegionDetailsElements(item) {
@@ -1422,16 +1448,16 @@ function instanceSearch(state, resultList) {
         }
     }
 
-    function instanceEntry( item, numInstance, numRegion ) {
-        var idBase = 'search_result_list_marker'
+    function instanceEntry(item, numInstance, numRegion) {
+        var idBase = 'search_result_list_marker';
         var letterInstance = String.fromCharCode(numInstance + 97);
         var letterRegion = String.fromCharCode(numRegion + 97);
-        var li = $('<div/>',{ class: 'search_result' });
+        var li = $('<div/>', {'class': 'search_result'});
         var marker;
         var img;
         if (item.instance_id != "") {
-            marker = $('<div>', { class: 'marker' });
-            img = $('<img>', { class: 'search_result_list_marker marker_' + letterInstance,
+            marker = $('<div>', {'class': 'marker'});
+            img = $('<img>', {'class': 'search_result_list_marker marker_' + letterInstance,
                                src: '/images/map_marker_pink_' + letterInstance + '.png',
                                id: idBase + '_' + item.region_id,
                                alt: item.region_id
@@ -1440,14 +1466,14 @@ function instanceSearch(state, resultList) {
                 marker.addClass('authenticated');
             }
         } else {
-            marker = $('<div>', { class: 'marker_hall' });
-            img = $('<img>', { class: 'search_result_list_marker marker_' + letterRegion,
+            marker = $('<div>', {'class': 'marker_hall' });
+            img = $('<img>', {'class': 'search_result_list_marker marker_' + letterRegion,
                                src: '/images/map_hall_pink_' + letterRegion + '.png',
                                id: idBase + '_' + item.region_id,
                                alt: item.region_id
                              });
         }
-        var div = $('<div>', {class: 'search_result_title'});
+        var div = $('<div>', {'class': 'search_result_title'});
         var text;
         var details;
 
@@ -1468,27 +1494,61 @@ function instanceSearch(state, resultList) {
 
     function resetSearchField(inputValue, count) {
         $('#log').empty();
-        $('#search_buttons').empty()
+        $('#search_buttons').empty();
         $('#num_search_result').empty();
-        var text = LANG.num_search_result_start_text 
+        var text = LANG.num_search_result_start_text
                     + ' \"' + inputValue + '\" '
-                    + LANG.num_search_result_end_text 
+                    + LANG.num_search_result_end_text
                     + ' ' + count + ' ';
-        if (count == 1) text = text + LANG.hit_text;
-        else text = text + LANG.hits_text;
+        if (count === 1) {
+            text = text + LANG.hit_text;
+        } else {
+            text = text + LANG.hits_text;
+        }
         text = text + '.';
         var resultText = document.createTextNode(text);
         $('#num_search_result').append(resultText);
     }
 
+    function removePreviousMarkers(key) {
+        function remove(entry) {
+            var feature = entry.admin_center;
+            if (feature) {
+                townHallLayer.removeFeatures([feature]);
+            }
+        }
+        var old = resultList[key];
+        if (old) {
+            $.map(old, remove);
+        }
+        if (popup) {
+            map.removePopup(popup);
+            popup = null;
+        }
+    }
+
+    function addMarkers(request_term) {
+        var len = resultList[request_term].length;
+        var num = (offset + max_rows) > len ? len : offset + max_rows;
+        var i;
+        for (i = offset; i < num; i++) {
+            var admin_center = resultList[request_term][i].admin_center;
+            if (admin_center) {
+                townHallLayer.addFeatures([admin_center]);
+            }
+        }
+    }
+
     function fillSearchField(inputValue) {
         //insert result into list
         var count = resultList[inputValue].length;
+        var numInstance = 0, numRegion = 0;
+        var i;
+
         resetSearchField(inputValue, count);
         addMarkers(inputValue);
 
-        var numInstance = 0; var numRegion = 0;
-        for (var i = offset; i < offset+max_rows && i < count; ++i) {
+        for (i = offset; i < offset + max_rows && i < count; ++i) {
             instanceEntry(resultList[inputValue][i], numInstance, numRegion);
             if (resultList[inputValue][i].instance_id != "") {
                 numInstance = numInstance + 1;
@@ -1496,26 +1556,34 @@ function instanceSearch(state, resultList) {
                 numRegion = numRegion + 1;
             }
         }
-        enableMarker('search_result_list_marker', townHallLayer, selectControl); 
-        
-        if(count > max_rows) {
+        enableMarker('search_result_list_marker', townHallLayer, selectControl);
+
+        if (count > max_rows) {
             if (offset + max_rows > max_rows) {
-                var prevButton = $( '<div />', { class: 'button_small', id: 'search_prev' });
+                var prevButton = $('<div />', {'class': 'button_small', id: 'search_prev'});
                 var prevText = document.createTextNode(LANG.prev_text);
                 prevButton.append(prevText);
                 prevButton.appendTo('#search_buttons');
-                prevButton.click(function(event) { removePreviousMarkers(inputValue); offset = offset-max_rows; fillSearchField(inputValue) });
+                prevButton.click(function (event) {
+                    removePreviousMarkers(inputValue);
+                    offset = offset - max_rows;
+                    fillSearchField(inputValue);
+                });
             }
-            var lastPage = Math.min(offset+max_rows,count);
-            var pageText = document.createTextNode((offset+1) + ' '
+            var lastPage = Math.min(offset + max_rows, count);
+            var pageText = document.createTextNode((offset + 1) + ' '
                             + LANG.to_text + ' ' + lastPage);
             $('#search_buttons').append(pageText);
             if (offset + max_rows < count) {
-                var nextButton = $( '<div />', { class: 'button_small', id: 'search_next' });
+                var nextButton = $('<div />', {'class': 'button_small', id: 'search_next'});
                 var nextText = document.createTextNode(LANG.next_text);
                 nextButton.append(nextText);
                 nextButton.appendTo('#search_buttons');
-                nextButton.click(function(event) { removePreviousMarkers(inputValue); offset = offset+max_rows; fillSearchField(inputValue) });
+                nextButton.click(function (event) {
+                    removePreviousMarkers(inputValue);
+                    offset = offset + max_rows;
+                    fillSearchField(inputValue);
+                });
             }
         } else {
             $('#search_next').remove();
@@ -1528,57 +1596,25 @@ function instanceSearch(state, resultList) {
         var features = new OpenLayers.Format.GeoJSON({}).read(geojsonStr);
         if (features != null && features.length > 0) {
             feature = features[0];
-//            feature.geometry = OpenLayers.Projection.transform(feature.geometry,geographic, mercator);
+//            feature.geometry = OpenLayers.Projection.transform(feature.geometry, geographic, mercator);
         }
         return feature;
     }
 
-    function removePreviousMarkers(key) {
-        function remove(entry) {
-            var feature = entry.admin_center;
-            if (feature) {
-                townHallLayer.removeFeatures([feature]);
-            }
-        }
-        var old = resultList[key];
-        if (old) {
-            $.map(old,remove);
-        }
-        if (popup) {
-            map.removePopup(popup);
-            popup = null;
-        }
-    }
-
-    function addMarkers(request_term) {
-        var i=offset;
-        var len = resultList[request_term].length;
-        var num = (offset + max_rows) > len ? len : offset + max_rows
-        for (; i<num;i++) {
-            var admin_center = resultList[request_term][i].admin_center;
-            if (admin_center) townHallLayer.addFeatures([admin_center]);
-        }
-    }
 
     function buildResultList() {
         var frame = $('<div/>', {
-                        class: 'ui-widget',
-                        id: 'search_result_content'
-                    });
+                'class': 'ui-widget',
+                id: 'search_result_content'
+            });
 
         var heading = $('<h4>');
         var text = document.createTextNode(LANG.search_result_text);
         heading.append(text);
 
-        var infoText = $('<div/>', {
-                                 id: 'num_search_result' 
-                         });
-        var list = $('<div/>', {
-                        id: 'log',
-                    });
-        var buttons = $('<div>', {
-                           id: 'search_buttons'
-                       });
+        var infoText = $('<div/>', {id: 'num_search_result'});
+        var list = $('<div/>', {id: 'log'});
+        var buttons = $('<div>', {id: 'search_buttons'});
 
         $('#instance_search').append(frame);
         frame.append(heading);
@@ -1594,21 +1630,7 @@ function instanceSearch(state, resultList) {
         stopAutocompletion = true;
         var request_term = $("#overview_search_field").val();
 
-        function errorResponse(xhr,err) {
-            currentSearch = undefined;
-            $('#overview_search_field').removeClass('ui-autocomplete-loading');
-            //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
-            //alert('No response from server, sorry. Error: '+err);
-        }
-
-        function successResponse(data) {
-            $('#overview_search_field').removeClass('ui-autocomplete-loading');
-            resultList[request_term] = $.map( data.search_result, makeResponse);
-            currentSearch = undefined;
-            showSearchResult();
-        }
-
-        function makeResponse( item ) {
+        function makeResponse(item) {
             var feature = getFeature(item.admin_center);
             return {
                 instance_id: item.instance_id,
@@ -1624,15 +1646,61 @@ function instanceSearch(state, resultList) {
                 admin_center: feature,
                 admin_type: item.admin_type,
                 is_in: item.is_in
+            };
+        }
+
+        function showSearchResult() {
+            $("#overview_search_field").autocomplete("close");
+            removePreviousMarkers(prevInputValue);
+            offset = 0;
+            prevInputValue = inputValue;
+            inputValue = $("#overview_search_field").val();
+
+            if (resultList[inputValue]) {
+                if ($('#instance_search').children().size() === 1) {
+                    buildResultList();
+                }
+
+                fillSearchField(inputValue);
+                var bounds = new OpenLayers.Bounds();
+                var found = false;
+                var i;
+                for (i = 0; i < resultList[inputValue].length; i++) {
+                    var hit = resultList[inputValue][i];
+                    //if (hit.instance_id != "") {
+                    var bbox = JSON.parse(hit.bbox);
+                    var hitBounds = new OpenLayers.Bounds.fromArray(bbox);//.transform(geographic, mercator);
+                    bounds.extend(hitBounds);
+                    found = true;
+                    //}
+                }
+                if (found) {
+                    map.zoomToExtent(bounds);
+                }
+                //delete resultList[inputValue];
             }
+        }
+
+        function errorResponse(xhr, err) {
+            currentSearch = undefined;
+            $('#overview_search_field').removeClass('ui-autocomplete-loading');
+            //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
+            //alert('No response from server, sorry. Error: '+err);
+        }
+
+        function successResponse(data) {
+            $('#overview_search_field').removeClass('ui-autocomplete-loading');
+            resultList[request_term] = $.map(data.search_result, makeResponse);
+            currentSearch = undefined;
+            showSearchResult();
         }
 
         if (!currentSearch || currentSearch != request_term) {
             currentSearch = request_term;
-            if (request_term.length > 2 && request_term != "Enter zip code or region") {
+            if (request_term.length > 2 && request_term !== "Enter zip code or region") {
                 $("#overview_search_field").autocomplete("close");
                 $.ajax({
-                    beforeSend: function(jqXHR, settings) {
+                    beforeSend: function (jqXHR, settings) {
                         $('#overview_search_field').addClass('ui-autocomplete-loading');
                         return true;
                     },
@@ -1648,40 +1716,9 @@ function instanceSearch(state, resultList) {
         }
     }
 
-    function showSearchResult() {
-        $("#overview_search_field").autocomplete("close");
-        removePreviousMarkers(prevInputValue);
-        offset = 0;
-        prevInputValue = new String(inputValue);
-        inputValue = new String($("#overview_search_field").val());
 
-        if (resultList[inputValue]) {
-
-            if ($('#instance_search').children().size() == 1) {
-                buildResultList();    
-            }
-
-            fillSearchField(inputValue);
-            var bounds = new OpenLayers.Bounds();
-            var found = false;
-            for (i=0; i<resultList[inputValue].length; i++) {
-                var hit = resultList[inputValue][i];
-                //if (hit.instance_id != "") {
-                    var bbox = JSON.parse( hit.bbox );
-                    var hitBounds = new OpenLayers.Bounds.fromArray(bbox);//.transform(geographic, mercator);
-                    bounds.extend(hitBounds);
-                    found = true;
-                //}
-            }
-            if (found) {
-                map.zoomToExtent(bounds)
-            }
-            //delete resultList[inputValue];
-        }
-    }
-
-    $("#overview_search_field").keypress(function(event) {
-        if ( event.which == 13 || event.which == 10 ) {
+    $("#overview_search_field").keypress(function (event) {
+        if (event.which == 13 || event.which == 10) {
             querySearchResult();
         }
     });
@@ -1689,10 +1726,10 @@ function instanceSearch(state, resultList) {
     $('#overview_search_button').click(querySearchResult);
 
     $("#overview_search_field").autocomplete({
-        search: function(event, ui) {
+        search: function (event, ui) {
             stopAutocompletion = false;
         },
-        source: function( request, response ) {
+        source: function (request, response) {
             $.ajax({
                 url: "/autocomplete_instances.json",
                 dataType: "jsonp",
@@ -1701,36 +1738,48 @@ function instanceSearch(state, resultList) {
 //                    offset: offset,
                     name_contains: request.term
                 },
-                success: function( data ) {
+                success: function (data) {
                     if (!stopAutocompletion) {
-                        response( $.map(data.search_result, function ( item ) {
+                        response($.map(data.search_result, function (item) {
                             return {
                                 label: item.name,
                                 value: item.name
-                            }
+                            };
                         }));
                     }
                 }
             });
         },
         minLength: 2,
-        open: function() {
-            $( this ).removeClass("ui-corner-all").addClass("ui-corner-top");
+        open: function () {
+            $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
         },
-        close: function() {
-           $("#overview_search_field").removeClass("ui-corner-top").addClass("ui-corner-all");
+        close: function () {
+            $("#overview_search_field").removeClass("ui-corner-top").addClass("ui-corner-all");
         }
 
-  });
+    });
 }
 
-var openlayers_url = $('#openlayers_url_field').val()
-if (openlayers_url != "") {
-    function noPositionClicked(instanceKey) {
+function loadSelectInstance(openlayers_url) {
+    $.getScript(openlayers_url, function () {
+        var layers = [];
+        var tiles = [];
+        var resultList = [];
+        var state = loadSelectInstanceMap(layers, tiles, resultList);
+        instanceSearch(state, resultList);
+    });
+}
+
+function editGeotagInNewProposalWizard(openlayers_url, instanceKey) {
+
+    var noPositionClicked, addPositionClicked, addGeoTagHandler, noGeoTagHandler;
+
+    function noPositionClicked() {
         $('<a>', {
-            id: 'create_geo_button', 
-            class: 'button_small',
-            click: addGeoTagHandler 
+            id: 'create_geo_button',
+            'class': 'button_small',
+            click: addGeoTagHandler
         }).append(document.createTextNode(LANG.add_position_text)).appendTo('#map_div');
         $('<a/>').appendTo('#map_div');
 
@@ -1742,28 +1791,28 @@ if (openlayers_url != "") {
         $('#change_geo_button').remove();
         $('#add_geo_button').remove();
     }
-    
-    function addPositionClicked(instanceKey, position) {
+
+    function addPositionClicked(position) {
 
         $('<a>', {
-            id: 'no_geo_button', 
-            class: 'button_small',
-            click: noGeoTagHandler 
+            id: 'no_geo_button',
+            'class': 'button_small',
+            click: noGeoTagHandler
         }).append(document.createTextNode(LANG.no_position_text)).appendTo('#map_div');
         $('<a/>').appendTo('#map_div');
 
         $('<div />', {
            id: 'map',
-           class: 'edit_map'
+           'class': 'edit_map'
         }).appendTo('#map_div');
 
         loadSingleProposalMap(openlayers_url, instanceKey, null, true, position);
 
-        $('#create_geo_button').remove(); 
+        $('#create_geo_button').remove();
 
-        $('<div />', { 
+        $('<div />', {
             id: 'attribution_div',
-            class: 'note_map'
+            'class': 'note_map'
         }).appendTo('#map_div');
 
         $('#attribution_div').append('&copy; ');
@@ -1782,22 +1831,22 @@ if (openlayers_url != "") {
     }
 
     function addGeoTagHandler(event) {
-      event.preventDefault(); 
-      addPositionClicked($('#instance_key_field').val(), null); 
+      event.preventDefault();
+      addPositionClicked(null);
     }
 
     function noGeoTagHandler(event) {
       event.preventDefault();
-      noPositionClicked($('#instance_key_field').val());
+      noPositionClicked();
     }
 
     function reloadNewProposalForm() {
-         var position = $('#proposal_geotag_field').val(); 
+         var position = $('#proposal_geotag_field').val();
          if (position != null && position != '') {
-            addPositionClicked($('#instance_key_field').val(), position);
+            addPositionClicked(position);
          }
     }
 
     $('#create_geo_button').click(addGeoTagHandler);
-    $('#create_geo_button').ready(reloadNewProposalForm); 
+    $('#create_geo_button').ready(reloadNewProposalForm);
 }
