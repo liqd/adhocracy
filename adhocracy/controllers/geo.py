@@ -149,8 +149,6 @@ class GeoController(BaseController):
                     'label': region.name,
                     'admin_type': region.admin_type
                 }
-                import ipdb
-                ipdb.set_trace()
                 entry['bbox'] = '[%s, %s, %s, %s]' % (
                     str(bbox[0]), str(bbox[1]), str(bbox[2]), str(bbox[3]))
                 if (outer != None):
@@ -165,10 +163,13 @@ class GeoController(BaseController):
                     admin_center_props['url'] = h.entity_url(instances[0])
                     admin_center_props['label'] = instance.label
                     add_instance_props(instance, admin_center_props)
+                    geometry=get_instance_geo_centre(instance)
                 else:
                     entry['instance_id'] = ""
+                    geometry=wkb.loads(str(region.boundary.geom_wkb)).centroid
+
                 feature = geojson.Feature(
-                    geometry=get_instance_geo_centre(instance),
+                    geometry=geometry,
                     properties=admin_center_props
                 )
                 entry['admin_center'] = render_geojson(feature)
