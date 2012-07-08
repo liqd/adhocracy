@@ -737,7 +737,7 @@ function addTiledTownhallLayer(map, resultList) {
     map.addLayer(townHallLayer);
     createPopupControl(map, townHallLayer, buildInstancePopup);
 
-    return townHallLayer
+    return townHallLayer;
 }
 
 function addMultiBoundaryLayer(map, layers, tiles) {
@@ -818,7 +818,7 @@ function addMultiBoundaryLayer(map, layers, tiles) {
             }
         }
     }
- 
+
     var moveLayersTo = function (bounds, zoomChanged, dragging) {
         var showGrid = false;
         var zoom = this.zoom;
@@ -924,7 +924,7 @@ function addRegionSelectControl(map) {
             autoActivate: true
         });
     map.addControl(selectControl);
-    
+
     function featureSelected(event) {
         if (event.feature.attributes.admin_level < 8) {
             map.zoomToExtent(event.feature.geometry.getBounds());
@@ -1306,7 +1306,9 @@ function loadRegionMap(openlayers_url, instanceKey, initialProposals, largeMap, 
         createPopupControl(map, regionBoundaryLayers[1], buildInstancePopup);
 
         var proposalLayer = createRegionProposalsLayer(instanceKey, initialProposals, function (features) {
-            if (!(fullRegion)) {waiter(features, true)};
+            if (!(fullRegion)) {
+                waiter(features, true);
+            }
         });
         map.addLayer(proposalLayer);
         var popupControl = createPopupControl(map, proposalLayer, buildProposalPopup);
@@ -1319,7 +1321,7 @@ function loadRegionMap(openlayers_url, instanceKey, initialProposals, largeMap, 
         var selectControl = createSelectControl();
         enableMarker('result_list_marker', proposalLayer, selectControl);
         map.addControl(selectControl);
-     });
+    });
 }
 
 function loadOverviewMap(openlayers_url, initialInstances) {
@@ -1369,7 +1371,7 @@ function loadSelectInstanceMap(layers, tiles, resultList) {
         $('#resize_map_button').append(img);
     }
 
-    var enlargeMap, shrinkMap;
+    var map, enlargeMap, shrinkMap;
 
     enlargeMap = function (event) {
         addResizeMapButton(false);
@@ -1387,7 +1389,7 @@ function loadSelectInstanceMap(layers, tiles, resultList) {
         map.updateSize();
     };
 
-    var map = createMap();
+    map = createMap();
     var bounds = FALLBACK_BOUNDS;
 
     map.addControls(createControls(true, false));
@@ -1492,7 +1494,7 @@ function instanceSearch(state, resultList) {
         }
         li.appendTo('#log');
 
-        $( "#log" ).scrollTop( 0 );
+        $("#log").scrollTop(0);
     }
 
     function resetSearchField(inputValue, count) {
@@ -1777,7 +1779,7 @@ function editGeotagInNewProposalWizard(openlayers_url, instanceKey) {
 
     var noPositionClicked, addPositionClicked, addGeoTagHandler, noGeoTagHandler;
 
-    function noPositionClicked() {
+    noPositionClicked = function () {
         $('<a>', {
             id: 'create_geo_button',
             'class': 'button_small',
@@ -1792,9 +1794,9 @@ function editGeotagInNewProposalWizard(openlayers_url, instanceKey) {
         $('#remove_geo_button').remove();
         $('#change_geo_button').remove();
         $('#add_geo_button').remove();
-    }
+    };
 
-    function addPositionClicked(position) {
+    addPositionClicked = function (position) {
 
         $('<a>', {
             id: 'no_geo_button',
@@ -1804,8 +1806,8 @@ function editGeotagInNewProposalWizard(openlayers_url, instanceKey) {
         $('<a/>').appendTo('#map_div');
 
         $('<div />', {
-           id: 'map',
-           'class': 'edit_map'
+            id: 'map',
+            'class': 'edit_map'
         }).appendTo('#map_div');
 
         loadSingleProposalMap(openlayers_url, instanceKey, null, true, position);
@@ -1830,23 +1832,23 @@ function editGeotagInNewProposalWizard(openlayers_url, instanceKey) {
         license_link.appendTo('#attribution_div');
         license_link.append(document.createTextNode(LANG.license_text));
         $('#attribution_div').append(document.createTextNode(')'));
-    }
+    };
 
-    function addGeoTagHandler(event) {
-      event.preventDefault();
-      addPositionClicked(null);
-    }
+    addGeoTagHandler = function (event) {
+        event.preventDefault();
+        addPositionClicked(null);
+    };
 
-    function noGeoTagHandler(event) {
-      event.preventDefault();
-      noPositionClicked();
-    }
+    noGeoTagHandler = function (event) {
+        event.preventDefault();
+        noPositionClicked();
+    };
 
     function reloadNewProposalForm() {
-         var position = $('#proposal_geotag_field').val();
-         if (position != null && position != '') {
+        var position = $('#proposal_geotag_field').val();
+        if (position != null && position != '') {
             addPositionClicked(position);
-         }
+        }
     }
 
     $('#create_geo_button').click(addGeoTagHandler);
