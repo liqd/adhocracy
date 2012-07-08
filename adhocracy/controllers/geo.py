@@ -163,10 +163,11 @@ class GeoController(BaseController):
                     admin_center_props['url'] = h.entity_url(instances[0])
                     admin_center_props['label'] = instance.label
                     add_instance_props(instance, admin_center_props)
-                    geometry=get_instance_geo_centre(instance)
+                    geometry = get_instance_geo_centre(instance)
                 else:
                     entry['instance_id'] = ""
-                    geometry=wkb.loads(str(region.boundary.geom_wkb)).centroid
+                    geometry = wkb.loads(
+                        str(region.boundary.geom_wkb)).centroid
 
                 feature = geojson.Feature(
                     geometry=geometry,
