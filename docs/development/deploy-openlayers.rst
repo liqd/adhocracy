@@ -42,7 +42,7 @@ modules are to be included in the build::
 Build::
 
     python build.py -c closure openlayers-adhocracy openlayers.min.js
-    python build.py -c done openlayers-adhocracy openlayers.js
+    python build.py -c none openlayers-adhocracy openlayers.js
 
 
 Manipulate Openlayers theme path, because `_getScriptLocation` doesn't work
