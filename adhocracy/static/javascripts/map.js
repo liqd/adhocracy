@@ -159,7 +159,7 @@ function createOverviewLayers() {
     });
 
     var townHallLayer = createTownHallLayer();
-    var url = '/instance/get_instance_regions';
+    var url = '/instance/get_all_instance_regions';
     $.ajax({
         url: url,
         success: function (data) {

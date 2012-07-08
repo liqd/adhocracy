@@ -834,7 +834,7 @@ class InstanceController(BaseController):
 
         return render_geojson(features)
 
-    def get_instance_regions(self):
+    def get_all_instance_regions(self):
         require.instance.index()
         instances = model.Instance.all()
 
