@@ -146,24 +146,3 @@
       -->
     %endif
 </%def>
-
-<!--TODO-->
-<%def name="badgesform(tile, proposal, badges)">
- <% proposal_badgeids = [b.id for b in proposal.badges] %>
- %if len(badges) > 0:
- <form name="settings"  class="inplace" method="POST"
-      action="${h.entity_url(proposal, member='update_badges')}">
-            %for badge in badges:
-                   <input type="checkbox" 
-                           value="${badge.id}"
-                           class="badgetsform_input"
-                           name="badge" 
-                           ${'checked="checked"' if badge.id in proposal_badgeids else ''}
-                           /> 
-                   ${tiles.badge.badge(badge)}
-            %endfor
-            <input type="hidden" value="1" name="redirect_to_proposals"></input>
-            <button class="badgetsform_save" type="submit">Save</button>
-</form>
-%endif
-</%def>   

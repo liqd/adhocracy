@@ -23,23 +23,3 @@
 
 <%def name="header(tile, instance, active, no_panel)">
 </%def>
-
-<%def name="badgesform(tile, instance, badges)">
- <% badgeids = [b.id for b in instance.badges] %>
- %if len(badges) > 0:
- <form name="settings"  class="inplace" method="POST"
-      action="${h.entity_url(instance, member='update_badges')}">
-            %for badge in badges:
-                   <input type="checkbox" 
-                           value="${badge.id}"
-                           class="badgetsform_input"
-                           name="badge" 
-                           ${'checked="checked"' if badge.id in badgeids else ''}
-                           /> 
-                   ${tiles.badge.badge(badge)}
-            %endfor
-            <input type="hidden" value="1" name="redirect_to_proposals"></input>
-            <button class="badgetsform_save" type="submit">Save</button>
-</form>
-%endif
-</%def>  

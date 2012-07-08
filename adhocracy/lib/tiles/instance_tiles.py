@@ -67,9 +67,3 @@ def header(instance, tile=None, active='issues', no_panel=False):
         tile = InstanceTile(instance)
     return render_tile('/instance/tiles.html', 'header', tile,
                        instance=instance, active=active, no_panel=no_panel)
-
-
-def badgesform(instance, badges):
-    return render_tile('/instance/tiles.html', 'badgesform',
-                       InstanceTile(instance), instance=instance,
-                       badges=badges, cached=False)
