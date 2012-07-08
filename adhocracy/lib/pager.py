@@ -1133,6 +1133,17 @@ USER_SORTS = NamedSort([[None, (OLDEST(old=1),
                        default=ACTIVITY,
                        mako_def="sort_dropdown")
 
+
+
+
+INSTANCE_SORTS = NamedSort([[None, (OLDEST(old=1),
+                                NEWEST(old=2),
+                                ACTIVITY(old=3),
+                                ALPHA(old=4))]],
+                                default= ACTIVITY,
+                       mako_def="sort_dropdown")
+
+
 PROPOSAL_SORTS = NamedSort([[L_('Support'), (PROPOSAL_SUPPORT(old=2),
                                              PROPOSAL_VOTES,
                                              PROPOSAL_YES_VOTES,
@@ -1162,6 +1173,25 @@ def solr_global_users_pager():
                       sorts=USER_SORTS,
                       facets=[UserBadgeFacet, InstanceFacet]
                       )
+    return pager
+
+
+def solr_instance_pager():
+    pager = SolrPager('instances', tiles.instance.row,
+                      entity_type=model.Instance,
+                      sorts=INSTANCE_SORTS,
+                      )
+    #override default sort
+    #FIXME: listing template does not change default selection [joka]
+    #TODO: is paging working? [joka]
+    custom_default = config.get('adhocracy.listings.instance.sorting')
+    sorts = {"ALPHA": ALPHA,
+             "ACTIVITY": ACTIVITY,
+             "NEWEST": NEWEST,
+             "OLDEST": OLDEST,}
+    if custom_default and custom_default in sorts:
+        pager.default = sorts[custom_default]
+
     return pager
 
 

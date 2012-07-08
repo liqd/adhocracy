@@ -20,7 +20,7 @@
 
     <div class="table" id="instance_table">
 
-        ${c.instances_pager.here()}
+        ${c.instance_pager.render_pager()}   
 
         %if can.badge.edit_instance():
             <div class="simple_overlay" id="edit_badges_container">
