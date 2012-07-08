@@ -177,20 +177,17 @@ class InstanceSnameEditForm(formencode.Schema):
 
 class InstanceController(BaseController):
 
-    def index(self, format='html'):
+    def index(self, format="html"):
         require.instance.index()
-        c.active_global_nav = 'instances'
-        h.add_meta("description",
-                   _("An index of instances run at this site. "
-                     "Select which ones you would like to join "
-                     "and participate!"))
-        instances = model.Instance.all()
+
+        c.instance_pager = pager.solr_instance_pager()
 
         if format == 'json':
-            return render_json(instances)
+            return render_json(c.instance_pager)
 
-        c.instances_pager = pager.instances(instances)
+        c.tile = tiles.instance.InstanceTile(c.instance)
         return render("/instance/index.html")
+
 
     def new(self):
         require.instance.create()
