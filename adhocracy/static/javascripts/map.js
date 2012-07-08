@@ -935,9 +935,6 @@ function createBaseLayers(blank) {
 
 function createMap() {
 
-    // needs to be done in custom OpenLayers builds
-    // OpenLayers.ImgPath = "openlayers-2.12-rc7/img/";
-
     // The bounds below correspond to the following bounds in geographic
     // projection:
     // var RESTRICTED_BOUNDS = new OpenLayers.Bounds(0, 40, 30, 60);
