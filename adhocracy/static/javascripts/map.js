@@ -10,12 +10,9 @@ $.ajaxSetup({
 /* default map configuration */
 
 var NUM_ZOOM_LEVELS = 14;
-var FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
-
+var FALLBACK_BOUNDS;
 var popup;
-
 var layersWithPopup = [];
-
 var numberComplexities = 5;
 
 var inputValue = "";
@@ -76,17 +73,10 @@ var styleEasteregg = {
 };
 
 
-/* projections */
-
-var geographic;
-var mercator;
-
-
 function createProposalLayer() {
 
     return new OpenLayers.Layer.Vector("proposal", {
         displayInLayerSwitcher: false,
-        projection: mercator,
         styleMap: new OpenLayers.StyleMap({
             'default': new OpenLayers.Style(styleProps),
             'select': new OpenLayers.Style(styleSelect)
@@ -104,7 +94,6 @@ function fetchSingleProposal(singleProposalId, layer, callback) {
                 // assert(features.length==1);
                 var feature = features[0];
                 $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(feature));
-//                feature.geometry.transform(geographic, mercator);
                 layer.addFeatures([feature]);
                 callback(feature);
             } else {
@@ -153,7 +142,6 @@ function setTownHallSymbolizer(scope, idx) {
 function createTownHallLayer() {
     return new OpenLayers.Layer.Vector('instance_town_hall', {
         displayInLayerSwitcher: false,
-        projection: mercator,
         styleMap: new OpenLayers.StyleMap({
             'default': townHallSymbolizer, //new OpenLayers.Style(styleProps),
             'select': townHallSymbolizer //new OpenLayers.Style(styleSelect)
@@ -165,7 +153,6 @@ function createOverviewLayers() {
 
     var layer = new OpenLayers.Layer.Vector('overview', {
         displayInLayerSwitcher: false,
-        projection: mercator,
         styleMap: new OpenLayers.StyleMap({
             'default': new OpenLayers.Style(styleBorder)
         })
@@ -181,13 +168,11 @@ function createOverviewLayers() {
             for (i = 0; i < features.length; i++) {
                 // assert(features.length==1);
                 var feature = features[0];
-//                feature.geometry.transform(geographic, mercator);
                 layer.addFeatures([feature]);
                 //callback(feature);
                 if (feature.attributes.admin_center) {
                     var features2 = new OpenLayers.Format.GeoJSON({}).read(feature.attributes.admin_center);
                     var feature2 = features2[0];
-//                    feature2.geometry.transform(geographic, mercator);
                     townHallLayer.addFeatures([feature2]);
                 }
             }
@@ -243,7 +228,6 @@ function createRegionProposalsLayer(instanceKey, initialProposals, featuresAdded
             url: '/instance/' + instanceKey + '/get_proposal_geotags',
             format: format
         }),
-        projection: mercator,
         styleMap: new OpenLayers.StyleMap({
             'default': new OpenLayers.Style(styleProps, {
                 rules: [
@@ -360,7 +344,6 @@ function addEditControls(map, layer) {
 
     function updateGeotagField() {
         var transformed_feature = layer.features[0].clone();
-//        transformed_feature.geometry.transform(mercator, geographic);
         $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(transformed_feature));
         map.setCenter(layer.features[0].geometry.getBounds().getCenterLonLat(),
             map.getZoom());
@@ -399,7 +382,6 @@ function createRegionBoundaryLayer(instanceKey, callback) {
 
     var layer = new OpenLayers.Layer.Vector('instance_boundary', {
         displayInLayerSwitcher: false,
-        projection: mercator,
         styleMap: new OpenLayers.StyleMap({
             'default': new OpenLayers.Style(styleRegionBorder)
         })
@@ -415,13 +397,11 @@ function createRegionBoundaryLayer(instanceKey, callback) {
             if (features) {
                 // assert(features.length==1);
                 var feature = features[0];
-//                feature.geometry.transform(geographic, mercator);
                 layer.addFeatures([feature]);
                 callback(feature);
                 if (feature.attributes.admin_center) {
                     var features2 = new OpenLayers.Format.GeoJSON({}).read(feature.attributes.admin_center);
                     var feature2 = features2[0];
-//                    feature2.geometry.transform(geographic, mercator);
                     townHallLayer.addFeatures([feature2]);
                 }
             } else {
@@ -451,7 +431,6 @@ function createEastereggLayer() {
                 ignoreExtraDims: true
             })
         }),
-        projection: mercator,
         styleMap: new OpenLayers.StyleMap({
             'default': styleEasteregg
         })
@@ -733,7 +712,6 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
                         layers[this.layersIdx][zoom].addFeatures([new OpenLayers.Feature.Vector(box.toGeometry(),
                                                                                                         {})]);
                     }
-                            //transform bbox with shapely
                     var url = '/get_tiled_boundaries.json'
                                     + '?x=' + newTiles[i].x
                                     + '&y=' + newTiles[i].y
@@ -873,7 +851,6 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
             layers[layersIdx][z]
                 = new OpenLayers.Layer.Vector(layername, {
                     displayInLayerSwitcher: false,
-                    projection: mercator,
                     styleMap: new OpenLayers.StyleMap({'default': (style < 2 ? new OpenLayers.Style(styleBorder) : new OpenLayers.Style(styleArea))}),
                     layersIdx: layersIdx,
                     zoom: z
@@ -1012,13 +989,30 @@ function createMap() {
     // needs to be done in custom OpenLayers builds
     // OpenLayers.ImgPath = "openlayers-2.12-rc7/img/";
 
-    geographic = new OpenLayers.Projection("EPSG:4326");
-    mercator = new OpenLayers.Projection("EPSG:900913");
+    // The bounds below correspond to the following bounds in geographic
+    // projection:
+    // var RESTRICTED_BOUNDS = new OpenLayers.Bounds(0, 40, 30, 60);
 
-    var RESTRICTED_BOUNDS = new OpenLayers.Bounds(0, 40, 30, 60);
+    var RESTRICTED_BOUNDS = new OpenLayers.Bounds(
+        0,
+        4865942.278825832,
+        3339584.7233333336,
+        8399737.888649108
+    );
+
+    // FALLBACK_BOUNDS is the BBOX around Germany. In geographic projection:
+    // var FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
+    // In spherical mercartor projection:
+
+    FALLBACK_BOUNDS = new OpenLayers.Bounds(
+        653034.6021803395,
+        5986272.559465266,
+        1674460.2223558303,
+        7384713.654445262
+    );
 
     return new OpenLayers.Map('map', {
-        restrictedExtent: RESTRICTED_BOUNDS.transform(geographic, mercator),
+        restrictedExtent: RESTRICTED_BOUNDS,
         projection: "EPSG:900913",
         controls: []
     });
@@ -1128,7 +1122,7 @@ function createWaiter(number, callback) {
             } else if (!secondary_is_empty) {
                 bounds = secondaryBounds;
             } else {
-                bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(geographic, mercator);
+                bounds = FALLBACK_BOUNDS;
             }
             callback(bounds);
         }
@@ -1222,7 +1216,6 @@ function loadSingleProposalMap(openlayers_url, instanceKey, proposalId, edit, po
                 var features = new OpenLayers.Format.GeoJSON({}).read(position);
                 if (features) {
                     feature = features[0];
-    //                feature.geometry.transform(geographic, mercator);
                     proposalLayer.addFeatures([feature]);
                 }
             }
@@ -1322,7 +1315,7 @@ function loadOverviewMap(openlayers_url, initialInstances) {
     $.getScript(openlayers_url, function () {
         var map = createMap();
 
-        var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(geographic, mercator);
+        var bounds = FALLBACK_BOUNDS;
 
         map.addControls(createControls(false, false));
         map.addLayers(createBaseLayers());
@@ -1384,7 +1377,7 @@ function loadSelectInstanceMap(layers, tiles, resultList) {
     };
 
     var map = createMap();
-    var bounds = new OpenLayers.Bounds.fromArray(FALLBACK_BOUNDS).transform(geographic, mercator);
+    var bounds = FALLBACK_BOUNDS;
 
     map.addControls(createControls(true, false));
     map.addLayers(createBaseLayers());
@@ -1596,7 +1589,6 @@ function instanceSearch(state, resultList) {
         var features = new OpenLayers.Format.GeoJSON({}).read(geojsonStr);
         if (features != null && features.length > 0) {
             feature = features[0];
-//            feature.geometry = OpenLayers.Projection.transform(feature.geometry, geographic, mercator);
         }
         return feature;
     }
@@ -1669,7 +1661,7 @@ function instanceSearch(state, resultList) {
                     var hit = resultList[inputValue][i];
                     //if (hit.instance_id != "") {
                     var bbox = JSON.parse(hit.bbox);
-                    var hitBounds = new OpenLayers.Bounds.fromArray(bbox);//.transform(geographic, mercator);
+                    var hitBounds = new OpenLayers.Bounds.fromArray(bbox);
                     bounds.extend(hitBounds);
                     found = true;
                     //}
