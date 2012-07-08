@@ -492,79 +492,72 @@ function buildInstancePopup(attributes) {
     return result;
 }
 
-function addMultiBoundaryLayer(map, layers, tiles, resultList) {
 
+/* Stuff used by addTiledTownhallLayer and addMultiBoundaryLayer */
+
+var adminLevels = [4, 5, 6, 7, 8];
+
+//Zoom 0 ... 14 -> 0=hidden, 1=borderColor1, 2=borderColor2, 3=borderColor3, ...]
+var displayMap = [
+    {styles: [1, 0, 0, 0, 0]},
+    {styles: [1, 0, 0, 0, 0]},
+    {styles: [1, 0, 0, 0, 0]},
+    {styles: [1, 0, 1, 0, 0]},
+    {styles: [1, 0, 1, 0, 0]},  //4
+    {styles: [0, 0, 1, 1, 0]},
+    {styles: [0, 0, 1, 1, 0]},
+    {styles: [0, 0, 1, 1, 1]},
+    {styles: [0, 0, 1, 1, 1]},  //8
+    {styles: [0, 0, 1, 1, 1]},
+    {styles: [0, 0, 1, 1, 1]},
+    {styles: [0, 0, 1, 1, 1]},
+    {styles: [0, 0, 1, 1, 1]},  //12
+    {styles: [0, 0, 1, 1, 1]},
+    {styles: [0, 0, 1, 1, 1]}
+];
+
+function makeTiles(sizeLL, bounds) {
+    var xStart = Math.floor(bounds.left / sizeLL);
+    var yStart = Math.floor(bounds.bottom / sizeLL);
+    var tiles = [];
+    var x = xStart;
+    do {
+        var y = yStart;
+        do {
+            tiles.push({
+                x: x,
+                y: y
+            });
+            y += 1;
+        } while ((y * sizeLL) < bounds.top);
+        x += 1;
+    } while ((x * sizeLL) < bounds.right);
+    return tiles;
+}
+
+function alreadyFetched(tiles, tile) {
+    var fetch = true;
+    var i = 0;
+    for (i = 0; i < tiles.length; i++) {
+        if (tile.x === tiles[i].x && tile.y === tiles[i].y) {
+            fetch = false;
+        }
+    }
+    return !fetch;
+}
+
+function getLayerIndex(admin_level) {
+    return adminLevels.indexOf(admin_level);
+}
+
+function addTiledTownhallLayer(map, resultList) {
     var addTownHalls;
-    var adminLevels = [4, 5, 6, 7, 8];
     var townHallTiles = new Array(adminLevels.length);
     var i = 0;
     for (i = 0; i < adminLevels.length; i++) {
         townHallTiles[i] = [];
     }
     var townHallLayer = createTownHallLayer();
-
-    //Zoom 0 ... 14 -> 0=hidden, 1=borderColor1, 2=borderColor2, 3=borderColor3, ...]
-    var displayMap = [
-        {styles: [1, 0, 0, 0, 0]},
-        {styles: [1, 0, 0, 0, 0]},
-        {styles: [1, 0, 0, 0, 0]},
-        {styles: [1, 0, 1, 0, 0]},
-        {styles: [1, 0, 1, 0, 0]},  //4
-        {styles: [0, 0, 1, 1, 0]},
-        {styles: [0, 0, 1, 1, 0]},
-        {styles: [0, 0, 1, 1, 1]},
-        {styles: [0, 0, 1, 1, 1]},  //8
-        {styles: [0, 0, 1, 1, 1]},
-        {styles: [0, 0, 1, 1, 1]},
-        {styles: [0, 0, 1, 1, 1]},
-        {styles: [0, 0, 1, 1, 1]},  //12
-        {styles: [0, 0, 1, 1, 1]},
-        {styles: [0, 0, 1, 1, 1]}
-    ];
-
-    function isValidAdminLevel(admin_level) {
-        var i = 0;
-        for (i = 0; i < adminLevels.length; i++) {
-            if (adminLevels[i] === admin_level) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function getLayerIndex(admin_level) {
-        return adminLevels.indexOf(admin_level);
-    }
-
-    function makeTiles(sizeLL, bounds) {
-        var xStart = Math.floor(bounds.left / sizeLL);
-        var yStart = Math.floor(bounds.bottom / sizeLL);
-        var tiles = [];
-        var x = xStart;
-        do {
-            var y = yStart;
-            do {
-                tiles.push({
-                    x: x,
-                    y: y
-                });
-                y += 1;
-            } while ((y * sizeLL) < bounds.top);
-            x += 1;
-        } while ((x * sizeLL) < bounds.right);
-        return tiles;
-    }
-
-    function alreadyFetched(tiles, tile) {
-        var fetch = true;
-        var i = 0;
-        for (i = 0; i < tiles.length; i++) {
-            if (tile.x === tiles[i].x && tile.y === tiles[i].y) {
-                fetch = false;
-            }
-        }
-        return !fetch;
-    }
 
     function fetchTownHalls(bounds, adminLevel, townHallTiles) {
         //fetch townHalls
@@ -620,112 +613,6 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
             }
             i++;
         }
-    };
-
-    function redrawFeatures(thelayer, thestyle) {
-        var i = 0;
-        for (i = 0; i < thelayer.features.length; i++) {
-            thelayer.features[i].style = thestyle;
-            thelayer.drawFeature(thelayer.features[i], thestyle);
-        }
-    }
-
-    var moveMapTo = function (bounds, zoomChanged, dragging) {
-        var zoom = map.getZoom();
-        if (zoom != null && zoomChanged != null) {
-            var i = 0;
-            while (i < adminLevels.length) {
-                var styleChanged = displayMap[zoomChanged]['styles'][i];
-                var style = displayMap[zoom]['styles'][i];
-                var j = 0;
-                for (j = 0; j < displayMap.length; j++) {
-                    layers[i][j].setVisibility(false);
-                }
-                if (styleChanged !== 0) {
-                    layers[i][zoomChanged].setVisibility(true);
-                    if (style !== styleChanged) {
-                        var k = 0;
-                        if (styleChanged < 2) {
-                            for (k = 0; k < displayMap.length; k++) {
-                                layers[i][k].styleMap['default']
-                                    = new OpenLayers.Style(styleBorder);
-                                layers[i][k].styleMap['default']
-                                    = new OpenLayers.Style(styleBorder);
-                                redrawFeatures(layers[i][k], styleBorder);
-                            }
-                        } else {
-                            for (k = 0; k < displayMap.length; k++) {
-                                layers[i][k].styleMap['default']
-                                    = new OpenLayers.Style(styleArea);
-                                layers[i][k].styleMap['default']
-                                    = new OpenLayers.Style(styleArea);
-                                redrawFeatures(layers[i][k], styleArea);
-                            }
-                        }
-                    }
-                }
-                i++;
-            }
-        }
-
-        OpenLayers.Map.prototype.moveTo.apply(this, arguments);
-    };
-
-    function addBoundaryPaths(zoom, data) {
-        var features = new OpenLayers.Format.GeoJSON({}).read(data);
-        if (features) {
-            var k = 0;
-            for (k = 0; k < features.length; k++) {
-                var feature = features[k];
-                if (feature.geometry !== null) {
-                    var admin_level = parseInt(feature.attributes.admin_level, 10);
-                    var zoom2 = parseInt(feature.attributes.zoom, 10);
-                    if (zoom2 >= 0 && zoom2 < 15 && isValidAdminLevel(admin_level)) {
-                        layers[getLayerIndex(admin_level)][zoom2].addFeatures([feature]);
-                    }
-                }
-            }
-        }
-    }
- 
-    var moveLayersTo = function (bounds, zoomChanged, dragging) {
-        var showGrid = false;
-        var zoom = this.zoom;
-
-        function success(data) {
-            addBoundaryPaths(zoom, data);
-        }
-        function error(xhr, err) {
-            // console.log("error: " + err);
-        }
-        if (this.getVisibility()) {
-            var tileSize = 256;
-            var tileSizeLL = tileSize * map.getResolution();
-            var newTiles = makeTiles(tileSizeLL, bounds);
-            var i = 0;
-            for (i = 0; i < newTiles.length; i++) {
-                if (!alreadyFetched(tiles[this.layersIdx], newTiles[i])) {
-                    tiles[this.layersIdx].push(newTiles[i]);
-                    if (showGrid) {
-                        var box = new OpenLayers.Bounds(newTiles[i].x * tileSizeLL, newTiles[i].y * tileSizeLL,
-                                                    (newTiles[i].x + 1) * tileSizeLL, (newTiles[i].y + 1) * tileSizeLL);
-                        layers[this.layersIdx][zoom].addFeatures([new OpenLayers.Feature.Vector(box.toGeometry(),
-                                                                                                        {})]);
-                    }
-                    var url = '/get_tiled_boundaries.json'
-                                    + '?x=' + newTiles[i].x
-                                    + '&y=' + newTiles[i].y
-                                    + '&zoom=' + zoom
-                                    + '&admin_level=' + adminLevels[this.layersIdx];
-                    $.ajax({
-                        url: url,
-                        success: success,
-                        error: error
-                    });
-                }
-            }
-        }
-        OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
     };
 
     function isInstance(feature, searchEntry) {
@@ -838,6 +725,140 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
         return (style === 0);
     }
 
+    var rule = new OpenLayers.Rule({symbolizer: balloonSymbolizer});
+    rule.evaluate = filterInstancesBalloon;
+    var rule2 = new OpenLayers.Rule({ symbolizer: styleTransparentProps });
+    rule2.evaluate = filterInstancesInVisible;
+    var rule3 = new OpenLayers.Rule({elseFilter: true, symbolizer: townHallSymbolizer});
+    rule3.evaluate = filterElse;
+
+    townHallLayer.styleMap = new OpenLayers.Style(styleProps, {rules: [rule, rule2, rule3]});
+    townHallLayer.moveTo = moveTownHallTo;
+    map.addLayer(townHallLayer);
+    createPopupControl(map, townHallLayer, buildInstancePopup);
+
+    return townHallLayer
+}
+
+function addMultiBoundaryLayer(map, layers, tiles) {
+
+    function isValidAdminLevel(admin_level) {
+        var i = 0;
+        for (i = 0; i < adminLevels.length; i++) {
+            if (adminLevels[i] === admin_level) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    function redrawFeatures(thelayer, thestyle) {
+        var i = 0;
+        for (i = 0; i < thelayer.features.length; i++) {
+            thelayer.features[i].style = thestyle;
+            thelayer.drawFeature(thelayer.features[i], thestyle);
+        }
+    }
+
+    var moveMapTo = function (bounds, zoomChanged, dragging) {
+        var zoom = map.getZoom();
+        if (zoom != null && zoomChanged != null) {
+            var i = 0;
+            while (i < adminLevels.length) {
+                var styleChanged = displayMap[zoomChanged]['styles'][i];
+                var style = displayMap[zoom]['styles'][i];
+                var j = 0;
+                for (j = 0; j < displayMap.length; j++) {
+                    layers[i][j].setVisibility(false);
+                }
+                if (styleChanged !== 0) {
+                    layers[i][zoomChanged].setVisibility(true);
+                    if (style !== styleChanged) {
+                        var k = 0;
+                        if (styleChanged < 2) {
+                            for (k = 0; k < displayMap.length; k++) {
+                                layers[i][k].styleMap['default']
+                                    = new OpenLayers.Style(styleBorder);
+                                layers[i][k].styleMap['default']
+                                    = new OpenLayers.Style(styleBorder);
+                                redrawFeatures(layers[i][k], styleBorder);
+                            }
+                        } else {
+                            for (k = 0; k < displayMap.length; k++) {
+                                layers[i][k].styleMap['default']
+                                    = new OpenLayers.Style(styleArea);
+                                layers[i][k].styleMap['default']
+                                    = new OpenLayers.Style(styleArea);
+                                redrawFeatures(layers[i][k], styleArea);
+                            }
+                        }
+                    }
+                }
+                i++;
+            }
+        }
+
+        OpenLayers.Map.prototype.moveTo.apply(this, arguments);
+    };
+
+    function addBoundaryPaths(zoom, data) {
+        var features = new OpenLayers.Format.GeoJSON({}).read(data);
+        if (features) {
+            var k = 0;
+            for (k = 0; k < features.length; k++) {
+                var feature = features[k];
+                if (feature.geometry !== null) {
+                    var admin_level = parseInt(feature.attributes.admin_level, 10);
+                    var zoom2 = parseInt(feature.attributes.zoom, 10);
+                    if (zoom2 >= 0 && zoom2 < 15 && isValidAdminLevel(admin_level)) {
+                        layers[getLayerIndex(admin_level)][zoom2].addFeatures([feature]);
+                    }
+                }
+            }
+        }
+    }
+ 
+    var moveLayersTo = function (bounds, zoomChanged, dragging) {
+        var showGrid = false;
+        var zoom = this.zoom;
+
+        function success(data) {
+            addBoundaryPaths(zoom, data);
+        }
+        function error(xhr, err) {
+            // console.log("error: " + err);
+        }
+        if (this.getVisibility()) {
+            var tileSize = 256;
+            var tileSizeLL = tileSize * map.getResolution();
+            var newTiles = makeTiles(tileSizeLL, bounds);
+            var i = 0;
+            for (i = 0; i < newTiles.length; i++) {
+                if (!alreadyFetched(tiles[this.layersIdx], newTiles[i])) {
+                    tiles[this.layersIdx].push(newTiles[i]);
+                    if (showGrid) {
+                        var box = new OpenLayers.Bounds(newTiles[i].x * tileSizeLL, newTiles[i].y * tileSizeLL,
+                                                    (newTiles[i].x + 1) * tileSizeLL, (newTiles[i].y + 1) * tileSizeLL);
+                        layers[this.layersIdx][zoom].addFeatures([new OpenLayers.Feature.Vector(box.toGeometry(),
+                                                                                                        {})]);
+                    }
+                    var url = '/get_tiled_boundaries.json'
+                                    + '?x=' + newTiles[i].x
+                                    + '&y=' + newTiles[i].y
+                                    + '&zoom=' + zoom
+                                    + '&admin_level=' + adminLevels[this.layersIdx];
+                    $.ajax({
+                        url: url,
+                        success: success,
+                        error: error
+                    });
+                }
+            }
+        }
+        OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
+    };
+
     var layersIdx = 0;
     while (layersIdx < adminLevels.length) {
         var style = displayMap[map.getZoom()]['styles'][layersIdx];
@@ -862,21 +883,9 @@ function addMultiBoundaryLayer(map, layers, tiles, resultList) {
     }
     map.moveTo = moveMapTo;
 
-    var rule = new OpenLayers.Rule({symbolizer: balloonSymbolizer});
-    rule.evaluate = filterInstancesBalloon;
-    var rule2 = new OpenLayers.Rule({ symbolizer: styleTransparentProps });
-    rule2.evaluate = filterInstancesInVisible;
-    var rule3 = new OpenLayers.Rule({elseFilter: true, symbolizer: townHallSymbolizer});
-    rule3.evaluate = filterElse;
-
-    townHallLayer.styleMap = new OpenLayers.Style(styleProps, {rules: [rule, rule2, rule3]});
-    townHallLayer.moveTo = moveTownHallTo;
-    map.addLayer(townHallLayer);
-    createPopupControl(map, townHallLayer, buildInstancePopup);
-
     //var foldLayers = foldLayerMatrix(layers);
-    //return [townHallLayer, foldLayers];
-    return [townHallLayer, undefined];
+    //return foldLayers;
+    return undefined;
 }
 
 function foldLayerMatrix(layers) {
@@ -1384,9 +1393,8 @@ function loadSelectInstanceMap(layers, tiles, resultList) {
     map.addControls(createControls(true, false));
     map.addLayers(createBaseLayers());
 
-    var layers2 = addMultiBoundaryLayer(map, layers, tiles, resultList);
-    var townHallLayer = layers2[0];
-    var foldLayers = layers2[1];
+    var foldLayers = addMultiBoundaryLayer(map, layers, tiles);
+    var townHallLayer = addTiledTownhallLayer(map, resultList);
 
     var selectControl = createSelectControl();
     map.addControl(selectControl);
