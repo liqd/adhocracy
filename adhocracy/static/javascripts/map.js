@@ -1250,7 +1250,7 @@ function enableMarker(id, layer, selectControl) {
 function loadRegionMap(openlayers_url, instanceKey, initialProposals, largeMap, fullRegion) {
     $.getScript(openlayers_url, function () {
 
-        var map = createMap();
+        var map;
 
         if (largeMap) {
             $('body').css('overflow', 'hidden');
@@ -1274,6 +1274,8 @@ function loadRegionMap(openlayers_url, instanceKey, initialProposals, largeMap, 
                 $('#hide_list_icon').show();
             });
         }
+
+        map = createMap();
 
         var waiter = createWaiter(fullRegion ? 1 : 2, function (bounds) {
             map.zoomToExtent(bounds);
