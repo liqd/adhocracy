@@ -899,66 +899,6 @@ function foldLayerMatrix(layers) {
     return foldLayers;
 }
 
-function addRegionSelectControl(map) {
-
-    var i;
-    var foldLayers = foldLayerMatrix(layers);
-
-    var selectHoverControl = new OpenLayers.Control.SelectFeature(foldLayers, {
-            clickout: false,
-            toggle: false,
-            multiple: false,
-            hover: true,
-            highlightOnly: true,
-            box: false,
-            autoActivate: true
-        });
-    map.addControl(selectHoverControl);
-
-    var selectControl = new OpenLayers.Control.SelectFeature(foldLayers, {
-            clickout: true,
-            toggle: false,
-            multiple: false,
-            hover: false,
-            box: false,
-            autoActivate: true
-        });
-    map.addControl(selectControl);
-
-    function featureSelected(event) {
-        if (event.feature.attributes.admin_level < 8) {
-            map.zoomToExtent(event.feature.geometry.getBounds());
-        }
-        if (event.feature.attributes.admin_level === 8) {
-            if (popup) {
-                map.removePopup(popup);
-            }
-            popup = new OpenLayers.Popup.FramedCloud("singlepopup",
-                    event.feature.geometry.getBounds().getCenterLonLat(),
-                    null,
-                    buildInstancePopup(event.feature.attributes),
-                    null, false, null
-                );
-            map.addPopup(popup);
-        }
-    }
-    function featureUnselected(event) {
-        if (popup) {
-            map.removePopup(popup);
-            popup = null;
-        }
-    }
-
-    for (i = 0; i < foldLayers.length; i++) {
-        foldLayers[i].events.on(
-            {
-                'featureselected': featureSelected,
-                'featureunselected': featureUnselected
-            }
-        );
-    }
-}
-
 
 function createBaseLayers(blank) {
 
