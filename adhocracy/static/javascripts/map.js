@@ -151,7 +151,7 @@ function createTownHallLayer() {
 
 function createOverviewLayers() {
 
-    var layer = new OpenLayers.Layer.Vector('overview', {
+    var boundaryLayer = new OpenLayers.Layer.Vector('overview', {
         displayInLayerSwitcher: false,
         styleMap: new OpenLayers.StyleMap({
             'default': new OpenLayers.Style(styleBorder)
@@ -168,7 +168,7 @@ function createOverviewLayers() {
             for (i = 0; i < features.length; i++) {
                 // assert(features.length==1);
                 var feature = features[0];
-                layer.addFeatures([feature]);
+                boundaryLayer.addFeatures([feature]);
                 //callback(feature);
                 if (feature.attributes.admin_center) {
                     var features2 = new OpenLayers.Format.GeoJSON({}).read(feature.attributes.admin_center);
@@ -186,7 +186,7 @@ function createOverviewLayers() {
         }
     });
 
-    return [layer, townHallLayer];
+    return [boundaryLayer, townHallLayer];
 
 }
 
@@ -1291,9 +1291,7 @@ function loadOverviewMap(openlayers_url, initialInstances) {
         }
 
         map.zoomToExtent(bounds);
-
         map.addControl(createSelectControl());
-
     });
 }
 
