@@ -36,7 +36,7 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.ko.Badges = function () {
+    adhocracy.ko.Badges = function (basepath) {
         var self = this;
         this.id = ko.observable();
         this.title = ko.observable();
@@ -48,7 +48,7 @@ var adhocracy = adhocracy || {};
         };
         this.load = function (id, callback) {
             self.id(id);
-            var url = '/proposal/' + id + '/badges.ajax';
+            var url = basepath + id + '/badges.ajax';
             $.get(url, function (data) {
                 ko.mapping.fromJS(data, self.mapping, self);
                 callback();
@@ -59,7 +59,7 @@ var adhocracy = adhocracy || {};
             );
         };
         this.save = function (callback) {
-            var url = '/proposal/' + self.id() + '/update_badges.ajax?',
+            var url = basepath + self.id() + '/update_badges.ajax?',
                 parameters = $('#edit_badges').serialize();
             $.post(url, parameters, function (data) {
                 $('#badges_' + self.id()).html(data.html);
@@ -77,10 +77,10 @@ var adhocracy = adhocracy || {};
         };
     };
 
-    adhocracy.ko.editBadges = function () {
+    adhocracy.ko.editBadges = function (basepath) {
         var self = this,
             overlay_container;
-        this.selected = new adhocracy.ko.Badges();
+        this.selected = new adhocracy.ko.Badges(basepath);
         this.cancel = function () {
             self.selected.clear();
             self.overlay_container.overlay().close();

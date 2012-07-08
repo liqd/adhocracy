@@ -18,7 +18,42 @@
 
 <p>${_("Instances are little democracies that are ran by their community.")}</p>
 
-    <div class="table">
+    <div class="table" id="instance_table">
+
         ${c.instances_pager.here()}
+
+        %if can.badge.edit_instance():
+            <div class="simple_overlay" id="edit_badges_container">
+                <form id="edit_badges">
+                    <h5 data-bind="text: selected.title">Title</h5>
+                    <ul data-bind="foreach: selected.badges">
+                        <li class="nobullet">
+                            <input class="badgetsform_input" type="checkbox" 
+                                   name="badge" 
+                                   data-bind="value: id, checked: checked">
+                                <span data-bind="attr: {class: css_class()}">
+                                    <a data-bind="text: title">Abgelehnt</a>
+                                </span>
+                            </input>
+                        </li>
+                    </ul>
+                    <a href="#" class="btn" data-bind="click: save">Save</a> 
+                    or 
+                    <a href="" data-bind="click: cancel">Cancel</a>
+                </form>
+            </div>
+        %endif
+
+        %if can.badge.edit_instance():
+
+            ${h.need.adhocracy_ko}
+
+            <script>
+                var basepath = 'instance/';
+                var editModel = new adhocracy.ko.editBadges(basepath);
+                editModel.applyToPager('#instance_table');
+            </script>
+        %endif
+         
     </div>
 </%block>
