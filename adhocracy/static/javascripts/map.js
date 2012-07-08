@@ -1353,7 +1353,7 @@ function loadOverviewMap(openlayers_url, initialInstances) {
 
 function loadSelectInstanceMap(layers, tiles, resultList) {
 
-    function addArrow(plus) {
+    function addResizeMapButton(plus) {
         var src = '/images/map_resize_rec_plus.png';
         if (!plus) {
             src = '/images/map_resize_rec_minus.png';
@@ -1361,23 +1361,23 @@ function loadSelectInstanceMap(layers, tiles, resultList) {
         var img = $('<img>', { src: src,
                                alt: '+'
                              });
-        $('.arrow').empty();
-        $('.arrow').append(img);
+        $('#resize_map_button').empty();
+        $('#resize_map_button').append(img);
     }
 
     var enlargeMap, shrinkMap;
 
     enlargeMap = function (event) {
-        addArrow(false);
-        $('.arrow').click(shrinkMap);
+        addResizeMapButton(false);
+        $('#resize_map_button').click(shrinkMap);
         $('#map_startpage_wrapper').removeClass('map_size_normal');
         $('#map_startpage_wrapper').addClass('map_size_large');
         map.updateSize();
     };
 
     shrinkMap = function (event) {
-        addArrow(true);
-        $('.arrow').click(enlargeMap);
+        addResizeMapButton(true);
+        $('#resize_map_button').click(enlargeMap);
         $('#map_startpage_wrapper').addClass('map_size_normal');
         $('#map_startpage_wrapper').removeClass('map_size_large');
         map.updateSize();
@@ -1398,8 +1398,8 @@ function loadSelectInstanceMap(layers, tiles, resultList) {
 
     map.zoomToExtent(bounds);
 
-    addArrow(true);
-    $('.arrow').click(enlargeMap);
+    addResizeMapButton(true);
+    $('#resize_map_button').click(enlargeMap);
 
     var result = {map: map,
                   foldLayers: foldLayers,
