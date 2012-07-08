@@ -376,7 +376,8 @@ class InstanceController(BaseController):
         (path, mtime, io) = logo.load(id, size=(x, y))
         request_mtime = int(request.params.get('t', 0))
         if request_mtime != mtime:
-            instance = self._get_current_instance(id)
+            instance = get_entity_or_abort(model.Instance, id,
+                                           instance_filter=False)
             redirect(h.instance.icon_url(instance, y, x=x))
         return render_png(io, mtime, cache_forever=True)
 

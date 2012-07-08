@@ -295,7 +295,10 @@ class PageController(BaseController):
 
     @classmethod
     def selections_details(cls, page, variant, current_selection=None):
-        selections = model.Selection.by_variant(page, variant)
+        try:
+            selections = model.Selection.by_variant(page, variant)
+        except IndexError:
+            selections = []
         return [cls.selection_details(selection, variant,
                                       current_selection=current_selection)
                 for selection in selections]
@@ -345,10 +348,13 @@ class PageController(BaseController):
             votewidget_url = ''
         else:
             is_head = False
-            selection = model.Selection.by_variant(page, variant)[0]
-            votewidget_url = h.entity_url(
-                selection.proposal.rate_poll,
-                member="widget.big")
+            try:
+                selection = model.Selection.by_variant(page, variant)[0]
+                votewidget_url = h.entity_url(
+                    selection.proposal.rate_poll,
+                    member="widget.big")
+            except IndexError:
+                votewidget_url = ''
         details.update(
             {'variant': variant,
              'display_title': cls.variant_display_title(variant),

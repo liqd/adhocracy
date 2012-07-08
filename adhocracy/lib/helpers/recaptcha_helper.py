@@ -46,7 +46,7 @@ Example usage:
     @property
     def _private_key(self):
         return config.get('recaptcha.private_key')
- 
+
     def displayhtml(self, use_ssl=False, error=None):
         """Return HTML string for inserting recaptcha into a form."""
         return literal(displayhtml(self._public_key, use_ssl=use_ssl,
@@ -61,4 +61,4 @@ Example usage:
         recaptcha_response_field = request.POST.get('recaptcha_response_field',
                                                     None)
         return submit(recaptcha_challenge_field, recaptcha_response_field,
-                self._private_key, "127.0.0.1")
+                      self._private_key, "127.0.0.1")

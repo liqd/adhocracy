@@ -3,7 +3,7 @@ import urllib
 
 from pylons.i18n import _
 
-from adhocracy import  model
+from adhocracy import model
 from adhocracy.lib import cache
 from adhocracy.lib.helpers import proposal_helper as proposal
 from adhocracy.lib.helpers import url as _url

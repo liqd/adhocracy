@@ -19,7 +19,7 @@ class TestDecisionWithoutDelegation(TestController):
         self.assertEqual(len(self.decision.votes), 0)
         self.assertEqual(len(self.decision.relevant_votes), 0)
         self.assertEqual(self.decision.result, None,
-                      "Not voted yet == not recorded for quorum")
+                         "Not voted yet == not recorded for quorum")
         # TODO: this quorum thing needs additional tests
 
     def test_new_decisions_are_not_decided(self):
@@ -110,7 +110,7 @@ class TestDecisionWithDelegation(TestController):
         self.assertFalse(self.decision.is_self_decided())
 
     def test_two_delegations_at_the_same_level_that_disagree_cancel_each_other(
-        self):
+            self):
         # This is meant as a safeguard: if I don't fully trust my delegates
         # I can delegate to n delegates, and my vote will only be autocast
         # if they all agree
@@ -123,7 +123,7 @@ class TestDecisionWithDelegation(TestController):
                          "needs to cast his own vote")
 
     def test_two_delegations_at_the_same_level_that_agree_reinforce_each_other(
-        self):
+            self):
         self._do_delegate(self.me, self.high_delegate, self.proposal)
         self._do_delegate(self.me, self.low_delegate, self.proposal)
         Decision(self.high_delegate, self.poll).make(Vote.YES)

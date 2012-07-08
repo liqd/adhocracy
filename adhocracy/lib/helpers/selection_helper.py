@@ -20,8 +20,8 @@ def url(selection, member=None, format='html', selection_page=False, **kwargs):
 @cache.memoize('selection_bc')
 def bc_entity(selection):
     bc = _url.link(_("Implementation"),
-                    proposal.url(selection.proposal,
-                                 member=u'/implementation'))
+                   proposal.url(selection.proposal,
+                   member=u'/implementation'))
     bc += _url.BREAD_SEP + _url.link(selection.page.title, url(selection))
     return bc
 

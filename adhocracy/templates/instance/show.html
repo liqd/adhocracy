@@ -10,28 +10,35 @@
 
 <%block name="main_content">
 
-  ${c.tile.description|n}
+${c.tile.description|n}
 
-  <div id="new_proposals_table" class="table">
-      <h3 class="section">${_("Newest Proposals")}</h3>
-      ${c.new_proposals_pager.here()}
+<div id="new_proposals_table" class="table">
+    <h3 class="section">${_("Newest Proposals")}</h3>
+    ${c.new_proposals_pager.here()}
 
-  <div id="proposal-actions">
-  <% auth = check.proposal.create() %>
-  %if auth:
-      <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
-  %elif auth.propose_join():
-      <a class="button add ttip" title="${_('Join instance to create a new proposal.')}" href="/proposal/new" rel="#overlay-join-button">${_("new proposal")}</a>
-  %elif auth.propose_login():
-      <a class="button add ttip" title="${_('Login to create a new proposal.')}" href="/proposal/new" rel="#overlay-login-button">${_("new proposal")}</a>
-  %endif
+    <div id="proposal-actions">
+        <% auth = check.proposal.create() %>
+        %if auth:
+        <a class="button add ttip" 
+           title="${_('Introduce a new idea to debate.')}" 
+           href="/proposal/new">${_("new proposal")}</a>
+        %elif auth.propose_join():
+        <a class="button add ttip" 
+           title="${_('Join instance to create a new proposal.')}" 
+           href="/proposal/new" rel="#overlay-join-button">${_("new proposal")}</a>
+        %elif auth.propose_login():
+        <a class="button add ttip" 
+           title="${_('Login to create a new proposal.')}" 
+           href="/proposal/new" rel="#overlay-login-button">${_("new proposal")}</a>
+        %endif
 
-  <a href="/proposal" class="button edit ttip" title="${_('show a list of proposals')}">${_("more proposals")}</a>
-  </div>
-
-  </div>
+        <a href="/proposal" 
+           class="button edit ttip" 
+           title="${_('show a list of proposals')}">${_("more proposals")}</a>
+    </div>
 
 </div>
+
 </%block>
 
 <%block name="sidebar">

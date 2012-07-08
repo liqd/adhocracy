@@ -4,6 +4,12 @@ adhocracy Changelog
 1.2beta2dev
 -----------
 
+- New config option "adhocracy.registration.email.blacklist" that
+  accepts a whitspace seperated list of email address and
+  blocks registrations with those. Dots will be stripped before
+  the test (to catch gmail addresses where dots are ignored by gmail).
+  [csenger]
+
 - New config option "adhocracy.listings.instance.sorting" that makes
   the sort options for the instance listing configurable. This
   possible values are: OLDEST, NEWEST, ACTIVITY and ALPHA. [csenger]
