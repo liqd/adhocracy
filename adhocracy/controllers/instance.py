@@ -20,6 +20,7 @@ from adhocracy.controllers.admin import AdminController, UserImportForm
 from adhocracy.controllers.badge import BadgeController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
+from adhocracy.lib import cache
 from adhocracy.lib.auth import can, csrf, require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import (render, render_json, render_png,
@@ -834,7 +835,7 @@ class InstanceController(BaseController):
 
         return render_geojson(features)
 
-    def get_all_instance_regions(self):
+    def get_all_instance_regions_json(self):
         require.instance.index()
         instances = model.Instance.all()
 
@@ -859,3 +860,28 @@ class InstanceController(BaseController):
         features = geojson.FeatureCollection(
             [make_feature(i) for i in instances if i.region is not None])
         return render_geojson(features)
+
+    def get_all_instance_centres_json(self):
+
+        @cache.memoize('geo_all_instance_centres')
+        def calculate():
+
+            require.instance.index()
+            instances = model.Instance.all()
+
+            def make_feature(instance):
+                geom = wkb.loads(str(instance.region.boundary.geom_wkb))
+                geo_centre = get_instance_geo_centre(instance)
+                feature = geojson.Feature(
+                    geometry=geo_centre,
+                    properties={
+                        'url': h.base_url(instance),
+                        'label': instance.label
+                    })
+                add_instance_props(instance, feature.properties)
+                return feature
+
+            return geojson.FeatureCollection(
+                [make_feature(i) for i in instances if i.region is not None])
+
+        return render_geojson(calculate())

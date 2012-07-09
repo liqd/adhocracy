@@ -252,8 +252,10 @@ def make_map():
     map.connect('/abuse/report', controller='abuse', action='report')
     map.connect('/abuse/new', controller='abuse', action='new')
 
-    map.connect('/instance/get_all_instance_regions',
-                controller='instance', action='get_all_instance_regions')
+    map.connect('/instance/get_all_instance_regions.json',
+                controller='instance', action='get_all_instance_regions_json')
+    map.connect('/instance/get_all_instance_centres.json',
+                controller='instance', action='get_all_instance_centres_json')
     map.connect('/instance/{id}_{x}x{y}.png',
                 controller='instance', action='icon')
     map.connect('/instance/{id}_{y}.png',

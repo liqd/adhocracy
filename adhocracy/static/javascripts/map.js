@@ -159,7 +159,7 @@ function createOverviewLayers() {
     });
 
     var townHallLayer = createTownHallLayer();
-    var url = '/instance/get_all_instance_regions';
+    var url = '/instance/get_all_instance_regions.json';
     $.ajax({
         url: url,
         success: function (data) {
@@ -888,6 +888,29 @@ function addMultiBoundaryLayer(map, layers, tiles) {
     return undefined;
 }
 
+function addUntiledTownhallLayer(map, resultList) {
+    var townHallLayer = createTownHallLayer();
+
+    $.ajax({
+        url: '/instance/get_all_instance_centres.json',
+        success: function (data) {
+            var features = new OpenLayers.Format.GeoJSON({}).read(data);
+            var i = 0;
+            for (i = 0; i < features.length; i++) {
+                var feature = features[i];
+                if (feature.geometry !== null) {
+                    townHallLayer.addFeatures([feature]);
+                }
+            }
+        },
+        error: {}
+    });
+
+    map.addLayer(townHallLayer);
+    createPopupControl(map, townHallLayer, buildInstancePopup);
+    return townHallLayer;
+}
+
 function foldLayerMatrix(layers) {
     var foldLayers = [];
     var i = 0, j = 0;
@@ -1331,7 +1354,7 @@ function loadSelectInstanceMap(layers, tiles, resultList) {
     map.addLayers(createBaseLayers());
 
     var foldLayers = addMultiBoundaryLayer(map, layers, tiles);
-    var townHallLayer = addTiledTownhallLayer(map, resultList);
+    var townHallLayer = addUntiledTownhallLayer(map, resultList);
 
     var selectControl = createSelectControl();
     map.addControl(selectControl);
