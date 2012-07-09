@@ -1668,7 +1668,7 @@ function instanceSearch(state, resultList) {
                         return true;
                     },
                     url: 'find_instances.json',
-                    dataType: "jsonp",
+                    dataType: "json",
                     data: {
                         name_contains: request_term
                     },
@@ -1695,7 +1695,7 @@ function instanceSearch(state, resultList) {
         source: function (request, response) {
             $.ajax({
                 url: "/autocomplete_instances.json",
-                dataType: "jsonp",
+                dataType: "json",
                 data: {
 //                    max_rows: 5,
 //                    offset: offset,

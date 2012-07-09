@@ -96,7 +96,6 @@ class GeoController(BaseController):
 
     def autocomplete_instances_json(self):
         name_contains = request.params.get('name_contains')
-        callback = request.params.get('callback')
         q = meta.Session.query(Region).order_by(Region.name)
         q = q.filter(Region.admin_level.in_([6, 7, 8]))
         q = q.filter(Region.name.ilike('%' + name_contains + '%'))
@@ -119,7 +118,7 @@ class GeoController(BaseController):
         search_result = map(create_entry, regions)
 
         response['search_result'] = search_result
-        return callback + '(' + render_json(response) + ');'
+        return render_json(response);
 
     def find_instances_json(self):
 
@@ -192,7 +191,6 @@ class GeoController(BaseController):
 
 #        max_rows = request.params.get('max_rows')
         name_contains = request.params.get('name_contains')
-        callback = request.params.get('callback')
 #        search_offset = request.params.get('offset')
 
         search_items = name_contains.split(',')
@@ -218,4 +216,4 @@ class GeoController(BaseController):
             response['search_result'] = search_result
         else:
             response['search_result'] = []
-        return callback + '(' + render_json(response) + ');'
+        return render_json(response);
