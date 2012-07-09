@@ -1584,10 +1584,14 @@ function instanceSearch(state, resultList) {
 
     var stopAutocompletion = false;
     var currentSearch;
+
+    var search_field = $("#overview_search_field");
+    var search_button = $("#overview_search_button");
+
     function querySearchResult() {
 
         stopAutocompletion = true;
-        var request_term = $("#overview_search_field").val();
+        var request_term = search_field.val();
 
         function makeResponse(item) {
             var feature = getFeature(item.admin_center);
@@ -1609,11 +1613,11 @@ function instanceSearch(state, resultList) {
         }
 
         function showSearchResult() {
-            $("#overview_search_field").autocomplete("close");
+            search_field.autocomplete("close");
             removePreviousMarkers(prevInputValue);
             offset = 0;
             prevInputValue = inputValue;
-            inputValue = $("#overview_search_field").val();
+            inputValue = search_field.val();
 
             if (resultList[inputValue]) {
                 if ($('#instance_search').children().size() === 1) {
@@ -1642,25 +1646,25 @@ function instanceSearch(state, resultList) {
 
         function errorResponse(xhr, err) {
             currentSearch = undefined;
-            $('#overview_search_field').removeClass('ui-autocomplete-loading');
+            search_field.removeClass('ui-autocomplete-loading');
             //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
             //alert('No response from server, sorry. Error: '+err);
         }
 
         function successResponse(data) {
-            $('#overview_search_field').removeClass('ui-autocomplete-loading');
+            search_field.removeClass('ui-autocomplete-loading');
             resultList[request_term] = $.map(data.search_result, makeResponse);
             currentSearch = undefined;
             showSearchResult();
         }
 
-        if (!currentSearch || currentSearch != request_term) {
+        if (!currentSearch || currentSearch !== request_term) {
             currentSearch = request_term;
             if (request_term.length > 2) {
-                $("#overview_search_field").autocomplete("close");
+                search_field.autocomplete("close");
                 $.ajax({
                     beforeSend: function (jqXHR, settings) {
-                        $('#overview_search_field').addClass('ui-autocomplete-loading');
+                        search_field.addClass('ui-autocomplete-loading');
                         return true;
                     },
                     url: 'find_instances.json',
@@ -1676,15 +1680,15 @@ function instanceSearch(state, resultList) {
     }
 
 
-    $("#overview_search_field").keypress(function (event) {
-        if (event.which == 13 || event.which == 10) {
+    search_field.keypress(function (event) {
+        if (event.which === 13 || event.which === 10) {
             querySearchResult();
         }
     });
 
-    $('#overview_search_button').click(querySearchResult);
+    search_button.click(querySearchResult);
 
-    $("#overview_search_field").autocomplete({
+    search_field.autocomplete({
         search: function (event, ui) {
             stopAutocompletion = false;
         },
@@ -1714,7 +1718,7 @@ function instanceSearch(state, resultList) {
             $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
         },
         close: function () {
-            $("#overview_search_field").removeClass("ui-corner-top").addClass("ui-corner-all");
+            search_field.removeClass("ui-corner-top").addClass("ui-corner-all");
         }
 
     });
