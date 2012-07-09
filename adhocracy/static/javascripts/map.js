@@ -1382,9 +1382,6 @@ function instanceSearch(state, resultList) {
     var max_rows = 3;
     var offset = 0;
 
-    $('#overview_search_field').click(function (event) { $('#overview_search_field').val('');
-                                            $('#overview_search_field').unbind('click'); });
-
     function makeRegionNameElements(item) {
         var text = item.label;
         var text2 = "";
@@ -1659,7 +1656,7 @@ function instanceSearch(state, resultList) {
 
         if (!currentSearch || currentSearch != request_term) {
             currentSearch = request_term;
-            if (request_term.length > 2 && request_term !== "Enter zip code or region") {
+            if (request_term.length > 2) {
                 $("#overview_search_field").autocomplete("close");
                 $.ajax({
                     beforeSend: function (jqXHR, settings) {
