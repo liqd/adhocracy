@@ -1,3 +1,4 @@
+import copy
 from inspect import isclass
 import math
 import logging
@@ -936,7 +937,6 @@ class SolrPager(PagerMixin):
         self.enable_sorts = enable_sorts
         self.sorts = sorts
         self.sorts.set_pager(pager=self)
-        self.selected_sort = None
         if self.sorts:
             self.selected_sort = self.sorts.selected().value
 
@@ -1151,13 +1151,11 @@ USER_SORTS = NamedSort([[None, (OLDEST(old=1),
                        mako_def="sort_dropdown")
 
 
-
-
 INSTANCE_SORTS = NamedSort([[None, (OLDEST(old=1),
                                 NEWEST(old=2),
                                 ACTIVITY(old=3),
                                 ALPHA(old=4))]],
-                                default= ACTIVITY,
+                                default=ACTIVITY,
                        mako_def="sort_dropdown")
 
 
@@ -1194,22 +1192,22 @@ def solr_global_users_pager():
 
 
 def solr_instance_pager():
-    pager = SolrPager('instances', tiles.instance.row,
-                      entity_type=model.Instance,
-                      sorts=INSTANCE_SORTS,
-                      facets=[InstanceBadgeFacet],
-                      )
-    #override default sort
-    #FIXME: listing template does not change default sort [joka]
-    #TODO: is paging working? [joka]
+    # override default sort
+    # TODO: is paging working? [joka]
     custom_default = config.get('adhocracy.listings.instance.sorting')
     sorts = {"ALPHA": ALPHA,
              "ACTIVITY": ACTIVITY,
              "NEWEST": NEWEST,
              "OLDEST": OLDEST,}
+    instance_sorts = copy.copy(INSTANCE_SORTS)
     if custom_default and custom_default in sorts:
-        pager.default = sorts[custom_default]
-
+        instance_sorts._default = sorts[custom_default].value
+    # create pager
+    pager = SolrPager('instances', tiles.instance.row,
+                      entity_type=model.Instance,
+                      sorts=instance_sorts,
+                      facets=[InstanceBadgeFacet],
+                      )
     return pager
 
 
