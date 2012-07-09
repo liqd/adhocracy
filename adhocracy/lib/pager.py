@@ -650,6 +650,7 @@ class UserBadgeFacet(SolrFacet):
     entity_type = model.Badge
     title = u'Badge'
     solr_field = 'facet.badges'
+    show_current_empty = False
 
     @classmethod
     def add_data_to_index(cls, user, index):
@@ -657,6 +658,22 @@ class UserBadgeFacet(SolrFacet):
             return
         index[cls.solr_field] = [ref_attr_value(badge) for
                                  badge in user.badges]
+
+
+class InstanceBadgeFacet(SolrFacet):
+
+    name = 'instancebadge'
+    entity_type = model.Badge
+    title = lazy_ugettext(u'Badge')
+    solr_field = 'facet.instance.badges'
+    show_current_empty = False
+
+    @classmethod
+    def add_data_to_index(cls, instance, index):
+        if not isinstance(instance, model.Instance):
+            return
+        d = [ref_attr_value(badge) for badge in instance.badges]
+        index[cls.solr_field] = d
 
 
 class InstanceFacet(SolrFacet):
@@ -1180,9 +1197,10 @@ def solr_instance_pager():
     pager = SolrPager('instances', tiles.instance.row,
                       entity_type=model.Instance,
                       sorts=INSTANCE_SORTS,
+                      facets=[InstanceBadgeFacet],
                       )
     #override default sort
-    #FIXME: listing template does not change default selection [joka]
+    #FIXME: listing template does not change default sort [joka]
     #TODO: is paging working? [joka]
     custom_default = config.get('adhocracy.listings.instance.sorting')
     sorts = {"ALPHA": ALPHA,

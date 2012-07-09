@@ -8,14 +8,21 @@
 
 
 <%block name="headline">
-<div class="top_actions title">
-    %if can.instance.create():
-        <a class="button title add" href="/instance/new">${_("new instance")}</a>
-    %endif 
-</div>
+   <div class="top_actions title">
+      %if can.instance.create():
+          <a class="button title add" href="/instance/new">${_("new instance")}</a>
+      %endif 
+  </div> 
+  <h1 class="page_title">${_("Instances")}</h1>
+</%block> 
 
-<h1 class="page_title">${_("Instances")}</h1>
-
+<%block name="sidebar">
+    <div id="proposals_facets">
+        ${c.instance_pager.render_facets()}    
+    </div>
+</%block> 
+ 
+<%block name="main_content">
 <p>${_("Instances are little democracies that are ran by their community.")}</p>
 
     <div class="table" id="instance_table">
@@ -57,3 +64,5 @@
          
     </div>
 </%block>
+
+
