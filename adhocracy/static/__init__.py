@@ -68,14 +68,6 @@ spectrum = Resource(misc_library, 'spectrum/spectrum.js',
                        depends=[jquery, spectrum_css])
 
 
-# --[ adhocracy ]-----------------------------------------------------------
-
-adhocracy_library = Library('adhocracy', 'javascripts')
-adhocracy = Resource(adhocracy_library, 'adhocracy.js',
-                     depends=[jquery, bootstrap_js, elastic,
-                              label_over, modernizr, jquerytools])
-
-
 # --[ knockout ]------------------------------------------------------------
 
 knockout_library = Library('knockoutjs', 'javascripts')
@@ -86,8 +78,6 @@ knockout_mapping_js = Resource(knockout_library, 'knockout.mapping.debug.js',
                                minified='knockout.mapping.js',
                                depends=[knockout_js])
 knockout = Group([knockout_js, knockout_mapping_js])
-adhocracy_ko = Resource(knockout_library, 'adhocracy.ko.js',
-                        depends=[adhocracy, knockout])
 
 
 # --[ openlayers ]----------------------------------------------------------
@@ -99,3 +89,15 @@ openlayers_js = Resource(openlayers_library, 'openlayers.js',
 openlayers_css = Resource(openlayers_library, 'theme/default/style.css')
 
 openlayers = Group([openlayers_js, openlayers_css])
+
+
+# --[ adhocracy ]-----------------------------------------------------------
+
+adhocracy_library = Library('adhocracy', 'javascripts')
+adhocracy = Resource(adhocracy_library, 'adhocracy.js',
+                     depends=[jquery, bootstrap_js, elastic,
+                              label_over, modernizr, jquerytools])
+adhocracy_ko = Resource(adhocracy_library, 'adhocracy.ko.js',
+                        depends=[adhocracy, knockout])
+adhocracy_geo = Resource(adhocracy_library, 'adhocracy.geo.js',
+                         depends=[adhocracy, knockout_js, openlayers])
