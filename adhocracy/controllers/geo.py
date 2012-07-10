@@ -80,140 +80,137 @@ class GeoController(BaseController):
             calculate_tiled_admin_centres_json(x, y, zoom, admin_level))
 
     @staticmethod
-    def get_outer_region(region):
-        is_in_q = meta.Session.query(Region).join(
-            (RegionHierarchy, Region.id == RegionHierarchy.outer_id))
-        is_in_q = is_in_q.filter(RegionHierarchy.inner_id == region.id)
-        tl_regions = is_in_q.all()
-        result = filter(
-            lambda r: r.admin_level == region.admin_level - 1, tl_regions)
-        if (result == []):
-            result = filter(
-                lambda r: r.admin_level == region.admin_level - 2, tl_regions)
-        if (result == []):
-            return None
-        return result[0]
+    def get_outer_regions(region):
+        return meta.Session.query(Region)\
+            .join((RegionHierarchy, Region.id == RegionHierarchy.outer_id))\
+            .filter(RegionHierarchy.inner_id == region.id)\
+            .order_by(Region.admin_level)\
+            .all()
 
-    def autocomplete_instances_json(self):
-        name_contains = request.params.get('name_contains')
-        q = meta.Session.query(Region).order_by(Region.name)
-        q = q.filter(Region.admin_level.in_([6, 7, 8]))
-        q = q.filter(Region.name.ilike('%' + name_contains + '%'))
-        regions = q.all()
+    def get_instance_query(self,
+                           query_entities,
+                           main_query,
+                           additional_query = None):
 
-        def create_entry(region):
-            entry = dict()
-            entry['name'] = region.name
-            outer = self.get_outer_region(region)
-            outerNext = outer
-            while (outerNext != None):
-                outer = outerNext
-                outerNext = self.get_outer_region(outer)
+        instance_query = meta.Session.query(query_entities)\
+            .join(Region)\
+            .order_by(Region.name)\
+            .filter(Region.name.ilike(u'%%%s%%' % main_query))\
 
-            if outer != None:
-                entry['name'] += ', ' + outer.name
-            return entry
+        if additional_query:
+            instance_query = instance_query\
+                .join(Region.outer_regions, aliased=True)\
+                .filter(Region.name.ilike(u'%%%s%%' % additional_query))
 
-        response = dict()
-        search_result = map(create_entry, regions)
+        return instance_query
 
-        response['search_result'] = search_result
-        return render_json(response);
+    def get_region_query(self,
+                         query_entities,
+                         main_query,
+                         additional_query = None):
+
+        # find all (region, instance) tuples, where
+        # region matches the given query string
+        # and region is inside the returned instance
+
+        region_query = meta.Session.query(*query_entities)\
+            .order_by(Region.name)\
+            .filter(Region.name.ilike(u'%%%s%%' % main_query))\
+            .join(Region.outer_regions, aliased=True)\
+            .filter(Region.id == Instance.region_id)
+
+        if additional_query:
+            region_query = region_query\
+                .join(Region.outer_regions, aliased=True)\
+                .filter(Region.name.ilike(u'%%%s%%' % additional_query))
+
+        # to include additional information such as the name of the
+        # surrounding Landkreis (admin_level=6), a region alias has to
+        # be used.
+        # from sqlalchemy.orm import aliased
+        # region_alias = aliased(Region)
+        # meta.Session.query(Instance.id, Region, region_alias.name)
+        # [... - as above]
+        # .join(Region.outer_regions, aliased=True)\
+        # .filter(Region.id == reg.id)\
+        # .filter(reg.admin_level==6).all()
+
+        return region_query
+
+
+    def get_search_params(self, request):
+        query = request.params.get('query')
+        query_regions = 'query_regions' in request.params
+
+        search_items = query.split(',', 2)
+        main_query = search_items[0].strip()
+        if len(search_items) > 1:
+            additional_query = search_items[1].strip()
+        else:
+            additional_query = None
+
+        return (main_query, additional_query)
 
     def find_instances_json(self):
+        """
+        returns a dictionary of the following structure
 
-        def query_region(item):
-            q = meta.Session.query(Region).order_by(Region.name)
-            q = q.filter(Region.admin_level.in_([4, 6, 7, 8]))
-#            q = q.filter(Region.name.in_(name_contains))
-            q = q.filter(Region.name.ilike('%' + item + '%'))
-#            q = q.offset(search_offset).limit(max_rows)
-            return q.all()
+        {
+            'instances': [instance_id],
+            'regions': [(instance_id, {region_data})]
+        }
 
-        def create_entry(region):
-            entry = dict()
-            if (region != None):
-                instances = getattr(region, "get_instances")
-                outer = self.get_outer_region(region)
+        the regions list is only returned if the request contains a 'regions'
+        parameter.
+        """
+        (main_query, additional_query) = self.get_search_params(request)
 
-                entry['name'] = region.name
-                entry['region_id'] = region.id
-                entry['admin_level'] = region.admin_level
-                entry['admin_type'] = region.admin_type
-                bbox = wkb.loads(str(region.boundary.geom_wkb)).bounds
-                admin_center_props = {
-                    'instance_id': "",
-                    'admin_level': region.admin_level,
-                    'region_id': region.id,
-                    'label': region.name,
-                    'admin_type': region.admin_type
-                }
-                entry['bbox'] = '[%s, %s, %s, %s]' % (
-                    str(bbox[0]), str(bbox[1]), str(bbox[2]), str(bbox[3]))
-                if (outer != None):
-                    entry['is_in'] = create_entry(outer)
+        instance_query = self.get_instance_query(
+            (Instance.id), main_query, additional_query)
 
-                if instances != []:
-                    instance = get_entity_or_abort(Instance, instances[0].id)
-                    entry['instance_id'] = instance.id
-                    entry['url'] = h.entity_url(instances[0])
-                    add_instance_props(instance, entry)
-                    admin_center_props['instance_id'] = instance.id
-                    admin_center_props['url'] = h.entity_url(instances[0])
-                    admin_center_props['label'] = instance.label
-                    add_instance_props(instance, admin_center_props)
-                    geometry = get_instance_geo_centre(instance)
-                else:
-                    entry['instance_id'] = ""
-                    geometry = wkb.loads(
-                        str(region.boundary.geom_wkb)).centroid
+        result = {
+            'instances': [iid for (iid,) in instance_query.all()]
+        }
 
-                feature = geojson.Feature(
-                    geometry=geometry,
-                    properties=admin_center_props
-                )
-                entry['admin_center'] = render_geojson(feature)
+        def create_region_entry(region):
+
+            # FIXME: precalculate bbox and geo_centre for regions
+            geom = wkb.loads(str(region.boundary.geom_wkb))
+
+            return {
+                'name': region.name,
+                'osm_id': region.id,
+                'admin_level': region.admin_level,
+                'admin_type': region.admin_type,
+                'bbox': geom.bounds,
+                'geo_centre': geojson.dumps(geom.centroid),
+            }
+
             return entry
 
-        # r1 is_outer region of r2
-        def is_outer(name, region):
-            outer_region = self.get_outer_region(region)
-            if outer_region == None:
-                return False
-            elif outer_region.name == name:
-                return True
-            else:
-                return is_outer(name, outer_region)
+        region_query = self.get_region_query(
+            (Instance.id, Region), main_query, additional_query)
 
-        def merge_lists(a, b):
-            a.extend(b)
-            return a
+        result['regions'] = [(iid, create_region_entry(region))
+                                 for (iid, region) in region_query.all()]
 
-#        max_rows = request.params.get('max_rows')
-        name_contains = request.params.get('name_contains')
-#        search_offset = request.params.get('offset')
+        return render_json(result)
 
-        search_items = name_contains.split(',')
-        for i in range(0, len(search_items)):
-            search_items[i] = search_items[i].strip()
+    def autocomplete_instances_json(self):
+        (main_query, additional_query) = self.get_search_params(request)
 
-        if (len(search_items) == 1 or len(search_items) == 2):
+        instance_query = self.get_instance_query(
+            (Instance.label), main_query, additional_query)
 
-            search_regions = query_region(search_items[0])
-            hit_regions = []
-            if (len(search_items) == 2 and len(search_regions) > 1):
-                for r in search_regions:
-                    if is_outer(search_items[1], r):
-                        hit_regions.append(r)
-            else:
-                hit_regions = search_regions
+        result = {
+            'instances': [label for (label,) in instance_query.all()]
+        }
 
-            response = dict()
-#            num_hits = len(regions)
 
-            search_result = map(create_entry, hit_regions)
-#            response['count'] = num_hits
-            response['search_result'] = search_result
-        else:
-            response['search_result'] = []
-        return render_json(response);
+        region_query = self.get_region_query(
+            (Instance.label, Region.name), main_query, additional_query)
+
+        result['regions'] = ['%s, %s' % (region, instance)
+                             for (instance, region) in region_query.all()]
+
+        return render_json(result)

@@ -1551,16 +1551,6 @@ function instanceSearch(state, resultList) {
         }
     }
 
-    function getFeature(geojsonStr) {
-        var feature;
-        var features = new OpenLayers.Format.GeoJSON({}).read(geojsonStr);
-        if (features != null && features.length > 0) {
-            feature = features[0];
-        }
-        return feature;
-    }
-
-
     function buildResultList() {
         var frame = $('<div/>', {
                 'class': 'ui-widget',
@@ -1582,7 +1572,7 @@ function instanceSearch(state, resultList) {
         frame.append(buttons);
     }
 
-    var stopAutocompletion = false;
+    var doAutocompletion = true;
     var currentSearch;
 
     var search_field = $("#overview_search_field");
@@ -1590,11 +1580,20 @@ function instanceSearch(state, resultList) {
 
     function querySearchResult() {
 
-        stopAutocompletion = true;
+        doAutocompletion = false;
         var request_term = search_field.val();
 
-        function makeResponse(item) {
-            var feature = getFeature(item.admin_center);
+        function makeResponse(item_tuple) {
+            
+            instance_id = item_tuple[0];
+            item = item_tuple[1];
+
+            var feature;
+            var features = new OpenLayers.Format.GeoJSON({}).read(item.admin_center);
+            if (features != null && features.length > 0) {
+                feature = features[0];
+            }
+
             return {
                 instance_id: item.instance_id,
                 region_id: item.region_id,
@@ -1647,13 +1646,14 @@ function instanceSearch(state, resultList) {
         function errorResponse(xhr, err) {
             currentSearch = undefined;
             search_field.removeClass('ui-autocomplete-loading');
-            //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
-            //alert('No response from server, sorry. Error: '+err);
+            doAutocompletion = true;
+            // console.log('No response from server. URL: ' + url + ', Error: '+err);
         }
 
         function successResponse(data) {
             search_field.removeClass('ui-autocomplete-loading');
-            resultList[request_term] = $.map(data.search_result, makeResponse);
+            doAutocompletion = true;
+            resultList[request_term] = $.map(data.regions, makeResponse);
             currentSearch = undefined;
             showSearchResult();
         }
@@ -1670,7 +1670,7 @@ function instanceSearch(state, resultList) {
                     url: 'find_instances.json',
                     dataType: "json",
                     data: {
-                        name_contains: request_term
+                        query: request_term
                     },
                     success: successResponse,
                     error: errorResponse
@@ -1690,37 +1690,29 @@ function instanceSearch(state, resultList) {
 
     search_field.autocomplete({
         search: function (event, ui) {
-            stopAutocompletion = false;
+            if (!doAutocompletion) {
+                return false;
+            }
         },
         source: function (request, response) {
             $.ajax({
                 url: "/autocomplete_instances.json",
                 dataType: "json",
                 data: {
-//                    max_rows: 5,
-//                    offset: offset,
-                    name_contains: request.term
+                    query: request.term
                 },
                 success: function (data) {
-                    if (!stopAutocompletion) {
-                        response($.map(data.search_result, function (item) {
-                            return {
-                                label: item.name,
-                                value: item.name
-                            };
-                        }));
+                    if (doAutocompletion) {
+                        var instances = data.instances;
+                        var regions = data.regions;
+                        // TODO: Put instances and regions in separate
+                        // optgroups
+                        response(['INSTANCES'].concat(instances, ['REGIONS'], regions));
                     }
                 }
             });
         },
-        minLength: 2,
-        open: function () {
-            $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
-        },
-        close: function () {
-            search_field.removeClass("ui-corner-top").addClass("ui-corner-all");
-        }
-
+        minLength: 3
     });
 }
 
