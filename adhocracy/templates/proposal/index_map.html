@@ -7,6 +7,12 @@
     ${h.proposal.breadcrumbs(None)|n}
 </%def>
 
+<%block name="head">
+${components.head()}
+<style type="text/css">
+    body {overflow: hidden;}
+</style>
+</%block>
 
 <%block name="main">
 <div id="fullscreen_map">
