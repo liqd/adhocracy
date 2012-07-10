@@ -926,6 +926,7 @@ class InstanceController(BaseController):
 
     def get_all_instance_centres_json(self):
 
+        # TODO: Cache invaldation
         @cache.memoize('geo_all_instance_centres')
         def calculate():
 
@@ -939,7 +940,8 @@ class InstanceController(BaseController):
                     geometry=geo_centre,
                     properties={
                         'url': h.base_url(instance),
-                        'label': instance.label
+                        'label': instance.label,
+                        'is_authenticated': instance.is_authenticated,
                     })
                 add_instance_props(instance, feature.properties)
                 return feature

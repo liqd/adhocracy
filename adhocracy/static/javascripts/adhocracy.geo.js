@@ -128,8 +128,15 @@ var adhocracy = adhocracy || {};
         graphicYOffset: -31
     };
 
-    adhocracy.geo.townHallSymbolizer = {
-        externalGraphic: '/images/map_hall_pink.png',
+    adhocracy.geo.townHallSymbolizerDefault = {
+        externalGraphic: '/images/map_hall_grey.png',
+        graphicHeight: 12,
+        graphicWidth: 16,
+        graphicYOffset: -12
+    };
+
+    adhocracy.geo.townHallSymbolizerAuthenticated = {
+        externalGraphic: '/images/map_hall_green.png',
         graphicHeight: 12,
         graphicWidth: 16,
         graphicYOffset: -12
@@ -143,7 +150,7 @@ var adhocracy = adhocracy || {};
     };
 
     adhocracy.geo.setTownHallSymbolizer = function (scope, idx) {
-        scope.symbolizer = adhocracy.geo.townHallSymbolizer;
+        scope.symbolizer = adhocracy.geo.townHallSymbolizerDefault;
         if (idx === undefined) {
             scope.symbolizer.externalGraphic = '/images/map_hall_pink.png';
             return undefined;
@@ -158,8 +165,8 @@ var adhocracy = adhocracy || {};
         return new OpenLayers.Layer.Vector('instance_town_hall', {
             displayInLayerSwitcher: false,
             styleMap: new OpenLayers.StyleMap({
-                'default': adhocracy.geo.townHallSymbolizer, //new OpenLayers.Style(adhocracy.geo.styleProps),
-                'select': adhocracy.geo.townHallSymbolizer //new OpenLayers.Style(adhocracy.geo.styleSelect)
+                'default': adhocracy.geo.townHallSymbolizerDefault, //new OpenLayers.Style(adhocracy.geo.styleProps),
+                'select': adhocracy.geo.townHallSymbolizerDefault //new OpenLayers.Style(adhocracy.geo.styleSelect)
             })
         });
     };
@@ -734,7 +741,7 @@ var adhocracy = adhocracy || {};
         rule.evaluate = filterInstancesBalloon;
         var rule2 = new OpenLayers.Rule({ symbolizer: adhocracy.geo.styleTransparentProps });
         rule2.evaluate = filterInstancesInVisible;
-        var rule3 = new OpenLayers.Rule({elseFilter: true, symbolizer: adhocracy.geo.townHallSymbolizer});
+        var rule3 = new OpenLayers.Rule({elseFilter: true, symbolizer: adhocracy.geo.townHallSymbolizerDefault});
         rule3.evaluate = filterElse;
 
         townHallLayer.styleMap = new OpenLayers.Style(adhocracy.geo.styleProps, {rules: [rule, rule2, rule3]});
@@ -904,6 +911,11 @@ var adhocracy = adhocracy || {};
                 for (i = 0; i < features.length; i++) {
                     var feature = features[i];
                     if (feature.geometry !== null) {
+                        if (feature.data.is_authenticated) {
+                            feature.style = adhocracy.geo.townHallSymbolizerAuthenticated;
+                        } else {
+                            feature.style = adhocracy.geo.townHallSymbolizerDefault;
+                        }
                         townHallLayer.addFeatures([feature]);
                     }
                 }
