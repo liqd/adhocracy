@@ -1,4 +1,4 @@
-/*jslint browser: true, vars: true, plusplus: true, sloppy: true */
+/*jslint browser: true, vars: true, plusplus: true */
 /*global $: true, OpenLayers: true, LANG: true */
 
 
