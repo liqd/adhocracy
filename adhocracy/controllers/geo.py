@@ -79,18 +79,10 @@ class GeoController(BaseController):
         return render_geojson(
             calculate_tiled_admin_centres_json(x, y, zoom, admin_level))
 
-    @staticmethod
-    def get_outer_regions(region):
-        return meta.Session.query(Region)\
-            .join((RegionHierarchy, Region.id == RegionHierarchy.outer_id))\
-            .filter(RegionHierarchy.inner_id == region.id)\
-            .order_by(Region.admin_level)\
-            .all()
-
     def get_instance_query(self,
                            query_entities,
                            main_query,
-                           additional_query = None):
+                           additional_query=None):
 
         instance_query = meta.Session.query(query_entities)\
             .join(Region)\
@@ -107,7 +99,7 @@ class GeoController(BaseController):
     def get_region_query(self,
                          query_entities,
                          main_query,
-                         additional_query = None):
+                         additional_query=None):
 
         # find all (region, instance) tuples, where
         # region matches the given query string
@@ -136,7 +128,6 @@ class GeoController(BaseController):
         # .filter(reg.admin_level==6).all()
 
         return region_query
-
 
     def get_search_params(self, request):
         query = request.params.get('query')
@@ -192,7 +183,7 @@ class GeoController(BaseController):
             (Instance.id, Region), main_query, additional_query)
 
         result['regions'] = [(iid, create_region_entry(region))
-                                 for (iid, region) in region_query.all()]
+                             for (iid, region) in region_query.all()]
 
         return render_json(result)
 
@@ -205,7 +196,6 @@ class GeoController(BaseController):
         result = {
             'instances': [label for (label,) in instance_query.all()]
         }
-
 
         region_query = self.get_region_query(
             (Instance.label, Region.name), main_query, additional_query)
