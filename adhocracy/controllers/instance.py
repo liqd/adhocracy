@@ -11,6 +11,8 @@ from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _, lazy_ugettext as L_
 
+from repoze.what.plugins.pylonshq import ActionProtector
+
 import geojson
 from shapely import wkb
 
@@ -21,10 +23,12 @@ from adhocracy.controllers.badge import BadgeController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
 from adhocracy.lib import cache
-from adhocracy.lib.auth import can, csrf, require
+from adhocracy.lib.auth import authorization, can, csrf, require
 from adhocracy.lib.base import BaseController
+from adhocracy.lib.queue import post_update
 from adhocracy.lib.templating import (render, render_json, render_png,
-                                      ret_abort, ret_success, render_geojson)
+                                      ret_abort, ret_success, render_def)
+from adhocracy.lib.templating import render_geojson
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.geo import add_instance_props
 from adhocracy.lib.geo import get_instance_geo_centre
@@ -76,6 +80,11 @@ def update_attributes(instance, form_result, attributes):
             setattr(instance, attribute, new_value)
             updated = True
     return updated
+
+
+class InstanceBadgesForm(formencode.Schema):
+    allow_extra_fields = True
+    badge = formencode.foreach.ForEach(forms.ValidInstanceBadge())
 
 
 class InstanceCreateForm(formencode.Schema):
@@ -175,20 +184,17 @@ class InstanceSnameEditForm(formencode.Schema):
 
 class InstanceController(BaseController):
 
-    def index(self, format='html'):
+    def index(self, format="html"):
         require.instance.index()
-        c.active_global_nav = 'instances'
-        h.add_meta("description",
-                   _("An index of instances run at this site. "
-                     "Select which ones you would like to join "
-                     "and participate!"))
-        instances = model.Instance.all()
+
+        c.instance_pager = pager.solr_instance_pager()
 
         if format == 'json':
-            return render_json(instances)
+            return render_json(c.instance_pager)
 
-        c.instances_pager = pager.instances(instances)
+        c.tile = tiles.instance.InstanceTile(c.instance)
         return render("/instance/index.html")
+
 
     def new(self):
         require.instance.create()
@@ -281,6 +287,63 @@ class InstanceController(BaseController):
         # This is deprecated, but the route is still created as
         # by routes' .resource()
         return self.edit(id)
+
+    @classmethod
+    def _editable_badges(cls, instance):
+        '''
+        Return the badges editable that can be assigned by the current
+        user.
+        '''
+        badges = []
+        if can.badge.edit_global():
+            badges.extend(model.InstanceBadge.all(instance=None))
+        badges = sorted(badges, key=lambda badge: badge.title)
+        return badges
+
+    @ActionProtector(authorization.has_permission("global.admin"))
+    def badges(self, id, errors=None, format='html'):
+        instance = get_entity_or_abort(model.Instance, id)
+        c.badges = self._editable_badges(instance)
+        defaults = {'badge': [str(badge.id) for badge in instance.badges]}
+        if format == 'ajax':
+            checked = [badge.id for badge in instance.badges]
+            json = {'title': instance.label,
+                    'badges': [{
+                        'id': badge.id,
+                        'description': badge.description,
+                        'title': badge.title,
+                        'checked': badge.id in checked} for badge in c.badges]}
+            return render_json(json)
+
+        return formencode.htmlfill.render(
+            render("/instance/badges.html"),
+            defaults=defaults)
+
+    @validate(schema=InstanceBadgesForm(), form='badges')
+    @ActionProtector(authorization.has_permission("global.admin"))
+    @csrf.RequireInternalRequest(methods=['POST'])
+    def update_badges(self, id, format='html'):
+        instance = get_entity_or_abort(model.Instance, id)
+        editable_badges = self._editable_badges(instance)
+        badges = self.form_result.get('badge')
+        #remove badges
+        for badge in instance.badges:
+            if badge not in editable_badges:
+                # the user can not edit the badge, so we don't remove it
+                continue
+            if badge not in badges:
+                instance.badges.remove(badge)
+        #add badges
+        for badge in badges:
+            if badge not in instance.badges:
+                badge.assign(instance, c.user)
+
+        model.meta.Session.commit()
+        post_update(instance, model.update.UPDATE)
+        if format == 'ajax':
+            obj = {'html': render_def('/badge/tiles.html', 'badges',
+                                      badges=instance.badges)}
+            return render_json(obj)
 
     @classmethod
     def settings_menu(cls, instance, current):

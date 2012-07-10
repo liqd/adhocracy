@@ -90,6 +90,31 @@ badge_items = badges.get(permission, {}).get(type_, None)
 </%def>
 
 
+<%def name="instance_badges_table(badge_items)">
+  <div class="table">
+      <table class="table_listing">
+      <thead>
+        <th>${_("Title")}</th>
+        <th>${_("Description")}</th>
+        <th>${_("Color")}</th>
+        <th>${_("Preview")}</th>
+        <th>${_("Actions")}</th>
+      </thead>
+      %for badge in badge_items:
+      <tr class="tile">
+        <td>${badge.title}</td>
+        <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
+        <td>${badge.color}</td>
+        <td>${tiles.badge(badge)}</td>
+        
+        <td>${edit_button(badge.id)}</td>
+      </tr>
+      %endfor
+    </table>
+  </div>    
+</%def> 
+
+
 <%def name="category_badges_table(badge_items)">
   <div class="table">
     <table class="table_listing">
@@ -144,5 +169,12 @@ ${self.badges_listing()}
      href="${c.badge_base_url}/category/add">${_("New")}</a>
   </h2>
   ${render_tables(c.badges, 'category', c.groups, category_badges_table)}
+  
+
+  <h2>${_("Instance Badges")}
+  <a style="margin-bottom: 0.3em" class="btn btn-mini plus" 
+     href="${c.badge_base_url}/instance/add">${_("New")}</a>
+  </h2>
+  ${render_tables(c.badges, 'instance', c.groups, instance_badges_table)} 
 </%def>
 

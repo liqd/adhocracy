@@ -1352,7 +1352,8 @@ function loadSelectInstanceMap(layers, tiles, resultList) {
     map.addControls(createControls(true, false));
     map.addLayers(createBaseLayers());
 
-    var foldLayers = addMultiBoundaryLayer(map, layers, tiles);
+    //var foldLayers = addMultiBoundaryLayer(map, layers, tiles);
+    var foldLayers = null;
     var townHallLayer = addUntiledTownhallLayer(map, resultList);
 
     var selectControl = createSelectControl();

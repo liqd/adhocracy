@@ -4,34 +4,73 @@
 <%def name="title()">${_("Instances")}</%def>
 
 <%def name="breadcrumbs()">
-    ${h.site.name()} &raquo; ${_("Instances")} 
+${h.site.name()} &raquo; ${_("Instances")} 
 </%def>
 
 
-<%block name="main_content">
+<%block name="headline">
 <div class="top_actions title">
     %if can.instance.create():
-        <a class="button title add" href="/instance/new">${_("new instance")}</a>
+    <a class="button title add" href="/instance/new">${_("new instance")}</a>
     %endif 
-</div>
-
+</div> 
 <h1 class="page_title">${_("Instances")}</h1>
-
-<p>${_("Instances are little democracies that are ran by their community.")}</p>
-
-    <div class="table">
-        ${c.instances_pager.here()}
-    </div>
-</%block>
+</%block> 
 
 <%block name="sidebar">
-
+<div id="proposals_facets">
+    ${c.instance_pager.render_facets()}    
+</div>
 %if h.asbool(config.get('adhocracy.proposal_geotags')):
     <%doc>FIXME: use English translation base string when merging into default
     <h3>${_('Map')}</h3>
     </%doc>
     <h3>${_('Karte')}</h3>
-    ${map.show_overview_map([i.id for i in c.instances_pager.items])}
+    ${map.show_overview_map([i.id for i in c.instance_pager.items])}
 %endif
+</%block> 
 
+<%block name="main_content">
+<p>${_("Instances are little democracies that are ran by their community.")}</p>
+
+<div class="table" id="instance_table">
+
+    ${c.instance_pager.render_pager()}   
+
+    %if can.badge.edit_instance():
+    <div class="simple_overlay" id="edit_badges_container">
+        <form id="edit_badges">
+            <h5 data-bind="text: selected.title">Title</h5>
+            <ul data-bind="foreach: selected.badges">
+                <li class="nobullet">
+                <input class="badgetsform_input" type="checkbox" 
+                name="badge" 
+                data-bind="value: id, checked: checked">
+                <span data-bind="attr: {class: css_class()}">
+                    <a data-bind="text: title">Abgelehnt</a>
+                </span>
+                </input>
+                </li>
+            </ul>
+            <a href="#" class="btn" data-bind="click: save">Save</a> 
+            or 
+            <a href="" data-bind="click: cancel">Cancel</a>
+        </form>
+    </div>
+    %endif
+
+    %if can.badge.edit_instance():
+
+    ${h.need.adhocracy_ko}
+
+    <script>
+        var basepath = 'instance/';
+        var editModel = new adhocracy.ko.editBadges(basepath);
+        editModel.applyToPager('#instance_table');
+    </script>
+    %endif
+
+</div>
 </%block>
+
+

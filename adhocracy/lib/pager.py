@@ -1,3 +1,4 @@
+import copy
 from inspect import isclass
 import math
 import logging
@@ -650,6 +651,7 @@ class UserBadgeFacet(SolrFacet):
     entity_type = model.Badge
     title = u'Badge'
     solr_field = 'facet.badges'
+    show_current_empty = False
 
     @classmethod
     def add_data_to_index(cls, user, index):
@@ -657,6 +659,22 @@ class UserBadgeFacet(SolrFacet):
             return
         index[cls.solr_field] = [ref_attr_value(badge) for
                                  badge in user.badges]
+
+
+class InstanceBadgeFacet(SolrFacet):
+
+    name = 'instancebadge'
+    entity_type = model.Badge
+    title = lazy_ugettext(u'Badge')
+    solr_field = 'facet.instance.badges'
+    show_current_empty = False
+
+    @classmethod
+    def add_data_to_index(cls, instance, index):
+        if not isinstance(instance, model.Instance):
+            return
+        d = [ref_attr_value(badge) for badge in instance.badges]
+        index[cls.solr_field] = d
 
 
 class InstanceFacet(SolrFacet):
@@ -919,7 +937,6 @@ class SolrPager(PagerMixin):
         self.enable_sorts = enable_sorts
         self.sorts = sorts
         self.sorts.set_pager(pager=self)
-        self.selected_sort = None
         if self.sorts:
             self.selected_sort = self.sorts.selected().value
 
@@ -1133,6 +1150,15 @@ USER_SORTS = NamedSort([[None, (OLDEST(old=1),
                        default=ACTIVITY,
                        mako_def="sort_dropdown")
 
+
+INSTANCE_SORTS = NamedSort([[None, (OLDEST(old=1),
+                                NEWEST(old=2),
+                                ACTIVITY(old=3),
+                                ALPHA(old=4))]],
+                                default=ACTIVITY,
+                       mako_def="sort_dropdown")
+
+
 PROPOSAL_SORTS = NamedSort([[L_('Support'), (PROPOSAL_SUPPORT(old=2),
                                              PROPOSAL_VOTES,
                                              PROPOSAL_YES_VOTES,
@@ -1161,6 +1187,26 @@ def solr_global_users_pager():
                       entity_type=model.User,
                       sorts=USER_SORTS,
                       facets=[UserBadgeFacet, InstanceFacet]
+                      )
+    return pager
+
+
+def solr_instance_pager():
+    # override default sort
+    # TODO: is paging working? [joka]
+    custom_default = config.get('adhocracy.listings.instance.sorting')
+    sorts = {"ALPHA": ALPHA,
+             "ACTIVITY": ACTIVITY,
+             "NEWEST": NEWEST,
+             "OLDEST": OLDEST,}
+    instance_sorts = copy.copy(INSTANCE_SORTS)
+    if custom_default and custom_default in sorts:
+        instance_sorts._default = sorts[custom_default].value
+    # create pager
+    pager = SolrPager('instances', tiles.instance.row,
+                      entity_type=model.Instance,
+                      sorts=instance_sorts,
+                      facets=[InstanceBadgeFacet],
                       )
     return pager
 

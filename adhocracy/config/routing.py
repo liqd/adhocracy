@@ -316,6 +316,8 @@ def make_map():
                                                  'ask_leave': 'GET',
                                                  'ask_delete': 'GET',
                                                  'style': 'GET',
+                                                 'badges': 'GET',
+                                                 'update_badges': 'POST',
                                                  'activity': 'GET',
                                                  'get_region': 'GET',
                                                  'get_proposal_geotags': 'GET',

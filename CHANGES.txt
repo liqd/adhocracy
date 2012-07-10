@@ -4,6 +4,13 @@ adhocracy Changelog
 1.2beta2dev
 -----------
 
+- Added facet search to the instance listing. The listing is based on solr now, 
+  please reindex. [joka]
+
+- Instances can have badges now. To create instance badges use the 
+  site-administration -> badges form. To assign badges use the 
+  instance listing. [joka]]
+
 - New config option "adhocracy.registration.email.blacklist" that
   accepts a whitspace seperated list of email address and
   blocks registrations with those. Dots will be stripped before

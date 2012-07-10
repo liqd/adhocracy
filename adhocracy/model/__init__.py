@@ -10,11 +10,20 @@ from adhocracy.model.update import SessionModificationExtension
 from adhocracy.model.user import User, user_table
 from adhocracy.model.openid import OpenID, openid_table
 from adhocracy.model.twitter import Twitter, twitter_table
-from adhocracy.model.badge import (badge_table, delegateable_badges_table,
-                                   user_badges_table,
-                                   Badge, CategoryBadge,
-                                   DelegateableBadge, DelegateableBadges,
-                                   UserBadge, UserBadges)
+from adhocracy.model.badge import (
+        badge_table,
+        Badge,
+        CategoryBadge,
+        delegateable_badges_table,
+        DelegateableBadge,
+        DelegateableBadges,
+        user_badges_table,
+        UserBadge,
+        UserBadges,
+        instance_badges_table,
+        InstanceBadge,
+        InstanceBadges
+)
 from adhocracy.model.group import Group, group_table
 from adhocracy.model.permission import (Permission, group_permission_table,
                                         permission_table)
@@ -87,6 +96,21 @@ mapper(DelegateableBadges, delegateable_badges_table,
            'badge': relation(Badge)})
 
 
+mapper(InstanceBadges, instance_badges_table,
+       properties={
+           'creator': relation(
+               User, lazy=True,
+               primaryjoin=(instance_badges_table.c.creator_id ==
+                            user_table.c.id),
+               backref=backref('instancebadges_created')),
+           'instance': relation(
+               Instance, lazy=True,
+               primaryjoin=(instance_badges_table.c.instance_id ==
+                         instance_table.c.id),
+               backref=backref('instancebadges')),
+           'badge': relation(Badge)})
+
+
 # We map Badge to establish the base properties, but you cannot
 # create Badges. They have no polymorpic_identity.
 badge_mapper = mapper(
@@ -139,6 +163,20 @@ mapper(UserBadge, inherits=badge_mapper,
                             user_badges_table.c.badge_id),
                secondaryjoin=(user_badges_table.c.user_id ==
                               user_table.c.id),
+               backref=backref('badges', lazy='joined'),
+               lazy=False)})
+
+
+mapper(InstanceBadge, inherits=badge_mapper,
+       polymorphic_identity=InstanceBadge.polymorphic_identity,
+       properties={
+           'instances': relation(
+               Instance,
+               secondary=instance_badges_table,
+               primaryjoin=(badge_table.c.id ==
+                            instance_badges_table.c.badge_id),
+               secondaryjoin=(instance_badges_table.c.instance_id ==
+                              instance_table.c.id),
                backref=backref('badges', lazy='joined'),
                lazy=False)})
 

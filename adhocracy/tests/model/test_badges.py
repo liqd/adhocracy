@@ -34,10 +34,14 @@ class TestBadgeController(TestController):
 
     def test_get_all_badgets(self):
         #setup
-        from adhocracy.model import Badge, CategoryBadge, DelegateableBadge
+        from adhocracy.model import Badge, CategoryBadge, DelegateableBadge, \
+            InstanceBadge
         from adhocracy.model import UserBadge, Instance
         instance = Instance.find(u'test')
-        # create Badges, for each type a global and an instance badge
+        # create for each type a global scope and an instance scope badge
+        InstanceBadge.create(u'badge ü', u'#ccc', u'description ü')
+        InstanceBadge.create(u'badge ü', u'#ccc', u'description ü',
+                                 instance=instance)
         UserBadge.create(u'badge ü', u'#ccc', u'description ü')
         UserBadge.create(u'ü', u'#ccc', u'ü', instance=instance)
         DelegateableBadge.create(u'badge ü', u'#ccc', u'description ü')
@@ -46,6 +50,9 @@ class TestBadgeController(TestController):
         CategoryBadge.create(u'badge ü', u'#ccc', u"desc")
         CategoryBadge.create(u'badge ü', u'#ccc', u"desc", instance=instance)
 
+        # all instance badges
+        self.assert_(len(InstanceBadge.all()) == 1)
+        self.assert_(len(InstanceBadge.all(instance=instance)) == 1)
         # all delegateable badges
         self.assert_(len(DelegateableBadge.all()) == 1)
         self.assert_(len(DelegateableBadge.all(instance=instance)) == 1)
@@ -56,10 +63,11 @@ class TestBadgeController(TestController):
         self.assert_(len(UserBadge.all()) == 1)
         self.assert_(len(UserBadge.all(instance=instance)) == 1)
         # We can get all Badges by using `Badge`
-        self.assert_(len(Badge.all()) == 3)
-        self.assert_(len(Badge.all(instance=instance)) == 3)
+        self.assert_(len(Badge.all()) == 4)
+        self.assert_(len(Badge.all(instance=instance)) == 4)
 
-        self.assert_(len(Badge.all_q().all()) == 6)
+        self.assert_(len(Badge.all_q().all()) == 8)
+
 
 
 class TestUserController(TestController):
@@ -160,3 +168,56 @@ class TestDelegateableController(TestController):
         self.assert_(badge.delegateables == [])
         self.assert_(delegateable.badges == [])
         self.assert_(meta.Session.query(DelegateableBadges).count() == 0)
+
+
+class TestInstanceController(TestController):
+
+    def _make_content(self):
+        """Returns creator, delegateable and badge"""
+
+        from adhocracy.model import InstanceBadge, Instance
+        creator = tt_make_user('creator')
+        instance = Instance.create("instance2", u"instance2", creator)
+        badge = InstanceBadge.create(u'testbadge', u'#ccc2', 'description')
+
+        return creator, instance, badge
+
+    def test_instancebadges_created(self):
+        #setup
+        from adhocracy.model import InstanceBadges, meta
+        creator, instance, badge = self._make_content()
+        # create the instance badge
+        badge.assign(instance, creator)
+        instancebadges = meta.Session.query(InstanceBadges).first()
+        self.assert_(instancebadges.creator is creator)
+        self.assert_(instancebadges.instance is instance)
+        self.assert_(instancebadges.badge is badge)
+        # test the references on the badged instance
+        self.assert_(instance.badges == [badge])
+        # test the references on the badge
+        self.assert_(instance.badges[0].instances
+                     == badge.instances
+                     == [instance])
+
+    def test_remove_badge_from_instance(self):
+        #setup
+        from adhocracy.model import InstanceBadges, meta
+        creator, instance, badge = self._make_content()
+        badge.assign(instance, creator)
+        #remove badge from instance
+        instance.badges.remove(badge)
+        self.assert_(instance.badges == [])
+        self.assert_(badge.instances == [])
+        self.assert_(meta.Session.query(InstanceBadges).count() == 0)
+
+    def test_remove_instance_from_badge(self):
+        #setup
+        from adhocracy.model import InstanceBadges, meta
+        creator, instance, badge = self._make_content()
+        badge.assign(instance, creator)
+        #remove instance from badge
+        badge.instances.remove(instance)
+        self.assert_(badge.instances == [])
+        self.assert_(instance.badges == [])
+        self.assert_(meta.Session.query(InstanceBadges).count() == 0)
+

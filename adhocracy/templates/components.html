@@ -244,13 +244,13 @@ $(document).ready(function () {
           title="${link['title']}" href="${link['href']}" />
     %endfor
 
-    <style> 
-        %if c.user and c.user.no_help:
-            .help {display: none;}
-        %endif
+    %if c.user and c.user.no_help:
+    <style type="text/css"> 
+        .help {display: none;}
     </style>
+    %endif
     
-      ${tiles.badge.badge_styles()}
+    ${tiles.badge.badge_styles()}
 
     <link rel="stylesheet" type="text/css" media="all" 
           href="${h.base_url(None, path='/stylesheets/site.css')}" />

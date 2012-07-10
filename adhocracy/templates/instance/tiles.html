@@ -4,9 +4,15 @@
     <li class="content_box">
         %if tile.show_icon():
         <img class="logo" 
-             src="${h.instance.icon_url(instance, 32, x=32)}" />
+            src="${h.instance.icon_url(instance, 32, x=32)}" />
         %endif
-        <h3><a class="link" href="${h.entity_url(instance)}">${instance.label}</a></h3>
+        <h3>
+          <a class="link" href="${h.entity_url(instance)}">${instance.label}</a>
+          <span id="badges_${instance.id}" class="badges" data-id="${instance.id}">
+            <!--TODO: update tile cache after changing badges [joka]-->
+            ${tiles.badge.badges(instance.badges)}
+          </span>   
+        </h3>
         <div class="meta">
             ##${h.user.link(instance.creator)|n} · 
             ${_("created %s") % h.relative_time(instance.create_time)|n} · 
