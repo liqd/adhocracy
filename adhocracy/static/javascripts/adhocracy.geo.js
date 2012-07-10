@@ -464,17 +464,6 @@ var adhocracy = adhocracy || {};
         return false;
     };
 
-    /* REFACT: unused */
-    adhocracy.geo.listHasFeature = function (list, feature) {
-        var i = 0;
-        for (i = 0; i < list.length; i++) {
-            if (list[i].region_id === feature.attributes.region_id) {
-                return true;
-            }
-        }
-        return false;
-    };
-
     adhocracy.geo.createInstanceDesc = function (item) {
         return item.num_proposals + ' '
                 + LANG.proposals_text + ' \u00B7 '
@@ -1030,19 +1019,6 @@ var adhocracy = adhocracy || {};
         }
 
         return mapControls;
-    };
-
-
-
-    /* REFACT: unused */
-    adhocracy.geo.centerMap = function (map, feature, boundary) {
-        if (feature) {
-            map.setCenter(feature.geometry.getBounds().getCenterLonLat(), 10);
-            // x boundary
-        } else {
-            map.setCenter(feature.geometry.getBounds().getCenterLonLat(), 10);
-            // nur boundary
-        }
     };
 
 
