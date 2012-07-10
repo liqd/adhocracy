@@ -95,7 +95,7 @@
     height: 200px;
 }
 
-.instance_search {
+#instance_search {
     position: absolute;
     z-index: 1;
     width: 212px;
