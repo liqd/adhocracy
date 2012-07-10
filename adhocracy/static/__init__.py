@@ -79,9 +79,11 @@ adhocracy = Resource(adhocracy_library, 'adhocracy.js',
 # --[ knockout ]------------------------------------------------------------
 
 knockout_library = Library('knockoutjs', 'javascripts')
-knockout_js = Resource(knockout_library, 'knockout-latest.js',
+knockout_js = Resource(knockout_library, 'knockout.debug.js',
+                       minified='knockout.js',
                        depends=[jquery])
-knockout_mapping_js = Resource(knockout_library, 'knockout-mapping.js',
+knockout_mapping_js = Resource(knockout_library, 'knockout.mapping.debug.js',
+                               minified='knockout.mapping.js',
                                depends=[knockout_js])
 knockout = Group([knockout_js, knockout_mapping_js])
 adhocracy_ko = Resource(knockout_library, 'adhocracy.ko.js',

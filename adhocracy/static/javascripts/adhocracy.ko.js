@@ -85,7 +85,7 @@ var adhocracy = adhocracy || {};
             self.selected.clear();
             self.overlay_container.overlay().close();
         };
-        this.edit = function (event) {
+        this.edit = function (data, event) {
             var id = $(event.target).parent().find('.badges').data('id');
             self.selected.load(id, function () {
                 self.overlay_container.overlay().load();
