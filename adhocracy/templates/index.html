@@ -41,10 +41,10 @@ the transition
               "<span data-bind="text: searchQuery"></span>" 
               ${_(u'results in')} 
               <span data-bind="text: numberHits"></span> 
-              <!-- ko ifnot: multipleHits -->
+              <!-- ko if: singleHit -->
                 ${_(u'hit')}.
               <!-- /ko -->
-              <!-- ko if: multipleHits -->
+              <!-- ko ifnot: singleHit -->
                 ${_(u'hits')}.
               <!-- /ko -->
             </div>

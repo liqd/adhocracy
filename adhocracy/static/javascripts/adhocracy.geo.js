@@ -1720,8 +1720,8 @@ var adhocracy = adhocracy || {};
         self.showSearchResults = ko.observable(false);
         self.searchQuery = ko.observable();
         self.numberHits = ko.observable();
-        self.multipleHits = ko.computed(function () {
-            return (self.numberHits() > 1);
+        self.singleHit = ko.computed(function () {
+            return (self.numberHits() === 1);
         });
     };
 
