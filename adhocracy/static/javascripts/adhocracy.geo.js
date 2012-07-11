@@ -1,5 +1,5 @@
 /*jslint browser: true, vars: true, plusplus: true */
-/*global $: true, OpenLayers: true, LANG: true */
+/*global $: true, OpenLayers: true, LANG: true, ko: true */
 
 
 /**
@@ -14,7 +14,7 @@ $.ajaxSetup({
     cache: true
 });
 
-// Make sure we have an "adhocracy" and namespace.
+// Make sure we have an "adhocracy" namespace.
 var adhocracy = adhocracy || {};
 
 (function () {
@@ -1458,24 +1458,6 @@ var adhocracy = adhocracy || {};
             $("#log").scrollTop(0);
         }
 
-        function resetSearchField(inputValue, count) {
-            $('#log').empty();
-            $('#search_buttons').empty();
-            $('#num_search_result').empty();
-            var text = LANG.num_search_result_start_text
-                        + ' \"' + inputValue + '\" '
-                        + LANG.num_search_result_end_text
-                        + ' ' + count + ' ';
-            if (count === 1) {
-                text = text + LANG.hit_text;
-            } else {
-                text = text + LANG.hits_text;
-            }
-            text = text + '.';
-            var resultText = document.createTextNode(text);
-            $('#num_search_result').append(resultText);
-        }
-
         function removePreviousMarkers(key) {
             function remove(entry) {
                 var feature = entry.admin_center;
@@ -1511,7 +1493,11 @@ var adhocracy = adhocracy || {};
             var numInstance = 0, numRegion = 0;
             var i;
 
-            resetSearchField(inputValue, count);
+            $('#log').empty();
+            $('#search_buttons').empty();
+            adhocracy.geo.instanceSearchInstance.searchQuery(inputValue);
+            adhocracy.geo.instanceSearchInstance.numberHits(count);
+
             addMarkers(inputValue);
 
             for (i = offset; i < offset + max_rows && i < count; ++i) {
@@ -1620,6 +1606,8 @@ var adhocracy = adhocracy || {};
             }
 
             function showSearchResult() {
+                adhocracy.geo.instanceSearchInstance.showSearchResults(true);
+
                 search_field.autocomplete("close");
                 removePreviousMarkers(adhocracy.geo.prevInputValue);
                 offset = 0;
@@ -1724,6 +1712,17 @@ var adhocracy = adhocracy || {};
         });
     };
 
+    adhocracy.geo.instanceSearchModel = function () {
+        var self = this;
+
+        self.showSearchResults = ko.observable(false);
+        self.searchQuery = ko.observable();
+        self.numberHits = ko.observable();
+        self.multipleHits = ko.computed(function () {
+            return (self.numberHits() > 1);
+        });
+    };
+
     adhocracy.geo.loadSelectInstance = function (openlayers_url) {
         $.getScript(openlayers_url, function () {
             var layers = [];
@@ -1731,6 +1730,8 @@ var adhocracy = adhocracy || {};
             var resultList = [];
             var state = adhocracy.geo.loadSelectInstanceMap(layers, tiles, resultList);
             adhocracy.geo.instanceSearch(state, resultList);
+            adhocracy.geo.instanceSearchInstance = new adhocracy.geo.instanceSearchModel();
+            ko.applyBindings(adhocracy.geo.instanceSearchInstance);
         });
     };
 
