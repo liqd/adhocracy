@@ -1305,9 +1305,11 @@ var adhocracy = adhocracy || {};
 
             //adhocracy.geo.enableMarker('result_list_marker', proposalLayer, popupControl);
 
+            /* disable slow layer
             var overviewLayers = adhocracy.geo.createOverviewLayers();
             map.addLayers(overviewLayers);
             adhocracy.geo.createPopupControl(map, overviewLayers[1], adhocracy.geo.buildInstancePopup);
+            */
 
             if (adhocracy.geo.easteregg) {
                 var easterLayer = adhocracy.geo.createEastereggLayer();
@@ -1358,8 +1360,8 @@ var adhocracy = adhocracy || {};
         map.addControls(adhocracy.geo.createControls(true, false));
         map.addLayers(adhocracy.geo.createBaseLayers());
 
-        var foldLayers = adhocracy.geo.addMultiBoundaryLayer(map, layers, tiles);
-        // var foldLayers = null;
+        // var foldLayers = adhocracy.geo.addMultiBoundaryLayer(map, layers, tiles);
+        var foldLayers = null;
         var townHallLayer = adhocracy.geo.addUntiledTownhallLayer(map, resultList);
 
         var selectControl = adhocracy.geo.createSelectControl();
