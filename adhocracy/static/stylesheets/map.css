@@ -74,6 +74,36 @@
     display: none; /* dirty hack so don't have to edit wp now */
 }
 
+#content-bottom {
+    height: 155px;
+    padding: 20px 0;
+}
+
+#content-bottom-left {
+    background-color: #f5f4f0;
+    float: left;
+    padding: 15px 20px;
+    width: 268px;
+    height: 155px;
+}
+
+#content-bottom-center {
+    background-color: #f5f4f0;
+    float: left;
+    padding: 15px 20px;
+    margin: 0 20px;
+    width: 268px;
+    height: 155px;
+}
+
+#content-bottom-right {
+    background-color: #f5f4f0;
+    padding: 15px 20px;
+    width: 268px;
+    height: 155px;
+    float: left;
+}
+
 .ui-autocomplete-loading { 
     background:url('/images/ui-anim_basic_16x16.gif') no-repeat right center;
 }
