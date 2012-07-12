@@ -143,6 +143,8 @@ class Badge(object):
         Return all badges, orderd by title.
         Without instance it only returns badges not bound to an instance.
         With instance it only returns badges bound to that instance.
+        With instance and include_global it returns both badges bound to that
+        instance and badges not bound to an instance.
         """
         q = cls.all_q(instance=instance)
         if include_global and instance is not None:
