@@ -15,7 +15,7 @@
 window.console = window.console || {};
 window.console.log = window.console.log || function () {};
 
-// Make sure we have an "adhocracy" and namespace.
+// Make sure we have an "adhocracy" namespace.
 var adhocracy = adhocracy || {};
 
 (function () {
@@ -141,7 +141,7 @@ var adhocracy = adhocracy || {};
     };
 
     /***************************************************
-     * @namespace: adhocracy.tooltip
+     * @namespace: adhocracy.tooltips
      ***************************************************/
 
     adhocracy.namespace('adhocracy.tooltips');
@@ -166,7 +166,7 @@ var adhocracy = adhocracy || {};
 
 
     /***************************************************
-     * @namespace: adhocracy.tooltip
+     * @namespace: adhocracy.helpers
      ***************************************************/
 
     adhocracy.namespace('adhocracy.helpers');

@@ -12,7 +12,7 @@
 
 var alert = window.alert;
 
-// Make sure we have an "adhocracy" and namespace.
+// Make sure we have an "adhocracy" namespace.
 var adhocracy = adhocracy || {};
 
 (function () {

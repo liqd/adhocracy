@@ -129,7 +129,7 @@ class Badge(object):
         '''
         A preconfigured query for all Badges ordered by title.
         If *instance* is not given all badges are given.
-        If *innstance* is given (either `None` or an instance object),
+        If *instance* is given (either `None` or an instance object),
         only these badges are returned.
         '''
         q = meta.Session.query(cls)

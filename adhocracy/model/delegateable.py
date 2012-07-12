@@ -201,7 +201,7 @@ class Delegateable(meta.Indexable):
     def category(self):
         '''
         Getter for the category which is a many-to-many relation
-        that we use it as a many-to-one relation.
+        that we use as a many-to-one relation.
         '''
         if len(self.categories) > 1:
             log.error('More than 1 category on delegateable %s' % self.id)
