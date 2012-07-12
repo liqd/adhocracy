@@ -3,30 +3,36 @@
 
 <%def name="row(tile, proposal)">
     <li class="content_box ${'fresh' if tile.fresh else ''}">
-        <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
-            %if tile.fresh:
-                ${_("(new)")}
+        <div class="marker">
+            %if proposal.has_geotag():
+                <img class="result_list_marker" id="result_list_marker_${proposal.id}" src="/images/transparent.png" />
             %endif
-            <span id="badges_${proposal.id}" class="badges"
-                  data-id="${proposal.id}">
-                ${tiles.badge.badges(proposal.badges + proposal.categories)}
-            </span>
-        </h3>
-        <div class="meta">              
-            %if proposal.is_adopt_polling():
-                ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
-                ·
-            %elif proposal.rate_poll: 
-                ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} 
-                ·
-    %endif
-            %if proposal.instance.use_norms:
-                ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
-                ·
-            %endif
-            
         </div>
-        <div class="hr"><hr /></div>
+        <div>
+            <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
+                %if tile.fresh:
+                    ${_("(new)")}
+                %endif
+                <span id="badges_${proposal.id}" class="badges"
+                      data-id="${proposal.id}">
+                    ${tiles.badge.badges(proposal.badges + proposal.categories)}
+                </span>
+            </h3>
+            <div class="meta">              
+                %if proposal.is_adopt_polling():
+                    ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
+                    ·
+                %elif proposal.rate_poll: 
+                    ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} 
+                    ·
+        %endif
+                %if proposal.instance.use_norms:
+                    ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
+                    ·
+                %endif
+            
+            </div>
+        </div>
     </li>
 </%def>
 

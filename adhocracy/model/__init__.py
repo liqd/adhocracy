@@ -1,6 +1,8 @@
 """The application's model objects"""
 from sqlalchemy import orm, and_
 from sqlalchemy.orm import mapper, relation, backref, synonym
+from geoalchemy.postgis import PGComparator
+from geoalchemy import GeometryColumn
 
 import meta
 from adhocracy.model.update import SessionModificationExtension
@@ -44,6 +46,9 @@ from adhocracy.model.page import Page, page_table
 from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
+from adhocracy.model.region import Region, region_table
+from adhocracy.model.region import RegionSimplified, region_simplified_table
+from adhocracy.model.region_hierarchy import RegionHierarchy, region_hierarchy_table
 
 
 mapper(User, user_table, properties={
@@ -334,7 +339,11 @@ mapper(Instance, instance_table, properties={
             primaryjoin=instance_table.c.creator_id == user_table.c.id,
                         backref=backref('created_instances')),
     'locale': synonym('_locale', map_column=True),
-    'default_group': relation(Group, lazy=True)
+    'default_group': relation(Group, lazy=True),
+    'region': relation(
+            Region,
+            primaryjoin=instance_table.c.region_id == region_table.c.id,
+                        backref=backref('get_instances'), lazy=True)
     })
 
 
@@ -420,6 +429,27 @@ mapper(Selection, selection_table, properties={
             primaryjoin=selection_table.c.page_id == page_table.c.id)
     })
 
+mapper(Region, region_table, properties = {
+    'boundary': GeometryColumn(region_table.c.boundary, comparator=PGComparator),
+    'inner_regions': relation(
+        Region,
+        secondary=region_hierarchy_table,
+        primaryjoin=region_table.c.id==region_hierarchy_table.c.outer_id,
+        secondaryjoin=region_table.c.id==region_hierarchy_table.c.inner_id,
+        backref=backref('outer_regions')
+        )
+    })
+
+mapper(RegionSimplified, region_simplified_table, properties = {
+    'boundary': GeometryColumn(region_simplified_table.c.boundary, comparator=PGComparator),
+    'region': relation(
+        Region,
+        primaryjoin=region_simplified_table.c.region_id == region_table.c.id,
+        backref=backref('get_simplifed_regions')
+        )
+    })
+
+mapper(RegionHierarchy, region_hierarchy_table)
 
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""
