@@ -215,7 +215,7 @@ div.marker_hall img {
 }
 
 
-/* is now done with javascript in map.js, as top position depends on
+/* is now done with javascript in adhocracy.geo.js, as top position depends on
  * availability of other elements
 #fullscreen_map {
     position: absolute;

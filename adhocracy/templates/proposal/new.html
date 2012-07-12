@@ -1,6 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="tiles_html" file="/proposal/tiles.html"/>
 <%namespace name="components" file="/components.html"/>
+<%namespace name="map" file="/geo/map.html"/>
 <%def name="title()">${_("New proposal")}</%def>
 
 <%def name="breadcrumbs()">
@@ -131,18 +132,7 @@
 
       %if h.asbool(config.get('adhocracy.proposal_geotags')):
         <legend>${_('Map')}</legend>
-        <div class="input_wrapper">
-          <input id='proposal_geotag_field' name='geotag' type='hidden' value='' />
-          <div id='map_div' />
-          <div class="map_buttons">
-            <a id='create_geo_button' class="button_small">${_('Add geographic location')}</a>
-          <div>
-          <div id="edit_map_buttons" />
-        </div>
-        <script src="/javascripts/jquery.localisation.js"></script>
-        <script src="/javascripts/map.js"></script>
-        <script type="text/javascript">$.localise('/javascripts/map.js');</script>
-        <script type="text/javascript">window.onload=editGeotagInNewProposalWizard('${h.openlayers_url()}', '${c.instance.key}');</script>
+        ${map.show_single_proposal_edit_map_on_creation()}
       %endif
     </fieldset>
         
