@@ -106,7 +106,7 @@ class ProposalController(BaseController):
         require.proposal.create()
         c.pages = []
         c.exclude_pages = []
-        c.categories = model.CategoryBadge.all(instance=c.instance)
+        c.categories = model.CategoryBadge.all(c.instance, include_global=True)
         if 'page' in request.params:
             page = model.Page.find(request.params.get('page'))
             if page and page.function == model.Page.NORM:

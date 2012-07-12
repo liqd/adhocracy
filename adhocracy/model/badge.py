@@ -132,20 +132,22 @@ class Badge(object):
         If *innstance* is given (either `None` or an instance object),
         only these badges are returned.
         '''
-        q = meta.Session.query(cls).order_by(cls.title)
+        q = meta.Session.query(cls)
         if instance is not MARKER:
             q = q.filter(cls.instance == instance)
         return q
 
     @classmethod
-    def all(cls, instance=None):
+    def all(cls, instance=None, include_global=False):
         """
         Return all badges, orderd by title.
         Without instance it only returns badges not bound to an instance.
         With instance it only returns badges bound to that instance.
         """
         q = cls.all_q(instance=instance)
-        return q.all()
+        if include_global and instance is not None:
+            q = q.union(cls.all_q(instance=None))
+        return q.order_by(cls.title).all()
 
     def to_dict(self):
         return dict(id=self.id,
