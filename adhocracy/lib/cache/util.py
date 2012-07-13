@@ -3,6 +3,7 @@ from hashlib import sha1
 
 from pylons import app_globals
 
+
 log = logging.getLogger(__name__)
 
 SEP = "|"

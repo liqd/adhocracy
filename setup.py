@@ -63,6 +63,7 @@ setup(
         "js.jquery_qtip >= 1.0.0,<= 1.0.99",
         'js.socialshareprivacy >= 1.3dev',
         'js.jquery_joyride',
+        'dogpile.cache >= 0.2.4'
     ],
     # REFACT: could/should these become regular dependencies?
     setup_requires=["PasteScript>=1.6.3",
