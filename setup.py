@@ -93,6 +93,7 @@ setup(
         ],
         'paste.paster_command': [
             'worker = adhocracy.lib.cli:Worker',
+            'timer = adhocracy.lib.cli:Timer',
             'index = adhocracy.lib.cli:Index'
         ],
         'paste.app_install': [
