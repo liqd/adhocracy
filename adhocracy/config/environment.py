@@ -19,7 +19,7 @@ from adhocracy.lib.search import init_search
 from adhocracy.lib.democracy import init_democracy
 from adhocracy.lib.util import create_site_subdirectory
 from adhocracy.lib import init_site
-from adhocracy.lib.queue import setup_redis_connection
+from adhocracy.lib.queue import RQConfig
 
 
 def load_environment(global_conf, app_conf, with_db=True):
@@ -71,7 +71,7 @@ def load_environment(global_conf, app_conf, with_db=True):
     if with_db:
         init_search()
     init_democracy()
-    setup_redis_connection()
+    RQConfig.setup_from_config(config)
 
 
 class TimerProxy(ConnectionProxy):

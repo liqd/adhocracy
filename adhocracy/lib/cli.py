@@ -1,6 +1,9 @@
 import itertools
 from logging import getLogger
 import os
+import signal
+import threading
+import time
 
 import paste.script
 import paste.fixture
@@ -51,6 +54,122 @@ class AdhocracyCommand(Command):
         cmd.run([self.filename])
 
 
+class AdhocracyTimer(object):
+
+    timer_duration = 60
+
+    periodicals = {
+        'minutely': dict(delay=60.0, task=queue.minutely),
+        'hourly': dict(delay=3600.0, task=queue.hourly),
+        'daily': dict(delay=86400.0, task=queue.daily)}
+
+    def __init__(self, redis, queue_name):
+        self.redis = redis
+        self.queue_name = queue_name
+
+    @property
+    def lock_key(self):
+        return '%s.guard.lock' % self.queue_name
+
+    @property
+    def schedules_key(self):
+        return '%s.shedules' % self.queue_name
+
+    def guard(self):
+        '''
+        check if any of our peridical functions has to be called.
+        This will set up a timer to call itself every 60 seconds.
+        '''
+        if self.get_lock():
+            self.run_periodicals()
+        self.setup_timer(self.timer_duration, self.guard)
+
+    def run_periodicals(self):
+        '''
+        Run the periodical functions and do schedule the next
+        execution times if necessary.
+        '''
+        hash_name = self.schedules_key
+        now = time.time()
+        for key_name, periodical in self.periodicals.items():
+            log.debug('periodical: %s' % str(periodical))
+            self.redis.hsetnx(hash_name, key_name, 0)
+            next_run = self.redis.hget(hash_name, key_name)
+            log.debug('next_run: %s' % next_run)
+            if float(next_run) < (now + 1):
+                log.debug('run now.')
+                periodical['task'].enqueue()
+                next_run = float(now + periodical['delay'])
+                self.redis.hset(hash_name, key_name, next_run)
+
+        # expire our schedules hash an our after the next sheduled run
+        max_duration = max([p['delay'] for p in self.periodicals.values()])
+        expire = max_duration + 3600
+        self.redis.expire(hash_name, int(expire))
+
+    def get_lock(self):
+        '''
+        Return `True` if we have or can set a lock in redis. The lock
+        will be set or extended for the given *duration* from (from
+        the time it is set or renewed) and is valid for the current
+        process.
+        '''
+        redis = self.redis
+        key = self.lock_key
+        duration = self.timer_duration + 1
+        pid = self.pid
+
+        log.debug('get_lock, pid: %s...' % pid)
+        # set a new lock if it does not exist
+        if redis.setnx(key, pid):
+            redis.expire(key, duration)
+            log.debug('new')
+            return True
+
+        # Get the current lock and check if it is ours:
+        current_value = redis.get(key)
+        log.debug('current value: %s, type: %s' % (current_value,
+                                                   type(current_value)))
+        if int(current_value) == pid:
+            redis.expire(key, duration)
+            #log.debug('extended')
+            return True
+
+        log.debug('nope')
+        return False
+
+    def setup_timer(self, interval, func):
+        timer = threading.Timer(interval, func)
+        timer.daemon = True
+        timer.start()
+
+    def start(self):
+        self.pid = os.getpid()
+        self.guard()
+
+
+class Timer(AdhocracyCommand):
+    '''
+    Schedule periodical jobs.
+    '''
+    summary = __doc__.split('\n')[0]
+    usage = __doc__
+    max_args = None
+    min_args = None
+
+    def command(self):
+        self._load_config()
+        redis = queue.rq_config.connection
+        if not redis:
+            log.error('No redis connection available')
+            exit(1)
+        self.timer = AdhocracyTimer(redis, queue.rq_config.queue_name)
+        self.timer.start()  # this will setup a timer thread
+        signal.signal(signal.SIGTERM, lambda signum, frame: exit(0))
+        signal.signal(signal.SIGINT, lambda signum, frame: exit(0))
+        signal.pause()
+
+
 class Worker(AdhocracyCommand):
     '''Run Adhocracy background jobs.'''
     summary = __doc__.split('\n')[0]
@@ -58,38 +177,22 @@ class Worker(AdhocracyCommand):
     max_args = None
     min_args = None
 
-    timer_lock = None
+    redis = None
+    queue = None
 
     def command(self):
         self._load_config()
-        queue.in_worker(value=True)
-        queue_ = queue.get_queue()
-        if queue_ is None:
-            log.error('Error: No queue. exit now.')
+        queue.rq_config.in_worker = True
+        connection = queue.rq_config.connection
+        if not connection:
+            log.error('No redis connection available')
             exit(1)
-        self.minute()
-        self.hourly()
-        self.daily()
-        worker = rq.Worker([queue_], connection=queue.connection)
+        queue_ = queue.rq_config.queue
+        if not queue_:
+            log.error('No queue available.')
+            exit(1)
+        worker = rq.Worker([queue_], connection=connection)
         worker.work()
-
-    def minute(self):
-        queue.minutely.enqueue()
-        self.setup_timer(60.0, self.minute)
-
-    def hourly(self):
-        queue.hourly.enqueue()
-        self.setup_timer(3600.0, self.hourly)
-
-    def daily(self):
-        queue.daily.enqueue()
-        self.setup_timer(84600.0, self.daily)
-
-    def setup_timer(self, interval, func):
-        import threading
-        timer = threading.Timer(interval, func)
-        timer.daemon = True
-        timer.start()
 
 
 class Index(AdhocracyCommand):
