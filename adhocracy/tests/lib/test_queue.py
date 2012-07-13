@@ -3,11 +3,13 @@ from unittest import TestCase
 from mock import MagicMock, patch
 
 
+@patch('adhocracy.lib.cli.AdhocracyTimer.setup_timer', return_value=None)
+@patch('adhocracy.lib.cli.AdhocracyTimer.get_lock', return_value=True)
 class TimerTestCase(TestCase):
 
     def _make_timer(self):
         from adhocracy.lib.cli import AdhocracyTimer
-        timer = AdhocracyTimer()
+        timer = AdhocracyTimer(None, 'dummy')
         task_mock = MagicMock()
         periodicals = {'testperiodical': {'delay': 1.0,
                                           'task': task_mock}}
