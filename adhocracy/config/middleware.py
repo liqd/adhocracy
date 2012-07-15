@@ -11,6 +11,7 @@ from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
 
 from adhocracy.lib.auth.authentication import setup_auth
+from adhocracy.lib.helpers.site_helper import base_url
 from adhocracy.lib.instance import setup_discriminator
 from adhocracy.lib.util import get_site_path
 from adhocracy.config.environment import load_environment
@@ -91,6 +92,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
                     minified=not(debug),
                     versioning=True,
                     recompute_hashes=debug,
-                    bundle=not(debug)
+                    bundle=not(debug),
+                    base_url=base_url(None)
     )
     return app
