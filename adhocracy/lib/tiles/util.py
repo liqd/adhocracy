@@ -23,9 +23,9 @@ def render_tile(template_name, def_name, tile, cached=False, **kwargs):
                                      tile=tile, **kwargs)
     rendered = ""
     if cached and config.get('adhocracy.cache_tiles', True):
-        @cache.template_region.cache_on_arguments(
-            namespace=('tile_cache_%s:%s' % (template_name, def_name)),
-            expiration_time=84600 / 4)
+#        @cache.template_region.cache_on_arguments(
+#            namespace=('tile_cache_%s:%s' % (template_name, def_name)),
+#            expiration_time=84600 / 4)
         def _cached(**kwargs):
             return render()
         rendered = _cached(locale=c.locale, **kwargs)
