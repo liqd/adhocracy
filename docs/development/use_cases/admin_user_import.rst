@@ -20,7 +20,6 @@ Open and fill out the *Import Users* form:
     >>> template = admin.getControl(name='email_template')
     >>> template.value = ('{user_name}\n{password}\n{url}\n'
     ...                   '{display_name}\n{email}\nFree Text')
-    >>> admin.dc('/tmp/saved-user-import-form')
     >>> admin.getControl('save').click()
 
 As a result we have two new users and sent out emails to them:

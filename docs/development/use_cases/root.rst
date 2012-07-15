@@ -45,7 +45,7 @@ We have no items in the rss feed yet::
     >>> len(browser.xpath('//item'))
     0
 
-If we add content in the test instance an the feed contains an item
+If we add content in the test instance the feed contains an item
 for the event::
 
     >>> admin = make_browser()
