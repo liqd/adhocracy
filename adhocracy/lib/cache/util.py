@@ -3,6 +3,7 @@ from hashlib import sha1
 
 from pylons import app_globals
 
+
 log = logging.getLogger(__name__)
 
 SEP = "|"
@@ -94,5 +95,6 @@ def memoize(iden, time=0):
                 if res == NoneResult:
                     res = None
             return res
-        return new_fn
+#        return new_fn
+        return fn
     return memoize_fn

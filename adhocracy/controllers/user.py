@@ -26,7 +26,7 @@ from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
 from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
                                  solr_instance_users_pager)
-from adhocracy.lib.queue import post_update
+from adhocracy.lib.queue import update_entity
 from adhocracy.lib.templating import render, render_json, ret_abort
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
@@ -690,7 +690,7 @@ class UserController(BaseController):
         # FIXME: needs commit() cause we do an redirect() which raises
         # an Exception.
         model.meta.Session.commit()
-        post_update(user, model.update.UPDATE)
+        update_entity(user, model.update.UPDATE)
         redirect(h.entity_url(user))
 
     def _common_metadata(self, user, member=None, add_canonical=False):

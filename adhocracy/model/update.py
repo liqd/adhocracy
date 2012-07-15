@@ -52,7 +52,7 @@ class SessionModificationExtension(SessionExtension):
         '''
         from adhocracy import model
         from adhocracy.lib import queue
-        queue.post_update(entity, operation)
+        queue.update_entity(entity, operation)
 
         ## Do subsequent updates to reindex related content
         # NOTE: This may post duplicate update tasks if an entity
@@ -62,4 +62,4 @@ class SessionModificationExtension(SessionExtension):
         # NOTE: Move the decisions about which other objects to
         # update to the models
         if isinstance(entity, model.Poll):
-            queue.post_update(entity.scope, UPDATE)
+            queue.update_entity(entity.scope, UPDATE)
