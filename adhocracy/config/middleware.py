@@ -93,6 +93,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
                     versioning=True,
                     recompute_hashes=debug,
                     bundle=not(debug),
-                    base_url=base_url(None)
+                    base_url=base_url(None),
+                    bottom=True
     )
     return app
