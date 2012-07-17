@@ -79,12 +79,15 @@
     padding: 20px 0;
 }
 
-#content-bottom-left {
-    background-color: #f5f4f0;
+#content-bottom-left, #newest-proposals-bottom-left {
     float: left;
     padding: 15px 20px;
     width: 268px;
     height: 155px;
+}
+
+#content-bottom-left {
+    background-color: #f5f4f0;
 }
 
 #content-bottom-center {
