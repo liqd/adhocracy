@@ -14,10 +14,6 @@
     height: 440px;
 }
 
-.map_wrapper {
-    position: relative;
-}
-
 .map {
     position: absolute;
     z-index: -1;
@@ -42,41 +38,68 @@
 }
 
 /* Startpage */
-#map_startpage_wrapper.map_size_large .map_wrapper {
-    margin-left: 0px;
-    width: 1000px;
-    height: 656px;
-}
 
-#map_startpage_wrapper.map_size_normal .map_wrapper {
-    margin-left: 320px;
+#content-top.size_normal {
     height: 440px;
-    width: 640px;
+    padding: 30px 0;
 }
 
-#map_startpage_wrapper .map_wrapper {
-    margin-left: 320px;
-}
-
-.map_size_normal #content-startpage {
+#content-startpage {
     background-color: #f5f4f0;
     float: left;
+    width: 258px;
+    height: 400px;
+    padding: 20px 25px;
+}
+
+#content-startpage .register {
+    text-align: center;
+}
+
+#main_content_register_button {
+    display: block;
+    clear: left;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#main_content_register_button a.button {
+    width: 240px;
+    padding: 0;
+    background-position: 0 -500px;
+}
+
+#main_content_register_or_text {
+    display: block;
+    clear: left;
+    font-size: small;
+    padding-top: 9px;
+}
+
+#main_content_more_link {
+    display: block;
+    clear: left;
+}
+
+#map_wrapper.map_size_normal {
+    position: relative;
+    margin-left: 20px;
     height: 440px;
-    padding: 0 20px;
-    width: 268px;
+    width: 640px;
+    float: left;
 }
 
-.map_size_large #content-startpage {
-    display: none;
-}
-
-#content-startpage img {
-    display: none; /* dirty hack so don't have to edit wp now */
+#map_wrapper.map_size_full {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 #content-bottom {
     height: 155px;
     padding: 20px 0;
+    width: 100%;
 }
 
 #content-bottom-left, #newest-proposals-bottom-left {
@@ -236,6 +259,7 @@ div.marker_hall img {
     width: 30%;
     float: left;
     position: relative;
+    overflow: auto;
 }
 
 #central_block {

@@ -1320,9 +1320,9 @@ var adhocracy = adhocracy || {};
     adhocracy.geo.loadSelectInstanceMap = function (layers, tiles, resultList) {
 
         function addResizeMapButton(plus) {
-            var src = '/images/map_resize_rec_plus.png';
+            var src = '/images/map_resize_full.png';
             if (!plus) {
-                src = '/images/map_resize_rec_minus.png';
+                src = '/images/map_resize_full_exit.png';
             }
             var img = $('<img>', { src: src,
                                    alt: '+'
@@ -1334,18 +1334,33 @@ var adhocracy = adhocracy || {};
         var map, enlargeMap, shrinkMap;
 
         enlargeMap = function (event) {
+            var top = $('#header').outerHeight();
+            $('body').css('overflow', 'hidden');
+            $('#page_margins').removeClass('page_margins');
+            $('#content-top').removeClass('size_normal');
+            $('#map_wrapper').removeClass('map_size_normal').addClass('map_size_full').css('top', top + 'px');
             addResizeMapButton(false);
             $('#resize_map_button').click(shrinkMap);
             $('#map_startpage_wrapper').removeClass('map_size_normal');
             $('#map_startpage_wrapper').addClass('map_size_large');
+            $('#content-startpage').hide();
+            $('#content-bottom').hide();
+            $('footer').hide();
             map.updateSize();
         };
 
         shrinkMap = function (event) {
+            $('body').css('overflow', 'auto');
+            $('#page_margins').addClass('page_margins');
+            $('#content-top').addClass('size_normal');
+            $('#map_wrapper').removeClass('map_size_full').addClass('map_size_normal').css('top', 'auto');
             addResizeMapButton(true);
             $('#resize_map_button').click(enlargeMap);
             $('#map_startpage_wrapper').addClass('map_size_normal');
             $('#map_startpage_wrapper').removeClass('map_size_large');
+            $('#content-startpage').show();
+            $('#content-bottom').show();
+            $('footer').show();
             map.updateSize();
         };
 
