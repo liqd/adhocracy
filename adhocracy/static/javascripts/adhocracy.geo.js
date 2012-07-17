@@ -1007,7 +1007,6 @@ var adhocracy = adhocracy || {};
 
 
     adhocracy.geo.createControls = function (fullControls, keyboardControls) {
-        // add map controls
 
         var mapControls = [
             new OpenLayers.Control.Navigation({'handleRightClicks': true}),
@@ -1017,13 +1016,9 @@ var adhocracy = adhocracy || {};
         if (fullControls) {
             mapControls.push(new OpenLayers.Control.PanZoomBar());
             mapControls.push(new OpenLayers.Control.LayerSwitcher());
-            // MousePosition currently displays 900913 instead of 4236
-            // mapControls.push(new OpenLayers.Control.MousePosition());
-            mapControls.push(new OpenLayers.Control.Scale());
-            // mapControls.push(new OpenLayers.Control.Graticule());
+            // mapControls.push(new OpenLayers.Control.Scale());
         } else {
             mapControls.push(new OpenLayers.Control.ZoomPanel());
-    //        mapControls.push(new OpenLayers.Control.ZoomOut());
         }
         if (keyboardControls) {
             // use KeyboardDefault only when map is the central element

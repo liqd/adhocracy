@@ -207,23 +207,12 @@ div.marker_hall img {
 .marker_i {background-position: 0 -248px !important;}
 .marker_j {background-position: 0 -279px !important;}
 
-  /* License note below map */
+/* License note below map */
 .note_map, .note_map a {
   color: #888;
   font-size: x-small;
   text-align: right;
 }
-
-
-/* is now done with javascript in adhocracy.geo.js, as top position depends on
- * availability of other elements
-#fullscreen_map {
-    position: absolute;
-    top: 150px;
-    bottom: 0;
-    width: 100%;
-}
-*/
 
 #left_block {
     height: 100%;
@@ -264,6 +253,11 @@ div.marker_hall img {
     background-color: green;
     z-index: 1000;
     display: none;
+}
+
+.olControlScaleLine {
+    left: auto;
+    right: 10px;
 }
 
 .olControlLayerSwitcher {
