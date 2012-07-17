@@ -3,12 +3,7 @@
 
 <%def name="row(tile, proposal)">
     <li class="content_box ${'fresh' if tile.fresh else ''}">
-        <div class="marker">
-            %if proposal.has_geotag():
-                <img class="result_list_marker" id="result_list_marker_${proposal.id}" src="/images/transparent.png" />
-            %endif
-        </div>
-        <div>
+        <div class="content_box_no_marker">
             <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
                 %if tile.fresh:
                     ${_("(new)")}
@@ -33,6 +28,12 @@
             
             </div>
         </div>
+        <div class="marker">
+            %if proposal.has_geotag():
+                <img class="result_list_marker" id="result_list_marker_${proposal.id}" src="/images/transparent.png" />
+            %endif
+        </div>
+        <div class="hr"><hr /></div>
     </li>
 </%def>
 

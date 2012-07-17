@@ -180,8 +180,19 @@ div.search_result_title {
 }
 
 div.marker, div.marker_hall {
-    margin: 0px 10px 0 0px;
-    float: left;
+    float: right;
+}
+
+li.content_box { 
+    position: relative;
+}
+
+div.content_box_no_marker {
+    /*margin: 0px 10px 0 0px;
+    margin-right: 24px;*/
+    /*position: absolute
+    right: 30px;
+    left: 0px;*/
 }
 
 div.marker.authenticated {
@@ -190,6 +201,9 @@ div.marker.authenticated {
 
 div.marker img {
   background-image: url('/images/map_markers_pink_a_j.png');
+  position: absolute;
+  right: 5px;
+  top: 5px;
   width: 24px;
   height: 31px;
   margin: 0 !important;
