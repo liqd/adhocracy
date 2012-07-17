@@ -1011,7 +1011,7 @@ var adhocracy = adhocracy || {};
 
         var mapControls = [
             new OpenLayers.Control.Navigation({'handleRightClicks': true}),
-            new OpenLayers.Control.ScaleLine()
+            new OpenLayers.Control.ScaleLine({'geodesic': true})
         ];
 
         if (fullControls) {
