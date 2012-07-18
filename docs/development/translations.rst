@@ -7,13 +7,13 @@ Translations for contributors
 We manage our translations in a `Transifex project`_. If you want to
 change a translation you can go to the project page, choose your
 language and click on the resource "Adhocracy". You will get a menu
-where you can download the .po file do edit it on your computer with
+where you can download the .po file to edit it on your computer with
 an application like `poedit`_ ("Download for use"). After you
 translated the file you can go to the menu and upload the file. From
 the menu you can also use the transifex online editor (Button: "✔
 Translate now")
 
-It would be nice to drop us a note before you start to translate it to
+It would be nice to drop us a note before you start to translate, to
 adhocracy-dev@lists.liqd.net or info@liqd.net. You can also contact us
 to set up a new language on transifex.
 
@@ -33,8 +33,8 @@ recommended) you need to use the ``--distribute`` option to
 This document assumes that you installed the buildout in a virtualenv
 "adhocracy".
 
-Install the `transifex client`_ on your system.  Than add your
-username and password for transifex.net to `~.transifexrc`::
+Install the `transifex client`_ on your system.  Then add your
+username and password for transifex.net to `~/.transifexrc`::
 
     [https://www.transifex.net]
     hostname = https://www.transifex.net
@@ -83,15 +83,15 @@ Update the translations
      $ (adhocracy)/src/adhocracy$ tx pull  # pulls all languages or
      $ (adhocracy)/src/adhocracy$ tx pull -l <language>
 
-2. edit the ``.po`` files for your language(s). 
+2. Edit the ``.po`` files for your language(s). 
 
    INFO:: The prefered way to edit ``.po`` files is to use an
    application like poedit_. It will highlight untranslated messages
-   and messages that where created with fuzzy matching and will
+   and messages that were created with fuzzy matching and will
    automatically update or remove markers like ``, fuzzy`` and update
    the header of the ``.po`` file.
 
-3. push the translation to transifex::
+3. Push the translation to transifex::
   
      (adhocracy)/src/adhocracy$ tx push -l <language> 
 
@@ -99,7 +99,7 @@ Update the translations
 
      (adhocracy)/src/adhocracy$ tx pull -l <language>
 
-5. compile the catalogs with ``compile_catalog``::
+5. Compile the catalogs with ``compile_catalog``::
 
      (adhocracy)/src/adhocracy$ ../../bin/adhocpy setup.py extract_messages   
 
