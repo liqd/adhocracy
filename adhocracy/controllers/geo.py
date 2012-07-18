@@ -20,6 +20,11 @@ import logging
 log = logging.getLogger(__name__)
 
 
+MATCH_WORD_FULL = 'FULL'
+MATCH_WORD_START = 'START'
+MATCH_WORD_INNER = 'INNER'
+
+
 class GeoController(BaseController):
 
     def get_instances_json(self):
@@ -79,42 +84,57 @@ class GeoController(BaseController):
         return render_geojson(
             calculate_tiled_admin_centres_json(x, y, zoom, admin_level))
 
+    @staticmethod
+    def match_substring(column, match_type, query_string):
+
+        match_word_start = match_type in [MATCH_WORD_FULL, MATCH_WORD_START]
+        match_word_end = match_type == MATCH_WORD_FULL
+
+        return column.op('~*')(u'.*%s%s%s.*' % (
+            '[[:<:]]' if match_word_start else '',
+            query_string,
+            '[[:>:]]' if match_word_end else ''))
+
     def get_instance_query(self,
                            query_entities,
+                           match_type,
                            main_query,
-                           additional_query=None):
+                           suffix_query=None):
 
-        instance_query = meta.Session.query(query_entities)\
+        query = meta.Session.query(query_entities)\
             .join(Region)\
             .order_by(Region.name)\
-            .filter(Region.name.ilike(u'%%%s%%' % main_query))\
+            .filter(self.match_substring(Region.name, match_type, main_query))
 
-        if additional_query:
-            instance_query = instance_query\
+        if suffix_query is not None and suffix_query != '':
+            query = query\
                 .join(Region.outer_regions, aliased=True)\
-                .filter(Region.name.ilike(u'%%%s%%' % additional_query))
+                .filter(self.match_substring(
+                    Region.name, match_type, suffix_query))
 
-        return instance_query
+        return query
 
     def get_region_query(self,
                          query_entities,
+                         match_type,
                          main_query,
-                         additional_query=None):
+                         suffix_query=None):
 
         # find all (region, instance) tuples, where
         # region matches the given query string
         # and region is inside the returned instance
 
-        region_query = meta.Session.query(*query_entities)\
+        query = meta.Session.query(*query_entities)\
             .order_by(Region.name)\
-            .filter(Region.name.ilike(u'%%%s%%' % main_query))\
+            .filter(self.match_substring(Region.name, match_type, main_query))\
             .join(Region.outer_regions, aliased=True)\
             .filter(Region.id == Instance.region_id)
 
-        if additional_query:
-            region_query = region_query\
+        if suffix_query:
+            query = query\
                 .join(Region.outer_regions, aliased=True)\
-                .filter(Region.name.ilike(u'%%%s%%' % additional_query))
+                .filter(self.match_substring(
+                    Region.name, match_type, suffix_query))
 
         # to include additional information such as the name of the
         # surrounding Landkreis (admin_level=6), a region alias has to
@@ -127,7 +147,7 @@ class GeoController(BaseController):
         # .filter(Region.id == reg.id)\
         # .filter(reg.admin_level==6).all()
 
-        return region_query
+        return query
 
     def get_search_params(self, request):
         query = request.params.get('query')
@@ -136,13 +156,21 @@ class GeoController(BaseController):
         search_items = query.split(',', 2)
         main_query = search_items[0].strip()
         if len(search_items) > 1:
-            additional_query = search_items[1].strip()
+            suffix_query = search_items[1].strip()
         else:
-            additional_query = None
+            suffix_query = None
 
-        return (main_query, additional_query)
+        return (main_query, suffix_query)
 
-    def find_instances_json(self):
+    def relax_match_type(self, match_type):
+        if match_type == MATCH_WORD_FULL:
+            return MATCH_WORD_START
+        elif match_type == MATCH_WORD_START:
+            return MATCH_WORD_INNER
+        else:
+            return None
+
+    def find_instances_json(self, match_type=MATCH_WORD_FULL):
         """
         returns a dictionary of the following structure
 
@@ -154,14 +182,13 @@ class GeoController(BaseController):
         the regions list is only returned if the request contains a 'regions'
         parameter.
         """
-        (main_query, additional_query) = self.get_search_params(request)
+
+        (main_query, suffix_query) = self.get_search_params(request)
 
         instance_query = self.get_instance_query(
-            (Instance.id), main_query, additional_query)
+            (Instance.id), match_type, main_query, suffix_query)
 
-        result = {
-            'instances': [iid for (iid,) in instance_query.all()]
-        }
+        instances = [iid for (iid,) in instance_query.all()]
 
         def create_region_entry(region):
 
@@ -180,27 +207,52 @@ class GeoController(BaseController):
             return entry
 
         region_query = self.get_region_query(
-            (Instance.id, Region), main_query, additional_query)
+            (Instance.id, Region), match_type, main_query, suffix_query)
 
-        result['regions'] = [(iid, create_region_entry(region))
-                             for (iid, region) in region_query.all()]
+        regions = [(iid, create_region_entry(region))
+                   for (iid, region) in region_query.all()]
 
+        if len(instances) == 0 and len(regions) == 0:
+            relax_match_type = self.relax_match_type(match_type)
+            if relax_match_type is not None:
+                return self.autocomplete_instances_json(relax_match_type)
+
+        result = {'instances': instances, 'regions': regions}
         return render_json(result)
 
-    def autocomplete_instances_json(self):
-        (main_query, additional_query) = self.get_search_params(request)
+    def autocomplete_instances_json(self, match_type=MATCH_WORD_START):
+        """
+        returns a dictionary of the following structure
 
-        instance_query = self.get_instance_query(
-            (Instance.label), main_query, additional_query)
-
-        result = {
-            'instances': [label for (label,) in instance_query.all()]
+        {
+            'instances': [instance_id],
+            'regions': [(instance_id, {region_data})]
         }
 
+        the regions list is only returned if the request contains a 'regions'
+        parameter.
+        """
+
+        (main_query, suffix_query) = self.get_search_params(request)
+
+        instance_query = self.get_instance_query(
+            (Instance.label), match_type, main_query, suffix_query)
+
+        instances = [label for (label,) in instance_query.all()]
+
         region_query = self.get_region_query(
-            (Instance.label, Region.name), main_query, additional_query)
+            (Instance.label, Region.name),
+            match_type,
+            main_query,
+            suffix_query)
 
-        result['regions'] = ['%s, %s' % (region, instance)
-                             for (instance, region) in region_query.all()]
+        regions = ['%s, %s' % (region, instance)
+                   for (instance, region) in region_query.all()]
 
+        if len(instances) == 0 and len(regions) == 0:
+            relax_match_type = self.relax_match_type(match_type)
+            if relax_match_type is not None:
+                return self.autocomplete_instances_json(relax_match_type)
+
+        result = {'instances': instances, 'regions': regions}
         return render_json(result)
