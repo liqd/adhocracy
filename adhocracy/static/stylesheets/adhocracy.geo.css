@@ -131,11 +131,11 @@
 }
 
 .ui-autocomplete-loading { 
-    background:url('/images/ui-anim_basic_16x16.gif') no-repeat right center;
+    background:url('/images/ui-anim_basic_16x16.gif') no-repeat 130px center;
 }
 
 .ui-autocomplete {
-    width: 230px;
+    width: 225px;
     max-height: 300px;
     overflow-y: auto;
     /* prevent horizontal scrollbar */
@@ -160,19 +160,22 @@
     right: 24px;
     background-color:  #ffffff;
     border: 1px solid black;
-    padding: 16px;
+    padding: 16px 16px 20px 16px;
 }
 
 #overview_search_field {
-    width: 144px;
+    width: 154px;
     height: 24px;
-    padding: 0px;
+    padding: 0;
+    margin-bottom: 0;
+    margin-right: -4px;
 }
 
 #overview_search_button {
     width: 60px;
-    height: 24px;
+    height: 26px;
     padding: 0px;
+    /*margin-left: -5px;*/
 }
 
 #search_result_content {
