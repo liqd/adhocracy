@@ -48,7 +48,7 @@ from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
 from adhocracy.model.region import Region, region_table
 from adhocracy.model.region import RegionSimplified, region_simplified_table
-from adhocracy.model.region_hierarchy import RegionHierarchy, region_hierarchy_table
+from adhocracy.model.region import RegionHierarchy, region_hierarchy_table
 
 
 mapper(User, user_table, properties={
