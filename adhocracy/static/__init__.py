@@ -91,6 +91,19 @@ openlayers_css = Resource(openlayers_library, 'theme/default/style.css')
 openlayers = Group([openlayers_js, openlayers_css])
 
 
+# --[ misc geo branch only ]------------------------------------------------
+
+jquery_ui_library = Library('jqueryui', 'jqueryui', version='1.8.21.1')
+
+jquery_ui_js = Resource(jquery_ui_library, 'jquery-ui.custom.min.js',
+                        depends=[jquery])
+jquery_ui_css = Resource(jquery_ui_library, 'jquery-ui.custom.css')
+jquery_ui = Group([jquery_ui_js, jquery_ui_css])
+
+jquery_localisation_js = Resource(misc_library, 'jquery.localisation.js',
+                                  depends=[jquery])
+
+
 # --[ adhocracy ]-----------------------------------------------------------
 
 adhocracy_library = Library('adhocracy', 'javascripts')
@@ -100,4 +113,4 @@ adhocracy = Resource(adhocracy_library, 'adhocracy.js',
 adhocracy_ko = Resource(adhocracy_library, 'adhocracy.ko.js',
                         depends=[adhocracy, knockout])
 adhocracy_geo = Resource(adhocracy_library, 'adhocracy.geo.js',
-                         depends=[adhocracy, knockout_js, openlayers])
+                         depends=[adhocracy, knockout_js])
