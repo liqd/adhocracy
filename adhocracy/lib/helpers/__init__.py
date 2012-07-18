@@ -38,8 +38,8 @@ from adhocracy.lib.helpers import abuse_helper as abuse, tutorial
 from adhocracy.lib.helpers import milestone_helper as milestone
 from adhocracy.lib.helpers import recaptcha_helper as recaptcha
 from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
+                                                    FanstaticUrlHelper,
                                                     get_socialshareprivacy_url)
-from adhocracy.lib.helpers.geo import openlayers_url
 from adhocracy.lib.helpers.url import build
 from adhocracy.lib.helpers.site_helper import base_url
 #from adhocracy.lib.templating import json_dumps, json_loads
@@ -53,6 +53,7 @@ from adhocracy.i18n import relative_date, relative_time
 flash = _Flash()
 recaptcha = recaptcha.Recaptcha()
 need = FanstaticNeedHelper(static)
+fanstatic_url = FanstaticUrlHelper(static)
 
 
 def sorted_flash_messages():
@@ -191,7 +192,6 @@ def register_redirect_url(entity=None, **kwargs):
     login_url = build(c.instance, '', 'register',
                       query={'came_from': came_from_url})
     return login_url
-
 
 
 def entity_url(entity, **kwargs):
