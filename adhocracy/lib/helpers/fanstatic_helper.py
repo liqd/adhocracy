@@ -14,6 +14,15 @@ def get_socialshareprivacy_url():
     return fanstatic.get_needed().library_url(library)
 
 
+def _get_resource(module, name):
+    resource = getattr(module, name, None)
+    if resource is None:
+        raise AttributeError('"%s" does not exist' % name)
+    if not isinstance(resource, (fanstatic.Resource, fanstatic.Group)):
+        raise ValueError('"%s" is not a valid Resource' % name)
+    return resource
+
+
 class FanstaticNeedHelper(object):
     '''
     A helper class to access fanstatic resources
@@ -22,7 +31,7 @@ class FanstaticNeedHelper(object):
     Use it this way::
 
         from adhocracy import static
-        need = Need(static)
+        need = FanstaticNeedHelper(static)
         need.stylesheets
 
     where "stylesheets" is a fanstatic Resource or Group defined
@@ -33,9 +42,30 @@ class FanstaticNeedHelper(object):
         self.module = module
 
     def __getattr__(self, name):
-        resource = getattr(self.module, name, None)
-        if resource is None:
-            raise AttributeError('"%s" does not exist' % name)
-        if not isinstance(resource, (fanstatic.Resource, fanstatic.Group)):
-            raise ValueError('"%s" is not a valid Resource' % name)
-        return resource.need()
+        return _get_resource(self.module, name).need()
+
+
+class FanstaticUrlHelper(object):
+    '''
+    A helper class to access fanstatic resource urls
+    defined in :module:`adhocracy.static`
+
+    Use it this way::
+
+        from adhocracy import static
+        fanstatic_url = FanstaticUrlHelper(static)
+        fanstatic_url.stylesheets
+
+    where "stylesheets" is a fanstatic Resource defined in adhocracy.static.
+    '''
+
+    def __init__(self, module):
+        self.module = module
+
+    def __getattr__(self, name):
+        resource = _get_resource(self.module, name)
+
+        return '%s/%s' % (
+            fanstatic.get_needed().library_url(resource.library),
+            resource.relpath
+        )
