@@ -3,8 +3,8 @@
 <%def name="show_single_proposal_map(proposal_id)">
 ${h.need.openlayers_css}
 ${h.need.jquery_localisation_js}
-${h.need.adhocracy_geo}
-<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo}');</script>
+${h.need.adhocracy_geo_js}
+<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo_js}');</script>
 <div id="map" class="small_map"></div>
     <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript"> window.onload=adhocracy.geo.loadSingleProposalMap('${h.fanstatic_url.openlayers_js}', '${c.instance.key}', ${proposal_id}, false, null); </script>
@@ -14,8 +14,8 @@ ${h.need.adhocracy_geo}
 <%def name="show_single_proposal_edit_map(proposal_id)">
 ${h.need.openlayers_css}
 ${h.need.jquery_localisation_js}
-${h.need.adhocracy_geo}
-<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo}');</script>
+${h.need.adhocracy_geo_js}
+<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo_js}');</script>
 <div id="map" class="edit_map"></div>
     <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <div id="edit_map_buttons" />
@@ -33,8 +33,8 @@ ${h.need.adhocracy_geo}
 <%def name="show_single_proposal_edit_map_on_creation()">
 ${h.need.openlayers_css}
 ${h.need.jquery_localisation_js}
-${h.need.adhocracy_geo}
-<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo}');</script>
+${h.need.adhocracy_geo_js}
+<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo_js}');</script>
 <div class="input_wrapper">
   <input id='proposal_geotag_field' name='geotag' type='hidden' value='' />
   <div id='map_div' />
@@ -49,8 +49,8 @@ ${h.need.adhocracy_geo}
 <%def name="show_region_map(initial_proposals=None, full_region=True)">
 ${h.need.openlayers_css}
 ${h.need.jquery_localisation_js}
-${h.need.adhocracy_geo}
-<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo}');</script>
+${h.need.adhocracy_geo_js}
+<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo_js}');</script>
 <div id="map" class="small_map"></div>
     <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript"> window.onload=adhocracy.geo.loadRegionMap('${h.fanstatic_url.openlayers_js}', '${c.instance.key}', ${initial_proposals if initial_proposals else []}, false, ${'true' if full_region else 'false'}); </script>
@@ -59,8 +59,8 @@ ${h.need.adhocracy_geo}
 <%def name="show_region_map_large(initial_proposals=None, full_region=True)">
 ${h.need.openlayers_css}
 ${h.need.jquery_localisation_js}
-${h.need.adhocracy_geo}
-<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo}');</script>
+${h.need.adhocracy_geo_js}
+<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo_js}');</script>
 <div id="map" class="large_map"></div>
 <script type="text/javascript"> window.onload=adhocracy.geo.loadRegionMap('${h.fanstatic_url.openlayers_js}', '${c.instance.key}', ${initial_proposals if initial_proposals else []}, true, ${'true' if full_region else 'false'}); </script>
 </%def>
@@ -68,8 +68,8 @@ ${h.need.adhocracy_geo}
 <%def name="show_overview_map(initial_instances=None)">
 ${h.need.openlayers_css}
 ${h.need.jquery_localisation_js}
-${h.need.adhocracy_geo}
-<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo}');</script>
+${h.need.adhocracy_geo_js}
+<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo_js}');</script>
 <div id="map" class="small_map"></div>
     <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript"> window.onload=adhocracy.geo.loadOverviewMap('${h.fanstatic_url.openlayers_js}', ${initial_instances if initial_instances else []}); </script>
@@ -79,7 +79,7 @@ ${h.need.adhocracy_geo}
 ${h.need.openlayers_css}
 ${h.need.jquery_ui}
 ${h.need.jquery_localisation_js}
-${h.need.adhocracy_geo}
-<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo}');</script>
+${h.need.adhocracy_geo_js}
+<script type="text/javascript">$.localise('${h.fanstatic_url.adhocracy_geo_js}');</script>
 <script type="text/javascript"> window.onload=adhocracy.geo.loadSelectInstance('${h.fanstatic_url.openlayers_js}'); </script>
 </%def>
