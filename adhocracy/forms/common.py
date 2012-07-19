@@ -9,6 +9,7 @@ from pylons.i18n import _
 from webhelpers.html import literal
 
 from adhocracy.lib.auth.authorization import has
+from adhocracy.lib.unicode import UnicodeDictReader
 
 
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings",
@@ -419,7 +420,7 @@ class UsersCSV(formencode.FancyValidator):
         self.emails = {}
         self.duplicates = False
         value = value.encode('utf-8')
-        reader = csv.DictReader(StringIO(value), fieldnames=fieldnames)
+        reader = UnicodeDictReader(StringIO(value), fieldnames=fieldnames)
         try:
             for item in reader:
                 error_list, cleaned_item = self._check_item(item,
