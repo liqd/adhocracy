@@ -12,6 +12,7 @@ from pylons import config, tmpl_context as c
 LOCALES = [babel.Locale('de', 'DE'),
            babel.Locale('en', 'US'),
            babel.Locale('fr', 'FR'),
+           babel.Locale('nl', 'NL'),
            babel.Locale('ru', 'RU')]
 
 
