@@ -302,6 +302,16 @@ div.marker_hall img {
     display: none;
 }
 
+#left_block .list_form {
+    float: none;
+    margin: 0;
+}
+
+#left_block .list_form input.q {
+    max-width: 70%;
+    margin: 0;
+}
+
 .olControlScaleLine {
     left: auto;
     right: 10px;
