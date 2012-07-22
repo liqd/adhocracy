@@ -278,23 +278,26 @@ div.marker_hall img {
     z-index: 0;
 }
 
+.large_map .olControlPanZoomBar {
+    margin-top: 30px;
+}
+
 #hide_list_icon {
     position: absolute;
     top: 0px;
     right: 0px;
-    height: 16px;
-    width: 16px;
-    background-color: red;
-    z-index: 1;
+    height: 18px;
+    width: 18px;
+    background:url('/images/close-top-right.png');
     display: none;
 }
 #show_list_icon {
     position: absolute;
     top: 0px;
     left: 0px;
-    height: 16px;
-    width: 16px;
-    background-color: green;
+    height: 18px;
+    width: 18px;
+    background:url('/images/open-arrow-right.png');
     z-index: 1000;
     display: none;
 }
