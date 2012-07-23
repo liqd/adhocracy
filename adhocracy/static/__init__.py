@@ -114,6 +114,7 @@ adhocracy = Resource(adhocracy_library, 'adhocracy.js',
 adhocracy_ko = Resource(adhocracy_library, 'adhocracy.ko.js',
                         depends=[adhocracy, knockout])
 adhocracy_geo_js = Resource(adhocracy_library, 'adhocracy.geo.js',
-                            depends=[adhocracy, knockout_js])
+                            depends=[adhocracy, knockout_js, openlayers_js],
+                            bottom=True)
 
 adhocracy_geo_css = Resource(stylesheets_library, 'adhocracy.geo.css')

@@ -1141,63 +1141,61 @@ var adhocracy = adhocracy || {};
         return selectControl;
     };
 
-    adhocracy.geo.loadSingleProposalMap = function (openlayers_url, instanceKey, proposalId, edit, position) {
-        $.getScript(openlayers_url, function () {
+    adhocracy.geo.loadSingleProposalMap = function (instanceKey, proposalId, edit, position) {
 
-            var map = adhocracy.geo.createMap();
+        var map = adhocracy.geo.createMap();
 
-            var numFetches = 1;
-            if (proposalId) {
-                numFetches = 2;
-            }
-            var waiter = adhocracy.geo.createWaiter(numFetches, function (bounds) {
-                map.zoomToExtent(bounds);
-            });
+        var numFetches = 1;
+        if (proposalId) {
+            numFetches = 2;
+        }
+        var waiter = adhocracy.geo.createWaiter(numFetches, function (bounds) {
+            map.zoomToExtent(bounds);
+        });
 
-            map.addControls(adhocracy.geo.createControls(edit, false));
-            map.addLayers(adhocracy.geo.createBaseLayers());
-            var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(instanceKey, function (feature) {
+        map.addControls(adhocracy.geo.createControls(edit, false));
+        map.addLayers(adhocracy.geo.createBaseLayers());
+        var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(instanceKey, function (feature) {
+            waiter(feature);
+        });
+        map.addLayers(regionBoundaryLayers);
+        adhocracy.geo.createPopupControl(map, regionBoundaryLayers[1], adhocracy.geo.buildInstancePopup);
+
+        var proposalLayer = adhocracy.geo.createProposalLayer();
+        map.addLayer(proposalLayer);
+        adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildProposalPopup);
+
+        var singleProposalFetchedCallback;
+        if (edit) {
+            singleProposalFetchedCallback = adhocracy.geo.addEditControls(map, proposalLayer);
+        }
+
+        //don't try to fetch proposals geotags when there's no proposal (i.e. if proposal is created)
+        if (proposalId) {
+            adhocracy.geo.fetchSingleProposal(proposalId, proposalLayer, function (feature) {
+                if (edit) {
+                    singleProposalFetchedCallback(feature);
+                }
+
                 waiter(feature);
             });
-            map.addLayers(regionBoundaryLayers);
-            adhocracy.geo.createPopupControl(map, regionBoundaryLayers[1], adhocracy.geo.buildInstancePopup);
-
-            var proposalLayer = adhocracy.geo.createProposalLayer();
-            map.addLayer(proposalLayer);
-            adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildProposalPopup);
-
-            var singleProposalFetchedCallback;
-            if (edit) {
-                singleProposalFetchedCallback = adhocracy.geo.addEditControls(map, proposalLayer);
-            }
-
-            //don't try to fetch proposals geotags when there's no proposal (i.e. if proposal is created)
-            if (proposalId) {
-                adhocracy.geo.fetchSingleProposal(proposalId, proposalLayer, function (feature) {
-                    if (edit) {
-                        singleProposalFetchedCallback(feature);
-                    }
-
-                    waiter(feature);
-                });
-            } else {
-                var feature = null;
-                if (position) {
-                    var features = new OpenLayers.Format.GeoJSON({}).read(position);
-                    if (features) {
-                        feature = features[0];
-                        proposalLayer.addFeatures([feature]);
-                    }
+        } else {
+            var feature = null;
+            if (position) {
+                var features = new OpenLayers.Format.GeoJSON({}).read(position);
+                if (features) {
+                    feature = features[0];
+                    proposalLayer.addFeatures([feature]);
                 }
-                singleProposalFetchedCallback(feature);
             }
-            if (adhocracy.geo.easteregg) {
-                var easterLayer = adhocracy.geo.createEastereggLayer();
-                map.addLayer(easterLayer);
-                adhocracy.geo.createPopupControl(map, easterLayer, adhocracy.geo.buildEastereggPopup);
-            }
-            map.addControl(adhocracy.geo.createSelectControl());
-        });
+            singleProposalFetchedCallback(feature);
+        }
+        if (adhocracy.geo.easteregg) {
+            var easterLayer = adhocracy.geo.createEastereggLayer();
+            map.addLayer(easterLayer);
+            adhocracy.geo.createPopupControl(map, easterLayer, adhocracy.geo.buildEastereggPopup);
+        }
+        map.addControl(adhocracy.geo.createSelectControl());
     };
 
     adhocracy.geo.enableMarker = function (id, layer, selectControl) {
@@ -1217,104 +1215,101 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.geo.loadRegionMap = function (openlayers_url, instanceKey, initialProposals, largeMap, fullRegion) {
-        $.getScript(openlayers_url, function () {
+    adhocracy.geo.loadRegionMap = function (instanceKey, initialProposals, largeMap, fullRegion) {
 
-            var map;
+        var map;
 
-            if (largeMap) {
-                var top = $('#header').outerHeight() + $('#subheader').outerHeight() + $('#flash_message').outerHeight();
-                $('#fullscreen_map').css('position', 'absolute').css('top', top + 'px').css('bottom', 0).css('width', '100%');
+        if (largeMap) {
+            var top = $('#header').outerHeight() + $('#subheader').outerHeight() + $('#flash_message').outerHeight();
+            $('#fullscreen_map').css('position', 'absolute').css('top', top + 'px').css('bottom', 0).css('width', '100%');
+            $('#hide_list_icon').show();
+            $('#hide_list_icon').click(function () {
+                $('#hide_list_icon').hide();
+                $('#left_block').fadeOut('normal', function () {
+                    $('#central_block').css('width', '100%');
+                    map.updateSize();
+                });
+                $('#show_list_icon').show();
+            });
+            $('#show_list_icon').click(function () {
+                $('#show_list_icon').hide();
+                $('#left_block').fadeIn('normal', function () {
+                    $('#central_block').css('width', '70%');
+                    map.updateSize();
+                });
                 $('#hide_list_icon').show();
-                $('#hide_list_icon').click(function () {
-                    $('#hide_list_icon').hide();
-                    $('#left_block').fadeOut('normal', function () {
-                        $('#central_block').css('width', '100%');
-                        map.updateSize();
-                    });
-                    $('#show_list_icon').show();
-                });
-                $('#show_list_icon').click(function () {
-                    $('#show_list_icon').hide();
-                    $('#left_block').fadeIn('normal', function () {
-                        $('#central_block').css('width', '70%');
-                        map.updateSize();
-                    });
-                    $('#hide_list_icon').show();
-                });
+            });
+        }
+
+        map = adhocracy.geo.createMap();
+
+        var waiter = adhocracy.geo.createWaiter(fullRegion ? 1 : 2, function (bounds) {
+            map.zoomToExtent(bounds);
+
+            var controls;
+            if (largeMap) {
+                controls = adhocracy.geo.createControls(true, true);
+            } else {
+                controls = adhocracy.geo.createControls(false, false);
             }
-
-            map = adhocracy.geo.createMap();
-
-            var waiter = adhocracy.geo.createWaiter(fullRegion ? 1 : 2, function (bounds) {
-                map.zoomToExtent(bounds);
-
-                var controls;
-                if (largeMap) {
-                    controls = adhocracy.geo.createControls(true, true);
-                } else {
-                    controls = adhocracy.geo.createControls(false, false);
-                }
-                map.addControls(controls);
-            });
-
-            map.addLayers(adhocracy.geo.createBaseLayers());
-            var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(instanceKey, function (feature) {
-                waiter(feature, false);
-            });
-            map.addLayers(regionBoundaryLayers);
-            adhocracy.geo.createPopupControl(map, regionBoundaryLayers[1], adhocracy.geo.buildInstancePopup);
-
-            var proposalLayer = adhocracy.geo.createRegionProposalsLayer(instanceKey, initialProposals, function (features) {
-                if (!(fullRegion)) {
-                    waiter(features, true);
-                }
-            });
-            map.addLayer(proposalLayer);
-            var popupControl = adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildProposalPopup);
-
-            if (adhocracy.geo.easteregg) {
-                var easterLayer = adhocracy.geo.createEastereggLayer();
-                map.addLayer(easterLayer);
-                adhocracy.geo.createPopupControl(map, easterLayer, adhocracy.geo.buildEastereggPopup);
-            }
-            var selectControl = adhocracy.geo.createSelectControl();
-            adhocracy.geo.enableMarker('result_list_marker', proposalLayer, selectControl);
-            map.addControl(selectControl);
+            map.addControls(controls);
         });
+
+        map.addLayers(adhocracy.geo.createBaseLayers());
+        var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(instanceKey, function (feature) {
+            waiter(feature, false);
+        });
+        map.addLayers(regionBoundaryLayers);
+        adhocracy.geo.createPopupControl(map, regionBoundaryLayers[1], adhocracy.geo.buildInstancePopup);
+
+        var proposalLayer = adhocracy.geo.createRegionProposalsLayer(instanceKey, initialProposals, function (features) {
+            if (!(fullRegion)) {
+                waiter(features, true);
+            }
+        });
+        map.addLayer(proposalLayer);
+        var popupControl = adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildProposalPopup);
+
+        if (adhocracy.geo.easteregg) {
+            var easterLayer = adhocracy.geo.createEastereggLayer();
+            map.addLayer(easterLayer);
+            adhocracy.geo.createPopupControl(map, easterLayer, adhocracy.geo.buildEastereggPopup);
+        }
+        var selectControl = adhocracy.geo.createSelectControl();
+        adhocracy.geo.enableMarker('result_list_marker', proposalLayer, selectControl);
+        map.addControl(selectControl);
     };
 
-    adhocracy.geo.loadOverviewMap = function (openlayers_url, initialInstances) {
-        $.getScript(openlayers_url, function () {
-            var map = adhocracy.geo.createMap();
+    adhocracy.geo.loadOverviewMap = function (initialInstances) {
 
-            var bounds = adhocracy.geo.FALLBACK_BOUNDS;
+        var map = adhocracy.geo.createMap();
 
-            map.addControls(adhocracy.geo.createControls(false, false));
-            map.addLayers(adhocracy.geo.createBaseLayers());
+        var bounds = adhocracy.geo.FALLBACK_BOUNDS;
 
-            //var proposalLayer = adhocracy.geo.createRegionProposalsLayer(instanceKey, initialProposals);
-            //map.addLayer(proposalLayer);
-            //var popupControl = adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildInstancePopup);
-            //map.addControl(popupControl);
+        map.addControls(adhocracy.geo.createControls(false, false));
+        map.addLayers(adhocracy.geo.createBaseLayers());
 
-            //adhocracy.geo.enableMarker('result_list_marker', proposalLayer, popupControl);
+        //var proposalLayer = adhocracy.geo.createRegionProposalsLayer(instanceKey, initialProposals);
+        //map.addLayer(proposalLayer);
+        //var popupControl = adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildInstancePopup);
+        //map.addControl(popupControl);
 
-            /* disable slow layer
-            var overviewLayers = adhocracy.geo.createOverviewLayers();
-            map.addLayers(overviewLayers);
-            adhocracy.geo.createPopupControl(map, overviewLayers[1], adhocracy.geo.buildInstancePopup);
-            */
+        //adhocracy.geo.enableMarker('result_list_marker', proposalLayer, popupControl);
 
-            if (adhocracy.geo.easteregg) {
-                var easterLayer = adhocracy.geo.createEastereggLayer();
-                map.addLayer(easterLayer);
-                adhocracy.geo.createPopupControl(map, easterLayer, adhocracy.geo.buildEastereggPopup);
-            }
+        /* disable slow layer
+        var overviewLayers = adhocracy.geo.createOverviewLayers();
+        map.addLayers(overviewLayers);
+        adhocracy.geo.createPopupControl(map, overviewLayers[1], adhocracy.geo.buildInstancePopup);
+        */
 
-            map.zoomToExtent(bounds);
-            map.addControl(adhocracy.geo.createSelectControl());
-        });
+        if (adhocracy.geo.easteregg) {
+            var easterLayer = adhocracy.geo.createEastereggLayer();
+            map.addLayer(easterLayer);
+            adhocracy.geo.createPopupControl(map, easterLayer, adhocracy.geo.buildEastereggPopup);
+        }
+
+        map.zoomToExtent(bounds);
+        map.addControl(adhocracy.geo.createSelectControl());
     };
 
     adhocracy.geo.loadSelectInstanceMap = function (layers, tiles, resultList) {
@@ -1735,19 +1730,17 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.geo.loadSelectInstance = function (openlayers_url) {
-        $.getScript(openlayers_url, function () {
-            var layers = [];
-            var tiles = [];
-            var resultList = [];
-            var state = adhocracy.geo.loadSelectInstanceMap(layers, tiles, resultList);
-            adhocracy.geo.instanceSearch(state, resultList);
-            adhocracy.geo.instanceSearchInstance = new adhocracy.geo.instanceSearchModel();
-            ko.applyBindings(adhocracy.geo.instanceSearchInstance);
-        });
+    adhocracy.geo.loadSelectInstance = function () {
+        var layers = [];
+        var tiles = [];
+        var resultList = [];
+        var state = adhocracy.geo.loadSelectInstanceMap(layers, tiles, resultList);
+        adhocracy.geo.instanceSearch(state, resultList);
+        adhocracy.geo.instanceSearchInstance = new adhocracy.geo.instanceSearchModel();
+        ko.applyBindings(adhocracy.geo.instanceSearchInstance);
     };
 
-    adhocracy.geo.editGeotagInNewProposalWizard = function (openlayers_url, instanceKey) {
+    adhocracy.geo.editGeotagInNewProposalWizard = function (instanceKey) {
 
         var noPositionClicked, addPositionClicked, addGeoTagHandler, noGeoTagHandler;
 
@@ -1782,7 +1775,7 @@ var adhocracy = adhocracy || {};
                 'class': 'edit_map'
             }).appendTo('#map_div');
 
-            adhocracy.geo.loadSingleProposalMap(openlayers_url, instanceKey, null, true, position);
+            adhocracy.geo.loadSingleProposalMap(instanceKey, null, true, position);
 
             $('#create_geo_button').remove();
 
