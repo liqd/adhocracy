@@ -27,7 +27,17 @@ var adhocracy = adhocracy || {};
 
     adhocracy.namespace('adhocracy.geo');
 
-    adhocracy.geo.NUM_ZOOM_LEVELS = 14;
+    adhocracy.geo.AVAILABLE_RESOLUTIONS = [
+        156543.03390625, 78271.516953125, 39135.7584765625,
+        19567.87923828125, 9783.939619140625, 4891.9698095703125,
+        2445.9849047851562, 1222.9924523925781, 611.4962261962891,
+        305.74811309814453, 152.87405654907226, 76.43702827453613,
+        38.218514137268066, 19.109257068634033, 9.554628534317017,
+        4.777314267158508, 2.388657133579254, 1.194328566789627,
+        0.5971642833948135, 0.29858214169740677, 0.14929107084870338,
+        0.07464553542435169
+    ];
+
     adhocracy.geo.layersWithPopup = [];
 
     adhocracy.geo.inputValue = "";
@@ -941,13 +951,16 @@ var adhocracy = adhocracy || {};
     };
 
 
-    adhocracy.geo.createBaseLayers = function (blank) {
+    /**
+     * minZoomLevel, maxZoomLevel: value between 0 and 19.
+     */
+    adhocracy.geo.createBaseLayers = function (min_zoom_level, max_zoom_level, blank) {
 
         var osmOptions = {
             displayInLayerSwitcher: true,
-            zoomOffset: 5,
-            numZoomLevels: adhocracy.geo.NUM_ZOOM_LEVELS,
-            maxResolution: 4891.9698095703125,
+            zoomOffset: min_zoom_level,
+            numZoomLevels: max_zoom_level - min_zoom_level,
+            maxResolution: adhocracy.geo.AVAILABLE_RESOLUTIONS[min_zoom_level],
             tileOptions: {crossOriginKeyword: null}
         };
 
@@ -1154,7 +1167,7 @@ var adhocracy = adhocracy || {};
         });
 
         map.addControls(adhocracy.geo.createControls(edit, false));
-        map.addLayers(adhocracy.geo.createBaseLayers());
+        map.addLayers(adhocracy.geo.createBaseLayers(5, 19));
         var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(instanceKey, function (feature) {
             waiter(feature);
         });
@@ -1255,7 +1268,7 @@ var adhocracy = adhocracy || {};
             map.addControls(controls);
         });
 
-        map.addLayers(adhocracy.geo.createBaseLayers());
+        map.addLayers(adhocracy.geo.createBaseLayers(5, 19));
         var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(instanceKey, function (feature) {
             waiter(feature, false);
         });
@@ -1287,7 +1300,7 @@ var adhocracy = adhocracy || {};
         var bounds = adhocracy.geo.FALLBACK_BOUNDS;
 
         map.addControls(adhocracy.geo.createControls(false, false));
-        map.addLayers(adhocracy.geo.createBaseLayers());
+        map.addLayers(adhocracy.geo.createBaseLayers(5, 12));
 
         //var proposalLayer = adhocracy.geo.createRegionProposalsLayer(instanceKey, initialProposals);
         //map.addLayer(proposalLayer);
@@ -1363,7 +1376,7 @@ var adhocracy = adhocracy || {};
         var bounds = adhocracy.geo.FALLBACK_BOUNDS;
 
         map.addControls(adhocracy.geo.createControls(true, false));
-        map.addLayers(adhocracy.geo.createBaseLayers());
+        map.addLayers(adhocracy.geo.createBaseLayers(5, 12));
 
         // var foldLayers = adhocracy.geo.addMultiBoundaryLayer(map, layers, tiles);
         var foldLayers = null;
