@@ -3,15 +3,12 @@ from pylons import request
 from adhocracy.lib import helpers as h
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render_json, render_geojson
-from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.geo import calculate_tiled_boundaries_json
 from adhocracy.lib.geo import calculate_tiled_admin_centres_json
-from adhocracy.lib.geo import add_instance_props
 from adhocracy.lib.geo import get_instance_geo_centre
 from adhocracy.model import meta
 from adhocracy.model import Region
 from adhocracy.model import Instance
-from adhocracy.model import RegionHierarchy
 
 import geojson
 from shapely import wkb
@@ -95,11 +92,11 @@ class GeoController(BaseController):
             query_string,
             '[[:>:]]' if match_word_end else ''))
 
-    def get_instance_query(self,
-                           query_entities,
-                           match_type,
-                           main_query,
-                           suffix_query=None):
+    def query_instances(self,
+                        query_entities,
+                        match_type,
+                        main_query,
+                        suffix_query=None):
 
         query = meta.Session.query(query_entities)\
             .join(Region)\
@@ -114,44 +111,78 @@ class GeoController(BaseController):
 
         return query
 
-    def get_region_query(self,
-                         query_entities,
-                         match_type,
-                         main_query,
-                         suffix_query=None):
+    def query_instances_by_region_name(self,
+                                       query_entities,
+                                       match_type,
+                                       main_query,
+                                       suffix_query=None):
+        """
+        Returns a query which returns the columns defined in `query_entities`,
+        which are attributes of a region - instance tuple `(r, i)`, which
+        fulfills the following criteria:
 
-        # find all (region, instance) tuples, where
-        # region matches the given query string
-        # and region is inside the returned instance
+         - Main_query matches `r.name`.
+         - If given, suffix_query matches a region which surrounds `r`.
+         - `r == i.region` or `r is surrounded by i.region`.
+         - If several regions would result in the same instance, only the one
+           with the highest `admin_level` is returned. If there is more such
+           hit, any of those but only one is returned.
 
-        query = meta.Session.query(*query_entities)\
-            .order_by(Region.name)\
-            .filter(self.match_substring(Region.name, match_type, main_query))\
+        To make the query work, `query_entities` must at least include
+        `Instance.label`, `Instance.region_id`, `Region.id`, `Region.name` and
+        `Region.admin_level`.
+        """
+
+        # base_query queries for regions matching the given string and
+        # match_type
+
+        base_query = meta.Session.query(*query_entities)\
+            .filter(self.match_substring(Region.name, match_type, main_query))
+
+        # if given, suffix_query filters base_query by restricting the hits to
+        # those which are surrounded by a region matching suffix_query
+
+        if suffix_query:
+            base_query = base_query\
+                .join(Region.outer_regions, aliased=True)\
+                .filter(self.match_substring(
+                    Region.name, match_type, suffix_query))\
+                .reset_joinpoint()
+
+        # direct hits filters all regions, which are an instance itself
+
+        direct_hits = base_query\
+            .filter(Region.id == Instance.region_id)
+
+        # indirect_hits filters all regions, which are inside an instance
+
+        indirect_hits = base_query\
             .join(Region.outer_regions, aliased=True)\
             .filter(Region.id == Instance.region_id)
 
-        if suffix_query:
-            query = query\
-                .join(Region.outer_regions, aliased=True)\
-                .filter(self.match_substring(
-                    Region.name, match_type, suffix_query))
+        # to return only the region with the highest admin_level, we have to
+        # order before applying distinct.
 
-        # to include additional information such as the name of the
-        # surrounding Landkreis (admin_level=6), a region alias has to
-        # be used.
-        # from sqlalchemy.orm import aliased
-        # region_alias = aliased(Region)
-        # meta.Session.query(Instance.id, Region, region_alias.name)
-        # [... - as above]
-        # .join(Region.outer_regions, aliased=True)\
-        # .filter(Region.id == reg.id)\
-        # .filter(reg.admin_level==6).all()
+        full_query = direct_hits.union_all(indirect_hits)\
+            .order_by(Instance.label, Region.admin_level)\
+            .distinct(Instance.label)
 
-        return query
+        return full_query
+
+        # the ordered_query_stuff below isn't done, because the ORM mapping
+        # doesn't seem ot work when using subqueries
+
+        # in order to reorder the query the way we really want we have to wrap
+        # the original query in a subquery.
+
+        # ordered_query = meta.Session.query(full_query.subquery())\
+        #    .order_by(full_query.c.region_admin_level,
+        #              full_query.c.instance_label)
+
+        # return ordered_query
 
     def get_search_params(self, request):
         query = request.params.get('query')
-        query_regions = 'query_regions' in request.params
 
         search_items = query.split(',', 2)
         main_query = search_items[0].strip()
@@ -160,7 +191,7 @@ class GeoController(BaseController):
         else:
             suffix_query = None
 
-        return (main_query, suffix_query)
+        return (query, main_query, suffix_query)
 
     def relax_match_type(self, match_type):
         if match_type == MATCH_WORD_FULL:
@@ -170,89 +201,88 @@ class GeoController(BaseController):
         else:
             return None
 
-    def find_instances_json(self, match_type=MATCH_WORD_FULL):
+    def _find_instances(self,
+                        make_item_func,
+                        query_entities,
+                        match_type=MATCH_WORD_START):
         """
         returns a dictionary of the following structure
 
-        {
-            'instances': [instance_id],
-            'regions': [(instance_id, {region_data})]
-        }
+        {'instances': [instance_dict]}
 
-        the regions list is only returned if the request contains a 'regions'
-        parameter.
+        the instance_dict structure is defined by the passed `make_item_func`,
+        as it is done in `find_instances_json` below.
         """
 
-        (main_query, suffix_query) = self.get_search_params(request)
+        (query, main_query, suffix_query) = self.get_search_params(request)
 
-        instance_query = self.get_instance_query(
-            (Instance.id), match_type, main_query, suffix_query)
+        instances_query = self.query_instances_by_region_name(
+            query_entities, match_type, main_query, suffix_query)
 
-        instances = [iid for (iid,) in instance_query.all()]
+        instances = [make_item_func(row) for row in instances_query.all()]
 
-        def create_region_entry(region):
+        if len(instances) == 0:
+            relax_match_type = self.relax_match_type(match_type)
+            if relax_match_type is not None:
+                return self._find_instances(
+                    make_item_func, query_entities, relax_match_type)
 
-            # FIXME: precalculate bbox and geo_centre for regions
-            geom = wkb.loads(str(region.boundary.geom_wkb))
+        result = {
+            'instances': instances,
+            'query_string': query,
+        }
+        return render_geojson(result)
+
+    def find_instances_json(self):
+
+        def make_item(row):
+            (instance, rid, rname, ralevel) = row
+
+            geom = wkb.loads(str(instance.region.boundary.geom_wkb))
+            geo_centre = get_instance_geo_centre(instance)
+
+            direct_hit = instance.region_id == rid
 
             return {
-                'name': region.name,
-                'osm_id': region.id,
-                'admin_level': region.admin_level,
-                'admin_type': region.admin_type,
+                'id': instance.id,
+                'label': instance.label,
+                'numProposals': instance.num_proposals,
+                'numMembers': instance.num_members,
                 'bbox': geom.bounds,
-                'geo_centre': geojson.dumps(geom.centroid),
+                'geo_centre': geo_centre,
+                'url': h.base_url(instance),
+                'directHit': direct_hit,
+                'regionName': rname,
             }
 
-            return entry
+        query_entities = (Instance, Region.id, Region.name, Region.admin_level)
 
-        region_query = self.get_region_query(
-            (Instance.id, Region), match_type, main_query, suffix_query)
+        return self._find_instances(make_item,
+                                    query_entities,
+                                    MATCH_WORD_FULL)
 
-        regions = [(iid, create_region_entry(region))
-                   for (iid, region) in region_query.all()]
+    def autocomplete_instances_json(self):
 
-        if len(instances) == 0 and len(regions) == 0:
-            relax_match_type = self.relax_match_type(match_type)
-            if relax_match_type is not None:
-                return self.autocomplete_instances_json(relax_match_type)
+        def make_item(row):
+            (instance, rid, rname, ralevel) = row
 
-        result = {'instances': instances, 'regions': regions}
-        return render_json(result)
+            hit = instance.region_id == rid
+            label = rname if hit else '%s, %s' % (rname, instance.label)
 
-    def autocomplete_instances_json(self, match_type=MATCH_WORD_START):
-        """
-        returns a dictionary of the following structure
+            return {
+                'id': instance.id,
+                'ilabel': instance.label,
+                'num_proposals': instance.num_proposals,
+                'num_members': instance.num_members,
+                'url': h.base_url(instance),
+                'region': rname,
+                'hit': hit,
+                # label is the text which appears in the autocomplete dropdown
+                'label': label,
+            }
 
-        {
-            'instances': [instance_id],
-            'regions': [(instance_id, {region_data})]
-        }
+        query_entities = (Instance, Region.id, Region.name, Region.admin_level)
 
-        the regions list is only returned if the request contains a 'regions'
-        parameter.
-        """
-
-        (main_query, suffix_query) = self.get_search_params(request)
-
-        instance_query = self.get_instance_query(
-            (Instance.label), match_type, main_query, suffix_query)
-
-        instances = [label for (label,) in instance_query.all()]
-
-        region_query = self.get_region_query(
-            (Instance.label, Region.name),
-            match_type,
-            main_query,
-            suffix_query)
-
-        regions = ['%s, %s' % (region, instance)
-                   for (instance, region) in region_query.all()]
-
-        if len(instances) == 0 and len(regions) == 0:
-            relax_match_type = self.relax_match_type(match_type)
-            if relax_match_type is not None:
-                return self.autocomplete_instances_json(relax_match_type)
-
-        result = {'instances': instances, 'regions': regions}
-        return render_json(result)
+        return self._find_instances(make_item,
+                                    query_entities,
+                                    MATCH_WORD_START)
