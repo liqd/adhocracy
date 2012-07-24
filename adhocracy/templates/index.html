@@ -7,8 +7,6 @@
 
 <%block name="content_wrapper">
 
-${h.need.knockout_js}
-
 <%doc>
 FIXME: AFAIK id=content is used as a marker for diazo theming
 and not part of our common markup anymor. Drop it at the end of
@@ -34,26 +32,55 @@ the transition
       </div>
 
       <script type="text/html" id="search_result_template">
-        <div data-bind="if: showSearchResults">
-          <div class="ui-widget" id="search_result_content">
-            <h4>${_(u'Search result')}</h4>
-            <div id="num_search_result">
-              ${_(u'Your search for ')} 
-              "<span data-bind="text: searchQuery"></span>" 
-              ${_(u'results in')} 
-              <span data-bind="text: numberHits"></span> 
-              <!-- ko if: singleHit -->
-                ${_(u'hit')}.
-              <!-- /ko -->
-              <!-- ko ifnot: singleHit -->
-                ${_(u'hits')}.
-              <!-- /ko -->
+        <div id="search_result_content" data-bind="with: adhocracy.geo.instanceSearch">
+          <h4>${_(u'Search result')}</h4>
+          <%doc> FIXME: this construction is not very translatable </%doc>
+          <div id="num_hits_text">
+            ${_(u'Your search for ')} 
+            "<span data-bind="text: searchQuery()"></span>" 
+            ${_(u'results in')} 
+            <span data-bind="text: numberHits"></span> 
+            <!-- ko if: singleHit() -->
+            ${_(u'hit')}.
+            <!-- /ko -->
+            <!-- ko ifnot: singleHit() -->
+            ${_(u'hits')}.
+            <!-- /ko -->
+          </div>
+          <div id="search_result_list" data-bind="foreach: searchResults">
+            <!-- ko if: isVisible() -->
+            <div class="search_result">
+              <div>
+                <img class="search_result_icon" data-bind="attr: { src: iconUrl }" />
+              </div>
+              <div class="search_result_right">
+                <!-- ko ifnot: directHit() -->
+                <div class="region_in_instance_label">
+                  <span data-bind="text: regionName"></span> ${_(u'in')}
+                </div>
+                <!-- /ko -->
+                <div class="search_result_title">
+                  <a data-bind="attr: { href: url, title: '${_(u"visit now")}' }, text: label"></a>
+                </div>
+                <div class="search_result_details">
+                  <span data-bind="text: numProposals" /> ${_(u'proposals')} &middot; <span data-bind="text: numMembers" /> ${_(u'members')}
+                </div>
+              </div>
             </div>
+            <!-- /ko -->
+          </div>
+          <div id="search_result_paging">
+            <!-- ko if: hasPrevPage() -->
+            <a id="search_result_paging_prev" data-bind="click: goPrevPage">${_(u'back')}</a>
+            <!-- /ko -->
+            <!-- ko if: hasNextPage() -->
+            <a id="search_result_paging_next" data-bind="click: goNextPage">${_(u'next')}</a>
+            <!-- /ko -->
           </div>
         </div>
       </script>
 
-      <div data-bind="template: 'search_result_template'"></div>
+      <div data-bind="template: { name: 'search_result_template', 'if': adhocracy.geo.instanceSearch.showSearchResults() }"></div>
 
     </div>
 
@@ -76,19 +103,5 @@ the transition
         <!--This is dummy tag and only useful to merge in wordpress content-->
     </div>
 </div>
-<%doc>
-<div class="full_teaser">
-  <div class="clearfix"></div>
-
-  <div id="stats">
-      ${_("<b>%s</b> members") % c.stats_global.get('members')|n} ·
-      ${_("<b>%s</b> proposals") % c.stats_global.get('proposals')|n}  ·
-      ${_("<b>%s</b> comments") % c.stats_global.get('comments')|n} ·
-      ${_("<b>%s</b> votes") % c.stats_global.get('votes')|n}
-  </div>  
-
-  ## FIXME: Add line that scrolls through last events
-</div>
-</%doc>
 
 </%block>

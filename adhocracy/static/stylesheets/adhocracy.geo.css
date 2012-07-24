@@ -179,7 +179,51 @@
 }
 
 #search_result_content {
-    margin-top:2em;
+    margin-top: 1em;
+}
+
+#search_result_list {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.search_result_icon {
+  float: left;
+  width: 32px;
+  height: 40px;
+}
+
+.region_in_instance_label {
+    font-size: x-small;
+}
+
+#search_result_paging_prev {
+  float: left;
+}
+
+#search_result_paging_next {
+  float: right;
+}
+
+div.marker.authenticated {
+  background-color: green;
+}
+
+div.marker_hall {
+  float: left;
+}
+
+/* only used in start page instance search */
+div.marker_hall img {
+  margin: 0 !important;
+}
+
+div.search_result_right {
+  padding-left: 45px;
+}
+
+div.search_result_details {
+  font-size: x-small;
 }
 
 #resize_map_button {
@@ -205,9 +249,11 @@ div.search_result_title {
     color: #446191;
 }
 
-div.marker, div.marker_hall {
+
+div.marker {
     float: right;
 }
+
 
 li.content_box { 
     position: relative;
@@ -221,10 +267,7 @@ div.content_box_no_marker {
     left: 0px;*/
 }
 
-div.marker.authenticated {
-    background-color: green;
-}
-
+/* used in normal listings */
 div.marker img {
   background-image: url('/images/map_markers_pink_a_j.png');
   position: absolute;
@@ -235,9 +278,6 @@ div.marker img {
   margin: 0 !important;
 }
 
-div.marker_hall img {
-  margin: 0 !important;
-}
   /* !important used as dirty hack */
 .marker_a {background-position: 0 0 !important;}
 .marker_b {background-position: 0 -31px !important;}
@@ -319,14 +359,14 @@ div.marker_hall img {
 
 .olControlLayerSwitcher {
     position: absolute;
-    top: 280px;
+    top: 250px;
     /* positioning from the bottom needs some more work, but starts with
     top: auto;
     bottom: 100px;*/
 }
 
 .olControlLayerSwitcher .layersDiv {
-    background-color: black;
+    background-color: black !important;
     opacity: 0.8;
 }
 
