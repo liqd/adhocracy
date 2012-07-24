@@ -12,8 +12,8 @@ LD_LIBRARY_PATH=parts/geos/lib bin/adhocpy src/adhocracy/scripts/create-regional
 import os
 import sys
 sys.path.insert(0,  os.path.abspath(os.path.dirname(__file__)))
-sys.path.insert(0,  '/home/nico/wiese/adhocracy.buildout/src/adhocracy')
-from common import create_parser, get_instances, load_from_args
+sys.path.insert(0,  os.path.join(os.path.abspath(os.path.dirname(__file__)), 'src/adhoracy'))
+from common import create_parser, load_from_args
 # /end boilerplate code
 
 from adhocracy.model import meta
@@ -81,7 +81,6 @@ def create_municipality(region):
 
     if meta.Session.query(Instance).filter(Instance.key==key).count()>0:
         print("there is already an instance with key %s"%key)
-        import ipdb; ipdb.set_trace()
         return
 
     description = "Willkommen bei Kommune %s"%label

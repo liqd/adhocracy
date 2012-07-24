@@ -11,7 +11,7 @@ LD_LIBRARY_PATH=parts/geos/lib bin/adhocpy src/adhocracy/scripts/update-instance
 import os
 import sys
 sys.path.insert(0,  os.path.abspath(os.path.dirname(__file__)))
-sys.path.insert(0,  '/home/nico/wiese/adhocracy.buildout/src/adhocracy')
+sys.path.insert(0,  os.path.join(os.path.abspath(os.path.dirname(__file__)), 'src/adhoracy'))
 from common import create_parser, get_instances, load_from_args
 # /end boilerplate code
 
