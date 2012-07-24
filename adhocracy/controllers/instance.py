@@ -29,6 +29,7 @@ from adhocracy.lib.queue import post_update
 from adhocracy.lib.templating import (render, render_json, render_png,
                                       ret_abort, ret_success, render_def)
 from adhocracy.lib.templating import render_geojson
+from adhocracy.lib.templating import set_json_response
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.geo import add_instance_props
 from adhocracy.lib.geo import get_instance_geo_centre
@@ -934,9 +935,9 @@ class InstanceController(BaseController):
             instances = model.Instance.all()
 
             def make_feature(instance):
-                geom = wkb.loads(str(instance.region.boundary.geom_wkb))
                 geo_centre = get_instance_geo_centre(instance)
                 feature = geojson.Feature(
+                    id=instance.id,
                     geometry=geo_centre,
                     properties={
                         'url': h.base_url(instance),
@@ -946,7 +947,9 @@ class InstanceController(BaseController):
                 add_instance_props(instance, feature.properties)
                 return feature
 
-            return geojson.FeatureCollection(
-                [make_feature(i) for i in instances if i.region is not None])
+            return render_geojson(geojson.FeatureCollection(
+                [make_feature(i) for i in instances if i.region is not None]),
+                set_mime=False)
 
-        return render_geojson(calculate())
+        set_json_response()
+        return calculate()
