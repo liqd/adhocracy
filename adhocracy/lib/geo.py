@@ -157,21 +157,6 @@ def calculate_tiled_admin_centres_json(x, y, zoom, admin_level):
                         'num_members': instance.num_members,
                         'url': h.base_url(instance),
                     })
-    """
-    instance_id: item.instance_id,
-    region_id: item.region_id,
-    label: item.name,
-    url: item.url,
-    value: item.name,
-    num_proposals: item.num_proposals,
-    num_papers: item.num_papers,
-    num_members: item.num_members,
-    create_date: item.create_date,
-    bbox: item.bbox,
-    admin_center: feature,
-    admin_type: item.admin_type,
-    is_in: item.is_in
-    """
 
     instanceResultSet = q.all()
 
@@ -197,4 +182,3 @@ def add_instance_props(instance, properties):
     properties['num_proposals'] = instance.num_proposals
     properties['num_papers'] = num_pages(instance)
     properties['num_members'] = instance.num_members
-    properties['create_date'] = str(instance.create_time.date())
