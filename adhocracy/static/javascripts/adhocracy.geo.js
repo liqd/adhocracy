@@ -1557,7 +1557,6 @@ var adhocracy = adhocracy || {};
         // build base map layers
 
         var map = adhocracy.geo.createMap();
-        var bounds = adhocracy.geo.FALLBACK_BOUNDS;
 
         map.addControls(adhocracy.geo.createControls(true, false));
         var baseLayers = adhocracy.geo.createBaseLayers(5, 12);
@@ -1608,9 +1607,16 @@ var adhocracy = adhocracy || {};
         var selectControl = adhocracy.geo.createSelectControl();
         map.addControl(selectControl);
 
-        map.zoomToExtent(bounds);
-        adhocracy.geo.addResizeMapButton(map, false);
 
+        // zoomcontrol restricts by 26 px from the left;
+        var restrictLeft = 26;
+        // search box restricts by 245 px from the right;
+        var restrictRight = 245;
+        map.setRestrictedExtent(restrictLeft, 0, restrictRight, 1);
+
+        map.zoomToRestrictedExtent(adhocracy.geo.FALLBACK_BOUNDS);
+
+        adhocracy.geo.addResizeMapButton(map, false);
 
         // all the instance search stuff
 
@@ -1692,7 +1698,7 @@ var adhocracy = adhocracy || {};
                 });
 
                 if (data.instances.length > 0) {
-                    map.zoomToExtent(total_bbox);
+                    map.zoomToRestrictedExtent(total_bbox);
                 }
 
                 adhocracy.geo.instanceSearch.searchQuery(data.query_string);
