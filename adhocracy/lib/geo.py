@@ -62,7 +62,7 @@ def get_instance_geo_centre(instance):
         geom = wkb.loads(str(instance.geo_centre.geom_wkb))
     else:
         log.info('setting geo_centre to region centroid for instance %s' %
-                 instance.name)
+                 instance.label)
         geom = wkb.loads(str(instance.region.boundary.geom_wkb)).centroid
         instance.geo_centre = wkt.dumps(geom)
 
