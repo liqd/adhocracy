@@ -1,17 +1,21 @@
 from pylons import request
 
 from adhocracy.lib import helpers as h
+from adhocracy.lib import cache
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.templating import render_json, render_geojson
-from adhocracy.lib.geo import calculate_tiled_boundaries_json
-from adhocracy.lib.geo import calculate_tiled_admin_centres_json
+from adhocracy.lib.templating import render_geojson
 from adhocracy.lib.geo import get_instance_geo_centre
+from adhocracy.lib.geo import get_bbox
+from adhocracy.lib.geo import ZOOM_TOLERANCE
+from adhocracy.lib.geo import USE_POSTGIS, USE_SHAPELY
 from adhocracy.model import meta
 from adhocracy.model import Region
 from adhocracy.model import Instance
 
+from sqlalchemy import func
 import geojson
 from shapely import wkb
+from shapely.geometry import box
 
 import logging
 log = logging.getLogger(__name__)
@@ -21,6 +25,8 @@ MATCH_WORD_FULL = 'FULL'
 MATCH_WORD_START = 'START'
 MATCH_WORD_INNER = 'INNER'
 
+BBOX_FILTER_TYPE = USE_POSTGIS
+SIMPLIFY_TYPE = USE_SHAPELY
 
 class GeoController(BaseController):
 
@@ -61,6 +67,59 @@ class GeoController(BaseController):
         y = int(request.params.get('y'))
         zoom = int(request.params.get('zoom'))
 
+        @cache.memoize('geo_tiled_boundaries')
+        def calculate_tiled_boundaries_json(x, y, zoom, admin_level):
+
+            tolerance = ZOOM_TOLERANCE[zoom]
+            bbox = get_bbox(x, y, zoom)
+
+            q = meta.Session.query('id', 'name', 'admin_level',
+                                   func.ST_AsBinary(func.ST_intersection(
+                                       func.st_boundary(Region.boundary.RAW), bbox)))
+            q = q.filter(Region.admin_level == admin_level)
+
+            if SIMPLIFY_TYPE == USE_POSTGIS:
+                # NYI
+                pass
+
+            boundariesRS = q.all()
+
+            def make_feature(region):
+                (osm_id, name, admin_level, geom) = region
+                return dict(geometry=wkb.loads(str(geom)),
+                            properties={'zoom': zoom,
+                                        'admin_level': admin_level,
+                                        'region_id': osm_id,
+                                        'label': name})
+
+            boundaries = map(make_feature, boundariesRS)
+
+            def not_empty(boundary):
+                return (boundary['geometry'].geom_type != "GeometryCollection"
+                        or not boundary['geometry'].is_empty)
+            boundaries = filter(not_empty, boundaries)
+
+            if SIMPLIFY_TYPE == USE_SHAPELY:
+
+                def simplify_region(region):
+                    if region['geometry'].is_valid:
+                        geom_simple = region['geometry'].simplify(tolerance, True)
+                        region['geometry'] = geom_simple
+                        if not (geom_simple.is_valid and geom_simple.length > 0):
+                            # just send the invalid polygon anyway.
+                            log.warn('invalid simplified geometry for %s' %
+                                     region['properties']['label'])
+                            #import ipdb; ipdb.set_trace()
+                    else:
+                        log.warn('invalid geometry for %s' %
+                                 region['properties']['label'])
+                    return region
+
+                boundaries = map(simplify_region, boundaries)
+
+            return geojson.FeatureCollection(
+                [geojson.Feature(**r) for r in boundaries])
+
         return render_geojson(
             calculate_tiled_boundaries_json(x, y, zoom, admin_level))
 
@@ -77,6 +136,45 @@ class GeoController(BaseController):
         x = int(request.params.get('x'))
         y = int(request.params.get('y'))
         zoom = int(request.params.get('zoom'))
+
+        @cache.memoize('geo_tiled_admin_centres')
+        def calculate_tiled_admin_centres_json(x, y, zoom, admin_level):
+
+            bbox = get_bbox(x, y, zoom)
+
+            q = meta.Session.query(Instance)
+            q = q.filter(Instance.geo_centre != None)\
+                .join(Region).filter(Region.admin_level == admin_level)
+
+            if BBOX_FILTER_TYPE == USE_POSTGIS:
+                q = q.filter(func.ST_Contains(bbox,
+                             func.ST_setsrid(Instance.geo_centre, 900913)))
+
+            def make_feature(instance):
+
+                return dict(geometry=wkb.loads(str(instance.geo_centre.geom_wkb)),
+                            properties={
+                                'key': instance.key,
+                                'label': instance.label,
+                                'admin_level': instance.region.admin_level,
+                                'region_id': instance.region.id,
+                                'instance_id': instance.id,
+                                'num_proposals': instance.num_proposals,
+                                'num_members': instance.num_members,
+                                'url': h.base_url(instance),
+                            })
+
+            instanceResultSet = q.all()
+
+            if BBOX_FILTER_TYPE == USE_SHAPELY:
+                sbox = box(*bbox)
+                instances = filter(lambda instance: sbox.contains(
+                    instance['geo_centre']), map(make_feature, instanceResultSet))
+
+            elif BBOX_FILTER_TYPE == USE_POSTGIS:
+                instances = map(make_feature, instanceResultSet)
+
+            return geojson.FeatureCollection([geojson.Feature(**r) for r in instances])
 
         return render_geojson(
             calculate_tiled_admin_centres_json(x, y, zoom, admin_level))
