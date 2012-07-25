@@ -1002,11 +1002,55 @@ var adhocracy = adhocracy || {};
             7384713.654445262
         );
 
-        return new OpenLayers.Map('map', {
+        var map = new OpenLayers.Map('map', {
             restrictedExtent: RESTRICTED_BOUNDS,
             projection: "EPSG:900913",
             controls: []
         });
+
+
+        /* set map viewport restrictions which are respected in
+         * `zoomToRestrictedExtent`.
+         *
+         * the 4 parameters represent the margin between real and restricted
+         * viewport
+         * */
+        map.setRestrictedExtent = function (rleft, rbottom, rright, rtop) {
+            map.rleft = rleft;
+            map.rbottom = rbottom;
+            map.rright = rright;
+            map.rtop = rtop;
+        };
+
+        map.zoomToRestrictedExtent = function (bounds) {
+        /* variation of zoomToExtent which takes a custom viewport into account
+         * which has been set by `setRestrictedExtent`.
+         *
+         * TODO: document correctness proof of formulas below
+         */
+
+            var size = map.getSize();
+
+            var rx1 = (map.rleft || 0) / size.w;
+            var ry1 = (map.rbottom || 0) / size.h;
+            var rx2 = 1 - ((map.rright || 1) / size.w);
+            var ry2 = 1 - ((map.rtop || 1) / size.h);
+
+            var x1 = bounds.left;
+            var y1 = bounds.bottom;
+            var x2 = bounds.right;
+            var y2 = bounds.top;
+
+            var sx1 = ((x1 * rx2) - (x2 * rx1)) / (rx2 - rx1);
+            var sy1 = ((y1 * ry2) - (y2 * ry1)) / (ry2 - ry1);
+            var sx2 = ((rx2 - 1) * x1 + (1 - rx1) * x2) / (rx2 - rx1);
+            var sy2 = ((ry2 - 1) * y1 + (1 - ry1) * y2) / (ry2 - ry1);
+
+            var restricted_bounds = new OpenLayers.Bounds(sx1, sy1, sx2, sy2);
+            map.zoomToExtent(restricted_bounds);
+        };
+
+        return map;
     };
 
 
