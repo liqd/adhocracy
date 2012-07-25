@@ -20,12 +20,40 @@
                 %elif proposal.rate_poll: 
                     ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} 
                     ·
-        %endif
+                %endif
                 %if proposal.instance.use_norms:
                     ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
                     ·
                 %endif
             
+            </div>
+        </div>
+        <div class="marker">
+            %if proposal.has_geotag():
+                <img class="result_list_marker" id="result_list_marker_${proposal.id}" src="/images/transparent.png" />
+            %endif
+        </div>
+        <div class="hr"><hr /></div>
+    </li>
+</%def>
+
+<%doc>
+FIXME - stupid code duplication, see lib.pager.proposals_small
+</%doc>
+<%def name="row_small(tile, proposal)">
+    <li class="content_box ${'fresh' if tile.fresh else ''}">
+        <div class="content_box_no_marker">
+            <h3>
+                %if len(proposal.title) > 30:
+                <%doc>ellipsis performed via css</%doc>
+                <% link_text = proposal.title[:28] + '...' %>
+                <a class="link" href="${h.entity_url(proposal)}" title="${proposal.title}">${proposal.title}</a>
+                %else:
+                <a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
+                %endif
+            </h3>
+            <div class="meta">              
+                ${_(u"from %s · on %s") % (h.user.link(proposal.creator), h.format_date(proposal.create_time))|n} 
             </div>
         </div>
         <div class="marker">

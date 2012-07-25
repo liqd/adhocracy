@@ -109,6 +109,37 @@
     height: 155px;
 }
 
+/* workaround: hiding elements via css as it's hard to
+ * customize pager items */
+
+#newest-proposals-bottom-left li.content_box:nth-child(2n+2) {
+    background: none;
+    border-bottom: none;
+    border-top: none;
+}
+
+#newest-proposals-bottom-left li.content_box {
+    padding-top: 5px;
+}
+
+#newest-proposals-bottom-left li.content_box h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 30px;
+    padding-left: 0px;
+    margin-bottom: 0px;
+}
+
+#newest-proposals-bottom-left .badges {
+    display: none;
+}
+
+#newest-proposals-bottom-left .meta {
+    margin-bottom: 3px;
+    padding-left: 0px;
+}
+
 #content-bottom-left {
     background-color: #f5f4f0;
 }
