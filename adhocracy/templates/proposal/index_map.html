@@ -1,0 +1,85 @@
+<%inherit file="${context.get('root_template', '/root.html')}" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="map" file="/geo/map.html"/>
+<%def name="title()">${_("Proposals")}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.proposal.breadcrumbs(None)|n}
+</%def>
+
+<%block name="head">
+${components.head()}
+<style type="text/css">
+    body {overflow: hidden;}
+</style>
+</%block>
+
+<%block name="main">
+<div id="fullscreen_map">
+
+    <div id="left_block">
+        <div id="hide_list_icon" />
+        <div class="list_filter" id="proposals-search">
+        <form class="list_form" action="?" method="GET" autocomplete="off">
+            <label class="floating" for="proposals_q">${_("Find proposals")}</label>
+            <input class="q" 
+                   id="proposals_q" class="live_search" name="proposals_q" 
+                   type="text" value="${request.params.get('proposals_q', '')}" 
+                   tabindex="1" />
+            <input type="submit" value="${_('Go')}" 
+                   class="go" />
+
+        </form>
+        </div>
+        <div id="proposals_table" class="table">
+            ${c.proposals_pager.render_pager()}    
+
+
+        </div>
+
+        %if can.badge.edit_instance():
+
+        ${h.need.adhocracy_ko}
+
+        <script>
+            var editModel = new adhocracy.ko.editBadges();
+            editModel.applyToPager('#proposals_table');
+        </script>
+        %endif
+
+        <br/>
+        <div class="top_actions aside" id="new-proposal">
+            <% auth = check.proposal.create() %>
+            %if auth:
+                <a class="button add ttip" title="${_('Introduce a new idea to debate.')}" href="/proposal/new">${_("new proposal")}</a>
+            %elif auth.propose_join():
+                <a class="button add ttip" title="${_('Join instance to create a new proposal.')}" href="/proposal/new" rel="#overlay-join-button">${_("new proposal")}</a>
+            %elif auth.propose_login():
+                <a class="button add ttip" title="${_('Login to create a new proposal.')}" href="/proposal/new" rel="#overlay-login-button">${_("new proposal")}</a>
+            %endif
+
+        </div>
+
+    </div>
+    <div id="central_block">
+
+        <div id="show_list_icon" />
+
+        <%doc>filter if p is not None in list comprehension is just a workaround, as SolrPager seems to return None proposals accidently</%doc>
+        ${map.show_region_map_large([p.id for p in c.proposals_pager.items if p is not None and p.geotag is not None], full_region=not(bool(c.query)))}
+
+    </div>
+
+    <%doc>
+    <div id="right_block">
+
+        <div id="proposals_facets">
+            ${c.proposals_pager.render_facets()}    
+        </div>
+    </div>
+    </%doc>
+</div>
+</%block>
+
+<%block name="footer">
+</%block>

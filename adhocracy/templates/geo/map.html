@@ -1,0 +1,98 @@
+<%namespace name="components" file="/components.html"/>
+
+<%def name="show_single_proposal_map(proposal_id)">
+${h.need.openlayers}
+${h.need.jquery_localisation_js}
+${h.need.adhocracy_geo_js}
+<div id="map" class="small_map"></div>
+<div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
+<script type="text/javascript">window.onload=function() {
+  $.localise('${h.fanstatic_url.adhocracy_geo_js}');
+  adhocracy.geo.loadSingleProposalMap('${c.instance.key}', ${proposal_id}, false, null);
+}</script>
+</%def>
+
+<%def name="show_single_proposal_edit_map(proposal_id)">
+${h.need.openlayers}
+${h.need.jquery_localisation_js}
+${h.need.adhocracy_geo_js}
+<div id="map" class="edit_map"></div>
+<div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
+<div id="edit_map_buttons" />
+<form method='post' action='${h.entity_url(c.proposal, member="update_geotag")}'>
+    <input id='proposal_geotag_field' name='geotag' type='hidden' />
+    <div>
+      <div class="input_wrapper submit">
+        ${components.savebox("/proposal/%s" % c.proposal.id)}
+      </div>
+    </div>
+</form>
+<script type="text/javascript">window.onload=function() {
+  $.localise('${h.fanstatic_url.adhocracy_geo_js}');
+  adhocracy.geo.loadSingleProposalMap('${c.instance.key}', ${proposal_id}, true, null);
+}</script>
+</%def>
+
+<%def name="show_single_proposal_edit_map_on_creation()">
+${h.need.openlayers}
+${h.need.jquery_localisation_js}
+${h.need.adhocracy_geo_js}
+<div class="input_wrapper">
+  <input id='proposal_geotag_field' name='geotag' type='hidden' value='' />
+  <div id='map_div' />
+  <div class="map_buttons">
+    <a id='create_geo_button' class="button_small">${_('Add geographic location')}</a>
+  <div>
+  <div id="edit_map_buttons" />
+</div>
+<script type="text/javascript">window.onload=function() {
+  $.localise('${h.fanstatic_url.adhocracy_geo_js}');
+  adhocracy.geo.editGeotagInNewProposalWizard('${c.instance.key}');
+}</script>
+</%def>
+
+<%def name="show_region_map(initial_proposals=None, full_region=True)">
+${h.need.openlayers}
+${h.need.jquery_localisation_js}
+${h.need.adhocracy_geo_js}
+<div id="map" class="small_map"></div>
+<div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
+<script type="text/javascript">window.onload=function() {
+  $.localise('${h.fanstatic_url.adhocracy_geo_js}');
+  adhocracy.geo.loadRegionMap('${c.instance.key}', ${initial_proposals if initial_proposals else []}, false, ${'true' if full_region else 'false'});
+}</script>
+</%def>
+
+<%def name="show_region_map_large(initial_proposals=None, full_region=True)">
+${h.need.openlayers}
+${h.need.jquery_localisation_js}
+${h.need.adhocracy_geo_js}
+<div id="map" class="large_map"></div>
+<script type="text/javascript">window.onload=function() {
+  $.localise('${h.fanstatic_url.adhocracy_geo_js}');
+  adhocracy.geo.loadRegionMap('${c.instance.key}', ${initial_proposals if initial_proposals else []}, true, ${'true' if full_region else 'false'});
+}</script>
+</%def>
+
+<%def name="show_overview_map(initial_instances=None)">
+${h.need.openlayers}
+${h.need.jquery_localisation_js}
+${h.need.adhocracy_geo_js}
+<div id="map" class="small_map"></div>
+<div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
+<script type="text/javascript">window.onload=function() {
+  $.localise('${h.fanstatic_url.adhocracy_geo_js}');
+  adhocracy.geo.loadOverviewMap(${initial_instances if initial_instances else []});
+}</script>
+</%def>
+
+<%def name="show_select_instance()">
+${h.need.openlayers}
+${h.need.jquery_ui}
+${h.need.jquery_localisation_js}
+${h.need.adhocracy_geo_js}
+<script type="text/javascript">window.onload=function() {
+  $.localise('${h.fanstatic_url.adhocracy_geo_js}');
+  adhocracy.geo.showSelectInstanceMap();
+}</script>
+</%def>
