@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from sqlalchemy import func
 from shapely import wkb
 from shapely import wkt
@@ -80,3 +81,41 @@ def add_instance_props(instance, properties):
     properties['num_proposals'] = instance.num_proposals
     properties['num_papers'] = num_pages(instance)
     properties['num_members'] = instance.num_members
+
+
+def normalize_region_name(name):
+    """
+    creates an ascii representation of the region name which can be
+    used in domain names and such.
+    """
+
+    # make stuff ascii 
+
+    REPLACEMENTS = {
+        u'ä': u'ae',
+        u'ö': u'oe',
+        u'ü': u'ue',
+        u'Ä': u'Ae',
+        u'Ö': u'Oe',
+        u'Ü': u'Ue',
+        u'ß': u'ss',
+        u'.': u' ',
+        u'(': u' ',
+        u')': u' ',
+    }
+
+    key = reduce(lambda a,
+                 kv: a.replace(*kv),
+                 REPLACEMENTS.iteritems(),
+                 name.lower())
+
+    # for the rest of the characters
+
+    key = key.encode('ascii','ignore')
+
+    # drop words
+
+    DROPS = [u'', u'an', u'der', u'im', u'i', u'a', u'd']
+    key = u'-'.join(filter(lambda part: part not in DROPS, key.split(' ')))
+
+    return key
