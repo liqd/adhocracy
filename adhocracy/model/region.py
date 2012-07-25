@@ -2,6 +2,7 @@ from sqlalchemy import Table, Column, ForeignKey, Index
 from sqlalchemy import Float, Integer, Unicode
 from geoalchemy import GeometryExtensionColumn, Geometry
 
+from adhocracy.lib.geo import normalize_region_name
 from adhocracy.model import meta
 
 
@@ -31,6 +32,10 @@ class Region(object):
         self.admin_level = admin_level
         self.admin_type = admin_type
         self.boundary = boundary
+
+    def __repr__(self):
+        return u"<Region(%s, admin_level %d)>" % (
+            normalize_region_name(self.name), self.admin_level)
 
 
 region_simplified_table = Table(
