@@ -12,12 +12,17 @@ LANG = {
     set_position_text: 'Set position',
     set_different_position_text: 'Set different position',
     remove_position_text: 'Remove position',
+    proposal_text: 'proposal',
     proposals_text: 'proposals',
+    paper_text: 'paper',
     papers_text: 'papers',
+    member_text: 'member',
     members_text: 'members',
     creation_date_text: 'creation date:',
     osm_cartographer_text: 'cartographers',
     license_text: 'license',
     votes_text: 'votes',
-    norms_text: 'norms'
+    norms_text: 'norms',
+    authenticated_instance: 'official usage',
+    non_authenticated_instance: 'no official usage'
 };

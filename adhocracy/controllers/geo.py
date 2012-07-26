@@ -351,6 +351,7 @@ class GeoController(BaseController):
                 'url': h.base_url(instance),
                 'directHit': direct_hit,
                 'regionName': rname,
+                'is_authenticated': instance.is_authenticated,
             }
 
         query_entities = (Instance, Region.id, Region.name, Region.admin_level)

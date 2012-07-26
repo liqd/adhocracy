@@ -263,7 +263,7 @@ var adhocracy = adhocracy || {};
                 event.feature.geometry.getBounds().getCenterLonLat(),
                 null,
                 buildPopupContent(event.feature.attributes),
-                null, false, null);
+                null, true, null);
             map.addPopup(adhocracy.geo.popup);
         }
 
@@ -457,35 +457,37 @@ var adhocracy = adhocracy || {};
         return false;
     };
 
-    adhocracy.geo.createInstanceDesc = function (item) {
-        return item.num_proposals + ' '
-                + LANG.proposals_text + ' \u00B7 '
-                + item.num_papers + ' '
-                + LANG.papers_text + ' \u00B7 '
-                + item.num_members + ' '
-                + LANG.members_text;
-    };
-
     adhocracy.geo.buildInstancePopup = function (attributes) {
+        // attributes are the feature attributes
+        
+        var image, auth_label, num_proposals_label, num_members_label;
 
-        var result = "<div class='instance_popup_title'>";
-        if (attributes.url) {
-            result = result + "<a href='" + attributes.url + "'>";
+        if (attributes.is_authenticated) {
+            image = "<img src='/images/townhall-64-lightgreen.png' />";
+            auth_label = ' \u00B7 ' + LANG.authenticated_instance;
+        } else {
+            image = "<img src='/images/townhall-64-green.png' />";
+            auth_label = '';
         }
-        var label = attributes.label;
-        if (attributes.admin_type) {
-            label = label + " (" + attributes.admin_type + ")";
+        if (attributes.num_proposals === 1) {
+            num_proposals_label = LANG.proposal_text;
+        } else {
+            num_proposals_label = LANG.proposals_text;
         }
-        result = result + label;
-        if (attributes.url) {
-            result = result + "</a>";
+        if (attributes.num_members === 1) {
+            num_members_label = LANG.member_text;
+        } else {
+            num_members_label = LANG.members_text;
         }
-        if (attributes.instance_id != "") {
-            var desc = adhocracy.geo.createInstanceDesc(attributes);
-            result = result + "<div class='meta'>" + desc + "</div>";
-        }
-        result = result + "</div>";
-        return result;
+
+        return "<div class='instance_popup_wrapper'><div class='instance_popup_image'>" +
+            image + "</div>" +
+            "<a class='instance_popup_title' href='" + attributes.url + "'>" +
+            attributes.label + "</a>" +
+            "<div class='meta'>" +
+            attributes.num_proposals + ' ' + num_proposals_label + ' \u00B7 ' +
+            attributes.num_members + ' ' + num_members_label +
+            auth_label + "</div></div></div>";
     };
 
 
@@ -1653,7 +1655,11 @@ var adhocracy = adhocracy || {};
                         // this is the icon used in search list
                         iconUrl: ko.computed(function () {
                             var letter = adhocracy.geo.instanceSearch.getLetter(item);
-                            return '/images/townhall-64-green-' + letter + '.png';
+                            if (raw.is_authenticated) {
+                                return '/images/townhall-64-lightgreen-' + letter + '.png';
+                            } else {
+                                return '/images/townhall-64-green-' + letter + '.png';
+                            }
                         }),
                         isVisible: ko.computed(function () {
                             return adhocracy.geo.instanceSearch.isVisible(item);
