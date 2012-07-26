@@ -35,22 +35,20 @@ MAX_KEY_LENGTH = instance_table.columns.key.type.length
 
 UPDATE_INSTANCES = True
 
-DESCRIPTION = """
-Willkommen auf OffeneKommune, der freien Beteiligungsplattform Ihrer Region.
+DESCRIPTION = u"""
+Willkommen auf OffeneKommune %(label)s, der freien Beteiligungsplattform Ihrer Region!
 
-OffeneKommune steht als neutrale Beteiligungsplattform allen gesellschaftlichen Akteuren und Gruppierungen offen und ermöglicht so einen direkten Dialog zu kommunalen Anliegen. Die Plattform kann von allen Engagierten für eigene Beteiligungsprojekte, aber auch für Diskurse zwischen unterschiedlichen Ebenen genutzt werden.
+OffeneKommune steht als neutrale Beteiligungsplattform allen Bürger/innen, gesellschaftlichen Akteuren und Gruppierungen offen und fördert so den direkten Dialog.
 
-Egal, ob Sie jung oder alt, mit oder ohne Wahlrecht, Einzelkämpfer oder Initiative, Vertreterin eines Unternehmens oder einer Stadtverwaltung sind, können Sie Ihre Anliegen über OffeneKommune voranbringen, oder Ihre Vorhaben mit Betroffenen und Interessierten diskutieren.
+Egal, ob Sie Einzelperson oder Initiative, jung oder alt, Vertreterin eines Unternehmens oder einer Stadtverwaltung, mit oder ohne Wahlrecht sind, können Sie Ihre Anliegen über OffeneKommune voranbringen, oder Ihre Vorhaben mit Betroffenen und Interessierten diskutieren. Über die Themen entscheiden Sie als Nutzer/in - OffeneKommune bietet dafür die neutrale Infrastruktur.
 
-Bürgerinitiativen, Vereine, Unternehmen, Politik und Verwaltung haben die Möglichkeit OffeneKommune für eigene Beteiligungsprojekte offiziell zu nutzen und in die eigene Arbeit einzubinden. Erfahren Sie bei Interesse <a href="/_pages/mehr_erfahren">mehr</a> oder setzen Sie sich direkt mit uns in <a href="http://liqd.net/kontakt-2/kontakt-offenekommune/">Verbindung</a>!
+Bürgerinitiativen, Vereine, Interessensverbände, Unternehmen, Politik und Verwaltung haben die Möglichkeit, OffeneKommune für ihre eigenen Beteiligungsprojekte und politischen Forderungen offiziell zu nutzen.
 
-OffeneKommune ist gezielt als neutrale Infrastruktur für offene Diskussionen und Beteiligungsverfahren ausgelegt. Es liegt an Ihnen, welche Inhalte auf der Plattform diskutiert werden. Seien dies Bauvorhaben, Zukunftsstrategien, Verbesserungsideen, Hinweise auf Missstände oder sonstige Diskussionen - auf OffeneKommune findet keine Moderation der Beiträge statt, bestimmen die Nutzer/innen durch ihre Beiträge und Bewertungen, was relevant ist.
+Wichtig ist uns, dass alle Bürger/innen OffeneKommune heute und in Zukunft frei nutzen können. Daher betreiben wir das Projekt als <strong><a href="https://offenekommune.de/_pages/about/uber-offenekommune-de/">gemeinnütziger Träger</a></strong> und entwickeln die zugrundeliegende freie Software <strong><a href="https://bitbucket.org/liqd/adhocracy/">Adhocracy</a></strong> kontinuierlich nach den Bedürfnissen der Nutzer/innen weiter. Über Ihre <strong><a href="https://offenekommune.de/_pages/engagieren/mitarbeiten/">Mitarbeit</a></strong> und <strong><a href="https://offenekommune.de/_pages/engagieren/spenden/">Unterstützung</a></strong> freuen wir uns sehr!
 
-Wichtig ist uns, dass alle Bürger/innen OffeneKommune heute und in Zukunft frei nutzen können. Daher betreiben wir das Projekt als gemeinnütziger [Träger] und entwickeln die zugrundeliegende freie Software <a href="https://bitbucket.org/liqd/adhocracy">Adhocracy</a> kontinuierlich nach den Bedürfnissen der Nutzer/innen weiter. Über Ihre [Mitarbeit] und [Unterstützung] freuen wir uns sehr!
+Erfahren Sie mehr zur <strong><a href="https://offenekommune.de/_pages/engagieren/offiziell-nutzen/">offizellen Nutzung</a></strong>, zur <strong><a href="https://offenekommune.de/_pages/mehr-erfahren/">Idee hinter OffeneKommune</a></strong> oder treten Sie direkt mit uns in <strong><a href="https://offenekommune.de/_pages/about/kontakt/">Kontakt</a>.
 
-Bei Fragen können Sie sich gerne an uns wenden. Viel Spaß beim Beteiligen!
-
-Das Team vom Liquid Democracy e.V.
+Ihr Team vom Liquid Democracy e.V.
 """
 
 
@@ -112,7 +110,7 @@ def create_municipality(region):
 
     user = meta.Session.query(User).filter(User.user_name == u'admin').one()
     locale = 'de_DE'
-    description = DESCRIPTION
+    description = DESCRIPTION % {'label': label}
 
     q = meta.Session.query(Instance).filter(Instance.region_id == region.id)
 
@@ -143,23 +141,21 @@ def create_municipality(region):
             return
 
     fix_categories = {
-        u'Bildung': u'Bildung', 
-        u'Bürgerbeteiligung': u'Bürgerbeteiligung', 
-        u'Finanzen': u'Finanzen', 
+        u'Bildung': u'Bildung, Schule, Ausbildung, Lebenslanges Lernen',
+        u'Bürgerbeteiligung': u'Bürgerbeteiligung, Initiativen und Ehrenamt',
+        u'Energie': u'Energie und Klimapolitik',
+        u'Finanzen': u'Finanzen und Bürgerhaushalt',
         u'Gesundheit': u'Gesundheit',
-        u'Infrastruktur': u'Infrastruktur', 
-        u'Innenstadt': u'Innenstadt', 
-        u'Jugend': u'Jugend', 
-        u'Kultur': u'Kultur',
-        u'Natur in der Stadt': u'Natur in der Stadt', 
-        u'Politik': u'Politik', 
-        u'Soziales': u'Soziales', 
+        u'Jugend': u'Jugend',
+        u'Kultur': u'Kunst, Kultur, interkulturelles Zusammenleben, Tradition',
+        u'Politik': u'Politik, Verwaltung, Parteien und Verbände',
+        u'Soziales': u'Soziales, Familie, Senioren, Inklusion, Genderpolitik',
         u'Sport': u'Sport',
-        u'Tierschutz': u'Tierschutz', 
-        u'Tourismus': u'Tourismus', 
-        u'Umweltschutz': u'Umweltschutz', 
-        u'Wirtschaft': u'Wirtschaft',
-        u'Wohnungsbau': u'Wohnungsbau'
+        u'Stadtentwicklung': u'Stadt-, Raumplanung, Wohnungsbau, Denkmalschutz',
+        u'Tourismus': u'Regionaler Tourismus und Stadtmarketing',
+        u'Umwelt': u'Umwelt-, Tier- und Naturschutz',
+        u'Verkehr': u'Verkehr',
+        u'Wirtschaft & Arbeit': u'Wirtschaftsförderung, regionale Wertschöpfung und Standortvermarktung',
     }
 
     current_categories = CategoryBadge.all(instance)
