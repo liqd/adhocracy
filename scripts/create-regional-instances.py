@@ -27,88 +27,162 @@ from adhocracy.model import meta
 from adhocracy.model import Instance
 from adhocracy.model import Region
 from adhocracy.model import User
+from adhocracy.model import CategoryBadge
 from adhocracy.model.instance import instance_table
 
 
 MAX_KEY_LENGTH = instance_table.columns.key.type.length
 
+UPDATE_INSTANCES = True
 
-def removePrefix(str, prefix):
-    return str[len(prefix):] if str.startswith(prefix) else str
+DESCRIPTION = """
+Willkommen auf OffeneKommune, der freien Beteiligungsplattform Ihrer Region.
 
+OffeneKommune steht als neutrale Beteiligungsplattform allen gesellschaftlichen Akteuren und Gruppierungen offen und ermöglicht so einen direkten Dialog zu kommunalen Anliegen. Die Plattform kann von allen Engagierten für eigene Beteiligungsprojekte, aber auch für Diskurse zwischen unterschiedlichen Ebenen genutzt werden.
 
-def normalize_label(s):
+Egal, ob Sie jung oder alt, mit oder ohne Wahlrecht, Einzelkämpfer oder Initiative, Vertreterin eines Unternehmens oder einer Stadtverwaltung sind, können Sie Ihre Anliegen über OffeneKommune voranbringen, oder Ihre Vorhaben mit Betroffenen und Interessierten diskutieren.
 
-    # s = removePrefix(s, 'Landkreis ')
+Bürgerinitiativen, Vereine, Unternehmen, Politik und Verwaltung haben die Möglichkeit OffeneKommune für eigene Beteiligungsprojekte offiziell zu nutzen und in die eigene Arbeit einzubinden. Erfahren Sie bei Interesse <a href="/_pages/mehr_erfahren">mehr</a> oder setzen Sie sich direkt mit uns in <a href="http://liqd.net/kontakt-2/kontakt-offenekommune/">Verbindung</a>!
 
-    # impossible because of duplicate regions Leizpig, München, Rosenheim,
-    # Heilbronn, Augsburg, Rostock, Passau, Regensburg, Fürth, Hof,
-    # Bayreuth, Kaiserslautern, Aschaffenburg, Bamberg, Coburg, Würzburg,
-    # Ansbach, Schweinfurt, Osnabrück, Kassel, Karlsruhe
+OffeneKommune ist gezielt als neutrale Infrastruktur für offene Diskussionen und Beteiligungsverfahren ausgelegt. Es liegt an Ihnen, welche Inhalte auf der Plattform diskutiert werden. Seien dies Bauvorhaben, Zukunftsstrategien, Verbesserungsideen, Hinweise auf Missstände oder sonstige Diskussionen - auf OffeneKommune findet keine Moderation der Beiträge statt, bestimmen die Nutzer/innen durch ihre Beiträge und Bewertungen, was relevant ist.
 
-    s = removePrefix(s, 'Kreis ')
+Wichtig ist uns, dass alle Bürger/innen OffeneKommune heute und in Zukunft frei nutzen können. Daher betreiben wir das Projekt als gemeinnütziger [Träger] und entwickeln die zugrundeliegende freie Software <a href="https://bitbucket.org/liqd/adhocracy">Adhocracy</a> kontinuierlich nach den Bedürfnissen der Nutzer/innen weiter. Über Ihre [Mitarbeit] und [Unterstützung] freuen wir uns sehr!
 
-    return s
+Bei Fragen können Sie sich gerne an uns wenden. Viel Spaß beim Beteiligen!
 
-
-def normalize_key(s):
-    """ normalize_key creates a sensitive and nice subdomain url """
-    key = normalize_region_name(s)
-
-    if len(key) > MAX_KEY_LENGTH:
-        print("stripping key %s with %d characters" % (key, len(key)))
-        key = key[:MAX_KEY_LENGTH]
-        key.rstrip(u'-')
-
-    return key
+Das Team vom Liquid Democracy e.V.
+"""
 
 
 def create_municipality(region):
 
-    label = region.name
+    def removePrefix(str, prefix):
+        return str[len(prefix):] if str.startswith(prefix) else str
 
-    # special cases ....
-    if label == u'Landshut' and region.id == 62657:
-        label = u'Stadt Landshut'
+    def normalize_label(label, region):
 
-    if label == u'Oldenburg' and region.id == 62409:
-        label = u'Stadt Oldenburg'
+        # normalizing
 
-    if label == u'Freie Hansestadt Bremen':
-        label = u'Bremen'
+        label = removePrefix(label, 'Kreis ')
 
-    label = normalize_label(label)
+        if label.startswith(u'Landkreis '):
+            name = removePrefix(label, u'Landkreis ')
 
+            # regions which exist with and without 'Landkreis' prefix
+            if name not in [
+                u'Ansbach', u'Aschaffenburg', u'Augsburg', u'Bamberg',
+                u'Bayreuth', u'Coburg', u'Fürth', u'Heilbronn', u'Hof',
+                u'Kaiserslautern', u'Karlsruhe', u'Kassel', u'Leipzig',
+                u'München', u'Osnabrück', u'Passau', u'Regensburg',
+                u'Rosenheim', u'Rostock', u'Schweinfurt', u'Würzburg'
+            ]:
+                label = name
+
+        # renaming because it these exist twice
+
+        if label == u'Landshut' and region.id == 62657:
+            label = u'Stadt Landshut'
+
+        if label == u'Oldenburg' and region.id == 62409:
+            label = u'Stadt Oldenburg'
+
+        # just renaming
+
+        if label == u'Freie Hansestadt Bremen':
+            label = u'Bremen'
+
+        return label
+
+    def normalize_key(s):
+        """ normalize_key creates a sensitive and nice subdomain url """
+        key = normalize_region_name(s)
+
+        if len(key) > MAX_KEY_LENGTH:
+            print("stripping key %s with %d characters" % (key, len(key)))
+            key = key[:MAX_KEY_LENGTH]
+            key.rstrip(u'-')
+
+        return key
+
+
+    label = normalize_label(region.name, region)
     key = normalize_key(label)
 
-    if meta.Session.query(Instance).filter(Instance.key == key).count() > 0:
-        print("there is already an instance with key %s" % key)
-        return
 
-    description = "Willkommen bei Kommune %s" % label
 
     user = meta.Session.query(User).filter(User.user_name == u'admin').one()
-
     locale = 'de_DE'
+    description = DESCRIPTION
 
-    instance = Instance.create(key, label, user, description, locale)
+    q = meta.Session.query(Instance).filter(Instance.region_id == region.id)
+
+    if q.count() == 0:
+        print("Creating instance %s from region %s" % (key, region.name))
+        instance = Instance.create(key, label, user, description, locale)
+
+    else:
+        if UPDATE_INSTANCES:
+            print("Updating instance %s / region %s" % (key, region.name))
+
+            instance = q.one()
+
+            for attr in ['key', 'label', 'locale', 'description']:
+
+                new = eval(attr)
+                old = getattr(instance, attr)
+
+                if new != old:
+
+                    if attr in ['key', 'label']:
+                        print 'Updating %s from %s to %s' % (attr, old, new)
+
+                    setattr(instance, attr, new)
+
+        else:
+            print("there is already an instance with key %s" % key)
+            return
+
+    fix_categories = {
+        u'Bildung': u'Bildung', 
+        u'Bürgerbeteiligung': u'Bürgerbeteiligung', 
+        u'Finanzen': u'Finanzen', 
+        u'Gesundheit': u'Gesundheit',
+        u'Infrastruktur': u'Infrastruktur', 
+        u'Innenstadt': u'Innenstadt', 
+        u'Jugend': u'Jugend', 
+        u'Kultur': u'Kultur',
+        u'Natur in der Stadt': u'Natur in der Stadt', 
+        u'Politik': u'Politik', 
+        u'Soziales': u'Soziales', 
+        u'Sport': u'Sport',
+        u'Tierschutz': u'Tierschutz', 
+        u'Tourismus': u'Tourismus', 
+        u'Umweltschutz': u'Umweltschutz', 
+        u'Wirtschaft': u'Wirtschaft',
+        u'Wohnungsbau': u'Wohnungsbau'
+    }
+
+    current_categories = CategoryBadge.all(instance)
+
+    for category in current_categories:
+        if category.title in fix_categories.keys():
+
+            category.description = fix_categories[category.title]
+            del fix_categories[category.title]
+        else:
+            category.delete()
+
+    for (title, description) in fix_categories.iteritems():
+        CategoryBadge.create(title, '#a4a4a4', description, instance=instance)
+
 
     instance.region = region
-
-    """
-     * Aktivierte Funktionen / Konfigurationen
-       - Norms?
-       - Milestones?
-       - Final adoption voting? (Settings?)
-       - Delegation
-     * Vorangelegte Badges bzw. Kategorien?
-    """
 
     instance.use_norms = False
     instance.milestones = False
     instance.allow_adopt = False
+    instance.allow_delegate = False
 
-    print("instance %s created" % key)
 
 
 def main():
@@ -118,7 +192,8 @@ def main():
 
     stadtstaaten = (u'Berlin', u'Freie Hansestadt Bremen', u'Hamburg')
 
-    stadtstaaten_q = meta.Session.query(Region).filter(Region.admin_level == 4)\
+    stadtstaaten_q = meta.Session.query(Region)\
+        .filter(Region.admin_level == 4)\
         .filter(Region.name.in_(stadtstaaten))
 
     a6_query = meta.Session.query(Region).filter(Region.admin_level == 6)\
