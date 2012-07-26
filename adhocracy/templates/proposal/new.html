@@ -33,7 +33,7 @@
         <select name="category"> 
         <option value="">${_("No Category")}</option>
         %for category in c.categories:
-        <option value="${category.id}">${category.title}</option>
+        <option value="${category.id}">${category.description}</option>
         %endfor
     </select>      
         
