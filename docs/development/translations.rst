@@ -101,7 +101,7 @@ Update the translations
 
 5. Compile the catalogs with ``compile_catalog``::
 
-     (adhocracy)/src/adhocracy$ ../../bin/adhocpy setup.py extract_messages   
+     (adhocracy)/src/adhocracy$ ../../bin/adhocpy setup.py compile_catalog
 
    This will also show you errors in the ``.po`` files and statistics
    about the translation.
