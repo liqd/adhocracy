@@ -22,7 +22,6 @@ LANG = {
     osm_cartographer_text: 'cartographers',
     license_text: 'license',
     votes_text: 'votes',
-    norms_text: 'norms',
     authenticated_instance: 'official usage',
     non_authenticated_instance: 'no official usage'
 };

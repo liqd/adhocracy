@@ -1117,8 +1117,6 @@ var adhocracy = adhocracy || {};
         result = result + "<a href='/proposal/" + attributes.region_id + "'>" + title + "</a>";
         result = result + "<div class='meta'>";
         result = result + attributes.num_for + ":" + attributes.num_against + " " + LANG.votes_text;
-        result = result + ' \u00B7 ';
-        result = result + attributes.num_norms + " " + LANG.norms_text;
         result = result + "</div>";
         result = result + "</div>";
         return result;
@@ -1474,9 +1472,6 @@ var adhocracy = adhocracy || {};
 
         self.numberHits = ko.computed(function () {
             return (self.searchResults().length);
-        });
-        self.singleHit = ko.computed(function () {
-            return (self.numberHits() === 1);
         });
         self.lastPage = ko.computed(function () {
             return Math.floor(self.numberHits() / self.itemsPerPage);

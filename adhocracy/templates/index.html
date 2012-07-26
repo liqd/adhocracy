@@ -40,10 +40,10 @@ the transition
             "<span data-bind="text: searchQuery()"></span>" 
             ${_(u'results in')} 
             <span data-bind="text: numberHits"></span> 
-            <!-- ko if: singleHit() -->
+            <!-- ko if: (numberHits() === 1) -->
             ${_(u'hit')}.
             <!-- /ko -->
-            <!-- ko ifnot: singleHit() -->
+            <!-- ko if: (numberHits() !== 1) -->
             ${_(u'hits')}.
             <!-- /ko -->
           </div>
@@ -63,7 +63,12 @@ the transition
                   <a data-bind="attr: { href: url, title: '${_(u"visit now")}' }, text: label"></a>
                 </div>
                 <div class="search_result_details">
-                  <span data-bind="text: numProposals" /> ${_(u'proposals')} &middot; <span data-bind="text: numMembers" /> ${_(u'members')}
+                    <span data-bind="text: numProposals" />
+                    <!-- ko if: (numProposals() === 1) --> ${_(u'proposal')} <!-- /ko -->
+                    <!-- ko if: (numProposals() !== 1) --> ${_(u'proposals')} <!-- /ko -->
+                    &middot; <span data-bind="text: numMembers" />
+                    <!-- ko if: (numMembers() === 1) --> ${_(u'member')} <!-- /ko -->
+                    <!-- ko if: (numMembers() !== 1) --> ${_(u'members')} <!-- /ko -->
                 </div>
               </div>
             </div>
