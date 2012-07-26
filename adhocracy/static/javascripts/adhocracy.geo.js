@@ -195,52 +195,7 @@ var adhocracy = adhocracy || {};
     adhocracy.geo.createTownHallLayer = function () {
         return new OpenLayers.Layer.Vector('instance_town_hall', {
             displayInLayerSwitcher: false,
-            styleMap: new OpenLayers.StyleMap({
-                'default': adhocracy.geo.townHallSymbolizerDefault, //new OpenLayers.Style(adhocracy.geo.styleProps),
-                'select': adhocracy.geo.townHallSymbolizerDefault //new OpenLayers.Style(adhocracy.geo.styleSelect)
-            })
         });
-    };
-
-    adhocracy.geo.createOverviewLayers = function () {
-
-        var boundaryLayer = new OpenLayers.Layer.Vector('overview', {
-            displayInLayerSwitcher: false,
-            styleMap: new OpenLayers.StyleMap({
-                'default': new OpenLayers.Style(adhocracy.geo.styleBorder)
-            })
-        });
-
-        var townHallLayer = adhocracy.geo.createTownHallLayer();
-        var url = '/instance/get_all_instance_regions.json';
-        $.ajax({
-            url: url,
-            success: function (data) {
-                var i = 0;
-                var features = new OpenLayers.Format.GeoJSON({}).read(data);
-                for (i = 0; i < features.length; i++) {
-                    // assert(features.length==1);
-                    var feature = features[0];
-                    boundaryLayer.addFeatures([feature]);
-                    //callback(feature);
-                    if (feature.attributes.admin_center) {
-                        var features2 = new OpenLayers.Format.GeoJSON({}).read(feature.attributes.admin_center);
-                        var feature2 = features2[0];
-                        townHallLayer.addFeatures([feature2]);
-                    }
-                }
-    //            if (features.length == 0) {
-    //                callback(null);
-    //            }
-            },
-            error: function (xhr, err) {
-                //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
-                //alert('No response from server, sorry. Error: '+err);
-            }
-        });
-
-        return [boundaryLayer, townHallLayer];
-
     };
 
     adhocracy.geo.createRegionProposalsLayer = function (instanceKey, initialProposals, featuresAddedCallback) {
@@ -1331,34 +1286,47 @@ var adhocracy = adhocracy || {};
     adhocracy.geo.loadOverviewMap = function (initialInstances) {
         var map = adhocracy.geo.createMap();
 
-        var bounds = adhocracy.geo.FALLBACK_BOUNDS;
-
         map.addControls(adhocracy.geo.createControls(false, false));
         var baseLayers = adhocracy.geo.createBaseLayers(5, 12);
         map.addLayers(baseLayers);
         map.setBaseLayer(baseLayers[1]);
 
-        //var proposalLayer = adhocracy.geo.createRegionProposalsLayer(instanceKey, initialProposals);
-        //map.addLayer(proposalLayer);
-        //var popupControl = adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildInstancePopup);
-        //map.addControl(popupControl);
+        var boundaryLayer = new OpenLayers.Layer.Vector('overview', {
+            displayInLayerSwitcher: false,
+            styleMap: new OpenLayers.StyleMap({
+                'default': new OpenLayers.Style(adhocracy.geo.styleBorder)
+            })
+        });
 
-        //adhocracy.geo.enableMarker('result_list_marker', proposalLayer, popupControl);
+        var townHallLayer = adhocracy.geo.createTownHallLayer();
+        var url = '/instance/get_all_instance_regions.json';
+        $.ajax({
+            url: url,
+            success: function (data) {
+                var i = 0;
+                var features = new OpenLayers.Format.GeoJSON({}).read(data);
+                for (i = 0; i < features.length; i++) {
+                    // assert(features.length==1);
+                    var feature = features[0];
+                    boundaryLayer.addFeatures([feature]);
+                    //callback(feature);
+                    if (feature.attributes.admin_center) {
+                        var features2 = new OpenLayers.Format.GeoJSON({}).read(feature.attributes.admin_center);
+                        var feature2 = features2[0];
+                        townHallLayer.addFeatures([feature2]);
+                    }
+                }
+            },
+            error: function (xhr, err) {
+                //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
+                //alert('No response from server, sorry. Error: '+err);
+            }
+        });
 
-        /* disable slow layer
-        var overviewLayers = adhocracy.geo.createOverviewLayers();
-        map.addLayers(overviewLayers);
-        adhocracy.geo.createPopupControl(map, overviewLayers[1], adhocracy.geo.buildInstancePopup);
-        */
-
-        if (adhocracy.geo.easteregg) {
-            var easterLayer = adhocracy.geo.createEastereggLayer();
-            map.addLayer(easterLayer);
-            adhocracy.geo.createPopupControl(map, easterLayer, adhocracy.geo.buildEastereggPopup);
-        }
-
-        map.zoomToExtent(bounds);
+        map.addLayers([boundaryLayer, townHallLayer]);
+        adhocracy.geo.createPopupControl(map, townHallLayer, adhocracy.geo.buildInstancePopup);
         map.addControl(adhocracy.geo.createSelectControl());
+        map.zoomToExtent(adhocracy.geo.FALLBACK_BOUNDS);
     };
 
     adhocracy.geo.addResizeMapButton = function (map, is_fullscreen) {
