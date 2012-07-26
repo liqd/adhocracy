@@ -277,9 +277,9 @@ def proposals(proposals, default_sort=None, **kwargs):
     sorts = {  # _("oldest"): sorting.entity_oldest,
              _("newest"): sorting.entity_newest,
              _("newest comment"): sorting.delegateable_latest_comment,
-             _("support"): sorting.proposal_support,
+             _("most support"): sorting.proposal_support,
              _("mixed"): sorting.proposal_mixed,
-              _("alphabetically"): sorting.delegateable_label}
+             _("alphabetically"): sorting.delegateable_label}
     return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
                       default_sort=default_sort, **kwargs)
 
@@ -300,7 +300,7 @@ def pages(pages, detail=True, default_sort=None, **kwargs):
     if default_sort is None:
         default_sort = sorting.hierarchical_title
     sorts = {_("newest"): sorting.entity_newest,
-             _("proposals"): sorting.norm_selections,
+             _("most proposals"): sorting.norm_selections,
              _("alphabetically"): sorting.delegateable_title,
              _("hierarchical"): sorting.hierarchical_title}
     return NamedPager('pages', pages, tiles.page.row, sorts=sorts,

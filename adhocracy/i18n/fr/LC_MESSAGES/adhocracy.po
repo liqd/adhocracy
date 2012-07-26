@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-20 13:43+0200\n"
-"PO-Revision-Date: 2012-07-20 11:58+0000\n"
+"POT-Creation-Date: 2012-07-27 00:51+0200\n"
+"PO-Revision-Date: 2012-07-26 22:52+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -689,8 +689,8 @@ msgstr "activité"
 msgid "newest comment"
 msgstr "dernier commentaire"
 
-msgid "support"
-msgstr "soutenir"
+msgid "most support"
+msgstr "mayeur soutien"
 
 msgid "mixed"
 msgstr "mixtes"
@@ -698,8 +698,8 @@ msgstr "mixtes"
 msgid "by date"
 msgstr "par date"
 
-msgid "proposals"
-msgstr "propositions"
+msgid "most proposals"
+msgstr "plus grand nombre de propositions"
 
 msgid "hierarchical"
 msgstr "hiérarchique"
@@ -738,7 +738,7 @@ msgid "Yays - nays"
 msgstr "Yays - nays"
 
 msgid "Most Votes"
-msgstr "Plus des votations"
+msgstr "Plus des votes"
 
 msgid "Yays + nays"
 msgstr "Yays + nays"
@@ -962,7 +962,7 @@ msgstr "A effacé un commentaire: dans %(topic)s"
 
 #, python-format
 msgid "deleted the comment %(comment)s from %(topic)s"
-msgstr "effacait le commentaire% %(comment)s de %(topic)s"
+msgstr "effacait le commentaire %(comment)s de %(topic)s"
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -2563,7 +2563,7 @@ msgstr "%s%% de soutient"
 
 #, python-format
 msgid "%s:%s votes"
-msgstr "%s: %s votations"
+msgstr "%s: %s votes"
 
 msgid "Information"
 msgstr "Information"
