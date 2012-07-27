@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 1.2beta2dev\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-27 00:51+0200\n"
+"POT-Creation-Date: 2012-07-27 03:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -671,6 +671,9 @@ msgstr ""
 msgid "mixed"
 msgstr ""
 
+msgid "support"
+msgstr ""
+
 msgid "by date"
 msgstr ""
 
@@ -1141,20 +1144,55 @@ msgstr ""
 msgid "imprint"
 msgstr ""
 
-#, python-format
-msgid "<b>%s</b> members"
+msgid "Find your instance!"
 msgstr ""
 
-#, python-format
-msgid "<b>%s</b> proposals"
+msgid "Enter location"
 msgstr ""
 
-#, python-format
-msgid "<b>%s</b> comments"
+msgid "GO"
 msgstr ""
 
-#, python-format
-msgid "<b>%s</b> votes"
+msgid "Search result"
+msgstr ""
+
+msgid "Search results"
+msgstr ""
+
+msgid "Your search for "
+msgstr ""
+
+msgid "results in"
+msgstr ""
+
+msgid "hit"
+msgstr ""
+
+msgid "hits"
+msgstr ""
+
+msgid "in"
+msgstr ""
+
+msgid "visit now"
+msgstr ""
+
+msgid "proposal"
+msgstr ""
+
+msgid "proposals"
+msgstr ""
+
+msgid "member"
+msgstr ""
+
+msgid "members"
+msgstr ""
+
+msgid "back"
+msgstr ""
+
+msgid "next"
 msgstr ""
 
 msgid "Start"
@@ -1203,6 +1241,9 @@ msgstr ""
 msgid "Norms"
 msgstr ""
 
+msgid "Map"
+msgstr ""
+
 msgid "Members"
 msgstr ""
 
@@ -1217,9 +1258,6 @@ msgid "No entries."
 msgstr ""
 
 msgid "previous"
-msgstr ""
-
-msgid "next"
 msgstr ""
 
 msgid "entries"
@@ -1731,6 +1769,9 @@ msgstr ""
 msgid "more"
 msgstr ""
 
+msgid "Add geographic location"
+msgstr ""
+
 msgid "Latest Events"
 msgstr ""
 
@@ -1908,6 +1949,17 @@ msgstr ""
 
 #, python-format
 msgid "<b>%s</b> community members"
+msgstr ""
+
+#, python-format
+msgid "<b>%s</b> proposals"
+msgstr ""
+
+#, python-format
+msgid "<b>%s</b> comments"
+msgstr ""
+
+msgid "Newest geotagged proposals"
 msgstr ""
 
 msgid "tutorial_instance_proposals_table"
@@ -2363,6 +2415,17 @@ msgstr ""
 msgid "Allow others to edit this proposal."
 msgstr ""
 
+#, python-format
+msgid "Edit geotag for proposal %s"
+msgstr ""
+
+msgid "Edit geotag"
+msgstr ""
+
+#, python-format
+msgid "Edit geographical location for proposal &ldquo;%s&rdquo;"
+msgstr ""
+
 msgid "Find proposals"
 msgstr ""
 
@@ -2458,6 +2521,18 @@ msgstr ""
 msgid "tutorial_proposal_show_propose_variant"
 msgstr ""
 
+msgid "This proposal does currently not refer to a geographic location."
+msgstr ""
+
+msgid "Edit geographic location"
+msgstr ""
+
+msgid "Join instance to edit geotag."
+msgstr ""
+
+msgid "Login to edit geotag."
+msgstr ""
+
 msgid "Last Activity"
 msgstr ""
 
@@ -2485,6 +2560,10 @@ msgstr ""
 
 #, python-format
 msgid "%s:%s votes"
+msgstr ""
+
+#, python-format
+msgid "from %s · on %s"
 msgstr ""
 
 msgid "Information"
