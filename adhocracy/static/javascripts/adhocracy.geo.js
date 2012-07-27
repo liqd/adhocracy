@@ -258,12 +258,26 @@ var adhocracy = adhocracy || {};
 
     adhocracy.geo.createPopupControl = function (map, layer, buildPopupContent) {
 
+        var anchor;
+
+        /* 
+        // this would create a popup offset. it's disabled because it makes
+        // the popup open always in the same direction
+        OpenLayers.Popup.FramedCloud.prototype.fixedRelativePosition = true;
+        OpenLayers.Popup.FramedCloud.prototype.relativePosition = "tr";
+        anchor = {'size': new OpenLayers.Size(5, 0), 'offset': new OpenLayers.Pixel(10, 0)};
+        */
+
+        anchor = null;
+
         function openPopup(event) {
             adhocracy.geo.popup = new OpenLayers.Popup.FramedCloud("singlepopup",
                 event.feature.geometry.getBounds().getCenterLonLat(),
                 null,
                 buildPopupContent(event.feature.attributes),
-                null, true, null);
+                anchor,
+                true,
+                null);
             map.addPopup(adhocracy.geo.popup);
         }
 
