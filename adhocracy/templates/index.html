@@ -34,10 +34,10 @@ the transition
         <script type="text/html" id="search_result_template">
           <div id="search_result_content" data-bind="with: adhocracy.geo.instanceSearch">
             <!-- ko if: (numberHits() === 1) -->
-            <h4>${_(u'Search result')}</h4>
+            <h5>${_(u'Search result')}</h5>
             <!-- /ko -->
             <!-- ko if: (numberHits() !== 1) -->
-            <h4>${_(u'Search results')}</h4>
+            <h5>${_(u'Search results')}</h5>
             <!-- /ko -->
             <%doc> FIXME: this construction is not very translatable </%doc>
             <div id="num_hits_text">
