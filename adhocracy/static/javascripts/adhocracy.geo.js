@@ -916,29 +916,38 @@ var adhocracy = adhocracy || {};
     /**
      * minZoomLevel, maxZoomLevel: value between 0 and 19.
      */
-    adhocracy.geo.createBaseLayers = function (min_zoom_level, max_zoom_level, blank) {
+    adhocracy.geo.createBaseLayers = function (min_zoom_level, max_zoom_level, admin_boundaries, blank) {
 
         var osmOptions = {
             displayInLayerSwitcher: true,
             zoomOffset: min_zoom_level,
             numZoomLevels: max_zoom_level - min_zoom_level,
             maxResolution: adhocracy.geo.AVAILABLE_RESOLUTIONS[min_zoom_level],
-            tileOptions: {crossOriginKeyword: null}
+            tileOptions: {crossOriginKeyword: null},
         };
+        var osmOptionsOverlay = $.extend({isBaseLayer: false}, osmOptions);
+
+        var admin_boundary_layer = new OpenLayers.Layer.OSM("OSM Admin Boundaries",
+            "http://129.206.74.245:8007/tms_b.ashx?x=${x}&y=${y}&z=${z}", osmOptionsOverlay)
 
         var baseLayers = [
             // top definition is selected if setBaseLayer isn't called
             // default Openstreetmap Baselayer
             new OpenLayers.Layer.OSM("Open Street Map", "", osmOptions),
-            new OpenLayers.Layer.OSM("OSM Admin Boundaries",
-                        "http://129.206.74.245:8007/tms_b.ashx?x=${x}&y=${y}&z=${z}", osmOptions),
+            new OpenLayers.Layer.OSM("OSM Roads Greyscale",
+                        "http://129.206.74.245:8008/tms_rg.ashx?x=${x}&y=${y}&z=${z}", osmOptions),
             new OpenLayers.Layer.OSM("Public Transport",
                         "http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png", osmOptions),
             new OpenLayers.Layer.OSM("Transport Map",
                         "http://otile1.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png", osmOptions),
             new OpenLayers.Layer.OSM("&Ouml;pnv Deutschland",
-                        "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png", osmOptions)
+                        "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png", osmOptions),
+            admin_boundary_layer
         ];
+
+        if (!admin_boundaries) {
+            admin_boundary_layer.setVisibility(false);
+        }
 
         // Blank Baselayer
         if (blank) {
@@ -1538,7 +1547,7 @@ var adhocracy = adhocracy || {};
         var map = adhocracy.geo.createMap();
 
         map.addControls(adhocracy.geo.createControls(true, false));
-        var baseLayers = adhocracy.geo.createBaseLayers(5, 12);
+        var baseLayers = adhocracy.geo.createBaseLayers(5, 12, true);
         map.addLayers(baseLayers);
         map.setBaseLayer(baseLayers[1]);
 
