@@ -211,10 +211,7 @@ ${components.watch(c.proposal)}
 
 
 %if h.asbool(config.get('adhocracy.proposal_geotags')):
-    <%doc>FIXME: use English translation base string when merging into default
     <h3>${_('Map')}</h3>
-    </%doc>
-    <h3>${_('Karte')}</h3>
 %if c.proposal.has_geotag() is True:
     ${map.show_single_proposal_map(c.proposal.id)}
 %else:
