@@ -185,7 +185,7 @@
 #instance_search {
     position: absolute;
     z-index: 1;
-    width: 212px;
+    width: 217px;
     max-height: 392px; 
     top: 8px;
     right: 24px;
@@ -213,15 +213,22 @@
     margin-top: 1em;
 }
 
+#num_hits_text {
+  padding-bottom: 3px;
+}
+
 #search_result_list {
-  max-height: 240px;
+  max-height: 230px;
   overflow-y: auto;
+}
+
+.search_result {
+  min-height: 40px;
 }
 
 .search_result_icon {
   float: left;
   width: 32px;
-  height: 40px;
 }
 
 .region_in_instance_label {
@@ -229,10 +236,12 @@
 }
 
 #search_result_paging_prev {
+  padding-top: 5px;
   float: left;
 }
 
 #search_result_paging_next {
+  padding-top: 5px;
   float: right;
 }
 

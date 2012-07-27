@@ -1589,8 +1589,8 @@ var adhocracy = adhocracy || {};
 
         // zoomcontrol restricts by 26 px from the left;
         var restrictLeft = 26;
-        // search box restricts by 245 px from the right;
-        var restrictRight = 245;
+        // search box restricts by 250 px from the right;
+        var restrictRight = 250;
         map.setRestrictedExtent(restrictLeft, 0, restrictRight, 1);
 
         map.zoomToRestrictedExtent(adhocracy.geo.FALLBACK_BOUNDS);
