@@ -30,12 +30,14 @@
                 li_class=_class('home'),
                 id_="nav_home")}
 
+                %if not h.asbool(config.get('adhocracy.hide_instance_list_in_navigation')):
                 %if g.single_instance is None:
                 ${nav_link(href=h.base_url(None, path='/instance'),
                            a_rel='#overlay-default',
                            li_class=_class('instances'),
                            text=_("Instances"),
                            id_="nav_instances")}
+                %endif
                 %endif
 
                 %if c.user:
