@@ -82,7 +82,7 @@ knockout = Group([knockout_js, knockout_mapping_js])
 
 # --[ openlayers ]----------------------------------------------------------
 
-openlayers_library = Library('openlayers', 'openlayers', version='2.12.0')
+openlayers_library = Library('openlayers', 'openlayers', version='2.12.1')
 openlayers_js = Resource(openlayers_library, 'openlayers.js',
                          minified='openlayers.min.js',
                          depends=[jquery],

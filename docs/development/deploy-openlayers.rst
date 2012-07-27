@@ -48,7 +48,7 @@ Build::
 Manipulate Openlayers theme path, because `_getScriptLocation` doesn't work
 when OpenLayers is loaded asynchroneously, see `OpenLayers Issue 2470`_::
 
-    sed -i openlayers.min.js openlayers.js -e "s|OpenLayers._getScriptLocation()|\"/fanstatic/openlayers/:version:2.12.0/\"|g"
+    sed -i openlayers.min.js openlayers.js -e "s|OpenLayers._getScriptLocation()|\"/fanstatic/openlayers/:version:2.12.1/\"|g"
 
 
 Create static directory with files to be served::
