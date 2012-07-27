@@ -1488,7 +1488,7 @@ var adhocracy = adhocracy || {};
             return (self.searchResults().length);
         });
         self.lastPage = ko.computed(function () {
-            return Math.floor(self.numberHits() / self.itemsPerPage);
+            return Math.floor((self.numberHits() - 1) / self.itemsPerPage);
         });
         self.hasPrevPage = ko.computed(function () {
             return (self.visiblePage() > 0);
