@@ -16,7 +16,6 @@
 
 .map {
     position: absolute;
-    z-index: -1;
     width: 100%;
     height: 100%;
     top: 0px;
@@ -182,9 +181,15 @@
     height: 200px;
 }
 
+
+/* ugly hack which makes the popups appear over the instance search box */
+#map_wrapper #OpenLayers\.Map_2_OpenLayers_Container {
+    z-index: auto !important;
+}
+
 #instance_search {
     position: absolute;
-    z-index: 1;
+    z-index: 750;
     width: 217px;
     max-height: 392px; 
     top: 8px;
@@ -268,7 +273,7 @@ div.search_result_details {
 
 #resize_map_button {
     position: absolute;
-    z-index: 1;
+    z-index: 1000;
     left: 0px;
     bottom: 0px;
 }

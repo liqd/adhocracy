@@ -20,82 +20,84 @@ the transition
 
   %if h.asbool(config.get('adhocracy.show_overview_map_on_index')):
   <div id="map_wrapper" class="map_size_normal">
-    <div id="map" class="map"></div>
-    ${map.show_select_instance()}
+    <div id="map" class="map">
+      ${map.show_select_instance()}
 
-    <div id="instance_search">
+      <div id="instance_search">
 
-      <div id="search_field">
-        <h4>${_(u'Find your instance!')}</h4>
-        <input id="overview_search_field" class="q" type="text" placeholder="${_(u'Enter location')}"/>
-        <input id="overview_search_button" class="go" type="submit" value="${_('GO')}" />
-      </div>
+        <div id="search_field">
+          <h4>${_(u'Find your instance!')}</h4>
+          <input id="overview_search_field" class="q" type="text" placeholder="${_(u'Enter location')}"/>
+          <input id="overview_search_button" class="go" type="submit" value="${_('GO')}" />
+        </div>
 
-      <script type="text/html" id="search_result_template">
-        <div id="search_result_content" data-bind="with: adhocracy.geo.instanceSearch">
-          <!-- ko if: (numberHits() === 1) -->
-          <h4>${_(u'Search result')}</h4>
-          <!-- /ko -->
-          <!-- ko if: (numberHits() !== 1) -->
-          <h4>${_(u'Search results')}</h4>
-          <!-- /ko -->
-          <%doc> FIXME: this construction is not very translatable </%doc>
-          <div id="num_hits_text">
-            ${_(u'Your search for ')} 
-            "<span data-bind="text: searchQuery()"></span>" 
-            ${_(u'results in')} 
-            <span data-bind="text: numberHits"></span> 
+        <script type="text/html" id="search_result_template">
+          <div id="search_result_content" data-bind="with: adhocracy.geo.instanceSearch">
             <!-- ko if: (numberHits() === 1) -->
-            ${_(u'hit')}.
+            <h4>${_(u'Search result')}</h4>
             <!-- /ko -->
             <!-- ko if: (numberHits() !== 1) -->
-            ${_(u'hits')}.
+            <h4>${_(u'Search results')}</h4>
             <!-- /ko -->
-          </div>
-          <div id="search_result_list" data-bind="foreach: searchResults">
-            <!-- ko if: isVisible() -->
-            <div class="search_result">
-              <div>
-                <img class="search_result_icon" data-bind="attr: { src: iconUrl }" />
-              </div>
-              <div class="search_result_right">
-                <!-- ko ifnot: directHit() -->
-                <div class="region_in_instance_label">
-                  <span data-bind="text: regionName"></span> ${_(u'in')}
-                </div>
-                <!-- /ko -->
-                <div class="search_result_title">
-                  <a data-bind="attr: { href: url, title: '${_(u"visit now")}' }, text: label"></a>
-                </div>
-                <div class="search_result_details">
-                    <span data-bind="text: numProposals" />
-                    <!-- ko if: (numProposals() === 1) --> ${_(u'proposal')} <!-- /ko -->
-                    <!-- ko if: (numProposals() !== 1) --> ${_(u'proposals')} <!-- /ko -->
-                    &middot; <span data-bind="text: numMembers" />
-                    <!-- ko if: (numMembers() === 1) --> ${_(u'member')} <!-- /ko -->
-                    <!-- ko if: (numMembers() !== 1) --> ${_(u'members')} <!-- /ko -->
-                </div>
-              </div>
+            <%doc> FIXME: this construction is not very translatable </%doc>
+            <div id="num_hits_text">
+              ${_(u'Your search for ')} 
+              "<span data-bind="text: searchQuery()"></span>" 
+              ${_(u'results in')} 
+              <span data-bind="text: numberHits"></span> 
+              <!-- ko if: (numberHits() === 1) -->
+              ${_(u'hit')}.
+              <!-- /ko -->
+              <!-- ko if: (numberHits() !== 1) -->
+              ${_(u'hits')}.
+              <!-- /ko -->
             </div>
-            <!-- /ko -->
+            <div id="search_result_list" data-bind="foreach: searchResults">
+              <!-- ko if: isVisible() -->
+              <div class="search_result">
+                <div>
+                  <img class="search_result_icon" data-bind="attr: { src: iconUrl }" />
+                </div>
+                <div class="search_result_right">
+                  <!-- ko ifnot: directHit() -->
+                  <div class="region_in_instance_label">
+                    <span data-bind="text: regionName"></span> ${_(u'in')}
+                  </div>
+                  <!-- /ko -->
+                  <div class="search_result_title">
+                    <a data-bind="attr: { href: url, title: '${_(u"visit now")}' }, text: label"></a>
+                  </div>
+                  <div class="search_result_details">
+                      <span data-bind="text: numProposals" />
+                      <!-- ko if: (numProposals() === 1) --> ${_(u'proposal')} <!-- /ko -->
+                      <!-- ko if: (numProposals() !== 1) --> ${_(u'proposals')} <!-- /ko -->
+                      &middot; <span data-bind="text: numMembers" />
+                      <!-- ko if: (numMembers() === 1) --> ${_(u'member')} <!-- /ko -->
+                      <!-- ko if: (numMembers() !== 1) --> ${_(u'members')} <!-- /ko -->
+                  </div>
+                </div>
+              </div>
+              <!-- /ko -->
+            </div>
+            <div id="search_result_paging">
+              <!-- ko if: hasPrevPage() -->
+              <a id="search_result_paging_prev" data-bind="click: goPrevPage">${_(u'back')}</a>
+              <!-- /ko -->
+              <!-- ko if: hasNextPage() -->
+              <a id="search_result_paging_next" data-bind="click: goNextPage">${_(u'next')}</a>
+              <!-- /ko -->
+            </div>
           </div>
-          <div id="search_result_paging">
-            <!-- ko if: hasPrevPage() -->
-            <a id="search_result_paging_prev" data-bind="click: goPrevPage">${_(u'back')}</a>
-            <!-- /ko -->
-            <!-- ko if: hasNextPage() -->
-            <a id="search_result_paging_next" data-bind="click: goNextPage">${_(u'next')}</a>
-            <!-- /ko -->
-          </div>
-        </div>
-      </script>
+        </script>
 
-      <div data-bind="template: { name: 'search_result_template', 'if': adhocracy.geo.instanceSearch.showSearchResults() }"></div>
+        <div data-bind="template: { name: 'search_result_template', 'if': adhocracy.geo.instanceSearch.showSearchResults() }"></div>
+
+      </div>
+
+      <div id="resize_map_button"></div>
+      <div class="note_map map_attribution">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 
     </div>
-
-    <div id="resize_map_button"></div>
-    <div class="note_map map_attribution">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 
   </div>
   %endif
