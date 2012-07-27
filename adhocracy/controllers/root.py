@@ -8,6 +8,7 @@ from pylons.decorators import validate
 from adhocracy import model
 from adhocracy.controllers.event import EventController
 from adhocracy.lib import helpers as h
+from adhocracy.lib import pager, sorting
 from adhocracy.lib.auth import require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.static import StaticPage
@@ -43,6 +44,15 @@ class RootController(BaseController):
                 "proposals": model.Proposal.all_q().count(),
                 "votes": model.Vote.all_q().count(),
             }
+
+        proposals = model.meta.Session.query(model.Proposal)\
+                .order_by(model.Proposal.create_time.desc())
+
+        c.new_proposals_pager = pager.proposals_small(
+            proposals, size=3,
+            default_sort=sorting.entity_newest,
+            enable_pages=False,
+            enable_sorts=False)
 
         if format == 'rss':
             return EventController().all(format='rss')

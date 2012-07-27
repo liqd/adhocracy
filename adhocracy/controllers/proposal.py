@@ -18,8 +18,10 @@ from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_def, render_json
+from adhocracy.lib.templating import render_geojson
 from adhocracy.lib.queue import post_update
 from adhocracy.lib.util import get_entity_or_abort
+from adhocracy.lib.geo import format_json_to_geotag
 
 import adhocracy.lib.text as text
 
@@ -42,9 +44,10 @@ class ProposalCreateForm(ProposalNewForm):
     text = validators.String(max=20000, min=4, not_empty=True)
     tags = validators.String(max=20000, not_empty=False)
     milestone = forms.MaybeMilestone(if_empty=None,
-            if_missing=None)
+                                     if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+    geotag = validators.String(not_empty=False)
 
 
 class ProposalEditForm(formencode.Schema):
@@ -57,8 +60,12 @@ class ProposalUpdateForm(ProposalEditForm):
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
     milestone = forms.MaybeMilestone(if_empty=None,
-            if_missing=None)
+                                     if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+
+
+class ProposalGeotagUpdateForm(formencode.Schema):
+    geotag = validators.String(not_empty=False)
 
 
 class ProposalFilterForm(formencode.Schema):
@@ -84,12 +91,12 @@ class ProposalController(BaseController):
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
         require.proposal.index()
-        query = self.form_result.get('proposals_q')
+        c.query = self.form_result.get('proposals_q')
 
         # FIXME: Add tag filtering again (now solr based)
         # FIXME: Live filtering ignores selected facets.
         c.proposals_pager = pager.solr_proposal_pager(c.instance,
-                                                      {'text': query})
+                                                      {'text': c.query})
 
         if format == 'json':
             return render_json(c.proposals_pager)
@@ -98,6 +105,22 @@ class ProposalController(BaseController):
         c.tutorial_intro = _('tutorial_proposal_overview_tab')
         c.tutorial = 'proposal_index'
         return render("/proposal/index.html")
+
+    @RequireInstance
+    @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
+    def index_map(self, format="html"):
+        require.proposal.index()
+
+        c.active_subheader_nav = 'map'
+        c.query = self.form_result.get('proposals_q')
+
+        # FIXME: Add tag filtering again (now solr based)
+        # FIXME: Live filtering ignores selected facets.
+        c.proposals_pager = pager.solr_proposal_pager(c.instance,
+                                                      {'text': c.query})
+
+        c.tile = tiles.instance.InstanceTile(c.instance)
+        return render("/proposal/index_map.html")
 
     @RequireInstance
     @validate(schema=ProposalNewForm(), form='bad_request',
@@ -172,7 +195,7 @@ class ProposalController(BaseController):
             var_val = forms.VariantName()
             variant = var_val.to_python(self.form_result.get('label'))
             if not can.norm.edit(page, variant) or \
-                not can.selection.create(proposal):
+                    not can.selection.create(proposal):
                 continue
             model.Text.create(page, variant, c.user,
                               page.head.title,
@@ -184,6 +207,9 @@ class ProposalController(BaseController):
                 decision = democracy.Decision(c.user, poll)
                 decision.make(model.Vote.YES)
                 model.Tally.create_from_poll(poll)
+
+        geotag = self.form_result.get('geotag')
+        proposal.geotag = format_json_to_geotag(geotag)
 
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
@@ -331,7 +357,7 @@ class ProposalController(BaseController):
                 events, _("Proposal: %s") % c.proposal.title,
                 h.entity_url(c.proposal),
                 description=_("Activity on the %s proposal") % c.proposal.title
-                )
+            )
 
         events = model.Event.find_by_topic(c.proposal)
         c.tile = tiles.proposal.ProposalTile(c.proposal)
@@ -480,3 +506,43 @@ class ProposalController(BaseController):
         if redirect_to_proposals:
             redirect("/proposal")
         redirect(h.entity_url(proposal))
+
+    def get_geotag(self, id):
+
+        proposal = get_entity_or_abort(model.Proposal, id)
+        return render_geojson(proposal.get_geojson_feature())
+
+    def edit_geotag(self, id, errors={}):
+
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.edit(c.proposal)
+        return htmlfill.render(
+            render("/proposal/edit_geotag.html"), errors=errors)
+
+    def update_geotag(self, id):
+
+        try:
+            c.proposal = get_entity_or_abort(model.Proposal, id)
+
+            class state_(object):
+                page = c.proposal.description
+
+            self.form_result = ProposalGeotagUpdateForm().to_python(
+                request.params, state=state_())
+
+        except Invalid, i:
+            return self.edit_geotag(id, errors=i.unpack_errors())
+
+        require.proposal.edit(c.proposal)
+
+        geotag = self.form_result.get('geotag')
+        c.proposal.geotag = format_json_to_geotag(geotag)
+
+        model.meta.Session.add(c.proposal)
+
+        model.meta.Session.commit()
+
+        # watchlist.check_watch(c.proposal)
+        # event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
+        #           topics=[c.proposal], proposal=c.proposal, rev=_text)
+        redirect(h.entity_url(c.proposal))

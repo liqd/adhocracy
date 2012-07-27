@@ -34,11 +34,11 @@ msgid "Please insert a template for the mail we will send to the users."
 msgstr "Bitte geben Sie eine Vorlage für die E-Mail ein, die wir an die importierten Benutzer senden werden."
 
 msgid "In all instances"
-msgstr "In allen Gruppen"
+msgstr "In allen Kommunen"
 
 #, python-format
 msgid "In instance \"%s\""
-msgstr "In Gruppe „%s“"
+msgstr "In Kommune „%s“"
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
@@ -110,7 +110,7 @@ msgid "Delegations are disabled."
 msgstr ""
 
 msgid "tutorial_instance_show_intro"
-msgstr "Willkommen auf der Startseite der Projektgruppe."
+msgstr "Willkommen auf der Startseite der Kommune."
 
 msgid "General"
 msgstr "Allgemein"
@@ -159,7 +159,7 @@ msgstr "Eine Zweidrittelmehrheit"
 
 #, python-format
 msgid "The instance %s has been deleted."
-msgstr "Die Gruppe %s wurde gelöscht."
+msgstr "Die Kommune %s wurde gelöscht."
 
 #, python-format
 msgid "Welcome to %(instance)s"
@@ -171,14 +171,14 @@ msgstr "Sie sind kein Mitglied von %(instance)s."
 
 #, python-format
 msgid "You're the founder of %s, cannot leave."
-msgstr "Als Gründer von %s können Sie die Gruppe nicht verlassen."
+msgstr "Als Gründer von %s können Sie die Kommune nicht verlassen."
 
 #, python-format
 msgid "You've left %(instance)s."
 msgstr "Sie haben %(instance)s verlassen."
 
 msgid "You cannot manipulate one instance from within another instance."
-msgstr "Sie können eine Gruppe nicht von einer anderen Gruppe aus bearbeiten."
+msgstr "Sie können eine Kommune nicht von einer anderen Kommune aus bearbeiten."
 
 #, python-format
 msgid "[%s] Message from %s: %s"
@@ -188,7 +188,7 @@ msgid "Your message has been sent. Thanks."
 msgstr "Ihre Nachricht wurde versandt. Danke."
 
 msgid "tutorial_milestones_tab"
-msgstr "Diese Seite bietet Ihnen eine Übersicht über die Termine der Projektgruppe."
+msgstr "Diese Seite bietet Ihnen eine Übersicht über die Termine der Kommune."
 
 msgid "tutorial_milestone_details_tab"
 msgstr "Die Termin-Detailansicht zeigt weitere Informationen zu dem Termin an."
@@ -228,7 +228,7 @@ msgid "Justin Case has entered the room."
 msgstr "Justin Case ist vorbeigekommen."
 
 msgid "tutorial_norms_overview_tab"
-msgstr "Übersichtseite über die Themen der Projektgruppe. Die Liste zeigt nicht nur alle von der Projektgruppe eingebrachten Themen an, sondern unter dem Titel der Themen wird auch die Anzahl der momentan dazugehörigen Vorschläge und Kommentare angezeigt"
+msgstr "Übersichtseite über die Themen der Kommune. Die Liste zeigt nicht nur alle von der Kommune eingebrachten Themen an, sondern unter dem Titel der Themen wird auch die Anzahl der momentan dazugehörigen Vorschläge und Kommentare angezeigt"
 
 msgid "No proposal has been specified"
 msgstr "Es wurde kein Vorschlag angegeben."
@@ -361,7 +361,7 @@ msgid "You have no twitter association."
 msgstr "Sie haben keine Twitter-Verbindung."
 
 msgid "tutorial_user_index_intro"
-msgstr "Mitgliederliste der Projektgruppe."
+msgstr "Mitgliederliste der Kommune."
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr ""
@@ -417,7 +417,7 @@ msgid "Invalid user name or password"
 msgstr "Ungültiger Benutzername oder falsches Passwort."
 
 msgid "tutorial_dashboard_title"
-msgstr "Sie befinden sich in Ihrem persönlichem Dashboard. Es bietet Ihnen eine Übersicht über  eingebrachte Vorschläge und Themen, die Projektgruppen und über Ihre Beobachtungsliste."
+msgstr "Sie befinden sich in Ihrem persönlichem Dashboard. Es bietet Ihnen eine Übersicht über  eingebrachte Vorschläge und Themen, die Kommunen und über Ihre Beobachtungsliste."
 
 #, python-format
 msgid "Cannot make %(user)s a member of %(group)s"
@@ -479,13 +479,13 @@ msgid ""
 msgstr "Bitte gib einen Farbcode wie '#f0f0f0' ein. '%(value)s' ist kein gültiger Farbcode."
 
 msgid "No instance key is given"
-msgstr "Keine Gruppen-Kennung angegeben."
+msgstr "Keine Kommunen-Kennung angegeben."
 
 msgid "The instance key is invalid"
-msgstr "Diese Gruppen-Kennung ist ungültig."
+msgstr "Diese Kommunen-Kennung ist ungültig."
 
 msgid "An instance with that key already exists"
-msgstr "Eine Gruppe mit dieser Kennung existiert bereits."
+msgstr "Eine Kommune mit dieser Kennung existiert bereits."
 
 #, python-format
 msgid "No entity with ID '%s' exists"
@@ -497,7 +497,7 @@ msgstr "Es gibt keinen Vorschlag mit der ID '%s'."
 
 #, python-format
 msgid "No group with ID '%s' exists"
-msgstr "Es gibt keine Gruppe mit der ID '%s'."
+msgstr "Es gibt keine Kommune mit der ID '%s'."
 
 msgid "At least on character is required"
 msgstr "Mindestens ein Buchstabe muss enthalten sein. "
@@ -640,7 +640,7 @@ msgid ""
 "A liquid democracy platform for making decisions in distributed, open groups"
 " by cooperatively creating proposals and voting on them to establish their "
 "support."
-msgstr "Eine Liquid Democracy-Plattform, auf der verteilte, offene Gruppen kooperativ Vorschläge erarbeiten und abstimmen können."
+msgstr "Eine Liquid Democracy-Plattform, auf der verteilte, offene Kommunen kooperativ Vorschläge erarbeiten und abstimmen können."
 
 msgid ""
 "adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, "
@@ -826,19 +826,19 @@ msgstr "Profil wurde von %(admin)s geändert"
 
 #, python-format
 msgid "New instance: %(instance)s"
-msgstr "Neue Gruppe: %(instance)s"
+msgstr "Neue Kommune: %(instance)s"
 
 #, python-format
 msgid "founded the %(instance)s instance"
-msgstr "gründete die Gruppe %(instance)s"
+msgstr "gründete die Kommune %(instance)s"
 
 #, python-format
 msgid "%(instance)s: instance was updated"
-msgstr "%(instance)s: Gruppe wurde aktualisiert"
+msgstr "%(instance)s: Kommune wurde aktualisiert"
 
 #, python-format
 msgid "updated the %(instance)s instance"
-msgstr "änderte die Gruppe %(instance)s"
+msgstr "änderte die Kommune %(instance)s"
 
 #, python-format
 msgid "Deleted Adhocracy: %(instance)s"
@@ -846,7 +846,7 @@ msgstr "Adhocracy gelöscht: %(instance)s"
 
 #, python-format
 msgid "deleted the %(instance)s instance"
-msgstr "löschte die Gruppe %(instance)s"
+msgstr "löschte die Kommune %(instance)s"
 
 #, python-format
 msgid "%(instance)s: %(user)s joined"
@@ -1080,7 +1080,7 @@ msgid "Users"
 msgstr "Benutzer"
 
 msgid "This action is only available in an instance context."
-msgstr "Die Handlung ist nur innerhalb einer Gruppe verfügbar."
+msgstr "Die Handlung ist nur innerhalb einer Kommune verfügbar."
 
 msgid "(no milestone)"
 msgstr "(kein Termin)"
@@ -1105,7 +1105,7 @@ msgstr "Bitte melden Sie sich an oder registrieren Sie sich, um abzustimmen"
 
 #, python-format
 msgid "Please join the instance \"%s\" to vote."
-msgstr "Bitte treten Sie der Gruppe \"%s\" bei, um abzustimmen."
+msgstr "Bitte treten Sie der Kommune \"%s\" bei, um abzustimmen."
 
 msgid "Click to see the list of votes"
 msgstr "Klicken Sie hier für eine Übersicht über die abgegebenen Stimmen"
@@ -1135,7 +1135,7 @@ msgid "Follow Norm"
 msgstr "Thema folgen"
 
 msgid "Follow Instance"
-msgstr "Gruppe folgen"
+msgstr "Kommune folgen"
 
 msgid "Follow Proposal"
 msgstr "Vorschlag folgen"
@@ -1190,7 +1190,7 @@ msgid "Start"
 msgstr "Start"
 
 msgid "Instances"
-msgstr "Gruppen"
+msgstr "Kommunen"
 
 msgid "Watchlist"
 msgstr "Beobachtungsliste"
@@ -1273,7 +1273,7 @@ msgid "Log in"
 msgstr "Anmelden"
 
 msgid "Join this instance to start contributing."
-msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
+msgstr "Treten Sie dieser Kommune bei, um mitzumachen."
 
 msgid "join"
 msgstr "beitreten"
@@ -1376,7 +1376,7 @@ msgstr "Sie haben erfolgreich die folgenden Benutzer erstellt:"
 msgid ""
 "You successfully created the following users and added them as Members to "
 "the instance \"%s\":"
-msgstr "Sie haben erfolgreich die folgenden Benutzer erstellt und sie als Mitglieder der Projektgruppe \"%s\" hinzugefügt:"
+msgstr "Sie haben erfolgreich die folgenden Benutzer erstellt und sie als Mitglieder der Kommune \"%s\" hinzugefügt:"
 
 msgid "The following errors happend while creating the users"
 msgstr "Die folgenden Fehler traten während der Erstellung der Benutzer auf"
@@ -1388,18 +1388,18 @@ msgid "These users where created, but we could not send out mails:"
 msgstr "Diese Benutzer wurden erstellt, wir konnten jedoch keine E-Mails versenden:"
 
 msgid "Admin: Group Permissions"
-msgstr "Verwaltung: Gruppenrechte"
+msgstr "Verwaltung: Kommunenrechte"
 
 msgid "Admin &raquo; Group Permissions"
-msgstr "Verwaltung &raquo; Gruppenrechte"
+msgstr "Verwaltung &raquo; Kommunenrechte"
 
 msgid "Group Permissions"
-msgstr "Gruppenrechte"
+msgstr "Kommunenrechte"
 
 msgid ""
 "WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
 " care!"
-msgstr "ACHTUNG: Hiermit können Sie sich aus Ihrer eigenen Gruppe ausschließen. Seien Sie vorsichtig!"
+msgstr "ACHTUNG: Hiermit können Sie sich aus Ihrer eigenen Kommune ausschließen. Seien Sie vorsichtig!"
 
 msgid "Permissions"
 msgstr "Rechte"
@@ -1453,15 +1453,15 @@ msgid "No Group"
 msgstr "Keine Benutzerrolle"
 
 msgid "Assign the user to this group for all instances in the adhocracy site."
-msgstr "Dem Benutzer diese Benutzerrolle für alle Gruppe zuschreiben."
+msgstr "Dem Benutzer diese Benutzerrolle für alle Kommune zuschreiben."
 
 msgid "Display group in instances"
-msgstr "Nutzerrollen in den Gruppen anzeigen"
+msgstr "Nutzerrollen in den Kommunen anzeigen"
 
 msgid ""
 "Display this group in instances instead of the normal group the user is in "
 "there."
-msgstr "Zeige diese Nutzerrolle nach Gruppen sortiert an. "
+msgstr "Zeige diese Nutzerrolle nach Kommunen sortiert an. "
 
 msgid "Global"
 msgstr "Global"
@@ -1568,7 +1568,7 @@ msgid "Start new Discussion"
 msgstr "Neue Diskussion starten"
 
 msgid "Join instance to comment."
-msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
+msgstr "Treten Sie dieser Kommune bei, um mitzumachen."
 
 msgid "Add comment"
 msgstr "Kommentar hinzufügen"
@@ -1605,7 +1605,7 @@ msgid "reply"
 msgstr "antworten"
 
 msgid "Join instance to reply"
-msgstr "Gruppe zum Antworten beitreten"
+msgstr "Kommune zum Antworten beitreten"
 
 msgid "Login to reply"
 msgstr "Anmelden, um zu antworten"
@@ -1787,7 +1787,7 @@ msgid "Latest Events"
 msgstr "Letzte Ereignisse."
 
 msgid "This is a record of all recent actions within this instance."
-msgstr "Dies ist eine Übersicht aller Aktivitäten in dieser Gruppe."
+msgstr "Dies ist eine Übersicht aller Aktivitäten in dieser Kommune."
 
 msgid "You can also have notifications sent to you."
 msgstr "Sie können auch Benachrichtigungen erhalten."
@@ -1803,10 +1803,10 @@ msgid "Delete"
 msgstr "Löschen"
 
 msgid "Delete instance"
-msgstr "Gruppe löschen"
+msgstr "Kommune löschen"
 
 msgid "Are you sure you want to delete this instance?"
-msgstr "Sind Sie sicher, dass Sie diese Gruppe entfernen möchten?"
+msgstr "Sind Sie sicher, dass Sie diese Kommune entfernen möchten?"
 
 msgid "Leave"
 msgstr "verlassen"
@@ -1814,7 +1814,7 @@ msgstr "verlassen"
 msgid ""
 "Are you sure you want to leave this instance? You will no longer be able to "
 "write contributions or to vote."
-msgstr "Sind Sie sicher, dass Sie diese Gruppe verlassen wollen? Sie werden keine Beiträge und Stimmen mehr abgeben können."
+msgstr "Sind Sie sicher, dass Sie diese Kommune verlassen wollen? Sie werden keine Beiträge und Stimmen mehr abgeben können."
 
 #, python-format
 msgid "Edit badges for %s"
@@ -1827,32 +1827,32 @@ msgid "badge"
 msgstr "Badge"
 
 msgid "new instance"
-msgstr "Neue Gruppe"
+msgstr "Neue Kommune"
 
 msgid "Instances are little democracies that are ran by their community."
-msgstr "Übersichtsliste über alle registrierten Gruppen. Treten Sie einer Gruppe bei um aktiv an den Diskussionen teilzunehmen."
+msgstr "Übersichtsliste über alle registrierten Kommunen. Treten Sie einer Kommune bei um aktiv an den Diskussionen teilzunehmen."
 
 msgid "New Instance"
-msgstr "Neue Gruppe"
+msgstr "Neue Kommune"
 
 msgid "Create new instance"
-msgstr "Neue Gruppe erstellen"
+msgstr "Neue Kommune erstellen"
 
 msgid "Instance name"
-msgstr "Name der Gruppe"
+msgstr "Name der Kommune"
 
 msgid "Instance URL"
-msgstr "URL der Gruppe"
+msgstr "URL der Kommune"
 
 msgid ""
 "The address may only contain alpha-numeric characters. Please note that this"
 " key cannot be changed after the instance has been created."
-msgstr "Die Adresse darf nur alphanumerische Zeichen enthalten. Bitte beachten Sie, dass die Adresse nicht mehr geändert werden kann, nachdem die Gruppe erstellt wurde."
+msgstr "Die Adresse darf nur alphanumerische Zeichen enthalten. Bitte beachten Sie, dass die Adresse nicht mehr geändert werden kann, nachdem die Kommune erstellt wurde."
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
 "community. (Both Markdown and HTML are allowed here.)"
-msgstr "Beschreiben Sie die Ziele dieser Gruppe und wer ihre Mitglieder sind. (Markdown und HTML sind hier erlaubt.)"
+msgstr "Beschreiben Sie die Ziele dieser Kommune und wer ihre Mitglieder sind. (Markdown und HTML sind hier erlaubt.)"
 
 #, python-format
 msgid "Manage: %s"
@@ -1862,7 +1862,7 @@ msgid "Manage"
 msgstr "Verwalten"
 
 msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Wählen Sie ein Logo für diese Gruppe."
+msgstr "Wählen Sie ein Logo für diese Kommune."
 
 msgid "Logo"
 msgstr "Logo"
@@ -1874,7 +1874,7 @@ msgid "Delete current logo"
 msgstr ""
 
 msgid "You can add css that will be used to style the instance."
-msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
+msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Kommune zu verändern."
 
 msgid "Extra CSS"
 msgstr "Extra CSS"
@@ -1892,7 +1892,7 @@ msgid "Use milestones"
 msgstr "Termine verwenden"
 
 msgid "Freeze this instance"
-msgstr "Die Arbeit in dieser Gruppe einfrieren"
+msgstr "Die Arbeit in dieser Kommune einfrieren"
 
 msgid "Name"
 msgstr "Name"
@@ -1908,13 +1908,13 @@ msgid "Default group"
 msgstr "Nutzerrolle für neue Mitglieder"
 
 msgid "Hide this instance"
-msgstr "Diese Gruppe verbergen"
+msgstr "Diese Kommune verbergen"
 
 msgid "Select whether this instance will be shown in public listings."
-msgstr "Bitte wählen Sie aus, ob diese Gruppe öffentlich gemacht werden soll."
+msgstr "Bitte wählen Sie aus, ob diese Kommune öffentlich gemacht werden soll."
 
 msgid "This instance is authenticated"
-msgstr "Diese Gruppe ist „authentifiziert“"
+msgstr "Diese Kommune ist „authentifiziert“"
 
 msgid "Enable (final) adoption voting"
 msgstr "Endgültige Verabschiedung zulassen"
@@ -1934,7 +1934,7 @@ msgid "Enable vote delegation"
 msgstr "Delegation erlauben"
 
 msgid "Home"
-msgstr "Gruppe"
+msgstr "Kommune"
 
 msgid "Introduce a new idea to debate."
 msgstr "Schlagen Sie eine neue Idee vor."
@@ -1943,7 +1943,7 @@ msgid "new proposal"
 msgstr "Neuer Vorschlag"
 
 msgid "Join instance to create a new proposal."
-msgstr "Gruppe beitreten, um einen neuen Vorschlag anzulegen."
+msgstr "Kommune beitreten, um einen neuen Vorschlag anzulegen."
 
 msgid "Login to create a new proposal."
 msgstr "Anmelden, um einen neuen Vorschlag anzulegen."
@@ -1981,7 +1981,7 @@ msgid "Close"
 msgstr "Schließen"
 
 msgid "tutorial_instance_numbers"
-msgstr "Hier finden Sie noch eine kurze Information über die aktuelle Mitgliederzahl der Projektgruppe, der Anzahl der eingebrachten Vorschläge und der geschriebenen Kommentare."
+msgstr "Hier finden Sie noch eine kurze Information über die aktuelle Mitgliederzahl der Kommune, der Anzahl der eingebrachten Vorschläge und der geschriebenen Kommentare."
 
 #, python-format
 msgid "%s proposal"
@@ -2196,7 +2196,7 @@ msgid "Popular tags"
 msgstr "Beliebte Tags"
 
 msgid "tutorial_norms_overview_table"
-msgstr "Die Liste zeigt nicht nur alle von der Projektgruppe eingebrachten Themen. Unter dem Titel der Themen wird auch die Anzahl der momentan dazugehörigen Vorschläge und Kommentare angezeigt."
+msgstr "Die Liste zeigt nicht nur alle von der Kommune eingebrachten Themen. Unter dem Titel der Themen wird auch die Anzahl der momentan dazugehörigen Vorschläge und Kommentare angezeigt."
 
 msgid "tutorial_norms_overview_facets"
 msgstr "Für eine bessere Übersicht können Sie die Auswahl der Themen nach Schlagworten filtern."
@@ -2390,7 +2390,7 @@ msgid "Propose new Variant"
 msgstr "Neue Version anlegen"
 
 msgid "Join instance to propose a new variant."
-msgstr "Gruppe beitreten, um einen neuen Vorschlag anzulegen."
+msgstr "Kommune beitreten, um einen neuen Vorschlag anzulegen."
 
 msgid "Login to propose a new variant."
 msgstr "Anmelden, um eine Änderung einzubringen."
@@ -2470,7 +2470,7 @@ msgid ""
 " Norms are fixed documents that represent the consensus of this instance and"
 " can only be changed through a vote. Amend the proposal to change or create "
 "a norm."
-msgstr "Vorschläge enthalten Änderungen, die sich auf neue oder bereits existierende Papiere beziehen. Papiere sind Dokumente, welche die beschlossene und derzeitige Arbeitsgrundlage der Projektgruppe beschreiben und die durch eine Abstimmung verändert werden können. Ändern Sie den Vorschlag ab, um ein Papier zu bearbeiten oder zu erstellen."
+msgstr "Vorschläge enthalten Änderungen, die sich auf neue oder bereits existierende Papiere beziehen. Papiere sind Dokumente, welche die beschlossene und derzeitige Arbeitsgrundlage der Kommune beschreiben und die durch eine Abstimmung verändert werden können. Ändern Sie den Vorschlag ab, um ein Papier zu bearbeiten oder zu erstellen."
 
 msgid "Select a norm to change:"
 msgstr "Wählen Sie ein Thema aus, das Sie ändern wollen:"
@@ -2508,7 +2508,7 @@ msgid "Login to propose to change a norm"
 msgstr "Anmelden, um eine Änderung eines Themas vorzuschlagen."
 
 msgid "Join instance to propose to change a norm"
-msgstr "Gruppe beitreten, um die Änderung eines Themas vorzuschlagen."
+msgstr "Kommune beitreten, um die Änderung eines Themas vorzuschlagen."
 
 msgid "tutorial_proposal_show_vote"
 msgstr "Sie können einen Vorschlag unterstützen oder ablehnen."
@@ -2741,7 +2741,7 @@ msgstr "Diese Version hat keinen Text."
 msgid ""
 "This norm has not yet been decided and is thus no official position of this "
 "group."
-msgstr "Ihre Gruppe hat zu diesem Thema noch keine Regelung getroffen. "
+msgstr "Ihre Kommune hat zu diesem Thema noch keine Regelung getroffen. "
 
 #, python-format
 msgid "discuss (%s comments) &raquo;"
@@ -2767,7 +2767,7 @@ msgid "All Members on this Adhocracy Server"
 msgstr "Alle Benutzer auf diesem Adhocracy-Server"
 
 msgid "A listing of all users in all instance an this adhocracy server."
-msgstr "Eine Liste aller Benutzer in dieser Gruppe und auf diesem Adhocracy-Server."
+msgstr "Eine Liste aller Benutzer in dieser Kommune und auf diesem Adhocracy-Server."
 
 msgid ""
 "Are you sure you want to delete your profile? This step cannot be reversed."
@@ -2782,7 +2782,7 @@ msgid "Badges for %s"
 msgstr "Badges für %s"
 
 msgid "all instances"
-msgstr "Alle Gruppen"
+msgstr "Alle Kommunen"
 
 msgid "Example:"
 msgstr "Beispiel:"
@@ -2805,12 +2805,12 @@ msgstr "Beginnen Sie, indem Sie einige <b><a href=\"%s\">proposals</a></b> oder 
 msgid ""
 "Start by exploring the <b><a href=\"%s\">instances</a></b> and read some of "
 "the proposals and norms in the instances."
-msgstr "Beginnen Sie, indem Sie die <b><a href=\"%s\">instances</a></b> erkunden und einige der Vorschläge und Papiere in den Projektgruppen lesen. "
+msgstr "Beginnen Sie, indem Sie die <b><a href=\"%s\">instances</a></b> erkunden und einige der Vorschläge und Papiere in den Kommunen lesen. "
 
 msgid ""
 "If you join an instance, norms and proposals of the instance will be shown "
 "on your dashboard."
-msgstr "Wenn Sie einer Projektgruppe beitreten, werden Papiere und Vorschläge der Projektgruppe in Ihrem Dashboard angezeigt."
+msgstr "Wenn Sie einer Kommune beitreten, werden Papiere und Vorschläge der Kommune in Ihrem Dashboard angezeigt."
 
 msgid ""
 "You can reach your dashboard anytime by clicking on your user name on the "
@@ -2821,14 +2821,14 @@ msgid ""
 "This is your Dashboard. Here you can find the list of instances your a "
 "member in, norms and proposals from these instance and a list of the pages "
 "you follow."
-msgstr "Dies ist Ihr Dashboard. Hier finden Sie eine Liste der Projektgruppen, in denen Sie Mitglied sind, Papiere und Vorschläge dieser Projektgruppen und eine Liste der Seiten, denen Sie folgen."
+msgstr "Dies ist Ihr Dashboard. Hier finden Sie eine Liste der Kommunen, in denen Sie Mitglied sind, Papiere und Vorschläge dieser Kommunen und eine Liste der Seiten, denen Sie folgen."
 
 #, python-format
 msgid "You can also return to the <a href=\"%s\">Page you came from</a>."
 msgstr "Sie können auch zu der <a href=\"%s\">Page you came from</a> zurückkehren."
 
 msgid "Proposals in your instances"
-msgstr "Vorschläge in Ihren Gruppen"
+msgstr "Vorschläge in Ihren Kommunen"
 
 msgid "List all proposals"
 msgstr "Zeige alle "
@@ -2837,7 +2837,7 @@ msgid "list all"
 msgstr "zeige alle"
 
 msgid "Norms in your instances"
-msgstr "Themen in Ihren Instanzen"
+msgstr "Themen in Ihren Kommunen"
 
 msgid "List all pages"
 msgstr "Zeige alle Themen"
@@ -2846,25 +2846,25 @@ msgid "tutorial_dashboard_username"
 msgstr "Sie können Ihr Dashboard jederzeit durch einen Klick auf Ihren Benutzernamen aufrufen."
 
 msgid "tutorial_dashboard_proposals"
-msgstr "Ihr Dashboard bietet Ihnen unter anderem eine Liste aller, in den Projektgruppen, eingebrachter Vorschläge."
+msgstr "Ihr Dashboard bietet Ihnen unter anderem eine Liste aller, in den Kommunen, eingebrachter Vorschläge."
 
 msgid "tutorial_dashboard_show_all"
 msgstr "Durch einen Klick auf \"Zeige alle\" können Sie sich die vollständige Liste aller Vorschläge anzeigen lassen."
 
 msgid "tutorial_dashboard_instances"
-msgstr "Hier finden Sie eine Liste der Projektgruppen, in denen Sie Mitglied sind. Durch einen Klick auf eine der Projektgruppen gelangen Sie zur Projektgruppe."
+msgstr "Hier finden Sie eine Liste der Kommunen, in denen Sie Mitglied sind. Durch einen Klick auf eine der Kommunen gelangen Sie zur Kommune."
 
 msgid "tutorial_dashboard_watchlist"
 msgstr "In der Beobachtungsliste finden Sie Inhalte, denen sie folgen. Durch einen Klick auf \"Zeige alle\" erhalten Sie eine Übersicht über alle Inhalte denen Sie folgen."
 
 msgid "Your Instances"
-msgstr "Ihre Gruppen"
+msgstr "Ihre Kommunen"
 
 msgid "Your Watchlist"
 msgstr "Ihre Beobachtungsliste"
 
 msgid "Current polls in your instances"
-msgstr "Aktuelle Abstimmungen in Ihren Projektgruppen"
+msgstr "Aktuelle Abstimmungen in Ihren Kommunen"
 
 msgid "Topic"
 msgstr "Thema"
@@ -2963,7 +2963,7 @@ msgid "Find users"
 msgstr "Benutzer suchen"
 
 msgid "tutorial_user_index_table"
-msgstr "Die Liste zeigt Ihnen alle Mitglieder der Projektgruppe an. Sie können die Liste sortieren."
+msgstr "Die Liste zeigt Ihnen alle Mitglieder der Kommune an. Sie können die Liste sortieren."
 
 msgid "tutorial_user_index_facets"
 msgstr "Oder filtern Sie die Liste nach Nutzergruppen."
@@ -2977,7 +2977,7 @@ msgstr "Adhocracies"
 
 #, python-format
 msgid "%s is a member in these Adhocracies"
-msgstr "%s ist Mitglied in den folgenden Gruppen"
+msgstr "%s ist Mitglied in den folgenden Kommunen"
 
 msgid "Who are you, then?"
 msgstr "Und wer sind Sie? "
@@ -3064,10 +3064,10 @@ msgid "make %s"
 msgstr "Zu einem %s machen"
 
 msgid "Resign from this instance."
-msgstr "Die Gruppe verlassen."
+msgstr "Die Kommune verlassen."
 
 msgid "leave instance"
-msgstr "Gruppe verlassen"
+msgstr "Kommune verlassen"
 
 msgid "un-ban"
 msgstr "Verbannung aufheben"
@@ -3085,4 +3085,4 @@ msgstr "Beobachtungsliste: %s"
 msgid ""
 "This is your watchlist. You will receive notifications for events concerning"
 " each of these items."
-msgstr "Dies ist Ihre Beobachtungsliste. Sie erhalten eine Benachrichtigung bei Ereignissen in diesen Gruppen."
+msgstr "Dies ist Ihre Beobachtungsliste. Sie erhalten eine Benachrichtigung bei Ereignissen in diesen Kommunen."
