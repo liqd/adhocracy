@@ -37,17 +37,17 @@ UPDATE_INSTANCES = True
 
 DESCRIPTION = u"""
 Willkommen auf OffeneKommune %(label)s, der freien Beteiligungsplattform Ihrer Region!
-
+ 
 OffeneKommune steht als neutrale Beteiligungsplattform allen Bürger/innen, gesellschaftlichen Akteuren und Gruppierungen offen und fördert so den direkten Dialog.
-
+ 
 Egal, ob Sie Einzelperson oder Initiative, jung oder alt, Vertreterin eines Unternehmens oder einer Stadtverwaltung, mit oder ohne Wahlrecht sind, können Sie Ihre Anliegen über OffeneKommune voranbringen, oder Ihre Vorhaben mit Betroffenen und Interessierten diskutieren. Über die Themen entscheiden Sie als Nutzer/in - OffeneKommune bietet dafür die neutrale Infrastruktur.
-
-Bürgerinitiativen, Vereine, Interessensverbände, Unternehmen, Politik und Verwaltung haben die Möglichkeit, OffeneKommune für ihre eigenen Beteiligungsprojekte und politischen Forderungen offiziell zu nutzen.
-
+ 
+Bürgerinitiativen, Vereine, Interessensverbände, Unternehmen, Politik und Verwaltung haben außerdem die Möglichkeit, OffeneKommune für ihre eigenen Beteiligungsprojekte und politischen Forderungen <strong><a href="https://offenekommune.de/_pages/engagieren/offiziell-nutzen/">offiziell zu nutzen</a></strong>.
+ 
 Wichtig ist uns, dass alle Bürger/innen OffeneKommune heute und in Zukunft frei nutzen können. Daher betreiben wir das Projekt als <strong><a href="https://offenekommune.de/_pages/about/uber-offenekommune-de/">gemeinnütziger Träger</a></strong> und entwickeln die zugrundeliegende freie Software <strong><a href="https://bitbucket.org/liqd/adhocracy/">Adhocracy</a></strong> kontinuierlich nach den Bedürfnissen der Nutzer/innen weiter. Über Ihre <strong><a href="https://offenekommune.de/_pages/engagieren/mitarbeiten/">Mitarbeit</a></strong> und <strong><a href="https://offenekommune.de/_pages/engagieren/spenden/">Unterstützung</a></strong> freuen wir uns sehr!
-
-Erfahren Sie mehr zur <strong><a href="https://offenekommune.de/_pages/engagieren/offiziell-nutzen/">offizellen Nutzung</a></strong>, zur <strong><a href="https://offenekommune.de/_pages/mehr-erfahren/">Idee hinter OffeneKommune</a></strong> oder treten Sie direkt mit uns in <strong><a href="https://offenekommune.de/_pages/about/kontakt/">Kontakt</a>.
-
+ 
+Erfahren Sie mehr zur <strong><a href="https://offenekommune.de/_pages/engagieren/offiziell-nutzen/">offizellen Nutzung</a></strong>, zur <strong><a href=https://offenekommune.de/_pages/about">Idee hinter OffeneKommune</a></strong> oder treten Sie direkt mit uns in <strong><a href="https://offenekommune.de/_pages/about/kontakt/">Kontakt</a>.
+ 
 Ihr Team vom Liquid Democracy e.V.
 """
 
