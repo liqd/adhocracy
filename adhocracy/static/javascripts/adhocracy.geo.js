@@ -138,7 +138,7 @@ var adhocracy = adhocracy || {};
     };
 
     adhocracy.geo.townHallSymbolizerDefault = {
-        externalGraphic: '/images/townhall-64-red.png',
+        externalGraphic: '/images/townhall-64-green.png',
         graphicHeight: 15,
         graphicWidth: 12,
         graphicYOffset: -15,
@@ -154,7 +154,7 @@ var adhocracy = adhocracy || {};
     };
 
     adhocracy.geo.townHallSymbolizerInSearch = {
-        externalGraphic: '/images/townhall-64-green.png',
+        externalGraphic: '/images/townhall-64-red.png',
         graphicHeight: 30,
         graphicWidth: 24,
         graphicYOffset: -30,
@@ -164,7 +164,7 @@ var adhocracy = adhocracy || {};
 
     adhocracy.geo.makeTownHallSymbolizerInSearch = function (letter) {
         return {
-            externalGraphic: '/images/townhall-64-green-' + letter + '.png',
+            externalGraphic: '/images/townhall-64-red-' + letter + '.png',
             graphicHeight: 30,
             graphicWidth: 24,
             graphicYOffset: -30,
@@ -1674,9 +1674,9 @@ var adhocracy = adhocracy || {};
                         iconUrl: ko.computed(function () {
                             var letter = adhocracy.geo.instanceSearch.getLetter(item);
                             if (raw.is_authenticated) {
-                                return '/images/townhall-64-lightgreen-' + letter + '.png';
+                                return '/images/townhall-64-red-' + letter + '.png';
                             } else {
-                                return '/images/townhall-64-green-' + letter + '.png';
+                                return '/images/townhall-64-red-' + letter + '.png';
                             }
                         }),
                         isVisible: ko.computed(function () {
