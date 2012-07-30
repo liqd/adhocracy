@@ -102,6 +102,7 @@ def normalize_region_name(name):
         u'.': u' ',
         u'(': u' ',
         u')': u' ',
+        u',': u' ',
     }
 
     key = reduce(lambda a,
