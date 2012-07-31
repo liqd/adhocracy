@@ -33,7 +33,7 @@ possible_attrs = ', '.join(user_info_attrs)
 def main():
     parser = create_parser(description=__doc__)
     parser.add_argument(
-        "-t", dest="template", default=template,
+        "-t", dest="template", default=template, type=unicode,
         help=("The template to use. "
               "(default: '%s', possible keys: %s)" % (template,
                                                       possible_attrs)))
