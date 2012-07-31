@@ -24,7 +24,9 @@ user_info_attrs = ['id',
                    'user_name',
                    'email',
                    'locale',
-                   'email_priority']
+                   'email_priority',
+                   'create_time',
+                   ]
 possible_attrs = ', '.join(user_info_attrs)
 
 
