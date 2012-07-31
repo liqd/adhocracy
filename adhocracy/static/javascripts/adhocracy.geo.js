@@ -138,7 +138,7 @@ var adhocracy = adhocracy || {};
     };
 
     adhocracy.geo.townHallSymbolizerDefault = {
-        externalGraphic: '/images/townhall-64-green.png',
+        externalGraphic: '/images/townhall-64-grey.png',
         graphicHeight: 15,
         graphicWidth: 12,
         graphicYOffset: -15,
@@ -146,7 +146,7 @@ var adhocracy = adhocracy || {};
     };
 
     adhocracy.geo.townHallSymbolizerAuthenticated = {
-        externalGraphic: '/images/townhall-64-lightgreen.png',
+        externalGraphic: '/images/townhall-64-green.png',
         graphicHeight: 15,
         graphicWidth: 12,
         graphicYOffset: -15,
@@ -477,10 +477,10 @@ var adhocracy = adhocracy || {};
         var image, auth_label, num_proposals_label, num_members_label;
 
         if (attributes.is_authenticated) {
-            image = "<img src='/images/townhall-64-lightgreen.png' />";
+            image = "<img src='/images/townhall-64-green.png' />";
             auth_label = ' \u00B7 ' + LANG.authenticated_instance;
         } else {
-            image = "<img src='/images/townhall-64-green.png' />";
+            image = "<img src='/images/townhall-64-grey.png' />";
             auth_label = '';
         }
         if (attributes.num_proposals === 1) {
