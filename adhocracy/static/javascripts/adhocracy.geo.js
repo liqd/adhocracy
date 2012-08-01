@@ -1,5 +1,5 @@
 /*jslint browser: true, vars: true, plusplus: true */
-/*global $: true, OpenLayers: true, LANG: true, ko: true */
+/*global $: true, OpenLayers: true, ko: true */
 
 
 /**
@@ -260,7 +260,7 @@ var adhocracy = adhocracy || {};
 
         var anchor;
 
-        /* 
+        /*
         // this would create a popup offset. it's disabled because it makes
         // the popup open always in the same direction
         OpenLayers.Popup.FramedCloud.prototype.fixedRelativePosition = true;
@@ -336,7 +336,7 @@ var adhocracy = adhocracy || {};
                 },
                 // FIXME: Use Gettext
                 // text: 'Add position'
-                text: LANG.set_position_text
+                text: $.i18n._('set_position')
             }).appendTo('#edit_map_buttons');
         };
 
@@ -349,7 +349,7 @@ var adhocracy = adhocracy || {};
                     layer.removeAllFeatures();
                     pointControl.activate();
                 },
-                text: LANG.set_different_position_text
+                text: $.i18n._('set_different_position')
             }).appendTo('#edit_map_buttons');
 
             $('<a />', {
@@ -360,7 +360,7 @@ var adhocracy = adhocracy || {};
                     $('#proposal_geotag_field').val('');
                     updateEditButtons();
                 },
-                text: LANG.remove_position_text
+                text: $.i18n._('remove_position')
             }).appendTo('#edit_map_buttons');
         };
 
@@ -478,20 +478,20 @@ var adhocracy = adhocracy || {};
 
         if (attributes.is_authenticated) {
             image = "<img src='/images/townhall-64-green.png' />";
-            auth_label = ' \u00B7 ' + LANG.authenticated_instance;
+            auth_label = ' \u00B7 ' + $.i18n._('authenticated_instance');
         } else {
             image = "<img src='/images/townhall-64-grey.png' />";
             auth_label = '';
         }
         if (attributes.num_proposals === 1) {
-            num_proposals_label = LANG.proposal_text;
+            num_proposals_label = $.i18n._('proposal');
         } else {
-            num_proposals_label = LANG.proposals_text;
+            num_proposals_label = $.i18n._('proposals');
         }
         if (attributes.num_members === 1) {
-            num_members_label = LANG.member_text;
+            num_members_label = $.i18n._('member');
         } else {
-            num_members_label = LANG.members_text;
+            num_members_label = $.i18n._('members');
         }
 
         return "<div class='instance_popup_wrapper'><div class='instance_popup_image'>" +
@@ -1139,7 +1139,7 @@ var adhocracy = adhocracy || {};
         var result = "<div class='proposal_popup_title'>";
         result = result + "<a href='/proposal/" + attributes.region_id + "'>" + title + "</a>";
         result = result + "<div class='meta'>";
-        result = result + attributes.num_for + ":" + attributes.num_against + " " + LANG.votes_text;
+        result = result + attributes.num_for + ":" + attributes.num_against + " " + $.i18n._('votes');
         result = result + "</div>";
         result = result + "</div>";
         return result;
@@ -1762,7 +1762,7 @@ var adhocracy = adhocracy || {};
                 id: 'create_geo_button',
                 'class': 'button_small',
                 click: addGeoTagHandler
-            }).append(document.createTextNode(LANG.add_position_text)).appendTo('#map_div');
+            }).append(document.createTextNode($.i18n._('add_position'))).appendTo('#map_div');
             $('<a/>').appendTo('#map_div');
 
             $('#map').remove();
@@ -1780,7 +1780,7 @@ var adhocracy = adhocracy || {};
                 id: 'no_geo_button',
                 'class': 'button_small',
                 click: noGeoTagHandler
-            }).append(document.createTextNode(LANG.no_position_text)).appendTo('#map_div');
+            }).append(document.createTextNode($.i18n._('no_position'))).appendTo('#map_div');
             $('<a/>').appendTo('#map_div');
 
             $('<div />', {
@@ -1803,12 +1803,12 @@ var adhocracy = adhocracy || {};
             });
             osm_link.appendTo('#attribution_div');
             osm_link.append(document.createTextNode('OpenStreetMap'));
-            $('#attribution_div').append(document.createTextNode('-' + LANG.osm_cartographer_text + '('));
+            $('#attribution_div').append(document.createTextNode('-' + $.i18n._('osm_cartographer')+ '('));
             var license_link = $('<a>', {
                 href: 'http://creativecommons.org/licenses/by-sa/2.0/'
             });
             license_link.appendTo('#attribution_div');
-            license_link.append(document.createTextNode(LANG.license_text));
+            license_link.append(document.createTextNode($.i18n._('license')));
             $('#attribution_div').append(document.createTextNode(')'));
         };
 

@@ -106,6 +106,7 @@ setup(
             'adhocracy = adhocracy.static:adhocracy_library',
             'bootstrap = adhocracy.static:bootstrap_library',
             'jqueryui = adhocracy.static:jquery_ui_library',
+            'jquery_i18n = adhocracy.static:jquery_i18n_library',
             'openlayers = adhocracy.static:openlayers_library',
         ]
     }

@@ -11,7 +11,7 @@ import urllib
 
 from paste.deploy.converters import asbool
 from pylons import tmpl_context as c, config, request
-from pylons.i18n import _
+from pylons.i18n import _, get_lang
 from webhelpers.html import literal
 from webhelpers.pylonslib import Flash as _Flash
 from webhelpers.text import truncate
@@ -265,3 +265,8 @@ def _json_entity_decoder(d):
         return [x[1] for x in result]
     elif isinstance(d, dict):
         return dict(result)
+
+
+def need_adhocracy_geo_i18n():
+    from adhocracy.static import adhocracy_geo_i18n
+    return adhocracy_geo_i18n[get_lang()[0]].need()

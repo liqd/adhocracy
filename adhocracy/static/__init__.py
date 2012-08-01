@@ -3,6 +3,7 @@ from fanstatic import Library, Group, Resource, init_needed
 from js.jquery import jquery
 from js.jquery_joyride import joyride
 from js.socialshareprivacy import socialshareprivacy
+from adhocracy.i18n import LOCALES
 
 
 # --[ yaml ]----------------------------------------------------------------
@@ -48,6 +49,14 @@ autocomplete_js = Resource(autocomplete_library, 'jquery.autocomplete.min.js',
 autocomplete_css = Resource(autocomplete_library, 'jquery.autocomplete.css')
 autocomplete = Group([autocomplete_js, autocomplete_css])
 
+
+# --[ jquery.i18n ]---------------------------------------------------------
+
+jquery_i18n_library = Library('jquery_i18n', 'javascripts', version='0.9.2')
+
+jquery_i18n_js = Resource(jquery_i18n_library, 'jquery.i18n.js',
+                          minified='jquery.i18n.min.js',
+                          depends=[jquery])
 
 # --[ misc javascripts ]----------------------------------------------------
 
@@ -101,9 +110,6 @@ jquery_ui_js = Resource(jquery_ui_library, 'jquery-ui.custom.min.js',
 jquery_ui_css = Resource(jquery_ui_library, 'jquery-ui.custom.css')
 jquery_ui = Group([jquery_ui_js, jquery_ui_css])
 
-jquery_localisation_js = Resource(misc_library, 'jquery.localisation.js',
-                                  depends=[jquery])
-
 
 # --[ adhocracy ]-----------------------------------------------------------
 
@@ -118,3 +124,12 @@ adhocracy_geo_js = Resource(adhocracy_library, 'adhocracy.geo.js',
                             bottom=True)
 
 adhocracy_geo_css = Resource(stylesheets_library, 'adhocracy.geo.css')
+
+
+# the adhocracy_geo_i18n resources are needed with need_adhocracy_geo_i18n,
+# which automatically choses the right locale
+adhocracy_geo_i18n = {}
+for locale in LOCALES:
+    adhocracy_geo_i18n[locale.language] = Resource(
+        adhocracy_library, 'adhocracy.geo.i18n-%s.js' % locale.language,
+        depends=[jquery_i18n_js], bottom=True)
