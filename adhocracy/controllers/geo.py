@@ -13,6 +13,7 @@ from adhocracy.model import Region
 from adhocracy.model import Instance
 
 from sqlalchemy import func
+from sqlalchemy import and_
 import geojson
 from shapely import wkb
 from shapely.geometry import box
@@ -185,10 +186,12 @@ class GeoController(BaseController):
         match_word_start = match_type in [MATCH_WORD_FULL, MATCH_WORD_START]
         match_word_end = match_type == MATCH_WORD_FULL
 
-        return column.op('~*')(u'.*%s%s%s.*' % (
-            '[[:<:]]' if match_word_start else '',
-            query_string,
-            '[[:>:]]' if match_word_end else ''))
+        return reduce(and_,
+                      map(lambda part: column.op('~*')(u'.*%s%s%s.*' % (
+                          '[[:<:]]' if match_word_start else '',
+                          part,
+                          '[[:>:]]' if match_word_end else '')),
+                          query_string.split()))
 
     def query_instances(self,
                         query_entities,
