@@ -1,9 +1,48 @@
+# -*- coding: utf-8 -*-
 from sqlalchemy import Table, Column, ForeignKey, Index
 from sqlalchemy import Float, Integer, Unicode
 from geoalchemy import GeometryExtensionColumn, Geometry
 
-from adhocracy.lib.geo import normalize_region_name
 from adhocracy.model import meta
+
+
+def normalize_region_name(name):
+    """
+    creates an ascii representation of the region name which can be
+    used in domain names and such.
+    """
+
+    # make stuff ascii 
+
+    REPLACEMENTS = {
+        u'ä': u'ae',
+        u'ö': u'oe',
+        u'ü': u'ue',
+        u'Ä': u'Ae',
+        u'Ö': u'Oe',
+        u'Ü': u'Ue',
+        u'ß': u'ss',
+        u'.': u' ',
+        u'(': u' ',
+        u')': u' ',
+        u',': u' ',
+    }
+
+    key = reduce(lambda a,
+                 kv: a.replace(*kv),
+                 REPLACEMENTS.iteritems(),
+                 name.lower())
+
+    # for the rest of the characters
+
+    key = key.encode('ascii','ignore')
+
+    # drop words
+
+    DROPS = [u'', u'an', u'der', u'im', u'i', u'a', u'd']
+    key = u'-'.join(filter(lambda part: part not in DROPS, key.split(' ')))
+
+    return key
 
 
 region_table = Table(
