@@ -131,13 +131,3 @@ def setup_entities():
         model.Instance.create(u"test", u"Test Instance", admin)
 
     model.meta.Session.commit()
-
-    url = h.base_url(None, path="/login")
-    if created_admin:
-        print '--------------------------------------------------------------'
-        print 'We created the initial content and the admin user.'
-        print "You can start Adhocracy now if you haven't already, visit"
-        print "%s and log in with " % url
-        print 'Username: %s' % ADMIN
-        print 'Password: %s' % ADMIN_PASSWORD
-        print '--------------------------------------------------------------'
