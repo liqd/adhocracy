@@ -1,3 +1,5 @@
+import re
+
 from pylons import request
 
 from adhocracy.lib import helpers as h
@@ -185,6 +187,8 @@ class GeoController(BaseController):
 
         match_word_start = match_type in [MATCH_WORD_FULL, MATCH_WORD_START]
         match_word_end = match_type == MATCH_WORD_FULL
+
+        query_string = re.sub('[/,.]', ' ', query_string)
 
         return reduce(and_,
                       map(lambda part: column.op('~*')(u'.*%s%s%s.*' % (
