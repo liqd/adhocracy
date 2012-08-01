@@ -589,11 +589,11 @@ var adhocracy = adhocracy || {};
                 var fetch = !adhocracy.geo.alreadyFetched(townHallTiles, newTiles[i]);
                 if (fetch) {
                     townHallTiles.push(newTiles[i]);
-                    var url = '/get_admin_centres.json'
-                                    + '?x=' + newTiles[i].x
-                                    + '&y=' + newTiles[i].y
-                                    + '&zoom=' + map.getZoom()
-                                    + '&admin_level=' + adminLevel;
+                    var url = '/get_admin_centres.json' +
+                        '?x=' + newTiles[i].x +
+                        '&y=' + newTiles[i].y +
+                        '&zoom=' + map.getZoom() +
+                        '&admin_level=' + adminLevel;
                     $.ajax({
                         url: url,
                         success: success,
@@ -628,13 +628,13 @@ var adhocracy = adhocracy || {};
         };
 
         function isInstance(feature, searchEntry) {
-            return (searchEntry.region_id === feature.attributes.region_id
-                    && searchEntry.instance_id != "");
+            return (searchEntry.region_id === feature.attributes.region_id &&
+                    searchEntry.instance_id !== "");
         }
 
         function isRegion(feature, searchEntry) {
-            return (searchEntry.region_id === feature.attributes.region_id
-                    && searchEntry.instance_id == "");
+            return (searchEntry.region_id === feature.attributes.region_id &&
+                    searchEntry.instance_id === "");
         }
 
         function getRegionNum(feature) {
@@ -647,7 +647,7 @@ var adhocracy = adhocracy || {};
                         if (isRegion(feature, result[i])) {
                             return numRegion;
                         }
-                        if (result[i].instance_id == "") {
+                        if (result[i].instance_id === "") {
                             numRegion = numRegion + 1;
                         }
                     }
@@ -667,7 +667,7 @@ var adhocracy = adhocracy || {};
                         if (isInstance(feature, result[i])) {
                             return numInstance;
                         }
-                        if (result[i].instance_id != "") {
+                        if (result[i].instance_id !== "") {
                             numInstance = numInstance + 1;
                         }
                     }
@@ -775,7 +775,7 @@ var adhocracy = adhocracy || {};
 
         var moveMapTo = function (bounds, zoomChanged, dragging) {
             var zoom = map.getZoom();
-            if (zoom != null && zoomChanged != null) {
+            if (zoom !== null && zoomChanged !== null) {
                 var i = 0;
                 while (i < adhocracy.geo.adminLevels.length) {
                     var styleChanged = adhocracy.geo.displayMap[zoomChanged]['styles'][i];
@@ -790,18 +790,18 @@ var adhocracy = adhocracy || {};
                             var k = 0;
                             if (styleChanged < 2) {
                                 for (k = 0; k < adhocracy.geo.displayMap.length; k++) {
-                                    layers[i][k].styleMap['default']
-                                        = new OpenLayers.Style(adhocracy.geo.styleBorder);
-                                    layers[i][k].styleMap['default']
-                                        = new OpenLayers.Style(adhocracy.geo.styleBorder);
+                                    layers[i][k].styleMap['default'] =
+                                        new OpenLayers.Style(adhocracy.geo.styleBorder);
+                                    layers[i][k].styleMap['default'] =
+                                        new OpenLayers.Style(adhocracy.geo.styleBorder);
                                     redrawFeatures(layers[i][k], adhocracy.geo.styleBorder);
                                 }
                             } else {
                                 for (k = 0; k < adhocracy.geo.displayMap.length; k++) {
-                                    layers[i][k].styleMap['default']
-                                        = new OpenLayers.Style(styleArea);
-                                    layers[i][k].styleMap['default']
-                                        = new OpenLayers.Style(adhocracy.geo.styleArea);
+                                    layers[i][k].styleMap['default'] =
+                                        new OpenLayers.Style(adhocracy.geo.styleArea);
+                                    layers[i][k].styleMap['default'] =
+                                        new OpenLayers.Style(adhocracy.geo.styleArea);
                                     redrawFeatures(layers[i][k], adhocracy.geo.styleArea);
                                 }
                             }
@@ -855,11 +855,11 @@ var adhocracy = adhocracy || {};
                             layers[this.layersIdx][zoom].addFeatures([new OpenLayers.Feature.Vector(box.toGeometry(),
                                                                                                             {})]);
                         }
-                        var url = '/get_tiled_boundaries.json'
-                                        + '?x=' + newTiles[i].x
-                                        + '&y=' + newTiles[i].y
-                                        + '&zoom=' + zoom
-                                        + '&admin_level=' + adhocracy.geo.adminLevels[this.layersIdx];
+                        var url = '/get_tiled_boundaries.json' +
+                            '?x=' + newTiles[i].x +
+                            '&y=' + newTiles[i].y +
+                            '&zoom=' + zoom +
+                            '&admin_level=' + adhocracy.geo.adminLevels[this.layersIdx];
                         $.ajax({
                             url: url,
                             success: success,
@@ -881,8 +881,7 @@ var adhocracy = adhocracy || {};
             for (z = 0; z < adhocracy.geo.displayMap.length; z++) {
                 var layername = "layer" + adhocracy.geo.adminLevels[layersIdx] + z;
 
-                layers[layersIdx][z]
-                    = new OpenLayers.Layer.Vector(layername, {
+                layers[layersIdx][z] = new OpenLayers.Layer.Vector(layername, {
                         displayInLayerSwitcher: false,
                         styleMap: new OpenLayers.StyleMap({'default': (style < 2 ? new OpenLayers.Style(adhocracy.geo.styleBorder) : new OpenLayers.Style(adhocracy.geo.styleArea))}),
                         layersIdx: layersIdx,
@@ -928,7 +927,7 @@ var adhocracy = adhocracy || {};
         var osmOptionsOverlay = $.extend({isBaseLayer: false}, osmOptions);
 
         var admin_boundary_layer = new OpenLayers.Layer.OSM("OSM Admin Boundaries",
-            "http://129.206.74.245:8007/tms_b.ashx?x=${x}&y=${y}&z=${z}", osmOptionsOverlay)
+            "http://129.206.74.245:8007/tms_b.ashx?x=${x}&y=${y}&z=${z}", osmOptionsOverlay);
 
         var baseLayers = [
             // top definition is selected if setBaseLayer isn't called
@@ -1803,7 +1802,7 @@ var adhocracy = adhocracy || {};
             });
             osm_link.appendTo('#attribution_div');
             osm_link.append(document.createTextNode('OpenStreetMap'));
-            $('#attribution_div').append(document.createTextNode('-' + $.i18n._('osm_cartographer')+ '('));
+            $('#attribution_div').append(document.createTextNode('-' + $.i18n._('osm_cartographer') + '('));
             var license_link = $('<a>', {
                 href: 'http://creativecommons.org/licenses/by-sa/2.0/'
             });
@@ -1824,7 +1823,7 @@ var adhocracy = adhocracy || {};
 
         function reloadNewProposalForm() {
             var position = $('#proposal_geotag_field').val();
-            if (position != null && position != '') {
+            if (position !== null && position !== '') {
                 addPositionClicked(position);
             }
         }
