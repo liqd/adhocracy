@@ -24,12 +24,17 @@ import logging
 log = logging.getLogger(__name__)
 
 
-MATCH_WORD_FULL = 'FULL'
-MATCH_WORD_START = 'START'
-MATCH_WORD_INNER = 'INNER'
+MATCH_WORD_FULL = 2
+MATCH_WORD_START = 1
+MATCH_WORD_INNER = 0
+
+PART_ORDER_NORMAL = 2
+PART_ORDER_REVERSE = 1
+PART_ORDER_NONE = 0
 
 BBOX_FILTER_TYPE = USE_POSTGIS
 SIMPLIFY_TYPE = USE_SHAPELY
+
 
 class GeoController(BaseController):
 
@@ -298,14 +303,6 @@ class GeoController(BaseController):
 
         return (query, main_query, suffix_query)
 
-    def relax_match_type(self, match_type):
-        if match_type == MATCH_WORD_FULL:
-            return MATCH_WORD_START
-        elif match_type == MATCH_WORD_START:
-            return MATCH_WORD_INNER
-        else:
-            return None
-
     def _find_instances(self,
                         make_item_func,
                         query_entities,
@@ -321,21 +318,40 @@ class GeoController(BaseController):
 
         (query, main_query, suffix_query) = self.get_search_params(request)
 
-        instances_query = self.query_instances_by_region_name(
-            query_entities, match_type, main_query, suffix_query)
+        def _find_instances_inner(current_match_type, current_order_type):
 
-        instances = [make_item_func(row) for row in instances_query.all()]
+            if current_order_type == PART_ORDER_NORMAL:
+                inner = main_query
+                outer = suffix_query
+            elif current_order_type == PART_ORDER_REVERSE:
+                inner = suffix_query
+                outer = main_query
+            else:
+                inner = '%s %s' % (main_query, suffix_query)
+                outer = None
 
-        if len(instances) == 0:
-            relax_match_type = self.relax_match_type(match_type)
-            if relax_match_type is not None:
-                return self._find_instances(
-                    make_item_func, query_entities, relax_match_type)
+            instances_query = self.query_instances_by_region_name(
+                query_entities, current_match_type, inner, outer)
+
+            instances = [make_item_func(row) for row in instances_query.all()]
+
+            if len(instances) == 0:
+                # relax substring match constraint
+                if current_match_type > 0:
+                    return _find_instances_inner(current_match_type - 1,
+                                                 current_order_type)
+                # relax correct ordering of main and suffix query
+                if suffix_query is not None and current_order_type > 0:
+                    return _find_instances_inner(match_type,
+                                                 current_order_type - 1)
+
+            return instances
 
         result = {
-            'instances': instances,
+            'instances': _find_instances_inner(match_type, PART_ORDER_NORMAL),
             'query_string': query,
         }
+
         return render_geojson(result)
 
     def find_instances_json(self):
