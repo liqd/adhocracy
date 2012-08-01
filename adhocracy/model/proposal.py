@@ -4,6 +4,10 @@ from datetime import datetime
 from sqlalchemy import Table, Column, ForeignKey, Integer, Boolean, or_
 from sqlalchemy.orm import reconstructor, eagerload
 
+from geoalchemy import GeometryExtensionColumn, Geometry
+
+from pylons import config
+
 import meta
 import instance_filter as ifilter
 
@@ -17,7 +21,9 @@ proposal_table = Table('proposal', meta.data,
     Column('description_id', Integer, ForeignKey('page.id'), nullable=True),
     Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
-    Column('adopted', Boolean, default=False)
+    Column('adopted', Boolean, default=False),
+    GeometryExtensionColumn(
+        'geotag', Geometry(dimension=2, srid=900913), nullable=False),
     )
 
 
@@ -227,3 +233,27 @@ class Proposal(Delegateable):
 
     def __repr__(self):
         return u"<Proposal(%s)>" % self.id
+
+    def has_geotag(self):
+        assert config.get('adhocracy.proposal_geotags')
+        return self.geotag is not None
+
+    def get_geojson_feature(self):
+
+        import geojson
+        from shapely import wkb
+
+        if self.geotag is None:
+            return {}
+        else:
+            return geojson.Feature(
+                geometry=wkb.loads(str(self.geotag.geom_wkb)),
+                properties={
+                    'title': self.title,
+                    'region_id': self.id,
+                    'num_for': self.rate_poll.tally.num_for,
+                    'num_against': self.rate_poll.tally.num_against,
+                    'num_norms': len(self.selections)
+                },
+                id=self.id
+                )

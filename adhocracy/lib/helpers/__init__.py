@@ -9,6 +9,7 @@ import hashlib
 import json
 import urllib
 
+from paste.deploy.converters import asbool
 from pylons import tmpl_context as c, config, request
 from pylons.i18n import _
 from webhelpers.html import literal
@@ -43,6 +44,7 @@ from adhocracy.lib.helpers.url import build
 from adhocracy.lib.helpers.site_helper import base_url
 #from adhocracy.lib.templating import json_dumps, json_loads
 from adhocracy.lib.watchlist import make_watch, find_watch
+from adhocracy.lib.helpers.counter import counter
 from adhocracy import model, static
 from adhocracy.i18n import countdown_time, format_date
 from adhocracy.i18n import relative_date, relative_time
