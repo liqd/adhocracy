@@ -8,9 +8,9 @@ log = logging.getLogger(__name__)
 
 group_permission_table = Table('group_permission', meta.data,
     Column('group_id', Integer, ForeignKey('group.id',
-           onupdate="CASCADE", ondelete="CASCADE")),
+           onupdate="CASCADE", ondelete="CASCADE"), primary_key=True),
     Column('permission_id', Integer, ForeignKey('permission.id',
-           onupdate="CASCADE", ondelete="CASCADE"))
+           onupdate="CASCADE", ondelete="CASCADE"), primary_key=True)
     )
 
 permission_table = Table('permission', meta.data,
