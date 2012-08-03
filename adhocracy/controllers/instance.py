@@ -860,10 +860,10 @@ class InstanceController(BaseController):
             geom = wkb.loads(str(c.instance.region.boundary.geom_wkb))
             instance_props = {
                 'name': c.instance.region.name,
-                'admin_level': c.instance.region.admin_level,
-                'admin_type': c.instance.region.admin_type,
-                'region_id': c.instance.region.id,
-                'admin_center': None
+                'adminLevel': c.instance.region.admin_level,
+                'adminType': c.instance.region.admin_type,
+                'regionId': c.instance.region.id,
+                'adminCenter': None
             }
             add_instance_props(c.instance, instance_props)
 
@@ -877,7 +877,7 @@ class InstanceController(BaseController):
                 'label': c.instance.label
             }
             add_instance_props(c.instance, admin_center_props)
-            feature.properties['admin_center'] = geojson.Feature(
+            feature.properties['adminCenter'] = geojson.Feature(
                 geometry=get_instance_geo_centre(c.instance),
                 properties=admin_center_props
             )
@@ -942,7 +942,7 @@ class InstanceController(BaseController):
                     properties={
                         'url': h.base_url(instance),
                         'label': instance.label,
-                        'is_authenticated': instance.is_authenticated,
+                        'isAuthenticated': instance.is_authenticated,
                     })
                 add_instance_props(instance, feature.properties)
                 return feature

@@ -78,8 +78,8 @@ def add_instance_props(instance, properties):
         pageq = pageq.filter(Page.instance == instance)
         return pageq.count()
 
-    properties['num_proposals'] = instance.num_proposals
-    properties['num_papers'] = num_pages(instance)
-    properties['num_members'] = instance.num_members
+    properties['numProposals'] = instance.num_proposals
+    properties['numPapers'] = num_pages(instance)
+    properties['numMembers'] = instance.num_members
 
 

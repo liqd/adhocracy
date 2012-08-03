@@ -256,6 +256,8 @@ var adhocracy = adhocracy || {};
         return layer;
     };
 
+    adhocracy.geo.popup = null;
+
     adhocracy.geo.createPopupControl = function (map, layer, buildPopupContent) {
 
         var anchor;
@@ -270,23 +272,23 @@ var adhocracy = adhocracy || {};
 
         anchor = null;
 
-        function openPopup(event) {
+        var closePopup = function (event) {
+            if (adhocracy.geo.popup) {
+                map.removePopup(adhocracy.geo.popup);
+                adhocracy.geo.popup = null;
+            }
+        };
+
+        var openPopup = function (event) {
             adhocracy.geo.popup = new OpenLayers.Popup.FramedCloud("singlepopup",
                 event.feature.geometry.getBounds().getCenterLonLat(),
                 null,
                 buildPopupContent(event.feature.attributes),
                 anchor,
                 true,
-                null);
+                closePopup);
             map.addPopup(adhocracy.geo.popup);
-        }
-
-        function closePopup(event) {
-            if (adhocracy.geo.popup) {
-                map.removePopup(adhocracy.geo.popup);
-                adhocracy.geo.popup = null;
-            }
-        }
+        };
 
         layer.events.on({
             'featureselected': openPopup,
@@ -464,7 +466,7 @@ var adhocracy = adhocracy || {};
     adhocracy.geo.layerHasFeature = function (layer, feature) {
         var i = 0;
         for (i = 0; i < layer.features.length; i++) {
-            if (layer.features[i].attributes.region_id === feature.attributes.region_id) {
+            if (layer.features[i].attributes.regionId === feature.attributes.regionId) {
                 return true;
             }
         }
@@ -474,34 +476,45 @@ var adhocracy = adhocracy || {};
     adhocracy.geo.buildInstancePopup = function (attributes) {
         // attributes are the feature attributes
         
-        var image, auth_label, num_proposals_label, num_members_label;
+        var imageUrl, authLabel, numProposalsLabel, numMembersLabel;
 
-        if (attributes.is_authenticated) {
-            image = "<img src='/images/townhall-64-green.png' />";
-            auth_label = ' \u00B7 ' + $.i18n._('authenticated_instance');
+        if (attributes.iconUrl) {
+            if (attributes.isAuthenticated) {
+                // iconUrl attribute is set in search results
+                imageUrl = attributes.iconUrl;
+                authLabel = ' \u00B7 ' + $.i18n._('authenticated_instance');
+            } else {
+                imageUrl = attributes.iconUrl;
+                authLabel = '';
+            }
         } else {
-            image = "<img src='/images/townhall-64-grey.png' />";
-            auth_label = '';
+            if (attributes.isAuthenticated) {
+                imageUrl = '/images/townhall-64-green.png';
+                authLabel = ' \u00B7 ' + $.i18n._('authenticated_instance');
+            } else {
+                imageUrl = '/images/townhall-64-grey.png';
+                authLabel = '';
+            }
         }
-        if (attributes.num_proposals === 1) {
-            num_proposals_label = $.i18n._('proposal');
+        if (attributes.numProposals === 1) {
+            numProposalsLabel = $.i18n._('proposal');
         } else {
-            num_proposals_label = $.i18n._('proposals');
+            numProposalsLabel = $.i18n._('proposals');
         }
-        if (attributes.num_members === 1) {
-            num_members_label = $.i18n._('member');
+        if (attributes.numMembers === 1) {
+            numMembersLabel = $.i18n._('member');
         } else {
-            num_members_label = $.i18n._('members');
+            numMembersLabel = $.i18n._('members');
         }
 
         return "<div class='instance_popup_wrapper'><div class='instance_popup_image'>" +
-            image + "</div>" +
+            "<img src='" + imageUrl + "' /></div>" +
             "<a class='instance_popup_title' href='" + attributes.url + "'>" +
             attributes.label + "</a>" +
             "<div class='meta'>" +
-            attributes.num_proposals + ' ' + num_proposals_label + ' \u00B7 ' +
-            attributes.num_members + ' ' + num_members_label +
-            auth_label + "</div></div></div>";
+            attributes.numProposals + ' ' + numProposalsLabel + ' \u00B7 ' +
+            attributes.numMembers + ' ' + numMembersLabel +
+            authLabel + "</div></div></div>";
     };
 
 
@@ -558,8 +571,8 @@ var adhocracy = adhocracy || {};
         return !fetch;
     };
 
-    adhocracy.geo.getLayerIndex = function (admin_level) {
-        return adhocracy.geo.adminLevels.indexOf(admin_level);
+    adhocracy.geo.getLayerIndex = function (adminLevel) {
+        return adhocracy.geo.adminLevels.indexOf(adminLevel);
     };
 
     adhocracy.geo.addTiledTownhallLayer = function (map, resultList) {
@@ -593,7 +606,7 @@ var adhocracy = adhocracy || {};
                         '?x=' + newTiles[i].x +
                         '&y=' + newTiles[i].y +
                         '&zoom=' + map.getZoom() +
-                        '&admin_level=' + adminLevel;
+                        '&adminLevel=' + adminLevel;
                     $.ajax({
                         url: url,
                         success: success,
@@ -628,13 +641,13 @@ var adhocracy = adhocracy || {};
         };
 
         function isInstance(feature, searchEntry) {
-            return (searchEntry.region_id === feature.attributes.region_id &&
-                    searchEntry.instance_id !== "");
+            return (searchEntry.regionId === feature.attributes.regionId &&
+                    searchEntry.instanceId !== "");
         }
 
         function isRegion(feature, searchEntry) {
-            return (searchEntry.region_id === feature.attributes.region_id &&
-                    searchEntry.instance_id === "");
+            return (searchEntry.regionId === feature.attributes.regionId &&
+                    searchEntry.instanceId === "");
         }
 
         function getRegionNum(feature) {
@@ -647,7 +660,7 @@ var adhocracy = adhocracy || {};
                         if (isRegion(feature, result[i])) {
                             return numRegion;
                         }
-                        if (result[i].instance_id === "") {
+                        if (result[i].instanceId === "") {
                             numRegion = numRegion + 1;
                         }
                     }
@@ -667,7 +680,7 @@ var adhocracy = adhocracy || {};
                         if (isInstance(feature, result[i])) {
                             return numInstance;
                         }
-                        if (result[i].instance_id !== "") {
+                        if (result[i].instanceId !== "") {
                             numInstance = numInstance + 1;
                         }
                     }
@@ -731,7 +744,7 @@ var adhocracy = adhocracy || {};
                 return false;
             }
             var zoom = map.getZoom();
-            var adminLevel = feature.attributes.admin_level;
+            var adminLevel = feature.attributes.adminLevel;
             var layerIdx = adhocracy.geo.getLayerIndex(adminLevel);
             var style = adhocracy.geo.displayMap[zoom]['styles'][layerIdx];
             return (style === 0);
@@ -754,10 +767,10 @@ var adhocracy = adhocracy || {};
 
     adhocracy.geo.addMultiBoundaryLayer = function (map, layers, tiles) {
 
-        function isValidAdminLevel(admin_level) {
+        function isValidAdminLevel(adminLevel) {
             var i = 0;
             for (i = 0; i < adhocracy.geo.adminLevels.length; i++) {
-                if (adhocracy.geo.adminLevels[i] === admin_level) {
+                if (adhocracy.geo.adminLevels[i] === adminLevel) {
                     return true;
                 }
             }
@@ -821,10 +834,10 @@ var adhocracy = adhocracy || {};
                 for (k = 0; k < features.length; k++) {
                     var feature = features[k];
                     if (feature.geometry !== null) {
-                        var admin_level = parseInt(feature.attributes.admin_level, 10);
+                        var adminLevel = parseInt(feature.attributes.adminLevel, 10);
                         var zoom2 = parseInt(feature.attributes.zoom, 10);
-                        if (zoom2 >= 0 && zoom2 < 15 && isValidAdminLevel(admin_level)) {
-                            layers[adhocracy.geo.getLayerIndex(admin_level)][zoom2].addFeatures([feature]);
+                        if (zoom2 >= 0 && zoom2 < 15 && isValidAdminLevel(adminLevel)) {
+                            layers[adhocracy.geo.getLayerIndex(adminLevel)][zoom2].addFeatures([feature]);
                         }
                     }
                 }
@@ -859,7 +872,7 @@ var adhocracy = adhocracy || {};
                             '?x=' + newTiles[i].x +
                             '&y=' + newTiles[i].y +
                             '&zoom=' + zoom +
-                            '&admin_level=' + adhocracy.geo.adminLevels[this.layersIdx];
+                            '&adminLevel=' + adhocracy.geo.adminLevels[this.layersIdx];
                         $.ajax({
                             url: url,
                             success: success,
@@ -1136,7 +1149,7 @@ var adhocracy = adhocracy || {};
         }
 
         var result = "<div class='proposal_popup_title'>";
-        result = result + "<a href='/proposal/" + attributes.region_id + "'>" + title + "</a>";
+        result = result + "<a href='/proposal/" + attributes.regionId + "'>" + title + "</a>";
         result = result + "<div class='meta'>";
         result = result + attributes.num_for + ":" + attributes.num_against + " " + $.i18n._('votes');
         result = result + "</div>";
@@ -1154,11 +1167,9 @@ var adhocracy = adhocracy || {};
 
         var selectControl = new OpenLayers.Control.SelectFeature(adhocracy.geo.layersWithPopup, {
                 clickout: true,
-                toggle: false,
+                toggle: true,
                 multiple: false,
                 hover: false,
-                toggleKey: "ctrlKey", // ctrl key removes from selection
-                multipleKey: "shiftKey", // shift key adds to selection
                 box: false,
                 autoActivate: true
             });
@@ -1226,7 +1237,7 @@ var adhocracy = adhocracy || {};
     adhocracy.geo.enableMarker = function (id, layer, selectControl) {
         $('.' + id).click(function (event) {
             var target = event.target || event.srcElement;
-            var feature = layer.getFeaturesByAttribute('region_id', parseInt(target.id.substring((id + '_').length), 10))[0];
+            var feature = layer.getFeaturesByAttribute('regionId', parseInt(target.id.substring((id + '_').length), 10))[0];
             if (adhocracy.geo.popup) {
                 var flonlat = feature.geometry.getBounds().getCenterLonLat();
                 var plonlat = adhocracy.geo.popup.lonlat;
@@ -1418,8 +1429,8 @@ var adhocracy = adhocracy || {};
                     item.style
                 );
             },
-            makeFeatureId: function (item) {
-                return item.id;
+            makeFeatureFid: function (item) {
+                return item.fid;
             },
             makePopup: function (item) {
             }
@@ -1434,12 +1445,13 @@ var adhocracy = adhocracy || {};
         }
 
         self.addItemToLayer = function (item, options) {
-            options.layer.addFeatures([options.makeFeature(item)]);
+            var feature = options.makeFeature(item);
+            options.layer.addFeatures([feature]);
         };
 
         self.removeItemFromLayer = function (item, options) {
             options.layer.removeFeatures([
-                options.layer.getFeatureById(options.makeFeatureId(item))
+                options.layer.getFeatureByFid(options.makeFeatureFid(item))
             ]);
         };
 
@@ -1572,7 +1584,7 @@ var adhocracy = adhocracy || {};
             makeFeature: function (item) {
                 var geometry = new OpenLayers.Format.GeoJSON().read(item.geometry, "Geometry");
                 var style;
-                if (item.properties.is_authenticated) {
+                if (item.properties.isAuthenticated) {
                     style = adhocracy.geo.townHallSymbolizerAuthenticated;
                 } else {
                     style = adhocracy.geo.townHallSymbolizerDefault;
@@ -1618,18 +1630,12 @@ var adhocracy = adhocracy || {};
         adhocracy.geo.searchResultList.registerWithMapLayer({
             layer: townHallLayer,
             makeFeature: function (item) {
-                var geometry = item.geo_centre;
-                var style;
-                
-                if (adhocracy.geo.instanceSearch.isVisible(item)) {
-                    var letter = adhocracy.geo.instanceSearch.getLetter(item);
-                    style = adhocracy.geo.makeTownHallSymbolizerInSearch(letter);
-                } else {
-                    style = adhocracy.geo.townHallSymbolizerInSearch;
-                }
+                var geometry = item.geoCentre;
+                var style = item.featureStyle();
                 var attributes = ko.toJS(item);
                 var feature = new OpenLayers.Feature.Vector(geometry, attributes, style);
-                feature.id = item.id;
+                feature.fid = item.fid;
+                item.feature(feature);
                 return feature;
             }
         });
@@ -1637,6 +1643,47 @@ var adhocracy = adhocracy || {};
         var doAutocompletion = true;
         var search_field = $("#overview_search_field");
         var search_button = $("#overview_search_button");
+
+        adhocracy.geo.searchItemModel = function (raw) {
+            var self = this;
+            self.fid = raw.id;
+            self.label = ko.observable(raw.label);
+            self.numProposals = ko.observable(raw.numProposals);
+            self.numMembers = ko.observable(raw.numMembers);
+            self.url = ko.observable(raw.url);
+            self.directHit = ko.observable(raw.directHit);
+            self.regionName = ko.observable(raw.regionName);
+            self.geoCentre = new OpenLayers.Format.GeoJSON().read(raw.geoCentre, "Geometry");
+            self.bbox = new OpenLayers.Bounds(raw.bbox);
+            // this is the icon used in search list
+            self.letter = ko.computed(function () {
+                return adhocracy.geo.instanceSearch.getLetter(self);
+            });
+            self.iconUrl = ko.computed(function () {
+                var letter = self.letter();
+                if (self.isAuthenticated) {
+                    return '/images/townhall-64-red-' + letter + '.png';
+                } else {
+                    return '/images/townhall-64-red-' + letter + '.png';
+                }
+            });
+            self.isVisible = ko.computed(function () {
+                return adhocracy.geo.instanceSearch.isVisible(self);
+            });
+            self.featureStyle = ko.computed(function () {
+                if (self.isVisible()) {
+                    return adhocracy.geo.makeTownHallSymbolizerInSearch(self.letter());
+                } else {
+                    return adhocracy.geo.townHallSymbolizerInSearch;
+                }
+            });
+            self.feature = ko.observable();
+            self.isAuthenticated = ko.observable(raw.isAuthenticated);
+            self.togglePopup = function () {
+                var feature = self.feature();
+                selectControl.clickFeature(feature);
+            };
+        };
 
         function querySearchResult() {
 
@@ -1658,31 +1705,7 @@ var adhocracy = adhocracy || {};
                 
                 var total_bbox = new OpenLayers.Bounds();
                 ko.utils.arrayForEach(data.instances, function (raw) {
-
-                    var item = {
-                        id: raw.id,
-                        label: ko.observable(raw.label),
-                        numProposals: ko.observable(raw.numProposals),
-                        numMembers: ko.observable(raw.numMembers),
-                        url: ko.observable(raw.url),
-                        directHit: ko.observable(raw.directHit),
-                        regionName: ko.observable(raw.regionName),
-                        geo_centre: new OpenLayers.Format.GeoJSON().read(raw.geo_centre, "Geometry"),
-                        bbox: new OpenLayers.Bounds(raw.bbox),
-                        // this is the icon used in search list
-                        iconUrl: ko.computed(function () {
-                            var letter = adhocracy.geo.instanceSearch.getLetter(item);
-                            if (raw.is_authenticated) {
-                                return '/images/townhall-64-red-' + letter + '.png';
-                            } else {
-                                return '/images/townhall-64-red-' + letter + '.png';
-                            }
-                        }),
-                        isVisible: ko.computed(function () {
-                            return adhocracy.geo.instanceSearch.isVisible(item);
-                        }),
-                    };
-
+                    var item = new adhocracy.geo.searchItemModel(raw);
                     ko.applyBindings(item);
                     adhocracy.geo.searchResultList.addItem(item);
                     total_bbox.extend(item.bbox);
@@ -1696,7 +1719,6 @@ var adhocracy = adhocracy || {};
                 adhocracy.geo.instanceSearch.showSearchResults(true);
 
                 search_field.autocomplete("close");
-
             }
 
             if (request_term.length > 2) {

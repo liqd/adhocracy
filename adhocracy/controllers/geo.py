@@ -52,7 +52,7 @@ class GeoController(BaseController):
                             'key': instance.key,
                             'label': instance.name,
                             'admin_level': instance.region.admin_level,
-                            'region_id': instance.region.id,
+                            'regionId': instance.region.id,
                         })
 
         instances = meta.Session.query(Instance)\
@@ -97,7 +97,7 @@ class GeoController(BaseController):
                 return dict(geometry=wkb.loads(str(geom)),
                             properties={'zoom': zoom,
                                         'admin_level': admin_level,
-                                        'region_id': osm_id,
+                                        'regionId': osm_id,
                                         'label': name})
 
             boundaries = map(make_feature, boundariesRS)
@@ -164,11 +164,11 @@ class GeoController(BaseController):
                             properties={
                                 'key': instance.key,
                                 'label': instance.label,
-                                'admin_level': instance.region.admin_level,
-                                'region_id': instance.region.id,
-                                'instance_id': instance.id,
-                                'num_proposals': instance.num_proposals,
-                                'num_members': instance.num_members,
+                                'adminLevel': instance.region.admin_level,
+                                'regionId': instance.region.id,
+                                'instanceId': instance.id,
+                                'numProposals': instance.num_proposals,
+                                'numMembers': instance.num_members,
                                 'url': h.base_url(instance),
                             })
 
@@ -177,7 +177,7 @@ class GeoController(BaseController):
             if BBOX_FILTER_TYPE == USE_SHAPELY:
                 sbox = box(*bbox)
                 instances = filter(lambda instance: sbox.contains(
-                    instance['geo_centre']), map(make_feature, instanceResultSet))
+                    instance['geoCentre']), map(make_feature, instanceResultSet))
 
             elif BBOX_FILTER_TYPE == USE_POSTGIS:
                 instances = map(make_feature, instanceResultSet)
@@ -370,11 +370,11 @@ class GeoController(BaseController):
                 'numProposals': instance.num_proposals,
                 'numMembers': instance.num_members,
                 'bbox': geom.bounds,
-                'geo_centre': geo_centre,
+                'geoCentre': geo_centre,
                 'url': h.base_url(instance),
                 'directHit': direct_hit,
                 'regionName': rname,
-                'is_authenticated': instance.is_authenticated,
+                'isAuthenticated': instance.is_authenticated,
             }
 
         query_entities = (Instance, Region.id, Region.name, Region.admin_level)
@@ -394,8 +394,8 @@ class GeoController(BaseController):
             return {
                 'id': instance.id,
                 'ilabel': instance.label,
-                'num_proposals': instance.num_proposals,
-                'num_members': instance.num_members,
+                'numProposals': instance.num_proposals,
+                'numMembers': instance.num_members,
                 'url': h.base_url(instance),
                 'region': rname,
                 'hit': hit,

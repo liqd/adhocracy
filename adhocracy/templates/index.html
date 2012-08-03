@@ -56,7 +56,7 @@ the transition
               <!-- ko if: isVisible() -->
               <div class="search_result">
                 <div>
-                  <img class="search_result_icon" data-bind="attr: { src: iconUrl }" />
+                  <img class="search_result_icon" data-bind="attr: { src: iconUrl }, click: togglePopup" />
                 </div>
                 <div class="search_result_right">
                   <!-- ko ifnot: directHit() -->
