@@ -18,7 +18,7 @@ def absolute_url(instance, path=None):
     return url
 
 def base_url(instance, path=None):
-    if asbool(config.get('adhocracy.urls_without_hostname', 'false')):
+    if asbool(config.get('adhocracy.relative_urls', 'false')):
         url = ''
         if instance is not None:
             url = '/i/' + instance.key
