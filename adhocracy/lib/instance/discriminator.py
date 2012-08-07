@@ -18,7 +18,7 @@ class InstanceDiscriminatorMiddleware(object):
         environ['adhocracy.domain'] = self.domain
         instance_key = config.get('adhocracy.instance')
         if instance_key is None:
-            if asbool(config.get('adhocracy.urls_without_hostname', 'false')):
+            if asbool(config.get('adhocracy.relative_urls', 'false')):
                 path = environ.get('PATH_INFO', '')
                 if path.startswith('/i/'):
                     instance_key = path.split('/')[2]
