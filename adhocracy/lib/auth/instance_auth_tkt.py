@@ -1,6 +1,7 @@
 import datetime
 from repoze.who.plugins.auth_tkt import AuthTktCookiePlugin, _now
-
+from pylons import config
+from paste.deploy.converters import asbool
 
 class InstanceAuthTktCookiePlugin(AuthTktCookiePlugin):
 
@@ -15,14 +16,19 @@ class InstanceAuthTktCookiePlugin(AuthTktCookiePlugin):
         else:
             max_age = ''
 
-        cur_domain = environ.get('adhocracy.domain').split(':')[0]
-        wild_domain = '.' + cur_domain
-        cookies = [
-            #('Set-Cookie', '%s="%s"; Path=/%s' % (
-            #self.cookie_name, value, max_age)),
-            #('Set-Cookie', '%s="%s"; Path=/; Domain=%s%s' % (
-            #self.cookie_name, value, cur_domain, max_age)),
-            ('Set-Cookie', '%s="%s"; Path=/; Domain=%s%s' % (
-            self.cookie_name, value, wild_domain, max_age))
-            ]
+        if asbool(config.get('adhocracy.relative_urls', 'false')):
+            # Serve the cookie for the current host, which may be
+            # "localhost" or an IP address.
+            cookies = [
+                ('Set-Cookie', '%s="%s"; Path=/; %s' % (
+                self.cookie_name, value, max_age))
+                ]
+        else:
+            cur_domain = environ.get('adhocracy.domain').split(':')[0]
+            wild_domain = '.' + cur_domain
+
+            cookies = [
+                ('Set-Cookie', '%s="%s"; Path=/; Domain=%s%s' % (
+                self.cookie_name, value, wild_domain, max_age))
+                ]
         return cookies
