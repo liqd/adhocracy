@@ -27,7 +27,7 @@ class InstanceDiscriminatorMiddleware(object):
                 host = environ.get('HTTP_HOST', "")
                 host = host.replace(self.domain, "")
                 host = host.split(':', 1)[0]
-                host = host.strip('.').strip() 
+                host = host.strip('.').strip()
                 instance_key = host
 
         if instance_key:

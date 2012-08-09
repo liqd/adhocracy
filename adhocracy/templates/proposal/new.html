@@ -13,7 +13,7 @@
 
 <%block name="main_content">
 <div class="form_wrapper">
-  <form name="create_proposal" class="inplace" method="POST" action="/proposal">
+  <form name="create_proposal" class="inplace" method="POST" action="${h.base_url(c.instance)}proposal">
     ${h.field_token()|n}
     
     
