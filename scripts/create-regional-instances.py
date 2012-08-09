@@ -22,13 +22,13 @@ from common import create_parser, load_from_args
 
 from sqlalchemy import not_
 
-from adhocracy.lib.geo import normalize_region_name
 from adhocracy.model import meta
 from adhocracy.model import Instance
 from adhocracy.model import Region
 from adhocracy.model import User
 from adhocracy.model import CategoryBadge
 from adhocracy.model.instance import instance_table
+from adhocracy.model.region import normalize_region_name
 
 
 MAX_KEY_LENGTH = instance_table.columns.key.type.length
