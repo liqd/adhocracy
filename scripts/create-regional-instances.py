@@ -57,6 +57,9 @@ def create_municipality(region):
     def removePrefix(str, prefix):
         return str[len(prefix):] if str.startswith(prefix) else str
 
+    def removeSuffix(str, suffix):
+        return str[:-len(suffix)] if str.endswith(suffix) else str
+
     def normalize_label(label, region):
 
         # normalizing
@@ -75,6 +78,10 @@ def create_municipality(region):
                 u'Rosenheim', u'Rostock', u'Schweinfurt', u'Würzburg'
             ]:
                 label = name
+
+        if label.endswith(u', Stadt'):
+            name = removeSuffix(label, u', Stadt')
+            label = name
 
         # renaming because it these exist twice
 
@@ -197,7 +204,13 @@ def main():
         .filter(Region.admin_level == 4)\
         .filter(not_(Region.name.in_(stadtstaaten)))
 
-    for region in a6_query.union(stadtstaaten_q).all():
+    additional_regions = (u'Vorpommern-Greifswald', )
+
+    additional_query = meta.Session.query(Region)\
+        .filter(Region.admin_level == 6)\
+        .filter(Region.name.in_(additional_regions))
+
+    for region in additional_query.union(a6_query.union(stadtstaaten_q)).all():
 
         try:
             create_municipality(region)
