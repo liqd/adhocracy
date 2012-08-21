@@ -97,8 +97,8 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
                     base_url=base_url(None).rstrip('/'), # fanstatic's URL path already starts with /
                     bottom=True
     )
-		
-	# Adds the X-Server-Machine header if true
+
+    # Adds the X-Server-Machine header if true
     if asbool(config.get('adhocracy.server_machine_header', 'false')):
         app = InterceptorMiddleware(app, config)
 
