@@ -36,10 +36,10 @@ class InstanceGroupSourceAdapter(SqlGroupsAdapter):
         return q.all()
 
     def _find_sections(self, credentials):
-        sections = list(super(InstanceGroupSourceAdapter,
-                              self)._find_sections(credentials))
-        sections.append(u"Anonymous")
-        return set(sections)
+        sections = super(InstanceGroupSourceAdapter,
+                         self)._find_sections(credentials)
+        sections.add(u"Anonymous")
+        return sections
 
     def _get_item_as_row(self, item_name):
         q = model.meta.Session.query(model.User)
