@@ -7,7 +7,6 @@ import cgi
 from datetime import datetime
 import hashlib
 import json
-import platform
 import urllib
 
 from pylons import tmpl_context as c, config, request
@@ -264,7 +263,3 @@ def _json_entity_decoder(d):
         return [x[1] for x in result]
     elif isinstance(d, dict):
         return dict(result)
-
-def machine_name():
-    return platform.node()
-
