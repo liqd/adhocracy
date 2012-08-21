@@ -18,7 +18,7 @@
     <input type="hidden" name="variant" value="${c.variant}"/>
     %else:
     <label for="variant">${_("Variant Name")}</label>
-    <input type="text" name="variant" value="${c.variant}" ${'disabled="disabled"' if not c.branch else ''}/>
+    <input type="text" name="variant" value="${c.variant}" ${'readonly=readonly' if not c.branch else ''} />
     %endif
 
     %if c.text.is_head and h.has_permission('instance.admin'):
