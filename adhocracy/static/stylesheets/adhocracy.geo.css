@@ -1,0 +1,446 @@
+/**
+ * CSS Reset
+ * From Blueprint reset.css
+ * http://blueprintcss.googlecode.com
+ */
+
+/* Map Examples Specific */
+.small_map {
+    width: 300px;
+    height: 300px;
+}
+.edit_map {
+    width: 640px;
+    height: 440px;
+}
+
+.map {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+.map_attribution {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    z-index: 500;
+}
+
+
+/* bootstrap.css sets max-width to 100% which does not work with OpenLayers.
+ * Since bootstrap.css 2.0.4, the map id could be named #map_canvas to avoid
+ * that problem. */
+.large_map img, .map img, .small_map img, .edit_map img {
+    max-width: none;
+}
+
+/* Startpage */
+
+#content-top.size_normal {
+    height: 440px;
+    padding: 30px 0;
+}
+
+#content-startpage {
+    background-color: #f5f4f0;
+    float: left;
+    width: 258px;
+    height: 400px;
+    padding: 20px 25px;
+}
+
+#content-startpage .register {
+    text-align: center;
+}
+
+#main_content_register_button {
+    display: block;
+    clear: left;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#main_content_register_button a.button {
+    width: 240px;
+    padding: 0;
+    background-position: 0 -500px;
+}
+
+#main_content_register_or_text {
+    display: block;
+    clear: left;
+    font-size: small;
+    padding-top: 9px;
+}
+
+#main_content_more_link {
+    display: block;
+    clear: left;
+}
+
+#map_wrapper.map_size_normal {
+    position: relative;
+    margin-left: 20px;
+    height: 440px;
+    width: 640px;
+    float: left;
+}
+
+#map_wrapper.map_size_full {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+#content-bottom {
+    height: 155px;
+    padding: 20px 0;
+    width: 100%;
+}
+
+#content-bottom-left, #newest-proposals-bottom-left {
+    float: left;
+    padding: 15px 20px;
+    width: 268px;
+    height: 155px;
+}
+
+/* workaround: hiding elements via css as it's hard to
+ * customize pager items */
+
+#newest-proposals-bottom-left li.content_box:nth-child(2n+2) {
+    background: none;
+    border-bottom: none;
+    border-top: none;
+}
+
+#newest-proposals-bottom-left li.content_box {
+    padding-top: 5px;
+}
+
+#newest-proposals-bottom-left li.content_box h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 30px;
+    padding-left: 0px;
+    margin-bottom: 0px;
+}
+
+#newest-proposals-bottom-left .badges {
+    display: none;
+}
+
+#newest-proposals-bottom-left .meta {
+    margin-bottom: 3px;
+    padding-left: 0px;
+}
+
+#content-bottom-left {
+    background-color: #f5f4f0;
+}
+
+#content-bottom-center {
+    background-color: #f5f4f0;
+    float: left;
+    padding: 15px 20px;
+    margin: 0 20px;
+    width: 268px;
+    height: 155px;
+}
+
+#content-bottom-right {
+    background-color: #f5f4f0;
+    padding: 15px 20px;
+    width: 268px;
+    height: 155px;
+    float: left;
+}
+
+.ui-autocomplete-loading { 
+    background:url('/images/ui-anim_basic_16x16.gif') no-repeat 130px center;
+}
+
+.ui-autocomplete {
+    width: 225px;
+    max-height: 300px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    /* add padding to account for vertical scrollbar */
+    padding-right: 20px;
+}
+
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+* html .ui-autocomplete {
+    height: 200px;
+}
+
+
+/* ugly hack which makes the popups appear over the instance search box */
+#map_wrapper #OpenLayers\.Map_2_OpenLayers_Container {
+    z-index: auto !important;
+}
+
+#instance_search {
+    position: absolute;
+    z-index: 750;
+    width: 217px;
+    max-height: 392px; 
+    top: 8px;
+    right: 24px;
+    background-color:  #ffffff;
+    border: 1px solid black;
+    padding: 16px 16px 20px 16px;
+}
+
+#overview_search_field {
+    width: 154px;
+    height: 24px;
+    padding: 0;
+    margin-bottom: 0;
+    margin-right: -4px;
+}
+
+#overview_search_button {
+    width: 60px;
+    height: 26px;
+    padding: 0px;
+    /*margin-left: -5px;*/
+}
+
+#search_result_content {
+    margin-top: 1em;
+}
+
+#num_hits_text {
+  padding-bottom: 3px;
+}
+
+#search_result_list {
+  max-height: 230px;
+  overflow-y: auto;
+}
+
+.search_result {
+  min-height: 40px;
+}
+
+.search_result_icon {
+  float: left;
+  width: 32px;
+}
+
+.region_in_instance_label {
+    font-size: x-small;
+}
+
+#search_result_paging_prev {
+  padding-top: 5px;
+  float: left;
+}
+
+#search_result_paging_next {
+  padding-top: 5px;
+  float: right;
+}
+
+div.marker.authenticated {
+  background-color: green;
+}
+
+div.marker_hall {
+  float: left;
+}
+
+/* only used in start page instance search */
+div.marker_hall img {
+  margin: 0 !important;
+}
+
+div.search_result_right {
+  padding-left: 45px;
+}
+
+div.search_result_details {
+  font-size: x-small;
+}
+
+#resize_map_button {
+    position: absolute;
+    z-index: 1000;
+    left: 0px;
+    bottom: 0px;
+}
+
+.proposal_popup_title {
+    color: green;
+}
+
+.instance_popup_image {
+    float: left;
+    padding-right: 15px;
+}
+
+.instance_popup_wrapper {
+    min-height: 80px;
+    min-width: 200px;
+}
+
+/*
+#singlepopup_contentDiv {
+    padding: 10px;
+}*/
+
+.instance_popup_title {
+    font-weight: bold; 
+}
+
+#singlepopup .olFramedCloudPopupContent {
+    overflow: hidden;
+}
+
+/* Map markers */
+
+div.search_result {
+    border-top: 1px dotted #446191;
+    padding: 8px 0px;
+    position: relative;
+}
+
+div.search_result_title {
+    color: #446191;
+}
+
+
+div.marker {
+    float: right;
+}
+
+
+li.content_box { 
+    position: relative;
+}
+
+div.content_box_no_marker {
+    /*margin: 0px 10px 0 0px;
+    margin-right: 24px;*/
+    /*position: absolute
+    right: 30px;
+    left: 0px;*/
+}
+
+/* used in normal listings */
+div.marker img {
+  background-image: url('/images/map_markers_pink_a_j.png');
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 24px;
+  height: 31px;
+  margin: 0 !important;
+}
+
+  /* !important used as dirty hack */
+.marker_a {background-position: 0 0 !important;}
+.marker_b {background-position: 0 -31px !important;}
+.marker_c {background-position: 0 -62px !important;}
+.marker_d {background-position: 0 -93px !important;}
+.marker_e {background-position: 0 -124px !important;}
+.marker_f {background-position: 0 -155px !important;}
+.marker_g {background-position: 0 -186px !important;}
+.marker_h {background-position: 0 -217px !important;}
+.marker_i {background-position: 0 -248px !important;}
+.marker_j {background-position: 0 -279px !important;}
+
+/* License note below map */
+.note_map, .note_map a {
+  color: #888;
+  font-size: x-small;
+  text-align: right;
+}
+
+#left_block {
+    height: 100%;
+    width: 30%;
+    float: left;
+    position: relative;
+    overflow: auto;
+}
+
+#central_block {
+    height: 100%;
+    width: 70%;
+    float: left;
+    z-index: 0;
+}
+
+.large_map {
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.large_map .olControlPanZoomBar {
+    margin-top: 30px;
+}
+
+#hide_list_icon {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 18px;
+    width: 18px;
+    background:url('/images/close-top-right.png');
+    display: none;
+}
+#show_list_icon {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 18px;
+    width: 18px;
+    background:url('/images/open-arrow-right.png');
+    z-index: 1000;
+    display: none;
+}
+
+#left_block .list_form {
+    float: none;
+    margin: 0;
+}
+
+#left_block .list_form input.q {
+    max-width: 70%;
+    margin: 0;
+}
+
+.olControlScaleLine {
+    bottom: 5px;
+    left: 60px;
+}
+
+.olControlLayerSwitcher {
+    position: absolute;
+    top: 250px;
+    /* positioning from the bottom needs some more work, but starts with
+    top: auto;
+    bottom: 100px;*/
+}
+
+.olControlLayerSwitcher .layersDiv {
+    background-color: black !important;
+    opacity: 0.8;
+}
+
+/* overwrite bootstrap.css stuff */
+.layersDiv label {
+    display: inline;
+    margin-bottom: none;
+}

@@ -1,6 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="tiles_html" file="/proposal/tiles.html"/>
 <%namespace name="components" file="/components.html"/>
+<%namespace name="map" file="/geo/map.html"/>
 <%def name="title()">${_("New proposal")}</%def>
 
 <%def name="breadcrumbs()">
@@ -32,7 +33,7 @@
         <select name="category"> 
         <option value="">${_("No Category")}</option>
         %for category in c.categories:
-        <option value="${category.id}">${category.title}</option>
+        <option value="${category.id}">${category.description}</option>
         %endfor
     </select>      
         
@@ -113,6 +114,13 @@
       </div>
     </fieldset>
         
+      %if c.instance.milestones:
+        <div class="input_wrapper">
+          <label for="milestone">${_("Relates to a milestone")}</label>
+          ${tiles.milestone.select(None)}
+        </div>
+      %endif
+
     <fieldset>
       ${h.need.autocomplete}
       <legend>${_("Tag and classify")}</legend>
@@ -121,20 +129,20 @@
         <input type="text" name="tags" id="tags" class="armlabel long" />
         <p class="info">${_("Multiple tags can be separated by commas.")}</p>
       </div>
+
+      %if h.asbool(config.get('adhocracy.proposal_geotags')):
+        <legend>${_('Map')}</legend>
+        ${map.show_single_proposal_edit_map_on_creation()}
+      %endif
+    </fieldset>
         
+    <fieldset>
       <div class="input_wrapper">
         <label for="wiki">
           <input type="checkbox" checked="" name="wiki" id="wiki" value="1" checked="checked" />
           ${_("Allow others to edit this proposal.")}
         </label>
       </div>
-
-      %if c.instance.milestones:
-        <div class="input_wrapper">
-          <label for="milestone">${_("Relates to a milestone")}</label>
-          ${tiles.milestone.select(None)}
-        </div>
-      %endif
 
     </fieldset>
    
@@ -146,4 +154,5 @@
     </div>
   </form> 
 </div>
+
 </%block>
