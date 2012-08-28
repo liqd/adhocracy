@@ -9,7 +9,6 @@ class IncludeMachineName(object):
         self.config = config
 
     def __call__(self, environ, start_response):
-        # Nested function to add the X-Server-Machine header
         def local_response(status, headers, exc_info=None):
             headers.append(('X-Server-Machine', platform.node()))
             start_response(status, headers, exc_info)
