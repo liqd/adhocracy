@@ -45,6 +45,7 @@ def setup_entities():
     advisor = mk_group("Advisor", model.Group.CODE_ADVISOR)
     default = mk_group("Default", model.Group.CODE_DEFAULT)
     anonymous = mk_group("Anonymous", model.Group.CODE_ANONYMOUS)
+    addressee = mk_group("Addressee", model.Group.CODE_ADDRESSEE)
 
     model.meta.Session.commit()
 
@@ -112,6 +113,7 @@ def setup_entities():
                                + moderator.permissions + advisor.permissions))
     admins.permissions = admins.permissions + supervisor.permissions
     organization.permissions = organization.permissions + observer.permissions
+    addressee.permissions = voter.permissions
 
     admin = model.User.find(u"admin")
     created_admin = False
