@@ -6,7 +6,7 @@ import unittest
 class TestEntities(unittest.TestCase):
     
     def test_template_dir(self):
-        process_path('../templates')
+        process_path(os.path.join(os.path.dirname(__file__), '../templates'))
 
 DEFAULT_EXTENSION = '.html'
 
