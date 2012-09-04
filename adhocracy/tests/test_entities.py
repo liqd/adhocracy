@@ -28,7 +28,8 @@ def process_file(fn):
     success = True
     for k in re.finditer('&(?!#|[a-z]{2,6};)', content):
         ln = content[:k.start()].count('\n') + 1
-        print ('Invalid entity "' + content[k.start():k.end()+10] + '" found in ' + fn + ' :' + str(ln))
+        print ('Invalid entity "' + content[k.start():k.end()+10] + 
+               '" found in ' + os.path.abspath(fn) + ':' + str(ln))
         success = False
     return success
 
