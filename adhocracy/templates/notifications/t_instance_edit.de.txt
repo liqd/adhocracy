@@ -1,5 +1,5 @@
 
-${e.user.name} hat ${e.instance.label} verändert. die Regeln zu Abstimmungen und Teilhabe können sich verändert haben. 
+${e.user.name} hat ${e.instance.label} ver√§ndert. die Regeln zu Abstimmungen und Teilhabe k√∂nnen sich ver√§ndert haben. 
 %if e.instance.description: 
 Beschreibung: 
 ${e.instance.description}  

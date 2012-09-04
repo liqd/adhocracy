@@ -20,16 +20,17 @@ def find_files(path, ext):
 def process_file(fn):
     with open(fn, 'rb') as f:
         try:
+            absfn = os.path.abspath(fn)
             content = f.read().decode('utf-8')
         except UnicodeDecodeError as e:
-            print (fn + ' is not UTF-8')
+            print (absfn + ' is not UTF-8')
             return False
 
     success = True
     for k in re.finditer('&(?!#|[a-z]{2,6};)', content):
         ln = content[:k.start()].count('\n') + 1
         print ('Invalid entity "' + content[k.start():k.end()+10] + 
-               '" found in ' + os.path.abspath(fn) + ':' + str(ln))
+               '" found in ' + absfn + ': ' + str(ln))
         success = False
     return success
 
