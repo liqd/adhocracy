@@ -33,8 +33,6 @@ def edit(check, m):
         return
     check.perm('milestone.edit')
     show(check, m)
-    # FIXME: is this - milestone_not_editable - intended?
-    check.other('milestone_not_editable', True)
 
 
 def delete(check, m):

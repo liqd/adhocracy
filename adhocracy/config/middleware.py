@@ -13,6 +13,7 @@ from routes.middleware import RoutesMiddleware
 from adhocracy.lib.auth.authentication import setup_auth
 from adhocracy.lib.helpers.site_helper import base_url
 from adhocracy.lib.instance import setup_discriminator
+from adhocracy.lib.machine_name import IncludeMachineName
 from adhocracy.lib.util import get_site_path
 from adhocracy.config.environment import load_environment
 
@@ -96,4 +97,8 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
                     base_url=base_url(None).rstrip('/'), # fanstatic's URL path already starts with /
                     bottom=True
     )
+
+    if asbool(config.get('adhocracy.include_machine_name_in_header', 'false')):
+        app = IncludeMachineName(app, config)
+
     return app
