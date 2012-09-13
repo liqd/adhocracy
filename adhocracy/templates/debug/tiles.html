@@ -30,7 +30,7 @@
             <td>${'%0.4f' % query['duration']}</td>
             <td>
                 %if is_select:
-                <a href="/debug/explain?statement=${query['statement']}&parameters=${quoted_params}&duration=${query['duration']}">EXPLAIN</a>
+                <a href="/debug/explain?statement=${query['statement']}&amp;parameters=${quoted_params}&amp;duration=${query['duration']}">EXPLAIN</a>
                 %endif
             </td>
             <td>${query['caller']}</td>

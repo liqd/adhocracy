@@ -104,7 +104,7 @@
               %for openid in c.page_user.openids:
               <tr>
                   <td><code>${openid.identifier}</code></td>
-                  <td><a href="/openid/revoke?id=${openid.id}&${h.url_token()}">${_("remove")}</a></td>
+                  <td><a href="/openid/revoke?id=${openid.id}&amp;${h.url_token()}">${_("remove")}</a></td>
               </tr>
               %endfor
           </table>

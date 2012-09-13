@@ -10,7 +10,7 @@
             ${_("to %s") % h.user.link(delegation.agent)|n}:
             <a href="${h.entity_url(delegation)}">${_("track record")}</a>
             %if delegation.principal == c.user:
-                · <a href="${h.entity_url(delegation)}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
+                · <a href="${h.entity_url(delegation)}?_method=DELETE&amp;${h.url_token()}">${_("revoke")}</a>
             %endif
 </%def>
 
@@ -25,7 +25,7 @@
                 ${_("created <b>%s</b>") % h.relative_time(delegation.create_time)|n}
                 · <a href="${h.entity_url(delegation)}">${_("track record")}</a>
                 %if delegation.principal == c.user:
-                    · <a href="${h.entity_url(delegation)}?_method=DELETE&${h.url_token()}">${_("revoke")}</a>
+                    · <a href="${h.entity_url(delegation)}?_method=DELETE&amp;${h.url_token()}">${_("revoke")}</a>
                 %endif
             </div>
         </div>
