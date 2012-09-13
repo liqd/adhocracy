@@ -48,7 +48,7 @@ def process_path(path, ext=DEFAULT_EXTENSION):
 def main():
     parser = optparse.OptionParser()
     parser.add_option('-e', action="store", dest="ext", type="string", default=DEFAULT_EXTENSION,
-                        help="The file extension of the files you want to check (Only used with -d DIR)")
+                        help="The file extension of the files you want to check")
     (options, paths) = parser.parse_args()
 
     if not paths:
