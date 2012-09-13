@@ -116,7 +116,8 @@ $(document).ready(function () {
         delay: 10
     });
 
-    $("#tags").autocomplete('/tag/autocomplete', {
+    var acUrl = $("#tags").data('instance-baseurl') + 'tag/autocomplete';
+    $("#tags").autocomplete(acUrl, {
         autoFill: false,
         dataType: 'json',
         formatItem: function (data, i, max, val) {
