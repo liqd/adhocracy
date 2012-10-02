@@ -33,7 +33,7 @@ setup(
     install_requires=[
         "Pylons==0.9.7",
         "WebOb==1.0.8",  # 1.1 removed an imported required by Pylons 0.9.7
-        "SQLAlchemy==0.7.8",
+        "SQLAlchemy==0.7.9",
         "sqlalchemy-migrate>=0.6",
         "FormEncode>=1.2.4",
         "repoze.who>=2.0",
