@@ -47,6 +47,6 @@ tasks. Both are mandatory.
 Installing Adhocracy is a somewhat complicated process. To have a reproducable 
 and fast way to set up development and production environments we use 
 `zc.buildout`_. You can download our buildout configuration
-at https://bitbucket.org/liqd/adhocracy.buildout
+at https://github.com/liqd/adhocracy.buildout
 The README of adhocray.buildout has extensive information about the setup process.
 

@@ -10,7 +10,7 @@
             &nbsp;
         
             %if can.comment.revert(revision.comment):
-                <a href="${h.entity_url(revision.comment, member='revert')}?${h.url_token()}&to=${revision.id}">${_("revert here")}</a>
+                <a href="${h.entity_url(revision.comment, member='revert')}?${h.url_token()}&amp;to=${revision.id}">${_("revert here")}</a>
             %endif
         </div>
         <div style="clear: both;"></div>

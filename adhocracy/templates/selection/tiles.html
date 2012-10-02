@@ -173,14 +173,14 @@ else:
             <div class="logo rate">
                 %if can.poll.vote(row.poll):
                     <a class="up icon ttip" title="${_("Support this variant")}" 
-                         href="${h.entity_url(row.poll, member='rate')}?position=1&${h.url_token()}" 
+                         href="${h.entity_url(row.poll, member='rate')}?position=1&amp;${h.url_token()}" 
                          onclick="return adhocracy.rate('#poll_c${row.poll.id}', ${row.poll.id}, 1);">
                         &nbsp;
                     </a>
                     <a href="${h.entity_url(row.poll, member='votes')}" 
                         class="score">${row.poll.tally.score}</a>
                     <a class="down icon ttip" title="${_("Oppose this variant")}" 
-                         href="${h.entity_url(row.poll, member='rate')}?position=-1&${h.url_token()}" 
+                         href="${h.entity_url(row.poll, member='rate')}?position=-1&amp;${h.url_token()}" 
                          onclick="return adhocracy.rate('#poll_c${row.poll.id}', ${row.poll.id}, -1);">
                         &nbsp;
                     </a>
@@ -209,7 +209,7 @@ else:
                     · <a href="${h.entity_url(row.text, member='ask_purge')}">${_("purge variant")}</a>
                 %endif
                 %if tile.selected_text and row.text.id != tile.selected_text.id:
-                    · <a href="/page/diff?left=${row.text.id}&right=${tile.selected_text.id}">${_("compare")}</a>
+                    · <a href="/page/diff?left=${row.text.id}&amp;right=${tile.selected_text.id}">${_("compare")}</a>
                 %endif
             </div></div>
             <div id="text_${row.text.id}"

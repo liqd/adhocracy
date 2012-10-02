@@ -307,6 +307,7 @@ class UserController(BaseController):
             redirect(h.entity_url(c.page_user))
 
         c.page_user.activation_code = None
+        model.meta.Session.commit()
         if code.startswith(model.User.IMPORT_MARKER):
             # Users imported by admins
             login_user(c.page_user, request)
@@ -316,8 +317,8 @@ class UserController(BaseController):
             else:
                 redirect(h.base_url(None, path='/instance'))
         else:
-            redirect(h.entity_url(c.page_user))
             h.flash(_("Your email has been confirmed."), 'success')
+            redirect(h.entity_url(c.page_user))
 
         redirect(h.entity_url(c.page_user))
 
