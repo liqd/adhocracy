@@ -1,7 +1,8 @@
 from datetime import datetime
 import logging
 
-from pylons import request, response, tmpl_context as c
+from paste.deploy.converters import asint
+from pylons import request, response, tmpl_context as c, config
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 
@@ -28,7 +29,12 @@ class RootController(BaseController):
         if c.instance:
             redirect(h.entity_url(c.instance))
 
-        c.instances = model.Instance.all()[:5]
+        instances_in_root = asint(config.get('adhocracy.startpage.instances.list_length', 5))
+        if instances_in_root > 0:
+            c.instances = model.Instance.all(limit=instances_in_root)
+        elif instances_in_root == -1:
+            c.instances = model.Instance.all()
+
         c.page = StaticPage('index')
 
         #query = self.form_result.get('proposals_q')
