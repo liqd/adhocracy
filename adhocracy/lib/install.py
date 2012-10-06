@@ -107,7 +107,7 @@ def setup_entities():
 
     observer.permissions = observer.permissions + anonymous.permissions
     advisor.permissions = advisor.permissions + observer.permissions
-    voter.permissions = voter.permissions + observer.permissions
+    voter.permissions = voter.permissions + advisor.permissions
     moderator.permissions = moderator.permissions + voter.permissions
     supervisor.permissions = list(set(supervisor.permissions
                                + moderator.permissions + advisor.permissions))
