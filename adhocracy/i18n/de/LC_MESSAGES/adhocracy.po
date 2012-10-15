@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-27 00:51+0200\n"
-"PO-Revision-Date: 2012-07-27 00:03+0000\n"
+"POT-Creation-Date: 2012-10-15 23:25+0200\n"
+"PO-Revision-Date: 2012-10-15 18:37+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 "Language: de\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Thank you for helping."
 msgstr "Danke für Ihre Hilfe."
@@ -104,10 +104,10 @@ msgid "No update required."
 msgstr "Es wurden keine Änderungen vorgenommen."
 
 msgid "Delegations are enabled."
-msgstr ""
+msgstr "Delegationen sind aktiv."
 
 msgid "Delegations are disabled."
-msgstr ""
+msgstr "Delegationen sind inaktiv."
 
 msgid "tutorial_instance_show_intro"
 msgstr "Willkommen auf der Startseite der Projektgruppe."
@@ -122,7 +122,7 @@ msgid "Contents"
 msgstr "Inhalte"
 
 msgid "Votings"
-msgstr ""
+msgstr "Abstimmungen"
 
 msgid "Badges"
 msgstr "Badges"
@@ -131,7 +131,7 @@ msgid "Members import"
 msgstr "Mitglieder importieren"
 
 msgid "The logo has been deleted."
-msgstr ""
+msgstr "Das Logo wurde entfernt."
 
 msgid "No delay"
 msgstr "Keine Verzögerung"
@@ -364,7 +364,7 @@ msgid "tutorial_user_index_intro"
 msgstr "Mitgliederliste der Projektgruppe."
 
 msgid "Sorry, but we don't accept registrations with this email address."
-msgstr ""
+msgstr "Es tut uns Leid - diese E-Mail-Adresse ist nicht zur Registrierung zugelassen."
 
 msgid "There is no user registered with that email address."
 msgstr "Unter dieser E-Mail-Adresse ist kein/e BenutzerIn angemeldet."
@@ -673,7 +673,7 @@ msgid ""
 "Cheers,\r\n"
 "\r\n"
 "    the %s Team\r\n"
-msgstr "Viele Grüße,\r\n\r\n    Ihr %s-Team\r\n"
+msgstr "Viele Grüße,\n\n    Ihr %s-Team\n"
 
 #, python-format
 msgid "%s <%s>"
@@ -709,7 +709,7 @@ msgid "hierarchical"
 msgstr "Hierarchisch"
 
 msgid "Badge"
-msgstr ""
+msgstr "Badge"
 
 msgid "Categories"
 msgstr "Bereiche"
@@ -719,6 +719,9 @@ msgstr "Erstellt von"
 
 msgid "Tags"
 msgstr "Tags"
+
+msgid "Milestones"
+msgstr "Termine"
 
 msgid "Oldest"
 msgstr "Älteste"
@@ -730,7 +733,7 @@ msgid "Newest Comment"
 msgstr "Neuste Kommentare"
 
 msgid "Activity"
-msgstr "Verlauf"
+msgstr "Aktivität"
 
 msgid "Alphabetically"
 msgstr "Alphabetisch"
@@ -1053,9 +1056,6 @@ msgstr "\r\n\r\nMehr Informationen: %(url)s"
 
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Über diesen Vorschlag wird gerade abgestimmt, er kann daher nicht verändert werden."
-
-msgid "Milestones"
-msgstr "Termine"
 
 msgid "(Unknown)"
 msgstr "(Unbekannt)"
@@ -1411,7 +1411,7 @@ msgid "Site administration"
 msgstr "Seiteneinstellungen"
 
 msgid "Add instance badge"
-msgstr ""
+msgstr "Füge Gruppen-Badge hinzu"
 
 msgid "Add user badge"
 msgstr "Badge für Benutzer hinzufügen"
@@ -1444,7 +1444,7 @@ msgid "Like '#a4a4a4'"
 msgstr "'#a4a4a4' liken"
 
 msgid "Preview:"
-msgstr ""
+msgstr "Vorschau:"
 
 msgid "Group"
 msgstr "Benutzerrolle"
@@ -1467,7 +1467,7 @@ msgid "Global"
 msgstr "Global"
 
 msgid "Other instances"
-msgstr ""
+msgstr "Andere Gruppen"
 
 msgid "Save Badge"
 msgstr "Badge speichern"
@@ -1509,7 +1509,7 @@ msgid "User Badges"
 msgstr "Benutzerbadge"
 
 msgid "New"
-msgstr ""
+msgstr "Neu"
 
 msgid "Proposal Badges"
 msgstr "Badges dieses Vorschlags"
@@ -1518,7 +1518,7 @@ msgid "Proposal Category Badges"
 msgstr "Badge für Bereiche von Vorschägen"
 
 msgid "Instance Badges"
-msgstr ""
+msgstr "Gruppen-Badge"
 
 msgid "Comment"
 msgstr "Kommentar"
@@ -1868,10 +1868,10 @@ msgid "Logo"
 msgstr "Logo"
 
 msgid "Current logo"
-msgstr ""
+msgstr "Aktuelles Logo"
 
 msgid "Delete current logo"
-msgstr ""
+msgstr "Lösche aktuelles Logo"
 
 msgid "You can add css that will be used to style the instance."
 msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
@@ -2178,7 +2178,7 @@ msgid "Variant Name"
 msgstr "Name der Version"
 
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 msgid "Parent page:"
 msgstr "Elternseite:"
