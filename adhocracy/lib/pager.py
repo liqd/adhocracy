@@ -762,6 +762,24 @@ class DelegateableTags(SolrFacet):
         data[cls.solr_field] = tags
 
 
+class DelegateableMilestoneFacet(SolrFacet):
+
+    name = 'delegateablemilestone'
+    entity_type = model.Milestone
+    title = lazy_ugettext(u'Milestones')
+    solr_field = 'facet.delegateable.milestones'
+    show_current_empty = False
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if not isinstance(entity, model.Delegateable):
+            return
+        if entity.milestone is not None:
+            data[cls.solr_field] = [entity.milestone.id]
+        else:
+            return []
+
+
 class CommentOrderIndexer(SolrIndexer):
 
     solr_field = 'order.comment.order'
@@ -1220,7 +1238,8 @@ def solr_proposal_pager(instance, wildcard_queries=None):
                       facets=[DelegateableBadgeCategoryFacet,
                               DelegateableBadgeFacet,
                               DelegateableAddedByBadgeFacet,
-                              DelegateableTags],
+                              DelegateableTags,
+                              DelegateableMilestoneFacet],
                       wildcard_queries=wildcard_queries)
     return pager
 

@@ -16,7 +16,7 @@ yaml = Group([yaml_base, yaml_print])
 
 # --[ twitter bootstrap ]---------------------------------------------------
 
-bootstrap_library = Library('bootstrap', 'bootstrap', version="2.0.3")
+bootstrap_library = Library('bootstrap', 'bootstrap', version="2.1.1")
 bootstrap_js = Resource(bootstrap_library, 'js/bootstrap.js',
                         minified='js/bootstrap.min.js',
                         depends=[jquery])

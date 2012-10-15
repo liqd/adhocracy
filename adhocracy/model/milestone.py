@@ -119,5 +119,8 @@ class Milestone(object):
 
     def __repr__(self):
         title = self.title.encode('ascii', 'replace')
-        return u"<Milestone(%s, %s, %s)>" % (self.id, title,
-                                             self.time.isoformat())
+        return u"<Milestone(%s, %s, %s)>" % (
+            self.id,
+            title,
+            self.time.isoformat() if self.time is not None else u'no date'
+        )
