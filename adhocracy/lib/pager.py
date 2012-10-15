@@ -91,7 +91,7 @@ class PagerMixin(object):
         return self.render_pager()
 
     def page_sizes(self):
-        if self.initial_size <= self.total_num_items():
+        if self.initial_size >= self.total_num_items():
             return []
         page_sizes = []
         # offer page sizes: from the initial size to either half of the
