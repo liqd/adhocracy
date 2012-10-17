@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2012-10-15 23:25+0200\n"
-"PO-Revision-Date: 2012-10-10 13:52+0000\n"
+"PO-Revision-Date: 2012-10-16 12:05+0000\n"
 "Last-Translator: Mateusz Batelt <mateusz@batelt.eu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -709,7 +709,7 @@ msgid "Categories"
 msgstr "Kategorie"
 
 msgid "Created by"
-msgstr "Stworzone przez"
+msgstr "Utworzone przez"
 
 msgid "Tags"
 msgstr "Tagi"
@@ -727,7 +727,7 @@ msgid "Newest Comment"
 msgstr "Najnowsze komentarze"
 
 msgid "Activity"
-msgstr "Aktywność"
+msgstr "aktywność"
 
 msgid "Alphabetically"
 msgstr "alfabetycznie"
@@ -1123,34 +1123,34 @@ msgid "cancel"
 msgstr "anuluj"
 
 msgid "Notify me of updates."
-msgstr "Poinformuj mnie o nowościach."
+msgstr "Poinformuj mnie o zmianach."
 
 msgid "Follow Norm"
-msgstr "Śledź dokument"
+msgstr "Obserwuj dokument"
 
 msgid "Follow Instance"
-msgstr "Śledź grupę"
+msgstr "Obserwuj grupę"
 
 msgid "Follow Proposal"
-msgstr "Śledź propozycję"
+msgstr "Obserwuj propozycję"
 
 msgid "Follow Milestone"
-msgstr "Śledź termin"
+msgstr "Obserwuj termin"
 
 msgid "Follow User"
-msgstr "Śledź użytkownika"
+msgstr "Obserwuj użytkownika"
 
 msgid "Follow Comment"
-msgstr "Śledź komentarz"
+msgstr "Obserwuj komentarz"
 
 msgid "Follow Tag"
-msgstr "Śledź tag"
+msgstr "Obserwuj tag"
 
 msgid "Following"
 msgstr "Śledzony"
 
 msgid "Unfollow"
-msgstr "Przestań śledzić"
+msgstr "Przestań obserwować"
 
 msgid "code of conduct"
 msgstr "Kodeks postępowania"
@@ -1240,13 +1240,13 @@ msgid "No entries."
 msgstr "Brak wpisów."
 
 msgid "previous"
-msgstr "poprzedni"
+msgstr "poprzednie"
 
 msgid "next"
-msgstr "następny"
+msgstr "następne"
 
 msgid "entries"
-msgstr "wpisy"
+msgstr "wpisów"
 
 msgid "Remove all"
 msgstr "usuń wszystkie"
@@ -1542,14 +1542,14 @@ msgstr "Nowy komentarz"
 
 #, python-format
 msgid "created %s"
-msgstr "stworzono %s"
+msgstr "utworzono %s"
 
 msgid "revert here"
 msgstr "przywróć do tej wersji"
 
 #, python-format
 msgid "on %s"
-msgstr "na %s"
+msgstr "w %s"
 
 #, python-format
 msgid "edited %s"
@@ -1605,7 +1605,7 @@ msgid "Login to reply"
 msgstr "Zaloguj się, by odpowiedzieć."
 
 msgid "report"
-msgstr "zgłoś"
+msgstr "zgłoś nadużycie"
 
 msgid "history"
 msgstr "historia"
@@ -1674,7 +1674,7 @@ msgstr "przejrzyj"
 
 #, python-format
 msgid "Delegate: %s"
-msgstr "Deleguj: %s"
+msgstr "Deleguj głos w odniesieniu do: %s"
 
 msgid "Delegation"
 msgstr "Delegacja"
@@ -1688,7 +1688,7 @@ msgid "Start typing, you will receive suggestions to find the user."
 msgstr "Zacznij wpisywać, a system ci podpowie..."
 
 msgid "Include decisions made before now."
-msgstr "Weź pod uwagę decyzje podjęte do tej pory."
+msgstr "Uwzględnij głosy oddane do tej pory."
 
 #, python-format
 msgid "Delegation: %s"
@@ -1824,7 +1824,7 @@ msgid "new instance"
 msgstr "Nowa grupa"
 
 msgid "Instances are little democracies that are ran by their community."
-msgstr "Grupy to demokracje zarządzane przez społeczność je tworzącą."
+msgstr "Poniżej znajduje się lista wszystkich utworzonych grup. Dołącz do jednej z nich, by wziąć udział w jej pracach."
 
 msgid "New Instance"
 msgstr "Nowa grupa"
@@ -1952,14 +1952,14 @@ msgid "Informations"
 msgstr "Informacje"
 
 msgid "Created"
-msgstr "Stworzone"
+msgstr "Utworzono"
 
 #, python-format
 msgid "by %s on %s"
 msgstr "przez %s dnia %s"
 
 msgid "By the numbers"
-msgstr "Według liczby"
+msgstr "Liczby"
 
 #, python-format
 msgid "<b>%s</b> community members"
@@ -1969,7 +1969,7 @@ msgid "tutorial_instance_proposals_table"
 msgstr "Znajdziesz tu listę najnowszych propozycji."
 
 msgid "tutorial_instance_proposal_button"
-msgstr "Możesz wprowadzić tu nowe propozycje lub wyświetlić kolejne."
+msgstr "Możesz utworzyć tu nowe propozycje lub wyświetlić te, które już zostały utworzone."
 
 msgid "Close"
 msgstr "Zamknij"
@@ -1987,9 +1987,9 @@ msgstr[2] "%s propozycji"
 #, python-format
 msgid "%s norm"
 msgid_plural "%s norms"
-msgstr[0] "%s zagadnienie"
-msgstr[1] "%s zagadnień"
-msgstr[2] "%s zagadnienia"
+msgstr[0] "%s dokument"
+msgstr[1] "%s dokumentów"
+msgstr[2] "%s dokumentów"
 
 #, python-format
 msgid "Message %s"
@@ -2393,7 +2393,7 @@ msgid "Login to propose a new variant."
 msgstr "Zaloguj się, by zaproponować zmiany."
 
 msgid "Get Involved"
-msgstr "Zaangażuj się"
+msgstr "Włącz się do dyskusji"
 
 msgid "Vote"
 msgstr "Głosuj"
@@ -2553,7 +2553,7 @@ msgstr "Propozycja ta nie odnosi się do żadnego terminu."
 
 #, python-format
 msgid "by %s on %s, %s changes since then."
-msgstr "przez %s w %s, %s zmian od tego momentu."
+msgstr "przez %s dnia %s, %s zmian(a) od tego momentu."
 
 msgid "(new)"
 msgstr "(nowe)"
@@ -3039,7 +3039,7 @@ msgstr "Otrzymałeś(aś) link. Otwórz go, by zresetować hasło."
 
 #, python-format
 msgid "Signed up %s"
-msgstr "%s zalogowano"
+msgstr "zalogowano %s"
 
 #, python-format
 msgid "%s does not yet have a bio."
@@ -3047,11 +3047,11 @@ msgstr "%s nie ma jeszcze biografii."
 
 #, python-format
 msgid "joined %s"
-msgstr "dołączył do %s"
+msgstr "dołączył(a) %s"
 
 #, python-format
 msgid "signed up %s"
-msgstr "%s zalogowano"
+msgstr "zalogowano %s"
 
 msgid "send a message"
 msgstr "Wyślij wiadomość"
@@ -3082,4 +3082,4 @@ msgstr "Lista obserwowanych: %s"
 msgid ""
 "This is your watchlist. You will receive notifications for events concerning"
 " each of these items."
-msgstr "To jest twoja lista obserwowanych. Otrzymasz powiadomienia związane z elementami tu wymienionymi."
+msgstr "To jest twoja lista obserwowanych. Będziesz informowany(a) o wszelkich zmianach."
