@@ -88,34 +88,6 @@ class InstanceCreateForm(formencode.Schema):
     description = validators.String(max=100000, if_empty=None, not_empty=False)
 
 
-class InstanceEditForm(formencode.Schema):
-    allow_extra_fields = True
-    label = validators.String(min=4, max=254, not_empty=True)
-    description = validators.String(max=100000, if_empty=None, not_empty=False)
-    activation_delay = validators.Int(not_empty=True)
-    required_majority = validators.Number(not_empty=True)
-    default_group = forms.ValidGroup(not_empty=True)
-    locale = validators.String(not_empty=False)
-    allow_adopt = validators.StringBool(not_empty=False, if_empty=False,
-                                        if_missing=False)
-    allow_delegate = validators.StringBool(not_empty=False, if_empty=False,
-                                           if_missing=False)
-    allow_propose = validators.StringBool(not_empty=False, if_empty=False,
-                                          if_missing=False)
-    allow_index = validators.StringBool(not_empty=False, if_empty=False,
-                                       if_missing=False)
-    use_norms = validators.StringBool(not_empty=False, if_empty=False,
-                                      if_missing=False)
-    require_selection = validators.StringBool(not_empty=False, if_empty=False,
-                                              if_missing=False)
-    hidden = validators.StringBool(not_empty=False, if_empty=False,
-                                   if_missing=False)
-    frozen = validators.StringBool(not_empty=False, if_empty=False,
-                                   if_missing=False)
-    milestones = validators.StringBool(not_empty=False, if_empty=False,
-                                   if_missing=False)
-
-
 class InstanceGeneralEditForm(formencode.Schema):
     allow_extra_fields = True
     label = validators.String(min=4, max=254, not_empty=True)
