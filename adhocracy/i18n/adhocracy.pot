@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 1.2beta2dev\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-10-15 23:25+0200\n"
+"POT-Creation-Date: 2012-10-18 21:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -402,10 +402,6 @@ msgstr ""
 msgid "tutorial_dashboard_title"
 msgstr ""
 
-#, python-format
-msgid "Cannot make %(user)s a member of %(group)s"
-msgstr ""
-
 msgid "The account has been suspended."
 msgstr ""
 
@@ -413,6 +409,9 @@ msgid "The account has been re-activated."
 msgstr ""
 
 msgid "The account has been deleted."
+msgstr ""
+
+msgid "Invalid badge choice."
 msgstr ""
 
 #, python-format
@@ -478,6 +477,10 @@ msgstr ""
 
 #, python-format
 msgid "No group with ID '%s' exists"
+msgstr ""
+
+#, python-format
+msgid "Group '%s' is no instance group"
 msgstr ""
 
 msgid "At least on character is required"
@@ -681,6 +684,9 @@ msgid "hierarchical"
 msgstr ""
 
 msgid "Badge"
+msgstr ""
+
+msgid "Instance"
 msgstr ""
 
 msgid "Categories"
@@ -1225,6 +1231,9 @@ msgstr ""
 msgid "entries"
 msgstr ""
 
+msgid "Filter list"
+msgstr ""
+
 msgid "Remove all"
 msgstr ""
 
@@ -1413,13 +1422,16 @@ msgstr ""
 msgid "No Group"
 msgstr ""
 
-msgid "Assign the user to this group for all instances in the adhocracy site."
+msgid "Automatically assign all users with this badge to the selected group for all instances in the adhocracy site."
+msgstr ""
+
+msgid "Automatically assign all users with this badge to the selected group."
 msgstr ""
 
 msgid "Display group in instances"
 msgstr ""
 
-msgid "Display this group in instances instead of the normal group the user is in there."
+msgid "Display this badge instead of the normal user group."
 msgstr ""
 
 msgid "Global"
