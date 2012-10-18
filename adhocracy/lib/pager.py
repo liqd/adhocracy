@@ -681,7 +681,7 @@ class InstanceFacet(SolrFacet):
 
     name = 'instance'
     entity_type = model.Instance
-    title = u'Projektgruppe'
+    title = lazy_ugettext(u'Instance')
     solr_field = 'facet.instances'
 
     @classmethod
@@ -697,7 +697,7 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
 
     name = 'delegateablebadgecategory'
     entity_type = model.Badge
-    title = u'Kategorien'  # FIXME: translate
+    title = lazy_ugettext(u'Categories')
     solr_field = 'facet.delegateable.badgecategory'
     show_current_empty = False
 
@@ -714,7 +714,7 @@ class DelegateableBadgeFacet(SolrFacet):
 
     name = 'delegateablebadge'
     entity_type = model.Badge
-    title = lazy_ugettext(u'Categories')
+    title = lazy_ugettext(u'Badges')
     solr_field = 'facet.delegateable.badge'
     show_current_empty = False
 
