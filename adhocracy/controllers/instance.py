@@ -93,7 +93,7 @@ class InstanceGeneralEditForm(formencode.Schema):
     label = validators.String(min=4, max=254, not_empty=True)
     description = validators.String(max=100000, if_empty=None, not_empty=False)
     locale = validators.String(not_empty=False)
-    default_group = forms.ValidGroup(not_empty=True)
+    default_group = forms.ValidInstanceGroup(not_empty=True)
     hidden = validators.StringBool(not_empty=False, if_empty=False,
                                    if_missing=False)
     is_authenticated = validators.StringBool(not_empty=False, if_empty=False,
@@ -466,11 +466,10 @@ class InstanceController(BaseController):
                                              ['is_authenticated'])
             updated = updated or auth_updated
 
-        if (self.form_result.get('default_group').code in
-            model.Group.INSTANCE_GROUPS):
-            updated = updated or update_attributes(c.page_instance,
-                                                   self.form_result,
-                                                   ['default_group'])
+        updated = updated or update_attributes(c.page_instance,
+                                               self.form_result,
+                                               ['default_group'])
+
         locale = Locale(self.form_result.get("locale"))
         if locale and locale in i18n.LOCALES:
             if c.page_instance.locale != locale:

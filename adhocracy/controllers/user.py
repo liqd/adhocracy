@@ -82,7 +82,7 @@ class UserResetApplyForm(formencode.Schema):
 
 class UserGroupmodForm(formencode.Schema):
     allow_extra_fields = True
-    to_group = forms.ValidGroup()
+    to_group = forms.ValidInstanceGroup()
 
 
 class UserFilterForm(formencode.Schema):
@@ -587,12 +587,6 @@ class UserController(BaseController):
         c.page_user = get_entity_or_abort(model.User, id)
         require.user.supervise(c.page_user)
         to_group = self.form_result.get("to_group")
-        if not to_group.code in model.Group.INSTANCE_GROUPS:
-            h.flash(_("Cannot make %(user)s a member of %(group)s") % {
-                        'user': c.page_user.name,
-                        'group': to_group.group_name},
-                    'error')
-            redirect(h.entity_url(c.page_user))
         had_vote = c.page_user._has_permission("vote.cast")
         for membership in c.page_user.memberships:
             if (not membership.is_expired() and
