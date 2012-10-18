@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-10-15 23:25+0200\n"
-"PO-Revision-Date: 2012-10-15 18:37+0000\n"
+"POT-Creation-Date: 2012-10-18 21:01+0200\n"
+"PO-Revision-Date: 2012-10-18 19:08+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -419,10 +419,6 @@ msgstr "Ungültiger Benutzername oder falsches Passwort."
 msgid "tutorial_dashboard_title"
 msgstr "Sie befinden sich in Ihrem persönlichem Dashboard. Es bietet Ihnen eine Übersicht über  eingebrachte Vorschläge und Themen, die Projektgruppen und über Ihre Beobachtungsliste."
 
-#, python-format
-msgid "Cannot make %(user)s a member of %(group)s"
-msgstr "Kann %(user)s nicht zu einem Mitglied von %(group)s machen"
-
 msgid "The account has been suspended."
 msgstr "Der Nutzer wurde suspendiert."
 
@@ -431,6 +427,9 @@ msgstr "Der Nutzer wurde re-aktiviert."
 
 msgid "The account has been deleted."
 msgstr "Der Nutzer wurde gelöscht."
+
+msgid "Invalid badge choice."
+msgstr "Ungültige Badge-Auswahl."
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -498,6 +497,10 @@ msgstr "Es gibt keinen Vorschlag mit der ID '%s'."
 #, python-format
 msgid "No group with ID '%s' exists"
 msgstr "Es gibt keine Gruppe mit der ID '%s'."
+
+#, python-format
+msgid "Group '%s' is no instance group"
+msgstr "Gruppe '%s' ist keine Instanz-Gruppe."
 
 msgid "At least on character is required"
 msgstr "Mindestens ein Buchstabe muss enthalten sein. "
@@ -710,6 +713,9 @@ msgstr "Hierarchisch"
 
 msgid "Badge"
 msgstr "Badge"
+
+msgid "Instance"
+msgstr "Instanz"
 
 msgid "Categories"
 msgstr "Bereiche"
@@ -1254,6 +1260,9 @@ msgstr "nächste"
 msgid "entries"
 msgstr "Einträge"
 
+msgid "Filter list"
+msgstr "Liste filtern"
+
 msgid "Remove all"
 msgstr "Alle entfernen"
 
@@ -1452,16 +1461,19 @@ msgstr "Benutzerrolle"
 msgid "No Group"
 msgstr "Keine Benutzerrolle"
 
-msgid "Assign the user to this group for all instances in the adhocracy site."
-msgstr "Dem Benutzer diese Benutzerrolle für alle Gruppe zuschreiben."
+msgid ""
+"Automatically assign all users with this badge to the selected group for all"
+" instances in the adhocracy site."
+msgstr "Ordne alle User mit diesem Badge automatisch der gewählten Gruppe zu, für alle Instanzen in Adhocracy."
+
+msgid "Automatically assign all users with this badge to the selected group."
+msgstr "Ordne alle User mit diesem Badge automatisch der gewählten Gruppe zu."
 
 msgid "Display group in instances"
 msgstr "Nutzerrollen in den Gruppen anzeigen"
 
-msgid ""
-"Display this group in instances instead of the normal group the user is in "
-"there."
-msgstr "Zeige diese Nutzerrolle nach Gruppen sortiert an. "
+msgid "Display this badge instead of the normal user group."
+msgstr "Zeige dieses Badge an, anstatt der normalen Gruppe des Users."
 
 msgid "Global"
 msgstr "Global"

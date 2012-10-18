@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-10-15 23:25+0200\n"
-"PO-Revision-Date: 2012-10-16 12:05+0000\n"
-"Last-Translator: Mateusz Batelt <mateusz@batelt.eu>\n"
+"POT-Creation-Date: 2012-10-18 21:01+0200\n"
+"PO-Revision-Date: 2012-10-18 19:03+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -413,10 +413,6 @@ msgstr "Błędna nazwa użytkownika lub hasło."
 msgid "tutorial_dashboard_title"
 msgstr "To jest twój pulpit. Znajdziesz tu spis dokumentów, zgłoszonych propozycji oraz grup, a także twoją listę obserwowanych."
 
-#, python-format
-msgid "Cannot make %(user)s a member of %(group)s"
-msgstr "%(user)s nie może zostać członkiem %(group)s."
-
 msgid "The account has been suspended."
 msgstr "Użytkownik został zawieszony."
 
@@ -425,6 +421,9 @@ msgstr "Użytkownik został przywrócony."
 
 msgid "The account has been deleted."
 msgstr "Użytkownik został usunięty."
+
+msgid "Invalid badge choice."
+msgstr ""
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -492,6 +491,10 @@ msgstr "Nie istnieje propozycja o numerze %s."
 #, python-format
 msgid "No group with ID '%s' exists"
 msgstr "Nie istnieje grupa o numerze %s."
+
+#, python-format
+msgid "Group '%s' is no instance group"
+msgstr ""
 
 msgid "At least on character is required"
 msgstr "Musisz wpisać chociaż jeden znak."
@@ -704,6 +707,9 @@ msgstr "hierarchicznie"
 
 msgid "Badge"
 msgstr "Etykieta"
+
+msgid "Instance"
+msgstr ""
 
 msgid "Categories"
 msgstr "Kategorie"
@@ -1248,6 +1254,9 @@ msgstr "następne"
 msgid "entries"
 msgstr "wpisów"
 
+msgid "Filter list"
+msgstr ""
+
 msgid "Remove all"
 msgstr "usuń wszystkie"
 
@@ -1446,16 +1455,19 @@ msgstr "Uprawnienia"
 msgid "No Group"
 msgstr "Brak uprawnień"
 
-msgid "Assign the user to this group for all instances in the adhocracy site."
-msgstr "Nadaj tej osobie uprawnienia w całym Adhocracy."
+msgid ""
+"Automatically assign all users with this badge to the selected group for all"
+" instances in the adhocracy site."
+msgstr ""
+
+msgid "Automatically assign all users with this badge to the selected group."
+msgstr ""
 
 msgid "Display group in instances"
 msgstr "Wyświetlaj uprawnienia użytkowników w każdej grupie."
 
-msgid ""
-"Display this group in instances instead of the normal group the user is in "
-"there."
-msgstr "Pokaż sortując według uprawnień."
+msgid "Display this badge instead of the normal user group."
+msgstr ""
 
 msgid "Global"
 msgstr "Globalne"
