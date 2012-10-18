@@ -19,7 +19,7 @@ from adhocracy import i18n
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import  sorting, search as libsearch, tiles, text
 from adhocracy.lib.auth import require, login_user
-from adhocracy.lib.auth.authorization import has_permission
+from adhocracy.lib.auth.authorization import has_permission, has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
@@ -642,9 +642,12 @@ class UserController(BaseController):
         c.users_pager = pager.users(users, has_query=True)
         return c.users_pager.here()
 
-    @ActionProtector(has_permission("global.admin"))
+    @ActionProtector(has_permission('instance.admin'))
     def badges(self, id, errors=None):
-        c.badges = model.UserBadge.all(instance=None)
+        if has('global.admin'):
+            c.badges = model.UserBadge.all(instance=None)
+        else:
+            c.badges = None
         c.page_user = get_entity_or_abort(model.User, id)
         instances = c.page_user and c.page_user.instances or []
         c.instance_badges = [
@@ -658,10 +661,19 @@ class UserController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=UserBadgesForm(), form='badges')
-    @ActionProtector(has_permission("global.admin"))
+    @ActionProtector(has_permission('instance.admin'))
     def update_badges(self, id):
         user = get_entity_or_abort(model.User, id)
         badges = self.form_result.get('badge')
+
+        if not has('global.admin'):
+            # instance admins may only add user badges limited to this instance
+
+            for badge in badges:
+                if not badge.instance == c.instance:
+                    h.flash(_(u'Invalid badge choice.'), u'error')
+                    redirect(h.entity_url(user))
+
         creator = c.user
 
         added = []
@@ -681,7 +693,7 @@ class UserController(BaseController):
         # an Exception.
         model.meta.Session.commit()
         post_update(user, model.update.UPDATE)
-        redirect(h.entity_url(user))
+        redirect(h.entity_url(user, instance=c.instance))
 
     def _common_metadata(self, user, member=None, add_canonical=False):
         bio = user.bio
