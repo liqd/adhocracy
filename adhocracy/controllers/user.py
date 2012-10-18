@@ -70,11 +70,6 @@ class UserCodeForm(formencode.Schema):
     c = validators.String(not_empty=False)
 
 
-class UserManageForm(formencode.Schema):
-    allow_extra_fields = True
-    group = forms.ValidGroup()
-
-
 class UserResetApplyForm(formencode.Schema):
     allow_extra_fields = True
     email = validators.Email(not_empty=True)
