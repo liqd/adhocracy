@@ -27,7 +27,7 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
-    long_description=open("README.txt").read() + "\n" +
+    long_description=open("README.rst").read() + "\n" +
                      open("CHANGES.txt").read() + "\n" +
                      open("AUTHORS.txt").read() + "\n",
     install_requires=[
