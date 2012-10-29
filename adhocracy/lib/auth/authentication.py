@@ -12,8 +12,46 @@ import adhocracy.model as model
 from authorization import InstanceGroupSourceAdapter
 from instance_auth_tkt import InstanceAuthTktCookiePlugin
 
+from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
+import repoze.who.plugins.sa
+
 log = logging.getLogger(__name__)
 
+class _EmailBaseSQLAlchemyPlugin(object):
+    default_translations = {'user_name': "user_name", 'email': 'email', 'validate_password': "validate_password"}
+
+    def get_user(self, login):
+        login_type = u'email' if u'@' in login else u'user_name'
+        login_attr = getattr(self.user_class, self.translations[login_type])
+        query = self.dbsession.query(self.user_class)
+        query = query.filter(login_attr == login)
+
+        try:
+            return query.one()
+        except (NoResultFound, MultipleResultsFound):
+            # As recommended in the docs for repoze.who, it's important to
+            # verify that there's only _one_ matching userid.
+            return None
+
+class EmailSQLAlchemyAuthenticatorPlugin(_EmailBaseSQLAlchemyPlugin,
+          repoze.who.plugins.sa.SQLAlchemyAuthenticatorPlugin):
+              
+    def authenticate(self, environ, identity):
+        if not ("login" in identity and "password" in identity):
+            return None
+        
+        user = self.get_user(identity['login'])
+        
+        if user:
+            validator = getattr(user, self.translations['validate_password'])
+            if validator(identity['password']):
+                return user.user_name           #this is just a quick fix
+                #return identity['login']
+                
+class EmailSQLAlchemyUserMDPlugin(_EmailBaseSQLAlchemyPlugin,
+          repoze.who.plugins.sa.SQLAlchemyUserMDPlugin):
+    pass
+    
 
 def setup_auth(app, config):
     groupadapter = InstanceGroupSourceAdapter()
@@ -40,8 +78,8 @@ def setup_auth(app, config):
             '/post_logout',
             login_counter_name='_login_tries',
             rememberer_name='auth_tkt')
-
-    sqlauth = SQLAlchemyAuthenticatorPlugin(model.User, model.meta.Session)
+    
+    sqlauth = EmailSQLAlchemyAuthenticatorPlugin(model.User, model.meta.Session)
     sql_user_md = SQLAlchemyUserMDPlugin(model.User, model.meta.Session)
 
     identifiers = [('form', form),
