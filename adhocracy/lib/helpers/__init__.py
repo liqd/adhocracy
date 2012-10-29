@@ -41,6 +41,7 @@ from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
                                                     get_socialshareprivacy_url)
 from adhocracy.lib.helpers.url import build
 from adhocracy.lib.helpers.site_helper import base_url
+from adhocracy.lib.helpers.site_helper import absolute_url
 #from adhocracy.lib.templating import json_dumps, json_loads
 from adhocracy.lib.watchlist import make_watch, find_watch
 from adhocracy import model, static
