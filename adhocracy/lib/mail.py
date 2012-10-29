@@ -58,7 +58,7 @@ def to_user(to_user, subject, body, headers={}, decorate_body=True):
 
 
 def send_activation_link(user):
-    url = h.base_url(None,
+    url = h.absolute_url(None,
                      path="/user/%s/activate?c=%s" % (user.user_name,
                                                       user.activation_code))
     body = _("this email is to check the email address you have provided. "
