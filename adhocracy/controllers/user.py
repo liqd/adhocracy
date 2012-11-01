@@ -124,7 +124,8 @@ class UserController(BaseController):
             redirect('/')
         else:
             captacha_enabled = config.get('recaptcha.public_key', "")
-            c.recaptcha = captacha_enabled and h.recaptcha.displayhtml()
+            c.recaptcha = captacha_enabled and h.recaptcha.displayhtml(
+                use_ssl=True)
             session['came_from'] = request.params.get('came_from',
                                                       h.base_url(c.instance))
             session.save()
@@ -145,6 +146,7 @@ class UserController(BaseController):
             recaptcha_response = h.recaptcha.submit()
             if not recaptcha_response.is_valid:
                 c.recaptcha = h.recaptcha.displayhtml(
+                    use_ssl=True,
                     error=recaptcha_response.error_code)
                 redirect("/register")
         # SPAM protection hidden input
