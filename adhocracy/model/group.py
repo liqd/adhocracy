@@ -71,5 +71,8 @@ class Group(object):
         q = q.filter(Group.code == code)
         return q.limit(1).first()
 
+    def is_instance_group(self):
+        return self.code in self.INSTANCE_GROUPS
+
     def __repr__(self):
         return u"<Group(%d,%s)>" % (self.id, self.code)

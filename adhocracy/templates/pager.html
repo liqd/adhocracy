@@ -79,8 +79,7 @@
 
 <%def name="facets(pager)">
 %if (True in [facet.available() for facet in pager.facets]):
-<h3 id="facets-heading">Liste filtern</h3>
-## FIXME: translate
+<h3 id="facets-heading">${_("Filter list")}</h3>
 
 %for facet in pager.facets:
     %if facet.available():

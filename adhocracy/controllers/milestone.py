@@ -166,7 +166,8 @@ class MilestoneController(BaseController):
         by_category = []
         if c.milestone.category:
             by_category = [d for d in c.milestone.category.delegateables
-                           if isinstance(d, model.Proposal)]
+                           if isinstance(d, model.Proposal)
+                           and not d.is_deleted()]
         proposals = list(set(by_milestone + by_category))
         c.proposals_pager = pager.proposals(proposals, size=20,
                                             enable_sorts=False)

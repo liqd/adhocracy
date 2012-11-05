@@ -69,7 +69,7 @@ Extract new messages
 
 4. Commit adhocracy.pot::
 
-     (adhocracy)/src/adhocracy$ hg ci adhocracy/i18n/adhocracy.pot \
+     (adhocracy)/src/adhocracy$ git commit adhocracy/i18n/adhocracy.pot \
      > -m 'i18n: extract new messages'
 
 Update the translations
@@ -108,7 +108,7 @@ Update the translations
 
 6. Commit the .po and .mo files of the language(s) you translated, e.g.::
 
-     (adhocracy)/src/adhocracy$ hg ci adhocracy/i18n/de' -m 'i18n: ...'
+     (adhocracy)/src/adhocracy$ git commit adhocracy/i18n/de' -m 'i18n: ...'
 
 
 Troubleshooting
@@ -125,7 +125,7 @@ and pull the language (with `-f`/`--force`) from transifex...::
 
   (adhocracy)/src/adhocracy$ cd adhocracy/i18n/de/LC_MESSAGES
   (adhocracy) .../de/LC_MESSAGES$ cp adhocracy.po local.po
-  (adhocracy) .../de/LC_MESSAGES$ tx  pull -f -l de
+  (adhocracy) .../de/LC_MESSAGES$ tx pull -f -l de
 
 ..and compare them. A good tool to compare is podiff from the `Python
 GetText Translation Toolkit`_ (which you can install from source of

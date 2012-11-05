@@ -2,12 +2,11 @@ import formencode
 from formencode import Any, All, htmlfill, Invalid, validators
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
-from pylons.decorators import validate
 from pylons.i18n import _
 from repoze.what.plugins.pylonshq import ActionProtector
 from repoze.what.predicates import Any as WhatAnyPredicate
 
-from adhocracy.forms.common import ValidGroup, ValidHTMLColor, ContainsChar
+from adhocracy.forms.common import ValidInstanceGroup, ValidHTMLColor, ContainsChar
 from adhocracy.forms.common import ValidBadgeInstance
 from adhocracy.model import Badge, CategoryBadge, DelegateableBadge, UserBadge,\
     InstanceBadge
@@ -29,7 +28,7 @@ class BadgeForm(formencode.Schema):
 
 
 class UserBadgeForm(BadgeForm):
-    group = Any(validators.Empty, ValidGroup())
+    group = Any(validators.Empty, ValidInstanceGroup())
     display_group = validators.StringBoolean(if_missing=False)
 
 
@@ -99,7 +98,7 @@ class BadgeController(BaseController):
         if badge_type is not None:
             c.badge_type = badge_type
         c.form_type = 'add'
-        c.groups = meta.Session.query(Group).order_by(Group.group_name).all()
+        c.groups = Group.all_instance()
         return htmlfill.render(self.render_form(),
                                defaults=dict(request.params),
                                errors=errors)
@@ -239,7 +238,7 @@ class BadgeController(BaseController):
                         display_group=badge.display_group,
                         instance=instance_default)
         if isinstance(badge, UserBadge):
-            c.groups = meta.Session.query(Group).order_by(Group.group_name)
+            c.groups = Group.all_instance()
             defaults['group'] = badge.group and badge.group.code or ''
 
         return htmlfill.render(self.render_form(),

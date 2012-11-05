@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-27 00:51+0200\n"
-"PO-Revision-Date: 2012-07-27 00:03+0000\n"
+"POT-Creation-Date: 2012-10-18 21:01+0200\n"
+"PO-Revision-Date: 2012-10-18 19:08+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 "Language: de\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Thank you for helping."
 msgstr "Danke für Ihre Hilfe."
@@ -104,10 +104,10 @@ msgid "No update required."
 msgstr "Es wurden keine Änderungen vorgenommen."
 
 msgid "Delegations are enabled."
-msgstr ""
+msgstr "Delegationen sind aktiv."
 
 msgid "Delegations are disabled."
-msgstr ""
+msgstr "Delegationen sind inaktiv."
 
 msgid "tutorial_instance_show_intro"
 msgstr "Willkommen auf der Startseite der Projektgruppe."
@@ -122,7 +122,7 @@ msgid "Contents"
 msgstr "Inhalte"
 
 msgid "Votings"
-msgstr ""
+msgstr "Abstimmungen"
 
 msgid "Badges"
 msgstr "Badges"
@@ -131,7 +131,7 @@ msgid "Members import"
 msgstr "Mitglieder importieren"
 
 msgid "The logo has been deleted."
-msgstr ""
+msgstr "Das Logo wurde entfernt."
 
 msgid "No delay"
 msgstr "Keine Verzögerung"
@@ -364,7 +364,7 @@ msgid "tutorial_user_index_intro"
 msgstr "Mitgliederliste der Projektgruppe."
 
 msgid "Sorry, but we don't accept registrations with this email address."
-msgstr ""
+msgstr "Es tut uns Leid - diese E-Mail-Adresse ist nicht zur Registrierung zugelassen."
 
 msgid "There is no user registered with that email address."
 msgstr "Unter dieser E-Mail-Adresse ist kein/e BenutzerIn angemeldet."
@@ -419,10 +419,6 @@ msgstr "Ungültiger Benutzername oder falsches Passwort."
 msgid "tutorial_dashboard_title"
 msgstr "Sie befinden sich in Ihrem persönlichem Dashboard. Es bietet Ihnen eine Übersicht über  eingebrachte Vorschläge und Themen, die Projektgruppen und über Ihre Beobachtungsliste."
 
-#, python-format
-msgid "Cannot make %(user)s a member of %(group)s"
-msgstr "Kann %(user)s nicht zu einem Mitglied von %(group)s machen"
-
 msgid "The account has been suspended."
 msgstr "Der Nutzer wurde suspendiert."
 
@@ -431,6 +427,9 @@ msgstr "Der Nutzer wurde re-aktiviert."
 
 msgid "The account has been deleted."
 msgstr "Der Nutzer wurde gelöscht."
+
+msgid "Invalid badge choice."
+msgstr "Ungültige Badge-Auswahl."
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -498,6 +497,10 @@ msgstr "Es gibt keinen Vorschlag mit der ID '%s'."
 #, python-format
 msgid "No group with ID '%s' exists"
 msgstr "Es gibt keine Gruppe mit der ID '%s'."
+
+#, python-format
+msgid "Group '%s' is no instance group"
+msgstr "Gruppe '%s' ist keine Instanz-Gruppe."
 
 msgid "At least on character is required"
 msgstr "Mindestens ein Buchstabe muss enthalten sein. "
@@ -673,7 +676,7 @@ msgid ""
 "Cheers,\r\n"
 "\r\n"
 "    the %s Team\r\n"
-msgstr "Viele Grüße,\r\n\r\n    Ihr %s-Team\r\n"
+msgstr "Viele Grüße,\n\n    Ihr %s-Team\n"
 
 #, python-format
 msgid "%s <%s>"
@@ -709,7 +712,10 @@ msgid "hierarchical"
 msgstr "Hierarchisch"
 
 msgid "Badge"
-msgstr ""
+msgstr "Badge"
+
+msgid "Instance"
+msgstr "Instanz"
 
 msgid "Categories"
 msgstr "Bereiche"
@@ -719,6 +725,9 @@ msgstr "Erstellt von"
 
 msgid "Tags"
 msgstr "Tags"
+
+msgid "Milestones"
+msgstr "Termine"
 
 msgid "Oldest"
 msgstr "Älteste"
@@ -730,7 +739,7 @@ msgid "Newest Comment"
 msgstr "Neuste Kommentare"
 
 msgid "Activity"
-msgstr "Verlauf"
+msgstr "Aktivität"
 
 msgid "Alphabetically"
 msgstr "Alphabetisch"
@@ -1054,9 +1063,6 @@ msgstr "\r\n\r\nMehr Informationen: %(url)s"
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Über diesen Vorschlag wird gerade abgestimmt, er kann daher nicht verändert werden."
 
-msgid "Milestones"
-msgstr "Termine"
-
 msgid "(Unknown)"
 msgstr "(Unbekannt)"
 
@@ -1254,6 +1260,9 @@ msgstr "nächste"
 msgid "entries"
 msgstr "Einträge"
 
+msgid "Filter list"
+msgstr "Liste filtern"
+
 msgid "Remove all"
 msgstr "Alle entfernen"
 
@@ -1411,7 +1420,7 @@ msgid "Site administration"
 msgstr "Seiteneinstellungen"
 
 msgid "Add instance badge"
-msgstr ""
+msgstr "Füge Gruppen-Badge hinzu"
 
 msgid "Add user badge"
 msgstr "Badge für Benutzer hinzufügen"
@@ -1444,7 +1453,7 @@ msgid "Like '#a4a4a4'"
 msgstr "'#a4a4a4' liken"
 
 msgid "Preview:"
-msgstr ""
+msgstr "Vorschau:"
 
 msgid "Group"
 msgstr "Benutzerrolle"
@@ -1452,22 +1461,25 @@ msgstr "Benutzerrolle"
 msgid "No Group"
 msgstr "Keine Benutzerrolle"
 
-msgid "Assign the user to this group for all instances in the adhocracy site."
-msgstr "Dem Benutzer diese Benutzerrolle für alle Gruppe zuschreiben."
+msgid ""
+"Automatically assign all users with this badge to the selected group for all"
+" instances in the adhocracy site."
+msgstr "Ordne alle User mit diesem Badge automatisch der gewählten Gruppe zu, für alle Instanzen in Adhocracy."
+
+msgid "Automatically assign all users with this badge to the selected group."
+msgstr "Ordne alle User mit diesem Badge automatisch der gewählten Gruppe zu."
 
 msgid "Display group in instances"
 msgstr "Nutzerrollen in den Gruppen anzeigen"
 
-msgid ""
-"Display this group in instances instead of the normal group the user is in "
-"there."
-msgstr "Zeige diese Nutzerrolle nach Gruppen sortiert an. "
+msgid "Display this badge instead of the normal user group."
+msgstr "Zeige dieses Badge an, anstatt der normalen Gruppe des Users."
 
 msgid "Global"
 msgstr "Global"
 
 msgid "Other instances"
-msgstr ""
+msgstr "Andere Gruppen"
 
 msgid "Save Badge"
 msgstr "Badge speichern"
@@ -1509,7 +1521,7 @@ msgid "User Badges"
 msgstr "Benutzerbadge"
 
 msgid "New"
-msgstr ""
+msgstr "Neu"
 
 msgid "Proposal Badges"
 msgstr "Badges dieses Vorschlags"
@@ -1518,7 +1530,7 @@ msgid "Proposal Category Badges"
 msgstr "Badge für Bereiche von Vorschägen"
 
 msgid "Instance Badges"
-msgstr ""
+msgstr "Gruppen-Badge"
 
 msgid "Comment"
 msgstr "Kommentar"
@@ -1868,10 +1880,10 @@ msgid "Logo"
 msgstr "Logo"
 
 msgid "Current logo"
-msgstr ""
+msgstr "Aktuelles Logo"
 
 msgid "Delete current logo"
-msgstr ""
+msgstr "Lösche aktuelles Logo"
 
 msgid "You can add css that will be used to style the instance."
 msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
@@ -2178,7 +2190,7 @@ msgid "Variant Name"
 msgstr "Name der Version"
 
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 msgid "Parent page:"
 msgstr "Elternseite:"

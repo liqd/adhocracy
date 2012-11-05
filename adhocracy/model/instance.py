@@ -241,6 +241,8 @@ class Instance(meta.Indexable):
 
     def to_index(self):
         index = super(Instance, self).to_index()
+        if self.hidden:
+            index['skip'] = True
         index.update(dict(
             instance=self.key,
             title=self.label,

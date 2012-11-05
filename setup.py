@@ -8,11 +8,11 @@ except ImportError:
 
 setup(
     name='adhocracy',
-    version='1.2beta2dev',
+    version='2.0.0-rc.1',
     description='Policy drafting and decision-making web platform',
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
-    url='http://adhocracy.cc/',
+    url='https://github.com/liqd/adhocracy',
     license='GNU Affero General Public License v3',
     classifiers=[
         "License :: OSI Approved :: GNU Affero General Public License v3",
@@ -27,7 +27,7 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
-    long_description=open("README.txt").read() + "\n" +
+    long_description=open("README.rst").read() + "\n" +
                      open("CHANGES.txt").read() + "\n" +
                      open("AUTHORS.txt").read() + "\n",
     install_requires=[
