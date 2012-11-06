@@ -310,6 +310,11 @@ class UserController(BaseController):
             login_user(c.page_user, request)
             h.flash(_("Welcome to %s") % h.site.name(), 'success')
             if c.instance:
+                membership = model.Membership(c.page_user, c.instance,
+                                              c.instance.default_group)
+                model.meta.Session.expunge(membership)
+                model.meta.Session.add(membership)
+                model.meta.Session.commit()
                 redirect(h.entity_url(c.instance))
             else:
                 redirect(h.base_url(None, path='/instance'))
