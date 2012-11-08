@@ -1,7 +1,7 @@
 import cgi
 import re
 
-from markdown2 import Markdown
+import markdown
 
 from adhocracy import model
 from adhocracy.lib.cache.util import memoize
@@ -50,7 +50,7 @@ def render(text, substitutions=True, escape=True):
         return ""
     if escape:
         text = cgi.escape(text)
-    text = Markdown().convert(text)
+    text = markdown.markdown(text)
     if substitutions:
         text = SUB_USER.sub(user_sub, text)
         text = SUB_PAGE.sub(page_sub, text)
