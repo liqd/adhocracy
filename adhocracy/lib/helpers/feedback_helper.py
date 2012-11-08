@@ -9,7 +9,8 @@ def is_configured():
     return configured and available
 
 def get_feedback_instance():
-    return model.Instance.find(config.get('adhocracy.feedback_instance_key'))
+    return model.Instance.find(config.get('adhocracy.feedback_instance_key',
+                                          u'feedback'))
 
 def get_categories():
     feedback_instance = get_feedback_instance()
