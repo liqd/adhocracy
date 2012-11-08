@@ -40,7 +40,7 @@ class ProposalCreateForm(ProposalNewForm):
     pre_validators = [formencode.variabledecode.NestedVariables()]
     label = forms.UnusedTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
-    tags = validators.String(max=20000, not_empty=False)
+    tags = validators.String(max=20000, not_empty=False, if_missing=None)
     milestone = forms.MaybeMilestone(if_empty=None,
             if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
