@@ -150,5 +150,6 @@ def setup_entities(initial_setup):
                 fb.use_norms = False
                 fb.allow_adopt = False
                 fb.allow_delegate = False
+                fb.hide_global_categories = True
 
     model.meta.Session.commit()
