@@ -601,4 +601,15 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#feedback_button').toggle(
+        function () {
+            $('#feedback').animate({right: '0px'});
+            return false;
+        },
+        function () {
+            $('#feedback').animate({right: '-350px'});
+            return false;
+        }
+    );
 });

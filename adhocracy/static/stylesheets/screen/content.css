@@ -1623,3 +1623,27 @@ a.joyride-prev-tip:hover {
 #socialshareprivacy form {
   padding: 0;
 }
+
+#feedback {
+  position: fixed;
+  right: -350px;
+  top: 120px;
+  width: 377px;
+  overflow: normal;
+  z-index: 11;
+}
+
+#feedback_form {
+  position: absolute;
+  right: 0px;
+  width: 350px;
+}
+
+#feedback_button {
+  background: url("/images/feedback_simple_vertical.png") no-repeat 0px 0px transparent;
+  position: absolute;
+  left: 0px;
+  width: 27px;
+  height: 140px;
+}
+
