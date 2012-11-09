@@ -19,65 +19,67 @@ code, which depends on the availability of jquery.
     });
 """
 
+import re
 import markdown
 from markdown.util import etree
 from pylons.i18n import _
 
-SHOWMORE_RE = r'(\(\(\()(.*)(\)\)\))'
+
+SHOWMORE_RE = re.compile(r'\({3,}(?P<text>.*?)\){3,}',
+                             re.MULTILINE|re.DOTALL)
 
 MORE_STRING = u'[more...]'
 LESS_STRING = u'[less...]'
 
+PRE_HTML = u'''
+<div class="showmore" style="display: inline">
+    <span class="showmore_collapsed">
+        <span> </span>
+        <a class="showmore_morelink" href="#">%s</a>
+        <span> </span>
+    </span>
+    <div class="showmore_uncollapsed" style="display: none">
+        <div class="showmore_content" style="display: inline">
+'''
 
-def spaceSpan():
-    span = etree.Element('span')
-    span.text = u' '
-    return span
-
-class ShowmorePattern(markdown.inlinepatterns.Pattern):
-    """ Return a superscript Element (`word^2^`). """
-    def handleMatch(self, m):
-        supr = m.group(3)
-        
-        text = supr
-        s = etree.Element('span', {'class': 'showmore'})
-
-        scol = etree.Element('span', {'class': 'showmore_collapsed'})
-        s.append(scol)
-        
-        am = etree.Element('a',
-                     {'href': '#', 'class': 'showmore_morelink'})
-        am.text = markdown.util.AtomicString(_(MORE_STRING))
-        scol.append(spaceSpan())
-        scol.append(am)
-        scol.append(spaceSpan())
-
-        suncol = etree.Element('span',
-                     {'class': 'showmore_uncollapsed',
-                      'style': 'display: none'})
-        s.append(suncol)
-
-        sc = etree.Element('span',
-                     {'class': 'showmore_content'})
-        sc.text = supr
-        suncol.append(sc)
-
-        al = etree.Element('a',
-                     {'href': '#', 'class': 'showmore_lesslink'})
-        al.text = markdown.util.AtomicString(_(LESS_STRING))
-        suncol.append(spaceSpan())
-        suncol.append(al)
-        suncol.append(spaceSpan())
-
-        return s
-        
+POST_HTML = u'''
+        </div>
+        <span> </span>
+        <a class="showmore_lesslink" href="#">%s</a>
+        <span> </span>
+    </div>
+</div>
+'''
 
 class ShowmoreExtension(markdown.Extension):
-    """ Superscript Extension for Python-Markdown. """
+    """ Showmore Extension for Python-Markdown. """
 
     def extendMarkdown(self, md, md_globals):
-        """ Replace superscript with SuperscriptPattern """
-        md.inlinePatterns['showmore'] = ShowmorePattern(SHOWMORE_RE, md)
+        md.registerExtension(self)
+        md.preprocessors.add('showmore', ShowmorePreprocessor(md), "_begin")
+
+
+class ShowmorePreprocessor(markdown.preprocessors.Preprocessor):
+
+    def run(self, lines):
+        text = "\n".join(lines)
+        while 1:
+            m = SHOWMORE_RE.search(text)
+            if m:
+
+                pretext = self.markdown.htmlStash.store('<pre>vorher</pre>', safe=True)
+                posttext = self.markdown.htmlStash.store('<pre>nachher</pre>', safe=True)
+
+                text = '%s%s%s%s%s' % (
+                    text[:m.start()],
+                    self.markdown.htmlStash.store(PRE_HTML % _(MORE_STRING), safe=True),
+                    m.group('text'),
+                    self.markdown.htmlStash.store(POST_HTML % _(LESS_STRING), safe=True),
+                    text[m.end():])
+            else:
+                break
+        return text.split("\n")
+
 
 def makeExtension(configs=None):
     return ShowmoreExtension(configs=configs)
