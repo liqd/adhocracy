@@ -28,14 +28,14 @@ from pylons.i18n import _
 SHOWMORE_RE = re.compile(r'\({3,}(?P<text>.*?)\){3,}',
                              re.MULTILINE|re.DOTALL)
 
-MORE_STRING = u'[show more]'
-LESS_STRING = u'[show less]'
+MORE_STRING = u'show more'
+LESS_STRING = u'show less'
 
 PRE_HTML = u'''
 <div class="showmore" style="display: inline">
     <span class="showmore_collapsed">
         <span> </span>
-        <a class="showmore_morelink" href="#">%s</a>
+        <a class="showmore_morelink" href="#">[%s]</a>
         <span> </span>
     </span>
     <div class="showmore_uncollapsed" style="display: none">
@@ -45,7 +45,7 @@ PRE_HTML = u'''
 POST_HTML = u'''
         </div>
         <span> </span>
-        <a class="showmore_lesslink" href="#">%s</a>
+        <a class="showmore_lesslink" href="#">[%s]</a>
         <span> </span>
     </div>
 </div>
