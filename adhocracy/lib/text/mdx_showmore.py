@@ -28,8 +28,8 @@ from pylons.i18n import _
 SHOWMORE_RE = re.compile(r'\({3,}(?P<text>.*?)\){3,}',
                              re.MULTILINE|re.DOTALL)
 
-MORE_STRING = u'[more...]'
-LESS_STRING = u'[less...]'
+MORE_STRING = u'[show more]'
+LESS_STRING = u'[show less]'
 
 PRE_HTML = u'''
 <div class="showmore" style="display: inline">
