@@ -287,10 +287,7 @@ def proposals(proposals, default_sort=None, **kwargs):
 def milestones(milestones, default_sort=None, **kwargs):
     if default_sort is None:
         default_sort = sorting.milestone_time
-    sorts = {  # _("oldest"): sorting.entity_oldest,
-             _("by date"): sorting.milestone_time,
-             _("newest"): sorting.entity_newest,
-             _("oldest"): sorting.entity_oldest,
+    sorts = {_("by date"): sorting.milestone_time,
              _("alphabetically"): sorting.delegateable_title}
     return NamedPager('milestones', milestones, tiles.milestone.row,
                       sorts=sorts, default_sort=default_sort, **kwargs)
