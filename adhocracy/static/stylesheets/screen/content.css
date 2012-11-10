@@ -1568,11 +1568,11 @@ margin-left: 0;
   padding-top: 1em;
 }
 .more_arrow {
-  background: url("/images/sprite_icons.png") no-repeat right -1050px;
+  background: url("/images/sprite_icons.png") no-repeat right -50px;
   padding: 7px 40px 2px 10px;
 }
 .more_arrow.less {
-  background: url("/images/sprite_icons.png") no-repeat right -1100px;
+  background: url("/images/sprite_icons.png") no-repeat right 0px;
 }
 
 
