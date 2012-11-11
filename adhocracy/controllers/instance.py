@@ -154,6 +154,7 @@ class InstanceController(BaseController):
     def index(self, format="html"):
         require.instance.index()
 
+        c.active_global_nav = 'instances'
         c.instance_pager = pager.solr_instance_pager()
 
         if format == 'json':
@@ -354,6 +355,7 @@ class InstanceController(BaseController):
                 item['active'] = True
                 item['class'] = 'active'
                 settings.current = item
+        c.active_subheader_nav = 'settings'
 
         return settings
 

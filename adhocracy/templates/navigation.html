@@ -30,12 +30,14 @@
                 li_class=_class('home'),
                 id_="nav_home")}
 
+                %if not h.asbool(config.get('adhocracy.hide_instance_list_in_navigation')):
                 %if g.single_instance is None:
                 ${nav_link(href=h.base_url(None, path='/instance'),
                            a_rel='#overlay-default',
                            li_class=_class('instances'),
                            text=_("Instances"),
                            id_="nav_instances")}
+                %endif
                 %endif
 
                 %if c.user:
@@ -64,7 +66,7 @@
                            li_class=_class('login'),
                            id_="nav_login")}
                 %else:
-                <div id="user_menu">
+                <li id="user_menu" class=${_class('user')}>
                     <ul>
                         <li>
                             <a class="icon_link show_me" 
@@ -97,7 +99,7 @@
                             </ul>
                         </li>
                     </ul>
-                </div>
+                </li>
                 %endif
 
             </ul>
@@ -204,12 +206,14 @@
 
   ${nav_link(href="/user",
              text=_("Members"),
-             li_class=_class('members'))}
+             li_class=_class('members'),
+             id_='subnav-members')}
 
   ${nav_link(href=h.entity_url(c.instance, member='settings'),
              text=_("Settings"),
              li_class=(_class('settings') + ' settings'),
-             condition=can.instance.edit(c.instance))}
+             condition=can.instance.edit(c.instance),
+             id_='subnav-settings')}
 
 </%call>
 </%def>

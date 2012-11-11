@@ -9,6 +9,7 @@ import hashlib
 import json
 import urllib
 
+from paste.deploy.converters import asbool
 from pylons import tmpl_context as c, config, request
 from pylons.i18n import _
 from webhelpers.html import literal

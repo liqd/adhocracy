@@ -45,8 +45,10 @@ ${c.tile.description|n}
 
 <h3 id="information">${_('Informations')}</h3>
 <summary>
+    %if h.asbool(config.get('adhocracy.show_instance_creators')):
     <h6>${_('Created')}</h6>
     <p>${_("by %s on %s") % (h.user.link(c.instance.creator), h.format_date(c.instance.create_time))|n}</p>
+    %endif
 
     <h6>${_('Votings')}</h6>
     <p>${c.sidebar_delegations}</p>
