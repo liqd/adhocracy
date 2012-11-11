@@ -1215,6 +1215,7 @@ label.over-apply {
   top: 4px;
   z-index: 10;
   font-weight: normal;
+  font-size: 13px;
   color: #666;
 }
 
@@ -1368,6 +1369,7 @@ padding: 20px 20px 40px 20px;
   color: #fff;
   text-transform: uppercase;
   border: none;
+  font-size: 13px;
 }
 #searchform #searchsubmit:hover,
 .list_form input.submit:hover {
