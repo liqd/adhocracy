@@ -66,7 +66,7 @@
                            li_class=_class('login'),
                            id_="nav_login")}
                 %else:
-                <div id="user_menu">
+                <li id="user_menu" class=${_class('user')}>
                     <ul>
                         <li>
                             <a class="icon_link show_me" 
@@ -99,7 +99,7 @@
                             </ul>
                         </li>
                     </ul>
-                </div>
+                </li>
                 %endif
 
             </ul>
@@ -206,12 +206,14 @@
 
   ${nav_link(href="/user",
              text=_("Members"),
-             li_class=_class('members'))}
+             li_class=_class('members'),
+             id_='subnav-members')}
 
   ${nav_link(href=h.entity_url(c.instance, member='settings'),
              text=_("Settings"),
              li_class=(_class('settings') + ' settings'),
-             condition=can.instance.edit(c.instance))}
+             condition=can.instance.edit(c.instance),
+             id_='subnav-settings')}
 
 </%call>
 </%def>
