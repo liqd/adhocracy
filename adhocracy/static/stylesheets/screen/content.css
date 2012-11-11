@@ -1336,7 +1336,7 @@ html.js .alert .close { display: block }
 }
 
 .list_filter {
-padding: 20px 20px 40px 20px;
+  padding: 5px 20px 16px 20px;
 }
 
 #searchform,
@@ -1345,6 +1345,9 @@ padding: 20px 20px 40px 20px;
   padding: 0;
   background:  none;
 }
+
+.list_form label {
+  display: inline;
 }
 
 #searchform #s,
@@ -1357,7 +1360,7 @@ padding: 20px 20px 40px 20px;
 }
 
 .list_form input.q {
-  width: 530px;
+  width: 350px;
 }
 
 #searchform #searchsubmit,
