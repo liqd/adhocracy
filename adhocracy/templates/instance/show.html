@@ -38,6 +38,15 @@ ${c.tile.description|n}
     </div>
 
 </div>
+%if h.asbool(config.get('adhocracy.show_instance_overview_milestones')) and c.instance.milestones:
+<hr />
+%if h.asint(config.get('adhocracy.number_instance_overview_milestones')) == 1:
+<h3 class="section">${_("Next milestone")}</h3>
+%else:
+<h3 class="section">${_("Next milestones")}</h3>
+%endif
+${c.next_milestones_pager.here()}
+%endif
 
 </%block>
 

@@ -1626,6 +1626,13 @@ a.joyride-prev-tip:hover {
   padding-top: 2em;
 }
 
+.milestone_row_date {
+  padding-left: 20px;
+  padding-top: 2px;
+  margin-left: -2px;
+  background: url('/images/icon_calendar.png') no-repeat;
+}
+
 .more_link, .create_proposal_link {
   margin-left: 5px;
   padding-left: 25px;
