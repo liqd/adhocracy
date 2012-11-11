@@ -342,8 +342,8 @@ def delegations(delegations):
                       default_sort=sorting.entity_newest)
 
 
-def events(events):
-    return NamedPager('events', events, tiles.event.row)
+def events(events, **kwargs):
+    return NamedPager('events', events, tiles.event.row, **kwargs)
 
 
 def polls(polls, default_sort=None, **kwargs):

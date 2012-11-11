@@ -51,6 +51,9 @@ ${c.next_milestones_pager.here()}
 </%block>
 
 <%block name="sidebar">
+<div class="sidebar_box">
+<h3>${_('Newest Events')}</h3>
+${c.events_pager.here()}
 
 <h3 id="information">${_('Informations')}</h3>
 <summary>
@@ -71,6 +74,7 @@ ${c.next_milestones_pager.here()}
     
 </summary>
 
+</div>
 </%block>
 
 <%components:tutorial>

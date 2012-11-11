@@ -226,6 +226,12 @@ class InstanceController(BaseController):
                 milestones, size=number, enable_sorts=False,
                 enable_pages=False, default_sort=sorting.milestone_time)
 
+        events = model.Event.find_by_instance(c.page_instance, limit=3)
+
+        c.events_pager = pager.events(events,
+                                      enable_pages=False, 
+                                      enable_sorts=False)
+
         c.stats = {
             'comments': model.Comment.all_q().count(),
             'proposals': model.Proposal.all_q(
