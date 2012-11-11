@@ -12,6 +12,8 @@
 
 ${c.tile.description|n}
 
+%if h.asbool(config.get('adhocracy.show_instance_overview_proposals')):
+<hr />
 <div id="new_proposals_table" class="table">
     <h3 class="section">${_("Newest Proposals")}</h3>
     ${c.new_proposals_pager.here()}
@@ -38,6 +40,8 @@ ${c.tile.description|n}
     </div>
 
 </div>
+%endif
+
 %if h.asbool(config.get('adhocracy.show_instance_overview_milestones')) and c.instance.milestones:
 <hr />
 %if h.asint(config.get('adhocracy.number_instance_overview_milestones')) == 1:
