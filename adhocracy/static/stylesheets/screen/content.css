@@ -21,6 +21,7 @@ h4, legend { font-size: 20px; margin-bottom: 10px; font-weight: normal; }
 h5 { font-size: 16px; margin-bottom: 5px; font-weight: normal; }
 h6 { font-size: 14px; font-weight: normal; color: #666; }
 
+}
 #col3 h3 {
   font-size: 25px;
   background: url('/images/line_dotted.gif') repeat-x bottom left;
@@ -1343,6 +1344,8 @@ padding: 20px 20px 40px 20px;
   padding: 0;
   background:  none;
 }
+}
+
 #searchform #s,
 .list_form input.q {
   width: 225px;
@@ -1616,6 +1619,28 @@ a.joyride-prev-tip:hover {
 
 #milestone #associated-norms {
   padding-top: 2em;
+}
+
+.more_link, .create_proposal_link {
+  margin-left: 5px;
+  padding-left: 25px;
+  text-transform: lowercase;
+  font-variant: small-caps;
+}
+
+.more_link {
+  background: url("/images/sprite.png") no-repeat left -2px;
+}
+
+#proposal_list_header {
+  float: left;
+}
+
+.create_proposal_link {
+  float: right;
+  background: url("/images/sprite.png") no-repeat left 2px;
+  position: relative;
+  top: 25px;
 }
 
 /* Fixes for js.socialshareprivace */
