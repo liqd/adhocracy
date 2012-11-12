@@ -29,7 +29,8 @@ badge_table = Table(
            nullable=True),
     # attributes for UserBadges
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
-    Column('display_group', Boolean, default=False))
+    Column('display_group', Boolean, default=False),
+    Column('state', String(30), default='active,visible', nullable=True))
 
 
 # --[ relation tables ]-----------------------------------------------------
@@ -72,15 +73,16 @@ user_badges_table = Table(
 
 class Badge(object):
 
-    def __init__(self, title, color, description, instance=None):
+    def __init__(self, title, color, description, state, instance=None):
         self.title = title
         self.description = description
         self.color = color
+        self.state = state
         self.instance = instance
 
     @classmethod
-    def create(cls, title, color, description, instance=None):
-        badge = cls(title, color, description, instance)
+    def create(cls, title, color, description, state, instance=None):
+        badge = cls(title, color, description, state, instance)
         meta.Session.add(badge)
         meta.Session.flush()
         return badge
@@ -180,9 +182,9 @@ class UserBadge(Badge):
     polymorphic_identity = 'user'
 
     @classmethod
-    def create(cls, title, color, description, group=None,
-               display_group=False, instance=None):
-        badge = cls(title, color, description, instance)
+    def create(cls, title, color, description, state,
+            group=None, display_group=False, instance=None):
+        badge = cls(title, color, description, state, instance)
         badge.group = group
         badge.display_group = display_group
         meta.Session.add(badge)

@@ -83,6 +83,7 @@
 
 %for facet in pager.facets:
     %if facet.available():
+        %if ( True in [True and getattr( item['raw'] , 'state', "" ) != "invisible" for item in facet.current_items])
     <div class="facet">
         ${facet.render()}
     </div>
@@ -105,6 +106,7 @@
 %endif
 <ul>
     %for item in facet.current_items:
+    %if getattr( item['raw'], 'state', "" ) != "invisible":
     <li>
         %if item['disabled']:
         <span class="disabled">
@@ -128,6 +130,7 @@
             %endif
         %endif
     </li>
+    %endif
     %endfor
 </ul>
 <br />
