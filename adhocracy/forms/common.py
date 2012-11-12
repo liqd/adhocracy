@@ -89,6 +89,18 @@ class ValidHTMLColor(formencode.validators.Regex):
                   "'%(value)' is not a valid color code."), value, state)
         return value
 
+class ValidStates( formencode.FancyValidator ):
+    def _to_python( self, value, state ):
+        print "Value: {0}" . format( value )
+        valid_states = [ "invisible" ]
+        for cstate in ( value.split( ',' ) ):
+            if not cstate in valid_states:
+                raise formencode.Invalid(
+                    _("The state given, is not one of the following vaild states:"
+                    "".join( valid_states, "," )
+                    ), value, state
+                )
+        return value
 
 class UniqueInstanceKey(formencode.FancyValidator):
     def _to_python(self, value, state):
