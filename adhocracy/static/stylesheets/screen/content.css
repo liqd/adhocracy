@@ -1207,22 +1207,6 @@ a.show_comments.open:hover:after, a.new_comment.open:hover:after {
 }
 
 /* forms */
-form .label_over {
-  display: inline-block;
-  overflow: hidden;
-  position: relative;
-  vertical-align: top;
-}
-label.over-apply {
-  left: 10px;
-  margin: 0;
-  position: absolute;
-  top: 4px;
-  z-index: 10;
-  font-weight: normal;
-  font-size: 13px;
-  color: #666;
-}
 
 .form_wrapper {
   background: url("/images/shadow_image_large.jpg") no-repeat scroll center bottom transparent;
