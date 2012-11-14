@@ -102,6 +102,7 @@ setup(
             'yaml = adhocracy.static:yaml_library',
             'autocomplete = adhocracy.static:autocomplete_library',
             'placeholder = adhocracy.static:placeholder_library',
+            'jquerytools = adhocracy.static:jquerytools_library',
             'knockout = adhocracy.static:knockout_library',
             'misc = adhocracy.static:misc_library',
             'adhocracy = adhocracy.static:adhocracy_library',

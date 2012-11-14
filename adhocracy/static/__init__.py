@@ -56,6 +56,9 @@ placeholder = Resource(placeholder_library, 'jquery.placeholder.js',
                        minified='jquery.placeholder.min.js',
                        depends=[jquery])
 
+jquerytools_library = Library('jquerytools', 'javascripts', version="1.2.7")
+jquerytools = Resource(jquerytools_library, 'jquery.tools.min.js',
+                       depends=[jquery])
 
 # --[ misc javascripts ]----------------------------------------------------
 
@@ -66,8 +69,6 @@ cycle = Resource(misc_library, 'jquery.multipleelements.cycle.min.js',
                  depends=[jquery])
 modernizr = Resource(misc_library, 'modernizr.js',
                      depends=[jquery])
-jquerytools = Resource(misc_library, 'jquery.tools.min.js',
-                       depends=[jquery])
 spectrum_css = Resource(misc_library, 'spectrum/spectrum.css')
 spectrum = Resource(misc_library, 'spectrum/spectrum.js',
                     minified='spectrum/spectrum.min.js',
