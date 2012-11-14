@@ -6,6 +6,7 @@ import time
 import urllib
 
 from formencode import validators
+from paste.deploy.converters import asbool
 from pylons.i18n import _, lazy_ugettext, lazy_ugettext as L_
 from pylons import config, request, tmpl_context as c, url
 from pylons.controllers.util import redirect
@@ -695,7 +696,11 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
     entity_type = model.Badge
     title = lazy_ugettext(u'Categories')
     solr_field = 'facet.delegateable.badgecategory'
-    show_current_empty = False
+    
+    @property
+    def show_current_empty(self):
+        return not asbool(config.get(
+            'adhocracy.hide_empty_categories_in_facet_list', 'false'))
 
     @classmethod
     def add_data_to_index(cls, entity, data):
