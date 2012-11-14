@@ -1232,10 +1232,10 @@ def solr_proposal_pager(instance, wildcard_queries=None):
                       sorts=PROPOSAL_SORTS,
                       extra_filter=extra_filter,
                       facets=[DelegateableBadgeCategoryFacet,
+                              DelegateableMilestoneFacet,
                               DelegateableBadgeFacet,
                               DelegateableAddedByBadgeFacet,
-                              DelegateableTags,
-                              DelegateableMilestoneFacet],
+                              DelegateableTags],
                       wildcard_queries=wildcard_queries)
     return pager
 
