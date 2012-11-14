@@ -71,11 +71,13 @@ class Milestone(object):
                          include_deleted=include_deleted).all()
 
     @classmethod
+    def all_future_q(cls, instance=None, include_deleted=False):
+        q = cls.all_q(instance, include_deleted)
+        return q.filter(Milestone.time > datetime.utcnow())
+
+    @classmethod
     def all_future(cls, instance=None, include_deleted=False):
-        q = cls.all_q(instance=instance,
-                         include_deleted=include_deleted)
-        q.filter(Milestone.time > datetime.utcnow())
-        return q.all()
+        return cls.all_future_q(instance, include_deleted).all()
 
     @property
     def over(self, expire_time=None):

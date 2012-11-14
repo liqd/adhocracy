@@ -342,8 +342,8 @@ $(document).ready(function () {
     adhocracy.helpers.initializeUserAutocomplete(".userCompleted");
     adhocracy.overlay.bindOverlays('body');
 
-    // initial jquery label_over
-    $('.label_over label').labelOver('over-apply');
+    // initial jquery-placeholder
+    $('input, textarea').placeholder();
 
     // comments
     $('.comment, .paper').hover(

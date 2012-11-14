@@ -6,7 +6,9 @@ import formencode
 from formencode import htmlfill
 from formencode import validators
 
-from pylons import request, response, tmpl_context as c
+from paste.deploy.converters import asbool, asint
+
+from pylons import request, response, tmpl_context as c, config
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _, lazy_ugettext as L_
@@ -210,8 +212,26 @@ class InstanceController(BaseController):
         #tags = model.Tag.popular_tags(limit=40)
         #c.tags = sorted(text.tag_cloud_normalize(tags),
         #                key=lambda (k, c, v): k.name)
-        if c.page_instance.milestones:
-            c.milestones = model.Milestone.all(instance=c.page_instance)
+
+        if asbool(config.get('adhocracy.show_instance_overview_milestones')) \
+           and c.page_instance.milestones:
+
+            number = asint(config.get(
+                'adhocracy.number_instance_overview_milestones', 3))
+            
+            milestones = model.Milestone.all_future_q(
+                instance=c.page_instance).limit(number).all()
+
+            c.next_milestones_pager = pager.milestones(
+                milestones, size=number, enable_sorts=False,
+                enable_pages=False, default_sort=sorting.milestone_time)
+
+        events = model.Event.find_by_instance(c.page_instance, limit=3)
+
+        c.events_pager = pager.events(events,
+                                      enable_pages=False, 
+                                      enable_sorts=False)
+
         c.stats = {
             'comments': model.Comment.all_q().count(),
             'proposals': model.Proposal.all_q(

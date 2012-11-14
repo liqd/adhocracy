@@ -3,17 +3,25 @@
 
 <%def name="row(tile, milestone)">
     <li class="content_box">
-        <div>
-            <h3>
-                <a class="link" href="${h.entity_url(milestone)}">
-                    ${milestone.title}
-                </a>
-            </h3>
-            <div class="meta noclear">
-                ${_("ends: <b>%s</b>") % milestone.time and milestone.time.strftime("%d.%m.%Y") or 'Undefined'|n} 
-            </div>
+      <div>
+        %if milestone.time:
+        <span class="milestone_row_date">
+          ${milestone.time.strftime("%d.%m.%Y")} 
+        </span>
+        %endif
+        <h3>
+          <a class="link" href="${h.entity_url(milestone)}">
+            ${milestone.title}
+          </a>
+        </h3>
+        <div class="milestone_row_content meta">
+          ${h.truncate(milestone.text, 280, whole_word=True)}
+          <a href="${h.entity_url(milestone)}" class="more_link">
+            ${_(u'See more')}
+          </a>
         </div>
-        <div class="hr"><hr /></div>    
+      </div>
+      <div class="hr"><hr /></div>    
     </li>
 </%def>
 
