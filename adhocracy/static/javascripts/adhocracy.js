@@ -601,4 +601,18 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.showmore').each(function () {
+        var self = $(this);
+        self.find('.showmore_morelink').bind('click', function (event) {
+                self.find('.showmore_collapsed').css('display', 'none');
+                self.find('.showmore_uncollapsed').css('display', 'inline');
+                return false;
+            });
+        self.find('.showmore_lesslink').bind('click', function (event) {
+                self.find('.showmore_collapsed').css('display', 'inline');
+                self.find('.showmore_uncollapsed').css('display', 'none');
+                return false;
+            });
+    });
 });
