@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-10-15 23:25+0200\n"
-"PO-Revision-Date: 2012-07-26 22:52+0000\n"
+"POT-Creation-Date: 2012-11-17 19:40+0100\n"
+"PO-Revision-Date: 2012-11-17 19:14+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: English (http://www.transifex.com/projects/p/adhocracy/language/en/)\n"
 "MIME-Version: 1.0\n"
@@ -413,10 +413,6 @@ msgstr "Invalid user name or password"
 msgid "tutorial_dashboard_title"
 msgstr "tutorial_dashboard_title"
 
-#, python-format
-msgid "Cannot make %(user)s a member of %(group)s"
-msgstr "Cannot make %(user)s a member of %(group)s"
-
 msgid "The account has been suspended."
 msgstr "The account has been suspended."
 
@@ -425,6 +421,9 @@ msgstr "The account has been re-activated."
 
 msgid "The account has been deleted."
 msgstr "The account has been deleted."
+
+msgid "Invalid badge choice."
+msgstr "Invalid badge choice."
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -492,6 +491,10 @@ msgstr "No proposal with ID '%s' exists"
 #, python-format
 msgid "No group with ID '%s' exists"
 msgstr "No group with ID '%s' exists"
+
+#, python-format
+msgid "Group '%s' is no instance group"
+msgstr "Group '%s' is no instance group"
 
 msgid "At least on character is required"
 msgstr "At least on character is required"
@@ -704,6 +707,9 @@ msgstr "hierarchical"
 
 msgid "Badge"
 msgstr "Badge"
+
+msgid "Instance"
+msgstr "Instance"
 
 msgid "Categories"
 msgstr "Categories"
@@ -946,24 +952,24 @@ msgid "New comment: in %(topic)s"
 msgstr "New comment: in %(topic)s"
 
 #, python-format
-msgid "commented %(comment)s on %(topic)s"
-msgstr "commented %(comment)s on %(topic)s"
+msgid "commented %(topic)s"
+msgstr "commented %(topic)s"
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
 msgstr "Edited comment: in %(topic)s"
 
 #, python-format
-msgid "edited the comment %(comment)s on %(topic)s"
-msgstr "edited the comment %(comment)s on %(topic)s"
+msgid "edited comment on %(topic)s"
+msgstr "edited comment on %(topic)s"
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
 msgstr "Deleted comment: in %(topic)s"
 
 #, python-format
-msgid "deleted the comment %(comment)s from %(topic)s"
-msgstr "deleted the comment %(comment)s from %(topic)s"
+msgid "deleted comment from %(topic)s"
+msgstr "deleted comment from %(topic)s"
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -1248,6 +1254,9 @@ msgstr "next"
 msgid "entries"
 msgstr "entries"
 
+msgid "Filter list"
+msgstr "Filter list"
+
 msgid "Remove all"
 msgstr "Remove all"
 
@@ -1446,16 +1455,19 @@ msgstr "Group"
 msgid "No Group"
 msgstr "No Group"
 
-msgid "Assign the user to this group for all instances in the adhocracy site."
-msgstr "Assign the user to this group for all instances in the adhocracy site."
+msgid ""
+"Automatically assign all users with this badge to the selected group for all"
+" instances in the adhocracy site."
+msgstr "Automatically assign all users with this badge to the selected group for all instances in the adhocracy site."
+
+msgid "Automatically assign all users with this badge to the selected group."
+msgstr "Automatically assign all users with this badge to the selected group."
 
 msgid "Display group in instances"
 msgstr "Display group in instances"
 
-msgid ""
-"Display this group in instances instead of the normal group the user is in "
-"there."
-msgstr "Display this group in instances instead of the normal group the user is in there."
+msgid "Display this badge instead of the normal user group."
+msgstr "Display this badge instead of the normal user group."
 
 msgid "Global"
 msgstr "Global"
@@ -1948,6 +1960,15 @@ msgstr "show a list of proposals"
 msgid "more proposals"
 msgstr "more proposals"
 
+msgid "Next milestone"
+msgstr "Next milestone"
+
+msgid "Next milestones"
+msgstr "Next milestones"
+
+msgid "Newest Events"
+msgstr "Newest Events"
+
 msgid "Informations"
 msgstr "Informations"
 
@@ -2088,9 +2109,8 @@ msgstr "tutorial_milestone_details_description"
 msgid "tutorial_milestone_details_listing"
 msgstr "tutorial_milestone_details_listing"
 
-#, python-format
-msgid "ends: <b>%s</b>"
-msgstr "ends: <b>%s</b>"
+msgid "See more"
+msgstr "See more"
 
 msgid "(unknown)"
 msgstr "(unknown)"
@@ -2228,12 +2248,15 @@ msgstr "New Proposal"
 msgid "Information about the norm"
 msgstr "Information about the norm"
 
+msgid "Last Activity"
+msgstr "Last Activity"
+
 #, python-format
 msgid "This norm relates to the milestone %s."
 msgstr "This norm relates to the milestone %s."
 
-msgid "subnorms"
-msgstr "subnorms"
+msgid "Subnorms"
+msgstr "Subnorms"
 
 msgid "View Proposal"
 msgstr "View Proposal"
@@ -2435,6 +2458,9 @@ msgstr "Collaboration and Notification"
 msgid "Allow others to edit this proposal."
 msgstr "Allow others to edit this proposal."
 
+msgid "Create new proposal"
+msgstr "Create new proposal"
+
 msgid "Find proposals"
 msgstr "Find proposals"
 
@@ -2452,9 +2478,6 @@ msgstr "tutorial_proposal_overview_new"
 
 msgid "New proposal"
 msgstr "New proposal"
-
-msgid "Create new proposal"
-msgstr "Create new proposal"
 
 msgid "Change norms with this proposal"
 msgstr "Change norms with this proposal"
@@ -2533,9 +2556,6 @@ msgstr "tutorial_proposal_show_new_discussion"
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr "tutorial_proposal_show_propose_variant"
-
-msgid "Last Activity"
-msgstr "Last Activity"
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
