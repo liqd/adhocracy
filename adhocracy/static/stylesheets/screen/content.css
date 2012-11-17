@@ -1677,3 +1677,8 @@ a.joyride-prev-tip:hover {
 #socialshareprivacy form {
   padding: 0;
 }
+
+.showmore_morelink, .showmore_lesslink {
+  text-transform: lowercase;
+  font-variant: small-caps;
+}

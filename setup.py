@@ -53,7 +53,7 @@ setup(
         "python-memcached>=1.45",
         "sunburnt==0.6",
         "PIL>=1.1.6",
-        "markdown2>=1.0.1",
+        "Markdown>=2.2.1",
         "lxml>=2.2.6",
         "Mako>=0.4.2",
         "recaptcha-client>=1.0.6",
