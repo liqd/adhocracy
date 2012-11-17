@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-10-18 21:01+0200\n"
-"PO-Revision-Date: 2012-10-18 19:03+0000\n"
+"POT-Creation-Date: 2012-11-17 19:40+0100\n"
+"PO-Revision-Date: 2012-11-17 19:14+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -956,24 +956,24 @@ msgid "New comment: in %(topic)s"
 msgstr "Новый коментарий в %(topic)s"
 
 #, python-format
-msgid "commented %(comment)s on %(topic)s"
-msgstr "откоментировано %(comment)s в %(topic)s"
+msgid "commented %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
 msgstr "Удаленный коментарий: в %(topic)s топике"
 
 #, python-format
-msgid "edited the comment %(comment)s on %(topic)s"
-msgstr "отредактированные коментарии %(comment)s в %(topic)s"
+msgid "edited comment on %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
 msgstr "Удаленный коментарий: в %(topic)s цепочке"
 
 #, python-format
-msgid "deleted the comment %(comment)s from %(topic)s"
-msgstr "удаленные коментарии %(comment)s в %(topic)s"
+msgid "deleted comment from %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -1964,6 +1964,15 @@ msgstr "Показать список предложений"
 msgid "more proposals"
 msgstr "Дальнейшие предложения"
 
+msgid "Next milestone"
+msgstr ""
+
+msgid "Next milestones"
+msgstr ""
+
+msgid "Newest Events"
+msgstr ""
+
 msgid "Informations"
 msgstr "Информация"
 
@@ -2106,9 +2115,8 @@ msgstr ""
 msgid "tutorial_milestone_details_listing"
 msgstr ""
 
-#, python-format
-msgid "ends: <b>%s</b>"
-msgstr "заканчивается: <b>%s</b> "
+msgid "See more"
+msgstr ""
 
 msgid "(unknown)"
 msgstr ""
@@ -2246,11 +2254,14 @@ msgstr "Новое предложение"
 msgid "Information about the norm"
 msgstr "Информация о документе"
 
+msgid "Last Activity"
+msgstr "Последняя активность"
+
 #, python-format
 msgid "This norm relates to the milestone %s."
 msgstr "Этот документ связан со сроком %s."
 
-msgid "subnorms"
+msgid "Subnorms"
 msgstr ""
 
 msgid "View Proposal"
@@ -2454,6 +2465,9 @@ msgstr "Сотрудничество и получение Уведомлени�
 msgid "Allow others to edit this proposal."
 msgstr "разрешить другим редактировать это предложение"
 
+msgid "Create new proposal"
+msgstr "Создать новое предложение"
+
 msgid "Find proposals"
 msgstr "найти предложения"
 
@@ -2471,9 +2485,6 @@ msgstr ""
 
 msgid "New proposal"
 msgstr "Новое предложение"
-
-msgid "Create new proposal"
-msgstr "Создать новое предложение"
 
 msgid "Change norms with this proposal"
 msgstr "Изменить документ с помощью нового предложения"
@@ -2552,9 +2563,6 @@ msgstr ""
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr ""
-
-msgid "Last Activity"
-msgstr "Последняя активность"
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."

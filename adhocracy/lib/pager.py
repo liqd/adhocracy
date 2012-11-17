@@ -6,6 +6,7 @@ import time
 import urllib
 
 from formencode import validators
+from paste.deploy.converters import asbool
 from pylons.i18n import _, lazy_ugettext, lazy_ugettext as L_
 from pylons import config, request, tmpl_context as c, url
 from pylons.controllers.util import redirect
@@ -342,8 +343,8 @@ def delegations(delegations):
                       default_sort=sorting.entity_newest)
 
 
-def events(events):
-    return NamedPager('events', events, tiles.event.row)
+def events(events, **kwargs):
+    return NamedPager('events', events, tiles.event.row, **kwargs)
 
 
 def polls(polls, default_sort=None, **kwargs):
@@ -695,7 +696,11 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
     entity_type = model.Badge
     title = lazy_ugettext(u'Categories')
     solr_field = 'facet.delegateable.badgecategory'
-    show_current_empty = False
+    
+    @property
+    def show_current_empty(self):
+        return not asbool(config.get(
+            'adhocracy.hide_empty_categories_in_facet_list', 'false'))
 
     @classmethod
     def add_data_to_index(cls, entity, data):
@@ -1232,10 +1237,10 @@ def solr_proposal_pager(instance, wildcard_queries=None):
                       sorts=PROPOSAL_SORTS,
                       extra_filter=extra_filter,
                       facets=[DelegateableBadgeCategoryFacet,
+                              DelegateableMilestoneFacet,
                               DelegateableBadgeFacet,
                               DelegateableAddedByBadgeFacet,
-                              DelegateableTags,
-                              DelegateableMilestoneFacet],
+                              DelegateableTags],
                       wildcard_queries=wildcard_queries)
     return pager
 

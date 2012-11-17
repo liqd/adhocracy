@@ -21,12 +21,17 @@ h4, legend { font-size: 20px; margin-bottom: 10px; font-weight: normal; }
 h5 { font-size: 16px; margin-bottom: 5px; font-weight: normal; }
 h6 { font-size: 14px; font-weight: normal; color: #666; }
 
+.sidebar_box {
+  background: #f8f8f8;
+  padding: 0 15px 1px 22px;
 }
+
 #col3 h3 {
   font-size: 25px;
   background: url('/images/line_dotted.gif') repeat-x bottom left;
-  padding-top: 12px;
+  padding-top: 16px;
   padding-bottom: 5px;
+  margin-left: -2px;
 }
 
 p {
@@ -1202,22 +1207,6 @@ a.show_comments.open:hover:after, a.new_comment.open:hover:after {
 }
 
 /* forms */
-form .label_over {
-  display: inline-block;
-  overflow: hidden;
-  position: relative;
-  vertical-align: top;
-}
-label.over-apply {
-  left: 10px;
-  margin: 0;
-  position: absolute;
-  top: 4px;
-  z-index: 10;
-  font-weight: normal;
-  font-size: 13px;
-  color: #666;
-}
 
 .form_wrapper {
   background: url("/images/shadow_image_large.jpg") no-repeat scroll center bottom transparent;
@@ -1344,6 +1333,7 @@ html.js .alert .close { display: block }
   float: right;
   padding: 0;
   background:  none;
+  margin-bottom: 0;
 }
 
 .list_form label {
@@ -1562,8 +1552,7 @@ body.logged_in .only-anon {
 }
 
 #add_tags {
-float: right;
-padding-right: 2em;
+padding-bottom: 10px;
 }
 
 .facet ul {
@@ -1626,6 +1615,13 @@ a.joyride-prev-tip:hover {
   padding-top: 2em;
 }
 
+.milestone_row_date {
+  padding-left: 20px;
+  padding-top: 2px;
+  margin-left: -2px;
+  background: url('/images/icon_calendar.png') no-repeat;
+}
+
 .more_link, .create_proposal_link {
   margin-left: 5px;
   padding-left: 25px;
@@ -1646,6 +1642,34 @@ a.joyride-prev-tip:hover {
   background: url("/images/sprite.png") no-repeat left 2px;
   position: relative;
   top: 25px;
+}
+
+.tile.event:first-child {
+  background: none;
+  border-bottom: none;
+}
+
+.tile.event {
+  padding: 10px 0 2px 0;
+  /*border-bottom: 1px dotted #cccccc;*/
+  background: url('/images/line_dotted_3.png') repeat-x top left;
+}
+
+.event_text {
+  padding: 3px 0;
+}
+
+/* force markdown created text to be small */
+.event_text * {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: small !important;
+  background: none !important;
+  /*color: #666666 !important;*/
+  font-variant: none !important;
+}
+.event_text li {
+  margin-left: 20px !important;
 }
 
 /* Fixes for js.socialshareprivace */
@@ -1677,3 +1701,7 @@ a.joyride-prev-tip:hover {
   height: 140px;
 }
 
+.showmore_morelink, .showmore_lesslink {
+  text-transform: lowercase;
+  font-variant: small-caps;
+}
