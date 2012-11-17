@@ -149,7 +149,7 @@ var adhocracy = adhocracy || {};
     /**
      * Initialize the tooltips for all correctly marked
      * elements found inside baseSelector. If baseSelector
-     * is not given, it searchs for all elements in the
+     * is not given, it searches for all elements in the
      * document body.
      *
      * @param {string} baseSelector A selector string that can be
@@ -342,8 +342,8 @@ $(document).ready(function () {
     adhocracy.helpers.initializeUserAutocomplete(".userCompleted");
     adhocracy.overlay.bindOverlays('body');
 
-    // initial jquery label_over
-    $('.label_over label').labelOver('over-apply');
+    // initial jquery-placeholder
+    $('input, textarea').placeholder();
 
     // comments
     $('.comment, .paper').hover(

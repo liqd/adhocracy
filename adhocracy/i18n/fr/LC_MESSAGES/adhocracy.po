@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-10-18 21:01+0200\n"
-"PO-Revision-Date: 2012-10-18 19:03+0000\n"
+"POT-Creation-Date: 2012-11-17 19:40+0100\n"
+"PO-Revision-Date: 2012-11-17 19:14+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -954,24 +954,24 @@ msgid "New comment: in %(topic)s"
 msgstr "Nouveau commentaire: dans %(topic)s"
 
 #, python-format
-msgid "commented %(comment)s on %(topic)s"
-msgstr "a commenté %(comment)s dans %(topic)s "
+msgid "commented %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
 msgstr "A édité un commentaire: dans %(topic)s"
 
 #, python-format
-msgid "edited the comment %(comment)s on %(topic)s"
-msgstr "éditait le commentaire %(comment)s sur %(topic)s"
+msgid "edited comment on %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
 msgstr "A effacé un commentaire: dans %(topic)s"
 
 #, python-format
-msgid "deleted the comment %(comment)s from %(topic)s"
-msgstr "effacait le commentaire %(comment)s de %(topic)s"
+msgid "deleted comment from %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -1962,6 +1962,15 @@ msgstr "montrer une liste des propositions"
 msgid "more proposals"
 msgstr "plus de propositions"
 
+msgid "Next milestone"
+msgstr ""
+
+msgid "Next milestones"
+msgstr ""
+
+msgid "Newest Events"
+msgstr ""
+
 msgid "Informations"
 msgstr "Informations"
 
@@ -2102,9 +2111,8 @@ msgstr "Vous pouvez aussi regarder à l'objectif de la date - s'il s'agit d'un r
 msgid "tutorial_milestone_details_listing"
 msgstr "Ici, vous trouverez une liste avec toutes les propositions et thèmes qui sont pertinents à la date."
 
-#, python-format
-msgid "ends: <b>%s</b>"
-msgstr "fini: <b>%s</b>"
+msgid "See more"
+msgstr ""
 
 msgid "(unknown)"
 msgstr "(inconnu)"
@@ -2242,12 +2250,15 @@ msgstr "Nouvelle proposition"
 msgid "Information about the norm"
 msgstr "Information concernant le thème"
 
+msgid "Last Activity"
+msgstr "Dernière activité"
+
 #, python-format
 msgid "This norm relates to the milestone %s."
 msgstr "Ce thème est lié à la date %s."
 
-msgid "subnorms"
-msgstr "sous-thèmes"
+msgid "Subnorms"
+msgstr ""
 
 msgid "View Proposal"
 msgstr "Voir la proposition"
@@ -2449,6 +2460,9 @@ msgstr "Collaboration et Notification"
 msgid "Allow others to edit this proposal."
 msgstr "Permettre d'éditer cette proposition aux autres."
 
+msgid "Create new proposal"
+msgstr "Créer une nouvelle proposition"
+
 msgid "Find proposals"
 msgstr "Trouver des propositions."
 
@@ -2466,9 +2480,6 @@ msgstr "Si votre idée n'est pas encore existant, vous pouvez aussi écrire une 
 
 msgid "New proposal"
 msgstr "Nouvelle proposition"
-
-msgid "Create new proposal"
-msgstr "Créer une nouvelle proposition"
 
 msgid "Change norms with this proposal"
 msgstr "Changer des thèmes avec cette proposition"
@@ -2547,9 +2558,6 @@ msgstr "...et ajouter des nouveaux commentaires.\t"
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr "Ou vous pouvez changer activement la proposition et ajouter des alternatives."
-
-msgid "Last Activity"
-msgstr "Dernière activité"
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
