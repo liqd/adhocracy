@@ -187,5 +187,9 @@
     ${debug.queries()}
     %endif
 
+    %if h.feedback.is_configured():
+      ${components.feedback()}
+    %endif
+
   </body>
 </html>

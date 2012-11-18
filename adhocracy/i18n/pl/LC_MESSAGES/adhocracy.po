@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-17 19:40+0100\n"
-"PO-Revision-Date: 2012-11-17 19:14+0000\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
+"PO-Revision-Date: 2012-11-18 09:55+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2243,6 +2243,12 @@ msgstr "Nowy dokument zostanie skategoryzowany pod wskazanym dokumentem nadrzęd
 
 msgid "Highlight Changes"
 msgstr "Pokaż zmiany"
+
+msgid "On"
+msgstr ""
+
+msgid "Off"
+msgstr ""
 
 msgid "New Proposal"
 msgstr "Nowa propozycja"

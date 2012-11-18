@@ -43,8 +43,9 @@ instance_table = \
           Column('milestones', Boolean, default=False),
           Column('use_norms', Boolean, nullable=True, default=True),
           Column('require_selection', Boolean, nullable=True, default=False),
-          Column('region_id', Integer, ForeignKey('region.id'), nullable=True),
           Column('is_authenticated', Boolean, nullable=True, default=False),
+          Column('hide_global_categories', Boolean, nullable=True, default=False),
+          Column('region_id', Integer, ForeignKey('region.id'), nullable=True),
           GeometryExtensionColumn('geo_centre',
                                   Geometry(dimension=2, srid=900913),
                                   nullable=True)

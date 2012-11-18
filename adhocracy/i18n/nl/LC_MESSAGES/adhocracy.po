@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-17 19:40+0100\n"
-"PO-Revision-Date: 2012-11-17 19:14+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
+"PO-Revision-Date: 2012-11-18 14:11+0000\n"
+"Last-Translator: sicco <sicco@ddo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -230,7 +230,7 @@ msgid "No proposal has been specified"
 msgstr "Er is geen voorstel gespecificeerd"
 
 msgid "You cannot create a new norm"
-msgstr "U kunt geen nieuwe norm creëren"
+msgstr "U kunt geen nieuw reglement creëren"
 
 #, python-format
 msgid "Variant %s is already present, cannot branch."
@@ -955,7 +955,7 @@ msgstr "Nieuwe reactie: in %(topic)s"
 
 #, python-format
 msgid "commented %(topic)s"
-msgstr ""
+msgstr "reageerde %(topic)s"
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
@@ -963,7 +963,7 @@ msgstr "Bewerkte reactie: in %(topic)s"
 
 #, python-format
 msgid "edited comment on %(topic)s"
-msgstr ""
+msgstr "bewerkte reactie op %(topic)s"
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
@@ -971,7 +971,7 @@ msgstr "Verwijderde reactie: in %(topic)s"
 
 #, python-format
 msgid "deleted comment from %(topic)s"
-msgstr ""
+msgstr "verwijderde reactie van %(topic)s"
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -1963,13 +1963,13 @@ msgid "more proposals"
 msgstr "meer voorstellen"
 
 msgid "Next milestone"
-msgstr ""
+msgstr "Volgende mijlpaal"
 
 msgid "Next milestones"
-msgstr ""
+msgstr "Volgende mijlpalen"
 
 msgid "Newest Events"
-msgstr ""
+msgstr "Nieuwste evenementen"
 
 msgid "Informations"
 msgstr "Informatie"
@@ -2112,7 +2112,7 @@ msgid "tutorial_milestone_details_listing"
 msgstr "Hier vindt u een lijst met voorstellen en reglementen die betrekking hebben tot de mijlpaal."
 
 msgid "See more"
-msgstr ""
+msgstr "Meer"
 
 msgid "(unknown)"
 msgstr "(onbekend)"
@@ -2230,7 +2230,7 @@ msgid "New norm"
 msgstr "Nieuw reglement"
 
 msgid "Norm content"
-msgstr "Nieuwe inhoud"
+msgstr "Reglement inhoud"
 
 msgid "Tag and classify"
 msgstr "Tags en Eigenschappen"
@@ -2243,6 +2243,12 @@ msgstr "Het nieuwe reglement wordt ondergebracht in het geselecteerde reglement.
 
 msgid "Highlight Changes"
 msgstr "Zie Aanpassingen"
+
+msgid "On"
+msgstr "Aan"
+
+msgid "Off"
+msgstr "Uit"
 
 msgid "New Proposal"
 msgstr "Nieuw Voorstel"
@@ -2258,7 +2264,7 @@ msgid "This norm relates to the milestone %s."
 msgstr "Dit reglement is gerelateerd aan mijlpaal %s."
 
 msgid "Subnorms"
-msgstr ""
+msgstr "sub-reglementen"
 
 msgid "View Proposal"
 msgstr "Bekijk Voorstel"
@@ -2685,7 +2691,7 @@ msgid "Include an existing norm instead"
 msgstr "Gebruik anders een al bestaand reglement"
 
 msgid "Show Norm"
-msgstr "Laat Reglementen Zien"
+msgstr "Toon Reglement"
 
 msgid "There is a tie between variants, thus none is included at the moment."
 msgstr "De varianten hebben een gelijk aantal stemmen, er wordt er op het moment dus geen één opgenomen."
