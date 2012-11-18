@@ -108,12 +108,6 @@ class AdminController(BaseController):
                 to_user(user, form_result['email_subject'], body,
                         decorate_body=False)
                 mailed.append(user.user_name)
-                if c.instance:
-                    membership = model.Membership(user, c.instance,
-                                                  c.instance.default_group)
-                    model.meta.Session.expunge(membership)
-                    model.meta.Session.add(membership)
-                    model.meta.Session.commit()
 
             except Exception, E:
                 log.error('user import for user %s, email %s, exception %s' %

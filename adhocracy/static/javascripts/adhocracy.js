@@ -157,7 +157,7 @@ var adhocracy = adhocracy || {};
     /**
      * Initialize the tooltips for all correctly marked
      * elements found inside baseSelector. If baseSelector
-     * is not given, it searchs for all elements in the
+     * is not given, it searches for all elements in the
      * document body.
      *
      * @param {string} baseSelector A selector string that can be
@@ -350,8 +350,8 @@ $(document).ready(function () {
     adhocracy.helpers.initializeUserAutocomplete(".userCompleted");
     adhocracy.overlay.bindOverlays('body');
 
-    // initial jquery label_over
-    $('.label_over label').labelOver('over-apply');
+    // initial jquery-placeholder
+    $('input, textarea').placeholder();
 
     // comments
     $('.comment, .paper').hover(
@@ -608,5 +608,19 @@ $(document).ready(function () {
                 adhocracy.overlay.bindOverlays(target);
             }
         });
+    });
+
+    $('.showmore').each(function () {
+        var self = $(this);
+        self.find('.showmore_morelink').bind('click', function (event) {
+                self.find('.showmore_collapsed').css('display', 'none');
+                self.find('.showmore_uncollapsed').css('display', 'inline');
+                return false;
+            });
+        self.find('.showmore_lesslink').bind('click', function (event) {
+                self.find('.showmore_collapsed').css('display', 'inline');
+                self.find('.showmore_uncollapsed').css('display', 'none');
+                return false;
+            });
     });
 });

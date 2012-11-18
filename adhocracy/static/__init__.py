@@ -17,7 +17,7 @@ yaml = Group([yaml_base, yaml_print])
 
 # --[ twitter bootstrap ]---------------------------------------------------
 
-bootstrap_library = Library('bootstrap', 'bootstrap', version="2.0.4")
+bootstrap_library = Library('bootstrap', 'bootstrap', version="2.1.1")
 bootstrap_js = Resource(bootstrap_library, 'js/bootstrap.js',
                         minified='js/bootstrap.min.js',
                         depends=[jquery])
@@ -58,23 +58,40 @@ jquery_i18n_js = Resource(jquery_i18n_library, 'jquery.i18n.js',
                           minified='jquery.i18n.min.js',
                           depends=[jquery])
 
+
+# --[ other versioned libraries ]-------------------------------------------
+
+placeholder_library = Library('placeholder', 'javascripts', version="2.0.7")
+placeholder = Resource(placeholder_library, 'jquery.placeholder.js',
+                       minified='jquery.placeholder.min.js',
+                       depends=[jquery])
+
+jquerytools_library = Library('jquerytools', 'javascripts', version="1.2.7")
+jquerytools = Resource(jquerytools_library, 'jquery.tools.min.js',
+                       depends=[jquery])
+
+
 # --[ misc javascripts ]----------------------------------------------------
 
 misc_library = Library('misc', 'javascripts')
 elastic = Resource(misc_library, 'jquery.elastic.js',
                    depends=[jquery])
-label_over = Resource(misc_library, 'jquery.label_over.js',
-                      depends=[jquery])
 cycle = Resource(misc_library, 'jquery.multipleelements.cycle.min.js',
                  depends=[jquery])
 modernizr = Resource(misc_library, 'modernizr.js',
                      depends=[jquery])
-jquerytools = Resource(misc_library, 'jquery.tools.min.js',
-                       depends=[jquery])
 spectrum_css = Resource(misc_library, 'spectrum/spectrum.css')
 spectrum = Resource(misc_library, 'spectrum/spectrum.js',
                     minified='spectrum/spectrum.min.js',
                        depends=[jquery, spectrum_css])
+
+
+# --[ adhocracy ]-----------------------------------------------------------
+
+adhocracy_library = Library('adhocracy', 'javascripts')
+adhocracy = Resource(adhocracy_library, 'adhocracy.js',
+                     depends=[jquery, bootstrap_js, elastic,
+                              placeholder, modernizr, jquerytools])
 
 
 # --[ knockout ]------------------------------------------------------------
@@ -87,6 +104,8 @@ knockout_mapping_js = Resource(knockout_library, 'knockout.mapping.debug.js',
                                minified='knockout.mapping.js',
                                depends=[knockout_js])
 knockout = Group([knockout_js, knockout_mapping_js])
+adhocracy_ko = Resource(adhocracy_library, 'adhocracy.ko.js',
+                        depends=[adhocracy, knockout])
 
 
 # --[ openlayers ]----------------------------------------------------------
@@ -110,15 +129,6 @@ jquery_ui_js = Resource(jquery_ui_library, 'jquery-ui.custom.min.js',
 jquery_ui_css = Resource(jquery_ui_library, 'jquery-ui.custom.css')
 jquery_ui = Group([jquery_ui_js, jquery_ui_css])
 
-
-# --[ adhocracy ]-----------------------------------------------------------
-
-adhocracy_library = Library('adhocracy', 'javascripts')
-adhocracy = Resource(adhocracy_library, 'adhocracy.js',
-                     depends=[jquery, bootstrap_js, elastic,
-                              label_over, modernizr, jquerytools])
-adhocracy_ko = Resource(adhocracy_library, 'adhocracy.ko.js',
-                        depends=[adhocracy, knockout])
 adhocracy_geo_js = Resource(adhocracy_library, 'adhocracy.geo.js',
                             depends=[adhocracy, knockout_js, openlayers_js],
                             bottom=True)

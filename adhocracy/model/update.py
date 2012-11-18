@@ -58,7 +58,7 @@ class SessionModificationExtension(SessionExtension):
         # NOTE: This may post duplicate update tasks if an entity
         # is part of the session, and also updated depending on
         # another entity. Ignored for now cause the real work
-        # is asyncronous and (probably) not expensive.
+        # is asynchronous and (probably) not expensive.
         # NOTE: Move the decisions about which other objects to
         # update to the models
         if isinstance(entity, model.Poll):

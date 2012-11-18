@@ -130,13 +130,17 @@ class ValidProposal(formencode.FancyValidator):
         return proposal
 
 
-class ValidGroup(formencode.FancyValidator):
+class ValidInstanceGroup(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.model import Group
         group = Group.by_code(value)
         if not group:
             raise formencode.Invalid(
                 _("No group with ID '%s' exists") % value,
+                value, state)
+        if not group.is_instance_group():
+            raise formencode.Invalid(
+                _("Group '%s' is no instance group") % group.code,
                 value, state)
         return group
 

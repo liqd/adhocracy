@@ -228,7 +228,7 @@ class ProposalController(BaseController):
         c.text_rows = text.text_rows(c.proposal.description.head)
 
         # all available categories
-        c.categories = model.CategoryBadge.all(instance=c.instance)
+        c.categories = model.CategoryBadge.all(c.instance, include_global=True)
 
         # categories for this proposal
         # (single category not assured in db model)

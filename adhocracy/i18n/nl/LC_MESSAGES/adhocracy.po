@@ -1,36 +1,33 @@
-# Dutch translations for adhocracy.
+# Translations template for adhocracy.
 # Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
 # Mieke Van Heesewijk <>, 2012.
-# <sicco@ddo.nl>, 2012.
-# <the.vole.anonymous@gmail.com>, 2012.
+#   <sicco@ddo.nl>, 2012.
+#   <the.vole.anonymous@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version:  Adhocracy\n"
+"Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-27 03:37+0200\n"
-"PO-Revision-Date: 2012-07-26 22:52+0000\n"
+"POT-Creation-Date: 2012-11-17 19:40+0100\n"
+"PO-Revision-Date: 2012-11-17 19:14+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
-"Language-Team: nl <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Thank you for helping."
 msgstr "Dank u voor uw hulp."
 
 msgid "Please insert a subject for the mail we will send to the users."
-msgstr ""
-"Voeg alstublieft een onderwerp toe voor de e-mail die verstuurd zal "
-"worden naar de gebruikers."
+msgstr "Voeg alstublieft een onderwerp toe voor de e-mail die verstuurd zal worden naar de gebruikers."
 
 msgid "Please insert a template for the mail we will send to the users."
-msgstr ""
-"Voeg alstublieft een sjabloon toe voor de e-mail die verstuurd zal worden"
-" naar de gebruikers."
+msgstr "Voeg alstublieft een sjabloon toe voor de e-mail die verstuurd zal worden naar de gebruikers."
 
 msgid "In all instances"
 msgstr "In alle groepen"
@@ -60,11 +57,9 @@ msgid "The comment has been deleted."
 msgstr "De reactie is verwijderd"
 
 msgid ""
-"You're trying to revert to a revision which is not partri of this "
-"comments history"
-msgstr ""
-"U probeert een revisie te herstellen die niet onderdeel is van de "
-"historie van deze reacties"
+"You're trying to revert to a revision which is not partri of this comments "
+"history"
+msgstr "U probeert een revisie te herstellen die niet onderdeel is van de historie van deze reacties"
 
 msgid "The comment has been reverted."
 msgstr "De reactie is hersteld."
@@ -105,10 +100,10 @@ msgid "No update required."
 msgstr "Geen update nodig."
 
 msgid "Delegations are enabled."
-msgstr "Volmachtigen is toegestaan."
+msgstr "Het geven van volmachten is toegestaan."
 
 msgid "Delegations are disabled."
-msgstr "Volmachtigen is niet toegestaan."
+msgstr "Het geven van volmachten is niet toegestaan."
 
 msgid "tutorial_instance_show_intro"
 msgstr "Welkom op de hoofdpagina van deze groep."
@@ -123,7 +118,7 @@ msgid "Contents"
 msgstr "Inhoud"
 
 msgid "Votings"
-msgstr "Stemmingen"
+msgstr "Stemmen"
 
 msgid "Badges"
 msgstr "Badges"
@@ -135,7 +130,7 @@ msgid "The logo has been deleted."
 msgstr "Het logo is verwijderd."
 
 msgid "No delay"
-msgstr "Geen vertraging"
+msgstr "Direct"
 
 msgid "1 Day"
 msgstr "1 Dag"
@@ -144,13 +139,13 @@ msgid "2 Days"
 msgstr "2 Dagen"
 
 msgid "One Week"
-msgstr "Eén Week"
+msgstr "1 Week"
 
 msgid "Two Weeks"
-msgstr "Twee Weken"
+msgstr "2 Weken"
 
 msgid "Four Weeks"
-msgstr "Vier Weken"
+msgstr "4 Weken"
 
 msgid "A simple majority (&frac12; of vote)"
 msgstr "Een meerderheid (&frac12; van de stemmen)"
@@ -189,9 +184,7 @@ msgid "Your message has been sent. Thanks."
 msgstr "Uw  bericht is verzonden. Dank u wel."
 
 msgid "tutorial_milestones_tab"
-msgstr ""
-"Op deze pagina vindt u een overzicht van de gestelde mijlpalen voor deze "
-"groep."
+msgstr "Op deze pagina vindt u een overzicht van de mijlpalen voor deze groep."
 
 msgid "tutorial_milestone_details_tab"
 msgstr "Het mijlpaal-detailoverzicht toont u meer informatie over de mijlpaal."
@@ -231,10 +224,7 @@ msgid "Justin Case has entered the room."
 msgstr "Justin Case komt de kamer binnen."
 
 msgid "tutorial_norms_overview_tab"
-msgstr ""
-"Overzicht van alle reglementen van deze groep. In de lijst ziet u niet "
-"alleen alle reglementen, onder de titel van elk reglement staat ook het "
-"huidige daaraan toebehorende voorstellen en reacties."
+msgstr "Overzicht van alle reglementen van deze groep. Onder de titel van elk reglement staat het huidige aantal voorstellen en reacties."
 
 msgid "No proposal has been specified"
 msgstr "Er is geen voorstel gespecificeerd"
@@ -246,10 +236,9 @@ msgstr "U kunt geen nieuwe norm creëren"
 msgid "Variant %s is already present, cannot branch."
 msgstr "Variant %s is al gecreëerd en kan niet vertakt worden."
 
-msgid "You're trying to update to a text which is not part of this pages history"
-msgstr ""
-"U probeert een tekst aan te passen die geen deel uitmaakt van de "
-"geschiedenis van deze pagina's"
+msgid ""
+"You're trying to update to a text which is not part of this pages history"
+msgstr "U probeert een tekst aan te passen die geen deel uitmaakt van de geschiedenis van deze pagina's"
 
 msgid "<i>(No text)</i>"
 msgstr "<i>(Geen tekst)</i>"
@@ -281,9 +270,7 @@ msgid "alphabetically"
 msgstr "alfabetisch"
 
 msgid "tutorial_norm_show_tab"
-msgstr ""
-"Op deze pagina vindt u de nu geldige versie van het reglement en alle "
-"varianten die onder dit reglement zijn ondergebracht."
+msgstr "Op deze pagina vindt u de nu geldige versie van het reglement en alle voorgestelde varianten op dit reglement."
 
 msgid "No such text revision."
 msgstr "Er bestaat niet zo'n tekstcorrectie."
@@ -319,17 +306,13 @@ msgid "The proposal is not undergoing a poll."
 msgstr "Over het voorstel wordt momenteel niet gestemd."
 
 msgid "tutorial_proposal_overview_tab"
-msgstr ""
-"Overzicht van alle huidige voorstellen. Hier heeft u niet alleen de "
-"mogelijkheid om nieuwe voorstellen te schrijven..."
+msgstr "Overzicht van alle huidige voorstellen. Hier kunt u zoeken naar voorstellen of zelf een voorstel indienen."
 
 msgid "Please select norm and propose a change to it."
 msgstr "Selecteer het reglement en stel een aanpasssing voor."
 
 msgid "tutorial_proposal_show_tab"
-msgstr ""
-"Op de pagina van een voorstel, vindt u niet alleen de relevante "
-"informatie, maar ook vele mogelijkheden om er actief aan deel te nemen."
+msgstr "Op de pagina van een voorstel, vindt u niet alleen de relevante informatie, maar ook vele mogelijkheden om er actief aan deel te nemen."
 
 #, python-format
 msgid "Proposal: %s"
@@ -361,19 +344,14 @@ msgid "The requested page was not found"
 msgstr "De opgevraagde pagina is niet gevonden"
 
 msgid ""
-"You have been logged out while authenticating at twitter. Please try "
-"again."
-msgstr ""
-"U bent uitgelogd tijdens de authenticatie van Twitter. Probeer het "
-"opnieuw."
+"You have been logged out while authenticating at twitter. Please try again."
+msgstr "U bent uitgelogd tijdens de authenticatie van Twitter. Probeer het opnieuw."
 
 #, python-format
 msgid ""
 "You're now following %s on twitter so we can send you notifications as "
 "direct messages"
-msgstr ""
-"U volgt %s nu op Twitter dus we kunnen u berichten sturen door middel van"
-" 'direct messages'"
+msgstr "U volgt %s nu op Twitter dus we kunnen u berichten sturen door middel van 'direct messages'"
 
 msgid "You have no twitter association."
 msgstr "U heeft geen Twitter account."
@@ -390,9 +368,7 @@ msgstr "Er bestaat geen gebruiker met dit e-mailadres"
 msgid ""
 "you have requested that your password be reset. In order to confirm the "
 "validity of your claim, please open the link below in your browser:"
-msgstr ""
-"U wilt uw wachtwoord opnieuw instellen. Om de geldigheid van uw claim te "
-"bevestigen, opent u de onderstaande link in uw browser:"
+msgstr "U wilt uw wachtwoord opnieuw instellen. Om de geldigheid van uw claim te bevestigen, opent u de onderstaande link in uw browser:"
 
 #, python-format
 msgid "Your user name to login is: %s"
@@ -405,9 +381,7 @@ msgid "your password has been reset. It is now:"
 msgstr "Uw wachtwoord is opnieuw ingesteld. Het is nu:"
 
 msgid "Please login and change the password in your user settings."
-msgstr ""
-"Gelieve in te loggen en het wachtwoord te wijzigen in uw "
-"gebruikersinstellingen."
+msgstr "Gelieve in te loggen en het wachtwoord te wijzigen in uw gebruikersinstellingen."
 
 msgid "Your new password"
 msgstr "Uw nieuwe wachtwoord"
@@ -415,10 +389,9 @@ msgstr "Uw nieuwe wachtwoord"
 msgid "Success. You have been sent an email with your new password."
 msgstr "Het is gelukt. U ontvangt een e-mail met uw nieuwe wachtwoord."
 
-msgid "The reset code is invalid. Please repeat the password recovery procedure."
-msgstr ""
-"De code is ongeldig. Herhaal de procedure om uw wachtwoord opnieuw in te "
-"stellen."
+msgid ""
+"The reset code is invalid. Please repeat the password recovery procedure."
+msgstr "De code is ongeldig. Herhaal de procedure om uw wachtwoord opnieuw in te stellen."
 
 msgid "Thank you, The address is already activated."
 msgstr "Dank u wel, het adres is al geactiveerd."
@@ -440,13 +413,7 @@ msgid "Invalid user name or password"
 msgstr "Ongeldige gebruikersnaam of wachtwoord"
 
 msgid "tutorial_dashboard_title"
-msgstr ""
-"U bevindt zich op uw persoonlijk Dashboard. Hier vindt u een overzicht "
-"van alle voorstellen en reglementen in uw groepen en uw volglijst."
-
-#, python-format
-msgid "Cannot make %(user)s a member of %(group)s"
-msgstr "Kan %(user)s geen lid maken van %(group)s"
+msgstr "U bevindt zich op uw persoonlijk Dashboard. Hier vindt u een overzicht van alle voorstellen en reglementen in uw groepen en uw volglijst."
 
 msgid "The account has been suspended."
 msgstr "Het account is opgeschort."
@@ -456,6 +423,9 @@ msgstr "Het account is gereactiveerd."
 
 msgid "The account has been deleted."
 msgstr "Het account is verwijderd."
+
+msgid "Invalid badge choice."
+msgstr "Ongeldige badge keuze."
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -501,9 +471,7 @@ msgstr "Ongeldige datum, gebruik DD.MM.JJJJ"
 msgid ""
 "Please enter a html color code like '#f0f0f0'. '%(value)' is not a valid "
 "color code."
-msgstr ""
-"Voer de html kleurcode als volgt in '#f0f0f0'. '%(value)' is geen geldige"
-" kleurcode."
+msgstr "Voer de html kleurcode als volgt in '#f0f0f0'. '%(value)' is geen geldige kleurcode."
 
 msgid "No instance key is given"
 msgstr "Er is geen groep ID opgegeven"
@@ -525,6 +493,10 @@ msgstr "Er bestaat geen voorstel met het ID '%s'"
 #, python-format
 msgid "No group with ID '%s' exists"
 msgstr "Er bestaat geen groep met het ID '%s'"
+
+#, python-format
+msgid "Group '%s' is no instance group"
+msgstr "Groep '%s' is geen instance groep"
 
 msgid "At least on character is required"
 msgstr "Tenminste één karakter is vereist"
@@ -598,15 +570,11 @@ msgstr "Ongeldige pagina naam: %s"
 
 #, python-format
 msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
-msgstr ""
-"Fout \"%(error)s\" tijdens het lezen van de regel "
-"<pre><i>%(line_content)s</i></pre>"
+msgstr "Fout \"%(error)s\" tijdens het lezen van de regel <pre><i>%(line_content)s</i></pre>"
 
 #, python-format
 msgid "The following errors occured while reading the list of users: <br />%s"
-msgstr ""
-"De volgende fouten zijn opgetreden tijden het uitlezen van de lijst met "
-"gebruikers: <br/>%s"
+msgstr "De volgende fouten zijn opgetreden tijden het uitlezen van de lijst met gebruikers: <br/>%s"
 
 #, python-format
 msgid "Line %s: %s"
@@ -626,11 +594,9 @@ msgstr "Regels %s: %s"
 
 #, python-format
 msgid ""
-"You need to insert the following placeholders into the email text so we "
-"can insert enough information for the user: %s"
-msgstr ""
-"U moet de volgende plaatshouders in de e-mail tekst invoegen zodat we de "
-"deelnemer genoeg kunnen informeren: %s"
+"You need to insert the following placeholders into the email text so we can "
+"insert enough information for the user: %s"
+msgstr "U moet de volgende plaatshouders in de e-mail tekst invoegen zodat we de deelnemer genoeg kunnen informeren: %s"
 
 msgid "Today"
 msgstr "Vandaag"
@@ -670,21 +636,15 @@ msgid "Adopted"
 msgstr "Aangenomen"
 
 msgid ""
-"A liquid democracy platform for making decisions in distributed, open "
-"groups by cooperatively creating proposals and voting on them to "
-"establish their support."
-msgstr ""
-"Een 'liquid democracy' platform voor het maken van beslissingen in "
-"gedistribueerde, open groepen door gezamenlijk voorstellen te creëren en "
-"ze door middel van stemmingen aan te nemen."
+"A liquid democracy platform for making decisions in distributed, open groups"
+" by cooperatively creating proposals and voting on them to establish their "
+"support."
+msgstr "Een 'liquid democracy' besluitvormingsplatform waar in gedistribueerde open groepen gezamenlijk voorstellen gemaakt worden en geëvalueerd door middel van stemmingen."
 
 msgid ""
 "adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, "
 "voting,participation, group decisions, decisions, decision-making"
-msgstr ""
-"adhocratie, adhocracy, directe democratie, direct democraty, vloeibare "
-"democratie, liquid democracy, liqd, democratie, democracy, wiki, stemmen,"
-" participatie, groepsbesluiten, besluiten, besluitvorming, beslissingen"
+msgstr "adhocratie, adhocracy, directe democratie, direct democraty, vloeibare democratie, liquid democracy, liqd, democratie, democracy, wiki, stemmen, participatie, groepsbesluiten, besluiten, besluitvorming, beslissingen"
 
 msgid "Invalid request. Please go back and try again."
 msgstr "Ongeldig verzoek. Ga terug en probeer het opnieuw."
@@ -701,26 +661,18 @@ msgid ""
 "%(user)s has reported abuse on the page %(url)s:\r\n"
 "\r\n"
 "%(message)s"
-msgstr ""
-"%(user)s hebben misbruik gemeld op pagina %(url)s:⏎ \n"
-"⏎\n"
-"%(message)s"
+msgstr "%(user)s heeft misbruik gemeld op pagina %(url)s:\n\n%(message)s"
 
 #, python-format
 msgid "Hi %s,"
-msgstr "Hoi %s,"
+msgstr "Hallo %s,"
 
 #, python-format
 msgid ""
 "Cheers,\r\n"
 "\r\n"
 "    the %s Team\r\n"
-msgstr ""
-"Bedankt, \n"
-"\n"
-"\n"
-"\n"
-"\t het %s Team\n"
+msgstr "Hartelijke groet,\n\n    Het %s Team\n"
 
 #, python-format
 msgid "%s <%s>"
@@ -729,10 +681,7 @@ msgstr "%s <%s>"
 msgid ""
 "this email is to check the email address you have provided. In order to "
 "confirm this email address, please open the link below in your browser:"
-msgstr ""
-"deze e-mail is bedoeld om het door u verstrekte e-mailadres te "
-"controleren. U kunt dit e-mailadres bevestigen door de onderstaande link "
-"te openen in uw browser:"
+msgstr "deze e-mail is bedoeld om het door u verstrekte e-mailadres te controleren. U kunt dit e-mailadres bevestigen door de onderstaande link te openen in uw browser:"
 
 msgid "Confirm your email address"
 msgstr "Bevestig uw e-mailadres"
@@ -744,19 +693,16 @@ msgid "newest comment"
 msgstr "Laatste reactie"
 
 msgid "most support"
-msgstr ""
+msgstr "meeste steun"
 
 msgid "mixed"
 msgstr "gemengd"
-
-msgid "support"
-msgstr ""
 
 msgid "by date"
 msgstr "op datum"
 
 msgid "most proposals"
-msgstr ""
+msgstr "meeste voorstellen"
 
 msgid "hierarchical"
 msgstr "hiërarchisch"
@@ -764,14 +710,20 @@ msgstr "hiërarchisch"
 msgid "Badge"
 msgstr "Badge"
 
+msgid "Instance"
+msgstr "Groep"
+
 msgid "Categories"
 msgstr "Categorieën"
 
 msgid "Created by"
-msgstr "Gemaakt door"
+msgstr "Aangemaakt door"
 
 msgid "Tags"
 msgstr "Tags"
+
+msgid "Milestones"
+msgstr "Mijlpalen"
 
 msgid "Oldest"
 msgstr "Oudste"
@@ -789,7 +741,7 @@ msgid "Alphabetically"
 msgstr "Alfabetisch"
 
 msgid "Most Support"
-msgstr "Meeste Ondersteuning"
+msgstr "Meeste Steun"
 
 msgid "Yays - nays"
 msgstr "Voors - tegens"
@@ -810,10 +762,10 @@ msgid "Mixed"
 msgstr "Gemengd"
 
 msgid "Age and Support"
-msgstr "leeftijd en Ondersteuning"
+msgstr "Leeftijd en Steun"
 
 msgid "Support"
-msgstr "Ondersteuning"
+msgstr "Steun"
 
 msgid "Date"
 msgstr "Datum"
@@ -835,10 +787,9 @@ msgstr "Kan entiteit '%s' niet vinden"
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Sorry, maar het lijkt erop dat u niet de rechten heeft om verder te gaan."
 
-msgid "I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
-msgstr ""
-"Sorry, het lijkt er op dat we een fout hebben gemaakt (CSRF alert). "
-"Probeer het alstublieft nogmaals."
+msgid ""
+"I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
+msgstr "Sorry, het lijkt er op dat we een fout hebben gemaakt (CSRF alert). Probeer het alstublieft nogmaals."
 
 #, python-format
 msgid "variant %(variant)s of %(page)s"
@@ -848,7 +799,7 @@ msgid "is for"
 msgstr "is voor"
 
 msgid "abstains on"
-msgstr "onthoudt zich van"
+msgstr "onthoudt zich van stemming op"
 
 msgid "is against"
 msgstr "is tegen"
@@ -868,7 +819,7 @@ msgid "%(user)s: profile updated"
 msgstr "%(user)s: profiel bijgewerkt"
 
 msgid "edited their profile"
-msgstr "heeft hun profiel aangepast"
+msgstr "heeft zijn/haar profiel aangepast"
 
 #, python-format
 msgid "%(user)s: profile was edited by %(admin)s"
@@ -880,11 +831,11 @@ msgstr "profiel is bijgewerkt door %(admin)s"
 
 #, python-format
 msgid "New instance: %(instance)s"
-msgstr "Nieuw Groep: %(instance)s"
+msgstr "Nieuwe Groep: %(instance)s"
 
 #, python-format
 msgid "founded the %(instance)s instance"
-msgstr "heeft de %(instance)s gesticht"
+msgstr "heeft de groep %(instance)s opgericht"
 
 #, python-format
 msgid "%(instance)s: instance was updated"
@@ -892,7 +843,7 @@ msgstr "%(instance)s: groep is bijgewerkt."
 
 #, python-format
 msgid "updated the %(instance)s instance"
-msgstr "de %(instance)s groep is bijgewerkt"
+msgstr "heeft de %(instance)s groep bijgewerkt"
 
 #, python-format
 msgid "Deleted Adhocracy: %(instance)s"
@@ -908,7 +859,7 @@ msgstr "%(instance)s: %(user)s is lid geworden"
 
 #, python-format
 msgid "joined %(instance)s"
-msgstr "lid geworden van %(instance)s"
+msgstr "lid geworden op %(instance)s"
 
 #, python-format
 msgid "%(instance)s: %(user)s left"
@@ -932,7 +883,7 @@ msgstr "%(instance)s: %(user)s is nu een %(group)s"
 
 #, python-format
 msgid "now is a %(group)s within %(instance)s"
-msgstr "is nu een %(group)s binnen %(instance)s"
+msgstr "is nu een %(group)s in %(instance)s"
 
 #, python-format
 msgid "New proposal: %(proposal)s"
@@ -940,7 +891,7 @@ msgstr "Nieuw voorstel: %(proposal)s"
 
 #, python-format
 msgid "created %(proposal)s"
-msgstr "aangemaakte %(proposal)s"
+msgstr "heeft %(proposal)s aangemaakt"
 
 #, python-format
 msgid "Edit proposal: %(proposal)s"
@@ -980,7 +931,7 @@ msgstr "Nieuw pagina: %(page)s"
 
 #, python-format
 msgid "created %(page)s"
-msgstr "aangemaakte %(page)s"
+msgstr "heeft %(page)s aangemaakt"
 
 #, python-format
 msgid "Edit page: %(page)s"
@@ -988,7 +939,7 @@ msgstr "Bewerk pagina: %(page)s"
 
 #, python-format
 msgid "edited %(page)s"
-msgstr "bewerkte %(page)s"
+msgstr "heeft %(page)s bewerkt"
 
 #, python-format
 msgid "Deleted page: %(page)s"
@@ -1003,24 +954,24 @@ msgid "New comment: in %(topic)s"
 msgstr "Nieuwe reactie: in %(topic)s"
 
 #, python-format
-msgid "commented %(comment)s on %(topic)s"
-msgstr "reageerde %(comment)s in %(topic)s"
+msgid "commented %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
 msgstr "Bewerkte reactie: in %(topic)s"
 
 #, python-format
-msgid "edited the comment %(comment)s on %(topic)s"
-msgstr "heeft de reactie %(comment)s van %(topic)s aangepast"
+msgid "edited comment on %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
 msgstr "Verwijderde reactie: in %(topic)s"
 
 #, python-format
-msgid "deleted the comment %(comment)s from %(topic)s"
-msgstr "heeft de reactie %(comment)s van %(topic)s verwijderd"
+msgid "deleted comment from %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -1032,9 +983,7 @@ msgstr "%(scope)s is gevolmachtigd aan %(agent)s"
 
 #, python-format
 msgid "Revoked Delegation: %(user)s revoked delegation to %(agent)s"
-msgstr ""
-"Volmachtiging Ingetrokken: %(user)s heeft de volmachtiging aan %(agent)s "
-"ingetrokken"
+msgstr "Volmachtiging Ingetrokken: %(user)s heeft de volmachtiging aan %(agent)s ingetrokken"
 
 #, python-format
 msgid "revoked their delegation on %(scope)s to %(agent)s"
@@ -1105,18 +1054,10 @@ msgid ""
 "\r\n"
 "\r\n"
 "More info: %(url)s"
-msgstr ""
-"⏎\n"
-"⏎\n"
-"Meer informatie: %(url)s"
+msgstr " \n\nMeer informatie: %(url)s"
 
 msgid "This proposal is currently being voted on and cannot be modified."
-msgstr ""
-"Over dit voorstel wordt momenteel gestemd en kan daarom niet worden "
-"aangepast."
-
-msgid "Milestones"
-msgstr "Mijlpalen"
+msgstr "Over dit voorstel wordt momenteel gestemd en kan daarom niet worden aangepast."
 
 msgid "(Unknown)"
 msgstr "(Onbekend)"
@@ -1231,56 +1172,21 @@ msgstr "privacy"
 msgid "imprint"
 msgstr "contact"
 
-msgid "Find your instance!"
-msgstr ""
+#, python-format
+msgid "<b>%s</b> members"
+msgstr "<b>%s</b> leden"
 
-msgid "Enter location"
-msgstr ""
+#, python-format
+msgid "<b>%s</b> proposals"
+msgstr "<b>%s</b> voorstellen"
 
-msgid "GO"
-msgstr ""
+#, python-format
+msgid "<b>%s</b> comments"
+msgstr "<b>%s</b> reacties"
 
-msgid "Search result"
-msgstr ""
-
-msgid "Search results"
-msgstr ""
-
-msgid "Your search for "
-msgstr ""
-
-msgid "results in"
-msgstr ""
-
-msgid "hit"
-msgstr ""
-
-msgid "hits"
-msgstr ""
-
-msgid "in"
-msgstr ""
-
-msgid "visit now"
-msgstr ""
-
-msgid "proposal"
-msgstr ""
-
-msgid "proposals"
-msgstr ""
-
-msgid "member"
-msgstr ""
-
-msgid "members"
-msgstr ""
-
-msgid "back"
-msgstr ""
-
-msgid "next"
-msgstr "volgende"
+#, python-format
+msgid "<b>%s</b> votes"
+msgstr "<b>%s</b> stemmen"
 
 msgid "Start"
 msgstr "Start"
@@ -1328,9 +1234,6 @@ msgstr "Overzicht"
 msgid "Norms"
 msgstr "Reglementen"
 
-msgid "Map"
-msgstr ""
-
 msgid "Members"
 msgstr "Leden"
 
@@ -1342,13 +1245,19 @@ msgid "%(start)s-%(end)s out of %(total)s"
 msgstr "%(start)s-%(end)s van de %(total)s"
 
 msgid "No entries."
-msgstr "Geen inzendingen."
+msgstr "Geen items."
 
 msgid "previous"
 msgstr "vorige"
 
+msgid "next"
+msgstr "volgende"
+
 msgid "entries"
-msgstr "inzendingen"
+msgstr "items"
+
+msgid "Filter list"
+msgstr "Filter lijst"
 
 msgid "Remove all"
 msgstr "Verwijder alles"
@@ -1391,11 +1300,9 @@ msgstr "Verberg alle tutorials"
 
 #, python-format
 msgid ""
-"A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes "
-"and %(against)s nays"
-msgstr ""
-"Totaal <a href=\"%(url)s\">%(votes)s Stemmen</a>, waarvan %(for)s voor en"
-" %(against)s tegen"
+"A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes and"
+" %(against)s nays"
+msgstr "Totaal <a href=\"%(url)s\">%(votes)s Stemmen</a>, waarvan %(for)s voor en %(against)s tegen"
 
 msgid "Votes"
 msgstr "Stemmen"
@@ -1424,10 +1331,7 @@ msgstr "Importeer Gebruikers"
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
 "columns username, display name and email"
-msgstr ""
-"Plak de inhoud van een CSV bestand, bv. geëxporteerd vanuit Excel of "
-"LibreOffice Calc, met de 4 kolommen, gebruikersnaam, weergavenaam en "
-"e-mail"
+msgstr "Plak de inhoud van een CSV bestand, bv. geëxporteerd vanuit Excel of LibreOffice Calc, met de 4 kolommen, gebruikersnaam, weergavenaam en e-mail"
 
 msgid "Users CSV"
 msgstr "Gebruikers CSV"
@@ -1454,11 +1358,9 @@ msgid "The email address of the user."
 msgstr "Het e-mailadres van de gebruiker."
 
 msgid ""
-"The template for the mail to the users. You need to insert some "
-"placeholders into the email text."
-msgstr ""
-"Het sjabloon voor e-mail naar de deelnemers. U moet enkele plaatshouders "
-"in de e-mail tekst invoegen."
+"The template for the mail to the users. You need to insert some placeholders"
+" into the email text."
+msgstr "Het sjabloon voor e-mail naar de deelnemers. U moet enkele plaatshouders in de e-mail tekst invoegen."
 
 msgid "Required"
 msgstr "Vereist"
@@ -1477,11 +1379,9 @@ msgstr "De volgende gebruikers zijn aangemaakt:"
 
 #, python-format
 msgid ""
-"You successfully created the following users and added them as Members to"
-" the instance \"%s\":"
-msgstr ""
-"De volgende gebruikers zijn aangemaakt en toegevoegd als deelnemers aan "
-"de groep \"%s\":"
+"You successfully created the following users and added them as Members to "
+"the instance \"%s\":"
+msgstr "De volgende gebruikers zijn aangemaakt en toegevoegd als deelnemers aan de groep \"%s\":"
 
 msgid "The following errors happend while creating the users"
 msgstr "De volgende fouten zijn opgetreden tijdens het aanmaken van de gebruikers"
@@ -1502,11 +1402,9 @@ msgid "Group Permissions"
 msgstr "Groepsrechten"
 
 msgid ""
-"WARNING: This allows you to shut yourself out of your adhocracy. Handle "
-"with care!"
-msgstr ""
-"WAARSCHUWING: Hiermee kunt u zich uit Adhocracy buitensluiten. Ga hier "
-"voorzichtig mee om!"
+"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
+" care!"
+msgstr "WAARSCHUWING: Hiermee kunt u zich uit Adhocracy buitensluiten. Ga hier voorzichtig mee om!"
 
 msgid "Permissions"
 msgstr "Rechten"
@@ -1559,20 +1457,19 @@ msgstr "Groep"
 msgid "No Group"
 msgstr "Geen groep"
 
-msgid "Assign the user to this group for all instances in the adhocracy site."
-msgstr ""
-"Voeg de gebruiker toe aan deze gebruikersrol voor alle groepen op de "
-"Adhocracy website."
+msgid ""
+"Automatically assign all users with this badge to the selected group for all"
+" instances in the adhocracy site."
+msgstr "Voeg alle gebruikers met deze badge automatisch toe aan de geselecteerde gebruikersgroep voor alle groepen op de adhocracy site."
+
+msgid "Automatically assign all users with this badge to the selected group."
+msgstr "Voeg alle gebruikers met deze badge automatisch toe aan de geselecteerde groep."
 
 msgid "Display group in instances"
 msgstr "Geef de gebruikersrollen in de groepen weer"
 
-msgid ""
-"Display this group in instances instead of the normal group the user is "
-"in there."
-msgstr ""
-"Geef dit type gebruikers van de groepen weer in plaats van de normale "
-"gebruikers."
+msgid "Display this badge instead of the normal user group."
+msgstr "Geef deze badge weer in plaats van de normale gebruikersgroep."
 
 msgid "Global"
 msgstr "Globaal"
@@ -1659,7 +1556,7 @@ msgstr "Nieuwe reactie"
 
 #, python-format
 msgid "created %s"
-msgstr "aangemaakt %s"
+msgstr "aangemaakt op %s"
 
 msgid "revert here"
 msgstr "herstel deze"
@@ -1773,19 +1670,15 @@ msgid "undecided"
 msgstr "onbeslist"
 
 msgid ""
-"The user's delegates have voted, but no consensus wasreached among them. "
-"The decision is deferred."
-msgstr ""
-"De gemachtigden van de gebruiker hebben gestemd, maar er was onder hen "
-"geen consensus. De beslissing is uitgesteld."
+"The user's delegates have voted, but no consensus wasreached among them. The"
+" decision is deferred."
+msgstr "De gemachtigden van de gebruiker hebben gestemd, maar er was onder hen geen consensus. De beslissing is uitgesteld."
 
 msgid "The decision was made without delegations."
-msgstr "De beslissing zonder gevolmachtigde stemmen tot stand gekomen."
+msgstr "Er zijn geen volmachtigingen gebruikt in deze stemming."
 
 msgid "The decision was determined as a result of the following delegations:"
-msgstr ""
-"The beslissing is tot stand gekomen op basis van de volgende "
-"gevolmachtigde stemmen:"
+msgstr "De volgende volmachtigingen zijn gebruikt in deze stemming:"
 
 msgid "on"
 msgstr "op"
@@ -1801,11 +1694,9 @@ msgid "Delegation"
 msgstr "Volmachten"
 
 msgid ""
-"These people might be a good match for your delegation. Either select one"
-" of the listed delegates, or enter another user name."
-msgstr ""
-"Deze deelnemers zijn mogelijk geschikt om te volmachtigen. Kies één van "
-"deze deelnemers of voer een nieuwe gebruikersnaam in."
+"These people might be a good match for your delegation. Either select one of"
+" the listed delegates, or enter another user name."
+msgstr "Deze deelnemers zijn mogelijk geschikt om uw volmacht aan te geven. Kies één van deze deelnemers of voer een nieuwe gebruikersnaam in."
 
 msgid "Start typing, you will receive suggestions to find the user."
 msgstr "Begin met typen, u ontvangt dan suggesties om de gebruiker te vinden."
@@ -1845,17 +1736,14 @@ msgstr "De volmachtiging kan op elk moment ingetrokken of overschreven worden."
 msgid ""
 "No decisions have been based on this delegation yet. As soon as this "
 "delegation leads to any decisions, they will be listed here."
-msgstr ""
-"Er zijn nog geen beslissingen gemaakt aan de hand van deze machtiging. "
-"Zodra deze machtiging tot een beslissing leidt zal dat hier zichtbaar "
-"worden."
+msgstr "Er zijn nog geen beslissingen gemaakt aan de hand van deze machtiging. Zodra deze machtiging tot een beslissing leidt zal dat hier zichtbaar worden."
 
 msgid "track record"
 msgstr "staat van dienst"
 
 #, python-format
 msgid "created <b>%s</b>"
-msgstr "aangemaakt <b>%s</b>"
+msgstr "aangemaakt op <b>%s</b>"
 
 msgid "Delegate voting"
 msgstr "Gemachtigde stemming"
@@ -1867,7 +1755,7 @@ msgid "You have delegated voting to:"
 msgstr "U heeft stemmen gevolmachtigd aan:"
 
 msgid "Delegate your say in this debate to another participant."
-msgstr "Volmachtig uw stem in dit debat aan een andere deelnemer."
+msgstr "Geef volmachtiging van uw stem in dit debat aan een andere deelnemer."
 
 msgid "delegate"
 msgstr "gemachtigde"
@@ -1881,19 +1769,14 @@ msgstr "U heeft nog %s extra stemmen."
 
 msgid ""
 "If this error continues to occur, please <a class='staticlink_imprint' "
-"href='/static/imprint.html'>notify the developers</a> with a description "
-"of what you were trying to do."
-msgstr ""
-"Als deze foutmelding zich blijft voordoen, breng dan<a "
-"class='staticlink_imprint' href='/static/imprint.html'>ontwikkelaars op "
-"de hoogte</a> met een beschrijving van wat u probeerde te doen."
+"href='/static/imprint.html'>notify the developers</a> with a description of "
+"what you were trying to do."
+msgstr "Als deze foutmelding zich blijft voordoen, breng dan<a class='staticlink_imprint' href='/static/imprint.html'>ontwikkelaars op de hoogte</a> met een beschrijving van wat u probeerde te doen."
 
 msgid ""
 "An automated email message describing the situation has been sent to our "
 "developers."
-msgstr ""
-"Een geautomatiseerde e-mail met de beschrijving van de situatie is naar "
-"onze ontwikkelaars verzonden."
+msgstr "Een geautomatiseerde e-mail met de beschrijving van de situatie is naar onze ontwikkelaars verzonden."
 
 msgid "Whazza"
 msgstr "Whazza"
@@ -1907,9 +1790,6 @@ msgstr "%s"
 
 msgid "more"
 msgstr "meer"
-
-msgid "Add geographic location"
-msgstr ""
 
 msgid "Latest Events"
 msgstr "Laatste evenementen"
@@ -1940,11 +1820,9 @@ msgid "Leave"
 msgstr "Verlaten"
 
 msgid ""
-"Are you sure you want to leave this instance? You will no longer be able "
-"to write contributions or to vote."
-msgstr ""
-"Weet u zeker dat u deze groep wilt verlaten? U kunt dan niet bij "
-"bijdragen of stemmen."
+"Are you sure you want to leave this instance? You will no longer be able to "
+"write contributions or to vote."
+msgstr "Weet u zeker dat u deze groep wilt verlaten? U kunt dan niet bij bijdragen of stemmen."
 
 #, python-format
 msgid "Edit badges for %s"
@@ -1960,7 +1838,7 @@ msgid "new instance"
 msgstr "nieuwe groep"
 
 msgid "Instances are little democracies that are ran by their community."
-msgstr "Groepen zijn kleine democratieën die worden gerund door hun deelnemers."
+msgstr "Overzicht van alle groepen. Wordt lid van een groep om actief deel te nemen aan de discussie."
 
 msgid "New Instance"
 msgstr "Nieuwe Groep"
@@ -1975,18 +1853,14 @@ msgid "Instance URL"
 msgstr "Groep URL"
 
 msgid ""
-"The address may only contain alpha-numeric characters. Please note that "
-"this key cannot be changed after the instance has been created."
-msgstr ""
-"Het adres mag enkel bestaan uit alfanumerieke karakters. Houd er rekening"
-" mee dat de ID niet kan worden gewijzigd nadat de groep gecreëerd is."
+"The address may only contain alpha-numeric characters. Please note that this"
+" key cannot be changed after the instance has been created."
+msgstr "Het adres mag enkel bestaan uit alfanumerieke karakters. Houd er rekening mee dat het adres niet meer gewijzigd kan worden zodra de groep is aangemaakt."
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
 "community. (Both Markdown and HTML are allowed here.)"
-msgstr ""
-"Beschrijf de doelstellingen van deze groep en wie de deelnemers zijn "
-"(Zowel Markdown als HTML zijn hier toegestaan.)"
+msgstr "Beschrijf de doelstellingen van deze groep en wie de deelnemers zijn (Zowel Markdown als HTML zijn hier toegestaan)."
 
 #, python-format
 msgid "Manage: %s"
@@ -1996,9 +1870,7 @@ msgid "Manage"
 msgstr "Beheren"
 
 msgid "Select a logo file to appear in the header area of this Instance."
-msgstr ""
-"Selecteer een logo bestand dat bovenaan de groepspagina's zal worden "
-"weergegeven."
+msgstr "Selecteer een logo bestand dat bovenaan de groepspagina's zal worden weergegeven."
 
 msgid "Logo"
 msgstr "Logo"
@@ -2019,10 +1891,10 @@ msgid "Use Norms"
 msgstr "Gebruik Reglementen"
 
 msgid "Allow users to propose norms"
-msgstr "Sta gebruikers toe om reglementen voor te stellen"
+msgstr "Sta gebruikers toe om nieuwe reglementen te maken"
 
 msgid "Require to propose a variant"
-msgstr "Vereis het voorstellen van een variant"
+msgstr "Elk voorstel moet minstens één veranderingen in het reglement aanbrengen"
 
 msgid "Use milestones"
 msgstr "Gebruik mijlpalen"
@@ -2036,13 +1908,12 @@ msgstr "Naam"
 msgid "Language"
 msgstr "Taal"
 
-msgid "The language setting will be overridden by the user's personal setting."
-msgstr ""
-"The taalinstelling wordt overschreven door de persoonlijke instellingen "
-"van de gebruiker."
+msgid ""
+"The language setting will be overridden by the user's personal setting."
+msgstr "The taalinstelling wordt overschreven door de persoonlijke instellingen van de gebruiker."
 
 msgid "Default group"
-msgstr "Default groep"
+msgstr "Standaard groep"
 
 msgid "Hide this instance"
 msgstr "Verberg deze groep"
@@ -2059,18 +1930,16 @@ msgstr "Sta stemmingen voor (definitieve) goedkeuring toe"
 msgid ""
 "Before activating, the defined majority must be continuously held by the "
 "proposal for the specified interval."
-msgstr ""
-"Om een voorstel aan te nemen, dient de gedefinieerde meerderheid voor het"
-" voorstel behaald te zijn na de hieronder te definiëren tijdspanne."
+msgstr "Om een voorstel aan te nemen, dient de gedefinieerde meerderheid voor het voorstel behaald te zijn na de hieronder te definiëren tijdspanne."
 
 msgid "Majority"
 msgstr "Meerderheid"
 
 msgid "Delay"
-msgstr "Vertraging"
+msgstr "Periode dat een meerderheid behouden moet worden voor aanname"
 
 msgid "Enable vote delegation"
-msgstr "Sta het volmachtigen van stemmen toe"
+msgstr "Sta het geven van volmachten van stemmen toe"
 
 msgid "Home"
 msgstr "Home"
@@ -2093,6 +1962,15 @@ msgstr "toon een lijst van voorstellen zien"
 msgid "more proposals"
 msgstr "meer voorstellen"
 
+msgid "Next milestone"
+msgstr ""
+
+msgid "Next milestones"
+msgstr ""
+
+msgid "Newest Events"
+msgstr ""
+
 msgid "Informations"
 msgstr "Informatie"
 
@@ -2104,38 +1982,23 @@ msgid "by %s on %s"
 msgstr "door %s op %s"
 
 msgid "By the numbers"
-msgstr "Op aantal"
+msgstr "Cijfers"
 
 #, python-format
 msgid "<b>%s</b> community members"
-msgstr "<b>%s</b> leden van de gemeenschap"
-
-#, python-format
-msgid "<b>%s</b> proposals"
-msgstr "<b>%s</b> voorstellen"
-
-#, python-format
-msgid "<b>%s</b> comments"
-msgstr "<b>%s</b> reacties"
-
-msgid "Newest geotagged proposals"
-msgstr ""
+msgstr "<b>%s</b> deelnemers"
 
 msgid "tutorial_instance_proposals_table"
 msgstr "Hier vindt u een overzicht van de nieuwste voorstellen."
 
 msgid "tutorial_instance_proposal_button"
-msgstr ""
-"Klik op de linkerknop om direct een eigen voorstel in te dienen of op de "
-"rechterknop om meer voorstellen te zien."
+msgstr "Klik op de linkerknop om direct een eigen voorstel in te dienen of op de rechterknop om meer voorstellen te zien."
 
 msgid "Close"
 msgstr "Sluiten"
 
 msgid "tutorial_instance_numbers"
-msgstr ""
-"Hier ziet u het hoeveel deelnemers, voorstellen en reacties de groep "
-"heeft."
+msgstr "Hier ziet u het hoeveel deelnemers, voorstellen en reacties de groep heeft."
 
 #, python-format
 msgid "%s proposal"
@@ -2157,11 +2020,9 @@ msgid "Subject"
 msgstr "Onderwerp"
 
 msgid ""
-"Your e-mail address will be included in this message to give the "
-"recipient a method to reply to you."
-msgstr ""
-"Uw e-mailadres wordt bij dit bericht gevoegd om de ontvanger de "
-"mogelijkheid tot antwoorden te geven."
+"Your e-mail address will be included in this message to give the recipient a"
+" method to reply to you."
+msgstr "Uw e-mailadres wordt bij dit bericht gevoegd om de ontvanger de mogelijkheid tot antwoorden te geven."
 
 #, python-format
 msgid "Dear %s, ..."
@@ -2215,9 +2076,7 @@ msgid "tutorial_milestones_timeline"
 msgstr "Deze interactieve tijdlijn toont wanneer er mijlpalen zijn."
 
 msgid "tutorial_milestones_listing"
-msgstr ""
-"Hier vindt u de mijlpalen nog eens maar dan in een lijst. Door op de "
-"titel van een mijlpaal de klikken komt u op pagina van de mijlpaal."
+msgstr "Hier vindt u de mijlpalen nog eens maar dan in een lijst. Door op de titel van een mijlpaal de klikken komt u op pagina van de mijlpaal."
 
 msgid "New milestone"
 msgstr "Nieuwe mijlpaal"
@@ -2244,23 +2103,16 @@ msgid "No norms are connected to this milestone"
 msgstr "Er zijn geen reglementen verbonden aan deze mijlpaal"
 
 msgid "tutorial_milestone_details_follow"
-msgstr ""
-"U kunt de mijlpaal aan uw volglijst toevoegen als deze belangrijk voor u "
-"is."
+msgstr "U kunt de mijlpaal aan uw volglijst toevoegen als deze belangrijk voor u is."
 
 msgid "tutorial_milestone_details_description"
-msgstr ""
-"Informatie over de doelstelling van de mijlpaal, gaat het bv. over een "
-"meeting, werkgroep of stemming."
+msgstr "Informatie over de doelstelling van de mijlpaal, gaat het bv. over een meeting, werkgroep of stemming."
 
 msgid "tutorial_milestone_details_listing"
-msgstr ""
-"Hier vindt u een lijst met voorstellen en reglementen die betrekking "
-"hebben tot de mijlpaal."
+msgstr "Hier vindt u een lijst met voorstellen en reglementen die betrekking hebben tot de mijlpaal."
 
-#, python-format
-msgid "ends: <b>%s</b>"
-msgstr "eindigt: <b>%s</b>"
+msgid "See more"
+msgstr ""
 
 msgid "(unknown)"
 msgstr "(onbekend)"
@@ -2272,11 +2124,9 @@ msgid "Add OpenID"
 msgstr "Voeg OpenID toe"
 
 msgid ""
-"Enter the URL of your OpenID to connect the ID to your account. This will"
-" allow you to login using this OpenID in the future."
-msgstr ""
-"Voer de URL van uw OpenID in om het ID met uw account te verbinden. "
-"Hierdoor kunt u in de toekomst met deze OpenID inloggen."
+"Enter the URL of your OpenID to connect the ID to your account. This will "
+"allow you to login using this OpenID in the future."
+msgstr "Voer de URL van uw OpenID in om het ID met uw account te verbinden. Hierdoor kunt u in de toekomst met deze OpenID inloggen."
 
 msgid "Alternative"
 msgstr "Alternatief"
@@ -2297,13 +2147,10 @@ msgid "User name"
 msgstr "Gebruikersnaam"
 
 msgid ""
-"A unique user name is required for you complete sign up and login. The "
-"user name received from your OpenID provider is invalid. Please provide a"
-" different, unique user name."
-msgstr ""
-"Een unieke gebruikersnaam is vereist voor de aanmelding en het inloggen. "
-"De van OpenID ontvangen gebruikersnaam is ongeldig. Gelieve een andere, "
-"unieke gebruikersnaam in te voeren."
+"A unique user name is required for you complete sign up and login. The user "
+"name received from your OpenID provider is invalid. Please provide a "
+"different, unique user name."
+msgstr "Een unieke gebruikersnaam is vereist voor de aanmelding en het inloggen. De van OpenID ontvangen gebruikersnaam is ongeldig. Gelieve een andere, unieke gebruikersnaam in te voeren."
 
 msgid "Username:"
 msgstr "Gebruikersnaam: "
@@ -2316,11 +2163,9 @@ msgid "Are you sure you want to purge variant %s?"
 msgstr "Weet u zeker dat u variant %s wilt verwijderen?"
 
 msgid ""
-"WARNING: This will remove all revisions of the variant from any proposals"
-" that might support it."
-msgstr ""
-"WAARSCHUWING: Hierdoor zullen alle revisies van deze variant verwijderd "
-"worden van elke voorstel dat daardoor wordt ondersteund."
+"WARNING: This will remove all revisions of the variant from any proposals "
+"that might support it."
+msgstr "WAARSCHUWING: Hierdoor zullen alle revisies van deze variant verwijderd worden van all voorstellen die het steunen."
 
 #, python-format
 msgid "Variant: %s"
@@ -2367,15 +2212,10 @@ msgid "Popular tags"
 msgstr "Populaire tags"
 
 msgid "tutorial_norms_overview_table"
-msgstr ""
-"Deze lijst toont u alle reglementen in de groep. Onder de titel van elk "
-"reglement ziet u ook hoeveel voorstellen er zijn ingediend en het aantal "
-"reacties."
+msgstr "Deze lijst toont u alle reglementen in de groep. Onder de titel van elk reglement ziet u ook hoeveel voorstellen er zijn ingediend en het aantal reacties."
 
 msgid "tutorial_norms_overview_facets"
-msgstr ""
-"Voor een specifieker overzicht kunt u de reglementen filteren met deze "
-"tags."
+msgstr "Voor een specifieker overzicht kunt u de reglementen filteren met deze tags."
 
 msgid "New page"
 msgstr "Nieuwe pagina"
@@ -2410,12 +2250,15 @@ msgstr "Nieuw Voorstel"
 msgid "Information about the norm"
 msgstr "Informatie over het reglement"
 
+msgid "Last Activity"
+msgstr "Laatste Activiteit"
+
 #, python-format
 msgid "This norm relates to the milestone %s."
 msgstr "Dit reglement is gerelateerd aan mijlpaal %s."
 
-msgid "subnorms"
-msgstr "sub-reglementen"
+msgid "Subnorms"
+msgstr ""
 
 msgid "View Proposal"
 msgstr "Bekijk Voorstel"
@@ -2430,16 +2273,10 @@ msgid "Proposal"
 msgstr "Voorstel"
 
 msgid "tutorial_norm_show_vote"
-msgstr ""
-"Bekijk het originele reglement en de voorgestelde varianten en breng uw "
-"stem uit voor een document door op het pijltje omhoog te klikken of tegen"
-" door op het pijltje omlaag te klikken. U kunt uw stem uitbrengen op "
-"meerdere documenten."
+msgstr "Bekijk het originele reglement en de voorgestelde varianten. U kunt voor een variant stemmen door op het pijltje omhoog te klikken of tegen door op het pijltje omlaag te klikken. U kunt op meerdere varianten uw stem uitbrengen."
 
 msgid "tutorial_norm_show_diff"
-msgstr ""
-"Hiermee kunt u de veranderingen ten opzichte van het originele reglement "
-"inzien."
+msgstr "Door op 'An' te klikken kunt u precies zien welke veranderingen er gemaakt zijn ten opzichte van het originele reglement."
 
 msgid "tutorial_norm_show_new"
 msgstr "U kunt ook totaal nieuw reglement indienen."
@@ -2493,13 +2330,10 @@ msgid "End a poll"
 msgstr "Beëindig de stemming"
 
 msgid ""
-"You are about to cancel this poll. This means that the proposal will "
-"become editable again but that all votes that have been cast at this time"
-" <strong>will be invalidated</strong>."
-msgstr ""
-"U staat op het punt om deze stemming te annuleren. Dit betekent dat u het"
-" voorstel weer kunt bewerken, maar alle uitgebrachte stemmen "
-"<strong>zullen ongeldig worden verklaard</strong>."
+"You are about to cancel this poll. This means that the proposal will become "
+"editable again but that all votes that have been cast at this time "
+"<strong>will be invalidated</strong>."
+msgstr "U staat op het punt om deze stemming te annuleren. Dit betekent dat u het voorstel weer kunt bewerken, maar alle uitgebrachte stemmen <strong>zullen ongeldig worden verklaard</strong>."
 
 msgid "to abstain"
 msgstr "zich onthouden"
@@ -2548,23 +2382,18 @@ msgid "Votes: %s"
 msgstr "Stemmen: %s"
 
 msgid ""
-"Vote results are updated with a short delay. After casting your vote, "
-"expect a short delay before the tally updates."
-msgstr ""
-"Stemresultaten worden met een korte vertraging bijgewerkt. Nadat u heeft "
-"gestemd kan het even duren voordat de teller is bijgewerkt."
+"Vote results are updated with a short delay. After casting your vote, expect"
+" a short delay before the tally updates."
+msgstr "Stemresultaten worden met een korte vertraging bijgewerkt. Nadat u heeft gestemd kan het even duren voordat de teller is bijgewerkt."
 
 msgid "Call a poll"
 msgstr "Roep op tot een stemming"
 
 msgid ""
 "You are about to call for a vote. When you do this, you will lose the "
-"ability to <strong>change the proposal's wording</strong> unless you "
-"cancel the vote."
-msgstr ""
-"U staat op het punt om op te roepen tot een stemming. Wanneer u dit doet,"
-" verliest u de mogelijkheid om <strong>de tekst van het voorstel aan te "
-"passen</ strong> tenzij u de stemming annuleert."
+"ability to <strong>change the proposal's wording</strong> unless you cancel "
+"the vote."
+msgstr "U staat op het punt om op te roepen tot een stemming. Wanneer u dit doet, verliest u de mogelijkheid om <strong>de tekst van het voorstel aan te passen</ strong> tenzij u de stemming annuleert."
 
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Weet u zeker dat u dit voorstel wilt verwijderen?"
@@ -2617,7 +2446,7 @@ msgid "A brief description of <b>the goals</b> of your proposal."
 msgstr "Een korte beschrijving van <b>de doelstellingen</b> van uw voorstel."
 
 msgid "The proposal would..."
-msgstr "Het voorstel zou..."
+msgstr "Het voorstel zal..."
 
 msgid "Proposal Category"
 msgstr "Voorstel Categorie"
@@ -2629,18 +2458,10 @@ msgid "Collaboration and Notification"
 msgstr "Samenwerking en Meldingen"
 
 msgid "Allow others to edit this proposal."
-msgstr "Sta toe dat andere dit voorstel bewerken."
+msgstr "Sta toe dat anderen dit voorstel bewerken."
 
-#, python-format
-msgid "Edit geotag for proposal %s"
-msgstr ""
-
-msgid "Edit geotag"
-msgstr ""
-
-#, python-format
-msgid "Edit geographical location for proposal &ldquo;%s&rdquo;"
-msgstr ""
+msgid "Create new proposal"
+msgstr "Maak nieuw voorstel"
 
 msgid "Find proposals"
 msgstr "Vind voorstellen"
@@ -2649,14 +2470,10 @@ msgid "Go"
 msgstr "Ga"
 
 msgid "tutorial_proposal_overview_table"
-msgstr ""
-"Deze lijst biedt een overzicht van alle tot nu toe ingediende "
-"voorstellen. De lijst op meerdere criteria gesorteerd worden."
+msgstr "Deze lijst biedt een overzicht van alle tot nu toe ingediende voorstellen. De lijst kan op verschillende manieren gesorteerd worden."
 
 msgid "tutorial_proposal_overview_facets"
-msgstr ""
-"U kunt de voorstellen ook filteren op gebruiker, categorie, tag of de "
-"huidige staat van het voorstel."
+msgstr "U kunt de voorstellen ook filteren op gebruiker, categorie, tag of de huidige staat van het voorstel."
 
 msgid "tutorial_proposal_overview_new"
 msgstr "Als u een nieuw idee heeft dan kunt u zelf een nieuw voorstel indienen."
@@ -2664,22 +2481,15 @@ msgstr "Als u een nieuw idee heeft dan kunt u zelf een nieuw voorstel indienen."
 msgid "New proposal"
 msgstr "Nieuw voorstel"
 
-msgid "Create new proposal"
-msgstr "Maak nieuw voorstel"
-
 msgid "Change norms with this proposal"
 msgstr "Pas een reglement aan met dit voorstel"
 
 msgid ""
-"Proposals are implemented by including changes towards new or existing "
-"norm. Norms are fixed documents that represent the consensus of this "
-"instance and can only be changed through a vote. Amend the proposal to "
-"change or create a norm."
-msgstr ""
-"Met voorstellen kunt u een nieuwe reglementen aanmaken of huidige "
-"reglementen aanpassen. Reglementen zijn documenten die de consensus van "
-"deze groep vertegenwoordigen en kunnen enkel door stemmingen worden "
-"aangepast."
+"Proposals are implemented by including changes towards new or existing norm."
+" Norms are fixed documents that represent the consensus of this instance and"
+" can only be changed through a vote. Amend the proposal to change or create "
+"a norm."
+msgstr "Met voorstellen kunt u een nieuwe reglementen aanmaken of huidige reglementen aanpassen. Reglementen zijn documenten die de consensus van deze groep vertegenwoordigen en kunnen enkel door stemmingen worden aangepast."
 
 msgid "Select a norm to change:"
 msgstr "Selecteer het reglement om aan te passen:"
@@ -2711,30 +2521,28 @@ msgid "Proposed Implementations"
 msgstr "Voorgestelde Implementaties"
 
 msgid "Propose to change a norm"
-msgstr "Stel voor om een reglement aan te passen"
+msgstr "Pas een nieuwe implementatie van dit voorstel toe op een reglement"
 
 msgid "Login to propose to change a norm"
 msgstr "Log in om voor te stellen om een reglement aan te passen"
 
 msgid "Join instance to propose to change a norm"
-msgstr ""
-"Word lid van deze groep om een aanpassing aan een reglement voor te "
-"stellen"
+msgstr "Word lid van deze groep om een aanpassing aan een reglement voor te stellen"
 
 msgid "tutorial_proposal_show_vote"
-msgstr "Een kunt een voorstel steunen of afvallen."
+msgstr "U kunt voor of tegen het voorstel stemmen, of, als de groep dit toestaat, een volmachtiging geven zodat iemand anders voor u kan stemmen."
 
 msgid "tutorial_proposal_show_follow"
 msgstr "Ook kunt u een voorstel in uw volglijst opnemen."
 
 msgid "tutorial_proposal_show_information"
-msgstr "U kunt meer informatie over het voorstel bekijken..."
+msgstr "Hier vindt u meer informatie over het voorstel."
 
 msgid "tutorial_proposal_show_tags"
 msgstr "..tags voor het voorstel toevoegen..."
 
 msgid "tutorial_proposal_show_share"
-msgstr "...en het voorstel delen met anderen via Facebook, Google+ of Twitter."
+msgstr "Deel het voorstel met anderen via Facebook, Twitter of Google+."
 
 msgid "tutorial_proposal_show_vote_comment"
 msgstr "Reacties kunt u niet alleen bewerken..."
@@ -2746,27 +2554,10 @@ msgid "tutorial_proposal_show_answer"
 msgstr "...of zelf een antwoord op de reactie geven..."
 
 msgid "tutorial_proposal_show_new_discussion"
-msgstr "...of een eigen reactie toevoegen."
+msgstr "Geef uw reactie op het voorstel of reageer op andere reacties."
 
 msgid "tutorial_proposal_show_propose_variant"
-msgstr ""
-"U kunt actief deelnemen door zelf een variant op een reglement toe te "
-"voegen."
-
-msgid "This proposal does currently not refer to a geographic location."
-msgstr ""
-
-msgid "Edit geographic location"
-msgstr ""
-
-msgid "Join instance to edit geotag."
-msgstr ""
-
-msgid "Login to edit geotag."
-msgstr ""
-
-msgid "Last Activity"
-msgstr "Laatste Activiteit"
+msgstr "U kunt actief deelnemen door zelf een variant op een reglement toe te voegen."
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
@@ -2794,23 +2585,17 @@ msgstr "%s%% goedkeuring"
 msgid "%s:%s votes"
 msgstr "%s:%s stemmen"
 
-#, python-format
-msgid "from %s · on %s"
-msgstr ""
-
 msgid "Information"
 msgstr "Informatie"
 
 #, python-format
 msgid "The proposal was created by %s on %s"
-msgstr "Dit voorstel is gemaakt door %s op %s"
+msgstr "Dit voorstel is aangemaakt door %s op %s"
 
 msgid ""
-"This is a <b>joint proposal</b> that can be improved by anyone. Edit it "
-"to improve or refine the text."
-msgstr ""
-"Dit is een <b>gezamenlijk voorstel</b> dat door iedereen verbeterd kan "
-"worden. Bewerk het om de tekst de verbeteren of te verfijnen."
+"This is a <b>joint proposal</b> that can be improved by anyone. Edit it to "
+"improve or refine the text."
+msgstr "Dit is een <b>gezamenlijk voorstel</b> dat door iedereen verbeterd kan worden. Bewerk het om de tekst de verbeteren of te verfijnen."
 
 msgid "Main page"
 msgstr "Hoofdpagina"
@@ -2865,11 +2650,9 @@ msgid "Change an existing norm"
 msgstr "Pas een al bestaand reglement aan"
 
 msgid ""
-"Select a norm that you want to relate to. You can later propose a variant"
-" of this norm to effect a change."
-msgstr ""
-"Selecteer een reglement waaraan u zich wilt verbinden. U kunt later een "
-"variant voorstellen om het reglement aan te passen."
+"Select a norm that you want to relate to. You can later propose a variant of"
+" this norm to effect a change."
+msgstr "Selecteer een reglement waaraan u zich wilt verbinden. U kunt later een variant voorstellen om het reglement aan te passen."
 
 msgid "Include"
 msgstr "Toevoegen"
@@ -2887,19 +2670,13 @@ msgid ""
 "Create a new norm that you want to relate to. The norm will be created "
 "without any status quo. You can then add a text variant of that norm, "
 "specifying the change you want to implement."
-msgstr ""
-"Maak een nieuw reglement waar u zich aan wilt verbinden. Het reglement "
-"wordt zonder status quo aangemaakt. U kunt vervolgens een tekst variant "
-"op het reglement voorstellen waarin u de gewenste veranderingen kunt "
-"specificeren."
+msgstr "Maak een nieuw reglement waar u zich aan wilt verbinden. Het reglement wordt zonder status quo aangemaakt. U kunt vervolgens een tekst variant op het reglement voorstellen waarin u de gewenste veranderingen kunt specificeren."
 
 msgid "New norm title"
 msgstr "Nieuw reglement titel"
 
 msgid "The new norm will be categorized under the specified parent page."
-msgstr ""
-"Dit nieuwe reglement zal worden ondergebracht bij het gespecificeerde "
-"reglement."
+msgstr "Dit nieuwe reglement zal worden ondergebracht bij het gespecificeerde reglement."
 
 msgid "Have you checked for exisiting norms?"
 msgstr "Heeft u de al bestaande reglementen bekeken?"
@@ -2911,16 +2688,11 @@ msgid "Show Norm"
 msgstr "Laat Reglementen Zien"
 
 msgid "There is a tie between variants, thus none is included at the moment."
-msgstr ""
-"De varianten hebben een gelijk aantal stemmen, er wordt er op het moment "
-"dus geen één opgenomen."
+msgstr "De varianten hebben een gelijk aantal stemmen, er wordt er op het moment dus geen één opgenomen."
 
 msgid ""
-"Status quo has the most votes, resulting in no proposed change to this "
-"norm."
-msgstr ""
-"De status quo heeft de meeste stemmen, dus de voorgestelde aanpassing zal"
-" niet worden doorgevoerd."
+"Status quo has the most votes, resulting in no proposed change to this norm."
+msgstr "De status quo heeft de meeste stemmen, dus de voorgestelde aanpassing zal niet worden doorgevoerd."
 
 msgid "Proposed by"
 msgstr "Voorgesteld door"
@@ -2943,10 +2715,9 @@ msgstr "bekijk"
 msgid "compare"
 msgstr "vergelijken"
 
-msgid "Tags are keywords used to find, sort and filter proposals and documents."
-msgstr ""
-"Tags zijn trefwoorden die gebruikt kunnen worden om voorstellen en "
-"documenten te vinden, sorteren en te filteren."
+msgid ""
+"Tags are keywords used to find, sort and filter proposals and documents."
+msgstr "Tags zijn trefwoorden die gebruikt kunnen worden om voorstellen en documenten te vinden, sorteren en te filteren."
 
 msgid "Similar tags"
 msgstr "Soortgelijke tags"
@@ -2968,7 +2739,7 @@ msgid "add tags..."
 msgstr "voeg tags toe..."
 
 msgid "Multiple tags can be separated by commas or spaces."
-msgstr "Meerdere tags kunnen door komma's en spaties gescheiden worden."
+msgstr "Meerdere tags kunnen door komma's of spaties gescheiden worden."
 
 msgid "Add tags"
 msgstr "Voeg tags toe"
@@ -2984,11 +2755,9 @@ msgid "This revision has no text."
 msgstr "De herziening heeft geen tekst"
 
 msgid ""
-"This norm has not yet been decided and is thus no official position of "
-"this group."
-msgstr ""
-"Er is nog geen beslissing over dit reglement en het is dus geen officieel"
-" standpunt van deze groep."
+"This norm has not yet been decided and is thus no official position of this "
+"group."
+msgstr "Er is nog geen beslissing over dit reglement en het is dus geen officieel standpunt van deze groep."
 
 #, python-format
 msgid "discuss (%s comments) &raquo;"
@@ -3017,11 +2786,8 @@ msgid "A listing of all users in all instance an this adhocracy server."
 msgstr "Een lijst van alle gebruikers in alle groepen op deze Adhocracy server"
 
 msgid ""
-"Are you sure you want to delete your profile? This step cannot be "
-"reversed."
-msgstr ""
-"Weet u zeker dat u uw profiel wilt verwijderen? Dit kan niet ongedaan "
-"gemaakt worden."
+"Are you sure you want to delete your profile? This step cannot be reversed."
+msgstr "Weet u zeker dat u uw profiel wilt verwijderen? Dit kan niet ongedaan gemaakt worden."
 
 #, python-format
 msgid "Edit Badges for %s"
@@ -3049,47 +2815,33 @@ msgid ""
 "Start by reading some <b><a href=\"%s\">proposals</a></b> or <b><a "
 "href=\"%s\">norms</a></b>. Or take a look at some of the other <b><a "
 "href=\"%s\">instances</a></b>."
-msgstr ""
-"Begin met het lezen van enkele <b><a href=\"%s\">voorstellen</a></b> of "
-"<b><a href=\"%s\">reglementen</a></b>. Of neem een kijkje bij andere "
-"<b><a href=\"%s\">groepen</a></b>."
+msgstr "Begin met het lezen van enkele <b><a href=\"%s\">voorstellen</a></b> of <b><a href=\"%s\">reglementen</a></b>. Of neem een kijkje bij andere <b><a href=\"%s\">groepen</a></b>."
 
 #, python-format
 msgid ""
-"Start by exploring the <b><a href=\"%s\">instances</a></b> and read some "
-"of the proposals and norms in the instances."
-msgstr ""
-"Begin met verkennen van de <b><a href=\"%s\">groepen</a></b> en lees de "
-"voorstellen en reglementen in de groepen."
+"Start by exploring the <b><a href=\"%s\">instances</a></b> and read some of "
+"the proposals and norms in the instances."
+msgstr "Begin met verkennen van de <b><a href=\"%s\">groepen</a></b> en lees de voorstellen en reglementen in de groepen."
 
 msgid ""
-"If you join an instance, norms and proposals of the instance will be "
-"shown on your dashboard."
-msgstr ""
-"Als u lid wordt van een groep dan worden de reglementen en voorstellen "
-"van de groep op uw dashboard getoond."
+"If you join an instance, norms and proposals of the instance will be shown "
+"on your dashboard."
+msgstr "Als u lid wordt van een groep dan worden de reglementen en voorstellen van de groep op uw dashboard getoond."
 
 msgid ""
-"You can reach your dashboard anytime by clicking on your user name on the"
-" top of the page."
-msgstr ""
-"U kunt altijd terugkeren naar uw dashboard door bovenaan de pagina op uw "
-"naam te klikken."
+"You can reach your dashboard anytime by clicking on your user name on the "
+"top of the page."
+msgstr "U kunt altijd terugkeren naar uw dashboard door bovenaan de pagina op uw naam te klikken."
 
 msgid ""
 "This is your Dashboard. Here you can find the list of instances your a "
-"member in, norms and proposals from these instance and a list of the "
-"pages you follow."
-msgstr ""
-"Dit is uw Dashboard. Hier vindt u een lijst met groepen waar u lid van "
-"bent, reglementen en voorstellen van deze groepen en een lijst met "
-"pagina's die u volgt."
+"member in, norms and proposals from these instance and a list of the pages "
+"you follow."
+msgstr "Dit is uw Dashboard. Hier vindt u een lijst met groepen waar u lid van bent, reglementen en voorstellen van deze groepen en een lijst met pagina's die u volgt."
 
 #, python-format
 msgid "You can also return to the <a href=\"%s\">Page you came from</a>."
-msgstr ""
-"U kunt ook terugkeren naar de <a href=\"%s\">Pagina waar u vandaan "
-"kwam</a>."
+msgstr "U kunt ook terugkeren naar de <a href=\"%s\">pagina waar u vandaan kwam</a>."
 
 msgid "Proposals in your instances"
 msgstr "Voorstellen in uw groepen"
@@ -3107,27 +2859,19 @@ msgid "List all pages"
 msgstr "Toon alle pagina's"
 
 msgid "tutorial_dashboard_username"
-msgstr ""
-"U kunt op elk moment terugkeren naar uw Dashboard door bovenaan de pagina"
-" op uw naam te klikken."
+msgstr "U kunt op elk moment terugkeren naar uw Dashboard door bovenaan de pagina op uw naam te klikken."
 
 msgid "tutorial_dashboard_proposals"
-msgstr ""
-"In uw Dashboard ziet u onder andere een lijst van alle voorstellen die in"
-" uw groepen zijn ingediend."
+msgstr "In uw Dashboard ziet u onder andere een lijst van alle reglementen die in uw groepen gelden."
 
 msgid "tutorial_dashboard_show_all"
 msgstr "Klik hier om de volledige lijst van alle voorstellen te tonen."
 
 msgid "tutorial_dashboard_instances"
-msgstr ""
-"Hier ziet u alle groepen waar u lid van bent. Als u op de naam van een "
-"groep klikt wordt u naar de groep doorgestuurd."
+msgstr "Hier ziet u alle groepen waar u lid van bent. Als u op de naam van een groep klikt wordt u naar de groep doorgestuurd."
 
 msgid "tutorial_dashboard_watchlist"
-msgstr ""
-"De volglijst biedt een overzicht van de items die u volgt. Klik op \"toon"
-" alles\" voor een volledige lijst."
+msgstr "De volglijst biedt een overzicht van de items die u volgt. Klik op \"toon alles\" voor een volledige lijst."
 
 msgid "Your Instances"
 msgstr "Uw Groepen"
@@ -3167,9 +2911,7 @@ msgid "Password"
 msgstr "Wachtwoord"
 
 msgid "Select a new password or leave the fields blank to keep your old one."
-msgstr ""
-"Kies een nieuwe wachtwoord of laat alle velden leeg om uw oude wachtwoord"
-" te houden."
+msgstr "Kies een nieuw wachtwoord of laat alle velden leeg om uw huidige wachtwoord te behouden."
 
 msgid "Password:"
 msgstr "Wachtwoord:"
@@ -3181,7 +2923,7 @@ msgid "Notifications"
 msgstr "Meldingen"
 
 msgid "Select how you would like to be notified of events."
-msgstr "Kies hoe u op de hoogte wilt worden gehouden."
+msgstr "Kies via welk e-mail adres en hoe vaak u op de hoogte wilt worden gehouden."
 
 msgid "Help."
 msgstr "Hulp."
@@ -3205,7 +2947,7 @@ msgid "OpenID"
 msgstr "OpenID"
 
 msgid "OpenID allows you to use a single login on many web sites."
-msgstr "Met één OpenID kunt u inloggen op vele websites."
+msgstr "Met OpenID kunt u inloggen op vele websites."
 
 msgid "There are no associated OpenIDs."
 msgstr "Er zijn geen gekoppelde OpenIDs."
@@ -3214,11 +2956,9 @@ msgid "Short biography"
 msgstr "Korte biografie"
 
 msgid ""
-"A bio will allow others to learn about you and perhaps even get you a few"
-" delegations."
-msgstr ""
-"Door middel van een biografie kunnen andere wat over u te weten komen en "
-"misschien krijgt u er wel een aantal machtigingen door."
+"A bio will allow others to learn about you and perhaps even get you a few "
+"delegations."
+msgstr "Door middel van een biografie kunnen andere wat over u te weten komen en misschien krijgt u er wel een aantal machtigingen door."
 
 msgid "Advanced Settings"
 msgstr "Geavanceerde Instellingen"
@@ -3239,9 +2979,7 @@ msgid "Find users"
 msgstr "Zoek gebruikers"
 
 msgid "tutorial_user_index_table"
-msgstr ""
-"Deze lijst toont u alle deelnemers van deze groep. U kunt de lijst ook "
-"sorteren."
+msgstr "Deze lijst toont u alle deelnemers van deze groep. U kunt de lijst ook sorteren."
 
 msgid "tutorial_user_index_facets"
 msgstr "De lijst is ook te filteren op gebruikersgroep."
@@ -3261,11 +2999,9 @@ msgid "Who are you, then?"
 msgstr "Wie bent u?"
 
 msgid ""
-"If you have an account but you've lost your password, <a "
-"href='/reset'>click here</a>."
-msgstr ""
-"Als u een account heeft, maar u bent uw wachtwoord vergeten, <a "
-"href='/reset'>klik dan hier</a>."
+"If you have an account but you've lost your password, <a href='/reset'>click"
+" here</a>."
+msgstr "Als u een account heeft, maar u bent uw wachtwoord vergeten, <a href='/reset'>klik dan hier</a>."
 
 msgid "Login:"
 msgstr "Log in:"
@@ -3274,11 +3010,9 @@ msgid "Register new account"
 msgstr "Maak een nieuw account aan"
 
 msgid ""
-"Creating an account is easy; all you need is a user name, password and "
-"email address."
-msgstr ""
-"Een account aanmaken is eenvoudig, alles wat u nodig heeft is een "
-"gebruikersnaam, wachtwoord en e-mailadres."
+"Creating an account is easy; all you need is a user name, password and email"
+" address."
+msgstr "Een account aanmaken is eenvoudig, alles wat u nodig heeft is een gebruikersnaam, wachtwoord en e-mailadres."
 
 msgid "Can only contain letters and numbers."
 msgstr "Mag enkel letters en cijfers bevatten."
@@ -3303,15 +3037,12 @@ msgid "Password reset"
 msgstr "Wachtwoord opnieuw instellen"
 
 msgid ""
-"You will be sent an activation link that, when opened, will cause the "
-"system to email you a new password."
-msgstr ""
-"Er wordt een activatielink naar u gestuurd en, zodra u die heeft geopend,"
-" zal het systeem uw nieuwe wachtwoord e-mailen."
+"You will be sent an activation link that, when opened, will cause the system"
+" to email you a new password."
+msgstr "Er wordt een activatielink naar u gestuurd en, zodra u die heeft geopend, zal het systeem uw nieuwe wachtwoord e-mailen."
 
 msgid ""
-"In order to retrieve your login, you will have to enter your email "
-"address."
+"In order to retrieve your login, you will have to enter your email address."
 msgstr "Om uw inlog terug te krijgen moet u uw e-mailadres invoeren."
 
 msgid "Reset"
@@ -3321,15 +3052,13 @@ msgid "Confirmation pending"
 msgstr "In afwachting van de bevestiging"
 
 msgid ""
-"You have recieved an email containing a link. Please open that link in "
-"order to reset you password"
-msgstr ""
-"U heeft een e-mail ontvangen met een link. Open die link om uw wachtwoord"
-" opnieuw in te stellen"
+"You have recieved an email containing a link. Please open that link in order"
+" to reset you password"
+msgstr "U heeft een e-mail ontvangen met een link. Open die link om uw wachtwoord opnieuw in te stellen"
 
 #, python-format
 msgid "Signed up %s"
-msgstr "Aangemeld voor %s"
+msgstr "Registratiedatum %s"
 
 #, python-format
 msgid "%s does not yet have a bio."
@@ -3337,11 +3066,11 @@ msgstr "%s heeft geen biografie"
 
 #, python-format
 msgid "joined %s"
-msgstr "lid geworden van %s"
+msgstr "lid geworden op %s"
 
 #, python-format
 msgid "signed up %s"
-msgstr "aangemeld voor %s"
+msgstr "registratiedatum %s"
 
 msgid "send a message"
 msgstr "stuur een bericht"
@@ -3370,9 +3099,6 @@ msgid "Watchlist: %s"
 msgstr "Volglijst: %s"
 
 msgid ""
-"This is your watchlist. You will receive notifications for events "
-"concerning each of these items."
-msgstr ""
-"Dit is uw volglijst. U ontvangt meldingen voor gebeurtenissen van elk van"
-" deze items."
-
+"This is your watchlist. You will receive notifications for events concerning"
+" each of these items."
+msgstr "Dit is uw volglijst. U ontvangt meldingen voor gebeurtenissen van elk van deze items."
