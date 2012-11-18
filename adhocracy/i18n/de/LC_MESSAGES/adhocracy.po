@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2012-11-17 19:40+0100\n"
-"PO-Revision-Date: 2012-11-17 19:20+0000\n"
+"PO-Revision-Date: 2012-11-18 01:27+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgid "oldest"
 msgstr "Älteste"
 
 msgid "newest"
-msgstr "Neueste"
+msgstr "neueste"
 
 #, python-format
 msgid "Comment topic has no variant %s"
@@ -733,10 +733,10 @@ msgid "Oldest"
 msgstr "Älteste"
 
 msgid "Newest"
-msgstr "Neuste"
+msgstr "Neueste"
 
 msgid "Newest Comment"
-msgstr "Neuste Kommentare"
+msgstr "Neuester Kommentar"
 
 msgid "Activity"
 msgstr "Aktivität"
