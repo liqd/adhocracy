@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 2.0.0-rc.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-17 19:40+0100\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2176,6 +2176,12 @@ msgid "The new norm will be categorized under the specified parent theme."
 msgstr ""
 
 msgid "Highlight Changes"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "Off"
 msgstr ""
 
 msgid "New Proposal"
