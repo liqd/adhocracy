@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-17 19:40+0100\n"
-"PO-Revision-Date: 2012-11-17 19:14+0000\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
+"PO-Revision-Date: 2012-11-18 09:55+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -2247,6 +2247,12 @@ msgstr "Новый документ будет классифицирована 
 
 msgid "Highlight Changes"
 msgstr "Выделить исправления."
+
+msgid "On"
+msgstr ""
+
+msgid "Off"
+msgstr ""
 
 msgid "New Proposal"
 msgstr "Новое предложение"

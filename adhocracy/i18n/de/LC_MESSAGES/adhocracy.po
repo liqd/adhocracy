@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-17 19:40+0100\n"
-"PO-Revision-Date: 2012-11-18 01:27+0000\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
+"PO-Revision-Date: 2012-11-18 14:30+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -2247,6 +2247,12 @@ msgstr "Das neue Thema wird unter dem angegebenen Elternthema eingeordnet."
 
 msgid "Highlight Changes"
 msgstr "Änderungen hervorheben"
+
+msgid "On"
+msgstr "An"
+
+msgid "Off"
+msgstr "Aus"
 
 msgid "New Proposal"
 msgstr "Neuer Vorschlag"

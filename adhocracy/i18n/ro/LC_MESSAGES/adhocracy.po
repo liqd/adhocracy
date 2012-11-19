@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-17 19:40+0100\n"
-"PO-Revision-Date: 2012-11-17 19:14+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
+"PO-Revision-Date: 2012-11-18 12:15+0000\n"
+"Last-Translator: zacks <mirceazachia@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -105,7 +105,7 @@ msgid "Delegations are disabled."
 msgstr "Delegarile sunt nepermise."
 
 msgid "tutorial_instance_show_intro"
-msgstr "tutorial_comunitate_afiseaza_introducere"
+msgstr "Tutorial: Comunitati"
 
 msgid "General"
 msgstr "General"
@@ -223,13 +223,13 @@ msgid "Justin Case has entered the room."
 msgstr "Justin Case a intrat in camera."
 
 msgid "tutorial_norms_overview_tab"
-msgstr "tutorial_document_prezentare"
+msgstr "Tutorial: Prezentare documente"
 
 msgid "No proposal has been specified"
 msgstr "Nici o propunere nu a fost introdusa"
 
 msgid "You cannot create a new norm"
-msgstr "Nu poti crea un nou document."
+msgstr "Nu poti crea un document nou."
 
 #, python-format
 msgid "Variant %s is already present, cannot branch."
@@ -269,7 +269,7 @@ msgid "alphabetically"
 msgstr "alfabetic"
 
 msgid "tutorial_norm_show_tab"
-msgstr "tutorial_document_afisare"
+msgstr "Tutorial: Vizualizarea documentelor"
 
 msgid "No such text revision."
 msgstr "Nu exista aceasta revizie de text."
@@ -305,13 +305,13 @@ msgid "The proposal is not undergoing a poll."
 msgstr "Propunerea nu este supusa unui vot."
 
 msgid "tutorial_proposal_overview_tab"
-msgstr "tutorial_propunere_pagina_generala"
+msgstr "Tutorial: Prezentare propuneri"
 
 msgid "Please select norm and propose a change to it."
 msgstr "Selecteaza un document si propune o modificare."
 
 msgid "tutorial_proposal_show_tab"
-msgstr "tutorial_propunere_pagina"
+msgstr "Tutorial: Pagina propunerii"
 
 #, python-format
 msgid "Proposal: %s"
@@ -356,7 +356,7 @@ msgid "You have no twitter association."
 msgstr "Nu ai asociere la twitter."
 
 msgid "tutorial_user_index_intro"
-msgstr "tutorial_utilizator_index_intro"
+msgstr "Tutorial: Membrii comunitatii"
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Ne pare rau, dar nu acceptam intregistrarea folosind adresa aceasta de email."
@@ -412,7 +412,7 @@ msgid "Invalid user name or password"
 msgstr "Nume de utilizator sau parola incorecta."
 
 msgid "tutorial_dashboard_title"
-msgstr "tutorial_pagina_principala_titlu"
+msgstr "Tutorial: Pagina principala"
 
 msgid "The account has been suspended."
 msgstr "Contul a fost suspendat."
@@ -818,7 +818,7 @@ msgid "%(user)s: profile updated"
 msgstr "%(user)s: profil actualizat"
 
 msgid "edited their profile"
-msgstr "si-au editat profilul"
+msgstr "si-a editat profilul"
 
 #, python-format
 msgid "%(user)s: profile was edited by %(admin)s"
@@ -842,7 +842,7 @@ msgstr "%(instance)s: comunitatea a fost updatata"
 
 #, python-format
 msgid "updated the %(instance)s instance"
-msgstr "S-a modificat comunitatea %(instance)s"
+msgstr "a modificat %(instance)s"
 
 #, python-format
 msgid "Deleted Adhocracy: %(instance)s"
@@ -894,11 +894,11 @@ msgstr "creat %(proposal)s"
 
 #, python-format
 msgid "Edit proposal: %(proposal)s"
-msgstr "Editeaza propunerea: %(proposal)s"
+msgstr "Modifica propunerea: %(proposal)s"
 
 #, python-format
 msgid "edited %(proposal)s"
-msgstr "editat %(proposal)s"
+msgstr "a editat %(proposal)s"
 
 #, python-format
 msgid "Poll cancelled: %(proposal)s"
@@ -906,7 +906,7 @@ msgstr "Vot oprit: %(proposal)s"
 
 #, python-format
 msgid "re-drafted %(proposal)s"
-msgstr "re-creat %(proposal)s"
+msgstr "a re-creat %(proposal)s"
 
 #, python-format
 msgid "New Poll: %(proposal)s"
@@ -930,7 +930,7 @@ msgstr "Pagina noua: %(page)s"
 
 #, python-format
 msgid "created %(page)s"
-msgstr "a fost creata %(page)s"
+msgstr "creat %(page)s"
 
 #, python-format
 msgid "Edit page: %(page)s"
@@ -938,7 +938,7 @@ msgstr "Editeaza pagina: %(page)s"
 
 #, python-format
 msgid "edited %(page)s"
-msgstr "editat %(page)s"
+msgstr "a editat %(page)s"
 
 #, python-format
 msgid "Deleted page: %(page)s"
@@ -954,7 +954,7 @@ msgstr "Comentariu nou: in %(topic)s"
 
 #, python-format
 msgid "commented %(topic)s"
-msgstr ""
+msgstr "a comentat %(topic)s"
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
@@ -962,7 +962,7 @@ msgstr "A fost editat comentariul: in %(topic)s"
 
 #, python-format
 msgid "edited comment on %(topic)s"
-msgstr ""
+msgstr "a modificat comentariul %(topic)s"
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
@@ -970,7 +970,7 @@ msgstr "A sters comentariu: in %(topic)s"
 
 #, python-format
 msgid "deleted comment from %(topic)s"
-msgstr ""
+msgstr "a sters comentariul %(topic)s"
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -1046,7 +1046,7 @@ msgstr "Raspunde la comentariu: %(topic)s"
 
 #, python-format
 msgid "Comment Edit: %(topic)s"
-msgstr "Editeaza Comentariu: %(topic)s"
+msgstr "Schimba Comentariu: %(topic)s"
 
 #, python-format
 msgid ""
@@ -1118,7 +1118,7 @@ msgid "Status Quo"
 msgstr "Situatia curenta"
 
 msgid "formatting hints"
-msgstr "sugestii pentru formatare"
+msgstr "sugestii pentru formatarea textului"
 
 msgid "Save"
 msgstr "Salveaza"
@@ -1188,7 +1188,7 @@ msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> voturi"
 
 msgid "Start"
-msgstr "Incepe"
+msgstr "Start"
 
 msgid "Instances"
 msgstr "Comunitati"
@@ -1289,13 +1289,13 @@ msgid "Previous"
 msgstr "Anteriorul"
 
 msgid "start_this_tutorial"
-msgstr "incepe_acest_tutorial"
+msgstr "Incepe acest tutorial"
 
 msgid "disable_this_tutorial"
-msgstr "opreste_acest_tutorial"
+msgstr "Ascunde acest tutorial"
 
 msgid "disable_all_tutorials"
-msgstr "oprste_toate_tutorialele"
+msgstr "Nu mai afisa tutoriale"
 
 #, python-format
 msgid ""
@@ -1307,7 +1307,7 @@ msgid "Votes"
 msgstr "Voturi"
 
 msgid "Shortlink"
-msgstr "Link web scurt"
+msgstr "Varianta scurta pentru Link web"
 
 msgid "Report abuse"
 msgstr "Raporteaza abuz"
@@ -1427,13 +1427,13 @@ msgid "Add category badge"
 msgstr "Adauga titlu categoriei"
 
 msgid "Edit user badge"
-msgstr "Editeaza titlul utilizatorului"
+msgstr "Modifica titlul utilizatorului"
 
 msgid "Edit delegateable badge"
-msgstr "Editeaza titlul delegabil"
+msgstr "Modifica titlul delegabil"
 
 msgid "Edit category badge"
-msgstr "Editeaza titlul categoriei"
+msgstr "Modifica titlul categoriei"
 
 msgid "Badge title"
 msgstr "Titlu"
@@ -1480,7 +1480,7 @@ msgid "Save Badge"
 msgstr "Salveaza Titlul"
 
 msgid "Edit"
-msgstr "Editeaza"
+msgstr "Modifica"
 
 msgid "No badges added yet."
 msgstr "Nici un titlu inca."
@@ -1555,18 +1555,18 @@ msgstr "Comentariu nou"
 
 #, python-format
 msgid "created %s"
-msgstr "a creat %s"
+msgstr "creat %s"
 
 msgid "revert here"
 msgstr "revenire aici"
 
 #, python-format
 msgid "on %s"
-msgstr "pentru %s"
+msgstr "pe %s"
 
 #, python-format
 msgid "edited %s"
-msgstr "editat de %s"
+msgstr "a editat %s"
 
 msgid "No comments were made yet."
 msgstr "Nici un comentariu deocamdata."
@@ -1596,7 +1596,7 @@ msgid "This comment has been deleted."
 msgstr "Acest comentariu a fost sters."
 
 msgid "edit"
-msgstr "editeaza"
+msgstr "modifica"
 
 msgid "delete"
 msgstr "sterge"
@@ -1644,7 +1644,7 @@ msgid "Con"
 msgstr "Contra"
 
 msgid "Allow others to edit this comment."
-msgstr "Da voie celorlati sa editeze acest comentariu"
+msgstr "Permite celorlalti sa editeze acest comentariu"
 
 #, python-format
 msgid "Discussion on %s"
@@ -1674,7 +1674,7 @@ msgid ""
 msgstr "Votul delegatilor a avut loc, dar nici un consens nu a fost obtinut. Decizia a fost amanata."
 
 msgid "The decision was made without delegations."
-msgstr "Decizia a fost luata fara delegatii."
+msgstr "Vot direct fara delegare."
 
 msgid "The decision was determined as a result of the following delegations:"
 msgstr "Decizia a fost luata cu ajutorul urmatoarelor delegatii:"
@@ -1715,7 +1715,7 @@ msgstr "revoca"
 
 #, python-format
 msgid "from %s"
-msgstr "pentru %s"
+msgstr "de la %s"
 
 #, python-format
 msgid "to %s"
@@ -1742,7 +1742,7 @@ msgstr "urmareste inregistrarea"
 
 #, python-format
 msgid "created <b>%s</b>"
-msgstr "creata <b>%s</b>"
+msgstr "creat <b>%s</b>"
 
 msgid "Delegate voting"
 msgstr "Deleaga votul"
@@ -1825,7 +1825,7 @@ msgstr "Esti sigur ca vrei sa parasesti comunitatea? Nu vei mai putea contribui 
 
 #, python-format
 msgid "Edit badges for %s"
-msgstr "Editeaza titlurile lui %s"
+msgstr "Modifica titlurile lui %s"
 
 msgid "Edit Badges"
 msgstr "Modifica Titlul"
@@ -1837,7 +1837,7 @@ msgid "new instance"
 msgstr "comunitate noua"
 
 msgid "Instances are little democracies that are ran by their community."
-msgstr "Comunitatile sunt mici democratii sub controlul membrilor lor."
+msgstr "Comunitatile sunt mici democratii aflate sub controlul membrilor lor."
 
 msgid "New Instance"
 msgstr "Comunitate noua"
@@ -1962,26 +1962,26 @@ msgid "more proposals"
 msgstr "mai multe propuneri"
 
 msgid "Next milestone"
-msgstr ""
+msgstr "Urmatoarea data limita pentru voturi"
 
 msgid "Next milestones"
-msgstr ""
+msgstr "Urmatoarele date limita pentru voturi"
 
 msgid "Newest Events"
-msgstr ""
+msgstr "Ultimele evenimente"
 
 msgid "Informations"
 msgstr "Informatii"
 
 msgid "Created"
-msgstr "Creata"
+msgstr "Creat"
 
 #, python-format
 msgid "by %s on %s"
 msgstr "de %s pe %s"
 
 msgid "By the numbers"
-msgstr "Prin numerele"
+msgstr "Statistici comunitate"
 
 #, python-format
 msgid "<b>%s</b> community members"
@@ -2038,7 +2038,7 @@ msgstr "Esti sigur ca vrei sa stergi aceasta data limita?"
 
 #, python-format
 msgid "Edit %s"
-msgstr "Editeaza %s"
+msgstr "Modifica %s"
 
 msgid "Edit milestone"
 msgstr "Modifica data limita"
@@ -2074,10 +2074,10 @@ msgid "Past Milestones"
 msgstr "Date limita depasite"
 
 msgid "tutorial_milestones_timeline"
-msgstr "tutorial_data_limita_limita_evolutie"
+msgstr "Tutorial: Data limita vot"
 
 msgid "tutorial_milestones_listing"
-msgstr "tutorial_data_limita_lista"
+msgstr "Tutorial: Grafic interval de timp pentru vot"
 
 msgid "New milestone"
 msgstr "O noua data limita"
@@ -2113,7 +2113,7 @@ msgid "tutorial_milestone_details_listing"
 msgstr "tutorial_data_limita_detalii_lista"
 
 msgid "See more"
-msgstr ""
+msgstr "Afiseaza mai mult"
 
 msgid "(unknown)"
 msgstr "(necunoscut)"
@@ -2198,25 +2198,25 @@ msgid "Text"
 msgstr "Text"
 
 msgid "Parent page:"
-msgstr "Pagina parinte:"
+msgstr "Documentul initial"
 
 msgid "Relates to a milestone"
 msgstr "Legata de o data limita"
 
 msgid "Create a new norm."
-msgstr "Creeaza un nou document."
+msgstr "Creeaza un document nou."
 
 msgid "new norm"
-msgstr "nou document"
+msgstr "document nou"
 
 msgid "Popular tags"
 msgstr "Etichete populare"
 
 msgid "tutorial_norms_overview_table"
-msgstr "tutorial_document_prezentare_tabel"
+msgstr "Aici este tabelul cu documentele comunitatii"
 
 msgid "tutorial_norms_overview_facets"
-msgstr "tutorial_document_prezentare_generala"
+msgstr "Etichetele documentelor"
 
 msgid "New page"
 msgstr "Pagina noua"
@@ -2234,16 +2234,22 @@ msgid "Norm content"
 msgstr "Continut document"
 
 msgid "Tag and classify"
-msgstr "Pune eticheta si clasifica"
+msgstr "Adauga etichete pentru a clasifica"
 
 msgid "Tags to describe the subject"
-msgstr "Etichete care descriu subiectul"
+msgstr "Etichete care descriu propunerea"
 
 msgid "The new norm will be categorized under the specified parent theme."
-msgstr "Noul document va fi categorisit sub parintele specificat."
+msgstr "Noul document va fi salvat sub documentul initial."
 
 msgid "Highlight Changes"
 msgstr "Afiseaza modificarile"
+
+msgid "On"
+msgstr "Da"
+
+msgid "Off"
+msgstr "Nu"
 
 msgid "New Proposal"
 msgstr "Propuneri Noi"
@@ -2259,7 +2265,7 @@ msgid "This norm relates to the milestone %s."
 msgstr "Acest document este asociat cu data limita %s."
 
 msgid "Subnorms"
-msgstr ""
+msgstr "Documente secundare"
 
 msgid "View Proposal"
 msgstr "Afiseaza Propunere"
@@ -2274,13 +2280,13 @@ msgid "Proposal"
 msgstr "Propunere"
 
 msgid "tutorial_norm_show_vote"
-msgstr "tutorial_document_afiseaza_voturi"
+msgstr "Tutorial: Aici este afisat documentul"
 
 msgid "tutorial_norm_show_diff"
-msgstr "tutorial_document_afiseaza_diferente"
+msgstr "Tutorial: Aici vezi schimarile propuse documentului"
 
 msgid "tutorial_norm_show_new"
-msgstr "tutorial_document_afiseaza_noi"
+msgstr "Tutorial: Aici faci propuneri noi"
 
 msgid "hide sub-topics"
 msgstr "ascunde subiectele secundare"
@@ -2309,10 +2315,10 @@ msgid "branch new variant"
 msgstr "Adauga a varianta noua"
 
 msgid "Edit the status quo."
-msgstr "Editeaza status quo."
+msgstr "Modifica status quo."
 
 msgid "Edit this variant."
-msgstr "Editeaza varianta."
+msgstr "Modifica varianta."
 
 msgid "Delete this variant."
 msgstr "Sterge varianta."
@@ -2433,10 +2439,10 @@ msgstr "Voturi pentru aceasta varianta"
 
 #, python-format
 msgid "Edit &ldquo;%s&rdquo;"
-msgstr "Editeaza &ldquo;%s&rdquo;"
+msgstr "Modifica &ldquo;%s&rdquo;"
 
 msgid "Title and Goals"
-msgstr "Titlu si Scop"
+msgstr "Titlu si scop"
 
 msgid "Proposal title"
 msgstr "Titlul Propunerii"
@@ -2451,16 +2457,16 @@ msgid "The proposal would..."
 msgstr "Propunerea urmareste..."
 
 msgid "Proposal Category"
-msgstr "Propuneri Categorii"
+msgstr "Categoria propunerii"
 
 msgid "Proposal category hint"
 msgstr "Propuneri sugestii categorii"
 
 msgid "Collaboration and Notification"
-msgstr "Colaborare si Notificare"
+msgstr "Setari pentru colaborare si notificari"
 
 msgid "Allow others to edit this proposal."
-msgstr "Permite altora sa editeze aceasta propunere."
+msgstr "Permite celorlalti membri sa modifice aceasta propunere."
 
 msgid "Create new proposal"
 msgstr "Creeaza o propunere noua"
@@ -2469,29 +2475,29 @@ msgid "Find proposals"
 msgstr "Cauta propuneri"
 
 msgid "Go"
-msgstr "Incepe"
+msgstr "Cauta"
 
 msgid "tutorial_proposal_overview_table"
-msgstr "tutorial_propunere_prezentare_generala"
+msgstr "Tabelul cu propunerile din aceasta comunitate"
 
 msgid "tutorial_proposal_overview_facets"
-msgstr "tutorial_propunere_prezentare"
+msgstr "Cauta propuneri"
 
 msgid "tutorial_proposal_overview_new"
-msgstr "tutorial_propunere_prezentare_noi"
+msgstr "Creeaza o propunere noua"
 
 msgid "New proposal"
 msgstr "Propunere noua"
 
 msgid "Change norms with this proposal"
-msgstr "Modifica documente prin aceasta propunere"
+msgstr "Ce documente se modifica prin aceasta propunere"
 
 msgid ""
 "Proposals are implemented by including changes towards new or existing norm."
 " Norms are fixed documents that represent the consensus of this instance and"
 " can only be changed through a vote. Amend the proposal to change or create "
 "a norm."
-msgstr "Propunerile sunt implementate incluzand modificari ale documentelor noi sau existente. Documentele reprezinta consensul din comunitate si pot fi schimbate doar prin vot. Modifica propunerea pentru a modifica sau creea un nou document."
+msgstr "Propunerile sunt implementate prin crearea unor documente noi sau modificari aduse documentelor existente. Documentele reprezinta consensul din comunitate si pot fi schimbate doar prin vot. Alege documentul pe care vrei sa-l modifici sau creeaza un document nou."
 
 msgid "Select a norm to change:"
 msgstr "Selecteaza documentul pe care-l modifici"
@@ -2532,19 +2538,19 @@ msgid "Join instance to propose to change a norm"
 msgstr "Intra in comunitate pentru a propune modificarea unui document"
 
 msgid "tutorial_proposal_show_vote"
-msgstr "tutorial_propunere_afiseaza_voturi"
+msgstr "Voturile primite de propunere"
 
 msgid "tutorial_proposal_show_follow"
-msgstr "tutorial_propunere_afiseaza_favorite"
+msgstr "Poti sa urmaresti propunerea"
 
 msgid "tutorial_proposal_show_information"
-msgstr "tutorial_propunere_afiseaza_informatii"
+msgstr "Afli mai multe informatii despre propunere"
 
 msgid "tutorial_proposal_show_tags"
 msgstr "tutorial_propunere_afiseaza_etichete"
 
 msgid "tutorial_proposal_show_share"
-msgstr "tutorial_propunere_afiseaza_distribuire"
+msgstr "Poti sa faci cunoscuta propunerea pe Facebook, Twitter, Google."
 
 msgid "tutorial_proposal_show_vote_comment"
 msgstr "tutorial_propunere_afiseaza_cometarii_vot"
@@ -2559,7 +2565,7 @@ msgid "tutorial_proposal_show_new_discussion"
 msgstr "tutorial_propunere_afiseaza_noi_discutii"
 
 msgid "tutorial_proposal_show_propose_variant"
-msgstr "tutorial_propunere_afiseaza_propuneri_variante"
+msgstr "Poti sa vizualizezi modificarile propuse"
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
@@ -2574,7 +2580,7 @@ msgstr "Propunerea aceasta nu are nici o data limita."
 
 #, python-format
 msgid "by %s on %s, %s changes since then."
-msgstr "de catre %s pentru %s, %s modificari de atunci."
+msgstr "de catre %s pe %s, %s modificari de atunci."
 
 msgid "(new)"
 msgstr "(nou)"
@@ -2663,16 +2669,16 @@ msgid "Can't find an appropriate norm?"
 msgstr "Nu gasesti documentul?"
 
 msgid "Create a new norm instead"
-msgstr "Creaza un nou document"
+msgstr "Creaza un document nou"
 
 msgid "Propose a new norm"
-msgstr "Propune un nou document"
+msgstr "Propune un document nou"
 
 msgid ""
 "Create a new norm that you want to relate to. The norm will be created "
 "without any status quo. You can then add a text variant of that norm, "
 "specifying the change you want to implement."
-msgstr "Creeaza un nou document la care te referi. Acest document va fi creat fara status quo. Poti sa adaugi ulterior o varianta a documentului, specificand modificarea pe care vrei sa o introduci."
+msgstr "Creeaza noul document la care vrei sa te referi. Acest document va fi creat fara status quo. Poti sa adaugi ulterior o varianta a documentului, specificand modificarea pe care vrei sa o introduci."
 
 msgid "New norm title"
 msgstr "Numele noului document"
@@ -2732,7 +2738,7 @@ msgid "more tags..."
 msgstr "mai multe etichete..."
 
 msgid "Tagged with"
-msgstr "Eticheta cu"
+msgstr "Etichete"
 
 msgid "Not tagged yet"
 msgstr "Fara etichete inca"
@@ -2751,7 +2757,7 @@ msgstr "Cancel"
 
 #, python-format
 msgid "by %s, "
-msgstr "by %s,"
+msgstr "de catre %s,"
 
 msgid "This revision has no text."
 msgstr "Revizia aceasta nu are nici un text."
@@ -2861,19 +2867,19 @@ msgid "List all pages"
 msgstr "Afiseaza toate paginile"
 
 msgid "tutorial_dashboard_username"
-msgstr "tutorial_prima_pagina_nume_utilizator"
+msgstr "Aici este numele utilizatorului"
 
 msgid "tutorial_dashboard_proposals"
-msgstr "tutorial_prima_pagina_propuneri"
+msgstr "Propuneri in comunitatile tale"
 
 msgid "tutorial_dashboard_show_all"
-msgstr "tutotial_prima_pagina_afiseaza_toate"
+msgstr "Apasa aici ca sa afisezi toate propunerile"
 
 msgid "tutorial_dashboard_instances"
-msgstr "tutorial_prima_pagina_comunitati"
+msgstr "Comunitatile tale"
 
 msgid "tutorial_dashboard_watchlist"
-msgstr "tutorial_prima_pagina_favorite"
+msgstr "Favoritele tale"
 
 msgid "Your Instances"
 msgstr "Comunitatile tale"
@@ -2904,10 +2910,10 @@ msgid "Your User Details"
 msgstr "Detaliile utilizatorului tau:"
 
 msgid "Display name for"
-msgstr "Afiseaza numele pentru"
+msgstr "Setarile utilizator pentru"
 
 msgid "You can chose which name other users see."
-msgstr "Poti alege ce nume vad ceilalti utilizatori."
+msgstr "Numele vazut de catre ceilalti utilizatori."
 
 msgid "Password"
 msgstr "Parola"
@@ -2925,7 +2931,7 @@ msgid "Notifications"
 msgstr "Notificari"
 
 msgid "Select how you would like to be notified of events."
-msgstr "Alegeti cum vreti sa va fie anuntate evenimentele."
+msgstr "Alege adresa pe care vrei sa primesti notificarile."
 
 msgid "Help."
 msgstr "Ajutor."
@@ -2981,10 +2987,10 @@ msgid "Find users"
 msgstr "Cauta utilizatori"
 
 msgid "tutorial_user_index_table"
-msgstr "tutorial_utilizator_index_tabela"
+msgstr "Tabelul cu membrii acestei comunitati"
 
 msgid "tutorial_user_index_facets"
-msgstr "tutorial_utilizator_index"
+msgstr "Tutorial: Utilizatori"
 
 #, python-format
 msgid "Adhocracies: %s"
@@ -3048,7 +3054,7 @@ msgid ""
 msgstr "Pentru ati retrimite datele de conectare, trebuie sa introduci adresa de email."
 
 msgid "Reset"
-msgstr "Resetat"
+msgstr "Reseteaza parola"
 
 msgid "Confirmation pending"
 msgstr "Confirmarea este in asteptare"
@@ -3068,7 +3074,7 @@ msgstr "%s nu are inca o biografie."
 
 #, python-format
 msgid "joined %s"
-msgstr "devenit membri ai %s"
+msgstr "devenit membru pe %s"
 
 #, python-format
 msgid "signed up %s"
