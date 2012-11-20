@@ -3,6 +3,9 @@ import logging
 from adhocracy.lib import helpers as h
 import adhocracy.model as model
 
+from pylons import config
+from paste.deploy.converters import asbool
+
 log = logging.getLogger(__name__)
 
 ADMIN = u'admin'
@@ -127,11 +130,26 @@ def setup_entities(initial_setup):
 
     model.meta.Session.commit()
 
-    from pylons import config
     if config.get('adhocracy.instance'):
         model.Instance.create(config.get('adhocracy.instance'),
                               u"Adhocracy", admin)
-    elif not model.Instance.find(u"test"):
-        model.Instance.create(u"test", u"Test Instance", admin)
+    else:
+        if not model.Instance.find(u"test"):
+            log.debug(u'Creating test instance')
+            model.Instance.create(u"test", u"Test Instance", admin)
+
+        if asbool(config.get('adhocracy.use_feedback_instance')):
+            feedback_key = config.get('adhocracy.feedback_instance_key',
+                                      u'feedback')
+            feedback_label = config.get('adhocracy.feedback_instance_label',
+                                        u'Feedback')
+            feedback_available = model.Instance.find(feedback_key)
+            if feedback_key and feedback_label and not feedback_available:
+                log.debug('Creating feedback instance: %s' % feedback_label)
+                fb = model.Instance.create(feedback_key, feedback_label, admin)
+                fb.use_norms = False
+                fb.allow_adopt = False
+                fb.allow_delegate = False
+                fb.hide_global_categories = True
 
     model.meta.Session.commit()

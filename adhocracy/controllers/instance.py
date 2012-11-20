@@ -121,6 +121,8 @@ class InstanceContentsEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
     milestones = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    hide_global_categories = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
 
 
 class InstanceVotingEditForm(formencode.Schema):
@@ -571,6 +573,7 @@ class InstanceController(BaseController):
                 'milestones': instance.milestones,
                 'use_norms': instance.use_norms,
                 'require_selection': instance.require_selection,
+                'hide_global_categories': instance.hide_global_categories,
                 'frozen': instance.frozen,
                 '_tok': csrf.token_id()})
 
@@ -585,8 +588,8 @@ class InstanceController(BaseController):
 
         updated = update_attributes(
             c.page_instance, self.form_result,
-            ['allow_propose', 'allow_index', 'frozen',
-             'milestones', 'use_norms', 'require_selection'])
+            ['allow_propose', 'allow_index', 'frozen', 'milestones',
+             'use_norms', 'require_selection', 'hide_global_categories'])
         return self.settings_result(updated, c.page_instance, 'contents')
 
     def settings_voting_form(self, id):

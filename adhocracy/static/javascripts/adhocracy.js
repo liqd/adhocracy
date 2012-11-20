@@ -602,6 +602,17 @@ $(document).ready(function () {
         });
     });
 
+    $('#feedback_button').toggle(
+        function () {
+            $('#feedback').animate({right: '0px'});
+            return false;
+        },
+        function () {
+            $('#feedback').animate({right: '-350px'});
+            return false;
+        }
+    );
+
     $('.showmore').each(function () {
         var self = $(this);
         self.find('.showmore_morelink').bind('click', function (event) {
