@@ -29,7 +29,7 @@ class RootController(BaseController):
         if c.instance:
             redirect(h.entity_url(c.instance))
 
-        instances_in_root = asint(config.get('adhocracy.startpage.instances.list_length', 5))
+        instances_in_root = asint(config.get('adhocracy.startpage.instances.list_length', 0))
         if instances_in_root > 0:
             c.instances = model.Instance.all(limit=instances_in_root)
         elif instances_in_root == -1:
