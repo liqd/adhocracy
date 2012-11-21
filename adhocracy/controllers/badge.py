@@ -101,7 +101,8 @@ class BadgeController(BaseController):
         c.groups = Group.all_instance()
         return htmlfill.render(self.render_form(),
                                defaults=dict(request.params),
-                               errors=errors)
+                               errors=errors,
+                               force_defaults=False)
 
     def dispatch(self, action, badge_type, id=None):
         '''
@@ -243,7 +244,8 @@ class BadgeController(BaseController):
 
         return htmlfill.render(self.render_form(),
                                errors=errors,
-                               defaults=defaults)
+                               defaults=defaults,
+                               force_defaults=False)
 
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
