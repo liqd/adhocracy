@@ -2,615 +2,616 @@
 # Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#   <mirceazachia@yahoo.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-17 19:40+0100\n"
-"PO-Revision-Date: 2012-11-17 19:14+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
-"Language-Team: English (http://www.transifex.com/projects/p/adhocracy/language/en/)\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
+"PO-Revision-Date: 2012-11-18 12:15+0000\n"
+"Last-Translator: zacks <mirceazachia@yahoo.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
-"Language: en\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
 msgid "Thank you for helping."
-msgstr "Thank you for helping."
+msgstr "Multumim pentru ajutor"
 
 msgid "Please insert a subject for the mail we will send to the users."
-msgstr "Please insert a subject for the mail we will send to the users."
+msgstr "Introduceti un subiect pentru mailul care va fi trimis utilizatorilor."
 
 msgid "Please insert a template for the mail we will send to the users."
-msgstr "Please insert a template for the mail we will send to the users."
+msgstr "Introduceti un template pentru mailul care va fi trimis utilizatorilor."
 
 msgid "In all instances"
-msgstr "In all instances"
+msgstr "In toate comunitatile"
 
 #, python-format
 msgid "In instance \"%s\""
-msgstr "In instance \"%s\""
+msgstr "In comunitatea \"%s\""
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
-msgstr "We cannot find the badge with the id %s"
+msgstr "Titlul cu id-ul %s nu a fost gasit"
 
 msgid "Badge changed successfully"
-msgstr "Badge changed successfully"
+msgstr "Titlul a fost modificat"
 
 msgid "oldest"
-msgstr "oldest"
+msgstr "cele mai vechi"
 
 msgid "newest"
-msgstr "newest"
+msgstr "cele mai noi"
 
 #, python-format
 msgid "Comment topic has no variant %s"
-msgstr "Comment topic has no variant %s"
+msgstr "Subiectul cometariului nu are nici o varianta %s"
 
 msgid "The comment has been deleted."
-msgstr "The comment has been deleted."
+msgstr "Comentariul a fost sters"
 
 msgid ""
 "You're trying to revert to a revision which is not partri of this comments "
 "history"
-msgstr "You're trying to revert to a revision which is not partri of this comments history"
+msgstr "Incerci sa revii la o versiune care nu este parte din comentariile introduse aici."
 
 msgid "The comment has been reverted."
-msgstr "The comment has been reverted."
+msgstr "Comentariul a fost refacut."
 
 msgid "Wrong topic"
-msgstr "Wrong topic"
+msgstr "Subiect gresit"
 
 msgid "Invalid delegation recipient"
-msgstr "Invalid delegation recipient"
+msgstr "Destinatar invalid pentru delegare"
 
 #, python-format
 msgid "You have already delegated voting to %s in %s"
-msgstr "You have already delegated voting to %s in %s"
+msgstr "Deja ai delegat votul catre %s in %s"
 
 #, python-format
 msgid "Cannot access delegation %(id)s"
-msgstr "Cannot access delegation %(id)s"
+msgstr "Nu se poate accesa delegarea %(id)s"
 
 msgid "The delegation is now revoked."
-msgstr "The delegation is now revoked."
+msgstr "Delegarea a fost retrasa."
 
 #, python-format
 msgid "Error %s"
-msgstr "Error %s"
+msgstr "Eroare %s"
 
 #, python-format
 msgid "%s News"
-msgstr "%s News"
+msgstr "%s Stiri"
 
 #, python-format
 msgid "News from %s"
-msgstr "News from %s"
+msgstr "Stiri de la %s"
 
 msgid "The changes where saved."
-msgstr "The changes where saved."
+msgstr "Modificarile au fost salvate."
 
 msgid "No update required."
-msgstr "No update required."
+msgstr "Nu este necesar nici un update."
 
 msgid "Delegations are enabled."
-msgstr "Delegations are enabled."
+msgstr "Delegarile sunt permise."
 
 msgid "Delegations are disabled."
-msgstr "Delegations are disabled."
+msgstr "Delegarile sunt nepermise."
 
 msgid "tutorial_instance_show_intro"
-msgstr "tutorial_instance_show_intro"
+msgstr "Tutorial: Comunitati"
 
 msgid "General"
 msgstr "General"
 
 msgid "Appearance"
-msgstr "Appearance"
+msgstr "Aspect"
 
 msgid "Contents"
-msgstr "Contents"
+msgstr "Continut"
 
 msgid "Votings"
-msgstr "Votings"
+msgstr "Votare"
 
 msgid "Badges"
-msgstr "Badges"
+msgstr "Title"
 
 msgid "Members import"
-msgstr "Members import"
+msgstr "Import membrii"
 
 msgid "The logo has been deleted."
-msgstr "The logo has been deleted."
+msgstr "Logo-ul a fost sters."
 
 msgid "No delay"
-msgstr "No delay"
+msgstr "Fara intarziere"
 
 msgid "1 Day"
-msgstr "1 Day"
+msgstr "1 Zi"
 
 msgid "2 Days"
-msgstr "2 Days"
+msgstr "2 Zile"
 
 msgid "One Week"
-msgstr "One Week"
+msgstr "O Saptamana"
 
 msgid "Two Weeks"
-msgstr "Two Weeks"
+msgstr "Doua Saptamani"
 
 msgid "Four Weeks"
-msgstr "Four Weeks"
+msgstr "Patru Saptamani"
 
 msgid "A simple majority (&frac12; of vote)"
-msgstr "A simple majority (&frac12; of vote)"
+msgstr "Majoritate simpla (&frac12 din voturi)"
 
 msgid "A two-thirds majority"
-msgstr "A two-thirds majority"
+msgstr "Majoritate de doua-treimi"
 
 #, python-format
 msgid "The instance %s has been deleted."
-msgstr "The instance %s has been deleted."
+msgstr "Comunitatea %s a fost stearsa."
 
 #, python-format
 msgid "Welcome to %(instance)s"
-msgstr "Welcome to %(instance)s"
+msgstr "Bine ai venit in comunitatea %(instance)s"
 
 #, python-format
 msgid "You're not a member of %(instance)s."
-msgstr "You're not a member of %(instance)s."
+msgstr "Nu esti membru al comunitatii %(instance)s."
 
 #, python-format
 msgid "You're the founder of %s, cannot leave."
-msgstr "You're the founder of %s, cannot leave."
+msgstr "Esti un membru fondator pentru %s, nu poti iesi."
 
 #, python-format
 msgid "You've left %(instance)s."
-msgstr "You've left %(instance)s."
+msgstr "Ai iesit din comunitatea %(instance)s."
 
 msgid "You cannot manipulate one instance from within another instance."
-msgstr "You cannot manipulate one instance from within another instance."
+msgstr "Nu poti modifica o comunitate din alta comunitate."
 
 #, python-format
 msgid "[%s] Message from %s: %s"
-msgstr "[%s] Message from %s: %s"
+msgstr "[%s] Mesaj de la %s: %s"
 
 msgid "Your message has been sent. Thanks."
-msgstr "Your message has been sent. Thanks."
+msgstr "Mesaj trimis. Multumesc."
 
 msgid "tutorial_milestones_tab"
-msgstr "tutorial_milestones_tab"
+msgstr "tutorial_data_limita"
 
 msgid "tutorial_milestone_details_tab"
-msgstr "tutorial_milestone_details_tab"
+msgstr "tutorial_data_limita_detalii"
 
 #, python-format
 msgid "The milestone %s has been deleted."
-msgstr "The milestone %s has been deleted."
+msgstr "Data limita %s a fost stearsa."
 
 msgid "Invalid input."
-msgstr "Invalid input."
+msgstr "Date introduse nevalide."
 
 msgid "No OpenID given!"
-msgstr "No OpenID given!"
+msgstr "Nu a fost furnizat OpenID!"
 
 msgid "No OpenID was entered."
-msgstr "No OpenID was entered."
+msgstr "Nu a fost introdus OpenID!"
 
 #, python-format
 msgid "No OpenID with ID '%s' exists."
-msgstr "No OpenID with ID '%s' exists."
+msgstr "Nu exista nici OpenID cu ID-ul '%s'."
 
 #, python-format
 msgid "You're not authorized to change %s's settings."
-msgstr "You're not authorized to change %s's settings."
+msgstr "Nu esti autorizat sa schimbi setarea %s's."
 
 msgid "OpenID login failed."
-msgstr "OpenID login failed."
+msgstr "Logare cu OpenID nereusita."
 
 msgid "You have already claimed this OpenID."
-msgstr "You have already claimed this OpenID."
+msgstr "Ai cerut deja acest OpenID."
 
 #, python-format
 msgid "OpenID %s already belongs to %s."
-msgstr "OpenID %s already belongs to %s."
+msgstr "OpenID %s apartine lui %s."
 
 msgid "Justin Case has entered the room."
-msgstr "Justin Case has entered the room."
+msgstr "Justin Case a intrat in camera."
 
 msgid "tutorial_norms_overview_tab"
-msgstr "tutorial_norms_overview_tab"
+msgstr "Tutorial: Prezentare documente"
 
 msgid "No proposal has been specified"
-msgstr "No proposal has been specified"
+msgstr "Nici o propunere nu a fost introdusa"
 
 msgid "You cannot create a new norm"
-msgstr "You cannot create a new norm"
+msgstr "Nu poti crea un document nou."
 
 #, python-format
 msgid "Variant %s is already present, cannot branch."
-msgstr "Variant %s is already present, cannot branch."
+msgstr "Varianta %s este deja prezenta, nu o poti asocia."
 
 msgid ""
 "You're trying to update to a text which is not part of this pages history"
-msgstr "You're trying to update to a text which is not part of this pages history"
+msgstr "Incerci sa updatezi un text care nu este parte din istoricul paginii"
 
 msgid "<i>(No text)</i>"
-msgstr "<i>(No text)</i>"
+msgstr "<i>(Nici un text)</i>"
 
 msgid "<i>(No title))</i>"
-msgstr "<i>(No title))</i>"
+msgstr "<i>(Nici un titlu))</i>"
 
 msgid "<i>(No differences))</i>"
-msgstr "<i>(No differences))</i>"
+msgstr "<i>(Nici o diferenta))</i>"
 
 msgid "<i>(No differences)</i>"
-msgstr "<i>(No differences)</i>"
+msgstr "<i>Nu sunt diferente</i>"
 
 msgid "Original version"
-msgstr "Original version"
+msgstr "Versiunea initiala"
 
 #, python-format
 msgid "Variant: \"%s\""
-msgstr "Variant: \"%s\""
+msgstr "Varianta \"%s\""
 
 msgid "Original Version"
-msgstr "Original Version"
+msgstr "Versiunea Initiala"
 
 #, python-format
 msgid "Variant %s does not exist!"
-msgstr "Variant %s does not exist!"
+msgstr "Varianta %s nu exista!"
 
 msgid "alphabetically"
-msgstr "alphabetically"
+msgstr "alfabetic"
 
 msgid "tutorial_norm_show_tab"
-msgstr "tutorial_norm_show_tab"
+msgstr "Tutorial: Vizualizarea documentelor"
 
 msgid "No such text revision."
-msgstr "No such text revision."
+msgstr "Nu exista aceasta revizie de text."
 
 msgid "Cannot compare identical text revisions."
-msgstr "Cannot compare identical text revisions."
+msgstr "Nu se pot compara revizii ale textului identice."
 
 msgid "Cannot compare versions of different texts."
-msgstr "Cannot compare versions of different texts."
+msgstr "Nu se pot compara versiuni diferite de documente."
 
 #, python-format
 msgid "The variant %s has been deleted."
-msgstr "The variant %s has been deleted."
+msgstr "Varinata %s a fost stearsa."
 
 #, python-format
 msgid "The page %s has been deleted."
-msgstr "The page %s has been deleted."
+msgstr "Pagina %s a fost stearsa."
 
 #, python-format
 msgid "Invalid text ID %s for this page/variant!"
-msgstr "Invalid text ID %s for this page/variant!"
+msgstr "ID al documentului %s nevalid in aceasta varianta a documentului."
 
 msgid "This is not an adoption poll."
-msgstr "This is not an adoption poll."
+msgstr "Acesta nu este un vot pentru adoptare."
 
 msgid "This is not a rating poll."
-msgstr "This is not a rating poll."
+msgstr "Acesta nu este un vot pentru rating."
 
 msgid "The poll has ended."
-msgstr "The poll has ended."
+msgstr "Votul este inchis."
 
 msgid "The proposal is not undergoing a poll."
-msgstr "The proposal is not undergoing a poll."
+msgstr "Propunerea nu este supusa unui vot."
 
 msgid "tutorial_proposal_overview_tab"
-msgstr "tutorial_proposal_overview_tab"
+msgstr "Tutorial: Prezentare propuneri"
 
 msgid "Please select norm and propose a change to it."
-msgstr "Please select norm and propose a change to it."
+msgstr "Selecteaza un document si propune o modificare."
 
 msgid "tutorial_proposal_show_tab"
-msgstr "tutorial_proposal_show_tab"
+msgstr "Tutorial: Pagina propunerii"
 
 #, python-format
 msgid "Proposal: %s"
-msgstr "Proposal: %s"
+msgstr "Propunere: %s"
 
 #, python-format
 msgid "Activity on the %s proposal"
-msgstr "Activity on the %s proposal"
+msgstr "Activitatea pentru propunerea %s"
 
 #, python-format
 msgid "The proposal %s has been deleted."
-msgstr "The proposal %s has been deleted."
+msgstr "Propunerea %s a fost stearsa."
 
 #, python-format
 msgid "Proposal: %(proposal)s"
-msgstr "Proposal: %(proposal)s"
+msgstr "Propunerea: %(proposal)s"
 
 msgid "relevance"
-msgstr "relevance"
+msgstr "relevanta"
 
 #, python-format
 msgid "The inclusion of %s has been deleted."
-msgstr "The inclusion of %s has been deleted."
+msgstr "Includerea %s a fost stearsa."
 
 msgid "Page not Found"
-msgstr "Page not Found"
+msgstr "Pagina nu a fost gasita."
 
 msgid "The requested page was not found"
-msgstr "The requested page was not found"
+msgstr "Pagina nu a fost gasita."
 
 msgid ""
 "You have been logged out while authenticating at twitter. Please try again."
-msgstr "You have been logged out while authenticating at twitter. Please try again."
+msgstr "Ai fost de-logat in timpul logarii la twitter. Incearca din nou."
 
 #, python-format
 msgid ""
 "You're now following %s on twitter so we can send you notifications as "
 "direct messages"
-msgstr "You're now following %s on twitter so we can send you notifications as direct messages"
+msgstr "Urmaresti %s pe twitter si poti trimite notificari ca mesaje directe."
 
 msgid "You have no twitter association."
-msgstr "You have no twitter association."
+msgstr "Nu ai asociere la twitter."
 
 msgid "tutorial_user_index_intro"
-msgstr "tutorial_user_index_intro"
+msgstr "Tutorial: Membrii comunitatii"
 
 msgid "Sorry, but we don't accept registrations with this email address."
-msgstr "Sorry, but we don't accept registrations with this email address."
+msgstr "Ne pare rau, dar nu acceptam intregistrarea folosind adresa aceasta de email."
 
 msgid "There is no user registered with that email address."
-msgstr "There is no user registered with that email address."
+msgstr "Ne este nici un utlizator cu adresa aceasta de email."
 
 msgid ""
 "you have requested that your password be reset. In order to confirm the "
 "validity of your claim, please open the link below in your browser:"
-msgstr "you have requested that your password be reset. In order to confirm the validity of your claim, please open the link below in your browser:"
+msgstr "ai cerut ca parola ta sa fie resetata. Pentru a confirma validitatea cererii, deschide linkul de mai jos in browserul tau internet:"
 
 #, python-format
 msgid "Your user name to login is: %s"
-msgstr "Your user name to login is: %s"
+msgstr "Numele utilizatorului tau este: %s"
 
 msgid "Reset your password"
-msgstr "Reset your password"
+msgstr "Reseteaza parola"
 
 msgid "your password has been reset. It is now:"
-msgstr "your password has been reset. It is now:"
+msgstr "parola ta e resetata. Acum este:"
 
 msgid "Please login and change the password in your user settings."
-msgstr "Please login and change the password in your user settings."
+msgstr "Te rugam sa te loghezi si sa-ti schimbi parola in setari utilizator."
 
 msgid "Your new password"
-msgstr "Your new password"
+msgstr "Noua ta parola este:"
 
 msgid "Success. You have been sent an email with your new password."
-msgstr "Success. You have been sent an email with your new password."
+msgstr "Success. Ti-a fost trimis un email cu o noua parola."
 
 msgid ""
 "The reset code is invalid. Please repeat the password recovery procedure."
-msgstr "The reset code is invalid. Please repeat the password recovery procedure."
+msgstr "Codul de resetare nu e valid. Repeta procedura de resetare a parolei."
 
 msgid "Thank you, The address is already activated."
-msgstr "Thank you, The address is already activated."
+msgstr "Multumim. Contul este deja activat."
 
 msgid "The activation code is invalid. Please have it resent."
-msgstr "The activation code is invalid. Please have it resent."
+msgstr "Codul de activare este invalid. Incearca sa-l retrimiti."
 
 #, python-format
 msgid "Welcome to %s"
-msgstr "Welcome to %s"
+msgstr "Bine ai venit %s"
 
 msgid "Your email has been confirmed."
-msgstr "Your email has been confirmed."
+msgstr "Adresa de mail a fost confirmata."
 
 msgid "The activation link has been re-sent to your email address."
-msgstr "The activation link has been re-sent to your email address."
+msgstr "Linkul de activare a fosr retrimis pe adresa ta de mail."
 
 msgid "Invalid user name or password"
-msgstr "Invalid user name or password"
+msgstr "Nume de utilizator sau parola incorecta."
 
 msgid "tutorial_dashboard_title"
-msgstr "tutorial_dashboard_title"
+msgstr "Tutorial: Pagina principala"
 
 msgid "The account has been suspended."
-msgstr "The account has been suspended."
+msgstr "Contul a fost suspendat."
 
 msgid "The account has been re-activated."
-msgstr "The account has been re-activated."
+msgstr "Contul a fost re-activat."
 
 msgid "The account has been deleted."
-msgstr "The account has been deleted."
+msgstr "Contul a fost sters."
 
 msgid "Invalid badge choice."
-msgstr "Invalid badge choice."
+msgstr "Alegere titlu nevalida."
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
-msgstr "%(user)s is using Adhocracy, a democratic decision-making tool."
+msgstr "%(user)s foloseste Adhocracy, un tool de luare deciziilor in mod democratic."
 
 #, python-format
 msgid "%(user)ss Activity"
-msgstr "%(user)ss Activity"
+msgstr "Activitatea utilizatorului %(user)ss "
 
 #, python-format
 msgid "%s is not a member of %s"
-msgstr "%s is not a member of %s"
+msgstr "%s nu este membru din %s"
 
 #, python-format
 msgid "%s is banned from the system."
-msgstr "%s is banned from the system."
+msgstr "%s este blocat in sistem."
 
 msgid "A watchlist entry for this entity already exists."
-msgstr "A watchlist entry for this entity already exists."
+msgstr "Entitatea aceasta este deja in lista de entitati favorite."
 
 #, python-format
 msgid "You're not authorized to delete %s's watchlist entries."
-msgstr "You're not authorized to delete %s's watchlist entries."
+msgstr "Nu esti autorizat sa stergi %s din lista de favorite."
 
 msgid "No username is given"
-msgstr "No username is given"
+msgstr "Nici un nume de utilizator specificat."
 
 msgid "Username is too short"
-msgstr "Username is too short"
+msgstr "Nume utilizator prea scurt."
 
 msgid "The username is invalid"
-msgstr "The username is invalid"
+msgstr "Nume utilizator gresit."
 
 msgid "That username already exists"
-msgstr "That username already exists"
+msgstr "Numele de  utilizator exista deja."
 
 msgid "That email is already registered"
-msgstr "That email is already registered"
+msgstr "Emailul este deja utilizat."
 
 msgid "Invalid date, expecting DD.MM.YYYY"
-msgstr "Invalid date, expecting DD.MM.YYYY"
+msgstr "Format data gresit, foloseste DD.MM.YYYY"
 
 msgid ""
 "Please enter a html color code like '#f0f0f0'. '%(value)' is not a valid "
 "color code."
-msgstr "Please enter a html color code like '#f0f0f0'. '%(value)' is not a valid color code."
+msgstr "Introduceti un cod culoare html valid ex. '#f0f0f0'. '%(value)' nu este un cod de culoare valid."
 
 msgid "No instance key is given"
-msgstr "No instance key is given"
+msgstr "Nu a fost introdus nici un cod pentru comunitate."
 
 msgid "The instance key is invalid"
-msgstr "The instance key is invalid"
+msgstr "Codul comunitatii nu este valid"
 
 msgid "An instance with that key already exists"
-msgstr "An instance with that key already exists"
+msgstr "O comunitate cu acelasi nume exista deja"
 
 #, python-format
 msgid "No entity with ID '%s' exists"
-msgstr "No entity with ID '%s' exists"
+msgstr "Nu exista nici o entitate cu id-ul '%s'"
 
 #, python-format
 msgid "No proposal with ID '%s' exists"
-msgstr "No proposal with ID '%s' exists"
+msgstr "Nu exista nici o propunere cu ID-ul '%s'"
 
 #, python-format
 msgid "No group with ID '%s' exists"
-msgstr "No group with ID '%s' exists"
+msgstr "Nu exista nici un grup cu ID-ul '%s'"
 
 #, python-format
 msgid "Group '%s' is no instance group"
-msgstr "Group '%s' is no instance group"
+msgstr "Grupul '%s' nu este o comunitate."
 
 msgid "At least on character is required"
-msgstr "At least on character is required"
+msgstr "Introduceti cel putin un caracter."
 
 msgid "You're not allowed to edit global badges"
-msgstr "You're not allowed to edit global badges"
+msgstr "Nu ai permisiunea de a modifica titlurile global."
 
 #, python-format
 msgid "No Badge ID '%s' exists"
-msgstr "No Badge ID '%s' exists"
+msgstr "Nu exista nici un titlu cu ID-ul '%s'"
 
 #, python-format
 msgid "No revision with ID '%s' exists"
-msgstr "No revision with ID '%s' exists"
+msgstr "Nu exista nici o revizie cu ID-ul '%s'"
 
 #, python-format
 msgid "No comment with ID '%s' exists"
-msgstr "No comment with ID '%s' exists"
+msgstr "Nu exista nici un comentariu cu ID-ul '%s'"
 
 #, python-format
 msgid "No watchlist entry with ID '%s' exists"
-msgstr "No watchlist entry with ID '%s' exists"
+msgstr "Nu exista nici un favorit cu ID-ul '%s'"
 
 msgid "Invalid reference"
-msgstr "Invalid reference"
+msgstr "Referinta invalida."
 
 #, python-format
 msgid "No user with the user name '%s' exists"
-msgstr "No user with the user name '%s' exists"
+msgstr "Nu exista nici un nume de utilizator '%s'"
 
 #, python-format
 msgid "No tagging with ID '%s' exists"
-msgstr "No tagging with ID '%s' exists"
+msgstr "Nu exista nici o eticheta cu ID-ul '%s'"
 
 #, python-format
 msgid "No tag with ID '%s' exists"
-msgstr "No tag with ID '%s' exists"
+msgstr "Nu exista nici o eticheta cu ID-ul '%s'"
 
 #, python-format
 msgid "No text with ID '%s' exists"
-msgstr "No text with ID '%s' exists"
+msgstr "Nu exista nici un text cu ID-ul '%s' "
 
 #, python-format
 msgid "No page '%s' exists"
-msgstr "No page '%s' exists"
+msgstr "Nu exista nici o pagina '%s' "
 
 #, python-format
 msgid "Invalid page function: %s"
-msgstr "Invalid page function: %s"
+msgstr "Pagina inexistenta: %s"
 
 msgid "No variant name is given."
-msgstr "No variant name is given."
+msgstr "Nu ai introdus numele variantei."
 
 #, python-format
 msgid "Invalid variant name: %s"
-msgstr "Invalid variant name: %s"
+msgstr "Varianta %s are un nume nepermis"
 
 #, python-format
 msgid "Variant name cannot be purely numeric: %s"
-msgstr "Variant name cannot be purely numeric: %s"
+msgstr "Numele variantei nu poate fi doar numeric: %s"
 
 msgid "An entry with this title already exists"
-msgstr "An entry with this title already exists"
+msgstr "O inregistrare cu acelasi titlu exista deja"
 
 msgid "No page name is given."
-msgstr "No page name is given."
+msgstr "Nu a fost introdus nici un nume pentru pagina."
 
 #, python-format
 msgid "Invalid page name: %s"
-msgstr "Invalid page name: %s"
+msgstr "Nume de pagina '%s'  inexistent"
 
 #, python-format
 msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
-msgstr "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
+msgstr "Eroare \"%(error)s\" in timpul rularii liniei <pre><i>%(line_content)s</i></pre>"
 
 #, python-format
 msgid "The following errors occured while reading the list of users: <br />%s"
-msgstr "The following errors occured while reading the list of users: <br />%s"
+msgstr "Au aparut urmatoarele erori in timpul afisarii listei de utilizatori: <br />%s"
 
 #, python-format
 msgid "Line %s: %s"
-msgstr "Line %s: %s"
+msgstr "Linia %s: %s"
 
 #, python-format
 msgid "Email %s is used multiple times"
-msgstr "Email %s is used multiple times"
+msgstr "Emailul %s este folosit deja"
 
 #, python-format
 msgid "Username %s is used multiple times"
-msgstr "Username %s is used multiple times"
+msgstr "Numele de utilizator %s este folosit deja"
 
 #, python-format
 msgid "Lines %s: %s"
-msgstr "Lines %s: %s"
+msgstr "Liniile %s: %s"
 
 #, python-format
 msgid ""
 "You need to insert the following placeholders into the email text so we can "
 "insert enough information for the user: %s"
-msgstr "You need to insert the following placeholders into the email text so we can insert enough information for the user: %s"
+msgstr "Trebuie sa introduci elementele urmatoare in textul emailului pentru a trimite informatiile necesare utilizatorului: %s"
 
 msgid "Today"
-msgstr "Today"
+msgstr "Astazi"
 
 msgid "Yesterday"
-msgstr "Yesterday"
+msgstr "Ieri"
 
 #, python-format
 msgid "%d days"
-msgstr "%d days"
+msgstr "%d zile"
 
 msgid "Voter"
-msgstr "Voter"
+msgstr "User cu drept de vot"
 
 msgid "Observer"
-msgstr "Observer"
+msgstr "Observator"
 
 msgid "Supervisor"
 msgstr "Supervisor"
@@ -619,40 +620,40 @@ msgid "Administrator"
 msgstr "Administrator"
 
 msgid "Default"
-msgstr "Default"
+msgstr "Implicit"
 
 msgid "Advisor"
-msgstr "Advisor"
+msgstr "Consilier"
 
 msgid "Draft"
-msgstr "Draft"
+msgstr "Document intermediar"
 
 msgid "Polling"
-msgstr "Polling"
+msgstr "Vot"
 
 msgid "Adopted"
-msgstr "Adopted"
+msgstr "Adoptata"
 
 msgid ""
 "A liquid democracy platform for making decisions in distributed, open groups"
 " by cooperatively creating proposals and voting on them to establish their "
 "support."
-msgstr "A liquid democracy platform for making decisions in distributed, open groups by cooperatively creating proposals and voting on them to establish their support."
+msgstr "O platforma de democratie online pentru a lua decizii in grupuri deschise, distribuite in spatiu prin creearea de propuneri si votarea lor pentru a stabili suportul pe care-l au."
 
 msgid ""
 "adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, "
 "voting,participation, group decisions, decisions, decision-making"
-msgstr "adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, voting,participation, group decisions, decisions, decision-making"
+msgstr "adhocracy, democratie directa, liquid democracy, liqd, democratie, wiki, vot, participare, decizii colaborative, decizii, adoptare decizii"
 
 msgid "Invalid request. Please go back and try again."
-msgstr "Invalid request. Please go back and try again."
+msgstr "Cerere invalida. Te rugam sa te intorci si sa incerci din nou."
 
 msgid "The method you used is not implemented."
-msgstr "The method you used is not implemented."
+msgstr "Metoda folosita nu este implementata."
 
 #, python-format
 msgid "Abuse report: %s"
-msgstr "Abuse report: %s"
+msgstr "Raportare abuz: %s"
 
 #, python-format
 msgid ""
@@ -663,14 +664,14 @@ msgstr "%(user)s has reported abuse on the page %(url)s:\r\n\r\n%(message)s"
 
 #, python-format
 msgid "Hi %s,"
-msgstr "Hi %s,"
+msgstr "Buna %s,"
 
 #, python-format
 msgid ""
 "Cheers,\r\n"
 "\r\n"
 "    the %s Team\r\n"
-msgstr "Cheers,\r\n\r\n    the %s Team\r\n"
+msgstr "Pe curand, ⏎ ⏎ echipa %s ⏎\n"
 
 #, python-format
 msgid "%s <%s>"
@@ -679,317 +680,317 @@ msgstr "%s <%s>"
 msgid ""
 "this email is to check the email address you have provided. In order to "
 "confirm this email address, please open the link below in your browser:"
-msgstr "this email is to check the email address you have provided. In order to confirm this email address, please open the link below in your browser:"
+msgstr "acest email a fost trimis pentru a verifica adresa de mail pe care ai furnizat-o. Pentru a confirma adresa aceasta de mail, te rugam sa deschizi linkul de mai jos in browserul internet:"
 
 msgid "Confirm your email address"
-msgstr "Confirm your email address"
+msgstr "Te rugam confirma adresa ta de mail"
 
 msgid "activity"
-msgstr "activity"
+msgstr "activitate"
 
 msgid "newest comment"
-msgstr "newest comment"
+msgstr "cel mai nou comentariu"
 
 msgid "most support"
-msgstr "most support"
+msgstr "cele mai sustinute"
 
 msgid "mixed"
-msgstr "mixed"
+msgstr "mixt"
 
 msgid "by date"
-msgstr "by date"
+msgstr "dupa data"
 
 msgid "most proposals"
-msgstr "most proposals"
+msgstr "cele mai multe propuneri"
 
 msgid "hierarchical"
-msgstr "hierarchical"
+msgstr "ierarhie"
 
 msgid "Badge"
-msgstr "Badge"
+msgstr "Titlu"
 
 msgid "Instance"
-msgstr "Instance"
+msgstr "Comunitate"
 
 msgid "Categories"
-msgstr "Categories"
+msgstr "Categorii"
 
 msgid "Created by"
-msgstr "Created by"
+msgstr "Creat de"
 
 msgid "Tags"
-msgstr "Tags"
+msgstr "Etichete"
 
 msgid "Milestones"
-msgstr "Milestones"
+msgstr "Date limita"
 
 msgid "Oldest"
-msgstr "Oldest"
+msgstr "Cele mai vechi"
 
 msgid "Newest"
-msgstr "Newest"
+msgstr "Cele mai noi"
 
 msgid "Newest Comment"
-msgstr "Newest Comment"
+msgstr "Cele mai noi comentarii"
 
 msgid "Activity"
-msgstr "Activity"
+msgstr "Activitate"
 
 msgid "Alphabetically"
-msgstr "Alphabetically"
+msgstr "Alfabetic"
 
 msgid "Most Support"
-msgstr "Most Support"
+msgstr "Cele mai sustinute"
 
 msgid "Yays - nays"
-msgstr "Yays - nays"
+msgstr "Pro - contra"
 
 msgid "Most Votes"
-msgstr "Most Votes"
+msgstr "Cele mai multe voturi"
 
 msgid "Yays + nays"
-msgstr "Yays + nays"
+msgstr "Pro + contra"
 
 msgid "Most Ayes"
-msgstr "Most Ayes"
+msgstr "Cele mai multe Pro"
 
 msgid "Most Nays"
-msgstr "Most Nays"
+msgstr "Cele mai multe Contra"
 
 msgid "Mixed"
-msgstr "Mixed"
+msgstr "Nesortate"
 
 msgid "Age and Support"
-msgstr "Age and Support"
+msgstr "Vechime si sustinere"
 
 msgid "Support"
-msgstr "Support"
+msgstr "Sustinere"
 
 msgid "Date"
-msgstr "Date"
+msgstr "Data"
 
 msgid "Newest Proposals"
-msgstr "Newest Proposals"
+msgstr "Cele mai noi Propuneri"
 
 msgid "Other"
-msgstr "Other"
+msgstr "Altele"
 
 #, python-format
 msgid "Missing page: %s"
-msgstr "Missing page: %s"
+msgstr "Pagina nu exista: %s"
 
 #, python-format
 msgid "Could not find the entity '%s'"
-msgstr "Could not find the entity '%s'"
+msgstr "Nu am gasit entitatea  '%s'"
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
-msgstr "We're sorry, but it seems that you lack the permissions to continue."
+msgstr "Ne pare rau, dar se pare ca nu ai drepturi pentru a continua."
 
 msgid ""
 "I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
-msgstr "I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
+msgstr "Ne pare rau, dar se pare ca exista o greseala (alerta CSRF). Te rugam incearca din nou."
 
 #, python-format
 msgid "variant %(variant)s of %(page)s"
-msgstr "variant %(variant)s of %(page)s"
+msgstr "varianta %(variant)s din %(page)s"
 
 msgid "is for"
-msgstr "is for"
+msgstr "este pentru"
 
 msgid "abstains on"
-msgstr "abstains on"
+msgstr "se abtine"
 
 msgid "is against"
-msgstr "is against"
+msgstr "este impotriva"
 
 msgid "(Undefined)"
-msgstr "(Undefined)"
+msgstr "(Nedefinit)"
 
 #, python-format
 msgid "New user: %(user)s"
-msgstr "New user: %(user)s"
+msgstr "Utilizator nou: %(user)s"
 
 msgid "signed up"
-msgstr "signed up"
+msgstr "inscris"
 
 #, python-format
 msgid "%(user)s: profile updated"
-msgstr "%(user)s: profile updated"
+msgstr "%(user)s: profil actualizat"
 
 msgid "edited their profile"
-msgstr "edited their profile"
+msgstr "si-a editat profilul"
 
 #, python-format
 msgid "%(user)s: profile was edited by %(admin)s"
-msgstr "%(user)s: profile was edited by %(admin)s"
+msgstr "%(user)s: profilul a fost editat de catre %(admin)s"
 
 #, python-format
 msgid "had their profile updated by %(admin)s"
-msgstr "had their profile updated by %(admin)s"
+msgstr "au avut profilul actualizat de catre %(admin)s"
 
 #, python-format
 msgid "New instance: %(instance)s"
-msgstr "New instance: %(instance)s"
+msgstr "Comunitate noua: %(instance)s"
 
 #, python-format
 msgid "founded the %(instance)s instance"
-msgstr "founded the %(instance)s instance"
+msgstr "au initiat comunitatea %(instance)s"
 
 #, python-format
 msgid "%(instance)s: instance was updated"
-msgstr "%(instance)s: instance was updated"
+msgstr "%(instance)s: comunitatea a fost updatata"
 
 #, python-format
 msgid "updated the %(instance)s instance"
-msgstr "updated the %(instance)s instance"
+msgstr "a modificat %(instance)s"
 
 #, python-format
 msgid "Deleted Adhocracy: %(instance)s"
-msgstr "Deleted Adhocracy: %(instance)s"
+msgstr "A fost sters Adhocracy: %(instance)s"
 
 #, python-format
 msgid "deleted the %(instance)s instance"
-msgstr "deleted the %(instance)s instance"
+msgstr "A fost stearsa comunitatea %(instance)s"
 
 #, python-format
 msgid "%(instance)s: %(user)s joined"
-msgstr "%(instance)s: %(user)s joined"
+msgstr "%(instance)s: %(user)s utlizatori au devenit membri"
 
 #, python-format
 msgid "joined %(instance)s"
-msgstr "joined %(instance)s"
+msgstr "a intrat in comunitatea %(instance)s"
 
 #, python-format
 msgid "%(instance)s: %(user)s left"
-msgstr "%(instance)s: %(user)s left"
+msgstr "%(instance)s: %(user)s a parasit comunitatea"
 
 #, python-format
 msgid "left %(instance)s"
-msgstr "left %(instance)s"
+msgstr "a parasit %(instance)s"
 
 #, python-format
 msgid "%(instance)s: %(user)s was forced to leave"
-msgstr "%(instance)s: %(user)s was forced to leave"
+msgstr "%(instance)s: %(user)s a fost retras"
 
 #, python-format
 msgid "was forced to leave %(instance)s by %(admin)s"
-msgstr "was forced to leave %(instance)s by %(admin)s"
+msgstr "a fost nevoit sa paraseasca comunitatea %(instance)s de catre %(admin)s"
 
 #, python-format
 msgid "%(instance)s: %(user)s is now a %(group)s"
-msgstr "%(instance)s: %(user)s is now a %(group)s"
+msgstr "%(instance)s: %(user)s este acum un %(group)s"
 
 #, python-format
 msgid "now is a %(group)s within %(instance)s"
-msgstr "now is a %(group)s within %(instance)s"
+msgstr "este acum un %(group)s in comunitatea %(instance)s"
 
 #, python-format
 msgid "New proposal: %(proposal)s"
-msgstr "New proposal: %(proposal)s"
+msgstr "Propunere noua: %(proposal)s"
 
 #, python-format
 msgid "created %(proposal)s"
-msgstr "created %(proposal)s"
+msgstr "creat %(proposal)s"
 
 #, python-format
 msgid "Edit proposal: %(proposal)s"
-msgstr "Edit proposal: %(proposal)s"
+msgstr "Modifica propunerea: %(proposal)s"
 
 #, python-format
 msgid "edited %(proposal)s"
-msgstr "edited %(proposal)s"
+msgstr "a editat %(proposal)s"
 
 #, python-format
 msgid "Poll cancelled: %(proposal)s"
-msgstr "Poll cancelled: %(proposal)s"
+msgstr "Vot oprit: %(proposal)s"
 
 #, python-format
 msgid "re-drafted %(proposal)s"
-msgstr "re-drafted %(proposal)s"
+msgstr "a re-creat %(proposal)s"
 
 #, python-format
 msgid "New Poll: %(proposal)s"
-msgstr "New Poll: %(proposal)s"
+msgstr "Nou Vot: %(proposal)s"
 
 #, python-format
 msgid "called a vote on %(proposal)s"
-msgstr "called a vote on %(proposal)s"
+msgstr "s-a solicitat vot pe %(proposal)s"
 
 #, python-format
 msgid "Deleted proposal: %(proposal)s"
-msgstr "Deleted proposal: %(proposal)s"
+msgstr "A fost stearsa propunerea %(proposal)s"
 
 #, python-format
 msgid "deleted %(proposal)s"
-msgstr "deleted %(proposal)s"
+msgstr "s-a sters %(proposal)s"
 
 #, python-format
 msgid "New page: %(page)s"
-msgstr "New page: %(page)s"
+msgstr "Pagina noua: %(page)s"
 
 #, python-format
 msgid "created %(page)s"
-msgstr "created %(page)s"
+msgstr "creat %(page)s"
 
 #, python-format
 msgid "Edit page: %(page)s"
-msgstr "Edit page: %(page)s"
+msgstr "Editeaza pagina: %(page)s"
 
 #, python-format
 msgid "edited %(page)s"
-msgstr "edited %(page)s"
+msgstr "a editat %(page)s"
 
 #, python-format
 msgid "Deleted page: %(page)s"
-msgstr "Deleted page: %(page)s"
+msgstr "A fost stearsa: %(page)s"
 
 #, python-format
 msgid "deleted %(page)s"
-msgstr "deleted %(page)s"
+msgstr "sters %(page)s"
 
 #, python-format
 msgid "New comment: in %(topic)s"
-msgstr "New comment: in %(topic)s"
+msgstr "Comentariu nou: in %(topic)s"
 
 #, python-format
 msgid "commented %(topic)s"
-msgstr "commented %(topic)s"
+msgstr "a comentat %(topic)s"
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
-msgstr "Edited comment: in %(topic)s"
+msgstr "A fost editat comentariul: in %(topic)s"
 
 #, python-format
 msgid "edited comment on %(topic)s"
-msgstr "edited comment on %(topic)s"
+msgstr "a modificat comentariul %(topic)s"
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
-msgstr "Deleted comment: in %(topic)s"
+msgstr "A sters comentariu: in %(topic)s"
 
 #, python-format
 msgid "deleted comment from %(topic)s"
-msgstr "deleted comment from %(topic)s"
+msgstr "a sters comentariul %(topic)s"
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
-msgstr "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
+msgstr "Delegare noua: %(user)s a delegat %(scope)s lui %(agent)s"
 
 #, python-format
 msgid "delegated voting on %(scope)s to %(agent)s"
-msgstr "delegated voting on %(scope)s to %(agent)s"
+msgstr "s-a delegat votul %(scope)s lui %(agent)s"
 
 #, python-format
 msgid "Revoked Delegation: %(user)s revoked delegation to %(agent)s"
-msgstr "Revoked Delegation: %(user)s revoked delegation to %(agent)s"
+msgstr "S-a revocat delegarea: %(user)s a revocat delegarea catre %(agent)s"
 
 #, python-format
 msgid "revoked their delegation on %(scope)s to %(agent)s"
-msgstr "revoked their delegation on %(scope)s to %(agent)s"
+msgstr "au revocat delegarea %(scope)s catre %(agent)s"
 
 #, python-format
 msgid "Vote: %(user)s %(vote)s %(poll)s"
-msgstr "Vote: %(user)s %(vote)s %(poll)s"
+msgstr "Vot: %(user)s %(vote)s %(poll)s"
 
 #, python-format
 msgid "%(vote)s %(poll)s"
@@ -997,15 +998,15 @@ msgstr "%(vote)s %(poll)s"
 
 #, python-format
 msgid "Rating: %(user)s %(vote)s %(poll)s"
-msgstr "Rating: %(user)s %(vote)s %(poll)s"
+msgstr "Evaluare: %(user)s %(vote)s %(poll)s"
 
 #, python-format
 msgid "Variants: %(user)s %(vote)s %(poll)s"
-msgstr "Variants: %(user)s %(vote)s %(poll)s"
+msgstr "Variante: %(user)s %(vote)s %(poll)s"
 
 #, python-format
 msgid "Adhocracy says hello: %(test)s"
-msgstr "Adhocracy says hello: %(test)s"
+msgstr "Adhocracy spune hello: %(test)s"
 
 #, python-format
 msgid "test %(test)s"
@@ -1013,2090 +1014,2099 @@ msgstr "test %(test)s"
 
 #, python-format
 msgid "You received %(user)ss delegation on %(scope)s"
-msgstr "You received %(user)ss delegation on %(scope)s"
+msgstr "Ai primit %(user)ss delegatii pentru %(scope)s"
 
 #, python-format
 msgid "You lost %(user)ss delegation on %(scope)s"
-msgstr "You lost %(user)ss delegation on %(scope)s"
+msgstr "Ti-au fost retrase %(user)ss delegatii pentru %(scope)s"
 
 #, python-format
 msgid "Membership: You've been kicked from %(instance)s"
-msgstr "Membership: You've been kicked from %(instance)s"
+msgstr "Ai fost scos din Grupul de Discutii %(instance)s"
 
 #, python-format
 msgid "Membership: you're now a %(group)s in %(instance)s"
-msgstr "Membership: you're now a %(group)s in %(instance)s"
+msgstr "Membru: esti acum un %(group)s in %(instance)s"
 
 #, python-format
 msgid "Your vote %(vote)s %(poll)s"
-msgstr "Your vote %(vote)s %(poll)s"
+msgstr "Ai votat %(vote)s %(poll)s"
 
 #, python-format
 msgid "Your delegate %(agent)s %(vote)s %(poll)s"
-msgstr "Your delegate %(agent)s %(vote)s %(poll)s"
+msgstr "Delegatul tau %(agent)s %(vote)s %(poll)s"
 
 #, python-format
 msgid "Delegation conflict regarding %(poll)s"
-msgstr "Delegation conflict regarding %(poll)s"
+msgstr "Conflict de delegare in %(poll)s"
 
 #, python-format
 msgid "Comment Reply: %(topic)s"
-msgstr "Comment Reply: %(topic)s"
+msgstr "Raspunde la comentariu: %(topic)s"
 
 #, python-format
 msgid "Comment Edit: %(topic)s"
-msgstr "Comment Edit: %(topic)s"
+msgstr "Schimba Comentariu: %(topic)s"
 
 #, python-format
 msgid ""
 "\r\n"
 "\r\n"
 "More info: %(url)s"
-msgstr "\r\n\r\nMore info: %(url)s"
+msgstr "⏎ ⏎ Mai multe informatii: %(url)s"
 
 msgid "This proposal is currently being voted on and cannot be modified."
-msgstr "This proposal is currently being voted on and cannot be modified."
+msgstr "Propunerea este in votare in acest moment si nu poate fi modificata."
 
 msgid "(Unknown)"
-msgstr "(Unknown)"
+msgstr "(Necunoscut)"
 
 msgid "Documents"
-msgstr "Documents"
+msgstr "Documente"
 
 msgid "Proposals"
-msgstr "Proposals"
+msgstr "Propuneri"
 
 msgid "Implementation"
-msgstr "Implementation"
+msgstr "Implementare"
 
 msgid "Adhocracy"
 msgstr "Adhocracy"
 
 #, python-format
 msgid "%s (deleted user)"
-msgstr "%s (deleted user)"
+msgstr "%s (utilizator sters)"
 
 msgid "Users"
-msgstr "Users"
+msgstr "Utilizatori"
 
 msgid "This action is only available in an instance context."
-msgstr "This action is only available in an instance context."
+msgstr "Actiunea este disponibila doar in cadrul unei comunitati."
 
 msgid "(no milestone)"
-msgstr "(no milestone)"
+msgstr "(fara data limita)"
 
 msgid "Your current vote is already pro"
-msgstr "Your current vote is already pro"
+msgstr "Votul tau este deja pentru"
 
 msgid "Click to change you vote to neutral"
-msgstr "Click to change you vote to neutral"
+msgstr "Click pentru a schimba votul tau in neutru"
 
 msgid "Click to vote pro"
-msgstr "Click to vote pro"
+msgstr "Click pentru a vota pentru"
 
 msgid "Click to vote con"
-msgstr "Click to vote con"
+msgstr "Click pentru a vota contra"
 
 msgid "Voting has ended. Click to view the list of votes"
-msgstr "Voting has ended. Click to view the list of votes"
+msgstr "Votarea s-a terminat. Click pentru lista de voturi"
 
 msgid "Please login or register to vote."
-msgstr "Please login or register to vote."
+msgstr "Logheaza-te sau inregistraza-te pentru a vota."
 
 #, python-format
 msgid "Please join the instance \"%s\" to vote."
-msgstr "Please join the instance \"%s\" to vote."
+msgstr "Adauga-te la comunitatea \"%s\" pentru a vota."
 
 msgid "Click to see the list of votes"
-msgstr "Click to see the list of votes"
+msgstr "Click pentru lista de voturi"
 
 msgid "(Untitled)"
-msgstr "(Untitled)"
+msgstr "(Fara titlu)"
 
 msgid "Status Quo"
-msgstr "Status Quo"
+msgstr "Situatia curenta"
 
 msgid "formatting hints"
-msgstr "formatting hints"
+msgstr "sugestii pentru formatarea textului"
 
 msgid "Save"
-msgstr "Save"
+msgstr "Salveaza"
 
 msgid "or"
-msgstr "or"
+msgstr "sau"
 
 msgid "cancel"
-msgstr "cancel"
+msgstr "anuleaza"
 
 msgid "Notify me of updates."
-msgstr "Notify me of updates."
+msgstr "Notifica-ma cand apar noutati."
 
 msgid "Follow Norm"
-msgstr "Follow Norm"
+msgstr "Urmareste Documentul"
 
 msgid "Follow Instance"
-msgstr "Follow Instance"
+msgstr "Urmareste comunitatea"
 
 msgid "Follow Proposal"
-msgstr "Follow Proposal"
+msgstr "Urmareste Propunerea"
 
 msgid "Follow Milestone"
-msgstr "Follow Milestone"
+msgstr "Urmareste data limita"
 
 msgid "Follow User"
-msgstr "Follow User"
+msgstr "Urmareste Utilizatorul"
 
 msgid "Follow Comment"
-msgstr "Follow Comment"
+msgstr "Urmareste Comentariul"
 
 msgid "Follow Tag"
-msgstr "Follow Tag"
+msgstr "Urmareste Eticheta"
 
 msgid "Following"
-msgstr "Following"
+msgstr "Urmareste"
 
 msgid "Unfollow"
-msgstr "Unfollow"
+msgstr "Dezabonare"
 
 msgid "code of conduct"
-msgstr "code of conduct"
+msgstr "cod de conduita"
 
 msgid "terms and conditions"
-msgstr "terms and conditions"
+msgstr "termeni si conditii"
 
 msgid "privacy"
-msgstr "privacy"
+msgstr "confidentialitate"
 
 msgid "imprint"
-msgstr "imprint"
+msgstr "imprima"
 
 #, python-format
 msgid "<b>%s</b> members"
-msgstr "<b>%s</b> members"
+msgstr "<b>%s</b> membri"
 
 #, python-format
 msgid "<b>%s</b> proposals"
-msgstr "<b>%s</b> proposals"
+msgstr "<b>%s</b> propuneri"
 
 #, python-format
 msgid "<b>%s</b> comments"
-msgstr "<b>%s</b> comments"
+msgstr "<b>%s</b> comentarii"
 
 #, python-format
 msgid "<b>%s</b> votes"
-msgstr "<b>%s</b> votes"
+msgstr "<b>%s</b> voturi"
 
 msgid "Start"
 msgstr "Start"
 
 msgid "Instances"
-msgstr "Instances"
+msgstr "Comunitati"
 
 msgid "Watchlist"
-msgstr "Watchlist"
+msgstr "Favorite"
 
 msgid "About"
-msgstr "About"
+msgstr "Despre"
 
 msgid "Help"
-msgstr "Help"
+msgstr "Ajutor"
 
 msgid "Login"
 msgstr "Login"
 
 msgid "Dashboard"
-msgstr "Dashboard"
+msgstr "Prima pagina"
 
 msgid "Edit Profile"
-msgstr "Edit Profile"
+msgstr "Editeaza profil"
 
 msgid "View Profile"
-msgstr "View Profile"
+msgstr "Vizualizeaza profil"
 
 msgid "Administrate Site"
-msgstr "Administrate Site"
+msgstr "Administreaza site"
 
 msgid "Logout"
-msgstr "Logout"
+msgstr "Iesire"
 
 msgid "Search"
-msgstr "Search"
+msgstr "Cauta"
 
 #, python-format
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
-msgstr "Search in &ldquo;%s&rdquo;&hellip;"
+msgstr "Cauta in &ldquo;%s&rdquo;&hellip;"
 
 msgid "Overview"
-msgstr "Overview"
+msgstr "Imagine de ansamblu"
 
 msgid "Norms"
-msgstr "Norms"
+msgstr "Documente"
 
 msgid "Members"
-msgstr "Members"
+msgstr "Membri"
 
 msgid "Settings"
-msgstr "Settings"
+msgstr "Setari"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
-msgstr "%(start)s-%(end)s out of %(total)s"
+msgstr "%(start)s-%(end)s dintr-un total de %(total)s"
 
 msgid "No entries."
-msgstr "No entries."
+msgstr "Nici o inregistrare."
 
 msgid "previous"
-msgstr "previous"
+msgstr "anterioara"
 
 msgid "next"
-msgstr "next"
+msgstr "urmatoarea"
 
 msgid "entries"
-msgstr "entries"
+msgstr "inregistrari"
 
 msgid "Filter list"
-msgstr "Filter list"
+msgstr "Lista filtre"
 
 msgid "Remove all"
-msgstr "Remove all"
+msgstr "Elimina toate"
 
 msgid "remove"
-msgstr "remove"
+msgstr "elimina"
 
 msgid "Sort:"
-msgstr "Sort:"
+msgstr "Sortare:"
 
 msgid "Get an account to participate in the discussion."
-msgstr "Get an account to participate in the discussion."
+msgstr "Fa-ti un cont pentru a participa la discutie."
 
 msgid "Register"
-msgstr "Register"
+msgstr "Inregistrare"
 
 msgid "Log in"
-msgstr "Log in"
+msgstr "Logare"
 
 msgid "Join this instance to start contributing."
-msgstr "Join this instance to start contributing."
+msgstr "Alatura-te comunitatii pentru a putea contribui."
 
 msgid "join"
-msgstr "join"
+msgstr "intra"
 
 msgid "Next"
-msgstr "Next"
+msgstr "Urmatorul"
 
 msgid "Previous"
-msgstr "Previous"
+msgstr "Anteriorul"
 
 msgid "start_this_tutorial"
-msgstr "start_this_tutorial"
+msgstr "Incepe acest tutorial"
 
 msgid "disable_this_tutorial"
-msgstr "disable_this_tutorial"
+msgstr "Ascunde acest tutorial"
 
 msgid "disable_all_tutorials"
-msgstr "disable_all_tutorials"
+msgstr "Nu mai afisa tutoriale"
 
 #, python-format
 msgid ""
 "A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes and"
 " %(against)s nays"
-msgstr "A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes and %(against)s nays"
+msgstr "Un total <a href=\"%(url)s\">%(votes)s Voturi</a>, din care %(for)s pentru si %(against)s impotriva"
 
 msgid "Votes"
-msgstr "Votes"
+msgstr "Voturi"
 
 msgid "Shortlink"
-msgstr "Shortlink"
+msgstr "Varianta scurta pentru Link web"
 
 msgid "Report abuse"
-msgstr "Report abuse"
+msgstr "Raporteaza abuz"
 
 msgid "Link:"
 msgstr "Link:"
 
 msgid "Reason to report this page..."
-msgstr "Reason to report this page..."
+msgstr "Motivul pentru care raportezi pagina..."
 
 msgid "Send"
-msgstr "Send"
+msgstr "Trimite"
 
 msgid "Admin: Import Users"
-msgstr "Admin: Import Users"
+msgstr "Admin: Importa Utilizatori"
 
 msgid "Import Users"
-msgstr "Import Users"
+msgstr "Importa Utilizatori"
 
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
 "columns username, display name and email"
-msgstr "Paste the content of a CSV file, e.g. exported from Excel, with the 3 columns username, display name and email"
+msgstr "Copie continutul fisierului CSV, ex. exportat din Excel, cu 3 coloane nume utilizator, nume afisat si adresa de email"
 
 msgid "Users CSV"
-msgstr "Users CSV"
+msgstr "Lista utilizatori CSV"
 
 msgid "Email Subject"
-msgstr "Email Subject"
+msgstr "Subiect Email"
 
 msgid "Email Template"
-msgstr "Email Template"
+msgstr "Template Email"
 
 msgid "The name with which the user can log in."
-msgstr "The name with which the user can log in."
+msgstr "Numele cu care utilizatorul se poate conecta."
 
 msgid "The initial password for the user."
-msgstr "The initial password for the user."
+msgstr "Parola initiala pentru acest utilizator."
 
 msgid "An URL for the user to activate his account."
-msgstr "An URL for the user to activate his account."
+msgstr "Un link web pentru ca utilizatorul sa-si activeze contul."
 
 msgid "The name that will be displayed to other users."
-msgstr "The name that will be displayed to other users."
+msgstr "Numele care va fi afisat celorlalti utilizatori."
 
 msgid "The email address of the user."
-msgstr "The email address of the user."
+msgstr "Adresa email a utilizatorului."
 
 msgid ""
 "The template for the mail to the users. You need to insert some placeholders"
 " into the email text."
-msgstr "The template for the mail to the users. You need to insert some placeholders into the email text."
+msgstr "Modelul de email pentru utilizatori. Trebuie sa introduci niste elemente predefinite in textul emailului."
 
 msgid "Required"
-msgstr "Required"
+msgstr "Obligatoriu"
 
 msgid "Optional"
 msgstr "Optional"
 
 msgid "Imported Users"
-msgstr "Imported Users"
+msgstr "Utilizatori importati"
 
 msgid "But some errors occured"
-msgstr "But some errors occured"
+msgstr "Au aparut erori"
 
 msgid "You successfully created the following users:"
-msgstr "You successfully created the following users:"
+msgstr "Ai creat cu succes urmatorii utilizatori:"
 
 #, python-format
 msgid ""
 "You successfully created the following users and added them as Members to "
 "the instance \"%s\":"
-msgstr "You successfully created the following users and added them as Members to the instance \"%s\":"
+msgstr "Ai creat cu succes urmatorii utilizatori si i-ai adaugat ca Membri in comunitatea \"%s\":"
 
 msgid "The following errors happend while creating the users"
-msgstr "The following errors happend while creating the users"
+msgstr "Urmatoarele erori au aparut cand s-au generat utilizatorii"
 
 msgid "These users could not be created:"
-msgstr "These users could not be created:"
+msgstr "Utilizatorii urmatori nu au putut fi creati:"
 
 msgid "These users where created, but we could not send out mails:"
-msgstr "These users where created, but we could not send out mails:"
+msgstr "Acesti utilizatori au fost creati, dar nu am reusit sa le trimitem emailuri:"
 
 msgid "Admin: Group Permissions"
-msgstr "Admin: Group Permissions"
+msgstr "Admin: Permisiuni de grup"
 
 msgid "Admin &raquo; Group Permissions"
-msgstr "Admin &raquo; Group Permissions"
+msgstr "Admin &raquo; Permisiuni de grup"
 
 msgid "Group Permissions"
-msgstr "Group Permissions"
+msgstr "Permisiuni de grup"
 
 msgid ""
 "WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
 " care!"
-msgstr "WARNING: This allows you to shut yourself out of your adhocracy. Handle with care!"
+msgstr "Atentie: Este posibilitatea sa te scoti singur din Adhocracy. Modifica cu atentie!"
 
 msgid "Permissions"
-msgstr "Permissions"
+msgstr "Permisiuni"
 
 msgid "All Events"
-msgstr "All Events"
+msgstr "Toate evenimentele"
 
 msgid "Site administration"
-msgstr "Site administration"
+msgstr "Administrare site"
 
 msgid "Add instance badge"
-msgstr "Add instance badge"
+msgstr "Adauga titlul comunitatii"
 
 msgid "Add user badge"
-msgstr "Add user badge"
+msgstr "Adauga titlu utilizatorului"
 
 msgid "Add delegateable badge"
-msgstr "Add delegateable badge"
+msgstr "Adauga titlu delegabil"
 
 msgid "Add category badge"
-msgstr "Add category badge"
+msgstr "Adauga titlu categoriei"
 
 msgid "Edit user badge"
-msgstr "Edit user badge"
+msgstr "Modifica titlul utilizatorului"
 
 msgid "Edit delegateable badge"
-msgstr "Edit delegateable badge"
+msgstr "Modifica titlul delegabil"
 
 msgid "Edit category badge"
-msgstr "Edit category badge"
+msgstr "Modifica titlul categoriei"
 
 msgid "Badge title"
-msgstr "Badge title"
+msgstr "Titlu"
 
 msgid "Badge description"
-msgstr "Badge description"
+msgstr "Descriere titlu"
 
 msgid "The color that is used to show the badge"
-msgstr "The color that is used to show the badge"
+msgstr "Culoarea este folosita pentru titlu"
 
 msgid "Like '#a4a4a4'"
-msgstr "Like '#a4a4a4'"
+msgstr "Ex. '#a4a4a4'"
 
 msgid "Preview:"
-msgstr "Preview:"
+msgstr "Previzualizare:"
 
 msgid "Group"
-msgstr "Group"
+msgstr "Grup"
 
 msgid "No Group"
-msgstr "No Group"
+msgstr "Nici un grup"
 
 msgid ""
 "Automatically assign all users with this badge to the selected group for all"
 " instances in the adhocracy site."
-msgstr "Automatically assign all users with this badge to the selected group for all instances in the adhocracy site."
+msgstr "Distribuie automat toti utilizatorii cu acest titlu in grupul selectat la toate comunitatile de pe site-ul adhocracy."
 
 msgid "Automatically assign all users with this badge to the selected group."
-msgstr "Automatically assign all users with this badge to the selected group."
+msgstr "Distribuie automat toti utilizatorii cu acest titlu in grupul selectat."
 
 msgid "Display group in instances"
-msgstr "Display group in instances"
+msgstr "Afiseaza grupul in comunitati"
 
 msgid "Display this badge instead of the normal user group."
-msgstr "Display this badge instead of the normal user group."
+msgstr "Afiseaza acest titlu in locul grupului de utilizatori."
 
 msgid "Global"
 msgstr "Global"
 
 msgid "Other instances"
-msgstr "Other instances"
+msgstr "Alte comunitati"
 
 msgid "Save Badge"
-msgstr "Save Badge"
+msgstr "Salveaza Titlul"
 
 msgid "Edit"
-msgstr "Edit"
+msgstr "Modifica"
 
 msgid "No badges added yet."
-msgstr "No badges added yet."
+msgstr "Nici un titlu inca."
 
 msgid "Title"
-msgstr "Title"
+msgstr "Titlu"
 
 msgid "Description"
-msgstr "Description"
+msgstr "Descriere"
 
 msgid "Color"
-msgstr "Color"
+msgstr "Culoare"
 
 msgid "Preview"
-msgstr "Preview"
+msgstr "Previzualizare"
 
 msgid "Assigned Group"
-msgstr "Assigned Group"
+msgstr "Apartine grupului"
 
 msgid "Display"
-msgstr "Display"
+msgstr "Afiseaza"
 
 msgid "Actions"
-msgstr "Actions"
+msgstr "Actiuni"
 
 msgid "yes"
-msgstr "yes"
+msgstr "da"
 
 msgid "no"
-msgstr "no"
+msgstr "nu"
 
 msgid "User Badges"
-msgstr "User Badges"
+msgstr "Titlurile utilizatorului"
 
 msgid "New"
-msgstr "New"
+msgstr "Nou"
 
 msgid "Proposal Badges"
-msgstr "Proposal Badges"
+msgstr "Titluri propuse"
 
 msgid "Proposal Category Badges"
-msgstr "Proposal Category Badges"
+msgstr "Propuneri Titluri Categorii"
 
 msgid "Instance Badges"
-msgstr "Instance Badges"
+msgstr "Titlurile Comunitatii"
 
 msgid "Comment"
-msgstr "Comment"
+msgstr "Comentariu"
 
 #, python-format
 msgid "Comment on %s"
-msgstr "Comment on %s"
+msgstr "Comenteaza %s"
 
 msgid "Are you sure you want to delete this comment?"
-msgstr "Are you sure you want to delete this comment?"
+msgstr "Esti sigur ca vrei sa stergi comentariul?"
 
 msgid "Confirm"
-msgstr "Confirm"
+msgstr "Confirma"
 
 msgid "Edit comment"
-msgstr "Edit comment"
+msgstr "Modifica comentariu"
 
 #, python-format
 msgid "Comment on: %s"
-msgstr "Comment on: %s"
+msgstr "Comentariu pentru: %s"
 
 msgid "Comment History"
-msgstr "Comment History"
+msgstr "Istoric Comentarii"
 
 msgid "New comment"
-msgstr "New comment"
+msgstr "Comentariu nou"
 
 #, python-format
 msgid "created %s"
-msgstr "created %s"
+msgstr "creat %s"
 
 msgid "revert here"
-msgstr "revert here"
+msgstr "revenire aici"
 
 #, python-format
 msgid "on %s"
-msgstr "on %s"
+msgstr "pe %s"
 
 #, python-format
 msgid "edited %s"
-msgstr "edited %s"
+msgstr "a editat %s"
 
 msgid "No comments were made yet."
-msgstr "No comments were made yet."
+msgstr "Nici un comentariu deocamdata."
 
 msgid "Start new Discussion"
-msgstr "Start new Discussion"
+msgstr "Incepe o discutie noua"
 
 msgid "Join instance to comment."
-msgstr "Join instance to comment."
+msgstr "Alatura-te comunitatii pentru a comenta."
 
 msgid "Add comment"
-msgstr "Add comment"
+msgstr "Adauga un comentariu"
 
 msgid "Login to comment."
-msgstr "Login to comment."
+msgstr "Logheaza-te pentru a comenta."
 
 msgid "is pro"
-msgstr "is pro"
+msgstr "este pentru"
 
 msgid "is con"
-msgstr "is con"
+msgstr "este contra"
 
 msgid "(deleted)"
-msgstr "(deleted)"
+msgstr "(sters)"
 
 msgid "This comment has been deleted."
-msgstr "This comment has been deleted."
+msgstr "Acest comentariu a fost sters."
 
 msgid "edit"
-msgstr "edit"
+msgstr "modifica"
 
 msgid "delete"
-msgstr "delete"
+msgstr "sterge"
 
 msgid "1 Comment"
-msgstr "1 Comment"
+msgstr "1 Comentariu"
 
 #, python-format
 msgid "%s Comments"
-msgstr "%s Comments"
+msgstr "%s Comentarii"
 
 msgid "reply"
-msgstr "reply"
+msgstr "raspunde"
 
 msgid "Join instance to reply"
-msgstr "Join instance to reply"
+msgstr "Intra in comunitate pentru a raspunde la comentariu"
 
 msgid "Login to reply"
-msgstr "Login to reply"
+msgstr "Logheaza-te pentru a raspunde la comentariu"
 
 msgid "report"
-msgstr "report"
+msgstr "raport"
 
 msgid "history"
-msgstr "history"
+msgstr "istoric"
 
 #, python-format
 msgid "deleted %s"
-msgstr "deleted %s"
+msgstr "a fost sters %s"
 
 #, python-format
 msgid "edited %s by %s"
-msgstr "edited %s by %s"
+msgstr "editat %s de catre %s"
 
 msgid "Comment is..."
-msgstr "Comment is..."
+msgstr "Comentariul este..."
 
 msgid "Pro"
 msgstr "Pro"
 
 msgid "Neutral"
-msgstr "Neutral"
+msgstr "Neutru"
 
 msgid "Con"
-msgstr "Con"
+msgstr "Contra"
 
 msgid "Allow others to edit this comment."
-msgstr "Allow others to edit this comment."
+msgstr "Permite celorlalti sa editeze acest comentariu"
 
 #, python-format
 msgid "Discussion on %s"
-msgstr "Discussion on %s"
+msgstr "Discutie pentru %s"
 
 msgid "Context"
 msgstr "Context"
 
 msgid "History"
-msgstr "History"
+msgstr "Istoric"
 
 msgid "for"
-msgstr "for"
+msgstr "pentru"
 
 msgid "against"
-msgstr "against"
+msgstr "impotriva"
 
 msgid "abstained"
-msgstr "abstained"
+msgstr "abtinut"
 
 msgid "undecided"
-msgstr "undecided"
+msgstr "nedecis"
 
 msgid ""
 "The user's delegates have voted, but no consensus wasreached among them. The"
 " decision is deferred."
-msgstr "The user's delegates have voted, but no consensus wasreached among them. The decision is deferred."
+msgstr "Votul delegatilor a avut loc, dar nici un consens nu a fost obtinut. Decizia a fost amanata."
 
 msgid "The decision was made without delegations."
-msgstr "The decision was made without delegations."
+msgstr "Vot direct fara delegare."
 
 msgid "The decision was determined as a result of the following delegations:"
-msgstr "The decision was determined as a result of the following delegations:"
+msgstr "Decizia a fost luata cu ajutorul urmatoarelor delegatii:"
 
 msgid "on"
-msgstr "on"
+msgstr "pentru"
 
 msgid "review"
-msgstr "review"
+msgstr "revizuire"
 
 #, python-format
 msgid "Delegate: %s"
-msgstr "Delegate: %s"
+msgstr "Delegatie: %s"
 
 msgid "Delegation"
-msgstr "Delegation"
+msgstr "Delegatie"
 
 msgid ""
 "These people might be a good match for your delegation. Either select one of"
 " the listed delegates, or enter another user name."
-msgstr "These people might be a good match for your delegation. Either select one of the listed delegates, or enter another user name."
+msgstr "Aceste persoane pot fi niste optiuni bune pentru delegare. Alege una din persoanele listate, sau introdu un nume de utilizator."
 
 msgid "Start typing, you will receive suggestions to find the user."
-msgstr "Start typing, you will receive suggestions to find the user."
+msgstr "Incepe sa introduci, vei primi sugestii pentru a gasi utilizatorul."
 
 msgid "Include decisions made before now."
-msgstr "Include decisions made before now."
+msgstr "Includ decizii luate pana acum."
 
 #, python-format
 msgid "Delegation: %s"
-msgstr "Delegation: %s"
+msgstr "Delegare: %s"
 
 msgid "Cancel this delegation."
-msgstr "Cancel this delegation."
+msgstr "Revoca delegarea."
 
 msgid "revoke"
-msgstr "revoke"
+msgstr "revoca"
 
 #, python-format
 msgid "from %s"
-msgstr "from %s"
+msgstr "de la %s"
 
 #, python-format
 msgid "to %s"
-msgstr "to %s"
+msgstr "catre %s"
 
 #, python-format
 msgid "established %s"
-msgstr "established %s"
+msgstr "stabilit %s"
 
 #, python-format
 msgid "revoked %s"
-msgstr "revoked %s"
+msgstr "revocat %s"
 
 msgid "The delegation can be overridden or revoked at any time."
-msgstr "The delegation can be overridden or revoked at any time."
+msgstr "Delegarea poate fi modificata sau revocata oricand."
 
 msgid ""
 "No decisions have been based on this delegation yet. As soon as this "
 "delegation leads to any decisions, they will be listed here."
-msgstr "No decisions have been based on this delegation yet. As soon as this delegation leads to any decisions, they will be listed here."
+msgstr "Nu s-au luat decizii pe baza unor delegari. Daca vor fi folosite delegari, acestea vor fi listate aici."
 
 msgid "track record"
-msgstr "track record"
+msgstr "urmareste inregistrarea"
 
 #, python-format
 msgid "created <b>%s</b>"
-msgstr "created <b>%s</b>"
+msgstr "creat <b>%s</b>"
 
 msgid "Delegate voting"
-msgstr "Delegate voting"
+msgstr "Deleaga votul"
 
 msgid "You have not delegated voting."
-msgstr "You have not delegated voting."
+msgstr "Nu ai delegat votul."
 
 msgid "You have delegated voting to:"
-msgstr "You have delegated voting to:"
+msgstr "Ai delegat votul catre:"
 
 msgid "Delegate your say in this debate to another participant."
-msgstr "Delegate your say in this debate to another participant."
+msgstr "Deleaga votul tau in aceasta dezbatere catre un alt participant."
 
 msgid "delegate"
-msgstr "delegate"
+msgstr "deleaga"
 
 msgid "You hold an additional vote."
-msgstr "You hold an additional vote."
+msgstr "Mai detii inca un vot."
 
 #, python-format
 msgid "You hold %s additional votes."
-msgstr "You hold %s additional votes."
+msgstr "Mai detii %s voturi aditionale."
 
 msgid ""
 "If this error continues to occur, please <a class='staticlink_imprint' "
 "href='/static/imprint.html'>notify the developers</a> with a description of "
 "what you were trying to do."
-msgstr "If this error continues to occur, please <a class='staticlink_imprint' href='/static/imprint.html'>notify the developers</a> with a description of what you were trying to do."
+msgstr "Daca aceasta eroare continua sa apara, te rugam <a class='staticlink_imprint' href='/static/imprint.html'> anunta dezvoltatorii</a> printrun mesaj in care descrii ce incerci sa faci."
 
 msgid ""
 "An automated email message describing the situation has been sent to our "
 "developers."
-msgstr "An automated email message describing the situation has been sent to our developers."
+msgstr "Un mail care descrie situatia a fost trimis automat la dezvoltatorii nostri."
 
 msgid "Whazza"
-msgstr "Whazza"
+msgstr "Super"
 
 msgid "All current events."
-msgstr "All current events."
+msgstr "Toate evenimentele curente."
 
 #, python-format
 msgid "%s"
 msgstr "%s"
 
 msgid "more"
-msgstr "more"
+msgstr "mai mult"
 
 msgid "Latest Events"
-msgstr "Latest Events"
+msgstr "Cele mai noi Evenimente"
 
 msgid "This is a record of all recent actions within this instance."
-msgstr "This is a record of all recent actions within this instance."
+msgstr "Lista celor mai recente evenimente in aceasta comunitate."
 
 msgid "You can also have notifications sent to you."
-msgstr "You can also have notifications sent to you."
+msgstr "Poti avea si notificare trimise catre tine."
 
 msgid "Info..."
 msgstr "Info..."
 
 #, python-format
 msgid "Create a proposal to start debating in %(instance)s."
-msgstr "Create a proposal to start debating in %(instance)s."
+msgstr "Creeaza o propunere pentru a incepe dezbaterea in comunitatea %(instance)s."
 
 msgid "Delete"
-msgstr "Delete"
+msgstr "Sterge"
 
 msgid "Delete instance"
-msgstr "Delete instance"
+msgstr "Sterge comunitatea"
 
 msgid "Are you sure you want to delete this instance?"
-msgstr "Are you sure you want to delete this instance?"
+msgstr "Esti sigur ca vrei sa stergi aceasta comunitate?"
 
 msgid "Leave"
-msgstr "Leave"
+msgstr "Paraseste grup"
 
 msgid ""
 "Are you sure you want to leave this instance? You will no longer be able to "
 "write contributions or to vote."
-msgstr "Are you sure you want to leave this instance? You will no longer be able to write contributions or to vote."
+msgstr "Esti sigur ca vrei sa parasesti comunitatea? Nu vei mai putea contribui sau vota."
 
 #, python-format
 msgid "Edit badges for %s"
-msgstr "Edit badges for %s"
+msgstr "Modifica titlurile lui %s"
 
 msgid "Edit Badges"
-msgstr "Edit Badges"
+msgstr "Modifica Titlul"
 
 msgid "badge"
-msgstr "badge"
+msgstr "titlu"
 
 msgid "new instance"
-msgstr "new instance"
+msgstr "comunitate noua"
 
 msgid "Instances are little democracies that are ran by their community."
-msgstr "Instances are little democracies that are ran by their community."
+msgstr "Comunitatile sunt mici democratii aflate sub controlul membrilor lor."
 
 msgid "New Instance"
-msgstr "New Instance"
+msgstr "Comunitate noua"
 
 msgid "Create new instance"
-msgstr "Create new instance"
+msgstr "Creeaza o noua comunitate"
 
 msgid "Instance name"
-msgstr "Instance name"
+msgstr "Numele comunitatii"
 
 msgid "Instance URL"
-msgstr "Instance URL"
+msgstr "Adresa URL a comunitatii"
 
 msgid ""
 "The address may only contain alpha-numeric characters. Please note that this"
 " key cannot be changed after the instance has been created."
-msgstr "The address may only contain alpha-numeric characters. Please note that this key cannot be changed after the instance has been created."
+msgstr "Adresa poate contine doar caractere alfa-numerice. "
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
 "community. (Both Markdown and HTML are allowed here.)"
-msgstr "Describe what the goals of this instance are and who constitutes its community. (Both Markdown and HTML are allowed here.)"
+msgstr "Descrie scopul comunitatii si cinear putea fi membrii ei (sunt permise si texte tip HTML)"
 
 #, python-format
 msgid "Manage: %s"
-msgstr "Manage: %s"
+msgstr "Gestioneaza: %s"
 
 msgid "Manage"
-msgstr "Manage"
+msgstr "Gestioneaza"
 
 msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Select a logo file to appear in the header area of this Instance."
+msgstr "Selecteaza o imagine care sa apara in descrierea Comunitatii."
 
 msgid "Logo"
 msgstr "Logo"
 
 msgid "Current logo"
-msgstr "Current logo"
+msgstr "Logo curent"
 
 msgid "Delete current logo"
-msgstr "Delete current logo"
+msgstr "Sterge logo-ul curent"
 
 msgid "You can add css that will be used to style the instance."
-msgstr "You can add css that will be used to style the instance."
+msgstr "Poti adauga un stil css care va fi utilizat ca stil grafic al comunitatii."
 
 msgid "Extra CSS"
-msgstr "Extra CSS"
+msgstr "Still CSS aditional"
 
 msgid "Use Norms"
-msgstr "Use Norms"
+msgstr "Utilizeaza documente"
 
 msgid "Allow users to propose norms"
-msgstr "Allow users to propose norms"
+msgstr "Permite utilizatorilor sa propuna documente"
 
 msgid "Require to propose a variant"
-msgstr "Require to propose a variant"
+msgstr "Cere sa fie propusa o varianta"
 
 msgid "Use milestones"
-msgstr "Use milestones"
+msgstr "Permite date limita"
 
 msgid "Freeze this instance"
-msgstr "Freeze this instance"
+msgstr "Suspenda comunitatea"
 
 msgid "Name"
-msgstr "Name"
+msgstr "Nume"
 
 msgid "Language"
-msgstr "Language"
+msgstr "Limba"
 
 msgid ""
 "The language setting will be overridden by the user's personal setting."
-msgstr "The language setting will be overridden by the user's personal setting."
+msgstr "Setarea de limba va fi modificata de setarea de limba a utilizatorului."
 
 msgid "Default group"
-msgstr "Default group"
+msgstr "Grup standard"
 
 msgid "Hide this instance"
-msgstr "Hide this instance"
+msgstr "Ascunde comunitatea"
 
 msgid "Select whether this instance will be shown in public listings."
-msgstr "Select whether this instance will be shown in public listings."
+msgstr "Selecteaza daca Comunitatea va fi afisata pe pagina principala."
 
 msgid "This instance is authenticated"
-msgstr "This instance is authenticated"
+msgstr "Comunitatea este autentificata"
 
 msgid "Enable (final) adoption voting"
-msgstr "Enable (final) adoption voting"
+msgstr "Permite vot (final) pentru adoptare"
 
 msgid ""
 "Before activating, the defined majority must be continuously held by the "
 "proposal for the specified interval."
-msgstr "Before activating, the defined majority must be continuously held by the proposal for the specified interval."
+msgstr "Pentru a deveni activa, majoritatea ceruta trebuie sa fie mentinuta in intervalul de timp mentionat."
 
 msgid "Majority"
-msgstr "Majority"
+msgstr "Majoritate"
 
 msgid "Delay"
-msgstr "Delay"
+msgstr "Amanare"
 
 msgid "Enable vote delegation"
-msgstr "Enable vote delegation"
+msgstr "Permite votul prin delegare"
 
 msgid "Home"
-msgstr "Home"
+msgstr "Acasa"
 
 msgid "Introduce a new idea to debate."
-msgstr "Introduce a new idea to debate."
+msgstr "Introdu o idee noua in dezbatere."
 
 msgid "new proposal"
-msgstr "new proposal"
+msgstr "propunere noua"
 
 msgid "Join instance to create a new proposal."
-msgstr "Join instance to create a new proposal."
+msgstr "Alatura-te comunitatii pentru a creea o noua propunere."
 
 msgid "Login to create a new proposal."
-msgstr "Login to create a new proposal."
+msgstr "Logheaza-te pentru a creea o noua propunere."
 
 msgid "show a list of proposals"
-msgstr "show a list of proposals"
+msgstr "afiseaza lista de propuneri"
 
 msgid "more proposals"
-msgstr "more proposals"
+msgstr "mai multe propuneri"
 
 msgid "Next milestone"
-msgstr "Next milestone"
+msgstr "Urmatoarea data limita pentru voturi"
 
 msgid "Next milestones"
-msgstr "Next milestones"
+msgstr "Urmatoarele date limita pentru voturi"
 
 msgid "Newest Events"
-msgstr "Newest Events"
+msgstr "Ultimele evenimente"
 
 msgid "Informations"
-msgstr "Informations"
+msgstr "Informatii"
 
 msgid "Created"
-msgstr "Created"
+msgstr "Creat"
 
 #, python-format
 msgid "by %s on %s"
-msgstr "by %s on %s"
+msgstr "de %s pe %s"
 
 msgid "By the numbers"
-msgstr "By the numbers"
+msgstr "Statistici comunitate"
 
 #, python-format
 msgid "<b>%s</b> community members"
-msgstr "<b>%s</b> community members"
+msgstr "<b>%s</b> membri ai comunitatii"
 
 msgid "tutorial_instance_proposals_table"
-msgstr "tutorial_instance_proposals_table"
+msgstr "tutorial_comunitate_propuneri_tabel"
 
 msgid "tutorial_instance_proposal_button"
-msgstr "tutorial_instance_proposal_button"
+msgstr "tutorial_comunitate_propunere_buton"
 
 msgid "Close"
-msgstr "Close"
+msgstr "Inchide"
 
 msgid "tutorial_instance_numbers"
-msgstr "tutorial_instance_numbers"
+msgstr "tutorial_comunitate_statistici"
 
 #, python-format
 msgid "%s proposal"
 msgid_plural "%s proposals"
-msgstr[0] "%s proposal"
-msgstr[1] "%s proposals"
+msgstr[0] "o: %s"
+msgstr[1] "cateva: %s propuneri"
+msgstr[2] " alte: %s propuneri"
 
 #, python-format
 msgid "%s norm"
 msgid_plural "%s norms"
-msgstr[0] "%s norm"
-msgstr[1] "%s norms"
+msgstr[0] "un: %s document"
+msgstr[1] "cateva: %s documente"
+msgstr[2] "alte: %s documente"
 
 #, python-format
 msgid "Message %s"
-msgstr "Message %s"
+msgstr "Mesaj %s"
 
 msgid "Subject"
-msgstr "Subject"
+msgstr "Subiect"
 
 msgid ""
 "Your e-mail address will be included in this message to give the recipient a"
 " method to reply to you."
-msgstr "Your e-mail address will be included in this message to give the recipient a method to reply to you."
+msgstr "Adresa ta de email va fi inclusa in acest mesaj pentru ca destinatarul sa-ti poata raspunde."
 
 #, python-format
 msgid "Dear %s, ..."
-msgstr "Dear %s, ..."
+msgstr "Draga %s,..."
 
 #, python-format
 msgid "Delete: %s"
-msgstr "Delete: %s"
+msgstr "Sterge: %s"
 
 msgid "Are you sure you want to delete this milestone?"
-msgstr "Are you sure you want to delete this milestone?"
+msgstr "Esti sigur ca vrei sa stergi aceasta data limita?"
 
 #, python-format
 msgid "Edit %s"
-msgstr "Edit %s"
+msgstr "Modifica %s"
 
 msgid "Edit milestone"
-msgstr "Edit milestone"
+msgstr "Modifica data limita"
 
 msgid "Milestone title"
-msgstr "Milestone title"
+msgstr "Titlul datei limita"
 
 msgid "Milestone description"
-msgstr "Milestone description"
+msgstr "Descrierea datei limita"
 
 msgid "Give a brief description of the milestone."
-msgstr "Give a brief description of the milestone."
+msgstr "Introdu o scurta descriere a datei limita."
 
 msgid "Date of the milestone"
-msgstr "Date of the milestone"
+msgstr "Data limita"
 
 msgid "Please use the DD.MM.YYYY format."
-msgstr "Please use the DD.MM.YYYY format."
+msgstr "Te rugam sa folosesti formatul de data DD.MM.YYYY."
 
 msgid "Category"
-msgstr "Category"
+msgstr "Categorie"
 
 msgid "No Category"
-msgstr "No Category"
+msgstr "Nici o categorie"
 
 msgid "Create a new milestone."
-msgstr "Create a new milestone."
+msgstr "Creeaza o data limita."
 
 msgid "new milestone"
-msgstr "new milestone"
+msgstr "data limita noua"
 
 msgid "Past Milestones"
-msgstr "Past Milestones"
+msgstr "Date limita depasite"
 
 msgid "tutorial_milestones_timeline"
-msgstr "tutorial_milestones_timeline"
+msgstr "Tutorial: Data limita vot"
 
 msgid "tutorial_milestones_listing"
-msgstr "tutorial_milestones_listing"
+msgstr "Tutorial: Grafic interval de timp pentru vot"
 
 msgid "New milestone"
-msgstr "New milestone"
+msgstr "O noua data limita"
 
 msgid "Last Change"
-msgstr "Last Change"
+msgstr "Ultima modificare"
 
 msgid "Edit this milestone."
-msgstr "Edit this milestone."
+msgstr "Modifica data limita."
 
 msgid "Delete this milestone."
-msgstr "Delete this milestone."
+msgstr "Sterge data limita."
 
 msgid "Associated Proposals"
-msgstr "Associated Proposals"
+msgstr "Propuneri asociate"
 
 msgid "No proposals are connected to this milestone"
-msgstr "No proposals are connected to this milestone"
+msgstr "Nu exista propuneri asociate la aceasta data limita"
 
 msgid "Associated Norms"
-msgstr "Associated Norms"
+msgstr "Documente asociate"
 
 msgid "No norms are connected to this milestone"
-msgstr "No norms are connected to this milestone"
+msgstr "Nu exista documente asociate la aceasta data limita"
 
 msgid "tutorial_milestone_details_follow"
-msgstr "tutorial_milestone_details_follow"
+msgstr "tutorial_data_limita_detalii_urmareste"
 
 msgid "tutorial_milestone_details_description"
-msgstr "tutorial_milestone_details_description"
+msgstr "tutorial_data_limita_detalii_descriere"
 
 msgid "tutorial_milestone_details_listing"
-msgstr "tutorial_milestone_details_listing"
+msgstr "tutorial_data_limita_detalii_lista"
 
 msgid "See more"
-msgstr "See more"
+msgstr "Afiseaza mai mult"
 
 msgid "(unknown)"
-msgstr "(unknown)"
+msgstr "(necunoscut)"
 
 msgid "Add an OpenID"
-msgstr "Add an OpenID"
+msgstr "Adauga un OpenID"
 
 msgid "Add OpenID"
-msgstr "Add OpenID"
+msgstr "Adauga OpenID"
 
 msgid ""
 "Enter the URL of your OpenID to connect the ID to your account. This will "
 "allow you to login using this OpenID in the future."
-msgstr "Enter the URL of your OpenID to connect the ID to your account. This will allow you to login using this OpenID in the future."
+msgstr "Introdu URL-ul OpenID-ului tau pentru a conecta ID-ul la contul tau. Aceasta iti va permite sa te loghezi cu OpenID-ul in viitor."
 
 msgid "Alternative"
-msgstr "Alternative"
+msgstr "Alternativa"
 
 msgid "Login with your OpenID to skip registration."
-msgstr "Login with your OpenID to skip registration."
+msgstr "Logheaza-te cu OpenID-ul tau pentru a sari peste inregistrare."
 
 msgid "Sign in"
-msgstr "Sign in"
+msgstr "Logheaza-te"
 
 msgid "Continue"
-msgstr "Continue"
+msgstr "Continua"
 
 msgid "Select a user name"
-msgstr "Select a user name"
+msgstr "Selecteaza un nume de utilizator"
 
 msgid "User name"
-msgstr "User name"
+msgstr "Nume utilizator"
 
 msgid ""
 "A unique user name is required for you complete sign up and login. The user "
 "name received from your OpenID provider is invalid. Please provide a "
 "different, unique user name."
-msgstr "A unique user name is required for you complete sign up and login. The user name received from your OpenID provider is invalid. Please provide a different, unique user name."
+msgstr "Un nume de utilizator unic este necesar pentru a te inregistra si loga. Numele de utilizator primit prin providerul de OpenID este invalid. Te rugam intordu un nume de utilizator unic."
 
 msgid "Username:"
-msgstr "Username:"
+msgstr "Nume utilizator:"
 
 msgid "Are you sure you want to delete this page?"
-msgstr "Are you sure you want to delete this page?"
+msgstr "Esti sigur ca vrei sa stergi aceasta pagina?"
 
 #, python-format
 msgid "Are you sure you want to purge variant %s?"
-msgstr "Are you sure you want to purge variant %s?"
+msgstr "Esti sigur ca vrei sa stergi varianta %s?"
 
 msgid ""
 "WARNING: This will remove all revisions of the variant from any proposals "
 "that might support it."
-msgstr "WARNING: This will remove all revisions of the variant from any proposals that might support it."
+msgstr "ATENTIE: Aceasta va sterge toate reviziile variantei din toate propunerile care  o sustin."
 
 #, python-format
 msgid "Variant: %s"
-msgstr "Variant: %s"
+msgstr "Varianta: %s"
 
 msgid "This variant has no text."
-msgstr "This variant has no text."
+msgstr "Varianta are continut gol."
 
 msgid "Related Proposals"
-msgstr "Related Proposals"
+msgstr "Propuneri Similare"
 
 msgid "(supports this variant)"
-msgstr "(supports this variant)"
+msgstr "(sustine aceasta varianta)"
 
 msgid "Create a new proposal..."
-msgstr "Create a new proposal..."
+msgstr "Creeaza o propunere noua..."
 
 msgid "Edit variant"
-msgstr "Edit variant"
+msgstr "Modifica varianta"
 
 #, python-format
 msgid "Norm: %s"
-msgstr "Norm: %s"
+msgstr "Document: %s"
 
 msgid "Variant Name"
-msgstr "Variant Name"
+msgstr "Numele Variantei"
 
 msgid "Text"
 msgstr "Text"
 
 msgid "Parent page:"
-msgstr "Parent page:"
+msgstr "Documentul initial"
 
 msgid "Relates to a milestone"
-msgstr "Relates to a milestone"
+msgstr "Legata de o data limita"
 
 msgid "Create a new norm."
-msgstr "Create a new norm."
+msgstr "Creeaza un document nou."
 
 msgid "new norm"
-msgstr "new norm"
+msgstr "document nou"
 
 msgid "Popular tags"
-msgstr "Popular tags"
+msgstr "Etichete populare"
 
 msgid "tutorial_norms_overview_table"
-msgstr "tutorial_norms_overview_table"
+msgstr "Aici este tabelul cu documentele comunitatii"
 
 msgid "tutorial_norms_overview_facets"
-msgstr "tutorial_norms_overview_facets"
+msgstr "Etichetele documentelor"
 
 msgid "New page"
-msgstr "New page"
+msgstr "Pagina noua"
 
 msgid "Create norm"
-msgstr "Create norm"
+msgstr "Creeaza document"
 
 msgid "Norm title"
-msgstr "Norm title"
+msgstr "Titlul documentului"
 
 msgid "New norm"
-msgstr "New norm"
+msgstr "Document nou"
 
 msgid "Norm content"
-msgstr "Norm content"
+msgstr "Continut document"
 
 msgid "Tag and classify"
-msgstr "Tag and classify"
+msgstr "Adauga etichete pentru a clasifica"
 
 msgid "Tags to describe the subject"
-msgstr "Tags to describe the subject"
+msgstr "Etichete care descriu propunerea"
 
 msgid "The new norm will be categorized under the specified parent theme."
-msgstr "The new norm will be categorized under the specified parent theme."
+msgstr "Noul document va fi salvat sub documentul initial."
 
 msgid "Highlight Changes"
-msgstr "Highlight Changes"
+msgstr "Afiseaza modificarile"
+
+msgid "On"
+msgstr "Da"
+
+msgid "Off"
+msgstr "Nu"
 
 msgid "New Proposal"
-msgstr "New Proposal"
+msgstr "Propuneri Noi"
 
 msgid "Information about the norm"
-msgstr "Information about the norm"
+msgstr "Detalii despre acest document"
 
 msgid "Last Activity"
-msgstr "Last Activity"
+msgstr "Activitate recenta"
 
 #, python-format
 msgid "This norm relates to the milestone %s."
-msgstr "This norm relates to the milestone %s."
+msgstr "Acest document este asociat cu data limita %s."
 
 msgid "Subnorms"
-msgstr "Subnorms"
+msgstr "Documente secundare"
 
 msgid "View Proposal"
-msgstr "View Proposal"
+msgstr "Afiseaza Propunere"
 
 msgid "No text."
-msgstr "No text."
+msgstr "Continut gol."
 
 msgid "Text compared to the original version"
-msgstr "Text compared to the original version"
+msgstr "Textul comparat cu versiunea originala"
 
 msgid "Proposal"
-msgstr "Proposal"
+msgstr "Propunere"
 
 msgid "tutorial_norm_show_vote"
-msgstr "tutorial_norm_show_vote"
+msgstr "Tutorial: Aici este afisat documentul"
 
 msgid "tutorial_norm_show_diff"
-msgstr "tutorial_norm_show_diff"
+msgstr "Tutorial: Aici vezi schimarile propuse documentului"
 
 msgid "tutorial_norm_show_new"
-msgstr "tutorial_norm_show_new"
+msgstr "Tutorial: Aici faci propuneri noi"
 
 msgid "hide sub-topics"
-msgstr "hide sub-topics"
+msgstr "ascunde subiectele secundare"
 
 msgid "show sub-topics"
-msgstr "show sub-topics"
+msgstr "afiseaza subiectele secundare"
 
 #, python-format
 msgid "%s comment"
 msgid_plural "%s comments"
-msgstr[0] "%s comment"
-msgstr[1] "%s comments"
+msgstr[0] "un: %s comentariu"
+msgstr[1] "cateva: %s comentarii"
+msgstr[2] "alte: %s comentarii"
 
 #, python-format
 msgid "latest <b>%s</b>"
-msgstr "latest <b>%s</b>"
+msgstr "ultimele <b>%s</b>"
 
 msgid "(none)"
-msgstr "(none)"
+msgstr "(nimic)"
 
 msgid "Propose alternative language."
-msgstr "Propose alternative language."
+msgstr "Propune o alta limba."
 
 msgid "branch new variant"
-msgstr "branch new variant"
+msgstr "Adauga a varianta noua"
 
 msgid "Edit the status quo."
-msgstr "Edit the status quo."
+msgstr "Modifica status quo."
 
 msgid "Edit this variant."
-msgstr "Edit this variant."
+msgstr "Modifica varianta."
 
 msgid "Delete this variant."
-msgstr "Delete this variant."
+msgstr "Sterge varianta."
 
 msgid "purge variant"
-msgstr "purge variant"
+msgstr "eliminare varianta"
 
 #, python-format
 msgid "Variant %s of %s"
-msgstr "Variant %s of %s"
+msgstr "Varianta %s din %s"
 
 #, python-format
 msgid "Variant of %s"
-msgstr "Variant of %s"
+msgstr "Varianta din %s"
 
 msgid "End a poll"
-msgstr "End a poll"
+msgstr "Opreste votul"
 
 msgid ""
 "You are about to cancel this poll. This means that the proposal will become "
 "editable again but that all votes that have been cast at this time "
 "<strong>will be invalidated</strong>."
-msgstr "You are about to cancel this poll. This means that the proposal will become editable again but that all votes that have been cast at this time <strong>will be invalidated</strong>."
+msgstr "Urmeaza sa opresti votul. Asta inseamna ca propunerea va deveni editabila din nou dar toate voturile de pana acum <strong> vor fi invalidate </strong>."
 
 msgid "to abstain"
-msgstr "to abstain"
+msgstr "se abtine"
 
 msgid "or:"
-msgstr "or:"
+msgstr "sau:"
 
 msgid "Poll"
-msgstr "Poll"
+msgstr "Vot"
 
 msgid "Option"
-msgstr "Option"
+msgstr "Optiune"
 
 msgid "Percent"
-msgstr "Percent"
+msgstr "Procent"
 
 msgid "Affirm"
-msgstr "Affirm"
+msgstr "Afirma"
 
 msgid "Dissent"
-msgstr "Dissent"
+msgstr "Parere diferita"
 
 msgid "Abstain"
-msgstr "Abstain"
+msgstr "Abtine"
 
 msgid "vote"
-msgstr "vote"
+msgstr "voteaza"
 
 #, python-format
 msgid "%d votes"
-msgstr "%d votes"
+msgstr "%d voturi"
 
 #, python-format
 msgid "ended %s"
-msgstr "ended %s"
+msgstr "a terminat %s"
 
 #, python-format
 msgid "began %s"
-msgstr "began %s"
+msgstr "a inceput %s"
 
 msgid "no enddate"
-msgstr "no enddate"
+msgstr "fara data limita"
 
 #, python-format
 msgid "Votes: %s"
-msgstr "Votes: %s"
+msgstr "Voturi: %s"
 
 msgid ""
 "Vote results are updated with a short delay. After casting your vote, expect"
 " a short delay before the tally updates."
-msgstr "Vote results are updated with a short delay. After casting your vote, expect a short delay before the tally updates."
+msgstr "Rezultatele votului sunt actualizate cu o mica pauza. Dupa ce ai votat, asteapta-te la o pauza scurta a actualizarii calculelor."
 
 msgid "Call a poll"
-msgstr "Call a poll"
+msgstr "Porneste votul"
 
 msgid ""
 "You are about to call for a vote. When you do this, you will lose the "
 "ability to <strong>change the proposal's wording</strong> unless you cancel "
 "the vote."
-msgstr "You are about to call for a vote. When you do this, you will lose the ability to <strong>change the proposal's wording</strong> unless you cancel the vote."
+msgstr "Urmeaza sa pornesti votul. Cand faci asta, nu vei mai putea sa <strong>modifici textul propunerii</strong> decat daca opresti votul."
 
 msgid "Are you sure you want to delete this proposal?"
-msgstr "Are you sure you want to delete this proposal?"
+msgstr "Confirmi stergerea propunerii?"
 
 #, python-format
 msgid "Delegations: %s"
-msgstr "Delegations: %s"
+msgstr "Delegatii: %s"
 
 msgid "Delegations"
-msgstr "Delegations"
+msgstr "Delegari"
 
 msgid "Propose new Variant"
-msgstr "Propose new Variant"
+msgstr "Propune o noua Varianta"
 
 msgid "Join instance to propose a new variant."
-msgstr "Join instance to propose a new variant."
+msgstr "Alatura-te comunitatii pentru a propune noi variante ale documentelor."
 
 msgid "Login to propose a new variant."
-msgstr "Login to propose a new variant."
+msgstr "Te rugam sa te loghezi pentru a propune o noua varianta de document."
 
 msgid "Get Involved"
-msgstr "Get Involved"
+msgstr "Implica-te"
 
 msgid "Vote"
-msgstr "Vote"
+msgstr "Vot"
 
 msgid "Kein Text"
-msgstr "Kein Text"
+msgstr "Nici un Text"
 
 msgid "History of this variant"
-msgstr "History of this variant"
+msgstr "Istoric pentru aceasta varianta"
 
 msgid "Votes for this variant"
-msgstr "Votes for this variant"
+msgstr "Voturi pentru aceasta varianta"
 
 #, python-format
 msgid "Edit &ldquo;%s&rdquo;"
-msgstr "Edit &ldquo;%s&rdquo;"
+msgstr "Modifica &ldquo;%s&rdquo;"
 
 msgid "Title and Goals"
-msgstr "Title and Goals"
+msgstr "Titlu si scop"
 
 msgid "Proposal title"
-msgstr "Proposal title"
+msgstr "Titlul Propunerii"
 
 msgid "Proposal goals"
-msgstr "Proposal goals"
+msgstr "Scopul propunerii"
 
 msgid "A brief description of <b>the goals</b> of your proposal."
-msgstr "A brief description of <b>the goals</b> of your proposal."
+msgstr "O scurta descriere a <b>scopului</b> propunerii tale."
 
 msgid "The proposal would..."
-msgstr "The proposal would..."
+msgstr "Propunerea urmareste..."
 
 msgid "Proposal Category"
-msgstr "Proposal Category"
+msgstr "Categoria propunerii"
 
 msgid "Proposal category hint"
-msgstr "Proposal category hint"
+msgstr "Propuneri sugestii categorii"
 
 msgid "Collaboration and Notification"
-msgstr "Collaboration and Notification"
+msgstr "Setari pentru colaborare si notificari"
 
 msgid "Allow others to edit this proposal."
-msgstr "Allow others to edit this proposal."
+msgstr "Permite celorlalti membri sa modifice aceasta propunere."
 
 msgid "Create new proposal"
-msgstr "Create new proposal"
+msgstr "Creeaza o propunere noua"
 
 msgid "Find proposals"
-msgstr "Find proposals"
+msgstr "Cauta propuneri"
 
 msgid "Go"
-msgstr "Go"
+msgstr "Cauta"
 
 msgid "tutorial_proposal_overview_table"
-msgstr "tutorial_proposal_overview_table"
+msgstr "Tabelul cu propunerile din aceasta comunitate"
 
 msgid "tutorial_proposal_overview_facets"
-msgstr "tutorial_proposal_overview_facets"
+msgstr "Cauta propuneri"
 
 msgid "tutorial_proposal_overview_new"
-msgstr "tutorial_proposal_overview_new"
+msgstr "Creeaza o propunere noua"
 
 msgid "New proposal"
-msgstr "New proposal"
+msgstr "Propunere noua"
 
 msgid "Change norms with this proposal"
-msgstr "Change norms with this proposal"
+msgstr "Ce documente se modifica prin aceasta propunere"
 
 msgid ""
 "Proposals are implemented by including changes towards new or existing norm."
 " Norms are fixed documents that represent the consensus of this instance and"
 " can only be changed through a vote. Amend the proposal to change or create "
 "a norm."
-msgstr "Proposals are implemented by including changes towards new or existing norm. Norms are fixed documents that represent the consensus of this instance and can only be changed through a vote. Amend the proposal to change or create a norm."
+msgstr "Propunerile sunt implementate prin crearea unor documente noi sau modificari aduse documentelor existente. Documentele reprezinta consensul din comunitate si pot fi schimbate doar prin vot. Alege documentul pe care vrei sa-l modifici sau creeaza un document nou."
 
 msgid "Select a norm to change:"
-msgstr "Select a norm to change:"
+msgstr "Selecteaza documentul pe care-l modifici"
 
 msgid "Give a brief description of <b>the goals</b> of your proposal."
-msgstr "Give a brief description of <b>the goals</b> of your proposal."
+msgstr "Introduceti o scurta descriere a <b>scopului</b> propunerii tale."
 
 msgid "Multiple tags can be separated by commas."
-msgstr "Multiple tags can be separated by commas."
+msgstr "Etichetele multiple pot fi separate cu o virgula."
 
 msgid "Delete this proposal."
-msgstr "Delete this proposal."
+msgstr "Sterge propunerea."
 
 msgid "Topic and Description of the Proposal"
-msgstr "Topic and Description of the Proposal"
+msgstr "Subiectul si descrierea Propunerii"
 
 #, python-format
 msgid "%s Discussions"
-msgstr "%s Discussions"
+msgstr "%s Discutii"
 
 #, python-format
 msgid "%s Proposed Implementations"
-msgstr "%s Proposed Implementations"
+msgstr "%s Implementari propuse"
 
 msgid "Discussions"
-msgstr "Discussions"
+msgstr "Discutii"
 
 msgid "Proposed Implementations"
-msgstr "Proposed Implementations"
+msgstr "Implementari propuse"
 
 msgid "Propose to change a norm"
-msgstr "Propose to change a norm"
+msgstr "Propune o modificare a documentului"
 
 msgid "Login to propose to change a norm"
-msgstr "Login to propose to change a norm"
+msgstr "Logeaza-te pentru a propune o modificare a documentului"
 
 msgid "Join instance to propose to change a norm"
-msgstr "Join instance to propose to change a norm"
+msgstr "Intra in comunitate pentru a propune modificarea unui document"
 
 msgid "tutorial_proposal_show_vote"
-msgstr "tutorial_proposal_show_vote"
+msgstr "Voturile primite de propunere"
 
 msgid "tutorial_proposal_show_follow"
-msgstr "tutorial_proposal_show_follow"
+msgstr "Poti sa urmaresti propunerea"
 
 msgid "tutorial_proposal_show_information"
-msgstr "tutorial_proposal_show_information"
+msgstr "Afli mai multe informatii despre propunere"
 
 msgid "tutorial_proposal_show_tags"
-msgstr "tutorial_proposal_show_tags"
+msgstr "tutorial_propunere_afiseaza_etichete"
 
 msgid "tutorial_proposal_show_share"
-msgstr "tutorial_proposal_show_share"
+msgstr "Poti sa faci cunoscuta propunerea pe Facebook, Twitter, Google."
 
 msgid "tutorial_proposal_show_vote_comment"
-msgstr "tutorial_proposal_show_vote_comment"
+msgstr "tutorial_propunere_afiseaza_cometarii_vot"
 
 msgid "tutorial_proposal_show_answers"
-msgstr "tutorial_proposal_show_answers"
+msgstr "tutorial_propunere_afiseaza_raspunsuri"
 
 msgid "tutorial_proposal_show_answer"
-msgstr "tutorial_proposal_show_answer"
+msgstr "tutorial_propunere_afiseaza_raspuns"
 
 msgid "tutorial_proposal_show_new_discussion"
-msgstr "tutorial_proposal_show_new_discussion"
+msgstr "tutorial_propunere_afiseaza_noi_discutii"
 
 msgid "tutorial_proposal_show_propose_variant"
-msgstr "tutorial_proposal_show_propose_variant"
+msgstr "Poti sa vizualizezi modificarile propuse"
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
-msgstr "This proposal relates to the deleted milestone %s."
+msgstr "Propunerea aceasta este legata de o data limita stearsa %s."
 
 #, python-format
 msgid "This proposal relates to the milestone %s."
-msgstr "This proposal relates to the milestone %s."
+msgstr "Propunerea aceasta este legata de data limita %s."
 
 msgid "This proposal is not related to a milestone"
-msgstr "This proposal is not related to a milestone"
+msgstr "Propunerea aceasta nu are nici o data limita."
 
 #, python-format
 msgid "by %s on %s, %s changes since then."
-msgstr "by %s on %s, %s changes since then."
+msgstr "de catre %s pe %s, %s modificari de atunci."
 
 msgid "(new)"
-msgstr "(new)"
+msgstr "(nou)"
 
 #, python-format
 msgid "%s%% approval"
-msgstr "%s%% approval"
+msgstr "%s%% sustinere"
 
 #, python-format
 msgid "%s:%s votes"
-msgstr "%s:%s votes"
+msgstr "%s:%s voturi"
 
 msgid "Information"
-msgstr "Information"
+msgstr "Informatii"
 
 #, python-format
 msgid "The proposal was created by %s on %s"
-msgstr "The proposal was created by %s on %s"
+msgstr "Propunerea a fost creata de %s pentru %s"
 
 msgid ""
 "This is a <b>joint proposal</b> that can be improved by anyone. Edit it to "
 "improve or refine the text."
-msgstr "This is a <b>joint proposal</b> that can be improved by anyone. Edit it to improve or refine the text."
+msgstr "Aceasta este o <b>propunere comuna<b> care poate fi imbunatatita de toata lumea. Editeaza pentru a o imbunatati."
 
 msgid "Main page"
-msgstr "Main page"
+msgstr "Pagina principala"
 
 msgid "Who is receiving delegations?"
-msgstr "Who is receiving delegations?"
+msgstr "Cine a primit delegari?"
 
 msgid "Support this proposal"
-msgstr "Support this proposal"
+msgstr "Sustine propunerea"
 
 msgid "Oppose this proposal"
-msgstr "Oppose this proposal"
+msgstr "Opune-te propunerii"
 
 #, python-format
 msgid "%s has been adopted %s."
-msgstr "%s has been adopted %s."
+msgstr "%s a fost adoptata %s."
 
 msgid "Adoption requirements:"
-msgstr "Adoption requirements:"
+msgstr "Cerinte pentru sustinere:"
 
 #, python-format
 msgid "%s participators"
-msgstr "%s participators"
+msgstr "%s participanti"
 
 #, python-format
 msgid "stable majority for %s days"
-msgstr "stable majority for %s days"
+msgstr "majoritate stabila in %s zile"
 
 #, python-format
 msgid "Search in %s"
-msgstr "Search in %s"
+msgstr "Cauta in %s"
 
 msgid "Search includes issues and proposals."
-msgstr "Search includes issues and proposals."
+msgstr "Cautarea include probleme si propuneri."
 
 msgid "You did not provide a search query."
-msgstr "You did not provide a search query."
+msgstr "Nu ai introdus termeni de cautare."
 
 #, python-format
 msgid "Delete: Implementation of %s"
-msgstr "Delete: Implementation of %s"
+msgstr "Sterge: Implementarea %s"
 
 #, python-format
 msgid "Are you sure you want to delete the norm %s from this proposal?"
-msgstr "Are you sure you want to delete the norm %s from this proposal?"
+msgstr "Esti sigur ca vrei sa stergi documentul %s din aceasta propunere?"
 
 #, python-format
 msgid "Implementation: %s"
-msgstr "Implementation: %s"
+msgstr "Implementare: %s"
 
 msgid "Change an existing norm"
-msgstr "Change an existing norm"
+msgstr "Modifica un document existent"
 
 msgid ""
 "Select a norm that you want to relate to. You can later propose a variant of"
 " this norm to effect a change."
-msgstr "Select a norm that you want to relate to. You can later propose a variant of this norm to effect a change."
+msgstr "Selecteaza un document la care te referi. Mai tarziu poti propune a varianta a acestui document ca sa introduci o schimbare."
 
 msgid "Include"
 msgstr "Include"
 
 msgid "Can't find an appropriate norm?"
-msgstr "Can't find an appropriate norm?"
+msgstr "Nu gasesti documentul?"
 
 msgid "Create a new norm instead"
-msgstr "Create a new norm instead"
+msgstr "Creaza un document nou"
 
 msgid "Propose a new norm"
-msgstr "Propose a new norm"
+msgstr "Propune un document nou"
 
 msgid ""
 "Create a new norm that you want to relate to. The norm will be created "
 "without any status quo. You can then add a text variant of that norm, "
 "specifying the change you want to implement."
-msgstr "Create a new norm that you want to relate to. The norm will be created without any status quo. You can then add a text variant of that norm, specifying the change you want to implement."
+msgstr "Creeaza noul document la care vrei sa te referi. Acest document va fi creat fara status quo. Poti sa adaugi ulterior o varianta a documentului, specificand modificarea pe care vrei sa o introduci."
 
 msgid "New norm title"
-msgstr "New norm title"
+msgstr "Numele noului document"
 
 msgid "The new norm will be categorized under the specified parent page."
-msgstr "The new norm will be categorized under the specified parent page."
+msgstr "Noul document va fi salvat in pagina parinte specificata."
 
 msgid "Have you checked for exisiting norms?"
-msgstr "Have you checked for exisiting norms?"
+msgstr "Ai verificat documentele existente?"
 
 msgid "Include an existing norm instead"
-msgstr "Include an existing norm instead"
+msgstr "Include un document existent deja"
 
 msgid "Show Norm"
-msgstr "Show Norm"
+msgstr "Afiseaza Documentul"
 
 msgid "There is a tie between variants, thus none is included at the moment."
-msgstr "There is a tie between variants, thus none is included at the moment."
+msgstr "Variantele sunt la egalitate de voturi, deci nici una nu este inclusa in acest moment."
 
 msgid ""
 "Status quo has the most votes, resulting in no proposed change to this norm."
-msgstr "Status quo has the most votes, resulting in no proposed change to this norm."
+msgstr "Status quo are cele mai multe voturi, deci nici o modificare nu are loc in acest moment."
 
 msgid "Proposed by"
-msgstr "Proposed by"
+msgstr "Propusa de"
 
 msgid "Support this variant"
-msgstr "Support this variant"
+msgstr "Sustine varianta"
 
 msgid "Oppose this variant"
-msgstr "Oppose this variant"
+msgstr "Opune-te variantei"
 
 msgid "(this proposal should not change this norm)"
-msgstr "(this proposal should not change this norm)"
+msgstr "(aceasta propunere nu va modifica documentul)"
 
 msgid "Currently selected for inclusion in this proposal"
-msgstr "Currently selected for inclusion in this proposal"
+msgstr "Selectat pentru includere in propunere."
 
 msgid "view"
-msgstr "view"
+msgstr "vizualizeaza"
 
 msgid "compare"
-msgstr "compare"
+msgstr "compara"
 
 msgid ""
 "Tags are keywords used to find, sort and filter proposals and documents."
-msgstr "Tags are keywords used to find, sort and filter proposals and documents."
+msgstr "Etichetele sunt cuvinte cheie folosite pentru a gasi, sorta si filtra propunerile si documentele."
 
 msgid "Similar tags"
-msgstr "Similar tags"
+msgstr "Etichete similare"
 
 #, python-format
 msgid "used %s times"
-msgstr "used %s times"
+msgstr "folosit de %s ori"
 
 msgid "more tags..."
-msgstr "more tags..."
+msgstr "mai multe etichete..."
 
 msgid "Tagged with"
-msgstr "Tagged with"
+msgstr "Etichete"
 
 msgid "Not tagged yet"
-msgstr "Not tagged yet"
+msgstr "Fara etichete inca"
 
 msgid "add tags..."
-msgstr "add tags..."
+msgstr "adauga etichete..."
 
 msgid "Multiple tags can be separated by commas or spaces."
-msgstr "Multiple tags can be separated by commas or spaces."
+msgstr "Etichetele multiple pot fi separate prin virgula si spatii."
 
 msgid "Add tags"
-msgstr "Add tags"
+msgstr "Adauga etichete"
 
 msgid "Cancel"
 msgstr "Cancel"
 
 #, python-format
 msgid "by %s, "
-msgstr "by %s, "
+msgstr "de catre %s,"
 
 msgid "This revision has no text."
-msgstr "This revision has no text."
+msgstr "Revizia aceasta nu are nici un text."
 
 msgid ""
 "This norm has not yet been decided and is thus no official position of this "
 "group."
-msgstr "This norm has not yet been decided and is thus no official position of this group."
+msgstr "Acest document nu a fost inca adoptat deci nu exista o pozitie oficiala a acestui grup."
 
 #, python-format
 msgid "discuss (%s comments) &raquo;"
-msgstr "discuss (%s comments) &raquo;"
+msgstr "discutii (%s comments) &raquo;"
 
 msgid "Title:"
-msgstr "Title:"
+msgstr "Titlu:"
 
 msgid "Variant:"
-msgstr "Variant:"
+msgstr "Varianta:"
 
 msgid "see"
-msgstr "see"
+msgstr "vezi"
 
 #, python-format
 msgid "%s by %s"
-msgstr "%s by %s"
+msgstr "%s de %s"
 
 msgid "Compare"
-msgstr "Compare"
+msgstr "Compara"
 
 msgid "All Members on this Adhocracy Server"
-msgstr "All Members on this Adhocracy Server"
+msgstr "Toti membrii acestui Server Adhocracy"
 
 msgid "A listing of all users in all instance an this adhocracy server."
-msgstr "A listing of all users in all instance an this adhocracy server."
+msgstr "O listare a tuturor utilizatorilor din toate comunitatile din acest server adhocracy."
 
 msgid ""
 "Are you sure you want to delete your profile? This step cannot be reversed."
-msgstr "Are you sure you want to delete your profile? This step cannot be reversed."
+msgstr "Confirmi stergerea profilului tau? Actiunea aceasta nu este reversibila."
 
 #, python-format
 msgid "Edit Badges for %s"
-msgstr "Edit Badges for %s"
+msgstr "Modifica Titlul pentru %s"
 
 #, python-format
 msgid "Badges for %s"
-msgstr "Badges for %s"
+msgstr "Titlul pentru %s"
 
 msgid "all instances"
-msgstr "all instances"
+msgstr "toate comunitatile"
 
 msgid "Example:"
-msgstr "Example:"
+msgstr "Exemplu:"
 
 msgid "Startpage"
-msgstr "Startpage"
+msgstr "Pagina de pornire"
 
 #, python-format
 msgid "Hi %s.<br />"
-msgstr "Hi %s.<br />"
+msgstr "Buna %s.<br />"
 
 #, python-format
 msgid ""
 "Start by reading some <b><a href=\"%s\">proposals</a></b> or <b><a "
 "href=\"%s\">norms</a></b>. Or take a look at some of the other <b><a "
 "href=\"%s\">instances</a></b>."
-msgstr "Start by reading some <b><a href=\"%s\">proposals</a></b> or <b><a href=\"%s\">norms</a></b>. Or take a look at some of the other <b><a href=\"%s\">instances</a></b>."
+msgstr "Incepe prin a citi <b><a href=\"%s\">propunerile</a></b> sau <b><a href=\"%s\">documentele</a></b>. Sau exploreaza celelalte <b><a href=\"%s\">comunitati</a></b>"
 
 #, python-format
 msgid ""
 "Start by exploring the <b><a href=\"%s\">instances</a></b> and read some of "
 "the proposals and norms in the instances."
-msgstr "Start by exploring the <b><a href=\"%s\">instances</a></b> and read some of the proposals and norms in the instances."
+msgstr "Incepe prin a explora <b><a href=\"%s\">comunitatile</a></b> si citeste cateva propuneri si documente din acele comunitati."
 
 msgid ""
 "If you join an instance, norms and proposals of the instance will be shown "
 "on your dashboard."
-msgstr "If you join an instance, norms and proposals of the instance will be shown on your dashboard."
+msgstr "Daca te alaturi unei comunitati, documentele si propunerile comunitatii vor aparea pe prima pagina."
 
 msgid ""
 "You can reach your dashboard anytime by clicking on your user name on the "
 "top of the page."
-msgstr "You can reach your dashboard anytime by clicking on your user name on the top of the page."
+msgstr "Poti ajunge la prima pagina apasand pe numele tau in partea de sus a paginii."
 
 msgid ""
 "This is your Dashboard. Here you can find the list of instances your a "
 "member in, norms and proposals from these instance and a list of the pages "
 "you follow."
-msgstr "This is your Dashboard. Here you can find the list of instances your a member in, norms and proposals from these instance and a list of the pages you follow."
+msgstr "Aceasta este Prima pagina. Aici poti sa vezi toate comunitatile in care esti membru, documentele si propunerile din aceste comunitati si o lista a paginilor pe care le urmaresti."
 
 #, python-format
 msgid "You can also return to the <a href=\"%s\">Page you came from</a>."
-msgstr "You can also return to the <a href=\"%s\">Page you came from</a>."
+msgstr "Poti sa te re-intorci la <a href=\"%s\">Pagina anterioara</a>."
 
 msgid "Proposals in your instances"
-msgstr "Proposals in your instances"
+msgstr "Propuneri in comunitatile tale"
 
 msgid "List all proposals"
-msgstr "List all proposals"
+msgstr "Afiseaza toate propunerile"
 
 msgid "list all"
-msgstr "list all"
+msgstr "afiseaza toate"
 
 msgid "Norms in your instances"
-msgstr "Norms in your instances"
+msgstr "Documente in comunitatile tale"
 
 msgid "List all pages"
-msgstr "List all pages"
+msgstr "Afiseaza toate paginile"
 
 msgid "tutorial_dashboard_username"
-msgstr "tutorial_dashboard_username"
+msgstr "Aici este numele utilizatorului"
 
 msgid "tutorial_dashboard_proposals"
-msgstr "tutorial_dashboard_proposals"
+msgstr "Propuneri in comunitatile tale"
 
 msgid "tutorial_dashboard_show_all"
-msgstr "tutorial_dashboard_show_all"
+msgstr "Apasa aici ca sa afisezi toate propunerile"
 
 msgid "tutorial_dashboard_instances"
-msgstr "tutorial_dashboard_instances"
+msgstr "Comunitatile tale"
 
 msgid "tutorial_dashboard_watchlist"
-msgstr "tutorial_dashboard_watchlist"
+msgstr "Favoritele tale"
 
 msgid "Your Instances"
-msgstr "Your Instances"
+msgstr "Comunitatile tale"
 
 msgid "Your Watchlist"
-msgstr "Your Watchlist"
+msgstr "Lista ta de Favorite"
 
 msgid "Current polls in your instances"
-msgstr "Current polls in your instances"
+msgstr "Voturi in curs in comunitatile tale"
 
 msgid "Topic"
-msgstr "Topic"
+msgstr "Subiect"
 
 msgid "Given"
-msgstr "Given"
+msgstr "Date"
 
 msgid "Received"
-msgstr "Received"
+msgstr "Primite"
 
 msgid "There are no delegations."
-msgstr "There are no delegations."
+msgstr "Nu sunt delegari."
 
 #, python-format
 msgid "Settings: %s"
-msgstr "Settings: %s"
+msgstr "Setarile: %s"
 
 msgid "Your User Details"
-msgstr "Your User Details"
+msgstr "Detaliile utilizatorului tau:"
 
 msgid "Display name for"
-msgstr "Display name for"
+msgstr "Setarile utilizator pentru"
 
 msgid "You can chose which name other users see."
-msgstr "You can chose which name other users see."
+msgstr "Numele vazut de catre ceilalti utilizatori."
 
 msgid "Password"
-msgstr "Password"
+msgstr "Parola"
 
 msgid "Select a new password or leave the fields blank to keep your old one."
-msgstr "Select a new password or leave the fields blank to keep your old one."
+msgstr "Introduceti o parola noua sau lasati campurile goale pentru a pastra parola existenta."
 
 msgid "Password:"
-msgstr "Password:"
+msgstr "Parola:"
 
 msgid "Password (confirm):"
-msgstr "Password (confirm):"
+msgstr "Parola (confirma):"
 
 msgid "Notifications"
-msgstr "Notifications"
+msgstr "Notificari"
 
 msgid "Select how you would like to be notified of events."
-msgstr "Select how you would like to be notified of events."
+msgstr "Alege adresa pe care vrei sa primesti notificarile."
 
 msgid "Help."
-msgstr "Help."
+msgstr "Ajutor."
 
 msgid "E-Mail:"
 msgstr "E-Mail:"
 
 msgid "fewer"
-msgstr "fewer"
+msgstr "mai putine"
 
 msgid "more notifications"
-msgstr "more notifications"
+msgstr "mai multe notificari"
 
 msgid "Not confirmed."
-msgstr "Not confirmed."
+msgstr "Ne-confirmat."
 
 msgid "Re-send activation link"
-msgstr "Re-send activation link"
+msgstr "Re-trimite link de activare."
 
 msgid "OpenID"
 msgstr "OpenID"
 
 msgid "OpenID allows you to use a single login on many web sites."
-msgstr "OpenID allows you to use a single login on many web sites."
+msgstr "OpenID va permite sa utilizati acelasi utilizator pentru a va loga pe mai multe site-uri web."
 
 msgid "There are no associated OpenIDs."
-msgstr "There are no associated OpenIDs."
+msgstr "Nu exista asociere la nici un cont OpenID."
 
 msgid "Short biography"
-msgstr "Short biography"
+msgstr "Scurta biografie"
 
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
-msgstr "A bio will allow others to learn about you and perhaps even get you a few delegations."
+msgstr "O scurta biografie le va permite celorlalti sa afle mai multe despre tine si iti maresc sansele sa obtii mai multe delegari de vot."
 
 msgid "Advanced Settings"
-msgstr "Advanced Settings"
+msgstr "Setari Avansate"
 
 msgid "The pre-set number of entries in listing pages."
-msgstr "The pre-set number of entries in listing pages."
+msgstr "Numarul prestabilit de afisari pe pagina."
 
 msgid "List size:"
-msgstr "List size:"
+msgstr "Marimea listei:"
 
 msgid "Disable help messages and links to the documentation."
-msgstr "Disable help messages and links to the documentation."
+msgstr "Nu afisa mesaje de informare sau linkuri la documentatie."
 
 msgid "Hide help messages:"
-msgstr "Hide help messages:"
+msgstr "Ascunde mesajele de informare."
 
 msgid "Find users"
-msgstr "Find users"
+msgstr "Cauta utilizatori"
 
 msgid "tutorial_user_index_table"
-msgstr "tutorial_user_index_table"
+msgstr "Tabelul cu membrii acestei comunitati"
 
 msgid "tutorial_user_index_facets"
-msgstr "tutorial_user_index_facets"
+msgstr "Tutorial: Utilizatori"
 
 #, python-format
 msgid "Adhocracies: %s"
-msgstr "Adhocracies: %s"
+msgstr "Comunitati Adhocracy %s"
 
 msgid "Adhocracies"
 msgstr "Adhocracies"
 
 #, python-format
 msgid "%s is a member in these Adhocracies"
-msgstr "%s is a member in these Adhocracies"
+msgstr "%s este membru in urmatoarele comunitati Adhocracy"
 
 msgid "Who are you, then?"
-msgstr "Who are you, then?"
+msgstr "Cine esti tu, atunci?"
 
 msgid ""
 "If you have an account but you've lost your password, <a href='/reset'>click"
 " here</a>."
-msgstr "If you have an account but you've lost your password, <a href='/reset'>click here</a>."
+msgstr "Daca ai un cont dar ti-ai pierdut parola, <a href='/reset'>apasa aici</a>."
 
 msgid "Login:"
 msgstr "Login:"
 
 msgid "Register new account"
-msgstr "Register new account"
+msgstr "Creeaza un cont nou"
 
 msgid ""
 "Creating an account is easy; all you need is a user name, password and email"
 " address."
-msgstr "Creating an account is easy; all you need is a user name, password and email address."
+msgstr "Crearea contului este usoara; tot ce ai nevoie este un nume de utilizator, o parola si o adresa de email."
 
 msgid "Can only contain letters and numbers."
-msgstr "Can only contain letters and numbers."
+msgstr "Poate contine doar litere si numere."
 
 msgid "E-mail"
 msgstr "E-mail"
 
 msgid "Enter password:"
-msgstr "Enter password:"
+msgstr "Introduceti parola:"
 
 #, python-format
 msgid "By registering, you agree with the %s."
-msgstr "By registering, you agree with the %s."
+msgstr "Prin inregistrare, iti dai acordul pentru %s."
 
 msgid "Terms and Conditions"
-msgstr "Terms and Conditions"
+msgstr "Termeni si Conditii"
 
 msgid "leave empty"
-msgstr "leave empty"
+msgstr "lasa necompletat"
 
 msgid "Password reset"
-msgstr "Password reset"
+msgstr "Resetare parola"
 
 msgid ""
 "You will be sent an activation link that, when opened, will cause the system"
 " to email you a new password."
-msgstr "You will be sent an activation link that, when opened, will cause the system to email you a new password."
+msgstr "Vei primi un link de activare, care odata deschis, va permite sistemului sa-ti trimita o parola noua."
 
 msgid ""
 "In order to retrieve your login, you will have to enter your email address."
-msgstr "In order to retrieve your login, you will have to enter your email address."
+msgstr "Pentru ati retrimite datele de conectare, trebuie sa introduci adresa de email."
 
 msgid "Reset"
-msgstr "Reset"
+msgstr "Reseteaza parola"
 
 msgid "Confirmation pending"
-msgstr "Confirmation pending"
+msgstr "Confirmarea este in asteptare"
 
 msgid ""
 "You have recieved an email containing a link. Please open that link in order"
 " to reset you password"
-msgstr "You have recieved an email containing a link. Please open that link in order to reset you password"
+msgstr "Ai primit un email cu un link. Apasa-l pentru a reseta parola."
 
 #, python-format
 msgid "Signed up %s"
-msgstr "Signed up %s"
+msgstr "Inregistrat pentru %s"
 
 #, python-format
 msgid "%s does not yet have a bio."
-msgstr "%s does not yet have a bio."
+msgstr "%s nu are inca o biografie."
 
 #, python-format
 msgid "joined %s"
-msgstr "joined %s"
+msgstr "devenit membru pe %s"
 
 #, python-format
 msgid "signed up %s"
-msgstr "signed up %s"
+msgstr "inregistrat pentru %s"
 
 msgid "send a message"
-msgstr "send a message"
+msgstr "trimite un mesaj"
 
 #, python-format
 msgid "make %s"
-msgstr "make %s"
+msgstr "face %s"
 
 msgid "Resign from this instance."
-msgstr "Resign from this instance."
+msgstr "Paraseste aceasta comunitate."
 
 msgid "leave instance"
-msgstr "leave instance"
+msgstr "paraseste comunitate"
 
 msgid "un-ban"
-msgstr "un-ban"
+msgstr "de-blocat"
 
 msgid "ban"
-msgstr "ban"
+msgstr "blocat"
 
 msgid "Delete this user."
-msgstr "Delete this user."
+msgstr "Sterge utilizator."
 
 #, python-format
 msgid "Watchlist: %s"
-msgstr "Watchlist: %s"
+msgstr "Favorite: %s"
 
 msgid ""
 "This is your watchlist. You will receive notifications for events concerning"
 " each of these items."
-msgstr "This is your watchlist. You will receive notifications for events concerning each of these items."
+msgstr "Lista ta de favorite. Vei primi notificari pentru evenimente legate de toate favoritele tale."

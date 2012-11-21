@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-10-18 21:01+0200\n"
-"PO-Revision-Date: 2012-10-18 19:03+0000\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
+"PO-Revision-Date: 2012-11-18 09:55+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -423,7 +423,7 @@ msgid "The account has been deleted."
 msgstr "Użytkownik został usunięty."
 
 msgid "Invalid badge choice."
-msgstr ""
+msgstr "Wybrano nieprawidłową etykietę."
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -494,7 +494,7 @@ msgstr "Nie istnieje grupa o numerze %s."
 
 #, python-format
 msgid "Group '%s' is no instance group"
-msgstr ""
+msgstr "Grupa %s nie jest grupą Adhocracy"
 
 msgid "At least on character is required"
 msgstr "Musisz wpisać chociaż jeden znak."
@@ -709,7 +709,7 @@ msgid "Badge"
 msgstr "Etykieta"
 
 msgid "Instance"
-msgstr ""
+msgstr "Grupa"
 
 msgid "Categories"
 msgstr "Kategorie"
@@ -893,7 +893,7 @@ msgstr "stworzył(a) propozycję %(proposal)s"
 
 #, python-format
 msgid "Edit proposal: %(proposal)s"
-msgstr "Edytuj propozycję: %(proposal)s"
+msgstr "Edytowano propozycję: %(proposal)s"
 
 #, python-format
 msgid "edited %(proposal)s"
@@ -933,7 +933,7 @@ msgstr "utworzył(a) stronę %(page)s"
 
 #, python-format
 msgid "Edit page: %(page)s"
-msgstr "Edytuj stronę: %(page)s"
+msgstr "Edytowano stronę: %(page)s"
 
 #, python-format
 msgid "edited %(page)s"
@@ -952,24 +952,24 @@ msgid "New comment: in %(topic)s"
 msgstr "Nowy komentarz w: %(topic)s"
 
 #, python-format
-msgid "commented %(comment)s on %(topic)s"
-msgstr "dodał(a) komentarz %(comment)s w %(topic)s"
+msgid "commented %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
 msgstr "Edytowano komentarz w: %(topic)s"
 
 #, python-format
-msgid "edited the comment %(comment)s on %(topic)s"
-msgstr "edytował(a) komentarz %(comment)s w %(topic)s"
+msgid "edited comment on %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
 msgstr "Usunięto komentarz w: %(topic)s"
 
 #, python-format
-msgid "deleted the comment %(comment)s from %(topic)s"
-msgstr "usunął(ęła) komentarz %(comment)s w %(topic)s"
+msgid "deleted comment from %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -981,11 +981,11 @@ msgstr "delegował(a) swój głos %(scope)s użytkownikowi %(agent)s"
 
 #, python-format
 msgid "Revoked Delegation: %(user)s revoked delegation to %(agent)s"
-msgstr "Odwołana delegacja: %(user)s odwołał(a) delegację użytkownikowi %(agent)s"
+msgstr "Użytkownik %(user)s odwołał(a) delegację głosu użytkownikowi %(agent)s"
 
 #, python-format
 msgid "revoked their delegation on %(scope)s to %(agent)s"
-msgstr "odwołał(a) delegację %(scope)s użytkownikowi %(agent)s"
+msgstr "odwołał(a) delegację głosu użytkownikowi %(agent)s w sprawie %(scope)s"
 
 #, python-format
 msgid "Vote: %(user)s %(vote)s %(poll)s"
@@ -1013,19 +1013,19 @@ msgstr "test %(test)s"
 
 #, python-format
 msgid "You received %(user)ss delegation on %(scope)s"
-msgstr "Otrzymałeś(aś) delegację głosu od %(user)s w sprawie %(scope)s"
+msgstr "Użytkownik %(user)s przekazał ci swój głos w sprawie %(scope)s"
 
 #, python-format
 msgid "You lost %(user)ss delegation on %(scope)s"
-msgstr "Utraciłeś(aś) delegację głosu od %(user)s w sprawie %(scope)s"
+msgstr "Użytkownik %(user)s odebrał przekazany ci wcześniej głos w sprawie %(scope)s"
 
 #, python-format
 msgid "Membership: You've been kicked from %(instance)s"
-msgstr "Uczestnictwo: zostałeś(aś) wykluczony(a) z %(instance)s"
+msgstr "Zostałeś(aś) wyrzucony(a) z grupy %(instance)s"
 
 #, python-format
 msgid "Membership: you're now a %(group)s in %(instance)s"
-msgstr "Uczestnictwo: jesteś teraz %(group)s w %(instance)s"
+msgstr "Jesteś teraz %(group)s w grupie %(instance)s"
 
 #, python-format
 msgid "Your vote %(vote)s %(poll)s"
@@ -1052,7 +1052,7 @@ msgid ""
 "\r\n"
 "\r\n"
 "More info: %(url)s"
-msgstr "Więcej informacji: %(url)s"
+msgstr " Więcej informacji: %(url)s"
 
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Obecnie trwa głosowanie nad tą propozycją, więc nie może ona zostać zmieniona."
@@ -1153,7 +1153,7 @@ msgid "Follow Tag"
 msgstr "Obserwuj tag"
 
 msgid "Following"
-msgstr "Śledzony"
+msgstr "Obserwowane"
 
 msgid "Unfollow"
 msgstr "Przestań obserwować"
@@ -1255,7 +1255,7 @@ msgid "entries"
 msgstr "wpisów"
 
 msgid "Filter list"
-msgstr ""
+msgstr "Filtruj listę"
 
 msgid "Remove all"
 msgstr "usuń wszystkie"
@@ -1288,7 +1288,7 @@ msgid "Previous"
 msgstr "Wstecz"
 
 msgid "start_this_tutorial"
-msgstr "Rozpocznij samouczek"
+msgstr "Włącz samouczek"
 
 msgid "disable_this_tutorial"
 msgstr "Wyłącz samouczek"
@@ -1458,16 +1458,16 @@ msgstr "Brak uprawnień"
 msgid ""
 "Automatically assign all users with this badge to the selected group for all"
 " instances in the adhocracy site."
-msgstr ""
+msgstr "Automatycznie nadaj wszystkim użytkownikom posiadającym tę etykietę wskazane uprawnienia, które będą obowiązywać we wszystkich grupach w Adhocracy."
 
 msgid "Automatically assign all users with this badge to the selected group."
-msgstr ""
+msgstr "Automatycznie nadaj wskazane uprawnienia wszystkim użytkownikom posiadającym tę etykietę."
 
 msgid "Display group in instances"
 msgstr "Wyświetlaj uprawnienia użytkowników w każdej grupie."
 
 msgid "Display this badge instead of the normal user group."
-msgstr ""
+msgstr "Pokaż tę etykietę zamiast uprawnień użytkownika."
 
 msgid "Global"
 msgstr "Globalne"
@@ -1960,6 +1960,15 @@ msgstr "Pokaż listę propozycji"
 msgid "more proposals"
 msgstr "Więcej propozycji"
 
+msgid "Next milestone"
+msgstr ""
+
+msgid "Next milestones"
+msgstr ""
+
+msgid "Newest Events"
+msgstr ""
+
 msgid "Informations"
 msgstr "Informacje"
 
@@ -2102,9 +2111,8 @@ msgstr "Pokaż informacje na temat terminu - czy odnosi się na przykład do zap
 msgid "tutorial_milestone_details_listing"
 msgstr "Znajdziesz tu listę wszystkich propozycji i dokumentów, które są związane z tym terminem."
 
-#, python-format
-msgid "ends: <b>%s</b>"
-msgstr "zakończenie: <b>%s</b>"
+msgid "See more"
+msgstr ""
 
 msgid "(unknown)"
 msgstr "(nieznane)"
@@ -2236,18 +2244,27 @@ msgstr "Nowy dokument zostanie skategoryzowany pod wskazanym dokumentem nadrzęd
 msgid "Highlight Changes"
 msgstr "Pokaż zmiany"
 
+msgid "On"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
 msgid "New Proposal"
 msgstr "Nowa propozycja"
 
 msgid "Information about the norm"
 msgstr "Informacje o dokumencie"
 
+msgid "Last Activity"
+msgstr "Ostatnia aktywność"
+
 #, python-format
 msgid "This norm relates to the milestone %s."
 msgstr "Ta propozycja odnosi się do terminu %s."
 
-msgid "subnorms"
-msgstr "dokumenty podrzędne"
+msgid "Subnorms"
+msgstr ""
 
 msgid "View Proposal"
 msgstr "Pokaż propozycję"
@@ -2405,7 +2422,7 @@ msgid "Login to propose a new variant."
 msgstr "Zaloguj się, by zaproponować zmiany."
 
 msgid "Get Involved"
-msgstr "Włącz się do dyskusji"
+msgstr "Włącz się do prac"
 
 msgid "Vote"
 msgstr "Głosuj"
@@ -2450,6 +2467,9 @@ msgstr "Współpraca i powiadomienia"
 msgid "Allow others to edit this proposal."
 msgstr "Zezwól innym na edycję propozycji."
 
+msgid "Create new proposal"
+msgstr "Stwórz nową propozycję"
+
 msgid "Find proposals"
 msgstr "Znajdź propozycję"
 
@@ -2467,9 +2487,6 @@ msgstr "Jeśli twój pomysł nie jest jeszcze reprezentowany, możesz zgłosić 
 
 msgid "New proposal"
 msgstr "Nowa propozycja"
-
-msgid "Create new proposal"
-msgstr "Stwórz nową propozycję"
 
 msgid "Change norms with this proposal"
 msgstr "Propozycja odnosi się do"
@@ -2549,9 +2566,6 @@ msgstr "...i napisać nowy komentarz."
 msgid "tutorial_proposal_show_propose_variant"
 msgstr "Lub pracować nad propozycją i wprowadzać alternatywne wersje."
 
-msgid "Last Activity"
-msgstr "Ostatnia aktywność"
-
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
 msgstr "Propozycja ta odnosi się do usuniętego terminu %s."
@@ -2594,7 +2608,7 @@ msgid "Main page"
 msgstr "Strona główna"
 
 msgid "Who is receiving delegations?"
-msgstr "Kto otrzymuje delegację głosów?"
+msgstr "Kto otrzymuje delegowane głosy?"
 
 msgid "Support this proposal"
 msgstr "Poprzyj propozycję"
@@ -2681,7 +2695,7 @@ msgid "Show Norm"
 msgstr "Pokaż dokument"
 
 msgid "There is a tie between variants, thus none is included at the moment."
-msgstr "Więcej wersji cieszy się tym samym poparciem. Dlatego żadna nie zostanie w tym momencie uznana za obowiązującą."
+msgstr "Więcej wersji cieszy się tym samym poparciem. Dlatego żadna w tym momencie nie jest uznawana za obowiązującą."
 
 msgid ""
 "Status quo has the most votes, resulting in no proposed change to this norm."

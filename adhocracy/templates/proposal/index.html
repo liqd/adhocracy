@@ -12,7 +12,26 @@
 </%block>
 
 <%block name="main_content">
-<h2>${_("Proposals")}</h2>
+<h2 id="proposal_list_header">${_("Proposals")}</h2>
+
+<% auth = check.proposal.create() %>
+%if auth:
+    <a class="create_proposal_link"
+       title="${_('Introduce a new idea to debate.')}" 
+       href="/proposal/new">${_("Create new proposal")}</a>
+%elif auth.propose_join():
+    <a class="create_proposal_link" 
+       title="${_('Join instance to create a new proposal.')}" 
+       href="/proposal/new" 
+       rel="#overlay-join-button">${_("Create new proposal")}</a>
+%elif auth.propose_login():
+    <a class="create_proposal_link" 
+       title="${_('Login to create a new proposal.')}" 
+       href="/proposal/new" 
+       rel="#overlay-login-button">${_("Create new proposal")}</a>
+%endif
+<div style="clear:both" />
+
 <div class="hr"><hr /></div>
 <div class="list_filter" id="proposals-search">
 <form class="list_form" action="?" method="GET" autocomplete="off">
@@ -64,7 +83,6 @@
 
     <br/>
     <div class="top_actions aside" id="new-proposal">
-        <% auth = check.proposal.create() %>
         %if auth:
             <a class="button add ttip" 
                title="${_('Introduce a new idea to debate.')}" 

@@ -6,7 +6,9 @@ import formencode
 from formencode import htmlfill
 from formencode import validators
 
-from pylons import request, response, tmpl_context as c
+from paste.deploy.converters import asbool, asint
+
+from pylons import request, response, tmpl_context as c, config
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _, lazy_ugettext as L_
@@ -119,6 +121,8 @@ class InstanceContentsEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
     milestones = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    hide_global_categories = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
 
 
 class InstanceVotingEditForm(formencode.Schema):
@@ -152,6 +156,7 @@ class InstanceController(BaseController):
     def index(self, format="html"):
         require.instance.index()
 
+        c.active_global_nav = 'instances'
         c.instance_pager = pager.solr_instance_pager()
 
         if format == 'json':
@@ -209,8 +214,26 @@ class InstanceController(BaseController):
         #tags = model.Tag.popular_tags(limit=40)
         #c.tags = sorted(text.tag_cloud_normalize(tags),
         #                key=lambda (k, c, v): k.name)
-        if c.page_instance.milestones:
-            c.milestones = model.Milestone.all(instance=c.page_instance)
+
+        if asbool(config.get('adhocracy.show_instance_overview_milestones')) \
+           and c.page_instance.milestones:
+
+            number = asint(config.get(
+                'adhocracy.number_instance_overview_milestones', 3))
+            
+            milestones = model.Milestone.all_future_q(
+                instance=c.page_instance).limit(number).all()
+
+            c.next_milestones_pager = pager.milestones(
+                milestones, size=number, enable_sorts=False,
+                enable_pages=False, default_sort=sorting.milestone_time)
+
+        events = model.Event.find_by_instance(c.page_instance, limit=3)
+
+        c.events_pager = pager.events(events,
+                                      enable_pages=False, 
+                                      enable_sorts=False)
+
         c.stats = {
             'comments': model.Comment.all_q().count(),
             'proposals': model.Proposal.all_q(
@@ -352,6 +375,7 @@ class InstanceController(BaseController):
                 item['active'] = True
                 item['class'] = 'active'
                 settings.current = item
+        c.active_subheader_nav = 'settings'
 
         return settings
 
@@ -549,6 +573,7 @@ class InstanceController(BaseController):
                 'milestones': instance.milestones,
                 'use_norms': instance.use_norms,
                 'require_selection': instance.require_selection,
+                'hide_global_categories': instance.hide_global_categories,
                 'frozen': instance.frozen,
                 '_tok': csrf.token_id()})
 
@@ -563,8 +588,8 @@ class InstanceController(BaseController):
 
         updated = update_attributes(
             c.page_instance, self.form_result,
-            ['allow_propose', 'allow_index', 'frozen',
-             'milestones', 'use_norms', 'require_selection'])
+            ['allow_propose', 'allow_index', 'frozen', 'milestones',
+             'use_norms', 'require_selection', 'hide_global_categories'])
         return self.settings_result(updated, c.page_instance, 'contents')
 
     def settings_voting_form(self, id):

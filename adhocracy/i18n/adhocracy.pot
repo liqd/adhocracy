@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 1.2beta2dev\n"
+"Project-Id-Version: adhocracy 2.0.0-rc.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-10-18 21:01+0200\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -929,7 +929,7 @@ msgid "New comment: in %(topic)s"
 msgstr ""
 
 #, python-format
-msgid "commented %(comment)s on %(topic)s"
+msgid "commented %(topic)s"
 msgstr ""
 
 #, python-format
@@ -937,7 +937,7 @@ msgid "Edited comment: in %(topic)s"
 msgstr ""
 
 #, python-format
-msgid "edited the comment %(comment)s on %(topic)s"
+msgid "edited comment on %(topic)s"
 msgstr ""
 
 #, python-format
@@ -945,7 +945,7 @@ msgid "Deleted comment: in %(topic)s"
 msgstr ""
 
 #, python-format
-msgid "deleted the comment %(comment)s from %(topic)s"
+msgid "deleted comment from %(topic)s"
 msgstr ""
 
 #, python-format
@@ -1905,6 +1905,15 @@ msgstr ""
 msgid "more proposals"
 msgstr ""
 
+msgid "Next milestone"
+msgstr ""
+
+msgid "Next milestones"
+msgstr ""
+
+msgid "Newest Events"
+msgstr ""
+
 msgid "Informations"
 msgstr ""
 
@@ -2043,8 +2052,7 @@ msgstr ""
 msgid "tutorial_milestone_details_listing"
 msgstr ""
 
-#, python-format
-msgid "ends: <b>%s</b>"
+msgid "See more"
 msgstr ""
 
 msgid "(unknown)"
@@ -2170,17 +2178,26 @@ msgstr ""
 msgid "Highlight Changes"
 msgstr ""
 
+msgid "On"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
 msgid "New Proposal"
 msgstr ""
 
 msgid "Information about the norm"
 msgstr ""
 
+msgid "Last Activity"
+msgstr ""
+
 #, python-format
 msgid "This norm relates to the milestone %s."
 msgstr ""
 
-msgid "subnorms"
+msgid "Subnorms"
 msgstr ""
 
 msgid "View Proposal"
@@ -2375,6 +2392,9 @@ msgstr ""
 msgid "Allow others to edit this proposal."
 msgstr ""
 
+msgid "Create new proposal"
+msgstr ""
+
 msgid "Find proposals"
 msgstr ""
 
@@ -2391,9 +2411,6 @@ msgid "tutorial_proposal_overview_new"
 msgstr ""
 
 msgid "New proposal"
-msgstr ""
-
-msgid "Create new proposal"
 msgstr ""
 
 msgid "Change norms with this proposal"
@@ -2468,9 +2485,6 @@ msgid "tutorial_proposal_show_new_discussion"
 msgstr ""
 
 msgid "tutorial_proposal_show_propose_variant"
-msgstr ""
-
-msgid "Last Activity"
 msgstr ""
 
 #, python-format

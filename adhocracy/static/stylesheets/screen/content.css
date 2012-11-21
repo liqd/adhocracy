@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, san-serif;
+  font-family: Arial, sans-serif;
   font-size: 13px;
   line-height: 1.5;
 }
@@ -21,11 +21,17 @@ h4, legend { font-size: 20px; margin-bottom: 10px; font-weight: normal; }
 h5 { font-size: 16px; margin-bottom: 5px; font-weight: normal; }
 h6 { font-size: 14px; font-weight: normal; color: #666; }
 
+.sidebar_box {
+  background: #f8f8f8;
+  padding: 0 15px 1px 22px;
+}
+
 #col3 h3 {
   font-size: 25px;
   background: url('/images/line_dotted.gif') repeat-x bottom left;
-  padding-top: 12px;
+  padding-top: 16px;
   padding-bottom: 5px;
+  margin-left: -2px;
 }
 
 p {
@@ -1201,21 +1207,6 @@ a.show_comments.open:hover:after, a.new_comment.open:hover:after {
 }
 
 /* forms */
-form .label_over {
-  display: inline-block;
-  overflow: hidden;
-  position: relative;
-  vertical-align: top;
-}
-label.over-apply {
-  left: 10px;
-  margin: 0;
-  position: absolute;
-  top: 4px;
-  z-index: 10;
-  font-weight: normal;
-  color: #666;
-}
 
 .form_wrapper {
   background: url("/images/shadow_image_large.jpg") no-repeat scroll center bottom transparent;
@@ -1334,7 +1325,7 @@ html.js .alert .close { display: block }
 }
 
 .list_filter {
-padding: 20px 20px 40px 20px;
+  padding: 5px 20px 16px 20px;
 }
 
 #searchform,
@@ -1342,7 +1333,13 @@ padding: 20px 20px 40px 20px;
   float: right;
   padding: 0;
   background:  none;
+  margin-bottom: 0;
 }
+
+.list_form label {
+  display: inline;
+}
+
 #searchform #s,
 .list_form input.q {
   width: 225px;
@@ -1353,7 +1350,7 @@ padding: 20px 20px 40px 20px;
 }
 
 .list_form input.q {
-  width: 530px;
+  width: 350px;
 }
 
 #searchform #searchsubmit,
@@ -1365,6 +1362,7 @@ padding: 20px 20px 40px 20px;
   color: #fff;
   text-transform: uppercase;
   border: none;
+  font-size: 13px;
 }
 #searchform #searchsubmit:hover,
 .list_form input.submit:hover {
@@ -1554,8 +1552,7 @@ body.logged_in .only-anon {
 }
 
 #add_tags {
-float: right;
-padding-right: 2em;
+padding-bottom: 10px;
 }
 
 .facet ul {
@@ -1568,11 +1565,11 @@ margin-left: 0;
   padding-top: 1em;
 }
 .more_arrow {
-  background: url("/images/sprite_icons.png") no-repeat right -1050px;
+  background: url("/images/sprite_icons.png") no-repeat right -50px;
   padding: 7px 40px 2px 10px;
 }
 .more_arrow.less {
-  background: url("/images/sprite_icons.png") no-repeat right -1100px;
+  background: url("/images/sprite_icons.png") no-repeat right 0px;
 }
 
 
@@ -1618,8 +1615,93 @@ a.joyride-prev-tip:hover {
   padding-top: 2em;
 }
 
+.milestone_row_date {
+  padding-left: 20px;
+  padding-top: 2px;
+  margin-left: -2px;
+  background: url('/images/icon_calendar.png') no-repeat;
+}
+
+.more_link, .create_proposal_link {
+  margin-left: 5px;
+  padding-left: 25px;
+  text-transform: lowercase;
+  font-variant: small-caps;
+}
+
+.more_link {
+  background: url("/images/sprite.png") no-repeat left -2px;
+}
+
+#proposal_list_header {
+  float: left;
+}
+
+.create_proposal_link {
+  float: right;
+  background: url("/images/sprite.png") no-repeat left 2px;
+  position: relative;
+  top: 25px;
+}
+
+.tile.event:first-child {
+  background: none;
+  border-bottom: none;
+}
+
+.tile.event {
+  padding: 10px 0 2px 0;
+  /*border-bottom: 1px dotted #cccccc;*/
+  background: url('/images/line_dotted_3.png') repeat-x top left;
+}
+
+.event_text {
+  padding: 3px 0;
+}
+
+/* force markdown created text to be small */
+.event_text * {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: small !important;
+  background: none !important;
+  /*color: #666666 !important;*/
+  font-variant: none !important;
+}
+.event_text li {
+  margin-left: 20px !important;
+}
+
 /* Fixes for js.socialshareprivace */
 
 #socialshareprivacy form {
   padding: 0;
+}
+
+#feedback {
+  position: fixed;
+  right: -350px;
+  top: 120px;
+  width: 377px;
+  overflow: normal;
+  z-index: 11;
+}
+
+#feedback_form {
+  position: absolute;
+  right: 0px;
+  width: 350px;
+}
+
+#feedback_button {
+  background: url("/images/feedback_simple_vertical.png") no-repeat 0px 0px transparent;
+  position: absolute;
+  left: 0px;
+  width: 27px;
+  height: 140px;
+}
+
+.showmore_morelink, .showmore_lesslink {
+  text-transform: lowercase;
+  font-variant: small-caps;
 }

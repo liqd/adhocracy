@@ -21,11 +21,11 @@
             <a class="button_small" 
                data-bind="css: {active: variants.switchDiff},
                           click: function () {variants.switchDiff(true)}"
-               href="#">An</a> 
+               href="#">${_("On")}</a> 
             <a class="button_small" 
                data-bind="css: {active: !variants.switchDiff()},
                           click: function () {variants.switchDiff(false)}"
-               href="#">Aus</a>
+               href="#">${_("Off")}</a>
         </div>
     </div>
 
@@ -57,11 +57,11 @@
         ## Shortlink http://domain/d/1234
         ${sidebar_defs.shortlink(c.page)}
 
-        <h6>Zuletzt aktiv</h6>
+        <h6>${_('Last Activity')}</h6>
         <p><time>${h.relative_time(c.page.find_latest_comment_time())|n}</time></p>
 
         %if c.page.milestone and c.instance.milestones:
-        <h6>Termine</h6>
+        <h6>${_('Milestones')}</h6>
         <p>
             ${_("This norm relates to the milestone %s."
                ) % h.milestone.link(c.page.milestone)|n}
@@ -78,7 +78,7 @@
     ${tiles.tag.sidebar(c.page)}
 
     %if len(c.page.subpages):
-    <h6>${_('subnorms')}</h6>
+    <h6>${_('Subnorms')}</h6>
     <ol>
         %for page in sorting.delegateable_title(c.page.subpages):
         <li><a href="${h.entity_url(page)}">${page.title}</a></li>

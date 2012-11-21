@@ -194,7 +194,6 @@ $(document).ready(function () {
     ${h.need.modernizr}
     ${h.need.jquery}
     ${h.need.jquerytools}
-    ${h.need.label_over}
     ${h.need.elastic}
     ${h.need.adhocracy}
 
@@ -270,4 +269,30 @@ ${caller.body()}
 
 %endif
 
+</%def>
+
+<%def name="feedback()">
+    <div id="feedback">
+      <div id="feedback_form">
+        <form name="create_feedback" method="POST" action="${h.feedback.get_proposal_url()}">
+          ${h.field_token()|n}
+          <fieldset>
+            <legend>${_(u'Send us your feedback')}</legend>
+            <label>${(u'Category')}</label>
+            <select name="category">
+            %for category in h.feedback.get_categories():
+            <option value="${category.id}">${category.title}</option>
+            %endfor
+            </select>
+            <label>${(u'Title')}</label>
+            <input type="text" placeholder="${_(u'One line summary')}" name="label">
+            <label>${(u'Description')}</label>
+            <textarea rows="8" name="text"></textarea>
+            <button type="submit" class="btn">${_(u'Submit')}</button>
+          </fieldset>
+          <a href="${h.feedback.get_proposal_url()}">${_(u'List existing feedback')}</a>
+        </form>
+      </div>
+      <a href="#" id="feedback_button"></a>
+    </div>
 </%def>

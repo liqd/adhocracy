@@ -198,6 +198,8 @@ class UserController(BaseController):
     def edit(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
+        if c.instance is None:
+            c.active_global_nav = 'user'
         require.user.edit(c.page_user)
         c.locales = i18n.LOCALES
         c.tile = tiles.user.UserTile(c.page_user)
@@ -310,6 +312,11 @@ class UserController(BaseController):
             login_user(c.page_user, request)
             h.flash(_("Welcome to %s") % h.site.name(), 'success')
             if c.instance:
+                membership = model.Membership(c.page_user, c.instance,
+                                              c.instance.default_group)
+                model.meta.Session.expunge(membership)
+                model.meta.Session.add(membership)
+                model.meta.Session.commit()
                 redirect(h.entity_url(c.instance))
             else:
                 redirect(h.base_url(None, path='/instance'))
@@ -330,6 +337,8 @@ class UserController(BaseController):
         redirect(h.entity_url(c.page_user, member='edit'))
 
     def show(self, id, format='html'):
+        if c.instance is None:
+            c.active_global_nav = 'user'
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
         require.user.show(c.page_user)
@@ -437,7 +446,7 @@ class UserController(BaseController):
                                     enable_sorts=False)
         #watchlist
         require.watch.index()
-        c.active_global_nav = 'watchlist'
+        c.active_global_nav = 'user'
         watches = model.Watch.all_by_user(c.page_user)
         entities = [w.entity for w in watches if (w.entity is not None)
                     and (not isinstance(w.entity, unicode))]

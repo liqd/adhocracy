@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-10-18 21:01+0200\n"
-"PO-Revision-Date: 2012-10-18 19:03+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
+"PO-Revision-Date: 2012-11-18 14:11+0000\n"
+"Last-Translator: sicco <sicco@ddo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -230,7 +230,7 @@ msgid "No proposal has been specified"
 msgstr "Er is geen voorstel gespecificeerd"
 
 msgid "You cannot create a new norm"
-msgstr "U kunt geen nieuwe norm creëren"
+msgstr "U kunt geen nieuw reglement creëren"
 
 #, python-format
 msgid "Variant %s is already present, cannot branch."
@@ -425,7 +425,7 @@ msgid "The account has been deleted."
 msgstr "Het account is verwijderd."
 
 msgid "Invalid badge choice."
-msgstr ""
+msgstr "Ongeldige badge keuze."
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -496,7 +496,7 @@ msgstr "Er bestaat geen groep met het ID '%s'"
 
 #, python-format
 msgid "Group '%s' is no instance group"
-msgstr ""
+msgstr "Groep '%s' is geen instance groep"
 
 msgid "At least on character is required"
 msgstr "Tenminste één karakter is vereist"
@@ -711,7 +711,7 @@ msgid "Badge"
 msgstr "Badge"
 
 msgid "Instance"
-msgstr ""
+msgstr "Groep"
 
 msgid "Categories"
 msgstr "Categorieën"
@@ -954,24 +954,24 @@ msgid "New comment: in %(topic)s"
 msgstr "Nieuwe reactie: in %(topic)s"
 
 #, python-format
-msgid "commented %(comment)s on %(topic)s"
-msgstr "reageerde %(comment)s in %(topic)s"
+msgid "commented %(topic)s"
+msgstr "reageerde %(topic)s"
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
 msgstr "Bewerkte reactie: in %(topic)s"
 
 #, python-format
-msgid "edited the comment %(comment)s on %(topic)s"
-msgstr "heeft de reactie %(comment)s van %(topic)s aangepast"
+msgid "edited comment on %(topic)s"
+msgstr "bewerkte reactie op %(topic)s"
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
 msgstr "Verwijderde reactie: in %(topic)s"
 
 #, python-format
-msgid "deleted the comment %(comment)s from %(topic)s"
-msgstr "heeft de reactie %(comment)s van %(topic)s verwijderd"
+msgid "deleted comment from %(topic)s"
+msgstr "verwijderde reactie van %(topic)s"
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -1257,7 +1257,7 @@ msgid "entries"
 msgstr "items"
 
 msgid "Filter list"
-msgstr ""
+msgstr "Filter lijst"
 
 msgid "Remove all"
 msgstr "Verwijder alles"
@@ -1460,16 +1460,16 @@ msgstr "Geen groep"
 msgid ""
 "Automatically assign all users with this badge to the selected group for all"
 " instances in the adhocracy site."
-msgstr ""
+msgstr "Voeg alle gebruikers met deze badge automatisch toe aan de geselecteerde gebruikersgroep voor alle groepen op de adhocracy site."
 
 msgid "Automatically assign all users with this badge to the selected group."
-msgstr ""
+msgstr "Voeg alle gebruikers met deze badge automatisch toe aan de geselecteerde groep."
 
 msgid "Display group in instances"
 msgstr "Geef de gebruikersrollen in de groepen weer"
 
 msgid "Display this badge instead of the normal user group."
-msgstr ""
+msgstr "Geef deze badge weer in plaats van de normale gebruikersgroep."
 
 msgid "Global"
 msgstr "Globaal"
@@ -1913,7 +1913,7 @@ msgid ""
 msgstr "The taalinstelling wordt overschreven door de persoonlijke instellingen van de gebruiker."
 
 msgid "Default group"
-msgstr "Default groep"
+msgstr "Standaard groep"
 
 msgid "Hide this instance"
 msgstr "Verberg deze groep"
@@ -1961,6 +1961,15 @@ msgstr "toon een lijst van voorstellen zien"
 
 msgid "more proposals"
 msgstr "meer voorstellen"
+
+msgid "Next milestone"
+msgstr "Volgende mijlpaal"
+
+msgid "Next milestones"
+msgstr "Volgende mijlpalen"
+
+msgid "Newest Events"
+msgstr "Nieuwste evenementen"
 
 msgid "Informations"
 msgstr "Informatie"
@@ -2102,9 +2111,8 @@ msgstr "Informatie over de doelstelling van de mijlpaal, gaat het bv. over een m
 msgid "tutorial_milestone_details_listing"
 msgstr "Hier vindt u een lijst met voorstellen en reglementen die betrekking hebben tot de mijlpaal."
 
-#, python-format
-msgid "ends: <b>%s</b>"
-msgstr "eindigt: <b>%s</b>"
+msgid "See more"
+msgstr "Meer"
 
 msgid "(unknown)"
 msgstr "(onbekend)"
@@ -2222,7 +2230,7 @@ msgid "New norm"
 msgstr "Nieuw reglement"
 
 msgid "Norm content"
-msgstr "Nieuwe inhoud"
+msgstr "Reglement inhoud"
 
 msgid "Tag and classify"
 msgstr "Tags en Eigenschappen"
@@ -2236,17 +2244,26 @@ msgstr "Het nieuwe reglement wordt ondergebracht in het geselecteerde reglement.
 msgid "Highlight Changes"
 msgstr "Zie Aanpassingen"
 
+msgid "On"
+msgstr "Aan"
+
+msgid "Off"
+msgstr "Uit"
+
 msgid "New Proposal"
 msgstr "Nieuw Voorstel"
 
 msgid "Information about the norm"
 msgstr "Informatie over het reglement"
 
+msgid "Last Activity"
+msgstr "Laatste Activiteit"
+
 #, python-format
 msgid "This norm relates to the milestone %s."
 msgstr "Dit reglement is gerelateerd aan mijlpaal %s."
 
-msgid "subnorms"
+msgid "Subnorms"
 msgstr "sub-reglementen"
 
 msgid "View Proposal"
@@ -2449,6 +2466,9 @@ msgstr "Samenwerking en Meldingen"
 msgid "Allow others to edit this proposal."
 msgstr "Sta toe dat anderen dit voorstel bewerken."
 
+msgid "Create new proposal"
+msgstr "Maak nieuw voorstel"
+
 msgid "Find proposals"
 msgstr "Vind voorstellen"
 
@@ -2466,9 +2486,6 @@ msgstr "Als u een nieuw idee heeft dan kunt u zelf een nieuw voorstel indienen."
 
 msgid "New proposal"
 msgstr "Nieuw voorstel"
-
-msgid "Create new proposal"
-msgstr "Maak nieuw voorstel"
 
 msgid "Change norms with this proposal"
 msgstr "Pas een reglement aan met dit voorstel"
@@ -2547,9 +2564,6 @@ msgstr "Geef uw reactie op het voorstel of reageer op andere reacties."
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr "U kunt actief deelnemen door zelf een variant op een reglement toe te voegen."
-
-msgid "Last Activity"
-msgstr "Laatste Activiteit"
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
@@ -2677,7 +2691,7 @@ msgid "Include an existing norm instead"
 msgstr "Gebruik anders een al bestaand reglement"
 
 msgid "Show Norm"
-msgstr "Laat Reglementen Zien"
+msgstr "Toon Reglement"
 
 msgid "There is a tie between variants, thus none is included at the moment."
 msgstr "De varianten hebben een gelijk aantal stemmen, er wordt er op het moment dus geen één opgenomen."
