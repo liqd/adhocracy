@@ -9,6 +9,10 @@
     width: 300px;
     height: 300px;
 }
+.small_boxed_map {
+    width: 247px;
+    height: 237px;
+}
 .edit_map {
     width: 640px;
     height: 440px;
@@ -33,7 +37,7 @@
 /* bootstrap.css sets max-width to 100% which does not work with OpenLayers.
  * Since bootstrap.css 2.0.4, the map id could be named #map_canvas to avoid
  * that problem. */
-.large_map img, .map img, .small_map img, .edit_map img {
+.large_map img, .map img, .small_map img, .small_boxed_map img, .edit_map img {
     max-width: none;
 }
 
@@ -443,4 +447,15 @@ div.marker img {
 .layersDiv label {
     display: inline;
     margin-bottom: none;
+}
+
+/* put dotted line on top of header instead of below */
+#col3 .map_h3 {
+  background: url('/images/line_dotted.gif') repeat-x top left;
+  margin-top: 0px;
+}
+
+/* override quirk in offenekommune_theme style_custom */
+#col3 .content_list {
+  margin-bottom: 0px;
 }

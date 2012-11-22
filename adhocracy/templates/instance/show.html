@@ -59,6 +59,12 @@ ${c.next_milestones_pager.here()}
 <h3>${_('Newest Events')}</h3>
 ${c.events_pager.here()}
 
+%if h.asbool(config.get('adhocracy.proposal_geotags')):
+<h3 class="map_h3">${_('Newest geotagged proposals')}</h3>
+<%doc>filter if p is not None in list comprehension is just a workaround, as SolrPager seems to return None proposals accidently</%doc>
+${map.show_region_map([p.id for p in c.new_proposals_pager.items if p is not None and p.geotag is not None])}
+%endif
+
 <h3 id="information">${_('Informations')}</h3>
 <summary>
     %if h.asbool(config.get('adhocracy.show_instance_creators')):
@@ -77,12 +83,6 @@ ${c.events_pager.here()}
     </ul>
     
 </summary>
-
-%if h.asbool(config.get('adhocracy.proposal_geotags')):
-<h3>${_('Newest geotagged proposals')}</h3>
-<%doc>filter if p is not None in list comprehension is just a workaround, as SolrPager seems to return None proposals accidently</%doc>
-${map.show_region_map([p.id for p in c.new_proposals_pager.items if p is not None and p.geotag is not None])}
-%endif
 
 </div>
 </%block>

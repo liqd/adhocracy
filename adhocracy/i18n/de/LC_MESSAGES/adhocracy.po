@@ -2134,7 +2134,7 @@ msgid "<b>%s</b> comments"
 msgstr "<b>%s</b> Kommentare"
 
 msgid "Newest geotagged proposals"
-msgstr "Neuste Vorschläge mit geographischer Verortung"
+msgstr "Neueste ortsbezogene Vorschläge"
 
 msgid "tutorial_instance_proposals_table"
 msgstr "Hier finden Sie eine Liste der neuesten Vorschläge."

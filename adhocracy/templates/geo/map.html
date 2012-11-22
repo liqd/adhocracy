@@ -48,11 +48,11 @@ ${h.need.adhocracy_geo_js}
 }</script>
 </%def>
 
-<%def name="show_region_map(initial_proposals=None, full_region=True)">
+<%def name="show_region_map(initial_proposals=None, full_region=True, map_class='small_boxed_map')">
 ${h.need.openlayers}
 ${h.need_adhocracy_geo_i18n()}
 ${h.need.adhocracy_geo_js}
-<div id="map" class="small_map"></div>
+<div id="map" class="${map_class}"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript">window.onload=function() {
   adhocracy.geo.loadRegionMap('${c.instance.key}', ${initial_proposals if initial_proposals else []}, false, ${'true' if full_region else 'false'});
