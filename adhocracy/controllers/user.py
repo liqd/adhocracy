@@ -668,7 +668,8 @@ class UserController(BaseController):
         defaults = {'badge': [str(badge.id) for badge in c.page_user.badges]}
         return formencode.htmlfill.render(
             render("/user/badges.html"),
-            defaults=defaults)
+            defaults=defaults,
+            force_defaults=False)
 
     @RequireInternalRequest()
     @validate(schema=UserBadgesForm(), form='badges')

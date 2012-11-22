@@ -51,6 +51,7 @@
 %if can.badge.edit_instance():
     <div class="simple_overlay" id="edit_badges_container">
         <form id="edit_badges">
+            ${h.field_token()|n}
             <h5 data-bind="text: selected.title">Title</h5>
             <ul data-bind="foreach: selected.badges">
                 <li class="nobullet">
