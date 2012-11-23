@@ -30,7 +30,7 @@ class InstanceDiscriminatorMiddleware(object):
                 host = host.strip('.').strip()
                 instance_key = host
 
-        if instance_key:
+        if instance_key: # instance key is set (neither None nor "")
             instance = model.Instance.find(instance_key)
             if instance is None:
                 log.debug("No such instance: %s, defaulting!" % instance_key)
