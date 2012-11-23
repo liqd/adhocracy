@@ -97,16 +97,19 @@ class User(meta.Indexable):
     def membership_groups(self):
         from membership import Membership
         current_instance = ifilter.get_instance()
+
+        memberships_q = meta.Session.query(Membership).filter(
+            Membership.user_id==self.id)
+
         if current_instance == None:
-            wanted_instances = [None]
+            memberships_q = memberships_q.filter(Membership.instance_id==None)
         else:
-            wanted_instances = [None, current_instance.id]
+            memberships_q = memberships_q.filter(or_(
+                Membership.instance_id==None,
+                Membership.instance_id==current_instance.id
+            ))
 
-        memberships = meta.Session.query(Membership).filter(
-            Membership.user_id==self.id,
-            Membership.instance_id.in_(wanted_instances))\
-                .all()
-
+        memberships = memberships_q.all()
         return [m.group for m in memberships if not m.is_expired()]
 
     @property
