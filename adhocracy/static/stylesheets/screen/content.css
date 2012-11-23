@@ -484,7 +484,7 @@ body.logged_in #nav {
 }
 body.logged_in #nav li {
   height: 32px;
-  padding-top: 8px;
+  padding-top: 4px;
 }
 #about_menu_link,
 #nav li a {
