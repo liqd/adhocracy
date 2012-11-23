@@ -40,7 +40,7 @@
                 %endif
                 %endif
 
-                %if c.user:
+                %if not h.asbool(config.get('adhocracy.put_watchlist_in_user_menu')) and c.user:
                 ${nav_link(href=h.entity_url(c.user, member='watchlist'),
                            li_class=_class('watchlist'),
                            text=_("Watchlist"),
@@ -77,6 +77,14 @@
                                         ${_('Dashboard')}
                                     </a>
                                 </li>
+
+                                %if h.asbool(config.get('adhocracy.put_watchlist_in_user_menu')):
+                                <li>
+                                    <a href="${h.entity_url(c.user, member='watchlist')}">
+                                        ${_('Watchlist')}
+                                    </a>
+                                </li>
+                                %endif
 
                                 <li>
                                     <a href="${h.entity_url(c.user, instance=c.instance, member='edit')}">
