@@ -10,6 +10,10 @@ def name():
     return config.get('adhocracy.site.name', _("Adhocracy"))
 
 def absolute_url(instance, path=None):
+    """
+    Get the base URL for an instance (optionally extended by path).
+    This will always be an absolute/full URL (starting with https:// )
+    """
     url = "%s://" % config.get('adhocracy.protocol', 'http').strip()
     if instance is not None and g.single_instance is None:
         url += instance.key + "."
@@ -18,6 +22,11 @@ def absolute_url(instance, path=None):
     return url
 
 def base_url(instance, path=None):
+    """
+    Get the base URL for an instance (optionally extended by path).
+    Can be relative ( like /instance/foo ), so use absolute_url
+    instead if you want a full URL starting with https:// .
+    """
     if asbool(config.get('adhocracy.relative_urls', 'false')):
         url = ''
         if instance is not None:
