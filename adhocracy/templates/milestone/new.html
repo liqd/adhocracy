@@ -12,7 +12,7 @@
     <h3>${_("New milestone")}</h3>
 <div class="form_wrapper">
 
-<form name="create_milestone" class="inplace" method="POST" action="/milestone">
+<form name="create_milestone" class="inplace" method="POST" action="${h.base_url(c.instance)}milestone">
     ${h.field_token()|n}
         <div>
             <label for="title">${_("Milestone title")}</label>

@@ -195,7 +195,7 @@
              li_class=_class('proposals'),
              id_='subnav-proposals')}
 
-  ${nav_link(href="/milestone",
+  ${nav_link(href=h.base_url(c.instance)+"milestone",
              text=_("Milestones"),
              li_class=_class('milestones'),
              condition=c.instance.milestones,
