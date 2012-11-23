@@ -95,14 +95,19 @@ class User(meta.Indexable):
         return groups
 
     def membership_groups(self):
-        groups = []
-        for membership in self.memberships:
-            if membership.is_expired():
-                continue
-            if not membership.instance or \
-                membership.instance == ifilter.get_instance():
-                groups.append(membership.group)
-        return groups
+        from membership import Membership
+        current_instance = ifilter.get_instance()
+        if current_instance == None:
+            wanted_instances = [None]
+        else:
+            wanted_instances = [None, current_instance.id]
+
+        memberships = meta.Session.query(Membership).filter(
+            Membership.user_id==self.id,
+            Membership.instance_id.in_(wanted_instances))\
+                .all()
+
+        return [m.group for m in memberships if not m.is_expired()]
 
     @property
     def groups(self):
@@ -118,9 +123,14 @@ class User(meta.Indexable):
     def instance_membership(self, instance):
         if not instance:
             return None
-        for membership in self.memberships:
-            if (not membership.is_expired()) and \
-                membership.instance_id == instance.id:
+
+        from membership import Membership
+        memberships = meta.Session.query(Membership).filter(
+            Membership.user_id==self.id,
+            Membership.instance_id==instance.id)\
+                .all()
+        for membership in memberships:
+            if not membership.is_expired():
                 return membership
         return None
 
