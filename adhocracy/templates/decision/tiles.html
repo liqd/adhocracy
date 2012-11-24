@@ -48,7 +48,7 @@
                         <li>
                         ${h.user.link(delegation.agent)|n}
                         · ${_("on")} <a href="/d/${delegation.scope.id}">${delegation.scope.label}</a>
-                        · <a href="${h.base_url(c.instance)}delegation/${delegation.id}">${_("review")}</a>
+                        · <a href="${h.base_url('/delegation/%d' % delegation.id)}">${_("review")}</a>
                         </li>
                     %endfor
                     </ul>

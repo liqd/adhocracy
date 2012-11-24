@@ -257,7 +257,7 @@ class InstanceController(BaseController):
         if format == 'rss':
             return event.rss_feed(events,
                                   _('%s News' % c.page_instance.label),
-                                  h.base_url(c.page_instance),
+                                  h.base_url(),
                                   _("News from %s") % c.page_instance.label)
 
         c.tile = tiles.instance.InstanceTile(c.page_instance)

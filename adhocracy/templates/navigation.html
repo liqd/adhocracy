@@ -25,14 +25,14 @@
         <!-- main navigation: horizontal list -->
         <div class="menu hlist">
             <ul>
-                ${nav_link(href=h.base_url(None, path='/'),
+                ${nav_link(href=h.base_url('/', None),
                 text=_("Start"), 
                 li_class=_class('home'),
                 id_="nav_home")}
 
                 %if not h.asbool(config.get('adhocracy.hide_instance_list_in_navigation')):
                 %if g.single_instance is None:
-                ${nav_link(href=h.base_url(None, path='/instance'),
+                ${nav_link(href=h.base_url('/instance', None),
                            a_rel='#overlay-default',
                            li_class=_class('instances'),
                            text=_("Instances"),
@@ -46,14 +46,14 @@
                            text=_("Watchlist"),
                            id_="nav_watchlist")}
                 %endif
-                ${nav_link(href=h.base_url(None, path='/static/about.html'),
+                ${nav_link(href=h.base_url('/static/about.html', None),
                            text=_('About'),
                            a_class='staticlink_about',
                            li_class=_class('about'),
                            id_="nav_about")}
                 <!--TODO: remove dummy link to merge in new links with diazo themeing-->
                 <li id="nav_dummy" style="display: none;" />
-                ${nav_link(href=h.base_url(None, path='/static/help.html'),
+                ${nav_link(href=h.base_url('/static/help.html', None),
                            text=_("Help"),
                            a_class='staticlink_help',
                            li_class=_class('help'),
@@ -98,7 +98,7 @@
                                 </li>
                                	%if h.has_permission("global.admin"):
                                 <li>
-                                    <a href="${h.base_url(None, path='/admin')}">
+                                    <a href="${h.base_url('/admin', None)}">
                                         ${_('Administrate Site')}
                                     </a>
                                 </li>
@@ -183,7 +183,7 @@
 %>
 
 <%call expr="subheader_navigation(logo, c.instance.label, 
-                                  search_action='/search', 
+                                  search_action=h.base_url('/search'), 
                                   search_label=search_label, 
                                   url=url)">
 
@@ -192,24 +192,24 @@
              li_class=_class('instance'),
              id_='subnav-overview')}
 
-  ${nav_link(href=h.base_url(c.instance)+"page",
+  ${nav_link(href=h.base_url('/page'),
              text=_("Norms"),
              li_class=_class('norms'),
              condition=c.instance.use_norms,
              id_='subnav-norms')}
 
-  ${nav_link(href=h.base_url(c.instance)+"proposal",
+  ${nav_link(href=h.base_url('/proposal'),
              text=_("Proposals"),
              li_class=_class('proposals'),
              id_='subnav-proposals')}
 
-  ${nav_link(href=h.base_url(c.instance)+"milestone",
+  ${nav_link(href=h.base_url('/milestone'),
              text=_("Milestones"),
              li_class=_class('milestones'),
              condition=c.instance.milestones,
              id_='subnav-milestones')}
 
-  ${nav_link(href=h.base_url(c.instance)+"user",
+  ${nav_link(href=h.base_url('/user'),
              text=_("Members"),
              li_class=_class('members'),
              id_='subnav-members')}

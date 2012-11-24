@@ -87,16 +87,16 @@
         %if auth:
             <a class="button add ttip" 
                title="${_('Introduce a new idea to debate.')}" 
-               href="${h.base_url(c.instance)}proposal/new">${_("new proposal")}</a>
+               href="${h.base_url('/proposal/new')}">${_("new proposal")}</a>
         %elif auth.propose_join():
             <a class="button add ttip" 
                title="${_('Join instance to create a new proposal.')}" 
-               href="${h.base_url(c.instance)}proposal/new" 
+               href="${h.base_url('/proposal/new')}" 
                rel="#overlay-join-button">${_("new proposal")}</a>
         %elif auth.propose_login():
             <a class="button add ttip" 
                title="${_('Login to create a new proposal.')}" 
-               href="${h.base_url(c.instance)}proposal/new" 
+               href="${h.base_url('/proposal/new')}" 
                rel="#overlay-login-button">${_("new proposal")}</a>
         %endif
 

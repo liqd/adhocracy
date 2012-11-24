@@ -153,7 +153,7 @@ def add_rss(title, link):
 
 
 def help_link(text, page, anchor=None):
-    url = base_url(None, path="/static/%s.%s")
+    url = base_url('/static/%s.%s', None)
     if anchor is not None:
         url += "#" + anchor
     full_url = url % (page, 'html')

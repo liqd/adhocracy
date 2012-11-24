@@ -11,7 +11,7 @@
 </%block>
 
 <%block name="main_content">
-<form name="create_delegation" class="inplace" method="POST" action="${h.base_url(c.instance)}delegation">
+<form name="create_delegation" class="inplace" method="POST" action="${h.base_url('/delegation')}">
     ${h.field_token()|n}
     <input name="scope" value="${c.scope.id}" type="hidden" />
     

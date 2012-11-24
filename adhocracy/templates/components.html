@@ -98,12 +98,13 @@
         css_cls = "active"
         text = _('Following')
         hover_text = _('Unfollow')
-        href = "/watch/delete?watch=%s&amp;%s" % (watch.id, h.url_token())
+        href = h.base_url('/watch/delete?watch=%s&amp;%s' % (watch.id,
+                                                             h.url_token()))
     elif not watch and can.watch.create():
         css_cls = ""
         text = hover_text = follow_text
-        href = "/watch/create?%s&amp;%s" % (h.make_watch(entity),
-                                        h.url_token())
+        href = h.base_url('/watch/create?%s&amp;%s' % (h.make_watch(entity),
+                                                       h.url_token()))
     else:
         skip = True
     %>
@@ -182,7 +183,7 @@ $(document).ready(function () {
     </title>
 
     <meta http-equiv="X-XRDS-Location" 
-          content="${h.base_url(c.instance, path='/openid/xrds')}" />
+          content="${h.base_url('/openid/xrds')}" />
 
     %for key, value in c.html_meta.items():
     <meta name="${key}" content="${value}" />
@@ -202,7 +203,7 @@ $(document).ready(function () {
   ##FIXME: convert to a fanstatic call
   <![endif]-->
 
-  <link rel="icon" href="${h.base_url(None, path='/favicon.ico')}" type="image/png" />
+  <link rel="icon" href="${h.base_url('/favicon.ico', None)}" type="image/png" />
 
   <!-- HTML5 elements for IE -->
   <script>
@@ -233,7 +234,7 @@ $(document).ready(function () {
 
     %if c.instance and c.instance.css:
         <link  rel="stylesheet" type="text/css" 
-            href="${h.base_url(c.instance, path='/instance/%s/style' % c.instance.key)}"/>
+            href="${h.base_url('/instance/%s/style' % c.instance.key)}"/>
     %endif
     
     %for link in c.html_head_links:
@@ -250,7 +251,7 @@ $(document).ready(function () {
     ${tiles.badge.badge_styles()}
 
     <link rel="stylesheet" type="text/css" media="all" 
-          href="${h.base_url(None, path='/stylesheets/site.css')}" />
+          href="${h.base_url('/stylesheets/site.css', None)}" />
     
 </%def>
 

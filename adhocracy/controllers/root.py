@@ -63,7 +63,7 @@ class RootController(BaseController):
 
     def sitemap_xml(self):
         if c.instance:
-            redirect(h.base_url(None, path="/sitemap.xml"))
+            redirect(h.base_url('/sitemap.xml', None))
         c.delegateables = model.Delegateable.all()
         c.change_time = datetime.utcnow()
         response.content_type = "text/xml"

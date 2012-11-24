@@ -53,8 +53,8 @@ else:
 
 <%def name="timeline(tile, milestones)">
   <script>
-    var Timeline_ajax_url='${h.base_url(None, path='/timeline/timeline_ajax/simile-ajax-api.js')}';
-    var Timeline_urlPrefix='${h.base_url(None, path='/timeline/timeline_js/')}'; 
+    var Timeline_ajax_url='${h.base_url('/timeline/timeline_ajax/simile-ajax-api.js', None)}';
+    var Timeline_urlPrefix='${h.base_url('/timeline/timeline_js/', None)}'; 
     var Timeline_parameters='bundle=true';
   </script>
   <script src="/timeline/timeline_js/timeline-api.js"></script>

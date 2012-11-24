@@ -44,10 +44,10 @@
         </a>
     </div>
     <div class="close" id="tags_form" data-cancel=".cancel">
-        <form action="${h.base_url(delegateable.instance)}tag" method="POST">
+        <form action="${h.base_url('/tag', delegateable.instance)}" method="POST">
             ${h.field_token()|n}
             <input name="delegateable" type="hidden" value="${delegateable.id}" />
-            <input name="tags" type="tags" id="tags" autocomplete="off" data-instance-baseurl="${h.base_url(delegateable.instance)}" />
+            <input name="tags" type="tags" id="tags" autocomplete="off" data-instance-baseurl="${h.base_url(instance=delegateable.instance)}" />
             <div>
                 ${_("Multiple tags can be separated by commas or spaces.")}
             </div>
@@ -71,7 +71,7 @@
     <select data-placeholder="${_('Add tags')}"
             class="chzn-select">
     </select>
-    <input name="tags" type="tags" id="tags" autocomplete="off" data-instance-baseurl="${h.base_url(delegateable.instance)}" />
+    <input name="tags" type="tags" id="tags" autocomplete="off" data-instance-baseurl="${h.base_url(instance=delegateable.instance)}" />
     <span class="hint">
         ${_("Multiple tags can be separated by commas or spaces.")}
     </span>
