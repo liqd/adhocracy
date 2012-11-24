@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-27 00:51+0200\n"
-"PO-Revision-Date: 2012-07-26 23:40+0000\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
+"PO-Revision-Date: 2012-11-18 09:55+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 "Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid "Thank you for helping."
 msgstr "Merci pour l'aide."
@@ -106,7 +106,7 @@ msgid "Delegations are disabled."
 msgstr ""
 
 msgid "tutorial_instance_show_intro"
-msgstr "tutoriel_groupe_montrer_intro"
+msgstr "Bienvenue à l'acceuil du groupe de projet.\t"
 
 msgid "General"
 msgstr "Général"
@@ -127,7 +127,7 @@ msgid "Members import"
 msgstr "Importation des membres"
 
 msgid "The logo has been deleted."
-msgstr ""
+msgstr "Ce logo a été supprimé."
 
 msgid "No delay"
 msgstr "Aucun délai"
@@ -184,10 +184,10 @@ msgid "Your message has been sent. Thanks."
 msgstr "Votre message a été envoyé. Merci."
 
 msgid "tutorial_milestones_tab"
-msgstr "tutoriel_dates_tab"
+msgstr "Ce site vous offre une vue d'ensemble sur les dates du groupe de projet."
 
 msgid "tutorial_milestone_details_tab"
-msgstr "tutoriel_date_détails_tab"
+msgstr "\t\nDie Termin-Detailansicht zeigt weitere Informationen zu dem Termin an."
 
 #, python-format
 msgid "The milestone %s has been deleted."
@@ -224,7 +224,7 @@ msgid "Justin Case has entered the room."
 msgstr "Justin Case est entré dans la salle."
 
 msgid "tutorial_norms_overview_tab"
-msgstr "tutoriel_thèmes_vue d'ensemble_tab"
+msgstr "Vue d'ensemble des thèmes du groupe. Cette liste vous ne montre pas seulement des thèmes qui sont créés par le groupe, mais aussi le nombre des propositions et des commentaires qui font partie du thème."
 
 msgid "No proposal has been specified"
 msgstr "La proposition %s a été effacée."
@@ -270,7 +270,7 @@ msgid "alphabetically"
 msgstr "alphabétique"
 
 msgid "tutorial_norm_show_tab"
-msgstr "tutoriel_thème_montrer_tab"
+msgstr "Sur la page des détails, vous trouverez la version actuelle du thème et toutes les versions qui s'y refèrent.\t"
 
 msgid "No such text revision."
 msgstr "Aucune révision de ce texte."
@@ -306,13 +306,13 @@ msgid "The proposal is not undergoing a poll."
 msgstr "Il n'y as pas de vote sur cette propositions en ce moment."
 
 msgid "tutorial_proposal_overview_tab"
-msgstr "tutoriel_proposition_vue d'ensemble_tab"
+msgstr "Vue d'ensemble des toutes les propositions. Ici, vous pouvez non seulement créer des nouvelles propositions...\t"
 
 msgid "Please select norm and propose a change to it."
 msgstr "Choisissez le thème et proposez une change, s'il vous plaît."
 
 msgid "tutorial_proposal_show_tab"
-msgstr "tutoriel_proposition_montrer_tab"
+msgstr "Sur la page des détails, vous pouvez non seulement trouver des informations importantes, mais aussi des nombreuses possibilités de participer."
 
 #, python-format
 msgid "Proposal: %s"
@@ -357,7 +357,7 @@ msgid "You have no twitter association."
 msgstr "Vous n'êtes relier a aucun compte twitter."
 
 msgid "tutorial_user_index_intro"
-msgstr "tutoriel_utilisateur_index_intro"
+msgstr "Liste des membres du groupe."
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr ""
@@ -413,11 +413,7 @@ msgid "Invalid user name or password"
 msgstr "Nom d'utilisateur ou mot de passe invalide."
 
 msgid "tutorial_dashboard_title"
-msgstr "tutorial_tableauede bord_titre"
-
-#, python-format
-msgid "Cannot make %(user)s a member of %(group)s"
-msgstr "Ne peut pas ajouter %(user)s  au(x) %(group)s"
+msgstr "Vous êtes sur votre tableau de bord. Le tableau de bord vous offre une vue d'ensemble des toutes les propositions et des thèmes, des groupes de projet et de la liste de suivi."
 
 msgid "The account has been suspended."
 msgstr "Le compte a été suspendu."
@@ -427,6 +423,9 @@ msgstr "Le compte a été réactivé."
 
 msgid "The account has been deleted."
 msgstr "Le compte a été annullé."
+
+msgid "Invalid badge choice."
+msgstr ""
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -494,6 +493,10 @@ msgstr "Une proposition avec l'ID  '%s' n'existe pas"
 #, python-format
 msgid "No group with ID '%s' exists"
 msgstr "Il n'existe pas de group avec l'ID '%s'"
+
+#, python-format
+msgid "Group '%s' is no instance group"
+msgstr ""
 
 msgid "At least on character is required"
 msgstr "Au moins une charactère est nécessaire"
@@ -707,6 +710,9 @@ msgstr "hiérarchique"
 msgid "Badge"
 msgstr ""
 
+msgid "Instance"
+msgstr ""
+
 msgid "Categories"
 msgstr "Catégories"
 
@@ -715,6 +721,9 @@ msgstr "Créé par"
 
 msgid "Tags"
 msgstr "Tags"
+
+msgid "Milestones"
+msgstr "Dates"
 
 msgid "Oldest"
 msgstr "Plus ancienne"
@@ -826,7 +835,7 @@ msgstr "Nouvelle instance: %(instance)s"
 
 #, python-format
 msgid "founded the %(instance)s instance"
-msgstr "a créé l'instance %(instance)s"
+msgstr "était créé l'instance %(instance)s"
 
 #, python-format
 msgid "%(instance)s: instance was updated"
@@ -922,7 +931,7 @@ msgstr "Nouvelle page: %(page)s"
 
 #, python-format
 msgid "created %(page)s"
-msgstr "a créé %(page)s"
+msgstr "était créé %(page)s"
 
 #, python-format
 msgid "Edit page: %(page)s"
@@ -945,24 +954,24 @@ msgid "New comment: in %(topic)s"
 msgstr "Nouveau commentaire: dans %(topic)s"
 
 #, python-format
-msgid "commented %(comment)s on %(topic)s"
-msgstr "a commenté %(comment)s dans %(topic)s "
+msgid "commented %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
 msgstr "A édité un commentaire: dans %(topic)s"
 
 #, python-format
-msgid "edited the comment %(comment)s on %(topic)s"
-msgstr "éditait le commentaire %(comment)s sur %(topic)s"
+msgid "edited comment on %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
 msgstr "A effacé un commentaire: dans %(topic)s"
 
 #, python-format
-msgid "deleted the comment %(comment)s from %(topic)s"
-msgstr "effacait le commentaire %(comment)s de %(topic)s"
+msgid "deleted comment from %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -1049,9 +1058,6 @@ msgstr "\r\n\r\nplus d'info: %(url)s"
 
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Cette proposition est en court de vote et ne peut être modifié."
-
-msgid "Milestones"
-msgstr "Dates"
 
 msgid "(Unknown)"
 msgstr "(inconnu)"
@@ -1155,16 +1161,16 @@ msgid "Unfollow"
 msgstr "Désabonner"
 
 msgid "code of conduct"
-msgstr "code de conduite"
+msgstr "Code de conduite"
 
 msgid "terms and conditions"
-msgstr "termes et conditions"
+msgstr "Termes et conditions"
 
 msgid "privacy"
-msgstr "protection des données personnelles"
+msgstr "Protection des données personnelles"
 
 msgid "imprint"
-msgstr "logo"
+msgstr "Logo"
 
 #, python-format
 msgid "<b>%s</b> members"
@@ -1186,7 +1192,7 @@ msgid "Start"
 msgstr "Acceuil"
 
 msgid "Instances"
-msgstr "Instances"
+msgstr "Groupes"
 
 msgid "Watchlist"
 msgstr "Abonnements"
@@ -1204,7 +1210,7 @@ msgid "Dashboard"
 msgstr "Dashboard"
 
 msgid "Edit Profile"
-msgstr "Editer le profile"
+msgstr "Editer le profil"
 
 msgid "View Profile"
 msgstr "Montrer profil"
@@ -1250,6 +1256,9 @@ msgstr "suivant"
 msgid "entries"
 msgstr "entrées"
 
+msgid "Filter list"
+msgstr ""
+
 msgid "Remove all"
 msgstr "Effacer tout"
 
@@ -1281,13 +1290,13 @@ msgid "Previous"
 msgstr "Précédent"
 
 msgid "start_this_tutorial"
-msgstr "commencer_ce_tutoriel"
+msgstr "Commencer ce tutoriel"
 
 msgid "disable_this_tutorial"
-msgstr "désactiver_ce_tutoriel"
+msgstr "Désactiver ce tutoriel"
 
 msgid "disable_all_tutorials"
-msgstr "désactiver_tous_tutoriels"
+msgstr "Désactiver tous les tutoriels"
 
 #, python-format
 msgid ""
@@ -1448,15 +1457,18 @@ msgstr "Groupe"
 msgid "No Group"
 msgstr "Aucun groupe"
 
-msgid "Assign the user to this group for all instances in the adhocracy site."
-msgstr "Assigner l'utilisateur à ce groupe pour tous les instances du site adhocracy."
+msgid ""
+"Automatically assign all users with this badge to the selected group for all"
+" instances in the adhocracy site."
+msgstr ""
+
+msgid "Automatically assign all users with this badge to the selected group."
+msgstr ""
 
 msgid "Display group in instances"
 msgstr "Montrer le groupe en instances"
 
-msgid ""
-"Display this group in instances instead of the normal group the user is in "
-"there."
+msgid "Display this badge instead of the normal user group."
 msgstr ""
 
 msgid "Global"
@@ -1544,7 +1556,7 @@ msgstr "nouveau commentaire"
 
 #, python-format
 msgid "created %s"
-msgstr "a créé %s"
+msgstr "était créé %s"
 
 msgid "revert here"
 msgstr "annulé ici"
@@ -1731,7 +1743,7 @@ msgstr "historique"
 
 #, python-format
 msgid "created <b>%s</b>"
-msgstr "a créé <b>%s</b>"
+msgstr "était créé <b>%s</b>"
 
 msgid "Delegate voting"
 msgstr "déléguer sa voix"
@@ -1864,10 +1876,10 @@ msgid "Logo"
 msgstr "Logo"
 
 msgid "Current logo"
-msgstr ""
+msgstr "Logo actuel"
 
 msgid "Delete current logo"
-msgstr ""
+msgstr "Supprimer logo actuel"
 
 msgid "You can add css that will be used to style the instance."
 msgstr "Vous pouvez aussi ajouter css en stylisant le groupe."
@@ -1950,11 +1962,20 @@ msgstr "montrer une liste des propositions"
 msgid "more proposals"
 msgstr "plus de propositions"
 
+msgid "Next milestone"
+msgstr ""
+
+msgid "Next milestones"
+msgstr ""
+
+msgid "Newest Events"
+msgstr ""
+
 msgid "Informations"
 msgstr "Informations"
 
 msgid "Created"
-msgstr "Créé"
+msgstr "Etait créé"
 
 #, python-format
 msgid "by %s on %s"
@@ -1968,16 +1989,16 @@ msgid "<b>%s</b> community members"
 msgstr "<b>%s</b> membres de la communauté"
 
 msgid "tutorial_instance_proposals_table"
-msgstr "tutoriel_groupe_propositions_tableau"
+msgstr "Ici, vous trouverez une liste des dernières propositions.\t"
 
 msgid "tutorial_instance_proposal_button"
-msgstr "tutoriel_groupe_proposition_bouton"
+msgstr "Ici, vous pouvez écrire des nouvelles propositions ou alternativement regarder aux autres."
 
 msgid "Close"
 msgstr "Fermer"
 
 msgid "tutorial_instance_numbers"
-msgstr "tutoriel_groupe_nombres"
+msgstr "Ici, vous trouvez une brève information concernant le nombre actuel du groupe, le nombre des propositions déjà faites et le nombre des commentaires."
 
 #, python-format
 msgid "%s proposal"
@@ -2052,10 +2073,10 @@ msgid "Past Milestones"
 msgstr "Dernières dates"
 
 msgid "tutorial_milestones_timeline"
-msgstr "tutoriel_dates_chronologie"
+msgstr "Vous non seulement pouvez trouver des dates dans le calendrier par ordre chronologique..."
 
 msgid "tutorial_milestones_listing"
-msgstr "tutoriel_dates_listing"
+msgstr "\t...mais aussi regarder toutes les dates sur votre liste. En cliquant ici, vous pouvez voir la page détail de la date selectionné."
 
 msgid "New milestone"
 msgstr "Nouveau rendez-vous"
@@ -2082,17 +2103,16 @@ msgid "No norms are connected to this milestone"
 msgstr "Aucun thème n'est lié à cette date"
 
 msgid "tutorial_milestone_details_follow"
-msgstr "tutoriel_dates_détails_suivre"
+msgstr "Si la date est important à vous, vous pouvez aussi l'ajouter à la liste de suivi.\t"
 
 msgid "tutorial_milestone_details_description"
-msgstr "tutoriel_dates_détails_description"
+msgstr "Vous pouvez aussi regarder à l'objectif de la date - s'il s'agit d'un rendez-vous du groupe ou d'une votation."
 
 msgid "tutorial_milestone_details_listing"
-msgstr "tutoriel_dates_détails_listing"
+msgstr "Ici, vous trouverez une liste avec toutes les propositions et thèmes qui sont pertinents à la date."
 
-#, python-format
-msgid "ends: <b>%s</b>"
-msgstr "fini: <b>%s</b>"
+msgid "See more"
+msgstr ""
 
 msgid "(unknown)"
 msgstr "(inconnu)"
@@ -2192,10 +2212,10 @@ msgid "Popular tags"
 msgstr "Balises populaires"
 
 msgid "tutorial_norms_overview_table"
-msgstr "tutoriel_thèmes_vue d'ensemble_tableau"
+msgstr "Cette liste non seulement vous montre tous les thèmes du groupe, mais aussi le nombre des propositions et des commentaires sous le titre du thème."
 
 msgid "tutorial_norms_overview_facets"
-msgstr "tutoriel_thèmes_vue d'ensemble_facets"
+msgstr "Pour une meilleur vue d'ensemble, vous pouvez aussi rechercher les thèmes avec des mots-clés.\t"
 
 msgid "New page"
 msgstr "Nouvelle page"
@@ -2224,18 +2244,27 @@ msgstr "Le nouveau thème sera catégorisé sous le thème parental specifié"
 msgid "Highlight Changes"
 msgstr "Distinguer les changements"
 
+msgid "On"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
 msgid "New Proposal"
 msgstr "Nouvelle proposition"
 
 msgid "Information about the norm"
 msgstr "Information concernant le thème"
 
+msgid "Last Activity"
+msgstr "Dernière activité"
+
 #, python-format
 msgid "This norm relates to the milestone %s."
 msgstr "Ce thème est lié à la date %s."
 
-msgid "subnorms"
-msgstr "sous-thèmes"
+msgid "Subnorms"
+msgstr ""
 
 msgid "View Proposal"
 msgstr "Voir la proposition"
@@ -2250,13 +2279,13 @@ msgid "Proposal"
 msgstr "Proposition"
 
 msgid "tutorial_norm_show_vote"
-msgstr "tutoriel_thème_montrer_voter"
+msgstr "Evaluez les versions originales ou supplementaires d'un thème en cliquant sur les flèches. Vous pouvez cliquer vers l'haut ou vers le bas (l'accord ou le rejet). En plus, vous pouvez aussi évaluer plusieurs versions du thème."
 
 msgid "tutorial_norm_show_diff"
-msgstr "tutoriel_thème_montrer_diff"
+msgstr "Choisissez si les changements doivent être montré en comparaison avec la version originale."
 
 msgid "tutorial_norm_show_new"
-msgstr "tutoriel_thème_montrer_nouveau"
+msgstr "Ici, vous pouvez aussi écrire une nouvelle version du thème.\t"
 
 msgid "hide sub-topics"
 msgstr "cacher des sous-sujets"
@@ -2437,6 +2466,9 @@ msgstr "Collaboration et Notification"
 msgid "Allow others to edit this proposal."
 msgstr "Permettre d'éditer cette proposition aux autres."
 
+msgid "Create new proposal"
+msgstr "Créer une nouvelle proposition"
+
 msgid "Find proposals"
 msgstr "Trouver des propositions."
 
@@ -2444,19 +2476,16 @@ msgid "Go"
 msgstr "Commencer"
 
 msgid "tutorial_proposal_overview_table"
-msgstr "tutoriel_proposition_vue d'ensemble_tableau"
+msgstr "Cette liste vous offre une vue d'ensemble de toutes les propositions qui peuvent être assorties des nombreux critères.\t"
 
 msgid "tutorial_proposal_overview_facets"
-msgstr "tutoriel_proposition_vue d'ensemble_facets"
+msgstr "...mais vous pouvez aussi réduire le nombre des propositions montrées. Par exemple des utilisateurs, des catégories, des mots-clés ou des changements actuelles.\t"
 
 msgid "tutorial_proposal_overview_new"
-msgstr "tutoriel_propositions_vue d'ensemble_nouveau"
+msgstr "Si votre idée n'est pas encore existant, vous pouvez aussi écrire une nouvelle proposition.\t"
 
 msgid "New proposal"
 msgstr "Nouvelle proposition"
-
-msgid "Create new proposal"
-msgstr "Créer une nouvelle proposition"
 
 msgid "Change norms with this proposal"
 msgstr "Changer des thèmes avec cette proposition"
@@ -2507,19 +2536,19 @@ msgid "Join instance to propose to change a norm"
 msgstr "Joignez le groupe pour proposer ou changer un thème"
 
 msgid "tutorial_proposal_show_vote"
-msgstr "tutoriel_proposition_montrer_voter"
+msgstr "Vous pouvez supporter ou rejeter une proposition.\t"
 
 msgid "tutorial_proposal_show_follow"
-msgstr "tutoriel_proposition_montrer_suivre"
+msgstr "Et l'ajouter à la liste de suivi."
 
 msgid "tutorial_proposal_show_information"
-msgstr "tutoriel_proposition_montrer_information"
+msgstr "Vous pouvez regarder aux informations concernant la proposition...\t"
 
 msgid "tutorial_proposal_show_tags"
-msgstr "tutoriel_proposition_montrer_tags"
+msgstr "..ajouter des mots-clés à la proposition...\t"
 
 msgid "tutorial_proposal_show_share"
-msgstr "tutoriel_proposition_montrer_partager"
+msgstr "...ou même partager la proposition dans Facebook, Google+ ou Twitter.\t"
 
 msgid "tutorial_proposal_show_vote_comment"
 msgstr "Vous pouvez non seulement évaluer des commentaires..."
@@ -2535,9 +2564,6 @@ msgstr "...et ajouter des nouveaux commentaires.\t"
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr "Ou vous pouvez changer activement la proposition et ajouter des alternatives."
-
-msgid "Last Activity"
-msgstr "Dernière activité"
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
@@ -2817,11 +2843,11 @@ msgid ""
 "This is your Dashboard. Here you can find the list of instances your a "
 "member in, norms and proposals from these instance and a list of the pages "
 "you follow."
-msgstr "Voilà votre tableau de bord. Vous pouvez trouver la liste des groupes dont vous y êtes une membre, des thèmes et propositions et une liste avec des sites qui vous suivez."
+msgstr "Voilà votre tableau de bord. Vous pouvez trouver la liste des groupes dont vous y êtes une membre, des thèmes et propositions et une liste avec des sites que vous suivez."
 
 #, python-format
 msgid "You can also return to the <a href=\"%s\">Page you came from</a>."
-msgstr "Vous pouvez aussir rentrer à la <a href=\"%s\"> page originale </a>."
+msgstr "Vous pouvez aussir retourner à la <a href=\"%s\"> page d'acceuil </a>."
 
 msgid "Proposals in your instances"
 msgstr "Propositions dans vos groupes"
@@ -2830,13 +2856,13 @@ msgid "List all proposals"
 msgstr "Liste de toutes les propositions"
 
 msgid "list all"
-msgstr "lister tout"
+msgstr "afficher tout"
 
 msgid "Norms in your instances"
 msgstr "Thèmes dans vos groupes"
 
 msgid "List all pages"
-msgstr "Lister toutes les pages"
+msgstr "Afficher toutes les pages"
 
 msgid "tutorial_dashboard_username"
 msgstr "Vous pouvez activer votre dashbord tout le temps en cliquant sur votre nom d'utilisateur."
@@ -2851,13 +2877,13 @@ msgid "tutorial_dashboard_instances"
 msgstr "Ici vous trouvez une liste avec tous les groups de projets dont vous participez. En cliquant sur un de ces groups, vous arrivez au groupe de de projet.\t"
 
 msgid "tutorial_dashboard_watchlist"
-msgstr "Vous trouverez le contentu que vous suivez dans la liste d'observation. En cliquant sur \"Montrer tout\", une liste avec tous le contenu que vous suivez va apparaître.\t"
+msgstr "Vous trouverez le contentu que vous suivez dans la liste de suivi. En cliquant sur \"Montrer tout\", une liste avec tous le contenu que vous suivez va apparaître.\t"
 
 msgid "Your Instances"
 msgstr "Vos Groupes"
 
 msgid "Your Watchlist"
-msgstr "Votre liste de surveillance"
+msgstr "Votre liste de suivi"
 
 msgid "Current polls in your instances"
 msgstr "Votations actuelles dans vos groupes"

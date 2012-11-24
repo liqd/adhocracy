@@ -46,8 +46,10 @@ def _setup(config):
         db_version = migrateapi.db_version(url, migrate_repo)
         if db_version < repo_version:
             migrateapi.upgrade(url, migrate_repo)
+        initial_setup = False
     except DatabaseNotControlledError:
         meta.data.create_all(bind=meta.engine)
         migrateapi.version_control(url, migrate_repo, version=repo_version)
+        initial_setup = True
 
-    install.setup_entities()
+    install.setup_entities(initial_setup)

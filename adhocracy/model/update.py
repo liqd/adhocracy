@@ -13,7 +13,7 @@ REGISTRY = {}
 class SessionModificationExtension(SessionExtension):
     '''
     A sqlalchemy SessionExtension to do work before commit, like
-    invalidating caches and adding asyncronous tasks.
+    invalidating caches and adding asynchronous tasks.
     '''
 
     def before_flush(self, session, flush_context, instances):
@@ -58,7 +58,7 @@ class SessionModificationExtension(SessionExtension):
         # NOTE: This may post duplicate update tasks if an entity
         # is part of the session, and also updated depending on
         # another entity. Ignored for now cause the real work
-        # is asyncronous and (probably) not expensive.
+        # is asynchronous and (probably) not expensive.
         # NOTE: Move the decisions about which other objects to
         # update to the models
         if isinstance(entity, model.Poll):

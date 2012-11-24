@@ -10,7 +10,7 @@
 <div class="top_actions title">
     %if can.norm.create():
         <a class="button title admin ttip" title="${_('Create a new norm.')}" 
-            href="/page/new">${_("new norm")}</a>
+            href=${h.base_url('/page/new')}>${_("new norm")}</a>
     %endif
 </div>
 <h1 class="page_title"> ${_("Norms")}</h1>

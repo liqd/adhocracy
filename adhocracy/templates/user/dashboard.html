@@ -16,9 +16,9 @@
  
         %if not c.page_user.instances:
             %if c.instance:
-            ${_('Start by reading some <b><a href="%s">proposals</a></b> or <b><a href="%s">norms</a></b>. Or take a look at some of the other <b><a href="%s">instances</a></b>.') % (h.base_url(c.instance, path="/proposals"), h.base_url(c.instance, path="/norms"), h.base_url(None, path='/instance'))|n}
+            ${_('Start by reading some <b><a href="%s">proposals</a></b> or <b><a href="%s">norms</a></b>. Or take a look at some of the other <b><a href="%s">instances</a></b>.') % (h.base_url("/proposals"), h.base_url("/norms"), h.base_url('/instance', None))|n}
             %else:
-            ${_('Start by exploring the <b><a href="%s">instances</a></b> and read some of the proposals and norms in the instances.') % h.base_url(None, path='/instance') |n}
+            ${_('Start by exploring the <b><a href="%s">instances</a></b> and read some of the proposals and norms in the instances.') % h.base_url('/instance', None) |n}
             %endif
             ${_('If you join an instance, norms and proposals of the instance will be shown on your dashboard.')}
             ${_('You can reach your dashboard anytime by clicking on your user name on the top of the page.')}

@@ -14,7 +14,7 @@
         <hr />
     </div>
 
-  <form name="edit_proposal" class="inplace" method="POST" action="/proposal/${c.proposal.id}">
+  <form name="edit_proposal" class="inplace" method="POST" action="${h.entity_url(c.proposal)}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
       

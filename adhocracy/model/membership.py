@@ -56,10 +56,12 @@ class Membership(object):
         #    self.user.revoke_delegations(self.instance)
 
     def is_expired(self, at_time=None):
-        if at_time is None:
-            at_time = datetime.utcnow()
-        return (self.expire_time is not None) and \
-               self.expire_time <= at_time
+        if self.expire_time is None:
+            return False
+        else:
+            if at_time is None:
+                at_time = datetime.utcnow()
+            return self.expire_time <= at_time
 
     def delete(self, delete_time=None):
         return self.expire(expire_time=delete_time)

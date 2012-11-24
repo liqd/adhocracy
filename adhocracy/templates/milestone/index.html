@@ -26,7 +26,7 @@ ${tiles.milestone.timeline(c.milestones)}
 <div class="top_actions aside">
     %if can.milestone.create():
     <a class="button add ttip" title="${_('Create a new milestone.')}"
-       href="/milestone/new">${_("new milestone")}</a>
+      href="${h.base_url('/milestone/new')}">${_("new milestone")}</a>
     %endif
 </div>
 <div style="clear:both;"></div>

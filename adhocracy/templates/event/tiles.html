@@ -5,18 +5,17 @@
     event_html = formatting.as_html(event)
     %>
     <div class="tile event">
-        <div class="base">
-      <h3><a href="/user/${event.user.user_name}">${event.user.name}</a>
-        ${tiles.badge.badges(event.user.badges)} ${event_html|n}</h3>
+        <div class="meta">
+            <a href="/user/${event.user.user_name}">${event.user.name}</a>
+            ${tiles.badge.badges(event.user.badges)} ${event_html|n}
             %if tile.text:
-                <div class="text">
+                <div class="event_text">
                     ${tile.text|n}
                 </div>
             %endif
             <div class="meta noclear">
                 ${_("%s") % h.relative_time(event.time)|n}
-                ·
-                <a href="${event.link()}">${_("more")}</a>
+                <a href="${event.link()}" class="more_link">${_("more")}</a>
             </div>
         </div>
     </div>

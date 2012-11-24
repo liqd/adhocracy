@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 1.2beta2dev\n"
+"Project-Id-Version: adhocracy 2.0.0-rc.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-27 00:51+0200\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -402,10 +402,6 @@ msgstr ""
 msgid "tutorial_dashboard_title"
 msgstr ""
 
-#, python-format
-msgid "Cannot make %(user)s a member of %(group)s"
-msgstr ""
-
 msgid "The account has been suspended."
 msgstr ""
 
@@ -413,6 +409,9 @@ msgid "The account has been re-activated."
 msgstr ""
 
 msgid "The account has been deleted."
+msgstr ""
+
+msgid "Invalid badge choice."
 msgstr ""
 
 #, python-format
@@ -478,6 +477,10 @@ msgstr ""
 
 #, python-format
 msgid "No group with ID '%s' exists"
+msgstr ""
+
+#, python-format
+msgid "Group '%s' is no instance group"
 msgstr ""
 
 msgid "At least on character is required"
@@ -683,6 +686,9 @@ msgstr ""
 msgid "Badge"
 msgstr ""
 
+msgid "Instance"
+msgstr ""
+
 msgid "Categories"
 msgstr ""
 
@@ -690,6 +696,9 @@ msgid "Created by"
 msgstr ""
 
 msgid "Tags"
+msgstr ""
+
+msgid "Milestones"
 msgstr ""
 
 msgid "Oldest"
@@ -920,7 +929,7 @@ msgid "New comment: in %(topic)s"
 msgstr ""
 
 #, python-format
-msgid "commented %(comment)s on %(topic)s"
+msgid "commented %(topic)s"
 msgstr ""
 
 #, python-format
@@ -928,7 +937,7 @@ msgid "Edited comment: in %(topic)s"
 msgstr ""
 
 #, python-format
-msgid "edited the comment %(comment)s on %(topic)s"
+msgid "edited comment on %(topic)s"
 msgstr ""
 
 #, python-format
@@ -936,7 +945,7 @@ msgid "Deleted comment: in %(topic)s"
 msgstr ""
 
 #, python-format
-msgid "deleted the comment %(comment)s from %(topic)s"
+msgid "deleted comment from %(topic)s"
 msgstr ""
 
 #, python-format
@@ -1023,9 +1032,6 @@ msgid ""
 msgstr ""
 
 msgid "This proposal is currently being voted on and cannot be modified."
-msgstr ""
-
-msgid "Milestones"
 msgstr ""
 
 msgid "(Unknown)"
@@ -1225,6 +1231,9 @@ msgstr ""
 msgid "entries"
 msgstr ""
 
+msgid "Filter list"
+msgstr ""
+
 msgid "Remove all"
 msgstr ""
 
@@ -1413,13 +1422,16 @@ msgstr ""
 msgid "No Group"
 msgstr ""
 
-msgid "Assign the user to this group for all instances in the adhocracy site."
+msgid "Automatically assign all users with this badge to the selected group for all instances in the adhocracy site."
+msgstr ""
+
+msgid "Automatically assign all users with this badge to the selected group."
 msgstr ""
 
 msgid "Display group in instances"
 msgstr ""
 
-msgid "Display this group in instances instead of the normal group the user is in there."
+msgid "Display this badge instead of the normal user group."
 msgstr ""
 
 msgid "Global"
@@ -1893,6 +1905,15 @@ msgstr ""
 msgid "more proposals"
 msgstr ""
 
+msgid "Next milestone"
+msgstr ""
+
+msgid "Next milestones"
+msgstr ""
+
+msgid "Newest Events"
+msgstr ""
+
 msgid "Informations"
 msgstr ""
 
@@ -2031,8 +2052,7 @@ msgstr ""
 msgid "tutorial_milestone_details_listing"
 msgstr ""
 
-#, python-format
-msgid "ends: <b>%s</b>"
+msgid "See more"
 msgstr ""
 
 msgid "(unknown)"
@@ -2158,17 +2178,26 @@ msgstr ""
 msgid "Highlight Changes"
 msgstr ""
 
+msgid "On"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
 msgid "New Proposal"
 msgstr ""
 
 msgid "Information about the norm"
 msgstr ""
 
+msgid "Last Activity"
+msgstr ""
+
 #, python-format
 msgid "This norm relates to the milestone %s."
 msgstr ""
 
-msgid "subnorms"
+msgid "Subnorms"
 msgstr ""
 
 msgid "View Proposal"
@@ -2363,6 +2392,9 @@ msgstr ""
 msgid "Allow others to edit this proposal."
 msgstr ""
 
+msgid "Create new proposal"
+msgstr ""
+
 msgid "Find proposals"
 msgstr ""
 
@@ -2379,9 +2411,6 @@ msgid "tutorial_proposal_overview_new"
 msgstr ""
 
 msgid "New proposal"
-msgstr ""
-
-msgid "Create new proposal"
 msgstr ""
 
 msgid "Change norms with this proposal"
@@ -2456,9 +2485,6 @@ msgid "tutorial_proposal_show_new_discussion"
 msgstr ""
 
 msgid "tutorial_proposal_show_propose_variant"
-msgstr ""
-
-msgid "Last Activity"
 msgstr ""
 
 #, python-format

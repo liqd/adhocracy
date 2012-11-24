@@ -20,9 +20,9 @@
    </noscript>
 </form>
  <script type="text/javascript"
-        src="${h.base_url(None, path='/openid-selector/js/openid-jquery.js')}"></script>
+        src="${h.base_url('/openid-selector/js/openid-jquery.js', None)}"></script>
  <script type="text/javascript"
-        src="${h.base_url(None, path='/openid-selector/js/openid-%s.js') % c.locale.language}"></script>
+        src="${h.base_url('/openid-selector/js/openid-%s.js' % c.locale.language, None)}"></script>
 <script type="text/javascript">
 	var link = $("<link>");
 	link.attr({

@@ -25,33 +25,35 @@
         <!-- main navigation: horizontal list -->
         <div class="menu hlist">
             <ul>
-                ${nav_link(href=h.base_url(None, path='/'),
+                ${nav_link(href=h.base_url('/', None),
                 text=_("Start"), 
                 li_class=_class('home'),
                 id_="nav_home")}
 
+                %if not h.asbool(config.get('adhocracy.hide_instance_list_in_navigation')):
                 %if g.single_instance is None:
-                ${nav_link(href=h.base_url(None, path='/instance'),
+                ${nav_link(href=h.base_url('/instance', None),
                            a_rel='#overlay-default',
                            li_class=_class('instances'),
                            text=_("Instances"),
                            id_="nav_instances")}
                 %endif
+                %endif
 
-                %if c.user:
+                %if not h.asbool(config.get('adhocracy.put_watchlist_in_user_menu')) and c.user:
                 ${nav_link(href=h.entity_url(c.user, member='watchlist'),
                            li_class=_class('watchlist'),
                            text=_("Watchlist"),
                            id_="nav_watchlist")}
                 %endif
-                ${nav_link(href=h.base_url(None, path='/static/about.html'),
+                ${nav_link(href=h.base_url('/static/about.html', None),
                            text=_('About'),
                            a_class='staticlink_about',
                            li_class=_class('about'),
                            id_="nav_about")}
                 <!--TODO: remove dummy link to merge in new links with diazo themeing-->
                 <li id="nav_dummy" style="display: none;" />
-                ${nav_link(href=h.base_url(None, path='/static/help.html'),
+                ${nav_link(href=h.base_url('/static/help.html', None),
                            text=_("Help"),
                            a_class='staticlink_help',
                            li_class=_class('help'),
@@ -64,7 +66,7 @@
                            li_class=_class('login'),
                            id_="nav_login")}
                 %else:
-                <div id="user_menu">
+                <li id="user_menu" class="${_class('user')}">
                     <ul>
                         <li>
                             <a class="icon_link show_me" 
@@ -75,6 +77,14 @@
                                         ${_('Dashboard')}
                                     </a>
                                 </li>
+
+                                %if h.asbool(config.get('adhocracy.put_watchlist_in_user_menu')):
+                                <li>
+                                    <a href="${h.entity_url(c.user, member='watchlist')}">
+                                        ${_('Watchlist')}
+                                    </a>
+                                </li>
+                                %endif
 
                                 <li>
                                     <a href="${h.entity_url(c.user, instance=c.instance, member='edit')}">
@@ -88,7 +98,7 @@
                                 </li>
                                	%if h.has_permission("global.admin"):
                                 <li>
-                                    <a href="${h.base_url(None, path='/admin')}">
+                                    <a href="${h.base_url('/admin', None)}">
                                         ${_('Administrate Site')}
                                     </a>
                                 </li>
@@ -97,7 +107,7 @@
                             </ul>
                         </li>
                     </ul>
-                </div>
+                </li>
                 %endif
 
             </ul>
@@ -141,10 +151,7 @@
         <div id="searchbox">
           <form action="${search_action}" 
                 id="searchform" method="get">
-            <div class="label_over">
-              <label class="over-apply" for="s">${search_label|n}</label>
-              <input type="text" id="s" name="serp_q" value="" />
-            </div>
+            <input type="text" id="s" name="serp_q" placeholder="${search_label|n}" />
             <input type="submit" value="${search_button_text or _('Search')}" 
                    id="searchsubmit" />
           </form>
@@ -176,7 +183,7 @@
 %>
 
 <%call expr="subheader_navigation(logo, c.instance.label, 
-                                  search_action='/search', 
+                                  search_action=h.base_url('/search'), 
                                   search_label=search_label, 
                                   url=url)">
 
@@ -185,31 +192,33 @@
              li_class=_class('instance'),
              id_='subnav-overview')}
 
-  ${nav_link(href="/page",
+  ${nav_link(href=h.base_url('/page'),
              text=_("Norms"),
              li_class=_class('norms'),
              condition=c.instance.use_norms,
              id_='subnav-norms')}
 
-  ${nav_link(href="/proposal",
+  ${nav_link(href=h.base_url('/proposal'),
              text=_("Proposals"),
              li_class=_class('proposals'),
              id_='subnav-proposals')}
 
-  ${nav_link(href="/milestone",
+  ${nav_link(href=h.base_url('/milestone'),
              text=_("Milestones"),
              li_class=_class('milestones'),
              condition=c.instance.milestones,
              id_='subnav-milestones')}
 
-  ${nav_link(href="/user",
+  ${nav_link(href=h.base_url('/user'),
              text=_("Members"),
-             li_class=_class('members'))}
+             li_class=_class('members'),
+             id_='subnav-members')}
 
   ${nav_link(href=h.entity_url(c.instance, member='settings'),
              text=_("Settings"),
              li_class=(_class('settings') + ' settings'),
-             condition=can.instance.edit(c.instance))}
+             condition=can.instance.edit(c.instance),
+             id_='subnav-settings')}
 
 </%call>
 </%def>

@@ -19,7 +19,7 @@ from adhocracy import i18n
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import  sorting, search as libsearch, tiles, text
 from adhocracy.lib.auth import require, login_user
-from adhocracy.lib.auth.authorization import has_permission
+from adhocracy.lib.auth.authorization import has_permission, has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
@@ -70,11 +70,6 @@ class UserCodeForm(formencode.Schema):
     c = validators.String(not_empty=False)
 
 
-class UserManageForm(formencode.Schema):
-    allow_extra_fields = True
-    group = forms.ValidGroup()
-
-
 class UserResetApplyForm(formencode.Schema):
     allow_extra_fields = True
     email = validators.Email(not_empty=True)
@@ -82,7 +77,7 @@ class UserResetApplyForm(formencode.Schema):
 
 class UserGroupmodForm(formencode.Schema):
     allow_extra_fields = True
-    to_group = forms.ValidGroup()
+    to_group = forms.ValidInstanceGroup()
 
 
 class UserFilterForm(formencode.Schema):
@@ -129,9 +124,10 @@ class UserController(BaseController):
             redirect('/')
         else:
             captacha_enabled = config.get('recaptcha.public_key', "")
-            c.recaptcha = captacha_enabled and h.recaptcha.displayhtml()
+            c.recaptcha = captacha_enabled and h.recaptcha.displayhtml(
+                use_ssl=True)
             session['came_from'] = request.params.get('came_from',
-                                                      h.base_url(c.instance))
+                                                      h.base_url())
             session.save()
             return render("/user/register.html")
 
@@ -150,6 +146,7 @@ class UserController(BaseController):
             recaptcha_response = h.recaptcha.submit()
             if not recaptcha_response.is_valid:
                 c.recaptcha = h.recaptcha.displayhtml(
+                    use_ssl=True,
                     error=recaptcha_response.error_code)
                 redirect("/register")
         # SPAM protection hidden input
@@ -190,8 +187,7 @@ class UserController(BaseController):
             # redirect to dashboard with login message
             session['logged_in'] = True
             session.save()
-            location = h.base_url(c.instance,
-                                  path='/user/%s/dashboard' % login)
+            location = h.base_url('/user/%s/dashboard' % login)
             raise HTTPFound(location=location, headers=headers)
         else:
             raise Exception('We have added the user to the Database '
@@ -201,6 +197,8 @@ class UserController(BaseController):
     def edit(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
+        if c.instance is None:
+            c.active_global_nav = 'user'
         require.user.edit(c.page_user)
         c.locales = i18n.LOCALES
         c.tile = tiles.user.UserTile(c.page_user)
@@ -252,9 +250,8 @@ class UserController(BaseController):
         c.page_user.reset_code = random_token()
         model.meta.Session.add(c.page_user)
         model.meta.Session.commit()
-        url = h.base_url(c.instance,
-                         path="/user/%s/reset?c=%s" % (c.page_user.user_name,
-                                                       c.page_user.reset_code))
+        url = h.base_url("/user/%s/reset?c=%s" % (c.page_user.user_name,
+                                                  c.page_user.reset_code))
         body = (
             _("you have requested that your password be reset. In order "
               "to confirm the validity of your claim, please open the "
@@ -313,9 +310,14 @@ class UserController(BaseController):
             login_user(c.page_user, request)
             h.flash(_("Welcome to %s") % h.site.name(), 'success')
             if c.instance:
+                membership = model.Membership(c.page_user, c.instance,
+                                              c.instance.default_group)
+                model.meta.Session.expunge(membership)
+                model.meta.Session.add(membership)
+                model.meta.Session.commit()
                 redirect(h.entity_url(c.instance))
             else:
-                redirect(h.base_url(None, path='/instance'))
+                redirect(h.base_url('/instance', None))
         else:
             h.flash(_("Your email has been confirmed."), 'success')
             redirect(h.entity_url(c.page_user))
@@ -333,6 +335,8 @@ class UserController(BaseController):
         redirect(h.entity_url(c.page_user, member='edit'))
 
     def show(self, id, format='html'):
+        if c.instance is None:
+            c.active_global_nav = 'user'
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
         require.user.show(c.page_user)
@@ -348,7 +352,7 @@ class UserController(BaseController):
             query = query.limit(50)
             return event.rss_feed(
                 query.all(), "%s Latest Actions" % c.page_user.name,
-                h.base_url(None, path='/user/%s' % c.page_user.user_name),
+                h.base_url('/user/%s' % c.page_user.user_name, None),
                 c.page_user.bio)
         c.events_pager = pager.events(query.all())
         c.tile = tiles.user.UserTile(c.page_user)
@@ -361,7 +365,7 @@ class UserController(BaseController):
             redirect('/')
         else:
             session['came_from'] = request.params.get('came_from',
-                                                      h.base_url(c.instance))
+                                                      h.base_url())
             session.save()
             return render('/user/login.html')
 
@@ -375,8 +379,7 @@ class UserController(BaseController):
             # redirect to the dashboard inside the instance exceptionally
             # to be able to link to proposals and norms in the welcome
             # message.
-            redirect(h.base_url(c.instance, path='/user/%s/dashboard') %
-                     c.user.user_name)
+            redirect(h.base_url(path='/user/%s/dashboard' % c.user.user_name))
         else:
             return formencode.htmlfill.render(
                 render("/user/login.html"),
@@ -387,7 +390,7 @@ class UserController(BaseController):
 
     def post_logout(self):
         session.delete()
-        redirect(h.base_url(c.instance))
+        redirect(h.base_url())
 
     def dashboard(self, id):
         '''Render a personalized dashboard for users'''
@@ -440,7 +443,7 @@ class UserController(BaseController):
                                     enable_sorts=False)
         #watchlist
         require.watch.index()
-        c.active_global_nav = 'watchlist'
+        c.active_global_nav = 'user'
         watches = model.Watch.all_by_user(c.page_user)
         entities = [w.entity for w in watches if (w.entity is not None)
                     and (not isinstance(w.entity, unicode))]
@@ -587,12 +590,6 @@ class UserController(BaseController):
         c.page_user = get_entity_or_abort(model.User, id)
         require.user.supervise(c.page_user)
         to_group = self.form_result.get("to_group")
-        if not to_group.code in model.Group.INSTANCE_GROUPS:
-            h.flash(_("Cannot make %(user)s a member of %(group)s") % {
-                        'user': c.page_user.name,
-                        'group': to_group.group_name},
-                    'error')
-            redirect(h.entity_url(c.page_user))
         had_vote = c.page_user._has_permission("vote.cast")
         for membership in c.page_user.memberships:
             if (not membership.is_expired() and
@@ -642,7 +639,7 @@ class UserController(BaseController):
         if c.instance is not None:
             redirect(h.instance.url(c.instance))
         else:
-            redirect(h.site.base_url(None))
+            redirect(h.site.base_url(instance=None))
 
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def filter(self):
@@ -653,9 +650,12 @@ class UserController(BaseController):
         c.users_pager = pager.users(users, has_query=True)
         return c.users_pager.here()
 
-    @ActionProtector(has_permission("global.admin"))
+    @ActionProtector(has_permission('instance.admin'))
     def badges(self, id, errors=None):
-        c.badges = model.UserBadge.all(instance=None)
+        if has('global.admin'):
+            c.badges = model.UserBadge.all(instance=None)
+        else:
+            c.badges = None
         c.page_user = get_entity_or_abort(model.User, id)
         instances = c.page_user and c.page_user.instances or []
         c.instance_badges = [
@@ -665,14 +665,24 @@ class UserController(BaseController):
         defaults = {'badge': [str(badge.id) for badge in c.page_user.badges]}
         return formencode.htmlfill.render(
             render("/user/badges.html"),
-            defaults=defaults)
+            defaults=defaults,
+            force_defaults=False)
 
     @RequireInternalRequest()
     @validate(schema=UserBadgesForm(), form='badges')
-    @ActionProtector(has_permission("global.admin"))
+    @ActionProtector(has_permission('instance.admin'))
     def update_badges(self, id):
         user = get_entity_or_abort(model.User, id)
         badges = self.form_result.get('badge')
+
+        if not has('global.admin'):
+            # instance admins may only add user badges limited to this instance
+
+            for badge in badges:
+                if not badge.instance == c.instance:
+                    h.flash(_(u'Invalid badge choice.'), u'error')
+                    redirect(h.entity_url(user))
+
         creator = c.user
 
         added = []
@@ -692,7 +702,7 @@ class UserController(BaseController):
         # an Exception.
         model.meta.Session.commit()
         post_update(user, model.update.UPDATE)
-        redirect(h.entity_url(user))
+        redirect(h.entity_url(user, instance=c.instance))
 
     def _common_metadata(self, user, member=None, add_canonical=False):
         bio = user.bio

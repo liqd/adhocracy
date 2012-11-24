@@ -3,7 +3,7 @@ logo = '/images/logo_small.png'
 if c.user is None:
      logo = '/images/logo_big.png'
 %>
-<a id="logo" href="${h.base_url(None, path='/')}" title="${h.site.name()}" rel="home">
+<a id="logo" href="${h.base_url('/', instance=None)}" title="${h.site.name()}" rel="home">
     
     <img src="${logo}" alt="${h.site.name()} logo" />
 </a>

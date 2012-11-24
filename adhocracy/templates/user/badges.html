@@ -19,6 +19,7 @@
 
     ${h.field_token()|n}
 
+    %if c.badges:
     <table>
         <thead>
             <th></th>
@@ -36,8 +37,8 @@
             %endfor
         </tbody>
     </table>
+    %endif
 
-    
     %for instance in c.instance_badges:
       %if instance["badges"]:
         <table>

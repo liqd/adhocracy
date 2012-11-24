@@ -94,7 +94,7 @@ Some of the more interesting models and support classes are:
 :class:`meta.Indexable`
   Mixin class for content that should be indexed in Solr. It defines only
   one method :meth:`meta.Indexable.to_index` that collects data from
-  the models and will be uses automatically when a model object participates
+  the models and will be used automatically when a model object participates
   in a transaction.
 
 

@@ -49,19 +49,26 @@ autocomplete_css = Resource(autocomplete_library, 'jquery.autocomplete.css')
 autocomplete = Group([autocomplete_js, autocomplete_css])
 
 
+# --[ other versioned libraries ]-------------------------------------------
+
+placeholder_library = Library('placeholder', 'javascripts', version="2.0.7")
+placeholder = Resource(placeholder_library, 'jquery.placeholder.js',
+                       minified='jquery.placeholder.min.js',
+                       depends=[jquery])
+
+jquerytools_library = Library('jquerytools', 'javascripts', version="1.2.7")
+jquerytools = Resource(jquerytools_library, 'jquery.tools.min.js',
+                       depends=[jquery])
+
 # --[ misc javascripts ]----------------------------------------------------
 
 misc_library = Library('misc', 'javascripts')
 elastic = Resource(misc_library, 'jquery.elastic.js',
                    depends=[jquery])
-label_over = Resource(misc_library, 'jquery.label_over.js',
-                      depends=[jquery])
 cycle = Resource(misc_library, 'jquery.multipleelements.cycle.min.js',
                  depends=[jquery])
 modernizr = Resource(misc_library, 'modernizr.js',
                      depends=[jquery])
-jquerytools = Resource(misc_library, 'jquery.tools.min.js',
-                       depends=[jquery])
 spectrum_css = Resource(misc_library, 'spectrum/spectrum.css')
 spectrum = Resource(misc_library, 'spectrum/spectrum.js',
                     minified='spectrum/spectrum.min.js',
@@ -73,7 +80,7 @@ spectrum = Resource(misc_library, 'spectrum/spectrum.js',
 adhocracy_library = Library('adhocracy', 'javascripts')
 adhocracy = Resource(adhocracy_library, 'adhocracy.js',
                      depends=[jquery, bootstrap_js, elastic,
-                              label_over, modernizr, jquerytools])
+                              placeholder, modernizr, jquerytools])
 
 
 # --[ knockout ]------------------------------------------------------------

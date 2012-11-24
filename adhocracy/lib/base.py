@@ -43,11 +43,10 @@ class BaseController(WSGIController):
         i18n.handle_request()
 
         h.add_rss("%s News" % h.site.name(),
-                  h.base_url(None, path='/feed.rss'))
+                  h.base_url('/feed.rss', None))
         if c.instance:
             h.add_rss("%s News" % c.instance.label,
-                      h.base_url(c.instance,
-                                 '/instance/%s.rss' % c.instance.key))
+                      h.base_url('/instance/%s.rss' % c.instance.key))
 
         h.add_meta("description",
                    _("A liquid democracy platform for making decisions in "

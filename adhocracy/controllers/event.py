@@ -23,7 +23,7 @@ class EventController(BaseController):
             events = query.all()
             return event.rss_feed(events,
                                   _('%s News' % h.site.name()),
-                                  h.site.base_url(None),
+                                  h.base_url(instance=None),
                                   _("News from %s") % h.site.name())
 
         c.event_pager = NamedPager('events', query.all(),

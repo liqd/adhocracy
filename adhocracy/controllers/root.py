@@ -1,7 +1,8 @@
 from datetime import datetime
 import logging
 
-from pylons import request, response, tmpl_context as c
+from paste.deploy.converters import asint
+from pylons import request, response, tmpl_context as c, config
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 
@@ -28,7 +29,12 @@ class RootController(BaseController):
         if c.instance:
             redirect(h.entity_url(c.instance))
 
-        c.instances = model.Instance.all()[:5]
+        instances_in_root = asint(config.get('adhocracy.startpage.instances.list_length', 0))
+        if instances_in_root > 0:
+            c.instances = model.Instance.all(limit=instances_in_root)
+        elif instances_in_root == -1:
+            c.instances = model.Instance.all()
+
         c.page = StaticPage('index')
 
         #query = self.form_result.get('proposals_q')
@@ -57,7 +63,7 @@ class RootController(BaseController):
 
     def sitemap_xml(self):
         if c.instance:
-            redirect(h.base_url(None, path="/sitemap.xml"))
+            redirect(h.base_url('/sitemap.xml', None))
         c.delegateables = model.Delegateable.all()
         c.change_time = datetime.utcnow()
         response.content_type = "text/xml"

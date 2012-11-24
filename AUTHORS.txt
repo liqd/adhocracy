@@ -1,10 +1,12 @@
 Adhocracy is licensed under the GNU Affero General Public License, Version 3, 
 which can be found in LICENSE.txt
 
-Adhocracy is Copyright 2009, 2010, 2011 by
+Adhocracy is Copyright 2009, 2010, 2011, 2012 by
 
 Friedrich Lindenberg
 Martin Häcker
 Joscha Krutzki
 Bernhard Reiter
 Carsten Senger
+Nicolas Dietrich
+Philipp Hagemeister

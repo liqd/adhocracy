@@ -1,10 +1,11 @@
 import cgi
 import re
 
-from markdown2 import Markdown
+import markdown
 
 from adhocracy import model
 from adhocracy.lib.cache.util import memoize
+from adhocracy.lib.text import mdx_showmore
 
 SUB_USER = re.compile("@([a-zA-Z0-9_\-]{3,255})")
 
@@ -50,7 +51,9 @@ def render(text, substitutions=True, escape=True):
         return ""
     if escape:
         text = cgi.escape(text)
-    text = Markdown().convert(text)
+    text = markdown.markdown(text, extensions=[
+        'adhocracy.lib.text.mdx_showmore',
+    ])
     if substitutions:
         text = SUB_USER.sub(user_sub, text)
         text = SUB_PAGE.sub(page_sub, text)
