@@ -1,8 +1,9 @@
 import logging
 
 import formencode
-from pylons import request, tmpl_context as c
+from pylons import request, tmpl_context as c, url
 from pylons.i18n import _, lazy_ugettext as L_
+from pylons.controllers.util import redirect
 
 from repoze.what.plugins.pylonshq import ActionProtector
 
@@ -14,6 +15,7 @@ from adhocracy.lib.helpers import base_url
 from adhocracy.lib.mail import to_user
 from adhocracy.lib.templating import render
 from adhocracy.lib.util import random_token
+from adhocracy.lib.search import index
 
 log = logging.getLogger(__name__)
 
@@ -36,6 +38,14 @@ class AdminController(BaseController):
     @ActionProtector(has_permission("global.admin"))
     def index(self):
         return render("/admin/index.html")
+
+    @ActionProtector(has_permission("global.admin"))
+    def update_index(self):
+        for entity_type in model.refs.TYPES:
+            if hasattr( entity_type, "all" ):
+                for entity in entity_type.all():
+                    index.update( entity )
+        redirect(url(controller='admin', action='index'))
 
     @RequireInternalRequest()
     @ActionProtector(has_permission("global.admin"))
