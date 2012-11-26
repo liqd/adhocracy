@@ -141,7 +141,7 @@ class BadgeController(BaseController):
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid, i:
             return self.add('instance', i.unpack_errors())
-        title, color, description, instance = self._get_common_fields(
+        title, color, description, visible, instance = self._get_common_fields(
             self.form_result)
         InstanceBadge.create(title, color, description, instance)
         # commit cause redirect() raises an exception
@@ -156,11 +156,11 @@ class BadgeController(BaseController):
         except Invalid, i:
             return self.add('user', i.unpack_errors())
 
-        title, color, description, instance = self._get_common_fields(
+        title, color, description, visible, instance = self._get_common_fields(
             self.form_result)
         group = self.form_result.get('group')
         display_group = self.form_result.get('display_group')
-        UserBadge.create(title, color, description, group, display_group,
+        UserBadge.create(title, color, description, visible, group, display_group,
                          instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
@@ -173,7 +173,7 @@ class BadgeController(BaseController):
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid, i:
             return self.add('delegateable', i.unpack_errors())
-        title, color, description, instance = self._get_common_fields(
+        title, color, description, visible, instance = self._get_common_fields(
             self.form_result)
         DelegateableBadge.create(title, color, description, instance)
         # commit cause redirect() raises an exception
@@ -187,7 +187,7 @@ class BadgeController(BaseController):
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid, i:
             return self.add('category', i.unpack_errors())
-        title, color, description, instance = self._get_common_fields(
+        title, color, description, visible, instance = self._get_common_fields(
             self.form_result)
         CategoryBadge.create(title, color, description, instance)
         # commit cause redirect() raises an exception
@@ -207,6 +207,7 @@ class BadgeController(BaseController):
         return (form_result.get('title').strip(),
                 form_result.get('color').strip(),
                 form_result.get('description').strip(),
+                not form_result.get('visible'),
                 instance)
 
     def get_badge_type(self, badge):
@@ -236,6 +237,7 @@ class BadgeController(BaseController):
         defaults = dict(title=badge.title,
                         description=badge.description,
                         color=badge.color,
+                        visible=not badge.visible,
                         display_group=badge.display_group,
                         instance=instance_default)
         if isinstance(badge, UserBadge):
@@ -246,6 +248,21 @@ class BadgeController(BaseController):
                                errors=errors,
                                defaults=defaults,
                                force_defaults=False)
+
+
+    def _set_badge_attributes( self, badge, form_result ):
+        if h.has_permission('global.admin'):
+            badge.instance = form_result.get('instance')
+        else:
+            # instance only admins can only create/edit
+            # badges inside the current instance
+            badge.instance = c.instance
+
+        badge.title       = form_result.get('title').strip()
+        badge.color       = form_result.get('color').strip()
+        badge.description = form_result.get('description').strip()
+        badge.visible     = not form_result.get('visible')
+
 
     @ActionProtector(AnyAdmin)
     @RequireInternalRequest()
@@ -263,17 +280,11 @@ class BadgeController(BaseController):
             return self.edit(id, i.unpack_errors())
 
         badge = self.get_badge_or_redirect(id)
-        title, color, description, instance = self._get_common_fields(
-            self.form_result)
-        group = self.form_result.get('group')
-        display_group = self.form_result.get('display_group')
+        self._set_badge_attributes( badge, self.form_result )
 
-        badge.group = group
-        badge.title = title
-        badge.color = color
-        badge.description = description
-        badge.instance = instance
-        badge.display_group = display_group
+        badge.group         = self.form_result.get( 'group' )
+        badge.display_group = self.form_result.get( 'display_group')
+
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
@@ -286,13 +297,8 @@ class BadgeController(BaseController):
         except Invalid, i:
             return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
-        title, color, description, instance = self._get_common_fields(
-            self.form_result)
+        self._set_badge_attributes( badge, self.form_result )
 
-        badge.title = title
-        badge.color = color
-        badge.description = description
-        badge.instance = instance
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
@@ -305,13 +311,8 @@ class BadgeController(BaseController):
         except Invalid, i:
             return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
-        title, color, description, instance = self._get_common_fields(
-            self.form_result)
+        self._set_badge_attributes( badge, self.form_result )
 
-        badge.title = title
-        badge.color = color
-        badge.description = description
-        badge.instance = instance
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
@@ -324,13 +325,8 @@ class BadgeController(BaseController):
         except Invalid, i:
             return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
-        title, color, description, instance = self._get_common_fields(
-            self.form_result)
+        self._set_badge_attributes( badge, self.form_result )
 
-        badge.title = title
-        badge.color = color
-        badge.description = description
-        badge.instance = instance
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
