@@ -13,7 +13,7 @@
 
 <%block name="main_content">
 <div class="form_wrapper">
-  <form name="create_proposal" class="inplace" method="POST" action="/proposal">
+  <form name="create_proposal" class="inplace" method="POST" action="${h.base_url('/proposal')}">
     ${h.field_token()|n}
     
     
@@ -118,7 +118,7 @@
       <legend>${_("Tag and classify")}</legend>
       <div class="input_wrapper">      
         <label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
-        <input type="text" name="tags" id="tags" class="armlabel long" />
+        <input type="text" name="tags" id="tags" class="armlabel long" data-instance-baseurl="${h.base_url()}" />
         <p class="info">${_("Multiple tags can be separated by commas.")}</p>
       </div>
         

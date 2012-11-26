@@ -91,7 +91,7 @@ def ret_status(type_, message, category=None, entity=None, code=200,
         h.flash(message, category)
     if entity is not None:
         redirect(h.entity_url(entity, format=format))
-    redirect(h.base_url(c.instance))
+    redirect(h.base_url())
 
 
 def ret_json_status(type_, message, code=200):

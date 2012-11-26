@@ -74,12 +74,16 @@ ${self.form()}
         <option value="${group.code}">${group.group_name}</option>
         %endfor
     </select>
-    <span class="hint">${_("Assign the user to this group for all instances in the adhocracy site.")}</span>
+    %if h.has_permission('global.admin'):
+    <span class="hint">${_("Automatically assign all users with this badge to the selected group for all instances in the adhocracy site.")}</span>
+    %else:
+    <span class="hint">${_("Automatically assign all users with this badge to the selected group.")}</span>
+    %endif
 
-    <label for="display_group" 
+    <label for="display_group"
            class="">${_("Display group in instances")}</label>
     <input type="checkbox"  name="display_group" id="display_group" />
-    <span class="hint">${_("Display this group in instances instead of the normal group the user is in there.")}</span>
+    <span class="hint">${_("Display this badge instead of the normal user group.")}</span>
     %endif
 
     %if h.has_permission('global.admin'):

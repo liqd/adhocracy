@@ -40,7 +40,7 @@ class ProposalCreateForm(ProposalNewForm):
     pre_validators = [formencode.variabledecode.NestedVariables()]
     label = forms.UnusedTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
-    tags = validators.String(max=20000, not_empty=False)
+    tags = validators.String(max=20000, not_empty=False, if_missing=None)
     milestone = forms.MaybeMilestone(if_empty=None,
             if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
@@ -106,7 +106,8 @@ class ProposalController(BaseController):
         require.proposal.create()
         c.pages = []
         c.exclude_pages = []
-        c.categories = model.CategoryBadge.all(c.instance, include_global=True)
+        c.categories = model.CategoryBadge.all(
+            c.instance, include_global=not c.instance.hide_global_categories)
         if 'page' in request.params:
             page = model.Page.find(request.params.get('page'))
             if page and page.function == model.Page.NORM:

@@ -8,11 +8,11 @@ except ImportError:
 
 setup(
     name='adhocracy',
-    version='1.2beta2dev',
+    version='2.0.0-rc.1',
     description='Policy drafting and decision-making web platform',
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
-    url='http://adhocracy.cc/',
+    url='https://github.com/liqd/adhocracy',
     license='GNU Affero General Public License v3',
     classifiers=[
         "License :: OSI Approved :: GNU Affero General Public License v3",
@@ -27,20 +27,20 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
-    long_description=open("README.txt").read() + "\n" +
+    long_description=open("README.rst").read() + "\n" +
                      open("CHANGES.txt").read() + "\n" +
                      open("AUTHORS.txt").read() + "\n",
     install_requires=[
         "Pylons==0.9.7",
         "WebOb==1.0.8",  # 1.1 removed an imported required by Pylons 0.9.7
-        "SQLAlchemy==0.6.8",
+        "SQLAlchemy==0.7.9",
         "sqlalchemy-migrate>=0.6",
         "FormEncode>=1.2.4",
         "repoze.who>=2.0",
         "repoze.what==1.0.8",  # 1.0.9 conflicts with repoze.who>=2.0
         "repoze.who.plugins.sa==1.0rc2",
         "repoze.what-pylons==1.0",
-        "repoze.what.plugins.sql==1.0rc4",
+        "repoze.what.plugins.sql==1.0.1",
         "repoze.who-friendlyform==1.0.4",
         "repoze.who-testutil==1.0",
         "python-twitter>=0.6",
@@ -53,7 +53,7 @@ setup(
         "python-memcached>=1.45",
         "sunburnt==0.6",
         "PIL>=1.1.6",
-        "markdown2>=1.0.1",
+        "Markdown>=2.2.1",
         "lxml>=2.2.6",
         "Mako>=0.4.2",
         "recaptcha-client>=1.0.6",
@@ -101,6 +101,8 @@ setup(
             'stylesheets = adhocracy.static:stylesheets_library',
             'yaml = adhocracy.static:yaml_library',
             'autocomplete = adhocracy.static:autocomplete_library',
+            'placeholder = adhocracy.static:placeholder_library',
+            'jquerytools = adhocracy.static:jquerytools_library',
             'knockout = adhocracy.static:knockout_library',
             'misc = adhocracy.static:misc_library',
             'adhocracy = adhocracy.static:adhocracy_library',

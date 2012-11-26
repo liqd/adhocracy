@@ -130,13 +130,17 @@ class ValidProposal(formencode.FancyValidator):
         return proposal
 
 
-class ValidGroup(formencode.FancyValidator):
+class ValidInstanceGroup(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.model import Group
         group = Group.by_code(value)
         if not group:
             raise formencode.Invalid(
                 _("No group with ID '%s' exists") % value,
+                value, state)
+        if not group.is_instance_group():
+            raise formencode.Invalid(
+                _("Group '%s' is no instance group") % group.code,
                 value, state)
         return group
 
@@ -225,9 +229,17 @@ class ValidCategoryBadge(formencode.FancyValidator):
         except:
             pass
         badge = CategoryBadge.by_id(value, instance_filter=False)
-        if badge is None or badge.instance not in [None, c.instance]:
+        if badge is None:
             raise formencode.Invalid(
                 _("No Badge ID '%s' exists") % value,
+                value, state)
+        if badge.instance is None and c.instance.hide_global_categories:
+            raise formencode.Invalid(
+                _("Cannot use global category %s in this instance") % value,
+                value, state)
+        if badge.instance not in [None, c.instance]:
+            raise formencode.Invalid(
+                _("Badge with ID '%s' not valid in this instance") % value,
                 value, state)
         return badge
 

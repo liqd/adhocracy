@@ -59,8 +59,7 @@ class OpenidauthController(BaseController):
         """
         login_user(user, request)
         if c.instance and not user.is_member(c.instance):
-            redirect(h.base_url(c.instance,
-                     path="/instance/join/%s?%s" % (c.instance.key,
+            redirect(h.base_url("/instance/join/%s?%s" % (c.instance.key,
                                                     h.url_token())))
         redirect("/")
 
@@ -94,8 +93,7 @@ class OpenidauthController(BaseController):
             authrequest = self.consumer.begin(openid)
 
             if not c.user and not model.OpenID.find(openid):
-                axreq = ax.FetchRequest(h.base_url(c.instance,
-                                                   path='/openid/update'))
+                axreq = ax.FetchRequest(h.base_url('/openid/update'))
                 axreq.add(ax.AttrInfo(AX_MAIL_SCHEMA, alias="email",
                                       required=True))
                 authrequest.addExtension(axreq)
@@ -104,8 +102,8 @@ class OpenidauthController(BaseController):
                 authrequest.addExtension(sreq)
 
             redirecturl = authrequest.redirectURL(
-                h.base_url(c.instance, path='/'),
-                return_to=h.base_url(c.instance, path='/openid/verify'),
+                h.base_url('/'),
+                return_to=h.base_url('/openid/verify'),
                 immediate=False)
             session['openid_session'] = self.openid_session
             session.save()
@@ -141,8 +139,7 @@ class OpenidauthController(BaseController):
     def verify(self):
         self.consumer = create_consumer(self.openid_session)
         info = self.consumer.complete(request.params,
-                                      h.base_url(c.instance,
-                                                 path='/openid/verify'))
+                                      h.base_url('/openid/verify'))
         if not info.status == SUCCESS:
             return self._failure(info.identity_url, _("OpenID login failed."))
         email = None

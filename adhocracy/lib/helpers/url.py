@@ -41,7 +41,7 @@ def build(instance, base, id, query=None, anchor=None, member=None,
         base = u'/'
     id = id.decode('utf-8') if isinstance(id, str) else unicode(id)
     _path = base + id
-    url = site.base_url(instance, path=_path)
+    url = site.base_url(_path, instance)
     url = append_member_and_format(url, member, format)
     if anchor is not None:
         url += "#" + anchor
@@ -58,7 +58,7 @@ def root():
         from instance_helper import url
         return link(c.instance.label, url(c.instance)) + BREAD_SEP
     else:
-        return link(site.name(), site.base_url(None)) + BREAD_SEP
+        return link(site.name(), site.base_url(instance=None)) + BREAD_SEP
 
 
 def link(title, href):

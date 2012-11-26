@@ -12,6 +12,8 @@
 
 ${c.tile.description|n}
 
+%if h.asbool(config.get('adhocracy.show_instance_overview_proposals')):
+<hr />
 <div id="new_proposals_table" class="table">
     <h3 class="section">${_("Newest Proposals")}</h3>
     ${c.new_proposals_pager.here()}
@@ -21,32 +23,48 @@ ${c.tile.description|n}
         %if auth:
         <a class="button add ttip" 
            title="${_('Introduce a new idea to debate.')}" 
-           href="/proposal/new">${_("new proposal")}</a>
+           href="${h.base_url('/proposal/new')}">${_("new proposal")}</a>
         %elif auth.propose_join():
         <a class="button add ttip" 
            title="${_('Join instance to create a new proposal.')}" 
-           href="/proposal/new" rel="#overlay-join-button">${_("new proposal")}</a>
+           href="${h.base_url('/proposal/new')}" rel="#overlay-join-button">${_("new proposal")}</a>
         %elif auth.propose_login():
         <a class="button add ttip" 
            title="${_('Login to create a new proposal.')}" 
-           href="/proposal/new" rel="#overlay-login-button">${_("new proposal")}</a>
+           href="${h.base_url('/proposal/new')}" rel="#overlay-login-button">${_("new proposal")}</a>
         %endif
 
-        <a href="/proposal" 
+        <a href="${h.base_url('/proposal')}" 
            class="button edit ttip" 
            title="${_('show a list of proposals')}">${_("more proposals")}</a>
     </div>
 
 </div>
+%endif
+
+%if h.asbool(config.get('adhocracy.show_instance_overview_milestones')) and c.instance.milestones:
+<hr />
+%if h.asint(config.get('adhocracy.number_instance_overview_milestones')) == 1:
+<h3 class="section">${_("Next milestone")}</h3>
+%else:
+<h3 class="section">${_("Next milestones")}</h3>
+%endif
+${c.next_milestones_pager.here()}
+%endif
 
 </%block>
 
 <%block name="sidebar">
+<div class="sidebar_box">
+<h3>${_('Newest Events')}</h3>
+${c.events_pager.here()}
 
 <h3 id="information">${_('Informations')}</h3>
 <summary>
+    %if h.asbool(config.get('adhocracy.show_instance_creators')):
     <h6>${_('Created')}</h6>
     <p>${_("by %s on %s") % (h.user.link(c.instance.creator), h.format_date(c.instance.create_time))|n}</p>
+    %endif
 
     <h6>${_('Votings')}</h6>
     <p>${c.sidebar_delegations}</p>
@@ -60,6 +78,7 @@ ${c.tile.description|n}
     
 </summary>
 
+</div>
 </%block>
 
 <%components:tutorial>

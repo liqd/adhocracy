@@ -3,17 +3,25 @@
 
 <%def name="row(tile, milestone)">
     <li class="content_box">
-        <div>
-            <h3>
-                <a class="link" href="${h.entity_url(milestone)}">
-                    ${milestone.title}
-                </a>
-            </h3>
-            <div class="meta noclear">
-                ${_("ends: <b>%s</b>") % milestone.time and milestone.time.strftime("%d.%m.%Y") or 'Undefined'|n} 
-            </div>
+      <div>
+        %if milestone.time:
+        <span class="milestone_row_date">
+          ${milestone.time.strftime("%d.%m.%Y")} 
+        </span>
+        %endif
+        <h3>
+          <a class="link" href="${h.entity_url(milestone)}">
+            ${milestone.title}
+          </a>
+        </h3>
+        <div class="milestone_row_content meta">
+          ${h.truncate(milestone.text, 280, whole_word=True)}
+          <a href="${h.entity_url(milestone)}" class="more_link">
+            ${_(u'See more')}
+          </a>
         </div>
-        <div class="hr"><hr /></div>    
+      </div>
+      <div class="hr"><hr /></div>    
     </li>
 </%def>
 
@@ -45,8 +53,8 @@ else:
 
 <%def name="timeline(tile, milestones)">
   <script>
-    var Timeline_ajax_url='${h.base_url(None, path='/timeline/timeline_ajax/simile-ajax-api.js')}';
-    var Timeline_urlPrefix='${h.base_url(None, path='/timeline/timeline_js/')}'; 
+    var Timeline_ajax_url='${h.base_url('/timeline/timeline_ajax/simile-ajax-api.js', None)}';
+    var Timeline_urlPrefix='${h.base_url('/timeline/timeline_js/', None)}'; 
     var Timeline_parameters='bundle=true';
   </script>
   <script src="/timeline/timeline_js/timeline-api.js"></script>

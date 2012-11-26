@@ -72,7 +72,7 @@
         %if hide_form:
         <div class="list_button">
             <a class="button highlight showhide_button" 
-               href="/comment/new?topic=${topic.id}&amp;wiki=1"
+               href="${h.base_url('comment/new?topic=%d&amp;wiki=1' % topic.id, topic.instance)}"
                data-target="#${target}"
                id="start-discussion-button">
                 ${_('Start new Discussion')}
@@ -124,6 +124,7 @@
         %if can.comment.edit(comment):
         <a class="edit_comment"
            data-comment="${comment.id}"
+           data-instance-baseurl="${h.base_url(instance=comment.topic.instance)}"
            href="${h.entity_url(comment, member='edit', 
                                 query=dict(ret_url=ret_url))}">
             ${_("edit")}
@@ -230,7 +231,7 @@ klass_con = klass(-1)
 %>
   <div class="comment_form">
     <form name="new_comment" class="comment_form"
-          method="POST" action="/comment/${comment.id}">
+          method="POST" action="${h.entity_url(comment)}">
         ${h.field_token()|n}
         <input type="hidden" name="_method" value="PUT" />
         <input type="hidden" name="ret_url" value="${ret_url}" />
@@ -282,7 +283,7 @@ else:
   <h4>${_(u'Add comment')}</h4>
   <div class="comment_form">
     <form name="new_comment" class="comment_form"
-          method="POST" action="/comment${format}">
+        method="POST" action="${h.base_url('/comment%s' % format, topic.instance)}">
       ${h.field_token()|n}
       <input type="hidden" name="topic" value="${topic.id}" />
       <input type="hidden" name="ret_url" value="${ret_url}" />
@@ -364,10 +365,10 @@ else:
 
 <%def name="form(display=False)">
   <!-- new comment form -->
-  <div id="comment_form_template" ${'style="display: none;' if display == False else ''}">
+  <div id="comment_form_template" ${'style="display: none;"' if display == False else ''}>
     <h4>${_(u'Add comment')}</h4>
     <form name="new_comment" class="comment_form" 
-          method="POST" action="/comment">
+        method="POST" action="${h.base_url('/comment')}">
 
         <input type="hidden" name="topic" value="${topic.id}" />
         <input type="hidden" name="ret_url" value="${ret_url}" />

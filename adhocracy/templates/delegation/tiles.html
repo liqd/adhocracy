@@ -53,7 +53,7 @@
         </ul>
         <div class="top_actions">
             <a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
-                href="/delegation/new?scope=${delegateable.id}">${_("delegate")}</a>
+                href="${h.base_url('/delegation/new?scope=%d' % delegateable.id)}')">${_("delegate")}</a>
         </div>
         
         %if tile.num_principals:

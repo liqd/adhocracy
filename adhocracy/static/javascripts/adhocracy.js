@@ -149,7 +149,7 @@ var adhocracy = adhocracy || {};
     /**
      * Initialize the tooltips for all correctly marked
      * elements found inside baseSelector. If baseSelector
-     * is not given, it searchs for all elements in the
+     * is not given, it searches for all elements in the
      * document body.
      *
      * @param {string} baseSelector A selector string that can be
@@ -245,7 +245,9 @@ var adhocracy = adhocracy || {};
         if ($.fn.autocomplete === undefined) {
             return;
         }
-        $(selector).autocomplete('/tag/autocomplete', {
+        var $selected = $(selector);
+        var acUrl = $selected.data('instance-baseurl') + 'tag/autocomplete';
+        $selected.autocomplete(acUrl, {
             autoFill: false,
             dataType: 'json',
             formatItem: function (data, i, max, val) {
@@ -342,8 +344,8 @@ $(document).ready(function () {
     adhocracy.helpers.initializeUserAutocomplete(".userCompleted");
     adhocracy.overlay.bindOverlays('body');
 
-    // initial jquery label_over
-    $('.label_over label').labelOver('over-apply');
+    // initial jquery-placeholder
+    $('input, textarea').placeholder();
 
     // comments
     $('.comment, .paper').hover(
@@ -400,7 +402,8 @@ $(document).ready(function () {
         var comment_id = $(this).data('comment');
         var comment_form = $('#' + comment_edit_form_id).attr('comment_id');
         if (!comment_form) {
-            var form_url = '/comment/' + comment_id + '/edit.ajax';
+            var baseUrl = $(this).data('instance-baseurl');
+            var form_url = baseUrl + 'comment/' + comment_id + '/edit.ajax';
             var comment_div = $('#' + c_id);
             // create a container and load the form into it.
             var form_div = comment_div.add('<div></div>').not(comment_div);
@@ -600,5 +603,30 @@ $(document).ready(function () {
                 adhocracy.overlay.bindOverlays(target);
             }
         });
+    });
+
+    $('#feedback_button').toggle(
+        function () {
+            $('#feedback').animate({right: '0px'});
+            return false;
+        },
+        function () {
+            $('#feedback').animate({right: '-350px'});
+            return false;
+        }
+    );
+
+    $('.showmore').each(function () {
+        var self = $(this);
+        self.find('.showmore_morelink').bind('click', function (event) {
+                self.find('.showmore_collapsed').css('display', 'none');
+                self.find('.showmore_uncollapsed').css('display', 'inline');
+                return false;
+            });
+        self.find('.showmore_lesslink').bind('click', function (event) {
+                self.find('.showmore_collapsed').css('display', 'inline');
+                self.find('.showmore_uncollapsed').css('display', 'none');
+                return false;
+            });
     });
 });

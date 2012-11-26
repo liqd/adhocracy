@@ -68,7 +68,7 @@ T_INSTANCE_EDIT = EventType(
 T_INSTANCE_DELETE = EventType(
     u"t_instance_delete", pri=3,
     subject=lambda: _(u"Deleted Adhocracy: %(instance)s"),
-    link_path=lambda e: h.base_url(None),
+    link_path=lambda e: h.base_url(instance=None),
     event_msg=lambda: _(u"deleted the %(instance)s instance"))
 
 T_INSTANCE_JOIN = EventType(
@@ -152,21 +152,21 @@ T_COMMENT_CREATE = EventType(
     u"t_comment_create", pri=3,
     subject=lambda: _(u"New comment: in %(topic)s"),
     link_path=lambda e: h.entity_url(e.comment),
-    event_msg=lambda: _(u"commented %(comment)s on %(topic)s"),
+    event_msg=lambda: _(u"commented %(topic)s"),
     text=lambda e: e.rev.text if e.rev else None)
 
 T_COMMENT_EDIT = EventType(
     u"t_comment_edit", pri=3,
     subject=lambda: _(u"Edited comment: in %(topic)s"),
     link_path=lambda e: h.entity_url(e.comment),
-    event_msg=lambda: _(u"edited the comment %(comment)s on %(topic)s"),
+    event_msg=lambda: _(u"edited comment on %(topic)s"),
     text=lambda e: e.rev.text if e.rev else None)
 
 T_COMMENT_DELETE = EventType(
     u"t_comment_delete", pri=3,
     subject=lambda: _(u"Deleted comment: in %(topic)s"),
     link_path=lambda e: h.entity_url(e.topic),
-    event_msg=lambda: _(u"deleted the comment %(comment)s from %(topic)s"))
+    event_msg=lambda: _(u"deleted comment from %(topic)s"))
 
 T_DELEGATION_CREATE = EventType(
     u"t_delegation_create", pri=2,

@@ -42,7 +42,8 @@ instance_table = \
           Column('milestones', Boolean, default=False),
           Column('use_norms', Boolean, nullable=True, default=True),
           Column('require_selection', Boolean, nullable=True, default=False),
-          Column('is_authenticated', Boolean, nullable=True, default=False)
+          Column('is_authenticated', Boolean, nullable=True, default=False),
+          Column('hide_global_categories', Boolean, nullable=True, default=False)
           )
 
 
@@ -241,6 +242,8 @@ class Instance(meta.Indexable):
 
     def to_index(self):
         index = super(Instance, self).to_index()
+        if self.hidden:
+            index['skip'] = True
         index.update(dict(
             instance=self.key,
             title=self.label,

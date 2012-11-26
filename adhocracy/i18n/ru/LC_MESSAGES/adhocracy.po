@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-27 00:51+0200\n"
-"PO-Revision-Date: 2012-07-26 22:52+0000\n"
+"POT-Creation-Date: 2012-11-18 10:53+0100\n"
+"PO-Revision-Date: 2012-11-18 09:55+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 "Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgid "Thank you for helping."
 msgstr "благодарим за помощь"
@@ -417,10 +417,6 @@ msgstr "Недействительное имя пользователя или 
 msgid "tutorial_dashboard_title"
 msgstr ""
 
-#, python-format
-msgid "Cannot make %(user)s a member of %(group)s"
-msgstr "Невозможно сделать пользователя %(user)s участником %(group)s"
-
 msgid "The account has been suspended."
 msgstr "Учетная запись деактивирована. "
 
@@ -429,6 +425,9 @@ msgstr "Учетная запись восстановлена. "
 
 msgid "The account has been deleted."
 msgstr "Учетная запись удалена. "
+
+msgid "Invalid badge choice."
+msgstr ""
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -496,6 +495,10 @@ msgstr "Не существует предложения с ID '%s'."
 #, python-format
 msgid "No group with ID '%s' exists"
 msgstr "Не существует группы с ID '%s'."
+
+#, python-format
+msgid "Group '%s' is no instance group"
+msgstr ""
 
 msgid "At least on character is required"
 msgstr "Требуется по крайней мере один значок. "
@@ -709,6 +712,9 @@ msgstr ""
 msgid "Badge"
 msgstr ""
 
+msgid "Instance"
+msgstr ""
+
 msgid "Categories"
 msgstr "Категории"
 
@@ -717,6 +723,9 @@ msgstr "создано"
 
 msgid "Tags"
 msgstr "теги"
+
+msgid "Milestones"
+msgstr "Сроки"
 
 msgid "Oldest"
 msgstr ""
@@ -947,24 +956,24 @@ msgid "New comment: in %(topic)s"
 msgstr "Новый коментарий в %(topic)s"
 
 #, python-format
-msgid "commented %(comment)s on %(topic)s"
-msgstr "откоментировано %(comment)s в %(topic)s"
+msgid "commented %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
 msgstr "Удаленный коментарий: в %(topic)s топике"
 
 #, python-format
-msgid "edited the comment %(comment)s on %(topic)s"
-msgstr "отредактированные коментарии %(comment)s в %(topic)s"
+msgid "edited comment on %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
 msgstr "Удаленный коментарий: в %(topic)s цепочке"
 
 #, python-format
-msgid "deleted the comment %(comment)s from %(topic)s"
-msgstr "удаленные коментарии %(comment)s в %(topic)s"
+msgid "deleted comment from %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -1051,9 +1060,6 @@ msgstr "⏎ \n⏎ \nБольше информации: %(url)s"
 
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Предложение в данный момент находится в процессе голосования и не может быть изменено. "
-
-msgid "Milestones"
-msgstr "Сроки"
 
 msgid "(Unknown)"
 msgstr "(неизвестно)"
@@ -1251,6 +1257,9 @@ msgstr "следующая"
 
 msgid "entries"
 msgstr "записи"
+
+msgid "Filter list"
+msgstr ""
 
 msgid "Remove all"
 msgstr "Удалить все"
@@ -1450,16 +1459,19 @@ msgstr "Группа"
 msgid "No Group"
 msgstr "нет группы"
 
-msgid "Assign the user to this group for all instances in the adhocracy site."
-msgstr "Включение пользователя в эту группу для всех организаций сайта adhocracy."
+msgid ""
+"Automatically assign all users with this badge to the selected group for all"
+" instances in the adhocracy site."
+msgstr ""
+
+msgid "Automatically assign all users with this badge to the selected group."
+msgstr ""
 
 msgid "Display group in instances"
 msgstr "Отображать групы в организациях. "
 
-msgid ""
-"Display this group in instances instead of the normal group the user is in "
-"there."
-msgstr "Отображать эту группу в организациях вместо обычной группы пользователя."
+msgid "Display this badge instead of the normal user group."
+msgstr ""
 
 msgid "Global"
 msgstr ""
@@ -1952,6 +1964,15 @@ msgstr "Показать список предложений"
 msgid "more proposals"
 msgstr "Дальнейшие предложения"
 
+msgid "Next milestone"
+msgstr ""
+
+msgid "Next milestones"
+msgstr ""
+
+msgid "Newest Events"
+msgstr ""
+
 msgid "Informations"
 msgstr "Информация"
 
@@ -2094,9 +2115,8 @@ msgstr ""
 msgid "tutorial_milestone_details_listing"
 msgstr ""
 
-#, python-format
-msgid "ends: <b>%s</b>"
-msgstr "заканчивается: <b>%s</b> "
+msgid "See more"
+msgstr ""
 
 msgid "(unknown)"
 msgstr ""
@@ -2228,17 +2248,26 @@ msgstr "Новый документ будет классифицирована 
 msgid "Highlight Changes"
 msgstr "Выделить исправления."
 
+msgid "On"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
 msgid "New Proposal"
 msgstr "Новое предложение"
 
 msgid "Information about the norm"
 msgstr "Информация о документе"
 
+msgid "Last Activity"
+msgstr "Последняя активность"
+
 #, python-format
 msgid "This norm relates to the milestone %s."
 msgstr "Этот документ связан со сроком %s."
 
-msgid "subnorms"
+msgid "Subnorms"
 msgstr ""
 
 msgid "View Proposal"
@@ -2442,6 +2471,9 @@ msgstr "Сотрудничество и получение Уведомлени�
 msgid "Allow others to edit this proposal."
 msgstr "разрешить другим редактировать это предложение"
 
+msgid "Create new proposal"
+msgstr "Создать новое предложение"
+
 msgid "Find proposals"
 msgstr "найти предложения"
 
@@ -2459,9 +2491,6 @@ msgstr ""
 
 msgid "New proposal"
 msgstr "Новое предложение"
-
-msgid "Create new proposal"
-msgstr "Создать новое предложение"
 
 msgid "Change norms with this proposal"
 msgstr "Изменить документ с помощью нового предложения"
@@ -2540,9 +2569,6 @@ msgstr ""
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr ""
-
-msgid "Last Activity"
-msgstr "Последняя активность"
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
