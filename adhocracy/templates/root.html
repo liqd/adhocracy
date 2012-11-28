@@ -15,8 +15,7 @@
       %endif
   </head>
 
-
-<body lang="${c.locale.language}" class="${'compact' if c.user or c.instance else ''}">
+  <body lang="${c.locale.language}" class="<%block filter="trim">${'compact ' if c.user or c.instance else 'normal '}<%block name="body_class"></%block></%block>">        
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
       <!-- the external content is loaded inside this tag -->
