@@ -23,7 +23,7 @@ proposal_table = Table('proposal', meta.data,
     Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('adopted', Boolean, default=False),
     GeometryExtensionColumn(
-        'geotag', Geometry(dimension=2, srid=900913), nullable=False),
+        'geotag', Geometry(dimension=2, srid=900913), nullable=True),
     )
 
 
