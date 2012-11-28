@@ -2,6 +2,7 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="badge_tiles" file="/badge/tiles.html"/>
 <%def name="title()">${_("Edit badges for %s") % c.proposal.title}</%def>
+<%block name="body_class">instancename-${c.page_instance.key} instance-badges</%block>
 
 <%def name="breadcrumbs()">
     ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}

@@ -2,6 +2,7 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="map" file="/geo/map.html"/>
 <%def name="title()">${_("Home")}</%def>
+<%block name="body_class">instancename-${c.page_instance.key} instance-startpage</%block>
 
 <%def name="breadcrumbs()">
     ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Home")}
@@ -14,6 +15,7 @@ ${c.tile.description|n}
 
 %if h.asbool(config.get('adhocracy.show_instance_overview_proposals')):
 <hr />
+DDD
 <div id="new_proposals_table" class="table">
     <h3 class="section">${_("Newest Proposals")}</h3>
     ${c.new_proposals_pager.here()}
