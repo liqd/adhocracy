@@ -34,10 +34,10 @@ This document assumes that you installed the buildout in a virtualenv
 "adhocracy".
 
 Install the `transifex client`_ on your system.  Then add your
-username and password for transifex.net to `~/.transifexrc`::
+username and password for transifex.com to `~/.transifexrc`::
 
-    [https://www.transifex.net]
-    hostname = https://www.transifex.net
+    [https://www.transifex.com]
+    hostname = https://www.transifex.com
     username = <your transifex username>
     password = <your transifex password>
     token = 
@@ -115,7 +115,7 @@ Troubleshooting
 '''''''''''''''
 
 If tx skips the languages you want to pull from the server, the local
-file is most likely newer than the file on transifex.net. You can add
+file is most likely newer than the file on transifex.com. You can add
 `-d` to the command to get debug output, e.g.::
 
   tx -d pull -l de
@@ -152,7 +152,7 @@ tx client instead.
 
 
 .. _Babel: http://babel.edgewall.org/
-.. _Transifex project: https://www.transifex.net/projects/p/adhocracy/
+.. _Transifex project: https://www.transifex.com/projects/p/adhocracy/
 .. _transifex client: http://pypi.python.org/pypi/transifex-client
 .. _adhocracy.buildout: https://bitbucket.org/liqd/adhocracy.buildout
 .. _poedit: http://www.poedit.net/
