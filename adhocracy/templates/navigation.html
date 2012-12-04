@@ -192,16 +192,16 @@
              li_class=_class('instance'),
              id_='subnav-overview')}
 
+  ${nav_link(href=h.base_url('/proposal'),
+             text=_("Proposals"),
+             li_class=_class('proposals'),
+             id_='subnav-proposals')}
+
   ${nav_link(href=h.base_url('/page'),
              text=_("Norms"),
              li_class=_class('norms'),
              condition=c.instance.use_norms,
              id_='subnav-norms')}
-
-  ${nav_link(href=h.base_url('/proposal'),
-             text=_("Proposals"),
-             li_class=_class('proposals'),
-             id_='subnav-proposals')}
 
   ${nav_link(href=h.base_url('/milestone'),
              text=_("Milestones"),
