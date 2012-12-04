@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2012-11-18 10:53+0100\n"
-"PO-Revision-Date: 2012-11-18 14:30+0000\n"
+"PO-Revision-Date: 2012-12-04 21:38+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgid "oldest"
 msgstr "Älteste"
 
 msgid "newest"
-msgstr "neueste"
+msgstr "Neueste"
 
 #, python-format
 msgid "Comment topic has no variant %s"
@@ -228,13 +228,13 @@ msgid "Justin Case has entered the room."
 msgstr "Justin Case ist vorbeigekommen."
 
 msgid "tutorial_norms_overview_tab"
-msgstr "Übersichtseite über die Themen der Projektgruppe. Die Liste zeigt nicht nur alle von der Projektgruppe eingebrachten Themen an, sondern unter dem Titel der Themen wird auch die Anzahl der momentan dazugehörigen Vorschläge und Kommentare angezeigt"
+msgstr "Übersichtseite über die Themen der Gruppe. Die Liste zeigt nicht nur alle von der Gruppe eingebrachten Beschlüsse an, sondern unter dem Titel der Beschlüsse wird auch die Anzahl der momentan dazugehörigen Vorschläge und Kommentare angezeigt"
 
 msgid "No proposal has been specified"
 msgstr "Es wurde kein Vorschlag angegeben."
 
 msgid "You cannot create a new norm"
-msgstr "Sie können kein Thema anlegen."
+msgstr "Sie können keinen Beschluss anlegen."
 
 #, python-format
 msgid "Variant %s is already present, cannot branch."
@@ -274,7 +274,7 @@ msgid "alphabetically"
 msgstr "alphabetisch"
 
 msgid "tutorial_norm_show_tab"
-msgstr "Auf der Detailseite finden Sie die momentan gültige Originalversion des Themas und alle  Versionen, die bisher zu dem Thema eingebracht wurden."
+msgstr "Auf der Detailseite finden Sie die momentan gültige Originalversion des Beschlusses und alle Versionen, die bisher zu dem Beschluss eingebracht wurden."
 
 msgid "No such text revision."
 msgstr "Diese Textversion existiert nicht."
@@ -313,7 +313,7 @@ msgid "tutorial_proposal_overview_tab"
 msgstr "Übersicht über alle bisher eingebrachten Vorschläge. Hier haben Sie nicht nur die Möglichkeit neue Vorschläge zu verfassen..."
 
 msgid "Please select norm and propose a change to it."
-msgstr "Bitte wählen Sie ein Thema aus und schlagen Sie eine Änderung vor."
+msgstr "Bitte wählen Sie einen Beschluss aus und schlagen Sie eine Änderung vor."
 
 msgid "tutorial_proposal_show_tab"
 msgstr "Auf der Detailseite eines Vorschlags finden Sie nicht nur die wichtigen Informationen, sondern auch viele Möglichkeiten sich aktiv zu beteiligen."
@@ -676,7 +676,7 @@ msgid ""
 "Cheers,\r\n"
 "\r\n"
 "    the %s Team\r\n"
-msgstr "Viele Grüße,\n\n    Ihr %s-Team\n"
+msgstr "Viele Grüße,\r\n\r\n    Ihr %s-Team\r\n"
 
 #, python-format
 msgid "%s <%s>"
@@ -733,13 +733,13 @@ msgid "Oldest"
 msgstr "Älteste"
 
 msgid "Newest"
-msgstr "Neueste"
+msgstr "Neuste"
 
 msgid "Newest Comment"
-msgstr "Neuester Kommentar"
+msgstr "Neuste Kommentare"
 
 msgid "Activity"
-msgstr "Aktivität"
+msgstr "Verlauf"
 
 msgid "Alphabetically"
 msgstr "Alphabetisch"
@@ -1138,7 +1138,7 @@ msgid "Notify me of updates."
 msgstr "Ich möchte über Neuigkeiten informiert werden."
 
 msgid "Follow Norm"
-msgstr "Thema folgen"
+msgstr "Beschluss folgen"
 
 msgid "Follow Instance"
 msgstr "Gruppe folgen"
@@ -1236,7 +1236,7 @@ msgid "Overview"
 msgstr "Übersicht"
 
 msgid "Norms"
-msgstr "Themen"
+msgstr "Beschlüsse"
 
 msgid "Members"
 msgstr "Mitglieder"
@@ -1892,10 +1892,10 @@ msgid "Extra CSS"
 msgstr "Extra CSS"
 
 msgid "Use Norms"
-msgstr "Themen verwenden"
+msgstr "Beschlüsse verwenden"
 
 msgid "Allow users to propose norms"
-msgstr "Mitgliedern erlauben, neue Themen anzulegen"
+msgstr "Mitgliedern erlauben, neue Beschlüsse anzulegen"
 
 msgid "Require to propose a variant"
 msgstr "Vorschläge müssen mindestens eine Änderung an einem Thema einbringen"
@@ -2013,8 +2013,8 @@ msgstr[1] "%s Vorschläge"
 #, python-format
 msgid "%s norm"
 msgid_plural "%s norms"
-msgstr[0] "%s Thema"
-msgstr[1] "%s Themen"
+msgstr[0] "%s Beschluss"
+msgstr[1] "%s Beschlüsse"
 
 #, python-format
 msgid "Message %s"
@@ -2101,10 +2101,10 @@ msgid "No proposals are connected to this milestone"
 msgstr "Mit diesem Termin sind keine Vorschläge verknüpft"
 
 msgid "Associated Norms"
-msgstr "Verknüpfte Themen"
+msgstr "Verknüpfte Beschlüsse"
 
 msgid "No norms are connected to this milestone"
-msgstr "Mit diesem Termin sind keie Themen verknüpft"
+msgstr "Mit diesem Termin sind keie Beschlüsse verknüpft"
 
 msgid "tutorial_milestone_details_follow"
 msgstr "Ist der Termin wichtig für Sie, können Sie ihn auch Ihrer Beobachtungsliste hinzufügen."
@@ -2192,7 +2192,7 @@ msgstr "Version bearbeiten"
 
 #, python-format
 msgid "Norm: %s"
-msgstr "Thema: %s"
+msgstr "Beschluss: %s"
 
 msgid "Variant Name"
 msgstr "Name der Version"
@@ -2207,34 +2207,34 @@ msgid "Relates to a milestone"
 msgstr "Bezieht sich auf einen Termin"
 
 msgid "Create a new norm."
-msgstr "Ein neues Thema anlegen."
+msgstr "Einen neuen Beschluss anlegen."
 
 msgid "new norm"
-msgstr "Neues Thema"
+msgstr "neuer Beschluss"
 
 msgid "Popular tags"
 msgstr "Beliebte Tags"
 
 msgid "tutorial_norms_overview_table"
-msgstr "Die Liste zeigt nicht nur alle von der Projektgruppe eingebrachten Themen. Unter dem Titel der Themen wird auch die Anzahl der momentan dazugehörigen Vorschläge und Kommentare angezeigt."
+msgstr "Die Liste zeigt nicht nur alle von der Gruppe eingebrachten Beschlüsse. Unter dem Titel der Beschlüsse wird auch die Anzahl der momentan dazugehörigen Vorschläge und Kommentare angezeigt."
 
 msgid "tutorial_norms_overview_facets"
-msgstr "Für eine bessere Übersicht können Sie die Auswahl der Themen nach Schlagworten filtern."
+msgstr "Für eine bessere Übersicht können Sie die Auswahl der Beschlüsse nach Schlagworten filtern."
 
 msgid "New page"
 msgstr "Neue Seite"
 
 msgid "Create norm"
-msgstr "Ein neues Thema anlegen."
+msgstr "Einen neuen Beschluss anlegen."
 
 msgid "Norm title"
-msgstr "Titel des Themas"
+msgstr "Titel des Beschlusses"
 
 msgid "New norm"
-msgstr "Neues Thema"
+msgstr "Neuer Beschluss"
 
 msgid "Norm content"
-msgstr "Inhalt des Themas"
+msgstr "Inhalt des Beschlusses"
 
 msgid "Tag and classify"
 msgstr "Tags und Eigenschaften"
@@ -2243,7 +2243,7 @@ msgid "Tags to describe the subject"
 msgstr "Tags um den Inhalt zu beschreiben"
 
 msgid "The new norm will be categorized under the specified parent theme."
-msgstr "Das neue Thema wird unter dem angegebenen Elternthema eingeordnet."
+msgstr "Der neue Beschluss wird unter dem angegebenen Elternthema eingeordnet."
 
 msgid "Highlight Changes"
 msgstr "Änderungen hervorheben"
@@ -2258,17 +2258,17 @@ msgid "New Proposal"
 msgstr "Neuer Vorschlag"
 
 msgid "Information about the norm"
-msgstr "Informationen über das Papier"
+msgstr "Informationen über den Beschluss"
 
 msgid "Last Activity"
 msgstr "Letzte Aktivität"
 
 #, python-format
 msgid "This norm relates to the milestone %s."
-msgstr "Dieser Vorschlag bezieht sich auf den Termin %s."
+msgstr "Dieser Beschluss bezieht sich auf den Termin %s."
 
 msgid "Subnorms"
-msgstr "Unterthemen"
+msgstr "Unterbeschlüsse"
 
 msgid "View Proposal"
 msgstr "Vorschlag anzeigen"
@@ -2283,13 +2283,13 @@ msgid "Proposal"
 msgstr "Vorschlag"
 
 msgid "tutorial_norm_show_vote"
-msgstr "Bewerten Sie die Original- und die eingebrachten Versionen eines Themas, indem Sie über die Pfeile Ihre Zustimmung (hoch) oder Ablehnung (runter) ausdrücken. Sie können dabei auch mehreren Versionen zustimmen oder diese ablehnen."
+msgstr "Bewerten Sie die Original- und die eingebrachten Versionen eines Beschlusses, indem Sie über die Pfeile Ihre Zustimmung (hoch) oder Ablehnung (runter) ausdrücken. Sie können dabei auch mehreren Versionen zustimmen oder diese ablehnen."
 
 msgid "tutorial_norm_show_diff"
 msgstr "Wählen Sie, ob Änderungen im Vergleich zur Originalversion hervorgehoben werden sollen."
 
 msgid "tutorial_norm_show_new"
-msgstr "Sie können hier auch eine neue Version des Themas einbringen."
+msgstr "Sie können hier auch eine neue Version des Beschlusses einbringen."
 
 msgid "hide sub-topics"
 msgstr "Unterthemen verstecken"
@@ -2492,17 +2492,17 @@ msgid "New proposal"
 msgstr "Neuer Vorschlag"
 
 msgid "Change norms with this proposal"
-msgstr "Vorschlag bezieht sich auf"
+msgstr "Ändere Beschlüsse mit diesem Vorschlag"
 
 msgid ""
 "Proposals are implemented by including changes towards new or existing norm."
 " Norms are fixed documents that represent the consensus of this instance and"
 " can only be changed through a vote. Amend the proposal to change or create "
 "a norm."
-msgstr "Vorschläge enthalten Änderungen, die sich auf neue oder bereits existierende Papiere beziehen. Papiere sind Dokumente, welche die beschlossene und derzeitige Arbeitsgrundlage der Projektgruppe beschreiben und die durch eine Abstimmung verändert werden können. Ändern Sie den Vorschlag ab, um ein Papier zu bearbeiten oder zu erstellen."
+msgstr "Vorschläge enthalten Änderungen, die sich auf neue oder bereits existierende Beschlüsse beziehen. Beschlüsse sind Dokumente, welche die beschlossene und derzeitige Arbeitsgrundlage der Gruppe beschreiben und die durch eine Abstimmung verändert werden können. Ergänzen Sie den Vorschlag, um einen Beschluss zu bearbeiten oder zu erstellen."
 
 msgid "Select a norm to change:"
-msgstr "Wählen Sie ein Thema aus, das Sie ändern wollen:"
+msgstr "Wählen Sie einen Beschluss aus, den Sie ändern wollen:"
 
 msgid "Give a brief description of <b>the goals</b> of your proposal."
 msgstr "Eine kurze Beschreibung Ihres Vorschlags."
@@ -2531,13 +2531,13 @@ msgid "Proposed Implementations"
 msgstr "Versionen"
 
 msgid "Propose to change a norm"
-msgstr "Änderung eines Themas vorschlagen"
+msgstr "Änderung eines Beschlusses vorschlagen"
 
 msgid "Login to propose to change a norm"
-msgstr "Anmelden, um eine Änderung eines Themas vorzuschlagen."
+msgstr "Anmelden, um eine Änderung eines Beschlusses vorzuschlagen."
 
 msgid "Join instance to propose to change a norm"
-msgstr "Gruppe beitreten, um die Änderung eines Themas vorzuschlagen."
+msgstr "Gruppe beitreten, um die Änderung eines Beschlusses vorzuschlagen."
 
 msgid "tutorial_proposal_show_vote"
 msgstr "Sie können einen Vorschlag unterstützen oder ablehnen."
@@ -2650,59 +2650,59 @@ msgstr "Löschen: Umsetzung von %s"
 
 #, python-format
 msgid "Are you sure you want to delete the norm %s from this proposal?"
-msgstr "Sind Sie sicher, dass Sie das Thema %s aus diesem Vorschlag entfernen wollen?"
+msgstr "Sind Sie sicher, dass Sie den Beschluss %s aus diesem Vorschlag entfernen wollen?"
 
 #, python-format
 msgid "Implementation: %s"
 msgstr "Umsetzung: %s"
 
 msgid "Change an existing norm"
-msgstr "Ändern Sie ein bestehendes Thema"
+msgstr "Ändern Sie einen bestehenden Beschluss"
 
 msgid ""
 "Select a norm that you want to relate to. You can later propose a variant of"
 " this norm to effect a change."
-msgstr "Wählen Sie ein Thema aus, auf das Sie sich beziehen. Sie können später eine eigene Version dieses Themas vorschlagen, um es zu ändern."
+msgstr "Wählen Sie einen Beschluss aus, auf den Sie sich beziehen. Sie können später eine eigene Version dieses Beschlusses vorschlagen, um ihn zu ändern."
 
 msgid "Include"
 msgstr "Aufnehmen"
 
 msgid "Can't find an appropriate norm?"
-msgstr "Können Sie kein entsprechendes Thema finden?"
+msgstr "Können Sie keinen passenden Beschluss finden?"
 
 msgid "Create a new norm instead"
-msgstr "Stattdessen ein Thema anlegen"
+msgstr "Stattdessen einen Beschluss anlegen"
 
 msgid "Propose a new norm"
-msgstr "Ein neues Thema anlegen"
+msgstr "Einen neuen Beschluss anlegen"
 
 msgid ""
 "Create a new norm that you want to relate to. The norm will be created "
 "without any status quo. You can then add a text variant of that norm, "
 "specifying the change you want to implement."
-msgstr "Erstellen Sie ein neues Thema, auf das Sie sich beziehen wollen. Sie können dann eine Textvariante dieses Themas hinzufügen, das die von Ihnen gewünschten Änderungen darstellt."
+msgstr "Erstellen Sie einen neuen Beschluss, auf den Sie sich beziehen wollen. Sie können dann eine Textvariante dieses Beschlusses hinzufügen, das die von Ihnen gewünschten Änderungen darstellt."
 
 msgid "New norm title"
-msgstr "Neuer Titel des Themas"
+msgstr "Neuer Titel des Beschlusses"
 
 msgid "The new norm will be categorized under the specified parent page."
-msgstr "Das neue Thema wird unter der angegebenen Elternseite eingeordnet."
+msgstr "Der neue Beschluss wird unter der angegebenen Elternseite eingeordnet."
 
 msgid "Have you checked for exisiting norms?"
-msgstr "Haben Sie nachgeschaut, ob ein ähnliches Thema eventuell bereits besteht?"
+msgstr "Haben Sie nachgeschaut, ob ein ähnlicher Beschluss eventuell bereits besteht?"
 
 msgid "Include an existing norm instead"
-msgstr "Stattdessen ein vorhandes Thema einfügen"
+msgstr "Stattdessen einen vorhandenen Beschluss einfügen"
 
 msgid "Show Norm"
-msgstr "Thema anzeigen"
+msgstr "Beschluss anzeigen"
 
 msgid "There is a tie between variants, thus none is included at the moment."
 msgstr "Mehrere Versionen haben die gleiche Unterstützung, daher wird aktuell keine eingebunden."
 
 msgid ""
 "Status quo has the most votes, resulting in no proposed change to this norm."
-msgstr "Die Originalversion hat die meisten Stimmen, daher wird keine Änderung des Themas angestrebt."
+msgstr "Die Originalversion hat die meisten Stimmen, daher wird keine Änderung des Beschlusses angestrebt."
 
 msgid "Proposed by"
 msgstr "Vorgeschlagen von"
@@ -2714,7 +2714,7 @@ msgid "Oppose this variant"
 msgstr "Diese Version ablehnen"
 
 msgid "(this proposal should not change this norm)"
-msgstr "(dieser Vorschlag soll dieses Thema nicht ändern)"
+msgstr "(dieser Vorschlag soll diesen Beschluss nicht ändern)"
 
 msgid "Currently selected for inclusion in this proposal"
 msgstr "Aktuell zur Einbindung in diesen Vorschlag ausgewählt"
@@ -2767,7 +2767,7 @@ msgstr "Diese Version hat keinen Text."
 msgid ""
 "This norm has not yet been decided and is thus no official position of this "
 "group."
-msgstr "Ihre Gruppe hat zu diesem Thema noch keine Regelung getroffen. "
+msgstr "Ihre Gruppe hat zu diesem Beschluss noch keine Regelung getroffen. "
 
 #, python-format
 msgid "discuss (%s comments) &raquo;"
@@ -2825,18 +2825,18 @@ msgid ""
 "Start by reading some <b><a href=\"%s\">proposals</a></b> or <b><a "
 "href=\"%s\">norms</a></b>. Or take a look at some of the other <b><a "
 "href=\"%s\">instances</a></b>."
-msgstr "Beginnen Sie, indem Sie einige <b><a href=\"%s\">proposals</a></b> oder <b><a href=\"%s\">norms</a></b> lesen. Oder werfen Sie einen Blick auf einige der anderen <b><a href=\"%s\">instances</a></b>."
+msgstr "Beginnen Sie, indem Sie einige <b><a href=\"%s\">Vorschläge</a></b> oder <b><a href=\"%s\">Normen</a></b> lesen. Oder werfen Sie einen Blick auf einige der anderen <b><a href=\"%s\">Gruppen</a></b>."
 
 #, python-format
 msgid ""
 "Start by exploring the <b><a href=\"%s\">instances</a></b> and read some of "
 "the proposals and norms in the instances."
-msgstr "Beginnen Sie, indem Sie die <b><a href=\"%s\">instances</a></b> erkunden und einige der Vorschläge und Papiere in den Projektgruppen lesen. "
+msgstr "Beginnen Sie, indem Sie die <b><a href=\"%s\">Gruppen</a></b> erkunden und einige der Vorschläge und Beschlüsse in den Gruppen lesen. "
 
 msgid ""
 "If you join an instance, norms and proposals of the instance will be shown "
 "on your dashboard."
-msgstr "Wenn Sie einer Projektgruppe beitreten, werden Papiere und Vorschläge der Projektgruppe in Ihrem Dashboard angezeigt."
+msgstr "Wenn Sie einer Gruppe beitreten, werden Beschlüsse und Vorschläge der Gruppe in Ihrem Dashboard angezeigt."
 
 msgid ""
 "You can reach your dashboard anytime by clicking on your user name on the "
@@ -2847,7 +2847,7 @@ msgid ""
 "This is your Dashboard. Here you can find the list of instances your a "
 "member in, norms and proposals from these instance and a list of the pages "
 "you follow."
-msgstr "Dies ist Ihr Dashboard. Hier finden Sie eine Liste der Projektgruppen, in denen Sie Mitglied sind, Papiere und Vorschläge dieser Projektgruppen und eine Liste der Seiten, denen Sie folgen."
+msgstr "Dies ist Ihr Dashboard. Hier finden Sie eine Liste der Gruppen, in denen Sie Mitglied sind, Beschlüsse und Vorschläge dieser Projektgruppen und eine Liste der Seiten, denen Sie folgen."
 
 #, python-format
 msgid "You can also return to the <a href=\"%s\">Page you came from</a>."
@@ -2863,7 +2863,7 @@ msgid "list all"
 msgstr "zeige alle"
 
 msgid "Norms in your instances"
-msgstr "Themen in Ihren Instanzen"
+msgstr "Beschlüsse in Ihren Instanzen"
 
 msgid "List all pages"
 msgstr "Zeige alle Themen"
