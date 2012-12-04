@@ -272,13 +272,16 @@ klass_con = klass(-1)
 </%def>
 
 
-<%def name="create_form(parent, topic, wiki=True, arm=False, can_wiki=True, variant=None, ret_url='', format=None)">
+<%def name="create_form(parent, topic, wiki=None, arm=False, can_wiki=True, variant=None, ret_url='', format=None)">
 
 <%
 if format is None:
     format = ''
 else:
     format = ".%s" % format
+
+if wiki is None:
+    wiki = c.instance.editable_comments_default
 %>
   <h4>${_(u'Add comment')}</h4>
   <div class="comment_form">
