@@ -3,7 +3,7 @@
  <XRD xmlns="xri://$xrd*($v*2.0)" xmlns:simple="http://xrds-simple.net/core/1.0" version="2.0">
   <Type>xri://$xrds*simple</Type>
   <Service>
-   <URI>${h.base_url(c.instance, path='/openid/verify')}</URI>
+   <URI>${h.base_url('/openid/verify')}</URI>
    <Type>http://specs.openid.net/auth/2.0/return_to</Type>
   </Service>
  </XRD>

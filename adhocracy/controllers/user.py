@@ -127,7 +127,7 @@ class UserController(BaseController):
             c.recaptcha = captacha_enabled and h.recaptcha.displayhtml(
                 use_ssl=True)
             session['came_from'] = request.params.get('came_from',
-                                                      h.base_url(c.instance))
+                                                      h.base_url())
             session.save()
             return render("/user/register.html")
 
@@ -187,8 +187,7 @@ class UserController(BaseController):
             # redirect to dashboard with login message
             session['logged_in'] = True
             session.save()
-            location = h.base_url(c.instance,
-                                  path='/user/%s/dashboard' % login)
+            location = h.base_url('/user/%s/dashboard' % login)
             raise HTTPFound(location=location, headers=headers)
         else:
             raise Exception('We have added the user to the Database '
@@ -251,9 +250,8 @@ class UserController(BaseController):
         c.page_user.reset_code = random_token()
         model.meta.Session.add(c.page_user)
         model.meta.Session.commit()
-        url = h.base_url(c.instance,
-                         path="/user/%s/reset?c=%s" % (c.page_user.user_name,
-                                                       c.page_user.reset_code))
+        url = h.base_url("/user/%s/reset?c=%s" % (c.page_user.user_name,
+                                                  c.page_user.reset_code))
         body = (
             _("you have requested that your password be reset. In order "
               "to confirm the validity of your claim, please open the "
@@ -319,7 +317,7 @@ class UserController(BaseController):
                 model.meta.Session.commit()
                 redirect(h.entity_url(c.instance))
             else:
-                redirect(h.base_url(None, path='/instance'))
+                redirect(h.base_url('/instance', None))
         else:
             h.flash(_("Your email has been confirmed."), 'success')
             redirect(h.entity_url(c.page_user))
@@ -354,7 +352,7 @@ class UserController(BaseController):
             query = query.limit(50)
             return event.rss_feed(
                 query.all(), "%s Latest Actions" % c.page_user.name,
-                h.base_url(None, path='/user/%s' % c.page_user.user_name),
+                h.base_url('/user/%s' % c.page_user.user_name, None),
                 c.page_user.bio)
         c.events_pager = pager.events(query.all())
         c.tile = tiles.user.UserTile(c.page_user)
@@ -367,7 +365,7 @@ class UserController(BaseController):
             redirect('/')
         else:
             session['came_from'] = request.params.get('came_from',
-                                                      h.base_url(c.instance))
+                                                      h.base_url())
             session.save()
             return render('/user/login.html')
 
@@ -381,8 +379,7 @@ class UserController(BaseController):
             # redirect to the dashboard inside the instance exceptionally
             # to be able to link to proposals and norms in the welcome
             # message.
-            redirect(h.base_url(c.instance, path='/user/%s/dashboard') %
-                     c.user.user_name)
+            redirect(h.base_url(path='/user/%s/dashboard' % c.user.user_name))
         else:
             return formencode.htmlfill.render(
                 render("/user/login.html"),
@@ -393,7 +390,7 @@ class UserController(BaseController):
 
     def post_logout(self):
         session.delete()
-        redirect(h.base_url(c.instance))
+        redirect(h.base_url())
 
     def dashboard(self, id):
         '''Render a personalized dashboard for users'''
@@ -642,7 +639,7 @@ class UserController(BaseController):
         if c.instance is not None:
             redirect(h.instance.url(c.instance))
         else:
-            redirect(h.site.base_url(None))
+            redirect(h.site.base_url(instance=None))
 
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def filter(self):

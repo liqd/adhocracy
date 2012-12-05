@@ -68,7 +68,7 @@ T_INSTANCE_EDIT = EventType(
 T_INSTANCE_DELETE = EventType(
     u"t_instance_delete", pri=3,
     subject=lambda: _(u"Deleted Adhocracy: %(instance)s"),
-    link_path=lambda e: h.base_url(None),
+    link_path=lambda e: h.base_url(instance=None),
     event_msg=lambda: _(u"deleted the %(instance)s instance"))
 
 T_INSTANCE_JOIN = EventType(

@@ -17,4 +17,4 @@ def get_categories():
     return model.CategoryBadge.all(feedback_instance, include_global=False)
 
 def get_proposal_url():
-    return _site.base_url(get_feedback_instance(), path=u'/proposal')
+    return _site.base_url(u'/proposal', get_feedback_instance())

@@ -12,7 +12,7 @@
     <h3>${_("Edit milestone")}</h3>
 <div class="form_wrapper">
 <form name="edit_milestone" class="inplace" method="POST"
-  action="/milestone/${c.milestone.id}">
+  action="${h.base_url('/milestone/%d' % c.milestone.id">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
     
