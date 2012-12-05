@@ -43,7 +43,8 @@ instance_table = \
           Column('use_norms', Boolean, nullable=True, default=True),
           Column('require_selection', Boolean, nullable=True, default=False),
           Column('is_authenticated', Boolean, nullable=True, default=False),
-          Column('hide_global_categories', Boolean, nullable=True, default=False)
+          Column('hide_global_categories', Boolean, nullable=True, default=False),
+          Column('editable_comments_default', Boolean, nullable=True, default=True)
           )
 
 
