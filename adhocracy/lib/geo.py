@@ -40,7 +40,7 @@ ZOOM_TOLERANCE = map(lambda e: MIN_ZOOM_TOLERANCE / 2 ** e,
                      range(0, NUMBER_ZOOM_LEVELS))
 
 
-def format_json_to_geotag(geotag):
+def format_json_feature_to_geotag(geotag):
 
     from geoalchemy.utils import to_wkt
 

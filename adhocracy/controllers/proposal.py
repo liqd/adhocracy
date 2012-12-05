@@ -21,7 +21,7 @@ from adhocracy.lib.templating import render, render_def, render_json
 from adhocracy.lib.templating import render_geojson
 from adhocracy.lib.queue import post_update
 from adhocracy.lib.util import get_entity_or_abort
-from adhocracy.lib.geo import format_json_to_geotag
+from adhocracy.lib.geo import format_json_feature_to_geotag
 
 import adhocracy.lib.text as text
 
@@ -120,6 +120,12 @@ class ProposalController(BaseController):
                                                       {'text': c.query})
 
         c.tile = tiles.instance.InstanceTile(c.instance)
+
+        pages = model.Page.all_q(instance=c.instance,
+                                 functions=model.Page.LISTED)\
+                    .filter(model.Page.geotag!=None)
+        c.pages_pager = pager.pages(pages)
+
         return render("/proposal/index_map.html")
 
     @RequireInstance
@@ -210,7 +216,7 @@ class ProposalController(BaseController):
                 model.Tally.create_from_poll(poll)
 
         geotag = self.form_result.get('geotag')
-        proposal.geotag = format_json_to_geotag(geotag)
+        proposal.geotag = format_json_feature_to_geotag(geotag)
 
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
@@ -525,11 +531,8 @@ class ProposalController(BaseController):
         try:
             c.proposal = get_entity_or_abort(model.Proposal, id)
 
-            class state_(object):
-                page = c.proposal.description
-
             self.form_result = ProposalGeotagUpdateForm().to_python(
-                request.params, state=state_())
+                request.params)
 
         except Invalid, i:
             return self.edit_geotag(id, errors=i.unpack_errors())
@@ -537,7 +540,7 @@ class ProposalController(BaseController):
         require.proposal.edit(c.proposal)
 
         geotag = self.form_result.get('geotag')
-        c.proposal.geotag = format_json_to_geotag(geotag)
+        c.proposal.geotag = format_json_feature_to_geotag(geotag)
 
         model.meta.Session.add(c.proposal)
 

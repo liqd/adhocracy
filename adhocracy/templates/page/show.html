@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="map" file="/geo/map.html"/>
 <%namespace name="sidebar_defs" file="/sidebar.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 <% from adhocracy.lib import sorting %>
@@ -52,7 +53,8 @@
 
     %endif
 
-    <h3>${_("Information about the norm")}</h3>
+    <div class="sidebar_box">
+    <h3>${_("Information")}</h3>
     <summary>
         ## Shortlink http://domain/d/1234
         ${sidebar_defs.shortlink(c.page)}
@@ -85,7 +87,35 @@
         %endfor
     </ol>
     %endif
+
+    %if h.asbool(config.get('adhocracy.page_geotags')):
+    <h3>${_("Map")}</h3>
+    %if c.page.has_geotag():
+        ${map.show_page_map(c.page.id)}
+    %else:
+        <div id="no_map_yet">${_("This page does currently not refer to a geographic location.")}</div>
+    %endif
+
+    <% auth = check.page.edit(c.page) %>
+    %if auth:
+        <a href="${h.entity_url(c.page, member='edit_geotag')}" rel="#overlay-ajax-map" class="button_small">${_('Edit geographic location')}</a>
+
+        <div class="overlay" id="overlay-geo">
+          <a class="close"></a>
+          <!-- the external content is loaded inside this tag -->
+          <div class="contentWrap"></div>
+        </div>
+
+    %elif auth.propose_join():
+        <a class="button_small add ttip" title="${_('Join instance to edit geotag.')}" rel="#overlay-join-button">${_("Edit geographic location")}</a>
+    %elif auth.propose_login():
+        <a class="button_small add ttip" title="${_('Login to edit geotag.')}" rel="#overlay-login-button">${_("Edit geographic location")}</a>
+    %endif
+    %endif
+
     </summary>
+
+  </div>
 
 </section>
 

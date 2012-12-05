@@ -11,15 +11,47 @@ ${h.need.adhocracy_geo_js}
 }</script>
 </%def>
 
+<%def name="show_page_map(page_id)">
+${h.need.openlayers}
+${h.need_adhocracy_geo_i18n()}
+${h.need.adhocracy_geo_js}
+<div id="map" class="small_boxed_map"></div>
+<div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
+<script type="text/javascript">window.onload=function() {
+  adhocracy.geo.loadPageMap('${c.instance.key}', ${page_id}, false, null);
+}</script>
+</%def>
+
+<%def name="show_page_edit_map(page_id)">
+${h.need.openlayers}
+${h.need.ole}
+${h.need_adhocracy_geo_i18n()}
+${h.need.adhocracy_geo_js}
+<div id="map" class="midsize_map"></div>
+<div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
+<div id="edit_map_buttons" />
+<form id="edit_geotag" method='post' action='${h.entity_url(c.page, member="update_geotag")}'>
+    <input id='geotag_field' name='geotag' type='hidden' />
+    <div>
+      <div class="input_wrapper submit">
+        ${components.savebox("/page/%s" % c.page.id)}
+      </div>
+    </div>
+</form>
+<script type="text/javascript">window.onload=function() {
+  adhocracy.geo.loadPageMap('${c.instance.key}', ${page_id}, true, null);
+}</script>
+</%def>
+
 <%def name="show_single_proposal_edit_map(proposal_id)">
 ${h.need.openlayers}
 ${h.need_adhocracy_geo_i18n()}
 ${h.need.adhocracy_geo_js}
-<div id="map" class="edit_map"></div>
+<div id="map" class="midsize_map"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <div id="edit_map_buttons" />
 <form method='post' action='${h.entity_url(c.proposal, member="update_geotag")}'>
-    <input id='proposal_geotag_field' name='geotag' type='hidden' />
+    <input id='geotag_field' name='geotag' type='hidden' />
     <div>
       <div class="input_wrapper submit">
         ${components.savebox("/proposal/%s" % c.proposal.id)}
@@ -36,7 +68,7 @@ ${h.need.openlayers}
 ${h.need_adhocracy_geo_i18n()}
 ${h.need.adhocracy_geo_js}
 <div class="input_wrapper">
-  <input id='proposal_geotag_field' name='geotag' type='hidden' value='' />
+  <input id='geotag_field' name='geotag' type='hidden' value='' />
   <div id='map_div' />
   <div class="map_buttons">
     <a id='create_geo_button' class="button_small">${_('Add geographic location')}</a>
@@ -55,17 +87,17 @@ ${h.need.adhocracy_geo_js}
 <div id="map" class="${map_class}"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript">window.onload=function() {
-  adhocracy.geo.loadRegionMap('${c.instance.key}', ${initial_proposals if initial_proposals else []}, false, ${'true' if full_region else 'false'});
+  adhocracy.geo.loadRegionMap('${c.instance.key}', ${initial_proposals if initial_proposals else []}, [], false, ${'true' if full_region else 'false'});
 }</script>
 </%def>
 
-<%def name="show_region_map_large(initial_proposals=None, full_region=True)">
+<%def name="show_region_map_large(initial_proposals=None, initial_pages=None, full_region=True)">
 ${h.need.openlayers}
 ${h.need_adhocracy_geo_i18n()}
 ${h.need.adhocracy_geo_js}
 <div id="map" class="large_map"></div>
 <script type="text/javascript">window.onload=function() {
-  adhocracy.geo.loadRegionMap('${c.instance.key}', ${initial_proposals if initial_proposals else []}, true, ${'true' if full_region else 'false'});
+  adhocracy.geo.loadRegionMap('${c.instance.key}', ${initial_proposals if initial_proposals else []}, ${initial_pages if initial_pages else []}, true, ${'true' if full_region else 'false'});
 }</script>
 </%def>
 

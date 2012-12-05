@@ -11,6 +11,8 @@ from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
+import geojson
+
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h
 from adhocracy.lib import pager, sorting, tiles, watchlist
@@ -19,11 +21,13 @@ from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.templating import render_geojson
 from adhocracy.lib.text.diff import (norm_texts_inline_compare,
                                      page_titles_compare)
 from adhocracy.lib.text.render import render_line_based, render as render_text
 import adhocracy.lib.text as libtext
 from adhocracy.lib.util import get_entity_or_abort
+from adhocracy.lib.geo import format_json_feature_to_geotag
 
 
 log = logging.getLogger(__name__)
@@ -77,6 +81,10 @@ class PageDiffForm(formencode.Schema):
     allow_extra_fields = True
     left = forms.ValidText()
     right = forms.ValidText()
+
+
+class PageGeotagUpdateForm(formencode.Schema):
+    geotag = validators.String(not_empty=False)
 
 
 class PageController(BaseController):
@@ -603,3 +611,52 @@ class PageController(BaseController):
                    page.create_time.strftime("%Y-%m-%d"))
         h.add_meta("dc.author",
                    libtext.meta_escape(text.user.name, markdown=False))
+
+    def proposal_geotags(self, id):
+        c.page = get_entity_or_abort(model.Page, id)
+        require.page.show(c.page)
+
+        proposals = [s.proposal for s in c.page.selections
+                     if s.proposal.geotag is not None]
+
+        features = geojson.FeatureCollection(
+            [p.get_geojson_feature() for p in proposals])
+
+        return render_geojson(features)
+
+    def get_geotag(self, id):
+
+        page = get_entity_or_abort(model.Page, id)
+        return render_geojson(page.get_geojson_feature())
+
+    def edit_geotag(self, id, errors={}):
+
+        c.page = get_entity_or_abort(model.Page, id)
+        require.page.edit(c.page)
+        return htmlfill.render(
+            render("/page/edit_geotag.html"), errors=errors)
+
+    def update_geotag(self, id):
+
+        try:
+            c.page = get_entity_or_abort(model.Page, id)
+
+            self.form_result = PageGeotagUpdateForm().to_python(
+                request.params)
+
+        except Invalid, i:
+            return self.edit_geotag(id, errors=i.unpack_errors())
+
+        require.proposal.edit(c.proposal)
+
+        geotag = self.form_result.get('geotag')
+        c.page.geotag = format_json_feature_to_geotag(geotag)
+
+        model.meta.Session.add(c.page)
+
+        model.meta.Session.commit()
+
+        # watchlist.check_watch(c.proposal)
+        # event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
+        #           topics=[c.proposal], proposal=c.proposal, rev=_text)
+        redirect(h.entity_url(c.page))

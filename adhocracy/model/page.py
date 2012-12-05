@@ -1,9 +1,11 @@
 from datetime import datetime
 import logging
 
+from pylons import config
 from pylons.i18n import _
 from sqlalchemy import Table, Column, ForeignKey, func, or_, not_
 from sqlalchemy import Integer, Unicode
+from geoalchemy import GeometryExtensionColumn, Geometry
 
 import meta
 from delegateable import Delegateable
@@ -14,7 +16,9 @@ log = logging.getLogger(__name__)
 
 page_table = Table('page', meta.data,
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
-    Column('function', Unicode(20))
+    Column('function', Unicode(20)),
+    GeometryExtensionColumn(
+        'geotag', Geometry(dimension=2, srid=900913), nullable=True),
     )
 
 
@@ -346,3 +350,26 @@ class Page(Delegateable):
 
     def __repr__(self):
         return u"<Page(%s)>" % (self.id)
+
+    def has_geotag(self):
+        assert config.get('adhocracy.page_geotags')
+        return self.geotag is not None
+
+    def get_geojson_feature(self):
+
+        import geojson
+        from shapely import wkb
+        from adhocracy.lib import helpers as h
+
+        if self.geotag is None:
+            return {}
+        else:
+            return geojson.Feature(
+                geometry=wkb.loads(str(self.geotag.geom_wkb)),
+                properties={
+                    'title': self.title,
+                    'url': h.entity_url(self),
+                    'numProposals': len(self.selections),
+                },
+                id=self.id
+                )

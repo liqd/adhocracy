@@ -96,20 +96,43 @@ var adhocracy = adhocracy || {};
         strokeOpacity: 0.3
     };
 
+    adhocracy.geo.pagePolygonDefault = {
+        strokeColor: "#4D4D4D",
+        fillColor: "#656565"
+    };
+    adhocracy.geo.pagePolygonSelect = {
+        strokeColor: "#111111",
+        fillColor: "#343434"
+    };
+
+    adhocracy.geo.pagePolygonStyleMap = new OpenLayers.StyleMap({
+        'default': new OpenLayers.Style(adhocracy.geo.pagePolygonDefault),
+        'select': new OpenLayers.Style(adhocracy.geo.pagePolygonSelect)
+    });
+
+    adhocracy.geo.proposalStyleMap = new OpenLayers.StyleMap({
+        'default': new OpenLayers.Style(adhocracy.geo.styleProps),
+        'select': new OpenLayers.Style(adhocracy.geo.styleSelect)
+    });
 
     adhocracy.geo.createProposalLayer = function () {
 
         return new OpenLayers.Layer.Vector("proposal", {
             displayInLayerSwitcher: false,
-            styleMap: new OpenLayers.StyleMap({
-                'default': new OpenLayers.Style(adhocracy.geo.styleProps),
-                'select': new OpenLayers.Style(adhocracy.geo.styleSelect)
-            })
+            styleMap: adhocracy.geo.proposalStyleMap
         });
     };
 
-    adhocracy.geo.fetchSingleProposal = function (singleProposalId, layer, callback) {
-        var url = '/proposal/' + singleProposalId + '/get_geotag';
+    adhocracy.geo.createPageLayer = function () {
+
+        return new OpenLayers.Layer.Vector("page", {
+            displayInLayerSwitcher: false,
+            styleMap: adhocracy.geo.pagePolygonStyleMap
+        });
+    };
+
+    adhocracy.geo.fetchSingleDelegateable = function (objectType, delegateableId, edit, callback) {
+        var url = '/' + objectType + '/' + delegateableId + '/get_geotag';
         $.ajax({
             url: url,
             success: function (data) {
@@ -117,8 +140,9 @@ var adhocracy = adhocracy || {};
                 if (features) {
                     // assert(features.length==1);
                     var feature = features[0];
-                    $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(feature));
-                    layer.addFeatures([feature]);
+                    if (edit) {
+                        $('#' + objectType + '_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(feature));
+                    }
                     callback(feature);
                 } else {
                     callback(null);
@@ -198,6 +222,29 @@ var adhocracy = adhocracy || {};
         });
     };
 
+    adhocracy.geo.createAjaxFeatureLayer = function (layerName, url, styleMap, featuresAddedCallback) {
+
+        var format = new OpenLayers.Format.GeoJSON();
+        format.read = function () {
+            var result = OpenLayers.Format.GeoJSON.prototype.read.apply(this, arguments);
+            if (result.length === 0) {
+                var features = {};
+                features.features = [];
+                featuresAddedCallback(features);
+            }
+            return result;
+        };
+        return new OpenLayers.Layer.Vector(layerName, {
+            strategies: [new OpenLayers.Strategy.Fixed()],
+            protocol: new OpenLayers.Protocol.HTTP({
+                url: url,
+                format: format
+            }),
+            styleMap: styleMap
+        });
+
+    };
+
     adhocracy.geo.createRegionProposalsLayer = function (instanceKey, initialProposals, featuresAddedCallback) {
 
         var rule = new OpenLayers.Rule({
@@ -219,35 +266,69 @@ var adhocracy = adhocracy || {};
             return false;
         };
 
-        var format = new OpenLayers.Format.GeoJSON();
-        format.read = function () {
-            var result = OpenLayers.Format.GeoJSON.prototype.read.apply(this, arguments);
-            if (result.length === 0) {
-                var features = {};
-                features.features = [];
-                featuresAddedCallback(features);
-            }
-            return result;
-        };
+        var url = '/instance/' + instanceKey + '/get_proposal_geotags';
 
-        var layer = new OpenLayers.Layer.Vector('region_proposals', {
-            strategies: [new OpenLayers.Strategy.Fixed()],
-            protocol: new OpenLayers.Protocol.HTTP({
-                url: '/instance/' + instanceKey + '/get_proposal_geotags',
-                format: format
-            }),
-            styleMap: new OpenLayers.StyleMap({
+        var styleMap = new OpenLayers.StyleMap({
                 'default': new OpenLayers.Style(adhocracy.geo.styleProps, {
-                    rules: [
-                        rule,
-                        new OpenLayers.Rule({
-                            elseFilter: true
-                        })
-                    ]
+                    rules: [rule, new OpenLayers.Rule({ elseFilter: true })]
                 }),
                 'select': new OpenLayers.Style(adhocracy.geo.styleSelect)
-            })
+            });
+
+
+        var layer = adhocracy.geo.createAjaxFeatureLayer('Proposals', url, styleMap, featuresAddedCallback);
+
+        layer.events.on({
+            'featuresadded': featuresAddedCallback
         });
+
+        return layer;
+    };
+
+    adhocracy.geo.createRegionPagesLayer = function (instanceKey, initialPages, featuresAddedCallback) {
+
+        var url = '/instance/' + instanceKey + '/get_page_geotags';
+
+        var layer = adhocracy.geo.createAjaxFeatureLayer('Pages', url,
+                                                        adhocracy.geo.pagePolygonStyleMap,
+                                                        featuresAddedCallback);
+
+        layer.events.on({
+            'featuresadded': featuresAddedCallback
+        });
+
+        return layer;
+    };
+
+    adhocracy.geo.createPageProposalsLayer = function (instanceKey, pageId, featuresAddedCallback) {
+
+        // TODO: Add marker and link them to variant list bidirectionally
+        /*
+        var rule = new OpenLayers.Rule({
+            symbolizer: adhocracy.geo.balloonSymbolizer
+        });
+        rule.evaluate = function (feature) {
+            if (initialProposals) {
+                var index = initialProposals.indexOf(feature.fid);
+
+                if (index >= 0) {
+                    if (index < 10) {
+                        var letter = adhocracy.geo.setBalloonSymbolizer(this, index);
+                        $('#result_list_marker_' + feature.fid).attr('alt', letter).addClass('marker_' + letter);
+                        return true;
+                    }
+                    $('#result_list_marker_' + feature.fid).attr('alt', index).addClass('bullet_marker');
+                }
+            }
+            return false;
+        };
+        var rules = [rule, new OpenLayers.Rule({ elseFilter: true })];
+        */
+
+        var url = '/page/' + pageId + '/proposal_geotags';
+        var layer = adhocracy.geo.createAjaxFeatureLayer('proposal', url,
+                                                         adhocracy.geo.proposalStyleMap,
+                                                         featuresAddedCallback);
 
         layer.events.on({
             'featuresadded': featuresAddedCallback
@@ -299,6 +380,18 @@ var adhocracy = adhocracy || {};
 
     };
 
+    adhocracy.geo.addOleControls = function (map) {
+        var editor = new OpenLayers.Editor(map, {
+            activeControls: ['Navigation', 'SnappingSettings', 'Separator', 'DeleteFeature', 'DragFeature', 'SelectFeature', 'Separator', 'DrawHole', 'ModifyFeature', 'Separator'],
+            //featureTypes: ['polygon', 'path', 'point']
+            featureTypes: ['polygon']
+        });
+        editor.startEditMode();
+
+        return editor;
+
+    };
+
     adhocracy.geo.addEditControls = function (map, layer) {
 
         var buttonState;
@@ -309,6 +402,8 @@ var adhocracy = adhocracy || {};
                 pointClicked();
             }
         });
+
+        var geotag_field = $('#geotag_field');
 
         function updateEditButtons() {
 
@@ -359,7 +454,7 @@ var adhocracy = adhocracy || {};
                 'class': 'button',
                 click: function () {
                     layer.removeAllFeatures();
-                    $('#proposal_geotag_field').val('');
+                    geotag_field.val('');
                     updateEditButtons();
                 },
                 text: $.i18n._('remove_position')
@@ -368,7 +463,7 @@ var adhocracy = adhocracy || {};
 
         function updateGeotagField() {
             var transformed_feature = layer.features[0].clone();
-            $('#proposal_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(transformed_feature));
+            geotag_field.val(new OpenLayers.Format.GeoJSON({}).write(transformed_feature));
             map.setCenter(layer.features[0].geometry.getBounds().getCenterLonLat(),
                 map.getZoom());
         }
@@ -379,7 +474,7 @@ var adhocracy = adhocracy || {};
             updateGeotagField();
         };
 
-        function singleProposalFetched(feature) {
+        function featureFetched(feature) {
             if (feature) {
                 addChangeRemoveGeoButton(layer, pointControl);
                 buttonState = 1;
@@ -399,7 +494,7 @@ var adhocracy = adhocracy || {};
             pointControl
         ]);
 
-        return singleProposalFetched;
+        return featureFetched;
     };
 
     adhocracy.geo.createRegionBoundaryLayer = function (instanceKey, callback) {
@@ -1157,6 +1252,29 @@ var adhocracy = adhocracy || {};
         return result;
     };
 
+    adhocracy.geo.buildPagePopup = function (attributes) {
+        var maxPopupTitleLength = 30;
+        var title = attributes.title;
+        if (title.length > maxPopupTitleLength) {
+            title = title.substring(0, maxPopupTitleLength) + " ...";
+        }
+
+        var numProposalsLabel;
+        if (attributes.numProposals === 1) {
+            numProposalsLabel = $.i18n._('proposal');
+        } else {
+            numProposalsLabel = $.i18n._('proposals');
+        }
+
+        var result = "<div class='page_popup_title'>";
+        result = result + "<a href='" + attributes.url + "'>" + title + "</a>";
+        result = result + "<div class='meta'>";
+        result = result + attributes.numProposals + ' ' + numProposalsLabel;
+        result = result + "</div>";
+        result = result + "</div>";
+        return result;
+    };
+
 
     adhocracy.geo.buildEastereggPopup = function (attributes) {
         return "<div class='easteregg_popup_title'><img src='" + attributes.img + "'><br>" + attributes.text + "</div>";
@@ -1175,6 +1293,57 @@ var adhocracy = adhocracy || {};
             });
 
         return selectControl;
+    };
+
+    adhocracy.geo.loadPageMap = function (instanceKey, pageId, edit, position) {
+        var map = adhocracy.geo.createMap();
+
+        var waiter = adhocracy.geo.createWaiter(3, function (bounds) {
+            map.zoomToExtent(bounds);
+        });
+
+        map.addControls(adhocracy.geo.createControls(edit, false));
+        map.addLayers(adhocracy.geo.createBaseLayers(5, 19));
+        var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(instanceKey, function (feature) {
+            waiter(feature, true);
+        });
+        map.addLayers(regionBoundaryLayers);
+        //adhocracy.geo.createPopupControl(map, regionBoundaryLayers[1], adhocracy.geo.buildInstancePopup);
+
+        var proposalLayer = adhocracy.geo.createPageProposalsLayer(instanceKey, pageId, function (features) {
+            waiter(features, true);
+        });
+        map.addLayer(proposalLayer);
+        adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildProposalPopup);
+
+
+        adhocracy.geo.fetchSingleDelegateable('page', pageId, edit, function (feature) {
+            if (edit) {
+                var editor = adhocracy.geo.addOleControls(map);
+                if (feature) {
+                    editor.loadFeatures([feature]);
+                }
+                $('form#edit_geotag').on('submit', function (event) {
+                    //$('#geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(editor.toMultiPolygon(editor.editLayer.features)));
+                    if (editor.editLayer.features.length > 0) {
+                        $('#geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(editor.editLayer.features[0]));
+                    } else {
+                        $('#geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(''));
+                    }
+                    editor.stopEditMode();
+                    return true;
+                });
+            } else {
+                var pageLayer = adhocracy.geo.createPageLayer();
+                map.addLayer(pageLayer);
+                pageLayer.addFeatures([feature]);
+                adhocracy.geo.createPopupControl(map, pageLayer, adhocracy.geo.buildPagePopup);
+
+                map.addControl(adhocracy.geo.createSelectControl());
+            }
+
+            waiter(feature, true);
+        });
     };
 
     adhocracy.geo.loadSingleProposalMap = function (instanceKey, proposalId, edit, position) {
@@ -1208,7 +1377,8 @@ var adhocracy = adhocracy || {};
 
         //don't try to fetch proposals geotags when there's no proposal (i.e. if proposal is created)
         if (proposalId) {
-            adhocracy.geo.fetchSingleProposal(proposalId, proposalLayer, function (feature) {
+            adhocracy.geo.fetchSingleDelegateable('proposal', proposalId, edit, function (feature) {
+                proposalLayer.addFeatures([feature]);
                 if (edit) {
                     singleProposalFetchedCallback(feature);
                 }
@@ -1251,7 +1421,7 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.geo.loadRegionMap = function (instanceKey, initialProposals, largeMap, fullRegion) {
+    adhocracy.geo.loadRegionMap = function (instanceKey, initialProposals, initialPages, largeMap, fullRegion) {
 
         var map;
 
@@ -1278,8 +1448,9 @@ var adhocracy = adhocracy || {};
         }
 
         map = adhocracy.geo.createMap();
+        adhocracy.geo.map = map;
 
-        var waiter = adhocracy.geo.createWaiter(fullRegion ? 1 : 2, function (bounds) {
+        var waiter = adhocracy.geo.createWaiter(fullRegion ? 1 : 3, function (bounds) {
             map.zoomToExtent(bounds);
 
             var controls;
@@ -1304,7 +1475,15 @@ var adhocracy = adhocracy || {};
             }
         });
         map.addLayer(proposalLayer);
-        var popupControl = adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildProposalPopup);
+        var proposalPopupControl = adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildProposalPopup);
+
+        var pageLayer = adhocracy.geo.createRegionPagesLayer(instanceKey, initialPages, function (features) {
+            if (!(fullRegion)) {
+                waiter(features, true);
+            }
+        });
+        map.addLayer(pageLayer);
+        var pagePopupControl = adhocracy.geo.createPopupControl(map, pageLayer, adhocracy.geo.buildPagePopup);
 
         if (adhocracy.geo.easteregg) {
             var easterLayer = adhocracy.geo.createEastereggLayer();
@@ -1806,7 +1985,7 @@ var adhocracy = adhocracy || {};
 
             $('<div />', {
                 id: 'map',
-                'class': 'edit_map'
+                'class': 'midsize_map'
             }).appendTo('#map_div');
 
             adhocracy.geo.loadSingleProposalMap(instanceKey, null, true, position);

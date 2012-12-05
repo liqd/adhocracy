@@ -153,6 +153,18 @@ def make_map():
     map.connect('/page/{id}/ask_delete', controller='page',
                 action='ask_delete',
                 conditions=dict(method=['GET']))
+    map.connect('/page/{id}/get_geotag', controller='page',
+                action='get_geotag',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id}/edit_geotag', controller='page',
+                action='edit_geotag',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id}/update_geotag', controller='page',
+                action='update_geotag',
+                conditions=dict(method=['POST']))
+    map.connect('/page/{id}/proposal_geotags', controller='page',
+                action='proposal_geotags',
+                conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant};{text}.{format}', controller='page',
                 action='show',
                 conditions=dict(method=['GET']))
@@ -321,6 +333,7 @@ def make_map():
                                                  'activity': 'GET',
                                                  'get_region': 'GET',
                                                  'get_proposal_geotags': 'GET',
+                                                 'get_page_geotags': 'GET',
                                                  })
 
     # API

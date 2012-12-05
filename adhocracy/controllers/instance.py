@@ -20,6 +20,7 @@ from shapely import wkb
 
 from adhocracy import forms, i18n, model
 from adhocracy.model import Proposal
+from adhocracy.model import Page
 from adhocracy.controllers.admin import AdminController, UserImportForm
 from adhocracy.controllers.badge import BadgeController
 from adhocracy.lib.instance import RequireInstance
@@ -873,7 +874,7 @@ class InstanceController(BaseController):
             )
 
             admin_center_props = {
-                'url': h.base_url(c.instance),
+                'url': h.base_url(''),
                 'label': c.instance.label
             }
             add_instance_props(c.instance, admin_center_props)
@@ -884,7 +885,7 @@ class InstanceController(BaseController):
 
         return render_geojson(feature)
 
-    #@RequireInstance
+    @RequireInstance
     def get_proposal_geotags(self, id):
         c.instance = get_entity_or_abort(model.Instance, id)
         require.instance.show(c.instance)
@@ -896,6 +897,21 @@ class InstanceController(BaseController):
 
         features = geojson.FeatureCollection(
             [p.get_geojson_feature() for p in proposals])
+
+        return render_geojson(features)
+
+    @RequireInstance
+    def get_page_geotags(self, id):
+        c.instance = get_entity_or_abort(model.Instance, id)
+        require.instance.show(c.instance)
+
+        pages = model.Page.\
+            all_q(instance=c.instance, functions=model.Page.LISTED).\
+            filter(Page.geotag != None).\
+            all()
+
+        features = geojson.FeatureCollection(
+            [p.get_geojson_feature() for p in pages])
 
         return render_geojson(features)
 

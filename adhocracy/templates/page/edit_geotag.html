@@ -1,0 +1,24 @@
+<%inherit file="/template.html" />
+<%namespace name="tiles_html" file="/page/tiles.html"/>
+<%namespace name="components" file="/components.html"/>
+<%namespace name="map" file="/geo/map.html"/>
+<%def name="title()">${_("Edit geotag for page %s") % c.page.title}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.page.breadcrumbs(c.page)|n} &raquo; ${_("Edit geotag")}
+</%def>
+
+<%block name="main_content">
+    <div class="form_wrapper">
+    <h2>${_(u'Edit geographical location for page &ldquo;%s&rdquo;') % c.page.title|n}</h2>
+    <div class="hr">
+        <hr />
+    </div>
+
+    ${map.show_page_edit_map(c.page.id)}
+
+    </div>
+</%block>
+
+    
+
