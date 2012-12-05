@@ -1683,10 +1683,10 @@ a.joyride-prev-tip:hover {
 #feedback {
   position: fixed;
   right: -350px;
-  top: 120px;
+  top: 240px;
   width: 377px;
   overflow: normal;
-  z-index: 11;
+  z-index: 900;
 }
 
 #feedback_form {
