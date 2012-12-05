@@ -110,7 +110,7 @@ adhocracy_ko = Resource(adhocracy_library, 'adhocracy.ko.js',
 
 # --[ openlayers ]----------------------------------------------------------
 
-openlayers_library = Library('openlayers', 'openlayers', version='2.12.1')
+openlayers_library = Library('openlayers', 'openlayers', version='2.12.2')
 openlayers_js = Resource(openlayers_library, 'openlayers.js',
                          minified='openlayers.min.js',
                          depends=[jquery],
@@ -118,6 +118,21 @@ openlayers_js = Resource(openlayers_library, 'openlayers.js',
 openlayers_css = Resource(openlayers_library, 'theme/default/style.css')
 
 openlayers = Group([openlayers_js, openlayers_css])
+
+
+# --[ openlayers editor ]---------------------------------------------------
+
+ole_library = Library('openlayers-editor', 'openlayers-editor',
+                      version='1.0-beta3')
+ole_lang_js = Resource(ole_library, 'lib/Editor/Lang/en.js',
+                         depends=[openlayers_js])
+ole_loader_js = Resource(ole_library, 'lib/loader.js',
+                         depends=[openlayers_js])
+ole_js = Resource(ole_library, 'ole.min.js',
+                  depends=[openlayers_js],
+                  bottom=True)
+ole_css = Resource(ole_library, 'theme/geosilk/geosilk.css')
+ole = Group([ole_js, ole_css])
 
 
 # --[ misc geo branch only ]------------------------------------------------

@@ -110,6 +110,7 @@ setup(
             'jqueryui = adhocracy.static:jquery_ui_library',
             'jquery_i18n = adhocracy.static:jquery_i18n_library',
             'openlayers = adhocracy.static:openlayers_library',
+            'ole = adhocracy.static:ole_library',
         ]
     }
 )

@@ -7531,2094 +7531,6 @@ OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
     CLASS_NAME: "OpenLayers.Control.PanZoomBar"
 });
 /* ======================================================================
-    OpenLayers/Geometry/Collection.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Geometry.js
- */
-
-/**
- * Class: OpenLayers.Geometry.Collection
- * A Collection is exactly what it sounds like: A collection of different 
- * Geometries. These are stored in the local parameter <components> (which
- * can be passed as a parameter to the constructor). 
- * 
- * As new geometries are added to the collection, they are NOT cloned. 
- * When removing geometries, they need to be specified by reference (ie you 
- * have to pass in the *exact* geometry to be removed).
- * 
- * The <getArea> and <getLength> functions here merely iterate through
- * the components, summing their respective areas and lengths.
- *
- * Create a new instance with the <OpenLayers.Geometry.Collection> constructor.
- *
- * Inherits from:
- *  - <OpenLayers.Geometry> 
- */
-OpenLayers.Geometry.Collection = OpenLayers.Class(OpenLayers.Geometry, {
-
-    /**
-     * APIProperty: components
-     * {Array(<OpenLayers.Geometry>)} The component parts of this geometry
-     */
-    components: null,
-    
-    /**
-     * Property: componentTypes
-     * {Array(String)} An array of class names representing the types of
-     * components that the collection can include.  A null value means the
-     * component types are not restricted.
-     */
-    componentTypes: null,
-
-    /**
-     * Constructor: OpenLayers.Geometry.Collection
-     * Creates a Geometry Collection -- a list of geoms.
-     *
-     * Parameters: 
-     * components - {Array(<OpenLayers.Geometry>)} Optional array of geometries
-     *
-     */
-    initialize: function (components) {
-        OpenLayers.Geometry.prototype.initialize.apply(this, arguments);
-        this.components = [];
-        if (components != null) {
-            this.addComponents(components);
-        }
-    },
-
-    /**
-     * APIMethod: destroy
-     * Destroy this geometry.
-     */
-    destroy: function () {
-        this.components.length = 0;
-        this.components = null;
-        OpenLayers.Geometry.prototype.destroy.apply(this, arguments);
-    },
-
-    /**
-     * APIMethod: clone
-     * Clone this geometry.
-     *
-     * Returns:
-     * {<OpenLayers.Geometry.Collection>} An exact clone of this collection
-     */
-    clone: function() {
-        var geometry = eval("new " + this.CLASS_NAME + "()");
-        for(var i=0, len=this.components.length; i<len; i++) {
-            geometry.addComponent(this.components[i].clone());
-        }
-        
-        // catch any randomly tagged-on properties
-        OpenLayers.Util.applyDefaults(geometry, this);
-        
-        return geometry;
-    },
-
-    /**
-     * Method: getComponentsString
-     * Get a string representing the components for this collection
-     * 
-     * Returns:
-     * {String} A string representation of the components of this geometry
-     */
-    getComponentsString: function(){
-        var strings = [];
-        for(var i=0, len=this.components.length; i<len; i++) {
-            strings.push(this.components[i].toShortString()); 
-        }
-        return strings.join(",");
-    },
-
-    /**
-     * APIMethod: calculateBounds
-     * Recalculate the bounds by iterating through the components and 
-     * calling calling extendBounds() on each item.
-     */
-    calculateBounds: function() {
-        this.bounds = null;
-        var bounds = new OpenLayers.Bounds();
-        var components = this.components;
-        if (components) {
-            for (var i=0, len=components.length; i<len; i++) {
-                bounds.extend(components[i].getBounds());
-            }
-        }
-        // to preserve old behavior, we only set bounds if non-null
-        // in the future, we could add bounds.isEmpty()
-        if (bounds.left != null && bounds.bottom != null && 
-            bounds.right != null && bounds.top != null) {
-            this.setBounds(bounds);
-        }
-    },
-
-    /**
-     * APIMethod: addComponents
-     * Add components to this geometry.
-     *
-     * Parameters:
-     * components - {Array(<OpenLayers.Geometry>)} An array of geometries to add
-     */
-    addComponents: function(components){
-        if(!(OpenLayers.Util.isArray(components))) {
-            components = [components];
-        }
-        for(var i=0, len=components.length; i<len; i++) {
-            this.addComponent(components[i]);
-        }
-    },
-
-    /**
-     * Method: addComponent
-     * Add a new component (geometry) to the collection.  If this.componentTypes
-     * is set, then the component class name must be in the componentTypes array.
-     *
-     * The bounds cache is reset.
-     * 
-     * Parameters:
-     * component - {<OpenLayers.Geometry>} A geometry to add
-     * index - {int} Optional index into the array to insert the component
-     *
-     * Returns:
-     * {Boolean} The component geometry was successfully added
-     */    
-    addComponent: function(component, index) {
-        var added = false;
-        if(component) {
-            if(this.componentTypes == null ||
-               (OpenLayers.Util.indexOf(this.componentTypes,
-                                        component.CLASS_NAME) > -1)) {
-
-                if(index != null && (index < this.components.length)) {
-                    var components1 = this.components.slice(0, index);
-                    var components2 = this.components.slice(index, 
-                                                           this.components.length);
-                    components1.push(component);
-                    this.components = components1.concat(components2);
-                } else {
-                    this.components.push(component);
-                }
-                component.parent = this;
-                this.clearBounds();
-                added = true;
-            }
-        }
-        return added;
-    },
-    
-    /**
-     * APIMethod: removeComponents
-     * Remove components from this geometry.
-     *
-     * Parameters:
-     * components - {Array(<OpenLayers.Geometry>)} The components to be removed
-     *
-     * Returns: 
-     * {Boolean} A component was removed.
-     */
-    removeComponents: function(components) {
-        var removed = false;
-
-        if(!(OpenLayers.Util.isArray(components))) {
-            components = [components];
-        }
-        for(var i=components.length-1; i>=0; --i) {
-            removed = this.removeComponent(components[i]) || removed;
-        }
-        return removed;
-    },
-    
-    /**
-     * Method: removeComponent
-     * Remove a component from this geometry.
-     *
-     * Parameters:
-     * component - {<OpenLayers.Geometry>} 
-     *
-     * Returns: 
-     * {Boolean} The component was removed.
-     */
-    removeComponent: function(component) {
-        
-        OpenLayers.Util.removeItem(this.components, component);
-        
-        // clearBounds() so that it gets recalculated on the next call
-        // to this.getBounds();
-        this.clearBounds();
-        return true;
-    },
-
-    /**
-     * APIMethod: getLength
-     * Calculate the length of this geometry
-     *
-     * Returns:
-     * {Float} The length of the geometry
-     */
-    getLength: function() {
-        var length = 0.0;
-        for (var i=0, len=this.components.length; i<len; i++) {
-            length += this.components[i].getLength();
-        }
-        return length;
-    },
-    
-    /**
-     * APIMethod: getArea
-     * Calculate the area of this geometry. Note how this function is overridden
-     * in <OpenLayers.Geometry.Polygon>.
-     *
-     * Returns:
-     * {Float} The area of the collection by summing its parts
-     */
-    getArea: function() {
-        var area = 0.0;
-        for (var i=0, len=this.components.length; i<len; i++) {
-            area += this.components[i].getArea();
-        }
-        return area;
-    },
-
-    /** 
-     * APIMethod: getGeodesicArea
-     * Calculate the approximate area of the polygon were it projected onto
-     *     the earth.
-     *
-     * Parameters:
-     * projection - {<OpenLayers.Projection>} The spatial reference system
-     *     for the geometry coordinates.  If not provided, Geographic/WGS84 is
-     *     assumed.
-     * 
-     * Reference:
-     * Robert. G. Chamberlain and William H. Duquette, "Some Algorithms for
-     *     Polygons on a Sphere", JPL Publication 07-03, Jet Propulsion
-     *     Laboratory, Pasadena, CA, June 2007 http://trs-new.jpl.nasa.gov/dspace/handle/2014/40409
-     *
-     * Returns:
-     * {float} The approximate geodesic area of the geometry in square meters.
-     */
-    getGeodesicArea: function(projection) {
-        var area = 0.0;
-        for(var i=0, len=this.components.length; i<len; i++) {
-            area += this.components[i].getGeodesicArea(projection);
-        }
-        return area;
-    },
-    
-    /**
-     * APIMethod: getCentroid
-     *
-     * Compute the centroid for this geometry collection.
-     *
-     * Parameters:
-     * weighted - {Boolean} Perform the getCentroid computation recursively,
-     * returning an area weighted average of all geometries in this collection.
-     *
-     * Returns:
-     * {<OpenLayers.Geometry.Point>} The centroid of the collection
-     */
-    getCentroid: function(weighted) {
-        if (!weighted) {
-            return this.components.length && this.components[0].getCentroid();
-        }
-        var len = this.components.length;
-        if (!len) {
-            return false;
-        }
-        
-        var areas = [];
-        var centroids = [];
-        var areaSum = 0;
-        var minArea = Number.MAX_VALUE;
-        var component;
-        for (var i=0; i<len; ++i) {
-            component = this.components[i];
-            var area = component.getArea();
-            var centroid = component.getCentroid(true);
-            if (isNaN(area) || isNaN(centroid.x) || isNaN(centroid.y)) {
-                continue;
-            }
-            areas.push(area);
-            areaSum += area;
-            minArea = (area < minArea && area > 0) ? area : minArea;
-            centroids.push(centroid);
-        }
-        len = areas.length;
-        if (areaSum === 0) {
-            // all the components in this collection have 0 area
-            // probably a collection of points -- weight all the points the same
-            for (var i=0; i<len; ++i) {
-                areas[i] = 1;
-            }
-            areaSum = areas.length;
-        } else {
-            // normalize all the areas where the smallest area will get
-            // a value of 1
-            for (var i=0; i<len; ++i) {
-                areas[i] /= minArea;
-            }
-            areaSum /= minArea;
-        }
-        
-        var xSum = 0, ySum = 0, centroid, area;
-        for (var i=0; i<len; ++i) {
-            centroid = centroids[i];
-            area = areas[i];
-            xSum += centroid.x * area;
-            ySum += centroid.y * area;
-        }
-        
-        return new OpenLayers.Geometry.Point(xSum/areaSum, ySum/areaSum);
-    },
-
-    /**
-     * APIMethod: getGeodesicLength
-     * Calculate the approximate length of the geometry were it projected onto
-     *     the earth.
-     *
-     * projection - {<OpenLayers.Projection>} The spatial reference system
-     *     for the geometry coordinates.  If not provided, Geographic/WGS84 is
-     *     assumed.
-     * 
-     * Returns:
-     * {Float} The appoximate geodesic length of the geometry in meters.
-     */
-    getGeodesicLength: function(projection) {
-        var length = 0.0;
-        for(var i=0, len=this.components.length; i<len; i++) {
-            length += this.components[i].getGeodesicLength(projection);
-        }
-        return length;
-    },
-
-    /**
-     * APIMethod: move
-     * Moves a geometry by the given displacement along positive x and y axes.
-     *     This modifies the position of the geometry and clears the cached
-     *     bounds.
-     *
-     * Parameters:
-     * x - {Float} Distance to move geometry in positive x direction. 
-     * y - {Float} Distance to move geometry in positive y direction.
-     */
-    move: function(x, y) {
-        for(var i=0, len=this.components.length; i<len; i++) {
-            this.components[i].move(x, y);
-        }
-    },
-
-    /**
-     * APIMethod: rotate
-     * Rotate a geometry around some origin
-     *
-     * Parameters:
-     * angle - {Float} Rotation angle in degrees (measured counterclockwise
-     *                 from the positive x-axis)
-     * origin - {<OpenLayers.Geometry.Point>} Center point for the rotation
-     */
-    rotate: function(angle, origin) {
-        for(var i=0, len=this.components.length; i<len; ++i) {
-            this.components[i].rotate(angle, origin);
-        }
-    },
-
-    /**
-     * APIMethod: resize
-     * Resize a geometry relative to some origin.  Use this method to apply
-     *     a uniform scaling to a geometry.
-     *
-     * Parameters:
-     * scale - {Float} Factor by which to scale the geometry.  A scale of 2
-     *                 doubles the size of the geometry in each dimension
-     *                 (lines, for example, will be twice as long, and polygons
-     *                 will have four times the area).
-     * origin - {<OpenLayers.Geometry.Point>} Point of origin for resizing
-     * ratio - {Float} Optional x:y ratio for resizing.  Default ratio is 1.
-     * 
-     * Returns:
-     * {<OpenLayers.Geometry>} - The current geometry. 
-     */
-    resize: function(scale, origin, ratio) {
-        for(var i=0; i<this.components.length; ++i) {
-            this.components[i].resize(scale, origin, ratio);
-        }
-        return this;
-    },
-
-    /**
-     * APIMethod: distanceTo
-     * Calculate the closest distance between two geometries (on the x-y plane).
-     *
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>} The target geometry.
-     * options - {Object} Optional properties for configuring the distance
-     *     calculation.
-     *
-     * Valid options:
-     * details - {Boolean} Return details from the distance calculation.
-     *     Default is false.
-     * edge - {Boolean} Calculate the distance from this geometry to the
-     *     nearest edge of the target geometry.  Default is true.  If true,
-     *     calling distanceTo from a geometry that is wholly contained within
-     *     the target will result in a non-zero distance.  If false, whenever
-     *     geometries intersect, calling distanceTo will return 0.  If false,
-     *     details cannot be returned.
-     *
-     * Returns:
-     * {Number | Object} The distance between this geometry and the target.
-     *     If details is true, the return will be an object with distance,
-     *     x0, y0, x1, and y1 properties.  The x0 and y0 properties represent
-     *     the coordinates of the closest point on this geometry. The x1 and y1
-     *     properties represent the coordinates of the closest point on the
-     *     target geometry.
-     */
-    distanceTo: function(geometry, options) {
-        var edge = !(options && options.edge === false);
-        var details = edge && options && options.details;
-        var result, best, distance;
-        var min = Number.POSITIVE_INFINITY;
-        for(var i=0, len=this.components.length; i<len; ++i) {
-            result = this.components[i].distanceTo(geometry, options);
-            distance = details ? result.distance : result;
-            if(distance < min) {
-                min = distance;
-                best = result;
-                if(min == 0) {
-                    break;
-                }
-            }
-        }
-        return best;
-    },
-
-    /** 
-     * APIMethod: equals
-     * Determine whether another geometry is equivalent to this one.  Geometries
-     *     are considered equivalent if all components have the same coordinates.
-     * 
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>} The geometry to test. 
-     *
-     * Returns:
-     * {Boolean} The supplied geometry is equivalent to this geometry.
-     */
-    equals: function(geometry) {
-        var equivalent = true;
-        if(!geometry || !geometry.CLASS_NAME ||
-           (this.CLASS_NAME != geometry.CLASS_NAME)) {
-            equivalent = false;
-        } else if(!(OpenLayers.Util.isArray(geometry.components)) ||
-                  (geometry.components.length != this.components.length)) {
-            equivalent = false;
-        } else {
-            for(var i=0, len=this.components.length; i<len; ++i) {
-                if(!this.components[i].equals(geometry.components[i])) {
-                    equivalent = false;
-                    break;
-                }
-            }
-        }
-        return equivalent;
-    },
-
-    /**
-     * APIMethod: transform
-     * Reproject the components geometry from source to dest.
-     * 
-     * Parameters:
-     * source - {<OpenLayers.Projection>} 
-     * dest - {<OpenLayers.Projection>}
-     * 
-     * Returns:
-     * {<OpenLayers.Geometry>} 
-     */
-    transform: function(source, dest) {
-        if (source && dest) {
-            for (var i=0, len=this.components.length; i<len; i++) {  
-                var component = this.components[i];
-                component.transform(source, dest);
-            }
-            this.bounds = null;
-        }
-        return this;
-    },
-
-    /**
-     * APIMethod: intersects
-     * Determine if the input geometry intersects this one.
-     *
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>} Any type of geometry.
-     *
-     * Returns:
-     * {Boolean} The input geometry intersects this one.
-     */
-    intersects: function(geometry) {
-        var intersect = false;
-        for(var i=0, len=this.components.length; i<len; ++ i) {
-            intersect = geometry.intersects(this.components[i]);
-            if(intersect) {
-                break;
-            }
-        }
-        return intersect;
-    },
-
-    /**
-     * APIMethod: getVertices
-     * Return a list of all points in this geometry.
-     *
-     * Parameters:
-     * nodes - {Boolean} For lines, only return vertices that are
-     *     endpoints.  If false, for lines, only vertices that are not
-     *     endpoints will be returned.  If not provided, all vertices will
-     *     be returned.
-     *
-     * Returns:
-     * {Array} A list of all vertices in the geometry.
-     */
-    getVertices: function(nodes) {
-        var vertices = [];
-        for(var i=0, len=this.components.length; i<len; ++i) {
-            Array.prototype.push.apply(
-                vertices, this.components[i].getVertices(nodes)
-            );
-        }
-        return vertices;
-    },
-
-
-    CLASS_NAME: "OpenLayers.Geometry.Collection"
-});
-/* ======================================================================
-    OpenLayers/Geometry/Point.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Geometry.js
- */
-
-/**
- * Class: OpenLayers.Geometry.Point
- * Point geometry class. 
- * 
- * Inherits from:
- *  - <OpenLayers.Geometry> 
- */
-OpenLayers.Geometry.Point = OpenLayers.Class(OpenLayers.Geometry, {
-
-    /** 
-     * APIProperty: x 
-     * {float} 
-     */
-    x: null,
-
-    /** 
-     * APIProperty: y 
-     * {float} 
-     */
-    y: null,
-
-    /**
-     * Constructor: OpenLayers.Geometry.Point
-     * Construct a point geometry.
-     *
-     * Parameters:
-     * x - {float} 
-     * y - {float}
-     * 
-     */
-    initialize: function(x, y) {
-        OpenLayers.Geometry.prototype.initialize.apply(this, arguments);
-        
-        this.x = parseFloat(x);
-        this.y = parseFloat(y);
-    },
-
-    /**
-     * APIMethod: clone
-     * 
-     * Returns:
-     * {<OpenLayers.Geometry.Point>} An exact clone of this OpenLayers.Geometry.Point
-     */
-    clone: function(obj) {
-        if (obj == null) {
-            obj = new OpenLayers.Geometry.Point(this.x, this.y);
-        }
-
-        // catch any randomly tagged-on properties
-        OpenLayers.Util.applyDefaults(obj, this);
-
-        return obj;
-    },
-
-    /** 
-     * Method: calculateBounds
-     * Create a new Bounds based on the lon/lat
-     */
-    calculateBounds: function () {
-        this.bounds = new OpenLayers.Bounds(this.x, this.y,
-                                            this.x, this.y);
-    },
-
-    /**
-     * APIMethod: distanceTo
-     * Calculate the closest distance between two geometries (on the x-y plane).
-     *
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>} The target geometry.
-     * options - {Object} Optional properties for configuring the distance
-     *     calculation.
-     *
-     * Valid options:
-     * details - {Boolean} Return details from the distance calculation.
-     *     Default is false.
-     * edge - {Boolean} Calculate the distance from this geometry to the
-     *     nearest edge of the target geometry.  Default is true.  If true,
-     *     calling distanceTo from a geometry that is wholly contained within
-     *     the target will result in a non-zero distance.  If false, whenever
-     *     geometries intersect, calling distanceTo will return 0.  If false,
-     *     details cannot be returned.
-     *
-     * Returns:
-     * {Number | Object} The distance between this geometry and the target.
-     *     If details is true, the return will be an object with distance,
-     *     x0, y0, x1, and x2 properties.  The x0 and y0 properties represent
-     *     the coordinates of the closest point on this geometry. The x1 and y1
-     *     properties represent the coordinates of the closest point on the
-     *     target geometry.
-     */
-    distanceTo: function(geometry, options) {
-        var edge = !(options && options.edge === false);
-        var details = edge && options && options.details;
-        var distance, x0, y0, x1, y1, result;
-        if(geometry instanceof OpenLayers.Geometry.Point) {
-            x0 = this.x;
-            y0 = this.y;
-            x1 = geometry.x;
-            y1 = geometry.y;
-            distance = Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
-            result = !details ?
-                distance : {x0: x0, y0: y0, x1: x1, y1: y1, distance: distance};
-        } else {
-            result = geometry.distanceTo(this, options);
-            if(details) {
-                // switch coord order since this geom is target
-                result = {
-                    x0: result.x1, y0: result.y1,
-                    x1: result.x0, y1: result.y0,
-                    distance: result.distance
-                };
-            }
-        }
-        return result;
-    },
-    
-    /** 
-     * APIMethod: equals
-     * Determine whether another geometry is equivalent to this one.  Geometries
-     *     are considered equivalent if all components have the same coordinates.
-     * 
-     * Parameters:
-     * geom - {<OpenLayers.Geometry.Point>} The geometry to test. 
-     *
-     * Returns:
-     * {Boolean} The supplied geometry is equivalent to this geometry.
-     */
-    equals: function(geom) {
-        var equals = false;
-        if (geom != null) {
-            equals = ((this.x == geom.x && this.y == geom.y) ||
-                      (isNaN(this.x) && isNaN(this.y) && isNaN(geom.x) && isNaN(geom.y)));
-        }
-        return equals;
-    },
-    
-    /**
-     * Method: toShortString
-     *
-     * Returns:
-     * {String} Shortened String representation of Point object. 
-     *         (ex. <i>"5, 42"</i>)
-     */
-    toShortString: function() {
-        return (this.x + ", " + this.y);
-    },
-    
-    /**
-     * APIMethod: move
-     * Moves a geometry by the given displacement along positive x and y axes.
-     *     This modifies the position of the geometry and clears the cached
-     *     bounds.
-     *
-     * Parameters:
-     * x - {Float} Distance to move geometry in positive x direction. 
-     * y - {Float} Distance to move geometry in positive y direction.
-     */
-    move: function(x, y) {
-        this.x = this.x + x;
-        this.y = this.y + y;
-        this.clearBounds();
-    },
-
-    /**
-     * APIMethod: rotate
-     * Rotate a point around another.
-     *
-     * Parameters:
-     * angle - {Float} Rotation angle in degrees (measured counterclockwise
-     *                 from the positive x-axis)
-     * origin - {<OpenLayers.Geometry.Point>} Center point for the rotation
-     */
-    rotate: function(angle, origin) {
-        angle *= Math.PI / 180;
-        var radius = this.distanceTo(origin);
-        var theta = angle + Math.atan2(this.y - origin.y, this.x - origin.x);
-        this.x = origin.x + (radius * Math.cos(theta));
-        this.y = origin.y + (radius * Math.sin(theta));
-        this.clearBounds();
-    },
-    
-    /**
-     * APIMethod: getCentroid
-     *
-     * Returns:
-     * {<OpenLayers.Geometry.Point>} The centroid of the collection
-     */
-    getCentroid: function() {
-        return new OpenLayers.Geometry.Point(this.x, this.y);
-    },
-
-    /**
-     * APIMethod: resize
-     * Resize a point relative to some origin.  For points, this has the effect
-     *     of scaling a vector (from the origin to the point).  This method is
-     *     more useful on geometry collection subclasses.
-     *
-     * Parameters:
-     * scale - {Float} Ratio of the new distance from the origin to the old
-     *                 distance from the origin.  A scale of 2 doubles the
-     *                 distance between the point and origin.
-     * origin - {<OpenLayers.Geometry.Point>} Point of origin for resizing
-     * ratio - {Float} Optional x:y ratio for resizing.  Default ratio is 1.
-     * 
-     * Returns:
-     * {<OpenLayers.Geometry>} - The current geometry. 
-     */
-    resize: function(scale, origin, ratio) {
-        ratio = (ratio == undefined) ? 1 : ratio;
-        this.x = origin.x + (scale * ratio * (this.x - origin.x));
-        this.y = origin.y + (scale * (this.y - origin.y));
-        this.clearBounds();
-        return this;
-    },
-    
-    /**
-     * APIMethod: intersects
-     * Determine if the input geometry intersects this one.
-     *
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>} Any type of geometry.
-     *
-     * Returns:
-     * {Boolean} The input geometry intersects this one.
-     */
-    intersects: function(geometry) {
-        var intersect = false;
-        if(geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
-            intersect = this.equals(geometry);
-        } else {
-            intersect = geometry.intersects(this);
-        }
-        return intersect;
-    },
-    
-    /**
-     * APIMethod: transform
-     * Translate the x,y properties of the point from source to dest.
-     * 
-     * Parameters:
-     * source - {<OpenLayers.Projection>} 
-     * dest - {<OpenLayers.Projection>}
-     * 
-     * Returns:
-     * {<OpenLayers.Geometry>} 
-     */
-    transform: function(source, dest) {
-        if ((source && dest)) {
-            OpenLayers.Projection.transform(
-                this, source, dest); 
-            this.bounds = null;
-        }       
-        return this;
-    },
-
-    /**
-     * APIMethod: getVertices
-     * Return a list of all points in this geometry.
-     *
-     * Parameters:
-     * nodes - {Boolean} For lines, only return vertices that are
-     *     endpoints.  If false, for lines, only vertices that are not
-     *     endpoints will be returned.  If not provided, all vertices will
-     *     be returned.
-     *
-     * Returns:
-     * {Array} A list of all vertices in the geometry.
-     */
-    getVertices: function(nodes) {
-        return [this];
-    },
-
-    CLASS_NAME: "OpenLayers.Geometry.Point"
-});
-/* ======================================================================
-    OpenLayers/Geometry/MultiPoint.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Geometry/Collection.js
- * @requires OpenLayers/Geometry/Point.js
- */
-
-/**
- * Class: OpenLayers.Geometry.MultiPoint
- * MultiPoint is a collection of Points.  Create a new instance with the
- * <OpenLayers.Geometry.MultiPoint> constructor.
- *
- * Inherits from:
- *  - <OpenLayers.Geometry.Collection>
- *  - <OpenLayers.Geometry>
- */
-OpenLayers.Geometry.MultiPoint = OpenLayers.Class(
-  OpenLayers.Geometry.Collection, {
-
-    /**
-     * Property: componentTypes
-     * {Array(String)} An array of class names representing the types of
-     * components that the collection can include.  A null value means the
-     * component types are not restricted.
-     */
-    componentTypes: ["OpenLayers.Geometry.Point"],
-
-    /**
-     * Constructor: OpenLayers.Geometry.MultiPoint
-     * Create a new MultiPoint Geometry
-     *
-     * Parameters:
-     * components - {Array(<OpenLayers.Geometry.Point>)} 
-     *
-     * Returns:
-     * {<OpenLayers.Geometry.MultiPoint>}
-     */
-
-    /**
-     * APIMethod: addPoint
-     * Wrapper for <OpenLayers.Geometry.Collection.addComponent>
-     *
-     * Parameters:
-     * point - {<OpenLayers.Geometry.Point>} Point to be added
-     * index - {Integer} Optional index
-     */
-    addPoint: function(point, index) {
-        this.addComponent(point, index);
-    },
-    
-    /**
-     * APIMethod: removePoint
-     * Wrapper for <OpenLayers.Geometry.Collection.removeComponent>
-     *
-     * Parameters:
-     * point - {<OpenLayers.Geometry.Point>} Point to be removed
-     */
-    removePoint: function(point){
-        this.removeComponent(point);
-    },
-
-    CLASS_NAME: "OpenLayers.Geometry.MultiPoint"
-});
-/* ======================================================================
-    OpenLayers/Geometry/Curve.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Geometry/MultiPoint.js
- */
-
-/**
- * Class: OpenLayers.Geometry.Curve
- * A Curve is a MultiPoint, whose points are assumed to be connected. To 
- * this end, we provide a "getLength()" function, which iterates through 
- * the points, summing the distances between them. 
- * 
- * Inherits: 
- *  - <OpenLayers.Geometry.MultiPoint>
- */
-OpenLayers.Geometry.Curve = OpenLayers.Class(OpenLayers.Geometry.MultiPoint, {
-
-    /**
-     * Property: componentTypes
-     * {Array(String)} An array of class names representing the types of 
-     *                 components that the collection can include.  A null 
-     *                 value means the component types are not restricted.
-     */
-    componentTypes: ["OpenLayers.Geometry.Point"],
-
-    /**
-     * Constructor: OpenLayers.Geometry.Curve
-     * 
-     * Parameters:
-     * point - {Array(<OpenLayers.Geometry.Point>)}
-     */
-    
-    /**
-     * APIMethod: getLength
-     * 
-     * Returns:
-     * {Float} The length of the curve
-     */
-    getLength: function() {
-        var length = 0.0;
-        if ( this.components && (this.components.length > 1)) {
-            for(var i=1, len=this.components.length; i<len; i++) {
-                length += this.components[i-1].distanceTo(this.components[i]);
-            }
-        }
-        return length;
-    },
-
-    /**
-     * APIMethod: getGeodesicLength
-     * Calculate the approximate length of the geometry were it projected onto
-     *     the earth.
-     *
-     * projection - {<OpenLayers.Projection>} The spatial reference system
-     *     for the geometry coordinates.  If not provided, Geographic/WGS84 is
-     *     assumed.
-     * 
-     * Returns:
-     * {Float} The appoximate geodesic length of the geometry in meters.
-     */
-    getGeodesicLength: function(projection) {
-        var geom = this;  // so we can work with a clone if needed
-        if(projection) {
-            var gg = new OpenLayers.Projection("EPSG:4326");
-            if(!gg.equals(projection)) {
-                geom = this.clone().transform(projection, gg);
-            }
-        }
-        var length = 0.0;
-        if(geom.components && (geom.components.length > 1)) {
-            var p1, p2;
-            for(var i=1, len=geom.components.length; i<len; i++) {
-                p1 = geom.components[i-1];
-                p2 = geom.components[i];
-                // this returns km and requires lon/lat properties
-                length += OpenLayers.Util.distVincenty(
-                    {lon: p1.x, lat: p1.y}, {lon: p2.x, lat: p2.y}
-                );
-            }
-        }
-        // convert to m
-        return length * 1000;
-    },
-
-    CLASS_NAME: "OpenLayers.Geometry.Curve"
-});
-/* ======================================================================
-    OpenLayers/Geometry/LineString.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Geometry/Curve.js
- */
-
-/**
- * Class: OpenLayers.Geometry.LineString
- * A LineString is a Curve which, once two points have been added to it, can 
- * never be less than two points long.
- * 
- * Inherits from:
- *  - <OpenLayers.Geometry.Curve>
- */
-OpenLayers.Geometry.LineString = OpenLayers.Class(OpenLayers.Geometry.Curve, {
-
-    /**
-     * Constructor: OpenLayers.Geometry.LineString
-     * Create a new LineString geometry
-     *
-     * Parameters:
-     * points - {Array(<OpenLayers.Geometry.Point>)} An array of points used to
-     *          generate the linestring
-     *
-     */
-
-    /**
-     * APIMethod: removeComponent
-     * Only allows removal of a point if there are three or more points in 
-     * the linestring. (otherwise the result would be just a single point)
-     *
-     * Parameters: 
-     * point - {<OpenLayers.Geometry.Point>} The point to be removed
-     *
-     * Returns: 
-     * {Boolean} The component was removed.
-     */
-    removeComponent: function(point) {
-        var removed = this.components && (this.components.length > 2);
-        if (removed) {
-            OpenLayers.Geometry.Collection.prototype.removeComponent.apply(this, 
-                                                                  arguments);
-        }
-        return removed;
-    },
-    
-    /**
-     * APIMethod: intersects
-     * Test for instersection between two geometries.  This is a cheapo
-     *     implementation of the Bently-Ottmann algorigithm.  It doesn't
-     *     really keep track of a sweep line data structure.  It is closer
-     *     to the brute force method, except that segments are sorted and
-     *     potential intersections are only calculated when bounding boxes
-     *     intersect.
-     *
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>}
-     *
-     * Returns:
-     * {Boolean} The input geometry intersects this geometry.
-     */
-    intersects: function(geometry) {
-        var intersect = false;
-        var type = geometry.CLASS_NAME;
-        if(type == "OpenLayers.Geometry.LineString" ||
-           type == "OpenLayers.Geometry.LinearRing" ||
-           type == "OpenLayers.Geometry.Point") {
-            var segs1 = this.getSortedSegments();
-            var segs2;
-            if(type == "OpenLayers.Geometry.Point") {
-                segs2 = [{
-                    x1: geometry.x, y1: geometry.y,
-                    x2: geometry.x, y2: geometry.y
-                }];
-            } else {
-                segs2 = geometry.getSortedSegments();
-            }
-            var seg1, seg1x1, seg1x2, seg1y1, seg1y2,
-                seg2, seg2y1, seg2y2;
-            // sweep right
-            outer: for(var i=0, len=segs1.length; i<len; ++i) {
-                seg1 = segs1[i];
-                seg1x1 = seg1.x1;
-                seg1x2 = seg1.x2;
-                seg1y1 = seg1.y1;
-                seg1y2 = seg1.y2;
-                inner: for(var j=0, jlen=segs2.length; j<jlen; ++j) {
-                    seg2 = segs2[j];
-                    if(seg2.x1 > seg1x2) {
-                        // seg1 still left of seg2
-                        break;
-                    }
-                    if(seg2.x2 < seg1x1) {
-                        // seg2 still left of seg1
-                        continue;
-                    }
-                    seg2y1 = seg2.y1;
-                    seg2y2 = seg2.y2;
-                    if(Math.min(seg2y1, seg2y2) > Math.max(seg1y1, seg1y2)) {
-                        // seg2 above seg1
-                        continue;
-                    }
-                    if(Math.max(seg2y1, seg2y2) < Math.min(seg1y1, seg1y2)) {
-                        // seg2 below seg1
-                        continue;
-                    }
-                    if(OpenLayers.Geometry.segmentsIntersect(seg1, seg2)) {
-                        intersect = true;
-                        break outer;
-                    }
-                }
-            }
-        } else {
-            intersect = geometry.intersects(this);
-        }
-        return intersect;
-    },
-    
-    /**
-     * Method: getSortedSegments
-     *
-     * Returns:
-     * {Array} An array of segment objects.  Segment objects have properties
-     *     x1, y1, x2, and y2.  The start point is represented by x1 and y1.
-     *     The end point is represented by x2 and y2.  Start and end are
-     *     ordered so that x1 < x2.
-     */
-    getSortedSegments: function() {
-        var numSeg = this.components.length - 1;
-        var segments = new Array(numSeg), point1, point2;
-        for(var i=0; i<numSeg; ++i) {
-            point1 = this.components[i];
-            point2 = this.components[i + 1];
-            if(point1.x < point2.x) {
-                segments[i] = {
-                    x1: point1.x,
-                    y1: point1.y,
-                    x2: point2.x,
-                    y2: point2.y
-                };
-            } else {
-                segments[i] = {
-                    x1: point2.x,
-                    y1: point2.y,
-                    x2: point1.x,
-                    y2: point1.y
-                };
-            }
-        }
-        // more efficient to define this somewhere static
-        function byX1(seg1, seg2) {
-            return seg1.x1 - seg2.x1;
-        }
-        return segments.sort(byX1);
-    },
-    
-    /**
-     * Method: splitWithSegment
-     * Split this geometry with the given segment.
-     *
-     * Parameters:
-     * seg - {Object} An object with x1, y1, x2, and y2 properties referencing
-     *     segment endpoint coordinates.
-     * options - {Object} Properties of this object will be used to determine
-     *     how the split is conducted.
-     *
-     * Valid options:
-     * edge - {Boolean} Allow splitting when only edges intersect.  Default is
-     *     true.  If false, a vertex on the source segment must be within the
-     *     tolerance distance of the intersection to be considered a split.
-     * tolerance - {Number} If a non-null value is provided, intersections
-     *     within the tolerance distance of one of the source segment's
-     *     endpoints will be assumed to occur at the endpoint.
-     *
-     * Returns:
-     * {Object} An object with *lines* and *points* properties.  If the given
-     *     segment intersects this linestring, the lines array will reference
-     *     geometries that result from the split.  The points array will contain
-     *     all intersection points.  Intersection points are sorted along the
-     *     segment (in order from x1,y1 to x2,y2).
-     */
-    splitWithSegment: function(seg, options) {
-        var edge = !(options && options.edge === false);
-        var tolerance = options && options.tolerance;
-        var lines = [];
-        var verts = this.getVertices();
-        var points = [];
-        var intersections = [];
-        var split = false;
-        var vert1, vert2, point;
-        var node, vertex, target;
-        var interOptions = {point: true, tolerance: tolerance};
-        var result = null;
-        for(var i=0, stop=verts.length-2; i<=stop; ++i) {
-            vert1 = verts[i];
-            points.push(vert1.clone());
-            vert2 = verts[i+1];
-            target = {x1: vert1.x, y1: vert1.y, x2: vert2.x, y2: vert2.y};
-            point = OpenLayers.Geometry.segmentsIntersect(
-                seg, target, interOptions
-            );
-            if(point instanceof OpenLayers.Geometry.Point) {
-                if((point.x === seg.x1 && point.y === seg.y1) ||
-                   (point.x === seg.x2 && point.y === seg.y2) ||
-                   point.equals(vert1) || point.equals(vert2)) {
-                    vertex = true;
-                } else {
-                    vertex = false;
-                }
-                if(vertex || edge) {
-                    // push intersections different than the previous
-                    if(!point.equals(intersections[intersections.length-1])) {
-                        intersections.push(point.clone());
-                    }
-                    if(i === 0) {
-                        if(point.equals(vert1)) {
-                            continue;
-                        }
-                    }
-                    if(point.equals(vert2)) {
-                        continue;
-                    }
-                    split = true;
-                    if(!point.equals(vert1)) {
-                        points.push(point);
-                    }
-                    lines.push(new OpenLayers.Geometry.LineString(points));
-                    points = [point.clone()];
-                }
-            }
-        }
-        if(split) {
-            points.push(vert2.clone());
-            lines.push(new OpenLayers.Geometry.LineString(points));
-        }
-        if(intersections.length > 0) {
-            // sort intersections along segment
-            var xDir = seg.x1 < seg.x2 ? 1 : -1;
-            var yDir = seg.y1 < seg.y2 ? 1 : -1;
-            result = {
-                lines: lines,
-                points: intersections.sort(function(p1, p2) {
-                    return (xDir * p1.x - xDir * p2.x) || (yDir * p1.y - yDir * p2.y);
-                })
-            };
-        }
-        return result;
-    },
-
-    /**
-     * Method: split
-     * Use this geometry (the source) to attempt to split a target geometry.
-     * 
-     * Parameters:
-     * target - {<OpenLayers.Geometry>} The target geometry.
-     * options - {Object} Properties of this object will be used to determine
-     *     how the split is conducted.
-     *
-     * Valid options:
-     * mutual - {Boolean} Split the source geometry in addition to the target
-     *     geometry.  Default is false.
-     * edge - {Boolean} Allow splitting when only edges intersect.  Default is
-     *     true.  If false, a vertex on the source must be within the tolerance
-     *     distance of the intersection to be considered a split.
-     * tolerance - {Number} If a non-null value is provided, intersections
-     *     within the tolerance distance of an existing vertex on the source
-     *     will be assumed to occur at the vertex.
-     * 
-     * Returns:
-     * {Array} A list of geometries (of this same type as the target) that
-     *     result from splitting the target with the source geometry.  The
-     *     source and target geometry will remain unmodified.  If no split
-     *     results, null will be returned.  If mutual is true and a split
-     *     results, return will be an array of two arrays - the first will be
-     *     all geometries that result from splitting the source geometry and
-     *     the second will be all geometries that result from splitting the
-     *     target geometry.
-     */
-    split: function(target, options) {
-        var results = null;
-        var mutual = options && options.mutual;
-        var sourceSplit, targetSplit, sourceParts, targetParts;
-        if(target instanceof OpenLayers.Geometry.LineString) {
-            var verts = this.getVertices();
-            var vert1, vert2, seg, splits, lines, point;
-            var points = [];
-            sourceParts = [];
-            for(var i=0, stop=verts.length-2; i<=stop; ++i) {
-                vert1 = verts[i];
-                vert2 = verts[i+1];
-                seg = {
-                    x1: vert1.x, y1: vert1.y,
-                    x2: vert2.x, y2: vert2.y
-                };
-                targetParts = targetParts || [target];
-                if(mutual) {
-                    points.push(vert1.clone());
-                }
-                for(var j=0; j<targetParts.length; ++j) {
-                    splits = targetParts[j].splitWithSegment(seg, options);
-                    if(splits) {
-                        // splice in new features
-                        lines = splits.lines;
-                        if(lines.length > 0) {
-                            lines.unshift(j, 1);
-                            Array.prototype.splice.apply(targetParts, lines);
-                            j += lines.length - 2;
-                        }
-                        if(mutual) {
-                            for(var k=0, len=splits.points.length; k<len; ++k) {
-                                point = splits.points[k];
-                                if(!point.equals(vert1)) {
-                                    points.push(point);
-                                    sourceParts.push(new OpenLayers.Geometry.LineString(points));
-                                    if(point.equals(vert2)) {
-                                        points = [];
-                                    } else {
-                                        points = [point.clone()];
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if(mutual && sourceParts.length > 0 && points.length > 0) {
-                points.push(vert2.clone());
-                sourceParts.push(new OpenLayers.Geometry.LineString(points));
-            }
-        } else {
-            results = target.splitWith(this, options);
-        }
-        if(targetParts && targetParts.length > 1) {
-            targetSplit = true;
-        } else {
-            targetParts = [];
-        }
-        if(sourceParts && sourceParts.length > 1) {
-            sourceSplit = true;
-        } else {
-            sourceParts = [];
-        }
-        if(targetSplit || sourceSplit) {
-            if(mutual) {
-                results = [sourceParts, targetParts];
-            } else {
-                results = targetParts;
-            }
-        }
-        return results;
-    },
-
-    /**
-     * Method: splitWith
-     * Split this geometry (the target) with the given geometry (the source).
-     *
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>} A geometry used to split this
-     *     geometry (the source).
-     * options - {Object} Properties of this object will be used to determine
-     *     how the split is conducted.
-     *
-     * Valid options:
-     * mutual - {Boolean} Split the source geometry in addition to the target
-     *     geometry.  Default is false.
-     * edge - {Boolean} Allow splitting when only edges intersect.  Default is
-     *     true.  If false, a vertex on the source must be within the tolerance
-     *     distance of the intersection to be considered a split.
-     * tolerance - {Number} If a non-null value is provided, intersections
-     *     within the tolerance distance of an existing vertex on the source
-     *     will be assumed to occur at the vertex.
-     * 
-     * Returns:
-     * {Array} A list of geometries (of this same type as the target) that
-     *     result from splitting the target with the source geometry.  The
-     *     source and target geometry will remain unmodified.  If no split
-     *     results, null will be returned.  If mutual is true and a split
-     *     results, return will be an array of two arrays - the first will be
-     *     all geometries that result from splitting the source geometry and
-     *     the second will be all geometries that result from splitting the
-     *     target geometry.
-     */
-    splitWith: function(geometry, options) {
-        return geometry.split(this, options);
-
-    },
-
-    /**
-     * APIMethod: getVertices
-     * Return a list of all points in this geometry.
-     *
-     * Parameters:
-     * nodes - {Boolean} For lines, only return vertices that are
-     *     endpoints.  If false, for lines, only vertices that are not
-     *     endpoints will be returned.  If not provided, all vertices will
-     *     be returned.
-     *
-     * Returns:
-     * {Array} A list of all vertices in the geometry.
-     */
-    getVertices: function(nodes) {
-        var vertices;
-        if(nodes === true) {
-            vertices = [
-                this.components[0],
-                this.components[this.components.length-1]
-            ];
-        } else if (nodes === false) {
-            vertices = this.components.slice(1, this.components.length-1);
-        } else {
-            vertices = this.components.slice();
-        }
-        return vertices;
-    },
-
-    /**
-     * APIMethod: distanceTo
-     * Calculate the closest distance between two geometries (on the x-y plane).
-     *
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>} The target geometry.
-     * options - {Object} Optional properties for configuring the distance
-     *     calculation.
-     *
-     * Valid options:
-     * details - {Boolean} Return details from the distance calculation.
-     *     Default is false.
-     * edge - {Boolean} Calculate the distance from this geometry to the
-     *     nearest edge of the target geometry.  Default is true.  If true,
-     *     calling distanceTo from a geometry that is wholly contained within
-     *     the target will result in a non-zero distance.  If false, whenever
-     *     geometries intersect, calling distanceTo will return 0.  If false,
-     *     details cannot be returned.
-     *
-     * Returns:
-     * {Number | Object} The distance between this geometry and the target.
-     *     If details is true, the return will be an object with distance,
-     *     x0, y0, x1, and x2 properties.  The x0 and y0 properties represent
-     *     the coordinates of the closest point on this geometry. The x1 and y1
-     *     properties represent the coordinates of the closest point on the
-     *     target geometry.
-     */
-    distanceTo: function(geometry, options) {
-        var edge = !(options && options.edge === false);
-        var details = edge && options && options.details;
-        var result, best = {};
-        var min = Number.POSITIVE_INFINITY;
-        if(geometry instanceof OpenLayers.Geometry.Point) {
-            var segs = this.getSortedSegments();
-            var x = geometry.x;
-            var y = geometry.y;
-            var seg;
-            for(var i=0, len=segs.length; i<len; ++i) {
-                seg = segs[i];
-                result = OpenLayers.Geometry.distanceToSegment(geometry, seg);
-                if(result.distance < min) {
-                    min = result.distance;
-                    best = result;
-                    if(min === 0) {
-                        break;
-                    }
-                } else {
-                    // if distance increases and we cross y0 to the right of x0, no need to keep looking.
-                    if(seg.x2 > x && ((y > seg.y1 && y < seg.y2) || (y < seg.y1 && y > seg.y2))) {
-                        break;
-                    }
-                }
-            }
-            if(details) {
-                best = {
-                    distance: best.distance,
-                    x0: best.x, y0: best.y,
-                    x1: x, y1: y
-                };
-            } else {
-                best = best.distance;
-            }
-        } else if(geometry instanceof OpenLayers.Geometry.LineString) { 
-            var segs0 = this.getSortedSegments();
-            var segs1 = geometry.getSortedSegments();
-            var seg0, seg1, intersection, x0, y0;
-            var len1 = segs1.length;
-            var interOptions = {point: true};
-            outer: for(var i=0, len=segs0.length; i<len; ++i) {
-                seg0 = segs0[i];
-                x0 = seg0.x1;
-                y0 = seg0.y1;
-                for(var j=0; j<len1; ++j) {
-                    seg1 = segs1[j];
-                    intersection = OpenLayers.Geometry.segmentsIntersect(seg0, seg1, interOptions);
-                    if(intersection) {
-                        min = 0;
-                        best = {
-                            distance: 0,
-                            x0: intersection.x, y0: intersection.y,
-                            x1: intersection.x, y1: intersection.y
-                        };
-                        break outer;
-                    } else {
-                        result = OpenLayers.Geometry.distanceToSegment({x: x0, y: y0}, seg1);
-                        if(result.distance < min) {
-                            min = result.distance;
-                            best = {
-                                distance: min,
-                                x0: x0, y0: y0,
-                                x1: result.x, y1: result.y
-                            };
-                        }
-                    }
-                }
-            }
-            if(!details) {
-                best = best.distance;
-            }
-            if(min !== 0) {
-                // check the final vertex in this line's sorted segments
-                if(seg0) {
-                    result = geometry.distanceTo(
-                        new OpenLayers.Geometry.Point(seg0.x2, seg0.y2),
-                        options
-                    );
-                    var dist = details ? result.distance : result;
-                    if(dist < min) {
-                        if(details) {
-                            best = {
-                                distance: min,
-                                x0: result.x1, y0: result.y1,
-                                x1: result.x0, y1: result.y0
-                            };
-                        } else {
-                            best = dist;
-                        }
-                    }
-                }
-            }
-        } else {
-            best = geometry.distanceTo(this, options);
-            // swap since target comes from this line
-            if(details) {
-                best = {
-                    distance: best.distance,
-                    x0: best.x1, y0: best.y1,
-                    x1: best.x0, y1: best.y0
-                };
-            }
-        }
-        return best;
-    },
-    
-    /**
-     * APIMethod: simplify
-     * This function will return a simplified LineString.
-     * Simplification is based on the Douglas-Peucker algorithm.
-     *
-     *
-     * Parameters:
-     * tolerance - {number} threshhold for simplification in map units
-     *
-     * Returns:
-     * {OpenLayers.Geometry.LineString} the simplified LineString
-     */
-    simplify: function(tolerance){
-        if (this && this !== null) {
-            var points = this.getVertices();
-            if (points.length < 3) {
-                return this;
-            }
-    
-            var compareNumbers = function(a, b){
-                return (a-b);
-            };
-    
-            /**
-             * Private function doing the Douglas-Peucker reduction
-             */
-            var douglasPeuckerReduction = function(points, firstPoint, lastPoint, tolerance){
-                var maxDistance = 0;
-                var indexFarthest = 0;
-    
-                for (var index = firstPoint, distance; index < lastPoint; index++) {
-                    distance = perpendicularDistance(points[firstPoint], points[lastPoint], points[index]);
-                    if (distance > maxDistance) {
-                        maxDistance = distance;
-                        indexFarthest = index;
-                    }
-                }
-    
-                if (maxDistance > tolerance && indexFarthest != firstPoint) {
-                    //Add the largest point that exceeds the tolerance
-                    pointIndexsToKeep.push(indexFarthest);
-                    douglasPeuckerReduction(points, firstPoint, indexFarthest, tolerance);
-                    douglasPeuckerReduction(points, indexFarthest, lastPoint, tolerance);
-                }
-            };
-    
-            /**
-             * Private function calculating the perpendicular distance
-             * TODO: check whether OpenLayers.Geometry.LineString::distanceTo() is faster or slower
-             */
-            var perpendicularDistance = function(point1, point2, point){
-                //Area = |(1/2)(x1y2 + x2y3 + x3y1 - x2y1 - x3y2 - x1y3)|   *Area of triangle
-                //Base = v((x1-x2)²+(x1-x2)²)                               *Base of Triangle*
-                //Area = .5*Base*H                                          *Solve for height
-                //Height = Area/.5/Base
-    
-                var area = Math.abs(0.5 * (point1.x * point2.y + point2.x * point.y + point.x * point1.y - point2.x * point1.y - point.x * point2.y - point1.x * point.y));
-                var bottom = Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
-                var height = area / bottom * 2;
-    
-                return height;
-            };
-    
-            var firstPoint = 0;
-            var lastPoint = points.length - 1;
-            var pointIndexsToKeep = [];
-    
-            //Add the first and last index to the keepers
-            pointIndexsToKeep.push(firstPoint);
-            pointIndexsToKeep.push(lastPoint);
-    
-            //The first and the last point cannot be the same
-            while (points[firstPoint].equals(points[lastPoint])) {
-                lastPoint--;
-                //Addition: the first point not equal to first point in the LineString is kept as well
-                pointIndexsToKeep.push(lastPoint);
-            }
-    
-            douglasPeuckerReduction(points, firstPoint, lastPoint, tolerance);
-            var returnPoints = [];
-            pointIndexsToKeep.sort(compareNumbers);
-            for (var index = 0; index < pointIndexsToKeep.length; index++) {
-                returnPoints.push(points[pointIndexsToKeep[index]]);
-            }
-            return new OpenLayers.Geometry.LineString(returnPoints);
-    
-        }
-        else {
-            return this;
-        }
-    },
-
-    CLASS_NAME: "OpenLayers.Geometry.LineString"
-});
-/* ======================================================================
-    OpenLayers/Geometry/LinearRing.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Geometry/LineString.js
- */
-
-/**
- * Class: OpenLayers.Geometry.LinearRing
- * 
- * A Linear Ring is a special LineString which is closed. It closes itself 
- * automatically on every addPoint/removePoint by adding a copy of the first
- * point as the last point. 
- * 
- * Also, as it is the first in the line family to close itself, a getArea()
- * function is defined to calculate the enclosed area of the linearRing
- * 
- * Inherits:
- *  - <OpenLayers.Geometry.LineString>
- */
-OpenLayers.Geometry.LinearRing = OpenLayers.Class(
-  OpenLayers.Geometry.LineString, {
-
-    /**
-     * Property: componentTypes
-     * {Array(String)} An array of class names representing the types of 
-     *                 components that the collection can include.  A null 
-     *                 value means the component types are not restricted.
-     */
-    componentTypes: ["OpenLayers.Geometry.Point"],
-
-    /**
-     * Constructor: OpenLayers.Geometry.LinearRing
-     * Linear rings are constructed with an array of points.  This array
-     *     can represent a closed or open ring.  If the ring is open (the last
-     *     point does not equal the first point), the constructor will close
-     *     the ring.  If the ring is already closed (the last point does equal
-     *     the first point), it will be left closed.
-     * 
-     * Parameters:
-     * points - {Array(<OpenLayers.Geometry.Point>)} points
-     */
-
-    /**
-     * APIMethod: addComponent
-     * Adds a point to geometry components.  If the point is to be added to
-     *     the end of the components array and it is the same as the last point
-     *     already in that array, the duplicate point is not added.  This has 
-     *     the effect of closing the ring if it is not already closed, and 
-     *     doing the right thing if it is already closed.  This behavior can 
-     *     be overridden by calling the method with a non-null index as the 
-     *     second argument.
-     *
-     * Parameters:
-     * point - {<OpenLayers.Geometry.Point>}
-     * index - {Integer} Index into the array to insert the component
-     * 
-     * Returns:
-     * {Boolean} Was the Point successfully added?
-     */
-    addComponent: function(point, index) {
-        var added = false;
-
-        //remove last point
-        var lastPoint = this.components.pop();
-
-        // given an index, add the point
-        // without an index only add non-duplicate points
-        if(index != null || !point.equals(lastPoint)) {
-            added = OpenLayers.Geometry.Collection.prototype.addComponent.apply(this, 
-                                                                    arguments);
-        }
-
-        //append copy of first point
-        var firstPoint = this.components[0];
-        OpenLayers.Geometry.Collection.prototype.addComponent.apply(this, 
-                                                                [firstPoint]);
-        
-        return added;
-    },
-    
-    /**
-     * APIMethod: removeComponent
-     * Removes a point from geometry components.
-     *
-     * Parameters:
-     * point - {<OpenLayers.Geometry.Point>}
-     *
-     * Returns: 
-     * {Boolean} The component was removed.
-     */
-    removeComponent: function(point) {
-        var removed = this.components && (this.components.length > 3);
-        if (removed) {
-            //remove last point
-            this.components.pop();
-            
-            //remove our point
-            OpenLayers.Geometry.Collection.prototype.removeComponent.apply(this, 
-                                                                    arguments);
-            //append copy of first point
-            var firstPoint = this.components[0];
-            OpenLayers.Geometry.Collection.prototype.addComponent.apply(this, 
-                                                                [firstPoint]);
-        }
-        return removed;
-    },
-    
-    /**
-     * APIMethod: move
-     * Moves a geometry by the given displacement along positive x and y axes.
-     *     This modifies the position of the geometry and clears the cached
-     *     bounds.
-     *
-     * Parameters:
-     * x - {Float} Distance to move geometry in positive x direction. 
-     * y - {Float} Distance to move geometry in positive y direction.
-     */
-    move: function(x, y) {
-        for(var i = 0, len=this.components.length; i<len - 1; i++) {
-            this.components[i].move(x, y);
-        }
-    },
-
-    /**
-     * APIMethod: rotate
-     * Rotate a geometry around some origin
-     *
-     * Parameters:
-     * angle - {Float} Rotation angle in degrees (measured counterclockwise
-     *                 from the positive x-axis)
-     * origin - {<OpenLayers.Geometry.Point>} Center point for the rotation
-     */
-    rotate: function(angle, origin) {
-        for(var i=0, len=this.components.length; i<len - 1; ++i) {
-            this.components[i].rotate(angle, origin);
-        }
-    },
-
-    /**
-     * APIMethod: resize
-     * Resize a geometry relative to some origin.  Use this method to apply
-     *     a uniform scaling to a geometry.
-     *
-     * Parameters:
-     * scale - {Float} Factor by which to scale the geometry.  A scale of 2
-     *                 doubles the size of the geometry in each dimension
-     *                 (lines, for example, will be twice as long, and polygons
-     *                 will have four times the area).
-     * origin - {<OpenLayers.Geometry.Point>} Point of origin for resizing
-     * ratio - {Float} Optional x:y ratio for resizing.  Default ratio is 1.
-     * 
-     * Returns:
-     * {<OpenLayers.Geometry>} - The current geometry. 
-     */
-    resize: function(scale, origin, ratio) {
-        for(var i=0, len=this.components.length; i<len - 1; ++i) {
-            this.components[i].resize(scale, origin, ratio);
-        }
-        return this;
-    },
-    
-    /**
-     * APIMethod: transform
-     * Reproject the components geometry from source to dest.
-     *
-     * Parameters:
-     * source - {<OpenLayers.Projection>}
-     * dest - {<OpenLayers.Projection>}
-     * 
-     * Returns:
-     * {<OpenLayers.Geometry>} 
-     */
-    transform: function(source, dest) {
-        if (source && dest) {
-            for (var i=0, len=this.components.length; i<len - 1; i++) {
-                var component = this.components[i];
-                component.transform(source, dest);
-            }
-            this.bounds = null;
-        }
-        return this;
-    },
-    
-    /**
-     * APIMethod: getCentroid
-     *
-     * Returns:
-     * {<OpenLayers.Geometry.Point>} The centroid of the collection
-     */
-    getCentroid: function() {
-        if (this.components && (this.components.length > 2)) {
-            var sumX = 0.0;
-            var sumY = 0.0;
-            for (var i = 0; i < this.components.length - 1; i++) {
-                var b = this.components[i];
-                var c = this.components[i+1];
-                sumX += (b.x + c.x) * (b.x * c.y - c.x * b.y);
-                sumY += (b.y + c.y) * (b.x * c.y - c.x * b.y);
-            }
-            var area = -1 * this.getArea();
-            var x = sumX / (6 * area);
-            var y = sumY / (6 * area);
-            return new OpenLayers.Geometry.Point(x, y);
-        } else {
-            return null;
-        }
-    },
-
-    /**
-     * APIMethod: getArea
-     * Note - The area is positive if the ring is oriented CW, otherwise
-     *         it will be negative.
-     * 
-     * Returns:
-     * {Float} The signed area for a ring.
-     */
-    getArea: function() {
-        var area = 0.0;
-        if ( this.components && (this.components.length > 2)) {
-            var sum = 0.0;
-            for (var i=0, len=this.components.length; i<len - 1; i++) {
-                var b = this.components[i];
-                var c = this.components[i+1];
-                sum += (b.x + c.x) * (c.y - b.y);
-            }
-            area = - sum / 2.0;
-        }
-        return area;
-    },
-    
-    /**
-     * APIMethod: getGeodesicArea
-     * Calculate the approximate area of the polygon were it projected onto
-     *     the earth.  Note that this area will be positive if ring is oriented
-     *     clockwise, otherwise it will be negative.
-     *
-     * Parameters:
-     * projection - {<OpenLayers.Projection>} The spatial reference system
-     *     for the geometry coordinates.  If not provided, Geographic/WGS84 is
-     *     assumed.
-     * 
-     * Reference:
-     * Robert. G. Chamberlain and William H. Duquette, "Some Algorithms for
-     *     Polygons on a Sphere", JPL Publication 07-03, Jet Propulsion
-     *     Laboratory, Pasadena, CA, June 2007 http://trs-new.jpl.nasa.gov/dspace/handle/2014/40409
-     *
-     * Returns:
-     * {float} The approximate signed geodesic area of the polygon in square
-     *     meters.
-     */
-    getGeodesicArea: function(projection) {
-        var ring = this;  // so we can work with a clone if needed
-        if(projection) {
-            var gg = new OpenLayers.Projection("EPSG:4326");
-            if(!gg.equals(projection)) {
-                ring = this.clone().transform(projection, gg);
-            }
-        }
-        var area = 0.0;
-        var len = ring.components && ring.components.length;
-        if(len > 2) {
-            var p1, p2;
-            for(var i=0; i<len-1; i++) {
-                p1 = ring.components[i];
-                p2 = ring.components[i+1];
-                area += OpenLayers.Util.rad(p2.x - p1.x) *
-                        (2 + Math.sin(OpenLayers.Util.rad(p1.y)) +
-                        Math.sin(OpenLayers.Util.rad(p2.y)));
-            }
-            area = area * 6378137.0 * 6378137.0 / 2.0;
-        }
-        return area;
-    },
-    
-    /**
-     * Method: containsPoint
-     * Test if a point is inside a linear ring.  For the case where a point
-     *     is coincident with a linear ring edge, returns 1.  Otherwise,
-     *     returns boolean.
-     *
-     * Parameters:
-     * point - {<OpenLayers.Geometry.Point>}
-     *
-     * Returns:
-     * {Boolean | Number} The point is inside the linear ring.  Returns 1 if
-     *     the point is coincident with an edge.  Returns boolean otherwise.
-     */
-    containsPoint: function(point) {
-        var approx = OpenLayers.Number.limitSigDigs;
-        var digs = 14;
-        var px = approx(point.x, digs);
-        var py = approx(point.y, digs);
-        function getX(y, x1, y1, x2, y2) {
-            return (y - y2) * ((x2 - x1) / (y2 - y1)) + x2;
-        }
-        var numSeg = this.components.length - 1;
-        var start, end, x1, y1, x2, y2, cx, cy;
-        var crosses = 0;
-        for(var i=0; i<numSeg; ++i) {
-            start = this.components[i];
-            x1 = approx(start.x, digs);
-            y1 = approx(start.y, digs);
-            end = this.components[i + 1];
-            x2 = approx(end.x, digs);
-            y2 = approx(end.y, digs);
-            
-            /**
-             * The following conditions enforce five edge-crossing rules:
-             *    1. points coincident with edges are considered contained;
-             *    2. an upward edge includes its starting endpoint, and
-             *    excludes its final endpoint;
-             *    3. a downward edge excludes its starting endpoint, and
-             *    includes its final endpoint;
-             *    4. horizontal edges are excluded; and
-             *    5. the edge-ray intersection point must be strictly right
-             *    of the point P.
-             */
-            if(y1 == y2) {
-                // horizontal edge
-                if(py == y1) {
-                    // point on horizontal line
-                    if(x1 <= x2 && (px >= x1 && px <= x2) || // right or vert
-                       x1 >= x2 && (px <= x1 && px >= x2)) { // left or vert
-                        // point on edge
-                        crosses = -1;
-                        break;
-                    }
-                }
-                // ignore other horizontal edges
-                continue;
-            }
-            cx = approx(getX(py, x1, y1, x2, y2), digs);
-            if(cx == px) {
-                // point on line
-                if(y1 < y2 && (py >= y1 && py <= y2) || // upward
-                   y1 > y2 && (py <= y1 && py >= y2)) { // downward
-                    // point on edge
-                    crosses = -1;
-                    break;
-                }
-            }
-            if(cx <= px) {
-                // no crossing to the right
-                continue;
-            }
-            if(x1 != x2 && (cx < Math.min(x1, x2) || cx > Math.max(x1, x2))) {
-                // no crossing
-                continue;
-            }
-            if(y1 < y2 && (py >= y1 && py < y2) || // upward
-               y1 > y2 && (py < y1 && py >= y2)) { // downward
-                ++crosses;
-            }
-        }
-        var contained = (crosses == -1) ?
-            // on edge
-            1 :
-            // even (out) or odd (in)
-            !!(crosses & 1);
-
-        return contained;
-    },
-
-    /**
-     * APIMethod: intersects
-     * Determine if the input geometry intersects this one.
-     *
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>} Any type of geometry.
-     *
-     * Returns:
-     * {Boolean} The input geometry intersects this one.
-     */
-    intersects: function(geometry) {
-        var intersect = false;
-        if(geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
-            intersect = this.containsPoint(geometry);
-        } else if(geometry.CLASS_NAME == "OpenLayers.Geometry.LineString") {
-            intersect = geometry.intersects(this);
-        } else if(geometry.CLASS_NAME == "OpenLayers.Geometry.LinearRing") {
-            intersect = OpenLayers.Geometry.LineString.prototype.intersects.apply(
-                this, [geometry]
-            );
-        } else {
-            // check for component intersections
-            for(var i=0, len=geometry.components.length; i<len; ++ i) {
-                intersect = geometry.components[i].intersects(this);
-                if(intersect) {
-                    break;
-                }
-            }
-        }
-        return intersect;
-    },
-
-    /**
-     * APIMethod: getVertices
-     * Return a list of all points in this geometry.
-     *
-     * Parameters:
-     * nodes - {Boolean} For lines, only return vertices that are
-     *     endpoints.  If false, for lines, only vertices that are not
-     *     endpoints will be returned.  If not provided, all vertices will
-     *     be returned.
-     *
-     * Returns:
-     * {Array} A list of all vertices in the geometry.
-     */
-    getVertices: function(nodes) {
-        return (nodes === true) ? [] : this.components.slice(0, this.components.length-1);
-    },
-
-    CLASS_NAME: "OpenLayers.Geometry.LinearRing"
-});
-/* ======================================================================
     OpenLayers/Animation.js
    ====================================================================== */
 
@@ -14398,240 +12310,6 @@ OpenLayers.Layer = OpenLayers.Class({
     CLASS_NAME: "OpenLayers.Layer"
 });
 /* ======================================================================
-    OpenLayers/Layer/HTTPRequest.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-
-/**
- * @requires OpenLayers/Layer.js
- */
-
-/**
- * Class: OpenLayers.Layer.HTTPRequest
- * 
- * Inherits from: 
- *  - <OpenLayers.Layer>
- */
-OpenLayers.Layer.HTTPRequest = OpenLayers.Class(OpenLayers.Layer, {
-
-    /** 
-     * Constant: URL_HASH_FACTOR
-     * {Float} Used to hash URL param strings for multi-WMS server selection.
-     *         Set to the Golden Ratio per Knuth's recommendation.
-     */
-    URL_HASH_FACTOR: (Math.sqrt(5) - 1) / 2,
-
-    /** 
-     * Property: url
-     * {Array(String) or String} This is either an array of url strings or 
-     *                           a single url string. 
-     */
-    url: null,
-
-    /** 
-     * Property: params
-     * {Object} Hashtable of key/value parameters
-     */
-    params: null,
-    
-    /** 
-     * APIProperty: reproject
-     * *Deprecated*. See http://docs.openlayers.org/library/spherical_mercator.html
-     * for information on the replacement for this functionality. 
-     * {Boolean} Whether layer should reproject itself based on base layer 
-     *           locations. This allows reprojection onto commercial layers. 
-     *           Default is false: Most layers can't reproject, but layers 
-     *           which can create non-square geographic pixels can, like WMS.
-     *           
-     */
-    reproject: false,
-
-    /**
-     * Constructor: OpenLayers.Layer.HTTPRequest
-     * 
-     * Parameters:
-     * name - {String}
-     * url - {Array(String) or String}
-     * params - {Object}
-     * options - {Object} Hashtable of extra options to tag onto the layer
-     */
-    initialize: function(name, url, params, options) {
-        OpenLayers.Layer.prototype.initialize.apply(this, [name, options]);
-        this.url = url;
-        if (!this.params) {
-            this.params = OpenLayers.Util.extend({}, params);
-        }
-    },
-
-    /**
-     * APIMethod: destroy
-     */
-    destroy: function() {
-        this.url = null;
-        this.params = null;
-        OpenLayers.Layer.prototype.destroy.apply(this, arguments); 
-    },
-    
-    /**
-     * APIMethod: clone
-     * 
-     * Parameters:
-     * obj - {Object}
-     * 
-     * Returns:
-     * {<OpenLayers.Layer.HTTPRequest>} An exact clone of this 
-     *                                  <OpenLayers.Layer.HTTPRequest>
-     */
-    clone: function (obj) {
-        
-        if (obj == null) {
-            obj = new OpenLayers.Layer.HTTPRequest(this.name,
-                                                   this.url,
-                                                   this.params,
-                                                   this.getOptions());
-        }
-        
-        //get all additions from superclasses
-        obj = OpenLayers.Layer.prototype.clone.apply(this, [obj]);
-
-        // copy/set any non-init, non-simple values here
-        
-        return obj;
-    },
-
-    /** 
-     * APIMethod: setUrl
-     * 
-     * Parameters:
-     * newUrl - {String}
-     */
-    setUrl: function(newUrl) {
-        this.url = newUrl;
-    },
-
-    /**
-     * APIMethod: mergeNewParams
-     * 
-     * Parameters:
-     * newParams - {Object}
-     *
-     * Returns:
-     * redrawn: {Boolean} whether the layer was actually redrawn.
-     */
-    mergeNewParams:function(newParams) {
-        this.params = OpenLayers.Util.extend(this.params, newParams);
-        var ret = this.redraw();
-        if(this.map != null) {
-            this.map.events.triggerEvent("changelayer", {
-                layer: this,
-                property: "params"
-            });
-        }
-        return ret;
-    },
-
-    /**
-     * APIMethod: redraw
-     * Redraws the layer.  Returns true if the layer was redrawn, false if not.
-     *
-     * Parameters:
-     * force - {Boolean} Force redraw by adding random parameter.
-     *
-     * Returns:
-     * {Boolean} The layer was redrawn.
-     */
-    redraw: function(force) { 
-        if (force) {
-            return this.mergeNewParams({"_olSalt": Math.random()});
-        } else {
-            return OpenLayers.Layer.prototype.redraw.apply(this, []);
-        }
-    },
-    
-    /**
-     * Method: selectUrl
-     * selectUrl() implements the standard floating-point multiplicative
-     *     hash function described by Knuth, and hashes the contents of the 
-     *     given param string into a float between 0 and 1. This float is then
-     *     scaled to the size of the provided urls array, and used to select
-     *     a URL.
-     *
-     * Parameters:
-     * paramString - {String}
-     * urls - {Array(String)}
-     * 
-     * Returns:
-     * {String} An entry from the urls array, deterministically selected based
-     *          on the paramString.
-     */
-    selectUrl: function(paramString, urls) {
-        var product = 1;
-        for (var i=0, len=paramString.length; i<len; i++) { 
-            product *= paramString.charCodeAt(i) * this.URL_HASH_FACTOR; 
-            product -= Math.floor(product); 
-        }
-        return urls[Math.floor(product * urls.length)];
-    },
-
-    /** 
-     * Method: getFullRequestString
-     * Combine url with layer's params and these newParams. 
-     *   
-     *    does checking on the serverPath variable, allowing for cases when it 
-     *     is supplied with trailing ? or &, as well as cases where not. 
-     *
-     *    return in formatted string like this:
-     *        "server?key1=value1&key2=value2&key3=value3"
-     * 
-     * WARNING: The altUrl parameter is deprecated and will be removed in 3.0.
-     *
-     * Parameters:
-     * newParams - {Object}
-     * altUrl - {String} Use this as the url instead of the layer's url
-     *   
-     * Returns: 
-     * {String}
-     */
-    getFullRequestString:function(newParams, altUrl) {
-
-        // if not altUrl passed in, use layer's url
-        var url = altUrl || this.url;
-        
-        // create a new params hashtable with all the layer params and the 
-        // new params together. then convert to string
-        var allParams = OpenLayers.Util.extend({}, this.params);
-        allParams = OpenLayers.Util.extend(allParams, newParams);
-        var paramsString = OpenLayers.Util.getParameterString(allParams);
-        
-        // if url is not a string, it should be an array of strings, 
-        // in which case we will deterministically select one of them in 
-        // order to evenly distribute requests to different urls.
-        //
-        if (OpenLayers.Util.isArray(url)) {
-            url = this.selectUrl(paramsString, url);
-        }   
- 
-        // ignore parameters that are already in the url search string
-        var urlParams = 
-            OpenLayers.Util.upperCaseObject(OpenLayers.Util.getParameters(url));
-        for(var key in allParams) {
-            if(key.toUpperCase() in urlParams) {
-                delete allParams[key];
-            }
-        }
-        paramsString = OpenLayers.Util.getParameterString(allParams);
-        
-        return OpenLayers.Util.urlAppend(url, paramsString);
-    },
-
-    CLASS_NAME: "OpenLayers.Layer.HTTPRequest"
-});
-/* ======================================================================
     OpenLayers/Tile.js
    ====================================================================== */
 
@@ -15410,6 +13088,2591 @@ OpenLayers.Tile.Image = OpenLayers.Class(OpenLayers.Tile, {
 
     CLASS_NAME: "OpenLayers.Tile.Image"
 
+});
+/* ======================================================================
+    OpenLayers/Layer/Image.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+ 
+/**
+ * @requires OpenLayers/Layer.js
+ * @requires OpenLayers/Tile/Image.js
+ */
+
+/**
+ * Class: OpenLayers.Layer.Image
+ * Instances of OpenLayers.Layer.Image are used to display data from a web
+ * accessible image as a map layer.  Create a new image layer with the
+ * <OpenLayers.Layer.Image> constructor.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Layer>
+ */
+OpenLayers.Layer.Image = OpenLayers.Class(OpenLayers.Layer, {
+
+    /**
+     * Property: isBaseLayer
+     * {Boolean} The layer is a base layer.  Default is true.  Set this property
+     * in the layer options
+     */
+    isBaseLayer: true,
+    
+    /**
+     * Property: url
+     * {String} URL of the image to use
+     */
+    url: null,
+
+    /**
+     * Property: extent
+     * {<OpenLayers.Bounds>} The image bounds in map units.  This extent will
+     *     also be used as the default maxExtent for the layer.  If you wish
+     *     to have a maxExtent that is different than the image extent, set the
+     *     maxExtent property of the options argument (as with any other layer).
+     */
+    extent: null,
+    
+    /**
+     * Property: size
+     * {<OpenLayers.Size>} The image size in pixels
+     */
+    size: null,
+
+    /**
+     * Property: tile
+     * {<OpenLayers.Tile.Image>}
+     */
+    tile: null,
+
+    /**
+     * Property: aspectRatio
+     * {Float} The ratio of height/width represented by a single pixel in the
+     * graphic
+     */
+    aspectRatio: null,
+
+    /**
+     * Constructor: OpenLayers.Layer.Image
+     * Create a new image layer
+     *
+     * Parameters:
+     * name - {String} A name for the layer.
+     * url - {String} Relative or absolute path to the image
+     * extent - {<OpenLayers.Bounds>} The extent represented by the image
+     * size - {<OpenLayers.Size>} The size (in pixels) of the image
+     * options - {Object} Hashtable of extra options to tag onto the layer
+     */
+    initialize: function(name, url, extent, size, options) {
+        this.url = url;
+        this.extent = extent;
+        this.maxExtent = extent;
+        this.size = size;
+        OpenLayers.Layer.prototype.initialize.apply(this, [name, options]);
+
+        this.aspectRatio = (this.extent.getHeight() / this.size.h) /
+                           (this.extent.getWidth() / this.size.w);
+    },    
+
+    /**
+     * Method: destroy
+     * Destroy this layer
+     */
+    destroy: function() {
+        if (this.tile) {
+            this.removeTileMonitoringHooks(this.tile);
+            this.tile.destroy();
+            this.tile = null;
+        }
+        OpenLayers.Layer.prototype.destroy.apply(this, arguments);
+    },
+    
+    /**
+     * Method: clone
+     * Create a clone of this layer
+     *
+     * Paramters:
+     * obj - {Object} An optional layer (is this ever used?)
+     *
+     * Returns:
+     * {<OpenLayers.Layer.Image>} An exact copy of this layer
+     */
+    clone: function(obj) {
+        
+        if(obj == null) {
+            obj = new OpenLayers.Layer.Image(this.name,
+                                               this.url,
+                                               this.extent,
+                                               this.size,
+                                               this.getOptions());
+        }
+
+        //get all additions from superclasses
+        obj = OpenLayers.Layer.prototype.clone.apply(this, [obj]);
+
+        // copy/set any non-init, non-simple values here
+
+        return obj;
+    },    
+    
+    /**
+     * APIMethod: setMap
+     * 
+     * Parameters:
+     * map - {<OpenLayers.Map>}
+     */
+    setMap: function(map) {
+        /**
+         * If nothing to do with resolutions has been set, assume a single
+         * resolution determined by ratio*extent/size - if an image has a
+         * pixel aspect ratio different than one (as calculated above), the
+         * image will be stretched in one dimension only.
+         */
+        if( this.options.maxResolution == null ) {
+            this.options.maxResolution = this.aspectRatio *
+                                         this.extent.getWidth() /
+                                         this.size.w;
+        }
+        OpenLayers.Layer.prototype.setMap.apply(this, arguments);
+    },
+
+    /** 
+     * Method: moveTo
+     * Create the tile for the image or resize it for the new resolution
+     * 
+     * Parameters:
+     * bounds - {<OpenLayers.Bounds>}
+     * zoomChanged - {Boolean}
+     * dragging - {Boolean}
+     */
+    moveTo:function(bounds, zoomChanged, dragging) {
+        OpenLayers.Layer.prototype.moveTo.apply(this, arguments);
+
+        var firstRendering = (this.tile == null);
+
+        if(zoomChanged || firstRendering) {
+
+            //determine new tile size
+            this.setTileSize();
+
+            //determine new position (upper left corner of new bounds)
+            var ulPx = this.map.getLayerPxFromLonLat({
+                lon: this.extent.left,
+                lat: this.extent.top
+            });
+
+            if(firstRendering) {
+                //create the new tile
+                this.tile = new OpenLayers.Tile.Image(this, ulPx, this.extent, 
+                                                      null, this.tileSize);
+                this.addTileMonitoringHooks(this.tile);
+            } else {
+                //just resize the tile and set it's new position
+                this.tile.size = this.tileSize.clone();
+                this.tile.position = ulPx.clone();
+            }
+            this.tile.draw();
+        }
+    }, 
+
+    /**
+     * Set the tile size based on the map size.
+     */
+    setTileSize: function() {
+        var tileWidth = this.extent.getWidth() / this.map.getResolution();
+        var tileHeight = this.extent.getHeight() / this.map.getResolution();
+        this.tileSize = new OpenLayers.Size(tileWidth, tileHeight);
+    },
+
+    /** 
+     * Method: addTileMonitoringHooks
+     * This function takes a tile as input and adds the appropriate hooks to 
+     *     the tile so that the layer can keep track of the loading tiles.
+     * 
+     * Parameters: 
+     * tile - {<OpenLayers.Tile>}
+     */
+    addTileMonitoringHooks: function(tile) {
+        tile.onLoadStart = function() {
+            this.events.triggerEvent("loadstart");
+        };
+        tile.events.register("loadstart", this, tile.onLoadStart);
+      
+        tile.onLoadEnd = function() {
+            this.events.triggerEvent("loadend");
+        };
+        tile.events.register("loadend", this, tile.onLoadEnd);
+        tile.events.register("unload", this, tile.onLoadEnd);
+    },
+
+    /** 
+     * Method: removeTileMonitoringHooks
+     * This function takes a tile as input and removes the tile hooks 
+     *     that were added in <addTileMonitoringHooks>.
+     * 
+     * Parameters: 
+     * tile - {<OpenLayers.Tile>}
+     */
+    removeTileMonitoringHooks: function(tile) {
+        tile.unload();
+        tile.events.un({
+            "loadstart": tile.onLoadStart,
+            "loadend": tile.onLoadEnd,
+            "unload": tile.onLoadEnd,
+            scope: this
+        });
+    },
+    
+    /**
+     * APIMethod: setUrl
+     * 
+     * Parameters:
+     * newUrl - {String}
+     */
+    setUrl: function(newUrl) {
+        this.url = newUrl;
+        this.tile.draw();
+    },
+
+    /** 
+     * APIMethod: getURL
+     * The url we return is always the same (the image itself never changes)
+     *     so we can ignore the bounds parameter (it will always be the same, 
+     *     anyways) 
+     * 
+     * Parameters:
+     * bounds - {<OpenLayers.Bounds>}
+     */
+    getURL: function(bounds) {
+        return this.url;
+    },
+
+    CLASS_NAME: "OpenLayers.Layer.Image"
+});
+/* ======================================================================
+    OpenLayers/Geometry/Collection.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Geometry.js
+ */
+
+/**
+ * Class: OpenLayers.Geometry.Collection
+ * A Collection is exactly what it sounds like: A collection of different 
+ * Geometries. These are stored in the local parameter <components> (which
+ * can be passed as a parameter to the constructor). 
+ * 
+ * As new geometries are added to the collection, they are NOT cloned. 
+ * When removing geometries, they need to be specified by reference (ie you 
+ * have to pass in the *exact* geometry to be removed).
+ * 
+ * The <getArea> and <getLength> functions here merely iterate through
+ * the components, summing their respective areas and lengths.
+ *
+ * Create a new instance with the <OpenLayers.Geometry.Collection> constructor.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Geometry> 
+ */
+OpenLayers.Geometry.Collection = OpenLayers.Class(OpenLayers.Geometry, {
+
+    /**
+     * APIProperty: components
+     * {Array(<OpenLayers.Geometry>)} The component parts of this geometry
+     */
+    components: null,
+    
+    /**
+     * Property: componentTypes
+     * {Array(String)} An array of class names representing the types of
+     * components that the collection can include.  A null value means the
+     * component types are not restricted.
+     */
+    componentTypes: null,
+
+    /**
+     * Constructor: OpenLayers.Geometry.Collection
+     * Creates a Geometry Collection -- a list of geoms.
+     *
+     * Parameters: 
+     * components - {Array(<OpenLayers.Geometry>)} Optional array of geometries
+     *
+     */
+    initialize: function (components) {
+        OpenLayers.Geometry.prototype.initialize.apply(this, arguments);
+        this.components = [];
+        if (components != null) {
+            this.addComponents(components);
+        }
+    },
+
+    /**
+     * APIMethod: destroy
+     * Destroy this geometry.
+     */
+    destroy: function () {
+        this.components.length = 0;
+        this.components = null;
+        OpenLayers.Geometry.prototype.destroy.apply(this, arguments);
+    },
+
+    /**
+     * APIMethod: clone
+     * Clone this geometry.
+     *
+     * Returns:
+     * {<OpenLayers.Geometry.Collection>} An exact clone of this collection
+     */
+    clone: function() {
+        var geometry = eval("new " + this.CLASS_NAME + "()");
+        for(var i=0, len=this.components.length; i<len; i++) {
+            geometry.addComponent(this.components[i].clone());
+        }
+        
+        // catch any randomly tagged-on properties
+        OpenLayers.Util.applyDefaults(geometry, this);
+        
+        return geometry;
+    },
+
+    /**
+     * Method: getComponentsString
+     * Get a string representing the components for this collection
+     * 
+     * Returns:
+     * {String} A string representation of the components of this geometry
+     */
+    getComponentsString: function(){
+        var strings = [];
+        for(var i=0, len=this.components.length; i<len; i++) {
+            strings.push(this.components[i].toShortString()); 
+        }
+        return strings.join(",");
+    },
+
+    /**
+     * APIMethod: calculateBounds
+     * Recalculate the bounds by iterating through the components and 
+     * calling calling extendBounds() on each item.
+     */
+    calculateBounds: function() {
+        this.bounds = null;
+        var bounds = new OpenLayers.Bounds();
+        var components = this.components;
+        if (components) {
+            for (var i=0, len=components.length; i<len; i++) {
+                bounds.extend(components[i].getBounds());
+            }
+        }
+        // to preserve old behavior, we only set bounds if non-null
+        // in the future, we could add bounds.isEmpty()
+        if (bounds.left != null && bounds.bottom != null && 
+            bounds.right != null && bounds.top != null) {
+            this.setBounds(bounds);
+        }
+    },
+
+    /**
+     * APIMethod: addComponents
+     * Add components to this geometry.
+     *
+     * Parameters:
+     * components - {Array(<OpenLayers.Geometry>)} An array of geometries to add
+     */
+    addComponents: function(components){
+        if(!(OpenLayers.Util.isArray(components))) {
+            components = [components];
+        }
+        for(var i=0, len=components.length; i<len; i++) {
+            this.addComponent(components[i]);
+        }
+    },
+
+    /**
+     * Method: addComponent
+     * Add a new component (geometry) to the collection.  If this.componentTypes
+     * is set, then the component class name must be in the componentTypes array.
+     *
+     * The bounds cache is reset.
+     * 
+     * Parameters:
+     * component - {<OpenLayers.Geometry>} A geometry to add
+     * index - {int} Optional index into the array to insert the component
+     *
+     * Returns:
+     * {Boolean} The component geometry was successfully added
+     */    
+    addComponent: function(component, index) {
+        var added = false;
+        if(component) {
+            if(this.componentTypes == null ||
+               (OpenLayers.Util.indexOf(this.componentTypes,
+                                        component.CLASS_NAME) > -1)) {
+
+                if(index != null && (index < this.components.length)) {
+                    var components1 = this.components.slice(0, index);
+                    var components2 = this.components.slice(index, 
+                                                           this.components.length);
+                    components1.push(component);
+                    this.components = components1.concat(components2);
+                } else {
+                    this.components.push(component);
+                }
+                component.parent = this;
+                this.clearBounds();
+                added = true;
+            }
+        }
+        return added;
+    },
+    
+    /**
+     * APIMethod: removeComponents
+     * Remove components from this geometry.
+     *
+     * Parameters:
+     * components - {Array(<OpenLayers.Geometry>)} The components to be removed
+     *
+     * Returns: 
+     * {Boolean} A component was removed.
+     */
+    removeComponents: function(components) {
+        var removed = false;
+
+        if(!(OpenLayers.Util.isArray(components))) {
+            components = [components];
+        }
+        for(var i=components.length-1; i>=0; --i) {
+            removed = this.removeComponent(components[i]) || removed;
+        }
+        return removed;
+    },
+    
+    /**
+     * Method: removeComponent
+     * Remove a component from this geometry.
+     *
+     * Parameters:
+     * component - {<OpenLayers.Geometry>} 
+     *
+     * Returns: 
+     * {Boolean} The component was removed.
+     */
+    removeComponent: function(component) {
+        
+        OpenLayers.Util.removeItem(this.components, component);
+        
+        // clearBounds() so that it gets recalculated on the next call
+        // to this.getBounds();
+        this.clearBounds();
+        return true;
+    },
+
+    /**
+     * APIMethod: getLength
+     * Calculate the length of this geometry
+     *
+     * Returns:
+     * {Float} The length of the geometry
+     */
+    getLength: function() {
+        var length = 0.0;
+        for (var i=0, len=this.components.length; i<len; i++) {
+            length += this.components[i].getLength();
+        }
+        return length;
+    },
+    
+    /**
+     * APIMethod: getArea
+     * Calculate the area of this geometry. Note how this function is overridden
+     * in <OpenLayers.Geometry.Polygon>.
+     *
+     * Returns:
+     * {Float} The area of the collection by summing its parts
+     */
+    getArea: function() {
+        var area = 0.0;
+        for (var i=0, len=this.components.length; i<len; i++) {
+            area += this.components[i].getArea();
+        }
+        return area;
+    },
+
+    /** 
+     * APIMethod: getGeodesicArea
+     * Calculate the approximate area of the polygon were it projected onto
+     *     the earth.
+     *
+     * Parameters:
+     * projection - {<OpenLayers.Projection>} The spatial reference system
+     *     for the geometry coordinates.  If not provided, Geographic/WGS84 is
+     *     assumed.
+     * 
+     * Reference:
+     * Robert. G. Chamberlain and William H. Duquette, "Some Algorithms for
+     *     Polygons on a Sphere", JPL Publication 07-03, Jet Propulsion
+     *     Laboratory, Pasadena, CA, June 2007 http://trs-new.jpl.nasa.gov/dspace/handle/2014/40409
+     *
+     * Returns:
+     * {float} The approximate geodesic area of the geometry in square meters.
+     */
+    getGeodesicArea: function(projection) {
+        var area = 0.0;
+        for(var i=0, len=this.components.length; i<len; i++) {
+            area += this.components[i].getGeodesicArea(projection);
+        }
+        return area;
+    },
+    
+    /**
+     * APIMethod: getCentroid
+     *
+     * Compute the centroid for this geometry collection.
+     *
+     * Parameters:
+     * weighted - {Boolean} Perform the getCentroid computation recursively,
+     * returning an area weighted average of all geometries in this collection.
+     *
+     * Returns:
+     * {<OpenLayers.Geometry.Point>} The centroid of the collection
+     */
+    getCentroid: function(weighted) {
+        if (!weighted) {
+            return this.components.length && this.components[0].getCentroid();
+        }
+        var len = this.components.length;
+        if (!len) {
+            return false;
+        }
+        
+        var areas = [];
+        var centroids = [];
+        var areaSum = 0;
+        var minArea = Number.MAX_VALUE;
+        var component;
+        for (var i=0; i<len; ++i) {
+            component = this.components[i];
+            var area = component.getArea();
+            var centroid = component.getCentroid(true);
+            if (isNaN(area) || isNaN(centroid.x) || isNaN(centroid.y)) {
+                continue;
+            }
+            areas.push(area);
+            areaSum += area;
+            minArea = (area < minArea && area > 0) ? area : minArea;
+            centroids.push(centroid);
+        }
+        len = areas.length;
+        if (areaSum === 0) {
+            // all the components in this collection have 0 area
+            // probably a collection of points -- weight all the points the same
+            for (var i=0; i<len; ++i) {
+                areas[i] = 1;
+            }
+            areaSum = areas.length;
+        } else {
+            // normalize all the areas where the smallest area will get
+            // a value of 1
+            for (var i=0; i<len; ++i) {
+                areas[i] /= minArea;
+            }
+            areaSum /= minArea;
+        }
+        
+        var xSum = 0, ySum = 0, centroid, area;
+        for (var i=0; i<len; ++i) {
+            centroid = centroids[i];
+            area = areas[i];
+            xSum += centroid.x * area;
+            ySum += centroid.y * area;
+        }
+        
+        return new OpenLayers.Geometry.Point(xSum/areaSum, ySum/areaSum);
+    },
+
+    /**
+     * APIMethod: getGeodesicLength
+     * Calculate the approximate length of the geometry were it projected onto
+     *     the earth.
+     *
+     * projection - {<OpenLayers.Projection>} The spatial reference system
+     *     for the geometry coordinates.  If not provided, Geographic/WGS84 is
+     *     assumed.
+     * 
+     * Returns:
+     * {Float} The appoximate geodesic length of the geometry in meters.
+     */
+    getGeodesicLength: function(projection) {
+        var length = 0.0;
+        for(var i=0, len=this.components.length; i<len; i++) {
+            length += this.components[i].getGeodesicLength(projection);
+        }
+        return length;
+    },
+
+    /**
+     * APIMethod: move
+     * Moves a geometry by the given displacement along positive x and y axes.
+     *     This modifies the position of the geometry and clears the cached
+     *     bounds.
+     *
+     * Parameters:
+     * x - {Float} Distance to move geometry in positive x direction. 
+     * y - {Float} Distance to move geometry in positive y direction.
+     */
+    move: function(x, y) {
+        for(var i=0, len=this.components.length; i<len; i++) {
+            this.components[i].move(x, y);
+        }
+    },
+
+    /**
+     * APIMethod: rotate
+     * Rotate a geometry around some origin
+     *
+     * Parameters:
+     * angle - {Float} Rotation angle in degrees (measured counterclockwise
+     *                 from the positive x-axis)
+     * origin - {<OpenLayers.Geometry.Point>} Center point for the rotation
+     */
+    rotate: function(angle, origin) {
+        for(var i=0, len=this.components.length; i<len; ++i) {
+            this.components[i].rotate(angle, origin);
+        }
+    },
+
+    /**
+     * APIMethod: resize
+     * Resize a geometry relative to some origin.  Use this method to apply
+     *     a uniform scaling to a geometry.
+     *
+     * Parameters:
+     * scale - {Float} Factor by which to scale the geometry.  A scale of 2
+     *                 doubles the size of the geometry in each dimension
+     *                 (lines, for example, will be twice as long, and polygons
+     *                 will have four times the area).
+     * origin - {<OpenLayers.Geometry.Point>} Point of origin for resizing
+     * ratio - {Float} Optional x:y ratio for resizing.  Default ratio is 1.
+     * 
+     * Returns:
+     * {<OpenLayers.Geometry>} - The current geometry. 
+     */
+    resize: function(scale, origin, ratio) {
+        for(var i=0; i<this.components.length; ++i) {
+            this.components[i].resize(scale, origin, ratio);
+        }
+        return this;
+    },
+
+    /**
+     * APIMethod: distanceTo
+     * Calculate the closest distance between two geometries (on the x-y plane).
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>} The target geometry.
+     * options - {Object} Optional properties for configuring the distance
+     *     calculation.
+     *
+     * Valid options:
+     * details - {Boolean} Return details from the distance calculation.
+     *     Default is false.
+     * edge - {Boolean} Calculate the distance from this geometry to the
+     *     nearest edge of the target geometry.  Default is true.  If true,
+     *     calling distanceTo from a geometry that is wholly contained within
+     *     the target will result in a non-zero distance.  If false, whenever
+     *     geometries intersect, calling distanceTo will return 0.  If false,
+     *     details cannot be returned.
+     *
+     * Returns:
+     * {Number | Object} The distance between this geometry and the target.
+     *     If details is true, the return will be an object with distance,
+     *     x0, y0, x1, and y1 properties.  The x0 and y0 properties represent
+     *     the coordinates of the closest point on this geometry. The x1 and y1
+     *     properties represent the coordinates of the closest point on the
+     *     target geometry.
+     */
+    distanceTo: function(geometry, options) {
+        var edge = !(options && options.edge === false);
+        var details = edge && options && options.details;
+        var result, best, distance;
+        var min = Number.POSITIVE_INFINITY;
+        for(var i=0, len=this.components.length; i<len; ++i) {
+            result = this.components[i].distanceTo(geometry, options);
+            distance = details ? result.distance : result;
+            if(distance < min) {
+                min = distance;
+                best = result;
+                if(min == 0) {
+                    break;
+                }
+            }
+        }
+        return best;
+    },
+
+    /** 
+     * APIMethod: equals
+     * Determine whether another geometry is equivalent to this one.  Geometries
+     *     are considered equivalent if all components have the same coordinates.
+     * 
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>} The geometry to test. 
+     *
+     * Returns:
+     * {Boolean} The supplied geometry is equivalent to this geometry.
+     */
+    equals: function(geometry) {
+        var equivalent = true;
+        if(!geometry || !geometry.CLASS_NAME ||
+           (this.CLASS_NAME != geometry.CLASS_NAME)) {
+            equivalent = false;
+        } else if(!(OpenLayers.Util.isArray(geometry.components)) ||
+                  (geometry.components.length != this.components.length)) {
+            equivalent = false;
+        } else {
+            for(var i=0, len=this.components.length; i<len; ++i) {
+                if(!this.components[i].equals(geometry.components[i])) {
+                    equivalent = false;
+                    break;
+                }
+            }
+        }
+        return equivalent;
+    },
+
+    /**
+     * APIMethod: transform
+     * Reproject the components geometry from source to dest.
+     * 
+     * Parameters:
+     * source - {<OpenLayers.Projection>} 
+     * dest - {<OpenLayers.Projection>}
+     * 
+     * Returns:
+     * {<OpenLayers.Geometry>} 
+     */
+    transform: function(source, dest) {
+        if (source && dest) {
+            for (var i=0, len=this.components.length; i<len; i++) {  
+                var component = this.components[i];
+                component.transform(source, dest);
+            }
+            this.bounds = null;
+        }
+        return this;
+    },
+
+    /**
+     * APIMethod: intersects
+     * Determine if the input geometry intersects this one.
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>} Any type of geometry.
+     *
+     * Returns:
+     * {Boolean} The input geometry intersects this one.
+     */
+    intersects: function(geometry) {
+        var intersect = false;
+        for(var i=0, len=this.components.length; i<len; ++ i) {
+            intersect = geometry.intersects(this.components[i]);
+            if(intersect) {
+                break;
+            }
+        }
+        return intersect;
+    },
+
+    /**
+     * APIMethod: getVertices
+     * Return a list of all points in this geometry.
+     *
+     * Parameters:
+     * nodes - {Boolean} For lines, only return vertices that are
+     *     endpoints.  If false, for lines, only vertices that are not
+     *     endpoints will be returned.  If not provided, all vertices will
+     *     be returned.
+     *
+     * Returns:
+     * {Array} A list of all vertices in the geometry.
+     */
+    getVertices: function(nodes) {
+        var vertices = [];
+        for(var i=0, len=this.components.length; i<len; ++i) {
+            Array.prototype.push.apply(
+                vertices, this.components[i].getVertices(nodes)
+            );
+        }
+        return vertices;
+    },
+
+
+    CLASS_NAME: "OpenLayers.Geometry.Collection"
+});
+/* ======================================================================
+    OpenLayers/Geometry/Point.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Geometry.js
+ */
+
+/**
+ * Class: OpenLayers.Geometry.Point
+ * Point geometry class. 
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Geometry> 
+ */
+OpenLayers.Geometry.Point = OpenLayers.Class(OpenLayers.Geometry, {
+
+    /** 
+     * APIProperty: x 
+     * {float} 
+     */
+    x: null,
+
+    /** 
+     * APIProperty: y 
+     * {float} 
+     */
+    y: null,
+
+    /**
+     * Constructor: OpenLayers.Geometry.Point
+     * Construct a point geometry.
+     *
+     * Parameters:
+     * x - {float} 
+     * y - {float}
+     * 
+     */
+    initialize: function(x, y) {
+        OpenLayers.Geometry.prototype.initialize.apply(this, arguments);
+        
+        this.x = parseFloat(x);
+        this.y = parseFloat(y);
+    },
+
+    /**
+     * APIMethod: clone
+     * 
+     * Returns:
+     * {<OpenLayers.Geometry.Point>} An exact clone of this OpenLayers.Geometry.Point
+     */
+    clone: function(obj) {
+        if (obj == null) {
+            obj = new OpenLayers.Geometry.Point(this.x, this.y);
+        }
+
+        // catch any randomly tagged-on properties
+        OpenLayers.Util.applyDefaults(obj, this);
+
+        return obj;
+    },
+
+    /** 
+     * Method: calculateBounds
+     * Create a new Bounds based on the lon/lat
+     */
+    calculateBounds: function () {
+        this.bounds = new OpenLayers.Bounds(this.x, this.y,
+                                            this.x, this.y);
+    },
+
+    /**
+     * APIMethod: distanceTo
+     * Calculate the closest distance between two geometries (on the x-y plane).
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>} The target geometry.
+     * options - {Object} Optional properties for configuring the distance
+     *     calculation.
+     *
+     * Valid options:
+     * details - {Boolean} Return details from the distance calculation.
+     *     Default is false.
+     * edge - {Boolean} Calculate the distance from this geometry to the
+     *     nearest edge of the target geometry.  Default is true.  If true,
+     *     calling distanceTo from a geometry that is wholly contained within
+     *     the target will result in a non-zero distance.  If false, whenever
+     *     geometries intersect, calling distanceTo will return 0.  If false,
+     *     details cannot be returned.
+     *
+     * Returns:
+     * {Number | Object} The distance between this geometry and the target.
+     *     If details is true, the return will be an object with distance,
+     *     x0, y0, x1, and x2 properties.  The x0 and y0 properties represent
+     *     the coordinates of the closest point on this geometry. The x1 and y1
+     *     properties represent the coordinates of the closest point on the
+     *     target geometry.
+     */
+    distanceTo: function(geometry, options) {
+        var edge = !(options && options.edge === false);
+        var details = edge && options && options.details;
+        var distance, x0, y0, x1, y1, result;
+        if(geometry instanceof OpenLayers.Geometry.Point) {
+            x0 = this.x;
+            y0 = this.y;
+            x1 = geometry.x;
+            y1 = geometry.y;
+            distance = Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
+            result = !details ?
+                distance : {x0: x0, y0: y0, x1: x1, y1: y1, distance: distance};
+        } else {
+            result = geometry.distanceTo(this, options);
+            if(details) {
+                // switch coord order since this geom is target
+                result = {
+                    x0: result.x1, y0: result.y1,
+                    x1: result.x0, y1: result.y0,
+                    distance: result.distance
+                };
+            }
+        }
+        return result;
+    },
+    
+    /** 
+     * APIMethod: equals
+     * Determine whether another geometry is equivalent to this one.  Geometries
+     *     are considered equivalent if all components have the same coordinates.
+     * 
+     * Parameters:
+     * geom - {<OpenLayers.Geometry.Point>} The geometry to test. 
+     *
+     * Returns:
+     * {Boolean} The supplied geometry is equivalent to this geometry.
+     */
+    equals: function(geom) {
+        var equals = false;
+        if (geom != null) {
+            equals = ((this.x == geom.x && this.y == geom.y) ||
+                      (isNaN(this.x) && isNaN(this.y) && isNaN(geom.x) && isNaN(geom.y)));
+        }
+        return equals;
+    },
+    
+    /**
+     * Method: toShortString
+     *
+     * Returns:
+     * {String} Shortened String representation of Point object. 
+     *         (ex. <i>"5, 42"</i>)
+     */
+    toShortString: function() {
+        return (this.x + ", " + this.y);
+    },
+    
+    /**
+     * APIMethod: move
+     * Moves a geometry by the given displacement along positive x and y axes.
+     *     This modifies the position of the geometry and clears the cached
+     *     bounds.
+     *
+     * Parameters:
+     * x - {Float} Distance to move geometry in positive x direction. 
+     * y - {Float} Distance to move geometry in positive y direction.
+     */
+    move: function(x, y) {
+        this.x = this.x + x;
+        this.y = this.y + y;
+        this.clearBounds();
+    },
+
+    /**
+     * APIMethod: rotate
+     * Rotate a point around another.
+     *
+     * Parameters:
+     * angle - {Float} Rotation angle in degrees (measured counterclockwise
+     *                 from the positive x-axis)
+     * origin - {<OpenLayers.Geometry.Point>} Center point for the rotation
+     */
+    rotate: function(angle, origin) {
+        angle *= Math.PI / 180;
+        var radius = this.distanceTo(origin);
+        var theta = angle + Math.atan2(this.y - origin.y, this.x - origin.x);
+        this.x = origin.x + (radius * Math.cos(theta));
+        this.y = origin.y + (radius * Math.sin(theta));
+        this.clearBounds();
+    },
+    
+    /**
+     * APIMethod: getCentroid
+     *
+     * Returns:
+     * {<OpenLayers.Geometry.Point>} The centroid of the collection
+     */
+    getCentroid: function() {
+        return new OpenLayers.Geometry.Point(this.x, this.y);
+    },
+
+    /**
+     * APIMethod: resize
+     * Resize a point relative to some origin.  For points, this has the effect
+     *     of scaling a vector (from the origin to the point).  This method is
+     *     more useful on geometry collection subclasses.
+     *
+     * Parameters:
+     * scale - {Float} Ratio of the new distance from the origin to the old
+     *                 distance from the origin.  A scale of 2 doubles the
+     *                 distance between the point and origin.
+     * origin - {<OpenLayers.Geometry.Point>} Point of origin for resizing
+     * ratio - {Float} Optional x:y ratio for resizing.  Default ratio is 1.
+     * 
+     * Returns:
+     * {<OpenLayers.Geometry>} - The current geometry. 
+     */
+    resize: function(scale, origin, ratio) {
+        ratio = (ratio == undefined) ? 1 : ratio;
+        this.x = origin.x + (scale * ratio * (this.x - origin.x));
+        this.y = origin.y + (scale * (this.y - origin.y));
+        this.clearBounds();
+        return this;
+    },
+    
+    /**
+     * APIMethod: intersects
+     * Determine if the input geometry intersects this one.
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>} Any type of geometry.
+     *
+     * Returns:
+     * {Boolean} The input geometry intersects this one.
+     */
+    intersects: function(geometry) {
+        var intersect = false;
+        if(geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+            intersect = this.equals(geometry);
+        } else {
+            intersect = geometry.intersects(this);
+        }
+        return intersect;
+    },
+    
+    /**
+     * APIMethod: transform
+     * Translate the x,y properties of the point from source to dest.
+     * 
+     * Parameters:
+     * source - {<OpenLayers.Projection>} 
+     * dest - {<OpenLayers.Projection>}
+     * 
+     * Returns:
+     * {<OpenLayers.Geometry>} 
+     */
+    transform: function(source, dest) {
+        if ((source && dest)) {
+            OpenLayers.Projection.transform(
+                this, source, dest); 
+            this.bounds = null;
+        }       
+        return this;
+    },
+
+    /**
+     * APIMethod: getVertices
+     * Return a list of all points in this geometry.
+     *
+     * Parameters:
+     * nodes - {Boolean} For lines, only return vertices that are
+     *     endpoints.  If false, for lines, only vertices that are not
+     *     endpoints will be returned.  If not provided, all vertices will
+     *     be returned.
+     *
+     * Returns:
+     * {Array} A list of all vertices in the geometry.
+     */
+    getVertices: function(nodes) {
+        return [this];
+    },
+
+    CLASS_NAME: "OpenLayers.Geometry.Point"
+});
+/* ======================================================================
+    OpenLayers/Geometry/MultiPoint.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Geometry/Collection.js
+ * @requires OpenLayers/Geometry/Point.js
+ */
+
+/**
+ * Class: OpenLayers.Geometry.MultiPoint
+ * MultiPoint is a collection of Points.  Create a new instance with the
+ * <OpenLayers.Geometry.MultiPoint> constructor.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Geometry.Collection>
+ *  - <OpenLayers.Geometry>
+ */
+OpenLayers.Geometry.MultiPoint = OpenLayers.Class(
+  OpenLayers.Geometry.Collection, {
+
+    /**
+     * Property: componentTypes
+     * {Array(String)} An array of class names representing the types of
+     * components that the collection can include.  A null value means the
+     * component types are not restricted.
+     */
+    componentTypes: ["OpenLayers.Geometry.Point"],
+
+    /**
+     * Constructor: OpenLayers.Geometry.MultiPoint
+     * Create a new MultiPoint Geometry
+     *
+     * Parameters:
+     * components - {Array(<OpenLayers.Geometry.Point>)} 
+     *
+     * Returns:
+     * {<OpenLayers.Geometry.MultiPoint>}
+     */
+
+    /**
+     * APIMethod: addPoint
+     * Wrapper for <OpenLayers.Geometry.Collection.addComponent>
+     *
+     * Parameters:
+     * point - {<OpenLayers.Geometry.Point>} Point to be added
+     * index - {Integer} Optional index
+     */
+    addPoint: function(point, index) {
+        this.addComponent(point, index);
+    },
+    
+    /**
+     * APIMethod: removePoint
+     * Wrapper for <OpenLayers.Geometry.Collection.removeComponent>
+     *
+     * Parameters:
+     * point - {<OpenLayers.Geometry.Point>} Point to be removed
+     */
+    removePoint: function(point){
+        this.removeComponent(point);
+    },
+
+    CLASS_NAME: "OpenLayers.Geometry.MultiPoint"
+});
+/* ======================================================================
+    OpenLayers/Geometry/Curve.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Geometry/MultiPoint.js
+ */
+
+/**
+ * Class: OpenLayers.Geometry.Curve
+ * A Curve is a MultiPoint, whose points are assumed to be connected. To 
+ * this end, we provide a "getLength()" function, which iterates through 
+ * the points, summing the distances between them. 
+ * 
+ * Inherits: 
+ *  - <OpenLayers.Geometry.MultiPoint>
+ */
+OpenLayers.Geometry.Curve = OpenLayers.Class(OpenLayers.Geometry.MultiPoint, {
+
+    /**
+     * Property: componentTypes
+     * {Array(String)} An array of class names representing the types of 
+     *                 components that the collection can include.  A null 
+     *                 value means the component types are not restricted.
+     */
+    componentTypes: ["OpenLayers.Geometry.Point"],
+
+    /**
+     * Constructor: OpenLayers.Geometry.Curve
+     * 
+     * Parameters:
+     * point - {Array(<OpenLayers.Geometry.Point>)}
+     */
+    
+    /**
+     * APIMethod: getLength
+     * 
+     * Returns:
+     * {Float} The length of the curve
+     */
+    getLength: function() {
+        var length = 0.0;
+        if ( this.components && (this.components.length > 1)) {
+            for(var i=1, len=this.components.length; i<len; i++) {
+                length += this.components[i-1].distanceTo(this.components[i]);
+            }
+        }
+        return length;
+    },
+
+    /**
+     * APIMethod: getGeodesicLength
+     * Calculate the approximate length of the geometry were it projected onto
+     *     the earth.
+     *
+     * projection - {<OpenLayers.Projection>} The spatial reference system
+     *     for the geometry coordinates.  If not provided, Geographic/WGS84 is
+     *     assumed.
+     * 
+     * Returns:
+     * {Float} The appoximate geodesic length of the geometry in meters.
+     */
+    getGeodesicLength: function(projection) {
+        var geom = this;  // so we can work with a clone if needed
+        if(projection) {
+            var gg = new OpenLayers.Projection("EPSG:4326");
+            if(!gg.equals(projection)) {
+                geom = this.clone().transform(projection, gg);
+            }
+        }
+        var length = 0.0;
+        if(geom.components && (geom.components.length > 1)) {
+            var p1, p2;
+            for(var i=1, len=geom.components.length; i<len; i++) {
+                p1 = geom.components[i-1];
+                p2 = geom.components[i];
+                // this returns km and requires lon/lat properties
+                length += OpenLayers.Util.distVincenty(
+                    {lon: p1.x, lat: p1.y}, {lon: p2.x, lat: p2.y}
+                );
+            }
+        }
+        // convert to m
+        return length * 1000;
+    },
+
+    CLASS_NAME: "OpenLayers.Geometry.Curve"
+});
+/* ======================================================================
+    OpenLayers/Geometry/LineString.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Geometry/Curve.js
+ */
+
+/**
+ * Class: OpenLayers.Geometry.LineString
+ * A LineString is a Curve which, once two points have been added to it, can 
+ * never be less than two points long.
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Geometry.Curve>
+ */
+OpenLayers.Geometry.LineString = OpenLayers.Class(OpenLayers.Geometry.Curve, {
+
+    /**
+     * Constructor: OpenLayers.Geometry.LineString
+     * Create a new LineString geometry
+     *
+     * Parameters:
+     * points - {Array(<OpenLayers.Geometry.Point>)} An array of points used to
+     *          generate the linestring
+     *
+     */
+
+    /**
+     * APIMethod: removeComponent
+     * Only allows removal of a point if there are three or more points in 
+     * the linestring. (otherwise the result would be just a single point)
+     *
+     * Parameters: 
+     * point - {<OpenLayers.Geometry.Point>} The point to be removed
+     *
+     * Returns: 
+     * {Boolean} The component was removed.
+     */
+    removeComponent: function(point) {
+        var removed = this.components && (this.components.length > 2);
+        if (removed) {
+            OpenLayers.Geometry.Collection.prototype.removeComponent.apply(this, 
+                                                                  arguments);
+        }
+        return removed;
+    },
+    
+    /**
+     * APIMethod: intersects
+     * Test for instersection between two geometries.  This is a cheapo
+     *     implementation of the Bently-Ottmann algorigithm.  It doesn't
+     *     really keep track of a sweep line data structure.  It is closer
+     *     to the brute force method, except that segments are sorted and
+     *     potential intersections are only calculated when bounding boxes
+     *     intersect.
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>}
+     *
+     * Returns:
+     * {Boolean} The input geometry intersects this geometry.
+     */
+    intersects: function(geometry) {
+        var intersect = false;
+        var type = geometry.CLASS_NAME;
+        if(type == "OpenLayers.Geometry.LineString" ||
+           type == "OpenLayers.Geometry.LinearRing" ||
+           type == "OpenLayers.Geometry.Point") {
+            var segs1 = this.getSortedSegments();
+            var segs2;
+            if(type == "OpenLayers.Geometry.Point") {
+                segs2 = [{
+                    x1: geometry.x, y1: geometry.y,
+                    x2: geometry.x, y2: geometry.y
+                }];
+            } else {
+                segs2 = geometry.getSortedSegments();
+            }
+            var seg1, seg1x1, seg1x2, seg1y1, seg1y2,
+                seg2, seg2y1, seg2y2;
+            // sweep right
+            outer: for(var i=0, len=segs1.length; i<len; ++i) {
+                seg1 = segs1[i];
+                seg1x1 = seg1.x1;
+                seg1x2 = seg1.x2;
+                seg1y1 = seg1.y1;
+                seg1y2 = seg1.y2;
+                inner: for(var j=0, jlen=segs2.length; j<jlen; ++j) {
+                    seg2 = segs2[j];
+                    if(seg2.x1 > seg1x2) {
+                        // seg1 still left of seg2
+                        break;
+                    }
+                    if(seg2.x2 < seg1x1) {
+                        // seg2 still left of seg1
+                        continue;
+                    }
+                    seg2y1 = seg2.y1;
+                    seg2y2 = seg2.y2;
+                    if(Math.min(seg2y1, seg2y2) > Math.max(seg1y1, seg1y2)) {
+                        // seg2 above seg1
+                        continue;
+                    }
+                    if(Math.max(seg2y1, seg2y2) < Math.min(seg1y1, seg1y2)) {
+                        // seg2 below seg1
+                        continue;
+                    }
+                    if(OpenLayers.Geometry.segmentsIntersect(seg1, seg2)) {
+                        intersect = true;
+                        break outer;
+                    }
+                }
+            }
+        } else {
+            intersect = geometry.intersects(this);
+        }
+        return intersect;
+    },
+    
+    /**
+     * Method: getSortedSegments
+     *
+     * Returns:
+     * {Array} An array of segment objects.  Segment objects have properties
+     *     x1, y1, x2, and y2.  The start point is represented by x1 and y1.
+     *     The end point is represented by x2 and y2.  Start and end are
+     *     ordered so that x1 < x2.
+     */
+    getSortedSegments: function() {
+        var numSeg = this.components.length - 1;
+        var segments = new Array(numSeg), point1, point2;
+        for(var i=0; i<numSeg; ++i) {
+            point1 = this.components[i];
+            point2 = this.components[i + 1];
+            if(point1.x < point2.x) {
+                segments[i] = {
+                    x1: point1.x,
+                    y1: point1.y,
+                    x2: point2.x,
+                    y2: point2.y
+                };
+            } else {
+                segments[i] = {
+                    x1: point2.x,
+                    y1: point2.y,
+                    x2: point1.x,
+                    y2: point1.y
+                };
+            }
+        }
+        // more efficient to define this somewhere static
+        function byX1(seg1, seg2) {
+            return seg1.x1 - seg2.x1;
+        }
+        return segments.sort(byX1);
+    },
+    
+    /**
+     * Method: splitWithSegment
+     * Split this geometry with the given segment.
+     *
+     * Parameters:
+     * seg - {Object} An object with x1, y1, x2, and y2 properties referencing
+     *     segment endpoint coordinates.
+     * options - {Object} Properties of this object will be used to determine
+     *     how the split is conducted.
+     *
+     * Valid options:
+     * edge - {Boolean} Allow splitting when only edges intersect.  Default is
+     *     true.  If false, a vertex on the source segment must be within the
+     *     tolerance distance of the intersection to be considered a split.
+     * tolerance - {Number} If a non-null value is provided, intersections
+     *     within the tolerance distance of one of the source segment's
+     *     endpoints will be assumed to occur at the endpoint.
+     *
+     * Returns:
+     * {Object} An object with *lines* and *points* properties.  If the given
+     *     segment intersects this linestring, the lines array will reference
+     *     geometries that result from the split.  The points array will contain
+     *     all intersection points.  Intersection points are sorted along the
+     *     segment (in order from x1,y1 to x2,y2).
+     */
+    splitWithSegment: function(seg, options) {
+        var edge = !(options && options.edge === false);
+        var tolerance = options && options.tolerance;
+        var lines = [];
+        var verts = this.getVertices();
+        var points = [];
+        var intersections = [];
+        var split = false;
+        var vert1, vert2, point;
+        var node, vertex, target;
+        var interOptions = {point: true, tolerance: tolerance};
+        var result = null;
+        for(var i=0, stop=verts.length-2; i<=stop; ++i) {
+            vert1 = verts[i];
+            points.push(vert1.clone());
+            vert2 = verts[i+1];
+            target = {x1: vert1.x, y1: vert1.y, x2: vert2.x, y2: vert2.y};
+            point = OpenLayers.Geometry.segmentsIntersect(
+                seg, target, interOptions
+            );
+            if(point instanceof OpenLayers.Geometry.Point) {
+                if((point.x === seg.x1 && point.y === seg.y1) ||
+                   (point.x === seg.x2 && point.y === seg.y2) ||
+                   point.equals(vert1) || point.equals(vert2)) {
+                    vertex = true;
+                } else {
+                    vertex = false;
+                }
+                if(vertex || edge) {
+                    // push intersections different than the previous
+                    if(!point.equals(intersections[intersections.length-1])) {
+                        intersections.push(point.clone());
+                    }
+                    if(i === 0) {
+                        if(point.equals(vert1)) {
+                            continue;
+                        }
+                    }
+                    if(point.equals(vert2)) {
+                        continue;
+                    }
+                    split = true;
+                    if(!point.equals(vert1)) {
+                        points.push(point);
+                    }
+                    lines.push(new OpenLayers.Geometry.LineString(points));
+                    points = [point.clone()];
+                }
+            }
+        }
+        if(split) {
+            points.push(vert2.clone());
+            lines.push(new OpenLayers.Geometry.LineString(points));
+        }
+        if(intersections.length > 0) {
+            // sort intersections along segment
+            var xDir = seg.x1 < seg.x2 ? 1 : -1;
+            var yDir = seg.y1 < seg.y2 ? 1 : -1;
+            result = {
+                lines: lines,
+                points: intersections.sort(function(p1, p2) {
+                    return (xDir * p1.x - xDir * p2.x) || (yDir * p1.y - yDir * p2.y);
+                })
+            };
+        }
+        return result;
+    },
+
+    /**
+     * Method: split
+     * Use this geometry (the source) to attempt to split a target geometry.
+     * 
+     * Parameters:
+     * target - {<OpenLayers.Geometry>} The target geometry.
+     * options - {Object} Properties of this object will be used to determine
+     *     how the split is conducted.
+     *
+     * Valid options:
+     * mutual - {Boolean} Split the source geometry in addition to the target
+     *     geometry.  Default is false.
+     * edge - {Boolean} Allow splitting when only edges intersect.  Default is
+     *     true.  If false, a vertex on the source must be within the tolerance
+     *     distance of the intersection to be considered a split.
+     * tolerance - {Number} If a non-null value is provided, intersections
+     *     within the tolerance distance of an existing vertex on the source
+     *     will be assumed to occur at the vertex.
+     * 
+     * Returns:
+     * {Array} A list of geometries (of this same type as the target) that
+     *     result from splitting the target with the source geometry.  The
+     *     source and target geometry will remain unmodified.  If no split
+     *     results, null will be returned.  If mutual is true and a split
+     *     results, return will be an array of two arrays - the first will be
+     *     all geometries that result from splitting the source geometry and
+     *     the second will be all geometries that result from splitting the
+     *     target geometry.
+     */
+    split: function(target, options) {
+        var results = null;
+        var mutual = options && options.mutual;
+        var sourceSplit, targetSplit, sourceParts, targetParts;
+        if(target instanceof OpenLayers.Geometry.LineString) {
+            var verts = this.getVertices();
+            var vert1, vert2, seg, splits, lines, point;
+            var points = [];
+            sourceParts = [];
+            for(var i=0, stop=verts.length-2; i<=stop; ++i) {
+                vert1 = verts[i];
+                vert2 = verts[i+1];
+                seg = {
+                    x1: vert1.x, y1: vert1.y,
+                    x2: vert2.x, y2: vert2.y
+                };
+                targetParts = targetParts || [target];
+                if(mutual) {
+                    points.push(vert1.clone());
+                }
+                for(var j=0; j<targetParts.length; ++j) {
+                    splits = targetParts[j].splitWithSegment(seg, options);
+                    if(splits) {
+                        // splice in new features
+                        lines = splits.lines;
+                        if(lines.length > 0) {
+                            lines.unshift(j, 1);
+                            Array.prototype.splice.apply(targetParts, lines);
+                            j += lines.length - 2;
+                        }
+                        if(mutual) {
+                            for(var k=0, len=splits.points.length; k<len; ++k) {
+                                point = splits.points[k];
+                                if(!point.equals(vert1)) {
+                                    points.push(point);
+                                    sourceParts.push(new OpenLayers.Geometry.LineString(points));
+                                    if(point.equals(vert2)) {
+                                        points = [];
+                                    } else {
+                                        points = [point.clone()];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if(mutual && sourceParts.length > 0 && points.length > 0) {
+                points.push(vert2.clone());
+                sourceParts.push(new OpenLayers.Geometry.LineString(points));
+            }
+        } else {
+            results = target.splitWith(this, options);
+        }
+        if(targetParts && targetParts.length > 1) {
+            targetSplit = true;
+        } else {
+            targetParts = [];
+        }
+        if(sourceParts && sourceParts.length > 1) {
+            sourceSplit = true;
+        } else {
+            sourceParts = [];
+        }
+        if(targetSplit || sourceSplit) {
+            if(mutual) {
+                results = [sourceParts, targetParts];
+            } else {
+                results = targetParts;
+            }
+        }
+        return results;
+    },
+
+    /**
+     * Method: splitWith
+     * Split this geometry (the target) with the given geometry (the source).
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>} A geometry used to split this
+     *     geometry (the source).
+     * options - {Object} Properties of this object will be used to determine
+     *     how the split is conducted.
+     *
+     * Valid options:
+     * mutual - {Boolean} Split the source geometry in addition to the target
+     *     geometry.  Default is false.
+     * edge - {Boolean} Allow splitting when only edges intersect.  Default is
+     *     true.  If false, a vertex on the source must be within the tolerance
+     *     distance of the intersection to be considered a split.
+     * tolerance - {Number} If a non-null value is provided, intersections
+     *     within the tolerance distance of an existing vertex on the source
+     *     will be assumed to occur at the vertex.
+     * 
+     * Returns:
+     * {Array} A list of geometries (of this same type as the target) that
+     *     result from splitting the target with the source geometry.  The
+     *     source and target geometry will remain unmodified.  If no split
+     *     results, null will be returned.  If mutual is true and a split
+     *     results, return will be an array of two arrays - the first will be
+     *     all geometries that result from splitting the source geometry and
+     *     the second will be all geometries that result from splitting the
+     *     target geometry.
+     */
+    splitWith: function(geometry, options) {
+        return geometry.split(this, options);
+
+    },
+
+    /**
+     * APIMethod: getVertices
+     * Return a list of all points in this geometry.
+     *
+     * Parameters:
+     * nodes - {Boolean} For lines, only return vertices that are
+     *     endpoints.  If false, for lines, only vertices that are not
+     *     endpoints will be returned.  If not provided, all vertices will
+     *     be returned.
+     *
+     * Returns:
+     * {Array} A list of all vertices in the geometry.
+     */
+    getVertices: function(nodes) {
+        var vertices;
+        if(nodes === true) {
+            vertices = [
+                this.components[0],
+                this.components[this.components.length-1]
+            ];
+        } else if (nodes === false) {
+            vertices = this.components.slice(1, this.components.length-1);
+        } else {
+            vertices = this.components.slice();
+        }
+        return vertices;
+    },
+
+    /**
+     * APIMethod: distanceTo
+     * Calculate the closest distance between two geometries (on the x-y plane).
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>} The target geometry.
+     * options - {Object} Optional properties for configuring the distance
+     *     calculation.
+     *
+     * Valid options:
+     * details - {Boolean} Return details from the distance calculation.
+     *     Default is false.
+     * edge - {Boolean} Calculate the distance from this geometry to the
+     *     nearest edge of the target geometry.  Default is true.  If true,
+     *     calling distanceTo from a geometry that is wholly contained within
+     *     the target will result in a non-zero distance.  If false, whenever
+     *     geometries intersect, calling distanceTo will return 0.  If false,
+     *     details cannot be returned.
+     *
+     * Returns:
+     * {Number | Object} The distance between this geometry and the target.
+     *     If details is true, the return will be an object with distance,
+     *     x0, y0, x1, and x2 properties.  The x0 and y0 properties represent
+     *     the coordinates of the closest point on this geometry. The x1 and y1
+     *     properties represent the coordinates of the closest point on the
+     *     target geometry.
+     */
+    distanceTo: function(geometry, options) {
+        var edge = !(options && options.edge === false);
+        var details = edge && options && options.details;
+        var result, best = {};
+        var min = Number.POSITIVE_INFINITY;
+        if(geometry instanceof OpenLayers.Geometry.Point) {
+            var segs = this.getSortedSegments();
+            var x = geometry.x;
+            var y = geometry.y;
+            var seg;
+            for(var i=0, len=segs.length; i<len; ++i) {
+                seg = segs[i];
+                result = OpenLayers.Geometry.distanceToSegment(geometry, seg);
+                if(result.distance < min) {
+                    min = result.distance;
+                    best = result;
+                    if(min === 0) {
+                        break;
+                    }
+                } else {
+                    // if distance increases and we cross y0 to the right of x0, no need to keep looking.
+                    if(seg.x2 > x && ((y > seg.y1 && y < seg.y2) || (y < seg.y1 && y > seg.y2))) {
+                        break;
+                    }
+                }
+            }
+            if(details) {
+                best = {
+                    distance: best.distance,
+                    x0: best.x, y0: best.y,
+                    x1: x, y1: y
+                };
+            } else {
+                best = best.distance;
+            }
+        } else if(geometry instanceof OpenLayers.Geometry.LineString) { 
+            var segs0 = this.getSortedSegments();
+            var segs1 = geometry.getSortedSegments();
+            var seg0, seg1, intersection, x0, y0;
+            var len1 = segs1.length;
+            var interOptions = {point: true};
+            outer: for(var i=0, len=segs0.length; i<len; ++i) {
+                seg0 = segs0[i];
+                x0 = seg0.x1;
+                y0 = seg0.y1;
+                for(var j=0; j<len1; ++j) {
+                    seg1 = segs1[j];
+                    intersection = OpenLayers.Geometry.segmentsIntersect(seg0, seg1, interOptions);
+                    if(intersection) {
+                        min = 0;
+                        best = {
+                            distance: 0,
+                            x0: intersection.x, y0: intersection.y,
+                            x1: intersection.x, y1: intersection.y
+                        };
+                        break outer;
+                    } else {
+                        result = OpenLayers.Geometry.distanceToSegment({x: x0, y: y0}, seg1);
+                        if(result.distance < min) {
+                            min = result.distance;
+                            best = {
+                                distance: min,
+                                x0: x0, y0: y0,
+                                x1: result.x, y1: result.y
+                            };
+                        }
+                    }
+                }
+            }
+            if(!details) {
+                best = best.distance;
+            }
+            if(min !== 0) {
+                // check the final vertex in this line's sorted segments
+                if(seg0) {
+                    result = geometry.distanceTo(
+                        new OpenLayers.Geometry.Point(seg0.x2, seg0.y2),
+                        options
+                    );
+                    var dist = details ? result.distance : result;
+                    if(dist < min) {
+                        if(details) {
+                            best = {
+                                distance: min,
+                                x0: result.x1, y0: result.y1,
+                                x1: result.x0, y1: result.y0
+                            };
+                        } else {
+                            best = dist;
+                        }
+                    }
+                }
+            }
+        } else {
+            best = geometry.distanceTo(this, options);
+            // swap since target comes from this line
+            if(details) {
+                best = {
+                    distance: best.distance,
+                    x0: best.x1, y0: best.y1,
+                    x1: best.x0, y1: best.y0
+                };
+            }
+        }
+        return best;
+    },
+    
+    /**
+     * APIMethod: simplify
+     * This function will return a simplified LineString.
+     * Simplification is based on the Douglas-Peucker algorithm.
+     *
+     *
+     * Parameters:
+     * tolerance - {number} threshhold for simplification in map units
+     *
+     * Returns:
+     * {OpenLayers.Geometry.LineString} the simplified LineString
+     */
+    simplify: function(tolerance){
+        if (this && this !== null) {
+            var points = this.getVertices();
+            if (points.length < 3) {
+                return this;
+            }
+    
+            var compareNumbers = function(a, b){
+                return (a-b);
+            };
+    
+            /**
+             * Private function doing the Douglas-Peucker reduction
+             */
+            var douglasPeuckerReduction = function(points, firstPoint, lastPoint, tolerance){
+                var maxDistance = 0;
+                var indexFarthest = 0;
+    
+                for (var index = firstPoint, distance; index < lastPoint; index++) {
+                    distance = perpendicularDistance(points[firstPoint], points[lastPoint], points[index]);
+                    if (distance > maxDistance) {
+                        maxDistance = distance;
+                        indexFarthest = index;
+                    }
+                }
+    
+                if (maxDistance > tolerance && indexFarthest != firstPoint) {
+                    //Add the largest point that exceeds the tolerance
+                    pointIndexsToKeep.push(indexFarthest);
+                    douglasPeuckerReduction(points, firstPoint, indexFarthest, tolerance);
+                    douglasPeuckerReduction(points, indexFarthest, lastPoint, tolerance);
+                }
+            };
+    
+            /**
+             * Private function calculating the perpendicular distance
+             * TODO: check whether OpenLayers.Geometry.LineString::distanceTo() is faster or slower
+             */
+            var perpendicularDistance = function(point1, point2, point){
+                //Area = |(1/2)(x1y2 + x2y3 + x3y1 - x2y1 - x3y2 - x1y3)|   *Area of triangle
+                //Base = v((x1-x2)²+(x1-x2)²)                               *Base of Triangle*
+                //Area = .5*Base*H                                          *Solve for height
+                //Height = Area/.5/Base
+    
+                var area = Math.abs(0.5 * (point1.x * point2.y + point2.x * point.y + point.x * point1.y - point2.x * point1.y - point.x * point2.y - point1.x * point.y));
+                var bottom = Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
+                var height = area / bottom * 2;
+    
+                return height;
+            };
+    
+            var firstPoint = 0;
+            var lastPoint = points.length - 1;
+            var pointIndexsToKeep = [];
+    
+            //Add the first and last index to the keepers
+            pointIndexsToKeep.push(firstPoint);
+            pointIndexsToKeep.push(lastPoint);
+    
+            //The first and the last point cannot be the same
+            while (points[firstPoint].equals(points[lastPoint])) {
+                lastPoint--;
+                //Addition: the first point not equal to first point in the LineString is kept as well
+                pointIndexsToKeep.push(lastPoint);
+            }
+    
+            douglasPeuckerReduction(points, firstPoint, lastPoint, tolerance);
+            var returnPoints = [];
+            pointIndexsToKeep.sort(compareNumbers);
+            for (var index = 0; index < pointIndexsToKeep.length; index++) {
+                returnPoints.push(points[pointIndexsToKeep[index]]);
+            }
+            return new OpenLayers.Geometry.LineString(returnPoints);
+    
+        }
+        else {
+            return this;
+        }
+    },
+
+    CLASS_NAME: "OpenLayers.Geometry.LineString"
+});
+/* ======================================================================
+    OpenLayers/Geometry/LinearRing.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Geometry/LineString.js
+ */
+
+/**
+ * Class: OpenLayers.Geometry.LinearRing
+ * 
+ * A Linear Ring is a special LineString which is closed. It closes itself 
+ * automatically on every addPoint/removePoint by adding a copy of the first
+ * point as the last point. 
+ * 
+ * Also, as it is the first in the line family to close itself, a getArea()
+ * function is defined to calculate the enclosed area of the linearRing
+ * 
+ * Inherits:
+ *  - <OpenLayers.Geometry.LineString>
+ */
+OpenLayers.Geometry.LinearRing = OpenLayers.Class(
+  OpenLayers.Geometry.LineString, {
+
+    /**
+     * Property: componentTypes
+     * {Array(String)} An array of class names representing the types of 
+     *                 components that the collection can include.  A null 
+     *                 value means the component types are not restricted.
+     */
+    componentTypes: ["OpenLayers.Geometry.Point"],
+
+    /**
+     * Constructor: OpenLayers.Geometry.LinearRing
+     * Linear rings are constructed with an array of points.  This array
+     *     can represent a closed or open ring.  If the ring is open (the last
+     *     point does not equal the first point), the constructor will close
+     *     the ring.  If the ring is already closed (the last point does equal
+     *     the first point), it will be left closed.
+     * 
+     * Parameters:
+     * points - {Array(<OpenLayers.Geometry.Point>)} points
+     */
+
+    /**
+     * APIMethod: addComponent
+     * Adds a point to geometry components.  If the point is to be added to
+     *     the end of the components array and it is the same as the last point
+     *     already in that array, the duplicate point is not added.  This has 
+     *     the effect of closing the ring if it is not already closed, and 
+     *     doing the right thing if it is already closed.  This behavior can 
+     *     be overridden by calling the method with a non-null index as the 
+     *     second argument.
+     *
+     * Parameters:
+     * point - {<OpenLayers.Geometry.Point>}
+     * index - {Integer} Index into the array to insert the component
+     * 
+     * Returns:
+     * {Boolean} Was the Point successfully added?
+     */
+    addComponent: function(point, index) {
+        var added = false;
+
+        //remove last point
+        var lastPoint = this.components.pop();
+
+        // given an index, add the point
+        // without an index only add non-duplicate points
+        if(index != null || !point.equals(lastPoint)) {
+            added = OpenLayers.Geometry.Collection.prototype.addComponent.apply(this, 
+                                                                    arguments);
+        }
+
+        //append copy of first point
+        var firstPoint = this.components[0];
+        OpenLayers.Geometry.Collection.prototype.addComponent.apply(this, 
+                                                                [firstPoint]);
+        
+        return added;
+    },
+    
+    /**
+     * APIMethod: removeComponent
+     * Removes a point from geometry components.
+     *
+     * Parameters:
+     * point - {<OpenLayers.Geometry.Point>}
+     *
+     * Returns: 
+     * {Boolean} The component was removed.
+     */
+    removeComponent: function(point) {
+        var removed = this.components && (this.components.length > 3);
+        if (removed) {
+            //remove last point
+            this.components.pop();
+            
+            //remove our point
+            OpenLayers.Geometry.Collection.prototype.removeComponent.apply(this, 
+                                                                    arguments);
+            //append copy of first point
+            var firstPoint = this.components[0];
+            OpenLayers.Geometry.Collection.prototype.addComponent.apply(this, 
+                                                                [firstPoint]);
+        }
+        return removed;
+    },
+    
+    /**
+     * APIMethod: move
+     * Moves a geometry by the given displacement along positive x and y axes.
+     *     This modifies the position of the geometry and clears the cached
+     *     bounds.
+     *
+     * Parameters:
+     * x - {Float} Distance to move geometry in positive x direction. 
+     * y - {Float} Distance to move geometry in positive y direction.
+     */
+    move: function(x, y) {
+        for(var i = 0, len=this.components.length; i<len - 1; i++) {
+            this.components[i].move(x, y);
+        }
+    },
+
+    /**
+     * APIMethod: rotate
+     * Rotate a geometry around some origin
+     *
+     * Parameters:
+     * angle - {Float} Rotation angle in degrees (measured counterclockwise
+     *                 from the positive x-axis)
+     * origin - {<OpenLayers.Geometry.Point>} Center point for the rotation
+     */
+    rotate: function(angle, origin) {
+        for(var i=0, len=this.components.length; i<len - 1; ++i) {
+            this.components[i].rotate(angle, origin);
+        }
+    },
+
+    /**
+     * APIMethod: resize
+     * Resize a geometry relative to some origin.  Use this method to apply
+     *     a uniform scaling to a geometry.
+     *
+     * Parameters:
+     * scale - {Float} Factor by which to scale the geometry.  A scale of 2
+     *                 doubles the size of the geometry in each dimension
+     *                 (lines, for example, will be twice as long, and polygons
+     *                 will have four times the area).
+     * origin - {<OpenLayers.Geometry.Point>} Point of origin for resizing
+     * ratio - {Float} Optional x:y ratio for resizing.  Default ratio is 1.
+     * 
+     * Returns:
+     * {<OpenLayers.Geometry>} - The current geometry. 
+     */
+    resize: function(scale, origin, ratio) {
+        for(var i=0, len=this.components.length; i<len - 1; ++i) {
+            this.components[i].resize(scale, origin, ratio);
+        }
+        return this;
+    },
+    
+    /**
+     * APIMethod: transform
+     * Reproject the components geometry from source to dest.
+     *
+     * Parameters:
+     * source - {<OpenLayers.Projection>}
+     * dest - {<OpenLayers.Projection>}
+     * 
+     * Returns:
+     * {<OpenLayers.Geometry>} 
+     */
+    transform: function(source, dest) {
+        if (source && dest) {
+            for (var i=0, len=this.components.length; i<len - 1; i++) {
+                var component = this.components[i];
+                component.transform(source, dest);
+            }
+            this.bounds = null;
+        }
+        return this;
+    },
+    
+    /**
+     * APIMethod: getCentroid
+     *
+     * Returns:
+     * {<OpenLayers.Geometry.Point>} The centroid of the collection
+     */
+    getCentroid: function() {
+        if (this.components && (this.components.length > 2)) {
+            var sumX = 0.0;
+            var sumY = 0.0;
+            for (var i = 0; i < this.components.length - 1; i++) {
+                var b = this.components[i];
+                var c = this.components[i+1];
+                sumX += (b.x + c.x) * (b.x * c.y - c.x * b.y);
+                sumY += (b.y + c.y) * (b.x * c.y - c.x * b.y);
+            }
+            var area = -1 * this.getArea();
+            var x = sumX / (6 * area);
+            var y = sumY / (6 * area);
+            return new OpenLayers.Geometry.Point(x, y);
+        } else {
+            return null;
+        }
+    },
+
+    /**
+     * APIMethod: getArea
+     * Note - The area is positive if the ring is oriented CW, otherwise
+     *         it will be negative.
+     * 
+     * Returns:
+     * {Float} The signed area for a ring.
+     */
+    getArea: function() {
+        var area = 0.0;
+        if ( this.components && (this.components.length > 2)) {
+            var sum = 0.0;
+            for (var i=0, len=this.components.length; i<len - 1; i++) {
+                var b = this.components[i];
+                var c = this.components[i+1];
+                sum += (b.x + c.x) * (c.y - b.y);
+            }
+            area = - sum / 2.0;
+        }
+        return area;
+    },
+    
+    /**
+     * APIMethod: getGeodesicArea
+     * Calculate the approximate area of the polygon were it projected onto
+     *     the earth.  Note that this area will be positive if ring is oriented
+     *     clockwise, otherwise it will be negative.
+     *
+     * Parameters:
+     * projection - {<OpenLayers.Projection>} The spatial reference system
+     *     for the geometry coordinates.  If not provided, Geographic/WGS84 is
+     *     assumed.
+     * 
+     * Reference:
+     * Robert. G. Chamberlain and William H. Duquette, "Some Algorithms for
+     *     Polygons on a Sphere", JPL Publication 07-03, Jet Propulsion
+     *     Laboratory, Pasadena, CA, June 2007 http://trs-new.jpl.nasa.gov/dspace/handle/2014/40409
+     *
+     * Returns:
+     * {float} The approximate signed geodesic area of the polygon in square
+     *     meters.
+     */
+    getGeodesicArea: function(projection) {
+        var ring = this;  // so we can work with a clone if needed
+        if(projection) {
+            var gg = new OpenLayers.Projection("EPSG:4326");
+            if(!gg.equals(projection)) {
+                ring = this.clone().transform(projection, gg);
+            }
+        }
+        var area = 0.0;
+        var len = ring.components && ring.components.length;
+        if(len > 2) {
+            var p1, p2;
+            for(var i=0; i<len-1; i++) {
+                p1 = ring.components[i];
+                p2 = ring.components[i+1];
+                area += OpenLayers.Util.rad(p2.x - p1.x) *
+                        (2 + Math.sin(OpenLayers.Util.rad(p1.y)) +
+                        Math.sin(OpenLayers.Util.rad(p2.y)));
+            }
+            area = area * 6378137.0 * 6378137.0 / 2.0;
+        }
+        return area;
+    },
+    
+    /**
+     * Method: containsPoint
+     * Test if a point is inside a linear ring.  For the case where a point
+     *     is coincident with a linear ring edge, returns 1.  Otherwise,
+     *     returns boolean.
+     *
+     * Parameters:
+     * point - {<OpenLayers.Geometry.Point>}
+     *
+     * Returns:
+     * {Boolean | Number} The point is inside the linear ring.  Returns 1 if
+     *     the point is coincident with an edge.  Returns boolean otherwise.
+     */
+    containsPoint: function(point) {
+        var approx = OpenLayers.Number.limitSigDigs;
+        var digs = 14;
+        var px = approx(point.x, digs);
+        var py = approx(point.y, digs);
+        function getX(y, x1, y1, x2, y2) {
+            return (y - y2) * ((x2 - x1) / (y2 - y1)) + x2;
+        }
+        var numSeg = this.components.length - 1;
+        var start, end, x1, y1, x2, y2, cx, cy;
+        var crosses = 0;
+        for(var i=0; i<numSeg; ++i) {
+            start = this.components[i];
+            x1 = approx(start.x, digs);
+            y1 = approx(start.y, digs);
+            end = this.components[i + 1];
+            x2 = approx(end.x, digs);
+            y2 = approx(end.y, digs);
+            
+            /**
+             * The following conditions enforce five edge-crossing rules:
+             *    1. points coincident with edges are considered contained;
+             *    2. an upward edge includes its starting endpoint, and
+             *    excludes its final endpoint;
+             *    3. a downward edge excludes its starting endpoint, and
+             *    includes its final endpoint;
+             *    4. horizontal edges are excluded; and
+             *    5. the edge-ray intersection point must be strictly right
+             *    of the point P.
+             */
+            if(y1 == y2) {
+                // horizontal edge
+                if(py == y1) {
+                    // point on horizontal line
+                    if(x1 <= x2 && (px >= x1 && px <= x2) || // right or vert
+                       x1 >= x2 && (px <= x1 && px >= x2)) { // left or vert
+                        // point on edge
+                        crosses = -1;
+                        break;
+                    }
+                }
+                // ignore other horizontal edges
+                continue;
+            }
+            cx = approx(getX(py, x1, y1, x2, y2), digs);
+            if(cx == px) {
+                // point on line
+                if(y1 < y2 && (py >= y1 && py <= y2) || // upward
+                   y1 > y2 && (py <= y1 && py >= y2)) { // downward
+                    // point on edge
+                    crosses = -1;
+                    break;
+                }
+            }
+            if(cx <= px) {
+                // no crossing to the right
+                continue;
+            }
+            if(x1 != x2 && (cx < Math.min(x1, x2) || cx > Math.max(x1, x2))) {
+                // no crossing
+                continue;
+            }
+            if(y1 < y2 && (py >= y1 && py < y2) || // upward
+               y1 > y2 && (py < y1 && py >= y2)) { // downward
+                ++crosses;
+            }
+        }
+        var contained = (crosses == -1) ?
+            // on edge
+            1 :
+            // even (out) or odd (in)
+            !!(crosses & 1);
+
+        return contained;
+    },
+
+    /**
+     * APIMethod: intersects
+     * Determine if the input geometry intersects this one.
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>} Any type of geometry.
+     *
+     * Returns:
+     * {Boolean} The input geometry intersects this one.
+     */
+    intersects: function(geometry) {
+        var intersect = false;
+        if(geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+            intersect = this.containsPoint(geometry);
+        } else if(geometry.CLASS_NAME == "OpenLayers.Geometry.LineString") {
+            intersect = geometry.intersects(this);
+        } else if(geometry.CLASS_NAME == "OpenLayers.Geometry.LinearRing") {
+            intersect = OpenLayers.Geometry.LineString.prototype.intersects.apply(
+                this, [geometry]
+            );
+        } else {
+            // check for component intersections
+            for(var i=0, len=geometry.components.length; i<len; ++ i) {
+                intersect = geometry.components[i].intersects(this);
+                if(intersect) {
+                    break;
+                }
+            }
+        }
+        return intersect;
+    },
+
+    /**
+     * APIMethod: getVertices
+     * Return a list of all points in this geometry.
+     *
+     * Parameters:
+     * nodes - {Boolean} For lines, only return vertices that are
+     *     endpoints.  If false, for lines, only vertices that are not
+     *     endpoints will be returned.  If not provided, all vertices will
+     *     be returned.
+     *
+     * Returns:
+     * {Array} A list of all vertices in the geometry.
+     */
+    getVertices: function(nodes) {
+        return (nodes === true) ? [] : this.components.slice(0, this.components.length-1);
+    },
+
+    CLASS_NAME: "OpenLayers.Geometry.LinearRing"
+});
+/* ======================================================================
+    OpenLayers/Layer/HTTPRequest.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+
+/**
+ * @requires OpenLayers/Layer.js
+ */
+
+/**
+ * Class: OpenLayers.Layer.HTTPRequest
+ * 
+ * Inherits from: 
+ *  - <OpenLayers.Layer>
+ */
+OpenLayers.Layer.HTTPRequest = OpenLayers.Class(OpenLayers.Layer, {
+
+    /** 
+     * Constant: URL_HASH_FACTOR
+     * {Float} Used to hash URL param strings for multi-WMS server selection.
+     *         Set to the Golden Ratio per Knuth's recommendation.
+     */
+    URL_HASH_FACTOR: (Math.sqrt(5) - 1) / 2,
+
+    /** 
+     * Property: url
+     * {Array(String) or String} This is either an array of url strings or 
+     *                           a single url string. 
+     */
+    url: null,
+
+    /** 
+     * Property: params
+     * {Object} Hashtable of key/value parameters
+     */
+    params: null,
+    
+    /** 
+     * APIProperty: reproject
+     * *Deprecated*. See http://docs.openlayers.org/library/spherical_mercator.html
+     * for information on the replacement for this functionality. 
+     * {Boolean} Whether layer should reproject itself based on base layer 
+     *           locations. This allows reprojection onto commercial layers. 
+     *           Default is false: Most layers can't reproject, but layers 
+     *           which can create non-square geographic pixels can, like WMS.
+     *           
+     */
+    reproject: false,
+
+    /**
+     * Constructor: OpenLayers.Layer.HTTPRequest
+     * 
+     * Parameters:
+     * name - {String}
+     * url - {Array(String) or String}
+     * params - {Object}
+     * options - {Object} Hashtable of extra options to tag onto the layer
+     */
+    initialize: function(name, url, params, options) {
+        OpenLayers.Layer.prototype.initialize.apply(this, [name, options]);
+        this.url = url;
+        if (!this.params) {
+            this.params = OpenLayers.Util.extend({}, params);
+        }
+    },
+
+    /**
+     * APIMethod: destroy
+     */
+    destroy: function() {
+        this.url = null;
+        this.params = null;
+        OpenLayers.Layer.prototype.destroy.apply(this, arguments); 
+    },
+    
+    /**
+     * APIMethod: clone
+     * 
+     * Parameters:
+     * obj - {Object}
+     * 
+     * Returns:
+     * {<OpenLayers.Layer.HTTPRequest>} An exact clone of this 
+     *                                  <OpenLayers.Layer.HTTPRequest>
+     */
+    clone: function (obj) {
+        
+        if (obj == null) {
+            obj = new OpenLayers.Layer.HTTPRequest(this.name,
+                                                   this.url,
+                                                   this.params,
+                                                   this.getOptions());
+        }
+        
+        //get all additions from superclasses
+        obj = OpenLayers.Layer.prototype.clone.apply(this, [obj]);
+
+        // copy/set any non-init, non-simple values here
+        
+        return obj;
+    },
+
+    /** 
+     * APIMethod: setUrl
+     * 
+     * Parameters:
+     * newUrl - {String}
+     */
+    setUrl: function(newUrl) {
+        this.url = newUrl;
+    },
+
+    /**
+     * APIMethod: mergeNewParams
+     * 
+     * Parameters:
+     * newParams - {Object}
+     *
+     * Returns:
+     * redrawn: {Boolean} whether the layer was actually redrawn.
+     */
+    mergeNewParams:function(newParams) {
+        this.params = OpenLayers.Util.extend(this.params, newParams);
+        var ret = this.redraw();
+        if(this.map != null) {
+            this.map.events.triggerEvent("changelayer", {
+                layer: this,
+                property: "params"
+            });
+        }
+        return ret;
+    },
+
+    /**
+     * APIMethod: redraw
+     * Redraws the layer.  Returns true if the layer was redrawn, false if not.
+     *
+     * Parameters:
+     * force - {Boolean} Force redraw by adding random parameter.
+     *
+     * Returns:
+     * {Boolean} The layer was redrawn.
+     */
+    redraw: function(force) { 
+        if (force) {
+            return this.mergeNewParams({"_olSalt": Math.random()});
+        } else {
+            return OpenLayers.Layer.prototype.redraw.apply(this, []);
+        }
+    },
+    
+    /**
+     * Method: selectUrl
+     * selectUrl() implements the standard floating-point multiplicative
+     *     hash function described by Knuth, and hashes the contents of the 
+     *     given param string into a float between 0 and 1. This float is then
+     *     scaled to the size of the provided urls array, and used to select
+     *     a URL.
+     *
+     * Parameters:
+     * paramString - {String}
+     * urls - {Array(String)}
+     * 
+     * Returns:
+     * {String} An entry from the urls array, deterministically selected based
+     *          on the paramString.
+     */
+    selectUrl: function(paramString, urls) {
+        var product = 1;
+        for (var i=0, len=paramString.length; i<len; i++) { 
+            product *= paramString.charCodeAt(i) * this.URL_HASH_FACTOR; 
+            product -= Math.floor(product); 
+        }
+        return urls[Math.floor(product * urls.length)];
+    },
+
+    /** 
+     * Method: getFullRequestString
+     * Combine url with layer's params and these newParams. 
+     *   
+     *    does checking on the serverPath variable, allowing for cases when it 
+     *     is supplied with trailing ? or &, as well as cases where not. 
+     *
+     *    return in formatted string like this:
+     *        "server?key1=value1&key2=value2&key3=value3"
+     * 
+     * WARNING: The altUrl parameter is deprecated and will be removed in 3.0.
+     *
+     * Parameters:
+     * newParams - {Object}
+     * altUrl - {String} Use this as the url instead of the layer's url
+     *   
+     * Returns: 
+     * {String}
+     */
+    getFullRequestString:function(newParams, altUrl) {
+
+        // if not altUrl passed in, use layer's url
+        var url = altUrl || this.url;
+        
+        // create a new params hashtable with all the layer params and the 
+        // new params together. then convert to string
+        var allParams = OpenLayers.Util.extend({}, this.params);
+        allParams = OpenLayers.Util.extend(allParams, newParams);
+        var paramsString = OpenLayers.Util.getParameterString(allParams);
+        
+        // if url is not a string, it should be an array of strings, 
+        // in which case we will deterministically select one of them in 
+        // order to evenly distribute requests to different urls.
+        //
+        if (OpenLayers.Util.isArray(url)) {
+            url = this.selectUrl(paramsString, url);
+        }   
+ 
+        // ignore parameters that are already in the url search string
+        var urlParams = 
+            OpenLayers.Util.upperCaseObject(OpenLayers.Util.getParameters(url));
+        for(var key in allParams) {
+            if(key.toUpperCase() in urlParams) {
+                delete allParams[key];
+            }
+        }
+        paramsString = OpenLayers.Util.getParameterString(allParams);
+        
+        return OpenLayers.Util.urlAppend(url, paramsString);
+    },
+
+    CLASS_NAME: "OpenLayers.Layer.HTTPRequest"
 });
 /* ======================================================================
     OpenLayers/Layer/Grid.js
@@ -18723,7 +18986,7 @@ OpenLayers.Handler.MOD_ALT   = 4;
 
 
 /* ======================================================================
-    OpenLayers/Handler/MouseWheel.js
+    OpenLayers/Handler/Drag.js
    ====================================================================== */
 
 /* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
@@ -18736,1697 +18999,562 @@ OpenLayers.Handler.MOD_ALT   = 4;
  */
 
 /**
- * Class: OpenLayers.Handler.MouseWheel
- * Handler for wheel up/down events.
- * 
+ * Class: OpenLayers.Handler.Drag
+ * The drag handler is used to deal with sequences of browser events related
+ *     to dragging.  The handler is used by controls that want to know when
+ *     a drag sequence begins, when a drag is happening, and when it has
+ *     finished.
+ *
+ * Controls that use the drag handler typically construct it with callbacks
+ *     for 'down', 'move', and 'done'.  Callbacks for these keys are called
+ *     when the drag begins, with each move, and when the drag is done.  In
+ *     addition, controls can have callbacks keyed to 'up' and 'out' if they
+ *     care to differentiate between the types of events that correspond with
+ *     the end of a drag sequence.  If no drag actually occurs (no mouse move)
+ *     the 'down' and 'up' callbacks will be called, but not the 'done'
+ *     callback.
+ *
+ * Create a new drag handler with the <OpenLayers.Handler.Drag> constructor.
+ *
  * Inherits from:
  *  - <OpenLayers.Handler>
  */
-OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
+OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
+  
     /** 
-     * Property: wheelListener 
-     * {function} 
+     * Property: started
+     * {Boolean} When a mousedown or touchstart event is received, we want to
+     * record it, but not set 'dragging' until the mouse moves after starting.
      */
-    wheelListener: null,
-
-    /** 
-     * Property: mousePosition
-     * {<OpenLayers.Pixel>} mousePosition is necessary because
-     * evt.clientX/Y is buggy in Moz on wheel events, so we cache and use the
-     * value from the last mousemove.
-     */
-    mousePosition: null,
+    started: false,
 
     /**
+     * Property: stopDown
+     * {Boolean} Stop propagation of mousedown events from getting to listeners
+     *     on the same element.  Default is true.
+     */
+    stopDown: true,
+
+    /** 
+     * Property: dragging 
+     * {Boolean} 
+     */
+    dragging: false,
+
+    /**
+     * Property: touch
+     * {Boolean} When a touchstart event is fired, touch will be true and all
+     *     mouse related listeners will do nothing.
+     */
+    touch: false,
+
+    /** 
+     * Property: last
+     * {<OpenLayers.Pixel>} The last pixel location of the drag.
+     */
+    last: null,
+
+    /** 
+     * Property: start
+     * {<OpenLayers.Pixel>} The first pixel location of the drag.
+     */
+    start: null,
+
+    /**
+     * Property: lastMoveEvt
+     * {Object} The last mousemove event that occurred. Used to
+     *     position the map correctly when our "delay drag"
+     *     timeout expired.
+     */
+    lastMoveEvt: null,
+
+    /**
+     * Property: oldOnselectstart
+     * {Function}
+     */
+    oldOnselectstart: null,
+    
+    /**
      * Property: interval
-     * {Integer} In order to increase server performance, an interval (in 
-     *     milliseconds) can be set to reduce the number of up/down events 
-     *     called. If set, a new up/down event will not be set until the 
+     * {Integer} In order to increase performance, an interval (in 
+     *     milliseconds) can be set to reduce the number of drag events 
+     *     called. If set, a new drag event will not be set until the 
      *     interval has passed. 
      *     Defaults to 0, meaning no interval. 
      */
     interval: 0,
     
     /**
-     * Property: delta
-     * {Integer} When interval is set, delta collects the mousewheel z-deltas
-     *     of the events that occur within the interval.
-     *      See also the cumulative option
+     * Property: timeoutId
+     * {String} The id of the timeout used for the mousedown interval.
+     *     This is "private", and should be left alone.
      */
-    delta: 0,
+    timeoutId: null,
     
     /**
-     * Property: cumulative
-     * {Boolean} When interval is set: true to collect all the mousewheel 
-     *     z-deltas, false to only record the delta direction (positive or
-     *     negative)
+     * APIProperty: documentDrag
+     * {Boolean} If set to true, the handler will also handle mouse moves when
+     *     the cursor has moved out of the map viewport. Default is false.
      */
-    cumulative: true,
+    documentDrag: false,
+    
+    /**
+     * Property: documentEvents
+     * {Boolean} Are we currently observing document events?
+     */
+    documentEvents: null,
 
     /**
-     * Constructor: OpenLayers.Handler.MouseWheel
-     *
+     * Constructor: OpenLayers.Handler.Drag
+     * Returns OpenLayers.Handler.Drag
+     * 
      * Parameters:
-     * control - {<OpenLayers.Control>} 
+     * control - {<OpenLayers.Control>} The control that is making use of
+     *     this handler.  If a handler is being used without a control, the
+     *     handlers setMap method must be overridden to deal properly with
+     *     the map.
      * callbacks - {Object} An object containing a single function to be
-     *                          called when the drag operation is finished.
-     *                          The callback should expect to recieve a single
-     *                          argument, the point geometry.
+     *     called when the drag operation is finished. The callback should
+     *     expect to recieve a single argument, the pixel location of the event.
+     *     Callbacks for 'move' and 'done' are supported. You can also speficy
+     *     callbacks for 'down', 'up', and 'out' to respond to those events.
      * options - {Object} 
      */
     initialize: function(control, callbacks, options) {
         OpenLayers.Handler.prototype.initialize.apply(this, arguments);
-        this.wheelListener = OpenLayers.Function.bindAsEventListener(
-            this.onWheelEvent, this
-        );
-    },
-
-    /**
-     * Method: destroy
-     */    
-    destroy: function() {
-        OpenLayers.Handler.prototype.destroy.apply(this, arguments);
-        this.wheelListener = null;
-    },
-
-    /**
-     *  Mouse ScrollWheel code thanks to http://adomas.org/javascript-mouse-wheel/
-     */
-
-    /** 
-     * Method: onWheelEvent
-     * Catch the wheel event and handle it xbrowserly
-     * 
-     * Parameters:
-     * e - {Event} 
-     */
-    onWheelEvent: function(e){
         
-        // make sure we have a map and check keyboard modifiers
-        if (!this.map || !this.checkModifiers(e)) {
-            return;
-        }
-        
-        // Ride up the element's DOM hierarchy to determine if it or any of 
-        //  its ancestors was: 
-        //   * specifically marked as scrollable
-        //   * one of our layer divs
-        //   * the map div
-        //
-        var overScrollableDiv = false;
-        var overLayerDiv = false;
-        var overMapDiv = false;
-        
-        var elem = OpenLayers.Event.element(e);
-        while((elem != null) && !overMapDiv && !overScrollableDiv) {
-
-            if (!overScrollableDiv) {
-                try {
-                    if (elem.currentStyle) {
-                        overflow = elem.currentStyle["overflow"];
-                    } else {
-                        var style = 
-                            document.defaultView.getComputedStyle(elem, null);
-                        var overflow = style.getPropertyValue("overflow");
-                    }
-                    overScrollableDiv = ( overflow && 
-                        (overflow == "auto") || (overflow == "scroll") );
-                } catch(err) {
-                    //sometimes when scrolling in a popup, this causes 
-                    // obscure browser error
-                }
-            }
-
-            if (!overLayerDiv) {
-                for(var i=0, len=this.map.layers.length; i<len; i++) {
-                    // Are we in the layer div? Note that we have two cases
-                    // here: one is to catch EventPane layers, which have a 
-                    // pane above the layer (layer.pane)
-                    if (elem == this.map.layers[i].div 
-                        || elem == this.map.layers[i].pane) { 
-                        overLayerDiv = true;
-                        break;
-                    }
-                }
-            }
-            overMapDiv = (elem == this.map.div);
-
-            elem = elem.parentNode;
-        }
-        
-        // Logic below is the following:
-        //
-        // If we are over a scrollable div or not over the map div:
-        //  * do nothing (let the browser handle scrolling)
-        //
-        //    otherwise 
-        // 
-        //    If we are over the layer div: 
-        //     * zoom/in out
-        //     then
-        //     * kill event (so as not to also scroll the page after zooming)
-        //
-        //       otherwise
-        //
-        //       Kill the event (dont scroll the page if we wheel over the 
-        //        layerswitcher or the pan/zoom control)
-        //
-        if (!overScrollableDiv && overMapDiv) {
-            if (overLayerDiv) {
-                var delta = 0;
-                if (!e) {
-                    e = window.event;
-                }
-                if (e.wheelDelta) {
-                    delta = e.wheelDelta/120; 
-                    if (window.opera && window.opera.version() < 9.2) {
-                        delta = -delta;
-                    }
-                } else if (e.detail) {
-                    delta = -e.detail / 3;
-                }
-                this.delta = this.delta + delta;
-
-                if(this.interval) {
-                    window.clearTimeout(this._timeoutId);
-                    this._timeoutId = window.setTimeout(
-                        OpenLayers.Function.bind(function(){
-                            this.wheelZoom(e);
-                        }, this),
-                        this.interval
-                    );
-                } else {
-                    this.wheelZoom(e);
-                }
-            }
-            OpenLayers.Event.stop(e);
+        if (this.documentDrag === true) {
+            var me = this;
+            this._docMove = function(evt) {
+                me.mousemove({
+                    xy: {x: evt.clientX, y: evt.clientY},
+                    element: document
+                });
+            };
+            this._docUp = function(evt) {
+                me.mouseup({xy: {x: evt.clientX, y: evt.clientY}});
+            };
         }
     },
 
-    /**
-     * Method: wheelZoom
-     * Given the wheel event, we carry out the appropriate zooming in or out,
-     *     based on the 'wheelDelta' or 'detail' property of the event.
-     * 
-     * Parameters:
-     * e - {Event}
-     */
-    wheelZoom: function(e) {
-        var delta = this.delta;
-        this.delta = 0;
-        
-        if (delta) {
-            // add the mouse position to the event because mozilla has 
-            // a bug with clientX and clientY (see 
-            // https://bugzilla.mozilla.org/show_bug.cgi?id=352179)
-            // getLonLatFromViewPortPx(e) returns wrong values
-            if (this.mousePosition) {
-                e.xy = this.mousePosition;
-            } 
-            if (!e.xy) {
-                // If the mouse hasn't moved over the map yet, then
-                // we don't have a mouse position (in FF), so we just
-                // act as if the mouse was at the center of the map.
-                // Note that we can tell we are in the map -- and 
-                // this.map is ensured to be true above.
-                e.xy = this.map.getPixelFromLonLat(
-                    this.map.getCenter()
-                );
-            }
-            if (delta < 0) {
-                this.callback("down", [e, this.cumulative ? delta : -1]);
-            } else {
-                this.callback("up", [e, this.cumulative ? delta : 1]);
-            }
-        }
-    },
     
     /**
-     * Method: mousemove
-     * Update the stored mousePosition on every move.
-     * 
-     * Parameters:
-     * evt - {Event} The browser event
+     * Method: dragstart
+     * This private method is factorized from mousedown and touchstart methods
      *
-     * Returns: 
-     * {Boolean} Allow event propagation
+     * Parameters:
+     * evt - {Event} The event
+     *
+     * Returns:
+     * {Boolean} Let the event propagate.
      */
-    mousemove: function (evt) {
-        this.mousePosition = evt.xy;
+    dragstart: function (evt) {
+        var propagate = true;
+        this.dragging = false;
+        if (this.checkModifiers(evt) &&
+               (OpenLayers.Event.isLeftClick(evt) ||
+                OpenLayers.Event.isSingleTouch(evt))) {
+            this.started = true;
+            this.start = evt.xy;
+            this.last = evt.xy;
+            OpenLayers.Element.addClass(
+                this.map.viewPortDiv, "olDragDown"
+            );
+            this.down(evt);
+            this.callback("down", [evt.xy]);
+
+            OpenLayers.Event.stop(evt);
+
+            if(!this.oldOnselectstart) {
+                this.oldOnselectstart = document.onselectstart ?
+                    document.onselectstart : OpenLayers.Function.True;
+            }
+            document.onselectstart = OpenLayers.Function.False;
+
+            propagate = !this.stopDown;
+        } else {
+            this.started = false;
+            this.start = null;
+            this.last = null;
+        }
+        return propagate;
     },
 
     /**
-     * Method: activate 
+     * Method: dragmove
+     * This private method is factorized from mousemove and touchmove methods
+     *
+     * Parameters:
+     * evt - {Event} The event
+     *
+     * Returns:
+     * {Boolean} Let the event propagate.
      */
-    activate: function (evt) {
-        if (OpenLayers.Handler.prototype.activate.apply(this, arguments)) {
-            //register mousewheel events specifically on the window and document
-            var wheelListener = this.wheelListener;
-            OpenLayers.Event.observe(window, "DOMMouseScroll", wheelListener);
-            OpenLayers.Event.observe(window, "mousewheel", wheelListener);
-            OpenLayers.Event.observe(document, "mousewheel", wheelListener);
-            return true;
-        } else {
-            return false;
+    dragmove: function (evt) {
+        this.lastMoveEvt = evt;
+        if (this.started && !this.timeoutId && (evt.xy.x != this.last.x ||
+                                                evt.xy.y != this.last.y)) {
+            if(this.documentDrag === true && this.documentEvents) {
+                if(evt.element === document) {
+                    this.adjustXY(evt);
+                    // do setEvent manually because the documentEvents are not
+                    // registered with the map
+                    this.setEvent(evt);
+                } else {
+                    this.removeDocumentEvents();
+                }
+            }
+            if (this.interval > 0) {
+                this.timeoutId = setTimeout(
+                    OpenLayers.Function.bind(this.removeTimeout, this),
+                    this.interval);
+            }
+            this.dragging = true;
+
+            this.move(evt);
+            this.callback("move", [evt.xy]);
+            if(!this.oldOnselectstart) {
+                this.oldOnselectstart = document.onselectstart;
+                document.onselectstart = OpenLayers.Function.False;
+            }
+            this.last = evt.xy;
         }
+        return true;
+    },
+
+    /**
+     * Method: dragend
+     * This private method is factorized from mouseup and touchend methods
+     *
+     * Parameters:
+     * evt - {Event} The event
+     *
+     * Returns:
+     * {Boolean} Let the event propagate.
+     */
+    dragend: function (evt) {
+        if (this.started) {
+            if(this.documentDrag === true && this.documentEvents) {
+                this.adjustXY(evt);
+                this.removeDocumentEvents();
+            }
+            var dragged = (this.start != this.last);
+            this.started = false;
+            this.dragging = false;
+            OpenLayers.Element.removeClass(
+                this.map.viewPortDiv, "olDragDown"
+            );
+            this.up(evt);
+            this.callback("up", [evt.xy]);
+            if(dragged) {
+                this.callback("done", [evt.xy]);
+            }
+            document.onselectstart = this.oldOnselectstart;
+        }
+        return true;
+    },
+
+    /**
+     * The four methods below (down, move, up, and out) are used by subclasses
+     *     to do their own processing related to these mouse events.
+     */
+
+    /**
+     * Method: down
+     * This method is called during the handling of the mouse down event.
+     *     Subclasses can do their own processing here.
+     *
+     * Parameters:
+     * evt - {Event} The mouse down event
+     */
+    down: function(evt) {
+    },
+
+    /**
+     * Method: move
+     * This method is called during the handling of the mouse move event.
+     *     Subclasses can do their own processing here.
+     *
+     * Parameters:
+     * evt - {Event} The mouse move event
+     *
+     */
+    move: function(evt) {
+    },
+
+    /**
+     * Method: up
+     * This method is called during the handling of the mouse up event.
+     *     Subclasses can do their own processing here.
+     *
+     * Parameters:
+     * evt - {Event} The mouse up event
+     */
+    up: function(evt) {
+    },
+
+    /**
+     * Method: out
+     * This method is called during the handling of the mouse out event.
+     *     Subclasses can do their own processing here.
+     *
+     * Parameters:
+     * evt - {Event} The mouse out event
+     */
+    out: function(evt) {
+    },
+
+    /**
+     * The methods below are part of the magic of event handling.  Because
+     *     they are named like browser events, they are registered as listeners
+     *     for the events they represent.
+     */
+
+    /**
+     * Method: mousedown
+     * Handle mousedown events
+     *
+     * Parameters:
+     * evt - {Event}
+     *
+     * Returns:
+     * {Boolean} Let the event propagate.
+     */
+    mousedown: function(evt) {
+        return this.dragstart(evt);
+    },
+
+    /**
+     * Method: touchstart
+     * Handle touchstart events
+     *
+     * Parameters:
+     * evt - {Event}
+     *
+     * Returns:
+     * {Boolean} Let the event propagate.
+     */
+    touchstart: function(evt) {
+        if (!this.touch) {
+            this.touch = true;
+            // unregister mouse listeners
+            this.map.events.un({
+                mousedown: this.mousedown,
+                mouseup: this.mouseup,
+                mousemove: this.mousemove,
+                click: this.click,
+                scope: this
+            });
+        }
+        return this.dragstart(evt);
+    },
+
+    /**
+     * Method: mousemove
+     * Handle mousemove events
+     *
+     * Parameters:
+     * evt - {Event}
+     *
+     * Returns:
+     * {Boolean} Let the event propagate.
+     */
+    mousemove: function(evt) {
+        return this.dragmove(evt);
+    },
+
+    /**
+     * Method: touchmove
+     * Handle touchmove events
+     *
+     * Parameters:
+     * evt - {Event}
+     *
+     * Returns:
+     * {Boolean} Let the event propagate.
+     */
+    touchmove: function(evt) {
+        return this.dragmove(evt);
+    },
+
+    /**
+     * Method: removeTimeout
+     * Private. Called by mousemove() to remove the drag timeout.
+     */
+    removeTimeout: function() {
+        this.timeoutId = null;
+        // if timeout expires while we're still dragging (mouseup
+        // hasn't occurred) then call mousemove to move to the
+        // correct position
+        if(this.dragging) {
+            this.mousemove(this.lastMoveEvt);
+        }
+    },
+
+    /**
+     * Method: mouseup
+     * Handle mouseup events
+     *
+     * Parameters:
+     * evt - {Event}
+     *
+     * Returns:
+     * {Boolean} Let the event propagate.
+     */
+    mouseup: function(evt) {
+        return this.dragend(evt);
+    },
+
+    /**
+     * Method: touchend
+     * Handle touchend events
+     *
+     * Parameters:
+     * evt - {Event}
+     *
+     * Returns:
+     * {Boolean} Let the event propagate.
+     */
+    touchend: function(evt) {
+        // override evt.xy with last position since touchend does not have
+        // any touch position
+        evt.xy = this.last;
+        return this.dragend(evt);
+    },
+
+    /**
+     * Method: mouseout
+     * Handle mouseout events
+     *
+     * Parameters:
+     * evt - {Event}
+     *
+     * Returns:
+     * {Boolean} Let the event propagate.
+     */
+    mouseout: function (evt) {
+        if (this.started && OpenLayers.Util.mouseLeft(evt, this.map.viewPortDiv)) {
+            if(this.documentDrag === true) {
+                this.addDocumentEvents();
+            } else {
+                var dragged = (this.start != this.last);
+                this.started = false; 
+                this.dragging = false;
+                OpenLayers.Element.removeClass(
+                    this.map.viewPortDiv, "olDragDown"
+                );
+                this.out(evt);
+                this.callback("out", []);
+                if(dragged) {
+                    this.callback("done", [evt.xy]);
+                }
+                if(document.onselectstart) {
+                    document.onselectstart = this.oldOnselectstart;
+                }
+            }
+        }
+        return true;
+    },
+
+    /**
+     * Method: click
+     * The drag handler captures the click event.  If something else registers
+     *     for clicks on the same element, its listener will not be called 
+     *     after a drag.
+     * 
+     * Parameters: 
+     * evt - {Event} 
+     * 
+     * Returns:
+     * {Boolean} Let the event propagate.
+     */
+    click: function (evt) {
+        // let the click event propagate only if the mouse moved
+        return (this.start == this.last);
+    },
+
+    /**
+     * Method: activate
+     * Activate the handler.
+     * 
+     * Returns:
+     * {Boolean} The handler was successfully activated.
+     */
+    activate: function() {
+        var activated = false;
+        if(OpenLayers.Handler.prototype.activate.apply(this, arguments)) {
+            this.dragging = false;
+            activated = true;
+        }
+        return activated;
     },
 
     /**
      * Method: deactivate 
+     * Deactivate the handler.
+     * 
+     * Returns:
+     * {Boolean} The handler was successfully deactivated.
      */
-    deactivate: function (evt) {
-        if (OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
-            // unregister mousewheel events specifically on the window and document
-            var wheelListener = this.wheelListener;
-            OpenLayers.Event.stopObserving(window, "DOMMouseScroll", wheelListener);
-            OpenLayers.Event.stopObserving(window, "mousewheel", wheelListener);
-            OpenLayers.Event.stopObserving(document, "mousewheel", wheelListener);
-            return true;
-        } else {
-            return false;
+    deactivate: function() {
+        var deactivated = false;
+        if(OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
+            this.touch = false;
+            this.started = false;
+            this.dragging = false;
+            this.start = null;
+            this.last = null;
+            deactivated = true;
+            OpenLayers.Element.removeClass(
+                this.map.viewPortDiv, "olDragDown"
+            );
         }
+        return deactivated;
+    },
+    
+    /**
+     * Method: adjustXY
+     * Converts event coordinates that are relative to the document body to
+     * ones that are relative to the map viewport. The latter is the default in
+     * OpenLayers.
+     * 
+     * Parameters:
+     * evt - {Object}
+     */
+    adjustXY: function(evt) {
+        var pos = OpenLayers.Util.pagePosition(this.map.viewPortDiv);
+        evt.xy.x -= pos[0];
+        evt.xy.y -= pos[1];
+    },
+    
+    /**
+     * Method: addDocumentEvents
+     * Start observing document events when documentDrag is true and the mouse
+     * cursor leaves the map viewport while dragging.
+     */
+    addDocumentEvents: function() {
+        OpenLayers.Element.addClass(document.body, "olDragDown");
+        this.documentEvents = true;
+        OpenLayers.Event.observe(document, "mousemove", this._docMove);
+        OpenLayers.Event.observe(document, "mouseup", this._docUp);
+    },
+    
+    /**
+     * Method: removeDocumentEvents
+     * Stops observing document events when documentDrag is true and the mouse
+     * cursor re-enters the map viewport while dragging.
+     */
+    removeDocumentEvents: function() {
+        OpenLayers.Element.removeClass(document.body, "olDragDown");
+        this.documentEvents = false;
+        OpenLayers.Event.stopObserving(document, "mousemove", this._docMove);
+        OpenLayers.Event.stopObserving(document, "mouseup", this._docUp);
     },
 
-    CLASS_NAME: "OpenLayers.Handler.MouseWheel"
+    CLASS_NAME: "OpenLayers.Handler.Drag"
 });
 /* ======================================================================
-    OpenLayers/Symbolizer.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/BaseTypes/Class.js
- */
-
-/**
- * Class: OpenLayers.Symbolizer
- * Base class representing a symbolizer used for feature rendering.
- */
-OpenLayers.Symbolizer = OpenLayers.Class({
-    
-
-    /**
-     * APIProperty: zIndex
-     * {Number} The zIndex determines the rendering order for a symbolizer.
-     *     Symbolizers with larger zIndex values are rendered over symbolizers
-     *     with smaller zIndex values.  Default is 0.
-     */
-    zIndex: 0,
-    
-    /**
-     * Constructor: OpenLayers.Symbolizer
-     * Instances of this class are not useful.  See one of the subclasses.
-     *
-     * Parameters:
-     * config - {Object} An object containing properties to be set on the 
-     *     symbolizer.  Any documented symbolizer property can be set at 
-     *     construction.
-     *
-     * Returns:
-     * A new symbolizer.
-     */
-    initialize: function(config) {
-        OpenLayers.Util.extend(this, config);
-    },
-    
-    /** 
-     * APIMethod: clone
-     * Create a copy of this symbolizer.
-     *
-     * Returns a symbolizer of the same type with the same properties.
-     */
-    clone: function() {
-        var Type = eval(this.CLASS_NAME);
-        return new Type(OpenLayers.Util.extend({}, this));
-    },
-    
-    CLASS_NAME: "OpenLayers.Symbolizer"
-    
-});
-
-/* ======================================================================
-    OpenLayers/Symbolizer/Raster.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Symbolizer.js
- */
-
-/**
- * Class: OpenLayers.Symbolizer.Raster
- * A symbolizer used to render raster images.
- */
-OpenLayers.Symbolizer.Raster = OpenLayers.Class(OpenLayers.Symbolizer, {
-    
-    /**
-     * Constructor: OpenLayers.Symbolizer.Raster
-     * Create a symbolizer for rendering rasters.
-     *
-     * Parameters:
-     * config - {Object} An object containing properties to be set on the 
-     *     symbolizer.  Any documented symbolizer property can be set at 
-     *     construction.
-     *
-     * Returns:
-     * A new raster symbolizer.
-     */
-    initialize: function(config) {
-        OpenLayers.Symbolizer.prototype.initialize.apply(this, arguments);
-    },
-    
-    CLASS_NAME: "OpenLayers.Symbolizer.Raster"
-    
-});
-/* ======================================================================
-    OpenLayers/Geometry/MultiLineString.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Geometry/Collection.js
- * @requires OpenLayers/Geometry/LineString.js
- */
-
-/**
- * Class: OpenLayers.Geometry.MultiLineString
- * A MultiLineString is a geometry with multiple <OpenLayers.Geometry.LineString>
- * components.
- * 
- * Inherits from:
- *  - <OpenLayers.Geometry.Collection>
- *  - <OpenLayers.Geometry> 
- */
-OpenLayers.Geometry.MultiLineString = OpenLayers.Class(
-  OpenLayers.Geometry.Collection, {
-
-    /**
-     * Property: componentTypes
-     * {Array(String)} An array of class names representing the types of
-     * components that the collection can include.  A null value means the
-     * component types are not restricted.
-     */
-    componentTypes: ["OpenLayers.Geometry.LineString"],
-
-    /**
-     * Constructor: OpenLayers.Geometry.MultiLineString
-     * Constructor for a MultiLineString Geometry.
-     *
-     * Parameters: 
-     * components - {Array(<OpenLayers.Geometry.LineString>)} 
-     *
-     */
-    
-    /**
-     * Method: split
-     * Use this geometry (the source) to attempt to split a target geometry.
-     * 
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>} The target geometry.
-     * options - {Object} Properties of this object will be used to determine
-     *     how the split is conducted.
-     *
-     * Valid options:
-     * mutual - {Boolean} Split the source geometry in addition to the target
-     *     geometry.  Default is false.
-     * edge - {Boolean} Allow splitting when only edges intersect.  Default is
-     *     true.  If false, a vertex on the source must be within the tolerance
-     *     distance of the intersection to be considered a split.
-     * tolerance - {Number} If a non-null value is provided, intersections
-     *     within the tolerance distance of an existing vertex on the source
-     *     will be assumed to occur at the vertex.
-     * 
-     * Returns:
-     * {Array} A list of geometries (of this same type as the target) that
-     *     result from splitting the target with the source geometry.  The
-     *     source and target geometry will remain unmodified.  If no split
-     *     results, null will be returned.  If mutual is true and a split
-     *     results, return will be an array of two arrays - the first will be
-     *     all geometries that result from splitting the source geometry and
-     *     the second will be all geometries that result from splitting the
-     *     target geometry.
-     */
-    split: function(geometry, options) {
-        var results = null;
-        var mutual = options && options.mutual;
-        var splits, sourceLine, sourceLines, sourceSplit, targetSplit;
-        var sourceParts = [];
-        var targetParts = [geometry];
-        for(var i=0, len=this.components.length; i<len; ++i) {
-            sourceLine = this.components[i];
-            sourceSplit = false;
-            for(var j=0; j < targetParts.length; ++j) { 
-                splits = sourceLine.split(targetParts[j], options);
-                if(splits) {
-                    if(mutual) {
-                        sourceLines = splits[0];
-                        for(var k=0, klen=sourceLines.length; k<klen; ++k) {
-                            if(k===0 && sourceParts.length) {
-                                sourceParts[sourceParts.length-1].addComponent(
-                                    sourceLines[k]
-                                );
-                            } else {
-                                sourceParts.push(
-                                    new OpenLayers.Geometry.MultiLineString([
-                                        sourceLines[k]
-                                    ])
-                                );
-                            }
-                        }
-                        sourceSplit = true;
-                        splits = splits[1];
-                    }
-                    if(splits.length) {
-                        // splice in new target parts
-                        splits.unshift(j, 1);
-                        Array.prototype.splice.apply(targetParts, splits);
-                        break;
-                    }
-                }
-            }
-            if(!sourceSplit) {
-                // source line was not hit
-                if(sourceParts.length) {
-                    // add line to existing multi
-                    sourceParts[sourceParts.length-1].addComponent(
-                        sourceLine.clone()
-                    );
-                } else {
-                    // create a fresh multi
-                    sourceParts = [
-                        new OpenLayers.Geometry.MultiLineString(
-                            sourceLine.clone()
-                        )
-                    ];
-                }
-            }
-        }
-        if(sourceParts && sourceParts.length > 1) {
-            sourceSplit = true;
-        } else {
-            sourceParts = [];
-        }
-        if(targetParts && targetParts.length > 1) {
-            targetSplit = true;
-        } else {
-            targetParts = [];
-        }
-        if(sourceSplit || targetSplit) {
-            if(mutual) {
-                results = [sourceParts, targetParts];
-            } else {
-                results = targetParts;
-            }
-        }
-        return results;
-    },
-    
-    /**
-     * Method: splitWith
-     * Split this geometry (the target) with the given geometry (the source).
-     *
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>} A geometry used to split this
-     *     geometry (the source).
-     * options - {Object} Properties of this object will be used to determine
-     *     how the split is conducted.
-     *
-     * Valid options:
-     * mutual - {Boolean} Split the source geometry in addition to the target
-     *     geometry.  Default is false.
-     * edge - {Boolean} Allow splitting when only edges intersect.  Default is
-     *     true.  If false, a vertex on the source must be within the tolerance
-     *     distance of the intersection to be considered a split.
-     * tolerance - {Number} If a non-null value is provided, intersections
-     *     within the tolerance distance of an existing vertex on the source
-     *     will be assumed to occur at the vertex.
-     * 
-     * Returns:
-     * {Array} A list of geometries (of this same type as the target) that
-     *     result from splitting the target with the source geometry.  The
-     *     source and target geometry will remain unmodified.  If no split
-     *     results, null will be returned.  If mutual is true and a split
-     *     results, return will be an array of two arrays - the first will be
-     *     all geometries that result from splitting the source geometry and
-     *     the second will be all geometries that result from splitting the
-     *     target geometry.
-     */
-    splitWith: function(geometry, options) {
-        var results = null;
-        var mutual = options && options.mutual;
-        var splits, targetLine, sourceLines, sourceSplit, targetSplit, sourceParts, targetParts;
-        if(geometry instanceof OpenLayers.Geometry.LineString) {
-            targetParts = [];
-            sourceParts = [geometry];
-            for(var i=0, len=this.components.length; i<len; ++i) {
-                targetSplit = false;
-                targetLine = this.components[i];
-                for(var j=0; j<sourceParts.length; ++j) {
-                    splits = sourceParts[j].split(targetLine, options);
-                    if(splits) {
-                        if(mutual) {
-                            sourceLines = splits[0];
-                            if(sourceLines.length) {
-                                // splice in new source parts
-                                sourceLines.unshift(j, 1);
-                                Array.prototype.splice.apply(sourceParts, sourceLines);
-                                j += sourceLines.length - 2;
-                            }
-                            splits = splits[1];
-                            if(splits.length === 0) {
-                                splits = [targetLine.clone()];
-                            }
-                        }
-                        for(var k=0, klen=splits.length; k<klen; ++k) {
-                            if(k===0 && targetParts.length) {
-                                targetParts[targetParts.length-1].addComponent(
-                                    splits[k]
-                                );
-                            } else {
-                                targetParts.push(
-                                    new OpenLayers.Geometry.MultiLineString([
-                                        splits[k]
-                                    ])
-                                );
-                            }
-                        }
-                        targetSplit = true;                    
-                    }
-                }
-                if(!targetSplit) {
-                    // target component was not hit
-                    if(targetParts.length) {
-                        // add it to any existing multi-line
-                        targetParts[targetParts.length-1].addComponent(
-                            targetLine.clone()
-                        );
-                    } else {
-                        // or start with a fresh multi-line
-                        targetParts = [
-                            new OpenLayers.Geometry.MultiLineString([
-                                targetLine.clone()
-                            ])
-                        ];
-                    }
-                    
-                }
-            }
-        } else {
-            results = geometry.split(this);
-        }
-        if(sourceParts && sourceParts.length > 1) {
-            sourceSplit = true;
-        } else {
-            sourceParts = [];
-        }
-        if(targetParts && targetParts.length > 1) {
-            targetSplit = true;
-        } else {
-            targetParts = [];
-        }
-        if(sourceSplit || targetSplit) {
-            if(mutual) {
-                results = [sourceParts, targetParts];
-            } else {
-                results = targetParts;
-            }
-        }
-        return results;
-    },
-
-    CLASS_NAME: "OpenLayers.Geometry.MultiLineString"
-});
-/* ======================================================================
-    OpenLayers/Renderer/Elements.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Renderer.js
- */
-
-/**
- * Class: OpenLayers.ElementsIndexer
- * This class takes care of figuring out which order elements should be
- *     placed in the DOM based on given indexing methods. 
- */
-OpenLayers.ElementsIndexer = OpenLayers.Class({
-   
-    /**
-     * Property: maxZIndex
-     * {Integer} This is the largest-most z-index value for a node
-     *     contained within the indexer.
-     */
-    maxZIndex: null,
-    
-    /**
-     * Property: order
-     * {Array<String>} This is an array of node id's stored in the
-     *     order that they should show up on screen. Id's higher up in the
-     *     array (higher array index) represent nodes with higher z-indeces.
-     */
-    order: null, 
-    
-    /**
-     * Property: indices
-     * {Object} This is a hash that maps node ids to their z-index value
-     *     stored in the indexer. This is done to make finding a nodes z-index 
-     *     value O(1).
-     */
-    indices: null,
-    
-    /**
-     * Property: compare
-     * {Function} This is the function used to determine placement of
-     *     of a new node within the indexer. If null, this defaults to to
-     *     the Z_ORDER_DRAWING_ORDER comparison method.
-     */
-    compare: null,
-    
-    /**
-     * APIMethod: initialize
-     * Create a new indexer with 
-     * 
-     * Parameters:
-     * yOrdering - {Boolean} Whether to use y-ordering.
-     */
-    initialize: function(yOrdering) {
-
-        this.compare = yOrdering ? 
-            OpenLayers.ElementsIndexer.IndexingMethods.Z_ORDER_Y_ORDER :
-            OpenLayers.ElementsIndexer.IndexingMethods.Z_ORDER_DRAWING_ORDER;
-
-        this.clear();
-    },
-    
-    /**
-     * APIMethod: insert
-     * Insert a new node into the indexer. In order to find the correct 
-     *     positioning for the node to be inserted, this method uses a binary 
-     *     search. This makes inserting O(log(n)). 
-     * 
-     * Parameters:
-     * newNode - {DOMElement} The new node to be inserted.
-     * 
-     * Returns
-     * {DOMElement} the node before which we should insert our newNode, or
-     *     null if newNode can just be appended.
-     */
-    insert: function(newNode) {
-        // If the node is known to the indexer, remove it so we can
-        // recalculate where it should go.
-        if (this.exists(newNode)) {
-            this.remove(newNode);
-        }
-        
-        var nodeId = newNode.id;
-        
-        this.determineZIndex(newNode);       
-
-        var leftIndex = -1;
-        var rightIndex = this.order.length;
-        var middle;
-
-        while (rightIndex - leftIndex > 1) {
-            middle = parseInt((leftIndex + rightIndex) / 2);
-            
-            var placement = this.compare(this, newNode,
-                OpenLayers.Util.getElement(this.order[middle]));
-            
-            if (placement > 0) {
-                leftIndex = middle;
-            } else {
-                rightIndex = middle;
-            } 
-        }
-        
-        this.order.splice(rightIndex, 0, nodeId);
-        this.indices[nodeId] = this.getZIndex(newNode);
-        
-        // If the new node should be before another in the index
-        // order, return the node before which we have to insert the new one;
-        // else, return null to indicate that the new node can be appended.
-        return this.getNextElement(rightIndex);
-    },
-    
-    /**
-     * APIMethod: remove
-     * 
-     * Parameters:
-     * node - {DOMElement} The node to be removed.
-     */
-    remove: function(node) {
-        var nodeId = node.id;
-        var arrayIndex = OpenLayers.Util.indexOf(this.order, nodeId);
-        if (arrayIndex >= 0) {
-            // Remove it from the order array, as well as deleting the node
-            // from the indeces hash.
-            this.order.splice(arrayIndex, 1);
-            delete this.indices[nodeId];
-            
-            // Reset the maxium z-index based on the last item in the 
-            // order array.
-            if (this.order.length > 0) {
-                var lastId = this.order[this.order.length - 1];
-                this.maxZIndex = this.indices[lastId];
-            } else {
-                this.maxZIndex = 0;
-            }
-        }
-    },
-    
-    /**
-     * APIMethod: clear
-     */
-    clear: function() {
-        this.order = [];
-        this.indices = {};
-        this.maxZIndex = 0;
-    },
-    
-    /**
-     * APIMethod: exists
-     *
-     * Parameters:
-     * node - {DOMElement} The node to test for existence.
-     *
-     * Returns:
-     * {Boolean} Whether or not the node exists in the indexer?
-     */
-    exists: function(node) {
-        return (this.indices[node.id] != null);
-    },
-
-    /**
-     * APIMethod: getZIndex
-     * Get the z-index value for the current node from the node data itself.
-     * 
-     * Parameters:
-     * node - {DOMElement} The node whose z-index to get.
-     * 
-     * Returns:
-     * {Integer} The z-index value for the specified node (from the node 
-     *     data itself).
-     */
-    getZIndex: function(node) {
-        return node._style.graphicZIndex;  
-    },
-    
-    /**
-     * Method: determineZIndex
-     * Determine the z-index for the current node if there isn't one, 
-     *     and set the maximum value if we've found a new maximum.
-     * 
-     * Parameters:
-     * node - {DOMElement} 
-     */
-    determineZIndex: function(node) {
-        var zIndex = node._style.graphicZIndex;
-        
-        // Everything must have a zIndex. If none is specified,
-        // this means the user *must* (hint: assumption) want this
-        // node to succomb to drawing order. To enforce drawing order
-        // over all indexing methods, we'll create a new z-index that's
-        // greater than any currently in the indexer.
-        if (zIndex == null) {
-            zIndex = this.maxZIndex;
-            node._style.graphicZIndex = zIndex; 
-        } else if (zIndex > this.maxZIndex) {
-            this.maxZIndex = zIndex;
-        }
-    },
-
-    /**
-     * APIMethod: getNextElement
-     * Get the next element in the order stack.
-     * 
-     * Parameters:
-     * index - {Integer} The index of the current node in this.order.
-     * 
-     * Returns:
-     * {DOMElement} the node following the index passed in, or
-     *     null.
-     */
-    getNextElement: function(index) {
-        var nextIndex = index + 1;
-        if (nextIndex < this.order.length) {
-            var nextElement = OpenLayers.Util.getElement(this.order[nextIndex]);
-            if (nextElement == undefined) {
-                nextElement = this.getNextElement(nextIndex);
-            }
-            return nextElement;
-        } else {
-            return null;
-        } 
-    },
-    
-    CLASS_NAME: "OpenLayers.ElementsIndexer"
-});
-
-/**
- * Namespace: OpenLayers.ElementsIndexer.IndexingMethods
- * These are the compare methods for figuring out where a new node should be 
- *     placed within the indexer. These methods are very similar to general 
- *     sorting methods in that they return -1, 0, and 1 to specify the 
- *     direction in which new nodes fall in the ordering.
- */
-OpenLayers.ElementsIndexer.IndexingMethods = {
-    
-    /**
-     * Method: Z_ORDER
-     * This compare method is used by other comparison methods.
-     *     It can be used individually for ordering, but is not recommended,
-     *     because it doesn't subscribe to drawing order.
-     * 
-     * Parameters:
-     * indexer - {<OpenLayers.ElementsIndexer>}
-     * newNode - {DOMElement}
-     * nextNode - {DOMElement}
-     * 
-     * Returns:
-     * {Integer}
-     */
-    Z_ORDER: function(indexer, newNode, nextNode) {
-        var newZIndex = indexer.getZIndex(newNode);
-
-        var returnVal = 0;
-        if (nextNode) {
-            var nextZIndex = indexer.getZIndex(nextNode);
-            returnVal = newZIndex - nextZIndex; 
-        }
-        
-        return returnVal;
-    },
-
-    /**
-     * APIMethod: Z_ORDER_DRAWING_ORDER
-     * This method orders nodes by their z-index, but does so in a way
-     *     that, if there are other nodes with the same z-index, the newest 
-     *     drawn will be the front most within that z-index. This is the 
-     *     default indexing method.
-     * 
-     * Parameters:
-     * indexer - {<OpenLayers.ElementsIndexer>}
-     * newNode - {DOMElement}
-     * nextNode - {DOMElement}
-     * 
-     * Returns:
-     * {Integer}
-     */
-    Z_ORDER_DRAWING_ORDER: function(indexer, newNode, nextNode) {
-        var returnVal = OpenLayers.ElementsIndexer.IndexingMethods.Z_ORDER(
-            indexer, 
-            newNode, 
-            nextNode
-        );
-        
-        // Make Z_ORDER subscribe to drawing order by pushing it above
-        // all of the other nodes with the same z-index.
-        if (nextNode && returnVal == 0) {
-            returnVal = 1;
-        }
-        
-        return returnVal;
-    },
-
-    /**
-     * APIMethod: Z_ORDER_Y_ORDER
-     * This one should really be called Z_ORDER_Y_ORDER_DRAWING_ORDER, as it
-     *     best describes which ordering methods have precedence (though, the 
-     *     name would be too long). This method orders nodes by their z-index, 
-     *     but does so in a way that, if there are other nodes with the same 
-     *     z-index, the nodes with the lower y position will be "closer" than 
-     *     those with a higher y position. If two nodes have the exact same y 
-     *     position, however, then this method will revert to using drawing  
-     *     order to decide placement.
-     * 
-     * Parameters:
-     * indexer - {<OpenLayers.ElementsIndexer>}
-     * newNode - {DOMElement}
-     * nextNode - {DOMElement}
-     * 
-     * Returns:
-     * {Integer}
-     */
-    Z_ORDER_Y_ORDER: function(indexer, newNode, nextNode) {
-        var returnVal = OpenLayers.ElementsIndexer.IndexingMethods.Z_ORDER(
-            indexer, 
-            newNode, 
-            nextNode
-        );
-        
-        if (nextNode && returnVal === 0) {            
-            var result = nextNode._boundsBottom - newNode._boundsBottom;
-            returnVal = (result === 0) ? 1 : result;
-        }
-        
-        return returnVal;       
-    }
-};
-
-/**
- * Class: OpenLayers.Renderer.Elements
- * This is another virtual class in that it should never be instantiated by 
- *  itself as a Renderer. It exists because there is *tons* of shared 
- *  functionality between different vector libraries which use nodes/elements
- *  as a base for rendering vectors. 
- * 
- * The highlevel bits of code that are implemented here are the adding and 
- *  removing of geometries, which is essentially the same for any 
- *  element-based renderer. The details of creating each node and drawing the
- *  paths are of course different, but the machinery is the same. 
- * 
- * Inherits:
- *  - <OpenLayers.Renderer>
- */
-OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
-
-    /**
-     * Property: rendererRoot
-     * {DOMElement}
-     */
-    rendererRoot: null,
-    
-    /**
-     * Property: root
-     * {DOMElement}
-     */
-    root: null,
-    
-    /**
-     * Property: vectorRoot
-     * {DOMElement}
-     */
-    vectorRoot: null,
-
-    /**
-     * Property: textRoot
-     * {DOMElement}
-     */
-    textRoot: null,
-
-    /**
-     * Property: xmlns
-     * {String}
-     */    
-    xmlns: null,
-    
-    /**
-     * Property: xOffset
-     * {Number} Offset to apply to the renderer viewport translation in x
-     * direction. If the renderer extent's center is on the right of the
-     * dateline (i.e. exceeds the world bounds), we shift the viewport to the
-     * left by one world width. This avoids that features disappear from the
-     * map viewport. Because our dateline handling logic in other places
-     * ensures that extents crossing the dateline always have a center
-     * exceeding the world bounds on the left, we need this offset to make sure
-     * that the same is true for the renderer extent in pixel space as well.
-     */
-    xOffset: 0,
-    
-    /**
-     * Property: rightOfDateLine
-     * {Boolean} Keeps track of the location of the map extent relative to the
-     * date line. The <setExtent> method compares this value (which is the one
-     * from the previous <setExtent> call) with the current position of the map
-     * extent relative to the date line and updates the xOffset when the extent
-     * has moved from one side of the date line to the other.
-     */
-    
-    /**
-     * Property: Indexer
-     * {<OpenLayers.ElementIndexer>} An instance of OpenLayers.ElementsIndexer 
-     *     created upon initialization if the zIndexing or yOrdering options
-     *     passed to this renderer's constructor are set to true.
-     */
-    indexer: null, 
-    
-    /**
-     * Constant: BACKGROUND_ID_SUFFIX
-     * {String}
-     */
-    BACKGROUND_ID_SUFFIX: "_background",
-    
-    /**
-     * Constant: LABEL_ID_SUFFIX
-     * {String}
-     */
-    LABEL_ID_SUFFIX: "_label",
-    
-    /**
-     * Constant: LABEL_OUTLINE_SUFFIX
-     * {String}
-     */
-    LABEL_OUTLINE_SUFFIX: "_outline",
-
-    /**
-     * Constructor: OpenLayers.Renderer.Elements
-     * 
-     * Parameters:
-     * containerID - {String}
-     * options - {Object} options for this renderer. 
-     *
-     * Supported options are:
-     *     yOrdering - {Boolean} Whether to use y-ordering
-     *     zIndexing - {Boolean} Whether to use z-indexing. Will be ignored
-     *         if yOrdering is set to true.
-     */
-    initialize: function(containerID, options) {
-        OpenLayers.Renderer.prototype.initialize.apply(this, arguments);
-
-        this.rendererRoot = this.createRenderRoot();
-        this.root = this.createRoot("_root");
-        this.vectorRoot = this.createRoot("_vroot");
-        this.textRoot = this.createRoot("_troot");
-        
-        this.root.appendChild(this.vectorRoot);
-        this.root.appendChild(this.textRoot);
-        
-        this.rendererRoot.appendChild(this.root);
-        this.container.appendChild(this.rendererRoot);
-        
-        if(options && (options.zIndexing || options.yOrdering)) {
-            this.indexer = new OpenLayers.ElementsIndexer(options.yOrdering);
-        }
-    },
-    
-    /**
-     * Method: destroy
-     */
-    destroy: function() {
-
-        this.clear(); 
-
-        this.rendererRoot = null;
-        this.root = null;
-        this.xmlns = null;
-
-        OpenLayers.Renderer.prototype.destroy.apply(this, arguments);
-    },
-    
-    /**
-     * Method: clear
-     * Remove all the elements from the root
-     */    
-    clear: function() {
-        var child;
-        var root = this.vectorRoot;
-        if (root) {
-            while (child = root.firstChild) {
-                root.removeChild(child);
-            }
-        }
-        root = this.textRoot;
-        if (root) {
-            while (child = root.firstChild) {
-                root.removeChild(child);
-            }
-        }
-        if (this.indexer) {
-            this.indexer.clear();
-        }
-    },
-    
-    /**
-     * Method: setExtent
-     * Set the visible part of the layer.
-     *
-     * Parameters:
-     * extent - {<OpenLayers.Bounds>}
-     * resolutionChanged - {Boolean}
-     *
-     * Returns:
-     * {Boolean} true to notify the layer that the new extent does not exceed
-     *     the coordinate range, and the features will not need to be redrawn.
-     *     False otherwise.
-     */
-    setExtent: function(extent, resolutionChanged) {
-        var coordSysUnchanged = OpenLayers.Renderer.prototype.setExtent.apply(this, arguments);
-        var resolution = this.getResolution();
-        if (this.map.baseLayer && this.map.baseLayer.wrapDateLine) {
-            var rightOfDateLine,
-                ratio = extent.getWidth() / this.map.getExtent().getWidth(),
-                extent = extent.scale(1 / ratio),
-                world = this.map.getMaxExtent();
-            if (world.right > extent.left && world.right < extent.right) {
-                rightOfDateLine = true;
-            } else if (world.left > extent.left && world.left < extent.right) {
-                rightOfDateLine = false;
-            }
-            if (rightOfDateLine !== this.rightOfDateLine || resolutionChanged) {
-                coordSysUnchanged = false;
-                this.xOffset = rightOfDateLine === true ?
-                    world.getWidth() / resolution : 0;
-            }
-            this.rightOfDateLine = rightOfDateLine;
-        }
-        return coordSysUnchanged;
-    },
-
-    /** 
-     * Method: getNodeType
-     * This function is in charge of asking the specific renderer which type
-     *     of node to create for the given geometry and style. All geometries
-     *     in an Elements-based renderer consist of one node and some
-     *     attributes. We have the nodeFactory() function which creates a node
-     *     for us, but it takes a 'type' as input, and that is precisely what
-     *     this function tells us.  
-     *  
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>}
-     * style - {Object}
-     * 
-     * Returns:
-     * {String} The corresponding node type for the specified geometry
-     */
-    getNodeType: function(geometry, style) { },
-
-    /** 
-     * Method: drawGeometry 
-     * Draw the geometry, creating new nodes, setting paths, setting style,
-     *     setting featureId on the node.  This method should only be called
-     *     by the renderer itself.
-     *
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>}
-     * style - {Object}
-     * featureId - {String}
-     * 
-     * Returns:
-     * {Boolean} true if the geometry has been drawn completely; null if
-     *     incomplete; false otherwise
-     */
-    drawGeometry: function(geometry, style, featureId) {
-        var className = geometry.CLASS_NAME;
-        var rendered = true;
-        if ((className == "OpenLayers.Geometry.Collection") ||
-            (className == "OpenLayers.Geometry.MultiPoint") ||
-            (className == "OpenLayers.Geometry.MultiLineString") ||
-            (className == "OpenLayers.Geometry.MultiPolygon")) {
-            for (var i = 0, len=geometry.components.length; i<len; i++) {
-                rendered = this.drawGeometry(
-                    geometry.components[i], style, featureId) && rendered;
-            }
-            return rendered;
-        }
-
-        rendered = false;
-        var removeBackground = false;
-        if (style.display != "none") {
-            if (style.backgroundGraphic) {
-                this.redrawBackgroundNode(geometry.id, geometry, style,
-                    featureId);
-            } else {
-                removeBackground = true;
-            }
-            rendered = this.redrawNode(geometry.id, geometry, style,
-                featureId);
-        }
-        if (rendered == false) {
-            var node = document.getElementById(geometry.id);
-            if (node) {
-                if (node._style.backgroundGraphic) {
-                    removeBackground = true;
-                }
-                node.parentNode.removeChild(node);
-            }
-        }
-        if (removeBackground) {
-            var node = document.getElementById(
-                geometry.id + this.BACKGROUND_ID_SUFFIX);
-            if (node) {
-                node.parentNode.removeChild(node);
-            }
-        }
-        return rendered;
-    },
-    
-    /**
-     * Method: redrawNode
-     * 
-     * Parameters:
-     * id - {String}
-     * geometry - {<OpenLayers.Geometry>}
-     * style - {Object}
-     * featureId - {String}
-     * 
-     * Returns:
-     * {Boolean} true if the complete geometry could be drawn, null if parts of
-     *     the geometry could not be drawn, false otherwise
-     */
-    redrawNode: function(id, geometry, style, featureId) {
-        style = this.applyDefaultSymbolizer(style);
-        // Get the node if it's already on the map.
-        var node = this.nodeFactory(id, this.getNodeType(geometry, style));
-        
-        // Set the data for the node, then draw it.
-        node._featureId = featureId;
-        node._boundsBottom = geometry.getBounds().bottom;
-        node._geometryClass = geometry.CLASS_NAME;
-        node._style = style;
-
-        var drawResult = this.drawGeometryNode(node, geometry, style);
-        if(drawResult === false) {
-            return false;
-        }
-         
-        node = drawResult.node;
-        
-        // Insert the node into the indexer so it can show us where to
-        // place it. Note that this operation is O(log(n)). If there's a
-        // performance problem (when dragging, for instance) this is
-        // likely where it would be.
-        if (this.indexer) {
-            var insert = this.indexer.insert(node);
-            if (insert) {
-                this.vectorRoot.insertBefore(node, insert);
-            } else {
-                this.vectorRoot.appendChild(node);
-            }
-        } else {
-            // if there's no indexer, simply append the node to root,
-            // but only if the node is a new one
-            if (node.parentNode !== this.vectorRoot){ 
-                this.vectorRoot.appendChild(node);
-            }
-        }
-        
-        this.postDraw(node);
-        
-        return drawResult.complete;
-    },
-    
-    /**
-     * Method: redrawBackgroundNode
-     * Redraws the node using special 'background' style properties. Basically
-     *     just calls redrawNode(), but instead of directly using the 
-     *     'externalGraphic', 'graphicXOffset', 'graphicYOffset', and 
-     *     'graphicZIndex' properties directly from the specified 'style' 
-     *     parameter, we create a new style object and set those properties 
-     *     from the corresponding 'background'-prefixed properties from 
-     *     specified 'style' parameter.
-     * 
-     * Parameters:
-     * id - {String}
-     * geometry - {<OpenLayers.Geometry>}
-     * style - {Object}
-     * featureId - {String}
-     * 
-     * Returns:
-     * {Boolean} true if the complete geometry could be drawn, null if parts of
-     *     the geometry could not be drawn, false otherwise
-     */
-    redrawBackgroundNode: function(id, geometry, style, featureId) {
-        var backgroundStyle = OpenLayers.Util.extend({}, style);
-        
-        // Set regular style attributes to apply to the background styles.
-        backgroundStyle.externalGraphic = backgroundStyle.backgroundGraphic;
-        backgroundStyle.graphicXOffset = backgroundStyle.backgroundXOffset;
-        backgroundStyle.graphicYOffset = backgroundStyle.backgroundYOffset;
-        backgroundStyle.graphicZIndex = backgroundStyle.backgroundGraphicZIndex;
-        backgroundStyle.graphicWidth = backgroundStyle.backgroundWidth || backgroundStyle.graphicWidth;
-        backgroundStyle.graphicHeight = backgroundStyle.backgroundHeight || backgroundStyle.graphicHeight;
-        
-        // Erase background styles.
-        backgroundStyle.backgroundGraphic = null;
-        backgroundStyle.backgroundXOffset = null;
-        backgroundStyle.backgroundYOffset = null;
-        backgroundStyle.backgroundGraphicZIndex = null;
-        
-        return this.redrawNode(
-            id + this.BACKGROUND_ID_SUFFIX, 
-            geometry, 
-            backgroundStyle, 
-            null
-        );
-    },
-
-    /**
-     * Method: drawGeometryNode
-     * Given a node, draw a geometry on the specified layer.
-     *     node and geometry are required arguments, style is optional.
-     *     This method is only called by the render itself.
-     *
-     * Parameters:
-     * node - {DOMElement}
-     * geometry - {<OpenLayers.Geometry>}
-     * style - {Object}
-     * 
-     * Returns:
-     * {Object} a hash with properties "node" (the drawn node) and "complete"
-     *     (null if parts of the geometry could not be drawn, false if nothing
-     *     could be drawn)
-     */
-    drawGeometryNode: function(node, geometry, style) {
-        style = style || node._style;
-
-        var options = {
-            'isFilled': style.fill === undefined ?
-                true :
-                style.fill,
-            'isStroked': style.stroke === undefined ?
-                !!style.strokeWidth :
-                style.stroke
-        };
-        var drawn;
-        switch (geometry.CLASS_NAME) {
-            case "OpenLayers.Geometry.Point":
-                if(style.graphic === false) {
-                    options.isFilled = false;
-                    options.isStroked = false;
-                }
-                drawn = this.drawPoint(node, geometry);
-                break;
-            case "OpenLayers.Geometry.LineString":
-                options.isFilled = false;
-                drawn = this.drawLineString(node, geometry);
-                break;
-            case "OpenLayers.Geometry.LinearRing":
-                drawn = this.drawLinearRing(node, geometry);
-                break;
-            case "OpenLayers.Geometry.Polygon":
-                drawn = this.drawPolygon(node, geometry);
-                break;
-            case "OpenLayers.Geometry.Rectangle":
-                drawn = this.drawRectangle(node, geometry);
-                break;
-            default:
-                break;
-        }
-
-        node._options = options; 
-
-        //set style
-        //TBD simplify this
-        if (drawn != false) {
-            return {
-                node: this.setStyle(node, style, options, geometry),
-                complete: drawn
-            };
-        } else {
-            return false;
-        }
-    },
-    
-    /**
-     * Method: postDraw
-     * Things that have do be done after the geometry node is appended
-     *     to its parent node. To be overridden by subclasses.
-     * 
-     * Parameters:
-     * node - {DOMElement}
-     */
-    postDraw: function(node) {},
-    
-    /**
-     * Method: drawPoint
-     * Virtual function for drawing Point Geometry. 
-     *     Should be implemented by subclasses.
-     *     This method is only called by the renderer itself.
-     * 
-     * Parameters: 
-     * node - {DOMElement}
-     * geometry - {<OpenLayers.Geometry>}
-     * 
-     * Returns:
-     * {DOMElement} or false if the renderer could not draw the point
-     */ 
-    drawPoint: function(node, geometry) {},
-
-    /**
-     * Method: drawLineString
-     * Virtual function for drawing LineString Geometry. 
-     *     Should be implemented by subclasses.
-     *     This method is only called by the renderer itself.
-     * 
-     * Parameters: 
-     * node - {DOMElement}
-     * geometry - {<OpenLayers.Geometry>}
-     * 
-     * Returns:
-     * {DOMElement} or null if the renderer could not draw all components of
-     *     the linestring, or false if nothing could be drawn
-     */ 
-    drawLineString: function(node, geometry) {},
-
-    /**
-     * Method: drawLinearRing
-     * Virtual function for drawing LinearRing Geometry. 
-     *     Should be implemented by subclasses.
-     *     This method is only called by the renderer itself.
-     * 
-     * Parameters: 
-     * node - {DOMElement}
-     * geometry - {<OpenLayers.Geometry>}
-     * 
-     * Returns:
-     * {DOMElement} or null if the renderer could not draw all components
-     *     of the linear ring, or false if nothing could be drawn
-     */ 
-    drawLinearRing: function(node, geometry) {},
-
-    /**
-     * Method: drawPolygon
-     * Virtual function for drawing Polygon Geometry. 
-     *    Should be implemented by subclasses.
-     *    This method is only called by the renderer itself.
-     * 
-     * Parameters: 
-     * node - {DOMElement}
-     * geometry - {<OpenLayers.Geometry>}
-     * 
-     * Returns:
-     * {DOMElement} or null if the renderer could not draw all components
-     *     of the polygon, or false if nothing could be drawn
-     */ 
-    drawPolygon: function(node, geometry) {},
-
-    /**
-     * Method: drawRectangle
-     * Virtual function for drawing Rectangle Geometry. 
-     *     Should be implemented by subclasses.
-     *     This method is only called by the renderer itself.
-     * 
-     * Parameters: 
-     * node - {DOMElement}
-     * geometry - {<OpenLayers.Geometry>}
-     * 
-     * Returns:
-     * {DOMElement} or false if the renderer could not draw the rectangle
-     */ 
-    drawRectangle: function(node, geometry) {},
-
-    /**
-     * Method: drawCircle
-     * Virtual function for drawing Circle Geometry. 
-     *     Should be implemented by subclasses.
-     *     This method is only called by the renderer itself.
-     * 
-     * Parameters: 
-     * node - {DOMElement}
-     * geometry - {<OpenLayers.Geometry>}
-     * 
-     * Returns:
-     * {DOMElement} or false if the renderer could not draw the circle
-     */ 
-    drawCircle: function(node, geometry) {},
-
-    /**
-     * Method: removeText
-     * Removes a label
-     * 
-     * Parameters:
-     * featureId - {String}
-     */
-    removeText: function(featureId) {
-        var label = document.getElementById(featureId + this.LABEL_ID_SUFFIX);
-        if (label) {
-            this.textRoot.removeChild(label);
-        }
-        var outline = document.getElementById(featureId + this.LABEL_OUTLINE_SUFFIX);
-        if (outline) {
-            this.textRoot.removeChild(outline);
-        }
-    },
-
-    /**
-     * Method: getFeatureIdFromEvent
-     * 
-     * Parameters:
-     * evt - {Object} An <OpenLayers.Event> object
-     *
-     * Returns:
-     * {String} A feature id or undefined.
-     */
-    getFeatureIdFromEvent: function(evt) {
-        var target = evt.target;
-        var useElement = target && target.correspondingUseElement;
-        var node = useElement ? useElement : (target || evt.srcElement);
-        return node._featureId;
-    },
-
-    /** 
-     * Method: eraseGeometry
-     * Erase a geometry from the renderer. In the case of a multi-geometry, 
-     *     we cycle through and recurse on ourselves. Otherwise, we look for a 
-     *     node with the geometry.id, destroy its geometry, and remove it from
-     *     the DOM.
-     * 
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>}
-     * featureId - {String}
-     */
-    eraseGeometry: function(geometry, featureId) {
-        if ((geometry.CLASS_NAME == "OpenLayers.Geometry.MultiPoint") ||
-            (geometry.CLASS_NAME == "OpenLayers.Geometry.MultiLineString") ||
-            (geometry.CLASS_NAME == "OpenLayers.Geometry.MultiPolygon") ||
-            (geometry.CLASS_NAME == "OpenLayers.Geometry.Collection")) {
-            for (var i=0, len=geometry.components.length; i<len; i++) {
-                this.eraseGeometry(geometry.components[i], featureId);
-            }
-        } else {    
-            var element = OpenLayers.Util.getElement(geometry.id);
-            if (element && element.parentNode) {
-                if (element.geometry) {
-                    element.geometry.destroy();
-                    element.geometry = null;
-                }
-                element.parentNode.removeChild(element);
-
-                if (this.indexer) {
-                    this.indexer.remove(element);
-                }
-                
-                if (element._style.backgroundGraphic) {
-                    var backgroundId = geometry.id + this.BACKGROUND_ID_SUFFIX;
-                    var bElem = OpenLayers.Util.getElement(backgroundId);
-                    if (bElem && bElem.parentNode) {
-                        // No need to destroy the geometry since the element and the background
-                        // node share the same geometry.
-                        bElem.parentNode.removeChild(bElem);
-                    }
-                }
-            }
-        }
-    },
-
-    /** 
-     * Method: nodeFactory
-     * Create new node of the specified type, with the (optional) specified id.
-     * 
-     * If node already exists with same ID and a different type, we remove it
-     *     and then call ourselves again to recreate it.
-     * 
-     * Parameters:
-     * id - {String}
-     * type - {String} type Kind of node to draw.
-     * 
-     * Returns:
-     * {DOMElement} A new node of the given type and id.
-     */
-    nodeFactory: function(id, type) {
-        var node = OpenLayers.Util.getElement(id);
-        if (node) {
-            if (!this.nodeTypeCompare(node, type)) {
-                node.parentNode.removeChild(node);
-                node = this.nodeFactory(id, type);
-            }
-        } else {
-            node = this.createNode(type, id);
-        }
-        return node;
-    },
-    
-    /** 
-     * Method: nodeTypeCompare
-     * 
-     * Parameters:
-     * node - {DOMElement}
-     * type - {String} Kind of node
-     * 
-     * Returns:
-     * {Boolean} Whether or not the specified node is of the specified type
-     *     This function must be overridden by subclasses.
-     */
-    nodeTypeCompare: function(node, type) {},
-    
-    /** 
-     * Method: createNode
-     * 
-     * Parameters:
-     * type - {String} Kind of node to draw.
-     * id - {String} Id for node.
-     * 
-     * Returns:
-     * {DOMElement} A new node of the given type and id.
-     *     This function must be overridden by subclasses.
-     */
-    createNode: function(type, id) {},
-
-    /**
-     * Method: moveRoot
-     * moves this renderer's root to a different renderer.
-     * 
-     * Parameters:
-     * renderer - {<OpenLayers.Renderer>} target renderer for the moved root
-     */
-    moveRoot: function(renderer) {
-        var root = this.root;
-        if(renderer.root.parentNode == this.rendererRoot) {
-            root = renderer.root;
-        }
-        root.parentNode.removeChild(root);
-        renderer.rendererRoot.appendChild(root);
-    },
-    
-    /**
-     * Method: getRenderLayerId
-     * Gets the layer that this renderer's output appears on. If moveRoot was
-     * used, this will be different from the id of the layer containing the
-     * features rendered by this renderer.
-     * 
-     * Returns:
-     * {String} the id of the output layer.
-     */
-    getRenderLayerId: function() {
-        return this.root.parentNode.parentNode.id;
-    },
-    
-    /**
-     * Method: isComplexSymbol
-     * Determines if a symbol cannot be rendered using drawCircle
-     * 
-     * Parameters:
-     * graphicName - {String}
-     * 
-     * Returns
-     * {Boolean} true if the symbol is complex, false if not
-     */
-    isComplexSymbol: function(graphicName) {
-        return (graphicName != "circle") && !!graphicName;
-    },
-
-    CLASS_NAME: "OpenLayers.Renderer.Elements"
-});
-
-/* ======================================================================
-    OpenLayers/Layer/TMS.js
+    OpenLayers/Handler/Feature.js
    ====================================================================== */
 
 /* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
@@ -20436,203 +19564,450 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
 
 
 /**
- * @requires OpenLayers/Layer/Grid.js
+ * @requires OpenLayers/Handler.js
  */
 
 /**
- * Class: OpenLayers.Layer.TMS
- * Create a layer for accessing tiles from services that conform with the 
- *     Tile Map Service Specification 
- *     (http://wiki.osgeo.org/wiki/Tile_Map_Service_Specification).
+ * Class: OpenLayers.Handler.Feature 
+ * Handler to respond to mouse events related to a drawn feature.  Callbacks
+ *     with the following keys will be notified of the following events
+ *     associated with features: click, clickout, over, out, and dblclick.
  *
- * Example:
- * (code)
- *     var layer = new OpenLayers.Layer.TMS(
- *         "My Layer", // name for display in LayerSwitcher
- *         "http://tilecache.osgeo.org/wms-c/Basic.py/", // service endpoint
- *         {layername: "basic", type: "png"} // required properties
- *     );
- * (end)
- * 
+ * This handler stops event propagation for mousedown and mouseup if those
+ *     browser events target features that can be selected.
+ *
  * Inherits from:
- *  - <OpenLayers.Layer.Grid>
+ *  - <OpenLayers.Handler>
  */
-OpenLayers.Layer.TMS = OpenLayers.Class(OpenLayers.Layer.Grid, {
+OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
 
     /**
-     * APIProperty: serviceVersion
-     * {String} Service version for tile requests.  Default is "1.0.0".
+     * Property: EVENTMAP
+     * {Object} A object mapping the browser events to objects with callback
+     *     keys for in and out.
      */
-    serviceVersion: "1.0.0",
+    EVENTMAP: {
+        'click': {'in': 'click', 'out': 'clickout'},
+        'mousemove': {'in': 'over', 'out': 'out'},
+        'dblclick': {'in': 'dblclick', 'out': null},
+        'mousedown': {'in': null, 'out': null},
+        'mouseup': {'in': null, 'out': null},
+        'touchstart': {'in': 'click', 'out': 'clickout'}
+    },
 
     /**
-     * APIProperty: layername
-     * {String} The identifier for the <TileMap> as advertised by the service.  
-     *     For example, if the service advertises a <TileMap> with 
-     *    'href="http://tms.osgeo.org/1.0.0/vmap0"', the <layername> property 
-     *     would be set to "vmap0".
+     * Property: feature
+     * {<OpenLayers.Feature.Vector>} The last feature that was hovered.
      */
-    layername: null,
+    feature: null,
 
     /**
-     * APIProperty: type
-     * {String} The format extension corresponding to the requested tile image
-     *     type.  This is advertised in a <TileFormat> element as the 
-     *     "extension" attribute.  For example, if the service advertises a 
-     *     <TileMap> with <TileFormat width="256" height="256" mime-type="image/jpeg" extension="jpg" />,
-     *     the <type> property would be set to "jpg".
+     * Property: lastFeature
+     * {<OpenLayers.Feature.Vector>} The last feature that was handled.
      */
-    type: null,
+    lastFeature: null,
 
     /**
-     * APIProperty: isBaseLayer
-     * {Boolean} Make this layer a base layer.  Default is true.  Set false to
-     *     use the layer as an overlay.
+     * Property: down
+     * {<OpenLayers.Pixel>} The location of the last mousedown.
      */
-    isBaseLayer: true,
+    down: null,
 
     /**
-     * APIProperty: tileOrigin
-     * {<OpenLayers.LonLat>} Optional origin for aligning the grid of tiles.
-     *     If provided, requests for tiles at all resolutions will be aligned
-     *     with this location (no tiles shall overlap this location).  If
-     *     not provided, the grid of tiles will be aligned with the bottom-left
-     *     corner of the map's <maxExtent>.  Default is ``null``.
-     *
-     * Example:
-     * (code)
-     *     var layer = new OpenLayers.Layer.TMS(
-     *         "My Layer",
-     *         "http://tilecache.osgeo.org/wms-c/Basic.py/",
-     *         {
-     *             layername: "basic", 
-     *             type: "png",
-     *             // set if different than the bottom left of map.maxExtent
-     *             tileOrigin: new OpenLayers.LonLat(-180, -90)
-     *         }
-     *     );
-     * (end)
+     * Property: up
+     * {<OpenLayers.Pixel>} The location of the last mouseup.
      */
-    tileOrigin: null,
+    up: null,
 
     /**
-     * APIProperty: serverResolutions
-     * {Array} A list of all resolutions available on the server.  Only set this
-     *     property if the map resolutions differ from the server. This
-     *     property serves two purposes. (a) <serverResolutions> can include
-     *     resolutions that the server supports and that you don't want to
-     *     provide with this layer; you can also look at <zoomOffset>, which is
-     *     an alternative to <serverResolutions> for that specific purpose.
-     *     (b) The map can work with resolutions that aren't supported by
-     *     the server, i.e. that aren't in <serverResolutions>. When the
-     *     map is displayed in such a resolution data for the closest
-     *     server-supported resolution is loaded and the layer div is
-     *     stretched as necessary.
+     * Property: touch
+     * {Boolean} When a touchstart event is fired, touch will be true and all
+     *     mouse related listeners will do nothing.
      */
-    serverResolutions: null,
-
-    /**
-     * APIProperty: zoomOffset
-     * {Number} If your cache has more zoom levels than you want to provide
-     *     access to with this layer, supply a zoomOffset.  This zoom offset
-     *     is added to the current map zoom level to determine the level
-     *     for a requested tile.  For example, if you supply a zoomOffset
-     *     of 3, when the map is at the zoom 0, tiles will be requested from
-     *     level 3 of your cache.  Default is 0 (assumes cache level and map
-     *     zoom are equivalent).  Using <zoomOffset> is an alternative to
-     *     setting <serverResolutions> if you only want to expose a subset
-     *     of the server resolutions.
-     */
-    zoomOffset: 0,
+    touch: false,
     
     /**
-     * Constructor: OpenLayers.Layer.TMS
-     * 
-     * Parameters:
-     * name - {String} Title to be displayed in a <OpenLayers.Control.LayerSwitcher>
-     * url - {String} Service endpoint (without the version number).  E.g.
-     *     "http://tms.osgeo.org/".
-     * options - {Object} Additional properties to be set on the layer.  The
-     *     <layername> and <type> properties must be set here.
+     * Property: clickTolerance
+     * {Number} The number of pixels the mouse can move between mousedown
+     *     and mouseup for the event to still be considered a click.
+     *     Dragging the map should not trigger the click and clickout callbacks
+     *     unless the map is moved by less than this tolerance. Defaults to 4.
      */
-    initialize: function(name, url, options) {
-        var newArguments = [];
-        newArguments.push(name, url, {}, options);
-        OpenLayers.Layer.Grid.prototype.initialize.apply(this, newArguments);
-    },    
+    clickTolerance: 4,
 
     /**
-     * APIMethod: clone
-     * Create a complete copy of this layer.
+     * Property: geometryTypes
+     * To restrict dragging to a limited set of geometry types, send a list
+     * of strings corresponding to the geometry class names.
+     * 
+     * @type Array(String)
+     */
+    geometryTypes: null,
+
+    /**
+     * Property: stopClick
+     * {Boolean} If stopClick is set to true, handled clicks do not
+     *      propagate to other click listeners. Otherwise, handled clicks
+     *      do propagate. Unhandled clicks always propagate, whatever the
+     *      value of stopClick. Defaults to true.
+     */
+    stopClick: true,
+
+    /**
+     * Property: stopDown
+     * {Boolean} If stopDown is set to true, handled mousedowns do not
+     *      propagate to other mousedown listeners. Otherwise, handled
+     *      mousedowns do propagate. Unhandled mousedowns always propagate,
+     *      whatever the value of stopDown. Defaults to true.
+     */
+    stopDown: true,
+
+    /**
+     * Property: stopUp
+     * {Boolean} If stopUp is set to true, handled mouseups do not
+     *      propagate to other mouseup listeners. Otherwise, handled mouseups
+     *      do propagate. Unhandled mouseups always propagate, whatever the
+     *      value of stopUp. Defaults to false.
+     */
+    stopUp: false,
+    
+    /**
+     * Constructor: OpenLayers.Handler.Feature
      *
      * Parameters:
-     * obj - {Object} Should only be provided by subclasses that call this
-     *     method.
-     * 
-     * Returns:
-     * {<OpenLayers.Layer.TMS>} An exact clone of this <OpenLayers.Layer.TMS>
+     * control - {<OpenLayers.Control>} 
+     * layer - {<OpenLayers.Layer.Vector>}
+     * callbacks - {Object} An object with a 'over' property whos value is
+     *     a function to be called when the mouse is over a feature. The 
+     *     callback should expect to recieve a single argument, the feature.
+     * options - {Object} 
      */
-    clone: function (obj) {
+    initialize: function(control, layer, callbacks, options) {
+        OpenLayers.Handler.prototype.initialize.apply(this, [control, callbacks, options]);
+        this.layer = layer;
+    },
+
+    /**
+     * Method: touchstart
+     * Handle touchstart events
+     *
+     * Parameters:
+     * evt - {Event}
+     *
+     * Returns:
+     * {Boolean} Let the event propagate.
+     */
+    touchstart: function(evt) {
+        if(!this.touch) {
+            this.touch =  true;
+            this.map.events.un({
+                mousedown: this.mousedown,
+                mouseup: this.mouseup,
+                mousemove: this.mousemove,
+                click: this.click,
+                dblclick: this.dblclick,
+                scope: this
+            });
+        }
+        return OpenLayers.Event.isMultiTouch(evt) ?
+                true : this.mousedown(evt);
+    },
+
+    /**
+     * Method: touchmove
+     * Handle touchmove events. We just prevent the browser default behavior,
+     *    for Android Webkit not to select text when moving the finger after
+     *    selecting a feature.
+     *
+     * Parameters:
+     * evt - {Event}
+     */
+    touchmove: function(evt) {
+        OpenLayers.Event.stop(evt);
+    },
+
+    /**
+     * Method: mousedown
+     * Handle mouse down.  Stop propagation if a feature is targeted by this
+     *     event (stops map dragging during feature selection).
+     * 
+     * Parameters:
+     * evt - {Event} 
+     */
+    mousedown: function(evt) {
+        // Feature selection is only done with a left click. Other handlers may stop the
+        // propagation of left-click mousedown events but not right-click mousedown events.
+        // This mismatch causes problems when comparing the location of the down and up
+        // events in the click function so it is important ignore right-clicks.
+        if (OpenLayers.Event.isLeftClick(evt) || OpenLayers.Event.isSingleTouch(evt)) {
+            this.down = evt.xy;
+        }
+        return this.handle(evt) ? !this.stopDown : true;
+    },
+    
+    /**
+     * Method: mouseup
+     * Handle mouse up.  Stop propagation if a feature is targeted by this
+     *     event.
+     * 
+     * Parameters:
+     * evt - {Event} 
+     */
+    mouseup: function(evt) {
+        this.up = evt.xy;
+        return this.handle(evt) ? !this.stopUp : true;
+    },
+
+    /**
+     * Method: click
+     * Handle click.  Call the "click" callback if click on a feature,
+     *     or the "clickout" callback if click outside any feature.
+     * 
+     * Parameters:
+     * evt - {Event} 
+     *
+     * Returns:
+     * {Boolean}
+     */
+    click: function(evt) {
+        return this.handle(evt) ? !this.stopClick : true;
+    },
         
-        if (obj == null) {
-            obj = new OpenLayers.Layer.TMS(this.name,
-                                           this.url,
-                                           this.getOptions());
-        }
-
-        //get all additions from superclasses
-        obj = OpenLayers.Layer.Grid.prototype.clone.apply(this, [obj]);
-
-        // copy/set any non-init, non-simple values here
-
-        return obj;
-    },    
+    /**
+     * Method: mousemove
+     * Handle mouse moves.  Call the "over" callback if moving in to a feature,
+     *     or the "out" callback if moving out of a feature.
+     * 
+     * Parameters:
+     * evt - {Event} 
+     *
+     * Returns:
+     * {Boolean}
+     */
+    mousemove: function(evt) {
+        if (!this.callbacks['over'] && !this.callbacks['out']) {
+            return true;
+        }     
+        this.handle(evt);
+        return true;
+    },
     
     /**
-     * Method: getURL
-     * 
+     * Method: dblclick
+     * Handle dblclick.  Call the "dblclick" callback if dblclick on a feature.
+     *
      * Parameters:
-     * bounds - {<OpenLayers.Bounds>}
-     * 
+     * evt - {Event} 
+     *
      * Returns:
-     * {String} A string with the layer's url and parameters and also the 
-     *          passed-in bounds and appropriate tile size specified as 
-     *          parameters
+     * {Boolean}
      */
-    getURL: function (bounds) {
-        bounds = this.adjustBounds(bounds);
-        var res = this.getServerResolution();
-        var x = Math.round((bounds.left - this.tileOrigin.lon) / (res * this.tileSize.w));
-        var y = Math.round((bounds.bottom - this.tileOrigin.lat) / (res * this.tileSize.h));
-        var z = this.getServerZoom();
-        var path = this.serviceVersion + "/" + this.layername + "/" + z + "/" + x + "/" + y + "." + this.type; 
-        var url = this.url;
-        if (OpenLayers.Util.isArray(url)) {
-            url = this.selectUrl(path, url);
-        }
-        return url + path;
+    dblclick: function(evt) {
+        return !this.handle(evt);
     },
 
-    /** 
-     * Method: setMap
-     * When the layer is added to a map, then we can fetch our origin 
-     *    (if we don't have one.) 
+    /**
+     * Method: geometryTypeMatches
+     * Return true if the geometry type of the passed feature matches
+     *     one of the geometry types in the geometryTypes array.
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Vector.Feature>}
+     *
+     * Returns:
+     * {Boolean}
+     */
+    geometryTypeMatches: function(feature) {
+        return this.geometryTypes == null ||
+            OpenLayers.Util.indexOf(this.geometryTypes,
+                                    feature.geometry.CLASS_NAME) > -1;
+    },
+
+    /**
+     * Method: handle
+     *
+     * Parameters:
+     * evt - {Event}
+     *
+     * Returns:
+     * {Boolean} The event occurred over a relevant feature.
+     */
+    handle: function(evt) {
+        if(this.feature && !this.feature.layer) {
+            // feature has been destroyed
+            this.feature = null;
+        }
+        var type = evt.type;
+        var handled = false;
+        var previouslyIn = !!(this.feature); // previously in a feature
+        var click = (type == "click" || type == "dblclick" || type == "touchstart");
+        this.feature = this.layer.getFeatureFromEvent(evt);
+        if(this.feature && !this.feature.layer) {
+            // feature has been destroyed
+            this.feature = null;
+        }
+        if(this.lastFeature && !this.lastFeature.layer) {
+            // last feature has been destroyed
+            this.lastFeature = null;
+        }
+        if(this.feature) {
+            if(type === "touchstart") {
+                // stop the event to prevent Android Webkit from
+                // "flashing" the map div
+                OpenLayers.Event.stop(evt);
+            }
+            var inNew = (this.feature != this.lastFeature);
+            if(this.geometryTypeMatches(this.feature)) {
+                // in to a feature
+                if(previouslyIn && inNew) {
+                    // out of last feature and in to another
+                    if(this.lastFeature) {
+                        this.triggerCallback(type, 'out', [this.lastFeature]);
+                    }
+                    this.triggerCallback(type, 'in', [this.feature]);
+                } else if(!previouslyIn || click) {
+                    // in feature for the first time
+                    this.triggerCallback(type, 'in', [this.feature]);
+                }
+                this.lastFeature = this.feature;
+                handled = true;
+            } else {
+                // not in to a feature
+                if(this.lastFeature && (previouslyIn && inNew || click)) {
+                    // out of last feature for the first time
+                    this.triggerCallback(type, 'out', [this.lastFeature]);
+                }
+                // next time the mouse goes in a feature whose geometry type
+                // doesn't match we don't want to call the 'out' callback
+                // again, so let's set this.feature to null so that
+                // previouslyIn will evaluate to false the next time
+                // we enter handle. Yes, a bit hackish...
+                this.feature = null;
+            }
+        } else {
+            if(this.lastFeature && (previouslyIn || click)) {
+                this.triggerCallback(type, 'out', [this.lastFeature]);
+            }
+        }
+        return handled;
+    },
+    
+    /**
+     * Method: triggerCallback
+     * Call the callback keyed in the event map with the supplied arguments.
+     *     For click and clickout, the <clickTolerance> is checked first.
+     *
+     * Parameters:
+     * type - {String}
+     */
+    triggerCallback: function(type, mode, args) {
+        var key = this.EVENTMAP[type][mode];
+        if(key) {
+            if(type == 'click' && this.up && this.down) {
+                // for click/clickout, only trigger callback if tolerance is met
+                var dpx = Math.sqrt(
+                    Math.pow(this.up.x - this.down.x, 2) +
+                    Math.pow(this.up.y - this.down.y, 2)
+                );
+                if(dpx <= this.clickTolerance) {
+                    this.callback(key, args);
+                }
+            } else {
+                this.callback(key, args);
+            }
+        }
+    },
+
+    /**
+     * Method: activate 
+     * Turn on the handler.  Returns false if the handler was already active.
+     *
+     * Returns:
+     * {Boolean}
+     */
+    activate: function() {
+        var activated = false;
+        if(OpenLayers.Handler.prototype.activate.apply(this, arguments)) {
+            this.moveLayerToTop();
+            this.map.events.on({
+                "removelayer": this.handleMapEvents,
+                "changelayer": this.handleMapEvents,
+                scope: this
+            });
+            activated = true;
+        }
+        return activated;
+    },
+    
+    /**
+     * Method: deactivate 
+     * Turn off the handler.  Returns false if the handler was already active.
+     *
+     * Returns: 
+     * {Boolean}
+     */
+    deactivate: function() {
+        var deactivated = false;
+        if(OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
+            this.moveLayerBack();
+            this.feature = null;
+            this.lastFeature = null;
+            this.down = null;
+            this.up = null;
+            this.touch = false;
+            this.map.events.un({
+                "removelayer": this.handleMapEvents,
+                "changelayer": this.handleMapEvents,
+                scope: this
+            });
+            deactivated = true;
+        }
+        return deactivated;
+    },
+    
+    /**
+     * Method: handleMapEvents
      * 
      * Parameters:
-     * map - {<OpenLayers.Map>}
+     * evt - {Object}
      */
-    setMap: function(map) {
-        OpenLayers.Layer.Grid.prototype.setMap.apply(this, arguments);
-        if (!this.tileOrigin) { 
-            this.tileOrigin = new OpenLayers.LonLat(this.map.maxExtent.left,
-                                                this.map.maxExtent.bottom);
-        }                                       
+    handleMapEvents: function(evt) {
+        if (evt.type == "removelayer" || evt.property == "order") {
+            this.moveLayerToTop();
+        }
+    },
+    
+    /**
+     * Method: moveLayerToTop
+     * Moves the layer for this handler to the top, so mouse events can reach
+     * it.
+     */
+    moveLayerToTop: function() {
+        var index = Math.max(this.map.Z_INDEX_BASE['Feature'] - 1,
+            this.layer.getZIndex()) + 1;
+        this.layer.setZIndex(index);
+        
+    },
+    
+    /**
+     * Method: moveLayerBack
+     * Moves the layer back to the position determined by the map's layers
+     * array.
+     */
+    moveLayerBack: function() {
+        var index = this.layer.getZIndex() - 1;
+        if (index >= this.map.Z_INDEX_BASE['Feature']) {
+            this.layer.setZIndex(index);
+        } else {
+            this.map.setLayerZIndex(this.layer,
+                this.map.getLayerIndex(this.layer));
+        }
     },
 
-    CLASS_NAME: "OpenLayers.Layer.TMS"
+    CLASS_NAME: "OpenLayers.Handler.Feature"
 });
 /* ======================================================================
-    OpenLayers/Strategy.js
+    OpenLayers/Control/DragFeature.js
    ====================================================================== */
 
 /* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
@@ -20640,561 +20015,366 @@ OpenLayers.Layer.TMS = OpenLayers.Class(OpenLayers.Layer.Grid, {
  * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
+
 /**
- * @requires OpenLayers/BaseTypes/Class.js
+ * @requires OpenLayers/Control.js
+ * @requires OpenLayers/Handler/Drag.js
+ * @requires OpenLayers/Handler/Feature.js
  */
 
 /**
- * Class: OpenLayers.Strategy
- * Abstract vector layer strategy class.  Not to be instantiated directly.  Use
- *     one of the strategy subclasses instead.
+ * Class: OpenLayers.Control.DragFeature
+ * The DragFeature control moves a feature with a drag of the mouse. Create a
+ * new control with the <OpenLayers.Control.DragFeature> constructor.
+ *
+ * Inherits From:
+ *  - <OpenLayers.Control>
  */
-OpenLayers.Strategy = OpenLayers.Class({
+OpenLayers.Control.DragFeature = OpenLayers.Class(OpenLayers.Control, {
+
+    /**
+     * APIProperty: geometryTypes
+     * {Array(String)} To restrict dragging to a limited set of geometry types,
+     *     send a list of strings corresponding to the geometry class names.
+     */
+    geometryTypes: null,
+    
+    /**
+     * APIProperty: onStart
+     * {Function} Define this function if you want to know when a drag starts.
+     *     The function should expect to receive two arguments: the feature
+     *     that is about to be dragged and the pixel location of the mouse.
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>} The feature that is about to be
+     *     dragged.
+     * pixel - {<OpenLayers.Pixel>} The pixel location of the mouse.
+     */
+    onStart: function(feature, pixel) {},
+
+    /**
+     * APIProperty: onDrag
+     * {Function} Define this function if you want to know about each move of a
+     *     feature. The function should expect to receive two arguments: the
+     *     feature that is being dragged and the pixel location of the mouse.
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>} The feature that was dragged.
+     * pixel - {<OpenLayers.Pixel>} The pixel location of the mouse.
+     */
+    onDrag: function(feature, pixel) {},
+
+    /**
+     * APIProperty: onComplete
+     * {Function} Define this function if you want to know when a feature is
+     *     done dragging. The function should expect to receive two arguments:
+     *     the feature that is being dragged and the pixel location of the
+     *     mouse.
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>} The feature that was dragged.
+     * pixel - {<OpenLayers.Pixel>} The pixel location of the mouse.
+     */
+    onComplete: function(feature, pixel) {},
+
+    /**
+     * APIProperty: onEnter
+     * {Function} Define this function if you want to know when the mouse
+     *     goes over a feature and thereby makes this feature a candidate
+     *     for dragging.
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>} The feature that is ready
+     *     to be dragged.
+     */
+    onEnter: function(feature) {},
+
+    /**
+     * APIProperty: onLeave
+     * {Function} Define this function if you want to know when the mouse
+     *     goes out of the feature that was dragged.
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>} The feature that was dragged.
+     */
+    onLeave: function(feature) {},
+
+    /**
+     * APIProperty: documentDrag
+     * {Boolean} If set to true, mouse dragging will continue even if the
+     *     mouse cursor leaves the map viewport. Default is false.
+     */
+    documentDrag: false,
     
     /**
      * Property: layer
-     * {<OpenLayers.Layer.Vector>} The layer this strategy belongs to.
+     * {<OpenLayers.Layer.Vector>}
      */
     layer: null,
     
     /**
-     * Property: options
-     * {Object} Any options sent to the constructor.
+     * Property: feature
+     * {<OpenLayers.Feature.Vector>}
      */
-    options: null,
-
-    /** 
-     * Property: active 
-     * {Boolean} The control is active.
-     */
-    active: null,
+    feature: null,
 
     /**
-     * Property: autoActivate
-     * {Boolean} The creator of the strategy can set autoActivate to false
-     *      to fully control when the protocol is activated and deactivated.
-     *      Defaults to true.
+     * Property: dragCallbacks
+     * {Object} The functions that are sent to the drag handler for callback.
      */
-    autoActivate: true,
+    dragCallbacks: {},
 
     /**
-     * Property: autoDestroy
-     * {Boolean} The creator of the strategy can set autoDestroy to false
-     *      to fully control when the strategy is destroyed. Defaults to
-     *      true.
+     * Property: featureCallbacks
+     * {Object} The functions that are sent to the feature handler for callback.
      */
-    autoDestroy: true,
+    featureCallbacks: {},
+    
+    /**
+     * Property: lastPixel
+     * {<OpenLayers.Pixel>}
+     */
+    lastPixel: null,
 
     /**
-     * Constructor: OpenLayers.Strategy
-     * Abstract class for vector strategies.  Create instances of a subclass.
+     * Constructor: OpenLayers.Control.DragFeature
+     * Create a new control to drag features.
      *
      * Parameters:
+     * layer - {<OpenLayers.Layer.Vector>} The layer containing features to be
+     *     dragged.
      * options - {Object} Optional object whose properties will be set on the
-     *     instance.
+     *     control.
      */
-    initialize: function(options) {
-        OpenLayers.Util.extend(this, options);
-        this.options = options;
-        // set the active property here, so that user cannot override it
-        this.active = false;
+    initialize: function(layer, options) {
+        OpenLayers.Control.prototype.initialize.apply(this, [options]);
+        this.layer = layer;
+        this.handlers = {
+            drag: new OpenLayers.Handler.Drag(
+                this, OpenLayers.Util.extend({
+                    down: this.downFeature,
+                    move: this.moveFeature,
+                    up: this.upFeature,
+                    out: this.cancel,
+                    done: this.doneDragging
+                }, this.dragCallbacks), {
+                    documentDrag: this.documentDrag
+                }
+            ),
+            feature: new OpenLayers.Handler.Feature(
+                this, this.layer, OpenLayers.Util.extend({
+                    // 'click' and 'clickout' callback are for the mobile
+                    // support: no 'over' or 'out' in touch based browsers.
+                    click: this.clickFeature,
+                    clickout: this.clickoutFeature,
+                    over: this.overFeature,
+                    out: this.outFeature
+                }, this.featureCallbacks),
+                {geometryTypes: this.geometryTypes}
+            )
+        };
     },
-    
+
+    /**
+     * Method: clickFeature
+     * Called when the feature handler detects a click-in on a feature.
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>}
+     */
+    clickFeature: function(feature) {
+        if (this.handlers.feature.touch && !this.over && this.overFeature(feature)) {
+            this.handlers.drag.dragstart(this.handlers.feature.evt);
+            // to let the events propagate to the feature handler (click callback)
+            this.handlers.drag.stopDown = false;
+        }
+    },
+
+    /**
+     * Method: clickoutFeature
+     * Called when the feature handler detects a click-out on a feature.
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>}
+     */
+    clickoutFeature: function(feature) {
+        if (this.handlers.feature.touch && this.over) {
+            this.outFeature(feature);
+            this.handlers.drag.stopDown = true;
+        }
+    },
+
     /**
      * APIMethod: destroy
-     * Clean up the strategy.
+     * Take care of things that are not handled in superclass
      */
     destroy: function() {
-        this.deactivate();
         this.layer = null;
-        this.options = null;
+        OpenLayers.Control.prototype.destroy.apply(this, []);
     },
 
     /**
-     * Method: setLayer
-     * Called to set the <layer> property.
-     *
-     * Parameters:
-     * layer - {<OpenLayers.Layer.Vector>}
-     */
-    setLayer: function(layer) {
-        this.layer = layer;
-    },
-    
-    /**
-     * Method: activate
-     * Activate the strategy.  Register any listeners, do appropriate setup.
-     *
+     * APIMethod: activate
+     * Activate the control and the feature handler.
+     * 
      * Returns:
-     * {Boolean} True if the strategy was successfully activated or false if
-     *      the strategy was already active.
+     * {Boolean} Successfully activated the control and feature handler.
      */
     activate: function() {
-        if (!this.active) {
-            this.active = true;
-            return true;
-        }
-        return false;
+        return (this.handlers.feature.activate() &&
+                OpenLayers.Control.prototype.activate.apply(this, arguments));
     },
-    
+
     /**
-     * Method: deactivate
-     * Deactivate the strategy.  Unregister any listeners, do appropriate
-     *     tear-down.
-     *
+     * APIMethod: deactivate
+     * Deactivate the control and all handlers.
+     * 
      * Returns:
-     * {Boolean} True if the strategy was successfully deactivated or false if
-     *      the strategy was already inactive.
+     * {Boolean} Successfully deactivated the control.
      */
     deactivate: function() {
-        if (this.active) {
-            this.active = false;
-            return true;
-        }
-        return false;
+        // the return from the handlers is unimportant in this case
+        this.handlers.drag.deactivate();
+        this.handlers.feature.deactivate();
+        this.feature = null;
+        this.dragging = false;
+        this.lastPixel = null;
+        OpenLayers.Element.removeClass(
+            this.map.viewPortDiv, this.displayClass + "Over"
+        );
+        return OpenLayers.Control.prototype.deactivate.apply(this, arguments);
     },
-   
-    CLASS_NAME: "OpenLayers.Strategy" 
-});
-/* ======================================================================
-    OpenLayers/Strategy/Fixed.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Strategy.js
- */
-
-/**
- * Class: OpenLayers.Strategy.Fixed
- * A simple strategy that requests features once and never requests new data.
- *
- * Inherits from:
- *  - <OpenLayers.Strategy>
- */
-OpenLayers.Strategy.Fixed = OpenLayers.Class(OpenLayers.Strategy, {
-    
-    /**
-     * APIProperty: preload
-     * {Boolean} Load data before layer made visible. Enabling this may result
-     *   in considerable overhead if your application loads many data layers
-     *   that are not visible by default. Default is false.
-     */
-    preload: false,
 
     /**
-     * Constructor: OpenLayers.Strategy.Fixed
-     * Create a new Fixed strategy.
+     * Method: overFeature
+     * Called when the feature handler detects a mouse-over on a feature.
+     *     This activates the drag handler.
      *
      * Parameters:
-     * options - {Object} Optional object whose properties will be set on the
-     *     instance.
-     */
-
-    /**
-     * Method: activate
-     * Activate the strategy: load data or add listener to load when visible
+     * feature - {<OpenLayers.Feature.Vector>} The selected feature.
      *
      * Returns:
-     * {Boolean} True if the strategy was successfully activated or false if
-     *      the strategy was already active.
+     * {Boolean} Successfully activated the drag handler.
      */
-    activate: function() {
-        if(OpenLayers.Strategy.prototype.activate.apply(this, arguments)) {
-            this.layer.events.on({
-                "refresh": this.load,
-                scope: this
-            });
-            if(this.layer.visibility == true || this.preload) {
-                this.load();
+    overFeature: function(feature) {
+        var activated = false;
+        if(!this.handlers.drag.dragging) {
+            this.feature = feature;
+            this.handlers.drag.activate();
+            activated = true;
+            this.over = true;
+            OpenLayers.Element.addClass(this.map.viewPortDiv, this.displayClass + "Over");
+            this.onEnter(feature);
+        } else {
+            if(this.feature.id == feature.id) {
+                this.over = true;
             } else {
-                this.layer.events.on({
-                    "visibilitychanged": this.load,
-                    scope: this
-                });
+                this.over = false;
             }
-            return true;
         }
-        return false;
+        return activated;
     },
-    
+
     /**
-     * Method: deactivate
-     * Deactivate the strategy.  Undo what is done in <activate>.
+     * Method: downFeature
+     * Called when the drag handler detects a mouse-down.
+     *
+     * Parameters:
+     * pixel - {<OpenLayers.Pixel>} Location of the mouse event.
+     */
+    downFeature: function(pixel) {
+        this.lastPixel = pixel;
+        this.onStart(this.feature, pixel);
+    },
+
+    /**
+     * Method: moveFeature
+     * Called when the drag handler detects a mouse-move.  Also calls the
+     *     optional onDrag method.
      * 
-     * Returns:
-     * {Boolean} The strategy was successfully deactivated.
+     * Parameters:
+     * pixel - {<OpenLayers.Pixel>} Location of the mouse event.
      */
-    deactivate: function() {
-        var deactivated = OpenLayers.Strategy.prototype.deactivate.call(this);
-        if(deactivated) {
-            this.layer.events.un({
-                "refresh": this.load,
-                "visibilitychanged": this.load,
-                scope: this
-            });
-        }
-        return deactivated;
+    moveFeature: function(pixel) {
+        var res = this.map.getResolution();
+        this.feature.geometry.move(res * (pixel.x - this.lastPixel.x),
+                                   res * (this.lastPixel.y - pixel.y));
+        this.layer.drawFeature(this.feature);
+        this.lastPixel = pixel;
+        this.onDrag(this.feature, pixel);
     },
 
     /**
-     * Method: load
-     * Tells protocol to load data and unhooks the visibilitychanged event
-     *
-     * Parameters:
-     * options - {Object} options to pass to protocol read.
-     */
-    load: function(options) {
-        var layer = this.layer;
-        layer.events.triggerEvent("loadstart");
-        layer.protocol.read(OpenLayers.Util.applyDefaults({
-            callback: OpenLayers.Function.bind(this.merge, this,
-                layer.map.getProjectionObject()),
-            filter: layer.filter
-        }, options));
-        layer.events.un({
-            "visibilitychanged": this.load,
-            scope: this
-        });
-    },
-
-    /**
-     * Method: merge
-     * Add all features to the layer.
-     *
-     * Parameters:
-     * mapProjection - {<OpenLayers.Projection>} the map projection
-     * resp - {Object} options to pass to protocol read.
-     */
-    merge: function(mapProjection, resp) {
-        var layer = this.layer;
-        layer.destroyFeatures();
-        var features = resp.features;
-        if (features && features.length > 0) {
-            if(!mapProjection.equals(layer.projection)) {
-                var geom;
-                for(var i=0, len=features.length; i<len; ++i) {
-                    geom = features[i].geometry;
-                    if(geom) {
-                        geom.transform(layer.projection, mapProjection);
-                    }
-                }
-            }
-            layer.addFeatures(features);
-        }
-        layer.events.triggerEvent("loadend");
-    },
-
-    CLASS_NAME: "OpenLayers.Strategy.Fixed"
-});
-/* ======================================================================
-    OpenLayers/Geometry/Polygon.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Geometry/Collection.js
- * @requires OpenLayers/Geometry/LinearRing.js
- */
-
-/**
- * Class: OpenLayers.Geometry.Polygon 
- * Polygon is a collection of Geometry.LinearRings. 
- * 
- * Inherits from:
- *  - <OpenLayers.Geometry.Collection> 
- *  - <OpenLayers.Geometry> 
- */
-OpenLayers.Geometry.Polygon = OpenLayers.Class(
-  OpenLayers.Geometry.Collection, {
-
-    /**
-     * Property: componentTypes
-     * {Array(String)} An array of class names representing the types of
-     * components that the collection can include.  A null value means the
-     * component types are not restricted.
-     */
-    componentTypes: ["OpenLayers.Geometry.LinearRing"],
-
-    /**
-     * Constructor: OpenLayers.Geometry.Polygon
-     * Constructor for a Polygon geometry. 
-     * The first ring (this.component[0])is the outer bounds of the polygon and 
-     * all subsequent rings (this.component[1-n]) are internal holes.
-     *
-     *
-     * Parameters:
-     * components - {Array(<OpenLayers.Geometry.LinearRing>)} 
-     */
-
-    /** 
-     * APIMethod: getArea
-     * Calculated by subtracting the areas of the internal holes from the 
-     *   area of the outer hole.
+     * Method: upFeature
+     * Called when the drag handler detects a mouse-up.
      * 
-     * Returns:
-     * {float} The area of the geometry
-     */
-    getArea: function() {
-        var area = 0.0;
-        if ( this.components && (this.components.length > 0)) {
-            area += Math.abs(this.components[0].getArea());
-            for (var i=1, len=this.components.length; i<len; i++) {
-                area -= Math.abs(this.components[i].getArea());
-            }
-        }
-        return area;
-    },
-
-    /** 
-     * APIMethod: getGeodesicArea
-     * Calculate the approximate area of the polygon were it projected onto
-     *     the earth.
-     *
      * Parameters:
-     * projection - {<OpenLayers.Projection>} The spatial reference system
-     *     for the geometry coordinates.  If not provided, Geographic/WGS84 is
-     *     assumed.
-     * 
-     * Reference:
-     * Robert. G. Chamberlain and William H. Duquette, "Some Algorithms for
-     *     Polygons on a Sphere", JPL Publication 07-03, Jet Propulsion
-     *     Laboratory, Pasadena, CA, June 2007 http://trs-new.jpl.nasa.gov/dspace/handle/2014/40409
-     *
-     * Returns:
-     * {float} The approximate geodesic area of the polygon in square meters.
+     * pixel - {<OpenLayers.Pixel>} Location of the mouse event.
      */
-    getGeodesicArea: function(projection) {
-        var area = 0.0;
-        if(this.components && (this.components.length > 0)) {
-            area += Math.abs(this.components[0].getGeodesicArea(projection));
-            for(var i=1, len=this.components.length; i<len; i++) {
-                area -= Math.abs(this.components[i].getGeodesicArea(projection));
-            }
+    upFeature: function(pixel) {
+        if(!this.over) {
+            this.handlers.drag.deactivate();
         }
-        return area;
     },
 
     /**
-     * Method: containsPoint
-     * Test if a point is inside a polygon.  Points on a polygon edge are
-     *     considered inside.
+     * Method: doneDragging
+     * Called when the drag handler is done dragging.
      *
      * Parameters:
-     * point - {<OpenLayers.Geometry.Point>}
-     *
-     * Returns:
-     * {Boolean | Number} The point is inside the polygon.  Returns 1 if the
-     *     point is on an edge.  Returns boolean otherwise.
+     * pixel - {<OpenLayers.Pixel>} The last event pixel location.  If this event
+     *     came from a mouseout, this may not be in the map viewport.
      */
-    containsPoint: function(point) {
-        var numRings = this.components.length;
-        var contained = false;
-        if(numRings > 0) {
-            // check exterior ring - 1 means on edge, boolean otherwise
-            contained = this.components[0].containsPoint(point);
-            if(contained !== 1) {
-                if(contained && numRings > 1) {
-                    // check interior rings
-                    var hole;
-                    for(var i=1; i<numRings; ++i) {
-                        hole = this.components[i].containsPoint(point);
-                        if(hole) {
-                            if(hole === 1) {
-                                // on edge
-                                contained = 1;
-                            } else {
-                                // in hole
-                                contained = false;
-                            }                            
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        return contained;
+    doneDragging: function(pixel) {
+        this.onComplete(this.feature, pixel);
     },
 
     /**
-     * APIMethod: intersects
-     * Determine if the input geometry intersects this one.
+     * Method: outFeature
+     * Called when the feature handler detects a mouse-out on a feature.
      *
      * Parameters:
-     * geometry - {<OpenLayers.Geometry>} Any type of geometry.
-     *
-     * Returns:
-     * {Boolean} The input geometry intersects this one.
+     * feature - {<OpenLayers.Feature.Vector>} The feature that the mouse left.
      */
-    intersects: function(geometry) {
-        var intersect = false;
-        var i, len;
-        if(geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
-            intersect = this.containsPoint(geometry);
-        } else if(geometry.CLASS_NAME == "OpenLayers.Geometry.LineString" ||
-                  geometry.CLASS_NAME == "OpenLayers.Geometry.LinearRing") {
-            // check if rings/linestrings intersect
-            for(i=0, len=this.components.length; i<len; ++i) {
-                intersect = geometry.intersects(this.components[i]);
-                if(intersect) {
-                    break;
-                }
-            }
-            if(!intersect) {
-                // check if this poly contains points of the ring/linestring
-                for(i=0, len=geometry.components.length; i<len; ++i) {
-                    intersect = this.containsPoint(geometry.components[i]);
-                    if(intersect) {
-                        break;
-                    }
-                }
-            }
-        } else {
-            for(i=0, len=geometry.components.length; i<len; ++ i) {
-                intersect = this.intersects(geometry.components[i]);
-                if(intersect) {
-                    break;
-                }
-            }
-        }
-        // check case where this poly is wholly contained by another
-        if(!intersect && geometry.CLASS_NAME == "OpenLayers.Geometry.Polygon") {
-            // exterior ring points will be contained in the other geometry
-            var ring = this.components[0];
-            for(i=0, len=ring.components.length; i<len; ++i) {
-                intersect = geometry.containsPoint(ring.components[i]);
-                if(intersect) {
-                    break;
-                }
-            }
-        }
-        return intersect;
-    },
-
-    /**
-     * APIMethod: distanceTo
-     * Calculate the closest distance between two geometries (on the x-y plane).
-     *
-     * Parameters:
-     * geometry - {<OpenLayers.Geometry>} The target geometry.
-     * options - {Object} Optional properties for configuring the distance
-     *     calculation.
-     *
-     * Valid options:
-     * details - {Boolean} Return details from the distance calculation.
-     *     Default is false.
-     * edge - {Boolean} Calculate the distance from this geometry to the
-     *     nearest edge of the target geometry.  Default is true.  If true,
-     *     calling distanceTo from a geometry that is wholly contained within
-     *     the target will result in a non-zero distance.  If false, whenever
-     *     geometries intersect, calling distanceTo will return 0.  If false,
-     *     details cannot be returned.
-     *
-     * Returns:
-     * {Number | Object} The distance between this geometry and the target.
-     *     If details is true, the return will be an object with distance,
-     *     x0, y0, x1, and y1 properties.  The x0 and y0 properties represent
-     *     the coordinates of the closest point on this geometry. The x1 and y1
-     *     properties represent the coordinates of the closest point on the
-     *     target geometry.
-     */
-    distanceTo: function(geometry, options) {
-        var edge = !(options && options.edge === false);
-        var result;
-        // this is the case where we might not be looking for distance to edge
-        if(!edge && this.intersects(geometry)) {
-            result = 0;
-        } else {
-            result = OpenLayers.Geometry.Collection.prototype.distanceTo.apply(
-                this, [geometry, options]
+    outFeature: function(feature) {
+        if(!this.handlers.drag.dragging) {
+            this.over = false;
+            this.handlers.drag.deactivate();
+            OpenLayers.Element.removeClass(
+                this.map.viewPortDiv, this.displayClass + "Over"
             );
+            this.onLeave(feature);
+            this.feature = null;
+        } else {
+            if(this.feature.id == feature.id) {
+                this.over = false;
+            }
         }
-        return result;
+    },
+        
+    /**
+     * Method: cancel
+     * Called when the drag handler detects a mouse-out (from the map viewport).
+     */
+    cancel: function() {
+        this.handlers.drag.deactivate();
+        this.over = false;
     },
 
-    CLASS_NAME: "OpenLayers.Geometry.Polygon"
-});
-
-/**
- * APIMethod: createRegularPolygon
- * Create a regular polygon around a radius. Useful for creating circles 
- * and the like.
- *
- * Parameters:
- * origin - {<OpenLayers.Geometry.Point>} center of polygon.
- * radius - {Float} distance to vertex, in map units.
- * sides - {Integer} Number of sides. 20 approximates a circle.
- * rotation - {Float} original angle of rotation, in degrees.
- */
-OpenLayers.Geometry.Polygon.createRegularPolygon = function(origin, radius, sides, rotation) {  
-    var angle = Math.PI * ((1/sides) - (1/2));
-    if(rotation) {
-        angle += (rotation / 180) * Math.PI;
-    }
-    var rotatedAngle, x, y;
-    var points = [];
-    for(var i=0; i<sides; ++i) {
-        rotatedAngle = angle + (i * 2 * Math.PI / sides);
-        x = origin.x + (radius * Math.cos(rotatedAngle));
-        y = origin.y + (radius * Math.sin(rotatedAngle));
-        points.push(new OpenLayers.Geometry.Point(x, y));
-    }
-    var ring = new OpenLayers.Geometry.LinearRing(points);
-    return new OpenLayers.Geometry.Polygon([ring]);
-};
-/* ======================================================================
-    OpenLayers/Geometry/MultiPolygon.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Geometry/Collection.js
- * @requires OpenLayers/Geometry/Polygon.js
- */
-
-/**
- * Class: OpenLayers.Geometry.MultiPolygon
- * MultiPolygon is a geometry with multiple <OpenLayers.Geometry.Polygon>
- * components.  Create a new instance with the <OpenLayers.Geometry.MultiPolygon>
- * constructor.
- * 
- * Inherits from:
- *  - <OpenLayers.Geometry.Collection>
- */
-OpenLayers.Geometry.MultiPolygon = OpenLayers.Class(
-  OpenLayers.Geometry.Collection, {
-
     /**
-     * Property: componentTypes
-     * {Array(String)} An array of class names representing the types of
-     * components that the collection can include.  A null value means the
-     * component types are not restricted.
-     */
-    componentTypes: ["OpenLayers.Geometry.Polygon"],
-
-    /**
-     * Constructor: OpenLayers.Geometry.MultiPolygon
-     * Create a new MultiPolygon geometry
+     * Method: setMap
+     * Set the map property for the control and all handlers.
      *
-     * Parameters:
-     * components - {Array(<OpenLayers.Geometry.Polygon>)} An array of polygons
-     *              used to generate the MultiPolygon
-     *
+     * Parameters: 
+     * map - {<OpenLayers.Map>} The control's map.
      */
+    setMap: function(map) {
+        this.handlers.drag.setMap(map);
+        this.handlers.feature.setMap(map);
+        OpenLayers.Control.prototype.setMap.apply(this, arguments);
+    },
 
-    CLASS_NAME: "OpenLayers.Geometry.MultiPolygon"
+    CLASS_NAME: "OpenLayers.Control.DragFeature"
 });
 /* ======================================================================
     OpenLayers/Feature.js
@@ -22389,965 +21569,6 @@ OpenLayers.Style.createLiteral = function(value, context, feature, property) {
  */
 OpenLayers.Style.SYMBOLIZER_PREFIXES = ['Point', 'Line', 'Polygon', 'Text',
     'Raster'];
-/* ======================================================================
-    OpenLayers/Filter.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-
-/**
- * @requires OpenLayers/BaseTypes/Class.js
- * @requires OpenLayers/Util.js
- * @requires OpenLayers/Style.js
- */
-
-/**
- * Class: OpenLayers.Filter
- * This class represents an OGC Filter.
- */
-OpenLayers.Filter = OpenLayers.Class({
-    
-    /** 
-     * Constructor: OpenLayers.Filter
-     * This class represents a generic filter.
-     *
-     * Parameters:
-     * options - {Object} Optional object whose properties will be set on the
-     *     instance.
-     * 
-     * Returns:
-     * {<OpenLayers.Filter>}
-     */
-    initialize: function(options) {
-        OpenLayers.Util.extend(this, options);
-    },
-
-    /** 
-     * APIMethod: destroy
-     * Remove reference to anything added.
-     */
-    destroy: function() {
-    },
-
-    /**
-     * APIMethod: evaluate
-     * Evaluates this filter in a specific context.  Instances or subclasses
-     * are supposed to override this method.
-     * 
-     * Parameters:
-     * context - {Object} Context to use in evaluating the filter.  If a vector
-     *     feature is provided, the feature.attributes will be used as context.
-     * 
-     * Returns:
-     * {Boolean} The filter applies.
-     */
-    evaluate: function(context) {
-        return true;
-    },
-    
-    /**
-     * APIMethod: clone
-     * Clones this filter. Should be implemented by subclasses.
-     * 
-     * Returns:
-     * {<OpenLayers.Filter>} Clone of this filter.
-     */
-    clone: function() {
-        return null;
-    },
-    
-    /**
-     * APIMethod: toString
-     *
-     * Returns:
-     * {String} Include <OpenLayers.Format.CQL> in your build to get a CQL
-     *     representation of the filter returned. Otherwise "[Object object]"
-     *     will be returned.
-     */
-    toString: function() {
-        var string;
-        if (OpenLayers.Format && OpenLayers.Format.CQL) {
-            string = OpenLayers.Format.CQL.prototype.write(this);
-        } else {
-            string = Object.prototype.toString.call(this);
-        }
-        return string;
-    },
-    
-    CLASS_NAME: "OpenLayers.Filter"
-});
-/* ======================================================================
-    OpenLayers/Filter/Spatial.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Filter.js
- */
-
-/**
- * Class: OpenLayers.Filter.Spatial
- * This class represents a spatial filter.
- * Currently implemented: BBOX, DWithin and Intersects
- * 
- * Inherits from:
- * - <OpenLayers.Filter>
- */
-OpenLayers.Filter.Spatial = OpenLayers.Class(OpenLayers.Filter, {
-
-    /**
-     * APIProperty: type
-     * {String} Type of spatial filter.
-     *
-     * The type should be one of:
-     * - OpenLayers.Filter.Spatial.BBOX
-     * - OpenLayers.Filter.Spatial.INTERSECTS
-     * - OpenLayers.Filter.Spatial.DWITHIN
-     * - OpenLayers.Filter.Spatial.WITHIN
-     * - OpenLayers.Filter.Spatial.CONTAINS
-     */
-    type: null,
-    
-    /**
-     * APIProperty: property
-     * {String} Name of the context property to compare.
-     */
-    property: null,
-    
-    /**
-     * APIProperty: value
-     * {<OpenLayers.Bounds> || <OpenLayers.Geometry>} The bounds or geometry
-     *     to be used by the filter.  Use bounds for BBOX filters and geometry
-     *     for INTERSECTS or DWITHIN filters.
-     */
-    value: null,
-
-    /**
-     * APIProperty: distance
-     * {Number} The distance to use in a DWithin spatial filter.
-     */
-    distance: null,
-
-    /**
-     * APIProperty: distanceUnits
-     * {String} The units to use for the distance, e.g. 'm'.
-     */
-    distanceUnits: null,
-    
-    /** 
-     * Constructor: OpenLayers.Filter.Spatial
-     * Creates a spatial filter.
-     *
-     * Parameters:
-     * options - {Object} An optional object with properties to set on the
-     *     filter.
-     * 
-     * Returns:
-     * {<OpenLayers.Filter.Spatial>}
-     */
-
-   /**
-    * Method: evaluate
-    * Evaluates this filter for a specific feature.
-    * 
-    * Parameters:
-    * feature - {<OpenLayers.Feature.Vector>} feature to apply the filter to.
-    * 
-    * Returns:
-    * {Boolean} The feature meets filter criteria.
-    */
-    evaluate: function(feature) {
-        var intersect = false;
-        switch(this.type) {
-            case OpenLayers.Filter.Spatial.BBOX:
-            case OpenLayers.Filter.Spatial.INTERSECTS:
-                if(feature.geometry) {
-                    var geom = this.value;
-                    if(this.value.CLASS_NAME == "OpenLayers.Bounds") {
-                        geom = this.value.toGeometry();
-                    }
-                    if(feature.geometry.intersects(geom)) {
-                        intersect = true;
-                    }
-                }
-                break;
-            default:
-                throw new Error('evaluate is not implemented for this filter type.');
-        }
-        return intersect;
-    },
-
-    /**
-     * APIMethod: clone
-     * Clones this filter.
-     * 
-     * Returns:
-     * {<OpenLayers.Filter.Spatial>} Clone of this filter.
-     */
-    clone: function() {
-        var options = OpenLayers.Util.applyDefaults({
-            value: this.value && this.value.clone && this.value.clone()
-        }, this);
-        return new OpenLayers.Filter.Spatial(options);
-    },
-    CLASS_NAME: "OpenLayers.Filter.Spatial"
-});
-
-OpenLayers.Filter.Spatial.BBOX = "BBOX";
-OpenLayers.Filter.Spatial.INTERSECTS = "INTERSECTS";
-OpenLayers.Filter.Spatial.DWITHIN = "DWITHIN";
-OpenLayers.Filter.Spatial.WITHIN = "WITHIN";
-OpenLayers.Filter.Spatial.CONTAINS = "CONTAINS";
-/* ======================================================================
-    OpenLayers/Strategy/BBOX.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Strategy.js
- * @requires OpenLayers/Filter/Spatial.js
- */
-
-/**
- * Class: OpenLayers.Strategy.BBOX
- * A simple strategy that reads new features when the viewport invalidates
- *     some bounds.
- *
- * Inherits from:
- *  - <OpenLayers.Strategy>
- */
-OpenLayers.Strategy.BBOX = OpenLayers.Class(OpenLayers.Strategy, {
-    
-    /**
-     * Property: bounds
-     * {<OpenLayers.Bounds>} The current data bounds (in the same projection
-     *     as the layer - not always the same projection as the map).
-     */
-    bounds: null,
-    
-    /** 
-     * Property: resolution 
-     * {Float} The current data resolution. 
-     */ 
-    resolution: null, 
-           
-    /**
-     * APIProperty: ratio
-     * {Float} The ratio of the data bounds to the viewport bounds (in each
-     *     dimension).  Default is 2.
-     */
-    ratio: 2,
-
-    /** 
-     * Property: resFactor 
-     * {Float} Optional factor used to determine when previously requested 
-     *     features are invalid.  If set, the resFactor will be compared to the
-     *     resolution of the previous request to the current map resolution.
-     *     If resFactor > (old / new) and 1/resFactor < (old / new).  If you
-     *     set a resFactor of 1, data will be requested every time the
-     *     resolution changes.  If you set a resFactor of 3, data will be
-     *     requested if the old resolution is 3 times the new, or if the new is
-     *     3 times the old.  If the old bounds do not contain the new bounds
-     *     new data will always be requested (with or without considering
-     *     resFactor). 
-     */ 
-    resFactor: null, 
-    
-    /**
-     * Property: response
-     * {<OpenLayers.Protocol.Response>} The protocol response object returned
-     *      by the layer protocol.
-     */
-    response: null,
-
-    /**
-     * Constructor: OpenLayers.Strategy.BBOX
-     * Create a new BBOX strategy.
-     *
-     * Parameters:
-     * options - {Object} Optional object whose properties will be set on the
-     *     instance.
-     */
-    
-    /**
-     * Method: activate
-     * Set up strategy with regard to reading new batches of remote data.
-     * 
-     * Returns:
-     * {Boolean} The strategy was successfully activated.
-     */
-    activate: function() {
-        var activated = OpenLayers.Strategy.prototype.activate.call(this);
-        if(activated) {
-            this.layer.events.on({
-                "moveend": this.update,
-                "refresh": this.update,
-                "visibilitychanged": this.update,
-                scope: this
-            });
-            this.update();
-        }
-        return activated;
-    },
-    
-    /**
-     * Method: deactivate
-     * Tear down strategy with regard to reading new batches of remote data.
-     * 
-     * Returns:
-     * {Boolean} The strategy was successfully deactivated.
-     */
-    deactivate: function() {
-        var deactivated = OpenLayers.Strategy.prototype.deactivate.call(this);
-        if(deactivated) {
-            this.layer.events.un({
-                "moveend": this.update,
-                "refresh": this.update,
-                "visibilitychanged": this.update,
-                scope: this
-            });
-        }
-        return deactivated;
-    },
-
-    /**
-     * Method: update
-     * Callback function called on "moveend" or "refresh" layer events.
-     *
-     * Parameters:
-     * options - {Object} Optional object whose properties will determine
-     *     the behaviour of this Strategy
-     *
-     * Valid options include:
-     * force - {Boolean} if true, new data must be unconditionally read.
-     * noAbort - {Boolean} if true, do not abort previous requests.
-     */
-    update: function(options) {
-        var mapBounds = this.getMapBounds();
-        if (mapBounds !== null && ((options && options.force) ||
-          (this.layer.visibility && this.layer.calculateInRange() && this.invalidBounds(mapBounds)))) {
-            this.calculateBounds(mapBounds);
-            this.resolution = this.layer.map.getResolution(); 
-            this.triggerRead(options);
-        }
-    },
-    
-    /**
-     * Method: getMapBounds
-     * Get the map bounds expressed in the same projection as this layer.
-     *
-     * Returns:
-     * {<OpenLayers.Bounds>} Map bounds in the projection of the layer.
-     */
-    getMapBounds: function() {
-        if (this.layer.map === null) {
-            return null;
-        }
-        var bounds = this.layer.map.getExtent();
-        if(bounds && !this.layer.projection.equals(
-                this.layer.map.getProjectionObject())) {
-            bounds = bounds.clone().transform(
-                this.layer.map.getProjectionObject(), this.layer.projection
-            );
-        }
-        return bounds;
-    },
-
-    /**
-     * Method: invalidBounds
-     * Determine whether the previously requested set of features is invalid. 
-     *     This occurs when the new map bounds do not contain the previously 
-     *     requested bounds.  In addition, if <resFactor> is set, it will be 
-     *     considered.
-     *
-     * Parameters:
-     * mapBounds - {<OpenLayers.Bounds>} the current map extent, will be
-     *      retrieved from the map object if not provided
-     *
-     * Returns:
-     * {Boolean} 
-     */
-    invalidBounds: function(mapBounds) {
-        if(!mapBounds) {
-            mapBounds = this.getMapBounds();
-        }
-        var invalid = !this.bounds || !this.bounds.containsBounds(mapBounds);
-        if(!invalid && this.resFactor) {
-            var ratio = this.resolution / this.layer.map.getResolution();
-            invalid = (ratio >= this.resFactor || ratio <= (1 / this.resFactor));
-        }
-        return invalid;
-    },
- 
-    /**
-     * Method: calculateBounds
-     *
-     * Parameters:
-     * mapBounds - {<OpenLayers.Bounds>} the current map extent, will be
-     *      retrieved from the map object if not provided
-     */
-    calculateBounds: function(mapBounds) {
-        if(!mapBounds) {
-            mapBounds = this.getMapBounds();
-        }
-        var center = mapBounds.getCenterLonLat();
-        var dataWidth = mapBounds.getWidth() * this.ratio;
-        var dataHeight = mapBounds.getHeight() * this.ratio;
-        this.bounds = new OpenLayers.Bounds(
-            center.lon - (dataWidth / 2),
-            center.lat - (dataHeight / 2),
-            center.lon + (dataWidth / 2),
-            center.lat + (dataHeight / 2)
-        );
-    },
-    
-    /**
-     * Method: triggerRead
-     *
-     * Parameters:
-     * options - {Object} Additional options for the protocol's read method 
-     *     (optional)
-     *
-     * Returns:
-     * {<OpenLayers.Protocol.Response>} The protocol response object
-     *      returned by the layer protocol.
-     */
-    triggerRead: function(options) {
-        if (this.response && !(options && options.noAbort === true)) {
-            this.layer.protocol.abort(this.response);
-            this.layer.events.triggerEvent("loadend");
-        }
-        this.layer.events.triggerEvent("loadstart");
-        this.response = this.layer.protocol.read(
-            OpenLayers.Util.applyDefaults({
-                filter: this.createFilter(),
-                callback: this.merge,
-                scope: this
-        }, options));
-    },
- 
-    /**
-     * Method: createFilter
-     * Creates a spatial BBOX filter. If the layer that this strategy belongs
-     * to has a filter property, this filter will be combined with the BBOX 
-     * filter.
-     * 
-     * Returns
-     * {<OpenLayers.Filter>} The filter object.
-     */
-    createFilter: function() {
-        var filter = new OpenLayers.Filter.Spatial({
-            type: OpenLayers.Filter.Spatial.BBOX,
-            value: this.bounds,
-            projection: this.layer.projection
-        });
-        if (this.layer.filter) {
-            filter = new OpenLayers.Filter.Logical({
-                type: OpenLayers.Filter.Logical.AND,
-                filters: [this.layer.filter, filter]
-            });
-        }
-        return filter;
-    },
-   
-    /**
-     * Method: merge
-     * Given a list of features, determine which ones to add to the layer.
-     *     If the layer projection differs from the map projection, features
-     *     will be transformed from the layer projection to the map projection.
-     *
-     * Parameters:
-     * resp - {<OpenLayers.Protocol.Response>} The response object passed
-     *      by the protocol.
-     */
-    merge: function(resp) {
-        this.layer.destroyFeatures();
-        var features = resp.features;
-        if(features && features.length > 0) {
-            var remote = this.layer.projection;
-            var local = this.layer.map.getProjectionObject();
-            if(!local.equals(remote)) {
-                var geom;
-                for(var i=0, len=features.length; i<len; ++i) {
-                    geom = features[i].geometry;
-                    if(geom) {
-                        geom.transform(remote, local);
-                    }
-                }
-            }
-            this.layer.addFeatures(features);
-        }
-        this.response = null;
-        this.layer.events.triggerEvent("loadend");
-    },
-   
-    CLASS_NAME: "OpenLayers.Strategy.BBOX" 
-});
-/* ======================================================================
-    OpenLayers/Handler/Feature.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-
-/**
- * @requires OpenLayers/Handler.js
- */
-
-/**
- * Class: OpenLayers.Handler.Feature 
- * Handler to respond to mouse events related to a drawn feature.  Callbacks
- *     with the following keys will be notified of the following events
- *     associated with features: click, clickout, over, out, and dblclick.
- *
- * This handler stops event propagation for mousedown and mouseup if those
- *     browser events target features that can be selected.
- *
- * Inherits from:
- *  - <OpenLayers.Handler>
- */
-OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
-
-    /**
-     * Property: EVENTMAP
-     * {Object} A object mapping the browser events to objects with callback
-     *     keys for in and out.
-     */
-    EVENTMAP: {
-        'click': {'in': 'click', 'out': 'clickout'},
-        'mousemove': {'in': 'over', 'out': 'out'},
-        'dblclick': {'in': 'dblclick', 'out': null},
-        'mousedown': {'in': null, 'out': null},
-        'mouseup': {'in': null, 'out': null},
-        'touchstart': {'in': 'click', 'out': 'clickout'}
-    },
-
-    /**
-     * Property: feature
-     * {<OpenLayers.Feature.Vector>} The last feature that was hovered.
-     */
-    feature: null,
-
-    /**
-     * Property: lastFeature
-     * {<OpenLayers.Feature.Vector>} The last feature that was handled.
-     */
-    lastFeature: null,
-
-    /**
-     * Property: down
-     * {<OpenLayers.Pixel>} The location of the last mousedown.
-     */
-    down: null,
-
-    /**
-     * Property: up
-     * {<OpenLayers.Pixel>} The location of the last mouseup.
-     */
-    up: null,
-
-    /**
-     * Property: touch
-     * {Boolean} When a touchstart event is fired, touch will be true and all
-     *     mouse related listeners will do nothing.
-     */
-    touch: false,
-    
-    /**
-     * Property: clickTolerance
-     * {Number} The number of pixels the mouse can move between mousedown
-     *     and mouseup for the event to still be considered a click.
-     *     Dragging the map should not trigger the click and clickout callbacks
-     *     unless the map is moved by less than this tolerance. Defaults to 4.
-     */
-    clickTolerance: 4,
-
-    /**
-     * Property: geometryTypes
-     * To restrict dragging to a limited set of geometry types, send a list
-     * of strings corresponding to the geometry class names.
-     * 
-     * @type Array(String)
-     */
-    geometryTypes: null,
-
-    /**
-     * Property: stopClick
-     * {Boolean} If stopClick is set to true, handled clicks do not
-     *      propagate to other click listeners. Otherwise, handled clicks
-     *      do propagate. Unhandled clicks always propagate, whatever the
-     *      value of stopClick. Defaults to true.
-     */
-    stopClick: true,
-
-    /**
-     * Property: stopDown
-     * {Boolean} If stopDown is set to true, handled mousedowns do not
-     *      propagate to other mousedown listeners. Otherwise, handled
-     *      mousedowns do propagate. Unhandled mousedowns always propagate,
-     *      whatever the value of stopDown. Defaults to true.
-     */
-    stopDown: true,
-
-    /**
-     * Property: stopUp
-     * {Boolean} If stopUp is set to true, handled mouseups do not
-     *      propagate to other mouseup listeners. Otherwise, handled mouseups
-     *      do propagate. Unhandled mouseups always propagate, whatever the
-     *      value of stopUp. Defaults to false.
-     */
-    stopUp: false,
-    
-    /**
-     * Constructor: OpenLayers.Handler.Feature
-     *
-     * Parameters:
-     * control - {<OpenLayers.Control>} 
-     * layer - {<OpenLayers.Layer.Vector>}
-     * callbacks - {Object} An object with a 'over' property whos value is
-     *     a function to be called when the mouse is over a feature. The 
-     *     callback should expect to recieve a single argument, the feature.
-     * options - {Object} 
-     */
-    initialize: function(control, layer, callbacks, options) {
-        OpenLayers.Handler.prototype.initialize.apply(this, [control, callbacks, options]);
-        this.layer = layer;
-    },
-
-    /**
-     * Method: touchstart
-     * Handle touchstart events
-     *
-     * Parameters:
-     * evt - {Event}
-     *
-     * Returns:
-     * {Boolean} Let the event propagate.
-     */
-    touchstart: function(evt) {
-        if(!this.touch) {
-            this.touch =  true;
-            this.map.events.un({
-                mousedown: this.mousedown,
-                mouseup: this.mouseup,
-                mousemove: this.mousemove,
-                click: this.click,
-                dblclick: this.dblclick,
-                scope: this
-            });
-        }
-        return OpenLayers.Event.isMultiTouch(evt) ?
-                true : this.mousedown(evt);
-    },
-
-    /**
-     * Method: touchmove
-     * Handle touchmove events. We just prevent the browser default behavior,
-     *    for Android Webkit not to select text when moving the finger after
-     *    selecting a feature.
-     *
-     * Parameters:
-     * evt - {Event}
-     */
-    touchmove: function(evt) {
-        OpenLayers.Event.stop(evt);
-    },
-
-    /**
-     * Method: mousedown
-     * Handle mouse down.  Stop propagation if a feature is targeted by this
-     *     event (stops map dragging during feature selection).
-     * 
-     * Parameters:
-     * evt - {Event} 
-     */
-    mousedown: function(evt) {
-        // Feature selection is only done with a left click. Other handlers may stop the
-        // propagation of left-click mousedown events but not right-click mousedown events.
-        // This mismatch causes problems when comparing the location of the down and up
-        // events in the click function so it is important ignore right-clicks.
-        if (OpenLayers.Event.isLeftClick(evt) || OpenLayers.Event.isSingleTouch(evt)) {
-            this.down = evt.xy;
-        }
-        return this.handle(evt) ? !this.stopDown : true;
-    },
-    
-    /**
-     * Method: mouseup
-     * Handle mouse up.  Stop propagation if a feature is targeted by this
-     *     event.
-     * 
-     * Parameters:
-     * evt - {Event} 
-     */
-    mouseup: function(evt) {
-        this.up = evt.xy;
-        return this.handle(evt) ? !this.stopUp : true;
-    },
-
-    /**
-     * Method: click
-     * Handle click.  Call the "click" callback if click on a feature,
-     *     or the "clickout" callback if click outside any feature.
-     * 
-     * Parameters:
-     * evt - {Event} 
-     *
-     * Returns:
-     * {Boolean}
-     */
-    click: function(evt) {
-        return this.handle(evt) ? !this.stopClick : true;
-    },
-        
-    /**
-     * Method: mousemove
-     * Handle mouse moves.  Call the "over" callback if moving in to a feature,
-     *     or the "out" callback if moving out of a feature.
-     * 
-     * Parameters:
-     * evt - {Event} 
-     *
-     * Returns:
-     * {Boolean}
-     */
-    mousemove: function(evt) {
-        if (!this.callbacks['over'] && !this.callbacks['out']) {
-            return true;
-        }     
-        this.handle(evt);
-        return true;
-    },
-    
-    /**
-     * Method: dblclick
-     * Handle dblclick.  Call the "dblclick" callback if dblclick on a feature.
-     *
-     * Parameters:
-     * evt - {Event} 
-     *
-     * Returns:
-     * {Boolean}
-     */
-    dblclick: function(evt) {
-        return !this.handle(evt);
-    },
-
-    /**
-     * Method: geometryTypeMatches
-     * Return true if the geometry type of the passed feature matches
-     *     one of the geometry types in the geometryTypes array.
-     *
-     * Parameters:
-     * feature - {<OpenLayers.Vector.Feature>}
-     *
-     * Returns:
-     * {Boolean}
-     */
-    geometryTypeMatches: function(feature) {
-        return this.geometryTypes == null ||
-            OpenLayers.Util.indexOf(this.geometryTypes,
-                                    feature.geometry.CLASS_NAME) > -1;
-    },
-
-    /**
-     * Method: handle
-     *
-     * Parameters:
-     * evt - {Event}
-     *
-     * Returns:
-     * {Boolean} The event occurred over a relevant feature.
-     */
-    handle: function(evt) {
-        if(this.feature && !this.feature.layer) {
-            // feature has been destroyed
-            this.feature = null;
-        }
-        var type = evt.type;
-        var handled = false;
-        var previouslyIn = !!(this.feature); // previously in a feature
-        var click = (type == "click" || type == "dblclick" || type == "touchstart");
-        this.feature = this.layer.getFeatureFromEvent(evt);
-        if(this.feature && !this.feature.layer) {
-            // feature has been destroyed
-            this.feature = null;
-        }
-        if(this.lastFeature && !this.lastFeature.layer) {
-            // last feature has been destroyed
-            this.lastFeature = null;
-        }
-        if(this.feature) {
-            if(type === "touchstart") {
-                // stop the event to prevent Android Webkit from
-                // "flashing" the map div
-                OpenLayers.Event.stop(evt);
-            }
-            var inNew = (this.feature != this.lastFeature);
-            if(this.geometryTypeMatches(this.feature)) {
-                // in to a feature
-                if(previouslyIn && inNew) {
-                    // out of last feature and in to another
-                    if(this.lastFeature) {
-                        this.triggerCallback(type, 'out', [this.lastFeature]);
-                    }
-                    this.triggerCallback(type, 'in', [this.feature]);
-                } else if(!previouslyIn || click) {
-                    // in feature for the first time
-                    this.triggerCallback(type, 'in', [this.feature]);
-                }
-                this.lastFeature = this.feature;
-                handled = true;
-            } else {
-                // not in to a feature
-                if(this.lastFeature && (previouslyIn && inNew || click)) {
-                    // out of last feature for the first time
-                    this.triggerCallback(type, 'out', [this.lastFeature]);
-                }
-                // next time the mouse goes in a feature whose geometry type
-                // doesn't match we don't want to call the 'out' callback
-                // again, so let's set this.feature to null so that
-                // previouslyIn will evaluate to false the next time
-                // we enter handle. Yes, a bit hackish...
-                this.feature = null;
-            }
-        } else {
-            if(this.lastFeature && (previouslyIn || click)) {
-                this.triggerCallback(type, 'out', [this.lastFeature]);
-            }
-        }
-        return handled;
-    },
-    
-    /**
-     * Method: triggerCallback
-     * Call the callback keyed in the event map with the supplied arguments.
-     *     For click and clickout, the <clickTolerance> is checked first.
-     *
-     * Parameters:
-     * type - {String}
-     */
-    triggerCallback: function(type, mode, args) {
-        var key = this.EVENTMAP[type][mode];
-        if(key) {
-            if(type == 'click' && this.up && this.down) {
-                // for click/clickout, only trigger callback if tolerance is met
-                var dpx = Math.sqrt(
-                    Math.pow(this.up.x - this.down.x, 2) +
-                    Math.pow(this.up.y - this.down.y, 2)
-                );
-                if(dpx <= this.clickTolerance) {
-                    this.callback(key, args);
-                }
-            } else {
-                this.callback(key, args);
-            }
-        }
-    },
-
-    /**
-     * Method: activate 
-     * Turn on the handler.  Returns false if the handler was already active.
-     *
-     * Returns:
-     * {Boolean}
-     */
-    activate: function() {
-        var activated = false;
-        if(OpenLayers.Handler.prototype.activate.apply(this, arguments)) {
-            this.moveLayerToTop();
-            this.map.events.on({
-                "removelayer": this.handleMapEvents,
-                "changelayer": this.handleMapEvents,
-                scope: this
-            });
-            activated = true;
-        }
-        return activated;
-    },
-    
-    /**
-     * Method: deactivate 
-     * Turn off the handler.  Returns false if the handler was already active.
-     *
-     * Returns: 
-     * {Boolean}
-     */
-    deactivate: function() {
-        var deactivated = false;
-        if(OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
-            this.moveLayerBack();
-            this.feature = null;
-            this.lastFeature = null;
-            this.down = null;
-            this.up = null;
-            this.touch = false;
-            this.map.events.un({
-                "removelayer": this.handleMapEvents,
-                "changelayer": this.handleMapEvents,
-                scope: this
-            });
-            deactivated = true;
-        }
-        return deactivated;
-    },
-    
-    /**
-     * Method: handleMapEvents
-     * 
-     * Parameters:
-     * evt - {Object}
-     */
-    handleMapEvents: function(evt) {
-        if (evt.type == "removelayer" || evt.property == "order") {
-            this.moveLayerToTop();
-        }
-    },
-    
-    /**
-     * Method: moveLayerToTop
-     * Moves the layer for this handler to the top, so mouse events can reach
-     * it.
-     */
-    moveLayerToTop: function() {
-        var index = Math.max(this.map.Z_INDEX_BASE['Feature'] - 1,
-            this.layer.getZIndex()) + 1;
-        this.layer.setZIndex(index);
-        
-    },
-    
-    /**
-     * Method: moveLayerBack
-     * Moves the layer back to the position determined by the map's layers
-     * array.
-     */
-    moveLayerBack: function() {
-        var index = this.layer.getZIndex() - 1;
-        if (index >= this.map.Z_INDEX_BASE['Feature']) {
-            this.layer.setZIndex(index);
-        } else {
-            this.map.setLayerZIndex(this.layer,
-                this.map.getLayerIndex(this.layer));
-        }
-    },
-
-    CLASS_NAME: "OpenLayers.Handler.Feature"
-});
 /* ======================================================================
     OpenLayers/StyleMap.js
    ====================================================================== */
@@ -25321,6 +23542,5026 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
     CLASS_NAME: "OpenLayers.Control.SelectFeature"
 });
 /* ======================================================================
+    OpenLayers/Handler/Keyboard.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Handler.js
+ * @requires OpenLayers/Events.js
+ */
+
+/**
+ * Class: OpenLayers.handler.Keyboard
+ * A handler for keyboard events.  Create a new instance with the
+ *     <OpenLayers.Handler.Keyboard> constructor.
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Handler> 
+ */
+OpenLayers.Handler.Keyboard = OpenLayers.Class(OpenLayers.Handler, {
+
+    /* http://www.quirksmode.org/js/keys.html explains key x-browser
+        key handling quirks in pretty nice detail */
+
+    /** 
+     * Constant: KEY_EVENTS
+     * keydown, keypress, keyup
+     */
+    KEY_EVENTS: ["keydown", "keyup"],
+
+    /** 
+    * Property: eventListener
+    * {Function}
+    */
+    eventListener: null,
+
+    /**
+     * Property: observeElement
+     * {DOMElement|String} The DOM element on which we listen for
+     *     key events. Default to the document.
+     */
+    observeElement: null,
+
+    /**
+     * Constructor: OpenLayers.Handler.Keyboard
+     * Returns a new keyboard handler.
+     * 
+     * Parameters:
+     * control - {<OpenLayers.Control>} The control that is making use of
+     *     this handler.  If a handler is being used without a control, the
+     *     handlers setMap method must be overridden to deal properly with
+     *     the map.
+     * callbacks - {Object} An object containing a single function to be
+     *     called when the drag operation is finished. The callback should
+     *     expect to recieve a single argument, the pixel location of the event.
+     *     Callbacks for 'keydown', 'keypress', and 'keyup' are supported.
+     * options - {Object} Optional object whose properties will be set on the
+     *     handler.
+     */
+    initialize: function(control, callbacks, options) {
+        OpenLayers.Handler.prototype.initialize.apply(this, arguments);
+        // cache the bound event listener method so it can be unobserved later
+        this.eventListener = OpenLayers.Function.bindAsEventListener(
+            this.handleKeyEvent, this
+        );
+    },
+    
+    /**
+     * Method: destroy
+     */
+    destroy: function() {
+        this.deactivate();
+        this.eventListener = null;
+        OpenLayers.Handler.prototype.destroy.apply(this, arguments);
+    },
+
+    /**
+     * Method: activate
+     */
+    activate: function() {
+        if (OpenLayers.Handler.prototype.activate.apply(this, arguments)) {
+            this.observeElement = this.observeElement || document;
+            for (var i=0, len=this.KEY_EVENTS.length; i<len; i++) {
+                OpenLayers.Event.observe(
+                    this.observeElement, this.KEY_EVENTS[i], this.eventListener);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    /**
+     * Method: deactivate
+     */
+    deactivate: function() {
+        var deactivated = false;
+        if (OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
+            for (var i=0, len=this.KEY_EVENTS.length; i<len; i++) {
+                OpenLayers.Event.stopObserving(
+                    this.observeElement, this.KEY_EVENTS[i], this.eventListener);
+            }
+            deactivated = true;
+        }
+        return deactivated;
+    },
+
+    /**
+     * Method: handleKeyEvent 
+     */
+    handleKeyEvent: function (evt) {
+        if (this.checkModifiers(evt)) {
+            this.callback(evt.type, [evt]);
+        }
+    },
+
+    CLASS_NAME: "OpenLayers.Handler.Keyboard"
+});
+/* ======================================================================
+    OpenLayers/Control/ModifyFeature.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Control/DragFeature.js
+ * @requires OpenLayers/Control/SelectFeature.js
+ * @requires OpenLayers/Handler/Keyboard.js
+ */
+
+/**
+ * Class: OpenLayers.Control.ModifyFeature
+ * Control to modify features.  When activated, a click renders the vertices
+ *     of a feature - these vertices can then be dragged.  By default, the
+ *     delete key will delete the vertex under the mouse.  New features are
+ *     added by dragging "virtual vertices" between vertices.  Create a new
+ *     control with the <OpenLayers.Control.ModifyFeature> constructor.
+ *
+ * Inherits From:
+ *  - <OpenLayers.Control>
+ */
+OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
+
+    /**
+     * APIProperty: geometryTypes
+     * {Array(String)} To restrict modification to a limited set of geometry
+     *     types, send a list of strings corresponding to the geometry class
+     *     names.
+     */
+    geometryTypes: null,
+
+    /**
+     * APIProperty: clickout
+     * {Boolean} Unselect features when clicking outside any feature.
+     *     Default is true.
+     */
+    clickout: true,
+
+    /**
+     * APIProperty: toggle
+     * {Boolean} Unselect a selected feature on click.
+     *      Default is true.
+     */
+    toggle: true,
+    
+    /**
+     * APIProperty: standalone
+     * {Boolean} Set to true to create a control without SelectFeature
+     *     capabilities. Default is false.  If standalone is true, to modify
+     *     a feature, call the <selectFeature> method with the target feature.
+     *     Note that you must call the <unselectFeature> method to finish
+     *     feature modification in standalone mode (before starting to modify
+     *     another feature).
+     */
+    standalone: false,
+
+    /**
+     * Property: layer
+     * {<OpenLayers.Layer.Vector>}
+     */
+    layer: null,
+    
+    /**
+     * Property: feature
+     * {<OpenLayers.Feature.Vector>} Feature currently available for modification.
+     */
+    feature: null,
+    
+    /**
+     * Property: vertices
+     * {Array(<OpenLayers.Feature.Vector>)} Verticies currently available
+     *     for dragging.
+     */
+    vertices: null,
+    
+    /**
+     * Property: virtualVertices
+     * {Array(<OpenLayers.Feature.Vector>)} Virtual vertices in the middle
+     *     of each edge.
+     */
+    virtualVertices: null,
+
+    /**
+     * Property: selectControl
+     * {<OpenLayers.Control.SelectFeature>}
+     */
+    selectControl: null,
+    
+    /**
+     * Property: dragControl
+     * {<OpenLayers.Control.DragFeature>}
+     */
+    dragControl: null,
+    
+    /**
+     * Property: handlers
+     * {Object}
+     */
+    handlers: null,
+    
+    /**
+     * APIProperty: deleteCodes
+     * {Array(Integer)} Keycodes for deleting verticies.  Set to null to disable
+     *     vertex deltion by keypress.  If non-null, keypresses with codes
+     *     in this array will delete vertices under the mouse. Default
+     *     is 46 and 68, the 'delete' and lowercase 'd' keys.
+     */
+    deleteCodes: null,
+
+    /**
+     * APIProperty: virtualStyle
+     * {Object} A symbolizer to be used for virtual vertices.
+     */
+    virtualStyle: null,
+    
+    /**
+     * APIProperty: vertexRenderIntent
+     * {String} The renderIntent to use for vertices. If no <virtualStyle> is
+     * provided, this renderIntent will also be used for virtual vertices, with
+     * a fillOpacity and strokeOpacity of 0.3. Default is null, which means
+     * that the layer's default style will be used for vertices.
+     */
+    vertexRenderIntent: null,
+
+    /**
+     * APIProperty: mode
+     * {Integer} Bitfields specifying the modification mode. Defaults to
+     *      OpenLayers.Control.ModifyFeature.RESHAPE. To set the mode to a
+     *      combination of options, use the | operator. For example, to allow
+     *      the control to both resize and rotate features, use the following
+     *      syntax
+     * (code)
+     * control.mode = OpenLayers.Control.ModifyFeature.RESIZE |
+     *                OpenLayers.Control.ModifyFeature.ROTATE;
+     *  (end)
+     */
+    mode: null,
+
+    /**
+     * APIProperty: createVertices
+     * {Boolean} Create new vertices by dragging the virtual vertices
+     *     in the middle of each edge. Default is true.
+     */
+    createVertices: true,
+
+    /**
+     * Property: modified
+     * {Boolean} The currently selected feature has been modified.
+     */
+    modified: false,
+
+    /**
+     * Property: radiusHandle
+     * {<OpenLayers.Feature.Vector>} A handle for rotating/resizing a feature.
+     */
+    radiusHandle: null,
+
+    /**
+     * Property: dragHandle
+     * {<OpenLayers.Feature.Vector>} A handle for dragging a feature.
+     */
+    dragHandle: null,
+
+    /**
+     * APIProperty: onModificationStart 
+     * {Function} *Deprecated*.  Register for "beforefeaturemodified" instead.
+     *     The "beforefeaturemodified" event is triggered on the layer before
+     *     any modification begins.
+     *
+     * Optional function to be called when a feature is selected
+     *     to be modified. The function should expect to be called with a
+     *     feature.  This could be used for example to allow to lock the
+     *     feature on server-side.
+     */
+    onModificationStart: function() {},
+
+    /**
+     * APIProperty: onModification
+     * {Function} *Deprecated*.  Register for "featuremodified" instead.
+     *     The "featuremodified" event is triggered on the layer with each
+     *     feature modification.
+     *
+     * Optional function to be called when a feature has been
+     *     modified.  The function should expect to be called with a feature.
+     */
+    onModification: function() {},
+
+    /**
+     * APIProperty: onModificationEnd
+     * {Function} *Deprecated*.  Register for "afterfeaturemodified" instead.
+     *     The "afterfeaturemodified" event is triggered on the layer after
+     *     a feature has been modified.
+     *
+     * Optional function to be called when a feature is finished 
+     *     being modified.  The function should expect to be called with a
+     *     feature.
+     */
+    onModificationEnd: function() {},
+
+    /**
+     * Constructor: OpenLayers.Control.ModifyFeature
+     * Create a new modify feature control.
+     *
+     * Parameters:
+     * layer - {<OpenLayers.Layer.Vector>} Layer that contains features that
+     *     will be modified.
+     * options - {Object} Optional object whose properties will be set on the
+     *     control.
+     */
+    initialize: function(layer, options) {
+        options = options || {};
+        this.layer = layer;
+        this.vertices = [];
+        this.virtualVertices = [];
+        this.virtualStyle = OpenLayers.Util.extend({},
+            this.layer.style ||
+            this.layer.styleMap.createSymbolizer(null, options.vertexRenderIntent)
+        );
+        this.virtualStyle.fillOpacity = 0.3;
+        this.virtualStyle.strokeOpacity = 0.3;
+        this.deleteCodes = [46, 68];
+        this.mode = OpenLayers.Control.ModifyFeature.RESHAPE;
+        OpenLayers.Control.prototype.initialize.apply(this, [options]);
+        if(!(OpenLayers.Util.isArray(this.deleteCodes))) {
+            this.deleteCodes = [this.deleteCodes];
+        }
+        var control = this;
+
+        // configure the select control
+        var selectOptions = {
+            geometryTypes: this.geometryTypes,
+            clickout: this.clickout,
+            toggle: this.toggle,
+            onBeforeSelect: this.beforeSelectFeature,
+            onSelect: this.selectFeature,
+            onUnselect: this.unselectFeature,
+            scope: this
+        };
+        if(this.standalone === false) {
+            this.selectControl = new OpenLayers.Control.SelectFeature(
+                layer, selectOptions
+            );
+        }
+
+        // configure the drag control
+        var dragOptions = {
+            geometryTypes: ["OpenLayers.Geometry.Point"],
+            onStart: function(feature, pixel) {
+                control.dragStart.apply(control, [feature, pixel]);
+            },
+            onDrag: function(feature, pixel) {
+                control.dragVertex.apply(control, [feature, pixel]);
+            },
+            onComplete: function(feature) {
+                control.dragComplete.apply(control, [feature]);
+            },
+            featureCallbacks: {
+                over: function(feature) {
+                    /**
+                     * In normal mode, the feature handler is set up to allow
+                     * dragging of all points.  In standalone mode, we only
+                     * want to allow dragging of sketch vertices and virtual
+                     * vertices - or, in the case of a modifiable point, the
+                     * point itself.
+                     */
+                    if(control.standalone !== true || feature._sketch ||
+                       control.feature === feature) {
+                        control.dragControl.overFeature.apply(
+                            control.dragControl, [feature]);
+                    }
+                }
+            }
+        };
+        this.dragControl = new OpenLayers.Control.DragFeature(
+            layer, dragOptions
+        );
+
+        // configure the keyboard handler
+        var keyboardOptions = {
+            keydown: this.handleKeypress
+        };
+        this.handlers = {
+            keyboard: new OpenLayers.Handler.Keyboard(this, keyboardOptions)
+        };
+    },
+
+    /**
+     * APIMethod: destroy
+     * Take care of things that are not handled in superclass.
+     */
+    destroy: function() {
+        this.layer = null;
+        this.standalone || this.selectControl.destroy();
+        this.dragControl.destroy();
+        OpenLayers.Control.prototype.destroy.apply(this, []);
+    },
+
+    /**
+     * APIMethod: activate
+     * Activate the control.
+     * 
+     * Returns:
+     * {Boolean} Successfully activated the control.
+     */
+    activate: function() {
+        return ((this.standalone || this.selectControl.activate()) &&
+                this.handlers.keyboard.activate() &&
+                OpenLayers.Control.prototype.activate.apply(this, arguments));
+    },
+
+    /**
+     * APIMethod: deactivate
+     * Deactivate the control.
+     *
+     * Returns: 
+     * {Boolean} Successfully deactivated the control.
+     */
+    deactivate: function() {
+        var deactivated = false;
+        // the return from the controls is unimportant in this case
+        if(OpenLayers.Control.prototype.deactivate.apply(this, arguments)) {
+            this.layer.removeFeatures(this.vertices, {silent: true});
+            this.layer.removeFeatures(this.virtualVertices, {silent: true});
+            this.vertices = [];
+            this.dragControl.deactivate();
+            var feature = this.feature;
+            var valid = feature && feature.geometry && feature.layer;
+            if(this.standalone === false) {
+                if(valid) {
+                    this.selectControl.unselect.apply(this.selectControl,
+                                                      [feature]);
+                }
+                this.selectControl.deactivate();
+            } else {
+                if(valid) {
+                    this.unselectFeature(feature);
+                }
+            }
+            this.handlers.keyboard.deactivate();
+            deactivated = true;
+        }
+        return deactivated;
+    },
+    
+    /**
+     * Method: beforeSelectFeature
+     * Called before a feature is selected.
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>} The feature about to be selected.
+     */
+    beforeSelectFeature: function(feature) {
+        return this.layer.events.triggerEvent(
+            "beforefeaturemodified", {feature: feature}
+        );
+    },
+
+    /**
+     * APIMethod: selectFeature
+     * Select a feature for modification in standalone mode. In non-standalone
+     * mode, this method is called when the select feature control selects a
+     * feature. Register a listener to the beforefeaturemodified event and
+     * return false to prevent feature modification.
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>} the selected feature.
+     */
+    selectFeature: function(feature) {
+        if (!this.standalone || this.beforeSelectFeature(feature) !== false) {
+            this.feature = feature;
+            this.modified = false;
+            this.resetVertices();
+            this.dragControl.activate();
+            this.onModificationStart(this.feature);
+        }
+        // keep track of geometry modifications
+        var modified = feature.modified;
+        if (feature.geometry && !(modified && modified.geometry)) {
+            this._originalGeometry = feature.geometry.clone();
+        }
+    },
+
+    /**
+     * APIMethod: unselectFeature
+     * Called when the select feature control unselects a feature.
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>} The unselected feature.
+     */
+    unselectFeature: function(feature) {
+        this.layer.removeFeatures(this.vertices, {silent: true});
+        this.vertices = [];
+        this.layer.destroyFeatures(this.virtualVertices, {silent: true});
+        this.virtualVertices = [];
+        if(this.dragHandle) {
+            this.layer.destroyFeatures([this.dragHandle], {silent: true});
+            delete this.dragHandle;
+        }
+        if(this.radiusHandle) {
+            this.layer.destroyFeatures([this.radiusHandle], {silent: true});
+            delete this.radiusHandle;
+        }
+        this.feature = null;
+        this.dragControl.deactivate();
+        this.onModificationEnd(feature);
+        this.layer.events.triggerEvent("afterfeaturemodified", {
+            feature: feature,
+            modified: this.modified
+        });
+        this.modified = false;
+    },
+
+    /**
+     * Method: dragStart
+     * Called by the drag feature control with before a feature is dragged.
+     *     This method is used to differentiate between points and vertices
+     *     of higher order geometries.  This respects the <geometryTypes>
+     *     property and forces a select of points when the drag control is
+     *     already active (and stops events from propagating to the select
+     *     control).
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>} The point or vertex about to be
+     *     dragged.
+     * pixel - {<OpenLayers.Pixel>} Pixel location of the mouse event.
+     */
+    dragStart: function(feature, pixel) {
+        // only change behavior if the feature is not in the vertices array
+        if(feature != this.feature && !feature.geometry.parent &&
+           feature != this.dragHandle && feature != this.radiusHandle) {
+            if(this.standalone === false && this.feature) {
+                // unselect the currently selected feature
+                this.selectControl.clickFeature.apply(this.selectControl,
+                                                      [this.feature]);
+            }
+            // check any constraints on the geometry type
+            if(this.geometryTypes == null ||
+               OpenLayers.Util.indexOf(this.geometryTypes,
+                                       feature.geometry.CLASS_NAME) != -1) {
+                // select the point
+                this.standalone || this.selectControl.clickFeature.apply(
+                                            this.selectControl, [feature]);
+                /**
+                 * TBD: These lines improve workflow by letting the user
+                 *     immediately start dragging after the mouse down.
+                 *     However, it is very ugly to be messing with controls
+                 *     and their handlers in this way.  I'd like a better
+                 *     solution if the workflow change is necessary.
+                 */
+                // prepare the point for dragging
+                this.dragControl.overFeature.apply(this.dragControl,
+                                                   [feature]);
+                this.dragControl.lastPixel = pixel;
+                this.dragControl.handlers.drag.started = true;
+                this.dragControl.handlers.drag.start = pixel;
+                this.dragControl.handlers.drag.last = pixel;
+            }
+        }
+    },
+    
+    /**
+     * Method: dragVertex
+     * Called by the drag feature control with each drag move of a vertex.
+     *
+     * Parameters:
+     * vertex - {<OpenLayers.Feature.Vector>} The vertex being dragged.
+     * pixel - {<OpenLayers.Pixel>} Pixel location of the mouse event.
+     */
+    dragVertex: function(vertex, pixel) {
+        this.modified = true;
+        /**
+         * Five cases:
+         * 1) dragging a simple point
+         * 2) dragging a virtual vertex
+         * 3) dragging a drag handle
+         * 4) dragging a real vertex
+         * 5) dragging a radius handle
+         */
+        if(this.feature.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+            // dragging a simple point
+            if(this.feature != vertex) {
+                this.feature = vertex;
+            }
+            this.layer.events.triggerEvent("vertexmodified", {
+                vertex: vertex.geometry,
+                feature: this.feature,
+                pixel: pixel
+            });
+        } else {
+            if(vertex._index) {
+                // dragging a virtual vertex
+                vertex.geometry.parent.addComponent(vertex.geometry,
+                                                    vertex._index);
+                // move from virtual to real vertex
+                delete vertex._index;
+                OpenLayers.Util.removeItem(this.virtualVertices, vertex);
+                this.vertices.push(vertex);
+            } else if(vertex == this.dragHandle) {
+                // dragging a drag handle
+                this.layer.removeFeatures(this.vertices, {silent: true});
+                this.vertices = [];
+                if(this.radiusHandle) {
+                    this.layer.destroyFeatures([this.radiusHandle], {silent: true});
+                    this.radiusHandle = null;
+                }
+            } else if(vertex !== this.radiusHandle) {
+                // dragging a real vertex
+                this.layer.events.triggerEvent("vertexmodified", {
+                    vertex: vertex.geometry,
+                    feature: this.feature,
+                    pixel: pixel
+                });
+            }
+            // dragging a radius handle - no special treatment
+            if(this.virtualVertices.length > 0) {
+                this.layer.destroyFeatures(this.virtualVertices, {silent: true});
+                this.virtualVertices = [];
+            }
+            this.layer.drawFeature(this.feature, this.standalone ? undefined :
+                                            this.selectControl.renderIntent);
+        }
+        // keep the vertex on top so it gets the mouseout after dragging
+        // this should be removed in favor of an option to draw under or
+        // maintain node z-index
+        this.layer.drawFeature(vertex);
+    },
+    
+    /**
+     * Method: dragComplete
+     * Called by the drag feature control when the feature dragging is complete.
+     *
+     * Parameters:
+     * vertex - {<OpenLayers.Feature.Vector>} The vertex being dragged.
+     */
+    dragComplete: function(vertex) {
+        this.resetVertices();
+        this.setFeatureState();
+        this.onModification(this.feature);
+        this.layer.events.triggerEvent("featuremodified", 
+                                       {feature: this.feature});
+    },
+    
+    /**
+     * Method: setFeatureState
+     * Called when the feature is modified.  If the current state is not
+     *     INSERT or DELETE, the state is set to UPDATE.
+     */
+    setFeatureState: function() {
+        if(this.feature.state != OpenLayers.State.INSERT &&
+           this.feature.state != OpenLayers.State.DELETE) {
+            this.feature.state = OpenLayers.State.UPDATE;
+            if (this.modified && this._originalGeometry) {
+                var feature = this.feature;
+                feature.modified = OpenLayers.Util.extend(feature.modified, {
+                    geometry: this._originalGeometry
+                });
+                delete this._originalGeometry;
+            }
+        }
+    },
+    
+    /**
+     * Method: resetVertices
+     */
+    resetVertices: function() {
+        // if coming from a drag complete we're about to destroy the vertex
+        // that was just dragged. For that reason, the drag feature control
+        // will never detect a mouse-out on that vertex, meaning that the drag
+        // handler won't be deactivated. This can cause errors because the drag
+        // feature control still has a feature to drag but that feature is
+        // destroyed. To prevent this, we call outFeature on the drag feature
+        // control if the control actually has a feature to drag.
+        if(this.dragControl.feature) {
+            this.dragControl.outFeature(this.dragControl.feature);
+        }
+        if(this.vertices.length > 0) {
+            this.layer.removeFeatures(this.vertices, {silent: true});
+            this.vertices = [];
+        }
+        if(this.virtualVertices.length > 0) {
+            this.layer.removeFeatures(this.virtualVertices, {silent: true});
+            this.virtualVertices = [];
+        }
+        if(this.dragHandle) {
+            this.layer.destroyFeatures([this.dragHandle], {silent: true});
+            this.dragHandle = null;
+        }
+        if(this.radiusHandle) {
+            this.layer.destroyFeatures([this.radiusHandle], {silent: true});
+            this.radiusHandle = null;
+        }
+        if(this.feature &&
+           this.feature.geometry.CLASS_NAME != "OpenLayers.Geometry.Point") {
+            if((this.mode & OpenLayers.Control.ModifyFeature.DRAG)) {
+                this.collectDragHandle();
+            }
+            if((this.mode & (OpenLayers.Control.ModifyFeature.ROTATE |
+                             OpenLayers.Control.ModifyFeature.RESIZE))) {
+                this.collectRadiusHandle();
+            }
+            if(this.mode & OpenLayers.Control.ModifyFeature.RESHAPE){
+                // Don't collect vertices when we're resizing
+                if (!(this.mode & OpenLayers.Control.ModifyFeature.RESIZE)){
+                    this.collectVertices();
+                }
+            }
+        }
+    },
+    
+    /**
+     * Method: handleKeypress
+     * Called by the feature handler on keypress.  This is used to delete
+     *     vertices. If the <deleteCode> property is set, vertices will
+     *     be deleted when a feature is selected for modification and
+     *     the mouse is over a vertex.
+     *
+     * Parameters:
+     * evt - {Event} Keypress event.
+     */
+    handleKeypress: function(evt) {
+        var code = evt.keyCode;
+        
+        // check for delete key
+        if(this.feature &&
+           OpenLayers.Util.indexOf(this.deleteCodes, code) != -1) {
+            var vertex = this.dragControl.feature;
+            if(vertex &&
+               OpenLayers.Util.indexOf(this.vertices, vertex) != -1 &&
+               !this.dragControl.handlers.drag.dragging &&
+               vertex.geometry.parent) {
+                // remove the vertex
+                vertex.geometry.parent.removeComponent(vertex.geometry);
+                this.layer.events.triggerEvent("vertexremoved", {
+                    vertex: vertex.geometry,
+                    feature: this.feature,
+                    pixel: evt.xy
+                });
+                this.layer.drawFeature(this.feature, this.standalone ?
+                                       undefined :
+                                       this.selectControl.renderIntent);
+                this.modified = true;
+                this.resetVertices();
+                this.setFeatureState();
+                this.onModification(this.feature);
+                this.layer.events.triggerEvent("featuremodified", 
+                                               {feature: this.feature});
+            }
+        }
+    },
+
+    /**
+     * Method: collectVertices
+     * Collect the vertices from the modifiable feature's geometry and push
+     *     them on to the control's vertices array.
+     */
+    collectVertices: function() {
+        this.vertices = [];
+        this.virtualVertices = [];        
+        var control = this;
+        function collectComponentVertices(geometry) {
+            var i, vertex, component, len;
+            if(geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+                vertex = new OpenLayers.Feature.Vector(geometry);
+                vertex._sketch = true;
+                vertex.renderIntent = control.vertexRenderIntent;
+                control.vertices.push(vertex);
+            } else {
+                var numVert = geometry.components.length;
+                if(geometry.CLASS_NAME == "OpenLayers.Geometry.LinearRing") {
+                    numVert -= 1;
+                }
+                for(i=0; i<numVert; ++i) {
+                    component = geometry.components[i];
+                    if(component.CLASS_NAME == "OpenLayers.Geometry.Point") {
+                        vertex = new OpenLayers.Feature.Vector(component);
+                        vertex._sketch = true;
+                        vertex.renderIntent = control.vertexRenderIntent;
+                        control.vertices.push(vertex);
+                    } else {
+                        collectComponentVertices(component);
+                    }
+                }
+                
+                // add virtual vertices in the middle of each edge
+                if (control.createVertices && geometry.CLASS_NAME != "OpenLayers.Geometry.MultiPoint") {
+                    for(i=0, len=geometry.components.length; i<len-1; ++i) {
+                        var prevVertex = geometry.components[i];
+                        var nextVertex = geometry.components[i + 1];
+                        if(prevVertex.CLASS_NAME == "OpenLayers.Geometry.Point" &&
+                           nextVertex.CLASS_NAME == "OpenLayers.Geometry.Point") {
+                            var x = (prevVertex.x + nextVertex.x) / 2;
+                            var y = (prevVertex.y + nextVertex.y) / 2;
+                            var point = new OpenLayers.Feature.Vector(
+                                new OpenLayers.Geometry.Point(x, y),
+                                null, control.virtualStyle
+                            );
+                            // set the virtual parent and intended index
+                            point.geometry.parent = geometry;
+                            point._index = i + 1;
+                            point._sketch = true;
+                            control.virtualVertices.push(point);
+                        }
+                    }
+                }
+            }
+        }
+        collectComponentVertices.call(this, this.feature.geometry);
+        this.layer.addFeatures(this.virtualVertices, {silent: true});
+        this.layer.addFeatures(this.vertices, {silent: true});
+    },
+
+    /**
+     * Method: collectDragHandle
+     * Collect the drag handle for the selected geometry.
+     */
+    collectDragHandle: function() {
+        var geometry = this.feature.geometry;
+        var center = geometry.getBounds().getCenterLonLat();
+        var originGeometry = new OpenLayers.Geometry.Point(
+            center.lon, center.lat
+        );
+        var origin = new OpenLayers.Feature.Vector(originGeometry);
+        originGeometry.move = function(x, y) {
+            OpenLayers.Geometry.Point.prototype.move.call(this, x, y);
+            geometry.move(x, y);
+        };
+        origin._sketch = true;
+        this.dragHandle = origin;
+        this.dragHandle.renderIntent = this.vertexRenderIntent;
+        this.layer.addFeatures([this.dragHandle], {silent: true});
+    },
+
+    /**
+     * Method: collectRadiusHandle
+     * Collect the radius handle for the selected geometry.
+     */
+    collectRadiusHandle: function() {
+        var geometry = this.feature.geometry;
+        var bounds = geometry.getBounds();
+        var center = bounds.getCenterLonLat();
+        var originGeometry = new OpenLayers.Geometry.Point(
+            center.lon, center.lat
+        );
+        var radiusGeometry = new OpenLayers.Geometry.Point(
+            bounds.right, bounds.bottom
+        );
+        var radius = new OpenLayers.Feature.Vector(radiusGeometry);
+        var resize = (this.mode & OpenLayers.Control.ModifyFeature.RESIZE);
+        var reshape = (this.mode & OpenLayers.Control.ModifyFeature.RESHAPE);
+        var rotate = (this.mode & OpenLayers.Control.ModifyFeature.ROTATE);
+
+        radiusGeometry.move = function(x, y) {
+            OpenLayers.Geometry.Point.prototype.move.call(this, x, y);
+            var dx1 = this.x - originGeometry.x;
+            var dy1 = this.y - originGeometry.y;
+            var dx0 = dx1 - x;
+            var dy0 = dy1 - y;
+            if(rotate) {
+                var a0 = Math.atan2(dy0, dx0);
+                var a1 = Math.atan2(dy1, dx1);
+                var angle = a1 - a0;
+                angle *= 180 / Math.PI;
+                geometry.rotate(angle, originGeometry);
+            }
+            if(resize) {
+                var scale, ratio;
+                // 'resize' together with 'reshape' implies that the aspect 
+                // ratio of the geometry will not be preserved whilst resizing 
+                if (reshape) {
+                    scale = dy1 / dy0;
+                    ratio = (dx1 / dx0) / scale;
+                } else {
+                    var l0 = Math.sqrt((dx0 * dx0) + (dy0 * dy0));
+                    var l1 = Math.sqrt((dx1 * dx1) + (dy1 * dy1));
+                    scale = l1 / l0;
+                }
+                geometry.resize(scale, originGeometry, ratio);
+            }
+        };
+        radius._sketch = true;
+        this.radiusHandle = radius;
+        this.radiusHandle.renderIntent = this.vertexRenderIntent;
+        this.layer.addFeatures([this.radiusHandle], {silent: true});
+    },
+
+    /**
+     * Method: setMap
+     * Set the map property for the control and all handlers.
+     *
+     * Parameters:
+     * map - {<OpenLayers.Map>} The control's map.
+     */
+    setMap: function(map) {
+        this.standalone || this.selectControl.setMap(map);
+        this.dragControl.setMap(map);
+        OpenLayers.Control.prototype.setMap.apply(this, arguments);
+    },
+
+    CLASS_NAME: "OpenLayers.Control.ModifyFeature"
+});
+
+/**
+ * Constant: RESHAPE
+ * {Integer} Constant used to make the control work in reshape mode
+ */
+OpenLayers.Control.ModifyFeature.RESHAPE = 1;
+/**
+ * Constant: RESIZE
+ * {Integer} Constant used to make the control work in resize mode
+ */
+OpenLayers.Control.ModifyFeature.RESIZE = 2;
+/**
+ * Constant: ROTATE
+ * {Integer} Constant used to make the control work in rotate mode
+ */
+OpenLayers.Control.ModifyFeature.ROTATE = 4;
+/**
+ * Constant: DRAG
+ * {Integer} Constant used to make the control work in drag mode
+ */
+OpenLayers.Control.ModifyFeature.DRAG = 8;
+/* ======================================================================
+    OpenLayers/Handler/MouseWheel.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Handler.js
+ */
+
+/**
+ * Class: OpenLayers.Handler.MouseWheel
+ * Handler for wheel up/down events.
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Handler>
+ */
+OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
+    /** 
+     * Property: wheelListener 
+     * {function} 
+     */
+    wheelListener: null,
+
+    /** 
+     * Property: mousePosition
+     * {<OpenLayers.Pixel>} mousePosition is necessary because
+     * evt.clientX/Y is buggy in Moz on wheel events, so we cache and use the
+     * value from the last mousemove.
+     */
+    mousePosition: null,
+
+    /**
+     * Property: interval
+     * {Integer} In order to increase server performance, an interval (in 
+     *     milliseconds) can be set to reduce the number of up/down events 
+     *     called. If set, a new up/down event will not be set until the 
+     *     interval has passed. 
+     *     Defaults to 0, meaning no interval. 
+     */
+    interval: 0,
+    
+    /**
+     * Property: delta
+     * {Integer} When interval is set, delta collects the mousewheel z-deltas
+     *     of the events that occur within the interval.
+     *      See also the cumulative option
+     */
+    delta: 0,
+    
+    /**
+     * Property: cumulative
+     * {Boolean} When interval is set: true to collect all the mousewheel 
+     *     z-deltas, false to only record the delta direction (positive or
+     *     negative)
+     */
+    cumulative: true,
+
+    /**
+     * Constructor: OpenLayers.Handler.MouseWheel
+     *
+     * Parameters:
+     * control - {<OpenLayers.Control>} 
+     * callbacks - {Object} An object containing a single function to be
+     *                          called when the drag operation is finished.
+     *                          The callback should expect to recieve a single
+     *                          argument, the point geometry.
+     * options - {Object} 
+     */
+    initialize: function(control, callbacks, options) {
+        OpenLayers.Handler.prototype.initialize.apply(this, arguments);
+        this.wheelListener = OpenLayers.Function.bindAsEventListener(
+            this.onWheelEvent, this
+        );
+    },
+
+    /**
+     * Method: destroy
+     */    
+    destroy: function() {
+        OpenLayers.Handler.prototype.destroy.apply(this, arguments);
+        this.wheelListener = null;
+    },
+
+    /**
+     *  Mouse ScrollWheel code thanks to http://adomas.org/javascript-mouse-wheel/
+     */
+
+    /** 
+     * Method: onWheelEvent
+     * Catch the wheel event and handle it xbrowserly
+     * 
+     * Parameters:
+     * e - {Event} 
+     */
+    onWheelEvent: function(e){
+        
+        // make sure we have a map and check keyboard modifiers
+        if (!this.map || !this.checkModifiers(e)) {
+            return;
+        }
+        
+        // Ride up the element's DOM hierarchy to determine if it or any of 
+        //  its ancestors was: 
+        //   * specifically marked as scrollable
+        //   * one of our layer divs
+        //   * the map div
+        //
+        var overScrollableDiv = false;
+        var overLayerDiv = false;
+        var overMapDiv = false;
+        
+        var elem = OpenLayers.Event.element(e);
+        while((elem != null) && !overMapDiv && !overScrollableDiv) {
+
+            if (!overScrollableDiv) {
+                try {
+                    if (elem.currentStyle) {
+                        overflow = elem.currentStyle["overflow"];
+                    } else {
+                        var style = 
+                            document.defaultView.getComputedStyle(elem, null);
+                        var overflow = style.getPropertyValue("overflow");
+                    }
+                    overScrollableDiv = ( overflow && 
+                        (overflow == "auto") || (overflow == "scroll") );
+                } catch(err) {
+                    //sometimes when scrolling in a popup, this causes 
+                    // obscure browser error
+                }
+            }
+
+            if (!overLayerDiv) {
+                for(var i=0, len=this.map.layers.length; i<len; i++) {
+                    // Are we in the layer div? Note that we have two cases
+                    // here: one is to catch EventPane layers, which have a 
+                    // pane above the layer (layer.pane)
+                    if (elem == this.map.layers[i].div 
+                        || elem == this.map.layers[i].pane) { 
+                        overLayerDiv = true;
+                        break;
+                    }
+                }
+            }
+            overMapDiv = (elem == this.map.div);
+
+            elem = elem.parentNode;
+        }
+        
+        // Logic below is the following:
+        //
+        // If we are over a scrollable div or not over the map div:
+        //  * do nothing (let the browser handle scrolling)
+        //
+        //    otherwise 
+        // 
+        //    If we are over the layer div: 
+        //     * zoom/in out
+        //     then
+        //     * kill event (so as not to also scroll the page after zooming)
+        //
+        //       otherwise
+        //
+        //       Kill the event (dont scroll the page if we wheel over the 
+        //        layerswitcher or the pan/zoom control)
+        //
+        if (!overScrollableDiv && overMapDiv) {
+            if (overLayerDiv) {
+                var delta = 0;
+                if (!e) {
+                    e = window.event;
+                }
+                if (e.wheelDelta) {
+                    delta = e.wheelDelta/120; 
+                    if (window.opera && window.opera.version() < 9.2) {
+                        delta = -delta;
+                    }
+                } else if (e.detail) {
+                    delta = -e.detail / 3;
+                }
+                this.delta = this.delta + delta;
+
+                if(this.interval) {
+                    window.clearTimeout(this._timeoutId);
+                    this._timeoutId = window.setTimeout(
+                        OpenLayers.Function.bind(function(){
+                            this.wheelZoom(e);
+                        }, this),
+                        this.interval
+                    );
+                } else {
+                    this.wheelZoom(e);
+                }
+            }
+            OpenLayers.Event.stop(e);
+        }
+    },
+
+    /**
+     * Method: wheelZoom
+     * Given the wheel event, we carry out the appropriate zooming in or out,
+     *     based on the 'wheelDelta' or 'detail' property of the event.
+     * 
+     * Parameters:
+     * e - {Event}
+     */
+    wheelZoom: function(e) {
+        var delta = this.delta;
+        this.delta = 0;
+        
+        if (delta) {
+            // add the mouse position to the event because mozilla has 
+            // a bug with clientX and clientY (see 
+            // https://bugzilla.mozilla.org/show_bug.cgi?id=352179)
+            // getLonLatFromViewPortPx(e) returns wrong values
+            if (this.mousePosition) {
+                e.xy = this.mousePosition;
+            } 
+            if (!e.xy) {
+                // If the mouse hasn't moved over the map yet, then
+                // we don't have a mouse position (in FF), so we just
+                // act as if the mouse was at the center of the map.
+                // Note that we can tell we are in the map -- and 
+                // this.map is ensured to be true above.
+                e.xy = this.map.getPixelFromLonLat(
+                    this.map.getCenter()
+                );
+            }
+            if (delta < 0) {
+                this.callback("down", [e, this.cumulative ? delta : -1]);
+            } else {
+                this.callback("up", [e, this.cumulative ? delta : 1]);
+            }
+        }
+    },
+    
+    /**
+     * Method: mousemove
+     * Update the stored mousePosition on every move.
+     * 
+     * Parameters:
+     * evt - {Event} The browser event
+     *
+     * Returns: 
+     * {Boolean} Allow event propagation
+     */
+    mousemove: function (evt) {
+        this.mousePosition = evt.xy;
+    },
+
+    /**
+     * Method: activate 
+     */
+    activate: function (evt) {
+        if (OpenLayers.Handler.prototype.activate.apply(this, arguments)) {
+            //register mousewheel events specifically on the window and document
+            var wheelListener = this.wheelListener;
+            OpenLayers.Event.observe(window, "DOMMouseScroll", wheelListener);
+            OpenLayers.Event.observe(window, "mousewheel", wheelListener);
+            OpenLayers.Event.observe(document, "mousewheel", wheelListener);
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    /**
+     * Method: deactivate 
+     */
+    deactivate: function (evt) {
+        if (OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
+            // unregister mousewheel events specifically on the window and document
+            var wheelListener = this.wheelListener;
+            OpenLayers.Event.stopObserving(window, "DOMMouseScroll", wheelListener);
+            OpenLayers.Event.stopObserving(window, "mousewheel", wheelListener);
+            OpenLayers.Event.stopObserving(document, "mousewheel", wheelListener);
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    CLASS_NAME: "OpenLayers.Handler.MouseWheel"
+});
+/* ======================================================================
+    OpenLayers/Symbolizer.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/BaseTypes/Class.js
+ */
+
+/**
+ * Class: OpenLayers.Symbolizer
+ * Base class representing a symbolizer used for feature rendering.
+ */
+OpenLayers.Symbolizer = OpenLayers.Class({
+    
+
+    /**
+     * APIProperty: zIndex
+     * {Number} The zIndex determines the rendering order for a symbolizer.
+     *     Symbolizers with larger zIndex values are rendered over symbolizers
+     *     with smaller zIndex values.  Default is 0.
+     */
+    zIndex: 0,
+    
+    /**
+     * Constructor: OpenLayers.Symbolizer
+     * Instances of this class are not useful.  See one of the subclasses.
+     *
+     * Parameters:
+     * config - {Object} An object containing properties to be set on the 
+     *     symbolizer.  Any documented symbolizer property can be set at 
+     *     construction.
+     *
+     * Returns:
+     * A new symbolizer.
+     */
+    initialize: function(config) {
+        OpenLayers.Util.extend(this, config);
+    },
+    
+    /** 
+     * APIMethod: clone
+     * Create a copy of this symbolizer.
+     *
+     * Returns a symbolizer of the same type with the same properties.
+     */
+    clone: function() {
+        var Type = eval(this.CLASS_NAME);
+        return new Type(OpenLayers.Util.extend({}, this));
+    },
+    
+    CLASS_NAME: "OpenLayers.Symbolizer"
+    
+});
+
+/* ======================================================================
+    OpenLayers/Symbolizer/Raster.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Symbolizer.js
+ */
+
+/**
+ * Class: OpenLayers.Symbolizer.Raster
+ * A symbolizer used to render raster images.
+ */
+OpenLayers.Symbolizer.Raster = OpenLayers.Class(OpenLayers.Symbolizer, {
+    
+    /**
+     * Constructor: OpenLayers.Symbolizer.Raster
+     * Create a symbolizer for rendering rasters.
+     *
+     * Parameters:
+     * config - {Object} An object containing properties to be set on the 
+     *     symbolizer.  Any documented symbolizer property can be set at 
+     *     construction.
+     *
+     * Returns:
+     * A new raster symbolizer.
+     */
+    initialize: function(config) {
+        OpenLayers.Symbolizer.prototype.initialize.apply(this, arguments);
+    },
+    
+    CLASS_NAME: "OpenLayers.Symbolizer.Raster"
+    
+});
+/* ======================================================================
+    OpenLayers/Geometry/MultiLineString.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Geometry/Collection.js
+ * @requires OpenLayers/Geometry/LineString.js
+ */
+
+/**
+ * Class: OpenLayers.Geometry.MultiLineString
+ * A MultiLineString is a geometry with multiple <OpenLayers.Geometry.LineString>
+ * components.
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Geometry.Collection>
+ *  - <OpenLayers.Geometry> 
+ */
+OpenLayers.Geometry.MultiLineString = OpenLayers.Class(
+  OpenLayers.Geometry.Collection, {
+
+    /**
+     * Property: componentTypes
+     * {Array(String)} An array of class names representing the types of
+     * components that the collection can include.  A null value means the
+     * component types are not restricted.
+     */
+    componentTypes: ["OpenLayers.Geometry.LineString"],
+
+    /**
+     * Constructor: OpenLayers.Geometry.MultiLineString
+     * Constructor for a MultiLineString Geometry.
+     *
+     * Parameters: 
+     * components - {Array(<OpenLayers.Geometry.LineString>)} 
+     *
+     */
+    
+    /**
+     * Method: split
+     * Use this geometry (the source) to attempt to split a target geometry.
+     * 
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>} The target geometry.
+     * options - {Object} Properties of this object will be used to determine
+     *     how the split is conducted.
+     *
+     * Valid options:
+     * mutual - {Boolean} Split the source geometry in addition to the target
+     *     geometry.  Default is false.
+     * edge - {Boolean} Allow splitting when only edges intersect.  Default is
+     *     true.  If false, a vertex on the source must be within the tolerance
+     *     distance of the intersection to be considered a split.
+     * tolerance - {Number} If a non-null value is provided, intersections
+     *     within the tolerance distance of an existing vertex on the source
+     *     will be assumed to occur at the vertex.
+     * 
+     * Returns:
+     * {Array} A list of geometries (of this same type as the target) that
+     *     result from splitting the target with the source geometry.  The
+     *     source and target geometry will remain unmodified.  If no split
+     *     results, null will be returned.  If mutual is true and a split
+     *     results, return will be an array of two arrays - the first will be
+     *     all geometries that result from splitting the source geometry and
+     *     the second will be all geometries that result from splitting the
+     *     target geometry.
+     */
+    split: function(geometry, options) {
+        var results = null;
+        var mutual = options && options.mutual;
+        var splits, sourceLine, sourceLines, sourceSplit, targetSplit;
+        var sourceParts = [];
+        var targetParts = [geometry];
+        for(var i=0, len=this.components.length; i<len; ++i) {
+            sourceLine = this.components[i];
+            sourceSplit = false;
+            for(var j=0; j < targetParts.length; ++j) { 
+                splits = sourceLine.split(targetParts[j], options);
+                if(splits) {
+                    if(mutual) {
+                        sourceLines = splits[0];
+                        for(var k=0, klen=sourceLines.length; k<klen; ++k) {
+                            if(k===0 && sourceParts.length) {
+                                sourceParts[sourceParts.length-1].addComponent(
+                                    sourceLines[k]
+                                );
+                            } else {
+                                sourceParts.push(
+                                    new OpenLayers.Geometry.MultiLineString([
+                                        sourceLines[k]
+                                    ])
+                                );
+                            }
+                        }
+                        sourceSplit = true;
+                        splits = splits[1];
+                    }
+                    if(splits.length) {
+                        // splice in new target parts
+                        splits.unshift(j, 1);
+                        Array.prototype.splice.apply(targetParts, splits);
+                        break;
+                    }
+                }
+            }
+            if(!sourceSplit) {
+                // source line was not hit
+                if(sourceParts.length) {
+                    // add line to existing multi
+                    sourceParts[sourceParts.length-1].addComponent(
+                        sourceLine.clone()
+                    );
+                } else {
+                    // create a fresh multi
+                    sourceParts = [
+                        new OpenLayers.Geometry.MultiLineString(
+                            sourceLine.clone()
+                        )
+                    ];
+                }
+            }
+        }
+        if(sourceParts && sourceParts.length > 1) {
+            sourceSplit = true;
+        } else {
+            sourceParts = [];
+        }
+        if(targetParts && targetParts.length > 1) {
+            targetSplit = true;
+        } else {
+            targetParts = [];
+        }
+        if(sourceSplit || targetSplit) {
+            if(mutual) {
+                results = [sourceParts, targetParts];
+            } else {
+                results = targetParts;
+            }
+        }
+        return results;
+    },
+    
+    /**
+     * Method: splitWith
+     * Split this geometry (the target) with the given geometry (the source).
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>} A geometry used to split this
+     *     geometry (the source).
+     * options - {Object} Properties of this object will be used to determine
+     *     how the split is conducted.
+     *
+     * Valid options:
+     * mutual - {Boolean} Split the source geometry in addition to the target
+     *     geometry.  Default is false.
+     * edge - {Boolean} Allow splitting when only edges intersect.  Default is
+     *     true.  If false, a vertex on the source must be within the tolerance
+     *     distance of the intersection to be considered a split.
+     * tolerance - {Number} If a non-null value is provided, intersections
+     *     within the tolerance distance of an existing vertex on the source
+     *     will be assumed to occur at the vertex.
+     * 
+     * Returns:
+     * {Array} A list of geometries (of this same type as the target) that
+     *     result from splitting the target with the source geometry.  The
+     *     source and target geometry will remain unmodified.  If no split
+     *     results, null will be returned.  If mutual is true and a split
+     *     results, return will be an array of two arrays - the first will be
+     *     all geometries that result from splitting the source geometry and
+     *     the second will be all geometries that result from splitting the
+     *     target geometry.
+     */
+    splitWith: function(geometry, options) {
+        var results = null;
+        var mutual = options && options.mutual;
+        var splits, targetLine, sourceLines, sourceSplit, targetSplit, sourceParts, targetParts;
+        if(geometry instanceof OpenLayers.Geometry.LineString) {
+            targetParts = [];
+            sourceParts = [geometry];
+            for(var i=0, len=this.components.length; i<len; ++i) {
+                targetSplit = false;
+                targetLine = this.components[i];
+                for(var j=0; j<sourceParts.length; ++j) {
+                    splits = sourceParts[j].split(targetLine, options);
+                    if(splits) {
+                        if(mutual) {
+                            sourceLines = splits[0];
+                            if(sourceLines.length) {
+                                // splice in new source parts
+                                sourceLines.unshift(j, 1);
+                                Array.prototype.splice.apply(sourceParts, sourceLines);
+                                j += sourceLines.length - 2;
+                            }
+                            splits = splits[1];
+                            if(splits.length === 0) {
+                                splits = [targetLine.clone()];
+                            }
+                        }
+                        for(var k=0, klen=splits.length; k<klen; ++k) {
+                            if(k===0 && targetParts.length) {
+                                targetParts[targetParts.length-1].addComponent(
+                                    splits[k]
+                                );
+                            } else {
+                                targetParts.push(
+                                    new OpenLayers.Geometry.MultiLineString([
+                                        splits[k]
+                                    ])
+                                );
+                            }
+                        }
+                        targetSplit = true;                    
+                    }
+                }
+                if(!targetSplit) {
+                    // target component was not hit
+                    if(targetParts.length) {
+                        // add it to any existing multi-line
+                        targetParts[targetParts.length-1].addComponent(
+                            targetLine.clone()
+                        );
+                    } else {
+                        // or start with a fresh multi-line
+                        targetParts = [
+                            new OpenLayers.Geometry.MultiLineString([
+                                targetLine.clone()
+                            ])
+                        ];
+                    }
+                    
+                }
+            }
+        } else {
+            results = geometry.split(this);
+        }
+        if(sourceParts && sourceParts.length > 1) {
+            sourceSplit = true;
+        } else {
+            sourceParts = [];
+        }
+        if(targetParts && targetParts.length > 1) {
+            targetSplit = true;
+        } else {
+            targetParts = [];
+        }
+        if(sourceSplit || targetSplit) {
+            if(mutual) {
+                results = [sourceParts, targetParts];
+            } else {
+                results = targetParts;
+            }
+        }
+        return results;
+    },
+
+    CLASS_NAME: "OpenLayers.Geometry.MultiLineString"
+});
+/* ======================================================================
+    OpenLayers/Format.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/BaseTypes/Class.js
+ * @requires OpenLayers/Util.js
+ */
+
+/**
+ * Class: OpenLayers.Format
+ * Base class for format reading/writing a variety of formats.  Subclasses
+ *     of OpenLayers.Format are expected to have read and write methods.
+ */
+OpenLayers.Format = OpenLayers.Class({
+    
+    /**
+     * Property: options
+     * {Object} A reference to options passed to the constructor.
+     */
+    options: null,
+    
+    /**
+     * APIProperty: externalProjection
+     * {<OpenLayers.Projection>} When passed a externalProjection and
+     *     internalProjection, the format will reproject the geometries it
+     *     reads or writes. The externalProjection is the projection used by
+     *     the content which is passed into read or which comes out of write.
+     *     In order to reproject, a projection transformation function for the
+     *     specified projections must be available. This support may be 
+     *     provided via proj4js or via a custom transformation function. See
+     *     {<OpenLayers.Projection.addTransform>} for more information on
+     *     custom transformations.
+     */
+    externalProjection: null,
+
+    /**
+     * APIProperty: internalProjection
+     * {<OpenLayers.Projection>} When passed a externalProjection and
+     *     internalProjection, the format will reproject the geometries it
+     *     reads or writes. The internalProjection is the projection used by
+     *     the geometries which are returned by read or which are passed into
+     *     write.  In order to reproject, a projection transformation function
+     *     for the specified projections must be available. This support may be
+     *     provided via proj4js or via a custom transformation function. See
+     *     {<OpenLayers.Projection.addTransform>} for more information on
+     *     custom transformations.
+     */
+    internalProjection: null,
+
+    /**
+     * APIProperty: data
+     * {Object} When <keepData> is true, this is the parsed string sent to
+     *     <read>.
+     */
+    data: null,
+
+    /**
+     * APIProperty: keepData
+     * {Object} Maintain a reference (<data>) to the most recently read data.
+     *     Default is false.
+     */
+    keepData: false,
+
+    /**
+     * Constructor: OpenLayers.Format
+     * Instances of this class are not useful.  See one of the subclasses.
+     *
+     * Parameters:
+     * options - {Object} An optional object with properties to set on the
+     *           format
+     *
+     * Valid options:
+     * keepData - {Boolean} If true, upon <read>, the data property will be
+     *     set to the parsed object (e.g. the json or xml object).
+     *
+     * Returns:
+     * An instance of OpenLayers.Format
+     */
+    initialize: function(options) {
+        OpenLayers.Util.extend(this, options);
+        this.options = options;
+    },
+    
+    /**
+     * APIMethod: destroy
+     * Clean up.
+     */
+    destroy: function() {
+    },
+
+    /**
+     * Method: read
+     * Read data from a string, and return an object whose type depends on the
+     * subclass. 
+     * 
+     * Parameters:
+     * data - {string} Data to read/parse.
+     *
+     * Returns:
+     * Depends on the subclass
+     */
+    read: function(data) {
+        throw new Error('Read not implemented.');
+    },
+    
+    /**
+     * Method: write
+     * Accept an object, and return a string. 
+     *
+     * Parameters:
+     * object - {Object} Object to be serialized
+     *
+     * Returns:
+     * {String} A string representation of the object.
+     */
+    write: function(object) {
+        throw new Error('Write not implemented.');
+    },
+
+    CLASS_NAME: "OpenLayers.Format"
+});     
+/* ======================================================================
+    OpenLayers/Format/JSON.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * Note:
+ * This work draws heavily from the public domain JSON serializer/deserializer
+ *     at http://www.json.org/json.js. Rewritten so that it doesn't modify
+ *     basic data prototypes.
+ */
+
+/**
+ * @requires OpenLayers/Format.js
+ */
+
+/**
+ * Class: OpenLayers.Format.JSON
+ * A parser to read/write JSON safely.  Create a new instance with the
+ *     <OpenLayers.Format.JSON> constructor.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Format>
+ */
+OpenLayers.Format.JSON = OpenLayers.Class(OpenLayers.Format, {
+    
+    /**
+     * APIProperty: indent
+     * {String} For "pretty" printing, the indent string will be used once for
+     *     each indentation level.
+     */
+    indent: "    ",
+    
+    /**
+     * APIProperty: space
+     * {String} For "pretty" printing, the space string will be used after
+     *     the ":" separating a name/value pair.
+     */
+    space: " ",
+    
+    /**
+     * APIProperty: newline
+     * {String} For "pretty" printing, the newline string will be used at the
+     *     end of each name/value pair or array item.
+     */
+    newline: "\n",
+    
+    /**
+     * Property: level
+     * {Integer} For "pretty" printing, this is incremented/decremented during
+     *     serialization.
+     */
+    level: 0,
+
+    /**
+     * Property: pretty
+     * {Boolean} Serialize with extra whitespace for structure.  This is set
+     *     by the <write> method.
+     */
+    pretty: false,
+
+    /**
+     * Property: nativeJSON
+     * {Boolean} Does the browser support native json?
+     */
+    nativeJSON: (function() {
+        return !!(window.JSON && typeof JSON.parse == "function" && typeof JSON.stringify == "function");
+    })(),
+
+    /**
+     * Constructor: OpenLayers.Format.JSON
+     * Create a new parser for JSON.
+     *
+     * Parameters:
+     * options - {Object} An optional object whose properties will be set on
+     *     this instance.
+     */
+
+    /**
+     * APIMethod: read
+     * Deserialize a json string.
+     *
+     * Parameters:
+     * json - {String} A JSON string
+     * filter - {Function} A function which will be called for every key and
+     *     value at every level of the final result. Each value will be
+     *     replaced by the result of the filter function. This can be used to
+     *     reform generic objects into instances of classes, or to transform
+     *     date strings into Date objects.
+     *     
+     * Returns:
+     * {Object} An object, array, string, or number .
+     */
+    read: function(json, filter) {
+        var object;
+        if (this.nativeJSON) {
+            object = JSON.parse(json, filter);
+        } else try {
+            /**
+             * Parsing happens in three stages. In the first stage, we run the
+             *     text against a regular expression which looks for non-JSON
+             *     characters. We are especially concerned with '()' and 'new'
+             *     because they can cause invocation, and '=' because it can
+             *     cause mutation. But just to be safe, we will reject all
+             *     unexpected characters.
+             */
+            if (/^[\],:{}\s]*$/.test(json.replace(/\\["\\\/bfnrtu]/g, '@').
+                                replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+                                replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+
+                /**
+                 * In the second stage we use the eval function to compile the
+                 *     text into a JavaScript structure. The '{' operator is
+                 *     subject to a syntactic ambiguity in JavaScript - it can
+                 *     begin a block or an object literal. We wrap the text in
+                 *     parens to eliminate the ambiguity.
+                 */
+                object = eval('(' + json + ')');
+
+                /**
+                 * In the optional third stage, we recursively walk the new
+                 *     structure, passing each name/value pair to a filter
+                 *     function for possible transformation.
+                 */
+                if(typeof filter === 'function') {
+                    function walk(k, v) {
+                        if(v && typeof v === 'object') {
+                            for(var i in v) {
+                                if(v.hasOwnProperty(i)) {
+                                    v[i] = walk(i, v[i]);
+                                }
+                            }
+                        }
+                        return filter(k, v);
+                    }
+                    object = walk('', object);
+                }
+            }
+        } catch(e) {
+            // Fall through if the regexp test fails.
+        }
+
+        if(this.keepData) {
+            this.data = object;
+        }
+
+        return object;
+    },
+
+    /**
+     * APIMethod: write
+     * Serialize an object into a JSON string.
+     *
+     * Parameters:
+     * value - {String} The object, array, string, number, boolean or date
+     *     to be serialized.
+     * pretty - {Boolean} Structure the output with newlines and indentation.
+     *     Default is false.
+     *
+     * Returns:
+     * {String} The JSON string representation of the input value.
+     */
+    write: function(value, pretty) {
+        this.pretty = !!pretty;
+        var json = null;
+        var type = typeof value;
+        if(this.serialize[type]) {
+            try {
+                json = (!this.pretty && this.nativeJSON) ?
+                    JSON.stringify(value) :
+                    this.serialize[type].apply(this, [value]);
+            } catch(err) {
+                OpenLayers.Console.error("Trouble serializing: " + err);
+            }
+        }
+        return json;
+    },
+    
+    /**
+     * Method: writeIndent
+     * Output an indentation string depending on the indentation level.
+     *
+     * Returns:
+     * {String} An appropriate indentation string.
+     */
+    writeIndent: function() {
+        var pieces = [];
+        if(this.pretty) {
+            for(var i=0; i<this.level; ++i) {
+                pieces.push(this.indent);
+            }
+        }
+        return pieces.join('');
+    },
+    
+    /**
+     * Method: writeNewline
+     * Output a string representing a newline if in pretty printing mode.
+     *
+     * Returns:
+     * {String} A string representing a new line.
+     */
+    writeNewline: function() {
+        return (this.pretty) ? this.newline : '';
+    },
+    
+    /**
+     * Method: writeSpace
+     * Output a string representing a space if in pretty printing mode.
+     *
+     * Returns:
+     * {String} A space.
+     */
+    writeSpace: function() {
+        return (this.pretty) ? this.space : '';
+    },
+
+    /**
+     * Property: serialize
+     * Object with properties corresponding to the serializable data types.
+     *     Property values are functions that do the actual serializing.
+     */
+    serialize: {
+        /**
+         * Method: serialize.object
+         * Transform an object into a JSON string.
+         *
+         * Parameters:
+         * object - {Object} The object to be serialized.
+         * 
+         * Returns:
+         * {String} A JSON string representing the object.
+         */
+        'object': function(object) {
+            // three special objects that we want to treat differently
+            if(object == null) {
+                return "null";
+            }
+            if(object.constructor == Date) {
+                return this.serialize.date.apply(this, [object]);
+            }
+            if(object.constructor == Array) {
+                return this.serialize.array.apply(this, [object]);
+            }
+            var pieces = ['{'];
+            this.level += 1;
+            var key, keyJSON, valueJSON;
+            
+            var addComma = false;
+            for(key in object) {
+                if(object.hasOwnProperty(key)) {
+                    // recursive calls need to allow for sub-classing
+                    keyJSON = OpenLayers.Format.JSON.prototype.write.apply(this,
+                                                    [key, this.pretty]);
+                    valueJSON = OpenLayers.Format.JSON.prototype.write.apply(this,
+                                                    [object[key], this.pretty]);
+                    if(keyJSON != null && valueJSON != null) {
+                        if(addComma) {
+                            pieces.push(',');
+                        }
+                        pieces.push(this.writeNewline(), this.writeIndent(),
+                                    keyJSON, ':', this.writeSpace(), valueJSON);
+                        addComma = true;
+                    }
+                }
+            }
+            
+            this.level -= 1;
+            pieces.push(this.writeNewline(), this.writeIndent(), '}');
+            return pieces.join('');
+        },
+        
+        /**
+         * Method: serialize.array
+         * Transform an array into a JSON string.
+         *
+         * Parameters:
+         * array - {Array} The array to be serialized
+         * 
+         * Returns:
+         * {String} A JSON string representing the array.
+         */
+        'array': function(array) {
+            var json;
+            var pieces = ['['];
+            this.level += 1;
+    
+            for(var i=0, len=array.length; i<len; ++i) {
+                // recursive calls need to allow for sub-classing
+                json = OpenLayers.Format.JSON.prototype.write.apply(this,
+                                                    [array[i], this.pretty]);
+                if(json != null) {
+                    if(i > 0) {
+                        pieces.push(',');
+                    }
+                    pieces.push(this.writeNewline(), this.writeIndent(), json);
+                }
+            }
+
+            this.level -= 1;    
+            pieces.push(this.writeNewline(), this.writeIndent(), ']');
+            return pieces.join('');
+        },
+        
+        /**
+         * Method: serialize.string
+         * Transform a string into a JSON string.
+         *
+         * Parameters:
+         * string - {String} The string to be serialized
+         * 
+         * Returns:
+         * {String} A JSON string representing the string.
+         */
+        'string': function(string) {
+            // If the string contains no control characters, no quote characters, and no
+            // backslash characters, then we can simply slap some quotes around it.
+            // Otherwise we must also replace the offending characters with safe
+            // sequences.    
+            var m = {
+                '\b': '\\b',
+                '\t': '\\t',
+                '\n': '\\n',
+                '\f': '\\f',
+                '\r': '\\r',
+                '"' : '\\"',
+                '\\': '\\\\'
+            };
+            if(/["\\\x00-\x1f]/.test(string)) {
+                return '"' + string.replace(/([\x00-\x1f\\"])/g, function(a, b) {
+                    var c = m[b];
+                    if(c) {
+                        return c;
+                    }
+                    c = b.charCodeAt();
+                    return '\\u00' +
+                        Math.floor(c / 16).toString(16) +
+                        (c % 16).toString(16);
+                }) + '"';
+            }
+            return '"' + string + '"';
+        },
+
+        /**
+         * Method: serialize.number
+         * Transform a number into a JSON string.
+         *
+         * Parameters:
+         * number - {Number} The number to be serialized.
+         *
+         * Returns:
+         * {String} A JSON string representing the number.
+         */
+        'number': function(number) {
+            return isFinite(number) ? String(number) : "null";
+        },
+        
+        /**
+         * Method: serialize.boolean
+         * Transform a boolean into a JSON string.
+         *
+         * Parameters:
+         * bool - {Boolean} The boolean to be serialized.
+         * 
+         * Returns:
+         * {String} A JSON string representing the boolean.
+         */
+        'boolean': function(bool) {
+            return String(bool);
+        },
+        
+        /**
+         * Method: serialize.object
+         * Transform a date into a JSON string.
+         *
+         * Parameters:
+         * date - {Date} The date to be serialized.
+         * 
+         * Returns:
+         * {String} A JSON string representing the date.
+         */
+        'date': function(date) {    
+            function format(number) {
+                // Format integers to have at least two digits.
+                return (number < 10) ? '0' + number : number;
+            }
+            return '"' + date.getFullYear() + '-' +
+                    format(date.getMonth() + 1) + '-' +
+                    format(date.getDate()) + 'T' +
+                    format(date.getHours()) + ':' +
+                    format(date.getMinutes()) + ':' +
+                    format(date.getSeconds()) + '"';
+        }
+    },
+
+    CLASS_NAME: "OpenLayers.Format.JSON" 
+
+});     
+/* ======================================================================
+    OpenLayers/Renderer/Elements.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Renderer.js
+ */
+
+/**
+ * Class: OpenLayers.ElementsIndexer
+ * This class takes care of figuring out which order elements should be
+ *     placed in the DOM based on given indexing methods. 
+ */
+OpenLayers.ElementsIndexer = OpenLayers.Class({
+   
+    /**
+     * Property: maxZIndex
+     * {Integer} This is the largest-most z-index value for a node
+     *     contained within the indexer.
+     */
+    maxZIndex: null,
+    
+    /**
+     * Property: order
+     * {Array<String>} This is an array of node id's stored in the
+     *     order that they should show up on screen. Id's higher up in the
+     *     array (higher array index) represent nodes with higher z-indeces.
+     */
+    order: null, 
+    
+    /**
+     * Property: indices
+     * {Object} This is a hash that maps node ids to their z-index value
+     *     stored in the indexer. This is done to make finding a nodes z-index 
+     *     value O(1).
+     */
+    indices: null,
+    
+    /**
+     * Property: compare
+     * {Function} This is the function used to determine placement of
+     *     of a new node within the indexer. If null, this defaults to to
+     *     the Z_ORDER_DRAWING_ORDER comparison method.
+     */
+    compare: null,
+    
+    /**
+     * APIMethod: initialize
+     * Create a new indexer with 
+     * 
+     * Parameters:
+     * yOrdering - {Boolean} Whether to use y-ordering.
+     */
+    initialize: function(yOrdering) {
+
+        this.compare = yOrdering ? 
+            OpenLayers.ElementsIndexer.IndexingMethods.Z_ORDER_Y_ORDER :
+            OpenLayers.ElementsIndexer.IndexingMethods.Z_ORDER_DRAWING_ORDER;
+
+        this.clear();
+    },
+    
+    /**
+     * APIMethod: insert
+     * Insert a new node into the indexer. In order to find the correct 
+     *     positioning for the node to be inserted, this method uses a binary 
+     *     search. This makes inserting O(log(n)). 
+     * 
+     * Parameters:
+     * newNode - {DOMElement} The new node to be inserted.
+     * 
+     * Returns
+     * {DOMElement} the node before which we should insert our newNode, or
+     *     null if newNode can just be appended.
+     */
+    insert: function(newNode) {
+        // If the node is known to the indexer, remove it so we can
+        // recalculate where it should go.
+        if (this.exists(newNode)) {
+            this.remove(newNode);
+        }
+        
+        var nodeId = newNode.id;
+        
+        this.determineZIndex(newNode);       
+
+        var leftIndex = -1;
+        var rightIndex = this.order.length;
+        var middle;
+
+        while (rightIndex - leftIndex > 1) {
+            middle = parseInt((leftIndex + rightIndex) / 2);
+            
+            var placement = this.compare(this, newNode,
+                OpenLayers.Util.getElement(this.order[middle]));
+            
+            if (placement > 0) {
+                leftIndex = middle;
+            } else {
+                rightIndex = middle;
+            } 
+        }
+        
+        this.order.splice(rightIndex, 0, nodeId);
+        this.indices[nodeId] = this.getZIndex(newNode);
+        
+        // If the new node should be before another in the index
+        // order, return the node before which we have to insert the new one;
+        // else, return null to indicate that the new node can be appended.
+        return this.getNextElement(rightIndex);
+    },
+    
+    /**
+     * APIMethod: remove
+     * 
+     * Parameters:
+     * node - {DOMElement} The node to be removed.
+     */
+    remove: function(node) {
+        var nodeId = node.id;
+        var arrayIndex = OpenLayers.Util.indexOf(this.order, nodeId);
+        if (arrayIndex >= 0) {
+            // Remove it from the order array, as well as deleting the node
+            // from the indeces hash.
+            this.order.splice(arrayIndex, 1);
+            delete this.indices[nodeId];
+            
+            // Reset the maxium z-index based on the last item in the 
+            // order array.
+            if (this.order.length > 0) {
+                var lastId = this.order[this.order.length - 1];
+                this.maxZIndex = this.indices[lastId];
+            } else {
+                this.maxZIndex = 0;
+            }
+        }
+    },
+    
+    /**
+     * APIMethod: clear
+     */
+    clear: function() {
+        this.order = [];
+        this.indices = {};
+        this.maxZIndex = 0;
+    },
+    
+    /**
+     * APIMethod: exists
+     *
+     * Parameters:
+     * node - {DOMElement} The node to test for existence.
+     *
+     * Returns:
+     * {Boolean} Whether or not the node exists in the indexer?
+     */
+    exists: function(node) {
+        return (this.indices[node.id] != null);
+    },
+
+    /**
+     * APIMethod: getZIndex
+     * Get the z-index value for the current node from the node data itself.
+     * 
+     * Parameters:
+     * node - {DOMElement} The node whose z-index to get.
+     * 
+     * Returns:
+     * {Integer} The z-index value for the specified node (from the node 
+     *     data itself).
+     */
+    getZIndex: function(node) {
+        return node._style.graphicZIndex;  
+    },
+    
+    /**
+     * Method: determineZIndex
+     * Determine the z-index for the current node if there isn't one, 
+     *     and set the maximum value if we've found a new maximum.
+     * 
+     * Parameters:
+     * node - {DOMElement} 
+     */
+    determineZIndex: function(node) {
+        var zIndex = node._style.graphicZIndex;
+        
+        // Everything must have a zIndex. If none is specified,
+        // this means the user *must* (hint: assumption) want this
+        // node to succomb to drawing order. To enforce drawing order
+        // over all indexing methods, we'll create a new z-index that's
+        // greater than any currently in the indexer.
+        if (zIndex == null) {
+            zIndex = this.maxZIndex;
+            node._style.graphicZIndex = zIndex; 
+        } else if (zIndex > this.maxZIndex) {
+            this.maxZIndex = zIndex;
+        }
+    },
+
+    /**
+     * APIMethod: getNextElement
+     * Get the next element in the order stack.
+     * 
+     * Parameters:
+     * index - {Integer} The index of the current node in this.order.
+     * 
+     * Returns:
+     * {DOMElement} the node following the index passed in, or
+     *     null.
+     */
+    getNextElement: function(index) {
+        var nextIndex = index + 1;
+        if (nextIndex < this.order.length) {
+            var nextElement = OpenLayers.Util.getElement(this.order[nextIndex]);
+            if (nextElement == undefined) {
+                nextElement = this.getNextElement(nextIndex);
+            }
+            return nextElement;
+        } else {
+            return null;
+        } 
+    },
+    
+    CLASS_NAME: "OpenLayers.ElementsIndexer"
+});
+
+/**
+ * Namespace: OpenLayers.ElementsIndexer.IndexingMethods
+ * These are the compare methods for figuring out where a new node should be 
+ *     placed within the indexer. These methods are very similar to general 
+ *     sorting methods in that they return -1, 0, and 1 to specify the 
+ *     direction in which new nodes fall in the ordering.
+ */
+OpenLayers.ElementsIndexer.IndexingMethods = {
+    
+    /**
+     * Method: Z_ORDER
+     * This compare method is used by other comparison methods.
+     *     It can be used individually for ordering, but is not recommended,
+     *     because it doesn't subscribe to drawing order.
+     * 
+     * Parameters:
+     * indexer - {<OpenLayers.ElementsIndexer>}
+     * newNode - {DOMElement}
+     * nextNode - {DOMElement}
+     * 
+     * Returns:
+     * {Integer}
+     */
+    Z_ORDER: function(indexer, newNode, nextNode) {
+        var newZIndex = indexer.getZIndex(newNode);
+
+        var returnVal = 0;
+        if (nextNode) {
+            var nextZIndex = indexer.getZIndex(nextNode);
+            returnVal = newZIndex - nextZIndex; 
+        }
+        
+        return returnVal;
+    },
+
+    /**
+     * APIMethod: Z_ORDER_DRAWING_ORDER
+     * This method orders nodes by their z-index, but does so in a way
+     *     that, if there are other nodes with the same z-index, the newest 
+     *     drawn will be the front most within that z-index. This is the 
+     *     default indexing method.
+     * 
+     * Parameters:
+     * indexer - {<OpenLayers.ElementsIndexer>}
+     * newNode - {DOMElement}
+     * nextNode - {DOMElement}
+     * 
+     * Returns:
+     * {Integer}
+     */
+    Z_ORDER_DRAWING_ORDER: function(indexer, newNode, nextNode) {
+        var returnVal = OpenLayers.ElementsIndexer.IndexingMethods.Z_ORDER(
+            indexer, 
+            newNode, 
+            nextNode
+        );
+        
+        // Make Z_ORDER subscribe to drawing order by pushing it above
+        // all of the other nodes with the same z-index.
+        if (nextNode && returnVal == 0) {
+            returnVal = 1;
+        }
+        
+        return returnVal;
+    },
+
+    /**
+     * APIMethod: Z_ORDER_Y_ORDER
+     * This one should really be called Z_ORDER_Y_ORDER_DRAWING_ORDER, as it
+     *     best describes which ordering methods have precedence (though, the 
+     *     name would be too long). This method orders nodes by their z-index, 
+     *     but does so in a way that, if there are other nodes with the same 
+     *     z-index, the nodes with the lower y position will be "closer" than 
+     *     those with a higher y position. If two nodes have the exact same y 
+     *     position, however, then this method will revert to using drawing  
+     *     order to decide placement.
+     * 
+     * Parameters:
+     * indexer - {<OpenLayers.ElementsIndexer>}
+     * newNode - {DOMElement}
+     * nextNode - {DOMElement}
+     * 
+     * Returns:
+     * {Integer}
+     */
+    Z_ORDER_Y_ORDER: function(indexer, newNode, nextNode) {
+        var returnVal = OpenLayers.ElementsIndexer.IndexingMethods.Z_ORDER(
+            indexer, 
+            newNode, 
+            nextNode
+        );
+        
+        if (nextNode && returnVal === 0) {            
+            var result = nextNode._boundsBottom - newNode._boundsBottom;
+            returnVal = (result === 0) ? 1 : result;
+        }
+        
+        return returnVal;       
+    }
+};
+
+/**
+ * Class: OpenLayers.Renderer.Elements
+ * This is another virtual class in that it should never be instantiated by 
+ *  itself as a Renderer. It exists because there is *tons* of shared 
+ *  functionality between different vector libraries which use nodes/elements
+ *  as a base for rendering vectors. 
+ * 
+ * The highlevel bits of code that are implemented here are the adding and 
+ *  removing of geometries, which is essentially the same for any 
+ *  element-based renderer. The details of creating each node and drawing the
+ *  paths are of course different, but the machinery is the same. 
+ * 
+ * Inherits:
+ *  - <OpenLayers.Renderer>
+ */
+OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
+
+    /**
+     * Property: rendererRoot
+     * {DOMElement}
+     */
+    rendererRoot: null,
+    
+    /**
+     * Property: root
+     * {DOMElement}
+     */
+    root: null,
+    
+    /**
+     * Property: vectorRoot
+     * {DOMElement}
+     */
+    vectorRoot: null,
+
+    /**
+     * Property: textRoot
+     * {DOMElement}
+     */
+    textRoot: null,
+
+    /**
+     * Property: xmlns
+     * {String}
+     */    
+    xmlns: null,
+    
+    /**
+     * Property: xOffset
+     * {Number} Offset to apply to the renderer viewport translation in x
+     * direction. If the renderer extent's center is on the right of the
+     * dateline (i.e. exceeds the world bounds), we shift the viewport to the
+     * left by one world width. This avoids that features disappear from the
+     * map viewport. Because our dateline handling logic in other places
+     * ensures that extents crossing the dateline always have a center
+     * exceeding the world bounds on the left, we need this offset to make sure
+     * that the same is true for the renderer extent in pixel space as well.
+     */
+    xOffset: 0,
+    
+    /**
+     * Property: rightOfDateLine
+     * {Boolean} Keeps track of the location of the map extent relative to the
+     * date line. The <setExtent> method compares this value (which is the one
+     * from the previous <setExtent> call) with the current position of the map
+     * extent relative to the date line and updates the xOffset when the extent
+     * has moved from one side of the date line to the other.
+     */
+    
+    /**
+     * Property: Indexer
+     * {<OpenLayers.ElementIndexer>} An instance of OpenLayers.ElementsIndexer 
+     *     created upon initialization if the zIndexing or yOrdering options
+     *     passed to this renderer's constructor are set to true.
+     */
+    indexer: null, 
+    
+    /**
+     * Constant: BACKGROUND_ID_SUFFIX
+     * {String}
+     */
+    BACKGROUND_ID_SUFFIX: "_background",
+    
+    /**
+     * Constant: LABEL_ID_SUFFIX
+     * {String}
+     */
+    LABEL_ID_SUFFIX: "_label",
+    
+    /**
+     * Constant: LABEL_OUTLINE_SUFFIX
+     * {String}
+     */
+    LABEL_OUTLINE_SUFFIX: "_outline",
+
+    /**
+     * Constructor: OpenLayers.Renderer.Elements
+     * 
+     * Parameters:
+     * containerID - {String}
+     * options - {Object} options for this renderer. 
+     *
+     * Supported options are:
+     *     yOrdering - {Boolean} Whether to use y-ordering
+     *     zIndexing - {Boolean} Whether to use z-indexing. Will be ignored
+     *         if yOrdering is set to true.
+     */
+    initialize: function(containerID, options) {
+        OpenLayers.Renderer.prototype.initialize.apply(this, arguments);
+
+        this.rendererRoot = this.createRenderRoot();
+        this.root = this.createRoot("_root");
+        this.vectorRoot = this.createRoot("_vroot");
+        this.textRoot = this.createRoot("_troot");
+        
+        this.root.appendChild(this.vectorRoot);
+        this.root.appendChild(this.textRoot);
+        
+        this.rendererRoot.appendChild(this.root);
+        this.container.appendChild(this.rendererRoot);
+        
+        if(options && (options.zIndexing || options.yOrdering)) {
+            this.indexer = new OpenLayers.ElementsIndexer(options.yOrdering);
+        }
+    },
+    
+    /**
+     * Method: destroy
+     */
+    destroy: function() {
+
+        this.clear(); 
+
+        this.rendererRoot = null;
+        this.root = null;
+        this.xmlns = null;
+
+        OpenLayers.Renderer.prototype.destroy.apply(this, arguments);
+    },
+    
+    /**
+     * Method: clear
+     * Remove all the elements from the root
+     */    
+    clear: function() {
+        var child;
+        var root = this.vectorRoot;
+        if (root) {
+            while (child = root.firstChild) {
+                root.removeChild(child);
+            }
+        }
+        root = this.textRoot;
+        if (root) {
+            while (child = root.firstChild) {
+                root.removeChild(child);
+            }
+        }
+        if (this.indexer) {
+            this.indexer.clear();
+        }
+    },
+    
+    /**
+     * Method: setExtent
+     * Set the visible part of the layer.
+     *
+     * Parameters:
+     * extent - {<OpenLayers.Bounds>}
+     * resolutionChanged - {Boolean}
+     *
+     * Returns:
+     * {Boolean} true to notify the layer that the new extent does not exceed
+     *     the coordinate range, and the features will not need to be redrawn.
+     *     False otherwise.
+     */
+    setExtent: function(extent, resolutionChanged) {
+        var coordSysUnchanged = OpenLayers.Renderer.prototype.setExtent.apply(this, arguments);
+        var resolution = this.getResolution();
+        if (this.map.baseLayer && this.map.baseLayer.wrapDateLine) {
+            var rightOfDateLine,
+                ratio = extent.getWidth() / this.map.getExtent().getWidth(),
+                extent = extent.scale(1 / ratio),
+                world = this.map.getMaxExtent();
+            if (world.right > extent.left && world.right < extent.right) {
+                rightOfDateLine = true;
+            } else if (world.left > extent.left && world.left < extent.right) {
+                rightOfDateLine = false;
+            }
+            if (rightOfDateLine !== this.rightOfDateLine || resolutionChanged) {
+                coordSysUnchanged = false;
+                this.xOffset = rightOfDateLine === true ?
+                    world.getWidth() / resolution : 0;
+            }
+            this.rightOfDateLine = rightOfDateLine;
+        }
+        return coordSysUnchanged;
+    },
+
+    /** 
+     * Method: getNodeType
+     * This function is in charge of asking the specific renderer which type
+     *     of node to create for the given geometry and style. All geometries
+     *     in an Elements-based renderer consist of one node and some
+     *     attributes. We have the nodeFactory() function which creates a node
+     *     for us, but it takes a 'type' as input, and that is precisely what
+     *     this function tells us.  
+     *  
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>}
+     * style - {Object}
+     * 
+     * Returns:
+     * {String} The corresponding node type for the specified geometry
+     */
+    getNodeType: function(geometry, style) { },
+
+    /** 
+     * Method: drawGeometry 
+     * Draw the geometry, creating new nodes, setting paths, setting style,
+     *     setting featureId on the node.  This method should only be called
+     *     by the renderer itself.
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>}
+     * style - {Object}
+     * featureId - {String}
+     * 
+     * Returns:
+     * {Boolean} true if the geometry has been drawn completely; null if
+     *     incomplete; false otherwise
+     */
+    drawGeometry: function(geometry, style, featureId) {
+        var className = geometry.CLASS_NAME;
+        var rendered = true;
+        if ((className == "OpenLayers.Geometry.Collection") ||
+            (className == "OpenLayers.Geometry.MultiPoint") ||
+            (className == "OpenLayers.Geometry.MultiLineString") ||
+            (className == "OpenLayers.Geometry.MultiPolygon")) {
+            for (var i = 0, len=geometry.components.length; i<len; i++) {
+                rendered = this.drawGeometry(
+                    geometry.components[i], style, featureId) && rendered;
+            }
+            return rendered;
+        }
+
+        rendered = false;
+        var removeBackground = false;
+        if (style.display != "none") {
+            if (style.backgroundGraphic) {
+                this.redrawBackgroundNode(geometry.id, geometry, style,
+                    featureId);
+            } else {
+                removeBackground = true;
+            }
+            rendered = this.redrawNode(geometry.id, geometry, style,
+                featureId);
+        }
+        if (rendered == false) {
+            var node = document.getElementById(geometry.id);
+            if (node) {
+                if (node._style.backgroundGraphic) {
+                    removeBackground = true;
+                }
+                node.parentNode.removeChild(node);
+            }
+        }
+        if (removeBackground) {
+            var node = document.getElementById(
+                geometry.id + this.BACKGROUND_ID_SUFFIX);
+            if (node) {
+                node.parentNode.removeChild(node);
+            }
+        }
+        return rendered;
+    },
+    
+    /**
+     * Method: redrawNode
+     * 
+     * Parameters:
+     * id - {String}
+     * geometry - {<OpenLayers.Geometry>}
+     * style - {Object}
+     * featureId - {String}
+     * 
+     * Returns:
+     * {Boolean} true if the complete geometry could be drawn, null if parts of
+     *     the geometry could not be drawn, false otherwise
+     */
+    redrawNode: function(id, geometry, style, featureId) {
+        style = this.applyDefaultSymbolizer(style);
+        // Get the node if it's already on the map.
+        var node = this.nodeFactory(id, this.getNodeType(geometry, style));
+        
+        // Set the data for the node, then draw it.
+        node._featureId = featureId;
+        node._boundsBottom = geometry.getBounds().bottom;
+        node._geometryClass = geometry.CLASS_NAME;
+        node._style = style;
+
+        var drawResult = this.drawGeometryNode(node, geometry, style);
+        if(drawResult === false) {
+            return false;
+        }
+         
+        node = drawResult.node;
+        
+        // Insert the node into the indexer so it can show us where to
+        // place it. Note that this operation is O(log(n)). If there's a
+        // performance problem (when dragging, for instance) this is
+        // likely where it would be.
+        if (this.indexer) {
+            var insert = this.indexer.insert(node);
+            if (insert) {
+                this.vectorRoot.insertBefore(node, insert);
+            } else {
+                this.vectorRoot.appendChild(node);
+            }
+        } else {
+            // if there's no indexer, simply append the node to root,
+            // but only if the node is a new one
+            if (node.parentNode !== this.vectorRoot){ 
+                this.vectorRoot.appendChild(node);
+            }
+        }
+        
+        this.postDraw(node);
+        
+        return drawResult.complete;
+    },
+    
+    /**
+     * Method: redrawBackgroundNode
+     * Redraws the node using special 'background' style properties. Basically
+     *     just calls redrawNode(), but instead of directly using the 
+     *     'externalGraphic', 'graphicXOffset', 'graphicYOffset', and 
+     *     'graphicZIndex' properties directly from the specified 'style' 
+     *     parameter, we create a new style object and set those properties 
+     *     from the corresponding 'background'-prefixed properties from 
+     *     specified 'style' parameter.
+     * 
+     * Parameters:
+     * id - {String}
+     * geometry - {<OpenLayers.Geometry>}
+     * style - {Object}
+     * featureId - {String}
+     * 
+     * Returns:
+     * {Boolean} true if the complete geometry could be drawn, null if parts of
+     *     the geometry could not be drawn, false otherwise
+     */
+    redrawBackgroundNode: function(id, geometry, style, featureId) {
+        var backgroundStyle = OpenLayers.Util.extend({}, style);
+        
+        // Set regular style attributes to apply to the background styles.
+        backgroundStyle.externalGraphic = backgroundStyle.backgroundGraphic;
+        backgroundStyle.graphicXOffset = backgroundStyle.backgroundXOffset;
+        backgroundStyle.graphicYOffset = backgroundStyle.backgroundYOffset;
+        backgroundStyle.graphicZIndex = backgroundStyle.backgroundGraphicZIndex;
+        backgroundStyle.graphicWidth = backgroundStyle.backgroundWidth || backgroundStyle.graphicWidth;
+        backgroundStyle.graphicHeight = backgroundStyle.backgroundHeight || backgroundStyle.graphicHeight;
+        
+        // Erase background styles.
+        backgroundStyle.backgroundGraphic = null;
+        backgroundStyle.backgroundXOffset = null;
+        backgroundStyle.backgroundYOffset = null;
+        backgroundStyle.backgroundGraphicZIndex = null;
+        
+        return this.redrawNode(
+            id + this.BACKGROUND_ID_SUFFIX, 
+            geometry, 
+            backgroundStyle, 
+            null
+        );
+    },
+
+    /**
+     * Method: drawGeometryNode
+     * Given a node, draw a geometry on the specified layer.
+     *     node and geometry are required arguments, style is optional.
+     *     This method is only called by the render itself.
+     *
+     * Parameters:
+     * node - {DOMElement}
+     * geometry - {<OpenLayers.Geometry>}
+     * style - {Object}
+     * 
+     * Returns:
+     * {Object} a hash with properties "node" (the drawn node) and "complete"
+     *     (null if parts of the geometry could not be drawn, false if nothing
+     *     could be drawn)
+     */
+    drawGeometryNode: function(node, geometry, style) {
+        style = style || node._style;
+
+        var options = {
+            'isFilled': style.fill === undefined ?
+                true :
+                style.fill,
+            'isStroked': style.stroke === undefined ?
+                !!style.strokeWidth :
+                style.stroke
+        };
+        var drawn;
+        switch (geometry.CLASS_NAME) {
+            case "OpenLayers.Geometry.Point":
+                if(style.graphic === false) {
+                    options.isFilled = false;
+                    options.isStroked = false;
+                }
+                drawn = this.drawPoint(node, geometry);
+                break;
+            case "OpenLayers.Geometry.LineString":
+                options.isFilled = false;
+                drawn = this.drawLineString(node, geometry);
+                break;
+            case "OpenLayers.Geometry.LinearRing":
+                drawn = this.drawLinearRing(node, geometry);
+                break;
+            case "OpenLayers.Geometry.Polygon":
+                drawn = this.drawPolygon(node, geometry);
+                break;
+            case "OpenLayers.Geometry.Rectangle":
+                drawn = this.drawRectangle(node, geometry);
+                break;
+            default:
+                break;
+        }
+
+        node._options = options; 
+
+        //set style
+        //TBD simplify this
+        if (drawn != false) {
+            return {
+                node: this.setStyle(node, style, options, geometry),
+                complete: drawn
+            };
+        } else {
+            return false;
+        }
+    },
+    
+    /**
+     * Method: postDraw
+     * Things that have do be done after the geometry node is appended
+     *     to its parent node. To be overridden by subclasses.
+     * 
+     * Parameters:
+     * node - {DOMElement}
+     */
+    postDraw: function(node) {},
+    
+    /**
+     * Method: drawPoint
+     * Virtual function for drawing Point Geometry. 
+     *     Should be implemented by subclasses.
+     *     This method is only called by the renderer itself.
+     * 
+     * Parameters: 
+     * node - {DOMElement}
+     * geometry - {<OpenLayers.Geometry>}
+     * 
+     * Returns:
+     * {DOMElement} or false if the renderer could not draw the point
+     */ 
+    drawPoint: function(node, geometry) {},
+
+    /**
+     * Method: drawLineString
+     * Virtual function for drawing LineString Geometry. 
+     *     Should be implemented by subclasses.
+     *     This method is only called by the renderer itself.
+     * 
+     * Parameters: 
+     * node - {DOMElement}
+     * geometry - {<OpenLayers.Geometry>}
+     * 
+     * Returns:
+     * {DOMElement} or null if the renderer could not draw all components of
+     *     the linestring, or false if nothing could be drawn
+     */ 
+    drawLineString: function(node, geometry) {},
+
+    /**
+     * Method: drawLinearRing
+     * Virtual function for drawing LinearRing Geometry. 
+     *     Should be implemented by subclasses.
+     *     This method is only called by the renderer itself.
+     * 
+     * Parameters: 
+     * node - {DOMElement}
+     * geometry - {<OpenLayers.Geometry>}
+     * 
+     * Returns:
+     * {DOMElement} or null if the renderer could not draw all components
+     *     of the linear ring, or false if nothing could be drawn
+     */ 
+    drawLinearRing: function(node, geometry) {},
+
+    /**
+     * Method: drawPolygon
+     * Virtual function for drawing Polygon Geometry. 
+     *    Should be implemented by subclasses.
+     *    This method is only called by the renderer itself.
+     * 
+     * Parameters: 
+     * node - {DOMElement}
+     * geometry - {<OpenLayers.Geometry>}
+     * 
+     * Returns:
+     * {DOMElement} or null if the renderer could not draw all components
+     *     of the polygon, or false if nothing could be drawn
+     */ 
+    drawPolygon: function(node, geometry) {},
+
+    /**
+     * Method: drawRectangle
+     * Virtual function for drawing Rectangle Geometry. 
+     *     Should be implemented by subclasses.
+     *     This method is only called by the renderer itself.
+     * 
+     * Parameters: 
+     * node - {DOMElement}
+     * geometry - {<OpenLayers.Geometry>}
+     * 
+     * Returns:
+     * {DOMElement} or false if the renderer could not draw the rectangle
+     */ 
+    drawRectangle: function(node, geometry) {},
+
+    /**
+     * Method: drawCircle
+     * Virtual function for drawing Circle Geometry. 
+     *     Should be implemented by subclasses.
+     *     This method is only called by the renderer itself.
+     * 
+     * Parameters: 
+     * node - {DOMElement}
+     * geometry - {<OpenLayers.Geometry>}
+     * 
+     * Returns:
+     * {DOMElement} or false if the renderer could not draw the circle
+     */ 
+    drawCircle: function(node, geometry) {},
+
+    /**
+     * Method: removeText
+     * Removes a label
+     * 
+     * Parameters:
+     * featureId - {String}
+     */
+    removeText: function(featureId) {
+        var label = document.getElementById(featureId + this.LABEL_ID_SUFFIX);
+        if (label) {
+            this.textRoot.removeChild(label);
+        }
+        var outline = document.getElementById(featureId + this.LABEL_OUTLINE_SUFFIX);
+        if (outline) {
+            this.textRoot.removeChild(outline);
+        }
+    },
+
+    /**
+     * Method: getFeatureIdFromEvent
+     * 
+     * Parameters:
+     * evt - {Object} An <OpenLayers.Event> object
+     *
+     * Returns:
+     * {String} A feature id or undefined.
+     */
+    getFeatureIdFromEvent: function(evt) {
+        var target = evt.target;
+        var useElement = target && target.correspondingUseElement;
+        var node = useElement ? useElement : (target || evt.srcElement);
+        return node._featureId;
+    },
+
+    /** 
+     * Method: eraseGeometry
+     * Erase a geometry from the renderer. In the case of a multi-geometry, 
+     *     we cycle through and recurse on ourselves. Otherwise, we look for a 
+     *     node with the geometry.id, destroy its geometry, and remove it from
+     *     the DOM.
+     * 
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>}
+     * featureId - {String}
+     */
+    eraseGeometry: function(geometry, featureId) {
+        if ((geometry.CLASS_NAME == "OpenLayers.Geometry.MultiPoint") ||
+            (geometry.CLASS_NAME == "OpenLayers.Geometry.MultiLineString") ||
+            (geometry.CLASS_NAME == "OpenLayers.Geometry.MultiPolygon") ||
+            (geometry.CLASS_NAME == "OpenLayers.Geometry.Collection")) {
+            for (var i=0, len=geometry.components.length; i<len; i++) {
+                this.eraseGeometry(geometry.components[i], featureId);
+            }
+        } else {    
+            var element = OpenLayers.Util.getElement(geometry.id);
+            if (element && element.parentNode) {
+                if (element.geometry) {
+                    element.geometry.destroy();
+                    element.geometry = null;
+                }
+                element.parentNode.removeChild(element);
+
+                if (this.indexer) {
+                    this.indexer.remove(element);
+                }
+                
+                if (element._style.backgroundGraphic) {
+                    var backgroundId = geometry.id + this.BACKGROUND_ID_SUFFIX;
+                    var bElem = OpenLayers.Util.getElement(backgroundId);
+                    if (bElem && bElem.parentNode) {
+                        // No need to destroy the geometry since the element and the background
+                        // node share the same geometry.
+                        bElem.parentNode.removeChild(bElem);
+                    }
+                }
+            }
+        }
+    },
+
+    /** 
+     * Method: nodeFactory
+     * Create new node of the specified type, with the (optional) specified id.
+     * 
+     * If node already exists with same ID and a different type, we remove it
+     *     and then call ourselves again to recreate it.
+     * 
+     * Parameters:
+     * id - {String}
+     * type - {String} type Kind of node to draw.
+     * 
+     * Returns:
+     * {DOMElement} A new node of the given type and id.
+     */
+    nodeFactory: function(id, type) {
+        var node = OpenLayers.Util.getElement(id);
+        if (node) {
+            if (!this.nodeTypeCompare(node, type)) {
+                node.parentNode.removeChild(node);
+                node = this.nodeFactory(id, type);
+            }
+        } else {
+            node = this.createNode(type, id);
+        }
+        return node;
+    },
+    
+    /** 
+     * Method: nodeTypeCompare
+     * 
+     * Parameters:
+     * node - {DOMElement}
+     * type - {String} Kind of node
+     * 
+     * Returns:
+     * {Boolean} Whether or not the specified node is of the specified type
+     *     This function must be overridden by subclasses.
+     */
+    nodeTypeCompare: function(node, type) {},
+    
+    /** 
+     * Method: createNode
+     * 
+     * Parameters:
+     * type - {String} Kind of node to draw.
+     * id - {String} Id for node.
+     * 
+     * Returns:
+     * {DOMElement} A new node of the given type and id.
+     *     This function must be overridden by subclasses.
+     */
+    createNode: function(type, id) {},
+
+    /**
+     * Method: moveRoot
+     * moves this renderer's root to a different renderer.
+     * 
+     * Parameters:
+     * renderer - {<OpenLayers.Renderer>} target renderer for the moved root
+     */
+    moveRoot: function(renderer) {
+        var root = this.root;
+        if(renderer.root.parentNode == this.rendererRoot) {
+            root = renderer.root;
+        }
+        root.parentNode.removeChild(root);
+        renderer.rendererRoot.appendChild(root);
+    },
+    
+    /**
+     * Method: getRenderLayerId
+     * Gets the layer that this renderer's output appears on. If moveRoot was
+     * used, this will be different from the id of the layer containing the
+     * features rendered by this renderer.
+     * 
+     * Returns:
+     * {String} the id of the output layer.
+     */
+    getRenderLayerId: function() {
+        return this.root.parentNode.parentNode.id;
+    },
+    
+    /**
+     * Method: isComplexSymbol
+     * Determines if a symbol cannot be rendered using drawCircle
+     * 
+     * Parameters:
+     * graphicName - {String}
+     * 
+     * Returns
+     * {Boolean} true if the symbol is complex, false if not
+     */
+    isComplexSymbol: function(graphicName) {
+        return (graphicName != "circle") && !!graphicName;
+    },
+
+    CLASS_NAME: "OpenLayers.Renderer.Elements"
+});
+
+/* ======================================================================
+    OpenLayers/Layer/TMS.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+
+/**
+ * @requires OpenLayers/Layer/Grid.js
+ */
+
+/**
+ * Class: OpenLayers.Layer.TMS
+ * Create a layer for accessing tiles from services that conform with the 
+ *     Tile Map Service Specification 
+ *     (http://wiki.osgeo.org/wiki/Tile_Map_Service_Specification).
+ *
+ * Example:
+ * (code)
+ *     var layer = new OpenLayers.Layer.TMS(
+ *         "My Layer", // name for display in LayerSwitcher
+ *         "http://tilecache.osgeo.org/wms-c/Basic.py/", // service endpoint
+ *         {layername: "basic", type: "png"} // required properties
+ *     );
+ * (end)
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Layer.Grid>
+ */
+OpenLayers.Layer.TMS = OpenLayers.Class(OpenLayers.Layer.Grid, {
+
+    /**
+     * APIProperty: serviceVersion
+     * {String} Service version for tile requests.  Default is "1.0.0".
+     */
+    serviceVersion: "1.0.0",
+
+    /**
+     * APIProperty: layername
+     * {String} The identifier for the <TileMap> as advertised by the service.  
+     *     For example, if the service advertises a <TileMap> with 
+     *    'href="http://tms.osgeo.org/1.0.0/vmap0"', the <layername> property 
+     *     would be set to "vmap0".
+     */
+    layername: null,
+
+    /**
+     * APIProperty: type
+     * {String} The format extension corresponding to the requested tile image
+     *     type.  This is advertised in a <TileFormat> element as the 
+     *     "extension" attribute.  For example, if the service advertises a 
+     *     <TileMap> with <TileFormat width="256" height="256" mime-type="image/jpeg" extension="jpg" />,
+     *     the <type> property would be set to "jpg".
+     */
+    type: null,
+
+    /**
+     * APIProperty: isBaseLayer
+     * {Boolean} Make this layer a base layer.  Default is true.  Set false to
+     *     use the layer as an overlay.
+     */
+    isBaseLayer: true,
+
+    /**
+     * APIProperty: tileOrigin
+     * {<OpenLayers.LonLat>} Optional origin for aligning the grid of tiles.
+     *     If provided, requests for tiles at all resolutions will be aligned
+     *     with this location (no tiles shall overlap this location).  If
+     *     not provided, the grid of tiles will be aligned with the bottom-left
+     *     corner of the map's <maxExtent>.  Default is ``null``.
+     *
+     * Example:
+     * (code)
+     *     var layer = new OpenLayers.Layer.TMS(
+     *         "My Layer",
+     *         "http://tilecache.osgeo.org/wms-c/Basic.py/",
+     *         {
+     *             layername: "basic", 
+     *             type: "png",
+     *             // set if different than the bottom left of map.maxExtent
+     *             tileOrigin: new OpenLayers.LonLat(-180, -90)
+     *         }
+     *     );
+     * (end)
+     */
+    tileOrigin: null,
+
+    /**
+     * APIProperty: serverResolutions
+     * {Array} A list of all resolutions available on the server.  Only set this
+     *     property if the map resolutions differ from the server. This
+     *     property serves two purposes. (a) <serverResolutions> can include
+     *     resolutions that the server supports and that you don't want to
+     *     provide with this layer; you can also look at <zoomOffset>, which is
+     *     an alternative to <serverResolutions> for that specific purpose.
+     *     (b) The map can work with resolutions that aren't supported by
+     *     the server, i.e. that aren't in <serverResolutions>. When the
+     *     map is displayed in such a resolution data for the closest
+     *     server-supported resolution is loaded and the layer div is
+     *     stretched as necessary.
+     */
+    serverResolutions: null,
+
+    /**
+     * APIProperty: zoomOffset
+     * {Number} If your cache has more zoom levels than you want to provide
+     *     access to with this layer, supply a zoomOffset.  This zoom offset
+     *     is added to the current map zoom level to determine the level
+     *     for a requested tile.  For example, if you supply a zoomOffset
+     *     of 3, when the map is at the zoom 0, tiles will be requested from
+     *     level 3 of your cache.  Default is 0 (assumes cache level and map
+     *     zoom are equivalent).  Using <zoomOffset> is an alternative to
+     *     setting <serverResolutions> if you only want to expose a subset
+     *     of the server resolutions.
+     */
+    zoomOffset: 0,
+    
+    /**
+     * Constructor: OpenLayers.Layer.TMS
+     * 
+     * Parameters:
+     * name - {String} Title to be displayed in a <OpenLayers.Control.LayerSwitcher>
+     * url - {String} Service endpoint (without the version number).  E.g.
+     *     "http://tms.osgeo.org/".
+     * options - {Object} Additional properties to be set on the layer.  The
+     *     <layername> and <type> properties must be set here.
+     */
+    initialize: function(name, url, options) {
+        var newArguments = [];
+        newArguments.push(name, url, {}, options);
+        OpenLayers.Layer.Grid.prototype.initialize.apply(this, newArguments);
+    },    
+
+    /**
+     * APIMethod: clone
+     * Create a complete copy of this layer.
+     *
+     * Parameters:
+     * obj - {Object} Should only be provided by subclasses that call this
+     *     method.
+     * 
+     * Returns:
+     * {<OpenLayers.Layer.TMS>} An exact clone of this <OpenLayers.Layer.TMS>
+     */
+    clone: function (obj) {
+        
+        if (obj == null) {
+            obj = new OpenLayers.Layer.TMS(this.name,
+                                           this.url,
+                                           this.getOptions());
+        }
+
+        //get all additions from superclasses
+        obj = OpenLayers.Layer.Grid.prototype.clone.apply(this, [obj]);
+
+        // copy/set any non-init, non-simple values here
+
+        return obj;
+    },    
+    
+    /**
+     * Method: getURL
+     * 
+     * Parameters:
+     * bounds - {<OpenLayers.Bounds>}
+     * 
+     * Returns:
+     * {String} A string with the layer's url and parameters and also the 
+     *          passed-in bounds and appropriate tile size specified as 
+     *          parameters
+     */
+    getURL: function (bounds) {
+        bounds = this.adjustBounds(bounds);
+        var res = this.getServerResolution();
+        var x = Math.round((bounds.left - this.tileOrigin.lon) / (res * this.tileSize.w));
+        var y = Math.round((bounds.bottom - this.tileOrigin.lat) / (res * this.tileSize.h));
+        var z = this.getServerZoom();
+        var path = this.serviceVersion + "/" + this.layername + "/" + z + "/" + x + "/" + y + "." + this.type; 
+        var url = this.url;
+        if (OpenLayers.Util.isArray(url)) {
+            url = this.selectUrl(path, url);
+        }
+        return url + path;
+    },
+
+    /** 
+     * Method: setMap
+     * When the layer is added to a map, then we can fetch our origin 
+     *    (if we don't have one.) 
+     * 
+     * Parameters:
+     * map - {<OpenLayers.Map>}
+     */
+    setMap: function(map) {
+        OpenLayers.Layer.Grid.prototype.setMap.apply(this, arguments);
+        if (!this.tileOrigin) { 
+            this.tileOrigin = new OpenLayers.LonLat(this.map.maxExtent.left,
+                                                this.map.maxExtent.bottom);
+        }                                       
+    },
+
+    CLASS_NAME: "OpenLayers.Layer.TMS"
+});
+/* ======================================================================
+    OpenLayers/Strategy.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/BaseTypes/Class.js
+ */
+
+/**
+ * Class: OpenLayers.Strategy
+ * Abstract vector layer strategy class.  Not to be instantiated directly.  Use
+ *     one of the strategy subclasses instead.
+ */
+OpenLayers.Strategy = OpenLayers.Class({
+    
+    /**
+     * Property: layer
+     * {<OpenLayers.Layer.Vector>} The layer this strategy belongs to.
+     */
+    layer: null,
+    
+    /**
+     * Property: options
+     * {Object} Any options sent to the constructor.
+     */
+    options: null,
+
+    /** 
+     * Property: active 
+     * {Boolean} The control is active.
+     */
+    active: null,
+
+    /**
+     * Property: autoActivate
+     * {Boolean} The creator of the strategy can set autoActivate to false
+     *      to fully control when the protocol is activated and deactivated.
+     *      Defaults to true.
+     */
+    autoActivate: true,
+
+    /**
+     * Property: autoDestroy
+     * {Boolean} The creator of the strategy can set autoDestroy to false
+     *      to fully control when the strategy is destroyed. Defaults to
+     *      true.
+     */
+    autoDestroy: true,
+
+    /**
+     * Constructor: OpenLayers.Strategy
+     * Abstract class for vector strategies.  Create instances of a subclass.
+     *
+     * Parameters:
+     * options - {Object} Optional object whose properties will be set on the
+     *     instance.
+     */
+    initialize: function(options) {
+        OpenLayers.Util.extend(this, options);
+        this.options = options;
+        // set the active property here, so that user cannot override it
+        this.active = false;
+    },
+    
+    /**
+     * APIMethod: destroy
+     * Clean up the strategy.
+     */
+    destroy: function() {
+        this.deactivate();
+        this.layer = null;
+        this.options = null;
+    },
+
+    /**
+     * Method: setLayer
+     * Called to set the <layer> property.
+     *
+     * Parameters:
+     * layer - {<OpenLayers.Layer.Vector>}
+     */
+    setLayer: function(layer) {
+        this.layer = layer;
+    },
+    
+    /**
+     * Method: activate
+     * Activate the strategy.  Register any listeners, do appropriate setup.
+     *
+     * Returns:
+     * {Boolean} True if the strategy was successfully activated or false if
+     *      the strategy was already active.
+     */
+    activate: function() {
+        if (!this.active) {
+            this.active = true;
+            return true;
+        }
+        return false;
+    },
+    
+    /**
+     * Method: deactivate
+     * Deactivate the strategy.  Unregister any listeners, do appropriate
+     *     tear-down.
+     *
+     * Returns:
+     * {Boolean} True if the strategy was successfully deactivated or false if
+     *      the strategy was already inactive.
+     */
+    deactivate: function() {
+        if (this.active) {
+            this.active = false;
+            return true;
+        }
+        return false;
+    },
+   
+    CLASS_NAME: "OpenLayers.Strategy" 
+});
+/* ======================================================================
+    OpenLayers/Strategy/Fixed.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Strategy.js
+ */
+
+/**
+ * Class: OpenLayers.Strategy.Fixed
+ * A simple strategy that requests features once and never requests new data.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Strategy>
+ */
+OpenLayers.Strategy.Fixed = OpenLayers.Class(OpenLayers.Strategy, {
+    
+    /**
+     * APIProperty: preload
+     * {Boolean} Load data before layer made visible. Enabling this may result
+     *   in considerable overhead if your application loads many data layers
+     *   that are not visible by default. Default is false.
+     */
+    preload: false,
+
+    /**
+     * Constructor: OpenLayers.Strategy.Fixed
+     * Create a new Fixed strategy.
+     *
+     * Parameters:
+     * options - {Object} Optional object whose properties will be set on the
+     *     instance.
+     */
+
+    /**
+     * Method: activate
+     * Activate the strategy: load data or add listener to load when visible
+     *
+     * Returns:
+     * {Boolean} True if the strategy was successfully activated or false if
+     *      the strategy was already active.
+     */
+    activate: function() {
+        if(OpenLayers.Strategy.prototype.activate.apply(this, arguments)) {
+            this.layer.events.on({
+                "refresh": this.load,
+                scope: this
+            });
+            if(this.layer.visibility == true || this.preload) {
+                this.load();
+            } else {
+                this.layer.events.on({
+                    "visibilitychanged": this.load,
+                    scope: this
+                });
+            }
+            return true;
+        }
+        return false;
+    },
+    
+    /**
+     * Method: deactivate
+     * Deactivate the strategy.  Undo what is done in <activate>.
+     * 
+     * Returns:
+     * {Boolean} The strategy was successfully deactivated.
+     */
+    deactivate: function() {
+        var deactivated = OpenLayers.Strategy.prototype.deactivate.call(this);
+        if(deactivated) {
+            this.layer.events.un({
+                "refresh": this.load,
+                "visibilitychanged": this.load,
+                scope: this
+            });
+        }
+        return deactivated;
+    },
+
+    /**
+     * Method: load
+     * Tells protocol to load data and unhooks the visibilitychanged event
+     *
+     * Parameters:
+     * options - {Object} options to pass to protocol read.
+     */
+    load: function(options) {
+        var layer = this.layer;
+        layer.events.triggerEvent("loadstart");
+        layer.protocol.read(OpenLayers.Util.applyDefaults({
+            callback: OpenLayers.Function.bind(this.merge, this,
+                layer.map.getProjectionObject()),
+            filter: layer.filter
+        }, options));
+        layer.events.un({
+            "visibilitychanged": this.load,
+            scope: this
+        });
+    },
+
+    /**
+     * Method: merge
+     * Add all features to the layer.
+     *
+     * Parameters:
+     * mapProjection - {<OpenLayers.Projection>} the map projection
+     * resp - {Object} options to pass to protocol read.
+     */
+    merge: function(mapProjection, resp) {
+        var layer = this.layer;
+        layer.destroyFeatures();
+        var features = resp.features;
+        if (features && features.length > 0) {
+            if(!mapProjection.equals(layer.projection)) {
+                var geom;
+                for(var i=0, len=features.length; i<len; ++i) {
+                    geom = features[i].geometry;
+                    if(geom) {
+                        geom.transform(layer.projection, mapProjection);
+                    }
+                }
+            }
+            layer.addFeatures(features);
+        }
+        layer.events.triggerEvent("loadend");
+    },
+
+    CLASS_NAME: "OpenLayers.Strategy.Fixed"
+});
+/* ======================================================================
+    OpenLayers/Control/Snapping.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Control.js
+ * @requires OpenLayers/Layer/Vector.js
+ */
+
+/**
+ * Class: OpenLayers.Control.Snapping
+ * Acts as a snapping agent while editing vector features.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Control>
+ */
+OpenLayers.Control.Snapping = OpenLayers.Class(OpenLayers.Control, {
+
+    /** 
+     * APIProperty: events
+     * {<OpenLayers.Events>} Events instance for listeners and triggering
+     *     control specific events.
+     *
+     * Register a listener for a particular event with the following syntax:
+     * (code)
+     * control.events.register(type, obj, listener);
+     * (end)
+     *
+     * Supported event types (in addition to those from <OpenLayers.Control.events>):
+     * beforesnap - Triggered before a snap occurs.  Listeners receive an
+     *     event object with *point*, *x*, *y*, *distance*, *layer*, and
+     *     *snapType* properties.  The point property will be original point
+     *     geometry considered for snapping. The x and y properties represent
+     *     coordinates the point will receive. The distance is the distance
+     *     of the snap.  The layer is the target layer.  The snapType property
+     *     will be one of "node", "vertex", or "edge". Return false to stop
+     *     snapping from occurring.
+     * snap - Triggered when a snap occurs.  Listeners receive an event with
+     *     *point*, *snapType*, *layer*, and *distance* properties.  The point
+     *     will be the location snapped to.  The snapType will be one of "node",
+     *     "vertex", or "edge".  The layer will be the target layer.  The
+     *     distance will be the distance of the snap in map units.
+     * unsnap - Triggered when a vertex is unsnapped.  Listeners receive an
+     *     event with a *point* property.
+     */
+    
+    /**
+     * CONSTANT: DEFAULTS
+     * Default target properties.
+     */
+    DEFAULTS: {
+        tolerance: 10,
+        node: true,
+        edge: true,
+        vertex: true
+    },
+    
+    /**
+     * Property: greedy
+     * {Boolean} Snap to closest feature in first layer with an eligible
+     *     feature.  Default is true.
+     */
+    greedy: true,
+    
+    /**
+     * Property: precedence
+     * {Array} List representing precedence of different snapping types.
+     *     Default is "node", "vertex", "edge".
+     */
+    precedence: ["node", "vertex", "edge"],
+    
+    /**
+     * Property: resolution
+     * {Float} The map resolution for the previously considered snap.
+     */
+    resolution: null,
+    
+    /**
+     * Property: geoToleranceCache
+     * {Object} A cache of geo-tolerances.  Tolerance values (in map units) are
+     *     calculated when the map resolution changes.
+     */
+    geoToleranceCache: null,
+    
+    /**
+     * Property: layer
+     * {<OpenLayers.Layer.Vector>} The current editable layer.  Set at
+     *     construction or after construction with <setLayer>.
+     */
+    layer: null,
+    
+    /**
+     * Property: feature
+     * {<OpenLayers.Feature.Vector>} The current editable feature.
+     */
+    feature: null,
+    
+    /**
+     * Property: point
+     * {<OpenLayers.Geometry.Point>} The currently snapped vertex.
+     */
+    point: null,
+
+    /**
+     * Constructor: OpenLayers.Control.Snapping
+     * Creates a new snapping control. A control is constructed with an editable
+     *     layer and a set of configuration objects for target layers. While the
+     *     control is active, dragging vertices while drawing new features or
+     *     modifying existing features on the editable layer will engage
+     *     snapping to features on the target layers. Whether a vertex snaps to
+     *     a feature on a target layer depends on the target layer configuration.
+     *
+     * Parameters:
+     * options - {Object} An object containing all configuration properties for
+     *     the control.
+     *
+     * Valid options:
+     * layer - {<OpenLayers.Layer.Vector>} The editable layer.  Features from this
+     *     layer that are digitized or modified may have vertices snapped to
+     *     features from any of the target layers.
+     * targets - {Array(Object | OpenLayers.Layer.Vector)} A list of objects for
+     *     configuring target layers.  See valid properties of the target
+     *     objects below.  If the items in the targets list are vector layers
+     *     (instead of configuration objects), the defaults from the <defaults>
+     *     property will apply.  The editable layer itself may be a target
+     *     layer - allowing newly created or edited features to be snapped to
+     *     existing features from the same layer.  If no targets are provided
+     *     the layer given in the constructor (as <layer>) will become the
+     *     initial target.
+     * defaults - {Object} An object with default properties to be applied
+     *     to all target objects.
+     * greedy - {Boolean} Snap to closest feature in first target layer that
+     *     applies.  Default is true.  If false, all features in all target
+     *     layers will be checked and the closest feature in all target layers
+     *     will be chosen.  The greedy property determines if the order of the
+     *     target layers is significant.  By default, the order of the target
+     *     layers is significant where layers earlier in the target layer list
+     *     have precedence over layers later in the list.  Within a single
+     *     layer, the closest feature is always chosen for snapping.  This
+     *     property only determines whether the search for a closer feature
+     *     continues after an eligible feature is found in a target layer.
+     *
+     * Valid target properties:
+     * layer - {<OpenLayers.Layer.Vector>} A target layer.  Features from this
+     *     layer will be eligible to act as snapping target for the editable
+     *     layer.
+     * tolerance - {Float} The distance (in pixels) at which snapping may occur.
+     *     Default is 10.
+     * node - {Boolean} Snap to nodes (first or last point in a geometry) in
+     *     target layer.  Default is true.
+     * nodeTolerance - {Float} Optional distance at which snapping may occur
+     *     for nodes specifically.  If none is provided, <tolerance> will be
+     *     used.
+     * vertex - {Boolean} Snap to vertices in target layer.  Default is true.
+     * vertexTolerance - {Float} Optional distance at which snapping may occur
+     *     for vertices specifically.  If none is provided, <tolerance> will be
+     *     used.
+     * edge - {Boolean} Snap to edges in target layer.  Default is true.
+     * edgeTolerance - {Float} Optional distance at which snapping may occur
+     *     for edges specifically.  If none is provided, <tolerance> will be
+     *     used.
+     * filter - {<OpenLayers.Filter>} Optional filter to evaluate to determine if
+     *     feature is eligible for snapping.  If filter evaluates to true for a
+     *     target feature a vertex may be snapped to the feature. 
+     * minResolution - {Number} If a minResolution is provided, snapping to this
+     *     target will only be considered if the map resolution is greater than
+     *     or equal to this value (the minResolution is inclusive).  Default is
+     *     no minimum resolution limit.
+     * maxResolution - {Number} If a maxResolution is provided, snapping to this
+     *     target will only be considered if the map resolution is strictly
+     *     less than this value (the maxResolution is exclusive).  Default is
+     *     no maximum resolution limit.
+     */
+    initialize: function(options) {
+        OpenLayers.Control.prototype.initialize.apply(this, [options]);
+        this.options = options || {}; // TODO: this could be done by the super
+        
+        // set the editable layer if provided
+        if(this.options.layer) {
+            this.setLayer(this.options.layer);
+        }
+        // configure target layers
+        var defaults = OpenLayers.Util.extend({}, this.options.defaults);
+        this.defaults = OpenLayers.Util.applyDefaults(defaults, this.DEFAULTS);
+        this.setTargets(this.options.targets);
+        if(this.targets.length === 0 && this.layer) {
+            this.addTargetLayer(this.layer);
+        }
+
+        this.geoToleranceCache = {};
+    },
+    
+    /**
+     * APIMethod: setLayer
+     * Set the editable layer.  Call the setLayer method if the editable layer
+     *     changes and the same control should be used on a new editable layer.
+     *     If the control is already active, it will be active after the new
+     *     layer is set.
+     *
+     * Parameters:
+     * layer - {<OpenLayers.Layer.Vector>}  The new editable layer.
+     */
+    setLayer: function(layer) {
+        if(this.active) {
+            this.deactivate();
+            this.layer = layer;
+            this.activate();
+        } else {
+            this.layer = layer;
+        }
+    },
+    
+    /**
+     * Method: setTargets
+     * Set the targets for the snapping agent.
+     *
+     * Parameters:
+     * targets - {Array} An array of target configs or target layers.
+     */
+    setTargets: function(targets) {
+        this.targets = [];
+        if(targets && targets.length) {
+            var target;
+            for(var i=0, len=targets.length; i<len; ++i) {
+                target = targets[i];
+                if(target instanceof OpenLayers.Layer.Vector) {
+                    this.addTargetLayer(target);
+                } else {
+                    this.addTarget(target);
+                }
+            }
+        }
+    },
+    
+    /**
+     * Method: addTargetLayer
+     * Add a target layer with the default target config.
+     *
+     * Parameters:
+     * layer - {<OpenLayers.Layer.Vector>} A target layer.
+     */
+    addTargetLayer: function(layer) {
+        this.addTarget({layer: layer});
+    },
+    
+    /**
+     * Method: addTarget
+     * Add a configured target layer.
+     *
+     * Parameters:
+     * target - {Object} A target config.
+     */
+    addTarget: function(target) {
+        target = OpenLayers.Util.applyDefaults(target, this.defaults);
+        target.nodeTolerance = target.nodeTolerance || target.tolerance;
+        target.vertexTolerance = target.vertexTolerance || target.tolerance;
+        target.edgeTolerance = target.edgeTolerance || target.tolerance;
+        this.targets.push(target);
+    },
+    
+    /**
+     * Method: removeTargetLayer
+     * Remove a target layer.
+     *
+     * Parameters:
+     * layer - {<OpenLayers.Layer.Vector>} The target layer to remove.
+     */
+    removeTargetLayer: function(layer) {
+        var target;
+        for(var i=this.targets.length-1; i>=0; --i) {
+            target = this.targets[i];
+            if(target.layer === layer) {
+                this.removeTarget(target);
+            }
+        }
+    },
+    
+    /**
+     * Method: removeTarget
+     * Remove a target.
+     *
+     * Parameters:
+     * target - {Object} A target config.
+     *
+     * Returns:
+     * {Array} The targets array.
+     */
+    removeTarget: function(target) {
+        return OpenLayers.Util.removeItem(this.targets, target);
+    },
+    
+    /**
+     * APIMethod: activate
+     * Activate the control.  Activating the control registers listeners for
+     *     editing related events so that during feature creation and
+     *     modification, moving vertices will trigger snapping.
+     */
+    activate: function() {
+        var activated = OpenLayers.Control.prototype.activate.call(this);
+        if(activated) {
+            if(this.layer && this.layer.events) {
+                this.layer.events.on({
+                    sketchstarted: this.onSketchModified,
+                    sketchmodified: this.onSketchModified,
+                    vertexmodified: this.onVertexModified,
+                    scope: this
+                });
+            }
+        }
+        return activated;
+    },
+    
+    /**
+     * APIMethod: deactivate
+     * Deactivate the control.  Deactivating the control unregisters listeners
+     *     so feature editing may proceed without engaging the snapping agent.
+     */
+    deactivate: function() {
+        var deactivated = OpenLayers.Control.prototype.deactivate.call(this);
+        if(deactivated) {
+            if(this.layer && this.layer.events) {
+                this.layer.events.un({
+                    sketchstarted: this.onSketchModified,
+                    sketchmodified: this.onSketchModified,
+                    vertexmodified: this.onVertexModified,
+                    scope: this
+                });
+            }
+        }
+        this.feature = null;
+        this.point = null;
+        return deactivated;
+    },
+    
+    /**
+     * Method: onSketchModified
+     * Registered as a listener for the sketchmodified event on the editable
+     *     layer.
+     *
+     * Parameters:
+     * event - {Object} The sketch modified event.
+     */
+    onSketchModified: function(event) {
+        this.feature = event.feature;
+        this.considerSnapping(event.vertex, event.vertex);
+    },
+    
+    /**
+     * Method: onVertexModified
+     * Registered as a listener for the vertexmodified event on the editable
+     *     layer.
+     *
+     * Parameters:
+     * event - {Object} The vertex modified event.
+     */
+    onVertexModified: function(event) {
+        this.feature = event.feature;
+        var loc = this.layer.map.getLonLatFromViewPortPx(event.pixel);
+        this.considerSnapping(
+            event.vertex, new OpenLayers.Geometry.Point(loc.lon, loc.lat)
+        );
+    },
+
+    /**
+     * Method: considerSnapping
+     *
+     * Parameters:
+     * point - {<OpenLayers.Geometry.Point>} The vertex to be snapped (or
+     *     unsnapped).
+     * loc - {<OpenLayers.Geometry.Point>} The location of the mouse in map
+     *     coords.
+     */
+    considerSnapping: function(point, loc) {
+        var best = {
+            rank: Number.POSITIVE_INFINITY,
+            dist: Number.POSITIVE_INFINITY,
+            x: null, y: null
+        };
+        var snapped = false;
+        var result, target;
+        for(var i=0, len=this.targets.length; i<len; ++i) {
+            target = this.targets[i];
+            result = this.testTarget(target, loc);
+            if(result) {
+                if(this.greedy) {
+                    best = result;
+                    best.target = target; 
+                    snapped = true;
+                    break;
+                } else {
+                    if((result.rank < best.rank) ||
+                       (result.rank === best.rank && result.dist < best.dist)) {
+                        best = result;
+                        best.target = target;
+                        snapped = true;
+                    }
+                }
+            }
+        }
+        if(snapped) {
+            var proceed = this.events.triggerEvent("beforesnap", {
+                point: point, x: best.x, y: best.y, distance: best.dist,
+                layer: best.target.layer, snapType: this.precedence[best.rank]
+            });
+            if(proceed !== false) {
+                point.x = best.x;
+                point.y = best.y;
+                this.point = point;
+                this.events.triggerEvent("snap", {
+                    point: point,
+                    snapType: this.precedence[best.rank],
+                    layer: best.target.layer,
+                    distance: best.dist
+                });
+            } else {
+                snapped = false;
+            }
+        }
+        if(this.point && !snapped) {
+            point.x = loc.x;
+            point.y = loc.y;
+            this.point = null;
+            this.events.triggerEvent("unsnap", {point: point});
+        }
+    },
+    
+    /**
+     * Method: testTarget
+     *
+     * Parameters:
+     * target - {Object} Object with target layer configuration.
+     * loc - {<OpenLayers.Geometry.Point>} The location of the mouse in map
+     *     coords.
+     *
+     * Returns:
+     * {Object} A result object with rank, dist, x, and y properties.
+     *     Returns null if candidate is not eligible for snapping.
+     */
+    testTarget: function(target, loc) {
+        var resolution = this.layer.map.getResolution();
+        if ("minResolution" in target) {
+            if (resolution < target.minResolution) {
+                return null;
+            }
+        }
+        if ("maxResolution" in target) {
+            if (resolution >= target.maxResolution) {
+                return null;
+            }
+        }
+        var tolerance = {
+            node: this.getGeoTolerance(target.nodeTolerance, resolution),
+            vertex: this.getGeoTolerance(target.vertexTolerance, resolution),
+            edge: this.getGeoTolerance(target.edgeTolerance, resolution)
+        };
+        // this could be cached if we don't support setting tolerance values directly
+        var maxTolerance = Math.max(
+            tolerance.node, tolerance.vertex, tolerance.edge
+        );
+        var result = {
+            rank: Number.POSITIVE_INFINITY, dist: Number.POSITIVE_INFINITY
+        };
+        var eligible = false;
+        var features = target.layer.features;
+        var feature, type, vertices, vertex, closest, dist, found;
+        var numTypes = this.precedence.length;
+        var ll = new OpenLayers.LonLat(loc.x, loc.y);
+        for(var i=0, len=features.length; i<len; ++i) {
+            feature = features[i];
+            if(feature !== this.feature && !feature._sketch &&
+               feature.state !== OpenLayers.State.DELETE &&
+               (!target.filter || target.filter.evaluate(feature))) {
+                if(feature.atPoint(ll, maxTolerance, maxTolerance)) {
+                    for(var j=0, stop=Math.min(result.rank+1, numTypes); j<stop; ++j) {
+                        type = this.precedence[j];
+                        if(target[type]) {
+                            if(type === "edge") {
+                                closest = feature.geometry.distanceTo(loc, {details: true});
+                                dist = closest.distance;
+                                if(dist <= tolerance[type] && dist < result.dist) {
+                                    result = {
+                                        rank: j, dist: dist,
+                                        x: closest.x0, y: closest.y0 // closest coords on feature
+                                    };
+                                    eligible = true;
+                                    // don't look for lower precedence types for this feature
+                                    break;
+                                }
+                            } else {
+                                // look for nodes or vertices
+                                vertices = feature.geometry.getVertices(type === "node");
+                                found = false;
+                                for(var k=0, klen=vertices.length; k<klen; ++k) {
+                                    vertex = vertices[k];
+                                    dist = vertex.distanceTo(loc);
+                                    if(dist <= tolerance[type] &&
+                                       (j < result.rank || (j === result.rank && dist < result.dist))) {
+                                        result = {
+                                            rank: j, dist: dist,
+                                            x: vertex.x, y: vertex.y
+                                        };
+                                        eligible = true;
+                                        found = true;
+                                    }
+                                }
+                                if(found) {
+                                    // don't look for lower precedence types for this feature
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return eligible ? result : null;
+    },
+    
+    /**
+     * Method: getGeoTolerance
+     * Calculate a tolerance in map units given a tolerance in pixels.  This
+     *     takes advantage of the <geoToleranceCache> when the map resolution
+     *     has not changed.
+     *     
+     * Parameters:
+     * tolerance - {Number} A tolerance value in pixels.
+     * resolution - {Number} Map resolution.
+     *
+     * Returns:
+     * {Number} A tolerance value in map units.
+     */
+    getGeoTolerance: function(tolerance, resolution) {
+        if(resolution !== this.resolution) {
+            this.resolution = resolution;
+            this.geoToleranceCache = {};
+        }
+        var geoTolerance = this.geoToleranceCache[tolerance];
+        if(geoTolerance === undefined) {
+            geoTolerance = tolerance * resolution;
+            this.geoToleranceCache[tolerance] = geoTolerance;
+        }
+        return geoTolerance;
+    },
+    
+    /**
+     * Method: destroy
+     * Clean up the control.
+     */
+    destroy: function() {
+        if(this.active) {
+            this.deactivate(); // TODO: this should be handled by the super
+        }
+        delete this.layer;
+        delete this.targets;
+        OpenLayers.Control.prototype.destroy.call(this);
+    },
+
+    CLASS_NAME: "OpenLayers.Control.Snapping"
+});
+/* ======================================================================
+    OpenLayers/Geometry/Polygon.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Geometry/Collection.js
+ * @requires OpenLayers/Geometry/LinearRing.js
+ */
+
+/**
+ * Class: OpenLayers.Geometry.Polygon 
+ * Polygon is a collection of Geometry.LinearRings. 
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Geometry.Collection> 
+ *  - <OpenLayers.Geometry> 
+ */
+OpenLayers.Geometry.Polygon = OpenLayers.Class(
+  OpenLayers.Geometry.Collection, {
+
+    /**
+     * Property: componentTypes
+     * {Array(String)} An array of class names representing the types of
+     * components that the collection can include.  A null value means the
+     * component types are not restricted.
+     */
+    componentTypes: ["OpenLayers.Geometry.LinearRing"],
+
+    /**
+     * Constructor: OpenLayers.Geometry.Polygon
+     * Constructor for a Polygon geometry. 
+     * The first ring (this.component[0])is the outer bounds of the polygon and 
+     * all subsequent rings (this.component[1-n]) are internal holes.
+     *
+     *
+     * Parameters:
+     * components - {Array(<OpenLayers.Geometry.LinearRing>)} 
+     */
+
+    /** 
+     * APIMethod: getArea
+     * Calculated by subtracting the areas of the internal holes from the 
+     *   area of the outer hole.
+     * 
+     * Returns:
+     * {float} The area of the geometry
+     */
+    getArea: function() {
+        var area = 0.0;
+        if ( this.components && (this.components.length > 0)) {
+            area += Math.abs(this.components[0].getArea());
+            for (var i=1, len=this.components.length; i<len; i++) {
+                area -= Math.abs(this.components[i].getArea());
+            }
+        }
+        return area;
+    },
+
+    /** 
+     * APIMethod: getGeodesicArea
+     * Calculate the approximate area of the polygon were it projected onto
+     *     the earth.
+     *
+     * Parameters:
+     * projection - {<OpenLayers.Projection>} The spatial reference system
+     *     for the geometry coordinates.  If not provided, Geographic/WGS84 is
+     *     assumed.
+     * 
+     * Reference:
+     * Robert. G. Chamberlain and William H. Duquette, "Some Algorithms for
+     *     Polygons on a Sphere", JPL Publication 07-03, Jet Propulsion
+     *     Laboratory, Pasadena, CA, June 2007 http://trs-new.jpl.nasa.gov/dspace/handle/2014/40409
+     *
+     * Returns:
+     * {float} The approximate geodesic area of the polygon in square meters.
+     */
+    getGeodesicArea: function(projection) {
+        var area = 0.0;
+        if(this.components && (this.components.length > 0)) {
+            area += Math.abs(this.components[0].getGeodesicArea(projection));
+            for(var i=1, len=this.components.length; i<len; i++) {
+                area -= Math.abs(this.components[i].getGeodesicArea(projection));
+            }
+        }
+        return area;
+    },
+
+    /**
+     * Method: containsPoint
+     * Test if a point is inside a polygon.  Points on a polygon edge are
+     *     considered inside.
+     *
+     * Parameters:
+     * point - {<OpenLayers.Geometry.Point>}
+     *
+     * Returns:
+     * {Boolean | Number} The point is inside the polygon.  Returns 1 if the
+     *     point is on an edge.  Returns boolean otherwise.
+     */
+    containsPoint: function(point) {
+        var numRings = this.components.length;
+        var contained = false;
+        if(numRings > 0) {
+            // check exterior ring - 1 means on edge, boolean otherwise
+            contained = this.components[0].containsPoint(point);
+            if(contained !== 1) {
+                if(contained && numRings > 1) {
+                    // check interior rings
+                    var hole;
+                    for(var i=1; i<numRings; ++i) {
+                        hole = this.components[i].containsPoint(point);
+                        if(hole) {
+                            if(hole === 1) {
+                                // on edge
+                                contained = 1;
+                            } else {
+                                // in hole
+                                contained = false;
+                            }                            
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return contained;
+    },
+
+    /**
+     * APIMethod: intersects
+     * Determine if the input geometry intersects this one.
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>} Any type of geometry.
+     *
+     * Returns:
+     * {Boolean} The input geometry intersects this one.
+     */
+    intersects: function(geometry) {
+        var intersect = false;
+        var i, len;
+        if(geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+            intersect = this.containsPoint(geometry);
+        } else if(geometry.CLASS_NAME == "OpenLayers.Geometry.LineString" ||
+                  geometry.CLASS_NAME == "OpenLayers.Geometry.LinearRing") {
+            // check if rings/linestrings intersect
+            for(i=0, len=this.components.length; i<len; ++i) {
+                intersect = geometry.intersects(this.components[i]);
+                if(intersect) {
+                    break;
+                }
+            }
+            if(!intersect) {
+                // check if this poly contains points of the ring/linestring
+                for(i=0, len=geometry.components.length; i<len; ++i) {
+                    intersect = this.containsPoint(geometry.components[i]);
+                    if(intersect) {
+                        break;
+                    }
+                }
+            }
+        } else {
+            for(i=0, len=geometry.components.length; i<len; ++ i) {
+                intersect = this.intersects(geometry.components[i]);
+                if(intersect) {
+                    break;
+                }
+            }
+        }
+        // check case where this poly is wholly contained by another
+        if(!intersect && geometry.CLASS_NAME == "OpenLayers.Geometry.Polygon") {
+            // exterior ring points will be contained in the other geometry
+            var ring = this.components[0];
+            for(i=0, len=ring.components.length; i<len; ++i) {
+                intersect = geometry.containsPoint(ring.components[i]);
+                if(intersect) {
+                    break;
+                }
+            }
+        }
+        return intersect;
+    },
+
+    /**
+     * APIMethod: distanceTo
+     * Calculate the closest distance between two geometries (on the x-y plane).
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry>} The target geometry.
+     * options - {Object} Optional properties for configuring the distance
+     *     calculation.
+     *
+     * Valid options:
+     * details - {Boolean} Return details from the distance calculation.
+     *     Default is false.
+     * edge - {Boolean} Calculate the distance from this geometry to the
+     *     nearest edge of the target geometry.  Default is true.  If true,
+     *     calling distanceTo from a geometry that is wholly contained within
+     *     the target will result in a non-zero distance.  If false, whenever
+     *     geometries intersect, calling distanceTo will return 0.  If false,
+     *     details cannot be returned.
+     *
+     * Returns:
+     * {Number | Object} The distance between this geometry and the target.
+     *     If details is true, the return will be an object with distance,
+     *     x0, y0, x1, and y1 properties.  The x0 and y0 properties represent
+     *     the coordinates of the closest point on this geometry. The x1 and y1
+     *     properties represent the coordinates of the closest point on the
+     *     target geometry.
+     */
+    distanceTo: function(geometry, options) {
+        var edge = !(options && options.edge === false);
+        var result;
+        // this is the case where we might not be looking for distance to edge
+        if(!edge && this.intersects(geometry)) {
+            result = 0;
+        } else {
+            result = OpenLayers.Geometry.Collection.prototype.distanceTo.apply(
+                this, [geometry, options]
+            );
+        }
+        return result;
+    },
+
+    CLASS_NAME: "OpenLayers.Geometry.Polygon"
+});
+
+/**
+ * APIMethod: createRegularPolygon
+ * Create a regular polygon around a radius. Useful for creating circles 
+ * and the like.
+ *
+ * Parameters:
+ * origin - {<OpenLayers.Geometry.Point>} center of polygon.
+ * radius - {Float} distance to vertex, in map units.
+ * sides - {Integer} Number of sides. 20 approximates a circle.
+ * rotation - {Float} original angle of rotation, in degrees.
+ */
+OpenLayers.Geometry.Polygon.createRegularPolygon = function(origin, radius, sides, rotation) {  
+    var angle = Math.PI * ((1/sides) - (1/2));
+    if(rotation) {
+        angle += (rotation / 180) * Math.PI;
+    }
+    var rotatedAngle, x, y;
+    var points = [];
+    for(var i=0; i<sides; ++i) {
+        rotatedAngle = angle + (i * 2 * Math.PI / sides);
+        x = origin.x + (radius * Math.cos(rotatedAngle));
+        y = origin.y + (radius * Math.sin(rotatedAngle));
+        points.push(new OpenLayers.Geometry.Point(x, y));
+    }
+    var ring = new OpenLayers.Geometry.LinearRing(points);
+    return new OpenLayers.Geometry.Polygon([ring]);
+};
+/* ======================================================================
+    OpenLayers/Geometry/MultiPolygon.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Geometry/Collection.js
+ * @requires OpenLayers/Geometry/Polygon.js
+ */
+
+/**
+ * Class: OpenLayers.Geometry.MultiPolygon
+ * MultiPolygon is a geometry with multiple <OpenLayers.Geometry.Polygon>
+ * components.  Create a new instance with the <OpenLayers.Geometry.MultiPolygon>
+ * constructor.
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Geometry.Collection>
+ */
+OpenLayers.Geometry.MultiPolygon = OpenLayers.Class(
+  OpenLayers.Geometry.Collection, {
+
+    /**
+     * Property: componentTypes
+     * {Array(String)} An array of class names representing the types of
+     * components that the collection can include.  A null value means the
+     * component types are not restricted.
+     */
+    componentTypes: ["OpenLayers.Geometry.Polygon"],
+
+    /**
+     * Constructor: OpenLayers.Geometry.MultiPolygon
+     * Create a new MultiPolygon geometry
+     *
+     * Parameters:
+     * components - {Array(<OpenLayers.Geometry.Polygon>)} An array of polygons
+     *              used to generate the MultiPolygon
+     *
+     */
+
+    CLASS_NAME: "OpenLayers.Geometry.MultiPolygon"
+});
+/* ======================================================================
+    OpenLayers/Filter.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+
+/**
+ * @requires OpenLayers/BaseTypes/Class.js
+ * @requires OpenLayers/Util.js
+ * @requires OpenLayers/Style.js
+ */
+
+/**
+ * Class: OpenLayers.Filter
+ * This class represents an OGC Filter.
+ */
+OpenLayers.Filter = OpenLayers.Class({
+    
+    /** 
+     * Constructor: OpenLayers.Filter
+     * This class represents a generic filter.
+     *
+     * Parameters:
+     * options - {Object} Optional object whose properties will be set on the
+     *     instance.
+     * 
+     * Returns:
+     * {<OpenLayers.Filter>}
+     */
+    initialize: function(options) {
+        OpenLayers.Util.extend(this, options);
+    },
+
+    /** 
+     * APIMethod: destroy
+     * Remove reference to anything added.
+     */
+    destroy: function() {
+    },
+
+    /**
+     * APIMethod: evaluate
+     * Evaluates this filter in a specific context.  Instances or subclasses
+     * are supposed to override this method.
+     * 
+     * Parameters:
+     * context - {Object} Context to use in evaluating the filter.  If a vector
+     *     feature is provided, the feature.attributes will be used as context.
+     * 
+     * Returns:
+     * {Boolean} The filter applies.
+     */
+    evaluate: function(context) {
+        return true;
+    },
+    
+    /**
+     * APIMethod: clone
+     * Clones this filter. Should be implemented by subclasses.
+     * 
+     * Returns:
+     * {<OpenLayers.Filter>} Clone of this filter.
+     */
+    clone: function() {
+        return null;
+    },
+    
+    /**
+     * APIMethod: toString
+     *
+     * Returns:
+     * {String} Include <OpenLayers.Format.CQL> in your build to get a CQL
+     *     representation of the filter returned. Otherwise "[Object object]"
+     *     will be returned.
+     */
+    toString: function() {
+        var string;
+        if (OpenLayers.Format && OpenLayers.Format.CQL) {
+            string = OpenLayers.Format.CQL.prototype.write(this);
+        } else {
+            string = Object.prototype.toString.call(this);
+        }
+        return string;
+    },
+    
+    CLASS_NAME: "OpenLayers.Filter"
+});
+/* ======================================================================
+    OpenLayers/Filter/Spatial.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Filter.js
+ */
+
+/**
+ * Class: OpenLayers.Filter.Spatial
+ * This class represents a spatial filter.
+ * Currently implemented: BBOX, DWithin and Intersects
+ * 
+ * Inherits from:
+ * - <OpenLayers.Filter>
+ */
+OpenLayers.Filter.Spatial = OpenLayers.Class(OpenLayers.Filter, {
+
+    /**
+     * APIProperty: type
+     * {String} Type of spatial filter.
+     *
+     * The type should be one of:
+     * - OpenLayers.Filter.Spatial.BBOX
+     * - OpenLayers.Filter.Spatial.INTERSECTS
+     * - OpenLayers.Filter.Spatial.DWITHIN
+     * - OpenLayers.Filter.Spatial.WITHIN
+     * - OpenLayers.Filter.Spatial.CONTAINS
+     */
+    type: null,
+    
+    /**
+     * APIProperty: property
+     * {String} Name of the context property to compare.
+     */
+    property: null,
+    
+    /**
+     * APIProperty: value
+     * {<OpenLayers.Bounds> || <OpenLayers.Geometry>} The bounds or geometry
+     *     to be used by the filter.  Use bounds for BBOX filters and geometry
+     *     for INTERSECTS or DWITHIN filters.
+     */
+    value: null,
+
+    /**
+     * APIProperty: distance
+     * {Number} The distance to use in a DWithin spatial filter.
+     */
+    distance: null,
+
+    /**
+     * APIProperty: distanceUnits
+     * {String} The units to use for the distance, e.g. 'm'.
+     */
+    distanceUnits: null,
+    
+    /** 
+     * Constructor: OpenLayers.Filter.Spatial
+     * Creates a spatial filter.
+     *
+     * Parameters:
+     * options - {Object} An optional object with properties to set on the
+     *     filter.
+     * 
+     * Returns:
+     * {<OpenLayers.Filter.Spatial>}
+     */
+
+   /**
+    * Method: evaluate
+    * Evaluates this filter for a specific feature.
+    * 
+    * Parameters:
+    * feature - {<OpenLayers.Feature.Vector>} feature to apply the filter to.
+    * 
+    * Returns:
+    * {Boolean} The feature meets filter criteria.
+    */
+    evaluate: function(feature) {
+        var intersect = false;
+        switch(this.type) {
+            case OpenLayers.Filter.Spatial.BBOX:
+            case OpenLayers.Filter.Spatial.INTERSECTS:
+                if(feature.geometry) {
+                    var geom = this.value;
+                    if(this.value.CLASS_NAME == "OpenLayers.Bounds") {
+                        geom = this.value.toGeometry();
+                    }
+                    if(feature.geometry.intersects(geom)) {
+                        intersect = true;
+                    }
+                }
+                break;
+            default:
+                throw new Error('evaluate is not implemented for this filter type.');
+        }
+        return intersect;
+    },
+
+    /**
+     * APIMethod: clone
+     * Clones this filter.
+     * 
+     * Returns:
+     * {<OpenLayers.Filter.Spatial>} Clone of this filter.
+     */
+    clone: function() {
+        var options = OpenLayers.Util.applyDefaults({
+            value: this.value && this.value.clone && this.value.clone()
+        }, this);
+        return new OpenLayers.Filter.Spatial(options);
+    },
+    CLASS_NAME: "OpenLayers.Filter.Spatial"
+});
+
+OpenLayers.Filter.Spatial.BBOX = "BBOX";
+OpenLayers.Filter.Spatial.INTERSECTS = "INTERSECTS";
+OpenLayers.Filter.Spatial.DWITHIN = "DWITHIN";
+OpenLayers.Filter.Spatial.WITHIN = "WITHIN";
+OpenLayers.Filter.Spatial.CONTAINS = "CONTAINS";
+/* ======================================================================
+    OpenLayers/Strategy/BBOX.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Strategy.js
+ * @requires OpenLayers/Filter/Spatial.js
+ */
+
+/**
+ * Class: OpenLayers.Strategy.BBOX
+ * A simple strategy that reads new features when the viewport invalidates
+ *     some bounds.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Strategy>
+ */
+OpenLayers.Strategy.BBOX = OpenLayers.Class(OpenLayers.Strategy, {
+    
+    /**
+     * Property: bounds
+     * {<OpenLayers.Bounds>} The current data bounds (in the same projection
+     *     as the layer - not always the same projection as the map).
+     */
+    bounds: null,
+    
+    /** 
+     * Property: resolution 
+     * {Float} The current data resolution. 
+     */ 
+    resolution: null, 
+           
+    /**
+     * APIProperty: ratio
+     * {Float} The ratio of the data bounds to the viewport bounds (in each
+     *     dimension).  Default is 2.
+     */
+    ratio: 2,
+
+    /** 
+     * Property: resFactor 
+     * {Float} Optional factor used to determine when previously requested 
+     *     features are invalid.  If set, the resFactor will be compared to the
+     *     resolution of the previous request to the current map resolution.
+     *     If resFactor > (old / new) and 1/resFactor < (old / new).  If you
+     *     set a resFactor of 1, data will be requested every time the
+     *     resolution changes.  If you set a resFactor of 3, data will be
+     *     requested if the old resolution is 3 times the new, or if the new is
+     *     3 times the old.  If the old bounds do not contain the new bounds
+     *     new data will always be requested (with or without considering
+     *     resFactor). 
+     */ 
+    resFactor: null, 
+    
+    /**
+     * Property: response
+     * {<OpenLayers.Protocol.Response>} The protocol response object returned
+     *      by the layer protocol.
+     */
+    response: null,
+
+    /**
+     * Constructor: OpenLayers.Strategy.BBOX
+     * Create a new BBOX strategy.
+     *
+     * Parameters:
+     * options - {Object} Optional object whose properties will be set on the
+     *     instance.
+     */
+    
+    /**
+     * Method: activate
+     * Set up strategy with regard to reading new batches of remote data.
+     * 
+     * Returns:
+     * {Boolean} The strategy was successfully activated.
+     */
+    activate: function() {
+        var activated = OpenLayers.Strategy.prototype.activate.call(this);
+        if(activated) {
+            this.layer.events.on({
+                "moveend": this.update,
+                "refresh": this.update,
+                "visibilitychanged": this.update,
+                scope: this
+            });
+            this.update();
+        }
+        return activated;
+    },
+    
+    /**
+     * Method: deactivate
+     * Tear down strategy with regard to reading new batches of remote data.
+     * 
+     * Returns:
+     * {Boolean} The strategy was successfully deactivated.
+     */
+    deactivate: function() {
+        var deactivated = OpenLayers.Strategy.prototype.deactivate.call(this);
+        if(deactivated) {
+            this.layer.events.un({
+                "moveend": this.update,
+                "refresh": this.update,
+                "visibilitychanged": this.update,
+                scope: this
+            });
+        }
+        return deactivated;
+    },
+
+    /**
+     * Method: update
+     * Callback function called on "moveend" or "refresh" layer events.
+     *
+     * Parameters:
+     * options - {Object} Optional object whose properties will determine
+     *     the behaviour of this Strategy
+     *
+     * Valid options include:
+     * force - {Boolean} if true, new data must be unconditionally read.
+     * noAbort - {Boolean} if true, do not abort previous requests.
+     */
+    update: function(options) {
+        var mapBounds = this.getMapBounds();
+        if (mapBounds !== null && ((options && options.force) ||
+          (this.layer.visibility && this.layer.calculateInRange() && this.invalidBounds(mapBounds)))) {
+            this.calculateBounds(mapBounds);
+            this.resolution = this.layer.map.getResolution(); 
+            this.triggerRead(options);
+        }
+    },
+    
+    /**
+     * Method: getMapBounds
+     * Get the map bounds expressed in the same projection as this layer.
+     *
+     * Returns:
+     * {<OpenLayers.Bounds>} Map bounds in the projection of the layer.
+     */
+    getMapBounds: function() {
+        if (this.layer.map === null) {
+            return null;
+        }
+        var bounds = this.layer.map.getExtent();
+        if(bounds && !this.layer.projection.equals(
+                this.layer.map.getProjectionObject())) {
+            bounds = bounds.clone().transform(
+                this.layer.map.getProjectionObject(), this.layer.projection
+            );
+        }
+        return bounds;
+    },
+
+    /**
+     * Method: invalidBounds
+     * Determine whether the previously requested set of features is invalid. 
+     *     This occurs when the new map bounds do not contain the previously 
+     *     requested bounds.  In addition, if <resFactor> is set, it will be 
+     *     considered.
+     *
+     * Parameters:
+     * mapBounds - {<OpenLayers.Bounds>} the current map extent, will be
+     *      retrieved from the map object if not provided
+     *
+     * Returns:
+     * {Boolean} 
+     */
+    invalidBounds: function(mapBounds) {
+        if(!mapBounds) {
+            mapBounds = this.getMapBounds();
+        }
+        var invalid = !this.bounds || !this.bounds.containsBounds(mapBounds);
+        if(!invalid && this.resFactor) {
+            var ratio = this.resolution / this.layer.map.getResolution();
+            invalid = (ratio >= this.resFactor || ratio <= (1 / this.resFactor));
+        }
+        return invalid;
+    },
+ 
+    /**
+     * Method: calculateBounds
+     *
+     * Parameters:
+     * mapBounds - {<OpenLayers.Bounds>} the current map extent, will be
+     *      retrieved from the map object if not provided
+     */
+    calculateBounds: function(mapBounds) {
+        if(!mapBounds) {
+            mapBounds = this.getMapBounds();
+        }
+        var center = mapBounds.getCenterLonLat();
+        var dataWidth = mapBounds.getWidth() * this.ratio;
+        var dataHeight = mapBounds.getHeight() * this.ratio;
+        this.bounds = new OpenLayers.Bounds(
+            center.lon - (dataWidth / 2),
+            center.lat - (dataHeight / 2),
+            center.lon + (dataWidth / 2),
+            center.lat + (dataHeight / 2)
+        );
+    },
+    
+    /**
+     * Method: triggerRead
+     *
+     * Parameters:
+     * options - {Object} Additional options for the protocol's read method 
+     *     (optional)
+     *
+     * Returns:
+     * {<OpenLayers.Protocol.Response>} The protocol response object
+     *      returned by the layer protocol.
+     */
+    triggerRead: function(options) {
+        if (this.response && !(options && options.noAbort === true)) {
+            this.layer.protocol.abort(this.response);
+            this.layer.events.triggerEvent("loadend");
+        }
+        this.layer.events.triggerEvent("loadstart");
+        this.response = this.layer.protocol.read(
+            OpenLayers.Util.applyDefaults({
+                filter: this.createFilter(),
+                callback: this.merge,
+                scope: this
+        }, options));
+    },
+ 
+    /**
+     * Method: createFilter
+     * Creates a spatial BBOX filter. If the layer that this strategy belongs
+     * to has a filter property, this filter will be combined with the BBOX 
+     * filter.
+     * 
+     * Returns
+     * {<OpenLayers.Filter>} The filter object.
+     */
+    createFilter: function() {
+        var filter = new OpenLayers.Filter.Spatial({
+            type: OpenLayers.Filter.Spatial.BBOX,
+            value: this.bounds,
+            projection: this.layer.projection
+        });
+        if (this.layer.filter) {
+            filter = new OpenLayers.Filter.Logical({
+                type: OpenLayers.Filter.Logical.AND,
+                filters: [this.layer.filter, filter]
+            });
+        }
+        return filter;
+    },
+   
+    /**
+     * Method: merge
+     * Given a list of features, determine which ones to add to the layer.
+     *     If the layer projection differs from the map projection, features
+     *     will be transformed from the layer projection to the map projection.
+     *
+     * Parameters:
+     * resp - {<OpenLayers.Protocol.Response>} The response object passed
+     *      by the protocol.
+     */
+    merge: function(resp) {
+        this.layer.destroyFeatures();
+        var features = resp.features;
+        if(features && features.length > 0) {
+            var remote = this.layer.projection;
+            var local = this.layer.map.getProjectionObject();
+            if(!local.equals(remote)) {
+                var geom;
+                for(var i=0, len=features.length; i<len; ++i) {
+                    geom = features[i].geometry;
+                    if(geom) {
+                        geom.transform(remote, local);
+                    }
+                }
+            }
+            this.layer.addFeatures(features);
+        }
+        this.response = null;
+        this.layer.events.triggerEvent("loadend");
+    },
+   
+    CLASS_NAME: "OpenLayers.Strategy.BBOX" 
+});
+/* ======================================================================
     OpenLayers/Handler/Point.js
    ====================================================================== */
 
@@ -25899,7 +29140,7 @@ OpenLayers.Handler.Point = OpenLayers.Class(OpenLayers.Handler, {
     CLASS_NAME: "OpenLayers.Handler.Point"
 });
 /* ======================================================================
-    OpenLayers/Format.js
+    OpenLayers/Handler/Path.js
    ====================================================================== */
 
 /* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
@@ -25907,514 +29148,1270 @@ OpenLayers.Handler.Point = OpenLayers.Class(OpenLayers.Handler, {
  * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
+
 /**
- * @requires OpenLayers/BaseTypes/Class.js
- * @requires OpenLayers/Util.js
+ * @requires OpenLayers/Handler/Point.js
+ * @requires OpenLayers/Geometry/Point.js
+ * @requires OpenLayers/Geometry/LineString.js
  */
 
 /**
- * Class: OpenLayers.Format
- * Base class for format reading/writing a variety of formats.  Subclasses
- *     of OpenLayers.Format are expected to have read and write methods.
+ * Class: OpenLayers.Handler.Path
+ * Handler to draw a path on the map.  Path is displayed on mouse down,
+ * moves on mouse move, and is finished on mouse up.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Handler.Point>
  */
-OpenLayers.Format = OpenLayers.Class({
+OpenLayers.Handler.Path = OpenLayers.Class(OpenLayers.Handler.Point, {
     
     /**
-     * Property: options
-     * {Object} A reference to options passed to the constructor.
+     * Property: line
+     * {<OpenLayers.Feature.Vector>}
      */
-    options: null,
+    line: null,
+
+    /**
+     * APIProperty: maxVertices
+     * {Number} The maximum number of vertices which can be drawn by this
+     * handler. When the number of vertices reaches maxVertices, the
+     * geometry is automatically finalized. Default is null.
+     */
+    maxVertices: null,
+
+    /**
+     * Property: doubleTouchTolerance
+     * {Number} Maximum number of pixels between two touches for
+     *     the gesture to be considered a "finalize feature" action.
+     *     Default is 20.
+     */
+    doubleTouchTolerance: 20,
+
+    /**
+     * Property: freehand
+     * {Boolean} In freehand mode, the handler starts the path on mouse down,
+     * adds a point for every mouse move, and finishes the path on mouse up.
+     * Outside of freehand mode, a point is added to the path on every mouse
+     * click and double-click finishes the path.
+     */
+    freehand: false,
     
     /**
-     * APIProperty: externalProjection
-     * {<OpenLayers.Projection>} When passed a externalProjection and
-     *     internalProjection, the format will reproject the geometries it
-     *     reads or writes. The externalProjection is the projection used by
-     *     the content which is passed into read or which comes out of write.
-     *     In order to reproject, a projection transformation function for the
-     *     specified projections must be available. This support may be 
-     *     provided via proj4js or via a custom transformation function. See
-     *     {<OpenLayers.Projection.addTransform>} for more information on
-     *     custom transformations.
+     * Property: freehandToggle
+     * {String} If set, freehandToggle is checked on mouse events and will set
+     * the freehand mode to the opposite of this.freehand.  To disallow
+     * toggling between freehand and non-freehand mode, set freehandToggle to
+     * null.  Acceptable toggle values are 'shiftKey', 'ctrlKey', and 'altKey'.
      */
-    externalProjection: null,
+    freehandToggle: 'shiftKey',
 
     /**
-     * APIProperty: internalProjection
-     * {<OpenLayers.Projection>} When passed a externalProjection and
-     *     internalProjection, the format will reproject the geometries it
-     *     reads or writes. The internalProjection is the projection used by
-     *     the geometries which are returned by read or which are passed into
-     *     write.  In order to reproject, a projection transformation function
-     *     for the specified projections must be available. This support may be
-     *     provided via proj4js or via a custom transformation function. See
-     *     {<OpenLayers.Projection.addTransform>} for more information on
-     *     custom transformations.
+     * Property: timerId
+     * {Integer} The timer used to test the double touch.
      */
-    internalProjection: null,
+    timerId: null,
 
     /**
-     * APIProperty: data
-     * {Object} When <keepData> is true, this is the parsed string sent to
-     *     <read>.
+     * Property: redoStack
+     * {Array} Stack containing points removed with <undo>.
      */
-    data: null,
+    redoStack: null,
 
     /**
-     * APIProperty: keepData
-     * {Object} Maintain a reference (<data>) to the most recently read data.
-     *     Default is false.
-     */
-    keepData: false,
-
-    /**
-     * Constructor: OpenLayers.Format
-     * Instances of this class are not useful.  See one of the subclasses.
+     * Constructor: OpenLayers.Handler.Path
+     * Create a new path hander
      *
      * Parameters:
-     * options - {Object} An optional object with properties to set on the
-     *           format
+     * control - {<OpenLayers.Control>} The control that owns this handler
+     * callbacks - {Object} An object with a properties whose values are
+     *     functions.  Various callbacks described below.
+     * options - {Object} An optional object with properties to be set on the
+     *           handler
      *
-     * Valid options:
-     * keepData - {Boolean} If true, upon <read>, the data property will be
-     *     set to the parsed object (e.g. the json or xml object).
-     *
-     * Returns:
-     * An instance of OpenLayers.Format
+     * Named callbacks:
+     * create - Called when a sketch is first created.  Callback called with
+     *     the creation point geometry and sketch feature.
+     * modify - Called with each move of a vertex with the vertex (point)
+     *     geometry and the sketch feature.
+     * point - Called as each point is added.  Receives the new point geometry.
+     * done - Called when the point drawing is finished.  The callback will
+     *     recieve a single argument, the linestring geometry.
+     * cancel - Called when the handler is deactivated while drawing.  The
+     *     cancel callback will receive a geometry.
      */
-    initialize: function(options) {
-        OpenLayers.Util.extend(this, options);
-        this.options = options;
-    },
-    
+
     /**
-     * APIMethod: destroy
-     * Clean up.
+     * Method: createFeature
+     * Add temporary geometries
+     *
+     * Parameters:
+     * pixel - {<OpenLayers.Pixel>} The initial pixel location for the new
+     *     feature.
      */
-    destroy: function() {
+    createFeature: function(pixel) {
+        var lonlat = this.layer.getLonLatFromViewPortPx(pixel); 
+        var geometry = new OpenLayers.Geometry.Point(
+            lonlat.lon, lonlat.lat
+        );
+        this.point = new OpenLayers.Feature.Vector(geometry);
+        this.line = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.LineString([this.point.geometry])
+        );
+        this.callback("create", [this.point.geometry, this.getSketch()]);
+        this.point.geometry.clearBounds();
+        this.layer.addFeatures([this.line, this.point], {silent: true});
+    },
+        
+    /**
+     * Method: destroyFeature
+     * Destroy temporary geometries
+     *
+     * Parameters:
+     * force - {Boolean} Destroy even if persist is true.
+     */
+    destroyFeature: function(force) {
+        OpenLayers.Handler.Point.prototype.destroyFeature.call(
+            this, force);
+        this.line = null;
     },
 
     /**
-     * Method: read
-     * Read data from a string, and return an object whose type depends on the
-     * subclass. 
+     * Method: destroyPersistedFeature
+     * Destroy the persisted feature.
+     */
+    destroyPersistedFeature: function() {
+        var layer = this.layer;
+        if(layer && layer.features.length > 2) {
+            this.layer.features[0].destroy();
+        }
+    },
+
+    /**
+     * Method: removePoint
+     * Destroy the temporary point.
+     */
+    removePoint: function() {
+        if(this.point) {
+            this.layer.removeFeatures([this.point]);
+        }
+    },
+    
+    /**
+     * Method: addPoint
+     * Add point to geometry.  Send the point index to override
+     * the behavior of LinearRing that disregards adding duplicate points.
+     *
+     * Parameters:
+     * pixel - {<OpenLayers.Pixel>} The pixel location for the new point.
+     */
+    addPoint: function(pixel) {
+        this.layer.removeFeatures([this.point]);
+        var lonlat = this.layer.getLonLatFromViewPortPx(pixel); 
+        this.point = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat)
+        );
+        this.line.geometry.addComponent(
+            this.point.geometry, this.line.geometry.components.length
+        );
+        this.layer.addFeatures([this.point]);
+        this.callback("point", [this.point.geometry, this.getGeometry()]);
+        this.callback("modify", [this.point.geometry, this.getSketch()]);
+        this.drawFeature();
+        delete this.redoStack;
+    },
+    
+    /**
+     * Method: insertXY
+     * Insert a point in the current sketch given x & y coordinates.  The new
+     *     point is inserted immediately before the most recently drawn point.
+     *
+     * Parameters:
+     * x - {Number} The x-coordinate of the point.
+     * y - {Number} The y-coordinate of the point.
+     */
+    insertXY: function(x, y) {
+        this.line.geometry.addComponent(
+            new OpenLayers.Geometry.Point(x, y), 
+            this.getCurrentPointIndex()
+        );
+        this.drawFeature();
+        delete this.redoStack;
+    },
+
+    /**
+     * Method: insertDeltaXY
+     * Insert a point given offsets from the previously inserted point.
+     *
+     * Parameters:
+     * dx - {Number} The x-coordinate offset of the point.
+     * dy - {Number} The y-coordinate offset of the point.
+     */
+    insertDeltaXY: function(dx, dy) {
+        var previousIndex = this.getCurrentPointIndex() - 1;
+        var p0 = this.line.geometry.components[previousIndex];
+        if (p0 && !isNaN(p0.x) && !isNaN(p0.y)) {
+            this.insertXY(p0.x + dx, p0.y + dy);
+        }
+    },
+
+    /**
+     * Method: insertDirectionLength
+     * Insert a point in the current sketch given a direction and a length.
+     *
+     * Parameters:
+     * direction - {Number} Degrees clockwise from the positive x-axis.
+     * length - {Number} Distance from the previously drawn point.
+     */
+    insertDirectionLength: function(direction, length) {
+        direction *= Math.PI / 180;
+        var dx = length * Math.cos(direction);
+        var dy = length * Math.sin(direction);
+        this.insertDeltaXY(dx, dy);
+    },
+
+    /**
+     * Method: insertDeflectionLength
+     * Insert a point in the current sketch given a deflection and a length.
+     *     The deflection should be degrees clockwise from the previously 
+     *     digitized segment.
+     *
+     * Parameters:
+     * deflection - {Number} Degrees clockwise from the previous segment.
+     * length - {Number} Distance from the previously drawn point.
+     */
+    insertDeflectionLength: function(deflection, length) {
+        var previousIndex = this.getCurrentPointIndex() - 1;
+        if (previousIndex > 0) {
+            var p1 = this.line.geometry.components[previousIndex];
+            var p0 = this.line.geometry.components[previousIndex-1];
+            var theta = Math.atan2(p1.y - p0.y, p1.x - p0.x);
+            this.insertDirectionLength(
+                (theta * 180 / Math.PI) + deflection, length
+            );
+        }
+    },
+
+    /**
+     * Method: getCurrentPointIndex
+     * 
+     * Returns:
+     * {Number} The index of the most recently drawn point.
+     */
+    getCurrentPointIndex: function() {
+        return this.line.geometry.components.length - 1;
+    },
+    
+    
+    /**
+     * Method: undo
+     * Remove the most recently added point in the sketch geometry.
+     *
+     * Returns: 
+     * {Boolean} A point was removed.
+     */
+    undo: function() {
+        var geometry = this.line.geometry;
+        var components = geometry.components;
+        var index = this.getCurrentPointIndex() - 1;
+        var target = components[index];
+        var undone = geometry.removeComponent(target);
+        if (undone) {
+            if (!this.redoStack) {
+                this.redoStack = [];
+            }
+            this.redoStack.push(target);
+            this.drawFeature();
+        }
+        return undone;
+    },
+    
+    /**
+     * Method: redo
+     * Reinsert the most recently removed point resulting from an <undo> call.
+     *     The undo stack is deleted whenever a point is added by other means.
+     *
+     * Returns: 
+     * {Boolean} A point was added.
+     */
+    redo: function() {
+        var target = this.redoStack && this.redoStack.pop();
+        if (target) {
+            this.line.geometry.addComponent(target, this.getCurrentPointIndex());
+            this.drawFeature();
+        }
+        return !!target;
+    },
+    
+    /**
+     * Method: freehandMode
+     * Determine whether to behave in freehand mode or not.
+     *
+     * Returns:
+     * {Boolean}
+     */
+    freehandMode: function(evt) {
+        return (this.freehandToggle && evt[this.freehandToggle]) ?
+                    !this.freehand : this.freehand;
+    },
+
+    /**
+     * Method: modifyFeature
+     * Modify the existing geometry given the new point
+     *
+     * Parameters:
+     * pixel - {<OpenLayers.Pixel>} The updated pixel location for the latest
+     *     point.
+     * drawing - {Boolean} Indicate if we're currently drawing.
+     */
+    modifyFeature: function(pixel, drawing) {
+        if(!this.line) {
+            this.createFeature(pixel);
+        }
+        var lonlat = this.layer.getLonLatFromViewPortPx(pixel); 
+        this.point.geometry.x = lonlat.lon;
+        this.point.geometry.y = lonlat.lat;
+        this.callback("modify", [this.point.geometry, this.getSketch(), drawing]);
+        this.point.geometry.clearBounds();
+        this.drawFeature();
+    },
+
+    /**
+     * Method: drawFeature
+     * Render geometries on the temporary layer.
+     */
+    drawFeature: function() {
+        this.layer.drawFeature(this.line, this.style);
+        this.layer.drawFeature(this.point, this.style);
+    },
+
+    /**
+     * Method: getSketch
+     * Return the sketch feature.
+     *
+     * Returns:
+     * {<OpenLayers.Feature.Vector>}
+     */
+    getSketch: function() {
+        return this.line;
+    },
+
+    /**
+     * Method: getGeometry
+     * Return the sketch geometry.  If <multi> is true, this will return
+     *     a multi-part geometry.
+     *
+     * Returns:
+     * {<OpenLayers.Geometry.LineString>}
+     */
+    getGeometry: function() {
+        var geometry = this.line && this.line.geometry;
+        if(geometry && this.multi) {
+            geometry = new OpenLayers.Geometry.MultiLineString([geometry]);
+        }
+        return geometry;
+    },
+
+    /**
+     * method: touchstart
+     * handle touchstart.
+     *
+     * parameters:
+     * evt - {event} the browser event
+     *
+     * returns:
+     * {boolean} allow event propagation
+     */
+    touchstart: function(evt) {
+        if (this.timerId &&
+            this.passesTolerance(this.lastTouchPx, evt.xy,
+                                 this.doubleTouchTolerance)) {
+            // double-tap, finalize the geometry
+            this.finishGeometry();
+            window.clearTimeout(this.timerId);
+            this.timerId = null;
+            return false;
+        } else {
+            if (this.timerId) {
+                window.clearTimeout(this.timerId);
+                this.timerId = null;
+            }
+            this.timerId = window.setTimeout(
+                OpenLayers.Function.bind(function() {
+                    this.timerId = null;
+                }, this), 300);
+            return OpenLayers.Handler.Point.prototype.touchstart.call(this, evt);
+        }
+    },
+
+    /**
+     * Method: down
+     * Handle mousedown and touchstart.  Add a new point to the geometry and
+     * render it. Return determines whether to propagate the event on the map.
      * 
      * Parameters:
-     * data - {string} Data to read/parse.
+     * evt - {Event} The browser event
      *
-     * Returns:
-     * Depends on the subclass
+     * Returns: 
+     * {Boolean} Allow event propagation
      */
-    read: function(data) {
-        throw new Error('Read not implemented.');
-    },
-    
-    /**
-     * Method: write
-     * Accept an object, and return a string. 
-     *
-     * Parameters:
-     * object - {Object} Object to be serialized
-     *
-     * Returns:
-     * {String} A string representation of the object.
-     */
-    write: function(object) {
-        throw new Error('Write not implemented.');
-    },
-
-    CLASS_NAME: "OpenLayers.Format"
-});     
-/* ======================================================================
-    OpenLayers/Format/WKT.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Format.js
- * @requires OpenLayers/Feature/Vector.js
- */
-
-/**
- * Class: OpenLayers.Format.WKT
- * Class for reading and writing Well-Known Text.  Create a new instance
- * with the <OpenLayers.Format.WKT> constructor.
- * 
- * Inherits from:
- *  - <OpenLayers.Format>
- */
-OpenLayers.Format.WKT = OpenLayers.Class(OpenLayers.Format, {
-    
-    /**
-     * Constructor: OpenLayers.Format.WKT
-     * Create a new parser for WKT
-     *
-     * Parameters:
-     * options - {Object} An optional object whose properties will be set on
-     *           this instance
-     *
-     * Returns:
-     * {<OpenLayers.Format.WKT>} A new WKT parser.
-     */
-    initialize: function(options) {
-        this.regExes = {
-            'typeStr': /^\s*(\w+)\s*\(\s*(.*)\s*\)\s*$/,
-            'spaces': /\s+/,
-            'parenComma': /\)\s*,\s*\(/,
-            'doubleParenComma': /\)\s*\)\s*,\s*\(\s*\(/,  // can't use {2} here
-            'trimParens': /^\s*\(?(.*?)\)?\s*$/
-        };
-        OpenLayers.Format.prototype.initialize.apply(this, [options]);
-    },
-
-    /**
-     * Method: read
-     * Deserialize a WKT string and return a vector feature or an
-     * array of vector features.  Supports WKT for POINT, MULTIPOINT,
-     * LINESTRING, MULTILINESTRING, POLYGON, MULTIPOLYGON, and
-     * GEOMETRYCOLLECTION.
-     *
-     * Parameters:
-     * wkt - {String} A WKT string
-     *
-     * Returns:
-     * {<OpenLayers.Feature.Vector>|Array} A feature or array of features for
-     * GEOMETRYCOLLECTION WKT.
-     */
-    read: function(wkt) {
-        var features, type, str;
-        wkt = wkt.replace(/[\n\r]/g, " ");
-        var matches = this.regExes.typeStr.exec(wkt);
-        if(matches) {
-            type = matches[1].toLowerCase();
-            str = matches[2];
-            if(this.parse[type]) {
-                features = this.parse[type].apply(this, [str]);
+    down: function(evt) {
+        var stopDown = this.stopDown;
+        if(this.freehandMode(evt)) {
+            stopDown = true;
+            if (this.touch) {
+                this.modifyFeature(evt.xy, !!this.lastUp);
+                OpenLayers.Event.stop(evt);
             }
-            if (this.internalProjection && this.externalProjection) {
-                if (features && 
-                    features.CLASS_NAME == "OpenLayers.Feature.Vector") {
-                    features.geometry.transform(this.externalProjection,
-                                                this.internalProjection);
-                } else if (features &&
-                           type != "geometrycollection" &&
-                           typeof features == "object") {
-                    for (var i=0, len=features.length; i<len; i++) {
-                        var component = features[i];
-                        component.geometry.transform(this.externalProjection,
-                                                     this.internalProjection);
+        }
+        if (!this.touch && (!this.lastDown ||
+                            !this.passesTolerance(this.lastDown, evt.xy,
+                                                  this.pixelTolerance))) {
+            this.modifyFeature(evt.xy, !!this.lastUp);
+        }
+        this.mouseDown = true;
+        this.lastDown = evt.xy;
+        this.stoppedDown = stopDown;
+        return !stopDown;
+    },
+
+    /**
+     * Method: move
+     * Handle mousemove and touchmove.  Adjust the geometry and redraw.
+     * Return determines whether to propagate the event on the map.
+     * 
+     * Parameters:
+     * evt - {Event} The browser event
+     *
+     * Returns: 
+     * {Boolean} Allow event propagation
+     */
+    move: function (evt) {
+        if(this.stoppedDown && this.freehandMode(evt)) {
+            if(this.persist) {
+                this.destroyPersistedFeature();
+            }
+            if(this.maxVertices && this.line &&
+                    this.line.geometry.components.length === this.maxVertices) {
+                this.removePoint();
+                this.finalize();
+            } else {
+                this.addPoint(evt.xy);
+            }
+            return false;
+        }
+        if (!this.touch && (!this.mouseDown || this.stoppedDown)) {
+            this.modifyFeature(evt.xy, !!this.lastUp);
+        }
+        return true;
+    },
+    
+    /**
+     * Method: up
+     * Handle mouseup and touchend.  Send the latest point in the geometry to
+     * the control. Return determines whether to propagate the event on the map.
+     * 
+     * Parameters:
+     * evt - {Event} The browser event
+     *
+     * Returns: 
+     * {Boolean} Allow event propagation
+     */
+    up: function (evt) {
+        if (this.mouseDown && (!this.lastUp || !this.lastUp.equals(evt.xy))) {
+            if(this.stoppedDown && this.freehandMode(evt)) {
+                if (this.persist) {
+                    this.destroyPersistedFeature();
+                }
+                this.removePoint();
+                this.finalize();
+            } else {
+                if (this.passesTolerance(this.lastDown, evt.xy,
+                                         this.pixelTolerance)) {
+                    if (this.touch) {
+                        this.modifyFeature(evt.xy);
+                    }
+                    if(this.lastUp == null && this.persist) {
+                        this.destroyPersistedFeature();
+                    }
+                    this.addPoint(evt.xy);
+                    this.lastUp = evt.xy;
+                    if(this.line.geometry.components.length === this.maxVertices + 1) {
+                        this.finishGeometry();
                     }
                 }
             }
-        }    
-        return features;
+        }
+        this.stoppedDown = this.stopDown;
+        this.mouseDown = false;
+        return !this.stopUp;
     },
 
     /**
-     * Method: write
-     * Serialize a feature or array of features into a WKT string.
-     *
-     * Parameters:
-     * features - {<OpenLayers.Feature.Vector>|Array} A feature or array of
-     *            features
-     *
-     * Returns:
-     * {String} The WKT string representation of the input geometries
+     * APIMethod: finishGeometry
+     * Finish the geometry and send it back to the control.
      */
-    write: function(features) {
-        var collection, geometry, type, data, isCollection;
-        if (features.constructor == Array) {
-            collection = features;
-            isCollection = true;
-        } else {
-            collection = [features];
-            isCollection = false;
+    finishGeometry: function() {
+        var index = this.line.geometry.components.length - 1;
+        this.line.geometry.removeComponent(this.line.geometry.components[index]);
+        this.removePoint();
+        this.finalize();
+    },
+  
+    /**
+     * Method: dblclick 
+     * Handle double-clicks.
+     * 
+     * Parameters:
+     * evt - {Event} The browser event
+     *
+     * Returns: 
+     * {Boolean} Allow event propagation
+     */
+    dblclick: function(evt) {
+        if(!this.freehandMode(evt)) {
+            this.finishGeometry();
         }
-        var pieces = [];
-        if (isCollection) {
-            pieces.push('GEOMETRYCOLLECTION(');
-        }
-        for (var i=0, len=collection.length; i<len; ++i) {
-            if (isCollection && i>0) {
-                pieces.push(',');
-            }
-            geometry = collection[i].geometry;
-            pieces.push(this.extractGeometry(geometry));
-        }
-        if (isCollection) {
-            pieces.push(')');
-        }
-        return pieces.join('');
+        return false;
+    },
+
+    CLASS_NAME: "OpenLayers.Handler.Path"
+});
+/* ======================================================================
+    OpenLayers/Control/Attribution.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Control.js
+ */
+
+/**
+ * Class: OpenLayers.Control.Attribution
+ * The attribution control adds attribution from layers to the map display. 
+ * It uses 'attribution' property of each layer.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Control>
+ */
+OpenLayers.Control.Attribution = 
+  OpenLayers.Class(OpenLayers.Control, {
+    
+    /**
+     * APIProperty: seperator
+     * {String} String used to seperate layers.
+     */
+    separator: ", ",
+    
+    /**
+     * APIProperty: template
+     * {String} Template for the attribution. This has to include the substring
+     *     "${layers}", which will be replaced by the layer specific
+     *     attributions, separated by <separator>. The default is "${layers}".
+     */
+    template: "${layers}",
+    
+    /**
+     * Constructor: OpenLayers.Control.Attribution 
+     * 
+     * Parameters:
+     * options - {Object} Options for control.
+     */
+
+    /** 
+     * Method: destroy
+     * Destroy control.
+     */
+    destroy: function() {
+        this.map.events.un({
+            "removelayer": this.updateAttribution,
+            "addlayer": this.updateAttribution,
+            "changelayer": this.updateAttribution,
+            "changebaselayer": this.updateAttribution,
+            scope: this
+        });
+        
+        OpenLayers.Control.prototype.destroy.apply(this, arguments);
+    },    
+    
+    /**
+     * Method: draw
+     * Initialize control.
+     * 
+     * Returns: 
+     * {DOMElement} A reference to the DIV DOMElement containing the control
+     */    
+    draw: function() {
+        OpenLayers.Control.prototype.draw.apply(this, arguments);
+        
+        this.map.events.on({
+            'changebaselayer': this.updateAttribution,
+            'changelayer': this.updateAttribution,
+            'addlayer': this.updateAttribution,
+            'removelayer': this.updateAttribution,
+            scope: this
+        });
+        this.updateAttribution();
+        
+        return this.div;    
     },
 
     /**
-     * Method: extractGeometry
-     * Entry point to construct the WKT for a single Geometry object.
+     * Method: updateAttribution
+     * Update attribution string.
+     */
+    updateAttribution: function() {
+        var attributions = [];
+        if (this.map && this.map.layers) {
+            for(var i=0, len=this.map.layers.length; i<len; i++) {
+                var layer = this.map.layers[i];
+                if (layer.attribution && layer.getVisibility()) {
+                    // add attribution only if attribution text is unique
+                    if (OpenLayers.Util.indexOf(
+                                    attributions, layer.attribution) === -1) {
+                        attributions.push( layer.attribution );
+                    }
+                }
+            } 
+            this.div.innerHTML = OpenLayers.String.format(this.template, {
+                layers: attributions.join(this.separator)
+            });
+        }
+    },
+
+    CLASS_NAME: "OpenLayers.Control.Attribution"
+});
+/* ======================================================================
+    OpenLayers/Control/TransformFeature.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+
+/**
+ * @requires OpenLayers/Control.js
+ * @requires OpenLayers/Control/DragFeature.js
+ * @requires OpenLayers/Feature/Vector.js
+ * @requires OpenLayers/Geometry/LineString.js
+ * @requires OpenLayers/Geometry/Point.js
+ */
+
+/**
+ * Class: OpenLayers.Control.TransformFeature
+ * Control to transform features with a standard transformation box.
+ *
+ * Inherits From:
+ *  - <OpenLayers.Control>
+ */
+OpenLayers.Control.TransformFeature = OpenLayers.Class(OpenLayers.Control, {
+
+    /** 
+     * APIProperty: events
+     * {<OpenLayers.Events>} Events instance for listeners and triggering
+     *     control specific events.
+     *
+     * Register a listener for a particular event with the following syntax:
+     * (code)
+     * control.events.register(type, obj, listener);
+     * (end)
+     *
+     * Supported event types (in addition to those from <OpenLayers.Control.events>):
+     * beforesetfeature - Triggered before a feature is set for
+     *     tranformation. The feature will not be set if a listener returns
+     *     false. Listeners receive a *feature* property, with the feature
+     *     that will be set for transformation. Listeners are allowed to
+     *     set the control's *scale*, *ratio* and *rotation* properties,
+     *     which will set the initial scale, ratio and rotation of the
+     *     feature, like the <setFeature> method's initialParams argument.
+     * setfeature - Triggered when a feature is set for tranformation.
+     *     Listeners receive a *feature* property, with the feature that
+     *     is now set for transformation.
+     * beforetransform - Triggered while dragging, before a feature is
+     *     transformed. The feature will not be transformed if a listener
+     *     returns false (but the box still will). Listeners receive one or
+     *     more of *center*, *scale*, *ratio* and *rotation*. The *center*
+     *     property is an <OpenLayers.Geometry.Point> object with the new
+     *     center of the transformed feature, the others are Floats with the
+     *     scale, ratio or rotation change since the last transformation.
+     * transform - Triggered while dragging, when a feature is transformed.
+     *     Listeners receive an event object with one or more of *center*,
+     *     scale*, *ratio* and *rotation*. The *center* property is an
+     *     <OpenLayers.Geometry.Point> object with the new center of the
+     *     transformed feature, the others are Floats with the scale, ratio
+     *     or rotation change of the feature since the last transformation.
+     * transformcomplete - Triggered after dragging. Listeners receive
+     *     an event object with the transformed *feature*.
+     */
+
+    /**
+     * APIProperty: geometryTypes
+     * {Array(String)} To restrict transformation to a limited set of geometry
+     *     types, send a list of strings corresponding to the geometry class
+     *     names.
+     */
+    geometryTypes: null,
+
+    /**
+     * Property: layer
+     * {<OpenLayers.Layer.Vector>}
+     */
+    layer: null,
+    
+    /**
+     * APIProperty: preserveAspectRatio
+     * {Boolean} set to true to not change the feature's aspect ratio.
+     */
+    preserveAspectRatio: false,
+    
+    /**
+     * APIProperty: rotate
+     * {Boolean} set to false if rotation should be disabled. Default is true.
+     *     To be passed with the constructor or set when the control is not
+     *     active.
+     */
+    rotate: true,
+    
+    /**
+     * APIProperty: feature
+     * {<OpenLayers.Feature.Vector>} Feature currently available for
+     *     transformation. Read-only, use <setFeature> to set it manually.
+     */
+    feature: null,
+    
+    /**
+     * APIProperty: renderIntent
+     * {String|Object} Render intent for the transformation box and
+     *     handles. A symbolizer object can also be provided here.
+     */
+    renderIntent: "temporary",
+    
+    /**
+     * APIProperty: rotationHandleSymbolizer
+     * {Object|String} Optional. A custom symbolizer for the rotation handles.
+     *     A render intent can also be provided here. Defaults to
+     *     (code)
+     *     {
+     *         stroke: false,
+     *         pointRadius: 10,
+     *         fillOpacity: 0,
+     *         cursor: "pointer"
+     *     }
+     *     (end)
+     */
+    rotationHandleSymbolizer: null,
+    
+    /**
+     * APIProperty: box
+     * {<OpenLayers.Feature.Vector>} The transformation box rectangle.
+     *     Read-only.
+     */
+    box: null,
+    
+    /**
+     * APIProperty: center
+     * {<OpenLayers.Geometry.Point>} The center of the feature bounds.
+     * Read-only.
+     */
+    center: null,
+    
+    /**
+     * APIProperty: scale
+     * {Float} The scale of the feature, relative to the scale the time the
+     *     feature was set. Read-only, except for *beforesetfeature*
+     *     listeners.
+     */
+    scale: 1,
+    
+    /**
+     * APIProperty: ratio
+     * {Float} The ratio of the feature relative to the ratio the time the
+     *     feature was set. Read-only, except for *beforesetfeature*
+     *     listeners.
+     */
+    ratio: 1,
+    
+    /**
+     * Property: rotation
+     * {Integer} the current rotation angle of the box. Read-only, except for
+     *     *beforesetfeature* listeners.
+     */
+    rotation: 0,
+    
+    /**
+     * APIProperty: handles
+     * {Array(<OpenLayers.Feature.Vector>)} The 8 handles currently available
+     *     for scaling/resizing. Numbered counterclockwise, starting from the
+     *     southwest corner. Read-only.
+     */
+    handles: null,
+    
+    /**
+     * APIProperty: rotationHandles
+     * {Array(<OpenLayers.Feature.Vector>)} The 4 rotation handles currently
+     *     available for rotating. Numbered counterclockwise, starting from
+     *     the southwest corner. Read-only.
+     */
+    rotationHandles: null,
+    
+    /**
+     * Property: dragControl
+     * {<OpenLayers.Control.DragFeature>}
+     */
+    dragControl: null,
+    
+    /**
+     * APIProperty: irregular
+     * {Boolean} Make scaling/resizing work irregularly. If true then
+     *     dragging a handle causes the feature to resize in the direction
+     *     of movement. If false then the feature resizes symetrically
+     *     about it's center.
+     */
+    irregular: false,
+    
+    /**
+     * Constructor: OpenLayers.Control.TransformFeature
+     * Create a new transform feature control.
      *
      * Parameters:
-     * geometry - {<OpenLayers.Geometry.Geometry>}
-     *
-     * Returns:
-     * {String} A WKT string of representing the geometry
+     * layer - {<OpenLayers.Layer.Vector>} Layer that contains features that
+     *     will be transformed.
+     * options - {Object} Optional object whose properties will be set on the
+     *     control.
      */
-    extractGeometry: function(geometry) {
-        var type = geometry.CLASS_NAME.split('.')[2].toLowerCase();
-        if (!this.extract[type]) {
-            return null;
+    initialize: function(layer, options) {
+        OpenLayers.Control.prototype.initialize.apply(this, [options]);
+
+        this.layer = layer;
+
+        if(!this.rotationHandleSymbolizer) {
+            this.rotationHandleSymbolizer = {
+                stroke: false,
+                pointRadius: 10,
+                fillOpacity: 0,
+                cursor: "pointer"
+            };
         }
-        if (this.internalProjection && this.externalProjection) {
-            geometry = geometry.clone();
-            geometry.transform(this.internalProjection, this.externalProjection);
-        }                       
-        var wktType = type == 'collection' ? 'GEOMETRYCOLLECTION' : type.toUpperCase();
-        var data = wktType + '(' + this.extract[type].apply(this, [geometry]) + ')';
-        return data;
+
+        this.createBox();
+        this.createControl();        
     },
     
     /**
-     * Object with properties corresponding to the geometry types.
-     * Property values are functions that do the actual data extraction.
+     * APIMethod: activate
+     * Activates the control.
      */
-    extract: {
-        /**
-         * Return a space delimited string of point coordinates.
-         * @param {OpenLayers.Geometry.Point} point
-         * @returns {String} A string of coordinates representing the point
-         */
-        'point': function(point) {
-            return point.x + ' ' + point.y;
-        },
-
-        /**
-         * Return a comma delimited string of point coordinates from a multipoint.
-         * @param {OpenLayers.Geometry.MultiPoint} multipoint
-         * @returns {String} A string of point coordinate strings representing
-         *                  the multipoint
-         */
-        'multipoint': function(multipoint) {
-            var array = [];
-            for(var i=0, len=multipoint.components.length; i<len; ++i) {
-                array.push('(' +
-                           this.extract.point.apply(this, [multipoint.components[i]]) +
-                           ')');
-            }
-            return array.join(',');
-        },
-        
-        /**
-         * Return a comma delimited string of point coordinates from a line.
-         * @param {OpenLayers.Geometry.LineString} linestring
-         * @returns {String} A string of point coordinate strings representing
-         *                  the linestring
-         */
-        'linestring': function(linestring) {
-            var array = [];
-            for(var i=0, len=linestring.components.length; i<len; ++i) {
-                array.push(this.extract.point.apply(this, [linestring.components[i]]));
-            }
-            return array.join(',');
-        },
-
-        /**
-         * Return a comma delimited string of linestring strings from a multilinestring.
-         * @param {OpenLayers.Geometry.MultiLineString} multilinestring
-         * @returns {String} A string of of linestring strings representing
-         *                  the multilinestring
-         */
-        'multilinestring': function(multilinestring) {
-            var array = [];
-            for(var i=0, len=multilinestring.components.length; i<len; ++i) {
-                array.push('(' +
-                           this.extract.linestring.apply(this, [multilinestring.components[i]]) +
-                           ')');
-            }
-            return array.join(',');
-        },
-        
-        /**
-         * Return a comma delimited string of linear ring arrays from a polygon.
-         * @param {OpenLayers.Geometry.Polygon} polygon
-         * @returns {String} An array of linear ring arrays representing the polygon
-         */
-        'polygon': function(polygon) {
-            var array = [];
-            for(var i=0, len=polygon.components.length; i<len; ++i) {
-                array.push('(' +
-                           this.extract.linestring.apply(this, [polygon.components[i]]) +
-                           ')');
-            }
-            return array.join(',');
-        },
-
-        /**
-         * Return an array of polygon arrays from a multipolygon.
-         * @param {OpenLayers.Geometry.MultiPolygon} multipolygon
-         * @returns {String} An array of polygon arrays representing
-         *                  the multipolygon
-         */
-        'multipolygon': function(multipolygon) {
-            var array = [];
-            for(var i=0, len=multipolygon.components.length; i<len; ++i) {
-                array.push('(' +
-                           this.extract.polygon.apply(this, [multipolygon.components[i]]) +
-                           ')');
-            }
-            return array.join(',');
-        },
-
-        /**
-         * Return the WKT portion between 'GEOMETRYCOLLECTION(' and ')' for an <OpenLayers.Geometry.Collection>
-         * @param {OpenLayers.Geometry.Collection} collection
-         * @returns {String} internal WKT representation of the collection
-         */
-        'collection': function(collection) {
-            var array = [];
-            for(var i=0, len=collection.components.length; i<len; ++i) {
-                array.push(this.extractGeometry.apply(this, [collection.components[i]]));
-            }
-            return array.join(',');
+    activate: function() {
+        var activated = false;
+        if(OpenLayers.Control.prototype.activate.apply(this, arguments)) {
+            this.dragControl.activate();
+            this.layer.addFeatures([this.box]);
+            this.rotate && this.layer.addFeatures(this.rotationHandles);
+            this.layer.addFeatures(this.handles);        
+            activated = true;
         }
-
+        return activated;
+    },
+    
+    /**
+     * APIMethod: deactivate
+     * Deactivates the control.
+     */
+    deactivate: function() {
+        var deactivated = false;
+        if(OpenLayers.Control.prototype.deactivate.apply(this, arguments)) {
+            this.layer.removeFeatures(this.handles);
+            this.rotate && this.layer.removeFeatures(this.rotationHandles);
+            this.layer.removeFeatures([this.box]);
+            this.dragControl.deactivate();
+            deactivated = true;
+        }
+        return deactivated;
+    },
+    
+    /**
+     * Method: setMap
+     * 
+     * Parameters:
+     * map - {<OpenLayers.Map>}
+     */
+    setMap: function(map) {
+        this.dragControl.setMap(map);
+        OpenLayers.Control.prototype.setMap.apply(this, arguments);
     },
 
     /**
-     * Object with properties corresponding to the geometry types.
-     * Property values are functions that do the actual parsing.
+     * APIMethod: setFeature
+     * Place the transformation box on a feature and start transforming it.
+     * If the control is not active, it will be activated.
+     * 
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>}
+     * initialParams - {Object} Initial values for rotation, scale or ratio.
+     *     Setting a rotation value here will cause the transformation box to
+     *     start rotated. Setting a scale or ratio will not affect the
+     *     transormation box, but applications may use this to keep track of
+     *     scale and ratio of a feature across multiple transforms.
      */
-    parse: {
-        /**
-         * Return point feature given a point WKT fragment.
-         * @param {String} str A WKT fragment representing the point
-         * @returns {OpenLayers.Feature.Vector} A point feature
-         * @private
-         */
-        'point': function(str) {
-            var coords = OpenLayers.String.trim(str).split(this.regExes.spaces);
-            return new OpenLayers.Feature.Vector(
-                new OpenLayers.Geometry.Point(coords[0], coords[1])
-            );
-        },
+    setFeature: function(feature, initialParams) {
+        initialParams = OpenLayers.Util.applyDefaults(initialParams, {
+            rotation: 0,
+            scale: 1,
+            ratio: 1
+        });
 
-        /**
-         * Return a multipoint feature given a multipoint WKT fragment.
-         * @param {String} str A WKT fragment representing the multipoint
-         * @returns {OpenLayers.Feature.Vector} A multipoint feature
-         * @private
-         */
-        'multipoint': function(str) {
-            var point;
-            var points = OpenLayers.String.trim(str).split(',');
-            var components = [];
-            for(var i=0, len=points.length; i<len; ++i) {
-                point = points[i].replace(this.regExes.trimParens, '$1');
-                components.push(this.parse.point.apply(this, [point]).geometry);
-            }
-            return new OpenLayers.Feature.Vector(
-                new OpenLayers.Geometry.MultiPoint(components)
-            );
-        },
-        
-        /**
-         * Return a linestring feature given a linestring WKT fragment.
-         * @param {String} str A WKT fragment representing the linestring
-         * @returns {OpenLayers.Feature.Vector} A linestring feature
-         * @private
-         */
-        'linestring': function(str) {
-            var points = OpenLayers.String.trim(str).split(',');
-            var components = [];
-            for(var i=0, len=points.length; i<len; ++i) {
-                components.push(this.parse.point.apply(this, [points[i]]).geometry);
-            }
-            return new OpenLayers.Feature.Vector(
-                new OpenLayers.Geometry.LineString(components)
-            );
-        },
+        var oldRotation = this.rotation;
+        var oldCenter = this.center;
+        OpenLayers.Util.extend(this, initialParams);
 
-        /**
-         * Return a multilinestring feature given a multilinestring WKT fragment.
-         * @param {String} str A WKT fragment representing the multilinestring
-         * @returns {OpenLayers.Feature.Vector} A multilinestring feature
-         * @private
-         */
-        'multilinestring': function(str) {
-            var line;
-            var lines = OpenLayers.String.trim(str).split(this.regExes.parenComma);
-            var components = [];
-            for(var i=0, len=lines.length; i<len; ++i) {
-                line = lines[i].replace(this.regExes.trimParens, '$1');
-                components.push(this.parse.linestring.apply(this, [line]).geometry);
-            }
-            return new OpenLayers.Feature.Vector(
-                new OpenLayers.Geometry.MultiLineString(components)
-            );
-        },
-        
-        /**
-         * Return a polygon feature given a polygon WKT fragment.
-         * @param {String} str A WKT fragment representing the polygon
-         * @returns {OpenLayers.Feature.Vector} A polygon feature
-         * @private
-         */
-        'polygon': function(str) {
-            var ring, linestring, linearring;
-            var rings = OpenLayers.String.trim(str).split(this.regExes.parenComma);
-            var components = [];
-            for(var i=0, len=rings.length; i<len; ++i) {
-                ring = rings[i].replace(this.regExes.trimParens, '$1');
-                linestring = this.parse.linestring.apply(this, [ring]).geometry;
-                linearring = new OpenLayers.Geometry.LinearRing(linestring.components);
-                components.push(linearring);
-            }
-            return new OpenLayers.Feature.Vector(
-                new OpenLayers.Geometry.Polygon(components)
-            );
-        },
-
-        /**
-         * Return a multipolygon feature given a multipolygon WKT fragment.
-         * @param {String} str A WKT fragment representing the multipolygon
-         * @returns {OpenLayers.Feature.Vector} A multipolygon feature
-         * @private
-         */
-        'multipolygon': function(str) {
-            var polygon;
-            var polygons = OpenLayers.String.trim(str).split(this.regExes.doubleParenComma);
-            var components = [];
-            for(var i=0, len=polygons.length; i<len; ++i) {
-                polygon = polygons[i].replace(this.regExes.trimParens, '$1');
-                components.push(this.parse.polygon.apply(this, [polygon]).geometry);
-            }
-            return new OpenLayers.Feature.Vector(
-                new OpenLayers.Geometry.MultiPolygon(components)
-            );
-        },
-
-        /**
-         * Return an array of features given a geometrycollection WKT fragment.
-         * @param {String} str A WKT fragment representing the geometrycollection
-         * @returns {Array} An array of OpenLayers.Feature.Vector
-         * @private
-         */
-        'geometrycollection': function(str) {
-            // separate components of the collection with |
-            str = str.replace(/,\s*([A-Za-z])/g, '|$1');
-            var wktArray = OpenLayers.String.trim(str).split('|');
-            var components = [];
-            for(var i=0, len=wktArray.length; i<len; ++i) {
-                components.push(OpenLayers.Format.WKT.prototype.read.apply(this,[wktArray[i]]));
-            }
-            return components;
+        var cont = this.events.triggerEvent("beforesetfeature",
+            {feature: feature}
+        );
+        if (cont === false) {
+            return;
         }
 
+        this.feature = feature;
+        this.activate();
+
+        this._setfeature = true;
+
+        var featureBounds = this.feature.geometry.getBounds();
+        this.box.move(featureBounds.getCenterLonLat());
+        this.box.geometry.rotate(-oldRotation, oldCenter);
+        this._angle = 0;
+
+        var ll;
+        if(this.rotation) {
+            var geom = feature.geometry.clone();
+            geom.rotate(-this.rotation, this.center);
+            var box = new OpenLayers.Feature.Vector(
+                geom.getBounds().toGeometry());
+            box.geometry.rotate(this.rotation, this.center);
+            this.box.geometry.rotate(this.rotation, this.center);
+            this.box.move(box.geometry.getBounds().getCenterLonLat());
+            var llGeom = box.geometry.components[0].components[0];
+            ll = llGeom.getBounds().getCenterLonLat();
+        } else {
+            ll = new OpenLayers.LonLat(featureBounds.left, featureBounds.bottom);
+        }
+        this.handles[0].move(ll);
+        
+        delete this._setfeature;
+
+        this.events.triggerEvent("setfeature", {feature: feature});
+    },
+    
+    /**
+     * APIMethod: unsetFeature
+     * Remove the transformation box off any feature.
+     * If the control is active, it will be deactivated first.
+     */
+    unsetFeature: function() {
+        if (this.active) {
+            this.deactivate();
+        } else {
+            this.feature = null;
+            this.rotation = 0;
+            this.scale = 1;
+            this.ratio = 1;
+        }
+    },
+    
+    /**
+     * Method: createBox
+     * Creates the box with all handles and transformation handles.
+     */
+    createBox: function() {
+        var control = this;
+        
+        this.center = new OpenLayers.Geometry.Point(0, 0);
+        this.box = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.LineString([
+                new OpenLayers.Geometry.Point(-1, -1),
+                new OpenLayers.Geometry.Point(0, -1),
+                new OpenLayers.Geometry.Point(1, -1),
+                new OpenLayers.Geometry.Point(1, 0),
+                new OpenLayers.Geometry.Point(1, 1),
+                new OpenLayers.Geometry.Point(0, 1),
+                new OpenLayers.Geometry.Point(-1, 1),
+                new OpenLayers.Geometry.Point(-1, 0),
+                new OpenLayers.Geometry.Point(-1, -1)
+            ]), null,
+            typeof this.renderIntent == "string" ? null : this.renderIntent
+        );
+        
+        // Override for box move - make sure that the center gets updated
+        this.box.geometry.move = function(x, y) {
+            control._moving = true;
+            OpenLayers.Geometry.LineString.prototype.move.apply(this, arguments);
+            control.center.move(x, y);
+            delete control._moving;
+        };
+
+        // Overrides for vertex move, resize and rotate - make sure that
+        // handle and rotationHandle geometries are also moved, resized and
+        // rotated.
+        var vertexMoveFn = function(x, y) {
+            OpenLayers.Geometry.Point.prototype.move.apply(this, arguments);
+            this._rotationHandle && this._rotationHandle.geometry.move(x, y);
+            this._handle.geometry.move(x, y);
+        };
+        var vertexResizeFn = function(scale, center, ratio) {
+            OpenLayers.Geometry.Point.prototype.resize.apply(this, arguments);
+            this._rotationHandle && this._rotationHandle.geometry.resize(
+                scale, center, ratio);
+            this._handle.geometry.resize(scale, center, ratio);
+        };
+        var vertexRotateFn = function(angle, center) {
+            OpenLayers.Geometry.Point.prototype.rotate.apply(this, arguments);
+            this._rotationHandle && this._rotationHandle.geometry.rotate(
+                angle, center);
+            this._handle.geometry.rotate(angle, center);
+        };
+        
+        // Override for handle move - make sure that the box and other handles
+        // are updated, and finally transform the feature.
+        var handleMoveFn = function(x, y) {
+            var oldX = this.x, oldY = this.y;
+            OpenLayers.Geometry.Point.prototype.move.call(this, x, y);
+            if(control._moving) {
+                return;
+            }
+            var evt = control.dragControl.handlers.drag.evt;
+            var preserveAspectRatio = !control._setfeature &&
+                control.preserveAspectRatio;
+            var reshape = !preserveAspectRatio && !(evt && evt.shiftKey);
+            var oldGeom = new OpenLayers.Geometry.Point(oldX, oldY);
+            var centerGeometry = control.center;
+            this.rotate(-control.rotation, centerGeometry);
+            oldGeom.rotate(-control.rotation, centerGeometry);
+            var dx1 = this.x - centerGeometry.x;
+            var dy1 = this.y - centerGeometry.y;
+            var dx0 = dx1 - (this.x - oldGeom.x);
+            var dy0 = dy1 - (this.y - oldGeom.y);
+            if (control.irregular && !control._setfeature) {
+               dx1 -= (this.x - oldGeom.x) / 2;
+               dy1 -= (this.y - oldGeom.y) / 2;
+            }
+            this.x = oldX;
+            this.y = oldY;
+            var scale, ratio = 1;
+            if (reshape) {
+                scale = Math.abs(dy0) < 0.00001 ? 1 : dy1 / dy0;
+                ratio = (Math.abs(dx0) < 0.00001 ? 1 : (dx1 / dx0)) / scale;
+            } else {
+                var l0 = Math.sqrt((dx0 * dx0) + (dy0 * dy0));
+                var l1 = Math.sqrt((dx1 * dx1) + (dy1 * dy1));
+                scale = l1 / l0;
+            }
+
+            // rotate the box to 0 before resizing - saves us some
+            // calculations and is inexpensive because we don't drawFeature.
+            control._moving = true;
+            control.box.geometry.rotate(-control.rotation, centerGeometry);
+            delete control._moving;
+
+            control.box.geometry.resize(scale, centerGeometry, ratio);
+            control.box.geometry.rotate(control.rotation, centerGeometry);
+            control.transformFeature({scale: scale, ratio: ratio});
+            if (control.irregular && !control._setfeature) {
+               var newCenter = centerGeometry.clone();
+               newCenter.x += Math.abs(oldX - centerGeometry.x) < 0.00001 ? 0 : (this.x - oldX);
+               newCenter.y += Math.abs(oldY - centerGeometry.y) < 0.00001 ? 0 : (this.y - oldY);
+               control.box.geometry.move(this.x - oldX, this.y - oldY);
+               control.transformFeature({center: newCenter});
+            }
+        };
+        
+        // Override for rotation handle move - make sure that the box and
+        // other handles are updated, and finally transform the feature.
+        var rotationHandleMoveFn = function(x, y){
+            var oldX = this.x, oldY = this.y;
+            OpenLayers.Geometry.Point.prototype.move.call(this, x, y);
+            if(control._moving) {
+                return;
+            }
+            var evt = control.dragControl.handlers.drag.evt;
+            var constrain = (evt && evt.shiftKey) ? 45 : 1;
+            var centerGeometry = control.center;
+            var dx1 = this.x - centerGeometry.x;
+            var dy1 = this.y - centerGeometry.y;
+            var dx0 = dx1 - x;
+            var dy0 = dy1 - y;
+            this.x = oldX;
+            this.y = oldY;
+            var a0 = Math.atan2(dy0, dx0);
+            var a1 = Math.atan2(dy1, dx1);
+            var angle = a1 - a0;
+            angle *= 180 / Math.PI;
+            control._angle = (control._angle + angle) % 360;
+            var diff = control.rotation % constrain;
+            if(Math.abs(control._angle) >= constrain || diff !== 0) {
+                angle = Math.round(control._angle / constrain) * constrain -
+                    diff;
+                control._angle = 0;
+                control.box.geometry.rotate(angle, centerGeometry);
+                control.transformFeature({rotation: angle});
+            } 
+        };
+
+        var handles = new Array(8);
+        var rotationHandles = new Array(4);
+        var geom, handle, rotationHandle;
+        var positions = ["sw", "s", "se", "e", "ne", "n", "nw", "w"];
+        for(var i=0; i<8; ++i) {
+            geom = this.box.geometry.components[i];
+            handle = new OpenLayers.Feature.Vector(geom.clone(), {
+                role: positions[i] + "-resize"
+            }, typeof this.renderIntent == "string" ? null :
+                this.renderIntent);
+            if(i % 2 == 0) {
+                rotationHandle = new OpenLayers.Feature.Vector(geom.clone(), {
+                    role: positions[i] + "-rotate"
+                }, typeof this.rotationHandleSymbolizer == "string" ?
+                    null : this.rotationHandleSymbolizer);
+                rotationHandle.geometry.move = rotationHandleMoveFn;
+                geom._rotationHandle = rotationHandle;
+                rotationHandles[i/2] = rotationHandle;
+            }
+            geom.move = vertexMoveFn;
+            geom.resize = vertexResizeFn;
+            geom.rotate = vertexRotateFn;
+            handle.geometry.move = handleMoveFn;
+            geom._handle = handle;
+            handles[i] = handle;
+        }
+        
+        this.rotationHandles = rotationHandles;
+        this.handles = handles;
+    },
+    
+    /**
+     * Method: createControl
+     * Creates a DragFeature control for this control.
+     */
+    createControl: function() {
+        var control = this;
+        this.dragControl = new OpenLayers.Control.DragFeature(this.layer, {
+            documentDrag: true,
+            // avoid moving the feature itself - move the box instead
+            moveFeature: function(pixel) {
+                if(this.feature === control.feature) {
+                    this.feature = control.box;
+                }
+                OpenLayers.Control.DragFeature.prototype.moveFeature.apply(this,
+                    arguments);
+            },
+            // transform while dragging
+            onDrag: function(feature, pixel) {
+                if(feature === control.box) {
+                    control.transformFeature({center: control.center});
+                }
+            },
+            // set a new feature
+            onStart: function(feature, pixel) {
+                var eligible = !control.geometryTypes ||
+                    OpenLayers.Util.indexOf(control.geometryTypes,
+                        feature.geometry.CLASS_NAME) !== -1;
+                var i = OpenLayers.Util.indexOf(control.handles, feature);
+                i += OpenLayers.Util.indexOf(control.rotationHandles,
+                    feature);
+                if(feature !== control.feature && feature !== control.box &&
+                                                        i == -2 && eligible) {
+                    control.setFeature(feature);
+                }
+            },
+            onComplete: function(feature, pixel) {
+                control.events.triggerEvent("transformcomplete",
+                    {feature: control.feature});
+            }
+        });
+    },
+    
+    /**
+     * Method: drawHandles
+     * Draws the handles to match the box.
+     */
+    drawHandles: function() {
+        var layer = this.layer;
+        for(var i=0; i<8; ++i) {
+            if(this.rotate && i % 2 === 0) {
+                layer.drawFeature(this.rotationHandles[i/2],
+                    this.rotationHandleSymbolizer);
+            }
+            layer.drawFeature(this.handles[i], this.renderIntent);
+        }
+    },
+    
+    /**
+     * Method: transformFeature
+     * Transforms the feature.
+     * 
+     * Parameters:
+     * mods - {Object} An object with optional scale, ratio, rotation and
+     *     center properties.
+     */
+    transformFeature: function(mods) {
+        if(!this._setfeature) {
+            this.scale *= (mods.scale || 1);
+            this.ratio *= (mods.ratio || 1);
+            var oldRotation = this.rotation;
+            this.rotation = (this.rotation + (mods.rotation || 0)) % 360;
+            
+            if(this.events.triggerEvent("beforetransform", mods) !== false) {
+                var feature = this.feature;
+                var geom = feature.geometry;
+                var center = this.center;
+                geom.rotate(-oldRotation, center);
+                if(mods.scale || mods.ratio) {
+                    geom.resize(mods.scale, center, mods.ratio);
+                } else if(mods.center) {
+                    feature.move(mods.center.getBounds().getCenterLonLat());
+                }
+                geom.rotate(this.rotation, center);
+                this.layer.drawFeature(feature);
+                feature.toState(OpenLayers.State.UPDATE);
+                this.events.triggerEvent("transform", mods);
+            }
+        }
+        this.layer.drawFeature(this.box, this.renderIntent);
+        this.drawHandles();
+    },
+        
+    /**
+     * APIMethod: destroy
+     * Take care of things that are not handled in superclass.
+     */
+    destroy: function() {
+        var geom;
+        for(var i=0; i<8; ++i) {
+            geom = this.box.geometry.components[i];
+            geom._handle.destroy();
+            geom._handle = null;
+            geom._rotationHandle && geom._rotationHandle.destroy();
+            geom._rotationHandle = null;
+        }
+        this.center = null;
+        this.feature = null;
+        this.handles = null;
+        this.rotationHandleSymbolizer = null;
+        this.rotationHandles = null;
+        this.box.destroy();
+        this.box = null;
+        this.layer = null;
+        this.dragControl.destroy();
+        this.dragControl = null;
+        OpenLayers.Control.prototype.destroy.apply(this, arguments);
     },
 
-    CLASS_NAME: "OpenLayers.Format.WKT" 
-});     
+    CLASS_NAME: "OpenLayers.Control.TransformFeature"
+});
 /* ======================================================================
     OpenLayers/Filter/Logical.js
    ====================================================================== */
@@ -26540,574 +30537,6 @@ OpenLayers.Filter.Logical = OpenLayers.Class(OpenLayers.Filter, {
 OpenLayers.Filter.Logical.AND = "&&";
 OpenLayers.Filter.Logical.OR  = "||";
 OpenLayers.Filter.Logical.NOT = "!";
-/* ======================================================================
-    OpenLayers/Handler/Drag.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Handler.js
- */
-
-/**
- * Class: OpenLayers.Handler.Drag
- * The drag handler is used to deal with sequences of browser events related
- *     to dragging.  The handler is used by controls that want to know when
- *     a drag sequence begins, when a drag is happening, and when it has
- *     finished.
- *
- * Controls that use the drag handler typically construct it with callbacks
- *     for 'down', 'move', and 'done'.  Callbacks for these keys are called
- *     when the drag begins, with each move, and when the drag is done.  In
- *     addition, controls can have callbacks keyed to 'up' and 'out' if they
- *     care to differentiate between the types of events that correspond with
- *     the end of a drag sequence.  If no drag actually occurs (no mouse move)
- *     the 'down' and 'up' callbacks will be called, but not the 'done'
- *     callback.
- *
- * Create a new drag handler with the <OpenLayers.Handler.Drag> constructor.
- *
- * Inherits from:
- *  - <OpenLayers.Handler>
- */
-OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
-  
-    /** 
-     * Property: started
-     * {Boolean} When a mousedown or touchstart event is received, we want to
-     * record it, but not set 'dragging' until the mouse moves after starting.
-     */
-    started: false,
-
-    /**
-     * Property: stopDown
-     * {Boolean} Stop propagation of mousedown events from getting to listeners
-     *     on the same element.  Default is true.
-     */
-    stopDown: true,
-
-    /** 
-     * Property: dragging 
-     * {Boolean} 
-     */
-    dragging: false,
-
-    /**
-     * Property: touch
-     * {Boolean} When a touchstart event is fired, touch will be true and all
-     *     mouse related listeners will do nothing.
-     */
-    touch: false,
-
-    /** 
-     * Property: last
-     * {<OpenLayers.Pixel>} The last pixel location of the drag.
-     */
-    last: null,
-
-    /** 
-     * Property: start
-     * {<OpenLayers.Pixel>} The first pixel location of the drag.
-     */
-    start: null,
-
-    /**
-     * Property: lastMoveEvt
-     * {Object} The last mousemove event that occurred. Used to
-     *     position the map correctly when our "delay drag"
-     *     timeout expired.
-     */
-    lastMoveEvt: null,
-
-    /**
-     * Property: oldOnselectstart
-     * {Function}
-     */
-    oldOnselectstart: null,
-    
-    /**
-     * Property: interval
-     * {Integer} In order to increase performance, an interval (in 
-     *     milliseconds) can be set to reduce the number of drag events 
-     *     called. If set, a new drag event will not be set until the 
-     *     interval has passed. 
-     *     Defaults to 0, meaning no interval. 
-     */
-    interval: 0,
-    
-    /**
-     * Property: timeoutId
-     * {String} The id of the timeout used for the mousedown interval.
-     *     This is "private", and should be left alone.
-     */
-    timeoutId: null,
-    
-    /**
-     * APIProperty: documentDrag
-     * {Boolean} If set to true, the handler will also handle mouse moves when
-     *     the cursor has moved out of the map viewport. Default is false.
-     */
-    documentDrag: false,
-    
-    /**
-     * Property: documentEvents
-     * {Boolean} Are we currently observing document events?
-     */
-    documentEvents: null,
-
-    /**
-     * Constructor: OpenLayers.Handler.Drag
-     * Returns OpenLayers.Handler.Drag
-     * 
-     * Parameters:
-     * control - {<OpenLayers.Control>} The control that is making use of
-     *     this handler.  If a handler is being used without a control, the
-     *     handlers setMap method must be overridden to deal properly with
-     *     the map.
-     * callbacks - {Object} An object containing a single function to be
-     *     called when the drag operation is finished. The callback should
-     *     expect to recieve a single argument, the pixel location of the event.
-     *     Callbacks for 'move' and 'done' are supported. You can also speficy
-     *     callbacks for 'down', 'up', and 'out' to respond to those events.
-     * options - {Object} 
-     */
-    initialize: function(control, callbacks, options) {
-        OpenLayers.Handler.prototype.initialize.apply(this, arguments);
-        
-        if (this.documentDrag === true) {
-            var me = this;
-            this._docMove = function(evt) {
-                me.mousemove({
-                    xy: {x: evt.clientX, y: evt.clientY},
-                    element: document
-                });
-            };
-            this._docUp = function(evt) {
-                me.mouseup({xy: {x: evt.clientX, y: evt.clientY}});
-            };
-        }
-    },
-
-    
-    /**
-     * Method: dragstart
-     * This private method is factorized from mousedown and touchstart methods
-     *
-     * Parameters:
-     * evt - {Event} The event
-     *
-     * Returns:
-     * {Boolean} Let the event propagate.
-     */
-    dragstart: function (evt) {
-        var propagate = true;
-        this.dragging = false;
-        if (this.checkModifiers(evt) &&
-               (OpenLayers.Event.isLeftClick(evt) ||
-                OpenLayers.Event.isSingleTouch(evt))) {
-            this.started = true;
-            this.start = evt.xy;
-            this.last = evt.xy;
-            OpenLayers.Element.addClass(
-                this.map.viewPortDiv, "olDragDown"
-            );
-            this.down(evt);
-            this.callback("down", [evt.xy]);
-
-            OpenLayers.Event.stop(evt);
-
-            if(!this.oldOnselectstart) {
-                this.oldOnselectstart = document.onselectstart ?
-                    document.onselectstart : OpenLayers.Function.True;
-            }
-            document.onselectstart = OpenLayers.Function.False;
-
-            propagate = !this.stopDown;
-        } else {
-            this.started = false;
-            this.start = null;
-            this.last = null;
-        }
-        return propagate;
-    },
-
-    /**
-     * Method: dragmove
-     * This private method is factorized from mousemove and touchmove methods
-     *
-     * Parameters:
-     * evt - {Event} The event
-     *
-     * Returns:
-     * {Boolean} Let the event propagate.
-     */
-    dragmove: function (evt) {
-        this.lastMoveEvt = evt;
-        if (this.started && !this.timeoutId && (evt.xy.x != this.last.x ||
-                                                evt.xy.y != this.last.y)) {
-            if(this.documentDrag === true && this.documentEvents) {
-                if(evt.element === document) {
-                    this.adjustXY(evt);
-                    // do setEvent manually because the documentEvents are not
-                    // registered with the map
-                    this.setEvent(evt);
-                } else {
-                    this.removeDocumentEvents();
-                }
-            }
-            if (this.interval > 0) {
-                this.timeoutId = setTimeout(
-                    OpenLayers.Function.bind(this.removeTimeout, this),
-                    this.interval);
-            }
-            this.dragging = true;
-
-            this.move(evt);
-            this.callback("move", [evt.xy]);
-            if(!this.oldOnselectstart) {
-                this.oldOnselectstart = document.onselectstart;
-                document.onselectstart = OpenLayers.Function.False;
-            }
-            this.last = evt.xy;
-        }
-        return true;
-    },
-
-    /**
-     * Method: dragend
-     * This private method is factorized from mouseup and touchend methods
-     *
-     * Parameters:
-     * evt - {Event} The event
-     *
-     * Returns:
-     * {Boolean} Let the event propagate.
-     */
-    dragend: function (evt) {
-        if (this.started) {
-            if(this.documentDrag === true && this.documentEvents) {
-                this.adjustXY(evt);
-                this.removeDocumentEvents();
-            }
-            var dragged = (this.start != this.last);
-            this.started = false;
-            this.dragging = false;
-            OpenLayers.Element.removeClass(
-                this.map.viewPortDiv, "olDragDown"
-            );
-            this.up(evt);
-            this.callback("up", [evt.xy]);
-            if(dragged) {
-                this.callback("done", [evt.xy]);
-            }
-            document.onselectstart = this.oldOnselectstart;
-        }
-        return true;
-    },
-
-    /**
-     * The four methods below (down, move, up, and out) are used by subclasses
-     *     to do their own processing related to these mouse events.
-     */
-
-    /**
-     * Method: down
-     * This method is called during the handling of the mouse down event.
-     *     Subclasses can do their own processing here.
-     *
-     * Parameters:
-     * evt - {Event} The mouse down event
-     */
-    down: function(evt) {
-    },
-
-    /**
-     * Method: move
-     * This method is called during the handling of the mouse move event.
-     *     Subclasses can do their own processing here.
-     *
-     * Parameters:
-     * evt - {Event} The mouse move event
-     *
-     */
-    move: function(evt) {
-    },
-
-    /**
-     * Method: up
-     * This method is called during the handling of the mouse up event.
-     *     Subclasses can do their own processing here.
-     *
-     * Parameters:
-     * evt - {Event} The mouse up event
-     */
-    up: function(evt) {
-    },
-
-    /**
-     * Method: out
-     * This method is called during the handling of the mouse out event.
-     *     Subclasses can do their own processing here.
-     *
-     * Parameters:
-     * evt - {Event} The mouse out event
-     */
-    out: function(evt) {
-    },
-
-    /**
-     * The methods below are part of the magic of event handling.  Because
-     *     they are named like browser events, they are registered as listeners
-     *     for the events they represent.
-     */
-
-    /**
-     * Method: mousedown
-     * Handle mousedown events
-     *
-     * Parameters:
-     * evt - {Event}
-     *
-     * Returns:
-     * {Boolean} Let the event propagate.
-     */
-    mousedown: function(evt) {
-        return this.dragstart(evt);
-    },
-
-    /**
-     * Method: touchstart
-     * Handle touchstart events
-     *
-     * Parameters:
-     * evt - {Event}
-     *
-     * Returns:
-     * {Boolean} Let the event propagate.
-     */
-    touchstart: function(evt) {
-        if (!this.touch) {
-            this.touch = true;
-            // unregister mouse listeners
-            this.map.events.un({
-                mousedown: this.mousedown,
-                mouseup: this.mouseup,
-                mousemove: this.mousemove,
-                click: this.click,
-                scope: this
-            });
-        }
-        return this.dragstart(evt);
-    },
-
-    /**
-     * Method: mousemove
-     * Handle mousemove events
-     *
-     * Parameters:
-     * evt - {Event}
-     *
-     * Returns:
-     * {Boolean} Let the event propagate.
-     */
-    mousemove: function(evt) {
-        return this.dragmove(evt);
-    },
-
-    /**
-     * Method: touchmove
-     * Handle touchmove events
-     *
-     * Parameters:
-     * evt - {Event}
-     *
-     * Returns:
-     * {Boolean} Let the event propagate.
-     */
-    touchmove: function(evt) {
-        return this.dragmove(evt);
-    },
-
-    /**
-     * Method: removeTimeout
-     * Private. Called by mousemove() to remove the drag timeout.
-     */
-    removeTimeout: function() {
-        this.timeoutId = null;
-        // if timeout expires while we're still dragging (mouseup
-        // hasn't occurred) then call mousemove to move to the
-        // correct position
-        if(this.dragging) {
-            this.mousemove(this.lastMoveEvt);
-        }
-    },
-
-    /**
-     * Method: mouseup
-     * Handle mouseup events
-     *
-     * Parameters:
-     * evt - {Event}
-     *
-     * Returns:
-     * {Boolean} Let the event propagate.
-     */
-    mouseup: function(evt) {
-        return this.dragend(evt);
-    },
-
-    /**
-     * Method: touchend
-     * Handle touchend events
-     *
-     * Parameters:
-     * evt - {Event}
-     *
-     * Returns:
-     * {Boolean} Let the event propagate.
-     */
-    touchend: function(evt) {
-        // override evt.xy with last position since touchend does not have
-        // any touch position
-        evt.xy = this.last;
-        return this.dragend(evt);
-    },
-
-    /**
-     * Method: mouseout
-     * Handle mouseout events
-     *
-     * Parameters:
-     * evt - {Event}
-     *
-     * Returns:
-     * {Boolean} Let the event propagate.
-     */
-    mouseout: function (evt) {
-        if (this.started && OpenLayers.Util.mouseLeft(evt, this.map.viewPortDiv)) {
-            if(this.documentDrag === true) {
-                this.addDocumentEvents();
-            } else {
-                var dragged = (this.start != this.last);
-                this.started = false; 
-                this.dragging = false;
-                OpenLayers.Element.removeClass(
-                    this.map.viewPortDiv, "olDragDown"
-                );
-                this.out(evt);
-                this.callback("out", []);
-                if(dragged) {
-                    this.callback("done", [evt.xy]);
-                }
-                if(document.onselectstart) {
-                    document.onselectstart = this.oldOnselectstart;
-                }
-            }
-        }
-        return true;
-    },
-
-    /**
-     * Method: click
-     * The drag handler captures the click event.  If something else registers
-     *     for clicks on the same element, its listener will not be called 
-     *     after a drag.
-     * 
-     * Parameters: 
-     * evt - {Event} 
-     * 
-     * Returns:
-     * {Boolean} Let the event propagate.
-     */
-    click: function (evt) {
-        // let the click event propagate only if the mouse moved
-        return (this.start == this.last);
-    },
-
-    /**
-     * Method: activate
-     * Activate the handler.
-     * 
-     * Returns:
-     * {Boolean} The handler was successfully activated.
-     */
-    activate: function() {
-        var activated = false;
-        if(OpenLayers.Handler.prototype.activate.apply(this, arguments)) {
-            this.dragging = false;
-            activated = true;
-        }
-        return activated;
-    },
-
-    /**
-     * Method: deactivate 
-     * Deactivate the handler.
-     * 
-     * Returns:
-     * {Boolean} The handler was successfully deactivated.
-     */
-    deactivate: function() {
-        var deactivated = false;
-        if(OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
-            this.touch = false;
-            this.started = false;
-            this.dragging = false;
-            this.start = null;
-            this.last = null;
-            deactivated = true;
-            OpenLayers.Element.removeClass(
-                this.map.viewPortDiv, "olDragDown"
-            );
-        }
-        return deactivated;
-    },
-    
-    /**
-     * Method: adjustXY
-     * Converts event coordinates that are relative to the document body to
-     * ones that are relative to the map viewport. The latter is the default in
-     * OpenLayers.
-     * 
-     * Parameters:
-     * evt - {Object}
-     */
-    adjustXY: function(evt) {
-        var pos = OpenLayers.Util.pagePosition(this.map.viewPortDiv);
-        evt.xy.x -= pos[0];
-        evt.xy.y -= pos[1];
-    },
-    
-    /**
-     * Method: addDocumentEvents
-     * Start observing document events when documentDrag is true and the mouse
-     * cursor leaves the map viewport while dragging.
-     */
-    addDocumentEvents: function() {
-        OpenLayers.Element.addClass(document.body, "olDragDown");
-        this.documentEvents = true;
-        OpenLayers.Event.observe(document, "mousemove", this._docMove);
-        OpenLayers.Event.observe(document, "mouseup", this._docUp);
-    },
-    
-    /**
-     * Method: removeDocumentEvents
-     * Stops observing document events when documentDrag is true and the mouse
-     * cursor re-enters the map viewport while dragging.
-     */
-    removeDocumentEvents: function() {
-        OpenLayers.Element.removeClass(document.body, "olDragDown");
-        this.documentEvents = false;
-        OpenLayers.Event.stopObserving(document, "mousemove", this._docMove);
-        OpenLayers.Event.stopObserving(document, "mouseup", this._docUp);
-    },
-
-    CLASS_NAME: "OpenLayers.Handler.Drag"
-});
 /* ======================================================================
     OpenLayers/Handler/Box.js
    ====================================================================== */
@@ -30814,955 +34243,394 @@ OpenLayers.Popup.COLOR = "white";
 OpenLayers.Popup.OPACITY = 1;
 OpenLayers.Popup.BORDER = "0px";
 /* ======================================================================
-    OpenLayers/Popup/Anchored.js
+    OpenLayers/Format/WKT.js
    ====================================================================== */
 
 /* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
  * full list of contributors). Published under the 2-clause BSD license.
  * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
-
-
-/**
- * @requires OpenLayers/Popup.js
- */
-
-/**
- * Class: OpenLayers.Popup.Anchored
- * 
- * Inherits from:
- *  - <OpenLayers.Popup>
- */
-OpenLayers.Popup.Anchored = 
-  OpenLayers.Class(OpenLayers.Popup, {
-
-    /** 
-     * Property: relativePosition
-     * {String} Relative position of the popup ("br", "tr", "tl" or "bl").
-     */
-    relativePosition: null,
-    
-    /**
-     * APIProperty: keepInMap 
-     * {Boolean} If panMapIfOutOfView is false, and this property is true, 
-     *     contrain the popup such that it always fits in the available map
-     *     space. By default, this is set. If you are creating popups that are
-     *     near map edges and not allowing pannning, and especially if you have
-     *     a popup which has a fixedRelativePosition, setting this to false may
-     *     be a smart thing to do.
-     *   
-     *     For anchored popups, default is true, since subclasses will
-     *     usually want this functionality.
-     */
-    keepInMap: true,
-
-    /**
-     * Property: anchor
-     * {Object} Object to which we'll anchor the popup. Must expose a 
-     *     'size' (<OpenLayers.Size>) and 'offset' (<OpenLayers.Pixel>).
-     */
-    anchor: null,
-
-    /** 
-    * Constructor: OpenLayers.Popup.Anchored
-    * 
-    * Parameters:
-    * id - {String}
-    * lonlat - {<OpenLayers.LonLat>}
-    * contentSize - {<OpenLayers.Size>}
-    * contentHTML - {String}
-    * anchor - {Object} Object which must expose a 'size' <OpenLayers.Size> 
-    *     and 'offset' <OpenLayers.Pixel> (generally an <OpenLayers.Icon>).
-    * closeBox - {Boolean}
-    * closeBoxCallback - {Function} Function to be called on closeBox click.
-    */
-    initialize:function(id, lonlat, contentSize, contentHTML, anchor, closeBox,
-                        closeBoxCallback) {
-        var newArguments = [
-            id, lonlat, contentSize, contentHTML, closeBox, closeBoxCallback
-        ];
-        OpenLayers.Popup.prototype.initialize.apply(this, newArguments);
-
-        this.anchor = (anchor != null) ? anchor 
-                                       : { size: new OpenLayers.Size(0,0),
-                                           offset: new OpenLayers.Pixel(0,0)};
-    },
-
-    /**
-     * APIMethod: destroy
-     */
-    destroy: function() {
-        this.anchor = null;
-        this.relativePosition = null;
-        
-        OpenLayers.Popup.prototype.destroy.apply(this, arguments);        
-    },
-
-    /**
-     * APIMethod: show
-     * Overridden from Popup since user might hide popup and then show() it 
-     *     in a new location (meaning we might want to update the relative
-     *     position on the show)
-     */
-    show: function() {
-        this.updatePosition();
-        OpenLayers.Popup.prototype.show.apply(this, arguments);
-    },
-
-    /**
-     * Method: moveTo
-     * Since the popup is moving to a new px, it might need also to be moved
-     *     relative to where the marker is. We first calculate the new 
-     *     relativePosition, and then we calculate the new px where we will 
-     *     put the popup, based on the new relative position. 
-     * 
-     *     If the relativePosition has changed, we must also call 
-     *     updateRelativePosition() to make any visual changes to the popup 
-     *     which are associated with putting it in a new relativePosition.
-     * 
-     * Parameters:
-     * px - {<OpenLayers.Pixel>}
-     */
-    moveTo: function(px) {
-        var oldRelativePosition = this.relativePosition;
-        this.relativePosition = this.calculateRelativePosition(px);
-        
-        var newPx = this.calculateNewPx(px);
-        
-        var newArguments = new Array(newPx);        
-        OpenLayers.Popup.prototype.moveTo.apply(this, newArguments);
-        
-        //if this move has caused the popup to change its relative position, 
-        // we need to make the appropriate cosmetic changes.
-        if (this.relativePosition != oldRelativePosition) {
-            this.updateRelativePosition();
-        }
-    },
-
-    /**
-     * APIMethod: setSize
-     * 
-     * Parameters:
-     * contentSize - {<OpenLayers.Size>} the new size for the popup's 
-     *     contents div (in pixels).
-     */
-    setSize:function(contentSize) { 
-        OpenLayers.Popup.prototype.setSize.apply(this, arguments);
-
-        if ((this.lonlat) && (this.map)) {
-            var px = this.map.getLayerPxFromLonLat(this.lonlat);
-            this.moveTo(px);
-        }
-    },  
-    
-    /** 
-     * Method: calculateRelativePosition
-     * 
-     * Parameters:
-     * px - {<OpenLayers.Pixel>}
-     * 
-     * Returns:
-     * {String} The relative position ("br" "tr" "tl" "bl") at which the popup
-     *     should be placed.
-     */
-    calculateRelativePosition:function(px) {
-        var lonlat = this.map.getLonLatFromLayerPx(px);        
-        
-        var extent = this.map.getExtent();
-        var quadrant = extent.determineQuadrant(lonlat);
-        
-        return OpenLayers.Bounds.oppositeQuadrant(quadrant);
-    }, 
-
-    /**
-     * Method: updateRelativePosition
-     * The popup has been moved to a new relative location, so we may want to 
-     *     make some cosmetic adjustments to it. 
-     * 
-     *     Note that in the classic Anchored popup, there is nothing to do 
-     *     here, since the popup looks exactly the same in all four positions.
-     *     Subclasses such as Framed, however, will want to do something
-     *     special here.
-     */
-    updateRelativePosition: function() {
-        //to be overridden by subclasses
-    },
-
-    /** 
-     * Method: calculateNewPx
-     * 
-     * Parameters:
-     * px - {<OpenLayers.Pixel>}
-     * 
-     * Returns:
-     * {<OpenLayers.Pixel>} The the new px position of the popup on the screen
-     *     relative to the passed-in px.
-     */
-    calculateNewPx:function(px) {
-        var newPx = px.offset(this.anchor.offset);
-        
-        //use contentSize if size is not already set
-        var size = this.size || this.contentSize;
-
-        var top = (this.relativePosition.charAt(0) == 't');
-        newPx.y += (top) ? -size.h : this.anchor.size.h;
-        
-        var left = (this.relativePosition.charAt(1) == 'l');
-        newPx.x += (left) ? -size.w : this.anchor.size.w;
-
-        return newPx;   
-    },
-
-    CLASS_NAME: "OpenLayers.Popup.Anchored"
-});
-/* ======================================================================
-    OpenLayers/Popup/Framed.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Popup/Anchored.js
- */
-
-/**
- * Class: OpenLayers.Popup.Framed
- * 
- * Inherits from:
- *  - <OpenLayers.Popup.Anchored>
- */
-OpenLayers.Popup.Framed =
-  OpenLayers.Class(OpenLayers.Popup.Anchored, {
-
-    /**
-     * Property: imageSrc
-     * {String} location of the image to be used as the popup frame
-     */
-    imageSrc: null,
-
-    /**
-     * Property: imageSize
-     * {<OpenLayers.Size>} Size (measured in pixels) of the image located
-     *     by the 'imageSrc' property.
-     */
-    imageSize: null,
-
-    /**
-     * APIProperty: isAlphaImage
-     * {Boolean} The image has some alpha and thus needs to use the alpha 
-     *     image hack. Note that setting this to true will have no noticeable
-     *     effect in FF or IE7 browsers, but will all but crush the ie6 
-     *     browser. 
-     *     Default is false.
-     */
-    isAlphaImage: false,
-
-    /**
-     * Property: positionBlocks
-     * {Object} Hash of different position blocks (Object/Hashs). Each block 
-     *     will be keyed by a two-character 'relativePosition' 
-     *     code string (ie "tl", "tr", "bl", "br"). Block properties are 
-     *     'offset', 'padding' (self-explanatory), and finally the 'blocks'
-     *     parameter, which is an array of the block objects. 
-     * 
-     *     Each block object must have 'size', 'anchor', and 'position' 
-     *     properties.
-     * 
-     *     Note that positionBlocks should never be modified at runtime.
-     */
-    positionBlocks: null,
-
-    /**
-     * Property: blocks
-     * {Array[Object]} Array of objects, each of which is one "block" of the 
-     *     popup. Each block has a 'div' and an 'image' property, both of 
-     *     which are DOMElements, and the latter of which is appended to the 
-     *     former. These are reused as the popup goes changing positions for
-     *     great economy and elegance.
-     */
-    blocks: null,
-
-    /** 
-     * APIProperty: fixedRelativePosition
-     * {Boolean} We want the framed popup to work dynamically placed relative
-     *     to its anchor but also in just one fixed position. A well designed
-     *     framed popup will have the pixels and logic to display itself in 
-     *     any of the four relative positions, but (understandably), this will
-     *     not be the case for all of them. By setting this property to 'true', 
-     *     framed popup will not recalculate for the best placement each time
-     *     it's open, but will always open the same way. 
-     *     Note that if this is set to true, it is generally advisable to also
-     *     set the 'panIntoView' property to true so that the popup can be 
-     *     scrolled into view (since it will often be offscreen on open)
-     *     Default is false.
-     */
-    fixedRelativePosition: false,
-
-    /** 
-     * Constructor: OpenLayers.Popup.Framed
-     * 
-     * Parameters:
-     * id - {String}
-     * lonlat - {<OpenLayers.LonLat>}
-     * contentSize - {<OpenLayers.Size>}
-     * contentHTML - {String}
-     * anchor - {Object} Object to which we'll anchor the popup. Must expose 
-     *     a 'size' (<OpenLayers.Size>) and 'offset' (<OpenLayers.Pixel>) 
-     *     (Note that this is generally an <OpenLayers.Icon>).
-     * closeBox - {Boolean}
-     * closeBoxCallback - {Function} Function to be called on closeBox click.
-     */
-    initialize:function(id, lonlat, contentSize, contentHTML, anchor, closeBox, 
-                        closeBoxCallback) {
-
-        OpenLayers.Popup.Anchored.prototype.initialize.apply(this, arguments);
-
-        if (this.fixedRelativePosition) {
-            //based on our decided relativePostion, set the current padding
-            // this keeps us from getting into trouble 
-            this.updateRelativePosition();
-            
-            //make calculateRelativePosition always return the specified
-            // fixed position.
-            this.calculateRelativePosition = function(px) {
-                return this.relativePosition;
-            };
-        }
-
-        this.contentDiv.style.position = "absolute";
-        this.contentDiv.style.zIndex = 1;
-
-        if (closeBox) {
-            this.closeDiv.style.zIndex = 1;
-        }
-
-        this.groupDiv.style.position = "absolute";
-        this.groupDiv.style.top = "0px";
-        this.groupDiv.style.left = "0px";
-        this.groupDiv.style.height = "100%";
-        this.groupDiv.style.width = "100%";
-    },
-
-    /** 
-     * APIMethod: destroy
-     */
-    destroy: function() {
-        this.imageSrc = null;
-        this.imageSize = null;
-        this.isAlphaImage = null;
-
-        this.fixedRelativePosition = false;
-        this.positionBlocks = null;
-
-        //remove our blocks
-        for(var i = 0; i < this.blocks.length; i++) {
-            var block = this.blocks[i];
-
-            if (block.image) {
-                block.div.removeChild(block.image);
-            }
-            block.image = null;
-
-            if (block.div) {
-                this.groupDiv.removeChild(block.div);
-            }
-            block.div = null;
-        }
-        this.blocks = null;
-
-        OpenLayers.Popup.Anchored.prototype.destroy.apply(this, arguments);
-    },
-
-    /**
-     * APIMethod: setBackgroundColor
-     */
-    setBackgroundColor:function(color) {
-        //does nothing since the framed popup's entire scheme is based on a 
-        // an image -- changing the background color makes no sense. 
-    },
-
-    /**
-     * APIMethod: setBorder
-     */
-    setBorder:function() {
-        //does nothing since the framed popup's entire scheme is based on a 
-        // an image -- changing the popup's border makes no sense. 
-    },
-
-    /**
-     * Method: setOpacity
-     * Sets the opacity of the popup.
-     * 
-     * Parameters:
-     * opacity - {float} A value between 0.0 (transparent) and 1.0 (solid).   
-     */
-    setOpacity:function(opacity) {
-        //does nothing since we suppose that we'll never apply an opacity
-        // to a framed popup
-    },
-
-    /**
-     * APIMethod: setSize
-     * Overridden here, because we need to update the blocks whenever the size
-     *     of the popup has changed.
-     * 
-     * Parameters:
-     * contentSize - {<OpenLayers.Size>} the new size for the popup's 
-     *     contents div (in pixels).
-     */
-    setSize:function(contentSize) { 
-        OpenLayers.Popup.Anchored.prototype.setSize.apply(this, arguments);
-
-        this.updateBlocks();
-    },
-
-    /**
-     * Method: updateRelativePosition
-     * When the relative position changes, we need to set the new padding 
-     *     BBOX on the popup, reposition the close div, and update the blocks.
-     */
-    updateRelativePosition: function() {
-
-        //update the padding
-        this.padding = this.positionBlocks[this.relativePosition].padding;
-
-        //update the position of our close box to new padding
-        if (this.closeDiv) {
-            // use the content div's css padding to determine if we should
-            //  padd the close div
-            var contentDivPadding = this.getContentDivPadding();
-
-            this.closeDiv.style.right = contentDivPadding.right + 
-                                        this.padding.right + "px";
-            this.closeDiv.style.top = contentDivPadding.top + 
-                                      this.padding.top + "px";
-        }
-
-        this.updateBlocks();
-    },
-
-    /** 
-     * Method: calculateNewPx
-     * Besides the standard offset as determined by the Anchored class, our 
-     *     Framed popups have a special 'offset' property for each of their 
-     *     positions, which is used to offset the popup relative to its anchor.
-     * 
-     * Parameters:
-     * px - {<OpenLayers.Pixel>}
-     * 
-     * Returns:
-     * {<OpenLayers.Pixel>} The the new px position of the popup on the screen
-     *     relative to the passed-in px.
-     */
-    calculateNewPx:function(px) {
-        var newPx = OpenLayers.Popup.Anchored.prototype.calculateNewPx.apply(
-            this, arguments
-        );
-
-        newPx = newPx.offset(this.positionBlocks[this.relativePosition].offset);
-
-        return newPx;
-    },
-
-    /**
-     * Method: createBlocks
-     */
-    createBlocks: function() {
-        this.blocks = [];
-
-        //since all positions contain the same number of blocks, we can 
-        // just pick the first position and use its blocks array to create
-        // our blocks array
-        var firstPosition = null;
-        for(var key in this.positionBlocks) {
-            firstPosition = key;
-            break;
-        }
-        
-        var position = this.positionBlocks[firstPosition];
-        for (var i = 0; i < position.blocks.length; i++) {
-
-            var block = {};
-            this.blocks.push(block);
-
-            var divId = this.id + '_FrameDecorationDiv_' + i;
-            block.div = OpenLayers.Util.createDiv(divId, 
-                null, null, null, "absolute", null, "hidden", null
-            );
-
-            var imgId = this.id + '_FrameDecorationImg_' + i;
-            var imageCreator = 
-                (this.isAlphaImage) ? OpenLayers.Util.createAlphaImageDiv
-                                    : OpenLayers.Util.createImage;
-
-            block.image = imageCreator(imgId, 
-                null, this.imageSize, this.imageSrc, 
-                "absolute", null, null, null
-            );
-
-            block.div.appendChild(block.image);
-            this.groupDiv.appendChild(block.div);
-        }
-    },
-
-    /**
-     * Method: updateBlocks
-     * Internal method, called on initialize and when the popup's relative
-     *     position has changed. This function takes care of re-positioning
-     *     the popup's blocks in their appropropriate places.
-     */
-    updateBlocks: function() {
-        if (!this.blocks) {
-            this.createBlocks();
-        }
-        
-        if (this.size && this.relativePosition) {
-            var position = this.positionBlocks[this.relativePosition];
-            for (var i = 0; i < position.blocks.length; i++) {
-    
-                var positionBlock = position.blocks[i];
-                var block = this.blocks[i];
-    
-                // adjust sizes
-                var l = positionBlock.anchor.left;
-                var b = positionBlock.anchor.bottom;
-                var r = positionBlock.anchor.right;
-                var t = positionBlock.anchor.top;
-    
-                //note that we use the isNaN() test here because if the 
-                // size object is initialized with a "auto" parameter, the 
-                // size constructor calls parseFloat() on the string, 
-                // which will turn it into NaN
-                //
-                var w = (isNaN(positionBlock.size.w)) ? this.size.w - (r + l) 
-                                                      : positionBlock.size.w;
-    
-                var h = (isNaN(positionBlock.size.h)) ? this.size.h - (b + t) 
-                                                      : positionBlock.size.h;
-    
-                block.div.style.width = (w < 0 ? 0 : w) + 'px';
-                block.div.style.height = (h < 0 ? 0 : h) + 'px';
-    
-                block.div.style.left = (l != null) ? l + 'px' : '';
-                block.div.style.bottom = (b != null) ? b + 'px' : '';
-                block.div.style.right = (r != null) ? r + 'px' : '';            
-                block.div.style.top = (t != null) ? t + 'px' : '';
-    
-                block.image.style.left = positionBlock.position.x + 'px';
-                block.image.style.top = positionBlock.position.y + 'px';
-            }
-    
-            this.contentDiv.style.left = this.padding.left + "px";
-            this.contentDiv.style.top = this.padding.top + "px";
-        }
-    },
-
-    CLASS_NAME: "OpenLayers.Popup.Framed"
-});
-/* ======================================================================
-    OpenLayers/Format/JSON.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * Note:
- * This work draws heavily from the public domain JSON serializer/deserializer
- *     at http://www.json.org/json.js. Rewritten so that it doesn't modify
- *     basic data prototypes.
- */
 
 /**
  * @requires OpenLayers/Format.js
+ * @requires OpenLayers/Feature/Vector.js
  */
 
 /**
- * Class: OpenLayers.Format.JSON
- * A parser to read/write JSON safely.  Create a new instance with the
- *     <OpenLayers.Format.JSON> constructor.
- *
+ * Class: OpenLayers.Format.WKT
+ * Class for reading and writing Well-Known Text.  Create a new instance
+ * with the <OpenLayers.Format.WKT> constructor.
+ * 
  * Inherits from:
  *  - <OpenLayers.Format>
  */
-OpenLayers.Format.JSON = OpenLayers.Class(OpenLayers.Format, {
+OpenLayers.Format.WKT = OpenLayers.Class(OpenLayers.Format, {
     
     /**
-     * APIProperty: indent
-     * {String} For "pretty" printing, the indent string will be used once for
-     *     each indentation level.
-     */
-    indent: "    ",
-    
-    /**
-     * APIProperty: space
-     * {String} For "pretty" printing, the space string will be used after
-     *     the ":" separating a name/value pair.
-     */
-    space: " ",
-    
-    /**
-     * APIProperty: newline
-     * {String} For "pretty" printing, the newline string will be used at the
-     *     end of each name/value pair or array item.
-     */
-    newline: "\n",
-    
-    /**
-     * Property: level
-     * {Integer} For "pretty" printing, this is incremented/decremented during
-     *     serialization.
-     */
-    level: 0,
-
-    /**
-     * Property: pretty
-     * {Boolean} Serialize with extra whitespace for structure.  This is set
-     *     by the <write> method.
-     */
-    pretty: false,
-
-    /**
-     * Property: nativeJSON
-     * {Boolean} Does the browser support native json?
-     */
-    nativeJSON: (function() {
-        return !!(window.JSON && typeof JSON.parse == "function" && typeof JSON.stringify == "function");
-    })(),
-
-    /**
-     * Constructor: OpenLayers.Format.JSON
-     * Create a new parser for JSON.
+     * Constructor: OpenLayers.Format.WKT
+     * Create a new parser for WKT
      *
      * Parameters:
      * options - {Object} An optional object whose properties will be set on
-     *     this instance.
+     *           this instance
+     *
+     * Returns:
+     * {<OpenLayers.Format.WKT>} A new WKT parser.
      */
+    initialize: function(options) {
+        this.regExes = {
+            'typeStr': /^\s*(\w+)\s*\(\s*(.*)\s*\)\s*$/,
+            'spaces': /\s+/,
+            'parenComma': /\)\s*,\s*\(/,
+            'doubleParenComma': /\)\s*\)\s*,\s*\(\s*\(/,  // can't use {2} here
+            'trimParens': /^\s*\(?(.*?)\)?\s*$/
+        };
+        OpenLayers.Format.prototype.initialize.apply(this, [options]);
+    },
 
     /**
-     * APIMethod: read
-     * Deserialize a json string.
+     * Method: read
+     * Deserialize a WKT string and return a vector feature or an
+     * array of vector features.  Supports WKT for POINT, MULTIPOINT,
+     * LINESTRING, MULTILINESTRING, POLYGON, MULTIPOLYGON, and
+     * GEOMETRYCOLLECTION.
      *
      * Parameters:
-     * json - {String} A JSON string
-     * filter - {Function} A function which will be called for every key and
-     *     value at every level of the final result. Each value will be
-     *     replaced by the result of the filter function. This can be used to
-     *     reform generic objects into instances of classes, or to transform
-     *     date strings into Date objects.
-     *     
+     * wkt - {String} A WKT string
+     *
      * Returns:
-     * {Object} An object, array, string, or number .
+     * {<OpenLayers.Feature.Vector>|Array} A feature or array of features for
+     * GEOMETRYCOLLECTION WKT.
      */
-    read: function(json, filter) {
-        var object;
-        if (this.nativeJSON) {
-            object = JSON.parse(json, filter);
-        } else try {
-            /**
-             * Parsing happens in three stages. In the first stage, we run the
-             *     text against a regular expression which looks for non-JSON
-             *     characters. We are especially concerned with '()' and 'new'
-             *     because they can cause invocation, and '=' because it can
-             *     cause mutation. But just to be safe, we will reject all
-             *     unexpected characters.
-             */
-            if (/^[\],:{}\s]*$/.test(json.replace(/\\["\\\/bfnrtu]/g, '@').
-                                replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
-                                replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
-
-                /**
-                 * In the second stage we use the eval function to compile the
-                 *     text into a JavaScript structure. The '{' operator is
-                 *     subject to a syntactic ambiguity in JavaScript - it can
-                 *     begin a block or an object literal. We wrap the text in
-                 *     parens to eliminate the ambiguity.
-                 */
-                object = eval('(' + json + ')');
-
-                /**
-                 * In the optional third stage, we recursively walk the new
-                 *     structure, passing each name/value pair to a filter
-                 *     function for possible transformation.
-                 */
-                if(typeof filter === 'function') {
-                    function walk(k, v) {
-                        if(v && typeof v === 'object') {
-                            for(var i in v) {
-                                if(v.hasOwnProperty(i)) {
-                                    v[i] = walk(i, v[i]);
-                                }
-                            }
-                        }
-                        return filter(k, v);
+    read: function(wkt) {
+        var features, type, str;
+        wkt = wkt.replace(/[\n\r]/g, " ");
+        var matches = this.regExes.typeStr.exec(wkt);
+        if(matches) {
+            type = matches[1].toLowerCase();
+            str = matches[2];
+            if(this.parse[type]) {
+                features = this.parse[type].apply(this, [str]);
+            }
+            if (this.internalProjection && this.externalProjection) {
+                if (features && 
+                    features.CLASS_NAME == "OpenLayers.Feature.Vector") {
+                    features.geometry.transform(this.externalProjection,
+                                                this.internalProjection);
+                } else if (features &&
+                           type != "geometrycollection" &&
+                           typeof features == "object") {
+                    for (var i=0, len=features.length; i<len; i++) {
+                        var component = features[i];
+                        component.geometry.transform(this.externalProjection,
+                                                     this.internalProjection);
                     }
-                    object = walk('', object);
                 }
             }
-        } catch(e) {
-            // Fall through if the regexp test fails.
-        }
-
-        if(this.keepData) {
-            this.data = object;
-        }
-
-        return object;
+        }    
+        return features;
     },
 
     /**
-     * APIMethod: write
-     * Serialize an object into a JSON string.
+     * Method: write
+     * Serialize a feature or array of features into a WKT string.
      *
      * Parameters:
-     * value - {String} The object, array, string, number, boolean or date
-     *     to be serialized.
-     * pretty - {Boolean} Structure the output with newlines and indentation.
-     *     Default is false.
+     * features - {<OpenLayers.Feature.Vector>|Array} A feature or array of
+     *            features
      *
      * Returns:
-     * {String} The JSON string representation of the input value.
+     * {String} The WKT string representation of the input geometries
      */
-    write: function(value, pretty) {
-        this.pretty = !!pretty;
-        var json = null;
-        var type = typeof value;
-        if(this.serialize[type]) {
-            try {
-                json = (!this.pretty && this.nativeJSON) ?
-                    JSON.stringify(value) :
-                    this.serialize[type].apply(this, [value]);
-            } catch(err) {
-                OpenLayers.Console.error("Trouble serializing: " + err);
-            }
+    write: function(features) {
+        var collection, geometry, type, data, isCollection;
+        if (features.constructor == Array) {
+            collection = features;
+            isCollection = true;
+        } else {
+            collection = [features];
+            isCollection = false;
         }
-        return json;
-    },
-    
-    /**
-     * Method: writeIndent
-     * Output an indentation string depending on the indentation level.
-     *
-     * Returns:
-     * {String} An appropriate indentation string.
-     */
-    writeIndent: function() {
         var pieces = [];
-        if(this.pretty) {
-            for(var i=0; i<this.level; ++i) {
-                pieces.push(this.indent);
+        if (isCollection) {
+            pieces.push('GEOMETRYCOLLECTION(');
+        }
+        for (var i=0, len=collection.length; i<len; ++i) {
+            if (isCollection && i>0) {
+                pieces.push(',');
             }
+            geometry = collection[i].geometry;
+            pieces.push(this.extractGeometry(geometry));
+        }
+        if (isCollection) {
+            pieces.push(')');
         }
         return pieces.join('');
     },
-    
+
     /**
-     * Method: writeNewline
-     * Output a string representing a newline if in pretty printing mode.
+     * Method: extractGeometry
+     * Entry point to construct the WKT for a single Geometry object.
+     *
+     * Parameters:
+     * geometry - {<OpenLayers.Geometry.Geometry>}
      *
      * Returns:
-     * {String} A string representing a new line.
+     * {String} A WKT string of representing the geometry
      */
-    writeNewline: function() {
-        return (this.pretty) ? this.newline : '';
-    },
-    
-    /**
-     * Method: writeSpace
-     * Output a string representing a space if in pretty printing mode.
-     *
-     * Returns:
-     * {String} A space.
-     */
-    writeSpace: function() {
-        return (this.pretty) ? this.space : '';
-    },
-
-    /**
-     * Property: serialize
-     * Object with properties corresponding to the serializable data types.
-     *     Property values are functions that do the actual serializing.
-     */
-    serialize: {
-        /**
-         * Method: serialize.object
-         * Transform an object into a JSON string.
-         *
-         * Parameters:
-         * object - {Object} The object to be serialized.
-         * 
-         * Returns:
-         * {String} A JSON string representing the object.
-         */
-        'object': function(object) {
-            // three special objects that we want to treat differently
-            if(object == null) {
-                return "null";
-            }
-            if(object.constructor == Date) {
-                return this.serialize.date.apply(this, [object]);
-            }
-            if(object.constructor == Array) {
-                return this.serialize.array.apply(this, [object]);
-            }
-            var pieces = ['{'];
-            this.level += 1;
-            var key, keyJSON, valueJSON;
-            
-            var addComma = false;
-            for(key in object) {
-                if(object.hasOwnProperty(key)) {
-                    // recursive calls need to allow for sub-classing
-                    keyJSON = OpenLayers.Format.JSON.prototype.write.apply(this,
-                                                    [key, this.pretty]);
-                    valueJSON = OpenLayers.Format.JSON.prototype.write.apply(this,
-                                                    [object[key], this.pretty]);
-                    if(keyJSON != null && valueJSON != null) {
-                        if(addComma) {
-                            pieces.push(',');
-                        }
-                        pieces.push(this.writeNewline(), this.writeIndent(),
-                                    keyJSON, ':', this.writeSpace(), valueJSON);
-                        addComma = true;
-                    }
-                }
-            }
-            
-            this.level -= 1;
-            pieces.push(this.writeNewline(), this.writeIndent(), '}');
-            return pieces.join('');
-        },
-        
-        /**
-         * Method: serialize.array
-         * Transform an array into a JSON string.
-         *
-         * Parameters:
-         * array - {Array} The array to be serialized
-         * 
-         * Returns:
-         * {String} A JSON string representing the array.
-         */
-        'array': function(array) {
-            var json;
-            var pieces = ['['];
-            this.level += 1;
-    
-            for(var i=0, len=array.length; i<len; ++i) {
-                // recursive calls need to allow for sub-classing
-                json = OpenLayers.Format.JSON.prototype.write.apply(this,
-                                                    [array[i], this.pretty]);
-                if(json != null) {
-                    if(i > 0) {
-                        pieces.push(',');
-                    }
-                    pieces.push(this.writeNewline(), this.writeIndent(), json);
-                }
-            }
-
-            this.level -= 1;    
-            pieces.push(this.writeNewline(), this.writeIndent(), ']');
-            return pieces.join('');
-        },
-        
-        /**
-         * Method: serialize.string
-         * Transform a string into a JSON string.
-         *
-         * Parameters:
-         * string - {String} The string to be serialized
-         * 
-         * Returns:
-         * {String} A JSON string representing the string.
-         */
-        'string': function(string) {
-            // If the string contains no control characters, no quote characters, and no
-            // backslash characters, then we can simply slap some quotes around it.
-            // Otherwise we must also replace the offending characters with safe
-            // sequences.    
-            var m = {
-                '\b': '\\b',
-                '\t': '\\t',
-                '\n': '\\n',
-                '\f': '\\f',
-                '\r': '\\r',
-                '"' : '\\"',
-                '\\': '\\\\'
-            };
-            if(/["\\\x00-\x1f]/.test(string)) {
-                return '"' + string.replace(/([\x00-\x1f\\"])/g, function(a, b) {
-                    var c = m[b];
-                    if(c) {
-                        return c;
-                    }
-                    c = b.charCodeAt();
-                    return '\\u00' +
-                        Math.floor(c / 16).toString(16) +
-                        (c % 16).toString(16);
-                }) + '"';
-            }
-            return '"' + string + '"';
-        },
-
-        /**
-         * Method: serialize.number
-         * Transform a number into a JSON string.
-         *
-         * Parameters:
-         * number - {Number} The number to be serialized.
-         *
-         * Returns:
-         * {String} A JSON string representing the number.
-         */
-        'number': function(number) {
-            return isFinite(number) ? String(number) : "null";
-        },
-        
-        /**
-         * Method: serialize.boolean
-         * Transform a boolean into a JSON string.
-         *
-         * Parameters:
-         * bool - {Boolean} The boolean to be serialized.
-         * 
-         * Returns:
-         * {String} A JSON string representing the boolean.
-         */
-        'boolean': function(bool) {
-            return String(bool);
-        },
-        
-        /**
-         * Method: serialize.object
-         * Transform a date into a JSON string.
-         *
-         * Parameters:
-         * date - {Date} The date to be serialized.
-         * 
-         * Returns:
-         * {String} A JSON string representing the date.
-         */
-        'date': function(date) {    
-            function format(number) {
-                // Format integers to have at least two digits.
-                return (number < 10) ? '0' + number : number;
-            }
-            return '"' + date.getFullYear() + '-' +
-                    format(date.getMonth() + 1) + '-' +
-                    format(date.getDate()) + 'T' +
-                    format(date.getHours()) + ':' +
-                    format(date.getMinutes()) + ':' +
-                    format(date.getSeconds()) + '"';
+    extractGeometry: function(geometry) {
+        var type = geometry.CLASS_NAME.split('.')[2].toLowerCase();
+        if (!this.extract[type]) {
+            return null;
         }
+        if (this.internalProjection && this.externalProjection) {
+            geometry = geometry.clone();
+            geometry.transform(this.internalProjection, this.externalProjection);
+        }                       
+        var wktType = type == 'collection' ? 'GEOMETRYCOLLECTION' : type.toUpperCase();
+        var data = wktType + '(' + this.extract[type].apply(this, [geometry]) + ')';
+        return data;
+    },
+    
+    /**
+     * Object with properties corresponding to the geometry types.
+     * Property values are functions that do the actual data extraction.
+     */
+    extract: {
+        /**
+         * Return a space delimited string of point coordinates.
+         * @param {OpenLayers.Geometry.Point} point
+         * @returns {String} A string of coordinates representing the point
+         */
+        'point': function(point) {
+            return point.x + ' ' + point.y;
+        },
+
+        /**
+         * Return a comma delimited string of point coordinates from a multipoint.
+         * @param {OpenLayers.Geometry.MultiPoint} multipoint
+         * @returns {String} A string of point coordinate strings representing
+         *                  the multipoint
+         */
+        'multipoint': function(multipoint) {
+            var array = [];
+            for(var i=0, len=multipoint.components.length; i<len; ++i) {
+                array.push('(' +
+                           this.extract.point.apply(this, [multipoint.components[i]]) +
+                           ')');
+            }
+            return array.join(',');
+        },
+        
+        /**
+         * Return a comma delimited string of point coordinates from a line.
+         * @param {OpenLayers.Geometry.LineString} linestring
+         * @returns {String} A string of point coordinate strings representing
+         *                  the linestring
+         */
+        'linestring': function(linestring) {
+            var array = [];
+            for(var i=0, len=linestring.components.length; i<len; ++i) {
+                array.push(this.extract.point.apply(this, [linestring.components[i]]));
+            }
+            return array.join(',');
+        },
+
+        /**
+         * Return a comma delimited string of linestring strings from a multilinestring.
+         * @param {OpenLayers.Geometry.MultiLineString} multilinestring
+         * @returns {String} A string of of linestring strings representing
+         *                  the multilinestring
+         */
+        'multilinestring': function(multilinestring) {
+            var array = [];
+            for(var i=0, len=multilinestring.components.length; i<len; ++i) {
+                array.push('(' +
+                           this.extract.linestring.apply(this, [multilinestring.components[i]]) +
+                           ')');
+            }
+            return array.join(',');
+        },
+        
+        /**
+         * Return a comma delimited string of linear ring arrays from a polygon.
+         * @param {OpenLayers.Geometry.Polygon} polygon
+         * @returns {String} An array of linear ring arrays representing the polygon
+         */
+        'polygon': function(polygon) {
+            var array = [];
+            for(var i=0, len=polygon.components.length; i<len; ++i) {
+                array.push('(' +
+                           this.extract.linestring.apply(this, [polygon.components[i]]) +
+                           ')');
+            }
+            return array.join(',');
+        },
+
+        /**
+         * Return an array of polygon arrays from a multipolygon.
+         * @param {OpenLayers.Geometry.MultiPolygon} multipolygon
+         * @returns {String} An array of polygon arrays representing
+         *                  the multipolygon
+         */
+        'multipolygon': function(multipolygon) {
+            var array = [];
+            for(var i=0, len=multipolygon.components.length; i<len; ++i) {
+                array.push('(' +
+                           this.extract.polygon.apply(this, [multipolygon.components[i]]) +
+                           ')');
+            }
+            return array.join(',');
+        },
+
+        /**
+         * Return the WKT portion between 'GEOMETRYCOLLECTION(' and ')' for an <OpenLayers.Geometry.Collection>
+         * @param {OpenLayers.Geometry.Collection} collection
+         * @returns {String} internal WKT representation of the collection
+         */
+        'collection': function(collection) {
+            var array = [];
+            for(var i=0, len=collection.components.length; i<len; ++i) {
+                array.push(this.extractGeometry.apply(this, [collection.components[i]]));
+            }
+            return array.join(',');
+        }
+
     },
 
-    CLASS_NAME: "OpenLayers.Format.JSON" 
+    /**
+     * Object with properties corresponding to the geometry types.
+     * Property values are functions that do the actual parsing.
+     */
+    parse: {
+        /**
+         * Return point feature given a point WKT fragment.
+         * @param {String} str A WKT fragment representing the point
+         * @returns {OpenLayers.Feature.Vector} A point feature
+         * @private
+         */
+        'point': function(str) {
+            var coords = OpenLayers.String.trim(str).split(this.regExes.spaces);
+            return new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Point(coords[0], coords[1])
+            );
+        },
 
+        /**
+         * Return a multipoint feature given a multipoint WKT fragment.
+         * @param {String} str A WKT fragment representing the multipoint
+         * @returns {OpenLayers.Feature.Vector} A multipoint feature
+         * @private
+         */
+        'multipoint': function(str) {
+            var point;
+            var points = OpenLayers.String.trim(str).split(',');
+            var components = [];
+            for(var i=0, len=points.length; i<len; ++i) {
+                point = points[i].replace(this.regExes.trimParens, '$1');
+                components.push(this.parse.point.apply(this, [point]).geometry);
+            }
+            return new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.MultiPoint(components)
+            );
+        },
+        
+        /**
+         * Return a linestring feature given a linestring WKT fragment.
+         * @param {String} str A WKT fragment representing the linestring
+         * @returns {OpenLayers.Feature.Vector} A linestring feature
+         * @private
+         */
+        'linestring': function(str) {
+            var points = OpenLayers.String.trim(str).split(',');
+            var components = [];
+            for(var i=0, len=points.length; i<len; ++i) {
+                components.push(this.parse.point.apply(this, [points[i]]).geometry);
+            }
+            return new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.LineString(components)
+            );
+        },
+
+        /**
+         * Return a multilinestring feature given a multilinestring WKT fragment.
+         * @param {String} str A WKT fragment representing the multilinestring
+         * @returns {OpenLayers.Feature.Vector} A multilinestring feature
+         * @private
+         */
+        'multilinestring': function(str) {
+            var line;
+            var lines = OpenLayers.String.trim(str).split(this.regExes.parenComma);
+            var components = [];
+            for(var i=0, len=lines.length; i<len; ++i) {
+                line = lines[i].replace(this.regExes.trimParens, '$1');
+                components.push(this.parse.linestring.apply(this, [line]).geometry);
+            }
+            return new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.MultiLineString(components)
+            );
+        },
+        
+        /**
+         * Return a polygon feature given a polygon WKT fragment.
+         * @param {String} str A WKT fragment representing the polygon
+         * @returns {OpenLayers.Feature.Vector} A polygon feature
+         * @private
+         */
+        'polygon': function(str) {
+            var ring, linestring, linearring;
+            var rings = OpenLayers.String.trim(str).split(this.regExes.parenComma);
+            var components = [];
+            for(var i=0, len=rings.length; i<len; ++i) {
+                ring = rings[i].replace(this.regExes.trimParens, '$1');
+                linestring = this.parse.linestring.apply(this, [ring]).geometry;
+                linearring = new OpenLayers.Geometry.LinearRing(linestring.components);
+                components.push(linearring);
+            }
+            return new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Polygon(components)
+            );
+        },
+
+        /**
+         * Return a multipolygon feature given a multipolygon WKT fragment.
+         * @param {String} str A WKT fragment representing the multipolygon
+         * @returns {OpenLayers.Feature.Vector} A multipolygon feature
+         * @private
+         */
+        'multipolygon': function(str) {
+            var polygon;
+            var polygons = OpenLayers.String.trim(str).split(this.regExes.doubleParenComma);
+            var components = [];
+            for(var i=0, len=polygons.length; i<len; ++i) {
+                polygon = polygons[i].replace(this.regExes.trimParens, '$1');
+                components.push(this.parse.polygon.apply(this, [polygon]).geometry);
+            }
+            return new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.MultiPolygon(components)
+            );
+        },
+
+        /**
+         * Return an array of features given a geometrycollection WKT fragment.
+         * @param {String} str A WKT fragment representing the geometrycollection
+         * @returns {Array} An array of OpenLayers.Feature.Vector
+         * @private
+         */
+        'geometrycollection': function(str) {
+            // separate components of the collection with |
+            str = str.replace(/,\s*([A-Za-z])/g, '|$1');
+            var wktArray = OpenLayers.String.trim(str).split('|');
+            var components = [];
+            for(var i=0, len=wktArray.length; i<len; ++i) {
+                components.push(OpenLayers.Format.WKT.prototype.read.apply(this,[wktArray[i]]));
+            }
+            return components;
+        }
+
+    },
+
+    CLASS_NAME: "OpenLayers.Format.WKT" 
 });     
 /* ======================================================================
     OpenLayers/Format/GeoJSON.js
@@ -32634,6 +35502,54 @@ OpenLayers.Layer.SphericalMercator = {
     })()
 
 };
+/* ======================================================================
+    OpenLayers/Control/Button.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Control.js
+ */
+
+/**
+ * Class: OpenLayers.Control.Button 
+ * The Button control is a very simple push-button, for use with 
+ * <OpenLayers.Control.Panel>.
+ * When clicked, the function trigger() is executed.
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Control>
+ *
+ * Use:
+ * (code)
+ * var button = new OpenLayers.Control.Button({
+ *     displayClass: "MyButton", trigger: myFunction
+ * });
+ * panel.addControls([button]);
+ * (end)
+ * 
+ * Will create a button with CSS class MyButtonItemInactive, that
+ *     will call the function MyFunction() when clicked.
+ */
+OpenLayers.Control.Button = OpenLayers.Class(OpenLayers.Control, {
+    /**
+     * Property: type
+     * {Integer} OpenLayers.Control.TYPE_BUTTON.
+     */
+    type: OpenLayers.Control.TYPE_BUTTON,
+    
+    /**
+     * Method: trigger
+     * Called by a control panel when the button is clicked.
+     */
+    trigger: function() {},
+
+    CLASS_NAME: "OpenLayers.Control.Button"
+});
 /* ======================================================================
     OpenLayers/Request.js
    ====================================================================== */
@@ -34143,6 +37059,555 @@ OpenLayers.Control.DrawFeature = OpenLayers.Class(OpenLayers.Control, {
     CLASS_NAME: "OpenLayers.Control.DrawFeature"
 });
 /* ======================================================================
+    OpenLayers/Popup/Anchored.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+
+/**
+ * @requires OpenLayers/Popup.js
+ */
+
+/**
+ * Class: OpenLayers.Popup.Anchored
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Popup>
+ */
+OpenLayers.Popup.Anchored = 
+  OpenLayers.Class(OpenLayers.Popup, {
+
+    /** 
+     * Property: relativePosition
+     * {String} Relative position of the popup ("br", "tr", "tl" or "bl").
+     */
+    relativePosition: null,
+    
+    /**
+     * APIProperty: keepInMap 
+     * {Boolean} If panMapIfOutOfView is false, and this property is true, 
+     *     contrain the popup such that it always fits in the available map
+     *     space. By default, this is set. If you are creating popups that are
+     *     near map edges and not allowing pannning, and especially if you have
+     *     a popup which has a fixedRelativePosition, setting this to false may
+     *     be a smart thing to do.
+     *   
+     *     For anchored popups, default is true, since subclasses will
+     *     usually want this functionality.
+     */
+    keepInMap: true,
+
+    /**
+     * Property: anchor
+     * {Object} Object to which we'll anchor the popup. Must expose a 
+     *     'size' (<OpenLayers.Size>) and 'offset' (<OpenLayers.Pixel>).
+     */
+    anchor: null,
+
+    /** 
+    * Constructor: OpenLayers.Popup.Anchored
+    * 
+    * Parameters:
+    * id - {String}
+    * lonlat - {<OpenLayers.LonLat>}
+    * contentSize - {<OpenLayers.Size>}
+    * contentHTML - {String}
+    * anchor - {Object} Object which must expose a 'size' <OpenLayers.Size> 
+    *     and 'offset' <OpenLayers.Pixel> (generally an <OpenLayers.Icon>).
+    * closeBox - {Boolean}
+    * closeBoxCallback - {Function} Function to be called on closeBox click.
+    */
+    initialize:function(id, lonlat, contentSize, contentHTML, anchor, closeBox,
+                        closeBoxCallback) {
+        var newArguments = [
+            id, lonlat, contentSize, contentHTML, closeBox, closeBoxCallback
+        ];
+        OpenLayers.Popup.prototype.initialize.apply(this, newArguments);
+
+        this.anchor = (anchor != null) ? anchor 
+                                       : { size: new OpenLayers.Size(0,0),
+                                           offset: new OpenLayers.Pixel(0,0)};
+    },
+
+    /**
+     * APIMethod: destroy
+     */
+    destroy: function() {
+        this.anchor = null;
+        this.relativePosition = null;
+        
+        OpenLayers.Popup.prototype.destroy.apply(this, arguments);        
+    },
+
+    /**
+     * APIMethod: show
+     * Overridden from Popup since user might hide popup and then show() it 
+     *     in a new location (meaning we might want to update the relative
+     *     position on the show)
+     */
+    show: function() {
+        this.updatePosition();
+        OpenLayers.Popup.prototype.show.apply(this, arguments);
+    },
+
+    /**
+     * Method: moveTo
+     * Since the popup is moving to a new px, it might need also to be moved
+     *     relative to where the marker is. We first calculate the new 
+     *     relativePosition, and then we calculate the new px where we will 
+     *     put the popup, based on the new relative position. 
+     * 
+     *     If the relativePosition has changed, we must also call 
+     *     updateRelativePosition() to make any visual changes to the popup 
+     *     which are associated with putting it in a new relativePosition.
+     * 
+     * Parameters:
+     * px - {<OpenLayers.Pixel>}
+     */
+    moveTo: function(px) {
+        var oldRelativePosition = this.relativePosition;
+        this.relativePosition = this.calculateRelativePosition(px);
+        
+        var newPx = this.calculateNewPx(px);
+        
+        var newArguments = new Array(newPx);        
+        OpenLayers.Popup.prototype.moveTo.apply(this, newArguments);
+        
+        //if this move has caused the popup to change its relative position, 
+        // we need to make the appropriate cosmetic changes.
+        if (this.relativePosition != oldRelativePosition) {
+            this.updateRelativePosition();
+        }
+    },
+
+    /**
+     * APIMethod: setSize
+     * 
+     * Parameters:
+     * contentSize - {<OpenLayers.Size>} the new size for the popup's 
+     *     contents div (in pixels).
+     */
+    setSize:function(contentSize) { 
+        OpenLayers.Popup.prototype.setSize.apply(this, arguments);
+
+        if ((this.lonlat) && (this.map)) {
+            var px = this.map.getLayerPxFromLonLat(this.lonlat);
+            this.moveTo(px);
+        }
+    },  
+    
+    /** 
+     * Method: calculateRelativePosition
+     * 
+     * Parameters:
+     * px - {<OpenLayers.Pixel>}
+     * 
+     * Returns:
+     * {String} The relative position ("br" "tr" "tl" "bl") at which the popup
+     *     should be placed.
+     */
+    calculateRelativePosition:function(px) {
+        var lonlat = this.map.getLonLatFromLayerPx(px);        
+        
+        var extent = this.map.getExtent();
+        var quadrant = extent.determineQuadrant(lonlat);
+        
+        return OpenLayers.Bounds.oppositeQuadrant(quadrant);
+    }, 
+
+    /**
+     * Method: updateRelativePosition
+     * The popup has been moved to a new relative location, so we may want to 
+     *     make some cosmetic adjustments to it. 
+     * 
+     *     Note that in the classic Anchored popup, there is nothing to do 
+     *     here, since the popup looks exactly the same in all four positions.
+     *     Subclasses such as Framed, however, will want to do something
+     *     special here.
+     */
+    updateRelativePosition: function() {
+        //to be overridden by subclasses
+    },
+
+    /** 
+     * Method: calculateNewPx
+     * 
+     * Parameters:
+     * px - {<OpenLayers.Pixel>}
+     * 
+     * Returns:
+     * {<OpenLayers.Pixel>} The the new px position of the popup on the screen
+     *     relative to the passed-in px.
+     */
+    calculateNewPx:function(px) {
+        var newPx = px.offset(this.anchor.offset);
+        
+        //use contentSize if size is not already set
+        var size = this.size || this.contentSize;
+
+        var top = (this.relativePosition.charAt(0) == 't');
+        newPx.y += (top) ? -size.h : this.anchor.size.h;
+        
+        var left = (this.relativePosition.charAt(1) == 'l');
+        newPx.x += (left) ? -size.w : this.anchor.size.w;
+
+        return newPx;   
+    },
+
+    CLASS_NAME: "OpenLayers.Popup.Anchored"
+});
+/* ======================================================================
+    OpenLayers/Popup/Framed.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Popup/Anchored.js
+ */
+
+/**
+ * Class: OpenLayers.Popup.Framed
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Popup.Anchored>
+ */
+OpenLayers.Popup.Framed =
+  OpenLayers.Class(OpenLayers.Popup.Anchored, {
+
+    /**
+     * Property: imageSrc
+     * {String} location of the image to be used as the popup frame
+     */
+    imageSrc: null,
+
+    /**
+     * Property: imageSize
+     * {<OpenLayers.Size>} Size (measured in pixels) of the image located
+     *     by the 'imageSrc' property.
+     */
+    imageSize: null,
+
+    /**
+     * APIProperty: isAlphaImage
+     * {Boolean} The image has some alpha and thus needs to use the alpha 
+     *     image hack. Note that setting this to true will have no noticeable
+     *     effect in FF or IE7 browsers, but will all but crush the ie6 
+     *     browser. 
+     *     Default is false.
+     */
+    isAlphaImage: false,
+
+    /**
+     * Property: positionBlocks
+     * {Object} Hash of different position blocks (Object/Hashs). Each block 
+     *     will be keyed by a two-character 'relativePosition' 
+     *     code string (ie "tl", "tr", "bl", "br"). Block properties are 
+     *     'offset', 'padding' (self-explanatory), and finally the 'blocks'
+     *     parameter, which is an array of the block objects. 
+     * 
+     *     Each block object must have 'size', 'anchor', and 'position' 
+     *     properties.
+     * 
+     *     Note that positionBlocks should never be modified at runtime.
+     */
+    positionBlocks: null,
+
+    /**
+     * Property: blocks
+     * {Array[Object]} Array of objects, each of which is one "block" of the 
+     *     popup. Each block has a 'div' and an 'image' property, both of 
+     *     which are DOMElements, and the latter of which is appended to the 
+     *     former. These are reused as the popup goes changing positions for
+     *     great economy and elegance.
+     */
+    blocks: null,
+
+    /** 
+     * APIProperty: fixedRelativePosition
+     * {Boolean} We want the framed popup to work dynamically placed relative
+     *     to its anchor but also in just one fixed position. A well designed
+     *     framed popup will have the pixels and logic to display itself in 
+     *     any of the four relative positions, but (understandably), this will
+     *     not be the case for all of them. By setting this property to 'true', 
+     *     framed popup will not recalculate for the best placement each time
+     *     it's open, but will always open the same way. 
+     *     Note that if this is set to true, it is generally advisable to also
+     *     set the 'panIntoView' property to true so that the popup can be 
+     *     scrolled into view (since it will often be offscreen on open)
+     *     Default is false.
+     */
+    fixedRelativePosition: false,
+
+    /** 
+     * Constructor: OpenLayers.Popup.Framed
+     * 
+     * Parameters:
+     * id - {String}
+     * lonlat - {<OpenLayers.LonLat>}
+     * contentSize - {<OpenLayers.Size>}
+     * contentHTML - {String}
+     * anchor - {Object} Object to which we'll anchor the popup. Must expose 
+     *     a 'size' (<OpenLayers.Size>) and 'offset' (<OpenLayers.Pixel>) 
+     *     (Note that this is generally an <OpenLayers.Icon>).
+     * closeBox - {Boolean}
+     * closeBoxCallback - {Function} Function to be called on closeBox click.
+     */
+    initialize:function(id, lonlat, contentSize, contentHTML, anchor, closeBox, 
+                        closeBoxCallback) {
+
+        OpenLayers.Popup.Anchored.prototype.initialize.apply(this, arguments);
+
+        if (this.fixedRelativePosition) {
+            //based on our decided relativePostion, set the current padding
+            // this keeps us from getting into trouble 
+            this.updateRelativePosition();
+            
+            //make calculateRelativePosition always return the specified
+            // fixed position.
+            this.calculateRelativePosition = function(px) {
+                return this.relativePosition;
+            };
+        }
+
+        this.contentDiv.style.position = "absolute";
+        this.contentDiv.style.zIndex = 1;
+
+        if (closeBox) {
+            this.closeDiv.style.zIndex = 1;
+        }
+
+        this.groupDiv.style.position = "absolute";
+        this.groupDiv.style.top = "0px";
+        this.groupDiv.style.left = "0px";
+        this.groupDiv.style.height = "100%";
+        this.groupDiv.style.width = "100%";
+    },
+
+    /** 
+     * APIMethod: destroy
+     */
+    destroy: function() {
+        this.imageSrc = null;
+        this.imageSize = null;
+        this.isAlphaImage = null;
+
+        this.fixedRelativePosition = false;
+        this.positionBlocks = null;
+
+        //remove our blocks
+        for(var i = 0; i < this.blocks.length; i++) {
+            var block = this.blocks[i];
+
+            if (block.image) {
+                block.div.removeChild(block.image);
+            }
+            block.image = null;
+
+            if (block.div) {
+                this.groupDiv.removeChild(block.div);
+            }
+            block.div = null;
+        }
+        this.blocks = null;
+
+        OpenLayers.Popup.Anchored.prototype.destroy.apply(this, arguments);
+    },
+
+    /**
+     * APIMethod: setBackgroundColor
+     */
+    setBackgroundColor:function(color) {
+        //does nothing since the framed popup's entire scheme is based on a 
+        // an image -- changing the background color makes no sense. 
+    },
+
+    /**
+     * APIMethod: setBorder
+     */
+    setBorder:function() {
+        //does nothing since the framed popup's entire scheme is based on a 
+        // an image -- changing the popup's border makes no sense. 
+    },
+
+    /**
+     * Method: setOpacity
+     * Sets the opacity of the popup.
+     * 
+     * Parameters:
+     * opacity - {float} A value between 0.0 (transparent) and 1.0 (solid).   
+     */
+    setOpacity:function(opacity) {
+        //does nothing since we suppose that we'll never apply an opacity
+        // to a framed popup
+    },
+
+    /**
+     * APIMethod: setSize
+     * Overridden here, because we need to update the blocks whenever the size
+     *     of the popup has changed.
+     * 
+     * Parameters:
+     * contentSize - {<OpenLayers.Size>} the new size for the popup's 
+     *     contents div (in pixels).
+     */
+    setSize:function(contentSize) { 
+        OpenLayers.Popup.Anchored.prototype.setSize.apply(this, arguments);
+
+        this.updateBlocks();
+    },
+
+    /**
+     * Method: updateRelativePosition
+     * When the relative position changes, we need to set the new padding 
+     *     BBOX on the popup, reposition the close div, and update the blocks.
+     */
+    updateRelativePosition: function() {
+
+        //update the padding
+        this.padding = this.positionBlocks[this.relativePosition].padding;
+
+        //update the position of our close box to new padding
+        if (this.closeDiv) {
+            // use the content div's css padding to determine if we should
+            //  padd the close div
+            var contentDivPadding = this.getContentDivPadding();
+
+            this.closeDiv.style.right = contentDivPadding.right + 
+                                        this.padding.right + "px";
+            this.closeDiv.style.top = contentDivPadding.top + 
+                                      this.padding.top + "px";
+        }
+
+        this.updateBlocks();
+    },
+
+    /** 
+     * Method: calculateNewPx
+     * Besides the standard offset as determined by the Anchored class, our 
+     *     Framed popups have a special 'offset' property for each of their 
+     *     positions, which is used to offset the popup relative to its anchor.
+     * 
+     * Parameters:
+     * px - {<OpenLayers.Pixel>}
+     * 
+     * Returns:
+     * {<OpenLayers.Pixel>} The the new px position of the popup on the screen
+     *     relative to the passed-in px.
+     */
+    calculateNewPx:function(px) {
+        var newPx = OpenLayers.Popup.Anchored.prototype.calculateNewPx.apply(
+            this, arguments
+        );
+
+        newPx = newPx.offset(this.positionBlocks[this.relativePosition].offset);
+
+        return newPx;
+    },
+
+    /**
+     * Method: createBlocks
+     */
+    createBlocks: function() {
+        this.blocks = [];
+
+        //since all positions contain the same number of blocks, we can 
+        // just pick the first position and use its blocks array to create
+        // our blocks array
+        var firstPosition = null;
+        for(var key in this.positionBlocks) {
+            firstPosition = key;
+            break;
+        }
+        
+        var position = this.positionBlocks[firstPosition];
+        for (var i = 0; i < position.blocks.length; i++) {
+
+            var block = {};
+            this.blocks.push(block);
+
+            var divId = this.id + '_FrameDecorationDiv_' + i;
+            block.div = OpenLayers.Util.createDiv(divId, 
+                null, null, null, "absolute", null, "hidden", null
+            );
+
+            var imgId = this.id + '_FrameDecorationImg_' + i;
+            var imageCreator = 
+                (this.isAlphaImage) ? OpenLayers.Util.createAlphaImageDiv
+                                    : OpenLayers.Util.createImage;
+
+            block.image = imageCreator(imgId, 
+                null, this.imageSize, this.imageSrc, 
+                "absolute", null, null, null
+            );
+
+            block.div.appendChild(block.image);
+            this.groupDiv.appendChild(block.div);
+        }
+    },
+
+    /**
+     * Method: updateBlocks
+     * Internal method, called on initialize and when the popup's relative
+     *     position has changed. This function takes care of re-positioning
+     *     the popup's blocks in their appropropriate places.
+     */
+    updateBlocks: function() {
+        if (!this.blocks) {
+            this.createBlocks();
+        }
+        
+        if (this.size && this.relativePosition) {
+            var position = this.positionBlocks[this.relativePosition];
+            for (var i = 0; i < position.blocks.length; i++) {
+    
+                var positionBlock = position.blocks[i];
+                var block = this.blocks[i];
+    
+                // adjust sizes
+                var l = positionBlock.anchor.left;
+                var b = positionBlock.anchor.bottom;
+                var r = positionBlock.anchor.right;
+                var t = positionBlock.anchor.top;
+    
+                //note that we use the isNaN() test here because if the 
+                // size object is initialized with a "auto" parameter, the 
+                // size constructor calls parseFloat() on the string, 
+                // which will turn it into NaN
+                //
+                var w = (isNaN(positionBlock.size.w)) ? this.size.w - (r + l) 
+                                                      : positionBlock.size.w;
+    
+                var h = (isNaN(positionBlock.size.h)) ? this.size.h - (b + t) 
+                                                      : positionBlock.size.h;
+    
+                block.div.style.width = (w < 0 ? 0 : w) + 'px';
+                block.div.style.height = (h < 0 ? 0 : h) + 'px';
+    
+                block.div.style.left = (l != null) ? l + 'px' : '';
+                block.div.style.bottom = (b != null) ? b + 'px' : '';
+                block.div.style.right = (r != null) ? r + 'px' : '';            
+                block.div.style.top = (t != null) ? t + 'px' : '';
+    
+                block.image.style.left = positionBlock.position.x + 'px';
+                block.image.style.top = positionBlock.position.y + 'px';
+            }
+    
+            this.contentDiv.style.left = this.padding.left + "px";
+            this.contentDiv.style.top = this.padding.top + "px";
+        }
+    },
+
+    CLASS_NAME: "OpenLayers.Popup.Framed"
+});
+/* ======================================================================
     OpenLayers/Popup/FramedCloud.js
    ====================================================================== */
 
@@ -34774,6 +38239,315 @@ OpenLayers.Symbolizer.Point = OpenLayers.Class(OpenLayers.Symbolizer, {
     
 });
 
+/* ======================================================================
+    OpenLayers/Handler/Polygon.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+
+/**
+ * @requires OpenLayers/Handler/Path.js
+ * @requires OpenLayers/Geometry/Polygon.js
+ */
+
+/**
+ * Class: OpenLayers.Handler.Polygon
+ * Handler to draw a polygon on the map.  Polygon is displayed on mouse down,
+ * moves on mouse move, and is finished on mouse up.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Handler.Path>
+ *  - <OpenLayers.Handler>
+ */
+OpenLayers.Handler.Polygon = OpenLayers.Class(OpenLayers.Handler.Path, {
+    
+    /** 
+     * APIProperty: holeModifier
+     * {String} Key modifier to trigger hole digitizing.  Acceptable values are
+     *     "altKey", "shiftKey", or "ctrlKey".  If not set, no hole digitizing
+     *     will take place.  Default is null.
+     */
+    holeModifier: null,
+    
+    /**
+     * Property: drawingHole
+     * {Boolean} Currently drawing an interior ring.
+     */
+    drawingHole: false,
+    
+    /**
+     * Property: polygon
+     * {<OpenLayers.Feature.Vector>}
+     */
+    polygon: null,
+
+    /**
+     * Constructor: OpenLayers.Handler.Polygon
+     * Create a Polygon Handler.
+     *
+     * Parameters:
+     * control - {<OpenLayers.Control>} The control that owns this handler
+     * callbacks - {Object} An object with a properties whose values are
+     *     functions.  Various callbacks described below.
+     * options - {Object} An optional object with properties to be set on the
+     *           handler
+     *
+     * Named callbacks:
+     * create - Called when a sketch is first created.  Callback called with
+     *     the creation point geometry and sketch feature.
+     * modify - Called with each move of a vertex with the vertex (point)
+     *     geometry and the sketch feature.
+     * point - Called as each point is added.  Receives the new point geometry.
+     * done - Called when the point drawing is finished.  The callback will
+     *     recieve a single argument, the polygon geometry.
+     * cancel - Called when the handler is deactivated while drawing.  The
+     *     cancel callback will receive a geometry.
+     */
+    
+    /**
+     * Method: createFeature
+     * Add temporary geometries
+     *
+     * Parameters:
+     * pixel - {<OpenLayers.Pixel>} The initial pixel location for the new
+     *     feature.
+     */
+    createFeature: function(pixel) {
+        var lonlat = this.layer.getLonLatFromViewPortPx(pixel);
+        var geometry = new OpenLayers.Geometry.Point(
+            lonlat.lon, lonlat.lat
+        );
+        this.point = new OpenLayers.Feature.Vector(geometry);
+        this.line = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.LinearRing([this.point.geometry])
+        );
+        this.polygon = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Polygon([this.line.geometry])
+        );
+        this.callback("create", [this.point.geometry, this.getSketch()]);
+        this.point.geometry.clearBounds();
+        this.layer.addFeatures([this.polygon, this.point], {silent: true});
+    },
+
+    /**
+     * Method: addPoint
+     * Add point to geometry.
+     *
+     * Parameters:
+     * pixel - {<OpenLayers.Pixel>} The pixel location for the new point.
+     */
+    addPoint: function(pixel) {
+        if(!this.drawingHole && this.holeModifier &&
+           this.evt && this.evt[this.holeModifier]) {
+            var geometry = this.point.geometry;
+            var features = this.control.layer.features;
+            var candidate, polygon;
+            // look for intersections, last drawn gets priority
+            for (var i=features.length-1; i>=0; --i) {
+                candidate = features[i].geometry;
+                if ((candidate instanceof OpenLayers.Geometry.Polygon || 
+                    candidate instanceof OpenLayers.Geometry.MultiPolygon) && 
+                    candidate.intersects(geometry)) {
+                    polygon = features[i];
+                    this.control.layer.removeFeatures([polygon], {silent: true});
+                    this.control.layer.events.registerPriority(
+                        "sketchcomplete", this, this.finalizeInteriorRing
+                    );
+                    this.control.layer.events.registerPriority(
+                        "sketchmodified", this, this.enforceTopology
+                    );
+                    polygon.geometry.addComponent(this.line.geometry);
+                    this.polygon = polygon;
+                    this.drawingHole = true;
+                    break;
+                }
+            }
+        }
+        OpenLayers.Handler.Path.prototype.addPoint.apply(this, arguments);
+    },
+
+    /**
+     * Method: getCurrentPointIndex
+     * 
+     * Returns:
+     * {Number} The index of the most recently drawn point.
+     */
+    getCurrentPointIndex: function() {
+        return this.line.geometry.components.length - 2;
+    },
+
+    /**
+     * Method: enforceTopology
+     * Simple topology enforcement for drawing interior rings.  Ensures vertices
+     *     of interior rings are contained by exterior ring.  Other topology 
+     *     rules are enforced in <finalizeInteriorRing> to allow drawing of 
+     *     rings that intersect only during the sketch (e.g. a "C" shaped ring
+     *     that nearly encloses another ring).
+     */
+    enforceTopology: function(event) {
+        var point = event.vertex;
+        var components = this.line.geometry.components;
+        // ensure that vertices of interior ring are contained by exterior ring
+        if (!this.polygon.geometry.intersects(point)) {
+            var last = components[components.length-3];
+            point.x = last.x;
+            point.y = last.y;
+        }
+    },
+
+    /**
+     * Method: finishGeometry
+     * Finish the geometry and send it back to the control.
+     */
+    finishGeometry: function() {
+        var index = this.line.geometry.components.length - 2;
+        this.line.geometry.removeComponent(this.line.geometry.components[index]);
+        this.removePoint();
+        this.finalize();
+    },
+
+    /**
+     * Method: finalizeInteriorRing
+     * Enforces that new ring has some area and doesn't contain vertices of any
+     *     other rings.
+     */
+    finalizeInteriorRing: function() {
+        var ring = this.line.geometry;
+        // ensure that ring has some area
+        var modified = (ring.getArea() !== 0);
+        if (modified) {
+            // ensure that new ring doesn't intersect any other rings
+            var rings = this.polygon.geometry.components;
+            for (var i=rings.length-2; i>=0; --i) {
+                if (ring.intersects(rings[i])) {
+                    modified = false;
+                    break;
+                }
+            }
+            if (modified) {
+                // ensure that new ring doesn't contain any other rings
+                var target;
+                outer: for (var i=rings.length-2; i>0; --i) {
+                    var points = rings[i].components;
+                    for (var j=0, jj=points.length; j<jj; ++j) {
+                        if (ring.containsPoint(points[j])) {
+                            modified = false;
+                            break outer;
+                        }
+                    }
+                }
+            }
+        }
+        if (modified) {
+            if (this.polygon.state !== OpenLayers.State.INSERT) {
+                this.polygon.state = OpenLayers.State.UPDATE;
+            }
+        } else {
+            this.polygon.geometry.removeComponent(ring);
+        }
+        this.restoreFeature();
+        return false;
+    },
+
+    /**
+     * APIMethod: cancel
+     * Finish the geometry and call the "cancel" callback.
+     */
+    cancel: function() {
+        if (this.drawingHole) {
+            this.polygon.geometry.removeComponent(this.line.geometry);
+            this.restoreFeature(true);
+        }
+        return OpenLayers.Handler.Path.prototype.cancel.apply(this, arguments);
+    },
+    
+    /**
+     * Method: restoreFeature
+     * Move the feature from the sketch layer to the target layer.
+     *
+     * Properties: 
+     * cancel - {Boolean} Cancel drawing.  If falsey, the "sketchcomplete" event
+     *     will be fired.
+     */
+    restoreFeature: function(cancel) {
+        this.control.layer.events.unregister(
+            "sketchcomplete", this, this.finalizeInteriorRing
+        );
+        this.control.layer.events.unregister(
+            "sketchmodified", this, this.enforceTopology
+        );
+        this.layer.removeFeatures([this.polygon], {silent: true});
+        this.control.layer.addFeatures([this.polygon], {silent: true});
+        this.drawingHole = false;
+        if (!cancel) {
+            // Re-trigger "sketchcomplete" so other listeners can do their
+            // business.  While this is somewhat sloppy (if a listener is 
+            // registered with registerPriority - not common - between the start
+            // and end of a single ring drawing - very uncommon - it will be 
+            // called twice).
+            // TODO: In 3.0, collapse sketch handlers into geometry specific
+            // drawing controls.
+            this.control.layer.events.triggerEvent(
+                "sketchcomplete", {feature : this.polygon}
+            );
+        }
+    },
+
+    /**
+     * Method: destroyFeature
+     * Destroy temporary geometries
+     *
+     * Parameters:
+     * force - {Boolean} Destroy even if persist is true.
+     */
+    destroyFeature: function(force) {
+        OpenLayers.Handler.Path.prototype.destroyFeature.call(
+            this, force);
+        this.polygon = null;
+    },
+
+    /**
+     * Method: drawFeature
+     * Render geometries on the temporary layer.
+     */
+    drawFeature: function() {
+        this.layer.drawFeature(this.polygon, this.style);
+        this.layer.drawFeature(this.point, this.style);
+    },
+    
+    /**
+     * Method: getSketch
+     * Return the sketch feature.
+     *
+     * Returns:
+     * {<OpenLayers.Feature.Vector>}
+     */
+    getSketch: function() {
+        return this.polygon;
+    },
+
+    /**
+     * Method: getGeometry
+     * Return the sketch geometry.  If <multi> is true, this will return
+     *     a multi-part geometry.
+     *
+     * Returns:
+     * {<OpenLayers.Geometry.Polygon>}
+     */
+    getGeometry: function() {
+        var geometry = this.polygon && this.polygon.geometry;
+        if(geometry && this.multi) {
+            geometry = new OpenLayers.Geometry.MultiPolygon([geometry]);
+        }
+        return geometry;
+    },
+
+    CLASS_NAME: "OpenLayers.Handler.Polygon"
+});
 /* ======================================================================
     OpenLayers/Format/QueryStringFilter.js
    ====================================================================== */
@@ -35510,127 +39284,6 @@ OpenLayers.Symbolizer.Line = OpenLayers.Class(OpenLayers.Symbolizer, {
     
 });
 
-/* ======================================================================
-    OpenLayers/Handler/Keyboard.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Handler.js
- * @requires OpenLayers/Events.js
- */
-
-/**
- * Class: OpenLayers.handler.Keyboard
- * A handler for keyboard events.  Create a new instance with the
- *     <OpenLayers.Handler.Keyboard> constructor.
- * 
- * Inherits from:
- *  - <OpenLayers.Handler> 
- */
-OpenLayers.Handler.Keyboard = OpenLayers.Class(OpenLayers.Handler, {
-
-    /* http://www.quirksmode.org/js/keys.html explains key x-browser
-        key handling quirks in pretty nice detail */
-
-    /** 
-     * Constant: KEY_EVENTS
-     * keydown, keypress, keyup
-     */
-    KEY_EVENTS: ["keydown", "keyup"],
-
-    /** 
-    * Property: eventListener
-    * {Function}
-    */
-    eventListener: null,
-
-    /**
-     * Property: observeElement
-     * {DOMElement|String} The DOM element on which we listen for
-     *     key events. Default to the document.
-     */
-    observeElement: null,
-
-    /**
-     * Constructor: OpenLayers.Handler.Keyboard
-     * Returns a new keyboard handler.
-     * 
-     * Parameters:
-     * control - {<OpenLayers.Control>} The control that is making use of
-     *     this handler.  If a handler is being used without a control, the
-     *     handlers setMap method must be overridden to deal properly with
-     *     the map.
-     * callbacks - {Object} An object containing a single function to be
-     *     called when the drag operation is finished. The callback should
-     *     expect to recieve a single argument, the pixel location of the event.
-     *     Callbacks for 'keydown', 'keypress', and 'keyup' are supported.
-     * options - {Object} Optional object whose properties will be set on the
-     *     handler.
-     */
-    initialize: function(control, callbacks, options) {
-        OpenLayers.Handler.prototype.initialize.apply(this, arguments);
-        // cache the bound event listener method so it can be unobserved later
-        this.eventListener = OpenLayers.Function.bindAsEventListener(
-            this.handleKeyEvent, this
-        );
-    },
-    
-    /**
-     * Method: destroy
-     */
-    destroy: function() {
-        this.deactivate();
-        this.eventListener = null;
-        OpenLayers.Handler.prototype.destroy.apply(this, arguments);
-    },
-
-    /**
-     * Method: activate
-     */
-    activate: function() {
-        if (OpenLayers.Handler.prototype.activate.apply(this, arguments)) {
-            this.observeElement = this.observeElement || document;
-            for (var i=0, len=this.KEY_EVENTS.length; i<len; i++) {
-                OpenLayers.Event.observe(
-                    this.observeElement, this.KEY_EVENTS[i], this.eventListener);
-            }
-            return true;
-        } else {
-            return false;
-        }
-    },
-
-    /**
-     * Method: deactivate
-     */
-    deactivate: function() {
-        var deactivated = false;
-        if (OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
-            for (var i=0, len=this.KEY_EVENTS.length; i<len; i++) {
-                OpenLayers.Event.stopObserving(
-                    this.observeElement, this.KEY_EVENTS[i], this.eventListener);
-            }
-            deactivated = true;
-        }
-        return deactivated;
-    },
-
-    /**
-     * Method: handleKeyEvent 
-     */
-    handleKeyEvent: function (evt) {
-        if (this.checkModifiers(evt)) {
-            this.callback(evt.type, [evt]);
-        }
-    },
-
-    CLASS_NAME: "OpenLayers.Handler.Keyboard"
-});
 /* ======================================================================
     OpenLayers/Renderer/VML.js
    ====================================================================== */
@@ -37841,376 +41494,6 @@ OpenLayers.Rico.Corner = {
    _hasSingleTextChild: function(el) { return el.childNodes.length == 1 && el.childNodes[0].nodeType == 3; }
 };
 /* ======================================================================
-    OpenLayers/Control/DragFeature.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the 2-clause BSD license.
- * See license.txt in the OpenLayers distribution or repository for the
- * full text of the license. */
-
-
-/**
- * @requires OpenLayers/Control.js
- * @requires OpenLayers/Handler/Drag.js
- * @requires OpenLayers/Handler/Feature.js
- */
-
-/**
- * Class: OpenLayers.Control.DragFeature
- * The DragFeature control moves a feature with a drag of the mouse. Create a
- * new control with the <OpenLayers.Control.DragFeature> constructor.
- *
- * Inherits From:
- *  - <OpenLayers.Control>
- */
-OpenLayers.Control.DragFeature = OpenLayers.Class(OpenLayers.Control, {
-
-    /**
-     * APIProperty: geometryTypes
-     * {Array(String)} To restrict dragging to a limited set of geometry types,
-     *     send a list of strings corresponding to the geometry class names.
-     */
-    geometryTypes: null,
-    
-    /**
-     * APIProperty: onStart
-     * {Function} Define this function if you want to know when a drag starts.
-     *     The function should expect to receive two arguments: the feature
-     *     that is about to be dragged and the pixel location of the mouse.
-     *
-     * Parameters:
-     * feature - {<OpenLayers.Feature.Vector>} The feature that is about to be
-     *     dragged.
-     * pixel - {<OpenLayers.Pixel>} The pixel location of the mouse.
-     */
-    onStart: function(feature, pixel) {},
-
-    /**
-     * APIProperty: onDrag
-     * {Function} Define this function if you want to know about each move of a
-     *     feature. The function should expect to receive two arguments: the
-     *     feature that is being dragged and the pixel location of the mouse.
-     *
-     * Parameters:
-     * feature - {<OpenLayers.Feature.Vector>} The feature that was dragged.
-     * pixel - {<OpenLayers.Pixel>} The pixel location of the mouse.
-     */
-    onDrag: function(feature, pixel) {},
-
-    /**
-     * APIProperty: onComplete
-     * {Function} Define this function if you want to know when a feature is
-     *     done dragging. The function should expect to receive two arguments:
-     *     the feature that is being dragged and the pixel location of the
-     *     mouse.
-     *
-     * Parameters:
-     * feature - {<OpenLayers.Feature.Vector>} The feature that was dragged.
-     * pixel - {<OpenLayers.Pixel>} The pixel location of the mouse.
-     */
-    onComplete: function(feature, pixel) {},
-
-    /**
-     * APIProperty: onEnter
-     * {Function} Define this function if you want to know when the mouse
-     *     goes over a feature and thereby makes this feature a candidate
-     *     for dragging.
-     *
-     * Parameters:
-     * feature - {<OpenLayers.Feature.Vector>} The feature that is ready
-     *     to be dragged.
-     */
-    onEnter: function(feature) {},
-
-    /**
-     * APIProperty: onLeave
-     * {Function} Define this function if you want to know when the mouse
-     *     goes out of the feature that was dragged.
-     *
-     * Parameters:
-     * feature - {<OpenLayers.Feature.Vector>} The feature that was dragged.
-     */
-    onLeave: function(feature) {},
-
-    /**
-     * APIProperty: documentDrag
-     * {Boolean} If set to true, mouse dragging will continue even if the
-     *     mouse cursor leaves the map viewport. Default is false.
-     */
-    documentDrag: false,
-    
-    /**
-     * Property: layer
-     * {<OpenLayers.Layer.Vector>}
-     */
-    layer: null,
-    
-    /**
-     * Property: feature
-     * {<OpenLayers.Feature.Vector>}
-     */
-    feature: null,
-
-    /**
-     * Property: dragCallbacks
-     * {Object} The functions that are sent to the drag handler for callback.
-     */
-    dragCallbacks: {},
-
-    /**
-     * Property: featureCallbacks
-     * {Object} The functions that are sent to the feature handler for callback.
-     */
-    featureCallbacks: {},
-    
-    /**
-     * Property: lastPixel
-     * {<OpenLayers.Pixel>}
-     */
-    lastPixel: null,
-
-    /**
-     * Constructor: OpenLayers.Control.DragFeature
-     * Create a new control to drag features.
-     *
-     * Parameters:
-     * layer - {<OpenLayers.Layer.Vector>} The layer containing features to be
-     *     dragged.
-     * options - {Object} Optional object whose properties will be set on the
-     *     control.
-     */
-    initialize: function(layer, options) {
-        OpenLayers.Control.prototype.initialize.apply(this, [options]);
-        this.layer = layer;
-        this.handlers = {
-            drag: new OpenLayers.Handler.Drag(
-                this, OpenLayers.Util.extend({
-                    down: this.downFeature,
-                    move: this.moveFeature,
-                    up: this.upFeature,
-                    out: this.cancel,
-                    done: this.doneDragging
-                }, this.dragCallbacks), {
-                    documentDrag: this.documentDrag
-                }
-            ),
-            feature: new OpenLayers.Handler.Feature(
-                this, this.layer, OpenLayers.Util.extend({
-                    // 'click' and 'clickout' callback are for the mobile
-                    // support: no 'over' or 'out' in touch based browsers.
-                    click: this.clickFeature,
-                    clickout: this.clickoutFeature,
-                    over: this.overFeature,
-                    out: this.outFeature
-                }, this.featureCallbacks),
-                {geometryTypes: this.geometryTypes}
-            )
-        };
-    },
-
-    /**
-     * Method: clickFeature
-     * Called when the feature handler detects a click-in on a feature.
-     *
-     * Parameters:
-     * feature - {<OpenLayers.Feature.Vector>}
-     */
-    clickFeature: function(feature) {
-        if (this.handlers.feature.touch && !this.over && this.overFeature(feature)) {
-            this.handlers.drag.dragstart(this.handlers.feature.evt);
-            // to let the events propagate to the feature handler (click callback)
-            this.handlers.drag.stopDown = false;
-        }
-    },
-
-    /**
-     * Method: clickoutFeature
-     * Called when the feature handler detects a click-out on a feature.
-     *
-     * Parameters:
-     * feature - {<OpenLayers.Feature.Vector>}
-     */
-    clickoutFeature: function(feature) {
-        if (this.handlers.feature.touch && this.over) {
-            this.outFeature(feature);
-            this.handlers.drag.stopDown = true;
-        }
-    },
-
-    /**
-     * APIMethod: destroy
-     * Take care of things that are not handled in superclass
-     */
-    destroy: function() {
-        this.layer = null;
-        OpenLayers.Control.prototype.destroy.apply(this, []);
-    },
-
-    /**
-     * APIMethod: activate
-     * Activate the control and the feature handler.
-     * 
-     * Returns:
-     * {Boolean} Successfully activated the control and feature handler.
-     */
-    activate: function() {
-        return (this.handlers.feature.activate() &&
-                OpenLayers.Control.prototype.activate.apply(this, arguments));
-    },
-
-    /**
-     * APIMethod: deactivate
-     * Deactivate the control and all handlers.
-     * 
-     * Returns:
-     * {Boolean} Successfully deactivated the control.
-     */
-    deactivate: function() {
-        // the return from the handlers is unimportant in this case
-        this.handlers.drag.deactivate();
-        this.handlers.feature.deactivate();
-        this.feature = null;
-        this.dragging = false;
-        this.lastPixel = null;
-        OpenLayers.Element.removeClass(
-            this.map.viewPortDiv, this.displayClass + "Over"
-        );
-        return OpenLayers.Control.prototype.deactivate.apply(this, arguments);
-    },
-
-    /**
-     * Method: overFeature
-     * Called when the feature handler detects a mouse-over on a feature.
-     *     This activates the drag handler.
-     *
-     * Parameters:
-     * feature - {<OpenLayers.Feature.Vector>} The selected feature.
-     *
-     * Returns:
-     * {Boolean} Successfully activated the drag handler.
-     */
-    overFeature: function(feature) {
-        var activated = false;
-        if(!this.handlers.drag.dragging) {
-            this.feature = feature;
-            this.handlers.drag.activate();
-            activated = true;
-            this.over = true;
-            OpenLayers.Element.addClass(this.map.viewPortDiv, this.displayClass + "Over");
-            this.onEnter(feature);
-        } else {
-            if(this.feature.id == feature.id) {
-                this.over = true;
-            } else {
-                this.over = false;
-            }
-        }
-        return activated;
-    },
-
-    /**
-     * Method: downFeature
-     * Called when the drag handler detects a mouse-down.
-     *
-     * Parameters:
-     * pixel - {<OpenLayers.Pixel>} Location of the mouse event.
-     */
-    downFeature: function(pixel) {
-        this.lastPixel = pixel;
-        this.onStart(this.feature, pixel);
-    },
-
-    /**
-     * Method: moveFeature
-     * Called when the drag handler detects a mouse-move.  Also calls the
-     *     optional onDrag method.
-     * 
-     * Parameters:
-     * pixel - {<OpenLayers.Pixel>} Location of the mouse event.
-     */
-    moveFeature: function(pixel) {
-        var res = this.map.getResolution();
-        this.feature.geometry.move(res * (pixel.x - this.lastPixel.x),
-                                   res * (this.lastPixel.y - pixel.y));
-        this.layer.drawFeature(this.feature);
-        this.lastPixel = pixel;
-        this.onDrag(this.feature, pixel);
-    },
-
-    /**
-     * Method: upFeature
-     * Called when the drag handler detects a mouse-up.
-     * 
-     * Parameters:
-     * pixel - {<OpenLayers.Pixel>} Location of the mouse event.
-     */
-    upFeature: function(pixel) {
-        if(!this.over) {
-            this.handlers.drag.deactivate();
-        }
-    },
-
-    /**
-     * Method: doneDragging
-     * Called when the drag handler is done dragging.
-     *
-     * Parameters:
-     * pixel - {<OpenLayers.Pixel>} The last event pixel location.  If this event
-     *     came from a mouseout, this may not be in the map viewport.
-     */
-    doneDragging: function(pixel) {
-        this.onComplete(this.feature, pixel);
-    },
-
-    /**
-     * Method: outFeature
-     * Called when the feature handler detects a mouse-out on a feature.
-     *
-     * Parameters:
-     * feature - {<OpenLayers.Feature.Vector>} The feature that the mouse left.
-     */
-    outFeature: function(feature) {
-        if(!this.handlers.drag.dragging) {
-            this.over = false;
-            this.handlers.drag.deactivate();
-            OpenLayers.Element.removeClass(
-                this.map.viewPortDiv, this.displayClass + "Over"
-            );
-            this.onLeave(feature);
-            this.feature = null;
-        } else {
-            if(this.feature.id == feature.id) {
-                this.over = false;
-            }
-        }
-    },
-        
-    /**
-     * Method: cancel
-     * Called when the drag handler detects a mouse-out (from the map viewport).
-     */
-    cancel: function() {
-        this.handlers.drag.deactivate();
-        this.over = false;
-    },
-
-    /**
-     * Method: setMap
-     * Set the map property for the control and all handlers.
-     *
-     * Parameters: 
-     * map - {<OpenLayers.Map>} The control's map.
-     */
-    setMap: function(map) {
-        this.handlers.drag.setMap(map);
-        this.handlers.feature.setMap(map);
-        OpenLayers.Control.prototype.setMap.apply(this, arguments);
-    },
-
-    CLASS_NAME: "OpenLayers.Control.DragFeature"
-});
-/* ======================================================================
     OpenLayers/Symbolizer/Text.js
    ====================================================================== */
 
@@ -39063,4 +42346,190 @@ OpenLayers.Control.KeyboardDefaults = OpenLayers.Class(OpenLayers.Control, {
     },
 
     CLASS_NAME: "OpenLayers.Control.KeyboardDefaults"
+});
+/* ======================================================================
+    OpenLayers/Control/ArgParser.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2012 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
+
+/**
+ * @requires OpenLayers/Control.js
+ */
+
+/**
+ * Class: OpenLayers.Control.ArgParser
+ * The ArgParser control adds location bar query string parsing functionality 
+ * to an OpenLayers Map.
+ * When added to a Map control, on a page load/refresh, the Map will 
+ * automatically take the href string and parse it for lon, lat, zoom, and 
+ * layers information. 
+ *
+ * Inherits from:
+ *  - <OpenLayers.Control>
+ */
+OpenLayers.Control.ArgParser = OpenLayers.Class(OpenLayers.Control, {
+
+    /**
+     * Property: center
+     * {<OpenLayers.LonLat>}
+     */
+    center: null,
+    
+    /**
+     * Property: zoom
+     * {int}
+     */
+    zoom: null,
+
+    /**
+     * Property: layers
+     * {String} Each character represents the state of the corresponding layer 
+     *     on the map.
+     */
+    layers: null,
+    
+    /** 
+     * APIProperty: displayProjection
+     * {<OpenLayers.Projection>} Requires proj4js support. 
+     *     Projection used when reading the coordinates from the URL. This will
+     *     reproject the map coordinates from the URL into the map's
+     *     projection.
+     *
+     *     If you are using this functionality, be aware that any permalink
+     *     which is added to the map will determine the coordinate type which
+     *     is read from the URL, which means you should not add permalinks with
+     *     different displayProjections to the same map. 
+     */
+    displayProjection: null, 
+
+    /**
+     * Constructor: OpenLayers.Control.ArgParser
+     *
+     * Parameters:
+     * options - {Object}
+     */
+
+    /**
+     * Method: getParameters
+     */    
+    getParameters: function(url) {
+        url = url || window.location.href;
+        var parameters = OpenLayers.Util.getParameters(url);
+
+        // If we have an anchor in the url use it to split the url
+        var index = url.indexOf('#');
+        if (index > 0) {
+            // create an url to parse on the getParameters
+            url = '?' + url.substring(index + 1, url.length);
+
+            OpenLayers.Util.extend(parameters,
+                    OpenLayers.Util.getParameters(url));
+        }
+        return parameters;
+    },
+    
+    /**
+     * Method: setMap
+     * Set the map property for the control. 
+     * 
+     * Parameters:
+     * map - {<OpenLayers.Map>} 
+     */
+    setMap: function(map) {
+        OpenLayers.Control.prototype.setMap.apply(this, arguments);
+
+        //make sure we dont already have an arg parser attached
+        for(var i=0, len=this.map.controls.length; i<len; i++) {
+            var control = this.map.controls[i];
+            if ( (control != this) &&
+                 (control.CLASS_NAME == "OpenLayers.Control.ArgParser") ) {
+                
+                // If a second argparser is added to the map, then we 
+                // override the displayProjection to be the one added to the
+                // map. 
+                if (control.displayProjection != this.displayProjection) {
+                    this.displayProjection = control.displayProjection;
+                }    
+                
+                break;
+            }
+        }
+        if (i == this.map.controls.length) {
+
+            var args = this.getParameters();
+            // Be careful to set layer first, to not trigger unnecessary layer loads
+            if (args.layers) {
+                this.layers = args.layers;
+    
+                // when we add a new layer, set its visibility 
+                this.map.events.register('addlayer', this, 
+                                         this.configureLayers);
+                this.configureLayers();
+            }
+            if (args.lat && args.lon) {
+                this.center = new OpenLayers.LonLat(parseFloat(args.lon),
+                                                    parseFloat(args.lat));
+                if (args.zoom) {
+                    this.zoom = parseFloat(args.zoom);
+                }
+    
+                // when we add a new baselayer to see when we can set the center
+                this.map.events.register('changebaselayer', this, 
+                                         this.setCenter);
+                this.setCenter();
+            }
+        }
+    },
+   
+    /** 
+     * Method: setCenter
+     * As soon as a baseLayer has been loaded, we center and zoom
+     *   ...and remove the handler.
+     */
+    setCenter: function() {
+        
+        if (this.map.baseLayer) {
+            //dont need to listen for this one anymore
+            this.map.events.unregister('changebaselayer', this, 
+                                       this.setCenter);
+            
+            if (this.displayProjection) {
+                this.center.transform(this.displayProjection, 
+                                      this.map.getProjectionObject()); 
+            }      
+
+            this.map.setCenter(this.center, this.zoom);
+        }
+    },
+
+    /** 
+     * Method: configureLayers
+     * As soon as all the layers are loaded, cycle through them and 
+     *   hide or show them. 
+     */
+    configureLayers: function() {
+
+        if (this.layers.length == this.map.layers.length) { 
+            this.map.events.unregister('addlayer', this, this.configureLayers);
+
+            for(var i=0, len=this.layers.length; i<len; i++) {
+                
+                var layer = this.map.layers[i];
+                var c = this.layers.charAt(i);
+                
+                if (c == "B") {
+                    this.map.setBaseLayer(layer);
+                } else if ( (c == "T") || (c == "F") ) {
+                    layer.setVisibility(c == "T");
+                }
+            }
+        }
+    },     
+
+    CLASS_NAME: "OpenLayers.Control.ArgParser"
 });
