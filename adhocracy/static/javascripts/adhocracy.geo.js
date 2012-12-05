@@ -1378,7 +1378,10 @@ var adhocracy = adhocracy || {};
         //don't try to fetch proposals geotags when there's no proposal (i.e. if proposal is created)
         if (proposalId) {
             adhocracy.geo.fetchSingleDelegateable('proposal', proposalId, edit, function (feature) {
-                proposalLayer.addFeatures([feature]);
+                if (feature) {
+                    proposalLayer.addFeatures([feature]);
+                }
+
                 if (edit) {
                     singleProposalFetchedCallback(feature);
                 }
