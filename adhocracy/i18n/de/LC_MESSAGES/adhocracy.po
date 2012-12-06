@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2012-11-18 10:53+0100\n"
-"PO-Revision-Date: 2012-12-04 21:38+0000\n"
+"PO-Revision-Date: 2012-12-06 03:31+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -48,10 +48,10 @@ msgid "Badge changed successfully"
 msgstr "Badge erfolgreich geändert"
 
 msgid "oldest"
-msgstr "Älteste"
+msgstr "älteste"
 
 msgid "newest"
-msgstr "Neueste"
+msgstr "neueste"
 
 #, python-format
 msgid "Comment topic has no variant %s"
@@ -228,7 +228,7 @@ msgid "Justin Case has entered the room."
 msgstr "Justin Case ist vorbeigekommen."
 
 msgid "tutorial_norms_overview_tab"
-msgstr "Übersichtseite über die Themen der Gruppe. Die Liste zeigt nicht nur alle von der Gruppe eingebrachten Beschlüsse an, sondern unter dem Titel der Beschlüsse wird auch die Anzahl der momentan dazugehörigen Vorschläge und Kommentare angezeigt"
+msgstr "Übersichtseite über die Beschlüsse der Gruppe. Die Liste zeigt nicht nur alle von der Gruppe eingebrachten Beschlüsse an, sondern unter dem Titel der Beschlüsse wird auch die Anzahl der momentan dazugehörigen Vorschläge und Kommentare angezeigt"
 
 msgid "No proposal has been specified"
 msgstr "Es wurde kein Vorschlag angegeben."
@@ -283,7 +283,7 @@ msgid "Cannot compare identical text revisions."
 msgstr "Identische Texte können nicht verglichen werden. "
 
 msgid "Cannot compare versions of different texts."
-msgstr "Texte von unterschiedlichen Themen können nicht verglichen werden. "
+msgstr "Texte von unterschiedlichen Beschlüssen können nicht verglichen werden. "
 
 #, python-format
 msgid "The variant %s has been deleted."
@@ -417,7 +417,7 @@ msgid "Invalid user name or password"
 msgstr "Ungültiger Benutzername oder falsches Passwort."
 
 msgid "tutorial_dashboard_title"
-msgstr "Sie befinden sich in Ihrem persönlichem Dashboard. Es bietet Ihnen eine Übersicht über  eingebrachte Vorschläge und Themen, die Projektgruppen und über Ihre Beobachtungsliste."
+msgstr "Sie befinden sich in Ihrem persönlichem Dashboard. Es bietet Ihnen eine Übersicht über eingebrachte Vorschläge und Beschlüsse, Ihre Gruppen und über Ihre Beobachtungsliste."
 
 msgid "The account has been suspended."
 msgstr "Der Nutzer wurde suspendiert."
@@ -533,7 +533,7 @@ msgstr "Es existiert kein/e BenutzerIn mit dem Namen '%s'"
 
 #, python-format
 msgid "No tagging with ID '%s' exists"
-msgstr "Es gibt kein Thema mit dem Tag ID '%s'"
+msgstr "Tagging ID '%s' existiert nicht."
 
 #, python-format
 msgid "No tag with ID '%s' exists"
@@ -733,10 +733,10 @@ msgid "Oldest"
 msgstr "Älteste"
 
 msgid "Newest"
-msgstr "Neuste"
+msgstr "Neueste"
 
 msgid "Newest Comment"
-msgstr "Neuste Kommentare"
+msgstr "Neuester Kommentar"
 
 msgid "Activity"
 msgstr "Verlauf"
@@ -1898,7 +1898,7 @@ msgid "Allow users to propose norms"
 msgstr "Mitgliedern erlauben, neue Beschlüsse anzulegen"
 
 msgid "Require to propose a variant"
-msgstr "Vorschläge müssen mindestens eine Änderung an einem Thema einbringen"
+msgstr "Vorschläge müssen mindestens eine Änderung an einem Beschluss einbringen"
 
 msgid "Use milestones"
 msgstr "Termine verwenden"
@@ -2113,7 +2113,7 @@ msgid "tutorial_milestone_details_description"
 msgstr "Und Informationen über das Ziel bzw. den Zweck des Termins einsehen – ob es sich z.B. um ein Treffen einer Arbeitsgruppe, oder um eine Abstimmung handelt."
 
 msgid "tutorial_milestone_details_listing"
-msgstr "Hier finden Sie eine Liste aller Vorschläge und Themen, die für den Termin relevant sind.“"
+msgstr "Hier finden Sie eine Liste aller Vorschläge und Beschlüsse, die für den Termin relevant sind.“"
 
 msgid "See more"
 msgstr "Mehr erfahren"
@@ -2243,7 +2243,7 @@ msgid "Tags to describe the subject"
 msgstr "Tags um den Inhalt zu beschreiben"
 
 msgid "The new norm will be categorized under the specified parent theme."
-msgstr "Der neue Beschluss wird unter dem angegebenen Elternthema eingeordnet."
+msgstr "Der neue Beschluss wird unter dem angegebenen Elternbeschluss  eingeordnet."
 
 msgid "Highlight Changes"
 msgstr "Änderungen hervorheben"
@@ -2292,10 +2292,10 @@ msgid "tutorial_norm_show_new"
 msgstr "Sie können hier auch eine neue Version des Beschlusses einbringen."
 
 msgid "hide sub-topics"
-msgstr "Unterthemen verstecken"
+msgstr "Unterbeschlüsse verstecken"
 
 msgid "show sub-topics"
-msgstr "Unterthemen anzeigen"
+msgstr "Unterbeschlüsse anzeigen"
 
 #, python-format
 msgid "%s comment"
@@ -2639,7 +2639,7 @@ msgid "Search in %s"
 msgstr "In %s suchen"
 
 msgid "Search includes issues and proposals."
-msgstr "Die Suche umfasst Themen und Vorschläge."
+msgstr "Die Suche umfasst Beschlüsse und Vorschläge."
 
 msgid "You did not provide a search query."
 msgstr "Bitte geben Sie einen Suchbegriff ein"
@@ -2727,7 +2727,7 @@ msgstr "vergleichen"
 
 msgid ""
 "Tags are keywords used to find, sort and filter proposals and documents."
-msgstr "Tags sind Stichwörter, die helfen, Vorschläge und Themen zu finden, zu sortieren und zu filtern."
+msgstr "Tags sind Stichwörter, die helfen, Vorschläge und Beschlüsse zu finden, zu sortieren und zu filtern."
 
 msgid "Similar tags"
 msgstr "Ähnliche Tags"
@@ -2866,7 +2866,7 @@ msgid "Norms in your instances"
 msgstr "Beschlüsse in Ihren Instanzen"
 
 msgid "List all pages"
-msgstr "Zeige alle Themen"
+msgstr "Zeige alle Beschlüsse"
 
 msgid "tutorial_dashboard_username"
 msgstr "Sie können Ihr Dashboard jederzeit durch einen Klick auf Ihren Benutzernamen aufrufen."
