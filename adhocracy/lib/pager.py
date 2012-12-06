@@ -563,6 +563,7 @@ class SolrFacet(SolrIndexer):
             item['disabled'] = (item['current_count'] == 0)
             item['selected'] = item['value'] in self.used
             item['url'] = self.get_item_url(item)
+            item['visible'] = getattr(entity, 'visible', 'default')
 
             result.append(item)
 
