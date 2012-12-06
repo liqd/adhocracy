@@ -98,11 +98,13 @@ var adhocracy = adhocracy || {};
 
     adhocracy.geo.pagePolygonDefault = {
         strokeColor: "#4D4D4D",
-        fillColor: "#656565"
+        fillColor: "#656565",
+        graphicZIndex: "${zIndex}",
     };
     adhocracy.geo.pagePolygonSelect = {
         strokeColor: "#111111",
-        fillColor: "#343434"
+        fillColor: "#343434",
+        graphicZIndex: "${zIndex}",
     };
 
     adhocracy.geo.pagePolygonStyleMap = new OpenLayers.StyleMap({
@@ -240,7 +242,10 @@ var adhocracy = adhocracy || {};
                 url: url,
                 format: format
             }),
-            styleMap: styleMap
+            styleMap: styleMap,
+            rendererOptions: {
+                zIndexing: true
+            }
         });
 
     };

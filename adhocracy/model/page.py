@@ -355,6 +355,13 @@ class Page(Delegateable):
         assert config.get('adhocracy.page_geotags')
         return self.geotag is not None
 
+    def depth(self):
+        parent = self.parent
+        if parent is None:
+            return 0
+        else:
+            return self.parent.depth() + 1
+
     def get_geojson_feature(self):
 
         import geojson
@@ -370,6 +377,7 @@ class Page(Delegateable):
                     'title': self.title,
                     'url': h.entity_url(self),
                     'numProposals': len(self.selections),
+                    'zIndex': 500 + self.depth(),
                 },
                 id=self.id
                 )
