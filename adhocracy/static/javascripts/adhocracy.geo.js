@@ -1277,6 +1277,7 @@ var adhocracy = adhocracy || {};
         result = result + attributes.numProposals + ' ' + numProposalsLabel;
         result = result + "</div>";
         result = result + "</div>";
+        result = result + "<a href='/proposal/new?page=" + attributes.id + "'> " + $.i18n._('new_proposal') + "</a>";
         return result;
     };
 

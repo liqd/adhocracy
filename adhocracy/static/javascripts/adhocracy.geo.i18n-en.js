@@ -15,6 +15,7 @@ var dictionary = {
     'license': 'license',
     'votes': 'votes',
     'authenticated_instance': 'official usage',
-    'non_authenticated_instance': 'no official usage'
+    'non_authenticated_instance': 'no official usage',
+    'new_proposal': 'New proposal'
 };
 $.i18n.setDictionary(dictionary);

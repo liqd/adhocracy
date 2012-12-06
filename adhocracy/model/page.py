@@ -374,6 +374,7 @@ class Page(Delegateable):
             return geojson.Feature(
                 geometry=wkb.loads(str(self.geotag.geom_wkb)),
                 properties={
+                    'id': self.id,
                     'title': self.title,
                     'url': h.entity_url(self),
                     'numProposals': len(self.selections),
