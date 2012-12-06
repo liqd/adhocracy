@@ -35,7 +35,7 @@ setup(
         "WebOb==1.0.8",  # 1.1 removed an imported required by Pylons 0.9.7
         "SQLAlchemy==0.7.9",
         "sqlalchemy-migrate>=0.6",
-        "FormEncode>=1.2.4",
+        "FormEncode_adhocracy_nmu>=1.2.5", # Really FormEncode>=1.2.5 (for <input type=email>), but that's not released yet (=> https://github.com/formencode/formencode/issues/20)
         "repoze.who>=2.0",
         "repoze.what==1.0.8",  # 1.0.9 conflicts with repoze.who>=2.0
         "repoze.who.plugins.sa==1.0rc2",
