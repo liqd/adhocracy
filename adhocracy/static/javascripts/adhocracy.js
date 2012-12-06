@@ -297,7 +297,7 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.helpers.updateBadgePreview = function (selector, color) {
+    adhocracy.helpers.updateBadgePreview = function (selector, color, visible) {
         var wrapper = $(selector),
             stylerule,
             styleelement;
@@ -305,7 +305,12 @@ var adhocracy = adhocracy || {};
             if (!wrapper.is(":visible")) {
                 wrapper.removeClass('hidden');
             }
-            stylerule = '.badge_dummy.abadge:before { color: ' + color + ';';
+            if (visible) {
+                stylerule = '.badge_dummy.abadge:before { color: ' + color + ';}';
+            } else {
+                stylerule = '.badge_dummy.abadge { visibility: hidden;}';
+            }
+
             if ($('#dummystyle').length === 0) {
                 $('head').append(
                     '<style id="dummystyle" type="text/css"></style>'
@@ -314,8 +319,9 @@ var adhocracy = adhocracy || {};
             $('#dummystyle').text(stylerule);
         }
     };
-    adhocracy.helpers.initializeBadgeColorPicker = function (selector, storagekey) {
+    adhocracy.helpers.initializeBadgeColorPicker = function (selector, visibleSelector, storagekey) {
         var current_color = $(selector).val(),
+            current_visible = $(visibleSelector).is(':checked'),
             updatePreview = adhocracy.helpers.updateBadgePreview;
         $(selector).spectrum({
             preferredFormat: "hex",
@@ -323,11 +329,14 @@ var adhocracy = adhocracy || {};
             showSelectionPalette: true,
             localStorageKey: storagekey,
             change: function (color) {
-                updatePreview('#badge-preview', color.toHexString());
+                updatePreview('#badge-preview', color.toHexString(), visibleSelector);
             }
         });
+        $(visibleSelector).change(function() {
+            updatePreview('#badge-preview', $(selector).val(), $(visibleSelector).is(':checked'));
+        });
         if (current_color) {
-            updatePreview('#badge-preview', current_color);
+            updatePreview('#badge-preview', current_color, current_visible);
         }
     };
 
