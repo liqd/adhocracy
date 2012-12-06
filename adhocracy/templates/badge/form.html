@@ -42,8 +42,8 @@ ${self.form()}
 
     ${h.field_token()|n}
 
-    <label for="title" class="">${_("Badge title")}</label>
-    <input name="title" id="title" class="" style="width:20em"
+    <label for="badge_form_title" class="">${_("Badge title")}</label>
+    <input name="title" id="badge_form_title" class="" style="width:20em"
            value="" />
 
     <label for="description" class="">${_("Badge description")}</label>
@@ -61,7 +61,7 @@ ${self.form()}
     </span>
     <script>
         $(document).ready(function() {
-            adhocracy.helpers.initializeBadgeColorPicker('#color', '#badge_form_visible', '${h.site.domain()}.colors.badge')})
+            adhocracy.helpers.initializeBadgeColorPicker('#color', '#badge_form_visible', '#badge_form_title', '${h.site.domain()}.colors.badge')})
     </script>
     
     <input type="checkbox" name="visible" id="badge_form_visible" />

@@ -297,10 +297,13 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.helpers.updateBadgePreview = function (selector, color, visible) {
+    adhocracy.helpers.updateBadgePreview = function (selector, color, visible, title) {
         var wrapper = $(selector),
             stylerule,
             styleelement;
+        if (title) {
+            $('.badge_dummy.abadge').text(title);
+        }
         if (color !== undefined) {
             if (!wrapper.is(":visible")) {
                 wrapper.removeClass('hidden');
@@ -319,10 +322,8 @@ var adhocracy = adhocracy || {};
             $('#dummystyle').text(stylerule);
         }
     };
-    adhocracy.helpers.initializeBadgeColorPicker = function (selector, visibleSelector, storagekey) {
-        var current_color = $(selector).val(),
-            current_visible = $(visibleSelector).is(':checked'),
-            updatePreview = adhocracy.helpers.updateBadgePreview;
+    adhocracy.helpers.initializeBadgeColorPicker = function (selector, visibleSelector, titleSelector, storagekey) {
+        var updatePreview = adhocracy.helpers.updateBadgePreview;
         $(selector).spectrum({
             preferredFormat: "hex",
             showPalette: true,
@@ -332,12 +333,12 @@ var adhocracy = adhocracy || {};
                 updatePreview('#badge-preview', color.toHexString(), visibleSelector);
             }
         });
-        $(visibleSelector).change(function() {
-            updatePreview('#badge-preview', $(selector).val(), $(visibleSelector).is(':checked'));
-        });
-        if (current_color) {
-            updatePreview('#badge-preview', current_color, current_visible);
-        }
+        var update = function() {
+            updatePreview('#badge-preview', $(selector).val(), $(visibleSelector).is(':checked'), $(titleSelector).val());
+        };
+        $(visibleSelector).change(update);
+        $(titleSelector).change(update);
+        update();
     };
 
 }());
