@@ -1336,6 +1336,8 @@ var adhocracy = adhocracy || {};
             } else {
                 var pageLayer = adhocracy.geo.createPageLayer();
                 map.addLayer(pageLayer);
+                map.setLayerIndex(pageLayer, 500);
+                map.setLayerIndex(proposalLayer, 501);
                 pageLayer.addFeatures([feature]);
                 adhocracy.geo.createPopupControl(map, pageLayer, adhocracy.geo.buildPagePopup);
 
@@ -1486,6 +1488,8 @@ var adhocracy = adhocracy || {};
             }
         });
         map.addLayer(pageLayer);
+        map.setLayerIndex(pageLayer, 500);
+        map.setLayerIndex(proposalLayer, 501);
         var pagePopupControl = adhocracy.geo.createPopupControl(map, pageLayer, adhocracy.geo.buildPagePopup);
 
         if (adhocracy.geo.easteregg) {
