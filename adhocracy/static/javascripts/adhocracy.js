@@ -326,6 +326,7 @@ var adhocracy = adhocracy || {};
         var updatePreview = adhocracy.helpers.updateBadgePreview;
         $(selector).spectrum({
             preferredFormat: "hex",
+            showInput: true,
             showPalette: true,
             showSelectionPalette: true,
             localStorageKey: storagekey,
