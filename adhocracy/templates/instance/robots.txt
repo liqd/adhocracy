@@ -2,5 +2,5 @@ User-agent: *
 %if not c.instance.allow_index or not c.instance.is_shown():
 Disallow: /
 %else:
-Sitemap: ${h.base_url(None, path="/sitemap.xml")}
+Sitemap: ${h.base_url("/sitemap.xml", None)}
 %endif
