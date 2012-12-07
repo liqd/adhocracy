@@ -14,6 +14,7 @@ from webob.multidict import MultiDict
 
 from adhocracy import model
 from adhocracy.lib import sorting, tiles
+from adhocracy.lib.helpers import base_url
 from adhocracy.lib.event.stats import user_activity
 from adhocracy.lib.search.query import sunburnt_query, add_wildcard_query
 from adhocracy.lib.templating import render_def
@@ -149,13 +150,7 @@ class PagerMixin(object):
         # sanitize the the query arguments
         query_items = ([(str(key), unicode(value).encode('utf-8')) for
                         (key, value) in query.items()])
-        url_base = url.current(qualified=True)
-        protocol = config.get('adhocracy.protocol', 'http').strip()
-        if ', ' in url_base:
-            # hard coded fix for enquetebeteiligung.de
-            url_base = '%s://%s' % (protocol, url_base.split(', ')[1])
-        else:
-            url_base = '%s://%s' % (protocol, url_base.split('://')[1])
+        url_base = base_url(url.current(qualified=False))
         return url_base + "?" + urllib.urlencode(query_items)
 
     def to_dict(self):
