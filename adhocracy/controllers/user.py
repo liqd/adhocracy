@@ -216,6 +216,7 @@ class UserController(BaseController):
         c.page_user.page_size = self.form_result.get("page_size")
         c.page_user.no_help = self.form_result.get("no_help")
         c.page_user.bio = self.form_result.get("bio")
+        c.page_user.gender = self.form_result.get("gender")
         email = self.form_result.get("email").lower()
         email_changed = email != c.page_user.email
         c.page_user.email = email
