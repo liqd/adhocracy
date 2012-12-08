@@ -85,11 +85,12 @@ class Page(Delegateable):
         if not include_deleted:
             q = q.filter(or_(Page.delete_time == None,
                              Page.delete_time > datetime.utcnow()))
-        if functions is not None:
+        if functions != []:
             q = q.filter(Page.function.in_(functions))
         if instance is not None:
             q = q.filter(Page.instance == instance)
-        q = q.filter(not_(Page.id.in_([p.id for p in exclude])))
+        if exclude != []:
+            q = q.filter(not_(Page.id.in_([p.id for p in exclude])))
         return q
 
     @classmethod
