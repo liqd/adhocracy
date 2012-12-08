@@ -55,7 +55,7 @@ instance_table = \
 class Instance(meta.Indexable):
     __tablename__ = 'instance'
 
-    INSTANCE_KEY = re.compile("^[a-zA-Z][a-zA-Z0-9_]{2,18}$")
+    INSTANCE_KEY = re.compile("^[a-zA-Z][a-zA-Z0-9-]{2,18}$")
 
     def __init__(self, key, label, creator, description=None):
         self.key = key
