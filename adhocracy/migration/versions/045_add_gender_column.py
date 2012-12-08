@@ -1,11 +1,11 @@
 from datetime import datetime
 
 from sqlalchemy import MetaData, Column, ForeignKey, Table
-from sqlalchemy import Boolean, DateTime, Integer, Unicode, String
+from sqlalchemy import Boolean, DateTime, Integer, Unicode, String, UnicodeText
 
-metadata = MetaData()
+meta = MetaData()
 
-user_table = Table('user', metadata,
+user_table = Table('user', meta,
     Column('id', Integer, primary_key=True),
     Column('user_name', Unicode(255), nullable=False, unique=True, index=True),
     Column('display_name', Unicode(255), nullable=True, index=True),
@@ -26,7 +26,7 @@ user_table = Table('user', metadata,
     )
 
 def upgrade(migrate_engine):
-    metadata.bind = migrate_engine
+    meta.bind = migrate_engine
 
     gender = Column('gender', Unicode(255), default='unspecified')
     gender.create(user_table)
