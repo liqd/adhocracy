@@ -17,6 +17,10 @@
     width: 640px;
     height: 440px;
 }
+.proposal_create_map {
+    width: 572px;
+    height: 440px;
+}
 
 .map {
     position: absolute;
@@ -37,7 +41,7 @@
 /* bootstrap.css sets max-width to 100% which does not work with OpenLayers.
  * Since bootstrap.css 2.0.4, the map id could be named #map_canvas to avoid
  * that problem. */
-.large_map img, .map img, .small_map img, .small_boxed_map img, .midsize_map img {
+.large_map img, .map img, .small_map img, .small_boxed_map img, .midsize_map img, .proposal_create_map img {
     max-width: none;
 }
 

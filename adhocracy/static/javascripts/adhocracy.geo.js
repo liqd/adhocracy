@@ -1998,7 +1998,7 @@ var adhocracy = adhocracy || {};
 
             $('<div />', {
                 id: 'map',
-                'class': 'midsize_map'
+                'class': 'proposal_create_map'
             }).appendTo('#map_div');
 
             adhocracy.geo.loadSingleProposalMap(instanceKey, null, true, position);
