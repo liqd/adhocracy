@@ -489,34 +489,6 @@ $(document).ready(function () {
     );
 
 
-    /* Armed labels: Use label text as pre-filling text for empty form fields. */
-    $(".armlabel").each(function (e) {
-        var hint = $("[for=" + $(this).attr("name") + "]").text();
-        var field = this;
-
-        $(this).focus(function () {
-            if ($(field).hasClass("armed")) {
-                $(field).val("");
-                $(field).removeClass("armed");
-            }
-        });
-
-        $(this).blur(function () {
-            if ($.trim($(field).val()).length === 0) {
-                $(field).val(hint);
-                $(field).addClass("armed");
-            }
-        });
-        $(this).blur();
-    });
-
-    /* Make sure that we do not submit placeholder texts */
-    $("form").submit(function () {
-        $(".armed").each(function (i) {
-            $(this).val("");
-        });
-    });
-
     /* Hide hidejs class elements, e.g. input field in user.register */
     $(".hidejs").hide();
 

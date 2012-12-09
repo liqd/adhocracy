@@ -1,5 +1,4 @@
 <%inherit file="/template.html" />
-<%namespace name="tiles_html" file="/proposal/tiles.html"/>
 <%namespace name="components" file="/components.html"/>
 <%def name="title()">${_("Message %s") % c.page_user.name}</%def>
 
@@ -8,19 +7,17 @@
 </%def>
 
 <%block name="main_content">
-  <form name="create_proposal" class="inplace" method="POST" action="/user/${c.page_user.user_name}/message">
+  <form name="create_message" class="inplace" method="POST" action="/user/${c.page_user.user_name}/message">
       ${h.field_token()|n}
       <div class="page_title">
-          <label for="subject" class="armhint">${_("Subject")}</label>
-          <input tabindex="1" class="title armlabel" name="subject" />
+          <input tabindex="1" class="title" name="subject" placeholder="${_('Subject')}" />
       </div>
 
       <div class="sidebar">
           <div class="infobox">${_("Your e-mail address will be included in this message to give the recipient a method to reply to you.")|n}</div>
       </div>
       <div class="mainbar">
-          <label for="body" class="armhint">${_("Dear %s, ...") % c.page_user.name}</label>
-          <textarea tabindex="2" class="description armlabel" name="body"></textarea>
+          <textarea tabindex="2" class="description" name="body" placeholder="${_('Dear %s, ...') % c.page_user.name}"></textarea>
       </div>
       
       <div style="clear:both;"></div>

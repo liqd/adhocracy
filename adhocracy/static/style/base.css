@@ -137,10 +137,6 @@ label {
     font-weight: bold;
 }
 
-label.armhint {
-    display: none;
-}
-
 input,
 textarea {
     border:  1px solid #ccc;
@@ -234,10 +230,6 @@ input[type=file] {
     background-position:2px 3px;
     background-repeat:no-repeat;
     padding-left: 19px;
-}
-
-.armed {
-    color: #666;
 }
 
 input.title {

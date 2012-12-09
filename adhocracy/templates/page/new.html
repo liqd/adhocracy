@@ -23,14 +23,13 @@
         <fieldset>
             <legend>${_("Norm title")}</legend>
             <div class="input_wrapper page_title">
-                <label for="title" class="armhint">${_("New norm")}</label>
-                <input type="text" tabindex="1" class="title armlabel" name="title" value="${c.title}"/>
+                <input type="text" tabindex="1" class="title" name="title" value="${c.title}" placeholder="${_('New norm')}" />
             </div>
         </fieldset>
 
         <fieldset>
             <legend>${_("Norm content")}</legend>
-            <textarea tabindex="2" class="description armlabel normedit" cols="${model.Text.LINE_LENGTH}" name="text"></textarea>
+            <textarea tabindex="2" class="description normedit" cols="${model.Text.LINE_LENGTH}" name="text"></textarea>
             ${components.formatting()}
         </fieldset>
 
@@ -40,8 +39,7 @@
 
             <legend>${_("Tag and classify")}</legend>
             <div class="input_wrapper">      
-                <label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
-                <input type="text" name="tags" id="tags" class="armlabel long" data-instance-baseurl="${h.base_url()}" />
+                <input type="text" name="tags" id="tags" class="long" placeholder="${_('Tags to describe the subject')}" data-instance-baseurl="${h.base_url()}" />
             </div>
         </fieldset>
         
