@@ -2680,6 +2680,7 @@ msgstr "Neuer Vorschlag"
 msgid "Change norms with this proposal"
 msgstr "Ändere Beschlüsse mit diesem Vorschlag"
 
+msgid ""
 "Proposals are implemented by including changes towards new or existing norm."
 " Norms are fixed documents that represent the consensus of this instance and"
 " can only be changed through a vote. Amend the proposal to change or create "
