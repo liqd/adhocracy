@@ -65,7 +65,7 @@ class Background(AdhocracyCommand):
     def daily(self):
         import adhocracy.lib.queue as queue
         queue.daily()
-        self.setup_timer(84600.0, self.daily)
+        self.setup_timer(86400.0, self.daily)
 
     def setup_timer(self, interval, func):
         import threading

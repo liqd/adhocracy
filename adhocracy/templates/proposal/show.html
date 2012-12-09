@@ -33,7 +33,7 @@
 
 <%block name="main_content">
 <% 
-url = h.base_url('delegation/new?scope=%s' % str(c.proposal.id))
+url = h.base_url('/delegation/new?scope=%s' % str(c.proposal.id))
 delegate_url = url if can.delegation.create() else None
 %>
 

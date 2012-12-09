@@ -79,10 +79,3 @@ def delete(entity):
         connection.commit()
     except Exception, e:
         log.exception(e)
-
-
-def clear():
-    connection = get_sunburnt_connection()
-    connection.delete_all()
-    connection.commit()
-    connection.close()

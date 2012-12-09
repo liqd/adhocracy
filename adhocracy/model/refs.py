@@ -196,6 +196,10 @@ def get_entities(entity_class, ids, order=True):
     Returns
        A list of model objects
     '''
+
+    if ids == []:
+        return []
+
     from meta import Session
     db_mapper_attr = ref_attr_value(entity_class)
     q = Session.query(entity_class).filter(db_mapper_attr.in_(ids))
