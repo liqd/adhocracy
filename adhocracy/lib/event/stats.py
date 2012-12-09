@@ -30,14 +30,14 @@ def activity(query_filter, from_time=None, to_time=None):
     return act
 
 
-@memoize('instance_activity', 84600)
+@memoize('instance_activity', 86400)
 def instance_activity(instance, from_time=None, to_time=None):
     def query_filter(q):
         return q.filter(model.Event.instance == instance)
     return activity(query_filter, from_time, to_time)
 
 
-@memoize('user_activity', 84600)
+@memoize('user_activity', 86400)
 def user_activity(instance, user, from_time=None, to_time=None):
     '''
     compute the user activity, either for a given
