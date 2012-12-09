@@ -78,4 +78,4 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False):
 
 def shortlink_url(delegateable):
     path = "/d/%s" % delegateable.id
-    return base_url(path, None)
+    return base_url(path, None, absolute=True)
