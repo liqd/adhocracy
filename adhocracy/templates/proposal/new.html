@@ -20,15 +20,13 @@
     <fieldset>
       <legend>${_("Proposal title")}</legend>
       <div class="input_wrapper">
-        <label for="label" class="armhint">${_("New proposal")}</label>
-        <input type="text" tabindex="1" class="title armlabel" name="label" />
+        <input type="text" tabindex="1" class="title" name="label" placeholder="${_('New proposal')}" />
       </div>
     </fieldset>
 
     <fieldset>
       <legend>${_("Proposal Category")}</legend>
       <div class="input_wrapper">
-        <label for="category" class="armhint">${_("Proposal category hint")}</label>
         <select name="category"> 
         <option value="">${_("No Category")}</option>
         %for category in c.categories:
@@ -107,8 +105,7 @@
       <legend>${_("Proposal goals")}</legend>
       <p class="info">${_("Give a brief description of <b>the goals</b> of your proposal.")|n}</p>
       <div class="input_wrapper">
-        <label for="text" class="armhint">${_("The proposal would...")}</label>
-        <textarea tabindex="2" class="description armlabel" name="text"></textarea>
+        <textarea tabindex="2" class="description" name="text" placeholder="${_('The proposal would...')}"></textarea>
         ${components.formatting()}
       </div>
     </fieldset>
@@ -117,8 +114,7 @@
       ${h.need.autocomplete}
       <legend>${_("Tag and classify")}</legend>
       <div class="input_wrapper">      
-        <label for="tags" class="armhint">${_("Tags to describe the subject")}</label>
-        <input type="text" name="tags" id="tags" class="armlabel long" data-instance-baseurl="${h.base_url()}" />
+        <input type="text" name="tags" id="tags" class="long" placeholder="${_('Tags to describe the subject')}" data-instance-baseurl="${h.base_url()}" />
         <p class="info">${_("Multiple tags can be separated by commas.")}</p>
       </div>
         

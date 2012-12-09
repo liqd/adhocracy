@@ -5,7 +5,7 @@ from adhocracy.lib.helpers import url as _url
 
 def for_entity(entity):
     from adhocracy.lib.helpers import entity_url
-    return for_url(entity_url(entity))
+    return for_url(entity_url(entity, absolute=True))
 
 
 def for_url(url):

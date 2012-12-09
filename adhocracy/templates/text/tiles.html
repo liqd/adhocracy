@@ -107,8 +107,7 @@
             %else:
                 ${_("Variant:")} 
                 %if field is not None:
-                    <label for="variant" class="armhint">${_("Variant Name")}</label>
-                    <input class="armlabel" name="variant" maxlength="75" value="${field}"/>
+                    <input name="variant" maxlength="75" value="${field}" placeholder="${_('Variant Name')}" />
                 %else:
                     <b><a href="${h.entity_url(this)|n}">${this.variant_html|n}</a></b>
                 %endif
