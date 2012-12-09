@@ -8,6 +8,8 @@ else:
     description = badge.description.strip()
     badge_id = badge.id
     badge_title = badge.title
+    if not badge.visible:
+        return 
 %>
     <span class="abadge badge_${badge_id}">
         <a class="${description and 'ttip' or ''}" 

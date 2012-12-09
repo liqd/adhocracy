@@ -305,15 +305,23 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.helpers.updateBadgePreview = function (selector, color) {
+    adhocracy.helpers.updateBadgePreview = function (selector, color, visible, title) {
         var wrapper = $(selector),
             stylerule,
             styleelement;
+        if (title) {
+            $('.badge_dummy.abadge').text(title);
+        }
         if (color !== undefined) {
             if (!wrapper.is(":visible")) {
                 wrapper.removeClass('hidden');
             }
-            stylerule = '.badge_dummy.abadge:before { color: ' + color + ';';
+            if (visible) {
+                stylerule = '.badge_dummy.abadge:before { color: ' + color + ';}';
+            } else {
+                stylerule = '.badge_dummy.abadge { visibility: hidden;}';
+            }
+
             if ($('#dummystyle').length === 0) {
                 $('head').append(
                     '<style id="dummystyle" type="text/css"></style>'
@@ -322,21 +330,24 @@ var adhocracy = adhocracy || {};
             $('#dummystyle').text(stylerule);
         }
     };
-    adhocracy.helpers.initializeBadgeColorPicker = function (selector, storagekey) {
-        var current_color = $(selector).val(),
-            updatePreview = adhocracy.helpers.updateBadgePreview;
+    adhocracy.helpers.initializeBadgeColorPicker = function (selector, visibleSelector, titleSelector, storagekey) {
+        var updatePreview = adhocracy.helpers.updateBadgePreview;
         $(selector).spectrum({
             preferredFormat: "hex",
+            showInput: true,
             showPalette: true,
             showSelectionPalette: true,
             localStorageKey: storagekey,
             change: function (color) {
-                updatePreview('#badge-preview', color.toHexString());
+                updatePreview('#badge-preview', color.toHexString(), visibleSelector);
             }
         });
-        if (current_color) {
-            updatePreview('#badge-preview', current_color);
-        }
+        var update = function() {
+            updatePreview('#badge-preview', $(selector).val(), $(visibleSelector).is(':checked'), $(titleSelector).val());
+        };
+        $(visibleSelector).change(update);
+        $(titleSelector).change(update);
+        update();
     };
 
 }());

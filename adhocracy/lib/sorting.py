@@ -131,7 +131,7 @@ def norm_variants(entities):
 
 
 def comment_order_key(comment):
-    max_age = 84600 / 2  # 0.5 days
+    max_age = 86400 / 2  # 0.5 days
     scorer = score_and_freshness_sorter(max_age)
     return scorer(comment.poll.tally.score, comment.create_time)
 

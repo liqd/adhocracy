@@ -19,7 +19,7 @@ badge_table = Table(
     'badge', meta.data,
     #common attributes
     Column('id', Integer, primary_key=True),
-    Column('type', String(40), nullable=False),
+    Column('type', String(40), nullable=False), 
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('title', Unicode(40), nullable=False),
     Column('color', Unicode(7), nullable=False),
@@ -29,7 +29,9 @@ badge_table = Table(
            nullable=True),
     # attributes for UserBadges
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
-    Column('display_group', Boolean, default=False))
+    Column('display_group', Boolean, default=False),
+    Column('visible', Boolean, default=True),
+)
 
 
 # --[ relation tables ]-----------------------------------------------------
@@ -72,15 +74,16 @@ user_badges_table = Table(
 
 class Badge(object):
 
-    def __init__(self, title, color, description, instance=None):
+    def __init__(self, title, color, visible, description, instance=None):
         self.title = title
         self.description = description
         self.color = color
+        self.visible = visible
         self.instance = instance
 
     @classmethod
-    def create(cls, title, color, description, instance=None):
-        badge = cls(title, color, description, instance)
+    def create(cls, title, color, visible, description, instance=None):
+        badge = cls(title, color, visible, description, instance)
         meta.Session.add(badge)
         meta.Session.flush()
         return badge
@@ -155,6 +158,7 @@ class Badge(object):
         return dict(id=self.id,
                     title=self.title,
                     color=self.color,
+                    visible=self.visible,
                     description=self.description,
                     instance=self.instance.id if self.instance else None)
 
@@ -180,9 +184,9 @@ class UserBadge(Badge):
     polymorphic_identity = 'user'
 
     @classmethod
-    def create(cls, title, color, description, group=None,
+    def create(cls, title, color, visible, description, group=None,
                display_group=False, instance=None):
-        badge = cls(title, color, description, instance)
+        badge = cls(title, color, visible, description, instance)
         badge.group = group
         badge.display_group = display_group
         meta.Session.add(badge)
