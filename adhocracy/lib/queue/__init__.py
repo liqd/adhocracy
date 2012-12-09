@@ -32,6 +32,16 @@ def update_solr_for_all_user():
         post_update(user, model.update.UPDATE)
 
 
+def update_solr_for_all_instances():
+    '''
+    Reindex all instances in solr. Mainly to update their
+    activity measurements.
+    '''
+    instance_query = model.Instance.all_q()
+    for instance in instance_query:
+        post_update(instance, model.update.UPDATE)
+
+
 # TODO: Inversion of control
 def dispatch():
     import adhocracy.model as model
@@ -58,5 +68,6 @@ def dispatch():
             # housekeeping
             from adhocracy.lib import watchlist
             watchlist.clean_stale_watches()
+            update_solr_for_all_instances()
         model.meta.Session.remove()
     consume(_handle_message)
