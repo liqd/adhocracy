@@ -242,6 +242,7 @@ class Instance(meta.Indexable):
         return d
 
     def to_index(self):
+        from adhocracy.lib.event import stats as estats
         index = super(Instance, self).to_index()
         if self.hidden:
             index['skip'] = True
@@ -250,7 +251,8 @@ class Instance(meta.Indexable):
             title=self.label,
             tags=[],
             body=self.description,
-            user=self.creator.user_name
+            user=self.creator.user_name,
+            activity=estats.instance_activity(self)
         ))
         return index
 
