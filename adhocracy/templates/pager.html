@@ -65,10 +65,12 @@
         %if pager.page_sizes():
         <div class="pager_sorts bottom">
             %for size in pager.page_sizes():
-                <a class="${size['class']}" 
-                   href="${size['url']|n}"
-		   rel="nofollow">${size['size']}</a>
-                ${'|' if not size['last'] else ''}
+            %if size['current']:
+            ${size['size']}
+            %else:
+            <a href="${size['url']|n}" rel="nofollow">${size['size']}</a>
+            %endif
+            ${'|' if not size['last'] else ''}
             %endfor
             ${_("entries")}
         </div>

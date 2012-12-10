@@ -127,7 +127,7 @@
       <div class="input_wrapper">
         <label for="page_size">${_("List size:")}</label>
         <select name="page_size">
-            %for n in [10, 20, 30, 40, 50]:
+            %for n in [10, 20, 50, 100, 200]:
                 <option value="${n}" ${"selected='selected'" if n == c.page_user.page_size else ''}>${n}</option>
             %endfor
         </select>
