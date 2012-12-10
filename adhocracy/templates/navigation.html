@@ -125,18 +125,26 @@
       <div class="page_wrapper">
         <!-- begin: sub navi -->
         
-        <div id="organisation_logo">
-            %if url:
-            <a href="${url}">
-            %endif
-            %if logo:
-            <img src="${logo}" alt=""/>
-            %endif
-            <h2>${label}</h2>
-            %if url:
-            </a>
+        <div id="logo_row">
+            <div id="organisation_logo">
+                %if url:
+                <a href="${url}">
+                %endif
+                %if logo:
+                <img src="${logo}" alt=""/>
+                %endif
+                <h2>${label}</h2>
+                %if url:
+                </a>
+                %endif
+            </div>
+            %if can.instance.edit(c.instance):
+            <div id="instance_settings">
+              <a href="${h.entity_url(c.instance, member='settings')}" class="button settings">${_("Settings")}</a>
+            </div>
             %endif
         </div>
+
         <!-- begin: sub navi -->
         <nav>
           <div class="hlist">
@@ -213,12 +221,6 @@
              text=_("Members"),
              li_class=_class('members'),
              id_='subnav-members')}
-
-  ${nav_link(href=h.entity_url(c.instance, member='settings'),
-             text=_("Settings"),
-             li_class=(_class('settings') + ' settings'),
-             condition=can.instance.edit(c.instance),
-             id_='subnav-settings')}
 
 </%call>
 </%def>
