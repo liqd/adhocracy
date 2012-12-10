@@ -18,8 +18,7 @@
         <strong>${_("Link:")}</strong> <a href="${c.url}">${c.url}</a><br/><br/>
         <input type="hidden" name="url" value="${c.url}" />
         
-        <label for="message" class="armhint">${_("Reason to report this page...")}</label>
-        <textarea tabindex="1" class="description armlabel" name="message"></textarea>
+        <textarea tabindex="1" class="description" name="message" placeholder="${_('Reason to report this page...')}"></textarea>
 
         ${components.savebox(c.url, save_text=_("Send"))}
 </form>

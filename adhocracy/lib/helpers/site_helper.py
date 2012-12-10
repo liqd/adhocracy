@@ -14,17 +14,6 @@ def domain():
 def name():
     return config.get('adhocracy.site.name', _("Adhocracy"))
 
-
-def absolute_url(path='', instance=CURRENT_INSTANCE):
-    """
-    Shortcut in order to construct an absolute URL.
-
-    Path and instance parameters as in base_url.
-    """
-
-    return base_url(path, instance, absolute=True)
-
-
 def base_url(path='', instance=CURRENT_INSTANCE, absolute=False):
     """
     Constructs an URL.
@@ -89,4 +78,4 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False):
 
 def shortlink_url(delegateable):
     path = "/d/%s" % delegateable.id
-    return base_url(path, None)
+    return base_url(path, None, absolute=True)

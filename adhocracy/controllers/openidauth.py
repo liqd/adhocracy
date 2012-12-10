@@ -93,7 +93,8 @@ class OpenidauthController(BaseController):
             authrequest = self.consumer.begin(openid)
 
             if not c.user and not model.OpenID.find(openid):
-                axreq = ax.FetchRequest(h.base_url('/openid/update'))
+                axreq = ax.FetchRequest(h.base_url('/openid/update',
+                                                   absolute=True))
                 axreq.add(ax.AttrInfo(AX_MAIL_SCHEMA, alias="email",
                                       required=True))
                 authrequest.addExtension(axreq)
@@ -102,8 +103,8 @@ class OpenidauthController(BaseController):
                 authrequest.addExtension(sreq)
 
             redirecturl = authrequest.redirectURL(
-                h.base_url('/'),
-                return_to=h.base_url('/openid/verify'),
+                h.base_url('/', absolute=True),
+                return_to=h.base_url('/openid/verify', absolute=True),
                 immediate=False)
             session['openid_session'] = self.openid_session
             session.save()
@@ -139,7 +140,8 @@ class OpenidauthController(BaseController):
     def verify(self):
         self.consumer = create_consumer(self.openid_session)
         info = self.consumer.complete(request.params,
-                                      h.base_url('/openid/verify'))
+                                      h.base_url('/openid/verify',
+                                                 absolute=True))
         if not info.status == SUCCESS:
             return self._failure(info.identity_url, _("OpenID login failed."))
         email = None

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2012-11-18 10:53+0100\n"
-"PO-Revision-Date: 2012-12-09 00:34+0000\n"
+"PO-Revision-Date: 2012-12-09 22:32+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -658,7 +658,7 @@ msgstr "Was Sie versuchten ist nicht implementiert."
 
 #, python-format
 msgid "Abuse report: %s"
-msgstr "Missbrauch melden: %s"
+msgstr "Missbrauch-Report: %s"
 
 #, python-format
 msgid ""
@@ -1315,7 +1315,7 @@ msgid "Shortlink"
 msgstr "Kurzlink"
 
 msgid "Report abuse"
-msgstr "Mißbrauch melden"
+msgstr "Missbrauch melden"
 
 msgid "Link:"
 msgstr "Link:"
@@ -2021,7 +2021,7 @@ msgid "Message %s"
 msgstr "%s anschreiben"
 
 msgid "Subject"
-msgstr "Inhalt"
+msgstr "Betreff"
 
 msgid ""
 "Your e-mail address will be included in this message to give the recipient a"
@@ -2841,7 +2841,7 @@ msgstr "Wenn Sie einer Gruppe beitreten, werden Beschlüsse und Vorschläge der 
 msgid ""
 "You can reach your dashboard anytime by clicking on your user name on the "
 "top of the page."
-msgstr "Sie können Ihr Dashboard jederzeit erreichen, indem Sie in oben rechts auf Ihren Benutzernamen klicken."
+msgstr "Sie können Ihr Dashboard jederzeit erreichen, indem Sie oben rechts auf Ihren Benutzernamen klicken."
 
 msgid ""
 "This is your Dashboard. Here you can find the list of instances your a "
@@ -2912,7 +2912,7 @@ msgid "Your User Details"
 msgstr "Ihr Benutzerprofil"
 
 msgid "Display name for"
-msgstr "Name anzeigen für"
+msgstr "Angezeigter Name für"
 
 msgid "You can chose which name other users see."
 msgstr "Sie können auswählen, welcher Name den anderen Benutzern angezeigt werden soll."

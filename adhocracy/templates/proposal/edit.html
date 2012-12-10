@@ -21,17 +21,15 @@
     <fieldset>
       <legend>${_('Title and Goals')}</legend>
       <div class="input_wrapper">
-        <label for="label" class="armhint">${_("Proposal title")}</label>
-        <input type="text" tabindex="1" class="title armlabel" name="label" value="${c.proposal.title}"/>
+        <input type="text" tabindex="1" class="title" name="label" value="${c.proposal.title}" placeholder="${_('Proposal title')}" />
       </div>
 
       <div class="input_wrapper">
-        <label for="text" class="armhint">${_("Proposal goals")}</label>
         <p class="info">
             ${_("A brief description of <b>the goals</b> of your proposal.")|n} 
             ${_("The proposal would...")}
         </p>
-        <textarea tabindex="2" class="description armlabel" rows="${c.text_rows}" name="text">${c.proposal.description.head.text}</textarea>
+        <textarea tabindex="2" class="description" rows="${c.text_rows}" name="text" placeholder="${_('Proposal goals')}">${c.proposal.description.head.text}</textarea>
         ${components.formatting()}
       </div>
 
@@ -46,7 +44,6 @@
     <fieldset>
       <legend>${_("Proposal Category")}</legend>
       <div class="input_wrapper">
-        <label for="category" class="armhint">${_("Proposal category hint")}</label>
         <select name="category"> 
           <option value="">${_("No Category")}</option>
           %for category in c.categories:

@@ -110,7 +110,7 @@ class AdminController(BaseController):
                 created.append(user.user_name)
                 url = base_url("/user/%s/activate?c=%s" % (
                                    user.user_name,
-                                   user.activation_code))
+                                   user.activation_code), absolute=True)
 
                 user_info['url'] = url
                 body = form_result['email_template'].format(**user_info)
