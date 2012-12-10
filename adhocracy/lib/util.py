@@ -4,6 +4,7 @@ import os
 import os.path
 import shutil
 import time
+import collections
 
 from pylons import config
 from pylons.i18n import _
@@ -107,3 +108,17 @@ def replicate_fallback(*a):
         if not from_path == to_path:
             shutil.copy(from_path, to_path)
     return to_path
+
+
+def generate_sequence(initial=10,
+                      factors=[2, 2.5, 2],
+                      minimum=None,
+                      maximum=None):
+    factor_deque = collections.deque(factors)
+    current = initial
+    while maximum is None or current < maximum:
+        if minimum is None or current >= minimum:
+            yield int(current)
+        current *= factor_deque[0]
+        factor_deque.rotate(-1)
+    yield int(current)
