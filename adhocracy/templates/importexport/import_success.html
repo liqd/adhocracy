@@ -1,0 +1,14 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_("Import")}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.breadcrumbs.generate_breadcrumbs(_("Import"))|n}
+</%def>
+
+<h1>${_("Import successfully performed.")}</h1>
+
+<h2><a class="static_home" href="/">${_("back to main page")}</a></h2>
+
+</form>
