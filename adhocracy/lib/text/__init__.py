@@ -33,8 +33,8 @@ def meta_escape(text, markdown=True):
     return text
 
 
-def markdown_to_plain_text(markup):
-    html = render(markup, substitutions=False)
+def markdown_to_plain_text(markup, safe_mode=False):
+    html = render(markup, substitutions=False, safe_mode=safe_mode)
     try:
         return fragment_fromstring(html, create_parent=True).text_content()
     except Exception, e:
