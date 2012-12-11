@@ -169,7 +169,7 @@ class GeoController(BaseController):
                                 'instanceId': instance.id,
                                 'numProposals': instance.num_proposals,
                                 'numMembers': instance.num_members,
-                                'url': h.base_url(instance),
+                                'url': h.base_url(instance=instance),
                             })
 
             instanceResultSet = q.all()
@@ -371,7 +371,7 @@ class GeoController(BaseController):
                 'numMembers': instance.num_members,
                 'bbox': geom.bounds,
                 'geoCentre': geo_centre,
-                'url': h.base_url(instance),
+                'url': h.base_url(instance=instance),
                 'directHit': direct_hit,
                 'regionName': rname,
                 'isAuthenticated': instance.is_authenticated,
@@ -396,7 +396,7 @@ class GeoController(BaseController):
                 'ilabel': instance.label,
                 'numProposals': instance.num_proposals,
                 'numMembers': instance.num_members,
-                'url': h.base_url(instance),
+                'url': h.base_url(instance=instance),
                 'region': rname,
                 'hit': hit,
                 # label is the text which appears in the autocomplete dropdown
