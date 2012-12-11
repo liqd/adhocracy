@@ -66,19 +66,20 @@ def render_def(template_name, def_name, extra_vars=None, cache_key=None,
                            cache_expire=cache_expire, **extra_vars)
 
 
-def ret_success(message=None, category=None, entity=None, code=200,
-                format='html'):
+def ret_success(message=None, category=None, entity=None, member=None,
+                code=200, format='html'):
     return ret_status('OK', message=message, category=category, entity=entity,
-                      code=code, format=format)
+                      code=code, format=format, member=member)
 
 
-def ret_abort(message, category=None, entity=None, code=500, format='html'):
+def ret_abort(message, category=None, entity=None, member=None, code=500,
+              format='html'):
     return ret_status('ABORT', message=message, category=category,
                       entity=entity, code=code, format=format)
 
 
-def ret_status(type_, message, category=None, entity=None, code=200,
-               format='html'):
+def ret_status(type_, message, category=None, entity=None, member=None,
+               code=200, format='html'):
     import adhocracy.lib.helpers as h
     response.status_int = code
     if code != 200:
@@ -90,7 +91,7 @@ def ret_status(type_, message, category=None, entity=None, code=200,
             return ret_json_status(type_, message, code)
         h.flash(message, category)
     if entity is not None:
-        redirect(h.entity_url(entity, format=format))
+        redirect(h.entity_url(entity, format=format, member=member))
     redirect(h.base_url())
 
 
