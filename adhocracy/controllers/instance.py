@@ -925,13 +925,13 @@ class InstanceController(BaseController):
             admin_centre_feature = geojson.Feature(
                 geometry=geo_centre,
                 properties={
-                    'url': h.base_url(instance),
+                    'url': h.base_url(instance=instance),
                     'label': instance.label
                 })
             feature = geojson.Feature(
                 geometry=geom,
                 properties={
-                    'url': h.base_url(instance),
+                    'url': h.base_url(instance=instance),
                     'label': instance.label,
                     'admin_center': admin_centre_feature
                 })
@@ -956,7 +956,7 @@ class InstanceController(BaseController):
                     id=instance.id,
                     geometry=geo_centre,
                     properties={
-                        'url': h.base_url(instance),
+                        'url': h.base_url(instance=instance),
                         'label': instance.label,
                         'isAuthenticated': instance.is_authenticated,
                     })
