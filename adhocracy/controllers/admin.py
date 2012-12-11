@@ -67,7 +67,7 @@ class AdminController(BaseController):
 
     @ActionProtector(has_permission("global.admin"))
     def user_import_form(self, errors=None):
-        return formencode.htmlfill.render(render("/admin/import_form.html"),
+        return formencode.htmlfill.render(render("/admin/userimport_form.html"),
                                           defaults=dict(request.params),
                                           errors=errors,
                                           force_defaults=False)
@@ -127,4 +127,4 @@ class AdminController(BaseController):
         c.not_created = set(names) - set(created)
         c.not_mailed = set(created) - set(mailed)
         c.errors = errors
-        return render("/admin/import_success.html")
+        return render("/admin/userimport_success.html")
