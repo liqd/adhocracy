@@ -111,7 +111,7 @@
     </fieldset>
         
     <fieldset>
-      ${h.need.autocomplete}
+      <% h.need.autocomplete %>
       <legend>${_("Tag and classify")}</legend>
       <div class="input_wrapper">      
         <input type="text" name="tags" id="tags" class="long" placeholder="${_('Tags to describe the subject')}" data-instance-baseurl="${h.base_url()}" />

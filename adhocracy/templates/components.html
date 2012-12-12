@@ -191,12 +191,14 @@ $(document).ready(function () {
 
     <!-- template -->
 
-    ${h.need.stylesheets}
-    ${h.need.modernizr}
-    ${h.need.jquery}
-    ${h.need.jquerytools}
-    ${h.need.elastic}
-    ${h.need.adhocracy}
+    <%
+    h.need.stylesheets
+    h.need.modernizr
+    h.need.jquery
+    h.need.jquerytools
+    h.need.elastic
+    h.need.adhocracy
+    %>
 
   <!--[if lte IE 7]>
   <link href="/stylesheets/patches/patch.css" rel="stylesheet" type="text/css" />
@@ -260,7 +262,7 @@ $(document).ready(function () {
 
 %if h.tutorial.show(c.tutorial):
 
-${h.need.joyride}
+<% h.need.joyride %>
 
 ${caller.body()}
 
