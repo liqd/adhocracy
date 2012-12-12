@@ -60,8 +60,10 @@ def get_site_directory(app_conf=None):
     return site_directory
 
 
-def get_fallback_directory():
-    return os.path.abspath(config.get('pylons.paths').get('root'))
+def get_fallback_directory(app_conf=None):
+    if app_conf is None:
+        app_conf = config
+    return os.path.abspath(app_conf.get('pylons.paths').get('root'))
 
 
 def compose_path(basedir, *a):
@@ -74,14 +76,15 @@ def compose_path(basedir, *a):
 
 
 def get_site_path(*a, **kwargs):
-    app_conf = kwargs.get('app_conf')
+    app_conf = kwargs.get('app_conf', None)
     return compose_path(get_site_directory(app_conf=app_conf), *a)
 
 
-def get_path(*a):
-    path = compose_path(get_site_directory(), *a)
+def get_path(*a, **kwargs):
+    app_conf = kwargs.get('app_conf', None)
+    path = compose_path(get_site_directory(app_conf=app_conf), *a)
     if not os.path.exists(path):
-        path = compose_path(get_fallback_directory(), *a)
+        path = compose_path(get_fallback_directory(app_conf=app_conf), *a)
     if not os.path.exists(path):
         return None
     return path
@@ -102,7 +105,7 @@ def replicate_fallback(*a, **kwargs):
         to_dir = os.path.dirname(to_path)
         if not os.path.exists(to_dir):
             os.makedirs(to_dir)
-        from_path = get_path(*a)
+        from_path = get_path(*a, **kwargs)
         if from_path is None:
             raise IOError("Site file does not exist.")
         if not from_path == to_path:

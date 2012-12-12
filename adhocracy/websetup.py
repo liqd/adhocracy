@@ -4,6 +4,7 @@ import os
 import os.path
 
 import pylons
+import pylons.test
 from pylons import config
 
 import migrate.versioning.api as migrateapi
