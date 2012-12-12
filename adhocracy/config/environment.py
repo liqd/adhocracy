@@ -5,8 +5,9 @@ import traceback
 
 from mako.lookup import TemplateLookup
 from paste.deploy.converters import asbool
-from pylons import config, tmpl_context as c
+from pylons import tmpl_context as c
 from pylons.error import handle_mako_error
+from pylons.configuration import PylonsConfig
 import sqlalchemy
 from sqlalchemy import engine_from_config
 from sqlalchemy.interfaces import ConnectionProxy
@@ -37,10 +38,12 @@ def load_environment(global_conf, app_conf, with_db=True):
                             os.path.join(root, 'templates')])
 
     # Initialize config with the basic options
+    config = PylonsConfig()
+
     config.init_app(global_conf, app_conf, package='adhocracy', paths=paths)
 
-    config['routes.map'] = make_map()
-    config['pylons.app_globals'] = app_globals.Globals()
+    config['routes.map'] = make_map(config)
+    config['pylons.app_globals'] = app_globals.Globals(config)
     config['pylons.h'] = adhocracy.lib.helpers
 
     # Create the Mako TemplateLookup, with the default auto-escaping
@@ -49,7 +52,9 @@ def load_environment(global_conf, app_conf, with_db=True):
         error_handler=handle_mako_error,
         module_directory=os.path.join(app_conf['cache_dir'], 'templates'),
         input_encoding='utf-8', default_filters=['escape'],
-        imports=['from webhelpers.html import escape'])
+        imports=['from markupsafe import escape'])
+
+    config['pylons.strict_tmpl_context'] = False
 
     # Setup the SQLAlchemy database engine
     engineOpts = {}
@@ -66,10 +71,12 @@ def load_environment(global_conf, app_conf, with_db=True):
 
     # CONFIGURATION OPTIONS HERE (note: all config options will override
     # any Pylons config options)
-    init_site()
+    init_site(config)
     if with_db:
         init_search()
     init_democracy()
+
+    return config
 
 
 class TimerProxy(ConnectionProxy):

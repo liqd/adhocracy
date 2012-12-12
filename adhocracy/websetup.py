@@ -3,8 +3,8 @@ import logging
 import os
 import os.path
 
+import pylons
 from pylons import config
-
 
 import migrate.versioning.api as migrateapi
 try:
@@ -25,7 +25,8 @@ log = logging.getLogger(__name__)
 
 def setup_app(command, conf, vars):
     """Place any commands to setup adhocracy here"""
-    load_environment(conf.global_conf, conf.local_conf, with_db=False)
+    if not pylons.test.pylonsapp:
+        load_environment(conf.global_conf, conf.local_conf, with_db=False)
     _setup(conf)
 
 

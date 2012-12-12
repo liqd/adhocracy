@@ -31,8 +31,8 @@ setup(
                      open("CHANGES.txt").read() + "\n" +
                      open("AUTHORS.txt").read() + "\n",
     install_requires=[
-        "Pylons==0.9.7",
-        "WebOb==1.0.8",  # 1.1 removed an imported required by Pylons 0.9.7
+        "Pylons==1.0.1",
+        "WebOb==1.2.3",
         "SQLAlchemy==0.7.9",
         "sqlalchemy-migrate>=0.6",
         "FormEncode>=1.2.4",
@@ -41,7 +41,7 @@ setup(
         "repoze.who.plugins.sa==1.0rc2",
         "repoze.what-pylons==1.0",
         "repoze.what.plugins.sql==1.0.1",
-        "repoze.who-friendlyform==1.0.4",
+        "repoze.who-friendlyform==1.0.8",
         "repoze.who-testutil==1.0",
         "python-twitter>=0.6",
         "oauth2",  # undeclared requirement of python-twitter
@@ -57,7 +57,7 @@ setup(
         "lxml>=2.2.6",
         "Mako>=0.4.2",
         "recaptcha-client>=1.0.6",
-        "fanstatic >=0.11.2, <=0.11.99",
+        "fanstatic >=0.11.2",
         "js.jquery >= 1.7.1,<=1.7.99",
         "js.jquery_qtip >= 1.0.0,<= 1.0.99",
         'js.socialshareprivacy >= 1.3dev',
@@ -107,6 +107,10 @@ setup(
             'misc = adhocracy.static:misc_library',
             'adhocracy = adhocracy.static:adhocracy_library',
             'bootstrap = adhocracy.static:bootstrap_library',
+        ],
+        'nose.plugins': [
+            'pylons = pylons.test:PylonsPlugin',
         ]
+
     }
 )

@@ -95,8 +95,8 @@ def create_site_subdirectory(*a, **kwargs):
     return path
 
 
-def replicate_fallback(*a):
-    to_path = get_site_path(*a)
+def replicate_fallback(*a, **kwargs):
+    to_path = get_site_path(*a, **kwargs)
     if not os.path.exists(to_path):
         log.debug("Setting up site item at: %s" % to_path)
         to_dir = os.path.dirname(to_path)

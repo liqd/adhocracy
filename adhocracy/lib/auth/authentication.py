@@ -33,13 +33,15 @@ def setup_auth(app, config):
         reissue_time=3600)
 
     form = FriendlyFormPlugin(
-            '/login',
-            '/perform_login',
-            '/post_login',
-            '/logout',
-            '/post_logout',
-            login_counter_name='_login_tries',
-            rememberer_name='auth_tkt')
+        '/login',
+        '/perform_login',
+        '/post_login',
+        '/logout',
+        '/post_logout',
+        login_counter_name='_login_tries',
+        rememberer_name='auth_tkt',
+        charset='utf-8'
+    )
 
     sqlauth = SQLAlchemyAuthenticatorPlugin(model.User, model.meta.Session)
     sql_user_md = SQLAlchemyUserMDPlugin(model.User, model.meta.Session)

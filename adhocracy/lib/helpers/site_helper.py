@@ -1,4 +1,4 @@
-from pylons import config, g
+from pylons import config, app_globals as g
 from pylons.i18n import _
 from paste.deploy.converters import asbool
 from adhocracy.model import meta, instance_filter as ifilter

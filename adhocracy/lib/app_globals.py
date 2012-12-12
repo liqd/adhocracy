@@ -1,8 +1,6 @@
 """The application's Globals object"""
 import logging
 
-from pylons import config
-
 import memcache
 
 
@@ -16,7 +14,7 @@ class Globals(object):
 
     """
 
-    def __init__(self):
+    def __init__(self, config):
         """One instance of Globals is created during application
         initialization and is available during requests via the
         'app_globals' variable

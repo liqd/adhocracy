@@ -32,7 +32,7 @@ HANDLERS = {
 
 def invalidate(entity):
     try:
-        from pylons import g
+        from pylons import app_globals as g
         if g.cache is not None:
             func = HANDLERS.get(entity.__class__, lambda x: x)
             func(entity)
