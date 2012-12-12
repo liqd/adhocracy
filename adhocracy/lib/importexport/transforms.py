@@ -42,11 +42,11 @@ class _Transform(object):
         return getattr(o, self._ID_KEY)
 
     def export_all(self):
-        return dict(self._computer_key(o), self._export_object(o))
+        return dict((self._computer_key(o), self._export_object(o))
                     for o in self.model_class.all())
 
     def _export_object(self, obj):
-        data = dict((p, getattr(obj, p)
+        data = dict((p, getattr(obj, p))
             for public_name,native_name in self._prop_names)
         for p,val in getattr(self, '_ENFORCED_PROPS', {}):
             data[p] = val
@@ -123,7 +123,7 @@ class InstanceTransform(_Transform):
     _ENFORCED_PROPS = {'adhocracy_type': 'instance'}
 
     def __init__(self, options, user_transform):
-
+        TODO
 
     # TODO special creator
     # TODO proposals
