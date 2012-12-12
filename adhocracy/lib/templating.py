@@ -107,14 +107,13 @@ def render_json(data, encoding='utf-8'):
     response.content_encoding = encoding
     return json_dumps(data, encoding=encoding)
 
-def render_real_json(data, filename=None):
+def render_real_json(data, filename=None, response=response):
     encoding = 'utf-8' # RFC 4627.3
     response.content_type = 'application/json'
     response.content_encoding = encoding
     if filename is not None:
         response.content_disposition = 'attachment; filename="' + filename.replace('"', '_') + '"'
-    return simplejson.dumps(data, default=_json_entity,
-                            encoding=encoding, indent=4)
+    return json_dumps(data, encoding=encoding)
 
 def render_png(io, mtime, content_type="image/png", cache_forever=False):
     response.content_type = content_type

@@ -49,8 +49,11 @@ class _Transform(object):
         return dict((self._compute_key(o), self._export_object(o))
                     for o in self._model_class.all())
 
+    def _extract_prop(self, obj, native_name):
+        return getattr(obj, native_name)
+
     def _export_object(self, obj):
-        data = dict((public_name, getattr(obj, native_name))
+        data = dict((public_name, self._extract_prop(obj, native_name))
             for public_name,native_name in self._prop_names.items())
         for p,val in getattr(self, '_ENFORCED_PROPS', {}):
             data[p] = val
@@ -59,7 +62,7 @@ class _Transform(object):
     def _init_object(self, obj, data):
         for r in self._REQUIRED:
             setattr(obj, self._prop_names[r], data[r])
-        for public_name,native_name in self._prop_names:
+        for public_name,native_name in self._prop_names.items():
             if native_name in data:
                 setattr(obj, public_name, data[native_name])
 
@@ -122,6 +125,12 @@ class UserTransform(_Transform):
         if hasattr(self, '_badge_transform'):
             obj.badges = list(map(self._badge_transform._get_by_key, data['badges']))
         return res
+
+    def _extract_prop(self, obj, name):
+        if name == 'locale':
+            return str(obj.locale)
+        return super(UserTransform, self)._extract_prop(obj, name)
+
 
 
 class InstanceTransform(_Transform):

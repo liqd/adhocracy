@@ -1,31 +1,60 @@
 
-from adhocracy.lib.templating import render_real_json
+import contextlib
+import io
+import json
+import zipfile
 
-def _render_zip(data, filename):
+from adhocracy.lib.templating import render_real_json
+from pylons import response
+
+def detect_format(f):
+    firstBytes = f.read(4)
+    f.seek(0)
+    if firstBytes[0] == b'{':
+        return 'json'
+    if firstBytes == b'PK\x03\x04':
+        return 'zip'
+    return 'csv'
+
+def _render_zip(data, filename, response=response):
     with io.BytesIO() as fakeFile:
-        zf = zipfile.ZipFile(fakeFile, 'wb')
-        for k,v in data.items():
-            assert '/' not in k
-            zf.writestr(k + '.json', simplejson.dumps(v))
-        zf.close()
+        with contextlib.closing(zipfile.ZipFile(fakeFile, 'w')) as zf:
+            for k,v in data.items():
+                assert '/' not in k
+                zf.writestr(k + '.json', json.dumps(v))
+        res = fakeFile.getvalue()
 
     if filename is not None:
         response.content_disposition = 'attachment; filename="' + filename.replace('"', '_') + '"'
     response.content_type = 'application/zip'
-    return fakeFile.getvalue()
+    return res
+
+def _read_zip(f):
+    res = {}
+    with contextlib.closing(zipfile.ZipFile(f, 'r')) as zf:
+        for fn in zf.namelist():
+            if fn.endswith('.json') and '/' not in fn:
+                res[fn[:-len('.json')]] = json.loads(zf.read(fn))
+    return res
 
 def read_data(f, format):
-    TODO_automatic_detection
-    TODO_actually_read
+    if format == 'auto':
+        format = detect_format(f)
 
-def render(data, format, title):
     if format == 'zip':
-        return _render_zip(data, filename=title + '.zip')
-    elif format == 'json_download':
-        return render_real_json(data, filename=title + '.json')
+        return _read_zip(f)
     elif format == 'json':
-        return render_real_json(data)
+        return json.load(f)
     else:
-        raise ValueError('Invalid format')
+        raise ValueError('Invalid import format')
 
-__all__ = ['read_data', 'render']
+def render(data, format, title, response=response):
+    if format == 'zip':
+        return _render_zip(data, filename=title + '.zip', response=response)
+    elif format == 'json_download':
+        return render_real_json(data, filename=title + '.json', response=response)
+    elif format == 'json':
+        return render_real_json(data, response=response)
+    else:
+        raise ValueError('Invalid export format')
+
