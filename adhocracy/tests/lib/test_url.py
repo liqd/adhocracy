@@ -119,3 +119,9 @@ class TestInstanceUrls(TestController):
             url = h.instance.icon_url(test_instance, 48)
             self.assertEqual(
                 url, '/instance/test_48.png?t=1234')
+
+class TestBaseUrl(TestController):
+    def test_base_url_absolute(self):
+        from adhocracy.lib import base_url
+        self.assertTrue(u'/' in base_url())
+        self.assertTrue(base_url(absolute=True).startswith(u'http'))
