@@ -16,9 +16,9 @@ def _render_zip(data, filename):
 
 def read_data(f, format):
     TODO_automatic_detection
-    TODO_actually read
+    TODO_actually_read
 
-def render(data, format):
+def render(data, format, title):
     if format == 'zip':
         return _render_zip(data, filename=title + '.zip')
     elif eFormat == 'json_download':

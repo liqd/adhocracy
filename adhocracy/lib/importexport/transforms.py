@@ -2,6 +2,7 @@
 import hashlib
 import os
 import re
+import time
 
 from adhocracy import model
 
@@ -132,8 +133,8 @@ class InstanceTransform(_Transform):
         
         return data
 
-    def _import_object(self, data, replacement_strategy):
-        
+    def _import_object(self, data, replacement_strategy):        
         return super(InstanceTransform, self)._import_object(data, replacement_strategy)
+
 
 

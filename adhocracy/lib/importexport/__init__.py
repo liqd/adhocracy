@@ -7,8 +7,8 @@ import email.utils
 import time
 import zipfile
 
-from .formats import render,read_data
-from .transforms import BadgeTransform
+from . import formats
+from . import transforms
 
 import formencode
 
@@ -85,52 +85,6 @@ def _get_instanceData(form, id_user):
         instances[ri.key] = i
     return instances
 
-def _format_time(timestamp):
-    return email.utils.formatdate(timestamp)
-
-def _create_instance(name, instance, replacement_strategy):
-    assert 'title' in instance
-
-    user = _get_user(options, instance)
-    myInstance = model.Instance.find(instance['key'], include_deleted=True)
-
-    if myInstance:
-        doUpdate = replacement_strategy == 'update'
-    else:
-        myInstance = model.Instance.create(instance['key'], instance['title'], user, instance['text'])
-        doUpdate = True
-
-    if doUpdate:
-        if 'label' in instance:
-            myInstance.label = instance['title']
-        if user:
-            myInstance.creator = user
-        if 'text' in instance:
-            myInstance.description = instance['text']
-        if 'adhocracy_groupname' in instance:
-            myInstance.groupname = instance['adhocracy_groupname']
-        if 'frozen' in instance:
-            myInstance.frozen = instance['frozen']
-        if 'hidden' in instance:
-            myInstance.hidden = instance['hidden']
-        if 'use_norms' in instance:
-            myInstance.use_norms = use_norms
-        if 'adhocracy_sort_weight' in instance:
-            myInstance.sort_weight = instance['adhocracy_sort_weight']
-        if 'adhocracy_disable_proposals' in instance:
-            myInstance.disable_proposals = instance['adhocracy_disable_proposals']
-        if 'locale' in instance:
-            myInstance.locale = instance['locale']
-        if 'adhocracy_allow_adopt' in instance:
-            myInstance.allow_adopt = instance['adhocracy_allow_adopt']
-        if 'adhocracy_allow_delegate' in instance:
-            myInstance.allow_delegate = instance['adhocracy_allow_delegate']
-        if 'adhocracy_allow_index' in instance:
-            myInstance.allow_index = instance['adhocracy_allow_index']
-
-    model.meta.Session.add(my_instance)
-    return myInstance
-
 
 def _create_proposal(name, proposal, options):
     if 'adhocracy_type' in proposal:
@@ -202,49 +156,29 @@ def _perform_import(f, format, opts):
 
 def export_data(opts):
     data = {}
+    data['metadata'] = {
+        'type': 'normsetting-export',
+        'version': 3,
+        'time': email.utils.formatdate(time.time()),
+        'adhocracy_options': opts,
+    }
     for transform in _TRANSFORMS:
         if getattr(opts, 'include_' + transform.name.lower()):
             data[transform.name] = transform.export_all()
     return data
 
 def export(opts):
-    return render(export_data(ops))
+    timeStr = time.strftime('%Y-%m-%dT%H:%M:%S', time.gmtime())
+    title = config.get('adhocracy.site.name', 'adhocracy') + '-' + timeStr
+    format = opts['']
 
+    return formats.render(export_data(ops), format, title)
 
-    #     include_users = self.form_result.get('users_enabled')
-
-    #     id_user = None
-
-    #     now = time.time()
-    #     data = {
-    #         'metadata': {
-    #             'type': 'normsetting-export',
-    #             'version': 2,
-    #             'time': _format_time(now),
-    #         }
-    #     }
-
-    #     if self.form_result.get('badges'):
-    #         data['badges'] = _get_badges()
-
-    #     if include_users:
-    #         include_users_personal = self.form_result.get('users_personal')
-    #         if include_users_personal:
-    #             id_user = lambda u: u.user_name
-    #         else:
-    #             id_user = lambda u: str(u.id)
-
-    #         data['users'] = _get_userData(id_user,
-    #                             include_users_personal=self.form_result.get('users_personal'),
-    #                             include_password=self.form_result.get('users_password'),
-    #                             include_badges=self.form_result.get('badges'))
 
     #     if self.form_result.get('instances_enabled'):
     #         data['discussions'] = _get_instanceData(self.form_result, id_user)
 
-    #     timeStr = time.strftime('%Y-%m-%dT%H:%M:%S', time.gmtime(now))
-    #     title = config.get('adhocracy.site.name', 'adhocracy') + '-' + timeStr
-    #     eFormat = self.form_result.get('format')
+    # eFormat = self.form_result.get('format')
     
 
 # TODO move model.meta.Session.commit() calls to the upper layers

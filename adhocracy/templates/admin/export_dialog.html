@@ -51,12 +51,17 @@
         </div>
     </div>
 
-
-    <div class="importexport_format">
+    <div>
         ${_("Export format:")}
-        <input type="radio" id="format_json_download" name="format" value="json_download" /><label for="format_json_download">${_('JSON download')}</label>
-        <input type="radio" id="format_json" name="format" value="json" /><label for="format_json">${_('JSON')}</label>
-        <input type="radio" id="format_zip" name="format" value="zip" checked="checked" /><label for="format_zip">${_('ZIP download')}</label>
+        <label>
+            <input type="radio" name="format" value="json_download" checked="checked" />${_('JSON download')}
+        </label>
+        <label>
+            <input type="radio" name="format" value="json" />${_('JSON')}
+        </label>
+        <label>
+            <input type="radio" name="format" value="zip" />${_('ZIP download')}
+        </label>
     </div>
 
     <div class="savebox">
