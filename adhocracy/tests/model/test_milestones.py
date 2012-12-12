@@ -31,7 +31,7 @@ class TestMilestoneController(TestController):
     def test_create_milestone_with_category(self):
         from adhocracy.model import CategoryBadge
         milestone, creator = _make_one(u'title', u'text')
-        category = CategoryBadge.create(u'Category', u'#ccc',
+        category = CategoryBadge.create(u'Category', u'#ccc', True,
                                         u'descripiton', milestone.instance)
         milestone.category = category
         self.assertEqual(milestone.category.id, category.id)
@@ -40,7 +40,7 @@ class TestMilestoneController(TestController):
     def test_create_milestone_with_category_that_changes_instance(self):
         from adhocracy.model import CategoryBadge, meta
         milestone, creator = _make_one(u'title', u'text')
-        category = CategoryBadge.create(u'Category', u'#ccc',
+        category = CategoryBadge.create(u'Category', u'#ccc', True,
                                         u'descripiton', milestone.instance)
         milestone.category = category
         self.assertEqual(milestone.category.id, category.id)

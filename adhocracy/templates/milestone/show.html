@@ -72,19 +72,20 @@ created_msg = _("by %s on %s") % (
     %endif
     <div class="top_actions aside" id="new-proposal">
         <% auth = check.proposal.create() %>
+        <% url = h.base_url('/proposal/new?milestone=%d' % c.milestone.id) %>
         %if auth:
             <a class="button add ttip" 
                title="${_('Introduce a new idea to debate.')}" 
-               href="${h.base_url('/proposal/new?milestone=%d' % c.milestone.id)}">${_("new proposal")}</a>
+               href="${url}">${_("new proposal")}</a>
         %elif auth.propose_join():
             <a class="button add ttip" 
                title="${_('Join instance to create a new proposal.')}" 
-               href="${h.base_url('/proposal/new?milestone=$d' % c.milestone.id)}" 
+               href="${url}" 
                rel="#overlay-join-button">${_("new proposal")}</a>
         %elif auth.propose_login():
             <a class="button add ttip" 
                title="${_('Login to create a new proposal.')}" 
-               href="${h.base_url('/proposal/new?milestone=$d' % c.milestone.id)}" 
+               href="${url}" 
                rel="#overlay-login-button">${_("new proposal")}</a>
         %endif
 

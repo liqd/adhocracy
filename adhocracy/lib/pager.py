@@ -18,12 +18,14 @@ from adhocracy.lib.helpers import base_url
 from adhocracy.lib.event.stats import user_activity
 from adhocracy.lib.search.query import sunburnt_query, add_wildcard_query
 from adhocracy.lib.templating import render_def
+from adhocracy.lib.util import generate_sequence
 from adhocracy.model.refs import ref_attr_value
 
 log = logging.getLogger(__name__)
 
+MAX_SIZE = 500
 PAGE_VALIDATOR = validators.Int(min=1, not_empty=True)
-SIZE_VALIDATOR = validators.Int(min=1, max=250, not_empty=True)
+SIZE_VALIDATOR = validators.Int(min=1, max=MAX_SIZE, not_empty=True)
 
 
 marker = object()
@@ -93,18 +95,18 @@ class PagerMixin(object):
         return self.render_pager()
 
     def page_sizes(self):
-        if self.initial_size >= self.total_num_items():
+        total = self.total_num_items()
+
+        if self.initial_size >= total:
             return []
+
         page_sizes = []
-        # offer page sizes: from the initial size to either half of the
-        # total size or 5 x the initial size.
-        sizes = range(self.initial_size,
-                      min(self.total_num_items() + self.initial_size / 2,
-                          (self.initial_size * 5)) + 1,
-                      self.initial_size / 2)
+        sizes = generate_sequence(minimum=self.initial_size,
+                                  maximum=min(total, MAX_SIZE))
+
         for size in sizes:
             page_sizes.append(
-                {'class': 'selected' if size == self.size else '',
+                {'current': size == self.size,
                  'url': self.build_url(size=size),
                  'size': size,
                  'last': False})
@@ -307,7 +309,7 @@ def users(users, instance):
              _("alphabetically"): sorting.user_name}
 
     return NamedPager('users', users, tiles.user.row, sorts=sorts,
-                      initial_size=15, default_sort=sorting.user_name)
+                      initial_size=20, default_sort=sorting.user_name)
 
 
 def user_decisions(decisions):

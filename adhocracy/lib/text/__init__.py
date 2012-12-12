@@ -2,8 +2,6 @@ import re
 import cgi
 import logging
 
-from BeautifulSoup import BeautifulSoup, NavigableString
-
 from lxml.html import fragment_fromstring
 
 from adhocracy.lib.text import diff
