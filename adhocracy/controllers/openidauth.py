@@ -57,7 +57,7 @@ class OpenidauthController(BaseController):
         """
         log the user in and redirect him to a sane place.
         """
-        login_user(user, request)
+        login_user(user, request, response)
         if c.instance and not user.is_member(c.instance):
             redirect(h.base_url("/instance/join/%s?%s" % (c.instance.key,
                                                     h.url_token())))
