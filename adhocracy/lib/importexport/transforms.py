@@ -14,7 +14,11 @@ class _Transform(object):
     def name(self):
         m = re.match(r'^(.*)Transform$', type(self).__name__)
         assert m
-        return m.group(0)
+        return m.group(1)
+
+    @property
+    def public_name(self):
+        return self.name.lower() 
 
     @property
     def _model_class(self):
@@ -42,12 +46,12 @@ class _Transform(object):
         return getattr(o, self._ID_KEY)
 
     def export_all(self):
-        return dict((self._computer_key(o), self._export_object(o))
-                    for o in self.model_class.all())
+        return dict((self._compute_key(o), self._export_object(o))
+                    for o in self._model_class.all())
 
     def _export_object(self, obj):
-        data = dict((p, getattr(obj, p))
-            for public_name,native_name in self._prop_names)
+        data = dict((public_name, getattr(obj, native_name))
+            for public_name,native_name in self._prop_names.items())
         for p,val in getattr(self, '_ENFORCED_PROPS', {}):
             data[p] = val
         return data
@@ -78,10 +82,12 @@ class _Transform(object):
         model.meta.session.add(res)
         return res
 
+
 class BadgeTransform(_Transform):
     _PROPS = ['title', 'color', 'description']
     _REQUIRED = _PROPS
     _ID_KEY = 'title'
+
 
 class UserTransform(_Transform):
     """
@@ -92,29 +98,31 @@ class UserTransform(_Transform):
     """
     def __init__(self, options, badge_transform):
         self._PROPS = []
-        if options['user_personal']:
-            self._PROPS.extend(['user_name', 'display_name', 'gender', 'bio',
+        if options.get('user_personal', False):
+            self._PROPS.extend(['user_name', 'display_name', 'bio',
                                 'email', 'locale'])
             self._ID_KEY = 'user_name'
         else:
             self._ID_KEY = 'id'
-        if options['user_password']:
+            self._compute_key = lambda o: str(getattr(o, self._ID_KEY))
+        if options.get('user_password', False):
             self._PROPS.extend(['adhocracy_activation_code',
               'adhocracy_reset_code', 'adhocracy_password', 'adhocracy_banned'])
-        if options['include_badges']:
+        if options.get('include_badges', False):
             self._badge_transform = badge_transform
 
     def _export_object(self, o):
-        data = super(UserTransform, self)._export_object()
-        if hasattr(self._badge_transform):
+        data = super(UserTransform, self)._export_object(o)
+        if hasattr(self, '_badge_transform'):
             data['badges'] = list(map(self._badge_transform._compute_key, o.badges))
         return data
 
     def _init_object(self, obj, data):
         super(UserTransform, self)._init_object(obj, data)
-        if hasattr(self._badge_transform):
+        if hasattr(self, '_badge_transform'):
             obj.badges = list(map(self._badge_transform._get_by_key, data['badges']))
         return res
+
 
 class InstanceTransform(_Transform):
     _ID_KEY = 'key'
@@ -123,7 +131,9 @@ class InstanceTransform(_Transform):
     _ENFORCED_PROPS = {'adhocracy_type': 'instance'}
 
     def __init__(self, options, user_transform):
-        TODO
+        if options.get('include_user', False):
+            pass
+
 
     # TODO special creator
     # TODO proposals
@@ -137,4 +147,11 @@ class InstanceTransform(_Transform):
         return super(InstanceTransform, self)._import_object(data, replacement_strategy)
 
 
+def gen_all(options):
+    badge_transform = BadgeTransform(options)
+    user_transform = UserTransform(options, badge_transform)
+    return [badge_transform, user_transform]
+
+def gen_active(options):
+    return [tf for tf in gen_all(options) if options.get('include_' + tf.name.lower(), False)]
 

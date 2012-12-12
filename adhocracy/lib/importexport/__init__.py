@@ -10,10 +10,7 @@ import zipfile
 from . import formats
 from . import transforms
 
-import formencode
-
-
-
+from pylons import config
 
 
 
@@ -162,17 +159,16 @@ def export_data(opts):
         'time': email.utils.formatdate(time.time()),
         'adhocracy_options': opts,
     }
-    for transform in _TRANSFORMS:
-        if getattr(opts, 'include_' + transform.name.lower()):
-            data[transform.name] = transform.export_all()
+    for transform in transforms.gen_active(opts):
+        data[transform.public_name] = transform.export_all()
     return data
 
 def export(opts):
     timeStr = time.strftime('%Y-%m-%dT%H:%M:%S', time.gmtime())
     title = config.get('adhocracy.site.name', 'adhocracy') + '-' + timeStr
-    format = opts['']
+    format = opts.get('format', 'json')
 
-    return formats.render(export_data(ops), format, title)
+    return formats.render(export_data(opts), format, title)
 
 
     #     if self.form_result.get('instances_enabled'):

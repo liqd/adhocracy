@@ -138,16 +138,16 @@ class AdminController(BaseController):
     def import_do(self):
         obj = request.POST['importfile']
         options = {
-            'include_users': self.form_result.get('include_users') == 'on',
-            'include_instances': self.form_result.get('instances_enabled') == 'on',
-            'include_proposals': self.form_result.get('include_proposals') == 'on',
-            'include_comments': self.form_result.get('include_proposal_comments') == 'on',
-            'include_badges': self.form_result.get('badges') == 'on',
+            'include_user': self.form_result.get('include_user') == 'on',
+            'include_instance': self.form_result.get('include_instance') == 'on',
+            'include_proposal': self.form_result.get('include_proposal') == 'on',
+            'include_comment': self.form_result.get('include_instance_proposal_comment') == 'on',
+            'include_badge': self.form_result.get('include_badge') == 'on',
             'replacement_strategy': self.form_result.get('replacement'),
         }
         # define default user to be author of content that has no valid author
-        options['default_user'] = model.User.find(u"admin", include_deleted=True)
-        assert options['default_user']
+        options['default_creator'] = model.User.find(u"admin", include_deleted=True)
+        assert options['default_creator']
 
         adhocracy.lib.importexport.perform_import(obj.file, **options)
 

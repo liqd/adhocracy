@@ -11,8 +11,10 @@
 
 <form method="post" action="/admin/export/do" class="exportform">
     <div>
-        <input type="checkbox" name="users_enabled" id="users_enabled" checked="checked" />
-        <label for="users_enabled">${_("Export users")}</label>
+        <label>
+            <input type="checkbox" name="include_user" checked="checked" />
+            ${_("Export users")}
+        </label>
         <div class="importexport_settings">
             <div>
                 <label>
@@ -34,17 +36,23 @@
     </div>
 
     <div>
-        <input type="checkbox" name="instances_enabled" id="instances_enabled" checked="checked" />
-        <label for="instances_enabled">${_("Export content (instances)")}</label>
+        <label>
+            <input type="checkbox" name="include_instance" checked="checked" />
+            ${_("Export content (instances)")}
+        </label>
 
         <div class="importexport_settings">
             <div>
-                <input type="checkbox" name="proposals_enabled" id="proposals_enabled" checked="checked" />
-                <label for="proposals_enabled">${_("Include proposals")}</label>
+                <label>
+                    <input type="checkbox" name="include_instance_proposal" checked="checked" />
+                    ${_("Include proposals")}
+                </label>
                 <div class="importexport_settings">
                     <div>
-                        <input type="checkbox" name="proposals_comments_enabled" id="proposals_comments_enabled" checked="checked" />
-                        <label for="proposals_comments_enabled">${_("Include comments")}</label>
+                        <label>
+                            <input type="checkbox" name="include_instance_proposal_comment" checked="checked" />
+                            ${_("Include comments")}
+                        </label>
                     </div>
                 </div>
             </div>

@@ -21,9 +21,9 @@ def read_data(f, format):
 def render(data, format, title):
     if format == 'zip':
         return _render_zip(data, filename=title + '.zip')
-    elif eFormat == 'json_download':
+    elif format == 'json_download':
         return render_real_json(data, filename=title + '.json')
-    elif eFormat == 'json':
+    elif format == 'json':
         return render_real_json(data)
     else:
         raise ValueError('Invalid format')
