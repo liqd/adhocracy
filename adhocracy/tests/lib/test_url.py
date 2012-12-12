@@ -122,6 +122,6 @@ class TestInstanceUrls(TestController):
 
 class TestBaseUrl(TestController):
     def test_base_url_absolute(self):
-        from adhocracy.lib import base_url
+        from adhocracy.lib.helpers import base_url
         self.assertTrue(u'/' in base_url())
         self.assertTrue(base_url(absolute=True).startswith(u'http'))
