@@ -9,22 +9,28 @@
 
 <h1>${_("Export")}</h1>
 
-<form method="post" action="/export/do" class="exportform">
+<form method="post" action="/admin/export/do" class="exportform">
     <div>
         <input type="checkbox" name="users_enabled" id="users_enabled" checked="checked" />
         <label for="users_enabled">${_("Export users")}</label>
         <div class="importexport_settings">
             <div>
-                <input type="checkbox" name="users_personal" id="users_personal" checked="checked" />
-                <label for="users_personal">${_("Include personal data")}</label>
+                <label>
+                    <input type="checkbox" name="user_personal" checked="checked" />
+                    ${_("Include personal data")}
+                </label>
             </div>
             <div>
-                <input type="checkbox" name="users_password" id="users_password" />
-                <label for="users_password">${_("Include password hashes")}</label>
+                <label>
+                    <input type="checkbox" name="user_password" />
+                    ${_("Include password hashes")}
+                </label>
             </div>
         </div>
-        <input type="checkbox" name="badges" id="badges" checked="checked" />
-        <label for="badges">${_("Export badges")}</label>
+        <label>
+            <input type="checkbox" name="badges" checked="checked" />
+            ${_("Export badges")}
+        </label>
     </div>
 
     <div>
