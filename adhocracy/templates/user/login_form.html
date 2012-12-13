@@ -15,13 +15,19 @@ if came_from:
       <label for="password">${_("Password:")}</label>
       <input type="password" name="password" tabindex="2" />
     </div>
-    <div class="input_wrapper submit">        
-      <input type="submit" value="${_('Login')}" tabindex="3" />
-      ${_("or")} 
-      <a href="/register${query_string}" class="icon_link more_uppercase"
-          tabindex="4">
-          ${_("Register new account")|n}</a>
-    </div>
+    %if h.allow_user_registration():
+        <div class="input_wrapper submit">        
+          <input type="submit" value="${_('Login')}" tabindex="3" />
+          ${_("or")} 
+          <a href="/register${query_string}" class="icon_link more_uppercase"
+              tabindex="4">
+              ${_("Register new account")|n}</a>
+        </div>
+    %else:
+        <div class="input_wrapper submit">
+          <input type="submit" value="${_('Login')}" tabindex="3" />
+        </div>
+    %endif
   </form>
   <script>
       $('input[name=login]').focus();
