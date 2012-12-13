@@ -28,7 +28,7 @@ user_table = Table('user', meta,
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
 
-    gender = Column('gender', Unicode(255), default='unspecified')
+    gender = Column('gender', Unicode(1), default='u')
     gender.create(user_table)
 
 
