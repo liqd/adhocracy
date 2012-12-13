@@ -217,7 +217,7 @@ class UserController(BaseController):
         c.page_user.no_help = self.form_result.get("no_help")
         c.page_user.bio = self.form_result.get("bio")
         get_gender = self.form_result.get("gender")
-        if get_gender == "f" || get_gender == "m" || get_gender == "u":
+        if get_gender == "f" or get_gender == "m" or get_gender == "u":
             c.page_user.gender = get_gender
         else:
             c.page_user.gender = "u"
