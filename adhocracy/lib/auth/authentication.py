@@ -29,7 +29,7 @@ def setup_auth(app, config):
     basicauth = BasicAuthPlugin('Adhocracy HTTP Authentication')
     auth_tkt = InstanceAuthTktCookiePlugin(
         config,
-        config.get('adhocracy.auth.secret', config['adhocracy.beaker.secret']),
+        config.get('adhocracy.auth.secret', config['beaker.session.secret']),
         cookie_name='adhocracy_login', timeout=86400 * 2,
         reissue_time=3600)
 
