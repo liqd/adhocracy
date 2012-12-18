@@ -36,7 +36,7 @@ user_table = Table('user', meta.data,
     Column('banned', Boolean, default=False),
     Column('no_help', Boolean, default=False, nullable=True),
     Column('page_size', Integer, default=10, nullable=True),
-    Column('gender', Unicode(1), default='u'),
+    Column('gender', Unicode(1), default=None),
     )
 
 

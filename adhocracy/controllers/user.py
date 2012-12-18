@@ -30,6 +30,8 @@ from adhocracy.lib.queue import post_update
 from adhocracy.lib.templating import render, render_json, ret_abort
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
+from paste.deploy.converters import asbool
+
 log = logging.getLogger(__name__)
 
 
@@ -202,6 +204,7 @@ class UserController(BaseController):
         require.user.edit(c.page_user)
         c.locales = i18n.LOCALES
         c.tile = tiles.user.UserTile(c.page_user)
+        c.enable_gender = asbool(config.get('adhocracy.enable_gender', 'false'))
         return render("/user/edit.html")
 
     @RequireInternalRequest(methods=['POST'])
@@ -217,10 +220,8 @@ class UserController(BaseController):
         c.page_user.no_help = self.form_result.get("no_help")
         c.page_user.bio = self.form_result.get("bio")
         get_gender = self.form_result.get("gender")
-        if get_gender == "f" or get_gender == "m" or get_gender == "u":
+        if get_gender in ('f', 'm', 'u'):
             c.page_user.gender = get_gender
-        else:
-            c.page_user.gender = "u"
         email = self.form_result.get("email").lower()
         email_changed = email != c.page_user.email
         c.page_user.email = email
