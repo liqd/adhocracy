@@ -25,7 +25,7 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
 from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
-                                 solr_instance_users_pager)
+                                 solr_instance_users_pager, PROPOSAL_SORTS)
 from adhocracy.lib.queue import post_update
 from adhocracy.lib.templating import render, render_json, ret_abort
 from adhocracy.lib.util import get_entity_or_abort, random_token
@@ -202,6 +202,7 @@ class UserController(BaseController):
         require.user.edit(c.page_user)
         c.locales = i18n.LOCALES
         c.tile = tiles.user.UserTile(c.page_user)
+        c.default_sorting_order = PROPOSAL_SORTS
         return render("/user/edit.html")
 
     @RequireInternalRequest(methods=['POST'])
