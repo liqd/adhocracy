@@ -56,6 +56,10 @@ need = FanstaticNeedHelper(static)
 fanstatic_url = FanstaticUrlHelper(static)
 
 
+def allow_user_registration():
+    return asbool(config.get('adhocracy.allow_registration', 'True'))
+
+
 def sorted_flash_messages():
     '''
     Return the flash messages sorted by priority, keeping
