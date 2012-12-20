@@ -134,7 +134,7 @@ class UserController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserCreateForm(), form="new", post_only=True)
     def create(self):
-        if h.allow_user_registration() is False:
+        if not h.allow_user_registration():
             return ret_abort(_("Sorry, registration has been disabled by administrator."),
                                 category='error', code=403)
 
