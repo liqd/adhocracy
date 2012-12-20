@@ -110,7 +110,8 @@ def score_and_freshness_sorter(max_age):
 def proposal_mixed_key(proposal):
     max_age = 172800  # 2 days
     scorer = score_and_freshness_sorter(max_age)
-    return scorer(proposal.rate_poll.tally.num_for, proposal.create_time)
+    tally = proposal.rate_poll.tally
+    return scorer(tally.num_for - tally.num_against, proposal.create_time)
 
 
 def proposal_mixed(entities):
