@@ -26,7 +26,7 @@ def _human_key(key):
     keys = []
     if len(parts) > 1:
         keys.append([int(e) if e.isdigit() else e.swapcase()
-            for e in re.split('(\d+|\.)', parts[1])])
+                     for e in re.split('(\d+|\.)', parts[1])])
     if len(parts) > 2:
         keys.append(parts[2])
 
