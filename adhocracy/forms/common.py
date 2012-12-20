@@ -8,6 +8,8 @@ from pylons import tmpl_context as c
 from pylons.i18n import _
 from webhelpers.html import literal
 
+from sqlalchemy import func
+
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.unicode import UnicodeDictReader
 
@@ -42,8 +44,9 @@ class UniqueUsername(formencode.FancyValidator):
             raise formencode.Invalid(
                 _('The username is invalid'),
                 value, state)
-        if meta.Session.query(User.user_name).filter(User.user_name ==
-                                                     value).count():
+        if meta.Session.query(User.user_name).filter(
+            func.lower(User.user_name)==value.lower()
+        ).count():
             raise formencode.Invalid(
                 _('That username already exists'),
                 value, state)
