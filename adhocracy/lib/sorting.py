@@ -100,7 +100,7 @@ def score_and_freshness_sorter(max_age):
         freshness = 1
         if score > -1:
             age = timedelta2seconds(datetime.utcnow() - time)
-            freshness = max(1, math.log10(max(1, max_age - age)))
+            freshness = math.log10(max(10, max_age - age))
         str_time = "%020d" % datetime2seconds(time)
         str_score_freshness = "%029.10f" % (freshness * score)
         return str_score_freshness + str_time
