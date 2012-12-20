@@ -108,7 +108,7 @@ def score_and_freshness_sorter(max_age):
 
 
 def proposal_mixed_key(proposal):
-    max_age = 3600 * 36  # 2 days
+    max_age = 172800  # 2 days
     scorer = score_and_freshness_sorter(max_age)
     return scorer(proposal.rate_poll.tally.num_for, proposal.create_time)
 
@@ -131,7 +131,7 @@ def norm_variants(entities):
 
 
 def comment_order_key(comment):
-    max_age = 86400 / 2  # 0.5 days
+    max_age = 43200  # 0.5 days
     scorer = score_and_freshness_sorter(max_age)
     return scorer(comment.poll.tally.score, comment.create_time)
 
