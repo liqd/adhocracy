@@ -5,7 +5,6 @@ from paste.cascade import Cascade
 from paste.registry import RegistryManager
 from paste.urlparser import StaticURLParser
 from paste.deploy.converters import asbool
-from pylons import config
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
@@ -46,10 +45,10 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
              asbool(app_conf.get('debug', False)))
 
     # Configure the Pylons environment
-    load_environment(global_conf, app_conf)
+    config = load_environment(global_conf, app_conf)
 
     # The Pylons WSGI app
-    app = PylonsApp()
+    app = PylonsApp(config=config)
 
     # Routing/Session/Cache Middleware
     app = RoutesMiddleware(app, config['routes.map'])
@@ -79,7 +78,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     if asbool(static_files):
         cache_age = int(config.get('adhocracy.static.age', 7200))
         # Serve static files
-        overlay_app = StaticURLParser(get_site_path('static'),
+        overlay_app = StaticURLParser(get_site_path('static', app_conf=config),
             cache_max_age=None if debug else cache_age)
         static_app = StaticURLParser(config['pylons.paths']['static_files'],
             cache_max_age=None if debug else cache_age)
@@ -100,5 +99,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     if asbool(config.get('adhocracy.include_machine_name_in_header', 'false')):
         app = IncludeMachineName(app, config)
+
+    app.config = config
 
     return app

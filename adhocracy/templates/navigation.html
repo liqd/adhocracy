@@ -31,7 +31,7 @@
                 id_="nav_home")}
 
                 %if not h.asbool(config.get('adhocracy.hide_instance_list_in_navigation')):
-                %if g.single_instance is None:
+                %if app_globals.single_instance is None:
                 ${nav_link(href=h.base_url('/instance', None),
                            a_rel='#overlay-default',
                            li_class=_class('instances'),

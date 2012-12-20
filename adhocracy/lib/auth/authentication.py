@@ -28,18 +28,21 @@ def setup_auth(app, config):
 
     basicauth = BasicAuthPlugin('Adhocracy HTTP Authentication')
     auth_tkt = InstanceAuthTktCookiePlugin(
-        '41d207498d3812741e27c6441760ae494a4f9fbf',
+        config,
+        config.get('adhocracy.auth.secret', config['beaker.session.secret']),
         cookie_name='adhocracy_login', timeout=86400 * 2,
         reissue_time=3600)
 
     form = FriendlyFormPlugin(
-            '/login',
-            '/perform_login',
-            '/post_login',
-            '/logout',
-            '/post_logout',
-            login_counter_name='_login_tries',
-            rememberer_name='auth_tkt')
+        '/login',
+        '/perform_login',
+        '/post_login',
+        '/logout',
+        '/post_logout',
+        login_counter_name='_login_tries',
+        rememberer_name='auth_tkt',
+        charset='utf-8'
+    )
 
     sqlauth = SQLAlchemyAuthenticatorPlugin(model.User, model.meta.Session)
     sql_user_md = SQLAlchemyUserMDPlugin(model.User, model.meta.Session)

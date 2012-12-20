@@ -3,7 +3,7 @@ import logging
 import formencode
 from formencode import ForEach, htmlfill, validators
 
-from pylons import config, request, session, tmpl_context as c
+from pylons import config, request, response, session, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
@@ -308,7 +308,7 @@ class UserController(BaseController):
         model.meta.Session.commit()
         if code.startswith(model.User.IMPORT_MARKER):
             # Users imported by admins
-            login_user(c.page_user, request)
+            login_user(c.page_user, request, response)
             h.flash(_("Welcome to %s") % h.site.name(), 'success')
             if c.instance:
                 membership = model.Membership(c.page_user, c.instance,
