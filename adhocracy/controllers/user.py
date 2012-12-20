@@ -134,6 +134,10 @@ class UserController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserCreateForm(), form="new", post_only=True)
     def create(self):
+        if not h.allow_user_registration():
+            return ret_abort(_("Sorry, registration has been disabled by administrator."),
+                                category='error', code=403)
+
         require.user.create()
         if self.email_is_blacklisted(self.form_result['email']):
             return ret_abort(_("Sorry, but we don't accept registrations with "
