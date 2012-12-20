@@ -64,7 +64,7 @@
         <input name="replay" value="1" checked="checked" type="checkbox" /> 
         ${_("Include decisions made before now.")}
     </div>
-    ${components.savebox("/d/%s" % c.scope.id)}
+    ${components.savebox(h.base_url('/d/%s' % c.scope.id))}
     
 </form>
 </%block>
