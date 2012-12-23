@@ -90,7 +90,7 @@ class ProposalController(BaseController):
         # FIXME: Live filtering ignores selected facets.
         c.proposals_pager = pager.solr_proposal_pager(c.instance,
                                                       {'text': query})
-        #c.proposals_pager.sorts._default = "-order.proposal.novotes"
+
         if c.user.default_sorting_order is not None:
             if c.user:
                 c.proposals_pager.sorts.set_default(c.user.default_sorting_order)
