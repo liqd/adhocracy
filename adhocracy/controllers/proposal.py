@@ -92,11 +92,7 @@ class ProposalController(BaseController):
         if c.user and c.user.default_sorting_order:
             def_sort = c.user.default_sorting_order
         c.proposals_pager = pager.solr_proposal_pager(c.instance,
-<<<<<<< HEAD
                                                       {'text': query}, default_sorting=def_sort)
-=======
-                                             {'text': query}, default=def_sort)
->>>>>>> 33dbcd8bda6fd7885d7de99244901b902e53a7e2
 
         if format == 'json':
             return render_json(c.proposals_pager)
