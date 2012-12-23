@@ -205,17 +205,17 @@
              li_class=_class('proposals'),
              id_='subnav-proposals')}
 
-  ${nav_link(href=h.base_url('/page'),
-             text=_("Norms"),
-             li_class=_class('norms'),
-             condition=c.instance.use_norms,
-             id_='subnav-norms')}
-
   ${nav_link(href=h.base_url('/milestone'),
              text=_("Milestones"),
              li_class=_class('milestones'),
              condition=c.instance.milestones,
              id_='subnav-milestones')}
+
+  ${nav_link(href=h.base_url('/page'),
+             text=_("Norms"),
+             li_class=_class('norms'),
+             condition=c.instance.use_norms,
+             id_='subnav-norms')}
 
   ${nav_link(href=h.base_url('/user'),
              text=_("Members"),

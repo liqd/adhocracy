@@ -26,7 +26,7 @@ def _human_key(key):
     keys = []
     if len(parts) > 1:
         keys.append([int(e) if e.isdigit() else e.swapcase()
-            for e in re.split('(\d+|\.)', parts[1])])
+                     for e in re.split('(\d+|\.)', parts[1])])
     if len(parts) > 2:
         keys.append(parts[2])
 
@@ -100,7 +100,7 @@ def score_and_freshness_sorter(max_age):
         freshness = 1
         if score > -1:
             age = timedelta2seconds(datetime.utcnow() - time)
-            freshness = max(1, math.log10(max(1, max_age - age)))
+            freshness = math.log10(max(10, max_age - age))
         str_time = "%020d" % datetime2seconds(time)
         str_score_freshness = "%029.10f" % (freshness * score)
         return str_score_freshness + str_time
@@ -108,9 +108,10 @@ def score_and_freshness_sorter(max_age):
 
 
 def proposal_mixed_key(proposal):
-    max_age = 3600 * 36  # 2 days
+    max_age = 172800  # 2 days
     scorer = score_and_freshness_sorter(max_age)
-    return scorer(proposal.rate_poll.tally.num_for, proposal.create_time)
+    tally = proposal.rate_poll.tally
+    return scorer(tally.num_for - tally.num_against, proposal.create_time)
 
 
 def proposal_mixed(entities):
@@ -131,7 +132,7 @@ def norm_variants(entities):
 
 
 def comment_order_key(comment):
-    max_age = 86400 / 2  # 0.5 days
+    max_age = 43200  # 0.5 days
     scorer = score_and_freshness_sorter(max_age)
     return scorer(comment.poll.tally.score, comment.create_time)
 
