@@ -1145,6 +1145,10 @@ class NamedSort(object):
     def __len__(self):
         return len(self.by_value.keys())
 
+    def set_default(self, default):
+            assert default in self.by_value
+            self._default = default 
+
 
 OLDEST = SortOption('+create_time', L_("Oldest"))
 NEWEST = SortOption('-create_time', L_("Newest"))
@@ -1187,6 +1191,7 @@ PROPOSAL_SORTS = NamedSort([[L_('Support'), (PROPOSAL_SUPPORT(old=2),
                                            PROPOSAL_MIXED(old=3))]],
                            default=PROPOSAL_MIXED,
                            mako_def="sort_slidedown")
+
 
 
 def solr_instance_users_pager(instance):
@@ -1232,7 +1237,7 @@ def solr_proposal_pager(instance, wildcard_queries=None):
     extra_filter = {'instance': instance.key}
     pager = SolrPager('proposals', tiles.proposal.row,
                       entity_type=model.Proposal,
-                      sorts=PROPOSAL_SORTS,
+                      sorts=copy.copy(PROPOSAL_SORTS),
                       extra_filter=extra_filter,
                       facets=[DelegateableBadgeCategoryFacet,
                               DelegateableMilestoneFacet,

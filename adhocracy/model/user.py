@@ -35,7 +35,8 @@ user_table = Table('user', meta.data,
     Column('delete_time', DateTime),
     Column('banned', Boolean, default=False),
     Column('no_help', Boolean, default=False, nullable=True),
-    Column('page_size', Integer, default=10, nullable=True)
+    Column('page_size', Integer, default=10, nullable=True),
+    Column('default_sorting_order', Unicode(50), default=None, nullable=True)
     )
 
 
