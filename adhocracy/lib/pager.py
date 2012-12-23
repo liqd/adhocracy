@@ -1103,6 +1103,11 @@ class NamedSort(object):
         else:
             return self.by_group[self.groups[0]][0]
 
+    @default.setter
+    def default(self, default):
+            assert default in self.by_value
+            self._default = default 
+
     def current_value(self):
         return request.params.get(self.pager.sort_param)
 
@@ -1144,10 +1149,6 @@ class NamedSort(object):
 
     def __len__(self):
         return len(self.by_value.keys())
-
-    def set_default(self, default):
-            assert default in self.by_value
-            self._default = default 
 
 
 OLDEST = SortOption('+create_time', L_("Oldest"))
@@ -1233,11 +1234,16 @@ def solr_instance_pager():
     return pager
 
 
-def solr_proposal_pager(instance, wildcard_queries=None):
+def solr_proposal_pager(instance, wildcard_queries=None, default=None):
     extra_filter = {'instance': instance.key}
+    sorts = PROPOSAL_SORTS
+    if default is not None:
+        sorts = copy.copy(sorts)
+        sorts.default = default
+
     pager = SolrPager('proposals', tiles.proposal.row,
                       entity_type=model.Proposal,
-                      sorts=copy.copy(PROPOSAL_SORTS),
+                      sorts=sorts,
                       extra_filter=extra_filter,
                       facets=[DelegateableBadgeCategoryFacet,
                               DelegateableMilestoneFacet,

@@ -88,12 +88,11 @@ class ProposalController(BaseController):
 
         # FIXME: Add tag filtering again (now solr based)
         # FIXME: Live filtering ignores selected facets.
+        def_sort = None
+        if c.user and c.user.default_sorting_order:
+            def_sort = c.user.default_sorting_order
         c.proposals_pager = pager.solr_proposal_pager(c.instance,
-                                                      {'text': query})
-
-        if c.user.default_sorting_order is not None:
-            if c.user:
-                c.proposals_pager.sorts.set_default(c.user.default_sorting_order)
+                                             {'text': query}, default=def_sort)
 
         if format == 'json':
             return render_json(c.proposals_pager)
