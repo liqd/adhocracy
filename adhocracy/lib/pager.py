@@ -1103,6 +1103,11 @@ class NamedSort(object):
         else:
             return self.by_group[self.groups[0]][0]
 
+    @default.setter
+    def default(self, default):
+        assert default in self.by_value
+        self._default = default
+
     def current_value(self):
         return request.params.get(self.pager.sort_param)
 
@@ -1228,11 +1233,16 @@ def solr_instance_pager():
     return pager
 
 
-def solr_proposal_pager(instance, wildcard_queries=None):
+def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
     extra_filter = {'instance': instance.key}
+    sorts = PROPOSAL_SORTS
+    if default_sorting is not None:
+        sorts = copy.copy(sorts)
+        sorts.default = default_sorting
+
     pager = SolrPager('proposals', tiles.proposal.row,
                       entity_type=model.Proposal,
-                      sorts=PROPOSAL_SORTS,
+                      sorts=sorts,
                       extra_filter=extra_filter,
                       facets=[DelegateableBadgeCategoryFacet,
                               DelegateableMilestoneFacet,
