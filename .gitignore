@@ -2,6 +2,7 @@
 .hgsvn
 
 *.pyc
+*.pyo
 *.swp
 *.swo
 *.egg
@@ -23,3 +24,27 @@ site/*
 test-site/*
 adhocracy/*_theme
 test.db-journal
+var
+parts
+bin
+lib
+src_dependencies
+lib64
+eggs
+develop-eggs
+htmlcov
+include
+downloads
+installed_eggs
+docs
+.coverage
+.mr.developer.cfg
+.installed.cfg
+etc/adhocracy.ini
+etc/rabbitmq-env.conf
+etc/unthemed.ini
+etc/vhost.conf
+etc/sysv-init
+etc/adhocracy-interactive.ini
+mailsink
+adhocracy-test-chroot
