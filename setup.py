@@ -69,6 +69,7 @@ setup(
     setup_requires=[
                     "setuptools>=0.6c6"],  # fix OS X 10.5.7
     packages=find_packages(exclude=['ez_setup']),
+    package_dir={'': 'src'},
     include_package_data=True,
     test_suite='nose.collector',
     extras_require={
