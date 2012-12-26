@@ -30,7 +30,7 @@ user_table = Table('user', metadata,
 def upgrade(migrate_engine):
     metadata.bind = migrate_engine
 
-    user_state = Column('default_sorting_order', Unicode(50), default=None, nullable=True)
+    user_state = Column('proposal_sort_order', Unicode(50), default=None, nullable=True)
     user_state.create(user_table)
 
 

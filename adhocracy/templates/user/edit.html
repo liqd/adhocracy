@@ -137,15 +137,15 @@
         <label for="page_size">${_("Hide help messages:")}</label>
         <input type="checkbox" name="no_help" value="true" ${'checked="checked"' if c.page_user.no_help else ''} />
       </div>
-      <label for="default_sorting_order">${_("Change default sorting order for proposals:")}</label>
-        <select name="default_sorting_order">
-        % if c.page_user.default_sorting_order == None:
+      <label for="proposal_sort_order">${_("Change default sorting order for proposals:")}</label>
+        <select name="proposal_sort_order">
+        % if c.page_user.proposal_sort_order == None:
           <option selected></option>
         % endif
         % for group in c.sorting_orders.groups:
           <optgroup label="${group}">
           % for sorting_order in c.sorting_orders.by_group[group]:
-            <option value="${sorting_order.value}" ${'selected' if sorting_order.value == c.page_user.default_sorting_order else ''}>${sorting_order.label}</option>
+            <option value="${sorting_order.value}" ${'selected' if sorting_order.value == c.page_user.proposal_sort_order else ''}>${sorting_order.label}</option>
           % endfor
           </optgroup>
         % endfor

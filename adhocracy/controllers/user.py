@@ -221,9 +221,9 @@ class UserController(BaseController):
         c.page_user.page_size = self.form_result.get("page_size")
         c.page_user.no_help = self.form_result.get("no_help")
         c.page_user.bio = self.form_result.get("bio")
-        c.page_user.default_sorting_order = self.form_result.get("default_sorting_order")
-        if c.page_user.default_sorting_order == "":
-            c.page_user.default_sorting_order = None
+        c.page_user.proposal_sort_order = self.form_result.get("proposal_sort_order")
+        if c.page_user.proposal_sort_order == "":
+            c.page_user.proposal_sort_order = None
         email = self.form_result.get("email").lower()
         email_changed = email != c.page_user.email
         c.page_user.email = email
