@@ -14,7 +14,7 @@ text_table = Table('text', meta.data,
     Column('id', Integer, primary_key=True),
     Column('page_id', Integer, ForeignKey('page.id'), nullable=False),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('parent_id', Integer, ForeignKey('text.id'), nullable=True),
+    Column('child_id', Integer, ForeignKey('text.id'), nullable=True),
     Column('variant', Unicode(255), nullable=True),
     Column('title', Unicode(255), nullable=True),
     Column('text', UnicodeText(), nullable=True),
@@ -69,11 +69,11 @@ class Text(object):
         return _text
 
     @property
-    def history(self):
-        # TODO: Performance fail.
-        if self.parent:
-            return [self] + self.parent.history
-        return [self]
+    def history(self, include_deleted=False):
+        texts = meta.Session.query(Text).filter(Text.page_id==self.page_id, Text.variant==self.variant).all()
+        if not include_deleted:
+            texts = filter(lambda x: not x.is_deleted(), texts)
+        return texts
 
     def delete(self, delete_time=None):
         if delete_time is None:
@@ -86,6 +86,13 @@ class Text(object):
             at_time = datetime.utcnow()
         return ((self.delete_time is not None) and
                 self.delete_time <= at_time)
+
+    def valid_parent(self):
+        parent = self.parent
+        if parent is not None and parent.is_deleted():
+            return parent.valid_parent()
+        else:
+            return parent
 
     def render(self):
         from adhocracy.lib import text

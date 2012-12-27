@@ -80,6 +80,7 @@ def setup_entities(initial_setup):
     mk_perm("milestone.show", initial_setup, anonymous)
     mk_perm("page.create", initial_setup, advisor)
     mk_perm("page.delete", initial_setup, moderator)
+    mk_perm("page.delete_history", initial_setup, moderator)
     mk_perm("page.edit", initial_setup, advisor)
     mk_perm("page.show", initial_setup, anonymous)
     mk_perm("page.view", initial_setup, anonymous)

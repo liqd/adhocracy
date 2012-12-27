@@ -30,3 +30,7 @@ def delete(check, p):
     check.other('page_not_mutable', not p.is_mutable())
     check.perm('page.delete')
     show(check, p)
+
+
+def delete_history(check, p):
+    check.perm('page.delete_history')
