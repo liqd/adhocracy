@@ -400,9 +400,11 @@ mapper(Text, text_table, properties={
     'user': relation(
             User, lazy=True,
             primaryjoin=text_table.c.user_id == user_table.c.id),
-    'parent': relation(
-            Text, lazy=True, uselist=False,
-            primaryjoin=text_table.c.parent_id == text_table.c.id),
+    'child': relation(
+            Text, 
+            remote_side=[text_table.c.id],
+            uselist=False,
+            backref=backref('parent', uselist=False)),
     'page': relation(
             Page, lazy=True, backref=backref(
                 '_texts', lazy=False,
