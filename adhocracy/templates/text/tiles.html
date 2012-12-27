@@ -4,7 +4,7 @@
     <div class="tile text history">
         <ul class="content_list">
             <li class="title">
-                ${diff.page_titles_compare(text, text.parent)|n}
+                ${diff.page_titles_compare(text, text.valid_parent())|n}
                 %if text.page.has_variants:
                     (${text.variant_html|n})
                 %endif
@@ -21,7 +21,7 @@
     <div class="headrev">
             %if text.has_text:
                 <div class="text" style="width: auto;">
-                    ${diff.page_texts_history_compare(text, text.parent)|n}
+                    ${diff.page_texts_history_compare(text, text.valid_parent())|n}
                 </div>
             %else:
                 <div class="infobox">

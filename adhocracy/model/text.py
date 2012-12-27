@@ -87,6 +87,13 @@ class Text(object):
         return ((self.delete_time is not None) and
                 self.delete_time <= at_time)
 
+    def valid_parent(self):
+        parent = self.parent
+        if parent is not None and parent.is_deleted():
+            return parent.valid_parent()
+        else:
+            return parent
+
     def render(self):
         from adhocracy.lib import text
         if self.page.function == self.page.NORM:
