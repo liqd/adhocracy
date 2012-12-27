@@ -69,11 +69,11 @@ class Text(object):
         return _text
 
     @property
-    def history(self):
-        # TODO: Performance fail.
-        if self.parent:
-            return [self] + self.parent.history
-        return [self]
+    def history(self, include_deleted=False):
+        texts = meta.Session.query(Text).filter(Text.page_id==self.page_id, Text.variant==self.variant).all()
+        if not include_deleted:
+            texts = filter(lambda x: not x.is_deleted(), texts)
+        return texts
 
     def delete(self, delete_time=None):
         if delete_time is None:
