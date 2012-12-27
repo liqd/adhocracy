@@ -183,7 +183,7 @@ $(document).ready(function () {
     </title>
 
     <meta http-equiv="X-XRDS-Location" 
-          content="${h.base_url('/openid/xrds')}" />
+          content="${h.base_url('/openid/xrds', absolute=True)}" />
 
     %for key, value in c.html_meta.items():
     <meta name="${key}" content="${value}" />
