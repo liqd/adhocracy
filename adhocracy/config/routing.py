@@ -128,6 +128,13 @@ def make_map(config):
                 controller='page',
                 action='purge',
                 conditions=dict(method=['POST', 'DELETE']))
+    map.connect('/page/{id};{text}/ask_purge_history',
+                controller='page', action='ask_purge_history',
+                conditions=dict(method=['GET']))
+    map.connect('/page/{id};{text}/purge_history',
+                controller='page',
+                action='purge_history',
+                conditions=dict(method=['POST', 'DELETE']))
     map.connect('/page/{id}/{variant}/edit.{format}',
                 controller='page',
                 action='edit',
