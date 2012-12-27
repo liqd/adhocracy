@@ -1,9 +1,9 @@
 <%namespace name="components" file="/components.html"/>
 
 <%def name="show_single_proposal_map(proposal_id)">
-${h.need.openlayers}
-${h.need_adhocracy_geo_i18n()}
-${h.need.adhocracy_geo_js}
+<% h.need.openlayers %>
+<% h.need_adhocracy_geo_i18n() %>
+<% h.need.adhocracy_geo_js %>
 <div id="map" class="small_map"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript">window.onload=function() {
@@ -12,9 +12,9 @@ ${h.need.adhocracy_geo_js}
 </%def>
 
 <%def name="show_page_map(page_id)">
-${h.need.openlayers}
-${h.need_adhocracy_geo_i18n()}
-${h.need.adhocracy_geo_js}
+<% h.need.openlayers %>
+<% h.need_adhocracy_geo_i18n() %>
+<% h.need.adhocracy_geo_js %>
 <div id="map" class="small_boxed_map"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript">window.onload=function() {
@@ -23,10 +23,10 @@ ${h.need.adhocracy_geo_js}
 </%def>
 
 <%def name="show_page_edit_map(page_id)">
-${h.need.openlayers}
-${h.need.ole}
-${h.need_adhocracy_geo_i18n()}
-${h.need.adhocracy_geo_js}
+<% h.need.openlayers %>
+<% h.need.ole %>
+<% h.need_adhocracy_geo_i18n() %>
+<% h.need.adhocracy_geo_js %>
 <div id="map" class="midsize_map"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <div id="edit_map_buttons" />
@@ -44,9 +44,9 @@ ${h.need.adhocracy_geo_js}
 </%def>
 
 <%def name="show_single_proposal_edit_map(proposal_id)">
-${h.need.openlayers}
-${h.need_adhocracy_geo_i18n()}
-${h.need.adhocracy_geo_js}
+<% h.need.openlayers %>
+<% h.need_adhocracy_geo_i18n() %>
+<% h.need.adhocracy_geo_js %>
 <div id="map" class="midsize_map"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <div id="edit_map_buttons" />
@@ -64,9 +64,9 @@ ${h.need.adhocracy_geo_js}
 </%def>
 
 <%def name="show_single_proposal_edit_map_on_creation()">
-${h.need.openlayers}
-${h.need_adhocracy_geo_i18n()}
-${h.need.adhocracy_geo_js}
+<% h.need.openlayers %>
+<% h.need_adhocracy_geo_i18n() %>
+<% h.need.adhocracy_geo_js %>
 <div class="input_wrapper">
   <input id='geotag_field' name='geotag' type='hidden' value='' />
   <div id='map_div' />
@@ -81,9 +81,9 @@ ${h.need.adhocracy_geo_js}
 </%def>
 
 <%def name="show_region_map(initial_proposals=None, full_region=True, map_class='small_boxed_map')">
-${h.need.openlayers}
-${h.need_adhocracy_geo_i18n()}
-${h.need.adhocracy_geo_js}
+<% h.need.openlayers %>
+<% h.need_adhocracy_geo_i18n() %>
+<% h.need.adhocracy_geo_js %>
 <div id="map" class="${map_class}"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript">window.onload=function() {
@@ -92,9 +92,9 @@ ${h.need.adhocracy_geo_js}
 </%def>
 
 <%def name="show_region_map_large(initial_proposals=None, initial_pages=None, full_region=True)">
-${h.need.openlayers}
-${h.need_adhocracy_geo_i18n()}
-${h.need.adhocracy_geo_js}
+<% h.need.openlayers %>
+<% h.need_adhocracy_geo_i18n() %>
+<% h.need.adhocracy_geo_js %>
 <div id="map" class="large_map"></div>
 <script type="text/javascript">window.onload=function() {
   adhocracy.geo.loadRegionMap('${c.instance.key}', ${initial_proposals if initial_proposals else []}, ${initial_pages if initial_pages else []}, true, ${'true' if full_region else 'false'});
@@ -102,9 +102,9 @@ ${h.need.adhocracy_geo_js}
 </%def>
 
 <%def name="show_overview_map(initial_instances=None)">
-${h.need.openlayers}
-${h.need_adhocracy_geo_i18n()}
-${h.need.adhocracy_geo_js}
+<% h.need.openlayers %>
+<% h.need_adhocracy_geo_i18n() %>
+<% h.need.adhocracy_geo_js %>
 <div id="map" class="small_map"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript">window.onload=function() {
@@ -113,10 +113,10 @@ ${h.need.adhocracy_geo_js}
 </%def>
 
 <%def name="show_select_instance()">
-${h.need.openlayers}
-${h.need.jquery_ui}
-${h.need_adhocracy_geo_i18n()}
-${h.need.adhocracy_geo_js}
+<% h.need.openlayers %>
+<% h.need.jquery_ui %>
+<% h.need_adhocracy_geo_i18n() %>
+<% h.need.adhocracy_geo_js %>
 <script type="text/javascript">window.onload=function() {
   adhocracy.geo.showSelectInstanceMap();
 }</script>
