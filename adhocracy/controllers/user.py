@@ -64,6 +64,12 @@ class UserUpdateForm(formencode.Schema):
     email_priority = validators.Int(min=0, max=6, not_empty=False,
                                     if_missing=3)
 
+    proposal_sort_order = validators.OneOf([''] +
+                                        [v.value
+                                        for g in PROPOSAL_SORTS.by_group.values()
+                                        for v in g 
+    ])
+
 
 class UserCodeForm(formencode.Schema):
     allow_extra_fields = True
