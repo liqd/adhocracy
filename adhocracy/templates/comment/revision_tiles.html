@@ -9,7 +9,7 @@
         <div class="meta">
             &nbsp;
         
-            %if can.comment.revert(revision.comment):
+            %if can.comment.revert(revision.comment) and not revision.is_latest:
                 <a href="${h.entity_url(revision.comment, member='revert')}?${h.url_token()}&amp;to=${revision.id}">${_("revert here")}</a>
             %endif
         </div>
