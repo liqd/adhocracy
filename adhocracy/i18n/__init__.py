@@ -37,7 +37,14 @@ def handle_request():
     accept headers and the available locales.
     """
     from pylons import request, tmpl_context as c
-    c.locale = user_language(c.user, request.languages)
+
+    try:
+        request_languages = request.languages
+    except AttributeError:
+        # request.languages fails if no accept_language is set
+        # becaues of incompatibility between WebOb >= 1.1.1 and Paste-1.7.5.1
+        request_languages = []
+    c.locale = user_language(c.user, request_languages)
 
 
 def user_language(user, fallbacks=[]):

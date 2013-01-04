@@ -16,7 +16,7 @@ RETURN_AUTH_CHECK = 'return_auth_check'
 RETURN_BOOL = 'return_bool'
 
 
-def login_user(user, request):
+def login_user(user, request, response):
     '''
     log an user in.
 
@@ -34,7 +34,7 @@ def login_user(user, request):
         if identity is not None:
             headers = identifier.remember(request.environ, identity)
             if headers is not None:
-                request.response.headerlist.extend(headers)
+                response.headerlist.extend(headers)
 
 
 class AuthModuleWrapper(object):

@@ -46,7 +46,7 @@
         $(document).ready(function() {
           $("#selectpage").change(function(e) {
             var id = $(e.target).val();
-            var url = '/page/' + id + '.json';
+            var url = '${h.base_url("/page/")}' + id + '.json';
             $.get(url, function(data) {
               var norm = $("#norms .prototype").clone();
               norm.children(".page-id").attr('name', 
@@ -111,7 +111,7 @@
     </fieldset>
         
     <fieldset>
-      ${h.need.autocomplete}
+      <% h.need.autocomplete %>
       <legend>${_("Tag and classify")}</legend>
       <div class="input_wrapper">      
         <input type="text" name="tags" id="tags" class="long" placeholder="${_('Tags to describe the subject')}" data-instance-baseurl="${h.base_url()}" />

@@ -20,6 +20,7 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
     </div>
     <form name="create_selection" class="inplace" method="POST" 
           action="${h.entity_url(c.proposal, member='implementation')}">
+        ${h.field_token()|n}
 
         ${tiles.page.select_page(functions=[model.Page.NORM], 
                                  exclude=[s.page for s in c.proposal.selections], 

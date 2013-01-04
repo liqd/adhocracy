@@ -18,9 +18,10 @@ from mock import patch
 from nose.plugins.skip import SkipTest
 from paste.deploy import loadapp
 from paste.deploy.converters import asbool
+from paste.script.appinstall import SetupCommand
 
 import pylons
-from pylons import config, url
+from pylons import url
 
 from routes.util import URLGenerator
 
@@ -31,7 +32,7 @@ from adhocracy.lib.app_globals import Globals
 from adhocracy.model import Instance, meta
 from adhocracy.websetup import _setup
 
-_setup(config)
+SetupCommand('setup-app').run([pylons.test.pylonsapp.config['__file__']])
 
 
 # --[ Mock and configure context variables used by adhocracy       ]----
@@ -117,6 +118,7 @@ def is_integrationtest():
     Raise SkipTest if external services required by adhocracy
     are not present.
     '''
+    from pylons import config
     if not asbool(config.get('run_integrationtests', 'false')):
         raise SkipTest('This Test needs all services adhocracy depends on. '
                        'If they are running and configured in test.ini '
@@ -164,10 +166,11 @@ class TestControllerBase(TestCase):
             wsgiapp = pylons.test.pylonsapp
         else:
             wsgiapp = loadapp('config:%s' % config['__file__'])
+        config = wsgiapp.config
         self.app = TestApp(wsgiapp)
         url._push_object(URLGenerator(config['routes.map'], environ))
         # should perhaps be in setup
-        pylons.app_globals._push_object(Globals())
+        pylons.app_globals._push_object(Globals(config))
         # pylons.app_globals._pop_object() # should perhaps be in teardown
 
         super(TestControllerBase, self).__init__(*args, **kwargs)

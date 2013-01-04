@@ -26,7 +26,7 @@
 </%def>
 
 <%def name="sidebar(delegateable)">
-    ${h.need.autocomplete}
+    <% h.need.autocomplete %>
     <h6>${_("Tagged with")}</h6>
     <p>
         %if len(delegateable.tags):

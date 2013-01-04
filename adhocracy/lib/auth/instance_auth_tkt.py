@@ -1,6 +1,5 @@
 import datetime
 import re
-from pylons import config
 from paste.deploy.converters import asbool
 from repoze.who.plugins.auth_tkt import AuthTktCookiePlugin, _now
 
@@ -8,6 +7,9 @@ from repoze.who.plugins.auth_tkt import AuthTktCookiePlugin, _now
 _COOKIE_VALUE_RE = re.compile(u'^[!#$%&\'()*+./0-9:<=>?@A-Z[\\]^_`a-z{|}~-]*$')
 
 class InstanceAuthTktCookiePlugin(AuthTktCookiePlugin):
+    def __init__(self, config, *args, **kwargs):
+        super(InstanceAuthTktCookiePlugin, self).__init__(*args, **kwargs)
+        self.__config = config
 
     def _get_cookies(self, environ, value, max_age=None):
         assert _COOKIE_VALUE_RE.match(value)
@@ -21,7 +23,7 @@ class InstanceAuthTktCookiePlugin(AuthTktCookiePlugin):
         else:
             max_age = ''
 
-        if asbool(config.get('adhocracy.relative_urls', 'false')):
+        if asbool(self.__config.get('adhocracy.relative_urls', 'false')):
             # Serve the cookie for the current host, which may be
             # "localhost" or an IP address.
             cookies = [
