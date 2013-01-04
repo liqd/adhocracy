@@ -114,7 +114,7 @@
       <% h.need.autocomplete %>
       <legend>${_("Tag and classify")}</legend>
       <div class="input_wrapper">      
-        <input type="text" name="tags" id="tags" class="long" placeholder="${_('Tags to describe the subject')}" data-instance-baseurl="${h.base_url()}" />
+        <input type="text" name="tags" id="tags" class="long" placeholder="${_('Tags to describe the subject')}" data-instance-baseurl="${h.base_url(append_slash=True)}" />
         <p class="info">${_("Multiple tags can be separated by commas.")}</p>
       </div>
         
