@@ -11,7 +11,7 @@
             </li>
             <li>${_("by %s, ") % h.user.link(text.user, scope=text.page)|n}
                     ${_("created %s") % h.relative_time(text.create_time)|n}
-            %if h.has_permission('page.delete_history') and text.child:
+            %if h.has_permission('page.delete_history') and (text.valid_child() is not None or text.valid_parent() is not None):
             <span> <a href="${h.page.page_text_url(text.page, text, 'ask_purge_history')}">(delete version)</a></span>
             %endif
             </li>

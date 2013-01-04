@@ -557,8 +557,8 @@ class PageController(BaseController):
     def ask_purge_history(self, id, text):
         c.page, c.text, c.variant = self._get_page_and_text(id, None, text)
         require.page.delete_history(c.page)
-        if not c.text.child:
-            h.flash(_("Cannot delete newest version"), 'error')
+        if c.text.valid_child() is None and c.text.valid_parent() is None:
+            h.flash(_("Cannot delete, if there's only one version"), 'error')
             return redirect(h.entity_url(c.text))
         return render("/page/ask_purge_history.html")
 
@@ -567,8 +567,8 @@ class PageController(BaseController):
     def purge_history(self, id, text):
         c.page, c.text, c.variant = self._get_page_and_text(id, None, text)
         require.page.delete_history(c.page)
-        if not c.text.child:
-            h.flash(_("Cannot delete newest version"), 'error')
+        if c.text.valid_child() is None and c.text.valid_parent() is None:
+            h.flash(_("Cannot delete, if there's only one version"), 'error')
             return redirect(h.entity_url(c.text))
         c.text.delete()
         model.meta.Session.commit()

@@ -94,6 +94,13 @@ class Text(object):
         else:
             return parent
 
+    def valid_child(self):
+        child = self.child
+        if child is not None and child.is_deleted():
+            return child.valid_child()
+        else:
+            return child
+
     def render(self):
         from adhocracy.lib import text
         if self.page.function == self.page.NORM:
