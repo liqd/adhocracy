@@ -14,7 +14,8 @@ def domain():
 def name():
     return config.get('adhocracy.site.name', _("Adhocracy"))
 
-def base_url(path='', instance=CURRENT_INSTANCE, absolute=False):
+def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
+             append_slash=False):
     """
     Constructs an URL.
 
@@ -72,6 +73,9 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False):
 
     if result == '':
         result = '/'
+
+    if append_slash and not result.endswith('/'):
+        result = '%s/' % result
 
     return result
 
