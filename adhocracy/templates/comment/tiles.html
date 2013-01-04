@@ -124,7 +124,7 @@
         %if can.comment.edit(comment):
         <a class="edit_comment"
            data-comment="${comment.id}"
-           data-instance-baseurl="${h.base_url(instance=comment.topic.instance)}"
+           data-instance-baseurl="${h.base_url(instance=comment.topic.instance, append_slash=True)}"
            href="${h.entity_url(comment, member='edit', 
                                 query=dict(ret_url=ret_url))}">
             ${_("edit")}
@@ -231,7 +231,7 @@ klass_con = klass(-1)
 %>
   <div class="comment_form">
     <form name="new_comment" class="comment_form"
-          method="POST" action="${h.entity_url(comment)}">
+          method="POST" action="${h.entity_url(comment, comment_page=True)}">
         ${h.field_token()|n}
         <input type="hidden" name="_method" value="PUT" />
         <input type="hidden" name="ret_url" value="${ret_url}" />

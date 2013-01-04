@@ -9,7 +9,7 @@
 <%block name="main_content">
 
 <form name="ask_purge_history" class="inplace" method="POST" 
-    action="${h.entity_url(c.text, member='purge_history')}">
+    action="${h.page.page_text_url(c.text.page, c.text, 'purge_history')}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="DELETE" />
     <div class="sidebar">

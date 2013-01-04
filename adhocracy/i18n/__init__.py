@@ -122,5 +122,6 @@ def format_time(dt):
 def relative_time(dt):
     """ A short statement giving the time distance since ``dt``. """
     fmt = "<time class='ts' datetime='%(iso)sZ'>%(formatted)s</time>"
+    dt = dt.replace(microsecond=0)
     formatted = "%s %s" % (format_date(dt), format_time(dt))
     return fmt % dict(iso=dt.isoformat(), formatted=formatted)

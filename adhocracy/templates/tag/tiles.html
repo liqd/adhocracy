@@ -47,7 +47,7 @@
         <form action="${h.base_url('/tag', delegateable.instance)}" method="POST">
             ${h.field_token()|n}
             <input name="delegateable" type="hidden" value="${delegateable.id}" />
-            <input name="tags" type="tags" id="tags" autocomplete="off" data-instance-baseurl="${h.base_url(instance=delegateable.instance)}" />
+            <input name="tags" type="tags" id="tags" autocomplete="off" data-instance-baseurl="${h.base_url(instance=delegateable.instance, append_slash=True)}" />
             <div>
                 ${_("Multiple tags can be separated by commas or spaces.")}
             </div>
