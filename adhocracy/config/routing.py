@@ -179,6 +179,7 @@ def make_map(config):
 
     map.resource('comment', 'comment', member={'history': 'GET',
                                                'revert': 'GET',
+                                               'purge_history': 'GET',
                                                'ask_delete': 'GET'})
 
     map.connect('/comment/form/edit/{id}', controller='comment',

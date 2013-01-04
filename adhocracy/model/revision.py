@@ -34,6 +34,10 @@ class Revision(object):
         return self.comment.latest.id == self.id
 
     @property
+    def is_only(self):
+        return len(self.comment.revisions) == 1
+
+    @property
     def previous(self):
         if not self.is_earliest:
             smaller = filter(lambda r: r.create_time < self.create_time,

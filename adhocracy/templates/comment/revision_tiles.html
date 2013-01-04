@@ -10,7 +10,11 @@
             &nbsp;
         
             %if can.comment.revert(revision.comment) and not revision.is_latest:
-                <a href="${h.entity_url(revision.comment, member='revert')}?${h.url_token()}&amp;to=${revision.id}">${_("revert here")}</a>
+            <span> <a href="${h.entity_url(revision.comment, member='revert')}?${h.url_token()}&amp;to=${revision.id}">(${_("revert here")})</a></span>
+            %endif
+            ## only allow this to global admins as this deletes comment revisions from the database permanently
+            %if h.has_permission('global.admin') and not revision.is_only:
+            <span> <a href="${h.entity_url(revision.comment, member='purge_history')}?${h.url_token()}&amp;rev=${revision.id}">(${_("delete version permanently")})</a></span>
             %endif
         </div>
         <div style="clear: both;"></div>
