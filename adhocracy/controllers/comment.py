@@ -228,7 +228,7 @@ class CommentController(BaseController):
         revision = self.form_result.get('to')
         if revision.comment != c.comment:
             return ret_abort(_("You're trying to revert to a revision which "
-                               "is not partri of this comments history"),
+                               "is not part of this comment's history"),
                              code=400, format=format)
         rev = c.comment.create_revision(revision.text,
                                         c.user,
