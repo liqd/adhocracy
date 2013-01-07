@@ -16,7 +16,7 @@ from pylons import config
 
 def _get_user(options, dict):
     user = None
-    if options['incl_users'] == True and 'author' in dict:
+    if options['incl_users'] and 'author' in dict:
         user = model.User.find(dict['author'], include_deleted=True)
     if not user:
             user = options['default_user']
@@ -105,7 +105,7 @@ def _create_proposal(name, proposal, options):
             model.meta.Session.add(myProposal)
 
             # create comments
-            if options['incl_comments'] == True:
+            if options['incl_comments']:
                 if 'comments' in proposal:
                     for id, comment in proposal['comments'].iteritems():
                         _create_comment(id, comment, options, myProposal.description)
@@ -134,7 +134,7 @@ def _perform_import(f, format, opts):
             for badge in data['badges'].values():
                 _create_badge(badge, options)
 
-    if include_users == True:
+    if include_users:
         if 'users' in data:
             for user in data['users'].values():
                 _create_user(user)
