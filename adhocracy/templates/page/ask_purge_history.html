@@ -1,0 +1,33 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Delete: %s") % c.page.title}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.page.breadcrumbs(c.page)|n} &raquo; ${_("Delete")}
+</%def>
+
+<%block name="main_content">
+
+<form name="ask_purge_history" class="inplace" method="POST" 
+    action="${h.page.page_text_url(c.text.page, c.text, 'purge_history')}">
+    ${h.field_token()|n}
+    <input type="hidden" name="_method" value="DELETE" />
+    <div class="sidebar">
+        &nbsp;
+    </div>
+    <div class="mainbar">
+        <div class="infobox">
+            ${_("Are you sure you want to purge the following version:")}
+        </div>
+        <h4>
+          ${c.text.title}
+        </h4>
+        <div>
+          ${c.text.text}
+        </div>
+        <center>
+            <input type="submit" class="delete" value="${_('Confirm')}" />
+        </center>
+    </div>
+</form>
+</%block>

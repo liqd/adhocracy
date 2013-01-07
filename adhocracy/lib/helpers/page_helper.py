@@ -45,6 +45,11 @@ def page_variant_url(page, variant):
     return _url.build(page.instance, 'page', label, member=variant)
 
 
+def page_text_url(page, text, member=None):
+    label = '%s;%d' % (urllib.quote(page.label.encode('utf-8')), text.id)
+    return _url.build(page.instance, 'page', label, member=member)
+
+
 @cache.memoize('page_bc', time=3600)
 def entity_bc(page):
     bc = ''

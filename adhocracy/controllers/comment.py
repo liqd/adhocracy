@@ -55,6 +55,11 @@ class CommentRevertForm(formencode.Schema):
     to = forms.ValidRevision()
 
 
+class CommentPurgeForm(formencode.Schema):
+    allow_extra_fields = True
+    rev = forms.ValidRevision()
+
+
 class CommentController(BaseController):
 
     @RequireInstance
@@ -228,7 +233,7 @@ class CommentController(BaseController):
         revision = self.form_result.get('to')
         if revision.comment != c.comment:
             return ret_abort(_("You're trying to revert to a revision which "
-                               "is not partri of this comments history"),
+                               "is not part of this comment's history"),
                              code=400, format=format)
         rev = c.comment.create_revision(revision.text,
                                         c.user,
@@ -238,6 +243,26 @@ class CommentController(BaseController):
                    topics=[c.comment.topic], comment=c.comment,
                    topic=c.comment.topic, rev=rev)
         return ret_success(message=_("The comment has been reverted."),
+                           entity=c.comment, format=format)
+
+    @RequireInstance
+    @csrf.RequireInternalRequest()
+    @ActionProtector(has_permission("global.admin"))
+    @validate(schema=CommentPurgeForm(), form="history",
+              post_only=False, on_get=True)
+    def purge_history(self, id, format='html'):
+        c.comment = get_entity_or_abort(model.Comment, id)
+
+        require.comment.revert(c.comment)
+        revision = self.form_result.get('rev')
+        if revision.comment != c.comment:
+            return ret_abort(_("You're trying to purge a revision which "
+                               "is not part of this comment's history"),
+                             code=400, format=format)
+
+        model.meta.Session.delete(revision)
+        model.meta.Session.commit()
+        return ret_success(message=_("The comment revision has been deleted."),
                            entity=c.comment, format=format)
 
     def create_form(self, topic):

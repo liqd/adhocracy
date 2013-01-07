@@ -8,7 +8,7 @@
 <%block name="headline">
 <div class="top_actions title">
 %if can.delegation.delete(c.delegation):
-    <a class="button delete ttip" title="${_('Cancel this delegation.')}" href="${h.base_url('/delegation/%d?_method=DELETE&amp;%s' % (c.delegation.id, h.url_token())}">${_("revoke")}</a>
+    <a class="button delete ttip" title="${_('Cancel this delegation.')}" href="${h.base_url('/delegation/%d?_method=DELETE&amp;%s' % (c.delegation.id, h.url_token()))}">${_("revoke")}</a>
 %endif
 </div>
 <h1>${_("Delegation: %s") % h.delegateable.link(c.scope)|n}</h1>

@@ -11,6 +11,7 @@ from version import get_version
 from recommendations import recommend
 
 
-def init_site():
-    util.replicate_fallback('static', 'stylesheets', 'site.css')
-    util.replicate_fallback('site.wsgi')
+def init_site(app_conf):
+    util.replicate_fallback('static', 'stylesheets', 'site.css',
+                            app_conf=app_conf)
+    util.replicate_fallback('site.wsgi', app_conf=app_conf)

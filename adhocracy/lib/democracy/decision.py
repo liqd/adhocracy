@@ -222,7 +222,7 @@ class Decision(object):
 
         :param instance: the ``Instance`` for which to calculate the average.
         """
-        @memoize('average_decisions', 84600)
+        @memoize('average_decisions', 86400)
         def avg_decisions(instance):
             query = model.meta.Session.query(Poll)
             query = query.join(Delegateable)

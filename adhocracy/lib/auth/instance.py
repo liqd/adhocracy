@@ -1,4 +1,4 @@
-from pylons import tmpl_context as c, g
+from pylons import tmpl_context as c, app_globals as g
 
 
 def index(check):

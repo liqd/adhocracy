@@ -4,20 +4,24 @@
     <div class="tile text history">
         <ul class="content_list">
             <li class="title">
-                ${diff.page_titles_compare(text, text.parent)|n}
+                ${diff.page_titles_compare(text, text.valid_parent())|n}
                 %if text.page.has_variants:
                     (${text.variant_html|n})
                 %endif
             </li>
             <li>${_("by %s, ") % h.user.link(text.user, scope=text.page)|n}
-                    ${_("created %s") % h.relative_time(text.create_time)|n}</li>
+                    ${_("created %s") % h.relative_time(text.create_time)|n}
+            %if h.has_permission('page.delete_history') and (text.valid_child() is not None or text.valid_parent() is not None):
+            <span> <a href="${h.page.page_text_url(text.page, text, 'ask_purge_history')}">(delete version)</a></span>
+            %endif
+            </li>
         </ul>
     </div>
     
     <div class="headrev">
             %if text.has_text:
                 <div class="text" style="width: auto;">
-                    ${diff.page_texts_history_compare(text, text.parent)|n}
+                    ${diff.page_texts_history_compare(text, text.valid_parent())|n}
                 </div>
             %else:
                 <div class="infobox">
@@ -107,8 +111,7 @@
             %else:
                 ${_("Variant:")} 
                 %if field is not None:
-                    <label for="variant" class="armhint">${_("Variant Name")}</label>
-                    <input class="armlabel" name="variant" maxlength="75" value="${field}"/>
+                    <input name="variant" maxlength="75" value="${field}" placeholder="${_('Variant Name')}" />
                 %else:
                     <b><a href="${h.entity_url(this)|n}">${this.variant_html|n}</a></b>
                 %endif

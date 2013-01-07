@@ -15,12 +15,12 @@ class TestBadgeController(TestController):
         from adhocracy.model import Badge
         #add badge
         self.assertRaises(IntegrityError, Badge.create, u'badge ü',
-                          u'#ccc', u'description ü')
+                          u'#ccc', True, u'description ü')
 
     def test_to_dict(self):
         from adhocracy.model import CategoryBadge, Instance
         instance = Instance.find('test')
-        badge = CategoryBadge.create(u'badge', u'#ccc', u'description',
+        badge = CategoryBadge.create(u'badge', u'#ccc', True, u'description',
                                      instance=instance)
         result = badge.to_dict()
         result = sorted(result.items())
@@ -28,7 +28,8 @@ class TestBadgeController(TestController):
                     'color': u'#ccc',
                     'description': u'description',
                     'id': 1,
-                    'instance': instance.id}
+                    'instance': instance.id,
+                    'visible': True}
         expected = sorted(expected.items())
         self.assertEqual(result, expected)
 
@@ -39,16 +40,17 @@ class TestBadgeController(TestController):
         from adhocracy.model import UserBadge, Instance
         instance = Instance.find(u'test')
         # create for each type a global scope and an instance scope badge
-        InstanceBadge.create(u'badge ü', u'#ccc', u'description ü')
-        InstanceBadge.create(u'badge ü', u'#ccc', u'description ü',
+        InstanceBadge.create(u'badge ü', u'#ccc', True, u'description ü')
+        InstanceBadge.create(u'badge ü', u'#ccc', True, u'description ü',
                                  instance=instance)
-        UserBadge.create(u'badge ü', u'#ccc', u'description ü')
-        UserBadge.create(u'ü', u'#ccc', u'ü', instance=instance)
-        DelegateableBadge.create(u'badge ü', u'#ccc', u'description ü')
-        DelegateableBadge.create(u'badge ü', u'#ccc', u'description ü',
+        UserBadge.create(u'badge ü', u'#ccc', True, u'description ü')
+        UserBadge.create(u'ü', u'#ccc', True, u'ü', instance=instance)
+        DelegateableBadge.create(u'badge ü', u'#ccc', True, u'description ü')
+        DelegateableBadge.create(u'badge ü', u'#ccc', True, u'description ü',
                                  instance=instance)
-        CategoryBadge.create(u'badge ü', u'#ccc', u"desc")
-        CategoryBadge.create(u'badge ü', u'#ccc', u"desc", instance=instance)
+        CategoryBadge.create(u'badge ü', u'#ccc', True, u"desc")
+        CategoryBadge.create(u'badge ü', u'#ccc', True, u"desc",
+                             instance=instance)
 
         # all instance badges
         self.assert_(len(InstanceBadge.all()) == 1)
@@ -78,7 +80,8 @@ class TestUserController(TestController):
         from adhocracy import model
         creator = tt_make_user('creator')
         badged_user = tt_make_user('badged_user')
-        badge = model.UserBadge.create(u'testbadge', u'#ccc', u'description')
+        badge = model.UserBadge.create(u'testbadge', u'#ccc', True,
+                                       u'description')
         badge.assign(badged_user, creator)
         return creator, badged_user, badge
 
@@ -126,7 +129,8 @@ class TestDelegateableController(TestController):
         instance = Instance.find('test')
         creator = tt_make_user('creator')
         delegateable = Proposal.create(instance, u"labeld", creator)
-        badge = DelegateableBadge.create(u'testbadge', u'#ccc', 'description')
+        badge = DelegateableBadge.create(u'testbadge', u'#ccc', True,
+                                         'description')
 
         return creator, delegateable, badge
 
@@ -178,7 +182,8 @@ class TestInstanceController(TestController):
         from adhocracy.model import InstanceBadge, Instance
         creator = tt_make_user('creator')
         instance = Instance.create("instance2", u"instance2", creator)
-        badge = InstanceBadge.create(u'testbadge', u'#ccc2', 'description')
+        badge = InstanceBadge.create(u'testbadge', u'#ccc2', True,
+                                     'description')
 
         return creator, instance, badge
 

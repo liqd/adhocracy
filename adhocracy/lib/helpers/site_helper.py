@@ -1,4 +1,4 @@
-from pylons import config, g
+from pylons import config, app_globals as g
 from pylons.i18n import _
 from paste.deploy.converters import asbool
 from adhocracy.model import meta, instance_filter as ifilter
@@ -14,18 +14,8 @@ def domain():
 def name():
     return config.get('adhocracy.site.name', _("Adhocracy"))
 
-
-def absolute_url(path='', instance=CURRENT_INSTANCE):
-    """
-    Shortcut in order to construct an absolute URL.
-
-    Path and instance parameters as in base_url.
-    """
-
-    return base_url(path, instance, absolute=True)
-
-
-def base_url(path='', instance=CURRENT_INSTANCE, absolute=False):
+def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
+             append_slash=False):
     """
     Constructs an URL.
 
@@ -84,9 +74,12 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False):
     if result == '':
         result = '/'
 
+    if append_slash and not result.endswith('/'):
+        result = '%s/' % result
+
     return result
 
 
 def shortlink_url(delegateable):
     path = "/d/%s" % delegateable.id
-    return base_url(path, None)
+    return base_url(path, None, absolute=True)

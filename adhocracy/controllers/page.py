@@ -554,6 +554,28 @@ class PageController(BaseController):
         redirect(h.entity_url(c.page))
 
     @RequireInstance
+    def ask_purge_history(self, id, text):
+        c.page, c.text, c.variant = self._get_page_and_text(id, None, text)
+        require.page.delete_history(c.page)
+        if c.text.valid_child() is None and c.text.valid_parent() is None:
+            h.flash(_("Cannot delete, if there's only one version"), 'error')
+            return redirect(h.entity_url(c.text))
+        return render("/page/ask_purge_history.html")
+
+    @RequireInstance
+    @RequireInternalRequest()
+    def purge_history(self, id, text):
+        c.page, c.text, c.variant = self._get_page_and_text(id, None, text)
+        require.page.delete_history(c.page)
+        if c.text.valid_child() is None and c.text.valid_parent() is None:
+            h.flash(_("Cannot delete, if there's only one version"), 'error')
+            return redirect(h.entity_url(c.text))
+        c.text.delete()
+        model.meta.Session.commit()
+        h.flash(_("The selected version has been deleted."), 'success')
+        redirect(h.entity_url(c.page))
+
+    @RequireInstance
     def ask_delete(self, id):
         c.page = get_entity_or_abort(model.Page, id)
         require.page.delete(c.page)

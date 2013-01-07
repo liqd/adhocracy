@@ -182,7 +182,10 @@ class InstanceController(BaseController):
             locale=c.locale)
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_CREATE, c.user, instance=instance)
-        return ret_success(entity=instance, format=format)
+        return ret_success(
+            message=_('Instance created successfully. You can now configure it'
+                      ' as you like.'), category='success',
+            entity=instance, member='settings', format=None)
 
     #@RequireInstance
     def show(self, id, format='html'):
