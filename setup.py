@@ -62,9 +62,9 @@ setup(
         "js.jquery_qtip >= 1.0.0,<= 1.0.99",
         'js.socialshareprivacy >= 1.3dev',
         'js.jquery_joyride',
+        "PasteScript>=1.6.3",
     ],
-    # REFACT: could/should these become regular dependencies?
-    setup_requires=["PasteScript>=1.6.3",
+    setup_requires=[
                     "setuptools>=0.6c6"],  # fix OS X 10.5.7
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
