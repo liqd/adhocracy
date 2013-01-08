@@ -65,7 +65,6 @@ setup(
     ],
     # REFACT: could/should these become regular dependencies?
     setup_requires=["PasteScript>=1.6.3",
-
                     "setuptools>=0.6c6"],  # fix OS X 10.5.7
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
@@ -77,6 +76,7 @@ setup(
                  'nose',
                  'nose-cov',
                  'nose-exclude',
+                 'cssselect',
                  'decorator']
     },
     package_data={'adhocracy': ['i18n/*/LC_MESSAGES/*.mo']},
