@@ -49,6 +49,7 @@ class PageCreateForm(formencode.Schema):
                                    if_missing=None)
     tags = validators.String(max=20000, not_empty=False)
     milestone = forms.MaybeMilestone(if_empty=None, if_missing=None)
+    category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
 
 
 class PageEditForm(formencode.Schema):
@@ -69,6 +70,7 @@ class PageUpdateForm(formencode.Schema):
                                    if_missing=None)
     milestone = forms.MaybeMilestone(if_empty=None,
                                      if_missing=None)
+    category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
 
 
 class PageFilterForm(formencode.Schema):
@@ -124,6 +126,8 @@ class PageController(BaseController):
         defaults['watch'] = defaults.get('watch', True)
         c.title = request.params.get('title', None)
         proposal_id = request.params.get("proposal")
+        c.categories = model.CategoryBadge.all(
+            c.instance, include_global=not c.instance.hide_global_categories)
 
         html = None
         if proposal_id is not None:
@@ -176,6 +180,10 @@ class PageController(BaseController):
             target = h.page.url(page, member='branch',
                                 query={'proposal': proposal.id})
 
+        categories = self.form_result.get('category')
+        category = categories[0] if categories else None
+        page.set_category(category, c.user)
+
         model.meta.Session.commit()
         watchlist.check_watch(page)
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance,
@@ -194,6 +202,13 @@ class PageController(BaseController):
             c.variant = ""
 
         require.norm.edit(c.page, c.variant)
+
+        # all available categories
+        c.categories = model.CategoryBadge.all(c.instance, include_global=True)
+
+        # categories for this page
+        # (single category not assured in db model)
+        c.category = c.page.category
 
         defaults = dict(request.params)
         if branch and c.text is None:
@@ -250,6 +265,10 @@ class PageController(BaseController):
 
         if can.page.manage(c.page):
             c.page.milestone = self.form_result.get('milestone')
+
+            categories = self.form_result.get('category')
+            category = categories[0] if categories else None
+            c.page.set_category(category, c.user)
 
         if not branch and c.variant != parent_text.variant \
             and parent_text.variant != model.Text.HEAD:
@@ -447,6 +466,7 @@ class PageController(BaseController):
         if format == 'json':
             return render_json(c.page.to_dict(text=c.text))
 
+        c.category = c.page.category
         # variant details and returning them as json when requested.
         c.variant_details = self.variant_details(c.page, c.variant)
         if 'variant_json' in request.params:
