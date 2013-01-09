@@ -98,7 +98,7 @@ var adhocracy = adhocracy || {};
 
     adhocracy.geo.pagePolygonDefault = {
         strokeColor: "#4D4D4D",
-        fillColor: "#656565",
+        fillColor: "${fillColor}",
         graphicZIndex: "${zIndex}",
     };
     adhocracy.geo.pagePolygonSelect = {
