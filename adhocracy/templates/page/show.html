@@ -44,7 +44,7 @@
     <div class="version_function">
         <a id="new-proposal-button"
 	   class="button highlight"
-	   href="/proposal/new?page=${c.page.id}">
+     href="${h.base_url('/proposal/new?page=%d'%c.page.id)}">
             ${_("New Proposal")}
         </a>
     </div>

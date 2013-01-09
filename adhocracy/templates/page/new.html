@@ -12,7 +12,7 @@
 
 
 <%block name="main_content">
-<form name="create_page" class="inplace" method="POST" action="/page">
+<form name="create_page" class="inplace" method="POST" action="${h.base_url('/page')}">
     ${h.field_token()|n}
     %if c.proposal:
         <input type="hidden" value="${c.proposal}" name="proposal" />
