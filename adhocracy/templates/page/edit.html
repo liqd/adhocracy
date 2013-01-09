@@ -40,6 +40,18 @@
               name="text">${c.text.text}</textarea>
 
     %if can.page.manage(c.page):
+    <fieldset>
+      <legend>${_("Category")}</legend>
+      <div class="input_wrapper">
+        <select name="category"> 
+          <option value="">${_("No Category")}</option>
+          %for category in c.categories:
+          <option value="${category.id}" ${'selected="selected"' if category==c.category else ''}>${category.title}</option>
+          %endfor
+        </select>      
+      </div>
+    </fieldset>
+
     <label for="parent">${_("Parent page:")}</label>
     ${tiles.page.select_page(field_name="parent_page", select=c.page.parent, functions=model.Page.PARENT_FUNCTIONS)}
     %endif

@@ -60,6 +60,15 @@
         <h6>${_('Last Activity')}</h6>
         <p><time>${h.relative_time(c.page.find_latest_comment_time())|n}</time></p>
 
+        <h6>${_('Category')}</h6>
+        <p>
+          %if c.page.category:
+          ${c.page.category}
+          %else:
+          ${_("This page is not assigned to any category")}
+          %endif
+        </p>
+
         %if c.page.milestone and c.instance.milestones:
         <h6>${_('Milestones')}</h6>
         <p>
