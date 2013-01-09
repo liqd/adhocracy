@@ -12,6 +12,7 @@
 # serve to show the default.
 
 import sys, os
+import pkg_resources
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -45,7 +46,7 @@ copyright = u'2010, Friedrich Lindenberg'
 # built documents.
 #
 # The short X.Y version.
-version = '2.0dev'
+version = pkg_resources.require("adhocracy")[0].version
 # The full version, including alpha/beta/rc tags.
 release = version
 
