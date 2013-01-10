@@ -5,7 +5,7 @@ meta = MetaData()
 
 request_table = Table('request', meta,
     Column('id', Integer, primary_key=True),
-    Column('user_id', Unicode(255)),
+    Column('user_id', Integer, default=0),
     Column('cookies', UnicodeText()),
     Column('remote_ip_address', Unicode(15)),
     Column('useragent', UnicodeText()),
