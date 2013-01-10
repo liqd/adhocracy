@@ -23,7 +23,10 @@ class BaseController(WSGIController):
 
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
-
+        #for key in environ.keys():
+        #    print key, environ[key]
+        self.log_request(environ)
+        
         c.instance = model.instance_filter.get_instance()
         if c.instance is not None:
             # setup a global variable to mark the current item in
@@ -76,3 +79,17 @@ class BaseController(WSGIController):
     def not_implemented(self, format='html'):
         return ret_abort(_("The method you used is not implemented."),
                          code=400, format=format)
+
+    def log_request(self, environ):
+        req_user_id = 0
+        req_cookies = ''
+        c.user = environ.get('repoze.who.identity', {}).get('user')
+        if(c.user):
+            req_user_id= c.user.id
+        if 'HTTP_COOKIE' in environ:
+            req_cookies = environ['HTTP_COOKIE']
+
+        req = model.Request(req_user_id, req_cookies, environ['REMOTE_ADDR'], environ['HTTP_USER_AGENT'], environ['PATH_INFO'])
+        
+        print "[ID]", req.user_id, "[COOKIES]", req.cookies, "[R.IP]", req.remote_ip_address, "[USERAGENT]", req.useragent, "[REQ_URL]", req.request_url
+        return req
