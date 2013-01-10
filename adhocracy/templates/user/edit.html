@@ -59,6 +59,11 @@
         <div class="input_wrapper">
             <label for="gender">${_("Gender")}</label>
             <select id="gender" name="gender">
+		<option value="u"
+                %if c.page_user.gender == "u": 
+                    selected="selected" 
+                %endif
+                >Unspecified</option>
                 <option value="m" 
                 %if c.page_user.gender == "m":
                     selected="selected" 
@@ -69,11 +74,6 @@
                     selected="selected"
                 %endif
                 >Female</option>
-                <option value="u"
-                %if c.page_user.gender == "u": 
-                    selected="selected" 
-                %endif
-                >Unspecified</option>
             </select>
         </div>
     </fieldset>
