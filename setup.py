@@ -66,11 +66,13 @@ setup(
         "PasteScript>=1.6.3",
         "ipaddress>=1.0.3",
     ],
-    setup_requires=[
+    setup_requires=["setuptools_git >= 0.3",
                     "setuptools>=0.6c6"],  # fix OS X 10.5.7
-    packages=find_packages(exclude=['ez_setup']),
+    packages=find_packages('src', exclude=['ez_setup']),
     package_dir={'': 'src'},
     include_package_data=True,
+    exclude_package_data = {'': ['.gitignore'],
+                            'images': ['*.xcf', '*.blend']},
     test_suite='nose.collector',
     extras_require={
         'test': ['zope.testbrowser [wsgi]',
