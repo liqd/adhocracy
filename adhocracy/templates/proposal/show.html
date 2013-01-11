@@ -223,6 +223,15 @@ ${components.watch(c.proposal)}
 
     ${sidebar_defs.votes(c.proposal.rate_poll)}
 
+    <h6>${_('Category')}</h6>
+    <p>
+      %if c.proposal.category:
+      ${c.proposal.category}
+      %else:
+      ${_("This proposal is not assigned to any category")}
+      %endif
+    </p>
+
     <h6>${_('Milestones')}</h6>
     <% milestone = c.proposal.milestone %>
     <p>

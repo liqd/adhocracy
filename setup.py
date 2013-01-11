@@ -55,17 +55,17 @@ setup(
         "PIL>=1.1.6",
         "Markdown>=2.2.1",
         "lxml>=2.2.6",
-        "Mako>=0.4.2",
+        "Mako>=0.7.3",
+        "MarkupSafe>=0.15",
         "recaptcha-client>=1.0.6",
         "fanstatic >=0.11.2",
         "js.jquery >= 1.7.1,<=1.7.99",
         "js.jquery_qtip >= 1.0.0,<= 1.0.99",
         'js.socialshareprivacy >= 1.3dev',
         'js.jquery_joyride',
+        "PasteScript>=1.6.3",
     ],
-    # REFACT: could/should these become regular dependencies?
-    setup_requires=["PasteScript>=1.6.3",
-
+    setup_requires=[
                     "setuptools>=0.6c6"],  # fix OS X 10.5.7
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
@@ -77,6 +77,7 @@ setup(
                  'nose',
                  'nose-cov',
                  'nose-exclude',
+                 'cssselect',
                  'decorator']
     },
     package_data={'adhocracy': ['i18n/*/LC_MESSAGES/*.mo']},

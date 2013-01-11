@@ -287,6 +287,7 @@ class ProposalController(BaseController):
         c.disable_include = len(available_pages) == 0
         c.history_url = h.entity_url(c.proposal.description.head,
                                      member='history')
+        c.category = c.proposal.category
         self._common_metadata(c.proposal)
         c.tutorial_intro = _('tutorial_proposal_show_tab')
         c.tutorial = 'proposal_show'
