@@ -5,10 +5,12 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
+from scripts.version import get_git_version
+
 
 setup(
     name='adhocracy',
-    version='2.0.0-rc.1',
+    version=get_git_version(),
     description='Policy drafting and decision-making web platform',
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
@@ -84,7 +86,9 @@ setup(
                  'cssselect',
                  'decorator']
     },
-    package_data={'adhocracy': ['i18n/*/LC_MESSAGES/*.mo']},
+    package_data={'adhocracy': ['i18n/*/LC_MESSAGES/*.mo'],
+                  '': ['RELEASE-VERSION'],
+                  },
     message_extractors={'adhocracy': [
             ('**.py', 'python', None),
             ('templates/**.html', 'mako', {'input_encoding': 'utf-8'}),
