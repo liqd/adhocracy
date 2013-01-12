@@ -64,7 +64,7 @@ Checkout out adhocracy:
  
 Run buildout:
 
-    $ bin/python bootstrap.py 
+    $ bin/python bootstrap.py --version=1.6.1 
     $ bin/buildout
 
 Start adhocracy and dependency servers):
