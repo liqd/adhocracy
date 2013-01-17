@@ -37,7 +37,7 @@ def _read_zip(f):
                 res[fn[:-len('.json')]] = json.loads(zf.read(fn))
     return res
 
-def read_data(f, format):
+def read_data(f, format='auto'):
     if format == 'auto':
         format = detect_format(f)
 

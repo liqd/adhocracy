@@ -10,6 +10,7 @@ import zipfile
 from . import formats
 from . import transforms
 
+from adhocracy import model
 from pylons import config
 
 
@@ -150,6 +151,8 @@ def _perform_import(f, format, opts):
                         for p_name, proposal in instance['discussion '].iteritems():
                             _create_proposal(p_name, proposal, options)
 
+    model.meta.Session.commit()
+
 
 def export_data(opts):
     data = {}
@@ -169,14 +172,6 @@ def export(opts):
     format = opts.get('format', 'json')
 
     return formats.render(export_data(opts), format, title)
-
-
-    #     if self.form_result.get('instances_enabled'):
-    #         data['discussions'] = _get_instanceData(self.form_result, id_user)
-
-    # eFormat = self.form_result.get('format')
     
-
-# TODO move model.meta.Session.commit() calls to the upper layers
 # TODO merge with csv user import
 # TODO test csv

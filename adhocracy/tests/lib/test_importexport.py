@@ -10,17 +10,22 @@ import adhocracy.tests.testtools as testtools
 class _MockResponse(object):
     pass
 
+try:
+    _compat_str = unicode
+except NameError:
+    _compat_str = str
+
 
 class ImportExportTest(TestController):
     def setUp(self):
         super(ImportExportTest, self).setUp()
         self.u1 = testtools.tt_make_user()
         self.u2 = testtools.tt_make_user()
-        self.i1 = testtools.tt_make_instance('importexport_test', 'desc', self.u2)
+        self.instance = testtools.tt_make_instance(u'export_test', label=u'export_test', creator=self.u2)
 
     def test_transforms(self):
         tfs = importexport.transforms.gen_all({})
-        self.assertTrue(any(tf.name.lower() == 'user' for tf in tfs))
+        self.assertTrue(any(tf.name.lower() == u'user' for tf in tfs))
 
         tfs = importexport.transforms.gen_active({})
         self.assertEquals(len(tfs), 0)
@@ -28,7 +33,7 @@ class ImportExportTest(TestController):
 
     def test_export_basic(self):
         e = importexport.export_data({})
-        self.assertTrue(len(e) == 1)
+        self.assertEquals(len(e), 1)
         self.assertEquals(e['metadata']['type'], 'normsetting-export')
         self.assertTrue(e['metadata']['version'] >= 3)
 
@@ -39,6 +44,8 @@ class ImportExportTest(TestController):
         self.assertTrue(any(u['user_name'] == self.u1.user_name for u in users.values()))
         self.assertTrue(any(u['email'] == self.u2.email for u in users.values()))
         self.assertTrue(any(u['adhocracy_password'] == self.u1.password for u in users.values()))
+        self.assertTrue(all(u'_' in u['locale'] for u in users.values()))
+        assert len(users) == len(model.User.all())
 
     def test_export_anonymous(self):
         e = importexport.export_data(dict(include_user=True))
@@ -46,6 +53,38 @@ class ImportExportTest(TestController):
         self.assertTrue(len(users) >= 2)
         self.assertTrue(all(len(u) == 0 for u in users.values()))
         self.assertTrue(not any(self.u1.user_name in k for k in users.keys()))
+
+    def test_export_instance(self):
+        ed = importexport.export_data(dict(include_instance=True,
+                                         include_user=True, user_personal=True))
+        # Test that we don't spill non-representable objects by accident
+        ex = importexport.formats.render(ed, 'json', '(title)', response=_MockResponse())
+        e = importexport.formats.read_data(io.BytesIO(ex))
+
+        self.assertTrue('instance' in e)
+        self.assertTrue(len(e['instance']) >= 1)
+        self.assertTrue(self.instance.key in e['instance'])
+        idata = e['instance'][self.instance.key]
+        self.assertEquals(idata['label'], self.instance.label)
+
+        user_id = idata['creator']
+        assert user_id
+        self.assertTrue(isinstance(user_id, _compat_str))
+        self.assertEquals(e['user'][user_id].user_name, self.u2.user_name)
+
+    def test_export_proposal(self):
+        p = testtools.tt_make_proposal()
+
+        e = importexport.export_data(dict(include_instance=True, include_instance_proposal=True))
+        idata = e['discussions'][p.instance.key]
+        self.assertTrue('proposal' in idata)
+        pdata = idata['proposal']
+
+
+
+    def test_export_comments(self):
+        testtools.tt_make_instance
+        # TODO actually implement this
 
     def test_rendering(self):
         e = importexport.export_data(dict(include_user=True, user_personal=True,
@@ -78,6 +117,4 @@ class ImportExportTest(TestController):
 
         self.assertRaises(ValueError, formats.render, e, 'invalid', 'test', response=response)
         self.assertRaises(ValueError, formats.read_data, zdata, 'invalid')
-
-# TODO test import as well
 
