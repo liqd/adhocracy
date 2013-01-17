@@ -23,8 +23,6 @@ class BaseController(WSGIController):
 
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
-        #for key in environ.keys():
-        #    print key, environ[key]
         self.log_request(environ)
         
         c.instance = model.instance_filter.get_instance()
@@ -81,15 +79,13 @@ class BaseController(WSGIController):
                          code=400, format=format)
 
     def log_request(self, environ):
-        req_user_id = 0
-        req_cookies = ''
-        c.user = environ.get('repoze.who.identity', {}).get('user')
-        if(c.user):
-            req_user_id= c.user.id
-        if 'HTTP_COOKIE' in environ:
-            req_cookies = environ['HTTP_COOKIE']
-
-        req = model.Request(req_user_id, req_cookies, environ['REMOTE_ADDR'], environ['HTTP_USER_AGENT'], environ['PATH_INFO'])
+        req_cookies = environ.get('HTTP_COOKIE')
+        req_user_agent = environ.get('HTTP_USER_AGENT')
         
-        print "[ID]", req.user_id, "[COOKIES]", req.cookies, "[R.IP]", req.remote_ip_address, "[USERAGENT]", req.useragent, "[REQ_URL]", req.request_url
+        #TODO: CHECK FORWARDED 'CAUSE OF PROXY
+        req_cookies = None
+        req = model.Request(req_cookies, environ['REMOTE_ADDR'], req_user_agent, environ['PATH_INFO'])
+        req.SaveRequest()
+        
+        print "[COOKIES]", req.cookies, "[R.IP]", req.remote_ip_address, "[USERAGENT]", req.useragent, "[REQ_URL]", req.request_url
         return req
