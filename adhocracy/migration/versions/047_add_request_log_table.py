@@ -9,6 +9,7 @@ request_table = Table('request', meta,
     Column('remote_ip_address', Unicode(255)),
     Column('useragent', UnicodeText()),
     Column('request_url', UnicodeText()),
+    Column('proxy', UnicodeText()),
     )
 
 def upgrade(migrate_engine):
