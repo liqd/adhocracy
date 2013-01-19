@@ -23,7 +23,10 @@ class BaseController(WSGIController):
 
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
-        self.log_request(environ)
+        
+        do_logging = asbool(config.get('adhocracy.enable_request_logging', 'false'))
+        if do_logging:
+            self.log_request(environ)
         
         c.instance = model.instance_filter.get_instance()
         if c.instance is not None:
