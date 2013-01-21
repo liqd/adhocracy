@@ -1,4 +1,5 @@
 
+import babel.core
 import hashlib
 import os
 import re
@@ -10,6 +11,12 @@ def _set_optional(o, data, key, export_prefix=''):
     external_key = export_prefix + key
     if external_key in data:
         setattr(o, key, data[external_key])
+
+def _encode_locale(locale):
+    return '_'.join(filter(None, (locale.language, locale.script, locale.territory, locale.variant)))
+
+def _decode_locale(ldata):
+    return babel.core.parse_locale(ldata)
 
 class _Transform(object):
     """ Every transform must define:
@@ -83,14 +90,15 @@ class UserTransform(_Transform):
     - include_badges - Include a list of badges that the user has
     """
     def __init__(self, options):
-        super(UserTransform, self).__init__(options)
+        super(UserTransform, self).__init__()
         self._opt_personal = options.get('user_personal', False)
         if self._opt_personal:
             self._ID_KEY = 'user_name'
         else:
+            self._ID_KEY = 'id'
             self._compute_key = lambda o: str(getattr(o, self._ID_KEY))
         self._opt_password = options.get('user_password', False)
-        self._opt_badges = options.get('include_badges', False):
+        self._opt_badges = options.get('include_badges', False)
 
     def _create(self, data):
         assert self._opt_personal
@@ -103,7 +111,8 @@ class UserTransform(_Transform):
             _set_optional(o, data, 'display_name')
             _set_optional(o, data, 'bio')
             _set_optional(o, data, 'email')
-            _set_optional(o, data, 'locale')
+            if 'locale' in data:
+                o.locale = _decode_locale(data['locale'])
         if self._opt_password:
             _set_optional(o, data, 'activation_code', 'adhocracy_')
             _set_optional(o, data, 'reset_code', 'adhocracy_')
@@ -120,7 +129,7 @@ class UserTransform(_Transform):
                 'display_name': o.display_name,
                 'bio': o.bio,
                 'email': o.email,
-                'locale': o.locale,
+                'locale': _encode_locale(o.locale),
             })
         if self._opt_password:
             res.update({
@@ -135,36 +144,25 @@ class UserTransform(_Transform):
 
 class InstanceTransform(_Transform):
     _ID_KEY = 'key'
-    def _get_default_user(self):
-        return model.user.find_by_id('admin')
 
-    def __init__(self):
+    def __init__(self, options, user_transform):
+        super(InstanceTransform, self).__init__()
         self._user_transform = user_transform
 
     def _create(self, data):
-        user_id = self._user_transform._get_by_key(data['creator'])
+        creator = model.user.find_by_id('admin')
         return self._model_class.create(data['key'], data['label'], creator)
 
-    _REQUIRED = ['key', 'label', 'creator']
-    _PROPS = ['key', 'label', 'description', 'creator', 'adhocracy_allow_adopt',
-              'adhocracy_allow_delegate', 'adhocracy_allow_index']
-    _ENFORCED_PROPS = {'adhocracy_type': 'instance'}
+    def _export(self, obj):
+        res = {
+            'adhocracy_type': 'instance',
+            'key': obj.key,
+            'label': obj.label,
+            'creator': self._user_transform._compute_key(obj.creator)
+        }
+        return res
 
-    def __init__(self, options, user_transform):
-        super(InstanceTransform, self).__init__(options)
-        if options.get('include_user', False):
-            self._user_transform = user_transform
-
-
-    # TODO special creator
-    # TODO proposals
-
-    def _export_object(self, obj):
-        data = super(InstanceTransform, self)._export_object(obj)
-        
-        return data
-
-    def _import_object(self, data, replacement_strategy):        
+    def _import_object(self, data, replacement_strategy):
         return super(InstanceTransform, self)._import_object(data, replacement_strategy)
 
 

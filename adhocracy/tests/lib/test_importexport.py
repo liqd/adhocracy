@@ -6,6 +6,7 @@ import zipfile
 import adhocracy.lib.importexport as importexport
 from adhocracy.tests import TestController
 import adhocracy.tests.testtools as testtools
+from adhocracy import model
 
 class _MockResponse(object):
     pass
@@ -70,16 +71,15 @@ class ImportExportTest(TestController):
         user_id = idata['creator']
         assert user_id
         self.assertTrue(isinstance(user_id, _compat_str))
-        self.assertEquals(e['user'][user_id].user_name, self.u2.user_name)
+        self.assertEquals(e['user'][user_id]['user_name'], self.u2.user_name)
 
-    def test_export_proposal(self):
-        p = testtools.tt_make_proposal()
+    # def test_export_proposal(self):
+    #     p = testtools.tt_make_proposal()
 
-        e = importexport.export_data(dict(include_instance=True, include_instance_proposal=True))
-        idata = e['discussions'][p.instance.key]
-        self.assertTrue('proposal' in idata)
-        pdata = idata['proposal']
-
+    #     e = importexport.export_data(dict(include_instance=True, include_instance_proposal=True))
+    #     idata = e['discussions'][p.instance.key]
+    #     self.assertTrue('proposal' in idata)
+    #     pdata = idata['proposal']
 
 
     def test_export_comments(self):
