@@ -123,27 +123,7 @@ from pylons import config
 def _perform_import(f, format, opts):
     data = formats.read_data(f)
 
-    if include_badges:
-        if 'badges' in data:
-            for badge in data['badges'].values():
-                _create_badge(badge, options)
-
-    if include_users:
-        if 'users' in data:
-            for user in data['users'].values():
-                _create_user(user)
-
-    if include_instances:
-        if 'discussions' in data:
-            for name, instance in data['discussions'].iteritems():
-                inst = _create_instance(name, instance, options)
-
-                # create proposals
-                if options['include_proposals']:
-                    if 'discussion ' in instance:
-                        for p_name, proposal in instance['discussion '].iteritems():
-                            _create_proposal(p_name, proposal, options)
-
+    # TODO implement this
     model.meta.Session.commit()
 
 
@@ -151,7 +131,7 @@ def export_data(opts):
     data = {}
     data['metadata'] = {
         'type': 'normsetting-export',
-        'version': 3,
+        'version': 4,
         'time': email.utils.formatdate(time.time()),
         'adhocracy_options': opts,
     }

@@ -67,19 +67,27 @@ class ImportExportTest(TestController):
         self.assertTrue(self.instance.key in e['instance'])
         idata = e['instance'][self.instance.key]
         self.assertEquals(idata['label'], self.instance.label)
+        self.assertEquals(idata['key'], self.instance.key)
 
         user_id = idata['creator']
         assert user_id
         self.assertTrue(isinstance(user_id, _compat_str))
         self.assertEquals(e['user'][user_id]['user_name'], self.u2.user_name)
+        self.assertEquals(idata['adhocracy_type'], 'instance')
 
-    # def test_export_proposal(self):
-    #     p = testtools.tt_make_proposal()
-
-    #     e = importexport.export_data(dict(include_instance=True, include_instance_proposal=True))
-    #     idata = e['discussions'][p.instance.key]
-    #     self.assertTrue('proposal' in idata)
-    #     pdata = idata['proposal']
+    def test_export_proposal(self):
+        p = testtools.tt_make_proposal(creator=self.u1)
+        e = importexport.export_data({
+            "include_instance": True,
+            "include_instance_proposals": True,
+            "include_users": True,
+        })
+        idata = e['instance'][p.instance.key]
+        self.assertTrue('proposals' in idata)
+        pdata = idata['proposals'][str(p.id)]
+        self.assertEquals(pdata['title'], p.title)
+        self.assertEquals(pdata['description'], p.description)
+        self.assertEquals(pdata['adhocracy_type'], 'proposal')
 
 
     def test_export_comments(self):

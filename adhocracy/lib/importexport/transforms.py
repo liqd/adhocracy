@@ -147,6 +147,7 @@ class InstanceTransform(_Transform):
 
     def __init__(self, options, user_transform):
         super(InstanceTransform, self).__init__()
+        self._options = options
         self._user_transform = user_transform
 
     def _create(self, data):
@@ -160,11 +161,40 @@ class InstanceTransform(_Transform):
             'label': obj.label,
             'creator': self._user_transform._compute_key(obj.creator)
         }
+        if self._options.get('include_instance_proposals'):
+            ptransform = ProposalTransform(obj, self._options, self._user_transform)
+            res['proposals'] = ptransform.export_all()
+
         return res
 
     def _import_object(self, data, replacement_strategy):
         return super(InstanceTransform, self)._import_object(data, replacement_strategy)
 
+
+class ProposalTransform(_Transform):
+    _ID_KEY = 'id'
+
+    def __init__(self, instance, options, user_transform):
+        super(ProposalTransform, self).__init__()
+        self._instance = instance
+        self._options = options
+        self._user_transform = user_transform
+
+    def _compute_key(self, o):
+        return str(getattr(o, self._ID_KEY))
+
+    def export_all(self):
+        return dict((self._compute_key(o), self._export(o))
+                    for o in self._model_class.all_q(self._instance))
+
+    def _export(self, obj):
+        return {
+            'id': obj.id,
+            'title': obj.title,
+            'description': obj.description,
+            'creator': self._user_transform._compute_key(obj.creator),
+            'adhocracy_type': 'proposal',
+        }
 
 def gen_all(options):
     badge_transform = BadgeTransform()
