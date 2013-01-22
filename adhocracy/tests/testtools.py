@@ -80,7 +80,7 @@ def tt_make_user(name=None, instance_group=None):
 
     if name is None:
         name = tt_make_str()
-    user = model.User(name, u"test@test.test", u"test",
+    user = model.User(name, name + u'@test.de', u"test",
                       i18n.get_default_locale())
 
     default_group = model.Group.by_code(model.Group.CODE_DEFAULT)
