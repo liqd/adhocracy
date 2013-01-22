@@ -14,67 +14,6 @@ from adhocracy import model
 from pylons import config
 
 
-
-# def _get_commentData(all_comments, id_user, parent=None):
-#     res = {}
-#     for rc in all_comments:
-#         if rc.reply != parent:
-#             continue
-#         c = {
-#             'text': rc.latest.text,
-#             'adhocracy_type': 'comment',
-#         }
-#         if id_user is not None:
-#             c['author'] = id_user(rc.creator)
-#         children = _get_commentData(all_comments, id_user, rc)
-#         if children:
-#             c['comments'] = children
-
-#         res[str(rc.id)] = c
-#     return res
-
-# def _get_instanceData(form, id_user):
-#     instances = {}
-#     raw_instances = model.instance.Instance.all()
-#     for ri in raw_instances:
-#         i = {
-#             'key': ri.key,
-#             'title': ri.label,
-#             'text': ri.description,
-#             'frozen': ri.frozen,
-#             'hidden': ri.hidden,
-#             'adhocracy_groupname': ri.groupname,
-#             'adhocracy_type': 'instance',
-#             'adhocracy_disable_proposals': ri.disable_proposals,
-#             'adhocracy_allow_adopt': ri.allow_adopt,
-#             'adhocracy_allow_delegate': ri.allow_delegate,
-#             'adhocracy_allow_index': ri.allow_index,
-#         }
-#         if ri.locale:
-#             i['locale'] = ri.locale.__str__()
-#         if id_user is not None:
-#             i['author'] = id_user(ri.creator)
-#         if form.get('proposals_enabled'):
-#             proposals = {}
-#             raw_proposals = model.proposal.Proposal.all(instance=ri)
-#             for rp in raw_proposals:
-#                 p = {
-#                     'title': rp.title,
-#                     'text': rp.description.head.text,
-#                     'instance': rp.instance.key,
-#                     'adhocracy_type': 'proposal',
-#                 }
-#                 if id_user is not None:
-#                     p['author'] = id_user(rp.creator)
-#                 if form.get('proposals_comments_enabled'):
-#                     all_comments = rp.description.comments
-#                     p['comments'] = _get_commentData(all_comments, id_user)
-#                 proposals[str(rp.id)] = p
-#             i['discussion '] = proposals
-#         instances[ri.key] = i
-#     return instances
-
-
 # def _create_proposal(name, proposal, options):
 #     if 'adhocracy_type' in proposal:
 #         if proposal['adhocracy_type'] == 'proposal':
@@ -120,13 +59,6 @@ from pylons import config
 
 
 
-def _perform_import(f, format, opts):
-    data = formats.read_data(f)
-
-    # TODO implement this
-    model.meta.Session.commit()
-
-
 def export_data(opts):
     data = {}
     data['metadata'] = {
@@ -143,8 +75,16 @@ def export(opts):
     timeStr = time.strftime('%Y-%m-%dT%H:%M:%S', time.gmtime())
     title = config.get('adhocracy.site.name', 'adhocracy') + '-' + timeStr
     format = opts.get('format', 'json')
-
     return formats.render(export_data(opts), format, title)
+
+def import_(f, format, opts):
+    data = formats.read_data(f)
+    import_data(data, opts)
+
+def import_data(opts, data):
+    
+    model.meta.Session.commit()
+
     
 # TODO merge with csv user import
-# TODO test csv
+

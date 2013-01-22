@@ -11,12 +11,6 @@ from adhocracy import model
 class _MockResponse(object):
     pass
 
-try:
-    _compat_str = unicode
-except NameError:
-    _compat_str = str
-
-
 class ImportExportTest(TestController):
     def setUp(self):
         super(ImportExportTest, self).setUp()
@@ -71,7 +65,7 @@ class ImportExportTest(TestController):
 
         user_id = idata['creator']
         assert user_id
-        self.assertTrue(isinstance(user_id, _compat_str))
+        self.assertTrue(isinstance(user_id, str))
         self.assertEquals(e['user'][user_id]['user_name'], self.u2.user_name)
         self.assertEquals(idata['adhocracy_type'], 'instance')
 
@@ -133,7 +127,6 @@ class ImportExportTest(TestController):
         self.assertEquals(cdata2['creator'], str(self.u2.id))
         self.assertEquals(cdata2['sentiment'], -1)
         self.assertEquals(cdata2['adhocracy_type'], 'comment')
-
 
 
     def test_rendering(self):
