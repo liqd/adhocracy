@@ -40,11 +40,14 @@ class _Transform(object):
         return res
 
     def _compute_key(self, o):
-        return getattr(o, self._ID_KEY)
+        return str(getattr(o, self._ID_KEY))
 
     def export_all(self):
         return dict((self._compute_key(o), self._export(o))
-                    for o in self._model_class.all())
+                    for o in self._get_all())
+
+    def _get_all(self):
+        return self._model_class.all()
 
     def import_objects(self, odict, replacement_strategy):
         return dict((k, self._import_object(data, replacement_strategy)) for k,data in odict.items())
@@ -96,7 +99,6 @@ class UserTransform(_Transform):
             self._ID_KEY = 'user_name'
         else:
             self._ID_KEY = 'id'
-            self._compute_key = lambda o: str(getattr(o, self._ID_KEY))
         self._opt_password = options.get('user_password', False)
         self._opt_badges = options.get('include_badges', False)
 
@@ -180,21 +182,47 @@ class ProposalTransform(_Transform):
         self._options = options
         self._user_transform = user_transform
 
-    def _compute_key(self, o):
-        return str(getattr(o, self._ID_KEY))
-
-    def export_all(self):
-        return dict((self._compute_key(o), self._export(o))
-                    for o in self._model_class.all_q(self._instance))
+    def _get_all(self):
+        return self._model_class.all_q(self._instance)
 
     def _export(self, obj):
-        return {
+        res = {
             'id': obj.id,
             'title': obj.title,
             'description': obj.description,
             'creator': self._user_transform._compute_key(obj.creator),
             'adhocracy_type': 'proposal',
         }
+        if self._options.get('include_instance_proposal_comments', False):
+            if obj.description:
+                ctransform = CommentTransform(obj.description.comments, None, self._user_transform)
+                res['comments'] = ctransform.export_all()
+            else:
+                res['comments'] = {}
+        return res
+
+class CommentTransform(_Transform):
+    _ID_KEY = 'id'
+
+    def __init__(self, all_comments, parent_comment, user_transform):
+        self._all_comments = all_comments
+        self._parent_comment = parent_comment
+        self._user_transform = user_transform
+
+    def _get_all(self):
+        return [c for c in self._all_comments if c.reply == self._parent_comment]
+
+    def _export(self, obj):
+        res = {
+            'text': obj.latest.text,
+            'sentiment': obj.latest.sentiment,
+            'creator': self._user_transform._compute_key(obj.creator),
+            'adhocracy_type': 'comment',
+        }
+        ct = CommentTransform(self._all_comments, obj, self._user_transform)
+        res['comments'] = ct.export_all()
+        return res
+
 
 def gen_all(options):
     badge_transform = BadgeTransform()

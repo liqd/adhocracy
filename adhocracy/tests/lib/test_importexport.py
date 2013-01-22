@@ -85,14 +85,38 @@ class ImportExportTest(TestController):
         idata = e['instance'][p.instance.key]
         self.assertTrue('proposals' in idata)
         pdata = idata['proposals'][str(p.id)]
+        assert 'comments' not in pdata 
         self.assertEquals(pdata['title'], p.title)
         self.assertEquals(pdata['description'], p.description)
         self.assertEquals(pdata['adhocracy_type'], 'proposal')
 
-
     def test_export_comments(self):
-        testtools.tt_make_instance
-        # TODO actually implement this
+        p = testtools.tt_make_proposal(creator=self.u1, with_description=True)
+        desc = testtools.tt_make_str()
+        c1 = model.Comment.create(
+            text=desc,
+            user=self.u2,
+            topic=p.description,
+            reply=None,
+            variant='HEAD',
+            sentiment=1)
+        assert p.description.comments
+        e = importexport.export_data({
+            "include_instance": True,
+            "include_instance_proposals": True,
+            "include_instance_proposal_comments": True,
+            "include_users": True,
+        })
+        idata = e['instance'][p.instance.key]
+        pdata = idata['proposals'][str(p.id)]
+        assert 'comments' in pdata
+        self.assertEquals(len(pdata['comments']), 1)
+        cdata = next(iter(pdata['comments'].values()))
+        self.assertEquals(cdata['text'], desc)
+        self.assertEquals(cdata['creator'], str(self.u2.id))
+        self.assertEquals(cdata['sentiment'], 1)
+        self.assertEquals(cdata['adhocracy_type'], 'comment')
+
 
     def test_rendering(self):
         e = importexport.export_data(dict(include_user=True, user_personal=True,
