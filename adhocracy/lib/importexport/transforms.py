@@ -49,8 +49,8 @@ class _Transform(object):
     def _get_all(self):
         return self._model_class.all()
 
-    def import_objects(self, odict, replacement_strategy):
-        return dict((k, self._import_object(data, replacement_strategy)) for k,data in odict.items())
+    def import_(self, odict, replacement_strategy):
+        return dict((k, self._import(data, replacement_strategy)) for k,data in odict.items())
 
     def _import(self, data, replacement_strategy):
         current = self._get_by_key(data[self._ID_KEY])
@@ -65,8 +65,11 @@ class _Transform(object):
         model.meta.session.add(res)
         return res
 
+class _ExportOnlyTransform(_Transform):
+    def import_(self, odict, replacement_strategy):
+        raise NotImplementedError()
 
-class BadgeTransform(_Transform):
+class BadgeTransform(_ExportOnlyTransform):
     _ID_KEY = 'title'
 
     def _create(self, data):
@@ -144,17 +147,13 @@ class UserTransform(_Transform):
             res['badges'] = [getattr(b, BadgeTransform._ID_KEY) for b in o.badges]
         return res
 
-class InstanceTransform(_Transform):
+class InstanceTransform(_ExportOnlyTransform):
     _ID_KEY = 'key'
 
     def __init__(self, options, user_transform):
         super(InstanceTransform, self).__init__()
         self._options = options
         self._user_transform = user_transform
-
-    def _create(self, data):
-        creator = model.user.find_by_id('admin')
-        return self._model_class.create(data['key'], data['label'], creator)
 
     def _export(self, obj):
         res = {
@@ -169,11 +168,12 @@ class InstanceTransform(_Transform):
 
         return res
 
-    def _import_object(self, data, replacement_strategy):
-        return super(InstanceTransform, self)._import_object(data, replacement_strategy)
+    def _create(self, data):
+        creator = model.user.find_by_id('admin')
+        return self._model_class.create(data['key'], data['label'], creator)
 
 
-class ProposalTransform(_Transform):
+class ProposalTransform(_ExportOnlyTransform):
     _ID_KEY = 'id'
 
     def __init__(self, instance, options, user_transform):
@@ -201,7 +201,7 @@ class ProposalTransform(_Transform):
                 res['comments'] = {}
         return res
 
-class CommentTransform(_Transform):
+class CommentTransform(_ExportOnlyTransform):
     _ID_KEY = 'id'
 
     def __init__(self, all_comments, parent_comment, user_transform):
