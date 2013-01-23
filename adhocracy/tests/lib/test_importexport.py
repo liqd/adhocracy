@@ -15,7 +15,14 @@ class ImportExportTest(TestController):
     def setUp(self):
         super(ImportExportTest, self).setUp()
         self.u1 = testtools.tt_make_user()
+        self.badge = model.UserBadge.create(
+            title='importexport_badge',
+            color='#ff00ff',
+            visible=True,
+            description='This badge tests',
+        )
         self.u2 = testtools.tt_make_user()
+        self.badge.assign(user=self.u1, creator=self.u2)
         self.instance = testtools.tt_make_instance(u'export_test', label=u'export_test', creator=self.u2)
 
     def test_transforms(self):
@@ -83,6 +90,21 @@ class ImportExportTest(TestController):
         self.assertEquals(pdata['title'], p.title)
         self.assertEquals(pdata['description'], p.description)
         self.assertEquals(pdata['adhocracy_type'], 'proposal')
+
+    def test_export_badge(self):
+        e = importexport.export_data(dict(
+            include_user=True,
+            user_personal=True,
+            include_badge=True
+        ))
+        bdata = e['badge']
+        assert len(bdata) >= 1
+        mykey,myb = next((bkey,bd) for bkey,bd in bdata.items() if bd['title'] == self.badge.title)
+        self.assertEquals(myb['color'], self.badge.color)
+        self.assertTrue(myb['visible'])
+        self.assertEquals(myb['description'], self.badge.description)
+        myu1 = next(u for u in e['user'].values() if u['email'] == self.u1.email)
+        self.assertEquals(myu1['badges'], [mykey])
 
     def test_export_comments(self):
         p = testtools.tt_make_proposal(creator=self.u1, with_description=True)
@@ -172,7 +194,7 @@ class ImportExportTest(TestController):
                     "email": "test@test_importexport.de",
                     "bio": "hey",
                     "locale": "de_DE",
-                    "banned": True
+                    "adhocracy_banned": True
                 }
             }
         }

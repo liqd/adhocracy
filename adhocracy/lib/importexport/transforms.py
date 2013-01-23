@@ -87,12 +87,14 @@ class BadgeTransform(_ExportOnlyTransform):
     def _modify(self, obj, data):
         obj.title = data['title']
         obj.color = data['color']
+        obj.visible = data['visible']
         obj.description = data['description']
 
     def _export(self, obj):
         return {
             'title': obj.title,
             'color': obj.color,
+            'visible': obj.visible,
             'description': obj.description
         }
 
@@ -104,15 +106,16 @@ class UserTransform(_Transform):
     - user_password - Include authentication information
     - include_badges - Include a list of badges that the user has
     """
-    def __init__(self, options):
+    def __init__(self, options, badge_transform):
         super(UserTransform, self).__init__(options)
+        self._badge_transform = badge_transform
         self._opt_personal = self._options.get('user_personal', False)
         if self._opt_personal:
             self._ID_KEY = 'email'
         else:
             self._ID_KEY = 'id'
         self._opt_password = self._options.get('user_password', False)
-        self._opt_badges = self._options.get('include_badges', False)
+        self._opt_badges = self._options.get('include_badge', False)
 
     def _create(self, data):
         assert self._opt_personal
@@ -227,7 +230,7 @@ class CommentTransform(_ExportOnlyTransform):
 
 def gen_all(options):
     badge_transform = BadgeTransform(options)
-    user_transform = UserTransform(options)
+    user_transform = UserTransform(options, badge_transform)
     instance_transform = InstanceTransform(options, user_transform)
     return [badge_transform, user_transform, instance_transform]
 
