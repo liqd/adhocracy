@@ -597,13 +597,7 @@ class SolrFacet(SolrIndexer):
         Build an url from the *request* and the *facet_value*
         '''
         params = self.build_params(request, facet_values)
-        url_base = url.current(qualified=True)
-        protocol = config.get('adhocracy.protocol', 'http').strip()
-        if ', ' in url_base:
-            # hard coded fix for enquetebeteiligung.de
-            url_base = '%s://%s' % (protocol, url_base.split(', ')[1])
-        else:
-            url_base = '%s://%s' % (protocol, url_base.split('://')[1])
+        url_base = base_url(url.current(qualified=False))
         return url_base + "?" + urllib.urlencode(params)
 
     def build_params(self, request, facet_values):
