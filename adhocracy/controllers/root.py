@@ -15,6 +15,12 @@ from adhocracy.lib.static import StaticPage
 from adhocracy.lib.templating import render
 from adhocracy.lib.util import get_entity_or_abort
 
+
+from adhocracy.lib import democracy, event, helpers as h, pager ,sorting
+
+
+
+
 from proposal import ProposalFilterForm
 
 
@@ -34,6 +40,21 @@ class RootController(BaseController):
             c.instances = model.Instance.all(limit=instances_in_root)
         elif instances_in_root == -1:
             c.instances = model.Instance.all()
+
+
+
+        instances = c.instances
+        dic_proposal=[]
+        for instance in instances:
+            proposals=model.Proposal.all(instance)
+            c.new_proposals_pager = pager.proposals(
+            proposals, size=3, enable_sorts=False,
+            enable_pages=False, default_sort=sorting.entity_newest)
+            dic_proposal.append({ "instance":instance, "pager":c.new_proposals_pager })
+            
+        c.dic_proposal=dic_proposal
+
+
 
         c.page = StaticPage('index')
 
