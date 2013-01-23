@@ -65,6 +65,11 @@ class UserUpdateForm(formencode.Schema):
                                if_empty=10, if_missing=10)
     email_priority = validators.Int(min=0, max=6, not_empty=False,
                                     if_missing=3)
+    proposal_sort_order = validators.OneOf([''] +
+                                        [v.value
+                                        for g in PROPOSAL_SORTS.by_group.values()
+                                        for v in g 
+    ])
 
 
 class UserCodeForm(formencode.Schema):
@@ -265,7 +270,8 @@ class UserController(BaseController):
         model.meta.Session.add(c.page_user)
         model.meta.Session.commit()
         url = h.base_url("/user/%s/reset?c=%s" % (c.page_user.user_name,
-                                                  c.page_user.reset_code))
+                                                  c.page_user.reset_code),
+                         absolute=True)
         body = (
             _("you have requested that your password be reset. In order "
               "to confirm the validity of your claim, please open the "
