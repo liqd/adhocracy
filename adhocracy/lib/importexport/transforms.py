@@ -17,7 +17,7 @@ def _encode_locale(locale):
     return '_'.join(filter(None, (locale.language, locale.script, locale.territory, locale.variant)))
 
 def _decode_locale(ldata):
-    return babel.core.parse_locale(ldata)
+    return ldata
 
 class _Transform(object):
     """ Every transform must define:

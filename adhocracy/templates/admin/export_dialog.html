@@ -10,6 +10,7 @@
 <h1>${_("Export")}</h1>
 
 <form method="post" action="/admin/export/do" class="exportform">
+    ${h.field_token()|n}
     <div>
         <label>
             <input type="checkbox" name="include_user" checked="checked" />

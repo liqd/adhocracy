@@ -10,12 +10,15 @@
 <h1>${_("Import")}</h1>
 
 <form method="post" enctype="multipart/form-data" action="/admin/import/do" class="importform">
+    ${h.field_token()|n}
     <div>
         <label>
-            <input type="checkbox" name="include_users" checked="checked" />
+            <input type="checkbox" name="include_user" checked="checked" />
             ${_("Import users")}
         </label>
     </div>
+<!--
+    The following are not yet implemented
     <div>
         <label>
             <input type="checkbox" name="include_badges" checked="checked" />
@@ -45,6 +48,7 @@
             </div>
         </div>
     </div>
+-->
 
     <div>
         <br/>
@@ -72,15 +76,15 @@
         <div>
             <div>
                 <label>
-                    <input type="radio" name="filetype" />
+                    <input type="radio" name="filetype" value="detect" checked="checked" />
                     ${_('Detect')}
                 </label>
                 <label>
-                    <input type="radio" name="filetype" checked="checked" />
+                    <input type="radio" name="filetype" value="json" />
                     ${_('JSON')}
                 </label>
                 <label>
-                    <input type="radio" name="filetype" />
+                    <input type="radio" name="filetype" value="zip" />
                     ${_('ZIP')}
                 </label>
             </div>

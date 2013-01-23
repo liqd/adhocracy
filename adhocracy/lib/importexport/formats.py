@@ -14,7 +14,7 @@ def detect_format(f):
         return 'json'
     if firstBytes == b'PK\x03\x04':
         return 'zip'
-    return 'csv'
+    return 'unknown'
 
 def _render_zip(data, filename, response=response):
     with io.BytesIO() as fakeFile:
@@ -37,8 +37,8 @@ def _read_zip(f):
                 res[fn[:-len('.json')]] = json.loads(zf.read(fn))
     return res
 
-def read_data(f, format='auto'):
-    if format == 'auto':
+def read_data(f, format='detect'):
+    if format == 'detect':
         format = detect_format(f)
 
     if format == 'zip':

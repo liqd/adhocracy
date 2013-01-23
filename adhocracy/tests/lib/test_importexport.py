@@ -144,7 +144,7 @@ class ImportExportTest(TestController):
         self.assertEquals(formats.detect_format(zio), 'zip')
         self.assertEquals(zio.read(), zdata)
         self.assertEquals(e, formats.read_data(io.BytesIO(zdata), 'zip'))
-        self.assertEquals(e, formats.read_data(io.BytesIO(zdata), 'auto'))
+        self.assertEquals(e, formats.read_data(io.BytesIO(zdata), 'detect'))
 
         response = _MockResponse()
         jdata = formats.render(e, 'json', 'test', response=response)
@@ -156,7 +156,7 @@ class ImportExportTest(TestController):
         self.assertEquals(formats.detect_format(jio), 'json')
         self.assertEquals(jio.read(), jdata)
         self.assertEquals(e, formats.read_data(io.BytesIO(jdata), 'json'))
-        self.assertEquals(e, formats.read_data(io.BytesIO(jdata), 'auto'))
+        self.assertEquals(e, formats.read_data(io.BytesIO(jdata), 'detect'))
 
         self.assertRaises(ValueError, formats.render, e, 'invalid', 'test', response=response)
         self.assertRaises(ValueError, formats.read_data, zdata, 'invalid')
@@ -168,7 +168,8 @@ class ImportExportTest(TestController):
                     "user_name": "importexport_u1",
                     "display_name": "Mr. Imported",
                     "email": "test@test_importexport.de",
-                    "bio": "hey"
+                    "bio": "hey",
+                    "locale": "de_DE"
                 }
             }
         }
@@ -181,6 +182,7 @@ class ImportExportTest(TestController):
         self.assertEquals(u.email, 'test@test_importexport.de')
         self.assertEquals(u.display_name, 'Mr. Imported')
         self.assertEquals(u.bio, 'hey')
+        self.assertEquals(u.locale, 'de_DE')
 
         opts['replacement_strategy'] = 'skip'
         TESTDATA['user']['importexport_u1']['display_name'] = 'Dr. Imported'

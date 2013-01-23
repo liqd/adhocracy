@@ -32,15 +32,18 @@ def export(opts):
     format = opts.get('format', 'json')
     return formats.render(export_data(opts), format, title)
 
-def import_(f, format, opts):
-    data = formats.read_data(f)
-    import_data(data, opts)
+def import_(opts, f):
+    data = formats.read_data(f, opts.get('filetype'))
+    import_data(opts, data)
     model.meta.Session.commit()
 
 def import_data(opts, data):
-    for transform in transforms.gen_active(opts):
-        transform.import_all(data.get(transform.public_name, {}))
+    if data.get('metadata', {}).get('version') == 2:
+        data['user'] = data['users']
 
-    
+    for transform in transforms.gen_active(opts):
+        idata = data.get(transform.public_name, {})
+        transform.import_all(idata)
+
 # TODO merge with csv user import
 

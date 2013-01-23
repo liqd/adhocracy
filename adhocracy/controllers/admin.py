@@ -32,6 +32,19 @@ class UserImportForm(formencode.Schema):
         messages={'empty': L_('Please insert a template for the '
                               'mail we will send to the users.')})
 
+class ExportForm(formencode.Schema):
+    include_users = formencode.validators.StringBoolean(if_missing=False)
+    _tok = formencode.validators.String()
+
+class ImportForm(formencode.Schema):
+    include_user = formencode.validators.StringBoolean(if_missing=False)
+    filetype = formencode.validators.OneOf(['detect', 'json', 'zip'])
+    importfile = formencode.validators.FieldStorageUploadConverter()
+    replacement = formencode.validators.OneOf(['update', 'skip'])
+    _tok = formencode.validators.String()
+
+
+
 class AdminController(BaseController):
 
     @ActionProtector(has_permission("global.admin"))
@@ -136,29 +149,19 @@ class AdminController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("global.admin"))
     def import_do(self):
+        options = ImportForm().to_python(dict(request.params))
         obj = request.POST['importfile']
-        options = {
-            'include_user': self.form_result.get('include_user') == 'on',
-            'include_instance': self.form_result.get('include_instance') == 'on',
-            'include_proposal': self.form_result.get('include_proposal') == 'on',
-            'include_comment': self.form_result.get('include_instance_proposal_comment') == 'on',
-            'include_badge': self.form_result.get('include_badge') == 'on',
-            'replacement_strategy': self.form_result.get('replacement'),
-        }
-        # define default user to be author of content that has no valid author
-        options['default_creator'] = model.User.find(u"admin", include_deleted=True)
-        assert options['default_creator']
-
-        adhocracy.lib.importexport.perform_import(obj.file, **options)
-
+        options['user_personal'] = True
+        adhocracy.lib.importexport.import_(options, obj.file)
         return render('admin/import_success.html')
 
     @ActionProtector(has_permission("global.admin"))
     def export_dialog(self):
         return render('admin/export_dialog.html')
 
-
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("global.admin"))
     def export_do(self):
-        TODO
+        options = ExportForm().to_python(dict(request.params))
+        adhocracy.lib.importexport.export(options)
+        return render('admin/export_success.html')
