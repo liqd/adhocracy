@@ -41,7 +41,7 @@ setup(
         "repoze.who.plugins.sa==1.0rc2",
         "repoze.what-pylons==1.0",
         "repoze.what.plugins.sql==1.0.1",
-        "repoze.who-friendlyform==1.0.4",
+        "repoze.who-friendlyform==1.0.8",
         "repoze.who-testutil==1.0",
         "python-twitter>=0.6",
         "oauth2",  # undeclared requirement of python-twitter
@@ -112,5 +112,6 @@ setup(
         'nose.plugins': [
             'pylons = pylons.test:PylonsPlugin',
         ]
+
     }
 )
