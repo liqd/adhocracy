@@ -200,7 +200,7 @@ class Index(AdhocracyCommand):
         indexed_classes = sorted(self.indexed_classes.keys())
         content_types = '\n          '.join(indexed_classes)
         usage += (
-            'index (ALL|DROP) [<entity>, ...] [-I <instance>, ...]'
+            'index (INDEX|DROP|DROP_ALL|ALL) [<entity>, ...] [-I <instance>, ...]'
             ' -c <inifile>'
             '\n\n'
             '  DROP_ALL:\n'
