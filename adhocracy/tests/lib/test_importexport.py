@@ -16,10 +16,10 @@ class ImportExportTest(TestController):
         super(ImportExportTest, self).setUp()
         self.u1 = testtools.tt_make_user()
         self.badge = model.UserBadge.create(
-            title='importexport_badge',
-            color='#ff00ff',
+            title=u'importexport_badge',
+            color=u'#ff00ff',
             visible=True,
-            description='This badge tests',
+            description=u'This badge tests',
         )
         self.u2 = testtools.tt_make_user()
         self.badge.assign(user=self.u1, creator=self.u2)
@@ -103,6 +103,7 @@ class ImportExportTest(TestController):
         self.assertEquals(myb['color'], self.badge.color)
         self.assertTrue(myb['visible'])
         self.assertEquals(myb['description'], self.badge.description)
+        self.assertEquals(myb['adhocracy_badge_type'], 'user')
         myu1 = next(u for u in e['user'].values() if u['email'] == self.u1.email)
         self.assertEquals(myu1['badges'], [mykey])
 
@@ -225,6 +226,30 @@ class ImportExportTest(TestController):
         self.assertTrue(u)
         self.assertEquals(u.display_name, 'Dr. Imported')
         self.assertTrue(u.banned)
+
+    def test_import_badge(self):
+        test_data = {
+            "badge": {
+                "importexport_b1": {
+                    "title": "importexport_b1",
+                    "color": "mauve",
+                    "adhocracy_badge_type": "user",
+                    "visible": False,
+                    "description": "test badge"
+                }
+            }
+        }
+        opts = dict(include_badge=True)
+
+        importexport.import_data(opts, test_data)
+        b = model.UserBadge.find('importexport_b1')
+        self.assertTrue(b)
+        self.assertEquals(b.title, 'importexport_b1')
+        self.assertEquals(b.color, 'mauve')
+        self.assertEquals(b.polymorphic_identity, 'user')
+        self.assertTrue(not b.visible)
+        self.assertEquals(b.description, 'test badge')
+
 
     def test_legacy(self):
         # Version 2 had 'users' instead of 'user'

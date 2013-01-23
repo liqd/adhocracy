@@ -38,6 +38,7 @@ class ExportForm(formencode.Schema):
 
 class ImportForm(formencode.Schema):
     include_user = formencode.validators.StringBoolean(if_missing=False)
+    include_badge = formencode.validators.StringBoolean(if_missing=False)
     filetype = formencode.validators.OneOf(['detect', 'json', 'zip'])
     importfile = formencode.validators.FieldStorageUploadConverter()
     replacement = formencode.validators.OneOf(['update', 'skip'])

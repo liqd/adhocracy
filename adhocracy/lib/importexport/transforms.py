@@ -78,11 +78,23 @@ class _ExportOnlyTransform(_Transform):
     def import_(self, odict, replacement_strategy):
         raise NotImplementedError()
 
-class BadgeTransform(_ExportOnlyTransform):
+class BadgeTransform(_Transform):
     _ID_KEY = 'title'
 
+    def _get_by_key(self, k):
+        return self._model_class.find(k)
+
     def _create(self, data):
-        self._model_class.create(data['title'], data['color'], data['description'])
+        btype = data.get('adhocracy_badge_type', 'user')
+        if btype == 'user':
+            return model.UserBadge.create(
+                title=data['title'],
+                color=data['color'],
+                visible=data['visible'],
+                description=data['description'])
+        else:
+            raise NotImplementedError()
+
 
     def _modify(self, obj, data):
         obj.title = data['title']
@@ -95,7 +107,8 @@ class BadgeTransform(_ExportOnlyTransform):
             'title': obj.title,
             'color': obj.color,
             'visible': obj.visible,
-            'description': obj.description
+            'description': obj.description,
+            'adhocracy_badge_type': obj.polymorphic_identity,
         }
 
 
