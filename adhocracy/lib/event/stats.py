@@ -50,3 +50,25 @@ def user_activity(instance, user, from_time=None, to_time=None):
             q = q.filter(model.Event.instance == instance)
         return q
     return activity(query_filter, from_time, to_time)
+
+
+@memoize('user_rating', 86400)
+def user_rating(instance, user, from_time=None, to_time=None):
+    '''
+    simple score summing up the score of the users contributions
+    for a given instance
+    '''
+
+    proposals = model.meta.Session.query(model.Proposal)\
+            .filter(model.Proposal.creator==user)\
+            .filter(model.Proposal.instance==instance)
+
+    comments = model.meta.Session.query(model.Comment)\
+            .filter(model.Comment.creator==user)\
+            .join(model.Delegateable, model.Comment.topic_id==model.Delegateable.id)\
+            .filter(model.Delegateable.instance==instance)
+
+    rating = sum([p.rate_poll.tally.score for p in proposals])\
+            + sum([c.poll.tally.score for c in comments])
+
+    return rating
