@@ -100,8 +100,8 @@ def to_ref(entity):
     The reference has the format `@[<entity_type>:<id>]`.
     Parameters:
     `entity`
-       An model object that has a method `_index_id()` which returns
-       an uniqe id across all instances of it's model class. The object
+       A model object that has a method `_index_id()` which returns
+       a unique id across all instances of its model class. The object
        has to be an instance of one of the model classes in
        :data:`TYPES`
     Returns a `unicode` string reference if one can be generated

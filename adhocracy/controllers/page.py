@@ -378,7 +378,6 @@ class PageController(BaseController):
             {'variant': variant,
              'display_title': cls.variant_display_title(variant),
              'history_url': h.entity_url(variant_text, member='history'),
-             # FIXME: Text.history is marked with comment 'performance fail'
              'history_count': len(variant_text.history),
              'selections': selections,
              'num_selections': len(selections),
