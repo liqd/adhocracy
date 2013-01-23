@@ -201,11 +201,8 @@ class ProposalTransform(_ExportOnlyTransform):
             'adhocracy_type': 'proposal',
         }
         if self._options.get('include_instance_proposal_comments', False):
-            if obj.description:
-                ctransform = CommentTransform(self._options, obj.description.comments, None, self._user_transform)
-                res['comments'] = ctransform.export_all()
-            else:
-                res['comments'] = {}
+            ctransform = CommentTransform(self._options, obj.description.comments, None, self._user_transform)
+            res['comments'] = ctransform.export_all()
         return res
 
 class CommentTransform(_ExportOnlyTransform):
