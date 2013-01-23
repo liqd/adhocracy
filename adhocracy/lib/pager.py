@@ -1165,12 +1165,18 @@ PROPOSAL_NO_VOTES = SortOption('-order.proposal.novotes', L_("Most Nays"))
 PROPOSAL_MIXED = SortOption('-order.proposal.mixed', L_('Mixed'),
                             description=L_('Age and Support'))
 
-USER_SORTS = NamedSort([[None, (OLDEST(old=1),
-                                NEWEST(old=2),
-                                ACTIVITY(old=3),
-                                ALPHA(old=4))]],
-                       default=ACTIVITY,
-                       mako_def="sort_dropdown")
+
+def get_user_sorts(instance=None):
+    activity = SortOption(
+        '-%s' % InstanceUserActivityIndexer.solr_field(instance),
+        L_('Activity'))
+
+    return NamedSort([[None, (OLDEST(old=1),
+                              NEWEST(old=2),
+                              activity(old=3),
+                              ALPHA(old=4))]],
+                     default=activity,
+                     mako_def="sort_dropdown")
 
 
 INSTANCE_SORTS = NamedSort([[None, (OLDEST(old=1),
@@ -1198,7 +1204,7 @@ def solr_instance_users_pager(instance):
     extra_filter = {'facet.instances': instance.key}
     pager = SolrPager('users', tiles.user.row,
                       entity_type=model.User,
-                      sorts=USER_SORTS,
+                      sorts=get_user_sorts(instance),
                       extra_filter=extra_filter,
                       facets=[UserBadgeFacet])
     return pager
@@ -1207,7 +1213,7 @@ def solr_instance_users_pager(instance):
 def solr_global_users_pager():
     pager = SolrPager('users', tiles.user.row,
                       entity_type=model.User,
-                      sorts=USER_SORTS,
+                      sorts=get_user_sorts(None),
                       facets=[UserBadgeFacet, InstanceFacet]
                       )
     return pager
