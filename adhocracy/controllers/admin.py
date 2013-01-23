@@ -33,7 +33,14 @@ class UserImportForm(formencode.Schema):
                               'mail we will send to the users.')})
 
 class ExportForm(formencode.Schema):
-    include_users = formencode.validators.StringBoolean(if_missing=False)
+    include_user = formencode.validators.StringBoolean(if_missing=False)
+    include_badge = formencode.validators.StringBoolean(if_missing=False)
+    include_instance = formencode.validators.StringBoolean(if_missing=False)
+    include_instance_proposal = formencode.validators.StringBoolean(if_missing=False)
+    include_instance_proposal_comment = formencode.validators.StringBoolean(if_missing=False)
+    user_personal = formencode.validators.StringBoolean(if_missing=False)
+    user_password = formencode.validators.StringBoolean(if_missing=False)
+    format = formencode.validators.OneOf(['json_download', 'json', 'zip'])
     _tok = formencode.validators.String()
 
 class ImportForm(formencode.Schema):
@@ -164,5 +171,8 @@ class AdminController(BaseController):
     @ActionProtector(has_permission("global.admin"))
     def export_do(self):
         options = ExportForm().to_python(dict(request.params))
-        adhocracy.lib.importexport.export(options)
-        return render('admin/export_success.html')
+        return adhocracy.lib.importexport.export(options)
+        # Above writes out a file; don't render anything
+
+
+
