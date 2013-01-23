@@ -34,12 +34,12 @@ class ImportExportTest(TestController):
 
     def test_export_user(self):
         e = importexport.export_data(dict(include_user=True, user_personal=True, user_password=True))
-        users = e['user']
+        users = e['user'].values()
         self.assertTrue(len(users) >= 2)
-        self.assertTrue(any(u['user_name'] == self.u1.user_name for u in users.values()))
-        self.assertTrue(any(u['email'] == self.u2.email for u in users.values()))
-        self.assertTrue(any(u['adhocracy_password'] == self.u1.password for u in users.values()))
-        self.assertTrue(all(u'_' in u['locale'] for u in users.values()))
+        self.assertTrue(any(u['user_name'] == self.u1.user_name for u in users))
+        self.assertTrue(any(u['email'] == self.u2.email for u in users))
+        self.assertTrue(any(u['adhocracy_password'] == self.u1.password for u in users))
+        self.assertTrue(all(u'_' in u['locale'] for u in users))
         assert len(users) == len(model.User.all())
 
     def test_export_anonymous(self):
@@ -164,20 +164,21 @@ class ImportExportTest(TestController):
         self.assertEquals(formats.detect_format(io.BytesIO()), 'unknown')
 
     def test_import_user(self):
-        TESTDATA = {
+        test_data = {
             "user": {
                 "importexport_u1": {
                     "user_name": "importexport_u1",
                     "display_name": "Mr. Imported",
                     "email": "test@test_importexport.de",
                     "bio": "hey",
-                    "locale": "de_DE"
+                    "locale": "de_DE",
+                    "banned": True
                 }
             }
         }
-        opts = dict(include_user=True, user_personal=True)
+        opts = dict(include_user=True, user_personal=True, user_password=False)
 
-        importexport.import_data(opts, TESTDATA)
+        importexport.import_data(opts, test_data)
         u = model.User.find_by_email('test@test_importexport.de')
         self.assertTrue(u)
         self.assertEquals(u.user_name, 'importexport_u1')
@@ -185,19 +186,23 @@ class ImportExportTest(TestController):
         self.assertEquals(u.display_name, 'Mr. Imported')
         self.assertEquals(u.bio, 'hey')
         self.assertEquals(u.locale, 'de_DE')
+        self.assertTrue(not u.banned)
 
         opts['replacement_strategy'] = 'skip'
-        TESTDATA['user']['importexport_u1']['display_name'] = 'Dr. Imported'
-        importexport.import_data(opts, TESTDATA)
+        test_data['user']['importexport_u1']['display_name'] = 'Dr. Imported'
+        importexport.import_data(opts, test_data)
         u = model.User.find_by_email('test@test_importexport.de')
         self.assertTrue(u)
         self.assertEquals(u.display_name, 'Mr. Imported')
+        self.assertTrue(not u.banned)
 
         opts['replacement_strategy'] = 'update'
-        importexport.import_data(opts, TESTDATA)
+        opts['user_password'] = True
+        importexport.import_data(opts, test_data)
         u = model.User.find_by_email('test@test_importexport.de')
         self.assertTrue(u)
         self.assertEquals(u.display_name, 'Dr. Imported')
+        self.assertTrue(u.banned)
 
     def test_legacy(self):
         # Version 2 had 'users' instead of 'user'
