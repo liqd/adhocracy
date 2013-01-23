@@ -22,7 +22,7 @@ def daily():
     post_message(DAILY, '')
 
 
-def update_solr_for_all_user():
+def update_solr_for_all_users():
     '''
     Reindex all users in solr. Mainly to update their
     activity measurements.
@@ -68,6 +68,7 @@ def dispatch():
             # housekeeping
             from adhocracy.lib import watchlist
             watchlist.clean_stale_watches()
+            update_solr_for_all_users()
             update_solr_for_all_instances()
         model.meta.Session.remove()
     consume(_handle_message)
