@@ -51,7 +51,34 @@
         <input type="password" name="password_confirm">
       </div>
     </fieldset>
-    
+
+    %if c.enable_gender:
+    <fieldset>
+        <legend>${_("Gender")}</legend>
+        <p class="info">${_("Select your gender")}</p>
+        <div class="input_wrapper">
+            <label for="gender">${_("Gender")}</label>
+            <select id="gender" name="gender">
+		<option value="u"
+                %if c.page_user.gender == "u": 
+                    selected="selected" 
+                %endif
+                >Unspecified</option>
+                <option value="m" 
+                %if c.page_user.gender == "m":
+                    selected="selected" 
+                %endif
+                >Male</option>
+                <option value="f"
+                %if c.page_user.gender == "f":
+                    selected="selected"
+                %endif
+                >Female</option>
+            </select>
+        </div>
+    </fieldset>
+    %endif    
+
     <fieldset>
       <legend>${_("Notifications")}</legend>
       <p class="info">
