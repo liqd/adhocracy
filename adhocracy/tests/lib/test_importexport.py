@@ -65,7 +65,7 @@ class ImportExportTest(TestController):
 
         user_id = idata['creator']
         assert user_id
-        self.assertTrue(isinstance(user_id, str))
+        self.assertTrue(isinstance(user_id, (str, unicode)))
         self.assertEquals(e['user'][user_id]['user_name'], self.u2.user_name)
         self.assertEquals(idata['adhocracy_type'], 'instance')
 
@@ -160,4 +160,38 @@ class ImportExportTest(TestController):
 
         self.assertRaises(ValueError, formats.render, e, 'invalid', 'test', response=response)
         self.assertRaises(ValueError, formats.read_data, zdata, 'invalid')
+
+    def test_import_user(self):
+        TESTDATA = {
+            "user": {
+                "importexport_u1": {
+                    "user_name": "importexport_u1",
+                    "display_name": "Mr. Imported",
+                    "email": "test@test_importexport.de",
+                    "bio": "hey"
+                }
+            }
+        }
+        opts = dict(include_user=True, user_personal=True)
+
+        importexport.import_data(opts, TESTDATA)
+        u = model.User.find_by_email('test@test_importexport.de')
+        self.assertTrue(u)
+        self.assertEquals(u.user_name, 'importexport_u1')
+        self.assertEquals(u.email, 'test@test_importexport.de')
+        self.assertEquals(u.display_name, 'Mr. Imported')
+        self.assertEquals(u.bio, 'hey')
+
+        opts['replacement_strategy'] = 'skip'
+        TESTDATA['user']['importexport_u1']['display_name'] = 'Dr. Imported'
+        importexport.import_data(opts, TESTDATA)
+        u = model.User.find_by_email('test@test_importexport.de')
+        self.assertTrue(u)
+        self.assertEquals(u.display_name, 'Mr. Imported')
+
+        opts['replacement_strategy'] = 'update'
+        importexport.import_data(opts, TESTDATA)
+        u = model.User.find_by_email('test@test_importexport.de')
+        self.assertTrue(u)
+        self.assertEquals(u.display_name, 'Dr. Imported')
 

@@ -8,6 +8,7 @@ import time
 from adhocracy import model
 
 def _set_optional(o, data, key, export_prefix=''):
+    assert o
     external_key = export_prefix + key
     if external_key in data:
         setattr(o, key, data[external_key])
@@ -22,21 +23,25 @@ class _Transform(object):
     """ Every transform must define:
     * _ID_KEY: The name of the property to be used as key
     * _export(self, obj): A method to export an object to JSON
-    * _import(self, data, replacement_strategy): The method to import an object from data
-    Instead of _import, the class can also use the default implementation and define instead:
+    * import_all(self, data): The method to import an object from data
+    Instead of import_all, the class can also use the default implementation and define instead:
     * _create(data) - Create a new object with the minimum set of properties
     * _modify(obj, data) - Modify an object to have the specified properties
     """
 
-    def __init__(self):
+    def __init__(self, options):
+        self._options = options
         self.name = re.match(r'^(.*)Transform$', type(self).__name__).group(1)
         self.public_name = self.name.lower()
         self._model_class = getattr(model, self.name)
 
     def _get_by_key(self, k):
+        """ Returns None if the object cannot be found,
+        and the local object in database otherwise. """
         findm = getattr(self._model_class, 'find_by_' + self._ID_KEY)
         res = findm(k)
-        assert getattr(res, self._ID_KEY) == k
+        if res is not None:
+            assert getattr(res, self._ID_KEY) == k
         return res
 
     def _compute_key(self, o):
@@ -49,21 +54,25 @@ class _Transform(object):
     def _get_all(self):
         return self._model_class.all()
 
-    def import_(self, odict, replacement_strategy):
-        return dict((k, self._import(data, replacement_strategy)) for k,data in odict.items())
+    def import_all(self, odict):
+        return dict((k, self._import(data)) for k,data in odict.items())
 
-    def _import(self, data, replacement_strategy):
-        current = self._get_by_key(data[self._ID_KEY])
-        if current:
-            doUpdate = replacement_strategy == 'update'
+    def _import(self, data):
+        obj = self._get_by_key(data[self._ID_KEY])
+        if obj:
+            doUpdate = self._replacement_strategy == 'update'
         else:
-            self._create(data)
+            obj = self._create(data)
             doUpdate = True
 
         if doUpdate:
-            self._modify(res, data)
-        model.meta.session.add(res)
-        return res
+            self._modify(obj, data)
+        model.meta.Session.add(obj)
+        return obj
+
+    @property
+    def _replacement_strategy(self):
+        return self._options.get('replacement_strategy', 'update')
 
 class _ExportOnlyTransform(_Transform):
     def import_(self, odict, replacement_strategy):
@@ -96,14 +105,14 @@ class UserTransform(_Transform):
     - include_badges - Include a list of badges that the user has
     """
     def __init__(self, options):
-        super(UserTransform, self).__init__()
-        self._opt_personal = options.get('user_personal', False)
+        super(UserTransform, self).__init__(options)
+        self._opt_personal = self._options.get('user_personal', False)
         if self._opt_personal:
-            self._ID_KEY = 'user_name'
+            self._ID_KEY = 'email'
         else:
             self._ID_KEY = 'id'
-        self._opt_password = options.get('user_password', False)
-        self._opt_badges = options.get('include_badges', False)
+        self._opt_password = self._options.get('user_password', False)
+        self._opt_badges = self._options.get('include_badges', False)
 
     def _create(self, data):
         assert self._opt_personal
@@ -151,8 +160,7 @@ class InstanceTransform(_ExportOnlyTransform):
     _ID_KEY = 'key'
 
     def __init__(self, options, user_transform):
-        super(InstanceTransform, self).__init__()
-        self._options = options
+        super(InstanceTransform, self).__init__(options)
         self._user_transform = user_transform
 
     def _export(self, obj):
@@ -163,7 +171,7 @@ class InstanceTransform(_ExportOnlyTransform):
             'creator': self._user_transform._compute_key(obj.creator)
         }
         if self._options.get('include_instance_proposals'):
-            ptransform = ProposalTransform(obj, self._options, self._user_transform)
+            ptransform = ProposalTransform(self._options, obj, self._user_transform)
             res['proposals'] = ptransform.export_all()
 
         return res
@@ -176,10 +184,9 @@ class InstanceTransform(_ExportOnlyTransform):
 class ProposalTransform(_ExportOnlyTransform):
     _ID_KEY = 'id'
 
-    def __init__(self, instance, options, user_transform):
-        super(ProposalTransform, self).__init__()
+    def __init__(self, options, instance, user_transform):
+        super(ProposalTransform, self).__init__(options)
         self._instance = instance
-        self._options = options
         self._user_transform = user_transform
 
     def _get_all(self):
@@ -195,7 +202,7 @@ class ProposalTransform(_ExportOnlyTransform):
         }
         if self._options.get('include_instance_proposal_comments', False):
             if obj.description:
-                ctransform = CommentTransform(obj.description.comments, None, self._user_transform)
+                ctransform = CommentTransform(self._options, obj.description.comments, None, self._user_transform)
                 res['comments'] = ctransform.export_all()
             else:
                 res['comments'] = {}
@@ -204,7 +211,8 @@ class ProposalTransform(_ExportOnlyTransform):
 class CommentTransform(_ExportOnlyTransform):
     _ID_KEY = 'id'
 
-    def __init__(self, all_comments, parent_comment, user_transform):
+    def __init__(self, options, all_comments, parent_comment, user_transform):
+        super(CommentTransform, self).__init__(options)
         self._all_comments = all_comments
         self._parent_comment = parent_comment
         self._user_transform = user_transform
@@ -219,13 +227,13 @@ class CommentTransform(_ExportOnlyTransform):
             'creator': self._user_transform._compute_key(obj.creator),
             'adhocracy_type': 'comment',
         }
-        ct = CommentTransform(self._all_comments, obj, self._user_transform)
+        ct = CommentTransform(self._options, self._all_comments, obj, self._user_transform)
         res['comments'] = ct.export_all()
         return res
 
 
 def gen_all(options):
-    badge_transform = BadgeTransform()
+    badge_transform = BadgeTransform(options)
     user_transform = UserTransform(options)
     instance_transform = InstanceTransform(options, user_transform)
     return [badge_transform, user_transform, instance_transform]
