@@ -176,10 +176,6 @@ class InstanceTransform(_ExportOnlyTransform):
 
         return res
 
-    def _create(self, data):
-        creator = model.user.find_by_id('admin')
-        return self._model_class.create(data['key'], data['label'], creator)
-
 
 class ProposalTransform(_ExportOnlyTransform):
     _ID_KEY = 'id'
