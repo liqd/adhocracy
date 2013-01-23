@@ -15,6 +15,7 @@ from webob.multidict import MultiDict
 from adhocracy import model
 from adhocracy.lib import sorting, tiles
 from adhocracy.lib.helpers import base_url
+from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
 from adhocracy.lib.event.stats import user_activity, user_rating
 from adhocracy.lib.search.query import sunburnt_query, add_wildcard_query
 from adhocracy.lib.templating import render_def
@@ -409,6 +410,7 @@ class SolrFacet(SolrIndexer):
     show_empty = False
     show_current_empty = True
     template = '/pager.html'
+    template_def = 'facet'
     _response = None
 
     def __init__(self, param_prefix, request, **kwargs):
@@ -432,6 +434,12 @@ class SolrFacet(SolrIndexer):
     @response.setter
     def response(self, response):
         self._response = response
+
+    def getthumbnail(self, entity):
+        """"Returns a string with an img tag for the entity.
+            Override to make use of this.
+        """
+        return ''
 
     def add_to_queries(self, query, counts_query):
         '''
@@ -471,7 +479,6 @@ class SolrFacet(SolrIndexer):
                                           key=lambda(value, count): count,
                                           reverse=True)
         self.facet_counts = dict(self.sorted_facet_counts)
-
         self.current_items = self._current_items()
 
     # fixme: memoize
@@ -561,6 +568,7 @@ class SolrFacet(SolrIndexer):
             item['selected'] = item['value'] in self.used
             item['url'] = self.get_item_url(item)
             item['visible'] = getattr(entity, 'visible', 'default')
+            item['thumbnail'] = self.getthumbnail(entity)
 
             result.append(item)
 
@@ -631,7 +639,7 @@ class SolrFacet(SolrIndexer):
         return items
 
     def render(self):
-        return render_def(self.template, 'facet', facet=self)
+        return render_def(self.template, self.template_def, facet=self)
 
 
 class UserBadgeFacet(SolrFacet):
@@ -700,6 +708,29 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
             return
         data[cls.solr_field] = [ref_attr_value(badge) for
                                 badge in entity.categories]
+
+class DelegateableBadgeThumbnailFacet(SolrFacet):
+    """Index all delegateable badge thumbnails"""
+
+    name = 'delegateablebadgethumbnail'
+    entity_type = model.Badge
+    title = lazy_ugettext(u'Thumbnails')
+    solr_field = 'facet.delegateable.badgethumbnail'
+
+    def getthumbnail(self, entity):
+        return generate_thumbnail_tag(entity, "16", "16")
+
+    @property
+    def show_current_empty(self):
+        return not asbool(config.get(
+            'adhocracy.hide_empty_thumbnails_in_facet_list', 'false'))
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if not isinstance(entity, model.Delegateable):
+            return
+        data[cls.solr_field] = [ref_attr_value(badge) for
+                                badge in entity.thumbnails]
 
 
 class DelegateableBadgeFacet(SolrFacet):
@@ -1268,6 +1299,7 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
                               DelegateableMilestoneFacet,
                               DelegateableBadgeFacet,
                               DelegateableAddedByBadgeFacet,
+                              DelegateableBadgeThumbnailFacet,
                               DelegateableTags],
                       wildcard_queries=wildcard_queries)
     return pager

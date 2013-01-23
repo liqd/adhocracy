@@ -1,3 +1,4 @@
+from cgi import FieldStorage
 import formencode
 from formencode import Any, All, htmlfill, Invalid, validators
 from pylons import request, tmpl_context as c
@@ -13,6 +14,7 @@ from adhocracy.model import CategoryBadge
 from adhocracy.model import DelegateableBadge
 from adhocracy.model import UserBadge
 from adhocracy.model import InstanceBadge
+from adhocracy.model import ThumbnailBadge
 from adhocracy.model import Group, Instance, meta
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has
@@ -34,6 +36,10 @@ class BadgeForm(formencode.Schema):
 class UserBadgeForm(BadgeForm):
     group = Any(validators.Empty, ValidInstanceGroup())
     display_group = validators.StringBoolean(if_missing=False)
+
+
+class ThumbnailBadgeForm(BadgeForm):
+    thumbnail = validators.FieldStorageUploadConverter(not_empty=False)
 
 
 class BadgeController(BaseController):
@@ -61,13 +67,15 @@ class BadgeController(BaseController):
                 'instance': InstanceBadge.all(instance=None),
                 'user': UserBadge.all(instance=None),
                 'delegateable': DelegateableBadge.all(instance=None),
-                'category': CategoryBadge.all(instance=None)}
+                'category': CategoryBadge.all(instance=None),
+                'thumbnail': ThumbnailBadge.all(instance=None)}
         if has('instance.admin') and c.instance is not None:
             badges['instance.admin'] = {
                 'instance': InstanceBadge.all(instance=c.instance),
                 'user': UserBadge.all(instance=c.instance),
                 'delegateable': DelegateableBadge.all(instance=c.instance),
-                'category': CategoryBadge.all(instance=c.instance)}
+                'category': CategoryBadge.all(instance=c.instance),
+                'thumbnail': ThumbnailBadge.all(instance=c.instance)}
         return badges
 
     @property
@@ -113,7 +121,7 @@ class BadgeController(BaseController):
         Methods are named <action>_<badge_type>_badge().
         '''
         assert action in ['create', 'update']
-        if badge_type not in ['user', 'delegateable', 'category', 'instance']:
+        if badge_type not in ['user', 'delegateable', 'category', 'instance', 'thumbnail']:
             raise AssertionError('Unknown badge_type: %s' % badge_type)
 
         c.badge_type = badge_type
@@ -192,6 +200,25 @@ class BadgeController(BaseController):
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
         CategoryBadge.create(title, color, visible, description, instance)
+        # commit cause redirect() raises an exception
+        meta.Session.commit()
+        redirect(self.base_url)
+
+    @guard.instance.any_admin()
+    @RequireInternalRequest()
+    def create_thumbnail_badge(self):
+        try:
+            self.form_result = BadgeForm().to_python(request.params)
+        except Invalid, i:
+            return self.add('thumbnail', i.unpack_errors())
+        title, color, visible, description, instance = self._get_common_fields(
+            self.form_result)
+        thumbnail = self.form_result.get("thumbnail")
+        if isinstance(thumbnail, FieldStorage):
+            thumbnail = thumbnail.file.read()
+        else:
+            thumbnail = None
+        ThumbnailBadge.create(title, color, visible, description, thumbnail, instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
         redirect(self.base_url)
@@ -333,7 +360,28 @@ class BadgeController(BaseController):
         badge = self.get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
+        badge.title = title
+        badge.color = color
+        badge.visible = visible
+        badge.description = description
+        badge.instance = instance
+        meta.Session.commit()
+        h.flash(_("Badge changed successfully"), 'success')
+        redirect(self.base_url)
 
+    @guard.instance.any_admin()
+    @RequireInternalRequest()
+    def update_thumbnail_badge(self, id):
+        try:
+            self.form_result = ThumbnailBadgeForm().to_python(request.params)
+        except Invalid, i:
+            return self.edit(id, i.unpack_errors())
+        badge = self.get_badge_or_redirect(id)
+        title, color, visible, description, instance = self._get_common_fields(
+            self.form_result)
+        thumbnail = self.form_result.get("thumbnail")
+        if isinstance(thumbnail, FieldStorage):
+            badge.thumbnail = thumbnail.file.read()
         badge.title = title
         badge.color = color
         badge.visible = visible

@@ -239,6 +239,22 @@ class ValidDelegateableBadge(formencode.FancyValidator):
         return badge
 
 
+class ValidThumbnailBadge(formencode.FancyValidator):
+
+    def _to_python(self, value, state):
+        from adhocracy.model import ThumbnailBadge
+        try:
+            value = int(value)
+        except:
+            pass
+        badge = ThumbnailBadge.by_id(value, instance_filter=False)
+        if badge is None or badge.instance not in [None, c.instance]:
+            raise formencode.Invalid(
+                _("No Badge ID '%s' exists") % value,
+                value, state)
+        return badge
+
+
 class ValidCategoryBadge(formencode.FancyValidator):
 
     def _to_python(self, value, state):

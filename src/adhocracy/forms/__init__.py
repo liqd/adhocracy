@@ -4,7 +4,7 @@ from common import ContainsChar, ContainsEMailPlaceholders, UsersCSV
 from common import ValidDelegateable, ValidProposal, MaybeMilestone
 from common import ValidInstanceGroup, ValidRevision, ValidComment
 from common import ValidUserBadge, ValidCategoryBadge, ValidDelegateableBadge,\
-    ValidInstanceBadge
+    ValidInstanceBadge, ValidThumbnailBadge
 from common import ValidWatch, ValidRef, ValidTagging, ValidTag
 from common import ValidPage, ValidText, ValidPageFunction
 from common import ExistingUserName, VariantName, UnusedTitle

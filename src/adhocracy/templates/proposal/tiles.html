@@ -3,6 +3,10 @@
 
 <%def name="row(tile, proposal)">
     <li class="content_box ${'fresh' if tile.fresh else ''}">
+        <div id="thumbnailbadges_${proposal.id}" class="thumbnailbadges"
+              data-id="${proposal.id}">
+            ${tiles.badge.badges(proposal.thumbnails)}
+        </div>      
         <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
             %if tile.fresh:
                 ${_("(new)")}

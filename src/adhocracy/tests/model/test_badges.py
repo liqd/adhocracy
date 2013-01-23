@@ -36,7 +36,7 @@ class TestBadgeController(TestController):
     def test_get_all_badgets(self):
         #setup
         from adhocracy.model import Badge, CategoryBadge, DelegateableBadge, \
-            InstanceBadge
+            InstanceBadge, ThumbnailBadge
         from adhocracy.model import UserBadge, Instance
         instance = Instance.find(u'test')
         # create for each type a global scope and an instance scope badge
@@ -52,6 +52,11 @@ class TestBadgeController(TestController):
         CategoryBadge.create(u'badge ü', u'#ccc', True, u"desc",
                              instance=instance)
 
+        ThumbnailBadge.create(u'badge ü', u'#ccc', True, u"desc",
+                              thumbnail='binary')
+        ThumbnailBadge.create(u'badge ü', u'#ccc', True, u"desc",
+                             thumbnail='binary', instance=instance)
+
         # all instance badges
         self.assert_(len(InstanceBadge.all()) == 1)
         self.assert_(len(InstanceBadge.all(instance=instance)) == 1)
@@ -61,15 +66,17 @@ class TestBadgeController(TestController):
         # all delegateable category badges
         self.assert_(len(CategoryBadge.all()) == 1)
         self.assert_(len(CategoryBadge.all(instance=instance)) == 1)
+        # all delegateable thumbnail badges
+        self.assert_(len(ThumbnailBadge.all()) == 1)
+        self.assert_(len(ThumbnailBadge.all(instance=instance)) == 1)
         # all user badgets
         self.assert_(len(UserBadge.all()) == 1)
         self.assert_(len(UserBadge.all(instance=instance)) == 1)
         # We can get all Badges by using `Badge`
-        self.assert_(len(Badge.all()) == 4)
-        self.assert_(len(Badge.all(instance=instance)) == 4)
+        self.assert_(len(Badge.all()) == 5)
+        self.assert_(len(Badge.all(instance=instance)) == 5)
 
-        self.assert_(len(Badge.all_q().all()) == 8)
-
+        self.assert_(len(Badge.all_q().all()) == 10)
 
 
 class TestUserController(TestController):
@@ -173,6 +180,56 @@ class TestDelegateableController(TestController):
         self.assert_(delegateable.badges == [])
         self.assert_(meta.Session.query(DelegateableBadges).count() == 0)
 
+class TestThumbnailController(TestController):
+
+    def _make_content(self):
+        """Returns creator, delegateable and badge"""
+
+        from adhocracy.model import ThumbnailBadge, Proposal, Instance
+        instance = Instance.find('test')
+        creator = tt_make_user('creator')
+        delegateable = Proposal.create(instance, u"labeld", creator)
+        thumbnail = 'binary'
+        badge = ThumbnailBadge.create(u'testbadge', u'#ccc', True,
+                                         'description', thumbnail=thumbnail)
+
+        return creator, delegateable, badge
+
+    def test_thumbnailbadges_created(self):
+        #setup
+        from adhocracy.model import DelegateableBadges, meta
+        creator, delegateable, badge = self._make_content()
+        # create the delegateable badge
+        badge.assign(delegateable, creator)
+        delegateablebadges = meta.Session.query(DelegateableBadges).first()
+        self.assert_(delegateablebadges.creator is creator)
+        self.assert_(delegateablebadges.delegateable is delegateable)
+        self.assert_(delegateablebadges.badge is badge)
+        # test the references on the badged delegateable
+        self.assert_(delegateable.thumbnails == [badge])
+        # test the references on the badge
+        self.assert_(delegateable.thumbnails[0].delegateables
+                     == badge.delegateables
+                     == [delegateable])
+
+    def test_to_dict_thumbnail(self):
+        #setup
+        creator, delegateable, badge = self._make_content()
+        # create the delegateable badge
+        badge.assign(delegateable, creator)
+        # test dict
+        result = badge.to_dict()
+        result = sorted(result.items())
+        expected = {'color': u'#ccc',
+                    'description': u'description',
+                    'id': 1,
+                    'instance': None,
+                    'thumbnail' : 'binary',
+                    'title': u'testbadge',
+                    'visible': True
+                   }
+        expected = sorted(expected.items())
+        self.assertEqual(result, expected)
 
 class TestInstanceController(TestController):
 

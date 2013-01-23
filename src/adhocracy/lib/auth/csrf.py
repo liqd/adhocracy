@@ -14,6 +14,7 @@ from pylons import session, request
 from pylons.i18n import _
 
 from repoze.who.plugins.basicauth import BasicAuthPlugin
+from repoze.who.plugins.auth_tkt import  AuthTktCookiePlugin
 
 log = logging.getLogger(__name__)
 
@@ -40,7 +41,9 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
             if (identifier is not None and
                     isinstance(identifier, BasicAuthPlugin)):
                 return True
-
+            if (identifier is not None and
+                isinstance(identifier, AuthTktCookiePlugin)):
+                return True
             if request.params.get(KEY) == token_id():
                 return True
 
