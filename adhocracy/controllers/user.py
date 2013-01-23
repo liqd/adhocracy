@@ -30,6 +30,8 @@ from adhocracy.lib.queue import post_update
 from adhocracy.lib.templating import render, render_json, ret_abort
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
+from paste.deploy.converters import asbool
+
 log = logging.getLogger(__name__)
 
 
@@ -63,7 +65,6 @@ class UserUpdateForm(formencode.Schema):
                                if_empty=10, if_missing=10)
     email_priority = validators.Int(min=0, max=6, not_empty=False,
                                     if_missing=3)
-
     proposal_sort_order = validators.OneOf([''] +
                                         [v.value
                                         for g in PROPOSAL_SORTS.by_group.values()
@@ -212,6 +213,7 @@ class UserController(BaseController):
         require.user.edit(c.page_user)
         c.locales = i18n.LOCALES
         c.tile = tiles.user.UserTile(c.page_user)
+        c.enable_gender = asbool(config.get('adhocracy.enable_gender', 'false'))
         c.sorting_orders = PROPOSAL_SORTS
         return render("/user/edit.html")
 
@@ -230,6 +232,9 @@ class UserController(BaseController):
         c.page_user.proposal_sort_order = self.form_result.get("proposal_sort_order")
         if c.page_user.proposal_sort_order == "":
             c.page_user.proposal_sort_order = None
+        get_gender = self.form_result.get("gender")
+        if get_gender in ('f', 'm', 'u'):
+            c.page_user.gender = get_gender
         email = self.form_result.get("email").lower()
         email_changed = email != c.page_user.email
         c.page_user.email = email
