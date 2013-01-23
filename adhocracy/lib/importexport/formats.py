@@ -10,7 +10,7 @@ from pylons import response
 def detect_format(f):
     firstBytes = f.read(4)
     f.seek(0)
-    if firstBytes[0] == b'{':
+    if firstBytes[:1] == b'{':
         return 'json'
     if firstBytes == b'PK\x03\x04':
         return 'zip'

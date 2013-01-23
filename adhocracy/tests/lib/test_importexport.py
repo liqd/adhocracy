@@ -161,6 +161,8 @@ class ImportExportTest(TestController):
         self.assertRaises(ValueError, formats.render, e, 'invalid', 'test', response=response)
         self.assertRaises(ValueError, formats.read_data, zdata, 'invalid')
 
+        self.assertEquals(formats.detect_format(io.BytesIO()), 'unknown')
+
     def test_import_user(self):
         TESTDATA = {
             "user": {
