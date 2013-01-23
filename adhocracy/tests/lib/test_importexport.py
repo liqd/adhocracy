@@ -197,3 +197,8 @@ class ImportExportTest(TestController):
         self.assertTrue(u)
         self.assertEquals(u.display_name, 'Dr. Imported')
 
+    def test_legacy(self):
+        # Version 2 had 'users' instead of 'user'
+        v2data = {'users': {}, 'metadata': {'version': 2}}
+        self.assertTrue('users' in importexport.convert_legacy(v2data))
+

@@ -37,10 +37,13 @@ def import_(opts, f):
     import_data(opts, data)
     model.meta.Session.commit()
 
-def import_data(opts, data):
+def convert_legacy(data):
     if data.get('metadata', {}).get('version') == 2:
         data['user'] = data['users']
+    return data
 
+def import_data(opts, data):
+    data = convert_legacy(data)
     for transform in transforms.gen_active(opts):
         idata = data.get(transform.public_name, {})
         transform.import_all(idata)
