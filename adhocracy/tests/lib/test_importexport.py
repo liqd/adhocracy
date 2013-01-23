@@ -15,6 +15,7 @@ class ImportExportTest(TestController):
     def setUp(self):
         super(ImportExportTest, self).setUp()
         self.u1 = testtools.tt_make_user()
+        self.u1.gender = 'f'
         self.badge = model.UserBadge.create(
             title=u'importexport_badge',
             color=u'#ff00ff',
@@ -47,6 +48,8 @@ class ImportExportTest(TestController):
         self.assertTrue(any(u['email'] == self.u2.email for u in users))
         self.assertTrue(any(u['adhocracy_password'] == self.u1.password for u in users))
         self.assertTrue(all(u'_' in u['locale'] for u in users))
+        u1 = next(u for u in users if u['email'] == self.u1.email)
+        self.assertEquals(u1['gender'], 'f')
         assert len(users) == len(model.User.all())
 
     def test_export_anonymous(self):
@@ -55,6 +58,8 @@ class ImportExportTest(TestController):
         self.assertTrue(len(users) >= 2)
         self.assertTrue(all(len(u) == 0 for u in users.values()))
         self.assertTrue(not any(self.u1.user_name in k for k in users.keys()))
+        u1 = next(iter(users))
+        self.assertTrue('gender' not  in u1)
 
     def test_export_instance(self):
         ed = importexport.export_data(dict(include_instance=True,

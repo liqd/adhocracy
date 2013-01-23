@@ -141,6 +141,7 @@ class UserTransform(_Transform):
             _set_optional(o, data, 'display_name')
             _set_optional(o, data, 'bio')
             _set_optional(o, data, 'email')
+            _set_optional(o, data, 'gender')
             if 'locale' in data:
                 o.locale = _decode_locale(data['locale'])
         if self._opt_password:
@@ -159,6 +160,7 @@ class UserTransform(_Transform):
                 'display_name': o.display_name,
                 'bio': o.bio,
                 'email': o.email,
+                'gender': o.gender,
                 'locale': _encode_locale(o.locale),
             })
         if self._opt_password:
