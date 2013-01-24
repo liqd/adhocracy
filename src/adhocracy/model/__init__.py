@@ -131,7 +131,13 @@ mapper(CategoryBadge, inherits=badge_mapper,
                secondaryjoin=(delegateable_badges_table.c.delegateable_id ==
                               delegateable_table.c.id),
                backref=backref('categories', lazy='joined'),
-               lazy=False)})
+               lazy=False),
+           'children': relation(
+               CategoryBadge,
+               #remote_side=badge_table.c.id,
+               backref=backref('parent', lazy='joined',
+                               remote_side=badge_table.c.id),
+               )})
 
 
 mapper(DelegateableBadge, inherits=badge_mapper,

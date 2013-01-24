@@ -17,21 +17,7 @@ class TestBadgeController(TestController):
         self.assertRaises(IntegrityError, Badge.create, u'badge ü',
                           u'#ccc', True, u'description ü')
 
-    def test_to_dict(self):
-        from adhocracy.model import CategoryBadge, Instance
-        instance = Instance.find('test')
-        badge = CategoryBadge.create(u'badge', u'#ccc', True, u'description',
-                                     instance=instance)
-        result = badge.to_dict()
-        result = sorted(result.items())
-        expected = {'title': u'badge',
-                    'color': u'#ccc',
-                    'description': u'description',
-                    'id': 1,
-                    'instance': instance.id,
-                    'visible': True}
-        expected = sorted(expected.items())
-        self.assertEqual(result, expected)
+
 
     def test_get_all_badgets(self):
         #setup
@@ -172,6 +158,68 @@ class TestDelegateableController(TestController):
         self.assert_(badge.delegateables == [])
         self.assert_(delegateable.badges == [])
         self.assert_(meta.Session.query(DelegateableBadges).count() == 0)
+
+
+class TestCategoryController(TestController):
+
+    def _make_content(self):
+        """Returns creator, delegateable and badge"""
+
+        from adhocracy.model import CategoryBadge, Proposal, Instance
+        instance = Instance.find('test')
+        creator = tt_make_user('creator')
+        delegateable = Proposal.create(instance, u"labeld", creator)
+        badge = CategoryBadge.create(u'testbadge', u'#ccc', True,
+                                         'description')
+
+        return creator, delegateable, badge
+
+    def test_categorybadges_created(self):
+        #setup
+        from adhocracy.model import DelegateableBadges, meta
+        creator, delegateable, badge = self._make_content()
+        # create the delegateable badge
+        badge.assign(delegateable, creator)
+        delegateablebadges = meta.Session.query(DelegateableBadges).first()
+        self.assert_(delegateablebadges.creator is creator)
+        self.assert_(delegateablebadges.delegateable is delegateable)
+        self.assert_(delegateablebadges.badge is badge)
+
+    def test_categorybadges_hierarchy(self):
+        #setup
+        from adhocracy.model import CategoryBadge
+        creator, delegateable, badge = self._make_content()
+        badge_parent = CategoryBadge.create(u'badge parent', u'#ccc', True,
+                                         'description')
+        badge_parent.select_child_description = "choose child"
+        # create the delegateable badge
+        badge.assign(delegateable, creator)
+        # add parent badge
+        badge.parent = badge_parent
+        self.assert_(badge.parent == badge_parent)
+        self.assert_(badge in badge_parent.children)
+        self.assert_(badge_parent.select_child_description == "choose child")
+        self.assert_(badge_parent.parent == None)
+
+    def test_to_dict_category(self):
+        #setup
+        creator, delegateable, badge = self._make_content()
+        # create the delegateable badge
+        badge.assign(delegateable, creator)
+        # test dict
+        result = badge.to_dict()
+        result = sorted(result.items())
+        expected = {'color': u'#ccc',
+                    'description': u'description',
+                    'id': 1,
+                    'instance': None,
+                    'title': u'testbadge',
+                    'visible': True,
+                    'parent': None,
+                    'select_child_description': u'',
+                   }
+        expected = sorted(expected.items())
+        self.assertEqual(result, expected)
 
 
 class TestInstanceController(TestController):
