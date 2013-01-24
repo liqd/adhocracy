@@ -51,7 +51,7 @@ class RootController(BaseController):
                 "votes": model.Vote.all_q().count(),
             }
 
-        proposals = model.meta.Session.query(model.Proposal)\
+        proposals = model.Proposal.all_q()\
                 .order_by(model.Proposal.create_time.desc())
 
         c.new_proposals_pager = pager.proposals_small(
