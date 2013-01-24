@@ -26,8 +26,7 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
     either an instance instance or None has to be passed.
 
     If absolute is True, an absolute URL including the protocol part is
-    returned. Otherwise this is avoided if the resulting URL has the same
-    domain part as the current URL.
+    returned. Otherwise this is avoided, if relative_urls is set to True.
     """
 
     if instance == CURRENT_INSTANCE:
