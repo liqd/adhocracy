@@ -30,9 +30,10 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
     domain part as the current URL.
     """
 
+    if instance == CURRENT_INSTANCE:
+        instance = ifilter.get_instance()
+
     if asbool(config.get('adhocracy.relative_urls', 'false')):
-        if instance == CURRENT_INSTANCE:
-            instance = ifilter.get_instance()
 
         if instance is None:
             prefix = ''
@@ -49,27 +50,16 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
             result = '%s%s' % (prefix, path)
 
     else:
-        current_instance = ifilter.get_instance()
 
-        if instance == CURRENT_INSTANCE:
-            instance = current_instance
-        elif instance != current_instance:
-            absolute = True
+        protocol = config.get('adhocracy.protocol', 'http').strip()
+        domain = config.get('adhocracy.domain').strip()
 
-        if absolute:
-
-            protocol = config.get('adhocracy.protocol', 'http').strip()
-            domain = config.get('adhocracy.domain').strip()
-
-            if instance is None or g.single_instance:
-                subdomain = ''
-            else:
-                subdomain = '%s.' % instance.key
-
-            result = '%s://%s%s%s' % (protocol, subdomain, domain, path)
-
+        if instance is None or g.single_instance:
+            subdomain = ''
         else:
-            result = path
+            subdomain = '%s.' % instance.key
+
+        result = '%s://%s%s%s' % (protocol, subdomain, domain, path)
 
     if result == '':
         result = '/'
