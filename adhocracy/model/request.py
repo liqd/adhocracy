@@ -1,11 +1,7 @@
 import logging
-from datetime import datetime
-
-from sqlalchemy import Table, Column, func, or_
-from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
-
+from sqlalchemy import Table, Column
+from sqlalchemy import Integer, Unicode, UnicodeText
 from adhocracy.model import meta
-from adhocracy.model import instance_filter as ifilter
 
 log = logging.getLogger(__name__)
 
