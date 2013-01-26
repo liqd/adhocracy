@@ -28,7 +28,6 @@ class Request(object):
         self.request_url = request_url
         self.proxy = proxy
     
-    def SaveRequest(self):
-        request = Request(self.cookies, self.remote_ip_address, self.useragent, self.request_url, self.proxy)
-        meta.Session.add(request)
+    def save_request(self):
+        meta.Session.add(self)
         meta.Session.commit()

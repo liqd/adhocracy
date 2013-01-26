@@ -84,15 +84,16 @@ class BaseController(WSGIController):
     def log_request(self, environ):
         req_cookies = environ.get('HTTP_COOKIE')
         req_user_agent = environ.get('HTTP_USER_AGENT')
-        
-        #CHECK IF XFF PROXY AND TRANSMIT THE REAL IP TO THE DATABASE
-        req_xff = environ.get('X-Forwarded-For')
-        req_ip = environ.get('REMOTE_ADDR')
-        if req_xff:
-            req_ip = req_xff.split(',', 1)[0]
+        req_ip = None
+        req_xff = None
+        if asbool(config.get('adhocracy.request_logging.enable_ip_logging')):
+        	#CHECK IF XFF PROXY AND TRANSMIT THE REAL IP TO THE DATABASE
+        	req_xff = environ.get('X-Forwarded-For')
+        	req_ip = environ.get('REMOTE_ADDR')
+        	if req_xff:
+        		req_ip = req_xff.split(',', 1)[0]
 
         req = model.Request(req_cookies, req_ip, req_user_agent, environ['PATH_INFO'], req_xff)
-        req.SaveRequest()
+        req.save_request()
         
-        #print "[COOKIES]", req.cookies, "[R.IP]", req.remote_ip_address, "[USERAGENT]", req.useragent, "[REQ_URL]", req.request_url
         return req
