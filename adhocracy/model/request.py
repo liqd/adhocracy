@@ -1,6 +1,7 @@
 import logging
+from datetime import datetime
 from sqlalchemy import Table, Column
-from sqlalchemy import Integer, Unicode, UnicodeText
+from sqlalchemy import Integer, Unicode, UnicodeText, DateTime
 from adhocracy.model import meta
 
 log = logging.getLogger(__name__)
@@ -12,6 +13,7 @@ request_table = Table('request', meta.data,
     Column('useragent', UnicodeText(), nullable=True),
     Column('request_url', UnicodeText()),
     Column('proxy', UnicodeText()),
+    Column('access_time', DateTime, default=datetime.utcnow),
     )
 
 class Request(object):

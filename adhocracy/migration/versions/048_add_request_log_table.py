@@ -1,5 +1,7 @@
+from datetime import datetime
+
 from sqlalchemy import MetaData, Column, Table
-from sqlalchemy import Integer, Unicode, UnicodeText
+from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
 
 meta = MetaData()
 
@@ -10,6 +12,7 @@ request_table = Table('request', meta,
     Column('useragent', UnicodeText()),
     Column('request_url', UnicodeText()),
     Column('proxy', UnicodeText()),
+    Column('access_time', DateTime, default=datetime.utcnow),
     )
 
 def upgrade(migrate_engine):

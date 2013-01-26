@@ -24,7 +24,7 @@ class BaseController(WSGIController):
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
         
-        do_logging = asbool(config.get('adhocracy.enable_request_logging', 'false'))
+        do_logging = asbool(config.get('adhocracy.enable_request_logging'))
         if do_logging:
             self.log_request(environ)
         
