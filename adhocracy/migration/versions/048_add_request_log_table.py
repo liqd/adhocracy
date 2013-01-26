@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import MetaData, Column, Table
-from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
+from sqlalchemy import DateTime, Integer, Unicode, UnicodeText
 
 meta = MetaData()
 
