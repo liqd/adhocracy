@@ -12,6 +12,7 @@ from pylons.decorators import validate
 from pylons.i18n import _
 
 from adhocracy import forms, model
+from adhocracy.forms.common import get_badge_children_optgroups
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import sorting, tiles, watchlist
 from adhocracy.lib.auth import authorization, can, csrf, require, guard
@@ -111,8 +112,13 @@ class ProposalController(BaseController):
     def new(self, errors=None):
         c.pages = []
         c.exclude_pages = []
-        c.categories = model.CategoryBadge.all(
+        # generate optgroups tags to select category children for all root
+        # level categories
+        categories = model.CategoryBadge.all(
             c.instance, include_global=not c.instance.hide_global_categories)
+        c.categories_optgroups = [get_badge_children_optgroups(b) for b
+                                in categories if not b.parent]
+
         if 'page' in request.params:
             page = model.Page.find(request.params.get('page'))
             if page and page.function == model.Page.NORM:
@@ -208,8 +214,11 @@ class ProposalController(BaseController):
 
         c.text_rows = text.text_rows(c.proposal.description.head)
 
-        # all available categories
-        c.categories = model.CategoryBadge.all(c.instance, include_global=True)
+        # generate optgroups tags to select category children for all root
+        # level categories
+        categories = model.CategoryBadge.all(c.instance, include_global=True)
+        c.categories_optgroups = [get_badge_children_optgroups(b) for b
+                                in categories if not b.parent]
 
         # categories for this proposal
         # (single category not assured in db model)
@@ -218,8 +227,10 @@ class ProposalController(BaseController):
         force_defaults = False
         if errors:
             force_defaults = True
+        defaults = dict(request.params)
+        defaults.update({"category": c.category.id})
         return htmlfill.render(render("/proposal/edit.html"),
-                               defaults=dict(request.params),
+                               defaults=defaults,
                                errors=errors, force_defaults=force_defaults)
 
     @RequireInstance
