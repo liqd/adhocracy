@@ -3,6 +3,7 @@ from inspect import isclass
 import math
 import logging
 import os.path
+from ordereddict import OrderedDict
 import time
 import urllib
 
@@ -559,7 +560,7 @@ class SolrFacet(SolrIndexer):
         Return a list of facet items to display.
         '''
 
-        def show_facet(current_count, facet_count, show_empty,
+        def show_facet(current_count, token_count, show_empty,
                        show_current_empty):
             if show_empty:
                 return True
@@ -567,17 +568,22 @@ class SolrFacet(SolrIndexer):
             if current_count > 0 or show_current_empty:
                 return True
 
-            if facet_count > 0 or show_empty:
+            if token_count > 0 or show_empty:
                 return True
 
             return False
 
-        facet_items = {}
+        # get solr tokens and search counts and sort hierarchical
+        token_counts = sorted(self.sorted_facet_counts, key=lambda x:
+                              len(x[0].split("/")))
+        token_counts.reverse()
+
         # add the the solr token (value) and search counts to the items
-        for (token, facet_count) in self.sorted_facet_counts:
+        facet_items = OrderedDict()
+        for (token, token_count) in token_counts:
             current_count = self.current_counts[token]
 
-            if show_facet(current_count, facet_count,
+            if show_facet(current_count, token_count,
                           self.show_empty, self.show_current_empty):
                 facet_items[token] = {'current_count': current_count,
                                       'value': token}
@@ -594,25 +600,19 @@ class SolrFacet(SolrIndexer):
             item['level'] = len((token).split("/"))
             item['children'] = []
 
-        # sort items hierachical
-        facet_items_list = sorted(facet_items.items(),
-                                  key=lambda x: x[1]["level"])
-
         # reduce and add children
-        def add_children(resultitems, itemtuple):
-            token = itemtuple[0]
-            item = itemtuple[1]
+        def add_children(resultitems, token):
             parent_token = os.path.split(token)[0]
             if not parent_token:
-                resultitems[token] = item
                 return resultitems
             for t in resultitems:
                 if parent_token == t:
+                    item = resultitems.pop(token)
                     resultitems[t]["children"].append(item)
                     return resultitems
-        result = reduce(add_children, facet_items_list, {})
+        results = reduce(add_children, facet_items, facet_items)
 
-        return result.values()
+        return results.values()
 
     def get_item_label(self, entity):
         for attribute in ['label', 'title', 'name']:
