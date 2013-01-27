@@ -105,8 +105,15 @@
 %if facet.description:
 <p>${facet.description}</p>
 %endif
+
+${facet_items(facet.current_items)}
+
+<br />
+</%def>
+
+<%def name="facet_items(items)">
 <ul>
-    %for item in facet.current_items:
+    %for item in items:
     <li>
         %if item['disabled']:
         <span class="disabled">
@@ -129,11 +136,13 @@
             </a>
             %endif
         %endif
+
+        ${facet_items(item["children"])}
+
     </li>
     %endfor
-</ul>
-<br />
-</%def>
+</ul>  
+</%def> 
 
 <%def name="overlay_pager(render_facets=True)">
 

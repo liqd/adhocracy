@@ -1585,6 +1585,10 @@ padding-bottom: 10px;
 list-style: none;
 margin-left: 0;
 }
+.facet ul ul {
+list-style: none;
+margin-left: 10px;
+}
 
 .content_box .more {
   float: right;

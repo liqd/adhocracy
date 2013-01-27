@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<schema name="adhocracy" version="1.2">
+<schema name="adhocracy" version="1.3">
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
 
@@ -19,7 +19,7 @@
           <filter class="solr.LowerCaseFilterFactory"/>
           <tokenizer class="solr.KeywordTokenizerFactory"/>
       </analyzer>
-    </fieldType> 
+    </fieldType>
 
     <fieldType name="triefloat" class="solr.TrieFloatField" />
 
@@ -72,45 +72,57 @@
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
     </fieldType>
+
+    <!-- A path tokonized field - good for simple treelike hierarchies, the default delimiter is "/". -->
+    <fieldType name="text_path" class="solr.TextField" positionIncrementGap="100">
+     <analyzer>
+      <tokenizer class="solr.PathHierarchyTokenizerFactory" />
+     </analyzer>
+    </fieldType>
+
  </types>
 
 
  <fields>
-   <field name="id" type="string" indexed="true" stored="true" 
+   <field name="id" type="string" indexed="true" stored="true"
           required="true" />
-   <field name="ref" type="string" indexed="true" stored="true" 
+   <field name="ref" type="string" indexed="true" stored="true"
           required="true" />
-   <field name="doc_type" type="string" indexed="true" stored="true" 
-          required="true" /> 
-   <field name="instance" type="string" indexed="true" stored="true" /> 
+   <field name="doc_type" type="string" indexed="true" stored="true"
+          required="true" />
+   <field name="instance" type="string" indexed="true" stored="true" />
    <field name="title" type="textgen" indexed="true" stored="true"/>
    <field name="body" type="textgen" indexed="true" stored="true"/>
-   
-   <field name="tag" type="string" indexed="true" stored="true" 
+
+   <field name="tag" type="string" indexed="true" stored="true"
           multiValued="true" omitNorms="true" />
-   <field name="user" type="string" indexed="true" stored="true" 
+   <field name="user" type="string" indexed="true" stored="true"
           multiValued="true" omitNorms="true" />
-   
+
    <field name="create_time" type="string" indexed="true" stored="true"/>
-   <field name="text" type="text" indexed="true" stored="false" 
+   <field name="text" type="text" indexed="true" stored="false"
           multiValued="true"/>
 
    <!-- facets -->
    <dynamicField name="facet.*" type="string" indexed="true" stored="true"
-          omitNorms="true" multiValued="true" />
+                 omitNorms="true" multiValued="true" />
+
+   <!-- hierachical facets -->
+   <field name="facet.delegateable.badgecategory" type="text_path"
+          indexed="true" stored="true" multiValued="true"  />
 
    <!-- order -->
-   <dynamicField name="activity*" type="triefloat" indexed="true" 
+   <dynamicField name="activity*" type="triefloat" indexed="true"
                  stored="true" />
-   <field name="order.comments" type="triefloat" indexed="true" 
+   <field name="order.comments" type="triefloat" indexed="true"
           stored="false" />
    <field name="order.title" type="text_lowercase" indexed="true"
           multiValued="false" />
-   <dynamicField name="order.*" type="triefloat" indexed="true" 
+   <dynamicField name="order.*" type="triefloat" indexed="true"
                  stored="true" />
 
  </fields>
- 
+
    <uniqueKey>id</uniqueKey>
    <defaultSearchField>text</defaultSearchField>
    <solrQueryParser defaultOperator="OR"/>

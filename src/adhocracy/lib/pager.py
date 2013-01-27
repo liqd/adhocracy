@@ -2,6 +2,7 @@ import copy
 from inspect import isclass
 import math
 import logging
+import os.path
 import time
 import urllib
 
@@ -15,11 +16,11 @@ from webob.multidict import MultiDict
 from adhocracy import model
 from adhocracy.lib import sorting, tiles
 from adhocracy.lib.helpers import base_url
+from adhocracy.lib.helpers.badge_helper import get_parent_badges
 from adhocracy.lib.event.stats import user_activity, user_rating
 from adhocracy.lib.search.query import sunburnt_query, add_wildcard_query
 from adhocracy.lib.templating import render_def
 from adhocracy.lib.util import generate_sequence
-from adhocracy.model.refs import ref_attr_value
 
 log = logging.getLogger(__name__)
 
@@ -353,6 +354,37 @@ def polls(polls, default_sort=None, **kwargs):
 
 # --[ solr pager ]----------------------------------------------------------
 
+
+def entity_to_solr_token(entity):
+    """ Returns the solr token string.
+        For normal entities this is the (unicode) value of the reference
+        attribute.
+        For hierachical entities (badges only so far) it adds the parents
+        reference attribute values as well making the solr path tokenizer work.
+    """
+
+    if isinstance(entity, model.Badge):
+        path_seperator = u"/"
+        with_parents = [entity] + list(get_parent_badges(entity))
+        with_parents_values = map(model.refs.ref_attr_value, with_parents)
+        token = path_seperator.join(with_parents_values)
+        return token
+    else:
+        return model.refs.ref_attr_value(entity)
+
+
+def solr_token_to_entity(token, entity_class):
+    """ Returns the entity according to the solr token string.
+        and entity_class.
+        For hierachical entities it supports tokens including the parents
+        reference attribute values ("1/2/3").
+    """
+    entity_id = os.path.basename(token)
+    entities = model.refs.get_entities(entity_class, [entity_id])
+    entity = entities and entities[0] or None
+    return entity
+
+
 class SolrIndexer(object):
     '''
     An indexer class to add information to the data
@@ -475,6 +507,7 @@ class SolrFacet(SolrIndexer):
         self.current_items = self._current_items()
 
     # fixme: memoize
+    # fixme: this method is not used, joka
     def _facet_items(self, facet_counts):
         facet_items = []
         for (value, count) in facet_counts:
@@ -483,6 +516,7 @@ class SolrFacet(SolrIndexer):
                 facet_items.append(facet_item)
         return self.sort_facet_items(facet_items)
 
+    # fixme: this method is not used, joka
     def _facet_item(self, value, count):
         '''
         Return an item dict for the facet *value*.
@@ -522,7 +556,7 @@ class SolrFacet(SolrIndexer):
 
     def _current_items(self):
         '''
-        Return a list of facets to display.
+        Return a list of facet items to display.
         '''
 
         def show_facet(current_count, facet_count, show_empty,
@@ -538,33 +572,47 @@ class SolrFacet(SolrIndexer):
 
             return False
 
-        ids = []
         facet_items = {}
-        for (value, facet_count) in self.sorted_facet_counts:
-            current_count = self.current_counts[value]
+        # add the the solr token (value) and search counts to the items
+        for (token, facet_count) in self.sorted_facet_counts:
+            current_count = self.current_counts[token]
 
             if show_facet(current_count, facet_count,
                           self.show_empty, self.show_current_empty):
-                id_ = value
-                ids.append(id_)
-                facet_items[id_] = {'current_count': current_count,
-                                    'value': value}
+                facet_items[token] = {'current_count': current_count,
+                                      'value': token}
 
-        result = []
-
-        entities = model.refs.get_entities(self.entity_type, ids)
-
-        for entity in entities:
-            item = facet_items[ref_attr_value(entity)]
+        # add data to display the items
+        for token, item in facet_items.items():
+            # TODO: guess this causes to much database work, joka
+            entity = solr_token_to_entity(token, self.entity_type)
             item['link_text'] = self.get_item_label(entity)
             item['disabled'] = (item['current_count'] == 0)
             item['selected'] = item['value'] in self.used
             item['url'] = self.get_item_url(item)
             item['visible'] = getattr(entity, 'visible', 'default')
+            item['level'] = len((token).split("/"))
+            item['children'] = []
 
-            result.append(item)
+        # sort items hierachical
+        facet_items_list = sorted(facet_items.items(),
+                                  key=lambda x: x[1]["level"])
 
-        return result
+        # reduce and add children
+        def add_children(resultitems, itemtuple):
+            token = itemtuple[0]
+            item = itemtuple[1]
+            parent_token = os.path.split(token)[0]
+            if not parent_token:
+                resultitems[token] = item
+                return resultitems
+            for t in resultitems:
+                if parent_token == t:
+                    resultitems[t]["children"].append(item)
+                    return resultitems
+        result = reduce(add_children, facet_items_list, {})
+
+        return result.values()
 
     def get_item_label(self, entity):
         for attribute in ['label', 'title', 'name']:
@@ -646,7 +694,7 @@ class UserBadgeFacet(SolrFacet):
     def add_data_to_index(cls, user, index):
         if not isinstance(user, model.User):
             return
-        index[cls.solr_field] = [ref_attr_value(badge) for
+        index[cls.solr_field] = [entity_to_solr_token(badge) for
                                  badge in user.badges]
 
 
@@ -662,7 +710,7 @@ class InstanceBadgeFacet(SolrFacet):
     def add_data_to_index(cls, instance, index):
         if not isinstance(instance, model.Instance):
             return
-        d = [ref_attr_value(badge) for badge in instance.badges]
+        d = [entity_to_solr_token(badge) for badge in instance.badges]
         index[cls.solr_field] = d
 
 
@@ -677,7 +725,7 @@ class InstanceFacet(SolrFacet):
     def add_data_to_index(cls, user, index):
         if not isinstance(user, model.User):
             return
-        index[cls.solr_field] = [ref_attr_value(instance) for
+        index[cls.solr_field] = [entity_to_solr_token(instance) for
                                  instance in user.instances]
 
 
@@ -698,8 +746,8 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        data[cls.solr_field] = [ref_attr_value(badge) for
-                                badge in entity.categories]
+        data[cls.solr_field] = [entity_to_solr_token(b)
+                                for b in entity.categories]
 
 
 class DelegateableBadgeFacet(SolrFacet):
@@ -715,7 +763,7 @@ class DelegateableBadgeFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        d = [ref_attr_value(badge) for badge in entity.badges]
+        d = [entity_to_solr_token(badge) for badge in entity.badges]
         data[cls.solr_field] = d
 
 
@@ -731,7 +779,7 @@ class DelegateableAddedByBadgeFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        data[cls.solr_field] = [ref_attr_value(badge) for
+        data[cls.solr_field] = [entity_to_solr_token(badge) for
                                 badge in entity.creator.badges if
                                 (badge.instance is entity.instance or
                                  badge.instance is None)]
@@ -751,7 +799,7 @@ class DelegateableTags(SolrFacet):
             return
         tags = []
         for tag, count in entity.tags:
-            tags.extend([ref_attr_value(tag)] * count)
+            tags.extend([entity_to_solr_token(tag)] * count)
         data[cls.solr_field] = tags
 
 
