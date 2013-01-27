@@ -81,8 +81,8 @@ class TestSolrTokenHelpers(TestCase):
         badge12.parent = badge0
         badge121.parent = badge12
         result = entity_to_solr_token(badge121)
-        shouldbe = u"%s/%s/%s" % (str(badge121.id), str(badge12.id),
-                                  str(badge0.id))
+        shouldbe = u"%s/%s/%s" % (str(badge0.id), str(badge12.id),
+                                  str(badge121.id))
         self.assertEqual(result, shouldbe)
 
     def test_entity_to_solr_token_no_hierachy(self):

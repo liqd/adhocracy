@@ -366,7 +366,9 @@ def entity_to_solr_token(entity):
 
     if isinstance(entity, model.Badge):
         path_seperator = u"/"
-        with_parents = [entity] + list(get_parent_badges(entity))
+        parents = list(get_parent_badges(entity))
+        parents.reverse()
+        with_parents = parents + [entity]
         with_parents_values = map(model.refs.ref_attr_value, with_parents)
         token = path_seperator.join(with_parents_values)
         return token
@@ -611,7 +613,6 @@ class SolrFacet(SolrIndexer):
                     resultitems[t]["children"].append(item)
                     return resultitems
         results = reduce(add_children, facet_items, facet_items)
-
         return results.values()
 
     def get_item_label(self, entity):
