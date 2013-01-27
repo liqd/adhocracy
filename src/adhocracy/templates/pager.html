@@ -85,7 +85,7 @@
 
 %for facet in pager.facets:
     %if facet.available():
-    <div class="facet">
+    <div class="facet facet-${facet.name}">
         ${facet.render()}
     </div>
     %endif
@@ -114,7 +114,7 @@ ${facet_items(facet.current_items)}
 <%def name="facet_items(items)">
 <ul>
     %for item in items:
-    <li>
+    <li class="facet-item-level-${item['level']}">
         %if not item['visible']:
             <span />
         %elif item['disabled']:
