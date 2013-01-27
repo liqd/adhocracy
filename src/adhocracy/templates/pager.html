@@ -115,7 +115,9 @@ ${facet_items(facet.current_items)}
 <ul>
     %for item in items:
     <li>
-        %if item['disabled']:
+        %if not item['visible']:
+            <span />
+        %elif item['disabled']:
         <span class="disabled">
             ${item['link_text']} (${item['current_count']})
         </span>
