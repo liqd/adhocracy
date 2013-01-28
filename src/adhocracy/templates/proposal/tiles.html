@@ -14,7 +14,10 @@
             %endif
             <span id="badges_${proposal.id}" class="badges"
                   data-id="${proposal.id}">
-                ${tiles.badge.badges(proposal.badges + proposal.categories)}
+                ${tiles.badge.badges(proposal.badges)}
+            </span>
+            <span  class="badges">
+                ${tiles.badge.badges(proposal.categories)}
             </span>
         </h3>
         <div class="meta">              
