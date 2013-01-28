@@ -39,6 +39,11 @@
     ${components.formatting()}    
     </%forms:textarea>
 
+    %if c.instance and c.instance.allow_thumbnailbadges:
+        ${forms.input(_("Thumbnail badges width"), 'thumbnailbadges_width', 2)}
+        ${forms.input(_("Thumbnail badges height"), 'thumbnailbadges_height', 3)}
+    %endif
+
     
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 
