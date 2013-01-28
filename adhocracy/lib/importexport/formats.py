@@ -4,7 +4,7 @@ import io
 import json
 import zipfile
 
-from adhocracy.lib.templating import render_real_json
+from adhocracy.lib.templating import render_json
 from pylons import response
 
 def detect_format(f):
@@ -52,9 +52,9 @@ def render(data, format, title, response=response):
     if format == 'zip':
         return _render_zip(data, filename=title + '.zip', response=response)
     elif format == 'json_download':
-        return render_real_json(data, filename=title + '.json', response=response)
+        return render_json(data, filename=title + '.json', response=response)
     elif format == 'json':
-        return render_real_json(data, response=response)
+        return render_json(data, response=response)
     else:
         raise ValueError('Invalid export format')
 

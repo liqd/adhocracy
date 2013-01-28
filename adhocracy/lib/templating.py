@@ -101,13 +101,7 @@ def ret_json_status(type_, message, code=200):
             'code': code}
     return render_json(data)
 
-
-def render_json(data, encoding='utf-8'):
-    response.content_type = 'text/javascript'
-    response.content_encoding = encoding
-    return json_dumps(data, encoding=encoding)
-
-def render_real_json(data, filename=None, response=response):
+def render_json(data, filename=None, response=response):
     encoding = 'utf-8' # RFC 4627.3
     response.content_type = 'application/json'
     response.content_encoding = encoding
