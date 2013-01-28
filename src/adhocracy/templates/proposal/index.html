@@ -62,7 +62,7 @@
                 <li class="nobullet">
                     <input class="badgetsform_input" type="checkbox" 
                            name="badge" 
-                           data-bind="value: id, checked: checked">
+                           data-bind="attr: {value: id, checked: checked}">
                         <span data-bind="attr: {class: css_class()}">
                             <a data-bind="text: title">Abgelehnt</a>
                         </span>
@@ -73,7 +73,7 @@
                 <li class="nobullet">
                     <input class="badgetsform_input" type="radio" 
                            name="thumbnailbadge" 
-                           data-bind="value: id, checked: checked">
+                           data-bind="attr: {value: id, checked: checked}">
                         <span data-bind="html: thumbnail" />
                         <span data-bind="attr: {class: css_class()}">
                             <a data-bind="text: title">Abgelehnt</a>
