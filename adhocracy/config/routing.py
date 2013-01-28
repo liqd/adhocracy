@@ -313,6 +313,15 @@ def make_map(config):
                 action="user_import", conditions=dict(method=['POST']))
     map.connect('/admin/users/import', controller='admin',
                 action="user_import_form", conditions=dict(method=['GET']))
+    map.connect('/admin/export',
+                controller='admin', action='export_dialog')
+    map.connect('/admin/export/do',
+                controller='admin', action='export_do')
+    map.connect('/admin/import',
+                controller='admin', action='import_dialog')
+    map.connect('/admin/import/do',
+                controller='admin', action='import_do')
+
 
     map.connect('/static/{page_name}.{format}', controller='static',
                 action='serve')

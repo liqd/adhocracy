@@ -1,0 +1,41 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Admin: Import Users")}</%def>
+
+<%block name="full_teaser">
+${self.success()}
+</%block>
+
+<%def name="success()">
+<h1>${_("Imported Users")}</h1>
+%if c.errors:
+<h2 style="color: red">(${_('But some errors occured')})</h2>
+%endif
+
+%if c.instance is None:
+<p>${_(u'You successfully created the following users:')}</p>
+%else:
+<p>${_(u'You successfully created the following users and added them as Members to the instance "%s":') %c.instance.label}</p>
+%endif
+
+%for user in c.users:
+<li><a href="${h.entity_url(user)}">${user.user_name} / ${user.display_name} / ${user.email}</a></li>
+%endfor
+
+%if c.errors:
+<p>${_('The following errors happend while creating the users')}</p>
+  %if c.not_created:
+<p>
+    ${_('These users could not be created:')}
+    ${', '.join([u for u in c.not_created])}
+</p>
+  %endif
+  %if c.not_mailed:
+<p>
+    ${_('These users where created, but we could not send out mails:')}
+    ${', '.join([u for u in c.not_mailed])}
+</p>
+  %endif
+%endif
+
+</%def>

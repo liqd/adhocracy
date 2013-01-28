@@ -1,0 +1,79 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_("Export")}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.breadcrumbs.generate_breadcrumbs(_("Export"))|n}
+</%def>
+
+<h1>${_("Export")}</h1>
+
+<form method="post" action="/admin/export/do" class="exportform">
+    ${h.field_token()|n}
+    <div>
+        <label>
+            <input type="checkbox" name="include_user" checked="checked" />
+            ${_("Export users")}
+        </label>
+        <div class="importexport_settings">
+            <div>
+                <label>
+                    <input type="checkbox" name="user_personal" checked="checked" />
+                    ${_("Include personal data")}
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="user_password" />
+                    ${_("Include password hashes")}
+                </label>
+            </div>
+        </div>
+        <label>
+            <input type="checkbox" name="include_badge" checked="checked" />
+            ${_("Export badges")}
+        </label>
+    </div>
+
+    <div>
+        <label>
+            <input type="checkbox" name="include_instance" checked="checked" />
+            ${_("Export content (instances)")}
+        </label>
+
+        <div class="importexport_settings">
+            <div>
+                <label>
+                    <input type="checkbox" name="include_instance_proposal" checked="checked" />
+                    ${_("Include proposals")}
+                </label>
+                <div class="importexport_settings">
+                    <div>
+                        <label>
+                            <input type="checkbox" name="include_instance_proposal_comment" checked="checked" />
+                            ${_("Include comments")}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        ${_("Export format:")}
+        <label>
+            <input type="radio" name="format" value="json_download" checked="checked" />${_('JSON download')}
+        </label>
+        <label>
+            <input type="radio" name="format" value="json" />${_('JSON')}
+        </label>
+        <label>
+            <input type="radio" name="format" value="zip" />${_('ZIP download')}
+        </label>
+    </div>
+
+    <div class="savebox">
+        <button type="submit" tabindex="99">${_("Export Now")}</button>
+    </div>
+</form>
