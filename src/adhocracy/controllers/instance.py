@@ -563,8 +563,10 @@ class InstanceController(BaseController):
             defaults={
                 '_method': 'PUT',
                 'css': c.page_instance.css,
-                'thumbnailbadges_width': c.page_instance.thumbnailbadges_width,
-                'thumbnailbadges_height': c.page_instance.thumbnailbadges_height,
+                'thumbnailbadges_width':
+                c.page_instance.thumbnailbadges_width,
+                'thumbnailbadges_height':
+                c.page_instance.thumbnailbadges_height,
                 '_tok': csrf.token_id()})
 
     @RequireInstance
@@ -623,7 +625,8 @@ class InstanceController(BaseController):
                 'allow_thumbnailbadges': instance.allow_thumbnailbadges,
                 'require_selection': instance.require_selection,
                 'hide_global_categories': instance.hide_global_categories,
-                'editable_comments_default': instance.editable_comments_default,
+                'editable_comments_default':
+                instance.editable_comments_default,
                 'frozen': instance.frozen,
                 '_tok': csrf.token_id()})
 

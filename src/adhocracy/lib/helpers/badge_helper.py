@@ -11,7 +11,8 @@ def generate_thumbnail_tag(badge, width="", height=""):
     #TODO cache, joka
     #TODO Generated image is not Working with IE < 8, joka
 
-    size = (width and height) and (width, height) or get_default_thumbnailsize(badge)
+    size = (width and height) and (width, height)\
+        or get_default_thumbnailsize(badge)
     img_template = """<img src="data:%s;base64,%s" height="%s" width="%s" />"""
     imagefile = StringIO.StringIO(badge.thumbnail)
     mimetype = "image/png"
@@ -39,6 +40,6 @@ def get_default_thumbnailsize(badge):
     instance = badge.instance
     global_w = config.get("adhocracy.thumbnailbadges.width", "48")
     global_h = config.get("adhocracy.thumbnailbadges.height", "48")
-    ins_w =  instance and str(instance.thumbnailbadges_width)
-    ins_h =  instance and str(instance.thumbnailbadges_height)
+    ins_w = instance and str(instance.thumbnailbadges_width)
+    ins_h = instance and str(instance.thumbnailbadges_height)
     return (ins_w or global_w, ins_h or global_h)
