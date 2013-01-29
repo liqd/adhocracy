@@ -1189,13 +1189,13 @@ def get_user_sorts(instance=None):
         '-%s' % InstanceUserRatingIndexer.solr_field(instance),
         L_('Rating'))
 
-    return NamedSort([[None, (OLDEST(old=1),
-                              NEWEST(old=2),
-                              activity(old=3),
-                              rating(old=4),
-                              ALPHA(old=5))]],
+    return NamedSort([[L_('Date'), (OLDEST(old=1),
+                                    NEWEST(old=2))],
+                      [L_('User behavior'), (activity(old=3),
+                                             rating(old=4))],
+                      [L_('Other'), (ALPHA(old=5),)]],
                      default=activity,
-                     mako_def="sort_dropdown")
+                     mako_def="sort_slidedown")
 
 
 INSTANCE_SORTS = NamedSort([[None, (OLDEST(old=1),
