@@ -89,9 +89,9 @@ def memoize(iden, time=0, make_key=make_key):
                     #print "Cache set:", key + iden
                     cache.set(key, res, time=time)
                     tag_fn(key, a, kw)
-                else:
-                    #print "Cache hit", key + iden
-                if res == NoneResult:
+                #else:
+                # print "Cache hit", key + iden
+                if res is NoneResult:
                     res = None
             return res
         return new_fn
