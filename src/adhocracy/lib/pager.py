@@ -716,14 +716,10 @@ class DelegateableBadgeThumbnailFacet(SolrFacet):
     entity_type = model.Badge
     title = lazy_ugettext(u'Thumbnails')
     solr_field = 'facet.delegateable.badgethumbnail'
+    show_current_empty = False
 
     def get_thumbnail(self, entity):
         return generate_thumbnail_tag(entity, 16, 16)
-
-    @property
-    def show_current_empty(self):
-        return not asbool(config.get(
-            'adhocracy.hide_empty_thumbnails_in_facet_list', 'false'))
 
     @classmethod
     def add_data_to_index(cls, entity, data):
