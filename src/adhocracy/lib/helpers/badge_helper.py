@@ -1,15 +1,31 @@
 from base64 import b64encode
+from hashlib import sha1
 import StringIO
 from PIL import Image, ImageDraw
 
 from pylons import config
+from pylons import tmpl_context as c
+
+from adhocracy.lib import cache
 
 
+def make_key(iden, args, kwargs):
+    conf = config.get
+    sig = iden[:200]\
+        + cache.util.make_tag(conf("adhocracy.thumbnailbadges.width"))\
+        + cache.util.make_tag(conf("adhocracy.thumbnailbadges.height"))\
+        + cache.util.make_tag(c.instance.thumbnailbadges_width)\
+        + cache.util.make_tag(c.instance.thumbnailbadges_height)\
+        + cache.util.make_tag(args) \
+        + cache.util.make_tag(kwargs)
+    return sha1(sig).hexdigest()
+
+
+@cache.memoize('badge_thumbnail', make_key=make_key)
 def generate_thumbnail_tag(badge, width=0, height=0):
     """Returns string with the badge thumbnail img tag
        The image is resized and converted to PNG.
     """
-    #TODO cache, joka
     #TODO Generated image is not Working with IE < 8, joka
 
     size = (width and height) and (width, height)\
