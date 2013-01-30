@@ -20,9 +20,11 @@ class InstanceDiscriminatorMiddleware(object):
         if instance_key is None:
             if asbool(self.config.get('adhocracy.relative_urls', 'false')):
                 path = environ.get('PATH_INFO', '')
-                if path.startswith('/i/') and path.count('/') < 3:
+                if path.startswith('/i/'):
                     instance_key = path.split('/')[2]
                     environ['PATH_INFO'] = path[len('/i/' + instance_key):]
+		    if environ['PATH_INFO'] == '':
+		        environ['PATH_INFO'] = path + '/'
             else:
                 host = environ.get('HTTP_HOST', "")
                 host = host.replace(self.domain, "")
