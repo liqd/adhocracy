@@ -40,6 +40,15 @@
             <th>${_("thumbnail badge")}</th>
         </thead>
         <tbody>
+            %if c.thumbnailbadges:
+            <tr>
+                <td>
+                    <input type="radio" value="" 
+                           name="thumbnailbadge" />
+                </td>
+                <td>${_('No Thumbnail Badge')}</td>
+            %endif 
+            </tr> 
             %for badge in c.thumbnailbadges:
             <tr>
                 <td>
