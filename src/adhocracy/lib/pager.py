@@ -718,7 +718,7 @@ class DelegateableBadgeThumbnailFacet(SolrFacet):
     solr_field = 'facet.delegateable.badgethumbnail'
 
     def get_thumbnail(self, entity):
-        return generate_thumbnail_tag(entity, "16", "16")
+        return generate_thumbnail_tag(entity, 16, 16)
 
     @property
     def show_current_empty(self):

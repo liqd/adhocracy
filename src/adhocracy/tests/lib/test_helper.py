@@ -45,7 +45,7 @@ class TestBadgeHelper(TestController):
         badge = CategoryBadge.create('testbadge0', '#ccc', True, 'descr')
         badge.thumbnail = TEST_IMAGE
         image = generate_thumbnail_tag(badge)
-        self.assert_('YqLTAyNKxOcbq7uGi+YgBBADs="' in image)
+        self.assert_('Tb2AAAAAElFTkSuQmCC"' in image)
 
     def test_generate_thumbnail_tag_set_size(self):
         from adhocracy.model import CategoryBadge, Instance
@@ -59,5 +59,5 @@ class TestBadgeHelper(TestController):
         badge.instance = instance
         image = generate_thumbnail_tag(badge)
         self.assert_('height="12" width="10" />' in image)
-        image = generate_thumbnail_tag(badge, width="8", height="11")
+        image = generate_thumbnail_tag(badge, width=8, height=11)
         self.assert_('height="11" width="8" />' in image)
