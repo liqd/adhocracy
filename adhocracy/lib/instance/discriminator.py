@@ -22,8 +22,6 @@ class InstanceDiscriminatorMiddleware(object):
                 path = environ.get('PATH_INFO', '')
                 if path.startswith('/i/'):
                     instance_key = path.split('/')[2]
-                    if instance_key == '':
-                        instance_key = path.split('/')[1]
                     environ['PATH_INFO'] = path[len('/i/' + instance_key):]
 		    if environ['PATH_INFO'] == '':
 		        environ['PATH_INFO'] += '/'
