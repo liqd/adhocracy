@@ -570,7 +570,8 @@ class ValidImageFileUpload(formencode.FancyValidator):
                 value.file.seek(0)
                 del im
             except IOError:
-                raise formencode.Invalid(_("This is not a valid image file"), value, state)
+                raise formencode.Invalid(_("This is not a valid image file"),
+                                         value, state)
         return value
 
 
@@ -582,7 +583,8 @@ class ValidFileUpload(formencode.FancyValidator):
         payload = value.file.read(self.max_size)
         value.file.seek(0)
         if len(payload) == self.max_size:
-            raise formencode.Invalid(_("The file is too big (>1MB)"), value, state)
+            raise formencode.Invalid(_("The file is too big (>1MB)"),
+                                     value, state)
         return value
 
 
