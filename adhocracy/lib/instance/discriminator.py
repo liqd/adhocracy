@@ -3,6 +3,8 @@ import logging
 from adhocracy import model
 from paste.deploy.converters import asbool
 
+from webob import Response
+
 log = logging.getLogger(__name__)
 
 
@@ -23,8 +25,14 @@ class InstanceDiscriminatorMiddleware(object):
                 if path.startswith('/i/'):
                     instance_key = path.split('/')[2]
                     environ['PATH_INFO'] = path[len('/i/' + instance_key):]
-		    if environ['PATH_INFO'] == '':
-		        environ['PATH_INFO'] += '/'
+                    if environ['PATH_INFO'] == '':
+                        response = Response()
+                        response.status_int = 302
+                        if instance_key != '':
+                            response.headers['location'] = path + '/'
+                        else:
+                            response.headers['location'] = '/'
+                        return response(environ, start_response)
             else:
                 host = environ.get('HTTP_HOST', "")
                 host = host.replace(self.domain, "")
