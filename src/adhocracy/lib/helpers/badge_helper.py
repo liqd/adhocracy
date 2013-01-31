@@ -27,7 +27,7 @@ def generate_thumbnail_tag(badge, width=0, height=0):
        The image is resized and converted to PNG.
     """
     #NOTE Generated image is not Working with IE < 8, joka
-    #TODO better expection handling
+    #TODO use real image links instead of URI:data
 
     size = (width and height) and (width, height)\
         or get_default_thumbnailsize(badge)
@@ -42,7 +42,7 @@ def generate_thumbnail_tag(badge, width=0, height=0):
         #optimize image but preserve transparency
         im.load()
         im_opti = Image.new("RGB", im.size, (255, 255, 255))
-        if len(im.split()) > 2:
+        if len(im.split()) > 3:
             im_opti.paste(im, mask=im.split()[3])
         else:
             im_opti.paste(im)
