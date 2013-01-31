@@ -560,12 +560,13 @@ class ContainsEMailPlaceholders(formencode.FancyValidator):
 
 class ValidImageFileUpload(formencode.FancyValidator):
 
-    max_size = 10*1024*1024
+    max_size = 5*1024*1024
 
     def _to_python(self, value, state):
         payload = value.file.read(self.max_size+1)
         if len(payload) > 0:
             try:
+                value.file.seek(0)
                 im = Image.open(value.file)
                 value.file.seek(0)
                 del im
