@@ -107,7 +107,7 @@ class BadgeController(BaseController):
         c.form_type = 'add'
         c.groups = Group.all_instance()
         defaults = {'visible': True,
-                    'select_child_description': _("Choose a $badge_title")
+                    'select_child_description': '',
                     }
         defaults.update(dict(request.params))
         #TODO global badges must have only global badges children, joka
