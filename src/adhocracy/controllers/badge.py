@@ -111,7 +111,7 @@ class BadgeController(BaseController):
                     }
         defaults.update(dict(request.params))
         #TODO global badges must have only global badges children, joka
-        categories = CategoryBadge.all()
+        categories = CategoryBadge.all(instance=c.instance, include_global=True)
         c.category_parents_optgroups = [get_badge_children_optgroups(b) for b in
                                         categories if not b.parent]
 
