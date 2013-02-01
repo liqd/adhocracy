@@ -23,7 +23,11 @@ class BaseController(WSGIController):
 
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
-
+        
+        do_logging = asbool(config.get('adhocracy.enable_request_logging'))
+        if do_logging:
+            self.log_request(environ)
+        
         c.instance = model.instance_filter.get_instance()
         if c.instance is not None:
             # setup a global variable to mark the current item in
@@ -76,3 +80,20 @@ class BaseController(WSGIController):
     def not_implemented(self, format='html'):
         return ret_abort(_("The method you used is not implemented."),
                          code=400, format=format)
+
+    def log_request(self, environ):
+        req_cookies = environ.get('HTTP_COOKIE')
+        req_user_agent = environ.get('HTTP_USER_AGENT')
+        req_ip = None
+        req_xff = None
+        if asbool(config.get('adhocracy.request_logging.enable_ip_logging')):
+        	#CHECK IF XFF PROXY AND TRANSMIT THE REAL IP TO THE DATABASE
+        	req_xff = environ.get('X-Forwarded-For')
+        	req_ip = environ.get('REMOTE_ADDR')
+        	if req_xff:
+        		req_ip = req_xff.split(',', 1)[0]
+
+        req = model.Request(req_cookies, req_ip, req_user_agent, environ['PATH_INFO'], req_xff)
+        req.save_request()
+        
+        return req
