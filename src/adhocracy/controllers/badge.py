@@ -254,7 +254,7 @@ class BadgeController(BaseController):
         badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
         c.form_type = 'update'
-        categories = CategoryBadge.all()
+        categories = CategoryBadge.all(instance=c.instance, include_global=True)
         c.category_parents_optgroups = [get_badge_children_optgroups(b) for b
                                         in categories
                                         if not b.parent and badge != b]
