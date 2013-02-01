@@ -105,8 +105,8 @@ class InstanceGeneralEditForm(formencode.Schema):
 
 class InstanceAppearanceEditForm(formencode.Schema):
     allow_extra_fields = True
-    thumbnailbadges_width = validators.Int(not_empty=False)
-    thumbnailbadges_height = validators.Int(not_empty=False)
+    thumbnailbadges_width = validators.Int(not_empty=False, if_empty=None)
+    thumbnailbadges_height = validators.Int(not_empty=False, if_empty=None)
     css = validators.String(max=100000, if_empty=None, not_empty=False)
 
 
