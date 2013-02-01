@@ -10,7 +10,9 @@
         var defaults = {
             separator: ' > ',
             hideOriginal: true,
-            placeholder: '------'
+            placeholder: '------',
+            include_empty_options: true,
+            add_empty_default: false
         };
         var options = $.extend(defaults, options);
         var obj = $(this);
@@ -19,7 +21,7 @@
         var choices = obj.find('option').map(function(){
             var val = $(this).val();
 
-            if (val) {
+            if (options.include_empty_options || val) {
                 var txt = $(this).text();
                 var segments = txt.split(options.separator);
                 var depth = segments.length;
@@ -63,13 +65,17 @@
             });
         }
 
+        var initial_text = obj.children('option:selected').text();
+
         if (options.hideOriginal) {
             obj.hide();
         }
-        obj.attr('disabled', 'disabled');
         obj.wrap('<span class="drilldown-wrapper" />');
-        obj.after('<select class="drilldown-1"><option value="">' + options.placeholder + '</option></select>');
-        var root_select = obj.next();
+        var root_select = $('<select>').addClass('drilldown-1');
+        obj.after(root_select);
+        if (options.add_empty_default) {
+            root_select.add('<option value="">' + options.placeholder + '</option>');
+        }
                        
         root_select.data('depth', 1);
                             
@@ -99,9 +105,12 @@
 
             // Check to see if there's any children, if there are we build another select box;
             if (node && node.children.length > 0) {
-                this_select.after('<select><option value="">' + options.placeholder +'</option></select>');
-		
-                var next_select = this_select.next();
+                var next_select = $('<select>');
+                this_select.after(next_select);
+                if (options.add_empty_default) {
+                    root_select.add('<option value="">' + options.placeholder + '</option>');
+                }
+
                 next_select.addClass('drilldown-' + (node.depth + 1));
                 next_select.data('depth', node.depth + 1);
 		
@@ -113,6 +122,8 @@
                     next_select.append(opt);
                 });
                 next_select.change(change_handler);
+                next_select.children(':first').attr('selected', 'selected');
+                next_select.trigger('change');
 
                 new_header = $('<div>').addClass('select_header').text(node['header']);
 
@@ -120,5 +131,32 @@
 	        }
         }
         root_select.change(change_handler);
+
+        var preselect = function (initial_text, level) { 
+            var sel = $('.drilldown-'+level);
+            
+            sel.children('option').each(function () {
+                var text = $(this).text();
+
+                if (text === initial_text) {
+                    $(this).attr('selected', 'selected');
+                } else {
+                    var text1 = text + options.separator;
+                    if (initial_text.substr(0, text1.length) == text1) {
+                        $(this).attr('selected', 'selected');
+                        sel.trigger('change');
+                        preselect(initial_text.substr(text1.length, initial_text.length), level+1);
+                    }
+                }
+            });
+
+        };
+
+        if (initial_text) {
+            preselect(initial_text, 1);
+        } else {
+            root_select.children(':first').attr('selected', 'selected');
+            root_select.trigger('change');
+        }
     };
 })(jQuery);

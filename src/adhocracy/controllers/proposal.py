@@ -105,6 +105,42 @@ class ProposalController(BaseController):
         c.tutorial = 'proposal_index'
         return render("/proposal/index.html")
 
+
+    def _set_categories(self):
+        categories = model.CategoryBadge.all(
+            c.instance, include_global=not c.instance.hide_global_categories)
+
+        toplevel = filter(lambda c: c.parent is None, categories)
+        lowerlevel = filter(lambda c: c.parent is not None, categories)
+
+        # If there is exactly one top level category and there are lower
+        # level categories, only these are shown in the category chooser,
+        # and the (single) toplevel select description is used as the toplevel
+        # select prompt.
+
+        if len(toplevel) == 1 and len(lowerlevel) > 0:
+            categories = lowerlevel
+            c.toplevel_question = toplevel[0].select_child_description
+            root = toplevel[0]
+        else:
+            c.toplevel_question = None
+            root = None
+
+        def get_key(badge, separator=u' > '):
+            if badge.parent is root:
+                return badge.title
+            else:
+                return u'%s%s%s' % (
+                    get_key(badge.parent, separator),
+                    separator,
+                    badge.title)
+
+        c.categories = sorted(
+            [(cat.id, get_key(cat), cat.select_child_description)
+             for cat in categories],
+            key=lambda x: x[1])
+
+
     @RequireInstance
     @guard.proposal.create()
     @validate(schema=ProposalNewForm(), form='bad_request',
@@ -112,12 +148,8 @@ class ProposalController(BaseController):
     def new(self, errors=None):
         c.pages = []
         c.exclude_pages = []
-        # generate optgroups tags to select category children for all root
-        # level categories
-        categories = model.CategoryBadge.all(
-            c.instance, include_global=not c.instance.hide_global_categories)
-        c.categories_optgroups = [get_badge_children_optgroups(b) for b
-                                in categories if not b.parent]
+
+        self._set_categories()
 
         if 'page' in request.params:
             page = model.Page.find(request.params.get('page'))
@@ -214,11 +246,7 @@ class ProposalController(BaseController):
 
         c.text_rows = text.text_rows(c.proposal.description.head)
 
-        # generate optgroups tags to select category children for all root
-        # level categories
-        categories = model.CategoryBadge.all(c.instance, include_global=True)
-        c.categories_optgroups = [get_badge_children_optgroups(b) for b
-                                in categories if not b.parent]
+        self._set_categories()
 
         # categories for this proposal
         # (single category not assured in db model)
@@ -228,7 +256,7 @@ class ProposalController(BaseController):
         if errors:
             force_defaults = True
         defaults = dict(request.params)
-        defaults.update({"category": c.category.id})
+        defaults.update({"category": c.category.id if c.category else None})
         return htmlfill.render(render("/proposal/edit.html"),
                                defaults=defaults,
                                errors=errors, force_defaults=force_defaults)
