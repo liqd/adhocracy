@@ -28,10 +28,11 @@ class InstanceDiscriminatorMiddleware(object):
                     if environ['PATH_INFO'] == '':
                         response = Response()
                         response.status_int = 302
-                        if instance_key != '':
-                            response.headers['location'] = path + '/'
-                        else:
+                        # This is necessary, otherwise this would lead to an endless redirect to /i//
+                        if instance_key == '':
                             response.headers['location'] = '/'
+                        else:
+                            response.headers['location'] = path + '/'
                         return response(environ, start_response)
             else:
                 host = environ.get('HTTP_HOST', "")
