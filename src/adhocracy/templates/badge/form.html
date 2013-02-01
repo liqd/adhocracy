@@ -45,6 +45,14 @@ ${self.form()}
     </script>
 
     %if c.badge_type == 'thumbnail':
+        %if c.badge_thumbnail:
+            <div>
+                ${h.literal(c.badge_thumbnail)}
+                <button name="delete_thumbnail" value="1">
+                    <i class="icon-remove"></i>${_('Delete current thumbnail image')}
+                </button>
+            </div>
+        %endif    
     <label for="thumbnail">${_('Upload thumbnail icon. This is used instead of color to show the badge')}</label>
     <input id="thumbnail" name="thumbnail" type="file">  
     <br />

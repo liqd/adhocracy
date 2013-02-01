@@ -262,6 +262,9 @@ class BadgeController(BaseController):
     def edit(self, id, errors=None):
         badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
+        c.badge_thumbnail = None
+        if getattr(badge, "thumbnail", None):
+            c.badge_thumbnail = h.badge_helper.generate_thumbnail_tag(badge)
         c.form_type = 'update'
 
         # Plug in current values
@@ -385,6 +388,8 @@ class BadgeController(BaseController):
         thumbnail = self.form_result.get("thumbnail")
         if isinstance(thumbnail, FieldStorage):
             badge.thumbnail = thumbnail.file.read()
+        if 'delete_thumbnail' in self.form_result:
+            badge.thumbnail = None
         badge.title = title
         badge.color = color
         badge.visible = visible
