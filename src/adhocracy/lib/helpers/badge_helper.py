@@ -4,18 +4,19 @@ import StringIO
 from PIL import Image, ImageDraw
 
 from pylons import config
-from pylons import tmpl_context as c
 
 from adhocracy.lib import cache
 
 
 def make_key(iden, args, kwargs):
     conf = config.get
+    instance = args[0].instance
+    instance_w = instance and instance.thumbnailbadges_width or ""
+    instance_h = instance and instance.thumbnailbadges_height or ""
     sig = iden[:200]\
         + cache.util.make_tag(conf("adhocracy.thumbnailbadges.width"))\
         + cache.util.make_tag(conf("adhocracy.thumbnailbadges.height"))\
-        + cache.util.make_tag(c.instance.thumbnailbadges_width)\
-        + cache.util.make_tag(c.instance.thumbnailbadges_height)\
+        + cache.util.make_tag(instance_w + instance_h)\
         + cache.util.make_tag(args) \
         + cache.util.make_tag(kwargs)
     return sha1(sig).hexdigest()
