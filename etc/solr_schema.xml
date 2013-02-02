@@ -75,9 +75,12 @@
 
     <!-- A path tokonized field - good for simple treelike hierarchies, the default delimiter is "/". -->
     <fieldType name="text_path" class="solr.TextField" positionIncrementGap="100">
-     <analyzer>
-      <tokenizer class="solr.PathHierarchyTokenizerFactory" />
-     </analyzer>
+      <analyzer  type="index">
+        <tokenizer class="solr.PathHierarchyTokenizerFactory" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.KeywordTokenizerFactory"/>
+      </analyzer>
     </fieldType>
 
  </types>
