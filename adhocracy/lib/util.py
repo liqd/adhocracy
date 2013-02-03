@@ -1,11 +1,12 @@
-import uuid
+import collections
 import logging
 import os
 import os.path
 import shutil
 import time
-import collections
+import uuid
 
+from paste.deploy.converters import asbool
 from pylons import config
 from pylons.i18n import _
 
@@ -125,3 +126,12 @@ def generate_sequence(initial=10,
         current *= factor_deque[0]
         factor_deque.rotate(-1)
     yield int(current)
+
+def get_client_ip(request):
+    if asbool(config.get('adhocracy.behind_proxy', 'false')):
+        try:
+            header_val = request.headers['X-Forwarded-For']
+            return u','.split(header_val)[-1].strip()
+        except KeyError:
+            pass
+    return request.remote_addr
