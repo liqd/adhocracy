@@ -1,7 +1,9 @@
 import ipaddress
 import logging
 
-from adhocracy import model
+import adhocracy.lib.util
+import adhocracy.model
+from paste.deploy.converters import asbool
 
 def _anonymize(ipstr):
     ipa = ipaddress.ip_address(unicode(ipstr))
@@ -14,8 +16,8 @@ def _anonymize(ipstr):
             keep_bits = 48
     else:
         raise NotImplementedError()
-    mask = ((1 << keep_bits) - 1) << (ipa.max_prefixlen - keep_bits)
-    return unicode(type(ipa)(int(ipa) & mask))
+    intf = ipaddress.ip_interface(u'%s/%s' % (ipa, keep_bits))
+    return unicode(intf.network.network_address)
 
 ANONYMIZATION_FUNCS = {
     'dontlog': lambda ipstr: None,
@@ -37,16 +39,13 @@ class RequestLogger(object):
             self.log_request(environ)
         except BaseException as e:
             log.error('Error while trying to log request: %r' % e)
-        return self.app(environ, local_response)
+        return self.app(environ, start_response)
 
     def log_request(self, environ):
-        do_logging = asbool(config.get('adhocracy.enable_request_logging'))
-        if do_logging:
-            self.log_request(environ)
-        
         cookies = environ.get('HTTP_COOKIE').decode('utf-8', 'replace')
         user_agent = environ.get('HTTP_USER_AGENT').decode('utf-8', 'replace')
-        ip_address = self.anonymization_func(adhocracy.lib.util.get_client_ip())
+        full_ip = adhocracy.lib.util.get_client_ip(environ)
+        ip = self.anonymization_func(full_ip)
 
-        model.Request.create(ip_adress, environ['PATH_INFO'], cookies, user_agent)
-        model.meta.Session.commit()
+        adhocracy.model.RequestLog.create(ip, environ['QUERY_STRING'], cookies, user_agent)
+        adhocracy.model.meta.Session.commit()

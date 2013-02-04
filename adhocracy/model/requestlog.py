@@ -16,7 +16,7 @@ requestlog_table = Table('requestlog', meta.data,
 )
 
 class RequestLog(object):
-    def __init__(self, ip_address, request_url, user_agent, access_time):
+    def __init__(self, access_time, ip_address, request_url, cookies, user_agent):
         self.id = None
         self.access_time = access_time
         self.ip_address = ip_address
@@ -26,6 +26,6 @@ class RequestLog(object):
 
     @classmethod
     def create(cls, ip_address, request_url, cookies, user_agent):
-        entry = cls(ip_address, request_url, cookies, user_agent, access_time=datetime.utcnow())
+        entry = cls(datetime.utcnow(), ip_address, request_url, cookies, user_agent)
         meta.Session.add(entry)
         return entry
