@@ -580,7 +580,7 @@ class SolrFacet(SolrIndexer):
         token_counts = sorted(self.sorted_facet_counts, key=lambda x:
                               len(x[0].split("/")), reverse=True)
 
-        # add the the solr token (value) and search counts to the items
+        # add the solr token (value) and search counts to the items
         facet_items = OrderedDict()
         for (token, token_count) in token_counts:
             if self.exclusive:
