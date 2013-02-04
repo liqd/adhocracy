@@ -37,15 +37,17 @@ def page_sub(match):
 
 
 @memoize('render')
-def render(text, substitutions=True, escape=True, safe_mode=False):
+def render(text, substitutions=True, safe_mode='escape'):
     '''
     Render markdown as html.
 
     *substitutions*
         If `True`, substitude text reference, e.g. member refs like
         @(pudo), to html.
-    *escape*
-        Do an cgi escape befor the text is converted to html
+    *safe_mode*
+        This is passed directly to the markdown renderer. Possible options are
+        `'escape'` (escape html tags), `'remove'` (remove html tags) and
+        `False`(allow html tags).
     '''
     if text is None:
         return ""

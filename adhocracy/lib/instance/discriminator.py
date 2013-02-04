@@ -3,6 +3,8 @@ import logging
 from adhocracy import model
 from paste.deploy.converters import asbool
 
+from webob import Response
+
 log = logging.getLogger(__name__)
 
 
@@ -23,6 +25,16 @@ class InstanceDiscriminatorMiddleware(object):
                 if path.startswith('/i/'):
                     instance_key = path.split('/')[2]
                     environ['PATH_INFO'] = path[len('/i/' + instance_key):]
+                    if environ['PATH_INFO'] == '':
+                        response = Response()
+                        if instance_key == '':
+                            response.status_int = 404
+                            # Double slashes are stripped, so we can't redirect to /i//
+                            return response(environ, start_response)
+
+                        response.status_int = 302
+                        response.headers['location'] = path + '/'
+                        return response(environ, start_response)
             else:
                 host = environ.get('HTTP_HOST', "")
                 host = host.replace(self.domain, "")

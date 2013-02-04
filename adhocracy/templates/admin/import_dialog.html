@@ -1,0 +1,98 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_("Import")}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.breadcrumbs.generate_breadcrumbs(_("Import"))|n}
+</%def>
+
+<h1>${_("Import")}</h1>
+
+<form method="post" enctype="multipart/form-data" action="/admin/import/do" class="importform">
+    ${h.field_token()|n}
+    <div>
+        <label>
+            <input type="checkbox" name="include_user" checked="checked" />
+            ${_("Import users")}
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="checkbox" name="include_badge" checked="checked" />
+            ${_("Import badges")}
+        </label>
+    </div>
+<!--
+    The following are not yet implemented
+    <div>
+        <label>
+            <input type="checkbox" name="instances_enabled" checked="checked" />
+            ${_("Import content (instances)")}
+        </label>
+
+        <div class="importexport_settings">
+            <div>
+                <label>
+                    <input type="checkbox" name="include_proposals" checked="checked" />
+                    ${_("Include proposals")}
+                </label>
+                <div class="importexport_settings">
+                    <div>
+                        <label>
+                            <input type="checkbox" name="include_proposal_comments" checked="checked" />
+                            ${_("Include comments")}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+
+    <div>
+        <br/>
+        <br/>
+        <strong>${_("Replacement strategy")}</strong>
+        <br/>
+        <label>
+            <input type="radio" name="replacement" value="update" checked="checked" />
+            ${_("Update duplicate entries")}
+        </label>
+        <br/>
+        <label>
+            <input type="radio" name="replacement" value="skip" />
+            ${_("Skip duplicate entries")}
+        </label>
+    </div>
+    <br/>
+    <br/>
+    <div>
+        <label>
+            ${_('File to import:')}<br/>
+            <input type="file" name="importfile"/>
+        </label>
+
+        <div>
+            <div>
+                <label>
+                    <input type="radio" name="filetype" value="detect" checked="checked" />
+                    ${_('Detect')}
+                </label>
+                <label>
+                    <input type="radio" name="filetype" value="json" />
+                    ${_('JSON')}
+                </label>
+                <label>
+                    <input type="radio" name="filetype" value="zip" />
+                    ${_('ZIP')}
+                </label>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="savebox">
+        <button type="submit" tabindex="99">${_("Import Now")}</button>
+    </div>
+</form>

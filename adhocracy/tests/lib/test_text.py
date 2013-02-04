@@ -23,5 +23,24 @@ class TestText(TestController):
         tt_make_user('pudo')
         source = '@pudo'
         result = render(source, substitutions=True)
-
         self.assertTrue(u'/user/pudo"' in result)
+
+    def test_render_no_xss(self):
+        from adhocracy.lib.text import render
+        source = '<script>XSS</script><a></a>'
+        result = render(source, substitutions=False)
+        self.assertEquals(result[:3], '<p>')
+        self.assertEquals(result[-4:], '</p>')
+        core_result = result[3:-4]
+        self.assertTrue(u'<' not in core_result)
+
+    def test_render_no_xss_substitutions(self):
+        from adhocracy.lib.text import render
+        tt_make_user('<foo>')
+        source = '@<foo>'
+        result = render(source, substitutions=True)
+        self.assertEquals(result[:3], '<p>')
+        self.assertEquals(result[-4:], '</p>')
+        core_result = result[3:-4]
+        print(core_result)
+        self.assertTrue(u'<' not in core_result)

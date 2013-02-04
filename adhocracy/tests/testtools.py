@@ -42,7 +42,7 @@ def tt_make_str(length=20):
     return u''.join([random.choice(string.letters) for i in range(length)])
 
 
-def tt_make_proposal(creator=None, voting=False, title=None):
+def tt_make_proposal(creator=None, voting=False, title=None, with_description=False):
     instance = tt_get_instance()
     creator = creator if creator is not None else tt_make_user()
     title = title if title is not None else tt_make_str()
@@ -55,6 +55,16 @@ def tt_make_proposal(creator=None, voting=False, title=None):
         poll = model.Poll.create(proposal, creator, model.Poll.ADOPT)
         poll.begin_time = an_hour_ago
         proposal.polls.append(poll)
+        model.meta.Session.flush()
+
+    if with_description:
+        description = model.Page.create(instance,
+                                tt_make_str(),
+                                tt_make_str(),
+                                creator,
+                                function=model.Page.DESCRIPTION)
+        description.parents = [proposal]
+        proposal.description = description
         model.meta.Session.flush()
 
     return proposal
@@ -70,7 +80,7 @@ def tt_make_user(name=None, instance_group=None):
 
     if name is None:
         name = tt_make_str()
-    user = model.User(name, u"test@test.test", u"test",
+    user = model.User(name, name + u'@test.de', u"test",
                       i18n.get_default_locale())
 
     default_group = model.Group.by_code(model.Group.CODE_DEFAULT)

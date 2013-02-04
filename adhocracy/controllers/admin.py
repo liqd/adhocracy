@@ -16,9 +16,9 @@ from adhocracy.lib.mail import to_user
 from adhocracy.lib.templating import render
 from adhocracy.lib.util import random_token
 from adhocracy.lib.search import index
+import adhocracy.lib.importexport
 
 log = logging.getLogger(__name__)
-
 
 class UserImportForm(formencode.Schema):
     allow_extra_fields = True
@@ -31,6 +31,26 @@ class UserImportForm(formencode.Schema):
         not_empty=True,
         messages={'empty': L_('Please insert a template for the '
                               'mail we will send to the users.')})
+
+class ExportForm(formencode.Schema):
+    include_user = formencode.validators.StringBoolean(if_missing=False)
+    include_badge = formencode.validators.StringBoolean(if_missing=False)
+    include_instance = formencode.validators.StringBoolean(if_missing=False)
+    include_instance_proposal = formencode.validators.StringBoolean(if_missing=False)
+    include_instance_proposal_comment = formencode.validators.StringBoolean(if_missing=False)
+    user_personal = formencode.validators.StringBoolean(if_missing=False)
+    user_password = formencode.validators.StringBoolean(if_missing=False)
+    format = formencode.validators.OneOf(['json_download', 'json', 'zip'])
+    _tok = formencode.validators.String()
+
+class ImportForm(formencode.Schema):
+    include_user = formencode.validators.StringBoolean(if_missing=False)
+    include_badge = formencode.validators.StringBoolean(if_missing=False)
+    filetype = formencode.validators.OneOf(['detect', 'json', 'zip'])
+    importfile = formencode.validators.FieldStorageUploadConverter()
+    replacement = formencode.validators.OneOf(['update', 'skip'])
+    _tok = formencode.validators.String()
+
 
 
 class AdminController(BaseController):
@@ -67,7 +87,7 @@ class AdminController(BaseController):
 
     @ActionProtector(has_permission("global.admin"))
     def user_import_form(self, errors=None):
-        return formencode.htmlfill.render(render("/admin/import_form.html"),
+        return formencode.htmlfill.render(render("/admin/userimport_form.html"),
                                           defaults=dict(request.params),
                                           errors=errors,
                                           force_defaults=False)
@@ -127,4 +147,32 @@ class AdminController(BaseController):
         c.not_created = set(names) - set(created)
         c.not_mailed = set(created) - set(mailed)
         c.errors = errors
-        return render("/admin/import_success.html")
+        return render("/admin/userimport_success.html")
+
+
+    @ActionProtector(has_permission("global.admin"))
+    def import_dialog(self):
+        return render('admin/import_dialog.html')
+
+    @RequireInternalRequest(methods=['POST'])
+    @ActionProtector(has_permission("global.admin"))
+    def import_do(self):
+        options = ImportForm().to_python(dict(request.params))
+        obj = request.POST['importfile']
+        options['user_personal'] = True
+        adhocracy.lib.importexport.import_(options, obj.file)
+        return render('admin/import_success.html')
+
+    @ActionProtector(has_permission("global.admin"))
+    def export_dialog(self):
+        return render('admin/export_dialog.html')
+
+    @RequireInternalRequest(methods=['POST'])
+    @ActionProtector(has_permission("global.admin"))
+    def export_do(self):
+        options = ExportForm().to_python(dict(request.params))
+        return adhocracy.lib.importexport.export(options)
+        # Above writes out a file; don't render anything
+
+
+

@@ -35,7 +35,7 @@
       <legend>${_("Display name for")} ${c.page_user.user_name}</legend>
       <p class="info">${_("You can chose which name other users see.")}</p>
       <div class="input_wrapper">
-        <input type="text" tabindex="1" class="title" name="display_name" value="${c.page_user.display_name}" placeholder="${c.page_user.name}" />
+        <input type="text" tabindex="1" class="title" name="display_name" ${('value="%s"'%c.page_user.display_name) if c.page_user.display_name is not None else '' | n} placeholder="${c.page_user.user_name}" />
       </div>
     </fieldset>
 
@@ -44,14 +44,41 @@
       <p class="info">${_("Select a new password or leave the fields blank to keep your old one.")}</p>
       <div class="input_wrapper">
         <label for="password_change">${_("Password:")}</label>
-        <input type="password" name="password_change">
+        <input type="password" name="password_change" autocomplete="off">
       </div>
       <div class="input_wrapper">
         <label for="password_confirm">${_("Password (confirm):")}</label>
-        <input type="password" name="password_confirm">
+        <input type="password" name="password_confirm" autocomplete="off">
       </div>
     </fieldset>
-    
+
+    %if c.enable_gender:
+    <fieldset>
+        <legend>${_("Gender")}</legend>
+        <p class="info">${_("Select your gender")}</p>
+        <div class="input_wrapper">
+            <label for="gender">${_("Gender")}</label>
+            <select id="gender" name="gender">
+		<option value="u"
+                %if c.page_user.gender == "u": 
+                    selected="selected" 
+                %endif
+                >${_("Unspecified")}</option>
+                <option value="m" 
+                %if c.page_user.gender == "m":
+                    selected="selected" 
+                %endif
+                >${_("Male")}</option>
+                <option value="f"
+                %if c.page_user.gender == "f":
+                    selected="selected"
+                %endif
+                >${_("Female")}</option>
+            </select>
+        </div>
+    </fieldset>
+    %endif    
+
     <fieldset>
       <legend>${_("Notifications")}</legend>
       <p class="info">
@@ -116,7 +143,7 @@
       <legend>${_("Short biography")}</legend>
       <p class="info">${_("A bio will allow others to learn about you and perhaps even get you a few delegations.")}</p>
       <div class="input_wrapper">
-        <textarea tabindex="2" class="description" name="bio">${c.page_user.bio}</textarea>
+        <textarea tabindex="2" class="description" name="bio">${c.page_user.bio if c.page_user.bio else ''}</textarea>
         ${components.formatting()}
       </div>
     </fieldset>
