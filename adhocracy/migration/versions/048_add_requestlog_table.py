@@ -5,19 +5,18 @@ from sqlalchemy import DateTime, Integer, Unicode, UnicodeText
 
 meta = MetaData()
 
-request_table = Table('request', meta,
+requestlog_table = Table('requestlog', meta,
     Column('id', Integer, primary_key=True),
-    Column('cookies', UnicodeText()),
-    Column('remote_ip_address', Unicode(255)),
-    Column('useragent', UnicodeText()),
-    Column('request_url', UnicodeText()),
-    Column('proxy', UnicodeText()),
     Column('access_time', DateTime, default=datetime.utcnow),
-    )
+    Column('ip_address', Unicode(255), nullable=True),
+    Column('request_url', UnicodeText()),
+    Column('cookies', UnicodeText(), nullable=True),
+    Column('user_agent', UnicodeText(), nullable=True),
+)
 
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
-    request_table.create()
+    requestlog_table.create()
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

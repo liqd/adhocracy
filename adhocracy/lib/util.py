@@ -131,7 +131,7 @@ def get_client_ip(request):
     if asbool(config.get('adhocracy.behind_proxy', 'false')):
         try:
             header_val = request.headers['X-Forwarded-For']
-            return u','.split(header_val)[-1].strip()
+            return header_val.rpartition(u',')[2].strip()
         except KeyError:
             pass
     return request.remote_addr

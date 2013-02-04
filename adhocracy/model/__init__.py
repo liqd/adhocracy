@@ -44,7 +44,7 @@ from adhocracy.model.page import Page, page_table
 from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
-from adhocracy.model.request import Request, request_table
+from adhocracy.model.requestlog import RequestLog, requestlog_table
 
 mapper(User, user_table, properties={
     'email': synonym('_email', map_column=True),
@@ -422,7 +422,7 @@ mapper(Selection, selection_table, properties={
             primaryjoin=selection_table.c.page_id == page_table.c.id)
     })
 
-mapper(Request, request_table)
+mapper(RequestLog, requestlog_table)
 
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""
