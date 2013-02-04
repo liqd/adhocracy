@@ -21,6 +21,7 @@ from adhocracy.lib.event.stats import user_activity, user_rating
 from adhocracy.lib.search.query import sunburnt_query, add_wildcard_query
 from adhocracy.lib.templating import render_def
 from adhocracy.lib.util import generate_sequence
+from adhocracy.lib.util import split_filter
 
 log = logging.getLogger(__name__)
 
@@ -609,6 +610,9 @@ class SolrFacet(SolrIndexer):
             item['children'] = []
             item['open'] = False
 
+        if self.exclusive:
+            lower, top = split_filter(lambda x: '/' in x, facet_items.keys())
+            disable_toplevel = (len(top) == 1 and len(lower) > 0)
 
         for token in sorted(facet_items.keys(),
                             key=lambda x: x.count('/'),
@@ -623,6 +627,10 @@ class SolrFacet(SolrIndexer):
                 if item['open']:
                     parent['open'] = True
                 facet_items.pop(token)
+            else:
+                if self.exclusive and disable_toplevel:
+                    item['open'] = True
+                    item['disabled'] = True
 
         return facet_items.values()
 
