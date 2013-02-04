@@ -114,7 +114,7 @@ ${facet_items(facet.current_items)}
 <%def name="facet_items(items)">
 <ul>
     %for item in items:
-    <li class="facet-item-level-${item['level']}">
+    <li class="facet-item-level-${item['level']}${' expanded' if item['open'] else ''}">
         %if item['visible']:
         %if item['disabled']:
         <span class="disabled">
@@ -138,7 +138,10 @@ ${facet_items(facet.current_items)}
             %endif
         %endif
 
+        %if item["children"]:
+        <a class="expand_arrow">&nbsp;&nbsp;&nbsp;&nbsp;</a>
         ${facet_items(item["children"])}
+        %endif
         %endif
 
     </li>

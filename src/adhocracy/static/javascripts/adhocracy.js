@@ -647,4 +647,8 @@ $(document).ready(function () {
                 return false;
             });
     });
+
+    $('a.expand_arrow').click(function () {
+        $(this).parent().toggleClass('expanded');
+    });
 });

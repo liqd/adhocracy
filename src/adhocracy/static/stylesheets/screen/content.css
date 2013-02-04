@@ -1589,6 +1589,26 @@ body.logged_in .only-anon {
   list-style: none;
   margin-left: 10px;
 }
+.facet li {
+  padding-right: 16px;
+}
+.facet li a.expand_arrow {
+  width: 11px;
+  height: 11px;
+  background: url("/images/arrow-right-11.png") no-repeat 0px center;
+}
+.facet li > a.expand_arrow:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+.facet li.expanded > a.expand_arrow {
+  background: url("/images/arrow-down-11.png") no-repeat 0px center;
+}
+.facet li > ul {
+  display: none;
+}
+.facet li.expanded > ul {
+  display: block;
 }
 
 .content_box .more {

@@ -2,7 +2,6 @@ import copy
 from inspect import isclass
 import math
 import logging
-import os.path
 from ordereddict import OrderedDict
 import time
 import urllib
@@ -608,19 +607,24 @@ class SolrFacet(SolrIndexer):
             item['visible'] = getattr(entity, 'visible', 'default')
             item['level'] = len((token).split("/"))
             item['children'] = []
+            item['open'] = False
 
-        # reduce and add children
-        def add_children(resultitems, token):
-            parent_token = os.path.split(token)[0]
-            if not parent_token:
-                return resultitems
-            for t in resultitems:
-                if parent_token == t:
-                    item = resultitems.pop(token)
-                    resultitems[t]["children"].append(item)
-                    return resultitems
-        results = reduce(add_children, facet_items, facet_items)
-        return results.values()
+
+        for token in sorted(facet_items.keys(),
+                            key=lambda x: x.count('/'),
+                            reverse=True):
+            item = facet_items[token]
+            if item['selected']:
+                item['open'] = True
+            parent_token = token.rpartition('/')[0]
+            if parent_token:
+                parent = facet_items[parent_token]
+                parent['children'].append(item)
+                if item['open']:
+                    parent['open'] = True
+                facet_items.pop(token)
+
+        return facet_items.values()
 
     def get_item_label(self, entity):
         for attribute in ['label', 'title', 'name']:
