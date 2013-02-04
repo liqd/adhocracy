@@ -436,16 +436,17 @@ class SolrFacet(SolrIndexer):
         self._response = response
 
     def get_thumbnail(self, entity):
-        """"Returns a string with an img tag for the entity.
-            Override to make use of this.
-        """
+        '''
+        Returns a string with an img tag for the entity.
+        Override to make use of this.
+        '''
         return ''
 
     def add_to_queries(self, query, counts_query):
         '''
         Add the facet to the queries *query* and *counts_query*.
         The difference is that the *query* will be limited to facet values
-        used in the the request.
+        used in the request.
 
         Returns: the modified queries as a (query, counts_query) tuple
         '''
@@ -960,7 +961,7 @@ class InstanceUserRatingIndexer(SolrIndexer):
 
 class SolrPager(PagerMixin):
     '''
-    An pager currently compatible to :class:`adhocracy.lib.pager.NamedPager`.
+    A pager currently compatible to :class:`adhocracy.lib.pager.NamedPager`.
     '''
 
     def __init__(self, name, itemfunc, entity_type=None, extra_filter=None,
