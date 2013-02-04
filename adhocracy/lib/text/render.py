@@ -37,13 +37,17 @@ def page_sub(match):
 
 
 @memoize('render')
-def render(text, substitutions=True):
+def render(text, substitutions=True, safe_mode='escape'):
     '''
     Render markdown as html.
 
     *substitutions*
         If `True`, substitude text reference, e.g. member refs like
         @(pudo), to html.
+    *safe_mode*
+        This is passed directly to the markdown renderer. Possible options are
+        `'escape'` (escape html tags), `'remove'` (remove html tags) and
+        `False`(allow html tags).
     '''
     if text is None:
         return ""
@@ -53,7 +57,7 @@ def render(text, substitutions=True):
             'adhocracy.lib.text.mdx_showmore',
         ],
         output_format='xhtml5',
-        safe_mode='escape',
+        safe_mode=safe_mode,
         enable_attributes=False
     )
     if substitutions:

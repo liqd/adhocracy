@@ -12,7 +12,7 @@ class EventTile():
 
     def _get_text(self):
         if self._text is None:
-            text = markdown_to_plain_text(self.event.text())
+            text = markdown_to_plain_text(self.event.text(), safe_mode='remove')
             self._text = truncate(text, length=160,
                                   indicator="...", whole_word=True)
         return self._text

@@ -14,7 +14,7 @@ class MilestoneTile(BaseTile):
     @property
     def text(self):
         if self.milestone.text:
-            return text.render(self.milestone.text, escape=False)
+            return text.render(self.milestone.text, safe_mode=False)
         return ""
 
 
