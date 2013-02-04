@@ -1578,16 +1578,17 @@ body.logged_in .only-anon {
 }
 
 #add_tags {
-padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .facet ul {
-list-style: none;
-margin-left: 0;
+  list-style: none;
+  margin-left: 0;
 }
 .facet ul ul {
-list-style: none;
-margin-left: 10px;
+  list-style: none;
+  margin-left: 10px;
+}
 }
 
 .content_box .more {
