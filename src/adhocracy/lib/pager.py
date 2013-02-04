@@ -647,7 +647,10 @@ class SolrFacet(SolrIndexer):
         '''
         params = self.build_params(request, facet_values)
         url_base = base_url(url.current(qualified=False))
-        return url_base + "?" + urllib.urlencode(params)
+        if params:
+            return url_base + '?' + urllib.urlencode(params)
+        else:
+            return url_base
 
     def build_params(self, request, facet_values):
         '''
