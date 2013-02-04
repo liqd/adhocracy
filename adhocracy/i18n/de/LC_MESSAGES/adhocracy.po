@@ -1863,8 +1863,8 @@ msgstr "Die Adresse darf nur alphanumerische Zeichen enthalten. Bitte beachten S
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
-"community. (Both Markdown and HTML are allowed here.)"
-msgstr "Beschreiben Sie die Ziele dieser Gruppe und wer ihre Mitglieder sind. (Markdown und HTML sind hier erlaubt.)"
+"community."
+msgstr "Beschreiben Sie die Ziele dieser Gruppe und wer ihre Mitglieder sind."
 
 #, python-format
 msgid "Manage: %s"

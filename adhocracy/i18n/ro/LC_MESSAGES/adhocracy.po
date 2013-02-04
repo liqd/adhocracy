@@ -1858,8 +1858,8 @@ msgstr "Adresa poate contine doar caractere alfa-numerice. "
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
-"community. (Both Markdown and HTML are allowed here.)"
-msgstr "Descrie scopul comunitatii si cinear putea fi membrii ei (sunt permise si texte tip HTML)"
+"community."
+msgstr "Descrie scopul comunitatii si cinear putea fi membrii ei"
 
 #, python-format
 msgid "Manage: %s"
