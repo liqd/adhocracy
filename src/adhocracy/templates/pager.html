@@ -99,7 +99,7 @@
     %if facet.used:
     <a class="remove"
        href="${facet.unselect_all_link()|n}"
-       rel="nofollow">(${_("Remove all")})</a>
+       rel="nofollow">(${_("Reset")})</a>
     %endif
 </h4>
 %if facet.description:
@@ -127,7 +127,7 @@ ${facet_items(facet.current_items)}
                 ${item['link_text']}
                 <a class="remove" href="${item['url']|n}" 
 		   rel="nofollow">
-		    (${_("remove")})
+		    (${_("reset")})
 		</a>
             </span>
             %else:
