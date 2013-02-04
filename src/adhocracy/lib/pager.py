@@ -376,16 +376,14 @@ def entity_to_solr_token(entity):
         return model.refs.ref_attr_value(entity)
 
 
-def solr_token_to_entity(token, entity_class):
+def solr_tokens_to_entities(tokens, entity_class):
     """ Returns the entity according to the solr token string.
         and entity_class.
         For hierachical entities it supports tokens including the parents
         reference attribute values ("1/2/3").
     """
-    entity_id = os.path.basename(token)
-    entities = model.refs.get_entities(entity_class, [entity_id])
-    entity = entities and entities[0] or None
-    return entity
+    entity_ids = [t.rpartition('/')[-1] for t in tokens]
+    return model.refs.get_entities(entity_class, entity_ids)
 
 
 class SolrIndexer(object):
@@ -590,10 +588,14 @@ class SolrFacet(SolrIndexer):
                 facet_items[token] = {'current_count': current_count,
                                       'value': token}
 
+        for i, e in zip(facet_items.keys(),
+                        solr_tokens_to_entities(facet_items.keys(),
+                                                self.entity_type)):
+            facet_items[i]['entity'] = e
+
         # add data to display the items
         for token, item in facet_items.items():
-            # TODO: guess this causes to much database work, joka
-            entity = solr_token_to_entity(token, self.entity_type)
+            entity = item['entity']
             item['link_text'] = self.get_item_label(entity)
             item['disabled'] = (item['current_count'] == 0)
             item['selected'] = item['value'] in self.used
