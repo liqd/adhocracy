@@ -439,6 +439,7 @@ class SolrFacet(SolrIndexer):
     title = None
     description = None
     solr_field = None
+    exclusive = False
     show_empty = False
     show_current_empty = True
     template = '/pager.html'
@@ -543,6 +544,8 @@ class SolrFacet(SolrIndexer):
         return sorted(items, key=sort_key_getter)
 
     def available(self):
+        if self.exclusive:
+            return True
         if not self.response:
             return False
         return bool(len(self.current_items))
@@ -581,7 +584,10 @@ class SolrFacet(SolrIndexer):
         # add the the solr token (value) and search counts to the items
         facet_items = OrderedDict()
         for (token, token_count) in token_counts:
-            current_count = self.current_counts[token]
+            if self.exclusive:
+                current_count = self.facet_counts[token]
+            else:
+                current_count = self.current_counts[token]
 
             if show_facet(current_count, token_count,
                           self.show_empty, self.show_current_empty):
@@ -630,11 +636,17 @@ class SolrFacet(SolrIndexer):
         build a new url for the action when you click on it to
         select or unselect the item.
         '''
-        values = self.used[:]
-        if item['selected']:
-            values.remove(item['value'])
+        if self.exclusive:
+            if item['selected']:
+                values = []
+            else:
+                values = [item['value']]
         else:
-            values.append(item['value'])
+            values = self.used[:]
+            if item['selected']:
+                values.remove(item['value'])
+            else:
+                values.append(item['value'])
         return self.build_url(self.request, values)
 
     def unselect_all_link(self):
@@ -742,6 +754,7 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
     entity_type = model.Badge
     title = lazy_ugettext(u'Categories')
     solr_field = 'facet.delegateable.badgecategory'
+    exclusive = True
 
     @property
     def show_current_empty(self):
