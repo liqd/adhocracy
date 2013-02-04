@@ -46,6 +46,8 @@ class RequestLogger(object):
         user_agent = environ.get('HTTP_USER_AGENT').decode('utf-8', 'replace')
         full_ip = adhocracy.lib.util.get_client_ip(environ)
         ip = self.anonymization_func(full_ip)
+        url = (environ['PATH_INFO'].decode('utf-8', 'replace')
+               + '?' + environ['QUERY_STRING'].decode('utf-8', 'replace'))
 
-        adhocracy.model.RequestLog.create(ip, environ['QUERY_STRING'], cookies, user_agent)
+        adhocracy.model.RequestLog.create(ip, url, cookies, user_agent)
         adhocracy.model.meta.Session.commit()
