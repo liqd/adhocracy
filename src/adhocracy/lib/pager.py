@@ -578,8 +578,7 @@ class SolrFacet(SolrIndexer):
 
         # get solr tokens and search counts and sort hierarchical
         token_counts = sorted(self.sorted_facet_counts, key=lambda x:
-                              len(x[0].split("/")))
-        token_counts.reverse()
+                              len(x[0].split("/")), reverse=True)
 
         # add the the solr token (value) and search counts to the items
         facet_items = OrderedDict()
