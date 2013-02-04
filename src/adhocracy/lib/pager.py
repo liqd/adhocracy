@@ -499,7 +499,7 @@ class SolrFacet(SolrIndexer):
                                             reverse=True)
         self.current_counts = dict(self.sorted_current_counts)
 
-        # the counts in the current query which is limited to selected
+        # the counts in the base query which is not limited to selected
         # facet values
         facet_counts = counts_response.facet_counts.facet_fields[solr_field]
         self.sorted_facet_counts = sorted(facet_counts,
