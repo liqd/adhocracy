@@ -22,6 +22,7 @@ from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_def, render_json
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort
+from adhocracy.lib.util import split_filter
 
 import adhocracy.lib.text as text
 
@@ -110,8 +111,8 @@ class ProposalController(BaseController):
         categories = model.CategoryBadge.all(
             c.instance, include_global=not c.instance.hide_global_categories)
 
-        toplevel = filter(lambda c: c.parent is None, categories)
-        lowerlevel = filter(lambda c: c.parent is not None, categories)
+        toplevel, lowerlevel = split_filter(lambda c: c.parent is None,
+                                            categories)
 
         # If there is exactly one top level category and there are lower
         # level categories, only these are shown in the category chooser,
