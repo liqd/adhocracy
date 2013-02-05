@@ -66,7 +66,7 @@ def render(text, substitutions=True, safe_mode='escape'):
 
     # sanitize
     from lxml.html.clean import Cleaner
-    return Cleaner(embedded=False).clean_html(text)
+    return Cleaner(embedded=False, kill_tags=['embed', 'object']).clean_html(text)
 
 
 def _line_table(lines):
