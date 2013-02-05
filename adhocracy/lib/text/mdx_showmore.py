@@ -17,6 +17,14 @@ code, which depends on the availability of jquery.
                 self.find('.showmore_uncollapsed').css('display', 'none');
             });
     });
+
+Additionally, you have to add the following to your css code:
+    .showmore, .showmore_content {
+      display: inline;
+    }
+    .showmore_uncollapsed {
+      display: none;
+    }
 """
 
 import re
@@ -32,14 +40,14 @@ MORE_STRING = u'show more'
 LESS_STRING = u'show less'
 
 PRE_HTML = u'''
-<div class="showmore" style="display: inline">
+<div class="showmore">
     <span class="showmore_collapsed">
         <span> </span>
         <a class="showmore_morelink" href="#">[%s]</a>
         <span> </span>
     </span>
-    <div class="showmore_uncollapsed" style="display: none">
-        <div class="showmore_content" style="display: inline">
+    <div class="showmore_uncollapsed">
+        <div class="showmore_content">
 '''
 
 POST_HTML = u'''

@@ -1713,6 +1713,12 @@ a.joyride-prev-tip:hover {
   height: 140px;
 }
 
+.showmore, .showmore_content {
+  display: inline;
+}
+.showmore_uncollapsed {
+  display: none;
+}
 .showmore_morelink, .showmore_lesslink {
   text-transform: lowercase;
   font-variant: small-caps;
