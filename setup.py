@@ -61,9 +61,10 @@ setup(
         "fanstatic >=0.11.2",
         "js.jquery >= 1.7.1,<=1.7.99",
         "js.jquery_qtip >= 1.0.0,<= 1.0.99",
-        'js.socialshareprivacy >= 1.3dev',
-        'js.jquery_joyride',
+        "js.socialshareprivacy >= 1.3dev",
+        "js.jquery_joyride",
         "PasteScript>=1.6.3",
+        "ipaddress>=1.0.3",
     ],
     setup_requires=[
                     "setuptools>=0.6c6"],  # fix OS X 10.5.7
