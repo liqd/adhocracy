@@ -44,3 +44,11 @@ class TestText(TestController):
         core_result = result[3:-4]
         print(core_result)
         self.assertTrue(u'<' not in core_result)
+
+    def test_assure_sanitizing(self):
+        from adhocracy.lib.text import render
+        source = '<h1>Hello</h1><script>XSS</script>'\
+                 '<a href="#" onclick="javascript: alert(\'foo\')">lala</a>'
+        result = render(source, safe_mode=False)
+        self.assertNotIn('<script>', result)
+        self.assertNotIn('javascript', result)
