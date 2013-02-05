@@ -15,6 +15,7 @@ from adhocracy.lib.instance import setup_discriminator
 from adhocracy.lib.machine_name import IncludeMachineName
 from adhocracy.lib.util import get_site_path
 from adhocracy.config.environment import load_environment
+from adhocracy.lib.requestlog import RequestLogger
 
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
@@ -60,6 +61,8 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
     app = setup_auth(app, config)
     app = setup_discriminator(app, config)
+    if asbool(config.get('adhocracy.requestlog_active', 'False')):
+        app = RequestLogger(app, config)
 
     if asbool(full_stack):
         # Handle Python exceptions

@@ -23,7 +23,7 @@ class BaseController(WSGIController):
 
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
-
+        
         c.instance = model.instance_filter.get_instance()
         if c.instance is not None:
             # setup a global variable to mark the current item in
