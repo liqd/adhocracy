@@ -1857,8 +1857,8 @@ msgstr "The address may only contain alpha-numeric characters. Please note that 
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
-"community. (Both Markdown and HTML are allowed here.)"
-msgstr "Describe what the goals of this instance are and who constitutes its community. (Both Markdown and HTML are allowed here.)"
+"community."
+msgstr "Describe what the goals of this instance are and who constitutes its community."
 
 #, python-format
 msgid "Manage: %s"

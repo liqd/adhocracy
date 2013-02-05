@@ -1859,8 +1859,8 @@ msgstr "Het adres mag enkel bestaan uit alfanumerieke karakters. Houd er rekenin
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
-"community. (Both Markdown and HTML are allowed here.)"
-msgstr "Beschrijf de doelstellingen van deze groep en wie de deelnemers zijn (Zowel Markdown als HTML zijn hier toegestaan)."
+"community."
+msgstr "Beschrijf de doelstellingen van deze groep en wie de deelnemers zijn."
 
 #, python-format
 msgid "Manage: %s"

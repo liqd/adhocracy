@@ -1861,8 +1861,8 @@ msgstr "Адрес может содержать только буквы или 
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
-"community. (Both Markdown and HTML are allowed here.)"
-msgstr "Опишите цели этой организации и кто ее составляет (Разрешена как вики-маркировка, так и HTML)"
+"community."
+msgstr "Опишите цели этой организации и кто ее составляет"
 
 #, python-format
 msgid "Manage: %s"

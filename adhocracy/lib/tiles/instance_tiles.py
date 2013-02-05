@@ -21,7 +21,7 @@ class InstanceTile(BaseTile):
     @property
     def description(self):
         if self.instance.description:
-            return text.render(self.instance.description, safe_mode=False)
+            return text.render(self.instance.description)
         return ""
 
     @property

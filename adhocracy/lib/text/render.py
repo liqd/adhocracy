@@ -46,11 +46,11 @@ def render(text, substitutions=True, safe_mode='escape'):
         @(pudo), to html.
     *safe_mode*
         This is passed directly to the markdown renderer. Possible options are
-        `'escape'` (escape html tags), `'remove'` (remove html tags) and
-        `False`(allow html tags).
+        `'escape'` (escape html tags) and `'remove'` (remove html tags).
     '''
     if text is None:
         return ""
+    assert safe_mode in ('escape', 'remove')
     text = markdown.markdown(
         text,
         extensions=[
