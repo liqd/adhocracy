@@ -111,7 +111,9 @@ class UserController(BaseController):
     def index(self, format='html'):
         require.user.index()
 
-        c.users_pager = solr_instance_users_pager(c.instance)
+        default_sorting = config.get(
+            'adhocracy.listings.instance_user.sorting', 'ACTIVITY')
+        c.users_pager = solr_instance_users_pager(c.instance, default_sorting)
 
         #if format == 'json':
         ##    return render_json(c.users_pager)

@@ -1180,7 +1180,7 @@ PROPOSAL_MIXED = SortOption('-order.proposal.mixed', L_('Mixed'),
                             description=L_('Age and Support'))
 
 
-def get_user_sorts(instance=None):
+def get_user_sorts(instance=None, default='ACTIVITY'):
     activity = SortOption(
         '-%s' % InstanceUserActivityIndexer.solr_field(instance),
         L_('Activity'))
@@ -1188,13 +1188,18 @@ def get_user_sorts(instance=None):
     rating = SortOption(
         '-%s' % InstanceUserRatingIndexer.solr_field(instance),
         L_('Rating'))
+    sorts = {"OLDEST": OLDEST,
+             "NEWEST": NEWEST,
+             "ACTIVITY": activity,
+             "RATING": rating,
+             "ALPHA": ALPHA}
 
     return NamedSort([[L_('Date'), (OLDEST(old=1),
                                     NEWEST(old=2))],
                       [L_('User behavior'), (activity(old=3),
                                              rating(old=4))],
                       [L_('Other'), (ALPHA(old=5),)]],
-                     default=activity,
+                     default=sorts.get(default, 'ACTIVITY'),
                      mako_def="sort_slidedown")
 
 
@@ -1219,20 +1224,20 @@ PROPOSAL_SORTS = NamedSort([[L_('Support'), (PROPOSAL_SUPPORT(old=2),
                            mako_def="sort_slidedown")
 
 
-def solr_instance_users_pager(instance):
+def solr_instance_users_pager(instance, default_sorting='ACTIVITY'):
     extra_filter = {'facet.instances': instance.key}
     pager = SolrPager('users', tiles.user.row,
                       entity_type=model.User,
-                      sorts=get_user_sorts(instance),
+                      sorts=get_user_sorts(instance, default_sorting),
                       extra_filter=extra_filter,
                       facets=[UserBadgeFacet])
     return pager
 
 
-def solr_global_users_pager():
+def solr_global_users_pager(default_sorting='ACTIVITY'):
     pager = SolrPager('users', tiles.user.row,
                       entity_type=model.User,
-                      sorts=get_user_sorts(None),
+                      sorts=get_user_sorts(None, default_sorting),
                       facets=[UserBadgeFacet, InstanceFacet]
                       )
     return pager
