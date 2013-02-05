@@ -63,7 +63,10 @@ def render(text, substitutions=True, safe_mode='escape'):
     if substitutions:
         text = SUB_USER.sub(user_sub, text)
         text = SUB_PAGE.sub(page_sub, text)
-    return text
+
+    # sanitize
+    from lxml.html.clean import Cleaner
+    return Cleaner(embedded=False).clean_html(text)
 
 
 def _line_table(lines):
