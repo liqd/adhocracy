@@ -48,8 +48,8 @@ def render(text, substitutions=True, safe_mode='escape', _testing_allow_user_htm
         @(pudo), to html.
     *safe_mode*
         This is passed directly to the markdown renderer. Possible options are
-        `'escape'` (escape html tags), `'remove'` (remove html tags) and
-        `False` (allow html tags).
+        `'escape'` (escape html tags), `'remove'` (remove html tags),
+        `'adhocracy_config'` (HTML if allowed, escape otherwise).
     '''
     if text is None:
         return ""
@@ -57,8 +57,9 @@ def render(text, substitutions=True, safe_mode='escape', _testing_allow_user_htm
     allow_user_html = _testing_allow_user_html
     if allow_user_html is None:
         allow_user_html = asbool(config.get('adhocracy.allow_user_html', 'true'))
-    if not allow_user_html:
-        assert safe_mode in ('escape', 'remove')
+    assert safe_mode in ('escape', 'remove', 'adhocracy_config')
+    if safe_mode == 'adhocracy_config':
+        safe_mode = False if allow_user_html else 'escape'
 
     text = markdown.markdown(
         text,

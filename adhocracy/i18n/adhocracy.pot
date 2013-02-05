@@ -1805,7 +1805,7 @@ msgstr ""
 msgid "The address may only contain alpha-numeric characters. Please note that this key cannot be changed after the instance has been created."
 msgstr ""
 
-msgid "Describe what the goals of this instance are and who constitutes its community."
+msgid "Describe what the goals of this instance are and who constitutes its community. (Both Markdown and HTML are allowed here.)"
 msgstr ""
 
 #, python-format
