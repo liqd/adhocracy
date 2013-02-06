@@ -12,7 +12,7 @@
     <%components:build_infobox>
     
         <p>
-            ${_('Hi %s.<br />') % c.user.name | n}
+            ${_('Hi %s.') % c.user.name}<br />
  
         %if not c.page_user.instances:
             %if c.instance:
