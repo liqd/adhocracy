@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2012 ORGANIZATION
+# Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
 # Daniel Reichert <daniel.reichert@liqd.de>, 2012.
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-18 10:53+0100\n"
-"PO-Revision-Date: 2012-12-09 22:32+0000\n"
+"POT-Creation-Date: 2013-02-06 00:59+0100\n"
+"PO-Revision-Date: 2013-02-06 00:00+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -61,12 +61,20 @@ msgid "The comment has been deleted."
 msgstr "Dieser Kommentar wurde gelöscht."
 
 msgid ""
-"You're trying to revert to a revision which is not partri of this comments "
+"You're trying to revert to a revision which is not part of this comment's "
 "history"
-msgstr "Sie versuchen eine Version wiederherzustellen, die nicht Teil der Historie dieses Kommentars ist."
+msgstr ""
 
 msgid "The comment has been reverted."
 msgstr "Dieser Kommentar wurde zurück gesetzt."
+
+msgid ""
+"You're trying to purge a revision which is not part of this comment's "
+"history"
+msgstr ""
+
+msgid "The comment revision has been deleted."
+msgstr ""
 
 msgid "Wrong topic"
 msgstr "Falsches Thema"
@@ -102,6 +110,9 @@ msgstr "Die Änderungen wurden gespeichert."
 
 msgid "No update required."
 msgstr "Es wurden keine Änderungen vorgenommen."
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Delegationen sind aktiv."
@@ -289,6 +300,12 @@ msgstr "Texte von unterschiedlichen Beschlüssen können nicht verglichen werden
 msgid "The variant %s has been deleted."
 msgstr "Die Version %s wurde gelöscht."
 
+msgid "Cannot delete, if there's only one version"
+msgstr ""
+
+msgid "The selected version has been deleted."
+msgstr ""
+
 #, python-format
 msgid "The page %s has been deleted."
 msgstr "Die Seite %s wurde gelöscht."
@@ -362,6 +379,9 @@ msgstr "Sie haben keine Twitter-Verbindung."
 
 msgid "tutorial_user_index_intro"
 msgstr "Mitgliederliste der Projektgruppe."
+
+msgid "Sorry, registration has been disabled by administrator."
+msgstr ""
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Es tut uns Leid - diese E-Mail-Adresse ist nicht zur Registrierung zugelassen."
@@ -511,6 +531,14 @@ msgstr "Sie haben nicht die Rechte, um Installationsweite Badges zu bearbeiten"
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Das Badge '%s' existiert nicht."
+
+#, python-format
+msgid "Cannot use global category %s in this instance"
+msgstr ""
+
+#, python-format
+msgid "Badge with ID '%s' not valid in this instance"
+msgstr ""
 
 #, python-format
 msgid "No revision with ID '%s' exists"
@@ -768,17 +796,23 @@ msgstr "gemischt"
 msgid "Age and Support"
 msgstr "Alter und Unterstützung"
 
-msgid "Support"
-msgstr "Unterstützung"
+msgid "Rating"
+msgstr ""
 
 msgid "Date"
 msgstr "Datum"
 
-msgid "Newest Proposals"
-msgstr "Neueste Vorschläge"
+msgid "User behavior"
+msgstr ""
 
 msgid "Other"
 msgstr "Sonstige"
+
+msgid "Support"
+msgstr "Unterstützung"
+
+msgid "Newest Proposals"
+msgstr "Neueste Vorschläge"
 
 #, python-format
 msgid "Missing page: %s"
@@ -1164,6 +1198,18 @@ msgstr "Wird verfolgt"
 msgid "Unfollow"
 msgstr "entfolgen"
 
+msgid "Send us your feedback"
+msgstr ""
+
+msgid "One line summary"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "List existing feedback"
+msgstr ""
+
 msgid "code of conduct"
 msgstr "Verhaltenscodex"
 
@@ -1225,6 +1271,9 @@ msgstr "Seite verwalten"
 msgid "Logout"
 msgstr "Abmelden"
 
+msgid "Settings"
+msgstr "Einstellungen"
+
 msgid "Search"
 msgstr "Suchen"
 
@@ -1240,9 +1289,6 @@ msgstr "Beschlüsse"
 
 msgid "Members"
 msgstr "Mitglieder"
-
-msgid "Settings"
-msgstr "Einstellungen"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1326,11 +1372,115 @@ msgstr "Diese Seite melden..."
 msgid "Send"
 msgstr "Senden"
 
-msgid "Admin: Import Users"
-msgstr "Admin: Benutzer importieren"
+msgid "Export"
+msgstr ""
+
+msgid "Export users"
+msgstr ""
+
+msgid "Include personal data"
+msgstr ""
+
+msgid "Include password hashes"
+msgstr ""
+
+msgid "Export badges"
+msgstr ""
+
+msgid "Export content (instances)"
+msgstr ""
+
+msgid "Include proposals"
+msgstr ""
+
+msgid "Include comments"
+msgstr ""
+
+msgid "Export format:"
+msgstr ""
+
+msgid "JSON download"
+msgstr ""
+
+msgid "JSON"
+msgstr ""
+
+msgid "ZIP download"
+msgstr ""
+
+msgid "Export Now"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import users"
+msgstr ""
+
+msgid "Import badges"
+msgstr ""
+
+msgid "Import content (instances)"
+msgstr ""
+
+msgid "Replacement strategy"
+msgstr ""
+
+msgid "Update duplicate entries"
+msgstr ""
+
+msgid "Skip duplicate entries"
+msgstr ""
+
+msgid "File to import:"
+msgstr ""
+
+msgid "Detect"
+msgstr ""
+
+msgid "ZIP"
+msgstr ""
+
+msgid "Import Now"
+msgstr ""
+
+msgid "Import successfully performed."
+msgstr ""
+
+msgid "back to main page"
+msgstr ""
+
+msgid "Admin: Group Permissions"
+msgstr "Verwaltung: Gruppenrechte"
+
+msgid "Admin &raquo; Group Permissions"
+msgstr "Verwaltung &raquo; Gruppenrechte"
+
+msgid "Group Permissions"
+msgstr "Gruppenrechte"
+
+msgid ""
+"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
+" care!"
+msgstr "ACHTUNG: Hiermit können Sie sich aus Ihrer eigenen Gruppe ausschließen. Seien Sie vorsichtig!"
+
+msgid "Permissions"
+msgstr "Rechte"
+
+msgid "All Events"
+msgstr "Alle Ereignisse"
 
 msgid "Import Users"
 msgstr "Benutzer importieren"
+
+msgid "Update Search Index"
+msgstr ""
+
+msgid "Site administration"
+msgstr "Seiteneinstellungen"
+
+msgid "Admin: Import Users"
+msgstr "Admin: Benutzer importieren"
 
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
@@ -1396,29 +1546,6 @@ msgstr "Diese Benutzer konnten nicht erstellt werden:"
 msgid "These users where created, but we could not send out mails:"
 msgstr "Diese Benutzer wurden erstellt, wir konnten jedoch keine E-Mails versenden:"
 
-msgid "Admin: Group Permissions"
-msgstr "Verwaltung: Gruppenrechte"
-
-msgid "Admin &raquo; Group Permissions"
-msgstr "Verwaltung &raquo; Gruppenrechte"
-
-msgid "Group Permissions"
-msgstr "Gruppenrechte"
-
-msgid ""
-"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
-" care!"
-msgstr "ACHTUNG: Hiermit können Sie sich aus Ihrer eigenen Gruppe ausschließen. Seien Sie vorsichtig!"
-
-msgid "Permissions"
-msgstr "Rechte"
-
-msgid "All Events"
-msgstr "Alle Ereignisse"
-
-msgid "Site administration"
-msgstr "Seiteneinstellungen"
-
 msgid "Add instance badge"
 msgstr "Füge Gruppen-Badge hinzu"
 
@@ -1454,6 +1581,12 @@ msgstr "'#a4a4a4' liken"
 
 msgid "Preview:"
 msgstr "Vorschau:"
+
+msgid "Check to hide badge in user interface"
+msgstr ""
+
+msgid "visible"
+msgstr ""
 
 msgid "Group"
 msgstr "Benutzerrolle"
@@ -1564,6 +1697,9 @@ msgstr "%s angelegt"
 
 msgid "revert here"
 msgstr "diese Version wiederherstellen"
+
+msgid "delete version permanently"
+msgstr ""
 
 #, python-format
 msgid "on %s"
@@ -1903,6 +2039,12 @@ msgstr "Vorschläge müssen mindestens eine Änderung an einem Beschluss einbrin
 msgid "Use milestones"
 msgstr "Termine verwenden"
 
+msgid "Hide global categories"
+msgstr ""
+
+msgid "Allow editing of comments by default"
+msgstr ""
+
 msgid "Freeze this instance"
 msgstr "Die Arbeit in dieser Gruppe einfrieren"
 
@@ -2171,6 +2313,9 @@ msgid ""
 "that might support it."
 msgstr "ACHTUNG: Dieser Schritt entfernt alle Überarbeitungen dieser Version von allen Vorschlägen, die diese unterstützen."
 
+msgid "Are you sure you want to purge the following version:"
+msgstr ""
+
 #, python-format
 msgid "Variant: %s"
 msgstr "Version: %s"
@@ -2199,6 +2344,12 @@ msgstr "Name der Version"
 
 msgid "Text"
 msgstr "Text"
+
+msgid "Formatting"
+msgstr ""
+
+msgid "Use markdown formatting."
+msgstr ""
 
 msgid "Parent page:"
 msgstr "Elternseite:"
@@ -2262,6 +2413,9 @@ msgstr "Informationen über den Beschluss"
 
 msgid "Last Activity"
 msgstr "Letzte Aktivität"
+
+msgid "This page is not assigned to any category"
+msgstr ""
 
 #, python-format
 msgid "This norm relates to the milestone %s."
@@ -2449,19 +2603,16 @@ msgstr "Titel und Ziele"
 msgid "Proposal title"
 msgstr "Titel des Vorschlags"
 
-msgid "Proposal goals"
-msgstr "Begründung"
-
 msgid "A brief description of <b>the goals</b> of your proposal."
 msgstr "Bitte geben Sie eine kurze Beschreibung Ihres Vorschlags an."
 
 msgid "The proposal would..."
 msgstr "Dieser Vorschlag will..."
 
-msgid "Proposal Category"
-msgstr "Bereich"
+msgid "Proposal goals"
+msgstr "Begründung"
 
-msgid "Proposal category hint"
+msgid "Proposal Category"
 msgstr "Bereich"
 
 msgid "Collaboration and Notification"
@@ -2568,6 +2719,9 @@ msgstr "... und neue Kommentare einbringen."
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr "Oder aktiv den Vorschlag mitgestalten und Alternativen einbringen."
+
+msgid "This proposal is not assigned to any category"
+msgstr ""
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
@@ -2929,6 +3083,21 @@ msgstr "Passwort:"
 msgid "Password (confirm):"
 msgstr "Passwort (bestätigen):"
 
+msgid "Gender"
+msgstr ""
+
+msgid "Select your gender"
+msgstr ""
+
+msgid "Unspecified"
+msgstr ""
+
+msgid "Male"
+msgstr ""
+
+msgid "Female"
+msgstr ""
+
 msgid "Notifications"
 msgstr "Benachrichtungen"
 
@@ -2984,6 +3153,9 @@ msgstr "Hilfenachrichten und Links zur Dokumentation abstellen."
 
 msgid "Hide help messages:"
 msgstr "Hinweise verbergen:"
+
+msgid "Change default sorting order for proposals:"
+msgstr ""
 
 msgid "Find users"
 msgstr "Benutzer suchen"

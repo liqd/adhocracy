@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2012 ORGANIZATION
+# Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
 # Mieke Van Heesewijk <>, 2012.
@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-18 10:53+0100\n"
-"PO-Revision-Date: 2012-11-18 14:11+0000\n"
-"Last-Translator: sicco <sicco@ddo.nl>\n"
+"POT-Creation-Date: 2013-02-06 00:59+0100\n"
+"PO-Revision-Date: 2013-02-06 00:00+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,12 +57,20 @@ msgid "The comment has been deleted."
 msgstr "De reactie is verwijderd"
 
 msgid ""
-"You're trying to revert to a revision which is not partri of this comments "
+"You're trying to revert to a revision which is not part of this comment's "
 "history"
-msgstr "U probeert een revisie te herstellen die niet onderdeel is van de historie van deze reacties"
+msgstr ""
 
 msgid "The comment has been reverted."
 msgstr "De reactie is hersteld."
+
+msgid ""
+"You're trying to purge a revision which is not part of this comment's "
+"history"
+msgstr ""
+
+msgid "The comment revision has been deleted."
+msgstr ""
 
 msgid "Wrong topic"
 msgstr "Verkeerd onderwerp"
@@ -98,6 +106,9 @@ msgstr "De veranderingen zijn opgeslagen"
 
 msgid "No update required."
 msgstr "Geen update nodig."
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Het geven van volmachten is toegestaan."
@@ -285,6 +296,12 @@ msgstr "Verschillende tekstversies kunnen niet vergeleken worden."
 msgid "The variant %s has been deleted."
 msgstr "De variant %s is verwijderd."
 
+msgid "Cannot delete, if there's only one version"
+msgstr ""
+
+msgid "The selected version has been deleted."
+msgstr ""
+
 #, python-format
 msgid "The page %s has been deleted."
 msgstr "De pagina %s is verwijderd."
@@ -358,6 +375,9 @@ msgstr "U heeft geen Twitter account."
 
 msgid "tutorial_user_index_intro"
 msgstr "Deelnemerslijst van de groep."
+
+msgid "Sorry, registration has been disabled by administrator."
+msgstr ""
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Het spijt ons, registratie met dit e-mail adres is niet toegestaan."
@@ -507,6 +527,14 @@ msgstr "U mag de algemene badges niet bewerken"
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Er bestaat geen badge met het ID '%s'"
+
+#, python-format
+msgid "Cannot use global category %s in this instance"
+msgstr ""
+
+#, python-format
+msgid "Badge with ID '%s' not valid in this instance"
+msgstr ""
 
 #, python-format
 msgid "No revision with ID '%s' exists"
@@ -764,17 +792,23 @@ msgstr "Gemengd"
 msgid "Age and Support"
 msgstr "Leeftijd en Steun"
 
-msgid "Support"
-msgstr "Steun"
+msgid "Rating"
+msgstr ""
 
 msgid "Date"
 msgstr "Datum"
 
-msgid "Newest Proposals"
-msgstr "Nieuwste Voorstellen"
+msgid "User behavior"
+msgstr ""
 
 msgid "Other"
 msgstr "Andere"
+
+msgid "Support"
+msgstr "Steun"
+
+msgid "Newest Proposals"
+msgstr "Nieuwste Voorstellen"
 
 #, python-format
 msgid "Missing page: %s"
@@ -1160,6 +1194,18 @@ msgstr "Volgen"
 msgid "Unfollow"
 msgstr "Niet Meer Volgen"
 
+msgid "Send us your feedback"
+msgstr ""
+
+msgid "One line summary"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "List existing feedback"
+msgstr ""
+
 msgid "code of conduct"
 msgstr "gedragscode"
 
@@ -1221,6 +1267,9 @@ msgstr "Beheer Site"
 msgid "Logout"
 msgstr "Log uit"
 
+msgid "Settings"
+msgstr "Instellingen"
+
 msgid "Search"
 msgstr "Zoeken"
 
@@ -1236,9 +1285,6 @@ msgstr "Reglementen"
 
 msgid "Members"
 msgstr "Leden"
-
-msgid "Settings"
-msgstr "Instellingen"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1322,11 +1368,115 @@ msgstr "Reden voor het melden van deze pagina..."
 msgid "Send"
 msgstr "Verstuur"
 
-msgid "Admin: Import Users"
-msgstr "Admin: Importeer Gebruikers"
+msgid "Export"
+msgstr ""
+
+msgid "Export users"
+msgstr ""
+
+msgid "Include personal data"
+msgstr ""
+
+msgid "Include password hashes"
+msgstr ""
+
+msgid "Export badges"
+msgstr ""
+
+msgid "Export content (instances)"
+msgstr ""
+
+msgid "Include proposals"
+msgstr ""
+
+msgid "Include comments"
+msgstr ""
+
+msgid "Export format:"
+msgstr ""
+
+msgid "JSON download"
+msgstr ""
+
+msgid "JSON"
+msgstr ""
+
+msgid "ZIP download"
+msgstr ""
+
+msgid "Export Now"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import users"
+msgstr ""
+
+msgid "Import badges"
+msgstr ""
+
+msgid "Import content (instances)"
+msgstr ""
+
+msgid "Replacement strategy"
+msgstr ""
+
+msgid "Update duplicate entries"
+msgstr ""
+
+msgid "Skip duplicate entries"
+msgstr ""
+
+msgid "File to import:"
+msgstr ""
+
+msgid "Detect"
+msgstr ""
+
+msgid "ZIP"
+msgstr ""
+
+msgid "Import Now"
+msgstr ""
+
+msgid "Import successfully performed."
+msgstr ""
+
+msgid "back to main page"
+msgstr ""
+
+msgid "Admin: Group Permissions"
+msgstr "Admin: Groepsrechten"
+
+msgid "Admin &raquo; Group Permissions"
+msgstr "Admin &raquo; Groepsrechten"
+
+msgid "Group Permissions"
+msgstr "Groepsrechten"
+
+msgid ""
+"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
+" care!"
+msgstr "WAARSCHUWING: Hiermee kunt u zich uit Adhocracy buitensluiten. Ga hier voorzichtig mee om!"
+
+msgid "Permissions"
+msgstr "Rechten"
+
+msgid "All Events"
+msgstr "Alle Evenementen"
 
 msgid "Import Users"
 msgstr "Importeer Gebruikers"
+
+msgid "Update Search Index"
+msgstr ""
+
+msgid "Site administration"
+msgstr "Site administratie"
+
+msgid "Admin: Import Users"
+msgstr "Admin: Importeer Gebruikers"
 
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
@@ -1392,29 +1542,6 @@ msgstr "De volgende gebruikers konden niet worden aangemaakt:"
 msgid "These users where created, but we could not send out mails:"
 msgstr "De gebruikers zijn aangemaakt, maar we konden geen e-mail verzenden:"
 
-msgid "Admin: Group Permissions"
-msgstr "Admin: Groepsrechten"
-
-msgid "Admin &raquo; Group Permissions"
-msgstr "Admin &raquo; Groepsrechten"
-
-msgid "Group Permissions"
-msgstr "Groepsrechten"
-
-msgid ""
-"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
-" care!"
-msgstr "WAARSCHUWING: Hiermee kunt u zich uit Adhocracy buitensluiten. Ga hier voorzichtig mee om!"
-
-msgid "Permissions"
-msgstr "Rechten"
-
-msgid "All Events"
-msgstr "Alle Evenementen"
-
-msgid "Site administration"
-msgstr "Site administratie"
-
 msgid "Add instance badge"
 msgstr "Voeg groepsbadge toe"
 
@@ -1450,6 +1577,12 @@ msgstr "Zoals '#a4a4a4'"
 
 msgid "Preview:"
 msgstr "Voorbeeld:"
+
+msgid "Check to hide badge in user interface"
+msgstr ""
+
+msgid "visible"
+msgstr ""
 
 msgid "Group"
 msgstr "Groep"
@@ -1560,6 +1693,9 @@ msgstr "aangemaakt op %s"
 
 msgid "revert here"
 msgstr "herstel deze"
+
+msgid "delete version permanently"
+msgstr ""
 
 #, python-format
 msgid "on %s"
@@ -1899,6 +2035,12 @@ msgstr "Elk voorstel moet minstens één veranderingen in het reglement aanbreng
 msgid "Use milestones"
 msgstr "Gebruik mijlpalen"
 
+msgid "Hide global categories"
+msgstr ""
+
+msgid "Allow editing of comments by default"
+msgstr ""
+
 msgid "Freeze this instance"
 msgstr "Bevries deze groep"
 
@@ -2167,6 +2309,9 @@ msgid ""
 "that might support it."
 msgstr "WAARSCHUWING: Hierdoor zullen alle revisies van deze variant verwijderd worden van all voorstellen die het steunen."
 
+msgid "Are you sure you want to purge the following version:"
+msgstr ""
+
 #, python-format
 msgid "Variant: %s"
 msgstr "Variant: %s"
@@ -2195,6 +2340,12 @@ msgstr "Variant Naam"
 
 msgid "Text"
 msgstr "Tekst"
+
+msgid "Formatting"
+msgstr ""
+
+msgid "Use markdown formatting."
+msgstr ""
 
 msgid "Parent page:"
 msgstr "Bovenliggende pagina:"
@@ -2258,6 +2409,9 @@ msgstr "Informatie over het reglement"
 
 msgid "Last Activity"
 msgstr "Laatste Activiteit"
+
+msgid "This page is not assigned to any category"
+msgstr ""
 
 #, python-format
 msgid "This norm relates to the milestone %s."
@@ -2445,20 +2599,17 @@ msgstr "Titel en Doelstellingen"
 msgid "Proposal title"
 msgstr "Voorstel titel"
 
-msgid "Proposal goals"
-msgstr "Voorstel doelstellingen"
-
 msgid "A brief description of <b>the goals</b> of your proposal."
 msgstr "Een korte beschrijving van <b>de doelstellingen</b> van uw voorstel."
 
 msgid "The proposal would..."
 msgstr "Het voorstel zal..."
 
+msgid "Proposal goals"
+msgstr "Voorstel doelstellingen"
+
 msgid "Proposal Category"
 msgstr "Voorstel Categorie"
-
-msgid "Proposal category hint"
-msgstr "Voorstel categorie hint"
 
 msgid "Collaboration and Notification"
 msgstr "Samenwerking en Meldingen"
@@ -2564,6 +2715,9 @@ msgstr "Geef uw reactie op het voorstel of reageer op andere reacties."
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr "U kunt actief deelnemen door zelf een variant op een reglement toe te voegen."
+
+msgid "This proposal is not assigned to any category"
+msgstr ""
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
@@ -2925,6 +3079,21 @@ msgstr "Wachtwoord:"
 msgid "Password (confirm):"
 msgstr "Wachtwoord (bevestiging):"
 
+msgid "Gender"
+msgstr ""
+
+msgid "Select your gender"
+msgstr ""
+
+msgid "Unspecified"
+msgstr ""
+
+msgid "Male"
+msgstr ""
+
+msgid "Female"
+msgstr ""
+
 msgid "Notifications"
 msgstr "Meldingen"
 
@@ -2980,6 +3149,9 @@ msgstr "Schakel hulp berichten en links naar de documentatie uit."
 
 msgid "Hide help messages:"
 msgstr "Verberg hulp berichten:"
+
+msgid "Change default sorting order for proposals:"
+msgstr ""
 
 msgid "Find users"
 msgstr "Zoek gebruikers"

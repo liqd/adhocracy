@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2012 ORGANIZATION
+# Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
 # Benjamin Claverie <ben@skl8em.com>, 2010.
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-18 10:53+0100\n"
-"PO-Revision-Date: 2012-11-18 09:55+0000\n"
+"POT-Creation-Date: 2013-02-06 00:59+0100\n"
+"PO-Revision-Date: 2013-02-06 00:00+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -59,12 +59,20 @@ msgid "The comment has been deleted."
 msgstr "Коментарий был удален"
 
 msgid ""
-"You're trying to revert to a revision which is not partri of this comments "
+"You're trying to revert to a revision which is not part of this comment's "
 "history"
-msgstr "Вы пытаетесь вернуть версию которая отсутствует в истории коментариев"
+msgstr ""
 
 msgid "The comment has been reverted."
 msgstr "коментарий переписан"
+
+msgid ""
+"You're trying to purge a revision which is not part of this comment's "
+"history"
+msgstr ""
+
+msgid "The comment revision has been deleted."
+msgstr ""
 
 msgid "Wrong topic"
 msgstr "Не верная тема"
@@ -99,6 +107,9 @@ msgid "The changes where saved."
 msgstr ""
 
 msgid "No update required."
+msgstr ""
+
+msgid "Instance created successfully. You can now configure it as you like."
 msgstr ""
 
 msgid "Delegations are enabled."
@@ -287,6 +298,12 @@ msgstr "Сравнение различных версий текста нево
 msgid "The variant %s has been deleted."
 msgstr "Вариант %s удален. "
 
+msgid "Cannot delete, if there's only one version"
+msgstr ""
+
+msgid "The selected version has been deleted."
+msgstr ""
+
 #, python-format
 msgid "The page %s has been deleted."
 msgstr "Страница %s удалена."
@@ -359,6 +376,9 @@ msgid "You have no twitter association."
 msgstr "У вас нет партнеров в  twitter"
 
 msgid "tutorial_user_index_intro"
+msgstr ""
+
+msgid "Sorry, registration has been disabled by administrator."
 msgstr ""
 
 msgid "Sorry, but we don't accept registrations with this email address."
@@ -509,6 +529,14 @@ msgstr ""
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Не существует ярлыка с ID '%s'."
+
+#, python-format
+msgid "Cannot use global category %s in this instance"
+msgstr ""
+
+#, python-format
+msgid "Badge with ID '%s' not valid in this instance"
+msgstr ""
 
 #, python-format
 msgid "No revision with ID '%s' exists"
@@ -766,17 +794,23 @@ msgstr ""
 msgid "Age and Support"
 msgstr ""
 
-msgid "Support"
+msgid "Rating"
 msgstr ""
 
 msgid "Date"
 msgstr ""
 
-msgid "Newest Proposals"
-msgstr "Последние предложения"
+msgid "User behavior"
+msgstr ""
 
 msgid "Other"
 msgstr ""
+
+msgid "Support"
+msgstr ""
+
+msgid "Newest Proposals"
+msgstr "Последние предложения"
 
 #, python-format
 msgid "Missing page: %s"
@@ -1162,6 +1196,18 @@ msgstr "Следует "
 msgid "Unfollow"
 msgstr "Не следует "
 
+msgid "Send us your feedback"
+msgstr ""
+
+msgid "One line summary"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "List existing feedback"
+msgstr ""
+
 msgid "code of conduct"
 msgstr "пользовательское соглашение"
 
@@ -1223,6 +1269,9 @@ msgstr "Администрация Сайта"
 msgid "Logout"
 msgstr "Выйти"
 
+msgid "Settings"
+msgstr ""
+
 msgid "Search"
 msgstr "Поиск"
 
@@ -1238,9 +1287,6 @@ msgstr "Нормативные документы"
 
 msgid "Members"
 msgstr "Участники"
-
-msgid "Settings"
-msgstr ""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1324,11 +1370,115 @@ msgstr "Причина сообщения."
 msgid "Send"
 msgstr "Послать"
 
-msgid "Admin: Import Users"
-msgstr "Администратор: ипмортировать список пользователей"
+msgid "Export"
+msgstr ""
+
+msgid "Export users"
+msgstr ""
+
+msgid "Include personal data"
+msgstr ""
+
+msgid "Include password hashes"
+msgstr ""
+
+msgid "Export badges"
+msgstr ""
+
+msgid "Export content (instances)"
+msgstr ""
+
+msgid "Include proposals"
+msgstr ""
+
+msgid "Include comments"
+msgstr ""
+
+msgid "Export format:"
+msgstr ""
+
+msgid "JSON download"
+msgstr ""
+
+msgid "JSON"
+msgstr ""
+
+msgid "ZIP download"
+msgstr ""
+
+msgid "Export Now"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import users"
+msgstr ""
+
+msgid "Import badges"
+msgstr ""
+
+msgid "Import content (instances)"
+msgstr ""
+
+msgid "Replacement strategy"
+msgstr ""
+
+msgid "Update duplicate entries"
+msgstr ""
+
+msgid "Skip duplicate entries"
+msgstr ""
+
+msgid "File to import:"
+msgstr ""
+
+msgid "Detect"
+msgstr ""
+
+msgid "ZIP"
+msgstr ""
+
+msgid "Import Now"
+msgstr ""
+
+msgid "Import successfully performed."
+msgstr ""
+
+msgid "back to main page"
+msgstr ""
+
+msgid "Admin: Group Permissions"
+msgstr "Администратор: права пользовательских групп. "
+
+msgid "Admin &raquo; Group Permissions"
+msgstr "Администратор &raquo; Права групп пользователей"
+
+msgid "Group Permissions"
+msgstr "Права пользовательских групп"
+
+msgid ""
+"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
+" care!"
+msgstr "ОСТОРОЖНО: Здесь Вы можете исключить самого себя из adhocracy. Будьте осторожны!"
+
+msgid "Permissions"
+msgstr "Права"
+
+msgid "All Events"
+msgstr ""
 
 msgid "Import Users"
 msgstr "Импортировать список пользователей"
+
+msgid "Update Search Index"
+msgstr ""
+
+msgid "Site administration"
+msgstr "Администрирование сайта"
+
+msgid "Admin: Import Users"
+msgstr "Администратор: ипмортировать список пользователей"
 
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
@@ -1394,29 +1544,6 @@ msgstr "Данные учетные записи не могли быть соз
 msgid "These users where created, but we could not send out mails:"
 msgstr "Данные учетные записи были созданы, но мы не смогли послать им письма:"
 
-msgid "Admin: Group Permissions"
-msgstr "Администратор: права пользовательских групп. "
-
-msgid "Admin &raquo; Group Permissions"
-msgstr "Администратор &raquo; Права групп пользователей"
-
-msgid "Group Permissions"
-msgstr "Права пользовательских групп"
-
-msgid ""
-"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
-" care!"
-msgstr "ОСТОРОЖНО: Здесь Вы можете исключить самого себя из adhocracy. Будьте осторожны!"
-
-msgid "Permissions"
-msgstr "Права"
-
-msgid "All Events"
-msgstr ""
-
-msgid "Site administration"
-msgstr "Администрирование сайта"
-
 msgid "Add instance badge"
 msgstr ""
 
@@ -1451,6 +1578,12 @@ msgid "Like '#a4a4a4'"
 msgstr "по типу '#a4a4a4'"
 
 msgid "Preview:"
+msgstr ""
+
+msgid "Check to hide badge in user interface"
+msgstr ""
+
+msgid "visible"
 msgstr ""
 
 msgid "Group"
@@ -1562,6 +1695,9 @@ msgstr "создано %s"
 
 msgid "revert here"
 msgstr "вернуться сюда"
+
+msgid "delete version permanently"
+msgstr ""
 
 #, python-format
 msgid "on %s"
@@ -1901,6 +2037,12 @@ msgstr "Требовать предложения варианта."
 msgid "Use milestones"
 msgstr "Использовать сроки"
 
+msgid "Hide global categories"
+msgstr ""
+
+msgid "Allow editing of comments by default"
+msgstr ""
+
 msgid "Freeze this instance"
 msgstr "Заморозить эту организацию"
 
@@ -2171,6 +2313,9 @@ msgid ""
 "that might support it."
 msgstr "ПРЕДУРЕЖДЕНИЕ: все версии и варианты любых связанных с ним предложений будут удалены."
 
+msgid "Are you sure you want to purge the following version:"
+msgstr ""
+
 #, python-format
 msgid "Variant: %s"
 msgstr "Вариант: %s"
@@ -2198,6 +2343,12 @@ msgid "Variant Name"
 msgstr "Название варианта"
 
 msgid "Text"
+msgstr ""
+
+msgid "Formatting"
+msgstr ""
+
+msgid "Use markdown formatting."
 msgstr ""
 
 msgid "Parent page:"
@@ -2262,6 +2413,9 @@ msgstr "Информация о документе"
 
 msgid "Last Activity"
 msgstr "Последняя активность"
+
+msgid "This page is not assigned to any category"
+msgstr ""
 
 #, python-format
 msgid "This norm relates to the milestone %s."
@@ -2450,20 +2604,17 @@ msgstr "Названия и Цели"
 msgid "Proposal title"
 msgstr "Название предложения"
 
-msgid "Proposal goals"
-msgstr "Цели предложения"
-
 msgid "A brief description of <b>the goals</b> of your proposal."
 msgstr "Краткое описание <b>целей</b> Вашего предложения"
 
 msgid "The proposal would..."
 msgstr "Это предложение..."
 
+msgid "Proposal goals"
+msgstr "Цели предложения"
+
 msgid "Proposal Category"
 msgstr "категория предложения"
-
-msgid "Proposal category hint"
-msgstr "намек на категорию предложения"
 
 msgid "Collaboration and Notification"
 msgstr "Сотрудничество и получение Уведомлений"
@@ -2568,6 +2719,9 @@ msgid "tutorial_proposal_show_new_discussion"
 msgstr ""
 
 msgid "tutorial_proposal_show_propose_variant"
+msgstr ""
+
+msgid "This proposal is not assigned to any category"
 msgstr ""
 
 #, python-format
@@ -2930,6 +3084,21 @@ msgstr "Пароль:"
 msgid "Password (confirm):"
 msgstr "Пароль : (подтвердить)"
 
+msgid "Gender"
+msgstr ""
+
+msgid "Select your gender"
+msgstr ""
+
+msgid "Unspecified"
+msgstr ""
+
+msgid "Male"
+msgstr ""
+
+msgid "Female"
+msgstr ""
+
 msgid "Notifications"
 msgstr "Напоминания"
 
@@ -2985,6 +3154,9 @@ msgstr "Отключить подсказки, помощь и ссылки на
 
 msgid "Hide help messages:"
 msgstr "Скрыть помощь:"
+
+msgid "Change default sorting order for proposals:"
+msgstr ""
 
 msgid "Find users"
 msgstr "Найти пользователя"

@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2012 ORGANIZATION
+# Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
 # Mateusz Batelt <mateusz@batelt.eu>, 2012.
@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-18 10:53+0100\n"
-"PO-Revision-Date: 2012-11-18 09:55+0000\n"
+"POT-Creation-Date: 2013-02-06 00:59+0100\n"
+"PO-Revision-Date: 2013-02-06 00:00+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -55,12 +55,20 @@ msgid "The comment has been deleted."
 msgstr "Usunięto komentarz."
 
 msgid ""
-"You're trying to revert to a revision which is not partri of this comments "
+"You're trying to revert to a revision which is not part of this comment's "
 "history"
-msgstr "Chcesz przywrócić wersję komentarza, która nie istnieje w jego historii."
+msgstr ""
 
 msgid "The comment has been reverted."
 msgstr "Przywrócono poprzednią wersję komentarza."
+
+msgid ""
+"You're trying to purge a revision which is not part of this comment's "
+"history"
+msgstr ""
+
+msgid "The comment revision has been deleted."
+msgstr ""
 
 msgid "Wrong topic"
 msgstr "Nieprawidłowy temat"
@@ -96,6 +104,9 @@ msgstr "Zmiany zostały zapisane."
 
 msgid "No update required."
 msgstr "Aktualizacja nie jest wymagana."
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Delegacje głosów są włączone."
@@ -283,6 +294,12 @@ msgstr "Nie można porównać wersji różnych tekstów."
 msgid "The variant %s has been deleted."
 msgstr "Usunięto wersję %s."
 
+msgid "Cannot delete, if there's only one version"
+msgstr ""
+
+msgid "The selected version has been deleted."
+msgstr ""
+
 #, python-format
 msgid "The page %s has been deleted."
 msgstr "Usunięto stronę %s."
@@ -356,6 +373,9 @@ msgstr "Nie połączyłeś(aś) się z Twitterem."
 
 msgid "tutorial_user_index_intro"
 msgstr "Lista członków grupy"
+
+msgid "Sorry, registration has been disabled by administrator."
+msgstr ""
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Niestety nie możesz zarejestrować się przy użyciu tego adresu e-mail."
@@ -505,6 +525,14 @@ msgstr "Nie masz uprawnień, by edytować etykiety globalne."
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Nie istnieje etykieta o numerze %s."
+
+#, python-format
+msgid "Cannot use global category %s in this instance"
+msgstr ""
+
+#, python-format
+msgid "Badge with ID '%s' not valid in this instance"
+msgstr ""
 
 #, python-format
 msgid "No revision with ID '%s' exists"
@@ -762,17 +790,23 @@ msgstr "mieszane"
 msgid "Age and Support"
 msgstr "Wiek i poparcie"
 
-msgid "Support"
-msgstr "Poparcie"
+msgid "Rating"
+msgstr ""
 
 msgid "Date"
 msgstr "Data"
 
-msgid "Newest Proposals"
-msgstr "Najnowsze propozycje"
+msgid "User behavior"
+msgstr ""
 
 msgid "Other"
 msgstr "Inne"
+
+msgid "Support"
+msgstr "Poparcie"
+
+msgid "Newest Proposals"
+msgstr "Najnowsze propozycje"
 
 #, python-format
 msgid "Missing page: %s"
@@ -953,7 +987,7 @@ msgstr "Nowy komentarz w: %(topic)s"
 
 #, python-format
 msgid "commented %(topic)s"
-msgstr ""
+msgstr "skomentował(a) %(topic)s"
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
@@ -961,7 +995,7 @@ msgstr "Edytowano komentarz w: %(topic)s"
 
 #, python-format
 msgid "edited comment on %(topic)s"
-msgstr ""
+msgstr "edytował(a) komentarz dotyczący %(topic)s"
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
@@ -969,7 +1003,7 @@ msgstr "Usunięto komentarz w: %(topic)s"
 
 #, python-format
 msgid "deleted comment from %(topic)s"
-msgstr ""
+msgstr "usunął(ęła) komentarz dotyczący %(topic)s"
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -1158,6 +1192,18 @@ msgstr "Obserwowane"
 msgid "Unfollow"
 msgstr "Przestań obserwować"
 
+msgid "Send us your feedback"
+msgstr ""
+
+msgid "One line summary"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "List existing feedback"
+msgstr ""
+
 msgid "code of conduct"
 msgstr "Kodeks postępowania"
 
@@ -1219,6 +1265,9 @@ msgstr "Zarządzaj stroną"
 msgid "Logout"
 msgstr "Wyloguj się"
 
+msgid "Settings"
+msgstr "Ustawienia"
+
 msgid "Search"
 msgstr "Szukaj"
 
@@ -1234,9 +1283,6 @@ msgstr "Dokumenty"
 
 msgid "Members"
 msgstr "Członkowie"
-
-msgid "Settings"
-msgstr "Ustawienia"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1320,11 +1366,115 @@ msgstr "Powód zgłoszenia strony..."
 msgid "Send"
 msgstr "Wyślij"
 
-msgid "Admin: Import Users"
-msgstr "Administrator: Importuj użytkowników"
+msgid "Export"
+msgstr ""
+
+msgid "Export users"
+msgstr ""
+
+msgid "Include personal data"
+msgstr ""
+
+msgid "Include password hashes"
+msgstr ""
+
+msgid "Export badges"
+msgstr ""
+
+msgid "Export content (instances)"
+msgstr ""
+
+msgid "Include proposals"
+msgstr ""
+
+msgid "Include comments"
+msgstr ""
+
+msgid "Export format:"
+msgstr ""
+
+msgid "JSON download"
+msgstr ""
+
+msgid "JSON"
+msgstr ""
+
+msgid "ZIP download"
+msgstr ""
+
+msgid "Export Now"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import users"
+msgstr ""
+
+msgid "Import badges"
+msgstr ""
+
+msgid "Import content (instances)"
+msgstr ""
+
+msgid "Replacement strategy"
+msgstr ""
+
+msgid "Update duplicate entries"
+msgstr ""
+
+msgid "Skip duplicate entries"
+msgstr ""
+
+msgid "File to import:"
+msgstr ""
+
+msgid "Detect"
+msgstr ""
+
+msgid "ZIP"
+msgstr ""
+
+msgid "Import Now"
+msgstr ""
+
+msgid "Import successfully performed."
+msgstr ""
+
+msgid "back to main page"
+msgstr ""
+
+msgid "Admin: Group Permissions"
+msgstr "Zarządzanie: Uprawnienia użytkowników"
+
+msgid "Admin &raquo; Group Permissions"
+msgstr "Administrator &raquo; Uprawnienia użytkowników"
+
+msgid "Group Permissions"
+msgstr "Uprawnienia użytkowników"
+
+msgid ""
+"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
+" care!"
+msgstr "UWAGA: Zachowaj ostrożność, by samemu nie wykluczyć się z grupy."
+
+msgid "Permissions"
+msgstr "Uprawnienia"
+
+msgid "All Events"
+msgstr "Wszystkie wydarzenia"
 
 msgid "Import Users"
 msgstr "Importuj użytkowników"
+
+msgid "Update Search Index"
+msgstr ""
+
+msgid "Site administration"
+msgstr "Ustawienia strony"
+
+msgid "Admin: Import Users"
+msgstr "Administrator: Importuj użytkowników"
 
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
@@ -1390,29 +1540,6 @@ msgstr "Ci użytkownicy nie mogli zostać utworzeni:"
 msgid "These users where created, but we could not send out mails:"
 msgstr "Ci użytkownicy zostali utworzeni, nie mogliśmy jednak wysłać im wiadomości e-mail:"
 
-msgid "Admin: Group Permissions"
-msgstr "Zarządzanie: Uprawnienia użytkowników"
-
-msgid "Admin &raquo; Group Permissions"
-msgstr "Administrator &raquo; Uprawnienia użytkowników"
-
-msgid "Group Permissions"
-msgstr "Uprawnienia użytkowników"
-
-msgid ""
-"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
-" care!"
-msgstr "UWAGA: Zachowaj ostrożność, by samemu nie wykluczyć się z grupy."
-
-msgid "Permissions"
-msgstr "Uprawnienia"
-
-msgid "All Events"
-msgstr "Wszystkie wydarzenia"
-
-msgid "Site administration"
-msgstr "Ustawienia strony"
-
 msgid "Add instance badge"
 msgstr "Dodaj etykietę dla grupy"
 
@@ -1448,6 +1575,12 @@ msgstr "Np. #a4a4a4"
 
 msgid "Preview:"
 msgstr "Podgląd:"
+
+msgid "Check to hide badge in user interface"
+msgstr ""
+
+msgid "visible"
+msgstr ""
 
 msgid "Group"
 msgstr "Uprawnienia"
@@ -1558,6 +1691,9 @@ msgstr "utworzono %s"
 
 msgid "revert here"
 msgstr "przywróć do tej wersji"
+
+msgid "delete version permanently"
+msgstr ""
 
 #, python-format
 msgid "on %s"
@@ -1897,6 +2033,12 @@ msgstr "Propozycja musi wprowadzać co najmniej jedną zmianę w treści dokumen
 msgid "Use milestones"
 msgstr "Użyj terminów"
 
+msgid "Hide global categories"
+msgstr ""
+
+msgid "Allow editing of comments by default"
+msgstr ""
+
 msgid "Freeze this instance"
 msgstr "Zamróź grupę"
 
@@ -1961,13 +2103,13 @@ msgid "more proposals"
 msgstr "Więcej propozycji"
 
 msgid "Next milestone"
-msgstr ""
+msgstr "Następny termin"
 
 msgid "Next milestones"
-msgstr ""
+msgstr "Następne terminy"
 
 msgid "Newest Events"
-msgstr ""
+msgstr "Najnowsze wydarzenia"
 
 msgid "Informations"
 msgstr "Informacje"
@@ -2112,7 +2254,7 @@ msgid "tutorial_milestone_details_listing"
 msgstr "Znajdziesz tu listę wszystkich propozycji i dokumentów, które są związane z tym terminem."
 
 msgid "See more"
-msgstr ""
+msgstr "Więcej..."
 
 msgid "(unknown)"
 msgstr "(nieznane)"
@@ -2167,6 +2309,9 @@ msgid ""
 "that might support it."
 msgstr "UWAGA: Działanie to spowoduje usunięcie wszystkich zapisanych zmian w tej wersji z wszystkich powiązanych propozycji."
 
+msgid "Are you sure you want to purge the following version:"
+msgstr ""
+
 #, python-format
 msgid "Variant: %s"
 msgstr "Wersja: %s"
@@ -2195,6 +2340,12 @@ msgstr "Nazwa wersji"
 
 msgid "Text"
 msgstr "Tekst"
+
+msgid "Formatting"
+msgstr ""
+
+msgid "Use markdown formatting."
+msgstr ""
 
 msgid "Parent page:"
 msgstr "Strona nadrzędna:"
@@ -2245,10 +2396,10 @@ msgid "Highlight Changes"
 msgstr "Pokaż zmiany"
 
 msgid "On"
-msgstr ""
+msgstr "Włączone"
 
 msgid "Off"
-msgstr ""
+msgstr "Wyłączone"
 
 msgid "New Proposal"
 msgstr "Nowa propozycja"
@@ -2259,12 +2410,15 @@ msgstr "Informacje o dokumencie"
 msgid "Last Activity"
 msgstr "Ostatnia aktywność"
 
+msgid "This page is not assigned to any category"
+msgstr ""
+
 #, python-format
 msgid "This norm relates to the milestone %s."
 msgstr "Ta propozycja odnosi się do terminu %s."
 
 msgid "Subnorms"
-msgstr ""
+msgstr "Dokumenty podrzędne"
 
 msgid "View Proposal"
 msgstr "Pokaż propozycję"
@@ -2446,19 +2600,16 @@ msgstr "Tytuł oraz cele"
 msgid "Proposal title"
 msgstr "Tytuł propozycji"
 
-msgid "Proposal goals"
-msgstr "Cel propozycji"
-
 msgid "A brief description of <b>the goals</b> of your proposal."
 msgstr "Podaj krótki opis propozycji."
 
 msgid "The proposal would..."
 msgstr "Propozycja ta..."
 
-msgid "Proposal Category"
-msgstr "Kategoria propozycji"
+msgid "Proposal goals"
+msgstr "Cel propozycji"
 
-msgid "Proposal category hint"
+msgid "Proposal Category"
 msgstr "Kategoria propozycji"
 
 msgid "Collaboration and Notification"
@@ -2565,6 +2716,9 @@ msgstr "...i napisać nowy komentarz."
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr "Lub pracować nad propozycją i wprowadzać alternatywne wersje."
+
+msgid "This proposal is not assigned to any category"
+msgstr ""
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
@@ -2926,6 +3080,21 @@ msgstr "Hasło:"
 msgid "Password (confirm):"
 msgstr "Hasło (powtórz):"
 
+msgid "Gender"
+msgstr ""
+
+msgid "Select your gender"
+msgstr ""
+
+msgid "Unspecified"
+msgstr ""
+
+msgid "Male"
+msgstr ""
+
+msgid "Female"
+msgstr ""
+
 msgid "Notifications"
 msgstr "Powiadomienia"
 
@@ -2981,6 +3150,9 @@ msgstr "Wyłącz wskazówki i odnośniki do dokumentacji."
 
 msgid "Hide help messages:"
 msgstr "Ukryj wskazówki:"
+
+msgid "Change default sorting order for proposals:"
+msgstr ""
 
 msgid "Find users"
 msgstr "Znajdź użytkowników"

@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2012 ORGANIZATION
+# Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
 # Benjamin Claverie <ben@skl8em.com>, 2010.
@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-18 10:53+0100\n"
-"PO-Revision-Date: 2012-11-18 09:55+0000\n"
+"POT-Creation-Date: 2013-02-06 00:59+0100\n"
+"PO-Revision-Date: 2013-02-06 00:00+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -57,12 +57,20 @@ msgid "The comment has been deleted."
 msgstr "Ce commentaire a été supprimé."
 
 msgid ""
-"You're trying to revert to a revision which is not partri of this comments "
+"You're trying to revert to a revision which is not part of this comment's "
 "history"
-msgstr "Tu essaies de recourir à une révision qui n'a pas part de l'histoire des commentaires"
+msgstr ""
 
 msgid "The comment has been reverted."
 msgstr "Ce commentaire a été révisé."
+
+msgid ""
+"You're trying to purge a revision which is not part of this comment's "
+"history"
+msgstr ""
+
+msgid "The comment revision has been deleted."
+msgstr ""
 
 msgid "Wrong topic"
 msgstr "sujet faux"
@@ -98,6 +106,9 @@ msgstr "Les changements ont été sauvés."
 
 msgid "No update required."
 msgstr "Une actualisation n'est pas nécessaire."
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr ""
@@ -285,6 +296,12 @@ msgstr "La comparaison de version de deux textes différents n'est pas possible.
 msgid "The variant %s has been deleted."
 msgstr "L'instance %s a été effacé."
 
+msgid "Cannot delete, if there's only one version"
+msgstr ""
+
+msgid "The selected version has been deleted."
+msgstr ""
+
 #, python-format
 msgid "The page %s has been deleted."
 msgstr "La page %s a été effacé."
@@ -358,6 +375,9 @@ msgstr "Vous n'êtes relier a aucun compte twitter."
 
 msgid "tutorial_user_index_intro"
 msgstr "Liste des membres du groupe."
+
+msgid "Sorry, registration has been disabled by administrator."
+msgstr ""
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr ""
@@ -507,6 +527,14 @@ msgstr "Ce n'est pas permi à vous d'éditer les badges globales"
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Badge ID '%s' n'existe pas"
+
+#, python-format
+msgid "Cannot use global category %s in this instance"
+msgstr ""
+
+#, python-format
+msgid "Badge with ID '%s' not valid in this instance"
+msgstr ""
 
 #, python-format
 msgid "No revision with ID '%s' exists"
@@ -764,17 +792,23 @@ msgstr "Mixé"
 msgid "Age and Support"
 msgstr "l'âge et le support"
 
-msgid "Support"
-msgstr "le support"
+msgid "Rating"
+msgstr ""
 
 msgid "Date"
 msgstr "La date"
 
-msgid "Newest Proposals"
-msgstr "Dernières Propositions"
+msgid "User behavior"
+msgstr ""
 
 msgid "Other"
 msgstr "Autre"
+
+msgid "Support"
+msgstr "le support"
+
+msgid "Newest Proposals"
+msgstr "Dernières Propositions"
 
 #, python-format
 msgid "Missing page: %s"
@@ -1160,6 +1194,18 @@ msgstr "Abonnement"
 msgid "Unfollow"
 msgstr "Désabonner"
 
+msgid "Send us your feedback"
+msgstr ""
+
+msgid "One line summary"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "List existing feedback"
+msgstr ""
+
 msgid "code of conduct"
 msgstr "Code de conduite"
 
@@ -1221,6 +1267,9 @@ msgstr "Administrez le site"
 msgid "Logout"
 msgstr "Déconnexion"
 
+msgid "Settings"
+msgstr "Paramètres"
+
 msgid "Search"
 msgstr "recherche"
 
@@ -1236,9 +1285,6 @@ msgstr "voir les règles"
 
 msgid "Members"
 msgstr "Membres"
-
-msgid "Settings"
-msgstr "Paramètres"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1322,11 +1368,115 @@ msgstr "La raison pour signaler ce site..."
 msgid "Send"
 msgstr "Envoyer"
 
-msgid "Admin: Import Users"
-msgstr "Admin: Importer des utilisateurs"
+msgid "Export"
+msgstr ""
+
+msgid "Export users"
+msgstr ""
+
+msgid "Include personal data"
+msgstr ""
+
+msgid "Include password hashes"
+msgstr ""
+
+msgid "Export badges"
+msgstr ""
+
+msgid "Export content (instances)"
+msgstr ""
+
+msgid "Include proposals"
+msgstr ""
+
+msgid "Include comments"
+msgstr ""
+
+msgid "Export format:"
+msgstr ""
+
+msgid "JSON download"
+msgstr ""
+
+msgid "JSON"
+msgstr ""
+
+msgid "ZIP download"
+msgstr ""
+
+msgid "Export Now"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import users"
+msgstr ""
+
+msgid "Import badges"
+msgstr ""
+
+msgid "Import content (instances)"
+msgstr ""
+
+msgid "Replacement strategy"
+msgstr ""
+
+msgid "Update duplicate entries"
+msgstr ""
+
+msgid "Skip duplicate entries"
+msgstr ""
+
+msgid "File to import:"
+msgstr ""
+
+msgid "Detect"
+msgstr ""
+
+msgid "ZIP"
+msgstr ""
+
+msgid "Import Now"
+msgstr ""
+
+msgid "Import successfully performed."
+msgstr ""
+
+msgid "back to main page"
+msgstr ""
+
+msgid "Admin: Group Permissions"
+msgstr "Administrateur: permissions de groupe"
+
+msgid "Admin &raquo; Group Permissions"
+msgstr "Administrateur &raquo; permissons de groupe"
+
+msgid "Group Permissions"
+msgstr "Permissions de Groupe"
+
+msgid ""
+"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
+" care!"
+msgstr "ATTENTION: Cette action permets d'enfermer vous-même de votre adhocracy. Traitez avec prudence!"
+
+msgid "Permissions"
+msgstr "Permissions"
+
+msgid "All Events"
+msgstr "Tous les évenements"
 
 msgid "Import Users"
 msgstr "Importer des utilisateurs"
+
+msgid "Update Search Index"
+msgstr ""
+
+msgid "Site administration"
+msgstr "Administration du site"
+
+msgid "Admin: Import Users"
+msgstr "Admin: Importer des utilisateurs"
 
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
@@ -1392,29 +1542,6 @@ msgstr "Ces utilisateurs ne pouvaient pas être créés."
 msgid "These users where created, but we could not send out mails:"
 msgstr "Malgré la création des utilisateurs, nous ne pouvions pas envoyer des courriels:"
 
-msgid "Admin: Group Permissions"
-msgstr "Administrateur: permissions de groupe"
-
-msgid "Admin &raquo; Group Permissions"
-msgstr "Administrateur &raquo; permissons de groupe"
-
-msgid "Group Permissions"
-msgstr "Permissions de Groupe"
-
-msgid ""
-"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
-" care!"
-msgstr "ATTENTION: Cette action permets d'enfermer vous-même de votre adhocracy. Traitez avec prudence!"
-
-msgid "Permissions"
-msgstr "Permissions"
-
-msgid "All Events"
-msgstr "Tous les évenements"
-
-msgid "Site administration"
-msgstr "Administration du site"
-
 msgid "Add instance badge"
 msgstr ""
 
@@ -1449,6 +1576,12 @@ msgid "Like '#a4a4a4'"
 msgstr "Comme '#a4a4a4'"
 
 msgid "Preview:"
+msgstr ""
+
+msgid "Check to hide badge in user interface"
+msgstr ""
+
+msgid "visible"
 msgstr ""
 
 msgid "Group"
@@ -1560,6 +1693,9 @@ msgstr "était créé %s"
 
 msgid "revert here"
 msgstr "annulé ici"
+
+msgid "delete version permanently"
+msgstr ""
 
 #, python-format
 msgid "on %s"
@@ -1899,6 +2035,12 @@ msgstr "Il est nécessaire que vous proposiez une variante"
 msgid "Use milestones"
 msgstr "Utiliser des dates"
 
+msgid "Hide global categories"
+msgstr ""
+
+msgid "Allow editing of comments by default"
+msgstr ""
+
 msgid "Freeze this instance"
 msgstr "Planter ce groupe"
 
@@ -2167,6 +2309,9 @@ msgid ""
 "that might support it."
 msgstr "AVERTISSEMENT: Cet action supprimera toutes les revisions des variantes de toutes les propositions qui puisse les supporter."
 
+msgid "Are you sure you want to purge the following version:"
+msgstr ""
+
 #, python-format
 msgid "Variant: %s"
 msgstr "Motion: %s"
@@ -2194,6 +2339,12 @@ msgid "Variant Name"
 msgstr "Nom de la motion"
 
 msgid "Text"
+msgstr ""
+
+msgid "Formatting"
+msgstr ""
+
+msgid "Use markdown formatting."
 msgstr ""
 
 msgid "Parent page:"
@@ -2258,6 +2409,9 @@ msgstr "Information concernant le thème"
 
 msgid "Last Activity"
 msgstr "Dernière activité"
+
+msgid "This page is not assigned to any category"
+msgstr ""
 
 #, python-format
 msgid "This norm relates to the milestone %s."
@@ -2445,20 +2599,17 @@ msgstr "Titre et Buts"
 msgid "Proposal title"
 msgstr "Titre de la proposition"
 
-msgid "Proposal goals"
-msgstr "Objectif de la proposition"
-
 msgid "A brief description of <b>the goals</b> of your proposal."
 msgstr "Une brève description des <b>objectives</b> de votre proposition."
 
 msgid "The proposal would..."
 msgstr "La proposition serait..."
 
+msgid "Proposal goals"
+msgstr "Objectif de la proposition"
+
 msgid "Proposal Category"
 msgstr "Catégorie de proposition"
-
-msgid "Proposal category hint"
-msgstr "Indiquer la catégorie de proposition"
 
 msgid "Collaboration and Notification"
 msgstr "Collaboration et Notification"
@@ -2564,6 +2715,9 @@ msgstr "...et ajouter des nouveaux commentaires.\t"
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr "Ou vous pouvez changer activement la proposition et ajouter des alternatives."
+
+msgid "This proposal is not assigned to any category"
+msgstr ""
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
@@ -2925,6 +3079,21 @@ msgstr "Mot de passe:"
 msgid "Password (confirm):"
 msgstr "Mot de passe : (confirmation)"
 
+msgid "Gender"
+msgstr ""
+
+msgid "Select your gender"
+msgstr ""
+
+msgid "Unspecified"
+msgstr ""
+
+msgid "Male"
+msgstr ""
+
+msgid "Female"
+msgstr ""
+
 msgid "Notifications"
 msgstr "notifications"
 
@@ -2980,6 +3149,9 @@ msgstr "Désactiver les messages de l'aide et les liens à la documentation."
 
 msgid "Hide help messages:"
 msgstr "Cacher des messages de l'aide"
+
+msgid "Change default sorting order for proposals:"
+msgstr ""
 
 msgid "Find users"
 msgstr "Trouver des utilisateurs"

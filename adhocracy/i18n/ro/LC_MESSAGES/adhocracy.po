@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2012 ORGANIZATION
+# Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-18 10:53+0100\n"
-"PO-Revision-Date: 2012-11-18 12:15+0000\n"
-"Last-Translator: zacks <mirceazachia@yahoo.com>\n"
+"POT-Creation-Date: 2013-02-06 00:59+0100\n"
+"PO-Revision-Date: 2013-02-06 00:00+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,12 +56,20 @@ msgid "The comment has been deleted."
 msgstr "Comentariul a fost sters"
 
 msgid ""
-"You're trying to revert to a revision which is not partri of this comments "
+"You're trying to revert to a revision which is not part of this comment's "
 "history"
-msgstr "Incerci sa revii la o versiune care nu este parte din comentariile introduse aici."
+msgstr ""
 
 msgid "The comment has been reverted."
 msgstr "Comentariul a fost refacut."
+
+msgid ""
+"You're trying to purge a revision which is not part of this comment's "
+"history"
+msgstr ""
+
+msgid "The comment revision has been deleted."
+msgstr ""
 
 msgid "Wrong topic"
 msgstr "Subiect gresit"
@@ -97,6 +105,9 @@ msgstr "Modificarile au fost salvate."
 
 msgid "No update required."
 msgstr "Nu este necesar nici un update."
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Delegarile sunt permise."
@@ -284,6 +295,12 @@ msgstr "Nu se pot compara versiuni diferite de documente."
 msgid "The variant %s has been deleted."
 msgstr "Varinata %s a fost stearsa."
 
+msgid "Cannot delete, if there's only one version"
+msgstr ""
+
+msgid "The selected version has been deleted."
+msgstr ""
+
 #, python-format
 msgid "The page %s has been deleted."
 msgstr "Pagina %s a fost stearsa."
@@ -357,6 +374,9 @@ msgstr "Nu ai asociere la twitter."
 
 msgid "tutorial_user_index_intro"
 msgstr "Tutorial: Membrii comunitatii"
+
+msgid "Sorry, registration has been disabled by administrator."
+msgstr ""
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Ne pare rau, dar nu acceptam intregistrarea folosind adresa aceasta de email."
@@ -506,6 +526,14 @@ msgstr "Nu ai permisiunea de a modifica titlurile global."
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Nu exista nici un titlu cu ID-ul '%s'"
+
+#, python-format
+msgid "Cannot use global category %s in this instance"
+msgstr ""
+
+#, python-format
+msgid "Badge with ID '%s' not valid in this instance"
+msgstr ""
 
 #, python-format
 msgid "No revision with ID '%s' exists"
@@ -763,17 +791,23 @@ msgstr "Nesortate"
 msgid "Age and Support"
 msgstr "Vechime si sustinere"
 
-msgid "Support"
-msgstr "Sustinere"
+msgid "Rating"
+msgstr ""
 
 msgid "Date"
 msgstr "Data"
 
-msgid "Newest Proposals"
-msgstr "Cele mai noi Propuneri"
+msgid "User behavior"
+msgstr ""
 
 msgid "Other"
 msgstr "Altele"
+
+msgid "Support"
+msgstr "Sustinere"
+
+msgid "Newest Proposals"
+msgstr "Cele mai noi Propuneri"
 
 #, python-format
 msgid "Missing page: %s"
@@ -1159,6 +1193,18 @@ msgstr "Urmareste"
 msgid "Unfollow"
 msgstr "Dezabonare"
 
+msgid "Send us your feedback"
+msgstr ""
+
+msgid "One line summary"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "List existing feedback"
+msgstr ""
+
 msgid "code of conduct"
 msgstr "cod de conduita"
 
@@ -1220,6 +1266,9 @@ msgstr "Administreaza site"
 msgid "Logout"
 msgstr "Iesire"
 
+msgid "Settings"
+msgstr "Setari"
+
 msgid "Search"
 msgstr "Cauta"
 
@@ -1235,9 +1284,6 @@ msgstr "Documente"
 
 msgid "Members"
 msgstr "Membri"
-
-msgid "Settings"
-msgstr "Setari"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1307,7 +1353,7 @@ msgid "Votes"
 msgstr "Voturi"
 
 msgid "Shortlink"
-msgstr "Varianta scurta pentru Link web"
+msgstr "Link web scurt:"
 
 msgid "Report abuse"
 msgstr "Raporteaza abuz"
@@ -1321,11 +1367,115 @@ msgstr "Motivul pentru care raportezi pagina..."
 msgid "Send"
 msgstr "Trimite"
 
-msgid "Admin: Import Users"
-msgstr "Admin: Importa Utilizatori"
+msgid "Export"
+msgstr ""
+
+msgid "Export users"
+msgstr ""
+
+msgid "Include personal data"
+msgstr ""
+
+msgid "Include password hashes"
+msgstr ""
+
+msgid "Export badges"
+msgstr ""
+
+msgid "Export content (instances)"
+msgstr ""
+
+msgid "Include proposals"
+msgstr ""
+
+msgid "Include comments"
+msgstr ""
+
+msgid "Export format:"
+msgstr ""
+
+msgid "JSON download"
+msgstr ""
+
+msgid "JSON"
+msgstr ""
+
+msgid "ZIP download"
+msgstr ""
+
+msgid "Export Now"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import users"
+msgstr ""
+
+msgid "Import badges"
+msgstr ""
+
+msgid "Import content (instances)"
+msgstr ""
+
+msgid "Replacement strategy"
+msgstr ""
+
+msgid "Update duplicate entries"
+msgstr ""
+
+msgid "Skip duplicate entries"
+msgstr ""
+
+msgid "File to import:"
+msgstr ""
+
+msgid "Detect"
+msgstr ""
+
+msgid "ZIP"
+msgstr ""
+
+msgid "Import Now"
+msgstr ""
+
+msgid "Import successfully performed."
+msgstr ""
+
+msgid "back to main page"
+msgstr ""
+
+msgid "Admin: Group Permissions"
+msgstr "Admin: Permisiuni de grup"
+
+msgid "Admin &raquo; Group Permissions"
+msgstr "Admin &raquo; Permisiuni de grup"
+
+msgid "Group Permissions"
+msgstr "Permisiuni de grup"
+
+msgid ""
+"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
+" care!"
+msgstr "Atentie: Este posibilitatea sa te scoti singur din Adhocracy. Modifica cu atentie!"
+
+msgid "Permissions"
+msgstr "Permisiuni"
+
+msgid "All Events"
+msgstr "Toate evenimentele"
 
 msgid "Import Users"
 msgstr "Importa Utilizatori"
+
+msgid "Update Search Index"
+msgstr ""
+
+msgid "Site administration"
+msgstr "Administrare site"
+
+msgid "Admin: Import Users"
+msgstr "Admin: Importa Utilizatori"
 
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
@@ -1391,29 +1541,6 @@ msgstr "Utilizatorii urmatori nu au putut fi creati:"
 msgid "These users where created, but we could not send out mails:"
 msgstr "Acesti utilizatori au fost creati, dar nu am reusit sa le trimitem emailuri:"
 
-msgid "Admin: Group Permissions"
-msgstr "Admin: Permisiuni de grup"
-
-msgid "Admin &raquo; Group Permissions"
-msgstr "Admin &raquo; Permisiuni de grup"
-
-msgid "Group Permissions"
-msgstr "Permisiuni de grup"
-
-msgid ""
-"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
-" care!"
-msgstr "Atentie: Este posibilitatea sa te scoti singur din Adhocracy. Modifica cu atentie!"
-
-msgid "Permissions"
-msgstr "Permisiuni"
-
-msgid "All Events"
-msgstr "Toate evenimentele"
-
-msgid "Site administration"
-msgstr "Administrare site"
-
 msgid "Add instance badge"
 msgstr "Adauga titlul comunitatii"
 
@@ -1449,6 +1576,12 @@ msgstr "Ex. '#a4a4a4'"
 
 msgid "Preview:"
 msgstr "Previzualizare:"
+
+msgid "Check to hide badge in user interface"
+msgstr ""
+
+msgid "visible"
+msgstr ""
 
 msgid "Group"
 msgstr "Grup"
@@ -1559,6 +1692,9 @@ msgstr "creat %s"
 
 msgid "revert here"
 msgstr "revenire aici"
+
+msgid "delete version permanently"
+msgstr ""
 
 #, python-format
 msgid "on %s"
@@ -1859,7 +1995,7 @@ msgstr "Adresa poate contine doar caractere alfa-numerice. "
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
 "community. (Both Markdown and HTML are allowed here.)"
-msgstr "Descrie scopul comunitatii si cinear putea fi membrii ei (sunt permise si texte tip HTML)"
+msgstr "Descrie scopul comunitatii si cine sunt membrii ei (sunt permise texte tip HTML)"
 
 #, python-format
 msgid "Manage: %s"
@@ -1897,6 +2033,12 @@ msgstr "Cere sa fie propusa o varianta"
 
 msgid "Use milestones"
 msgstr "Permite date limita"
+
+msgid "Hide global categories"
+msgstr ""
+
+msgid "Allow editing of comments by default"
+msgstr ""
 
 msgid "Freeze this instance"
 msgstr "Suspenda comunitatea"
@@ -2168,6 +2310,9 @@ msgid ""
 "that might support it."
 msgstr "ATENTIE: Aceasta va sterge toate reviziile variantei din toate propunerile care  o sustin."
 
+msgid "Are you sure you want to purge the following version:"
+msgstr ""
+
 #, python-format
 msgid "Variant: %s"
 msgstr "Varianta: %s"
@@ -2196,6 +2341,12 @@ msgstr "Numele Variantei"
 
 msgid "Text"
 msgstr "Text"
+
+msgid "Formatting"
+msgstr ""
+
+msgid "Use markdown formatting."
+msgstr ""
 
 msgid "Parent page:"
 msgstr "Documentul initial"
@@ -2259,6 +2410,9 @@ msgstr "Detalii despre acest document"
 
 msgid "Last Activity"
 msgstr "Activitate recenta"
+
+msgid "This page is not assigned to any category"
+msgstr ""
 
 #, python-format
 msgid "This norm relates to the milestone %s."
@@ -2447,20 +2601,17 @@ msgstr "Titlu si scop"
 msgid "Proposal title"
 msgstr "Titlul Propunerii"
 
-msgid "Proposal goals"
-msgstr "Scopul propunerii"
-
 msgid "A brief description of <b>the goals</b> of your proposal."
 msgstr "O scurta descriere a <b>scopului</b> propunerii tale."
 
 msgid "The proposal would..."
 msgstr "Propunerea urmareste..."
 
+msgid "Proposal goals"
+msgstr "Scopul propunerii"
+
 msgid "Proposal Category"
 msgstr "Categoria propunerii"
-
-msgid "Proposal category hint"
-msgstr "Propuneri sugestii categorii"
 
 msgid "Collaboration and Notification"
 msgstr "Setari pentru colaborare si notificari"
@@ -2566,6 +2717,9 @@ msgstr "tutorial_propunere_afiseaza_noi_discutii"
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr "Poti sa vizualizezi modificarile propuse"
+
+msgid "This proposal is not assigned to any category"
+msgstr ""
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
@@ -2927,6 +3081,21 @@ msgstr "Parola:"
 msgid "Password (confirm):"
 msgstr "Parola (confirma):"
 
+msgid "Gender"
+msgstr ""
+
+msgid "Select your gender"
+msgstr ""
+
+msgid "Unspecified"
+msgstr ""
+
+msgid "Male"
+msgstr ""
+
+msgid "Female"
+msgstr ""
+
 msgid "Notifications"
 msgstr "Notificari"
 
@@ -2982,6 +3151,9 @@ msgstr "Nu afisa mesaje de informare sau linkuri la documentatie."
 
 msgid "Hide help messages:"
 msgstr "Ascunde mesajele de informare."
+
+msgid "Change default sorting order for proposals:"
+msgstr ""
 
 msgid "Find users"
 msgstr "Cauta utilizatori"
