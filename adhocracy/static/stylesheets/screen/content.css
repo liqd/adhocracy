@@ -1723,3 +1723,7 @@ a.joyride-prev-tip:hover {
   text-transform: lowercase;
   font-variant: small-caps;
 }
+
+iframe {
+  border: none;
+}
