@@ -137,6 +137,10 @@ po-files. You might have to give the `-r` (relax) option to podiff.
   
 (There is also another `podiff package`_ on pypi.)
 
+If `tx push --source` fails with `HTTP Error 401: UNAUTHORIZED`, you
+need to be added to the transifex project as a maintainer. Contact one of
+the existing maintainers for that.
+
 Babel command
 '''''''''''''
 
