@@ -113,8 +113,8 @@ ${facet_items(facet.current_items)}
 <br />
 </%def>
 
-<%def name="facet_items(items)">
-<ul>
+<%def name="facet_items(items, indent=True)">
+<ul${'' if indent else ' class="noindent"' | n}>
     %for item in items:
     <li class="facet-item-level-${item['level']}${' expanded' if item['open'] else ''}">
         %if item['visible']:
@@ -145,7 +145,7 @@ ${facet_items(facet.current_items)}
 
         %if item["children"]:
         <a class="expand_arrow"></a>
-        ${facet_items(item["children"])}
+        ${facet_items(item["children"], indent=not item['hide_checkbox'])}
         %endif
         %endif
 

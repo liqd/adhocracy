@@ -1587,11 +1587,10 @@ body.logged_in .only-anon {
   margin-bottom: 5px;
 }
 .facet ul ul {
-  list-style: none;
   margin-left: 18px;
 }
-.facet li {
-  padding-right: 16px;
+.facet ul ul.noindent {
+  margin-left: 0px;
 }
 .facet li a.expand_arrow {
   width: 11px;
@@ -1614,9 +1613,9 @@ body.logged_in .only-anon {
 }
 .facet input {
   margin-top: 2px;
+  margin-right: 5px;
 }
 .facet .facet_item_text {
-  margin-left: 5px;
   font-weight: bold;
 }
 
