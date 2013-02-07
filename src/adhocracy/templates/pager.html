@@ -120,7 +120,9 @@ ${facet_items(facet.current_items)}
         %if item['visible']:
         %if item['disabled']:
         <span class="disabled">
+            %if not item['hide_checkbox']:
             <input type="checkbox" disabled="disabled" />
+            %endif
             <span class="facet_item_text">${item['link_text']}</span>
         </span>
         %else:

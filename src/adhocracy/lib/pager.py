@@ -610,6 +610,7 @@ class SolrFacet(SolrIndexer):
             item['level'] = len((token).split("/"))
             item['children'] = []
             item['open'] = False
+            item['hide_checkbox'] = False
 
         if self.exclusive:
             lower, top = split_filter(lambda x: '/' in x, facet_items.keys())
@@ -632,6 +633,7 @@ class SolrFacet(SolrIndexer):
                 if self.exclusive and disable_toplevel:
                     item['open'] = True
                     item['disabled'] = True
+                    item['hide_checkbox'] = True
 
         return facet_items.values()
 
