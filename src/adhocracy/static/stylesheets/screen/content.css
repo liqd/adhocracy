@@ -1596,14 +1596,15 @@ body.logged_in .only-anon {
 .facet li a.expand_arrow {
   width: 11px;
   height: 11px;
-  background: url("/images/arrow-right-11.png") no-repeat 0px center;
+  display: inline-block;
+  background: url("/images/arrow-right-11.png") no-repeat 0px top;
 }
 .facet li > a.expand_arrow:hover {
   text-decoration: none;
   cursor: pointer;
 }
 .facet li.expanded > a.expand_arrow {
-  background: url("/images/arrow-down-11.png") no-repeat 0px center;
+  background: url("/images/arrow-down-11.png") no-repeat 0px top;
 }
 .facet li > ul {
   display: none;
