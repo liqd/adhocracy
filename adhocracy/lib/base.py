@@ -32,11 +32,12 @@ class BaseController(WSGIController):
         else:
             c.active_global_nav = 'home'
         c.user = environ.get('repoze.who.identity', {}).get('user')
-        try:
-            if c.user and (c.user.banned or c.user.delete_time):
-                c.user = None
-        except DetachedInstanceError, e:
-            log.exception(e)
+
+        # make sure we're not using a detached user object
+        c.user = model.meta.Session.merge(c.user)
+
+        if c.user and (c.user.banned or c.user.delete_time):
+            c.user = None
         c.active_controller = request.environ.get('pylons.routes_dict')\
             .get('controller')
         c.debug = asbool(config.get('debug'))
