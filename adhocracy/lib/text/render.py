@@ -2,8 +2,6 @@ import cgi
 import re
 
 import markdown
-from paste.deploy.converters import asbool
-from pylons import config
 
 from adhocracy import model
 from adhocracy.lib.cache.util import memoize
@@ -54,9 +52,8 @@ def render(text, substitutions=True, safe_mode='escape', _testing_allow_user_htm
     if text is None:
         return ""
 
-    allow_user_html = _testing_allow_user_html
-    if allow_user_html is None:
-        allow_user_html = asbool(config.get('adhocracy.allow_user_html', 'true'))
+    from adhocracy.lib.helpers.text_helper import getconf_allow_user_html
+    allow_user_html = getconf_allow_user_html(_testing_allow_user_html)
     assert safe_mode in ('escape', 'remove', 'adhocracy_config')
     if safe_mode == 'adhocracy_config':
         safe_mode = False if allow_user_html else 'escape'
