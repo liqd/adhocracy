@@ -545,7 +545,8 @@ class SolrFacet(SolrIndexer):
 
     def available(self):
         if self.exclusive:
-            return True
+            return (len(self.sorted_facet_counts) > 0
+                    and self.sorted_facet_counts[0][1] > 0)
         if not self.response:
             return False
         return bool(len(self.current_items))
