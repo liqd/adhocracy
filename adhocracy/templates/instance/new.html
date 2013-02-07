@@ -36,7 +36,8 @@
       <legend>${_("Description")}</legend>
       <p class="info">
       ${_("Describe what the goals of this instance are and who constitutes "
-          "its community. (Both Markdown and HTML are allowed here.)")} 
+          "its community.")}
+      ${_("(Both Markdown and HTML are allowed here.)") if h.text.getconf_allow_user_html() else ""}
       </p>
       <textarea tabindex="3" class="description" name="description"></textarea>
       ${components.formatting()}
