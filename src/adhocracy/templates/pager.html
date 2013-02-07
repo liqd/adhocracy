@@ -79,18 +79,20 @@
 </div>
 </%def>
 
-<%def name="facets(pager)">
+<%def name="facets(pager, cls=None)">
 %if (True in [facet.available() for facet in pager.facets]):
+<div id="facets" ${'class=%s'%cls if cls is not None else ''}>
 <h3 id="facets-heading">${_("Filter list")}</h3>
 
-%for facet in pager.facets:
+  %for facet in pager.facets:
     %if facet.available():
     <div class="facet facet-${facet.name}">
         ${facet.render()}
     </div>
     %endif
-%endfor
+  %endfor
 %endif
+</div>
 </%def>
 
 <%def name="facet(facet)">

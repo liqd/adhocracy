@@ -1584,6 +1584,7 @@ body.logged_in .only-anon {
 .facet ul {
   list-style: none;
   margin-left: 0;
+  margin-bottom: 5px;
 }
 .facet ul ul {
   list-style: none;
