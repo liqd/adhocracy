@@ -44,6 +44,12 @@ class TestText(TestController):
         core_result = result[3:-4]
         self.assertTrue(u'<' not in core_result)
 
+    def test_render_markdown_vuln(self):
+        from adhocracy.lib.text import render
+        source = u'[XSS](javascript://%0Aalert%28\'XSS\'%29;)'
+        result = render(source)
+        self.assertTrue(u'javascript' not in result)
+
     def test_html_sanitizing(self):
         from adhocracy.lib.text import render
         source = '<h1>Hello</h1><script>XSS</script>' \
@@ -53,7 +59,7 @@ class TestText(TestController):
                 '<iframe class="youtube-player" type="text/html" width="640" height="385"' \
                 ' src="http://www.youtube.com/embed/foo" frameborder="0">' \
                 '</iframe>'
-        result = render(source, safe_mode=False, _testing_allow_user_html=True)
+        result = render(source, safe_mode='adhocracy_config', _testing_allow_user_html=True)
         self.assertTrue('<script' not in result)
         self.assertTrue('<object' not in result)
         self.assertTrue('<embed' not in result)
