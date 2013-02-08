@@ -43,29 +43,3 @@ class FanstaticNeedHelper(object):
 
     def __getattr__(self, name):
         return _get_resource(self.module, name).need()
-
-
-class FanstaticUrlHelper(object):
-    '''
-    A helper class to access fanstatic resource urls
-    defined in :module:`adhocracy.static`
-
-    Use it this way::
-
-        from adhocracy import static
-        fanstatic_url = FanstaticUrlHelper(static)
-        fanstatic_url.stylesheets
-
-    where "stylesheets" is a fanstatic Resource defined in adhocracy.static.
-    '''
-
-    def __init__(self, module):
-        self.module = module
-
-    def __getattr__(self, name):
-        resource = _get_resource(self.module, name)
-
-        return '%s/%s' % (
-            fanstatic.get_needed().library_url(resource.library),
-            resource.relpath
-        )
