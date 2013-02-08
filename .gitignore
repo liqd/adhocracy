@@ -22,3 +22,4 @@ test-data/index
 site/*
 test-site/*
 adhocracy/*_theme
+test.db-journal
