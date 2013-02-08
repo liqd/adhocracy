@@ -424,11 +424,15 @@ class SolrFacet(SolrIndexer):
     >>> some_facet = SomeFacet('mypager_prefix', request)
     >>> q = solr_query()
     >>> counts_query = q
-    >>> # configure the query further
-    >>> q, counts_query = some_facet.add_to_queries(q, counts_query)
+    >>> exclusive_qs = []
+    >>> # configure the queries further
+    >>> q, counts_query, exclusive_qs = some_facet.add_to_queries(q, exclusive_qs)
     >>> response = q.execute()
     >>> counts_response = counts_response.execute()
-    >>> some_facet.update(response, counts_response)
+    >>> exclusive_responses = dict([counts_response = counts_response.execute()
+    >>> exclusive_responses = dict(map(lambda ((k, q)): (k, q.execute()),
+    ...                                exclusive_qs.iteritems()))
+    >>> some_facet.update(response, counts_response, exclusive_responses)
     >>> some_facet.items
     [...]
     """
@@ -467,7 +471,7 @@ class SolrFacet(SolrIndexer):
     def response(self, response):
         self._response = response
 
-    def add_to_queries(self, query, counts_query):
+    def add_to_queries(self, query, counts_query, exclusive_queries):
         '''
         Add the facet to the queries *query* and *counts_query*.
         The difference is that the *query* will be limited to facet values
@@ -477,11 +481,21 @@ class SolrFacet(SolrIndexer):
         '''
         query = query.facet_by(self.solr_field)
         counts_query = counts_query.facet_by(self.solr_field)
+
+        if self.exclusive:
+            exclusive_queries[self.solr_field] =\
+                exclusive_queries[self.solr_field].facet_by(self.solr_field)
+
         for value in self.used:
             query = query.query(**{self.solr_field: value})
-        return query, counts_query
 
-    def update(self, response, counts_response):
+            for k, v in exclusive_queries.iteritems():
+                if k != self.solr_field:
+                    exclusive_queries[k] = v.query(**{self.solr_field: value})
+
+        return query, counts_query, exclusive_queries
+
+    def update(self, response, counts_response, exclusive_responses):
         '''
         Compute and update different attributes of the facet based
         on the solr *response* and the *base_query*.
@@ -505,6 +519,17 @@ class SolrFacet(SolrIndexer):
                                           key=lambda(value, count): count,
                                           reverse=True)
         self.facet_counts = dict(self.sorted_facet_counts)
+
+        # the counts in the current query without the current query for this
+        # facet if this is an exclusive (single value) facet
+        if self.exclusive:
+            exclusive_counts = exclusive_responses[solr_field]\
+                .facet_counts.facet_fields[solr_field]
+            self.sorted_exclusive_counts = sorted(
+                exclusive_counts,
+                key=lambda(value, count): count,
+                reverse=True)
+            self.exclusive_counts = dict(self.sorted_exclusive_counts)
 
         self.current_items = self._current_items()
 
@@ -585,7 +610,7 @@ class SolrFacet(SolrIndexer):
         facet_items = OrderedDict()
         for (token, token_count) in token_counts:
             if self.exclusive:
-                current_count = self.facet_counts[token]
+                current_count = self.exclusive_counts[token]
             else:
                 current_count = self.current_counts[token]
 
@@ -1054,10 +1079,18 @@ class SolrPager(PagerMixin):
         # Add facets
         counts_query = query
         counts_query = counts_query.paginate(rows=0)
+
+        exclusive_queries = dict((f.solr_field, counts_query)
+                                 for f in self.facets if f.exclusive)
+
         query.faceter.update(limit='65000')
         counts_query.faceter.update(limit='65000')
+        map(lambda q: q.faceter.update(limit='65000'),
+            exclusive_queries.values())
+
         for facet in self.facets:
-            query, counts_query = facet.add_to_queries(query, counts_query)
+            query, counts_query, exclusive_queries = facet.add_to_queries(
+                query, counts_query, exclusive_queries)
 
         # Add pagination and sorting
         if enable_pages:
@@ -1069,6 +1102,9 @@ class SolrPager(PagerMixin):
         # query solr and calculate values from it
         self.response = query.execute()
         self.counts_response = counts_query.execute()
+        self.exclusive_responses = dict(map(lambda ((k, q)): (k, q.execute()),
+                                            exclusive_queries.iteritems()))
+
         # if we are out of the page range do a permanent redirect
         # to the last page
         if (self.pages > 0) and (self.page > self.pages):
@@ -1076,7 +1112,8 @@ class SolrPager(PagerMixin):
             redirect(new_url, code=301)
 
         for facet in self.facets:
-            facet.update(self.response, self.counts_response)
+            facet.update(self.response, self.counts_response,
+                         self.exclusive_responses)
         self.items = self._items_from_response(self.response)
 
     def total_num_items(self):
