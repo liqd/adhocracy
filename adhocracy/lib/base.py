@@ -34,7 +34,8 @@ class BaseController(WSGIController):
         c.user = environ.get('repoze.who.identity', {}).get('user')
 
         # make sure we're not using a detached user object
-        c.user = model.meta.Session.merge(c.user)
+        if c.user:
+            c.user = model.meta.Session.merge(c.user)
 
         if c.user and (c.user.banned or c.user.delete_time):
             c.user = None
