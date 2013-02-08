@@ -45,7 +45,7 @@ class UniqueUsername(formencode.FancyValidator):
                 _('The username is invalid'),
                 value, state)
         if meta.Session.query(User.user_name).filter(
-            func.lower(User.user_name)==value.lower()
+            func.lower(User.user_name) == value.lower()
         ).count():
             raise formencode.Invalid(
                 _('That username already exists'),
@@ -69,13 +69,13 @@ class ValidDate(formencode.FancyValidator):
         if not TIME.match(value):
             raise formencode.Invalid(
                 _('Invalid date, expecting DD.MM.YYYY'),
-                    value, state)
+                value, state)
         try:
             return datetime.strptime(value, "%d.%m.%Y")
         except ValueError:
             raise formencode.Invalid(
                 _('Invalid date, expecting DD.MM.YYYY'),
-                   value, state)
+                value, state)
         return value
 
 
@@ -341,7 +341,7 @@ class ValidText(formencode.FancyValidator):
         if not text:
             raise formencode.Invalid(
                 _("No text with ID '%s' exists") % value,
-                         value, state)
+                value, state)
         return text
 
 
@@ -374,7 +374,7 @@ class VariantName(formencode.FancyValidator):
                                      value, state)
 
         if (var.lower() in FORBIDDEN_NAMES or not
-            VALIDVARIANT.match(var.lower())):
+                VALIDVARIANT.match(var.lower())):
             raise formencode.Invalid(_("Invalid variant name: %s") % value,
                                      value, state)
         try:
@@ -448,8 +448,8 @@ class UsersCSV(formencode.FancyValidator):
             line_content = value.split('\n')[reader.line_num]
             msg = _('Error "%(error)s" while reading line '
                     '<pre><i>%(line_content)s</i></pre>') % dict(
-                line_content=line_content,
-                error=str(E))
+                        line_content=line_content,
+                        error=str(E))
             errors.append((reader.line_num + 1, [msg]))
         if errors or self.duplicates:
             error_msg = _('The following errors occured while reading '

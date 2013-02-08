@@ -5,7 +5,6 @@ import markdown
 
 from adhocracy import model
 from adhocracy.lib.cache.util import memoize
-from adhocracy.lib.text import mdx_showmore
 
 SUB_USER = re.compile("@([a-zA-Z0-9_\-]{3,255})")
 
@@ -37,7 +36,8 @@ def page_sub(match):
 
 
 @memoize('render')
-def render(text, substitutions=True, safe_mode='escape', _testing_allow_user_html=None):
+def render(text, substitutions=True, safe_mode='escape',
+           _testing_allow_user_html=None):
     '''
     Render markdown as html.
 
@@ -71,9 +71,10 @@ def render(text, substitutions=True, safe_mode='escape', _testing_allow_user_htm
         text = SUB_USER.sub(user_sub, text)
         text = SUB_PAGE.sub(page_sub, text)
 
-    if allow_user_html and safe_mode == False:
+    if allow_user_html and not safe_mode:
         from lxml.html.clean import Cleaner
-        text = Cleaner(embedded=False, kill_tags=['embed', 'object']).clean_html(text)
+        text = Cleaner(embedded=False,
+                       kill_tags=['embed', 'object']).clean_html(text)
     return text
 
 

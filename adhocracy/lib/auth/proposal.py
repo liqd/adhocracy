@@ -40,7 +40,7 @@ def edit(check, p):
     check.other('user_is_no_member', not c.user or
                 not c.user.is_member(c.instance))
     check.other('proposal_head_not_wiki_or_own',
-        not is_own(p) and not p.description.head.wiki)
+                not is_own(p) and not p.description.head.wiki)
 
 
 def delete(check, p):

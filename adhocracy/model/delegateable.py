@@ -20,13 +20,15 @@ log = logging.getLogger(__name__)
 
 
 # REFACT: this should not be used anymore - remove?
-category_graph = Table('category_graph', meta.data,
+category_graph = Table(
+    'category_graph', meta.data,
     Column('parent_id', Integer, ForeignKey('delegateable.id')),
     Column('child_id', Integer, ForeignKey('delegateable.id'))
-    )
+)
 
 
-delegateable_table = Table('delegateable', meta.data,
+delegateable_table = Table(
+    'delegateable', meta.data,
     Column('id', Integer, primary_key=True),
     Column('label', Unicode(255), nullable=False),
     Column('type', String(50)),
@@ -37,7 +39,7 @@ delegateable_table = Table('delegateable', meta.data,
     Column('milestone_id', Integer, ForeignKey('milestone.id'), nullable=True),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False)
-    )
+)
 
 
 class Delegateable(meta.Indexable):
@@ -105,7 +107,7 @@ class Delegateable(meta.Indexable):
     @classmethod
     def all(cls, instance=None, include_deleted=False):
         return cls.all_q(instance=instance,
-                include_deleted=include_deleted).all()
+                         include_deleted=include_deleted).all()
 
     @classmethod
     def by_milestone(cls, milestone, instance=None, include_deleted=False,
@@ -148,7 +150,7 @@ class Delegateable(meta.Indexable):
         if at_time is None:
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
-               self.delete_time <= at_time
+            self.delete_time <= at_time
 
     def find_latest_comment_time(self):
         from revision import Revision
@@ -238,5 +240,5 @@ class Delegateable(meta.Indexable):
             title=self.title,
             tag=[k.name for k, v in self.tags],
             user=self.creator.user_name
-            ))
+        ))
         return index

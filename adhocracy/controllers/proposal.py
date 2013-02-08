@@ -42,7 +42,7 @@ class ProposalCreateForm(ProposalNewForm):
     text = validators.String(max=20000, min=4, not_empty=True)
     tags = validators.String(max=20000, not_empty=False, if_missing=None)
     milestone = forms.MaybeMilestone(if_empty=None,
-            if_missing=None)
+                                     if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
 
@@ -57,7 +57,7 @@ class ProposalUpdateForm(ProposalEditForm):
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
     milestone = forms.MaybeMilestone(if_empty=None,
-            if_missing=None)
+                                     if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
 
 
@@ -92,7 +92,8 @@ class ProposalController(BaseController):
         if c.user and c.user.proposal_sort_order:
             def_sort = c.user.proposal_sort_order
         c.proposals_pager = pager.solr_proposal_pager(c.instance,
-                                                      {'text': query}, default_sorting=def_sort)
+                                                      {'text': query},
+                                                      default_sorting=def_sort)
 
         if format == 'json':
             return render_json(c.proposals_pager)
@@ -176,7 +177,7 @@ class ProposalController(BaseController):
             var_val = forms.VariantName()
             variant = var_val.to_python(self.form_result.get('label'))
             if not can.norm.edit(page, variant) or \
-                not can.selection.create(proposal):
+                    not can.selection.create(proposal):
                 continue
             model.Text.create(page, variant, c.user,
                               page.head.title,
@@ -336,7 +337,7 @@ class ProposalController(BaseController):
                 events, _("Proposal: %s") % c.proposal.title,
                 h.entity_url(c.proposal),
                 description=_("Activity on the %s proposal") % c.proposal.title
-                )
+            )
 
         events = model.Event.find_by_topic(c.proposal)
         c.tile = tiles.proposal.ProposalTile(c.proposal)

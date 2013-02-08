@@ -30,7 +30,7 @@ bootstrap = Group([bootstrap_js, bootstrap_css])
 
 stylesheets_library = Library('stylesheets', 'stylesheets')
 fonts = Resource(stylesheets_library, 'screen/fonts.css',
-                   depends=[yaml, bootstrap_css])
+                 depends=[yaml, bootstrap_css])
 basemod = Resource(stylesheets_library, 'screen/basemod.css',
                    depends=[fonts])
 content = Resource(stylesheets_library, 'screen/content.css',
@@ -72,7 +72,7 @@ modernizr = Resource(misc_library, 'modernizr.js',
 spectrum_css = Resource(misc_library, 'spectrum/spectrum.css')
 spectrum = Resource(misc_library, 'spectrum/spectrum.js',
                     minified='spectrum/spectrum.min.js',
-                       depends=[jquery, spectrum_css])
+                    depends=[jquery, spectrum_css])
 
 
 # --[ adhocracy ]-----------------------------------------------------------

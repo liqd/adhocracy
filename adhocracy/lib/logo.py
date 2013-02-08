@@ -119,4 +119,3 @@ def _load_with_mtime(logo_path, mtime, size):
     sio = StringIO.StringIO()
     logo_image.save(sio, 'PNG')
     return sio.getvalue()
-    

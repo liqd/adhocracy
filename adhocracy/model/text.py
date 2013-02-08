@@ -10,7 +10,8 @@ import meta
 log = logging.getLogger(__name__)
 
 
-text_table = Table('text', meta.data,
+text_table = Table(
+    'text', meta.data,
     Column('id', Integer, primary_key=True),
     Column('page_id', Integer, ForeignKey('page.id'), nullable=False),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
@@ -21,7 +22,7 @@ text_table = Table('text', meta.data,
     Column('wiki', Boolean, default=False),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime)
-    )
+)
 
 
 class Text(object):
@@ -70,7 +71,8 @@ class Text(object):
 
     @property
     def history(self, include_deleted=False):
-        texts = meta.Session.query(Text).filter(Text.page_id==self.page_id, Text.variant==self.variant).all()
+        texts = meta.Session.query(Text).filter(
+            Text.page_id == self.page_id, Text.variant == self.variant).all()
         if not include_deleted:
             texts = filter(lambda x: not x.is_deleted(), texts)
         return texts

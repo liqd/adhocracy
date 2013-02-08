@@ -28,8 +28,8 @@ def vote_source(event):
     if event.event in [T_VOTE_CAST, T_SELECT_VARIANT, T_RATING_CAST]:
         decision = democracy.Decision(event.user, event.poll)
         before = decision.without_vote(event.vote)
-        if (map(lambda v: v.delegation, decision.relevant_votes) == \
-           map(lambda v: v.delegation, before.relevant_votes)) and \
+        if (map(lambda v: v.delegation, decision.relevant_votes) ==
+            map(lambda v: v.delegation, before.relevant_votes)) and \
            (before.result == decision.result):
             return
         if not decision.is_decided():

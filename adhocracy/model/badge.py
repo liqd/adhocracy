@@ -19,7 +19,7 @@ badge_table = Table(
     'badge', meta.data,
     #common attributes
     Column('id', Integer, primary_key=True),
-    Column('type', String(40), nullable=False), 
+    Column('type', String(40), nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('title', Unicode(40), nullable=False),
     Column('color', Unicode(7), nullable=False),

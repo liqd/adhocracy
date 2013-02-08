@@ -15,7 +15,7 @@ from adhocracy.lib import search
 class AdhocracyCommand(Command):
     parser = Command.standard_parser(verbose=True)
     parser.add_option('-c', '--config', dest='config',
-            default='development.ini', help='Config file to use.')
+                      default='development.ini', help='Config file to use.')
     default_verbosity = 1
     group_name = 'adhocracy'
 

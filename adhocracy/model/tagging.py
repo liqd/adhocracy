@@ -9,14 +9,15 @@ import meta
 log = logging.getLogger(__name__)
 
 
-tagging_table = Table('tagging', meta.data,
+tagging_table = Table(
+    'tagging', meta.data,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('tag_id', Integer, ForeignKey('tag.id'), nullable=False),
     Column('delegateable_id', Integer, ForeignKey('delegateable.id'),
            nullable=False),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
-    )
+)
 
 
 class Tagging(object):
@@ -72,5 +73,5 @@ class Tagging(object):
     @classmethod
     def create_all(cls, delegateable, tags, creator):
         import adhocracy.lib.text as text
-        return [Tagging.create(delegateable, t, creator) \
-            for t in text.tag_split(tags)]
+        return [Tagging.create(delegateable, t, creator)
+                for t in text.tag_split(tags)]

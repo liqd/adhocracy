@@ -35,7 +35,7 @@ def clean_stale_watches():
     print count
     for watch in Watch.all():
         if hasattr(watch.entity, 'is_deleted') and \
-            watch.entity.is_deleted():
+                watch.entity.is_deleted():
             count += 1
             print count
             watch.delete()
@@ -51,8 +51,8 @@ def traverse_watchlist(entity):
     """
 
     def merge(outer, inner):
-        return inner + [w for w in outer if \
-            not w.user in [w.user for w in inner]]
+        return inner + [w for w in outer if
+                        not w.user in [w.user for w in inner]]
 
     watches = Watch.all_by_entity(entity)
 

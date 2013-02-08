@@ -50,8 +50,8 @@ def make_map(config):
                                          'reset': 'GET',
                                          'activate': 'GET',
                                          'resend': 'GET'},
-                                collection={'complete': 'GET',
-                                            'filter': 'GET'})
+                 collection={'complete': 'GET',
+                             'filter': 'GET'})
 
     # TODO work this into a complete subcontroller.
     map.connect('/user/{id}/message.{format}', controller='message',
@@ -93,7 +93,7 @@ def make_map(config):
                                                  'badges': 'GET',
                                                  'update_badges': 'POST',
                                                  'history': 'GET'},
-                               collection={'filter': 'GET'})
+                 collection={'filter': 'GET'})
     map.connect('/proposal/{proposal_id}/{selection_id}/details{.format}',
                 controller='selection',
                 action='details')
@@ -219,9 +219,9 @@ def make_map(config):
     # not using REST since tags may contain dots, thus failing format
     # detection.
     map.connect('/tag', controller='tag', action='index',
-                        conditions=dict(method=['GET']))
+                conditions=dict(method=['GET']))
     map.connect('/tag', controller='tag', action='create',
-                        conditions=dict(method=['POST']))
+                conditions=dict(method=['POST']))
     map.connect('/tag/autocomplete', controller='tag', action='autocomplete')
     map.connect('/untag', controller='tag', action='untag')
     map.connect('/untag_all', controller='tag', action='untag_all')
@@ -321,7 +321,6 @@ def make_map(config):
                 controller='admin', action='import_dialog')
     map.connect('/admin/import/do',
                 controller='admin', action='import_do')
-
 
     map.connect('/static/{page_name}.{format}', controller='static',
                 action='serve')

@@ -12,10 +12,11 @@ import instance_filter as ifilter
 log = logging.getLogger(__name__)
 
 
-page_table = Table('page', meta.data,
+page_table = Table(
+    'page', meta.data,
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
     Column('function', Unicode(20))
-    )
+)
 
 
 class Page(Delegateable):
@@ -147,12 +148,12 @@ class Page(Delegateable):
     def parent(self):
         for d in self.parents:
             if (isinstance(d, Page) and d.function in self.LISTED and not
-                d.is_deleted()):
+                    d.is_deleted()):
                 return d
 
     @property
     def subpages(self):
-        return [c for c in self.children if isinstance(c, Page) and \
+        return [c for c in self.children if isinstance(c, Page) and
                 c.function in self.LISTED and not c.is_deleted()]
 
     @property
@@ -280,7 +281,7 @@ class Page(Delegateable):
         if at_time is None:
             at_time = datetime.utcnow()
         return ((self.delete_time is not None) and
-               self.delete_time <= at_time)
+                self.delete_time <= at_time)
 
     def purge_variant(self, variant, delete_time=None):
         if delete_time is None:
@@ -342,7 +343,7 @@ class Page(Delegateable):
         if self.head is not None:
             index.update(dict(
                 body=self.head.text,
-                ))
+            ))
         return index
 
     def __repr__(self):

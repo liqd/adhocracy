@@ -178,12 +178,12 @@ class PollTile(BaseTile):
 
 def booth(poll):
     return render_tile('/poll/tiles.html', 'booth',
-                        PollTile(poll), poll=poll, user=c.user, cached=True)
+                       PollTile(poll), poll=poll, user=c.user, cached=True)
 
 
 def row(poll):
     return render_tile('/poll/tiles.html', 'row',
-                        PollTile(poll), poll=poll, user=c.user, cached=True)
+                       PollTile(poll), poll=poll, user=c.user, cached=True)
 
 
 def widget(poll, cls='', deactivated=False, delegate_url=None):

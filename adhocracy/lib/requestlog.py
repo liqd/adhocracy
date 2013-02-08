@@ -3,7 +3,7 @@ import logging
 
 import adhocracy.lib.util
 import adhocracy.model
-from paste.deploy.converters import asbool
+
 
 def _anonymize(ipstr):
     ipa = ipaddress.ip_address(unicode(ipstr))
@@ -27,11 +27,13 @@ ANONYMIZATION_FUNCS = {
 
 log = logging.getLogger(__name__)
 
+
 class RequestLogger(object):
     def __init__(self, app, config):
         self.app = app
         self.config = config
-        afname = self.config.get('adhocracy.requestlog_ipanonymization', 'dontlog')
+        afname = self.config.get('adhocracy.requestlog_ipanonymization',
+                                 'dontlog')
         self.anonymization_func = ANONYMIZATION_FUNCS[afname]
 
     def __call__(self, environ, start_response):

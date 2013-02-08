@@ -39,8 +39,8 @@ class PageFormatter(DelegateableFormatter):
 class PollFormatter(ObjectFormatter):
 
     SELECT_PATTERN = lambda s, v, p: _("variant %(variant)s of %(page)s") % \
-                                      {'variant': v,
-                                       'page': p}
+        {'variant': v,
+         'page': p}
 
     def _get_formatter(self, poll):
         if isinstance(poll.subject, model.Comment):
@@ -78,8 +78,8 @@ class InstanceFormatter(ObjectFormatter):
 
     def html(self, instance):
         return u"<a class='event_instance' href='%s'>%s</a>" % (
-                h.entity_url(instance),
-                instance.label)
+            h.entity_url(instance),
+            instance.label)
 
 
 class UserFormatter(ObjectFormatter):
@@ -105,7 +105,7 @@ class VoteFormatter(ObjectFormatter):
     def unicode(self, vote):
         return {1: _("is for"),
                 0: _("abstains on"),
-               -1: _("is against")}[vote.orientation]
+                -1: _("is against")}[vote.orientation]
 
     def html(self, value):
         return self.unicode(value)

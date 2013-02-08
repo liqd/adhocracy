@@ -8,7 +8,6 @@ from paste.deploy.converters import asbool
 from pylons import tmpl_context as c
 from pylons.error import handle_mako_error
 from pylons.configuration import PylonsConfig
-import sqlalchemy
 from sqlalchemy import engine_from_config
 from sqlalchemy.interfaces import ConnectionProxy
 
@@ -95,10 +94,10 @@ class TimerProxy(ConnectionProxy):
             # contains proxy stuff
             caller = '(unknown)'
             for frame_file, frame_line, frame_func, frame_code in \
-                reversed(traceback.extract_stack()):
+                    reversed(traceback.extract_stack()):
 
                 if __file__.startswith(frame_file) \
-                    or '/sqlalchemy/' in frame_file:
+                        or '/sqlalchemy/' in frame_file:
 
                     continue
 

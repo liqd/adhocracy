@@ -10,7 +10,8 @@ import meta
 log = logging.getLogger(__name__)
 
 
-tally_table = Table('tally', meta.data,
+tally_table = Table(
+    'tally', meta.data,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('poll_id', Integer, ForeignKey('poll.id'), nullable=False),
@@ -18,7 +19,7 @@ tally_table = Table('tally', meta.data,
     Column('num_for', Integer, nullable=True),
     Column('num_against', Integer, nullable=True),
     Column('num_abstain', Integer, nullable=True)
-    )
+)
 
 
 class Tally(object):
@@ -158,8 +159,8 @@ class Tally(object):
 
     def __repr__(self):
         return "<Tally(%s,%s,%s,%d,%d,%d)>" % (self.id,
-                                            self.poll_id,
-                                            self.vote_id,
-                                            self.num_for,
-                                            self.num_against,
-                                            self.num_abstain)
+                                               self.poll_id,
+                                               self.vote_id,
+                                               self.num_for,
+                                               self.num_against,
+                                               self.num_abstain)

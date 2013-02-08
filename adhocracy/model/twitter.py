@@ -9,7 +9,8 @@ import meta
 log = logging.getLogger(__name__)
 
 
-twitter_table = Table('twitter', meta.data,
+twitter_table = Table(
+    'twitter', meta.data,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime, nullable=True),
@@ -19,7 +20,7 @@ twitter_table = Table('twitter', meta.data,
     Column('secret', Unicode(255), nullable=False),
     Column('screen_name', Unicode(255), nullable=False),
     Column('priority', Integer, default=4)
-    )
+)
 
 
 class Twitter(object):

@@ -85,7 +85,7 @@ class InstanceBadgesForm(formencode.Schema):
 class InstanceCreateForm(formencode.Schema):
     allow_extra_fields = True
     key = formencode.All(validators.String(min=4, max=20),
-                              forms.UniqueInstanceKey())
+                         forms.UniqueInstanceKey())
     label = validators.String(min=4, max=254, not_empty=True)
     description = validators.String(max=100000, if_empty=None, not_empty=False)
 
@@ -99,7 +99,7 @@ class InstanceGeneralEditForm(formencode.Schema):
     hidden = validators.StringBool(not_empty=False, if_empty=False,
                                    if_missing=False)
     is_authenticated = validators.StringBool(not_empty=False, if_empty=False,
-                                          if_missing=False)
+                                             if_missing=False)
 
 
 class InstanceAppearanceEditForm(formencode.Schema):
@@ -167,7 +167,6 @@ class InstanceController(BaseController):
         c.tile = tiles.instance.InstanceTile(c.instance)
         return render("/instance/index.html")
 
-
     def new(self):
         require.instance.create()
         return render("/instance/new.html")
@@ -221,11 +220,11 @@ class InstanceController(BaseController):
         #                key=lambda (k, c, v): k.name)
 
         if asbool(config.get('adhocracy.show_instance_overview_milestones')) \
-           and c.page_instance.milestones:
+                and c.page_instance.milestones:
 
             number = asint(config.get(
                 'adhocracy.number_instance_overview_milestones', 3))
-            
+
             milestones = model.Milestone.all_future_q(
                 instance=c.page_instance).limit(number).all()
 
@@ -236,7 +235,7 @@ class InstanceController(BaseController):
         events = model.Event.find_by_instance(c.page_instance, limit=3)
 
         c.events_pager = pager.events(events,
-                                      enable_pages=False, 
+                                      enable_pages=False,
                                       enable_sorts=False)
 
         c.stats = {
@@ -549,7 +548,7 @@ class InstanceController(BaseController):
             # fixme: show logo errors in the form
             if ('logo' in request.POST and
                 hasattr(request.POST.get('logo'), 'file') and
-                request.POST.get('logo').file):
+                    request.POST.get('logo').file):
                 logo.store(c.page_instance, request.POST.get('logo').file)
                 updated = True
         except Exception, e:
@@ -799,8 +798,9 @@ class InstanceController(BaseController):
 
         return ret_success(entity=c.page_instance, format=format,
                            message=_("Welcome to %(instance)s") % {
-                            'instance': c.page_instance.label},
-                            category='success')
+                               'instance': c.page_instance.label
+                           },
+                           category='success')
 
     def ask_leave(self, id):
         c.page_instance = self._get_current_instance(id)
@@ -816,12 +816,12 @@ class InstanceController(BaseController):
             return ret_abort(
                 entity=c.page_instance, format=format,
                 message=_("You're not a member of %(instance)s.") % {
-                                    'instance': c.page_instance.label})
+                    'instance': c.page_instance.label})
         elif c.user == c.page_instance.creator:
             return ret_abort(
                 entity=c.page_instance, format=format,
                 message=_("You're the founder of %s, cannot leave.") % {
-                                    'instance': c.page_instance.label})
+                    'instance': c.page_instance.label})
         require.instance.leave(c.page_instance)
 
         for membership in c.user.memberships:
@@ -838,7 +838,7 @@ class InstanceController(BaseController):
         model.meta.Session.commit()
         return ret_success(entity=c.page_instance, format=format,
                            message=_("You've left %(instance)s.") % {
-                                'instance': c.page_instance.label})
+                               'instance': c.page_instance.label})
 
     def _get_current_instance(self, id):
         if id != c.instance.key:

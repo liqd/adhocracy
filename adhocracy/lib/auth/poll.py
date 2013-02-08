@@ -1,4 +1,3 @@
-from adhocracy.lib.auth.authorization import has
 import user
 
 
@@ -27,9 +26,9 @@ def delete(check, p):
 
 def vote(check, p):
     check.other('poll_has_ended', p.has_ended())
-    
+
     check.other('select_poll_not_mutable',
-                (p.action == p.SELECT and p.selection and 
+                (p.action == p.SELECT and p.selection and
                 not p.selection.proposal.is_mutable()))
     show(check, p)
     user.vote(check)

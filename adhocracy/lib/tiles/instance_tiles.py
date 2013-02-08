@@ -21,7 +21,8 @@ class InstanceTile(BaseTile):
     @property
     def description(self):
         if self.instance.description:
-            return text.render(self.instance.description, safe_mode='adhocracy_config')
+            return text.render(self.instance.description,
+                               safe_mode='adhocracy_config')
         return ""
 
     @property
@@ -53,7 +54,7 @@ class InstanceTile(BaseTile):
 
     def show_icon(self):
         show_fallback = asbool(
-                config.get('adhocracy.show_instance_fallback_icons'))
+            config.get('adhocracy.show_instance_fallback_icons'))
         return show_fallback or logo.exists(self.instance.key)
 
 

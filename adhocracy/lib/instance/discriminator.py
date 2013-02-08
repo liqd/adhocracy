@@ -29,7 +29,8 @@ class InstanceDiscriminatorMiddleware(object):
                         response = Response()
                         if instance_key == '':
                             response.status_int = 404
-                            # Double slashes are stripped, so we can't redirect to /i//
+                            # Double slashes are stripped, so we can't redirect
+                            # to /i//
                             return response(environ, start_response)
 
                         response.status_int = 302
@@ -43,7 +44,7 @@ class InstanceDiscriminatorMiddleware(object):
                 host = host.strip('.').strip()
                 instance_key = host
 
-        if instance_key: # instance key is set (neither None nor "")
+        if instance_key:  # instance key is set (neither None nor "")
             instance = model.Instance.find(instance_key)
             if instance is None:
                 log.debug("No such instance: %s, defaulting!" % instance_key)

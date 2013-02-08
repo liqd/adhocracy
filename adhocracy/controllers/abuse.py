@@ -40,7 +40,7 @@ class AbuseController(BaseController):
             return self.new(errors=i.unpack_errors())
 
         broadcast.notify_abuse(c.instance, c.user,
-            self.form_result.get('url'),
-            self.form_result.get('message'))
+                               self.form_result.get('url'),
+                               self.form_result.get('message'))
         h.flash(_("Thank you for helping."), 'notice')
         redirect(self.form_result.get('url'))

@@ -29,12 +29,11 @@ Additionally, you have to add the following to your css code:
 
 import re
 import markdown
-from markdown.util import etree
 from pylons.i18n import _
 
 
 SHOWMORE_RE = re.compile(r'\({3,}(?P<text>.*?)\){3,}',
-                             re.MULTILINE|re.DOTALL)
+                         re.MULTILINE | re.DOTALL)
 
 MORE_STRING = u'show more'
 LESS_STRING = u'show less'
@@ -59,6 +58,7 @@ POST_HTML = u'''
 </div>
 '''
 
+
 class ShowmoreExtension(markdown.Extension):
     """ Showmore Extension for Python-Markdown. """
 
@@ -75,14 +75,13 @@ class ShowmorePreprocessor(markdown.preprocessors.Preprocessor):
             m = SHOWMORE_RE.search(text)
             if m:
 
-                pretext = self.markdown.htmlStash.store('<pre>vorher</pre>', safe=True)
-                posttext = self.markdown.htmlStash.store('<pre>nachher</pre>', safe=True)
-
                 text = '%s%s%s%s%s' % (
                     text[:m.start()],
-                    self.markdown.htmlStash.store(PRE_HTML % _(MORE_STRING), safe=True),
+                    self.markdown.htmlStash.store(PRE_HTML % _(MORE_STRING),
+                                                  safe=True),
                     m.group('text'),
-                    self.markdown.htmlStash.store(POST_HTML % _(LESS_STRING), safe=True),
+                    self.markdown.htmlStash.store(POST_HTML % _(LESS_STRING),
+                                                  safe=True),
                     text[m.end():])
             else:
                 break

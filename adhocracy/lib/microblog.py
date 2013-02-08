@@ -40,13 +40,13 @@ def create_oauth(key=None, secret=None):
 def shorten_url(url):
     try:
         query = urlencode({
-                'login': config.get('adhocracy.bitly.login',
-                                    DEFAULT_SHORTENER_USER),
-                'apiKey': config.get('adhocracy.bitly.key',
-                                     DEFAULT_SHORTENER_KEY),
-                'longUrl': url.encode('utf-8'),
-                'format': 'json',
-                'version': '2.0.1'})
+            'login': config.get('adhocracy.bitly.login',
+                                DEFAULT_SHORTENER_USER),
+            'apiKey': config.get('adhocracy.bitly.key',
+                                 DEFAULT_SHORTENER_KEY),
+            'longUrl': url.encode('utf-8'),
+            'format': 'json',
+            'version': '2.0.1'})
         request_url = SHORTENER_URL + "?" + str(query)
         data = json.loads(urlopen(request_url).read())
         if not data['statusCode'] == 'OK':

@@ -688,7 +688,7 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
     entity_type = model.Badge
     title = lazy_ugettext(u'Categories')
     solr_field = 'facet.delegateable.badgecategory'
-    
+
     @property
     def show_current_empty(self):
         return not asbool(config.get(
@@ -810,7 +810,7 @@ class NormNumSelectionsIndexer(SolrIndexer):
     @classmethod
     def add_data_to_index(cls, entity, data):
         if (isinstance(entity, model.Page) and
-            entity.function == model.Page.NORM):
+                entity.function == model.Page.NORM):
             data[cls.solr_field] = len(entity.selections)
 
 
@@ -821,7 +821,7 @@ class NormNumVariantsIndexer(SolrIndexer):
     @classmethod
     def add_data_to_index(cls, entity, data):
         if (isinstance(entity, model.Page) and
-            entity.function == model.Page.NORM):
+                entity.function == model.Page.NORM):
             data[cls.solr_field] = len(entity.selections)
 
 

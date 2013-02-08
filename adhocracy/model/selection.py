@@ -25,7 +25,7 @@ selection_table = Table(
            name='selection_proposal', use_alter=True), nullable=True),
     Column('variants', PickleType(comparator=are_elements_equal),
            nullable=True)
-    )
+)
 
 
 class Selection(object):

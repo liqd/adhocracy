@@ -10,7 +10,6 @@ from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
 
 from adhocracy.lib.auth.authentication import setup_auth
-from adhocracy.lib.helpers.site_helper import base_url
 from adhocracy.lib.instance import setup_discriminator
 from adhocracy.lib.machine_name import IncludeMachineName
 from adhocracy.lib.util import get_site_path
@@ -77,9 +76,11 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     if asbool(static_files):
         cache_age = int(config.get('adhocracy.static.age', 7200))
         # Serve static files
-        overlay_app = StaticURLParser(get_site_path('static', app_conf=config),
+        overlay_app = StaticURLParser(
+            get_site_path('static', app_conf=config),
             cache_max_age=None if debug else cache_age)
-        static_app = StaticURLParser(config['pylons.paths']['static_files'],
+        static_app = StaticURLParser(
+            config['pylons.paths']['static_files'],
             cache_max_age=None if debug else cache_age)
         app = Cascade([overlay_app, static_app, app])
 
@@ -95,7 +96,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
                     base_url='%s://%s' % (config.get('adhocracy.protocol'),
                                           config.get('adhocracy.domain')),
                     bottom=True
-    )
+                    )
 
     if asbool(config.get('adhocracy.include_machine_name_in_header', 'false')):
         app = IncludeMachineName(app, config)

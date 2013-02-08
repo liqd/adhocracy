@@ -209,7 +209,7 @@ class DelegationNode(object):
 
     def __eq__(self, other):
         return self.user == other.user and \
-               self.delegateable == other.delegateable
+            self.delegateable == other.delegateable
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -255,7 +255,7 @@ class DelegationNode(object):
                 ds in by_principal.values()]
 
     def _filter_out_delegations_that_are_overriden_by_direct_votes(
-        self, delegations):
+            self, delegations):
         from adhocracy.lib.democracy.decision import Decision
 
         def is_overriden_by_own_decision(delegation):
@@ -273,7 +273,7 @@ class DelegationNode(object):
     #         filter_less_specific_delegations (modulo the pre-work
     #         that happens before it is called)
     def _filter_out_delegations_where_a_more_specific_delegation_exists(
-        self, delegations):
+            self, delegations):
         def is_overriden_by_other_delegation(delegation):
             node = DelegationNode(delegation.principal, self.delegateable)
             outbound_delegations = node.outbound()

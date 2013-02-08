@@ -6,12 +6,13 @@ import meta
 
 log = logging.getLogger(__name__)
 
-group_table = Table('group', meta.data,
+group_table = Table(
+    'group', meta.data,
     Column('id', Integer, primary_key=True),
     Column('group_name', Unicode(255), nullable=False, unique=True),
     Column('code', Unicode(255), nullable=False, unique=True),
     Column('description', Unicode(1000))
-    )
+)
 
 
 class Group(object):

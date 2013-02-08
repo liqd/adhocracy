@@ -18,7 +18,7 @@ def notify_abuse(instance, user, url, message):
         'user': user.user_name if user else 'Anonymous',
         'url': url,
         'message': message
-        }
+    }
     message = json.dumps(message)
     if queue.has_queue():
         queue.post_message(REPORT_SERVICE, message)

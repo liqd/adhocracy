@@ -33,6 +33,7 @@ def breadcrumbs(text):
         bc += entity_bc(text)
     return bc
 
+
 def getconf_allow_user_html(_testing_override=None):
     if _testing_override is not None:
         return _testing_override

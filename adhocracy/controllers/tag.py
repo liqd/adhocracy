@@ -97,7 +97,7 @@ class TagController(BaseController):
         delegateable = self.form_result.get('delegateable')
         for tag_text in text.tag_split(self.form_result.get('tags')):
             if not model.Tagging.find_by_delegateable_name_creator(
-                delegateable, tag_text, c.user):
+                    delegateable, tag_text, c.user):
                 model.Tagging.create(delegateable, tag_text, c.user)
         model.meta.Session.commit()
         redirect(h.entity_url(delegateable, format=format))

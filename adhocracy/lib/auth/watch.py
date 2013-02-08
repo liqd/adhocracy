@@ -1,6 +1,3 @@
-from authorization import has
-
-
 def index(check):
     check.perm('watch.show')
 
