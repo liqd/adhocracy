@@ -16,7 +16,7 @@ def name():
 
 
 def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
-             append_slash=False):
+             append_slash=False, config=config):
     """
     Constructs an URL.
 
@@ -65,7 +65,7 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
         result = '/'
 
     if append_slash and not result.endswith('/'):
-        result = '%s/' % result
+        result += '/'
 
     return result
 

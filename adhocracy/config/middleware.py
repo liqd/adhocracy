@@ -15,6 +15,7 @@ from adhocracy.lib.machine_name import IncludeMachineName
 from adhocracy.lib.util import get_site_path
 from adhocracy.config.environment import load_environment
 from adhocracy.lib.requestlog import RequestLogger
+from adhocracy.lib.helpers.site_helper import base_url
 
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
@@ -88,13 +89,13 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     # The required resources can be specified at runtime with <resource>.need()
     # and can will be delivered with version specifiers in the url and
     # minified when not in debug mode.
+    fanstatic_base_url = base_url('', instance=None, config=config).rstrip('/')
     app = Fanstatic(app,
                     minified=not(debug),
                     versioning=True,
                     recompute_hashes=debug,
                     bundle=not(debug),
-                    base_url='%s://%s' % (config.get('adhocracy.protocol'),
-                                          config.get('adhocracy.domain')),
+                    base_url=fanstatic_base_url,
                     bottom=True
                     )
 
