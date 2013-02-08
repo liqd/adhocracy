@@ -30,7 +30,7 @@
     </div>
 
     ${forms.checkbox(_("Enable vote delegation"), 'allow_delegate', 15)}
-    ${components.savebox("/instance/%s" % c.page_instance.key)}
+    ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 
 </form> 
 </%block>

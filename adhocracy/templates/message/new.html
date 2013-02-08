@@ -23,7 +23,7 @@
       <div style="clear:both;"></div>
 
       <div class="mainbar">
-          ${components.savebox("/", save_text=_("Send"))}
+          ${components.savebox(h.base_url("/user/%s" % c.page_user.user_name), save_text=_("Send"))}
       </div>
   </form>
 </%block>

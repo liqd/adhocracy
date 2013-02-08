@@ -68,7 +68,7 @@
       </div>    
     </fieldset>
     <div class="input_wrapper submit">
-      ${components.savebox("/proposal/%s" % c.proposal.id)}
+      ${components.savebox(h.base_url('/proposal/%s' % c.proposal.id))}
     </div>
   </form>
 </div>

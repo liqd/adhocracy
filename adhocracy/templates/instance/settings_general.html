@@ -37,7 +37,7 @@
     %if h.has_permission('global.admin'):
     ${forms.checkbox(_("This instance is authenticated"), 'is_authenticated', 25, 5)}
     %endif
-    ${components.savebox("/instance/%s" % c.page_instance.key)}
+    ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 
 </form> 
 </%block>

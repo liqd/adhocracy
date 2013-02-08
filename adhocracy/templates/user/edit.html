@@ -179,7 +179,7 @@
         </select>
     </fieldset>
     <div class="input_wrapper submit">
-      ${components.savebox("/user/%s" % c.page_user.user_name)}
+      ${components.savebox(h.base_url("/user/%s" % c.page_user.user_name))}
     </div>
   </form>
 </div>

@@ -40,7 +40,7 @@
     </%forms:textarea>
 
     
-    ${components.savebox("/instance/%s" % c.page_instance.key)}
+    ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 
 </form> 
 </%block>

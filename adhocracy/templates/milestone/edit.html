@@ -59,7 +59,7 @@
     </div>
     
     <div class="input_wrapper submit">
-        ${components.savebox("/milestone/%s" % c.milestone.id)}
+        ${components.savebox(h.base_url("/milestone/%s" % c.milestone.id))}
     </div>
 </form>
 </div>
