@@ -7,7 +7,7 @@ meta = MetaData()
 
 requestlog_table = Table('requestlog', meta,
     Column('id', Integer, primary_key=True),
-    Column('access_time', DateTime),
+    Column('access_time', DateTime, default=datetime.utcnow),
     Column('ip_address', Unicode(255), nullable=True),
     Column('request_url', UnicodeText()),
     Column('cookies', UnicodeText(), nullable=True),
