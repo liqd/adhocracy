@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 
-from paste.deploy.converters import asint
+from paste.deploy.converters import asbool,asint
 from pylons import request, response, tmpl_context as c, config
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
@@ -44,12 +44,13 @@ class RootController(BaseController):
         c.milestones = model.Milestone.all()
         #c.proposals_pager = pager.proposals(proposals)
         #c.proposals = c.proposals_pager.here()
-        c.stats_global = {
-            "members": model.User.all_q().count(),
-            "comments": model.Comment.all_q().count(),
-            "proposals": model.Proposal.all_q().count(),
-            "votes": model.Vote.all_q().count(),
-        }
+        if asbool(config.get('adhocracy.show_stats_on_frontpage', 'true')):
+            c.stats_global = {
+                "members": model.User.all_q().count(),
+                "comments": model.Comment.all_q().count(),
+                "proposals": model.Proposal.all_q().count(),
+                "votes": model.Vote.all_q().count(),
+            }
 
         if format == 'rss':
             return EventController().all(format='rss')
