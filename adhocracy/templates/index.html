@@ -19,12 +19,14 @@ the transition
 <div class="full_teaser">
   <div class="clearfix"></div>
 
+  %if c.stats_global:
   <div id="stats">
       ${_("<b>%s</b> members") % c.stats_global.get('members')|n} ·
       ${_("<b>%s</b> proposals") % c.stats_global.get('proposals')|n}  ·
       ${_("<b>%s</b> comments") % c.stats_global.get('comments')|n} ·
       ${_("<b>%s</b> votes") % c.stats_global.get('votes')|n}
   </div>  
+  %endif
 
   ## FIXME: Add line that scrolls through last events
 </div>
