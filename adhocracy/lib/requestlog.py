@@ -44,12 +44,20 @@ class RequestLogger(object):
         return self.app(environ, start_response)
 
     def log_request(self, environ):
-        cookies = environ.get('HTTP_COOKIE').decode('utf-8', 'replace')
-        user_agent = environ.get('HTTP_USER_AGENT').decode('utf-8', 'replace')
+        def _get_field(name):
+            res_bytes = environ.get(name)
+            if res_bytes is None:
+                return None
+            return res_bytes.decode('utf-8', 'replace')
+
         full_ip = adhocracy.lib.util.get_client_ip(environ)
         ip = self.anonymization_func(full_ip)
         url = (environ['PATH_INFO'].decode('utf-8', 'replace')
                + '?' + environ['QUERY_STRING'].decode('utf-8', 'replace'))
 
-        adhocracy.model.RequestLog.create(ip, url, cookies, user_agent)
+        adhocracy.model.RequestLog.create(ip, url,
+                                    cookies=_get_field('HTTP_COOKIE'),
+                                    user_agent=_get_field('HTTP_USER_AGENT'),
+                                    referer=_get_field('HTTP_REFERER')
+        )
         adhocracy.model.meta.Session.commit()
