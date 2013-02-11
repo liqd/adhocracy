@@ -31,7 +31,9 @@ def setup_auth(app, config):
         config,
         config.get('adhocracy.auth.secret', config['beaker.session.secret']),
         cookie_name='adhocracy_login', timeout=86400 * 2,
-        reissue_time=3600)
+        reissue_time=3600,
+        secure=config.get('adhocracy.protocol', 'http') == 'https'
+    )
 
     form = FriendlyFormPlugin(
         '/login',
