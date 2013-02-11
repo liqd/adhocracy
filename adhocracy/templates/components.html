@@ -175,9 +175,9 @@ $(document).ready(function () {
 
 <%def name="head()">
   <meta charset="utf-8" />
-    <title>${'self.title() - ' if self.title() else ''} - 
+    <title>${'self.title() - ' if self.title() else ''}
             %if c.instance:
-                 ${c.instance.label} 
+                 ${c.instance.label} -
             %endif
                 ${h.site.name()}
     </title>
