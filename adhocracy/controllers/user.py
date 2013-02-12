@@ -241,8 +241,10 @@ class UserController(BaseController):
         get_gender = self.form_result.get("gender")
         if get_gender in ('f', 'm', 'u'):
             c.page_user.gender = get_gender
-        email_changed = email != c.page_user.email
         email = self.form_result.get("email")
+        old_email = c.page_user.email
+        old_activated = c.page_user.is_email_activated()
+        email_changed = email != old_email
         c.page_user.email = email
         c.page_user.email_priority = self.form_result.get("email_priority")
         #if c.page_user.twitter:
@@ -255,6 +257,12 @@ class UserController(BaseController):
         model.meta.Session.add(c.page_user)
         model.meta.Session.commit()
         if email_changed:
+            # Logging email address changes in order to ensure accountability
+            log.info('User %s changed email address from %s%s to %s' % (
+                c.page_user.user_name,
+                old_email,
+                ' (validated)' if old_activated else '',
+                email))
             libmail.send_activation_link(c.page_user)
 
         if c.page_user == c.user:
