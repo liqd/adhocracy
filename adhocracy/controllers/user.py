@@ -172,7 +172,7 @@ class UserController(BaseController):
 
         #create user
         user = model.User.create(self.form_result.get("user_name"),
-                                 self.form_result.get("email").lower(),
+                                 self.form_result.get("email"),
                                  password=self.form_result.get("password"),
                                  locale=c.locale)
         model.meta.Session.commit()
@@ -241,8 +241,8 @@ class UserController(BaseController):
         get_gender = self.form_result.get("gender")
         if get_gender in ('f', 'm', 'u'):
             c.page_user.gender = get_gender
-        email = self.form_result.get("email").lower()
         email_changed = email != c.page_user.email
+        email = self.form_result.get("email")
         c.page_user.email = email
         c.page_user.email_priority = self.form_result.get("email_priority")
         #if c.page_user.twitter:
