@@ -40,7 +40,7 @@ class UserCreateForm(formencode.Schema):
     user_name = formencode.All(validators.PlainText(not_empty=True),
                                forms.UniqueUsername(),
                                forms.ContainsChar())
-    email = formencode.All(validators.Email(),
+    email = formencode.All(validators.Email(not_empty=True),
                            forms.UniqueEmail())
     password = validators.String(not_empty=True)
     password_confirm = validators.String(not_empty=True)
