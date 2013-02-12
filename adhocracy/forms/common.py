@@ -55,11 +55,27 @@ class UniqueUsername(formencode.FancyValidator):
 
 class UniqueEmail(formencode.FancyValidator):
     def _to_python(self, value, state):
-        from adhocracy.model import meta, User
-        email = value.lower()
-        if meta.Session.query(User.email).filter(User.email == email).all():
+        from adhocracy.model import User
+        if User.all_q()\
+                .filter(func.lower(User.email) == value.lower()).count():
             raise formencode.Invalid(
                 _('That email is already registered'),
+                value, state)
+        return value
+
+
+class UniqueOtherEmail(formencode.FancyValidator):
+    """
+    Check if email is unused or belongs to the current user.
+    """
+    def _to_python(self, value, state):
+        if c.user.email.lower() == value.lower():
+            return value
+        from adhocracy.model import User
+        if User.all_q()\
+                .filter(func.lower(User.email) == value.lower()).count():
+            raise formencode.Invalid(
+                _('That email is already used by another account'),
                 value, state)
         return value
 
