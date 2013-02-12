@@ -135,6 +135,8 @@ class OpenidauthController(BaseController):
                   _("You're not authorized to change %s's settings.") % id)
         openid.delete()
         model.meta.Session.commit()
+        log.info("User %s revoked OpenID '%s'" % (
+            c.user.user_name, id))
         redirect(h.entity_url(c.user, member='edit'))
 
     def verify(self):
