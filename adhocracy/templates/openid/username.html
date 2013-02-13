@@ -9,9 +9,10 @@
 <h1>${_("Select a user name")}</h1>
 
     <div class="infobox">
-        ${_("A unique user name is required for you complete sign up and " +
-            "login. The user name received from your OpenID provider is " + 
-            "invalid. Please provide a different, unique user name.")}
+        ${_('A unique user name is required for you complete sign up and '
+            'login. The user name "%s" received from your OpenID provider is '
+            'invalid or already used. Please provide a different, unique user '
+            'name.') % c.openid_username}
     </div>
 
 <div class="mainbar">

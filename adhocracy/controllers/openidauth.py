@@ -164,6 +164,7 @@ class OpenidauthController(BaseController):
                   _("You're not authorized to change %s's settings.") % id)
         openid.delete()
         model.meta.Session.commit()
+        h.flash(_("Successfully removed OpenID from account"), 'success')
         log.info("User %s revoked OpenID '%s'" % (
             c.user.user_name, id))
         redirect(h.entity_url(c.user, member='edit'))
@@ -220,6 +221,8 @@ class OpenidauthController(BaseController):
                 oid = model.OpenID(unicode(info.identity_url), c.user)
                 model.meta.Session.add(oid)
                 model.meta.Session.commit()
+                h.flash(_("Successfully added OpenID to user account."),
+                        'success')
                 redirect(h.entity_url(c.user, member='edit'))
             else:
 
@@ -267,6 +270,8 @@ class OpenidauthController(BaseController):
                     session.save()
                     redirect('/openid/username')
                 user = self._create(user_name, email, info.identity_url)
+                h.flash(_("Successfully created new user account %s" %
+                          user_name), 'success')
                 self._login(user)
         return self._failure(info.identity_url,
                              _("Justin Case has entered the room."))
@@ -278,15 +283,16 @@ class OpenidauthController(BaseController):
         unavailable locally.
         """
         if 'openid_req' in session:
-            (openid, c.user_name, email) = session['openid_req']
+            (openid, c.openid_username, email) = session['openid_req']
             if request.method == "POST":
-                c.user_name = self.form_result.get('login')
                 c.user_name = forms.UniqueUsername(
-                    not_empty=True).to_python(c.user_name)
+                    not_empty=True).to_python(self.form_result.get('login'))
                 if c.user_name:
                     user = self._create(c.user_name, email, openid)
                     del session['openid_req']
                     self._login(user)
+            else:
+                c.user_name = c.openid_username
             return render('/openid/username.html')
         else:
             redirect('/register')
