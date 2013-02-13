@@ -268,7 +268,7 @@ class OpenidauthController(BaseController):
                     session['openid_req'] = (info.identity_url, user_name,
                                              email)
                     session.save()
-                    redirect('/openid/username')
+                    redirect(h.base_url('/openid/username'))
                 user = self._create(user_name, email, info.identity_url)
                 h.flash(_("Successfully created new user account %s" %
                           user_name), 'success')
