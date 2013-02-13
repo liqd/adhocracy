@@ -161,10 +161,8 @@ class AuthCheck(object):
         """
         return (self.permission_refusals
                 and not self.other_refusals
-                and all(map(
-                    lambda perm: has_default_permission(perm).is_met(
-                        request.environ),
-                    self.permission_refusals)))
+                and all(has_default_permission(perm).is_met(request.environ)
+                        for perm in self.permission_refusals))
 
     def propose_login(self):
         """

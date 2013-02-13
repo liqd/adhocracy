@@ -46,7 +46,7 @@ def is_trusted_provider(identity):
     Check whether the provided ID matches the regular expression of a trusted
     OpenID provider.
     """
-    return any(map(lambda r: re.match(r, identity), TRUSTED_PROVIDER_RES))
+    return any(re.match(r, identity) for r in TRUSTED_PROVIDER_RES)
 
 
 def get_ax_mail_schema(openid):
