@@ -138,6 +138,13 @@ var adhocracy = adhocracy || {};
             onBeforeLoad: adhocracy.overlay.rewriteDescription,
         });
 
+        wrapped.find("a[rel=#overlay-validate-button]").overlay({
+            fixed: false,
+            mask: adhocracy.overlay.mask,
+            target: '#overlay-validate',
+            onBeforeLoad: adhocracy.overlay.rewriteDescription,
+        });
+
     };
 
     /***************************************************

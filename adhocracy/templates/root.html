@@ -54,7 +54,19 @@
              <a class="button" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
          </div>
       </div>
-    </div>    
+    </div>
+    %elif c.instance and c.instance.require_valid_email and c.user and not c.user.is_email_activated():
+    <div class="overlay" id="overlay-validate">
+      <a class="close"></a>
+      <div class="contentWrap">
+         <div class="register">
+             <p class="patch_description">
+                 ${_('Validate email to start contributing.')}
+             </p>
+             <a class="button" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
+         </div>
+      </div>
+    </div>
     %endif
   <!-- begin: header -->
   <header>
