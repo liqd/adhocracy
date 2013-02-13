@@ -128,6 +128,7 @@ def setup_entities(initial_setup):
         admin = model.User.create(ADMIN, u'',
                                   password=ADMIN_PASSWORD,
                                   global_admin=True)
+        admin.activation_code = None
 
     model.meta.Session.commit()
 
