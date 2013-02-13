@@ -29,6 +29,11 @@
        title="${_('Login to create a new proposal.')}" 
        href="${h.base_url('/proposal/new')}" 
        rel="#overlay-login-button">${_("Create new proposal")}</a>
+%elif auth.propose_validate_email():
+    <a class="create_proposal_link" 
+       title="${_('Validate email in order to create a new proposal.')}" 
+       href="${h.base_url('/proposal/new')}" 
+       rel="#overlay-validate-button">${_("Create new proposal")}</a>
 %endif
 <div style="clear:both" />
 
