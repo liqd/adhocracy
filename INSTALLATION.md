@@ -48,7 +48,7 @@ Manual installation on other systems
 Install needed system packages (Debian example):
 
    $ sudo apt-get install libpng-dev libjpeg-dev gcc make build-essential bin86 unzip libpcre3-dev zlib1g-dev mercurial git
-   $ sudo apt-get install python python-virtualenv
+   $ sudo apt-get install python python-virtualenv  (python 2.6 or 2.7)
    $ sudo apt-get install libsqlite3-dev postgresql-server-dev-8.4
    $ sudo apt-get install openjdk-6-jre 
    $ sudo apt-get install erlang-dev erlang-mnesia erlang-os-mon xsltproc
@@ -64,7 +64,7 @@ Checkout out adhocracy:
  
 Run buildout:
 
-    $ bin/python bootstrap.py --version=1.6.1 
+    $ python bootstrap.py --version=1.7.0 
     $ bin/buildout
 
 Start adhocracy and dependency servers):
