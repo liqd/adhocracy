@@ -436,8 +436,11 @@ class UnusedTitle(formencode.validators.String):
 USER_NAME = 'user_name'
 DISPLAY_NAME = 'display_name'
 EMAIL = 'email'
-USERNAME_VALIDATOR = UniqueUsername()
-EMAIL_VALIDATOR = formencode.All(formencode.validators.Email(),
+USERNAME_VALIDATOR = formencode.All(
+    formencode.validators.PlainText(not_empty=True),
+    UniqueUsername(),
+    ContainsChar())
+EMAIL_VALIDATOR = formencode.All(formencode.validators.Email(not_empty=True),
                                  UniqueEmail())
 
 
