@@ -5,7 +5,6 @@ import markdown
 
 from adhocracy import model
 from adhocracy.lib.cache.util import memoize
-from adhocracy.lib.text import mdx_showmore
 
 SUB_USER = re.compile("@([a-zA-Z0-9_\-]{3,255})")
 
@@ -37,7 +36,8 @@ def page_sub(match):
 
 
 @memoize('render')
-def render(text, substitutions=True, safe_mode='escape'):
+def render(text, substitutions=True, safe_mode='escape',
+           _testing_allow_user_html=None):
     '''
     Render markdown as html.
 
@@ -46,11 +46,18 @@ def render(text, substitutions=True, safe_mode='escape'):
         @(pudo), to html.
     *safe_mode*
         This is passed directly to the markdown renderer. Possible options are
-        `'escape'` (escape html tags), `'remove'` (remove html tags) and
-        `False`(allow html tags).
+        `'escape'` (escape html tags), `'remove'` (remove html tags),
+        `'adhocracy_config'` (HTML if allowed, escape otherwise).
     '''
     if text is None:
         return ""
+
+    from adhocracy.lib.helpers.text_helper import getconf_allow_user_html
+    allow_user_html = getconf_allow_user_html(_testing_allow_user_html)
+    assert safe_mode in ('escape', 'remove', 'adhocracy_config')
+    if safe_mode == 'adhocracy_config':
+        safe_mode = False if allow_user_html else 'escape'
+
     text = markdown.markdown(
         text,
         extensions=[
@@ -63,6 +70,11 @@ def render(text, substitutions=True, safe_mode='escape'):
     if substitutions:
         text = SUB_USER.sub(user_sub, text)
         text = SUB_PAGE.sub(page_sub, text)
+
+    if allow_user_html and not safe_mode:
+        from lxml.html.clean import Cleaner
+        text = Cleaner(embedded=False,
+                       kill_tags=['embed', 'object']).clean_html(text)
     return text
 
 

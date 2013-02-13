@@ -11,7 +11,8 @@ import instance_filter as ifilter
 log = logging.getLogger(__name__)
 
 
-poll_table = Table('poll', meta.data,
+poll_table = Table(
+    'poll', meta.data,
     Column('id', Integer, primary_key=True),
     Column('begin_time', DateTime, default=datetime.utcnow),
     Column('end_time', DateTime, nullable=True),
@@ -19,7 +20,7 @@ poll_table = Table('poll', meta.data,
     Column('action', Unicode(50), nullable=False),
     Column('subject', Unicode(254), nullable=False),
     Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False)
-    )
+)
 
 
 class NoPollException(Exception):
@@ -115,7 +116,7 @@ class Poll(object):
         if at_time is None:
             at_time = datetime.utcnow()
         return (self.end_time is not None) \
-               and self.end_time <= at_time
+            and self.end_time <= at_time
 
     def delete(self, delete_time=None):
         return self.end(end_time=delete_time)
@@ -133,7 +134,7 @@ class Poll(object):
         if tallies[0].create_time > start:
             return False
         for tally in tallies:
-            if not (tally.has_participation() and \
+            if not (tally.has_participation() and
                     tally.has_majority()):
                 return False
         return True

@@ -1,13 +1,13 @@
 # Translations template for adhocracy.
-# Copyright (C) 2012 ORGANIZATION
+# Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 ##, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: adhocracy 2.0.0-rc.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-18 10:53+0100\n"
+"POT-Creation-Date: 2013-02-13 17:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,10 +52,16 @@ msgstr ""
 msgid "The comment has been deleted."
 msgstr ""
 
-msgid "You're trying to revert to a revision which is not partri of this comments history"
+msgid "You're trying to revert to a revision which is not part of this comment's history"
 msgstr ""
 
 msgid "The comment has been reverted."
+msgstr ""
+
+msgid "You're trying to purge a revision which is not part of this comment's history"
+msgstr ""
+
+msgid "The comment revision has been deleted."
 msgstr ""
 
 msgid "Wrong topic"
@@ -91,6 +97,9 @@ msgid "The changes where saved."
 msgstr ""
 
 msgid "No update required."
+msgstr ""
+
+msgid "Instance created successfully. You can now configure it as you like."
 msgstr ""
 
 msgid "Delegations are enabled."
@@ -278,6 +287,12 @@ msgstr ""
 msgid "The variant %s has been deleted."
 msgstr ""
 
+msgid "Cannot delete, if there's only one version"
+msgstr ""
+
+msgid "The selected version has been deleted."
+msgstr ""
+
 #, python-format
 msgid "The page %s has been deleted."
 msgstr ""
@@ -347,6 +362,9 @@ msgid "You have no twitter association."
 msgstr ""
 
 msgid "tutorial_user_index_intro"
+msgstr ""
+
+msgid "Sorry, registration has been disabled by administrator."
 msgstr ""
 
 msgid "Sorry, but we don't accept registrations with this email address."
@@ -491,6 +509,14 @@ msgstr ""
 
 #, python-format
 msgid "No Badge ID '%s' exists"
+msgstr ""
+
+#, python-format
+msgid "Cannot use global category %s in this instance"
+msgstr ""
+
+#, python-format
+msgid "Badge with ID '%s' not valid in this instance"
 msgstr ""
 
 #, python-format
@@ -743,16 +769,22 @@ msgstr ""
 msgid "Age and Support"
 msgstr ""
 
-msgid "Support"
+msgid "Rating"
 msgstr ""
 
 msgid "Date"
 msgstr ""
 
-msgid "Newest Proposals"
+msgid "User behavior"
 msgstr ""
 
 msgid "Other"
+msgstr ""
+
+msgid "Support"
+msgstr ""
+
+msgid "Newest Proposals"
 msgstr ""
 
 #, python-format
@@ -1138,6 +1170,18 @@ msgstr ""
 msgid "Unfollow"
 msgstr ""
 
+msgid "Send us your feedback"
+msgstr ""
+
+msgid "One line summary"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "List existing feedback"
+msgstr ""
+
 msgid "code of conduct"
 msgstr ""
 
@@ -1201,6 +1245,22 @@ msgstr ""
 msgid "next"
 msgstr ""
 
+#, python-format
+msgid "<b>%s</b> members"
+msgstr ""
+
+#, python-format
+msgid "<b>%s</b> proposals"
+msgstr ""
+
+#, python-format
+msgid "<b>%s</b> comments"
+msgstr ""
+
+#, python-format
+msgid "<b>%s</b> votes"
+msgstr ""
+
 msgid "Start"
 msgstr ""
 
@@ -1234,6 +1294,9 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "Settings"
+msgstr ""
+
 msgid "Search"
 msgstr ""
 
@@ -1244,16 +1307,13 @@ msgstr ""
 msgid "Overview"
 msgstr ""
 
-msgid "Norms"
-msgstr ""
-
 msgid "Map"
 msgstr ""
 
-msgid "Members"
+msgid "Norms"
 msgstr ""
 
-msgid "Settings"
+msgid "Members"
 msgstr ""
 
 #, python-format
@@ -1333,10 +1393,112 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-msgid "Admin: Import Users"
+msgid "Export"
+msgstr ""
+
+msgid "Export users"
+msgstr ""
+
+msgid "Include personal data"
+msgstr ""
+
+msgid "Include password hashes"
+msgstr ""
+
+msgid "Export badges"
+msgstr ""
+
+msgid "Export content (instances)"
+msgstr ""
+
+msgid "Include proposals"
+msgstr ""
+
+msgid "Include comments"
+msgstr ""
+
+msgid "Export format:"
+msgstr ""
+
+msgid "JSON download"
+msgstr ""
+
+msgid "JSON"
+msgstr ""
+
+msgid "ZIP download"
+msgstr ""
+
+msgid "Export Now"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import users"
+msgstr ""
+
+msgid "Import badges"
+msgstr ""
+
+msgid "Import content (instances)"
+msgstr ""
+
+msgid "Replacement strategy"
+msgstr ""
+
+msgid "Update duplicate entries"
+msgstr ""
+
+msgid "Skip duplicate entries"
+msgstr ""
+
+msgid "File to import:"
+msgstr ""
+
+msgid "Detect"
+msgstr ""
+
+msgid "ZIP"
+msgstr ""
+
+msgid "Import Now"
+msgstr ""
+
+msgid "Import successfully performed."
+msgstr ""
+
+msgid "back to main page"
+msgstr ""
+
+msgid "Admin: Group Permissions"
+msgstr ""
+
+msgid "Admin &raquo; Group Permissions"
+msgstr ""
+
+msgid "Group Permissions"
+msgstr ""
+
+msgid "WARNING: This allows you to shut yourself out of your adhocracy. Handle with care!"
+msgstr ""
+
+msgid "Permissions"
+msgstr ""
+
+msgid "All Events"
 msgstr ""
 
 msgid "Import Users"
+msgstr ""
+
+msgid "Update Search Index"
+msgstr ""
+
+msgid "Site administration"
+msgstr ""
+
+msgid "Admin: Import Users"
 msgstr ""
 
 msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 3 columns username, display name and email"
@@ -1397,27 +1559,6 @@ msgstr ""
 msgid "These users where created, but we could not send out mails:"
 msgstr ""
 
-msgid "Admin: Group Permissions"
-msgstr ""
-
-msgid "Admin &raquo; Group Permissions"
-msgstr ""
-
-msgid "Group Permissions"
-msgstr ""
-
-msgid "WARNING: This allows you to shut yourself out of your adhocracy. Handle with care!"
-msgstr ""
-
-msgid "Permissions"
-msgstr ""
-
-msgid "All Events"
-msgstr ""
-
-msgid "Site administration"
-msgstr ""
-
 msgid "Add instance badge"
 msgstr ""
 
@@ -1452,6 +1593,12 @@ msgid "Like '#a4a4a4'"
 msgstr ""
 
 msgid "Preview:"
+msgstr ""
+
+msgid "Check to hide badge in user interface"
+msgstr ""
+
+msgid "visible"
 msgstr ""
 
 msgid "Group"
@@ -1560,6 +1707,9 @@ msgid "created %s"
 msgstr ""
 
 msgid "revert here"
+msgstr ""
+
+msgid "delete version permanently"
 msgstr ""
 
 #, python-format
@@ -1846,7 +1996,10 @@ msgstr ""
 msgid "The address may only contain alpha-numeric characters. Please note that this key cannot be changed after the instance has been created."
 msgstr ""
 
-msgid "Describe what the goals of this instance are and who constitutes its community. (Both Markdown and HTML are allowed here.)"
+msgid "Describe what the goals of this instance are and who constitutes its community."
+msgstr ""
+
+msgid "(Both Markdown and HTML are allowed here.)"
 msgstr ""
 
 #, python-format
@@ -1884,6 +2037,12 @@ msgid "Require to propose a variant"
 msgstr ""
 
 msgid "Use milestones"
+msgstr ""
+
+msgid "Hide global categories"
+msgstr ""
+
+msgid "Allow editing of comments by default"
 msgstr ""
 
 msgid "Freeze this instance"
@@ -1955,6 +2114,9 @@ msgstr ""
 msgid "Newest Events"
 msgstr ""
 
+msgid "Newest geotagged proposals"
+msgstr ""
+
 msgid "Informations"
 msgstr ""
 
@@ -1970,17 +2132,6 @@ msgstr ""
 
 #, python-format
 msgid "<b>%s</b> community members"
-msgstr ""
-
-#, python-format
-msgid "<b>%s</b> proposals"
-msgstr ""
-
-#, python-format
-msgid "<b>%s</b> comments"
-msgstr ""
-
-msgid "Newest geotagged proposals"
 msgstr ""
 
 msgid "tutorial_instance_proposals_table"
@@ -2153,6 +2304,9 @@ msgstr ""
 msgid "WARNING: This will remove all revisions of the variant from any proposals that might support it."
 msgstr ""
 
+msgid "Are you sure you want to purge the following version:"
+msgstr ""
+
 #, python-format
 msgid "Variant: %s"
 msgstr ""
@@ -2186,6 +2340,17 @@ msgid "Parent page:"
 msgstr ""
 
 msgid "Relates to a milestone"
+msgstr ""
+
+#, python-format
+msgid "Edit geotag for page %s"
+msgstr ""
+
+msgid "Edit geotag"
+msgstr ""
+
+#, python-format
+msgid "Edit geographical location for page &ldquo;%s&rdquo;"
 msgstr ""
 
 msgid "Create a new norm."
@@ -2239,10 +2404,13 @@ msgstr ""
 msgid "New Proposal"
 msgstr ""
 
-msgid "Information about the norm"
+msgid "Information"
 msgstr ""
 
 msgid "Last Activity"
+msgstr ""
+
+msgid "This page is not assigned to any category"
 msgstr ""
 
 #, python-format
@@ -2250,6 +2418,18 @@ msgid "This norm relates to the milestone %s."
 msgstr ""
 
 msgid "Subnorms"
+msgstr ""
+
+msgid "This page does currently not refer to a geographic location."
+msgstr ""
+
+msgid "Edit geographic location"
+msgstr ""
+
+msgid "Join instance to edit geotag."
+msgstr ""
+
+msgid "Login to edit geotag."
 msgstr ""
 
 msgid "View Proposal"
@@ -2423,19 +2603,16 @@ msgstr ""
 msgid "Proposal title"
 msgstr ""
 
-msgid "Proposal goals"
-msgstr ""
-
 msgid "A brief description of <b>the goals</b> of your proposal."
 msgstr ""
 
 msgid "The proposal would..."
 msgstr ""
 
-msgid "Proposal Category"
+msgid "Proposal goals"
 msgstr ""
 
-msgid "Proposal category hint"
+msgid "Proposal Category"
 msgstr ""
 
 msgid "Collaboration and Notification"
@@ -2446,9 +2623,6 @@ msgstr ""
 
 #, python-format
 msgid "Edit geotag for proposal %s"
-msgstr ""
-
-msgid "Edit geotag"
 msgstr ""
 
 #, python-format
@@ -2553,13 +2727,7 @@ msgstr ""
 msgid "This proposal does currently not refer to a geographic location."
 msgstr ""
 
-msgid "Edit geographic location"
-msgstr ""
-
-msgid "Join instance to edit geotag."
-msgstr ""
-
-msgid "Login to edit geotag."
+msgid "This proposal is not assigned to any category"
 msgstr ""
 
 #, python-format
@@ -2590,9 +2758,6 @@ msgstr ""
 
 #, python-format
 msgid "from %s · on %s"
-msgstr ""
-
-msgid "Information"
 msgstr ""
 
 #, python-format
@@ -2802,7 +2967,7 @@ msgid "Startpage"
 msgstr ""
 
 #, python-format
-msgid "Hi %s.<br />"
+msgid "Hi %s."
 msgstr ""
 
 #, python-format
@@ -2902,6 +3067,21 @@ msgstr ""
 msgid "Password (confirm):"
 msgstr ""
 
+msgid "Gender"
+msgstr ""
+
+msgid "Select your gender"
+msgstr ""
+
+msgid "Unspecified"
+msgstr ""
+
+msgid "Male"
+msgstr ""
+
+msgid "Female"
+msgstr ""
+
 msgid "Notifications"
 msgstr ""
 
@@ -2954,6 +3134,9 @@ msgid "Disable help messages and links to the documentation."
 msgstr ""
 
 msgid "Hide help messages:"
+msgstr ""
+
+msgid "Change default sorting order for proposals:"
 msgstr ""
 
 msgid "Find users"

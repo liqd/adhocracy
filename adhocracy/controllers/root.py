@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 
-from paste.deploy.converters import asint
+from paste.deploy.converters import asbool,asint
 from pylons import request, response, tmpl_context as c, config
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
@@ -30,7 +30,8 @@ class RootController(BaseController):
         if c.instance:
             redirect(h.entity_url(c.instance))
 
-        instances_in_root = asint(config.get('adhocracy.startpage.instances.list_length', 0))
+        instances_in_root = asint(
+            config.get('adhocracy.startpage.instances.list_length', 0))
         if instances_in_root > 0:
             c.instances = model.Instance.all(limit=instances_in_root)
         elif instances_in_root == -1:
@@ -44,7 +45,8 @@ class RootController(BaseController):
         c.milestones = model.Milestone.all()
         #c.proposals_pager = pager.proposals(proposals)
         #c.proposals = c.proposals_pager.here()
-        c.stats_global = {
+        if asbool(config.get('adhocracy.show_stats_on_frontpage', 'true')):
+            c.stats_global = {
                 "members": model.User.all_q().count(),
                 "comments": model.Comment.all_q().count(),
                 "proposals": model.Proposal.all_q().count(),

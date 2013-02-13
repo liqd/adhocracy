@@ -123,7 +123,7 @@ class SelectionController(BaseController):
             variant_to_show = model.Text.HEAD
 
         variant_items = PageController.variant_items(c.page,
-                                                       selection=selection)
+                                                     selection=selection)
         get_score = lambda item: \
             selection.variant_poll(item['variant']).tally.score
         c.variant_items = PageController.insert_variant_score_and_sort(

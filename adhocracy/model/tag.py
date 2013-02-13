@@ -10,11 +10,12 @@ import instance_filter as ifilter
 log = logging.getLogger(__name__)
 
 
-tag_table = Table('tag', meta.data,
+tag_table = Table(
+    'tag', meta.data,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('name', Unicode(255), nullable=False)
-    )
+)
 
 
 class Tag(object):

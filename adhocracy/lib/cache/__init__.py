@@ -27,7 +27,7 @@ HANDLERS = {
     model.Badge: invalidate_badge,
     model.UserBadges: invalidate_userbadges,
     model.DelegateableBadges: invalidate_delegateablebadges
-    }
+}
 
 
 def invalidate(entity):

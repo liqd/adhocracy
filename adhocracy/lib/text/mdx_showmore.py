@@ -17,29 +17,36 @@ code, which depends on the availability of jquery.
                 self.find('.showmore_uncollapsed').css('display', 'none');
             });
     });
+
+Additionally, you have to add the following to your css code:
+    .showmore, .showmore_content {
+      display: inline;
+    }
+    .showmore_uncollapsed {
+      display: none;
+    }
 """
 
 import re
 import markdown
-from markdown.util import etree
 from pylons.i18n import _
 
 
 SHOWMORE_RE = re.compile(r'\({3,}(?P<text>.*?)\){3,}',
-                             re.MULTILINE|re.DOTALL)
+                         re.MULTILINE | re.DOTALL)
 
 MORE_STRING = u'show more'
 LESS_STRING = u'show less'
 
 PRE_HTML = u'''
-<div class="showmore" style="display: inline">
+<div class="showmore">
     <span class="showmore_collapsed">
         <span> </span>
         <a class="showmore_morelink" href="#">[%s]</a>
         <span> </span>
     </span>
-    <div class="showmore_uncollapsed" style="display: none">
-        <div class="showmore_content" style="display: inline">
+    <div class="showmore_uncollapsed">
+        <div class="showmore_content">
 '''
 
 POST_HTML = u'''
@@ -50,6 +57,7 @@ POST_HTML = u'''
     </div>
 </div>
 '''
+
 
 class ShowmoreExtension(markdown.Extension):
     """ Showmore Extension for Python-Markdown. """
@@ -67,14 +75,13 @@ class ShowmorePreprocessor(markdown.preprocessors.Preprocessor):
             m = SHOWMORE_RE.search(text)
             if m:
 
-                pretext = self.markdown.htmlStash.store('<pre>vorher</pre>', safe=True)
-                posttext = self.markdown.htmlStash.store('<pre>nachher</pre>', safe=True)
-
                 text = '%s%s%s%s%s' % (
                     text[:m.start()],
-                    self.markdown.htmlStash.store(PRE_HTML % _(MORE_STRING), safe=True),
+                    self.markdown.htmlStash.store(PRE_HTML % _(MORE_STRING),
+                                                  safe=True),
                     m.group('text'),
-                    self.markdown.htmlStash.store(POST_HTML % _(LESS_STRING), safe=True),
+                    self.markdown.htmlStash.store(POST_HTML % _(LESS_STRING),
+                                                  safe=True),
                     text[m.end():])
             else:
                 break

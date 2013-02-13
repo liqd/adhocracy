@@ -1,5 +1,8 @@
 import urllib
 
+from paste.deploy.converters import asbool
+from pylons import config
+
 from adhocracy.lib import cache
 from adhocracy.lib.helpers import url as _url
 
@@ -29,3 +32,9 @@ def breadcrumbs(text):
     if text is not None and text.variant != text.HEAD:
         bc += entity_bc(text)
     return bc
+
+
+def getconf_allow_user_html(_testing_override=None):
+    if _testing_override is not None:
+        return _testing_override
+    return asbool(config.get('adhocracy.allow_user_html', 'true'))

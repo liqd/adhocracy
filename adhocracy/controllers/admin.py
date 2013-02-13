@@ -2,7 +2,7 @@ import logging
 
 import formencode
 from pylons import request, tmpl_context as c, url
-from pylons.i18n import _, lazy_ugettext as L_
+from pylons.i18n import lazy_ugettext as L_
 from pylons.controllers.util import redirect
 
 from repoze.what.plugins.pylonshq import ActionProtector
@@ -20,6 +20,7 @@ import adhocracy.lib.importexport
 
 log = logging.getLogger(__name__)
 
+
 class UserImportForm(formencode.Schema):
     allow_extra_fields = True
     users_csv = forms.UsersCSV()
@@ -32,16 +33,20 @@ class UserImportForm(formencode.Schema):
         messages={'empty': L_('Please insert a template for the '
                               'mail we will send to the users.')})
 
+
 class ExportForm(formencode.Schema):
     include_user = formencode.validators.StringBoolean(if_missing=False)
     include_badge = formencode.validators.StringBoolean(if_missing=False)
     include_instance = formencode.validators.StringBoolean(if_missing=False)
-    include_instance_proposal = formencode.validators.StringBoolean(if_missing=False)
-    include_instance_proposal_comment = formencode.validators.StringBoolean(if_missing=False)
+    include_instance_proposal = formencode.validators.StringBoolean(
+        if_missing=False)
+    include_instance_proposal_comment = formencode.validators.StringBoolean(
+        if_missing=False)
     user_personal = formencode.validators.StringBoolean(if_missing=False)
     user_password = formencode.validators.StringBoolean(if_missing=False)
     format = formencode.validators.OneOf(['json_download', 'json', 'zip'])
     _tok = formencode.validators.String()
+
 
 class ImportForm(formencode.Schema):
     include_user = formencode.validators.StringBoolean(if_missing=False)
@@ -50,7 +55,6 @@ class ImportForm(formencode.Schema):
     importfile = formencode.validators.FieldStorageUploadConverter()
     replacement = formencode.validators.OneOf(['update', 'skip'])
     _tok = formencode.validators.String()
-
 
 
 class AdminController(BaseController):
@@ -62,9 +66,9 @@ class AdminController(BaseController):
     @ActionProtector(has_permission("global.admin"))
     def update_index(self):
         for entity_type in model.refs.TYPES:
-            if hasattr( entity_type, "all" ):
+            if hasattr(entity_type, "all"):
                 for entity in entity_type.all():
-                    index.update( entity )
+                    index.update(entity)
         redirect(url(controller='admin', action='index'))
 
     @RequireInternalRequest()
@@ -75,7 +79,7 @@ class AdminController(BaseController):
             for permission in model.Permission.all():
                 for group in groups:
                     t = request.params.get("%s-%s" % (
-                            group.code, permission.permission_name))
+                        group.code, permission.permission_name))
                     if t and permission not in group.permissions:
                         group.permissions.append(permission)
                     elif not t and permission in group.permissions:
@@ -87,10 +91,11 @@ class AdminController(BaseController):
 
     @ActionProtector(has_permission("global.admin"))
     def user_import_form(self, errors=None):
-        return formencode.htmlfill.render(render("/admin/userimport_form.html"),
-                                          defaults=dict(request.params),
-                                          errors=errors,
-                                          force_defaults=False)
+        return formencode.htmlfill.render(
+            render("/admin/userimport_form.html"),
+            defaults=dict(request.params),
+            errors=errors,
+            force_defaults=False)
 
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("global.admin"))
@@ -128,9 +133,10 @@ class AdminController(BaseController):
                 model.meta.Session.commit()
                 users.append(user)
                 created.append(user.user_name)
-                url = base_url("/user/%s/activate?c=%s" % (
-                                   user.user_name,
-                                   user.activation_code), absolute=True)
+                url = base_url(
+                    "/user/%s/activate?c=%s" % (user.user_name,
+                                                user.activation_code),
+                    absolute=True)
 
                 user_info['url'] = url
                 body = form_result['email_template'].format(**user_info)
@@ -148,7 +154,6 @@ class AdminController(BaseController):
         c.not_mailed = set(created) - set(mailed)
         c.errors = errors
         return render("/admin/userimport_success.html")
-
 
     @ActionProtector(has_permission("global.admin"))
     def import_dialog(self):
@@ -173,6 +178,3 @@ class AdminController(BaseController):
         options = ExportForm().to_python(dict(request.params))
         return adhocracy.lib.importexport.export(options)
         # Above writes out a file; don't render anything
-
-
-

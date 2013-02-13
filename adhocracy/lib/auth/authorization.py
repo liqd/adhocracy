@@ -86,7 +86,7 @@ class has_default_permission(what_has_permission):
                 default = model.Group.INSTANCE_DEFAULT
                 default_group = model.Group.by_code(default)
             environ['default_permissions'] = [p.permission_name for p in
-                    default_group.permissions]
+                                              default_group.permissions]
         if not self.permission_name in environ['default_permissions']:
             self.unmet()
 

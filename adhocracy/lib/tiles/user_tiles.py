@@ -22,15 +22,15 @@ class UserTile(BaseTile):
 
     def _num_proposals(self):
         pred = lambda d: isinstance(d, model.Proposal) and \
-                         d.instance == c.instance and \
-                         not d.is_deleted()
+            d.instance == c.instance and \
+            not d.is_deleted()
         return len(filter(pred, self.user.delegateables))
 
     num_proposals = property(_num_proposals)
 
     def _num_comments(self):
         pred = lambda cm: cm.topic.instance == c.instance and \
-                          not cm.is_deleted()
+            not cm.is_deleted()
         return len(filter(pred, self.user.comments))
 
     num_comments = property(_num_comments)

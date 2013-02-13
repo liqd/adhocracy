@@ -1,8 +1,8 @@
 import logging
 
 from repoze.who.plugins.basicauth import BasicAuthPlugin
-from repoze.who.plugins.sa import SQLAlchemyAuthenticatorPlugin, \
-                                  SQLAlchemyUserMDPlugin
+from repoze.who.plugins.sa import SQLAlchemyAuthenticatorPlugin
+from repoze.who.plugins.sa import SQLAlchemyUserMDPlugin
 from repoze.who.plugins.friendlyform import FriendlyFormPlugin
 
 from repoze.what.middleware import setup_auth as setup_what
@@ -31,7 +31,9 @@ def setup_auth(app, config):
         config,
         config.get('adhocracy.auth.secret', config['beaker.session.secret']),
         cookie_name='adhocracy_login', timeout=86400 * 2,
-        reissue_time=3600)
+        reissue_time=3600,
+        secure=config.get('adhocracy.protocol', 'http') == 'https'
+    )
 
     form = FriendlyFormPlugin(
         '/login',

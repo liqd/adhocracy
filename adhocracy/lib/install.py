@@ -1,6 +1,5 @@
 import logging
 
-from adhocracy.lib import helpers as h
 import adhocracy.model as model
 
 from pylons import config
@@ -117,15 +116,15 @@ def setup_entities(initial_setup):
         voter.permissions = voter.permissions + advisor.permissions
         moderator.permissions = moderator.permissions + voter.permissions
         supervisor.permissions = list(set(supervisor.permissions
-                                   + moderator.permissions + advisor.permissions))
+                                          + moderator.permissions
+                                          + advisor.permissions))
         admins.permissions = admins.permissions + supervisor.permissions
-        organization.permissions = organization.permissions + observer.permissions
+        organization.permissions = list(set(organization.permissions
+                                            + observer.permissions))
         addressee.permissions = voter.permissions
 
     admin = model.User.find(u"admin")
-    created_admin = False
     if not admin:
-        created_admin = True
         admin = model.User.create(ADMIN, u'',
                                   password=ADMIN_PASSWORD,
                                   global_admin=True)

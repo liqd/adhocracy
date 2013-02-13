@@ -16,7 +16,8 @@ from delegateable import Delegateable
 log = logging.getLogger(__name__)
 
 
-proposal_table = Table('proposal', meta.data,
+proposal_table = Table(
+    'proposal', meta.data,
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
     Column('description_id', Integer, ForeignKey('page.id'), nullable=True),
     Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
@@ -24,7 +25,7 @@ proposal_table = Table('proposal', meta.data,
     Column('adopted', Boolean, default=False),
     GeometryExtensionColumn(
         'geotag', Geometry(dimension=2, srid=900913), nullable=True),
-    )
+)
 
 
 class Proposal(Delegateable):
@@ -57,7 +58,7 @@ class Proposal(Delegateable):
 
     def is_mutable(self):
         return (not self.is_adopt_polling()) and (not self.adopted) and \
-                (not self.instance.frozen)
+            (not self.instance.frozen)
 
     def has_implementation(self):
         from text import Text
@@ -179,7 +180,7 @@ class Proposal(Delegateable):
             filtered = []
             for proposal in proposals:
                 if state == u'draft' and not proposal.is_adopt_polling() \
-                    and not proposal.adopted:
+                        and not proposal.adopted:
                     filtered.append(proposal)
                 elif state == u'polling' and proposal.is_adopt_polling():
                     filtered.append(proposal)
@@ -228,7 +229,7 @@ class Proposal(Delegateable):
         if self.description is not None and self.description.head is not None:
             index.update(dict(
                 body=self.description.head.text,
-                ))
+            ))
         return index
 
     def __repr__(self):

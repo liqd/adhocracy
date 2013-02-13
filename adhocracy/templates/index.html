@@ -103,6 +103,14 @@ the transition
   </div>
   %endif
 </div>
+  %if c.stats_global:
+  <div id="stats">
+      ${_("<b>%s</b> members") % c.stats_global.get('members')|n} ·
+      ${_("<b>%s</b> proposals") % c.stats_global.get('proposals')|n}  ·
+      ${_("<b>%s</b> comments") % c.stats_global.get('comments')|n} ·
+      ${_("<b>%s</b> votes") % c.stats_global.get('votes')|n}
+  </div>  
+  %endif
 
 <div id="content-bottom">
     <div id="newest-proposals-bottom-left">

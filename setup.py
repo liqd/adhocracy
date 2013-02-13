@@ -33,7 +33,7 @@ setup(
     install_requires=[
         "Pylons==1.0.1",
         "WebOb==1.2.3",
-        "SQLAlchemy==0.7.9",
+        "SQLAlchemy==0.7.10",
         "sqlalchemy-migrate>=0.6",
         "FormEncode>=1.2.4",
         "repoze.who>=2.0",
@@ -53,7 +53,7 @@ setup(
         "python-memcached>=1.45",
         "sunburnt==0.6",
         "PIL>=1.1.6",
-        "Markdown>=2.2.1",
+        "secure-Markdown>2.2.1",
         "lxml>=2.2.6",
         "Mako>=0.7.3",
         "MarkupSafe>=0.15",
@@ -61,9 +61,10 @@ setup(
         "fanstatic >=0.11.2",
         "js.jquery >= 1.7.1,<=1.7.99",
         "js.jquery_qtip >= 1.0.0,<= 1.0.99",
-        'js.socialshareprivacy >= 1.3dev',
-        'js.jquery_joyride',
+        "js.socialshareprivacy >= 1.3dev",
+        "js.jquery_joyride",
         "PasteScript>=1.6.3",
+        "ipaddress>=1.0.3",
     ],
     setup_requires=[
                     "setuptools>=0.6c6"],  # fix OS X 10.5.7

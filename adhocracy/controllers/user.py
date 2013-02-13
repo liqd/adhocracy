@@ -17,7 +17,7 @@ from repoze.who.api import get_api
 from adhocracy import forms, model
 from adhocracy import i18n
 from adhocracy.lib import democracy, event, helpers as h, pager
-from adhocracy.lib import  sorting, search as libsearch, tiles, text
+from adhocracy.lib import sorting, search as libsearch, tiles, text
 from adhocracy.lib.auth import require, login_user
 from adhocracy.lib.auth.authorization import has_permission, has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
@@ -46,7 +46,7 @@ class UserCreateForm(formencode.Schema):
     password_confirm = validators.String(not_empty=True)
     password_confirm = validators.String(not_empty=True)
     chained_validators = [validators.FieldsMatch(
-         'password', 'password_confirm')]
+        'password', 'password_confirm')]
 
 
 class UserUpdateForm(formencode.Schema):
@@ -65,10 +65,10 @@ class UserUpdateForm(formencode.Schema):
                                if_empty=10, if_missing=10)
     email_priority = validators.Int(min=0, max=6, not_empty=False,
                                     if_missing=3)
-    proposal_sort_order = validators.OneOf([''] +
-                                        [v.value
-                                        for g in PROPOSAL_SORTS.by_group.values()
-                                        for v in g 
+    proposal_sort_order = validators.OneOf([''] + [
+        v.value
+        for g in PROPOSAL_SORTS.by_group.values()
+        for v in g
     ])
 
 
@@ -111,7 +111,9 @@ class UserController(BaseController):
     def index(self, format='html'):
         require.user.index()
 
-        c.users_pager = solr_instance_users_pager(c.instance)
+        default_sorting = config.get(
+            'adhocracy.listings.instance_user.sorting', 'ACTIVITY')
+        c.users_pager = solr_instance_users_pager(c.instance, default_sorting)
 
         #if format == 'json':
         ##    return render_json(c.users_pager)
@@ -142,8 +144,9 @@ class UserController(BaseController):
     @validate(schema=UserCreateForm(), form="new", post_only=True)
     def create(self):
         if not h.allow_user_registration():
-            return ret_abort(_("Sorry, registration has been disabled by administrator."),
-                                category='error', code=403)
+            return ret_abort(
+                _("Sorry, registration has been disabled by administrator."),
+                category='error', code=403)
 
         require.user.create()
         if self.email_is_blacklisted(self.form_result['email']):
@@ -213,7 +216,8 @@ class UserController(BaseController):
         require.user.edit(c.page_user)
         c.locales = i18n.LOCALES
         c.tile = tiles.user.UserTile(c.page_user)
-        c.enable_gender = asbool(config.get('adhocracy.enable_gender', 'false'))
+        c.enable_gender = asbool(config.get('adhocracy.enable_gender',
+                                            'false'))
         c.sorting_orders = PROPOSAL_SORTS
         return render("/user/edit.html")
 
@@ -229,7 +233,8 @@ class UserController(BaseController):
         c.page_user.page_size = self.form_result.get("page_size")
         c.page_user.no_help = self.form_result.get("no_help")
         c.page_user.bio = self.form_result.get("bio")
-        c.page_user.proposal_sort_order = self.form_result.get("proposal_sort_order")
+        c.page_user.proposal_sort_order = self.form_result.get(
+            "proposal_sort_order")
         if c.page_user.proposal_sort_order == "":
             c.page_user.proposal_sort_order = None
         get_gender = self.form_result.get("gender")
@@ -442,8 +447,7 @@ class UserController(BaseController):
                                             enable_sorts=False)
         #polls
         polls = [p.adopt_poll for p in proposals if p.is_adopt_polling()]
-        polls = filter(lambda p: p.has_ended() != True and
-                                 p.is_deleted() != True,
+        polls = filter(lambda p: not p.has_ended() and not p.is_deleted(),
                        polls)
         c.polls = polls
         c.polls_pager = pager.polls(polls,
@@ -587,8 +591,8 @@ class UserController(BaseController):
                                           instance_filter=False)
         require.user.show(c.page_user)
         watches = model.Watch.all_by_user(c.page_user)
-        entities = [w.entity for w in watches if (w.entity is not None) \
-            and (not isinstance(w.entity, unicode))]
+        entities = [w.entity for w in watches if (w.entity is not None)
+                    and (not isinstance(w.entity, unicode))]
 
         c.entities_pager = NamedPager(
             'watches', entities, tiles.dispatch_row_with_comments,
@@ -613,7 +617,7 @@ class UserController(BaseController):
         had_vote = c.page_user._has_permission("vote.cast")
         for membership in c.page_user.memberships:
             if (not membership.is_expired() and
-                membership.instance == c.instance):
+                    membership.instance == c.instance):
                 membership.group = to_group
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_MEMBERSHIP_UPDATE, c.page_user,

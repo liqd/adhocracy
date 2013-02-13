@@ -8,14 +8,15 @@ import meta
 
 log = logging.getLogger(__name__)
 
-revision_table = Table('revision', meta.data,
+revision_table = Table(
+    'revision', meta.data,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('text', UnicodeText(), nullable=False),
     Column('sentiment', Integer, default=0),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('comment_id', Integer, ForeignKey('comment.id'), nullable=False),
-    )
+)
 
 
 class Revision(object):

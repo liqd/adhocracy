@@ -60,15 +60,16 @@ def user_rating(instance, user, from_time=None, to_time=None):
     '''
 
     proposals = model.meta.Session.query(model.Proposal)\
-            .filter(model.Proposal.creator==user)\
-            .filter(model.Proposal.instance==instance)
+        .filter(model.Proposal.creator == user)\
+        .filter(model.Proposal.instance == instance)
 
     comments = model.meta.Session.query(model.Comment)\
-            .filter(model.Comment.creator==user)\
-            .join(model.Delegateable, model.Comment.topic_id==model.Delegateable.id)\
-            .filter(model.Delegateable.instance==instance)
+        .filter(model.Comment.creator == user)\
+        .join(model.Delegateable,
+              model.Comment.topic_id == model.Delegateable.id)\
+        .filter(model.Delegateable.instance == instance)
 
     rating = sum([p.rate_poll.tally.score for p in proposals])\
-            + sum([c.poll.tally.score for c in comments])
+        + sum([c.poll.tally.score for c in comments])
 
     return rating

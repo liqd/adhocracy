@@ -7,17 +7,22 @@ import time
 
 from adhocracy import model
 
+
 def _set_optional(o, data, key, export_prefix=''):
     assert o
     external_key = export_prefix + key
     if external_key in data:
         setattr(o, key, data[external_key])
 
+
 def _encode_locale(locale):
-    return '_'.join(filter(None, (locale.language, locale.script, locale.territory, locale.variant)))
+    return '_'.join(filter(None, (locale.language, locale.script,
+                                  locale.territory, locale.variant)))
+
 
 def _decode_locale(ldata):
     return ldata
+
 
 class _Transform(object):
     """ Every transform must define:
@@ -55,7 +60,7 @@ class _Transform(object):
         return self._model_class.all()
 
     def import_all(self, odict):
-        return dict((k, self._import(data)) for k,data in odict.items())
+        return dict((k, self._import(data)) for k, data in odict.items())
 
     def _import(self, data):
         obj = self._get_by_key(data[self._ID_KEY])
@@ -74,9 +79,11 @@ class _Transform(object):
     def _replacement_strategy(self):
         return self._options.get('replacement_strategy', 'update')
 
+
 class _ExportOnlyTransform(_Transform):
     def import_(self, odict, replacement_strategy):
         raise NotImplementedError()
+
 
 class BadgeTransform(_Transform):
     _ID_KEY = 'title'
@@ -94,7 +101,6 @@ class BadgeTransform(_Transform):
                 description=data['description'])
         else:
             raise NotImplementedError()
-
 
     def _modify(self, obj, data):
         obj.title = data['title']
@@ -150,7 +156,8 @@ class UserTransform(_Transform):
             _set_optional(o, data, 'password', 'adhocracy_')
             _set_optional(o, data, 'banned', 'adhocracy_')
         if self._opt_badges:
-            o.badges = list(map(self._badge_transform._get_by_key, data['badges']))
+            o.badges = list(map(self._badge_transform._get_by_key,
+                                data['badges']))
 
     def _export(self, o):
         res = {}
@@ -171,8 +178,10 @@ class UserTransform(_Transform):
                 'adhocracy_banned': o.banned,
             })
         if self._opt_badges:
-            res['badges'] = [getattr(b, BadgeTransform._ID_KEY) for b in o.badges]
+            res['badges'] = [getattr(b, BadgeTransform._ID_KEY)
+                             for b in o.badges]
         return res
+
 
 class InstanceTransform(_ExportOnlyTransform):
     _ID_KEY = 'key'
@@ -189,7 +198,8 @@ class InstanceTransform(_ExportOnlyTransform):
             'creator': self._user_transform._compute_key(obj.creator)
         }
         if self._options.get('include_instance_proposals'):
-            ptransform = ProposalTransform(self._options, obj, self._user_transform)
+            ptransform = ProposalTransform(self._options, obj,
+                                           self._user_transform)
             res['proposals'] = ptransform.export_all()
 
         return res
@@ -215,9 +225,13 @@ class ProposalTransform(_ExportOnlyTransform):
             'adhocracy_type': 'proposal',
         }
         if self._options.get('include_instance_proposal_comments', False):
-            ctransform = CommentTransform(self._options, obj.description.comments, None, self._user_transform)
+            ctransform = CommentTransform(self._options,
+                                          obj.description.comments,
+                                          None,
+                                          self._user_transform)
             res['comments'] = ctransform.export_all()
         return res
+
 
 class CommentTransform(_ExportOnlyTransform):
     _ID_KEY = 'id'
@@ -229,7 +243,8 @@ class CommentTransform(_ExportOnlyTransform):
         self._user_transform = user_transform
 
     def _get_all(self):
-        return [c for c in self._all_comments if c.reply == self._parent_comment]
+        return [c for c in self._all_comments
+                if c.reply == self._parent_comment]
 
     def _export(self, obj):
         res = {
@@ -238,7 +253,8 @@ class CommentTransform(_ExportOnlyTransform):
             'creator': self._user_transform._compute_key(obj.creator),
             'adhocracy_type': 'comment',
         }
-        ct = CommentTransform(self._options, self._all_comments, obj, self._user_transform)
+        ct = CommentTransform(self._options, self._all_comments, obj,
+                              self._user_transform)
         res['comments'] = ct.export_all()
         return res
 
@@ -249,6 +265,7 @@ def gen_all(options):
     instance_transform = InstanceTransform(options, user_transform)
     return [badge_transform, user_transform, instance_transform]
 
-def gen_active(options):
-    return [tf for tf in gen_all(options) if options.get('include_' + tf.name.lower(), False)]
 
+def gen_active(options):
+    return [tf for tf in gen_all(options)
+            if options.get('include_' + tf.name.lower(), False)]

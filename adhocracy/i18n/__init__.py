@@ -56,7 +56,7 @@ def user_language(user, fallbacks=[]):
     if locale is None:
         locales = map(str, LOCALES)
         locale = Locale.parse(Locale.negotiate(fallbacks, locales)) \
-                 or get_default_locale()
+            or get_default_locale()
 
     # determinate from which path we load the translations
     translations_module = config.get('adhocracy.translations', 'adhocracy')

@@ -31,7 +31,7 @@ class CommentTile(BaseTile):
     def num_children(self):
         if self.__num_child is None:
             num = len(filter(
-                    lambda c: not c.delete_time, self.comment.replies))
+                lambda c: not c.delete_time, self.comment.replies))
             num += sum(map(lambda c: CommentTile(c).num_children,
                            self.comment.replies))
             self.__num_child = num

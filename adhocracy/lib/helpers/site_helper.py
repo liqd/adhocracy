@@ -1,7 +1,7 @@
 from pylons import config, app_globals as g
 from pylons.i18n import _
 from paste.deploy.converters import asbool
-from adhocracy.model import meta, instance_filter as ifilter
+from adhocracy.model import instance_filter as ifilter
 
 
 CURRENT_INSTANCE = object()
@@ -14,13 +14,14 @@ def domain():
 def name():
     return config.get('adhocracy.site.name', _("Adhocracy"))
 
+
 def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
-             append_slash=False):
+             append_slash=False, config=config):
     """
     Constructs an URL.
 
     Path is expected to start with '/'. If not, a relative path to the current
-    object will be created. 
+    object will be created.
 
     If instance isn't defined, the current instance is assumed. Otherwise,
     either an instance instance or None has to be passed.
@@ -64,7 +65,7 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
         result = '/'
 
     if append_slash and not result.endswith('/'):
-        result = '%s/' % result
+        result += '/'
 
     return result
 

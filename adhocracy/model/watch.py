@@ -11,14 +11,15 @@ import refs
 log = logging.getLogger(__name__)
 
 
-watch_table = Table('watch', meta.data,
+watch_table = Table(
+    'watch', meta.data,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime, nullable=True),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('entity_type', Unicode(255), nullable=False, index=True),
     Column('entity_ref', Unicode(255), nullable=False, index=True)
-    )
+)
 
 
 class Watch(object):

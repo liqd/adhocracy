@@ -11,7 +11,8 @@ import instance_filter as ifilter
 log = logging.getLogger(__name__)
 
 
-comment_table = Table('comment', meta.data,
+comment_table = Table(
+    'comment', meta.data,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime, default=None, nullable=True),
@@ -21,7 +22,7 @@ comment_table = Table('comment', meta.data,
     Column('reply_id', Integer, ForeignKey('comment.id'), nullable=True),
     Column('poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('variant', Unicode(255), nullable=True)
-    )
+)
 
 
 class Comment(meta.Indexable):
@@ -124,7 +125,7 @@ class Comment(meta.Indexable):
         if at_time is None:
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
-               self.delete_time <= at_time
+            self.delete_time <= at_time
 
     def is_edited(self):
         if self.is_deleted():
@@ -157,11 +158,11 @@ class Comment(meta.Indexable):
                 tag=[],
                 body=self.latest.text,
                 user=self.creator.user_name
-                ))
+            ))
         if self.topic and self.topic.instance:
             index['instance'] = self.topic.instance.key
         return index
 
     def __repr__(self):
         return "<Comment(%d,%s,%d,%s)>" % (self.id, self.creator.user_name,
-                                          self.topic_id, self.create_time)
+                                           self.topic_id, self.create_time)

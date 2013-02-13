@@ -10,7 +10,8 @@ import instance_filter as ifilter
 log = logging.getLogger(__name__)
 
 
-vote_table = Table('vote', meta.data,
+vote_table = Table(
+    'vote', meta.data,
     Column('id', Integer, primary_key=True),
     Column('orientation', Integer, nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),
@@ -18,7 +19,7 @@ vote_table = Table('vote', meta.data,
     Column('poll_id', Integer, ForeignKey('poll.id'), nullable=False),
     Column('delegation_id', Integer, ForeignKey('delegation.id'),
            nullable=True)
-    )
+)
 
 
 class Vote(object):
@@ -42,7 +43,7 @@ class Vote(object):
             vote = q.first()
             if ifilter.has_instance() and instance_filter:
                 vote = vote.poll.scope.instance == ifilter.get_instance() \
-                        and vote or None
+                    and vote or None
             return vote
         except Exception, e:
             log.exception(e)
@@ -66,7 +67,8 @@ class Vote(object):
                     delegation=self.delegation_id)
 
     def __repr__(self):
-        return "<Vote(%s,%s,%s,%s,%s)>" % (self.id,
+        return "<Vote(%s,%s,%s,%s,%s)>" % (
+            self.id,
             self.user.user_name,
             self.poll.id,
             self.orientation,

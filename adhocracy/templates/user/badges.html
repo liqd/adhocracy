@@ -63,7 +63,7 @@
 
     <div style="clear:both;"></div>
  
-    ${components.savebox("/user/%s" % c.page_user.user_name)}
+    ${components.savebox(h.base_url("/user/%s" % c.page_user.user_name))}
     
 </form>
 </%block>

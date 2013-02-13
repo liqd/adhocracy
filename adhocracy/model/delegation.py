@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 
-from sqlalchemy import Table, Column,  ForeignKey, or_
+from sqlalchemy import Table, Column, ForeignKey, or_
 from sqlalchemy import DateTime, Integer
 
 import meta
@@ -11,14 +11,15 @@ from delegateable import Delegateable
 log = logging.getLogger(__name__)
 
 
-delegation_table = Table('delegation', meta.data,
+delegation_table = Table(
+    'delegation', meta.data,
     Column('id', Integer, primary_key=True),
     Column('agent_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('principal_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('revoke_time', DateTime, default=None, nullable=True)
-    )
+)
 
 
 class Delegation(object):
@@ -128,7 +129,7 @@ class Delegation(object):
         if at_time is None:
             at_time = datetime.utcnow()
         return ((self.revoke_time is not None) and
-               self.revoke_time <= at_time)
+                self.revoke_time <= at_time)
 
     is_deleted = is_revoked
 

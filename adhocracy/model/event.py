@@ -15,22 +15,24 @@ import refs
 log = logging.getLogger(__name__)
 
 
-event_topic_table = Table('event_topic', meta.data,
+event_topic_table = Table(
+    'event_topic', meta.data,
     Column('event_id', Integer, ForeignKey('event.id',
            onupdate="CASCADE", ondelete="CASCADE")),
     Column('topic_id', Integer, ForeignKey('delegateable.id',
            onupdate="CASCADE", ondelete="CASCADE"))
-    )
+)
 
 
-event_table = Table('event', meta.data,
+event_table = Table(
+    'event', meta.data,
     Column('id', Integer, primary_key=True),
     Column('event', Unicode(255), nullable=False),
     Column('time', DateTime, default=datetime.utcnow),
     Column('data', UnicodeText(), nullable=False),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=True)
-    )
+)
 
 
 class Event(object):

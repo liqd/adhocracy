@@ -1,7 +1,7 @@
 import rfc822
 import hashlib
 
-from pylons import response, tmpl_context as c
+from pylons import response
 from pylons.templating import render_mako, render_mako_def
 from pylons.controllers.util import etag_cache
 from pylons.controllers.util import abort, redirect
@@ -103,18 +103,20 @@ def ret_json_status(type_, message, code=200):
     return render_json(data)
 
 
-def set_json_response(response=response, encoding='utf-8'):
+def set_json_response(response=response):
+    encoding = 'utf-8'  # RFC 4627.3
     response.content_type = 'application/json'
     response.content_encoding = encoding
 
 
 def render_json(data, filename=None, response=response, set_mime=True,
                 render_function=json_dumps):
-    encoding = 'utf-8' # RFC 4627.3
+    encoding = 'utf-8'  # RFC 4627.3
     if set_mime:
-        set_json_response(response, encoding)
+        set_json_response(response)
     if filename is not None:
-        response.content_disposition = 'attachment; filename="' + filename.replace('"', '_') + '"'
+        response.content_disposition = 'attachment; filename="'\
+            + filename.replace('"', '_') + '"'
     return render_function(data, encoding=encoding)
 
 

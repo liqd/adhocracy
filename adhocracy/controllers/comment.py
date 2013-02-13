@@ -215,7 +215,7 @@ class CommentController(BaseController):
             'revisions', c.comment.revisions, tiles.revision.row, count=10,
             sorts={_("oldest"): sorting.entity_oldest,
                    _("newest"): sorting.entity_newest},
-                                     default_sort=sorting.entity_newest)
+            default_sort=sorting.entity_newest)
         if format == 'overlay':
             return c.revisions_pager.render_pager()
         if format == 'json':

@@ -22,7 +22,7 @@
     ${forms.input(_("Name"), 'label', 1)}
     
     <%forms:textarea label="${_('Description')}" name="description" value="" tabindex="5"
-    help="${_('Describe what the goals of this instance are and who constitutes its community. (Both Markdown and HTML are allowed here.)')}">
+    help="${_('Describe what the goals of this instance are and who constitutes its community.')} ${_('(Both Markdown and HTML are allowed here.)') if h.text.getconf_allow_user_html(true) else ''}">
     ${components.formatting()}    
     </%forms:textarea>
 
@@ -37,7 +37,7 @@
     %if h.has_permission('global.admin'):
     ${forms.checkbox(_("This instance is authenticated"), 'is_authenticated', 25, 5)}
     %endif
-    ${components.savebox("/instance/%s" % c.page_instance.key)}
+    ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 
 </form> 
 </%block>

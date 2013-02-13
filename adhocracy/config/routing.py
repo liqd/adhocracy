@@ -50,8 +50,8 @@ def make_map(config):
                                          'reset': 'GET',
                                          'activate': 'GET',
                                          'resend': 'GET'},
-                                collection={'complete': 'GET',
-                                            'filter': 'GET'})
+                 collection={'complete': 'GET',
+                             'filter': 'GET'})
 
     # TODO work this into a complete subcontroller.
     map.connect('/user/{id}/message.{format}', controller='message',
@@ -97,7 +97,7 @@ def make_map(config):
                                                  'edit_geotag': 'GET',
                                                  'update_geotag': 'POST',
                                                  },
-                               collection={'filter': 'GET'})
+                 collection={'filter': 'GET'})
     map.connect('/proposal/{proposal_id}/{selection_id}/details{.format}',
                 controller='selection',
                 action='details')
@@ -358,7 +358,6 @@ def make_map(config):
                 controller='admin', action='import_dialog')
     map.connect('/admin/import/do',
                 controller='admin', action='import_do')
-
 
     map.connect('/static/{page_name}.{format}', controller='static',
                 action='serve')

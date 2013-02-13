@@ -9,30 +9,33 @@ import meta
 log = logging.getLogger(__name__)
 
 
-openid_table = Table('openid', meta.data,
+openid_table = Table(
+    'openid', meta.data,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime, nullable=True),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('identifier', Unicode(255), nullable=False, index=True)
-    )
+)
 
 
-oid_nonces = Table('oid_nonces', meta.data,
+oid_nonces = Table(
+    'oid_nonces', meta.data,
     Column('server_url', LargeBinary, nullable=False),
     Column('timestamp', Integer, primary_key=True),
     Column('salt', Unicode(40), nullable=False, index=True)
-    )
+)
 
 
-oid_associations = Table('oid_associations', meta.data,
+oid_associations = Table(
+    'oid_associations', meta.data,
     Column('server_url', LargeBinary, nullable=False),
     Column('handle', Unicode(255), nullable=False, index=True),
     Column('secret', LargeBinary, nullable=False),
     Column('issued', Integer, primary_key=True),
     Column('lifetime', Integer, primary_key=True),
     Column('assoc_type', Unicode(64), nullable=False)
-    )
+)
 
 
 class OpenID(object):

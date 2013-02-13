@@ -139,7 +139,7 @@ class PollController(BaseController):
         # where deleted when a proposal was deleted.
         # Fixes http://trac.adhocracy.de/ticket/262
         if (c.poll.action == model.Poll.SELECT and
-            c.poll.selection is None):
+                c.poll.selection is None):
             logmsg = ('Poll: "%s" is a model.Poll.rate poll, which should '
                       'have a selection, but the selection is None. Subject '
                       'of the Poll is %s') % (c.poll, c.poll.subject)
@@ -149,7 +149,7 @@ class PollController(BaseController):
         require.poll.show(c.poll)
         decisions = democracy.Decision.for_poll(c.poll)
         if (hasattr(self, 'form_result') and
-            self.form_result.get('result') != None):
+                self.form_result.get('result') != None):
             result_form = self.form_result.get('result')
             decisions = filter(lambda d: d.result == result_form, decisions)
         c.decisions_pager = pager.scope_decisions(decisions)

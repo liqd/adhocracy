@@ -35,7 +35,7 @@ class SearchController(BaseController):
         c.query = self.form_result.get("serp_q", u"*:*")
         self._query_pager()
         return formencode.htmlfill.render(render("search/results.html"),
-                        {'q': c.query, 'serp_q': c.query})
+                                          {'q': c.query, 'serp_q': c.query})
 
     @validate(schema=SearchQueryForm(), post_only=False, on_get=True)
     def filter(self):

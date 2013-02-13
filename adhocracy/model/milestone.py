@@ -20,7 +20,7 @@ milestone_table = Table(
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('modify_time', DateTime, nullable=True, onupdate=datetime.utcnow),
     Column('delete_time', DateTime)
-    )
+)
 
 
 class Milestone(object):
@@ -116,7 +116,7 @@ class Milestone(object):
             tags=[],
             body=self.text,
             user=self.creator.user_name
-            ))
+        ))
         return index
 
     def __repr__(self):

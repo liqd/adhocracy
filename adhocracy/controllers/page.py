@@ -241,7 +241,7 @@ class PageController(BaseController):
             parent_text = self.form_result.get("parent_text")
             if ((branch or
                  parent_text.variant != self.form_result.get("variant")) and
-                self.form_result.get("variant") in c.page.variants):
+                    self.form_result.get("variant") in c.page.variants):
                 msg = (_("Variant %s is already present, cannot branch.") %
                        self.form_result.get("variant"))
                 raise Invalid(msg, branch, state_(),
@@ -271,7 +271,7 @@ class PageController(BaseController):
             c.page.set_category(category, c.user)
 
         if not branch and c.variant != parent_text.variant \
-            and parent_text.variant != model.Text.HEAD:
+                and parent_text.variant != model.Text.HEAD:
             c.page.rename_variant(parent_text.variant, c.variant)
 
         text = model.Text.create(c.page, c.variant, c.user,
@@ -344,8 +344,8 @@ class PageController(BaseController):
                 'rendered_score': rendered_score,
                 'selection_id': selection.id,
                 'proposal_title': selection.proposal.title,
-                'proposal_text':
-                    render_text(selection.proposal.description.head.text),
+                'proposal_text': render_text(
+                    selection.proposal.description.head.text),
                 'proposal_url': h.selection.url(selection),
                 'current': current,
                 }
@@ -398,7 +398,7 @@ class PageController(BaseController):
     @classmethod
     def variant_display_title(cls, variant):
         if variant == model.Text.HEAD:
-            return  _('Original version')
+            return _('Original version')
         return _(u'Variant: "%s"') % variant
 
     @classmethod

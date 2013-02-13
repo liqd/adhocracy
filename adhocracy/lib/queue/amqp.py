@@ -9,8 +9,7 @@ post_channel = None
 
 
 def has_queue():
-    return config.get('adhocracy.amqp.host') \
-           is not None
+    return config.get('adhocracy.amqp.host') is not None
 
 
 def queue_name():
@@ -72,7 +71,8 @@ def callback_wrapper(channel, callback):
         except Exception, ex:
             log.exception(ex)
         channel.basic_ack(message.delivery_tag)
-        log.debug("Queue message %s - > %.2fms" % (message.application_headers,
+        log.debug("Queue message %s - > %.2fms" % (
+            message.application_headers,
             (time() - begin_time) * 1000))
     return _handle
 

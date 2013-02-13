@@ -60,7 +60,7 @@ class OpenidauthController(BaseController):
         login_user(user, request, response)
         if c.instance and not user.is_member(c.instance):
             redirect(h.base_url("/instance/join/%s?%s" % (c.instance.key,
-                                                    h.url_token())))
+                                                          h.url_token())))
         redirect("/")
 
     def _failure(self, openid, message):
@@ -172,10 +172,12 @@ class OpenidauthController(BaseController):
         if oid:
             if c.user:
                 if oid.user == c.user:
-                    return self._failure(info.identity_url,
+                    return self._failure(
+                        info.identity_url,
                         _("You have already claimed this OpenID."))
                 else:
-                    return self._failure(info.identity_url,
+                    return self._failure(
+                        info.identity_url,
                         _("OpenID %s already belongs to %s.")
                         % (info.identity_url, oid.user.name))
             else:
