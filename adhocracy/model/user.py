@@ -270,16 +270,10 @@ class User(meta.Indexable):
 
     @classmethod
     def find_by_email(cls, email, include_deleted=False):
-        try:
-            q = meta.Session.query(User)
-            q = q.filter(User.email == unicode(email).lower())
-            if not include_deleted:
-                q = q.filter(or_(User.delete_time == None,
-                                 User.delete_time > datetime.utcnow()))
-            return q.limit(1).first()
-        except Exception, e:
-            log.debug("find_by_email(%s): %s" % (email, e))
-            return None
+        return cls.all_q(None, include_deleted)\
+            .filter(User.email == unicode(email).lower())\
+            .filter(func.lower(User.email) == unicode(email).lower())\
+            .limit(1).first()
 
     @classmethod
     def find_all(cls, unames, instance_filter=True, include_deleted=False):
