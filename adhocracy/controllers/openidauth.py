@@ -30,10 +30,14 @@ AX_MAIL_SCHEMA_AX = u'http://axschema.org/contact/email'
 AX_MAIL_SCHEMA_OPENID = u'http://schema.openid.net/contact/email'
 AX_MEMBERSHIP_SCHEMA = u'http://schema.liqd.de/membership/signed/'
 
+MYOPENID_RE = r'https?://.*\.myopenid\.com'
+GOOGLE_RE = r'https://www\.google\.com/accounts/.*'
+YAHOO_RE = r'https?://me\.yahoo\.com(/?$|/.*)'
+
 TRUSTED_PROVIDER_RES = [
-    r'http://.*\.myopenid.com',
-    r'https://www\.google\.com/accounts/.*',
-    r'https://me\.yahoo\.com/.*',
+    MYOPENID_RE,
+    GOOGLE_RE,
+    YAHOO_RE,
 ]
 
 
@@ -46,7 +50,10 @@ def is_trusted_provider(identity):
 
 
 def get_ax_mail_schema(openid):
-    if openid == 'http://me.yahoo.com/':
+    """
+    Different OpenID providers use different attribute exchange schemata.
+    """
+    if re.match(YAHOO_RE, openid):
         return AX_MAIL_SCHEMA_AX
     else:
         return AX_MAIL_SCHEMA_OPENID
