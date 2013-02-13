@@ -222,6 +222,40 @@ class OpenidauthController(BaseController):
                 model.meta.Session.commit()
                 redirect(h.entity_url(c.user, member='edit'))
             else:
+
+                user_by_email = model.User.find_by_email(email)
+                if user_by_email is not None:
+                    if is_trusted_provider(info.identity_url):
+                        # A user with the email returned by the OpenID provider
+                        # exists. As we trust the OpenID provider, we log in
+                        # that account and assign the OpenID to this user.
+                        oid = model.OpenID(unicode(info.identity_url),
+                                           user_by_email)
+                        model.meta.Session.add(oid)
+                        model.meta.Session.commit()
+                        h.flash(_(
+                            "Successfully added OpenID to user account."
+                        ), 'success')
+                        self._login(user_by_email)
+                    else:
+                        # A user with the email returned by the OpenID provider
+                        # exists. As we don't trust the OpenID provider, we
+                        # demand that the user needs to login first.
+                        #
+                        # Note: We could store the successful OpenID
+                        # authentication in the session and assign it after
+                        # login. However probably more is gained if the
+                        # list of trusted OpenID providers is extended.
+                        h.flash(_(
+                            "The email address %s which was returned by the "
+                            "OpenID provider already belongs to a different "
+                            "user account. Please login with that account "
+                            "or use the forgot password functionality, and "
+                            "add the OpenID in your user profile settings "
+                            "afterwards. Sorry for the inconvenience." % email
+                        ), 'warning')
+                        redirect(h.base_url('/login'))
+
                 try:
                     forms.UniqueUsername(not_empty=True).to_python(user_name)
                     formencode.All(validators.PlainText(not_empty=True),
