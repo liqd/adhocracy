@@ -51,6 +51,7 @@ for the event::
     >>> admin = make_browser()
     >>> admin.login('admin')
     >>> admin.open(instance_url)
+    >>> admin.follow('Proposals')
     >>> admin.follow('new proposal')
     >>> form = admin.getForm(name='create_proposal')
     >>> form.getControl(name='label').value = u'Test Proposal'
@@ -63,6 +64,7 @@ for the event::
     1
 
     >>> admin.open(instance_url)
+    >>> admin.follow('Proposals')
     >>> admin.follow('new proposal')
     >>> form = admin.getForm(name='create_proposal')
     >>> form.getControl(name='label').value = u'Test Proposal 2'
