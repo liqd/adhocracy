@@ -1,4 +1,5 @@
 import logging
+import re
 
 import formencode
 from formencode import validators
@@ -8,7 +9,6 @@ from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 from webob.exc import HTTPFound
-
 
 from openid.consumer.consumer import SUCCESS
 from openid.extensions import sreg, ax
@@ -20,6 +20,7 @@ from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.openidstore import create_consumer
 from adhocracy.lib.templating import render
+import adhocracy.lib.mail as libmail
 
 
 log = logging.getLogger(__name__)
@@ -28,6 +29,20 @@ log = logging.getLogger(__name__)
 AX_MAIL_SCHEMA_AX = u'http://axschema.org/contact/email'
 AX_MAIL_SCHEMA_OPENID = u'http://schema.openid.net/contact/email'
 AX_MEMBERSHIP_SCHEMA = u'http://schema.liqd.de/membership/signed/'
+
+TRUSTED_PROVIDER_RES = [
+    r'http://.*\.myopenid.com',
+    r'https://www\.google\.com/accounts/.*',
+    r'https://me\.yahoo\.com/.*',
+]
+
+
+def is_trusted_provider(identity):
+    """
+    Check whether the provided ID matches the regular expression of a trusted
+    OpenID provider.
+    """
+    return any(map(lambda r: re.match(r, identity), TRUSTED_PROVIDER_RES))
 
 
 def get_ax_mail_schema(openid):
@@ -56,8 +71,12 @@ class OpenidauthController(BaseController):
         """
         user = model.User.create(user_name, email, locale=c.locale,
                                  openid_identity=identity)
-        # trust provided email:
-        user.activation_code = None
+        if email is not None:
+            if is_trusted_provider(identity):
+                # trust provided email:
+                user.activation_code = None
+            else:
+                libmail.send_activation_link(user)
         model.meta.Session.commit()
         event.emit(event.T_USER_CREATE, user)
         return user
