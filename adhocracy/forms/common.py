@@ -172,7 +172,7 @@ class ContainsChar(formencode.validators.Regex):
         try:
             super(ContainsChar, self).to_python(value, state)
         except formencode.Invalid:
-            raise formencode.Invalid(_("At least on character is required"),
+            raise formencode.Invalid(_("At least one character is required"),
                                      value, state)
         return value
 
