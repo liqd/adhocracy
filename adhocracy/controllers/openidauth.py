@@ -35,8 +35,9 @@ class OpenIDInitForm(formencode.Schema):
 
 
 class OpenIDUsernameForm(formencode.Schema):
-    login = formencode.All(validators.PlainText(),
-                           forms.UniqueUsername())
+    login = formencode.All(validators.PlainText(not_empty=True),
+                           forms.UniqueUsername(),
+                           forms.ContainsChar())
 
 
 class OpenidauthController(BaseController):
@@ -194,6 +195,9 @@ class OpenidauthController(BaseController):
             else:
                 try:
                     forms.UniqueUsername(not_empty=True).to_python(user_name)
+                    formencode.All(validators.PlainText(not_empty=True),
+                                   forms.UniqueUsername(),
+                                   forms.ContainsChar())
                 except:
                     session['openid_req'] = (info.identity_url, user_name,
                                              email)
