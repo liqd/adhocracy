@@ -265,7 +265,7 @@ class User(meta.Indexable):
                 q = q.filter(Membership.instance == ifilter.get_instance())
             return q.limit(1).first()
         except Exception, e:
-            log.warn("find(%s): %s" % (user_name, e))
+            log.debug("find(%s): %s" % (user_name, e))
             return None
 
     @classmethod
@@ -278,7 +278,7 @@ class User(meta.Indexable):
                                  User.delete_time > datetime.utcnow()))
             return q.limit(1).first()
         except Exception, e:
-            log.warn("find_by_email(%s): %s" % (email, e))
+            log.debug("find_by_email(%s): %s" % (email, e))
             return None
 
     @classmethod

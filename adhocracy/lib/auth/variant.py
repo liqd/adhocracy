@@ -5,6 +5,7 @@ import page
 
 
 def edit(check, p, variant):
+    check.valid_email()
     check.other('instance_without_norms', not p.instance.use_norms)
     check.other('instance_frozen', p.instance.frozen)
     check.other('variant_is_none', variant is None)
@@ -19,6 +20,7 @@ def edit(check, p, variant):
 
 
 def delete(check, p, variant):
+    check.valid_email()
     check.other('variant_is_none', variant is None)
     check.other('variant_is_head', variant == Text.HEAD)
     if has('instance.admin'):

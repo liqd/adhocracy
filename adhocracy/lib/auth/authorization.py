@@ -111,12 +111,14 @@ class AuthCheck(object):
         self.method = method
         self.permission_refusals = set()
         self.other_refusals = set()
+        self.need_valid_email = False
 
     def __repr__(self):
         return 'AuthCheck for %s' % (self.method)
 
     def __nonzero__(self):
-        return not (self.permission_refusals or self.other_refusals)
+        return not (self.permission_refusals or self.other_refusals
+                    or self.need_valid_email)
 
     def perm(self, permission):
         """
@@ -133,6 +135,13 @@ class AuthCheck(object):
         """
         if value is True:
             self.other_refusals.add(label)
+
+    def valid_email(self):
+        if (c.instance is not None
+                and c.user is not None
+                and c.instance.require_valid_email
+                and not c.user.is_email_activated()):
+            self.need_valid_email = True
 
     def permission_missing(self):
         """ Determines whether a permission is missing. """
@@ -173,3 +182,12 @@ class AuthCheck(object):
         return (c.user is not None
                 and not c.user.is_member(c.instance)
                 and self._propose_join_or_login())
+
+    def propose_validate_email(self):
+        """
+        Email validation is proposed if the user is logged in, but doesn't
+        have a valid email address.
+        """
+        return (not self.permission_refusals
+                and not self.other_refusals
+                and self.need_valid_email)
