@@ -25,8 +25,16 @@ from adhocracy.lib.templating import render
 log = logging.getLogger(__name__)
 
 
-AX_MAIL_SCHEMA = u'http://schema.openid.net/contact/email'
+AX_MAIL_SCHEMA_AX = u'http://axschema.org/contact/email'
+AX_MAIL_SCHEMA_OPENID = u'http://schema.openid.net/contact/email'
 AX_MEMBERSHIP_SCHEMA = u'http://schema.liqd.de/membership/signed/'
+
+
+def get_ax_mail_schema(openid):
+    if openid == 'http://me.yahoo.com/':
+        return AX_MAIL_SCHEMA_AX
+    else:
+        return AX_MAIL_SCHEMA_OPENID
 
 
 class OpenIDInitForm(formencode.Schema):
@@ -96,7 +104,8 @@ class OpenidauthController(BaseController):
             if not c.user and not model.OpenID.find(openid):
                 axreq = ax.FetchRequest(h.base_url('/openid/update',
                                                    absolute=True))
-                axreq.add(ax.AttrInfo(AX_MAIL_SCHEMA, alias="email",
+                axreq.add(ax.AttrInfo(get_ax_mail_schema(openid),
+                                      alias="email",
                                       required=True))
                 authrequest.addExtension(axreq)
                 sreq = sreg.SRegRequest(required=['nickname'],
@@ -161,10 +170,11 @@ class OpenidauthController(BaseController):
         # TBD: SignedMembership
         axrep = ax.FetchResponse.fromSuccessResponse(info)
         if axrep:
+            ax_mail_schema = get_ax_mail_schema(info.identity_url)
             try:
-                email = axrep.getSingle(AX_MAIL_SCHEMA) or email
+                email = axrep.getSingle(ax_mail_schema) or email
             except ValueError:
-                email = axrep.get(AX_MAIL_SCHEMA)[0]
+                email = axrep.get(ax_mail_schema)[0]
             except KeyError:
                 email = email
 
