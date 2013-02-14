@@ -17,6 +17,7 @@ class TestOpenIDAuth(unittest.TestCase):
 
         self.assertFalse(is_trusted_provider('http://evil.com/my.myopenid.com/'))
         self.assertFalse(is_trusted_provider('http://my.myopenid.com.evil.com/'))
+        self.assertFalse(is_trusted_provider('http://[2001::bad:1]/my.myopenid.com/'))
 
 
 if __name__ == '__main__':
