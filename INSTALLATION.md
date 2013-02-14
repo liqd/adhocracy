@@ -18,16 +18,16 @@ It sets up a bunch of servers and configures supervisor to run them:
 Installation
 ------------
  
-Automatic installation on debian or Ubuntu with build_debian.sh
+Automatic installation on debian,  Ubuntu or Arch with build.sh
 ----------------------------------------------------------------
 
-On debian or Ubuntu, you can simply execute the following in a terminal:
+On debian,  Ubuntu, or Arch you can simply execute the following in a terminal:
 
-    wget -nv https://raw.github.com/liqd/adhocracy.buildout/master/build_debian.sh -O build_debian.sh && sh build_debian.sh
+    wget -nv https://raw.github.com/liqd/adhocracy.buildout/develop/build.sh -O build.sh && sh build.sh
 
 The script will use sudo to install the required dependencies, and install, set up, and start the required database services.
 
-Add the `-p` option to use PostgreSQL or the `-m` option to use MySQL instead of the default sqlite. Add `-b develop` to install the development version, or `-b hhu` to install with the preconfiguration for HHU Düsseldorf.
+Add `-b master` to install the stable version, or `-b hhu` to install with the preconfiguration for HHU Düsseldorf.
 
 Developer instructions
 ----------------------
@@ -77,25 +77,6 @@ you have to setup the adhocracy database manually:
     $ bin/paster setup-app etc/adhocracy.ini --name=content
 
 
-Additional steps in adhocracy geo branch
-----------------------------------------
-
-Install the libgeos library with all development files.
-
-Make sure `adhocracy.buildout` and `src/adhocracy` are both checked out in geo
-branch.
-
-The buildout initializes the local postgres database cluster with PostGIS, 
-as described in`src/adhocracy/docs/initialize-postgis.rst'.
-
-In case you want to prefill the `region` table with Openstreetmap data, follow
-the docs in `src/adhocracy/docs/imposm-setup.txt`.
-
-Note: The geo currently requires PostgreSQL with PostGIS, MySQL-spatial and
-SQLite SpatiaLite will not work. Some work towards building Adhocracy with
-SpatiaLite has happened in the spatialite branch of `adhocracy.buildout`.
-
-
 Run adhocracy
 -------------
 
@@ -127,5 +108,6 @@ Just use your custom buildout file to remove the included files you do not need:
 
     [buildout]
     extends = buildout_development.cfg
-    extends -=  
-        buildouts/postgres.cfg 
+    parts -= 
+        postgresql
+#
