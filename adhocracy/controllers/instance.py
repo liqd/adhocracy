@@ -107,6 +107,9 @@ class InstanceGeneralEditForm(formencode.Schema):
     default_group = forms.ValidInstanceGroup(not_empty=True)
     hidden = validators.StringBool(not_empty=False, if_empty=False,
                                    if_missing=False)
+    require_valid_email = validators.StringBool(not_empty=False,
+                                                if_empty=False,
+                                                if_missing=False)
     is_authenticated = validators.StringBool(not_empty=False, if_empty=False,
                                              if_missing=False)
 
@@ -486,6 +489,7 @@ class InstanceController(BaseController):
                 'hidden': c.page_instance.hidden,
                 'locale': c.page_instance.locale,
                 'is_authenticated': c.page_instance.is_authenticated,
+                'require_valid_email': c.page_instance.require_valid_email,
                 '_tok': csrf.token_id()})
 
     @RequireInstance
@@ -497,7 +501,8 @@ class InstanceController(BaseController):
         require.instance.edit(c.page_instance)
 
         updated = update_attributes(c.page_instance, self.form_result,
-                                    ['description', 'label', 'hidden'])
+                                    ['description', 'label', 'hidden',
+                                     'require_valid_email'])
         if h.has_permission('global.admin'):
             auth_updated = update_attributes(c.page_instance, self.form_result,
                                              ['is_authenticated'])

@@ -22,11 +22,13 @@ def show(check, p):
 
 
 def create(check):
+    check.valid_email()
     check.other('instance_frozen', c.instance.frozen)
     check.perm('proposal.create')
 
 
 def edit(check, p):
+    check.valid_email()
     if has('instance.admin') or has('global.admin'):
         # Admins can always edit proposals.
         return
@@ -44,12 +46,14 @@ def edit(check, p):
 
 
 def delete(check, p):
+    check.valid_email()
     check.perm('proposal.delete')
     show(check, p)
     check.other('proposal_not_mutable', not p.is_mutable())
 
 
 def rate(check, p):
+    check.valid_email()
     check.other('instance_frozen', c.instance.frozen)
     show(check, p)
     if p.rate_poll is None:
@@ -59,6 +63,7 @@ def rate(check, p):
 
 
 def adopt(check, p):
+    check.valid_email()
     if c.instance.allow_adopt and has('instance.admin'):
         return
     show(check, p)

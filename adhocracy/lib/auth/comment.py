@@ -22,10 +22,12 @@ def show(check, co):
 
 
 def create(check):
+    check.valid_email()
     check.perm('comment.create')
 
 
 def create_on(check, topic):
+    check.valid_email()
     if has('instance.admin'):
         return
     check.other('topic_instance_frozen', topic.instance.frozen)
@@ -33,11 +35,13 @@ def create_on(check, topic):
 
 
 def reply(check, parent):
+    check.valid_email()
     create_on(check, parent.topic)
     check.other('parent_deleted', parent.is_deleted())
 
 
 def edit(check, co):
+    check.valid_email()
     check.other('comment_not_mutable', not co.is_mutable())
     if has('instance.admin'):
         return
@@ -51,6 +55,7 @@ revert = edit
 
 
 def delete(check, co):
+    check.valid_email()
     if has('instance.admin'):
         return
     check.other('comment_topic_instance_frozen', co.topic.instance.frozen)
@@ -63,6 +68,7 @@ def delete(check, co):
 
 
 def rate(check, co):
+    check.valid_email()
     check.other('comment_topic_instance_frozen', co.topic.instance.frozen)
     show(check, co)
     check.other('comment_poll_is_none', co.poll is not None)
