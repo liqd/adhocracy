@@ -14,16 +14,19 @@ def show(check, d):
 
 
 def create(check):
+    check.valid_email()
     check.perm('delegation.create')
     user.vote(check)
     check.other('no_instance_allow_delegate', not c.instance.allow_delegate)
 
 
 def edit(check, d):
+    check.valid_email()
     check.other('cannot_edit_delegations', True)
 
 
 def delete(check, d):
+    check.valid_email()
     check.perm('delegation.delete')
     show(check, d)
     check.other('no_instance_allow_delegate', not c.instance.allow_delegate)

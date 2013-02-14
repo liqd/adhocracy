@@ -55,11 +55,27 @@ class UniqueUsername(formencode.FancyValidator):
 
 class UniqueEmail(formencode.FancyValidator):
     def _to_python(self, value, state):
-        from adhocracy.model import meta, User
-        email = value.lower()
-        if meta.Session.query(User.email).filter(User.email == email).all():
+        from adhocracy.model import User
+        if User.all_q()\
+                .filter(func.lower(User.email) == value.lower()).count():
             raise formencode.Invalid(
                 _('That email is already registered'),
+                value, state)
+        return value
+
+
+class UniqueOtherEmail(formencode.FancyValidator):
+    """
+    Check if email is unused or belongs to the current user.
+    """
+    def _to_python(self, value, state):
+        if c.user.email.lower() == value.lower():
+            return value
+        from adhocracy.model import User
+        if User.all_q()\
+                .filter(func.lower(User.email) == value.lower()).count():
+            raise formencode.Invalid(
+                _('That email is already used by another account'),
                 value, state)
         return value
 
@@ -156,7 +172,7 @@ class ContainsChar(formencode.validators.Regex):
         try:
             super(ContainsChar, self).to_python(value, state)
         except formencode.Invalid:
-            raise formencode.Invalid(_("At least on character is required"),
+            raise formencode.Invalid(_("At least one character is required"),
                                      value, state)
         return value
 
@@ -420,8 +436,11 @@ class UnusedTitle(formencode.validators.String):
 USER_NAME = 'user_name'
 DISPLAY_NAME = 'display_name'
 EMAIL = 'email'
-USERNAME_VALIDATOR = UniqueUsername()
-EMAIL_VALIDATOR = formencode.All(formencode.validators.Email(),
+USERNAME_VALIDATOR = formencode.All(
+    formencode.validators.PlainText(not_empty=True),
+    UniqueUsername(),
+    ContainsChar())
+EMAIL_VALIDATOR = formencode.All(formencode.validators.Email(not_empty=True),
                                  UniqueEmail())
 
 

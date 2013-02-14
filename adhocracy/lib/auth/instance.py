@@ -12,6 +12,7 @@ def show(check, i):
 
 
 def create(check):
+    check.valid_email()
     check.other('is_single_instance', g.single_instance)
     check.perm('instance.create')
 

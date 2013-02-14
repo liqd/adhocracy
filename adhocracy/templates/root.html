@@ -54,7 +54,19 @@
              <a class="button" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
          </div>
       </div>
-    </div>    
+    </div>
+    %elif c.instance and c.instance.require_valid_email and c.user and not c.user.is_email_activated():
+    <div class="overlay" id="overlay-validate">
+      <a class="close"></a>
+      <div class="contentWrap">
+         <div class="register">
+             <p class="patch_description">
+                 ${_('Validate email to start contributing.')}
+             </p>
+             <a class="button" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
+         </div>
+      </div>
+    </div>
     %endif
   <!-- begin: header -->
   <header>
@@ -80,7 +92,7 @@
   </header>
 
   <%block name="attention_getter">
-  %if c.instance is not None and (c.user is None or can.instance.join(c.instance)) and not c.suppress_attention_getter:
+  %if not c.suppress_attention_getter and c.instance is not None and (c.user is None or can.instance.join(c.instance) or (c.instance.require_valid_email and c.user and not c.user.is_email_activated())):
   <%doc>add an attention getter on instances</%doc>
     <div id="flash_message">
       <div class="page_margins">
@@ -106,6 +118,25 @@
                   <p>
                       ${_('Join this instance to start contributing.')}
                   </p>
+                  %else:
+                  %if c.user.email is None:
+                  <div class="register">
+                      <a class="button" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a> 
+                  </div>
+                  <p>
+                      ${_('You need to set an email in your profile in order to contribute to this instance.')}
+                  </p>
+                  %else:
+                  <div class="register">
+                      <a class="button large" href="${h.base_url('/user/%s/resend?%s' % (c.user.user_name, h.url_token()))}" title="${_('Resend validation email to %s')%c.user.email}">${_('Send activation link')}</a> 
+                      ${_("or")} 
+                      <a class="icon_link more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a> 
+                  </div>
+                  <p>
+                  ${_('Please validate your email address in order to contribute to this instance.')}<br />
+                  ${_('Your registered email address is:')} <em>${c.user.email}</em>
+                  </p>
+                  %endif
                   %endif
               </div>
           </div>

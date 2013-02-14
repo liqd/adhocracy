@@ -12,6 +12,7 @@ def show(check, s):
 
 
 def create(check, p):
+    check.valid_email()
     check.other('proposal_not_mutable', not p.is_mutable())
     if has('instance.admin'):
         return
@@ -20,9 +21,11 @@ def create(check, p):
 
 
 def edit(check, s):
+    check.valid_email()
     check.other('selections_can_not_be_edited', False)
 
 
 def delete(check, s):
+    check.valid_email()
     proposal.delete(check, s.proposal)
     show(check, s)

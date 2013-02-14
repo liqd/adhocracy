@@ -33,6 +33,7 @@
 
     ${forms.checkbox(_("Hide this instance"), 'hidden', 20, 4, help=_("Select whether this instance will be shown in public listings."))}
 
+    ${forms.checkbox(_("Require email validation"), 'require_valid_email', 22, 4, help=_("Require instance members to validate their email address."))}
 
     %if h.has_permission('global.admin'):
     ${forms.checkbox(_("This instance is authenticated"), 'is_authenticated', 25, 5)}
