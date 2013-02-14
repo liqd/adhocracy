@@ -194,6 +194,20 @@ a.button.highlight:hover {
 .register a.button:hover {
   background-position: 0 -650px;
 }
+.register a.button.large {
+  color: #fff;
+  background-position: 0 -500px;
+  /* hack: width is normally 240px, but then right-arrow is too far right */
+  width: 220px;
+  height: 27px;
+  line-height: 27px;
+  float: left;
+  margin-right: 15px;
+  padding: 0;
+}
+.register a.button.large:hover {
+  background-position: 0 -551px;
+}
 .register a.link_more_info,
 .register a.link_more_info:hover {
   color: #446191;

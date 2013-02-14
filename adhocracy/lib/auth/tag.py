@@ -11,15 +11,18 @@ def show(check, t):
 
 
 def create(check):
+    check.valid_email()
     check.perm('tag.create')
 
 
 def edit(check, t):
+    check.valid_email()
     check.perm('tag.edit')
     show(check, t)
 
 
 def delete(check, t):
+    check.valid_email()
     if has('instance.admin'):
         return
     check.perm('tag.delete')
