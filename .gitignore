@@ -27,7 +27,6 @@ test.db-journal
 var
 parts
 bin
-lib
 src_dependencies
 lib64
 eggs

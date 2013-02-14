@@ -1,7 +1,7 @@
 """Pylons application test package
 
 This package assumes the Pylons environment is already loaded, such as
-when this script is imported from the `nosetests --with-pylons=test.ini`
+when this script is imported from the `nosetests --with-pylons=etc/test.ini`
 command.
 
 This module initializes the application via ``websetup`` (`paster
