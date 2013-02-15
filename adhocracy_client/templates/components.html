@@ -281,12 +281,14 @@ ${caller.body()}
           ${h.field_token()|n}
           <fieldset>
             <legend>${_(u'Send us your feedback')}</legend>
-            <label>${(u'Category')}</label>
-            <select name="category">
-            %for category in h.feedback.get_categories():
-            <option value="${category.id}">${category.title}</option>
-            %endfor
-            </select>
+            %if h.feedback.get_categories():
+                <label>${(u'Category')}</label>
+                <select name="category">
+                %for category in h.feedback.get_categories():
+                <option value="${category.id}">${category.title}</option>
+                %endfor
+                </select>
+            %endif
             <label>${(u'Title')}</label>
             <input type="text" placeholder="${_(u'One line summary')}" name="label">
             <label>${(u'Description')}</label>

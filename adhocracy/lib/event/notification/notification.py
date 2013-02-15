@@ -3,7 +3,7 @@ import logging
 
 from pylons.i18n import _
 
-from adhocracy import i18n, templates
+from adhocracy import i18n
 from adhocracy.lib.templating import render
 from adhocracy.lib.event import formatting
 
@@ -56,6 +56,8 @@ class Notification(object):
     link = property(_get_link)
 
     def get_body(self):
+        from adhocracy_client import templates
+
         locale = self.language_context()
         tpl_vars = {'n': self, 'e': self.event, 'u': self.user, 't': self.type}
 

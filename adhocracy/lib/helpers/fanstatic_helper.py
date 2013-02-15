@@ -26,16 +26,15 @@ def _get_resource(module, name):
 class FanstaticNeedHelper(object):
     '''
     A helper class to access fanstatic resources
-    defined in :module:`adhocracy.static`
+    defined in :module:`adhocracy_client.static`
 
     Use it this way::
 
-        from adhocracy import static
         need = FanstaticNeedHelper(static)
         need.stylesheets
 
-    where "stylesheets" is a fanstatic Resource or Group defined
-    in adhocracy.static.
+    where "static" is a module with fanstatic.Group objects, and
+    "stylesheets" is one of these fanstatic Resource or Group objects.
     '''
 
     def __init__(self, module):
