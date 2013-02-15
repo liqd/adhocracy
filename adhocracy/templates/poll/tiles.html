@@ -13,10 +13,13 @@ con = tile.widget_action_attrs(model.Vote.NO)
 %>
 <div class='vote_wrapper' style="align: top">
 <div id="${tile.html_id}" class="${tile.widget_class}">
-    <a href="${tile.votes_listing_url}"
-       rel="#overlay-ajax"
-    class="vote_count ${tile.count_class}"
+    %if tile.can_show:
+        <a href="${tile.votes_listing_url}" rel="#overlay-ajax" class="vote_count ${tile.count_class}"
           >${tile.display_score}</a
+    %else:
+        <span class="vote_count ${tile.count_class}"
+          >${tile.display_score}</span
+    %endif
     ><a href="${pro['url']}"
         class="${pro['class']} ttip ${'do_vote' if tile.can_vote else ''}"
         title="${pro['title']}"
