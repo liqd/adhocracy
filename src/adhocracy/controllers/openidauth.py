@@ -1,4 +1,5 @@
 import logging
+import re
 
 import formencode
 from formencode import validators
@@ -8,7 +9,6 @@ from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 from webob.exc import HTTPFound
-
 
 from openid.consumer.consumer import SUCCESS
 from openid.extensions import sreg, ax
@@ -20,13 +20,43 @@ from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.openidstore import create_consumer
 from adhocracy.lib.templating import render
+import adhocracy.lib.mail as libmail
 
 
 log = logging.getLogger(__name__)
 
 
-AX_MAIL_SCHEMA = u'http://schema.openid.net/contact/email'
+AX_MAIL_SCHEMA_AX = u'http://axschema.org/contact/email'
+AX_MAIL_SCHEMA_OPENID = u'http://schema.openid.net/contact/email'
 AX_MEMBERSHIP_SCHEMA = u'http://schema.liqd.de/membership/signed/'
+
+MYOPENID_RE = r'https?://[^./]+\.myopenid\.com/?$'
+GOOGLE_RE = r'https://www\.google\.com/accounts/.*'
+YAHOO_RE = r'https?://me\.yahoo\.com(?:/?$|/.*)'
+
+TRUSTED_PROVIDER_RES = [
+    MYOPENID_RE,
+    GOOGLE_RE,
+    YAHOO_RE,
+]
+
+
+def is_trusted_provider(identity):
+    """
+    Check whether the provided ID matches the regular expression of a trusted
+    OpenID provider.
+    """
+    return any(re.match(r, identity) for r in TRUSTED_PROVIDER_RES)
+
+
+def get_ax_mail_schema(openid):
+    """
+    Different OpenID providers use different attribute exchange schemata.
+    """
+    if re.match(YAHOO_RE, openid):
+        return AX_MAIL_SCHEMA_AX
+    else:
+        return AX_MAIL_SCHEMA_OPENID
 
 
 class OpenIDInitForm(formencode.Schema):
@@ -35,8 +65,9 @@ class OpenIDInitForm(formencode.Schema):
 
 
 class OpenIDUsernameForm(formencode.Schema):
-    login = formencode.All(validators.PlainText(),
-                           forms.UniqueUsername())
+    login = formencode.All(validators.PlainText(not_empty=True),
+                           forms.UniqueUsername(),
+                           forms.ContainsChar())
 
 
 class OpenidauthController(BaseController):
@@ -47,8 +78,12 @@ class OpenidauthController(BaseController):
         """
         user = model.User.create(user_name, email, locale=c.locale,
                                  openid_identity=identity)
-        # trust provided email:
-        user.activation_code = None
+        if email is not None:
+            if is_trusted_provider(identity):
+                # trust provided email:
+                user.activation_code = None
+            else:
+                libmail.send_activation_link(user)
         model.meta.Session.commit()
         event.emit(event.T_USER_CREATE, user)
         return user
@@ -95,7 +130,8 @@ class OpenidauthController(BaseController):
             if not c.user and not model.OpenID.find(openid):
                 axreq = ax.FetchRequest(h.base_url('/openid/update',
                                                    absolute=True))
-                axreq.add(ax.AttrInfo(AX_MAIL_SCHEMA, alias="email",
+                axreq.add(ax.AttrInfo(get_ax_mail_schema(openid),
+                                      alias="email",
                                       required=True))
                 authrequest.addExtension(axreq)
                 sreq = sreg.SRegRequest(required=['nickname'],
@@ -135,6 +171,9 @@ class OpenidauthController(BaseController):
                   _("You're not authorized to change %s's settings.") % id)
         openid.delete()
         model.meta.Session.commit()
+        h.flash(_("Successfully removed OpenID from account"), 'success')
+        log.info("User %s revoked OpenID '%s'" % (
+            c.user.user_name, id))
         redirect(h.entity_url(c.user, member='edit'))
 
     def verify(self):
@@ -158,10 +197,11 @@ class OpenidauthController(BaseController):
         # TBD: SignedMembership
         axrep = ax.FetchResponse.fromSuccessResponse(info)
         if axrep:
+            ax_mail_schema = get_ax_mail_schema(info.identity_url)
             try:
-                email = axrep.getSingle(AX_MAIL_SCHEMA) or email
+                email = axrep.getSingle(ax_mail_schema) or email
             except ValueError:
-                email = axrep.get(AX_MAIL_SCHEMA)[0]
+                email = axrep.get(ax_mail_schema)[0]
             except KeyError:
                 email = email
 
@@ -188,16 +228,57 @@ class OpenidauthController(BaseController):
                 oid = model.OpenID(unicode(info.identity_url), c.user)
                 model.meta.Session.add(oid)
                 model.meta.Session.commit()
+                h.flash(_("Successfully added OpenID to user account."),
+                        'success')
                 redirect(h.entity_url(c.user, member='edit'))
             else:
+
+                user_by_email = model.User.find_by_email(email)
+                if user_by_email is not None:
+                    if is_trusted_provider(info.identity_url):
+                        # A user with the email returned by the OpenID provider
+                        # exists. As we trust the OpenID provider, we log in
+                        # that account and assign the OpenID to this user.
+                        oid = model.OpenID(unicode(info.identity_url),
+                                           user_by_email)
+                        model.meta.Session.add(oid)
+                        model.meta.Session.commit()
+                        h.flash(_(
+                            "Successfully added OpenID to user account."
+                        ), 'success')
+                        self._login(user_by_email)
+                    else:
+                        # A user with the email returned by the OpenID provider
+                        # exists. As we don't trust the OpenID provider, we
+                        # demand that the user needs to login first.
+                        #
+                        # Note: We could store the successful OpenID
+                        # authentication in the session and assign it after
+                        # login. However probably more is gained if the
+                        # list of trusted OpenID providers is extended.
+                        h.flash(_(
+                            "The email address %s which was returned by the "
+                            "OpenID provider already belongs to a different "
+                            "user account. Please login with that account "
+                            "or use the forgot password functionality, and "
+                            "add the OpenID in your user profile settings "
+                            "afterwards. Sorry for the inconvenience." % email
+                        ), 'warning')
+                        redirect(h.base_url('/login'))
+
                 try:
                     forms.UniqueUsername(not_empty=True).to_python(user_name)
+                    formencode.All(validators.PlainText(not_empty=True),
+                                   forms.UniqueUsername(),
+                                   forms.ContainsChar())
                 except:
                     session['openid_req'] = (info.identity_url, user_name,
                                              email)
                     session.save()
-                    redirect('/openid/username')
+                    redirect(h.base_url('/openid/username'))
                 user = self._create(user_name, email, info.identity_url)
+                h.flash(_("Successfully created new user account %s" %
+                          user_name), 'success')
                 self._login(user)
         return self._failure(info.identity_url,
                              _("Justin Case has entered the room."))
@@ -209,15 +290,16 @@ class OpenidauthController(BaseController):
         unavailable locally.
         """
         if 'openid_req' in session:
-            (openid, c.user_name, email) = session['openid_req']
+            (openid, c.openid_username, email) = session['openid_req']
             if request.method == "POST":
-                c.user_name = self.form_result.get('login')
                 c.user_name = forms.UniqueUsername(
-                    not_empty=True).to_python(c.user_name)
+                    not_empty=True).to_python(self.form_result.get('login'))
                 if c.user_name:
                     user = self._create(c.user_name, email, openid)
                     del session['openid_req']
                     self._login(user)
+            else:
+                c.user_name = c.openid_username
             return render('/openid/username.html')
         else:
             redirect('/register')

@@ -10,6 +10,7 @@ setup-app`) and provides the base testing objects.
 To guarantee test isolation make sure to use TestCaseBase.setUp() and
 .tearDown() in your test case classes.
 """
+import os
 from unittest import TestCase
 
 from decorator import decorator
@@ -119,6 +120,8 @@ def is_integrationtest():
     are not present.
     '''
     from pylons import config
+    if asbool(os.environ.get('ADHOCRACY_RUN_INTEGRATION_TESTS', 'false')):
+        return # Run the tests in any case if environment variable is set
     if not asbool(config.get('run_integrationtests', 'false')):
         raise SkipTest('This Test needs all services adhocracy depends on. '
                        'If they are running and configured in test.ini '
