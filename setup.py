@@ -29,9 +29,12 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
-    long_description=open("README.rst").read() + "\n" +
-                     open("CHANGES.txt").read() + "\n" +
-                     open("AUTHORS.txt").read() + "\n",
+    long_description='\n'.join([open(f).read() for f in [
+        "README.rst",
+        "INSTALLATION.md",
+        "CHANGES.txt",
+        "AUTHORS.txt",
+    ]]),
     install_requires=[
         "Pylons==1.0.1",
         "WebOb==1.2.3",
@@ -75,8 +78,8 @@ setup(
     packages=find_packages('src', exclude=['ez_setup']),
     package_dir={'': 'src'},
     include_package_data=True,
-    exclude_package_data = {'': ['.gitignore'],
-                            'images': ['*.xcf', '*.blend']},
+    exclude_package_data={'': ['.gitignore'],
+                          'images': ['*.xcf', '*.blend']},
     test_suite='nose.collector',
     extras_require={
         'test': ['zope.testbrowser [wsgi]',
@@ -91,10 +94,10 @@ setup(
     package_data={'adhocracy': ['i18n/*/LC_MESSAGES/*.mo'],
                   '': ['RELEASE-VERSION'],
                   },
-    message_extractors={'adhocracy': [
-            ('**.py', 'python', None),
-            ('templates/**.html', 'mako', {'input_encoding': 'utf-8'}),
-            ('static/**', 'ignore', None)]},
+    message_extractors={'src/adhocracy': [
+        ('**.py', 'python', None),
+        ('templates/**.html', 'mako', {'input_encoding': 'utf-8'}),
+        ('static/**', 'ignore', None)]},
     zip_safe=False,
     paster_plugins=['PasteScript', 'Pylons'],
     entry_points={
