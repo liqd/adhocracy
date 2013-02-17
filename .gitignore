@@ -27,8 +27,8 @@ test.db-journal
 var
 parts
 bin
-src
-!src/adhocracy
+/src/*
+!/src/adhocracy/
 lib64
 eggs
 develop-eggs
