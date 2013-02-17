@@ -16,14 +16,10 @@
 .#*
 
 bundestag.ini
-test-site/*
 data/*
 docs/build/*
-test-data/index
 site/*
-test-site/*
 adhocracy/*_theme
-test.db-journal
 var
 parts
 bin
@@ -45,6 +41,7 @@ etc/unthemed.ini
 etc/vhost.conf
 etc/sysv-init
 etc/adhocracy-interactive.ini
+etc/test.ini
 mailsink
 adhocracy-test-chroot
 RELEASE-VERSION
