@@ -69,10 +69,10 @@ setup(
         "js.socialshareprivacy >= 1.3dev",
         "js.jquery_joyride",
         "PasteScript>=1.6.3",
+        "setuptools_git >= 0.3",
         "ipaddress>=1.0.3",
     ],
-    setup_requires=["setuptools_git >= 0.3",
-                    "setuptools>=0.6c6",  # fix OS X 10.5.7
+    setup_requires=["setuptools>=0.6c6",  # fix OS X 10.5.7
                     "PasteScript",
                     "Babel"],
     packages=find_packages('src', exclude=['ez_setup']),
