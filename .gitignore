@@ -18,7 +18,7 @@
 bundestag.ini
 test-site/*
 data/*
-docs/_build/*
+docs/build/*
 test-data/index
 site/*
 test-site/*
@@ -36,7 +36,6 @@ htmlcov
 include
 downloads
 installed_eggs
-docs
 .coverage
 .mr.developer.cfg
 .installed.cfg
