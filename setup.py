@@ -70,7 +70,8 @@ setup(
     ],
     setup_requires=["setuptools_git >= 0.3",
                     "setuptools>=0.6c6",  # fix OS X 10.5.7
-                    "PasteScript"],
+                    "PasteScript",
+                    "Babel"],
     packages=find_packages('src', exclude=['ez_setup']),
     package_dir={'': 'src'},
     include_package_data=True,
