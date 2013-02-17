@@ -129,6 +129,13 @@ delegate_url = url if can.delegation.create() else None
                  title="${_('Join instance to propose to change a norm')}">
                   ${_("Propose to change a norm")}
               </a>
+              %elif auth.propose_validate_email():
+              <a class="button highlight" 
+                 href="${h.entity_url(c.proposal, member='implementation/include')}" 
+                 rel="#overlay-validate-button" 
+                 title="${_('Validate email in order to propose to change a norm')}">
+                  ${_("Propose to change a norm")}
+              </a>
               %endif          
               </div>
               <%doc> FIXME: Enable change existing norm option
