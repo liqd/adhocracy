@@ -48,3 +48,4 @@ etc/adhocracy-interactive.ini
 mailsink
 adhocracy-test-chroot
 RELEASE-VERSION
+dist
