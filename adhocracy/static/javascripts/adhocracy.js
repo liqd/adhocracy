@@ -85,6 +85,9 @@ var adhocracy = adhocracy || {};
         if (description === undefined) {
             description = this.getTrigger().data('title');
         }
+        if (description === undefined) {
+            description = this.getTrigger().attr('title');
+        }
         if (description !== undefined) {
             this.getOverlay().find(".patch_description").html(description);
         }
