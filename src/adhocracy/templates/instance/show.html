@@ -32,6 +32,10 @@ ${c.tile.description|n}
         <a class="button add ttip" 
            title="${_('Login to create a new proposal.')}" 
            href="${h.base_url('/proposal/new')}" rel="#overlay-login-button">${_("new proposal")}</a>
+        %elif auth.propose_validate_email():
+        <a class="button add ttip" 
+           title="${_('Validate email in order to create a new proposal.')}" 
+           href="${h.base_url('/proposal/new')}" rel="#overlay-validate-button">${_("new proposal")}</a>
         %endif
 
         <a href="${h.base_url('/proposal')}" 

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-02-06 00:59+0100\n"
-"PO-Revision-Date: 2013-02-06 00:00+0000\n"
+"POT-Creation-Date: 2013-02-18 01:48+0100\n"
+"PO-Revision-Date: 2013-02-18 00:49+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -220,6 +220,9 @@ msgstr "Nu exista nici OpenID cu ID-ul '%s'."
 msgid "You're not authorized to change %s's settings."
 msgstr "Nu esti autorizat sa schimbi setarea %s's."
 
+msgid "Successfully removed OpenID from account"
+msgstr ""
+
 msgid "OpenID login failed."
 msgstr "Logare cu OpenID nereusita."
 
@@ -229,6 +232,21 @@ msgstr "Ai cerut deja acest OpenID."
 #, python-format
 msgid "OpenID %s already belongs to %s."
 msgstr "OpenID %s apartine lui %s."
+
+msgid "Successfully added OpenID to user account."
+msgstr ""
+
+#, python-format
+msgid ""
+"The email address %s which was returned by the OpenID provider already "
+"belongs to a different user account. Please login with that account or use "
+"the forgot password functionality, and add the OpenID in your user profile "
+"settings afterwards. Sorry for the inconvenience."
+msgstr ""
+
+#, python-format
+msgid "Successfully created new user account %s"
+msgstr ""
 
 msgid "Justin Case has entered the room."
 msgstr "Justin Case a intrat in camera."
@@ -484,6 +502,9 @@ msgstr "Numele de  utilizator exista deja."
 msgid "That email is already registered"
 msgstr "Emailul este deja utilizat."
 
+msgid "That email is already used by another account"
+msgstr ""
+
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Format data gresit, foloseste DD.MM.YYYY"
 
@@ -517,7 +538,7 @@ msgstr "Nu exista nici un grup cu ID-ul '%s'"
 msgid "Group '%s' is no instance group"
 msgstr "Grupul '%s' nu este o comunitate."
 
-msgid "At least on character is required"
+msgid "At least one character is required"
 msgstr "Introduceti cel putin un caracter."
 
 msgid "You're not allowed to edit global badges"
@@ -1328,6 +1349,31 @@ msgstr "Alatura-te comunitatii pentru a putea contribui."
 msgid "join"
 msgstr "intra"
 
+msgid "Validate email to start contributing."
+msgstr ""
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr ""
+
+msgid "Send activation link"
+msgstr ""
+
+msgid "Edit profile"
+msgstr ""
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr ""
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr ""
+
+msgid "Your registered email address is:"
+msgstr ""
+
 msgid "Next"
 msgstr "Urmatorul"
 
@@ -1719,6 +1765,9 @@ msgstr "Adauga un comentariu"
 msgid "Login to comment."
 msgstr "Logheaza-te pentru a comenta."
 
+msgid "Validate email in order to comment."
+msgstr ""
+
 msgid "is pro"
 msgstr "este pentru"
 
@@ -1752,6 +1801,9 @@ msgstr "Intra in comunitate pentru a raspunde la comentariu"
 
 msgid "Login to reply"
 msgstr "Logheaza-te pentru a raspunde la comentariu"
+
+msgid "Validate email in order to reply"
+msgstr ""
 
 msgid "report"
 msgstr "raport"
@@ -1994,8 +2046,11 @@ msgstr "Adresa poate contine doar caractere alfa-numerice. "
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
-"community. (Both Markdown and HTML are allowed here.)"
-msgstr "Descrie scopul comunitatii si cine sunt membrii ei (sunt permise texte tip HTML)"
+"community."
+msgstr "Descrie scopul comunitatii si cine sunt membrii ei"
+
+msgid "(Both Markdown and HTML are allowed here.)"
+msgstr "(sunt permise texte tip HTML)"
 
 #, python-format
 msgid "Manage: %s"
@@ -2062,6 +2117,12 @@ msgstr "Ascunde comunitatea"
 msgid "Select whether this instance will be shown in public listings."
 msgstr "Selecteaza daca Comunitatea va fi afisata pe pagina principala."
 
+msgid "Require email validation"
+msgstr ""
+
+msgid "Require instance members to validate their email address."
+msgstr ""
+
 msgid "This instance is authenticated"
 msgstr "Comunitatea este autentificata"
 
@@ -2096,6 +2157,9 @@ msgstr "Alatura-te comunitatii pentru a creea o noua propunere."
 
 msgid "Login to create a new proposal."
 msgstr "Logheaza-te pentru a creea o noua propunere."
+
+msgid "Validate email in order to create a new proposal."
+msgstr ""
 
 msgid "show a list of proposals"
 msgstr "afiseaza lista de propuneri"
@@ -2289,11 +2353,12 @@ msgstr "Selecteaza un nume de utilizator"
 msgid "User name"
 msgstr "Nume utilizator"
 
+#, python-format
 msgid ""
 "A unique user name is required for you complete sign up and login. The user "
-"name received from your OpenID provider is invalid. Please provide a "
-"different, unique user name."
-msgstr "Un nume de utilizator unic este necesar pentru a te inregistra si loga. Numele de utilizator primit prin providerul de OpenID este invalid. Te rugam intordu un nume de utilizator unic."
+"name \"%s\" received from your OpenID provider is invalid or already used. "
+"Please provide a different, unique user name."
+msgstr ""
 
 msgid "Username:"
 msgstr "Nume utilizator:"
@@ -2341,12 +2406,6 @@ msgstr "Numele Variantei"
 
 msgid "Text"
 msgstr "Text"
-
-msgid "Formatting"
-msgstr ""
-
-msgid "Use markdown formatting."
-msgstr ""
 
 msgid "Parent page:"
 msgstr "Documentul initial"
@@ -2576,6 +2635,9 @@ msgstr "Alatura-te comunitatii pentru a propune noi variante ale documentelor."
 msgid "Login to propose a new variant."
 msgstr "Te rugam sa te loghezi pentru a propune o noua varianta de document."
 
+msgid "Validate email in order to propose a new variant."
+msgstr ""
+
 msgid "Get Involved"
 msgstr "Implica-te"
 
@@ -2687,6 +2749,9 @@ msgstr "Logeaza-te pentru a propune o modificare a documentului"
 
 msgid "Join instance to propose to change a norm"
 msgstr "Intra in comunitate pentru a propune modificarea unui document"
+
+msgid "Validate email in order to propose to change a norm"
+msgstr ""
 
 msgid "tutorial_proposal_show_vote"
 msgstr "Voturile primite de propunere"
@@ -2969,8 +3034,8 @@ msgid "Startpage"
 msgstr "Pagina de pornire"
 
 #, python-format
-msgid "Hi %s.<br />"
-msgstr "Buna %s.<br />"
+msgid "Hi %s."
+msgstr ""
 
 #, python-format
 msgid ""

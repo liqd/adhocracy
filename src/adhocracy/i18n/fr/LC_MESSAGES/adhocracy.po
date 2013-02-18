@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-02-06 00:59+0100\n"
-"PO-Revision-Date: 2013-02-06 00:00+0000\n"
+"POT-Creation-Date: 2013-02-18 01:48+0100\n"
+"PO-Revision-Date: 2013-02-18 01:31+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -221,6 +221,9 @@ msgstr "L'OpenID '%s' n'existe pas."
 msgid "You're not authorized to change %s's settings."
 msgstr "Vous n'êtes pas autorisé a changer les préférences de %s."
 
+msgid "Successfully removed OpenID from account"
+msgstr ""
+
 msgid "OpenID login failed."
 msgstr "Echec de l'identification par OpenID"
 
@@ -230,6 +233,21 @@ msgstr "Vous utilisez déjà cet OpenID."
 #, python-format
 msgid "OpenID %s already belongs to %s."
 msgstr "L'OpenID %s appartient déjà à %s."
+
+msgid "Successfully added OpenID to user account."
+msgstr ""
+
+#, python-format
+msgid ""
+"The email address %s which was returned by the OpenID provider already "
+"belongs to a different user account. Please login with that account or use "
+"the forgot password functionality, and add the OpenID in your user profile "
+"settings afterwards. Sorry for the inconvenience."
+msgstr ""
+
+#, python-format
+msgid "Successfully created new user account %s"
+msgstr ""
 
 msgid "Justin Case has entered the room."
 msgstr "Justin Case est entré dans la salle."
@@ -485,6 +503,9 @@ msgstr "Ce nom d'utilisateur existe déjà"
 msgid "That email is already registered"
 msgstr "Ce mail est déjà enregistré"
 
+msgid "That email is already used by another account"
+msgstr ""
+
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Date sans valeur, souhaitant DD.MM.YYYY"
 
@@ -518,7 +539,7 @@ msgstr "Il n'existe pas de group avec l'ID '%s'"
 msgid "Group '%s' is no instance group"
 msgstr ""
 
-msgid "At least on character is required"
+msgid "At least one character is required"
 msgstr "Au moins une charactère est nécessaire"
 
 msgid "You're not allowed to edit global badges"
@@ -1329,6 +1350,31 @@ msgstr "Rejoindre cet instance pour pouvoir contribuer."
 msgid "join"
 msgstr "rejoindre"
 
+msgid "Validate email to start contributing."
+msgstr ""
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr ""
+
+msgid "Send activation link"
+msgstr ""
+
+msgid "Edit profile"
+msgstr ""
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr ""
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr ""
+
+msgid "Your registered email address is:"
+msgstr ""
+
 msgid "Next"
 msgstr "Prochain"
 
@@ -1720,6 +1766,9 @@ msgstr "Ajouter un commentaire"
 msgid "Login to comment."
 msgstr "Login pour commenter"
 
+msgid "Validate email in order to comment."
+msgstr ""
+
 msgid "is pro"
 msgstr "est pro"
 
@@ -1753,6 +1802,9 @@ msgstr "Joindre l'instance pour répondre"
 
 msgid "Login to reply"
 msgstr "Login pour répondre"
+
+msgid "Validate email in order to reply"
+msgstr ""
 
 msgid "report"
 msgstr "signaler"
@@ -1995,8 +2047,11 @@ msgstr "Cette adresse ne peut contenir que des caractères alphanumériques. Rem
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
-"community. (Both Markdown and HTML are allowed here.)"
-msgstr "Décrivez les buts du groupe et le personne qui constitue ce communauté. (Markdown et HTML sont permits tous les deux.)"
+"community."
+msgstr "Décrivez les buts du groupe et le personne qui constitue ce communauté."
+
+msgid "(Both Markdown and HTML are allowed here.)"
+msgstr "(Markdown et HTML sont permits tous les deux.)"
 
 #, python-format
 msgid "Manage: %s"
@@ -2063,6 +2118,12 @@ msgstr "Cacher ce groupe"
 msgid "Select whether this instance will be shown in public listings."
 msgstr "Décidez si le groupe devrait être montré dans les listes publiés."
 
+msgid "Require email validation"
+msgstr ""
+
+msgid "Require instance members to validate their email address."
+msgstr ""
+
 msgid "This instance is authenticated"
 msgstr "Ce groupe est vérifié"
 
@@ -2097,6 +2158,9 @@ msgstr "Joindre le groupe pour créer une nouvelle proposition."
 
 msgid "Login to create a new proposal."
 msgstr "Login pour créer une nouvelle proposition."
+
+msgid "Validate email in order to create a new proposal."
+msgstr ""
 
 msgid "show a list of proposals"
 msgstr "montrer une liste des propositions"
@@ -2288,11 +2352,12 @@ msgstr "Choisissez un nom d'utilisateur"
 msgid "User name"
 msgstr "Nom d'utilisateur"
 
+#, python-format
 msgid ""
 "A unique user name is required for you complete sign up and login. The user "
-"name received from your OpenID provider is invalid. Please provide a "
-"different, unique user name."
-msgstr "En complètant le sign up et login, il vous faut un nom d'utilisateur unique. Le nom d'utilisateur réçu de votre prestataire de l'OpenID est invalide. Entrez un nom d'utilisateur différent et unique, s'il vous plaît."
+"name \"%s\" received from your OpenID provider is invalid or already used. "
+"Please provide a different, unique user name."
+msgstr "En complètant le sign up et login, il vous faut un nom d'utilisateur unique. Le nom d'utilisateur réçu de votre prestataire de l'OpenID \"%s\" est invalide ou déjà utilisé. Entrez un nom d'utilisateur différent et unique, s'il vous plaît."
 
 msgid "Username:"
 msgstr "Nom d'utilisateur :"
@@ -2339,12 +2404,6 @@ msgid "Variant Name"
 msgstr "Nom de la motion"
 
 msgid "Text"
-msgstr ""
-
-msgid "Formatting"
-msgstr ""
-
-msgid "Use markdown formatting."
 msgstr ""
 
 msgid "Parent page:"
@@ -2574,6 +2633,9 @@ msgstr "Joindre le groupe en proposant  une nouvelle variante."
 msgid "Login to propose a new variant."
 msgstr "Login en utilisant une nouvelle variante."
 
+msgid "Validate email in order to propose a new variant."
+msgstr ""
+
 msgid "Get Involved"
 msgstr "Joignez Nous"
 
@@ -2685,6 +2747,9 @@ msgstr "Login pour proposer ou changer un thème"
 
 msgid "Join instance to propose to change a norm"
 msgstr "Joignez le groupe pour proposer ou changer un thème"
+
+msgid "Validate email in order to propose to change a norm"
+msgstr ""
 
 msgid "tutorial_proposal_show_vote"
 msgstr "Vous pouvez supporter ou rejeter une proposition.\t"
@@ -2967,8 +3032,8 @@ msgid "Startpage"
 msgstr "Acceuil"
 
 #, python-format
-msgid "Hi %s.<br />"
-msgstr "Hi %s.<br />"
+msgid "Hi %s."
+msgstr ""
 
 #, python-format
 msgid ""
