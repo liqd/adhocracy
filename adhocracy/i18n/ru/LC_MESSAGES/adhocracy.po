@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-02-06 00:59+0100\n"
-"PO-Revision-Date: 2013-02-06 00:00+0000\n"
+"POT-Creation-Date: 2013-02-18 01:48+0100\n"
+"PO-Revision-Date: 2013-02-18 00:49+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -223,6 +223,9 @@ msgstr "Не существует OpenID с ID '%s' ."
 msgid "You're not authorized to change %s's settings."
 msgstr "У Вас нет полномочий изменять установки %s."
 
+msgid "Successfully removed OpenID from account"
+msgstr ""
+
 msgid "OpenID login failed."
 msgstr "Регистрация с OpenID не удалась."
 
@@ -232,6 +235,21 @@ msgstr "Вы уже подтвердили Ваш OpenID."
 #, python-format
 msgid "OpenID %s already belongs to %s."
 msgstr "Открытый ID %s уже принадлежит %s."
+
+msgid "Successfully added OpenID to user account."
+msgstr ""
+
+#, python-format
+msgid ""
+"The email address %s which was returned by the OpenID provider already "
+"belongs to a different user account. Please login with that account or use "
+"the forgot password functionality, and add the OpenID in your user profile "
+"settings afterwards. Sorry for the inconvenience."
+msgstr ""
+
+#, python-format
+msgid "Successfully created new user account %s"
+msgstr ""
 
 msgid "Justin Case has entered the room."
 msgstr "Джастин Кейс вошел в комнату. "
@@ -487,6 +505,9 @@ msgstr "Это пользовательское имя уже существуе
 msgid "That email is already registered"
 msgstr "Этот адрес электронной почты уже зарегистрирован"
 
+msgid "That email is already used by another account"
+msgstr ""
+
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Недействительная дата, требуется формат DD.MM.YYYY"
 
@@ -520,8 +541,8 @@ msgstr "Не существует группы с ID '%s'."
 msgid "Group '%s' is no instance group"
 msgstr ""
 
-msgid "At least on character is required"
-msgstr "Требуется по крайней мере один значок. "
+msgid "At least one character is required"
+msgstr "Требуется по крайней мере один значок."
 
 msgid "You're not allowed to edit global badges"
 msgstr ""
@@ -1331,6 +1352,31 @@ msgstr "Присоединиться к организации, чтобы пр�
 msgid "join"
 msgstr "присоединиться"
 
+msgid "Validate email to start contributing."
+msgstr ""
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr ""
+
+msgid "Send activation link"
+msgstr ""
+
+msgid "Edit profile"
+msgstr ""
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr ""
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr ""
+
+msgid "Your registered email address is:"
+msgstr ""
+
 msgid "Next"
 msgstr "дальше"
 
@@ -1722,6 +1768,9 @@ msgstr "добавить коментарий"
 msgid "Login to comment."
 msgstr "Зарегистрироваться для коментирования."
 
+msgid "Validate email in order to comment."
+msgstr ""
+
 msgid "is pro"
 msgstr "За"
 
@@ -1755,6 +1804,9 @@ msgstr "Присоединитесь к организации, чтобы от�
 
 msgid "Login to reply"
 msgstr "Для ответа нужно войти в систему"
+
+msgid "Validate email in order to reply"
+msgstr ""
 
 msgid "report"
 msgstr "сообщить"
@@ -1997,8 +2049,11 @@ msgstr "Адрес может содержать только буквы или 
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
-"community. (Both Markdown and HTML are allowed here.)"
-msgstr "Опишите цели этой организации и кто ее составляет (Разрешена как вики-маркировка, так и HTML)"
+"community."
+msgstr "Опишите цели этой организации и кто ее составляет"
+
+msgid "(Both Markdown and HTML are allowed here.)"
+msgstr "(Разрешена как вики-маркировка, так и HTML)"
 
 #, python-format
 msgid "Manage: %s"
@@ -2065,6 +2120,12 @@ msgstr "Скрыть эту организацию"
 msgid "Select whether this instance will be shown in public listings."
 msgstr "Выберите, будет ли эта организация показана в общественных списках. "
 
+msgid "Require email validation"
+msgstr ""
+
+msgid "Require instance members to validate their email address."
+msgstr ""
+
 msgid "This instance is authenticated"
 msgstr ""
 
@@ -2099,6 +2160,9 @@ msgstr "вступить в организацию, чтобы создать н
 
 msgid "Login to create a new proposal."
 msgstr "Войти, чтобы создать новое предложение"
+
+msgid "Validate email in order to create a new proposal."
+msgstr ""
 
 msgid "show a list of proposals"
 msgstr "Показать список предложений"
@@ -2292,11 +2356,12 @@ msgstr "Выберите имя пользователя"
 msgid "User name"
 msgstr "Пользовательское имя"
 
+#, python-format
 msgid ""
 "A unique user name is required for you complete sign up and login. The user "
-"name received from your OpenID provider is invalid. Please provide a "
-"different, unique user name."
-msgstr "Уникальное имя пользователя требуется для завершения регистрации и входа на сайт. Имя пользователя полученное с помощью OpenID не действительно. Пожалуйста, введите другое уникальное имя пользователя"
+"name \"%s\" received from your OpenID provider is invalid or already used. "
+"Please provide a different, unique user name."
+msgstr ""
 
 msgid "Username:"
 msgstr "Имя пользователя:"
@@ -2343,12 +2408,6 @@ msgid "Variant Name"
 msgstr "Название варианта"
 
 msgid "Text"
-msgstr ""
-
-msgid "Formatting"
-msgstr ""
-
-msgid "Use markdown formatting."
 msgstr ""
 
 msgid "Parent page:"
@@ -2579,6 +2638,9 @@ msgstr "Вступить в организацию, предложив новы�
 msgid "Login to propose a new variant."
 msgstr "Войти в систему, чтобы предложить новый вариант."
 
+msgid "Validate email in order to propose a new variant."
+msgstr ""
+
 msgid "Get Involved"
 msgstr "включиться"
 
@@ -2690,6 +2752,9 @@ msgstr "Зарегистрироваться, чтобы предложить и
 
 msgid "Join instance to propose to change a norm"
 msgstr "Присоединиться к организации, чтобы предложить изменение документа"
+
+msgid "Validate email in order to propose to change a norm"
+msgstr ""
 
 msgid "tutorial_proposal_show_vote"
 msgstr ""
@@ -2972,8 +3037,8 @@ msgid "Startpage"
 msgstr "Начальная страница"
 
 #, python-format
-msgid "Hi %s.<br />"
-msgstr "Привет %s.<br />"
+msgid "Hi %s."
+msgstr ""
 
 #, python-format
 msgid ""

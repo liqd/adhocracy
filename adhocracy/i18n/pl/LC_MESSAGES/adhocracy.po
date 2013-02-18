@@ -2,13 +2,13 @@
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
-# Mateusz Batelt <mateusz@batelt.eu>, 2012.
+# Mateusz Batelt <mateusz@batelt.eu>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-02-06 00:59+0100\n"
-"PO-Revision-Date: 2013-02-06 00:00+0000\n"
+"POT-Creation-Date: 2013-02-18 01:48+0100\n"
+"PO-Revision-Date: 2013-02-18 00:49+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -219,6 +219,9 @@ msgstr "Nie istnieje OpenID: %s."
 msgid "You're not authorized to change %s's settings."
 msgstr "Nie masz uprawnień, by dokonać zmiany ustawień %s."
 
+msgid "Successfully removed OpenID from account"
+msgstr ""
+
 msgid "OpenID login failed."
 msgstr "Logowanie przy użyciu OpenID nie powiodło się."
 
@@ -228,6 +231,21 @@ msgstr "Zgłosiłeś(aś) już to OpenID."
 #, python-format
 msgid "OpenID %s already belongs to %s."
 msgstr "OpenID %s należy już do %s."
+
+msgid "Successfully added OpenID to user account."
+msgstr ""
+
+#, python-format
+msgid ""
+"The email address %s which was returned by the OpenID provider already "
+"belongs to a different user account. Please login with that account or use "
+"the forgot password functionality, and add the OpenID in your user profile "
+"settings afterwards. Sorry for the inconvenience."
+msgstr ""
+
+#, python-format
+msgid "Successfully created new user account %s"
+msgstr ""
 
 msgid "Justin Case has entered the room."
 msgstr "Justin Case wszedł do pokoju."
@@ -295,10 +313,10 @@ msgid "The variant %s has been deleted."
 msgstr "Usunięto wersję %s."
 
 msgid "Cannot delete, if there's only one version"
-msgstr ""
+msgstr "Nie można usunąć, jeśli jest tylko jedna wersja"
 
 msgid "The selected version has been deleted."
-msgstr ""
+msgstr "Wybrana wersja została usunięta."
 
 #, python-format
 msgid "The page %s has been deleted."
@@ -375,7 +393,7 @@ msgid "tutorial_user_index_intro"
 msgstr "Lista członków grupy"
 
 msgid "Sorry, registration has been disabled by administrator."
-msgstr ""
+msgstr "Możliwość rejestracji została wyłączona przez administratora."
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Niestety nie możesz zarejestrować się przy użyciu tego adresu e-mail."
@@ -483,6 +501,9 @@ msgstr "Taka nazwa użytkownika już istnieje"
 msgid "That email is already registered"
 msgstr "Ten adres e-mail jest już zarejestrowany."
 
+msgid "That email is already used by another account"
+msgstr ""
+
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Nieprawidłowa data. Prawidłowy format to: DD.MM.RRRR"
 
@@ -516,7 +537,7 @@ msgstr "Nie istnieje grupa o numerze %s."
 msgid "Group '%s' is no instance group"
 msgstr "Grupa %s nie jest grupą Adhocracy"
 
-msgid "At least on character is required"
+msgid "At least one character is required"
 msgstr "Musisz wpisać chociaż jeden znak."
 
 msgid "You're not allowed to edit global badges"
@@ -791,7 +812,7 @@ msgid "Age and Support"
 msgstr "Wiek i poparcie"
 
 msgid "Rating"
-msgstr ""
+msgstr "Ocena"
 
 msgid "Date"
 msgstr "Data"
@@ -1193,13 +1214,13 @@ msgid "Unfollow"
 msgstr "Przestań obserwować"
 
 msgid "Send us your feedback"
-msgstr ""
+msgstr "Wyślij nam swoją opinię"
 
 msgid "One line summary"
 msgstr ""
 
 msgid "Submit"
-msgstr ""
+msgstr "Wyślij"
 
 msgid "List existing feedback"
 msgstr ""
@@ -1327,6 +1348,31 @@ msgstr "Dołącz do tej grupy, by się zaangażować."
 msgid "join"
 msgstr "dołącz"
 
+msgid "Validate email to start contributing."
+msgstr ""
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr ""
+
+msgid "Send activation link"
+msgstr ""
+
+msgid "Edit profile"
+msgstr ""
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr ""
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr ""
+
+msgid "Your registered email address is:"
+msgstr ""
+
 msgid "Next"
 msgstr "Dalej"
 
@@ -1367,10 +1413,10 @@ msgid "Send"
 msgstr "Wyślij"
 
 msgid "Export"
-msgstr ""
+msgstr "Eksport"
 
 msgid "Export users"
-msgstr ""
+msgstr "Eksport użytkownika"
 
 msgid "Include personal data"
 msgstr ""
@@ -1379,10 +1425,10 @@ msgid "Include password hashes"
 msgstr ""
 
 msgid "Export badges"
-msgstr ""
+msgstr "Eksport etykiet"
 
 msgid "Export content (instances)"
-msgstr ""
+msgstr "Eksport treści (grup)"
 
 msgid "Include proposals"
 msgstr ""
@@ -1391,31 +1437,31 @@ msgid "Include comments"
 msgstr ""
 
 msgid "Export format:"
-msgstr ""
+msgstr "Eksport formatu:"
 
 msgid "JSON download"
-msgstr ""
+msgstr "Ściągnij (JSON)"
 
 msgid "JSON"
-msgstr ""
+msgstr "JSON"
 
 msgid "ZIP download"
-msgstr ""
+msgstr "Ściągnij (ZIP)"
 
 msgid "Export Now"
-msgstr ""
+msgstr "Eksportuj teraz"
 
 msgid "Import"
-msgstr ""
+msgstr "Import"
 
 msgid "Import users"
-msgstr ""
+msgstr "Import użytkowników"
 
 msgid "Import badges"
-msgstr ""
+msgstr "Import etykiet"
 
 msgid "Import content (instances)"
-msgstr ""
+msgstr "Import treści (grup)"
 
 msgid "Replacement strategy"
 msgstr ""
@@ -1427,22 +1473,22 @@ msgid "Skip duplicate entries"
 msgstr ""
 
 msgid "File to import:"
-msgstr ""
+msgstr "Plik do zaimportowania:"
 
 msgid "Detect"
 msgstr ""
 
 msgid "ZIP"
-msgstr ""
+msgstr "ZIP"
 
 msgid "Import Now"
-msgstr ""
+msgstr "Zaimportuj teraz"
 
 msgid "Import successfully performed."
-msgstr ""
+msgstr "Import zakończył się sukcesem."
 
 msgid "back to main page"
-msgstr ""
+msgstr "wróć do strony głównej"
 
 msgid "Admin: Group Permissions"
 msgstr "Zarządzanie: Uprawnienia użytkowników"
@@ -1580,7 +1626,7 @@ msgid "Check to hide badge in user interface"
 msgstr ""
 
 msgid "visible"
-msgstr ""
+msgstr "widoczne"
 
 msgid "Group"
 msgstr "Uprawnienia"
@@ -1718,6 +1764,9 @@ msgstr "Dodaj komentarz"
 msgid "Login to comment."
 msgstr "Zaloguj się, by skomentować."
 
+msgid "Validate email in order to comment."
+msgstr ""
+
 msgid "is pro"
 msgstr "jest za"
 
@@ -1751,6 +1800,9 @@ msgstr "Dołącz do grupy, by odpowiedzieć."
 
 msgid "Login to reply"
 msgstr "Zaloguj się, by odpowiedzieć."
+
+msgid "Validate email in order to reply"
+msgstr ""
 
 msgid "report"
 msgstr "zgłoś nadużycie"
@@ -1993,8 +2045,11 @@ msgstr "Adres może zawierać jedynie znaki alfanumeryczne. Po utworzeniu grupy 
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
-"community. (Both Markdown and HTML are allowed here.)"
-msgstr "Opisz, jakie są cele grupy i kto wchodzi w jej skład. (Dopuszczalne jest używanie znaczników Markdown i HTML.)"
+"community."
+msgstr "Opisz, jakie są cele grupy i kto wchodzi w jej skład."
+
+msgid "(Both Markdown and HTML are allowed here.)"
+msgstr "(Dopuszczalne jest używanie znaczników Markdown i HTML.)"
 
 #, python-format
 msgid "Manage: %s"
@@ -2061,6 +2116,12 @@ msgstr "Ukryj tę grupę"
 msgid "Select whether this instance will be shown in public listings."
 msgstr "Zdecyduj, czy grupa ta ma być widoczna publicznie."
 
+msgid "Require email validation"
+msgstr ""
+
+msgid "Require instance members to validate their email address."
+msgstr ""
+
 msgid "This instance is authenticated"
 msgstr "Grupa ta przeszła autentykację"
 
@@ -2095,6 +2156,9 @@ msgstr "Dołącz do grupy, by stworzyć nową propozycję."
 
 msgid "Login to create a new proposal."
 msgstr "Zaloguj się, by stworzyć nową propozycję."
+
+msgid "Validate email in order to create a new proposal."
+msgstr ""
 
 msgid "show a list of proposals"
 msgstr "Pokaż listę propozycji"
@@ -2288,11 +2352,12 @@ msgstr "Wybierz nazwę użytkownika"
 msgid "User name"
 msgstr "Nazwa użytkownika"
 
+#, python-format
 msgid ""
 "A unique user name is required for you complete sign up and login. The user "
-"name received from your OpenID provider is invalid. Please provide a "
-"different, unique user name."
-msgstr "Wymagana jest unikalna nazwa użytkownika, by zarejestrować się i zalogować. Twoja nazwa użytkownika z OpenID jest nieprawidłowa. Podaj inną nazwę użytkownika."
+"name \"%s\" received from your OpenID provider is invalid or already used. "
+"Please provide a different, unique user name."
+msgstr ""
 
 msgid "Username:"
 msgstr "Nazwa użytkownika:"
@@ -2340,12 +2405,6 @@ msgstr "Nazwa wersji"
 
 msgid "Text"
 msgstr "Tekst"
-
-msgid "Formatting"
-msgstr ""
-
-msgid "Use markdown formatting."
-msgstr ""
 
 msgid "Parent page:"
 msgstr "Strona nadrzędna:"
@@ -2411,7 +2470,7 @@ msgid "Last Activity"
 msgstr "Ostatnia aktywność"
 
 msgid "This page is not assigned to any category"
-msgstr ""
+msgstr "Strona ta nie została przypisana do żadnej kategorii"
 
 #, python-format
 msgid "This norm relates to the milestone %s."
@@ -2575,6 +2634,9 @@ msgstr "Dołącz do grupy, by zaproponować nową wersję."
 msgid "Login to propose a new variant."
 msgstr "Zaloguj się, by zaproponować zmiany."
 
+msgid "Validate email in order to propose a new variant."
+msgstr ""
+
 msgid "Get Involved"
 msgstr "Włącz się do prac"
 
@@ -2687,6 +2749,9 @@ msgstr "Zaloguj się, by zgłosić propozycję zmian dokumentu."
 msgid "Join instance to propose to change a norm"
 msgstr "Dołącz do grupy, by zgłosić propozycję zmian dokumentu."
 
+msgid "Validate email in order to propose to change a norm"
+msgstr ""
+
 msgid "tutorial_proposal_show_vote"
 msgstr "Możesz wyrazić poparcie dla propozycji lub ją odrzucić."
 
@@ -2718,7 +2783,7 @@ msgid "tutorial_proposal_show_propose_variant"
 msgstr "Lub pracować nad propozycją i wprowadzać alternatywne wersje."
 
 msgid "This proposal is not assigned to any category"
-msgstr ""
+msgstr "Propozycja ta nie została przypisana do żadnej kategorii"
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
@@ -2968,8 +3033,8 @@ msgid "Startpage"
 msgstr "Strona startowa"
 
 #, python-format
-msgid "Hi %s.<br />"
-msgstr "Witaj %s<br />"
+msgid "Hi %s."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -3081,19 +3146,19 @@ msgid "Password (confirm):"
 msgstr "Hasło (powtórz):"
 
 msgid "Gender"
-msgstr ""
+msgstr "Płeć"
 
 msgid "Select your gender"
-msgstr ""
+msgstr "Wybierz płeć"
 
 msgid "Unspecified"
-msgstr ""
+msgstr "Nieokreślono"
 
 msgid "Male"
-msgstr ""
+msgstr "Mężczyzna"
 
 msgid "Female"
-msgstr ""
+msgstr "Kobieta"
 
 msgid "Notifications"
 msgstr "Powiadomienia"
