@@ -77,7 +77,13 @@ var adhocracy = adhocracy || {};
         }
         this.getOverlay().find(".patch_camefrom")
             .attr('href', function (i, href) {
-                return href.split('?')[0] + '?came_from=' + came_from;
+                var separator;
+                if (href.indexOf('?') !== -1) {
+                    separator = '&';
+                } else {
+                    separator = '?';
+                }
+                return href + separator + 'came_from=' + came_from;
             });
     };
     adhocracy.overlay.rewriteDescription = function () {
