@@ -8,7 +8,7 @@ from formencode import validators
 
 from paste.deploy.converters import asbool, asint
 
-from pylons import request, response, tmpl_context as c, config
+from pylons import request, response, tmpl_context as c, config, session
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _, lazy_ugettext as L_
@@ -801,11 +801,14 @@ class InstanceController(BaseController):
         event.emit(event.T_INSTANCE_JOIN, c.user,
                    instance=c.page_instance)
 
+        path = request.params.get('came_from', None)
+
         return ret_success(entity=c.page_instance, format=format,
                            message=_("Welcome to %(instance)s") % {
                                'instance': c.page_instance.label
                            },
-                           category='success')
+                           category='success',
+                           force_path=path)
 
     def ask_leave(self, id):
         c.page_instance = self._get_current_instance(id)

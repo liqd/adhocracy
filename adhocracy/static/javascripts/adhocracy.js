@@ -144,14 +144,20 @@ var adhocracy = adhocracy || {};
             fixed: false,
             mask: adhocracy.overlay.mask,
             target: '#overlay-join',
-            onBeforeLoad: adhocracy.overlay.rewriteDescription,
+            onBeforeLoad: function (event) {
+                adhocracy.overlay.rewriteDescription.call(this, event);
+                adhocracy.overlay.rebindCameFrom.call(this, event);
+            }
         });
 
         wrapped.find("a[rel=#overlay-validate-button]").overlay({
             fixed: false,
             mask: adhocracy.overlay.mask,
             target: '#overlay-validate',
-            onBeforeLoad: adhocracy.overlay.rewriteDescription,
+            onBeforeLoad: function (event) {
+                adhocracy.overlay.rewriteDescription.call(this, event);
+                adhocracy.overlay.rebindCameFrom.call(this, event);
+            }
         });
 
     };
