@@ -30,9 +30,9 @@ AX_MAIL_SCHEMA_AX = u'http://axschema.org/contact/email'
 AX_MAIL_SCHEMA_OPENID = u'http://schema.openid.net/contact/email'
 AX_MEMBERSHIP_SCHEMA = u'http://schema.liqd.de/membership/signed/'
 
-MYOPENID_RE = r'https?://.*\.myopenid\.com'
+MYOPENID_RE = r'https?://[^./]+\.myopenid\.com/?$'
 GOOGLE_RE = r'https://www\.google\.com/accounts/.*'
-YAHOO_RE = r'https?://me\.yahoo\.com(/?$|/.*)'
+YAHOO_RE = r'https?://me\.yahoo\.com(?:/?$|/.*)'
 
 TRUSTED_PROVIDER_RES = [
     MYOPENID_RE,

@@ -77,13 +77,22 @@ var adhocracy = adhocracy || {};
         }
         this.getOverlay().find(".patch_camefrom")
             .attr('href', function (i, href) {
-                return href.split('?')[0] + '?came_from=' + came_from;
+                var separator;
+                if (href.indexOf('?') !== -1) {
+                    separator = '&';
+                } else {
+                    separator = '?';
+                }
+                return href + separator + 'came_from=' + came_from;
             });
     };
     adhocracy.overlay.rewriteDescription = function () {
         var description = this.getTrigger().data('description');
         if (description === undefined) {
             description = this.getTrigger().data('title');
+        }
+        if (description === undefined) {
+            description = this.getTrigger().attr('title');
         }
         if (description !== undefined) {
             this.getOverlay().find(".patch_description").html(description);
@@ -135,14 +144,20 @@ var adhocracy = adhocracy || {};
             fixed: false,
             mask: adhocracy.overlay.mask,
             target: '#overlay-join',
-            onBeforeLoad: adhocracy.overlay.rewriteDescription,
+            onBeforeLoad: function (event) {
+                adhocracy.overlay.rewriteDescription.call(this, event);
+                adhocracy.overlay.rebindCameFrom.call(this, event);
+            }
         });
 
         wrapped.find("a[rel=#overlay-validate-button]").overlay({
             fixed: false,
             mask: adhocracy.overlay.mask,
             target: '#overlay-validate',
-            onBeforeLoad: adhocracy.overlay.rewriteDescription,
+            onBeforeLoad: function (event) {
+                adhocracy.overlay.rewriteDescription.call(this, event);
+                adhocracy.overlay.rebindCameFrom.call(this, event);
+            }
         });
 
         /*wrapped.find("a[rel=#overlay-ajax-map]").overlay({

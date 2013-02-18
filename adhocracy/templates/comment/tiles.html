@@ -84,6 +84,8 @@
         <a class="button add ttip" title="${_('Join instance to comment.')}" rel="#overlay-join-button">${_("Add comment")}</a>
         %elif auth.propose_login():
         <a class="button add ttip" title="${_('Login to comment.')}" rel="#overlay-login-button">${_("Add comment")}</a>
+        %elif auth.propose_validate_email():
+        <a class="button add ttip" title="${_('Validate email in order to comment.')}" rel="#overlay-validate-button">${_("Add comment")}</a>
         %endif
 
     %endif
@@ -167,6 +169,8 @@
                 <a class="new_comment" title="${_('Join instance to reply')}" rel="#overlay-join-button">${_('reply')}</a>
                 %elif auth.propose_login():
                 <a class="new_comment" title="${_('Login to reply')}" rel="#overlay-login-button">${_('reply')}</a>
+                %elif auth.propose_validate_email():
+                <a class="new_comment" title="${_('Validate email in order to reply')}" rel="#overlay-validate-button">${_('reply')}</a>
                 %endif
 
             </div>

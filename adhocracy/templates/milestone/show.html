@@ -87,6 +87,11 @@ created_msg = _("by %s on %s") % (
                title="${_('Login to create a new proposal.')}" 
                href="${url}" 
                rel="#overlay-login-button">${_("new proposal")}</a>
+        %elif auth.propose_validate_email():
+            <a class="button add ttip" 
+               title="${_('Validate email in order to create a new proposal.')}" 
+               href="${url}" 
+               rel="#overlay-validate-button">${_("new proposal")}</a>
         %endif
 
     </div>

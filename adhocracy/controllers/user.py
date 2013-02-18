@@ -28,6 +28,7 @@ from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
                                  solr_instance_users_pager, PROPOSAL_SORTS)
 from adhocracy.lib.queue import post_update
 from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.templating import ret_success
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
 from paste.deploy.converters import asbool
@@ -202,7 +203,13 @@ class UserController(BaseController):
             # redirect to dashboard with login message
             session['logged_in'] = True
             session.save()
-            location = h.base_url('/user/%s/dashboard' % login)
+            came_from = session.get('came_from', None)
+            if came_from is not None:
+                del session['came_from']
+                session.save()
+                location = came_from
+            else:
+                location = h.base_url('/user/%s/dashboard' % login)
             raise HTTPFound(location=location, headers=headers)
         else:
             raise Exception('We have added the user to the Database '
@@ -364,9 +371,11 @@ class UserController(BaseController):
                                           instance_filter=False)
         require.user.edit(c.page_user)
         libmail.send_activation_link(c.page_user)
-        h.flash(_("The activation link has been re-sent to your email "
-                  "address."), 'notice')
-        redirect(h.entity_url(c.page_user, member='edit'))
+        path = request.params.get('came_from', None)
+        ret_success(
+            message=_("The activation link has been re-sent to your email "
+                      "address."), category='success',
+            entity=c.page_user, member='edit', force_path=path)
 
     def show(self, id, format='html'):
         if c.instance is None:
@@ -410,6 +419,11 @@ class UserController(BaseController):
         if c.user:
             session['logged_in'] = True
             session.save()
+            came_from = session.get('came_from', None)
+            if came_from is not None:
+                del session['came_from']
+                session.save()
+                redirect(came_from)
             # redirect to the dashboard inside the instance exceptionally
             # to be able to link to proposals and norms in the welcome
             # message.

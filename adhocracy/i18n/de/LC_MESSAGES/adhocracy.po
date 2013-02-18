@@ -6,14 +6,14 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 # <lea.thielscher@googlemail.com>, 2012.
 # Mateusz Batelt <mateusz@batelt.eu>, 2012.
-# Nicolas Dietrich <nicodietrich@gmail.com>, 2012.
-# <sicco@ddo.nl>, 2012.
+# Nicolas Dietrich <nicodietrich@gmail.com>, 2012-2013.
+#   <sicco@ddo.nl>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-18 10:53+0100\n"
-"PO-Revision-Date: 2012-12-09 22:32+0000\n"
+"POT-Creation-Date: 2013-02-18 01:48+0100\n"
+"PO-Revision-Date: 2013-02-18 01:20+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -64,14 +64,20 @@ msgid "The comment has been deleted."
 msgstr "Dieser Kommentar wurde gelöscht."
 
 msgid ""
-"You're trying to revert to a revision which is not partri of this "
-"comments history"
-msgstr ""
-"Sie versuchen eine Version wiederherzustellen, die nicht Teil der "
-"Historie dieses Kommentars ist."
+"You're trying to revert to a revision which is not part of this comment's "
+"history"
+msgstr "Sie versuchen, zu einer Version zu revertieren, die nicht zu diesem Kommentar gehört."
 
 msgid "The comment has been reverted."
 msgstr "Dieser Kommentar wurde zurück gesetzt."
+
+msgid ""
+"You're trying to purge a revision which is not part of this comment's "
+"history"
+msgstr "Sie versuchen, eine Version zu löschen, die nicht zu diesem Kommentar gehört."
+
+msgid "The comment revision has been deleted."
+msgstr "Die Version des Kommentars wurde gelöscht."
 
 msgid "Wrong topic"
 msgstr "Falsches Thema"
@@ -107,6 +113,9 @@ msgstr "Die Änderungen wurden gespeichert."
 
 msgid "No update required."
 msgstr "Es wurden keine Änderungen vorgenommen."
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr "Gruppe erfolgreich angelegt. Sie können diese nun nach Ihrem Bedarf konfigurieren."
 
 msgid "Delegations are enabled."
 msgstr "Delegationen sind aktiv."
@@ -219,6 +228,9 @@ msgstr "Es existiert keine OpenID mit der ID '%s'."
 msgid "You're not authorized to change %s's settings."
 msgstr "Sie sind nicht befugt, %ss Einstellungen zu bearbeiten."
 
+msgid "Successfully removed OpenID from account"
+msgstr "OpenID erfolgreich vom Nutzerkonto entfernt"
+
 msgid "OpenID login failed."
 msgstr "OpenID-Anmeldung ist fehlgeschlagen."
 
@@ -228,6 +240,21 @@ msgstr "Sie haben diese OpenID bereits angemeldet."
 #, python-format
 msgid "OpenID %s already belongs to %s."
 msgstr "Die OpenID %s gehört zu dem/der BenutzerIn %s."
+
+msgid "Successfully added OpenID to user account."
+msgstr "OpenID erfolgreich zum Nutzerkonto hinzugefügt"
+
+#, python-format
+msgid ""
+"The email address %s which was returned by the OpenID provider already "
+"belongs to a different user account. Please login with that account or use "
+"the forgot password functionality, and add the OpenID in your user profile "
+"settings afterwards. Sorry for the inconvenience."
+msgstr "Die Email-Adresse %s, welche vom OpenID-Provider geliefert wurd, gehört bereits zu einem anderen User. Bitte loggen Sie sich mit diesem User-Zugang ein, oder verwenden Sie die \"Passwort vergessen\"-Funktion, und fügen Sie im nachhinein über Ihre Profileinstellungen die OpenID zu Ihrem Zugang hinzu. Entschuldigen Sie die Umstände!"
+
+#, python-format
+msgid "Successfully created new user account %s"
+msgstr "Erfolgreich neuen Nutzer/innen-Zugang %s angelegt"
 
 msgid "Justin Case has entered the room."
 msgstr "Justin Case ist vorbeigekommen."
@@ -294,6 +321,12 @@ msgstr "Texte von unterschiedlichen Beschlüssen können nicht verglichen werden
 #, python-format
 msgid "The variant %s has been deleted."
 msgstr "Die Version %s wurde gelöscht."
+
+msgid "Cannot delete, if there's only one version"
+msgstr "Löschen nicht möglich, wenn nur eine Version existiert."
+
+msgid "The selected version has been deleted."
+msgstr "Die gewählte Version wurde gelöscht."
 
 #, python-format
 msgid "The page %s has been deleted."
@@ -377,6 +410,9 @@ msgstr "Sie haben keine Twitter-Verbindung."
 
 msgid "tutorial_user_index_intro"
 msgstr "Mitgliederliste der Gruppe."
+
+msgid "Sorry, registration has been disabled by administrator."
+msgstr "Es tut uns leid - Registrierung ist in dieser Installation deaktiviert."
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Es tut uns Leid - diese E-Mail-Adresse ist nicht zur Registrierung zugelassen."
@@ -491,6 +527,9 @@ msgstr "Dieser Benutzername ist bereits vergeben."
 msgid "That email is already registered"
 msgstr "Es hat sich bereits ein Benutzer mit dieser E-Mail-Adresse registriert."
 
+msgid "That email is already used by another account"
+msgstr "Diese Email wird bereits von einem anderen Nutzer/innen-Zugang verwendet"
+
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Ungültiges Datum, das Format muss TT.MM.JJJJ sein."
 
@@ -526,8 +565,8 @@ msgstr "Es gibt keine Gruppe mit der ID '%s'."
 msgid "Group '%s' is no instance group"
 msgstr "Gruppe '%s' ist keine Instanz-Gruppe."
 
-msgid "At least on character is required"
-msgstr "Mindestens ein Buchstabe muss enthalten sein. "
+msgid "At least one character is required"
+msgstr "Mindestens ein Zeichen wird benötigt"
 
 msgid "You're not allowed to edit global badges"
 msgstr "Sie haben nicht die Rechte, um Installationsweite Badges zu bearbeiten"
@@ -535,6 +574,14 @@ msgstr "Sie haben nicht die Rechte, um Installationsweite Badges zu bearbeiten"
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Das Badge '%s' existiert nicht."
+
+#, python-format
+msgid "Cannot use global category %s in this instance"
+msgstr "Die globale Kategorie %s kann in dieser Gruppe nicht verwendet werden."
+
+#, python-format
+msgid "Badge with ID '%s' not valid in this instance"
+msgstr "Badge mit ID '%s' ist nicht gültig in dieser Gruppe."
 
 #, python-format
 msgid "No revision with ID '%s' exists"
@@ -807,14 +854,14 @@ msgstr "gemischt"
 msgid "Age and Support"
 msgstr "Alter und Unterstützung"
 
-msgid "Support"
-msgstr "Unterstützung"
+msgid "Rating"
+msgstr "Bewertung"
 
 msgid "Date"
 msgstr "Datum"
 
-msgid "Newest Proposals"
-msgstr "Neueste Vorschläge"
+msgid "User behavior"
+msgstr "Nutzerverhalten"
 
 msgid "Other"
 msgstr "Sonstige"
@@ -1211,6 +1258,18 @@ msgstr "Wird verfolgt"
 msgid "Unfollow"
 msgstr "entfolgen"
 
+msgid "Send us your feedback"
+msgstr "Senden Sie uns Feedback"
+
+msgid "One line summary"
+msgstr "Kurzbeschreibung (eine Zeile)"
+
+msgid "Submit"
+msgstr "Abschicken"
+
+msgid "List existing feedback"
+msgstr "Zeige vorhandenes Feedback an"
+
 msgid "code of conduct"
 msgstr "Verhaltenscodex"
 
@@ -1369,6 +1428,31 @@ msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
 msgid "join"
 msgstr "beitreten"
 
+msgid "Validate email to start contributing."
+msgstr "Verifizieren Sie Ihre Email-Adresse, um mitzumachen."
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr "Verifikations-Email erneut senden an %s"
+
+msgid "Send activation link"
+msgstr "Aktivierungslink senden"
+
+msgid "Edit profile"
+msgstr "Profil editieren"
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr "Sie müssen in Ihren Profileinstellungen eine Email-Adresse eintragen, um bei dieser Gruppe mitzumachen."
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr "Bitte verifizieren Sie Ihre Email-Adresse, damit Sie bei dieser Gruppe mitmachen können."
+
+msgid "Your registered email address is:"
+msgstr "Ihre eingestellte Email-Adresse ist:"
+
 msgid "Next"
 msgstr "Weiter"
 
@@ -1410,11 +1494,115 @@ msgstr "Diese Seite melden..."
 msgid "Send"
 msgstr "Senden"
 
-msgid "Admin: Import Users"
-msgstr "Admin: Benutzer importieren"
+msgid "Export"
+msgstr "Exportieren"
+
+msgid "Export users"
+msgstr "User exportieren"
+
+msgid "Include personal data"
+msgstr "Persönliche Daten hinzufügen"
+
+msgid "Include password hashes"
+msgstr "Passwort-Hashes hinzufügen"
+
+msgid "Export badges"
+msgstr "Badges exportieren"
+
+msgid "Export content (instances)"
+msgstr "Inhalte exportieren (Gruppen)"
+
+msgid "Include proposals"
+msgstr "Vorschläge hinzufügen"
+
+msgid "Include comments"
+msgstr "Kommentare hinzufügen"
+
+msgid "Export format:"
+msgstr "Export-Format:"
+
+msgid "JSON download"
+msgstr "JSON-Download"
+
+msgid "JSON"
+msgstr "JSON"
+
+msgid "ZIP download"
+msgstr "ZIP-Download"
+
+msgid "Export Now"
+msgstr "Jetzt exportieren"
+
+msgid "Import"
+msgstr "Importieren"
+
+msgid "Import users"
+msgstr "User importieren"
+
+msgid "Import badges"
+msgstr "Badges importieren"
+
+msgid "Import content (instances)"
+msgstr "Inhalte importieren (Gruppen)"
+
+msgid "Replacement strategy"
+msgstr "Ersetzungsstrategie"
+
+msgid "Update duplicate entries"
+msgstr "Ersetze Duplikate"
+
+msgid "Skip duplicate entries"
+msgstr "Überspringe Duplikate"
+
+msgid "File to import:"
+msgstr "Zu importierende Datei:"
+
+msgid "Detect"
+msgstr "Erkennen"
+
+msgid "ZIP"
+msgstr "ZIP"
+
+msgid "Import Now"
+msgstr "Jetzt importieren"
+
+msgid "Import successfully performed."
+msgstr "Import erfolgreich durchgeführt."
+
+msgid "back to main page"
+msgstr "Zurück zur Hauptseite"
+
+msgid "Admin: Group Permissions"
+msgstr "Verwaltung: Gruppenrechte"
+
+msgid "Admin &raquo; Group Permissions"
+msgstr "Verwaltung &raquo; Gruppenrechte"
+
+msgid "Group Permissions"
+msgstr "Gruppenrechte"
+
+msgid ""
+"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
+" care!"
+msgstr "ACHTUNG: Hiermit können Sie sich aus Ihrer eigenen Gruppe ausschließen. Seien Sie vorsichtig!"
+
+msgid "Permissions"
+msgstr "Rechte"
+
+msgid "All Events"
+msgstr "Alle Ereignisse"
 
 msgid "Import Users"
 msgstr "Benutzer importieren"
+
+msgid "Update Search Index"
+msgstr "Suchindex aktualisieren"
+
+msgid "Site administration"
+msgstr "Seiteneinstellungen"
+
+msgid "Admin: Import Users"
+msgstr "Admin: Benutzer importieren"
 
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
@@ -1549,6 +1737,12 @@ msgstr "'#a4a4a4' liken"
 msgid "Preview:"
 msgstr "Vorschau:"
 
+msgid "Check to hide badge in user interface"
+msgstr "Auswählen, um Badge im User Interface zu verstecken"
+
+msgid "visible"
+msgstr "sichtbar"
+
 msgid "Group"
 msgstr "Benutzerrolle"
 
@@ -1659,6 +1853,9 @@ msgstr "%s angelegt"
 msgid "revert here"
 msgstr "diese Version wiederherstellen"
 
+msgid "delete version permanently"
+msgstr "Lösche Version"
+
 #, python-format
 msgid "on %s"
 msgstr "auf %s"
@@ -1681,6 +1878,9 @@ msgstr "Kommentar hinzufügen"
 
 msgid "Login to comment."
 msgstr "Zum Kommentieren einloggen."
+
+msgid "Validate email in order to comment."
+msgstr "Verifizieren Sie Ihre Email-Adresse, um zu kommentieren."
 
 msgid "is pro"
 msgstr "ist dafür"
@@ -1715,6 +1915,9 @@ msgstr "Gruppe zum Antworten beitreten"
 
 msgid "Login to reply"
 msgstr "Anmelden, um zu antworten"
+
+msgid "Validate email in order to reply"
+msgstr "Verifizieren Sie Ihre Email-Adresse, um zu antworten"
 
 msgid "report"
 msgstr "melden"
@@ -1982,10 +2185,11 @@ msgstr ""
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
-"community. (Both Markdown and HTML are allowed here.)"
-msgstr ""
-"Beschreiben Sie die Ziele dieser Gruppe und wer ihre Mitglieder sind. "
-"(Markdown und HTML sind hier erlaubt.)"
+"community."
+msgstr "Beschreiben Sie die Ziele dieser Gruppe und wer ihre Mitglieder sind."
+
+msgid "(Both Markdown and HTML are allowed here.)"
+msgstr "(Markdown und HTML sind hier erlaubt.)"
 
 #, python-format
 msgid "Manage: %s"
@@ -2024,6 +2228,12 @@ msgstr "Vorschläge müssen mindestens eine Änderung an einem Beschluss einbrin
 msgid "Use milestones"
 msgstr "Termine verwenden"
 
+msgid "Hide global categories"
+msgstr "Verstecke globale Kategorien"
+
+msgid "Allow editing of comments by default"
+msgstr "Erlaube Bearbeiten von Kommentaren standardmäßig"
+
 msgid "Freeze this instance"
 msgstr "Die Arbeit in dieser Gruppe einfrieren"
 
@@ -2046,6 +2256,12 @@ msgstr "Diese Gruppe verbergen"
 
 msgid "Select whether this instance will be shown in public listings."
 msgstr "Bitte wählen Sie aus, ob diese Gruppe öffentlich gemacht werden soll."
+
+msgid "Require email validation"
+msgstr "Setze Email-Verifikation voraus"
+
+msgid "Require instance members to validate their email address."
+msgstr "Setze Verifikation der Email-Adressen der Gruppenmitglieder voraus."
 
 msgid "This instance is authenticated"
 msgstr "Diese Gruppe ist „authentifiziert“"
@@ -2083,6 +2299,9 @@ msgstr "Gruppe beitreten, um einen neuen Vorschlag anzulegen."
 
 msgid "Login to create a new proposal."
 msgstr "Anmelden, um einen neuen Vorschlag anzulegen."
+
+msgid "Validate email in order to create a new proposal."
+msgstr "Verifizieren Sie Ihre Email-Adresse, um einen neuen Vorschlag anzulegen."
 
 msgid "show a list of proposals"
 msgstr "Eine Liste mit Vorschlägen anzeigen"
@@ -2303,14 +2522,12 @@ msgstr "Benutzernamen auswählen"
 msgid "User name"
 msgstr "Benutzername"
 
+#, python-format
 msgid ""
-"A unique user name is required for you complete sign up and login. The "
-"user name received from your OpenID provider is invalid. Please provide a"
-" different, unique user name."
-msgstr ""
-"Um den Anmeldeprozess abzuschließen ist ein eindeutiger Benutzername "
-"erforderlich. Der über Ihre OpenID zur Verfügung gestellte Benutzername "
-"ist ungültig. Bitte wählen Sie einen anderen, eindeutigen Benuzernamen."
+"A unique user name is required for you complete sign up and login. The user "
+"name \"%s\" received from your OpenID provider is invalid or already used. "
+"Please provide a different, unique user name."
+msgstr "Um den Anmeldeprozess abzuschließen, ist ein eindeutiger Benutzername erforderlich. Der von Ihrem OpenID-Provider zur Verfügung gestellte Benutzername \"%s\" ist ungültig oder bereits in Verwendung. Bitte wählen Sie einen anderen, eindeutigen Benutzernamen."
 
 msgid "Username:"
 msgstr "Benutzername:"
@@ -2323,11 +2540,12 @@ msgid "Are you sure you want to purge variant %s?"
 msgstr "Sind Sie sicher, dass Sie den Vorschlag %s entfernen möchten?"
 
 msgid ""
-"WARNING: This will remove all revisions of the variant from any proposals"
-" that might support it."
-msgstr ""
-"ACHTUNG: Dieser Schritt entfernt alle Überarbeitungen dieser Version von "
-"allen Vorschlägen, die diese unterstützen."
+"WARNING: This will remove all revisions of the variant from any proposals "
+"that might support it."
+msgstr "ACHTUNG: Dieser Schritt entfernt alle Überarbeitungen dieser Version von allen Vorschlägen, die diese unterstützen."
+
+msgid "Are you sure you want to purge the following version:"
+msgstr "Sind Sie sicher, dass Sie die folgende Version löschen wollen:"
 
 #, python-format
 msgid "Variant: %s"
@@ -2420,6 +2638,9 @@ msgstr "Informationen über den Beschluss"
 
 msgid "Last Activity"
 msgstr "Letzte Aktivität"
+
+msgid "This page is not assigned to any category"
+msgstr "Dieser Beschluss ist keiner Kategorie zugewiesen"
 
 #, python-format
 msgid "This norm relates to the milestone %s."
@@ -2587,10 +2808,13 @@ msgid "Propose new Variant"
 msgstr "Neue Version anlegen"
 
 msgid "Join instance to propose a new variant."
-msgstr "Gruppe beitreten, um einen neuen Vorschlag anzulegen."
+msgstr "Gruppe beitreten, um eine Änderung einzubringen."
 
 msgid "Login to propose a new variant."
 msgstr "Anmelden, um eine Änderung einzubringen."
+
+msgid "Validate email in order to propose a new variant."
+msgstr "Verifizieren Sie Ihre Email-Adresse, um eine Änderung einzubringen."
 
 msgid "Get Involved"
 msgstr "Mitmachen"
@@ -2725,6 +2949,9 @@ msgstr "Anmelden, um eine Änderung eines Beschlusses vorzuschlagen."
 msgid "Join instance to propose to change a norm"
 msgstr "Gruppe beitreten, um die Änderung eines Beschlusses vorzuschlagen."
 
+msgid "Validate email in order to propose to change a norm"
+msgstr "Verifizieren Sie Ihre Email-Adresse, um eine Änderung eines Beschlusses vorzuschlagen."
+
 msgid "tutorial_proposal_show_vote"
 msgstr "Sie können einen Vorschlag unterstützen oder ablehnen."
 
@@ -2771,6 +2998,9 @@ msgstr "Melden Sie sich an, um den Vorschlag geographisch zu verorten."
 
 msgid "Last Activity"
 msgstr "Letzte Aktivität"
+
+msgid "This proposal is not assigned to any category"
+msgstr "Dieser Vorschlag ist keiner Kategorie zugewiesen"
 
 #, python-format
 msgid "This proposal relates to the deleted milestone %s."
@@ -3033,8 +3263,8 @@ msgid "Startpage"
 msgstr "Dashboard"
 
 #, python-format
-msgid "Hi %s.<br />"
-msgstr "Hi %s.<br />"
+msgid "Hi %s."
+msgstr "Hi %s."
 
 #, python-format
 msgid ""
@@ -3160,6 +3390,21 @@ msgstr "Passwort:"
 msgid "Password (confirm):"
 msgstr "Passwort (bestätigen):"
 
+msgid "Gender"
+msgstr "Gender"
+
+msgid "Select your gender"
+msgstr "Gender auswählen"
+
+msgid "Unspecified"
+msgstr "Unspezifiziert"
+
+msgid "Male"
+msgstr "Männlich"
+
+msgid "Female"
+msgstr "Weiblich"
+
 msgid "Notifications"
 msgstr "Benachrichtungen"
 
@@ -3193,7 +3438,7 @@ msgstr ""
 "verwenden."
 
 msgid "There are no associated OpenIDs."
-msgstr "Ungültige Eingabe."
+msgstr "Diesem Account sind keine OpenIDs zugeordnet."
 
 msgid "Short biography"
 msgstr "Kurzbiographie"
@@ -3219,6 +3464,9 @@ msgstr "Hilfenachrichten und Links zur Dokumentation abstellen."
 
 msgid "Hide help messages:"
 msgstr "Hinweise verbergen:"
+
+msgid "Change default sorting order for proposals:"
+msgstr "Standardsortierung von Vorschlägen ändern:"
 
 msgid "Find users"
 msgstr "Benutzer suchen"
