@@ -13,10 +13,14 @@ con = tile.widget_action_attrs(model.Vote.NO)
 %>
 <div class="vote_wrapper">
 <div id="${tile.html_id}" class="${tile.widget_class}">
-    <a href="${tile.votes_listing_url}"
-       rel="#overlay-ajax"
-    class="vote_count ${tile.count_class}"
+    %if tile.can_show:
+        <a href="${tile.votes_listing_url}" rel="#overlay-ajax" class="vote_count ${tile.count_class}"
           >${tile.display_score}</a
+    %else:
+        <span class="vote_count ${tile.count_class}"
+          >${tile.display_score}</span
+    %endif
+    %if tile.can_vote or tile.can_show:
     ><a href="${pro['url']}"
         class="${pro['class']} ttip ${'do_vote' if tile.can_vote else ''}"
         title="${pro['title']}"
@@ -24,7 +28,9 @@ con = tile.widget_action_attrs(model.Vote.NO)
     ><a href="${con['url']}"
         class="${con['class']} ttip ${'do_vote' if tile.can_vote else ''}"
         title="${con['title']}"
-        ><span>&nbsp;</span></a>
+        ><span>&nbsp;</span></a
+    %endif
+    >
 </div>
 
 %if delegate_url:

@@ -34,5 +34,4 @@ def vote(check, p):
     check.other('select_poll_not_mutable',
                 (p.action == p.SELECT and p.selection and
                 not p.selection.proposal.is_mutable()))
-    show(check, p)
     user.vote(check)
