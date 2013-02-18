@@ -202,7 +202,13 @@ class UserController(BaseController):
             # redirect to dashboard with login message
             session['logged_in'] = True
             session.save()
-            location = h.base_url('/user/%s/dashboard' % login)
+            came_from = session.get('came_from', None)
+            if came_from is not None:
+                del session['came_from']
+                session.save()
+                location = came_from
+            else:
+                location = h.base_url('/user/%s/dashboard' % login)
             raise HTTPFound(location=location, headers=headers)
         else:
             raise Exception('We have added the user to the Database '
@@ -410,6 +416,11 @@ class UserController(BaseController):
         if c.user:
             session['logged_in'] = True
             session.save()
+            came_from = session.get('came_from', None)
+            if came_from is not None:
+                del session['came_from']
+                session.save()
+                redirect(came_from)
             # redirect to the dashboard inside the instance exceptionally
             # to be able to link to proposals and norms in the welcome
             # message.
