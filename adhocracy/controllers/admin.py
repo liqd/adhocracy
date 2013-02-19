@@ -1,6 +1,7 @@
 import logging
 
 import formencode
+import formencode.htmlfill
 from pylons import request, tmpl_context as c, url
 from pylons.i18n import lazy_ugettext as L_
 from pylons.controllers.util import redirect
@@ -61,7 +62,7 @@ class AdminController(BaseController):
 
     @ActionProtector(has_permission("global.admin"))
     def index(self):
-        return render("/admin/index.html")
+        return render("/admin/index.html", {})
 
     @ActionProtector(has_permission("global.admin"))
     def update_index(self):
@@ -87,12 +88,12 @@ class AdminController(BaseController):
             for group in groups:
                 model.meta.Session.add(group)
             model.meta.Session.commit()
-        return render("/admin/permissions.html")
+        return render("/admin/permissions.html", {})
 
     @ActionProtector(has_permission("global.admin"))
     def user_import_form(self, errors=None):
         return formencode.htmlfill.render(
-            render("/admin/userimport_form.html"),
+            render("/admin/userimport_form.html", {}),
             defaults=dict(request.params),
             errors=errors,
             force_defaults=False)
@@ -149,15 +150,17 @@ class AdminController(BaseController):
                           (name, email, E))
                 errors = True
                 continue
-        c.users = users
-        c.not_created = set(names) - set(created)
-        c.not_mailed = set(created) - set(mailed)
-        c.errors = errors
-        return render("/admin/userimport_success.html")
+        data = {
+            'users': users,
+            'not_created': set(names) - set(created),
+            'not_mailed': set(created) - set(mailed),
+            'errors': errors
+        }
+        return render("/admin/userimport_success.html", data)
 
     @ActionProtector(has_permission("global.admin"))
     def import_dialog(self):
-        return render('admin/import_dialog.html')
+        return render('admin/import_dialog.html', {})
 
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("global.admin"))
@@ -166,11 +169,11 @@ class AdminController(BaseController):
         obj = request.POST['importfile']
         options['user_personal'] = True
         adhocracy.lib.importexport.import_(options, obj.file)
-        return render('admin/import_success.html')
+        return render('admin/import_success.html', {})
 
     @ActionProtector(has_permission("global.admin"))
     def export_dialog(self):
-        return render('admin/export_dialog.html')
+        return render('admin/export_dialog.html', {})
 
     @RequireInternalRequest(methods=['POST'])
     @ActionProtector(has_permission("global.admin"))
