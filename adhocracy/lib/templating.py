@@ -1,5 +1,6 @@
 import rfc822
 import hashlib
+import logging
 
 from pylons import response
 from pylons.templating import render_mako, render_mako_def
@@ -14,6 +15,8 @@ import text
 import auth
 import sorting
 
+log = logging.getLogger(__name__)
+
 
 def tpl_vars():
     vars = dict()
@@ -27,8 +30,19 @@ def tpl_vars():
     vars['model'] = model
     return vars
 
+_legacy = object()
+def render(template_name, data=_legacy, overlay=False):
+    """ If overlay is True, the template will be rendered in a minimal template
+        containing only the main content markup of the site."""
 
-def render(template_name, extra_vars=None, cache_key=None,
+    if data is _legacy:
+        # log.debug(u'Legacy call to render() - missing data')
+        data = {}
+
+    return render_mako(template_name, data, overlay=overlay)
+
+
+def render_mako(template_name, data, extra_vars=None, cache_key=None,
            cache_type=None, cache_expire=None, overlay=False):
     """
     Signature matches that of pylons actual render_mako. Except
@@ -44,6 +58,9 @@ def render(template_name, extra_vars=None, cache_key=None,
     if overlay:
         extra_vars['root_template'] = '/overlay.html'
 
+    for k,v in data.items():
+        setattr(pylons.tmpl_context, k, v)
+
     page = render_mako(template_name, extra_vars=extra_vars,
                        cache_key=cache_key, cache_type=cache_type,
                        cache_expire=cache_expire)
@@ -55,6 +72,8 @@ def render_def(template_name, def_name, extra_vars=None, cache_key=None,
     """
     Signature matches that of pylons actual render_mako_def.
     """
+    # log.debug(u'Call to deprecated (Mako-specific) method render_def -'
+    #           u'call render(template_name, data, only_fragment=True) instead')
     if not extra_vars:
         extra_vars = {}
 

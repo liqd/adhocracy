@@ -57,7 +57,7 @@ class Notification(object):
 
     def get_body(self):
         locale = self.language_context()
-        tpl_vars = {'n': self, 'e': self.event, 'u': self.user, 't': self.type}
+        data = {'n': self, 'e': self.event, 'u': self.user, 't': self.type}
 
         tpl_name = self.TPL_NAME % (str(self.type), locale.language[0:2])
         tpl_path = os.path.join(templates.__path__[0], tpl_name)
@@ -68,7 +68,7 @@ class Notification(object):
             tpl_name = self.TPL_NAME % (
                 str(self.type), i18n.get_default_locale().language[0:2])
 
-        body = render(tpl_name, extra_vars=tpl_vars).strip()
+        body = render(tpl_name, data).strip()
         body += _("\r\n\r\nMore info: %(url)s") % dict(url=self.link)
         return body
 
