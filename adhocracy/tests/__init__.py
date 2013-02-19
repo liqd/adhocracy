@@ -123,10 +123,22 @@ def is_integrationtest():
     if asbool(os.environ.get('ADHOCRACY_RUN_INTEGRATION_TESTS', 'false')):
         return # Run the tests in any case if environment variable is set
     if not asbool(config.get('run_integrationtests', 'false')):
-        raise SkipTest('This Test needs all services adhocracy depends on. '
+        raise SkipTest('This test needs all services adhocracy depends on. '
                        'If they are running and configured in test.ini '
                        'enable the tests there with '
                        '"run_integrationtests = true".')
+
+def is_filecheck_test():
+    '''
+    Raise SkipTest if the (slow) tests over 
+    '''
+    from pylons import config
+    if asbool(os.environ.get('ADHOCRACY_RUN_FILECHECK_TESTS', 'false')):
+        return # Run the tests in any case if environment variable is set
+    if not asbool(config.get('run_filecheck_tests', 'false')):
+        raise SkipTest('This test is slow since it needs to check all files. '
+                       'You can enable this test in test.ini with '
+                       '"run_filecheck_tests = true".')
 
 
 @decorator
