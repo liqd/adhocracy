@@ -529,7 +529,7 @@ class Verify:
         self.signature_id, self.creation_date, self.timestamp = value.split()
 
     # XXX do something with these; start using trust db
-    def TRUST_UNDEFINED (self,value): pass
+    def TRUST_UNDEFINED(self,value): pass
     def TRUST_NEVER(self,value): pass
     def TRUST_MARGINAL(self,value): pass
     def TRUST_FULLY(self,value): pass
@@ -826,5 +826,5 @@ if __name__ == '__main__':
 
     obj = GPGSubprocess()
     file = open(sys.argv[1], 'rb')
-    sig = obj.verify_file( file )
+    sig = obj.verify_file(file)
     print sig.__dict__

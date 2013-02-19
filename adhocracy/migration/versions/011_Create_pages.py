@@ -39,7 +39,7 @@ page_table = Table('page', meta,
     )
  
  
-text_table = Table('text', meta ,                      
+text_table = Table('text', meta,
     Column('id', Integer, primary_key=True),
     Column('page_id', Integer, ForeignKey('page.id'), nullable=False),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),

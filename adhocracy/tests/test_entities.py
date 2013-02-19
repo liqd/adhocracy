@@ -2,7 +2,11 @@
 
 from __future__ import print_function
 
-import codecs, optparse, os, re, sys
+import codecs
+import optparse
+import os
+import re
+import sys
 import unittest
 
 DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../templates')

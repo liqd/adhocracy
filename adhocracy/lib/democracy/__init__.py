@@ -35,8 +35,8 @@ def check_adoptions():
     log.debug("Checking proposals for successful adoption...")
     for proposal in Proposal.all():
         # check adoptions:
-        if not proposal.adopted and proposal.is_adopt_polling() \
-            and proposal.adopt_poll.is_stable():
+        if (not proposal.adopted and proposal.is_adopt_polling()
+                and proposal.adopt_poll.is_stable()):
             log.info("Proposal %s is now ADOPTED. Thanks for playing." %
                      proposal.title)
             proposal.adopt()
