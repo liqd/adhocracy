@@ -59,7 +59,7 @@ class ImportExportTest(TestController):
         self.assertTrue(all(len(u) == 0 for u in users.values()))
         self.assertTrue(not any(self.u1.user_name in k for k in users.keys()))
         u1 = next(iter(users))
-        self.assertTrue('gender' not  in u1)
+        self.assertTrue('gender' not in u1)
 
     def test_export_instance(self):
         ed = importexport.export_data(dict(include_instance=True,

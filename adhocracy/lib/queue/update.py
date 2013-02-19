@@ -22,8 +22,8 @@ def handle_update(message):
     data = json.loads(message)
     entity = to_entity(data.get('entity'))
     for (clazz, operation), listeners in LISTENERS.items():
-        if operation != data.get('operation') \
-            or not isinstance(entity, clazz):
+        if (operation != data.get('operation')
+                or not isinstance(entity, clazz)):
             continue
         for listener in listeners:
             listener(entity)
