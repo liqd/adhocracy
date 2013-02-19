@@ -79,7 +79,8 @@ setup(
                  'nose-cov',
                  'nose-exclude',
                  'cssselect',
-                 'decorator']
+                 'decorator',
+                 'pep8',]
     },
     package_data={'adhocracy': ['i18n/*/LC_MESSAGES/*.mo']},
     message_extractors={'adhocracy': [
