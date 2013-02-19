@@ -122,8 +122,8 @@
             <div class="given first">
                 ${_("Adoption requirements:")}
             </div>
-            %if (proposal.adopt_poll.tally.has_majority() and
-                    not proposal.adopt_poll.tally.has_participation()):
+            %if proposal.adopt_poll.tally.has_majority() and not \
+                proposal.adopt_poll.tally.has_participation():
                 <div class="given">
                     ${_("%s%% approval") % int(c.instance.required_majority*100)}
                 </div>
