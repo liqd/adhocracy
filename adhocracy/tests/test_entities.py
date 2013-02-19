@@ -14,13 +14,8 @@ DEFAULT_EXTENSION = '.html'
 
 
 class TestEntities(unittest.TestCase):
-    def setUp(self):
-        from adhocracy import tests
-        tests.is_filecheck_test()
-
     def test_template_dir(self):
-        process_path(DEFAULT_PATH,
-             on_error=lambda msg: self.assertTrue(False, msg))
+        process_path(DEFAULT_PATH, on_error=lambda msg: self.fail(msg))
 
 def find_files(path, ext):
     """Find files recursively with a given file extension"""

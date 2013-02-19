@@ -128,18 +128,6 @@ def is_integrationtest():
                        'enable the tests there with '
                        '"run_integrationtests = true".')
 
-def is_filecheck_test():
-    '''
-    Raise SkipTest if the (slow) tests over 
-    '''
-    from pylons import config
-    if asbool(os.environ.get('ADHOCRACY_RUN_FILECHECK_TESTS', 'false')):
-        return # Run the tests in any case if environment variable is set
-    if not asbool(config.get('run_filecheck_tests', 'false')):
-        raise SkipTest('This test is slow since it needs to check all files. '
-                       'You can enable this test in test.ini with '
-                       '"run_filecheck_tests = true".')
-
 
 @decorator
 def integrationtest(func, *args, **kwargs):
