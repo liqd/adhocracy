@@ -1,10 +1,10 @@
 #!/bin/sh
 
-DEFAULT_BRANCH=develop
+DEFAULT_BRANCH=milestone_easier_buildout_merge_develop
 BUILDOUT_URL=https://github.com/liqd/adhocracy.buildout
-SERVICE_TEMPLATE=etc/init.d__adhocracy_services.sh.template
-SERVICE_TEMPLATE_URL=https://raw.github.com/liqd/adhocracy.buildout/$DEFAULT_BRANCH/$SERVICE_TEMPLATE
-CHECK_PORT_FREE_URL=https://raw.github.com/liqd/adhocracy.buildout/$DEFAULT_BRANCH/etc/check_port_free.py
+SERVICE_TEMPLATE=etc/sysv-init.in
+SERVICE_TEMPLATE_URL=https://raw.github.com/liqd/adhocracy/$DEFAULT_BRANCH/$SERVICE_TEMPLATE
+CHECK_PORT_FREE_URL=https://raw.github.com/liqd/adhocracy/$DEFAULT_BRANCH/scripts/check_port_free.py
 SUPERVISOR_PORTS="5005 5006 5010"
 ADHOCRACY_PORT=5001
 
@@ -138,7 +138,7 @@ esac
 if [ -n "$buildout_cfg_file" ]; then
 	buildout_cfg_file=$(readlink -f "$buildout_cfg_file")
 else
-	buildout_cfg_file=buildout_development.cfg
+	buildout_cfg_file=buildouts/buildout_development.cfg
 fi
 
 
@@ -201,10 +201,11 @@ WantedBy=multi-user.target
 			;;
 		esac
 		echo "$stmpl" | \
-			sed -e "s#%%USER%%#$adhoc_user#" -e "s#%%DIR%%#$(readlink -f .)/adhocracy_buildout#" | \
+			sed -e "s#\${sysv_conf:user}#$adhoc_user#" \
+				-e "s#\${buildout:directory}#$(readlink -f .)/adhocracy_buildout#" \
+				-e "s#\${domains:main}#supervisord#" | \
 				$SUDO_CMD tee "$INIT_FILE" >/dev/null
 		$SUDO_CMD chmod a+x "$INIT_FILE"
-		#TODO Write an service script for arch linux and install it
 		$SUDO_CMD $SERVICE_CMD adhocracy_services $SERVICE_CMD_PREFIX
 	fi
 fi
@@ -249,40 +250,31 @@ if [ -n "$check_port_free_tmp" ]; then
     rm -f $check_port_free_tmp
 fi
 
+if [ '!' -e adhocracy_buildout/.git ]; then
+	git clone https://github.com/liqd/adhocracy adhocracy_buildout
+	(cd adhocracy_buildout && git checkout -q "$branch")
+fi
 
-$VIRTUALENV_CMD --distribute --no-site-packages adhocracy_buildout
 ORIGINAL_PWD=$(pwd)
 cd adhocracy_buildout
-if [ -e adhocracy.buildout/.git ]; then
-	(cd adhocracy.buildout && git pull --quiet)
-else
-	git clone --quiet $BUILDOUT_URL adhocracy.buildout
-fi
-(cd adhocracy.buildout && git checkout $branch > /dev/null)
-
-
-
-for f in adhocracy.buildout/*; do ln -sf $f; done
-if echo $buildout_cfg_file | grep "^/" -q; then
-	tmp_file=$(mktemp --tmpdir=.)
-	cp $buildout_cfg_file $tmp_file
-	buildout_cfg_file=$tmp_file
-fi
-
-. bin/activate
-
-$PIP_CMD install -U distribute >/dev/null
-
-# TODO write buildout file with configurations (sysv_init:user ...) and use that
-$PYTHON_CMD bootstrap.py -c ${buildout_cfg_file}
-bin/buildout -Nc ${buildout_cfg_file}
+python bootstrap.py --version=1.7.0 
+bin/buildout
 
 if [ -n "$tmp_file" ]; then
 	rm "$tmp_file"
 fi
 
-ln -sf adhocracy_buildout/adhocracy.buildout/etc/paster_interactive.sh "$ORIGINAL_PWD"
+echo '#!/bin/sh
+set -e
+cd "$(dirname $0)/adhocracy_buildout"
 
+cp etc/adhocracy.ini etc/adhocracy-interactive.ini
+
+# Comment out the following line to restrict access to local only
+sed "s#host = .*#host = 0.0.0.0#" -i etc/adhocracy-interactive.ini
+exec bin/paster serve --reload etc/adhocracy-interactive.ini
+' > "${ORIGINAL_PWD}/paster_interactive.sh"
+chmod a+x "${ORIGINAL_PWD}/paster_interactive.sh"
 
 if $autostart; then
 	bin/supervisord

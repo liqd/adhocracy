@@ -66,7 +66,7 @@ setup(
         "fanstatic >=0.11.2",
         "js.jquery >= 1.7.1,<=1.7.99",
         "js.jquery_qtip >= 1.0.0,<= 1.0.99",
-        "js.socialshareprivacy >= 1.3dev",
+        "js.socialshareprivacy >= 1.3-1",
         "js.jquery_joyride",
         "PasteScript>=1.6.3",
         "setuptools_git >= 0.3",

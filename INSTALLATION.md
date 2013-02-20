@@ -23,11 +23,11 @@ Automatic installation on debian,  Ubuntu or Arch with build.sh
 
 On debian,  Ubuntu, or Arch you can simply execute the following in a terminal:
 
-    wget -nv https://raw.github.com/liqd/adhocracy.buildout/develop/build.sh -O build.sh && sh build.sh
+    wget -nv https://raw.github.com/liqd/adhocracy/develop/build.sh -O build.sh && sh build.sh
 
 The script will use sudo to install the required dependencies, and install, set up, and start the required database services.
 
-Add `-b master` to install the stable version, or `-b hhu` to install with the preconfiguration for HHU Düsseldorf.
+Add `-b master` to install the stable version, or `-c hhu` to install with the preconfiguration for HHU Düsseldorf.
 
 Developer instructions
 ----------------------
@@ -60,7 +60,7 @@ To make the apache vhost config work run:
 
 Checkout out adhocracy:
 
-   $ git clone https://github.com/liqd/adhocracy adhocracy_buildout  
+   $ git clone https://github.com/liqd/adhocracy adhocracy_buildout
  
 Run buildout:
 
