@@ -85,6 +85,11 @@ if [ -z "$distro" ] ; then
 	exit 35
 fi
 
+if [ "$(basename $PWD)" = 'adhocracy_buildout' ]; then
+	cd "$(dirname $PWD)"
+fi
+
+# Abort if we're running from somewhere else inside adhocracy_buildout
 if [ "${PWD#*/adhocracy_buildout}" != "$PWD" ]; then
 	echo "You should not run build.sh from the adhocracy_buildout directory. Instead, run it from the directory which contains adhocracy_buildout."
 	exit 34
