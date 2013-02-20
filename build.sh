@@ -282,7 +282,7 @@ chmod a+x "${ORIGINAL_PWD}/paster_interactive.sh"
 if $autostart; then
 	bin/supervisord
 	echo "Use adhocracy_buildout/bin/supervisorctl to control running services."
-	python adhocracy.buildout/etc/check_port_free.py -o -g 10 ${SUPERVISOR_PORTS}
+	python scripts/check_port_free.py -o -g 10 ${SUPERVISOR_PORTS}
 	if bin/supervisorctl status | grep -vq RUNNING; then
 		echo 'Failed to start all services:'
 		bin/supervisorctl status
