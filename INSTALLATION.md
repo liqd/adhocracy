@@ -97,6 +97,7 @@ To start/stop one server:
     $ bin/supervisorctl stop <name>
 
 Start the Adhocracy server in foreground mode:
+
     $ bin/supervisorctl stop adhocracy
     $ bin/paster serve etc/adhocracy.ini
 
