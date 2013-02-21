@@ -20,15 +20,35 @@ SCRIPTNAME=/etc/init.d/$NAME
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
 # Load the VERBOSE setting and other rcS variables
-. /lib/init/vars.sh
+if [ -r /lib/init/vars.sh ] ; then
+	. /lib/init/vars.sh
+else
+	VERBOSE="no"
+fi
 
 # Define LSB log_* functions.
 # Depend on lsb-base (>= 3.2-14) to ensure that this file is present
 # and status_of_proc is working.
-. /lib/lsb/init-functions
+if [ -r /lib/lsb/init-functions ] ; then
+	. /lib/lsb/init-functions	
+else
+	log_daemon_msg() {
+		echo -n "$1: $2"
+	}
+	log_end_msg() {
+		if [ $1 -eq 0 ] ; then
+			echo "."
+		elif [ $1 -eq 255 ] ; then
+			echo "(warning)."
+		else
+			echo "failed!"
+		fi
+		return $1
+	}
+fi
 
 in_virtualenv() {
-	sudo -u "$USER" sh -c "cd $DIR && . bin/activate && $*"
+	su "$USER" -c "cd $DIR && . bin/activate && $*"
 	return $?
 }
 
