@@ -1,0 +1,138 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          adhocracy-${domains:main}
+# Required-Start:    $local_fs $remote_fs
+# Required-Stop:     $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Adhocracy services
+# Description:       Services required by the policy drafting platform adhocracy
+### END INIT INFO
+
+USER="${user:adhocracy_user}"
+DIR="${buildout:directory}"
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+NAME=adhocracy-${domains:main}
+DESC="Adhocracy supervisor for ${domains:main}"
+SCRIPTNAME=/etc/init.d/$NAME
+
+# Read configuration variable file if it is present
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
+# Load the VERBOSE setting and other rcS variables
+if [ -r /lib/init/vars.sh ] ; then
+	. /lib/init/vars.sh
+else
+	VERBOSE="no"
+fi
+
+# Define LSB log_* functions.
+# Depend on lsb-base (>= 3.2-14) to ensure that this file is present
+# and status_of_proc is working.
+if [ -r /lib/lsb/init-functions ] ; then
+	. /lib/lsb/init-functions	
+else
+	log_daemon_msg() {
+		echo -n "$1: $2"
+	}
+	log_end_msg() {
+		if [ $1 -eq 0 ] ; then
+			echo "."
+		elif [ $1 -eq 255 ] ; then
+			echo "(warning)."
+		else
+			echo "failed!"
+		fi
+		return $1
+	}
+fi
+
+in_virtualenv() {
+	su "$USER" -c "cd $DIR && . bin/activate && $*"
+	return $?
+}
+
+do_start()
+{
+	# Return
+	#   0 if daemon has been started
+	#   1 if daemon was already running
+	#   2 if daemon could not be started
+	if in_virtualenv bin/supervisorctl status | grep -vq "refused connection"; then
+		return 1
+	fi
+	in_virtualenv bin/supervisord || return 2
+}
+
+do_stop() {
+	# Return
+	#   0 if daemon has been stopped
+	#   1 if daemon was already stopped
+	#   2 if daemon could not be stopped
+	#   other if a failure occurred
+	supervisor_msg=$(in_virtualenv bin/supervisorctl shutdown)
+	if [ "$?" -ne 0 ]; then
+		return 2
+	fi
+	if echo $supervisor_msg | grep -q "refused connection"; then
+		return 1
+	fi
+	return 0
+}
+
+do_status() {
+ 	if in_virtualenv bin/supervisorctl status; then
+		return 3
+	fi
+}
+
+case "$1" in
+  start)
+	[ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
+	do_start
+	case "$?" in
+		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+	esac
+	;;
+  stop)
+	[ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
+	do_stop
+	case "$?" in
+		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+	esac
+	;;
+  status)
+	do_status
+	exit $?
+	;;
+  restart|force-reload)
+	#
+	# If the "reload" option is implemented then remove the
+	# 'force-reload' alias
+	#
+	log_daemon_msg "Restarting $DESC" "$NAME"
+	do_stop
+	case "$?" in
+	  0|1)
+		do_start
+		case "$?" in
+			0) log_end_msg 0 ;;
+			1) log_end_msg 1 ;; # Old process is still running
+			*) log_end_msg 1 ;; # Failed to start
+		esac
+		;;
+	  *)
+		# Failed to stop
+		log_end_msg 1
+		;;
+	esac
+	;;
+  *)
+	echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+	exit 3
+	;;
+esac
+
+:

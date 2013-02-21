@@ -2,6 +2,7 @@
 .hgsvn
 
 *.pyc
+*.pyo
 *.swp
 *.swo
 *.egg
@@ -15,11 +16,33 @@
 .#*
 
 bundestag.ini
-test-site/*
 data/*
-docs/_build/*
-test-data/index
+docs/build/*
 site/*
-test-site/*
 adhocracy/*_theme
-test.db-journal
+var
+parts
+bin
+/src/*
+!/src/adhocracy/
+lib64
+eggs
+develop-eggs
+htmlcov
+include
+downloads
+installed_eggs
+.coverage
+.mr.developer.cfg
+.installed.cfg
+etc/adhocracy.ini
+etc/rabbitmq-env.conf
+etc/unthemed.ini
+etc/vhost.conf
+etc/sysv-init
+etc/adhocracy-interactive.ini
+etc/test.ini
+mailsink
+adhocracy-test-chroot
+RELEASE-VERSION
+dist

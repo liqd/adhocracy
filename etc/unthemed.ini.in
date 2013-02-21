@@ -1,0 +1,21 @@
+{% include etc/adhocracy.ini.in %}
+
+###########################################################
+#OVERRIDES to disable theming
+############################################################
+
+{% python
+adhocracy_domain = parts['domains']['main']
+if parts['domains'].get('main_unthemed.force_port', None):
+   adhocracy_domain += ':%s' % parts['ports']['main_unthemed']
+%}
+
+[app:content]
+adhocracy.domain = ${adhocracy_domain}
+
+[server:main]
+port = ${parts.ports.main_unthemed}
+
+[pipeline:default]
+pipeline = content    
+
