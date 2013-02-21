@@ -1,0 +1,31 @@
+# To change this config file please edit *.in and rerun buildout.
+
+
+<VirtualHost *:80>
+        ServerName ${domains:main}                      
+        ServerAlias *.${domains:main}                      
+        DocumentRoot ${buildout:directory}
+        ErrorLog ${paths:apache_log}/${domains:main}-error.log
+        CustomLog ${paths:apache_log}/${domains:main} combined
+
+        ProxyRequests Off
+        ProxyPreserveHost On
+
+        <Proxy *>
+	      Order deny,allow
+	      Allow from all
+    	</Proxy>
+
+	ProxyPass / http://127.0.0.1:${ports:main}/ retry=5
+	ProxyPassReverse / http://127.0.0.1:${ports:main}/
+
+	<Location />
+	     Order allow,deny
+	     Allow from all
+	</Location>
+	
+</VirtualHost>
+
+
+
+

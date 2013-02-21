@@ -21,7 +21,7 @@ Run unit tests
 
 In an `adhocracy.buildout`_ you have ``bin/test``. Alternatively you can call::
 
-  (adhocracy)$ bin/nosetests --with-pylons=src/adhocracy/test.ini src/adhocracy/adhocracy/tests``
+  (adhocracy)$ bin/nosetests --with-pylons=etc/test.ini src/adhocracy/adhocracy/tests``
 
 
 Add functional doctests tests

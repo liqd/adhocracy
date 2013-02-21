@@ -26,19 +26,19 @@ We have 4 top level content classes user work with:
 
 :class:`proposal.Proposal`
   The actual text of the proposal is saved as a `Page` object with the
-  :attr:`Page.function` :attr:`page.Page.DESCRIPTIION` 
+  :attr:`Page.function` :attr:`page.Page.DESCRIPTIION`
   in an attribute :attr:`page.Page.description`.
- 
+
   In a *Page* a user can propose changes to a *Page (Norm)*. These are saved as
   :class:`selection.Selection` objects (see below).
 
   Proposal is a subclass of :class:`delegateable.Delegateable`.
-  
-:class:`milestone.Milestone` 
+
+:class:`milestone.Milestone`
   A Milestone is used to represent a date or a deadline. Each Delegtable
   have a relation to one *Milestone*.
 
-:class:`comment.Comment` 
+:class:`comment.Comment`
    Comments can be created for :class:`delegateable.Delegateable`
    objects.  The reference to the *Delegateable* is available as
    :attr:`comment.Comment.topic`.  Each comment is associated with a
@@ -47,7 +47,7 @@ We have 4 top level content classes user work with:
    text of an comment is stored as a :class:`revision.Revision`. If a comment
    is edited, a new *Revision* is created. *Revisions* have similar
    function for *Comments* like *Texts* have for *Pages*.
-   
+
 Some of the more interesting models and support classes are:
 
 :class:`selection.Selection`
@@ -63,7 +63,7 @@ Some of the more interesting models and support classes are:
    Store the text of a Comment. Similar to *Text*. See *Comment*.
 
 :class:`poll.Poll`
-  A *Poll* is an object representing a particular poll process a 
+  A *Poll* is an object representing a particular poll process a
   :class:Comment, :class:Proposal or :class:Page/Norm
   Single votes relate to the :class:Poll object.
 
@@ -101,7 +101,7 @@ Some of the more interesting models and support classes are:
 Almost all model classes have a `classmethod` ``.create()`` to create
 a new instance of the model and setup the necessary data or relationships.
 Furthermore methods like ``.find()`` and ``.all()`` as convenient query
-method that support limiting the query to the current 
+method that support limiting the query to the current
 :class:`.model.instance.Instance` or in-/exclude deleted model instances.
 
 
@@ -119,13 +119,13 @@ Tables
 .. figure:: adhocracy-classes.png
    :target: _images/adhocracy-classes.png
    :width: 100%
-   
+
    Diagramm of all model classes
 
 
 Updating the diagrams
 `````````````````````
-To update the diagramms install graphviz_ and easy_install 
+To update the diagramms install graphviz_ and easy_install
 `sqlalchemy_schemadisplay`_ into the environment adhocracy is installed in.
 Then run `python /adhocracy/scripts/generate-db-diagrams.py`. It will
 create the diagrams as GIF files. Finally replace the GIF files in
@@ -152,7 +152,7 @@ Page Models
 The model class :class:`page.Page` has 2 uses in adhocracy that are
 differentiated by the value of :attr:`page.Page.function`.
 
-* A *Page* represents a *Norm* if :attr:`page.Page.function` is 
+* A *Page* represents a *Norm* if :attr:`page.Page.function` is
   :attr:`page.Page.NORM`. This is the primary usage of Page.
 
 * For every :class:`proposal.Proposal` a page is created
@@ -206,12 +206,12 @@ Polls are set up per variant, not for the Page object.
 
 Page Hierarchies
 ````````````````
-:class:`Page` objects (that have the funciton *Norm*) can be organized in a 
-tree stucture by setting another *Page (Norm)* object as one of the 
-:attr:`.Page.parents` of the current page. *Parents* can be an arbitrary 
-number of :class:`delegateable.Delegateable` objects, but only one, not 
-already deleted Page with the :attr:`.Page.function` :attr:`.Page.NORM` 
-is allowed. *Parents* are taken into account when we compute a 
+:class:`Page` objects (that have the funciton *Norm*) can be organized in a
+tree stucture by setting another *Page (Norm)* object as one of the
+:attr:`.Page.parents` of the current page. *Parents* can be an arbitrary
+number of :class:`delegateable.Delegateable` objects, but only one, not
+already deleted Page with the :attr:`.Page.function` :attr:`.Page.NORM`
+is allowed. *Parents* are taken into account when we compute a
 :term:`delegation graph`.
 
 The subpages of a page are available as :attr:`.Page.subpages`.
@@ -232,7 +232,7 @@ Indexing/Searching
 Indexing and searching is done with `sql(alchemy)` and `solr`.
 Indexing with `solr` is done asyncronously most of the time while updates of
 the rdbm is done syncronously most of the time. The asyncronous indexing
-is done throug a `rabbitmq` job queue. 
+is done throug a `rabbitmq` job queue.
 
 Types of search indexes
 '''''''''''''''''''''''
@@ -241,7 +241,7 @@ Beside rdbm intern indexes adhocracy maintains application specific indexes
 (that partly act as audit trails too):
 
 * `solr' is used for full text and tag searches. It is an document oriented
-  index. The index schema can be found in `adhocracy/solr/schema.xml`
+  index. The index schema can be found in `adhocracy/etc/solr_schema.xml`
 * new :class:`tally.Tally` objects are created with every
   new or changed vote and provide the current total of votes.
 
@@ -252,7 +252,7 @@ Update application layer indexes
 
 adhocracy implements an sqlalchemy `Mapperextension` with
 :class:`hooks.HookExtension` that provides hook
-method to sqlalchemy that will be called before and after `insert`, 
+method to sqlalchemy that will be called before and after `insert`,
 `update` and `delete` operations for every model instance that is part
 of a commit. To determinate what to do it will inspect the model instance
 for fitting hook methods.
@@ -266,7 +266,7 @@ The asyncronous system roughly works like this:
 * All model classes defined in :data:`adhocracy.models.refs.TYPES`
   are patched by :func:`.init_queue_hooks`.
   A function that posts a message message to the job queue
-  (`_handle_event`) is patched in as all the method names listed above.  
+  (`_handle_event`) is patched in as all the method names listed above.
   The post to the job queue contains the the entity (model class) and
   the event identifier.
 * A number of callback functions is registered by
@@ -284,7 +284,7 @@ To have indexing and searching working propperly you need:
 
 * a working `rabbitmq`
 * a working `solr`
-* a running background process to process the jobs pushed into the 
+* a running background process to process the jobs pushed into the
   `rabbitmq` job queue (`paster background <ini-file>`)
 
 Read the install documentation for setup information.
