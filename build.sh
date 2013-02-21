@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DEFAULT_BRANCH=milestone_easier_buildout_merge_develop
+DEFAULT_BRANCH=develop
 BUILDOUT_URL=https://github.com/liqd/adhocracy.buildout
 SERVICE_TEMPLATE=etc/sysv-init.in
 SERVICE_TEMPLATE_URL=https://raw.github.com/liqd/adhocracy/$DEFAULT_BRANCH/$SERVICE_TEMPLATE
@@ -176,8 +176,8 @@ if ! $not_use_sudo_commands; then
 			exit 35
 		fi
 
-        if [ -r "adhocracy_buildout/adhocracy.buildout/${SERVICE_TEMPLATE}" ]; then
-            stmpl=$(cat "adhocracy_buildout/adhocracy.buildout/${SERVICE_TEMPLATE}")
+        if [ -r "adhocracy_buildout/${SERVICE_TEMPLATE}" ]; then
+            stmpl=$(cat "adhocracy_buildout/${SERVICE_TEMPLATE}")
         else
             stmpl=$(download $SERVICE_TEMPLATE_URL -)
         fi
