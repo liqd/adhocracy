@@ -4,7 +4,7 @@ Adhocracy
 
 About
 -----
- 
+
 Adhocracy is a web based software tool which facilitates cooperative policy
 drafting, proposal discussion and decisions in distributed groups.
 
@@ -28,9 +28,8 @@ Adhocracy is known to run on current Linux systems, such as Debian Squeeze. It
 might run on FreeBSD or OS X, but this hasn't been tested recently.
 
 Installation is usually done through buildout or through an installer script
-for Debian based systems. In either case, the installation instructions can be
-found in the `adhocracy.buildout repository
-<https://github.com/liqd/adhocracy.buildout>`_.
+for Debian based systems. In either case, read `INSTALLATION.md
+<INSTALLATION.md>`_.
 
 
 Development

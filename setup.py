@@ -5,10 +5,12 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
+from scripts.version import get_git_version
+
 
 setup(
     name='adhocracy',
-    version='2.0.0-rc.1',
+    version=get_git_version(),
     description='Policy drafting and decision-making web platform',
     author='Liquid Democracy e.V.',
     author_email='info@liqd.net',
@@ -27,9 +29,12 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
-    long_description=open("README.rst").read() + "\n" +
-                     open("CHANGES.txt").read() + "\n" +
-                     open("AUTHORS.txt").read() + "\n",
+    long_description='\n'.join([open(f).read() for f in [
+        "README.rst",
+        "INSTALLATION.md",
+        "CHANGES.txt",
+        "AUTHORS.txt",
+    ]]),
     install_requires=[
         "Pylons==1.0.1",
         "WebOb==1.2.3",
@@ -61,15 +66,20 @@ setup(
         "fanstatic >=0.11.2",
         "js.jquery >= 1.7.1,<=1.7.99",
         "js.jquery_qtip >= 1.0.0,<= 1.0.99",
-        "js.socialshareprivacy >= 1.3dev",
+        "js.socialshareprivacy >= 1.3-1",
         "js.jquery_joyride",
         "PasteScript>=1.6.3",
+        "setuptools_git >= 0.3",
         "ipaddress>=1.0.3",
     ],
-    setup_requires=[
-                    "setuptools>=0.6c6"],  # fix OS X 10.5.7
-    packages=find_packages(exclude=['ez_setup']),
+    setup_requires=["setuptools>=0.6c6",  # fix OS X 10.5.7
+                    "PasteScript",
+                    "Babel"],
+    packages=find_packages('src', exclude=['ez_setup']),
+    package_dir={'': 'src'},
     include_package_data=True,
+    exclude_package_data={'': ['.gitignore'],
+                          'images': ['*.xcf', '*.blend']},
     test_suite='nose.collector',
     extras_require={
         'test': ['zope.testbrowser [wsgi]',
@@ -79,13 +89,16 @@ setup(
                  'nose-cov',
                  'nose-exclude',
                  'cssselect',
-                 'decorator']
+                 'decorator',
+                 'pep8',]
     },
-    package_data={'adhocracy': ['i18n/*/LC_MESSAGES/*.mo']},
-    message_extractors={'adhocracy': [
-            ('**.py', 'python', None),
-            ('templates/**.html', 'mako', {'input_encoding': 'utf-8'}),
-            ('static/**', 'ignore', None)]},
+    package_data={'adhocracy': ['i18n/*/LC_MESSAGES/*.mo'],
+                  '': ['RELEASE-VERSION'],
+                  },
+    message_extractors={'src/adhocracy': [
+        ('**.py', 'python', None),
+        ('templates/**.html', 'mako', {'input_encoding': 'utf-8'}),
+        ('static/**', 'ignore', None)]},
     zip_safe=False,
     paster_plugins=['PasteScript', 'Pylons'],
     entry_points={

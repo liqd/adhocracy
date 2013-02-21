@@ -1,12 +1,1 @@
-include *.py *.txt development.ini test.ini
-exclude example.ini
-recursive-include docs *
-recursive-include scripts *
-recursive-include docs *
-recursive-include solr *
-include adhocracy/site.wsgi
-recursive-include adhocracy/i18n *.po *.mo
-include adhocracy/migration/migrate.cfg
-recursive-include adhocracy/page *
-recursive-include adhocracy/static *
-recursive-include adhocracy/templates *.html robots.txt
+include RELEASE-VERSION

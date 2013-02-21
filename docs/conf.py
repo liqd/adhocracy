@@ -11,7 +11,9 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
+import os
+import sys
+import pkg_resources
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -38,14 +40,14 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Adhocracy'
-copyright = u'2010, Friedrich Lindenberg'
+copyright = u'2013, Liquid Democracy e.V.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = '2.0dev'
+version = pkg_resources.require("adhocracy")[0].version
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -173,7 +175,7 @@ htmlhelp_basename = 'Adhocracydoc'
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'Adhocracy.tex', u'Adhocracy Documentation',
-   u'Friedrich Lindenberg', 'manual'),
+   u'Liquid Democracy e.V.', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
