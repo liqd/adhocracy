@@ -22,7 +22,7 @@ from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
 from adhocracy.lib.auth import authorization, can, csrf, require
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.queue import post_update
+from adhocracy.lib.queue import update_entity
 from adhocracy.lib.templating import (render, render_json, render_png,
                                       ret_abort, ret_success, render_def)
 from adhocracy.lib.util import get_entity_or_abort
@@ -334,7 +334,7 @@ class InstanceController(BaseController):
                 badge.assign(instance, c.user)
 
         model.meta.Session.commit()
-        post_update(instance, model.update.UPDATE)
+        update_entity(instance, model.update.UPDATE)
         if format == 'ajax':
             obj = {'html': render_def('/badge/tiles.html', 'badges',
                                       badges=instance.badges)}
