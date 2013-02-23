@@ -2,7 +2,7 @@ from collections import defaultdict
 import json
 from logging import getLogger
 
-from redis import Redis
+import redis
 from rq import Queue
 from rq.job import Job
 
@@ -112,12 +112,13 @@ class RQConfig(object):
         self.port = int(port)
         self.queue_name = queue_name
         self.use_redis = True
+        self.pool = redis.ConnectionPool(host=self.host, port=self.port)
         self.connection = self.new_connection()
 
     def new_connection(self):
         if not self.use_redis:
             return None
-        return Redis(host=self.host, port=self.port)
+        return redis.Redis(connection_pool=self.pool)
 
     @property
     def queue(self):

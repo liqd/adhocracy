@@ -4,6 +4,7 @@ import logging
 from dogpile.cache import make_region
 from dogpile.cache.region import _backend_loader
 from dogpile.cache.backends.redis import RedisBackend
+from redis import WatchError
 
 from  adhocracy import model
 from adhocracy.lib import queue
@@ -23,25 +24,25 @@ TTL_REDIS = TTL_MAX + HOUR
 
 def invalidate_badge(badge):
     log.debug('invalidate_badge %s' % badge)
-    CacheTagging.clear_tag(badge)
+    cache_tagging_manager.clear_tag(badge)
 
 
 def invalidate_userbadges(userbadges):
-    CacheTagging.clear_tag(userbadges)
+    cache_tagging_manager.clear_tag(userbadges)
     invalidate_user(userbadges.user)
 
 
 def invalidate_delegateablebadges(delegateablebadges):
-    CacheTagging.clear_tag(delegateablebadges)
+    cache_tagging_manager.clear_tag(delegateablebadges)
     invalidate_delegateable(delegateablebadges.delegateable)
 
 
 def invalidate_user(user):
-    CacheTagging.clear_tag(user)
+    cache_tagging_manager.clear_tag(user)
 
 
 def invalidate_text(text):
-    CacheTagging.clear_tag(text)
+    cache_tagging_manager.clear_tag(text)
     invalidate_page(text.page)
 
 
@@ -50,11 +51,11 @@ def invalidate_page(page):
 
 
 def invalidate_delegateable(d):
-    CacheTagging.clear_tag(d)
+    cache_tagging_manager.clear_tag(d)
     for p in d.parents:
         invalidate_delegateable(p)
     if not len(d.parents):
-        CacheTagging.clear_tag(d.instance)
+        cache_tagging_manager.clear_tag(d.instance)
 
 
 def invalidate_revision(rev):
@@ -62,7 +63,7 @@ def invalidate_revision(rev):
 
 
 def invalidate_comment(comment):
-    CacheTagging.clear_tag(comment)
+    cache_tagging_manager.clear_tag(comment)
     if comment.reply:
         invalidate_comment(comment.reply)
     invalidate_delegateable(comment.topic)
@@ -74,7 +75,7 @@ def invalidate_delegation(delegation):
 
 
 def invalidate_vote(vote):
-    CacheTagging.clear_tag(vote)
+    cache_tagging_manager.clear_tag(vote)
     invalidate_user(vote.user)
     invalidate_poll(vote.poll)
 
@@ -82,7 +83,7 @@ def invalidate_vote(vote):
 def invalidate_selection(selection):
     if selection is None:
         return
-    CacheTagging.clear_tag(selection)
+    cache_tagging_manager.clear_tag(selection)
     if selection.page:
         invalidate_delegateable(selection.page)
     if selection.proposal:
@@ -90,7 +91,7 @@ def invalidate_selection(selection):
 
 
 def invalidate_poll(poll):
-    CacheTagging.clear_tag(poll)
+    cache_tagging_manager.clear_tag(poll)
     if poll.action == poll.SELECT:
         invalidate_selection(poll.selection)
     elif isinstance(poll.subject, model.Delegateable):
@@ -101,13 +102,13 @@ def invalidate_poll(poll):
 
 def invalidate_instance(instance):
     # muharhar cache epic fail
-    CacheTagging.clear_tag(instance)
+    cache_tagging_manager.clear_tag(instance)
     for d in instance.delegateables:
         invalidate_delegateable(d)
 
 
 def invalidate_tagging(tagging):
-    CacheTagging.clear_tag(tagging)
+    cache_tagging_manager.clear_tag(tagging)
     invalidate_delegateable(tagging.delegateable)
 
 
@@ -142,7 +143,7 @@ def invalidate(entity):
 # --[ Cache Handling ]------------------------------------------------------
 
 
-class CacheTagging(object):
+class CacheTaggingManager(object):
     '''
     Book keeping for Objects and cache keys. It maintains a mapping
     from Objects used as discriminators in memoized functions to entries
@@ -154,9 +155,20 @@ class CacheTagging(object):
     These tags become part of the cache key and we mainain a tag -> cache keys
     mapping.
     '''
+    def __init__(self, handlers):
+        '''
+        Generate a CacheTaggingManager.
 
-    @staticmethod
-    def make_tag(obj):
+        *handlers* (dict)
+            A dict where entities as keys and invalidation
+            functions as values.
+        '''
+        self.handlers = handlers
+
+    def new_connection(self):
+        return queue.rq_config.new_connection()
+
+    def make_tag(self, obj):
         '''
         create a tag for obj.
 
@@ -175,12 +187,9 @@ class CacheTagging(object):
         if 'at 0x' in tag:
             raise ValueError(('tag %s for object not suitable for '
                               'cache tagging.') % tag)
+        return tag
 
-        obj_class = getattr(obj, '__class__', None)
-        return (tag, obj_class in HANDLERS)
-
-    @classmethod
-    def key_generator(cls, namespace, fn):
+    def key_generator(self, namespace, fn):
         '''
         A key generator that can be passed to a dogpile.cache region.
 
@@ -206,43 +215,87 @@ class CacheTagging(object):
                 args = args[1:]
             tags = []
             key = prefix
-            for arg in args:
-                tag, handled = cls.make_tag(arg)
-                if handled:
+            for obj in args:
+                tag = self.make_tag(obj)
+                if self.is_handled(obj):
                     tags.append(tag)
                 key = key + '||' + tag
-            for keyword, value in kwargs.items():
-                tag, handled = cls.make_tag(value)
-                if handled:
+            for keyword, obj in kwargs.items():
+                tag = self.make_tag(obj)
+                if self.is_handled(obj):
                     tags.append(tag)
                 key = key + "||%s::%s" % (keyword, tag)
 
             # remember the key for all tags so we can invalidate them
             # later
-            redis = queue.rq_config.new_connection()
-            if redis is not None:
-                with redis.pipeline() as pipe:
-                    for tag in tags:
-                        print tag
-                        pipe.sadd(tag, key)
-                    pipe.execute()
-            # log.debug("\nkey - length: %6s :: %s" % (len(key), key))
+            self.associate_key_with_tags(key, tags)
             return key
         return make_key
 
-    @classmethod
-    def clear_tag(cls, obj):
+    def is_handled(self, obj):
+        obj_class = getattr(obj, '__class__', None)
+        return obj_class in self.handlers
+
+    def clear_tag(self, obj):
         '''
-        Remove all entries in the cache for the given object.
+        Delete all entries in the cache for the given object.
         '''
-        tag = cls.make_tag(obj)
-        redis = queue.rq_config.new_connection()
-        if redis is not None:
+        if not self.is_handled(obj):
+            return
+        tag = self.make_tag(obj)
+        self.delete_tag_and_associated_keys(tag)
+
+    def associate_key_with_tags(self, key, tags):
+        '''
+        Associate a key with a certain tag in the cache storag
+        (redis).
+
+        *key*
+            Key to associate with the tags
+
+        **tags* (list or tuple of string or unicode)
+            List of tags (for object which are the discriminator
+            for the cache entry)
+
+        Note: Low level function to handle redis storage.
+        '''
+        assert isinstance(tags, (list, tuple))
+        redis = self.new_connection()
+        if redis is None:
+            return
+
+        with redis.pipeline() as pipe:
+            for tag in tags:
+                pipe.sadd(tag, key)
+            pipe.execute()
+
+    def delete_tag_and_associated_keys(self, tag):
+        '''
+        Delete all keys that are associated with the the tag
+        from redis.
+        '''
+        redis = self.new_connection()
+        if redis is None:
             return
         with redis.pipeline() as pipe:
-            keys = pipe.smembers(tag)
-            pipe.delete(keys)
-            pipe.execute()
+            while 1:
+                try:
+                    pipe.watch(tag)
+                    keys = pipe.smembers(tag)
+                    pipe.multi()
+                    if len(keys):
+                        pipe.delete(*keys)
+                    pipe.delete(tag)
+                    pipe.execute()
+                    break
+                except WatchError:
+                    # the tag was modified by someone else during
+                    # the transaction. Retry until we can
+                    # delete everything in one transaction.
+                    continue
+
+
+cache_tagging_manager = CacheTaggingManager(HANDLERS)
 
 
 class RedisDebugCacheBackend(RedisBackend):
@@ -250,7 +303,7 @@ class RedisDebugCacheBackend(RedisBackend):
     def get(self, key):
         # log.debug('\ncache - get: ' + key)
         value = super(RedisDebugCacheBackend, self).get(key)
-        log.debug('\nVALUE: %s' % unicode(value)[:50] + '...')
+#        log.debug('\nVALUE: %s' % unicode(value)[:50] + '...')
         return value
 
     def set(self, key, value):
@@ -266,7 +319,7 @@ _backend_loader.impls[BACKEND_NAME] = lambda: RedisDebugCacheBackend
 
 
 template_region = make_region(
-    function_key_generator=CacheTagging.key_generator).configure(
+    function_key_generator=cache_tagging_manager.key_generator).configure(
         BACKEND_NAME,
         expiration_time=60 * 60,
         arguments={'url': ["127.0.0.1"],
