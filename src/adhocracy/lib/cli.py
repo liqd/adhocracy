@@ -62,6 +62,7 @@ class Worker(AdhocracyCommand):
 
     def command(self):
         self._load_config()
+        queue.in_worker(value=True)
         queue_ = queue.get_queue()
         if queue_ is None:
             log.error('Error: No queue. exit now.')

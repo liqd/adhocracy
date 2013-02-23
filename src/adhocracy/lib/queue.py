@@ -2,7 +2,6 @@ from collections import defaultdict
 import json
 from logging import getLogger
 
-# from decorator import decorator
 from pylons import config
 from redis import Redis
 from rq import Queue
@@ -12,72 +11,29 @@ from adhocracy.model import meta
 from adhocracy.model.refs import to_ref, to_entity
 
 log = getLogger(__name__)
-LISTENERS = defaultdict(list)
+
+WORKER_CONFIG_KEY = u'adhocracy.rq.worker'
 # save the thread save connection here
 connection = None
 queue_name = None
 
-
-# @decorator
-# def async(func, *args, **kwargs):
-#     """
-#     Use this instead of :meth:`rq.Queue.enqueue`.
-
-#     A function (usabla as a decorator) to turn a function call into an
-#     async rq job.  It takes care to cleanup after the job which is not
-#     done by the worker otherwise.  It will fall back to syncronous
-#     execution if there is no connection or the kwarg *_force_sync* is
-#     True.
-
-#     *_force_sync*
-#        Do not try to put the job into a queue but execute it right
-#        away.
-#     *_from_queue*
-#        Execute the function and return it's return value instead of
-#        a `Job`. Use this only to run from the queue.
-
-#     Returns:
-
-#     :class:`FakeJob`
-#       where `.return_value` will be the return value if *_force_sync*
-#       is True or we have no configured redis connection.
-#     :class:`rq.Job`
-#       if we do asyncronous processing.
-#     The return value of *func*
-#       if it is run with *_from_queue* == True
-#     """
-#     queue = get_queue()
-#     _force_sync = kwargs.pop('_force_sync', False)
-#     _from_queue = kwargs.pop('_from_queue', False)
-#     if _force_sync or (queue is None):
-#         fake_job = FakeJob()
-#         fake_job._result = func(*args, **kwargs)
-#         return fake_job
-#     elif _from_queue:
-#         clean_args = args
-#         clean_kwargs = kwargs
-#         try:
-#             return func(*clean_args, **clean_kwargs)
-#         finally:
-#             # cleanup the sqlalchemy session after we run the job from the
-#             # queue.
-#             meta.Session.remove()
-#     else:
-#         return queue.enqueue(func, *args, _from_queue=True, **kwargs)
+LISTENERS = defaultdict(list)
 
 
 class async(object):
     """
-    An decorator that adds an .enqueue() method and takes care to cleanup
-    after the job.
+    An decorator that replaces rq's `.enqueue()` method that detects
+    if it is running in a worker and takes care to cleanup after the
+    job. You should not call `.enqueue() directly.
 
-    You can decorate functions with this decorator like this::
+    Usage::
 
       >>> @async
       ... def afunc(arg):
       ...     return arg
 
-    and defer it into a queue. You get back a :class:`rq.job.Job`
+
+    When you call the function you get back a :class:`rq.job.Job`
     proxy object (or a :class:`FakeJob` if no queue is available).
 
       >>> retval = afunc.enqueue('myarg')
@@ -88,8 +44,17 @@ class async(object):
 
     def enqueue(self, *args, **kwargs):
         '''
-        Call this with the args and kwargs of the function you
-        enqueue. It will queue the function and return a Job if
+        Call this to guarante the function is enqueued.
+        Mostly useful in a worker process where the function
+        would be executed synchronously.
+        '''
+        queue = get_queue()
+        return queue.enqueue(self.func, *args, **kwargs)
+
+    def __call__(self, *args, **kwargs):
+        '''
+        Call this with the args and kwargs of the function you want
+        to enqueue. It will queue the function and return a Job if
         a queue is available, or call the function syncronously
         and return a FakeJob if not.
 
@@ -102,21 +67,32 @@ class async(object):
           if we do asyncronous processing.
         '''
         queue = get_queue()
-        _force_sync = kwargs.pop('_force_sync', False)
-        if _force_sync or (queue is None):
+
+        if in_worker():
+            try:
+                return self.func(*args, **kwargs)
+            finally:
+                # cleanup the sqlalchemy session after we run the job
+                # from the queue.
+                meta.Session.commit()
+                meta.Session.remove()
+
+        if queue is None:
             fake_job = FakeJob()
             fake_job._result = self.func(*args, **kwargs)
             return fake_job
-        else:
-            return queue.enqueue(self.func, *args, **kwargs)
 
-    def __call__(self, *args, **kwargs):
-        try:
-            return self.func(*args, **kwargs)
-        finally:
-            # cleanup the sqlalchemy session after we run the job from the
-            # queue.
-            meta.Session.remove()
+        self.enqueue(*args, **kwargs)
+
+
+def in_worker(value=None):
+    '''
+    Get or set a config key to indicate that the process is a worker.
+    '''
+    if value is None:
+        return config.get(WORKER_CONFIG_KEY, False)
+    else:
+        config[WORKER_CONFIG_KEY] = value
 
 
 def get_queue():
@@ -144,13 +120,16 @@ def setup_redis_connection():
     connection = Redis(host=host, port=int(port))
 
 
+# --[ async methods ]-------------------------------------------------------
+
+
 def update_entity(entity, operation):
     entity_ref = to_ref(entity)
     if entity_ref is None:
         return
     data = dict(operation=operation, entity=entity_ref)
     data_json = json.dumps(data)
-    return handle_update.enqueue(data_json)
+    return handle_update(data_json)
 
 
 @async
