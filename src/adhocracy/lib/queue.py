@@ -2,7 +2,6 @@ from collections import defaultdict
 import json
 from logging import getLogger
 
-from pylons import config
 from redis import Redis
 from rq import Queue
 from rq.job import Job
@@ -11,11 +10,6 @@ from adhocracy.model import meta
 from adhocracy.model.refs import to_ref, to_entity
 
 log = getLogger(__name__)
-
-WORKER_CONFIG_KEY = u'adhocracy.rq.worker'
-# save the thread save connection here
-connection = None
-queue_name = None
 
 LISTENERS = defaultdict(list)
 
@@ -37,7 +31,7 @@ class async(object):
     proxy object (or a :class:`FakeJob` if no queue is available).
 
       >>> retval = afunc.enqueue('myarg')
-      >>> isinstance(retval, job)
+    >>> isinstance(retval, job)
     """
     def __init__(self, func):
         self.func = func
@@ -48,8 +42,15 @@ class async(object):
         Mostly useful in a worker process where the function
         would be executed synchronously.
         '''
-        queue = get_queue()
+        queue = rq_config.queue
+        if queue is None:
+            return self.fake_job(*args, **kwargs)
         return queue.enqueue(self.func, *args, **kwargs)
+
+    def fake_async(self, *args, **kwargs):
+        fake_job = FakeJob()
+        fake_job._result = self.func(*args, **kwargs)
+        return fake_job
 
     def __call__(self, *args, **kwargs):
         '''
@@ -66,62 +67,85 @@ class async(object):
         :class:`rq.Job`
           if we do asyncronous processing.
         '''
-        queue = get_queue()
 
-        if in_worker():
+        if rq_config.in_worker:
             try:
+                log.debug('exec job from worker: args: %s, kwargs: %s' % (
+                    str(args), str(kwargs)))
                 return self.func(*args, **kwargs)
+            except:
+                #log.exception('exception in async.__call__')
+                raise
             finally:
                 # cleanup the sqlalchemy session after we run the job
                 # from the queue.
                 meta.Session.commit()
                 meta.Session.remove()
+        else:
+            return self.enqueue(*args, **kwargs)
 
+
+# --[ Redis configuration ]-------------------------------------------------
+
+# config will be set from adhocracy.config.environment
+# when the pylons application is initialized.
+
+rq_config = None
+
+
+class RQConfig(object):
+
+    force_sync = False
+    in_worker = False
+    connection = None
+
+    def __init__(self, host, port, queue_name):
+        if not host or not port or not queue_name:
+            log.warn(('You have not configured redis for adhocracy. '
+                     'You should. Current configuration values:'
+                      'host: %s, port: %s, name: %s') %
+                     (host, port, queue_name))
+            self.force_sync = True
+            self.use_redis = False
+            return
+        self.host = host
+        self.port = int(port)
+        self.queue_name = queue_name
+        self.use_redis = True
+        self.connection = self.new_connection()
+
+    def new_connection(self):
+        if not self.use_redis:
+            return None
+        return Redis(host=self.host, port=self.port)
+
+    @property
+    def queue(self):
+        if self.force_sync:
+            return None
+        return Queue(self.queue_name, connection=self.connection)
+
+    @property
+    def enqueue(self):
+        queue = self.queue()
         if queue is None:
-            fake_job = FakeJob()
-            fake_job._result = self.func(*args, **kwargs)
-            return fake_job
+            return self.fake_job
+        return queue.enqueue
 
-        self.enqueue(*args, **kwargs)
+    @classmethod
+    def setup_from_config(cls, config):
+        global rq_config
+        rq_config = cls.from_config(config)
 
-
-def in_worker(value=None):
-    '''
-    Get or set a config key to indicate that the process is a worker.
-    '''
-    if value is None:
-        return config.get(WORKER_CONFIG_KEY, False)
-    else:
-        config[WORKER_CONFIG_KEY] = value
-
-
-def get_queue():
-    if connection is None:
-        return None
-    if queue_name is None:
-        return None
-    return Queue(queue_name, connection=connection)
-
-
-def setup_redis_connection():
-    host = config.get('adhocracy.redis.host')
-    port = config.get('adhocracy.redis.port')
-    name = config.get('adhocracy.redis.queue')
-
-    if not (host and port and name):
-        log.warn(('Could not get a valid configuration for redis. You should'
-                  'use redis and configure adhocracy.redis.host, '
-                  'adhocracy.redis.prot and adhocracy.redis.queue.\n'
-                  'Current values: %s, %s, %s') % (host, port, name))
-        return
-
-    global connection, queue_name
-    queue_name = name
-    connection = Redis(host=host, port=int(port))
+    @classmethod
+    def from_config(cls, config):
+        host = config.get('adhocracy.redis.host')
+        port = config.get('adhocracy.redis.port')
+        name = config.get('adhocracy.redis.queue')
+        return cls(host, port, name)
 
 
 # --[ async methods ]-------------------------------------------------------
-
 
 def update_entity(entity, operation):
     entity_ref = to_ref(entity)
@@ -148,20 +172,19 @@ def handle_update(message):
 def minutely():
     from adhocracy.lib import democracy
     democracy.check_adoptions()
-    return True
 
 
 @async
 def hourly():
+    return
     # nothing here yet
-    return True
 
 
 @async
 def daily():
+    return
     from adhocracy.lib import watchlist
     watchlist.clean_stale_watches()
-    return True
 
 
 class FakeJob(Job):
