@@ -107,7 +107,8 @@ setup(
             'main = adhocracy.config.middleware:make_app'
         ],
         'paste.paster_command': [
-            'background = adhocracy.lib.cli:Worker',
+            'worker = adhocracy.lib.cli:Worker',
+            'timer = adhocracy.lib.cli:Timer',
             'index = adhocracy.lib.cli:Index'
         ],
         'paste.app_install': [
