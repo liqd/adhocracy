@@ -47,7 +47,7 @@ class async(object):
             return self.fake_job(*args, **kwargs)
         return queue.enqueue(self.func, *args, **kwargs)
 
-    def fake_async(self, *args, **kwargs):
+    def fake_job(self, *args, **kwargs):
         fake_job = FakeJob()
         fake_job._result = self.func(*args, **kwargs)
         return fake_job
@@ -188,6 +188,13 @@ def daily():
 
 
 class FakeJob(Job):
+    """
+    FakeJob is meant to be used in settings where no redis queue is configured.
+    It fakes the signature of a rq Job, but is executed synchronously.
+
+    FIXME: This isn't working, as the signature of rq.job.Job constructor and
+    other methods has changed.
+    """
 
     _result = None
 
