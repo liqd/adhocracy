@@ -59,6 +59,9 @@ do
     b)    branch=$OPTARG;;
     ?)    usage
           exit 2;;
+    *)    echo "Invalid option $name!"
+	      usage
+	      exit 3;;
     esac
 done
 
@@ -142,8 +145,10 @@ esac
 
 if [ -n "$buildout_cfg_file" ]; then
 	buildout_cfg_file=$(readlink -f "$buildout_cfg_file")
+elif [ "$buildout_cfg_file" = "hhu" ]; then
+	buildout_cfg_file=buildouts/hhu.cfg
 else
-	buildout_cfg_file=buildouts/buildout_development.cfg
+	buildout_cfg_file=buildout.cfg
 fi
 
 
@@ -263,11 +268,11 @@ fi
 ORIGINAL_PWD=$(pwd)
 cd adhocracy_buildout
 python bootstrap.py --version=1.7.0 
-bin/buildout
+ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
+bin/buildout -c "buildout_current.cfg"
 
 # Do not overwrite old symlinks with the same name
 rm -f "${ORIGINAL_PWD}/paster_interactive.sh"
-
 echo '#!/bin/sh
 set -e
 cd "$(dirname $0)/adhocracy_buildout"

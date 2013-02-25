@@ -46,3 +46,4 @@ mailsink
 adhocracy-test-chroot
 RELEASE-VERSION
 dist
+buildout_current.cfg
