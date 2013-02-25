@@ -604,7 +604,7 @@ $(document).ready(function () {
         $.ajax({
             url: widget_url,
             success: function (data) {
-                target.html(data);
+                target.replaceWith(data);
                 adhocracy.overlay.bindOverlays(target);
             }
         });
