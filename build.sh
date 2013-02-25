@@ -143,14 +143,13 @@ case "$downloader_program" in
 esac
 }
 
-if [ -n "$buildout_cfg_file" ]; then
-	buildout_cfg_file=$(readlink -f "$buildout_cfg_file")
-elif [ "$buildout_cfg_file" = "hhu" ]; then
+if [ "$buildout_cfg_file" = "hhu" ]; then
 	buildout_cfg_file=buildouts/hhu.cfg
+elif [ -n "$buildout_cfg_file" ]; then
+	buildout_cfg_file=$(readlink -f "$buildout_cfg_file")
 else
 	buildout_cfg_file=buildout.cfg
 fi
-
 
 if ! $not_use_sudo_commands; then
 	case $distro in
@@ -245,7 +244,7 @@ if [ -x adhocracy_buildout/bin/supervisorctl ]; then
 	adhocracy_buildout/bin/supervisorctl shutdown >/dev/null 2>/dev/null || true
 fi
 
-check_port_free=adhocracy/check_port_free.py
+check_port_free=adhocracy_buildout/check_port_free.py
 if [ '!' -e "$check_port_free" ]; then
     check_port_free_tmp=$(mktemp)
     check_port_free=$check_port_free_tmp
