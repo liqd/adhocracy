@@ -403,10 +403,9 @@ $(document).ready(function () {
         event.preventDefault();
         var c_id = $(this).closest('.comment').attr('id');
         var comment_form_id = 'comment_form_' + c_id;
-        var reply_id = $(this).data('reply');
         var comment_form = $('#' + comment_form_id).attr('comment_id');
         if (!comment_form) {
-            var form_url = '/comment/form/reply/' + reply_id;
+            var form_url = $(this).data('reply-url');
             var comment_div = $('#' + c_id);
             // create a container and load the form into it.
             var form_div = comment_div.add('<div></div>').not(comment_div);

@@ -164,7 +164,7 @@
                 ## Reply button
                 <% auth = check.comment.reply(comment) %>
                 %if auth and recurse:
-                <a class="new_comment" data-reply="${comment.id}" href="#">${_('reply')}</a>
+                <a class="new_comment" data-reply-url="${h.base_url('/comment/form/reply/' + str(comment.id))}" href="#">${_('reply')}</a>
                 %elif auth.propose_join():
                 <a class="new_comment" title="${_('Join instance to reply')}" rel="#overlay-join-button">${_('reply')}</a>
                 %elif auth.propose_login():
