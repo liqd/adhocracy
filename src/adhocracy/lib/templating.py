@@ -3,7 +3,7 @@ import hashlib
 import logging
 
 from pylons import response
-from pylons.templating import render_mako, render_mako_def
+import pylons.templating
 from pylons.controllers.util import etag_cache
 from pylons.controllers.util import abort, redirect
 
@@ -61,7 +61,7 @@ def render_mako(template_name, data, extra_vars=None, cache_key=None,
     for k,v in data.items():
         setattr(pylons.tmpl_context, k, v)
 
-    page = render_mako(template_name, extra_vars=extra_vars,
+    page = pylons.templating.render_mako(template_name, extra_vars=extra_vars,
                        cache_key=cache_key, cache_type=cache_type,
                        cache_expire=cache_expire)
     return page
@@ -80,7 +80,7 @@ def render_def(template_name, def_name, extra_vars=None, cache_key=None,
     extra_vars.update(tpl_vars())
     extra_vars.update(kwargs)
 
-    return render_mako_def(template_name, def_name,
+    return pylons.templating.render_mako_def(template_name, def_name,
                            cache_key=cache_key, cache_type=cache_type,
                            cache_expire=cache_expire, **extra_vars)
 
