@@ -1,6 +1,7 @@
 """Pylons environment configuration"""
 import os
 import time
+import sys
 import traceback
 
 from mako.lookup import TemplateLookup
@@ -31,10 +32,14 @@ def load_environment(global_conf, app_conf, with_db=True):
     site_templates = create_site_subdirectory('templates', app_conf=conf_copy)
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     client_containing = app_conf.get('adhocracy.client_location')
-    client_root = (
-        os.path.join(client_containing, 'adhocracy_client') if client_containing
-        else root
-    )
+    if client_containing:
+        client_root = os.path.join(client_containing, 'adhocracy_client')
+        sys.path.insert(0, client_containing)
+        import adhocracy_client.static
+        sys.modules['adhocracy.static'] = adhocracy_client.static
+    else:
+        client_root = root
+    import adhocracy.static
     paths = dict(root=root,
                  controllers=os.path.join(root, 'controllers'),
                  static_files=os.path.join(client_root, 'static'),
