@@ -205,18 +205,13 @@ adhocracy.twitter.profile_url = ${parts.twitter.profile_url}
 #adhocracy.bitly.login = 
 #adhocracy.bitly.key = 
 
-# INSTALL: the AMQP message queue, i.e. RabbitMQ. Make sure to use different 
-# queue and exchange names for each install of Adhocracy. Queue processing is 
-# unable to process messages related to another database. 
-adhocracy.amqp.host = 127.0.0.1
-#rabbitq default port is 5672
-adhocracy.amqp.port = ${parts.ports.rabbitmq}
-#adhocracy.amqp.event_queue = adhocracy.queue
-adhocracy.amqp.event_exchange = adhocracy.exchange
 
-# TODO: These are not currently evaluated. 
-#adhocracy.amqp.userid = 
-#adhocracy.amqp.password =
+# Redis is used to build a task queue that will be processed by the
+# `worker` process.
+# Note: host has to be an IP address, not a hostname
+adhocracy.redis.host = ${parts.domains.redis}
+adhocracy.redis.port = ${parts.ports.redis}
+adhocracy.redis.queue = ${parts.adhocracy.queue}
 
 # INSTALL: If you want to use recaptcha uncomment these lines 
 #recaptcha.public_key = 6LcICcgSAAAAAKNYq9iM4lIpB_GSjYItF21wS4NS
