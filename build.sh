@@ -88,8 +88,10 @@ if [ -z "$distro" ] ; then
 	exit 35
 fi
 
+ROOTDIR_FROM_CALLER="adhocracy_buildout/"
 if [ "$(basename $PWD)" = 'adhocracy_buildout' ]; then
 	cd "$(dirname $PWD)"
+	ROOTDIR_FROM_CALLER=""
 fi
 
 # Abort if we're running from somewhere else inside adhocracy_buildout
@@ -264,25 +266,22 @@ if [ '!' -e adhocracy_buildout/.git ]; then
 	(cd adhocracy_buildout && git checkout -q "$branch")
 fi
 
-ORIGINAL_PWD=$(pwd)
 cd adhocracy_buildout
 python bootstrap.py --version=1.7.0 
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
 bin/buildout -c "buildout_current.cfg"
 
-# Do not overwrite old symlinks with the same name
-rm -f "${ORIGINAL_PWD}/paster_interactive.sh"
 echo '#!/bin/sh
 set -e
-cd "$(dirname $0)/adhocracy_buildout"
+cd "$(dirname $(dirname $0))"
 
 cp etc/adhocracy.ini etc/adhocracy-interactive.ini
 
 # Comment out the following line to restrict access to local only
 sed "s#host = .*#host = 0.0.0.0#" -i etc/adhocracy-interactive.ini
 exec bin/paster serve --reload etc/adhocracy-interactive.ini
-' > "${ORIGINAL_PWD}/paster_interactive.sh"
-chmod a+x "${ORIGINAL_PWD}/paster_interactive.sh"
+' > "bin/adhocracy_interactive.sh"
+chmod a+x "bin/adhocracy_interactive.sh"
 
 if $autostart; then
 	bin/supervisord
@@ -303,7 +302,7 @@ if $autostart; then
 
 	echo
 	echo
-	echo "Type  ./paster_interactive.sh  to run the interactive paster daemon."
-	echo "Then, navigate to  http://adhocracy.lan:${ADHOCRACY_PORT}/  to see adhocracy!"
+	echo "Type  ${ROOTDIR_FROM_CALLER}bin/adhocracy_interactive.sh  to run the interactive paster daemon."
+	echo "Then, navigate to  http://127.0.0.1:${ADHOCRACY_PORT}/  to see adhocracy!"
 	echo "Use the username \"admin\" and password \"password\" to login."
 fi
