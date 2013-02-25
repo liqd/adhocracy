@@ -265,10 +265,6 @@ cd adhocracy_buildout
 python bootstrap.py --version=1.7.0 
 bin/buildout
 
-if [ -n "$tmp_file" ]; then
-	rm "$tmp_file"
-fi
-
 # Do not overwrite old symlinks with the same name
 rm -f "${ORIGINAL_PWD}/paster_interactive.sh"
 
