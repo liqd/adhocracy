@@ -1,4 +1,4 @@
-from fanstatic import Library, Group, Resource, init_needed
+from fanstatic import Library, Group, Resource
 # external libraries
 from js.jquery import jquery
 from js.jquery_joyride import joyride
