@@ -244,7 +244,7 @@ if [ -x adhocracy_buildout/bin/supervisorctl ]; then
 	adhocracy_buildout/bin/supervisorctl shutdown >/dev/null 2>/dev/null || true
 fi
 
-check_port_free=adhocracy_buildout/check_port_free.py
+check_port_free=adhocracy_buildout/scripts/check_port_free.py
 if [ '!' -e "$check_port_free" ]; then
     check_port_free_tmp=$(mktemp)
     check_port_free=$check_port_free_tmp
