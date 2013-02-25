@@ -267,6 +267,8 @@ if [ '!' -e adhocracy_buildout/.git ]; then
 fi
 
 cd adhocracy_buildout
+# Work around a bug in bootstrap.py where it forgets to create eggs/, but tries to write to eggs/tmpaIRxDN
+mkdir -p eggs
 python bootstrap.py --version=1.7.0 
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
 bin/buildout -c "buildout_current.cfg"
