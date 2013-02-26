@@ -133,7 +133,7 @@ fi
 download() {
 case "$downloader_program" in
 	curl )
-		curl -sS "$1" -o "$2"
+		curl -fsS "$1" -o "$2"
 		;;
 	wget )
 		wget -nv "$1" -O "$2"
@@ -249,7 +249,7 @@ fi
 check_port_free=adhocracy_buildout/scripts/check_port_free.py
 if [ '!' -e "$check_port_free" ]; then
     check_port_free_tmp=$(mktemp)
-    check_port_free=$check_port_free_tmp
+    check_port_free="$check_port_free_tmp"
 	if ! download "$CHECK_PORT_FREE_URL" "$check_port_free_tmp"; then
         ex=$?
         echo "Download failed. Are you connected to the Internet?"
