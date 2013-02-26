@@ -36,7 +36,7 @@ setup(
         "AUTHORS.txt",
     ]]),
     install_requires=[
-        "Pylons==1.0.1",
+        "adhocracy-Pylons>=1.0.1",
         "WebOb==1.2.3",
         "SQLAlchemy==0.7.10",
         "sqlalchemy-migrate>=0.6",
