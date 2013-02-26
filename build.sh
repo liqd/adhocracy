@@ -278,7 +278,7 @@ find src -name '*.pyc' -delete
 
 echo '#!/bin/sh
 set -e
-cd "$(dirname $(dirname $0))"
+cd "$(dirname $(dirname $(readlink -f $0)))"
 
 cp etc/adhocracy.ini etc/adhocracy-interactive.ini
 
