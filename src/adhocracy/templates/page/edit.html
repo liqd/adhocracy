@@ -39,7 +39,18 @@
               cols="${model.Text.LINE_LENGTH}" 
               name="text">${c.text.text}</textarea>
 
+
     %if can.page.manage(c.page):
+    <fieldset>
+      <legend>${_('Formatting')}</legend>
+      <div class="input_wrapper">
+        <label for="formatting">
+          <input name="formatting" type="checkbox" ${'checked="checked"' if c.page.formatting else '' | n} value="1" />
+        ${_("Use markdown formatting.")}</label>
+      </div>
+      ${components.formatting()}
+    </fieldset>
+
     <fieldset>
       <legend>${_("Category")}</legend>
       <div class="input_wrapper">
@@ -54,6 +65,8 @@
 
     <label for="parent">${_("Parent page:")}</label>
     ${tiles.page.select_page(field_name="parent_page", select=c.page.parent, functions=model.Page.PARENT_FUNCTIONS)}
+
+
     %endif
 
     %if c.instance.milestones and can.page.manage(c.page):
@@ -63,8 +76,6 @@
     ${tiles.milestone.select(c.page.milestone)}
     %endif
 
-
-        ${components.formatting()}
         ${components.savebox(h.entity_url(c.text))}
         ${components.form_watch(c.page)}
     </div>
