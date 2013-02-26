@@ -160,7 +160,8 @@ class ProposalController(BaseController):
                                         self.form_result.get('text'),
                                         c.user,
                                         function=model.Page.DESCRIPTION,
-                                        wiki=self.form_result.get('wiki'))
+                                        wiki=self.form_result.get('wiki'),
+                                        formatting=True)
         description.parents = [proposal]
         model.meta.Session.flush()
         proposal.description = description

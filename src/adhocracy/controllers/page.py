@@ -46,6 +46,8 @@ class PageCreateForm(formencode.Schema):
     tags = validators.String(max=20000, not_empty=False)
     milestone = forms.MaybeMilestone(if_empty=None, if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+    formatting = validators.StringBool(not_empty=False, if_empty=False,
+                                       if_missing=False)
 
 
 class PageEditForm(formencode.Schema):
@@ -67,6 +69,8 @@ class PageUpdateForm(formencode.Schema):
     milestone = forms.MaybeMilestone(if_empty=None,
                                      if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+    formatting = validators.StringBool(not_empty=False, if_empty=False,
+                                       if_missing=False)
 
 
 class PageFilterForm(formencode.Schema):
@@ -158,6 +162,7 @@ class PageController(BaseController):
         variant = self.form_result.get("title")
         page = model.Page.create(c.instance, variant,
                                  _text, c.user,
+                                 formatting=self.form_result.get("formatting"),
                                  tags=self.form_result.get("tags"))
 
         page.milestone = self.form_result.get('milestone')
@@ -188,6 +193,7 @@ class PageController(BaseController):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         c.variant = request.params.get("variant", c.variant)
         c.proposal = request.params.get("proposal")
+        c.formatting = request.params.get("formatting", False)
         c.branch = branch
 
         if branch or c.variant is None:
@@ -262,6 +268,8 @@ class PageController(BaseController):
             category = categories[0] if categories else None
             c.page.set_category(category, c.user)
 
+            c.page.formatting = self.form_result.get('formatting')
+
         if not branch and c.variant != parent_text.variant \
                 and parent_text.variant != model.Text.HEAD:
             c.page.rename_variant(parent_text.variant, c.variant)
@@ -289,13 +297,16 @@ class PageController(BaseController):
         redirect(h.entity_url(target))
 
     @classmethod
-    def _diff_details(cls, left, right):
+    def _diff_details(cls, left, right, formatting):
         left_text = left.text.strip() if left.text else ''
         right_text = right.text.strip() if right.text else ''
         has_changes = ((left_text != right_text))
 
         title = right.title
-        text = render_line_based(right)
+        if formatting:
+            text = render_text(right.text)
+        else:
+            text = render_line_based(right)
         text_diff = norm_texts_inline_compare(left, right)
         title_diff = page_titles_compare(left, right)
 
@@ -350,9 +361,9 @@ class PageController(BaseController):
         '''
         head_text = page.head
         variant_text = page.variant_head(variant)
-        details = cls._diff_details(head_text, variant_text)
+        details = cls._diff_details(head_text, variant_text, page.formatting)
 
-        # Replace items comming from diff_details for the UI
+        # Replace items coming from diff_details for the UI
         messages = (('text', _('<i>(No text)</i>')),
                     ('title', _('<i>(No title))</i>')),
                     ('text_diff', _('<i>(No differences))</i>')),
