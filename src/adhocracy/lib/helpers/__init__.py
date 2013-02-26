@@ -20,6 +20,7 @@ from adhocracy.lib import cache
 from adhocracy.lib import democracy
 from adhocracy.lib import sorting
 from adhocracy.lib import version
+from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.auth.authorization import has as has_permission
 from adhocracy.lib.auth.csrf import url_token, field_token
 from adhocracy.lib.helpers import site_helper as site
