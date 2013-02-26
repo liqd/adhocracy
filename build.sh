@@ -212,7 +212,7 @@ WantedBy=multi-user.target
 			;;
 		esac
 		echo "$stmpl" | \
-			sed -e "s#\${[^}]*:user}#$adhoc_user#" \
+			sed -e "s#\${[^}]*:[^}]*user}#$adhoc_user#" \
 				-e "s#\${buildout:directory}#$(readlink -f .)/adhocracy_buildout#" \
 				-e "s#\${domains:main}#supervisord#" | \
 				$SUDO_CMD tee "$INIT_FILE" >/dev/null
