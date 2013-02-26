@@ -290,7 +290,7 @@ chmod a+x "bin/adhocracy_interactive.sh"
 
 if $autostart; then
 	bin/supervisord
-	echo "Use adhocracy_buildout/bin/supervisorctl to control running services."
+	echo "Use ${ROOTDIR_FROM_CALLER}bin/supervisorctl to control running services."
 	python scripts/check_port_free.py -o -g 20 ${SUPERVISOR_PORTS}
 	if bin/supervisorctl status | grep -vq RUNNING; then
 		echo 'Failed to start all services:'
