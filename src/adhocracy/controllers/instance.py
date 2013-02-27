@@ -228,12 +228,19 @@ class InstanceController(BaseController):
                                           enable_sorts=False)
 
         proposals = model.Proposal.all(instance=c.page_instance)
-        if asbool(config.get('adhocracy.show_instance_overview_proposals_new', 'true')):
+        show_new_proposals = config.get(
+                    'adhocracy.show_instance_overview_proposals_new', 'false')
+        if not show_new_proposals:
+            # Fall back to legacy option
+            show_new_proposals = config.get(
+                        'adhocracy.show_instance_overview_proposals', 'true')
+        if asbool(show_new_proposals):
             c.new_proposals_pager = pager.proposals(
                 proposals, size=7, enable_sorts=False,
                 enable_pages=False, default_sort=sorting.entity_newest)
-        if asbool(config.get('adhocracy.show_instance_overview_proposals_all', 'false')):
-            c.proposals_pager = pager.proposals(proposals)
+        if asbool(config.get('adhocracy.show_instance_overview_proposals_all',
+                             'false')):
+            c.all_proposals_pager = pager.proposals(proposals)
         if asbool(config.get('adhocracy.show_instance_overview_stats', 'true')):
             c.stats = {
                 'comments': model.Comment.all_q().count(),
