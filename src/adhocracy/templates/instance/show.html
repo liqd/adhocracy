@@ -12,11 +12,16 @@
 
 ${c.tile.description|n}
 
-%if h.asbool(config.get('adhocracy.show_instance_overview_proposals')):
+%if c.new_proposals_pager or c.all_proposals_pager:
 <hr />
 <div id="new_proposals_table" class="table">
+    %if c.new_proposals_pager:
     <h3 class="section">${_("Newest Proposals")}</h3>
     ${c.new_proposals_pager.here()}
+    %endif
+    %if c.all_proposals_pager:
+    ${c.all_proposals_pager.here()}
+    %endif
 
     <div id="proposal-actions">
         <% auth = check.proposal.create() %>
@@ -38,9 +43,11 @@ ${c.tile.description|n}
            href="${h.base_url('/proposal/new')}" rel="#overlay-validate-button">${_("new proposal")}</a>
         %endif
 
+        %if not c.all_proposals_pager:
         <a href="${h.base_url('/proposal')}" 
            class="button edit ttip" 
            title="${_('show a list of proposals')}">${_("more proposals")}</a>
+        %endif
     </div>
 
 </div>
@@ -60,8 +67,10 @@ ${c.next_milestones_pager.here()}
 
 <%block name="sidebar">
 <div class="sidebar_box">
+%if c.events:
 <h3>${_('Newest Events')}</h3>
 ${c.events_pager.here()}
+%endif
 
 <h3 id="information">${_('Informations')}</h3>
 <summary>
@@ -73,12 +82,14 @@ ${c.events_pager.here()}
     <h6>${_('Votings')}</h6>
     <p>${c.sidebar_delegations}</p>
 
+    %if c.stats:
     <h6>${_('By the numbers')}</h6>
     <ul class="nobullet">
         <li>${_("<b>%s</b> community members") % c.stats.get('members')|n}</li>
         <li>${_("<b>%s</b> proposals") % c.stats.get('proposals')|n}</li>
         <li>${_("<b>%s</b> comments") % c.stats.get('comments')|n}</li>
     </ul>
+    %endif
     
 </summary>
 
