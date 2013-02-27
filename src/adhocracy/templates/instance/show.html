@@ -12,14 +12,14 @@
 
 ${c.tile.description|n}
 
-%if c.new_proposals_pager or c.all_proposals_pager:
+%if c.new_proposals_pager is not None or c.all_proposals_pager is not None:
 <hr />
 <div id="new_proposals_table" class="table">
-    %if c.new_proposals_pager:
+    %if c.new_proposals_pager is not None:
     <h3 class="section">${_("Newest Proposals")}</h3>
     ${c.new_proposals_pager.here()}
     %endif
-    %if c.all_proposals_pager:
+    %if c.all_proposals_pager is not None:
     ${c.all_proposals_pager.here()}
     %endif
 
@@ -67,7 +67,7 @@ ${c.next_milestones_pager.here()}
 
 <%block name="sidebar">
 <div class="sidebar_box">
-%if c.events_pager:
+%if c.events_pager is not None:
 <h3>${_('Newest Events')}</h3>
 ${c.events_pager.here()}
 %endif
@@ -82,7 +82,7 @@ ${c.events_pager.here()}
     <h6>${_('Votings')}</h6>
     <p>${c.sidebar_delegations}</p>
 
-    %if c.stats:
+    %if c.stats is not None:
     <h6>${_('By the numbers')}</h6>
     <ul class="nobullet">
         <li>${_("<b>%s</b> community members") % c.stats.get('members')|n}</li>
