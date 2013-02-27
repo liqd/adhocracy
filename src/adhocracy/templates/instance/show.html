@@ -67,7 +67,7 @@ ${c.next_milestones_pager.here()}
 
 <%block name="sidebar">
 <div class="sidebar_box">
-%if c.events:
+%if c.events_pager:
 <h3>${_('Newest Events')}</h3>
 ${c.events_pager.here()}
 %endif
