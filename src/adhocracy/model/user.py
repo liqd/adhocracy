@@ -24,7 +24,7 @@ user_table = Table(
     Column('user_name', Unicode(255), nullable=False, unique=True, index=True),
     Column('display_name', Unicode(255), nullable=True, index=True),
     Column('bio', UnicodeText(), nullable=True),
-    Column('email', Unicode(255), nullable=True, unique=False),
+    Column('email', Unicode(255), nullable=True, unique=True),
     Column('email_priority', Integer, default=3),
     Column('activation_code', Unicode(255), nullable=True, unique=False),
     Column('reset_code', Unicode(255), nullable=True, unique=False),
