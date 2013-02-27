@@ -26,6 +26,7 @@ OPTIONS:
    -u      Install only superuser parts
    -U      Set the username adhocracy should run as
    -b      Branch to check out
+   -R      Rebuild everything, do not use any caches
 EOF
 }
 
@@ -38,6 +39,7 @@ adhoc_user=$USER
 install_mysql_client=false
 arch_install=false
 branch=$DEFAULT_BRANCH
+always_rebuild=false
 
 if [ -n "$SUDO_USER" ]; then
 	adhoc_user=$SUDO_USER
@@ -46,7 +48,7 @@ fi
 PKGS_TO_INSTALL=''
 PKG_INSTALL_CMD=''
 
-while getopts DpMmASsuc:U:b: name
+while getopts DpMmASsuc:U:b:R name
 do
     case $name in
     M)    install_mysql_client=true;;
@@ -57,6 +59,7 @@ do
     U)	  adhoc_user=$OPTARG;;
     c)    buildout_cfg_file=$OPTARG;;
     b)    branch=$OPTARG;;
+    R)    always_rebuild=true;;
     ?)    usage
           exit 2;;
     *)    echo "Invalid option $name!"
@@ -269,7 +272,11 @@ fi
 cd adhocracy_buildout
 # Work around a bug in bootstrap.py where it forgets to create eggs/, but tries to write to eggs/tmpaIRxDN
 mkdir -p eggs
-python bootstrap.py --version=1.7.0 
+BUILDOUT_VERSION=1.7.0
+cur_installed="$(find eggs -maxdepth 1 -name "zc.buildout-${BUILDOUT_VERSION}-*" -print -quit 2>/dev/null)"
+if $always_rebuild || test -z "$cur_installed"; then
+	python bootstrap.py "--version=$BUILDOUT_VERSION"
+fi
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
 bin/buildout -c "buildout_current.cfg"
 
