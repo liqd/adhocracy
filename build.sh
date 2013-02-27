@@ -273,9 +273,6 @@ python bootstrap.py --version=1.7.0
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
 bin/buildout -c "buildout_current.cfg"
 
-# Remove old pyc files
-find src -name '*.pyc' -delete
-
 echo '#!/bin/sh
 set -e
 cd "$(dirname $(dirname $(readlink -f $0)))"
