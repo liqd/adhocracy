@@ -133,7 +133,7 @@ fi
 download() {
 case "$downloader_program" in
 	curl )
-		curl -sS "$1" -o "$2"
+		curl -fsS "$1" -o "$2"
 		;;
 	wget )
 		wget -nv "$1" -O "$2"
@@ -212,7 +212,7 @@ WantedBy=multi-user.target
 			;;
 		esac
 		echo "$stmpl" | \
-			sed -e "s#\${sysv_conf:user}#$adhoc_user#" \
+			sed -e "s#\${[^}]*:[^}]*user}#$adhoc_user#" \
 				-e "s#\${buildout:directory}#$(readlink -f .)/adhocracy_buildout#" \
 				-e "s#\${domains:main}#supervisord#" | \
 				$SUDO_CMD tee "$INIT_FILE" >/dev/null
@@ -249,7 +249,7 @@ fi
 check_port_free=adhocracy_buildout/scripts/check_port_free.py
 if [ '!' -e "$check_port_free" ]; then
     check_port_free_tmp=$(mktemp)
-    check_port_free=$check_port_free_tmp
+    check_port_free="$check_port_free_tmp"
 	if ! download "$CHECK_PORT_FREE_URL" "$check_port_free_tmp"; then
         ex=$?
         echo "Download failed. Are you connected to the Internet?"
@@ -273,9 +273,12 @@ python bootstrap.py --version=1.7.0
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
 bin/buildout -c "buildout_current.cfg"
 
+# Remove old pyc files
+find src -name '*.pyc' -delete
+
 echo '#!/bin/sh
 set -e
-cd "$(dirname $(dirname $0))"
+cd "$(dirname $(dirname $(readlink -f $0)))"
 
 cp etc/adhocracy.ini etc/adhocracy-interactive.ini
 
@@ -287,7 +290,7 @@ chmod a+x "bin/adhocracy_interactive.sh"
 
 if $autostart; then
 	bin/supervisord
-	echo "Use adhocracy_buildout/bin/supervisorctl to control running services."
+	echo "Use ${ROOTDIR_FROM_CALLER}bin/supervisorctl to control running services."
 	python scripts/check_port_free.py -o -g 20 ${SUPERVISOR_PORTS}
 	if bin/supervisorctl status | grep -vq RUNNING; then
 		echo 'Failed to start all services:'

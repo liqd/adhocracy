@@ -66,7 +66,7 @@ list_limit, initial_option=None, allow_empty=True)">
         pages = lib.sorting.delegateable_full_title(pages)
         %>
         %for page in pages:
-            <option value="${page.id}" ${'selected="selected"' if select and select.id == page.id else ""}>${page.full_title}</option>
+            <option value="${page.id}" ${'selected="selected"' if select and select.id == page.id else "" | n}>${page.full_title}</option>
         %endfor
         </select>
     %endif 
