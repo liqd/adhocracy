@@ -233,7 +233,7 @@ class InstanceController(BaseController):
                 proposals, size=7, enable_sorts=False,
                 enable_pages=False, default_sort=sorting.entity_newest)
         if asbool(config.get('adhocracy.show_instance_overview_proposals_all', 'false')):
-            c.proposals_pager = paget.proposals(proposals)
+            c.proposals_pager = pager.proposals(proposals)
         if asbool(config.get('adhocracy.show_instance_overview_stats', 'true')):
             c.stats = {
                 'comments': model.Comment.all_q().count(),
