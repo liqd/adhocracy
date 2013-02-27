@@ -204,23 +204,9 @@ class InstanceController(BaseController):
             redirect(h.entity_url(c.page_instance))
 
         c.tile = tiles.instance.InstanceTile(c.page_instance)
-        proposals = model.Proposal.all(instance=c.page_instance)
-        c.new_proposals_pager = pager.proposals(
-            proposals, size=7, enable_sorts=False,
-            enable_pages=False, default_sort=sorting.entity_newest)
-
         c.sidebar_delegations = (_('Delegations are enabled.') if
                                  c.page_instance.allow_delegate else
                                  _('Delegations are disabled.'))
-
-        #pages = model.Page.all(instance=c.page_instance,
-        #        functions=[model.Page.NORM])
-        #c.top_pages_pager = pager.pages(
-        #    pages, size=7, enable_sorts=False,
-        #    enable_pages=False, default_sort=sorting.norm_selections)
-        #tags = model.Tag.popular_tags(limit=40)
-        #c.tags = sorted(text.tag_cloud_normalize(tags),
-        #                key=lambda (k, c, v): k.name)
 
         if asbool(config.get('adhocracy.show_instance_overview_milestones')) \
                 and c.page_instance.milestones:
@@ -235,18 +221,27 @@ class InstanceController(BaseController):
                 milestones, size=number, enable_sorts=False,
                 enable_pages=False, default_sort=sorting.milestone_time)
 
-        events = model.Event.find_by_instance(c.page_instance, limit=3)
+        if asbool(config.get('adhocracy.show_instance_overview_events', 'true')):
+            events = model.Event.find_by_instance(c.page_instance, limit=3)
+            c.events_pager = pager.events(events,
+                                          enable_pages=False,
+                                          enable_sorts=False)
 
-        c.events_pager = pager.events(events,
-                                      enable_pages=False,
-                                      enable_sorts=False)
+        proposals = model.Proposal.all(instance=c.page_instance)
+        if asbool(config.get('adhocracy.show_instance_overview_proposals_new', 'true')):
+            c.new_proposals_pager = pager.proposals(
+                proposals, size=7, enable_sorts=False,
+                enable_pages=False, default_sort=sorting.entity_newest)
+        if asbool(config.get('adhocracy.show_instance_overview_proposals_all', 'false')):
+            c.proposals_pager = paget.proposals(proposals)
+        if asbool(config.get('adhocracy.show_instance_overview_stats', 'true')):
+            c.stats = {
+                'comments': model.Comment.all_q().count(),
+                'proposals': model.Proposal.all_q(
+                    instance=c.page_instance).count(),
+                'members': model.Membership.all_q().count()
+            }
 
-        c.stats = {
-            'comments': model.Comment.all_q().count(),
-            'proposals': model.Proposal.all_q(
-                instance=c.page_instance).count(),
-            'members': model.Membership.all_q().count()
-        }
         c.tutorial_intro = _('tutorial_instance_show_intro')
         c.tutorial = 'instance_show'
         return render("/instance/show.html")
