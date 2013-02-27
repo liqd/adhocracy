@@ -5,11 +5,14 @@ import re
 
 from babel import Locale
 
+from pylons import config
+
 from sqlalchemy import Table, Column, ForeignKey, func, or_
 from sqlalchemy import DateTime, Integer, Float, Boolean, Unicode, UnicodeText
 from sqlalchemy.orm import reconstructor
 
-import meta
+import adhocracy.model
+from adhocracy.model import meta
 
 
 log = logging.getLogger(__name__)
@@ -218,6 +221,18 @@ class Instance(meta.Indexable):
                                 approved=True)
         meta.Session.add(membership)
         Page.create(instance, label, u"", user)
+
+        # Autojoin the user in instances
+        config_autojoin = config.get('adhocracy.instances.autojoin')
+        if (config_autojoin and
+                (config_autojoin == 'ALL' or
+                key in (k.strip() for k in config_autojoin.split(',')))):
+            users = adhocracy.model.User.all()
+            for u in users:
+                autojoin_membership = Membership(u, instance,
+                                                 instance.default_group)
+                meta.Session.add(autojoin_membership)
+
         meta.Session.flush()
         return instance
 
