@@ -290,9 +290,12 @@ if $autostart; then
 	echo "Use ${ROOTDIR_FROM_CALLER}bin/supervisorctl to control running services."
 	python scripts/check_port_free.py -o -g 20 ${SUPERVISOR_PORTS}
 	if bin/supervisorctl status | grep -vq RUNNING; then
-		echo 'Failed to start all services:'
-		bin/supervisorctl status
-		exit 31
+		sleep 2 # Wait for supervisord to register that everything's running
+		if bin/supervisorctl status | grep -vq RUNNING; then
+			echo 'Failed to start all services:'
+			bin/supervisorctl status
+			exit 31
+		fi
 	fi
 
 	pasterOutput=$(bin/paster setup-app etc/adhocracy.ini --name=content)
