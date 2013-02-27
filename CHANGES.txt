@@ -3,6 +3,20 @@ adhocracy Changelog
 
 1.2beta2dev
 -----------
+- Replace RabbitMQ/amqp with redis/rq. This means that you have to
+  provide a working redis instance if you want to use asyncronous
+  jobs (highly recommended in production).
+  The background process that processes the jobs is renamed from
+  'background' to 'worker'. You can call it with
+  `bin/paster --plugin=adhocracy worker -c etc/adhocracy.ini`
+
+  Configuration changes:
+
+  * dropped: adhocracy.amqp.* settings are not required anymore.
+  * new: adhocracy.redis.host: An IP address redis can bind to 
+    (not a hostname!)
+  * new: adhocracy.redis.port: The port redis will open
+  * new: adhocracy.redis.queue: The queue name
 
 - Added facet search to the instance listing. The listing is based on solr now, 
   please reindex. [joka]

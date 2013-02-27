@@ -15,8 +15,8 @@ def init_democracy():
     (:func:`handle_vote`) and :class:`adhocracy.models.Delegation`
     (:func:`update_delegation`)
     '''
-    from adhocracy.lib.queue.update import LISTENERS
-    from adhocracy.model.update import INSERT, UPDATE, DELETE
+    from adhocracy.lib.queue import LISTENERS
+    from adhocracy.model.update import INSERT, UPDATE
     LISTENERS[(Vote, INSERT)].append(handle_vote)
     LISTENERS[(Vote, UPDATE)].append(handle_vote)
     LISTENERS[(Delegation, INSERT)].append(update_delegation)

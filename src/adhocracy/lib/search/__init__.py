@@ -18,7 +18,7 @@ def init_search():
     '''Register callback functions for commit hooks to add/update and
     delete documents in solr when model instances are commited.
     '''
-    from adhocracy.lib.queue.update import LISTENERS
+    from adhocracy.lib.queue import LISTENERS
     from adhocracy.model.update import INSERT, UPDATE, DELETE
     for cls in INDEXED_CLASSES:
         LISTENERS[(cls, INSERT)].append(index.update)

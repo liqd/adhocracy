@@ -35,9 +35,12 @@ skip_migration = True
 skip_authentication = True
 skip_setupentities = True
 
-# Default rabbitmq settings from buildout: etc/rabbitmq-env.conf.in
-adhocracy.amqp.host = 127.0.0.1
-adhocracy.amqp.port = ${parts.ports.rabbitmq}
+# Redis is used to build a task queue that will be processed by the
+# `worker` process.
+# Note: host has to be an IP address, not a hostname
+adhocracy.redis.host = ${parts.domains.redis}
+adhocracy.redis.port = ${parts.ports.redis}
+adhocracy.redis.queue = ${parts.adhocracy.queue}
 
 # memcached 
 memcached.server = 127.0.0.1:${parts.ports.memcached}

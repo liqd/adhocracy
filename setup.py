@@ -51,7 +51,8 @@ setup(
         "python-twitter>=0.6",
         "oauth2",  # undeclared requirement of python-twitter
         "oauth>=1.0.1",
-        "amqplib>=0.6.1",
+        "rq",
+        "redis",
         "babel>=0.9",
         "beautifulsoup>=3.0.7",
         "python-openid>=2.2.4",
@@ -106,7 +107,8 @@ setup(
             'main = adhocracy.config.middleware:make_app'
         ],
         'paste.paster_command': [
-            'background = adhocracy.lib.cli:Background',
+            'worker = adhocracy.lib.cli:Worker',
+            'timer = adhocracy.lib.cli:Timer',
             'index = adhocracy.lib.cli:Index'
         ],
         'paste.app_install': [
