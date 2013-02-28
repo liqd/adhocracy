@@ -8,12 +8,10 @@ from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
-from repoze.what.plugins.pylonshq import ActionProtector
-
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import sorting, tiles, watchlist
-from adhocracy.lib.auth import authorization, can, csrf, require
+from adhocracy.lib.auth import authorization, can, csrf, require, guard
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
@@ -431,7 +429,7 @@ class ProposalController(BaseController):
         badges = sorted(badges, key=lambda badge: badge.title)
         return badges
 
-    @ActionProtector(authorization.has_permission("instance.admin"))
+    @guard(require.perm, "instance.admin")
     def badges(self, id, errors=None, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         c.badges = self._editable_badges(c.proposal)
@@ -452,7 +450,7 @@ class ProposalController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=DelegateableBadgesForm(), form='badges')
-    @ActionProtector(authorization.has_permission("instance.admin"))
+    @guard(require.perm, "instance.admin")
     @csrf.RequireInternalRequest(methods=['POST'])
     def update_badges(self, id, format='html'):
         proposal = get_entity_or_abort(model.Proposal, id)

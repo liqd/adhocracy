@@ -38,7 +38,7 @@ def login_user(user, request, response):
 
 
 class AuthModuleWrapper(object):
-    """ dirty hack providing syntactic suger like ``can.proposal.create``"""
+    """ dirty hack providing syntactic suger like ``can.proposal.create()``"""
 
     import proposal
     import comment
@@ -55,9 +55,16 @@ class AuthModuleWrapper(object):
     import milestone
     import badge
 
+    @staticmethod
+    def perm(check, permission):
+        """
+        Checks that the current user has the given permission.
+        """
+        check.perm(permission)
+
 
 class RecursiveAuthWrapper(object):
-    """ dirty hack providing syntactic suger like ``can.proposal.create``"""
+    """ dirty hack providing syntactic suger like ``can.proposal.create()``"""
 
     def __init__(self, obj, raise_type):
         self.obj = obj
@@ -99,3 +106,22 @@ auth_module_wrapper = AuthModuleWrapper()
 require = RecursiveAuthWrapper(auth_module_wrapper, RETURN_TEMPLATE)
 check = RecursiveAuthWrapper(auth_module_wrapper, RETURN_AUTH_CHECK)
 can = RecursiveAuthWrapper(auth_module_wrapper, RETURN_BOOL)
+
+
+def guard(guarding_fun, *guard_args, **guard_kwargs):
+    """
+    Syntactic sugar which allows to execute a function *guarding_fun* with
+    *guard_args* and *guard_kwargs* before executing the actual function.
+
+    Example: @guard(require.perm, 'global.admin')
+    """
+
+    def decorated_fun(fn):
+
+        def inner(*a, **kw):
+            guarding_fun(*guard_args, **guard_kwargs)
+            return fn(*a, **kw)
+
+        return inner
+
+    return decorated_fun

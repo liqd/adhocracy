@@ -44,7 +44,6 @@ setup(
         "repoze.who>=2.0",
         "repoze.what==1.0.8",  # 1.0.9 conflicts with repoze.who>=2.0
         "repoze.who.plugins.sa==1.0rc2",
-        "repoze.what-pylons==1.0",
         "repoze.what.plugins.sql==1.0.1",
         "repoze.who-friendlyform==1.0.8",
         "repoze.who-testutil==1.0",

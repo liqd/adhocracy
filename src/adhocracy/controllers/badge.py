@@ -3,8 +3,6 @@ from formencode import Any, All, htmlfill, Invalid, validators
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.i18n import _
-from repoze.what.plugins.pylonshq import ActionProtector
-from repoze.what.predicates import Any as WhatAnyPredicate
 
 from adhocracy.forms.common import ValidInstanceGroup
 from adhocracy.forms.common import ValidHTMLColor
@@ -19,6 +17,7 @@ from adhocracy.model import Group, Instance, meta
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has, has_permission
 from adhocracy.lib.auth.csrf import RequireInternalRequest
+from adhocracy.lib.auth import require, guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render
 
@@ -35,10 +34,6 @@ class BadgeForm(formencode.Schema):
 class UserBadgeForm(BadgeForm):
     group = Any(validators.Empty, ValidInstanceGroup())
     display_group = validators.StringBoolean(if_missing=False)
-
-
-AnyAdmin = WhatAnyPredicate(has_permission('global.admin'),
-                            has_permission('instance.admin'))
 
 
 class BadgeController(BaseController):
@@ -136,12 +131,12 @@ class BadgeController(BaseController):
         else:
             return method()
 
-    @ActionProtector(AnyAdmin)
+    @guard(require.instance.any_admin)
     @RequireInternalRequest()
     def create(self, badge_type):
         return self.dispatch('create', badge_type)
 
-    @ActionProtector(AnyAdmin)
+    @guard(require.instance.any_admin)
     @RequireInternalRequest()
     def create_instance_badge(self):
         try:
@@ -155,7 +150,7 @@ class BadgeController(BaseController):
         meta.Session.commit()
         redirect(self.base_url)
 
-    @ActionProtector(AnyAdmin)
+    @guard(require.instance.any_admin)
     @RequireInternalRequest()
     def create_user_badge(self):
         try:
@@ -173,7 +168,7 @@ class BadgeController(BaseController):
         meta.Session.commit()
         redirect(self.base_url)
 
-    @ActionProtector(AnyAdmin)
+    @guard(require.instance.any_admin)
     @RequireInternalRequest()
     def create_delegateable_badge(self):
         try:
@@ -187,7 +182,7 @@ class BadgeController(BaseController):
         meta.Session.commit()
         redirect(self.base_url)
 
-    @ActionProtector(AnyAdmin)
+    @guard(require.instance.any_admin)
     @RequireInternalRequest()
     def create_category_badge(self):
         try:
@@ -233,7 +228,7 @@ class BadgeController(BaseController):
             self._redirect_not_found(id)
         return badge
 
-    @ActionProtector(AnyAdmin)
+    @guard(require.instance.any_admin)
     def edit(self, id, errors=None):
         badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
@@ -256,14 +251,14 @@ class BadgeController(BaseController):
                                defaults=defaults,
                                force_defaults=False)
 
-    @ActionProtector(AnyAdmin)
+    @guard(require.instance.any_admin)
     @RequireInternalRequest()
     def update(self, id):
         badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
         return self.dispatch('update', c.badge_type, id=id)
 
-    @ActionProtector(AnyAdmin)
+    @guard(require.instance.any_admin)
     @RequireInternalRequest()
     def update_user_badge(self, id):
         try:
@@ -288,7 +283,7 @@ class BadgeController(BaseController):
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
 
-    @ActionProtector(AnyAdmin)
+    @guard(require.instance.any_admin)
     @RequireInternalRequest()
     def update_delegateable_badge(self, id):
         try:
@@ -308,7 +303,7 @@ class BadgeController(BaseController):
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
 
-    @ActionProtector(AnyAdmin)
+    @guard(require.instance.any_admin)
     @RequireInternalRequest()
     def update_instance_badge(self, id):
         try:
@@ -328,7 +323,7 @@ class BadgeController(BaseController):
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
 
-    @ActionProtector(AnyAdmin)
+    @guard(require.instance.any_admin)
     @RequireInternalRequest()
     def update_category_badge(self, id):
         try:

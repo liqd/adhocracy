@@ -13,14 +13,12 @@ from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _, lazy_ugettext as L_
 
-from repoze.what.plugins.pylonshq import ActionProtector
-
 from adhocracy import forms, i18n, model
 from adhocracy.controllers.admin import AdminController, UserImportForm
 from adhocracy.controllers.badge import BadgeController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
-from adhocracy.lib.auth import authorization, can, csrf, require
+from adhocracy.lib.auth import authorization, can, csrf, require, guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.templating import (render, render_json, render_png,
@@ -304,7 +302,7 @@ class InstanceController(BaseController):
         badges = sorted(badges, key=lambda badge: badge.title)
         return badges
 
-    @ActionProtector(authorization.has_permission("global.admin"))
+    @guard(require.perm, "global.admin")
     def badges(self, id, errors=None, format='html'):
         instance = get_entity_or_abort(model.Instance, id)
         c.badges = self._editable_badges(instance)
@@ -324,7 +322,7 @@ class InstanceController(BaseController):
             defaults=defaults)
 
     @validate(schema=InstanceBadgesForm(), form='badges')
-    @ActionProtector(authorization.has_permission("global.admin"))
+    @guard(require.perm, "global.admin")
     @csrf.RequireInternalRequest(methods=['POST'])
     def update_badges(self, id, format='html'):
         instance = get_entity_or_abort(model.Instance, id)
