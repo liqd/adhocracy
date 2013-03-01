@@ -1,4 +1,5 @@
 from pylons import tmpl_context as c, app_globals as g
+from authorization import has
 
 
 def index(check):
@@ -22,6 +23,12 @@ def edit(check, i):
     show(check, i)
 
 admin = edit
+
+
+def any_admin(check):
+    if has('global.admin'):
+        return
+    check.perm('instance.admin')
 
 
 def authenticated_edit(check, instance):

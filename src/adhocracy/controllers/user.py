@@ -11,15 +11,14 @@ from babel import Locale
 
 from webob.exc import HTTPFound
 
-from repoze.what.plugins.pylonshq import ActionProtector
 from repoze.who.api import get_api
 
 from adhocracy import forms, model
 from adhocracy import i18n
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import sorting, search as libsearch, tiles, text
-from adhocracy.lib.auth import require, login_user
-from adhocracy.lib.auth.authorization import has_permission, has
+from adhocracy.lib.auth import require, login_user, guard
+from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
@@ -520,7 +519,7 @@ class UserController(BaseController):
         return render('/user/dashboard.html')
 
     def dashboard_proposals(self, id):
-        '''Render all proposals for all instances the use is member'''
+        '''Render all proposals for all instances the user is member'''
         #user object
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
@@ -535,7 +534,7 @@ class UserController(BaseController):
         return render("/user/proposals.html")
 
     def dashboard_pages(self, id):
-        '''Render all proposals for all instances the use is member'''
+        '''Render all proposals for all instances the user is member'''
         #user object
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
@@ -551,7 +550,7 @@ class UserController(BaseController):
         #render result
         return render("/user/pages.html")
 
-    @ActionProtector(has_permission("user.view"))
+    @guard.perm("user.view")
     def complete(self):
         prefix = unicode(request.params.get('q', u''))
         users = model.User.complete(prefix, 15)
@@ -709,7 +708,7 @@ class UserController(BaseController):
         c.users_pager = pager.users(users, has_query=True)
         return c.users_pager.here()
 
-    @ActionProtector(has_permission('instance.admin'))
+    @guard.perm('instance.admin')
     def badges(self, id, errors=None):
         if has('global.admin'):
             c.badges = model.UserBadge.all(instance=None)
@@ -729,7 +728,7 @@ class UserController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=UserBadgesForm(), form='badges')
-    @ActionProtector(has_permission('instance.admin'))
+    @guard.perm('instance.admin')
     def update_badges(self, id):
         user = get_entity_or_abort(model.User, id)
         badges = self.form_result.get('badge')
