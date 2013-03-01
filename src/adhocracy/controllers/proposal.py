@@ -102,10 +102,10 @@ class ProposalController(BaseController):
         return render("/proposal/index.html")
 
     @RequireInstance
+    @guard.proposal.create()
     @validate(schema=ProposalNewForm(), form='bad_request',
               post_only=False, on_get=True)
     def new(self, errors=None):
-        require.proposal.create()
         c.pages = []
         c.exclude_pages = []
         c.categories = model.CategoryBadge.all(
@@ -429,7 +429,7 @@ class ProposalController(BaseController):
         badges = sorted(badges, key=lambda badge: badge.title)
         return badges
 
-    @guard(require.perm, "instance.admin")
+    @guard.perm("instance.admin")
     def badges(self, id, errors=None, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         c.badges = self._editable_badges(c.proposal)
@@ -450,7 +450,7 @@ class ProposalController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=DelegateableBadgesForm(), form='badges')
-    @guard(require.perm, "instance.admin")
+    @guard.perm("instance.admin")
     @csrf.RequireInternalRequest(methods=['POST'])
     def update_badges(self, id, format='html'):
         proposal = get_entity_or_abort(model.Proposal, id)

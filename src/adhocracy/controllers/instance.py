@@ -302,7 +302,7 @@ class InstanceController(BaseController):
         badges = sorted(badges, key=lambda badge: badge.title)
         return badges
 
-    @guard(require.perm, "global.admin")
+    @guard.perm("global.admin")
     def badges(self, id, errors=None, format='html'):
         instance = get_entity_or_abort(model.Instance, id)
         c.badges = self._editable_badges(instance)
@@ -322,7 +322,7 @@ class InstanceController(BaseController):
             defaults=defaults)
 
     @validate(schema=InstanceBadgesForm(), form='badges')
-    @guard(require.perm, "global.admin")
+    @guard.perm("global.admin")
     @csrf.RequireInternalRequest(methods=['POST'])
     def update_badges(self, id, format='html'):
         instance = get_entity_or_abort(model.Instance, id)

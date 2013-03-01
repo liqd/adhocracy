@@ -550,7 +550,7 @@ class UserController(BaseController):
         #render result
         return render("/user/pages.html")
 
-    @guard(require.perm, "user.view")
+    @guard.perm("user.view")
     def complete(self):
         prefix = unicode(request.params.get('q', u''))
         users = model.User.complete(prefix, 15)
@@ -708,7 +708,7 @@ class UserController(BaseController):
         c.users_pager = pager.users(users, has_query=True)
         return c.users_pager.here()
 
-    @guard(require.perm, 'instance.admin')
+    @guard.perm('instance.admin')
     def badges(self, id, errors=None):
         if has('global.admin'):
             c.badges = model.UserBadge.all(instance=None)
@@ -728,7 +728,7 @@ class UserController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=UserBadgesForm(), form='badges')
-    @guard(require.perm, 'instance.admin')
+    @guard.perm('instance.admin')
     def update_badges(self, id):
         user = get_entity_or_abort(model.User, id)
         badges = self.form_result.get('badge')

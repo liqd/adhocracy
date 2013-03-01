@@ -8,7 +8,7 @@ from pylons.controllers.util import redirect
 
 from adhocracy import model, forms
 from adhocracy.lib.auth.authorization import has_permission
-from adhocracy.lib.auth import require, guard
+from adhocracy.lib.auth import guard
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.helpers import base_url
@@ -59,11 +59,11 @@ class ImportForm(formencode.Schema):
 
 class AdminController(BaseController):
 
-    @guard(require.perm, "global.admin")
+    @guard.perm("global.admin")
     def index(self):
         return render("/admin/index.html", {})
 
-    @guard(require.perm, "global.admin")
+    @guard.perm("global.admin")
     def update_index(self):
         for entity_type in model.refs.TYPES:
             if hasattr(entity_type, "all"):
@@ -72,7 +72,7 @@ class AdminController(BaseController):
         redirect(url(controller='admin', action='index'))
 
     @RequireInternalRequest()
-    @guard(require.perm, "global.admin")
+    @guard.perm("global.admin")
     def permissions(self):
         if request.method == "POST":
             groups = model.Group.all()
@@ -89,7 +89,7 @@ class AdminController(BaseController):
             model.meta.Session.commit()
         return render("/admin/permissions.html", {})
 
-    @guard(require.perm, "global.admin")
+    @guard.perm("global.admin")
     def user_import_form(self, errors=None):
         return formencode.htmlfill.render(
             render("/admin/userimport_form.html", {}),
@@ -98,7 +98,7 @@ class AdminController(BaseController):
             force_defaults=False)
 
     @RequireInternalRequest(methods=['POST'])
-    @guard(require.perm, "global.admin")
+    @guard.perm("global.admin")
     def user_import(self):
 
         if request.method == "POST":
@@ -157,12 +157,12 @@ class AdminController(BaseController):
         }
         return render("/admin/userimport_success.html", data)
 
-    @guard(require.perm, "global.admin")
+    @guard.perm("global.admin")
     def import_dialog(self):
         return render('admin/import_dialog.html', {})
 
     @RequireInternalRequest(methods=['POST'])
-    @guard(require.perm, "global.admin")
+    @guard.perm("global.admin")
     def import_do(self):
         options = ImportForm().to_python(dict(request.params))
         obj = request.POST['importfile']
@@ -170,12 +170,12 @@ class AdminController(BaseController):
         adhocracy.lib.importexport.import_(options, obj.file)
         return render('admin/import_success.html', {})
 
-    @guard(require.perm, "global.admin")
+    @guard.perm("global.admin")
     def export_dialog(self):
         return render('admin/export_dialog.html', {})
 
     @RequireInternalRequest(methods=['POST'])
-    @guard(require.perm, "global.admin")
+    @guard.perm("global.admin")
     def export_do(self):
         options = ExportForm().to_python(dict(request.params))
         return adhocracy.lib.importexport.export(options)
