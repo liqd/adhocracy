@@ -7,5 +7,9 @@
 
 <strong>${c.error_message|n}</strong>
 
+%if c.trace_url:
+<a href="${c.trace_url}">trace me</a>
+%endif
+
 <p>${_("If this error continues to occur, please <a class='staticlink_imprint' href='/static/imprint.html'>notify the developers</a> with a description of what you were trying to do.")|n} ${_("An automated email message describing the situation has been sent to our developers.")}</p>
 </%block>

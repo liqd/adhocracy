@@ -148,6 +148,11 @@ sqlalchemy.url = ${parts.adhocracy['sqlalchemy.url']}
 
 adhocracy.solr.url = http://${parts.solr.host}:${parts.solr.port}/solr
 
+# If debug is enabled, an web-based interactive debugger can be executed from
+# the HTTP500 error page, if the following option is set to true. This option
+# doesn't have any effect if debug is false.
+adhocracy.interactive_debugging = true
+
 # WARNING: *THE LINE BELOW MUST BE UNCOMMENTED ON A PRODUCTION ENVIRONMENT*
 # Debug mode will enable the interactive debugging tool, allowing ANYONE to
 # execute malicious code after an exception is raised.
