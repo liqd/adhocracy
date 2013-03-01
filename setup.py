@@ -100,7 +100,7 @@ setup(
         ('templates/**.html', 'mako', {'input_encoding': 'utf-8'}),
         ('static/**', 'ignore', None)]},
     zip_safe=False,
-    paster_plugins=['PasteScript', 'Pylons'],
+    paster_plugins=['PasteScript', 'adhocracy_Pylons'],
     entry_points={
         'paste.app_factory': [
             'main = adhocracy.config.middleware:make_app'
