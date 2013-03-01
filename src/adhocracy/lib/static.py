@@ -1,8 +1,11 @@
+import logging
 import os.path
 from lxml.html import parse, tostring
 from adhocracy import i18n
 from adhocracy.lib import util
 from pylons import tmpl_context as c
+
+log = logging.getLogger(__name__)
 
 class FileStaticPage(object):
     def __init__(self, body, title):
@@ -10,11 +13,11 @@ class FileStaticPage(object):
         self.body = body
 
     @staticmethod
-    def create(key, lang): 
+    def create(key, lang):
         filename = util.get_path('page', os.path.basename(key) + '.' + lang + '.html')
         if filename is None:
             return None
-        try: 
+        try:
             root = parse(filename)
         except IOError:
             return None
@@ -22,6 +25,7 @@ class FileStaticPage(object):
             body = root.find('.//body')
             title = root.find('.//title').text
         except AttributeError:
+            logging.debug(u'Failed to parse static document ' + filename)
             return None
         body.tag = 'span'
         return FileStaticPage(tostring(body), title)
