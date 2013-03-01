@@ -200,8 +200,8 @@ class ProposalController(BaseController):
               post_only=False, on_get=True)
     def edit(self, id, errors={}):
         c.proposal = get_entity_or_abort(model.Proposal, id)
-        c.can_edit_wiki = self._can_edit_wiki(c.proposal, c.user)
         require.proposal.edit(c.proposal)
+        c.can_edit_wiki = self._can_edit_wiki(c.proposal, c.user)
 
         c.text_rows = text.text_rows(c.proposal.description.head)
 

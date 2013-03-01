@@ -18,7 +18,7 @@ from adhocracy import i18n
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import sorting, search as libsearch, tiles, text
 from adhocracy.lib.auth import require, login_user, guard
-from adhocracy.lib.auth.authorization import has_permission, has
+from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance

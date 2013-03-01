@@ -2,12 +2,11 @@ import logging
 
 import formencode
 import formencode.htmlfill
-from pylons import request, tmpl_context as c, url
+from pylons import request, tmpl_context as url
 from pylons.i18n import lazy_ugettext as L_
 from pylons.controllers.util import redirect
 
 from adhocracy import model, forms
-from adhocracy.lib.auth.authorization import has_permission
 from adhocracy.lib.auth import guard
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController

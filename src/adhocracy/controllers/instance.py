@@ -8,7 +8,7 @@ from formencode import validators
 
 from paste.deploy.converters import asbool, asint
 
-from pylons import request, response, tmpl_context as c, config, session
+from pylons import request, response, tmpl_context as c, config
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _, lazy_ugettext as L_
@@ -18,7 +18,7 @@ from adhocracy.controllers.admin import AdminController, UserImportForm
 from adhocracy.controllers.badge import BadgeController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
-from adhocracy.lib.auth import authorization, can, csrf, require, guard
+from adhocracy.lib.auth import can, csrf, require, guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.templating import (render, render_json, render_png,

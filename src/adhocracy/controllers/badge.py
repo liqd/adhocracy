@@ -15,7 +15,7 @@ from adhocracy.model import UserBadge
 from adhocracy.model import InstanceBadge
 from adhocracy.model import Group, Instance, meta
 from adhocracy.lib import helpers as h
-from adhocracy.lib.auth.authorization import has, has_permission
+from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.auth import require, guard
 from adhocracy.lib.base import BaseController
